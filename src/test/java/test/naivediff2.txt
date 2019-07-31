@@ -1,0 +1,4 @@
+interface A{ 
+    public static final int b = 200;
+    public static final int a = 100;     
+}
