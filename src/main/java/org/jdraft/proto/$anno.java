@@ -83,8 +83,7 @@ public class $anno
         BodyDeclaration bd = bds.stream().filter(b -> b.getAnnotations().isNonEmpty() ).findFirst().get();
         return of( _anno.of(bd.getAnnotation(0) ) );        
     }
-    
-    
+
     /** Default Matching constraint (by default ALWAYS Match)*/
     public Predicate<_anno> constraint = a -> true;
 
@@ -103,7 +102,11 @@ public class $anno
        this.name = name;
        Arrays.stream(mvs).forEach( mv -> this.$mvs.add(mv));       
     }
-    
+
+    /**
+     *
+     * @param proto
+     */
     public $anno(_anno proto) {
         this.name = $id.of(proto.getName());
         AnnotationExpr astAnn = proto.ast();
@@ -116,6 +119,10 @@ public class $anno
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public $anno $name(){
         this.name = $id.any();
         return this;
@@ -390,6 +397,12 @@ public class $anno
         return params.stream().distinct().collect(Collectors.toList() );
     }
 
+    /**
+     * Return a
+     * @param clazz
+     * @param annoType
+     * @return
+     */
     public _type replaceIn(Class clazz, Class<? extends Annotation> annoType ){
         return replaceIn(clazz, $anno.of(annoType) );
     }
@@ -408,37 +421,37 @@ public class $anno
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param annoType
      * @return 
      */
-    public <N extends _java> N replaceIn(N _n, Class<? extends Annotation> annoType ){
-        return replaceIn(_n, $anno.of(annoType) );
+    public <_J extends _java> _J replaceIn(_J _j, Class<? extends Annotation> annoType ){
+        return replaceIn(_j, $anno.of(annoType) );
     }
      
     /**
      * Replace all occurrences of the template in the code with the replacement
      * (composing the replacement from the constructed tokens in the source)
      *
-     * @param _n the model to find replacements
+     * @param _j the model to find replacements
      * @param a the template to be constructed as the replacement
-     * @param <N> the TYPE of model
+     * @param <_J> the TYPE of model
      * @return
      */
-    public <N extends _java> N replaceIn(N _n, $anno a ){
-        if( _n instanceof _code ){
-            _code _c = (_code)_n;
+    public <_J extends _java> _J replaceIn(_J _j, $anno a ){
+        if( _j instanceof _code ){
+            _code _c = (_code) _j;
             if( _c.isTopLevel() ){
                 replaceIn(_c.astCompilationUnit(), a);
-                return _n;
+                return _j;
             }
-            _type _t = (_type)_n; //only possible 
+            _type _t = (_type) _j; //only possible
             replaceIn(_t.ast(), a); //return the TypeDeclaration, not the CompilationUnit
-            return _n;
+            return _j;
         }
-        replaceIn(((_node)_n).ast(), a);
-        return _n;       
+        replaceIn(((_node) _j).ast(), a);
+        return _j;
     }
     
     /**
@@ -486,7 +499,6 @@ public class $anno
         return null;
     }
 
-    
     /**
      * 
      * @param astRootNode
@@ -550,22 +562,20 @@ public class $anno
 
     /**
      * 
-     * @param _n
+     * @param _j
      * @param selectConstraint
      * @return 
      */
-    public Select selectFirstIn(_java _n, Predicate<Select>selectConstraint) {
-        if( _n instanceof _code ){
-            _code _c = (_code)_n;
+    public Select selectFirstIn(_java _j, Predicate<Select>selectConstraint) {
+        if( _j instanceof _code ){
+            _code _c = (_code)_j;
             if( _c.isTopLevel() ){
                 return selectFirstIn(_c.astCompilationUnit(), selectConstraint);
             }
-            _type _t = (_type)_n; //only possible 
+            _type _t = (_type)_j; //only possible
             return selectFirstIn(_t.ast(), selectConstraint); //return the TypeDeclaration, not the CompilationUnit            
         }
-        return selectFirstIn(((_node)_n).ast(), selectConstraint);
-        //return _m;
-        //return $anno.this.selectFirstIn( _n.ast(), selectConstraint);        
+        return selectFirstIn(((_node)_j).ast(), selectConstraint);
     }
     
     @Override
@@ -580,21 +590,6 @@ public class $anno
         return found;
     }
 
-    /*
-    @Override
-    public List<Select> listSelectedIn(_java _n) {
-        List<Select> found = new ArrayList<>();
-        _walk.in(_n, _anno.class, a-> {
-            Select sel = select(a); 
-            if( sel != null ){
-                found.add( sel );
-            }
-        }); 
-        return found;
-    }
-    */
-    
-    
     /**
      * 
      * @param astRootNode
@@ -624,20 +619,20 @@ public class $anno
     
     /**
      * 
-     * @param _n
+     * @param _j
      * @param selectConstraint
      * @return 
      */
-    public List<Select> listSelectedIn(_java _n, Predicate<Select> selectConstraint) {
-         if( _n instanceof _code ){
-            _code _c = (_code)_n;
+    public List<Select> listSelectedIn(_java _j, Predicate<Select> selectConstraint) {
+         if( _j instanceof _code ){
+            _code _c = (_code)_j;
             if( _c.isTopLevel() ){
                 return listSelectedIn(_c.astCompilationUnit(), selectConstraint);
             }
-            _type _t = (_type)_n; //only possible 
+            _type _t = (_type)_j; //only possible
             return listSelectedIn(_t.ast(), selectConstraint); //return the TypeDeclaration, not the CompilationUnit            
         }
-        return listSelectedIn(((_node)_n).ast(), selectConstraint);        
+        return listSelectedIn(((_node)_j).ast(), selectConstraint);
     }    
     
     @Override
@@ -688,47 +683,47 @@ public class $anno
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectActionFn
      * @return 
      */
-    public <N extends _java> N forSelectedIn(N _n, Consumer<Select> selectActionFn) {
-         if( _n instanceof _code ){
-            _code _c = (_code)_n;
+    public <_J extends _java> _J forSelectedIn(_J _j, Consumer<Select> selectActionFn) {
+         if( _j instanceof _code ){
+            _code _c = (_code) _j;
             if( _c.isTopLevel() ){
                 forSelectedIn(_c.astCompilationUnit(), selectActionFn);
-                return _n;
+                return _j;
             }
-            _type _t = (_type)_n; //only possible 
+            _type _t = (_type) _j; //only possible
             forSelectedIn(_t.ast(), selectActionFn); //return the TypeDeclaration, not the CompilationUnit            
-            return _n;
+            return _j;
         }
-        forSelectedIn(((_node)_n).ast(), selectActionFn);
-        return _n;        
+        forSelectedIn(((_node) _j).ast(), selectActionFn);
+        return _j;
     }
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectConstraint
      * @param selectActionFn
      * @return 
      */
-    public <N extends _java> N forSelectedIn(N _n, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
-         if( _n instanceof _code ){
-            _code _c = (_code)_n;
+    public <_J extends _java> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
+         if( _j instanceof _code ){
+            _code _c = (_code) _j;
             if( _c.isTopLevel() ){
                 forSelectedIn(_c.astCompilationUnit(), selectConstraint, selectActionFn);
-                return _n;
+                return _j;
             }
-            _type _t = (_type)_n; //only possible 
+            _type _t = (_type) _j; //only possible
             forSelectedIn(_t.ast(), selectConstraint, selectActionFn); //return the TypeDeclaration, not the CompilationUnit            
-            return _n;
+            return _j;
         }
-        forSelectedIn(((_node)_n).ast(), selectActionFn);
-        return _n;       
+        forSelectedIn(((_node) _j).ast(), selectActionFn);
+        return _j;
     }
     
     /**
@@ -783,9 +778,9 @@ public class $anno
     public static class $memberValue {
 
         public $id key = $id.any();
-        
-        //public $component<String> value = new $component("$value$", t -> true);
+
         public $expr value = new $expr(Expression.class, "$value$");
+
         public Predicate<MemberValuePair> constraint = t -> true;
 
         public static $memberValue of(Expression value) {
@@ -810,8 +805,7 @@ public class $anno
 
         public boolean isMatchAny() {
             boolean k = key.isMatchAny();
-            boolean v = value.isMatchAny(); 
-            //System.out.println( "K "+k+" v "+v );
+            boolean v = value.isMatchAny();
             return   k && v;
         }
 
@@ -835,15 +829,25 @@ public class $anno
             } else {
                 this.value = $expr.of(value);
             }
-            //this.value.pattern = Stencil.of(value.toString());
         }
 
+        /**
+         *
+         * @param target
+         * @param $name
+         * @return
+         */
         public $memberValue $(String target, String $name) {
             this.key.pattern = this.key.pattern.$(target, $name);
             this.value = this.value.$(target, $name);
             return this;
         }
-        
+
+        /**
+         *
+         * @param pairs
+         * @return
+         */
         public Select selectFirst( List<MemberValuePair> pairs ){
             for(int i=0;i<pairs.size();i++){
                 Select sel = select(pairs.get(i) );
@@ -1002,7 +1006,7 @@ public class $anno
      * inside of some Node or _node
      */
     public static class Select
-        implements $proto.selected<_anno>, selected_model<_anno>, selectedAstNode<AnnotationExpr> {
+        implements $proto.selected, selected_model<_anno>, selectedAstNode<AnnotationExpr> {
 
         public final _anno _ann;
         public final $args args;

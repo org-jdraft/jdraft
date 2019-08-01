@@ -224,9 +224,6 @@ public class $modifiers
                     }                
                 }
             });
-        
-        //forSelectedIn( (_node)_java.of(astRootNode), selectActionFn );
-        //return astRootNode;
     }
     
     public <N extends Node> N forSelectedIn(N astRootNode, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
@@ -240,16 +237,14 @@ public class $modifiers
                     }                
                 }
             });
-        //forSelectedIn( (_java)_java.of(astRootNode), selectConstraint, selectActionFn );
-        //return astRootNode;
     }
     
     public _type forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
         return forSelectedIn(_java.type(clazz), selectConstraint, selectActionFn);
     }
     
-    public <N extends _java> N forSelectedIn(N _n, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
-        return _walk.in( _n,
+    public <_J extends _java> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
+        return _walk.in(_j,
             NodeWithModifiers.class, 
             nwm->{
                 Select sel = select( nwm );
@@ -271,13 +266,13 @@ public class $modifiers
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectActionFn
      * @return 
      */
-    public <N extends _java> N forSelectedIn(N _n, Consumer<Select> selectActionFn) {
-        return _walk.in( _n,
+    public <_J extends _java> _J forSelectedIn(_J _j, Consumer<Select> selectActionFn) {
+        return _walk.in(_j,
             NodeWithModifiers.class, 
             nwm->{
                 Select sel = select( nwm );
@@ -308,7 +303,7 @@ public class $modifiers
         return _modifiers.of(this.mustInclude.toArray(new Modifier[0]));
     }    
     
-    public static class Select implements selected<_modifiers>, selected_model<_modifiers>{
+    public static class Select implements selected, selected_model<_modifiers>{
 
         public _modifiers _mods;
         public $args args = new $args(new Tokens());

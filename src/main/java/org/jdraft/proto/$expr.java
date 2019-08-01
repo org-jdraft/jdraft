@@ -298,7 +298,6 @@ public class $expr <T extends Expression>
     public static $expr<AssignExpr> assign( ) {
         return new $expr<>( AssignExpr.class, "$assignExpr$");
     }
-    
 
     /** 
      * a || b 
@@ -520,8 +519,7 @@ public class $expr <T extends Expression>
     public static $expr<ClassExpr> classExpr( String... pattern ) {
         return new $expr( Expr.classExpr(pattern ) );
     }
-    
-    
+
     /**
      * Map.class
      * @param constraint
@@ -789,7 +787,6 @@ public class $expr <T extends Expression>
     public static $expr<FieldAccessExpr> fieldAccess( ) {
         return new $expr( FieldAccessExpr.class, "$fieldAccessExpr$");
     }
-    
     
     /** 
      * v instanceof Serializable 
@@ -1182,7 +1179,12 @@ public class $expr <T extends Expression>
     public static $expr<NullLiteralExpr> nullExpr(){
         return new $expr( NullLiteralExpr.class, "$nullExpr$" );
     }
-    
+
+    /**
+     *
+     * @param nle
+     * @return
+     */
     public static $expr<NullLiteralExpr> nullExpr(Predicate<NullLiteralExpr> nle){
         return new $expr( NullLiteralExpr.class, "$nullExpr$" ).addConstraint(nle);
     }
@@ -1258,7 +1260,12 @@ public class $expr <T extends Expression>
     public static $expr<ObjectCreationExpr> objectCreation() {
         return new $expr( ObjectCreationExpr.class, "$objectCreationExpr$");
     }
-    
+
+    /**
+     *
+     * @param literal
+     * @return
+     */
     public static $expr<StringLiteralExpr> stringLiteral( String literal ) {
         return new $expr( Expr.stringLiteral(literal) );
     }
@@ -1713,7 +1720,6 @@ public class $expr <T extends Expression>
         return this.exprPattern.list$Normalized();
     }
 
-    
     /**
      * Compare (2) Strings that represent numbers to see if they represent the
      * SAME number...
@@ -1829,22 +1835,21 @@ public class $expr <T extends Expression>
     
     /**
      * Returns the first Expression that matches the pattern and constraint
-     * @param _m the _java model node
+     * @param _j the _java model node
      * @return  the first Expression that matches (or null if none found)
      */
     @Override
-    public Select<T> selectFirstIn( _java _m ){
-        if( _m instanceof _code ){
-            _code _c = (_code)_m;
+    public Select<T> selectFirstIn( _java _j){
+        if( _j instanceof _code ){
+            _code _c = (_code) _j;
             if( _c.isTopLevel() ){
                 return selectFirstIn(_c.astCompilationUnit());
             }
-            _type _t = (_type)_m; //only possible 
+            _type _t = (_type) _j; //only possible
             return selectFirstIn(_t.ast());
         }
-        return selectFirstIn( ((_node)_m).ast() );         
+        return selectFirstIn( ((_node) _j).ast() );
     }
-    
 
     /**
      * Returns the first Expression that matches the pattern and constraint
@@ -1873,20 +1878,20 @@ public class $expr <T extends Expression>
     
     /**
      * Returns the first Expression that matches the pattern and constraint
-     * @param _n the _java node
+     * @param _j the _java node
      * @param selectConstraint
      * @return  the first Expression that matches (or null if none found)
      */
     @Override
-    public Select<T> selectFirstIn( _java _n, Predicate<Select<T>> selectConstraint){
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                return selectFirstIn(((_code) _n).astCompilationUnit(), selectConstraint);
+    public Select<T> selectFirstIn( _java _j, Predicate<Select<T>> selectConstraint){
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                return selectFirstIn(((_code) _j).astCompilationUnit(), selectConstraint);
             } else{
-                return selectFirstIn(((_type) _n).ast(), selectConstraint);
+                return selectFirstIn(((_type) _j).ast(), selectConstraint);
             }
         }
-        return selectFirstIn(((_node) _n).ast(), selectConstraint);        
+        return selectFirstIn(((_node) _j).ast(), selectConstraint);
     }
 
     /**
@@ -1906,17 +1911,16 @@ public class $expr <T extends Expression>
         }
         return null;
     }
-    
-    
+
     @Override
-    public List<T> listIn(_java _n ){
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                return listIn(((_code) _n).astCompilationUnit());
+    public List<T> listIn(_java _j){
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                return listIn(((_code) _j).astCompilationUnit());
             }
-                return listIn(((_type) _n).ast());
+                return listIn(((_type) _j).ast());
         }
-        return listIn( ((_node)_n).ast() );
+        return listIn( ((_node) _j).ast() );
     }    
 
     @Override
@@ -1960,9 +1964,9 @@ public class $expr <T extends Expression>
     }
 
     @Override
-    public List<Select<T>> listSelectedIn(_java _n ){
+    public List<Select<T>> listSelectedIn(_java _j){
         List<Select<T>>sts = new ArrayList<>();
-        _walk.in(_n, this.expressionClass, e -> {
+        _walk.in(_j, this.expressionClass, e -> {
             Select s = select( e );
             if( s != null ){
                 sts.add( s);
@@ -2014,14 +2018,14 @@ public class $expr <T extends Expression>
 
     /**
      * 
-     * @param _n
+     * @param _j
      * @param selectConstraint
      * @return 
      */
     @Override
-    public List<Select<T>> listSelectedIn(_java _n, Predicate<Select<T>> selectConstraint){
+    public List<Select<T>> listSelectedIn(_java _j, Predicate<Select<T>> selectConstraint){
         List<Select<T>>sts = new ArrayList<>();
-        _walk.in(_n, this.expressionClass, e -> {
+        _walk.in(_j, this.expressionClass, e -> {
             Select s = select( e );
             if( s != null  && selectConstraint.test(s)){
                 sts.add( s);
@@ -2029,8 +2033,7 @@ public class $expr <T extends Expression>
         });
         return sts;
     }
-    
-    
+
     @Override
     public <N extends Node> N removeIn(N astNode, Predicate<T> exprMatchFn){
         astNode.walk( this.expressionClass, e-> {
@@ -2060,32 +2063,32 @@ public class $expr <T extends Expression>
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param astExprReplace
      * @return 
      */
     @Override
-    public <N extends _java> N replaceIn(N _n, Node astExprReplace ){
-        _walk.in(_n, this.expressionClass, e-> {
+    public <_J extends _java> _J replaceIn(_J _j, Node astExprReplace ){
+        _walk.in(_j, this.expressionClass, e-> {
             Select sel = select( e );
             if( sel != null ){
                 sel.astExpression.replace(astExprReplace );
             }
         });
-        return _n;
+        return _j;
     }
 
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param protoReplaceExpr
      * @return 
      */
     @Override
-    public <N extends _java> N replaceIn(N _n, String protoReplaceExpr ){
-        return replaceIn(_n, $expr.of(protoReplaceExpr) );
+    public <_J extends _java> _J replaceIn(_J _j, String protoReplaceExpr ){
+        return replaceIn(_j, $expr.of(protoReplaceExpr) );
     }
     
     /**
@@ -2101,21 +2104,21 @@ public class $expr <T extends Expression>
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param $repl
      * @return 
      */
     @Override
-    public <N extends _java> N replaceIn(N _n, $expr $repl ){
-        _walk.in(_n, this.expressionClass, e-> {
+    public <_J extends _java> _J replaceIn(_J _j, $expr $repl ){
+        _walk.in(_j, this.expressionClass, e-> {
             Select sel = select( e );
             if( sel != null ){
                 Expression replaceNode = (Expression)$repl.construct( sel.args.asTokens() );
                 sel.astExpression.replace( replaceNode );
             }
         });
-        return _n;
+        return _j;
     }
 
     /**
@@ -2131,20 +2134,20 @@ public class $expr <T extends Expression>
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectConsumer
      * @return 
      */
     @Override
-    public <N extends _java> N forSelectedIn(N _n, Consumer<Select<T>> selectConsumer ){
-        _walk.in(_n, this.expressionClass, e-> {
+    public <_J extends _java> _J forSelectedIn(_J _j, Consumer<Select<T>> selectConsumer ){
+        _walk.in(_j, this.expressionClass, e-> {
             Select sel = select( e );
             if( sel != null ){
                 selectConsumer.accept( sel );
             }
         });
-        return _n;
+        return _j;
     }
 
     /**
@@ -2179,21 +2182,21 @@ public class $expr <T extends Expression>
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectConstraint
      * @param selectConsumer
      * @return 
      */
     @Override
-    public <N extends _java> N forSelectedIn(N _n, Predicate<Select<T>> selectConstraint, Consumer<Select<T>> selectConsumer ){
-        _walk.in(_n, this.expressionClass, e-> {
+    public <_J extends _java> _J forSelectedIn(_J _j, Predicate<Select<T>> selectConstraint, Consumer<Select<T>> selectConsumer ){
+        _walk.in(_j, this.expressionClass, e-> {
             Select sel = select( e );
             if( sel != null  && selectConstraint.test(sel)){
                 selectConsumer.accept( sel );
             }
         });
-        return _n;
+        return _j;
     }
 
     /**
@@ -2226,7 +2229,7 @@ public class $expr <T extends Expression>
      * inside of some (Ast)Node or (_java)_node
      * @param <T> expression type
      */
-    public static class Select<T extends Expression> implements $proto.selected<T>,
+    public static class Select<T extends Expression> implements $proto.selected,
             $proto.selectedAstNode<T> {
         
         public final T astExpression;

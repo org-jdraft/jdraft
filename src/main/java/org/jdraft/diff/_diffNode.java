@@ -192,13 +192,11 @@ public interface _diffNode<R extends _java> {
     default <C extends _node> boolean at(Class<C> component, String id) {
         return path().isLeaf(component) && path().isLeafId(id);
     }
-    
-    
+
     default <C extends _node> boolean at(Class<C> component) {
         return path().isLeaf(component);
     }
 
-    
     /**
      * Is the underlying leaf level component where the diff occurs this
      * specific component? (i.e. METHOD, PARAMETER, FIELD)
@@ -225,8 +223,14 @@ public interface _diffNode<R extends _java> {
         return path().equals(path);
     }
 
-    
-    public interface _leftOnly<T> {
+    /**
+     * Entity occurs on the left entity not on the right (usually a _member, like a _field, _method, etc.)
+     * @param <T>
+     */
+    interface _leftOnly<T> {
+
+        /** the full path where this leftOnly occurs */
+        _path path();
 
         /**
          * The entity in the LEFT 
@@ -261,8 +265,15 @@ public interface _diffNode<R extends _java> {
          */
         void patchLeftToRight();
     }
-    
-    public static interface _rightOnly<T> {
+
+    /**
+     *
+     * @param <T>
+     */
+    interface _rightOnly<T> {
+
+        /** the full path where this rightOnly occurs */
+        _path path();
 
         /**
          * The entity added in the RIGHT, not in LEFT
@@ -282,11 +293,16 @@ public interface _diffNode<R extends _java> {
     }
 
     /**
-     * A change between the left and right
+     * A change between the left and right (distinguished from a left only or right only
+     * when we are talking about a "property" rather than a member...
+     * i.e. _modifiers,
      *
      * @param <T>
      */
-    public static interface _change<T> {
+    interface _change<T> {
+
+        /** the full path where this change occurs */
+        _path path();
 
         T left();
 
@@ -301,7 +317,7 @@ public interface _diffNode<R extends _java> {
      *
      * @author Eric
      */
-    public static interface _edit{
+    interface _edit{
 
         /** @return a list of Diff entities (ADD, REMOVE, EQUAL) from diff_match_patch */
         LinkedList<diff_match_patch.Diff> listDiffs();

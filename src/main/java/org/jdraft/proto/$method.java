@@ -155,14 +155,12 @@ public class $method
     }
 
     public Predicate<_method> constraint = t -> true;
-    
-    //public $component<_javadoc> javadoc = new $component( "$javadoc$", t->true);    
+
     public $comment<JavadocComment> javadoc = $comment.javadocComment("$javadoc$");
     public $annos annos = new $annos();
     public $modifiers modifiers = $modifiers.of();
     public $typeRef type = $typeRef.of();
-    
-    //public $component<_typeParameters> typeParameters = new $component( "$typeParameters$", t->true);    
+
     public $typeParameters typeParameters = $typeParameters.any();
     public $id name = $id.of();    
     public $parameters parameters = $parameters.of();
@@ -493,7 +491,13 @@ public class $method
         this.body.addConstraint(constraint);
         return this;
     }
-    
+
+    /**
+     * pass in an anonymous Object containing a body that will be used as
+     * a template for the $body of this method
+     * @param anonymousClassWithMethodContainingBody
+     * @return
+     */
     public $method $body( Object anonymousClassWithMethodContainingBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         ObjectCreationExpr oce = Expr.anonymousObject(ste);
@@ -822,29 +826,19 @@ public class $method
     
     /**
      * Returns the first _method that matches the pattern and constraint
-     * @param _n the _java node
+     * @param _j the _java node
      * @param selectConstraint
      * @return  the first _method that matches (or null if none found)
      */
-    public Select selectFirstIn( _java _n, Predicate<Select> selectConstraint){
-         if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                return selectFirstIn( ((_code) _n).astCompilationUnit(), selectConstraint);
+    public Select selectFirstIn( _java _j, Predicate<Select> selectConstraint){
+         if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                return selectFirstIn( ((_code) _j).astCompilationUnit(), selectConstraint);
             } else{
-                return selectFirstIn(((_type) _n).ast(), selectConstraint);
+                return selectFirstIn(((_type) _j).ast(), selectConstraint);
             }
         }
-        return selectFirstIn(((_node) _n).ast(), selectConstraint);
-        /*
-        Optional<MethodDeclaration> f = _n.ast().findFirst(MethodDeclaration.class, s -> {
-            Select sel = this.select(s);
-            return sel != null && selectConstraint.test(sel);
-            });               
-        if( f.isPresent()){
-            return select(f.get());
-        }
-        return null;
-        */
+        return selectFirstIn(((_node) _j).ast(), selectConstraint);
     }
 
     /**
@@ -876,31 +870,6 @@ public class $method
         return sts;
     }
 
-    /*
-    @Override
-    public List<Select> listSelectedIn(_node _n){
-        List<Select>sts = new ArrayList<>();
-        _walk.in(_n, MethodDeclaration.class, m -> {
-            Select sel = select( m );
-            if( sel != null ){
-                sts.add(sel);
-            }
-        });
-        return sts;
-    }
-    */
-    
-    /**
-     * 
-     * @param clazz
-     * @return 
-     
-    @Override
-    public List<Select> listSelectedIn(Class clazz){
-        return listSelectedIn( _java.type(clazz));        
-    }
-    */ 
-    
     /**
      * 
      * @param clazz
@@ -930,13 +899,13 @@ public class $method
 
     /**
      * 
-     * @param _n
+     * @param _j
      * @param selectConstraint
      * @return 
      */
-    public List<Select> listSelectedIn(_java _n, Predicate<Select> selectConstraint){
+    public List<Select> listSelectedIn(_java _j, Predicate<Select> selectConstraint){
         List<Select>sts = new ArrayList<>();
-        _walk.in(_n, MethodDeclaration.class, m -> {
+        _walk.in(_j, MethodDeclaration.class, m -> {
             Select sel = select( m );
             if( sel != null && selectConstraint.test(sel)){
                 sts.add(sel);
@@ -974,19 +943,19 @@ public class $method
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectedActionFn
      * @return 
      */
-    public <N extends _java> N forSelectedIn(N _n, Consumer<Select> selectedActionFn ){
-        _walk.in(_n, _method.class, m ->{
+    public <_J extends _java> _J forSelectedIn(_J _j, Consumer<Select> selectedActionFn ){
+        _walk.in(_j, _method.class, m ->{
             Select s = select( m );
             if( s != null ){
                 selectedActionFn.accept( s );
             }
         });
-        return _n;
+        return _j;
     }
     
     /**
@@ -1020,20 +989,20 @@ public class $method
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectConstraint
      * @param selectedActionFn
      * @return 
      */
-    public <N extends _java> N forSelectedIn(N _n, Predicate<Select> selectConstraint, Consumer<Select> selectedActionFn ){
-        _walk.in(_n, _method.class, m ->{
+    public <_J extends _java> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectedActionFn ){
+        _walk.in(_j, _method.class, m ->{
             Select s = select( m );
             if( s != null && selectConstraint.test(s)){
                 selectedActionFn.accept( s );
             }
         });
-        return _n;
+        return _j;
     }
     
     /**
@@ -1081,13 +1050,13 @@ public class $method
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param $replace
      * @return 
      */
-    public <N extends _java> N replaceIn( N _n, $method $replace ){
-        return forSelectedIn(_n, s -> {
+    public <_J extends _java> _J replaceIn(_J _j, $method $replace ){
+        return forSelectedIn(_j, s -> {
             _method repl = $replace.construct(Translator.DEFAULT_TRANSLATOR, s.args.asTokens());
             s._m.ast().replace(repl.ast());
         });
@@ -1095,35 +1064,35 @@ public class $method
 
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param replacementProto
      * @return 
      */
-    public <N extends _java> N replaceIn( N _n, String... replacementProto ){
-        return replaceIn(_n, $method.of(replacementProto));        
+    public <_J extends _java> _J replaceIn(_J _j, String... replacementProto ){
+        return replaceIn(_j, $method.of(replacementProto));
     }
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param method
      * @return 
      */
-    public <N extends _java> N replaceIn( N _n, _method method ){
-        return replaceIn(_n, $method.of(method));        
+    public <_J extends _java> _J replaceIn(_J _j, _method method ){
+        return replaceIn(_j, $method.of(method));
     }
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param astMethod
      * @return 
      */
-    public <N extends _java> N replaceIn( N _n, MethodDeclaration astMethod ){
-        return replaceIn(_n, $method.of(astMethod));        
+    public <_J extends _java> _J replaceIn(_J _j, MethodDeclaration astMethod ){
+        return replaceIn(_j, $method.of(astMethod));
     }
     
     /**

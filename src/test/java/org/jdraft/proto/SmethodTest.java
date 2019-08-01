@@ -9,7 +9,41 @@ import org.jdraft.adhoc.*;
 
 import junit.framework.TestCase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SmethodTest extends TestCase {
+
+    public void testLikeDOM(){
+        class A{
+            public int doMethod(){
+                return 3;
+            }
+            public String anotherMethod(){
+                return "eric";
+            }
+        }
+        _type mod = $.method().forEachIn(A.class, m-> m.add(0,
+                $stmt.of( ()-> System.out.println("Calling: $name$") ).fill(m.getName()) ) );
+
+        System.out.println( mod );
+    }
+
+    public void testListIn(){
+        class A{  int a; }
+        class B{ int b; }
+        class C{ int c; }
+        List<_field> _fs = $.field().listIn(A.class, B.class, C.class);
+        assertEquals( 3, _fs.size());
+        List<_class> _cs = new ArrayList<>();
+        _cs.add( _class.of(A.class));
+        _cs.add( _class.of(B.class));
+        _cs.add( _class.of(C.class));
+
+        _fs = $.field().listIn(_cs);
+        assertEquals( 3, _fs.size());
+
+    }
 
     public void testAnonymousObj(){
         $method $m = $.method( new Object(){

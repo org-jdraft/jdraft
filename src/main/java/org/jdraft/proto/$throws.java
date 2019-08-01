@@ -383,20 +383,7 @@ public final class $throws
             }
             return selectFirstIn( ((_type)_n).ast(), selectConstraint);
         }
-        return selectFirstIn( ((_node)_n).ast(), selectConstraint );        
-        /*
-        if( _n.ast().findCompilationUnit().isPresent() ){
-            Optional<CallableDeclaration> f = _n.ast().findCompilationUnit().get()
-                    .findFirst(CallableDeclaration.class, s -> {
-                        Select sel = this.select(s); 
-                        return sel != null && selectConstraint.test(sel);
-                    });                
-            if( f.isPresent()){
-                return select(f.get());
-            }
-        }
-        return null;
-        */
+        return selectFirstIn( ((_node)_n).ast(), selectConstraint );
     }
 
     /**
@@ -433,24 +420,6 @@ public final class $throws
         return sts;
     }
 
-    /**
-     * 
-     * @param clazz
-     * @return 
-     
-    @Override
-    public List<Select> listSelectedIn(Class clazz){
-        return listSelectedIn(_java.type(clazz));
-    }
-    */ 
-    
-    /*
-    @Override
-    public List<Select> listSelectedIn( _node _n ){
-        return listSelectedIn( _n.ast() );        
-    }
-    */
-    
     /**
      * 
      * @param clazz

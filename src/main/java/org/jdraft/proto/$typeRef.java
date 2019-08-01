@@ -393,16 +393,16 @@ public final class $typeRef
     }
 
     @Override
-    public List<Select> listSelectedIn(_java _m ){
-        if( _m instanceof _code ){
-            _code _c = (_code)_m;
+    public List<Select> listSelectedIn(_java _j){
+        if( _j instanceof _code ){
+            _code _c = (_code) _j;
             if( _c.isTopLevel() ){
                 return listSelectedIn(_c.astCompilationUnit());
             }
-            _type _t = (_type)_m; //only possible 
+            _type _t = (_type) _j; //only possible
             return listSelectedIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listSelectedIn( ((_node)_m).ast()); 
+        return listSelectedIn( ((_node) _j).ast());
     }
 
     /**

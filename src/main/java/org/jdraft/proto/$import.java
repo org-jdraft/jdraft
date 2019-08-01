@@ -334,19 +334,19 @@ public final class $import
     
     /**
      * Returns the first _import that matches the pattern and constraint
-     * @param _n the _java node
+     * @param _j the _java node
      * @param selectConstraint
      * @return  the first _import that matches (or null if none found)
      */
-    public Select selectFirstIn( _java _n, Predicate<Select> selectConstraint ){
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                return selectFirstIn(((_code) _n).astCompilationUnit(), selectConstraint);
+    public Select selectFirstIn( _java _j, Predicate<Select> selectConstraint ){
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                return selectFirstIn(((_code) _j).astCompilationUnit(), selectConstraint);
             } else{
-                return selectFirstIn(((_type) _n).ast(), selectConstraint);
+                return selectFirstIn(((_type) _j).ast(), selectConstraint);
             }
         }
-        return selectFirstIn(((_node) _n).ast(), selectConstraint);       
+        return selectFirstIn(((_node) _j).ast(), selectConstraint);
     }
 
     /**
@@ -414,19 +414,19 @@ public final class $import
 
     /**
      * 
-     * @param _n
+     * @param _j
      * @param selectConstraint
      * @return 
      */
-    public List<Select> listSelectedIn( _java _n, Predicate<Select> selectConstraint ){
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                return listSelectedIn(((_code) _n).astCompilationUnit(), selectConstraint);
+    public List<Select> listSelectedIn( _java _j, Predicate<Select> selectConstraint ){
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                return listSelectedIn(((_code) _j).astCompilationUnit(), selectConstraint);
             } else{
-                return listSelectedIn(((_type) _n).ast(), selectConstraint);
+                return listSelectedIn(((_type) _j).ast(), selectConstraint);
             }
         }
-        return listSelectedIn(((_node) _n).ast(), selectConstraint);
+        return listSelectedIn(((_node) _j).ast(), selectConstraint);
             
     }
     
@@ -442,23 +442,23 @@ public final class $import
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param importClass
      * @return 
      */
-    public <N extends _java> N replaceIn(N _n, Class importClass){
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                replaceIn( ((_code) _n).astCompilationUnit(), importClass);
-                return _n;
+    public <_J extends _java> _J replaceIn(_J _j, Class importClass){
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                replaceIn( ((_code) _j).astCompilationUnit(), importClass);
+                return _j;
             } else{
-                replaceIn(((_type) _n).ast(), importClass);
-                return _n;
+                replaceIn(((_type) _j).ast(), importClass);
+                return _j;
             }
         }
-        replaceIn(((_node) _n).ast(), importClass);
-        return _n;
+        replaceIn(((_node) _j).ast(), importClass);
+        return _j;
     }
     
     /**
@@ -473,23 +473,23 @@ public final class $import
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param importDecl
      * @return 
      */
-    public <N extends _java> N replaceIn(N _n, String importDecl){
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                replaceIn( ((_code) _n).astCompilationUnit(), $import.of(importDecl));
-                return _n;
+    public <_J extends _java> _J replaceIn(_J _j, String importDecl){
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                replaceIn( ((_code) _j).astCompilationUnit(), $import.of(importDecl));
+                return _j;
             } else{
-                replaceIn(((_type) _n).ast(), $import.of(importDecl));
-                return _n;
+                replaceIn(((_type) _j).ast(), $import.of(importDecl));
+                return _j;
             }
         }
-        replaceIn(((_node) _n).ast(), $import.of(importDecl));
-        return _n;
+        replaceIn(((_node) _j).ast(), $import.of(importDecl));
+        return _j;
     }
     
     /**
@@ -504,23 +504,23 @@ public final class $import
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param _i
      * @return 
      */
-    public <N extends _java> N replaceIn(N _n, _import _i){
-         if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                replaceIn( ((_code) _n).astCompilationUnit(), $import.of(_i));
-                return _n;
+    public <_J extends _java> _J replaceIn(_J _j, _import _i){
+         if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                replaceIn( ((_code) _j).astCompilationUnit(), $import.of(_i));
+                return _j;
             } else{
-                replaceIn(((_type) _n).ast(), $import.of(_i));
-                return _n;
+                replaceIn(((_type) _j).ast(), $import.of(_i));
+                return _j;
             }
         }
-        replaceIn(((_node) _n).ast(), $import.of(_i));
-        return _n;       
+        replaceIn(((_node) _j).ast(), $import.of(_i));
+        return _j;
     }
     
     /**
@@ -537,23 +537,23 @@ public final class $import
      * Replace all occurrences of the template in the code with the replacement
      * (composing the replacement from the constructed tokens in the source)
      *
-     * @param _n the model to find replacements
+     * @param _j the model to find replacements
      * @param $i the template to be constructed as the replacement
-     * @param <N> the TYPE of model
+     * @param <_J> the TYPE of model
      * @return
      */
-    public <N extends _java> N replaceIn(N _n, $import $i ){
-         if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                replaceIn( ((_code) _n).astCompilationUnit(), $i);
-                return _n;
+    public <_J extends _java> _J replaceIn(_J _j, $import $i ){
+         if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                replaceIn( ((_code) _j).astCompilationUnit(), $i);
+                return _j;
             } else{
-                replaceIn(((_type) _n).ast(), $i);
-                return _n;
+                replaceIn(((_type) _j).ast(), $i);
+                return _j;
             }
         }
-        replaceIn(((_node) _n).ast(), $i);
-        return _n;
+        replaceIn(((_node) _j).ast(), $i);
+        return _j;
     }
     
     /**
@@ -618,14 +618,14 @@ public final class $import
     
     /**
      * 
-     * @param <T>
-     * @param _t
+     * @param <_C>
+     * @param _c
      * @param selectConsumer
      * @return 
      */
-    public <T extends _code> T forSelectedIn( T _t, Consumer<Select> selectConsumer ){
-        forSelectedIn(_t.astCompilationUnit(), selectConsumer);
-        return _t;
+    public <_C extends _code> _C forSelectedIn(_C _c, Consumer<Select> selectConsumer ){
+        forSelectedIn(_c.astCompilationUnit(), selectConsumer);
+        return _c;
     }
 
     /**
@@ -660,15 +660,15 @@ public final class $import
     
     /**
      * 
-     * @param <T>
-     * @param _t
+     * @param <_C>
+     * @param _c
      * @param selectConstraint
      * @param selectConsumer
      * @return 
      */
-    public <T extends _code> T forSelectedIn(T _t, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
-        forSelectedIn(_t.astCompilationUnit(), selectConstraint, selectConsumer);
-        return _t;
+    public <_C extends _code> _C forSelectedIn(_C _c, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
+        forSelectedIn(_c.astCompilationUnit(), selectConstraint, selectConsumer);
+        return _c;
     }
 
     /**

@@ -10,7 +10,25 @@ import org.jdraft.macro.*;
  * @author Eric
  */
 public class _diffApiTest extends TestCase {
-    
+
+    public void testDiffClasses(){
+        class A { int a; int b=100; }
+        class B { int a; int b=200; String name; }
+
+        _diff _d = _diff.of( A.class, B.class );
+        assertEquals("B", _d.listChanges().get(0).right() );
+        assertEquals(Expr.of(100), _d.listChanges().get(1).left() );
+        assertEquals(Expr.of(200), _d.listChanges().get(1).right() );
+        assertEquals(_field.of("String name;"), _d.listRightOnlys().get(0).right() );
+
+        //we can even directly patch
+        //take the left value and patch it right (set B.b on class B to be 100, the value from A.b)
+        _d.firstOn(_field.class, "b").patchLeftToRight();
+
+        _class rr = (_class)_d.list().get(0).rightRoot();
+
+    }
+
     /**
      * Left only diff means there is an entity that is on the left 
      * but not on the right
@@ -55,13 +73,9 @@ public class _diffApiTest extends TestCase {
         //get the first diff on the _anno
         assertNotNull(_d.firstOn(_anno.class)); 
         assertNotNull(_d.firstOn(_anno.class, "Deprecated")); 
-        
-        
-        
+
         //verify there is a diff on a         
         //System.out.println( _d);
-        
-        
         assertTrue(_d.hasLeftOnlyOn(_anno.class));
         assertTrue(_d.hasLeftOnlyAt(_anno.class, "Deprecated"));     
     }

@@ -132,7 +132,7 @@ public class $comment <C extends Comment>
         this.contentsPattern = Stencil.of(Ast.getContent(astComment) );        
     }
     
-     /**
+    /**
      * 
      * @param translator
      * @param kvs
@@ -185,11 +185,21 @@ public class $comment <C extends Comment>
     public boolean matches( Comment astComment ){
         return select(astComment) != null;
     }
-    
+
+    /**
+     *
+     * @param comment
+     * @return
+     */
     public Select select( String...comment ){
         return select( Ast.comment(comment));
     }
-    
+
+    /**
+     *
+     * @param astComment
+     * @return
+     */
     public Select select( Comment astComment ){
         if(! this.commentClasses.contains(astComment.getClass())){
             return null;
@@ -203,7 +213,11 @@ public class $comment <C extends Comment>
         }
         return new Select( astComment, $args.of( ts ));
     }
-    
+
+    /**
+     *
+     * @return
+     */
     public boolean isMatchAny(){
         try{
             return 
@@ -212,7 +226,13 @@ public class $comment <C extends Comment>
             return false;
         }
     }
-        
+
+    /**
+     *
+     * @param comment
+     * @param allTokens
+     * @return
+     */
     public Tokens decomposeTo( Comment comment, Tokens allTokens ){
         if(allTokens == null){
             return allTokens;
@@ -248,8 +268,8 @@ public class $comment <C extends Comment>
     }
 
     @Override
-    public Select selectFirstIn(Node n) {
-        List<C> found = listIn(n );
+    public Select selectFirstIn(Node astNode) {
+        List<C> found = listIn(astNode );
         Ast.sortNodesByPosition(found);
         if( found.isEmpty() ){
             return null;
@@ -257,8 +277,14 @@ public class $comment <C extends Comment>
         return select(found.get(0));        
     }
 
-    public Select selectFirstIn(Node n, Predicate<Select> selectConstraint) {
-        List<Select> found = listSelectedIn(n, selectConstraint);
+    /**
+     *
+     * @param astNode
+     * @param selectConstraint
+     * @return
+     */
+    public Select selectFirstIn(Node astNode, Predicate<Select> selectConstraint) {
+        List<Select> found = listSelectedIn(astNode, selectConstraint);
         Collections.sort( found, (s1, s2)-> Ast.COMPARE_NODE_BY_LOCATION.compare(s1.comment, s2.comment));
         if( found.isEmpty() ){
             return null;
@@ -272,7 +298,13 @@ public class $comment <C extends Comment>
         forSelectedIn( astRootNode, s -> found.add(s));
         return found;
     }
-    
+
+    /**
+     *
+     * @param astRootNode
+     * @param selectConstraint
+     * @return
+     */
     public List<Select> listSelectedIn(Node astRootNode, Predicate<Select> selectConstraint) {
         List<Select> found = new ArrayList<>();
         forSelectedIn( astRootNode, selectConstraint, s -> found.add(s));
@@ -290,14 +322,21 @@ public class $comment <C extends Comment>
         return astRootNode;
     }
 
-    public <N extends _java> N forSelectedIn(_java _n, Consumer<Select> selectActionFn) {
-        _walk.comments(_n, c->{
+    /**
+     *
+     * @param _j
+     * @param selectActionFn
+     * @param <_J>
+     * @return
+     */
+    public <_J extends _java> _J forSelectedIn(_java _j, Consumer<Select> selectActionFn) {
+        _walk.comments(_j, c->{
             Select s = select(c);
             if( s != null ){
                 selectActionFn.accept(s);
             }
         });
-        return (N)_n;        
+        return (_J)_j;
     }
     
     public <N extends Node> N forSelectedIn(N astRootNode, Consumer<Select> selectActionFn) {
@@ -311,14 +350,14 @@ public class $comment <C extends Comment>
         return astRootNode;
     }
     
-    public <N extends _java> N forSelectedIn(_java _n, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
-        _walk.comments(_n, c->{
+    public <_J extends _java> _J forSelectedIn(_java _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
+        _walk.comments(_j, c->{
             Select s = select(c);
             if( s != null && selectConstraint.test(s)){
                 selectActionFn.accept(s);
             }
         });
-        return (N)_n;        
+        return (_J)_j;
     }
     
     public <N extends Node> N forSelectedIn(N astRootNode, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
@@ -415,7 +454,7 @@ public class $comment <C extends Comment>
      * @param <C> 
      */
     public static class Select<C extends Comment> 
-        implements $proto.selected<C>, 
+        implements $proto.selected,
             $proto.selectedAstNode<C> {
 
         public C comment;

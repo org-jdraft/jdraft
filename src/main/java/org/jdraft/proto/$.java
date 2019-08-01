@@ -1095,7 +1095,21 @@ public final class $ {
     public static $stmt<SwitchStmt> switchStmt(SwitchStmt ss){
         return $stmt.switchStmt(ss);
     }
-    
+
+    public static $stmt<SynchronizedStmt> synchronizedStmt() { return $stmt.synchronizedStmt(); }
+
+    public static $stmt<SynchronizedStmt> synchronizedStmt(String ... ss){
+        return $stmt.synchronizedStmt(ss);
+    }
+
+    public static $stmt<SynchronizedStmt> synchronizedStmt(Predicate<SynchronizedStmt> ss){
+        return $stmt.synchronizedStmt(ss);
+    }
+
+    public static $stmt<SynchronizedStmt> synchronizedStmt(SynchronizedStmt ss){
+        return ($stmt<SynchronizedStmt>)$stmt.of(ss);
+    }
+
     public static $stmt<ThrowStmt> throwStmt(){
         return $stmt.throwStmt();
     }

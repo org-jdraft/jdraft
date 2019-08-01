@@ -1247,20 +1247,20 @@ public final class $stmt<T extends Statement>
 
     /**
      * Returns the first Statement that matches the 
-     * @param _m
+     * @param _j
      * @return 
      */
     @Override
-    public Select<T> selectFirstIn( _java _m ){
-        if( _m instanceof _code ){
-            _code _c = (_code)_m;
+    public Select<T> selectFirstIn( _java _j){
+        if( _j instanceof _code ){
+            _code _c = (_code) _j;
             if( _c.isTopLevel() ){
                 return selectFirstIn(_c.astCompilationUnit());
             }
-            _type _t = (_type)_m; //only possible 
+            _type _t = (_type) _j; //only possible
             return selectFirstIn(_t.ast());
         }
-        return selectFirstIn( ((_node)_m).ast() ); 
+        return selectFirstIn( ((_node) _j).ast() );
     }
      
 
@@ -1455,14 +1455,13 @@ public final class $stmt<T extends Statement>
      */
     @Override
     public List<Select<T>> listSelectedIn(Class clazz){
-        return (List<Select<T>>)listSelectedIn(_java.type(clazz));
+        return listSelectedIn(_java.type(clazz));
     }
     
     @Override
     public List<Select<T>> listSelectedIn(Node astNode ){
         List<Select<T>>sts = new ArrayList<>();
         astNode.walk(this.statementClass, st-> {
-            //$args tokens = deconstruct( st );
             Select sel = select(st);
             if( sel != null ){
                 sts.add( sel); //new Select( (T)st, tokens) );
@@ -1727,7 +1726,7 @@ public final class $stmt<T extends Statement>
      * 
      * @param <T> 
      */
-    public static class Select<T extends Statement> implements $proto.selected, 
+    public static class Select<T extends Statement> implements $proto.selected,
             $proto.selectedAstNode<T> {
         
         public T astStatement;

@@ -84,9 +84,9 @@ public class $catch implements $proto<CatchClause> {
     }
 
     @Override
-    public Select selectFirstIn(Node n) {
+    public Select selectFirstIn(Node astNode) {
         Optional<CatchClause> occ = 
-            n.findFirst(CatchClause.class, cc-> matches(cc));
+            astNode.findFirst(CatchClause.class, cc-> matches(cc));
         if( occ.isPresent() ){
             return select(occ.get());
         }
@@ -105,30 +105,30 @@ public class $catch implements $proto<CatchClause> {
     
     /**
      * 
-     * @param _n
+     * @param _j
      * @param selectConstraint
      * @return 
      */
-    public Select selectFirstIn(_java _n, Predicate<Select> selectConstraint) {
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                return selectFirstIn( ((_code)_n).astCompilationUnit(), selectConstraint);
+    public Select selectFirstIn(_java _j, Predicate<Select> selectConstraint) {
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                return selectFirstIn( ((_code)_j).astCompilationUnit(), selectConstraint);
             } else{                
-                return selectFirstIn( ((_type)_n).ast(), selectConstraint);
+                return selectFirstIn( ((_type)_j).ast(), selectConstraint);
             }
         }        
-        return selectFirstIn( ((_node)_n).ast(), selectConstraint);
+        return selectFirstIn( ((_node)_j).ast(), selectConstraint);
     }
     
     /**
      * 
-     * @param n
+     * @param astNode
      * @param selectConstraint
      * @return 
      */
-    public Select selectFirstIn(Node n, Predicate<Select> selectConstraint) {
+    public Select selectFirstIn(Node astNode, Predicate<Select> selectConstraint) {
         Optional<CatchClause> occ = 
-            n.findFirst(CatchClause.class, cc->{
+            astNode.findFirst(CatchClause.class, cc->{
                 Select sel = select(cc);
                 return sel != null && selectConstraint.test(sel);                    
             });
@@ -149,24 +149,41 @@ public class $catch implements $proto<CatchClause> {
             });
         return sels;
     }
-    
+
+    /**
+     *
+     * @param clazz
+     * @param selectConstraint
+     * @return
+     */
     public List<Select> listSelectedIn(Class clazz, Predicate<Select> selectConstraint) {
         return listSelectedIn( _java.type(clazz), selectConstraint);
     }
-    
-    public <N extends _java> List<Select> listSelectedIn(N _n, Predicate<Select> selectConstraint) {
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                return listSelectedIn( ((_code)_n).astCompilationUnit(), selectConstraint);
+
+    /**
+     *
+     * @param _j
+     * @param selectConstraint
+     * @param <_J>
+     * @return
+     */
+    public <_J extends _java> List<Select> listSelectedIn(_J _j, Predicate<Select> selectConstraint) {
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                return listSelectedIn( ((_code) _j).astCompilationUnit(), selectConstraint);
             } else{                
-                return listSelectedIn( ((_type)_n).ast(), selectConstraint);
+                return listSelectedIn( ((_type) _j).ast(), selectConstraint);
             }
         }        
-        return listSelectedIn( ((_node)_n).ast(), selectConstraint);
-        
-        //return listSelectedIn(_n.ast(), selectConstraint);
+        return listSelectedIn( ((_node) _j).ast(), selectConstraint);
     }
-    
+
+    /**
+     *
+     * @param astRootNode
+     * @param selectConstraint
+     * @return
+     */
     public List<Select> listSelectedIn(Node astRootNode, Predicate<Select> selectConstraint) {
         List<Select> sels = new ArrayList<>();
         astRootNode.walk(CatchClause.class, cc-> {
@@ -228,37 +245,37 @@ public class $catch implements $proto<CatchClause> {
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param nodeActionFn
      * @return 
      */
-    public <N extends _java> N forSelectedIn(N _n, Consumer<Select> nodeActionFn) {
-        _walk.in(_n, CatchClause.class, cc-> {
+    public <_J extends _java> _J forSelectedIn(_J _j, Consumer<Select> nodeActionFn) {
+        _walk.in(_j, CatchClause.class, cc-> {
                 Select sel = select(cc);
                 if( sel != null ){
                     nodeActionFn.accept(sel);
                 }
             });
-        return _n;
+        return _j;
     } 
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectConstraint
      * @param nodeActionFn
      * @return 
      */
-    public <N extends _java> N forSelectedIn(N _n, Predicate<Select> selectConstraint, Consumer<Select> nodeActionFn) {
-        _walk.in(_n, CatchClause.class, cc-> {
+    public <_J extends _java> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> nodeActionFn) {
+        _walk.in(_j, CatchClause.class, cc-> {
                 Select sel = select(cc);
                 if( sel != null && selectConstraint.test(sel)){
                     nodeActionFn.accept(sel);
                 }
             });
-        return _n;
+        return _j;
     } 
     
     /**
@@ -312,7 +329,7 @@ public class $catch implements $proto<CatchClause> {
     }
     
     public static class Select 
-        implements $proto.selected<CatchClause>, $proto.selectedAstNode<CatchClause>{
+        implements $proto.selected, $proto.selectedAstNode<CatchClause>{
 
         public $args args;
         public CatchClause astCatchClause;

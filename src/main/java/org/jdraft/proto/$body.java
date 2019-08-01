@@ -13,8 +13,7 @@ import com.github.javaparser.ast.nodeTypes.NodeWithOptionalBlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import org.jdraft.*;
 import org.jdraft._node;
-import org.jdraft.proto.$proto.$args;
-import org.jdraft.proto.$proto.selected;
+
 import java.util.*;
 import java.util.function.*;
 
@@ -48,8 +47,7 @@ public class $body implements Template<_body>, $proto<_body>, $constructor.$part
     public static $body of( _body _bd ){
         return new $body(_bd);
     }
-    
-    
+
     public static $body of( NodeWithBlockStmt astNodeWithBlock ){
         return new $body(_body.of(astNodeWithBlock));
     }
@@ -124,8 +122,11 @@ public class $body implements Template<_body>, $proto<_body>, $constructor.$part
     private $body( ){
         this.isImplemented = false;        
     }
-    
-    
+
+    /**
+     *
+     * @param le
+     */
     public $body( LambdaExpr le ){
         this( _body.of(le.getBody().toString(Ast.PRINT_NO_COMMENTS )) );
     }
@@ -176,8 +177,7 @@ public class $body implements Template<_body>, $proto<_body>, $constructor.$part
         }
         return Collections.EMPTY_LIST;
     }
-    
-    
+
     @Override
     public List<String> list$Normalized(){
         if( isImplemented ){
@@ -388,7 +388,13 @@ public class $body implements Template<_body>, $proto<_body>, $constructor.$part
         }
         return this;
     }
-    
+
+    /**
+     *
+     * @param st
+     * @param name
+     * @return
+     */
     public $body $( Statement st, String name){
         if( this.isImplemented ){
             this.bodyStmts = this.bodyStmts.$(st, name);
@@ -444,20 +450,20 @@ public class $body implements Template<_body>, $proto<_body>, $constructor.$part
     
     /**
      * 
-     * @param _n
+     * @param _j
      * @param selectConstraint
      * @return 
      */
-    public Select selectFirstIn(_java _n, Predicate<Select> selectConstraint) {
-        if( _n instanceof _code ){
-            _code _c = (_code)_n;
+    public Select selectFirstIn(_java _j, Predicate<Select> selectConstraint) {
+        if( _j instanceof _code ){
+            _code _c = (_code)_j;
             if( _c.isTopLevel() ){
                 return selectFirstIn(_c.astCompilationUnit(), selectConstraint);
             }
-            _type _t = (_type)_n; //only possible 
+            _type _t = (_type)_j; //only possible
             return selectFirstIn(_t.ast(), selectConstraint);
         }
-        return selectFirstIn( ((_node)_n).ast(), selectConstraint);
+        return selectFirstIn( ((_node)_j).ast(), selectConstraint);
     }
     
     /**
@@ -566,37 +572,37 @@ public class $body implements Template<_body>, $proto<_body>, $constructor.$part
 
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectActionFn
      * @return 
      */
-    public <N extends _java> N forSelectedIn(N _n,  Consumer<Select> selectActionFn) {
-        forSelectedIn(_n, s->true, selectActionFn);
-        return _n;
+    public <_J extends _java> _J forSelectedIn(_J _j, Consumer<Select> selectActionFn) {
+        forSelectedIn(_j, s->true, selectActionFn);
+        return _j;
     }
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectConstraint
      * @param selectActionFn
      * @return 
      */
-    public <N extends _java> N forSelectedIn(N _n, Predicate<Select>selectConstraint, Consumer<Select> selectActionFn) {
-        if( _n instanceof _code ){
-            _code _c = (_code)_n;
+    public <_J extends _java> _J forSelectedIn(_J _j, Predicate<Select>selectConstraint, Consumer<Select> selectActionFn) {
+        if( _j instanceof _code ){
+            _code _c = (_code) _j;
             if( _c.isTopLevel() ){
                 forSelectedIn(_c.astCompilationUnit(), selectActionFn);
-                return _n;
+                return _j;
             }
-            _type _t = (_type)_n; //only possible 
+            _type _t = (_type) _j; //only possible
             forSelectedIn(_t.ast(), selectActionFn);
-            return _n;
+            return _j;
         }
-        forSelectedIn((_node)_n, selectActionFn);
-        return _n;        
+        forSelectedIn((_node) _j, selectActionFn);
+        return _j;
     }
     
     /**
@@ -647,7 +653,7 @@ public class $body implements Template<_body>, $proto<_body>, $constructor.$part
     /**
      * 
      */
-    public static class Select implements selected<_body>, selected_model<_body>{
+    public static class Select implements selected, selected_model<_body>{
 
         public _body body;
         public $args args;

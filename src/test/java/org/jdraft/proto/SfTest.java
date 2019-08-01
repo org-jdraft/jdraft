@@ -11,7 +11,22 @@ import junit.framework.TestCase;
  * @author Eric
  */
 public class SfTest extends TestCase {
-    
+
+    public void testSynch(){
+        class R{
+            Integer val;
+            synchronized int g(){
+                return 456;
+            }
+            public R(){
+                synchronized (val){
+                    System.out.println(val);
+                }
+            }
+        }
+        assertEquals(1, $.method( $modifiers.of("synchronized")).listIn(R.class).size());
+        assertEquals(1, $.synchronizedStmt().listIn(R.class).size());
+    }
     public void testFieldAsAnonymousObject(){
         $field $f = $field.of( new Object(){
             @Deprecated

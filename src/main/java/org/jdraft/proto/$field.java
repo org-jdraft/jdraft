@@ -47,7 +47,12 @@ public class $field implements Template<_field>, $proto<_field> {
     public static $field of(){
         return of (_field.of(" $type$ $name$;") );
     }
-        
+
+    /**
+     *
+     * @param anonymousObjectWithField
+     * @return
+     */
     public static $field of( Object anonymousObjectWithField ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         ObjectCreationExpr oce = Expr.anonymousObject(ste);
@@ -60,36 +65,77 @@ public class $field implements Template<_field>, $proto<_field> {
 
         return of( _c.getField(0) );        
     }
-    
- 
+
+    /**
+     *
+     * @param field
+     * @return
+     */
     public static $field of(String field ){
         return of( _field.of(field));
     }
-    
+
+    /**
+     *
+     * @param field
+     * @return
+     */
     public static $field of( String...field ){
         return of( _field.of(field));
     }
-    
+
+    /**
+     *
+     * @param field
+     * @param constraint
+     * @return
+     */
     public static $field of( String field, Predicate<_field> constraint){
         return of( _field.of(field)).addConstraint(constraint);
     }
-    
+
+    /**
+     *
+     * @param _f
+     * @param constraint
+     * @return
+     */
     public static $field of( _field _f, Predicate<_field> constraint){
         return of(_f).addConstraint(constraint);
     }
-    
+
+    /**
+     *
+     * @param constraint
+     * @return
+     */
     public static $field of( Predicate<_field> constraint ){
         return of().addConstraint( constraint);
     }
-    
+
+    /**
+     *
+     * @param str
+     * @return
+     */
     public static $field ofName( String str){
         return of( _field.of("$type$ "+str) );
     }
-    
+
+    /**
+     *
+     * @param nameConstraint
+     * @return
+     */
     public static $field ofName( Predicate<String> nameConstraint){
         return of().$name(nameConstraint);
     }
-    
+
+    /**
+     *
+     * @param clazz
+     * @return
+     */
     public static $field ofType( Class clazz ){
         return ofType( _typeRef.of(clazz) );
     }
@@ -105,7 +151,7 @@ public class $field implements Template<_field>, $proto<_field> {
     }
     
     public static $field ofType( String type ){
-        return of( _field.of( type+" $name$;") );
+        return of( _field.of( type + " $name$;") );
     }
     
     public static $field ofType( Predicate<_typeRef> _typeConstraint ){
@@ -190,42 +236,81 @@ public class $field implements Template<_field>, $proto<_field> {
         this.javadoc = $comment.javadocComment("$javadoc$");        
         return this;
     }
-    
+
+    /**
+     *
+     * @param javadoc
+     * @return
+     */
     public $field $javadoc( String... javadoc ){
         this.javadoc.contentsPattern = Stencil.of((Object[])javadoc);
         return this;
     }
-    
-    public $field $javadoc( _javadoc _jd ){
+
+    /**
+     *
+     * @param _jd
+     * @return
+     */
+     public $field $javadoc( _javadoc _jd ){
         this.javadoc.contentsPattern = Stencil.of(_jd.getContent() );
         return this;
-    }  
-    
-     public $field $annos(){
+     }
+
+    /**
+     *
+     * @return
+     */
+    public $field $annos(){
         this.annos = $annos.of();
         return this;
     }
-    
+
+    /**
+     *
+     * @param as
+     * @return
+     */
     public $field $annos( Predicate<_anno._annos> as ){
         this.annos.addConstraint(as);
         return this;
     }
-    
+
+    /**
+     *
+     * @param annoPatterns
+     * @return
+     */
     public $field $annos(String...annoPatterns ){
         this.annos.add(annoPatterns);
         return this;
     }
-    
+
+    /**
+     *
+     * @param $as
+     * @return
+     */
     public $field $annos($annos $as ){
         this.annos = $as;
         return this;
     }
-    
+
+    /**
+     *
+     * @param clazz
+     * @return
+     */
     public $field $anno( Class clazz){
         this.annos.$annosList.add($anno.of(clazz) );
         return this;
     }
-    
+
+    /**
+     *
+     * @param _an
+     * @return
+     */
     public $field $anno( _anno _an){
         this.annos.$annosList.add($anno.of(_an) );
         return this;
@@ -239,74 +324,140 @@ public class $field implements Template<_field>, $proto<_field> {
         this.javadoc.addConstraint(javadocConstraint);
         return this;
     }
-    
+
+    /**
+     *
+     * @return
+     */
     public $field $type(){
         this.type = $typeRef.of("$type$");
-        //this.type.typePattern = Stencil.of("$type$");
         return this;
     }
-    
+
+    /**
+     *
+     * @param _tr
+     * @return
+     */
     public $field $type( _typeRef _tr){
         this.type = $typeRef.of(_tr);
         return this;
     }
-    
+
+    /**
+     *
+     * @param tr
+     * @return
+     */
     public $field $type( $typeRef tr){
         this.type = tr;
         return this;
     }
-    
+
+    /**
+     *
+     * @param clazz
+     * @return
+     */
     public $field $type(Class clazz){
         this.type = $typeRef.of(clazz);
         return this;
     }
-    
+
+    /**
+     *
+     * @param pattern
+     * @return
+     */
     public $field $type( String pattern ){
         this.type.typePattern = Stencil.of(_typeRef.of(pattern).toString());
         return this;
     }
-    
+
+    /**
+     *
+     * @param typeConstraint
+     * @return
+     */
     public $field $type(Predicate<_typeRef> typeConstraint ){
         this.type.constraint = this.type.constraint.and(typeConstraint);
         return this;
     }
-    
+
+    /**
+     *
+     * @return
+     */
     public $field $name(){
         this.name.pattern = Stencil.of("$name$");
         return this;
     }
-    
+
+    /**
+     *
+     * @param id
+     * @return
+     */
     public $field $name( $id id ){
         this.name = id;
         return this;
     }
-    
+
+    /**
+     *
+     * @param pattern
+     * @return
+     */
     public $field $name(String pattern ){
         this.name.pattern = Stencil.of(pattern);
         return this;
     }
-    
+
+    /**
+     *
+     * @param nameConstraint
+     * @return
+     */
     public $field $name(Predicate<String> nameConstraint ){
         this.name.constraint = this.name.constraint.and(nameConstraint);
         return this;
     }
-    
+
+    /**
+     *
+     * @return
+     */
     public $field $init(){
         this.init = $expr.of();        
         this.init.exprPattern = Stencil.of( "$init$" );
         return this;
     }
-    
+
+    /**
+     *
+     * @param initPattern
+     * @return
+     */
     public $field $init( String initPattern ){
         this.init.exprPattern = Stencil.of(Expr.of(initPattern).toString() );
         return this;
     }
-    
+
+    /**
+     *
+     * @param initProto
+     * @return
+     */
     public $field $init( Expression initProto ){
         this.init.exprPattern = Stencil.of(initProto.toString() );
         return this;
     }
-    
+
+    /**
+     *
+     * @param initConstraint
+     * @return
+     */
     public $field $init( Predicate<Expression> initConstraint ){
         this.init.constraint = this.init.constraint.and(initConstraint);
         return this;
@@ -378,8 +529,6 @@ public class $field implements Template<_field>, $proto<_field> {
             return selectFirstIn(((_type) _n).ast(), selectConstraint);
         }
         return selectFirstIn( ((_node)_n).ast(), selectConstraint );
-        
-        //return selectFirstIn(_n.ast(), selectConstraint );        
     }
 
     /**
@@ -484,19 +633,19 @@ public class $field implements Template<_field>, $proto<_field> {
 
     /**
      * 
-     * @param <N>
-     * @param _le
+     * @param <_J>
+     * @param _j
      * @param $replaceProto
      * @return 
      */
-    public <N extends _java> N replaceIn(N _le, $field $replaceProto ){
-        _walk.in(_le, VariableDeclarator.class, e-> {
+    public <_J extends _java> _J replaceIn(_J _j, $field $replaceProto ){
+        _walk.in(_j, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
                 sel._f.ast().replace($replaceProto.construct(sel.args).ast() );
             }
         });
-        return _le;
+        return _j;
     }
 
     /**
@@ -511,19 +660,19 @@ public class $field implements Template<_field>, $proto<_field> {
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectConsumer
      * @return 
      */
-    public <N extends _java> N forSelectedIn(N _n, Consumer<Select> selectConsumer ){
-        _walk.in(_n, VariableDeclarator.class, e-> {
+    public <_J extends _java> _J forSelectedIn(_J _j, Consumer<Select> selectConsumer ){
+        _walk.in(_j, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
                 selectConsumer.accept( sel );
             }
         });
-        return _n;
+        return _j;
     }
 
     /**
@@ -556,20 +705,20 @@ public class $field implements Template<_field>, $proto<_field> {
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectConstraint
      * @param selectConsumer
      * @return 
      */
-    public <N extends _java> N forSelectedIn(N _n, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
-        _walk.in(_n, VariableDeclarator.class, e-> {
+    public <_J extends _java> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
+        _walk.in(_j, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null && selectConstraint.test(sel)){
                 selectConsumer.accept( sel );
             }
         });
-        return _n;
+        return _j;
     }
 
     /**

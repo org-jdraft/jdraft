@@ -201,6 +201,12 @@ public class $annos
         return this;
     }
 
+    /**
+     *
+     * @param tr
+     * @param keyValues
+     * @return
+     */
     public $annos hardcode$( Translator tr, Object... keyValues ) {
         $annosList.forEach(a -> a.hardcode$(tr, keyValues));
         return this;
@@ -240,7 +246,12 @@ public class $annos
     public Select select( NodeWithAnnotations astAnnoNode ){
         return select(_annos.of(astAnnoNode) );
     }
-    
+
+    /**
+     *
+     * @param _anns
+     * @return
+     */
     public Select select( _annos _anns ){
         if( ! this.constraint.test(_anns)){
             return null;
@@ -275,12 +286,22 @@ public class $annos
         //System.out.println("returning new Select for "+_anns);
         return new Select(_anns, tokens);
     }
-    
-    
+
+    /**
+     *
+     * @param _annotated
+     * @return
+     */
     public Select select( _hasAnnos _annotated ){
         return select( _annotated.getAnnos() );        
     }
-    
+
+    /**
+     *
+     * @param _as
+     * @param allTokens
+     * @return
+     */
     public Tokens decomposeTo( _annos _as, Tokens allTokens ){
         if(allTokens == null){
             return allTokens;
@@ -333,20 +354,20 @@ public class $annos
     
     /**
      * 
-     * @param _n
+     * @param _j
      * @param selectConstraint
      * @return 
      */
-    public Select selectFirstIn( _java _n, Predicate<Select> selectConstraint){
-         if( _n instanceof _code ){
-            _code _c = (_code)_n;
+    public Select selectFirstIn( _java _j, Predicate<Select> selectConstraint){
+         if( _j instanceof _code ){
+            _code _c = (_code)_j;
             if( _c.isTopLevel() ){
                 return selectFirstIn(_c.astCompilationUnit(), selectConstraint);
             }
-            _type _t = (_type)_n; //only possible 
+            _type _t = (_type)_j; //only possible
             return selectFirstIn(_t.ast(), selectConstraint); //return the TypeDeclaration, not the CompilationUnit            
         }
-        return selectFirstIn(((_node)_n).ast(), selectConstraint);
+        return selectFirstIn(((_node)_j).ast(), selectConstraint);
     }
     
     /**
@@ -410,19 +431,6 @@ public class $annos
 
     /**
      * 
-     * @param _n
-     * @return 
-     
-    @Override
-    public List<Select> listSelectedIn( _java _n) {
-        List<Select> found = new ArrayList<>();
-        return listSelectedIn(_n, t->true);
-    }
-    */ 
-
-    
-    /**
-     * 
      * @param clazz
      * @param selectConstraint
      * @return 
@@ -446,21 +454,21 @@ public class $annos
     
     /**
      * 
-     * @param _n
+     * @param _j
      * @param selectConstraint
      * @return 
      */
-    public List<Select> listSelectedIn( _java _n, Predicate<Select> selectConstraint) {
-         if( _n instanceof _code ){
-            _code _c = (_code)_n;
+    public List<Select> listSelectedIn( _java _j, Predicate<Select> selectConstraint) {
+         if( _j instanceof _code ){
+            _code _c = (_code)_j;
             if( _c.isTopLevel() ){
                 return listSelectedIn(_c.astCompilationUnit(), selectConstraint);
             }
-            _type _t = (_type)_n; //only possible 
+            _type _t = (_type)_j; //only possible
             return listSelectedIn(_t.ast(), selectConstraint);
         }
          
-        return listSelectedIn(((_node)_n).ast(), selectConstraint);        
+        return listSelectedIn(((_node)_j).ast(), selectConstraint);
     }
 
     @Override
@@ -539,39 +547,47 @@ public class $annos
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectActionFn
      * @return 
      */
-    public <N extends _java> N forSelectedIn(N _n, Consumer<Select> selectActionFn) {
-        if( _n instanceof _code ){
-            _code _c = (_code)_n;
+    public <_J extends _java> _J forSelectedIn(_J _j, Consumer<Select> selectActionFn) {
+        if( _j instanceof _code ){
+            _code _c = (_code) _j;
             if( _c.isTopLevel() ){
                 forSelectedIn(_c.astCompilationUnit(), selectActionFn);
-                return _n;
+                return _j;
             }
-            _type _t = (_type)_n; //only possible 
+            _type _t = (_type) _j; //only possible
             forSelectedIn(_t.ast(), selectActionFn);
-            return _n;
+            return _j;
         }
-        forSelectedIn((_node)_n, selectActionFn);
-        return _n;
+        forSelectedIn((_node) _j, selectActionFn);
+        return _j;
     }
-     
-    public <N extends _java> N forSelectedIn(N _n, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
-        if( _n instanceof _code ){
-            _code _c = (_code)_n;
+
+    /**
+     *
+     * @param _j
+     * @param selectConstraint
+     * @param selectActionFn
+     * @param <_J>
+     * @return
+     */
+    public <_J extends _java> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
+        if( _j instanceof _code ){
+            _code _c = (_code) _j;
             if( _c.isTopLevel() ){
                 forSelectedIn(_c.astCompilationUnit(), selectConstraint, selectActionFn);
-                return _n;
+                return _j;
             }
-            _type _t = (_type)_n; //only possible 
+            _type _t = (_type) _j; //only possible
             forSelectedIn(_t.ast(), selectConstraint, selectActionFn);
-            return _n;
+            return _j;
         }
-        forSelectedIn( ((_node)_n).ast(), selectConstraint, selectActionFn);
-        return _n;
+        forSelectedIn( ((_node) _j).ast(), selectConstraint, selectActionFn);
+        return _j;
     } 
     
     @Override
@@ -589,7 +605,7 @@ public class $annos
      * inside of some Node or _node
      */
     public static class Select
-        implements $proto.selected<_annos>, selected_model<_annos> {
+        implements $proto.selected, selected_model<_annos> {
 
         public final _annos _anns;
         public final $args args;

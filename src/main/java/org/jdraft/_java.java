@@ -297,7 +297,7 @@ public interface _java {
      * @param resolver
      * @return
      */
-    public static _type type( Class clazz, _in._resolver resolver ){
+    public static <T extends _type> T type( Class clazz, _in._resolver resolver ){
         Node n = Ast.type( clazz, resolver );
         TypeDeclaration td = null;
         if( n instanceof CompilationUnit) { //top level TYPE
@@ -313,13 +313,13 @@ public interface _java {
         if( td instanceof ClassOrInterfaceDeclaration ){
             ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)td;
             if( coid.isInterface() ){
-                return _macro.to(clazz, _interface.of(coid));
+                return (T)_macro.to(clazz, _interface.of(coid));
             }
-            return _macro.to(clazz,  _class.of(coid) );
+            return (T)_macro.to(clazz,  _class.of(coid) );
         }else if( td instanceof EnumDeclaration){
-            return _macro.to(clazz, _enum.of( (EnumDeclaration)td));
+            return (T)_macro.to(clazz, _enum.of( (EnumDeclaration)td));
         }
-        return _macro.to(clazz, _annotation.of( (AnnotationDeclaration)td));
+        return (T)_macro.to(clazz, _annotation.of( (AnnotationDeclaration)td));
     }
     
     /**
@@ -327,7 +327,7 @@ public interface _java {
      * @param clazz
      * @return
      */
-    public static _type type(Class clazz) {
+    public static _type  type(Class clazz) {
         return type(clazz, _io.IN_DEFAULT);
     }
 

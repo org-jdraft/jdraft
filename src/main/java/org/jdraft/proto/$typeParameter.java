@@ -437,7 +437,7 @@ public class $typeParameter
     }
     
     public static class Select 
-        implements $proto.selected<_typeParameter>, 
+        implements $proto.selected,
             $proto.selectedAstNode<TypeParameter>, 
             $proto.selected_model<_typeParameter>{
 

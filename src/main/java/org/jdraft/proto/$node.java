@@ -159,16 +159,16 @@ public class $node implements $proto<Node> {
     }
 
     @Override
-    public List<Select> listSelectedIn(_java _m) {
-        if( _m instanceof _code ){
-            _code _c = (_code)_m;
+    public List<Select> listSelectedIn(_java _j) {
+        if( _j instanceof _code ){
+            _code _c = (_code) _j;
             if( _c.isTopLevel() ){
                 return listSelectedIn(_c.astCompilationUnit());
             }
-            _type _t = (_type)_m; //only possible 
+            _type _t = (_type) _j; //only possible
             return listSelectedIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listSelectedIn( ((_node)_m).ast()); 
+        return listSelectedIn( ((_node) _j).ast());
     }
 
 
@@ -191,18 +191,18 @@ public class $node implements $proto<Node> {
 
     /**
      * 
-     * @param _n
+     * @param _j
      * @param selectConstraint
      * @return 
      */
-    public List<Select> listSelectedIn(_java _n, Predicate<Select> selectConstraint) {
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                return listSelectedIn( ((_code) _n).astCompilationUnit(), selectConstraint);
+    public List<Select> listSelectedIn(_java _j, Predicate<Select> selectConstraint) {
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                return listSelectedIn( ((_code) _j).astCompilationUnit(), selectConstraint);
             }
-            return listSelectedIn( ((_type)_n).ast(), selectConstraint);
+            return listSelectedIn( ((_type)_j).ast(), selectConstraint);
         }
-        return listSelectedIn( ((_node)_n).ast(), selectConstraint);        
+        return listSelectedIn( ((_node)_j).ast(), selectConstraint);
     }
     
     private static boolean replaceNode( Node target, Node replacement ){
@@ -241,30 +241,22 @@ public class $node implements $proto<Node> {
      
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param $replacement
      * @return 
      */
-    public <N extends _java> N replaceIn(N _n, $node $replacement) {
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                replaceIn( ((_code) _n).astCompilationUnit(), $replacement);
-                return _n;
+    public <_J extends _java> _J replaceIn(_J _j, $node $replacement) {
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                replaceIn( ((_code) _j).astCompilationUnit(), $replacement);
+                return _j;
             }
-            replaceIn( ((_type)_n).ast(), $replacement);
-            return _n;
+            replaceIn( ((_type) _j).ast(), $replacement);
+            return _j;
         }
-        replaceIn( ((_node)_n).ast(), $replacement);        
-        return _n;
-        /*
-        if( _n instanceof _type && ((_type)_n).isTopLevel()){            
-            replaceIn( ((_type)_n).astCompilationUnit(), $replacement);
-            return _n;
-        }
-        replaceIn(_n.ast(), $replacement);
-        return _n;
-        */
+        replaceIn( ((_node) _j).ast(), $replacement);
+        return _j;
     }
     
     /**
@@ -291,31 +283,22 @@ public class $node implements $proto<Node> {
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param replacement
      * @return 
      */
-    public <N extends _java> N replaceIn(N _n, String replacement) {
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                replaceIn( ((_code) _n).astCompilationUnit(), replacement);
-                return _n;
+    public <_J extends _java> _J replaceIn(_J _j, String replacement) {
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                replaceIn( ((_code) _j).astCompilationUnit(), replacement);
+                return _j;
             }
-            replaceIn( ((_type)_n).ast(), replacement);
-            return _n;
+            replaceIn( ((_type) _j).ast(), replacement);
+            return _j;
         }
-        replaceIn( ((_node)_n).ast(), replacement);        
-        return _n;
-        /*
-        
-        if( _n instanceof _type && ((_type)_n).isTopLevel()){
-            replaceIn( ((_type)_n).astCompilationUnit(), replacement);
-            return _n;
-        }
-        replaceIn(_n.ast(), replacement);
-        return _n;
-        */
+        replaceIn( ((_node) _j).ast(), replacement);
+        return _j;
     }
     
     /**
@@ -362,30 +345,22 @@ public class $node implements $proto<Node> {
 
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param replacement
      * @return 
      */
-    public <N extends _java> N replaceIn(N _n, Node replacement) {
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                replaceIn( ((_code) _n).astCompilationUnit(), replacement);
-                return _n;
+    public <_J extends _java> _J replaceIn(_J _j, Node replacement) {
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                replaceIn( ((_code) _j).astCompilationUnit(), replacement);
+                return _j;
             }
-            replaceIn( ((_type)_n).ast(), replacement);
-            return _n;
+            replaceIn( ((_type) _j).ast(), replacement);
+            return _j;
         }
-        replaceIn( ((_node)_n).ast(), replacement);        
-        return _n;
-        /*
-        if( _n instanceof _type && ((_type)_n).isTopLevel()){
-            replaceIn( ((_type)_n).astCompilationUnit(), replacement);
-            return _n;
-        }
-        replaceIn(_n.ast(), replacement);
-        return _n;
-        */
+        replaceIn( ((_node) _j).ast(), replacement);
+        return _j;
     }
     
     /**
@@ -407,31 +382,22 @@ public class $node implements $proto<Node> {
 
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param nodeActionFn
      * @return 
      */
-    public <N extends _java> N forSelectedIn(N _n, Consumer<Select> nodeActionFn) {
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                forSelectedIn( ((_code) _n).astCompilationUnit(), nodeActionFn);
-                return _n;
+    public <_J extends _java> _J forSelectedIn(_J _j, Consumer<Select> nodeActionFn) {
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                forSelectedIn( ((_code) _j).astCompilationUnit(), nodeActionFn);
+                return _j;
             }
-            forSelectedIn( ((_type)_n).ast(), nodeActionFn);
-            return _n;
+            forSelectedIn( ((_type) _j).ast(), nodeActionFn);
+            return _j;
         }
-        forSelectedIn( ((_node)_n).ast(), nodeActionFn);        
-        return _n;
-        
-        /*
-        if( _n instanceof _type && ((_type)_n).isTopLevel()){
-            forSelectedIn( ((_type)_n).astCompilationUnit(), nodeActionFn);
-            return _n;
-        }
-        forSelectedIn(_n.ast(), nodeActionFn);
-        return _n;
-        */
+        forSelectedIn( ((_node) _j).ast(), nodeActionFn);
+        return _j;
     }
     
     /**
@@ -454,31 +420,23 @@ public class $node implements $proto<Node> {
 
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectConstraint
      * @param nodeActionFn
      * @return 
      */
-    public <N extends _java> N forSelectedIn(N _n, Predicate<Select> selectConstraint, Consumer<Select> nodeActionFn) {
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                forSelectedIn( ((_code) _n).astCompilationUnit(), nodeActionFn);
-                return _n;
+    public <_J extends _java> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> nodeActionFn) {
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                forSelectedIn( ((_code) _j).astCompilationUnit(), nodeActionFn);
+                return _j;
             }
-            forSelectedIn( ((_type)_n).ast(), nodeActionFn);
-            return _n;
+            forSelectedIn( ((_type) _j).ast(), nodeActionFn);
+            return _j;
         }
-        forSelectedIn( ((_node)_n).ast(), nodeActionFn);        
-        return _n;
-        /*
-        if( _n instanceof _type && ((_type)_n).isTopLevel()){
-            forSelectedIn( ((_type)_n).astCompilationUnit(), selectConstraint, nodeActionFn);
-            return _n;
-        }
-        forSelectedIn(_n.ast(), selectConstraint, nodeActionFn);
-        return _n;
-        */
+        forSelectedIn( ((_node) _j).ast(), nodeActionFn);
+        return _j;
     }    
     
     @Override

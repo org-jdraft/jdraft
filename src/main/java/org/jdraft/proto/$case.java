@@ -10,7 +10,7 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.*;
 import org.jdraft.*;
 import org.jdraft._node;
-import org.jdraft.proto.$proto.$args;
+
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -165,9 +165,9 @@ public class $case
     }
 
     @Override
-    public Select selectFirstIn(Node n) {
+    public Select selectFirstIn(Node astNode) {
         Optional<SwitchEntry> ose = 
-            n.findFirst(SwitchEntry.class, se -> select(se) != null );
+            astNode.findFirst(SwitchEntry.class, se -> select(se) != null );
         if( ose.isPresent() ){
             return select(ose.get());
         }
@@ -186,31 +186,31 @@ public class $case
     
     /**
      * 
-     * @param _n
+     * @param _j
      * @param selectConstraint
      * @return 
      */
-    public Select selectFirstIn(_java _n, Predicate<Select>selectConstraint ){
-        if( _n instanceof _code ){
-            _code _c = (_code)_n;
+    public Select selectFirstIn(_java _j, Predicate<Select>selectConstraint ){
+        if( _j instanceof _code ){
+            _code _c = (_code)_j;
             if( _c.isTopLevel() ){
                 return selectFirstIn(_c.astCompilationUnit(), selectConstraint);
             }
-            _type _t = (_type)_n; //only possible 
+            _type _t = (_type)_j; //only possible
             return selectFirstIn(_t.ast(), selectConstraint);
         }
-        return selectFirstIn((_node)_n, selectConstraint);        
+        return selectFirstIn((_node)_j, selectConstraint);
     }
     
     /**
      * 
-     * @param n
+     * @param astNode
      * @param selectConstraint
      * @return 
      */
-    public Select selectFirstIn(Node n, Predicate<Select>selectConstraint ){
+    public Select selectFirstIn(Node astNode, Predicate<Select>selectConstraint ){
         Optional<SwitchEntry> ose = 
-            n.findFirst(SwitchEntry.class, se -> {
+            astNode.findFirst(SwitchEntry.class, se -> {
                 Select sel = select(se);
                 return sel != null && selectConstraint.test(sel);
             });
@@ -229,21 +229,21 @@ public class $case
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectConstraint
      * @return 
      */
-    public <N extends _java> List<Select> listSelectedIn(N _n, Predicate<Select> selectConstraint) {
-        if( _n instanceof _code ){
-            _code _c = (_code)_n;
+    public <_J extends _java> List<Select> listSelectedIn(_J _j, Predicate<Select> selectConstraint) {
+        if( _j instanceof _code ){
+            _code _c = (_code) _j;
             if( _c.isTopLevel() ){
                 return listSelectedIn(_c.astCompilationUnit(), selectConstraint);
             }
-            _type _t = (_type)_n; //only possible 
+            _type _t = (_type) _j; //only possible
             return listSelectedIn(_t.ast(), selectConstraint);
         }
-        return listSelectedIn((_node)_n, selectConstraint);
+        return listSelectedIn((_node) _j, selectConstraint);
     }
     
     /**
@@ -297,47 +297,47 @@ public class $case
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectActionFn
      * @return 
      */
-    public <N extends _java> N forSelectedIn(N _n, Consumer<Select> selectActionFn) {
-        if( _n instanceof _code ){
-            _code _c = (_code)_n;
+    public <_J extends _java> _J forSelectedIn(_J _j, Consumer<Select> selectActionFn) {
+        if( _j instanceof _code ){
+            _code _c = (_code) _j;
             if( _c.isTopLevel() ){
                 forSelectedIn(_c.astCompilationUnit(), selectActionFn);
-                return _n;
+                return _j;
             }
-            _type _t = (_type)_n; //only possible 
+            _type _t = (_type) _j; //only possible
             forSelectedIn(_t.ast(), selectActionFn); //return the TypeDeclaration, not the CompilationUnit            
-            return _n;
+            return _j;
         }
-        forSelectedIn(((_node)_n).ast(), selectActionFn);
-        return _n;        
+        forSelectedIn(((_node) _j).ast(), selectActionFn);
+        return _j;
     }
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectMatchFn
      * @param selectActionFn
      * @return 
      */
-    public <N extends _java> N forSelectedIn(N _n, Predicate<Select> selectMatchFn, Consumer<Select> selectActionFn) {
-        if( _n instanceof _code ){
-            _code _c = (_code)_n;
+    public <_J extends _java> _J forSelectedIn(_J _j, Predicate<Select> selectMatchFn, Consumer<Select> selectActionFn) {
+        if( _j instanceof _code ){
+            _code _c = (_code) _j;
             if( _c.isTopLevel() ){
                 forSelectedIn(_c.astCompilationUnit(), selectMatchFn, selectActionFn);
-                return _n;
+                return _j;
             }
-            _type _t = (_type)_n; //only possible 
+            _type _t = (_type) _j; //only possible
             forSelectedIn(_t.ast(), selectMatchFn, selectActionFn); //return the TypeDeclaration, not the CompilationUnit            
-            return _n;
+            return _j;
         }
-        forSelectedIn(((_node)_n).ast(), selectMatchFn, selectActionFn);
-        return _n;
+        forSelectedIn(((_node) _j).ast(), selectMatchFn, selectActionFn);
+        return _j;
     }
     
     /**
@@ -408,7 +408,6 @@ public class $case
             System.out.println( "has Statements");
             Object ll = keyValues.get("$statements" );
             if( ll instanceof Statement ){
-                
                 se.addStatement( $stmt.of((Statement) ll).construct(translator, keyValues) );                
             } else if( ll instanceof $stmt ){
                 se.addStatement( (($stmt) ll).construct(translator, keyValues) );                
@@ -422,9 +421,7 @@ public class $case
                 BlockStmt bs = Ast.blockStmt( (String)(ll.toString()) );
                 bs.getStatements().forEach(s -> se.addStatement( $stmt.of(s).construct(translator, keyValues)));                        
             }                     
-        } else{ 
-        //List<Statement> composedStatements = new ArrayList<>();
-            //System.out.println( "COMPLETE NORM");
+        } else{
             this.statements.forEach(st -> se.addStatement( st.construct(translator, keyValues) ) );
         }
         return se;
@@ -457,12 +454,10 @@ public class $case
         }
         this.statements.forEach(s -> allN.addAll(s.list$Normalized()));
         return allN.stream().distinct().collect(Collectors.toList());
-        //return all;
     }
-    
-    
+
     public static class Select 
-        implements $proto.selected<SwitchEntry>, $proto.selectedAstNode<SwitchEntry>{
+        implements $proto.selected, $proto.selectedAstNode<SwitchEntry>{
         
         public SwitchEntry astCase;
         public $proto.$args args;

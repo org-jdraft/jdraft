@@ -150,13 +150,13 @@ public interface $exprProto<T extends Expression>
 
     List<String> list$Normalized();
 
-    List<T> listIn(_java _n);
+    List<T> listIn(_java _j);
 
     List<T> listIn(Node astNode);
 
     List<Select<T>> listSelectedIn(Node astNode);
 
-    List<Select<T>> listSelectedIn(_java _n);
+    List<Select<T>> listSelectedIn(_java _j);
 
     List<Select<T>> listSelectedIn(Class clazz);
 

@@ -71,7 +71,13 @@ public class $constructor
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return of( ste, anonymousObjectContainingMethod);
     }
-    
+
+    /**
+     *
+     * @param ste
+     * @param anonymousObjectContainingMethod
+     * @return
+     */
     public static $constructor of( StackTraceElement ste, Object anonymousObjectContainingMethod ){
         ObjectCreationExpr oce = Expr.anonymousObject( ste );        
         
@@ -112,10 +118,18 @@ public class $constructor
         return of(_ct);        
     }
 
+    /**
+     *
+     * @return
+     */
     public static $constructor any(){
         return of();
     }
-    
+
+    /**
+     *
+     * @return
+     */
     public static $constructor of(){
         return new $constructor(_constructor.of("$name$(){}") );
     }
@@ -747,14 +761,14 @@ public class $constructor
     
     /**
      * Returns the first _constructor that matches the pattern and constraint
-     * @param _n the _java node
+     * @param _j the _java node
      * @param selectConstraint
      * @return  the first _constructor that matches (or null if none found)
      */
-    public Select selectFirstIn( _java _n, Predicate<Select> selectConstraint){
-        if( _n instanceof _code){
-            if( ((_code) _n).isTopLevel()){
-                Optional<ConstructorDeclaration> f = (((_code) _n).astCompilationUnit().findFirst(
+    public Select selectFirstIn( _java _j, Predicate<Select> selectConstraint){
+        if( _j instanceof _code){
+            if( ((_code) _j).isTopLevel()){
+                Optional<ConstructorDeclaration> f = (((_code) _j).astCompilationUnit().findFirst(
                     ConstructorDeclaration.class, s -> {
                         Select sel = this.select(s);
                         return sel != null && selectConstraint.test(sel);
@@ -765,7 +779,7 @@ public class $constructor
                 return null;
             }
             else{
-                _type _t = (_type)_n;
+                _type _t = (_type)_j;
                 Optional<ConstructorDeclaration> f = (_t.ast().findFirst(
                     ConstructorDeclaration.class, s -> {
                         Select sel = this.select(s);
@@ -777,7 +791,7 @@ public class $constructor
                 return null;
             }
         } else{
-            Optional<ConstructorDeclaration> f = ((_node)_n).ast().findFirst(
+            Optional<ConstructorDeclaration> f = ((_node)_j).ast().findFirst(
                 ConstructorDeclaration.class, s -> {
                     Select sel = this.select(s);
                     return sel != null && selectConstraint.test(sel);
@@ -847,13 +861,13 @@ public class $constructor
 
     /**
      * 
-     * @param _n
+     * @param _j
      * @param selectConstraint
      * @return 
      */
-    public List<Select> listSelectedIn(_java _n, Predicate<Select> selectConstraint){
+    public List<Select> listSelectedIn(_java _j, Predicate<Select> selectConstraint){
         List<Select>sts = new ArrayList<>();
-        _walk.in(_n, ConstructorDeclaration.class, m -> {
+        _walk.in(_j, ConstructorDeclaration.class, m -> {
             Select sel = select( m );
             if( sel != null && selectConstraint.test(sel)){
                 sts.add(sel);
@@ -863,28 +877,17 @@ public class $constructor
     }
     
     @Override
-    public List<Select> listSelectedIn(_java _m){
-        if( _m instanceof _code ){
-            _code _c = (_code)_m;
+    public List<Select> listSelectedIn(_java _j){
+        if( _j instanceof _code ){
+            _code _c = (_code) _j;
             if( _c.isTopLevel() ){
                 return listSelectedIn(_c.astCompilationUnit());
             }
-            _type _t = (_type)_m; //only possible 
+            _type _t = (_type) _j; //only possible
             return listSelectedIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listSelectedIn( ((_node)_m).ast());         
+        return listSelectedIn( ((_node) _j).ast());
     }
-    
-    /**
-     * 
-     * @param clazz
-     * @return 
-     
-    @Override
-    public List<Select> listSelectedIn(Class clazz){
-        return (List<Select>)listSelectedIn( _type.of(clazz));        
-    }
-    */ 
     
     /**
      * 
@@ -926,19 +929,19 @@ public class $constructor
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectedActionFn
      * @return 
      */
-    public <N extends _java> N forSelectedIn(N _n, Consumer<Select> selectedActionFn ){
-        _walk.in(_n, _constructor.class, c ->{
+    public <_J extends _java> _J forSelectedIn(_J _j, Consumer<Select> selectedActionFn ){
+        _walk.in(_j, _constructor.class, c ->{
             Select s = select(c );
             if( s != null ){
                 selectedActionFn.accept( s );
             }
         });
-        return _n;
+        return _j;
     }
     
     /**
@@ -963,20 +966,20 @@ public class $constructor
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectConstraint
      * @param selectedActionFn
      * @return 
      */
-    public <N extends _java> N forSelectedIn(N _n, Predicate<Select> selectConstraint, Consumer<Select> selectedActionFn ){
-        _walk.in(_n, _constructor.class, c ->{
+    public <_J extends _java> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectedActionFn ){
+        _walk.in(_j, _constructor.class, c ->{
             Select s = select(c );
             if( s != null && selectConstraint.test(s)){
                 selectedActionFn.accept( s );
             }
         });
-        return _n;
+        return _j;
     }
     
     /**
@@ -1024,13 +1027,13 @@ public class $constructor
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param $replace
      * @return 
      */
-    public <N extends _java> N replaceIn( N _n, $constructor $replace ){
-        return forSelectedIn(_n, s -> {
+    public <_J extends _java> _J replaceIn(_J _j, $constructor $replace ){
+        return forSelectedIn(_j, s -> {
             _constructor repl = $replace.construct(Translator.DEFAULT_TRANSLATOR, s.args.asTokens());
             s._ct.ast().replace(repl.ast());
         });
@@ -1038,35 +1041,35 @@ public class $constructor
 
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param replacementProto
      * @return 
      */
-    public <N extends _java> N replaceIn( N _n, String... replacementProto ){
-        return replaceIn(_n, $constructor.of(replacementProto));        
+    public <_J extends _java> _J replaceIn(_J _j, String... replacementProto ){
+        return replaceIn(_j, $constructor.of(replacementProto));
     }
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param _ct
      * @return 
      */
-    public <N extends _java> N replaceIn( N _n, _constructor _ct ){
-        return replaceIn(_n, $constructor.of(_ct));        
+    public <_J extends _java> _J replaceIn(_J _j, _constructor _ct ){
+        return replaceIn(_j, $constructor.of(_ct));
     }
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param astCtor
      * @return 
      */
-    public <N extends _java> N replaceIn( N _n, ConstructorDeclaration astCtor ){
-        return replaceIn(_n, $constructor.of(astCtor));        
+    public <_J extends _java> _J replaceIn(_J _j, ConstructorDeclaration astCtor ){
+        return replaceIn(_j, $constructor.of(astCtor));
     }    
     
     /**
