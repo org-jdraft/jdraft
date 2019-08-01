@@ -472,7 +472,8 @@ public enum Ast {
 
     public static final Class<TypeParameter> TYPE_PARAMETER = TypeParameter.class;
     public static final Class<UnionType> UNION_TYPE = UnionType.class;
-    //    com.github.javaparser.ast.TYPE.UnknownType
+    public static final Class<UnknownType> UNKNOWN_TYPE = UnknownType.class;
+
     public static final Class<VarType> VAR_TYPE = VarType.class;
     public static final Class<VoidType> VOID_TYPE = VoidType.class;
     public static final Class<WildcardType> WILDCARD_TYPE = WildcardType.class;
@@ -648,7 +649,7 @@ public enum Ast {
                     }
                 }
                 if( prb.getCause().isPresent() ){
-                    System.out.println("Cause"+ prb.getCause().get());                    
+                    System.err.println("Cause"+ prb.getCause().get());
                 }
             }
             throw new _jDraftException("ErrorParsing :"+pr.getProblems());
@@ -834,8 +835,6 @@ public enum Ast {
                     + System.lineSeparator() + resolver.describe());
             }
 
-            
-            //CompilationUnit cu = (CompilationUnit)TYPE( _i.getInputStream() );
             //get the enclosing class
             List<TypeDeclaration> tds = new ArrayList<>();
 
@@ -911,7 +910,7 @@ public enum Ast {
 
         _in _i = resolver.resolve(topClass);
         if (_i == null) {
-            throw new _ioException("couldn't in .java source for: " + topClass + " containing " + clazz.getCanonicalName()
+            throw new _ioException("couldn't find .java source for: " + topClass + " containing " + clazz.getCanonicalName()
                 + System.lineSeparator() + resolver.describe());
         }
 
@@ -2178,6 +2177,11 @@ public enum Ast {
         return toks;
     }
 
+    /**
+     * Builds a hashcode for a set of types (i.e. no order)
+     * @param ts
+     * @return
+     */
     public static int typesHashCode(List<? extends Type> ts) {
         Set<Integer> thc = new HashSet<>();
         for (int i = 0; i < ts.size(); i++) {
