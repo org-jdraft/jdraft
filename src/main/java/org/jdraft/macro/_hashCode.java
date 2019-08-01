@@ -21,20 +21,23 @@ import java.util.function.Predicate;
  * <PRE>
  * <OL>
  * <LI> via annotation : using the annotation _macro processor {@link _macro#to(Class, _type)}
- * @_autoHashCode class A{ int x,y,z; }
+ * {@code @_hashCode class A{ int x,y,z; }
  * _class _c = $$.to(A.class);
- *
+ * }
  * <LI> via _class constructor argument : pass the {@link _hashCode#$} instance in
- * class A{ int x,y,z; }
+ * {@code class A{ int x,y,z; }
  * _class _c = _class.of(A.class, _autoHashCode.$);
+ * }
  *
  * <LI> via the {@link _type#apply(Function)} method
+ * {@code
  * class A{ int x,y,z; }
  * _class _c = _class.of(A.class)).apply(_autoHashCode.$);
- *
+ * }
  * <LI> via external call: pass the _class in to the {@link _hashCode.Macro#to(_type)}
- * class A{ int x,y,z; }
+ * {@code class A{ int x,y,z; }
  * _class _c = _autoHashCode.Macro.to(_class.of(A.class));
+ * }
  * </OL>
  * </PRE>
  */
@@ -62,24 +65,6 @@ public @interface _hashCode {
          "    return hash;",
          "}");
 
-     /*
-     NOTE COMMENTED THIS OUT FOR STARTUP PERFORMANCE
-
-     i.e we need to read the .java source from a file on startup
-
-     $method $HASHCODE = $method.of(new Object() {
-        int $seed$, $prime$;
-
-        public int hashCode( ){
-            int hash = $seed$;
-            int prime = $prime$;
-            callSuperHashCode: hash = hash * prime + super.hashCode();
-            body:{}
-            return hash;
-        }
-     });
-     */
-
     /** Primes used by seeding and factoring in the hashCode method*/
     int[] PRIMES = {
             3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103,
@@ -94,7 +79,6 @@ public @interface _hashCode {
       * Building the {@link Statement} to make up the BODY of the hashCode
       * for all {@link _field}s depending on the {@link _field}s TYPE
       */
-     //@Ast.cache
      class _fieldToStatement {
         //private static Integer prime, hash;
 
@@ -108,19 +92,6 @@ public @interface _hashCode {
                  "hash = hash * prime + (int)(Double.doubleToLongBits($name$)^(Double.doubleToLongBits($name$) >>> 32));");
          public static $stmt $long = $stmt.of("hash = hash * prime + (int)($name$ ^ ($name$ >>> 32));");
          public static $stmt $simplePrimitive = $stmt.of("hash = hash * prime + $name$;");
-
-         /* REMOVED FOR STARTUP PERFORMANCE (USE ABOVE INSTEAD)
-         public static $stmt $default = $stmt.of( (Object $name$) -> hash = hash * prime + java.util.Objects.hashCode($name$));
-         public static $stmt $arrayOfPrimitives = $stmt.of( (int[] $name$) -> hash = hash * prime + java.util.Arrays.hashCode($name$));
-         public static $stmt $arrayOfObject = $stmt.of( (Object[] $name$) -> hash = hash * prime + java.util.Arrays.deepHashCode($name$));
-
-         public static $stmt $boolean = $stmt.of( (Boolean $name$) -> hash = hash * prime + ($name$ ? 1 : 0 ) );
-         public static $stmt $float = $stmt.of( (Float $name$) -> hash = hash * prime + Float.floatToIntBits($name$) );
-         public static $stmt $double = $stmt.of( (Double $name$) ->
-                 hash = hash * prime + (int) (Double.doubleToLongBits($name$) ^ (Double.doubleToLongBits($name$) >>> 32)));
-         public static $stmt $long = $stmt.of( (Long $name$) ->  hash = hash * prime + (int)($name$ ^ ($name$ >>> 32)));
-         public static $stmt $simplePrimitive = $stmt.of( (Byte $name$) -> hash = hash * prime + $name$ );
-         */
 
          public static Statement constructStmt(_field _f){
             if( _f.getType().isArray() ){

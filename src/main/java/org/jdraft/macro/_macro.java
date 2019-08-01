@@ -127,12 +127,6 @@ public interface _macro<M extends _anno._hasAnnos>
         return _model;
     }
 
-    /*
-    static Object _new( Class clazz, Object...ctorArgs ){
-        return _new.of(_type.of(clazz), ctorArgs);
-    }
-    */
-
     /**
      * Apply Annotation Macros to the _field based on the RuntimeAnnotations on the field in the Clazz
      *
@@ -146,8 +140,6 @@ public interface _macro<M extends _anno._hasAnnos>
             applyAllAnnotationMacros(_fl, f);
             return _fl;
         } catch( NoSuchFieldException nsfe ){
-            //System.out.println("FIELD "+ _fl );
-            //Arrays.stream( clazz.getDeclaredFields() ).forEach(f -> System.out.println(f));
             throw new _jDraftException("no Field "+ _fl+" on "+clazz, nsfe);
         }
     }
@@ -160,19 +152,12 @@ public interface _macro<M extends _anno._hasAnnos>
         Method mm = null;
         List<Method> ms = Arrays.stream(clazz.getDeclaredMethods())
                 .filter(m -> m.getName().equals(_mm.getName())).collect(Collectors.toList());
-        //System.out.println( "TOTOAL METHODS "+ ms.size());
+
         for (int i = 0; i < ms.size(); i++) {
-            //System.out.println( "TRYING METHOD "+ ms.get(i)+" for ");
+
             if( _mm.hasParametersOf(ms.get(i))) {
                 mm = ms.get(i);
             }
-            /*
-            System.out.println( "TRYING METHOD "+ ms.get(i)+" for ");
-            if (_mm.hasParametersOfType( ms.get(i).getGenericParameterTypes() )) {
-                mm = ms.get(i);
-                break;
-            }
-            */
         }
         if( mm == null){
             //TBH if I cant find it... and they dont have any annotations... who cares
@@ -184,15 +169,11 @@ public interface _macro<M extends _anno._hasAnnos>
                 //there can be lots of issues with nested private anonymous member classes
                 //for now, lets not burp, capture and move along silently
                 return _mm;
-                //System.out.println( "<<<<<<<<<<<<<<<<<<<<<<<< Anon Class");
-                //throw new _jDraftException("Could not find method "+ _mm +" on ANONYMOUS class "+ clazz );
             }
             if( clazz.isLocalClass() ){
-                //System.out.println( "<<<<<<<<<<<<<<<<<<<<<<<< Local Class");
                 throw new _jDraftException("Could not find method "+ _mm +" on LOCAL class "+ clazz );
             }
             if( clazz.isMemberClass() ){
-                //System.out.println( "<<<<<<<<<<<<<<<<<<<<<<<< MEMBER Class");
                 throw new _jDraftException("Could not find method "+ _mm +" on MEMBER class "+ clazz );
             }
             if( clazz.isSynthetic() ){

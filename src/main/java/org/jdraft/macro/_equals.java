@@ -48,31 +48,7 @@ public @interface _equals {
         /** dummy class only used as a template parameter */
         private class $className${}
 
-        /**
-         * Get the AST for {@link #equals(Object)} below
-         * and use it as a the baseline method template
-          WE COMMENTD THIS OUT FOR STARTUP TIME IMPROVEMENT
-
-        static $method $typesEqual = $method.of( Macro.class, "typesEqual" );
-
-         public boolean equals(Object o){
-         if(o == null) {
-         return false;
-         }
-         if(this == o) {
-         return true;
-         }
-         if(getClass() != o.getClass()){
-         return false;
-         }
-         $className$ test = ($className$)o;
-         boolean eq = true;
-         $callSuperEquals: {eq = super.equals( test );}
-         $body:{}
-         return eq;
-         }
-         */
-
+        /** NOTE: we made this a String (not a lambda, etc.) to improve startup perf */
         static $method $equals = $method.of(
             "public boolean equals(Object o){",
             "if(o == null) {",
@@ -128,8 +104,6 @@ public @interface _equals {
                         }
                     }
                 });
-                //System.out.println(">>>>> THE BODY IS " + body );
-                //ts.put("$BODY", body);
                 ts.put("BODY", body);
                 _c.method( $equals.construct(ts) );
             }

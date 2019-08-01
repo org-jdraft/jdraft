@@ -16,7 +16,7 @@ public @interface _abstract {
 
     Macro $ = new Macro();
 
-    public class Macro implements _macro<_anno._hasAnnos> {
+    class Macro implements _macro<_anno._hasAnnos> {
 
         @Override
         public String toString(){

@@ -25,7 +25,7 @@ public @interface _dto {
 
     Macro $ = new Macro();
 
-    public static class Macro implements _macro<_type> {
+    class Macro implements _macro<_type> {
 
         @Override
         public String toString(){

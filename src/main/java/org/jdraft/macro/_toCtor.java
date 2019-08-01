@@ -44,7 +44,7 @@ import java.util.List;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface _toCtor {
 
-    public static final Macro $ = new Macro();
+    Macro $ = new Macro();
     
     class Macro implements _macro<_method>{
 

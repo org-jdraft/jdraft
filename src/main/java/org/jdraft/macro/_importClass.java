@@ -27,7 +27,6 @@ public @interface _importClass {
             return new Macro();
         }
 
-        
         private Macro (){
         }
 
