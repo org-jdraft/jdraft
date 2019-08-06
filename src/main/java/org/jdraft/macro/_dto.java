@@ -1,12 +1,15 @@
 package org.jdraft.macro;
 
+import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import org.jdraft.Expr;
 import org.jdraft._class;
+import org.jdraft._java;
 import org.jdraft._type;
 
 import java.lang.annotation.*;
 import java.util.Arrays;
+import java.util.function.Consumer;
 
 /**
  * Treats the Object as a DTO (Data Transfer Object) adding:
@@ -72,4 +75,21 @@ public @interface _dto {
             return to(_c);
         }
     }
+
+    class Act implements Consumer<TypeDeclaration> {
+
+        @Override
+        public void accept(TypeDeclaration typeDeclaration) {
+            _type t = _java.type(typeDeclaration);
+            t = _get.Macro.to(t);
+            t = _setFluent.Macro.to(t);
+            t = _equals.Macro.to(t);
+            t = _hashCode.Macro.to(t);
+            t = _toString.Macro.to(t);
+            t = _autoConstructor.Macro.to(t);
+
+            t.removeAnnos(_dto.class);
+         }
+    }
+
 }

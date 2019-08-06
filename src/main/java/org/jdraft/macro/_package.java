@@ -5,6 +5,7 @@ import com.github.javaparser.ast.body.TypeDeclaration;
 import org.jdraft._type;
 
 import java.lang.annotation.*;
+import java.util.function.Consumer;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
@@ -42,6 +43,30 @@ public @interface _package {
             }
             _model.setPackage(packageName);
             return _model;
+        }
+    }
+
+    class Act implements Consumer<TypeDeclaration> {
+        String packageName = "";
+
+        public Act(String packageName ){
+            this.packageName = packageName;
+        }
+
+        public Act( _package p){
+            this (p.value());
+        }
+
+        @Override
+        public void accept(TypeDeclaration typeDeclaration) {
+            if( !typeDeclaration.isTopLevelType() ){
+                typeDeclaration.setStatic(false);
+                CompilationUnit cu = new CompilationUnit();
+                cu.addType( typeDeclaration );
+                cu.setPackageDeclaration( packageName);
+            } else{
+                typeDeclaration.findCompilationUnit().get().setPackageDeclaration(packageName);
+            }
         }
     }
 }

@@ -1,5 +1,10 @@
 package org.jdraft.macro;
 
+import com.github.javaparser.ast.Modifier;
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithPublicModifier;
 import org.jdraft._anno;
 import org.jdraft._modifiers;
 import org.jdraft._type;
@@ -8,6 +13,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.function.Consumer;
 
 /**
  * Macro annotation to apply the public modifier to a {@link _type}, {@link org.jdraft._field},
@@ -70,6 +76,27 @@ public @interface _public {
         public static <T extends _anno._hasAnnos> T to( T _model ){
             ((_modifiers._hasModifiers) _model).getModifiers().setPublic();
             return _model;
+        }
+    }
+
+    class Act implements Consumer<Node> {
+
+        @Override
+        public void accept(Node node) {
+            if( node instanceof NodeWithPublicModifier){
+                NodeWithPublicModifier nwp = (NodeWithPublicModifier)node;
+                nwp.setModifier(Modifier.Keyword.PRIVATE, false);
+                nwp.setModifier(Modifier.Keyword.PROTECTED, false);
+                nwp.setPublic(true);
+
+                _macro.removeAnnotation(node, _public.class);
+            } else{
+                if( node instanceof VariableDeclarator ){
+                    FieldDeclaration fd = (FieldDeclaration)node.getParentNode().get();
+                    fd.setPublic(true);
+                    _macro.removeAnnotation(fd, _public.class);
+                }
+            }
         }
     }
 }

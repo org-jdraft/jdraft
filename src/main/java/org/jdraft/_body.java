@@ -56,8 +56,15 @@ public final class _body implements _java {
         }
         // "we" need to put the body inside a parent... lets make it a 
         // method
-        
-        return of( _method.of("void __BODYHOLDER();").add(body).ast() );
+
+        _method _m = _method.of("void __BODYHOLDER();");
+        System.out.println( "METHOD "+ _m );
+
+        _m.add(body);
+        System.out.println( "ADDING "+ body );
+
+        System.out.println( "METHOD "+ _m );
+        return of(  _m.ast() );
     }
     
     /**
@@ -774,10 +781,24 @@ public final class _body implements _java {
         default T add(String... statements) {            
             BlockStmt bs = Ast.blockStmt(statements);                      
             // we have to create a body (blockStmt) FIRST before adding
+            /* OLD
             if( !this.getBody().isImplemented() && bs.getStatements().isEmpty() ){ //empty body
                 //System.out.println("creating empty body");
                 this.setBody("{}");
             }
+            */
+
+            if( !this.getBody().isImplemented() ){ //empty body
+                if( bs.getStatements().isEmpty() ) {
+                    //System.out.println("creating empty body");
+                    this.setBody("{}");
+                    return (T)this;
+                } else{
+                    this.setBody(bs);
+                    return (T)this;
+                }
+            }
+
             //organize orphan comments
             List<Comment> coms = bs.getOrphanComments();
             Comment c = null;

@@ -1,10 +1,12 @@
 package org.jdraft.macro;
 
+import com.github.javaparser.ast.body.TypeDeclaration;
 import org.jdraft.*;
 import org.jdraft.proto.$method;
 
 import java.lang.annotation.*;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Builds a getXXX METHODS for all non_static FIELDS on the TYPE
@@ -38,6 +40,24 @@ public @interface _get {
                 );
             }
             return t;
+        }
+    }
+
+    class Act implements Consumer<TypeDeclaration> {
+
+        public static final $method $GET = $method.of(
+                "public $type$ get$Name$(){ return $name$; }");
+
+        public static void to( TypeDeclaration typeDeclaration ){
+            List<_field> _fs = _field.of(typeDeclaration.getFields());
+            _fs.stream().filter(_f -> !((_field)_f).isStatic())
+                    .forEach( _f-> typeDeclaration.addMember(
+                            $GET.construct("type", _f.getType(), "name", _f.getName()).ast() ) );
+        }
+
+        @Override
+        public void accept(TypeDeclaration typeDeclaration) {
+            to(typeDeclaration);
         }
     }
 }

@@ -1,12 +1,14 @@
 package org.jdraft.macro;
 
 import com.github.javaparser.ast.ImportDeclaration;
+import com.github.javaparser.ast.body.TypeDeclaration;
 import org.jdraft._type;
 
 import java.lang.annotation.*;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Consumer;
 
 /**
  * Annotation Macro to add imports (and static imports) to a {@link _type}
@@ -18,7 +20,7 @@ public @interface _importClass {
     Class[] value() default {};
 
     /** @return static imports (for static member fields / methods) */
-    String[] statically() default {};
+    //String[] statically() default {};
 
     class Macro implements _macro<_type> {
         Set<ImportDeclaration> importDeclarations = new HashSet<>();
@@ -37,6 +39,7 @@ public @interface _importClass {
         
         public Macro( _importClass _i ){
             Arrays.stream( _i.value() ).forEach(c->  importDeclarations.add(new ImportDeclaration( c.getCanonicalName(), false, false)));
+            /*
             Arrays.stream( _i.statically() ).forEach(s-> {
                 boolean isAsterisk = s.endsWith(".*");
                 if( isAsterisk ){
@@ -44,8 +47,10 @@ public @interface _importClass {
                 }
                 importDeclarations.add(new ImportDeclaration( s, true, isAsterisk));
             });
+             */
         }
 
+        /*
         public Macro add( ImportDeclaration ...ids ){
             Arrays.stream(ids).forEach( id-> this.importDeclarations.add(id));
             return this;
@@ -61,6 +66,7 @@ public @interface _importClass {
             });
             return this;
         }
+        */
 
         @Override
         public _type apply( _type _t){
@@ -70,6 +76,25 @@ public @interface _importClass {
         public static <T extends _type> T to( T _t, Set<ImportDeclaration> ids){
             ids.forEach( id-> _t.astCompilationUnit().addImport(id) );
             return _t;
+        }
+    }
+
+    class Act implements Consumer<TypeDeclaration> {
+
+        Class[] classes;
+
+        public Act( _importClass _ic ){
+            this(_ic.value());
+        }
+
+        public Act( Class...classes ){
+            this.classes = classes;
+        }
+
+        @Override
+        public void accept(TypeDeclaration typeDeclaration) {
+            Arrays.stream(this.classes).forEach( c ->
+                typeDeclaration.tryAddImportToParentCompilationUnit(c) );
         }
     }
 }

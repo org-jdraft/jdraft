@@ -1,5 +1,7 @@
 package org.jdraft.proto;
 
+import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.Statement;
 import org.jdraft.proto.$stmt;
 import org.jdraft.proto.$body;
 import org.jdraft.Stmt;
@@ -12,7 +14,56 @@ import junit.framework.TestCase;
  * @author Eric
  */
 public class SbodyTest extends TestCase {
-    
+
+    public void testFlattenStmts(){
+        $stmt $s = $stmt.of( ()-> {
+            System.out.println(1);
+            $A:{
+                System.out.println(2);
+            }
+            System.out.println(3);
+        });
+        System.out.println( "HIDE" + $s.construct("A", false) );
+        System.out.println( "SHOW" + $s.construct("A", true) );
+        System.out.println( "OVERRIDE WITH ASSERT" + $s.construct("A", "assert(true);") );
+        System.out.println( "OVERRIDE WITH MULTIPLE STMTS" + $s.construct("A", Stmt.block( "assert(true);", "assert(1==1);") ));
+    }
+
+    public void testFlatten$Body(){
+        $body $b = $body.of( ()-> {
+            System.out.println(1);
+            $A:{
+                System.out.println(2);
+            }
+            System.out.println(3);
+        });
+
+        System.out.println( $b.bodyStmts );
+
+        /*
+        System.out.println( "HIDE" + $b.construct("A", false) );
+        System.out.println( "SHOW" + $b.construct("A", true) );
+        System.out.println( "WITH ASSERT" + $b.construct("A", "assert(true);") );
+
+        _body _b = $b.construct("A", false );
+
+        System.out.println( _b );
+
+        assertTrue( _b.is( ()->{
+            System.out.println(1);
+            System.out.println(3);
+        }));
+
+        _b = $b.construct("A", true );
+        assertTrue( _b.is( ()->{
+            System.out.println(1);
+            System.out.println(2);
+            System.out.println(3);
+        }));
+        System.out.println("THE BODY" + _b );
+         */
+    }
+
     static abstract class FFF{
         abstract void m();
         int v(){ return 1; }
@@ -49,6 +100,7 @@ public class SbodyTest extends TestCase {
         
         //SHOW
         _body _bd = $b.construct( "label", true );
+        System.out.println( _bd );
         assertTrue( $stmt.of("System.out.println(2);").matches( _bd.getStatement(0)) );
         
         //HIDE
@@ -79,8 +131,12 @@ public class SbodyTest extends TestCase {
         
         //OVERRIDE (with block statement)
         _bd = $b.construct( "block", Stmt.of("{ a(); b(); }") );
-        assertTrue( $stmt.of("a();").matches( _bd.getStatement(0).asBlockStmt().getStatement(0)) );
-        assertTrue( $stmt.of("b();").matches( _bd.getStatement(0).asBlockStmt().getStatement(1)) );
+
+        assertTrue( $stmt.of("a();").matches( _bd.getStatement(0)) );
+        assertTrue( $stmt.of("b();").matches( _bd.getStatement(1)) );
+
+        //assertTrue( $stmt.of("a();").matches( _bd.getStatement(0).asBlockStmt().getStatement(0)) );
+        //assertTrue( $stmt.of("b();").matches( _bd.getStatement(0).asBlockStmt().getStatement(1)) );
         
     }
     

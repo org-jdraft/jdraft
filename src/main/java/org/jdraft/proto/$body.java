@@ -1,5 +1,6 @@
 package org.jdraft.proto;
 
+import com.github.javaparser.ast.stmt.BlockStmt;
 import org.jdraft._code;
 import org.jdraft._java;
 import org.jdraft._type;
@@ -37,7 +38,9 @@ public class $body implements Template<_body>, $proto<_body>, $constructor.$part
     }
     
     public static $body of( String body ){
-        return new $body( _body.of(body));
+        //System.out.println( "BODY " + body );
+        $body $b = new $body( _body.of(body));
+        return $b;
     }
     
     public static $body of( String...body ){
@@ -58,6 +61,8 @@ public class $body implements Template<_body>, $proto<_body>, $constructor.$part
     
     public static $body of(Expr.Command commandLambda ){
         LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        //System.out.println( " LLL "+ le );
+        //System.out.println( " LLL >> "+ le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
         return $body.of( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
     }
     
@@ -113,7 +118,7 @@ public class $body implements Template<_body>, $proto<_body>, $constructor.$part
     
     public Boolean isImplemented = true;    
     
-    public $stmt bodyStmts = null;
+    public $stmt<BlockStmt> bodyStmts = null;
     
     /**
      * This represents a "non implemented body"
@@ -347,6 +352,7 @@ public class $body implements Template<_body>, $proto<_body>, $constructor.$part
         //they can OVERRIDE the body construction if they pass in a "$body" parameter
         if( keyValues.get("$body")!= null ){
             //this means I want to override the body
+            //System.out.println( "$Body OVERRIDE");
             $body $bd = $body.of( keyValues.get("$body").toString() );
             Map<String,Object>tks = new HashMap<>();
             tks.putAll(keyValues);
@@ -356,8 +362,14 @@ public class $body implements Template<_body>, $proto<_body>, $constructor.$part
         if( !this.isImplemented ){
             return _body.of(";");
         }
+        Statement r = this.bodyStmts.construct( translator, keyValues );
+        //System.out.println("THE CONSTRUCTED STATEMENTS"+r );
+        return _body.of( r );
+        //return _body.of(this.bodyStmts.construct( translator, keyValues ));
+        /**
         return _body.of( $stmt.walkCompose$LabeledStmt(
-            (Statement)this.bodyStmts.construct(translator, keyValues),keyValues) );        
+            (Statement)this.bodyStmts.construct(translator, keyValues),keyValues) );
+         */
     }
     
     /**

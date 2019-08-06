@@ -1,14 +1,14 @@
 package org.jdraft.macro;
 
-import org.jdraft._class;
-import org.jdraft._field;
-import org.jdraft._type;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.TypeDeclaration;
+import org.jdraft.*;
 import org.jdraft.proto.$stmt;
 import org.jdraft.proto.$method;
 import com.github.javaparser.ast.stmt.*;
-import org.jdraft.Tokens;
 
 import java.lang.annotation.*;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -149,6 +149,14 @@ public @interface _hashCode {
                 _c.method($HASHCODE.construct(tokens));
             }
             return _t;
+        }
+    }
+
+    class Act implements Consumer<ClassOrInterfaceDeclaration> {
+
+        @Override
+        public void accept(ClassOrInterfaceDeclaration typeDeclaration) {
+            Macro.to(_java.type(typeDeclaration));
         }
     }
 }

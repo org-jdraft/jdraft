@@ -1,9 +1,13 @@
 package org.jdraft.macro;
 
+import com.github.javaparser.ast.body.TypeDeclaration;
+import com.github.javaparser.ast.nodeTypes.NodeWithExtends;
+import org.jdraft._jDraftException;
 import org.jdraft._type;
 
 import java.lang.annotation.*;
 import java.util.Arrays;
+import java.util.function.Consumer;
 
 /**
  * Annotation Macro to add imports to a _type
@@ -45,6 +49,31 @@ public @interface _extend{
                 Arrays.stream(toExtend).forEach(e -> ((_type._hasExtends)_t).extend(e).imports(e));
             }
             return _t;
+        }
+    }
+
+    class Act implements Consumer<TypeDeclaration> {
+
+        public Class[] classes;
+
+        public Act(_extend _e) {
+            this(_e.value() );
+        }
+
+        public Act( Class[] classes ) { this.classes = classes; }
+
+        public void accept(TypeDeclaration node) {
+            if (node instanceof NodeWithExtends) {
+                NodeWithExtends nwe = (NodeWithExtends) node;
+                for (int i = 0; i < classes.length; i++) {
+                    nwe.addExtendedType(classes[i]);
+                }
+                _macro.removeAnnotation(node, _extend.class);
+            } else {
+                if (classes.length > 0) {
+                    throw new _jDraftException("cannot add extends to node of " + node.getClass());
+                }
+            }
         }
     }
 }

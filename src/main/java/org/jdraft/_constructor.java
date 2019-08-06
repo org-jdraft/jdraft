@@ -15,6 +15,7 @@ import org.jdraft._typeParameter.*;
 import org.jdraft.macro._macro;
 import org.jdraft.macro._remove;
 
+import java.lang.reflect.Constructor;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
@@ -627,5 +628,34 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
         default T constructor( _constructor _c ) {
             return constructor( _c.ast() );
         }
-    }    
+    }
+
+    /**
+     * Does this Runtime Constructor match this Ast Constructor Declaration?
+     * @param c the runtime constrtuctor
+     * @param cd the Ast Constructor declaration
+     * @return true if the name and parameters match... (ALSO checking if the Constructor has
+     * the first argument as a Instance reference (for member or Local classes)
+     *
+     */
+    public static final boolean isMatch(Constructor c,ConstructorDeclaration cd ){
+        //System.out.println( "Constructor "+c);
+        //System.out.println( "ConstructorDeclaration "+cd);
+        Class declClass = c.getDeclaringClass();
+        //if the first parameter is of type
+        if( !java.lang.reflect.Modifier.isStatic(c.getModifiers()) &&
+                (declClass.isLocalClass() || declClass.isMemberClass() ) ){
+            //System.out.println( "non-static local or member class ");
+            //if( c.getParameterTypes()[0] == declClass.getDeclaringClass() ){
+                Class[] skipFirst = Arrays.copyOfRange( c.getParameterTypes(), 1, c.getParameterCount());
+                //local or member classes implicitly pass in the Declaring/Containing class
+                //as the first argument in the constructor... however this is not explicitly modeled
+                //in the AST, so
+                return cd.hasParametersOfType(skipFirst);
+            //}
+            //System.out.println( "Not first one was of type "+declClass.getDeclaringClass() );
+            //throw new _jDraftException("Blah");
+        }
+        return cd.hasParametersOfType( c.getParameterTypes());
+    }
 }

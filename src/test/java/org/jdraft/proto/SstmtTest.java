@@ -1,16 +1,11 @@
 package org.jdraft.proto;
 
+import org.jdraft.*;
 import org.jdraft.proto.$stmt;
 import org.jdraft.proto.$expr;
 import org.jdraft.proto.$snip;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
-import org.jdraft.Tokens;
-import org.jdraft.Expr;
-import org.jdraft.Stmt;
-import org.jdraft._body;
-import org.jdraft._class;
-import org.jdraft._method;
 import org.jdraft.proto.$proto.$args;
 import org.jdraft.proto.$stmt.Select;
 import java.util.ArrayList;
@@ -26,6 +21,61 @@ import static junit.framework.TestCase.assertTrue;
  * @author Eric
  */
 public class SstmtTest extends TestCase {
+
+    public void testWalkCompose(){
+        Tokens keyValues = new Tokens().add("label", "assert(true)", "block", true);
+        Translator translator = Translator.DEFAULT_TRANSLATOR;
+        BlockStmt bodyStmts = Stmt.block( ()->{
+            System.out.println(1);
+            $label: System.out.println(2);
+            $block: {
+                System.out.println(3);
+                System.out.println(4);
+            }
+            $emptyBlock:{}
+        });
+        Statement d = $stmt.walkCompose$LabeledStmt(
+                (Statement) bodyStmts, keyValues);
+
+        System.out.println(d );
+    }
+
+    public void testComposeStmt(){
+        $stmt<BlockStmt> $s = $stmt.of( ()->{
+            System.out.println(1);
+            $A:{ System.out.println( 2 );  }
+            System.out.println(3);
+        });
+
+        // HIDE "A" = null
+        BlockStmt bs = $s.construct();
+        assertEquals(2,  bs.getStatements().size()); //1 and 3
+        assertEquals(Stmt.of(()->System.out.println(1)),  bs.getStatement(0)); //1 and 3
+        assertEquals(Stmt.of(()->System.out.println(3)),  bs.getStatement(1)); //1 and 3
+
+        // SHOW "A" = true
+        bs = $s.construct("A", true);
+        assertEquals(3,  bs.getStatements().size()); //1,2,3
+        assertEquals(Stmt.of(()->System.out.println(1)),  bs.getStatement(0)); //1 and 3
+        assertEquals(Stmt.of(()->System.out.println(2)),  bs.getStatement(1)); //1 and 3
+        assertEquals(Stmt.of(()->System.out.println(3)),  bs.getStatement(2)); //1 and 3
+
+        // OVERRIDE "A" = (String with single statement)
+        bs = $s.construct("A", "System.out.println('c');");
+        assertEquals(3,  bs.getStatements().size()); //1,2,3
+        assertEquals(Stmt.of(()->System.out.println(1)),  bs.getStatement(0)); //1 'c'' 3
+        assertEquals(Stmt.of(()->System.out.println('c')),  bs.getStatement(1)); //1 'c' 3
+        assertEquals(Stmt.of(()->System.out.println(3)),  bs.getStatement(2)); //1 'c' 3
+
+        // OVERRIDE "A" = (BlockStatement)
+        bs = $s.construct("A", Stmt.block( "System.out.println('c');", "System.out.println('d');"));
+
+        assertEquals(4,  bs.getStatements().size()); //1,'c','d',3
+        assertEquals(Stmt.of(()->System.out.println(1)),  bs.getStatement(0)); //1 'c' 'd' 3
+        assertEquals(Stmt.of(()->System.out.println('c')),  bs.getStatement(1)); //1 'c' 'd' 3
+        assertEquals(Stmt.of(()->System.out.println('d')),  bs.getStatement(2)); //1 'c' 'd' 3
+        assertEquals(Stmt.of(()->System.out.println(3)),  bs.getStatement(3)); //1 'c' 'd' 3
+    }
 
     /**
      * $labels are easy ways to optional injecting removing or overrideing 
@@ -76,7 +126,8 @@ public class SstmtTest extends TestCase {
         
         //can replace with a block statement
          st = $s.construct("label",$stmt.of("{assert($cond$); System.out.println(1);}"), "cond", "1==1" ); 
-        assertTrue( $stmt.of("if(a){ {assert(1==1); System.out.println(1); } }").matches(st));
+        //assertTrue( $stmt.of("if(a){ {assert(1==1); System.out.println(1); } }").matches(st));
+        assertTrue( $stmt.of("if(a){ assert(1==1); System.out.println(1); }").matches(st));
         
     }
     

@@ -1679,22 +1679,57 @@ public final class $stmt<T extends Statement>
      * @param tokens
      * @return 
      */
-    public static <N extends Node> N walkCompose$LabeledStmt(N  node, Map<String,Object> tokens ){
+    public static <N extends Node> N walkCompose$LabeledStmt(N node, Map<String,Object> tokens ){
+        //separate into (2) operations, (dont WALK and MUTATE at the same time)
+        List<LabeledStmt> lss  = _walk.list(node, LabeledStmt.class, ls-> ls.getLabel().asString().startsWith("$") );
+        lss.forEach(ls-> {
+            //System.out.println( "  Found "+ ls+" in "+ node);
+            Statement st = labelStmtReplacement(ls, tokens);
+            //System.out.println( "  REPLACING WITH "+ st);
+            if( st.isEmptyStmt() || (st.isBlockStmt() && st.asBlockStmt().isEmpty()) ){
+                //System.out.println( "  ST IS EMPTY REMOVE FORCED !!!");
+                //ls.removeForced();
+
+                boolean rem = ls.remove(); //getParentNode().get().remove(ls);
+                if( !rem ){
+                    //System.out.println( "    COULDNT REMOVE!!!!!!!!!!!!");
+                    ls.replace( st );
+                }
+                //System.out.println( "  AFTERWARDS "+ node);
+
+            } else{
+                LabeledStmt $TO_REPLACE = Stmt.labeledStmt("$TO_REPLACE: {}");
+                $TO_REPLACE.setStatement(st);
+                ls.replace( $TO_REPLACE );
+                Ast.flattenLabel(node, "$TO_REPLACE");
+            }
+        });
+        return node;
+        /*
         _walk.in(node,
             LabeledStmt.class, 
             ls-> ls.getLabel().asString().startsWith("$"),
             ls -> {
                 Statement st = labelStmtReplacement(ls, tokens);
                 if( st.isEmptyStmt() || (st.isBlockStmt() && st.asBlockStmt().isEmpty()) ){
+                    System.out.println( "REMOVE FORCED !!!");
+                    ls.removeForced();
+
                     boolean rem = ls.remove();
                     if( !rem ){
                         ls.replace( st );
                     }
+
                 } else{
-                    ls.replace( st );
+                    //always 1) replace it with a labeled statement ...2)then Flatten the label
+                    LabeledStmt $TO_REPLACE = Stmt.labeledStmt("$TO_REPLACE: {}");
+                    $TO_REPLACE.setStatement(st);
+                    ls.replace( $TO_REPLACE );
+                    Ast.flattenLabel(node, "$TO_REPLACE");
                 }                
             });        
-        return node;        
+        return node;
+         */
     }
     
     private static Statement labelStmtReplacement(LabeledStmt ls, Map<String,Object> tokens){
@@ -1710,7 +1745,7 @@ public final class $stmt<T extends Statement>
         else if( value instanceof Statement) {
             return (Statement) value;
         }
-        //OVERRIDE with a String Statement
+        //OVERRIDE: with a String Statement
         else if( value instanceof String ){
             return Stmt.of( (String)value);
         }

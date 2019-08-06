@@ -1,10 +1,17 @@
 package org.jdraft.macro;
 
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.TypeDeclaration;
+import com.github.javaparser.ast.nodeTypes.NodeWithOptionalBlockStmt;
+import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithAbstractModifier;
 import org.jdraft._anno;
 import org.jdraft._class;
+import org.jdraft._jDraftException;
 import org.jdraft._method;
 
 import java.lang.annotation.*;
+import java.lang.reflect.Type;
+import java.util.function.Consumer;
 
 /**
  * apply the abstract modifier to a {@link _method} or {@link _class}
@@ -13,6 +20,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.TYPE})
 public @interface _abstract {
+
+
 
     Macro $ = new Macro();
 
@@ -45,6 +54,29 @@ public @interface _abstract {
         public static _class to( _class t  ) {
             t.setAbstract();
             return t;
+        }
+    }
+
+    class Act implements Consumer<Node>{
+
+        @Override
+        public String toString(){
+            return "macro[abstract]";
+        }
+
+        public void accept(Node n){
+            if (n instanceof NodeWithAbstractModifier) {
+                NodeWithAbstractModifier nwa = (NodeWithAbstractModifier) n;
+                nwa.setAbstract(true);
+
+                if( n instanceof NodeWithOptionalBlockStmt){ //abstract methods need to remove the body
+                    NodeWithOptionalBlockStmt  nwb = (NodeWithOptionalBlockStmt)n;
+                    nwb.removeBody();
+                }
+                _macro.removeAnnotation(n, _abstract.class);
+            } else {
+                throw new _jDraftException("@_abstract applied to a non abstract-able AST Node " + n.getClass());
+            }
         }
     }
 }

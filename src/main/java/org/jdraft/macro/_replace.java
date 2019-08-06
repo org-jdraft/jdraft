@@ -1,13 +1,11 @@
 package org.jdraft.macro;
 
-import org.jdraft._jDraftException;
-import org.jdraft._java;
-import org.jdraft._anno;
-import org.jdraft._type;
+import org.jdraft.*;
 import com.github.javaparser.ast.Node;
 import org.jdraft._anno._hasAnnos;
 
 import java.lang.annotation.*;
+import java.util.function.Consumer;
 
 /**
  * Annotation Macro to add imports to a _type
@@ -72,6 +70,29 @@ public @interface _replace {
                         "Unable to replaceIn "+oldNode+" with "+newNode+" in Macro at AST level");
             }
             return (_anno._hasAnnos) _java.of(newNode);
+        }
+    }
+
+    class Act implements Consumer<Node> {
+        String oldValue;
+        String newValue;
+
+        public Act(String oldValue, String newValue){
+            this.oldValue = oldValue;
+            this.newValue = newValue;
+        }
+
+        @Override
+        public void accept(Node node) {
+            node.walk(_walk.POST_ORDER, n->{ //by walking (in postorder fashion)
+                String s = n.toString(Ast.PRINT_NO_COMMENTS);
+                if( s.contains(oldValue) ) {
+                    Node repNode = _java.of(node.getClass(), s.replace(oldValue, newValue) );
+                    n.replace(repNode);
+                }
+            });
+            //node.walk(Node.TreeTraversal.POSTORDER, Node.class, n-> {
+            //    String str = n.toString();
         }
     }
 }  

@@ -5,6 +5,7 @@ import com.github.javaparser.ast.body.TypeDeclaration;
 import org.jdraft._type;
 
 import java.lang.annotation.*;
+import java.util.function.Consumer;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
@@ -48,6 +49,34 @@ public @interface _promote {
             }
             _model.removeAnnos(_promote.class);
             return _model;
+        }
+    }
+
+    class Act  implements Consumer<TypeDeclaration> {
+        String packageName;
+
+        public Act( String packageName ){
+            this.packageName = packageName;
+        }
+
+        public Act( _promote _pr){
+            this(_pr.value());
+        }
+
+        @Override
+        public void accept(TypeDeclaration typeDeclaration) {
+            typeDeclaration.setPublic(true);
+            typeDeclaration.setStatic(false);
+            //remove from old
+            if( typeDeclaration.getParentNode().isPresent() ){
+                typeDeclaration.getParentNode().get().remove( typeDeclaration );
+            }
+            CompilationUnit cu = new CompilationUnit();
+            cu.addType(typeDeclaration);
+            if( packageName != null && !packageName.isEmpty()){
+                cu.setPackageDeclaration(packageName);
+            }
+            _macro.removeAnnotation( typeDeclaration, _promote.class);
         }
     }
 }

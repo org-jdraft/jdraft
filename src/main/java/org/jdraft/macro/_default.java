@@ -1,8 +1,10 @@
 package org.jdraft.macro;
 
+import com.github.javaparser.ast.body.MethodDeclaration;
 import org.jdraft._method;
 
 import java.lang.annotation.*;
+import java.util.function.Consumer;
 
 /**
  * For Interface METHODS,
@@ -31,6 +33,15 @@ public @interface _default {
             _m.getModifiers().setStatic(false);
             _m.getModifiers().setDefault();
             return _m;
+        }
+    }
+
+    class Act implements Consumer<MethodDeclaration> {
+
+        @Override
+        public void accept(MethodDeclaration methodDeclaration) {
+            methodDeclaration.setStatic(false);
+            methodDeclaration.setDefault(true);
         }
     }
 }

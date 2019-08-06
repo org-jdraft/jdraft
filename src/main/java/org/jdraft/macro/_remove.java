@@ -6,6 +6,7 @@ import org.jdraft._jDraftException;
 import org.jdraft._anno._hasAnnos;
 
 import java.lang.annotation.*;
+import java.util.function.Consumer;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.CONSTRUCTOR, ElementType.TYPE_USE})
@@ -46,13 +47,21 @@ public @interface _remove {
                 }
                 return _model;
             }
-            System.out.println( "Not a _field or _type");
+            //System.out.println( "Not a _field or _type");
             Node n = ((_node)_model).ast();
             boolean removed = n.remove();
             if( ! removed ){
                 throw new _jDraftException("Unable to removeIn entity via annotation Macro "+_model);
             }
             return _model;
+        }
+    }
+
+    class Act implements Consumer<Node> {
+
+        @Override
+        public void accept(Node node) {
+            node.removeForced();
         }
     }
 }

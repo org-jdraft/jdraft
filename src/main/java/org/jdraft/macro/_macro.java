@@ -1,5 +1,8 @@
 package org.jdraft.macro;
 
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.expr.AnnotationExpr;
+import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import org.jdraft.*;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import org.jdraft._jDraftException;
@@ -363,5 +366,33 @@ public interface _macro<M extends _anno._hasAnnos>
             throw new _jDraftException("Could not find constructor for MEMBER class" + _c);
         }        
         throw new _jDraftException("Could not find constructor for " + _c);
+    }
+
+
+    public static <N extends Node> N removeAnnotation(N node, Class<? extends Annotation> annClass ){
+        if(node instanceof NodeWithAnnotations){
+            NodeWithAnnotations nwa = (NodeWithAnnotations)node;
+
+            List<AnnotationExpr> aes = (List<AnnotationExpr>)nwa.getAnnotations().stream().filter(a ->
+                    ((AnnotationExpr)a).getNameAsString().equals(annClass.getSimpleName()) ||
+                            ((AnnotationExpr)a).getNameAsString().equals(annClass.getCanonicalName())).collect(Collectors.toList());
+            aes.forEach( ae -> nwa.getAnnotations().remove(ae));
+        } else{
+            throw new _jDraftException("Node is not a NodeWithAnnotations "+ node.getClass() );
+        }
+        return node;
+    }
+
+    public static <N extends Node> N removeAnnotation( N node, Annotation an ){
+        if(node instanceof NodeWithAnnotations){
+            NodeWithAnnotations nwa = (NodeWithAnnotations)node;
+            List<AnnotationExpr> aes = (List<AnnotationExpr>)nwa.getAnnotations().stream().filter(a ->
+                    ((AnnotationExpr)a).getNameAsString().equals(an.annotationType().getSimpleName()) ||
+                            ((AnnotationExpr)a).getNameAsString().equals(an.annotationType().getCanonicalName())).collect(Collectors.toList());
+            aes.forEach( ae -> nwa.getAnnotations().remove(ae));
+        } else{
+            throw new _jDraftException("Node is not a NodeWithAnnotations "+ node.getClass() );
+        }
+        return node;
     }
 }

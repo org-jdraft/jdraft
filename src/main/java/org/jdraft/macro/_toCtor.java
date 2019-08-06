@@ -1,8 +1,12 @@
 package org.jdraft.macro;
 
+import com.github.javaparser.ast.Modifier;
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
+import com.github.javaparser.ast.nodeTypes.NodeWithConstructors;
+import com.github.javaparser.ast.nodeTypes.NodeWithMembers;
 import org.jdraft._jDraftException;
 import org.jdraft._walk;
 import org.jdraft._constructor;
@@ -14,6 +18,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /**
  * Annotation _macro to convert a _method to a _constructor (removing the
@@ -108,6 +115,33 @@ public @interface _toCtor {
             }
             //note this is dangerous, seeing as _m is removed... but we'll return it
             return _m;
+        }
+    }
+
+    class Act implements Consumer<MethodDeclaration> {
+
+        @Override
+        public void accept(MethodDeclaration methodDeclaration) {
+            List<TypeDeclaration>tds = new ArrayList<>();
+            _macro.removeAnnotation(methodDeclaration, _toCtor.class);
+            _constructor _ct = Macro.fromMethod( _method.of(methodDeclaration));
+            Optional<Node> op = methodDeclaration.stream(Node.TreeTraversal.PARENTS).filter(n-> n instanceof NodeWithConstructors).findFirst();
+            //remove the old method, add the constructor
+            if( !op.isPresent()){
+                throw new _jDraftException("Could not find parent of "+ methodDeclaration+" to replace as constructor");
+            }
+            NodeWithConstructors nwm = (NodeWithConstructors) op.get();
+            nwm.getMembers().remove(methodDeclaration);
+            ConstructorDeclaration cd =
+                    nwm.addConstructor(_ct.getModifiers().ast().stream().map(m -> m.getKeyword()).collect(Collectors.toList()).toArray(new Modifier.Keyword[0]) );
+
+            //port all the constructor stuff to the AST constructor
+            cd.setTypeParameters(_ct.getTypeParameters().ast());
+            cd.setBody(_ct.getBody().ast());
+            cd.setParameters( _ct.getParameters().ast());
+            cd.setThrownExceptions( _ct.getThrows().ast());
+            cd.setJavadocComment( _ct.getJavadoc().ast());
+            cd.setAnnotations( _ct.getAnnos().ast());
         }
     }
 }

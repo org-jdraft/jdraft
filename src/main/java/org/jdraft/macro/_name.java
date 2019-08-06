@@ -1,9 +1,13 @@
 package org.jdraft.macro;
 
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.nodeTypes.NodeWithName;
+import com.github.javaparser.ast.nodeTypes.NodeWithSimpleName;
 import org.jdraft._anno;
 import org.jdraft._named;
 
 import java.lang.annotation.*;
+import java.util.function.Consumer;
 
 /**
  * Annotation Macro to add imports to a _type
@@ -34,6 +38,32 @@ public @interface _name{
                 ((_named)_a).name(name);
             }
             return _a;            
+        }
+    }
+
+    /**
+     * I Wonder whatll happen if I change the name of a class with constructors
+     * ...i.e. will the constructors name change accordingly?
+     *
+     * ..same thing if I have the name as a return type...or a static instance field
+     */
+    class Act implements Consumer<Node> {
+        String name;
+        public Act( String name){
+            this.name = name;
+        }
+        public Act( _name _n ){
+            this(_n.value());
+        }
+        @Override
+        public void accept(Node node) {
+            if( node instanceof NodeWithName){
+                NodeWithName nwn = (NodeWithName)node;
+                nwn.setName(name);
+            } else if (node instanceof NodeWithSimpleName ){
+                NodeWithSimpleName nwsn = (NodeWithSimpleName)node;
+                nwsn.setName(name);
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 package org.jdraft.macro;
 
+import com.github.javaparser.ast.body.TypeDeclaration;
 import org.jdraft._method;
 import org.jdraft._field;
 import org.jdraft._type;
@@ -7,7 +8,9 @@ import org.jdraft.proto.$method;
 
 import java.lang.annotation.*;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Builds a setXXX methods for all non_static, non final FIELDS on the TYPE
@@ -50,6 +53,27 @@ public @interface _setFluent {
                 });
             }
             return t;
+        }
+    }
+
+    class Act implements Consumer<TypeDeclaration> {
+
+        /** picks _fields of the _class that are required in the constructor */
+        public static Predicate<_field> SET_REQUIRED = _f -> !_f.isStatic() && !_f.isFinal();
+
+        /** template method for a fluent set method */
+        public static $method $SET_FLUENT = $method.of(
+                "public $className$ set$Name$($type$ $name$){",
+                "    this.$name$ = $name$;",
+                "    return this;",
+                "}");
+        @Override
+        public void accept(TypeDeclaration typeDeclaration) {
+            List<_field> _fs = _field.of(typeDeclaration.getFields());
+            _fs = _fs.stream().filter(SET_REQUIRED ).collect(Collectors.toList());
+            _fs.forEach(f ->
+                    typeDeclaration.addMember(
+                            $SET_FLUENT.construct("className", typeDeclaration.getNameAsString(), "name", f.getName(), "type", f.getType()).ast()));
         }
     }
 }

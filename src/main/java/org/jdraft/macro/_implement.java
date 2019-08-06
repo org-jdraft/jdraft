@@ -1,8 +1,12 @@
 package org.jdraft.macro;
 
+import com.github.javaparser.ast.body.TypeDeclaration;
+import com.github.javaparser.ast.nodeTypes.NodeWithImplements;
 import org.jdraft._type;
 
 import java.lang.annotation.*;
+import java.util.Arrays;
+import java.util.function.Consumer;
 
 /**
  * Annotation Macro to add implements and imports to a _type
@@ -55,6 +59,28 @@ public @interface _implement {
                 ((_type._hasImplements)_t).implement(toImplement);
             }
             return _t;
+        }
+    }
+
+    class Act implements Consumer<TypeDeclaration> {
+
+        Class[] toImplement;
+
+        public Act( _implement _i ){
+            this(_i.value());
+        }
+
+        public Act( Class[] toImplement ){
+            this.toImplement = toImplement;
+        }
+
+        @Override
+        public void accept(TypeDeclaration typeDeclaration) {
+            if( typeDeclaration instanceof NodeWithImplements ){
+                NodeWithImplements nwi = (NodeWithImplements) typeDeclaration;
+                Arrays.stream( toImplement ).forEach( i -> nwi.addImplementedType(i));
+            }
+            _macro.removeAnnotation(typeDeclaration, _implement.class);
         }
     }
 }

@@ -1,15 +1,14 @@
 package org.jdraft.macro;
 
-import org.jdraft._class;
-import org.jdraft._field;
-import org.jdraft._type;
+import com.github.javaparser.ast.body.TypeDeclaration;
+import org.jdraft.*;
 import com.github.javaparser.ast.stmt.BlockStmt;
-import org.jdraft.Tokens;
 import org.jdraft.proto.$method;
 import org.jdraft.proto.$stmt;
 
 import java.lang.annotation.* ;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
@@ -108,6 +107,14 @@ public @interface _equals {
                 _c.method( $equals.construct(ts) );
             }
             return _t;
+        }
+    }
+
+    class Act implements Consumer<TypeDeclaration> {
+
+        @Override
+        public void accept(TypeDeclaration typeDeclaration) {
+            Macro.to(_java.type(typeDeclaration));
         }
     }
 }

@@ -1,15 +1,15 @@
 package org.jdraft.macro;
 
-//import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.ast.body.VariableDeclarator;
 import org.jdraft._field;
 import org.jdraft._anno;
 import org.jdraft.Expr;
 import com.github.javaparser.ast.expr.Expression;
-//import draft.java.Expr;
 
 import java.lang.annotation.*;
-//import java.nio.file.Files;
-//import java.nio.file.Paths;
+import java.util.function.Consumer;
 
 /**
  * Set the initializer for a field
@@ -78,6 +78,38 @@ public @interface _init {
             }
             _f.init(Expr.of(init) );
             return _f;
+        }
+    }
+
+    class Act implements Consumer<Node>{
+
+        public Expression initExperssion;
+
+        public Act( _init _i ){
+            this( _i.value() );
+        }
+
+        public Act( String initExpression ){
+            this( Expr.of(initExpression));
+        }
+
+        public Act( Expression e ){
+            this.initExperssion = e;
+        }
+
+        @Override
+        public void accept(Node node) {
+            if( node instanceof FieldDeclaration ){
+                FieldDeclaration fieldDeclaration = (FieldDeclaration)node;
+                fieldDeclaration.getVariables().forEach( v -> v.setInitializer(initExperssion));
+                _macro.removeAnnotation(node, _init.class);
+            } else if( node instanceof VariableDeclarator) {
+                VariableDeclarator vd = (VariableDeclarator)node;
+                vd.setInitializer(initExperssion);
+
+                _macro.removeAnnotation(vd.getParentNode().get(), _init.class);
+                //_macro.removeAnnotation(node, _init.class);
+            }
         }
     }
 }

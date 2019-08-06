@@ -1,5 +1,6 @@
 package org.jdraft.macro;
 
+import com.github.javaparser.ast.body.TypeDeclaration;
 import org.jdraft._method;
 import org.jdraft._field;
 import org.jdraft._type;
@@ -7,7 +8,9 @@ import org.jdraft.proto.$method;
 
 import java.lang.annotation.*;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Builds a setXXX METHODS for all non_static, non final FIELDS on the TYPE
@@ -48,6 +51,20 @@ public @interface _set {
                 );
             }
             return t;
+        }
+    }
+    class Act implements Consumer<TypeDeclaration> {
+
+        /** template method for a setXXX() method */
+        public static $method $SET = $method.of(
+                "public void set$Name$($type$ $name$){ this.$name$ = $name$; }" );
+        @Override
+        public void accept(TypeDeclaration typeDeclaration) {
+            List<_field> _fs = _field.of(typeDeclaration.getFields());
+            _fs = _fs.stream().filter(f-> !f.isStatic() && !f.isFinal() ).collect(Collectors.toList());
+            _fs.forEach(f ->
+                    typeDeclaration.addMember(
+                            $SET.construct("name", f.getName(), "type", f.getType()).ast()));
         }
     }
 }

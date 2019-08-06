@@ -1,8 +1,13 @@
 package org.jdraft.macro;
 
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithStaticModifier;
 import org.jdraft._field;
 
 import java.lang.annotation.*;
+import java.util.function.Consumer;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD })
@@ -25,6 +30,24 @@ public @interface _volatile {
         public static _field to( _field _f ){
             _f.setVolatile();
             return _f;
+        }
+    }
+
+    class Act implements Consumer<Node> {
+
+        @Override
+        public void accept(Node node) {
+            if( node instanceof FieldDeclaration){
+                FieldDeclaration nwp = (FieldDeclaration)node;
+                nwp.setVolatile(true);
+                _macro.removeAnnotation(node, _volatile.class);
+            } else{
+                if( node instanceof VariableDeclarator){
+                    FieldDeclaration fd = (FieldDeclaration)node.getParentNode().get();
+                    fd.setVolatile(true);
+                    _macro.removeAnnotation(fd, _volatile.class);
+                }
+            }
         }
     }
 }

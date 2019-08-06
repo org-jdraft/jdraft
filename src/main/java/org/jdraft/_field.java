@@ -56,6 +56,17 @@ public final class _field
     }
 
     /**
+     * Builds
+     * @param fds
+     * @return
+     */
+    public static List<_field> of( List<FieldDeclaration> fds ){
+        List<_field> fields = new ArrayList<>();
+        fds.stream().forEach(f-> f.getVariables().forEach(v-> fields.add( of(v)) ) );
+        return fields;
+    }
+
+    /**
      * We can define a {@link FieldDeclaration} that represents multiple
      * distinct {@link _field}s:
      *
