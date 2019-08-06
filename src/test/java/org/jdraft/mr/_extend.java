@@ -2,7 +2,7 @@ package org.jdraft.mr;
 
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.nodeTypes.NodeWithExtends;
-import org.jdraft._jDraftException;
+import org.jdraft._draftException;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -41,7 +41,7 @@ import java.util.function.Consumer;
                 _annoMacro.removeAnnotation(node, this._e);
             } else {
                 if (_e.value().length > 0) {
-                    throw new _jDraftException("cannot add extends to node of " + node.getClass());
+                    throw new _draftException("cannot add extends to node of " + node.getClass());
                 }
             }
         }

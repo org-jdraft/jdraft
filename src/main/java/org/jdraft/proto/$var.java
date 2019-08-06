@@ -407,7 +407,7 @@ public class $var
             }
             return Ast.variable( type.compose(translator, toCompose) + " "+ name.compose(translator, toCompose) );
         }
-        throw new _jDraftException("Expected fill fields of size ("+allVars.size()+") or ("+vars.size()+") got ("+values.length+")");
+        throw new _draftException("Expected fill fields of size ("+allVars.size()+") or ("+vars.size()+") got ("+values.length+")");
     }
 
     /**

@@ -1,6 +1,6 @@
 package org.jdraft.io;
 
-import org.jdraft._jDraftException;
+import org.jdraft._draftException;
 import org.jdraft.*;
 
 import java.io.IOException;
@@ -199,7 +199,7 @@ public class _batch {
                     _code _t = _java.of(p); 
                     _codeActionFn.accept(_t);
                     theCode.add(_t);
-                }catch(_jDraftException e){
+                }catch(_draftException e){
                     try{
                         byte[] bs = Files.readAllBytes(p);
                         if( bs.length == 0){
@@ -232,7 +232,7 @@ public class _batch {
                             _codeActionFn.accept(_c);
                             theCode.add(_c);
                         }
-                    }catch(_jDraftException e){
+                    }catch(_draftException e){
                         try{
                             byte[] bs = Files.readAllBytes(p);
                             if( bs.length == 0){

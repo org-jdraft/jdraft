@@ -260,7 +260,7 @@ public class $constructor
                 this.javadoc = ($comment<JavadocComment>)components[i];
             }
             else{
-                throw new _jDraftException("Unable to use $proto component " +components[i]+" for $constructor" );
+                throw new _draftException("Unable to use $proto component " +components[i]+" for $constructor" );
             }            
         }
     }
@@ -516,7 +516,7 @@ public class $constructor
         nom.remove( "throws");
         nom.remove("body");
         if( nom.size() != values.length ){
-            throw new _jDraftException("Fill expected ("+nom.size()+") values "+ nom+" got ("+values.length+")");
+            throw new _draftException("Fill expected ("+nom.size()+") values "+ nom+" got ("+values.length+")");
         }
         Tokens ts = new Tokens();
         for(int i=0;i<nom.size();i++){
@@ -568,7 +568,7 @@ public class $constructor
      * @return 
      */
     public _constructor compose(_node _n ){
-        return compose(_n.deconstruct() );
+        return compose(_n.decompose() );
     }
 
     public static final BlockStmt EMPTY = Stmt.block("{}");

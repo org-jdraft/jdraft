@@ -9,7 +9,6 @@ import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.*;
 import com.github.javaparser.ast.nodeTypes.*;
-import com.github.javaparser.ast.stmt.LabeledStmt;
 import com.github.javaparser.ast.stmt.LocalClassDeclarationStmt;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
@@ -129,7 +128,7 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
             }
             return (T)this;        
         }   
-        throw new _jDraftException
+        throw new _draftException
             ("cannot add companion Types to a Nested Type \""+this.getName()+"\"");
     }
     
@@ -151,7 +150,7 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
             }
             return (T)this;        
         }   
-        throw new _jDraftException
+        throw new _draftException
             ("cannot add companion Types to a Nested Type \""+this.getName()+"\"");
     }
     

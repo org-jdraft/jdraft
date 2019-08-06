@@ -8,7 +8,7 @@ import java.util.*;
  * (for converting Objects to text)
  * T can be an unstructured String
  * or
- * T can be an entity (_field, _method, _anno)
+ * T can be an Object entity (_field, _method, _anno)
  *
  * @param <T> the entity being constructed or modeled where the Template
  * (i.e. a String, or entity or an AST Node entity
@@ -110,7 +110,7 @@ public interface Template<T> {
     default T fill( Translator translator, Object... values ){
         List<String> keys = list$Normalized();
         if( values.length < keys.size() ){
-            throw new _jDraftException("not enough values("+values.length+") to fill ("+keys.size()+") variables "+ keys);
+            throw new _draftException("not enough values("+values.length+") to fill ("+keys.size()+") variables "+ keys);
         }
         Map<String,Object> kvs = new HashMap<>();
         for(int i=0;i<values.length;i++){

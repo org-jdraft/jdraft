@@ -165,7 +165,7 @@ public interface _java {
         if (_c instanceof _type) {
             return (_type) _c;
         }
-        throw new _jDraftException("_code at " + is + " does not represent a _type");
+        throw new _draftException("_code at " + is + " does not represent a _type");
     }
 
     public static _type type(Path path) {
@@ -173,7 +173,7 @@ public interface _java {
         if (_c instanceof _type) {
             return (_type) _c;
         }
-        throw new _jDraftException("_code at " + path + " does not represent a _type");
+        throw new _draftException("_code at " + path + " does not represent a _type");
     }
 
     /**
@@ -210,7 +210,7 @@ public interface _java {
             return type(astRoot, astRoot.getPrimaryType().get());
         }
         if (astRoot.getTypes().isEmpty()) {
-            throw new _jDraftException("cannot create _type from CompilationUnit with no TypeDeclaration");
+            throw new _draftException("cannot create _type from CompilationUnit with no TypeDeclaration");
         }
         //if we have the storage (and potentially multiple package private types)
         //check the storage to determine if one of them is the right one
@@ -226,10 +226,10 @@ public interface _java {
             }
 
             if (p.endsWith("package-info.java")) {
-                throw new _jDraftException("cannot create a _type out of a package-info.java");
+                throw new _draftException("cannot create a _type out of a package-info.java");
             }
             if (p.endsWith("module-info.java")) {
-                throw new _jDraftException("cannot create a _type out of a module-info.java");
+                throw new _draftException("cannot create a _type out of a module-info.java");
             }
 
             //ok, well, this is dangerous, but shouldnt be a common occurrence
@@ -338,7 +338,7 @@ public interface _java {
      * @param javaSourceFilePath the path to the local Java source code
      * @return the _code instance
      */
-    public static _code of(Path javaSourceFilePath) throws _jDraftException {
+    public static _code of(Path javaSourceFilePath) throws _draftException {
         return of(Ast.of(javaSourceFilePath));
     }
 
@@ -349,7 +349,7 @@ public interface _java {
      * @param javaSourceInputStream
      * @return
      */
-    public static _code of(InputStream javaSourceInputStream) throws _jDraftException {
+    public static _code of(InputStream javaSourceInputStream) throws _draftException {
         return of(Ast.of(javaSourceInputStream));
     }
 
@@ -359,9 +359,9 @@ public interface _java {
      *
      * @param javaSourceFile
      * @return
-     * @throws _jDraftException
+     * @throws _draftException
      */
-    public static _code of(File javaSourceFile) throws _jDraftException {
+    public static _code of(File javaSourceFile) throws _draftException {
         return of(Ast.of(javaSourceFile));
     }
 
@@ -372,7 +372,7 @@ public interface _java {
      * @param javaSourceReader reader containing .java source code
      * @return the _code model instance representing the source
      */
-    public static _code of(Reader javaSourceReader) throws _jDraftException {
+    public static _code of(Reader javaSourceReader) throws _draftException {
         return of(Ast.of(javaSourceReader));
     }
 
@@ -459,7 +459,7 @@ public interface _java {
         if (_method.class == nodeClass) {
             return method(code);
         }
-        throw new _jDraftException("Could not parse Node " + nodeClass);
+        throw new _draftException("Could not parse Node " + nodeClass);
     }
 
     /**
@@ -528,7 +528,7 @@ public interface _java {
         if (node instanceof FieldDeclaration) {
             FieldDeclaration fd = (FieldDeclaration) node;
             if (fd.getVariables().size() > 1) {
-                throw new _jDraftException(
+                throw new _draftException(
                         "Ambiguious node for FieldDeclaration " + fd + "pass in VariableDeclarator instead " + fd);
             }
             return _field.of(fd.getVariable(0));
@@ -542,14 +542,14 @@ public interface _java {
                     return _body.of((NodeWithOptionalBlockStmt) node.getParentNode().get());
                 }
             }
-            throw new _jDraftException("Unable to return draft _java node for BlockStmt without NodeWithBlockStmt parent");
+            throw new _draftException("Unable to return draft _java node for BlockStmt without NodeWithBlockStmt parent");
         }
         if (node instanceof JavadocComment) {
             JavadocComment jdc = (JavadocComment) node;
             if (jdc.getParentNode().isPresent()) {
                 return _javadoc.of((NodeWithJavadoc) jdc.getParentNode().get());
             }
-            throw new _jDraftException("No Parent provided for JavadocComment");
+            throw new _draftException("No Parent provided for JavadocComment");
         }
         if (node instanceof MethodDeclaration) {
             MethodDeclaration md = (MethodDeclaration) node;
@@ -576,7 +576,7 @@ public interface _java {
         if (node instanceof CompilationUnit) {
             return of((CompilationUnit) node);
         }
-        throw new _jDraftException("Unable to create _java entity from " + node);
+        throw new _draftException("Unable to create _java entity from " + node);
     }
 
     /**

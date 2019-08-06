@@ -1083,7 +1083,7 @@ public final class $stmt<T extends Statement>
         //}
         List<String> keys = list$Normalized();
         if( values.length < keys.size() ){
-            throw new _jDraftException("not enough values("+values.length+") to fill ("+keys.size()+") variables "+ keys);
+            throw new _draftException("not enough values("+values.length+") to fill ("+keys.size()+") variables "+ keys);
         }
         Map<String,Object> kvs = new HashMap<>();
         for(int i=0;i<values.length;i++){
@@ -1115,7 +1115,7 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public T compose(_node _n ){
-        Map<String,Object> decons = _n.deconstruct();
+        Map<String,Object> decons = _n.decompose();
         return (T) compose( decons );
     }
 

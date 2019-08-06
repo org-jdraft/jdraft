@@ -1571,7 +1571,7 @@ public enum _walk {
                     });
             return astRootNode;
         }
-        throw new _jDraftException( "Could not convert Node of Class " + _modelClass + " to _java type" );
+        throw new _draftException( "Could not convert Node of Class " + _modelClass + " to _java type" );
     }
 
     /**

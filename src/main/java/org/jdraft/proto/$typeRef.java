@@ -253,7 +253,7 @@ public final class $typeRef
      * @return 
      */
     public _typeRef compose(_node _n ){
-        return compose(_n.deconstruct());
+        return compose(_n.decompose());
     }
     
     @Override
@@ -584,7 +584,7 @@ public final class $typeRef
             Select select = select(e);
             if( select != null ){
                 if( !e.replace($replacementType.compose(select.args).ast() )){
-                    throw new _jDraftException("unable to replaceIn "+ e + " in "+ _n+" with "+$replacementType);
+                    throw new _draftException("unable to replaceIn "+ e + " in "+ _n+" with "+$replacementType);
                 }
             }
         });

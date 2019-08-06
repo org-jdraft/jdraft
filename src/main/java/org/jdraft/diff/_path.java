@@ -27,7 +27,7 @@ public class _path {
         _path _p = new _path();
         for (int i = 0; i < pathAsTokens.length; i += 2) {
             if (!(pathAsTokens[i] instanceof _java.Component) && !(pathAsTokens[i] instanceof Class)) {
-                throw new _jDraftException("element [" + i + "] MUST be a Component or _node Class ");
+                throw new _draftException("element [" + i + "] MUST be a Component or _node Class ");
             }
             if ((pathAsTokens.length > i + 1) && pathAsTokens[i + 1] instanceof String) {
                 if( pathAsTokens[i] instanceof _java.Component){

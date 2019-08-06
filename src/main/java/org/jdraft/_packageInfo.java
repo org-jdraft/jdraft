@@ -178,7 +178,7 @@ public class _packageInfo
      * @return a map of key values
      */
     @Override
-    public Map<_java.Component, Object> componentsMap() {
+    public Map<_java.Component, Object> components() {
         Map m = new HashMap();
         m.put(_java.Component.HEADER_COMMENT, this.getHeaderComment());
         m.put(_java.Component.JAVADOC, this.javadocHolder.getJavadoc());

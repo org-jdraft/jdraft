@@ -5,7 +5,7 @@ import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import org.jdraft.*;
 import com.github.javaparser.ast.body.FieldDeclaration;
-import org.jdraft._jDraftException;
+import org.jdraft._draftException;
 //import draft.java.runtime._new;
 
 import java.lang.annotation.Annotation;
@@ -78,7 +78,7 @@ public interface _macro<M extends _anno._hasAnnos>
             try { //create new an instance of the _macro, passing in the annotation instance as the constructor argument
                 return (_macro)om.get().getDeclaredConstructor(ann.annotationType()).newInstance( ann );
             } catch (Exception e) {
-                throw new _jDraftException("couldn't call constructor for annotation _macro "+om.get()+" " +
+                throw new _draftException("couldn't call constructor for annotation _macro "+om.get()+" " +
                         "expected public "+om.get()+"() or public "+om.get()+"("+ann.annotationType()+")", e);
             }
         }
@@ -143,7 +143,7 @@ public interface _macro<M extends _anno._hasAnnos>
             applyAllAnnotationMacros(_fl, f);
             return _fl;
         } catch( NoSuchFieldException nsfe ){
-            throw new _jDraftException("no Field "+ _fl+" on "+clazz, nsfe);
+            throw new _draftException("no Field "+ _fl+" on "+clazz, nsfe);
         }
     }
 
@@ -174,16 +174,16 @@ public interface _macro<M extends _anno._hasAnnos>
                 return _mm;
             }
             if( clazz.isLocalClass() ){
-                throw new _jDraftException("Could not find method "+ _mm +" on LOCAL class "+ clazz );
+                throw new _draftException("Could not find method "+ _mm +" on LOCAL class "+ clazz );
             }
             if( clazz.isMemberClass() ){
-                throw new _jDraftException("Could not find method "+ _mm +" on MEMBER class "+ clazz );
+                throw new _draftException("Could not find method "+ _mm +" on MEMBER class "+ clazz );
             }
             if( clazz.isSynthetic() ){
-                throw new _jDraftException("Could not find method "+ _mm +" on SYNTHETIC class "+ clazz );
+                throw new _draftException("Could not find method "+ _mm +" on SYNTHETIC class "+ clazz );
             }
             
-            throw new _jDraftException("Could not find method "+ _mm +" on class "+ clazz );
+            throw new _draftException("Could not find method "+ _mm +" on class "+ clazz );
             
         }
         Parameter[] ps = mm.getParameters();
@@ -265,7 +265,7 @@ public interface _macro<M extends _anno._hasAnnos>
             //System.out.println( "IN NESTED CLASS ");
             Optional<Class> foundClass = nestedClasses.stream().filter(c -> c.getSimpleName().equals(((_type) _nt).getName())).findFirst();
             if (!foundClass.isPresent()) {
-                throw new _jDraftException("Could not find class for nested _type" + _nt);
+                throw new _draftException("Could not find class for nested _type" + _nt);
             }
             to( foundClass.get(), (_type)_nt);
         });
@@ -360,12 +360,12 @@ public interface _macro<M extends _anno._hasAnnos>
             //throw new _jDraftException("Could not find constructor for ANONYMOUS class" + _c);
         }
         if( clazz.isLocalClass() ){
-            throw new _jDraftException("Could not find constructor for LOCAL class" + _c);
+            throw new _draftException("Could not find constructor for LOCAL class" + _c);
         }
         if( clazz.isMemberClass() ){
-            throw new _jDraftException("Could not find constructor for MEMBER class" + _c);
+            throw new _draftException("Could not find constructor for MEMBER class" + _c);
         }        
-        throw new _jDraftException("Could not find constructor for " + _c);
+        throw new _draftException("Could not find constructor for " + _c);
     }
 
 
@@ -378,7 +378,7 @@ public interface _macro<M extends _anno._hasAnnos>
                             ((AnnotationExpr)a).getNameAsString().equals(annClass.getCanonicalName())).collect(Collectors.toList());
             aes.forEach( ae -> nwa.getAnnotations().remove(ae));
         } else{
-            throw new _jDraftException("Node is not a NodeWithAnnotations "+ node.getClass() );
+            throw new _draftException("Node is not a NodeWithAnnotations "+ node.getClass() );
         }
         return node;
     }
@@ -391,7 +391,7 @@ public interface _macro<M extends _anno._hasAnnos>
                             ((AnnotationExpr)a).getNameAsString().equals(an.annotationType().getCanonicalName())).collect(Collectors.toList());
             aes.forEach( ae -> nwa.getAnnotations().remove(ae));
         } else{
-            throw new _jDraftException("Node is not a NodeWithAnnotations "+ node.getClass() );
+            throw new _draftException("Node is not a NodeWithAnnotations "+ node.getClass() );
         }
         return node;
     }

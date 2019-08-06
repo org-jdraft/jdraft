@@ -143,7 +143,7 @@ public final class Text {
             return strLine;
         }
         catch( IOException e ) {
-            throw new _jDraftException( "Error formatting Lines" );
+            throw new _draftException( "Error formatting Lines" );
         }
     }
 }

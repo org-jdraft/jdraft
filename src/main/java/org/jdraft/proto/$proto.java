@@ -886,7 +886,7 @@ public interface $proto<P> {
          */
         public boolean is(Object... $nvs) {
             if ($nvs.length % 2 == 1) {
-                throw new _jDraftException("Expected an even number of key values, got (" + $nvs.length + ")");
+                throw new _draftException("Expected an even number of key values, got (" + $nvs.length + ")");
             }
             for (int i = 0; i < $nvs.length; i += 2) {
                 String key = $nvs[i].toString();

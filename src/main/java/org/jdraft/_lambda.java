@@ -160,7 +160,7 @@ public class _lambda
         if(ole.isPresent()){
             return _lambda.of( ole.get());
         }
-        throw new _jDraftException("Could not find lambda within anonymous Object "+ oce );
+        throw new _draftException("Could not find lambda within anonymous Object "+ oce );
     }
     
     public static _lambda of( Expr.Command lambda ){

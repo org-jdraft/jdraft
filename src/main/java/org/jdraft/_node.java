@@ -57,15 +57,15 @@ public interface _node<N extends Node, _N extends _node> extends _java {
      * Decompose the entity into key-VALUE pairs
      * @return a map of key values
      */
-    Map<_java.Component, Object> componentsMap();
+    Map<_java.Component, Object> components();
 
     /**
      * Decompose the entity into smaller named components
      * returning a mapping between the name and the constituent part
      * @return a Map with the names mapped to the corresponding components
      */
-    default Map<String, Object> deconstruct() {
-        Map<_java.Component, Object> parts = componentsMap();
+    default Map<String, Object> decompose() {
+        Map<_java.Component, Object> parts = components();
         Map<String, Object> mdd = new HashMap<>();
         parts.forEach((p, o) -> {
             mdd.put(p.name, o);

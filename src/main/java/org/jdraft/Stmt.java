@@ -174,6 +174,7 @@ public enum Stmt {
     }
 
     public static final Class<AssertStmt> ASSERT = AssertStmt.class;
+
     /**
      * i.e."assert(1==1);"
      * @param code
@@ -198,7 +199,7 @@ public enum Stmt {
         if( combined.startsWith("/*")){
             int endCommentIndex = combined.indexOf("*/");
             if( endCommentIndex < 0 ){
-                throw new _jDraftException("Unclosed comment");
+                throw new _draftException("Unclosed comment");
             }
             String startM = combined.substring(endCommentIndex+2).trim();
             if(!startM.startsWith("{")){
@@ -239,7 +240,14 @@ public enum Stmt {
         return StaticJavaParser.parseBlock( combined );
     }
 
-
+    /**
+     * Builds a BlockStmt from the Lambda expression code found based on the location of the
+     * StackTraceElement.  i.e.
+     * Stmt.block( ()-> { System.out.println(1}; System.out.println(2); } );
+     *
+     * @param ste the stackTraceElement for the caller location of the
+     * @return a BlockStmt based on the Lambda Expression block
+     */
     public static BlockStmt block( StackTraceElement ste ){
         LambdaExpr le = Expr.lambda( ste );
         Statement st = le.getBody();

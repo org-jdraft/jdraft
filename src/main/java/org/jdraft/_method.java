@@ -208,7 +208,7 @@ public final class _method
     }
 
     @Override
-    public Map<_java.Component, Object> componentsMap() {
+    public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> parts = new HashMap<>();
         parts.put(_java.Component.ANNOS, getAnnos());
         parts.put(_java.Component.BODY, getBody());
@@ -618,13 +618,13 @@ public final class _method
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
             ObjectCreationExpr oce = Expr.anonymousObject(ste);
             if (oce == null || !oce.getAnonymousClassBody().isPresent()) {
-                throw new _jDraftException("No anonymous Object containing a method provided ");
+                throw new _draftException("No anonymous Object containing a method provided ");
             }
             Optional<BodyDeclaration<?>> obd = oce.getAnonymousClassBody().get().stream()
                 .filter(bd -> bd instanceof MethodDeclaration
                 && !bd.asMethodDeclaration().getAnnotationByClass(_remove.class).isPresent()).findFirst();
             if (!obd.isPresent()) {
-                throw new _jDraftException("Could not find Method in anonymous object body");
+                throw new _draftException("Could not find Method in anonymous object body");
             }
             MethodDeclaration md = (MethodDeclaration) obd.get();
             

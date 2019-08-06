@@ -133,7 +133,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         if( cu.getPrimaryTypeName().isPresent() ){
             return of( cu.getInterfaceByName( cu.getPrimaryTypeName().get() ).get() );
         }
-        throw new _jDraftException("Unable to locate primary TYPE in "+ cu);
+        throw new _draftException("Unable to locate primary TYPE in "+ cu);
     }
 
     public static _interface of( ClassOrInterfaceDeclaration astClass ){
@@ -260,7 +260,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     @Override
     public _interface field( VariableDeclarator field ) {
         if(! field.getParentNode().isPresent()){
-            throw new _jDraftException("cannot add Var without parent FieldDeclaration");
+            throw new _draftException("cannot add Var without parent FieldDeclaration");
         }
         FieldDeclaration fd = (FieldDeclaration)field.getParentNode().get();
         //we already added it to the parent
@@ -485,7 +485,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     }
 
     @Override
-    public Map<_java.Component, Object> componentsMap( ) {
+    public Map<_java.Component, Object> components( ) {
         Map<_java.Component, Object> parts = new HashMap<>();
         parts.put( _java.Component.HEADER_COMMENT, this.getHeaderComment() );
         parts.put( _java.Component.PACKAGE_NAME, this.getPackage() );        

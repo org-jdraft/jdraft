@@ -1668,7 +1668,7 @@ public class $expr <T extends Expression>
      */
     @Override
     public T compose(_node _n ){
-        return (T)$expr.this.compose(_n.deconstruct());
+        return (T)$expr.this.compose(_n.decompose());
     }
 
     @Override

@@ -34,7 +34,7 @@ public class _moduleInfo implements _code<_moduleInfo>, _node<CompilationUnit, _
     public boolean is(String... stringRep) {
         try {
             return is(Ast.of(stringRep));
-        } catch (_jDraftException e) {
+        } catch (_draftException e) {
             return false;
         }
     }
@@ -89,7 +89,7 @@ public class _moduleInfo implements _code<_moduleInfo>, _node<CompilationUnit, _
      * @return a map of key values
      */
     @Override
-    public Map<_java.Component, Object> componentsMap() {
+    public Map<_java.Component, Object> components() {
 
         Map m = new HashMap();
         m.put(_java.Component.HEADER_COMMENT, getHeaderComment());

@@ -58,7 +58,7 @@ public final class _annotation
         if( cu.getPrimaryType().isPresent() ){
             return of( (AnnotationDeclaration)( cu.getPrimaryType().get() ) );
         }
-        throw new _jDraftException("Unable to locate primary TYPE in "+ cu);
+        throw new _draftException("Unable to locate primary TYPE in "+ cu);
     }
     /**
      *
@@ -514,7 +514,7 @@ public final class _annotation
     }
 
     @Override
-    public Map<_java.Component, Object> componentsMap( ) {
+    public Map<_java.Component, Object> components( ) {
         Map<_java.Component, Object> parts = new HashMap<>();
         parts.put( _java.Component.HEADER_COMMENT, this.getHeaderComment() );
         parts.put( _java.Component.PACKAGE_NAME, this.getPackage() );
@@ -567,7 +567,7 @@ public final class _annotation
     @Override
     public _annotation field( VariableDeclarator field ) {
         if(! field.getParentNode().isPresent()){
-            throw new _jDraftException("cannot add Var without parent FieldDeclaration");
+            throw new _draftException("cannot add Var without parent FieldDeclaration");
         }
         FieldDeclaration fd = (FieldDeclaration)field.getParentNode().get();
         //we already added it to the parent
@@ -799,7 +799,7 @@ public final class _annotation
         }
 
         @Override
-        public Map<_java.Component, Object> componentsMap( ) {
+        public Map<_java.Component, Object> components( ) {
             Map<_java.Component, Object> parts = new HashMap<>();
             parts.put( _java.Component.ANNOS, this.listAnnos() );
             parts.put( _java.Component.JAVADOC, this.getJavadoc() );

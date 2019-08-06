@@ -73,7 +73,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         if( tds.size() == 1 ){
             return of( (EnumDeclaration)tds.get(0) );
         }
-        throw new _jDraftException("Unable to locate EnumDeclaration in "+ cu);
+        throw new _draftException("Unable to locate EnumDeclaration in "+ cu);
     }
 
     public static _enum of( EnumDeclaration astClass ){
@@ -317,7 +317,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
     @Override
     public _enum field( VariableDeclarator field ) {
         if(! field.getParentNode().isPresent()){
-            throw new _jDraftException("cannot add Var without parent FieldDeclaration");
+            throw new _draftException("cannot add Var without parent FieldDeclaration");
         }
         FieldDeclaration fd = (FieldDeclaration)field.getParentNode().get();
         //we already added it to the parent
@@ -560,7 +560,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
     }
 
     @Override
-    public Map<_java.Component, Object> componentsMap( ) {
+    public Map<_java.Component, Object> components( ) {
         Map<_java.Component, Object> parts = new HashMap<>();
         parts.put( _java.Component.HEADER_COMMENT, this.getHeaderComment() );
         parts.put( _java.Component.PACKAGE_NAME, this.getPackage() );
@@ -819,7 +819,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         @Override
         public _constant field( VariableDeclarator field ) {
             if(! field.getParentNode().isPresent()){
-                throw new _jDraftException("cannot add Var without parent FieldDeclaration");
+                throw new _draftException("cannot add Var without parent FieldDeclaration");
             }
             FieldDeclaration fd = (FieldDeclaration)field.getParentNode().get();
             //we already added it to the parent
@@ -900,7 +900,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         }
 
         @Override
-        public Map<_java.Component, Object> componentsMap( ) {
+        public Map<_java.Component, Object> components( ) {
             Map<_java.Component, Object> parts = new HashMap<>();
             parts.put( _java.Component.ANNOS, this.listAnnos() );
             parts.put( _java.Component.JAVADOC, this.getJavadoc() );

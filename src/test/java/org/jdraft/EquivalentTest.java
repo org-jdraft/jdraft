@@ -1,8 +1,5 @@
 package org.jdraft;
 
-import org.jdraft._method;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import junit.framework.TestCase;
 
@@ -17,10 +14,10 @@ public class EquivalentTest extends TestCase {
         assertEquals( m1, m1a);
         assertEquals( m2, m2a);
         
-        m1.deconstruct().forEach((s, o)-> {            
+        m1.decompose().forEach((s, o)-> {
             System.out.println( s+" \""+o+"\" : " +Objects.hash( o ) );
         });
-        m1a.deconstruct().forEach((s, o)-> {            
+        m1a.decompose().forEach((s, o)-> {
             System.out.println( s+" \""+o+"\" : " +Objects.hash( o ) );
         });
         

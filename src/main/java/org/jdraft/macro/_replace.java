@@ -66,7 +66,7 @@ public @interface _replace {
                 } else{
                     //System.out.println( "OLDNODE HAS NO PARENT");
                 }
-                throw new _jDraftException(
+                throw new _draftException(
                         "Unable to replaceIn "+oldNode+" with "+newNode+" in Macro at AST level");
             }
             return (_anno._hasAnnos) _java.of(newNode);

@@ -59,15 +59,15 @@ public class _replaceSystemOutWithLog implements _macro<_type> {
         Stencil st = Stencil.of(loggerStatementsFormat);
         List<String> vars = st.list$();
         if( !vars.contains("name")){
-            throw new _jDraftException("MISSING $var: \"name\" in : "+ loggerStatementsFormat +System.lineSeparator() +
+            throw new _draftException("MISSING $var: \"name\" in : "+ loggerStatementsFormat +System.lineSeparator() +
                     "... used for representing the field NAME of the Logger");
         }
         if( !vars.contains("any")){
-            throw new _jDraftException("MISSING $var: \"any\" in : "+ loggerStatementsFormat +System.lineSeparator() +
+            throw new _draftException("MISSING $var: \"any\" in : "+ loggerStatementsFormat +System.lineSeparator() +
                     "... used for representing the content to be logged");
         }
         if( !adHocLogger.list$().contains("className")){
-            throw new _jDraftException("MISSING $var: \"className\" in : "+ adHocLogger +System.lineSeparator() +
+            throw new _draftException("MISSING $var: \"className\" in : "+ adHocLogger +System.lineSeparator() +
                     "... used for generating the logger for the class");
         }
         this.preDefinedLoggerMatcher = preDefinedLoggerMatcher;

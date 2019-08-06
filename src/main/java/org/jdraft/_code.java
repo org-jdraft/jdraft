@@ -407,7 +407,7 @@ public interface _code<T> extends _java {
             }            
             return (T) this;
         }
-        throw new _jDraftException("No AST CompilationUnit to add imports");
+        throw new _draftException("No AST CompilationUnit to add imports");
     }
 
     /**
@@ -422,7 +422,7 @@ public interface _code<T> extends _java {
             Arrays.stream(astImportDecls).forEach(c -> cu.addImport(c));
             return (T) this;
         }
-        throw new _jDraftException("No AST CompilationUnit of class to add imports");
+        throw new _draftException("No AST CompilationUnit of class to add imports");
     }
 
     default T imports(String anImport) {
@@ -435,6 +435,6 @@ public interface _code<T> extends _java {
             Arrays.stream(importStatements).forEach(c -> cu.addImport(Ast.importDeclaration(c)));
             return (T) this;
         }
-        throw new _jDraftException("No AST CompilationUnit of to add imports");
+        throw new _draftException("No AST CompilationUnit of to add imports");
     }
 }

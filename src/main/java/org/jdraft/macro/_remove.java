@@ -2,7 +2,7 @@ package org.jdraft.macro;
 
 import com.github.javaparser.ast.Node;
 import org.jdraft.*;
-import org.jdraft._jDraftException;
+import org.jdraft._draftException;
 import org.jdraft._anno._hasAnnos;
 
 import java.lang.annotation.*;
@@ -32,7 +32,7 @@ public @interface _remove {
 
                 boolean removed = _t.ast().remove();
                 if( ! removed ){
-                   throw new _jDraftException("Unable to removeIn _type via annotation Macro "+_model);
+                   throw new _draftException("Unable to removeIn _type via annotation Macro "+_model);
                 }
                 return _model;
             }
@@ -43,7 +43,7 @@ public @interface _remove {
                 boolean removed = _f.getFieldDeclaration().remove();
                 //n.removeIn();
                 if( ! removed ){
-                    throw new _jDraftException("Unable to removeIn _field via annotation Macro "+_model);
+                    throw new _draftException("Unable to removeIn _field via annotation Macro "+_model);
                 }
                 return _model;
             }
@@ -51,7 +51,7 @@ public @interface _remove {
             Node n = ((_node)_model).ast();
             boolean removed = n.remove();
             if( ! removed ){
-                throw new _jDraftException("Unable to removeIn entity via annotation Macro "+_model);
+                throw new _draftException("Unable to removeIn entity via annotation Macro "+_model);
             }
             return _model;
         }

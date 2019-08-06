@@ -137,7 +137,7 @@ public final class _staticBlock
     }
 
     @Override
-    public Map<_java.Component, Object> componentsMap( ) {
+    public Map<_java.Component, Object> components( ) {
         Map<_java.Component, Object> parts = new HashMap<>();
         parts.put(_java.Component.BODY, getBody() );
         return parts;

@@ -182,7 +182,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
     }
 
     @Override
-    public Map<_java.Component, Object> componentsMap() {
+    public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> parts = new HashMap<>();
         parts.put( _java.Component.ANNOS, getAnnos() );
         parts.put( _java.Component.BODY, getBody() );

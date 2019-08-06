@@ -94,7 +94,7 @@ public final class _field
         String str = Text.combine(fieldDecl);
         FieldDeclaration fd = Ast.field(str);
         if (fd.getVariables().size() != 1) {
-            throw new _jDraftException("unable to create a singular field from " + str);
+            throw new _draftException("unable to create a singular field from " + str);
         }
         return new _field(fd.getVariable(0));
     }
@@ -379,7 +379,7 @@ public final class _field
     }
 
     @Override
-    public Map<_java.Component, Object> componentsMap() {
+    public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> parts = new HashMap<>();
         parts.put(_java.Component.NAME, getName());
         parts.put(_java.Component.TYPE, getType());

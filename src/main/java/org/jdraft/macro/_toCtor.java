@@ -6,8 +6,7 @@ import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.nodeTypes.NodeWithConstructors;
-import com.github.javaparser.ast.nodeTypes.NodeWithMembers;
-import org.jdraft._jDraftException;
+import org.jdraft._draftException;
 import org.jdraft._walk;
 import org.jdraft._constructor;
 import org.jdraft._method;
@@ -98,14 +97,14 @@ public @interface _toCtor {
             List<TypeDeclaration>tds = new ArrayList<>();
             _walk.parents( _m, TypeDeclaration.class, t-> tds.add(t) );
             if( ! (tds.size() > 0 )){
-                throw new _jDraftException("no TypeDeclaration parent for "+_m+" to convert to constructor ");
+                throw new _draftException("no TypeDeclaration parent for "+_m+" to convert to constructor ");
             }
             TypeDeclaration astParentType = tds.get(0);
             _constructor _ct = fromMethod( _m );
             astParentType.addMember( _ct.ast() );
             boolean removed = astParentType.remove( _m.ast() );
             if( ! removed ){
-                throw new _jDraftException("Unable to remove "+_m+" from parent TYPE");
+                throw new _draftException("Unable to remove "+_m+" from parent TYPE");
             }
             // set the name of the constructor to the name of 
             // the parent type (since it's no longer a method
@@ -128,7 +127,7 @@ public @interface _toCtor {
             Optional<Node> op = methodDeclaration.stream(Node.TreeTraversal.PARENTS).filter(n-> n instanceof NodeWithConstructors).findFirst();
             //remove the old method, add the constructor
             if( !op.isPresent()){
-                throw new _jDraftException("Could not find parent of "+ methodDeclaration+" to replace as constructor");
+                throw new _draftException("Could not find parent of "+ methodDeclaration+" to replace as constructor");
             }
             NodeWithConstructors nwm = (NodeWithConstructors) op.get();
             nwm.getMembers().remove(methodDeclaration);

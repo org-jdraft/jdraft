@@ -408,7 +408,7 @@ public final class _anno
     }
     
     @Override
-    public Map<_java.Component,Object> componentsMap(){
+    public Map<_java.Component,Object> components(){
         Map<_java.Component,Object> m = new HashMap();
         m.put(_java.Component.NAME, this.getName() );
         if( this.astAnno instanceof NormalAnnotationExpr ){
@@ -426,7 +426,7 @@ public final class _anno
             return this;
         }
         if( !this.astAnno.getParentNode().isPresent() ) {
-            throw new _jDraftException( "Cannot change attrs of annotation with no parent" );
+            throw new _draftException( "Cannot change attrs of annotation with no parent" );
         }
         MarkerAnnotationExpr m = new MarkerAnnotationExpr( this.getName() );
         this.astAnno.getParentNode().get().replace(astAnno, m );
@@ -439,7 +439,7 @@ public final class _anno
             AssignExpr ae = Expr.assign(attrNameValue);
             return addAttr( ae.getTarget().toString(), ae.getValue() );
         }catch(Exception e){
-            throw new _jDraftException("Unable to parse Attr Name value \""+ attrNameValue+"\"");
+            throw new _draftException("Unable to parse Attr Name value \""+ attrNameValue+"\"");
         }        
     }
     
@@ -602,7 +602,7 @@ public final class _anno
                 this.astAnno = sv;
             }
             else {
-                throw new _jDraftException( "cannot add VALUE to annotation with no parent" );
+                throw new _draftException( "cannot add VALUE to annotation with no parent" );
             }
         }
         if( this.astAnno instanceof NormalAnnotationExpr ) {
@@ -617,7 +617,7 @@ public final class _anno
                 return this;
             }
         }
-        throw new _jDraftException( "No Values at index " + index + " in annotation " + this.toString() );
+        throw new _draftException( "No Values at index " + index + " in annotation " + this.toString() );
     }
 
     //if the impl is anything other than a marker annotation expression
@@ -628,14 +628,14 @@ public final class _anno
 
     public Expression getValue( int index ) {
         if( !this.hasValues() ) {
-            throw new _jDraftException( "No Values on Marker annotation " + this.toString() );
+            throw new _draftException( "No Values on Marker annotation " + this.toString() );
         }
         if( this.astAnno instanceof SingleMemberAnnotationExpr ) {
             if( index == 0 ) {
                 SingleMemberAnnotationExpr sv = (SingleMemberAnnotationExpr)this.astAnno;
                 return sv.getMemberValue();
             }
-            throw new _jDraftException( "No Values at index " + index + " in annotation " + this.toString() );
+            throw new _draftException( "No Values at index " + index + " in annotation " + this.toString() );
         }
         NormalAnnotationExpr n = (NormalAnnotationExpr)this.astAnno;
         return n.getPairs().get( index ).getValue();

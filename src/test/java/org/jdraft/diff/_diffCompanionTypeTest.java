@@ -20,8 +20,8 @@ public class _diffCompanionTypeTest extends TestCase {
         _cp.addCompanionTypes(_class.of("D"));
 
         /** TO ADD */
-        assertTrue(_cp.componentsMap().containsKey(_java.Component.COMPANION_TYPES));
-        assertTrue( ((List<_type>)_cp.componentsMap().get(_java.Component.COMPANION_TYPES)).size() == 1 );
+        assertTrue(_cp.components().containsKey(_java.Component.COMPANION_TYPES));
+        assertTrue( ((List<_type>)_cp.components().get(_java.Component.COMPANION_TYPES)).size() == 1 );
 
 
         assertFalse( _c.equals( _cp)); //verify not same
@@ -52,8 +52,8 @@ public class _diffCompanionTypeTest extends TestCase {
         assertFalse( _c.hashCode() == _cp.hashCode()); //verify not same hashcode
 
         /** TO ADD */
-        assertTrue(_cp.componentsMap().containsKey(_java.Component.COMPANION_TYPES));
-        assertTrue( ((List<_type>)_cp.componentsMap().get(_java.Component.COMPANION_TYPES)).size() == 1 );
+        assertTrue(_cp.components().containsKey(_java.Component.COMPANION_TYPES));
+        assertTrue( ((List<_type>)_cp.components().get(_java.Component.COMPANION_TYPES)).size() == 1 );
 
         _diff _d = _diff.of(_c, _cp);
         assertEquals( 1, _d.size()); //verify we have 1 diff
@@ -78,8 +78,8 @@ public class _diffCompanionTypeTest extends TestCase {
         _cp.addCompanionTypes(_class.of("D"));
 
         /** TO ADD */
-        assertTrue(_cp.componentsMap().containsKey(_java.Component.COMPANION_TYPES));
-        assertTrue( ((List<_type>)_cp.componentsMap().get(_java.Component.COMPANION_TYPES)).size() == 1 );
+        assertTrue(_cp.components().containsKey(_java.Component.COMPANION_TYPES));
+        assertTrue( ((List<_type>)_cp.components().get(_java.Component.COMPANION_TYPES)).size() == 1 );
 
         assertFalse( _c.equals( _cp)); //verify not same
         assertFalse( _c.hashCode() == _cp.hashCode()); //verify not same hashcode
@@ -107,8 +107,8 @@ public class _diffCompanionTypeTest extends TestCase {
         _cp.addCompanionTypes(_class.of("D"));
 
         /** TO ADD */
-        assertTrue(_cp.componentsMap().containsKey(_java.Component.COMPANION_TYPES));
-        assertTrue( ((List<_type>)_cp.componentsMap().get(_java.Component.COMPANION_TYPES)).size() == 1 );
+        assertTrue(_cp.components().containsKey(_java.Component.COMPANION_TYPES));
+        assertTrue( ((List<_type>)_cp.components().get(_java.Component.COMPANION_TYPES)).size() == 1 );
 
         assertFalse( _c.equals( _cp)); //verify not same
         assertFalse( _c.hashCode() == _cp.hashCode()); //verify not same hashcode

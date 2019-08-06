@@ -90,7 +90,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             }            
             return _c;
         }
-        throw new _jDraftException("Abstract or synthetic classes are not supported"+ clazz);
+        throw new _draftException("Abstract or synthetic classes are not supported"+ clazz);
     }
 
     /**
@@ -144,7 +144,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
                     && !b.asClassOrInterfaceDeclaration().isInterface() ).findFirst();
 
             if( !obd.isPresent()){
-                throw new _jDraftException("Unable to find Local Class in anonymous Object body ");
+                throw new _draftException("Unable to find Local Class in anonymous Object body ");
             }
             ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)obd.get();
             //get the class
@@ -173,7 +173,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             }
             return _c;
         }
-        throw new _jDraftException("No Class Body for Anonymous Object containing a Local class to build");
+        throw new _draftException("No Class Body for Anonymous Object containing a Local class to build");
     }
 
     /**
@@ -240,7 +240,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         if( astTypeDecl instanceof ClassOrInterfaceDeclaration && !astTypeDecl.asClassOrInterfaceDeclaration().isInterface() ) {
             return new _class( (ClassOrInterfaceDeclaration)astTypeDecl);
         }
-        throw new _jDraftException("Expected AST ClassOrInterfaceDeclaration as Class, got "+ astTypeDecl.getClass() );
+        throw new _draftException("Expected AST ClassOrInterfaceDeclaration as Class, got "+ astTypeDecl.getClass() );
     }
     
     public static _class of( CompilationUnit cu ){
@@ -266,7 +266,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             }
             return of( cu.getType(0) );
         }
-        throw new _jDraftException("Unable to locate primary TYPE in "+ cu);
+        throw new _draftException("Unable to locate primary TYPE in "+ cu);
     }
 
     public static _class of( ClassOrInterfaceDeclaration astClass ){
@@ -727,7 +727,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     @Override
     public _class field( VariableDeclarator field ) {
         if(! field.getParentNode().isPresent()){
-            throw new _jDraftException("cannot add Var without parent FieldDeclaration");
+            throw new _draftException("cannot add Var without parent FieldDeclaration");
         }
         FieldDeclaration fd = (FieldDeclaration)field.getParentNode().get();
         //we already added it to the parent
@@ -908,7 +908,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     }
 
     @Override
-    public Map<_java.Component, Object> componentsMap( ) {
+    public Map<_java.Component, Object> components( ) {
         Map<_java.Component, Object> parts = new HashMap<>();
         parts.put( Component.HEADER_COMMENT, this.getHeaderComment() );
         parts.put( Component.PACKAGE_NAME, this.getPackage() );

@@ -292,7 +292,7 @@ public class _import implements _node<ImportDeclaration, _import> {
     }
 
     @Override
-    public Map<Component, Object> componentsMap() {
+    public Map<Component, Object> components() {
         Map<Component,Object>components = new HashMap<>();
         components.put(Component.NAME, this.astId.getNameAsString());
         components.put(Component.STATIC, this.astId.isStatic());

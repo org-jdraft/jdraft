@@ -1,16 +1,14 @@
 package org.jdraft.macro;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.nodeTypes.NodeWithOptionalBlockStmt;
 import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithAbstractModifier;
 import org.jdraft._anno;
 import org.jdraft._class;
-import org.jdraft._jDraftException;
+import org.jdraft._draftException;
 import org.jdraft._method;
 
 import java.lang.annotation.*;
-import java.lang.reflect.Type;
 import java.util.function.Consumer;
 
 /**
@@ -75,7 +73,7 @@ public @interface _abstract {
                 }
                 _macro.removeAnnotation(n, _abstract.class);
             } else {
-                throw new _jDraftException("@_abstract applied to a non abstract-able AST Node " + n.getClass());
+                throw new _draftException("@_abstract applied to a non abstract-able AST Node " + n.getClass());
             }
         }
     }

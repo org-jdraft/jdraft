@@ -9,7 +9,6 @@ import com.github.javaparser.ast.nodeTypes.NodeWithConstructors;
 import org.jdraft.*;
 
 import java.lang.annotation.*;
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -81,7 +80,7 @@ public @interface _autoConstructor {
                 _macro.removeAnnotation(node, _autoConstructor.class);
             }
             else{
-                throw new _jDraftException("cannot add a constructor ");
+                throw new _draftException("cannot add a constructor ");
             }
         }
     }

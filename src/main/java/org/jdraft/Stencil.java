@@ -449,7 +449,7 @@ public final class Stencil implements Template<String>{
                  * RATHER than manually doing this.
                  */
                 if( val == null ) {
-                    throw new _jDraftException( "no \"" + p + "\" in " + $nameValues );
+                    throw new _draftException( "no \"" + p + "\" in " + $nameValues );
                 }
                 String original = p;
                 if( p.toUpperCase().equals( original ) ) {

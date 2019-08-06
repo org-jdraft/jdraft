@@ -11,7 +11,7 @@ import com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt;
 import com.github.javaparser.ast.nodeTypes.NodeWithOptionalBlockStmt;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.Type;
-import org.jdraft._jDraftException;
+import org.jdraft._draftException;
 import org.jdraft.Expr;
 import org.jdraft.*;
 import org.jdraft._anno._annos;
@@ -299,7 +299,7 @@ public final class $ {
         try{
             clazz = Class.forName(ste.getClassName() );
         }catch(Exception e){
-            throw new _jDraftException("unable to resolve calling class "+ ste.getClassName());
+            throw new _draftException("unable to resolve calling class "+ ste.getClassName());
         }
         $expr.Select s = $expr.of("$.of($val$)").selectFirstIn(
                 clazz, se-> {
@@ -322,7 +322,7 @@ public final class $ {
         try{
             clazz = Class.forName(ste.getClassName() );
         }catch(Exception e){
-            throw new _jDraftException("unable to resolve calling class "+ ste.getClassName());
+            throw new _draftException("unable to resolve calling class "+ ste.getClassName());
         }
         $expr.Select s = $expr.of("$.of($val$)").selectFirstIn(
                 clazz, se-> {

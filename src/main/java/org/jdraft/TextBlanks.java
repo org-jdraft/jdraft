@@ -310,19 +310,19 @@ public final class TextBlanks{
      * @return the Filled in template
      */
     public String fill(Translator translator, Object... fillsInOrder)
-            throws _jDraftException {
+            throws _draftException {
 
         StringBuilder out = new StringBuilder();
         if( fillsInOrder == null ) {
             if( blankIndexes.cardinality() != 1 ) {
-                throw new _jDraftException(
+                throw new _draftException(
                         "fill parameter count (1) must accept blanks count ("
                                 + blankIndexes.cardinality() + ")" );
             }
             fillsInOrder = new Object[]{ null };
         }
         if( fillsInOrder.length < blankIndexes.cardinality() ) {
-            throw new _jDraftException( "fill parameter count ("
+            throw new _draftException( "fill parameter count ("
                     + fillsInOrder.length + ") must accept blanks count ("
                     + blankIndexes.cardinality() + ")" );
         }

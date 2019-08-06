@@ -49,7 +49,7 @@ public class Tokens implements Map<String,Object>{
      */
     public Tokens add(Object...keyValuePairs){
         if( keyValuePairs.length % 2 != 0 ){
-            throw new _jDraftException("expected in pairs (divisible where 2), got ("
+            throw new _draftException("expected in pairs (divisible where 2), got ("
                     + keyValuePairs.length + ")");
         }
         for(int i=0;i<keyValuePairs.length; i+=2){
@@ -140,6 +140,10 @@ public class Tokens implements Map<String,Object>{
         return this.kvMap.put(key, value );
     }
 
+    /**
+     * Returns the underlying map of the Tokens
+     * @return the underlying key/value map
+     */
     public Map<String,Object> map(){
         return kvMap;
     }
@@ -200,9 +204,9 @@ public class Tokens implements Map<String,Object>{
     }
 
     /**
-     *
-     * @param keyValues
-     * @return
+     * is the contents of this "tokens" equal to the keyValueParis passed in?
+     * @param keyValues keyValue pairs
+     * @return true iff all keyValues pairs are equal
      */
     public boolean is( Object...keyValues ){
         try{

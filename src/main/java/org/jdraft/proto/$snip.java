@@ -275,7 +275,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
      * @return 
      */
     public List<Statement> compose(_node _n ){
-        return compose(_n.deconstruct());
+        return compose(_n.decompose());
     }
 
     @Override
