@@ -36,13 +36,13 @@ public class _hashCodeTest extends TestCase {
 
     public void test$HashCode(){
         //test the "outer" HashCode template
-        _method _m = _hashCode.$HASHCODE.construct("seed",1,"prime",2);
+        _method _m = _hashCode.$HASHCODE.compose("seed",1,"prime",2);
         System.out.println( _m );
         _m.ast().walk(EmptyStmt.class, es-> es.remove() );
         System.out.println( _m );
-        assertEquals( 3, _hashCode.$HASHCODE.construct("seed",1,"prime",2).getBody().getStatements().size() );
-        assertEquals( 4, _hashCode.$HASHCODE.construct("seed", 1,"prime", 2, "callSuperHashCode", true, "body", false).getBody().getStatements().size() );
-        assertEquals( 5, _hashCode.$HASHCODE.construct("seed", 1,"prime", 2, "callSuperHashCode", true, "body", Stmt.of("System.out.println(1);")).getBody().getStatements().size() );
+        assertEquals( 3, _hashCode.$HASHCODE.compose("seed",1,"prime",2).getBody().getStatements().size() );
+        assertEquals( 4, _hashCode.$HASHCODE.compose("seed", 1,"prime", 2, "callSuperHashCode", true, "body", false).getBody().getStatements().size() );
+        assertEquals( 5, _hashCode.$HASHCODE.compose("seed", 1,"prime", 2, "callSuperHashCode", true, "body", Stmt.of("System.out.println(1);")).getBody().getStatements().size() );
     }
 
     public void testR(){

@@ -3,7 +3,6 @@ package org.jdraft.proto;
 import org.jdraft._code;
 import org.jdraft._java;
 import org.jdraft._type;
-import org.jdraft._body;
 import org.jdraft._walk;
 import org.jdraft.Expr;
 import org.jdraft.Ast;
@@ -1090,24 +1089,24 @@ public final class $stmt<T extends Statement>
         for(int i=0;i<values.length;i++){
             kvs.put( keys.get(i), values[i]);
         }
-        return construct( t, kvs );                
+        return compose( t, kvs );
     }
 
     @Override
-    public T construct( Object...keyValues ){
+    public T compose(Object...keyValues ){
         Tokens tokens = Tokens.of(keyValues);
-        return (T)walkCompose$LabeledStmt( Stmt.of(stmtPattern.construct( tokens )), tokens );
+        return (T)walkCompose$LabeledStmt( Stmt.of(stmtPattern.compose( tokens )), tokens );
     }
     
     @Override
-    public T construct( Translator t, Object...keyValues ){
+    public T compose(Translator t, Object...keyValues ){
         Tokens tokens = Tokens.of(keyValues);
-        return (T)walkCompose$LabeledStmt( Stmt.of(stmtPattern.construct( t, tokens )), tokens );
+        return (T)walkCompose$LabeledStmt( Stmt.of(stmtPattern.compose( t, tokens )), tokens );
     }
 
     @Override
-    public T construct( Map<String,Object> tokens ){
-        return (T)walkCompose$LabeledStmt( Stmt.of(stmtPattern.construct( tokens )), tokens );
+    public T compose(Map<String,Object> tokens ){
+        return (T)walkCompose$LabeledStmt( Stmt.of(stmtPattern.compose( tokens )), tokens );
     }
     
     /**
@@ -1115,14 +1114,14 @@ public final class $stmt<T extends Statement>
      * @param _n
      * @return 
      */
-    public T construct( _node _n ){
+    public T compose(_node _n ){
         Map<String,Object> decons = _n.deconstruct();
-        return (T)construct( decons );
+        return (T) compose( decons );
     }
 
     @Override
-    public T construct( Translator t, Map<String,Object> tokens ){                
-        return (T)walkCompose$LabeledStmt( Stmt.of(stmtPattern.construct( t, tokens )), tokens );
+    public T compose(Translator t, Map<String,Object> tokens ){
+        return (T)walkCompose$LabeledStmt( Stmt.of(stmtPattern.compose( t, tokens )), tokens );
     }
 
     /**
@@ -1238,7 +1237,7 @@ public final class $stmt<T extends Statement>
         if( ! constraint.test(t)){
             return null;
         }
-        Tokens st = this.stmtPattern.deconstruct(astStmt.toString(NO_COMMENTS));
+        Tokens st = this.stmtPattern.decompose(astStmt.toString(NO_COMMENTS));
         if( st == null ){
             return null;
         }      
@@ -1588,7 +1587,7 @@ public final class $stmt<T extends Statement>
             $stmt.Select sel = select( st );
             if( sel != null ){
                 //construct the replacement snippet
-                List<Statement> replacements = $protoReplacement.construct(sel.args );
+                List<Statement> replacements = $protoReplacement.compose(sel.args );
 
                 //Statement firstStmt = sel.statements.get(0);
                 //Node par = firstStmt.getParentNode().get();
@@ -1751,7 +1750,7 @@ public final class $stmt<T extends Statement>
         }
         //OVERRIDE: with a proto Statement
         else if( value instanceof $stmt ){ 
-            return (($stmt)value).construct(tokens);
+            return (($stmt)value).compose(tokens);
         }
         //SHOW (just remove the $label:)
         return ls.getStatement();        

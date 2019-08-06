@@ -1,9 +1,5 @@
 package org.jdraft.proto;
 
-import org.jdraft.proto.$;
-import org.jdraft.proto.$stmt;
-import org.jdraft.proto.$expr;
-import org.jdraft.proto.$case;
 import com.github.javaparser.ast.stmt.SwitchEntry;
 import com.github.javaparser.ast.stmt.SwitchStmt;
 import org.jdraft.Ast;
@@ -21,12 +17,12 @@ public class ScaseTest extends TestCase {
         $case $c = $case.of( $expr.of("$val$")
             .addConstraint(i -> i.isIntegerLiteralExpr() && Integer.parseInt( i.asIntegerLiteralExpr().getValue() ) % 2 == 1 ), 
             $stmt.of("System.out.println($val$);"));
-        System.out.println( $c.construct("val", 1) );
+        System.out.println( $c.compose("val", 1) );
     }
     
     public void testConstructAny(){
         SwitchEntry se = 
-            $case.any().construct("$label", Expr.of(1), 
+            $case.any().compose("$label", Expr.of(1),
                 "$statements", "System.out.println(1);");
         System.out.println( se );
     }

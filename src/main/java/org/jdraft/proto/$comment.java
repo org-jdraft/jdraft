@@ -207,7 +207,7 @@ public class $comment <C extends Comment>
         if( !this.constraint.test( (C)astComment) ){
             return null;
         }        
-        Tokens ts = this.contentsPattern.deconstruct(Ast.getContent(astComment));
+        Tokens ts = this.contentsPattern.decompose(Ast.getContent(astComment));
         if( ts == null ){
             return null;
         }
@@ -375,8 +375,8 @@ public class $comment <C extends Comment>
         return forEachIn( astRootNode, n-> n.remove() );
     }
 
-    public JavadocComment constructJavadocComment(Translator translator, Map<String, Object> keyValues) {
-        String contents = this.contentsPattern.construct(translator, keyValues);
+    public JavadocComment composeJavadocComment(Translator translator, Map<String, Object> keyValues) {
+        String contents = this.contentsPattern.compose(translator, keyValues);
         if( contents.trim().length() == 0 ){
             return null;
         }
@@ -386,17 +386,17 @@ public class $comment <C extends Comment>
         return new JavadocComment( contents );
     }
     
-    public BlockComment constructBlockComment(Translator translator, Map<String, Object> keyValues) {
+    public BlockComment composeBlockComment(Translator translator, Map<String, Object> keyValues) {
         
-        String contents = this.contentsPattern.construct(translator, keyValues);
+        String contents = this.contentsPattern.compose(translator, keyValues);
         if( contents.trim().length() == 0 || contents.equals("null")){
             return null;
         }
         return new BlockComment( contents );
     }
     
-    public LineComment constructLineComment( Translator translator,  Map<String,Object> keyValues){
-        String contents = this.contentsPattern.construct(translator, keyValues);
+    public LineComment composeLineComment(Translator translator, Map<String,Object> keyValues){
+        String contents = this.contentsPattern.compose(translator, keyValues);
         if( contents.trim().length() == 0 || contents.equals("null")){
             return null;
         }
@@ -404,7 +404,7 @@ public class $comment <C extends Comment>
     }
     
     @Override
-    public C construct(Translator translator, Map<String, Object> keyValues) {
+    public C compose(Translator translator, Map<String, Object> keyValues) {
         if( !keyValues.containsKey("comment")){
             keyValues.put("comment", "");
         }        
@@ -412,25 +412,25 @@ public class $comment <C extends Comment>
             keyValues.put("javadoc", "");
         }      
         if( this.commentClasses.isEmpty()){
-            return (C)constructBlockComment( translator, keyValues );
+            return (C) composeBlockComment( translator, keyValues );
         }
         if( this.commentClasses.size() == 1 ){
             Class cc = this.commentClasses.toArray(new Class[0])[0];
             if( cc == JavadocComment.class){
-                return (C)constructJavadocComment(translator, keyValues);
+                return (C) composeJavadocComment(translator, keyValues);
             }
             if( cc == BlockComment.class){
-                return (C)constructBlockComment( translator, keyValues );
+                return (C) composeBlockComment( translator, keyValues );
             }
-            return (C)constructLineComment(translator, keyValues );            
+            return (C) composeLineComment(translator, keyValues );
         }
         if( this.commentClasses.contains(JavadocComment.class)){
-            return (C)constructJavadocComment(translator, keyValues);
+            return (C) composeJavadocComment(translator, keyValues);
         }
         if( this.commentClasses.contains(BlockComment.class)){
-            return (C)constructJavadocComment(translator, keyValues);
+            return (C) composeJavadocComment(translator, keyValues);
         }
-        return (C)constructLineComment(translator, keyValues);
+        return (C) composeLineComment(translator, keyValues);
     }
 
     @Override

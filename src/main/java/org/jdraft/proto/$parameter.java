@@ -280,14 +280,14 @@ public class $parameter implements Template<_parameter>, $proto<_parameter> {
      * @param keyValues
      * @return 
      */
-    public String compose( Translator translator, Map<String, Object> keyValues) {
+    public String composeToString( Translator translator, Map<String, Object> keyValues) {
         StringBuilder sb = new StringBuilder();
         //here use a single " " as a separator between annos and after the last anno
         sb.append( this.annos.compose(translator, keyValues, " ") ); 
         if( isFinal ){
             sb.append("final ");
         }
-        sb.append( type.construct(translator, keyValues).toString() );
+        sb.append( type.compose(translator, keyValues).toString() );
         if( isVarArg){
             sb.append("...");
         }
@@ -320,8 +320,8 @@ public class $parameter implements Template<_parameter>, $proto<_parameter> {
     }
     
     @Override
-    public _parameter construct(Translator translator, Map<String, Object> keyValues) {
-        return _parameter.of( compose(translator, keyValues));
+    public _parameter compose(Translator translator, Map<String, Object> keyValues) {
+        return _parameter.of( composeToString(translator, keyValues));
     }
     
     /**

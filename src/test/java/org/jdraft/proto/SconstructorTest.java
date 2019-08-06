@@ -1,12 +1,5 @@
 package org.jdraft.proto;
 
-import org.jdraft.proto.$anno;
-import org.jdraft.proto.$throws;
-import org.jdraft.proto.$body;
-import org.jdraft.proto.$modifiers;
-import org.jdraft.proto.$parameters;
-import org.jdraft.proto.$constructor;
-import org.jdraft.proto.$id;
 import org.jdraft.Stmt;
 import org.jdraft._class;
 import org.jdraft._constructor;
@@ -251,8 +244,8 @@ public class SconstructorTest extends TestCase {
         //System.out.println( $ct.construct() );
         //System.out.println( $ct.construct() );
 
-        _constructor _c1 =  $ct.construct();
-        _constructor _c2 =  $ct.construct();
+        _constructor _c1 =  $ct.compose();
+        _constructor _c2 =  $ct.compose();
         
         assertEquals( _c1, _c2);
         
@@ -262,7 +255,7 @@ public class SconstructorTest extends TestCase {
         
         
         assertTrue(
-            $ct.construct().is("public ct(int a, String name){",
+            $ct.compose().is("public ct(int a, String name){",
             "this.a = a;",
             "this.name = name;",
             "}"));
@@ -277,7 +270,7 @@ public class SconstructorTest extends TestCase {
                 this.s = "Some S";
             }
         });
-        _constructor _ct = $ct.construct();
+        _constructor _ct = $ct.compose();
         //verify that the ANNOTATIONS and JAVADOC are transposed
         assertTrue( _ct.hasAnno(Deprecated.class));
         assertTrue( _ct.getJavadoc().getContent().contains("Some Javadoc"));
@@ -291,8 +284,8 @@ public class SconstructorTest extends TestCase {
             }
         });
 
-        assertTrue($c.construct().getBody().isEmpty());
-        assertEquals($c.construct("label", true).getBody().getStatement(0),
+        assertTrue($c.compose().getBody().isEmpty());
+        assertEquals($c.compose("label", true).getBody().getStatement(0),
                 Stmt.of("System.out.println(12);"));
     }
     public void testCtorLabelForAddingCode(){
@@ -302,18 +295,18 @@ public class SconstructorTest extends TestCase {
             }
         });
 
-        assertTrue($c.construct().getBody().isEmpty());
+        assertTrue($c.compose().getBody().isEmpty());
         assertEquals( Stmt.of("System.out.println(1);"),
-            $c.construct("label", "System.out.println(1);").getBody().getStatement(0));
+            $c.compose("label", "System.out.println(1);").getBody().getStatement(0));
 
         //
         assertEquals( Stmt.of("System.out.println(1);"),
-            $c.construct("label", Stmt.of("System.out.println(1);")).getBody().getStatement(0));
+            $c.compose("label", Stmt.of("System.out.println(1);")).getBody().getStatement(0));
 
         //block Statement
         //assertEquals( Stmt.of("{ System.out.println(1); }"),
         assertEquals( Stmt.of("System.out.println(1); "),
-            $c.construct("label", Stmt.block("{ System.out.println(1); }")).getBody().getStatement(0));
+            $c.compose("label", Stmt.block("{ System.out.println(1); }")).getBody().getStatement(0));
 
 
 

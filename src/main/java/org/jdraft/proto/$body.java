@@ -348,7 +348,7 @@ public class $body implements Template<_body>, $proto<_body>, $constructor.$part
     }
 
     @Override
-    public _body construct(Translator translator, Map<String, Object> keyValues) {
+    public _body compose(Translator translator, Map<String, Object> keyValues) {
         //they can OVERRIDE the body construction if they pass in a "$body" parameter
         if( keyValues.get("$body")!= null ){
             //this means I want to override the body
@@ -357,12 +357,12 @@ public class $body implements Template<_body>, $proto<_body>, $constructor.$part
             Map<String,Object>tks = new HashMap<>();
             tks.putAll(keyValues);
             tks.remove("$body");
-            return $bd.construct(translator, tks);
+            return $bd.compose(translator, tks);
         }
         if( !this.isImplemented ){
             return _body.of(";");
         }
-        Statement r = this.bodyStmts.construct( translator, keyValues );
+        Statement r = this.bodyStmts.compose( translator, keyValues );
         //System.out.println("THE CONSTRUCTED STATEMENTS"+r );
         return _body.of( r );
         //return _body.of(this.bodyStmts.construct( translator, keyValues ));

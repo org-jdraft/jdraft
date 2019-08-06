@@ -1,7 +1,5 @@
 package org.jdraft.proto;
 
-import org.jdraft.proto.$comment;
-import com.github.javaparser.ast.comments.JavadocComment;
 import org.jdraft.Ast;
 import junit.framework.TestCase;
 
@@ -13,21 +11,21 @@ public class ScommentTest extends TestCase {
     
     public void testCompose(){
         assertEquals( Ast.lineComment("//Hello ").getContent().trim(), 
-                $comment.of("//Hello").construct().getContent().trim());
+                $comment.of("//Hello").compose().getContent().trim());
         //assertEquals( Ast.blockComment("/* Hello */"), $comment.of("/* Hello */").construct());
     }
     
     public void testConstruct(){
-        assertNull($comment.javadocComment().construct());        
-        assertNotNull($comment.javadocComment().construct("javadoc", "Hi"));
-        System.out.println($comment.javadocComment().construct("javadoc", "Hi"));
-        System.out.println($comment.javadocComment().construct("javadoc", "Hi"+System.lineSeparator()+"There"));
+        assertNull($comment.javadocComment().compose());
+        assertNotNull($comment.javadocComment().compose("javadoc", "Hi"));
+        System.out.println($comment.javadocComment().compose("javadoc", "Hi"));
+        System.out.println($comment.javadocComment().compose("javadoc", "Hi"+System.lineSeparator()+"There"));
         
-        assertNull($comment.lineComment().construct());
-        assertNotNull($comment.lineComment().construct("comment", "Hi"));
+        assertNull($comment.lineComment().compose());
+        assertNotNull($comment.lineComment().compose("comment", "Hi"));
         
-        System.out.println($comment.lineComment().construct("comment", "Hi"));
-        System.out.println($comment.lineComment().construct("comment", "Hi"+System.lineSeparator()+"There"));
+        System.out.println($comment.lineComment().compose("comment", "Hi"));
+        System.out.println($comment.lineComment().compose("comment", "Hi"+System.lineSeparator()+"There"));
     }
     
     public void testAnyMatch(){

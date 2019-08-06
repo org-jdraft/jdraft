@@ -400,7 +400,6 @@ public interface $proto<P> {
      * @param clazz runtime class (MUST HAVE .java source code in CLASSPATH)
      * @return the selected
      */
-    //default List<? extends selected> listSelectedIn(Class clazz){
     default <S extends selected> List<S> listSelectedIn(Class clazz){
         return listSelectedIn( (_type)_java.type(clazz));
     }
@@ -432,7 +431,6 @@ public interface $proto<P> {
      * search
      * @return a list of the selected
      */
-    //default List<? extends selected> listSelectedIn(_java _j){
     default <S extends selected> List<S> listSelectedIn(_java _j){
         if( _j instanceof _code ){
             _code _c = (_code)_j;
@@ -453,8 +451,6 @@ public interface $proto<P> {
      * MethodDeclaration)
      * @return the selected
      */
-    //List<? extends selected> listSelectedIn(Node astRootNode);
-
     <S extends selected> List<S> listSelectedIn(Node astRootNode);
     
     /**
@@ -467,19 +463,6 @@ public interface $proto<P> {
         
         return forEachIn( (_T)_java.type(clazz), nodeActionFn);
     }
-
-    /**
-     *
-     * @param clazzes
-     * @param nodeActionFn
-     * @return
-
-    default List<_type> forEachIn(Collection<Class> clazzes, Consumer<P>nodeActionFn ){
-        List<_type> ts = new ArrayList<>();
-        clazzes.stream().forEach( c-> ts.add( forEachIn( _java.type(c), nodeActionFn) ) );
-        return ts;
-    }
-    */
 
     /**
      *

@@ -300,18 +300,18 @@ public class $anno
         return select(_a) != null;
     }
 
-    public String compose( Object...values ){
-        return compose( Translator.DEFAULT_TRANSLATOR, Tokens.of(values ));
+    public String composeToString( Object...values ){
+        return composeToString( Translator.DEFAULT_TRANSLATOR, Tokens.of(values ));
     }
     
-    public String compose(Translator translator, Map<String, Object> keyValues) {
+    public String composeToString(Translator translator, Map<String, Object> keyValues) {
         if( keyValues.get("$anno") != null ){
             //override parameter passed in
             $anno $a = $anno.of( keyValues.get("$anno").toString() );
             Map<String,Object> kvs = new HashMap<>();
             kvs.putAll(keyValues);
             kvs.remove("$anno"); //remove to avoid stackOverflow
-            return $a.compose(translator, kvs);
+            return $a.composeToString(translator, kvs);
         }
         StringBuilder sb = new StringBuilder();
         sb.append("@");
@@ -330,16 +330,17 @@ public class $anno
     }
     
     @Override
-    public _anno construct(Translator translator, Map<String, Object> keyValues) {
+    public _anno compose(Translator translator, Map<String, Object> keyValues) {
         if( keyValues.get("$anno") != null ){
             //override parameter passed in
             $anno $a = $anno.of( keyValues.get("$anno").toString() );
             Map<String,Object> kvs = new HashMap<>();
             kvs.putAll(keyValues);
             kvs.remove("$anno"); //remove to avoid stackOverflow
-            return $a.construct(translator, kvs);
+            return $a.compose(translator, kvs);
         }
-        return _anno.of(compose(translator, keyValues));      
+        //return _anno.of(compose(translator, keyValues));
+        return _anno.of(composeToString(translator, keyValues));
     }
 
     @Override
@@ -476,7 +477,7 @@ public class $anno
         astNode.walk(AnnotationExpr.class, e-> {
             Select sel = select( e );
             if( sel != null ){
-                sel._ann.ast().replace(a.construct(sel.args).ast() );
+                sel._ann.ast().replace(a.compose(sel.args).ast() );
             }
         });
         return astNode;
@@ -796,7 +797,7 @@ public class $anno
             if( !key.isMatchAny() ){
                 k = key.compose(translator, keyValues);
             }
-            Expression v = value.construct(translator, keyValues);
+            Expression v = value.compose(translator, keyValues);
             if (k == null || k.length() == 0) {                
                 return v.toString();
             }

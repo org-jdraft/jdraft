@@ -1,9 +1,5 @@
 package org.jdraft.proto;
 
-import org.jdraft.proto.$;
-import org.jdraft.proto.$stmt;
-import org.jdraft.proto.$expr;
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.expr.DoubleLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
@@ -11,7 +7,6 @@ import com.github.javaparser.ast.expr.LongLiteralExpr;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.SwitchEntry;
 import com.github.javaparser.ast.stmt.SwitchStmt;
-import org.jdraft.Ast;
 import org.jdraft.Expr;
 import org.jdraft._class;
 import java.text.NumberFormat;
@@ -416,7 +411,7 @@ public class SexprTest extends TestCase {
 
     public void testExprOf(){
         $expr $e = $expr.of("1 + 2");
-        assertEquals( $e.construct(), Expr.of("1 + 2"));
+        assertEquals( $e.compose(), Expr.of("1 + 2"));
         assertTrue( $e.matches(Expr.of("1+2")));
 
         $e = $expr.of("$a$ + $b$");

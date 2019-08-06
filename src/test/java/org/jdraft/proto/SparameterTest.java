@@ -5,9 +5,7 @@
  */
 package org.jdraft.proto;
 
-import org.jdraft.proto.$parameter;
 import org.jdraft._parameter;
-import org.jdraft._typeRef;
 import junit.framework.TestCase;
 
 /**
@@ -20,30 +18,30 @@ public class SparameterTest extends TestCase {
         $parameter $p = $parameter.of("int i");        
         _parameter _p = _parameter.of("int i");
         
-        assertEquals( _p, $p.construct() );
+        assertEquals( _p, $p.compose() );
         
-        assertEquals( _p, $parameter.of("$type$ i").construct("type", int.class));        
-        assertEquals( _p, $parameter.of("int $name$").construct("name", "i"));
-        assertEquals( _p, $parameter.of("$type$ $name$").construct("name", "i", "type", int.class));   
+        assertEquals( _p, $parameter.of("$type$ i").compose("type", int.class));
+        assertEquals( _p, $parameter.of("int $name$").compose("name", "i"));
+        assertEquals( _p, $parameter.of("$type$ $name$").compose("name", "i", "type", int.class));
         
         $p = $parameter.of("final String... nm");
         
-        assertEquals( _parameter.of("final String... nm"), $p.construct());
+        assertEquals( _parameter.of("final String... nm"), $p.compose());
         
         //verify they MUST be both vararg and final
-        assertNotSame( _parameter.of("String... nm"), $p.construct());
-        assertNotSame( _parameter.of("final String nm"), $p.construct());        
+        assertNotSame( _parameter.of("String... nm"), $p.compose());
+        assertNotSame( _parameter.of("final String nm"), $p.compose());
         
         $p = $parameter.of("$type$ name");
         
-        assertEquals(_parameter.of(" String name"), $p.construct("type", String.class));
+        assertEquals(_parameter.of(" String name"), $p.compose("type", String.class));
         
         //make sure if I have (one or more) annos they are composed 
         $p = $parameter.of("@A int i");        
-        assertEquals(_parameter.of("@A int i"), $p.construct());
+        assertEquals(_parameter.of("@A int i"), $p.compose());
         
         $p = $parameter.of("@A @B @C final int... i");
-        assertEquals(_parameter.of("@A @B @C final int... i"), $p.construct());
+        assertEquals(_parameter.of("@A @B @C final int... i"), $p.compose());
         
     }
     

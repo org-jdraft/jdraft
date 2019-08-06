@@ -210,7 +210,7 @@ public final class $typeParameters
     }
 
     @Override
-    public _typeParameters construct(Translator translator, Map<String, Object> keyValues) {        
+    public _typeParameters compose(Translator translator, Map<String, Object> keyValues) {
         
         _typeParameters _ts = _typeParameters.of();
         if( keyValues.get("$typeParameters") != null ){ //PARAMETER OVERRIDE
@@ -220,14 +220,14 @@ public final class $typeParameters
             kvs.remove("$typeParameters");
             
             if( tps instanceof $typeParameters ){
-                return (($typeParameters)tps).construct(translator, kvs);
+                return (($typeParameters)tps).compose(translator, kvs);
             } 
             if( tps instanceof _typeParameters){
-                return ($typeParameters.of((_typeParameters)tps)).construct(translator, kvs);
+                return ($typeParameters.of((_typeParameters)tps)).compose(translator, kvs);
             }
-            return $typeParameters.of(tps.toString()).construct(translator, kvs);
+            return $typeParameters.of(tps.toString()).compose(translator, kvs);
         }         
-        this.typeParams.forEach( tp -> _ts.add( tp.construct(translator, keyValues) ) );        
+        this.typeParams.forEach( tp -> _ts.add( tp.compose(translator, keyValues) ) );
         return _ts;         
     }
     
@@ -586,7 +586,7 @@ public final class $typeParameters
             astNode.findCompilationUnit().get().walk(CallableDeclaration.class, e-> {
                 Select sel = select( e );
                 if( sel != null ){                    
-                    _typeParameters _ths = $i.construct(sel.args.asTokens());
+                    _typeParameters _ths = $i.compose(sel.args.asTokens());
                     sel.typeParameters.astHolder().setTypeParameters(_ths.ast());                    
                 }
             });

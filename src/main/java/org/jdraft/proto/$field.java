@@ -625,7 +625,7 @@ public class $field implements Template<_field>, $proto<_field> {
         astNode.walk(VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
-                sel._f.ast().replace($replaceProto.construct(sel.args).ast() );
+                sel._f.ast().replace($replaceProto.compose(sel.args).ast() );
             }
         });
         return astNode;
@@ -642,7 +642,7 @@ public class $field implements Template<_field>, $proto<_field> {
         _walk.in(_j, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
-                sel._f.ast().replace($replaceProto.construct(sel.args).ast() );
+                sel._f.ast().replace($replaceProto.compose(sel.args).ast() );
             }
         });
         return _j;
@@ -861,7 +861,7 @@ public class $field implements Template<_field>, $proto<_field> {
     } 
     
     @Override
-    public _field construct(Translator translator, Map<String, Object> keyValues) {
+    public _field compose(Translator translator, Map<String, Object> keyValues) {
         Map<String,Object> baseMap = new HashMap<>();
         //we need to set these to empty
         baseMap.put("javadoc", "" );
@@ -874,27 +874,27 @@ public class $field implements Template<_field>, $proto<_field> {
         baseMap.putAll(keyValues);
         
         StringBuilder sb = new StringBuilder();
-        JavadocComment jdc = javadoc.construct(translator, baseMap);
+        JavadocComment jdc = javadoc.compose(translator, baseMap);
         if( jdc != null){
             sb.append(jdc);
             sb.append(System.lineSeparator());
         }        
-        sb.append(annos.construct(translator, baseMap) );
+        sb.append(annos.compose(translator, baseMap) );
         sb.append(System.lineSeparator());
-        sb.append(modifiers.construct(translator, baseMap) );
+        sb.append(modifiers.compose(translator, baseMap) );
         sb.append(" ");
-        sb.append(type.construct(translator, baseMap) );
+        sb.append(type.compose(translator, baseMap) );
         sb.append(" ");
-        sb.append(name.pattern.construct(translator, baseMap) );
+        sb.append(name.pattern.compose(translator, baseMap) );
         if( init != null ){
-            Expression expr = init.construct(translator, baseMap);
+            Expression expr = init.compose(translator, baseMap);
             if( expr != null ){
                 sb.append( " = ");
                 sb.append( expr );
             }
         }
         sb.append(";");
-        String s = sb.toString();
+        //String s = sb.toString();
         //System.out.println( s );
         return _field.of( sb.toString() );        
     }

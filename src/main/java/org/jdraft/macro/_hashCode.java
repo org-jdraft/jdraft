@@ -1,7 +1,6 @@
 package org.jdraft.macro;
 
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.TypeDeclaration;
 import org.jdraft.*;
 import org.jdraft.proto.$stmt;
 import org.jdraft.proto.$method;
@@ -96,26 +95,26 @@ public @interface _hashCode {
          public static Statement constructStmt(_field _f){
             if( _f.getType().isArray() ){
                 if( _f.getType().getElementType().isPrimitiveType()){
-                    return $arrayOfPrimitives.construct(_f);
+                    return $arrayOfPrimitives.compose(_f);
                 }
-                return $arrayOfObject.construct(_f);
+                return $arrayOfObject.compose(_f);
             }
             if( _f.getType().isPrimitive()){
                 if( _f.isType(boolean.class)){
-                    return $boolean.construct(_f);
+                    return $boolean.compose(_f);
                 }
                 if( _f.isType(double.class)){
-                    return $double.construct(_f);
+                    return $double.compose(_f);
                 }
                 if( _f.isType(float.class)){
-                    return $float.construct(_f);
+                    return $float.compose(_f);
                 }
                 if( _f.isType(long.class)){
-                    return $long.construct(_f);
+                    return $long.compose(_f);
                 }
-                return $simplePrimitive.construct(_f);
+                return $simplePrimitive.compose(_f);
             }
-            return $default.construct(_f);
+            return $default.compose(_f);
         }
     }
 
@@ -146,7 +145,7 @@ public @interface _hashCode {
                 //construct Statements for all FIELDS into the BODY BlockStmt
                 _c.forFields(HASH_CODE_FIELD_MATCH_FN, f-> body.addStatement(_fieldToStatement.constructStmt(f)));
                 tokens.put("body", body); //the body:{} will be replaced with the code in the BlockStmt
-                _c.method($HASHCODE.construct(tokens));
+                _c.method($HASHCODE.compose(tokens));
             }
             return _t;
         }

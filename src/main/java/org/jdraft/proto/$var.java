@@ -342,31 +342,31 @@ public class $var
     }
 
     @Override
-    public VariableDeclarator construct(Translator translator, Map<String, Object> keyValues) {
+    public VariableDeclarator compose(Translator translator, Map<String, Object> keyValues) {
         Tokens base = new Tokens();
         base.put("init", "");
         base.putAll(keyValues);
         
-        String in = init.construct(translator, base).toString();
+        String in = init.compose(translator, base).toString();
         if( in != null ){
-            return Ast.variable(this.type.construct(translator, base)+ " "+ this.name.compose(translator, base)+" = "+in+";");
+            return Ast.variable(this.type.compose(translator, base)+ " "+ this.name.compose(translator, base)+" = "+in+";");
         }        
-        return Ast.variable(this.type.construct(translator, base)+ " "+ this.name.compose(translator, base)+";");
+        return Ast.variable(this.type.compose(translator, base)+ " "+ this.name.compose(translator, base)+";");
     }
    
     @Override
-    public VariableDeclarator construct(Map<String, Object> keyValues) {
-        return construct( Translator.DEFAULT_TRANSLATOR, keyValues);
+    public VariableDeclarator compose(Map<String, Object> keyValues) {
+        return compose( Translator.DEFAULT_TRANSLATOR, keyValues);
     }
 
     @Override
-    public VariableDeclarator construct(Object... keyValues) {
-        return construct( Translator.DEFAULT_TRANSLATOR, Tokens.of(keyValues));
+    public VariableDeclarator compose(Object... keyValues) {
+        return compose( Translator.DEFAULT_TRANSLATOR, Tokens.of(keyValues));
     }
 
     @Override
-    public VariableDeclarator construct(Translator translator, Object... keyValues) {
-        return construct( translator, Tokens.of(keyValues));
+    public VariableDeclarator compose(Translator translator, Object... keyValues) {
+        return compose( translator, Tokens.of(keyValues));
     }
 
     @Override
@@ -398,14 +398,14 @@ public class $var
             for(int i=0;i<vars.size();i++){
                 toCompose.put(allVars.get(i), values[i]);
             }
-            return construct(translator, toCompose);
+            return compose(translator, toCompose);
         }
         if( values.length == vars.size() ){ //no init
             Map<String,Object> toCompose = new HashMap<>();
             for(int i=0;i<vars.size();i++){
                 toCompose.put(allVars.get(i), values[i]);
             }
-            return Ast.variable( type.construct(translator, toCompose) + " "+ name.compose(translator, toCompose) );
+            return Ast.variable( type.compose(translator, toCompose) + " "+ name.compose(translator, toCompose) );
         }
         throw new _jDraftException("Expected fill fields of size ("+allVars.size()+") or ("+vars.size()+") got ("+values.length+")");
     }
@@ -675,7 +675,7 @@ public class $var
         astNode.walk(VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
-                sel.astVar.replace($replaceProto.construct(sel.args) );
+                sel.astVar.replace($replaceProto.compose(sel.args) );
             }
         });
         return astNode;
@@ -692,7 +692,7 @@ public class $var
         _walk.in(_le, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
-                sel.astVar.replace($replaceProto.construct(sel.args) );
+                sel.astVar.replace($replaceProto.compose(sel.args) );
             }
         });
         return _le;

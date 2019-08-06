@@ -203,7 +203,7 @@ public final class $import
             if( _i.isWildcard() ){
                 name += ".*";
             }            
-            Tokens ts = importPattern.deconstruct( name );
+            Tokens ts = importPattern.decompose( name );
             if( ts != null ){
                 return new Select(_i, $args.of(ts) );
             }            
@@ -226,8 +226,8 @@ public final class $import
     }
 
     @Override
-    public _import construct(Translator translator, Map<String, Object> keyValues) {        
-        _import _ii = _import.of(importPattern.construct(translator, keyValues));
+    public _import compose(Translator translator, Map<String, Object> keyValues) {
+        _import _ii = _import.of(importPattern.compose(translator, keyValues));
         _ii.setStatic(this.isStatic);
         _ii.setWildcard(this.isWildcard);
         return _ii;
@@ -582,7 +582,7 @@ public final class $import
                     ImportDeclaration id = sel.ast();
                     boolean isS = id.isStatic();
                     boolean isW = id.isAsterisk();
-                    ImportDeclaration rep = $i.construct(sel.args).ast();
+                    ImportDeclaration rep = $i.compose(sel.args).ast();
                     if( isS){
                         rep.setStatic(true);
                     }

@@ -1,9 +1,5 @@
 package org.jdraft.proto;
 
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.Statement;
-import org.jdraft.proto.$stmt;
-import org.jdraft.proto.$body;
 import org.jdraft.Stmt;
 import org.jdraft._body;
 import org.jdraft._method;
@@ -23,10 +19,10 @@ public class SbodyTest extends TestCase {
             }
             System.out.println(3);
         });
-        System.out.println( "HIDE" + $s.construct("A", false) );
-        System.out.println( "SHOW" + $s.construct("A", true) );
-        System.out.println( "OVERRIDE WITH ASSERT" + $s.construct("A", "assert(true);") );
-        System.out.println( "OVERRIDE WITH MULTIPLE STMTS" + $s.construct("A", Stmt.block( "assert(true);", "assert(1==1);") ));
+        System.out.println( "HIDE" + $s.compose("A", false) );
+        System.out.println( "SHOW" + $s.compose("A", true) );
+        System.out.println( "OVERRIDE WITH ASSERT" + $s.compose("A", "assert(true);") );
+        System.out.println( "OVERRIDE WITH MULTIPLE STMTS" + $s.compose("A", Stmt.block( "assert(true);", "assert(1==1);") ));
     }
 
     public void testFlatten$Body(){
@@ -86,11 +82,11 @@ public class SbodyTest extends TestCase {
     }
     
     public void testAnyConstruct(){
-        _body _b = $body.any().construct();
+        _body _b = $body.any().compose();
         System.out.println("BODY " + _b );
         assertFalse( _b.isImplemented() );
         
-        _b = $body.of().construct("$body", "{System.out.println(1);}");
+        _b = $body.of().compose("$body", "{System.out.println(1);}");
     }
     
     public void testComposeWith$Label(){        
@@ -99,16 +95,16 @@ public class SbodyTest extends TestCase {
         });
         
         //SHOW
-        _body _bd = $b.construct( "label", true );
+        _body _bd = $b.compose( "label", true );
         System.out.println( _bd );
         assertTrue( $stmt.of("System.out.println(2);").matches( _bd.getStatement(0)) );
         
         //HIDE
-        _bd = $b.construct();
+        _bd = $b.compose();
         assertTrue( _bd.isEmpty());
         
         //OVERRIDE
-        _bd = $b.construct( "label", Stmt.of("assert true;") );
+        _bd = $b.compose( "label", Stmt.of("assert true;") );
         assertTrue( $stmt.of("assert true;").matches( _bd.getStatement(0)) );                
     }
     
@@ -118,19 +114,19 @@ public class SbodyTest extends TestCase {
         });
         
         //SHOW
-        _body _bd = $b.construct( "block", true );
+        _body _bd = $b.compose( "block", true );
         assertTrue( _bd.isEmpty() ) ; //$stmt.of("{}").matches( _bd.getStatement(0)) );
         
         //HIDE
-        _bd = $b.construct();
+        _bd = $b.compose();
         assertTrue( _bd.isEmpty());
         
         //OVERRIDE (with single statement)
-        _bd = $b.construct( "block", Stmt.of("assert true;") );
+        _bd = $b.compose( "block", Stmt.of("assert true;") );
         assertTrue( $stmt.of("assert true;").matches( _bd.getStatement(0)) );                
         
         //OVERRIDE (with block statement)
-        _bd = $b.construct( "block", Stmt.of("{ a(); b(); }") );
+        _bd = $b.compose( "block", Stmt.of("{ a(); b(); }") );
 
         assertTrue( $stmt.of("a();").matches( _bd.getStatement(0)) );
         assertTrue( $stmt.of("b();").matches( _bd.getStatement(1)) );
@@ -144,7 +140,7 @@ public class SbodyTest extends TestCase {
         $body b = $body.of(()->{
            $label: System.out.println( "Hey"); 
         });
-        _body _b = b.construct("label", true);
+        _body _b = b.compose("label", true);
         System.out.println( _b );
     }
     

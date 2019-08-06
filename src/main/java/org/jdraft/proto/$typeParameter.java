@@ -183,24 +183,24 @@ public class $typeParameter
     }
     
     @Override
-    public _typeParameter construct(Translator translator, Map<String, Object> keyValues) {
+    public _typeParameter compose(Translator translator, Map<String, Object> keyValues) {
         if( keyValues.get("$typeParameter") != null ){
             Object tp = keyValues.get("$typeParameter");            
             Map<String,Object> kvs = new HashMap<>();
             kvs.putAll(keyValues);
             kvs.remove("$typeParameter");
             if( tp instanceof $typeParameter ){
-                return (($typeParameter)tp).construct(translator, kvs);
+                return (($typeParameter)tp).compose(translator, kvs);
             }
             if( tp instanceof _typeParameter){
-                return $typeParameter.of( (_typeParameter)tp).construct(translator, kvs);
+                return $typeParameter.of( (_typeParameter)tp).compose(translator, kvs);
             }
             if( tp instanceof TypeParameter){
-                return $typeParameter.of( (TypeParameter)tp).construct(translator, kvs);
+                return $typeParameter.of( (TypeParameter)tp).compose(translator, kvs);
             }
-            return $typeParameter.of( tp.toString() ).construct(translator, kvs);
+            return $typeParameter.of( tp.toString() ).compose(translator, kvs);
         }
-        String anos = this.$anns.compose(translator, keyValues);
+        String anos = this.$anns.composeToString(translator, keyValues);
         String nm = this.$name.compose(translator, keyValues);
         if( nm.length() == 0 && keyValues.containsKey("name")){ //this handles $any$
             nm = keyValues.get("name").toString();
@@ -212,7 +212,7 @@ public class $typeParameter
                 if( i > 0){
                     b.append(" & ");
                 }
-                b.append($typeBound.get(i).construct(translator, keyValues));
+                b.append($typeBound.get(i).compose(translator, keyValues));
             }
             tb = " extends "+ b.toString();
         }

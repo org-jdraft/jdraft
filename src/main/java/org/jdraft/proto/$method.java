@@ -547,11 +547,11 @@ public class $method
         for(int i=0;i<nom.size();i++){
             ts.put( nom.get(i), values[i]);
         }
-        return construct(translator, ts);        
+        return compose(translator, ts);
     }
     
     @Override
-    public _method construct(Translator translator, Map<String, Object> keyValues) {
+    public _method compose(Translator translator, Map<String, Object> keyValues) {
         
         //the base values (so we dont get Nulls for base values
         Tokens base = Tokens.of(
@@ -566,7 +566,7 @@ public class $method
         base.putAll(keyValues);
         
         StringBuilder sb = new StringBuilder();   
-        JavadocComment jdc = javadoc.construct(translator, base );
+        JavadocComment jdc = javadoc.compose(translator, base );
         if( jdc != null ){
             sb.append(jdc);        
             sb.append(System.lineSeparator());
@@ -575,18 +575,18 @@ public class $method
         sb.append(System.lineSeparator());
         sb.append( modifiers.compose(translator, base));
         sb.append(" ");
-        sb.append( typeParameters.construct(translator, base));
+        sb.append( typeParameters.compose(translator, base));
         sb.append(" ");
-        sb.append( type.construct(translator, base));
+        sb.append( type.compose(translator, base));
         sb.append(" ");
         sb.append( name.compose(translator, base));
         sb.append(" ");
-        sb.append( parameters.construct(translator, base));
+        sb.append( parameters.compose(translator, base));
         sb.append(" ");
-        sb.append( thrown.construct(translator, base));
+        sb.append( thrown.compose(translator, base));
         sb.append(System.lineSeparator());
         
-        String bd = body.construct(translator, base).toString();
+        String bd = body.compose(translator, base).toString();
         if( bd.length() ==0 ){
             //it's an "anyBody", so I default it to an empty implementation
             sb.append("{}");
@@ -601,8 +601,8 @@ public class $method
      * @param _n
      * @return 
      */
-    public _method construct(_node _n ){
-        return construct(_n.deconstruct() );
+    public _method compose(_node _n ){
+        return compose(_n.deconstruct() );
     }
 
     public static final BlockStmt EMPTY = Stmt.block("{}");
@@ -1013,7 +1013,7 @@ public class $method
      */
     public _type replaceIn(Class clazz,  $method $replace ){
         return forSelectedIn(_java.type(clazz), s -> {
-            _method repl = $replace.construct(Translator.DEFAULT_TRANSLATOR, s.args);
+            _method repl = $replace.compose(Translator.DEFAULT_TRANSLATOR, s.args);
             s._m.ast().replace(repl.ast());
         });
     }
@@ -1057,7 +1057,7 @@ public class $method
      */
     public <_J extends _java> _J replaceIn(_J _j, $method $replace ){
         return forSelectedIn(_j, s -> {
-            _method repl = $replace.construct(Translator.DEFAULT_TRANSLATOR, s.args.asTokens());
+            _method repl = $replace.compose(Translator.DEFAULT_TRANSLATOR, s.args.asTokens());
             s._m.ast().replace(repl.ast());
         });
     }

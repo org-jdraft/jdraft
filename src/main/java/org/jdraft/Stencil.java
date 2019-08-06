@@ -397,7 +397,7 @@ public final class Stencil implements Template<String>{
     }
 
     @Override
-    public String construct(Translator translator, Map<String, Object> $nameValues ){
+    public String compose(Translator translator, Map<String, Object> $nameValues ){
 
         Map<String, Object> combinedParams = new HashMap<>($nameValues);
 
@@ -481,7 +481,7 @@ public final class Stencil implements Template<String>{
      * @return true if the stencil pattern matches, false otherwise
      */
     public boolean matches(String constructed ) {
-        List<String> valsInOrder = this.textBlanks.deconstruct( constructed );
+        List<String> valsInOrder = this.textBlanks.decompose( constructed );
         return (valsInOrder != null);
     }
 
@@ -496,8 +496,8 @@ public final class Stencil implements Template<String>{
      * @param constructed the String to be deconstructed
      * @return the Tokens or null if the constructed string doesn't match the stencil pattern
      */
-    public Tokens deconstruct(String constructed ){
-        return deconstruct( new String[]{constructed} );
+    public Tokens decompose(String constructed ){
+        return decompose( new String[]{constructed} );
     }
     
     /**
@@ -507,8 +507,8 @@ public final class Stencil implements Template<String>{
      * @param constructed the String to be deconstructed
      * @return the Tokens or null if the constructed String doesnt match the stencil pattern
      */
-    public Tokens deconstruct(String... constructed ) {
-        List<String> valsInOrder = this.textBlanks.deconstruct( Text.combine( constructed) );
+    public Tokens decompose(String... constructed ) {
+        List<String> valsInOrder = this.textBlanks.decompose( Text.combine( constructed) );
         if( valsInOrder == null ) {
             return null;
         }

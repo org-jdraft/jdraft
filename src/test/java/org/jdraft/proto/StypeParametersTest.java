@@ -1,7 +1,5 @@
 package org.jdraft.proto;
 
-import org.jdraft.proto.$typeParameters;
-import org.jdraft._typeParameter;
 import org.jdraft._typeParameter._typeParameters;
 import junit.framework.TestCase;
 
@@ -12,20 +10,20 @@ import junit.framework.TestCase;
 public class StypeParametersTest extends TestCase {
     
     public void testCompose(){
-        System.out.println( $typeParameters.of("A").construct());
-        assertEquals( _typeParameters.of("A"), $typeParameters.of("A").construct());
-        assertEquals( _typeParameters.of("A,B"), $typeParameters.of("A,B").construct());
-        assertEquals( _typeParameters.of("A,B"), $typeParameters.of("<A,B>").construct());
+        System.out.println( $typeParameters.of("A").compose());
+        assertEquals( _typeParameters.of("A"), $typeParameters.of("A").compose());
+        assertEquals( _typeParameters.of("A,B"), $typeParameters.of("A,B").compose());
+        assertEquals( _typeParameters.of("A,B"), $typeParameters.of("<A,B>").compose());
         
-        assertEquals( _typeParameters.of(), $typeParameters.any().construct()); //any
-        assertEquals( _typeParameters.of(), $typeParameters.none().construct()); //none
-        assertEquals( _typeParameters.of("NAME"), $typeParameters.of("$name$").construct("name","NAME"));
+        assertEquals( _typeParameters.of(), $typeParameters.any().compose()); //any
+        assertEquals( _typeParameters.of(), $typeParameters.none().compose()); //none
+        assertEquals( _typeParameters.of("NAME"), $typeParameters.of("$name$").compose("name","NAME"));
         
     }
     
     public void testComposeParameterOverride(){
         assertEquals( _typeParameters.of("A"), 
-             $typeParameters.none().construct("$typeParameters", _typeParameters.of("A")));        
+             $typeParameters.none().compose("$typeParameters", _typeParameters.of("A")));
     }
     
     public void testSelectMatch(){

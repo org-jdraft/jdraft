@@ -233,14 +233,14 @@ public final class $throws
     }
 
     @Override
-    public _throws construct(Translator translator, Map<String, Object> keyValues) {        
+    public _throws compose(Translator translator, Map<String, Object> keyValues) {
         _throws _ts = new _throws();
         if( keyValues.get("$throws$") != null ){ //PARAMETER OVERRIDE
             $throws $ths = $throws.of( keyValues.get("$throws$").toString() );
             Map<String,Object> kvs = new HashMap<>();
             kvs.putAll(keyValues);
             kvs.remove("$throws$");
-            return $ths.construct(translator, kvs);
+            return $ths.compose(translator, kvs);
         } 
         this.throwsPatterns.forEach( tp -> _ts.add( tp.compose(translator, keyValues) ) );        
         return _ts;
@@ -656,7 +656,7 @@ public final class $throws
                         $id th = this.throwsPatterns.get(i);
                         nodes.removeIf(t -> th.matches(t.toString()) );
                     }
-                    _throws _ths = $i.construct(sel.args.asTokens());
+                    _throws _ths = $i.compose(sel.args.asTokens());
                     sel.thrown.addAll(_ths.list());
                     //sel.ast().replace($i.construct(sel.args).ast() );
                 }

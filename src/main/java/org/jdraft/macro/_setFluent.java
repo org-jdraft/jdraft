@@ -48,7 +48,7 @@ public @interface _setFluent {
             List<_field> _fs = t.listFields(SET_REQUIRED);
             if (t instanceof _method._hasMethods) {
                 _fs.forEach(f -> {
-                    _method _m = $SET_FLUENT.construct( "className", t.getName(), "name", f.getName(),"type", f.getType());
+                    _method _m = $SET_FLUENT.compose( "className", t.getName(), "name", f.getName(),"type", f.getType());
                     ((_method._hasMethods) t).method(_m);
                 });
             }
@@ -73,7 +73,7 @@ public @interface _setFluent {
             _fs = _fs.stream().filter(SET_REQUIRED ).collect(Collectors.toList());
             _fs.forEach(f ->
                     typeDeclaration.addMember(
-                            $SET_FLUENT.construct("className", typeDeclaration.getNameAsString(), "name", f.getName(), "type", f.getType()).ast()));
+                            $SET_FLUENT.compose("className", typeDeclaration.getNameAsString(), "name", f.getName(), "type", f.getType()).ast()));
         }
     }
 }

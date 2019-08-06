@@ -522,11 +522,11 @@ public class $constructor
         for(int i=0;i<nom.size();i++){
             ts.put( nom.get(i), values[i]);
         }
-        return construct(translator, ts);        
+        return compose(translator, ts);
     }
     
     @Override
-    public _constructor construct(Translator translator, Map<String, Object> keyValues) {
+    public _constructor compose(Translator translator, Map<String, Object> keyValues) {
         
         //the base values (so we dont get Nulls for base values
         Tokens base = Tokens.of(
@@ -541,7 +541,7 @@ public class $constructor
         base.putAll(keyValues);
         
         StringBuilder sb = new StringBuilder();   
-        JavadocComment jdc = javadoc.construct(translator, base );
+        JavadocComment jdc = javadoc.compose(translator, base );
         if( jdc != null ){
             sb.append(jdc);        
         }
@@ -550,15 +550,15 @@ public class $constructor
         sb.append(System.lineSeparator());
         sb.append( modifiers.compose(translator, base));
         sb.append(" ");
-        sb.append( typeParameters.construct(translator, base));
+        sb.append( typeParameters.compose(translator, base));
         sb.append(" ");
         sb.append( name.compose(translator, base));
         sb.append(" ");
-        sb.append( parameters.construct(translator, base));
+        sb.append( parameters.compose(translator, base));
         sb.append(" ");
-        sb.append( thrown.construct(translator, base));
+        sb.append( thrown.compose(translator, base));
         sb.append(System.lineSeparator());
-        sb.append( body.construct(translator, keyValues));
+        sb.append( body.compose(translator, keyValues));
         return _constructor.of(sb.toString() );        
     }
     
@@ -567,8 +567,8 @@ public class $constructor
      * @param _n
      * @return 
      */
-    public _constructor construct(_node _n ){
-        return construct(_n.deconstruct() );
+    public _constructor compose(_node _n ){
+        return compose(_n.deconstruct() );
     }
 
     public static final BlockStmt EMPTY = Stmt.block("{}");
@@ -990,7 +990,7 @@ public class $constructor
      */
     public _type replaceIn(Class clazz, $constructor $replace ){
         return forSelectedIn(_java.type(clazz), s -> {
-            _constructor repl = $replace.construct(Translator.DEFAULT_TRANSLATOR, s.args);
+            _constructor repl = $replace.compose(Translator.DEFAULT_TRANSLATOR, s.args);
             s._ct.ast().replace(repl.ast());
         });
     }
@@ -1034,7 +1034,7 @@ public class $constructor
      */
     public <_J extends _java> _J replaceIn(_J _j, $constructor $replace ){
         return forSelectedIn(_j, s -> {
-            _constructor repl = $replace.construct(Translator.DEFAULT_TRANSLATOR, s.args.asTokens());
+            _constructor repl = $replace.compose(Translator.DEFAULT_TRANSLATOR, s.args.asTokens());
             s._ct.ast().replace(repl.ast());
         });
     }

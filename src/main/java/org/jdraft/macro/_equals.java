@@ -104,7 +104,7 @@ public @interface _equals {
                     }
                 });
                 ts.put("BODY", body);
-                _c.method( $equals.construct(ts) );
+                _c.method( $equals.compose(ts) );
             }
             return _t;
         }

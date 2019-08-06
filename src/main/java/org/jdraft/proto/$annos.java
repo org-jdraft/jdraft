@@ -142,7 +142,7 @@ public class $annos
      * @param keyValues
      * @return 
      */
-    public String compose( Translator translator, Map<String, Object> keyValues){
+    public String composeToString( Translator translator, Map<String, Object> keyValues){
         return compose(translator, keyValues, System.lineSeparator() );
     }
     
@@ -162,7 +162,7 @@ public class $annos
             if( i > 0 ){
                 sb.append(separator);
             }
-            sb.append( $annosList.get(i).construct(translator, keyValues) );
+            sb.append( $annosList.get(i).compose(translator, keyValues) );
         }
         if( $annosList.size() > 0 ){
             //add another separator AFTER the end (a line break of space) so
@@ -177,10 +177,10 @@ public class $annos
     }
     
     @Override
-    public _annos construct(Translator translator, Map<String, Object> keyValues) {
+    public _annos compose(Translator translator, Map<String, Object> keyValues) {
         _annos _as = _annos.of();
         for(int i=0;i<$annosList.size();i++){            
-            _as.add( $annosList.get(i).construct(translator, keyValues) );
+            _as.add( $annosList.get(i).compose(translator, keyValues) );
         }
         //handle $name OVERLOAD i.e. if they pass in a $annos
         if( keyValues.get("$annos") != null){ //they can supply the annos            
@@ -189,7 +189,7 @@ public class $annos
             Map<String,Object> kvs = new HashMap<>();
             kvs.putAll(keyValues);
             kvs.remove("$annos");
-            _as.addAll( $as.construct(translator, kvs).list() );
+            _as.addAll( $as.compose(translator, kvs).list() );
             //sb.append($as.compose(translator, keyValues, separator));                
         }
         return _as;

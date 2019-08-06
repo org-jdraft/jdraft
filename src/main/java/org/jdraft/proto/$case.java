@@ -376,7 +376,7 @@ public class $case
     }
     
     @Override
-    public SwitchEntry construct(Translator translator, Map<String, Object> keyValues) {
+    public SwitchEntry compose(Translator translator, Map<String, Object> keyValues) {
         SwitchEntry se = new SwitchEntry();
         //Parameteric override
         if( keyValues.get("$case") != null ){
@@ -384,45 +384,45 @@ public class $case
             Map<String,Object> kvs = new HashMap<>();
             kvs.putAll(keyValues);
             kvs.remove("$case"); //remove to avoid stackOverflow
-            return $a.construct(translator, kvs);        
+            return $a.compose(translator, kvs);
         }
         //parameteric override of the label
         if( keyValues.get("$label") != null ){
             Object ll = keyValues.get("$label" );
             if( ll instanceof $expr ){
                 NodeList<Expression> labels = new NodeList<>();
-                labels.add( (($expr) ll).construct(translator, keyValues) );
+                labels.add( (($expr) ll).compose(translator, keyValues) );
                 se.setLabels(labels);                 
             } else{
                 NodeList<Expression> labels = new NodeList<>();
-                labels.add( $expr.of(ll.toString()).construct( translator, keyValues) );
+                labels.add( $expr.of(ll.toString()).compose( translator, keyValues) );
                 se.setLabels(labels);                                 
             }                
         } 
         else if( this.label != null ){
             NodeList<Expression> labels = new NodeList<>();
-            labels.add( this.label.construct(translator, keyValues) );
+            labels.add( this.label.compose(translator, keyValues) );
             se.setLabels(labels); 
         }        
         if( keyValues.get("$statements") != null ){
             System.out.println( "has Statements");
             Object ll = keyValues.get("$statements" );
             if( ll instanceof Statement ){
-                se.addStatement( $stmt.of((Statement) ll).construct(translator, keyValues) );                
+                se.addStatement( $stmt.of((Statement) ll).compose(translator, keyValues) );
             } else if( ll instanceof $stmt ){
-                se.addStatement( (($stmt) ll).construct(translator, keyValues) );                
+                se.addStatement( (($stmt) ll).compose(translator, keyValues) );
             } else if( ll instanceof $stmt[]) {
                 $stmt[] sts = ($stmt[])ll;
-                Arrays.stream(sts).forEach( s-> se.addStatement(s.construct(translator, keyValues)) );                
+                Arrays.stream(sts).forEach( s-> se.addStatement(s.compose(translator, keyValues)) );
             } else if( ll instanceof Statement[]) {
-                Arrays.stream( (Statement[])ll).forEach( s-> se.addStatement($stmt.of(s).construct(translator, keyValues)) );                
+                Arrays.stream( (Statement[])ll).forEach( s-> se.addStatement($stmt.of(s).compose(translator, keyValues)) );
             } else {
                 //just toString the thing 
                 BlockStmt bs = Ast.blockStmt( (String)(ll.toString()) );
-                bs.getStatements().forEach(s -> se.addStatement( $stmt.of(s).construct(translator, keyValues)));                        
+                bs.getStatements().forEach(s -> se.addStatement( $stmt.of(s).compose(translator, keyValues)));
             }                     
         } else{
-            this.statements.forEach(st -> se.addStatement( st.construct(translator, keyValues) ) );
+            this.statements.forEach(st -> se.addStatement( st.compose(translator, keyValues) ) );
         }
         return se;
     }

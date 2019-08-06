@@ -94,7 +94,7 @@ public class $id implements $constructor.$part, $method.$part, $field.$part,
     }
 
     public String compose(Translator t, Map<String, Object> keyValues) {
-        return this.pattern.construct(t, keyValues);
+        return this.pattern.compose(t, keyValues);
     }
 
     public boolean matches(String t) {
@@ -119,12 +119,12 @@ public class $id implements $constructor.$part, $method.$part, $field.$part,
                 if( !this.pattern.getTextBlanks().getFixedText().contains(".") ){ 
                     String oldPattern = this.pattern.toString();
                     String newPattern = oldPattern.substring(oldPattern.lastIndexOf(".")+1);
-                    Tokens ts = Stencil.of(newPattern).deconstruct(normalize(t));
+                    Tokens ts = Stencil.of(newPattern).decompose(normalize(t));
                     return ts;
                 }
             }            
             //if neither or both are 
-            return pattern.deconstruct( t );
+            return pattern.decompose( t );
         }
         return null;
     }

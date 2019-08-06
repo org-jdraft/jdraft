@@ -1,9 +1,8 @@
 package org.jdraft.proto;
 
-import org.jdraft.proto.$import;
 import org.jdraft._class;
 import org.jdraft._import;
-import java.net.URI;
+
 import java.util.Map;
 import junit.framework.TestCase;
 import static junit.framework.TestCase.assertFalse;
@@ -71,7 +70,7 @@ public class SimportTest extends TestCase {
         assertTrue( $i.matches("import static a.MyClass"));
 
         //the proto is not static, the composed is not static
-        assertEquals( _import.of("a.MyClass"), $i.construct() );
+        assertEquals( _import.of("a.MyClass"), $i.compose() );
         
         //IF the prototype is marked static it WILL match
         $i = $import.of("import static a.MyClass");
@@ -80,7 +79,7 @@ public class SimportTest extends TestCase {
         //assertTrue( $i.matches("import static a.MyClass.*"));
         
         //the proto is static, the composed is ALSO static
-        assertEquals( _import.of("a.MyClass").setStatic(), $i.construct() );        
+        assertEquals( _import.of("a.MyClass").setStatic(), $i.compose() );
     }
     
     /**
@@ -106,7 +105,7 @@ public class SimportTest extends TestCase {
         
 
         //the proto is not static, the composed is not static
-        assertEquals( _import.of("a.MyClass"), $i.construct() );
+        assertEquals( _import.of("a.MyClass"), $i.compose() );
         
         //IF the prototype is marked static it WILL match
         $i = $import.of("import a.MyClass.*");
@@ -114,7 +113,7 @@ public class SimportTest extends TestCase {
         assertTrue( $i.matches("import a.MyClass.*"));
         
         //the proto is wildcard, the composed is ALSO a wildcard
-        assertEquals( _import.of("a.MyClass.*"), $i.construct() );        
+        assertEquals( _import.of("a.MyClass.*"), $i.compose() );
     }
     
     

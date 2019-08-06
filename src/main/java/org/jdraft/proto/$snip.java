@@ -265,8 +265,8 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
      * @param tokens
      * @return 
      */
-    public List<Statement> construct( Tokens tokens ){
-        return $snip.this.construct( Translator.DEFAULT_TRANSLATOR, tokens.map());
+    public List<Statement> compose(Tokens tokens ){
+        return $snip.this.compose( Translator.DEFAULT_TRANSLATOR, tokens.map());
     }
 
     /**
@@ -274,12 +274,12 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
      * @param _n
      * @return 
      */
-    public List<Statement> construct( _node _n ){
-        return construct(_n.deconstruct());
+    public List<Statement> compose(_node _n ){
+        return compose(_n.deconstruct());
     }
 
     @Override
-    public List<Statement> construct( Translator t, Map<String,Object> tokens ){
+    public List<Statement> compose(Translator t, Map<String,Object> tokens ){
         List<Statement>sts = new ArrayList<>();
         $sts.forEach(stmt -> {
             if( stmt.statementClass == LabeledStmt.class &&
@@ -309,7 +309,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
                 }
                 else if( val != null && val != Boolean.FALSE ){
                     //construct the statement (it
-                    LabeledStmt ls = (LabeledStmt)stmt.construct(t, tokens);
+                    LabeledStmt ls = (LabeledStmt)stmt.compose(t, tokens);
                     Statement st = ls.getStatement();
                     if( st instanceof BlockStmt ) {
                         //add each of the statements
@@ -319,7 +319,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
                     }
                 }
             } else { //it is NOT a dymanically labeled Statement, so just process normally
-                sts.add(stmt.construct(t, tokens));
+                sts.add(stmt.compose(t, tokens));
             }
         });       
         return sts;
@@ -558,7 +558,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
             Select sel = select( (Statement)st );
             if( sel != null ){
                 //constrct the replacement snippet
-                List<Statement> replacements = $repl.construct(sel.args );
+                List<Statement> replacements = $repl.compose(sel.args );
                 Statement firstStmt = sel.statements.get(0);
                 Node par = firstStmt.getParentNode().get();
                 NodeWithStatements parentNode = (NodeWithStatements)par;
@@ -633,7 +633,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
             Select sel = select( (Statement)st );
             if( sel != null ){
                 //construct the replacement snippet
-                List<Statement> replacements = $repl.construct(sel.args );
+                List<Statement> replacements = $repl.compose(sel.args );
                 Statement firstStmt = sel.statements.get(0);
                 Node par = firstStmt.getParentNode().get();
                 NodeWithStatements parentNode = (NodeWithStatements)par;

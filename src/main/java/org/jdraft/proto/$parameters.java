@@ -70,11 +70,11 @@ public class $parameters implements Template<_parameters>, $proto<_parameters>,
     }
     
     @Override
-    public _parameters construct(Translator translator, Map<String, Object> keyValues) {        
+    public _parameters compose(Translator translator, Map<String, Object> keyValues) {
         _parameters _ps = _parameters.of();
         
         for(int i=0;i<$params.size(); i++){            
-            _ps.add($params.get(i).construct(translator, keyValues));
+            _ps.add($params.get(i).compose(translator, keyValues));
         }
         return _ps;        
     }
@@ -244,7 +244,7 @@ public class $parameters implements Template<_parameters>, $proto<_parameters>,
     public <N extends Node> N replaceIn(N astRootNode, $parameters $replacementProto) {
         
         return forSelectedIn( astRootNode, s->{            
-            _parameters _replaceParams = $replacementProto.construct(s.args);
+            _parameters _replaceParams = $replacementProto.compose(s.args);
             s._params.astHolder().setParameters(_replaceParams.ast());             
             } );
     }
@@ -269,7 +269,7 @@ public class $parameters implements Template<_parameters>, $proto<_parameters>,
      */
     public <N extends _java> N replaceIn(N _n, $parameters $replacementProto) {
         return forSelectedIn( _n, s->{            
-            _parameters _replaceParams = $replacementProto.construct(s.args);
+            _parameters _replaceParams = $replacementProto.compose(s.args);
             s._params.astHolder().setParameters(_replaceParams.ast());             
             } );
     }

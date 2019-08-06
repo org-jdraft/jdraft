@@ -42,9 +42,9 @@ public interface $exprProto<T extends Expression>
      * @param _n
      * @return
      */
-    T construct(_node _n);
+    T compose(_node _n);
 
-    T construct(Translator t, Map<String, Object> tokens);
+    T compose(Translator t, Map<String, Object> tokens);
 
     T fill(Object... values);
 

@@ -560,7 +560,7 @@ public final class TextBlanks{
      * @return a List of Strings representing the values that exist where the blanks would be, in the order they are
      * extracted from the constructed text
      */
-    public List<String> deconstruct( String constructed ){
+    public List<String> decompose(String constructed ){
 
         if( this.hasConsecutiveBlanks() ){
             //System.out.println("HAS consecutiveBlanks");

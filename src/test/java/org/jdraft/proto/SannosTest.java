@@ -1,16 +1,11 @@
 package org.jdraft.proto;
 
-import org.jdraft.proto.$anno;
-import org.jdraft.proto.$annos;
-import com.github.javaparser.StaticJavaParser;
-import com.github.javaparser.ast.body.BodyDeclaration;
-import org.jdraft.Ast;
 import org.jdraft._anno;
 import org.jdraft._anno._annos;
 import org.jdraft._class;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
-import java.util.concurrent.Callable;
+
 import junit.framework.TestCase;
 
 /**
@@ -21,14 +16,14 @@ public class SannosTest extends TestCase {
     
     public void testAnnosSingleMember(){
         $anno $a = $anno.of("A(2)" );
-        _anno _a = $a.construct();
+        _anno _a = $a.compose();
         
         _anno _aa = _anno.of("A(4)");
         _annos _aaa = _annos.of("@A(2)");
         
         $annos $as = $annos.of("@A(1)");
-        $as.construct();
-        System.out.println( $as.construct() );
+        $as.compose();
+        System.out.println( $as.compose() );
     }
     
     public void testAnnosNone(){
@@ -45,11 +40,11 @@ public class SannosTest extends TestCase {
     
     public void testComposeAny(){
         $annos $as = $annos.of();
-        _annos _as = $as.construct(); //should work fine... empty annos
+        _annos _as = $as.compose(); //should work fine... empty annos
         assertTrue( _as.isEmpty() );
         
         //here you can OVERRIDE
-        _as = $as.construct("$annos", "@A" );
+        _as = $as.compose("$annos", "@A" );
         
         assertTrue( _as.contains(_anno.of("@A")));
         

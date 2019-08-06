@@ -1,6 +1,5 @@
 package org.jdraft.proto;
 
-import org.jdraft.proto.$field;
 import org.jdraft._field;
 import org.jdraft._typeRef;
 import java.util.function.Predicate;
@@ -178,21 +177,21 @@ public class SfTest extends TestCase {
     
     
     public void testConstruct$F(){
-        _field _f = $field.of("int f").construct();
+        _field _f = $field.of("int f").compose();
         System.out.println( _f );
         
         assertTrue( _f.is("int f") );
         
-        _f = $field.ofName("f").construct("type", int.class);
+        _f = $field.ofName("f").compose("type", int.class);
         assertTrue( _f.is("int f") );
         
-        _f = $field.ofType(int.class).construct("name", "f");
+        _f = $field.ofType(int.class).compose("name", "f");
         assertTrue( _f.is("int f") );
         
         
         $field $full = $field.of("/** javadoc */ @Deprecated public static final int IF = 100;");
         
-        _f = $full.construct();
+        _f = $full.compose();
         assertTrue( _f.is("/** javadoc */ @Deprecated public static final int IF = 100;") );
     }
 }

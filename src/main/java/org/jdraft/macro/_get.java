@@ -36,7 +36,7 @@ public @interface _get {
             if (t instanceof _method._hasMethods) {
                 List<_field> _fs = t.listFields(_f -> !((_field)_f).isStatic());
                 _fs.forEach(f ->
-                        ((_method._hasMethods) t).method($GET.construct("type", f.getType(), "name", f.getName() ))
+                        ((_method._hasMethods) t).method($GET.compose("type", f.getType(), "name", f.getName() ))
                 );
             }
             return t;
@@ -52,7 +52,7 @@ public @interface _get {
             List<_field> _fs = _field.of(typeDeclaration.getFields());
             _fs.stream().filter(_f -> !((_field)_f).isStatic())
                     .forEach( _f-> typeDeclaration.addMember(
-                            $GET.construct("type", _f.getType(), "name", _f.getName()).ast() ) );
+                            $GET.compose("type", _f.getType(), "name", _f.getName()).ast() ) );
         }
 
         @Override

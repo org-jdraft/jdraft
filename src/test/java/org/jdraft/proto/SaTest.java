@@ -5,11 +5,7 @@
  */
 package org.jdraft.proto;
 
-import org.jdraft.proto.$;
-import org.jdraft.proto.$anno;
-import org.jdraft.proto.$id;
 import com.github.javaparser.ast.expr.MemberValuePair;
-import org.jdraft.Translator;
 import org.jdraft.Expr;
 import org.jdraft._anno;
 import org.jdraft._class;
@@ -44,22 +40,22 @@ public class SaTest extends TestCase {
     
     public void testOverrideParameter(){
         
-        System.out.println( $anno.of("B").compose() + "" );
+        System.out.println( $anno.of("B").composeToString() + "" );
         
-        assertEquals(_anno.of("B"), $anno.of().construct("$anno", "@B"));
+        assertEquals(_anno.of("B"), $anno.of().compose("$anno", "@B"));
         assertEquals(_anno.of("B").toString(), $anno.of()
-                .compose("$anno", "@B"));        
+                .composeToString("$anno", "@B"));
     }
     
     public void testAnyCompose(){
         try{
-            $anno.of().construct();
+            $anno.of().compose();
             fail("expected exception for no name");
         }catch(Exception e){
             
         }        
         //override parameter
-        assertEquals(_anno.of("E"), $anno.of().construct("$anno", "@E"));
+        assertEquals(_anno.of("E"), $anno.of().compose("$anno", "@E"));
         
     }
     
@@ -313,7 +309,7 @@ public class SaTest extends TestCase {
      
     public void testStatic$a(){
         $anno a = $anno.of("@name");
-        assertEquals( _anno.of("@name"), a.construct());
+        assertEquals( _anno.of("@name"), a.compose());
         assertTrue( a.matches(_anno.of("@name")));
 
         @name
@@ -356,7 +352,7 @@ public class SaTest extends TestCase {
         a.replaceIn(_c, $anno.of("@name2(string=$any$)") );
         System.out.println(_c );
 
-        _anno _a = a.construct("any", "\"Some String\"");
+        _anno _a = a.compose("any", "\"Some String\"");
         assertEquals( _anno.of("@name(prefix=\"Some String\")"), _a );
     }
 

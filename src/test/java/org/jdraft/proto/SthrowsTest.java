@@ -1,6 +1,5 @@
 package org.jdraft.proto;
 
-import org.jdraft.proto.$throws;
 import org.jdraft._throws;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -27,12 +26,12 @@ public class SthrowsTest extends TestCase {
     }
     
     public void testThrowCompose(){
-        _throws _th = $throws.of().construct();
+        _throws _th = $throws.of().compose();
         assertTrue( _th.isEmpty());
         
         
         //parameter override
-        _th = $throws.of().construct("$throws$", _throws.of(IOException.class) );
+        _th = $throws.of().compose("$throws$", _throws.of(IOException.class) );
         assertEquals( _throws.of(IOException.class), _th);
         System.out.println(_th ); 
     }

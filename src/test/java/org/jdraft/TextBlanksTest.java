@@ -1,6 +1,5 @@
 package org.jdraft;
 
-import org.jdraft.TextBlanks;
 import org.jdraft.TextBlanks.Builder;
 import junit.framework.TestCase;
 
@@ -13,14 +12,14 @@ public class TextBlanksTest extends TestCase{
 
     public void testOnlyBlank(){
         TextBlanks tb = TextBlanks.of(null);
-        List<String> all = tb.deconstruct("The whole thing");
+        List<String> all = tb.decompose("The whole thing");
         assertTrue( all.size() == 1);
         assertEquals( all.get(0), "The whole thing" );
 
         TextBlanks.Builder tbb = new TextBlanks.Builder();
         tbb.blank();
         tb = tbb.compile();
-        all = tb.deconstruct("The whole thing");
+        all = tb.decompose("The whole thing");
         assertTrue( all.size() == 1);
         assertEquals( all.get(0), "The whole thing" );
     }
@@ -36,7 +35,7 @@ public class TextBlanksTest extends TestCase{
         assertTrue( fitb.startsWithBlank());
         assertTrue( fitb.endsWithBlank());
         assertEquals( 1, fitb.getBlanksCount());
-        assertEquals( "toDir Extract", fitb.deconstruct("toDir Extract").get(0));
+        assertEquals( "toDir Extract", fitb.decompose("toDir Extract").get(0));
     }
 
     public void testExtractOnlyBlank() {
@@ -44,24 +43,24 @@ public class TextBlanksTest extends TestCase{
         assertFalse(fitb.startsWithBlank());
         assertFalse(fitb.endsWithBlank());
         assertEquals(0, fitb.getBlanksCount());
-        assertEquals(0, fitb.deconstruct("").size());
+        assertEquals(0, fitb.decompose("").size());
 
         fitb = TextBlanks.of(null);
-        List<String> strs = fitb.deconstruct("Pretty much anything");
+        List<String> strs = fitb.decompose("Pretty much anything");
         assertEquals(1, strs.size());
         assertEquals("Pretty much anything", strs.get(0));
     }
 
     public void testExtractStartsWithBlank(){
         TextBlanks fitb = TextBlanks.of(null, " a");
-        List<String> strs = fitb.deconstruct("Ends with a");
+        List<String> strs = fitb.decompose("Ends with a");
         assertEquals("Ends with", strs.get(0));
         assertEquals(1, strs.size());
     }
 
     public void testExtractEndsWithBlank() {
         TextBlanks fitb = TextBlanks.of("a ", null);
-        List<String> strs = fitb.deconstruct("a Starts With");
+        List<String> strs = fitb.decompose("a Starts With");
         System.out.println(strs);
         assertEquals("Starts With", strs.get(0));
         assertEquals(1, strs.size());
@@ -69,7 +68,7 @@ public class TextBlanksTest extends TestCase{
 
     public void testExtractBlankInMiddle() {
         TextBlanks fitb = TextBlanks.of("in the ", null, " of text");
-        List<String> strs = fitb.deconstruct("in the MIDDLE of text");
+        List<String> strs = fitb.decompose("in the MIDDLE of text");
         assertEquals("MIDDLE", strs.get(0));
         assertEquals(1, strs.size());
     }
@@ -78,13 +77,13 @@ public class TextBlanksTest extends TestCase{
         assertEquals( TextBlanks.of(null," A ", null, " B- ", null), TextBlanks.of(null," A ", null, " B- ", null) );
 
         TextBlanks fitb = TextBlanks.of(null," A ", null, " B- ", null);
-        List<String> strs = fitb.deconstruct("much at the front A then B- for the exam");
+        List<String> strs = fitb.decompose("much at the front A then B- for the exam");
         assertEquals( fitb, TextBlanks.of(null," A ", null, " B- ", null) );
     }
 
     public void testExtractStartEndMiddleBlanks(){
         TextBlanks fitb = TextBlanks.of(null," A ", null, " B- ", null);
-        List<String> strs = fitb.deconstruct("much at the front A then B- for the exam");
+        List<String> strs = fitb.decompose("much at the front A then B- for the exam");
         assertEquals("much at the front",strs.get(0));
         assertEquals("then",strs.get(1));
         assertEquals("for the exam",strs.get(2));

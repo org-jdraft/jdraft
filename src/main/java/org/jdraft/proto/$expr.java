@@ -1667,13 +1667,13 @@ public class $expr <T extends Expression>
      * @return 
      */
     @Override
-    public T construct( _node _n ){
-        return (T)$expr.this.construct(_n.deconstruct());
+    public T compose(_node _n ){
+        return (T)$expr.this.compose(_n.deconstruct());
     }
 
     @Override
-    public T construct( Translator t, Map<String,Object> tokens ){
-        return (T)Expr.of(exprPattern.construct( t, tokens ));
+    public T compose(Translator t, Map<String,Object> tokens ){
+        return (T)Expr.of(exprPattern.compose( t, tokens ));
     }
 
     /**
@@ -1788,7 +1788,7 @@ public class $expr <T extends Expression>
                 //}                    
                 return null;                
             }
-            Tokens ts = exprPattern.deconstruct(astExpr.toString(Ast.PRINT_NO_COMMENTS) );
+            Tokens ts = exprPattern.decompose(astExpr.toString(Ast.PRINT_NO_COMMENTS) );
             if( ts != null ){
                 return new Select(astExpr, ts);
             }            
@@ -2114,7 +2114,7 @@ public class $expr <T extends Expression>
         _walk.in(_j, this.expressionClass, e-> {
             Select sel = select( e );
             if( sel != null ){
-                Expression replaceNode = (Expression)$repl.construct( sel.args.asTokens() );
+                Expression replaceNode = (Expression)$repl.compose( sel.args.asTokens() );
                 sel.astExpression.replace( replaceNode );
             }
         });

@@ -252,13 +252,13 @@ public final class $typeRef
      * @param _n
      * @return 
      */
-    public _typeRef construct( _node _n ){
-        return construct(_n.deconstruct());
+    public _typeRef compose(_node _n ){
+        return compose(_n.deconstruct());
     }
     
     @Override
-    public _typeRef construct( Translator t, Map<String,Object> tokens ){
-        return _typeRef.of(typePattern.construct( t, tokens ));
+    public _typeRef compose(Translator t, Map<String,Object> tokens ){
+        return _typeRef.of(typePattern.compose( t, tokens ));
     }
 
     /**
@@ -305,7 +305,7 @@ public final class $typeRef
      */
     public Select select( _typeRef _tr){
         if( this.constraint.test(_tr ) ) {            
-            Tokens ts = typePattern.deconstruct(_tr.toString() );
+            Tokens ts = typePattern.decompose(_tr.toString() );
             if( ts != null ){
                 return new Select( _tr, ts); //$args.of(ts);
             }
@@ -583,7 +583,7 @@ public final class $typeRef
         _walk.in(_n, Type.class, e -> {
             Select select = select(e);
             if( select != null ){
-                if( !e.replace($replacementType.construct(select.args).ast() )){
+                if( !e.replace($replacementType.compose(select.args).ast() )){
                     throw new _jDraftException("unable to replaceIn "+ e + " in "+ _n+" with "+$replacementType);
                 }
             }
