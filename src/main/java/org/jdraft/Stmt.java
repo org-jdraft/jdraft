@@ -38,8 +38,8 @@ public enum Stmt {
      * assertEquals( Stmt.of("System.out.println(1);"), le.getBody().getStatement(0) );
      * </PRE>
      * NOTE: the source of the calling method must be resolveable via draft
-     * @see draft.java.io._io#addInFilePath(java.lang.String) 
-     * @see draft.java.io._io#addInProject(java.lang.String) 
+     * @see org.jdraft.io._io#addInFilePath(java.lang.String)
+     * @see org.jdraft.io._io#addInProjectPath(java.lang.String)
      * @param lambdaStackTrace StackTrace identifying the runtime Lambda Expression
      * @return the AST LambdaExpr representation for the runtime Command
      */
@@ -56,8 +56,8 @@ public enum Stmt {
      * </PRE>
      * NOTE: the source of the calling method must be resolveable via draft
      * @param <T>
-     * @see draft.java.io._io#addInFilePath(java.lang.String) 
-     * @see draft.java.io._io#addInProject(java.lang.String) 
+     * @see org.jdraft.io._io#addInFilePath(java.lang.String)
+     * @see org.jdraft.io._io#addInProjectPath(java.lang.String)
      * 
      * @param c the lambda
      * @return the AST LambdaExpr representation for the runtime Command
@@ -76,8 +76,8 @@ public enum Stmt {
      * </PRE>
      * NOTE: the source of the calling method must be resolveable via draft
      * @param <T>
-     * @see draft.java.io._io#addInFilePath(java.lang.String) 
-     * @see draft.java.io._io#addInProject(java.lang.String) 
+     * @see org.jdraft.io._io#addInFilePath(java.lang.String)
+     * @see org.jdraft.io._io#addInProjectPath(java.lang.String)
      * 
      * @param c the lambda
      * @return the AST LambdaExpr representation for the runtime Command
@@ -97,8 +97,8 @@ public enum Stmt {
      * NOTE: the source of the calling method must be resolveable via draft
      * @param <T>
      * @param <U>
-     * @see draft.java.io._io#addInFilePath(java.lang.String) 
-     * @see draft.java.io._io#addInProject(java.lang.String) 
+     * @see org.jdraft.io._io#addInFilePath(java.lang.String)
+     * @see org.jdraft.io._io#addInProjectPath(java.lang.String)
      * 
      * @param c the lambda
      * @return the AST LambdaExpr representation for the runtime Command
@@ -119,8 +119,8 @@ public enum Stmt {
      * @param <T>
      * @param <U>
      * @param <V>
-     * @see draft.java.io._io#addInFilePath(java.lang.String) 
-     * @see draft.java.io._io#addInProject(java.lang.String) 
+     * @see org.jdraft.io._io#addInFilePath(java.lang.String)
+     * @see org.jdraft.io._io#addInProjectPath(java.lang.String)
      * 
      * @param c the lambda
      * @return the AST LambdaExpr representation for the runtime Command
@@ -142,8 +142,8 @@ public enum Stmt {
      * @param <U>
      * @param <V>
      * @param <W>
-     * @see draft.java.io._io#addInFilePath(java.lang.String) 
-     * @see draft.java.io._io#addInProject(java.lang.String) 
+     * @see org.jdraft.io._io#addInFilePath(java.lang.String)
+     * @see org.jdraft.io._io#addInProjectPath(java.lang.String)
      * 
      * @param c the lambda
      * @return the AST LambdaExpr representation for the runtime Command
