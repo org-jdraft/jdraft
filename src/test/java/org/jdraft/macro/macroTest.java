@@ -6,6 +6,7 @@ import org.jdraft._class;
 import org.jdraft._enum;
 import org.jdraft._interface;
 import junit.framework.TestCase;
+import org.jdraft.adhoc._proxy;
 
 import java.io.*;
 import java.lang.annotation.ElementType;
@@ -17,6 +18,25 @@ import java.util.*;
 import java.util.function.Function;
 
 public class macroTest extends TestCase {
+
+    public void testAnonymousObjectWithMacroAnnotation(){
+        _class _c = _class.of("demo.Point2D", new @_dto Object(){
+            @_final int x, y;
+            public UUID uuid;
+        });
+        System.out.println( _c );
+        _proxy _p1 = _proxy.of(_c, 2, 100);
+        _proxy _p2 = _p1.of(2, 100);
+        assertEquals( _p1, _p2);
+        assertEquals( _p1.instance, _p2.instance); //the underlying objects are ==
+        assertEquals( _p1.hashCode(), _p2.hashCode()); //hashcodes are equal
+
+        //change p2
+        _p2.set("uuid", UUID.randomUUID());
+
+        assertFalse( _p1.equals( _p2)); //objects are not equal
+        assertFalse( _p1.hashCode() == _p2.hashCode()); //hashcodes are not equal
+    }
 
     public void testFN() throws Exception {
         Class c = Class.forName("java.util.function.Function");

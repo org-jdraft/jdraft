@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * are not initialized
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target({ElementType.TYPE, ElementType.TYPE_USE})
 public @interface _autoConstructor {
 
     Macro $ = new Macro();

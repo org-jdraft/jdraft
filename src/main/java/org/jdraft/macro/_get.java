@@ -13,7 +13,7 @@ import java.util.function.Consumer;
  * Works on {@link _class} and {@link _enum} {@link _type}s
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE})
+@Target({ElementType.TYPE, ElementType.TYPE_USE})
 public @interface _get {
 
     Macro $ = new Macro();

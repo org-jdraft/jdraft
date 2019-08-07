@@ -8,6 +8,9 @@ import org.jdraft._anno._hasAnnos;
 import java.lang.annotation.*;
 import java.util.function.Consumer;
 
+/**
+ * Annotation macro to remove some entity (field, method, etc.) that doenst belong in the final model
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.CONSTRUCTOR, ElementType.TYPE_USE})
 public @interface _remove {

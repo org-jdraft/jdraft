@@ -19,7 +19,7 @@ import java.util.function.Consumer;
  * </UL>
  */
 @Retention( RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target({ElementType.TYPE, ElementType.TYPE_USE})
 public @interface _implement {
 
     Class[] value();

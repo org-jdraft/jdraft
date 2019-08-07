@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 import java.util.function.Consumer;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD})
+@Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.TYPE_USE})
 public @interface _non_static {
 
     Macro $ = new Macro();

@@ -1,6 +1,8 @@
 package org.jdraft.adhoc;
 
 import java.lang.reflect.*;
+
+import org.jdraft._class;
 import org.jdraft._code;
 
 /**
@@ -16,6 +18,10 @@ import org.jdraft._code;
  * @param <C> the code model type
  */
 public final class _proxy<I extends Object, C extends _code>  {
+
+    public static final _proxy of( _class _c, Object...ctorArgs){
+        return _adhoc.of(_c).proxy(_c, ctorArgs);
+    }
 
     /** the proxied instance of a class */
     public I instance;

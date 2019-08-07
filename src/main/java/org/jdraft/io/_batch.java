@@ -151,6 +151,10 @@ public class _batch {
     public static final Predicate<Path> JAVA_TYPES_ONLY =
             path -> path.toString().endsWith(".java") && (!path.endsWith("package-info.java")) && (!path.endsWith("module-info.java"));
 
+    public static _batch of( String path ){
+        return of( Paths.get( path));
+    }
+
     public static _batch of(Path rootPath){
         return new _batch( rootPath,  p->true);
     }

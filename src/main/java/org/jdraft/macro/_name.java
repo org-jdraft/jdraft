@@ -10,10 +10,10 @@ import java.lang.annotation.*;
 import java.util.function.Consumer;
 
 /**
- * Annotation Macro to add imports to a _type
+ * Annotation Macro to update the name of anm entity
  */
 @Retention( RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER})
+@Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.TYPE_USE})
 public @interface _name{
     String value();
 

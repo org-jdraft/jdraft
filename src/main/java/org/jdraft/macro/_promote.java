@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 import java.util.function.Consumer;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target({ElementType.TYPE, ElementType.TYPE_USE})
 public @interface _promote {
 
     Macro $ = new Macro((String)null);

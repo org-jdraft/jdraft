@@ -8,10 +8,10 @@ import java.lang.annotation.*;
 import java.util.function.Consumer;
 
 /**
- * Annotation Macro to add imports to a _type
+ * Annotation Macro to replace the text of some elements within the entity
  */
 @Retention( RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD, ElementType.CONSTRUCTOR})
+@Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD, ElementType.CONSTRUCTOR, ElementType.TYPE_USE})
 public @interface _replace {
     String[] value() default {};
 

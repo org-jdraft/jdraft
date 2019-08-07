@@ -13,7 +13,7 @@ import java.util.function.Consumer;
  * Annotation Macro to add imports to a _type
  */
 @Retention( RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target({ ElementType.TYPE, ElementType.TYPE_USE})
 public @interface _extend{
     Class[] value();
 

@@ -16,7 +16,7 @@ import java.util.function.Predicate;
  * Works on {@link _class} and {@link org.jdraft._enum} {@link _type}s
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE})
+@Target({ElementType.TYPE, ElementType.TYPE_USE})
 public @interface _equals {
 
     Macro $ = new Macro();

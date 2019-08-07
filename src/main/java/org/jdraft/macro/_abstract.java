@@ -16,10 +16,8 @@ import java.util.function.Consumer;
  * ... if it is a {@link _method}, setting it to be abstract will removeIn the BODY
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD, ElementType.TYPE})
+@Target({ElementType.METHOD, ElementType.TYPE, ElementType.TYPE_USE})
 public @interface _abstract {
-
-
 
     Macro $ = new Macro();
 

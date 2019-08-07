@@ -41,7 +41,7 @@ import java.util.function.Predicate;
  * </PRE>
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE})
+@Target({ElementType.TYPE, ElementType.TYPE_USE})
 public @interface _hashCode {
 
     /** Static Instance */

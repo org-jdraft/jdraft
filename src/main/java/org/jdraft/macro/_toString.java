@@ -21,7 +21,7 @@ import java.util.function.Predicate;
  * are not static Works on {@link org.jdraft._class}
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE})
+@Target({ElementType.TYPE,ElementType.TYPE_USE})
 public @interface _toString {
 
     Macro $ = new Macro();

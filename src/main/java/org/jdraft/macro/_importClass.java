@@ -14,7 +14,7 @@ import java.util.function.Consumer;
  * Annotation Macro to add imports (and static imports) to a {@link _type}
  */
 @Retention( RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target({ElementType.TYPE, ElementType.TYPE_USE})
 public @interface _importClass {
     /** @return the classes to be imported */
     Class[] value() default {};
