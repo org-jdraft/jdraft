@@ -5,8 +5,8 @@ import junit.framework.TestCase;
 import org.jdraft.Ast;
 import org.jdraft._class;
 import org.jdraft._field;
-import org.jdraft.adhoc._adhoc;
-import org.jdraft.adhoc._bytecodeFile;
+import org.jdraft.runtime._runtime;
+import org.jdraft.runtime._classFile;
 import org.jdraft.io._batch;
 import org.jdraft.proto.$field;
 
@@ -38,7 +38,7 @@ public class _SystemOutToLoggerTest extends TestCase {
         } );
 
         //now compile all tet classes
-        List<_bytecodeFile> _bcfs = _adhoc.compile(testClasses);
+        List<_classFile> _bcfs = _runtime.compile(testClasses);
     }
 
     public void testSingle() {
@@ -62,7 +62,7 @@ public class _SystemOutToLoggerTest extends TestCase {
         //apply the macro
 
         _c = (_class)lr.apply(_c);
-        _adhoc.of(_c).call(_c, "m");
+        _runtime.of(_c).call(_c, "m");
     }
 
     public static final Logger LOG = Logger.getLogger(_SystemOutToLoggerTest.class.getCanonicalName());

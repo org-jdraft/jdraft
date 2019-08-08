@@ -3,7 +3,7 @@ package org.jdraft.macro;
 import com.github.javaparser.ast.stmt.EmptyStmt;
 import org.jdraft.*;
 import org.jdraft.proto.*;
-import org.jdraft.adhoc.*;
+import org.jdraft.runtime.*;
 
 import junit.framework.TestCase;
 
@@ -112,7 +112,7 @@ public class _hashCodeTest extends TestCase {
         _class _b = _class.of( B.class);
 
         //compile the classes
-        _adhoc _ab = _adhoc.of(_a, _b);
+        _runtime _ab = _runtime.of(_a, _b);
         //create (2) new instances
         _proxy _a1 = _ab.proxy(_b);
         _proxy _a2 = _ab.proxy(_b);

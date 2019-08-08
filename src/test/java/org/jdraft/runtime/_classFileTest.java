@@ -1,4 +1,4 @@
-package org.jdraft.adhoc;
+package org.jdraft.runtime;
 
 import java.nio.file.*;
 import java.util.List;
@@ -8,7 +8,7 @@ import junit.framework.TestCase;
  * Test building, reading and writing the BytecodeFile
  * @author Eric
  */
-public class BytecodeFileTest extends TestCase {
+public class _classFileTest extends TestCase {
         
     /**
      * Verify I can write and read a Bytecode file 
@@ -17,11 +17,11 @@ public class BytecodeFileTest extends TestCase {
         
         //write
         Path dirPath = Paths.get( System.getProperty("java.io.tmpdir"), "bcft" );
-        List<_bytecodeFile> bcs = _adhoc.compile( _javaFile.of("public class A{}") );
+        List<_classFile> bcs = _runtime.compile( _javaFile.of("public class A{}") );
         bcs.forEach(b-> b.write(dirPath));
         
         //read
-        _bytecodeFile bcf = _bytecodeFile.of(Paths.get(System.getProperty("java.io.tmpdir"), "bcft", "A.class"));        
+        _classFile bcf = _classFile.of(Paths.get(System.getProperty("java.io.tmpdir"), "bcft", "A.class"));
         //verify classPath
         assertEquals( dirPath, bcf.getClassPath());
         //verify name
@@ -39,11 +39,11 @@ public class BytecodeFileTest extends TestCase {
         
         //build & write
         Path dirPath = Paths.get( System.getProperty("java.io.tmpdir"), "bcft" );
-        List<_bytecodeFile> bcs = _adhoc.compile( "package aaaa.bbbb.cccc;", "public class D{}");
+        List<_classFile> bcs = _runtime.compile( "package aaaa.bbbb.cccc;", "public class D{}");
         bcs.forEach(b-> b.write(dirPath));
         
         //read
-        _bytecodeFile bcf = _bytecodeFile.of(Paths.get(System.getProperty("java.io.tmpdir"), "bcft", "aaaa", "bbbb", "cccc", "D.class"));        
+        _classFile bcf = _classFile.of(Paths.get(System.getProperty("java.io.tmpdir"), "bcft", "aaaa", "bbbb", "cccc", "D.class"));
         //verify classPath
         assertEquals( dirPath, bcf.getClassPath());
         //verify name

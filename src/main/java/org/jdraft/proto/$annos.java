@@ -17,10 +17,10 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- *
+ * Prototype of (group of) {@link _annos} for composing and query
  * @author Eric
  */
-public class $annos 
+public final class $annos
     implements Template<_annos>, $proto<_annos>, $constructor.$part, $method.$part, 
         $field.$part, $parameter.$part, $typeParameter.$part {
 

@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 /**
  * prototype/template for a Java {@link _method}
  */
-public class $method
+public final class $method
     implements Template<_method>, $proto<_method> {
        
     /**

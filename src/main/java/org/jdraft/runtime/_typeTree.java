@@ -1,4 +1,4 @@
-package org.jdraft.adhoc;
+package org.jdraft.runtime;
 
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.jdraft.*;
@@ -197,7 +197,7 @@ public class _typeTree {
         typeName = Ast.typeRef(typeName).asClassOrInterfaceType().getName().toString();
         _typeNode _tn = node(typeName);
         if( _tn == null ){
-            throw new _adhocException("Could not find typeNode for "+typeName);
+            throw new _runtimeException("Could not find typeNode for "+typeName);
         }
         return listDirectChildren(_tn);
     }
@@ -212,7 +212,7 @@ public class _typeTree {
                 this.parentChild.keySet().stream().filter( tn-> tn.fullyQualifiedClassName.equals(_tn.fullyQualifiedClassName))
                         .collect(Collectors.toList());
         if( otn.size() == 0 ){
-            throw new _adhocException("Could not find matching _typenode for "+ _tn );
+            throw new _runtimeException("Could not find matching _typenode for "+ _tn );
         }
         if( otn.size() == 1 ){
             return this.parentChild.get(otn.get(0)).stream().collect(Collectors.toList());
@@ -221,7 +221,7 @@ public class _typeTree {
         if( otn.contains(_tn) ){
             return this.parentChild.get(_tn).stream().collect(Collectors.toList());
         }
-        throw new _adhocException("ambiguous node to resolve"+_tn+ " "+ otn);
+        throw new _runtimeException("ambiguous node to resolve"+_tn+ " "+ otn);
     }
 
     /**
@@ -250,7 +250,7 @@ public class _typeTree {
     public List<_typeNode> listAllChildren( String typeName){
         _typeNode _tn = node(typeName);
         if( _tn == null ){
-            throw new _adhocException("Could not find typeNode for "+typeName);
+            throw new _runtimeException("Could not find typeNode for "+typeName);
         }
         return listAllChildren(_tn);
     }
@@ -471,7 +471,7 @@ public class _typeTree {
                     //expected
                 }
             }
-            throw new _adhocException("type not found: " + name);
+            throw new _runtimeException("type not found: " + name);
         }
     }
 }

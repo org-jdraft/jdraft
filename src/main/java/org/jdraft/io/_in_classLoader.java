@@ -1,7 +1,7 @@
 package org.jdraft.io;
 
 import org.jdraft._type;
-import java.io.ByteArrayInputStream;
+
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Paths;
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 /**
  * Since we maintain the {@link _type}s in memory when we compile and load a new
- * {@link _typeCacheClassLoader} (i.e. a {@link org.jdraft.adhoc._classLoader} the
+ * {@link _typeCacheClassLoader} (i.e. a {@link org.jdraft.runtime._classLoader} the
  * .java source code is not compiled from a file,
  * but rather from the serialized version of the {@link _type}), we can return
  * the cached version of the _type
@@ -139,7 +139,7 @@ public final class _in_classLoader implements _in._resolver {
 
     /**
      * Interface for a ClassLoader instance that is also a cache for _type
-     * (an example is {@link org.jdraft.adhoc._classLoader}
+     * (an example is {@link org.jdraft.runtime._classLoader}
      * instances ( i.e. it stores a Class AND it's _class model)
      */
     public interface _typeCacheClassLoader {

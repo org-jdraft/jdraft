@@ -6,13 +6,12 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 /**
- * TODO move this to $proto?
- * 
- * Identifier that can be "simple" i.e. "Map"
- * or fully qualified "java.util.Map" 
+ * Notion of a name or identifier that can be :
+ * "simple" i.e. "Map"
+ * or "fully qualified" i.e. "java.util.Map"
  * 
  */
-public class $id implements $constructor.$part, $method.$part, $field.$part, 
+public final class $id implements $constructor.$part, $method.$part, $field.$part,
         $parameter.$part, $typeParameter.$part, $var.$part {
 
     public static $id any(){

@@ -12,11 +12,12 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
+ * prototype for different types of {@link com.github.javaparser.ast.comments.Comment}s
  *
  * @author Eric
- * @param <C>
+ * @param <C> the underlying comment type
  */
-public class $comment <C extends Comment>
+public final class $comment <C extends Comment>
     implements $proto<C>, Template<C>, $constructor.$part, $method.$part, $field.$part {
     
     public static $comment<Comment> any(){

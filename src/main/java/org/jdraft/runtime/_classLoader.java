@@ -1,10 +1,13 @@
-package org.jdraft.adhoc;
+package org.jdraft.runtime;
 
 import org.jdraft._code;
+import org.jdraft._type;
+import org.jdraft._walk;
 
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -26,15 +29,15 @@ public class _classLoader
      * @param sourceCode collection of sourceCode Files (_tyeps)
      * @return
      */
-    public static _classLoader of( ClassLoader parent, Collection<_bytecodeFile> bytecode, Collection<_javaFile> sourceCode ){
+    public static _classLoader of(ClassLoader parent, Collection<_classFile> bytecode, Collection<_javaFile> sourceCode ){
         _classLoader adh = new _classLoader(parent);
-        bytecode.forEach(b-> adh.classNameTo_bytecodeFile.put( b.getFullyQualifiedClassName(), b));
+        bytecode.forEach(b-> adh.classNameTo_classFile.put( b.getFullyQualifiedClassName(), b));
         sourceCode.forEach(s-> adh.classNameTo_javaFile.put(s.getFullyQualifiedClassName(), s));
         return adh;
     }
     
     /** Maps class names to the class bytecode */ 
-    public Map<String, _bytecodeFile> classNameTo_bytecodeFile = Collections.synchronizedMap( new TreeMap<>() );
+    public Map<String, _classFile> classNameTo_classFile = Collections.synchronizedMap( new TreeMap<>() );
     
     /** Maps the class names to the {@link _javaFile}s representing the java source */
     public Map<String, _javaFile> classNameTo_javaFile = Collections.synchronizedMap( new TreeMap<>() );
@@ -68,13 +71,51 @@ public class _classLoader
     
     /**
      * Gets the codeModel (of <C>) for the specific Class that was loaded in 
-     * this AdhocClassLoader@return 
+     * this _classLoader@return
      * @param fullyQualifiedClassName the name of the class (i.e. "java.util.Map")
      * @return 
      */
     public _code get_code(String fullyQualifiedClassName){
+        //TODO fix this to handle getting the code for internal types
+        //could be inner class...
+        if( classNameTo_classFile.get(fullyQualifiedClassName) == null){
+            return null;
+        }
+
+        //is it a top level class?
         _javaFile cmf = classNameTo_javaFile.get(fullyQualifiedClassName);
-        return cmf.codeModel;
+        if( cmf != null ) {
+            return cmf.codeModel;
+        }
+        //we know it's an inner class... so find the parent class
+        _type _f = _walk.first( list_types(), _type.class, (_type _t) -> _t.getFullName().equals(fullyQualifiedClassName) );
+        return _f;
+    }
+
+    public List<_type> list_types(){
+        List<_type> _ts =
+                this.classNameTo_javaFile.values().stream()
+                        .filter( _jf -> _jf.getCode() instanceof _type).map( _jf-> (_type)_jf.getCode()).collect(Collectors.toList());
+        return _ts;
+    }
+
+
+    public List<_type> list_types( Predicate<_type> _typeMatchFn){
+        return list_types().stream().filter(_typeMatchFn).collect(Collectors.toList());
+    }
+
+    public <_T extends _type> List<_T> list_types(Class<_T> _typeClass, Predicate<_T> _typeMatchFn){
+        return (List<_T>)list_types().stream()
+                .filter(_t -> _typeClass.isAssignableFrom(_t.getClass()) && _typeMatchFn.test((_T)_t) )
+                .collect(Collectors.toList());
+    }
+
+    public _classFile get_classFile(Class clazz ){
+        return get_classFile(clazz.getCanonicalName());
+    }
+
+    public _classFile get_classFile(String fullyQualifiedClassName){
+        return classNameTo_classFile.get(fullyQualifiedClassName);
     }
     
     @Override
@@ -84,7 +125,7 @@ public class _classLoader
     
     @Override
     protected Class<?> findClass(String fullyQualifiedClassName) throws ClassNotFoundException {        
-	    _bytecodeFile bytecodeFile = classNameTo_bytecodeFile.get(fullyQualifiedClassName);
+	    _classFile bytecodeFile = classNameTo_classFile.get(fullyQualifiedClassName);
 	    if (bytecodeFile == null) {
             Class<?> found = super.findClass(fullyQualifiedClassName);
             return found;
@@ -98,7 +139,7 @@ public class _classLoader
      * @return a list of the names of all classes (including nested classes)
      */
     public List<String> listClassNames(){
-        return this.classNameTo_bytecodeFile.keySet().stream().collect(Collectors.toList());
+        return this.classNameTo_classFile.keySet().stream().collect(Collectors.toList());
     }
     
     /**
@@ -113,8 +154,8 @@ public class _classLoader
      * Lists the BytecodeFiles that are loaded in this classLoader
      * @return a LIst of BytecodeFile containing bytecode for all classes
      */
-    public List<_bytecodeFile> list_bytecodeFiles(){
-        return this.classNameTo_bytecodeFile.values().stream().collect(Collectors.toList());
+    public List<_classFile> list_classFiles(){
+        return this.classNameTo_classFile.values().stream().collect(Collectors.toList());
     }
     
     /**
@@ -164,7 +205,7 @@ public class _classLoader
                 while (nm.startsWith(".")){
                     nm = nm.substring(1);
                 }
-                _bytecodeFile bcf = this.classNameTo_bytecodeFile.get(nm);
+                _classFile bcf = this.classNameTo_classFile.get(nm);
                 if( bcf != null ){
                     try{
                         //return new URL( name );   
@@ -205,7 +246,7 @@ public class _classLoader
             }
             return Collections.enumeration(all);
         } catch(IOException ioe){
-           throw new _adhocException("Unable to resolve resources");
+           throw new _runtimeException("Unable to resolve resources");
         }        
     }
     
@@ -242,7 +283,7 @@ public class _classLoader
                 while (nm.startsWith(".")){
                     nm = nm.substring(1);
                 }
-                _bytecodeFile bcf = this.classNameTo_bytecodeFile.get(nm);
+                _classFile bcf = this.classNameTo_classFile.get(nm);
                 if( bcf != null ){
                     return new ByteArrayInputStream( bcf.getBytecode());                    
                 }

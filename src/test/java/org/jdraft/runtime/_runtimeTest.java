@@ -1,4 +1,4 @@
-package org.jdraft.adhoc;
+package org.jdraft.runtime;
 
 import org.jdraft.macro._final;
 import org.jdraft.macro._static;
@@ -20,7 +20,7 @@ import org.junit.Assert;
 /**
  * @author Eric
  */
-public class _adhocTest extends TestCase {
+public class _runtimeTest extends TestCase {
  
     /**
      * This is a potpourri of features in draft-java & draft-java-adhoc
@@ -55,7 +55,7 @@ public class _adhocTest extends TestCase {
             }).apply(_dto.$);//_autoDto adds constructor, equals, hashcode, toString)        
         
         //compile, load, and create a new instance of _c with 100 arg
-        _proxy<Serializable, _code> p = _adhoc.of(_c).proxy(_c, 100);
+        _proxy<Serializable, _code> p = _runtime.of(_c).proxy(_c, 100);
         assertEquals(100, p.get("a"));
         
         
@@ -77,7 +77,7 @@ public class _adhocTest extends TestCase {
         assertEquals(300, p.call("threeX", 100)); //call instance method
         
         //we can get the codeModel
-        _code _cd = p.getCodeModel();        
+        _code _cd = p.get_class();
         assertEquals( _c, _cd); //make sure the models are the same             
     }
     
@@ -87,8 +87,8 @@ public class _adhocTest extends TestCase {
         _annotation _a = _annotation.of("A");
         _enum _e = _enum.of("E");
         
-        List<_bytecodeFile> ff = _adhoc.compile(_c, _i, _a, _e);
-        ff = _adhoc.compile(_c, _i, _a, _e);
+        List<_classFile> ff = _runtime.compile(_c, _i, _a, _e);
+        ff = _runtime.compile(_c, _i, _a, _e);
     }
     
     public void testFileName(){
@@ -125,7 +125,7 @@ public class _adhocTest extends TestCase {
         }
         _class _c = _class.of(C.class);
         System.out.println( _c );
-        _adhoc ah = _adhoc.of(_c);
+        _runtime ah = _runtime.of(_c);
         
         _proxy p = ah.proxy(_c, 200); //final arg i = 200
         assertEquals( 200, p.get("i")); //verify
@@ -148,7 +148,7 @@ public class _adhocTest extends TestCase {
             "package aaaa;"+System.lineSeparator()+"/** Some comments */");
         
         //_draftAdhoc astCompiler = new _draftAdhoc();
-        List<_bytecodeFile> byteCodeMap = _adhoc.compile(AAClass, modInfo, pkgInfo);
+        List<_classFile> byteCodeMap = _runtime.compile(AAClass, modInfo, pkgInfo);
         assertEquals( 2, byteCodeMap.size());
     }
     
@@ -156,14 +156,14 @@ public class _adhocTest extends TestCase {
     public void testLoadManual(){
         CompilationUnit ast = StaticJavaParser.parse("public class GGGG{ public static final int i=1000; }");        
         // here you can manually build an AstFile from the compilationUnit
-        _adhoc adhoc = _adhoc.of( ast );
+        _runtime adhoc = _runtime.of( ast );
         Class clazz = adhoc.getClass("GGGG");
         assertNotNull( clazz );        
         
         // the compilationUnit is still mutable, if we change the name of the type
         // the name of the file / class changes
         ast.getType(0).setName("HHHH");
-        adhoc = _adhoc.of( ast );
+        adhoc = _runtime.of( ast );
         clazz = adhoc.getClass("HHHH");
         assertNotNull( clazz );
         
@@ -172,24 +172,24 @@ public class _adhocTest extends TestCase {
         // to parse/manipulate Strings (we get all the conveniece of
         // having a mutable model AST and we can 
         ast.setPackageDeclaration("aaaa.bbbb");
-        adhoc = _adhoc.of( ast );
+        adhoc = _runtime.of( ast );
         clazz = adhoc.getClass("aaaa.bbbb.HHHH");
         assertNotNull( clazz );        
     }
     
     public void testLoadAdhocAst(){
         CompilationUnit ast = StaticJavaParser.parse("public class GGGG{ public static final int i=1000; }");
-        _adhoc adhoc = _adhoc.of(ast);//compile & load
+        _runtime adhoc = _runtime.of(ast);//compile & load
         assertNotNull( adhoc.getClass("GGGG") );
         
         assertEquals(1000, adhoc.getFieldValue("GGGG", "i")); //get field value
         
         ast.getType(0).setName("HHHH");
-        adhoc = _adhoc.of(ast);//compile & load
+        adhoc = _runtime.of(ast);//compile & load
         assertNotNull( adhoc.getClass("HHHH") );
         
         ast.setPackageDeclaration("aaaa.bbbb");
-        adhoc = _adhoc.of(ast); //compile & load
+        adhoc = _runtime.of(ast); //compile & load
         assertNotNull( adhoc.getClass("aaaa.bbbb.HHHH") );
         
         
@@ -198,7 +198,7 @@ public class _adhocTest extends TestCase {
         ast.getType(0).addField(int.class, "ID", Keyword.PUBLIC, Keyword.STATIC)
             .getVariable(0).setInitializer("100");
         
-        adhoc = _adhoc.of(ast); //compile & load        
+        adhoc = _runtime.of(ast); //compile & load
         
         //get static field value from the compiled/loaded 
         assertEquals(100, adhoc.getFieldValue("aaaa.bbbb.HHHH", "ID")); 
@@ -207,12 +207,12 @@ public class _adhocTest extends TestCase {
         BodyDeclaration<?> bd = StaticJavaParser.parseBodyDeclaration("public static int val() { return 12345; }");        
         ast.getType(0).addMember(bd);
         
-        adhoc = _adhoc.of(ast); //compile & load
+        adhoc = _runtime.of(ast); //compile & load
         assertEquals(12345, adhoc.call("aaaa.bbbb.HHHH", "val")); //call method        
     }
 
     public void testCallMain(){        
-        _adhoc adhoc = _adhoc.of(
+        _runtime adhoc = _runtime.of(
             "public class A{",
             "    public static void main(String[] args){ ", 
             "        System.setProperty(\"aaaa\", \"bbbb\");",
@@ -226,7 +226,7 @@ public class _adhocTest extends TestCase {
     }
     
     public void testLoadAndNewInstanceFromString(){
-        _adhoc adhoc = _adhoc.of(
+        _runtime adhoc = _runtime.of(
                 "public class G{",  
                 "    final int i;",
                 "    public G(int i){",
@@ -240,7 +240,7 @@ public class _adhocTest extends TestCase {
         
         //test no args
         CompilationUnit cu = StaticJavaParser.parse("public class G{ }");
-        _adhoc adhoc = _adhoc.of(cu);        
+        _runtime adhoc = _runtime.of(cu);
         Class clazz = adhoc.getClass("G");
         Object inst = adhoc.instance("G");
         assertNotNull( inst );
@@ -253,7 +253,7 @@ public class _adhocTest extends TestCase {
         
         //test no args
         CompilationUnit cu = StaticJavaParser.parse("public class G{ public G(int i) {} }");
-        _adhoc adhoc = _adhoc.of(cu);        
+        _runtime adhoc = _runtime.of(cu);
         Class clazz = adhoc.getClass("G");
         Object inst = adhoc.instance("G", 100);
         assertNotNull( inst );
@@ -267,7 +267,7 @@ public class _adhocTest extends TestCase {
      * the AST
      */
     public void testLoadAndGetCompilationUnitOut(){
-        _adhoc adhoc = _adhoc.of(
+        _runtime adhoc = _runtime.of(
             "package aaaa;", 
             "public class FF{",
             "    public int gg = 100;",
@@ -301,7 +301,7 @@ public class _adhocTest extends TestCase {
         _javaFile astFo = 
             new _javaFile( StaticJavaParser.parse("public class AAA{}"));   
         
-        List<_bytecodeFile> bytecode = _adhoc.compile(astFo);        
+        List<_classFile> bytecode = _runtime.compile(astFo);
         assertTrue( bytecode.size() == 1);
         assertEquals( "AAA", bytecode.get(0).getFullyQualifiedClassName());
     }
@@ -310,7 +310,7 @@ public class _adhocTest extends TestCase {
         _javaFile astFo = 
             new _javaFile( StaticJavaParser.parse("package aaaa; "+System.lineSeparator()+"public class AAA{}"));   
         
-        List<_bytecodeFile> bytecode = _adhoc.compile(astFo);        
+        List<_classFile> bytecode = _runtime.compile(astFo);
         assertEquals( "aaaa.AAA", bytecode.get(0).getFullyQualifiedClassName());        
         assertTrue( bytecode.size() == 1);
     }
@@ -323,7 +323,7 @@ public class _adhocTest extends TestCase {
         _javaFile astPPC = 
             new _javaFile( StaticJavaParser.parse("class AAA{}"));   
         
-        List<_bytecodeFile> bytecode = _adhoc.compile(astPPC);
+        List<_classFile> bytecode = _runtime.compile(astPPC);
         
         assertEquals("AAA", bytecode.get(0).getFullyQualifiedClassName());
         assertTrue( bytecode.size() == 1);
@@ -336,7 +336,7 @@ public class _adhocTest extends TestCase {
         _javaFile astPPC = 
             new _javaFile( StaticJavaParser.parse("class AAA{}"+ System.lineSeparator()+"public class BBB{}") );   
         
-        List<_bytecodeFile> bytecode = _adhoc.compile(astPPC);
+        List<_classFile> bytecode = _runtime.compile(astPPC);
         
         
         bytecode.forEach(b -> System.out.println( b.getFullyQualifiedClassName() ));
@@ -353,7 +353,7 @@ public class _adhocTest extends TestCase {
     public void testCompileOnlyPackageInfo(){
         _javaFile astPI = 
             new _javaFile( StaticJavaParser.parse("/** a package info*/"+System.lineSeparator()+"package aaaa;"));   
-        List<_bytecodeFile> bytecode = _adhoc.compile(astPI);
+        List<_classFile> bytecode = _runtime.compile(astPI);
         //package info files are not parsed
         assertTrue( bytecode.isEmpty() );        
     }
@@ -365,7 +365,7 @@ public class _adhocTest extends TestCase {
         CompilationUnit cu = StaticJavaParser.parse("");
         cu.setModule("aaaa");
         _javaFile astMI = new _javaFile( cu );   
-        List<_bytecodeFile> bytecode = _adhoc.compile(astMI);
+        List<_classFile> bytecode = _runtime.compile(astMI);
         
         //passing a module-info file will get compiled
         assertNotNull( "module-info", bytecode.get(0).getFullyQualifiedClassName() );                

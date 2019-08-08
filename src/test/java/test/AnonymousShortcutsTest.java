@@ -10,7 +10,7 @@ import org.jdraft.macro.*;
 
 import org.jdraft.proto.*;
 
-import org.jdraft.adhoc.*;
+import org.jdraft.runtime.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
@@ -216,7 +216,7 @@ public class AnonymousShortcutsTest extends TestCase {
         assertTrue( _i.getMethod("aStaticMethod").isStatic() );
         assertTrue( _i.getMethod("aDefaultMethod").isDefault() );
         assertFalse( _i.getMethod("aMethodWhosBodyWillBeRemoved").hasBody());
-        _adhoc.compile(_i);
+        _runtime.compile(_i);
         System.out.println( _i );
     }
     

@@ -18,7 +18,7 @@ import java.util.function.Predicate;
  * if we want som EXACT set of modifiers (i.e. only "private"  )
  * @author Eric
  */
-public class $modifiers 
+public final class $modifiers
     implements $proto<_modifiers>, $constructor.$part, $method.$part, $field.$part{
     
     public static $modifiers any(){

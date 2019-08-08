@@ -9,11 +9,11 @@ import java.util.*;
 import java.util.function.*;
 
 /**
- * Template for a Java Expression (a com.github.javaparser.ast.expr.Expression)
+ *  prototype for an  {@link com.github.javaparser.ast.expr.Expression})
  *
  * @param <T> the underlying Expression TYPE
  */
-public class $expr <T extends Expression>
+public final class $expr <T extends Expression>
     implements Template<T>, $exprProto<T> {
 
     /**

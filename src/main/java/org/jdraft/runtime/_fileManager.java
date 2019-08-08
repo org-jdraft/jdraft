@@ -1,4 +1,4 @@
-package org.jdraft.adhoc;
+package org.jdraft.runtime;
 
 import java.io.IOException;
 import java.util.*;
@@ -10,7 +10,7 @@ import javax.tools.*;
  * 
  * @author Eric
  * @see _javaFile
- * @see _bytecodeFile
+ * @see _classFile
  */
 public class _fileManager
     extends ForwardingJavaFileManager<JavaFileManager> {
@@ -45,7 +45,7 @@ public class _fileManager
             });
         }
         if(kinds.contains(JavaFileObject.Kind.CLASS) ){
-            this.classLoader.classNameTo_bytecodeFile.values().forEach(cf-> {
+            this.classLoader.classNameTo_classFile.values().forEach(cf-> {
                 String pkgName = cf.getPackageName();
                 if( pkgName.equals( packageName ) ){
                     fos.add( cf );
@@ -72,7 +72,7 @@ public class _fileManager
             }    
         }
         else if( kind == JavaFileObject.Kind.CLASS ){
-            _bytecodeFile bcf = this.classLoader.classNameTo_bytecodeFile.get(className);
+            _classFile bcf = this.classLoader.classNameTo_classFile.get(className);
             if( bcf != null){
                 return bcf;
             }
@@ -97,11 +97,11 @@ public class _fileManager
             JavaFileObject.Kind kind, FileObject sibling) throws IOException {
 
         try {
-            _bytecodeFile adHocClass = new _bytecodeFile(className);
-            this.classLoader.classNameTo_bytecodeFile.put(className, adHocClass);
+            _classFile adHocClass = new _classFile(className);
+            this.classLoader.classNameTo_classFile.put(className, adHocClass);
             return adHocClass;
         } catch (Exception e) {
-            throw new _adhocException(
+            throw new _runtimeException(
                     "Error while creating in-memory output file for "
                     + className, e);
         }

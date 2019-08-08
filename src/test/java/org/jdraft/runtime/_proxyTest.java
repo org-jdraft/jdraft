@@ -1,4 +1,4 @@
-package org.jdraft.adhoc;
+package org.jdraft.runtime;
 
 import java.util.Arrays;
 import junit.framework.TestCase;
@@ -9,7 +9,7 @@ import org.junit.Assert;
  *
  * @author Eric
  */
-public class ProxyTest extends TestCase {
+public class _proxyTest extends TestCase {
     
     public void testSimpleProxy(){
         _proxy p = new _proxy("");
@@ -21,9 +21,9 @@ public class ProxyTest extends TestCase {
         //assertNotNull( p.getClassLoader( ));
         
         try{
-            p.getCodeModel();
+            p.get_class();
             fail("expected exception for no code model present");
-        }catch(_adhocException ahe){
+        }catch(_runtimeException ahe){
             //expected
         }
         
@@ -36,7 +36,7 @@ public class ProxyTest extends TestCase {
     }
     
     public void testProxyEqualsHashcodeToString(){
-        _adhoc adhoc = _adhoc.of(
+        _runtime adhoc = _runtime.of(
             "public class A{",
             "    private int i = 1;",
             "    public boolean equals(Object other){",
@@ -87,7 +87,7 @@ public class ProxyTest extends TestCase {
     }
     
     public void testGetOrIsBoolean(){
-        _adhoc adhoc = _adhoc.of(
+        _runtime adhoc = _runtime.of(
             "public class A{",
             "    private boolean done = false;",
             "    public boolean isDone(){",
@@ -120,13 +120,13 @@ public class ProxyTest extends TestCase {
             "        return this;",
             "    }",
             "}"); 
-        _adhoc adhoc = _adhoc.of(sc);
+        _runtime adhoc = _runtime.of(sc);
         
         //try a proxy with a ctor arg
         _proxy p = adhoc.proxy("A", false);
         assertNotNull( p.instance );
         assertTrue( p.getClassLoader() instanceof _classLoader);
-        _code thecode = p.getCodeModel();
+        _code thecode = p.get_class();
         assertEquals(thecode, sc.codeModel);
     }
 }

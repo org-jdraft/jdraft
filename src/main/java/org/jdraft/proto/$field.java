@@ -28,10 +28,11 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
+ * Prototype of a _field (for querying and composing)
  *
  * @author Eric
  */
-public class $field implements Template<_field>, $proto<_field> {
+public final class $field implements Template<_field>, $proto<_field> {
   
     public interface $part{} 
     

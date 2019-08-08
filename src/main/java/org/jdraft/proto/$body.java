@@ -19,10 +19,11 @@ import java.util.*;
 import java.util.function.*;
 
 /**
- * Prototype of a body
+ * Prototype for composing and querying a {@link _body}
+ *
  * @author Eric
  */
-public class $body implements Template<_body>, $proto<_body>, $constructor.$part, $method.$part{
+public final class $body implements Template<_body>, $proto<_body>, $constructor.$part, $method.$part{
     
     public static $body any(){
         return of();

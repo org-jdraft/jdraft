@@ -1,4 +1,4 @@
-package org.jdraft.adhoc;
+package org.jdraft.runtime;
 
 import com.github.javaparser.ast.type.Type;
 import junit.framework.TestCase;

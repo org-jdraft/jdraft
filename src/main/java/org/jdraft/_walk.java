@@ -1094,6 +1094,22 @@ public enum _walk {
     }
 
     /**
+     * Go through a collection of _code
+     * @param tt
+     * @param _sourceCode
+     * @param targetClass
+     * @param matchFn
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> list(
+            Node.TreeTraversal tt, Collection<_code> _sourceCode, Class<T> targetClass, Predicate<T> matchFn ) {
+        List<T> found = new ArrayList<>();
+        _sourceCode.stream().forEach( _sc -> of( tt, _sc.astCompilationUnit(), targetClass, matchFn, f-> found.add(f)));
+        return found;
+    }
+
+    /**
      * Given an AST root node n, and a Tree Traversal Strategy (default is PreOrder),
      * walk the AST tree and match for EVERY occurrence of the target class
      * that matches the matchFn and perform an action on it.
@@ -1817,6 +1833,43 @@ public enum _walk {
             return _walk.first( tt, ((_type) _j).ast(), nodeTargetClass, nodeMatchFn);
         }
         return _walk.first( tt, ((_node)_j).ast(), nodeTargetClass, nodeMatchFn);
+    }
+
+    /**
+     *
+     * @param jj
+     * @param nodeTargetClass
+     * @param nodeMatchFn
+     * @param <T>
+     * @return
+     */
+    public static <T, _C extends _code> T first( Collection<_C> jj, Class<T> nodeTargetClass, Predicate<T>nodeMatchFn ){
+        return first( _walk.PRE_ORDER, jj, nodeTargetClass, nodeMatchFn );
+    }
+
+    /**
+     *
+     * @param tt
+     * @param jj
+     * @param nodeTargetClass
+     * @param nodeMatchFn
+     * @param <T>
+     * @return
+     */
+    public static <T, _C extends _code> T first( Node.TreeTraversal tt, Collection<_C> jj, Class<T> nodeTargetClass, Predicate<T>nodeMatchFn ){
+        List<T> found = new ArrayList<T>();
+        jj.stream().filter( j -> {
+            T t = first(tt, j, nodeTargetClass, nodeMatchFn);
+            if( t != null ){
+                found.add(t);
+                return true;
+            }
+            return false;
+        });
+        if( found.isEmpty()){
+            return null;
+        }
+        return found.get(0);
     }
     
     /**

@@ -1,9 +1,6 @@
 package org.jdraft.macro;
 
-import org.jdraft.adhoc._adhoc;
-import org.jdraft.macro._importClass;
-import org.jdraft.macro._toString;
-import org.jdraft.macro._promote;
+import org.jdraft.runtime._runtime;
 import org.jdraft._class;
 import junit.framework.TestCase;
 
@@ -28,6 +25,6 @@ public class _toStringTest extends TestCase {
 
         //make sure it compiles, load and create a new instance then print the toString
         //takes time System.out.println( _proxy.of(  ).toString());
-        System.out.println( _adhoc.of(_c).proxy(_c).toString() );
+        System.out.println( _runtime.of(_c).proxy(_c).toString() );
     }
 }

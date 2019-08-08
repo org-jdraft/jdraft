@@ -1,4 +1,4 @@
-package org.jdraft.adhoc;
+package org.jdraft.runtime;
 
 import org.jdraft.*;
 import org.jdraft.macro.*;
@@ -15,7 +15,7 @@ public class _projectTest extends TestCase {
         _method _m = _method.of("public static int val(){ return 1;}");
         _c.add( _m);
         
-        _adhoc _p = _adhoc.of(_c);
+        _runtime _p = _runtime.of(_c);
         
         //_p.call(fullyQualifiedClassName, methodName, args)
         //because there is only 1 public static method on _c, call that
@@ -115,7 +115,7 @@ public class _projectTest extends TestCase {
         assertTrue( _cc.getMethod("main").isMain() );
         
         System.out.println( _cc );
-        _adhoc _p = _adhoc.of(_class.of( L.class));
+        _runtime _p = _runtime.of(_class.of( L.class));
 
         _proxy _pr = _p.proxy("aaaa.gggg.L");
 

@@ -1,4 +1,4 @@
-package org.jdraft.adhoc;
+package org.jdraft.runtime;
 
 import java.util.*;
 import javax.tools.JavaFileObject;
@@ -49,7 +49,7 @@ import org.jdraft.*;
  * 
  * @author Eric
  */
-public class _adhoc  { //implements Adhoc<_code> {
+public class _runtime {
     
     /**
      * Javac compiler for compiling java source to bytecode classes
@@ -67,7 +67,7 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @param codeLines
      * @return
      */
-    public static List<_bytecodeFile> compile(String... codeLines) {
+    public static List<_classFile> compile(String... codeLines) {
         return compile(_java.type(codeLines));
     }
 
@@ -77,7 +77,7 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @param codeLines
      * @return
      */
-    public static List<_bytecodeFile> compile(List<String> compilerOptions, String... codeLines) {
+    public static List<_classFile> compile(List<String> compilerOptions, String... codeLines) {
         return compile(compilerOptions, _java.type(codeLines));
     }
 
@@ -88,7 +88,7 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @param codeLines
      * @return
      */
-    public static List<_bytecodeFile> compile(List<String> compilerOptions, boolean ignoreWarnings, String... codeLines) {
+    public static List<_classFile> compile(List<String> compilerOptions, boolean ignoreWarnings, String... codeLines) {
         return compile(compilerOptions, ignoreWarnings, _java.type(codeLines));
     }
     
@@ -97,13 +97,13 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @param code the draft _code instances (i.e. {@link org.jdraft._class}, {@link org.jdraft._interface})
      * @return map of the className to the bytecode
      */
-    public static List<_bytecodeFile> compile(_code...code){
+    public static List<_classFile> compile(_code...code){
         List<JavaFileObject> fs = new ArrayList<>();
         Arrays.stream(code).forEach( f -> fs.add( _javaFile.of(f)));
         return compile(fs);
     }
 
-    public static <C extends _code> List<_bytecodeFile> compile( List<C> code){
+    public static <C extends _code> List<_classFile> compile(List<C> code){
         List<JavaFileObject> fs = new ArrayList<>();
         code.forEach( f -> fs.add( _javaFile.of(f)));
         return compile(fs);
@@ -114,7 +114,7 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @param codeFiles
      * @return
      */
-    public static List<_bytecodeFile> compile(Collection<JavaFileObject> codeFiles) {
+    public static List<_classFile> compile(Collection<JavaFileObject> codeFiles) {
         return compile(Collections.EMPTY_LIST, true, codeFiles);
     }
 
@@ -124,7 +124,7 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @param code
      * @return 
      */
-    public static List<_bytecodeFile> compile(List<String>compilerOptions, _code...code){
+    public static List<_classFile> compile(List<String>compilerOptions, _code...code){
          List<JavaFileObject> fs = new ArrayList<>();
         Arrays.stream(code).forEach( f -> fs.add( _javaFile.of(f)));
         return compile(compilerOptions, true, fs);
@@ -136,7 +136,7 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @param code compilationUnits to be compiled
      * @return Map of bytecode by className
      */
-    public static List<_bytecodeFile> compile(CompilationUnit...code){
+    public static List<_classFile> compile(CompilationUnit...code){
         List<JavaFileObject> fs = new ArrayList<>();
         Arrays.stream(code).forEach( f -> fs.add( _javaFile.of(f)));
         return compile(fs);
@@ -147,7 +147,7 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @param codeFiles
      * @return
      */
-    public static List<_bytecodeFile> compile(JavaFileObject... codeFiles) {
+    public static List<_classFile> compile(JavaFileObject... codeFiles) {
         return compile(Collections.EMPTY_LIST, true, Arrays.asList(codeFiles));
     }
     
@@ -157,7 +157,7 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @param codeFiles
      * @return
      */
-    public static List<_bytecodeFile> compile(List<String> compilerOptions, JavaFileObject... codeFiles) {
+    public static List<_classFile> compile(List<String> compilerOptions, JavaFileObject... codeFiles) {
         return compile(compilerOptions, true, Arrays.asList(codeFiles));
     }
 
@@ -167,7 +167,7 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @param code
      * @return 
      */
-    public static List<_bytecodeFile> compile(List<String>compilerOptions, CompilationUnit...code){
+    public static List<_classFile> compile(List<String>compilerOptions, CompilationUnit...code){
         List<JavaFileObject> fs = new ArrayList<>();
         Arrays.stream(code).forEach( f -> fs.add( _javaFile.of(f)));
         return compile(compilerOptions, true, fs);
@@ -180,7 +180,7 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @param code
      * @return 
      */
-    public static List<_bytecodeFile> compile(List<String>compilerOptions, boolean ignoreWarnings, CompilationUnit...code){
+    public static List<_classFile> compile(List<String>compilerOptions, boolean ignoreWarnings, CompilationUnit...code){
         List<JavaFileObject> codeModelFiles = new ArrayList<>();
         Arrays.stream(code).forEach(c -> codeModelFiles.add( new _javaFile(c)));
         return compile(compilerOptions, ignoreWarnings, codeModelFiles);
@@ -195,7 +195,7 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @param code
      * @return 
      */
-    public static List<_bytecodeFile> compile(List<String>compilerOptions, boolean ignoreWarnings, _code...code){
+    public static List<_classFile> compile(List<String>compilerOptions, boolean ignoreWarnings, _code...code){
         List<JavaFileObject> fs = new ArrayList<>();
         Arrays.stream(code).forEach( f -> fs.add( _javaFile.of(f)));
         return compile(compilerOptions, ignoreWarnings, fs);
@@ -208,7 +208,7 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @return 
      */
     public static _proxy proxyOf(_class _c, Object...ctorArgs){
-        return _adhoc.of(_c).proxy(_c, ctorArgs);
+        return _runtime.of(_c).proxy(_c, ctorArgs);
     }
     
     /**
@@ -219,7 +219,7 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @return 
      */
     public static _proxy proxyOf(List<String>compilerOptions, _class _c, Object...ctorArgs){
-        return _adhoc.of(compilerOptions, _c).proxy(_c, ctorArgs);
+        return _runtime.of(compilerOptions, _c).proxy(_c, ctorArgs);
     }
     
     /**
@@ -230,7 +230,7 @@ public class _adhoc  { //implements Adhoc<_code> {
      */
     public static _proxy proxyOf(CompilationUnit astCu, Object...ctorArgs){
         _class _c = _class.of(astCu);
-        return _adhoc.of(_c).proxy(_c, ctorArgs);
+        return _runtime.of(_c).proxy(_c, ctorArgs);
     }
 
     /**
@@ -241,7 +241,7 @@ public class _adhoc  { //implements Adhoc<_code> {
      */
     public static Object instanceOf(List<String> compilerOptions, CompilationUnit astCu, Object...ctorArgs){
         _class _c = _class.of(astCu);
-        return _adhoc.of(compilerOptions, _c).instance(_c, ctorArgs);
+        return _runtime.of(compilerOptions, _c).instance(_c, ctorArgs);
     }    
     
     /**
@@ -251,7 +251,7 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @return 
      */
     public static Object instanceOf(_class _c, Object...ctorArgs){
-        return _adhoc.of(_c).instance(_c, ctorArgs);
+        return _runtime.of(_c).instance(_c, ctorArgs);
     }
     
     /**
@@ -262,7 +262,7 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @return 
      */
     public static Object instanceOf(List<String>compilerOptions, _class _c, Object...ctorArgs){
-        return _adhoc.of(compilerOptions, _c).instance(_c, ctorArgs);
+        return _runtime.of(compilerOptions, _c).instance(_c, ctorArgs);
     }
     
     /**
@@ -273,7 +273,7 @@ public class _adhoc  { //implements Adhoc<_code> {
      */
     public static Object instanceOf(CompilationUnit astCu, Object...ctorArgs){
         _class _c = _class.of(astCu);
-        return _adhoc.of(_c).instance(_c, ctorArgs);
+        return _runtime.of(_c).instance(_c, ctorArgs);
     }
 
     /**
@@ -297,7 +297,7 @@ public class _adhoc  { //implements Adhoc<_code> {
      */
     public static _proxy proxyOf(List<String> compilerOptions, CompilationUnit astCu, Object...ctorArgs){
         _class _c = _class.of(astCu);
-        return _adhoc.of(compilerOptions, _c).proxy(_c, ctorArgs);
+        return _runtime.of(compilerOptions, _c).proxy(_c, ctorArgs);
     }    
     
     /**
@@ -306,8 +306,8 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @param javaSourceCode java source code to create a _type from
      * @return the _adhoc with the compiled Classes
      */
-    public static _adhoc of(String...javaSourceCode ){
-        return _adhoc.of(_java.type(javaSourceCode));
+    public static _runtime of(String...javaSourceCode ){
+        return _runtime.of(_java.type(javaSourceCode));
     }
     
     /**
@@ -316,7 +316,7 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @return an _adhoc with compiled classes and resulting _code models after running
      * macros on the Classes
      */
-    public static _adhoc of(Class...macroAnnotatedClasses){
+    public static _runtime of(Class...macroAnnotatedClasses){
         List<JavaFileObject> sfs = new ArrayList<>();
         Arrays.stream(macroAnnotatedClasses).forEach(c->sfs.add( _javaFile.of(_java.type(c))));
         return of(Collections.EMPTY_LIST, true, sfs);
@@ -328,7 +328,7 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @param macroAnnotatedClasses classes marked up with macro annotations (i.e. @_autoDto)
      * @return the adhoc (containing the compiled classes and _code source models)
      */
-    public static _adhoc of( List<String>compilerOptions, Class...macroAnnotatedClasses){
+    public static _runtime of(List<String>compilerOptions, Class...macroAnnotatedClasses){
         List<JavaFileObject> sfs = new ArrayList<>();
         Arrays.stream(macroAnnotatedClasses).forEach(c->sfs.add( _javaFile.of(_java.type(c))));
         return of(compilerOptions, true, sfs);
@@ -339,7 +339,7 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @param compilerOptions options to pass to the Javac compiler
      * @return the adhoc (containing the compiled classes and _code source models)
      */
-    public static _adhoc of( List<String>compilerOptions, _javaFile...files){
+    public static _runtime of(List<String>compilerOptions, _javaFile...files){
         List<JavaFileObject> sfs = new ArrayList<>();
         Arrays.stream(files).forEach(c->sfs.add( c));
         return of(compilerOptions, true, sfs);
@@ -352,7 +352,7 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @param macroAnnotatedClasses classes marked up with macro annotations (i.e. @_autoDto)
      * @return the adhoc (containing the compiled classes and _code source models)
      */
-    public static _adhoc of( List<String>compilerOptions, boolean ignoreWarnings, Class...macroAnnotatedClasses){
+    public static _runtime of(List<String>compilerOptions, boolean ignoreWarnings, Class...macroAnnotatedClasses){
         List<JavaFileObject> sfs = new ArrayList<>();
         Arrays.stream(macroAnnotatedClasses).forEach(c->sfs.add( _javaFile.of(_java.type(c))));
         return of(compilerOptions, ignoreWarnings, sfs);
@@ -363,10 +363,10 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @param code
      * @return 
      */
-    public static _adhoc of(_code...code){
+    public static _runtime of(_code...code){
         List<JavaFileObject> sfs = new ArrayList<>();
         Arrays.stream(code).forEach(c-> sfs.add( _javaFile.of(c)));        
-        return _adhoc.of(Collections.EMPTY_LIST, true, sfs);        
+        return _runtime.of(Collections.EMPTY_LIST, true, sfs);
     }
 
     /**
@@ -375,10 +375,10 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @param <C>
      * @return
      */
-    public static <C extends _code> _adhoc of(List<C> code ){
+    public static <C extends _code> _runtime of(List<C> code ){
         List<JavaFileObject> sfs = new ArrayList<>();
         code.forEach(c-> sfs.add( _javaFile.of(c)));
-        return _adhoc.of(Collections.EMPTY_LIST, true, sfs);
+        return _runtime.of(Collections.EMPTY_LIST, true, sfs);
     }
 
     /**
@@ -386,8 +386,8 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @param jfs
      * @return
      */
-    public static _adhoc of( _javaFile...jfs ){
-        return _adhoc.of(Collections.EMPTY_LIST, true, Arrays.asList( jfs) );       
+    public static _runtime of(_javaFile...jfs ){
+        return _runtime.of(Collections.EMPTY_LIST, true, Arrays.asList( jfs) );
     }
     
     /**
@@ -396,10 +396,10 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @param code
      * @return 
      */
-    public static _adhoc of(List<String>compilerOptions, _code...code){
+    public static _runtime of(List<String>compilerOptions, _code...code){
         List<JavaFileObject> sfs = new ArrayList<>();
         Arrays.stream(code).forEach(c-> sfs.add( _javaFile.of(c)));  
-        return _adhoc.of(compilerOptions, true, sfs);
+        return _runtime.of(compilerOptions, true, sfs);
     }
     
     /**
@@ -409,10 +409,10 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @param code
      * @return 
      */
-    public static _adhoc of(List<String>compilerOptions, boolean ignoreWarnings, _code...code){
+    public static _runtime of(List<String>compilerOptions, boolean ignoreWarnings, _code...code){
         List<JavaFileObject> sfs = new ArrayList<>();
         Arrays.stream(code).forEach(c-> sfs.add( _javaFile.of(c)));  
-        return _adhoc.of(compilerOptions, ignoreWarnings, sfs);
+        return _runtime.of(compilerOptions, ignoreWarnings, sfs);
     }
     
     /**
@@ -420,10 +420,10 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @param code
      * @return 
      */
-    public static _adhoc of(CompilationUnit...code){
+    public static _runtime of(CompilationUnit...code){
         List<JavaFileObject> cfs = new ArrayList<>();
         Arrays.stream(code).forEach(c -> cfs.add( _javaFile.of(c)));
-        return _adhoc.of(Collections.EMPTY_LIST, true, cfs);
+        return _runtime.of(Collections.EMPTY_LIST, true, cfs);
     }
     
     /**
@@ -432,10 +432,10 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @param code
      * @return 
      */
-    public static _adhoc of(List<String>compilerOptions, CompilationUnit...code){
+    public static _runtime of(List<String>compilerOptions, CompilationUnit...code){
         List<JavaFileObject> codeModelFiles = new ArrayList<>();
         Arrays.stream(code).forEach(c -> codeModelFiles.add( new _javaFile(c)));
-        return _adhoc.of(compilerOptions, true, codeModelFiles);        
+        return _runtime.of(compilerOptions, true, codeModelFiles);
     }
     
     /**
@@ -445,10 +445,10 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @param code
      * @return 
      */
-    public static _adhoc of(List<String>compilerOptions, boolean ignoreWarnings, CompilationUnit...code){
+    public static _runtime of(List<String>compilerOptions, boolean ignoreWarnings, CompilationUnit...code){
         List<JavaFileObject> codeModelFiles = new ArrayList<>();
         Arrays.stream(code).forEach(c -> codeModelFiles.add( new _javaFile(c)));
-        return _adhoc.of(compilerOptions, ignoreWarnings, codeModelFiles);   
+        return _runtime.of(compilerOptions, ignoreWarnings, codeModelFiles);
     }
     
     /**
@@ -458,7 +458,7 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @param codeModelFiles
      * @return 
      */
-    public static _adhoc of( List<String> compilerOptions, boolean ignoreWarnings, Collection<JavaFileObject> codeModelFiles){    
+    public static _runtime of(List<String> compilerOptions, boolean ignoreWarnings, Collection<JavaFileObject> codeModelFiles){
         
         _classLoader classLoader = new _classLoader( ClassLoader.getSystemClassLoader() );
          
@@ -469,11 +469,11 @@ public class _adhoc  { //implements Adhoc<_code> {
         
         //now load all of the classes into a classLoader
         Map<String, Class<?>> classes = new HashMap<>();
-        for( String className: classLoader.classNameTo_bytecodeFile.keySet()){
+        for( String className: classLoader.classNameTo_classFile.keySet()){
             try{
                 classes.put(className, classLoader.loadClass(className));
             }catch(ClassNotFoundException cnfe){
-                throw new _adhocException("Unable to find class "+className, cnfe);
+                throw new _runtimeException("Unable to find class "+className, cnfe);
             }
         }
         Map<String,_javaFile> classToCodeModel = new TreeMap<>();
@@ -483,7 +483,7 @@ public class _adhoc  { //implements Adhoc<_code> {
                 c.getName().substring(1, c.getName().length() - ".java".length()).replace("/","."), 
                     (_javaFile)c) );
         fileManager.classLoader.classNameTo_javaFile = classToCodeModel;
-        return new _adhoc( fileManager );
+        return new _runtime( fileManager );
     }
     
     /**
@@ -492,7 +492,7 @@ public class _adhoc  { //implements Adhoc<_code> {
      */
     _fileManager fileManager;
     
-    private _adhoc(_fileManager fileManager){
+    private _runtime(_fileManager fileManager){
         this.fileManager = fileManager;
     }
 
@@ -511,7 +511,7 @@ public class _adhoc  { //implements Adhoc<_code> {
                 return call( fullTypeName, _m.getName(), args);
             }
         } 
-        throw new _adhocException("Unable to call method "+_m);
+        throw new _runtimeException("Unable to call method "+_m);
     }
 
     /**
@@ -545,7 +545,7 @@ public class _adhoc  { //implements Adhoc<_code> {
         try{
             return this.fileManager.classLoader.loadClass(_t.getFullName());
         }catch(ClassNotFoundException cnfe){
-            throw new _adhocException("Unable to find class "+ _t.getFullName());
+            throw new _runtimeException("Unable to find class "+ _t.getFullName());
         }
     }
 
@@ -558,7 +558,7 @@ public class _adhoc  { //implements Adhoc<_code> {
         try{
             return this.fileManager.classLoader.loadClass(fullyQualifiedClassName);
         }catch(ClassNotFoundException cnfe){
-            throw new _adhocException("Unable to find class "+ fullyQualifiedClassName);
+            throw new _runtimeException("Unable to find class "+ fullyQualifiedClassName);
         }
     }
     
@@ -616,7 +616,7 @@ public class _adhoc  { //implements Adhoc<_code> {
                 .filter( _c-> _c instanceof _type && ((_type)_c).getMember(_method.class, m-> ((_method)m).isMain()) !=null )
                     .findFirst();
         if( !oc.isPresent() ){
-            throw new _adhocException("cannot find type with a public static void main(String[] args) method");
+            throw new _runtimeException("cannot find type with a public static void main(String[] args) method");
         }
         _type _t = (_type)oc.get();
         
@@ -676,7 +676,7 @@ public class _adhoc  { //implements Adhoc<_code> {
             Class clazz = this.getClass(((_class) code).getFullName());
             return new _proxy( instance( clazz, ctorArgs ));
         }
-        throw new _adhocException("code "+code+" is not a _class");
+        throw new _runtimeException("code "+code+" is not a _class");
     }
 
     /**
@@ -710,11 +710,11 @@ public class _adhoc  { //implements Adhoc<_code> {
      * @return a Map with the fullyQualifiedClassName to the AdhocByteCodeFile
      * generated by the compiler
      */
-    public static List<_bytecodeFile> compile(
+    public static List<_classFile> compile(
         List<String> compilerOptions, boolean ignoreWarnings, Collection<JavaFileObject> codeFiles) {
 
         if (codeFiles.isEmpty()) {
-            throw new _adhocException("No source code to compile");
+            throw new _runtimeException("No source code to compile");
         }
 
         _classLoader classLoader = new _classLoader(ClassLoader.getSystemClassLoader());
@@ -724,7 +724,7 @@ public class _adhoc  { //implements Adhoc<_code> {
 
         callCompiler(fileManager, compilerOptions, ignoreWarnings, codeFiles);
 
-        return (List<_bytecodeFile>) fileManager.classLoader.classNameTo_bytecodeFile.values().stream().collect(Collectors.toList());
+        return (List<_classFile>) fileManager.classLoader.classNameTo_classFile.values().stream().collect(Collectors.toList());
     }
     
      /**
@@ -767,7 +767,7 @@ public class _adhoc  { //implements Adhoc<_code> {
                 exceptionMsg.append(", ").append("message=").append(d.getMessage(Locale.US)).append("]");
             }
             if (hasWarnings && !ignoreWarnings || hasErrors) {
-                throw new _adhocException(exceptionMsg.toString());
+                throw new _runtimeException(exceptionMsg.toString());
             }
         }
     }
@@ -787,16 +787,16 @@ public class _adhoc  { //implements Adhoc<_code> {
         }
         Method[] ms = clazz.getMethods();
         if (ms.length == 0) {
-            throw new _adhocException("No method with NAME \"" + methodName + "\" on " + clazz);
+            throw new _runtimeException("No method with NAME \"" + methodName + "\" on " + clazz);
         }
         if (ms.length == 1) {
             if (!ms[0].getName().equals(methodName)) {
-                throw new _adhocException("No method with NAME \"" + methodName + "\" on " + clazz);
+                throw new _runtimeException("No method with NAME \"" + methodName + "\" on " + clazz);
             }
             return invokeStatic(clazz, ms[0], args);
         }
         //more than one...
-        _adhocException exception = null;
+        _runtimeException exception = null;
         for (int i = 0; i < ms.length; i++) {
             Method m = ms[i];
 
@@ -805,13 +805,13 @@ public class _adhoc  { //implements Adhoc<_code> {
                     || (args.length > m.getParameterCount() && m.isVarArgs()))) {
                 try {
                     return invokeStatic(clazz, m, args);
-                } catch (_adhocException de) {
+                } catch (_runtimeException de) {
                     exception = de;
                 }
             }
         }
         if (exception == null) {
-            throw new _adhocException("could not find method \"" + methodName + "\"");
+            throw new _runtimeException("could not find method \"" + methodName + "\"");
         }
         throw exception;
     }
@@ -827,7 +827,7 @@ public class _adhoc  { //implements Adhoc<_code> {
         try {
             return method.invoke(null, args);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            throw new _adhocException("Error invoking \"" + method.getName() + "\" on " + clazz, ex);
+            throw new _runtimeException("Error invoking \"" + method.getName() + "\" on " + clazz, ex);
         }
     }
 
@@ -843,7 +843,7 @@ public class _adhoc  { //implements Adhoc<_code> {
             Field f = clazz.getField(fieldName);
             return f.get(null);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new _adhocException("Could not access field \"" + fieldName + "\" on class \"" + clazz + "\"");
+            throw new _runtimeException("Could not access field \"" + fieldName + "\" on class \"" + clazz + "\"");
         }
     }
 
@@ -875,7 +875,7 @@ public class _adhoc  { //implements Adhoc<_code> {
                 try {
                     return oc.get().newInstance();
                 } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-                    throw new _adhocException("Unable to call no arg public Constructor \""
+                    throw new _runtimeException("Unable to call no arg public Constructor \""
                             + ctors[0].getName() + "()", ex);
                 }
             }
@@ -888,7 +888,7 @@ public class _adhoc  { //implements Adhoc<_code> {
                     Class cc = oc.get().getParameters()[0].getType().getComponentType();
                     return oc.get().newInstance(Array.newInstance(cc, 0));
                 } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-                    throw new _adhocException("Unable to call no arg public Constructor \""
+                    throw new _runtimeException("Unable to call no arg public Constructor \""
                             + ctors[0].getName() + "()", ex);
                 }
             }
@@ -1004,7 +1004,7 @@ public class _adhoc  { //implements Adhoc<_code> {
             args.append(ctorArgs[i]);
         }
         args.append(")");
-        throw new _adhocException("Unable to find a public Constructor to accept \""
+        throw new _runtimeException("Unable to find a public Constructor to accept \""
                 + ctors[0].getName() + "\"\n"
                 + args.toString());
     }

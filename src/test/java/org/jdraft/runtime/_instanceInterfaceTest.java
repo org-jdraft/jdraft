@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jdraft.adhoc;
+package org.jdraft.runtime;
 
 import java.util.Arrays;
 import junit.framework.TestCase;
@@ -12,7 +12,7 @@ import junit.framework.TestCase;
  *
  * @author Eric
  */
-public class AdhocTest extends TestCase {
+public class _instanceInterfaceTest extends TestCase {
     
     static class Vari{
         int val = 0;
@@ -27,18 +27,18 @@ public class AdhocTest extends TestCase {
     }
     
     public void testVV(){
-        Vari t = (Vari)_adhoc.tryAllCtors(Vari.class, 1,2);
+        Vari t = (Vari) _runtime.tryAllCtors(Vari.class, 1,2);
         assertEquals(3, t.val);  
     }
     
     public void testA(){
-        Vari z = (Vari)_adhoc.tryAllCtors(Vari.class );
+        Vari z = (Vari) _runtime.tryAllCtors(Vari.class );
         assertEquals(0, z.val);
         
-        Vari v = (Vari)_adhoc.tryAllCtors(Vari.class, 1);
+        Vari v = (Vari) _runtime.tryAllCtors(Vari.class, 1);
         assertEquals(1, v.val);
         
-        Vari t = (Vari)_adhoc.tryAllCtors(Vari.class, new int[]{1,2});
+        Vari t = (Vari) _runtime.tryAllCtors(Vari.class, new int[]{1,2});
         assertEquals(3, t.val);        
     }
     
@@ -63,20 +63,20 @@ public class AdhocTest extends TestCase {
     public void testA2(){
         
         //Vari2 v2 = new Vari2("eric");        
-        Vari2 z = (Vari2)_adhoc.tryAllCtors(Vari2.class, "eric");
+        Vari2 z = (Vari2) _runtime.tryAllCtors(Vari2.class, "eric");
         assertEquals(0, z.val);
         assertEquals("eric", z.name);
         
         
-        Vari2 v = (Vari2)_adhoc.tryAllCtors(Vari2.class, "eric", 1);
+        Vari2 v = (Vari2) _runtime.tryAllCtors(Vari2.class, "eric", 1);
         assertEquals(1, v.val);
         assertEquals("eric", v.name);
         
-        Vari2 t = (Vari2)_adhoc.tryAllCtors(Vari2.class, "eric", new int[]{1,2});
+        Vari2 t = (Vari2) _runtime.tryAllCtors(Vari2.class, "eric", new int[]{1,2});
         assertEquals(3, t.val);      
         assertEquals("eric", t.name);
         
-        Vari2 t2 = (Vari2)_adhoc.tryAllCtors(Vari2.class, "eric", 1,2);
+        Vari2 t2 = (Vari2) _runtime.tryAllCtors(Vari2.class, "eric", 1,2);
         assertEquals(3, t2.val);  
         assertEquals("eric", t2.name);  
     }

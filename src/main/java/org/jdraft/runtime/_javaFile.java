@@ -1,4 +1,4 @@
-package org.jdraft.adhoc;
+package org.jdraft.runtime;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -34,7 +34,7 @@ import org.jdraft.*;
  * relative file name where the file should exist
  *
  * @param <C> the type of _code object (i.e. {@code _javaFile<_class>})
- * @see org.jdraft.adhoc._adhoc
+ * @see _runtime
  * 
  * @author Eric
  */

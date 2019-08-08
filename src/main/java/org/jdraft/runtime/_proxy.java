@@ -1,4 +1,4 @@
-package org.jdraft.adhoc;
+package org.jdraft.runtime;
 
 import java.lang.reflect.*;
 
@@ -20,7 +20,7 @@ import org.jdraft._code;
 public final class _proxy<I extends Object, C extends _code>  {
 
     public static final _proxy of( _class _c, Object...ctorArgs){
-        return _adhoc.of(_c).proxy(_c, ctorArgs);
+        return _runtime.of(_c).proxy(_c, ctorArgs);
     }
 
     /** the proxied instance of a class */
@@ -53,7 +53,7 @@ public final class _proxy<I extends Object, C extends _code>  {
      */
     public _proxy<I,C> of(Object...ctorArgs ){
         Class c = instance.getClass();
-        return new _proxy( _adhoc.tryAllCtors(c.getConstructors(), ctorArgs ) );        
+        return new _proxy( _runtime.tryAllCtors(c.getConstructors(), ctorArgs ) );
     }
 
     /**
@@ -81,23 +81,37 @@ public final class _proxy<I extends Object, C extends _code>  {
      * </UL>
      * @return the codemodel from the ClassLoader
      */
-    public _code getCodeModel(){
+    public _class get_class(){
         ClassLoader cl = getClassLoader();
         if( cl instanceof _classLoader){
             _classLoader ahcl = (_classLoader)cl;
-            return ahcl.get_code(this.instance.getClass());
+            return (_class)ahcl.get_code(this.instance.getClass());
         }
-        throw new _adhocException("The instance class "+ instance.getClass()
+        throw new _runtimeException("The instance class "+ instance.getClass()
             + " was NOT loaded into the Proxy with an AdhocClassLoader, so no "
             + "CodeModel is present");
     }
-    
+
+    /**
+     * Gets the _classFile
+     * @return
+     */
+    public _classFile get_classFile(){
+        ClassLoader cl = getClassLoader();
+        if( cl instanceof _classLoader){
+            _classLoader ahcl = (_classLoader)cl;
+            return ahcl.get_classFile(this.instance.getClass());
+        }
+        throw new _runtimeException("The instance class "+ instance.getClass()
+                + " was NOT loaded into the Proxy with an Adhoc _classLoader, so no "
+                + "_bytecodeFile is present");
+    }
     private static Object call(Object instance, Method m, Object... args ) {
         try {
             return m.invoke( instance, args );
         }
         catch( IllegalAccessException | IllegalArgumentException | InvocationTargetException ex ) {
-            throw new _adhocException("error invoking \"" + m.getName() + "\" on " + instance, ex );
+            throw new _runtimeException("error invoking \"" + m.getName() + "\" on " + instance, ex );
         }
     }
 
@@ -111,10 +125,10 @@ public final class _proxy<I extends Object, C extends _code>  {
             return F.get( instance );
         }
         catch( IllegalArgumentException ex ) {
-            throw new _adhocException( "Illegal Arg", ex );
+            throw new _runtimeException( "Illegal Arg", ex );
         }
         catch( IllegalAccessException ex ) {
-            throw new _adhocException( "Illegal Access", ex );
+            throw new _runtimeException( "Illegal Access", ex );
         }
     }
 
@@ -128,10 +142,10 @@ public final class _proxy<I extends Object, C extends _code>  {
             F.set( instance, value );
         }
         catch( IllegalArgumentException ex ) {
-            throw new _adhocException( "Illegal Argument "+value+" for Field " + F, ex );
+            throw new _runtimeException( "Illegal Argument "+value+" for Field " + F, ex );
         }
         catch( IllegalAccessException ex ) {
-            throw new _adhocException( "Illegal Access for Field " + F, ex );
+            throw new _runtimeException( "Illegal Access for Field " + F, ex );
         }
     }
 
@@ -151,7 +165,7 @@ public final class _proxy<I extends Object, C extends _code>  {
                 return this;
             }
         }
-        catch( _adhocException | NoSuchFieldException | SecurityException e ) {
+        catch( _runtimeException | NoSuchFieldException | SecurityException e ) {
             //it's OK if this fails, we MIGHT need to call set...() method
         }
 
@@ -164,7 +178,7 @@ public final class _proxy<I extends Object, C extends _code>  {
                 return this;
             }
         }
-        throw new _adhocException( "Could not find \"" + propertyName + "\"" );
+        throw new _runtimeException( "Could not find \"" + propertyName + "\"" );
     }
 
     /**
@@ -194,7 +208,7 @@ public final class _proxy<I extends Object, C extends _code>  {
                 return call( instance, ms[ i ], new Object[ 0 ] );
             }
         }
-        throw new _adhocException( "Could not find \"" + propertyName + "\"" );
+        throw new _runtimeException( "Could not find \"" + propertyName + "\"" );
     }
 
     /** 
@@ -239,17 +253,17 @@ public final class _proxy<I extends Object, C extends _code>  {
         }
         Method[] ms = instance.getClass().getDeclaredMethods();
         if( ms.length == 0 ) {
-            throw new _adhocException(
+            throw new _runtimeException(
                     "Could not find method with NAME \"" + methodName + "\" on " + instance );
         }
         if( ms.length == 1 ) {
             if( !ms[0].getName().equals(methodName) ){
-                throw new _adhocException( "Could not find method \""+methodName+"\"" );
+                throw new _runtimeException( "Could not find method \""+methodName+"\"" );
             }
             return call( instance, ms[ 0 ], args );
         }
         //more than one...
-        _adhocException exception = null;
+        _runtimeException exception = null;
         for( int i = 0; i < ms.length; i++ ) {
             Method m = ms[ i ];
 
@@ -259,13 +273,13 @@ public final class _proxy<I extends Object, C extends _code>  {
                 try {
                     return call( instance, m, args );
                 }
-                catch( _adhocException de ) {
+                catch( _runtimeException de ) {
                     exception = de;
                 }
             }
         }
         if( exception == null ){
-            throw new _adhocException("could not find method \""+methodName +"\"");
+            throw new _runtimeException("could not find method \""+methodName +"\"");
         }
         throw exception;
     }    

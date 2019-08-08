@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
  * </UL>
  * @author Eric
  */
-public class $typeUse {
+public final class $typeUse {
     
     /**
      * 

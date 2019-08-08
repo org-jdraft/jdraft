@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  *
  * @author Eric
  */
-public class $parameters implements Template<_parameters>, $proto<_parameters>, 
+public final class $parameters implements Template<_parameters>, $proto<_parameters>,
         $constructor.$part, $method.$part {
 
     List<$parameter> $params = new ArrayList<>();

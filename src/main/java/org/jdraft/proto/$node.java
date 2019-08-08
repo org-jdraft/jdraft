@@ -25,7 +25,7 @@ import java.util.function.Predicate;
  * 
  * @author Eric
  */
-public class $node implements $proto<Node> {
+public final class $node implements $proto<Node> {
     
     /**
      * 

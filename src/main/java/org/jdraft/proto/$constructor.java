@@ -39,7 +39,7 @@ import org.jdraft.macro._toCtor;
 /**
  * prototype/template for a Java {@link _constructor}
  */
-public class $constructor
+public final class $constructor
     implements Template<_constructor>, $proto<_constructor> {
     
     /**

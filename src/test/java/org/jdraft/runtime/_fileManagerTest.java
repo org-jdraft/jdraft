@@ -1,4 +1,4 @@
-package org.jdraft.adhoc;
+package org.jdraft.runtime;
 
 import java.io.IOException;
 import java.util.*;
@@ -12,10 +12,10 @@ import org.jdraft._java;
  *
  * @author Eric
  */
-public class AdhocFileManagerTest extends TestCase {
+public class _fileManagerTest extends TestCase {
     
     public void testFM() throws IOException{
-         _adhoc ahi = _adhoc.of( "package aaaa.bbbb;", "public class GGGG{}");
+         _runtime ahi = _runtime.of( "package aaaa.bbbb;", "public class GGGG{}");
         
         _fileManager fm = ahi.fileManager;
         ClassLoader cl =  fm.classLoader;
@@ -56,7 +56,7 @@ public class AdhocFileManagerTest extends TestCase {
      * @throws IOException 
      */
     public void testMultipleListRecurse() throws IOException{
-        _adhoc ahi = _adhoc.of( 
+        _runtime ahi = _runtime.of(
             _java.type("public class Root{}"),
             _java.type("package basepkg;", "public class BasePkg{}"),    
             _java.type("package basepkg.subpkg;", "public class SubPkg{}"),    

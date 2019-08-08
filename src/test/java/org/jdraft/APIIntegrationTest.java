@@ -2,9 +2,8 @@ package org.jdraft;
 
 import com.github.javaparser.ast.CompilationUnit;
 import junit.framework.TestCase;
-import org.jdraft.adhoc.*;
+import org.jdraft.runtime.*;
 import org.jdraft.diff._diff;
-import org.jdraft.diff._path;
 import org.jdraft.macro.*;
 import org.jdraft.proto.$;
 import org.jdraft.proto.$expr;
@@ -35,7 +34,7 @@ public class APIIntegrationTest extends TestCase {
     }
     
     public void testAdhocAndMacroIntegration(){
-        _adhoc _ah = _adhoc.of(_class.of( "aaaa.bbbb.C", new Object(){ int x, y;}, _dto.$) );
+        _runtime _ah = _runtime.of(_class.of( "aaaa.bbbb.C", new Object(){ int x, y;}, _dto.$) );
         _proxy p = _ah.proxy("aaaa.bbbb.C" ).set("x", 100).set("y", 200);
         assertEquals(100, p.get("x"));
         assertEquals(200, p.get("y"));

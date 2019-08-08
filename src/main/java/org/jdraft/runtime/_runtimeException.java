@@ -1,4 +1,4 @@
-package org.jdraft.adhoc;
+package org.jdraft.runtime;
 
 import org.jdraft._draftException;
 
@@ -8,13 +8,13 @@ import org.jdraft._draftException;
  * 
  * @author Eric
  */
-public class _adhocException extends _draftException {
+public class _runtimeException extends _draftException {
     
-    public _adhocException(String msg) {
+    public _runtimeException(String msg) {
 	super(msg);
     }
     
-    public _adhocException(String msg, Throwable ex) {
+    public _runtimeException(String msg, Throwable ex) {
         super(msg, ex);
     }
 }

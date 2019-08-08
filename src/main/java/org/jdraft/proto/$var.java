@@ -23,7 +23,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * Template for a {@link VariableDeclarator}
+ * prototype for querying and composing a {@link VariableDeclarator}
+ *
  * NOTE: this INCLUDES BOTH: 
  * <UL>
  *    <LI>FIELDS (member fields defined on a type)
@@ -36,7 +37,7 @@ import java.util.stream.Collectors;
  * if you want to operate ONLY on (local body variables) you can use Select
  * and 
  */
-public class $var
+public final class $var
     implements Template<VariableDeclarator>, $proto<VariableDeclarator> {
     
     /** marker interface for components that are a part of a var */ 

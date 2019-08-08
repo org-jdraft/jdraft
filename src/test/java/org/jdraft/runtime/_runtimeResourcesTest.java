@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jdraft.adhoc;
+package org.jdraft.runtime;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,11 +16,11 @@ import static junit.framework.TestCase.assertNull;
  *
  * @author Eric
  */
-public class AdhocResourcesTest extends TestCase {
+public class _runtimeResourcesTest extends TestCase {
      
     public void testGetResource(){
         
-        _adhoc ah = _adhoc.of("package xxxx.yyyy;", "public class ZZ{}");
+        _runtime ah = _runtime.of("package xxxx.yyyy;", "public class ZZ{}");
         Class c = ah.getClass("xxxx.yyyy.ZZ"); //make sure I can get the Class
         URL sourceUrl = c.getClassLoader().getResource("xxxx.yyyy.ZZ.java"); 
         assertNotNull( sourceUrl ); //verify I can get the .java source of the class
@@ -38,7 +38,7 @@ public class AdhocResourcesTest extends TestCase {
      *  NOTE THESE SHOULD ALL WORK, BUT SOME ARE SLOW
      */    
     public void testGetJavaAndClassResourceAsStream() throws IOException{
-        _adhoc ah = _adhoc.of( "package aaaa;", "public class B{}");
+        _runtime ah = _runtime.of( "package aaaa;", "public class B{}");
         Class c = ah.getClass("aaaa.B");
         
         InputStream ss = c.getClassLoader().getResourceAsStream("/aaaa/B.java");        

@@ -1,4 +1,4 @@
-package org.jdraft.adhoc;
+package org.jdraft.runtime;
 
 import java.io.*;
 import java.net.*;
@@ -14,7 +14,7 @@ import javax.tools.SimpleJavaFileObject;
  * 
  * @author Eric
  */
-public class _bytecodeFile extends SimpleJavaFileObject {
+public class _classFile extends SimpleJavaFileObject {
     
      /**
      * <PRE>
@@ -30,11 +30,11 @@ public class _bytecodeFile extends SimpleJavaFileObject {
      * @param filePath the path to the file on disk
      * @return a BytecodeFile with the data and classpath populated
      */
-    public static _bytecodeFile of( Path filePath ){
+    public static _classFile of(Path filePath ){
         try{
             byte[] bytecode = Files.readAllBytes(filePath);
             String className = resolveClassNameFromBytecode(bytecode);
-            _bytecodeFile bc = new _bytecodeFile(className);
+            _classFile bc = new _classFile(className);
             bc.openOutputStream().write(bytecode); //write the bytecode
             // find the delta between the filePath and the path to the class
             // to determine the classPath
@@ -50,7 +50,7 @@ public class _bytecodeFile extends SimpleJavaFileObject {
             }            
             return bc;
         } catch(IOException ioe){
-            throw new _adhocException("IOException reading bytecode from "+filePath, ioe);
+            throw new _runtimeException("IOException reading bytecode from "+filePath, ioe);
         }
     }
     
@@ -68,7 +68,7 @@ public class _bytecodeFile extends SimpleJavaFileObject {
      * @param _cf the classFile
      * @return the fully qualified className of the class represented in the bytecode
      */
-    public static String resolveClassNameFromBytecode(_bytecodeFile _cf){
+    public static String resolveClassNameFromBytecode(_classFile _cf){
         return resolveClassNameFromBytecode(_cf.getBytecode());
     }
     
@@ -109,7 +109,7 @@ public class _bytecodeFile extends SimpleJavaFileObject {
             dis.readShort(); // skip access flags
             return strings[classes[(dis.readShort()&0xffff)-1]-1].replace('/', '.');
         }catch(IOException e){
-            throw new _adhocException("unable to read bytecode",e);
+            throw new _runtimeException("unable to read bytecode",e);
         }
     }
 
@@ -132,7 +132,7 @@ public class _bytecodeFile extends SimpleJavaFileObject {
      * build a _byteCodeFile based on a className
      * @param fullyQualifiedClassName
      */
-    public _bytecodeFile(String fullyQualifiedClassName) {        
+    public _classFile(String fullyQualifiedClassName) {
         super(uri(fullyQualifiedClassName), Kind.CLASS);
         this.fullyQualifiedClassName = fullyQualifiedClassName;
     }
@@ -200,7 +200,7 @@ public class _bytecodeFile extends SimpleJavaFileObject {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final _bytecodeFile other = (_bytecodeFile) obj;
+        final _classFile other = (_classFile) obj;
         if (!Objects.equals(this.toUri(), other.toUri())) {
             return false;
         }
@@ -230,7 +230,7 @@ public class _bytecodeFile extends SimpleJavaFileObject {
             filePath.getParent().toFile().mkdirs(); //create the parent directories if neccessary
             Files.write(filePath, this.getBytecode() );
         }catch(IOException ioe){
-            throw new _adhocException("unable to write .class file to "+filePath, ioe);
+            throw new _runtimeException("unable to write .class file to "+filePath, ioe);
         }
     }    
 }

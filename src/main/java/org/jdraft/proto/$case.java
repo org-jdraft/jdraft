@@ -17,10 +17,11 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * case within a Switch Statement
+ * prototype for querying and composing a "case" within a Switch Statement (a {@link SwitchEntry})
+ *
  * @author Eric
  */
-public class $case 
+public final class $case
     implements $proto<SwitchEntry>, Template<SwitchEntry> {
 
     public static $case of( Predicate<SwitchEntry> constraint ){

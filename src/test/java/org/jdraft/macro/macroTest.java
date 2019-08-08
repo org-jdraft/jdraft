@@ -6,7 +6,7 @@ import org.jdraft._class;
 import org.jdraft._enum;
 import org.jdraft._interface;
 import junit.framework.TestCase;
-import org.jdraft.adhoc._proxy;
+import org.jdraft.runtime._proxy;
 
 import java.io.*;
 import java.lang.annotation.ElementType;

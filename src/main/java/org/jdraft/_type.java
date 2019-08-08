@@ -1234,6 +1234,19 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
     }
 
     /**
+     *
+     * @param _typeClass
+     * @param _typeMatchFn
+     * @param <_T>
+     * @return
+     */
+    default <_T extends _type> List<_T> listNests(Class<_T> _typeClass, Predicate<_T> _typeMatchFn){
+        return (List<_T>)listNests().stream()
+                .filter(_t -> _typeClass.isAssignableFrom(_t.getClass()) && _typeMatchFn.test((_T)_t) )
+                .collect(Collectors.toList());
+    }
+
+    /**
      * list all nested children underneath this logical _type
      * (1-level, DIRECT CHILDREN, and NOT grand children or great grand children)
      * for a more comprehensive gathering of all types, call:

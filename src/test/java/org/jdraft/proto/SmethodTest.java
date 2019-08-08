@@ -4,7 +4,7 @@ import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import org.jdraft.*;
 import org.jdraft.macro.*;
-import org.jdraft.adhoc.*;
+import org.jdraft.runtime.*;
 
 import junit.framework.TestCase;
 
@@ -173,7 +173,7 @@ public class SmethodTest extends TestCase {
         
         //Lets make a working class and use it to verify it works
         //compile and create a new instance of Point
-        _proxy _p = _adhoc.proxyOf(_c);
+        _proxy _p = _runtime.proxyOf(_c);
         //lets call the set methods        
         _p.set("x", 100).set("y", 200).set("z",300);
         
@@ -505,7 +505,7 @@ public class SmethodTest extends TestCase {
             s._m.ast().setType( _c.getName() );
             s._m.ast().getBody().get().addStatement("return this;");
         });
-        _adhoc.compile( _c );
+        _runtime.compile( _c );
 
     }
 

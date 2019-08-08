@@ -1,4 +1,4 @@
-package org.jdraft.adhoc;
+package org.jdraft.runtime;
 
 import org.jdraft._class;
 import org.jdraft.io._in;
@@ -9,10 +9,10 @@ import junit.framework.TestCase;
  *
  * @author Eric
  */
-public class _adhocClassLoaderTest extends TestCase {
+public class _classLoaderTest extends TestCase {
     
      public void testCC(){
-        _adhoc adhoc = _adhoc.of(_class.of("rrrr.ssss.DDDD"));
+        _runtime adhoc = _runtime.of(_class.of("rrrr.ssss.DDDD"));
         _in_classLoader icl = _in_classLoader.of(adhoc.getClassLoader());
         _in in = icl.resolve("rrrr.ssss.DDDD");
         

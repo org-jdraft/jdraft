@@ -1,8 +1,6 @@
-package org.jdraft.adhoc;
+package org.jdraft.runtime;
 
 import org.jdraft.*;
-import org.jdraft.macro.*;
-import org.jdraft.adhoc.*;
 import com.github.javaparser.ast.expr.*;
 import junit.framework.TestCase;
 
@@ -14,7 +12,7 @@ public class _evalTest extends TestCase {
     
     public void testEval(){
         Expression e = Expr.of("3+4");
-        assertEquals(7, _adhoc.eval(e));                
+        assertEquals(7, _runtime.eval(e));
     }
     
     /*

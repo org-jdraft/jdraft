@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 /**
  * @author Eric
  */
-public class $parameter implements Template<_parameter>, $proto<_parameter> {
+public final class $parameter implements Template<_parameter>, $proto<_parameter> {
 
     /**
      * the component parts of a $parameter

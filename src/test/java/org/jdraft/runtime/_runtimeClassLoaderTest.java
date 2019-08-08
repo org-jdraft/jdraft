@@ -1,4 +1,4 @@
-package org.jdraft.adhoc;
+package org.jdraft.runtime;
 
 import java.io.IOException;
 import java.net.URL;
@@ -10,7 +10,7 @@ import junit.framework.TestCase;
  *
  * @author Eric
  */
-public class AdhocClassLoaderTest extends TestCase {
+public class _runtimeClassLoaderTest extends TestCase {
     
     /**
      * Verify we can get resources (like .java files and .class files) from
@@ -18,7 +18,7 @@ public class AdhocClassLoaderTest extends TestCase {
      * @throws IOException 
      */
     public void testClassLoaderApi() throws IOException{
-        _adhoc ah = _adhoc.of("package xxxx.yyyy;", "public class ZZ{}");
+        _runtime ah = _runtime.of("package xxxx.yyyy;", "public class ZZ{}");
         ClassLoader cl = ah.getClassLoader();
         /* JDK 9 > 
         cl.getDefinedPackage("xxxx.yyyy");
@@ -49,10 +49,10 @@ public class AdhocClassLoaderTest extends TestCase {
      */
     public void testManualClassLoaderLoad() throws ClassNotFoundException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
         
-        List<_bytecodeFile> bcf = _adhoc.compile("package abcd.efg;", "public class H{ public static final int STAT = 102;}"); //only compile (dont load the classes)
+        List<_classFile> bcf = _runtime.compile("package abcd.efg;", "public class H{ public static final int STAT = 102;}"); //only compile (dont load the classes)
         List<_javaFile> scfs = new ArrayList<>();
         //scfs.add( sc);
-        _classLoader cl = _classLoader.of(AdhocClassLoaderTest.class.getClassLoader(), bcf, scfs);
+        _classLoader cl = _classLoader.of(_runtimeClassLoaderTest.class.getClassLoader(), bcf, scfs);
         //System.out.println( cl.classNameToBytecodeFile );
         //System.out.println( cl.classNameToCodeModelFile );
         Class clazz = cl.loadClass("abcd.efg.H");
@@ -63,10 +63,10 @@ public class AdhocClassLoaderTest extends TestCase {
     public void testClassLoaderPackage() throws ClassNotFoundException, IOException{
         //StringCodeFile sc = StringCodeFile.of("abcd.DDD", "package abcd;", "public class DDD{ public static final int STAT = 102;}");        
         _javaFile _jf = _javaFile.of("package abcd;", "public class DDD{ public static final int STAT = 102;}");
-        List<_bytecodeFile> bcf = _adhoc.compile(_jf); //only compile (dont load the classes)
+        List<_classFile> bcf = _runtime.compile(_jf); //only compile (dont load the classes)
         List<_javaFile> scfs = new ArrayList<>();
         scfs.add( _jf);
-        _classLoader cl = _classLoader.of(AdhocClassLoaderTest.class.getClassLoader(), bcf, scfs);
+        _classLoader cl = _classLoader.of(_runtimeClassLoaderTest.class.getClassLoader(), bcf, scfs);
         
         assertNotNull( cl.findClass("abcd.DDD") );
         assertTrue( cl.findResources("abcd.DDD.java").hasMoreElements());
@@ -95,15 +95,15 @@ public class AdhocClassLoaderTest extends TestCase {
     
     public void testClassLoaderAPI() throws ClassNotFoundException, IOException{
         _javaFile sc = _javaFile.of( "package abcd;", "public class DDD{ public static final int STAT = 102;}");        
-        List<_bytecodeFile> bcf = _adhoc.compile(sc); //only compile (dont load the classes)
+        List<_classFile> bcf = _runtime.compile(sc); //only compile (dont load the classes)
         List<_javaFile> scfs = new ArrayList<>();
         scfs.add( sc);
-        _classLoader cl = _classLoader.of(AdhocClassLoaderTest.class.getClassLoader(), bcf, scfs);
-        assertEquals( AdhocClassLoaderTest.class.getClassLoader(), cl.getParent());
+        _classLoader cl = _classLoader.of(_runtimeClassLoaderTest.class.getClassLoader(), bcf, scfs);
+        assertEquals( _runtimeClassLoaderTest.class.getClassLoader(), cl.getParent());
         //assertTrue( cl.isRegisteredAsParallelCapable() );
         
         //these are the extensions to ClassLoader specifically on AdhocClassLoader
-        assertEquals( 1, cl.list_bytecodeFiles().size());
+        assertEquals( 1, cl.list_classFiles().size());
         assertEquals( 1, cl.list_javaFiles().size());
         assertEquals( 1, cl.list_code().size());
         assertEquals( 1, cl.listClassNames().size());        
