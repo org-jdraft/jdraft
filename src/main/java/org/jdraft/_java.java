@@ -87,89 +87,97 @@ public interface _java {
             id-> id.getBody().add(Stmt.of("System.out.println(1);"));
         _walk.list( _m, Ast.RETURN_STMT );
       */    
-    public static final Class<_code> CODE = _code.class;
+    Class<_code> CODE = _code.class;
 
-    public static final Class<_packageInfo> PACKAGE_INFO = _packageInfo.class;
-    public static final Class<_moduleInfo> MODULE_INFO = _moduleInfo.class;
+    Class<_packageInfo> PACKAGE_INFO = _packageInfo.class;
+    Class<_moduleInfo> MODULE_INFO = _moduleInfo.class;
 
-    public static final Class<_type> TYPE = _type.class;
+    Class<_type> TYPE = _type.class;
 
-    public static final Class<_class> CLASS = _class.class;
-    public static final Class<_enum> ENUM = _enum.class;
-    public static final Class<_interface> INTERFACE = _interface.class;
-    public static final Class<_annotation> ANNOTATION = _annotation.class;
+    Class<_class> CLASS = _class.class;
+    Class<_enum> ENUM = _enum.class;
+    Class<_interface> INTERFACE = _interface.class;
+    Class<_annotation> ANNOTATION = _annotation.class;
 
-    public static final Class<_method> METHOD = _method.class;
-    public static final Class<_field> FIELD = _field.class;
-    public static final Class<_constructor> CONSTRUCTOR = _constructor.class;
+    Class<_method> METHOD = _method.class;
+    Class<_field> FIELD = _field.class;
+    Class<_constructor> CONSTRUCTOR = _constructor.class;
 
     /** ENUM constant i.e. enum E { CONSTANT; }*/
-    public static final Class<_constant> CONSTANT = _constant.class;
+    Class<_constant> CONSTANT = _constant.class;
 
     /** Annotation Element i.e. @interface A{ int element(); }*/
-    public static final Class<_element> ELEMENT = _element.class;
+    Class<_element> ELEMENT = _element.class;
 
-    public static final Class<_body> BODY = _body.class;
-    public static final Class<_anno> ANNO = _anno.class;
-    public static final Class<_annos> ANNOS = _annos.class;
-    public static final Class<_import> IMPORT = _import.class;
-    public static final Class<_imports> IMPORTS = _imports.class;
-    public static final Class<_javadoc> JAVADOC = _javadoc.class;
-    public static final Class<_modifiers> MODIFIERS = _modifiers.class;
-    public static final Class<_parameter> PARAMETER = _parameter.class;
-    public static final Class<_parameter._parameters> PARAMETERS = _parameter._parameters.class;
-    public static final Class<_typeParameter> TYPE_PARAMETER = _typeParameter.class;
-    public static final Class<_typeParameters> TYPE_PARAMETERS = _typeParameters.class;
-    public static final Class<_receiverParameter> RECEIVER_PARAMETER = _receiverParameter.class;
-    public static final Class<_staticBlock> STATIC_BLOCK = _staticBlock.class;
-    public static final Class<_throws> THROWS = _throws.class;
-    public static final Class<_typeRef> TYPEREF = _typeRef.class;
+    Class<_body> BODY = _body.class;
+    /** an annotation use i.e. @Deprecated */
+    Class<_anno> ANNO = _anno.class;
+    /** group of annotation usages  on a single entity */
+    Class<_annos> ANNOS = _annos.class;
+    Class<_import> IMPORT = _import.class;
+    Class<_imports> IMPORTS = _imports.class;
+    Class<_javadoc> JAVADOC = _javadoc.class;
+
+    Class<_modifiers> MODIFIERS = _modifiers.class;
+    Class<_parameter> PARAMETER = _parameter.class;
+    Class<_parameter._parameters> PARAMETERS = _parameter._parameters.class;
+    Class<_typeParameter> TYPE_PARAMETER = _typeParameter.class;
+    Class<_typeParameters> TYPE_PARAMETERS = _typeParameters.class;
+    Class<_receiverParameter> RECEIVER_PARAMETER = _receiverParameter.class;
+    Class<_staticBlock> STATIC_BLOCK = _staticBlock.class;
+    Class<_throws> THROWS = _throws.class;
+    Class<_typeRef> TYPEREF = _typeRef.class;
 
     /**
      * The classes below are categorical interfaces that are applied to classes
      */
-    public static final Class<_node> NODE = _node.class;
-    public static final Class<_member> MEMBER = _member.class;
-    public static final Class<_named> NAMED = _named.class;
-    public static final Class<_namedType> NAMED_TYPE = _namedType.class;
+    Class<_node> NODE = _node.class;
+    Class<_member> MEMBER = _member.class;
+    Class<_named> NAMED = _named.class;
+    Class<_namedType> NAMED_TYPE = _namedType.class;
 
-    public static final Class<_hasThrows> HAS_THROWS = _hasThrows.class;
-    public static final Class<_hasBody> HAS_BODY = _hasBody.class;
-    public static final Class<_hasAnnos> HAS_ANNOS = _hasAnnos.class;
-    public static final Class<_hasConstructors> HAS_CONSTRUCTORS = _hasConstructors.class;
-    public static final Class<_hasJavadoc> HAS_JAVADOC = _hasJavadoc.class;
-    public static final Class<_hasMethods> HAS_METHODS = _hasMethods.class;
-    public static final Class<_hasModifiers> HAS_MODIFIERS = _hasModifiers.class;
-    public static final Class<_parameter._hasParameters> HAS_PARAMETERS = _parameter._hasParameters.class;
-    public static final Class<_hasReceiverParameter> HAS_RECEIVER_PARAMETER = _hasReceiverParameter.class;
-    public static final Class<_hasStaticBlocks> HAS_STATIC_BLOCKS = _hasStaticBlocks.class;
-    public static final Class<_hasExtends> HAS_EXTENDS = _hasExtends.class;
-    public static final Class<_hasImplements> HAS_IMPLEMENTS = _hasImplements.class;
+    Class<_hasThrows> HAS_THROWS = _hasThrows.class;
+    Class<_hasBody> HAS_BODY = _hasBody.class;
+    Class<_hasAnnos> HAS_ANNOS = _hasAnnos.class;
+    Class<_hasConstructors> HAS_CONSTRUCTORS = _hasConstructors.class;
+    Class<_hasJavadoc> HAS_JAVADOC = _hasJavadoc.class;
+    Class<_hasMethods> HAS_METHODS = _hasMethods.class;
+    Class<_hasModifiers> HAS_MODIFIERS = _hasModifiers.class;
+    Class<_parameter._hasParameters> HAS_PARAMETERS = _parameter._hasParameters.class;
+    Class<_hasReceiverParameter> HAS_RECEIVER_PARAMETER = _hasReceiverParameter.class;
+    Class<_hasStaticBlocks> HAS_STATIC_BLOCKS = _hasStaticBlocks.class;
+    Class<_hasExtends> HAS_EXTENDS = _hasExtends.class;
+    Class<_hasImplements> HAS_IMPLEMENTS = _hasImplements.class;
 
-    public static final Class<_hasFinal> HAS_FINAL = _hasFinal.class;
-    public static final Class<_hasAbstract> HAS_ABSTRACT = _hasAbstract.class;
-    public static final Class<_hasNative> HAS_NATIVE = _hasNative.class;
-    public static final Class<_hasStatic> HAS_STATIC = _hasStatic.class;
-    public static final Class<_hasStrictFp> HAS_STRICTFP = _hasStrictFp.class;
-    public static final Class<_hasSynchronized> HAS_SYNCHRONIZED = _hasSynchronized.class;
-    public static final Class<_hasTransient> HAS_TRANSIENT = _hasTransient.class;
-    public static final Class<_hasVolatile> HAS_VOLATILE = _hasVolatile.class;
+    Class<_hasFinal> HAS_FINAL = _hasFinal.class;
+    Class<_hasAbstract> HAS_ABSTRACT = _hasAbstract.class;
+    Class<_hasNative> HAS_NATIVE = _hasNative.class;
+    Class<_hasStatic> HAS_STATIC = _hasStatic.class;
+    Class<_hasStrictFp> HAS_STRICTFP = _hasStrictFp.class;
+    Class<_hasSynchronized> HAS_SYNCHRONIZED = _hasSynchronized.class;
+    Class<_hasTransient> HAS_TRANSIENT = _hasTransient.class;
+    Class<_hasVolatile> HAS_VOLATILE = _hasVolatile.class;
 
     /**
-     *
+     * Read in a .java file from the InputStream and return the _type(_class, _enum, _interface, _annotation)
      * @param is
      * @return
      */
-    public static _type type(InputStream is) {
-        _code _c = _java.of(is);
+    static _type type(InputStream is) {
+        _code _c = _java.code(is);
         if (_c instanceof _type) {
             return (_type) _c;
         }
-        throw new _draftException("_code at " + is + " does not represent a _type");
+        throw new _draftException("_code in inputStream " + is + " does not represent a _type");
     }
 
-    public static _type type(Path path) {
-        _code _c = _java.of(path);
+    /**
+     * Read in a .java file from the Path and return the _type(_class, _enum, _interface, _annotation)
+     * @param path
+     * @return
+     */
+    static _type type(Path path) {
+        _code _c = _java.code(path);
         if (_c instanceof _type) {
             return (_type) _c;
         }
@@ -183,7 +191,7 @@ public interface _java {
      * @return the _type
      * {@link _class} {@link _enum} {@link _interface}, {@link _annotation}
      */
-    public static _type type(String... code) {
+    static _type type(String... code) {
         return type(Ast.type(code));
     }
 
@@ -194,7 +202,7 @@ public interface _java {
      * @param astRoot the root AST node containing the top level TYPE
      * @return the _model _type
      */
-    public static _type type(CompilationUnit astRoot) {
+    static _type type(CompilationUnit astRoot) {
         //if only 1 type, it's the top type
         if (astRoot.getTypes().size() == 1) {
             return type(astRoot, astRoot.getType(0));
@@ -248,7 +256,7 @@ public interface _java {
      * @param td
      * @return
      */
-    public static _type type(TypeDeclaration td) {
+    static _type type(TypeDeclaration td) {
 
         /*** MED
         if (td.isTopLevelType()) {
@@ -277,7 +285,7 @@ public interface _java {
      * @return the appropriate _model _type (_class, _enum, _interface,
      * _annotation)
      */
-    public static _type type(CompilationUnit astRoot, TypeDeclaration td) {
+    static _type type(CompilationUnit astRoot, TypeDeclaration td) {
         if (td instanceof ClassOrInterfaceDeclaration) {
             ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration) td;
             if (coid.isInterface()) {
@@ -297,7 +305,7 @@ public interface _java {
      * @param resolver
      * @return
      */
-    public static <T extends _type> T type( Class clazz, _in._resolver resolver ){
+    static <T extends _type> T type( Class clazz, _in._resolver resolver ){
         Node n = Ast.type( clazz, resolver );
         TypeDeclaration td = null;
         if( n instanceof CompilationUnit) { //top level TYPE
@@ -323,11 +331,13 @@ public interface _java {
     }
     
     /**
+     * Locate the source code for the runtime class (clazz)
      *
-     * @param clazz
+     * @see _io#IN_DEFAULT the configuration for where to look for the source code of the class
+     * @param clazz the class
      * @return
      */
-    public static _type  type(Class clazz) {
+    static _type type(Class clazz) {
         return type(clazz, _io.IN_DEFAULT);
     }
 
@@ -338,8 +348,8 @@ public interface _java {
      * @param javaSourceFilePath the path to the local Java source code
      * @return the _code instance
      */
-    public static _code of(Path javaSourceFilePath) throws _draftException {
-        return of(Ast.of(javaSourceFilePath));
+    static _code code(Path javaSourceFilePath) throws _draftException {
+        return code(Ast.of(javaSourceFilePath));
     }
 
     /**
@@ -349,8 +359,8 @@ public interface _java {
      * @param javaSourceInputStream
      * @return
      */
-    public static _code of(InputStream javaSourceInputStream) throws _draftException {
-        return of(Ast.of(javaSourceInputStream));
+    static _code code(InputStream javaSourceInputStream) throws _draftException {
+        return code(Ast.of(javaSourceInputStream));
     }
 
     /**
@@ -361,8 +371,8 @@ public interface _java {
      * @return
      * @throws _draftException
      */
-    public static _code of(File javaSourceFile) throws _draftException {
-        return of(Ast.of(javaSourceFile));
+    static _code code(File javaSourceFile) throws _draftException {
+        return code(Ast.of(javaSourceFile));
     }
 
     /**
@@ -372,8 +382,8 @@ public interface _java {
      * @param javaSourceReader reader containing .java source code
      * @return the _code model instance representing the source
      */
-    public static _code of(Reader javaSourceReader) throws _draftException {
-        return of(Ast.of(javaSourceReader));
+    static _code code(Reader javaSourceReader) throws _draftException {
+        return code(Ast.of(javaSourceReader));
     }
 
     /**
@@ -383,7 +393,7 @@ public interface _java {
      * @param astRoot the AST
      * @return a _code wrapper implementation that wraps the AST
      */
-    public static _code of(CompilationUnit astRoot) {
+    static _code code(CompilationUnit astRoot) {
         if (astRoot.getModule().isPresent()) {
             return _moduleInfo.of(astRoot);
         }
@@ -415,7 +425,7 @@ public interface _java {
      * @param code the java source code representation
      * @return the node implementation of the code
      */
-    public static Node of(Class nodeClass, String... code) {
+    static Node code(Class nodeClass, String... code) {
         
         if (!_java.class.isAssignableFrom(nodeClass)) {
             return Ast.nodeOf(nodeClass, code);
@@ -489,7 +499,7 @@ public interface _java {
      * @param node the ast node
      * @return the _model entity
      */
-    public static _java of(Node node) {
+    static _java code(Node node) {
         if (node instanceof ImportDeclaration ){
             return _import.of((ImportDeclaration) node);
         }
@@ -574,19 +584,20 @@ public interface _java {
             return _typeRef.of((Type) node);
         }
         if (node instanceof CompilationUnit) {
-            return of((CompilationUnit) node);
+            return code((CompilationUnit) node);
         }
         throw new _draftException("Unable to create _java entity from " + node);
     }
 
     /**
-     * A Way to consistently name things when we construct and deconstruct
+     * A "concrete" way of identifying/addressing elements and properties that are the components
+     * of a Java program. A way to consistently name things when we construct and deconstruct
      * Components of Java programs (external tools for building & matching &
      * diffing can be more valuable having the opportunity to compare like for
      * like (by componentizing things out and comparing or matching on a part by
      * part basis)
      */
-    public enum Component {
+    enum Component {
         MODULE_DECLARATION("moduleDeclaration", ModuleDeclaration.class),
         /** i.e. @Deprecated @NotNull */
         ANNOS("annos", _anno._annos.class),
@@ -723,9 +734,9 @@ public interface _java {
     
     /**
      * Mappings from JavaParser AST models (i.e. {@link AnnotationExpr}) 
-     * ...to draft _java models (i.e. {@link _anno})
+     * ...to jdraft _java models (i.e. {@link _anno})
      */
-    public static class ModelMap {
+    class ModelMap {
 
         /**
          * Map from the _model._node classes to the Ast Node equivalent
