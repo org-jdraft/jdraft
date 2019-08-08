@@ -166,7 +166,7 @@ public interface $proto<P> {
      * @return 
      */
     P firstIn(Node astRootNode, Predicate<P> nodeMatchFn);
-    
+
     /**
      * 
      * @param <S>
@@ -174,7 +174,7 @@ public interface $proto<P> {
      * @return 
      */
     default <S extends selected> S selectFirstIn( Class clazz ){
-        return selectFirstIn( (_type)_java.type(clazz));
+        return selectFirstIn( _java.type(clazz));
     }
 
     /**
@@ -304,6 +304,20 @@ public interface $proto<P> {
     }
 
     /**
+     * Find and return a list of all matching prototypes within the clazz
+     *
+     * @param _j any collection of _code entities( _class, _enum, ...etc)
+     * @param nodeMatchFn additional function predicate for matching
+     * @param <_J> the underlying _code type (_code, _type, _packageInfo, etc.)
+     * @return list of matching P for the query
+     */
+    default <_J extends _java> List<P> listIn(Collection<_J> _j, Predicate<P> nodeMatchFn){
+        List<P> found = new ArrayList<>();
+        _j.forEach(c -> found.addAll( listIn(c, nodeMatchFn) ));
+        return found;
+    }
+
+    /**
      * 
      * @param clazz
      * @param nodeMatchFn
@@ -405,6 +419,19 @@ public interface $proto<P> {
     }
 
     /**
+     *
+     * @param _source
+     * @param <S>
+     * @param <_J>
+     * @return
+     */
+    default <S extends selected, _J extends _java> List<S> listSelectedIn(Collection<_J> _source){
+        List<S> sel = new ArrayList<>();
+        _source.forEach(_j -> sel.addAll( listSelectedIn( _j )) );
+        return sel;
+    }
+
+    /**
      * return the selections (containing the node and deconstructed parts) of
      * all matching entities within the astRootNode
      *
@@ -477,6 +504,19 @@ public interface $proto<P> {
     }
 
     /**
+     *
+     * @param _js
+     * @param nodeMatchFn
+     * @param nodeActionFn
+     * @return
+     */
+    default <_J extends _java> List<_J> forEachIn(Collection<_J> _js, Predicate<P> nodeMatchFn, Consumer<P>nodeActionFn ){
+        List<_J> ts = new ArrayList<>();
+        _js.stream().forEach( j-> ts.add( forEachIn( j, nodeMatchFn, nodeActionFn) ) );
+        return ts;
+    }
+
+    /**
      * Find and execute a function on all of the matching occurrences within
      * astRootNode
      *
@@ -545,13 +585,24 @@ public interface $proto<P> {
     <N extends Node> N forEachIn(N astRootNode, Predicate<P> nodeMatchFn, Consumer<P> nodeActionFn);
     
     /**
-     * 
-     * @param <N>
+     *
      * @param clazz
      * @return 
      */
-    default <N extends Node> int count( Class clazz ){
-        return count( (_type)_java.type(clazz));
+    default int count( Class clazz ){
+        return count( _java.type(clazz));
+    }
+
+    /**
+     * Count the number of occurrences within the collection of code
+     * @param cs the collection to search through
+     * @param <_C>
+     * @return
+     */
+    default <_C extends _code> int count( Collection<_C> cs){
+        AtomicInteger ai = new AtomicInteger();
+        cs.forEach( c -> ai.addAndGet( count(c)));
+        return ai.get();
     }
 
     /**
@@ -604,14 +655,36 @@ public interface $proto<P> {
         forEachIn(_m, e -> ai.incrementAndGet() );
         return ai.get();
     }
-    
+
+    /**
+     *
+     * @param _source
+     * @param <_J>
+     * @return
+     */
+    default <_J extends _java> Collection<_J> removeIn(Collection<_J> _source ){
+        _source.forEach( _j -> removeIn(_j) );
+        return _source;
+    }
+
+    /**
+     *
+     * @param _source
+     * @param <_J>
+     * @return
+     */
+    default <_J extends _java> Collection<_J> removeIn(Collection<_J> _source, Predicate<P> nodeMatchFn){
+        _source.forEach( _j -> removeIn(_j, nodeMatchFn) );
+        return _source;
+    }
+
     /**
      * 
      * @param clazz the runtime _type (MUST have .java SOURCE in the classpath) 
      * @return the _type with all entities matching the prototype (& constraint) removed
      */
     default _type removeIn(Class clazz){
-        return removeIn( (_type)_java.type(clazz));
+        return removeIn( _java.type(clazz));
     } 
     
     /**
@@ -621,7 +694,7 @@ public interface $proto<P> {
      * @return the _type with all entities matching the prototype (& constraint) removed
      */
     default _type removeIn(Class clazz, Predicate<P> nodeMatchFn){
-        return removeIn( (_type)_java.type(clazz), nodeMatchFn);
+        return removeIn( _java.type(clazz), nodeMatchFn);
     } 
     
     /**
