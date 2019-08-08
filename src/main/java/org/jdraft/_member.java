@@ -27,8 +27,8 @@ import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
  * (this generally maps to Accessible Java Member things
  * (available via reflection at runtime)
  *
- * @param <N> the node type
- * @param <T> the model type
+ * @param <N> the node type (i.e. {@link com.github.javaparser.ast.expr.AnnotationExpr})
+ * @param <T> the draft type (i.e. {@link _anno})
  */
 public interface _member<N extends Node, T extends _node & _named & _anno._hasAnnos & _javadoc._hasJavadoc> 
         extends _node<N, T>, _named<T>, _anno._hasAnnos<T>, _javadoc._hasJavadoc<T> {
