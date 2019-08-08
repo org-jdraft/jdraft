@@ -54,7 +54,7 @@ public interface _node<N extends Node, _N extends _node> extends _java {
     boolean is(N astNode);
 
     /**
-     * Decompose the entity into key-VALUE pairs
+     * Decompose the entity into key-VALUE pairs where the key is the Component
      * @return a map of key values
      */
     Map<_java.Component, Object> components();
