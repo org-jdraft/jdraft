@@ -18,14 +18,12 @@ import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.comments.LineComment;
 import com.github.javaparser.ast.expr.*;
-import com.github.javaparser.ast.nodeTypes.NodeWithStatements;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.TypeParameter;
 import junit.framework.TestCase;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
@@ -239,7 +237,7 @@ public class AstTest extends TestCase {
 
     public void testEnumConstructor(){
         //_constructor _ct = _constructor.of("E(int i){this.i = i;}");
-        ConstructorDeclaration cd = Ast.ctor( "E(int i){this.i = i;}");
+        ConstructorDeclaration cd = Ast.constructor( "E(int i){this.i = i;}");
     }
 
     public void testAstCache(){
@@ -351,8 +349,8 @@ public class AstTest extends TestCase {
     }
 
     public void testParseConstructor(){
-        ConstructorDeclaration cd = Ast.ctor( "C(){}");
-        cd = Ast.ctor( "/** Javadoc */ @ann C(){}");
+        ConstructorDeclaration cd = Ast.constructor( "C(){}");
+        cd = Ast.constructor( "/** Javadoc */ @ann C(){}");
         assertTrue( cd.getAnnotations().isNonEmpty());
         assertTrue( cd.getJavadocComment().isPresent());
     }
@@ -702,8 +700,8 @@ public class AstTest extends TestCase {
                 Ast.of("public class MyClass<T>","    extends BaseClass","     implements IClass","{", "}"));
 
         assertEquals( Ast.method("void b(){}"), Ast.method("void b ()", "{", "}"));
-        assertEquals( Ast.ctor("@ann", "public Ctor()", "{", "System.out.println(1);", "}" ),
-                Ast.ctor("@ann public Ctor() { System.out.println(1); }" ));
+        assertEquals( Ast.constructor("@ann", "public Ctor()", "{", "System.out.println(1);", "}" ),
+                Ast.constructor("@ann public Ctor() { System.out.println(1); }" ));
 
         assertEquals( Ast.field("public static final int V = 1;"), Ast.field("public static final int V=1;") );
         assertEquals( Ast.anno("@d(key=1,key1=100)"),Ast.anno("@d( key = 1 , key1 = 100 )") );

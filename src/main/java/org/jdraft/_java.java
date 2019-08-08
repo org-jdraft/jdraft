@@ -430,7 +430,7 @@ public interface _java {
             return method(code);
         }
         if (_constructor.class == nodeClass) {
-            return ctor(code);
+            return constructor(code);
         }
         if (_typeRef.class == nodeClass) {
             return typeRef(Text.combine(code).trim());

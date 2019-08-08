@@ -103,6 +103,7 @@ public class _typeTree {
         this.parentChild.forEach( (p,c)-> sb.append(p).append("->").append(c).append(System.lineSeparator()));
         return sb.toString();
     }
+
     /**
      * resolves a node for a _type
      * @param typeName

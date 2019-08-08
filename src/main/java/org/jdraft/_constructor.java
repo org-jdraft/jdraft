@@ -93,15 +93,15 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
             if( toks.length == 1){
                 String token = toks[0];
                 if( token.endsWith("}")){
-                    return new _constructor( Ast.ctor(toks[0]));
+                    return new _constructor( Ast.constructor(toks[0]));
                 }
                 if( token.endsWith(")")){
-                    return new _constructor( Ast.ctor(toks[0]+"{}"));
+                    return new _constructor( Ast.constructor(toks[0]+"{}"));
                 }
-                return new _constructor( Ast.ctor("public "+toks[0]+"(){}"));
+                return new _constructor( Ast.constructor("public "+toks[0]+"(){}"));
             }
         }
-        return new _constructor( Ast.ctor( ctorDecl ) );
+        return new _constructor( Ast.constructor( ctorDecl ) );
     }
 
     public static _constructor of( ConstructorDeclaration ctorDecl ) {
@@ -617,7 +617,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
                 return constructor(_ct);
             }
 
-            return constructor( Ast.ctor( constructor ) );
+            return constructor( Ast.constructor( constructor ) );
         }
         
         /**

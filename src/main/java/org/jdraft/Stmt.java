@@ -148,7 +148,7 @@ public enum Stmt {
      * @param c the lambda
      * @return the AST LambdaExpr representation for the runtime Command
      */
-    public static <T extends Object, U extends Object, V extends Object, W extends Object>  Statement of( Expr.QuadConsumer<T, U, V, W> c ){
+    public static <T extends Object, U extends Object, V extends Object, W extends Object> Statement of( Expr.QuadConsumer<T, U, V, W> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return from( ste );
     }

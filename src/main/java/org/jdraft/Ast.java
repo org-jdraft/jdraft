@@ -443,6 +443,9 @@ public enum Ast {
      */
     public static final Class<WhileStmt> WHILE_STMT = WhileStmt.class;
 
+    /**
+     *
+     */
     public static final Class<SwitchEntry> SWITCH_CASE = SwitchEntry.class;
     
     /**
@@ -719,7 +722,7 @@ public enum Ast {
             return method(code);
         }
         if (ConstructorDeclaration.class == nodeClass) {
-            return ctor(code);
+            return constructor(code);
         }        
         if (InitializerDeclaration.class == nodeClass) {
             return staticBlock(code);
@@ -1367,7 +1370,7 @@ public enum Ast {
      * @param code
      * @return
      */
-    public static ConstructorDeclaration ctor(String... code) {
+    public static ConstructorDeclaration constructor(String... code) {
 
         ConstructorDeclaration cd = (ConstructorDeclaration) declaration(code);
 
@@ -1397,6 +1400,13 @@ public enum Ast {
     }
 
     /**
+     *
+     * @param code
+     * @return
+     */
+    public static AssertStmt assertStmt(String... code ){ return Stmt.assertStmt(code); }
+
+    /**
      * convert the String code into a single Stmt AST BlockStmt
      *
      * @param code
@@ -1416,6 +1426,149 @@ public enum Ast {
         BlockStmt bs = new BlockStmt();
         Arrays.stream(stmts).forEach(s -> bs.addStatement(s));
         return bs;
+    }
+
+    /**
+     * i.e."break;" or "break outer;"
+     * @param code String representing the break of
+     * @return the breakStmt
+     */
+    public static BreakStmt breakStmt(String... code ) {
+        return Stmt.breakStmt( code );
+    }
+
+    /**
+     * i.e."continue outer;"
+     *
+     * @param code
+     * @return
+     */
+    public static ContinueStmt continueStmt(String... code ) {
+        return Stmt.continueStmt( code );
+    }
+
+    /**
+     *  i.e."do{ System.out.println(1); }while( a < 100 );"
+     * @param code
+     * @return
+     */
+    public static DoStmt doStmt(String... code ) {
+        return Stmt.doStmt(  code );
+    }
+
+    /**
+     * i.e."this(100,2900);"
+     *
+     * @param code the java code
+     * @return an ExplicitConstructorInvocationStmt based on the code
+     */
+    public static ExplicitConstructorInvocationStmt ctorInvocationStmt(String... code ) {
+        return Stmt.ctorInvocationStmt(  code );
+    }
+
+    /**
+     * i.e."s += t;"
+     *
+     * @param code
+     * @return
+     */
+    public static ExpressionStmt expressionStmt( String... code ) {
+        return Stmt.expressionStmt(code);
+    }
+
+    /**
+     * i.e."for(int i=0; i<100;i++) {...}"
+     * @param code
+     * @return
+     */
+    public static ForStmt forStmt( String... code ) {
+        return Stmt.forStmt( code );
+    }
+
+    /**
+     * i.e."for(String element:arr){...}"
+     *
+     * @param code
+     * @return
+     */
+    public static ForEachStmt forEachStmt( String... code ) {
+        return Stmt.forEachStmt( code );
+    }
+
+    /**
+     * i.e."if(a==1){...}"
+     * @param code
+     * @return
+     */
+    public static IfStmt ifStmt( String... code ) {
+        return Stmt.ifStmt(  code );
+    }
+
+    /**
+     * i.e."outer:   start = getValue();"
+     * @param code
+     * @return
+     */
+    public static LabeledStmt labeledStmt( String... code ) {
+        return Stmt.labeledStmt( code );
+    }
+
+    /**
+     * i.e."return VALUE;"
+     *
+     * @param code
+     * @return
+     */
+    public static ReturnStmt returnStmt( String... code ) {
+        return Stmt.returnStmt(  code );
+    }
+
+    /**
+     * i.e."switch(a) { case 1: break; default : doMethod(a); }"
+     *
+     * @param code
+     * @return
+     */
+    public static SwitchStmt switchStmt( String... code ) {
+        return Stmt.switchStmt(code);
+    }
+
+    /**
+     * i.e. "synchronized(e) { ...}"
+     * @param code
+     * @return
+     */
+    public static SynchronizedStmt synchronizedStmt( String... code ) {
+        return Stmt.synchronizedStmt( code );
+    }
+
+    /**
+     * i.e."throw new RuntimeException("SHOOT");"
+     *
+     * @param code
+     * @return
+     */
+    public static ThrowStmt throwStmt( String... code ) {
+        return Stmt.throwStmt(  code );
+    }
+
+    /**
+     * i.e. "try{ clazz.getMethod("fieldName"); }"
+     * @param code
+     * @return
+     */
+    public static TryStmt tryStmt( String... code ) {
+        return Stmt.tryStmt(  code );
+    }
+
+    /**
+     * i.e."while(i< 1) { ...}"
+     *
+     * @param code
+     * @return
+     */
+    public static WhileStmt whileStmt( String... code ) {
+        return Stmt.whileStmt(  code );
     }
 
     public static MethodCallExpr methodCallExpr(String... code) {
