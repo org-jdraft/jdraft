@@ -18,10 +18,14 @@ import java.util.function.Predicate;
 public interface _namedType<T extends _namedType> extends _named<T> {
 
     /**
-     * @return they TYPE
+     * @return they type
      */
     _typeRef getType();
 
+    /**
+     * Gets the element type of the type (i.e. if the type is an Array type)
+     * @return the array element type
+     */
     default _typeRef getElementType() {
         return _typeRef.of(getType().ast().getElementType());
     }
@@ -58,35 +62,6 @@ public interface _namedType<T extends _namedType> extends _named<T> {
      */
     default T type(Class clazz) {
         return type(Ast.typeRef(clazz.getCanonicalName()));
-    }
-
-    /**
-     * Perform the action is the entity is of the TYPE clazz and return it
-     * @param clazz the class to perform the action
-     * @param _isTypeActionFn the consumer function to run if the TYPE is correct
-     * @return the T
-     */
-    default T ifType(Class clazz, Consumer<T> _isTypeActionFn) {
-        if (isType(clazz)) {
-            _isTypeActionFn.accept((T) this);
-        }
-        return (T) this;
-    }
-
-    /**
-     * Perform the action is the entity is of the TYPE clazz and return it
-     * @param clazz the class to perform the action
-     * @param _isTypeActionFn the consumer function to run if the TYPE matches
-     * @param _isNotTypeActionFn the consumer function to run if the TYPE does not match
-     * @return the T
-     */
-    default T ifType(Class clazz, Consumer<T> _isTypeActionFn, Consumer<T> _isNotTypeActionFn) {
-        if (isType(clazz)) {
-            _isTypeActionFn.accept((T) this);
-        } else {
-            _isNotTypeActionFn.accept((T) this);
-        }
-        return (T) this;
     }
 
     /**
