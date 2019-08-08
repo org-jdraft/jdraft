@@ -381,10 +381,12 @@ public final class _modifiers implements _java {
 
     public String[] asKeywords() {
         List<String> strs = new ArrayList<>();
-        if( node.getModifiers() != null ) {
-            this.node.getModifiers().forEach( i -> strs.add( ((Modifier)i).getKeyword().asString() ) );
+        if( node != null && node.getModifiers() != null ) {
+            this.node.getModifiers().forEach( i -> {
+                strs.add( ((Modifier)i).getKeyword().asString() );
+            } );
         }
-        return (String[])strs.toArray( new String[ 0 ] );
+        return strs.toArray( new String[ 0 ] );
     }
 
     public static String[] getKeywords( int mods ) {
