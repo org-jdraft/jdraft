@@ -103,6 +103,12 @@ public class _runtime {
         return compile(fs);
     }
 
+    /**
+     *
+     * @param code
+     * @param <C>
+     * @return
+     */
     public static <C extends _code> List<_classFile> compile(List<C> code){
         List<JavaFileObject> fs = new ArrayList<>();
         code.forEach( f -> fs.add( _javaFile.of(f)));

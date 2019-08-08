@@ -106,6 +106,14 @@ public final class _proxy<I extends Object, C extends _code>  {
                 + " was NOT loaded into the Proxy with an Adhoc _classLoader, so no "
                 + "_bytecodeFile is present");
     }
+
+    /**
+     *
+     * @param instance
+     * @param m
+     * @param args
+     * @return
+     */
     private static Object call(Object instance, Method m, Object... args ) {
         try {
             return m.invoke( instance, args );

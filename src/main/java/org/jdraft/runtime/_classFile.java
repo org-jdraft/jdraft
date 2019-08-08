@@ -215,7 +215,7 @@ public class _classFile extends SimpleJavaFileObject {
      * @return
      */
     public String toString(){
-        return "_bytecodeFile["+this.uri+"]";
+        return "_classFile["+this.uri+"]";
     }
 
     /**

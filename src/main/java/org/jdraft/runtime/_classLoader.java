@@ -99,21 +99,42 @@ public class _classLoader
         return _ts;
     }
 
-
+    /**
+     *
+     * @param _typeMatchFn
+     * @return
+     */
     public List<_type> list_types( Predicate<_type> _typeMatchFn){
         return list_types().stream().filter(_typeMatchFn).collect(Collectors.toList());
     }
 
+    /**
+     *
+     * @param _typeClass
+     * @param _typeMatchFn
+     * @param <_T>
+     * @return
+     */
     public <_T extends _type> List<_T> list_types(Class<_T> _typeClass, Predicate<_T> _typeMatchFn){
         return (List<_T>)list_types().stream()
                 .filter(_t -> _typeClass.isAssignableFrom(_t.getClass()) && _typeMatchFn.test((_T)_t) )
                 .collect(Collectors.toList());
     }
 
+    /**
+     *
+     * @param clazz
+     * @return
+     */
     public _classFile get_classFile(Class clazz ){
         return get_classFile(clazz.getCanonicalName());
     }
 
+    /**
+     *
+     * @param fullyQualifiedClassName
+     * @return
+     */
     public _classFile get_classFile(String fullyQualifiedClassName){
         return classNameTo_classFile.get(fullyQualifiedClassName);
     }
@@ -290,5 +311,11 @@ public class _classLoader
             }            
         }    
         return is;
+    }
+
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        this.classNameTo_classFile.keySet().forEach( s-> sb.append("    ").append(s).append(System.lineSeparator()));
+        return "_classLoader ["+this.classNameTo_classFile.keySet().size()+"]"+System.lineSeparator()+ sb.toString();
     }
 }
