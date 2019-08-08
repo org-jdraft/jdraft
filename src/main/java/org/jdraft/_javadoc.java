@@ -114,9 +114,9 @@ public final class _javadoc
      * Model entity that optionally has a Javadoc Comment attributed to it
      *
      * @author Eric
-     * @param <T>
+     * @param <_HJ>
      */
-    public interface _hasJavadoc<T extends _hasJavadoc>
+    public interface _hasJavadoc<_HJ extends _hasJavadoc>
             extends _java {
 
         /** @return the JAVADOC for this element (or returns null) */
@@ -127,14 +127,14 @@ public final class _javadoc
          * @param content the javadoc content
          * @return 
          */
-        T javadoc( String... content );
+        _HJ javadoc(String... content );
 
         /**
          * set the javadoc comment with this JavadocComment
          * @param astJavadocComment the
          * @return the modified T
          */
-        T javadoc( JavadocComment astJavadocComment );
+        _HJ javadoc(JavadocComment astJavadocComment );
         
         /**
          * Does this component have a Javadoc entry?
@@ -146,6 +146,6 @@ public final class _javadoc
          * Remove the javadoc entry from the entity and return the modified entity
          * @return the modified entity
          */
-        T removeJavadoc();
+        _HJ removeJavadoc();
     }    
 }

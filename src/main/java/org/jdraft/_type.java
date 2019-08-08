@@ -65,18 +65,12 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
  * @param <AST> the Ast {@link TypeDeclaration} ({@link ClassOrInterfaceDeclaration},
  * {@link AnnotationDeclaration}, {@link EnumDeclaration}) that stores the state
  * and maintains the Bi-Directional AST Tree implementation
- * @param <T> the _type entity that provides logical access to manipulating the
+ * @param <_T> the _type entity that provides logical access to manipulating the
  * AST
  */
-public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithModifiers & NodeWithAnnotations, T extends _type>
-    extends _javadoc._hasJavadoc<T>, _anno._hasAnnos<T>, _modifiers._hasModifiers<T>,
-        _field._hasFields<T>, _member<AST, T>, _code<T>, _node<AST, T> {
-
-    /**
-     * List the members (_fields, _methods, _constructors,...) of the _type
-     * @return
-     */
-    List<_member> listMembers();
+public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithModifiers & NodeWithAnnotations, _T extends _type>
+    extends _javadoc._hasJavadoc<_T>, _anno._hasAnnos<_T>, _modifiers._hasModifiers<_T>,
+        _field._hasFields<_T>, _member<AST, _T>, _code<_T>, _node<AST, _T> {
 
     /**
      * 
@@ -116,7 +110,7 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @param _ts
      * @return 
      */
-    default T addCompanionTypes( _type..._ts ){
+    default _T addCompanionTypes(_type..._ts ){
         if( this.isTopLevel() ){            
             for(int i=0;i<_ts.length; i++){
                 TypeDeclaration td = (TypeDeclaration)(_ts[i].setPackagePrivate()).ast();
@@ -126,7 +120,7 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
                 CompilationUnit cu = ast().findCompilationUnit().get();
                 cu.getTypes().add(td);
             }
-            return (T)this;        
+            return (_T)this;
         }   
         throw new _draftException
             ("cannot add companion Types to a Nested Type \""+this.getName()+"\"");
@@ -139,7 +133,7 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @param astTs
      * @return 
      */
-    default T addCompanionTypes( TypeDeclaration...astTs ){
+    default _T addCompanionTypes(TypeDeclaration...astTs ){
         if( this.isTopLevel() ){            
             for(int i=0;i<astTs.length; i++){
                 //manually set it to package private
@@ -148,7 +142,7 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
                 astTs[i].setProtected(false);
                 this.astCompilationUnit().addType(astTs[i]);
             }
-            return (T)this;        
+            return (_T)this;
         }   
         throw new _draftException
             ("cannot add companion Types to a Nested Type \""+this.getName()+"\"");
@@ -162,10 +156,10 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @param _typeMatchFn
      * @return the modified T
      */
-    default T removeCompanionTypes( Predicate<_type> _typeMatchFn){
+    default _T removeCompanionTypes(Predicate<_type> _typeMatchFn){
         listCompanionTypes(_typeMatchFn)
             .forEach( t -> astCompilationUnit().remove( t.ast() ) );
-        return (T)this;
+        return (_T)this;
     }
 
     /**
@@ -173,10 +167,10 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @param _t
      * @return
      */
-    default T removeCompanionType( _type _t){
+    default _T removeCompanionType(_type _t){
         listCompanionTypes(t -> t.equals(_t))
                 .forEach( t -> astCompilationUnit().remove( t.ast() ) );
-        return (T)this;
+        return (_T)this;
     }
      /**
      * Looks for all "companion types" that match the _typeMatchFn and removes them
@@ -186,7 +180,7 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @param name the name of the companion type to remove
      * @return the modified T
      */
-    default T removeCompanionType( String name ){
+    default _T removeCompanionType(String name ){
         return removeCompanionTypes( t-> t.getName().equals(name) );
     }
     
@@ -201,9 +195,9 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @param _typeActionFn
      * @return 
      */
-    default T forCompanionTypes( Consumer<_type> _typeActionFn ){
+    default _T forCompanionTypes(Consumer<_type> _typeActionFn ){
         listCompanionTypes().forEach(_typeActionFn);
-        return (T)this;
+        return (_T)this;
     }
     
     /**
@@ -218,11 +212,11 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @param _typeActionFn
      * @return the modified T
      */
-    default <CT extends _type> T forCompanionTypes( 
+    default <CT extends _type> _T forCompanionTypes(
         Class<CT> packagePrivateType, Consumer<CT> _typeActionFn ){
         
         _type.this.listCompanionTypes(packagePrivateType).forEach(_typeActionFn);
-        return (T)this;
+        return (_T)this;
     }
     
     /**
@@ -230,17 +224,17 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * 
      * "companion types" are top level types that are "package private" (i.e. they
      * are neither public, private, or protected)
-     * @param <CT>
+     * @param <_CT>
      * @param packagePrivateType
      * @param _typeMatchFn
      * @param _typeActionFn
      * @return the modified T
      */
-    default <CT extends _type> T forCompanionTypes( 
-        Class<CT> packagePrivateType, Predicate<CT>_typeMatchFn, Consumer<CT> _typeActionFn ){
+    default <_CT extends _type> _T forCompanionTypes(
+            Class<_CT> packagePrivateType, Predicate<_CT>_typeMatchFn, Consumer<_CT> _typeActionFn ){
         
         _type.this.listCompanionTypes(packagePrivateType, _typeMatchFn).forEach(_typeActionFn);
-        return (T)this;
+        return (_T)this;
     }
     
     /**
@@ -266,15 +260,15 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * are neither public, private, or protected)
      * (assuming this is a top level type)
      * 
-     * @param <CT>
+     * @param <_CT>
      * @param _typeClass
      * @return 
      */
-    default <CT extends _type> List<CT> listCompanionTypes(Class<CT> _typeClass ){
-        List<CT> found = new ArrayList<>();
+    default <_CT extends _type> List<_CT> listCompanionTypes(Class<_CT> _typeClass ){
+        List<_CT> found = new ArrayList<>();
         listCompanionTypes().stream()
                 .filter(t-> t.getClass().equals(_typeClass) )
-                .forEach(t-> found.add((CT)t ) );
+                .forEach(t-> found.add((_CT)t ) );
         return found;
     }
     
@@ -286,16 +280,16 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * "companion types" are top level types that are "package private" (i.e. they
      * are neither public, private, or protected)
      * (assuming this is a top level type)
-     * @param <CT>
+     * @param <_CT>
      * @param _typeClass
      * @param _typeMatchFn
      * @return 
      */
-    default <CT extends _type> List<CT> listCompanionTypes(Class<CT> _typeClass, Predicate<CT> _typeMatchFn){
-        List<CT> found = new ArrayList<>();
+    default <_CT extends _type> List<_CT> listCompanionTypes(Class<_CT> _typeClass, Predicate<_CT> _typeMatchFn){
+        List<_CT> found = new ArrayList<>();
         _type.this.listCompanionTypes(_typeClass).stream()
                 .filter(t-> _typeMatchFn.test(t) )
-                .forEach(t-> found.add((CT)t ) );
+                .forEach(t-> found.add((_CT)t ) );
         return found;
     }
     
@@ -349,15 +343,15 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * (i.e. they are neither public, private, or protected)
      * 
      * 
-     * @param <CT> the package private type {@link _class}{@link _enum} 
+     * @param <_CT> the package private type {@link _class}{@link _enum}
      * {@link _interface}, {@link _annotation}
      * @param typeClass
      * 
      * @param name the name of the package private type to get
      * @return the package private type
      */
-    default  <CT extends _type> CT getCompanionType(Class<CT>typeClass, String name ){
-        List<CT> ts = listCompanionTypes( typeClass, t-> t.getName().equals(name) );
+    default  <_CT extends _type> _CT getCompanionType(Class<_CT>typeClass, String name ){
+        List<_CT> ts = listCompanionTypes( typeClass, t-> t.getName().equals(name) );
         if( ts.isEmpty() ){
             return null;            
         }
@@ -394,14 +388,14 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      
     /**
      * find members that are of the specific class and perform the _memberAction on them
-     * @param <M>
+     * @param <_M>
      * @param memberClass the member Class (i.e. _field, _method, _constructor)
      * @param _memberAction the Action function to apply to candidates
      * @return the modified T
      */
-    default <M extends _member> T forMembers( Class<M> memberClass, Consumer<M> _memberAction){
+    default <_M extends _member> _T forMembers(Class<_M> memberClass, Consumer<_M> _memberAction){
         listMembers(memberClass).forEach(_memberAction);
-        return (T)this;
+        return (_T)this;
     }
 
     /**
@@ -442,15 +436,15 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
     
     /**
      * find members that are of the specific class and perform the _memberAction on them
-     * @param <M>
+     * @param <_M>
      * @param memberClass the member Class (i.e. _field, _method, _constructor)
      * @param _memberMatchFn the matching function for selecting which members to take action on
      * @param _memberAction the Action function to apply to candidates
      * @return the modified T
      */
-    default <M extends _member> T forMembers( Class<M> memberClass, Predicate<M> _memberMatchFn, Consumer<M> _memberAction){
+    default <_M extends _member> _T forMembers(Class<_M> memberClass, Predicate<_M> _memberMatchFn, Consumer<_M> _memberAction){
         listMembers(memberClass, _memberMatchFn).forEach(_memberAction);
-        return (T)this;
+        return (_T)this;
     }
     
     /**
@@ -459,7 +453,7 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @param _memberAction the action to apply to all selected members that satisfy the _memberMatchFn
      * @return the modified T type
      */
-    T forMembers( Predicate<_member> _memberMatchFn, Consumer<_member> _memberAction );
+    _T forMembers(Predicate<_member> _memberMatchFn, Consumer<_member> _memberAction );
     
     /**
      * Gets the comment (i.e. the copyright, etc.)
@@ -485,14 +479,14 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @return the modified T
      */
     @Override
-    default T setHeaderComment( BlockComment astBlockComment ){
+    default _T setHeaderComment(BlockComment astBlockComment ){
         if( isTopLevel() ){
             if( astCompilationUnit().getComment().isPresent()){
                 astCompilationUnit().removeComment();
             }
             astCompilationUnit().setComment(astBlockComment);
         }
-        return (T)this;
+        return (_T)this;
     }
 
     /**
@@ -501,7 +495,7 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @param _members
      * @return
      */
-    default T add( _member..._members ){
+    default _T add(_member..._members ){
         Arrays.stream(_members).forEach( _m -> {
             if(_m instanceof _field){
                 this.ast().addMember( ((_field)_m).getFieldDeclaration() );
@@ -509,7 +503,7 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
                 this.ast().addMember( (BodyDeclaration)_m.ast() );
             }
         }  );
-        return (T)this;
+        return (_T)this;
     }
     
     /**
@@ -517,8 +511,8 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @param _typeFn the function on the type
      * @return the modified type
      */
-    default T apply( Function<_type, _type> _typeFn ){
-        return (T)_typeFn.apply(this);
+    default _T apply(Function<_type, _type> _typeFn ){
+        return (_T)_typeFn.apply(this);
     }
     
     /**
@@ -526,13 +520,19 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @param _typeFn all of the macros to execute
      * @return the modified T after applying the macros
      */
-    default T apply( Function<_type, _type>..._typeFn ){
+    default _T apply(Function<_type, _type>..._typeFn ){
         for(int i=0; i < _typeFn.length; i++){
             _typeFn[i].apply(this);
         }
-        return (T)this;
+        return (_T)this;
     }
-    
+
+    /**
+     * List the members (_fields, _methods, _constructors,...) of the _type
+     * @return
+     */
+    List<_member> listMembers();
+
     /**
      * List all _members matching the _memberMatchFn
      * @param _memberMatchFn
@@ -542,21 +542,36 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
     
     /**
      * list all _members that are of the _memberClass
-     * @param <M> the type (i.e. _method.class, _field.class, _staticBlock.class)
+     * @param <_M> the type (i.e. _method.class, _field.class, _staticBlock.class)
      * @param memberClass the Class (i.e. _method.class, _field.class, _staticBlock.class)
      * @return a List of the types (empty if none found)
      */
-    <M extends _member> List<M>listMembers(Class<M> memberClass);
+    <_M extends _member> List<_M>listMembers(Class<_M> memberClass);
     
     /**
      * list all _members that are of the _memberClass
-     * @param <M> the type (i.e. _method.class, _field.class, _staticBlock.class)
+     * @param <_M> the type (i.e. _method.class, _field.class, _staticBlock.class)
      * @param memberClass the Class (i.e. _method.class, _field.class, _staticBlock.class)
      * @param memberMatchFn function for matching a specific member type
      * @return a List of the types (empty if none found)
      */
-    <M extends _member> List<M>listMembers(Class<M> memberClass, Predicate<M> memberMatchFn);
-    
+    <_M extends _member> List<_M> listMembers(Class<_M> memberClass, Predicate<_M> memberMatchFn);
+
+    /**
+     *
+     * @param memberClass
+     * @param memberMatchFn
+     * @param <_M>
+     * @return
+     */
+    default <_M extends _member> List<_M> removeMembers(Class<_M> memberClass, Predicate<_M> memberMatchFn){
+        List<_M> ms = listMembers( memberClass, memberMatchFn);
+
+        ms.forEach( m -> this.ast().remove(m.ast()) );
+
+        return ms;
+    }
+
     /**
      * Gets the first _member matching the _memberMatchFn
      * @param _memberMatchFn
@@ -566,20 +581,20 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
     
     /**
      * Gets the first _member of the memberClass
-     * @param <M> the type (i.e. _method.class, _field.class, _staticBlock.class)
+     * @param <_M> the type (i.e. _method.class, _field.class, _staticBlock.class)
      * @param memberClass the Class (i.e. _method.class, _field.class, _staticBlock.class)
      * @return the first member found (null if none found)
      */
-    <M extends _member> M getMember(Class<M> memberClass);
+    <_M extends _member> _M getMember(Class<_M> memberClass);
     
     /**
      * Gets the first _member of the memberClass matching the _memberMatchFn
-     * @param <M> the type (i.e. _method.class, _field.class, _staticBlock.class)
+     * @param <_M> the type (i.e. _method.class, _field.class, _staticBlock.class)
      * @param memberClass the Class (i.e. _method.class, _field.class, _staticBlock.class)
      * @param memberMatchFn function for matching a specific member type
      * @return a List of the types (empty if none found)
      */
-    <M extends _member> M getMember(Class<M> memberClass, Predicate<M> memberMatchFn);
+    <_M extends _member> _M getMember(Class<_M> memberClass, Predicate<_M> memberMatchFn);
     
     /**
      * Gets the first _member of the memberClass with the given name
@@ -589,12 +604,12 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * _t.getMember(_method.class, "m");//gets the method named "m" from _t
      * _t.getMember(_field.class, "ID");//gets the _field named "ID" from _t
      * </PRE>
-     * @param <M> the type (i.e. _method.class, _field.class, _staticBlock.class)
+     * @param <_M> the type (i.e. _method.class, _field.class, _staticBlock.class)
      * @param memberClass the Class (i.e. _method.class, _field.class, _staticBlock.class)
      * @param memberName the name of the member
      * @return a List of the types (empty if none found)
      */
-    <M extends _member> M getMember(Class<M> memberClass, String memberName);
+    <_M extends _member> _M getMember(Class<_M> memberClass, String memberName);
     
     /**
      * Does this _type have a {@link PackageDeclaration} Node set?
@@ -666,15 +681,15 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * Remove the package declaration and return the modified TYPE
      * @return
      */
-    default T removePackage(){
+    default _T removePackage(){
         CompilationUnit cu = astCompilationUnit();
         if( cu == null ){
-            return (T)this;
+            return (_T)this;
         }
         if( cu.getPackageDeclaration().isPresent() ){
             cu.removePackageDeclaration();
         }
-        return (T)this;
+        return (_T)this;
     }
 
     /**
@@ -697,17 +712,17 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @param packageName
      * @return the modified TYPE
      */
-    default T setPackage( String packageName ){
+    default _T setPackage(String packageName ){
         if( !this.isTopLevel() ){ //this "means" that the class is an inner class
             // and we should move it OUT into it's own class at this package
             CompilationUnit cu = new CompilationUnit();    
             cu.setPackageDeclaration(packageName);
             cu.addType( (TypeDeclaration) this.ast() );            
-            return (T) this;
+            return (_T) this;
         }
         CompilationUnit cu = astCompilationUnit();
         cu.setPackageDeclaration( packageName );        
-        return (T)this;
+        return (_T)this;
     }
 
     /**
@@ -730,47 +745,47 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
     }
 
     @Override
-    default T copy(){
+    default _T copy(){
         if( this.isTopLevel()){
             if( this instanceof _class ) {
-                return (T)_class.of(this.astCompilationUnit().clone());
+                return (_T)_class.of(this.astCompilationUnit().clone());
             }
             if( this instanceof _enum ) {
-                return (T)_enum.of(this.astCompilationUnit().clone());
+                return (_T)_enum.of(this.astCompilationUnit().clone());
             }
             if( this instanceof _interface ) {
-                return (T)_interface.of(this.astCompilationUnit().clone());
+                return (_T)_interface.of(this.astCompilationUnit().clone());
             }
-            return (T)_annotation.of(this.astCompilationUnit().clone());
+            return (_T)_annotation.of(this.astCompilationUnit().clone());
         }
         if( this instanceof _class ) {
-            return (T)_class.of( ((_class) this).ast().clone());
+            return (_T)_class.of( ((_class) this).ast().clone());
         }
         if( this instanceof _enum ) {
-            return (T)_enum.of( ((_enum) this).ast().clone());
+            return (_T)_enum.of( ((_enum) this).ast().clone());
         }
         if( this instanceof _interface ) {
-            return (T)_interface.of( ((_interface) this).ast().clone());
+            return (_T)_interface.of( ((_interface) this).ast().clone());
         }
-        return (T)_annotation.of( ((_annotation) this).ast().clone());
+        return (_T)_annotation.of( ((_annotation) this).ast().clone());
     }
 
     @Override
-    default T javadoc( String...content ){
+    default _T javadoc(String...content ){
         ast().setJavadocComment( Text.combine(content));
-        return (T)this;
+        return (_T)this;
     }
 
     @Override
-    default T javadoc( JavadocComment astJavadocComment ){
+    default _T javadoc(JavadocComment astJavadocComment ){
         ast().setJavadocComment( astJavadocComment );
-        return (T)this;
+        return (_T)this;
     }
     
     @Override
-    default T removeJavadoc(){
+    default _T removeJavadoc(){
         ast().removeJavaDocComment();
-        return (T) this;
+        return (_T) this;
     }
 
     @Override
@@ -825,26 +840,27 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
         return this.ast().isStrictfp();
     }
 
-    default T setPublic(){
+    default _T setPublic(){
         this.ast().setPrivate(false);
         this.ast().setProtected(false);
         this.ast().setPublic(true);        
-        return (T)this;
+        return (_T)this;
     }
 
-    default T setProtected(){
+    default _T setProtected(){
         this.ast().setPublic(false);
         this.ast().setPrivate(false);
         this.ast().setProtected(true);
-        return (T)this;
+        return (_T)this;
     }
     
-    default T setPrivate(){
+    default _T setPrivate(){
         this.ast().setPublic(false);
         this.ast().setPrivate(true);
         this.ast().setProtected(false);
-        return (T)this;
+        return (_T)this;
     }
+
     /**
      * Sets the type to be package private (i.e. NO public, protected or private modifier)
      * i.e.
@@ -854,11 +870,11 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * </PRE>
      * @return the modified T
      */
-    default T setPackagePrivate(){
+    default _T setPackagePrivate(){
         this.ast().setPublic(false);
         this.ast().setPrivate(false);
         this.ast().setProtected(false);
-        return (T)this;
+        return (_T)this;
     }
 
     @Override
@@ -868,7 +884,7 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
     }
 
     @Override
-    default T name( String name ){
+    default _T name(String name ){
         ast().setName( name );
         if( this instanceof _class ){
             //make sure to rename the CONSTRUCTORS
@@ -880,7 +896,7 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
             _enum _e = (_enum)this;
             _e.forConstructors( c-> c.name(name));
         }
-        return (T)this;
+        return (_T)this;
     }
 
     @Override
@@ -1008,11 +1024,12 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      *
      * @param _fieldMatchFn
      * @return 
-     */
+
     @Override
     default List<_field> listFields( Predicate<_field> _fieldMatchFn ){
         return listFields().stream().filter(_fieldMatchFn).collect(Collectors.toList());
     }
+    */
 
     /**
      * List the fully qualified names of all types defined in this _type
@@ -1030,7 +1047,7 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @param _memberAction the action to apply to ALL members
      * @return the (modified) T type
      */
-    default T forMembers( Consumer<_member> _memberAction ){
+    default _T forMembers(Consumer<_member> _memberAction ){
         return forMembers( t-> true, _memberAction );
     }
 
@@ -1103,10 +1120,10 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @param type the TYPE to add
      * @return
      */
-    default T nest( _type type ){
+    default _T nest(_type type ){
         //this.ast().addMember(type.ast());
         ((TypeDeclaration)this.ast()).addMember( (TypeDeclaration)type.ast() );
-        return (T)this;
+        return (_T)this;
     }
 
     /**
@@ -1114,9 +1131,9 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @param labelName the NAME of the label to flatten
      * @return
      */
-    default T flattenLabel( String labelName ){
+    default _T flattenLabel(String labelName ){
         Ast.flattenLabel( this.ast(), labelName);
-        return (T) this;
+        return (_T) this;
     }
 
     /**
@@ -1125,9 +1142,9 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @param _typeActionFn
      * @return the modified _type
      */
-    default T forNests( Predicate<_type> _typeMatchFn, Consumer<_type> _typeActionFn ){
+    default _T forNests(Predicate<_type> _typeMatchFn, Consumer<_type> _typeActionFn ){
         listNests(_typeMatchFn).forEach( _typeActionFn );
-        return (T)this;
+        return (_T)this;
     }
 
     /**
@@ -1135,9 +1152,9 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @param _typeActionFn
      * @return the modified _type
      */
-    default T forNests( Consumer<_type> _typeActionFn ){
+    default _T forNests(Consumer<_type> _typeActionFn ){
         listNests().forEach( _typeActionFn );
-        return (T)this;
+        return (_T)this;
     }
 
     /**
@@ -1210,9 +1227,9 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @param nestToRemove
      * @return 
      */
-    default T removeNest( _type nestToRemove ){
+    default _T removeNest(_type nestToRemove ){
         listNests( t-> t.equals(nestToRemove) ).forEach( n -> n.ast().removeForced() );
-        return (T) this; 
+        return (_T) this;
     }
     
     /**
@@ -1220,7 +1237,7 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @param nestToRemove
      * @return 
      */
-    default T removeNest( TypeDeclaration nestToRemove ){
+    default _T removeNest(TypeDeclaration nestToRemove ){
         return removeNest( _java.type(nestToRemove ) );        
     }
     
@@ -1237,12 +1254,12 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      *
      * @param _typeClass
      * @param _typeMatchFn
-     * @param <_T>
+     * @param <_NT>
      * @return
      */
-    default <_T extends _type> List<_T> listNests(Class<_T> _typeClass, Predicate<_T> _typeMatchFn){
-        return (List<_T>)listNests().stream()
-                .filter(_t -> _typeClass.isAssignableFrom(_t.getClass()) && _typeMatchFn.test((_T)_t) )
+    default <_NT extends _type> List<_NT> listNests(Class<_NT> _typeClass, Predicate<_NT> _typeMatchFn){
+        return (List<_NT>)listNests().stream()
+                .filter(_t -> _typeClass.isAssignableFrom(_t.getClass()) && _typeMatchFn.test((_NT)_t) )
                 .collect(Collectors.toList());
     }
 
@@ -1297,9 +1314,9 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
 
     /**
      * {@link _type} that can implement an {@link _interface}
-     * @param <T> the TYPE (either {@link _class}, or {@link _enum})
+     * @param <_HI> the TYPE (either {@link _class}, or {@link _enum})
      */
-    interface _hasImplements<T extends _type & _hasImplements> {
+    interface _hasImplements<_HI extends _type & _hasImplements> {
 
         default boolean hasImplements(){
             return !listImplements().isEmpty();
@@ -1309,18 +1326,18 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
             return ((NodeWithImplements)((_type)this).ast()).getImplementedTypes();
         }
 
-        default T implement( _interface..._interfaces ){
+        default _HI implement(_interface..._interfaces ){
             Arrays.stream(_interfaces).forEach(i-> implement(i.getFullName() ) );
-            return (T)this;
+            return (_HI)this;
         }        
         
-        default T implement( ClassOrInterfaceType... toImplement ){
+        default _HI implement(ClassOrInterfaceType... toImplement ){
             NodeWithImplements nwi = ((NodeWithImplements)((_type)this).ast());
             Arrays.stream( toImplement ).forEach(i -> nwi.addImplementedType( i ) );
-            return (T)this;
+            return (_HI)this;
         }
         
-        default T implement( Class... toImplement ){
+        default _HI implement(Class... toImplement ){
             NodeWithImplements nwi = ((NodeWithImplements)((_type)this).ast());
             
             Arrays.stream( toImplement )
@@ -1329,13 +1346,13 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
                         nwi.addImplementedType( coit );   
                         ((_type)this).imports(i);
                     });
-            return (T)this;
+            return (_HI)this;
         }
 
-        default T implement( String... toImplement ){
+        default _HI implement(String... toImplement ){
             NodeWithImplements nwi = ((NodeWithImplements)((_type)this).ast());
             Arrays.stream( toImplement ).forEach(i -> nwi.addImplementedType( i ) );
-            return (T)this;
+            return (_HI)this;
         }
 
         /**
@@ -1343,44 +1360,44 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
          * @param clazz
          * @return
          */
-        T removeImplements( Class clazz );
+        _HI removeImplements(Class clazz );
 
         /**
          *
          * @param coit
          * @return
          */
-        T removeImplements( ClassOrInterfaceType coit );
+        _HI removeImplements(ClassOrInterfaceType coit );
     }
 
     /**
      * A TYPE that can extend (another {@link _class} or {@link _interface})
-     * @param <T>
+     * @param <_HE>
      */
-    interface _hasExtends<T extends _type & _hasExtends> {
+    interface _hasExtends<_HE extends _type & _hasExtends> {
 
         boolean hasExtends();
 
         NodeList<ClassOrInterfaceType> listExtends();
 
-        T extend( ClassOrInterfaceType toExtend );
+        _HE extend(ClassOrInterfaceType toExtend );
 
-        default T extend( _class _c ){
+        default _HE extend(_class _c ){
             extend( _c.getFullName() );
-            return (T)this;
+            return (_HE)this;
         }
 
-        default T extend( _interface _i ){
+        default _HE extend(_interface _i ){
             extend( _i.getFullName() );
-            return (T)this;
+            return (_HE)this;
         }
 
-        T extend( Class toExtend );
+        _HE extend(Class toExtend );
 
-        T extend( String toExtend );
+        _HE extend(String toExtend );
 
-        T removeExtends( Class clazz);
+        _HE removeExtends(Class clazz);
 
-        T removeExtends( ClassOrInterfaceType coit );
+        _HE removeExtends(ClassOrInterfaceType coit );
     }            
 }

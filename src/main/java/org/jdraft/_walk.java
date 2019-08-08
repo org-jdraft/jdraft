@@ -1249,7 +1249,7 @@ public enum _walk {
                     n ->(n instanceof CompilationUnit || n instanceof TypeDeclaration),
                     a -> {
                         if( a instanceof CompilationUnit ){
-                            _code _c = _java.of( (CompilationUnit)a );
+                            _code _c = _java.code( (CompilationUnit)a );
                             if( _modelMatchFn.test((_J)_c) ){
                                 _modelAction.accept( (_J)_c );
                             }
@@ -1271,7 +1271,7 @@ public enum _walk {
                     Node.class,
                     n ->n instanceof CompilationUnit,
                     a -> {
-                        _code _c = _java.of( (CompilationUnit)a );
+                        _code _c = _java.code( (CompilationUnit)a );
                             if( _c instanceof _packageInfo && _modelMatchFn.test((_J)_c) ){
                                 _modelAction.accept( (_J)_c );
                             }                                                
@@ -1283,7 +1283,7 @@ public enum _walk {
                     Node.class,
                     n ->n instanceof CompilationUnit,
                     a -> {
-                        _code _c = _java.of( (CompilationUnit)a );
+                        _code _c = _java.code( (CompilationUnit)a );
                             if( _c instanceof _moduleInfo && _modelMatchFn.test((_J)_c) ){
                                 _modelAction.accept( (_J)_c );
                             }                                                

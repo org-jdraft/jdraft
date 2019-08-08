@@ -1,52 +1,83 @@
 package org.jdraft;
 
-import org.jdraft._type;
-import org.jdraft._typeParameter;
-import org.jdraft._typeRef;
-import org.jdraft._class;
-import org.jdraft._field;
-import org.jdraft._method;
-import org.jdraft._constructor;
-import org.jdraft._parameter;
-import org.jdraft.Ast;
-import org.jdraft.Stmt;
-import org.jdraft.Expr;
+
 import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import org.jdraft.macro._final;
-import org.jdraft.macro._remove;
-import org.jdraft.macro._static;
+import org.jdraft.macro.*;
+
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collections;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.sort;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+
+import java.net.URISyntaxException;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import junit.framework.TestCase;
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertNull;
-import static junit.framework.TestCase.assertTrue;
+import org.jdraft.proto.$;
+import org.jdraft.proto.$body;
+import org.jdraft.runtime._typeTree;
 import test.ComplexClass;
 import test.NativeMethod;
-import org.jdraft.macro._dto;
 
 /**
  *
  * @author Eric
  */
 public class _classTest extends TestCase {
-    
+
+    @Retention( RetentionPolicy.RUNTIME )
+    @Target({ ElementType.TYPE, ElementType.TYPE_USE})
+    @interface _post{
+        //String[] values; maybe this will be method names to call in order
+        class AnnoMacro implements _macro<_type>{
+
+            @Override
+            public _type apply(_type _t) {
+                //_t.listMethods(m -> ((_method)m).isType(int.class) );
+                _t.removeMembers( _method.class, m-> ((_method)m).getName().equals("_post") );
+
+                return _t;
+            }
+        }
+    }
+
+    //@_postDraft
+    //@_postDraft(String...methodNames)
+    public void testMultiTypeUseMacroAutoAnonymousImport(){
+        _class _c = _class.of( "aaaa.bbbb.C",
+                new @_equals @_hashCode @_get @_set @_autoConstructor Object(){
+            public int x,y;
+            @_final URI u;
+
+            public @_static AtomicInteger getAi() throws IOException, URISyntaxException {
+                throw new IOException("Bad stuff");
+            }
+            public String toString() {
+                return "("+x+","+y+")";
+            }
+        });
+
+        //make sure when drafting we auto import the appropriate types from the API
+        // field types (i.e. URI)
+        // method return types (i.e. AtomicInteger)
+        // thrown exception types (i.e. IOException, URISyntaxException)
+        assertTrue( _c.hasImports(URI.class, AtomicInteger.class, IOException.class, URISyntaxException.class) );
+        //System.out.println( _c.getMethod("getU"));
+        assertNotNull(
+                $.method("public boolean equals( Object $a$);").firstIn(_c));
+        assertNotNull(
+                $.method("public URI getU(){ return u; }").firstIn(_c));
+        //System.out.println(_c);
+    }
     public void testStaticClass(){
         _class _c = _class.of("public static class G{}");
         assertTrue( _c.isStatic() );
@@ -67,7 +98,7 @@ public class _classTest extends TestCase {
                 " * JavaDoc", 
                 " */").toString().trim() );
         assertEquals( Ast.blockComment("/* License */").toString(), _a.getHeaderComment().toString() );
-        System.out.println( _a.getHeaderComment() );
+        //System.out.println( _a.getHeaderComment() );
     }
     
     public void testReadInCopyrightHeader(){

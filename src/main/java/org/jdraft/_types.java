@@ -7,9 +7,9 @@ import java.util.function.Predicate;
  * Any unordered mutable aggregate of {@link _type}s
  * 
  * @author Eric
- * @param <T> the implementation class of the type aggregate
+ * @param <_T> the implementation class of the type aggregate
  */
-public interface _types <T extends _types>
+public interface _types <_T extends _types>
     extends _type._hasTypes, _java {
     
     /**
@@ -32,16 +32,16 @@ public interface _types <T extends _types>
      * @param type
      * @return the modified T
      */
-    T add( _type type );
+    _T add(_type type );
     
     /**
      * Adds
      * @param types
      * @return 
      */
-    default T add( _type... types ){
+    default _T add(_type... types ){
         Arrays.stream(types).forEach(t-> add(t) );
-        return (T)this;
+        return (_T)this;
     }
     
     /**
@@ -49,16 +49,16 @@ public interface _types <T extends _types>
      * @param type
      * @return 
      */
-    T remove( _type type );
+    _T remove(_type type );
     
     /**
      * 
      * @param types
      * @return 
      */
-    default T remove( _type...types ){
+    default _T remove(_type...types ){
         Arrays.stream(types).forEach(t-> remove(t) );
-        return (T)this;
+        return (_T)this;
     }
     
     /**
@@ -66,9 +66,9 @@ public interface _types <T extends _types>
      * @param _typePredicate
      * @return 
      */
-    default T remove( Predicate<_type> _typePredicate ){
+    default _T remove(Predicate<_type> _typePredicate ){
         list(_typePredicate).forEach(t -> remove(t));
-        return (T)this;
+        return (_T)this;
     }
 
     /**

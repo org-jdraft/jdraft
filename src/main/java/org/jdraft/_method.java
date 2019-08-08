@@ -480,9 +480,9 @@ public final class _method
     /**
      *
      * @author Eric
-     * @param <T>
+     * @param <_HM>
      */
-    public interface _hasMethods<T extends _hasMethods>
+    public interface _hasMethods<_HM extends _hasMethods>
             extends _java {
 
         List<_method> listMethods();
@@ -505,44 +505,44 @@ public final class _method
 
         List<_method> listMethods(Predicate<_method> _methodMatchFn);
 
-        default T forMethods(Consumer<_method> methodConsumer) {
+        default _HM forMethods(Consumer<_method> methodConsumer) {
             return forMethods(m -> true, methodConsumer);
         }
 
-        default T forMethods(Predicate<_method> methodMatchFn,
-                Consumer<_method> methodConsumer) {
+        default _HM forMethods(Predicate<_method> methodMatchFn,
+                               Consumer<_method> methodConsumer) {
             listMethods(methodMatchFn).forEach(methodConsumer);
-            return (T) this;
+            return (_HM) this;
         }
 
-        default T removeMethod(_method _m) {
+        default _HM removeMethod(_method _m) {
             this.forMethods(m -> m.equals(_m), m-> m.astMethod.removeForced() );
             return removeMethod( _m.astMethod );
         }
 
-        default T removeMethod(MethodDeclaration astM) {
+        default _HM removeMethod(MethodDeclaration astM) {
             this.forMethods(m -> m.equals(_method.of(astM)), m-> m.astMethod.removeForced() );
-            return (T) this;
+            return (_HM) this;
         }
 
-        default T removeMethods(Predicate<_method> methodPredicate) {
+        default _HM removeMethods(Predicate<_method> methodPredicate) {
             listMethods(methodPredicate).forEach(_m -> removeMethod(_m));
-            return (T) this;
+            return (_HM) this;
         }
 
-        T method(MethodDeclaration method);
+        _HM method(MethodDeclaration method);
 
-        default T method(String... method) {
+        default _HM method(String... method) {
             return method(Ast.method(method));
         }
 
-        default T method(_method _m) {
+        default _HM method(_method _m) {
             return method(_m.ast());
         }
 
-        default T methods(_method... ms) {
+        default _HM methods(_method... ms) {
             Arrays.stream(ms).forEach(m -> method(m));
-            return (T) this;
+            return (_HM) this;
         }
 
         /**
@@ -553,7 +553,7 @@ public final class _method
          * @param mainMethodBody the BODY of the main method
          * @return the modified T
          */
-        default T main(String... mainMethodBody) {
+        default _HM main(String... mainMethodBody) {
             _method _m = _method.of("public static void main(String[] args){ }");
             _m.add(mainMethodBody);
             return method(_m);
@@ -566,7 +566,7 @@ public final class _method
          * @param body
          * @return
          */
-        default T main(Expr.Command body) {
+        default _HM main(Expr.Command body) {
             LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
             _method _m = _method.of("public static void main(String[] args){ }");
             if (le.getBody().isBlockStmt()) {
@@ -585,7 +585,7 @@ public final class _method
          * @param body
          * @return
          */
-        default T main(Consumer<String[]> body) {
+        default _HM main(Consumer<String[]> body) {
             LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
             _method _m = _method.of("public static void main(String[] args){ }");
             if (le.getBody().isBlockStmt()) {
@@ -602,7 +602,7 @@ public final class _method
          * @param methodDef
          * @return 
          */
-        default T method(String methodDef) {
+        default _HM method(String methodDef) {
             return method(new String[]{methodDef});
         }
 
@@ -614,7 +614,7 @@ public final class _method
          * @param anonymousObjectContainingMethod
          * @return 
          */
-        default T method(Object anonymousObjectContainingMethod) {
+        default _HM method(Object anonymousObjectContainingMethod) {
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
             ObjectCreationExpr oce = Expr.anonymousObject(ste);
             if (oce == null || !oce.getAnonymousClassBody().isPresent()) {

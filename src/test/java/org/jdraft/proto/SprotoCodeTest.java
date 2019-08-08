@@ -1,7 +1,5 @@
 package org.jdraft.proto;
 
-import org.jdraft.proto.$node;
-import org.jdraft.proto.$import;
 import com.github.javaparser.ast.CompilationUnit;
 import org.jdraft.Ast;
 import org.jdraft._class;
@@ -39,9 +37,9 @@ public class SprotoCodeTest extends TestCase {
             "    requires bbbb;" + System.lineSeparator()+
             "    requires static cccc;" + System.lineSeparator()+
             "}"); 
-        _code _c = (_code)_java.of(classAst);
-        _code _pI = (_code)_java.of(packageInfoAst);
-        _code _mI = (_code)_java.of(modAst);
+        _code _c = (_code)_java.code(classAst);
+        _code _pI = (_code)_java.code(packageInfoAst);
+        _code _mI = (_code)_java.code(modAst);
         
         
         assertTrue( _c instanceof _type);

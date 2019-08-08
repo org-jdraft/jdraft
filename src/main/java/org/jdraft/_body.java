@@ -433,9 +433,9 @@ public final class _body implements _java {
      * Examples {@link _staticBlock}, {@link _method}, {@link _constructor}
      *
      * @author Eric
-     * @param <T> enclosing TYPE (to access this)
+     * @param <_HB> enclosing TYPE (to access this)
      */
-    public interface _hasBody<T extends _hasBody>
+    public interface _hasBody<_HB extends _hasBody>
         extends _java {
         
         /**
@@ -449,7 +449,7 @@ public final class _body implements _java {
          * @param body the new BODY
          * @return
          */
-        T setBody(BlockStmt body);
+        _HB setBody(BlockStmt body);
 
         /**
          * @return return true if the member has a body
@@ -522,47 +522,47 @@ public final class _body implements _java {
             return listStatements(stmtClass).stream().filter(stmtPredicate).collect(Collectors.toList());
         }
         
-        default <A extends Object> T setBody( Expr.Command lambdaWithBody){
+        default <A extends Object> _HB setBody(Expr.Command lambdaWithBody){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody(); 
             return setBody(bdy); 
         }
         
-        default <A extends Object> T setBody( Consumer<A> lambdaWithBody){
+        default <A extends Object> _HB setBody(Consumer<A> lambdaWithBody){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody(); 
             return setBody(bdy); 
         }
         
-        default <A extends Object, B extends Object> T setBody( Function<A,B> lambdaWithBody ){            
+        default <A extends Object, B extends Object> _HB setBody(Function<A,B> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody(); 
             return setBody(bdy);            
         }
         
-        default <A extends Object, B extends Object,C extends Object> T setBody( BiFunction<A,B,C> lambdaWithBody ){            
+        default <A extends Object, B extends Object,C extends Object> _HB setBody(BiFunction<A,B,C> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody(); 
             return setBody(bdy);            
         }
         
-        default <A extends Object, B extends Object,C extends Object, D extends Object> T setBody( Expr.TriFunction<A,B,C,D> lambdaWithBody ){            
+        default <A extends Object, B extends Object,C extends Object, D extends Object> _HB setBody(Expr.TriFunction<A,B,C,D> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody(); 
             return setBody(bdy);            
         }
         
-        default <A extends Object, B extends Object,C extends Object, D extends Object, E extends Object> T setBody( Expr.QuadFunction<A,B,C,D,E> lambdaWithBody ){            
+        default <A extends Object, B extends Object,C extends Object, D extends Object, E extends Object> _HB setBody(Expr.QuadFunction<A,B,C,D,E> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody(); 
             return setBody(bdy);           
         }
         
-        default <A extends Object, B extends Object> T setBody( BiConsumer<A,B> lambdaWithBody ){            
+        default <A extends Object, B extends Object> _HB setBody(BiConsumer<A,B> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody(); 
             return setBody(bdy);            
         }
         
-        default <A extends Object, B extends Object,C extends Object> T setBody(Expr.TriConsumer<A,B,C> lambdaWithBody ){            
+        default <A extends Object, B extends Object,C extends Object> _HB setBody(Expr.TriConsumer<A,B,C> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody(); 
             return setBody(bdy);            
         }
 
-        default <A extends Object, B extends Object,C extends Object, D extends Object> T setBody(Expr.QuadConsumer<A,B,C,D> lambdaWithBody ){            
+        default <A extends Object, B extends Object,C extends Object, D extends Object> _HB setBody(Expr.QuadConsumer<A,B,C,D> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody(); 
             return setBody(bdy);            
         }
@@ -572,7 +572,7 @@ public final class _body implements _java {
          * @param body
          * @return
          */
-        default T setBody(_body body) {
+        default _HB setBody(_body body) {
             return setBody(body.ast());
         }
 
@@ -581,7 +581,7 @@ public final class _body implements _java {
          * @param body
          * @return
          */
-        default T setBody(String... body) {
+        default _HB setBody(String... body) {
             return setBody(Ast.blockStmt(body));
         }
 
@@ -590,7 +590,7 @@ public final class _body implements _java {
          * @param astStmt
          * @return 
          */
-        default T setBody(Statement astStmt) {
+        default _HB setBody(Statement astStmt) {
             if (astStmt.isBlockStmt()) {
                 return setBody(astStmt.asBlockStmt());
             }
@@ -604,7 +604,7 @@ public final class _body implements _java {
          *
          * @return the modified T
          */
-        T clearBody();        
+        _HB clearBody();
 
         /**
          * Add Statements to the end of the BODY
@@ -612,9 +612,9 @@ public final class _body implements _java {
          * @param statements the statements to add to the tail of the BODY
          * @return the modified T (_method, _constructor, _staticBlock)
          */
-        T add(Statement... statements);
+        _HB add(Statement... statements);
         
-        default <A extends Object> T add( int index, Expr.Command lambdaWithBody ){
+        default <A extends Object> _HB add(int index, Expr.Command lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
             if( bdy.isBlockStmt() ){
                 return add( index,bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -622,7 +622,7 @@ public final class _body implements _java {
             return add(index, bdy );
         }
         
-        default <A extends Object> T add( Expr.Command lambdaWithBody ){
+        default <A extends Object> _HB add(Expr.Command lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
             if( bdy.isBlockStmt() ){
                 return add( bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -630,7 +630,7 @@ public final class _body implements _java {
             return add(bdy );
         }
         
-        default <A extends Object> T add( Consumer<A> lambdaWithBody){
+        default <A extends Object> _HB add(Consumer<A> lambdaWithBody){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
             if( bdy.isBlockStmt() ){
                 return add( bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -639,7 +639,7 @@ public final class _body implements _java {
         }
         
         
-        default <A extends Object> T add( int index, Consumer<A> lambdaWithBody){
+        default <A extends Object> _HB add(int index, Consumer<A> lambdaWithBody){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
             if( bdy.isBlockStmt() ){
                 return add( index, bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -647,7 +647,7 @@ public final class _body implements _java {
             return add( index, bdy );
         }
         
-        default <A extends Object, B extends Object> T add( Function<A,B> lambdaWithBody ){
+        default <A extends Object, B extends Object> _HB add(Function<A,B> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
             if( bdy.isBlockStmt() ){
                 return add(bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -655,7 +655,7 @@ public final class _body implements _java {
             return add(bdy );            
         }
         
-        default <A extends Object, B extends Object> T add( int index, Function<A,B> lambdaWithBody ){            
+        default <A extends Object, B extends Object> _HB add(int index, Function<A,B> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
             if( bdy.isBlockStmt() ){
                 return add(index, bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -663,7 +663,7 @@ public final class _body implements _java {
             return add(index, bdy );            
         }
         
-        default <A extends Object, B extends Object, C extends Object> T add( BiFunction<A,B,C> lambdaWithBody ){
+        default <A extends Object, B extends Object, C extends Object> _HB add(BiFunction<A,B,C> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
             if( bdy.isBlockStmt() ){
                 return add(bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -671,7 +671,7 @@ public final class _body implements _java {
             return add(bdy );            
         }
         
-        default <A extends Object, B extends Object,C extends Object> T add( int index, BiFunction<A,B,C> lambdaWithBody ){            
+        default <A extends Object, B extends Object,C extends Object> _HB add(int index, BiFunction<A,B,C> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
             if( bdy.isBlockStmt() ){
                 return add(index, bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -679,7 +679,7 @@ public final class _body implements _java {
             return add(index, bdy );            
         }
         
-        default <A extends Object, B extends Object, C extends Object, D extends Object> T add( Expr.TriFunction<A,B,C,D> lambdaWithBody ){
+        default <A extends Object, B extends Object, C extends Object, D extends Object> _HB add(Expr.TriFunction<A,B,C,D> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
             if( bdy.isBlockStmt() ){
                 return add(bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -687,7 +687,7 @@ public final class _body implements _java {
             return add(bdy );            
         }
         
-        default <A extends Object, B extends Object,C extends Object, D extends Object> T add( int index, Expr.TriFunction<A,B,C,D> lambdaWithBody ){            
+        default <A extends Object, B extends Object,C extends Object, D extends Object> _HB add(int index, Expr.TriFunction<A,B,C,D> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
             if( bdy.isBlockStmt() ){
                 return add(index, bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -696,7 +696,7 @@ public final class _body implements _java {
         }
 
                 
-        default <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> T add( Expr.QuadFunction<A,B,C,D,E> lambdaWithBody ){
+        default <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _HB add(Expr.QuadFunction<A,B,C,D,E> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
             if( bdy.isBlockStmt() ){
                 return add(bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -704,7 +704,7 @@ public final class _body implements _java {
             return add(bdy );            
         }
         
-        default <A extends Object, B extends Object,C extends Object, D extends Object, E extends Object> T add( int index, Expr.QuadFunction<A,B,C,D,E> lambdaWithBody ){            
+        default <A extends Object, B extends Object,C extends Object, D extends Object, E extends Object> _HB add(int index, Expr.QuadFunction<A,B,C,D,E> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody(); 
             if( bdy.isBlockStmt() ){
                 return add(index, bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -712,7 +712,7 @@ public final class _body implements _java {
             return add(index, bdy );            
         }
         
-        default <A extends Object, B extends Object, C extends Object> T add( BiConsumer<A,B> lambdaWithBody ){
+        default <A extends Object, B extends Object, C extends Object> _HB add(BiConsumer<A,B> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
             if( bdy.isBlockStmt() ){
                 return add(bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -720,7 +720,7 @@ public final class _body implements _java {
             return add(bdy );            
         }
         
-        default <A extends Object, B extends Object> T add( int index, BiConsumer<A,B> lambdaWithBody ){            
+        default <A extends Object, B extends Object> _HB add(int index, BiConsumer<A,B> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
             if( bdy.isBlockStmt() ){
                 return add(index, bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -728,7 +728,7 @@ public final class _body implements _java {
             return add(index, bdy );            
         }
         
-        default <A extends Object, B extends Object, C extends Object> T add( Expr.TriConsumer<A,B,C> lambdaWithBody ){
+        default <A extends Object, B extends Object, C extends Object> _HB add(Expr.TriConsumer<A,B,C> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
             if( bdy.isBlockStmt() ){
                 return add(bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -736,7 +736,7 @@ public final class _body implements _java {
             return add(bdy );            
         }
         
-        default <A extends Object, B extends Object,C extends Object> T add( int index, Expr.TriConsumer<A,B,C> lambdaWithBody ){            
+        default <A extends Object, B extends Object,C extends Object> _HB add(int index, Expr.TriConsumer<A,B,C> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
             if( bdy.isBlockStmt() ){
                 return add(index, bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -744,7 +744,7 @@ public final class _body implements _java {
             return add(index, bdy );            
         }
 
-        default <A extends Object, B extends Object, C extends Object, D extends Object> T add( Expr.QuadConsumer<A,B,C,D> lambdaWithBody ){
+        default <A extends Object, B extends Object, C extends Object, D extends Object> _HB add(Expr.QuadConsumer<A,B,C,D> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
             if( bdy.isBlockStmt() ){
                 return add(bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -752,7 +752,7 @@ public final class _body implements _java {
             return add(bdy );            
         }
         
-        default <A extends Object, B extends Object,C extends Object, D extends Object> T add( int index, Expr.QuadConsumer<A,B,C,D> lambdaWithBody ){            
+        default <A extends Object, B extends Object,C extends Object, D extends Object> _HB add(int index, Expr.QuadConsumer<A,B,C,D> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody(); 
             if( bdy.isBlockStmt() ){
                 return add(index, bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -768,7 +768,7 @@ public final class _body implements _java {
          * @param statements the statements to add to the tail of the BODY
          * @return the modified T (_method, _constructor, _staticBlock)
          */
-        T add(int startStatementIndex, Statement... statements);
+        _HB add(int startStatementIndex, Statement... statements);
         
         
         /**
@@ -777,7 +777,7 @@ public final class _body implements _java {
          * @param statements the statements as an Array of Strings
          * @return the modified T (_method, _constructor, _staticBlock)
          */
-        default T add(String... statements) {            
+        default _HB add(String... statements) {
             BlockStmt bs = Ast.blockStmt(statements);                      
             // we have to create a body (blockStmt) FIRST before adding
             /* OLD
@@ -791,10 +791,10 @@ public final class _body implements _java {
                 if( bs.getStatements().isEmpty() ) {
                     //System.out.println("creating empty body");
                     this.setBody("{}");
-                    return (T)this;
+                    return (_HB)this;
                 } else{
                     this.setBody(bs);
-                    return (T)this;
+                    return (_HB)this;
                 }
             }
 
@@ -830,7 +830,7 @@ public final class _body implements _java {
                 }
             }
             coms.forEach(co -> getBody().ast().addOrphanComment(co));
-            return (T) this;
+            return (_HB) this;
         }
 
         /**
@@ -843,7 +843,7 @@ public final class _body implements _java {
          * first parsed before added
          * @return the modified T
          */
-        default T add(int statementStartIndex, String... statements) {
+        default _HB add(int statementStartIndex, String... statements) {
             BlockStmt bs = Ast.blockStmt(statements);
             return add(statementStartIndex, bs.getStatements().toArray(new Statement[0]));
         }
@@ -883,7 +883,7 @@ public final class _body implements _java {
             return this.listStatements().get(statementIndex);
         }
                 
-        default <A extends Object> T addAt( String labelName, Expr.Command lambdaWithBody){
+        default <A extends Object> _HB addAt(String labelName, Expr.Command lambdaWithBody){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
             if( bdy.isBlockStmt() ){
                 return addAt( labelName, bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -891,7 +891,7 @@ public final class _body implements _java {
             return addAt(labelName, bdy );
         }
         
-        default <A extends Object> T addAt( String labelName, Consumer<A> lambdaWithBody){
+        default <A extends Object> _HB addAt(String labelName, Consumer<A> lambdaWithBody){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
             if( bdy.isBlockStmt() ){
                 return addAt( labelName, bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -899,7 +899,7 @@ public final class _body implements _java {
             return addAt(labelName, bdy );
         }
         
-        default <A extends Object, B extends Object> T addAt( String labelName, Function<A,B> lambdaWithBody ){            
+        default <A extends Object, B extends Object> _HB addAt(String labelName, Function<A,B> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
             if( bdy.isBlockStmt() ){
                 return addAt(labelName, bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -907,7 +907,7 @@ public final class _body implements _java {
             return addAt(labelName, bdy );            
         }
         
-        default <A extends Object, B extends Object,C extends Object> T addAt( String labelName, BiFunction<A,B,C> lambdaWithBody ){            
+        default <A extends Object, B extends Object,C extends Object> _HB addAt(String labelName, BiFunction<A,B,C> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
             if( bdy.isBlockStmt() ){
                 return addAt(labelName, bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -915,7 +915,7 @@ public final class _body implements _java {
             return addAt(labelName, bdy );            
         }
         
-        default <A extends Object, B extends Object,C extends Object, D extends Object> T addAt( String labelName, Expr.TriFunction<A,B,C,D> lambdaWithBody ){            
+        default <A extends Object, B extends Object,C extends Object, D extends Object> _HB addAt(String labelName, Expr.TriFunction<A,B,C,D> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
             if( bdy.isBlockStmt() ){
                 return addAt(labelName, bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -923,7 +923,7 @@ public final class _body implements _java {
             return addAt(labelName, bdy );            
         }
         
-        default <A extends Object, B extends Object,C extends Object, D extends Object, E extends Object> T addAt( String labelName, Expr.QuadFunction<A,B,C,D,E> lambdaWithBody ){            
+        default <A extends Object, B extends Object,C extends Object, D extends Object, E extends Object> _HB addAt(String labelName, Expr.QuadFunction<A,B,C,D,E> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody(); 
             if( bdy.isBlockStmt() ){
                 return addAt(labelName, bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -931,7 +931,7 @@ public final class _body implements _java {
             return addAt(labelName, bdy );            
         }
         
-        default <A extends Object, B extends Object> T addAt(String labelName, BiConsumer<A,B> lambdaWithBody ){            
+        default <A extends Object, B extends Object> _HB addAt(String labelName, BiConsumer<A,B> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
             if( bdy.isBlockStmt() ){
                 return addAt(labelName, bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -939,7 +939,7 @@ public final class _body implements _java {
             return addAt(labelName, bdy );            
         }
         
-        default <A extends Object, B extends Object,C extends Object> T addAt( String labelName, Expr.TriConsumer<A,B,C> lambdaWithBody ){            
+        default <A extends Object, B extends Object,C extends Object> _HB addAt(String labelName, Expr.TriConsumer<A,B,C> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
             if( bdy.isBlockStmt() ){
                 return addAt(labelName, bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -947,7 +947,7 @@ public final class _body implements _java {
             return addAt(labelName, bdy );            
         }
 
-        default <A extends Object, B extends Object,C extends Object, D extends Object> T addAt( String labelName, Expr.QuadConsumer<A,B,C,D> lambdaWithBody ){            
+        default <A extends Object, B extends Object,C extends Object, D extends Object> _HB addAt(String labelName, Expr.QuadConsumer<A,B,C,D> lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody(); 
             if( bdy.isBlockStmt() ){
                 return addAt(labelName, bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
@@ -963,7 +963,7 @@ public final class _body implements _java {
          * @param statements the statements to add
          * @return the modified T
          */
-        default T addAt(String labelName, String... statements) {
+        default _HB addAt(String labelName, String... statements) {
             if( !isImplemented() ){
                 throw new _draftException("cannot find labeled Statement \"" + labelName + "\" on no-implemented body");
             }
@@ -982,10 +982,10 @@ public final class _body implements _java {
                 bs.addStatement(0, st);
                 st.replace(bs);
             }
-            return (T) this;
+            return (_HB) this;
         }
         
-        default T addAt( String labelName, Statement...statements){
+        default _HB addAt(String labelName, Statement...statements){
              if( !isImplemented() ){
                 throw new _draftException("cannot find labeled Statement \"" + labelName + "\" on no-implemented body");
             }
@@ -1004,7 +1004,7 @@ public final class _body implements _java {
                 bs.addStatement(0, st);
                 st.replace(bs);
             }
-            return (T) this;
+            return (_HB) this;
         }
 
         /**
@@ -1036,7 +1036,7 @@ public final class _body implements _java {
          * @param astStmt
          * @return the modified entity
          */
-        default T addAt(String labelName, Statement astStmt) {
+        default _HB addAt(String labelName, Statement astStmt) {
             if( !isImplemented() ){
                 throw new _draftException("cannot find labeled Statement \"" + labelName + "\" on no-implemented body");
             }
@@ -1052,7 +1052,7 @@ public final class _body implements _java {
          * @param stmts a list of Statements to add at the label
          * @return the modified entity
          */
-        default T addAt(String labelName, List<Statement> stmts) {
+        default _HB addAt(String labelName, List<Statement> stmts) {
             if( !isImplemented() ){
                 throw new _draftException("cannot find labeled Statement \"" + labelName + "\" on no-implemented body");
             }
@@ -1070,7 +1070,7 @@ public final class _body implements _java {
                 bs.addStatement(0, st);
                 st.replace(bs);
             }
-            return (T) this;
+            return (_HB) this;
         }
 
         /**
@@ -1170,12 +1170,12 @@ public final class _body implements _java {
          * @param exprActionFn lambda to call on all expressions
          * @return  the T
          */
-        default T forExprs( Consumer<Expression> exprActionFn ){
+        default _HB forExprs(Consumer<Expression> exprActionFn ){
             if( !isImplemented() ){
-                return (T)this;
+                return (_HB)this;
             }
             _walk.in((BlockStmt)this.getBody().ast(), Expression.class, exprActionFn );
-            return (T)this;
+            return (_HB)this;
         }
 
         /**
@@ -1190,12 +1190,12 @@ public final class _body implements _java {
          * @param exprActionFn the "processing" function for matching exprs
          * @return the modified T
          */
-        default <E extends Expression> T forExprs( Class<E> exprClass, Consumer<E> exprActionFn ){
+        default <E extends Expression> _HB forExprs(Class<E> exprClass, Consumer<E> exprActionFn ){
             if( !isImplemented() ){
-                return (T)this;
+                return (_HB)this;
             }                     
             _walk.in((BlockStmt)this.getBody().ast(), exprClass, exprActionFn );
-            return (T)this;
+            return (_HB)this;
         }
         
         /**
@@ -1212,12 +1212,12 @@ public final class _body implements _java {
          * @param exprActionFn the "processing" function for matching exprs
          * @return the modified T
          */
-        default <E extends Expression> T forExprs( Class<E> exprClass, Predicate<E>exprMatchFn, Consumer<E> exprActionFn ){
+        default <E extends Expression> _HB forExprs(Class<E> exprClass, Predicate<E>exprMatchFn, Consumer<E> exprActionFn ){
             if( !isImplemented() ){
-                return (T)this;
+                return (_HB)this;
             }
             _walk.in((BlockStmt)this.getBody().ast(), exprClass, exprMatchFn, exprActionFn );
-            return (T)this;
+            return (_HB)this;
         }
         
         /**
@@ -1227,12 +1227,12 @@ public final class _body implements _java {
          * @param stmtActionFn the "processing" function for matching statements
          * @return the modified T
          */
-        default T forStmts( Consumer<Statement> stmtActionFn ){
+        default _HB forStmts(Consumer<Statement> stmtActionFn ){
             if( !isImplemented() ){
-                return (T)this;
+                return (_HB)this;
             }           
             _walk.in((BlockStmt)this.getBody().ast(), Statement.class, stmtActionFn );
-            return (T)this;
+            return (_HB)this;
         }
         
         /**
@@ -1244,12 +1244,12 @@ public final class _body implements _java {
          * @param stmtActionFn the "processing" function for matching statements
          * @return the modified T
          */
-        default <S extends Statement> T forStmts( Class<S> statementClass, Consumer<S> stmtActionFn ){
+        default <S extends Statement> _HB forStmts(Class<S> statementClass, Consumer<S> stmtActionFn ){
             if( !isImplemented() ){
-                return (T)this;
+                return (_HB)this;
             }
             _walk.in((BlockStmt)this.getBody().ast(), statementClass, stmtActionFn );
-            return (T)this;
+            return (_HB)this;
         }
         
         /**
@@ -1262,12 +1262,12 @@ public final class _body implements _java {
          * @param stmtActionFn the "processing" function for matching statements
          * @return the modified T
          */
-        default <S extends Statement> T forStmts( Class<S> statementClass, Predicate<S>stmtMatchFn, Consumer<S> stmtActionFn ){
+        default <S extends Statement> _HB forStmts(Class<S> statementClass, Predicate<S>stmtMatchFn, Consumer<S> stmtActionFn ){
             if( !isImplemented() ){
-                return (T)this;
+                return (_HB)this;
             }
             _walk.in((BlockStmt)this.getBody().ast(), statementClass, stmtMatchFn, stmtActionFn );
-            return (T)this;
+            return (_HB)this;
         }
         
         /**

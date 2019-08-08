@@ -144,9 +144,9 @@ public final class _receiverParameter
      * (A rarely used feature in Java METHODS and CONSTRUCTORS
      *
      * @author Eric
-     * @param <T>
+     * @param <_HRP>
      */
-    public interface _hasReceiverParameter<T extends _hasReceiverParameter>
+    public interface _hasReceiverParameter<_HRP extends _hasReceiverParameter>
             extends _java {
 
         default boolean hasReceiverParameter() {      
@@ -177,7 +177,7 @@ public final class _receiverParameter
             return null;
         }
         
-        default T removeReceiverParameter() {
+        default _HRP removeReceiverParameter() {
             if( hasReceiverParameter()){
                 Node n = (Node) ((_node)this).ast();
                 if( n instanceof MethodDeclaration ){
@@ -188,18 +188,18 @@ public final class _receiverParameter
                     cd.removeReceiverParameter();
                 }
             }            
-            return (T)this;
+            return (_HRP)this;
         }
 
-        default T receiverParameter( String receiverParameter ) {
+        default _HRP receiverParameter(String receiverParameter ) {
             return receiverParameter( Ast.receiverParameter( receiverParameter ) );
         }
 
-        default T receiverParameter( _receiverParameter _rp ) {
+        default _HRP receiverParameter(_receiverParameter _rp ) {
             return receiverParameter( _rp.ast() );
         }
         
-        default T receiverParameter( ReceiverParameter rp ) {
+        default _HRP receiverParameter(ReceiverParameter rp ) {
             Node n = (Node) ((_node)this).ast();
             if( n instanceof MethodDeclaration ){
                 MethodDeclaration md = (MethodDeclaration)n;
@@ -208,7 +208,7 @@ public final class _receiverParameter
                 ConstructorDeclaration cd = (ConstructorDeclaration)n;
                 cd.setReceiverParameter(rp);
             }
-            return (T) this;
+            return (_HRP) this;
         }    
     }    
 }

@@ -1,7 +1,6 @@
 package org.jdraft;
 
 import java.util.Objects;
-import java.util.function.Predicate;
 
 /**
  * Named java entities
@@ -16,15 +15,15 @@ import java.util.function.Predicate;
  * {@link _typeParameter}
  *
  * @author Eric
- * @param <T>
+ * @param <_N>
  */
-public interface _named<T extends _named> extends _java {
+public interface _named<_N extends _named> extends _java {
 
     /**
      * @param name set the name on the entity and return the modified entity
      * @return the modified entity
      */
-    T name(String name);
+    _N name(String name);
 
     /**
      * gets the name of the entity

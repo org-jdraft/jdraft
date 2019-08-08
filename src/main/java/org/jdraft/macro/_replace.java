@@ -53,10 +53,10 @@ public @interface _replace {
             Node newNode = null;
             if( _model instanceof _type ) {
                 oldNode = ((_type) _model).ast();
-                newNode = _java.of(((_type) _model).ast().getClass(), str);
+                newNode = _java.node(((_type) _model).ast().getClass(), str);
             }else {
                 oldNode = ((org.jdraft._node) _model).ast();
-                newNode = _java.of(((org.jdraft._node) _model).ast().getClass(), str);
+                newNode = _java.node(((org.jdraft._node) _model).ast().getClass(), str);
             }
             //System.out.println( oldNode.getClass() + " "+ newNode.getClass() );
             boolean isReplaced = oldNode.replace(newNode);
@@ -87,7 +87,7 @@ public @interface _replace {
             node.walk(_walk.POST_ORDER, n->{ //by walking (in postorder fashion)
                 String s = n.toString(Ast.PRINT_NO_COMMENTS);
                 if( s.contains(oldValue) ) {
-                    Node repNode = _java.of(node.getClass(), s.replace(oldValue, newValue) );
+                    Node repNode = _java.node(node.getClass(), s.replace(oldValue, newValue) );
                     n.replace(repNode);
                 }
             });

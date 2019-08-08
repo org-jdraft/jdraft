@@ -10,7 +10,13 @@ import org.jdraft._parameter.*;
  * @author Eric
  */
 public class _parametersTest extends TestCase {
-    
+
+    public void testRemove(){
+        _parameters _ps = _parameters.of( "int a", "String name", "Map m");
+        _ps.remove( p-> p.isType(int.class));
+
+        System.out.println( _ps );
+    }
     public void testP(){
         _parameters _ps = _parameters.of("int a, String b");
         assertEquals( 2, _ps.size() );

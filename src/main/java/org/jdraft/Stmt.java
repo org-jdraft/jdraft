@@ -62,7 +62,7 @@ public enum Stmt {
      * @param c the lambda
      * @return the AST LambdaExpr representation for the runtime Command
      */
-    public static <T extends Object> Statement of( Expr.Command c ){
+    public static  Statement of( Expr.Command c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return from( ste );
     }

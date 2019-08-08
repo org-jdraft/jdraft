@@ -534,9 +534,9 @@ public final class _modifiers implements _java {
     /**
      *
      * @author Eric
-     * @param <T> the target TYPE
+     * @param <_HM> the target TYPE
      */
-    public interface _hasModifiers<T extends _hasModifiers>
+    public interface _hasModifiers<_HM extends _hasModifiers>
         extends _java {
         
         /**
@@ -564,14 +564,14 @@ public final class _modifiers implements _java {
          * @param mods
          * @return
          */
-        default T modifiers( String... mods ) {
+        default _HM modifiers(String... mods ) {
             getModifiers().set( mods );
-            return (T)this;
+            return (_HM)this;
         }
         
-        default T modifiers(NodeList<Modifier> mods ){
+        default _HM modifiers(NodeList<Modifier> mods ){
             getModifiers().node.setModifiers(mods);
-            return (T)this;
+            return (_HM)this;
         }
 
         /**
@@ -650,146 +650,178 @@ public final class _modifiers implements _java {
          * @param mods
          * @return
          */
-        default T modifiers( _modifiers mods ) {
+        default _HM modifiers(_modifiers mods ) {
             return replace( mods );
         }
 
-        default T replace( _modifiers _ms ) {
+        default _HM replace(_modifiers _ms ) {
             getModifiers().clear().set( _ms.asKeywords() );
-            return (T)this;
+            return (_HM)this;
         }
     }
-    
-    public interface _hasFinal<T extends _hasFinal> {
+
+    /**
+     * entity with possible final modifier
+     * @param <_HF>
+     */
+    public interface _hasFinal<_HF extends _hasFinal> {
 
         boolean isFinal();
 
-        default T setFinal(){
+        default _HF setFinal(){
             return setFinal(true);
         }
 
-        T setFinal( boolean toSet );
+        _HF setFinal(boolean toSet );
     }
 
-    public interface _hasStatic<T extends _hasStatic>  extends _hasModifiers<T> {
+    /**
+     * Entity with possible static modifier
+     * @param <_HS>
+     */
+    public interface _hasStatic<_HS extends _hasStatic>  extends _hasModifiers<_HS> {
 
         boolean isStatic();
 
-        default T setStatic(){
+        default _HS setStatic(){
             return setStatic(true);
         }
 
-        default T setStatic( boolean toSet ){
+        default _HS setStatic(boolean toSet ){
             _node n = (_node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.STATIC, toSet);
-            return (T)this;
+            return (_HS)this;
         }
     }
 
-    public interface _hasSynchronized<T extends _hasSynchronized> extends _hasModifiers<T> {
+    /**
+     * Entity with possible synchronized modifier
+     * @param <_HS>
+     */
+    public interface _hasSynchronized<_HS extends _hasSynchronized> extends _hasModifiers<_HS> {
 
         default boolean isSynchronized(){
             return getModifiers().node.hasModifier(Modifier.Keyword.SYNCHRONIZED );
         }
 
-        default T setSynchronized(){
+        default _HS setSynchronized(){
             return setSynchronized(true);
         }
 
-        default T setSynchronized( boolean toSet ){
+        default _HS setSynchronized(boolean toSet ){
             _node n = (_node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.SYNCHRONIZED, toSet);
-            return (T)this;
+            return (_HS)this;
         }
     }
 
-    public interface _hasAbstract<T extends _hasAbstract> extends _hasModifiers<T> {
+    /**
+     * Entity with possible abstract modifier
+     * @param <_HA>
+     */
+    public interface _hasAbstract<_HA extends _hasAbstract> extends _hasModifiers<_HA> {
 
         boolean isAbstract();
 
-        default T setAbstract(){
+        default _HA setAbstract(){
             return setAbstract(true);
         }
 
-        default T setAbstract( boolean toSet ){
+        default _HA setAbstract(boolean toSet ){
             _node n = (_node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.ABSTRACT, toSet);
-            return (T)this;
+            return (_HA)this;
         }
     }
 
-    public interface _hasVolatile<T extends _hasVolatile> extends _hasModifiers<T> {
+    /**
+     * Entity with possible volatile modifier
+     * @param <_HV>
+     */
+    public interface _hasVolatile<_HV extends _hasVolatile> extends _hasModifiers<_HV> {
 
         default boolean isVolatile(){
             return getModifiers().node.hasModifier(Modifier.Keyword.VOLATILE );
         }
 
-        default T setVolatile(){
+        default _HV setVolatile(){
             return setVolatile(true);
         }
 
-        default T setVolatile( boolean toSet ){
+        default _HV setVolatile(boolean toSet ){
            _node n = (_node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.VOLATILE, toSet);
-            return (T)this; 
+            return (_HV)this;
         }
     }
 
-    public interface _hasNative<T extends _hasNative>  extends _hasModifiers<T> {
+    /**
+     * Entity with possible native modifier
+     * @param <_HN>
+     */
+    public interface _hasNative<_HN extends _hasNative>  extends _hasModifiers<_HN> {
 
         default boolean isNative(){
             return getModifiers().node.hasModifier(Modifier.Keyword.NATIVE );
         }
 
-        default T setNative(){
+        default _HN setNative(){
             return setNative(true);
         }
 
-        default T setNative( boolean toSet ){
+        default _HN setNative(boolean toSet ){
             _node n = (_node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.NATIVE, toSet);
-            return (T)this;
+            return (_HN)this;
         }
     }
 
-    public interface _hasTransient<T extends _hasTransient>  extends _hasModifiers<T> {
+    /**
+     * Entity with possible transient modifier
+     * @param <_HT>
+     */
+    public interface _hasTransient<_HT extends _hasTransient>  extends _hasModifiers<_HT> {
 
         default boolean isTransient(){
             return getModifiers().node.hasModifier(Modifier.Keyword.TRANSIENT );
         }
 
-        default T setTransient(){
+        default _HT setTransient(){
             return setTransient(true);
         }
 
-        default T setTransient( boolean toSet ){
+        default _HT setTransient(boolean toSet ){
             _node n = (_node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.TRANSIENT, toSet);
-            return (T)this;
+            return (_HT)this;
         }
     }
 
-    public interface _hasStrictFp<T extends _hasStrictFp>  extends _hasModifiers<T> {
+    /**
+     * Entity with possible strictFp modifier
+     * @param <_HS>
+     */
+    public interface _hasStrictFp<_HS extends _hasStrictFp>  extends _hasModifiers<_HS> {
 
         default boolean isStrictFp(){
             return getModifiers().node.hasModifier(Modifier.Keyword.STRICTFP );
         }
 
-        default T setStrictFp(){
+        default _HS setStrictFp(){
             return setStrictFp(true);
         }
 
-        default T setStrictFp( boolean toSet ){
+        default _HS setStrictFp(boolean toSet ){
             _node n = (_node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.STRICTFP, toSet);
-            return (T)this;
+            return (_HS)this;
         }
     }
 }

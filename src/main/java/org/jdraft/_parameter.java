@@ -252,9 +252,9 @@ public final class _parameter
     /**
      *
      * @author Eric
-     * @param <T>
+     * @param <_HP>
      */
-    public interface _hasParameters<T extends _hasParameters>
+    public interface _hasParameters<_HP extends _hasParameters>
         extends _java {
 
         _parameters getParameters();
@@ -307,61 +307,61 @@ public final class _parameter
             return getParameters().list( paramMatchFn );
         }
 
-        default T forParameters( Consumer<_parameter> paramActionFn ) {
+        default _HP forParameters(Consumer<_parameter> paramActionFn ) {
             listParameters().forEach( paramActionFn );
-            return (T)this;
+            return (_HP)this;
         }
 
-        default T forParameters( Predicate<_parameter> paramMatchFn,
-                                 Consumer<_parameter> paramActionFn ) {
+        default _HP forParameters(Predicate<_parameter> paramMatchFn,
+                                  Consumer<_parameter> paramActionFn ) {
             listParameters( paramMatchFn ).forEach( paramActionFn );
-            return (T)this;
+            return (_HP)this;
         }
 
-        default T addParameters( String... parameters ) {
+        default _HP addParameters(String... parameters ) {
             Arrays.stream( parameters ).forEach( p -> addParameter( p ) );
-            return (T)this;
+            return (_HP)this;
         }
 
-        default T addParameter( _typeRef type, String name ) {
+        default _HP addParameter(_typeRef type, String name ) {
             return addParameter( new Parameter( type.ast(), name ) );
         }
 
-        default T addParameter( String parameter ) {
+        default _HP addParameter(String parameter ) {
             addParameter( Ast.parameter( parameter ) );
-            return (T)this;
+            return (_HP)this;
         }
 
-        default T addParameters( _parameter... parameters ) {
+        default _HP addParameters(_parameter... parameters ) {
             Arrays.stream( parameters ).forEach( p -> addParameter( p ) );
-            return (T)this;
+            return (_HP)this;
         }
 
-        default T addParameter( _parameter parameter ) {
+        default _HP addParameter(_parameter parameter ) {
             addParameter( parameter.ast() );
-            return (T)this;
+            return (_HP)this;
         }
         
-        default T addParameter( Parameter p ){
+        default _HP addParameter(Parameter p ){
             ast().addParameter(p);
-            return (T)this;
+            return (_HP)this;
         }
 
-        default T addParameters( Parameter... ps ){
+        default _HP addParameters(Parameter... ps ){
             Arrays.stream(ps).forEach( p -> addParameter(p));
-            return (T)this;
+            return (_HP)this;
         }
         
-        default T setParameters(NodeList<Parameter> astPs){
+        default _HP setParameters(NodeList<Parameter> astPs){
             ast().setParameters(astPs);
-            return (T)this;
+            return (_HP)this;
         }
         
-        default T setParameters(_parameters _ps){
-            return (T)setParameters( _ps.ast() );
+        default _HP setParameters(_parameters _ps){
+            return (_HP)setParameters( _ps.ast() );
         }        
         
-        default T setParameters( Parameter... astPs ){
+        default _HP setParameters(Parameter... astPs ){
             NodeList<Parameter>nl = new NodeList<>();
             Arrays.stream(astPs).forEach(p -> nl.add(p));
             return setParameters(nl);
@@ -587,8 +587,8 @@ public final class _parameter
          * @param paramMatchFn
          * @param paramAction
          */
-        public void forEach( Predicate<? super _parameter> paramMatchFn,
-                             Consumer<? super _parameter> paramAction ) {
+        public void forEach( Predicate<_parameter> paramMatchFn,
+                             Consumer<_parameter> paramAction ) {
             list( paramMatchFn ).forEach( paramAction );
         }
 
@@ -597,7 +597,7 @@ public final class _parameter
          * @param paramMatchFn
          * @return
          */
-        public List<_parameter> list( Predicate<? super _parameter> paramMatchFn ) {
+        public List<_parameter> list( Predicate<_parameter> paramMatchFn ) {
             return list().stream().filter( paramMatchFn ).collect( Collectors.toList() );
         }
 
@@ -606,7 +606,7 @@ public final class _parameter
          * @param paramMatchFn
          * @return
          */
-        public _parameters remove( Predicate<? super _parameter> paramMatchFn ) {
+        public _parameters remove( Predicate<_parameter> paramMatchFn ) {
             list( paramMatchFn ).forEach( p -> remove( p ) );
             return this;
         }

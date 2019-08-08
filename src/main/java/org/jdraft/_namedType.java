@@ -1,7 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.type.Type;
-import java.util.function.Consumer;
+
 import java.util.function.Predicate;
 
 /**
@@ -13,9 +13,9 @@ import java.util.function.Predicate;
  *     <LI>{@link _annotation._element},
  *     <LI>{@link _receiverParameter}
  * </UL>
- * @param <T> the specialized entity that is a named TYPE
+ * @param <_NT> the specialized entity that is a named TYPE
  */
-public interface _namedType<T extends _namedType> extends _named<T> {
+public interface _namedType<_NT extends _namedType> extends _named<_NT> {
 
     /**
      * @return they type
@@ -35,14 +35,14 @@ public interface _namedType<T extends _namedType> extends _named<T> {
      * @param _tr the _typeRef object
      * @return the modified entity after setting the TYPE
      */
-    T type(Type _tr);
+    _NT type(Type _tr);
 
     /**
      * set the TYPE and return
      * @param t
      * @return
      */
-    default T type(_typeRef t) {
+    default _NT type(_typeRef t) {
         return type(t.ast());
     }
 
@@ -51,7 +51,7 @@ public interface _namedType<T extends _namedType> extends _named<T> {
      * @param typeRef the String representation of the TYPE
      * @return the modified entity after setting the TYPE
      */
-    default T type(String typeRef) {
+    default _NT type(String typeRef) {
         return type(Ast.typeRef(typeRef));
     }
 
@@ -60,7 +60,7 @@ public interface _namedType<T extends _namedType> extends _named<T> {
      * @param clazz the class of the TYPE to set
      * @return the modified entity after setting the TYPE
      */
-    default T type(Class clazz) {
+    default _NT type(Class clazz) {
         return type(Ast.typeRef(clazz.getCanonicalName()));
     }
 

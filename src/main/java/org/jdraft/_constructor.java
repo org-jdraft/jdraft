@@ -405,10 +405,10 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
     /**
      *
      * @author Eric
-     * @param <T>
+     * @param <_HC>
      * @param <N> the AST node type (must implement NodeWithConstructors)
      */
-    public interface _hasConstructors<T extends _hasConstructors & _type, N extends Node & NodeWithConstructors>
+    public interface _hasConstructors<_HC extends _hasConstructors & _type, N extends Node & NodeWithConstructors>
         extends _java {
 
         /** 
@@ -466,7 +466,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
          * @param constructorConsumer
          * @return 
          */
-        default T forConstructors(Consumer<_constructor> constructorConsumer ) {
+        default _HC forConstructors(Consumer<_constructor> constructorConsumer ) {
             return forConstructors( m -> true, constructorConsumer );
         }
 
@@ -476,11 +476,11 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
          * @param constructorConsumer
          * @return 
          */
-        default T forConstructors(
+        default _HC forConstructors(
             Predicate<_constructor> constructorMatchFn,
             Consumer<_constructor> constructorConsumer ) {
             listConstructors( constructorMatchFn ).forEach( constructorConsumer );
-            return (T)this;
+            return (_HC)this;
         }
 
         /**
@@ -488,7 +488,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
          * @param astConstructor the ast representation of the constructor
          * @return  the modified T         
          */ 
-        default T removeConstructor( ConstructorDeclaration astConstructor ){
+        default _HC removeConstructor(ConstructorDeclaration astConstructor ){
             return removeConstructor( _constructor.of(astConstructor).name(((_type)this).getName()) );        
         }
 
@@ -497,11 +497,11 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
          * @param _ct the constructor instance to remove
          * @return 
          */
-        default T removeConstructor( _constructor _ct){
+        default _HC removeConstructor(_constructor _ct){
             _constructor _cc = _ct.copy().name( ((_type)this).getName() );
         
             listConstructors( c-> c.equals( _cc ) ).forEach(c-> c.ast().removeForced() );        
-            return (T)this;
+            return (_HC)this;
         }
 
         /**
@@ -510,9 +510,9 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
          * @param ctorMatchFn function for matching constructors for removal
          * @return the modified T
          */ 
-        default T  removeConstructors( Predicate<_constructor> ctorMatchFn){
+        default _HC removeConstructors(Predicate<_constructor> ctorMatchFn){
             listConstructors(ctorMatchFn).forEach(c -> removeConstructor(c));
-            return (T)this;
+            return (_HC)this;
         }
         
         /**
@@ -521,7 +521,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
          * @param anonymousObjectContainingConstructor
          * @return
          */
-        default T constructor( Object anonymousObjectContainingConstructor ){
+        default _HC constructor(Object anonymousObjectContainingConstructor ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
             ObjectCreationExpr oce = Expr.anonymousObject(ste);
             MethodDeclaration theMethod = (MethodDeclaration)
@@ -549,7 +549,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
                 _ct.ast().setJavadocComment( theMethod.getJavadocComment().get());
             }
             constructor(_ct);
-            return (T)this;
+            return (_HC)this;
         }
 
         /**
@@ -557,14 +557,14 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
          * @param astConstructor
          * @return 
          */
-        T constructor( ConstructorDeclaration astConstructor );
+        _HC constructor(ConstructorDeclaration astConstructor );
 
         /**
          * Build & Add a constructor from the String representation of the code
          * @param ctor the constructor that was built
          * @return 
          */
-        default T constructor(String ctor){
+        default _HC constructor(String ctor){
             return constructor( new String[]{ctor});
         }
         
@@ -595,7 +595,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
          * @param constructor
          * @return
          */
-        default T constructor( String... constructor ) {
+        default _HC constructor(String... constructor ) {
 
             String combined = Text.combine(constructor);
             if( combined.startsWith("(")) {
@@ -625,7 +625,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
          * @param _c
          * @return 
          */
-        default T constructor( _constructor _c ) {
+        default _HC constructor(_constructor _c ) {
             return constructor( _c.ast() );
         }
     }

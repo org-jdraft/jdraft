@@ -593,9 +593,9 @@ public final class _field
      * Components that have fields (_class, _interface, _enum, _annotation, _enum._constant)
      * 
      * @author Eric
-     * @param <T>
+     * @param <_HF>
      */
-    public interface _hasFields<T extends _hasFields>
+    public interface _hasFields<_HF extends _hasFields>
             extends _java {
 
         List<_field> listFields();
@@ -608,17 +608,17 @@ public final class _field
             return listFields().stream().filter(_fieldMatchFn).collect(Collectors.toList());
         }
 
-        default T forFields(Consumer<_field> fieldConsumer) {
+        default _HF forFields(Consumer<_field> fieldConsumer) {
             return forFields(f -> true, fieldConsumer);
         }
 
-        default T forFields(Predicate<_field> fieldMatchFn,
-                Consumer<_field> fieldConsumer) {
+        default _HF forFields(Predicate<_field> fieldMatchFn,
+                              Consumer<_field> fieldConsumer) {
             listFields(fieldMatchFn).forEach(fieldConsumer);
-            return (T) this;
+            return (_HF) this;
         }
 
-        default T removeField(String fieldName){
+        default _HF removeField(String fieldName){
             this.listFields(f-> f.getName().equals(fieldName)).forEach(f-> {
                 if(f.getFieldDeclaration().getVariables().size() == 1){
                     f.getFieldDeclaration().removeForced();
@@ -626,10 +626,10 @@ public final class _field
                     f.astVar.removeForced();
                 }            
                 });
-            return (T)this;
+            return (_HF)this;
         }
 
-        default T removeField(_field _f){
+        default _HF removeField(_field _f){
             this.listFields(f-> f.equals(_f)).forEach(f-> {
                 if(f.getFieldDeclaration().getVariables().size() == 1){
                     f.getFieldDeclaration().removeForced();
@@ -637,10 +637,10 @@ public final class _field
                     f.astVar.removeForced();
                 }            
                 });
-            return (T)this;
+            return (_HF)this;
         }
 
-        default T removeFields(Predicate<_field> fieldPredicate){
+        default _HF removeFields(Predicate<_field> fieldPredicate){
             this.listFields(fieldPredicate).forEach(f-> {
                 if(f.getFieldDeclaration().getVariables().size() == 1){
                     f.getFieldDeclaration().removeForced();
@@ -648,7 +648,7 @@ public final class _field
                     f.astVar.removeForced();
                 }            
                 });
-            return (T)this;
+            return (_HF)this;
         }
 
         default _field getField(String name) {
@@ -667,30 +667,30 @@ public final class _field
             return null;
         }
 
-        T field(VariableDeclarator field);
+        _HF field(VariableDeclarator field);
 
-        default T field(String... field) {
+        default _HF field(String... field) {
             return field(Ast.field(field).getVariable(0));
         }
 
-        default T field(_field _f) {
+        default _HF field(_field _f) {
             return field(_f.astVar);
         }
 
-        default T fields(FieldDeclaration fds) {
+        default _HF fields(FieldDeclaration fds) {
             fds.getVariables().forEach(v -> field(v));
-            return (T) this;
+            return (_HF) this;
         }
 
-        default T fields(String... fieldDeclarations) {
+        default _HF fields(String... fieldDeclarations) {
             List<FieldDeclaration> fs = Ast.fields(fieldDeclarations);
             fs.forEach(f -> fields(f));
-            return (T) this;
+            return (_HF) this;
         }
 
-        default T fields(_field... fs) {
+        default _HF fields(_field... fs) {
             Arrays.stream(fs).forEach(f -> field(f));
-            return (T) this;
+            return (_HF) this;
         }
     }
 }

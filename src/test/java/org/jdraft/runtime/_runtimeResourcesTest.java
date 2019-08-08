@@ -36,7 +36,8 @@ public class _runtimeResourcesTest extends TestCase {
      * Make sure when we build an AdhocClassLoader, we let users get the 
      * source .java and bytecode .class resources as a Stream
      *  NOTE THESE SHOULD ALL WORK, BUT SOME ARE SLOW
-     */    
+     */
+    /*    SLOW but works
     public void testGetJavaAndClassResourceAsStream() throws IOException{
         _runtime ah = _runtime.of( "package aaaa;", "public class B{}");
         Class c = ah.getClass("aaaa.B");
@@ -69,7 +70,7 @@ public class _runtimeResourcesTest extends TestCase {
         assertNotNull( ss);
         ss.close();
         */
-        
+        /*
         ss = c.getClassLoader().getResourceAsStream("aaaa/B.java");
         assertNotNull( ss);
         ss.close();
@@ -77,11 +78,11 @@ public class _runtimeResourcesTest extends TestCase {
         ss = c.getClassLoader().getResourceAsStream("aaaa/B.class");
         assertNotNull( ss);
         ss.close();
-        
+        */
         /*
         //NOTE: this isn't really the PROPER WAY to identify Resources, but we'll allow it
         assertNotNull( c.getClassLoader().getResourceAsStream("aaaa.B.java"));
         assertNotNull( c.getClassLoader().getResourceAsStream("aaaa.B.class"));      
-        */
-    }
+
+    }    */
 }

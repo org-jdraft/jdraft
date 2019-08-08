@@ -315,9 +315,9 @@ public final class _typeParameter
     /**
      *
      * @author Eric
-     * @param <T>
+     * @param <_HTP>
      */
-    public interface _hasTypeParameters<T extends _hasTypeParameters>
+    public interface _hasTypeParameters<_HTP extends _hasTypeParameters>
         extends _java {
         
         default _typeParameters getTypeParameters(){
@@ -336,7 +336,7 @@ public final class _typeParameter
          * @param typeParameters string of typeParameters
          * @return the modified T
          */
-        default T typeParameters( String typeParameters ){
+        default _HTP typeParameters(String typeParameters ){
             _typeParameters _tps = _typeParameters.of(typeParameters);
             return typeParameters( _tps) ; //((NodeWithTypeParameters)_m.ast()).getTypeParameters();
         }
@@ -345,37 +345,37 @@ public final class _typeParameter
          * @param typeParameters Strings that represent individual TypeParameters
          * @return the modified T
          */
-        default T typeParameters( String... typeParameters ){
+        default _HTP typeParameters(String... typeParameters ){
             _typeParameters _tps = _typeParameters.of(typeParameters);
             return typeParameters( _tps) ; //((NodeWithTypeParameters)_m.ast()).getTypeParameters();
         }
 
-        default T typeParameters( _typeParameters _tps ){
+        default _HTP typeParameters(_typeParameters _tps ){
             _member _m = (_member) this;
             ((NodeWithTypeParameters)_m.ast()).setTypeParameters(_tps.ast());            
-            return (T)this;
+            return (_HTP)this;
         }
 
-        default T typeParameters( NodeList<TypeParameter> astTypeParams ){
+        default _HTP typeParameters(NodeList<TypeParameter> astTypeParams ){
             _member _m = (_member) this;
             ((NodeWithTypeParameters)_m.ast()).setTypeParameters(astTypeParams);            
-            return (T)this;
+            return (_HTP)this;
         }
 
-        default T removeTypeParameter( TypeParameter tp ){
+        default _HTP removeTypeParameter(TypeParameter tp ){
             _member _m = (_member) this;
             ((NodeWithTypeParameters)_m.ast()).getTypeParameters().remove(tp);   
-            return (T)this;            
+            return (_HTP)this;
         }
         
         /**
          * remove all typeParametersfrom the entity
          * @return 
          */
-        default T removeTypeParameters(){
+        default _HTP removeTypeParameters(){
             _member _m = (_member) this;
             ((NodeWithTypeParameters)_m.ast()).getTypeParameters().clear();   
-            return (T)this;
+            return (_HTP)this;
         }
 
         /** does this have non empty type parameters */

@@ -200,7 +200,7 @@ public class _batch {
         this.list(JAVA_FILES_ONLY).forEach(
             p-> {
                 try{
-                    _code _t = _java.of(p); 
+                    _code _t = _java.code(p);
                     _codeActionFn.accept(_t);
                     theCode.add(_t);
                 }catch(_draftException e){
@@ -230,7 +230,7 @@ public class _batch {
         this.list(JAVA_FILES_ONLY).forEach(
                 p-> {
                     try{
-                        _code _t = _java.of(p);
+                        _code _t = _java.code(p);
                         if( codeClass.isAssignableFrom(  _t.getClass() ) && _codeMatchFn.test( (_C)_t)){
                             _C _c = (_C)_t;
                             _codeActionFn.accept(_c);

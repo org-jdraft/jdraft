@@ -20,9 +20,9 @@ import java.util.stream.*;
  * {@link _packageInfo}, {@link _moduleInfo}
  *
  * @author Eric
- * @param <T>
+ * @param <_C> the code implementation type
  */
-public interface _code<T> extends _java {
+public interface _code<_C> extends _java {
 
     /**
      * @return the compilationUnit (NOTE: could be null for nested _types)
@@ -96,9 +96,9 @@ public interface _code<T> extends _java {
      * @param astBlockComment
      * @return the Comment a JavaDoc comment or BlockComment or null
      */
-    default T setHeaderComment(BlockComment astBlockComment) {
+    default _C setHeaderComment(BlockComment astBlockComment) {
         astCompilationUnit().setComment(astBlockComment);
-        return (T) this;
+        return (_C) this;
     }
 
     /**
@@ -107,7 +107,7 @@ public interface _code<T> extends _java {
      * @param commentLines the lines in the header comment
      * @return the modified T
      */
-    default T setHeaderComment(String... commentLines) {
+    default _C setHeaderComment(String... commentLines) {
         return setHeaderComment(Ast.blockComment(commentLines));
     }
 
@@ -130,9 +130,9 @@ public interface _code<T> extends _java {
      * @param _importMatchFn filter for deciding which imports to removeIn
      * @return the modified TYPE
      */
-    default T removeImports(Predicate<_import> _importMatchFn) {
+    default _C removeImports(Predicate<_import> _importMatchFn) {
         getImports().remove(_importMatchFn);
-        return (T) this;
+        return (_C) this;
     }
 
     /**
@@ -141,9 +141,9 @@ public interface _code<T> extends _java {
      * @param clazzes
      * @return
      */
-    default T removeImports(Class... clazzes) {
+    default _C removeImports(Class... clazzes) {
         _imports.of(astCompilationUnit()).remove(clazzes);
-        return (T) this;
+        return (_C) this;
     }
 
     /**
@@ -151,9 +151,9 @@ public interface _code<T> extends _java {
      * @param toRemove
      * @return
      */
-    default T removeImports(_import... toRemove) {
+    default _C removeImports(_import... toRemove) {
         _imports.of(astCompilationUnit()).remove(toRemove);
-        return (T) this;
+        return (_C) this;
     }
 
     /**
@@ -161,9 +161,9 @@ public interface _code<T> extends _java {
      * @param _typesToRemove
      * @return
      */
-    default T removeImports(_type... _typesToRemove) {
+    default _C removeImports(_type... _typesToRemove) {
         getImports().remove(_typesToRemove);
-        return (T) this;
+        return (_C) this;
     }
 
     /**
@@ -171,14 +171,14 @@ public interface _code<T> extends _java {
      * @param toRemove the ImportDeclarations to removeIn
      * @return the modified _type
      */
-    default T removeImports(ImportDeclaration... toRemove) {
+    default _C removeImports(ImportDeclaration... toRemove) {
         CompilationUnit cu = astCompilationUnit();
         if (cu != null) {
             for (int i = 0; i < toRemove.length; i++) {
                 cu.getImports().remove(toRemove[i]);
             }
         }
-        return (T) this;
+        return (_C) this;
     }
 
     /**
@@ -186,14 +186,14 @@ public interface _code<T> extends _java {
      * @param toRemove
      * @return
      */
-    default T removeImports(List<ImportDeclaration> toRemove) {
+    default _C removeImports(List<ImportDeclaration> toRemove) {
         CompilationUnit cu = astCompilationUnit();
         if (cu != null) {
             for (int i = 0; i < toRemove.size(); i++) {
                 cu.getImports().remove(toRemove.get(i));
             }
         }
-        return (T) this;
+        return (_C) this;
     }
 
     /**
@@ -203,9 +203,9 @@ public interface _code<T> extends _java {
      * @param _importActionFn function to apply to the imports
      * @return the T
      */
-    default T forImports(Consumer<_import> _importActionFn) {
+    default _C forImports(Consumer<_import> _importActionFn) {
         getImports().forEach(_importActionFn);
-        return (T) this;
+        return (_C) this;
     }
 
     /**
@@ -214,11 +214,11 @@ public interface _code<T> extends _java {
      *
      * @param _importMatchFn selects the Imports to act on
      * @param _importActionFn function to apply to the imports
-     * @return the T
+     * @return the _C
      */
-    default T forImports(Predicate<_import> _importMatchFn, Consumer<_import> _importActionFn) {
+    default _C forImports(Predicate<_import> _importMatchFn, Consumer<_import> _importActionFn) {
         getImports().forEach(_importMatchFn, _importActionFn);
-        return (T) this;
+        return (_C) this;
     }
 
     /**
@@ -317,7 +317,7 @@ public interface _code<T> extends _java {
      * @param wildcardStaticImports a list of classes that will WildcardImports
      * @return the T
      */
-    default T importStatic(Class... wildcardStaticImports) {
+    default _C importStatic(Class... wildcardStaticImports) {
         CompilationUnit cu = astCompilationUnit();
         if (cu != null) {
             Arrays.stream(wildcardStaticImports).forEach(i -> {
@@ -327,7 +327,7 @@ public interface _code<T> extends _java {
                 cu.addImport(id);
             });
         }
-        return (T) this;
+        return (_C) this;
     }
 
     /**
@@ -335,7 +335,7 @@ public interface _code<T> extends _java {
      * @param staticWildcardImports
      * @return
      */
-    default T importStatic(String... staticWildcardImports) {
+    default _C importStatic(String... staticWildcardImports) {
         CompilationUnit cu = astCompilationUnit();
         if (cu != null) {
             Arrays.stream(staticWildcardImports).forEach(i -> {
@@ -345,7 +345,7 @@ public interface _code<T> extends _java {
                 cu.addImport(id);
             });
         }
-        return (T) this;
+        return (_C) this;
     }
 
     /**
@@ -354,14 +354,14 @@ public interface _code<T> extends _java {
      * @param wildcardTypeStaticImport
      * @return
      */
-    default T importStatic(_type... wildcardTypeStaticImport) {
+    default _C importStatic(_type... wildcardTypeStaticImport) {
         CompilationUnit cu = astCompilationUnit();
         if (cu != null) {
             Arrays.stream(wildcardTypeStaticImport).forEach(i -> {
                 cu.addImport(new ImportDeclaration(i.getFullName(), true, false));
             });
         }
-        return (T) this;
+        return (_C) this;
     }
 
     /**
@@ -369,9 +369,9 @@ public interface _code<T> extends _java {
      * @param _ts
      * @return
      */
-    default T imports(_type... _ts) {
+    default _C imports(_type... _ts) {
         Arrays.stream(_ts).forEach(_t -> imports(_t.getFullName()));
-        return (T) this;
+        return (_C) this;
     }
 
     /**
@@ -379,13 +379,13 @@ public interface _code<T> extends _java {
      * @param _is
      * @return 
      */
-    default T imports( _import..._is){
+    default _C imports(_import..._is){
         CompilationUnit cu = astCompilationUnit();
         if (cu != null) {
             Arrays.stream(_is).forEach(i -> cu.addImport(i.astId));
-            return (T) this;
+            return (_C) this;
         }
-        return (T) this;
+        return (_C) this;
     }
     
     /**
@@ -394,7 +394,7 @@ public interface _code<T> extends _java {
      * @param singleClass
      * @return the modified compilationUnit
      */
-    default T imports(Class singleClass) {
+    default _C imports(Class singleClass) {
         return imports(new Class[]{singleClass});
     }
 
@@ -404,7 +404,7 @@ public interface _code<T> extends _java {
      * @param classesToImport
      * @return
      */
-    default T imports(Class... classesToImport) {
+    default _C imports(Class... classesToImport) {
         CompilationUnit cu = astCompilationUnit();
         if (cu != null) {
             for (int i = 0; i < classesToImport.length; i++) {
@@ -430,7 +430,7 @@ public interface _code<T> extends _java {
                     }
                 }                
             }            
-            return (T) this;
+            return (_C) this;
         }
         throw new _draftException("No AST CompilationUnit to add imports");
     }
@@ -441,11 +441,11 @@ public interface _code<T> extends _java {
      * @param astImportDecls
      * @return
      */
-    default T imports(ImportDeclaration... astImportDecls) {
+    default _C imports(ImportDeclaration... astImportDecls) {
         CompilationUnit cu = astCompilationUnit();
         if (cu != null) {
             Arrays.stream(astImportDecls).forEach(c -> cu.addImport(c));
-            return (T) this;
+            return (_C) this;
         }
         throw new _draftException("No AST CompilationUnit of class to add imports");
     }
@@ -455,7 +455,7 @@ public interface _code<T> extends _java {
      * @param anImport
      * @return the modified T
      */
-    default T imports(String anImport) {
+    default _C imports(String anImport) {
         return imports(new String[]{anImport});
     }
 
@@ -464,11 +464,11 @@ public interface _code<T> extends _java {
      * @param importStatements a list of String representing discrete import statements
      * @return the modified T
      */
-    default T imports(String... importStatements) {
+    default _C imports(String... importStatements) {
         CompilationUnit cu = astCompilationUnit();
         if (cu != null) {
             Arrays.stream(importStatements).forEach(c -> cu.addImport(Ast.importDeclaration(c)));
-            return (T) this;
+            return (_C) this;
         }
         throw new _draftException("No AST CompilationUnit of to add imports");
     }

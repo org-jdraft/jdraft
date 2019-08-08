@@ -28,10 +28,10 @@ import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
  * (available via reflection at runtime)
  *
  * @param <N> the node type (i.e. {@link com.github.javaparser.ast.expr.AnnotationExpr})
- * @param <T> the draft type (i.e. {@link _anno})
+ * @param <_M> the draft type (i.e. {@link _anno})
  */
-public interface _member<N extends Node, T extends _node & _named & _anno._hasAnnos & _javadoc._hasJavadoc> 
-        extends _node<N, T>, _named<T>, _anno._hasAnnos<T>, _javadoc._hasJavadoc<T> {
+public interface _member<N extends Node, _M extends _node & _named & _anno._hasAnnos & _javadoc._hasJavadoc>
+        extends _node<N, _M>, _named<_M>, _anno._hasAnnos<_M>, _javadoc._hasJavadoc<_M> {
 
     @Override
     default _javadoc getJavadoc() {
@@ -39,9 +39,9 @@ public interface _member<N extends Node, T extends _node & _named & _anno._hasAn
     }
 
     @Override
-    default T removeJavadoc() {
+    default _M removeJavadoc() {
         ((NodeWithJavadoc) this.ast()).removeJavaDocComment();
-        return (T) this;
+        return (_M) this;
     }
 
     @Override
@@ -50,15 +50,15 @@ public interface _member<N extends Node, T extends _node & _named & _anno._hasAn
     }
 
     @Override
-    default T javadoc(String... content) {
+    default _M javadoc(String... content) {
         ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
-        return (T) this;
+        return (_M) this;
     }
 
     @Override
-    default T javadoc(JavadocComment astJavadocComment) {
+    default _M javadoc(JavadocComment astJavadocComment) {
         ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
-        return (T) this;
+        return (_M) this;
     }
     
 }

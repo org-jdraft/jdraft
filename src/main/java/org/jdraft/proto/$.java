@@ -219,6 +219,10 @@ public final class $ {
         return $method.any();
     }
 
+    public static $method method(String methodPrototype){
+        return $method.of(methodPrototype);
+    }
+
     public static $method method(String...ms){
         return $method.of(ms);
     }

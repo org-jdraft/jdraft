@@ -185,9 +185,9 @@ public final class _staticBlock
     /**
      * {@_type}s that may contain one or more static initializer blocks
      * @author Eric
-     * @param <T>
+     * @param <_HSB>
      */
-    public interface _hasStaticBlocks<T extends _hasStaticBlocks & _type>
+    public interface _hasStaticBlocks<_HSB extends _hasStaticBlocks & _type>
             extends _java {
 
         /** 
@@ -238,7 +238,7 @@ public final class _staticBlock
          * @param command
          * @return 
          */
-        default T staticBlock( Expr.Command command ){
+        default _HSB staticBlock(Expr.Command command ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
             return staticBlock( Stmt.block(ste));
         }
@@ -248,9 +248,9 @@ public final class _staticBlock
          * @param _staticBlockAction action to take on static blocks
          * @return the modified T
          */
-        default T forStaticBlocks( Consumer<_staticBlock> _staticBlockAction ){
+        default _HSB forStaticBlocks(Consumer<_staticBlock> _staticBlockAction ){
             listStaticBlocks().forEach(_staticBlockAction );
-            return (T)this;
+            return (_HSB)this;
         }
 
         /**
@@ -259,9 +259,9 @@ public final class _staticBlock
          * @param _staticBlockAction the action to take on matching _staticBlocks
          * @return the modified T
          */
-        default T forStaticBlocks(Predicate<_staticBlock> _staticBlockMatchFn, Consumer<_staticBlock> _staticBlockAction ){
+        default _HSB forStaticBlocks(Predicate<_staticBlock> _staticBlockMatchFn, Consumer<_staticBlock> _staticBlockAction ){
             listStaticBlocks(_staticBlockMatchFn).forEach(_staticBlockAction );
-            return (T)this;
+            return (_HSB)this;
         }
 
         /**
@@ -270,7 +270,7 @@ public final class _staticBlock
          * @param <A> the command type
          * @return the modified T
          */
-        default <A extends Object> T staticBlock( Consumer<A> command ){
+        default <A extends Object> _HSB staticBlock(Consumer<A> command ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
             return staticBlock( Stmt.block(ste));
         }
@@ -282,7 +282,7 @@ public final class _staticBlock
          * @param <B>
          * @return the modified T
          */
-        default <A extends Object, B extends Object> T staticBlock( BiConsumer<A, B> command ){
+        default <A extends Object, B extends Object> _HSB staticBlock(BiConsumer<A, B> command ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
             return staticBlock( Stmt.block(ste));
         }
@@ -295,7 +295,7 @@ public final class _staticBlock
          * @param command the lambda command body (to get the source of the Static Block)         
          * @return the modified T
          */
-        default <A extends Object, B extends Object, C extends Object> T staticBlock( Expr.TriConsumer<A, B, C> command ){
+        default <A extends Object, B extends Object, C extends Object> _HSB staticBlock(Expr.TriConsumer<A, B, C> command ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
             return staticBlock( Stmt.block(ste));
         }
@@ -309,7 +309,7 @@ public final class _staticBlock
          * @param command the lambda command body (to get the source of the Static Block)         
          * @return the modified T
          */
-        default <A extends Object, B extends Object, C extends Object, D extends Object> T staticBlock( Expr.QuadConsumer<A, B, C, D> command ){
+        default <A extends Object, B extends Object, C extends Object, D extends Object> _HSB staticBlock(Expr.QuadConsumer<A, B, C, D> command ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
             return staticBlock( Stmt.block(ste));
         }
@@ -318,24 +318,24 @@ public final class _staticBlock
             return ((TypeDeclaration)((_type)this).ast()).stream().anyMatch( m -> m instanceof InitializerDeclaration );
         }
 
-        default T staticBlock(BlockStmt block){
+        default _HSB staticBlock(BlockStmt block){
             BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addStaticInitializer();
             bs.setStatements( block.getStatements());
-            return (T)this;
+            return (_HSB)this;
         }
 
-        default T staticBlock(String... content){
+        default _HSB staticBlock(String... content){
             //reserve the static initializer on the _type            
             BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addStaticInitializer();
 
             bs.setStatements( Ast.blockStmt( content ).getStatements());
-            return (T)this;
+            return (_HSB)this;
         }
 
-        default T staticBlock( _staticBlock sb){
+        default _HSB staticBlock(_staticBlock sb){
              BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addStaticInitializer();
              bs.setStatements(sb.astStaticInit.getBody().getStatements());
-             return (T)this;
+             return (_HSB)this;
         }
         
         /** 
@@ -343,10 +343,10 @@ public final class _staticBlock
          * @param _sb the staticBlock
          * @return the modified T
          */
-        default T removeStaticBlock( _staticBlock _sb ){
+        default _HSB removeStaticBlock(_staticBlock _sb ){
             this.listStaticBlocks(sb -> sb.equals(_sb))
                 .forEach(s -> s.ast().removeForced() );        
-            return (T)this;
+            return (_HSB)this;
         }
 
         /** 
@@ -354,7 +354,7 @@ public final class _staticBlock
          * @param astInitializerDeclaration
          * @return the modified T
          */
-        default T removeStaticBlock( InitializerDeclaration astInitializerDeclaration ){
+        default _HSB removeStaticBlock(InitializerDeclaration astInitializerDeclaration ){
             return removeStaticBlock( _staticBlock.of(astInitializerDeclaration));        
         }        
     }    

@@ -357,9 +357,9 @@ public final class _throws
      * {@link _constructor}
      *
      * @author Eric
-     * @param <T> the hasThrows container {@link _method} {@link _constructor}
+     * @param <_HT> the hasThrows container {@link _method} {@link _constructor}
      */
-    public interface _hasThrows<T extends _hasThrows> extends _java {
+    public interface _hasThrows<_HT extends _hasThrows> extends _java {
 
         _throws getThrows();
 
@@ -367,29 +367,29 @@ public final class _throws
             return !getThrows().isEmpty();
         }
         
-        default T addThrows(String... throwExceptions) {
+        default _HT addThrows(String... throwExceptions) {
             Arrays.stream(throwExceptions).forEach(t -> addThrows(t));
-            return (T)this;
+            return (_HT)this;
         }
         
-        default T addThrows(String throwException) {
+        default _HT addThrows(String throwException) {
             getThrows().astNodeWithThrows.addThrownException((ReferenceType) Ast.typeRef(throwException));
-            return (T)this;
+            return (_HT)this;
         }    
 
-        default T addThrows(Class<? extends Throwable>... throwExceptions) {
+        default _HT addThrows(Class<? extends Throwable>... throwExceptions) {
             Arrays.stream(throwExceptions).forEach(t -> addThrows(t));
-            return (T)this;
+            return (_HT)this;
         }
     
-        default T addThrows(Class<? extends Throwable> throwException) {
+        default _HT addThrows(Class<? extends Throwable> throwException) {
             getThrows().astNodeWithThrows.addThrownException((ReferenceType) Ast.typeRef(throwException));
-            return (T)this;
+            return (_HT)this;
         }
         
-        default T setThrows( NodeList<ReferenceType> thrws ){
+        default _HT setThrows(NodeList<ReferenceType> thrws ){
             getThrows().astNodeWithThrows.setThrownExceptions(thrws);
-            return (T)this;
+            return (_HT)this;
         }
     
         default boolean hasThrow(Class<? extends Throwable> clazz) {
@@ -405,15 +405,15 @@ public final class _throws
             return this.getThrows().has(rt);
         }
         
-        default T removeThrow( Class<? extends Throwable> thrownClass ){
+        default _HT removeThrow(Class<? extends Throwable> thrownClass ){
             getThrows().list( t -> t.asString().equals( thrownClass.getCanonicalName()) || 
                     t.asString().equals( thrownClass.getSimpleName()) ).forEach( t -> t.remove() );
-            return (T)this;
+            return (_HT)this;
         }
         
-        default T removeThrow( Predicate<ReferenceType> throwPredicate ){
+        default _HT removeThrow(Predicate<ReferenceType> throwPredicate ){
             getThrows().astNodeWithThrows.getThrownExceptions().removeIf(throwPredicate);
-            return (T)this;
+            return (_HT)this;
         }
     }
 }

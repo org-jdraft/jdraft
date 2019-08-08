@@ -305,7 +305,7 @@ public interface _java {
      * @param resolver
      * @return
      */
-    static <T extends _type> T type( Class clazz, _in._resolver resolver ){
+    static <_T extends _type> _T type(Class clazz, _in._resolver resolver ){
         Node n = Ast.type( clazz, resolver );
         TypeDeclaration td = null;
         if( n instanceof CompilationUnit) { //top level TYPE
@@ -321,13 +321,13 @@ public interface _java {
         if( td instanceof ClassOrInterfaceDeclaration ){
             ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)td;
             if( coid.isInterface() ){
-                return (T)_macro.to(clazz, _interface.of(coid));
+                return (_T)_macro.to(clazz, _interface.of(coid));
             }
-            return (T)_macro.to(clazz,  _class.of(coid) );
+            return (_T)_macro.to(clazz,  _class.of(coid) );
         }else if( td instanceof EnumDeclaration){
-            return (T)_macro.to(clazz, _enum.of( (EnumDeclaration)td));
+            return (_T)_macro.to(clazz, _enum.of( (EnumDeclaration)td));
         }
-        return (T)_macro.to(clazz, _annotation.of( (AnnotationDeclaration)td));
+        return (_T)_macro.to(clazz, _annotation.of( (AnnotationDeclaration)td));
     }
     
     /**
@@ -425,7 +425,7 @@ public interface _java {
      * @param code the java source code representation
      * @return the node implementation of the code
      */
-    static Node code(Class nodeClass, String... code) {
+    static Node node(Class nodeClass, String... code) {
         
         if (!_java.class.isAssignableFrom(nodeClass)) {
             return Ast.nodeOf(nodeClass, code);
@@ -496,97 +496,97 @@ public interface _java {
      * {@link _typeRef}
      * </PRE>
      *
-     * @param node the ast node
+     * @param astNode the ast node
      * @return the _model entity
      */
-    static _java code(Node node) {
-        if (node instanceof ImportDeclaration ){
-            return _import.of((ImportDeclaration) node);
+    static _java of(Node astNode) {
+        if (astNode instanceof ImportDeclaration ){
+            return _import.of((ImportDeclaration) astNode);
         }
-        if (node instanceof AnnotationExpr) {
-            return _anno.of((AnnotationExpr) node);
+        if (astNode instanceof AnnotationExpr) {
+            return _anno.of((AnnotationExpr) astNode);
         }        
-        if (node instanceof AnnotationDeclaration) {
-            return _annotation.of((AnnotationDeclaration) node);
+        if (astNode instanceof AnnotationDeclaration) {
+            return _annotation.of((AnnotationDeclaration) astNode);
         }
-        if (node instanceof AnnotationMemberDeclaration) {
-            return _annotation._element.of((AnnotationMemberDeclaration) node);
+        if (astNode instanceof AnnotationMemberDeclaration) {
+            return _annotation._element.of((AnnotationMemberDeclaration) astNode);
         }
-        if (node instanceof ClassOrInterfaceDeclaration) {
-            ClassOrInterfaceDeclaration cois = (ClassOrInterfaceDeclaration) node;
+        if (astNode instanceof ClassOrInterfaceDeclaration) {
+            ClassOrInterfaceDeclaration cois = (ClassOrInterfaceDeclaration) astNode;
             if (cois.isInterface()) {
                 return _interface.of(cois);
             }
             return _class.of(cois);
         }
-        if (node instanceof ConstructorDeclaration) {
-            return _constructor.of((ConstructorDeclaration) node);
+        if (astNode instanceof ConstructorDeclaration) {
+            return _constructor.of((ConstructorDeclaration) astNode);
         }
-        if (node instanceof EnumDeclaration) {
-            return _enum.of((EnumDeclaration) node);
+        if (astNode instanceof EnumDeclaration) {
+            return _enum.of((EnumDeclaration) astNode);
         }
-        if (node instanceof EnumConstantDeclaration) {
-            return _enum._constant.of((EnumConstantDeclaration) node);
+        if (astNode instanceof EnumConstantDeclaration) {
+            return _enum._constant.of((EnumConstantDeclaration) astNode);
         }
-        if (node instanceof LambdaExpr) {
-            return _lambda.of((LambdaExpr) node);
+        if (astNode instanceof LambdaExpr) {
+            return _lambda.of((LambdaExpr) astNode);
         }
-        if (node instanceof VariableDeclarator) {
-            VariableDeclarator vd = (VariableDeclarator) node;
+        if (astNode instanceof VariableDeclarator) {
+            VariableDeclarator vd = (VariableDeclarator) astNode;
             return _field.of(vd);
         }
-        if (node instanceof FieldDeclaration) {
-            FieldDeclaration fd = (FieldDeclaration) node;
+        if (astNode instanceof FieldDeclaration) {
+            FieldDeclaration fd = (FieldDeclaration) astNode;
             if (fd.getVariables().size() > 1) {
                 throw new _draftException(
                         "Ambiguious node for FieldDeclaration " + fd + "pass in VariableDeclarator instead " + fd);
             }
             return _field.of(fd.getVariable(0));
         }
-        if (node instanceof BlockStmt) {
-            if (node.getParentNode().isPresent()) {
-                if (node.getParentNode().get() instanceof NodeWithBlockStmt) {
-                    return _body.of((NodeWithBlockStmt) node.getParentNode().get());
+        if (astNode instanceof BlockStmt) {
+            if (astNode.getParentNode().isPresent()) {
+                if (astNode.getParentNode().get() instanceof NodeWithBlockStmt) {
+                    return _body.of((NodeWithBlockStmt) astNode.getParentNode().get());
                 }
-                if (node.getParentNode().get() instanceof NodeWithOptionalBlockStmt) {
-                    return _body.of((NodeWithOptionalBlockStmt) node.getParentNode().get());
+                if (astNode.getParentNode().get() instanceof NodeWithOptionalBlockStmt) {
+                    return _body.of((NodeWithOptionalBlockStmt) astNode.getParentNode().get());
                 }
             }
             throw new _draftException("Unable to return draft _java node for BlockStmt without NodeWithBlockStmt parent");
         }
-        if (node instanceof JavadocComment) {
-            JavadocComment jdc = (JavadocComment) node;
+        if (astNode instanceof JavadocComment) {
+            JavadocComment jdc = (JavadocComment) astNode;
             if (jdc.getParentNode().isPresent()) {
                 return _javadoc.of((NodeWithJavadoc) jdc.getParentNode().get());
             }
             throw new _draftException("No Parent provided for JavadocComment");
         }
-        if (node instanceof MethodDeclaration) {
-            MethodDeclaration md = (MethodDeclaration) node;
+        if (astNode instanceof MethodDeclaration) {
+            MethodDeclaration md = (MethodDeclaration) astNode;
             return _method.of(md);
         }
-        if (node instanceof Parameter) {
-            return _parameter.of((Parameter) node);
+        if (astNode instanceof Parameter) {
+            return _parameter.of((Parameter) astNode);
         }
-        if (node instanceof InitializerDeclaration) {
-            InitializerDeclaration id = (InitializerDeclaration) node;
+        if (astNode instanceof InitializerDeclaration) {
+            InitializerDeclaration id = (InitializerDeclaration) astNode;
             return _staticBlock.of(id);
         }
-        if (node instanceof ReceiverParameter) {
-            ReceiverParameter rp = (ReceiverParameter) node;
+        if (astNode instanceof ReceiverParameter) {
+            ReceiverParameter rp = (ReceiverParameter) astNode;
             return _receiverParameter.of(rp);
         }
-        if (node instanceof TypeParameter) {
-            TypeParameter tp = (TypeParameter) node;
+        if (astNode instanceof TypeParameter) {
+            TypeParameter tp = (TypeParameter) astNode;
             return _typeParameter.of(tp);
         }
-        if (node instanceof Type) {
-            return _typeRef.of((Type) node);
+        if (astNode instanceof Type) {
+            return _typeRef.of((Type) astNode);
         }
-        if (node instanceof CompilationUnit) {
-            return code((CompilationUnit) node);
+        if (astNode instanceof CompilationUnit) {
+            return code((CompilationUnit) astNode);
         }
-        throw new _draftException("Unable to create _java entity from " + node);
+        throw new _draftException("Unable to create _java entity from " + astNode);
     }
 
     /**
@@ -704,7 +704,7 @@ public interface _java {
             return null;
         }
 
-        public static <N extends _node> Component of(Class<N> nodeClass) {
+        public static <_N extends _node> Component of(Class<_N> nodeClass) {
             Optional<Component> op = Arrays.stream(Component.values()).filter(p -> p.implementationClass.equals(nodeClass)).findFirst();
             if (op.isPresent()) {
                 return op.get();

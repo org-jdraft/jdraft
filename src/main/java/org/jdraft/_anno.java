@@ -706,9 +706,9 @@ public final class _anno
      *
      * @author Eric
      *
-     * @param <T> the container TYPE
+     * @param <_HA> the container type (that has Annos)
      */
-    public interface _hasAnnos<T extends _hasAnnos>
+    public interface _hasAnnos<_HA extends _hasAnnos>
         extends _java {
         
         /**
@@ -730,9 +730,9 @@ public final class _anno
          * @param _as
          * @return
          */
-        default T replace( _annos _as ) {
+        default _HA replace(_annos _as ) {
             this.getAnnos().clear().add( _as.list().toArray( new _anno[ 0 ] ) );
-            return (T)this;
+            return (_HA)this;
         }
 
         /**
@@ -747,9 +747,9 @@ public final class _anno
          * @param _annoActionFn
          * @return the modified T
          */
-        default T forAnnos( Consumer<_anno> _annoActionFn ){
+        default _HA forAnnos(Consumer<_anno> _annoActionFn ){
             getAnnos().forEach(_annoActionFn);
-            return (T) this;
+            return (_HA) this;
         }
 
         /**
@@ -758,9 +758,9 @@ public final class _anno
          * @param _annoActionFn
          * @return 
          */
-        default T forAnnos( Predicate<_anno> _annoMatchFn, Consumer<_anno> _annoActionFn ){
+        default _HA forAnnos(Predicate<_anno> _annoMatchFn, Consumer<_anno> _annoActionFn ){
             getAnnos().forEach(_annoMatchFn, _annoActionFn);
-            return (T) this;
+            return (_HA) this;
         }
 
         /**
@@ -831,9 +831,9 @@ public final class _anno
             return getAnnos().list( annotationClass );
         }
 
-        default T annotate( List<AnnotationExpr> astAnnoList ){
+        default _HA annotate(List<AnnotationExpr> astAnnoList ){
             astAnnoList.forEach( a -> getAnnos().add(a) );
-            return (T)this;
+            return (_HA)this;
         }
 
         /**
@@ -842,9 +842,9 @@ public final class _anno
          * @param _anns ANNOTATIONS to to
          * @return the annotated entity
          */
-        default T annotate( _anno... _anns ) {
+        default _HA annotate(_anno... _anns ) {
             getAnnos().add(_anns );
-            return (T)this;
+            return (_HA)this;
         }
 
         /**
@@ -853,9 +853,9 @@ public final class _anno
          * @param annoClasses
          * @return
          */
-        default T annotate( Class<? extends Annotation>... annoClasses ) {
+        default _HA annotate(Class<? extends Annotation>... annoClasses ) {
             getAnnos().add(annoClasses );
-            return (T)this;
+            return (_HA)this;
         }
 
         /**
@@ -864,9 +864,9 @@ public final class _anno
          * @param annotations
          * @return
          */
-        default T annotate( String... annotations ) {
+        default _HA annotate(String... annotations ) {
             getAnnos().add( annotations );
-            return (T)this;
+            return (_HA)this;
         }
 
         /**
@@ -874,9 +874,9 @@ public final class _anno
          * @param astAnn the annotation 
          * @return 
          */
-        default T removeAnno( AnnotationExpr astAnn ){
+        default _HA removeAnno(AnnotationExpr astAnn ){
             getAnnos().remove(astAnn);
-            return (T)this;
+            return (_HA)this;
         }
         
         /**
@@ -884,7 +884,7 @@ public final class _anno
          * @param _a
          * @return the modified T
          */
-        default T removeAnno( _anno _a ){
+        default _HA removeAnno(_anno _a ){
             return removeAnno( _a.ast() );            
         }
 
@@ -894,9 +894,9 @@ public final class _anno
          * @param _annoMatchFn
          * @return
          */
-        default T removeAnnos( Predicate<_anno> _annoMatchFn ) {
+        default _HA removeAnnos(Predicate<_anno> _annoMatchFn ) {
             getAnnos().remove( _annoMatchFn );
-            return (T)this;
+            return (_HA)this;
         }
 
         /**
@@ -913,9 +913,9 @@ public final class _anno
          * @param annotationClass
          * @return
          */
-        default T removeAnnos( Class<? extends Annotation> annotationClass ) {
+        default _HA removeAnnos(Class<? extends Annotation> annotationClass ) {
             getAnnos().remove( annotationClass );
-            return (T)this;
+            return (_HA)this;
         }
 
         /**
@@ -924,9 +924,9 @@ public final class _anno
          * @param annoNames
          * @return
          */
-        default T removeAnnos( String... annoNames ) {
+        default _HA removeAnnos(String... annoNames ) {
             getAnnos().remove( annoNames );
-            return (T)this;
+            return (_HA)this;
         }
 
         /**
@@ -935,9 +935,9 @@ public final class _anno
          * @param _annosToRemove
          * @return
          */
-        default T removeAnnos( List<_anno> _annosToRemove ) {
+        default _HA removeAnnos(List<_anno> _annosToRemove ) {
             getAnnos().remove(_annosToRemove.toArray( new _anno[ 0 ] ) );
-            return (T)this;
+            return (_HA)this;
         }
     }
     
@@ -984,7 +984,7 @@ public final class _anno
      *
      */
     public static class _annos
-        implements _java { //_propertyList<NodeWithAnnotations, AnnotationExpr, _anno, _annos> {
+        implements _java {
 
         /** A reference to the container entity that is being annotated*/
         public final NodeWithAnnotations astAnnNode;

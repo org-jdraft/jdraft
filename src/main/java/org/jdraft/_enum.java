@@ -192,27 +192,27 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
 
     /**
      * lists all of the members that are of a specific member class
-     * @param <M> the specific member class to find
+     * @param <_M> the specific member class to find
      * @param memberClass the member class
      * @return the list of members
      */
     @Override
-    public <M extends _member> List<M> listMembers( Class<M> memberClass ){
-        List<M> found = new ArrayList<>();
+    public <_M extends _member> List<_M> listMembers(Class<_M> memberClass ){
+        List<_M> found = new ArrayList<>();
         listMembers().stream().filter(m -> memberClass.isAssignableFrom(m.getClass()))
-                .forEach(m -> found.add( (M)m) );
+                .forEach(m -> found.add( (_M)m) );
         return found;
     }
     
     /**
      * lists all of the members that are of a specific member class
-     * @param <M> the specific member class to find
+     * @param <_M> the specific member class to find
      * @param memberClass the member class
      * @param _memberMatchFn a matching function for selecting which members
      * @return the list of members
      */
     @Override
-    public <M extends _member> List<M> listMembers( Class<M> memberClass, Predicate<M> _memberMatchFn){
+    public <_M extends _member> List<_M> listMembers(Class<_M> memberClass, Predicate<_M> _memberMatchFn){
         return listMembers(memberClass).stream().filter(_memberMatchFn).collect(Collectors.toList());        
     }
     
@@ -226,8 +226,8 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
     }
     
     @Override
-    public <M extends _member> M getMember(Class<M> memberClass ){
-        List<M> mems = listMembers(memberClass);
+    public <_M extends _member> _M getMember(Class<_M> memberClass ){
+        List<_M> mems = listMembers(memberClass);
         if( mems.isEmpty()){
             return null;
         }
@@ -235,8 +235,8 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
     }
     
     @Override
-    public <M extends _member> M getMember(Class<M> memberClass, Predicate<M> memberMatchFn){
-        List<M> mems = listMembers(memberClass, memberMatchFn);
+    public <_M extends _member> _M getMember(Class<_M> memberClass, Predicate<_M> memberMatchFn){
+        List<_M> mems = listMembers(memberClass, memberMatchFn);
         if( mems.isEmpty()){
             return null;
         }
@@ -244,8 +244,8 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
     }
     
     @Override
-    public <M extends _member> M getMember(Class<M> memberClass, String memberName){
-        List<M> mems = listMembers(memberClass, m-> m.getName().equals(memberName));            
+    public <_M extends _member> _M getMember(Class<_M> memberClass, String memberName){
+        List<_M> mems = listMembers(memberClass, m-> m.getName().equals(memberName));
         if( mems.isEmpty()){
             return null;
         }
@@ -509,7 +509,6 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         forConstructors(c -> _mems.add(c));
         forConstants(c-> _mems.add(c));
         forNests(n -> _mems.add(n));
-        //forCompanionTypes(ct-> _mems.add(ct));
         return _mems;
     }
 
