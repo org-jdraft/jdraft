@@ -2,12 +2,51 @@ package org.jdraft;
 
 import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
+import org.jdraft.macro._dto;
+import org.jdraft.proto.$;
 
 
 public class walkTest extends TestCase {
+
+    /**
+     * Verify I can walk into a collection of _code or _type
+     * using the first()
+     *           list()
+     *           in()
+     */
+    public void testWalkCollections(){
+        //we create a collection (in this case a list) to verify we can use the
+        // list(), in(), and first()
+        List<_type> lts = new ArrayList<>();
+        lts.add( _class.of("C", new @_dto Object(){
+            int x, y;
+            String name;
+        }));
+
+        assertEquals( _walk.list(lts, _method.class ).size(), $.method().count(lts));
+        assertNull( _walk.first(lts, _field.class, f-> f.isFinal()));
+        assertNull( _walk.first(lts, _method.class, _method.IS_MAIN)); //find the first main method
+
+        _walk.in(lts.get(0), _method.class, m-> System.out.println( m));
+        _walk.in(lts, _method.class, m-> System.out.println( m) );
+        _walk.in(lts, _field.class, f-> System.out.println( f ));
+
+        assertEquals( _walk.list(lts, _field.class).size(), $.field().count(lts) );
+        assertEquals( _walk.list(lts, _method.class).size(), $.method().count(lts) );
+        assertEquals( _walk.list(lts, _constructor.class).size(), $.constructor().count(lts) );
+
+        //verify we can find the equals method
+        assertNotNull( $.method().$name("equals").firstIn(lts) );
+
+        assertNull( $.method(_method.IS_MAIN).firstIn(lts) ); //can't find a main method
+
+        //assertEquals( _walk.list(lts, _method.class).size(), $.staticBlock().count(lts) );
+    }
 
     public void testWalkPackageInfo(){
         _packageInfo _pi = _packageInfo.of("package aaaa.xxxx.gggg;", "import java.util.*;", "import java.net.URL;");

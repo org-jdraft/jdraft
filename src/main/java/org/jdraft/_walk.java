@@ -120,125 +120,226 @@ public enum _walk {
      * </PRE>
      */
     public static final Node.TreeTraversal DIRECT_CHILDREN = Node.TreeTraversal.DIRECT_CHILDREN;
-    
-    /**
-     * <PRE>
-     *             A
-     *           /  \
-     *          B    C
-     *         / \
-     *        D   E
-     * Parents:
-     *    from D: B, A
-     *    from E: B, A
-     *    from C: A
-     *    from B: A
-     * </PRE>
-     * @param astRootNode
-     * @param targetClass
-     * @param matchFn
-     * @param action
-     * @param <T>
-     * @param <N>
-     * @return
-     */
-    public static <T, N extends Node> N parents(
-            N astRootNode, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
-         return of( PARENTS, astRootNode, targetClass, matchFn, action );
-    }
+
+
 
     /**
-     * <PRE>
-     *             A
-     *           /  \
-     *          B    C
-     *         / \
-     *        D   E
-     * Direct Children
-     *     From A: B, C
-     *     From B: D, E
-     * </PRE>
-     *
-     * @param astRootNode
-     * @param targetClass
-     * @param matchFn
-     * @param action
-     * @param <T>
-     * @param <N>
-     * @return
-     */
-    public static <T, N extends Node> N directChildren(
-            N astRootNode, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
-        return of( DIRECT_CHILDREN, astRootNode, targetClass, matchFn, action );
-    }
-
-    /**
-     * <PRE>
-     *             A
-     *           /  \
-     *          B    C
-     *         / \
-     *        D   E
-     * Breadth-First (or Level Order) from A: A,B,C,D,E
-     * </PRE>
-     *
-     * @param astRootNode
-     * @param targetClass
-     * @param matchFn
-     * @param action
-     * @param <T>
-     * @param <N>
-     * @return
-     */
-    public static <T, N extends Node> N breadthFirst(
-            N astRootNode, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
-        return of( BREADTH_FIRST, astRootNode, targetClass, matchFn, action );
-    }
-
-    /**
-     * <PRE>
-     *             A
-     *           /  \
-     *          B    C
-     *         / \
-     *        D   E
-     * PostOrder ("leaves first", or children, then parents) from A: D,E,B,C,A
-     * </PRE>
-     *
-     * @param astRootNode
-     * @param targetClass
-     * @param matchFn
-     * @param action
-     * @param <T>
-     * @param <N>
-     * @return
-     */
-    public static <T, N extends Node> N postOrder(
-            N astRootNode, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
-        return of( POST_ORDER, astRootNode, targetClass, matchFn, action );
-    }
-
-    /**
+     * _walk the nodes within & collect all nodes that match all the predicate and return them in order
      * <PRE>
      *            (A)
      *           /  \
      *          B    C
      *         / \
      *        D   E
-     * Preorder (Parent, then children) from A: A,B,D,E,C
+     * Preorder (Parent, then children) from (A) : A,B,D,E,C
+     * </PRE>
+     * @param _j
+     * @param nodeMatchFn
+     * @param <_J>
+     * @return
+     */
+    public static <_J extends _java> List<Node> list(_J _j, Predicate<Node> nodeMatchFn ) {
+        List<Node> found = new ArrayList<>();
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel() ){
+                of(PRE_ORDER, ((_code) _j).astCompilationUnit(), Node.class, nodeMatchFn, f -> found.add(f));
+            }
+            else{
+                of(PRE_ORDER, ((_type) _j).ast(), Node.class, nodeMatchFn, f -> found.add(f));
+            }
+            return found;
+        }
+        of(PRE_ORDER, ((_node) _j).ast(), Node.class, nodeMatchFn, f -> found.add(f) );
+        return found;
+    }
+
+    /**
+     * Perform a preorder walk through the _model _m, returning a listing all instances of
+     * the targetClass found
+     * <PRE>
+     *            (A)
+     *           /  \
+     *          B    C
+     *         / \
+     *        D   E
+     * Preorder (Parent, then children) from (A) : A,B,D,E,C
      * </PRE>
      *
-     * @param astRootNode
-     * @param targetClass
-     * @param matchFn
-     * @param action
+     * @param _j the _model entity to search
+     * @param targetClass the target Class to search for (can be a Node class, a _model class)
+     * @param <T> the target TYPE
+     * @param <_J> the model entity (i.e. _class, _method, _constructor, _staticBlock)
+     * @return
+     */
+    public static <T, _J extends _java> List<T> list(_J _j, Class<T> targetClass ) {
+        List<T> found = new ArrayList<>();
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel() ){
+                of(PRE_ORDER, ((_code) _j).astCompilationUnit(), targetClass, t->true, f -> found.add(f));
+            }
+            else{
+                of(PRE_ORDER, ((_type) _j).ast(), targetClass, t->true, f -> found.add(f));
+            }
+            return (List<T>)found;
+        }
+        of(PRE_ORDER, ((_node) _j).ast(), targetClass, t->true, f -> found.add(f) );
+        return (List<T>)found;
+    }
+
+    /**
+     * Perform a preOrder walk through the astRootNode, returning a listing all instances of
+     * the targetClass found
+     * <PRE>
+     *            (A)
+     *           /  \
+     *          B    C
+     *         / \
+     *        D   E
+     * Preorder (Parent, then children) from (A) : A,B,D,E,C
+     * </PRE>
+     *
+     * @param astRootNode the _model entity to search
+     * @param targetClass the target Class to search for (can be a Node class, a _model class)
+     * @param <T> the target TYPE
+     * @param <N> the Ast Node (i.e. EnumDeclaration, MethodDeclaration, ConstructorDeclaration)
+     * @return the list of
+     */
+    public static <T, N extends Node> List<T> list(N astRootNode, Class<T> targetClass ) {
+        List<T> found = new ArrayList<>();
+        of( PRE_ORDER, astRootNode, targetClass, t->true, f -> found.add(f) );
+        return found;
+    }
+
+    /**
+     * Perform a preOrder walk through the astRootNode, returning a listing all instances of
+     * the targetClass found
+     * <PRE>
+     *            (A)
+     *           /  \
+     *          B    C
+     *         / \
+     *        D   E
+     * Preorder (Parent, then children) from A : A,B,D,E,C
+     * </PRE>
+     * @param _j the _model entity to search
+     * @param targetClass the target Class to search for (can be a Node class, a _model class)
+     * @param <T> the target TYPE
+     * @param <_J> the model entity (i.e. _class, _method, _constructor, _staticBlock)
+     * @param matchFn predicate for selecting nodes to collect
+     * @return the list of
+     */
+    public static <T, _J extends _java> List<T> list(
+            _J _j, Class<T> targetClass, Predicate<T> matchFn ) {
+
+        List<T> found = new ArrayList<>();
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel() ){
+                of(PRE_ORDER, ((_code) _j).astCompilationUnit(), targetClass, matchFn, f -> found.add( (T)f));
+            }
+            else{
+                of(PRE_ORDER, ((_type) _j).ast(), targetClass, matchFn, f -> found.add( (T)f));
+            }
+            return (List<T>)found;
+        }
+        of(PRE_ORDER, ((_node) _j).ast(), targetClass, matchFn, f -> found.add(f) );
+        return (List<T>)found;
+    }
+
+    /**
+     * Perform a PreOrder walk through the astRootNode, returning a listing all instances of
+     * the targetClass found that match the matchFn
+     * <PRE>
+     *            (A)
+     *           /  \
+     *          B    C
+     *         / \
+     *        D   E
+     * Preorder (Parent, then children) from (A) : A,B,D,E,C
+     * </PRE>
+     * @param astRootNode the Ast node to start walking
+     * @param targetClass the target Class to search for (can be a Node class, a _model class)
+     * @param matchFn the lambda for matching specific instances of the targetClass
+     * @param <T> the target TYPE
+     * @param <N> the Ast Root Node Type (i.e. EnumDeclaration, MethodDeclaration, ConstructorDeclaration)
+     * @return the list of
+     */
+    public static <T, N extends Node> List<T> list(
+            N astRootNode, Class<T> targetClass, Predicate<T> matchFn ) {
+
+        List<T> found = new ArrayList<>();
+        of( PRE_ORDER, astRootNode, targetClass, matchFn, f -> found.add(f) );
+        return found;
+    }
+
+    /**
+     * Starting at astRootNode walk the nodes using the walk traversal strategy provided
+     * @see #POST_ORDER
+     * @see #PRE_ORDER
+     * @see #BREADTH_FIRST
+     * @see #PARENTS
+     * @see #DIRECT_CHILDREN
+     *
+     * intercepting Nodes that implement the targetClass and collecting nodes that
+     * pass the matchFn in a List and returning the list.
+     *
+     * @param tt the walk traversal strategy for walking nodes in the AST
+     * @param astRootNode the starting node to start the walk
+     * @param targetClass the target classes to intercept
+     * @param matchFn function for selecting which nodes to accept and add to the list
      * @param <T>
      * @param <N>
      * @return
      */
-    public static <T, N extends Node> N preOrder(
-            N astRootNode, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
-        return of( PRE_ORDER, astRootNode, targetClass, matchFn, action );
+    public static <T, N extends Node> List<T> list(
+            Node.TreeTraversal tt, N astRootNode, Class<T> targetClass, Predicate<T> matchFn ) {
+
+        List<T> found = new ArrayList<>();
+        of( tt, astRootNode, targetClass, matchFn, f -> found.add(f) );
+        return found;
+    }
+
+    /**
+     *
+     * @param _sourceCode
+     * @param targetClass
+     * @param <T>
+     * @param <_C>
+     * @return
+     */
+    public static <T, _C extends _code> List<T> list(
+            Collection<_C> _sourceCode, Class<T> targetClass ) {
+        return list(_sourceCode, targetClass, t->true);
+    }
+
+    /**
+     * Go through a collection of _code looking for all instances of the targetClass that matches the matchFn
+     *
+     * @param _sourceCode
+     * @param targetClass
+     * @param matchFn
+     * @param <T>
+     * @return
+     */
+    public static <T, _C extends _code> List<T> list(
+            Collection<_C> _sourceCode, Class<T> targetClass, Predicate<T> matchFn ) {
+        return list(PRE_ORDER, _sourceCode, targetClass, matchFn);
+    }
+
+    /**
+     * Go through a collection of _code traversing using the tree traversal strategy provided
+     * looking for all instances of the targetClass that matches the matchFn
+     * @param tt
+     * @param _sourceCode
+     * @param targetClass
+     * @param matchFn
+     * @param <T>
+     * @return a list of all matching T within all the source code
+     */
+    public static <T, _C extends _code> List<T> list(
+            Node.TreeTraversal tt, Collection<_C> _sourceCode, Class<T> targetClass, Predicate<T> matchFn ) {
+        List<T> found = new ArrayList<>();
+        _sourceCode.stream().forEach( _sc -> of( tt, _sc.astCompilationUnit(), targetClass, matchFn, f-> found.add(f)));
+        return found;
     }
 
     /**
@@ -288,184 +389,6 @@ public enum _walk {
 
     /**
      * <PRE>
-     *             A
-     *           /  \
-     *          B    C
-     *         / \
-     *        D   E
-     * Parents:
-     *    from D: B, A
-     *    from E: B, A
-     *    from C: A
-     *    from B: A
-     * </PRE>
-     * @param _j
-     * @param targetClass
-     * @param matchFn
-     * @param action
-     * @param <T>
-     * @param <_J>
-     * @return
-     */
-    public static <T, _J extends _java> _J parents(
-            _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(PARENTS, ((_code) _j).astCompilationUnit(), targetClass, matchFn, action);
-                return _j;
-            }
-            else{
-                of(PARENTS, ((_type) _j).ast(), targetClass, matchFn, action);
-                return _j;
-            }
-        }
-        of(PARENTS, ((_node) _j).ast(), targetClass, matchFn, action );
-        return _j;
-    }
-
-    /**
-     * <PRE>
-     *            (A)
-     *           /  \
-     *         (B)   C
-     *         / \
-     *        D   E
-     * Direct Children
-     *     From (A): B, C
-     *     From (B): D, E
-     * </PRE>
-     * @param _j
-     * @param targetClass
-     * @param matchFn
-     * @param action
-     * @param <T>
-     * @param <_J>
-     * @return
-     */
-    public static <T, _J extends _java> _J directChildren(
-            _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
-        
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(DIRECT_CHILDREN, ((_code) _j).astCompilationUnit(), targetClass, matchFn, action);
-                return _j;
-            }
-            else{
-                of(DIRECT_CHILDREN, ((_type) _j).ast(), targetClass, matchFn, action);
-                return _j;
-            }
-        }
-        of(DIRECT_CHILDREN, ((_node) _j).ast(), targetClass, matchFn, action );
-        return _j;
-    }
-
-    /**
-     * <PRE>
-     *            (A)
-     *           /  \
-     *          B    C
-     *         / \
-     *        D   E
-     * Breadth-First (or Level Order) from (A): A,B,C,D,E
-     * </PRE>
-     *
-     * @param _j
-     * @param targetClass
-     * @param matchFn
-     * @param action
-     * @param <T>
-     * @param <_J>
-     * @return
-     */
-    public static <T, _J extends _java> _J breadthFirst(
-            _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
-        
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(BREADTH_FIRST, ((_code) _j).astCompilationUnit(), targetClass, matchFn, action);
-                return _j;
-            }
-            else{
-                of(BREADTH_FIRST, ((_type) _j).ast(), targetClass, matchFn, action);
-                return _j;
-            }
-        }
-        of(BREADTH_FIRST, ((_node) _j).ast(), targetClass, matchFn, action );
-        return _j;
-    }
-
-    /**
-     * <PRE>
-     *            (A)
-     *           /  \
-     *          B    C
-     *         / \
-     *        D   E
-     * PostOrder ("leaves first", or children, then parents) from (A) : D,E,B,C,A
-     * </PRE>
-     *
-     * @param _j
-     * @param targetClass
-     * @param matchFn
-     * @param action
-     * @param <T>
-     * @param <_J>
-     * @return
-     */
-    public static <T, _J extends _java> _J postOrder(
-            _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
-        
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(POST_ORDER, ((_code) _j).astCompilationUnit(), targetClass, matchFn, action);
-                return _j;
-            }
-            else{
-                of(POST_ORDER, ((_type) _j).ast(), targetClass, matchFn, action);
-                return _j;
-            }
-        }
-        of(POST_ORDER, ((_node) _j).ast(), targetClass, matchFn, action );
-        return _j;
-    }
-
-    /**
-     * <PRE>
-     *            (A)
-     *           /  \
-     *          B    C
-     *         / \
-     *        D   E
-     * Preorder (Parent, then children) from (A) : A,B,D,E,C
-     * </PRE>
-     *
-     * @param _j
-     * @param targetClass
-     * @param matchFn
-     * @param action
-     * @param <T>
-     * @param <_J>
-     * @return
-     */
-    public static <T, _J extends _java> _J preOrder(
-            _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
-        
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(PRE_ORDER, ((_code) _j).astCompilationUnit(), targetClass, matchFn, action);
-                return _j;
-            }
-            else{
-                of(PRE_ORDER, ((_type) _j).ast(), targetClass, matchFn, action);
-                return _j;
-            }
-        }
-        of(PRE_ORDER, ((_node) _j).ast(), targetClass, matchFn, action );
-        return _j;
-    }
-
-    /**
-     * <PRE>
      *            (A)
      *           /  \
      *          B    C
@@ -499,175 +422,15 @@ public enum _walk {
     }
 
     /**
-     * <PRE>
-     *             A
-     *           /  \
-     *          B    C
-     *         / \
-     *        D   E
-     * Parents:
-     *    from D: B, A
-     *    from E: B, A
-     *    from C: A
-     *    from B: A
-     * </PRE>
-     * @param _j
-     * @param targetClass
-     * @param action
-     * @param <T>
-     * @param <_J>
-     * @return
-     */
-    public static <T, _J extends _java> _J parents(
-            _J _j, Class<T> targetClass, Consumer<T> action ) {
-
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(PARENTS, ((_code) _j).astCompilationUnit(), targetClass, t->true, action);
-                return _j;
-            }
-            else{
-                of(PARENTS, ((_type) _j).ast(), targetClass, t->true, action);
-                return _j;
-            }
-        }
-        of(PARENTS, ((_node) _j).ast(), targetClass, t->true, action );
-        return _j;
-    }
-
-    /**
-     * <PRE>
-     *             A
-     *           /  \
-     *          B    C
-     *         / \
-     *        D   E
-     * Direct Children
-     *     From A: B, C
-     *     From B: D, E
-     * </PRE>
      *
-     * @param _j
+     * @param _sourceCode
      * @param targetClass
      * @param action
      * @param <T>
-     * @param <_J>
-     * @return
+     * @param <_C>
      */
-    public static <T, _J extends _java> _J directChildren(
-            _J _j, Class<T> targetClass, Consumer<T> action ) {
-        
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(DIRECT_CHILDREN, ((_code) _j).astCompilationUnit(), targetClass, t->true, action);
-                return _j;
-            }
-            else{
-                of(DIRECT_CHILDREN, ((_type) _j).ast(), targetClass, t->true, action);
-                return _j;
-            }
-        }
-        of(DIRECT_CHILDREN, ((_node) _j).ast(), targetClass, t->true, action );
-        return _j;
-    }
-
-    /**
-     * <PRE>
-     *            (A)
-     *           /  \
-     *          B    C
-     *         / \
-     *        D   E
-     * Breadth-First (or Level Order) from A: A,B,C,D,E
-     * </PRE>
-     * @param _j
-     * @param targetClass
-     * @param action
-     * @param <T>
-     * @param <_J>
-     * @return
-     */
-    public static <T, _J extends _java> _J breadthFirst(
-            _J _j, Class<T> targetClass, Consumer<T> action ) {
-        
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(BREADTH_FIRST, ((_code) _j).astCompilationUnit(), targetClass, t->true, action);
-                return _j;
-            }
-            else{
-                of(BREADTH_FIRST, ((_type) _j).ast(), targetClass, t->true, action);
-                return _j;
-            }
-        }
-        of(BREADTH_FIRST, ((_node) _j).ast(), targetClass, t->true, action );
-        return _j;
-    }
-
-    /**
-     * <PRE>
-     *            (A)
-     *           /  \
-     *          B    C
-     *         / \
-     *        D   E
-     * PostOrder ("leaves first", or children, then parents) from (A) : D,E,B,C,A
-     * </PRE>
-     * @param _j
-     * @param targetClass
-     * @param action
-     * @param <T> target type
-     * @param <_J> node type
-     * @return
-     */
-    public static <T, _J extends _java> _J postOrder(
-            _J _j, Class<T> targetClass, Consumer<T> action ) {
-        
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(POST_ORDER, ((_code) _j).astCompilationUnit(), targetClass, t->true, action);
-                return _j;
-            }
-            else{
-                of(POST_ORDER, ((_type) _j).ast(), targetClass, t->true, action);
-                return _j;
-            }
-        }
-        of(POST_ORDER, ((_node) _j).ast(), targetClass, t->true, action );
-        return _j;
-    }
-
-    /**
-     * <PRE>
-     *            (A)
-     *           /  \
-     *          B    C
-     *         / \
-     *        D   E
-     * Preorder (Parent, then children) from A: A,B,D,E,C
-     * </PRE>
-     * @param _j
-     * @param targetClass
-     * @param action
-     * @param <T>
-     * @param <_J>
-     * @return
-     */
-    public static <T, _J extends _java> _J preOrder(
-            _J _j, Class<T> targetClass, Consumer<T> action ) {
-        
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(PRE_ORDER, ((_code) _j).astCompilationUnit(), targetClass, t->true, action);
-                return _j;
-            }
-            else{
-                of(PRE_ORDER, ((_type) _j).ast(), targetClass, t->true, action);
-                return _j;
-            }
-        }
-        of(PRE_ORDER, ((_node) _j).ast(), targetClass, t->true, action );
-        return _j;
+    public static <T, _C extends _code> void in( Collection<_C> _sourceCode, Class<T> targetClass, Consumer<T> action ) {
+        _sourceCode.forEach( _c-> in( _c, targetClass, action));
     }
 
     /**
@@ -689,173 +452,51 @@ public enum _walk {
      * @return
      */
     public static <T, _J extends _java> _J in(_J _j, Class<T> targetClass, Consumer<T> action ) {
-        
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(PRE_ORDER, ((_code) _j).astCompilationUnit(), targetClass, t->true, action);
-                return _j;
-            }
-            else{
-                of(PRE_ORDER, ((_type) _j).ast(), targetClass, t->true, action);
-                return _j;
-            }
-        }
-        of(PRE_ORDER, ((_node) _j).ast(), targetClass, t->true, action );
-        return _j;
+        return in( PRE_ORDER, _j, targetClass, action);
     }
 
     /**
-     * <PRE>
-     *             A
-     *           /  \
-     *          B    C
-     *         / \
-     *        D   E
-     * Parents:
-     *    from D: B, A
-     *    from E: B, A
-     *    from C: A
-     *    from B: A
-     * </PRE>
-     * @param _j
-     * @param action
-     * @param <_J>
+     * walk within the _java model _j based on the for all entities that are of targetClass
+     * and calls the action on them
+
+     * @param tt the tree traversal strategy
+     * @param _j the "root" _java entity
+     * @param targetClass the target class to intercept
+     * @param action the action to perform on the target entities
+     * @param <T> the target type
+     * @param <_J> the supplied _java model node
      * @return
      */
-    public static <_J extends _java> _J parents(_J _j, Consumer<Node> action ) {
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(PARENTS, ((_code) _j).astCompilationUnit(), Node.class, t->true, action);
-                return _j;
-            }
-            else{
-                of(PARENTS, ((_type) _j).ast(), Node.class, t->true, action);
-                return _j;
-            }
-        }
-        of(PARENTS, ((_node) _j).ast(), Node.class, t->true, action );
-        return _j;
+    public static <T, _J extends _java> _J in(Node.TreeTraversal tt, _J _j, Class<T> targetClass, Consumer<T> action ) {
+        return in( tt, _j, targetClass, t->true, action);
     }
 
     /**
-     * <PRE>
-     *            (A)
-     *           /  \
-     *         (B)   C
-     *         / \
-     *        D   E
-     * Direct Children
-     *     From (A): B, C
-     *     From (B): D, E
-     * </PRE>
      *
+     * @param tt
      * @param _j
+     * @param targetClass
+     * @param matchFn
      * @param action
+     * @param <T>
      * @param <_J>
      * @return
      */
-    public static <_J extends _java> _J directChildren(_J _j, Consumer<Node> action ) {
+    public static <T, _J extends _java> _J in(Node.TreeTraversal tt, _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel() ){
-                of(DIRECT_CHILDREN, ((_code) _j).astCompilationUnit(), Node.class, t->true, action);
+                of(tt, ((_code) _j).astCompilationUnit(), targetClass, matchFn, action);
                 return _j;
             }
             else{
-                of(DIRECT_CHILDREN, ((_type) _j).ast(), Node.class, t->true, action);
+                of(tt, ((_type) _j).ast(), targetClass, matchFn, action);
                 return _j;
             }
         }
-        of(DIRECT_CHILDREN, ((_node) _j).ast(), Node.class, t->true, action );
+        of(tt, ((_node) _j).ast(), targetClass, matchFn, action );
         return _j;
     }
 
-    /**
-     * <PRE>
-     *            (A)
-     *           /  \
-     *          B    C
-     *         / \
-     *        D   E
-     * Breadth-First (or Level Order) from (A): A,B,C,D,E
-     * </PRE>
-     * @param _j
-     * @param action
-     * @param <_J>
-     * @return
-     */
-    public static <_J extends _java> _J breadthFirst(_J _j, Consumer<Node> action ) {
-        
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(BREADTH_FIRST, ((_code) _j).astCompilationUnit(), Node.class, t->true, action);
-                return _j;
-            }
-            else{
-                of(BREADTH_FIRST, ((_type) _j).ast(), Node.class, t->true, action);
-                return _j;
-            }
-        }
-        of(BREADTH_FIRST, ((_node) _j).ast(), Node.class, t->true, action );
-        return _j;
-    }
-
-    /**
-     * <PRE>
-     *            (A)
-     *           /  \
-     *          B    C
-     *         / \
-     *        D   E
-     * PostOrder ("leaves first", or children, then parents) from (A) : D,E,B,C,A
-     * </PRE>
-     * @param _j
-     * @param action
-     * @param <_J>
-     * @return
-     */
-    public static <_J extends _java> _J postOrder(_J _j, Consumer<Node> action ) {
-                if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(POST_ORDER, ((_code) _j).astCompilationUnit(), Node.class, t->true, action);
-                return _j;
-            }
-            else{
-                of(POST_ORDER, ((_type) _j).ast(), Node.class, t->true, action);
-                return _j;
-            }
-        }
-        of(POST_ORDER, ((_node) _j).ast(), Node.class, t->true, action );
-        return _j;
-    }
-
-    /**
-     * <PRE>
-     *            (A)
-     *           /  \
-     *          B    C
-     *         / \
-     *        D   E
-     * Preorder (Parent, then children) from (A): A,B,D,E,C
-     * </PRE>
-     * @param _j
-     * @param action
-     * @param <_J>
-     * @return
-     */
-    public static <_J extends _java> _J preOrder(_J _j, Consumer<Node> action ) {
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(PRE_ORDER, ((_code) _j).astCompilationUnit(), Node.class, t->true, action);
-                return _j;
-            }
-            else{
-                of(PRE_ORDER, ((_type) _j).ast(), Node.class, t->true, action);
-                return _j;
-            }
-        }
-        of(PRE_ORDER, ((_node) _j).ast(), Node.class, t->true, action );
-        return _j;
-    }
 
     /**
      * A preorder walk within the _model node _m
@@ -918,213 +559,719 @@ public enum _walk {
         return _j;
     }
 
-
-
     /**
-     * _walk the nodes within & collect all nodes that match all the predicate and return them in order
-     * <PRE>
-     *            (A)
-     *           /  \
-     *          B    C
-     *         / \
-     *        D   E
-     * Preorder (Parent, then children) from (A) : A,B,D,E,C
-     * </PRE>
-     * @param _j
-     * @param nodeMatchFn
-     * @param <_J>
-     * @return
-     */
-    public static <_J extends _java> List<Node> list(_J _j, Predicate<Node> nodeMatchFn ) {
-        List<Node> found = new ArrayList<>();
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(PRE_ORDER, ((_code) _j).astCompilationUnit(), Node.class, nodeMatchFn, f -> found.add(f));
-            }
-            else{
-                of(PRE_ORDER, ((_type) _j).ast(), Node.class, nodeMatchFn, f -> found.add(f));
-            }
-            return found;
-        }
-        of(PRE_ORDER, ((_node) _j).ast(), Node.class, nodeMatchFn, f -> found.add(f) );
-        return found;
-    }
-
-    /**
-     * Perform a preorder walk through the _model _m, returning a listing all instances of
-     * the targetClass found
-     * <PRE>
-     *            (A)
-     *           /  \
-     *          B    C
-     *         / \
-     *        D   E
-     * Preorder (Parent, then children) from (A) : A,B,D,E,C
-     * </PRE>
+     * Walks the Ast using the
+     * {@link com.github.javaparser.ast.Node.TreeTraversal} strategy provided
+     * {@link _walk#PRE_ORDER}
+     * {@link _walk#POST_ORDER}
+     * {@link _walk#BREADTH_FIRST}
+     * {@link _walk#PARENTS}
+     * {@link _walk#DIRECT_CHILDREN} starting from the astRootNode, searching
+     * for matching targetNodeClass and selecting those who pass the
+     * nodeMatchFn, to call the nodeActionFn
      *
-     * @param _j the _model entity to search
-     * @param targetClass the target Class to search for (can be a Node class, a _model class)
-     * @param <T> the target TYPE
-     * @param <_J> the model entity (i.e. _class, _method, _constructor, _staticBlock)
-     * @return
-     */
-    public static <T, _J extends _java> List<T> list(_J _j, Class<T> targetClass ) {
-        List<T> found = new ArrayList<>();
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(PRE_ORDER, ((_code) _j).astCompilationUnit(), targetClass, t->true, f -> found.add(f));
-            }
-            else{
-                of(PRE_ORDER, ((_type) _j).ast(), targetClass, t->true, f -> found.add(f));
-            }
-            return (List<T>)found;
-        }        
-        of(PRE_ORDER, ((_node) _j).ast(), targetClass, t->true, f -> found.add(f) );
-        return (List<T>)found;
-    }
-
-    /**
-     * Perform a preOrder walk through the astRootNode, returning a listing all instances of
-     * the targetClass found
-     * <PRE>
-     *            (A)
-     *           /  \
-     *          B    C
-     *         / \
-     *        D   E
-     * Preorder (Parent, then children) from (A) : A,B,D,E,C
-     * </PRE>
-     *
-     * @param astRootNode the _model entity to search
-     * @param targetClass the target Class to search for (can be a Node class, a _model class)
-     * @param <T> the target TYPE
-     * @param <N> the Ast Node (i.e. EnumDeclaration, MethodDeclaration, ConstructorDeclaration)
-     * @return the list of
-     */
-    public static <T, N extends Node> List<T> list(N astRootNode, Class<T> targetClass ) {
-        List<T> found = new ArrayList<>();
-        of( PRE_ORDER, astRootNode, targetClass, t->true, f -> found.add(f) );
-        return found;
-    }
-
-    /**
-     * Perform a preOrder walk through the astRootNode, returning a listing all instances of
-     * the targetClass found
-     * <PRE>
-     *            (A)
-     *           /  \
-     *          B    C
-     *         / \
-     *        D   E
-     * Preorder (Parent, then children) from A : A,B,D,E,C
-     * </PRE>
-     * @param _j the _model entity to search
-     * @param targetClass the target Class to search for (can be a Node class, a _model class)
-     * @param <T> the target TYPE
-     * @param <_J> the model entity (i.e. _class, _method, _constructor, _staticBlock)
-     * @param matchFn predicate for selecting nodes to collect
-     * @return the list of
-     */
-    public static <T, _J extends _java> List<T> list(
-            _J _j, Class<T> targetClass, Predicate<T> matchFn ) {
-
-        List<T> found = new ArrayList<>();
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(PRE_ORDER, ((_code) _j).astCompilationUnit(), targetClass, matchFn, f -> found.add( (T)f));
-            }
-            else{
-                of(PRE_ORDER, ((_type) _j).ast(), targetClass, matchFn, f -> found.add( (T)f));
-            }
-            return (List<T>)found;
-        }
-        of(PRE_ORDER, ((_node) _j).ast(), targetClass, matchFn, f -> found.add(f) );
-        return (List<T>)found;        
-    }
-
-    /**
-     * Perform a PreOrder walk through the astRootNode, returning a listing all instances of
-     * the targetClass found that match the matchFn
-     * <PRE>
-     *            (A)
-     *           /  \
-     *          B    C
-     *         / \
-     *        D   E
-     * Preorder (Parent, then children) from (A) : A,B,D,E,C
-     * </PRE>
-     * @param astRootNode the Ast node to start walking
-     * @param targetClass the target Class to search for (can be a Node class, a _model class)
-     * @param matchFn the lambda for matching specific instances of the targetClass
-     * @param <T> the target TYPE
-     * @param <N> the Ast Root Node Type (i.e. EnumDeclaration, MethodDeclaration, ConstructorDeclaration)
-     * @return the list of
-     */
-    public static <T, N extends Node> List<T> list(
-            N astRootNode, Class<T> targetClass, Predicate<T> matchFn ) {
-
-        List<T> found = new ArrayList<>();
-        of( PRE_ORDER, astRootNode, targetClass, matchFn, f -> found.add(f) );
-        return found;
-    }
-
-    /**
-     * Starting at astRootNode walk the nodes using the walk traversal strategy provided
-     * @see #POST_ORDER
-     * @see #PRE_ORDER
-     * @see #BREADTH_FIRST
-     * @see #PARENTS
-     * @see #DIRECT_CHILDREN
-     *
-     * intercepting Nodes that implement the targetClass and collecting nodes that
-     * pass the matchFn in a List and returning the list.
-     *
-     * @param tt the walk traversal strategy for walking nodes in the AST
+     * @param traversal the nodeTraversal strategy
      * @param astRootNode the starting node to start the walk
-     * @param targetClass the target classes to intercept
-     * @param matchFn function for selecting which nodes to accept and add to the list
+     * @param targetNodeClass a particular node class (or interface) to
+     * intercept when on the walk
+     * @param nodeMatchFn a predicate for matching particular nodes of the
+     * nodeClass when on the walk
+     * @param nodeActionFn the action to take on the selected nodes
+     * @param <N> the target node type (i.e.
+     * {@link com.github.javaparser.ast.expr.Expression},{@link TypeDeclaration}, {@link NodeWithOptionalBlockStmt}
+     * @param <R> the root node type
+     * @return the modified root AST node
+     */
+    public static <R extends Node, N extends Node> R in(
+            Node.TreeTraversal traversal,
+            R astRootNode,
+            Class<N> targetNodeClass,
+            Predicate<N> nodeMatchFn,
+            Consumer<N> nodeActionFn) {
+
+        astRootNode.walk(traversal,
+                n -> {
+                    if( targetNodeClass.isAssignableFrom(n.getClass())) {
+                        if (nodeMatchFn.test((N) n)) {
+                            nodeActionFn.accept((N) n);
+                        }
+                    }
+                });
+        return astRootNode;
+    }
+
+    /**
+     * Walks the Asts of all of the _sourceCode using the
+     * {@link com.github.javaparser.ast.Node.TreeTraversal} strategy provided
+     * {@link _walk#PRE_ORDER}
+     * {@link _walk#POST_ORDER}
+     * {@link _walk#BREADTH_FIRST}
+     * {@link _walk#PARENTS}
+     * {@link _walk#DIRECT_CHILDREN} starting from the astRootNode, searching
+     * for matching targetNodeClass and selecting those who pass the
+     * nodeMatchFn, to call the nodeActionFn
+     *
+     * @param traversal the nodeTraversal strategy
+     * @param _sourceCode a Collection of source code to walk each of the ASTs
+     * @param targetNodeClass a particular node class (or interface) to
+     * intercept when on the walk
+     * @param nodeMatchFn a predicate for matching particular nodes of the
+     * nodeClass when on the walk
+     * @param nodeActionFn the action to take on the selected nodes
+     * @param <N> the target node type (i.e.
+     * {@link com.github.javaparser.ast.expr.Expression},{@link TypeDeclaration}, {@link NodeWithOptionalBlockStmt}
+     * @param <_C> the _code type
+     * @return the modified root AST node
+     */
+    public static <_C extends _code, N extends Node> void in(
+            Node.TreeTraversal traversal, Collection<_C> _sourceCode, Class<N> targetNodeClass, Predicate<N> nodeMatchFn, Consumer<N> nodeActionFn){
+        _sourceCode.forEach(_c-> in(traversal, _c.astCompilationUnit(), targetNodeClass, nodeMatchFn, nodeActionFn));
+    }
+
+    /**
+     * Walks the Asts of all of the _sourceCode using the
+     * {@link _walk#PRE_ORDER} strategy, searching for matching targetNodeClass
+     * and selecting those who pass the nodeMatchFn, to call the nodeActionFn
+     *
+     * @param _sourceCode a Collection of source code to walk each of the ASTs
+     * @param targetNodeClass a particular node class (or interface) to
+     * intercept when on the walk
+     * @param nodeMatchFn a predicate for matching particular nodes of the
+     * nodeClass when on the walk
+     * @param nodeActionFn the action to take on the selected nodes
+     * @param <N> the target node type (i.e.
+     * {@link com.github.javaparser.ast.expr.Expression},{@link TypeDeclaration}, {@link NodeWithOptionalBlockStmt}
+     * @param <_C> the _code type
+     * @return the modified root AST node
+     */
+    public static <_C extends _code, N extends Node> void in(
+            Collection<_C> _sourceCode, Class<N> targetNodeClass, Predicate<N> nodeMatchFn, Consumer<N> nodeActionFn){
+        in( PRE_ORDER, _sourceCode, targetNodeClass,nodeMatchFn,nodeActionFn);
+    }
+
+    /**
+     * <PRE>
+     *             A
+     *           /  \
+     *          B    C
+     *         / \
+     *        D   E
+     * Parents:
+     *    from D: B, A
+     *    from E: B, A
+     *    from C: A
+     *    from B: A
+     * </PRE>
+     * @param astRootNode
+     * @param targetClass
+     * @param matchFn
+     * @param action
      * @param <T>
      * @param <N>
      * @return
      */
-    public static <T, N extends Node> List<T> list(
-            Node.TreeTraversal tt, N astRootNode, Class<T> targetClass, Predicate<T> matchFn ) {
-
-        List<T> found = new ArrayList<>();
-        of( tt, astRootNode, targetClass, matchFn, f -> found.add(f) );
-        return found;
+    public static <T, N extends Node> N parents(
+            N astRootNode, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
+        return of( PARENTS, astRootNode, targetClass, matchFn, action );
     }
 
     /**
-     * Go through a collection of _code looking for all instances of the targetClass that matches the matchFn
-     *
-     * @param _sourceCode
+     * <PRE>
+     *             A
+     *           /  \
+     *          B    C
+     *         / \
+     *        D   E
+     * Parents:
+     *    from D: B, A
+     *    from E: B, A
+     *    from C: A
+     *    from B: A
+     * </PRE>
+     * @param _j
      * @param targetClass
      * @param matchFn
+     * @param action
      * @param <T>
+     * @param <_J>
      * @return
      */
-    public static <T, _C extends _code> List<T> list(
-            Collection<_C> _sourceCode, Class<T> targetClass, Predicate<T> matchFn ) {
-        return list(PRE_ORDER, _sourceCode, targetClass, matchFn);
+    public static <T, _J extends _java> _J parents(
+            _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel() ){
+                of(PARENTS, ((_code) _j).astCompilationUnit(), targetClass, matchFn, action);
+                return _j;
+            }
+            else{
+                of(PARENTS, ((_type) _j).ast(), targetClass, matchFn, action);
+                return _j;
+            }
+        }
+        of(PARENTS, ((_node) _j).ast(), targetClass, matchFn, action );
+        return _j;
     }
 
     /**
-     * Go through a collection of _code traversing using the tree traversal strategy provided
-     * looking for all instances of the targetClass that matches the matchFn
-     * @param tt
-     * @param _sourceCode
+     * <PRE>
+     *             A
+     *           /  \
+     *          B    C
+     *         / \
+     *        D   E
+     * Parents:
+     *    from D: B, A
+     *    from E: B, A
+     *    from C: A
+     *    from B: A
+     * </PRE>
+     * @param _j
+     * @param targetClass
+     * @param action
+     * @param <T>
+     * @param <_J>
+     * @return
+     */
+    public static <T, _J extends _java> _J parents(
+            _J _j, Class<T> targetClass, Consumer<T> action ) {
+
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel() ){
+                of(PARENTS, ((_code) _j).astCompilationUnit(), targetClass, t->true, action);
+                return _j;
+            }
+            else{
+                of(PARENTS, ((_type) _j).ast(), targetClass, t->true, action);
+                return _j;
+            }
+        }
+        of(PARENTS, ((_node) _j).ast(), targetClass, t->true, action );
+        return _j;
+    }
+
+    /**
+     * <PRE>
+     *             A
+     *           /  \
+     *          B    C
+     *         / \
+     *        D   E
+     * Parents:
+     *    from D: B, A
+     *    from E: B, A
+     *    from C: A
+     *    from B: A
+     * </PRE>
+     * @param _j
+     * @param action
+     * @param <_J>
+     * @return
+     */
+    public static <_J extends _java> _J parents(_J _j, Consumer<Node> action ) {
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel() ){
+                of(PARENTS, ((_code) _j).astCompilationUnit(), Node.class, t->true, action);
+                return _j;
+            }
+            else{
+                of(PARENTS, ((_type) _j).ast(), Node.class, t->true, action);
+                return _j;
+            }
+        }
+        of(PARENTS, ((_node) _j).ast(), Node.class, t->true, action );
+        return _j;
+    }
+
+    /**
+     * <PRE>
+     *             A
+     *           /  \
+     *          B    C
+     *         / \
+     *        D   E
+     * Direct Children
+     *     From A: B, C
+     *     From B: D, E
+     * </PRE>
+     *
+     * @param astRootNode
      * @param targetClass
      * @param matchFn
+     * @param action
      * @param <T>
-     * @return a list of all matching T within all the source code
+     * @param <N>
+     * @return
      */
-    public static <T, _C extends _code> List<T> list(
-            Node.TreeTraversal tt, Collection<_C> _sourceCode, Class<T> targetClass, Predicate<T> matchFn ) {
-        List<T> found = new ArrayList<>();
-        _sourceCode.stream().forEach( _sc -> of( tt, _sc.astCompilationUnit(), targetClass, matchFn, f-> found.add(f)));
-        return found;
+    public static <T, N extends Node> N directChildren(
+            N astRootNode, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
+        return of( DIRECT_CHILDREN, astRootNode, targetClass, matchFn, action );
     }
+
+    /**
+     * <PRE>
+     *            (A)
+     *           /  \
+     *         (B)   C
+     *         / \
+     *        D   E
+     * Direct Children
+     *     From (A): B, C
+     *     From (B): D, E
+     * </PRE>
+     * @param _j
+     * @param targetClass
+     * @param matchFn
+     * @param action
+     * @param <T>
+     * @param <_J>
+     * @return
+     */
+    public static <T, _J extends _java> _J directChildren(
+            _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
+
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel() ){
+                of(DIRECT_CHILDREN, ((_code) _j).astCompilationUnit(), targetClass, matchFn, action);
+                return _j;
+            }
+            else{
+                of(DIRECT_CHILDREN, ((_type) _j).ast(), targetClass, matchFn, action);
+                return _j;
+            }
+        }
+        of(DIRECT_CHILDREN, ((_node) _j).ast(), targetClass, matchFn, action );
+        return _j;
+    }
+
+    /**
+     * <PRE>
+     *             A
+     *           /  \
+     *          B    C
+     *         / \
+     *        D   E
+     * Direct Children
+     *     From A: B, C
+     *     From B: D, E
+     * </PRE>
+     *
+     * @param _j
+     * @param targetClass
+     * @param action
+     * @param <T>
+     * @param <_J>
+     * @return
+     */
+    public static <T, _J extends _java> _J directChildren(
+            _J _j, Class<T> targetClass, Consumer<T> action ) {
+
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel() ){
+                of(DIRECT_CHILDREN, ((_code) _j).astCompilationUnit(), targetClass, t->true, action);
+                return _j;
+            }
+            else{
+                of(DIRECT_CHILDREN, ((_type) _j).ast(), targetClass, t->true, action);
+                return _j;
+            }
+        }
+        of(DIRECT_CHILDREN, ((_node) _j).ast(), targetClass, t->true, action );
+        return _j;
+    }
+
+    /**
+     * <PRE>
+     *            (A)
+     *           /  \
+     *         (B)   C
+     *         / \
+     *        D   E
+     * Direct Children
+     *     From (A): B, C
+     *     From (B): D, E
+     * </PRE>
+     *
+     * @param _j
+     * @param action
+     * @param <_J>
+     * @return
+     */
+    public static <_J extends _java> _J directChildren(_J _j, Consumer<Node> action ) {
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel() ){
+                of(DIRECT_CHILDREN, ((_code) _j).astCompilationUnit(), Node.class, t->true, action);
+                return _j;
+            }
+            else{
+                of(DIRECT_CHILDREN, ((_type) _j).ast(), Node.class, t->true, action);
+                return _j;
+            }
+        }
+        of(DIRECT_CHILDREN, ((_node) _j).ast(), Node.class, t->true, action );
+        return _j;
+    }
+
+    /**
+     * <PRE>
+     *             A
+     *           /  \
+     *          B    C
+     *         / \
+     *        D   E
+     * Breadth-First (or Level Order) from A: A,B,C,D,E
+     * </PRE>
+     *
+     * @param astRootNode
+     * @param targetClass
+     * @param matchFn
+     * @param action
+     * @param <T>
+     * @param <N>
+     * @return
+     */
+    public static <T, N extends Node> N breadthFirst(
+            N astRootNode, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
+        return of( BREADTH_FIRST, astRootNode, targetClass, matchFn, action );
+    }
+
+    /**
+     * <PRE>
+     *            (A)
+     *           /  \
+     *          B    C
+     *         / \
+     *        D   E
+     * Breadth-First (or Level Order) from (A): A,B,C,D,E
+     * </PRE>
+     *
+     * @param _j
+     * @param targetClass
+     * @param matchFn
+     * @param action
+     * @param <T>
+     * @param <_J>
+     * @return
+     */
+    public static <T, _J extends _java> _J breadthFirst(
+            _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
+
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel() ){
+                of(BREADTH_FIRST, ((_code) _j).astCompilationUnit(), targetClass, matchFn, action);
+                return _j;
+            }
+            else{
+                of(BREADTH_FIRST, ((_type) _j).ast(), targetClass, matchFn, action);
+                return _j;
+            }
+        }
+        of(BREADTH_FIRST, ((_node) _j).ast(), targetClass, matchFn, action );
+        return _j;
+    }
+
+    /**
+     * <PRE>
+     *            (A)
+     *           /  \
+     *          B    C
+     *         / \
+     *        D   E
+     * Breadth-First (or Level Order) from A: A,B,C,D,E
+     * </PRE>
+     * @param _j
+     * @param targetClass
+     * @param action
+     * @param <T>
+     * @param <_J>
+     * @return
+     */
+    public static <T, _J extends _java> _J breadthFirst(
+            _J _j, Class<T> targetClass, Consumer<T> action ) {
+
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel() ){
+                of(BREADTH_FIRST, ((_code) _j).astCompilationUnit(), targetClass, t->true, action);
+                return _j;
+            }
+            else{
+                of(BREADTH_FIRST, ((_type) _j).ast(), targetClass, t->true, action);
+                return _j;
+            }
+        }
+        of(BREADTH_FIRST, ((_node) _j).ast(), targetClass, t->true, action );
+        return _j;
+    }
+
+    /**
+     * <PRE>
+     *            (A)
+     *           /  \
+     *          B    C
+     *         / \
+     *        D   E
+     * Breadth-First (or Level Order) from (A): A,B,C,D,E
+     * </PRE>
+     * @param _j
+     * @param action
+     * @param <_J>
+     * @return
+     */
+    public static <_J extends _java> _J breadthFirst(_J _j, Consumer<Node> action ) {
+        
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel() ){
+                of(BREADTH_FIRST, ((_code) _j).astCompilationUnit(), Node.class, t->true, action);
+                return _j;
+            }
+            else{
+                of(BREADTH_FIRST, ((_type) _j).ast(), Node.class, t->true, action);
+                return _j;
+            }
+        }
+        of(BREADTH_FIRST, ((_node) _j).ast(), Node.class, t->true, action );
+        return _j;
+    }
+
+    /**
+     * <PRE>
+     *             A
+     *           /  \
+     *          B    C
+     *         / \
+     *        D   E
+     * PostOrder ("leaves first", or children, then parents) from A: D,E,B,C,A
+     * </PRE>
+     *
+     * @param astRootNode
+     * @param targetClass
+     * @param matchFn
+     * @param action
+     * @param <T>
+     * @param <N>
+     * @return
+     */
+    public static <T, N extends Node> N postOrder(
+            N astRootNode, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
+        return of( POST_ORDER, astRootNode, targetClass, matchFn, action );
+    }
+
+    /**
+     * <PRE>
+     *            (A)
+     *           /  \
+     *          B    C
+     *         / \
+     *        D   E
+     * PostOrder ("leaves first", or children, then parents) from (A) : D,E,B,C,A
+     * </PRE>
+     *
+     * @param _j
+     * @param targetClass
+     * @param matchFn
+     * @param action
+     * @param <T>
+     * @param <_J>
+     * @return
+     */
+    public static <T, _J extends _java> _J postOrder(
+            _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
+
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel() ){
+                of(POST_ORDER, ((_code) _j).astCompilationUnit(), targetClass, matchFn, action);
+                return _j;
+            }
+            else{
+                of(POST_ORDER, ((_type) _j).ast(), targetClass, matchFn, action);
+                return _j;
+            }
+        }
+        of(POST_ORDER, ((_node) _j).ast(), targetClass, matchFn, action );
+        return _j;
+    }
+
+    /**
+     * <PRE>
+     *            (A)
+     *           /  \
+     *          B    C
+     *         / \
+     *        D   E
+     * PostOrder ("leaves first", or children, then parents) from (A) : D,E,B,C,A
+     * </PRE>
+     * @param _j
+     * @param targetClass
+     * @param action
+     * @param <T> target type
+     * @param <_J> node type
+     * @return
+     */
+    public static <T, _J extends _java> _J postOrder(
+            _J _j, Class<T> targetClass, Consumer<T> action ) {
+
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel() ){
+                of(POST_ORDER, ((_code) _j).astCompilationUnit(), targetClass, t->true, action);
+                return _j;
+            }
+            else{
+                of(POST_ORDER, ((_type) _j).ast(), targetClass, t->true, action);
+                return _j;
+            }
+        }
+        of(POST_ORDER, ((_node) _j).ast(), targetClass, t->true, action );
+        return _j;
+    }
+
+    /**
+     * <PRE>
+     *            (A)
+     *           /  \
+     *          B    C
+     *         / \
+     *        D   E
+     * PostOrder ("leaves first", or children, then parents) from (A) : D,E,B,C,A
+     * </PRE>
+     * @param _j
+     * @param action
+     * @param <_J>
+     * @return
+     */
+    public static <_J extends _java> _J postOrder(_J _j, Consumer<Node> action ) {
+                if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel() ){
+                of(POST_ORDER, ((_code) _j).astCompilationUnit(), Node.class, t->true, action);
+                return _j;
+            }
+            else{
+                of(POST_ORDER, ((_type) _j).ast(), Node.class, t->true, action);
+                return _j;
+            }
+        }
+        of(POST_ORDER, ((_node) _j).ast(), Node.class, t->true, action );
+        return _j;
+    }
+
+    /**
+     * <PRE>
+     *            (A)
+     *           /  \
+     *          B    C
+     *         / \
+     *        D   E
+     * Preorder (Parent, then children) from A: A,B,D,E,C
+     * </PRE>
+     *
+     * @param astRootNode
+     * @param targetClass
+     * @param matchFn
+     * @param action
+     * @param <T>
+     * @param <N>
+     * @return
+     */
+    public static <T, N extends Node> N preOrder(
+            N astRootNode, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
+        return of( PRE_ORDER, astRootNode, targetClass, matchFn, action );
+    }
+
+    /**
+     * <PRE>
+     *            (A)
+     *           /  \
+     *          B    C
+     *         / \
+     *        D   E
+     * Preorder (Parent, then children) from (A) : A,B,D,E,C
+     * </PRE>
+     *
+     * @param _j
+     * @param targetClass
+     * @param matchFn
+     * @param action
+     * @param <T>
+     * @param <_J>
+     * @return
+     */
+    public static <T, _J extends _java> _J preOrder(
+            _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
+
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel() ){
+                of(PRE_ORDER, ((_code) _j).astCompilationUnit(), targetClass, matchFn, action);
+                return _j;
+            }
+            else{
+                of(PRE_ORDER, ((_type) _j).ast(), targetClass, matchFn, action);
+                return _j;
+            }
+        }
+        of(PRE_ORDER, ((_node) _j).ast(), targetClass, matchFn, action );
+        return _j;
+    }
+
+    /**
+     * <PRE>
+     *            (A)
+     *           /  \
+     *          B    C
+     *         / \
+     *        D   E
+     * Preorder (Parent, then children) from A: A,B,D,E,C
+     * </PRE>
+     * @param _j
+     * @param targetClass
+     * @param action
+     * @param <T>
+     * @param <_J>
+     * @return
+     */
+    public static <T, _J extends _java> _J preOrder(
+            _J _j, Class<T> targetClass, Consumer<T> action ) {
+
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel() ){
+                of(PRE_ORDER, ((_code) _j).astCompilationUnit(), targetClass, t->true, action);
+                return _j;
+            }
+            else{
+                of(PRE_ORDER, ((_type) _j).ast(), targetClass, t->true, action);
+                return _j;
+            }
+        }
+        of(PRE_ORDER, ((_node) _j).ast(), targetClass, t->true, action );
+        return _j;
+    }
+
+    /**
+     * <PRE>
+     *            (A)
+     *           /  \
+     *          B    C
+     *         / \
+     *        D   E
+     * Preorder (Parent, then children) from (A): A,B,D,E,C
+     * </PRE>
+     * @param _j
+     * @param action
+     * @param <_J>
+     * @return
+     */
+    public static <_J extends _java> _J preOrder(_J _j, Consumer<Node> action ) {
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel() ){
+                of(PRE_ORDER, ((_code) _j).astCompilationUnit(), Node.class, t->true, action);
+                return _j;
+            }
+            else{
+                of(PRE_ORDER, ((_type) _j).ast(), Node.class, t->true, action);
+                return _j;
+            }
+        }
+        of(PRE_ORDER, ((_node) _j).ast(), Node.class, t->true, action );
+        return _j;
+    }
+
 
     /**
      * Given an AST root node n, and a Tree Traversal Strategy (default is PreOrder),
@@ -1195,96 +1342,6 @@ public enum _walk {
             return model(tt, astRootNode, (Class<_J>)targetClass, (Predicate<_J>)matchFn, (Consumer<_J>)action);
         }
     }
-    
-    /**
-     * Walks the Ast using the
-     * {@link com.github.javaparser.ast.Node.TreeTraversal} strategy provided      
-     * {@link _walk#PRE_ORDER}
-     * {@link _walk#POST_ORDER}
-     * {@link _walk#BREADTH_FIRST}
-     * {@link _walk#PARENTS}
-     * {@link _walk#DIRECT_CHILDREN} starting from the astRootNode, searching
-     * for matching targetNodeClass and selecting those who pass the
-     * nodeMatchFn, to call the nodeActionFn
-     *
-     * @param traversal the nodeTraversal strategy
-     * @param astRootNode the starting node to start the walk
-     * @param targetNodeClass a particular node class (or interface) to
-     * intercept when on the walk
-     * @param nodeMatchFn a predicate for matching particular nodes of the
-     * nodeClass when on the walk
-     * @param nodeActionFn the action to take on the selected nodes
-     * @param <N> the target node type (i.e.
-     * {@link com.github.javaparser.ast.expr.Expression},{@link TypeDeclaration}, {@link NodeWithOptionalBlockStmt}
-     * @param <R> the root node type
-     * @return the modified root AST node
-     */
-    public static <R extends Node, N extends Node> R in(
-            Node.TreeTraversal traversal,
-            R astRootNode,
-            Class<N> targetNodeClass,
-            Predicate<N> nodeMatchFn,
-            Consumer<N> nodeActionFn) {
-
-        astRootNode.walk(traversal, 
-            n -> {
-                if( targetNodeClass.isAssignableFrom(n.getClass())) {
-                    if (nodeMatchFn.test((N) n)) {
-                        nodeActionFn.accept((N) n);
-                    }
-                }
-            });        
-        return astRootNode;
-    }
-
-    /**
-     * Walks the Asts of all of the _sourceCode using the
-     * {@link com.github.javaparser.ast.Node.TreeTraversal} strategy provided
-     * {@link _walk#PRE_ORDER}
-     * {@link _walk#POST_ORDER}
-     * {@link _walk#BREADTH_FIRST}
-     * {@link _walk#PARENTS}
-     * {@link _walk#DIRECT_CHILDREN} starting from the astRootNode, searching
-     * for matching targetNodeClass and selecting those who pass the
-     * nodeMatchFn, to call the nodeActionFn
-     *
-     * @param traversal the nodeTraversal strategy
-     * @param _sourceCode a Collection of source code to walk each of the ASTs
-     * @param targetNodeClass a particular node class (or interface) to
-     * intercept when on the walk
-     * @param nodeMatchFn a predicate for matching particular nodes of the
-     * nodeClass when on the walk
-     * @param nodeActionFn the action to take on the selected nodes
-     * @param <N> the target node type (i.e.
-     * {@link com.github.javaparser.ast.expr.Expression},{@link TypeDeclaration}, {@link NodeWithOptionalBlockStmt}
-     * @param <_C> the _code type
-     * @return the modified root AST node
-     */
-    public static <_C extends _code, N extends Node> void in(
-            Node.TreeTraversal traversal, Collection<_C> _sourceCode, Class<N> targetNodeClass, Predicate<N> nodeMatchFn, Consumer<N> nodeActionFn){
-        _sourceCode.forEach(_c-> in(traversal, _c.astCompilationUnit(), targetNodeClass, nodeMatchFn, nodeActionFn));
-    }
-
-    /**
-     * Walks the Asts of all of the _sourceCode using the
-     * {@link _walk#PRE_ORDER} strategy, searching for matching targetNodeClass
-     * and selecting those who pass the nodeMatchFn, to call the nodeActionFn
-     *
-     * @param _sourceCode a Collection of source code to walk each of the ASTs
-     * @param targetNodeClass a particular node class (or interface) to
-     * intercept when on the walk
-     * @param nodeMatchFn a predicate for matching particular nodes of the
-     * nodeClass when on the walk
-     * @param nodeActionFn the action to take on the selected nodes
-     * @param <N> the target node type (i.e.
-     * {@link com.github.javaparser.ast.expr.Expression},{@link TypeDeclaration}, {@link NodeWithOptionalBlockStmt}
-     * @param <_C> the _code type
-     * @return the modified root AST node
-     */
-    public static <_C extends _code, N extends Node> void in(
-            Collection<_C> _sourceCode, Class<N> targetNodeClass, Predicate<N> nodeMatchFn, Consumer<N> nodeActionFn){
-        in( PRE_ORDER, _sourceCode, targetNodeClass,nodeMatchFn,nodeActionFn);
-    }
 
     /**
      * A _walk that resolves {@link _java} classes (as apposed to AST {@link Node}
@@ -1354,6 +1411,22 @@ public enum _walk {
                                 _modelAction.accept( (_J)_c );
                             }                                                
                     } );
+            return astRootNode;
+        }
+        else if( _modelClass == _field.class ){
+            //fields are tricky because a single field declaration can be multiple variable declarations
+            //i.e. int x,y,z; is a single FieldDeclaration but (3) VarDeclarators (3) _fields
+            //however we have local fields that are defined as VariableDeclarators (so we dont want to count those)
+            in( tt,
+                    astRootNode,
+                    VariableDeclarator.class,
+                    v-> v.getParentNode().isPresent() && (v.getParentNode().get() instanceof FieldDeclaration),
+                    v-> {
+                        _field _f = _field.of(v);
+                        if( _modelMatchFn.test((_J)_f) ){
+                            _modelAction.accept( (_J) _f);
+                        }
+                    });
             return astRootNode;
         }
         else if( _java.ModelMap._JAVA_TO_AST_NODE_CLASSES.containsKey( _modelClass ) ) {
