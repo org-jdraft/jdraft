@@ -222,8 +222,10 @@ public final class _field
     // in this case, the FieldDeclaration is null
     // it happens often enough  to want to shoot yourself
     public FieldDeclaration getFieldDeclaration() {
-        if (astVar.getParentNode().isPresent()) {
-            return (FieldDeclaration) astVar.getParentNode().get();
+
+        Optional<Node> on = astVar.stream(_walk.PARENTS).filter( n-> n instanceof FieldDeclaration).findFirst();
+        if( on.isPresent() ){
+            return (FieldDeclaration) on.get();
         }
         return null;
     }
