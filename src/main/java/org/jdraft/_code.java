@@ -27,7 +27,7 @@ public interface _code<T> extends _java {
     /**
      * @return the compilationUnit (NOTE: could be null for nested _types)
      */
-    public CompilationUnit astCompilationUnit();
+    CompilationUnit astCompilationUnit();
 
     /**
      * A top level source code unit is the top level type, a "module-info.java"
@@ -35,7 +35,7 @@ public interface _code<T> extends _java {
      *
      * @return
      */
-    public boolean isTopLevel();
+    boolean isTopLevel();
 
     /**
      * Gets the simple name of the _code
@@ -44,7 +44,7 @@ public interface _code<T> extends _java {
      * (i.e. "module-info" for "aaaa.bbbb.module-info.java")
      * @return 
      */
-    public String getSimpleName();
+    String getSimpleName();
     
     /**
      * returns the full name of the entity
@@ -53,7 +53,7 @@ public interface _code<T> extends _java {
      * for a module-info (always just "module-info")
      * @return the full name
      */
-    public String getFullName();
+    String getFullName();
     
     /**
      * Default for getting the package name for all types
@@ -61,7 +61,7 @@ public interface _code<T> extends _java {
      * 
      * @return 
      */
-    public default String getPackageName(){
+    default String getPackageName(){
         String simpleName = getSimpleName();
         String fullName = getFullName();
         if( simpleName.equals(fullName)){
@@ -266,22 +266,47 @@ public interface _code<T> extends _java {
         return _imports.of(astCompilationUnit()).hasImport(className);
     }
 
+    /**
+     * Does this _code entity import all of these classes
+     * @param clazzes list of classes to check if imported
+     * @return true if the _code entity imports all the classes, false otherwise
+     */
     default boolean hasImports(Class... clazzes) {
         return _imports.of(astCompilationUnit()).hasImports(clazzes);
     }
 
+    /**
+     *
+     * @param clazz
+     * @return
+     */
     default boolean hasImport(Class clazz) {
         return _imports.of(astCompilationUnit()).hasImport(clazz);
     }
 
+    /**
+     * check if the _code has an import that matches this match function
+     * @param _importMatchFn mathcing function for an import
+     * @return true if found, false otherwise
+     */
     default boolean hasImport(Predicate<_import> _importMatchFn) {
         return !listImports(_importMatchFn).isEmpty();
     }
 
+    /**
+     *
+     * @param _i
+     * @return
+     */
     default boolean hasImport(_import _i) {
         return listImports(i -> i.equals(_i)).size() > 0;
     }
 
+    /**
+     *
+     * @param _importMatchFn
+     * @return
+     */
     default List<_import> listImports(Predicate<_import> _importMatchFn) {
         return this.getImports().list().stream().filter(_importMatchFn).collect(Collectors.toList());
     }
@@ -425,10 +450,20 @@ public interface _code<T> extends _java {
         throw new _draftException("No AST CompilationUnit of class to add imports");
     }
 
+    /**
+     * Add a single import statement based on the String
+     * @param anImport
+     * @return the modified T
+     */
     default T imports(String anImport) {
         return imports(new String[]{anImport});
     }
 
+    /**
+     * Add imports based on the individual Strings
+     * @param importStatements a list of String representing discrete import statements
+     * @return the modified T
+     */
     default T imports(String... importStatements) {
         CompilationUnit cu = astCompilationUnit();
         if (cu != null) {
