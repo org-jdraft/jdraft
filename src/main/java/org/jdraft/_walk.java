@@ -19,7 +19,7 @@ import java.util.function.Predicate;
  * The use is best illustrated by example:
  * <PRE>
  * _class _c = _class.of("aaaa.bbbb.C")
- *     .FIELDS("int x=1;", "int y=2;", "String NAME;");
+ *     .fields("int x=1;", "int y=2;", "String NAME;");
  *
  * //intercept & print all of the {@link _field}s within the _class _c
  * _walk.in(_c, _field.class, f-> System.out.println(f));
@@ -918,6 +918,8 @@ public enum _walk {
         return _j;
     }
 
+
+
     /**
      * _walk the nodes within & collect all nodes that match all the predicate and return them in order
      * <PRE>
@@ -1094,16 +1096,31 @@ public enum _walk {
     }
 
     /**
-     * Go through a collection of _code
-     * @param tt
+     * Go through a collection of _code looking for all instances of the targetClass that matches the matchFn
+     *
      * @param _sourceCode
      * @param targetClass
      * @param matchFn
      * @param <T>
      * @return
      */
-    public static <T> List<T> list(
-            Node.TreeTraversal tt, Collection<_code> _sourceCode, Class<T> targetClass, Predicate<T> matchFn ) {
+    public static <T, _C extends _code> List<T> list(
+            Collection<_C> _sourceCode, Class<T> targetClass, Predicate<T> matchFn ) {
+        return list(PRE_ORDER, _sourceCode, targetClass, matchFn);
+    }
+
+    /**
+     * Go through a collection of _code traversing using the tree traversal strategy provided
+     * looking for all instances of the targetClass that matches the matchFn
+     * @param tt
+     * @param _sourceCode
+     * @param targetClass
+     * @param matchFn
+     * @param <T>
+     * @return a list of all matching T within all the source code
+     */
+    public static <T, _C extends _code> List<T> list(
+            Node.TreeTraversal tt, Collection<_C> _sourceCode, Class<T> targetClass, Predicate<T> matchFn ) {
         List<T> found = new ArrayList<>();
         _sourceCode.stream().forEach( _sc -> of( tt, _sc.astCompilationUnit(), targetClass, matchFn, f-> found.add(f)));
         return found;
@@ -1219,7 +1236,56 @@ public enum _walk {
             });        
         return astRootNode;
     }
-        
+
+    /**
+     * Walks the Asts of all of the _sourceCode using the
+     * {@link com.github.javaparser.ast.Node.TreeTraversal} strategy provided
+     * {@link _walk#PRE_ORDER}
+     * {@link _walk#POST_ORDER}
+     * {@link _walk#BREADTH_FIRST}
+     * {@link _walk#PARENTS}
+     * {@link _walk#DIRECT_CHILDREN} starting from the astRootNode, searching
+     * for matching targetNodeClass and selecting those who pass the
+     * nodeMatchFn, to call the nodeActionFn
+     *
+     * @param traversal the nodeTraversal strategy
+     * @param _sourceCode a Collection of source code to walk each of the ASTs
+     * @param targetNodeClass a particular node class (or interface) to
+     * intercept when on the walk
+     * @param nodeMatchFn a predicate for matching particular nodes of the
+     * nodeClass when on the walk
+     * @param nodeActionFn the action to take on the selected nodes
+     * @param <N> the target node type (i.e.
+     * {@link com.github.javaparser.ast.expr.Expression},{@link TypeDeclaration}, {@link NodeWithOptionalBlockStmt}
+     * @param <_C> the _code type
+     * @return the modified root AST node
+     */
+    public static <_C extends _code, N extends Node> void in(
+            Node.TreeTraversal traversal, Collection<_C> _sourceCode, Class<N> targetNodeClass, Predicate<N> nodeMatchFn, Consumer<N> nodeActionFn){
+        _sourceCode.forEach(_c-> in(traversal, _c.astCompilationUnit(), targetNodeClass, nodeMatchFn, nodeActionFn));
+    }
+
+    /**
+     * Walks the Asts of all of the _sourceCode using the
+     * {@link _walk#PRE_ORDER} strategy, searching for matching targetNodeClass
+     * and selecting those who pass the nodeMatchFn, to call the nodeActionFn
+     *
+     * @param _sourceCode a Collection of source code to walk each of the ASTs
+     * @param targetNodeClass a particular node class (or interface) to
+     * intercept when on the walk
+     * @param nodeMatchFn a predicate for matching particular nodes of the
+     * nodeClass when on the walk
+     * @param nodeActionFn the action to take on the selected nodes
+     * @param <N> the target node type (i.e.
+     * {@link com.github.javaparser.ast.expr.Expression},{@link TypeDeclaration}, {@link NodeWithOptionalBlockStmt}
+     * @param <_C> the _code type
+     * @return the modified root AST node
+     */
+    public static <_C extends _code, N extends Node> void in(
+            Collection<_C> _sourceCode, Class<N> targetNodeClass, Predicate<N> nodeMatchFn, Consumer<N> nodeActionFn){
+        in( PRE_ORDER, _sourceCode, targetNodeClass,nodeMatchFn,nodeActionFn);
+    }
+
     /**
      * A _walk that resolves {@link _java} classes (as apposed to AST {@link Node}
      * implementation
