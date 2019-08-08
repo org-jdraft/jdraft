@@ -40,13 +40,4 @@ public interface _named<T extends _named> extends _java {
     default boolean isNamed(String name) {
         return Objects.equals(getName(), name);
     }
-
-    /**
-     * does the name match the lamnda?
-     * @param nameMatchFn matching function
-     * @return true if name matches lambda fn
-     */
-    default boolean isNamed(Predicate<String> nameMatchFn) {
-        return nameMatchFn.test(getName());
-    }    
 }
