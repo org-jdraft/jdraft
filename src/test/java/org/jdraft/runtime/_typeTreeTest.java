@@ -9,6 +9,17 @@ import java.io.Serializable;
 
 public class _typeTreeTest extends TestCase {
 
+    public @interface Blarf {
+        @interface Blorf { }
+    }
+
+    public void testNestedAnnotationType(){
+        _annotation _c = _annotation.of(Blarf.class);
+        _typeTree tt = _typeTree.of(_c);
+
+        System.out.println( tt );
+    }
+
     public void testNestedAndLocalClasses(){
         @_importClass(Serializable.class)
         class L{
