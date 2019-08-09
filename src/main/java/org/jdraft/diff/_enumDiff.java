@@ -70,7 +70,7 @@ public class _enumDiff implements _differ<_enum, _node> {
             ARGUMENTS_DIFF.diff(_p, dt, left, right, left.listArguments(), right.listArguments());
             _methodsDiff.INSTANCE.diff(_p, dt, left, right, left.listMethods(), right.listMethods());
             _fieldsDiff.INSTANCE.diff(_p, dt, left, right, left.listFields(), right.listFields());
-            return (_diff) dt;
+            return dt;
         }
     }
 
@@ -120,7 +120,7 @@ public class _enumDiff implements _differ<_enum, _node> {
             rs.forEach(f -> {
                 dt.addDiff(new _rightOnly_enum_constant(path.in(CONSTANT, f.getName()), (_enum) _leftParent, (_enum) _rightParent, f));
             });
-            return (_diff) dt;
+            return dt;
         }
 
         public static class _rightOnly_enum_constant implements _diffNode<_enum>, _diffNode._rightOnly<_enum._constant> {
@@ -181,41 +181,41 @@ public class _enumDiff implements _differ<_enum, _node> {
         public static class _leftOnly_enum_constant implements _diffNode<_enum>, _diffNode._leftOnly<_enum._constant> {
 
             public _path path;
-            public _enum leftRoot;
-            public _enum rightRoot;
+            public _enum leftParent;
+            public _enum rightParent;
             public _enum._constant left;
 
-            public _leftOnly_enum_constant(_path path, _enum leftRoot, _enum rightRoot, _enum._constant left) {
+            public _leftOnly_enum_constant(_path path, _enum leftParent, _enum rightParent, _enum._constant left) {
                 this.path = path;
-                this.leftRoot = leftRoot;
-                this.rightRoot = rightRoot;
+                this.leftParent = leftParent;
+                this.rightParent = rightParent;
                 this.left = _enum._constant.of(left.toString());
             }
 
             @Override
             public _enum leftParent() {
-                return leftRoot;
+                return leftParent;
             }
 
             @Override
             public _enum rightParent() {
-                return rightRoot;
+                return rightParent;
             }
 
             @Override
             public void patchLeftToRight() {
                 
-                leftRoot.removeConstant(left);
-                leftRoot.add(left);
+                leftParent.removeConstant(left);
+                leftParent.add(left);
 
-                rightRoot.removeConstant(left);
-                rightRoot.add(left);
+                rightParent.removeConstant(left);
+                rightParent.add(left);
             }
 
             @Override
             public void patchRightToLeft() {
-                leftRoot.removeConstant(left);
-                rightRoot.removeConstant(left);
+                leftParent.removeConstant(left);
+                rightParent.removeConstant(left);
             }
 
             @Override
@@ -255,31 +255,31 @@ public class _enumDiff implements _differ<_enum, _node> {
                 implements _diffNode<_enum._constant>, _diffNode._change<List<Expression>> {
 
             _path path;
-            _enum._constant leftRoot;
-            _enum._constant rightRoot;
+            _enum._constant leftParent;
+            _enum._constant rightParent;
             NodeList<Expression> leftArguments;
             NodeList<Expression> rightArguments;
 
             public _changeArguments(_path path, _enum._constant left, _enum._constant right) {
                 this.path = path;
-                this.leftRoot = left;
-                this.rightRoot = right;
+                this.leftParent = left;
+                this.rightParent = right;
 
                 //these are effectively clones
                 leftArguments = new NodeList<>();
                 rightArguments = new NodeList<>();
-                leftArguments.addAll(leftRoot.astConstant.getArguments());
-                rightArguments.addAll(rightRoot.astConstant.getArguments());
+                leftArguments.addAll(leftParent.astConstant.getArguments());
+                rightArguments.addAll(rightParent.astConstant.getArguments());
             }
 
             @Override
             public _enum._constant leftParent() {
-                return leftRoot;
+                return leftParent;
             }
 
             @Override
             public _enum._constant rightParent() {
-                return rightRoot;
+                return rightParent;
             }
 
             @Override
@@ -299,14 +299,14 @@ public class _enumDiff implements _differ<_enum, _node> {
 
             @Override
             public void patchRightToLeft() {
-                this.leftRoot.setArguments(rightArguments);
-                this.rightRoot.setArguments(rightArguments);
+                this.leftParent.setArguments(rightArguments);
+                this.rightParent.setArguments(rightArguments);
             }
 
             @Override
             public void patchLeftToRight() {
-                this.leftRoot.setArguments(leftArguments);
-                this.rightRoot.setArguments(leftArguments);
+                this.leftParent.setArguments(leftArguments);
+                this.rightParent.setArguments(leftArguments);
             }
 
             @Override

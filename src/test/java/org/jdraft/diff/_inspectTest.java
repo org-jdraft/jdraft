@@ -219,9 +219,11 @@ public class _inspectTest extends TestCase {
         _dt.listEdits();
         
         _dt.first(d -> d instanceof _edit );
-                
-        
-        _dt.listEdits().get(0).forRemoves(d->System.out.println("REMOVED: " + d.text));
+
+
+        List<_diffNode._edit> le = _dt.listEdits();
+        _diffNode._edit dne = le.get(0);
+        System.out.println("REMOVED: " + le.get(0).forRemoves(r -> System.out.println( r)));
         
         //_dt.first(BODY).textDiff().forRemoves()...;
         //_dt.first(BODY).textDiff().for
@@ -290,7 +292,7 @@ public class _inspectTest extends TestCase {
         //undercomponent 
         //onComponent    (NAME)
         
-        assertTrue(dt.list(d -> d.at(NAME)).size() == 1);
+        assertTrue(dt.list(d -> ((_diffNode)d).at(NAME)).size() == 1);
         
         dt.forEach(d -> System.out.println( d.path().componentPath) );
         assertTrue(dt.listAt(CONSTRUCTOR).size() >= 1);

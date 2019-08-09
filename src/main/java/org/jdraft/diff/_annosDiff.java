@@ -60,25 +60,25 @@ public class _annosDiff
             implements _diffNode<_anno._hasAnnos>, _diffNode._leftOnly<_anno> {
 
         public _path path;
-        public _anno._hasAnnos leftRoot;
-        public _anno._hasAnnos rightRoot;
+        public _anno._hasAnnos leftParent;
+        public _anno._hasAnnos rightParent;
         public _anno left;
 
         public _leftOnly_anno(_path p, _anno._hasAnnos left, _anno._hasAnnos right, _anno toRemove) {
             this.path = p;
-            this.leftRoot = left;
-            this.rightRoot = right;
+            this.leftParent = left;
+            this.rightParent = right;
             this.left = toRemove.copy();
         }
 
         @Override
         public _anno._hasAnnos leftParent() {
-            return leftRoot;
+            return leftParent;
         }
 
         @Override
         public _anno._hasAnnos rightParent() {
-            return rightRoot;
+            return rightParent;
         }
 
         @Override
@@ -93,17 +93,17 @@ public class _annosDiff
 
         @Override
         public void patchRightToLeft() {
-            leftRoot.removeAnno(left.ast());
-            rightRoot.removeAnno(left.ast());
+            leftParent.removeAnno(left.ast());
+            rightParent.removeAnno(left.ast());
         }
 
         @Override
         public void patchLeftToRight() {
             
-            leftRoot.removeAnno(left.ast());
-            leftRoot.annotate(left);
-            rightRoot.removeAnno(left.ast());
-            rightRoot.annotate(left);
+            leftParent.removeAnno(left.ast());
+            leftParent.annotate(left);
+            rightParent.removeAnno(left.ast());
+            rightParent.annotate(left);
         }
 
         @Override
@@ -115,25 +115,25 @@ public class _annosDiff
     public static class _rightOnly_anno implements _diffNode<_anno._hasAnnos>, _diffNode._rightOnly<_anno> {
 
         public _path path;
-        public _anno._hasAnnos leftRoot;
-        public _anno._hasAnnos rightRoot;
+        public _anno._hasAnnos leftParent;
+        public _anno._hasAnnos rightParent;
         public _anno right;
 
-        public _rightOnly_anno(_path p, _anno._hasAnnos leftRoot, _anno._hasAnnos rightRoot, _anno right) {
+        public _rightOnly_anno(_path p, _anno._hasAnnos leftParent, _anno._hasAnnos rightParent, _anno right) {
             this.path = p;
-            this.leftRoot = leftRoot;
-            this.rightRoot = rightRoot;
+            this.leftParent = leftParent;
+            this.rightParent = rightParent;
             this.right = right.copy();
         }
 
         @Override
         public _anno._hasAnnos leftParent() {
-            return leftRoot;
+            return leftParent;
         }
 
         @Override
         public _anno._hasAnnos rightParent() {
-            return rightRoot;
+            return rightParent;
         }
 
         @Override
@@ -149,17 +149,17 @@ public class _annosDiff
         @Override
         public void patchRightToLeft() {
             //remove it before just so we dont mistakenly add it twice
-            leftRoot.removeAnno(right.ast());
-            leftRoot.annotate(right);
-            rightRoot.removeAnno(right.ast());
-            rightRoot.annotate(right);
+            leftParent.removeAnno(right.ast());
+            leftParent.annotate(right);
+            rightParent.removeAnno(right.ast());
+            rightParent.annotate(right);
         }
 
         @Override
         public void patchLeftToRight() {
             //remove it before just so we dont mistakenly add it twice
-            leftRoot.removeAnno(right.ast());
-            rightRoot.removeAnno(right.ast());
+            leftParent.removeAnno(right.ast());
+            rightParent.removeAnno(right.ast());
         }
 
         @Override

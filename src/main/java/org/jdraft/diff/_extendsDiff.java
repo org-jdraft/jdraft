@@ -62,39 +62,39 @@ public class _extendsDiff implements
             implements _diffNode<_type>, _diffNode._rightOnly<ClassOrInterfaceType> {
 
         public _path path;
-        public _type leftRoot;
-        public _type rightRoot;
+        public _type leftParent;
+        public _type rightParent;
         public ClassOrInterfaceType right;
 
-        public _rightOnly_extends(_path path, _type leftRoot, _type rightRoot, ClassOrInterfaceType right) {
+        public _rightOnly_extends(_path path, _type leftParent, _type rightParent, ClassOrInterfaceType right) {
             this.path = path;
-            this.leftRoot = leftRoot;
-            this.rightRoot = rightRoot;
+            this.leftParent = leftParent;
+            this.rightParent = rightParent;
             this.right = right.clone();
         }
 
         @Override
         public _type leftParent() {
-            return leftRoot;
+            return leftParent;
         }
 
         @Override
         public _type rightParent() {
-            return rightRoot;
+            return rightParent;
         }
 
         @Override
         public void patchLeftToRight() {
-            ((_type._hasExtends) leftRoot).removeExtends(right);
-            ((_type._hasExtends) rightRoot).removeExtends(right);
+            ((_type._hasExtends) leftParent).removeExtends(right);
+            ((_type._hasExtends) rightParent).removeExtends(right);
         }
 
         @Override
         public void patchRightToLeft() {
-            ((_type._hasExtends) leftRoot).removeExtends(right);
-            ((_type._hasExtends) leftRoot).extend(right);
-            ((_type._hasExtends) rightRoot).removeExtends(right);
-            ((_type._hasExtends) rightRoot).extend(right);
+            ((_type._hasExtends) leftParent).removeExtends(right);
+            ((_type._hasExtends) leftParent).extend(right);
+            ((_type._hasExtends) rightParent).removeExtends(right);
+            ((_type._hasExtends) rightParent).extend(right);
         }
 
         @Override
@@ -117,39 +117,39 @@ public class _extendsDiff implements
             implements _diffNode<_type>, _diffNode._leftOnly<ClassOrInterfaceType> {
 
         public _path path;
-        public _type leftRoot;
-        public _type rightRoot;
+        public _type leftParent;
+        public _type rightParent;
         public ClassOrInterfaceType left;
 
-        public _leftOnly_extends(_path path, _type leftRoot, _type rightRoot, ClassOrInterfaceType left) {
+        public _leftOnly_extends(_path path, _type leftParent, _type rightParent, ClassOrInterfaceType left) {
             this.path = path;
-            this.leftRoot = leftRoot;
-            this.rightRoot = rightRoot;
+            this.leftParent = leftParent;
+            this.rightParent = rightParent;
             this.left = left.clone();
         }
 
         @Override
         public _type leftParent() {
-            return leftRoot;
+            return leftParent;
         }
 
         @Override
         public _type rightParent() {
-            return rightRoot;
+            return rightParent;
         }
 
         @Override
         public void patchLeftToRight() {
-            ((_type._hasExtends) leftRoot).removeExtends(left);
-            ((_type._hasExtends) leftRoot).extend(left);
-            ((_type._hasExtends) rightRoot).removeExtends(left);
-            ((_type._hasExtends) rightRoot).extend(left);
+            ((_type._hasExtends) leftParent).removeExtends(left);
+            ((_type._hasExtends) leftParent).extend(left);
+            ((_type._hasExtends) rightParent).removeExtends(left);
+            ((_type._hasExtends) rightParent).extend(left);
         }
 
         @Override
         public void patchRightToLeft() {
-            ((_type._hasExtends) leftRoot).removeExtends(left);
-            ((_type._hasExtends) rightRoot).removeExtends(left);
+            ((_type._hasExtends) leftParent).removeExtends(left);
+            ((_type._hasExtends) rightParent).removeExtends(left);
         }
 
         @Override

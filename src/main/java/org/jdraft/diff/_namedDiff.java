@@ -33,30 +33,30 @@ public class _namedDiff implements _differ<String, _node> {
     }
     
     public static class _changeName implements _diffNode, _diffNode._change<String> {
-        _named left;
-        _named right;
+        _named leftParent;
+        _named rightParent;
         String leftName;
         String rightName;
         _path path;
         
-         public _changeName(_path _p, _named left, _named right ){
+         public _changeName(_path _p, _named leftParent, _named rightParent){
             this.path = _p;
-            this.left = left;
-            this.leftName = left.getName();
-            this.right = right;
-            this.rightName = right.getName();            
+            this.leftParent = leftParent;
+            this.leftName = leftParent.getName();
+            this.rightParent = rightParent;
+            this.rightName = rightParent.getName();
         }
          
         @Override
         public void patchLeftToRight(){
-            left.name(leftName);
-            right.name(leftName);
+            leftParent.name(leftName);
+            rightParent.name(leftName);
         }
         
         @Override
         public void patchRightToLeft(){
-            left.name(rightName);
-            right.name(rightName);
+            leftParent.name(rightName);
+            rightParent.name(rightName);
         }
         
         @Override
@@ -72,12 +72,12 @@ public class _namedDiff implements _differ<String, _node> {
         
         @Override
         public _java leftParent() {
-            return left;
+            return leftParent;
         }
 
         @Override
         public _java rightParent() {
-            return right;
+            return rightParent;
         }
 
         @Override

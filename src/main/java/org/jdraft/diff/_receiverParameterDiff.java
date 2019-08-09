@@ -34,31 +34,31 @@ public class _receiverParameterDiff
             implements _diffNode<_receiverParameter._hasReceiverParameter>, _diffNode._change<ReceiverParameter> {
 
         public _path path;
-        public _receiverParameter._hasReceiverParameter leftRoot;
-        public _receiverParameter._hasReceiverParameter rightRoot;
+        public _receiverParameter._hasReceiverParameter leftParent;
+        public _receiverParameter._hasReceiverParameter rightParent;
         public ReceiverParameter left;
         public ReceiverParameter right;
 
-        public change_receiverParameter(_path path, _receiverParameter._hasReceiverParameter leftRoot, _receiverParameter._hasReceiverParameter rightRoot) {
+        public change_receiverParameter(_path path, _receiverParameter._hasReceiverParameter leftParent, _receiverParameter._hasReceiverParameter rightParent) {
             this.path = path;
-            this.leftRoot = leftRoot;
-            this.rightRoot = rightRoot;
-            if (leftRoot.hasReceiverParameter()) {
-                this.left = leftRoot.getReceiverParameter().astReceiverParam.clone();
+            this.leftParent = leftParent;
+            this.rightParent = rightParent;
+            if (leftParent.hasReceiverParameter()) {
+                this.left = leftParent.getReceiverParameter().astReceiverParam.clone();
             }
-            if (rightRoot.hasReceiverParameter()) {
-                this.right = rightRoot.getReceiverParameter().astReceiverParam.clone();
+            if (rightParent.hasReceiverParameter()) {
+                this.right = rightParent.getReceiverParameter().astReceiverParam.clone();
             }
         }
 
         @Override
         public _receiverParameter._hasReceiverParameter leftParent() {
-            return leftRoot;
+            return leftParent;
         }
 
         @Override
         public _receiverParameter._hasReceiverParameter rightParent() {
-            return rightRoot;
+            return rightParent;
         }
 
         @Override
@@ -78,14 +78,14 @@ public class _receiverParameterDiff
 
         @Override
         public void patchLeftToRight() {
-            leftRoot.receiverParameter(left);
-            rightRoot.receiverParameter(left);
+            leftParent.receiverParameter(left);
+            rightParent.receiverParameter(left);
         }
 
         @Override
         public void patchRightToLeft() {
-            leftRoot.receiverParameter(right);
-            rightRoot.receiverParameter(right);
+            leftParent.receiverParameter(right);
+            rightParent.receiverParameter(right);
         }
 
         @Override

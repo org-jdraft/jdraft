@@ -43,6 +43,6 @@ public class _constructorDiff implements _differ<_constructor, _node> {
         _typeParametersDiff.INSTANCE.diff(path, dt, left, right, left.getTypeParameters(), right.getTypeParameters());
         _throwsDiff.INSTANCE.diff(path, dt, left, right, left.getThrows(), right.getThrows());
         _bodyDiff.INSTANCE.diff(path, dt, left, right, left.getBody(), right.getBody());
-        return (_diff) dt;
+        return dt;
     }
 }

@@ -34,7 +34,7 @@ public class _fieldDiff implements _differ<_field, _node> {
         if (!Objects.equals(left.getInit(), right.getInit())) {
             dt.addDiff(new _changeInit(p.in(Component.INIT), left, right));
         }
-        return (_diff) dt;
+        return dt;
     }
 
     /**
@@ -45,33 +45,33 @@ public class _fieldDiff implements _differ<_field, _node> {
             implements _diffNode<_field>, _diffNode._change<Expression> {
 
         _path path;
-        _field left;
-        _field right;
+        _field leftParent;
+        _field rightParent;
         Expression leftExpression;
         Expression rightExpression;
 
-        public _changeInit(_path _p, _field left, _field right) {
+        public _changeInit(_path _p, _field leftParent, _field rightParent) {
             this.path = _p;
-            this.left = left;
-            if (left.hasInit()) {
-                this.leftExpression = left.getInit().clone();
+            this.leftParent = leftParent;
+            if (leftParent.hasInit()) {
+                this.leftExpression = leftParent.getInit().clone();
             }
-            this.right = right;
-            if (right.hasInit()) {
-                this.rightExpression = right.getInit().clone();
+            this.rightParent = rightParent;
+            if (rightParent.hasInit()) {
+                this.rightExpression = rightParent.getInit().clone();
             }
         }
 
         @Override
         public void patchLeftToRight() {
-            left.init(leftExpression);
-            right.init(leftExpression);
+            leftParent.init(leftExpression);
+            rightParent.init(leftExpression);
         }
 
         @Override
         public void patchRightToLeft() {
-            left.init(rightExpression);
-            right.init(rightExpression);
+            leftParent.init(rightExpression);
+            rightParent.init(rightExpression);
         }
 
         @Override
@@ -86,12 +86,12 @@ public class _fieldDiff implements _differ<_field, _node> {
 
         @Override
         public _field leftParent() {
-            return left;
+            return leftParent;
         }
 
         @Override
         public _field rightParent() {
-            return right;
+            return rightParent;
         }
 
         @Override

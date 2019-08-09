@@ -20,13 +20,13 @@ public class _javadocDiff implements _differ<_javadoc, _node> {
         return Objects.equals(left, right);
     }
 
-    public _diff diff( _hasJavadoc left, _hasJavadoc right){
+    public _diff diff( _hasJavadoc leftParent, _hasJavadoc rightParent){
         return diff( _path.of(), 
-            new _diffList((_node)left, (_node)right),
-            (_node)left, 
-            (_node)right, 
-            left.getJavadoc(), 
-            right.getJavadoc());
+            new _diffList((_node)leftParent, (_node)rightParent),
+            (_node)leftParent,
+            (_node)rightParent,
+            leftParent.getJavadoc(),
+            rightParent.getJavadoc());
     }
 
     @Override
@@ -45,20 +45,20 @@ public class _javadocDiff implements _differ<_javadoc, _node> {
             implements _diffNode, _diffNode._change<JavadocComment> {
 
         public _path path;
-        public _javadoc._hasJavadoc left;
-        public _javadoc._hasJavadoc right;
+        public _javadoc._hasJavadoc leftParent;
+        public _javadoc._hasJavadoc rightParent;
         public JavadocComment leftJavadoc;
         public JavadocComment rightJavadoc;
 
-        public _changeJavadoc(_path _p, _javadoc._hasJavadoc left, _javadoc._hasJavadoc right) {
+        public _changeJavadoc(_path _p, _javadoc._hasJavadoc leftParent, _javadoc._hasJavadoc rightParent) {
             this.path = _p;
-            this.left = left;
-            if (left.hasJavadoc()) {
-                this.leftJavadoc = left.getJavadoc().ast().clone();
+            this.leftParent = leftParent;
+            if (leftParent.hasJavadoc()) {
+                this.leftJavadoc = leftParent.getJavadoc().ast().clone();
             }
-            this.right = right;
-            if (right.hasJavadoc()) {
-                this.rightJavadoc = right.getJavadoc().ast().clone();
+            this.rightParent = rightParent;
+            if (rightParent.hasJavadoc()) {
+                this.rightJavadoc = rightParent.getJavadoc().ast().clone();
             }
         }
 
@@ -67,21 +67,21 @@ public class _javadocDiff implements _differ<_javadoc, _node> {
             if( leftJavadoc != null ){
                 //System.out.println("Setting on "+ left.getClass() );
                 //System.out.println("Setting on "+ right.getClass() );
-                left.javadoc(leftJavadoc.clone());
-                right.javadoc(leftJavadoc.clone());
+                leftParent.javadoc(leftJavadoc.clone());
+                rightParent.javadoc(leftJavadoc.clone());
                 //System.out.println("LEFT JAVADOC"+left.getJavadoc() );
                 //System.out.println("RIGHT JAVADOC"+right.getJavadoc() );
                 //System.out.println( "ARE THEY EQUAL " + left.getJavadoc().equals( right.getJavadoc() ));
             } else{
-                left.removeJavadoc();
-                right.removeJavadoc();
+                leftParent.removeJavadoc();
+                rightParent.removeJavadoc();
             }
         }
 
         @Override
         public void patchRightToLeft() {
-            left.javadoc(rightJavadoc);
-            right.javadoc(rightJavadoc);
+            leftParent.javadoc(rightJavadoc);
+            rightParent.javadoc(rightJavadoc);
         }
 
         @Override
@@ -96,12 +96,12 @@ public class _javadocDiff implements _differ<_javadoc, _node> {
 
         @Override
         public _java leftParent() {
-            return left;
+            return leftParent;
         }
 
         @Override
         public _java rightParent() {
-            return right;
+            return rightParent;
         }
 
         @Override

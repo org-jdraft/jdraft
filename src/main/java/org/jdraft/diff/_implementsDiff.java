@@ -63,39 +63,39 @@ public class _implementsDiff implements
             implements _diffNode<_type>, _diffNode._rightOnly<ClassOrInterfaceType> {
 
         public _path path;
-        public _type leftRoot;
-        public _type rightRoot;
+        public _type leftParent;
+        public _type rightParent;
         public ClassOrInterfaceType right;
 
-        public _rightOnly_implements(_path path, _type leftRoot, _type rightRoot, ClassOrInterfaceType right) {
+        public _rightOnly_implements(_path path, _type leftParent, _type rightParent, ClassOrInterfaceType right) {
             this.path = path;
-            this.leftRoot = leftRoot;
-            this.rightRoot = rightRoot;
+            this.leftParent = leftParent;
+            this.rightParent = rightParent;
             this.right = right.clone();
         }
 
         @Override
         public _type leftParent() {
-            return leftRoot;
+            return leftParent;
         }
 
         @Override
         public _type rightParent() {
-            return rightRoot;
+            return rightParent;
         }
 
         @Override
         public void patchLeftToRight() {
-            ((_type._hasImplements) leftRoot).removeImplements(right);
-            ((_type._hasImplements) rightRoot).removeImplements(right);
+            ((_type._hasImplements) leftParent).removeImplements(right);
+            ((_type._hasImplements) rightParent).removeImplements(right);
         }
 
         @Override
         public void patchRightToLeft() {
-            ((_type._hasImplements) leftRoot).removeImplements(right);
-            ((_type._hasImplements) leftRoot).implement(right);
-            ((_type._hasImplements) rightRoot).removeImplements(right);
-            ((_type._hasImplements) rightRoot).implement(right);
+            ((_type._hasImplements) leftParent).removeImplements(right);
+            ((_type._hasImplements) leftParent).implement(right);
+            ((_type._hasImplements) rightParent).removeImplements(right);
+            ((_type._hasImplements) rightParent).implement(right);
         }
 
         @Override
@@ -118,39 +118,39 @@ public class _implementsDiff implements
             implements _diffNode<_type>, _diffNode._leftOnly<ClassOrInterfaceType> {
 
         public _path path;
-        public _type leftRoot;
-        public _type rightRoot;
+        public _type leftParent;
+        public _type rightParent;
         public ClassOrInterfaceType left;
 
-        public _leftOnly_implements(_path path, _type leftRoot, _type rightRoot, ClassOrInterfaceType left) {
+        public _leftOnly_implements(_path path, _type leftParent, _type rightParent, ClassOrInterfaceType left) {
             this.path = path;
-            this.leftRoot = leftRoot;
-            this.rightRoot = rightRoot;
+            this.leftParent = leftParent;
+            this.rightParent = rightParent;
             this.left = left.clone();
         }
 
         @Override
         public _type leftParent() {
-            return leftRoot;
+            return leftParent;
         }
 
         @Override
         public _type rightParent() {
-            return rightRoot;
+            return rightParent;
         }
 
         @Override
         public void patchLeftToRight() {
-            ((_type._hasImplements) leftRoot).removeImplements(left);
-            ((_type._hasImplements) leftRoot).implement(left);
-            ((_type._hasImplements) rightRoot).removeImplements(left);
-            ((_type._hasImplements) rightRoot).implement(left);
+            ((_type._hasImplements) leftParent).removeImplements(left);
+            ((_type._hasImplements) leftParent).implement(left);
+            ((_type._hasImplements) rightParent).removeImplements(left);
+            ((_type._hasImplements) rightParent).implement(left);
         }
 
         @Override
         public void patchRightToLeft() {
-            ((_type._hasImplements) leftRoot).removeImplements(left);
-            ((_type._hasImplements) rightRoot).removeImplements(left);
+            ((_type._hasImplements) leftParent).removeImplements(left);
+            ((_type._hasImplements) rightParent).removeImplements(left);
         }
 
         @Override

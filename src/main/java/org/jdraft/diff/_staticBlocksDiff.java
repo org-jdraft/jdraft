@@ -51,41 +51,41 @@ public class _staticBlocksDiff
     public static class _rightOnly_staticBlock implements _diffNode<_staticBlock._hasStaticBlocks>, _diffNode._rightOnly<_staticBlock> {
 
         public _path path;
-        public _staticBlock._hasStaticBlocks leftRoot;
-        public _staticBlock._hasStaticBlocks rightRoot;
+        public _staticBlock._hasStaticBlocks leftParent;
+        public _staticBlock._hasStaticBlocks rightParent;
         public _staticBlock right;
         //TODO? leftMemberIndex, rightMemberIndex so I add the static Block in the right place???
 
-        public _rightOnly_staticBlock(_path path, _staticBlock._hasStaticBlocks leftRoot, _staticBlock._hasStaticBlocks rightRoot, _staticBlock right) {
+        public _rightOnly_staticBlock(_path path, _staticBlock._hasStaticBlocks leftParent, _staticBlock._hasStaticBlocks rightParent, _staticBlock right) {
             this.path = path;
-            this.leftRoot = leftRoot;
-            this.rightRoot = rightRoot;
+            this.leftParent = leftParent;
+            this.rightParent = rightParent;
             this.right = _staticBlock.of(right.astStaticInit.clone());
         }
 
         @Override
         public _staticBlock._hasStaticBlocks leftParent() {
-            return leftRoot;
+            return leftParent;
         }
 
         @Override
         public _staticBlock._hasStaticBlocks rightParent() {
-            return rightRoot;
+            return rightParent;
         }
 
         @Override
         public void patchLeftToRight() {
-            this.leftRoot.removeStaticBlock(right);
-            this.rightRoot.removeStaticBlock(right);
+            this.leftParent.removeStaticBlock(right);
+            this.rightParent.removeStaticBlock(right);
         }
 
         @Override
         public void patchRightToLeft() {
-            this.leftRoot.removeStaticBlock(right);
-            this.leftRoot.staticBlock(right);
+            this.leftParent.removeStaticBlock(right);
+            this.leftParent.staticBlock(right);
 
-            this.rightRoot.removeStaticBlock(right);
-            this.rightRoot.staticBlock(right);
+            this.rightParent.removeStaticBlock(right);
+            this.rightParent.staticBlock(right);
         }
 
         @Override
@@ -107,40 +107,40 @@ public class _staticBlocksDiff
     public static class _leftOnly_staticBlock implements _diffNode<_staticBlock._hasStaticBlocks>, _diffNode._leftOnly<_staticBlock> {
 
         public _path path;
-        public _staticBlock._hasStaticBlocks leftRoot;
-        public _staticBlock._hasStaticBlocks rightRoot;
+        public _staticBlock._hasStaticBlocks leftParent;
+        public _staticBlock._hasStaticBlocks rightParent;
         public _staticBlock left;
 
-        public _leftOnly_staticBlock(_path path, _staticBlock._hasStaticBlocks leftRoot, _staticBlock._hasStaticBlocks rightRoot, _staticBlock left) {
+        public _leftOnly_staticBlock(_path path, _staticBlock._hasStaticBlocks leftParent, _staticBlock._hasStaticBlocks rightParent, _staticBlock left) {
             this.path = path;
-            this.leftRoot = leftRoot;
-            this.rightRoot = rightRoot;
+            this.leftParent = leftParent;
+            this.rightParent = rightParent;
             this.left = _staticBlock.of(left.astStaticInit.clone());
         }
 
         @Override
         public _staticBlock._hasStaticBlocks leftParent() {
-            return leftRoot;
+            return leftParent;
         }
 
         @Override
         public _staticBlock._hasStaticBlocks rightParent() {
-            return rightRoot;
+            return rightParent;
         }
 
         @Override
         public void patchLeftToRight() {
-            this.leftRoot.removeStaticBlock(left);
-            this.leftRoot.staticBlock(left);
+            this.leftParent.removeStaticBlock(left);
+            this.leftParent.staticBlock(left);
 
-            this.rightRoot.removeStaticBlock(left);
-            this.rightRoot.staticBlock(left);
+            this.rightParent.removeStaticBlock(left);
+            this.rightParent.staticBlock(left);
         }
 
         @Override
         public void patchRightToLeft() {
-            this.leftRoot.removeStaticBlock(left);
-            this.rightRoot.removeStaticBlock(left);
+            this.leftParent.removeStaticBlock(left);
+            this.rightParent.removeStaticBlock(left);
         }
 
         @Override

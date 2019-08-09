@@ -88,43 +88,43 @@ public class _importsDiff
                 (_type) _leftParent,
                 (_type) _rightParent, c)));
 
-        return (_diff) dt;
+        return dt;
     }
 
     public static class _rightOnly_import implements _diffNode<_type>, _diffNode._rightOnly<ImportDeclaration> {
 
         public _path path;
-        public _type leftRoot;
-        public _type rightRoot;
+        public _type leftParent;
+        public _type rightParent;
         public ImportDeclaration right;
 
-        public _rightOnly_import(_path path, _type leftRoot, _type rightRoot, ImportDeclaration right) {
+        public _rightOnly_import(_path path, _type leftParent, _type rightParent, ImportDeclaration right) {
             this.path = path;
-            this.leftRoot = leftRoot;
-            this.rightRoot = rightRoot;
+            this.leftParent = leftParent;
+            this.rightParent = rightParent;
             this.right = Ast.importDeclaration(right.toString());
         }
 
         @Override
         public _type leftParent() {
-            return leftRoot;
+            return leftParent;
         }
 
         @Override
         public _type rightParent() {
-            return rightRoot;
+            return rightParent;
         }
 
         @Override
         public void patchLeftToRight() {
-            leftRoot.removeImports(right);
-            rightRoot.removeImports(right);
+            leftParent.removeImports(right);
+            rightParent.removeImports(right);
         }
 
         @Override
         public void patchRightToLeft() {
-            leftRoot.imports(right);
-            rightRoot.imports(right);
+            leftParent.imports(right);
+            rightParent.imports(right);
         }
 
         @Override
@@ -147,37 +147,37 @@ public class _importsDiff
     public static class _leftOnly_import implements _diffNode<_type>, _diffNode._leftOnly<ImportDeclaration> {
 
         public _path path;
-        public _type leftRoot;
-        public _type rightRoot;
+        public _type leftParent;
+        public _type rightParent;
         public ImportDeclaration left;
 
-        public _leftOnly_import(_path path, _type leftRoot, _type rightRoot, ImportDeclaration left) {
+        public _leftOnly_import(_path path, _type leftParent, _type rightParent, ImportDeclaration left) {
             this.path = path;
-            this.leftRoot = leftRoot;
-            this.rightRoot = rightRoot;
+            this.leftParent = leftParent;
+            this.rightParent = rightParent;
             this.left = Ast.importDeclaration(left.toString());
         }
 
         @Override
         public _type leftParent() {
-            return leftRoot;
+            return leftParent;
         }
 
         @Override
         public _type rightParent() {
-            return rightRoot;
+            return rightParent;
         }
 
         @Override
         public void patchLeftToRight() {
-            leftRoot.imports(left);
-            rightRoot.imports(left);
+            leftParent.imports(left);
+            rightParent.imports(left);
         }
 
         @Override
         public void patchRightToLeft() {
-            leftRoot.removeImports(left);
-            rightRoot.removeImports(left);
+            leftParent.removeImports(left);
+            rightParent.removeImports(left);
         }
 
         @Override

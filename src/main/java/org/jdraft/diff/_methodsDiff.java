@@ -41,14 +41,14 @@ public class _methodsDiff
         return null;
     }
 
-     public _diff diff( _method._hasMethods left, _method._hasMethods right){
+     public _diff diff( _method._hasMethods leftParent, _method._hasMethods rightParent){
         return diff( 
                 _path.of(), 
-                new _diffList( (_node)left, (_node)right),
-                (_node)left, 
-                (_node)right, 
-                left.listMethods(), 
-                right.listMethods());
+                new _diffList( (_node)leftParent, (_node)rightParent),
+                (_node)leftParent,
+                (_node)rightParent,
+                leftParent.listMethods(),
+                rightParent.listMethods());
     }
      
     @Override
@@ -93,25 +93,25 @@ public class _methodsDiff
     public static class _leftOnly_method implements _diffNode<_method._hasMethods>, _diffNode._leftOnly<_method> {
 
         public _path path;
-        public _method._hasMethods rightRoot;
-        public _method._hasMethods leftRoot;
+        public _method._hasMethods rightParent;
+        public _method._hasMethods leftParent;
         public _method left;
 
-        public _leftOnly_method(_path path, _method._hasMethods leftRoot, _method._hasMethods rightRoot, _method left) {
+        public _leftOnly_method(_path path, _method._hasMethods leftParent, _method._hasMethods rightParent, _method left) {
             this.path = path;
-            this.leftRoot = leftRoot;
-            this.rightRoot = rightRoot;
+            this.leftParent = leftParent;
+            this.rightParent = rightParent;
             this.left = _method.of(left.toString());
         }
 
         @Override
         public _method._hasMethods leftParent() {
-            return leftRoot;
+            return leftParent;
         }
 
         @Override
         public _method._hasMethods rightParent() {
-            return rightRoot;
+            return rightParent;
         }
 
         @Override
@@ -126,16 +126,16 @@ public class _methodsDiff
 
         @Override
         public void patchRightToLeft() {
-            this.leftRoot.removeMethod(left);
-            this.rightRoot.removeMethod(left);
+            this.leftParent.removeMethod(left);
+            this.rightParent.removeMethod(left);
         }
 
         @Override
         public void patchLeftToRight() {
-            this.leftRoot.removeMethod(left); //dont double add
-            this.leftRoot.method(left.copy());
-            this.rightRoot.removeMethod(left);
-            this.rightRoot.method(left.copy());
+            this.leftParent.removeMethod(left); //dont double add
+            this.leftParent.method(left.copy());
+            this.rightParent.removeMethod(left);
+            this.rightParent.method(left.copy());
         }
 
         @Override
@@ -147,25 +147,25 @@ public class _methodsDiff
     public static class _rightOnly_method implements _diffNode<_method._hasMethods>, _diffNode._rightOnly<_method> {
 
         public _path path;
-        public _method._hasMethods rightRoot;
-        public _method._hasMethods leftRoot;
+        public _method._hasMethods rightParent;
+        public _method._hasMethods leftParent;
         public _method right;
 
-        public _rightOnly_method(_path path, _method._hasMethods leftRoot, _method._hasMethods rightRoot, _method right) {
+        public _rightOnly_method(_path path, _method._hasMethods leftParent, _method._hasMethods rightParent, _method right) {
             this.path = path;
-            this.leftRoot = leftRoot;
-            this.rightRoot = rightRoot;
+            this.leftParent = leftParent;
+            this.rightParent = rightParent;
             this.right = _method.of(right.toString());
         }
 
         @Override
         public _method._hasMethods leftParent() {
-            return leftRoot;
+            return leftParent;
         }
 
         @Override
         public _method._hasMethods rightParent() {
-            return rightRoot;
+            return rightParent;
         }
 
         @Override
@@ -180,17 +180,17 @@ public class _methodsDiff
 
         @Override
         public void patchRightToLeft() {
-            this.leftRoot.removeMethod(right);
-            this.leftRoot.method(right.copy());
+            this.leftParent.removeMethod(right);
+            this.leftParent.method(right.copy());
 
-            this.rightRoot.removeMethod(right);
-            this.rightRoot.method(right.copy());
+            this.rightParent.removeMethod(right);
+            this.rightParent.method(right.copy());
         }
 
         @Override
         public void patchLeftToRight() {
-            this.leftRoot.removeMethod(right);
-            this.rightRoot.removeMethod(right);
+            this.leftParent.removeMethod(right);
+            this.rightParent.removeMethod(right);
         }
 
         @Override

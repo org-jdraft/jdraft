@@ -84,39 +84,39 @@ public class _annotationDiff implements _differ<_annotation, _node> {
         public static class _rightOnly_element implements _diffNode<_annotation>, _diffNode._rightOnly<_annotation._element> {
 
             public _path path;
-            public _annotation leftRoot;
-            public _annotation rightRoot;
+            public _annotation leftParent;
+            public _annotation rightParent;
             public _annotation._element right;
 
-            public _rightOnly_element(_path path, _annotation leftRoot, _annotation rightRoot, _annotation._element right) {
+            public _rightOnly_element(_path path, _annotation leftParent, _annotation rightParent, _annotation._element right) {
                 this.path = path;
-                this.leftRoot = leftRoot;
-                this.rightRoot = rightRoot;
+                this.leftParent = leftParent;
+                this.rightParent = rightParent;
                 this.right = right;
             }
 
             @Override
             public _annotation leftParent() {
-                return leftRoot;
+                return leftParent;
             }
 
             @Override
             public _annotation rightParent() {
-                return rightRoot;
+                return rightParent;
             }
 
             @Override
             public void patchLeftToRight() {
-                leftRoot.removeElement(right);
-                rightRoot.removeElement(right);
+                leftParent.removeElement(right);
+                rightParent.removeElement(right);
             }
 
             @Override
             public void patchRightToLeft() {
-                leftRoot.removeElement(right);
-                rightRoot.removeElement(right);
-                leftRoot.element(right);
-                rightRoot.element(right);
+                leftParent.removeElement(right);
+                rightParent.removeElement(right);
+                leftParent.element(right);
+                rightParent.element(right);
             }
 
             @Override
@@ -138,39 +138,39 @@ public class _annotationDiff implements _differ<_annotation, _node> {
         public static class _leftOnly_element implements _diffNode<_annotation>, _diffNode._leftOnly<_annotation._element> {
 
             public _path path;
-            public _annotation leftRoot;
-            public _annotation rightRoot;
+            public _annotation leftParent;
+            public _annotation rightParent;
             public _annotation._element left;
 
-            public _leftOnly_element(_path path, _annotation leftRoot, _annotation rightRoot, _annotation._element left) {
+            public _leftOnly_element(_path path, _annotation leftParent, _annotation rightParent, _annotation._element left) {
                 this.path = path;
-                this.leftRoot = leftRoot;
-                this.rightRoot = rightRoot;
+                this.leftParent = leftParent;
+                this.rightParent = rightParent;
                 this.left = _annotation._element.of(left.toString());
             }
 
             @Override
             public _annotation leftParent() {
-                return leftRoot;
+                return leftParent;
             }
 
             @Override
             public _annotation rightParent() {
-                return rightRoot;
+                return rightParent;
             }
 
             @Override
             public void patchLeftToRight() {
-                leftRoot.removeElement(left);
-                rightRoot.removeElement(left);
+                leftParent.removeElement(left);
+                rightParent.removeElement(left);
             }
 
             @Override
             public void patchRightToLeft() {
-                leftRoot.removeElement(left);
-                rightRoot.removeElement(left);
-                leftRoot.element(left);
-                rightRoot.element(left);
+                leftParent.removeElement(left);
+                rightParent.removeElement(left);
+                leftParent.element(left);
+                rightParent.element(left);
             }
 
             @Override
@@ -203,7 +203,7 @@ public class _annotationDiff implements _differ<_annotation, _node> {
             _typeRefDiff.INSTANCE.diff(path, ds, left, right, left.getType(), right.getType());
             _namedDiff.INSTANCE.diff(path, ds, left, right, left.getName(), right.getName());
             DEFAULT_VALUE_DIFF.diff(path, ds, left, right, left.getDefaultValue(), right.getDefaultValue());
-            return (_diff) ds;
+            return ds;
         }
     }
 
@@ -228,33 +228,33 @@ public class _annotationDiff implements _differ<_annotation, _node> {
             implements _diffNode, _diffNode._change<Expression> {
 
         _path path;
-        _annotation._element leftRoot;
-        _annotation._element rightRoot;
+        _annotation._element leftParent;
+        _annotation._element rightParent;
         Expression leftExpression;
         Expression rightExpression;
 
-        public _changeDefault(_path _p, _annotation._element leftRoot, _annotation._element rightRoot) {
+        public _changeDefault(_path _p, _annotation._element leftParent, _annotation._element rightParent) {
             this.path = _p;
-            this.leftRoot = leftRoot;
-            if (leftRoot.hasDefaultValue()) {
-                this.leftExpression = leftRoot.getDefaultValue().clone();
+            this.leftParent = leftParent;
+            if (leftParent.hasDefaultValue()) {
+                this.leftExpression = leftParent.getDefaultValue().clone();
             }
-            this.rightRoot = rightRoot;
-            if (rightRoot.hasDefaultValue()) {
-                this.rightExpression = rightRoot.getDefaultValue().clone();
+            this.rightParent = rightParent;
+            if (rightParent.hasDefaultValue()) {
+                this.rightExpression = rightParent.getDefaultValue().clone();
             }
         }
 
         @Override
         public void patchLeftToRight() {
-            leftRoot.setDefaultValue(leftExpression.clone());
-            rightRoot.setDefaultValue(leftExpression.clone());
+            leftParent.setDefaultValue(leftExpression.clone());
+            rightParent.setDefaultValue(leftExpression.clone());
         }
 
         @Override
         public void patchRightToLeft() {
-            leftRoot.setDefaultValue(rightExpression.clone());
-            rightRoot.setDefaultValue(rightExpression.clone());
+            leftParent.setDefaultValue(rightExpression.clone());
+            rightParent.setDefaultValue(rightExpression.clone());
         }
 
         @Override
@@ -269,12 +269,12 @@ public class _annotationDiff implements _differ<_annotation, _node> {
 
         @Override
         public _java leftParent() {
-            return leftRoot;
+            return leftParent;
         }
 
         @Override
         public _java rightParent() {
-            return rightRoot;
+            return rightParent;
         }
 
         @Override

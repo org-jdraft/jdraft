@@ -75,25 +75,25 @@ public class _fieldsDiff implements _differ<List<_field>, _node> {
         implements _diffNode<_field._hasFields>, _diffNode._leftOnly<_field> {
 
         public _path path;
-        public _field._hasFields leftRoot;
-        public _field._hasFields rightRoot;
+        public _field._hasFields leftParent;
+        public _field._hasFields rightParent;
         public _field left;
 
-        public _leftOnly_field( _path p, _field._hasFields leftRoot, _field._hasFields rightRoot, _field left) {
+        public _leftOnly_field(_path p, _field._hasFields leftParent, _field._hasFields rightParent, _field left) {
             this.path = p;
-            this.leftRoot = leftRoot;
-            this.rightRoot = rightRoot;
+            this.leftParent = leftParent;
+            this.rightParent = rightParent;
             this.left = _field.of(left.toString());
         }
 
         @Override
         public _field._hasFields leftParent() {
-            return leftRoot;
+            return leftParent;
         }
 
         @Override
         public _field._hasFields rightParent() {
-            return rightRoot;
+            return rightParent;
         }
 
         @Override
@@ -109,17 +109,17 @@ public class _fieldsDiff implements _differ<List<_field>, _node> {
         @Override
         public void patchRightToLeft() {
             //remove the anno
-            leftRoot.removeField(left);
-            rightRoot.removeField(left);
+            leftParent.removeField(left);
+            rightParent.removeField(left);
         }
 
         @Override
         public void patchLeftToRight() {
             //remove it IN CASE so we dont mistakenly add it twice
-            leftRoot.removeField(left);
-            leftRoot.field(left.copy());
-            rightRoot.removeField(left);
-            rightRoot.field(left.copy());
+            leftParent.removeField(left);
+            leftParent.field(left.copy());
+            rightParent.removeField(left);
+            rightParent.field(left.copy());
         }
 
         @Override
@@ -131,25 +131,25 @@ public class _fieldsDiff implements _differ<List<_field>, _node> {
     public static class _rightOnly_field implements _diffNode<_field._hasFields>, _diffNode._rightOnly<_field> {
 
         public _path path;
-        public _field._hasFields leftRoot;
-        public _field._hasFields rightRoot;
+        public _field._hasFields leftParent;
+        public _field._hasFields rightParent;
         public _field right;
 
-        public _rightOnly_field(_path p, _field._hasFields leftRoot, _field._hasFields rightRoot, _field right) {
+        public _rightOnly_field(_path p, _field._hasFields leftParent, _field._hasFields rightParent, _field right) {
             this.path = p;
-            this.leftRoot = leftRoot;
-            this.rightRoot = rightRoot;
+            this.leftParent = leftParent;
+            this.rightParent = rightParent;
             this.right = _field.of(right.toString() );
         }
 
         @Override
         public _field._hasFields leftParent() {
-            return leftRoot;
+            return leftParent;
         }
 
         @Override
         public _field._hasFields rightParent() {
-            return rightRoot;
+            return rightParent;
         }
 
         @Override
@@ -165,17 +165,17 @@ public class _fieldsDiff implements _differ<List<_field>, _node> {
         @Override
         public void patchRightToLeft() {
             //remove it before just so we dont mistakenly add it twice
-            leftRoot.removeField(right);
-            leftRoot.field(right.copy());
-            rightRoot.removeField(right);
-            rightRoot.field(right.copy());
+            leftParent.removeField(right);
+            leftParent.field(right.copy());
+            rightParent.removeField(right);
+            rightParent.field(right.copy());
         }
 
         @Override
         public void patchLeftToRight() {
             //remove it before just so we dont mistakenly add it twice
-            leftRoot.removeField(right);
-            rightRoot.removeField(right);
+            leftParent.removeField(right);
+            rightParent.removeField(right);
         }
 
         @Override

@@ -325,6 +325,7 @@ public interface _diffNode<_PN extends _java> {
         /** @return the path to the edit diff */
         _path path();
 
+        /** */
         _edit forEach(Consumer<diff_match_patch.Diff> diffActionFn);
 
         /**

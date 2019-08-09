@@ -16,7 +16,7 @@ public class _typeRefDiff
         if (!Objects.equals(left, right)) {
             dt.addDiff(new _change_type(path.in(_java.Component.TYPE), (_namedType) _leftParent, (_namedType) _rightParent));
         }
-        return (_diff) dt;
+        return  dt;
     }
     
     /**
@@ -27,29 +27,29 @@ public class _typeRefDiff
     public static class _change_type 
             implements _diffNode, _diffNode._change<_typeRef>{
         _path path;
-        _namedType left;
-        _namedType right;
+        _namedType leftParent;
+        _namedType rightParent;
         _typeRef leftType;
         _typeRef rightType;
         
-        public _change_type(_path _p, _namedType left, _namedType right ){
+        public _change_type(_path _p, _namedType leftParent, _namedType rightParent){
             this.path = _p;
-            this.left = left;
-            this.leftType = left.getType().copy();
-            this.right = right;
-            this.rightType = right.getType().copy();            
+            this.leftParent = leftParent;
+            this.leftType = leftParent.getType().copy();
+            this.rightParent = rightParent;
+            this.rightType = rightParent.getType().copy();
         }
         
         @Override
         public void patchLeftToRight(){
-            left.type(leftType.copy());
-            right.type(leftType.copy());
+            leftParent.type(leftType.copy());
+            rightParent.type(leftType.copy());
         }
         
         @Override
         public void patchRightToLeft(){
-            left.type(rightType.copy());
-            right.type(rightType.copy());
+            leftParent.type(rightType.copy());
+            rightParent.type(rightType.copy());
         }
         
         @Override
@@ -64,12 +64,12 @@ public class _typeRefDiff
         
         @Override
         public _java leftParent() {
-            return left;
+            return leftParent;
         }
 
         @Override
         public _java rightParent() {
-            return right;
+            return rightParent;
         }
 
         @Override

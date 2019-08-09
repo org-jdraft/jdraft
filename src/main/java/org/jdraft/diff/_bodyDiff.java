@@ -9,7 +9,6 @@ import org.jdraft._body._hasBody;
 import org.jdraft.diff._diff.*;
 import name.fraser.neil.plaintext.diff_match_patch;
 
-
 /**
  *
  * @author Eric
@@ -61,31 +60,31 @@ public class _bodyDiff
             //_textDiff td = new _textDiff(diffs);
             //dt.add(path.in(_java.Component.BODY), td, td);                
         }
-        return (_diff) ds;
+        return ds;
     }
     
     
     public static class _bodyEditNode implements _diffNode<_hasBody>, _diffNode._edit{
-        final _hasBody _leftRoot;
-        final _hasBody _rightRoot;
+        final _hasBody leftParent;
+        final _hasBody rightParent;
         final LinkedList<diff_match_patch.Diff> diffs;
         final _path path;
         
-        public _bodyEditNode( _path path, _hasBody _leftRoot, _hasBody _rightRoot, LinkedList<diff_match_patch.Diff> diffs ){
-            this._leftRoot = _leftRoot;
-            this._rightRoot = _rightRoot;
+        public _bodyEditNode(_path path, _hasBody leftParent, _hasBody rightParent, LinkedList<diff_match_patch.Diff> diffs ){
+            this.leftParent = leftParent;
+            this.rightParent = rightParent;
             this.path = path;
             this.diffs = diffs;
         }
         
          @Override
         public _hasBody leftParent(){
-            return _leftRoot;
+            return leftParent;
         }
         
         @Override
         public _hasBody rightParent(){
-            return _rightRoot;
+            return rightParent;
         }
         
         @Override

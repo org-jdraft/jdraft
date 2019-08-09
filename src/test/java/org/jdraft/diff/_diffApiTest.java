@@ -25,7 +25,7 @@ public class _diffApiTest extends TestCase {
         //take the left value and patch it right (set B.b on class B to be 100, the value from A.b)
         _d.firstOn(_field.class, "b").patchLeftToRight();
 
-        _class rr = (_class)_d.list().get(0).rightRoot();
+        _class rr = (_class)_d.list().get(0).rightParent();
 
     }
 

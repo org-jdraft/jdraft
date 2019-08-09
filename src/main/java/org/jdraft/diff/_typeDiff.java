@@ -11,7 +11,8 @@ import org.jdraft.diff._diff.*;
 public class _typeDiff implements _differ<_type, _node> {
 
     public static final _typeDiff INSTANCE = new _typeDiff();
-    
+
+    /*
     public _java.Component getComponent(_type t) {
         if (t instanceof _class) {
             return _java.Component.CLASS;
@@ -24,6 +25,7 @@ public class _typeDiff implements _differ<_type, _node> {
         }
         return _java.Component.ANNOTATION;
     }
+     */
 
     @Override
     public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, _type left, _type right) {

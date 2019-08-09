@@ -31,27 +31,27 @@ public class _parametersDiff
             implements _diffNode<_parameter._hasParameters>, _diffNode._change<_parameter._parameters> {
 
         public _path path;
-        public _parameter._hasParameters leftRoot;
-        public _parameter._hasParameters rightRoot;
+        public _parameter._hasParameters leftParent;
+        public _parameter._hasParameters rightParent;
         public _parameter._parameters left;
         public _parameter._parameters right;
 
-        public _changeParameters(_path path, _parameter._hasParameters leftRoot, _parameter._hasParameters rightRoot) {
+        public _changeParameters(_path path, _parameter._hasParameters leftParent, _parameter._hasParameters rightParent) {
             this.path = path;
-            this.leftRoot = leftRoot;
-            this.rightRoot = rightRoot;
-            this.left = leftRoot.getParameters().copy();
-            this.right = rightRoot.getParameters().copy();
+            this.leftParent = leftParent;
+            this.rightParent = rightParent;
+            this.left = leftParent.getParameters().copy();
+            this.right = rightParent.getParameters().copy();
         }
 
         @Override
         public _parameter._hasParameters leftParent() {
-            return leftRoot;
+            return leftParent;
         }
 
         @Override
         public _parameter._hasParameters rightParent() {
-            return rightRoot;
+            return rightParent;
         }
 
         @Override
@@ -71,14 +71,14 @@ public class _parametersDiff
 
         @Override
         public void patchLeftToRight() {
-            leftRoot.setParameters(left);
-            rightRoot.setParameters(left);
+            leftParent.setParameters(left);
+            rightParent.setParameters(left);
         }
 
         @Override
         public void patchRightToLeft() {
-            leftRoot.setParameters(right);
-            rightRoot.setParameters(right);
+            leftParent.setParameters(right);
+            rightParent.setParameters(right);
         }
 
         @Override

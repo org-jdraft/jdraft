@@ -232,8 +232,10 @@ public interface _diff {
      */
     List<_diffNode> list();
 
+    /** gets the left root node of the diff (could be null for localized diffs) */
     _node leftRoot();
 
+    /** gets the right root node of the diff (could be null for localized diffs) */
     _node rightRoot();
 
     /**
@@ -243,6 +245,10 @@ public interface _diff {
         return list().size();
     }
 
+    /**
+     *
+     * @return true if there are no known diffs between the (2) entities
+     */
     default boolean isEmpty() {
         return list().isEmpty();
     }
@@ -287,35 +293,35 @@ public interface _diff {
         return first(d -> d.isLeftOnly() && d.path().equals(_p));
     }
     
-    default <N extends _node> _diffNode leftOnlyAt(Class<N> nodeClass){
+    default <_N extends _node> _diffNode leftOnlyAt(Class<_N> nodeClass){
         return first(d -> d.isLeftOnly() && d.at(Component.of(nodeClass)));
     }
     
-    default <N extends _node> _diffNode leftOnlyAt(Class<N> nodeClass, String id){
+    default <_N extends _node> _diffNode leftOnlyAt(Class<_N> nodeClass, String id){
         return first(d -> d.isLeftOnly() && d.at(Component.of(nodeClass), id));
     }
     
-    default <N extends _node> _diffNode leftOnlyAt(String id){
+    default _diffNode leftOnlyAt(String id){
         return first(d -> d.isLeftOnly() && d.at(id));
     }
     
-    default <N extends _node> _diffNode leftOnlyAt(Component component){
+    default _diffNode leftOnlyAt(Component component){
         return first(d -> d.isLeftOnly() && d.at(component));
     }
     
-    default <N extends _node> _diffNode leftOnlyAt(Component component, String id){
+    default _diffNode leftOnlyAt(Component component, String id){
         return first(d -> d.isLeftOnly() && d.at(component, id));
     }
     
-    default <N extends _node> _diffNode leftOnlyOn(Class<N> nodeClass){
+    default <_N extends _node> _diffNode leftOnlyOn(Class<_N> nodeClass){
         return first( d-> d.isLeftOnly() && d.on( Component.of(nodeClass) ) );
     }
     
-    default <N extends _node> _diffNode leftOnlyOn(String id){
+    default _diffNode leftOnlyOn(String id){
         return first( d-> d.isLeftOnly() && d.on( id ) );
     }
     
-    default <N extends _node>_diffNode leftOnlyOn(Class<N> nodeClass, String id){
+    default <_N extends _node>_diffNode leftOnlyOn(Class<_N> nodeClass, String id){
         return first( d-> d.isLeftOnly() && d.on( Component.of(nodeClass), id ) );
     }
     
@@ -331,35 +337,35 @@ public interface _diff {
         return first(d -> d.isRightOnly() && d.path().equals(_p));
     }
     
-    default <N extends _node> _diffNode rightOnlyAt(Class<N> nodeClass){
+    default <_N extends _node> _diffNode rightOnlyAt(Class<_N> nodeClass){
         return first(d -> d.isRightOnly() && d.at(Component.of(nodeClass)));
     }
     
-    default <N extends _node> _diffNode rightOnlyAt(Class<N> nodeClass, String id){
+    default <_N extends _node> _diffNode rightOnlyAt(Class<_N> nodeClass, String id){
         return first(d -> d.isRightOnly() && d.at(Component.of(nodeClass), id));
     }
     
-    default <N extends _node> _diffNode rightOnlyAt(String id){
+    default _diffNode rightOnlyAt(String id){
         return first(d -> d.isRightOnly() && d.at(id));
     }
     
-    default <N extends _node> _diffNode rightOnlyAt(Component component){
+    default _diffNode rightOnlyAt(Component component){
         return first(d -> d.isRightOnly() && d.at(component));
     }
     
-    default <N extends _node> _diffNode rightOnlyAt(Component component, String id){
+    default _diffNode rightOnlyAt(Component component, String id){
         return first(d -> d.isRightOnly() && d.at(component, id));
     }
     
-    default <N extends _node> _diffNode rightOnlyOn(Class<N> nodeClass){
+    default <_N extends _node> _diffNode rightOnlyOn(Class<_N> nodeClass){
         return first( d-> d.isRightOnly() && d.on( Component.of(nodeClass) ) );
     }
 
-    default <N extends _node>_diffNode rightOnlyOn(String id){
+    default _diffNode rightOnlyOn(String id){
         return first( d-> d.isRightOnly() && d.on( id ) );
     }
     
-    default <N extends _node>_diffNode rightOnlyOn(Class<N> nodeClass, String id){
+    default <_N extends _node>_diffNode rightOnlyOn(Class<_N> nodeClass, String id){
         return first( d-> d.isRightOnly() && d.on( Component.of(nodeClass), id ) );
     }
     
@@ -382,35 +388,35 @@ public interface _diff {
         return first(d -> d.isChange() && d.path().equals(_p));
     }
     
-    default <N extends _node> _diffNode changeAt(Class<N> nodeClass){
+    default <_N extends _node> _diffNode changeAt(Class<_N> nodeClass){
         return first(d -> d.isChange() && d.at(Component.of(nodeClass)));
     }
 
-    default <N extends _node> _diffNode changeAt(String id){
+    default  _diffNode changeAt(String id){
         return first(d -> d.isChange() && d.at(id));
     }
     
-    default <N extends _node> _diffNode changeAt(Class<N> nodeClass, String id){
+    default <_N extends _node> _diffNode changeAt(Class<_N> nodeClass, String id){
         return first(d -> d.isChange() && d.at(Component.of(nodeClass), id));
     }
     
-    default <N extends _node> _diffNode changeAt(Component component){
+    default _diffNode changeAt(Component component){
         return first(d -> d.isChange() && d.at(component));
     }
     
-    default <N extends _node> _diffNode changeAt(Component component, String id){
+    default _diffNode changeAt(Component component, String id){
         return first(d -> d.isChange() && d.at(component, id));
     }
     
-    default <N extends _node> _diffNode changeOn(Class<N> nodeClass){
+    default <_N extends _node> _diffNode changeOn(Class<_N> nodeClass){
         return first( d-> d.isChange() && d.on( Component.of(nodeClass) ) );
     }
     
-    default <N extends _node>_diffNode changeOn(String id){
+    default _diffNode changeOn(String id){
         return first( d-> d.isChange() && d.on( id ) );
     }
     
-    default <N extends _node>_diffNode changeOn(Class<N> nodeClass, String id){
+    default <_N extends _node>_diffNode changeOn(Class<_N> nodeClass, String id){
         return first( d-> d.isChange() && d.on( Component.of(nodeClass), id ) );
     }
     
@@ -433,12 +439,24 @@ public interface _diff {
     default _diffNode editAt(_path _p){
         return first(d -> d.isEdit() && d.path().equals(_p));
     }
-    
-    default <N extends _node> _diffNode editAt(Class<N> nodeClass){
+
+    /**
+     *
+     * @param nodeClass
+     * @param <_N>
+     * @return
+     */
+    default <_N extends _node> _diffNode editAt(Class<_N> nodeClass){
         return first(d -> d.isEdit() && d.at(Component.of(nodeClass)));
     }
 
-    default <N extends _node> _diffNode editAt(String id){
+    /**
+     *
+     * @param id
+     * @param <N>
+     * @return
+     */
+    default _diffNode editAt(String id){
         return first(d -> d.isEdit() && d.at(id));
     }
 
@@ -446,10 +464,10 @@ public interface _diff {
      *
      * @param nodeClass
      * @param id
-     * @param <N>
+     * @param <_N>
      * @return
      */
-    default <N extends _node> _diffNode editAt(Class<N> nodeClass, String id){
+    default <_N extends _node> _diffNode editAt(Class<_N> nodeClass, String id){
         return first(d -> d.isEdit() && d.at(Component.of(nodeClass), id));
     }
 
@@ -1388,6 +1406,13 @@ public interface _diff {
         return null;
     }
 
+    /**
+     *
+     * @param nodeClass
+     * @param id
+     * @param <_N>
+     * @return
+     */
     default <_N extends _node> _diffNode firstAt(Class<_N> nodeClass, String id) {
         return firstAt( Component.of(nodeClass), id);
     }
@@ -1687,7 +1712,7 @@ public interface _diff {
         /**
          * diff the left and right nodes where leftParent and rightParent are the containing nodes
          *
-         * @param <_P> the parent _node type
+         * @param <_PN> the parent _node type
          * @param path the current path to the entity
          * @param ds the mutable _difflist containing the current _diffNode s
          * @param _leftParent the parent of the left node
@@ -1696,7 +1721,7 @@ public interface _diff {
          * @param right the right node/element/property
          * @return the diffList with all diffs between the left and right nodes
          */
-        <_P extends _node> _diff diff(_path path, _build ds, _P _leftParent, _P _rightParent, T left, T right);
+        <_PN extends _node> _diff diff(_path path, _build ds, _PN _leftParent, _PN _rightParent, T left, T right);
     }
 
 }

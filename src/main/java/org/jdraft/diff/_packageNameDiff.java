@@ -35,44 +35,44 @@ public class _packageNameDiff
 
     public static class _changePackageName implements _diffNode<_type>, _diffNode._change<String> {
 
-        public _type leftRoot;
-        public _type rightRoot;
+        public _type leftParent;
+        public _type rightParent;
         public String leftPackageName;
         public String rightPackageName;
         public _path path;
 
-        public _changePackageName(_path _p, _type leftRoot, _type rightRoot) {
+        public _changePackageName(_path _p, _type leftParent, _type rightParent) {
             this.path = _p;
-            this.leftRoot = leftRoot;
-            if (leftRoot != null) {
-                this.leftPackageName = leftRoot.getPackage();
+            this.leftParent = leftParent;
+            if (leftParent != null) {
+                this.leftPackageName = leftParent.getPackage();
             }
-            this.rightRoot = rightRoot;
-            if (rightRoot != null) {
-                this.rightPackageName = rightRoot.getPackage();
+            this.rightParent = rightParent;
+            if (rightParent != null) {
+                this.rightPackageName = rightParent.getPackage();
             }
         }
 
         @Override
         public void patchLeftToRight() {
             if (leftPackageName == null) {                
-                this.leftRoot.removePackage();
-                this.rightRoot.removePackage();
+                this.leftParent.removePackage();
+                this.rightParent.removePackage();
                 return;
             }
-            this.leftRoot.setPackage(leftPackageName);
-            this.rightRoot.setPackage(leftPackageName);            
+            this.leftParent.setPackage(leftPackageName);
+            this.rightParent.setPackage(leftPackageName);
         }
 
         @Override
         public void patchRightToLeft() {
             if (rightPackageName == null) {
-                this.leftRoot.removePackage();
-                this.rightRoot.removePackage();
+                this.leftParent.removePackage();
+                this.rightParent.removePackage();
                 return;
             }
-            this.leftRoot.setPackage(rightPackageName);
-            this.rightRoot.setPackage(rightPackageName);
+            this.leftParent.setPackage(rightPackageName);
+            this.rightParent.setPackage(rightPackageName);
         }
 
         @Override
@@ -87,12 +87,12 @@ public class _packageNameDiff
 
         @Override
         public _type leftParent() {
-            return leftRoot;
+            return leftParent;
         }
 
         @Override
         public _type rightParent() {
-            return rightRoot;
+            return rightParent;
         }
 
         @Override

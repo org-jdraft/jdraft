@@ -42,6 +42,7 @@ public class _companionTypeDiff implements _differ<List<_type>, _node> {
                 left.listCompanionTypes(),
                 right.listCompanionTypes());
     }
+
     @Override
     public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, List<_type> left, List<_type> right) {
         Set<_type> ls = new HashSet<>();
@@ -103,39 +104,39 @@ public class _companionTypeDiff implements _differ<List<_type>, _node> {
             implements _diffNode<_type>, _diffNode._rightOnly<_type> {
 
         public _path path;
-        public _type leftRoot;
-        public _type rightRoot;
+        public _type leftParent;
+        public _type rightParent;
         public _type right;
 
-        public _rightOnly_companionType(_path path, _type leftRoot, _type rightRoot, _type right) {
+        public _rightOnly_companionType(_path path, _type leftParent, _type rightParent, _type right) {
             this.path = path;
-            this.leftRoot = leftRoot;
-            this.rightRoot = rightRoot;
+            this.leftParent = leftParent;
+            this.rightParent = rightParent;
             this.right = _java.type(right.toString());
         }
 
         @Override
         public _type leftParent() {
-            return leftRoot;
+            return leftParent;
         }
 
         @Override
         public _type rightParent() {
-            return rightRoot;
+            return rightParent;
         }
 
         @Override
         public void patchLeftToRight() {
-            leftRoot.removeCompanionType(right);
-            rightRoot.removeNest(right);
+            leftParent.removeCompanionType(right);
+            rightParent.removeNest(right);
         }
 
         @Override
         public void patchRightToLeft() {
-            leftRoot.removeNest(right);
-            leftRoot.nest(right);
-            rightRoot.removeNest(right);
-            rightRoot.nest(right);
+            leftParent.removeNest(right);
+            leftParent.nest(right);
+            rightParent.removeNest(right);
+            rightParent.nest(right);
         }
 
         @Override
@@ -158,39 +159,39 @@ public class _companionTypeDiff implements _differ<List<_type>, _node> {
             implements _diffNode<_type>, _diffNode._leftOnly<_type> {
 
         public _path path;
-        public _type leftRoot;
-        public _type rightRoot;
+        public _type leftParent;
+        public _type rightParent;
         public _type left;
 
-        public _leftOnly_companionType(_path path, _type leftRoot, _type rightRoot, _type left) {
+        public _leftOnly_companionType(_path path, _type leftParent, _type rightParent, _type left) {
             this.path = path;
-            this.leftRoot = leftRoot;
-            this.rightRoot = rightRoot;
+            this.leftParent = leftParent;
+            this.rightParent = rightParent;
             this.left = _java.type(left.toString());
         }
 
         @Override
         public _type leftParent() {
-            return leftRoot;
+            return leftParent;
         }
 
         @Override
         public _type rightParent() {
-            return rightRoot;
+            return rightParent;
         }
 
         @Override
         public void patchLeftToRight() {
-            leftRoot.removeNest(left);
-            leftRoot.nest(left);
-            rightRoot.removeNest(left);
-            rightRoot.nest(left);
+            leftParent.removeNest(left);
+            leftParent.nest(left);
+            rightParent.removeNest(left);
+            rightParent.nest(left);
         }
 
         @Override
         public void patchRightToLeft() {
-            leftRoot.removeNest(left);
-            rightRoot.removeNest(left);
+            leftParent.removeNest(left);
+            rightParent.removeNest(left);
         }
 
         @Override

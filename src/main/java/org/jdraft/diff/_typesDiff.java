@@ -14,11 +14,11 @@ public class _typesDiff implements _differ<_types, _node> {
 
     public static _typesDiff INSTANCE = new _typesDiff();
     
-    public boolean equivalent(_types left, _types right) {
+    public boolean equivalent(_types leftParent, _types rightParent) {
         Set<_type> ls = new HashSet<>();
         Set<_type> rs = new HashSet<>();
-        ls.addAll(left.list());
-        rs.addAll(right.list());
+        ls.addAll(leftParent.list());
+        rs.addAll(rightParent.list());
         return Objects.equals(ls, rs);
     }
 
@@ -63,39 +63,39 @@ public class _typesDiff implements _differ<_types, _node> {
             implements _diffNode<_types>, _diffNode._rightOnly<_type> {
 
         public _path path;
-        public _types leftRoot;
-        public _types rightRoot;
+        public _types leftParent;
+        public _types rightParent;
         public _type right;
 
-        public _rightOnly_type(_path path, _types leftRoot, _types rightRoot, _type right) {
+        public _rightOnly_type(_path path, _types leftParent, _types rightParent, _type right) {
             this.path = path;
-            this.leftRoot = leftRoot;
-            this.rightRoot = rightRoot;
+            this.leftParent = leftParent;
+            this.rightParent = rightParent;
             this.right = _java.type(right.toString());
         }
 
         @Override
         public _types leftParent() {
-            return leftRoot;
+            return leftParent;
         }
 
         @Override
         public _types rightParent() {
-            return rightRoot;
+            return rightParent;
         }
 
         @Override
         public void patchLeftToRight() {
-            leftRoot.remove(right);
-            rightRoot.remove(right);
+            leftParent.remove(right);
+            rightParent.remove(right);
         }
 
         @Override
         public void patchRightToLeft() {
-            leftRoot.remove(right);
-            leftRoot.add(right);
-            rightRoot.remove(right);
-            rightRoot.add(right);
+            leftParent.remove(right);
+            leftParent.add(right);
+            rightParent.remove(right);
+            rightParent.add(right);
         }
 
         @Override
@@ -118,39 +118,39 @@ public class _typesDiff implements _differ<_types, _node> {
             implements _diffNode<_types>, _diffNode._leftOnly<_type> {
 
         public _path path;
-        public _types leftRoot;
-        public _types rightRoot;
+        public _types leftParent;
+        public _types rightParent;
         public _type left;
 
-        public _leftOnly_type(_path path, _types leftRoot, _types rightRoot, _type left) {
+        public _leftOnly_type(_path path, _types leftParent, _types rightParent, _type left) {
             this.path = path;
-            this.leftRoot = leftRoot;
-            this.rightRoot = rightRoot;
+            this.leftParent = leftParent;
+            this.rightParent = rightParent;
             this.left = _java.type(left.toString());
         }
 
         @Override
         public _types leftParent() {
-            return leftRoot;
+            return leftParent;
         }
 
         @Override
         public _types rightParent() {
-            return rightRoot;
+            return rightParent;
         }
 
         @Override
         public void patchLeftToRight() {
-            leftRoot.remove(left);
-            leftRoot.add(left);
-            rightRoot.remove(left);
-            rightRoot.add(left);
+            leftParent.remove(left);
+            leftParent.add(left);
+            rightParent.remove(left);
+            rightParent.add(left);
         }
 
         @Override
         public void patchRightToLeft() {
-            leftRoot.remove(left);
-            rightRoot.remove(left);
+            leftParent.remove(left);
+            rightParent.remove(left);
         }
 
         @Override

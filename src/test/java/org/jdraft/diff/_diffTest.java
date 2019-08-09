@@ -8,7 +8,7 @@ import org.jdraft._annotation;
 import org.jdraft._class;
 import org.jdraft.diff._namedDiff._changeName;
 import org.jdraft.diff._typeRefDiff._change_type;
-import org.jdraft.diff._diff._mutableDiffList;
+import org.jdraft.diff._diff._diffList;
 import org.jdraft._java.Component;
 import org.jdraft._node;
 import java.io.IOException;
@@ -64,7 +64,7 @@ public class _diffTest extends TestCase {
         _class _c2 = _class.of("C");
         
         _path path = new _path();
-        _mutableDiffList dt = new _mutableDiffList();        
+        _diffList dt = new _diffList(_c1, _c2);
         _classDiff.INSTANCE.diff(path, dt, _c1, _c2, _c1, _c2);
         
         assertTrue( dt.isEmpty() );
@@ -132,7 +132,7 @@ public class _diffTest extends TestCase {
         _annotation _a2 = _annotation.of("A");
         
         _path path = new _path();
-        _mutableDiffList dt = new _mutableDiffList();        
+        _diffList dt = new _diffList(_a1, _a2);
         _annotationDiff.INSTANCE.diff(path, dt, null, null, _a1, _a2);
         assertTrue( dt.isEmpty());
         
@@ -162,7 +162,7 @@ public class _diffTest extends TestCase {
         _e1.constant(_a1).constant(_b1);
         _e2.constant(_b2).constant(_a2);
         _path path = new _path();
-        _mutableDiffList dt = new _mutableDiffList();
+        _diffList dt = new _diffList(_e1, _e2);
         assertEquals( _e1, _e2);
         _enumDiff.ENUM_CONSTANTS_DIFF.diff(path, dt, _e1, _e2, _e1.listConstants(), _e2.listConstants());
         assertTrue( dt.isEmpty() );
@@ -192,7 +192,7 @@ public class _diffTest extends TestCase {
     public void test_enumConstantDiff(){
         _enum._constant _a1 = _enum._constant.of("A");
         _enum._constant _a2 = _enum._constant.of("A");
-        _mutableDiffList dt = new _mutableDiffList();
+        _diffList dt = new _diffList(_a1, _a2);
         _enum _e1 = _enum.of("E");
         _enum _e2 = _enum.of("E");
         _e1.constant(_a1);
@@ -215,7 +215,7 @@ public class _diffTest extends TestCase {
         
         dt.forEach( d-> d.patchLeftToRight() );
         
-        dt = new _mutableDiffList();
+        dt = new _diffList(leftRoot, rightRoot);
         _enumDiff.ENUM_CONSTANT_DIFF.diff(path, dt, leftRoot, rightRoot, _a1, _a2);
         
         //System.out.println( dt );
@@ -227,17 +227,17 @@ public class _diffTest extends TestCase {
         _method _m1 = _method.of("int m(){ return 1; }");
         _method _m2 = _method.of("float n(){ return 1.0f; }");
         
-        _mutableDiffList dt = new _mutableDiffList();
+        _diffList dt = new _diffList(_m1, _m2);
         
         _node leftRoot = null;
         _node rightRoot = null;
         _methodDiff.INSTANCE.diff(new _path(), dt, leftRoot, rightRoot, _m1, _m2);
         
-        dt = new _mutableDiffList();
+        dt = new _diffList(leftRoot, rightRoot);
         _m1.javadoc("Hello");
         _methodDiff.INSTANCE.diff(new _path(), dt, leftRoot, rightRoot, _m1, _m2);
         
-        dt = new _mutableDiffList();
+        dt = new _diffList(leftRoot, rightRoot);
         _m1.typeParameters("<T extends A>");
         _m1.receiverParameter("rp this");
         _m1.addParameter("int i");

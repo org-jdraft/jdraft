@@ -23,13 +23,13 @@ public class _modifiersDiff implements
         return Objects.equals(left, right);
     }
 
-    public _diff diff( _hasModifiers left, _hasModifiers right){
+    public _diff diff( _hasModifiers leftParent, _hasModifiers rightParent){
         return diff( _path.of(), 
-                new _diffList((_node)left, (_node)right),
-                (_node)left, 
-                (_node)right, 
-                left.getEffectiveModifiers(), 
-                right.getEffectiveModifiers());
+                new _diffList((_node)leftParent, (_node)rightParent),
+                (_node)leftParent,
+                (_node)rightParent,
+                leftParent.getEffectiveModifiers(),
+                rightParent.getEffectiveModifiers());
     }
     
     @Override
@@ -44,27 +44,27 @@ public class _modifiersDiff implements
             implements _diffNode<_modifiers._hasModifiers>, _diffNode._change<NodeList<Modifier>> {
 
         public _path path;
-        public _modifiers._hasModifiers leftRoot;
-        public _modifiers._hasModifiers rightRoot;
+        public _modifiers._hasModifiers leftParent;
+        public _modifiers._hasModifiers rightParent;
         public NodeList<Modifier> left;
         public NodeList<Modifier> right;
 
-        public _changeModifiers(_path path, _modifiers._hasModifiers leftRoot, _modifiers._hasModifiers rightRoot) {
+        public _changeModifiers(_path path, _modifiers._hasModifiers leftParent, _modifiers._hasModifiers rightParent) {
             this.path = path;
-            this.leftRoot = leftRoot;
-            this.rightRoot = rightRoot;
-            this.left = leftRoot.getEffectiveModifiers();
-            this.right = rightRoot.getEffectiveModifiers();
+            this.leftParent = leftParent;
+            this.rightParent = rightParent;
+            this.left = leftParent.getEffectiveModifiers();
+            this.right = rightParent.getEffectiveModifiers();
         }
 
         @Override
         public _modifiers._hasModifiers leftParent() {
-            return leftRoot;
+            return leftParent;
         }
 
         @Override
         public _modifiers._hasModifiers rightParent() {
-            return rightRoot;
+            return rightParent;
         }
 
         @Override
@@ -84,14 +84,14 @@ public class _modifiersDiff implements
 
         @Override
         public void patchLeftToRight() {
-            leftRoot.modifiers(left);
-            rightRoot.modifiers(left);
+            leftParent.modifiers(left);
+            rightParent.modifiers(left);
         }
 
         @Override
         public void patchRightToLeft() {
-            leftRoot.modifiers(right);
-            rightRoot.modifiers(right);
+            leftParent.modifiers(right);
+            rightParent.modifiers(right);
         }
 
         @Override

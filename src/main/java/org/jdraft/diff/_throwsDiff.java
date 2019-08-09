@@ -22,8 +22,8 @@ public class _throwsDiff implements _differ<_throws, _node> {
         return Ast.typesEqual(left, right);
     }
 
-    public _diff diff( _hasThrows left, _hasThrows right){
-        return diff( _path.of(), new _diffList((_node)left, (_node)right), (_node)left, (_node)right, left.getThrows(), right.getThrows());
+    public _diff diff( _hasThrows leftParent, _hasThrows rightParent){
+        return diff( _path.of(), new _diffList((_node)leftParent, (_node)rightParent), (_node)leftParent, (_node)rightParent, leftParent.getThrows(), rightParent.getThrows());
     }
     
     @Override
@@ -38,31 +38,31 @@ public class _throwsDiff implements _differ<_throws, _node> {
             implements _diffNode<_throws._hasThrows>, _diffNode._change<List<ReferenceType>> {
 
         public _path path;
-        public _throws._hasThrows leftRoot;
-        public _throws._hasThrows rightRoot;
+        public _throws._hasThrows leftParent;
+        public _throws._hasThrows rightParent;
         public NodeList<ReferenceType> left;
         public NodeList<ReferenceType> right;
 
-        public _change_throws(_path p, _throws._hasThrows leftRoot, _throws._hasThrows rightRoot) {
+        public _change_throws(_path p, _throws._hasThrows leftParent, _throws._hasThrows rightParent) {
             this.path = p;
-            this.leftRoot = leftRoot;
-            this.rightRoot = rightRoot;
+            this.leftParent = leftParent;
+            this.rightParent = rightParent;
             left = new NodeList<>();
             //leftRoot.
             //left.addAll( ((NodeWithThrownExceptions)leftRoot.getThrows().ast()).getThrownExceptions());
-            left.addAll(leftRoot.getThrows().astNodeWithThrows.getThrownExceptions());
+            left.addAll(leftParent.getThrows().astNodeWithThrows.getThrownExceptions());
             right = new NodeList<>();
-            right.addAll(rightRoot.getThrows().astNodeWithThrows.getThrownExceptions());
+            right.addAll(rightParent.getThrows().astNodeWithThrows.getThrownExceptions());
         }
 
         @Override
         public _throws._hasThrows leftParent() {
-            return leftRoot;
+            return leftParent;
         }
 
         @Override
         public _throws._hasThrows rightParent() {
-            return rightRoot;
+            return rightParent;
         }
 
         @Override
@@ -82,14 +82,14 @@ public class _throwsDiff implements _differ<_throws, _node> {
 
         @Override
         public void patchLeftToRight() {
-            leftRoot.setThrows(left);
-            rightRoot.setThrows(left);
+            leftParent.setThrows(left);
+            rightParent.setThrows(left);
         }
 
         @Override
         public void patchRightToLeft() {
-            leftRoot.setThrows(right);
-            rightRoot.setThrows(right);
+            leftParent.setThrows(right);
+            rightParent.setThrows(right);
         }
 
         @Override

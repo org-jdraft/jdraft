@@ -21,13 +21,13 @@ public class _typeParametersDiff
         return Ast.typesEqual(left, right);
     }
 
-    public _diff diff( _hasTypeParameters left, _hasTypeParameters right){
+    public _diff diff( _hasTypeParameters leftParent, _hasTypeParameters rightParent){
         return diff( _path.of(), 
-                new _diffList( (_node)left, (_node)right),
-                (_node)left, 
-                (_node)right, 
-                left.getTypeParameters(), 
-                right.getTypeParameters());
+                new _diffList( (_node)leftParent, (_node)rightParent),
+                (_node)leftParent,
+                (_node)rightParent,
+                leftParent.getTypeParameters(),
+                rightParent.getTypeParameters());
     }
 
     @Override
@@ -45,30 +45,30 @@ public class _typeParametersDiff
             implements _diffNode<_typeParameter._hasTypeParameters>, _diffNode._change<NodeList<TypeParameter>> {
 
         public _path path;
-        public _typeParameter._hasTypeParameters leftRoot;
-        public _typeParameter._hasTypeParameters rightRoot;
+        public _typeParameter._hasTypeParameters leftParent;
+        public _typeParameter._hasTypeParameters rightParent;
         public NodeList<TypeParameter> left;
         public NodeList<TypeParameter> right;
 
-        public _change_typeParameters(_path path, _typeParameter._hasTypeParameters leftRoot, _typeParameter._hasTypeParameters rightRoot) {
+        public _change_typeParameters(_path path, _typeParameter._hasTypeParameters leftParent, _typeParameter._hasTypeParameters rightParent) {
             this.path = path;
-            this.leftRoot = leftRoot;
-            this.rightRoot = rightRoot;
+            this.leftParent = leftParent;
+            this.rightParent = rightParent;
 
             this.left = new NodeList<>();
             this.right = new NodeList<>();
-            this.left.addAll(leftRoot.listAstTypeParameters());
-            this.right.addAll(rightRoot.listAstTypeParameters());
+            this.left.addAll(leftParent.listAstTypeParameters());
+            this.right.addAll(rightParent.listAstTypeParameters());
         }
 
         @Override
         public _typeParameter._hasTypeParameters leftParent() {
-            return leftRoot;
+            return leftParent;
         }
 
         @Override
         public _typeParameter._hasTypeParameters rightParent() {
-            return rightRoot;
+            return rightParent;
         }
 
         @Override
@@ -88,20 +88,20 @@ public class _typeParametersDiff
 
         @Override
         public void patchLeftToRight() {
-            this.leftRoot.removeTypeParameters();
-            this.leftRoot.typeParameters(left);
+            this.leftParent.removeTypeParameters();
+            this.leftParent.typeParameters(left);
 
-            this.rightRoot.removeTypeParameters();
-            this.rightRoot.typeParameters(left);
+            this.rightParent.removeTypeParameters();
+            this.rightParent.typeParameters(left);
         }
 
         @Override
         public void patchRightToLeft() {
-            this.leftRoot.removeTypeParameters();
-            this.leftRoot.typeParameters(right);
+            this.leftParent.removeTypeParameters();
+            this.leftParent.typeParameters(right);
 
-            this.rightRoot.removeTypeParameters();
-            this.rightRoot.typeParameters(right);
+            this.rightParent.removeTypeParameters();
+            this.rightParent.typeParameters(right);
         }
 
         @Override
