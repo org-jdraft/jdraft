@@ -90,6 +90,15 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             }            
             return _c;
         }
+        if( clazz.isInterface() ){
+            throw new _draftException("cannot create _class from (interface) "+ clazz);
+        }
+        if( clazz.isAnnotation() ){
+            throw new _draftException("cannot create _class from annotation "+ clazz);
+        }
+        if( clazz.isEnum() ){
+            throw new _draftException("cannot create _class from enum "+ clazz);
+        }
         throw new _draftException("Abstract or synthetic classes are not supported"+ clazz);
     }
 
