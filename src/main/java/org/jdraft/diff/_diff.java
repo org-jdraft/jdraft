@@ -93,6 +93,7 @@ import org.jdraft.diff._diffNode._edit;
  */
 public interface _diff {
 
+
     /**
      * Build _type models and diff the two types
      *
@@ -100,121 +101,121 @@ public interface _diff {
      * @param clazz2
      * @return
      */
-    public static _diff of(Class clazz, Class clazz2) {
+    static _diff of(Class clazz, Class clazz2) {
         return of(_java.type(clazz), _java.type(clazz2));
     }
 
-    public static _diff of(_type _left, _type _right) {
+    static _diff of(_type _left, _type _right) {
         return _typeDiff.INSTANCE.diff(_left, _right);
     }
 
-    public static _diff of(_class _left, _class _right) {
+    static _diff of(_class _left, _class _right) {
         return _classDiff.INSTANCE.diff(_left, _right);
     }
 
-    public static _diff of(_enum _left, _enum _right) {
+    static _diff of(_enum _left, _enum _right) {
         return _enumDiff.INSTANCE.diff(_left, _right);
     }
 
-    public static _diff of(_interface _left, _interface _right) {
+    static _diff of(_interface _left, _interface _right) {
         return _interfaceDiff.INSTANCE.diff(_left, _right);
     }
 
-    public static _diff of(_annotation _left, _annotation _right) {
+    static _diff of(_annotation _left, _annotation _right) {
         return _annotationDiff.INSTANCE.diff(_left, _right);
     }
 
-    public static _diff of(_field _left, _field _right) {
+    static _diff of(_field _left, _field _right) {
         return _fieldDiff.INSTANCE.diff(_left, _right);
     }
 
-    public static _diff of(_method _left, _method _right) {
+    static _diff of(_method _left, _method _right) {
         return _methodDiff.INSTANCE.diff(_left, _right);
     }
 
-    public static _diff of(_constructor _left, _constructor _right) {
+    static _diff of(_constructor _left, _constructor _right) {
         return _constructorDiff.INSTANCE.diff(_left, _right);
     }
 
-    public static _diff of(_enum._constant _left, _enum._constant _right) {
+    static _diff of(_enum._constant _left, _enum._constant _right) {
         return _enumDiff.ENUM_CONSTANT_DIFF.diff(_left, _right);
     }
 
-    public static _diff of(_annotation._element _left, _annotation._element _right) {
+    static _diff of(_annotation._element _left, _annotation._element _right) {
         return _annotationDiff.ANNOTATION_ELEMENT_DIFF.diff(_left, _right);
     }
 
-    public static _diff extendsOf(_type left, _type right) {
+    static _diff extendsOf(_type left, _type right) {
         return _extendsDiff.INSTANCE.diff(left, right);
     }
 
-    public static _diff implementsOf(_type left, _type right) {
+    static _diff implementsOf(_type left, _type right) {
         return _implementsDiff.INSTANCE.diff(left, right);
     }
 
-    public static _diff importsOf(_type left, _type right) {
+    static _diff importsOf(_type left, _type right) {
         return _importsDiff.INSTANCE.diff(left, right);
     }
 
-    public static _diff constantsOf(_enum left, _enum right) {
+    static _diff constantsOf(_enum left, _enum right) {
         return _enumDiff.ENUM_CONSTANTS_DIFF.diff(left.listConstants(), right.listConstants());
     }
 
-    public static _diff elementsOf(_annotation left, _annotation right) {
+    static _diff elementsOf(_annotation left, _annotation right) {
         return _annotationDiff.ANNOTATION_ELEMENTS_DIFF.diff(left.listElements(), right.listElements());
     }
 
     //so if a _hasConstructor has a no arg construstor with no body, it should be 
     // NOT a diff (I should post-process remove a diff
-    public static _diff constructorsOf(_hasConstructors left, _hasConstructors right) {
+    static _diff constructorsOf(_hasConstructors left, _hasConstructors right) {
         return _constructorsDiff.INSTANCE.diff(left, right);
     }
 
-    public static _diff throwsOf(_hasThrows left, _hasThrows right) {
+    static _diff throwsOf(_hasThrows left, _hasThrows right) {
         return _throwsDiff.INSTANCE.diff(left, right);
     }
 
-    public static _diff fieldsOf(_hasFields left, _hasFields right) {
+    static _diff fieldsOf(_hasFields left, _hasFields right) {
         return _fieldsDiff.INSTANCE.diff(left, right);
     }
 
-    public static _diff methodsOf(_hasMethods left, _hasMethods right) {
+    static _diff methodsOf(_hasMethods left, _hasMethods right) {
         return _methodsDiff.INSTANCE.diff(left, right);
     }
 
-    public static _diff annosOf(_hasAnnos left, _hasAnnos right) {
+    static _diff annosOf(_hasAnnos left, _hasAnnos right) {
         return _annosDiff.INSTANCE.diff(left, right);
     }
 
-    public static _diff javadocOf(_hasJavadoc left, _hasJavadoc right) {
+    static _diff javadocOf(_hasJavadoc left, _hasJavadoc right) {
         return _javadocDiff.INSTANCE.diff(left, right);
     }
 
-    public static _diff bodyOf(_hasBody left, _hasBody right) {
+    static _diff bodyOf(_hasBody left, _hasBody right) {
         return _bodyDiff.INSTANCE.diff(left, right);
     }
 
-    public static _diff modifiersOf(_hasModifiers left, _hasModifiers right) {
+    static _diff modifiersOf(_hasModifiers left, _hasModifiers right) {
         return _modifiersDiff.INSTANCE.diff(left, right);
     }
 
-    public static _diff nestsOf(_type left, _type right) {
+    static _diff nestsOf(_type left, _type right) {
         return _nestsDiff.INSTANCE.diff(left, right);
     }
 
-    public static _diff packageNameOf(_type left, _type right) {
+    static _diff packageNameOf(_type left, _type right) {
         return _packageNameDiff.INSTANCE.diff(left, right);
     }
 
-    public static _diff typeParametersOf(_hasTypeParameters left, _hasTypeParameters right) {
+    static _diff typeParametersOf(_hasTypeParameters left, _hasTypeParameters right) {
         return _typeParametersDiff.INSTANCE.diff(left, right);
     }
 
-    public static _diff staticBlocksOf(_hasStaticBlocks left, _hasStaticBlocks right) {
+    static _diff staticBlocksOf(_hasStaticBlocks left, _hasStaticBlocks right) {
         return _staticBlocksDiff.INSTANCE.diff(left, right);
     }
 
-    public static _diff receiverParameterOf(_hasReceiverParameter left, _hasReceiverParameter right) {
+    static _diff receiverParameterOf(_hasReceiverParameter left, _hasReceiverParameter right) {
         return _receiverParameterDiff.INSTANCE.diff(left, right);
     }
 
@@ -222,14 +223,18 @@ public interface _diff {
      * Signifies that the collection of Diffs is mutable (we can add diffsNodes
      * to the List)
      */
-    public interface _build extends _diff {
-        public _build addDiff(_diffNode d);
+    interface _build extends _diff {
+        _build addDiff(_diffNode d);
     }
 
     /**
      * @return a list of all diff nodes
      */
     List<_diffNode> list();
+
+    _node leftRoot();
+
+    _node rightRoot();
 
     /**
      * @return number of diffs
@@ -436,35 +441,82 @@ public interface _diff {
     default <N extends _node> _diffNode editAt(String id){
         return first(d -> d.isEdit() && d.at(id));
     }
-    
+
+    /**
+     *
+     * @param nodeClass
+     * @param id
+     * @param <N>
+     * @return
+     */
     default <N extends _node> _diffNode editAt(Class<N> nodeClass, String id){
         return first(d -> d.isEdit() && d.at(Component.of(nodeClass), id));
     }
-    
-    default <N extends _node> _diffNode editAt(Component component){
+
+    /**
+     *
+     * @param component
+     * @return
+     */
+    default _diffNode editAt(Component component){
         return first(d -> d.isEdit() && d.at(component));
     }
-    
-    default <N extends _node> _diffNode editAt(Component component, String id){
+
+    /**
+     *
+     * @param component
+     * @param id
+     * @return
+     */
+    default _diffNode editAt(Component component, String id){
         return first(d -> d.isEdit() && d.at(component, id));
     }
-    
-    default <N extends _node> _diffNode editOn(Class<N> nodeClass){
+
+    /**
+     *
+     * @param nodeClass
+     * @param <_N>
+     * @return
+     */
+    default <_N extends _node> _diffNode editOn(Class<_N> nodeClass){
         return first( d-> d.isEdit() && d.on( Component.of(nodeClass) ) );
     }
-    
-    default <N extends _node>_diffNode editOn(Class<N> nodeClass, String id){
+
+    /**
+     *
+     * @param nodeClass
+     * @param id
+     * @param <_N>
+     * @return
+     */
+    default <_N extends _node>_diffNode editOn(Class<_N> nodeClass, String id){
         return first( d-> d.isEdit() && d.on( Component.of(nodeClass), id ) );
     }
-    
-    default <N extends _node>_diffNode editOn(String id){
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    default _diffNode editOn(String id){
         return first( d-> d.isEdit() && d.on( id ) );
     }
-        
+
+    /**
+     *
+     * @param component
+     * @return
+     */
     default _diffNode editOn(Component component){
         return first( d-> d.isEdit() && d.on( component ) );
     }
-    
+
+    /**
+     *
+     * @param component
+     * @param id
+     * @return
+     */
     default _edit editOn(Component component, String id){
         return (_edit) first( d-> d.isEdit() && d.on( component, id) );
     }
@@ -489,17 +541,22 @@ public interface _diff {
         return first(d -> d.at(component)) != null;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     default boolean isAt(String id){
         return first(d -> d.at(id)) != null;
     }
     
     /**
      * 
-     * @param <C>
+     * @param <_N>
      * @param c
      * @return 
      */
-    default <C extends _node> boolean isAt( Class<C> c ){
+    default <_N extends _node> boolean isAt(Class<_N> c ){
         return isAt( Component.of(c) );
     }    
     
@@ -519,12 +576,12 @@ public interface _diff {
      * Is there a Diff Node at (i.e.the LAST part of the path) the specified
      * Component type
      *
-     * @param <N> the _java node class
+     * @param <_N> the _java node class
      * @param node the node class (i.e. _method.class, _field.class)
      * @param id the identifier for the node
      * @return true if a Diff was found at this Node, false otherwise
      */
-    default <N extends _node> boolean isAt(Class<N>node, String id) {
+    default <_N extends _node> boolean isAt(Class<_N>node, String id) {
         return isAt(Component.of(node),id);
     }
     
@@ -540,11 +597,11 @@ public interface _diff {
 
     /**
      * 
-     * @param <C>
+     * @param <_N>
      * @param c
      * @return 
      */
-    default <C extends _node> boolean isOn( Class<C> c ){
+    default <_N extends _node> boolean isOn(Class<_N> c ){
         return isOn( Component.of(c) );
     }    
 
@@ -575,12 +632,12 @@ public interface _diff {
      * Is there a Diff Node at (i.e.the LAST part of the path) the specified
      * Component type
      *
-     * @param <N> the _java node class
+     * @param <_N> the _java node class
      * @param node the node class (i.e. _method.class, _field.class)
      * @param id the identifier for the node
      * @return true if a Diff was found at this Node, false otherwise
      */
-    default <N extends _node> boolean isOn(Class<N>node, String id) {
+    default <_N extends _node> boolean isOn(Class<_N>node, String id) {
         return isOn(Component.of(node),id);
     }
     
@@ -607,148 +664,355 @@ public interface _diff {
         }) != null;
     }
 
+    /**
+     *
+     * @return
+     */
     default boolean hasRightOnly() {
         return first(d -> d.isRightOnly()) != null;
     }
 
+    /**
+     *
+     * @return
+     */
     default boolean hasChange() {
         return first(d -> d.isChange()) != null;
     }
 
+    /**
+     *
+     * @return
+     */
     default boolean hasLeftOnly() {
         return first(d -> d.isLeftOnly()) != null;
     }
 
+    /**
+     *
+     * @return
+     */
     default boolean hasEdit() {
         return first(d -> d.isEdit()) != null;
     }
 
+    /**
+     *
+     * @param component
+     * @return
+     */
     default boolean hasRightOnlyAt(_java.Component component) {
         return first(d -> d.at(component) && d.isRightOnly()) != null;
     }
-    
-    default <N extends _node> boolean hasRightOnlyAt(Class<N> memClass) {
+
+    /**
+     *
+     * @param memClass
+     * @param <_N>
+     * @return
+     */
+    default <_N extends _node> boolean hasRightOnlyAt(Class<_N> memClass) {
         return hasRightOnlyAt( Component.of(memClass) ); 
     }
 
+    /**
+     *
+     * @param component
+     * @return
+     */
     default boolean hasLeftOnlyAt(_java.Component component) {
         return first(d -> d.at(component) && d.isLeftOnly()) != null;
     }
-    
-    default <N extends _node> boolean hasLeftOnlyAt(Class<N> memClass) {
+
+    /**
+     *
+     * @param memClass
+     * @param <_N>
+     * @return
+     */
+    default <_N extends _node> boolean hasLeftOnlyAt(Class<_N> memClass) {
         return hasLeftOnlyAt( Component.of(memClass) ); 
     }
 
+    /**
+     *
+     * @param component
+     * @return
+     */
     default boolean hasChangeAt(_java.Component component) {
         return first(d -> d.at(component) && d.isChange()) != null;
     }
-    
-    default <N extends _node> boolean hasChangeAt(Class<N> memClass) {
+
+    /**
+     *
+     * @param memClass
+     * @param <_N>
+     * @return
+     */
+    default <_N extends _node> boolean hasChangeAt(Class<_N> memClass) {
         return hasChangeAt( Component.of(memClass) ); 
     }
-    
+
+    /**
+     *
+     * @param component
+     * @return
+     */
     default boolean hasEditAt(_java.Component component) {
         return first(d -> d.at(component) && d.isEdit()) != null;
     }
-    
-    default <N extends _node> boolean hasEditAt(Class<N> memClass) {
+
+    /**
+     *
+     * @param memClass
+     * @param <_N>
+     * @return
+     */
+    default <_N extends _node> boolean hasEditAt(Class<_N> memClass) {
         return hasEditAt( Component.of(memClass) ); 
     }
 
+    /**
+     *
+     * @param component
+     * @param id
+     * @return
+     */
     default boolean hasRightOnlyAt(_java.Component component, String id) {
         return first(d -> d.at(component, id) && d.isRightOnly()) != null;
     }
-    
-    default <N extends _node> boolean hasRightOnlyAt(Class<N> memClass, String id) {
+
+    /**
+     *
+     * @param memClass
+     * @param id
+     * @param <_N>
+     * @return
+     */
+    default <_N extends _node> boolean hasRightOnlyAt(Class<_N> memClass, String id) {
         return hasRightOnlyAt( Component.of(memClass) ,id); 
     }
 
+    /**
+     *
+     * @param component
+     * @param id
+     * @return
+     */
     default boolean hasLeftOnlyAt(_java.Component component, String id) {
         return first(d -> d.at(component, id) && d.isLeftOnly()) != null;
     }
 
-    default <N extends _node> boolean hasLeftOnlyAt(Class<N> memClass, String id) {
+    /**
+     *
+     * @param memClass
+     * @param id
+     * @param <_N>
+     * @return
+     */
+    default <_N extends _node> boolean hasLeftOnlyAt(Class<_N> memClass, String id) {
         return hasLeftOnlyAt( Component.of(memClass) ,id); 
     }
-    
+
+    /**
+     *
+     * @param component
+     * @param id
+     * @return
+     */
     default boolean hasChangeAt(_java.Component component, String id) {
         return first(d -> d.at(component, id) && d.isChange()) != null;
     }
-    
-    default <N extends _node> boolean hasChangeAt(Class<N> memClass, String id) {
+
+    /**
+     *
+     * @param memClass
+     * @param id
+     * @param <_N>
+     * @return
+     */
+    default <_N extends _node> boolean hasChangeAt(Class<_N> memClass, String id) {
         return hasChangeAt( Component.of(memClass) ,id); 
     }
-    
+
+    /**
+     *
+     * @param component
+     * @param id
+     * @return
+     */
     default boolean hasEditAt(_java.Component component, String id) {
         return first(d -> d.at(component, id) && d.isEdit()) != null;
     }
 
-    default <N extends _node> boolean hasEditAt(Class<N> memClass, String id) {
+    /**
+     *
+     * @param memClass
+     * @param id
+     * @param <_N>
+     * @return
+     */
+    default <_N extends _node> boolean hasEditAt(Class<_N> memClass, String id) {
         return hasRightOnlyAt( Component.of(memClass) ,id); 
     }
-    
+
+    /**
+     *
+     * @param component
+     * @return
+     */
     default boolean hasRightOnlyOn(_java.Component component) {
         return first(d -> d.on(component) && d.isRightOnly()) != null;
     }
-    
-    default <N extends _node> boolean hasRightOnlyOn(Class<N> memClass) {
+
+    /**
+     *
+     * @param memClass
+     * @param <_N>
+     * @return
+     */
+    default <_N extends _node> boolean hasRightOnlyOn(Class<_N> memClass) {
         return hasRightOnlyOn( Component.of(memClass)); 
     }
 
+    /**
+     *
+     * @param component
+     * @return
+     */
     default boolean hasLeftOnlyOn(_java.Component component) {
         return first(d -> d.on(component) && d.isLeftOnly()) != null;
     }
 
-    default <N extends _node> boolean hasLeftOnlyOn(Class<N> memClass) {
+    /**
+     *
+     * @param memClass
+     * @param <_N>
+     * @return
+     */
+    default <_N extends _node> boolean hasLeftOnlyOn(Class<_N> memClass) {
         return hasLeftOnlyOn( Component.of(memClass)); 
     }
-        
+
+    /**
+     *
+     * @param component
+     * @return
+     */
     default boolean hasChangeOn(_java.Component component) {
         return first(d -> d.on(component) && d.isChange()) != null;
     }
-    
-    default <N extends _node> boolean hasChangeOn(Class<N> memClass) {
+
+    /**
+     *
+     * @param memClass
+     * @param <_N>
+     * @return
+     */
+    default <_N extends _node> boolean hasChangeOn(Class<_N> memClass) {
         return hasChangeOn( Component.of(memClass)); 
     }
 
+    /**
+     *
+     * @param component
+     * @return
+     */
     default boolean hasEditOn(_java.Component component) {
         return first(d -> d.on(component) && d.isEdit()) != null;
     }
-    
-    default <N extends _node> boolean hasEditOn(Class<N> memClass) {
+
+    /**
+     *
+     * @param memClass
+     * @param <_N>
+     * @return
+     */
+    default <_N extends _node> boolean hasEditOn(Class<_N> memClass) {
         return hasEditOn( Component.of(memClass)); 
     }
-    
+
+    /**
+     *
+     * @param component
+     * @param id
+     * @return
+     */
     default boolean hasRightOnlyOn(_java.Component component, String id) {
         return first(d -> d.on(component, id) && d.isRightOnly()) != null;
     }
-    
-    default <N extends _node> boolean hasRightOnlyOn(Class<N> memClass, String id) {
+
+    /**
+     *
+     * @param memClass
+     * @param id
+     * @param <_N>
+     * @return
+     */
+    default <_N extends _node> boolean hasRightOnlyOn(Class<_N> memClass, String id) {
         return hasRightOnlyOn( Component.of(memClass), id); 
     }
-    
 
+    /**
+     *
+     * @param component
+     * @param id
+     * @return
+     */
     default boolean hasLeftOnlyOn(_java.Component component, String id) {
         return first(d -> d.on(component, id) && d.isLeftOnly()) != null;
     }
-    
-    default <N extends _node> boolean hasLeftOnlyOn(Class<N> memClass, String id) {
+
+    /**
+     *
+     * @param memClass
+     * @param id
+     * @param <_N>
+     * @return
+     */
+    default <_N extends _node> boolean hasLeftOnlyOn(Class<_N> memClass, String id) {
         return hasLeftOnlyOn( Component.of(memClass), id); 
     }
 
+    /**
+     *
+     * @param component
+     * @param id
+     * @return
+     */
     default boolean hasChangeOn(_java.Component component, String id) {
         return first(d -> d.on(component, id) && d.isChange()) != null;
     }
 
-    default <N extends _node> boolean hasChangeOn(Class<N> memClass, String id) {
+    /**
+     *
+     * @param memClass
+     * @param id
+     * @param <_N>
+     * @return
+     */
+    default <_N extends _node> boolean hasChangeOn(Class<_N> memClass, String id) {
         return hasChangeOn( Component.of(memClass), id); 
     }
-        
+
+    /**
+     *
+     * @param component
+     * @param id
+     * @return
+     */
     default boolean hasEditOn(_java.Component component, String id) {
         return first(d -> d.on(component, id) && d.isEdit()) != null;
     }
-    
-    default <N extends _node> boolean hasEditOn(Class<N> memClass, String id) {
+
+    /**
+     *
+     * @param memClass
+     * @param id
+     * @param <_N>
+     * @return
+     */
+    default <_N extends _node> boolean hasEditOn(Class<_N> memClass, String id) {
         return hasEditOn( Component.of(memClass), id); 
     }
 
@@ -1030,7 +1294,13 @@ public interface _diff {
         return null;
     }
 
-    default <N extends _node> _diffNode firstOn(Class<N> nodeClass) {
+    /**
+     *
+     * @param nodeClass
+     * @param <_N>
+     * @return
+     */
+    default <_N extends _node> _diffNode firstOn(Class<_N> nodeClass) {
         return firstOn( Component.of(nodeClass));
     }
     
@@ -1050,7 +1320,14 @@ public interface _diff {
         return null;
     }
 
-    default <N extends _node> _diffNode firstOn(Class<N> nodeClass, String id) {
+    /**
+     *
+     * @param nodeClass
+     * @param id
+     * @param <_N>
+     * @return
+     */
+    default <_N extends _node> _diffNode firstOn(Class<_N> nodeClass, String id) {
         return firstOn( Component.of(nodeClass), id);
     }
     
@@ -1071,11 +1348,22 @@ public interface _diff {
         return null;
     }
 
-    default <N extends _node> _diffNode firstAt(Class<N> nodeClass) {
+    /**
+     *
+     * @param nodeClass
+     * @param <_N>
+     * @return
+     */
+    default <_N extends _node> _diffNode firstAt(Class<_N> nodeClass) {
         return firstAt( Component.of(nodeClass));
     }
-    
-    default <N extends _node> _diffNode firstAt(String id) {
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    default _diffNode firstAt(String id) {
         Optional<_diffNode> odn = 
             list().stream().filter(d -> d.at(id)).findFirst();        
         if( odn.isPresent()){
@@ -1088,19 +1376,19 @@ public interface _diff {
      * Find the first diff that is at (the last component in the path is) the
      * component type
      *
-     * @param componet the last component in the path
+     * @param component the last component in the path
      * @return the first diff node found at this path or null if none found
      */
-    default _diffNode firstAt(_java.Component componet) {
+    default _diffNode firstAt(_java.Component component) {
         Optional<_diffNode> first
-                = list().stream().filter(d -> d.at(componet)).findFirst();
+                = list().stream().filter(d -> d.at(component)).findFirst();
         if (first.isPresent()) {
             return first.get();
         }
         return null;
     }
 
-    default <N extends _node> _diffNode firstAt(Class<N> nodeClass, String id) {
+    default <_N extends _node> _diffNode firstAt(Class<_N> nodeClass, String id) {
         return firstAt( Component.of(nodeClass), id);
     }
     
@@ -1174,11 +1462,11 @@ public interface _diff {
      * List all diff _nodes that have this component as the last component in
      * the path
      *
-     * @param <N>
+     * @param <_N>
      * @param nodeClass
      * @return
      */
-    default <N extends _node> List<_diffNode> listAt(Class<N> nodeClass) {
+    default <_N extends _node> List<_diffNode> listAt(Class<_N> nodeClass) {
         return listAt( Component.of(nodeClass) );
     }
     
@@ -1186,12 +1474,12 @@ public interface _diff {
      * List all diff _nodes that have this component as the last component in
      * the path
      *
-     * @param <N>
+     * @param <_N>
      * @param nodeClass
      * @param id
      * @return
      */
-    default <N extends _node> List<_diffNode> listAt(Class<N> nodeClass, String id) {
+    default <_N extends _node> List<_diffNode> listAt(Class<_N> nodeClass, String id) {
         return listAt( Component.of(nodeClass), id);
     }
     
@@ -1221,11 +1509,11 @@ public interface _diff {
      * List all diff _nodes that have this component as the last component in
      * the path
      *
-     * @param <N>
+     * @param <_N>
      * @param nodeClass
      * @return
      */
-    default <N extends _node> List<_diffNode> listOn(Class<N> nodeClass) {
+    default <_N extends _node> List<_diffNode> listOn(Class<_N> nodeClass) {
         return listOn( Component.of(nodeClass) );
     }
 
@@ -1245,12 +1533,12 @@ public interface _diff {
      * List all diff _nodes that have this component as the last component in
      * the path
      *
-     * @param <N>
+     * @param <_N>
      * @param nodeClass
      * @param id
      * @return
      */
-    default <N extends _node> List<_diffNode> listOn(Class<N> nodeClass, String id) {
+    default <_N extends _node> List<_diffNode> listOn(Class<_N> nodeClass, String id) {
         return listOn(Component.of(nodeClass), id);
     }
 
@@ -1290,19 +1578,46 @@ public interface _diff {
      * collection of diff _nodes that represent the deep differences between two
      * domain objects (two _class es, _methods, _fields)
      */
-    public static class _mutableDiffList implements _diff, _diff._build {
+    class _diffList<_RN extends _node>
+            implements _diff, _diff._build {
 
         /**
          * the underlying diffs collected
          */
         public final List<_diffNode> diffNodeList;
 
-        public _mutableDiffList() {
+        /** the left root node of the diff (may be null for local diffs) */
+        public final _RN leftRoot;
+
+        /** the right root node of the diff (may be null for local diffs) */
+        public final _RN rightRoot;
+
+        public _diffList(_RN leftRoot, _RN rightRoot) {
+            this.leftRoot = leftRoot;
+            this.rightRoot = rightRoot;
             diffNodeList = new ArrayList<>();
         }
 
-        public _mutableDiffList(List<_diffNode> diffs) {
+        public _diffList(_RN leftRoot, _RN rightRoot, List<_diffNode> diffs) {
+            this.leftRoot = leftRoot;
+            this.rightRoot = rightRoot;
             this.diffNodeList = diffs;
+        }
+
+        /**
+         * The starting/root left node where the diff occurs (could be null for local diffs)
+         * @return
+         */
+        public _RN leftRoot(){
+            return this.leftRoot;
+        }
+
+        /**
+         * The starting/root right node where the diff occurs (could be null for local diffs)
+         * @return
+         */
+        public _RN rightRoot(){
+            return this.rightRoot;
         }
 
         @Override
@@ -1332,42 +1647,56 @@ public interface _diff {
      *
      *
      * @author Eric
-     * @param <T>
-     * @param <R>
+     * @param <T> the diff node type
+     * @param <_RN> the root node type
      */
-    public interface _differ<T, R extends _node> {
+    interface _differ<T, _RN extends _node> {
 
-        public default _diff diff(T left, T right) {
+        /**
+         *
+         * @param left
+         * @param right
+         * @return
+         */
+        default _diff diff(T left, T right) {
             _path _p = new _path();
-            _mutableDiffList md = new _mutableDiffList();
+
+            //we dont know if
+            _diffList md = null;
+
+            if( left instanceof _node && right instanceof _node) {
+                md = new _diffList((_node)left, (_node) right);
+            } else{
+                md = new _diffList(null, null);
+            }
             diff(_p, md, null, null, left, right);
             return md;
         }
 
-        public default _diff diff(_path path, R leftRoot, R rightRoot) {
-            _mutableDiffList md = new _mutableDiffList();
+        default _diff diff(_path path, _RN leftRoot, _RN rightRoot) {
+            _diffList md = new _diffList(leftRoot, rightRoot);
             diff(path, md, leftRoot, rightRoot);
             return md;
         }
 
         //launch a diff using the left and right roots as the main roots to diff
-        default _diff diff(_path path, _build dt, R leftRoot, R rightRoot) {
+        default _diff diff(_path path, _build dt, _RN leftRoot, _RN rightRoot) {
             return diff(path, dt, leftRoot, rightRoot, (T) leftRoot, (T) rightRoot);
         }
 
         /**
-         * diff the
+         * diff the left and right nodes where leftParent and rightParent are the containing nodes
          *
-         * @param <R> the root _node type
+         * @param <_P> the parent _node type
          * @param path the current path to the entity
          * @param ds the mutable _difflist containing the current _diffNode s
-         * @param leftRoot the root entity for the left node
-         * @param rightRoot the root entity for the right node
+         * @param _leftParent the parent of the left node
+         * @param _rightParent the parent of the right node
          * @param left the left node/element/property
          * @param right the right node/element/property
          * @return the diffList with all diffs between the left and right nodes
          */
-        public <R extends _node> _diff diff(_path path, _build ds, R leftRoot, R rightRoot, T left, T right);
+        <_P extends _node> _diff diff(_path path, _build ds, _P _leftParent, _P _rightParent, T left, T right);
     }
 
 }

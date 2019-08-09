@@ -15,7 +15,7 @@ public class _receiverParameterDiff
     
     public _diff diff( _hasReceiverParameter left, _hasReceiverParameter right){
         return diff( _path.of(), 
-                new _diff._mutableDiffList(), 
+                new _diffList( (_node)left, (_node)right),
                 (_node)left, 
                 (_node)right, 
                 left.getReceiverParameter(), 
@@ -23,9 +23,9 @@ public class _receiverParameterDiff
     }
     
     @Override
-    public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, _receiverParameter left, _receiverParameter right) {
+    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, _receiverParameter left, _receiverParameter right) {
         if (!Objects.equals(left, right)) {
-            dt.addDiff(new change_receiverParameter(path.in(_java.Component.RECEIVER_PARAMETER), (_receiverParameter._hasReceiverParameter) leftRoot, (_receiverParameter._hasReceiverParameter) rightRoot));
+            dt.addDiff(new change_receiverParameter(path.in(_java.Component.RECEIVER_PARAMETER), (_receiverParameter._hasReceiverParameter) _leftParent, (_receiverParameter._hasReceiverParameter) _rightParent));
         }
         return (_diff) dt;
     }
@@ -52,12 +52,12 @@ public class _receiverParameterDiff
         }
 
         @Override
-        public _receiverParameter._hasReceiverParameter leftRoot() {
+        public _receiverParameter._hasReceiverParameter leftParent() {
             return leftRoot;
         }
 
         @Override
-        public _receiverParameter._hasReceiverParameter rightRoot() {
+        public _receiverParameter._hasReceiverParameter rightParent() {
             return rightRoot;
         }
 

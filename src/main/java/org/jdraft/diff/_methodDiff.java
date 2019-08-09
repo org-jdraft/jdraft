@@ -15,7 +15,7 @@ public class _methodDiff implements _differ<_method, _node> {
     }
 
     @Override
-    public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, _method left, _method right) {
+    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, _method left, _method right) {
         _path p = path.in(_java.Component.METHOD, describeMethodSignature(left));
 
         _javadocDiff.INSTANCE.diff(p, dt, left, right, left.getJavadoc(), right.getJavadoc());
@@ -28,6 +28,6 @@ public class _methodDiff implements _differ<_method, _node> {
         _parametersDiff.INSTANCE.diff(p, dt, left, right, left.getParameters(), right.getParameters());
         _throwsDiff.INSTANCE.diff(p, dt, left, right, left.getThrows(), right.getThrows());
         _bodyDiff.INSTANCE.diff(p, dt, left, right, left.getBody(), right.getBody());
-        return (_diff) dt;
+        return dt;
     }
 }

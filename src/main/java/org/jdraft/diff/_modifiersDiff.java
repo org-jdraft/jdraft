@@ -25,7 +25,7 @@ public class _modifiersDiff implements
 
     public _diff diff( _hasModifiers left, _hasModifiers right){
         return diff( _path.of(), 
-                new _diff._mutableDiffList(), 
+                new _diffList((_node)left, (_node)right),
                 (_node)left, 
                 (_node)right, 
                 left.getEffectiveModifiers(), 
@@ -33,11 +33,11 @@ public class _modifiersDiff implements
     }
     
     @Override
-    public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, NodeList<Modifier> left, NodeList<Modifier> right) {
+    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, NodeList<Modifier> left, NodeList<Modifier> right) {
         if (!Objects.equals(left, right)) {
-            dt.addDiff(new _changeModifiers(path.in(_java.Component.MODIFIERS), (_modifiers._hasModifiers) leftRoot, (_modifiers._hasModifiers) rightRoot));
+            dt.addDiff(new _changeModifiers(path.in(_java.Component.MODIFIERS), (_modifiers._hasModifiers) _leftParent, (_modifiers._hasModifiers) _rightParent));
         }
-        return (_diff) dt;
+        return dt;
     }
 
     public static class _changeModifiers
@@ -58,12 +58,12 @@ public class _modifiersDiff implements
         }
 
         @Override
-        public _modifiers._hasModifiers leftRoot() {
+        public _modifiers._hasModifiers leftParent() {
             return leftRoot;
         }
 
         @Override
-        public _modifiers._hasModifiers rightRoot() {
+        public _modifiers._hasModifiers rightParent() {
             return rightRoot;
         }
 

@@ -44,7 +44,7 @@ public class _methodsDiff
      public _diff diff( _method._hasMethods left, _method._hasMethods right){
         return diff( 
                 _path.of(), 
-                new _diff._mutableDiffList(), 
+                new _diffList( (_node)left, (_node)right),
                 (_node)left, 
                 (_node)right, 
                 left.listMethods(), 
@@ -52,7 +52,7 @@ public class _methodsDiff
     }
      
     @Override
-    public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, List<_method> left, List<_method> right) {
+    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, List<_method> left, List<_method> right) {
         Set<_method> ls = new HashSet<>();
         ls.addAll(left);
         Set<_method> rs = new HashSet<>();
@@ -72,22 +72,22 @@ public class _methodsDiff
                 _methodDiff.INSTANCE.diff(
                         path,
                         dt,
-                        leftRoot,
-                        rightRoot,
+                        _leftParent,
+                        _rightParent,
                         m,
                         fm);
             } else {
                 dt.addDiff(new _leftOnly_method(
                         path.in(_java.Component.METHOD, describeMethodSignature(m)),
-                        (_method._hasMethods) leftRoot, (_method._hasMethods) rightRoot, m));
+                        (_method._hasMethods) _leftParent, (_method._hasMethods) _rightParent, m));
             }
         });
         rs.forEach(m -> {
             dt.addDiff(new _rightOnly_method(
                     path.in(_java.Component.METHOD, describeMethodSignature(m)),
-                    (_method._hasMethods) leftRoot, (_method._hasMethods) rightRoot, m));
+                    (_method._hasMethods) _leftParent, (_method._hasMethods) _rightParent, m));
         });
-        return (_diff) dt;
+        return dt;
     }
 
     public static class _leftOnly_method implements _diffNode<_method._hasMethods>, _diffNode._leftOnly<_method> {
@@ -105,12 +105,12 @@ public class _methodsDiff
         }
 
         @Override
-        public _method._hasMethods leftRoot() {
+        public _method._hasMethods leftParent() {
             return leftRoot;
         }
 
         @Override
-        public _method._hasMethods rightRoot() {
+        public _method._hasMethods rightParent() {
             return rightRoot;
         }
 
@@ -159,12 +159,12 @@ public class _methodsDiff
         }
 
         @Override
-        public _method._hasMethods leftRoot() {
+        public _method._hasMethods leftParent() {
             return leftRoot;
         }
 
         @Override
-        public _method._hasMethods rightRoot() {
+        public _method._hasMethods rightParent() {
             return rightRoot;
         }
 

@@ -67,8 +67,7 @@ public class _path {
      * member) (i.e. for a _field, _type, _method, _annotation._element, or
      * _enum._constant the name) (for a constructor, the parameter types)
      *
-     * //NOTE: can be empty for non-named components (i.e. EXTENDS, IMPLEMENTS,
-     * etc.)
+     * //NOTE: can be empty for non-named components (i.e. EXTENDS, IMPLEMENTS, etc.)
      */
     public List<String> idPath;
 
@@ -184,13 +183,13 @@ public class _path {
 
     /**
      *
-     * @param <N>
+     * @param <_N>
      * @param index
      * @param clazz
      * @param id
      * @return
      */
-    public <N extends _node> boolean is(int index, Class<N> clazz, String id) {
+    public <_N extends _node> boolean is(int index, Class<_N> clazz, String id) {
         if (index <= this.size() && index >= 0) {
             return this.componentPath.get(index).implementationClass.equals(clazz)
                     && this.idPath.get(index).equals(id);
@@ -211,12 +210,12 @@ public class _path {
 
     /**
      *
-     * @param <N>
+     * @param <_N>
      * @param clazz
      * @param id
      * @return
      */
-    public <N extends _node> boolean isLeaf(Class<N> clazz, String id) {        
+    public <_N extends _node> boolean isLeaf(Class<_N> clazz, String id) {
         return isLeaf(clazz) && leafId().equals(id);
     }
 
@@ -230,11 +229,11 @@ public class _path {
 
     /**
      *
-     * @param <N>
+     * @param <_N>
      * @param clazz
      * @return
      */
-    public <N extends _node> boolean isLeaf(Class<N> clazz) {
+    public <_N extends _node> boolean isLeaf(Class<_N> clazz) {
         return leaf().implementationClass.equals(clazz);
     }
 
@@ -293,11 +292,11 @@ public class _path {
     /**
      * id there a
      *
-     * @param <N>
+     * @param <_N>
      * @param clazz
      * @return
      */
-    public <N extends _node> boolean has(Class<N> clazz) {
+    public <_N extends _node> boolean has(Class<_N> clazz) {
         for (int i = 0; i < size(); i++) {
             if (this.componentPath.get(i).implementationClass.equals(clazz)) {
                 return true;
@@ -326,12 +325,12 @@ public class _path {
 
     /**
      *
-     * @param <N>
+     * @param <_N>
      * @param clazz
      * @param id
      * @return
      */
-    public <N extends _node> boolean has(Class<N> clazz, String id) {
+    public <_N extends _node> boolean has(Class<_N> clazz, String id) {
         for (int i = 0; i < size(); i++) {
             if (this.componentPath.get(i).implementationClass.equals(clazz)
                     && this.idPath.get(i).equals(id)) {

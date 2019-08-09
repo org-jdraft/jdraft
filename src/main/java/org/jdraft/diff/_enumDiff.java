@@ -23,7 +23,7 @@ public class _enumDiff implements _differ<_enum, _node> {
     }
 
     @Override
-    public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, _enum left, _enum right) {
+    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, _enum left, _enum right) {
         _packageNameDiff.INSTANCE.diff(path, dt, left, right, left.getPackage(), right.getPackage());
         _importsDiff.INSTANCE.diff(path, dt, left, right, left, right);
         _annosDiff.INSTANCE.diff(path, dt, left, right, left.getAnnos(), right.getAnnos());
@@ -55,12 +55,12 @@ public class _enumDiff implements _differ<_enum, _node> {
         @Override
         public _diff diff(_enum._constant left, _enum._constant right) {
             _path _p = new _path();
-            _diff._mutableDiffList ds = new _diff._mutableDiffList();
+            _diffList ds = new _diffList(left, right);
             return diff( _p, ds, left, right, left, right);
         }
         
         @Override
-        public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, _enum._constant left, _enum._constant right) {
+        public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, _enum._constant left, _enum._constant right) {
 
             _path _p = path.in(CONSTANT, left.getName());
 
@@ -97,7 +97,7 @@ public class _enumDiff implements _differ<_enum, _node> {
         }
 
         @Override
-        public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, List<_enum._constant> left, List<_enum._constant> right) {
+        public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, List<_enum._constant> left, List<_enum._constant> right) {
             Set<_enum._constant> ls = new HashSet<>();
             Set<_enum._constant> rs = new HashSet<>();
             Set<_enum._constant> both = new HashSet<>();
@@ -112,13 +112,13 @@ public class _enumDiff implements _differ<_enum, _node> {
                 _enum._constant cc = sameName(f, rs);
                 if (cc != null) {
                     rs.remove(cc);
-                    ENUM_CONSTANT_DIFF.diff(path, dt, leftRoot, rightRoot, f, cc);
+                    ENUM_CONSTANT_DIFF.diff(path, dt, _leftParent, _rightParent, f, cc);
                 } else {
-                    dt.addDiff(new _leftOnly_enum_constant(path.in(CONSTANT, f.getName()), (_enum) leftRoot, (_enum) rightRoot, f));
+                    dt.addDiff(new _leftOnly_enum_constant(path.in(CONSTANT, f.getName()), (_enum) _leftParent, (_enum) _rightParent, f));
                 }
             });
             rs.forEach(f -> {
-                dt.addDiff(new _rightOnly_enum_constant(path.in(CONSTANT, f.getName()), (_enum) leftRoot, (_enum) rightRoot, f));
+                dt.addDiff(new _rightOnly_enum_constant(path.in(CONSTANT, f.getName()), (_enum) _leftParent, (_enum) _rightParent, f));
             });
             return (_diff) dt;
         }
@@ -138,12 +138,12 @@ public class _enumDiff implements _differ<_enum, _node> {
             }
 
             @Override
-            public _enum leftRoot() {
+            public _enum leftParent() {
                 return leftRoot;
             }
 
             @Override
-            public _enum rightRoot() {
+            public _enum rightParent() {
                 return rightRoot;
             }
 
@@ -193,12 +193,12 @@ public class _enumDiff implements _differ<_enum, _node> {
             }
 
             @Override
-            public _enum leftRoot() {
+            public _enum leftParent() {
                 return leftRoot;
             }
 
             @Override
-            public _enum rightRoot() {
+            public _enum rightParent() {
                 return rightRoot;
             }
 
@@ -244,9 +244,9 @@ public class _enumDiff implements _differ<_enum, _node> {
         }
 
         @Override
-        public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, List<Expression> left, List<Expression> right) {
+        public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, List<Expression> left, List<Expression> right) {
             if (!Objects.equals(left, right)) {
-                dt.addDiff(new _changeArguments(path.in(ARGUMENTS), (_enum._constant) leftRoot, (_enum._constant) rightRoot));
+                dt.addDiff(new _changeArguments(path.in(ARGUMENTS), (_enum._constant) _leftParent, (_enum._constant) _rightParent));
             }
             return (_diff) dt;
         }
@@ -273,12 +273,12 @@ public class _enumDiff implements _differ<_enum, _node> {
             }
 
             @Override
-            public _enum._constant leftRoot() {
+            public _enum._constant leftParent() {
                 return leftRoot;
             }
 
             @Override
-            public _enum._constant rightRoot() {
+            public _enum._constant rightParent() {
                 return rightRoot;
             }
 

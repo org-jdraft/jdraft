@@ -14,8 +14,7 @@ public class _implementsDiff implements
         _differ<List<ClassOrInterfaceType>, _node> {
 
     public static final _implementsDiff INSTANCE = new _implementsDiff();
-    
-    
+
     public boolean equivalent(List<ClassOrInterfaceType> left, List<ClassOrInterfaceType> right) {
         Set<ClassOrInterfaceType> ls = new HashSet<>();
         Set<ClassOrInterfaceType> rs = new HashSet<>();
@@ -37,7 +36,7 @@ public class _implementsDiff implements
     }
     
     @Override
-    public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, List<ClassOrInterfaceType> left, List<ClassOrInterfaceType> right) {
+    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, List<ClassOrInterfaceType> left, List<ClassOrInterfaceType> right) {
         
         //probably the best/easiest wasy is to put something in _type
         
@@ -47,14 +46,14 @@ public class _implementsDiff implements
             ClassOrInterfaceType cit = left.get(i);
             if (!right.stream().filter(c -> typesEqual(c, cit)).findFirst().isPresent()) {
                 //addRight.add(cit);
-                dt.addDiff(new _leftOnly_implements(path.in(Component.IMPLEMENTS), (_type) leftRoot, (_type) rightRoot, cit));
+                dt.addDiff(new _leftOnly_implements(path.in(Component.IMPLEMENTS), (_type) _leftParent, (_type) _rightParent, cit));
             }
         }
         for (int i = 0; i < right.size(); i++) {
             ClassOrInterfaceType cit = right.get(i);
             if (!left.stream().filter(c -> typesEqual(c, cit)).findFirst().isPresent()) {
                 //addLeft.add(cit);
-                dt.addDiff(new _rightOnly_implements(path.in(Component.IMPLEMENTS), (_type) leftRoot, (_type) rightRoot, cit));   
+                dt.addDiff(new _rightOnly_implements(path.in(Component.IMPLEMENTS), (_type) _leftParent, (_type) _rightParent, cit));
             }
         }
         return (_diff) dt;
@@ -76,12 +75,12 @@ public class _implementsDiff implements
         }
 
         @Override
-        public _type leftRoot() {
+        public _type leftParent() {
             return leftRoot;
         }
 
         @Override
-        public _type rightRoot() {
+        public _type rightParent() {
             return rightRoot;
         }
 
@@ -131,12 +130,12 @@ public class _implementsDiff implements
         }
 
         @Override
-        public _type leftRoot() {
+        public _type leftParent() {
             return leftRoot;
         }
 
         @Override
-        public _type rightRoot() {
+        public _type rightParent() {
             return rightRoot;
         }
 

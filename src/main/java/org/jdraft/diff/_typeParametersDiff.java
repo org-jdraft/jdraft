@@ -23,21 +23,22 @@ public class _typeParametersDiff
 
     public _diff diff( _hasTypeParameters left, _hasTypeParameters right){
         return diff( _path.of(), 
-                new _diff._mutableDiffList(), 
+                new _diffList( (_node)left, (_node)right),
                 (_node)left, 
                 (_node)right, 
                 left.getTypeParameters(), 
                 right.getTypeParameters());
     }
+
     @Override
-    public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, _typeParameter._typeParameters left, _typeParameter._typeParameters right) {
+    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, _typeParameter._typeParameters left, _typeParameter._typeParameters right) {
         
         if (!Ast.typesEqual( ((NodeWithTypeParameters)left.astHolder()).getTypeParameters(), 
                 ((NodeWithTypeParameters)right.astHolder()).getTypeParameters())) {
             dt.addDiff(new _change_typeParameters(path.in(_java.Component.TYPE_PARAMETERS), 
-                    (_typeParameter._hasTypeParameters) leftRoot, (_typeParameter._hasTypeParameters) rightRoot));
+                    (_typeParameter._hasTypeParameters) _leftParent, (_typeParameter._hasTypeParameters) _rightParent));
         }
-        return (_diff) dt;
+        return dt;
     }
 
     public static class _change_typeParameters
@@ -61,12 +62,12 @@ public class _typeParametersDiff
         }
 
         @Override
-        public _typeParameter._hasTypeParameters leftRoot() {
+        public _typeParameter._hasTypeParameters leftParent() {
             return leftRoot;
         }
 
         @Override
-        public _typeParameter._hasTypeParameters rightRoot() {
+        public _typeParameter._hasTypeParameters rightParent() {
             return rightRoot;
         }
 

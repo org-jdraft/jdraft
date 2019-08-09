@@ -3,13 +3,16 @@ package org.jdraft.diff;
 import org.jdraft.*;
 import org.jdraft.diff._diff.*;
 
+/**
+ * 
+ */
 public class _interfaceDiff
         implements _differ<_interface, _node> {
 
     public static final _interfaceDiff INSTANCE = new _interfaceDiff();
     
     @Override
-    public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, _interface left, _interface right) {
+    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, _interface left, _interface right) {
         _packageNameDiff.INSTANCE.diff(path, dt, left, right, left.getPackage(), right.getPackage());
         _importsDiff.INSTANCE.diff(path, dt, left, right, left, right);
         
@@ -24,6 +27,6 @@ public class _interfaceDiff
         _nestsDiff.INSTANCE.diff(path, dt, left, right, left.listNests(), right.listNests());
 
         _companionTypeDiff.INSTANCE.diff(path, dt, left, right, left.listCompanionTypes(), right.listCompanionTypes());
-        return (_diff) dt;
+        return dt;
     }
 }

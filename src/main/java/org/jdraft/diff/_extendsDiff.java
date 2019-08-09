@@ -41,21 +41,21 @@ public class _extendsDiff implements
     }
     
     @Override
-    public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, List<ClassOrInterfaceType> left, List<ClassOrInterfaceType> right) {
+    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, List<ClassOrInterfaceType> left, List<ClassOrInterfaceType> right) {
         
         for (int i = 0; i < left.size(); i++) {
             ClassOrInterfaceType cit = left.get(i);
             if (!right.stream().filter(c -> typesEqual(c, cit)).findFirst().isPresent()) {
-                dt.addDiff(new _leftOnly_extends(path.in(Component.EXTENDS), (_type) leftRoot, (_type) rightRoot, cit));
+                dt.addDiff(new _leftOnly_extends(path.in(Component.EXTENDS), (_type) _leftParent, (_type) _rightParent, cit));
             }
         }
         for (int i = 0; i < right.size(); i++) {
             ClassOrInterfaceType cit = right.get(i);
             if (!left.stream().filter(c -> typesEqual(c, cit)).findFirst().isPresent()) {
-                dt.addDiff(new _rightOnly_extends(path.in(Component.EXTENDS), (_type) leftRoot, (_type) rightRoot, cit));   
+                dt.addDiff(new _rightOnly_extends(path.in(Component.EXTENDS), (_type) _leftParent, (_type) _rightParent, cit));
             }
         }        
-        return (_diff) dt;
+        return dt;
     }
 
     public static class _rightOnly_extends
@@ -74,12 +74,12 @@ public class _extendsDiff implements
         }
 
         @Override
-        public _type leftRoot() {
+        public _type leftParent() {
             return leftRoot;
         }
 
         @Override
-        public _type rightRoot() {
+        public _type rightParent() {
             return rightRoot;
         }
 
@@ -129,12 +129,12 @@ public class _extendsDiff implements
         }
 
         @Override
-        public _type leftRoot() {
+        public _type leftParent() {
             return leftRoot;
         }
 
         @Override
-        public _type rightRoot() {
+        public _type rightParent() {
             return rightRoot;
         }
 

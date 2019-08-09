@@ -5,6 +5,7 @@ import org.jdraft.*;
 import org.jdraft.diff._diff.*;
 
 /**
+ * Differ for nested {@link _type}s
  *
  * @author Eric
  */
@@ -31,14 +32,15 @@ public class _nestsDiff implements _differ<List<_type>, _node> {
 
     public _diff diff( _type left, _type right){
         return diff( _path.of(), 
-                new _diff._mutableDiffList(), 
+                new _diffList(left, right),
                 left, 
                 right, 
                 left.listNests(), 
                 right.listNests());
     }
+
     @Override
-    public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, List<_type> left, List<_type> right) {
+    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, List<_type> left, List<_type> right) {
         Set<_type> ls = new HashSet<>();
         Set<_type> rs = new HashSet<>();
         Set<_type> both = new HashSet<>();
@@ -56,22 +58,22 @@ public class _nestsDiff implements _differ<List<_type>, _node> {
             
             if (cc != null) {
                 //System.out.println( ">>>>>>>>>>>>>>>>>> FOUND MATCH "+ f);
-                _typeDiff.INSTANCE.diff(path.in(_java.Component.NEST), dt, leftRoot, rightRoot, f, cc);
+                _typeDiff.INSTANCE.diff(path.in(_java.Component.NEST), dt, _leftParent, _rightParent, f, cc);
                 rs.remove(cc);
             } else {
                 //System.out.println( "<<<<<<<<<<<<< NOT FOUND MATCH "+ cc);
                 if (f instanceof _class) {
                     dt.addDiff(new _leftOnly_nest(path.in(_java.Component.NEST).in(_java.Component.CLASS, f.getName()),
-                            (_type) leftRoot, (_type) rightRoot, f));
+                            (_type) _leftParent, (_type) _rightParent, f));
                 } else if (f instanceof _interface) {
                     dt.addDiff(new _leftOnly_nest(path.in(_java.Component.NEST).in(_java.Component.INTERFACE, f.getName()),
-                            (_type) leftRoot, (_type) rightRoot, f));
+                            (_type) _leftParent, (_type) _rightParent, f));
                 } else if (f instanceof _enum) {
                     dt.addDiff(new _leftOnly_nest(path.in(_java.Component.NEST).in(_java.Component.ENUM, f.getName()),
-                            (_type) leftRoot, (_type) rightRoot, f));
+                            (_type) _leftParent, (_type) _rightParent, f));
                 } else {
                     dt.addDiff(new _leftOnly_nest(path.in(_java.Component.NEST).in(_java.Component.ANNOTATION, f.getName()),
-                            (_type) leftRoot, (_type) rightRoot, f));
+                            (_type) _leftParent, (_type) _rightParent, f));
                 }
             }
         });
@@ -79,19 +81,19 @@ public class _nestsDiff implements _differ<List<_type>, _node> {
         rs.forEach(f -> {
             if (f instanceof _class) {
                 dt.addDiff(new _rightOnly_nest(path.in(_java.Component.NEST).in(_java.Component.CLASS, f.getName()),
-                        (_type) leftRoot, (_type) rightRoot, f));
+                        (_type) _leftParent, (_type) _rightParent, f));
             } else if (f instanceof _interface) {
                 dt.addDiff(new _rightOnly_nest(path.in(_java.Component.NEST).in(_java.Component.INTERFACE, f.getName()),
-                        (_type) leftRoot, (_type) rightRoot, f));
+                        (_type) _leftParent, (_type) _rightParent, f));
             } else if (f instanceof _enum) {
                 dt.addDiff(new _rightOnly_nest(path.in(_java.Component.NEST).in(_java.Component.ENUM, f.getName()),
-                        (_type) leftRoot, (_type) rightRoot, f));
+                        (_type) _leftParent, (_type) _rightParent, f));
             } else {
                 dt.addDiff(new _rightOnly_nest(path.in(_java.Component.NEST).in(_java.Component.ANNOTATION, f.getName()),
-                        (_type) leftRoot, (_type) rightRoot, f));
+                        (_type) _leftParent, (_type) _rightParent, f));
             }
         });
-        return (_diff) dt;
+        return dt;
     }
 
     public static class _rightOnly_nest
@@ -110,12 +112,12 @@ public class _nestsDiff implements _differ<List<_type>, _node> {
         }
 
         @Override
-        public _type leftRoot() {
+        public _type leftParent() {
             return leftRoot;
         }
 
         @Override
-        public _type rightRoot() {
+        public _type rightParent() {
             return rightRoot;
         }
 
@@ -165,12 +167,12 @@ public class _nestsDiff implements _differ<List<_type>, _node> {
         }
 
         @Override
-        public _type leftRoot() {
+        public _type leftParent() {
             return leftRoot;
         }
 
         @Override
-        public _type rightRoot() {
+        public _type rightParent() {
             return rightRoot;
         }
 

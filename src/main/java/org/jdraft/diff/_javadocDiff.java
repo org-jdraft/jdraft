@@ -9,6 +9,9 @@ import org.jdraft._javadoc._hasJavadoc;
 
 import org.jdraft.diff._diff.*;
 
+/**
+ * Differ for {@link _javadoc}
+ */
 public class _javadocDiff implements _differ<_javadoc, _node> {
 
     public static final _javadocDiff INSTANCE = new _javadocDiff();
@@ -19,7 +22,7 @@ public class _javadocDiff implements _differ<_javadoc, _node> {
 
     public _diff diff( _hasJavadoc left, _hasJavadoc right){
         return diff( _path.of(), 
-            new _diff._mutableDiffList(), 
+            new _diffList((_node)left, (_node)right),
             (_node)left, 
             (_node)right, 
             left.getJavadoc(), 
@@ -27,11 +30,11 @@ public class _javadocDiff implements _differ<_javadoc, _node> {
     }
 
     @Override
-    public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, _javadoc left, _javadoc right) {
+    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, _javadoc left, _javadoc right) {
         if (!equivalent(left, right)) {
-            dt.addDiff(new _changeJavadoc(path.in(_java.Component.JAVADOC), (_javadoc._hasJavadoc) leftRoot, (_javadoc._hasJavadoc) rightRoot));
+            dt.addDiff(new _changeJavadoc(path.in(_java.Component.JAVADOC), (_javadoc._hasJavadoc) _leftParent, (_javadoc._hasJavadoc) _rightParent));
         }
-        return (_diff) dt;
+        return dt;
     }
 
     /**
@@ -62,13 +65,13 @@ public class _javadocDiff implements _differ<_javadoc, _node> {
         @Override
         public void patchLeftToRight() {
             if( leftJavadoc != null ){
-                System.out.println("Setting on "+ left.getClass() );
-                System.out.println("Setting on "+ right.getClass() );
+                //System.out.println("Setting on "+ left.getClass() );
+                //System.out.println("Setting on "+ right.getClass() );
                 left.javadoc(leftJavadoc.clone());
                 right.javadoc(leftJavadoc.clone());
-                System.out.println("LEFT JAVADOC"+left.getJavadoc() );
-                System.out.println("RIGHT JAVADOC"+right.getJavadoc() );
-                System.out.println( "ARE THEY EQUAL " + left.getJavadoc().equals( right.getJavadoc() )); 
+                //System.out.println("LEFT JAVADOC"+left.getJavadoc() );
+                //System.out.println("RIGHT JAVADOC"+right.getJavadoc() );
+                //System.out.println( "ARE THEY EQUAL " + left.getJavadoc().equals( right.getJavadoc() ));
             } else{
                 left.removeJavadoc();
                 right.removeJavadoc();
@@ -92,12 +95,12 @@ public class _javadocDiff implements _differ<_javadoc, _node> {
         }
 
         @Override
-        public _java leftRoot() {
+        public _java leftParent() {
             return left;
         }
 
         @Override
-        public _java rightRoot() {
+        public _java rightParent() {
             return right;
         }
 

@@ -20,11 +20,11 @@ public class _parametersDiff
     }
 
     @Override
-    public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, _parameter._parameters left, _parameter._parameters right) {
+    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, _parameter._parameters left, _parameter._parameters right) {
         if (!Objects.equals(left, right)) {
-            dt.addDiff(new _changeParameters(path.in(_java.Component.PARAMETERS), (_parameter._hasParameters) leftRoot, (_parameter._hasParameters) rightRoot));
+            dt.addDiff(new _changeParameters(path.in(_java.Component.PARAMETERS), (_parameter._hasParameters) _leftParent, (_parameter._hasParameters) _rightParent));
         }
-        return (_diff) dt;
+        return dt;
     }
 
     public static class _changeParameters
@@ -45,12 +45,12 @@ public class _parametersDiff
         }
 
         @Override
-        public _parameter._hasParameters leftRoot() {
+        public _parameter._hasParameters leftParent() {
             return leftRoot;
         }
 
         @Override
-        public _parameter._hasParameters rightRoot() {
+        public _parameter._hasParameters rightParent() {
             return rightRoot;
         }
 

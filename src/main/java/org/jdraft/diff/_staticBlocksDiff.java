@@ -22,11 +22,11 @@ public class _staticBlocksDiff
     }
 
     public _diff diff( _hasStaticBlocks left, _hasStaticBlocks right){
-        return diff( _path.of(), new _mutableDiffList(), (_node)left, (_node)right, left.listStaticBlocks(), right.listStaticBlocks());
+        return diff( _path.of(), new _diffList( (_node)left, (_node)right), (_node)left, (_node)right, left.listStaticBlocks(), right.listStaticBlocks());
     }
     
     @Override
-    public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, List<_staticBlock> left, List<_staticBlock> right) {
+    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, List<_staticBlock> left, List<_staticBlock> right) {
         Set<_staticBlock> ls = new HashSet<>();
         Set<_staticBlock> rs = new HashSet<>();
         Set<_staticBlock> both = new HashSet<>();
@@ -41,11 +41,11 @@ public class _staticBlocksDiff
 
         ls.forEach(s -> dt.addDiff(new _leftOnly_staticBlock(
                 path.in(_java.Component.STATIC_BLOCK),
-                (_staticBlock._hasStaticBlocks) leftRoot, (_staticBlock._hasStaticBlocks) rightRoot, s)));
+                (_staticBlock._hasStaticBlocks) _leftParent, (_staticBlock._hasStaticBlocks) _rightParent, s)));
         rs.forEach(s -> dt.addDiff(new _rightOnly_staticBlock(
                 path.in(_java.Component.STATIC_BLOCK),
-                (_staticBlock._hasStaticBlocks) leftRoot, (_staticBlock._hasStaticBlocks) rightRoot, s)));
-        return (_diff) dt;
+                (_staticBlock._hasStaticBlocks) _leftParent, (_staticBlock._hasStaticBlocks) _rightParent, s)));
+        return dt;
     }
 
     public static class _rightOnly_staticBlock implements _diffNode<_staticBlock._hasStaticBlocks>, _diffNode._rightOnly<_staticBlock> {
@@ -64,12 +64,12 @@ public class _staticBlocksDiff
         }
 
         @Override
-        public _staticBlock._hasStaticBlocks leftRoot() {
+        public _staticBlock._hasStaticBlocks leftParent() {
             return leftRoot;
         }
 
         @Override
-        public _staticBlock._hasStaticBlocks rightRoot() {
+        public _staticBlock._hasStaticBlocks rightParent() {
             return rightRoot;
         }
 
@@ -119,12 +119,12 @@ public class _staticBlocksDiff
         }
 
         @Override
-        public _staticBlock._hasStaticBlocks leftRoot() {
+        public _staticBlock._hasStaticBlocks leftParent() {
             return leftRoot;
         }
 
         @Override
-        public _staticBlock._hasStaticBlocks rightRoot() {
+        public _staticBlock._hasStaticBlocks rightParent() {
             return rightRoot;
         }
 
@@ -139,10 +139,8 @@ public class _staticBlocksDiff
 
         @Override
         public void patchRightToLeft() {
-
             this.leftRoot.removeStaticBlock(left);
             this.rightRoot.removeStaticBlock(left);
-
         }
 
         @Override

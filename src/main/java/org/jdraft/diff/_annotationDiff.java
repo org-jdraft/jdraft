@@ -11,7 +11,7 @@ public class _annotationDiff implements _differ<_annotation, _node> {
     public static final _annotationDiff INSTANCE = new _annotationDiff();
 
     @Override
-    public <R extends _node> _diff diff(_path path, _build ds, R leftRoot, R rightRoot, _annotation left, _annotation right) {
+    public <_PN extends _node> _diff diff(_path path, _build ds, _PN _leftParent, _PN _rightParent, _annotation left, _annotation right) {
         _packageNameDiff.INSTANCE.diff(path, ds, left, right, left.getPackage(), right.getPackage());
         _importsDiff.INSTANCE.diff(path, ds, left, right, left, right);
         _annosDiff.INSTANCE.diff(path, ds, left, right, left.getAnnos(), right.getAnnos());
@@ -49,11 +49,11 @@ public class _annotationDiff implements _differ<_annotation, _node> {
         }
 
         public _diff diff( _annotation left, _annotation right ){
-            return diff( _path.of(), new _mutableDiffList(), left, right, left.listElements(), right.listElements());
+            return diff( _path.of(), new _diffList(left, right), left, right, left.listElements(), right.listElements());
         }
         
         @Override
-        public <R extends _node> _diff diff(_path path, _build ds, R leftRoot, R rightRoot, List<_annotation._element> left, List<_annotation._element> right) {
+        public <_PN extends _node> _diff diff(_path path, _build ds, _PN _leftParent, _PN _rightParent, List<_annotation._element> left, List<_annotation._element> right) {
             Set<_annotation._element> ls = new HashSet<>();
             Set<_annotation._element> rs = new HashSet<>();
             Set<_annotation._element> both = new HashSet<>();
@@ -69,14 +69,14 @@ public class _annotationDiff implements _differ<_annotation, _node> {
                 _annotation._element cc = sameName(f, rs);
                 if (cc != null) {
                     rs.remove(cc);
-                    ANNOTATION_ELEMENT_DIFF.diff(path.in(_java.Component.ELEMENT, f.getName()), ds, leftRoot, rightRoot, f, cc);
+                    ANNOTATION_ELEMENT_DIFF.diff(path.in(_java.Component.ELEMENT, f.getName()), ds, _leftParent, _rightParent, f, cc);
                 } else {
-                    ds.addDiff(new _leftOnly_element(path.in(_java.Component.ELEMENT, f.getName()), (_annotation) leftRoot, (_annotation) rightRoot, f));
+                    ds.addDiff(new _leftOnly_element(path.in(_java.Component.ELEMENT, f.getName()), (_annotation) _leftParent, (_annotation) _rightParent, f));
                 }
             });
 
             rs.forEach(f -> {
-                ds.addDiff(new _rightOnly_element(path.in(_java.Component.ELEMENT, f.getName()), (_annotation) leftRoot, (_annotation) rightRoot, f));
+                ds.addDiff(new _rightOnly_element(path.in(_java.Component.ELEMENT, f.getName()), (_annotation) _leftParent, (_annotation) _rightParent, f));
             });
             return ds;
         }
@@ -96,12 +96,12 @@ public class _annotationDiff implements _differ<_annotation, _node> {
             }
 
             @Override
-            public _annotation leftRoot() {
+            public _annotation leftParent() {
                 return leftRoot;
             }
 
             @Override
-            public _annotation rightRoot() {
+            public _annotation rightParent() {
                 return rightRoot;
             }
 
@@ -150,12 +150,12 @@ public class _annotationDiff implements _differ<_annotation, _node> {
             }
 
             @Override
-            public _annotation leftRoot() {
+            public _annotation leftParent() {
                 return leftRoot;
             }
 
             @Override
-            public _annotation rightRoot() {
+            public _annotation rightParent() {
                 return rightRoot;
             }
 
@@ -197,7 +197,7 @@ public class _annotationDiff implements _differ<_annotation, _node> {
             _differ<_annotation._element, _node> {
 
         @Override
-        public <R extends _node> _diff diff(_path path, _build ds, R leftRoot, R rightRoot, _annotation._element left, _annotation._element right) {
+        public <_PN extends _node> _diff diff(_path path, _build ds, _PN _leftParent, _PN _rightParent, _annotation._element left, _annotation._element right) {
             _javadocDiff.INSTANCE.diff(path, ds, left, right, left.getJavadoc(), right.getJavadoc());
             _annosDiff.INSTANCE.diff(path, ds, left, right, left.getAnnos(), right.getAnnos());
             _typeRefDiff.INSTANCE.diff(path, ds, left, right, left.getType(), right.getType());
@@ -212,9 +212,9 @@ public class _annotationDiff implements _differ<_annotation, _node> {
     public static class DefaultValueDiff implements _differ<Expression, _annotation._element> {
 
         @Override
-        public <R extends _node> _diff diff(_path path, _build ds, R leftRoot, R rightRoot, Expression left, Expression right) {
+        public <_PN extends _node> _diff diff(_path path, _build ds, _PN _leftParent, _PN _rightParent, Expression left, Expression right) {
             if (!Objects.equals(left, right)) {
-                ds.addDiff(new _changeDefault(path.in(_java.Component.DEFAULT), (_annotation._element) leftRoot, (_annotation._element) rightRoot));
+                ds.addDiff(new _changeDefault(path.in(_java.Component.DEFAULT), (_annotation._element) _leftParent, (_annotation._element) _rightParent));
             }
             return (_diff) ds;
         }
@@ -268,12 +268,12 @@ public class _annotationDiff implements _differ<_annotation, _node> {
         }
 
         @Override
-        public _java leftRoot() {
+        public _java leftParent() {
             return leftRoot;
         }
 
         @Override
-        public _java rightRoot() {
+        public _java rightParent() {
             return rightRoot;
         }
 

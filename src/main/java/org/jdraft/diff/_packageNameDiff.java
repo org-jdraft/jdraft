@@ -7,6 +7,9 @@ import org.jdraft.*;
 
 import org.jdraft.diff._diff.*;
 
+/**
+ * _differ for the package name
+ */
 public class _packageNameDiff
         implements _differ<String, _node> {
 
@@ -14,19 +17,20 @@ public class _packageNameDiff
     
     public _diff diff( _type left, _type right){
         return diff( _path.of(), 
-                new _diff._mutableDiffList(), 
+                new _diffList(left, right),
                 left, 
                 right, 
                 left.getPackage(), 
                 right.getPackage());
     }
+
     @Override
-    public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, String leftPackageName, String rightPackageName) {        
+    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, String leftPackageName, String rightPackageName) {
         if (!Objects.equals(leftPackageName, rightPackageName)) {            
-            return (_diff)dt.addDiff(
-                new _changePackageName(path.in(Component.PACKAGE_NAME), (_type) leftRoot, (_type) rightRoot));
+            return dt.addDiff(
+                new _changePackageName(path.in(Component.PACKAGE_NAME), (_type) _leftParent, (_type) _rightParent));
         }
-        return (_diff) dt;
+        return dt;
     }
 
     public static class _changePackageName implements _diffNode<_type>, _diffNode._change<String> {
@@ -82,12 +86,12 @@ public class _packageNameDiff
         }
 
         @Override
-        public _type leftRoot() {
+        public _type leftParent() {
             return leftRoot;
         }
 
         @Override
-        public _type rightRoot() {
+        public _type rightParent() {
             return rightRoot;
         }
 

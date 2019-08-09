@@ -11,9 +11,9 @@ import name.fraser.neil.plaintext.diff_match_patch;
  * A single difference between the "left" and "right" code and a path to identify
  * the location / components that contain the diff
  *
- * @param <R>
+ * @param <_PN>
  */
-public interface _diffNode<R extends _java> {
+public interface _diffNode<_PN extends _java> {
 
     /**
      * the Entity that is the parent of the diff... for instance
@@ -37,7 +37,7 @@ public interface _diffNode<R extends _java> {
      * </PRE>
      * @return the left root entity containing the diff
      */
-    public R leftRoot();
+    _PN leftParent();
 
     /**
      * the Entity that is the parent of the diff... for instance
@@ -63,25 +63,25 @@ public interface _diffNode<R extends _java> {
      * </PRE>
      * @return the right root entity containing the diff
      */
-    public R rightRoot();
+    _PN rightParent();
 
     /**
      * Patches the root nodes to accept
      * synonymous with UNDO if LEFT = version 1 & right = version 2
      */
-    public void patchLeftToRight();
+    void patchLeftToRight();
 
     /**
      * 
      */
-    public void patchRightToLeft();
+    void patchRightToLeft();
 
     /**
      * @return the path that marks the component types (METHOD, FIELD,
      * PARAMETER, NEST, etc.) and identifiers ( "0", "m(String)") that are
      * traversed to reach the diff node
      */
-    public _path path();
+    _path path();
 
     /**
      * if the type of change an Add (meaning an entity 
@@ -184,16 +184,16 @@ public interface _diffNode<R extends _java> {
     
     /**
      * Is this diffnode located AT this class component
-     * @param <C>
+     * @param <_N>
      * @param component
      * @param id
      * @return 
      */
-    default <C extends _node> boolean at(Class<C> component, String id) {
+    default <_N extends _node> boolean at(Class<_N> component, String id) {
         return path().isLeaf(component) && path().isLeafId(id);
     }
 
-    default <C extends _node> boolean at(Class<C> component) {
+    default <_N extends _node> boolean at(Class<_N> component) {
         return path().isLeaf(component);
     }
 
@@ -358,7 +358,7 @@ public interface _diffNode<R extends _java> {
          * if we have
          *  LEFT          RIGHT
          *  AAAA11111     AAAA222222
-         *
+         *    ---------->>
          * we set the results to be
          *  LEFT          RIGHT
          *  AAAA11111     AAAA11111
@@ -374,7 +374,7 @@ public interface _diffNode<R extends _java> {
          * if we have
          *  LEFT          RIGHT
          *  AAAA11111     AAAA222222
-         *
+         *      <<----------
          * we set the results to be:
          *  LEFT          RIGHT
          *  AAAA222222    AAAA222222
@@ -386,14 +386,13 @@ public interface _diffNode<R extends _java> {
          * Return the element with the body that is being compared (left side)
          * @return
          */
-        _body._hasBody leftRoot();
+        _body._hasBody leftParent();
 
         /**
          *
          * @return
          */
-        _body._hasBody rightRoot();
+        _body._hasBody rightParent();
     }
 
-    
 }

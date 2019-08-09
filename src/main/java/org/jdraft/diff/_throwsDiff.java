@@ -23,15 +23,15 @@ public class _throwsDiff implements _differ<_throws, _node> {
     }
 
     public _diff diff( _hasThrows left, _hasThrows right){
-        return diff( _path.of(), new _mutableDiffList(), (_node)left, (_node)right, left.getThrows(), right.getThrows());
+        return diff( _path.of(), new _diffList((_node)left, (_node)right), (_node)left, (_node)right, left.getThrows(), right.getThrows());
     }
     
     @Override
-    public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, _throws left, _throws right) {
+    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, _throws left, _throws right) {
         if (!Objects.equals(left, right)) {
-            dt.addDiff(new _change_throws(path.in(_java.Component.THROWS), (_throws._hasThrows) leftRoot, (_throws._hasThrows) rightRoot));
+            dt.addDiff(new _change_throws(path.in(_java.Component.THROWS), (_throws._hasThrows) _leftParent, (_throws._hasThrows) _rightParent));
         }
-        return (_diff) dt;
+        return dt;
     }
 
     public static class _change_throws
@@ -56,12 +56,12 @@ public class _throwsDiff implements _differ<_throws, _node> {
         }
 
         @Override
-        public _throws._hasThrows leftRoot() {
+        public _throws._hasThrows leftParent() {
             return leftRoot;
         }
 
         @Override
-        public _throws._hasThrows rightRoot() {
+        public _throws._hasThrows rightParent() {
             return rightRoot;
         }
 

@@ -23,7 +23,7 @@ public class _importsDiff
     public _diff diff( _type left, _type right){
         return diff( 
                 _path.of(), 
-                new _mutableDiffList(), 
+                new _diffList(left, right),
                 left,
                 right, 
                 left.astCompilationUnit().getImports(), 
@@ -32,12 +32,13 @@ public class _importsDiff
     
     public _diff diff( _imports left, _imports right ){
         
-        return diff( _path.of(), new _mutableDiffList(), _java.type(left.astCompilationUnit), _java.type(right.astCompilationUnit), left.astCompilationUnit.getImports(), right.astCompilationUnit.getImports());
+        return diff( _path.of(), new _diffList(null, null),
+                _java.type(left.astCompilationUnit), _java.type(right.astCompilationUnit), left.astCompilationUnit.getImports(), right.astCompilationUnit.getImports());
     }
     
-    public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, _type left, _type right) {
+    public <_PN extends _node> _diff diff(_path path, _build dt, _PN leftParent, _PN rightParent, _type left, _type right) {
         if( left.isTopLevel() && right.isTopLevel() ){
-            return diff( path, dt, leftRoot, rightRoot, left.astCompilationUnit().getImports(), right.astCompilationUnit().getImports() );    
+            return diff( path, dt, leftParent, rightParent, left.astCompilationUnit().getImports(), right.astCompilationUnit().getImports() );
         }
         if( !left.isTopLevel() && !right.isTopLevel() ){
             return dt;
@@ -45,26 +46,26 @@ public class _importsDiff
         if( !left.isTopLevel() ){
             right.getImports().forEach( i -> dt.addDiff(new _rightOnly_import(
                 path.in(_java.Component.IMPORT),
-                (_type) leftRoot,
-                (_type) rightRoot, 
+                (_type) leftParent,
+                (_type) rightParent,
                 i.astId )) );
             return dt;
         } 
         
         left.getImports().forEach( i -> dt.addDiff(new _leftOnly_import(
                 path.in(_java.Component.IMPORT),
-                (_type) leftRoot,
-                (_type) rightRoot, 
+                (_type) leftParent,
+                (_type) rightParent,
                 i.astId )) );
             return dt;    
     }
     
-    public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, _imports left, _imports right) {
-        return diff( path, dt, leftRoot, rightRoot, left.astCompilationUnit.getImports(), right.astCompilationUnit.getImports() );
+    public <_PN extends _node> _diff diff(_path path, _build dt, _PN leftParent, _PN rightParent, _imports left, _imports right) {
+        return diff( path, dt, leftParent, rightParent, left.astCompilationUnit.getImports(), right.astCompilationUnit.getImports() );
     }
     
     @Override
-    public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, List<ImportDeclaration> left, List<ImportDeclaration> right) {
+    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, List<ImportDeclaration> left, List<ImportDeclaration> right) {
         Set<ImportDeclaration> ls = new HashSet<>();
         Set<ImportDeclaration> rs = new HashSet<>();
         Set<ImportDeclaration> both = new HashSet<>();
@@ -79,13 +80,13 @@ public class _importsDiff
 
         ls.forEach(c -> dt.addDiff(new _leftOnly_import(
                 path.in(_java.Component.IMPORT),
-                (_type) leftRoot,
-                (_type) rightRoot, c)));
+                (_type) _leftParent,
+                (_type) _rightParent, c)));
 
         rs.forEach(c -> dt.addDiff(new _rightOnly_import(
                 path.in(_java.Component.IMPORT),
-                (_type) leftRoot,
-                (_type) rightRoot, c)));
+                (_type) _leftParent,
+                (_type) _rightParent, c)));
 
         return (_diff) dt;
     }
@@ -105,12 +106,12 @@ public class _importsDiff
         }
 
         @Override
-        public _type leftRoot() {
+        public _type leftParent() {
             return leftRoot;
         }
 
         @Override
-        public _type rightRoot() {
+        public _type rightParent() {
             return rightRoot;
         }
 
@@ -158,12 +159,12 @@ public class _importsDiff
         }
 
         @Override
-        public _type leftRoot() {
+        public _type leftParent() {
             return leftRoot;
         }
 
         @Override
-        public _type rightRoot() {
+        public _type rightParent() {
             return rightRoot;
         }
 

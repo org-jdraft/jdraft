@@ -32,7 +32,7 @@ public class _typesDiff implements _differ<_types, _node> {
     }
 
     @Override
-    public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, _types left, _types right) {
+    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, _types left, _types right) {
         Set<_type> ls = new HashSet<>();
         Set<_type> rs = new HashSet<>();
         Set<_type> both = new HashSet<>();
@@ -46,7 +46,7 @@ public class _typesDiff implements _differ<_types, _node> {
         ls.forEach(f -> {
             _type cc = sameNameAndType(f, rs);
             if (cc != null) {
-                _typeDiff.INSTANCE.diff(path.in(Component.getComponent(f), f.getFullName()), dt, leftRoot, rightRoot, f, cc);
+                _typeDiff.INSTANCE.diff(path.in(Component.getComponent(f), f.getFullName()), dt, _leftParent, _rightParent, f, cc);
                 rs.remove(cc);
             } else {
                 dt.addDiff(new _leftOnly_type(path.in(Component.getComponent(f), f.getFullName()),left, right, f));               
@@ -75,12 +75,12 @@ public class _typesDiff implements _differ<_types, _node> {
         }
 
         @Override
-        public _types leftRoot() {
+        public _types leftParent() {
             return leftRoot;
         }
 
         @Override
-        public _types rightRoot() {
+        public _types rightParent() {
             return rightRoot;
         }
 
@@ -130,12 +130,12 @@ public class _typesDiff implements _differ<_types, _node> {
         }
 
         @Override
-        public _types leftRoot() {
+        public _types leftParent() {
             return leftRoot;
         }
 
         @Override
-        public _types rightRoot() {
+        public _types rightParent() {
             return rightRoot;
         }
 

@@ -37,13 +37,13 @@ public class _constructorsDiff implements
         return Objects.equals(ls, rs);
     }
 
-    public <R extends _node> _diff diff(_hasConstructors left, _hasConstructors right) {
+    public _diff diff(_hasConstructors left, _hasConstructors right) {
         return diff( _path.of(), 
-            new _mutableDiffList(), (_type)left, (_type)right, left.listConstructors(), right.listConstructors());
+            new _diffList((_node)left, (_node)right), (_type)left, (_type)right, left.listConstructors(), right.listConstructors());
     }
     
     @Override
-    public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, List<_constructor> left, List<_constructor> right) {
+    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, List<_constructor> left, List<_constructor> right) {
         Set<_constructor> ls = new HashSet<>();
         Set<_constructor> rs = new HashSet<>();
         Set<_constructor> both = new HashSet<>();
@@ -61,16 +61,16 @@ public class _constructorsDiff implements
                 rs.remove(_rct);
                 _constructorDiff.INSTANCE.diff(
                         path.in(Component.CONSTRUCTOR, _constructorDiff.constructorSignatureDescription(c)),
-                        (_build)dt, 
-                        leftRoot, 
-                        rightRoot, 
+                        (_build)dt,
+                        _leftParent,
+                        _rightParent,
                         c, 
                         _rct);
             } else {
                 dt.addDiff(new _leftOnly_constructor(path.in(Component.CONSTRUCTOR,
                         _constructorDiff.constructorSignatureDescription(c)),
-                        (_constructor._hasConstructors) leftRoot,
-                        (_constructor._hasConstructors) rightRoot,
+                        (_constructor._hasConstructors) _leftParent,
+                        (_constructor._hasConstructors) _rightParent,
                         c));
             }
         });
@@ -78,8 +78,8 @@ public class _constructorsDiff implements
             dt.addDiff( new _rightOnly_constructor(
                 path.in(Component.CONSTRUCTOR,
                         _constructorDiff.constructorSignatureDescription(c)),
-                    (_constructor._hasConstructors) leftRoot,
-                    (_constructor._hasConstructors) rightRoot,
+                    (_constructor._hasConstructors) _leftParent,
+                    (_constructor._hasConstructors) _rightParent,
                     c));
         });
         //ok, lets check if there is an inferred constructor diff, meaning
@@ -102,12 +102,12 @@ public class _constructorsDiff implements
         }
 
         @Override
-        public _constructor._hasConstructors leftRoot() {
+        public _constructor._hasConstructors leftParent() {
             return this.leftRoot;
         }
 
         @Override
-        public _constructor._hasConstructors rightRoot() {
+        public _constructor._hasConstructors rightParent() {
             return this.rightRoot;
         }
 
@@ -157,12 +157,12 @@ public class _constructorsDiff implements
         }
 
         @Override
-        public _constructor._hasConstructors leftRoot() {
+        public _constructor._hasConstructors leftParent() {
             return this.leftRoot;
         }
 
         @Override
-        public _constructor._hasConstructors rightRoot() {
+        public _constructor._hasConstructors rightParent() {
             return this.rightRoot;
         }
 

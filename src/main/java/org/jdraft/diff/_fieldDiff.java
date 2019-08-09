@@ -21,7 +21,7 @@ public class _fieldDiff implements _differ<_field, _node> {
     }
 
     @Override
-    public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, _field left, _field right) {
+    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, _field left, _field right) {
 
         _path p = path.in(Component.FIELD, left != null ? left.getName() : right.getName());
 
@@ -85,12 +85,12 @@ public class _fieldDiff implements _differ<_field, _node> {
         }
 
         @Override
-        public _field leftRoot() {
+        public _field leftParent() {
             return left;
         }
 
         @Override
-        public _field rightRoot() {
+        public _field rightParent() {
             return right;
         }
 

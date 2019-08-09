@@ -8,7 +8,7 @@ import org.jdraft._java.Component;
 import org.jdraft.diff._diff.*;
 
 /**
- * Inspect for a Named
+ * Differ for a {@link _named}
  */
 public class _namedDiff implements _differ<String, _node> {
 
@@ -25,11 +25,11 @@ public class _namedDiff implements _differ<String, _node> {
     }
 
     @Override
-    public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, String left, String right) {
+    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, String left, String right) {
         if (!Objects.equals(left, right)) {
-            return (_diff) dt.addDiff(new _changeName(path.in(component), (_named) leftRoot, (_named) rightRoot));
+            return dt.addDiff(new _changeName(path.in(component), (_named) _leftParent, (_named) _rightParent));
         }
-        return (_diff) dt;
+        return dt;
     }
     
     public static class _changeName implements _diffNode, _diffNode._change<String> {
@@ -71,12 +71,12 @@ public class _namedDiff implements _differ<String, _node> {
         
         
         @Override
-        public _java leftRoot() {
+        public _java leftParent() {
             return left;
         }
 
         @Override
-        public _java rightRoot() {
+        public _java rightParent() {
             return right;
         }
 

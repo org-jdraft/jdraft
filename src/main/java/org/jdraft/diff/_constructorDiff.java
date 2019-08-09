@@ -33,7 +33,7 @@ public class _constructorDiff implements _differ<_constructor, _node> {
     }
 
     @Override
-    public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, _constructor left, _constructor right) {
+    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, _constructor left, _constructor right) {
         _javadocDiff.INSTANCE.diff(path, dt, left, right, left.getJavadoc(), right.getJavadoc());
         _annosDiff.INSTANCE.diff(path, dt, left, right, left.getAnnos(), right.getAnnos());
         _modifiersDiff.INSTANCE.diff(path, dt, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());

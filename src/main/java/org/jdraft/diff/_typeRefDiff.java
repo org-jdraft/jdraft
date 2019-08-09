@@ -12,9 +12,9 @@ public class _typeRefDiff
     public static final _typeRefDiff INSTANCE = new _typeRefDiff();
 
     @Override
-    public <R extends _node> _diff diff(_path path, _build dt, R leftRoot, R rightRoot, _typeRef left, _typeRef right) {
+    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, _typeRef left, _typeRef right) {
         if (!Objects.equals(left, right)) {
-            dt.addDiff(new _change_type(path.in(_java.Component.TYPE), (_namedType) leftRoot, (_namedType) rightRoot));
+            dt.addDiff(new _change_type(path.in(_java.Component.TYPE), (_namedType) _leftParent, (_namedType) _rightParent));
         }
         return (_diff) dt;
     }
@@ -63,12 +63,12 @@ public class _typeRefDiff
         }
         
         @Override
-        public _java leftRoot() {
+        public _java leftParent() {
             return left;
         }
 
         @Override
-        public _java rightRoot() {
+        public _java rightParent() {
             return right;
         }
 

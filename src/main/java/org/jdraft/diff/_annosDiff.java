@@ -9,6 +9,7 @@ import org.jdraft._java.Component;
 import org.jdraft.diff._diff.*;
 
 /**
+ * Diff for: {@link org.jdraft._anno} {@link org.jdraft._anno._annos} and {@link org.jdraft._anno._hasAnnos}
  *
  * @author Eric
  */
@@ -20,7 +21,7 @@ public class _annosDiff
      public _diff diff( _hasAnnos left, _hasAnnos right){
         return diff( 
                 _path.of(), 
-                new _diff._mutableDiffList(), 
+                new _diffList( (_node)left, (_node)right),
                 (_node)left, 
                 (_node)right, 
                 left.getAnnos(), 
@@ -28,7 +29,7 @@ public class _annosDiff
     }
      
     @Override
-    public <R extends _node> _diff diff(_path path, _build ds, R leftRoot, R rightRoot, _anno._annos left, _anno._annos right) {
+    public <_PN extends _node> _diff diff(_path path, _build ds, _PN _leftParent, _PN _rightParent, _anno._annos left, _anno._annos right) {
         NodeList<AnnotationExpr> laes = left.astAnnNode.getAnnotations();
         NodeList<AnnotationExpr> raes = right.astAnnNode.getAnnotations();
         for (int i = 0; i < laes.size(); i++) {
@@ -39,7 +40,7 @@ public class _annosDiff
             //if (!raes.stream().filter(a -> Ast.annotationEqual(e, (AnnotationExpr) a)).findFirst().isPresent()) {
                 
                 ds.addDiff(new _leftOnly_anno( //in LEFT not in RIGHT means REMOVE
-                        path.in(Component.ANNO, e.getNameAsString()), (_anno._hasAnnos) leftRoot, (_anno._hasAnnos) rightRoot, _anno.of(e)));
+                        path.in(Component.ANNO, e.getNameAsString()), (_anno._hasAnnos) _leftParent, (_anno._hasAnnos) _rightParent, _anno.of(e)));
             }
         }
         for (int i = 0; i < raes.size(); i++) {
@@ -49,7 +50,7 @@ public class _annosDiff
             if (!laes.stream().filter(a -> Expr.equivalent(e, (AnnotationExpr) a)).findFirst().isPresent()) {
             //if (!laes.stream().filter(a -> Ast.annotationEqual(e, (AnnotationExpr) a)).findFirst().isPresent()) {
                 ds.addDiff(new _rightOnly_anno( //in LEFT not in RIGHT means REMOVE
-                        path.in(Component.ANNO, e.getNameAsString()), (_anno._hasAnnos) leftRoot, (_anno._hasAnnos) rightRoot, _anno.of(e)));
+                        path.in(Component.ANNO, e.getNameAsString()), (_anno._hasAnnos) _leftParent, (_anno._hasAnnos) _rightParent, _anno.of(e)));
             }
         }
         return ds;
@@ -71,12 +72,12 @@ public class _annosDiff
         }
 
         @Override
-        public _anno._hasAnnos leftRoot() {
+        public _anno._hasAnnos leftParent() {
             return leftRoot;
         }
 
         @Override
-        public _anno._hasAnnos rightRoot() {
+        public _anno._hasAnnos rightParent() {
             return rightRoot;
         }
 
@@ -126,12 +127,12 @@ public class _annosDiff
         }
 
         @Override
-        public _anno._hasAnnos leftRoot() {
+        public _anno._hasAnnos leftParent() {
             return leftRoot;
         }
 
         @Override
-        public _anno._hasAnnos rightRoot() {
+        public _anno._hasAnnos rightParent() {
             return rightRoot;
         }
 

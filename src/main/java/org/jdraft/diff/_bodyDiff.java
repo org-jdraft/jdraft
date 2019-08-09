@@ -27,7 +27,7 @@ public class _bodyDiff
 
     public _diff diff( _hasBody left, _hasBody right){
         return diff( _path.of(), 
-                new _diff._mutableDiffList(), 
+                new _diffList((_node)left, (_node)right),
                 (_node)left, 
                 (_node)right, 
                 left.getBody(), 
@@ -35,7 +35,7 @@ public class _bodyDiff
     }
 
     @Override
-    public <R extends _node> _diff diff(_path path, _build ds, R leftRoot, R rightRoot, _body left, _body right) {
+    public <_PN extends _node> _diff diff(_path path, _build ds, _PN _leftParent, _PN _rightParent, _body left, _body right) {
         if (left == right) {
             return (_diff) ds;
         }
@@ -55,7 +55,7 @@ public class _bodyDiff
             LinkedList<diff_match_patch.Diff> diffs = BODY_TEXT_DIFF.diff_main(left.toString(), right.toString());
 
             //_path path, _hasBody _leftRoot, _hasBody _rightRoot, LinkedList<Diff> diffs ){
-            ds.addDiff(new _bodyEditNode(path.in(_java.Component.BODY), (_hasBody) leftRoot, (_hasBody) rightRoot, diffs));
+            ds.addDiff(new _bodyEditNode(path.in(_java.Component.BODY), (_hasBody) _leftParent, (_hasBody) _rightParent, diffs));
 
             //dt.addEdit(path.in(_java.Component.BODY), diffs, left, right);
             //_textDiff td = new _textDiff(diffs);
@@ -79,12 +79,12 @@ public class _bodyDiff
         }
         
          @Override
-        public _hasBody leftRoot(){
+        public _hasBody leftParent(){
             return _leftRoot;
         }
         
         @Override
-        public _hasBody rightRoot(){
+        public _hasBody rightParent(){
             return _rightRoot;
         }
         
@@ -119,8 +119,8 @@ public class _bodyDiff
                     sb.append(d.text);
                 }
             });
-            this.leftRoot().setBody(sb.toString());
-            this.rightRoot().setBody(sb.toString());
+            this.leftParent().setBody(sb.toString());
+            this.rightParent().setBody(sb.toString());
         }
         
         @Override
@@ -132,8 +132,8 @@ public class _bodyDiff
                     sb.append(d.text);
                 }
             });
-            this.leftRoot().setBody(sb.toString());
-            this.rightRoot().setBody(sb.toString());
+            this.leftParent().setBody(sb.toString());
+            this.rightParent().setBody(sb.toString());
         }
         
         /**
