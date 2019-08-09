@@ -206,7 +206,45 @@ public class _runtime {
         Arrays.stream(code).forEach( f -> fs.add( _javaFile.of(f)));
         return compile(compilerOptions, ignoreWarnings, fs);
     }
-    
+
+    /**
+     * Compile and load the _type and return it's Class file
+     * (NOTE: will only return the top level class file, but will compile it's
+     * nested or companion types)
+     * @param _t the _type to compile
+     * @return the Compiled and Loaded Class
+     */
+    public static Class<?> Class(_type _t ){
+        return Class( new ArrayList<>(), true, _t);
+    }
+
+    /**
+     * Compile and load the _type and return it's Class file
+     * (NOTE: will only return the top level class file, but will compile it's
+     * nested or companion types)
+     * @param compilerOptions
+     * @param _t
+     * @return
+     */
+    public static Class<?> Class(List<String>compilerOptions, _type _t ){
+        return Class( compilerOptions, true, _t);
+    }
+
+    /**
+     * Compile and load the _type and return it's Class file
+     * (NOTE: will only return the top level class file, but will compile it's
+     * nested or companion types)
+     *
+     * @param compilerOptions
+     * @param ignoreWarnings
+     * @param _t
+     * @return
+     */
+    public static Class<?> Class(List<String>compilerOptions, boolean ignoreWarnings, _type _t ){
+          _runtime _rt = of(compilerOptions, ignoreWarnings, _t);
+          return _rt.getClass(_t);
+    }
+
     /**
      * 
      * @param _c the model of the class
