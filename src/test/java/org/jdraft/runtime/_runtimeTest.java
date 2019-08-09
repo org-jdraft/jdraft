@@ -1,27 +1,123 @@
 package org.jdraft.runtime;
 
-import org.jdraft.macro._final;
-import org.jdraft.macro._static;
-import org.jdraft.macro._dto;
-import org.jdraft._class;
-import org.jdraft._interface;
-import org.jdraft._annotation;
-import org.jdraft._enum;
+import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.LabeledStmt;
+import org.jdraft.*;
+import org.jdraft.macro.*;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier.Keyword;
 import com.github.javaparser.ast.body.BodyDeclaration;
-import org.jdraft._code;
+
 import java.io.Serializable;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.List;
+import java.util.function.Function;
+
 import junit.framework.TestCase;
+import org.jdraft.proto.$;
+import org.jdraft.proto.$snip;
 import org.junit.Assert;
 
 /**
  * @author Eric
  */
 public class _runtimeTest extends TestCase {
- 
+
+    public static class GreetingInterceptor {
+        public Object greet(Object argument) {
+            return "Hello from " + argument;
+        }
+    }
+
+    /**
+     * https://github.com/raphw/byte-buddy#a-more-complex-example
+     */
+    public void testRuntimeClass() throws Exception {
+        Class<? extends Function> f = (Class<? extends Function>)_runtime.Class(
+                _class.of("ByteBuddy").imports(GreetingInterceptor.class)
+                .implement( new Function(){
+                    @Override
+                    public Object apply(Object o) {
+                        return new GreetingInterceptor().greet(o);
+                    }
+            }));
+        String s = (String)f.newInstance().apply("ByteBuddy");
+        assertEquals( "Hello from ByteBuddy", s);
+    }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @interface _timed{
+
+         class MacroAnno implements _macro<_member> {
+
+             @Override
+             public _member apply( _member _m ){
+                if( _m instanceof _body._hasBody ){
+                    return (_member)to( (_body._hasBody)_m);
+                }
+                if( _m instanceof _type ){
+                    System.out.println( "TYPED " );
+                }
+                return _m;
+             }
+
+             public static <_HB extends _body._hasBody> _HB to(_HB _m) {
+                 //add this as the first statement of the method
+                 _m.add(0, ()-> {long start = System.currentTimeMillis();} );
+
+                 //if the method is "empty": dont time nothing
+                 if(!_m.hasBody() ){
+                     return _m;
+                 }
+                 //go through each return statement and preface it
+                 if( $.returnStmt().count(_m) > 0 ) {
+                     $.returnStmt().forSelectedIn(_m, sel-> {
+                           //replace it with a labeled statement... then flatten
+                           LabeledStmt ls = Stmt.labeledStmt(
+                           "$add$ : { System.out.println(\" " + ((_named) _m).getName() + " took \" + (System.currentTimeMillis() - start)); " + sel.astStatement.toString() + " }");
+
+                            sel.astStatement.replace(ls);
+                            _java.flattenLabel(_m, "$add$");
+                            //Ast.flattenLabel(((_node) _m).ast(), "$add$");
+                      });
+                 } else{
+                     //might be a (not return)
+                     _m.add(_m.listStatements().size(),
+                             Stmt.of((Integer start) -> System.out.println(" took " + (System.currentTimeMillis() - start))));
+                 }
+                 return _m;
+             }
+         }
+
+    }
+
+    /**
+     *
+     */
+    public void testChangingExistingCode(){
+        _timed.MacroAnno macro = new _timed.MacroAnno();
+        _class _c = _class.of("C", new Object(){
+            public void m(){
+                System.out.println( "Run here ");
+            }
+
+            public int m2(int i){
+                if( i==1 ){
+                    return 1;
+                }
+                return 2;
+            }
+        });
+        _method _mm = macro.to(_c.getMethod("m"));
+        System.out.println( _mm );
+
+        _mm = macro.to(_c.getMethod("m2"));
+        System.out.println( _mm );
+    }
+
+
     /**
      * This is a potpourri of features in draft-java & draft-java-adhoc
      * here we: 

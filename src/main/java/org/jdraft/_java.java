@@ -590,6 +590,59 @@ public interface _java {
     }
 
     /**
+     * Find all labeled statements that match the label "labelName"
+     * and flatten the label (inlining the code within the label)
+     * for example: <PRE>{@code
+     * class c{
+     *     void m(){
+     *         label: System.out.println(1);
+     *     }
+     * }
+     * _class _c = _class.of(c.class)
+     * _java.flattenLabel( _c, "label" );
+     * }</PRE>
+     * //will make c:
+     * <PRE>{@code
+     * class c{
+     *     void m(){
+     *         System.out.println(1);
+     *     }
+     * }
+     * }</PRE>
+     *
+     * <PRE>{@code
+     * class c{
+     *     void m(){
+     *         label: {
+     *             System.out.println(1);
+     *             System.out.println(2);
+     *             }
+     *     }
+     * }
+     * _class _c = _class.of(c.class)
+     * _java.flattenLabel( _c, "label" );
+     * }</PRE>
+     * //will make c:
+     * <PRE>{@code
+     * class c{
+     *     void m(){
+     *         System.out.println(1);
+     *         System.out.println(2);
+     *     }
+     * }
+     * }</PRE>
+     * @param _j
+     * @param labelName
+     */
+    static void flattenLabel( _java _j, String labelName){
+        if( _j instanceof _node ){
+            Ast.flattenLabel( ((_node)_j).ast(), labelName);
+            return;
+        }
+        throw new _draftException("cannot flatten a label :"+labelName+" from "+ _j.getClass());
+    }
+
+    /**
      * A "concrete" way of identifying/addressing elements and properties that are the components
      * of a Java program. A way to consistently name things when we construct and deconstruct
      * Components of Java programs (external tools for building & matching &

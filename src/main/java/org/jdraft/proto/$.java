@@ -1083,7 +1083,43 @@ public final class $ {
     public static $stmt<LocalClassDeclarationStmt> localClassStmt(Predicate<LocalClassDeclarationStmt> lcds){
         return $stmt.localClassStmt().addConstraint(lcds);
     }
-    
+
+    /**
+     *
+     * @return
+     */
+    public static $stmt<ReturnStmt> returnStmt() {
+        return $stmt.returnStmt();
+    }
+
+    /**
+     * i.e."return VALUE;"
+     * @param constraint
+     * @return
+     */
+    public static $stmt<ReturnStmt> returnStmt( Predicate<ReturnStmt> constraint ) {
+        return $stmt.returnStmt(constraint);
+    }
+
+    /**
+     * i.e."return VALUE;"
+     * @param pattern
+     * @return
+     */
+    public static $stmt<ReturnStmt> returnStmt( String... pattern ) {
+        return $stmt.returnStmt(pattern);
+    }
+
+    /**
+     * i.e."return VALUE;"
+     * @param pattern
+     * @param constraint
+     * @return
+     */
+    public static $stmt<ReturnStmt> returnStmt( String pattern, Predicate<ReturnStmt> constraint ) {
+        return $stmt.returnStmt( pattern, constraint);
+    }
+
     public static $stmt<SwitchStmt> switchStmt(){
         return $stmt.switchStmt();
     }
