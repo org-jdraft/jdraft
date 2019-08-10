@@ -1348,16 +1348,17 @@ public enum Expr {
     /**
      * int i = 1
      */
-    public static final Class<VariableDeclarationExpr> VARIABLE_DECLARATION = VariableDeclarationExpr.class;
+    public static final Class<VariableDeclarationExpr> VARIABLE_LOCAL_EXPR = VariableDeclarationExpr.class;
 
     /**
      * i.e. "int i=1"
      * Variable declaration expression
-     * 
+     * (this is a "container" of a {@link com.github.javaparser.ast.body.VariableDeclarator} specifically used
+     * for a local variable)
      * @param code
      * @return 
      */
-    public static VariableDeclarationExpr varDecl( String... code ) {
+    public static VariableDeclarationExpr varLocal(String... code ) {
         return StaticJavaParser.parseVariableDeclarationExpr( Text.combine( code ));
     }    
     

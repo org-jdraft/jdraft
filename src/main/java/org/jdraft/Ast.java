@@ -740,7 +740,7 @@ public enum Ast {
             return packageDeclaration(Text.combine(code));
         }
         if (VariableDeclarator.class == nodeClass) {
-            return variable(code);
+            return var(code);
         }
         if (FieldDeclaration.class == nodeClass) {
             return field(code);
@@ -1726,12 +1726,27 @@ public enum Ast {
     }
 
     /**
-     * Parses and returns a VariableDeclarator based on the code provided
+     * A variable that occurs within the body of a method, constructor, staticBlock
+     * @param code the code comprising the variable
+     * @return
+     */
+    public static VariableDeclarationExpr varLocal(String...code ){
+        return Expr.varLocal(code);
+    }
+
+    /**
+     * Parses and returns a {@link VariableDeclarator} based on the code provided
+     * (the underlying class for Both member fields {@link FieldDeclaration} & local
+     * {@link VariableDeclarationExpr} variables defined with code bodies
+     *
+     *
+     * @see #varLocal(String...)
+     * @see #field(String...)
      *
      * @param code
      * @return
      */
-    public static VariableDeclarator variable(String... code) {
+    public static VariableDeclarator var(String... code) {
         VariableDeclarator vd = field(code).getVariable(0);
         vd.removeForced();
         return vd;

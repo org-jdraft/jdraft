@@ -1494,8 +1494,8 @@ public final class $expr <T extends Expression>
      * @param pattern
      * @return  
      */
-    public static $expr<VariableDeclarationExpr> varDecl( String... pattern ) {
-        return new $expr( Expr.varDecl(pattern ) );
+    public static $expr<VariableDeclarationExpr> varLocal(String... pattern ) {
+        return new $expr( Expr.varLocal(pattern ) );
     }
 
     /** 
@@ -1503,8 +1503,8 @@ public final class $expr <T extends Expression>
      * @param constraint 
      * @return  
      */
-    public static $expr<VariableDeclarationExpr> varDecl( Predicate<VariableDeclarationExpr> constraint) {
-        return new $expr( Expr.varDecl( "int i=1") ).$(Expr.of("int i=1"), "any").addConstraint(constraint);
+    public static $expr<VariableDeclarationExpr> varLocal(Predicate<VariableDeclarationExpr> constraint) {
+        return new $expr( Expr.varLocal( "int i=1") ).$(Expr.of("int i=1"), "any").addConstraint(constraint);
     }
     
     /** 
@@ -1513,15 +1513,15 @@ public final class $expr <T extends Expression>
      * @param constraint 
      * @return  
      */
-    public static $expr<VariableDeclarationExpr> varDecl( String pattern, Predicate<VariableDeclarationExpr> constraint) {
-        return new $expr( Expr.varDecl(pattern ) ).addConstraint(constraint);
+    public static $expr<VariableDeclarationExpr> varLocal(String pattern, Predicate<VariableDeclarationExpr> constraint) {
+        return new $expr( Expr.varLocal(pattern ) ).addConstraint(constraint);
     }
     
     /** 
      * "int i = 1"
      * @return  
      */
-    public static $expr<VariableDeclarationExpr> varDecl( ) {
+    public static $expr<VariableDeclarationExpr> varLocal( ) {
         return new $expr( VariableDeclarationExpr.class, "$varDecl$");
     }
     

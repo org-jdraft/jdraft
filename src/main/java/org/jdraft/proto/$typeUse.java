@@ -1,13 +1,10 @@
 package org.jdraft.proto;
 
-import org.jdraft._code;
-import org.jdraft._java;
-import org.jdraft._type;
+import org.jdraft.*;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import org.jdraft._node;
 import org.jdraft.proto.$node.Select;
 import java.util.*;
 import java.util.function.Consumer;
@@ -101,7 +98,7 @@ public final class $typeUse {
               n.getParentNode().get() instanceof SimpleName ||      
               n.getParentNode().get() instanceof ClassOrInterfaceType) );
     
-    
+
     public static $typeUse any(){
         return of();
     }
@@ -111,9 +108,9 @@ public final class $typeUse {
      * @return the classUse
      */
     public static $typeUse of(){
-        return new $typeUse("", $node.of("$classUse$").addConstraint(n -> n.toString().contains(".")), 
+        return new $typeUse("", $node.of("$typeUse$").addConstraint(n -> n.toString().contains(".")),
             Collections.EMPTY_LIST, 
-            $node.of("$classUse$").addConstraint(n -> !n.toString().contains(".") ) ).addConstraint(IS_EXPECTED_NODE_TYPE);
+            $node.of("$typeUse$").addConstraint(n -> !n.toString().contains(".") ) ).addConstraint(IS_EXPECTED_NODE_TYPE);
     }    
     
     /**
@@ -342,7 +339,23 @@ public final class $typeUse {
         $simpleName.forSelectedIn(astRootNode, selectConstraint, selectActionFn);
         return astRootNode;
     }
-    
+
+    public <N extends Node> List<Node> listIn( N astRootNode ){
+        List<Node> sels = new ArrayList<>();
+        sels.addAll( $fullName.listIn(astRootNode) );
+        $memberNames.forEach( e-> sels.addAll( e.listIn(astRootNode) ) );
+        sels.addAll( $simpleName.listIn(astRootNode) );
+
+        //dedupe
+        List<Node>uniqueSels = sels.stream().distinct().collect(Collectors.toList());
+
+        //the selections are interleaved, so lets organize them in positional
+        //order (in the file) as to not surprise the caller
+        Collections.sort(uniqueSels, Ast.COMPARE_NODE_BY_LOCATION);
+
+        return uniqueSels;
+    }
+
     public <N extends Node> List<$node.Select> listSelectedIn( N astRootNode ){
         List<$node.Select> sels = new ArrayList<>();
         sels.addAll( $fullName.listSelectedIn(astRootNode) );

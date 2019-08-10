@@ -133,7 +133,7 @@ public final class $var
      * @return 
      */
     public static $var of(String...pattern){
-        return new $var( Ast.variable(pattern ) );
+        return new $var( Ast.var(pattern ) );
     }
 
     /**
@@ -289,7 +289,7 @@ public final class $var
      * @return 
      */
     public boolean matches( String...var ){
-        return matches(Ast.variable(var));
+        return matches(Ast.var(var));
     }
 
     /**
@@ -350,9 +350,9 @@ public final class $var
         
         String in = init.compose(translator, base).toString();
         if( in != null ){
-            return Ast.variable(this.type.compose(translator, base)+ " "+ this.name.compose(translator, base)+" = "+in+";");
+            return Ast.var(this.type.compose(translator, base)+ " "+ this.name.compose(translator, base)+" = "+in+";");
         }        
-        return Ast.variable(this.type.compose(translator, base)+ " "+ this.name.compose(translator, base)+";");
+        return Ast.var(this.type.compose(translator, base)+ " "+ this.name.compose(translator, base)+";");
     }
    
     @Override
@@ -406,7 +406,7 @@ public final class $var
             for(int i=0;i<vars.size();i++){
                 toCompose.put(allVars.get(i), values[i]);
             }
-            return Ast.variable( type.compose(translator, toCompose) + " "+ name.compose(translator, toCompose) );
+            return Ast.var( type.compose(translator, toCompose) + " "+ name.compose(translator, toCompose) );
         }
         throw new _draftException("Expected fill fields of size ("+allVars.size()+") or ("+vars.size()+") got ("+values.length+")");
     }

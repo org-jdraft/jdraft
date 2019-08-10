@@ -456,7 +456,7 @@ public class SexprTest extends TestCase {
         assertTrue( $expr.thisExpr().matches("this"));
         assertTrue( $expr.typeExpr("$type$").matches(Expr.typeExpr("AType")));
         assertTrue( $expr.unary("!$var$").matches("!isDead"));
-        assertTrue($expr.varDecl("int $var$").matches("int x"));
+        assertTrue($expr.varLocal("int $var$").matches("int x"));
 
         //assertEquals(0b1010000101000101101000010100010110100001010001011010000101000101L, 
         //        0b1010000101000101101000010100010110100001010001011010000101000101L);

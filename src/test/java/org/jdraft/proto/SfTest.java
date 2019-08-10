@@ -1,7 +1,7 @@
 package org.jdraft.proto;
 
-import org.jdraft._field;
-import org.jdraft._typeRef;
+import org.jdraft.*;
+
 import java.util.function.Predicate;
 import junit.framework.TestCase;
 
@@ -10,6 +10,33 @@ import junit.framework.TestCase;
  * @author Eric
  */
 public class SfTest extends TestCase {
+
+    public void testVar_v_VarDecl(){
+        class D{
+            int a;
+            void m(int b){
+                String c;
+            }
+        }
+
+        System.out.println( $.var().listIn(D.class) ); //[a, c]
+        System.out.println( $.field().listIn(D.class) );  //[int a;]
+        System.out.println( $.varLocal().listIn(D.class) );  //[String c]
+        System.out.println( $.parameter().listIn(D.class) ); //[int b]
+
+        System.out.println( $.var().$type(int.class).listIn(D.class)); //[a]
+
+        //expect int, void, int, int
+        //System.out.println( $.typeRef().listIn(D.class) );
+
+        //_class _c = _class.of(D.class);
+        Ast.var("int c");
+        assertEquals( Expr.varLocal("String c"), $.varLocal().firstIn(D.class) ); //int c
+
+        assertEquals(2, $.var().count(D.class));
+        //assertEquals(5, $typeUse.of().listIn(_class.of(D.class).astCompilationUnit()));
+        System.out.println( $typeUse.of().listIn(_class.of(D.class).astCompilationUnit()));
+    }
 
     public void testSynch(){
         class R{
@@ -26,6 +53,7 @@ public class SfTest extends TestCase {
         assertEquals(1, $.method( $modifiers.of("synchronized")).listIn(R.class).size());
         assertEquals(1, $.synchronizedStmt().listIn(R.class).size());
     }
+
     public void testFieldAsAnonymousObject(){
         $field $f = $field.of( new Object(){
             @Deprecated

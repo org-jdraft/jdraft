@@ -39,7 +39,7 @@ public class STest extends TestCase {
         
         assertEquals(1, $.field().count(MyClass.class));
         //assertEquals(1, $.fieldAccessExpr().count(MyClass.class));
-        assertEquals(1, $.varDeclaration().count(MyClass.class));
+        assertEquals(1, $.varLocal().count(MyClass.class));
         assertEquals(1, $.arrayCreation().count(MyClass.class));
         
         assertEquals(1, $.assertStmt().count(MyClass.class));

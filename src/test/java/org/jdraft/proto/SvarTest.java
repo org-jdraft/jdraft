@@ -1,9 +1,5 @@
 package org.jdraft.proto;
 
-import org.jdraft.proto.$node;
-import org.jdraft.proto.$stmt;
-import org.jdraft.proto.$parameter;
-import org.jdraft.proto.$var;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.stmt.ForEachStmt;
 import org.jdraft.Ast;
@@ -107,7 +103,7 @@ public class SvarTest extends TestCase {
         $var $anyString = $var.of("String $name$");
         $var $anyInit = $var.of("$type$ $name$", v-> v.getInitializer().isPresent() );
         
-        VariableDeclarator v = Ast.variable("int count");
+        VariableDeclarator v = Ast.var("int count");
         assertEquals( $anyInt.fill("count"), v );
         
         _class _c = _class.of("C", new Object(){

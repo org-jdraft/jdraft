@@ -756,20 +756,20 @@ public final class $ {
         return $expr.unary();
     }
     
-    public static $expr<VariableDeclarationExpr> varDeclaration(){
-        return $expr.varDecl();
+    public static $expr<VariableDeclarationExpr> varLocal(){
+        return $expr.varLocal();
     }
 
-    public static $expr<VariableDeclarationExpr> varDeclaration(String ve){
-        return $expr.varDecl(ve);
+    public static $expr<VariableDeclarationExpr> varLocal(String ve){
+        return $expr.varLocal(ve);
     }
 
-    public static $expr<VariableDeclarationExpr> varDeclaration( VariableDeclarationExpr vde){
+    public static $expr<VariableDeclarationExpr> varLocal(VariableDeclarationExpr vde){
         return $expr.of(vde);
     }
 
-    public static $expr<VariableDeclarationExpr> varDeclaration(Predicate<VariableDeclarationExpr> vde){
-        return $expr.varDecl(vde);
+    public static $expr<VariableDeclarationExpr> varLocal(Predicate<VariableDeclarationExpr> vde){
+        return $expr.varLocal(vde);
     }
         
     public static $case switchCase(){
@@ -1091,6 +1091,7 @@ public final class $ {
     public static $stmt<ReturnStmt> returnStmt() {
         return $stmt.returnStmt();
     }
+
 
     /**
      * i.e."return VALUE;"
