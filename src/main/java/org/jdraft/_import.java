@@ -232,7 +232,6 @@ public class _import implements _node<ImportDeclaration, _import> {
             }            
         }
         return false;
-        
     }
     
     private static boolean hasImport(ImportDeclaration astId, Class clazz) {
@@ -320,6 +319,10 @@ public class _import implements _node<ImportDeclaration, _import> {
         public int size(){
             return this.astCompilationUnit.getImports().size();
         }
+
+        public boolean isEmpty(){
+            return size() == 0;
+        }
         
         /**
          * Top level Classes in the same package are "implied imports"
@@ -363,18 +366,18 @@ public class _import implements _node<ImportDeclaration, _import> {
         
         public boolean hasImport(Class clazz) {
             return isImpliedImport(clazz) ||
-                (astCompilationUnit != null && 
-                    astCompilationUnit.getImports().stream().filter(i -> {
-                    return _import.hasImport(i, clazz);
-                }).findFirst().isPresent() );
+                (astCompilationUnit != null &&
+                        astCompilationUnit.getImports().stream().anyMatch(i -> {
+                        return _import.hasImport(i, clazz);
+                    }));
         }
 
         public boolean hasImport(String className) {
             return isImpliedImport(className) ||
-                (astCompilationUnit != null &&     
-                    astCompilationUnit.getImports().stream().filter(i -> {
-                        return _import.hasImport(i, className);
-                    }).findFirst().isPresent());
+                (astCompilationUnit != null &&
+                        astCompilationUnit.getImports().stream().anyMatch(i -> {
+                            return _import.hasImport(i, className);
+                        }));
         }        
         
         public boolean hasImports( Class...classes ){
@@ -388,14 +391,18 @@ public class _import implements _node<ImportDeclaration, _import> {
         public boolean hasImports( _type..._ts ){
             return Arrays.stream(_ts).allMatch( i-> hasImport(i) );
         }
-        
+
+        public ImportDeclaration get( int index ){
+            return this.astCompilationUnit.getImport(index);
+        }
+
         public boolean hasImport(Method m){
             if( this.astCompilationUnit == null ){
                 return false;
             }
-            return astCompilationUnit.getImports().stream().filter(i -> {
+            return astCompilationUnit.getImports().stream().anyMatch(i -> {
                 return _import.hasImport(i, m);
-            }).findFirst().isPresent();
+            });
         }
         
         public boolean hasImport( _type _t){
@@ -555,8 +562,7 @@ public class _import implements _node<ImportDeclaration, _import> {
             return sb.toString();
         }
     }
-    
-    
+
     /**
      * 
      * When we initialize or "import" the body of code for a _type... i.e.
