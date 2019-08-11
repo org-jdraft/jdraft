@@ -348,6 +348,11 @@ public final class _method
         return this.astMethod.toString();
     }
 
+    public boolean isPackagePrivate(){
+        NodeList<Modifier> mods = getEffectiveModifiers();
+        return !mods.contains(Modifier.publicModifier()) && !mods.contains(Modifier.privateModifier()) && !mods.contains(Modifier.protectedModifier());
+    }
+
     public boolean isPublic() {
         return this.astMethod.isPublic() || getEffectiveModifiers().contains(Modifier.publicModifier());
     }
