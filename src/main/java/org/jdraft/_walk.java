@@ -299,6 +299,33 @@ public enum _walk {
     }
 
     /**
+     * List all nodes that are of a particualr class
+     * @param tt the traversal strategy
+     * @param astStartNode
+     * @param targetClass
+     * @param <T> the target type
+     * @param <N> the start node type
+     * @return a list of matching nodes
+     */
+    public static <T, N extends Node> List<T> list(
+            Node.TreeTraversal tt, N astStartNode, Class<T> targetClass) {
+        return list( tt, astStartNode, targetClass, t-> true);
+    }
+
+    /**
+     * List parents
+     * @param tt
+     * @param astStartNode
+     * @param <T>
+     * @param <N>
+     * @return
+     */
+    public static <T, N extends Node> List<Node> list(
+            Node.TreeTraversal tt, N astStartNode ) {
+        return list( tt, astStartNode, Node.class, t-> true);
+    }
+
+    /**
      *
      * @param _sourceCode
      * @param targetClass
