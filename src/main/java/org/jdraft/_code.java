@@ -124,6 +124,10 @@ public interface _code<_C> extends _java {
         return new _imports(new CompilationUnit()); //better of all the evils
     }
 
+    default ImportDeclaration getImport(int index ){
+        return this.astCompilationUnit().getImport(index);
+    }
+
     /**
      * remove imports based on predicate
      *
