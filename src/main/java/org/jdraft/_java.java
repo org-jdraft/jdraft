@@ -72,91 +72,7 @@ import org.jdraft.macro._macro;
  * @author Eric
  */
 public interface _java {
-    
-    /* 
-        Easy access to the draft _java classes and interfaces that represent
-        entities... his allows convenient autocomplete when you do a _walk.in
-        of _walk.list, etc.
-        <PRE>
-        _walk.list( _c, _java.THROWS );
-        _walk.list( _c, _java.THROWS );
-        </PRE>
-        
-        to make it similar (in feel) to Ast.* :
-        _walk.in( _c, Ast.INITIALIZER_DECLARATION,
-            id-> id.getBody().add(Stmt.of("System.out.println(1);"));
-        _walk.list( _m, Ast.RETURN_STMT );
-      */    
-    Class<_code> CODE = _code.class;
 
-    Class<_packageInfo> PACKAGE_INFO = _packageInfo.class;
-    Class<_moduleInfo> MODULE_INFO = _moduleInfo.class;
-
-    Class<_type> TYPE = _type.class;
-
-    Class<_class> CLASS = _class.class;
-    Class<_enum> ENUM = _enum.class;
-    Class<_interface> INTERFACE = _interface.class;
-    Class<_annotation> ANNOTATION = _annotation.class;
-
-    Class<_method> METHOD = _method.class;
-    Class<_field> FIELD = _field.class;
-    Class<_constructor> CONSTRUCTOR = _constructor.class;
-
-    /** ENUM constant i.e. enum E { CONSTANT; }*/
-    Class<_constant> CONSTANT = _constant.class;
-
-    /** Annotation Element i.e. @interface A{ int element(); }*/
-    Class<_element> ELEMENT = _element.class;
-
-    Class<_body> BODY = _body.class;
-    /** an annotation use i.e. @Deprecated */
-    Class<_anno> ANNO = _anno.class;
-    /** group of annotation usages  on a single entity */
-    Class<_annos> ANNOS = _annos.class;
-    Class<_import> IMPORT = _import.class;
-    Class<_imports> IMPORTS = _imports.class;
-    Class<_javadoc> JAVADOC = _javadoc.class;
-
-    Class<_modifiers> MODIFIERS = _modifiers.class;
-    Class<_parameter> PARAMETER = _parameter.class;
-    Class<_parameter._parameters> PARAMETERS = _parameter._parameters.class;
-    Class<_typeParameter> TYPE_PARAMETER = _typeParameter.class;
-    Class<_typeParameters> TYPE_PARAMETERS = _typeParameters.class;
-    Class<_receiverParameter> RECEIVER_PARAMETER = _receiverParameter.class;
-    Class<_staticBlock> STATIC_BLOCK = _staticBlock.class;
-    Class<_throws> THROWS = _throws.class;
-    Class<_typeRef> TYPEREF = _typeRef.class;
-
-    /**
-     * The classes below are categorical interfaces that are applied to classes
-     */
-    Class<_node> NODE = _node.class;
-    Class<_member> MEMBER = _member.class;
-    Class<_named> NAMED = _named.class;
-    Class<_namedType> NAMED_TYPE = _namedType.class;
-
-    Class<_hasThrows> HAS_THROWS = _hasThrows.class;
-    Class<_hasBody> HAS_BODY = _hasBody.class;
-    Class<_hasAnnos> HAS_ANNOS = _hasAnnos.class;
-    Class<_hasConstructors> HAS_CONSTRUCTORS = _hasConstructors.class;
-    Class<_hasJavadoc> HAS_JAVADOC = _hasJavadoc.class;
-    Class<_hasMethods> HAS_METHODS = _hasMethods.class;
-    Class<_hasModifiers> HAS_MODIFIERS = _hasModifiers.class;
-    Class<_parameter._hasParameters> HAS_PARAMETERS = _parameter._hasParameters.class;
-    Class<_hasReceiverParameter> HAS_RECEIVER_PARAMETER = _hasReceiverParameter.class;
-    Class<_hasStaticBlocks> HAS_STATIC_BLOCKS = _hasStaticBlocks.class;
-    Class<_hasExtends> HAS_EXTENDS = _hasExtends.class;
-    Class<_hasImplements> HAS_IMPLEMENTS = _hasImplements.class;
-
-    Class<_hasFinal> HAS_FINAL = _hasFinal.class;
-    Class<_hasAbstract> HAS_ABSTRACT = _hasAbstract.class;
-    Class<_hasNative> HAS_NATIVE = _hasNative.class;
-    Class<_hasStatic> HAS_STATIC = _hasStatic.class;
-    Class<_hasStrictFp> HAS_STRICTFP = _hasStrictFp.class;
-    Class<_hasSynchronized> HAS_SYNCHRONIZED = _hasSynchronized.class;
-    Class<_hasTransient> HAS_TRANSIENT = _hasTransient.class;
-    Class<_hasVolatile> HAS_VOLATILE = _hasVolatile.class;
 
     /**
      * Read in a .java file from the InputStream and return the _type(_class, _enum, _interface, _annotation)
@@ -783,16 +699,103 @@ public interface _java {
             }
             return Component.ANNOTATION;
         }
+
+
     }
     
     /**
      * Mappings from JavaParser AST models (i.e. {@link AnnotationExpr}) 
      * ...to jdraft _java models (i.e. {@link _anno})
      */
-    class ModelMap {
+    class Model {
+
+        /*
+            Easy access to the draft _java classes and interfaces that represent
+            entities... his allows convenient autocomplete when you do a _walk.in
+            of _walk.list, etc.
+            <PRE>
+            _walk.list( _c, _java.THROWS );
+            _walk.list( _c, _java.THROWS );
+            </PRE>
+
+            to make it similar (in feel) to Ast.* :
+            _walk.in( _c, Ast.INITIALIZER_DECLARATION,
+                id-> id.getBody().add(Stmt.of("System.out.println(1);"));
+            _walk.list( _m, Ast.RETURN_STMT );
+          */
+        Class<_code> CODE = _code.class;
+
+        Class<_packageInfo> PACKAGE_INFO = _packageInfo.class;
+        Class<_moduleInfo> MODULE_INFO = _moduleInfo.class;
+
+        Class<_type> TYPE = _type.class;
+
+        Class<_class> CLASS = _class.class;
+        Class<_enum> ENUM = _enum.class;
+        Class<_interface> INTERFACE = _interface.class;
+        Class<_annotation> ANNOTATION = _annotation.class;
+
+        Class<_method> METHOD = _method.class;
+        Class<_field> FIELD = _field.class;
+        Class<_constructor> CONSTRUCTOR = _constructor.class;
+
+        /** ENUM constant i.e. enum E { CONSTANT; }*/
+        Class<_constant> CONSTANT = _constant.class;
+
+        /** Annotation Element i.e. @interface A{ int element(); }*/
+        Class<_element> ELEMENT = _element.class;
+
+        Class<_body> BODY = _body.class;
+        /** an annotation use i.e. @Deprecated */
+        Class<_anno> ANNO = _anno.class;
+        /** group of annotation usages  on a single entity */
+        Class<_annos> ANNOS = _annos.class;
+        Class<_import> IMPORT = _import.class;
+        Class<_imports> IMPORTS = _imports.class;
+        Class<_javadoc> JAVADOC = _javadoc.class;
+
+        Class<_modifiers> MODIFIERS = _modifiers.class;
+        Class<_parameter> PARAMETER = _parameter.class;
+        Class<_parameter._parameters> PARAMETERS = _parameter._parameters.class;
+        Class<_typeParameter> TYPE_PARAMETER = _typeParameter.class;
+        Class<_typeParameters> TYPE_PARAMETERS = _typeParameters.class;
+        Class<_receiverParameter> RECEIVER_PARAMETER = _receiverParameter.class;
+        Class<_staticBlock> STATIC_BLOCK = _staticBlock.class;
+        Class<_throws> THROWS = _throws.class;
+        Class<_typeRef> TYPEREF = _typeRef.class;
 
         /**
-         * Map from the _model._node classes to the Ast Node equivalent
+         * The classes below are categorical interfaces that are applied to classes
+         */
+        Class<_node> NODE = _node.class;
+        Class<_member> MEMBER = _member.class;
+        Class<_named> NAMED = _named.class;
+        Class<_namedType> NAMED_TYPE = _namedType.class;
+
+        Class<_hasThrows> HAS_THROWS = _hasThrows.class;
+        Class<_hasBody> HAS_BODY = _hasBody.class;
+        Class<_hasAnnos> HAS_ANNOS = _hasAnnos.class;
+        Class<_hasConstructors> HAS_CONSTRUCTORS = _hasConstructors.class;
+        Class<_hasJavadoc> HAS_JAVADOC = _hasJavadoc.class;
+        Class<_hasMethods> HAS_METHODS = _hasMethods.class;
+        Class<_hasModifiers> HAS_MODIFIERS = _hasModifiers.class;
+        Class<_parameter._hasParameters> HAS_PARAMETERS = _parameter._hasParameters.class;
+        Class<_hasReceiverParameter> HAS_RECEIVER_PARAMETER = _hasReceiverParameter.class;
+        Class<_hasStaticBlocks> HAS_STATIC_BLOCKS = _hasStaticBlocks.class;
+        Class<_hasExtends> HAS_EXTENDS = _hasExtends.class;
+        Class<_hasImplements> HAS_IMPLEMENTS = _hasImplements.class;
+
+        Class<_hasFinal> HAS_FINAL = _hasFinal.class;
+        Class<_hasAbstract> HAS_ABSTRACT = _hasAbstract.class;
+        Class<_hasNative> HAS_NATIVE = _hasNative.class;
+        Class<_hasStatic> HAS_STATIC = _hasStatic.class;
+        Class<_hasStrictFp> HAS_STRICTFP = _hasStrictFp.class;
+        Class<_hasSynchronized> HAS_SYNCHRONIZED = _hasSynchronized.class;
+        Class<_hasTransient> HAS_TRANSIENT = _hasTransient.class;
+        Class<_hasVolatile> HAS_VOLATILE = _hasVolatile.class;
+
+        /**
+         * Map from the _java classes to the Ast Node equivalent
          */
         public static final Map<Class<? extends _node>, Class<? extends Node>> _JAVA_TO_AST_NODE_CLASSES = new HashMap<>();
 
