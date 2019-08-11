@@ -1456,7 +1456,7 @@ public enum _walk {
                     });
             return astRootNode;
         }
-        else if( _java.ModelMap._JAVA_TO_AST_NODE_CLASSES.containsKey( _modelClass ) ) {
+        else if( _java.Model._JAVA_TO_AST_NODE_CLASSES.containsKey( _modelClass ) ) {
             //System.out.println("Node Classes ");
             // _anno.class, AnnotationExpr.class
             // _annotation._element.class, AnnotationMemberDeclaration.class
@@ -1477,7 +1477,7 @@ public enum _walk {
             //class switch would be nice here
             in(tt, 
                 astRootNode,
-                    _java.ModelMap._JAVA_TO_AST_NODE_CLASSES.get( _modelClass ),
+                    _java.Model._JAVA_TO_AST_NODE_CLASSES.get( _modelClass ),
                     t ->true,
                     a -> {
                         _J logical = (_J)_java.of( a );
@@ -2068,7 +2068,7 @@ public enum _walk {
         if( _java.class.isAssignableFrom(nodeTargetClass) ){
             //here I'm looking for a _field, _method, etc.
             Optional<Node> on = astStartNode.stream(tt).filter(n -> {
-                    if( Objects.equals( _java.ModelMap.AST_NODE_TO_JAVA_CLASSES.get(n.getClass()), nodeTargetClass ) ){
+                    if( Objects.equals( _java.Model.AST_NODE_TO_JAVA_CLASSES.get(n.getClass()), nodeTargetClass ) ){
                         return nodeMatchFn.test((T) _java.of(n) );
                     }                    
                     return false;

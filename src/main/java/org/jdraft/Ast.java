@@ -277,6 +277,10 @@ public enum Ast {
      */
     public static final Class<VariableDeclarationExpr> VAR_DECLARATION_EXPR = VariableDeclarationExpr.class;
 
+    public static final Class<Name> NAME = Name.class;
+
+    public static final Class<SimpleName> SIMPLE_NAME = SimpleName.class;
+
     /**
      * Any literal Expression
      * <UL>
@@ -623,7 +627,24 @@ public enum Ast {
     public static CompilationUnit reparse( CompilationUnit astCu, PrettyPrinterConfiguration ppv ){
         return of(astCu.toString(ppv));
     }
-    
+
+    /**
+     * Find and return the ast root node for this node
+     * (NOTE: the "root" is NOT always the {@link CompilationUnit} because
+     * we may have individually created/parsed disconnected nodes ({@link MethodDeclaration},
+     * {@link InitializerDeclaration}, etc. )
+     *
+     * @param astNode an ast node
+     * @return the top level parent/ancestor for this node
+     */
+    public static Node root(Node astNode){
+        Node root = astNode;
+        while(root.getParentNode().isPresent()){
+            root = root.getParentNode().get();
+        }
+        return root;
+    }
+
     /**
      * Given an array of lines representing some .java source code, parse it and
      * return the AST CompilationUnit based on the source
@@ -1625,6 +1646,8 @@ public enum Ast {
         }
         return typeRef(clazz.getCanonicalName());
     }
+
+    //public static Class<PrimitiveType> PRIMITIVE_TYPE = PrimitiveType.class;
 
     public static PrimitiveType BOOLEAN_TYPE = PrimitiveType.booleanType();
     public static PrimitiveType BYTE_TYPE = PrimitiveType.byteType();
