@@ -303,7 +303,14 @@ public final class $constructor
         this.constraint = this.constraint.and(constraint);
         return this;
     }
-    
+
+    public boolean match( Node n){
+        if( n instanceof ConstructorDeclaration ){
+            return matches( (ConstructorDeclaration) n);
+        }
+        return false;
+    }
+
     @Override
     public List<String> list$Normalized(){
         List<String>normalized$ = new ArrayList<>();

@@ -125,7 +125,19 @@ public final class $typeParameters
         this.typeParams.add($tp);
         return this;
     }
-    
+
+    public boolean match( Node node ){
+        if( node instanceof NodeWithTypeParameters ){
+            return matches( (NodeWithTypeParameters)node);
+        }
+        return false;
+    }
+
+
+    public boolean matches (NodeWithTypeParameters nwtp ){
+        return select(_typeParameters.of(nwtp) ) != null;
+    }
+
     /**
      * 
      * @param typeParams

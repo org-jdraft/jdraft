@@ -273,7 +273,14 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
     public boolean isMatchAny(){
         return this.annos.isMatchAny() && isFinal != true && isVarArg != true && this.name.isMatchAny() && this.type.isMatchAny();
     }
-    
+
+    public boolean match( Node n){
+        if( n instanceof Parameter ){
+            return matches( (Parameter) n);
+        }
+        return false;
+    }
+
     /**
      * Compose the parameter into a String 
      * @param translator

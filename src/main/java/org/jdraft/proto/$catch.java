@@ -296,7 +296,14 @@ public final class $catch implements $proto<CatchClause> {
             });
         return astRootNode;
     }
-    
+
+    public boolean match(Node node ){
+        if( node instanceof CatchClause ) {
+            return select( (CatchClause)node) != null;
+        }
+        return false;
+    }
+
     public boolean matches(String...catchClause){
         return select(catchClause) != null;
     }

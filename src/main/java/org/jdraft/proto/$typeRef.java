@@ -261,6 +261,13 @@ public final class $typeRef
         return _typeRef.of(typePattern.compose( t, tokens ));
     }
 
+    public boolean match( Node n){
+        if( n instanceof Type ){
+            return matches( (Type) n);
+        }
+        return false;
+    }
+
     /**
      * 
      * @param type

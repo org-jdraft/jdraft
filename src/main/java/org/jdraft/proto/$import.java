@@ -294,6 +294,13 @@ public final class $import
         return this.importPattern.list$Normalized();
     }
 
+    public boolean match( Node node ) {
+        if (node instanceof ImportDeclaration) {
+            return matches((ImportDeclaration) node);
+        }
+        return false;
+    }
+
     /**
      * Returns the first _import that matches the pattern and constraint
      * @param astNode the node to look through

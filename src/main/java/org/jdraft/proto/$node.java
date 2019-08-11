@@ -26,7 +26,27 @@ import java.util.function.Predicate;
  * @author Eric
  */
 public final class $node implements $proto<Node> {
-    
+
+    /**
+     * Check that a specific node has a parent node of a particular type
+     * @param n the ast node to check
+     * @return true if the parent of the node is assignable toany of the
+     */
+    public static boolean isParentNodeOfType( Node n, Class...parentClassTypes ){
+        //final Set<Class> nodeClasses = new HashSet<>();
+        if( n.getParentNode().isPresent() ) {
+            return isNodeOfType( n.getParentNode().get(), parentClassTypes);
+            //return Arrays.stream(parentClassTypes).anyMatch(
+            //        nt -> nt.isAssignableFrom(n.getParentNode().get().getClass()));
+        }
+        return false;
+    }
+
+    public static boolean isNodeOfType( Node n, Class...classTypes ){
+        return Arrays.stream(classTypes).anyMatch(
+                nt -> nt.isAssignableFrom(n.getClass()));
+    }
+
     /**
      * 
      * @param name
@@ -42,9 +62,41 @@ public final class $node implements $proto<Node> {
      * @return 
      */
     public static $node of( Predicate<Node> constraint ){
-        return new $node("$name$").addConstraint(constraint);
+        return new $node("$node$").addConstraint(constraint);
     }
-    
+
+    public static $node of(){
+        return of( "$node$");
+    }
+
+    /**
+     *
+     * @param nodeType
+     * @return
+     */
+    public static $node of( Class nodeType ){
+        return of( new Class[]{nodeType} );
+    }
+
+    /**
+     *
+     * @param nodeTypes
+     * @return
+     */
+    public static $node of( Class...nodeTypes ){
+        return of( "$node$", nodeTypes);
+    }
+
+    /**
+     *
+     * @param pattern
+     * @param nodeTypes
+     * @return
+     */
+    public static $node of( String pattern, Class...nodeTypes ){
+        return of(pattern).addConstraint(n-> isNodeOfType(n, nodeTypes));
+    }
+
     /** the string pattern */
     public Stencil pattern;
     
@@ -58,7 +110,11 @@ public final class $node implements $proto<Node> {
         this.pattern = pattern;
         this.constraint = t-> true;
     }
-    
+
+    public boolean match(Node node ){
+        return select(node) != null;
+    }
+
     /**
      * ADDS an additional matching constraint to the prototype
      * @param constraint a constraint to be added
@@ -68,7 +124,39 @@ public final class $node implements $proto<Node> {
         this.constraint = this.constraint.and(constraint);
         return this;
     }
-    
+
+    /**
+     * Is this node the child of a a proto?
+     * @param proto
+     * @return
+     */
+    public $node $hasParent( $proto proto ){
+
+        return addConstraint( n-> {
+            if( n.getParentNode().isPresent() ) {
+                Node parent = n.getParentNode().get();
+                return proto.match(parent);
+            }
+            return false;
+        } );
+    }
+
+    public $node $hasChild( $proto childProto ){
+        return addConstraint( n-> n.getChildNodes().stream().anyMatch( c -> childProto.match(c)) );
+    }
+
+    public $node $hasAncestor( $proto ancestorProto ){
+        return addConstraint( n-> n.stream(_walk.PARENTS).anyMatch( c -> ancestorProto.match(c)) );
+    }
+
+    public $node $hasDescendant( $proto descendantProto ){
+        return addConstraint( n-> n.getChildNodes().stream().anyMatch( c-> c.stream().anyMatch( d -> descendantProto.match(d)) ));
+    }
+
+    public $node $hasParent( Class... parentClassType ){
+        return addConstraint( n -> isParentNodeOfType(n, parentClassType));
+    }
+
    /**
     * 
     * @param target

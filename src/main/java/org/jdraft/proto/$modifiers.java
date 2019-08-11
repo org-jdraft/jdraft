@@ -112,7 +112,11 @@ public final class $modifiers
 
     public $modifiers(){        
     }
-    
+
+    public boolean matches( _modifiers _ms ){
+        return select(_ms) != null;
+    }
+
     public $modifiers addConstraint( Predicate<_modifiers> constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
@@ -281,7 +285,18 @@ public final class $modifiers
                 }                
             });
     }
-    
+
+    public boolean match( Node n){
+        if( n instanceof NodeWithModifiers ){
+            return matches( (NodeWithModifiers) n);
+        }
+        return false;
+    }
+
+    public boolean matches( NodeWithModifiers nwm ){
+        return select( nwm ) != null;
+    }
+
     public Select select(_hasModifiers _hm ){
         return select(_hm.getModifiers());
     }

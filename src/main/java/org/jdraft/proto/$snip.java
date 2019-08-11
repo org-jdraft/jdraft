@@ -377,6 +377,16 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
         return new Select( ss, all);
     }
 
+    public boolean match( Node node ) {
+        if (node instanceof Statement) {
+            return matches((Statement) node);
+        }
+        return false;
+    }
+
+    public boolean matches( List<Statement> stmts ){
+        throw new _draftException("Cant do this yet...addded for _proto convenience");
+    }
     /**
      * 
      * @param astStmt

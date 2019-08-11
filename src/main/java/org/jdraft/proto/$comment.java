@@ -449,7 +449,14 @@ public final class $comment <C extends Comment>
     public List<String> list$Normalized() {
         return this.contentsPattern.list$Normalized();
     }
-    
+
+    public boolean match( Node n){
+        if( n instanceof Comment ){
+            return matches( (Comment) n);
+        }
+        return false;
+    }
+
     /**
      * 
      * @param <C> 

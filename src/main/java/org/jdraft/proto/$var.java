@@ -281,8 +281,16 @@ public final class $var
     public <E extends Expression> $var $init( E initExprProto, Predicate<E> constraint){
         this.init = $expr.of(initExprProto).addConstraint(constraint);
         return this;
-    }    
-      
+    }
+
+
+    public boolean match( Node n){
+        if( n instanceof VariableDeclarator ){
+            return matches( (VariableDeclarator) n);
+        }
+        return false;
+    }
+
     /**
      * 
      * @param var

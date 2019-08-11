@@ -149,6 +149,13 @@ public final class $throws
         return matches(_throws.of(thrws) );
     }
 
+    public boolean match( Node n){
+        if( n instanceof NodeWithThrownExceptions ){
+            return matches( (NodeWithThrownExceptions)n);
+        }
+        return false;
+    }
+
     /**
      * 
      * @param nwt

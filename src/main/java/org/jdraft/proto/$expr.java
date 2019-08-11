@@ -1676,6 +1676,13 @@ public final class $expr <T extends Expression>
         return (T)Expr.of(exprPattern.compose( t, tokens ));
     }
 
+    public boolean match( Node node ){
+        if( node instanceof Expression ){
+            return matches( (Expression)node);
+        }
+        return false;
+    }
+
     /**
      * 
      * @param expression

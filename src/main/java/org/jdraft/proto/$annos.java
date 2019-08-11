@@ -296,6 +296,13 @@ public final class $annos
         return select( _annotated.getAnnos() );        
     }
 
+    public boolean match( Node n){
+        if( n instanceof NodeWithAnnotations ){
+            return matches( (NodeWithAnnotations) n);
+        }
+        return false;
+    }
+
     /**
      *
      * @param _as

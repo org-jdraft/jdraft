@@ -340,6 +340,14 @@ public final class $typeUse {
         return astRootNode;
     }
 
+    public List<Node> listIn( Class clazz ){
+        return listIn(_java.type(clazz));
+    }
+
+    public <_N extends _node> List<Node> listIn( _N _node ){
+        return listIn( _node.ast() );
+    }
+
     public <N extends Node> List<Node> listIn( N astRootNode ){
         List<Node> sels = new ArrayList<>();
         sels.addAll( $fullName.listIn(astRootNode) );

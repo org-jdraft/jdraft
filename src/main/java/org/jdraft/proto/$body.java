@@ -191,7 +191,16 @@ public final class $body implements Template<_body>, $proto<_body>, $constructor
         }
         return Collections.EMPTY_LIST;
     }
-    
+
+    public boolean match( Node node ){
+        if( node instanceof NodeWithBlockStmt ){
+            return matches( (NodeWithBlockStmt) node);
+        }
+        if( node instanceof NodeWithOptionalBlockStmt ){
+            return matches( (NodeWithOptionalBlockStmt) node);
+        }
+        return false;
+    }
     /**
      * 
      * @param astNwb

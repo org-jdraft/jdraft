@@ -33,7 +33,9 @@ import java.util.stream.Collectors;
  * {@link org.jdraft._node})
  */
 public interface $proto<P> {
-    
+
+    boolean match( Node candidate );
+
     /**
      * 
      * @param clazz

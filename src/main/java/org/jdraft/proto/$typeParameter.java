@@ -256,6 +256,13 @@ public final class $typeParameter
         return this;
     }
 
+    public boolean match( Node n){
+        if( n instanceof TypeParameter ){
+            return matches( (TypeParameter) n);
+        }
+        return false;
+    }
+
     @Override
     public _typeParameter firstIn(Node astRootNode, Predicate<_typeParameter> _typeParamMatchFn) {
         Optional<TypeParameter> otp = 
@@ -406,12 +413,17 @@ public final class $typeParameter
     
     public Select select(_typeParameter _tp){
         if( !this.constraint.test(_tp)){
+            System.out.println( "Failed constraint");
             return null;
         }
-        $annos.Select asel = this.$anns.select(_tp);        
+        $annos.Select asel = this.$anns.select(_tp);
+
         if( asel != null ){
             Tokens ts = asel.args().asTokens();
             ts = this.$name.decomposeTo(_tp.getName(), ts);
+            if( ts == null ){
+                return null;
+            }
             List<ClassOrInterfaceType> availableTypeBounds = new ArrayList<>();
             availableTypeBounds.addAll(_tp.getTypeBound());
             

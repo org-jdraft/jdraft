@@ -263,8 +263,15 @@ public final class $method
     public $method addConstraint( Predicate<_method>constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
-    }    
-    
+    }
+
+    public boolean match( Node n){
+        if( n instanceof MethodDeclaration ){
+            return matches( (MethodDeclaration)n);
+        }
+        return false;
+    }
+
     @Override
     public List<String> list$Normalized(){
         List<String>normalized$ = new ArrayList<>();

@@ -85,6 +85,13 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
         return this;
     }
 
+    public boolean match( Node node ){
+        if( node instanceof NodeWithParameters ){
+            return matches( (NodeWithParameters) node);
+        }
+        return false;
+    }
+
     public boolean matches( NodeWithParameters astNodeWithParams ){
         return select(_parameters.of(astNodeWithParams)) == null;
     }

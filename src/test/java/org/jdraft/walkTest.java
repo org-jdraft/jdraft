@@ -82,14 +82,14 @@ public class walkTest extends TestCase {
         //do some stuff with ASTs...
         assertEquals(3, _walk.list(_c, Ast.FIELD_DECLARATION).size());
         assertEquals(2, _walk.list(_c, Ast.FIELD_DECLARATION, fd->fd.getVariable(0).getType().isPrimitiveType() ).size());
-        
+
+
         //using draft classes can also walk, a little more concise IMHO
         assertEquals(3, _walk.list(_c, _field.class).size());
-        assertEquals(3, _walk.list(_c, _java.FIELD).size());
+
         assertEquals(2, _walk.list(_c, _field.class, fd->fd.isPrimitive()).size());
         assertEquals(1, _walk.list(_c, _field.class, fd->fd.isInit(2)).size());
-        
-        
+
     }
     
     public void testWalkIn(){

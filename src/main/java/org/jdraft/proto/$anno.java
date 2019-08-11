@@ -356,6 +356,13 @@ public class $anno
         return this;
     }
 
+    public boolean match( Node node ){
+        if( node instanceof AnnotationExpr ){
+            return matches( (AnnotationExpr)node);
+        }
+        return false;
+    }
+
     public Select select( AnnotationExpr astAnn){
         return select(_anno.of(astAnn));
     }
@@ -858,7 +865,14 @@ public class $anno
             }            
             return null;
         }
-        
+
+        public boolean match( Node node ){
+            if( node instanceof MemberValuePair ){
+                return matches( (MemberValuePair) node);
+            }
+            return false;
+        }
+
         /**
          * 
          * @param mvp

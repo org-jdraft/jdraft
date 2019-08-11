@@ -23,15 +23,56 @@ import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.TypeParameter;
 import junit.framework.TestCase;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 /**
  * Verify that we can parse these Strings to create Ast Node entities
+ *
  * @author Eric
  */
 public class AstTest extends TestCase {
 
+    public static class Outer{
+
+    }
+
+    public void testOrganizeImports(){
+        _class _c = _class.of("C");//.imports(Outer.class);
+        assertTrue(_c.getImports().isEmpty());
+        Ast.organizeImports(  _c.astCompilationUnit() );
+        assertTrue(_c.getImports().isEmpty());
+        _c.imports("gggg.G");
+        assertEquals( Ast.importDeclaration("gggg.G"), _c.getImport(0));
+        Ast.organizeImports(  _c.astCompilationUnit() );
+
+
+        _c.imports("A");
+        _c.imports("import static aaaa.bbbb.B.*;");
+        _c.imports("aaaa.bbbb.C");
+        _c.imports("import static zzzz.Z");
+
+        Ast.organizeImports(  _c.astCompilationUnit() );
+
+        System.out.println( _c );
+
+
+    }
+
+    public void testRoot(){
+        class ROOT{
+            int a = 1;
+            void m(){}
+        }
+
+        _class _c = _class.of(ROOT.class);
+        Node n = Ast.root( _c.getField("a").getInit() );
+
+        assertTrue( n instanceof CompilationUnit );
+    }
     public void testFlattenLabel(){
         class C {
             public void m() {

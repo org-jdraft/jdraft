@@ -474,6 +474,13 @@ public final class $field implements Template<_field>, $proto<_field> {
         return this;
     }
 
+    public boolean match( Node n){
+        if( n instanceof VariableDeclarator ){
+            return matches( (VariableDeclarator) n);
+        }
+        return false;
+    }
+
     /**
      * Returns the first _field that matches the pattern and constraint
      * @param astNode the node to look through

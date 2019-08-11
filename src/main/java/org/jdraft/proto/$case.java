@@ -77,7 +77,14 @@ public final class $case
         this.label = $expr.any();
         return this;
     }
-    
+
+    public boolean match( Node node ) {
+        if (node instanceof SwitchEntry) {
+            return matches((SwitchEntry) node);
+        }
+        return false;
+    }
+
     public boolean matches( String... switchCase ){
         return select(switchCase) != null;
     }

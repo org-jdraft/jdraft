@@ -1124,6 +1124,14 @@ public final class $stmt<T extends Statement>
         return (T)walkCompose$LabeledStmt( Stmt.of(stmtPattern.compose( t, tokens )), tokens );
     }
 
+
+    public boolean match( Node node ) {
+        if (node instanceof Statement) {
+            return matches((Statement) node);
+        }
+        return false;
+    }
+
     /**
      * 
      * @param stmt

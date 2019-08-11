@@ -1,6 +1,8 @@
 package org.jdraft.proto;
 
 import com.github.javaparser.ast.type.TypeParameter;
+import org.jdraft._class;
+import org.jdraft._node;
 import org.jdraft._typeParameter;
 import java.io.Serializable;
 import java.util.Map;
@@ -12,7 +14,26 @@ import junit.framework.TestCase;
  * @author Eric
  */
 public class StypeParameterTest extends TestCase {
-    
+
+    public void testTypeParameterName() {
+        class F<I> {
+            int a;
+            String b;
+
+            public <A extends Map & _node> A m() {
+                return null;
+            }
+        }
+
+        assertEquals( 2, $typeParameter.of().count(F.class)); //A, I
+        assertEquals( 1, $typeParameter.of().$name( $id.of("A")).count(F.class)); //A
+        assertEquals( 1, $typeParameter.of().$name( $id.of("I")).count(F.class)); //A
+
+        //_class _c = _class.of(F.class);
+
+        //System.out.println($typeParameter.of().$name("A").listIn(_c));
+    }
+
     public void testCompose(){
         
         $typeParameter $tp = 
