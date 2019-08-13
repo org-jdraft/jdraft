@@ -781,13 +781,13 @@ public final class $method
 
     /**
      * Returns the first _method that matches the pattern and constraint
-     * @param astNode the node to look through
+     * @param astStartNode the node to look through
      * @param _methodMatchFn
      * @return  the first _method that matches (or null if none found)
      */
     @Override
-    public _method firstIn( Node astNode, Predicate<_method> _methodMatchFn){
-        Optional<MethodDeclaration> f = astNode.findFirst(MethodDeclaration.class, s -> {
+    public _method firstIn(Node astStartNode, Predicate<_method> _methodMatchFn){
+        Optional<MethodDeclaration> f = astStartNode.findFirst(MethodDeclaration.class, s -> {
             Select sel = select(s);
             return sel != null && _methodMatchFn.test(sel._m);
         });         
@@ -1161,7 +1161,7 @@ public final class $method
         }
 
         @Override
-        public _method model() {
+        public _method _node() {
             return _m;
         }
         

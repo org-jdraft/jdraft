@@ -715,13 +715,13 @@ public final class $constructor
 
     /**
      * Returns the first _constructor that matches the pattern and constraint
-     * @param astNode the node to look through
+     * @param astStartNode the node to look through
      * @param _ctorMatchFn additional matching function for selecting the constructor
      * @return  the first _constructor that matches (or null if none found)
      */
     @Override
-    public _constructor firstIn( Node astNode, Predicate<_constructor> _ctorMatchFn){
-        Optional<ConstructorDeclaration> f = astNode.findFirst(
+    public _constructor firstIn(Node astStartNode, Predicate<_constructor> _ctorMatchFn){
+        Optional<ConstructorDeclaration> f = astStartNode.findFirst(
             ConstructorDeclaration.class, s ->{
                 Select sel = select(s); 
                 return sel != null && _ctorMatchFn.test(sel._ct);
@@ -1138,7 +1138,7 @@ public final class $constructor
         }
 
         @Override
-        public _constructor model() {
+        public _constructor _node() {
             return _ct;
         }
         

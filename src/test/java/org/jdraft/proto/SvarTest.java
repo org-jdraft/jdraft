@@ -56,12 +56,12 @@ public class SvarTest extends TestCase {
     
     public void test$VParam(){
         class F{
-            Consumer<Object> po = (o) -> System.out.println(o);
-            /*
+            Consumer<Object> po = System.out::println;
+
             void d(){
                 po = (o) ->System.out.println(o);
             }
-            */
+
         }
         System.out.println( $var.any().listIn(F.class) );
         System.out.println( $parameter.of().firstIn(F.class).getType().ast().getClass() );
@@ -86,12 +86,19 @@ public class SvarTest extends TestCase {
         
         //
         assertEquals( 1, $var.any().listIn(Holder.class, (v)-> v.getInitializer().isPresent()).size() );
-        assertEquals( 1, $var.any().listSelectedIn(Holder.class, s-> s.hasInit()).size() );        
+        assertEquals( 1, $var.any().listSelectedIn(Holder.class, s-> s.hasInit()).size() );
+
         assertEquals( 4, $var.of("int $name$").listIn(Holder.class).size() );
+
+        assertEquals( 4, $var.of(int.class).listIn(Holder.class).size() );
+
+        assertEquals( 4, $var.of($typeRef.of(int.class)).listIn(Holder.class).size() );
         
-        assertEquals( 4, $var.ofType(int.class).listIn(Holder.class).size() );
-        
-        assertEquals( 3, $var.ofType(int.class).listSelectedIn(Holder.class, s-> s.isFieldVar()).size() );
+        assertEquals( 3, $var.of(int.class).listSelectedIn(Holder.class, s-> s.isFieldVar()).size() );
+        assertEquals( 3, $var.member(int.class).listSelectedIn(Holder.class).size() );
+        assertEquals( 1, $var.local(int.class).listSelectedIn(Holder.class).size() );
+
+        //assertEquals( 3, $var.member(int.class).listSelectedIn(Holder.class, s-> s.isFieldVar()).size() );
                 //.stream().filter( s-> s.isFieldVar() ).collect(Collectors.toList()).size() );
         //assertEquals( 4, $var.se(int.class).forSelected(Holder.class).size() );
         

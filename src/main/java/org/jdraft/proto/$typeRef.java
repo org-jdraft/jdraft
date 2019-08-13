@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
- * Template for a Java Type Reference
+ * Template for a Java Type {@link Type} Reference
  */
 public final class $typeRef
     implements Template<_typeRef>, $proto<_typeRef>, $method.$part, $field.$part, 
@@ -92,23 +92,30 @@ public final class $typeRef
     /** Matching constraint */
     public Predicate<_typeRef> constraint = (t)-> true;
     
-    /** type code Pattern */
+    /** type code Pattern
     public Stencil typePattern;
+     */
+
+    /** This MIGHT be an explicit type OR it might be a pattern */
+    public Type type;
 
     /**
      * 
      * @param astProtoType 
      */
     public $typeRef( Type astProtoType ){
-        this.typePattern = Stencil.of(_typeRef.of(astProtoType).toString() );
+        this.type = astProtoType.clone();
+        //this.typePattern = Stencil.of(_typeRef.of(astProtoType).toString() );
     }
 
     /**
      * 
      * @param _proto the proto to build the $typeRef prototype from 
      */
-    public $typeRef(_typeRef _proto){
-        this.typePattern = Stencil.of(_proto.toString() );
+    public $typeRef(_typeRef _proto)
+    {
+        this.type = _proto.ast().clone();
+        //this.typePattern = Stencil.of(_proto.toString() );
     }
     
     /**
@@ -116,15 +123,21 @@ public final class $typeRef
      * @param pattern 
      */
     private $typeRef(String pattern){
-        this.typePattern = Stencil.of(pattern);
+        this.type = Ast.typeRef(pattern);
+        //this.typePattern = Stencil.of(pattern);
     } 
-    
+
+    private Stencil typePattern(){
+        return Stencil.of(this.type.toString());
+    }
+
     /**
      * Will this typeDecl match ALL typeDecl's 
      * @return 
      */
     public boolean isMatchAny(){
-        if( this.typePattern.isMatchAny() ){
+
+        if( this.typePattern().isMatchAny() ){
             try{ //test that the predicate is a match all, if we pass in null
                 return this.constraint.test(null);
             }catch(Exception e){
@@ -146,8 +159,15 @@ public final class $typeRef
     
     @Override
     public $typeRef $(String target, String $name ) {
-        this.typePattern = this.typePattern.$(target, $name);
+        Stencil st = typePattern();
+        st = st.$(target, $name);
+        //st.toString();
+        this.type = Ast.typeRef(st.toString());
         return this;
+        //String str = this.type.toString();
+
+        //this.typePattern = this.typePattern.$(target, $name);
+        //return this;
     }
 
     /**
@@ -157,8 +177,9 @@ public final class $typeRef
      * @return 
      */
     public $typeRef $(Expression astExpr, String $name){
-        this.typePattern = this.typePattern.$(astExpr.toString(), $name);
-        return this;
+        return $( astExpr.toString(), $name);
+        //this.typePattern = this.typePattern.$(astExpr.toString(), $name);
+        //return this;
     }
 
     /**
@@ -202,7 +223,10 @@ public final class $typeRef
      * @return 
      */
     public $typeRef hardcode$( Translator translator, Tokens kvs ) {
-        this.typePattern = this.typePattern.hardcode$(translator,kvs);
+        Stencil st = typePattern();
+        st = st.hardcode$(translator, kvs);
+        this.type = Ast.typeRef(st.toString());
+        //this.typePattern = this.typePattern.hardcode$(translator,kvs);
         return this;
     }
     
@@ -258,7 +282,7 @@ public final class $typeRef
     
     @Override
     public _typeRef compose(Translator t, Map<String,Object> tokens ){
-        return _typeRef.of(typePattern.compose( t, tokens ));
+        return _typeRef.of(typePattern().compose( t, tokens ));
     }
 
     public boolean match( Node n){
@@ -297,12 +321,12 @@ public final class $typeRef
 
     @Override
     public List<String> list$(){
-        return this.typePattern.list$();
+        return this.typePattern().list$();
     }
 
     @Override
     public List<String> list$Normalized(){
-        return this.typePattern.list$Normalized();
+        return this.typePattern().list$Normalized();
     }
     
     /**
@@ -311,8 +335,12 @@ public final class $typeRef
      * @return 
      */
     public Select select( _typeRef _tr){
-        if( this.constraint.test(_tr ) ) {            
-            Tokens ts = typePattern.decompose(_tr.toString() );
+
+        if( this.constraint.test(_tr ) ) {
+            if( Ast.typesEqual(_tr.ast(), this.type)){
+                return new Select( _tr, Tokens.of());
+            }
+            Tokens ts = typePattern().decompose(_tr.toString() );
             if( ts != null ){
                 return new Select( _tr, ts); //$args.of(ts);
             }
@@ -340,13 +368,13 @@ public final class $typeRef
    
     /**
      * Returns the first Type that matches the pattern and constraint
-     * @param astNode the node to look through
+     * @param astStartNode the node to look through
      * @param _typeRefActionFn
      * @return  the first Type that matches (or null if none found)
      */
     @Override
-    public _typeRef firstIn( Node astNode, Predicate<_typeRef> _typeRefActionFn){
-        Optional<Type> f = astNode.findFirst(Type.class, s ->{
+    public _typeRef firstIn(Node astStartNode, Predicate<_typeRef> _typeRefActionFn){
+        Optional<Type> f = astStartNode.findFirst(Type.class, s ->{
             Select sel = select(s);
             return sel != null && _typeRefActionFn.test(sel.type);
             });         
@@ -622,7 +650,7 @@ public final class $typeRef
 
     @Override
     public String toString() {
-        return "(_typeRef) : \"" + this.typePattern + "\"";
+        return "(_typeRef) : \"" + this.typePattern() + "\"";
     }
 
     /**
@@ -665,7 +693,7 @@ public final class $typeRef
         }
 
         @Override
-        public _typeRef model() {
+        public _typeRef _node() {
             return type;
         }
         

@@ -10,6 +10,15 @@ import java.util.*;
 
 public class StypeRefTest extends TestCase {
 
+    public void testHardcode$(){
+        $typeRef $tr = $typeRef.of( "Map<$A$, $B$>" );
+
+        assertTrue($tr.match(Ast.typeRef("Map<Integer, Integer>") ));
+        $tr.hardcode$("A", "String");
+        assertTrue($tr.match(Ast.typeRef("Map<String, Integer>") ));
+
+    }
+
     public static class OldT{
         public static final int F = 1;
         

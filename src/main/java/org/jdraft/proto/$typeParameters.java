@@ -331,14 +331,14 @@ public final class $typeParameters
 
     /**
      * Returns the first _import that matches the pattern and constraint
-     * @param astNode the node to look through
+     * @param astStartNode the node to look through
      * @param typeParamsMatchFn
      * @return  the first _import that matches (or null if none found)
      */
     @Override
-    public _typeParameters firstIn( Node astNode, Predicate<_typeParameters> typeParamsMatchFn){
-        if( astNode.findCompilationUnit().isPresent() ){
-            Optional<CallableDeclaration> f = astNode.findCompilationUnit().get()
+    public _typeParameters firstIn(Node astStartNode, Predicate<_typeParameters> typeParamsMatchFn){
+        if( astStartNode.findCompilationUnit().isPresent() ){
+            Optional<CallableDeclaration> f = astStartNode.findCompilationUnit().get()
                 .findFirst(CallableDeclaration.class, s ->{
                     Select sel = select(s);
                     return sel != null && typeParamsMatchFn.test(sel.typeParameters);                    
@@ -736,7 +736,7 @@ public final class $typeParameters
         }
         
         @Override
-        public _typeParameters model() {
+        public _typeParameters _node() {
             return typeParameters;
         }
     }

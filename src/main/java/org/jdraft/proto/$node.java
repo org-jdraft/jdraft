@@ -65,6 +65,22 @@ public final class $node implements $proto<Node> {
         return new $node("$node$").addConstraint(constraint);
     }
 
+    /**
+     * matches OR
+     * @param prototypes
+     * @return
+     */
+    public static $node of( $proto... prototypes ){
+
+        Predicate<Node> constraint = (n)-> prototypes[0].match(n);
+        for(int i=1; i< prototypes.length; i++){
+            final $proto $p = prototypes[i];
+            final Predicate<Node> pm = (n) -> $p.match(n);
+            constraint = constraint.or(pm);
+        }
+        return of( constraint );
+    }
+
     public static $node of(){
         return of( "$node$");
     }
@@ -201,13 +217,13 @@ public final class $node implements $proto<Node> {
     
     /**
      * Returns the first Statement that matches the 
-     * @param astNode the 
+     * @param astStartNode the
      * @param _nodeMatchFn 
      * @return 
      */
     @Override
-    public Node firstIn( Node astNode,  Predicate<Node> _nodeMatchFn){
-        Optional<Node> f = astNode.findFirst( Node.class, n ->{
+    public Node firstIn(Node astStartNode, Predicate<Node> _nodeMatchFn){
+        Optional<Node> f = astStartNode.findFirst( Node.class, n ->{
                 Select sel = select(n);
                 return select(n) != null && _nodeMatchFn.test(n);
         });         
@@ -235,9 +251,9 @@ public final class $node implements $proto<Node> {
     }
     
     @Override
-    public List<Select> listSelectedIn(Node astRootNode) {
+    public List<Select> listSelectedIn(Node astNode) {
         List<Select> found = new ArrayList<>();
-        astRootNode.walk(n -> {
+        astNode.walk(n -> {
             Select select = select(n);
             if( select != null ){
                 found.add(select); 
@@ -528,14 +544,14 @@ public final class $node implements $proto<Node> {
     }    
     
     @Override
-    public <N extends Node> N forEachIn(N astRootNode, Predicate<Node> nodeMatchFn, Consumer<Node> nodeActionFn) {
-         astRootNode.walk(n -> {
+    public <N extends Node> N forEachIn(N astNode, Predicate<Node> nodeMatchFn, Consumer<Node> nodeActionFn) {
+         astNode.walk(n -> {
             Select sel = select(n);
             if( sel != null && nodeMatchFn.test(n) ){
                 nodeActionFn.accept(n);
             }            
         });
-        return astRootNode;
+        return astNode;
     }
 
     /**

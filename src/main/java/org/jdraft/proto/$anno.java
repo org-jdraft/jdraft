@@ -491,9 +491,9 @@ public class $anno
     }
     
     @Override
-    public _anno firstIn(Node astRootNode, Predicate<_anno> _annoMatchFn) {
+    public _anno firstIn(Node astStartNode, Predicate<_anno> _annoMatchFn) {
         Optional<Node>on = 
-            astRootNode.stream().filter(
+            astStartNode.stream().filter(
                 n -> {
                     if( n instanceof AnnotationExpr){
                         Select sel = select((AnnotationExpr)n); 
@@ -509,13 +509,13 @@ public class $anno
 
     /**
      * 
-     * @param astRootNode
+     * @param astNode
      * @return 
      */
     @Override
-    public Select selectFirstIn(Node astRootNode) {
+    public Select selectFirstIn(Node astNode) {
         Optional<Node>on = 
-            astRootNode.stream().filter(
+            astNode.stream().filter(
                 n -> n instanceof AnnotationExpr 
                     && select((AnnotationExpr)n) != null )
                 .findFirst();
@@ -587,9 +587,9 @@ public class $anno
     }
     
     @Override
-    public List<Select> listSelectedIn(Node astRootNode) {
+    public List<Select> listSelectedIn(Node astNode) {
         List<Select> found = new ArrayList<>();
-        astRootNode.walk(AnnotationExpr.class, a-> {
+        astNode.walk(AnnotationExpr.class, a-> {
             Select sel = select(_anno.of(a));
             if( sel != null ){
                 found.add( sel  );
@@ -644,14 +644,14 @@ public class $anno
     }    
     
     @Override
-    public <N extends Node> N forEachIn(N astRootNode, Predicate<_anno> _nodeMatchFn, Consumer<_anno> _nodeActionFn) {
-        astRootNode.walk(AnnotationExpr.class, a-> {
+    public <N extends Node> N forEachIn(N astNode, Predicate<_anno> _nodeMatchFn, Consumer<_anno> _nodeActionFn) {
+        astNode.walk(AnnotationExpr.class, a-> {
             Select sel = select(_anno.of(a));
             if( sel != null && _nodeMatchFn.test(sel._ann)){
                 _nodeActionFn.accept(sel._ann);
             }
         });
-        return astRootNode;
+        return astNode;
     }
 
     /**
@@ -1080,7 +1080,7 @@ public class $anno
         }
 
         @Override
-        public _anno model() {
+        public _anno _node() {
             return _ann;
         }
     }

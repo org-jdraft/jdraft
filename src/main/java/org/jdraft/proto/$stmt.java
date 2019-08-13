@@ -1332,13 +1332,13 @@ public final class $stmt<T extends Statement>
     
     /**
      * Returns the first Statement that matches the 
-     * @param astNode the 
+     * @param astStartNode the
      * @param statementMatchFn 
      * @return 
      */
     @Override
-    public T firstIn( Node astNode, Predicate<T> statementMatchFn ){
-        Optional<T> f = astNode.findFirst(this.statementClass, s ->{
+    public T firstIn(Node astStartNode, Predicate<T> statementMatchFn ){
+        Optional<T> f = astStartNode.findFirst(this.statementClass, s ->{
             Select sel = select(s);
             return sel != null && statementMatchFn.test((T)sel.astStatement);
         });         
@@ -1350,7 +1350,7 @@ public final class $stmt<T extends Statement>
     
     @Override
     public <N extends Node> N forEachIn(N astNode, Predicate<T> statementMatchFn, Consumer<T> statementActionFn){
-        astNode.walk(this.statementClass, e-> {                        
+        astNode.walk(this.statementClass, e-> {
             Select sel = select(e);
             if( sel != null && statementMatchFn.test((T)sel.astStatement) ) {
                 statementActionFn.accept( e);

@@ -339,8 +339,10 @@ public class SmethodTest extends TestCase {
         $set.listSelectedIn(_c).get(0).is("type", int.class);
         // call replace with a setFluent prototype
         assertEquals(2, $set.count(_c));
+        System.out.println( $setFleunt.hardcode$("className", "Loc").type );
         $set.replaceIn(_c, $setFleunt.hardcode$("className", "Loc") );
-        
+
+
         //verify there are no simple sets left 
         assertEquals(0, $set.listIn(_c).size());
         

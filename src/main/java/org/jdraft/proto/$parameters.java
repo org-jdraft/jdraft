@@ -186,14 +186,14 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
 
     /**
      * Returns the first Statement that matches the 
-     * @param astNode the 
+     * @param astStartNode the
      * @param _parametersMatchFn 
      * @return 
      */
     @Override
-    public _parameters firstIn( Node astNode, Predicate<_parameters> _parametersMatchFn){
+    public _parameters firstIn(Node astStartNode, Predicate<_parameters> _parametersMatchFn){
         Optional<Node> f =                 
-            astNode.findFirst( Node.class, 
+            astStartNode.findFirst( Node.class,
                 n ->{
                     if (n instanceof NodeWithParameters){ 
                         Select sel = select( (NodeWithParameters)n);
@@ -224,9 +224,9 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
     }
     
     @Override
-    public List<Select> listSelectedIn(Node astRootNode) {
+    public List<Select> listSelectedIn(Node astNode) {
         List<Select> found = new ArrayList<>();
-        forSelectedIn( astRootNode, s-> found.add(s));
+        forSelectedIn(astNode, s-> found.add(s));
         return found;
     }
 
@@ -282,8 +282,8 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
     }
     
     @Override
-    public <N extends Node> N forEachIn(N astRootNode, Predicate<_parameters> _parametersMatchFn, Consumer<_parameters> _parametersActionFn) {        
-        astRootNode.walk( Node.class, n-> {            
+    public <N extends Node> N forEachIn(N astNode, Predicate<_parameters> _parametersMatchFn, Consumer<_parameters> _parametersActionFn) {
+        astNode.walk( Node.class, n-> {
             if( n instanceof NodeWithParameters){
                 Select sel = select(_parameters.of( (NodeWithParameters)n ) );
                 if( sel != null && _parametersMatchFn.test(sel._params)){
@@ -291,7 +291,7 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
                 }
             }
         });        
-        return astRootNode;        
+        return astNode;
     }
 
     /**
@@ -449,7 +449,7 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
         }
         
         @Override
-        public _parameters model() {
+        public _parameters _node() {
             return _params;
         }        
     }

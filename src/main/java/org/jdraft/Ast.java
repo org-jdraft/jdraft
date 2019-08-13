@@ -27,6 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static com.github.javaparser.utils.Utils.normalizeEolInTextBlock;
 import java.nio.file.Paths;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 /**
@@ -626,6 +627,50 @@ public enum Ast {
      */
     public static CompilationUnit reparse( CompilationUnit astCu, PrettyPrinterConfiguration ppv ){
         return of(astCu.toString(ppv));
+    }
+
+    /**
+     * Shortcut for checking if the parent exists and matches the predicate
+     * @param node
+     * @param parentMatchFn
+     * @return
+     */
+    public static boolean isParent( Node node, Predicate<Node> parentMatchFn){
+        if( node.getParentNode().isPresent()){
+            return parentMatchFn.test( node.getParentNode().get() );
+        }
+        return false;
+    }
+
+    /**
+     * Shortcut for checking if the parent is one of the potential node types
+     * @param node the ast node to check
+     * @param parentNodeTypes array of node
+     * @return
+     */
+    public static <N extends Node> boolean isParent( Node node, Class<N>... parentNodeTypes){
+        if( node.getParentNode().isPresent()){
+            return Arrays.stream( parentNodeTypes ).anyMatch( p -> p.isAssignableFrom(node.getParentNode().get().getClass()));
+        }
+        return false;
+    }
+
+    /**
+     * Shortcut for checking if an ast has a parent of a particular class that complies with a particular Predicate
+     * @param node the ast node starting point
+     * @param parentNodeClass the node class expected of the parent node
+     * @param parentMatchFn predicate for matching the parent
+     * @param <N> the expected parent node type
+     * @return true if the parent node exists, is of a particualr type and complies with the predicate
+     */
+    public static <N extends Node> boolean isParent( Node node, Class<N> parentNodeClass, Predicate<N> parentMatchFn){
+        if( node.getParentNode().isPresent()){
+            Node parent = node.getParentNode().get();
+            if( parentNodeClass.isAssignableFrom(parent.getClass()) ) {
+                return parentMatchFn.test( (N)node.getParentNode().get());
+            }
+        }
+        return false;
     }
 
     /**

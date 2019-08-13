@@ -303,14 +303,14 @@ public final class $import
 
     /**
      * Returns the first _import that matches the pattern and constraint
-     * @param astNode the node to look through
+     * @param astStartNode the node to look through
      * @param _importMatchFn
      * @return  the first _import that matches (or null if none found)
      */
     @Override
-    public _import firstIn( Node astNode, Predicate<_import> _importMatchFn){
-        if( astNode.findCompilationUnit().isPresent() ){
-            Optional<ImportDeclaration> f = astNode.findCompilationUnit().get()
+    public _import firstIn(Node astStartNode, Predicate<_import> _importMatchFn){
+        if( astStartNode.findCompilationUnit().isPresent() ){
+            Optional<ImportDeclaration> f = astStartNode.findCompilationUnit().get()
                 .findFirst(ImportDeclaration.class, s ->{
                     Select sel = select(s);
                     return sel != null && _importMatchFn.test(sel._i);
@@ -765,7 +765,7 @@ public final class $import
         }
         
         @Override
-        public _import model() {
+        public _import _node() {
             return _i;
         }
     }

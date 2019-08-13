@@ -36,6 +36,17 @@ import java.util.function.Consumer;
  */
 public class AstTest extends TestCase {
 
+    public void testIsParent(){
+        _class _c = _class.of("V", new Object(){
+            int x = 0;
+            void f(){
+                int hh = 103;
+            }
+        });
+        assertTrue(
+                Ast.isParent( _c.getField("x").getFieldDeclaration(),
+                        ClassOrInterfaceDeclaration.class, c-> c.getNameAsString().equals("V")) );
+    }
     public static class Outer{
 
     }
@@ -72,6 +83,35 @@ public class AstTest extends TestCase {
         Node n = Ast.root( _c.getField("a").getInit() );
 
         assertTrue( n instanceof CompilationUnit );
+
+        _method _m = _method.of("public void m(){}").setBody(()-> {System.out.println( 1); System.out.println(2);});
+        assertTrue( Ast.root(_m.ast()) instanceof MethodDeclaration );
+        _m = _method.of(new Object(){
+            public void m(){
+                int a = 100;
+            }
+        });
+
+        assertTrue( Ast.root(_m.ast()) instanceof MethodDeclaration );
+
+        _constructor _ct = _constructor.of(new Object(){
+            String name;
+
+            public void C(String name){
+                this.name = name;
+            }
+        });
+
+        assertTrue( Ast.root(_ct.ast()) instanceof ConstructorDeclaration );
+
+        _field _f = _field.of("int i=0;");
+
+        assertTrue( Ast.root(_f.ast()) instanceof FieldDeclaration );
+
+        _anno _a = _anno.of("@R");
+
+        assertTrue( Ast.root(_a.ast()) instanceof AnnotationExpr );
+
     }
     public void testFlattenLabel(){
         class C {

@@ -50,7 +50,105 @@ public final class $var
     public static $var any(){
         return of();
     }
-    
+
+
+    /**
+     * Only select local variables (NOT member fields)
+     * @return
+     */
+    public static $var local(){
+        return of().$local();
+    }
+
+    /**
+     * Selects the vars that are of
+     * @param typeClass
+     * @return
+     */
+    public static $var local( Class...typeClass){
+        if( typeClass.length == 1){
+            return ofType(typeClass[0]).$local();
+        }
+        return of( v-> Arrays.stream(typeClass).anyMatch( tc-> Ast.typesEqual(v.getType(), Ast.typeRef(tc)))).$local();
+    }
+
+    /**
+     *
+     * @param pattern
+     * @return
+     */
+    public static $var local( String pattern){
+        return of(pattern).$local();
+    }
+
+    /**
+     *
+     * @param parts
+     * @return
+     */
+    public static $var local( $part...parts){
+        return of(parts).$local();
+    }
+
+    /**
+     *
+     * @param constraint
+     * @return
+     */
+    public static $var local( Predicate<VariableDeclarator> constraint){
+        return of(constraint).$local();
+    }
+
+
+    /**
+     * Only select local variables (NOT member fields)
+     * @return
+     */
+    public static $var member(){
+        return of().$member();
+    }
+
+
+
+    /**
+     * specify to select only member vars (i.e. fields) with the pattern
+     * @param pattern
+     * @return
+     */
+    public static $var member( String pattern){
+        return of(pattern).$member();
+    }
+
+    /**
+     * Selects the vars that are of
+     * @param typeClass
+     * @return
+     */
+    public static $var member( Class...typeClass){
+        if( typeClass.length == 1){
+            return ofType(typeClass[0]).$member();
+        }
+        return of( v-> Arrays.stream(typeClass).anyMatch( tc-> Ast.typesEqual(v.getType(), Ast.typeRef(tc)))).$member();
+    }
+
+    /**
+     * specify to select only member vars (i.e. fields) based on the $parts
+     * @param parts
+     * @return
+     */
+    public static $var member( $part...parts){
+        return of(parts).$member();
+    }
+
+    /**
+     * specify to select only member vars (i.e. fields) bnased on this constraint
+     * @param constraint
+     * @return
+     */
+    public static $var member( Predicate<VariableDeclarator> constraint){
+        return of(constraint).$member();
+    }
+
     /**
      * build a var prototype to match any var (field or local variable declaration)
      * @return the var prototype that matches any var
@@ -67,7 +165,21 @@ public final class $var
     public static $var of( $part...parts){
         return new $var(parts);
     }
-    
+
+    /**
+     * Selects the vars that are of
+     * @param typeClass
+     * @return
+     */
+    public static $var of( Class...typeClass){
+        if( typeClass.length == 1){
+            return ofType(typeClass[0]);
+        }
+
+        return of().addConstraint( v-> Arrays.stream(typeClass).anyMatch( tc-> Ast.typesEqual(v.getType(), Ast.typeRef(tc))));
+                //_typeRef.equals( _typeRef.of(v.getType()), _typeRef.of(tc) ) ) );
+    }
+
     /**
      * 
      * @param constraint
@@ -82,9 +194,10 @@ public final class $var
      * @param varType
      * @return 
      */
-    public static $var ofType( Class varType ){
-        final _typeRef e = _typeRef.of(varType );
-        return of().addConstraint( v-> e.is(v.getType()) );
+    private static $var ofType( Class varType ){
+        //final _typeRef e = _typeRef.of(varType );
+        return of( $typeRef.of(varType));
+        //return of().addConstraint( v-> e.is(v.getType()) );
     }
     
     /**
@@ -166,7 +279,6 @@ public final class $var
     
     /** */
     public $expr init = $expr.of("$init$");
-    //public $component<Expression> init = new $component( "$init$", t->true);
 
     public static final PrettyPrinterConfiguration NO_COMMENTS = new PrettyPrinterConfiguration()
         .setPrintComments(false).setPrintJavadoc(false);
@@ -199,7 +311,19 @@ public final class $var
         this.constraint = this.constraint.and(constraint);
         return this;
     }
-    
+
+    public $var $local(){
+        return addConstraint(v-> Ast.isParent(v, Ast.VAR_DECLARATION_EXPR));
+    }
+
+    /**
+     * specify to select only member vars (i.e. fields)
+     * @return
+     */
+    public $var $member(){
+        return addConstraint(v-> Ast.isParent(v, Ast.FIELD_DECLARATION));
+    }
+
     public $var $name( String name ){
         this.name.pattern = Stencil.of(name);
         return this;
@@ -232,7 +356,8 @@ public final class $var
     }
      
     public $var $type( String type ){
-        this.type.typePattern = Stencil.of(name);
+        this.type.type = Ast.typeRef(type);
+        //this.type.typePattern = Stencil.of(name);
         return this;
     }
     
@@ -485,13 +610,13 @@ public final class $var
 
     /**
      * Returns the first VaribleDeclarator that matches the pattern and constraint
-     * @param astNode the node to look through
+     * @param astStartNode the node to look through
      * @param varMatchFn
      * @return  the first VaribleDeclarator that matches (or null if none found)
      */
     @Override
-    public VariableDeclarator firstIn( Node astNode, Predicate<VariableDeclarator> varMatchFn){
-        Optional<VariableDeclarator> f = astNode.findFirst(VariableDeclarator.class, s -> {
+    public VariableDeclarator firstIn(Node astStartNode, Predicate<VariableDeclarator> varMatchFn){
+        Optional<VariableDeclarator> f = astStartNode.findFirst(VariableDeclarator.class, s -> {
             Select sel = select(s);
             return sel != null && varMatchFn.test(sel.astVar);
             });         

@@ -371,7 +371,8 @@ public final class $field implements Template<_field>, $proto<_field> {
      * @return
      */
     public $field $type( String pattern ){
-        this.type.typePattern = Stencil.of(_typeRef.of(pattern).toString());
+        this.type.type = Ast.typeRef(pattern);
+        //this.type.typePattern = Stencil.of(_typeRef.of(pattern).toString());
         return this;
     }
 
@@ -483,13 +484,13 @@ public final class $field implements Template<_field>, $proto<_field> {
 
     /**
      * Returns the first _field that matches the pattern and constraint
-     * @param astNode the node to look through
+     * @param astStartNode the node to look through
      * @param _fieldMatchFn
      * @return  the first _field that matches (or null if none found)
      */
     @Override
-    public _field firstIn( Node astNode, Predicate<_field> _fieldMatchFn){
-        Optional<VariableDeclarator> f = astNode.findFirst(VariableDeclarator.class, s ->{
+    public _field firstIn(Node astStartNode, Predicate<_field> _fieldMatchFn){
+        Optional<VariableDeclarator> f = astStartNode.findFirst(VariableDeclarator.class, s ->{
             Select sel = select(s);
             return sel != null && _fieldMatchFn.test(sel._f);
             });         
@@ -965,7 +966,7 @@ public final class $field implements Template<_field>, $proto<_field> {
         sb.append(System.lineSeparator());
         sb.append(modifiers.toString()); //construct(Translator.TypeTranslate, new HashMap<String,Object>() ) );
         sb.append(" ");
-        sb.append(type.typePattern );
+        sb.append(type.toString() );
         sb.append(" ");
         sb.append(name.pattern );
         if( init != null ){
@@ -1096,7 +1097,7 @@ public final class $field implements Template<_field>, $proto<_field> {
         }
         
         @Override
-        public _field model() {
+        public _field _node() {
             return _f;
         }
     }

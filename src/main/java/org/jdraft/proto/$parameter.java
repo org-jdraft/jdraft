@@ -252,7 +252,8 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
     }
     
     public $parameter $type( String type ){
-        this.type.typePattern = Stencil.of(type);
+        this.type.type = Ast.typeRef( type );
+        //this.type.typePattern = Stencil.of(type);
         return this;
     }
     
@@ -461,9 +462,9 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
     }
     
     @Override
-    public List<Select> listSelectedIn(Node astRootNode) {
+    public List<Select> listSelectedIn(Node astNode) {
         List<Select> found = new ArrayList<>();
-        astRootNode.walk(Parameter.class, p-> {
+        astNode.walk(Parameter.class, p-> {
             Select sel = select(p);
             if( sel != null ){
                 found.add(sel);
@@ -533,20 +534,20 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
     /**
      * 
      * @param <N>
-     * @param astRootNode
+     * @param astNode
      * @param _parameterMatchFn
      * @param _parameterActionFn
      * @return 
      */
     @Override
-    public <N extends Node> N forEachIn(N astRootNode, Predicate<_parameter> _parameterMatchFn, Consumer<_parameter> _parameterActionFn) {        
-        astRootNode.walk(Parameter.class, p-> {
+    public <N extends Node> N forEachIn(N astNode, Predicate<_parameter> _parameterMatchFn, Consumer<_parameter> _parameterActionFn) {
+        astNode.walk(Parameter.class, p-> {
             Select sel = select(p);
             if( sel != null && _parameterMatchFn.test(sel._param)){
                 _parameterActionFn.accept(_parameter.of(p));
             }
         });
-        return astRootNode;
+        return astNode;
     }
 
     /**
@@ -665,13 +666,13 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
     
     /**
      * Returns the first _field that matches the pattern and constraint
-     * @param astNode the AST Node
+     * @param astStartNode the AST Node
      * @param _parameterMatchFn
      * @return  the first _field that matches (or null if none found)
      */
     @Override
-    public _parameter firstIn( Node astNode, Predicate<_parameter> _parameterMatchFn){
-        Optional<Parameter> p = astNode.findFirst(Parameter.class, s ->{
+    public _parameter firstIn(Node astStartNode, Predicate<_parameter> _parameterMatchFn){
+        Optional<Parameter> p = astStartNode.findFirst(Parameter.class, s ->{
             Select sel = select(s);
             return sel != null && _parameterMatchFn.test( sel._param );
           });         
@@ -831,7 +832,7 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
         } 
         
         @Override
-        public _parameter model() {
+        public _parameter _node() {
             return _param;
         }        
     }    

@@ -341,14 +341,14 @@ public final class $throws
 
     /**
      * Returns the first _import that matches the pattern and constraint
-     * @param astNode the node to look through
+     * @param astStartNode the node to look through
      * @param throwsMatchFn
      * @return  the first _import that matches (or null if none found)
      */
     @Override
-    public _throws firstIn( Node astNode, Predicate<_throws> throwsMatchFn){
-        if( astNode.findCompilationUnit().isPresent() ){
-            Optional<CallableDeclaration> f = astNode.findCompilationUnit().get()
+    public _throws firstIn(Node astStartNode, Predicate<_throws> throwsMatchFn){
+        if( astStartNode.findCompilationUnit().isPresent() ){
+            Optional<CallableDeclaration> f = astStartNode.findCompilationUnit().get()
                 .findFirst(CallableDeclaration.class, s ->{
                     Select sel = select(s);
                     return sel != null && throwsMatchFn.test(sel.thrown);
@@ -834,7 +834,7 @@ public final class $throws
         }
         
         @Override
-        public _throws model() {
+        public _throws _node() {
             return thrown;
         }
     }

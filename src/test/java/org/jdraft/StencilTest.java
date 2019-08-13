@@ -83,7 +83,7 @@ public class StencilTest
 
     public void testStencilToString() {
         Stencil s = Stencil.of( "hello $a$ this is $b$" );
-        assertEquals( "hello $$a$$ this is $$b$$", s.toString() );
+        assertEquals( "hello $a$ this is $b$", s.toString() );
         assertEquals("hello 1 this is 2", s.compose("a", 1, "b", 2));
         assertEquals("hello 1 this is 2", s.fill(1,2));
     }

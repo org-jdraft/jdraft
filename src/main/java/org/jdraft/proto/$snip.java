@@ -398,13 +398,13 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
 
     /**
      * Returns the first List<Statement>  that matches the pattern and constraint
-     * @param astNode the node to look through
+     * @param astStartNode the node to look through
      * @param statementsMatchFn
      * @return  the first List<Statement> that matches (or null if none found)
      */
     @Override
-    public List<Statement> firstIn( Node astNode, Predicate<List<Statement>> statementsMatchFn){
-        List<List<Statement>>ss = listIn(astNode);
+    public List<Statement> firstIn(Node astStartNode, Predicate<List<Statement>> statementsMatchFn){
+        List<List<Statement>>ss = listIn(astStartNode);
         if( ss.isEmpty() ){
             return null;
         }        
@@ -412,9 +412,9 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
     }
     
     @Override
-    public List<List<Statement>> listIn(Node astNode, Predicate<List<Statement>> statementsMatchFn){
+    public List<List<Statement>> listIn(Node astStartNode, Predicate<List<Statement>> statementsMatchFn){
         List<List<Statement>>sts = new ArrayList<>();
-        astNode.walk(this.$sts.get(0).statementClass, st -> {
+        astStartNode.walk(this.$sts.get(0).statementClass, st -> {
             Select sel = select( (Statement)st );
             if( sel != null && statementsMatchFn.test(sel.statements)){
                 sts.add( sel.statements );

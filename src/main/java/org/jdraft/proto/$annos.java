@@ -325,14 +325,14 @@ public final class $annos
     
     /**
      * Returns the first Statement that matches the 
-     * @param astNode the 
+     * @param astStartNode the
      * @param _annosMatchFn 
      * @return 
      */
     @Override
-    public _annos firstIn( Node astNode, Predicate<_annos> _annosMatchFn){
+    public _annos firstIn(Node astStartNode, Predicate<_annos> _annosMatchFn){
         Optional<Node> f =                 
-            astNode.findFirst( Node.class, 
+            astStartNode.findFirst( Node.class,
                 n -> {
                     if(n instanceof NodeWithAnnotations){
                         Select sel = select((NodeWithAnnotations)n);
@@ -423,9 +423,9 @@ public final class $annos
     }    
     
     @Override
-    public List<Select> listSelectedIn(Node astRootNode) {          
+    public List<Select> listSelectedIn(Node astNode) {
         List<Select> found = new ArrayList<>();
-        _walk.in(astRootNode, Node.class, _ha-> {
+        _walk.in(astNode, Node.class, _ha-> {
             if( _ha instanceof NodeWithAnnotations ){
                 Select sel = select( (NodeWithAnnotations)_ha);
                 if( sel != null ){
@@ -479,8 +479,8 @@ public final class $annos
     }
 
     @Override
-    public <N extends Node> N forEachIn(N astRootNode, Predicate<_annos> _annosMatchFn, Consumer<_annos> _annosActionFn) {
-        return _walk.in(astRootNode, Node.class, n-> {
+    public <N extends Node> N forEachIn(N astNode, Predicate<_annos> _annosMatchFn, Consumer<_annos> _annosActionFn) {
+        return _walk.in(astNode, Node.class, n-> {
             if( n instanceof NodeWithAnnotations ){
                 Select sel = select( (NodeWithAnnotations)n );
                 if( sel != null && _annosMatchFn.test(sel._anns)){
@@ -640,7 +640,7 @@ public final class $annos
         }
 
         @Override
-        public _annos model() {
+        public _annos _node() {
             return _anns;
         }
     }

@@ -529,7 +529,7 @@ public final class Stencil implements Template<String>{
         Map<String, Object> fillMap = new HashMap<>();
         String[] fills = this.$Names.toArray( new String[ 0 ] );
         for( int i = 0; i < fills.length; i++ ) {
-            fills[ i ] = "$" + fills[ i ] + "$"; //accept $ delimeters around $Names
+            //fills[ i ] = "$" + fills[ i ] + "$"; //accept $ delimeters around $Names
             fillMap.put( fills[ i ],  "$" + fills[ i ] +"$" );
         }
 

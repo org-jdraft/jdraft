@@ -264,9 +264,9 @@ public final class $typeParameter
     }
 
     @Override
-    public _typeParameter firstIn(Node astRootNode, Predicate<_typeParameter> _typeParamMatchFn) {
+    public _typeParameter firstIn(Node astStartNode, Predicate<_typeParameter> _typeParamMatchFn) {
         Optional<TypeParameter> otp = 
-            astRootNode.findFirst(TypeParameter.class, tp->{
+            astStartNode.findFirst(TypeParameter.class, tp->{
                 Select sel = select(tp);
                 return sel != null && _typeParamMatchFn.test(sel._tp);
             });
@@ -277,9 +277,9 @@ public final class $typeParameter
     }
     
     @Override
-    public Select selectFirstIn(Node n) {
+    public Select selectFirstIn(Node astNode) {
         Optional<TypeParameter> otp = 
-            n.findFirst(TypeParameter.class, tp-> matches(tp) );
+            astNode.findFirst(TypeParameter.class, tp-> matches(tp) );
         if( otp.isPresent()){
             return select(otp.get());
         }
@@ -305,9 +305,9 @@ public final class $typeParameter
     }
     
     @Override
-    public List<Select> listSelectedIn(Node astRootNode) {
+    public List<Select> listSelectedIn(Node astNode) {
         List<Select> selected = new ArrayList<>();
-        forSelectedIn( astRootNode, s -> selected.add( s ) );
+        forSelectedIn(astNode, s -> selected.add( s ) );
         return selected;
     }
 
@@ -359,20 +359,20 @@ public final class $typeParameter
     }
     
     @Override
-    public <N extends Node> N forEachIn(N astRootNode, Predicate<_typeParameter> _typeParamMatchFn, Consumer<_typeParameter> _typeParameterActionFn) {
-        astRootNode.walk(TypeParameter.class, tp-> {
+    public <N extends Node> N forEachIn(N astNode, Predicate<_typeParameter> _typeParamMatchFn, Consumer<_typeParameter> _typeParameterActionFn) {
+        astNode.walk(TypeParameter.class, tp-> {
             Select sel = select(tp);
             if( sel != null && _typeParamMatchFn.test(sel._tp)){
-                _typeParameterActionFn.accept(sel.model());
+                _typeParameterActionFn.accept(sel._node());
             }
         });
-        return astRootNode;
+        return astNode;
     }
 
     @Override
-    public <N extends Node> N removeIn(N astRootNode) {
-        forEachIn(astRootNode, tp -> tp.ast().remove() );
-        return astRootNode;
+    public <N extends Node> N removeIn(N astNode) {
+        forEachIn(astNode, tp -> tp.ast().remove() );
+        return astNode;
     }
     
     @Override
@@ -473,7 +473,7 @@ public final class $typeParameter
 
         
         @Override
-        public _typeParameter model() {
+        public _typeParameter _node() {
             return _tp;
         }        
         

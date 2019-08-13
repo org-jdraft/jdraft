@@ -1,5 +1,6 @@
 package org.jdraft.proto;
 
+import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
@@ -10,7 +11,10 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import org.jdraft.Ast;
 import org.jdraft._class;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -22,23 +26,94 @@ import junit.framework.TestCase;
  */
 public class SnodeTest extends TestCase {
 
+    interface B{
+
+    }
+    class A{
+
+    }
+    public void testAdvTypeUse(){
+
+        class C extends A implements B {
+            System s = null; //as a field
+
+            //as return type
+            public System getSystem(){
+                return s;
+            }
+
+            //as a Parameter
+            public void setSystem( System s){
+                this.s = s;
+            }
+
+            public void asAMethodReference(){
+                List l = new ArrayList<>();
+                //in a Method reference
+                l.forEach( System.out::println);
+            }
+
+            public void inFullyQualifiedMethod(){
+                System.out.println(1);
+            }
+        }
+
+
+        //add it manually as an import
+        _class _c = _class.of(C.class);
+        _c.astCompilationUnit().addImport(new ImportDeclaration("java.lang.System", false, false));
+
+        //screw it, we should be able to manually look for things
+        //assertEquals(1, $.of(  ).count(_c)); //OK
+        assertEquals( 1, $import.of(System.class).count(_c));
+        assertTrue( Ast.typesEqual(Ast.typeRef("System"), Ast.typeRef(System.class)) );
+        assertEquals( 1, $var.member().count(_c) );
+
+
+        assertTrue( $typeRef.of(System.class).matches("java.lang.System"));
+        assertTrue( $typeRef.of(System.class).matches("System"));
+
+        assertEquals( 1, $var.member($typeRef.of("System")).count(_c) );
+        assertEquals( 1, $var.member($typeRef.of(System.class)).count(_c) );
+        //assertEquals( 1, $.of($var.member(System.class)).count(_c) );
+
+
+
+
+        //only found (2) of (6) ... im just verifying it's broke
+        $typeUse tu = $typeUse.of(System.class);
+        assertEquals(2, tu.listIn(C.class).size() );
+
+        System.out.println( _c );
+        //$typeRef $tr = $typeRef.of(System.class);
+        $typeRef $tr = $typeRef.of("System");
+        System.out.println( $tr.count(_c) );
+
+
+
+    }
 
     public void testTypeUse(){
         class C{
             int i, j;
             String t;
+            List<String> l = new ArrayList<>();
 
             public void g(){
                 if( true ) {
                     synchronized (t) {
-
+                        l.forEach( System.out::println );
                     }
                 }
             }
             void gg(){ }
         }
 
-        //System.out.println( $node.of().listIn(C.class) );
+
+        _class _c = _class.of( C.class);
+        System.out.println( $node.of().forEachIn(_c, e -> System.out.println(e.getClass()+" "+e)) );//
+
+        //System.out.println( $node.of().forEachIn(C.class, e -> System.out.println(e)) );//e.getClass()+" "+
 
         //$node.of().forEachIn(C.class, e-> System.out.println(  e.getClass() ));
 

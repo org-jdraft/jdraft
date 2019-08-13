@@ -1,5 +1,6 @@
 package org.jdraft.proto;
 
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
@@ -30,9 +31,35 @@ import org.jdraft.macro._remove;
  * @author Eric
  */
 public final class $ {
+
     /** cant construct one of these */
     private $(){}
-    
+
+    /**
+     *
+     * @return
+     */
+    public static $node of() { return $node.of(); }
+
+    /**
+     *
+     * @param nodeClasses
+     * @param <N>
+     * @return
+     */
+    public static <N extends Node> $node of(Class<N>...nodeClasses){
+        return $node.of(nodeClasses);
+    }
+
+    /**
+     *
+     * @param $ps
+     * @return
+     */
+    public static $node of( $proto ... $ps ){
+        return $node.of( $ps );
+    }
+
     public static $anno anno(){
         return $anno.any();
     }

@@ -160,9 +160,9 @@ public final class $case
     }
 
     @Override
-    public SwitchEntry firstIn(Node astRootNode, Predicate<SwitchEntry> caseMatchFn ) {
+    public SwitchEntry firstIn(Node astStartNode, Predicate<SwitchEntry> caseMatchFn ) {
         Optional<SwitchEntry> ose = 
-            astRootNode.findFirst(SwitchEntry.class, se ->{
+            astStartNode.findFirst(SwitchEntry.class, se ->{
                 Select sel = select(se);
                 return sel != null && caseMatchFn.test(se);
             });
@@ -229,9 +229,9 @@ public final class $case
     }
 
     @Override
-    public List<Select> listSelectedIn(Node astRootNode) {
+    public List<Select> listSelectedIn(Node astNode) {
         List<Select> found = new ArrayList<>();
-        forEachIn( astRootNode, s-> found.add(select(s)));
+        forEachIn(astNode, s-> found.add(select(s)));
         return found;        
     }
     
@@ -272,14 +272,14 @@ public final class $case
     }
 
     @Override
-    public <N extends Node> N forEachIn(N astRootNode, Predicate<SwitchEntry> _caseMatchFn, Consumer<SwitchEntry> _nodeActionFn) {
-        astRootNode.walk(SwitchEntry.class, se-> {
+    public <N extends Node> N forEachIn(N astNode, Predicate<SwitchEntry> _caseMatchFn, Consumer<SwitchEntry> _nodeActionFn) {
+        astNode.walk(SwitchEntry.class, se-> {
             Select sel = select(se);
             if( sel != null && _caseMatchFn.test(se) ) {
                 _nodeActionFn.accept(se);
             }
         });
-        return astRootNode;
+        return astNode;
     }
 
     /**

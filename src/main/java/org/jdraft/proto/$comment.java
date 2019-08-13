@@ -256,10 +256,10 @@ public final class $comment <C extends Comment>
     }
 
     @Override
-    public C firstIn(Node astRootNode, Predicate<C> commentMatchFn) {
+    public C firstIn(Node astStartNode, Predicate<C> commentMatchFn) {
         
         //this is extra work, but it "acts" like we want it to
-        List<C> found = listIn(astRootNode, commentMatchFn);
+        List<C> found = listIn(astStartNode, commentMatchFn);
         Ast.sortNodesByPosition(found);
         //Collections.sort( found, Ast.COMPARE_NODE_BY_LOCATION);
         if( found.isEmpty() ){
@@ -294,9 +294,9 @@ public final class $comment <C extends Comment>
     }
 
     @Override
-    public List<Select> listSelectedIn(Node astRootNode) {
+    public List<Select> listSelectedIn(Node astNode) {
         List<Select> found = new ArrayList<>();
-        forSelectedIn( astRootNode, s -> found.add(s));
+        forSelectedIn(astNode, s -> found.add(s));
         return found;
     }
 
@@ -313,14 +313,14 @@ public final class $comment <C extends Comment>
     }
 
     @Override
-    public <N extends Node> N forEachIn(N astRootNode, Predicate<C> commentMatchFn, Consumer<C> _nodeActionFn) {
-        _walk.comments(astRootNode, c->{
+    public <N extends Node> N forEachIn(N astNode, Predicate<C> commentMatchFn, Consumer<C> _nodeActionFn) {
+        _walk.comments(astNode, c->{
             Select s = select(c);
             if( s != null && commentMatchFn.test( (C)s.comment) ) {
                 _nodeActionFn.accept( (C)c);
             }
         });
-        return astRootNode;
+        return astNode;
     }
 
     /**
@@ -372,8 +372,8 @@ public final class $comment <C extends Comment>
     }
         
     @Override
-    public <N extends Node> N removeIn(N astRootNode) {
-        return forEachIn( astRootNode, n-> n.remove() );
+    public <N extends Node> N removeIn(N astNode) {
+        return forEachIn(astNode, n-> n.remove() );
     }
 
     public JavadocComment composeJavadocComment(Translator translator, Map<String, Object> keyValues) {

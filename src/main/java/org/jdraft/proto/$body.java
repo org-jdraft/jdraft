@@ -438,8 +438,8 @@ public final class $body implements Template<_body>, $proto<_body>, $constructor
     }
     
     @Override
-    public _body firstIn(Node astRootNode, Predicate<_body> _bodyMatchFn) {
-        Optional<Node> on = astRootNode.findFirst(Node.class, n-> { 
+    public _body firstIn(Node astStartNode, Predicate<_body> _bodyMatchFn) {
+        Optional<Node> on = astStartNode.findFirst(Node.class, n-> {
             if(n instanceof NodeWithBlockStmt){
                 Select sel = select( (NodeWithBlockStmt)n );
                 return sel != null && _bodyMatchFn.test(sel.body);
@@ -517,8 +517,8 @@ public final class $body implements Template<_body>, $proto<_body>, $constructor
     }
     
     @Override
-    public Select selectFirstIn(Node astRootNode) {
-        Optional<Node> on = astRootNode.findFirst(Node.class, n-> { 
+    public Select selectFirstIn(Node astNode) {
+        Optional<Node> on = astNode.findFirst(Node.class, n-> {
             if(n instanceof NodeWithBlockStmt){
                 Select sel = select( (NodeWithBlockStmt)n );
                 return sel != null;
@@ -540,9 +540,9 @@ public final class $body implements Template<_body>, $proto<_body>, $constructor
     }
 
     @Override
-    public List<Select> listSelectedIn(Node astRootNode) {
+    public List<Select> listSelectedIn(Node astNode) {
         List<Select> found = new ArrayList<>();
-        forSelectedIn( astRootNode, s-> found.add(s) );
+        forSelectedIn(astNode, s-> found.add(s) );
         return found;
     }
 
@@ -654,8 +654,8 @@ public final class $body implements Template<_body>, $proto<_body>, $constructor
     }
     
     @Override
-    public <N extends Node> N forEachIn(N astRootNode, Predicate<_body> _bodyMatchFn, Consumer<_body> _bodyActionFn) {
-        astRootNode.walk(Node.class, n->{
+    public <N extends Node> N forEachIn(N astNode, Predicate<_body> _bodyMatchFn, Consumer<_body> _bodyActionFn) {
+        astNode.walk(Node.class, n->{
             if(n instanceof NodeWithBlockStmt){
                 Select sel = select( (NodeWithBlockStmt)n );
                 if( sel != null && _bodyMatchFn.test(sel.body) ){
@@ -669,7 +669,7 @@ public final class $body implements Template<_body>, $proto<_body>, $constructor
                 }
             }            
         });
-        return astRootNode;
+        return astNode;
     }
     
     /**
@@ -703,7 +703,7 @@ public final class $body implements Template<_body>, $proto<_body>, $constructor
         }
 
         @Override
-        public _body model() {
+        public _body _node() {
             return this.body;
         }        
     }

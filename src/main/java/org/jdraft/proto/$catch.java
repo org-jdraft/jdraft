@@ -72,9 +72,9 @@ public final class $catch implements $proto<CatchClause> {
     }
     
     @Override
-    public CatchClause firstIn(Node astRootNode, Predicate<CatchClause> catchMatchFn) {
+    public CatchClause firstIn(Node astStartNode, Predicate<CatchClause> catchMatchFn) {
         Optional<CatchClause> occ = 
-            astRootNode.findFirst(CatchClause.class, cc-> {
+            astStartNode.findFirst(CatchClause.class, cc-> {
                 Select sel = select(cc);
                 return sel != null && catchMatchFn.test(cc);
             });
@@ -140,9 +140,9 @@ public final class $catch implements $proto<CatchClause> {
     }
 
     @Override
-    public List<Select> listSelectedIn(Node astRootNode) {
+    public List<Select> listSelectedIn(Node astNode) {
         List<Select> sels = new ArrayList<>();
-        astRootNode.walk(CatchClause.class, cc-> {
+        astNode.walk(CatchClause.class, cc-> {
                 Select sel = select(cc);
                 if( sel != null ){
                     sels.add( sel );
@@ -197,13 +197,13 @@ public final class $catch implements $proto<CatchClause> {
     }    
         
     @Override
-    public <N extends Node> N forEachIn(N astRootNode, Predicate<CatchClause> catchMatchFn, Consumer<CatchClause> catchActionFn) {
-        astRootNode.walk(CatchClause.class, cc-> {                
+    public <N extends Node> N forEachIn(N astNode, Predicate<CatchClause> catchMatchFn, Consumer<CatchClause> catchActionFn) {
+        astNode.walk(CatchClause.class, cc-> {
                 if( matches(cc) && catchMatchFn.test(cc)){
                     catchActionFn.accept(cc);
                 }
             });
-        return astRootNode;
+        return astNode;
     }
     
     /**

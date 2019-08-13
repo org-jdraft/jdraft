@@ -20,7 +20,22 @@ import java.util.function.Predicate;
  */
 public final class $modifiers
     implements $proto<_modifiers>, $constructor.$part, $method.$part, $field.$part{
-    
+
+    public static $modifiers PUBLIC = $modifiers.of("public");
+    public static $modifiers PRIVATE = $modifiers.of("private");
+    public static $modifiers PROTECTED = $modifiers.of("protected");
+
+    public static $modifiers ABSTRACT = $modifiers.of("abstract");
+    public static $modifiers STATIC = $modifiers.of("static");
+    public static $modifiers FINAL = $modifiers.of("final");
+
+    public static $modifiers SYNCHRONIZED = $modifiers.of("synchronized");
+    public static $modifiers TRANSIENT = $modifiers.of("transient");
+    public static $modifiers VOLATILE = $modifiers.of("volatile");
+    public static $modifiers NATIVE = $modifiers.of("native");
+    public static $modifiers STRICT_FP = $modifiers.of("strictfp");
+
+
     public static $modifiers any(){
         return of();
     }
@@ -146,14 +161,14 @@ public final class $modifiers
     
      /**
      * Returns the first Statement that matches the 
-     * @param astNode the 
+     * @param astStartNode the
      * @param _modsMatchFn 
      * @return 
      */
     @Override
-    public _modifiers firstIn( Node astNode, Predicate<_modifiers> _modsMatchFn){
+    public _modifiers firstIn(Node astStartNode, Predicate<_modifiers> _modsMatchFn){
         Optional<Node> f =                 
-            astNode.findFirst( 
+            astStartNode.findFirst(
                 Node.class, 
                 n -> {
                     if(n instanceof NodeWithModifiers){
@@ -189,14 +204,14 @@ public final class $modifiers
     }
     
     @Override
-    public List<Select> listSelectedIn(Node astRootNode) {
+    public List<Select> listSelectedIn(Node astNode) {
         List<Select> found = new ArrayList<>();
-        forSelectedIn( astRootNode, f-> found.add(f) );
+        forSelectedIn(astNode, f-> found.add(f) );
         return found;
     }
 
     @Override
-    public <N extends Node> N removeIn(N astRootNode) {
+    public <N extends Node> N removeIn(N astNode) {
         //"remove" for modifiers is.... interesting... it "should" mean take them 
         //out AND leave the underlying NodeList to be empty
         //it sorta doesnt make sense
@@ -204,14 +219,14 @@ public final class $modifiers
     }
 
     @Override
-    public <N extends Node> N forEachIn(N astRootNode, Predicate<_modifiers> _modifiersMatchFn, Consumer<_modifiers> _nodeActionFn) {
-        return _walk.in( astRootNode,
+    public <N extends Node> N forEachIn(N astNode, Predicate<_modifiers> _modifiersMatchFn, Consumer<_modifiers> _nodeActionFn) {
+        return _walk.in(astNode,
             Node.class, 
             n->{
                 if(n instanceof NodeWithModifiers ){
                     Select sel = select( (NodeWithModifiers)n );
                     if( sel != null && _modifiersMatchFn.test(sel._mods)){
-                        _nodeActionFn.accept(sel.model());
+                        _nodeActionFn.accept(sel._node());
                     }                
                 }
             });        
@@ -399,7 +414,7 @@ public final class $modifiers
         }
 
         @Override
-        public _modifiers model() {
+        public _modifiers _node() {
             return _mods;
         }        
     }

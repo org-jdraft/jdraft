@@ -88,10 +88,18 @@ public final class _method
         bds.removeIf(b -> b.isAnnotationPresent(_remove.class) || (!(b instanceof MethodDeclaration)));
         //there should be only (1) method left, if > 1 take the first method
         MethodDeclaration md = (MethodDeclaration) bds.get(0);
-        
-        return _macro.to(anonymousObjectContainingMethod.getClass(), of(md));
+
+        //call the macro on it
+        _method _mm = _macro.to(anonymousObjectContainingMethod.getClass(), of(md));
+
+        //ensure we remove the parent reference to the method from the (old) code
+        if( _mm.ast().getParentNode().isPresent() ){
+            _mm.ast().getParentNode().get().remove( _mm.ast() );
+        }
+        return _mm;
     }
-    
+
+    /*
     public static _method fromSignature(String signature) {
         String[] toks = signature.split(" ");
         if (toks.length == 1) {
@@ -104,6 +112,7 @@ public final class _method
         signature = signature + "{}";
         return of(signature);
     }
+     */
 
     public static _method of(MethodDeclaration methodDecl) {
         return new _method(methodDecl);

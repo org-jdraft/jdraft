@@ -1814,13 +1814,13 @@ public final class $expr <T extends Expression>
 
     /**
      * Returns the first Expression that matches the pattern and constraint
-     * @param astNode the node to look through
+     * @param astStartNode the node to look through
      * @param exprMatchFn
      * @return  the first Expression that matches (or null if none found)
      */
     @Override
-    public T firstIn( Node astNode, Predicate<T> exprMatchFn ){
-        Optional<T> f = astNode.findFirst(this.expressionClass, s ->{
+    public T firstIn(Node astStartNode, Predicate<T> exprMatchFn ){
+        Optional<T> f = astStartNode.findFirst(this.expressionClass, s ->{
             Select sel = select(s);
             return sel != null && exprMatchFn.test( (T)sel.astExpression);
             });         

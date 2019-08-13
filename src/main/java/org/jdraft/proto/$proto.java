@@ -34,6 +34,11 @@ import java.util.stream.Collectors;
  */
 public interface $proto<P> {
 
+    /**
+     * does this prototype match this ast node?
+     * @param candidate an ast candidate node
+     * @return
+     */
     boolean match( Node candidate );
 
     /**
@@ -42,7 +47,7 @@ public interface $proto<P> {
      * @return 
      */
     default P firstIn(Class clazz){
-        return firstIn( (_type)_java.type(clazz) );
+        return firstIn( _java.type(clazz) );
     }
 
     /**
@@ -52,7 +57,7 @@ public interface $proto<P> {
      */
     default P firstIn(Class... clazzes){
         for( int i=0; i< clazzes.length; i++){
-            P p = firstIn( (_type)_java.type(clazzes[i]) );
+            P p = firstIn( _java.type(clazzes[i]) );
             if( p != null ){
                 return p;
             }
@@ -77,12 +82,12 @@ public interface $proto<P> {
 
     /**
      *
-     * @param nodes
+     * @param astNodes
      * @return
      */
-    default P firstIn(Node... nodes){
-        for( int i=0; i< nodes.length; i++){
-            P p = firstIn( nodes[i] );
+    default P firstIn(Node... astNodes){
+        for( int i=0; i< astNodes.length; i++){
+            P p = firstIn( astNodes[i] );
             if( p != null ){
                 return p;
             }
@@ -154,20 +159,20 @@ public interface $proto<P> {
     
     /**
      * 
-     * @param astRootNode
+     * @param astStartNode
      * @return the first matching instance or null
      */
-    default P firstIn(Node astRootNode){
-        return firstIn(astRootNode, t->true);
+    default P firstIn(Node astStartNode){
+        return firstIn(astStartNode, t->true);
     }
     
     /**
      * 
-     * @param astRootNode
+     * @param astStartNode
      * @param nodeMatchFn
      * @return 
      */
-    P firstIn(Node astRootNode, Predicate<P> nodeMatchFn);
+    P firstIn(Node astStartNode, Predicate<P> nodeMatchFn);
 
     /**
      * 
@@ -182,12 +187,12 @@ public interface $proto<P> {
     /**
      *
      * @param <S>
-     * @param clazzes
+     * @param classes
      * @return
      */
-    default <S extends selected> S selectFirstIn( Class... clazzes ){
-        for(int i=0;i<clazzes.length; i++){
-            S s = selectFirstIn( _java.type(clazzes[i]) );
+    default <S extends selected> S selectFirstIn( Class... classes ){
+        for(int i=0;i<classes.length; i++){
+            S s = selectFirstIn( _java.type(classes[i]) );
             if( s != null ){
                 return s;
             }
@@ -214,11 +219,11 @@ public interface $proto<P> {
     /**
      *
      * @param <S>
-     * @param coll
+     * @param _jc
      * @return
      */
-    default <S extends selected, _J extends _java> S selectFirstIn(Collection<_J> coll ){
-        List<_J> l = coll.stream().collect(Collectors.toList());
+    default <S extends selected, _J extends _java> S selectFirstIn(Collection<_J> _jc ){
+        List<_J> l = _jc.stream().collect(Collectors.toList());
         for(int i=0;i<l.size(); i++){
             S s = selectFirstIn( l.get(i) );
             if( s != null ){
@@ -248,13 +253,13 @@ public interface $proto<P> {
 
     /**
      *
-     * @param n
+     * @param astStartNodes
      * @param <S>
      * @return
      */
-    default <S extends selected> S selectFirstIn( Node... n ){
-        for(int i=0;i<n.length; i++){
-            S s = selectFirstIn( n[i] );
+    default <S extends selected> S selectFirstIn( Node... astStartNodes ){
+        for(int i=0;i<astStartNodes.length; i++){
+            S s = selectFirstIn( astStartNodes[i] );
             if( s != null){
                 return s;
             }
@@ -265,10 +270,10 @@ public interface $proto<P> {
     /**
      * Selects the first instance
      * @param <S>
-     * @param n
+     * @param astNode
      * @return 
      */
-    <S extends selected> S selectFirstIn( Node n );
+    <S extends selected> S selectFirstIn( Node astNode );
         
     /**
      * Find and return a List of all matching the prototype within clazz
@@ -277,45 +282,45 @@ public interface $proto<P> {
      * @return a List of P that match the query
      */
     default List<P> listIn(Class clazz){
-        return listIn( (_type)_java.type(clazz));
+        return listIn( _java.type(clazz));
     }
 
     /**
      * Find and return a list of all matching prototypes within the clazz
      *
-     * @param clazzes all of the runtime classes (MUST HAVE SOURCE AVAILABLE ON CLASSPATH)
+     * @param classes all of the runtime classes (MUST HAVE SOURCE AVAILABLE ON CLASSPATH)
      * @return a List of P that match the query
      */
-    default List<P> listIn( Class...clazzes ){
+    default List<P> listIn( Class...classes ){
         List<P> found = new ArrayList<>();
-        Arrays.stream(clazzes).forEach(c -> found.addAll( listIn(c) ));
+        Arrays.stream(classes).forEach(c -> found.addAll( listIn(c) ));
         return found;
     }
 
     /**
      * Find and return a list of all matching prototypes within the clazz
      *
-     * @param _j any collection of _code entities( _class, _enum, ...etc)
+     * @param _js any collection of _code entities( _class, _enum, ...etc)
      * @param <_J> the underlying _code type (_code, _type, _packageInfo, etc.)
      * @return list of matching P for the query
      */
-    default <_J extends _java> List<P> listIn(Collection<_J> _j){
+    default <_J extends _java> List<P> listIn(Collection<_J> _js){
         List<P> found = new ArrayList<>();
-        _j.forEach(c -> found.addAll( listIn(c) ));
+        _js.forEach(c -> found.addAll( listIn(c) ));
         return found;
     }
 
     /**
      * Find and return a list of all matching prototypes within the clazz
      *
-     * @param _j any collection of _code entities( _class, _enum, ...etc)
+     * @param _js any collection of _code entities( _class, _enum, ...etc)
      * @param nodeMatchFn additional function predicate for matching
      * @param <_J> the underlying _code type (_code, _type, _packageInfo, etc.)
      * @return list of matching P for the query
      */
-    default <_J extends _java> List<P> listIn(Collection<_J> _j, Predicate<P> nodeMatchFn){
+    default <_J extends _java> List<P> listIn(Collection<_J> _js, Predicate<P> nodeMatchFn){
         List<P> found = new ArrayList<>();
-        _j.forEach(c -> found.addAll( listIn(c, nodeMatchFn) ));
+        _js.forEach(c -> found.addAll( listIn(c, nodeMatchFn) ));
         return found;
     }
 
@@ -326,7 +331,7 @@ public interface $proto<P> {
      * @return 
      */
     default List<P> listIn(Class clazz, Predicate<P> nodeMatchFn){
-        return listIn( (_type)_java.type(clazz), nodeMatchFn);
+        return listIn( _java.type(clazz), nodeMatchFn);
     }
 
     /**
@@ -390,22 +395,22 @@ public interface $proto<P> {
 
     /**
      *
-     * @param astRootNode the root AST node to start the search
+     * @param astNode the root AST node to start the search
      * @return a List of Q matching the query
      */
-    default List<P> listIn(Node astRootNode){
-        return listIn( astRootNode, t->true);
+    default List<P> listIn(Node astNode){
+        return listIn( astNode, t->true);
     }
     
     /**
      * 
-     * @param astRootNode
+     * @param astStartNode
      * @param nodeMatchFn
      * @return 
      */
-    default List<P> listIn(Node astRootNode, Predicate<P> nodeMatchFn){
+    default List<P> listIn(Node astStartNode, Predicate<P> nodeMatchFn){
         List<P> found = new ArrayList<>();
-        forEachIn(astRootNode, nodeMatchFn, b-> found.add(b));
+        forEachIn(astStartNode, nodeMatchFn, b-> found.add(b));
         return found;    
     }
 
@@ -417,19 +422,19 @@ public interface $proto<P> {
      * @return the selected
      */
     default <S extends selected> List<S> listSelectedIn(Class clazz){
-        return listSelectedIn( (_type)_java.type(clazz));
+        return listSelectedIn( _java.type(clazz));
     }
 
     /**
      *
-     * @param _source
+     * @param _js
      * @param <S>
      * @param <_J>
      * @return
      */
-    default <S extends selected, _J extends _java> List<S> listSelectedIn(Collection<_J> _source){
+    default <S extends selected, _J extends _java> List<S> listSelectedIn(Collection<_J> _js){
         List<S> sel = new ArrayList<>();
-        _source.forEach(_j -> sel.addAll( listSelectedIn( _j )) );
+        _js.forEach(_j -> sel.addAll( listSelectedIn( _j )) );
         return sel;
     }
 
@@ -476,11 +481,11 @@ public interface $proto<P> {
      * return the selections (containing the node and deconstructed parts) of
      * all matching entities within the astRootNode
      *
-     * @param astRootNode the node to start the search (TypeDeclaration,
+     * @param astNode the node to start the search (TypeDeclaration,
      * MethodDeclaration)
      * @return the selected
      */
-    <S extends selected> List<S> listSelectedIn(Node astRootNode);
+    <S extends selected> List<S> listSelectedIn(Node astNode);
     
     /**
      * 
@@ -562,14 +567,14 @@ public interface $proto<P> {
      * astRootNode
      *
      * @param <N>
-     * @param astRootNode the node to search through (CompilationUnit,
+     * @param astNode the node to search through (CompilationUnit,
      * MethodDeclaration, etc.)
      * @param _nodeActionFn the function to run upon each encounter with a
      * matching node
      * @return the modified astRootNode
      */
-    default <N extends Node> N forEachIn(N astRootNode, Consumer<P> _nodeActionFn){
-        return forEachIn(astRootNode, t->true, _nodeActionFn);
+    default <N extends Node> N forEachIn(N astNode, Consumer<P> _nodeActionFn){
+        return forEachIn(astNode, t->true, _nodeActionFn);
     }
 
     /**
@@ -577,14 +582,14 @@ public interface $proto<P> {
      * satisfy the nodeMatchFn within the Node astRootNode
      *
      * @param <N>
-     * @param astRootNode the node to search through (CompilationUnit,
+     * @param astNode the node to search through (CompilationUnit,
      * MethodDeclaration, etc.)
      * @param nodeMatchFn matching function to filter which nodes to operate on
      * @param nodeActionFn the function to run upon each encounter with a
      * matching node
      * @return the modified astRootNode
      */
-    <N extends Node> N forEachIn(N astRootNode, Predicate<P> nodeMatchFn, Consumer<P> nodeActionFn);
+    <N extends Node> N forEachIn(N astNode, Predicate<P> nodeMatchFn, Consumer<P> nodeActionFn);
     
     /**
      *
@@ -622,14 +627,14 @@ public interface $proto<P> {
 
     /**
      * Determines the count found in all of the Ast nodes
-     * @param nodes AST nodes (TypeDeclaration, MethodDeclaration, CompilationUnit)
+     * @param astNodes AST nodes (TypeDeclaration, MethodDeclaration, CompilationUnit)
      * @param <N> the underlying Node type
      * @return the count of instances found
      */
-    default <N extends Node> int count( N... nodes ){
+    default <N extends Node> int count( N... astNodes ){
         int count = 0;
-        for(int i=0;i<nodes.length;i++) {
-            count +=count(nodes[i]);
+        for(int i=0;i<astNodes.length;i++) {
+            count +=count(astNodes[i]);
         }
         return count;
     }
@@ -649,35 +654,35 @@ public interface $proto<P> {
     /**
      * 
      * @param <_J>
-     * @param _m
+     * @param _j
      * @return 
      */
-    default <_J extends _java> int count(_J _m ){
+    default <_J extends _java> int count(_J _j ){
         AtomicInteger ai = new AtomicInteger(0);
-        forEachIn(_m, e -> ai.incrementAndGet() );
+        forEachIn(_j, e -> ai.incrementAndGet() );
         return ai.get();
     }
 
     /**
      *
-     * @param _source
+     * @param _js
      * @param <_J>
      * @return
      */
-    default <_J extends _java> Collection<_J> removeIn(Collection<_J> _source ){
-        _source.forEach( _j -> removeIn(_j) );
-        return _source;
+    default <_J extends _java> Collection<_J> removeIn(Collection<_J> _js ){
+        _js.forEach( _j -> removeIn(_j) );
+        return _js;
     }
 
     /**
      *
-     * @param _source
+     * @param _js
      * @param <_J>
      * @return
      */
-    default <_J extends _java> Collection<_J> removeIn(Collection<_J> _source, Predicate<P> nodeMatchFn){
-        _source.forEach( _j -> removeIn(_j, nodeMatchFn) );
-        return _source;
+    default <_J extends _java> Collection<_J> removeIn(Collection<_J> _js, Predicate<P> nodeMatchFn){
+        _js.forEach( _j -> removeIn(_j, nodeMatchFn) );
+        return _js;
     }
 
     /**
@@ -736,24 +741,24 @@ public interface $proto<P> {
      * Remove all matching occurrences of the template in the node and return
      * the modified node
      *
-     * @param astRootNode the root node to start search
+     * @param astNode the root node to start search
      * @param <N> the input node TYPE
      * @return the modified node
      */
-    default <N extends Node> N removeIn(N astRootNode){
-        return removeIn(astRootNode, t->true);
+    default <N extends Node> N removeIn(N astNode){
+        return removeIn(astNode, t->true);
     }
 
     /**
      * Remove all matching occurrences of the template in the node and return
      * the modified node
      * @param <N> the input node TYPE
-     * @param astRootNode the root node to start search     
+     * @param astNode the root node to start search
      * @param nodeMatchFn function to match nodes to remove
      * @return the modified node
      */
-    default <N extends Node> N removeIn(N astRootNode, Predicate<P> nodeMatchFn){
-        return forEachIn(astRootNode, s-> {
+    default <N extends Node> N removeIn(N astNode, Predicate<P> nodeMatchFn){
+        return forEachIn(astNode, s-> {
             if( nodeMatchFn.test( s ) ){
                 if( s instanceof Node ){
                     ((Node) s).remove();
@@ -1111,6 +1116,6 @@ public interface $proto<P> {
         /**
          * @return the selected node as a _model (i.e. _method for a MethodDeclaration)
          */
-        _J model();
+        _J _node();
     }
 }
