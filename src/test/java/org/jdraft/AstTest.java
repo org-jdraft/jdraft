@@ -22,11 +22,9 @@ import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.TypeParameter;
 import junit.framework.TestCase;
+import org.jdraft.proto.$stmt;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 import java.util.function.Consumer;
 
 /**
@@ -36,6 +34,33 @@ import java.util.function.Consumer;
  */
 public class AstTest extends TestCase {
 
+    public void testCommonAncestor(){
+        class FG{
+            void m(){
+                System.out.println(1);
+                System.out.println(2);
+                if(1 == 1 ){
+                    System.out.println( 3);
+                    label:
+                    {
+                        System.out.println( 4);
+                        System.out.println(5 );
+                    }
+                    System.out.println(6);
+                }
+            }
+        }
+        _class _c = _class.of(FG.class);
+
+        Statement s5 = $stmt.of( ()->System.out.println(5)).firstIn(_c);
+        Statement s1 = $stmt.of( ()->System.out.println(1)).firstIn(_c);
+
+        Node commonAncestor = Ast.commonAncestor(s5, s1);
+        assertTrue( Ast.isParent( commonAncestor, Ast.METHOD_DECLARATION));
+        //assertTrue( $.of().$hasParent($method.of()).match(commonAncestor) );
+
+        assertTrue( commonAncestor instanceof BlockStmt );
+    }
     public void testIsParent(){
         _class _c = _class.of("V", new Object(){
             int x = 0;
@@ -584,7 +609,7 @@ public class AstTest extends TestCase {
         Stmt.block( "{ int i=1; System.out.println(i);}");
         Stmt.breakStmt( "break;" );
         Stmt.breakStmt( "break out;" );
-        Stmt.ctorInvocationStmt( "this();" );
+        Stmt.thisConstructor( "this();" );
         Stmt.continueStmt( "continue;");
         Stmt.continueStmt( "continue out;");
         ExpressionStmt es = new ExpressionStmt( Expr.of("3+4"));

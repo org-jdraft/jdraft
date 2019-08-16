@@ -48,11 +48,11 @@ public class $anno
     }
     
     public static $anno of( Predicate<_anno> constraint ){
-        return of().addConstraint(constraint);
+        return of().and(constraint);
     }
     
     public static $anno of(String pattern, Predicate<_anno>constraint) {
-        return new $anno(_anno.of(pattern)).addConstraint(constraint);
+        return new $anno(_anno.of(pattern)).and(constraint);
     }
     
     public static $anno of(_anno _an) {
@@ -60,7 +60,7 @@ public class $anno
     }
 
     public static $anno of(_anno _an, Predicate<_anno>constraint) {
-        return new $anno(_an).addConstraint(constraint);
+        return new $anno(_an).and(constraint);
     }
         
     public static $anno of(Class<? extends Annotation>sourceAnnoClass) {
@@ -68,7 +68,7 @@ public class $anno
     }
     
     public static $anno of (Class<? extends Annotation>sourceAnnoClass, Predicate<_anno> constraint) {
-        return of( sourceAnnoClass).addConstraint(constraint); 
+        return of( sourceAnnoClass).and(constraint);
     }
     
     /**
@@ -194,7 +194,7 @@ public class $anno
      * @param constraint a constraint to be added
      * @return the modified prototype
      */
-    public $anno addConstraint(Predicate<_anno> constraint) {
+    public $anno and(Predicate<_anno> constraint) {
         this.constraint = this.constraint.and(constraint);
         return this;
     }

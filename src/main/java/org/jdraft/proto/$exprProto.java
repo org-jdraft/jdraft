@@ -35,7 +35,7 @@ public interface $exprProto<T extends Expression>
      * @param constraint a constraint to be added
      * @return the modified $expr prototype
      */
-    $exprProto<T> addConstraint(Predicate<T> constraint);
+    $exprProto<T> and(Predicate<T> constraint);
 
     /**
      *

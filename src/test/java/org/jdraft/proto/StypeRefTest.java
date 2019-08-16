@@ -16,6 +16,8 @@ public class StypeRefTest extends TestCase {
         assertTrue($tr.match(Ast.typeRef("Map<Integer, Integer>") ));
         $tr.hardcode$("A", "String");
         assertTrue($tr.match(Ast.typeRef("Map<String, Integer>") ));
+        assertTrue($tr.match(Ast.typeRef("Map<java.lang.String, Integer>") ));
+        assertFalse($tr.match(Ast.typeRef("Map<Integer, Integer>") ));
 
     }
 

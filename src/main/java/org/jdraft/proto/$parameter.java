@@ -217,7 +217,7 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
     }
     
     public $parameter $annos( Predicate<_annos> annosPredicate){
-        this.annos.addConstraint(annosPredicate);
+        this.annos.and(annosPredicate);
         return this;
     }
     
@@ -237,12 +237,12 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
     }
     
     public $parameter $name( String name, Predicate<String> constraint){
-        this.name= $id.of(name).addConstraint(constraint);
+        this.name= $id.of(name).and(constraint);
         return this;
     }
     
     public $parameter $name( Predicate<String> constraint){
-        this.name.addConstraint(constraint);
+        this.name.and(constraint);
         return this;
     }
     
@@ -263,7 +263,7 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
     }
     
     public $parameter $type( Predicate<_typeRef> constraint){
-        this.type.addConstraint(constraint);
+        this.type.and(constraint);
         return this;
     }    
     
@@ -337,7 +337,7 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
      * @param constraint a constraint to be added
      * @return the modified prototype
      */
-    public $parameter addConstraint( Predicate<_parameter>constraint ){
+    public $parameter and(Predicate<_parameter>constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }

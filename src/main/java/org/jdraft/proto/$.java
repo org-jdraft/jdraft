@@ -42,6 +42,16 @@ public final class $ {
     public static $node of() { return $node.of(); }
 
     /**
+     * @param proto the node text or pattern
+     * @param nodeClasses
+     * @param <N>
+     * @return
+     */
+    public static <N extends Node> $node of(String proto, Class<N>...nodeClasses){
+        return $node.of(proto, nodeClasses);
+    }
+
+    /**
      *
      * @param nodeClasses
      * @param <N>
@@ -69,7 +79,7 @@ public final class $ {
     }
     
     public static $anno anno(Predicate<_anno> constraint){
-        return $anno.any().addConstraint(constraint);
+        return $anno.any().and(constraint);
     }
     
     public static $anno anno(String pattern){
@@ -77,7 +87,7 @@ public final class $ {
     }
     
     public static $anno anno(String pattern, Predicate<_anno> constraint){
-        return $anno.of(pattern).addConstraint(constraint);
+        return $anno.of(pattern).and(constraint);
     }
     
     public static $anno anno( Class<? extends Annotation> clazz ){
@@ -85,7 +95,7 @@ public final class $ {
     }
     
     public static $anno anno( Class<? extends Annotation> clazz, Predicate<_anno> constraint){
-        return $anno.of(clazz).addConstraint(constraint);
+        return $anno.of(clazz).and(constraint);
     }
     
     public static $annos annos(){
@@ -93,7 +103,7 @@ public final class $ {
     }
     
     public static $annos annos( Predicate<_annos> constraint ){
-        return $annos.of().addConstraint(constraint);
+        return $annos.of().and(constraint);
     }
     
     public static $annos annos( _annos _anns ){
@@ -101,7 +111,7 @@ public final class $ {
     }
     
     public static $annos annos( _annos _anns, Predicate<_annos> constraint){
-        return $annos.of(_anns).addConstraint(constraint);
+        return $annos.of(_anns).and(constraint);
     }
     
     public static $annos annos($anno... annos){
@@ -113,7 +123,7 @@ public final class $ {
     }
     
     public static $body body( Predicate<_body> constraint){
-        return $body.of().addConstraint(constraint);
+        return $body.of().and(constraint);
     }
     
     public static $body body(String...body){
@@ -206,7 +216,7 @@ public final class $ {
     }
 
     public static $constructor constructor( Predicate<_constructor> constraint){
-        return $constructor.of().addConstraint(constraint);
+        return $constructor.of().and(constraint);
     }
     
     public static $constructor constructor( _constructor _proto ){
@@ -214,7 +224,7 @@ public final class $ {
     }
     
     public static $constructor constructor( _constructor _proto, Predicate<_constructor> constraint ){
-        return $constructor.of(_proto).addConstraint(constraint);
+        return $constructor.of(_proto).and(constraint);
     }
     
     public static $constructor constructor( String pattern){
@@ -222,7 +232,7 @@ public final class $ {
     }
     
     public static $constructor constructor( String pattern, Predicate<_constructor> constraint){
-        return $constructor.of(pattern).addConstraint(constraint);
+        return $constructor.of(pattern).and(constraint);
     }
     
     public static $constructor constructor( String...pattern){
@@ -268,7 +278,7 @@ public final class $ {
     }
 
     public static $method method(Predicate<_method> constraint){
-        return $method.any().addConstraint(constraint);
+        return $method.any().and(constraint);
     }
 
     public static $method method(_method ms){
@@ -276,7 +286,7 @@ public final class $ {
     }
 
     public static $method method(_method ms, Predicate<_method> _methodMatchFn){
-        return $method.of(ms).addConstraint(_methodMatchFn);
+        return $method.of(ms).and(_methodMatchFn);
     }
 
     public static $method method($method.$part part){
@@ -292,7 +302,7 @@ public final class $ {
     }
     
     public static $expr expr(Predicate<Expression> constraint){
-        return $expr.any().addConstraint(constraint);
+        return $expr.any().and(constraint);
     }
     
     public static $expr expr(String... pattern){
@@ -304,7 +314,7 @@ public final class $ {
     }
     
     public static <T extends Expression> $expr<T> of(T protoExpr, Predicate<T> constraint){
-        return $expr.of(protoExpr).addConstraint(constraint);
+        return $expr.of(protoExpr).and(constraint);
     }
    
     public static $expr<StringLiteralExpr> of( String stringLiteral ){
@@ -812,7 +822,7 @@ public final class $ {
     }
 
     public static $case switchCase(Predicate<SwitchEntry> se){
-        return $case.any().addConstraint(se);
+        return $case.any().and(se);
     }
     
     public static $catch catchClause(){
@@ -828,7 +838,7 @@ public final class $ {
     }
 
     public static $catch catchClause(Predicate<CatchClause> cc ){
-        return $catch.any().addConstraint(cc);
+        return $catch.any().and(cc);
     }
         
     public static $field field(){
@@ -840,7 +850,7 @@ public final class $ {
     }
     
     public static $field field(Predicate<_field> constraint){
-        return $field.any().addConstraint(constraint);
+        return $field.any().and(constraint);
     }
 
     public static $field field(_field f){
@@ -856,7 +866,7 @@ public final class $ {
     }
     
     public static $import importStmt(Predicate<_import> constraint){
-        return $import.any().addConstraint(constraint);
+        return $import.any().and(constraint);
     }
 
     public static $import importStmt( _import imp){
@@ -872,7 +882,7 @@ public final class $ {
     }
     
     public static $modifiers modifiers(Predicate<_modifiers> constraint){
-        return $modifiers.any().addConstraint(constraint);
+        return $modifiers.any().and(constraint);
     }
 
     public static $modifiers modifiers(_modifiers ms){
@@ -888,7 +898,7 @@ public final class $ {
     }
     
     public static $parameters parameters(Predicate<_parameters> constraint){
-        return $parameters.any().addConstraint(constraint);
+        return $parameters.any().and(constraint);
     }
     
     public static $parameter parameter(){
@@ -904,7 +914,7 @@ public final class $ {
     }
 
     public static $parameter parameter(Predicate<_parameter> constraint){
-        return $parameter.any().addConstraint(constraint);
+        return $parameter.any().and(constraint);
     }
     
     public static $stmt stmt(){
@@ -928,7 +938,7 @@ public final class $ {
     }
 
     public static $stmt<AssertStmt> assertStmt(Predicate<AssertStmt> as){
-        return $stmt.assertStmt().addConstraint(as);
+        return $stmt.assertStmt().and(as);
     }
     
     public static $stmt<BlockStmt> blockStmt(){
@@ -960,7 +970,7 @@ public final class $ {
     }
 
     public static $stmt<BreakStmt> breakStmt(Predicate<BreakStmt> bs){
-        return $stmt.breakStmt().addConstraint(bs);
+        return $stmt.breakStmt().and(bs);
     }
     
     public static $stmt<ExplicitConstructorInvocationStmt> constructorInvocationStmt(){
@@ -1044,7 +1054,7 @@ public final class $ {
     }
 
     public static $stmt<ForStmt> forStmt(Predicate<ForStmt> fs){
-        return $stmt.forStmt().addConstraint(fs);
+        return $stmt.forStmt().and(fs);
     }
     
     public static $stmt<ForEachStmt> forEachStmt(){
@@ -1108,7 +1118,7 @@ public final class $ {
     }
 
     public static $stmt<LocalClassDeclarationStmt> localClassStmt(Predicate<LocalClassDeclarationStmt> lcds){
-        return $stmt.localClassStmt().addConstraint(lcds);
+        return $stmt.localClassStmt().and(lcds);
     }
 
     /**
@@ -1239,7 +1249,7 @@ public final class $ {
     }
 
     public static $throws thrown(Predicate<_throws> ts){
-        return $throws.any().addConstraint( ts);
+        return $throws.any().and( ts);
     }
     
     public static $typeParameter typeParameter(){
@@ -1255,7 +1265,7 @@ public final class $ {
     }
 
     public static $typeParameter typeParameter(Predicate<_typeParameter> tp){
-        return $typeParameter.any().addConstraint(tp);
+        return $typeParameter.any().and(tp);
     }
     
     public static $typeParameters typeParameters(){
@@ -1271,7 +1281,7 @@ public final class $ {
     }
 
     public static $typeParameters typeParameters(Predicate<_typeParameters> tps){
-        return $typeParameters.any().addConstraint(tps);
+        return $typeParameters.any().and(tps);
     }
     
     public static $typeRef typeRef(){
@@ -1282,12 +1292,16 @@ public final class $ {
         return $typeRef.of(tr);
     }
 
+    public static $typeRef typeRef( Class clazz){
+        return $typeRef.of(clazz);
+    }
+
     public static $typeRef typeRef(Type tr){
         return $typeRef.of(tr);
     }
 
     public static $typeRef typeRef(Predicate<_typeRef> tr){
-        return $typeRef.any().addConstraint(tr);
+        return $typeRef.any().and(tr);
     }
     
     public static $var var(){
@@ -1303,6 +1317,6 @@ public final class $ {
     }
     
     public static $var var(Predicate<VariableDeclarator> vd){
-        return $var.any().addConstraint(vd);
+        return $var.any().and(vd);
     }
 }

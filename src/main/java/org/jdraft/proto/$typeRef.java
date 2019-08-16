@@ -39,7 +39,7 @@ public final class $typeRef
      * @return 
      */
     public static $typeRef of(String pattern, Predicate<_typeRef> constraint){
-        return new $typeRef(Ast.typeRef(pattern)).addConstraint(constraint);
+        return new $typeRef(Ast.typeRef(pattern)).and(constraint);
     }
     
     /**
@@ -67,7 +67,7 @@ public final class $typeRef
      * @return 
      */
     public static $typeRef of(Type astType, Predicate<_typeRef> constraint){
-        return new $typeRef( astType ).addConstraint(constraint);
+        return new $typeRef( astType ).and(constraint);
     }
     
     /**
@@ -86,7 +86,7 @@ public final class $typeRef
      * @return 
      */
     public static $typeRef of( _typeRef _proto, Predicate<_typeRef> constraint){
-        return new $typeRef(_proto.ast()).addConstraint(constraint);
+        return new $typeRef(_proto.ast()).and(constraint);
     }
     
     /** Matching constraint */
@@ -103,7 +103,7 @@ public final class $typeRef
      * 
      * @param astProtoType 
      */
-    public $typeRef( Type astProtoType ){
+    public  $typeRef( Type astProtoType ){
         this.type = astProtoType.clone();
         //this.typePattern = Stencil.of(_typeRef.of(astProtoType).toString() );
     }
@@ -152,7 +152,7 @@ public final class $typeRef
      * @param constraint
      * @return 
      */
-    public $typeRef addConstraint( Predicate<_typeRef> constraint ){
+    public $typeRef and(Predicate<_typeRef> constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }
@@ -268,7 +268,7 @@ public final class $typeRef
      * @return 
      */
     public static $typeRef of( Predicate<_typeRef> constraint ){
-        return of().addConstraint(constraint);
+        return of().and(constraint);
     }
     
     /**

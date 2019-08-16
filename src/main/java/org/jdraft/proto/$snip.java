@@ -176,7 +176,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
      * @param constraint
      * @return the modified snip
      */
-    public $snip addConstraint( Predicate<List<Statement>> constraint ){
+    public $snip and(Predicate<List<Statement>> constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }

@@ -25,11 +25,11 @@ public final class $comment <C extends Comment>
     }
     
     public static<C extends Comment> $comment<C> of( String pattern, Predicate<C> constraint ){
-        return (($comment<C>) new $comment(Ast.comment(pattern))).addConstraint(constraint);
+        return (($comment<C>) new $comment(Ast.comment(pattern))).and(constraint);
     }
     
     public static $comment<Comment> of( Predicate<Comment> constraint ){
-        return any().addConstraint(constraint);
+        return any().and(constraint);
     }
     
     public static $comment<JavadocComment> javadocComment(){
@@ -48,12 +48,12 @@ public final class $comment <C extends Comment>
         
     public static $comment<JavadocComment> javadocComment(String pattern, Predicate<Comment> constraint){
         return new $comment(Ast.javadocComment(pattern)).omitBlockComments().omitLineComments()
-            .addConstraint(constraint);
+            .and(constraint);
     }
     
     public static $comment<JavadocComment> javadocComment(Predicate<JavadocComment> constraint){
         return new $comment().omitBlockComments().omitLineComments()
-            .addConstraint(constraint);
+            .and(constraint);
     }
         
     public static $comment<BlockComment> blockComment(){
@@ -66,12 +66,12 @@ public final class $comment <C extends Comment>
     
     public static $comment<BlockComment> blockComment(String pattern, Predicate<Comment> constraint){
         return new $comment(Ast.blockComment(pattern)).omitJavadocComments().omitLineComments()
-            .addConstraint(constraint);
+            .and(constraint);
     }
     
     public static $comment<BlockComment> blockComment(Predicate<Comment> constraint){
         return new $comment().omitJavadocComments().omitLineComments()
-            .addConstraint(constraint);
+            .and(constraint);
     }
     
     public static $comment<LineComment> lineComment(){
@@ -85,12 +85,12 @@ public final class $comment <C extends Comment>
     public static $comment<LineComment> lineComment(String pattern, Predicate<LineComment> constraint){
         return new $comment(Ast.lineComment( pattern))
                 .omitBlockComments().omitJavadocComments()
-                .addConstraint(constraint);
+                .and(constraint);
     }
     
     public static $comment<LineComment> lineComment(Predicate<LineComment> constraint){
         return new $comment().omitBlockComments().omitJavadocComments()
-            .addConstraint(constraint);
+            .and(constraint);
     }
     
     public static <C extends Comment> $comment<C> of(C comment){
@@ -144,7 +144,7 @@ public final class $comment <C extends Comment>
         return this;
     }
     
-    public $comment addConstraint( Predicate<C> constraint ){
+    public $comment and(Predicate<C> constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }

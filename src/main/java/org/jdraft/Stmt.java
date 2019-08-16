@@ -1,9 +1,11 @@
 package org.jdraft;
 
+import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.*;
 
+import java.util.Optional;
 import java.util.function.*;
 
 /**
@@ -33,7 +35,7 @@ public enum Stmt {
      * Resolves and returns the Ast Statement representing body of the lambda 
      * located at the particular lambdaStackTrace element passed in for example:
      * <PRE>
-     * 
+     *
      * LambdaExpr le = Expr.of( ()-> System.out.println(1) );
      * assertEquals( Stmt.of("System.out.println(1);"), le.getBody().getStatement(0) );
      * </PRE>
@@ -55,7 +57,6 @@ public enum Stmt {
      * assertEquals( Stmt.of("System.out.println(s);"), st );    
      * </PRE>
      * NOTE: the source of the calling method must be resolveable via draft
-     * @param <T>
      * @see org.jdraft.io._io#addInFilePath(java.lang.String)
      * @see org.jdraft.io._io#addInProjectPath(java.lang.String)
      * 
@@ -154,12 +155,24 @@ public enum Stmt {
     }
 
     /**
-     * convert the String code into a single Stmt AST nod
+     * convert the String code into a single JavaParser Ast Statement instance
      *
-     * @param code
-     * @return a Stmt
+     * @param code the String code
+     * @return a Statement based on the code (or throw an
+     * @throws ParseProblemException if the code does not represent valid Java
      */
-    public static Statement of(String... code ) {
+    public static Statement of( String code ){
+        return of(new String[]{code});
+    }
+
+    /**
+     * convert the String code into a single JavaParser Ast Statement instance
+     *
+     * @param code the String code
+     * @return a Statement based on the code (or throw an
+     * @throws ParseProblemException if the code does not represent valid Java
+     */
+    public static Statement of(String... code ) throws ParseProblemException {
         String str = Text.combine(code).trim();
         if( str.length() == 0 ) {
             return new EmptyStmt();
@@ -339,10 +352,55 @@ public enum Stmt {
         return of( code ).asDoStmt();
     }
 
+    public static DoStmt doStmt( String code ){
+        return doStmt( new String[]{code});
+    }
+
+    /**
+     * Builds a DoStmt from the first DoStmt within the Lambda expression code found based on the
+     * location of the
+     * StackTraceElement.  i.e.
+     * Stmt.doStmt( (Integer i)-> { do{ System.out.println(1}; System.out.println(2); }while(i==1) } );
+     *
+     * @param ste the stackTraceElement for the caller location of the
+     * @return a BlockStmt based on the Lambda Expression block
+     */
+    public static DoStmt doStmt( StackTraceElement ste ){
+        LambdaExpr le = Expr.lambda( ste );
+        return le.findFirst(DoStmt.class).get();
+    }
+
+    public static DoStmt doStmt( LambdaExpr le ){
+        Optional<DoStmt> ods = le.findFirst(DoStmt.class);
+        if( ods == null ){
+            throw new _draftException("No DoStmt in lambda "+ le );
+        }
+        return ods.get();
+    }
+    public static DoStmt doStmt( Expr.Command command ){
+        return doStmt(Expr.lambda( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object> DoStmt doStmt( Consumer<A> command ){
+        return doStmt(Expr.lambda( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object> DoStmt doStmt( BiConsumer<A,B> command ){
+        return doStmt(Expr.lambda( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> DoStmt doStmt( Expr.TriConsumer<A,B,C> command ){
+        return doStmt(Expr.lambda( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> DoStmt doStmt( Expr.QuadConsumer<A,B,C,D> command ){
+        return doStmt(Expr.lambda( Thread.currentThread().getStackTrace()[2]));
+    }
+
     /** 
      * i.e. "this(100,2900);" 
      */
-    public static final Class<ExplicitConstructorInvocationStmt> CONSTRUCTOR_INVOCATION
+    public static final Class<ExplicitConstructorInvocationStmt> THIS_CONSTRUCTOR
             = ExplicitConstructorInvocationStmt.class;
 
     /** 
@@ -351,12 +409,12 @@ public enum Stmt {
      * @param code the java code
      * @return an ExplicitConstructorInvocationStmt based on the code
      */
-    public static ExplicitConstructorInvocationStmt ctorInvocationStmt(String... code ) {
+    public static ExplicitConstructorInvocationStmt thisConstructor(String... code ) {
         return of( code ).asExplicitConstructorInvocationStmt();
     }
 
     /** i.e. "s += t;" */
-    public static final Class<ExpressionStmt> EXPRESSION = ExpressionStmt.class;
+    public static final Class<ExpressionStmt> EXPRESSION_STMT = ExpressionStmt.class;
 
     /** 
      * i.e."s += t;" 
@@ -385,6 +443,58 @@ public enum Stmt {
         return of( code ).asForStmt();
     }
 
+    public static ForStmt forStmt( String code ){
+        return forStmt( new String[]{code});
+    }
+
+    /**
+     * Builds a DoStmt from the first DoStmt within the Lambda expression code found based on the
+     * location of the
+     * StackTraceElement.  i.e.
+     * Stmt.doStmt( (Integer i)-> { do{ System.out.println(1}; System.out.println(2); }while(i==1) } );
+     *
+     * @param ste the stackTraceElement for the caller location of the
+     * @return a BlockStmt based on the Lambda Expression block
+     */
+    public static ForStmt forStmt( StackTraceElement ste ){
+        LambdaExpr le = Expr.lambda( ste );
+        return le.findFirst(ForStmt.class).get();
+    }
+
+    public static ForStmt forStmt( LambdaExpr le ){
+        Optional<ForStmt> ods = le.findFirst(ForStmt.class);
+        if( ods == null ){
+            throw new _draftException("No ForStmt in lambda "+ le );
+        }
+        return ods.get();
+    }
+    public static ForStmt forStmt( Expr.Command command ){
+        return forStmt(Expr.lambda( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object> ForStmt forStmt( Consumer<A> command ){
+        return forStmt(Expr.lambda( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object> ForStmt forStmt( BiConsumer<A,B> command ){
+        return forStmt(Expr.lambda( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> ForStmt forStmt( Expr.TriConsumer<A,B,C> command ){
+        return forStmt(Expr.lambda( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> ForStmt forStmt( Expr.QuadConsumer<A,B,C,D> command ){
+        return forStmt(Expr.lambda( Thread.currentThread().getStackTrace()[2]));
+    }
+
+
+
+
+
+
+
+
     /** i.e. "for(String element:arr){...}" */
     public static final Class<ForEachStmt> FOR_EACH = ForEachStmt.class;
 
@@ -398,6 +508,52 @@ public enum Stmt {
         return of( code ).asForEachStmt(); //.asForeachStmt();
     }
 
+
+    public static ForEachStmt forEachStmt( String code ){
+        return forEachStmt( new String[]{code});
+    }
+
+    /**
+     * Builds a DoStmt from the first DoStmt within the Lambda expression code found based on the
+     * location of the
+     * StackTraceElement.  i.e.
+     * Stmt.doStmt( (Integer i)-> { do{ System.out.println(1}; System.out.println(2); }while(i==1) } );
+     *
+     * @param ste the stackTraceElement for the caller location of the
+     * @return a BlockStmt based on the Lambda Expression block
+     */
+    public static ForEachStmt forEachStmt( StackTraceElement ste ){
+        LambdaExpr le = Expr.lambda( ste );
+        return le.findFirst(ForEachStmt.class).get();
+    }
+
+    public static ForEachStmt forEachStmt( LambdaExpr le ){
+        Optional<ForEachStmt> ods = le.findFirst(ForEachStmt.class);
+        if( ods == null ){
+            throw new _draftException("No ForEachStmt in lambda "+ le );
+        }
+        return ods.get();
+    }
+    public static ForEachStmt forEachStmt( Expr.Command command ){
+        return forEachStmt(Expr.lambda( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object> ForEachStmt forEachStmt( Consumer<A> command ){
+        return forEachStmt(Expr.lambda( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object> ForEachStmt forEachStmt( BiConsumer<A,B> command ){
+        return forEachStmt(Expr.lambda( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> ForEachStmt forEachStmt( Expr.TriConsumer<A,B,C> command ){
+        return forEachStmt(Expr.lambda( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> ForEachStmt forEachStmt( Expr.QuadConsumer<A,B,C,D> command ){
+        return forEachStmt(Expr.lambda( Thread.currentThread().getStackTrace()[2]));
+    }
+
     /** i.e. "if(a==1){...}" */
     public static final Class<IfStmt> IF = IfStmt.class;
 
@@ -408,6 +564,53 @@ public enum Stmt {
      */
     public static IfStmt ifStmt( String... code ) {
         return of( code ).asIfStmt();
+    }
+
+
+
+    public static IfStmt ifStmt( String code ){
+        return ifStmt( new String[]{code});
+    }
+
+    /**
+     * Builds a DoStmt from the first DoStmt within the Lambda expression code found based on the
+     * location of the
+     * StackTraceElement.  i.e.
+     * Stmt.doStmt( (Integer i)-> { do{ System.out.println(1}; System.out.println(2); }while(i==1) } );
+     *
+     * @param ste the stackTraceElement for the caller location of the
+     * @return a BlockStmt based on the Lambda Expression block
+     */
+    public static IfStmt ifStmt( StackTraceElement ste ){
+        LambdaExpr le = Expr.lambda( ste );
+        return le.findFirst(IfStmt.class).get();
+    }
+
+    public static IfStmt ifStmt( LambdaExpr le ){
+        Optional<IfStmt> ods = le.findFirst(IfStmt.class);
+        if( ods == null ){
+            throw new _draftException("No IfStmt in lambda "+ le );
+        }
+        return ods.get();
+    }
+    public static IfStmt ifStmt( Expr.Command command ){
+        return ifStmt(Expr.lambda( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object> IfStmt ifStmt( Consumer<A> command ){
+        return ifStmt(Expr.lambda( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object> IfStmt ifStmt( BiConsumer<A,B> command ){
+        return ifStmt(Expr.lambda( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> IfStmt ifStmt( Expr.TriConsumer<A,B,C> command ){
+        return ifStmt(Expr.lambda( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> IfStmt ifStmt( Expr.QuadConsumer<A,B,C,D> command ){
+        return ifStmt(Expr.lambda( Thread.currentThread().getStackTrace()[2]));
     }
 
     /** i.e. "outer:   start = getValue();" */

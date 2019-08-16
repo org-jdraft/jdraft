@@ -150,7 +150,7 @@ public final class $constructor
      * @return 
      */
     public static $constructor of( _constructor _ct, Predicate<_constructor> constraint){
-        return new $constructor( _ct).addConstraint(constraint);
+        return new $constructor( _ct).and(constraint);
     }
     
     /**
@@ -169,7 +169,7 @@ public final class $constructor
      * @return 
      */
     public static $constructor of( String pattern, Predicate<_constructor> constraint ){
-        return new $constructor(_constructor.of(pattern) ).addConstraint(constraint);
+        return new $constructor(_constructor.of(pattern) ).and(constraint);
     }
 
     /**
@@ -188,7 +188,7 @@ public final class $constructor
      * @return 
      */
     public static $constructor of( Predicate<_constructor> constraint){
-        return of().addConstraint(constraint);
+        return of().and(constraint);
     }
     
     /**
@@ -299,7 +299,7 @@ public final class $constructor
      * @param constraint a constraint to be added
      * @return the modified prototype
      */
-    public $constructor addConstraint( Predicate<_constructor>constraint ){
+    public $constructor and(Predicate<_constructor>constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }
@@ -354,7 +354,7 @@ public final class $constructor
     }
     
     public $constructor $javadoc( Predicate<JavadocComment> _javadocMatchFn){
-        this.javadoc.addConstraint(_javadocMatchFn);
+        this.javadoc.and(_javadocMatchFn);
         return this;
     }
     
@@ -374,7 +374,7 @@ public final class $constructor
     }
     
     public $constructor $parameters(Predicate<_parameters> constraint){
-        this.parameters.addConstraint(constraint);
+        this.parameters.and(constraint);
         return this;
     }
     
@@ -384,7 +384,7 @@ public final class $constructor
     }
     
     public $constructor $annos( Predicate<_annos> constraint ){
-        this.annos.addConstraint(constraint);
+        this.annos.and(constraint);
         return this;
     }
     
@@ -413,7 +413,7 @@ public final class $constructor
     }
     
     public $constructor $name( Predicate<String> constraint){
-        this.name.addConstraint(constraint);
+        this.name.and(constraint);
         return this;
     }
     
@@ -428,7 +428,7 @@ public final class $constructor
     }
     
     public $constructor $typeParameters(Predicate<_typeParameters> constraint){
-        this.typeParameters.addConstraint(constraint);
+        this.typeParameters.and(constraint);
         return this;
     }
     
@@ -448,7 +448,7 @@ public final class $constructor
     }
 
     public $constructor $modifiers( Predicate<_modifiers> constraint ){
-        this.modifiers.addConstraint(constraint);
+        this.modifiers.and(constraint);
         return this;
     }
     
@@ -473,7 +473,7 @@ public final class $constructor
     }
     
     public $constructor $throws( Predicate<_throws> constraint ){
-        this.thrown.addConstraint(constraint);
+        this.thrown.and(constraint);
         return this;
     }
     
@@ -488,7 +488,7 @@ public final class $constructor
     }
     
     public $constructor $body( Predicate<_body> constraint){
-        this.body.addConstraint(constraint);
+        this.body.and(constraint);
         return this;
     }
     

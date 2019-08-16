@@ -63,7 +63,7 @@ public final class $import
      */
     public static $import of( String pattern, Predicate<_import> constraint){
         _import _i = _import.of(pattern );
-        return new $import( _i ).addConstraint(constraint);
+        return new $import( _i ).and(constraint);
     }
     
     /**
@@ -96,7 +96,7 @@ public final class $import
      */
     public static $import of( Class clazz, Predicate<_import> constraint){
         _import _i = _import.of( clazz );
-        return new $import( _i  ).addConstraint(constraint);
+        return new $import( _i  ).and(constraint);
     }
     
     /**
@@ -115,7 +115,7 @@ public final class $import
      * @return 
      */
     public static $import of( _import _proto, Predicate<_import> constraint){
-        return new $import( _proto ).addConstraint(constraint);
+        return new $import( _proto ).and(constraint);
     }
     
     public Predicate<_import> constraint = t-> true;
@@ -156,7 +156,7 @@ public final class $import
      * @param constraint a constraint to be added
      * @return the modified prototype
      */
-    public $import addConstraint( Predicate<_import>constraint ){
+    public $import and(Predicate<_import>constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }

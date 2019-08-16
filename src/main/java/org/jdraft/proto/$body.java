@@ -108,11 +108,11 @@ public final class $body implements Template<_body>, $proto<_body>, $constructor
     }
     
     public static $body notImplemented(){
-        return new $body().addConstraint( b-> !b.isImplemented());
+        return new $body().and(b-> !b.isImplemented());
     }
     
     public static $body empty(){
-        return new $body().addConstraint(b -> b.isEmpty() );
+        return new $body().and(b -> b.isEmpty() );
     }
     
     public Predicate<_body> constraint = t->true;
@@ -155,7 +155,7 @@ public final class $body implements Template<_body>, $proto<_body>, $constructor
      * @param constraint
      * @return 
      */
-    public $body addConstraint( Predicate<_body> constraint ){
+    public $body and(Predicate<_body> constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }

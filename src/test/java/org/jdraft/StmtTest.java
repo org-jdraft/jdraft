@@ -1,8 +1,6 @@
 package org.jdraft;
 
-import org.jdraft._field;
-import org.jdraft.Ast;
-import org.jdraft.Stmt;
+import com.github.javaparser.ast.expr.BinaryExpr;
 import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.comments.LineComment;
@@ -16,6 +14,25 @@ import java.util.function.Predicate;
 @Ast.cache
 public class StmtTest extends TestCase {
 
+    public void testDoStmtLambda(){
+        DoStmt ds = Stmt.doStmt( ()->{
+            do{
+                System.out.println(1);
+            }while(true);
+        });
+
+        assertEquals( Stmt.of( ()->System.out.println(1)), ds.getBody().asBlockStmt().getStatement(0));
+        assertTrue( ds.getCondition().asBooleanLiteralExpr().getValue());
+
+        ds = Stmt.doStmt( (Integer a) ->{
+            do{
+                System.out.println(a);
+            } while( a != null );
+        });
+
+        assertEquals( Stmt.of( (a)->System.out.println(a)), ds.getBody().asBlockStmt().getStatement(0));
+        assertEquals(BinaryExpr.Operator.NOT_EQUALS, ds.getCondition().asBinaryExpr().getOperator());
+    }
     //Predicate<_field>, $snip
 
     public void testBlock(){
@@ -107,7 +124,7 @@ public class StmtTest extends TestCase {
         Stmt.continueStmt("continue;");
         Stmt.continueStmt("continue outer;");
 
-        Stmt.ctorInvocationStmt("this(1);");
+        Stmt.thisConstructor("this(1);");
         st = Stmt.of((Integer n) -> {
             do {
                 assert (1 == 1);

@@ -630,6 +630,17 @@ public enum Ast {
     }
 
     /**
+     * Determine if the Node os one of the expected types
+     * @param astNode
+     * @param classTypes
+     * @return true if the node is one of the types
+     */
+    public static boolean isNodeOfType( Node astNode, Class...classTypes ){
+        return Arrays.stream(classTypes).anyMatch(
+                nt -> nt.isAssignableFrom(astNode.getClass()));
+    }
+
+    /**
      * Shortcut for checking if the parent exists and matches the predicate
      * @param node
      * @param parentMatchFn
@@ -650,7 +661,7 @@ public enum Ast {
      */
     public static <N extends Node> boolean isParent( Node node, Class<N>... parentNodeTypes){
         if( node.getParentNode().isPresent()){
-            return Arrays.stream( parentNodeTypes ).anyMatch( p -> p.isAssignableFrom(node.getParentNode().get().getClass()));
+            return Ast.isNodeOfType( node.getParentNode().get(), parentNodeTypes);
         }
         return false;
     }
@@ -671,6 +682,165 @@ public enum Ast {
             }
         }
         return false;
+    }
+
+    public static List<Node> listAncestors( Node node ){
+        List<Node>ancestors = new ArrayList<>();
+        node.walk(Node.TreeTraversal.PARENTS, a -> ancestors.add(a));
+        return ancestors;
+    }
+
+    /**
+     * find and return the First Common Ancestor of the left and right nodes or null if there is no common ancestor
+     * @param left
+     * @param right
+     * @return
+     */
+    public static Node commonAncestor( Node left, Node right ){
+        //1)collect all ancestors for right in a set
+        Set<Node> rightAncestors = new HashSet<>();
+        right.walk(Node.TreeTraversal.PARENTS, p -> rightAncestors.add(p));
+
+        //2) walk ancestors of left until I find an ancestor that exists in the rightAncestorSet
+        Node leftAncestor = left;
+        while (leftAncestor != null ) {
+            if (rightAncestors.contains(leftAncestor)) {
+                return leftAncestor;
+            }
+            if( leftAncestor.getParentNode().isPresent()){
+                leftAncestor = leftAncestor.getParentNode().get();
+            } else{
+                leftAncestor = null;
+            }
+        }
+        return null; //no common ancestor
+    }
+
+    /**
+     * Shortcut for checking if an ast has any ancestor of a particular class
+     * (walks up until the root)
+     *
+     * @param node the ast node starting point
+     * @param ancestorMatchFn the node class expected of the parent node
+     * @return true if the ancestor node exists, is of a particular type and complies with the predicate
+     */
+    public static boolean hasAncestor( Node node, Predicate<Node> ancestorMatchFn){
+        return hasAncestor( node, Node.class, ancestorMatchFn);
+    }
+
+    /**
+     * Shortcut for checking if an ast has any ancestor of a particular class
+     * (walks up until the root)
+     *
+     * @param node the ast node starting point
+     * @param ancestorNodeClass the node class expected of the parent node
+     * @param <N> the expected ancestor node type
+     * @return true if the ancestor node exists, is of a particualr type and complies with the predicate
+     */
+    public static <N extends Node> boolean hasAncestor( Node node, Class<N> ancestorNodeClass){
+        return hasAncestor( node, ancestorNodeClass, t->true);
+    }
+
+    /**
+     * Shortcut for checking if an ast has any ancestor of a particular class that complies with a particular Predicate
+     * (walks up until the root)
+     *
+     * @param node the ast node starting point
+     * @param ancestorNodeClass the node class expected of the parent node
+     * @param ancestorMatchFn predicate for matching the parent
+     * @param <N> the expected ancestor node type
+     * @return true if the ancestor node exists, is of a particualr type and complies with the predicate
+     */
+    public static <N extends Node> boolean hasAncestor( Node node, Class<N> ancestorNodeClass, Predicate<N> ancestorMatchFn){
+        return ancestor( node, ancestorNodeClass, ancestorMatchFn ) != null;
+    }
+
+    /**
+     * Find and return the first ancestor of the node that matches the class and ancestor matchFn (or return null)
+     * @param node the start node
+     * @param ancestorNodeClass
+     * @param ancestorMatchFn
+     * @param <N>
+     * @return
+     * 
+     * @see #hasAncestor(Node, Class, Predicate) 
+     */
+    public static  <N extends Node> N ancestor( Node node, Class<N> ancestorNodeClass, Predicate<N> ancestorMatchFn){
+        if( node.getParentNode().isPresent()){
+            Node parent = node.getParentNode().get();
+            if( ancestorNodeClass.isAssignableFrom(parent.getClass()) ) {
+                N nn = (N)node.getParentNode().get();
+                boolean match = ancestorMatchFn.test(nn);
+                if( match ){
+                    return nn;
+                }
+                return ancestor(parent, ancestorNodeClass, ancestorMatchFn);
+            }
+        }
+        return null;
+    }
+
+    public static boolean hasChild( Node n, Predicate<Node> nodeMatchFn){
+         return n.getChildNodes().stream().anyMatch(nodeMatchFn);
+    }
+
+
+    /**
+     * Shortcut for checking if an ast has any ancestor of a particular class
+     * (walks up until the root)
+     *
+     * @param node the ast node starting point
+     * @param DescendantMatchFn the node class expected of the parent node
+     * @return true if the ancestor node exists, is of a particualr type and complies with the predicate
+     */
+    public static boolean hasDescendant( Node node, Predicate<Node> DescendantMatchFn){
+        return hasDescendant( node, Node.class, DescendantMatchFn);
+    }
+
+    /**
+     * Shortcut for checking if an ast has any ancestor of a particular class
+     * (walks up until the root)
+     *
+     * @param node the ast node starting point
+     * @param DescendantNodeClass the node class expected of the parent node
+     * @param <N> the expected ancestor node type
+     * @return true if the ancestor node exists, is of a particualr type and complies with the predicate
+     */
+    public static <N extends Node> boolean hasDescendant( Node node, Class<N> DescendantNodeClass){
+        return hasDescendant( node, DescendantNodeClass, t->true);
+    }
+
+    /**
+     * Shortcut for checking if an ast has any ancestor of a particular class that complies with a particular Predicate
+     * (walks up until the root)
+     *
+     * @param node the ast node starting point
+     * @param descendantNodeClass the node class expected of the parent node
+     * @param descendantMatchFn predicate for matching the parent
+     * @param <N> the expected ancestor node type
+     * @return true if the ancestor node exists, is of a particular type and complies with the predicate
+     */
+    public static <N extends Node> boolean hasDescendant( Node node, Class<N> descendantNodeClass, Predicate<N> descendantMatchFn){
+        return node.stream(Node.TreeTraversal.PREORDER).anyMatch(a -> descendantNodeClass.isAssignableFrom(a.getClass()) && descendantMatchFn.test( (N)a ));
+    }
+
+    /**
+     * returns the first descendant of the node that is of the node class and matches the descendant matchfn
+     * @param node
+     * @param descendantNodeClass
+     * @param descendantMatchFn
+     * @param <N>
+     * @return
+     */
+    public static <N extends Node> N descendant( Node node, Class<N> descendantNodeClass, Predicate<N> descendantMatchFn){
+
+        //
+        Optional<Node> on =                                    //cant be the node itself
+                node.stream(Node.TreeTraversal.PREORDER).filter(a -> !a.equals(node) && descendantNodeClass.isAssignableFrom(a.getClass()) && descendantMatchFn.test( (N)a )).findFirst();
+        if( on.isPresent() ) {
+            return (N) on.get();
+        }
+        return null;
     }
 
     /**
@@ -1529,7 +1699,7 @@ public enum Ast {
      * @return an ExplicitConstructorInvocationStmt based on the code
      */
     public static ExplicitConstructorInvocationStmt ctorInvocationStmt(String... code ) {
-        return Stmt.ctorInvocationStmt(  code );
+        return Stmt.thisConstructor(  code );
     }
 
     /**

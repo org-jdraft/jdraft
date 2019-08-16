@@ -29,11 +29,11 @@ public final class $catch implements $proto<CatchClause> {
     }
     
     public static $catch of( CatchClause astCatch, Predicate<CatchClause> constraint){
-        return new $catch( astCatch ).addConstraint(constraint);
+        return new $catch( astCatch ).and(constraint);
     }
     
     public static $catch of( Predicate<CatchClause> constraint ){
-        return any().addConstraint(constraint);
+        return any().and(constraint);
     }
     
     public static $catch any(){
@@ -56,7 +56,7 @@ public final class $catch implements $proto<CatchClause> {
         this.$bd = $bd;
     }
 
-    public $catch addConstraint( Predicate<CatchClause> constraint){
+    public $catch and(Predicate<CatchClause> constraint){
         this.constraint = this.constraint.and(constraint);
         return this;
     }

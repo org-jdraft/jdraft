@@ -35,7 +35,7 @@ public final class $annos
     /**
      * Entities that have NO annotations applied to them */
     public static $annos none(){
-        return of().addConstraint(as -> as.isEmpty());
+        return of().and(as -> as.isEmpty());
     }
     
     /**
@@ -52,7 +52,7 @@ public final class $annos
      * @return 
      */
     public static $annos of( Predicate<_annos> constraint ){
-       return of().addConstraint(constraint);
+       return of().and(constraint);
     }
     
     /**
@@ -116,7 +116,7 @@ public final class $annos
      * @param constraint
      * @return 
      */
-    public $annos addConstraint( Predicate<_annos> constraint ){
+    public $annos and(Predicate<_annos> constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }

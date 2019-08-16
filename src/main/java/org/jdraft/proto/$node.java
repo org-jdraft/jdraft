@@ -28,32 +28,12 @@ import java.util.function.Predicate;
 public final class $node implements $proto<Node> {
 
     /**
-     * Check that a specific node has a parent node of a particular type
-     * @param n the ast node to check
-     * @return true if the parent of the node is assignable toany of the
-     */
-    public static boolean isParentNodeOfType( Node n, Class...parentClassTypes ){
-        //final Set<Class> nodeClasses = new HashSet<>();
-        if( n.getParentNode().isPresent() ) {
-            return isNodeOfType( n.getParentNode().get(), parentClassTypes);
-            //return Arrays.stream(parentClassTypes).anyMatch(
-            //        nt -> nt.isAssignableFrom(n.getParentNode().get().getClass()));
-        }
-        return false;
-    }
-
-    public static boolean isNodeOfType( Node n, Class...classTypes ){
-        return Arrays.stream(classTypes).anyMatch(
-                nt -> nt.isAssignableFrom(n.getClass()));
-    }
-
-    /**
      * 
-     * @param name
+     * @param pattern
      * @return 
      */
-    public static $node of( String name ){
-        return new $node( name );
+    public static $node of( String pattern ){
+        return new $node( pattern );
     }
     
     /**
@@ -62,7 +42,7 @@ public final class $node implements $proto<Node> {
      * @return 
      */
     public static $node of( Predicate<Node> constraint ){
-        return new $node("$node$").addConstraint(constraint);
+        return new $node("$node$").and(constraint);
     }
 
     /**
@@ -103,6 +83,7 @@ public final class $node implements $proto<Node> {
         return of( "$node$", nodeTypes);
     }
 
+
     /**
      *
      * @param pattern
@@ -110,7 +91,7 @@ public final class $node implements $proto<Node> {
      * @return
      */
     public static $node of( String pattern, Class...nodeTypes ){
-        return of(pattern).addConstraint(n-> isNodeOfType(n, nodeTypes));
+        return of(pattern).and(n-> Ast.isNodeOfType(n, nodeTypes));
     }
 
     /** the string pattern */
@@ -127,6 +108,54 @@ public final class $node implements $proto<Node> {
         this.constraint = t-> true;
     }
 
+    /**
+     * Hardcode parameterized values
+     * (i.e. what was once a parameter, now is static text)
+     *
+     * @param kvs the key parameter NAME and String VALUE to assign to the
+     * @return the modified Stencil
+     */
+    public $node hardcode$( Tokens kvs ) {
+        return hardcode$( Translator.DEFAULT_TRANSLATOR, kvs );
+    }
+
+    /**
+     * Hardcode parameterized values
+     * (i.e. what was once a parameter, now is static text)
+     *
+     * @param keyValues the key parameter NAME and String VALUE to assign to the
+     * @return the modified Stencil
+     */
+    public $node hardcode$( Object... keyValues ) {
+        return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of( ).add(keyValues ) );
+    }
+
+    public $node hardcode$( Map args ){
+        return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of( args ));
+    }
+    /**
+     * Hardcode parameterized values
+     * (i.e. what was once a parameter, now is static text)
+     *
+     * @param translator translates values to be hardcoded into the Stencil
+     * @param keyValues the key parameter NAME and String VALUE to assign to the
+     * @return the modified Stencil
+     */
+    public $node hardcode$( Translator translator, Object... keyValues ) {
+        return hardcode$( translator, Tokens.of( keyValues ) );
+    }
+
+    /**
+     *
+     * @param translator
+     * @param kvs
+     * @return
+     */
+    public $node hardcode$( Translator translator, Tokens kvs ) {
+        this.pattern = this.pattern.hardcode$(translator, kvs);
+        return this;
+    }
+
     public boolean match(Node node ){
         return select(node) != null;
     }
@@ -136,7 +165,7 @@ public final class $node implements $proto<Node> {
      * @param constraint a constraint to be added
      * @return the modified prototype
      */
-    public $node addConstraint( Predicate<Node>constraint ){
+    public $node and(Predicate<Node>constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }
@@ -147,31 +176,42 @@ public final class $node implements $proto<Node> {
      * @return
      */
     public $node $hasParent( $proto proto ){
-
-        return addConstraint( n-> {
-            if( n.getParentNode().isPresent() ) {
-                Node parent = n.getParentNode().get();
-                return proto.match(parent);
-            }
-            return false;
-        } );
+        return and(n-> Ast.isParent(n, e-> proto.match(e) ) );
     }
 
-    public $node $hasChild( $proto childProto ){
-        return addConstraint( n-> n.getChildNodes().stream().anyMatch( c -> childProto.match(c)) );
+    public $node $hasParent( Class... parentClassTypes ){
+        return and(n -> Ast.isParent(n, parentClassTypes));
+    }
+
+    public $node $hasAncestor( Predicate<Node> ancestorMatchFn ){
+        return and(n-> Ast.hasAncestor(n, ancestorMatchFn));
     }
 
     public $node $hasAncestor( $proto ancestorProto ){
-        return addConstraint( n-> n.stream(_walk.PARENTS).anyMatch( c -> ancestorProto.match(c)) );
+        return and(n-> n.stream(_walk.PARENTS).anyMatch(c -> ancestorProto.match(c)) );
     }
+
+    public $node $hasAncestor( Class... parentClassTypes ){
+        return and(n-> n.stream(_walk.PARENTS).anyMatch(c -> Ast.isParent( c, parentClassTypes) ));
+    }
+
+    public $node $hasChild( $proto childProto ){
+        return and(n-> n.getChildNodes().stream().anyMatch(c -> childProto.match(c)) );
+    }
+
+    public $node $hasChild( Class... childClassTypes ){
+        return and(n-> n.getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) ));
+    }
+
+    public $node $hasChild( Predicate<Node> childMatchFn ){
+        return and(n-> Ast.hasChild(n, childMatchFn));
+    }
+
 
     public $node $hasDescendant( $proto descendantProto ){
-        return addConstraint( n-> n.getChildNodes().stream().anyMatch( c-> c.stream().anyMatch( d -> descendantProto.match(d)) ));
+        return and(n-> n.getChildNodes().stream().anyMatch(c-> c.stream().anyMatch(d -> descendantProto.match(d)) ));
     }
 
-    public $node $hasParent( Class... parentClassType ){
-        return addConstraint( n -> isParentNodeOfType(n, parentClassType));
-    }
 
    /**
     * 

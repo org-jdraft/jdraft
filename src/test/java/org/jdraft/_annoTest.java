@@ -1,27 +1,15 @@
 package org.jdraft;
 
-import org.jdraft._class;
-import org.jdraft._anno;
-import org.jdraft._method;
-import org.jdraft.Ast;
-import org.jdraft.Stmt;
-import org.jdraft.Expr;
 import com.github.javaparser.StaticJavaParser;
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.AnnotationExpr;
-import com.github.javaparser.ast.expr.CastExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.Statement;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
-import org.jdraft.Text;
 import org.jdraft.proto.$anno;
 import org.jdraft.proto.$expr;
 import org.jdraft.proto.$stmt;
@@ -216,18 +204,18 @@ public class _annoTest extends TestCase {
             //.constraint( a->a.ast().getParentNode().isPresent() 
             //    && a.ast().getParentNode().get().findFirst(Statement.class).isPresent());
         
-        $stmt $s = $stmt.of().addConstraint( 
+        $stmt $s = $stmt.of().and(
             (s)-> ((Statement)s).findFirst(
                 AnnotationExpr.class, (AnnotationExpr a)-> $aa.matches(a) ).isPresent() 
                 && !(s instanceof BlockStmt) );
         System.out.println( $s.listIn(C.class) );
         
-        $expr $ex = $expr.of().addConstraint( o-> !(o instanceof AnnotationExpr) 
+        $expr $ex = $expr.of().and(o-> !(o instanceof AnnotationExpr)
             && o.findFirst(AnnotationExpr.class).isPresent());
         
         System.out.println( $ex.listIn(C.class) );
         
-        $expr $e = $expr.objectCreation().addConstraint( o-> o.findFirst(AnnotationExpr.class).isPresent());
+        $expr $e = $expr.objectCreation().and(o-> o.findFirst(AnnotationExpr.class).isPresent());
         
         System.out.println( $e.listIn(C.class) );
         

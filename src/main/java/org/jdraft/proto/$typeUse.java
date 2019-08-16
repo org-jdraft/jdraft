@@ -49,7 +49,7 @@ public final class $typeUse {
      * @return 
      */
     public static $typeUse of( Class clazz, Predicate<Node> constraint ){
-        return of(clazz).addConstraint(constraint);
+        return of(clazz).and(constraint);
     }
     public final String packageName;
     
@@ -108,9 +108,9 @@ public final class $typeUse {
      * @return the classUse
      */
     public static $typeUse of(){
-        return new $typeUse("", $node.of("$typeUse$").addConstraint(n -> n.toString().contains(".")),
+        return new $typeUse("", $node.of("$typeUse$").and(n -> n.toString().contains(".")),
             Collections.EMPTY_LIST, 
-            $node.of("$typeUse$").addConstraint(n -> !n.toString().contains(".") ) ).addConstraint(IS_EXPECTED_NODE_TYPE);
+            $node.of("$typeUse$").and(n -> !n.toString().contains(".") ) ).and(IS_EXPECTED_NODE_TYPE);
     }    
     
     /**
@@ -135,11 +135,11 @@ public final class $typeUse {
         }
         //this.type = type;
         this.$fullName = new $node(type.getCanonicalName())
-            .addConstraint( IS_EXPECTED_NODE_TYPE );
+            .and( IS_EXPECTED_NODE_TYPE );
         //Note: there can be (0, 1, or more OTHER nodes that represent
         //Inner member classes, i.e. not fully qualified 
         
-        this.$simpleName = new $node(type.getSimpleName()).addConstraint(IS_EXPECTED_NODE_TYPE);        
+        this.$simpleName = new $node(type.getSimpleName()).and(IS_EXPECTED_NODE_TYPE);
         $memberNames = $typeUse.buildMemberClassNames( type );
     }
     
@@ -148,10 +148,10 @@ public final class $typeUse {
      * @param constraint
      * @return 
      */
-    public $typeUse addConstraint(Predicate<Node> constraint){
-        $fullName.addConstraint(constraint);
-        $memberNames.forEach(m -> m.addConstraint(constraint));
-        $simpleName.addConstraint(constraint);        
+    public $typeUse and(Predicate<Node> constraint){
+        $fullName.and(constraint);
+        $memberNames.forEach(m -> m.and(constraint));
+        $simpleName.and(constraint);
         return this;
     }
     
@@ -207,7 +207,7 @@ public final class $typeUse {
         if( clazz.isMemberClass()){
             Class declaringClass = clazz.getDeclaringClass();
             currentPath = declaringClass.getSimpleName()+"."+currentPath;
-            nodes.add( $node.of(currentPath).addConstraint(IS_EXPECTED_NODE_TYPE) );
+            nodes.add( $node.of(currentPath).and(IS_EXPECTED_NODE_TYPE) );
             buildMemberClassNames( declaringClass, currentPath, nodes);
         }
     }

@@ -45,7 +45,7 @@ public final class $modifiers
     }
     
     public static $modifiers of( Predicate<_modifiers> constraint ){
-        return of().addConstraint(constraint);
+        return of().and(constraint);
     }
     
     public static $modifiers of( _hasModifiers _hm ){
@@ -132,7 +132,7 @@ public final class $modifiers
         return select(_ms) != null;
     }
 
-    public $modifiers addConstraint( Predicate<_modifiers> constraint ){
+    public $modifiers and(Predicate<_modifiers> constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }

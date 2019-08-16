@@ -28,6 +28,12 @@ public class Tokens implements Map<String,Object>{
         return kvs;
     }
 
+    public static Tokens of(Map keyValue ){
+        Tokens kvs = new Tokens();
+        kvs.putAll(keyValue);
+        return kvs;
+    }
+
     public static Tokens of(Object...data ){
         Tokens kvs = new Tokens();
         return kvs.add(data);
@@ -48,7 +54,7 @@ public class Tokens implements Map<String,Object>{
      * @return the updated Tokens
      */
     public Tokens add(Object...keyValuePairs){
-        if( keyValuePairs.length % 2 != 0 ){
+        if( (keyValuePairs.length % 2) != 0 ){
             throw new _draftException("expected in pairs (divisible where 2), got ("
                     + keyValuePairs.length + ")");
         }

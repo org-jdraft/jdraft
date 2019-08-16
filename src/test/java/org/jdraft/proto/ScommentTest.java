@@ -79,7 +79,7 @@ public class ScommentTest extends TestCase {
             $comment.lineComment(c -> !c.isOrphan()).firstIn(C.class)); //first un orphaed line comment
         
         assertEquals( Ast.lineComment("// line comment (orphan)"), 
-            $comment.any().addConstraint( (c) -> c.isOrphan() )
+            $comment.any().and( (c) -> c.isOrphan() )
                     .firstIn(C.class)); //first orphaned comment
     }       
 }

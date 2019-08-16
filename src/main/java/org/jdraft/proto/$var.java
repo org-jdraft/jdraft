@@ -176,7 +176,7 @@ public final class $var
             return ofType(typeClass[0]);
         }
 
-        return of().addConstraint( v-> Arrays.stream(typeClass).anyMatch( tc-> Ast.typesEqual(v.getType(), Ast.typeRef(tc))));
+        return of().and(v-> Arrays.stream(typeClass).anyMatch(tc-> Ast.typesEqual(v.getType(), Ast.typeRef(tc))));
                 //_typeRef.equals( _typeRef.of(v.getType()), _typeRef.of(tc) ) ) );
     }
 
@@ -186,7 +186,7 @@ public final class $var
      * @return 
      */
     public static $var of( Predicate<VariableDeclarator> constraint){
-        return of().addConstraint(constraint);
+        return of().and(constraint);
     }
     
     /**
@@ -237,7 +237,7 @@ public final class $var
      * @return 
      */
     public static $var of( String pattern, Predicate<VariableDeclarator> constraint){
-        return $var.of(new String[]{pattern}).addConstraint(constraint);
+        return $var.of(new String[]{pattern}).and(constraint);
     }
     
     /**
@@ -265,7 +265,7 @@ public final class $var
      * @return 
      */
     public static $var of(VariableDeclarator proto, Predicate<VariableDeclarator> constraint){
-        return new $var( proto  ).addConstraint(constraint);
+        return new $var( proto  ).and(constraint);
     }
     
     /** Matching constraint */
@@ -307,13 +307,13 @@ public final class $var
         }           
     }
     
-    public $var addConstraint(Predicate<VariableDeclarator> constraint){
+    public $var and(Predicate<VariableDeclarator> constraint){
         this.constraint = this.constraint.and(constraint);
         return this;
     }
 
     public $var $local(){
-        return addConstraint(v-> Ast.isParent(v, Ast.VAR_DECLARATION_EXPR));
+        return and(v-> Ast.isParent(v, Ast.VAR_DECLARATION_EXPR));
     }
 
     /**
@@ -321,7 +321,7 @@ public final class $var
      * @return
      */
     public $var $member(){
-        return addConstraint(v-> Ast.isParent(v, Ast.FIELD_DECLARATION));
+        return and(v-> Ast.isParent(v, Ast.FIELD_DECLARATION));
     }
 
     public $var $name( String name ){
@@ -331,12 +331,12 @@ public final class $var
     
     public $var $name( String name, Predicate<String> constraint){
         this.name.pattern = Stencil.of(name);
-        this.name.addConstraint(constraint);
+        this.name.and(constraint);
         return this;
     }
     
     public $var $name(Predicate<String> constraint){
-        this.name.addConstraint(constraint);
+        this.name.and(constraint);
         return this;
     }
 
@@ -362,12 +362,12 @@ public final class $var
     }
     
     public $var $type( String type, Predicate<_typeRef> constraint){
-        this.type = $typeRef.of(type).addConstraint(constraint);
+        this.type = $typeRef.of(type).and(constraint);
         return this;
     }
     
     public $var $type(Predicate<_typeRef> constraint){
-        this.type.addConstraint(constraint);
+        this.type.and(constraint);
         return this;
     }
     
@@ -377,7 +377,7 @@ public final class $var
     }
     
     public <E extends Expression> $var $init( Predicate<E> constraint ){
-        this.init.addConstraint(constraint);
+        this.init.and(constraint);
         return this;
     }
     
@@ -395,7 +395,7 @@ public final class $var
      * @return 
      */
     public $var noInit(){
-        return addConstraint( v -> !v.getInitializer().isPresent());
+        return and(v -> !v.getInitializer().isPresent());
     }
     
     public <E extends Expression> $var $init( E initExprProto){
@@ -404,7 +404,7 @@ public final class $var
     }
     
     public <E extends Expression> $var $init( E initExprProto, Predicate<E> constraint){
-        this.init = $expr.of(initExprProto).addConstraint(constraint);
+        this.init = $expr.of(initExprProto).and(constraint);
         return this;
     }
 

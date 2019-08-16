@@ -2091,7 +2091,22 @@ public enum _walk {
         }
         return null;
     }
-    
+
+    /**
+     * Describe the node and it's contents by walking
+     * @param astNode the node to describe
+     */
+    public static void describe( Node astNode ){
+        astNode.walk(n-> System.out.println( n.getClass()+" "+n ) );
+    }
+
+    public static void describe( _java _j ){
+        if( _j instanceof _code && ((_code) _j).isTopLevel() ){
+            describe( ((_code) _j).astCompilationUnit());
+        }
+        describe ( ((_node)_j).ast() );
+    }
+
     /**
      * 
      * @param _j

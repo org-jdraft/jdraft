@@ -36,7 +36,7 @@ public final class $typeParameters
      * @return 
      */
     public static $typeParameters none(){
-        return of().addConstraint( tps-> tps.isEmpty());
+        return of().and(tps-> tps.isEmpty());
     }
     
     /**
@@ -72,7 +72,7 @@ public final class $typeParameters
      * @return 
      */
     public static $typeParameters of( String pattern, Predicate<_typeParameters> constraint){        
-        return new $typeParameters( _typeParameters.of(pattern) ).addConstraint(constraint);
+        return new $typeParameters( _typeParameters.of(pattern) ).and(constraint);
     }
     
     /**
@@ -91,7 +91,7 @@ public final class $typeParameters
      * @return 
      */
     public static $typeParameters of( _typeParameters _proto, Predicate<_typeParameters> constraint){
-        return new $typeParameters( _proto ).addConstraint(constraint);
+        return new $typeParameters( _proto ).and(constraint);
     }
     
     public Predicate<_typeParameters> constraint = t-> true;
@@ -111,7 +111,7 @@ public final class $typeParameters
      * @param constraint a constraint to be added
      * @return the modified prototype
      */
-    public $typeParameters addConstraint( Predicate<_typeParameters>constraint ){
+    public $typeParameters and(Predicate<_typeParameters>constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }

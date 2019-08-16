@@ -23,7 +23,7 @@ public final class $id implements $constructor.$part, $method.$part, $field.$par
     }
     
     public static $id of(Predicate<String> constraint){
-        return of().addConstraint(constraint);
+        return of().and(constraint);
     }
     
     public static $id of( String id ){
@@ -69,7 +69,7 @@ public final class $id implements $constructor.$part, $method.$part, $field.$par
      * @param constraint
      * @return
      */
-    public $id addConstraint(Predicate<String> constraint) {
+    public $id and(Predicate<String> constraint) {
         this.constraint = this.constraint.and(constraint);
         return this;
     }
