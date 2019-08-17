@@ -226,8 +226,8 @@ public final class $typeRef
         }
         Select sel = select(_t);
         if( sel != null ){
-            if( allTokens.isConsistent(sel.args.asTokens()) ){
-                allTokens.putAll(sel.args.asTokens());
+            if( allTokens.isConsistent(sel.tokens.asTokens()) ){
+                allTokens.putAll(sel.tokens.asTokens());
                 return allTokens;
             }
         }
@@ -602,7 +602,7 @@ public final class $typeRef
         _walk.in(_n, Type.class, e -> {
             Select select = select(e);
             if( select != null ){
-                if( !e.replace($replacementType.draft(select.args).ast() )){
+                if( !e.replace($replacementType.draft(select.tokens).ast() )){
                     throw new _draftException("unable to replaceIn "+ e + " in "+ _n+" with "+$replacementType);
                 }
             }
@@ -640,35 +640,35 @@ public final class $typeRef
     /**
      * 
      */
-    public static class Select implements $proto.selected, 
-            $proto.selected_model<_typeRef> {
+    public static class Select implements $proto.selected,
+            select_java<_typeRef> {
         
         /** The underlying selected _typeRef */
         public _typeRef type;
         
-        /** the arguments selected*/
-        public $args args;
+        /** the tokens parsed*/
+        public $tokens tokens;
 
         public Select(_typeRef _tr, Tokens tokens ){
             this.type = _tr;
-            this.args = $args.of(tokens);
+            this.tokens = $tokens.of(tokens);
         }
         
-        public Select( Type type, $args tokens){
+        public Select( Type type, $tokens tokens){
             this.type = _typeRef.of(type);
-            this.args = tokens;
+            this.tokens = tokens;
         }
         
         @Override
-        public $args args(){
-            return args;
+        public $tokens tokens(){
+            return tokens;
         } 
         
         @Override
         public String toString(){
             return "$typeRef.Select {"+ System.lineSeparator()+
                 Text.indent(type.toString() )+ System.lineSeparator()+
-                Text.indent("$args : " + args) + System.lineSeparator()+
+                Text.indent("$tokens : " + tokens) + System.lineSeparator()+
                 "}";
         }
 

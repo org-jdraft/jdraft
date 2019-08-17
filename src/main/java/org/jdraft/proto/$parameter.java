@@ -406,15 +406,15 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
         if( ans == null ){
             return null;
         }
-        Tokens all = ans.args.asTokens();
+        Tokens all = ans.tokens.asTokens();
         
         $typeRef.Select sel = type.select(_p.getType());
         
         if( sel != null ){            
-            if( !all.isConsistent( sel.args.asTokens() ) ){
+            if( !all.isConsistent( sel.tokens.asTokens() ) ){
                 return null;
             }
-            all.putAll(sel.args.asTokens() );
+            all.putAll(sel.tokens.asTokens() );
             
             all = this.name.parseTo(_p.getName(), all);
             
@@ -757,22 +757,22 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
      * inside of some Node or _node
      */
     public static class Select 
-        implements $proto.selected, selected_model<_parameter>, selectedAstNode<Parameter> {
+        implements $proto.selected, select_java<_parameter>, selectAst<Parameter> {
         
         public final _parameter _param;
-        public final $args args;
+        public final $tokens tokens;
 
         public Select ( _parameter _p, Tokens tokens){
             this._param = _p;
-            args = $args.of(tokens);
+            this.tokens = $tokens.of(tokens);
         }
         
-        public Select ( _parameter _p, $args $a){
+        public Select ( _parameter _p, $tokens $a){
             this._param = _p;
-            args = $a;
+            tokens = $a;
         }
         
-        public Select ( Parameter astParam, $args tokens){
+        public Select ( Parameter astParam, $tokens tokens){
             this( _parameter.of(astParam), tokens);
         }
         
@@ -814,15 +814,15 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
         }
         
         @Override
-        public $args args(){
-            return args;
+        public $tokens tokens(){
+            return tokens;
         }
         
         @Override
         public String toString(){
             return "$parameter.Select {"+ System.lineSeparator()+
                 Text.indent(_param.toString() )+ System.lineSeparator()+
-                Text.indent("$args : " + args) + System.lineSeparator()+
+                Text.indent("$tokens : " + tokens) + System.lineSeparator()+
                 "}";
         }
         

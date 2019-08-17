@@ -7,7 +7,6 @@ package org.jdraft.proto;
 
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.MethodCallExpr;
-import org.jdraft.proto.$import;
 import org.jdraft._code;
 import org.jdraft._moduleInfo;
 import org.jdraft._packageInfo;
@@ -58,7 +57,7 @@ public class _codeProtoTest extends TestCase {
 
         //$varAssignment.hardcode$($args);
 
-        $proto.$args args = $assignCall.selectFirstIn(F.class).args();
+        $proto.$tokens args = $assignCall.selectFirstIn(F.class).tokens();
 
         //first verify we can match & extract the parameter name ("a")
         assertEquals("a", args.get("param"));

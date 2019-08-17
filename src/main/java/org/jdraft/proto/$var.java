@@ -426,13 +426,13 @@ public final class $var
                 if( sel == null ){
                     return null;
                 }
-                all = sel.args.asTokens();
+                all = sel.tokens.asTokens();
             }
             all = this.name.parseTo(astVar.getNameAsString(), all);
             all = this.type.parseTo(_typeRef.of(astVar.getType()), all);
             
             if( all != null ){
-                return new Select(astVar, $args.of(all));
+                return new Select(astVar, $tokens.of(all));
             }            
         }
         return null;                
@@ -759,7 +759,7 @@ public final class $var
         astNode.walk(VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
-                sel.astVar.replace($replaceProto.draft(sel.args) );
+                sel.astVar.replace($replaceProto.draft(sel.tokens) );
             }
         });
         return astNode;
@@ -776,7 +776,7 @@ public final class $var
         _walk.in(_le, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
-                sel.astVar.replace($replaceProto.draft(sel.args) );
+                sel.astVar.replace($replaceProto.draft(sel.tokens) );
             }
         });
         return _le;
@@ -888,27 +888,27 @@ public final class $var
      * A Matched Selection result returned from matching a prototype $var
      * inside of some Node or _node
      */
-    public static class Select implements $proto.selected, 
-            $proto.selectedAstNode<VariableDeclarator> {
+    public static class Select implements $proto.selected,
+            selectAst<VariableDeclarator> {
         
         public final VariableDeclarator astVar;
-        public final $args args;
+        public final $tokens tokens;
 
-        public Select( VariableDeclarator v, $args tokens){
+        public Select( VariableDeclarator v, $tokens tokens){
             this.astVar = v;
-            this.args = tokens;
+            this.tokens = tokens;
         }
         
         @Override
-        public $args args(){
-            return args;
+        public $tokens tokens(){
+            return tokens;
         }
         
         @Override
         public String toString(){
             return "$var.Select{"+ System.lineSeparator()+
                     Text.indent(astVar.toString() )+ System.lineSeparator()+
-                    Text.indent("$args : " + args) + System.lineSeparator()+
+                    Text.indent("$tokens : " + tokens) + System.lineSeparator()+
                     "}";
         }
 

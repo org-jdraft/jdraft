@@ -337,8 +337,8 @@ public class SstmtTest extends TestCase {
         
         
         //using "select" will parse . match and return the variables          
-        assertTrue( $assertAny.selectFirstIn(_c).args.is("any", "true"));
-        assertTrue( $assertAny.selectFirstIn(_c).args.is("any", true));
+        assertTrue( $assertAny.selectFirstIn(_c).tokens.is("any", "true"));
+        assertTrue( $assertAny.selectFirstIn(_c).tokens.is("any", true));
         
         //you can statically query for a Select object which wraps the result
         assertTrue( $stmt.of("assertTrue($any$);").selectFirstIn(_c).astStatement.getComment().isPresent());

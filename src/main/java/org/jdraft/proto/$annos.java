@@ -276,8 +276,8 @@ public final class $annos
             annosLeft.remove(got);
             //System.out.println( "annosLeft AFTER  "+annosLeft +" "+got);
             $anno.Select $as = $a.select(oa.get());
-            if( tokens.isConsistent($as.args.asTokens())){ //args are consistent                
-                tokens.putAll($as.args.asTokens());
+            if( tokens.isConsistent($as.tokens.asTokens())){ //args are consistent
+                tokens.putAll($as.tokens.asTokens());
             } else{
                 //System.out.println( "Consistency error for "+tokens +"  : "+$as.args.asTokens() );
                 return null;
@@ -315,8 +315,8 @@ public final class $annos
         }
         Select sel = select(_as);
         if( sel != null ){
-            if( allTokens.isConsistent(sel.args.asTokens()) ){
-                allTokens.putAll(sel.args.asTokens());
+            if( allTokens.isConsistent(sel.tokens.asTokens()) ){
+                allTokens.putAll(sel.tokens.asTokens());
                 return allTokens;
             }
         }
@@ -570,7 +570,7 @@ public final class $annos
             forSelectedIn(_t.ast(), selectActionFn);
             return _j;
         }
-        forSelectedIn((_node) _j, selectActionFn);
+        forSelectedIn((_node) _j, t->true, selectActionFn);
         return _j;
     }
 
@@ -612,30 +612,30 @@ public final class $annos
      * inside of some Node or _node
      */
     public static class Select
-        implements $proto.selected, selected_model<_annos> {
+        implements $proto.selected, select_java<_annos> {
 
         public final _annos _anns;
-        public final $args args;
+        public final $tokens tokens;
 
         public Select(_annos _a, Tokens tokens) {
-            this(_a, $args.of(tokens));
+            this(_a, $tokens.of(tokens));
         }
 
-        public Select(_annos _as, $args tokens) {
+        public Select(_annos _as, $tokens tokens) {
             this._anns = _as;
-            args = tokens;
+            this.tokens = tokens;
         }
 
         @Override
-        public $args args() {
-            return args;
+        public $tokens tokens() {
+            return tokens;
         }
 
         @Override
         public String toString() {
             return "$annos.Select {" + System.lineSeparator()
                 + Text.indent(_anns.toString()) + System.lineSeparator()
-                + Text.indent("$args : " + args) + System.lineSeparator()
+                + Text.indent("$args : " + tokens) + System.lineSeparator()
                 + "}";
         }
 

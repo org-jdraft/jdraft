@@ -634,7 +634,7 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
         astNode.walk(VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
-                sel._f.ast().replace($replaceProto.draft(sel.args).ast() );
+                sel._f.ast().replace($replaceProto.draft(sel.tokens).ast() );
             }
         });
         return astNode;
@@ -651,7 +651,7 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
         _walk.in(_j, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
-                sel._f.ast().replace($replaceProto.draft(sel.args).ast() );
+                sel._f.ast().replace($replaceProto.draft(sel.tokens).ast() );
             }
         });
         return _j;
@@ -827,15 +827,15 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
                     return null;
                 }
                 $expr.Select sel = init.select(_f.getInit());
-                if( all.isConsistent(sel.args.asTokens()) ){
-                    all.putAll( sel.args().asTokens() );
+                if( all.isConsistent(sel.tokens.asTokens()) ){
+                    all.putAll( sel.tokens().asTokens() );
                 } else{
                     return null;
                 }
                 //all = init.decomposeTo(_f.getInit(), all);
             }
             if(all != null){
-                return new Select( _f, $args.of(all));
+                return new Select( _f, $tokens.of(all));
             }
         }
         return null;
@@ -982,28 +982,28 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
      * A Matched Selection result returned from matching a prototype $field
      * inside of some Node or _node
      */
-    public static class Select implements $proto.selected, 
-            $proto.selectedAstNode<VariableDeclarator>, 
-            $proto.selected_model<_field> {
+    public static class Select implements $proto.selected,
+             selectAst<VariableDeclarator>,
+             select_java<_field> {
         
         public final _field _f;
-        public final $args args;
+        public final $tokens tokens;
 
-        public Select( _field _f, $args tokens){
+        public Select( _field _f, $tokens tokens){
             this._f = _f;
-            this.args = tokens;
+            this.tokens = tokens;
         }
         
         @Override
-        public $args args(){
-            return args;
+        public $tokens tokens(){
+            return tokens;
         }
         
         @Override
         public String toString(){
             return "$field.Select{"+ System.lineSeparator()+
                 Text.indent( _f.toString() )+ System.lineSeparator()+
-                Text.indent("$args : " + args) + System.lineSeparator()+
+                Text.indent("$tokens : " + tokens) + System.lineSeparator()+
                 "}";
         }
 

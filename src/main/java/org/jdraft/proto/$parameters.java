@@ -124,8 +124,8 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
             Tokens ts = new Tokens();
             for(int i=0;i<_ps.size(); i++ ){
                 $parameter.Select sel = this.$params.get(i).select( _ps.get(i) );
-                if( sel != null && ts.isConsistent(sel.args.asTokens()) ){
-                    ts.putAll( sel.args.asTokens() );
+                if( sel != null && ts.isConsistent(sel.tokens.asTokens()) ){
+                    ts.putAll( sel.tokens.asTokens() );
                 } else{
                     return null;
                 }
@@ -142,9 +142,9 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
             
         Select sel = select(p);
         if( sel != null ){
-            if( all.isConsistent(sel.args.asTokens())){
+            if( all.isConsistent(sel.tokens.asTokens())){
                 //System.out.println("adding "+sel.args.asTokens() );
-                all.putAll(sel.args.asTokens());
+                all.putAll(sel.tokens.asTokens());
                 return all;
             }
         }
@@ -251,7 +251,7 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
     public <N extends Node> N replaceIn(N astRootNode, $parameters $replacementProto) {
         
         return forSelectedIn( astRootNode, s->{            
-            _parameters _replaceParams = $replacementProto.draft(s.args);
+            _parameters _replaceParams = $replacementProto.draft(s.tokens);
             s._params.astHolder().setParameters(_replaceParams.ast());             
             } );
     }
@@ -276,7 +276,7 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
      */
     public <N extends _java> N replaceIn(N _n, $parameters $replacementProto) {
         return forSelectedIn( _n, s->{            
-            _parameters _replaceParams = $replacementProto.draft(s.args);
+            _parameters _replaceParams = $replacementProto.draft(s.tokens);
             s._params.astHolder().setParameters(_replaceParams.ast());             
             } );
     }
@@ -411,19 +411,19 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
      * inside of some Node or _node
      */
     public static class Select 
-        implements $proto.selected, selected_model<_parameters> {
+        implements $proto.selected, select_java<_parameters> {
         
         public final _parameters _params;
-        public final $args args;
+        public final $tokens tokens;
 
         public Select ( _parameters _p, Tokens tokens){
             this._params = _p;
-            args = $args.of(tokens);
+            this.tokens = $tokens.of(tokens);
         }
         
-        public Select ( _parameters _p, $args $a){
+        public Select ( _parameters _p, $tokens $a){
             this._params = _p;
-            args = $a;
+            tokens = $a;
         }
         
         public int size(){            
@@ -433,18 +433,17 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
         public boolean isVarArg(){            
             return _params.isVarArg();
         }
-        
-        
+
         @Override
-        public $args args(){
-            return args;
+        public $tokens tokens(){
+            return tokens;
         }
         
         @Override
         public String toString(){
             return "$parameters.Select {"+ System.lineSeparator()+
                 Text.indent(_params.toString() )+ System.lineSeparator()+
-                Text.indent("$args : " + args) + System.lineSeparator()+
+                Text.indent("$tokens : " + tokens) + System.lineSeparator()+
                 "}";
         }
         

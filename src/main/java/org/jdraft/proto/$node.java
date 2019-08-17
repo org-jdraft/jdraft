@@ -604,9 +604,9 @@ public final class $node implements $proto<Node, $node> {
     /**
      * A compares the start position of Select Ast node entities
      */
-    public static class SelectStartPositionComparator implements Comparator<$proto.selectedAstNode>{
+    public static class SelectStartPositionComparator implements Comparator<selectAst>{
         @Override
-        public int compare($proto.selectedAstNode o1, $proto.selectedAstNode o2) {
+        public int compare(selectAst o1, selectAst o2) {
             return Ast.COMPARE_NODE_BY_LOCATION.compare(o1.ast(), o2.ast());
         }        
     }
@@ -618,18 +618,18 @@ public final class $node implements $proto<Node, $node> {
      * scenario and how it is used (in an annotation, a throws class, an extends
      * implements, CastExpr, etc.)
      */     
-    public static class Select<T extends Node> implements $proto.selected, $proto.selectedAstNode<T> {
+    public static class Select<T extends Node> implements $proto.selected, selectAst<T> {
         public T node;
-        public $args args;
+        public $tokens tokens;
 
         @Override
-        public $args args(){
-            return args;
+        public $tokens tokens(){
+            return tokens;
         }
         
         public Select( T node, Tokens tokens){
             this.node = node;
-            this.args = args.of(tokens);
+            this.tokens = this.tokens.of(tokens);
         }
 
         @Override
@@ -641,7 +641,7 @@ public final class $node implements $proto<Node, $node> {
         public String toString(){
             return "$node.Select{"+ System.lineSeparator()+
                 Text.indent( node.toString() )+ System.lineSeparator()+
-                Text.indent("$args : " + args) + System.lineSeparator()+
+                Text.indent("$tokens : " + tokens) + System.lineSeparator()+
                 "}";
         }
         

@@ -362,14 +362,14 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
                 //System.out.println( "NO Match with >"+ this.$sts.get(i)+ "< against >"+ss.get(i)+"< tokens");
                 return null;
             }
-            String[] keys = sel.args.keySet().toArray(new String[0]);
+            String[] keys = sel.tokens.keySet().toArray(new String[0]);
             for(int j=0;j<keys.length;j++){
-                if( all.containsKeys(keys[j]) && !all.get( keys[j] ).equals( sel.args.get(keys[j])) ){
+                if( all.containsKeys(keys[j]) && !all.get( keys[j] ).equals( sel.tokens.get(keys[j])) ){
                     //System.out.println( "Inconsistent Key Values");
                     return null; //inconsistent key values
                 }
             }
-            all.putAll(sel.args);
+            all.putAll(sel.tokens);
         }
         if( !this.constraint.test(ss) ){
             return null; //failed the constraint
@@ -568,7 +568,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
             Select sel = select( (Statement)st );
             if( sel != null ){
                 //constrct the replacement snippet
-                List<Statement> replacements = $repl.draft(sel.args );
+                List<Statement> replacements = $repl.draft(sel.tokens);
                 Statement firstStmt = sel.statements.get(0);
                 Node par = firstStmt.getParentNode().get();
                 NodeWithStatements parentNode = (NodeWithStatements)par;
@@ -630,7 +630,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
             Select sel = select( (Statement)st );
             if( sel != null ){
                 //construct the replacement snippet
-                List<Statement> replacements = $repl.draft(sel.args );
+                List<Statement> replacements = $repl.draft(sel.tokens);
                 Statement firstStmt = sel.statements.get(0);
                 Node par = firstStmt.getParentNode().get();
                 NodeWithStatements parentNode = (NodeWithStatements)par;
@@ -719,25 +719,25 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
      */
     public static class Select implements $proto.selected {
         public List<Statement> statements;
-        public $args args;
+        public $tokens tokens;
 
         @Override
-        public $args args(){
-            return args;
+        public $tokens tokens(){
+            return tokens;
         }
         
         public Select( List<Statement> statements, Tokens tokens){
             this.statements = statements;
-            this.args = args.of(tokens);
+            this.tokens = this.tokens.of(tokens);
         }
 
         @Override
         public String toString(){
             StringBuilder sb = new StringBuilder();
             this.statements.forEach( s -> sb.append(s).append( System.lineSeparator()) );
-            return "$snip.Selected{"+ System.lineSeparator()+
+            return "$snip.Select{"+ System.lineSeparator()+
                 Text.indent( sb.toString() )+ System.lineSeparator()+
-                Text.indent("$args : " + args) + System.lineSeparator()+
+                Text.indent("$args : " + tokens) + System.lineSeparator()+
                 "}";
         }
         

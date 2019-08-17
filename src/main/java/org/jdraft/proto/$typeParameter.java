@@ -420,7 +420,7 @@ public final class $typeParameter
         $annos.Select asel = this.$anns.select(_tp);
 
         if( asel != null ){
-            Tokens ts = asel.args().asTokens();
+            Tokens ts = asel.tokens().asTokens();
             ts = this.$name.parseTo(_tp.getName(), ts);
             if( ts == null ){
                 return null;
@@ -451,20 +451,20 @@ public final class $typeParameter
     
     public static class Select 
         implements $proto.selected,
-            $proto.selectedAstNode<TypeParameter>, 
-            $proto.selected_model<_typeParameter>{
+            selectAst<TypeParameter>,
+            select_java<_typeParameter> {
 
         public Select(_typeParameter _tp, Tokens ts){
             this._tp = _tp;
-            this.$args = $args.of(ts);
+            this.$tokens = $tokens.of(ts);
         }
         
-        public $args $args;
+        public $tokens $tokens;
         public _typeParameter _tp;
         
         @Override
-        public $args args() {
-            return $args;
+        public $tokens tokens() {
+            return $tokens;
         }
 
         @Override
@@ -492,6 +492,14 @@ public final class $typeParameter
         
         public _annos annos(){
             return _tp.getAnnos();
+        }
+
+        @Override
+        public String toString(){
+            return "$throws.Select {"+ System.lineSeparator()+
+                    Text.indent(_tp.toString() )+ System.lineSeparator()+
+                    Text.indent("$tokens : " + $tokens) + System.lineSeparator()+
+                    "}";
         }
     }    
 }

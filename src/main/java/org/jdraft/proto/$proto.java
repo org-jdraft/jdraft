@@ -602,13 +602,13 @@ public interface $proto<P, $P extends $proto>{
 
     /**
      *
-     * @param clazzes
+     * @param classes
      * @return
      */
-    default int count( Class... clazzes ){
+    default int count( Class... classes ){
         int count = 0;
-        for(int i=0;i<clazzes.length;i++) {
-            count +=count((_type) _java.type(clazzes[i]));
+        for(int i=0;i<classes.length;i++) {
+            count +=count((_type) _java.type(classes[i]));
         }
         return count;
     }
@@ -762,25 +762,25 @@ public interface $proto<P, $P extends $proto>{
      * for holding value data that COULD be Expressions, Statements and the 
      * like
      */
-    class $args implements Map<String, Object> {
+    class $tokens implements Map<String, Object> {
 
         /**
          *
          */
         private Tokens tokens;
 
-        public static $args of(){
-            return new $args( Tokens.of() ); 
+        public static $tokens of(){
+            return new $tokens( Tokens.of() );
         }
         
-        public static $args of(Tokens ts) {
+        public static $tokens of(Tokens ts) {
             if (ts == null) {
                 return null;
             }
-            return new $args(ts);
+            return new $tokens(ts);
         }
 
-        public $args(Tokens ts) {
+        public $tokens(Tokens ts) {
             this.tokens = ts;
         }
 
@@ -887,12 +887,12 @@ public interface $proto<P, $P extends $proto>{
             return stmt.toString(Ast.PRINT_NO_COMMENTS).equals(st.toString(Ast.PRINT_NO_COMMENTS));
         }
 
-        public boolean is($args $nvs) {
+        public boolean is($tokens $nvs) {
             return this.equals($nvs);
         }
 
         public boolean is(Tokens tks) {
-            return this.equals($args.of(tks));
+            return this.equals($tokens.of(tks));
         }
 
         public boolean is(String $name, Class clazz ){
@@ -967,10 +967,10 @@ public interface $proto<P, $P extends $proto>{
 
         @Override
         public boolean equals(Object o) {
-            if (o == null || !o.getClass().equals($args.class)) {
+            if (o == null || !o.getClass().equals($tokens.class)) {
                 return false;
             }
-            $args co = ($args) o;
+            $tokens co = ($tokens) o;
             return Objects.equals(co.tokens, tokens);
         }
 
@@ -1051,31 +1051,32 @@ public interface $proto<P, $P extends $proto>{
      */
     interface selected {
 
-        $args args();
+        /** return the parsed tokens from the selection */
+        $tokens tokens();
 
         /** Get the value of this $param$ via the name */
         default Object get(String $name ){
-            return args().get($name);
+            return tokens().get($name);
         }
         
         default boolean is(Object... $nameValues) {
-            return args().is($nameValues);
+            return tokens().is($nameValues);
         }
 
         default boolean is(String $name, String value) {
-            return args().is($name, value);
+            return tokens().is($name, value);
         }
 
         default boolean is(String $name, Expression value) {
-            return args().is($name, value);
+            return tokens().is($name, value);
         }
 
         default boolean is(String $name, Statement value) {
-            return args().is($name, value);
+            return tokens().is($name, value);
         }
 
         default boolean is(String $name, Type value) {
-            return args().is($name, value);
+            return tokens().is($name, value);
         }                
     }
 
@@ -1084,7 +1085,7 @@ public interface $proto<P, $P extends $proto>{
      *
      * @param <N> the specific type of AST Node that is selected
      */
-    interface selectedAstNode<N extends Node> {
+    interface selectAst<N extends Node> {
 
         /**
          * @return the selected AST Node (i.e. Expression, Statement,
@@ -1099,10 +1100,10 @@ public interface $proto<P, $P extends $proto>{
      *
      * @param <_J> the jDraft _java representation
      */
-    interface selected_model<_J extends _java> {
+    interface select_java<_J extends _java> {
 
         /**
-         * @return the selected node as a _model (i.e. _method for a MethodDeclaration)
+         * @return the selected _java node (i.e. _method for a MethodDeclaration)
          */
         _J _node();
     }

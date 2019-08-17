@@ -205,7 +205,7 @@ public final class $import
             }            
             Tokens ts = importPattern.parse( name );
             if( ts != null ){
-                return new Select(_i, $args.of(ts) );
+                return new Select(_i, $tokens.of(ts) );
             }            
         }
         return null;
@@ -589,7 +589,7 @@ public final class $import
                     ImportDeclaration id = sel.ast();
                     boolean isS = id.isStatic();
                     boolean isW = id.isAsterisk();
-                    ImportDeclaration rep = $i.draft(sel.args).ast();
+                    ImportDeclaration rep = $i.draft(sel.tokens).ast();
                     if( isS){
                         rep.setStatic(true);
                     }
@@ -598,15 +598,6 @@ public final class $import
                     }
                     //System.out.println( "REPLACEMENT "+ rep);
                     id.replace( rep );
-                    
-                    /*
-                    if( $i.isWildcard || ){
-                        id.setAsterisk($i.isWildcard);
-                    }
-                    if( $i.isStatic ){
-                        id.setStatic($i.isStatic);
-                    }
-                    */
                 }
             });
         }
@@ -713,33 +704,33 @@ public final class $import
      * A Matched Selection result returned from matching a prototype $import
      * inside of some CompilationUnit
      */
-    public static class Select implements $proto.selected, 
-        $proto.selectedAstNode<ImportDeclaration>, 
-        $proto.selected_model<_import> {
+    public static class Select implements $proto.selected,
+            selectAst<ImportDeclaration>,
+            select_java<_import> {
     
         public final _import _i;
-        public final $args args;
+        public final $tokens tokens;
 
-        public Select(_import _i, $args tokens){
+        public Select(_import _i, $tokens tokens){
             this._i = _i;  
-            this.args = tokens;
+            this.tokens = tokens;
         }
         
-        public Select( ImportDeclaration astImport, $args tokens){
+        public Select( ImportDeclaration astImport, $tokens tokens){
             this._i = _import.of(astImport );
-            this.args = tokens;
+            this.tokens = tokens;
         }
         
         @Override
-        public $args args(){
-            return args;
+        public $tokens tokens(){
+            return tokens;
         }
         
         @Override
         public String toString(){
             return "$import.Select {"+ System.lineSeparator()+
                 Text.indent( _i.toString() )+ System.lineSeparator()+
-                Text.indent("$args : " + args) + System.lineSeparator()+
+                Text.indent("$tokens : " + tokens) + System.lineSeparator()+
                 "}";
         }
 

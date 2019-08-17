@@ -332,7 +332,7 @@ public class SaTest extends TestCase {
         
         assertNotNull( a.select( _anno.of("@name(prefix=\"1\")") ));
 
-        System.out.println( "GOTTEN " + a.select(_anno.of("@name(prefix=\"1\")") ).args );
+        System.out.println( "GOTTEN " + a.select(_anno.of("@name(prefix=\"1\")") ).tokens);
         assertTrue( a.select(_anno.of("@name(prefix=\"1\")") ).is("any", Expr.stringLiteral("1")) );
 
         assertTrue( a.select(_anno.of("@name(prefix=\"ABCD\")")).is("any", "ABCD"));

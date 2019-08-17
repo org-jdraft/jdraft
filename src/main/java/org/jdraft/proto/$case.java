@@ -102,7 +102,7 @@ public final class $case
         //System.out.println( "In selectStatements");
         if( statements.isEmpty()){
             //System.out.println("Statments empty");
-            return new Select( astSwitchEntry, $proto.$args.of(tokens) );
+            return new Select( astSwitchEntry, $tokens.of(tokens) );
         }
         if( statements.size() != astSwitchEntry.getStatements().size() ){
             //System.out.println( "Statement size mismatch");
@@ -113,13 +113,13 @@ public final class $case
         for(int i=0;i< this.statements.size();i++){
             $stmt.Select ss = 
                 statements.get(i).select(astSwitchEntry.getStatement(i));
-            if( ss == null || !ts.isConsistent(ss.args.asTokens()) ){
+            if( ss == null || !ts.isConsistent(ss.tokens.asTokens()) ){
                 //System.out.println( "NOT consistent with "+i+" " );
                 return null;
             }
-            ts.putAll(ss.args.asTokens());                
+            ts.putAll(ss.tokens.asTokens());
         }
-        return new Select(astSwitchEntry, $args.of(ts));
+        return new Select(astSwitchEntry, $tokens.of(ts));
     }
     
     public Select select( String... switchCase ){
@@ -154,7 +154,7 @@ public final class $case
         
         if( sel != null ){
             //System.out.println("Matched the label "+ label+" to "+this.label );
-            return selectStatements(astSwitchEntry, sel.args.asTokens());            
+            return selectStatements(astSwitchEntry, sel.tokens.asTokens());
         }
         return null;
     }
@@ -465,19 +465,19 @@ public final class $case
     }
 
     public static class Select 
-        implements $proto.selected, $proto.selectedAstNode<SwitchEntry>{
+        implements $proto.selected, selectAst<SwitchEntry> {
         
         public SwitchEntry astCase;
-        public $proto.$args args;
+        public $tokens tokens;
         
-        public Select( SwitchEntry astCase, $args $nv){
+        public Select( SwitchEntry astCase, $tokens $nv){
             this.astCase = astCase;
-            this.args = $nv;
+            this.tokens = $nv;
         }
 
         @Override
-        public $proto.$args args() {
-            return args;
+        public $tokens tokens() {
+            return tokens;
         }
 
         @Override
@@ -491,6 +491,14 @@ public final class $case
          */
         public boolean isDefaultCase(){
             return astCase.getLabels().isEmpty();
+        }
+
+        @Override
+        public String toString(){
+            return "$case.Select{"+ System.lineSeparator()+
+                    Text.indent( astCase.toString() )+ System.lineSeparator()+
+                    Text.indent("$tokens : " + tokens) + System.lineSeparator()+
+                    "}";
         }
     }     
 }

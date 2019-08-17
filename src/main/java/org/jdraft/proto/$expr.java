@@ -1652,12 +1652,12 @@ public final class $expr <T extends Expression>
     /**
      * 
      * @param translator
-     * @param kvs
+     * @param tokens
      * @return 
      */
     @Override
-    public $expr<T> hardcode$( Translator translator, Tokens kvs ) {
-        this.exprPattern = this.exprPattern.hardcode$(translator,kvs);
+    public $expr<T> hardcode$( Translator translator, Tokens tokens) {
+        this.exprPattern = this.exprPattern.hardcode$(translator, tokens);
         return this;
     }
 
@@ -2101,27 +2101,27 @@ public final class $expr <T extends Expression>
     /**
      * 
      * @param clazz
-     * @param $repl
+     * @param $replaceProto
      * @return 
      */
     @Override
-    public _type replaceIn(Class clazz, $expr $repl ){
-        return replaceIn(_java.type(clazz), $repl );
+    public _type replaceIn(Class clazz, $expr $replaceProto){
+        return replaceIn(_java.type(clazz), $replaceProto);
     }
     
     /**
      * 
      * @param <_J>
      * @param _j
-     * @param $repl
+     * @param $replaceProto
      * @return 
      */
     @Override
-    public <_J extends _java> _J replaceIn(_J _j, $expr $repl ){
+    public <_J extends _java> _J replaceIn(_J _j, $expr $replaceProto){
         _walk.in(_j, this.expressionClass, e-> {
             Select sel = select( e );
             if( sel != null ){
-                Expression replaceNode = (Expression)$repl.draft( sel.args.asTokens() );
+                Expression replaceNode = (Expression) $replaceProto.draft( sel.tokens.asTokens() );
                 sel.astExpression.replace( replaceNode );
             }
         });
@@ -2237,31 +2237,31 @@ public final class $expr <T extends Expression>
      * @param <T> expression type
      */
     public static class Select<T extends Expression> implements $proto.selected,
-            $proto.selectedAstNode<T> {
+            selectAst<T> {
         
         public final T astExpression;
-        public final $args args;
+        public final $tokens tokens;
 
         public Select( T astExpr, Tokens tokens){
             this.astExpression = astExpr;
-            this.args = $args.of(tokens);
+            this.tokens = $tokens.of(tokens);
         }
                 
-        public Select( T astExpr, $args tokens){
+        public Select( T astExpr, $tokens tokens){
             this.astExpression = astExpr;
-            this.args = tokens;
+            this.tokens = tokens;
         }
         
         @Override
-        public $args args(){
-            return args;
+        public $tokens tokens(){
+            return tokens;
         }
         
         @Override
         public String toString(){
             return "$expr.Select{"+ System.lineSeparator()+
                 Text.indent(astExpression.toString() )+ System.lineSeparator()+
-                Text.indent("$args : " + args) + System.lineSeparator()+
+                Text.indent("$tokens : " + tokens) + System.lineSeparator()+
                 "}";
         }
 

@@ -213,8 +213,8 @@ public class SsnipTest extends TestCase {
         _class _c = _class.of(L.class);
         $s.forSelectedIn( _c, ($snip.Select s) -> {
             //rearrage the order of the statements, first the println then the assert
-            s.statements.get(0).replace( $s.$sts.get(1).draft(s.args) );
-            s.statements.get(1).replace( $s.$sts.get(0).draft(s.args) );
+            s.statements.get(0).replace( $s.$sts.get(1).draft(s.tokens) );
+            s.statements.get(1).replace( $s.$sts.get(0).draft(s.tokens) );
         });
         assertTrue( _c.getMethod("m").getBody().getStatement(1) instanceof ExpressionStmt );
         assertTrue( _c.getMethod("m").getBody().getStatement(2) instanceof AssertStmt);
@@ -240,7 +240,7 @@ public class SsnipTest extends TestCase {
         $snip.Select ss = $s.select( bs.getStatement(0 ) );
 
         assertNotNull( ss );
-        assertTrue( ss.args.is("i", "1"));
+        assertTrue( ss.tokens.is("i", "1"));
         assertEquals( Stmt.of( ()-> {/** comment 1 */ assert 1 > 0;} ), ss.statements.get(0));
         assertEquals( Stmt.of( () -> {
             // comment 2
@@ -277,8 +277,8 @@ public class SsnipTest extends TestCase {
         assertEquals(2, ss.size());
         assertEquals( ss.get(0).statements.get(0), Stmt.of( ()-> System.out.println(1)));
         assertEquals( ss.get(1).statements.get(0), Stmt.of( ()-> System.out.println(2)));
-        assertTrue( ss.get(0).args.is("any", "1"));
-        assertTrue( ss.get(1).args.is("any", "2"));
+        assertTrue( ss.get(0).tokens.is("any", "1"));
+        assertTrue( ss.get(1).tokens.is("any", "2"));
 
         //verify we can match Statements EVEN WITH COMMENTS
         class G{
@@ -306,9 +306,9 @@ public class SsnipTest extends TestCase {
         assertTrue( $stmt.of( ()-> System.out.println(2) ).matches( ss.get(1).statements.get(0)));
         assertTrue( $stmt.of( ()-> System.out.println(3) ).matches( ss.get(2).statements.get(0)));
         
-        assertTrue( ss.get(0).args.is("any", "1"));
-        assertTrue( ss.get(1).args.is("any", "2"));
-        assertTrue( ss.get(2).args.is("any", "3"));
+        assertTrue( ss.get(0).tokens.is("any", "1"));
+        assertTrue( ss.get(1).tokens.is("any", "2"));
+        assertTrue( ss.get(2).tokens.is("any", "3"));
 
     }
 

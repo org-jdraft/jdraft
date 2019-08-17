@@ -329,10 +329,10 @@ public final class $modifiers
         return null;
     }
     
-    public static class Select implements selected, selected_model<_modifiers>{
+    public static class Select implements selected, select_java<_modifiers> {
 
         public _modifiers _mods;
-        public $args args = new $args(new Tokens());
+        public $tokens tokens = new $tokens(new Tokens());
         
         public Select(_modifiers _mods ) {
             this._mods = _mods;            
@@ -403,13 +403,21 @@ public final class $modifiers
         }
         
         @Override
-        public $args args() {
-            return args;
+        public $tokens tokens() {
+            return tokens;
         }
 
         @Override
         public _modifiers _node() {
             return _mods;
-        }        
+        }
+
+        @Override
+        public String toString(){
+            return "$modifiers.Select{"+ System.lineSeparator()+
+                    Text.indent( _mods.toString() )+ System.lineSeparator()+
+                    Text.indent("$tokens : " + tokens) + System.lineSeparator()+
+                    "}";
+        }
     }
 }

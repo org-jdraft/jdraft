@@ -605,7 +605,7 @@ public final class $constructor
         all = thrown.parseTo(_m.getThrows(), all);
         all = body.parseTo(_m.getBody(), all);
         if( all != null ){
-            return new Select( _m, $args.of(all));
+            return new Select( _m, $tokens.of(all));
         }
         return null;        
     }
@@ -997,7 +997,7 @@ public final class $constructor
      */
     public _type replaceIn(Class clazz, $constructor $replace ){
         return forSelectedIn(_java.type(clazz), s -> {
-            _constructor repl = $replace.draft(Translator.DEFAULT_TRANSLATOR, s.args);
+            _constructor repl = $replace.draft(Translator.DEFAULT_TRANSLATOR, s.tokens);
             s._ct.ast().replace(repl.ast());
         });
     }
@@ -1041,7 +1041,7 @@ public final class $constructor
      */
     public <_J extends _java> _J replaceIn(_J _j, $constructor $replace ){
         return forSelectedIn(_j, s -> {
-            _constructor repl = $replace.draft(Translator.DEFAULT_TRANSLATOR, s.args.asTokens());
+            _constructor repl = $replace.draft(Translator.DEFAULT_TRANSLATOR, s.tokens.asTokens());
             s._ct.ast().replace(repl.ast());
         });
     }
@@ -1102,33 +1102,33 @@ public final class $constructor
      * A Matched Selection result returned from matching a prototype $ctor
      * inside of some Node or _node
      */
-    public static class Select implements $proto.selected, 
-            $proto.selectedAstNode<ConstructorDeclaration>, 
-            $proto.selected_model<_constructor> {
+    public static class Select implements $proto.selected,
+            selectAst<ConstructorDeclaration>,
+            select_java<_constructor> {
         
         public final _constructor _ct;
-        public final $args args;
+        public final $tokens tokens;
 
-        public Select( _constructor _m, $args tokens ){
+        public Select( _constructor _m, $tokens tokens ){
             this._ct = _m;
-            this.args = tokens;
+            this.tokens = tokens;
         }
                 
-        public Select( ConstructorDeclaration astMethod, $args tokens ){
+        public Select( ConstructorDeclaration astMethod, $tokens tokens ){
             this._ct = _constructor.of(astMethod);
-            this.args = tokens;
+            this.tokens = tokens;
         }
 
         @Override
-        public $args args(){
-            return args;
+        public $tokens tokens(){
+            return tokens;
         }
         
         @Override
         public String toString(){
-            return "$ctor.Select{"+ System.lineSeparator()+
+            return "$constructor.Select{"+ System.lineSeparator()+
                 Text.indent(_ct.toString() )+ System.lineSeparator()+
-                Text.indent("$args : " + args) + System.lineSeparator()+
+                Text.indent("$tokens : " + tokens) + System.lineSeparator()+
                 "}";
         }
 

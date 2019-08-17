@@ -394,7 +394,7 @@ public class SexprTest extends TestCase {
         assertNotNull($e.select(Expr.of("1 + 2")));
 
         //select returns the selected tokens
-        assertTrue($e.select(Expr.of("1 * 2")).args.is("op", "*"));
+        assertTrue($e.select(Expr.of("1 * 2")).tokens.is("op", "*"));
 
         $e = $expr.binary("$a$ + $b$");
         @aa(1 + 2)
@@ -497,12 +497,12 @@ public class SexprTest extends TestCase {
         assertEquals(6, sel.size()); //verify that I have (6) selections
 
         //System.out.println(">>"+ sel.get(0).tokens );
-        assertTrue(sel.get(0).args.is("val", "1"));
-        assertTrue(sel.get(1).args.is("val", "2"));
-        assertTrue(sel.get(2).args.is("val", "3"));
-        assertTrue(sel.get(3).args.is("val", "4"));
-        assertTrue(sel.get(4).args.is("val", "5"));
-        assertTrue(sel.get(5).args.is("val", "6"));
+        assertTrue(sel.get(0).tokens.is("val", "1"));
+        assertTrue(sel.get(1).tokens.is("val", "2"));
+        assertTrue(sel.get(2).tokens.is("val", "3"));
+        assertTrue(sel.get(3).tokens.is("val", "4"));
+        assertTrue(sel.get(4).tokens.is("val", "5"));
+        assertTrue(sel.get(5).tokens.is("val", "6"));
 
         //use forAllIn to
         List<Integer>ints = new ArrayList<>();

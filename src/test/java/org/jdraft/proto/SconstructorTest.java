@@ -342,7 +342,7 @@ public class SconstructorTest extends TestCase {
 
         System.out.println( $noArgNoBody.listSelectedIn(_c) );
 
-        assertTrue( $noArgNoBody.listSelectedIn(_c).get(0).args.is("name", "Z"));
+        assertTrue( $noArgNoBody.listSelectedIn(_c).get(0).tokens.is("name", "Z"));
         //$c.select(_constructor.of("public "))
     }
 
@@ -353,8 +353,8 @@ public class SconstructorTest extends TestCase {
 
         assertTrue( $oneArgInit.matches(_constructor.of("A(String s){ this.s = s;}") ));
 
-        assertTrue( $oneArgInit.select(_constructor.of("A(String s){ this.s = s;}") ).args.is("ctorName", "A") );
-        assertTrue( $oneArgInit.select(_constructor.of("A(String s){ this.s = s;}") ).args.is("type", "String") );
-        assertTrue( $oneArgInit.select(_constructor.of("A(String s){ this.s = s;}") ).args.is("name", "s") );
+        assertTrue( $oneArgInit.select(_constructor.of("A(String s){ this.s = s;}") ).tokens.is("ctorName", "A") );
+        assertTrue( $oneArgInit.select(_constructor.of("A(String s){ this.s = s;}") ).tokens.is("type", "String") );
+        assertTrue( $oneArgInit.select(_constructor.of("A(String s){ this.s = s;}") ).tokens.is("name", "s") );
     }
 }

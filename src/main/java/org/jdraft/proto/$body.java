@@ -318,7 +318,7 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $cons
      */
     public Select select( _body body ){
         if( isMatchAny() ){
-            return new Select( body, $args.of());
+            return new Select( body, $tokens.of());
         }
         if( !this.constraint.test(body)){
             return null;
@@ -327,16 +327,16 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $cons
             if( this.isImplemented ){
                 return null;
             } 
-            return new Select(body, $args.of());                
+            return new Select(body, $tokens.of());
         }       
         if( this.isImplemented ){
             $stmt.Select ss = this.bodyStmts.select((Statement)body.ast());
             if( ss != null ){
-                return new Select( body, ss.args);
+                return new Select( body, ss.tokens);
             }
             return null;
         }
-        return new Select( body, $args.of());        
+        return new Select( body, $tokens.of());
     }
     
     /**
@@ -395,8 +395,8 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $cons
         Select select = select( body );
 
         if (select != null) {                
-            if (all.isConsistent(select.args.asTokens())) {                   
-                all.putAll(select.args.asTokens());
+            if (all.isConsistent(select.tokens.asTokens())) {
+                all.putAll(select.tokens.asTokens());
                 return all;
             }
         }
@@ -675,19 +675,19 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $cons
     /**
      * 
      */
-    public static class Select implements selected, selected_model<_body>{
+    public static class Select implements selected, select_java<_body> {
 
         public _body body;
-        public $args args;
+        public $tokens tokens;
         
-        public Select( _body body, $args args){
+        public Select( _body body, $tokens tokens){
             this.body = body;
-            this.args = args;
+            this.tokens = tokens;
         }
         
         @Override
-        public $args args() {
-            return args;
+        public $tokens tokens() {
+            return tokens;
         }        
         
         public boolean isImplemented(){
@@ -705,6 +705,14 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $cons
         @Override
         public _body _node() {
             return this.body;
-        }        
+        }
+
+        @Override
+        public String toString(){
+            return "$body.Select{"+ System.lineSeparator()+
+                    Text.indent( body.toString() )+ System.lineSeparator()+
+                    Text.indent("$tokens : " + tokens) + System.lineSeparator()+
+                    "}";
+        }
     }
 }

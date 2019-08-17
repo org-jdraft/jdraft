@@ -650,7 +650,7 @@ public final class $method
         all = thrown.parseTo(_m.getThrows(), all);
         all = body.parseTo(_m.getBody(), all);
         if( all != null ){
-            return new Select( _m, $args.of(all));
+            return new Select( _m, $tokens.of(all));
         }
         return null;        
     }
@@ -1124,25 +1124,25 @@ public final class $method
      * A Matched Selection result returned from matching a prototype $method
      * inside of some Node or _node
      */
-    public static class Select implements $proto.selected, 
-            $proto.selectedAstNode<MethodDeclaration>, 
-            $proto.selected_model<_method> {
+    public static class Select implements $proto.selected,
+            selectAst<MethodDeclaration>,
+            select_java<_method> {
         
         public final _method _m;
-        public final $args args;
+        public final $tokens args;
 
-        public Select( _method _m, $args tokens ){
+        public Select( _method _m, $tokens tokens ){
             this._m = _m;
             this.args = tokens;
         }
                 
-        public Select( MethodDeclaration astMethod, $args tokens ){
+        public Select( MethodDeclaration astMethod, $tokens tokens ){
             this._m = _method.of(astMethod);
             this.args = tokens;
         }
 
         @Override
-        public $args args(){
+        public $tokens tokens(){
             return args;
         }
         

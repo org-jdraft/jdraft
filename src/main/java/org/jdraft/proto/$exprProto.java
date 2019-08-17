@@ -135,10 +135,10 @@ public interface $exprProto<T extends Expression>
     /**
      *
      * @param translator
-     * @param kvs
+     * @param tokens
      * @return
      */
-    $expr hardcode$(Translator translator, Tokens kvs);
+    $expr hardcode$(Translator translator, Tokens tokens);
 
     /**
      * Does this $expr match ANY
@@ -227,19 +227,19 @@ public interface $exprProto<T extends Expression>
     /**
      *
      * @param clazz
-     * @param $repl
+     * @param $replaceProto
      * @return
      */
-    _type replaceIn(Class clazz, $expr $repl);
+    _type replaceIn(Class clazz, $expr $replaceProto);
 
     /**
      *
      * @param <N>
      * @param _n
-     * @param $repl
+     * @param $replaceProto
      * @return
      */
-    <N extends _java> N replaceIn(N _n, $expr $repl);
+    <N extends _java> N replaceIn(N _n, $expr $replaceProto);
 
     /**
      *

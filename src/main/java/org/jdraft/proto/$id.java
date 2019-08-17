@@ -145,22 +145,22 @@ public final class $id implements $constructor.$part, $method.$part, $field.$par
         return str;
     }
     
-    public $proto.$args parseTo(String t, $proto.$args args) {
-        if (args == null) {
+    public $proto.$tokens parseTo(String t, $proto.$tokens tokens) {
+        if (tokens == null) {
             return null;
         }
         Tokens ts = parse(t);
         if (ts != null) {
-            if (args.isConsistent(ts)) {
-                args.putAll(ts);
-                return args;
+            if (tokens.isConsistent(ts)) {
+                tokens.putAll(ts);
+                return tokens;
             }
         }
         return null;
     }
 
-    public Tokens parseTo(String t, Tokens all) {
-        if (all == null) {
+    public Tokens parseTo(String t, Tokens tokens) {
+        if (tokens == null) {
             /* Skip decompose if the tokens already null*/
             return null;
         }
@@ -168,9 +168,9 @@ public final class $id implements $constructor.$part, $method.$part, $field.$par
         Tokens ts = parse(t);
 
         if (ts != null) {
-            if (all.isConsistent(ts)) {
-                all.putAll(ts);
-                return all;
+            if (tokens.isConsistent(ts)) {
+                tokens.putAll(ts);
+                return tokens;
             }
         }
         return null;

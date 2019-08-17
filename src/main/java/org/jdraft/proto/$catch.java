@@ -1,14 +1,9 @@
 package org.jdraft.proto;
 
-import org.jdraft._code;
-import org.jdraft._java;
-import org.jdraft._type;
-import org.jdraft._walk;
-import org.jdraft.Ast;
+import org.jdraft.*;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.CatchClause;
-import org.jdraft.Tokens;
-import org.jdraft._node;
+
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -324,37 +319,45 @@ public final class $catch implements $proto<CatchClause, $catch> {
         if( ps == null ){
             return null;
         }
-        Tokens ts = ps.args.asTokens();
+        Tokens ts = ps.tokens.asTokens();
         $body.Select bs = this.$bd.select(astCatch);
         if( bs == null ){
             return null;
         }
-        if( ts.isConsistent(bs.args.asTokens())){
-            ts.putAll(bs.args.asTokens());
-            return new Select(astCatch, $args.of(ts));
+        if( ts.isConsistent(bs.tokens.asTokens())){
+            ts.putAll(bs.tokens.asTokens());
+            return new Select(astCatch, $tokens.of(ts));
         }
         return null;        
     }
     
     public static class Select 
-        implements $proto.selected, $proto.selectedAstNode<CatchClause>{
+        implements $proto.selected, selectAst<CatchClause> {
 
-        public $args args;
+        public $tokens tokens;
         public CatchClause astCatchClause;
         
-        public Select(CatchClause cc, $args args){
+        public Select(CatchClause cc, $tokens tokens){
             this.astCatchClause = cc;
-            this.args = args;
+            this.tokens = tokens;
         }
         
         @Override
-        public $args args() {
-            return args;
+        public $tokens tokens() {
+            return tokens;
         }
 
         @Override
         public CatchClause ast() {
             return astCatchClause;
-        }        
+        }
+
+        @Override
+        public String toString(){
+            return "$catch.Select{"+ System.lineSeparator()+
+                    Text.indent( astCatchClause.toString() )+ System.lineSeparator()+
+                    Text.indent("$tokens : " + tokens) + System.lineSeparator()+
+                    "}";
+        }
     }    
 }

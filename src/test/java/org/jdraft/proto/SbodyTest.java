@@ -237,7 +237,7 @@ public class SbodyTest extends TestCase {
         //test 2 meat
         assertTrue( $b.matches("System.out.println(1);", "meat();","meat();","System.out.println(2);")); 
         
-        System.out.println( $b.select("System.out.println(1);", "meat();","meat();","System.out.println(2);").args);
+        System.out.println( $b.select("System.out.println(1);", "meat();","meat();","System.out.println(2);").tokens);
         //test no meat
         assertTrue( $b.matches("System.out.println(1);", "System.out.println(2);"));                 
     }

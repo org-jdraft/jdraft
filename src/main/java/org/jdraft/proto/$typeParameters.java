@@ -205,13 +205,13 @@ public final class $typeParameters
                     return null;
                 }
                 $typeParameter.Select s = $tp.select( ort.get() );
-                if( s == null || !ts.isConsistent(s.$args.asTokens()) ){
+                if( s == null || !ts.isConsistent(s.$tokens.asTokens()) ){
                     return null;
                 }
-                ts.putAll(s.args().asTokens());
+                ts.putAll(s.tokens().asTokens());
                 listed.remove( ort.get() );                
             }
-            return new Select(_i, $args.of(ts) );            
+            return new Select(_i, $tokens.of(ts) );
         }            
         return null;
             
@@ -264,8 +264,8 @@ public final class $typeParameters
         }
         Select sel = select(_ts);
         if( sel != null ){
-            if( allTokens.isConsistent(sel.args.asTokens()) ){
-                allTokens.putAll(sel.args.asTokens());
+            if( allTokens.isConsistent(sel.tokens.asTokens()) ){
+                allTokens.putAll(sel.tokens.asTokens());
                 return allTokens;
             }
         }
@@ -580,7 +580,7 @@ public final class $typeParameters
             astNode.findCompilationUnit().get().walk(CallableDeclaration.class, e-> {
                 Select sel = select( e );
                 if( sel != null ){                    
-                    _typeParameters _ths = $i.draft(sel.args.asTokens());
+                    _typeParameters _ths = $i.draft(sel.tokens.asTokens());
                     sel.typeParameters.astHolder().setTypeParameters(_ths.ast());                    
                 }
             });
@@ -688,32 +688,32 @@ public final class $typeParameters
      * A Matched Selection result returned from matching a prototype $import
      * inside of some CompilationUnit
      */
-    public static class Select implements $proto.selected, 
-        $proto.selected_model<_typeParameters> {
+    public static class Select implements $proto.selected,
+            select_java<_typeParameters> {
     
         public final _typeParameters typeParameters;
-        public final $args args;
+        public final $tokens tokens;
 
-        public Select(_typeParameters _i, $args tokens){
+        public Select(_typeParameters _i, $tokens tokens){
             this.typeParameters = _i;  
-            this.args = tokens;
+            this.tokens = tokens;
         }
         
-        public Select( NodeWithTypeParameters astImport, $args tokens){
+        public Select( NodeWithTypeParameters astImport, $tokens tokens){
             this.typeParameters = _typeParameters.of(astImport );
-            this.args = tokens;
+            this.tokens = tokens;
         }
         
         @Override
-        public $args args(){
-            return args;
+        public $tokens tokens(){
+            return tokens;
         }
         
         @Override
         public String toString(){
             return "$typeParameters.Select {"+ System.lineSeparator()+
                 Text.indent(typeParameters.toString() )+ System.lineSeparator()+
-                Text.indent("$args : " + args) + System.lineSeparator()+
+                Text.indent("$tokens : " + tokens) + System.lineSeparator()+
                 "}";
         }
         

@@ -1090,7 +1090,7 @@ public final class $stmt<T extends Statement>
         if( st == null ){
             return null;
         }      
-        return new Select( astStmt, $args.of(st) );        
+        return new Select( astStmt, $tokens.of(st) );
     }
 
     /**
@@ -1408,7 +1408,7 @@ public final class $stmt<T extends Statement>
             $stmt.Select sel = select( st );
             if( sel != null ){
                 //construct the replacement snippet
-                List<Statement> replacements = $protoReplacement.draft(sel.args );
+                List<Statement> replacements = $protoReplacement.draft(sel.tokens);
 
                 //Statement firstStmt = sel.statements.get(0);
                 //Node par = firstStmt.getParentNode().get();
@@ -1544,26 +1544,26 @@ public final class $stmt<T extends Statement>
      * @param <T> 
      */
     public static class Select<T extends Statement> implements $proto.selected,
-            $proto.selectedAstNode<T> {
+            selectAst<T> {
         
         public T astStatement;
-        public $args args;
+        public $tokens tokens;
         
-        public Select( T astStatement, $args tokens){
+        public Select( T astStatement, $tokens tokens){
             this.astStatement = astStatement;
-            this.args = tokens;
+            this.tokens = tokens;
         }
         
         @Override
-        public $args args(){
-            return args;
+        public $tokens tokens(){
+            return tokens;
         }
         
         @Override
         public String toString(){
             return "$stmt.Select{"+ System.lineSeparator()+
                 Text.indent(astStatement.toString() )+ System.lineSeparator()+
-                Text.indent("$args : " + args) + System.lineSeparator()+
+                Text.indent("$tokens : " + tokens) + System.lineSeparator()+
                 "}";
         }
 

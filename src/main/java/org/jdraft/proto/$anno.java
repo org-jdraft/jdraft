@@ -199,10 +199,8 @@ public final class $anno
         return this;
     }
 
-    public Tokens decompose(_anno _a) {
-        //Tokens ts = $name.decompose(_a.getName());
+    public Tokens parse(_anno _a) {
         if( ! this.constraint.test(_a)){
-            //System.out.println( "Didnt pass MVP Constraint");
             return null;
         }
         
@@ -227,7 +225,6 @@ public final class $anno
             return null;
         }
         if (astAnn instanceof SingleMemberAnnotationExpr) {
-            //System.out.println( "SingleMember");
             if ($mvs.size() == 1) {
                 SingleMemberAnnotationExpr sme = (SingleMemberAnnotationExpr) astAnn;
                 Tokens props = $mvs.get(0).decompose(sme.getMemberValue());
@@ -339,7 +336,6 @@ public final class $anno
             kvs.remove("$anno"); //remove to avoid stackOverflow
             return $a.draft(translator, kvs);
         }
-        //return _anno.of(compose(translator, keyValues));
         return _anno.of(draftToString(translator, keyValues));
     }
 
@@ -372,10 +368,8 @@ public final class $anno
     }
     
     public Select select(_anno _a){
-        //System.out.println( "testing "+ _a);
         if(this.constraint.test(_a)){
-            //System.out.println( "passed constraint "+ _a);
-            Tokens ts = decompose(_a);            
+            Tokens ts = parse(_a);
             if( ts != null ){
                 return new Select(_a, ts);
             }
@@ -484,7 +478,7 @@ public final class $anno
         astNode.walk(AnnotationExpr.class, e-> {
             Select sel = select( e );
             if( sel != null ){
-                sel._ann.ast().replace(a.draft(sel.args).ast() );
+                sel._ann.ast().replace(a.draft(sel.tokens).ast() );
             }
         });
         return astNode;
@@ -893,7 +887,7 @@ public final class $anno
                 if( sel == null ){
                     return null;
                 }
-                return sel.args.asTokens();
+                return sel.tokens.asTokens();
             }
             return null;
         }
@@ -910,10 +904,10 @@ public final class $anno
             if (constraint.test(mvp)) {
                 Tokens ts = key.parse(mvp.getNameAsString());
                 $expr.Select sel = value.select(mvp.getValue());
-                if( sel == null || !ts.isConsistent(sel.args.asTokens())){
+                if( sel == null || !ts.isConsistent(sel.tokens.asTokens())){
                     return null;
                 }
-                ts.putAll(sel.args.asTokens());
+                ts.putAll(sel.tokens.asTokens());
                 //ts = value.decomposeTo(mvp.getValue().toString(), ts);
                 return ts;
             }
@@ -933,7 +927,7 @@ public final class $anno
             if( constraint.test( mvp ) ) {
                 $expr.Select sel = value.select(onlyValueExpression);
                 if( sel != null ){
-                    return new Select(mvp, sel.args.asTokens());
+                    return new Select(mvp, sel.tokens.asTokens());
                 }
             }
             return null;
@@ -954,28 +948,28 @@ public final class $anno
                     return null;
                 }
                 $expr.Select sel = value.select(mvp.getValue());
-                if( sel == null || !ts.isConsistent(sel.args.asTokens())){
+                if( sel == null || !ts.isConsistent(sel.tokens.asTokens())){
                     return null;
                 }
-                ts.putAll(sel.args.asTokens());
+                ts.putAll(sel.tokens.asTokens());
                 return new Select(mvp, ts);
             }
             return null;
         }
 
         public static class Select
-            implements $proto.selected, selectedAstNode<MemberValuePair> {
+            implements $proto.selected, selectAst<MemberValuePair> {
 
             public final MemberValuePair astMvp;
-            public final $args args;
+            public final $tokens args;
 
             public Select(MemberValuePair astMvp, Tokens tokens) {
                 this.astMvp = astMvp;
-                this.args = $args.of(tokens);
+                this.args = $tokens.of(tokens);
             }
 
             @Override
-            public $args args() {
+            public $tokens tokens() {
                 return args;
             }
 
@@ -1021,35 +1015,35 @@ public final class $anno
      * inside of some Node or _node
      */
     public static class Select
-        implements $proto.selected, selected_model<_anno>, selectedAstNode<AnnotationExpr> {
+        implements $proto.selected, select_java<_anno>, selectAst<AnnotationExpr> {
 
         public final _anno _ann;
-        public final $args args;
+        public final $tokens tokens;
 
         public Select(_anno _a, Tokens tokens) {
-            this(_a, $args.of(tokens));
+            this(_a, $tokens.of(tokens));
         }
 
-        public Select(_anno _a, $args tokens) {
+        public Select(_anno _a, $tokens tokens) {
             this._ann = _a;
-            args = tokens;
+            this.tokens = tokens;
         }
 
-        public Select(AnnotationExpr astAnno, $args tokens) {
+        public Select(AnnotationExpr astAnno, $tokens tokens) {
             this._ann = _anno.of( astAnno );
-            this.args = tokens;
+            this.tokens = tokens;
         }
 
         @Override
-        public $args args() {
-            return args;
+        public $tokens tokens() {
+            return tokens;
         }
 
         @Override
         public String toString() {
             return "$anno.Select {" + System.lineSeparator()
                 + Text.indent(_ann.toString()) + System.lineSeparator()
-                + Text.indent("$args : " + args) + System.lineSeparator()
+                + Text.indent("$args : " + tokens) + System.lineSeparator()
                 + "}";
         }
 

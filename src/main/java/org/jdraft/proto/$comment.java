@@ -212,7 +212,7 @@ public final class $comment <C extends Comment>
         if( ts == null ){
             return null;
         }
-        return new Select( astComment, $args.of( ts ));
+        return new Select( astComment, $tokens.of( ts ));
     }
 
     /**
@@ -247,8 +247,8 @@ public final class $comment <C extends Comment>
         }
         Select sel = select(comment);
         if( sel != null ){
-            if( allTokens.isConsistent(sel.args.asTokens()) ){
-                allTokens.putAll(sel.args.asTokens());
+            if( allTokens.isConsistent(sel.tokens.asTokens()) ){
+                allTokens.putAll(sel.tokens.asTokens());
                 return allTokens;
             }
         }
@@ -463,19 +463,19 @@ public final class $comment <C extends Comment>
      */
     public static class Select<C extends Comment> 
         implements $proto.selected,
-            $proto.selectedAstNode<C> {
+            selectAst<C> {
 
         public C comment;
-        public $args args;
+        public $tokens tokens;
         
-        public Select( C comment, $args args){
+        public Select( C comment, $tokens tokens){
             this.comment = comment;
-            this.args = args;
+            this.tokens = tokens;
         }
         
         @Override
-        public $args args() {
-            return args;
+        public $tokens tokens() {
+            return tokens;
         }
 
         @Override
@@ -501,6 +501,14 @@ public final class $comment <C extends Comment>
         
         public String getContent(){
             return Ast.getContent(comment);
+        }
+
+        @Override
+        public String toString(){
+            return "$field.Select{"+ System.lineSeparator()+
+                    Text.indent( comment.toString() )+ System.lineSeparator()+
+                    Text.indent("$tokens : " + tokens) + System.lineSeparator()+
+                    "}";
         }
     }    
 }

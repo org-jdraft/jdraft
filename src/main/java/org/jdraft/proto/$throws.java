@@ -228,7 +228,7 @@ public final class $throws
                 }        
             }
             if( ts != null ){
-                return new Select(_i, $args.of(ts) );
+                return new Select(_i, $tokens.of(ts) );
             }
         }
         return null;
@@ -265,8 +265,8 @@ public final class $throws
         }
         Select sel = select(_ts);
         if( sel != null ){
-            if( allTokens.isConsistent(sel.args.asTokens()) ){
-                allTokens.putAll(sel.args.asTokens());
+            if( allTokens.isConsistent(sel.tokens.asTokens()) ){
+                allTokens.putAll(sel.tokens.asTokens());
                 return allTokens;
             }
         }
@@ -594,7 +594,7 @@ public final class $throws
                         $id th = this.throwsPatterns.get(i);
                         nodes.removeIf(t -> th.matches(t.toString()) );
                     }
-                    _throws _ths = $i.draft(sel.args.asTokens());
+                    _throws _ths = $i.draft(sel.tokens.asTokens());
                     sel.thrown.addAll(_ths.list());
                 }
             });
@@ -702,32 +702,32 @@ public final class $throws
      * A Matched Selection result returned from matching a prototype $import
      * inside of some CompilationUnit
      */
-    public static class Select implements $proto.selected, 
-        $proto.selected_model<_throws> {
+    public static class Select implements $proto.selected,
+            select_java<_throws> {
     
         public final _throws thrown;
-        public final $args args;
+        public final $tokens tokens;
 
-        public Select(_throws _i, $args tokens){
+        public Select(_throws _i, $tokens tokens){
             this.thrown = _i;  
-            this.args = tokens;
+            this.tokens = tokens;
         }
         
-        public Select( NodeWithThrownExceptions astImport, $args tokens){
+        public Select( NodeWithThrownExceptions astImport, $tokens tokens){
             this.thrown = _throws.of(astImport );
-            this.args = tokens;
+            this.tokens = tokens;
         }
         
         @Override
-        public $args args(){
-            return args;
+        public $tokens tokens(){
+            return tokens;
         }
         
         @Override
         public String toString(){
             return "$throws.Select {"+ System.lineSeparator()+
                 Text.indent(thrown.toString() )+ System.lineSeparator()+
-                Text.indent("$args : " + args) + System.lineSeparator()+
+                Text.indent("$tokens : " + tokens) + System.lineSeparator()+
                 "}";
         }
 
