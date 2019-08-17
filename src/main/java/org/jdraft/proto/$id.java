@@ -92,15 +92,15 @@ public final class $id implements $constructor.$part, $method.$part, $field.$par
         return this.pattern.list$Normalized();
     }
 
-    public String compose(Translator t, Map<String, Object> keyValues) {
-        return this.pattern.compose(t, keyValues);
+    public String draft(Translator t, Map<String, Object> keyValues) {
+        return this.pattern.draft(t, keyValues);
     }
 
     public boolean matches(String t) {
-        return decompose(t) != null;
+        return parse(t) != null;
     }
 
-    public Tokens decompose(String t) {
+    public Tokens parse(String t) {
 
         if (t == null) {
             /**
@@ -118,12 +118,12 @@ public final class $id implements $constructor.$part, $method.$part, $field.$par
                 if( !this.pattern.getTextBlanks().getFixedText().contains(".") ){ 
                     String oldPattern = this.pattern.toString();
                     String newPattern = oldPattern.substring(oldPattern.lastIndexOf(".")+1);
-                    Tokens ts = Stencil.of(newPattern).decompose(normalize(t));
+                    Tokens ts = Stencil.of(newPattern).parse(normalize(t));
                     return ts;
                 }
             }            
             //if neither or both are 
-            return pattern.decompose( t );
+            return pattern.parse( t );
         }
         return null;
     }
@@ -145,11 +145,11 @@ public final class $id implements $constructor.$part, $method.$part, $field.$par
         return str;
     }
     
-    public $proto.$args decomposeTo(String t, $proto.$args args) {
+    public $proto.$args parseTo(String t, $proto.$args args) {
         if (args == null) {
             return null;
         }
-        Tokens ts = decompose(t);
+        Tokens ts = parse(t);
         if (ts != null) {
             if (args.isConsistent(ts)) {
                 args.putAll(ts);
@@ -159,13 +159,13 @@ public final class $id implements $constructor.$part, $method.$part, $field.$par
         return null;
     }
 
-    public Tokens decomposeTo(String t, Tokens all) {
+    public Tokens parseTo(String t, Tokens all) {
         if (all == null) {
             /* Skip decompose if the tokens already null*/
             return null;
         }
 
-        Tokens ts = decompose(t);
+        Tokens ts = parse(t);
 
         if (ts != null) {
             if (all.isConsistent(ts)) {

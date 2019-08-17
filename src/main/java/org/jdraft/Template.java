@@ -26,7 +26,7 @@ public interface Template<T> {
      * text
      * @return a constructed T entity
      */
-    T compose(Translator translator, Map<String, Object> keyValues );
+    T draft(Translator translator, Map<String, Object> keyValues );
 
     /**
      * Construct and return the T using the default the {@link Translator}
@@ -36,8 +36,8 @@ public interface Template<T> {
      * text
      * @return a constructed T entity
      */
-    default T compose(Map<String, Object> keyValues ){
-        return compose( Translator.DEFAULT_TRANSLATOR, keyValues );
+    default T draft(Map<String, Object> keyValues ){
+        return draft( Translator.DEFAULT_TRANSLATOR, keyValues );
     }
 
     /**
@@ -46,8 +46,8 @@ public interface Template<T> {
      * @param keyValues alternating key, and values
      * @return
      */
-    default T compose(Object... keyValues ){
-        return compose(Translator.DEFAULT_TRANSLATOR, Tokens.of(keyValues));
+    default T draft(Object... keyValues ){
+        return draft(Translator.DEFAULT_TRANSLATOR, Tokens.of(keyValues));
     }
 
     /**
@@ -57,8 +57,8 @@ public interface Template<T> {
      * @param keyValues alternating key, and values
      * @return
      */
-    default T compose(Translator translator, Object... keyValues ){
-        return compose(translator, Tokens.of(keyValues));
+    default T draft(Translator translator, Object... keyValues ){
+        return draft(translator, Tokens.of(keyValues));
     }
 
     /**
@@ -116,7 +116,7 @@ public interface Template<T> {
         for(int i=0;i<values.length;i++){
             kvs.put( keys.get(i), values[i]);
         }
-        return compose( translator, kvs );
+        return draft( translator, kvs );
     }
 
     /**

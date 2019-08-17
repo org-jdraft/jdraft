@@ -54,7 +54,7 @@ public class SmethodTest extends TestCase {
             $type$ $name$;
         });
 
-        _method _m = $m.compose("name", "x", "type", int.class);
+        _method _m = $m.draft("name", "x", "type", int.class);
         //System.out.println( _m );
         assertTrue( $m.matches( _m) );
         class EX{
@@ -126,7 +126,7 @@ public class SmethodTest extends TestCase {
        
         //verify that when I 
         assertTrue( 
-            $body.of("{}").matches( $m.compose().getBody() ));
+            $body.of("{}").matches( $m.draft().getBody() ));
     }
     
     public void testAnonymousObjectInit(){
@@ -151,8 +151,8 @@ public class SmethodTest extends TestCase {
         _class _c = _class.of(Point.class);
         
         //use the $set method prototype to create/add methods to a _class 
-        _c.add($set.compose("name", "y", "type", int.class),
-               $set.compose("name", "z", "type", int.class));
+        _c.add($set.draft("name", "y", "type", int.class),
+               $set.draft("name", "z", "type", int.class));
         
         //lets create a getter prototype
         $method $get = $method.of( new Object(){
@@ -163,9 +163,9 @@ public class SmethodTest extends TestCase {
             class $type${}            
         });
         //lets add getter methods for x,y, and z
-        _c.add( $get.compose("name", "x", "type", int.class),
-                $get.compose("name", "y", "type", int.class),
-                $get.compose("name", "z", "type", int.class) );
+        _c.add( $get.draft("name", "x", "type", int.class),
+                $get.draft("name", "y", "type", int.class),
+                $get.draft("name", "z", "type", int.class) );
         
         //use the prototypes AGAIN to query into the _class
         assertEquals(3, $set.listIn(_c).size()); //verify we have (3) set methods
@@ -212,7 +212,7 @@ public class SmethodTest extends TestCase {
         
         //verify a "round trip" construct a _method by populating $parameters, 
         //then select it and verify we can pull the parameters out...
-        assertTrue($set.select($set.compose("type",int.class, "name", "x"))
+        assertTrue($set.select($set.draft("type",int.class, "name", "x"))
             .is("type", int.class, "name", "x") );
         
         //make sure I can select from an existing class
@@ -270,13 +270,13 @@ public class SmethodTest extends TestCase {
         // (i.e. a _field will decompose to 
         // even though the field is private, we DONT traspose the 
         //modifier because it is static
-        assertEquals( $m.compose( _field.of("private int count") ),
-                $m.compose( _field.of("int count") ) );
+        assertEquals( $m.draft( _field.of("private int count") ),
+                $m.draft( _field.of("int count") ) );
         //_method _m = $m.construct( _field.of("private int count") );                
         //System.out.println( _m );
         
         $m.$annos("@Deprecated");
-        _method _m = $m.compose( _field.of("private int count") );
+        _method _m = $m.draft( _field.of("private int count") );
         System.out.println( _m );
         
         assertTrue($m.matches(_m));
@@ -368,7 +368,7 @@ public class SmethodTest extends TestCase {
         
 
         System.out.println( $setFleunt );
-        _method _me = $setFleunt.compose("name", "x", "type", int.class);
+        _method _me = $setFleunt.draft("name", "x", "type", int.class);
         System.out.println( _me);
         
         System.out.println( _c );
@@ -389,7 +389,7 @@ public class SmethodTest extends TestCase {
         $method $m = $method.of(new Object(){
             @_static void a(){ System.out.println(1); }
         });
-        _method _m = $m.compose();
+        _method _m = $m.draft();
         assertTrue( _m.isStatic() );
     }
     
@@ -403,7 +403,7 @@ public class SmethodTest extends TestCase {
                 "}");
         System.out.println( bd );
         
-        _method _m = $get.compose("name", "eric", "type", String.class);
+        _method _m = $get.draft("name", "eric", "type", String.class);
         System.out.println( _m );
     }
     
@@ -422,7 +422,7 @@ public class SmethodTest extends TestCase {
                 return this.$name$;
             }
         });
-        System.out.println( $m.compose( _field.of("int count;")) );
+        System.out.println( $m.draft( _field.of("int count;")) );
 
         //verify that the ANNOTATIONS and JAVADOC are transposed
         //
@@ -433,7 +433,7 @@ public class SmethodTest extends TestCase {
                 " * @return ",
                 " */",
                 "@Deprecated",
-                "public int getCount(){ return this.count; }"), $m.compose(_field.of("int count;") ));
+                "public int getCount(){ return this.count; }"), $m.draft(_field.of("int count;") ));
     }
 
     public void testGetterSetter(){
@@ -444,7 +444,7 @@ public class SmethodTest extends TestCase {
 
         $method $set = $method.of("public void set$Name$( $type$ $name$){ this.$name$ = $name$; }");
 
-        _method composed = $get.compose("type", int.class, "name", "x" );
+        _method composed = $get.draft("type", int.class, "name", "x" );
         //System.out.println( composed );
         _method _ma = _method.of(new Object(){
             public int getX(){

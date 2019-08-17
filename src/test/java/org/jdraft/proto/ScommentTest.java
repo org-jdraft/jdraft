@@ -11,21 +11,21 @@ public class ScommentTest extends TestCase {
     
     public void testCompose(){
         assertEquals( Ast.lineComment("//Hello ").getContent().trim(), 
-                $comment.of("//Hello").compose().getContent().trim());
+                $comment.of("//Hello").draft().getContent().trim());
         //assertEquals( Ast.blockComment("/* Hello */"), $comment.of("/* Hello */").construct());
     }
     
     public void testConstruct(){
-        assertNull($comment.javadocComment().compose());
-        assertNotNull($comment.javadocComment().compose("javadoc", "Hi"));
-        System.out.println($comment.javadocComment().compose("javadoc", "Hi"));
-        System.out.println($comment.javadocComment().compose("javadoc", "Hi"+System.lineSeparator()+"There"));
+        assertNull($comment.javadocComment().draft());
+        assertNotNull($comment.javadocComment().draft("javadoc", "Hi"));
+        System.out.println($comment.javadocComment().draft("javadoc", "Hi"));
+        System.out.println($comment.javadocComment().draft("javadoc", "Hi"+System.lineSeparator()+"There"));
         
-        assertNull($comment.lineComment().compose());
-        assertNotNull($comment.lineComment().compose("comment", "Hi"));
+        assertNull($comment.lineComment().draft());
+        assertNotNull($comment.lineComment().draft("comment", "Hi"));
         
-        System.out.println($comment.lineComment().compose("comment", "Hi"));
-        System.out.println($comment.lineComment().compose("comment", "Hi"+System.lineSeparator()+"There"));
+        System.out.println($comment.lineComment().draft("comment", "Hi"));
+        System.out.println($comment.lineComment().draft("comment", "Hi"+System.lineSeparator()+"There"));
     }
     
     public void testAnyMatch(){

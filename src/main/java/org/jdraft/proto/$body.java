@@ -23,7 +23,7 @@ import java.util.function.*;
  *
  * @author Eric
  */
-public final class $body implements Template<_body>, $proto<_body>, $constructor.$part, $method.$part{
+public final class $body implements Template<_body>, $proto<_body, $body>, $constructor.$part, $method.$part{
     
     public static $body any(){
         return of();
@@ -358,7 +358,7 @@ public final class $body implements Template<_body>, $proto<_body>, $constructor
     }
 
     @Override
-    public _body compose(Translator translator, Map<String, Object> keyValues) {
+    public _body draft(Translator translator, Map<String, Object> keyValues) {
         //they can OVERRIDE the body construction if they pass in a "$body" parameter
         if( keyValues.get("$body")!= null ){
             //this means I want to override the body
@@ -367,12 +367,12 @@ public final class $body implements Template<_body>, $proto<_body>, $constructor
             Map<String,Object>tks = new HashMap<>();
             tks.putAll(keyValues);
             tks.remove("$body");
-            return $bd.compose(translator, tks);
+            return $bd.draft(translator, tks);
         }
         if( !this.isImplemented ){
             return _body.of(";");
         }
-        Statement r = this.bodyStmts.compose( translator, keyValues );
+        Statement r = this.bodyStmts.draft( translator, keyValues );
         //System.out.println("THE CONSTRUCTED STATEMENTS"+r );
         return _body.of( r );
         //return _body.of(this.bodyStmts.construct( translator, keyValues ));
@@ -388,7 +388,7 @@ public final class $body implements Template<_body>, $proto<_body>, $constructor
      * @param all
      * @return 
      */
-    public Tokens decomposeTo(_body body, Tokens all) {
+    public Tokens parseTo(_body body, Tokens all) {
         if (all == null) { /* Skip decompose if the tokens already null*/
             return null;
         }    

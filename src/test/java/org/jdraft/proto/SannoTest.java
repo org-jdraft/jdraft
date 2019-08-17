@@ -19,7 +19,7 @@ public class SannoTest extends TestCase {
     
     public void testConstruct(){
         $anno $a = $anno.of("A");
-        assertEquals(_anno.of("A"), $a.compose());
+        assertEquals(_anno.of("A"), $a.draft());
         
         $a = $anno.of( a-> a.isMarker() );
         
@@ -28,7 +28,7 @@ public class SannoTest extends TestCase {
         //assertEquals(_anno.of("A"), $a.construct("name", "A"));
         
         //override construct
-        assertEquals(_anno.of("A"), $a.compose("$anno", "@A"));
+        assertEquals(_anno.of("A"), $a.draft("$anno", "@A"));
     }
     
     public void testFullQualified(){
@@ -186,7 +186,7 @@ public class SannoTest extends TestCase {
      
     public void testStatic$anno(){
         $anno $a = $anno.of("@name");
-        assertEquals( _anno.of("@name"), $a.compose());
+        assertEquals( _anno.of("@name"), $a.draft());
         assertTrue( $a.matches(_anno.of("@name")));
 
         @name
@@ -226,7 +226,7 @@ public class SannoTest extends TestCase {
         $a.replaceIn(_c, $anno.of("@name2(string=$any$)") );
         System.out.println(_c );
 
-        _anno _a = $a.compose("any", "\"Some String\"");
+        _anno _a = $a.draft("any", "\"Some String\"");
         assertEquals( _anno.of("@name(prefix=\"Some String\")"), _a );
     }
 

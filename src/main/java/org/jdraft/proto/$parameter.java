@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 /**
  * @author Eric
  */
-public final class $parameter implements Template<_parameter>, $proto<_parameter> {
+public final class $parameter implements Template<_parameter>, $proto<_parameter, $parameter> {
 
     /**
      * the component parts of a $parameter
@@ -291,16 +291,16 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
     public String composeToString( Translator translator, Map<String, Object> keyValues) {
         StringBuilder sb = new StringBuilder();
         //here use a single " " as a separator between annos and after the last anno
-        sb.append( this.annos.compose(translator, keyValues, " ") ); 
+        sb.append( this.annos.draft(translator, keyValues, " ") );
         if( isFinal ){
             sb.append("final ");
         }
-        sb.append( type.compose(translator, keyValues).toString() );
+        sb.append( type.draft(translator, keyValues).toString() );
         if( isVarArg){
             sb.append("...");
         }
         sb.append(" ");
-        sb.append(name.compose(translator, keyValues));
+        sb.append(name.draft(translator, keyValues));
         return sb.toString();
     }
     
@@ -328,7 +328,7 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
     }
     
     @Override
-    public _parameter compose(Translator translator, Map<String, Object> keyValues) {
+    public _parameter draft(Translator translator, Map<String, Object> keyValues) {
         return _parameter.of( composeToString(translator, keyValues));
     }
     
@@ -416,7 +416,7 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
             }
             all.putAll(sel.args.asTokens() );
             
-            all = this.name.decomposeTo(_p.getName(), all);
+            all = this.name.parseTo(_p.getName(), all);
             
             if( all != null ){
                 return new Select(_p, all);

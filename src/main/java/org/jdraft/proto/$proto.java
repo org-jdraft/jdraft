@@ -32,10 +32,17 @@ import java.util.stream.Collectors;
  * {@link com.github.javaparser.ast.Node} or 
  * {@link org.jdraft._node})
  */
-public interface $proto<P> {
+public interface $proto<P, $P extends $proto>{
 
     /**
-     * does this prototype match this ast node?
+     * Add an (AND) matching constraint for matching the $proto against an instance of P
+     * @param constraint a constraint on the instance of P
+     * @return the modified $P ($proto)
+     */
+    $P and( Predicate<P> constraint );
+
+    /**
+     * does this prototype match this ast candidate node?
      * @param candidate an ast candidate node
      * @return
      */
@@ -437,25 +444,6 @@ public interface $proto<P> {
         _js.forEach(_j -> sel.addAll( listSelectedIn( _j )) );
         return sel;
     }
-
-    /**
-     * return the selections (containing the node and deconstructed parts) of
-     * all matching entities within the astRootNode
-     *
-     * @param clazz runtime class (MUST HAVE .java source code in CLASSPATH)
-     * @return the selected
-
-    default List<? extends selected> listSelectedIn(Class... clazz){
-        List<? extends selected> sel = new ArrayList<>();
-        for(int i=0;i<clazz.length; i++){
-            _java _j = (_type)_java.type(clazz[i]);
-            List<?> ls = listSelectedIn(_j);
-            sel.addAll(ls);
-        }
-        //Arrays.stream(clazz).forEach( c-> sel.addAll( listSelectedIn( _java.type(c)) ) );
-        return sel;
-    }
-    */
     
     /**
      * return the selections (containing the node and deconstructed parts) of

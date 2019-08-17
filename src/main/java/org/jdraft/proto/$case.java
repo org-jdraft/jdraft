@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * @author Eric
  */
 public final class $case
-    implements $proto<SwitchEntry>, Template<SwitchEntry> {
+    implements $proto<SwitchEntry, $case>, Template<SwitchEntry> {
 
     public static $case of( Predicate<SwitchEntry> constraint ){
         return any().and(constraint);
@@ -384,7 +384,7 @@ public final class $case
     }
     
     @Override
-    public SwitchEntry compose(Translator translator, Map<String, Object> keyValues) {
+    public SwitchEntry draft(Translator translator, Map<String, Object> keyValues) {
         SwitchEntry se = new SwitchEntry();
         //Parameteric override
         if( keyValues.get("$case") != null ){
@@ -392,45 +392,45 @@ public final class $case
             Map<String,Object> kvs = new HashMap<>();
             kvs.putAll(keyValues);
             kvs.remove("$case"); //remove to avoid stackOverflow
-            return $a.compose(translator, kvs);
+            return $a.draft(translator, kvs);
         }
         //parameteric override of the label
         if( keyValues.get("$label") != null ){
             Object ll = keyValues.get("$label" );
             if( ll instanceof $expr ){
                 NodeList<Expression> labels = new NodeList<>();
-                labels.add( (($expr) ll).compose(translator, keyValues) );
+                labels.add( (($expr) ll).draft(translator, keyValues) );
                 se.setLabels(labels);                 
             } else{
                 NodeList<Expression> labels = new NodeList<>();
-                labels.add( $expr.of(ll.toString()).compose( translator, keyValues) );
+                labels.add( $expr.of(ll.toString()).draft( translator, keyValues) );
                 se.setLabels(labels);                                 
             }                
         } 
         else if( this.label != null ){
             NodeList<Expression> labels = new NodeList<>();
-            labels.add( this.label.compose(translator, keyValues) );
+            labels.add( this.label.draft(translator, keyValues) );
             se.setLabels(labels); 
         }        
         if( keyValues.get("$statements") != null ){
-            System.out.println( "has Statements");
+            //System.out.println( "has Statements");
             Object ll = keyValues.get("$statements" );
             if( ll instanceof Statement ){
-                se.addStatement( $stmt.of((Statement) ll).compose(translator, keyValues) );
+                se.addStatement( $stmt.of((Statement) ll).draft(translator, keyValues) );
             } else if( ll instanceof $stmt ){
-                se.addStatement( (($stmt) ll).compose(translator, keyValues) );
+                se.addStatement( (($stmt) ll).draft(translator, keyValues) );
             } else if( ll instanceof $stmt[]) {
                 $stmt[] sts = ($stmt[])ll;
-                Arrays.stream(sts).forEach( s-> se.addStatement(s.compose(translator, keyValues)) );
+                Arrays.stream(sts).forEach( s-> se.addStatement(s.draft(translator, keyValues)) );
             } else if( ll instanceof Statement[]) {
-                Arrays.stream( (Statement[])ll).forEach( s-> se.addStatement($stmt.of(s).compose(translator, keyValues)) );
+                Arrays.stream( (Statement[])ll).forEach( s-> se.addStatement($stmt.of(s).draft(translator, keyValues)) );
             } else {
                 //just toString the thing 
                 BlockStmt bs = Ast.blockStmt( (String)(ll.toString()) );
-                bs.getStatements().forEach(s -> se.addStatement( $stmt.of(s).compose(translator, keyValues)));
+                bs.getStatements().forEach(s -> se.addStatement( $stmt.of(s).draft(translator, keyValues)));
             }                     
         } else{
-            this.statements.forEach(st -> se.addStatement( st.compose(translator, keyValues) ) );
+            this.statements.forEach(st -> se.addStatement( st.draft(translator, keyValues) ) );
         }
         return se;
     }

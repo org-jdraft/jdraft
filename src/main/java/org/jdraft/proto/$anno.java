@@ -23,9 +23,9 @@ import org.jdraft.Template;
  *
  * @author Eric
  */
-public class $anno
-    implements Template<_anno>, $proto<_anno>, $constructor.$part, $method.$part, 
-        $field.$part, $parameter.$part {
+public final class $anno
+    implements Template<_anno>, $proto<_anno, $anno>, $constructor.$part, $method.$part,
+        $field.$part, $parameter.$part, $typeParameter.$part {
     
     public static $anno any(){
         return of();
@@ -206,7 +206,7 @@ public class $anno
             return null;
         }
         
-        Tokens ts = name.decompose(_a.getName());
+        Tokens ts = name.parse(_a.getName());
         if( ts == null ){
             //System.out.println( "Decompose null for name "+name+" for \""+_a.getName()+"\"");
             return null;
@@ -300,22 +300,22 @@ public class $anno
         return select(_a) != null;
     }
 
-    public String composeToString( Object...values ){
-        return composeToString( Translator.DEFAULT_TRANSLATOR, Tokens.of(values ));
+    public String draftToString(Object...values ){
+        return draftToString( Translator.DEFAULT_TRANSLATOR, Tokens.of(values ));
     }
     
-    public String composeToString(Translator translator, Map<String, Object> keyValues) {
+    public String draftToString(Translator translator, Map<String, Object> keyValues) {
         if( keyValues.get("$anno") != null ){
             //override parameter passed in
             $anno $a = $anno.of( keyValues.get("$anno").toString() );
             Map<String,Object> kvs = new HashMap<>();
             kvs.putAll(keyValues);
             kvs.remove("$anno"); //remove to avoid stackOverflow
-            return $a.composeToString(translator, kvs);
+            return $a.draftToString(translator, kvs);
         }
         StringBuilder sb = new StringBuilder();
         sb.append("@");
-        sb.append(name.compose(translator, keyValues));
+        sb.append(name.draft(translator, keyValues));
         String properties = "";
         for (int i = 0; i < $mvs.size(); i++) {
             if ((properties.length() > 0) && (!properties.endsWith(","))) {
@@ -330,17 +330,17 @@ public class $anno
     }
     
     @Override
-    public _anno compose(Translator translator, Map<String, Object> keyValues) {
+    public _anno draft(Translator translator, Map<String, Object> keyValues) {
         if( keyValues.get("$anno") != null ){
             //override parameter passed in
             $anno $a = $anno.of( keyValues.get("$anno").toString() );
             Map<String,Object> kvs = new HashMap<>();
             kvs.putAll(keyValues);
             kvs.remove("$anno"); //remove to avoid stackOverflow
-            return $a.compose(translator, kvs);
+            return $a.draft(translator, kvs);
         }
         //return _anno.of(compose(translator, keyValues));
-        return _anno.of(composeToString(translator, keyValues));
+        return _anno.of(draftToString(translator, keyValues));
     }
 
     @Override
@@ -484,7 +484,7 @@ public class $anno
         astNode.walk(AnnotationExpr.class, e-> {
             Select sel = select( e );
             if( sel != null ){
-                sel._ann.ast().replace(a.compose(sel.args).ast() );
+                sel._ann.ast().replace(a.draft(sel.args).ast() );
             }
         });
         return astNode;
@@ -802,9 +802,9 @@ public class $anno
         public String compose(Translator translator, Map<String, Object> keyValues) {
             String k = null;
             if( !key.isMatchAny() ){
-                k = key.compose(translator, keyValues);
+                k = key.draft(translator, keyValues);
             }
-            Expression v = value.compose(translator, keyValues);
+            Expression v = value.draft(translator, keyValues);
             if (k == null || k.length() == 0) {                
                 return v.toString();
             }
@@ -908,7 +908,7 @@ public class $anno
                 return null;
             }
             if (constraint.test(mvp)) {
-                Tokens ts = key.decompose(mvp.getNameAsString());
+                Tokens ts = key.parse(mvp.getNameAsString());
                 $expr.Select sel = value.select(mvp.getValue());
                 if( sel == null || !ts.isConsistent(sel.args.asTokens())){
                     return null;
@@ -949,7 +949,7 @@ public class $anno
                 return null;
             }
             if (constraint.test(mvp)) {
-                Tokens ts = key.decompose(mvp.getNameAsString());
+                Tokens ts = key.parse(mvp.getNameAsString());
                 if( ts == null ){
                     return null;
                 }

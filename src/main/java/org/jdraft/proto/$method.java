@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
  * prototype/template for a Java {@link _method}
  */
 public final class $method
-    implements Template<_method>, $proto<_method> {
+    implements Template<_method>, $proto<_method, $method> {
        
     /**
      * Marker interface for categorizing/identifying parts that make up the
@@ -221,8 +221,7 @@ public final class $method
      * @param _m the method prototype
      * @param
      */
-    private $method( _method _m , Predicate<_method> constraint){
-        
+    private $method( _method _m, Predicate<_method> constraint){
         if( _m.hasJavadoc() ){
             javadoc = $comment.javadocComment(_m.getJavadoc() );
         }        
@@ -554,11 +553,11 @@ public final class $method
         for(int i=0;i<nom.size();i++){
             ts.put( nom.get(i), values[i]);
         }
-        return compose(translator, ts);
+        return draft(translator, ts);
     }
     
     @Override
-    public _method compose(Translator translator, Map<String, Object> keyValues) {
+    public _method draft(Translator translator, Map<String, Object> keyValues) {
         
         //the base values (so we dont get Nulls for base values
         Tokens base = Tokens.of(
@@ -573,27 +572,27 @@ public final class $method
         base.putAll(keyValues);
         
         StringBuilder sb = new StringBuilder();   
-        JavadocComment jdc = javadoc.compose(translator, base );
+        JavadocComment jdc = javadoc.draft(translator, base );
         if( jdc != null ){
             sb.append(jdc);        
             sb.append(System.lineSeparator());
         }        
-        sb.append( annos.compose(translator, base));
+        sb.append( annos.draft(translator, base));
         sb.append(System.lineSeparator());
-        sb.append( modifiers.compose(translator, base));
+        sb.append( modifiers.draft(translator, base));
         sb.append(" ");
-        sb.append( typeParameters.compose(translator, base));
+        sb.append( typeParameters.draft(translator, base));
         sb.append(" ");
-        sb.append( type.compose(translator, base));
+        sb.append( type.draft(translator, base));
         sb.append(" ");
-        sb.append( name.compose(translator, base));
+        sb.append( name.draft(translator, base));
         sb.append(" ");
-        sb.append( parameters.compose(translator, base));
+        sb.append( parameters.draft(translator, base));
         sb.append(" ");
-        sb.append( thrown.compose(translator, base));
+        sb.append( thrown.draft(translator, base));
         sb.append(System.lineSeparator());
         
-        String bd = body.compose(translator, base).toString();
+        String bd = body.draft(translator, base).toString();
         if( bd.length() ==0 ){
             //it's an "anyBody", so I default it to an empty implementation
             sb.append("{}");
@@ -608,8 +607,8 @@ public final class $method
      * @param _n
      * @return 
      */
-    public _method compose(_node _n ){
-        return compose(_n.decompose() );
+    public _method draft(_node _n ){
+        return draft(_n.decompose() );
     }
 
     public static final BlockStmt EMPTY = Stmt.block("{}");
@@ -637,19 +636,19 @@ public final class $method
         }
         Tokens all = new Tokens();
         if( _m.hasJavadoc() ){
-            all = javadoc.decomposeTo(_m.getJavadoc().ast(), all);
+            all = javadoc.parseTo(_m.getJavadoc().ast(), all);
         } else{
             if(!javadoc.isMatchAny() ){
                 return null;
             }
         }
-        all = annos.decomposeTo(_m.getAnnos(), all);
-        all = typeParameters.decomposeTo(_m.getTypeParameters(), all);
-        all = type.decomposeTo(_m.getType(), all);
-        all = name.decomposeTo(_m.getName(), all);
+        all = annos.parseTo(_m.getAnnos(), all);
+        all = typeParameters.parseTo(_m.getTypeParameters(), all);
+        all = type.parseTo(_m.getType(), all);
+        all = name.parseTo(_m.getName(), all);
         all = parameters.decomposeTo(_m.getParameters(), all);
-        all = thrown.decomposeTo(_m.getThrows(), all);
-        all = body.decomposeTo(_m.getBody(), all);
+        all = thrown.parseTo(_m.getThrows(), all);
+        all = body.parseTo(_m.getBody(), all);
         if( all != null ){
             return new Select( _m, $args.of(all));
         }
@@ -1020,7 +1019,7 @@ public final class $method
      */
     public _type replaceIn(Class clazz,  $method $replace ){
         return forSelectedIn(_java.type(clazz), s -> {
-            _method repl = $replace.compose(Translator.DEFAULT_TRANSLATOR, s.args);
+            _method repl = $replace.draft(Translator.DEFAULT_TRANSLATOR, s.args);
             s._m.ast().replace(repl.ast());
         });
     }
@@ -1064,7 +1063,7 @@ public final class $method
      */
     public <_J extends _java> _J replaceIn(_J _j, $method $replace ){
         return forSelectedIn(_j, s -> {
-            _method repl = $replace.compose(Translator.DEFAULT_TRANSLATOR, s.args.asTokens());
+            _method repl = $replace.draft(Translator.DEFAULT_TRANSLATOR, s.args.asTokens());
             s._m.ast().replace(repl.ast());
         });
     }

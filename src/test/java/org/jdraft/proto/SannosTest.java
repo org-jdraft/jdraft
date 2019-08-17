@@ -16,14 +16,14 @@ public class SannosTest extends TestCase {
     
     public void testAnnosSingleMember(){
         $anno $a = $anno.of("A(2)" );
-        _anno _a = $a.compose();
+        _anno _a = $a.draft();
         
         _anno _aa = _anno.of("A(4)");
         _annos _aaa = _annos.of("@A(2)");
         
         $annos $as = $annos.of("@A(1)");
-        $as.compose();
-        System.out.println( $as.compose() );
+        $as.draft();
+        System.out.println( $as.draft() );
     }
     
     public void testAnnosNone(){
@@ -40,11 +40,11 @@ public class SannosTest extends TestCase {
     
     public void testComposeAny(){
         $annos $as = $annos.of();
-        _annos _as = $as.compose(); //should work fine... empty annos
+        _annos _as = $as.draft(); //should work fine... empty annos
         assertTrue( _as.isEmpty() );
         
         //here you can OVERRIDE
-        _as = $as.compose("$annos", "@A" );
+        _as = $as.draft("$annos", "@A" );
         
         assertTrue( _as.contains(_anno.of("@A")));
         

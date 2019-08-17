@@ -31,7 +31,7 @@ public class StencilTest
     public void testOnlyBlank(){
         Stencil s = Stencil.of("$name$");
         Tokens all =
-                s.decompose("The whole thing");
+                s.parse("The whole thing");
         assertTrue( all.size() == 1);
         assertEquals( all.get("name"), "The whole thing" );
 
@@ -41,10 +41,10 @@ public class StencilTest
         Stencil s = Stencil.of("this is the first line", "$any$", "this is the last line");
 
         //make sure I can tokenize with exactly one line in between
-        Tokens kvs = s.decompose("this is the first line", "some data", "this is the last line");
+        Tokens kvs = s.parse("this is the first line", "some data", "this is the last line");
         assertNotNull(kvs );
 
-        kvs = s.decompose("this is the first line", "some data", "more data", "this is the last line");
+        kvs = s.parse("this is the first line", "some data", "more data", "this is the last line");
         assertNotNull( kvs );
         assertTrue( ((String)kvs.get("any" )).contains("some data"));
         assertTrue( ((String)kvs.get("any" )).contains("more data"));
@@ -65,7 +65,7 @@ public class StencilTest
     public void testStencilExtract(){
         Stencil s = Stencil.of( "$a$ and a $b$ of $c$;" );
         List<String> strs = s.getTextBlanks().decompose("XXX and a YYY of ZZZ;");
-        assertEquals( Tokens.of("a", "XXX", "b", "YYY", "c", "ZZZ"), s.decompose("XXX and a YYY of ZZZ;"));
+        assertEquals( Tokens.of("a", "XXX", "b", "YYY", "c", "ZZZ"), s.parse("XXX and a YYY of ZZZ;"));
 
     }
 
@@ -73,18 +73,18 @@ public class StencilTest
 
     public void testStencilRoundTripExtract(){
         Stencil s = Stencil.of( "return $any$;" );
-        assertEquals( "return 3+4;", s.compose( "any", "3+4"));
-        assertEquals( Tokens.of("any", "3 + 4"), s.decompose("return 3 + 4;"));
+        assertEquals( "return 3+4;", s.draft( "any", "3+4"));
+        assertEquals( Tokens.of("any", "3 + 4"), s.parse("return 3 + 4;"));
 
-        assertEquals( "return \";\";", s.compose( "any", "\";\""));
-        assertEquals( Tokens.of("any", "\";\"") , s.decompose("return \";\";"));
+        assertEquals( "return \";\";", s.draft( "any", "\";\""));
+        assertEquals( Tokens.of("any", "\";\"") , s.parse("return \";\";"));
     }
 
 
     public void testStencilToString() {
         Stencil s = Stencil.of( "hello $a$ this is $b$" );
         assertEquals( "hello $a$ this is $b$", s.toString() );
-        assertEquals("hello 1 this is 2", s.compose("a", 1, "b", 2));
+        assertEquals("hello 1 this is 2", s.draft("a", 1, "b", 2));
         assertEquals("hello 1 this is 2", s.fill(1,2));
     }
 
@@ -110,7 +110,7 @@ public class StencilTest
         assertEquals( expect, str );
 
         //make sure we can tokenize the variables back out
-        assertEquals( Tokens.of("name", "x", "Name", "X", "type", "int" ), s.decompose( expect ));
+        assertEquals( Tokens.of("name", "x", "Name", "X", "type", "int" ), s.parse( expect ));
 
     }
 
@@ -121,7 +121,7 @@ public class StencilTest
         Stencil st = Stencil.of("Hi $name$!");
 
         //compose($nameValues...) populates the NAME-VALUE pairs into the template based on the $NAME
-        assertEquals("Hi eric!", st.compose("name", "eric"));
+        assertEquals("Hi eric!", st.draft("name", "eric"));
 
         //fill(values...) populates the values based on the order in the template
         assertEquals("Hi eric!", st.fill("eric"));
@@ -129,13 +129,13 @@ public class StencilTest
         //a $variable$ with the first letter capitalized will ensure the parameter VALUE has its first letter in caps
         st = Stencil.of("Hi $Name$!");
 
-        assertEquals("Hi Eric!", st.compose("name", "eric"));
+        assertEquals("Hi Eric!", st.draft("name", "eric"));
         assertEquals("Hi Eric!", st.fill("eric"));
 
         //variables that are ALL CAPS like NAME will _2_template the values toDir be ALL CAPS
         st = Stencil.of("Hi $NAME$!");
 
-        assertEquals("Hi ERIC!", st.compose("name", "eric"));
+        assertEquals("Hi ERIC!", st.draft("name", "eric"));
         assertEquals("Hi ERIC!", st.fill("eric"));
 
         //heres a more concrete example, creating a getter
@@ -172,8 +172,8 @@ public class StencilTest
         //now that we know our translator does what we want,
         // we can pass the translator in as the FIRST parameter toDir either compose or fill and it will populate things
         Stencil arrClasses = Stencil.of( "Class[] cs = { $classes$ };" );
-        assertEquals( "Class[] cs = { int.class };", arrClasses.compose( classCanonName, "classes", int.class ));
-        assertEquals( "Class[] cs = { java.util.Map.class };", arrClasses.compose( classCanonName, "classes", Map.class ));
+        assertEquals( "Class[] cs = { int.class };", arrClasses.draft( classCanonName, "classes", int.class ));
+        assertEquals( "Class[] cs = { java.util.Map.class };", arrClasses.draft( classCanonName, "classes", Map.class ));
         assertEquals( "Class[] cs = { int.class };", arrClasses.fill( classCanonName, int.class ));
         assertEquals( "Class[] cs = { java.util.Map.class };", arrClasses.fill( classCanonName, Map.class ));
 
@@ -195,7 +195,7 @@ public class StencilTest
                 arrClasses.fill(rt, (Object)new Class[]{Map.class, int.class} ));
 
         assertEquals( "Class[] cs = { java.util.Map.class, int.class };",
-                arrClasses.compose(rt, "classes", (Object)new Class[]{Map.class, int.class} ));
+                arrClasses.draft(rt, "classes", (Object)new Class[]{Map.class, int.class} ));
 
     }
 
@@ -222,7 +222,7 @@ public class StencilTest
         assertEquals("math", vals.get(1));
         assertEquals("hard", vals.get(2));
 
-        Tokens extracted =  st.decompose(toExtract);
+        Tokens extracted =  st.parse(toExtract);
 
         assertEquals( "Eric", extracted.get("a"));
         assertEquals( "math", extracted.get("b"));
@@ -239,7 +239,7 @@ public class StencilTest
         assertEquals( vals.get(1), "STATIC");
         assertEquals( vals.get(2), "\"Eric\"");
 
-        Tokens paramVals = st2.decompose( MyVAL );
+        Tokens paramVals = st2.parse( MyVAL );
 
         assertEquals( paramVals.get("type"), "String");
         assertEquals( paramVals.get("paramName"), "STATIC");
@@ -248,9 +248,9 @@ public class StencilTest
 
     public void testExtractFail(){
         Stencil s = Stencil.of("this is $a$ problem");
-        assertNull( s.decompose("this is alright no") );
+        assertNull( s.parse("this is alright no") );
 
         s = Stencil.of("this is $a$ $b$");
-        assertEquals( Tokens.of("a", "alright","b","no"), s.decompose("this is alright no") );
+        assertEquals( Tokens.of("a", "alright","b","no"), s.parse("this is alright no") );
     }
 }

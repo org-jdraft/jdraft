@@ -28,7 +28,7 @@ import java.util.function.*;
  * NOTE: although this does not implement the Template<> and $query<> interfaces
  * it follows the same naming conventions
  */
-public final class $snip implements Template<List<Statement>>, $proto<List<Statement>> {
+public final class $snip implements Template<List<Statement>>, $proto<List<Statement>, $snip> {
     
     /**
      * Build a dynamic code snippet based on the content of a method defined within an anonymous Object
@@ -265,8 +265,8 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
      * @param tokens
      * @return 
      */
-    public List<Statement> compose(Tokens tokens ){
-        return $snip.this.compose( Translator.DEFAULT_TRANSLATOR, tokens.map());
+    public List<Statement> draft(Tokens tokens ){
+        return $snip.this.draft( Translator.DEFAULT_TRANSLATOR, tokens.map());
     }
 
     /**
@@ -274,12 +274,12 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
      * @param _n
      * @return 
      */
-    public List<Statement> compose(_node _n ){
-        return compose(_n.decompose());
+    public List<Statement> draft(_node _n ){
+        return draft(_n.decompose());
     }
 
     @Override
-    public List<Statement> compose(Translator t, Map<String,Object> tokens ){
+    public List<Statement> draft(Translator t, Map<String,Object> tokens ){
         List<Statement>sts = new ArrayList<>();
         $sts.forEach(stmt -> {
             if( stmt.statementClass == LabeledStmt.class &&
@@ -309,7 +309,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
                 }
                 else if( val != null && val != Boolean.FALSE ){
                     //construct the statement (it
-                    LabeledStmt ls = (LabeledStmt)stmt.compose(t, tokens);
+                    LabeledStmt ls = (LabeledStmt)stmt.draft(t, tokens);
                     Statement st = ls.getStatement();
                     if( st instanceof BlockStmt ) {
                         //add each of the statements
@@ -319,7 +319,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
                     }
                 }
             } else { //it is NOT a dymanically labeled Statement, so just process normally
-                sts.add(stmt.compose(t, tokens));
+                sts.add(stmt.draft(t, tokens));
             }
         });       
         return sts;
@@ -568,7 +568,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
             Select sel = select( (Statement)st );
             if( sel != null ){
                 //constrct the replacement snippet
-                List<Statement> replacements = $repl.compose(sel.args );
+                List<Statement> replacements = $repl.draft(sel.args );
                 Statement firstStmt = sel.statements.get(0);
                 Node par = firstStmt.getParentNode().get();
                 NodeWithStatements parentNode = (NodeWithStatements)par;
@@ -596,19 +596,6 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
         });
 
         Ast.flattenLabel(astNode, "$replacement$");
-        /*
-           Old inefficient stuff
-        _node _le = (_node)_java.of(astNode);
-
-        if( astNode instanceof _body._hasBody){
-            for(int i=0;i< ai.get(); i++){
-                ((_body._hasBody)_le).flattenLabel("$replacement$");
-            }
-        } else if( _le instanceof _type ){
-            ((_type)_le).flattenLabel("$replacement$");
-        }
-
-         */
         return astNode;
     }
 
@@ -643,7 +630,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
             Select sel = select( (Statement)st );
             if( sel != null ){
                 //construct the replacement snippet
-                List<Statement> replacements = $repl.compose(sel.args );
+                List<Statement> replacements = $repl.draft(sel.args );
                 Statement firstStmt = sel.statements.get(0);
                 Node par = firstStmt.getParentNode().get();
                 NodeWithStatements parentNode = (NodeWithStatements)par;
@@ -672,15 +659,6 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
         if( _n instanceof _node ){
             Ast.flattenLabel( ((_node) _n).ast(), "$replacement$");
         }
-        /** Olkd stuff
-        if( _n instanceof _body._hasBody){
-            for(int i=0;i< ai.get(); i++){
-                ((_body._hasBody)_n).flattenLabel("$replacement$");
-            }
-        } else if( _n instanceof _type ){
-            ((_type)_n).flattenLabel("$replacement$");
-        }
-        */
         return _n;
     }
 

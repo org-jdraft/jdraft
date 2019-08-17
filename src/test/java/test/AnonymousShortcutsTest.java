@@ -52,7 +52,7 @@ public class AnonymousShortcutsTest extends TestCase {
         });
         //todo create a toString for $method
         System.out.println( $m );
-        System.out.println( $m.compose() );
+        System.out.println( $m.draft() );
     }
     
     public void testField(){
@@ -72,7 +72,7 @@ public class AnonymousShortcutsTest extends TestCase {
             public static final int a = 100 + 20;
         }); 
         
-        assertEquals( $f.compose(), _field.of("/** Javadoc */ @Deprecated public static final int a = 100 + 20;" ) );
+        assertEquals( $f.draft(), _field.of("/** Javadoc */ @Deprecated public static final int a = 100 + 20;" ) );
     }
     
     public void testConstructor(){
@@ -109,7 +109,7 @@ public class AnonymousShortcutsTest extends TestCase {
                 this.b = b;
             }
         });        
-        System.out.println( $c.compose() );
+        System.out.println( $c.draft() );
         
     }
     

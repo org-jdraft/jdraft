@@ -40,7 +40,7 @@ import org.jdraft.macro._toCtor;
  * prototype/template for a Java {@link _constructor}
  */
 public final class $constructor
-    implements Template<_constructor>, $proto<_constructor> {
+    implements Template<_constructor>, $proto<_constructor, $constructor> {
     
     /**
      * Marker interface for designating prototypes that are "part" of
@@ -529,11 +529,11 @@ public final class $constructor
         for(int i=0;i<nom.size();i++){
             ts.put( nom.get(i), values[i]);
         }
-        return compose(translator, ts);
+        return draft(translator, ts);
     }
     
     @Override
-    public _constructor compose(Translator translator, Map<String, Object> keyValues) {
+    public _constructor draft(Translator translator, Map<String, Object> keyValues) {
         
         //the base values (so we dont get Nulls for base values
         Tokens base = Tokens.of(
@@ -548,24 +548,24 @@ public final class $constructor
         base.putAll(keyValues);
         
         StringBuilder sb = new StringBuilder();   
-        JavadocComment jdc = javadoc.compose(translator, base );
+        JavadocComment jdc = javadoc.draft(translator, base );
         if( jdc != null ){
             sb.append(jdc);        
         }
         sb.append(System.lineSeparator());
-        sb.append( annos.compose(translator, base));
+        sb.append( annos.draft(translator, base));
         sb.append(System.lineSeparator());
-        sb.append( modifiers.compose(translator, base));
+        sb.append( modifiers.draft(translator, base));
         sb.append(" ");
-        sb.append( typeParameters.compose(translator, base));
+        sb.append( typeParameters.draft(translator, base));
         sb.append(" ");
-        sb.append( name.compose(translator, base));
+        sb.append( name.draft(translator, base));
         sb.append(" ");
-        sb.append( parameters.compose(translator, base));
+        sb.append( parameters.draft(translator, base));
         sb.append(" ");
-        sb.append( thrown.compose(translator, base));
+        sb.append( thrown.draft(translator, base));
         sb.append(System.lineSeparator());
-        sb.append( body.compose(translator, keyValues));
+        sb.append( body.draft(translator, keyValues));
         return _constructor.of(sb.toString() );        
     }
     
@@ -574,8 +574,8 @@ public final class $constructor
      * @param _n
      * @return 
      */
-    public _constructor compose(_node _n ){
-        return compose(_n.decompose() );
+    public _constructor draft(_node _n ){
+        return draft(_n.decompose() );
     }
 
     public static final BlockStmt EMPTY = Stmt.block("{}");
@@ -594,16 +594,16 @@ public final class $constructor
         }
         Tokens all = new Tokens();
         if( _m.getJavadoc() != null ){
-            all = javadoc.decomposeTo(_m.getJavadoc().ast(), all);
+            all = javadoc.parseTo(_m.getJavadoc().ast(), all);
         } else{
-            all = javadoc.decomposeTo(null, all);
+            all = javadoc.parseTo(null, all);
         }
-        all = annos.decomposeTo(_m.getAnnos(), all);        
-        all = typeParameters.decomposeTo(_m.getTypeParameters(), all);
-        all = name.decomposeTo(_m.getName(), all);
+        all = annos.parseTo(_m.getAnnos(), all);
+        all = typeParameters.parseTo(_m.getTypeParameters(), all);
+        all = name.parseTo(_m.getName(), all);
         all = parameters.decomposeTo(_m.getParameters(), all);
-        all = thrown.decomposeTo(_m.getThrows(), all);
-        all = body.decomposeTo(_m.getBody(), all);
+        all = thrown.parseTo(_m.getThrows(), all);
+        all = body.parseTo(_m.getBody(), all);
         if( all != null ){
             return new Select( _m, $args.of(all));
         }
@@ -997,7 +997,7 @@ public final class $constructor
      */
     public _type replaceIn(Class clazz, $constructor $replace ){
         return forSelectedIn(_java.type(clazz), s -> {
-            _constructor repl = $replace.compose(Translator.DEFAULT_TRANSLATOR, s.args);
+            _constructor repl = $replace.draft(Translator.DEFAULT_TRANSLATOR, s.args);
             s._ct.ast().replace(repl.ast());
         });
     }
@@ -1041,7 +1041,7 @@ public final class $constructor
      */
     public <_J extends _java> _J replaceIn(_J _j, $constructor $replace ){
         return forSelectedIn(_j, s -> {
-            _constructor repl = $replace.compose(Translator.DEFAULT_TRANSLATOR, s.args.asTokens());
+            _constructor repl = $replace.draft(Translator.DEFAULT_TRANSLATOR, s.args.asTokens());
             s._ct.ast().replace(repl.ast());
         });
     }

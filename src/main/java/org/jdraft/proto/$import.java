@@ -18,7 +18,7 @@ import java.util.function.Predicate;
  *
  */
 public final class $import
-    implements Template<_import>, $proto<_import> {
+    implements Template<_import>, $proto<_import, $import> {
     
     /**
      * $proto representing any import
@@ -203,7 +203,7 @@ public final class $import
             if( _i.isWildcard() ){
                 name += ".*";
             }            
-            Tokens ts = importPattern.decompose( name );
+            Tokens ts = importPattern.parse( name );
             if( ts != null ){
                 return new Select(_i, $args.of(ts) );
             }            
@@ -226,8 +226,8 @@ public final class $import
     }
 
     @Override
-    public _import compose(Translator translator, Map<String, Object> keyValues) {
-        _import _ii = _import.of(importPattern.compose(translator, keyValues));
+    public _import draft(Translator translator, Map<String, Object> keyValues) {
+        _import _ii = _import.of(importPattern.draft(translator, keyValues));
         _ii.setStatic(this.isStatic);
         _ii.setWildcard(this.isWildcard);
         return _ii;
@@ -589,14 +589,14 @@ public final class $import
                     ImportDeclaration id = sel.ast();
                     boolean isS = id.isStatic();
                     boolean isW = id.isAsterisk();
-                    ImportDeclaration rep = $i.compose(sel.args).ast();
+                    ImportDeclaration rep = $i.draft(sel.args).ast();
                     if( isS){
                         rep.setStatic(true);
                     }
                     if( isW ){
                         rep.setAsterisk(true);
                     }
-                    System.out.println( "REPLACEMENT "+ rep);
+                    //System.out.println( "REPLACEMENT "+ rep);
                     id.replace( rep );
                     
                     /*

@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  *
  */
 public final class $typeParameters
-    implements Template<_typeParameters>, $proto<_typeParameters>, $method.$part, $constructor.$part {
+    implements Template<_typeParameters>, $proto<_typeParameters,$typeParameters>, $method.$part, $constructor.$part {
     
     /**
      * 
@@ -126,6 +126,11 @@ public final class $typeParameters
         return this;
     }
 
+    /**
+     *
+     * @param node
+     * @return
+     */
     public boolean match( Node node ){
         if( node instanceof NodeWithTypeParameters ){
             return matches( (NodeWithTypeParameters)node);
@@ -133,7 +138,11 @@ public final class $typeParameters
         return false;
     }
 
-
+    /**
+     *
+     * @param nwtp
+     * @return
+     */
     public boolean matches (NodeWithTypeParameters nwtp ){
         return select(_typeParameters.of(nwtp) ) != null;
     }
@@ -222,7 +231,7 @@ public final class $typeParameters
     }
 
     @Override
-    public _typeParameters compose(Translator translator, Map<String, Object> keyValues) {
+    public _typeParameters draft(Translator translator, Map<String, Object> keyValues) {
         
         _typeParameters _ts = _typeParameters.of();
         if( keyValues.get("$typeParameters") != null ){ //PARAMETER OVERRIDE
@@ -232,14 +241,14 @@ public final class $typeParameters
             kvs.remove("$typeParameters");
             
             if( tps instanceof $typeParameters ){
-                return (($typeParameters)tps).compose(translator, kvs);
+                return (($typeParameters)tps).draft(translator, kvs);
             } 
             if( tps instanceof _typeParameters){
-                return ($typeParameters.of((_typeParameters)tps)).compose(translator, kvs);
+                return ($typeParameters.of((_typeParameters)tps)).draft(translator, kvs);
             }
-            return $typeParameters.of(tps.toString()).compose(translator, kvs);
+            return $typeParameters.of(tps.toString()).draft(translator, kvs);
         }         
-        this.typeParams.forEach( tp -> _ts.add( tp.compose(translator, keyValues) ) );
+        this.typeParams.forEach( tp -> _ts.add( tp.draft(translator, keyValues) ) );
         return _ts;         
     }
     
@@ -249,7 +258,7 @@ public final class $typeParameters
      * @param allTokens
      * @return 
      */
-    public Tokens decomposeTo( _typeParameters _ts, Tokens allTokens ){
+    public Tokens parseTo(_typeParameters _ts, Tokens allTokens ){
         if(allTokens == null){
             return allTokens;
         }
@@ -380,21 +389,7 @@ public final class $typeParameters
             }
             return selectFirstIn( ((_type)_n).ast(), selectConstraint);
         }
-        return selectFirstIn( ((_node)_n).ast(), selectConstraint);        
-        
-        /*
-        if( _n.ast().findCompilationUnit().isPresent() ){
-            Optional<CallableDeclaration> f = _n.ast().findCompilationUnit().get()
-                    .findFirst(CallableDeclaration.class, s -> {
-                        Select sel = this.select(s); 
-                        return sel != null && selectConstraint.test(sel);
-                    });                
-            if( f.isPresent()){
-                return select(f.get());
-            }
-        }
-        return null;
-        */
+        return selectFirstIn( ((_node)_n).ast(), selectConstraint);
     }
 
     /**
@@ -539,19 +534,6 @@ public final class $typeParameters
      */
     public <N extends _java> N replaceIn(N _n, _typeParameters _i){
         return replaceIn(_n, $typeParameters.of(_i));
-        /*
-        Node astNode = _n.ast();
-        if( astNode.findCompilationUnit().isPresent() ){
-            astNode.findCompilationUnit().get().walk( CallableDeclaration.class, e-> {
-                Select sel = select( e );
-                if( sel != null ){
-                    _typeParameters _ths = $typeParameters.of(_i).construct(sel.args.asTokens());
-                    sel.typeParameters.astHolder().setTypeParameters(_ths.ast());                    
-                }
-            });
-        }
-        return _n;
-        */
     }
     
     /**
@@ -598,7 +580,7 @@ public final class $typeParameters
             astNode.findCompilationUnit().get().walk(CallableDeclaration.class, e-> {
                 Select sel = select( e );
                 if( sel != null ){                    
-                    _typeParameters _ths = $i.compose(sel.args.asTokens());
+                    _typeParameters _ths = $i.draft(sel.args.asTokens());
                     sel.typeParameters.astHolder().setTypeParameters(_ths.ast());                    
                 }
             });

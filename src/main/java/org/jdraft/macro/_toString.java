@@ -76,7 +76,7 @@ public @interface _toString {
                     body.addStatement( $simple.fill(_f.getName()) );
                 }
             });
-            _method _m = $TO_STRING.compose("className", _t.getName(), "body", body );
+            _method _m = $TO_STRING.draft("className", _t.getName(), "body", body );
             ((_method._hasMethods)_t).method(_m);
             return _t;
         }
@@ -124,7 +124,7 @@ public @interface _toString {
                     body.addStatement( $simple.fill(_f.getName()) );
                 }
             });
-            _method _m = $TO_STRING.compose("className", typeDeclaration.getName(), "body", body );
+            _method _m = $TO_STRING.draft("className", typeDeclaration.getName(), "body", body );
         }
     }
 }

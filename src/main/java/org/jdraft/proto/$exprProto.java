@@ -18,7 +18,7 @@ import java.util.function.Predicate;
  * @param <T>
  */
 public interface $exprProto<T extends Expression> 
-    extends $field.$part, $proto<T>, $var.$part, Template<T> {
+    extends $field.$part, $proto<T, $exprProto<T>>, $var.$part, Template<T> {
 
     $exprProto<T> $(String target, String $name);
 
@@ -42,9 +42,9 @@ public interface $exprProto<T extends Expression>
      * @param _n
      * @return
      */
-    T compose(_node _n);
+    T draft(_node _n);
 
-    T compose(Translator t, Map<String, Object> tokens);
+    T draft(Translator t, Map<String, Object> tokens);
 
     T fill(Object... values);
 

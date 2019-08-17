@@ -18,7 +18,7 @@ import java.util.function.Predicate;
  * @param <C> the underlying comment type
  */
 public final class $comment <C extends Comment>
-    implements $proto<C>, Template<C>, $constructor.$part, $method.$part, $field.$part {
+    implements $proto<C, $comment<C>>, Template<C>, $constructor.$part, $method.$part, $field.$part {
     
     public static $comment<Comment> any(){
         return new $comment();
@@ -208,7 +208,7 @@ public final class $comment <C extends Comment>
         if( !this.constraint.test( (C)astComment) ){
             return null;
         }        
-        Tokens ts = this.contentsPattern.decompose(Ast.getContent(astComment));
+        Tokens ts = this.contentsPattern.parse(Ast.getContent(astComment));
         if( ts == null ){
             return null;
         }
@@ -234,7 +234,7 @@ public final class $comment <C extends Comment>
      * @param allTokens
      * @return
      */
-    public Tokens decomposeTo( Comment comment, Tokens allTokens ){
+    public Tokens parseTo(Comment comment, Tokens allTokens ){
         if(allTokens == null){
             return allTokens;
         }
@@ -376,8 +376,8 @@ public final class $comment <C extends Comment>
         return forEachIn(astNode, n-> n.remove() );
     }
 
-    public JavadocComment composeJavadocComment(Translator translator, Map<String, Object> keyValues) {
-        String contents = this.contentsPattern.compose(translator, keyValues);
+    public JavadocComment draftJavadocComment(Translator translator, Map<String, Object> keyValues) {
+        String contents = this.contentsPattern.draft(translator, keyValues);
         if( contents.trim().length() == 0 ){
             return null;
         }
@@ -387,17 +387,17 @@ public final class $comment <C extends Comment>
         return new JavadocComment( contents );
     }
     
-    public BlockComment composeBlockComment(Translator translator, Map<String, Object> keyValues) {
+    public BlockComment draftBlockComment(Translator translator, Map<String, Object> keyValues) {
         
-        String contents = this.contentsPattern.compose(translator, keyValues);
+        String contents = this.contentsPattern.draft(translator, keyValues);
         if( contents.trim().length() == 0 || contents.equals("null")){
             return null;
         }
         return new BlockComment( contents );
     }
     
-    public LineComment composeLineComment(Translator translator, Map<String,Object> keyValues){
-        String contents = this.contentsPattern.compose(translator, keyValues);
+    public LineComment draftLineComment(Translator translator, Map<String,Object> keyValues){
+        String contents = this.contentsPattern.draft(translator, keyValues);
         if( contents.trim().length() == 0 || contents.equals("null")){
             return null;
         }
@@ -405,7 +405,7 @@ public final class $comment <C extends Comment>
     }
     
     @Override
-    public C compose(Translator translator, Map<String, Object> keyValues) {
+    public C draft(Translator translator, Map<String, Object> keyValues) {
         if( !keyValues.containsKey("comment")){
             keyValues.put("comment", "");
         }        
@@ -413,25 +413,25 @@ public final class $comment <C extends Comment>
             keyValues.put("javadoc", "");
         }      
         if( this.commentClasses.isEmpty()){
-            return (C) composeBlockComment( translator, keyValues );
+            return (C) draftBlockComment( translator, keyValues );
         }
         if( this.commentClasses.size() == 1 ){
             Class cc = this.commentClasses.toArray(new Class[0])[0];
             if( cc == JavadocComment.class){
-                return (C) composeJavadocComment(translator, keyValues);
+                return (C) draftJavadocComment(translator, keyValues);
             }
             if( cc == BlockComment.class){
-                return (C) composeBlockComment( translator, keyValues );
+                return (C) draftBlockComment( translator, keyValues );
             }
-            return (C) composeLineComment(translator, keyValues );
+            return (C) draftLineComment(translator, keyValues );
         }
         if( this.commentClasses.contains(JavadocComment.class)){
-            return (C) composeJavadocComment(translator, keyValues);
+            return (C) draftJavadocComment(translator, keyValues);
         }
         if( this.commentClasses.contains(BlockComment.class)){
-            return (C) composeJavadocComment(translator, keyValues);
+            return (C) draftJavadocComment(translator, keyValues);
         }
-        return (C) composeLineComment(translator, keyValues);
+        return (C) draftLineComment(translator, keyValues);
     }
 
     @Override

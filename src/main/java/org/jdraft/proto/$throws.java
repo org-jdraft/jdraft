@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  *
  */
 public final class $throws
-    implements Template<_throws>, $proto<_throws>, $method.$part, $constructor.$part {
+    implements Template<_throws>, $proto<_throws, $throws>, $method.$part, $constructor.$part {
     
     /**
      * Matches entities that CAN have throws but have none
@@ -221,7 +221,7 @@ public final class $throws
                 if( !ort.isPresent() ){
                     return null;
                 }
-                ts = $tp.decomposeTo( ort.get().asString(), ts );
+                ts = $tp.parseTo( ort.get().asString(), ts );
                 listed.remove( ort.get() );
                 if( ts == null ){
                     return null;
@@ -240,16 +240,16 @@ public final class $throws
     }
 
     @Override
-    public _throws compose(Translator translator, Map<String, Object> keyValues) {
+    public _throws draft(Translator translator, Map<String, Object> keyValues) {
         _throws _ts = new _throws();
         if( keyValues.get("$throws$") != null ){ //PARAMETER OVERRIDE
             $throws $ths = $throws.of( keyValues.get("$throws$").toString() );
             Map<String,Object> kvs = new HashMap<>();
             kvs.putAll(keyValues);
             kvs.remove("$throws$");
-            return $ths.compose(translator, kvs);
+            return $ths.draft(translator, kvs);
         } 
-        this.throwsPatterns.forEach( tp -> _ts.add( tp.compose(translator, keyValues) ) );        
+        this.throwsPatterns.forEach( tp -> _ts.add( tp.draft(translator, keyValues) ) );
         return _ts;
     }
     
@@ -259,7 +259,7 @@ public final class $throws
      * @param allTokens
      * @return 
      */
-    public Tokens decomposeTo( _throws _ts, Tokens allTokens ){
+    public Tokens parseTo(_throws _ts, Tokens allTokens ){
         if(allTokens == null){
             return allTokens;
         }
@@ -474,53 +474,6 @@ public final class $throws
     }
 
     /**
-     * Build ans return a _type with the import prototypes removed
-     * @param clazz
-     * @return 
-     
-    @Override
-    public _type removeIn( Class clazz){
-        return removeIn( _java.type(clazz));
-    }
-    */ 
-    
-    /**
-     * Remove all matching occurrences of the proto in the node and return the
-     * modified node
-     * @param astNode the root node to start search
-     * @param <N> the input node TYPE
-     * @return the modified node
-     
-    @Override
-    public <N extends Node> N removeIn(N astNode ){
-        astNode.walk( CallableDeclaration.class, e-> {
-            Select sel = select( e );
-            if( sel != null ){
-                for(int i=0;i< this.throwsPatterns.size(); i++){
-                    final NodeList<ReferenceType> nodes = sel.thrown.astNodeWithThrows.getThrownExceptions();
-                    $id th = this.throwsPatterns.get(i);
-                    nodes.removeIf(t -> th.matches(t.toString()) );
-                }                
-            }
-        });
-        return astNode;
-    }
-    */ 
-
-    /**
-     *
-     * @param _n the root model node to start from
-     * @param <N> the TYPE of model node
-     * @return the modified model node
-     
-    @Override
-    public <N extends _node> N removeIn(N _n ){
-        removeIn( _n.ast() );
-        return _n;
-    }
-    */ 
-
-    /**
      * 
      * @param clazz
      * @param throwClasses
@@ -590,27 +543,6 @@ public final class $throws
         }
         replaceIn( ((_node)_n).ast(), $throws.of(_i));        
         return _n;
-        /*
-        
-        Node astNode = _n.ast();
-        if( astNode.findCompilationUnit().isPresent() ){
-            astNode.findCompilationUnit().get().walk( CallableDeclaration.class, e-> {
-                Select sel = select( e );
-                if( sel != null ){
-                    $throws res = $throws.of(_i);
-                    _throws ct = res.construct(sel.args.asTokens());
-                    for(int i=0;i< this.throwsPatterns.size(); i++){
-                        final NodeList<ReferenceType> nodes = sel.thrown.astNodeWithThrows.getThrownExceptions();
-                        $id th = this.throwsPatterns.get(i);
-                        nodes.removeIf(t -> th.matches(t.toString()) );
-                    }
-                    sel.thrown.astNodeWithThrows.getThrownExceptions().addAll( res.construct(sel.args).list() );
-                    //sel.ast().replace(_i.ast() );
-                }
-            });
-        }
-        return _n;
-        */
     }
     
     /**
@@ -622,8 +554,7 @@ public final class $throws
     public _type replaceIn(Class clazz, $throws $i ){
         return replaceIn(_java.type(clazz), $i);
     }
-    
-        
+
     /**
      * Replace all occurrences of the template in the code with the replacement
      * (composing the replacement from the constructed tokens in the source)
@@ -663,9 +594,8 @@ public final class $throws
                         $id th = this.throwsPatterns.get(i);
                         nodes.removeIf(t -> th.matches(t.toString()) );
                     }
-                    _throws _ths = $i.compose(sel.args.asTokens());
+                    _throws _ths = $i.draft(sel.args.asTokens());
                     sel.thrown.addAll(_ths.list());
-                    //sel.ast().replace($i.construct(sel.args).ast() );
                 }
             });
         }
@@ -767,14 +697,6 @@ public final class $throws
         });
         return astNode;
     }
-
-    /*
-    @Override
-    public <N extends _node> N forEachIn(N _n, Consumer<_throws> _importActionFn){
-        forEachIn( _n.ast(), _importActionFn);        
-        return _n;
-    }
-    */
 
     /**
      * A Matched Selection result returned from matching a prototype $import

@@ -1620,7 +1620,7 @@ public final class $expr <T extends Expression>
      * @return the modified Stencil
      */
     @Override
-    public $expr hardcode$( Tokens kvs ) {
+    public $expr<T> hardcode$( Tokens kvs ) {
         return hardcode$( Translator.DEFAULT_TRANSLATOR, kvs );
     }
 
@@ -1632,7 +1632,7 @@ public final class $expr <T extends Expression>
      * @return the modified Stencil
      */
     @Override
-    public $expr hardcode$( Object... keyValues ) {
+    public $expr<T> hardcode$( Object... keyValues ) {
         return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of( keyValues ) );
     }
 
@@ -1645,7 +1645,7 @@ public final class $expr <T extends Expression>
      * @return the modified Stencil
      */
     @Override
-    public $expr hardcode$( Translator translator, Object... keyValues ) {
+    public $expr<T> hardcode$( Translator translator, Object... keyValues ) {
         return hardcode$( translator, Tokens.of( keyValues ) );
     }
 
@@ -1656,7 +1656,7 @@ public final class $expr <T extends Expression>
      * @return 
      */
     @Override
-    public $expr hardcode$( Translator translator, Tokens kvs ) {
+    public $expr<T> hardcode$( Translator translator, Tokens kvs ) {
         this.exprPattern = this.exprPattern.hardcode$(translator,kvs);
         return this;
     }
@@ -1667,13 +1667,13 @@ public final class $expr <T extends Expression>
      * @return 
      */
     @Override
-    public T compose(_node _n ){
-        return (T)$expr.this.compose(_n.decompose());
+    public T draft(_node _n ){
+        return (T)$expr.this.draft(_n.decompose());
     }
 
     @Override
-    public T compose(Translator t, Map<String,Object> tokens ){
-        return (T)Expr.of(exprPattern.compose( t, tokens ));
+    public T draft(Translator t, Map<String,Object> tokens ){
+        return (T)Expr.of(exprPattern.draft( t, tokens ));
     }
 
     public boolean match( Node node ){
@@ -1795,7 +1795,7 @@ public final class $expr <T extends Expression>
                 //}                    
                 return null;                
             }
-            Tokens ts = exprPattern.decompose(astExpr.toString(Ast.PRINT_NO_COMMENTS) );
+            Tokens ts = exprPattern.parse(astExpr.toString(Ast.PRINT_NO_COMMENTS) );
             if( ts != null ){
                 return new Select(astExpr, ts);
             }            
@@ -2121,7 +2121,7 @@ public final class $expr <T extends Expression>
         _walk.in(_j, this.expressionClass, e-> {
             Select sel = select( e );
             if( sel != null ){
-                Expression replaceNode = (Expression)$repl.compose( sel.args.asTokens() );
+                Expression replaceNode = (Expression)$repl.draft( sel.args.asTokens() );
                 sel.astExpression.replace( replaceNode );
             }
         });

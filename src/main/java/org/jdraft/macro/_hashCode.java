@@ -95,26 +95,26 @@ public @interface _hashCode {
          public static Statement constructStmt(_field _f){
             if( _f.getType().isArray() ){
                 if( _f.getType().getElementType().isPrimitiveType()){
-                    return $arrayOfPrimitives.compose(_f);
+                    return $arrayOfPrimitives.draft(_f);
                 }
-                return $arrayOfObject.compose(_f);
+                return $arrayOfObject.draft(_f);
             }
             if( _f.getType().isPrimitive()){
                 if( _f.isType(boolean.class)){
-                    return $boolean.compose(_f);
+                    return $boolean.draft(_f);
                 }
                 if( _f.isType(double.class)){
-                    return $double.compose(_f);
+                    return $double.draft(_f);
                 }
                 if( _f.isType(float.class)){
-                    return $float.compose(_f);
+                    return $float.draft(_f);
                 }
                 if( _f.isType(long.class)){
-                    return $long.compose(_f);
+                    return $long.draft(_f);
                 }
-                return $simplePrimitive.compose(_f);
+                return $simplePrimitive.draft(_f);
             }
-            return $default.compose(_f);
+            return $default.draft(_f);
         }
     }
 
@@ -145,7 +145,7 @@ public @interface _hashCode {
                 //construct Statements for all FIELDS into the BODY BlockStmt
                 _c.forFields(HASH_CODE_FIELD_MATCH_FN, f-> body.addStatement(_fieldToStatement.constructStmt(f)));
                 tokens.put("body", body); //the body:{} will be replaced with the code in the BlockStmt
-                _c.method($HASHCODE.compose(tokens));
+                _c.method($HASHCODE.draft(tokens));
             }
             return _t;
         }

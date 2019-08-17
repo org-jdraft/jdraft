@@ -17,12 +17,12 @@ public class ScaseTest extends TestCase {
         $case $c = $case.of( $expr.of("$val$")
             .and(i -> i.isIntegerLiteralExpr() && Integer.parseInt( i.asIntegerLiteralExpr().getValue() ) % 2 == 1 ),
             $stmt.of("System.out.println($val$);"));
-        System.out.println( $c.compose("val", 1) );
+        System.out.println( $c.draft("val", 1) );
     }
     
     public void testConstructAny(){
         SwitchEntry se = 
-            $case.any().compose("$label", Expr.of(1),
+            $case.any().draft("$label", Expr.of(1),
                 "$statements", "System.out.println(1);");
         System.out.println( se );
     }

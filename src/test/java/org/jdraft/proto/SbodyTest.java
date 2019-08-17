@@ -12,20 +12,20 @@ import junit.framework.TestCase;
 public class SbodyTest extends TestCase {
 
     public void test$BodyLambda(){
-        /*
+
         $body $b = $.body( ()->{
            System.out.println(1);
            System.out.println(2);
         } );
-        */
+        $b.draft();
 
-        $body $b = $.body( (a, b,c)->{
+        $b = $.body( (a, b,c)->{
            System.out.println(a);
            System.out.println(b);
            System.out.println(c);
         });
 
-        _body _bd = $b.compose();
+        _body _bd = $b.draft();
         /*
         assertEquals( Stmt.of((a)->System.out.println(a)), _bd.getStatement(0));
         assertEquals( Stmt.of((b)->System.out.println(b)), _bd.getStatement(1));
@@ -40,10 +40,10 @@ public class SbodyTest extends TestCase {
             }
             System.out.println(3);
         });
-        System.out.println( "HIDE" + $s.compose("A", false) );
-        System.out.println( "SHOW" + $s.compose("A", true) );
-        System.out.println( "OVERRIDE WITH ASSERT" + $s.compose("A", "assert(true);") );
-        System.out.println( "OVERRIDE WITH MULTIPLE STMTS" + $s.compose("A", Stmt.block( "assert(true);", "assert(1==1);") ));
+        System.out.println( "HIDE" + $s.draft("A", false) );
+        System.out.println( "SHOW" + $s.draft("A", true) );
+        System.out.println( "OVERRIDE WITH ASSERT" + $s.draft("A", "assert(true);") );
+        System.out.println( "OVERRIDE WITH MULTIPLE STMTS" + $s.draft("A", Stmt.block( "assert(true);", "assert(1==1);") ));
     }
 
     public void testFlatten$Body(){
@@ -103,11 +103,11 @@ public class SbodyTest extends TestCase {
     }
     
     public void testAnyConstruct(){
-        _body _b = $body.any().compose();
+        _body _b = $body.any().draft();
         System.out.println("BODY " + _b );
         assertFalse( _b.isImplemented() );
         
-        _b = $body.of().compose("$body", "{System.out.println(1);}");
+        _b = $body.of().draft("$body", "{System.out.println(1);}");
     }
     
     public void testComposeWith$Label(){        
@@ -116,16 +116,16 @@ public class SbodyTest extends TestCase {
         });
         
         //SHOW
-        _body _bd = $b.compose( "label", true );
+        _body _bd = $b.draft( "label", true );
         System.out.println( _bd );
         assertTrue( $stmt.of("System.out.println(2);").matches( _bd.getStatement(0)) );
         
         //HIDE
-        _bd = $b.compose();
+        _bd = $b.draft();
         assertTrue( _bd.isEmpty());
         
         //OVERRIDE
-        _bd = $b.compose( "label", Stmt.of("assert true;") );
+        _bd = $b.draft( "label", Stmt.of("assert true;") );
         assertTrue( $stmt.of("assert true;").matches( _bd.getStatement(0)) );                
     }
     
@@ -135,19 +135,19 @@ public class SbodyTest extends TestCase {
         });
         
         //SHOW
-        _body _bd = $b.compose( "block", true );
+        _body _bd = $b.draft( "block", true );
         assertTrue( _bd.isEmpty() ) ; //$stmt.of("{}").matches( _bd.getStatement(0)) );
         
         //HIDE
-        _bd = $b.compose();
+        _bd = $b.draft();
         assertTrue( _bd.isEmpty());
         
         //OVERRIDE (with single statement)
-        _bd = $b.compose( "block", Stmt.of("assert true;") );
+        _bd = $b.draft( "block", Stmt.of("assert true;") );
         assertTrue( $stmt.of("assert true;").matches( _bd.getStatement(0)) );                
         
         //OVERRIDE (with block statement)
-        _bd = $b.compose( "block", Stmt.of("{ a(); b(); }") );
+        _bd = $b.draft( "block", Stmt.of("{ a(); b(); }") );
 
         assertTrue( $stmt.of("a();").matches( _bd.getStatement(0)) );
         assertTrue( $stmt.of("b();").matches( _bd.getStatement(1)) );
@@ -161,7 +161,7 @@ public class SbodyTest extends TestCase {
         $body b = $body.of(()->{
            $label: System.out.println( "Hey"); 
         });
-        _body _b = b.compose("label", true);
+        _body _b = b.draft("label", true);
         System.out.println( _b );
     }
     

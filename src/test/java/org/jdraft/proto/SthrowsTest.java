@@ -26,12 +26,12 @@ public class SthrowsTest extends TestCase {
     }
     
     public void testThrowCompose(){
-        _throws _th = $throws.of().compose();
+        _throws _th = $throws.of().draft();
         assertTrue( _th.isEmpty());
         
         
         //parameter override
-        _th = $throws.of().compose("$throws$", _throws.of(IOException.class) );
+        _th = $throws.of().draft("$throws$", _throws.of(IOException.class) );
         assertEquals( _throws.of(IOException.class), _th);
         System.out.println(_th ); 
     }

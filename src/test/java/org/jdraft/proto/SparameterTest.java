@@ -18,30 +18,30 @@ public class SparameterTest extends TestCase {
         $parameter $p = $parameter.of("int i");        
         _parameter _p = _parameter.of("int i");
         
-        assertEquals( _p, $p.compose() );
+        assertEquals( _p, $p.draft() );
         
-        assertEquals( _p, $parameter.of("$type$ i").compose("type", int.class));
-        assertEquals( _p, $parameter.of("int $name$").compose("name", "i"));
-        assertEquals( _p, $parameter.of("$type$ $name$").compose("name", "i", "type", int.class));
+        assertEquals( _p, $parameter.of("$type$ i").draft("type", int.class));
+        assertEquals( _p, $parameter.of("int $name$").draft("name", "i"));
+        assertEquals( _p, $parameter.of("$type$ $name$").draft("name", "i", "type", int.class));
         
         $p = $parameter.of("final String... nm");
         
-        assertEquals( _parameter.of("final String... nm"), $p.compose());
+        assertEquals( _parameter.of("final String... nm"), $p.draft());
         
         //verify they MUST be both vararg and final
-        assertNotSame( _parameter.of("String... nm"), $p.compose());
-        assertNotSame( _parameter.of("final String nm"), $p.compose());
+        assertNotSame( _parameter.of("String... nm"), $p.draft());
+        assertNotSame( _parameter.of("final String nm"), $p.draft());
         
         $p = $parameter.of("$type$ name");
         
-        assertEquals(_parameter.of(" String name"), $p.compose("type", String.class));
+        assertEquals(_parameter.of(" String name"), $p.draft("type", String.class));
         
         //make sure if I have (one or more) annos they are composed 
         $p = $parameter.of("@A int i");        
-        assertEquals(_parameter.of("@A int i"), $p.compose());
+        assertEquals(_parameter.of("@A int i"), $p.draft());
         
         $p = $parameter.of("@A @B @C final int... i");
-        assertEquals(_parameter.of("@A @B @C final int... i"), $p.compose());
+        assertEquals(_parameter.of("@A @B @C final int... i"), $p.draft());
         
     }
     

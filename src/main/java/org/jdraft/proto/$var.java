@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
  * and 
  */
 public final class $var
-    implements Template<VariableDeclarator>, $proto<VariableDeclarator> {
+    implements Template<VariableDeclarator>, $proto<VariableDeclarator, $var> {
     
     /** marker interface for components that are a part of a var */ 
     public interface $part{}   
@@ -195,31 +195,8 @@ public final class $var
      * @return 
      */
     private static $var ofType( Class varType ){
-        //final _typeRef e = _typeRef.of(varType );
         return of( $typeRef.of(varType));
-        //return of().addConstraint( v-> e.is(v.getType()) );
     }
-    
-    /**
-     * a Var Prototype only specifying the type
-     * @param varType
-     * @return 
-
-    public static $var ofType( Type varType ){
-        final _typeRef e = _typeRef.of(varType );
-        return of().addConstraint( v-> e.is(v) );
-    }
-    */
-
-    /**
-     * a Var Prototype only specifying the type
-     * @param varType
-     * @return 
-
-    public static $var ofType( _typeRef varType ){        
-        return of().addConstraint( v-> varType.is(v) );
-    }    
-    */
 
     /**
      * 
@@ -302,7 +279,6 @@ public final class $var
         this.type = $typeRef.of(astProtoVar.getTypeAsString());
         if( astProtoVar.getInitializer().isPresent() ){
             this.init = $expr.of(astProtoVar.getInitializer().get());
-            //this.init = $component.of(astProtoVar.getInitializer().get());
             this.constraint = v -> v.getInitializer().isPresent();
         }           
     }
@@ -357,7 +333,6 @@ public final class $var
      
     public $var $type( String type ){
         this.type.type = Ast.typeRef(type);
-        //this.type.typePattern = Stencil.of(name);
         return this;
     }
     
@@ -452,13 +427,9 @@ public final class $var
                     return null;
                 }
                 all = sel.args.asTokens();
-                //all = this.init.decomposeTo(astVar.getInitializer().get(), all );
-                //if( all == null ){
-                //    return null;
-                //}                             
             }
-            all = this.name.decomposeTo(astVar.getNameAsString(), all);
-            all = this.type.decomposeTo(_typeRef.of(astVar.getType()), all);
+            all = this.name.parseTo(astVar.getNameAsString(), all);
+            all = this.type.parseTo(_typeRef.of(astVar.getType()), all);
             
             if( all != null ){
                 return new Select(astVar, $args.of(all));
@@ -476,31 +447,31 @@ public final class $var
     }
 
     @Override
-    public VariableDeclarator compose(Translator translator, Map<String, Object> keyValues) {
+    public VariableDeclarator draft(Translator translator, Map<String, Object> keyValues) {
         Tokens base = new Tokens();
         base.put("init", "");
         base.putAll(keyValues);
         
-        String in = init.compose(translator, base).toString();
+        String in = init.draft(translator, base).toString();
         if( in != null ){
-            return Ast.var(this.type.compose(translator, base)+ " "+ this.name.compose(translator, base)+" = "+in+";");
+            return Ast.var(this.type.draft(translator, base)+ " "+ this.name.draft(translator, base)+" = "+in+";");
         }        
-        return Ast.var(this.type.compose(translator, base)+ " "+ this.name.compose(translator, base)+";");
+        return Ast.var(this.type.draft(translator, base)+ " "+ this.name.draft(translator, base)+";");
     }
    
     @Override
-    public VariableDeclarator compose(Map<String, Object> keyValues) {
-        return compose( Translator.DEFAULT_TRANSLATOR, keyValues);
+    public VariableDeclarator draft(Map<String, Object> keyValues) {
+        return draft( Translator.DEFAULT_TRANSLATOR, keyValues);
     }
 
     @Override
-    public VariableDeclarator compose(Object... keyValues) {
-        return compose( Translator.DEFAULT_TRANSLATOR, Tokens.of(keyValues));
+    public VariableDeclarator draft(Object... keyValues) {
+        return draft( Translator.DEFAULT_TRANSLATOR, Tokens.of(keyValues));
     }
 
     @Override
-    public VariableDeclarator compose(Translator translator, Object... keyValues) {
-        return compose( translator, Tokens.of(keyValues));
+    public VariableDeclarator draft(Translator translator, Object... keyValues) {
+        return draft( translator, Tokens.of(keyValues));
     }
 
     @Override
@@ -532,14 +503,14 @@ public final class $var
             for(int i=0;i<vars.size();i++){
                 toCompose.put(allVars.get(i), values[i]);
             }
-            return compose(translator, toCompose);
+            return draft(translator, toCompose);
         }
         if( values.length == vars.size() ){ //no init
             Map<String,Object> toCompose = new HashMap<>();
             for(int i=0;i<vars.size();i++){
                 toCompose.put(allVars.get(i), values[i]);
             }
-            return Ast.var( type.compose(translator, toCompose) + " "+ name.compose(translator, toCompose) );
+            return Ast.var( type.draft(translator, toCompose) + " "+ name.draft(translator, toCompose) );
         }
         throw new _draftException("Expected fill fields of size ("+allVars.size()+") or ("+vars.size()+") got ("+values.length+")");
     }
@@ -673,17 +644,7 @@ public final class $var
             }
             return selectFirstIn( ((_type)_n).ast(), selectConstraint);
         }
-        return selectFirstIn( ((_node)_n).ast(), selectConstraint);        
-        /*
-        Optional<VariableDeclarator> f = _n.ast().findFirst(VariableDeclarator.class, s -> this.matches(s) );         
-        if( f.isPresent()){
-            Select sel = select(f.get());
-            if( selectConstraint.test(sel)){
-                return sel;
-            }
-        }
-        return null;
-        */
+        return selectFirstIn( ((_node)_n).ast(), selectConstraint);
     }
 
     /**
@@ -774,18 +735,7 @@ public final class $var
             }
             return listSelectedIn( ((_type)_n).ast(), selectConstraint);
         }
-        return listSelectedIn( ((_node)_n).ast(), selectConstraint);        
-        
-        /*
-        
-        _walk.in(_n, VariableDeclarator.class, e -> {
-            Select s = select( e );
-            if( s != null && selectConstraint.test(s)){
-                sts.add( s);
-            }
-        });
-        return sts;
-        */
+        return listSelectedIn( ((_node)_n).ast(), selectConstraint);
     }
 
     /**
@@ -809,7 +759,7 @@ public final class $var
         astNode.walk(VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
-                sel.astVar.replace($replaceProto.compose(sel.args) );
+                sel.astVar.replace($replaceProto.draft(sel.args) );
             }
         });
         return astNode;
@@ -826,7 +776,7 @@ public final class $var
         _walk.in(_le, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
-                sel.astVar.replace($replaceProto.compose(sel.args) );
+                sel.astVar.replace($replaceProto.draft(sel.args) );
             }
         });
         return _le;

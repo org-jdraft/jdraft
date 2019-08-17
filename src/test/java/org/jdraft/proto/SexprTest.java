@@ -411,7 +411,7 @@ public class SexprTest extends TestCase {
 
     public void testExprOf(){
         $expr $e = $expr.of("1 + 2");
-        assertEquals( $e.compose(), Expr.of("1 + 2"));
+        assertEquals( $e.draft(), Expr.of("1 + 2"));
         assertTrue( $e.matches(Expr.of("1+2")));
 
         $e = $expr.of("$a$ + $b$");

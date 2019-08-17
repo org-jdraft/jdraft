@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * @author Eric
  */
 public final class $annos
-    implements Template<_annos>, $proto<_annos>, $constructor.$part, $method.$part, 
+    implements Template<_annos>, $proto<_annos, $annos>, $constructor.$part, $method.$part,
         $field.$part, $parameter.$part, $typeParameter.$part {
 
     /**
@@ -142,8 +142,8 @@ public final class $annos
      * @param keyValues
      * @return 
      */
-    public String composeToString( Translator translator, Map<String, Object> keyValues){
-        return compose(translator, keyValues, System.lineSeparator() );
+    public String draftToString(Translator translator, Map<String, Object> keyValues){
+        return draft(translator, keyValues, System.lineSeparator() );
     }
     
     /**
@@ -156,13 +156,13 @@ public final class $annos
      * 
      * @return 
      */        
-    public String compose( Translator translator, Map<String, Object> keyValues, String separator) {
+    public String draft(Translator translator, Map<String, Object> keyValues, String separator) {
         StringBuilder sb = new StringBuilder();
         for(int i=0;i<$annosList.size();i++){            
             if( i > 0 ){
                 sb.append(separator);
             }
-            sb.append( $annosList.get(i).compose(translator, keyValues) );
+            sb.append( $annosList.get(i).draft(translator, keyValues) );
         }
         if( $annosList.size() > 0 ){
             //add another separator AFTER the end (a line break of space) so
@@ -171,16 +171,16 @@ public final class $annos
         }
         if( keyValues.get("$annos") != null){ //they can supply the annos            
             $annos $as = $annos.of( keyValues.get("$annos").toString() );
-            sb.append($as.compose(translator, keyValues, separator));                
+            sb.append($as.draft(translator, keyValues, separator));
         }
         return sb.toString();
     }
     
     @Override
-    public _annos compose(Translator translator, Map<String, Object> keyValues) {
+    public _annos draft(Translator translator, Map<String, Object> keyValues) {
         _annos _as = _annos.of();
         for(int i=0;i<$annosList.size();i++){            
-            _as.add( $annosList.get(i).compose(translator, keyValues) );
+            _as.add( $annosList.get(i).draft(translator, keyValues) );
         }
         //handle $name OVERLOAD i.e. if they pass in a $annos
         if( keyValues.get("$annos") != null){ //they can supply the annos            
@@ -189,7 +189,7 @@ public final class $annos
             Map<String,Object> kvs = new HashMap<>();
             kvs.putAll(keyValues);
             kvs.remove("$annos");
-            _as.addAll( $as.compose(translator, kvs).list() );
+            _as.addAll( $as.draft(translator, kvs).list() );
             //sb.append($as.compose(translator, keyValues, separator));                
         }
         return _as;
@@ -309,7 +309,7 @@ public final class $annos
      * @param allTokens
      * @return
      */
-    public Tokens decomposeTo( _annos _as, Tokens allTokens ){
+    public Tokens parseTo(_annos _as, Tokens allTokens ){
         if(allTokens == null){
             return allTokens;
         }

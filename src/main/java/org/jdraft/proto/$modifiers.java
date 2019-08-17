@@ -19,7 +19,7 @@ import java.util.function.Predicate;
  * @author Eric
  */
 public final class $modifiers
-    implements $proto<_modifiers>, $constructor.$part, $method.$part, $field.$part{
+    implements $proto<_modifiers, $modifiers>, $constructor.$part, $method.$part, $field.$part{
 
     public static $modifiers PUBLIC = $modifiers.of("public");
     public static $modifiers PRIVATE = $modifiers.of("private");
@@ -137,7 +137,7 @@ public final class $modifiers
         return this;
     }
     
-    public _modifiers compose(Translator translator, Map<String,Object> keyValues){
+    public _modifiers draft(Translator translator, Map<String,Object> keyValues){
         //parameter override
         if( keyValues.get("$modifiers") != null){
             Object mods = keyValues.get("$modifiers");
@@ -145,9 +145,9 @@ public final class $modifiers
             ii.putAll(keyValues);
             ii.remove("$modifiers");
             if( mods instanceof $modifiers ){
-                return (($modifiers)mods).compose(translator, ii);
+                return (($modifiers)mods).draft(translator, ii);
             }
-            return $modifiers.of( mods.toString() ).compose( translator, ii);
+            return $modifiers.of( mods.toString() ).draft( translator, ii);
         }
         
         _modifiers _ms = _modifiers.of();
@@ -328,12 +328,6 @@ public final class $modifiers
         }
         return null;
     }
-
-    /*
-    public _modifiers construct(Translator translator, Map<String, Object> keyValues) {
-        return _modifiers.of(this.mustInclude.toArray(new Modifier[0]));
-    }
-     */
     
     public static class Select implements selected, selected_model<_modifiers>{
 

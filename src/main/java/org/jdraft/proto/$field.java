@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
  *
  * @author Eric
  */
-public final class $field implements Template<_field>, $proto<_field> {
+public final class $field implements Template<_field>, $proto<_field, $field> {
   
     public interface $part{} 
     
@@ -634,7 +634,7 @@ public final class $field implements Template<_field>, $proto<_field> {
         astNode.walk(VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
-                sel._f.ast().replace($replaceProto.compose(sel.args).ast() );
+                sel._f.ast().replace($replaceProto.draft(sel.args).ast() );
             }
         });
         return astNode;
@@ -651,7 +651,7 @@ public final class $field implements Template<_field>, $proto<_field> {
         _walk.in(_j, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
-                sel._f.ast().replace($replaceProto.compose(sel.args).ast() );
+                sel._f.ast().replace($replaceProto.draft(sel.args).ast() );
             }
         });
         return _j;
@@ -813,13 +813,13 @@ public final class $field implements Template<_field>, $proto<_field> {
         if( this.constraint.test(_f) && modifiers.select(_f) != null ){            
             Tokens all = new Tokens();
             if (_f.getJavadoc() == null ){
-                all = javadoc.decomposeTo(_f.getJavadoc().ast(), all);
+                all = javadoc.parseTo(_f.getJavadoc().ast(), all);
             } else{
-                all = javadoc.decomposeTo(null, all);
+                all = javadoc.parseTo(null, all);
             }            
-            all = annos.decomposeTo(_f.getAnnos(), all);
-            all = type.decomposeTo(_f.getType(), all);
-            all = name.decomposeTo(_f.getName(), all);
+            all = annos.parseTo(_f.getAnnos(), all);
+            all = type.parseTo(_f.getType(), all);
+            all = name.parseTo(_f.getName(), all);
             if( init == null ){
                 //if we dont care what the init is or is not
             }else{
@@ -870,7 +870,7 @@ public final class $field implements Template<_field>, $proto<_field> {
     } 
     
     @Override
-    public _field compose(Translator translator, Map<String, Object> keyValues) {
+    public _field draft(Translator translator, Map<String, Object> keyValues) {
         Map<String,Object> baseMap = new HashMap<>();
         //we need to set these to empty
         baseMap.put("javadoc", "" );
@@ -883,20 +883,20 @@ public final class $field implements Template<_field>, $proto<_field> {
         baseMap.putAll(keyValues);
         
         StringBuilder sb = new StringBuilder();
-        JavadocComment jdc = javadoc.compose(translator, baseMap);
+        JavadocComment jdc = javadoc.draft(translator, baseMap);
         if( jdc != null){
             sb.append(jdc);
             sb.append(System.lineSeparator());
         }        
-        sb.append(annos.compose(translator, baseMap) );
+        sb.append(annos.draft(translator, baseMap) );
         sb.append(System.lineSeparator());
-        sb.append(modifiers.compose(translator, baseMap) );
+        sb.append(modifiers.draft(translator, baseMap) );
         sb.append(" ");
-        sb.append(type.compose(translator, baseMap) );
+        sb.append(type.draft(translator, baseMap) );
         sb.append(" ");
-        sb.append(name.pattern.compose(translator, baseMap) );
+        sb.append(name.pattern.draft(translator, baseMap) );
         if( init != null ){
-            Expression expr = init.compose(translator, baseMap);
+            Expression expr = init.draft(translator, baseMap);
             if( expr != null ){
                 sb.append( " = ");
                 sb.append( expr );

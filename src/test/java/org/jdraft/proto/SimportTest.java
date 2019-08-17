@@ -70,7 +70,7 @@ public class SimportTest extends TestCase {
         assertTrue( $i.matches("import static a.MyClass"));
 
         //the proto is not static, the composed is not static
-        assertEquals( _import.of("a.MyClass"), $i.compose() );
+        assertEquals( _import.of("a.MyClass"), $i.draft() );
         
         //IF the prototype is marked static it WILL match
         $i = $import.of("import static a.MyClass");
@@ -79,7 +79,7 @@ public class SimportTest extends TestCase {
         //assertTrue( $i.matches("import static a.MyClass.*"));
         
         //the proto is static, the composed is ALSO static
-        assertEquals( _import.of("a.MyClass").setStatic(), $i.compose() );
+        assertEquals( _import.of("a.MyClass").setStatic(), $i.draft() );
     }
     
     /**
@@ -105,7 +105,7 @@ public class SimportTest extends TestCase {
         
 
         //the proto is not static, the composed is not static
-        assertEquals( _import.of("a.MyClass"), $i.compose() );
+        assertEquals( _import.of("a.MyClass"), $i.draft() );
         
         //IF the prototype is marked static it WILL match
         $i = $import.of("import a.MyClass.*");
@@ -113,7 +113,7 @@ public class SimportTest extends TestCase {
         assertTrue( $i.matches("import a.MyClass.*"));
         
         //the proto is wildcard, the composed is ALSO a wildcard
-        assertEquals( _import.of("a.MyClass.*"), $i.compose() );
+        assertEquals( _import.of("a.MyClass.*"), $i.draft() );
     }
     
     

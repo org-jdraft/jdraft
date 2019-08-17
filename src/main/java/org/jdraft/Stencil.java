@@ -230,7 +230,7 @@ public final class Stencil implements Template<String>{
      * @param target the target tag
      * @param $name the tag being parsed
      */
-    private static void parse(
+    private static void parseStencil(
         TextBlanks.Builder builder, List<String> $names, String text,
         String target, String $name ) {
 
@@ -248,8 +248,8 @@ public final class Stencil implements Template<String>{
     }
 
     /**
-     * 
-     * @return 
+     * gets the text blanks underlying the Stencil
+     * @return the text blanks for the stencil
      */
     public TextBlanks getTextBlanks() {
         return this.textBlanks;
@@ -382,22 +382,22 @@ public final class Stencil implements Template<String>{
 
         if( !textBlanks.hasBlanks() ) {
             String text = textBlanks.getFixedText();
-            parse( builder, params, text, target, $name );
+            parseStencil( builder, params, text, target, $name );
         }
         for( int i = 0; i < textBlanks.getBlanksCount(); i++ ) {
             String text = textBlanks.getTextBeforeBlank( i );
-            parse( builder, params, text, target, $name );
+            parseStencil( builder, params, text, target, $name );
             params.add( this.$Names.get( i ) );
             builder.blank();
         }
         String text = textBlanks.getTextAfterBlank( textBlanks.getBlanksCount() - 1 );
-        parse( builder, params, text, target, $name );
+        parseStencil( builder, params, text, target, $name );
 
         return new Stencil( builder.compile(), params );
     }
 
     @Override
-    public String compose(Translator translator, Map<String, Object> $nameValues ){
+    public String draft(Translator translator, Map<String, Object> $nameValues ){
 
         Map<String, Object> combinedParams = new HashMap<>($nameValues);
 
@@ -485,6 +485,10 @@ public final class Stencil implements Template<String>{
         return (valsInOrder != null);
     }
 
+    /**
+     * Gets the regex pattern
+     * @return
+     */
     public Pattern getPattern(){
         return this.textBlanks.getRegexPattern();
     }
@@ -496,8 +500,8 @@ public final class Stencil implements Template<String>{
      * @param constructed the String to be deconstructed
      * @return the Tokens or null if the constructed string doesn't match the stencil pattern
      */
-    public Tokens decompose(String constructed ){
-        return decompose( new String[]{constructed} );
+    public Tokens parse(String constructed ){
+        return parse( new String[]{constructed} );
     }
     
     /**
@@ -505,9 +509,9 @@ public final class Stencil implements Template<String>{
      * Tokens (key-value pairs) from the fixed text or return null
      * 
      * @param constructed the String to be deconstructed
-     * @return the Tokens or null if the constructed String doesnt match the stencil pattern
+     * @return the Tokens (or null if the constructed String doesnt match the stencil pattern)
      */
-    public Tokens decompose(String... constructed ) {
+    public Tokens parse(String... constructed ) {
         List<String> valsInOrder = this.textBlanks.decompose( Text.combine( constructed) );
         if( valsInOrder == null ) {
             return null;
@@ -529,7 +533,6 @@ public final class Stencil implements Template<String>{
         Map<String, Object> fillMap = new HashMap<>();
         String[] fills = this.$Names.toArray( new String[ 0 ] );
         for( int i = 0; i < fills.length; i++ ) {
-            //fills[ i ] = "$" + fills[ i ] + "$"; //accept $ delimeters around $Names
             fillMap.put( fills[ i ],  "$" + fills[ i ] +"$" );
         }
 

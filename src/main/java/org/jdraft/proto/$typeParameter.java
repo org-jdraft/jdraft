@@ -14,11 +14,12 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * 
+ * prototype / template model of a _typeParameter
+ *
  * @author Eric
  */
 public final class $typeParameter
-    implements Template<_typeParameter>, $proto<_typeParameter>, $method.$part, $constructor.$part {
+    implements Template<_typeParameter>, $proto<_typeParameter, $typeParameter>, $method.$part, $constructor.$part {
 
     /** */
     public interface $part { }
@@ -183,25 +184,25 @@ public final class $typeParameter
     }
     
     @Override
-    public _typeParameter compose(Translator translator, Map<String, Object> keyValues) {
+    public _typeParameter draft(Translator translator, Map<String, Object> keyValues) {
         if( keyValues.get("$typeParameter") != null ){
             Object tp = keyValues.get("$typeParameter");            
             Map<String,Object> kvs = new HashMap<>();
             kvs.putAll(keyValues);
             kvs.remove("$typeParameter");
             if( tp instanceof $typeParameter ){
-                return (($typeParameter)tp).compose(translator, kvs);
+                return (($typeParameter)tp).draft(translator, kvs);
             }
             if( tp instanceof _typeParameter){
-                return $typeParameter.of( (_typeParameter)tp).compose(translator, kvs);
+                return $typeParameter.of( (_typeParameter)tp).draft(translator, kvs);
             }
             if( tp instanceof TypeParameter){
-                return $typeParameter.of( (TypeParameter)tp).compose(translator, kvs);
+                return $typeParameter.of( (TypeParameter)tp).draft(translator, kvs);
             }
-            return $typeParameter.of( tp.toString() ).compose(translator, kvs);
+            return $typeParameter.of( tp.toString() ).draft(translator, kvs);
         }
-        String anos = this.$anns.composeToString(translator, keyValues);
-        String nm = this.$name.compose(translator, keyValues);
+        String anos = this.$anns.draftToString(translator, keyValues);
+        String nm = this.$name.draft(translator, keyValues);
         if( nm.length() == 0 && keyValues.containsKey("name")){ //this handles $any$
             nm = keyValues.get("name").toString();
         }
@@ -212,7 +213,7 @@ public final class $typeParameter
                 if( i > 0){
                     b.append(" & ");
                 }
-                b.append($typeBound.get(i).compose(translator, keyValues));
+                b.append($typeBound.get(i).draft(translator, keyValues));
             }
             tb = " extends "+ b.toString();
         }
@@ -420,7 +421,7 @@ public final class $typeParameter
 
         if( asel != null ){
             Tokens ts = asel.args().asTokens();
-            ts = this.$name.decomposeTo(_tp.getName(), ts);
+            ts = this.$name.parseTo(_tp.getName(), ts);
             if( ts == null ){
                 return null;
             }
@@ -434,7 +435,7 @@ public final class $typeParameter
                 if( !coit.isPresent()){
                     return null;
                 }
-                ts = $tb.decomposeTo(_typeRef.of(coit.get()), ts);
+                ts = $tb.parseTo(_typeRef.of(coit.get()), ts);
                 if( ts == null ){
                     return null;
                 }

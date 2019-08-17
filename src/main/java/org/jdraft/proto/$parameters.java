@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  *
  * @author Eric
  */
-public final class $parameters implements Template<_parameters>, $proto<_parameters>,
+public final class $parameters implements Template<_parameters>, $proto<_parameters,$parameters>,
         $constructor.$part, $method.$part {
 
     List<$parameter> $params = new ArrayList<>();
@@ -70,11 +70,11 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
     }
     
     @Override
-    public _parameters compose(Translator translator, Map<String, Object> keyValues) {
+    public _parameters draft(Translator translator, Map<String, Object> keyValues) {
         _parameters _ps = _parameters.of();
         
         for(int i=0;i<$params.size(); i++){            
-            _ps.add($params.get(i).compose(translator, keyValues));
+            _ps.add($params.get(i).draft(translator, keyValues));
         }
         return _ps;        
     }
@@ -251,7 +251,7 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
     public <N extends Node> N replaceIn(N astRootNode, $parameters $replacementProto) {
         
         return forSelectedIn( astRootNode, s->{            
-            _parameters _replaceParams = $replacementProto.compose(s.args);
+            _parameters _replaceParams = $replacementProto.draft(s.args);
             s._params.astHolder().setParameters(_replaceParams.ast());             
             } );
     }
@@ -276,7 +276,7 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
      */
     public <N extends _java> N replaceIn(N _n, $parameters $replacementProto) {
         return forSelectedIn( _n, s->{            
-            _parameters _replaceParams = $replacementProto.compose(s.args);
+            _parameters _replaceParams = $replacementProto.draft(s.args);
             s._params.astHolder().setParameters(_replaceParams.ast());             
             } );
     }

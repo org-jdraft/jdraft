@@ -42,7 +42,7 @@ public class SparametersTest extends TestCase {
         assertTrue( $ps.matches(_parameters.of()) );
         
         //lets test compose...
-        assertEquals( _parameters.of(), $ps.compose());
+        assertEquals( _parameters.of(), $ps.draft());
         //assertEquals( _parameters.of("int i"), $ps.construct("parameters", "int i"));        
     }
     
@@ -86,7 +86,7 @@ public class SparametersTest extends TestCase {
     
     public void testDynamicParameters(){
         $parameters $ps = $parameters.of("$type$ a");
-        assertEquals( _parameters.of("String a"), $ps.compose("type", String.class));
+        assertEquals( _parameters.of("String a"), $ps.draft("type", String.class));
         
         //this will match any (single) parameters with only a
         assertTrue($ps.matches("int a") );

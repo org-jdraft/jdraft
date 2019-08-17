@@ -40,22 +40,22 @@ public class SaTest extends TestCase {
     
     public void testOverrideParameter(){
         
-        System.out.println( $anno.of("B").composeToString() + "" );
+        System.out.println( $anno.of("B").draftToString() + "" );
         
-        assertEquals(_anno.of("B"), $anno.of().compose("$anno", "@B"));
+        assertEquals(_anno.of("B"), $anno.of().draft("$anno", "@B"));
         assertEquals(_anno.of("B").toString(), $anno.of()
-                .composeToString("$anno", "@B"));
+                .draftToString("$anno", "@B"));
     }
     
     public void testAnyCompose(){
         try{
-            $anno.of().compose();
+            $anno.of().draft();
             fail("expected exception for no name");
         }catch(Exception e){
             
         }        
         //override parameter
-        assertEquals(_anno.of("E"), $anno.of().compose("$anno", "@E"));
+        assertEquals(_anno.of("E"), $anno.of().draft("$anno", "@E"));
         
     }
     
@@ -309,7 +309,7 @@ public class SaTest extends TestCase {
      
     public void testStatic$a(){
         $anno a = $anno.of("@name");
-        assertEquals( _anno.of("@name"), a.compose());
+        assertEquals( _anno.of("@name"), a.draft());
         assertTrue( a.matches(_anno.of("@name")));
 
         @name
@@ -352,7 +352,7 @@ public class SaTest extends TestCase {
         a.replaceIn(_c, $anno.of("@name2(string=$any$)") );
         System.out.println(_c );
 
-        _anno _a = a.compose("any", "\"Some String\"");
+        _anno _a = a.draft("any", "\"Some String\"");
         assertEquals( _anno.of("@name(prefix=\"Some String\")"), _a );
     }
 

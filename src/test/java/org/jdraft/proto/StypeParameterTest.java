@@ -1,7 +1,6 @@
 package org.jdraft.proto;
 
 import com.github.javaparser.ast.type.TypeParameter;
-import org.jdraft._class;
 import org.jdraft._node;
 import org.jdraft._typeParameter;
 import java.io.Serializable;
@@ -38,11 +37,11 @@ public class StypeParameterTest extends TestCase {
         
         $typeParameter $tp = 
             $typeParameter.of("@A @C(k=1,v='c') G extends @UU RR & @VV GG");
-        assertEquals(_typeParameter.of("@A @C(k=1,v='c') G extends @UU RR & @VV GG"), $tp.compose());
+        assertEquals(_typeParameter.of("@A @C(k=1,v='c') G extends @UU RR & @VV GG"), $tp.draft());
         
-        assertEquals(_typeParameter.of("F"), $typeParameter.of("$name$").compose("name", "F"));
-        assertEquals(_typeParameter.of("@A F"), $typeParameter.of("@A $name$").compose("name", "F"));
-        assertEquals(_typeParameter.of("@A F extends Serializable"), $typeParameter.of("@A $name$ extends Serializable").compose("name", "F"));
+        assertEquals(_typeParameter.of("F"), $typeParameter.of("$name$").draft("name", "F"));
+        assertEquals(_typeParameter.of("@A F"), $typeParameter.of("@A $name$").draft("name", "F"));
+        assertEquals(_typeParameter.of("@A F extends Serializable"), $typeParameter.of("@A $name$ extends Serializable").draft("name", "F"));
     }
     
     public void testAny(){
@@ -59,7 +58,7 @@ public class StypeParameterTest extends TestCase {
         assertNotNull( sel );
         
         assertEquals( _typeParameter.of("A"), 
-            $typeParameter.any().compose("name", "A"));
+            $typeParameter.any().draft("name", "A"));
     }
     
     public void testMatchTypeBound(){

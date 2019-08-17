@@ -25,7 +25,7 @@ import java.util.function.Predicate;
  * 
  * @author Eric
  */
-public final class $node implements $proto<Node> {
+public final class $node implements $proto<Node, $node> {
 
     /**
      * 
@@ -83,7 +83,6 @@ public final class $node implements $proto<Node> {
         return of( "$node$", nodeTypes);
     }
 
-
     /**
      *
      * @param pattern
@@ -133,6 +132,7 @@ public final class $node implements $proto<Node> {
     public $node hardcode$( Map args ){
         return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of( args ));
     }
+
     /**
      * Hardcode parameterized values
      * (i.e. what was once a parameter, now is static text)
@@ -247,7 +247,7 @@ public final class $node implements $proto<Node> {
      */
     public Select select(Node astNode){
         if( this.constraint.test(astNode)) {
-            Tokens ts = this.pattern.decompose( astNode.toString(Ast.PRINT_NO_COMMENTS) );
+            Tokens ts = this.pattern.parse( astNode.toString(Ast.PRINT_NO_COMMENTS) );
             if( ts != null ){
                 return new Select( astNode, ts);
             }
@@ -413,9 +413,9 @@ public final class $node implements $proto<Node> {
     public <N extends Node> N replaceIn(N astRootNode, $node $replacement) {
         astRootNode.walk(n -> {
             if( this.constraint.test(n) ) {
-                Tokens ts = this.pattern.decompose( n.toString(Ast.PRINT_NO_COMMENTS) );
+                Tokens ts = this.pattern.parse( n.toString(Ast.PRINT_NO_COMMENTS) );
                 if( ts != null ){
-                    String constructed = $replacement.pattern.compose(ts);
+                    String constructed = $replacement.pattern.draft(ts);
                     if( ! replaceNode( n, constructed ) ){
                         //System.out.println("DIDNT REPLACE "+ n);
                     }                    
@@ -456,7 +456,7 @@ public final class $node implements $proto<Node> {
         astRootNode.walk(n -> {
             if( this.constraint.test(n)) {
                 String st = n.toString(Ast.PRINT_NO_COMMENTS);
-                Tokens ts = this.pattern.decompose( st );
+                Tokens ts = this.pattern.parse( st );
                 if( ts != null ){
                     //System.out.println( "replacing "+ n +" of "+n.getClass()+" with "+ replacement );
                     boolean isRep = replaceNode( n, replacement );                    
@@ -478,7 +478,7 @@ public final class $node implements $proto<Node> {
     public <N extends Node> N replaceIn(N astRootNode, Node replacement) {
         astRootNode.walk(n -> {
             if( this.constraint.test(n)) {
-                Tokens ts = this.pattern.decompose( n.toString(Ast.PRINT_NO_COMMENTS) );
+                Tokens ts = this.pattern.parse( n.toString(Ast.PRINT_NO_COMMENTS) );
                 if( ts != null ){
                     replaceNode( n, replacement );                    
                 }                

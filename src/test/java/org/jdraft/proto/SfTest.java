@@ -205,21 +205,21 @@ public class SfTest extends TestCase {
     
     
     public void testConstruct$F(){
-        _field _f = $field.of("int f").compose();
+        _field _f = $field.of("int f").draft();
         System.out.println( _f );
         
         assertTrue( _f.is("int f") );
         
-        _f = $field.ofName("f").compose("type", int.class);
+        _f = $field.ofName("f").draft("type", int.class);
         assertTrue( _f.is("int f") );
         
-        _f = $field.ofType(int.class).compose("name", "f");
+        _f = $field.ofType(int.class).draft("name", "f");
         assertTrue( _f.is("int f") );
         
         
         $field $full = $field.of("/** javadoc */ @Deprecated public static final int IF = 100;");
         
-        _f = $full.compose();
+        _f = $full.draft();
         assertTrue( _f.is("/** javadoc */ @Deprecated public static final int IF = 100;") );
     }
 }

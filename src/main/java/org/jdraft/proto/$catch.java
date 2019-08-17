@@ -18,7 +18,7 @@ import java.util.function.Predicate;
  *
  * @author Eric
  */
-public final class $catch implements $proto<CatchClause> {
+public final class $catch implements $proto<CatchClause, $catch> {
     
     public static $catch of( String...catchCode ){
         return new $catch( Ast.catchClause(catchCode));

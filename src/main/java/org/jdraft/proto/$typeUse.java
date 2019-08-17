@@ -181,14 +181,6 @@ public final class $typeUse {
         }
         replaceIn( ((_node)_n).ast(), replacement);        
         return _n;
-        /*
-        if( _n instanceof _type && ((_type)_n).isTopLevel()){
-            replaceIn( ((_type)_n).astCompilationUnit(), replacement);
-            return _n;
-        }
-        replaceIn(_n.ast(), replacement);
-        return _n;
-        */
     }
     
     private static List<$node> buildMemberClassNames(Class clazz ){
@@ -245,14 +237,6 @@ public final class $typeUse {
         }
         replaceIn( ((_node)_n).ast(), replacement);        
         return _n;
-        /*
-        if( _n instanceof _type && ((_type)_n).isTopLevel()){
-            replaceIn( ((_type)_n).astCompilationUnit(), replacement);
-            return _n;
-        }
-        replaceIn(_n.ast(), replacement);
-        return _n;
-        */
     }
     
     public <N extends Node> N replaceIn(N astRootNode, Node replacement) {
@@ -273,14 +257,6 @@ public final class $typeUse {
         }
         replaceIn( ((_node)_n).ast(), replacement);        
         return _n;
-        /*
-        if( _n instanceof _type && ((_type)_n).isTopLevel()){
-            replaceIn( ((_type)_n).astCompilationUnit(), replacement);
-            return _n;
-        }
-        replaceIn(_n.ast(), replacement);
-        return _n;
-        */
     }
     
     public _type replaceIn(Class clazz, Node replacement){
@@ -302,14 +278,6 @@ public final class $typeUse {
         }
         removeIn( ((_node)_n).ast() );        
         return _n;
-        /*
-        if( _n instanceof _type && ((_type)_n).isTopLevel()){
-            removeIn( ((_type)_n).astCompilationUnit() );
-            return _n;
-        }
-        removeIn(_n.ast() );
-        return _n;
-        */
     }
     
     public <N extends Node> N removeIn(N astRootNode ) {

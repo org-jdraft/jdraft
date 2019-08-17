@@ -20,7 +20,7 @@ import java.util.function.Predicate;
  * Template for a Java Type {@link Type} Reference
  */
 public final class $typeRef
-    implements Template<_typeRef>, $proto<_typeRef>, $method.$part, $field.$part, 
+    implements Template<_typeRef>, $proto<_typeRef, $typeRef>, $method.$part, $field.$part,
         $parameter.$part, $typeParameter.$part, $var.$part {
     
     /**
@@ -91,10 +91,6 @@ public final class $typeRef
     
     /** Matching constraint */
     public Predicate<_typeRef> constraint = (t)-> true;
-    
-    /** type code Pattern
-    public Stencil typePattern;
-     */
 
     /** This MIGHT be an explicit type OR it might be a pattern */
     public Type type;
@@ -105,17 +101,14 @@ public final class $typeRef
      */
     public  $typeRef( Type astProtoType ){
         this.type = astProtoType.clone();
-        //this.typePattern = Stencil.of(_typeRef.of(astProtoType).toString() );
     }
 
     /**
      * 
      * @param _proto the proto to build the $typeRef prototype from 
      */
-    public $typeRef(_typeRef _proto)
-    {
+    public $typeRef(_typeRef _proto) {
         this.type = _proto.ast().clone();
-        //this.typePattern = Stencil.of(_proto.toString() );
     }
     
     /**
@@ -124,7 +117,6 @@ public final class $typeRef
      */
     private $typeRef(String pattern){
         this.type = Ast.typeRef(pattern);
-        //this.typePattern = Stencil.of(pattern);
     } 
 
     private Stencil typePattern(){
@@ -161,13 +153,8 @@ public final class $typeRef
     public $typeRef $(String target, String $name ) {
         Stencil st = typePattern();
         st = st.$(target, $name);
-        //st.toString();
         this.type = Ast.typeRef(st.toString());
         return this;
-        //String str = this.type.toString();
-
-        //this.typePattern = this.typePattern.$(target, $name);
-        //return this;
     }
 
     /**
@@ -178,8 +165,6 @@ public final class $typeRef
      */
     public $typeRef $(Expression astExpr, String $name){
         return $( astExpr.toString(), $name);
-        //this.typePattern = this.typePattern.$(astExpr.toString(), $name);
-        //return this;
     }
 
     /**
@@ -226,7 +211,6 @@ public final class $typeRef
         Stencil st = typePattern();
         st = st.hardcode$(translator, kvs);
         this.type = Ast.typeRef(st.toString());
-        //this.typePattern = this.typePattern.hardcode$(translator,kvs);
         return this;
     }
     
@@ -236,9 +220,9 @@ public final class $typeRef
      * @param allTokens
      * @return 
      */
-    public Tokens decomposeTo( _typeRef _t, Tokens allTokens ){
+    public Tokens parseTo(_typeRef _t, Tokens allTokens ){
         if(allTokens == null){
-            return allTokens;
+            return null;
         }
         Select sel = select(_t);
         if( sel != null ){
@@ -276,13 +260,13 @@ public final class $typeRef
      * @param _n
      * @return 
      */
-    public _typeRef compose(_node _n ){
-        return compose(_n.decompose());
+    public _typeRef draft(_node _n ){
+        return draft(_n.decompose());
     }
     
     @Override
-    public _typeRef compose(Translator t, Map<String,Object> tokens ){
-        return _typeRef.of(typePattern().compose( t, tokens ));
+    public _typeRef draft(Translator t, Map<String,Object> tokens ){
+        return _typeRef.of(typePattern().draft( t, tokens ));
     }
 
     public boolean match( Node n){
@@ -340,7 +324,7 @@ public final class $typeRef
             if( Ast.typesEqual(_tr.ast(), this.type)){
                 return new Select( _tr, Tokens.of());
             }
-            Tokens ts = typePattern().decompose(_tr.toString() );
+            Tokens ts = typePattern().parse(_tr.toString() );
             if( ts != null ){
                 return new Select( _tr, ts); //$args.of(ts);
             }
@@ -618,7 +602,7 @@ public final class $typeRef
         _walk.in(_n, Type.class, e -> {
             Select select = select(e);
             if( select != null ){
-                if( !e.replace($replacementType.compose(select.args).ast() )){
+                if( !e.replace($replacementType.draft(select.args).ast() )){
                     throw new _draftException("unable to replaceIn "+ e + " in "+ _n+" with "+$replacementType);
                 }
             }
