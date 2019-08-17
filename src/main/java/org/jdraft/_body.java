@@ -57,12 +57,12 @@ public final class _body implements _java {
         // method
 
         _method _m = _method.of("void __BODYHOLDER();");
-        System.out.println( "METHOD "+ _m );
+        //System.out.println( "METHOD "+ _m );
 
         _m.add(body);
-        System.out.println( "ADDING "+ body );
+        //System.out.println( "ADDING "+ body );
 
-        System.out.println( "METHOD "+ _m );
+        //System.out.println( "METHOD "+ _m );
         return of(  _m.ast() );
     }
     

@@ -78,11 +78,11 @@ public final class $ {
         return $anno.of(name, memberValues);
     }
     
-    public static $anno anno(Predicate<_anno> constraint){
+    public static $anno anno( Predicate<_anno> constraint){
         return $anno.any().and(constraint);
     }
     
-    public static $anno anno(String pattern){
+    public static $anno anno( String pattern){
         return $anno.of(pattern);
     }
     
@@ -937,10 +937,37 @@ public final class $ {
         return $stmt.of(as);
     }
 
-    public static $stmt<AssertStmt> assertStmt(Predicate<AssertStmt> as){
-        return $stmt.assertStmt().and(as);
+    /**
+     * Create a prototype AssertStmt from the first assert statement that appears in the
+     * Lambda
+     * @param ec
+     * @return
+     */
+    public static $stmt<AssertStmt> assertStmt(Expr.Command ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(AssertStmt.class).get() );
     }
-    
+
+    public static <A extends Object> $stmt<AssertStmt> assertStmt(Consumer<A> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(AssertStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object>$stmt<AssertStmt> assertStmt(BiConsumer<A,B> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(AssertStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<AssertStmt> assertStmt(Expr.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(AssertStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<AssertStmt> assertStmt(Expr.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(AssertStmt.class).get() );
+    }
+
     public static $stmt<BlockStmt> blockStmt(){
         return $stmt.blockStmt();
     }
@@ -948,10 +975,42 @@ public final class $ {
     public static $stmt<BlockStmt> blockStmt(String... bs){
         return $stmt.blockStmt(bs);
     }
-    
-    public static $stmt<BlockStmt> blockStmt(Predicate<BlockStmt> bs){
-        return $stmt.blockStmt(bs);
+
+    /**
+     * Create a prototype AssertStmt from the first assert statement that appears in the
+     * Lambda
+     * @param ec
+     * @return
+     */
+    public static $stmt<BlockStmt> blockStmt(Expr.Command ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(BlockStmt.class).get() );
     }
+
+    public static <A extends Object> $stmt<BlockStmt> blockStmt(Consumer<A> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(BlockStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object>$stmt<BlockStmt> blockStmt(BiConsumer<A,B> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(BlockStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<BlockStmt> blockStmt(Expr.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(BlockStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<BlockStmt> blockStmt(Expr.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(BlockStmt.class).get() );
+    }
+
+    //public static $stmt<BlockStmt> blockStmt(Predicate<BlockStmt> bs){
+    //    return $stmt.blockStmt(bs);
+    //}
+
 
     public static $stmt<BlockStmt> blockStmt( BlockStmt bs){
         return $stmt.of(bs);
@@ -969,9 +1028,9 @@ public final class $ {
         return $stmt.of(bs);
     }
 
-    public static $stmt<BreakStmt> breakStmt(Predicate<BreakStmt> bs){
-        return $stmt.breakStmt().and(bs);
-    }
+    //public static $stmt<BreakStmt> breakStmt(Predicate<BreakStmt> bs){
+    //    return $stmt.breakStmt().and(bs);
+    //}
     
     public static $stmt<ExplicitConstructorInvocationStmt> constructorInvocationStmt(){
         return $stmt.ctorInvocationStmt();
@@ -985,9 +1044,12 @@ public final class $ {
         return $stmt.of(cs);
     }
 
+    /*
     public static $stmt<ExplicitConstructorInvocationStmt> constructorInvocationStmt(Predicate<ExplicitConstructorInvocationStmt> cs){
+
         return $stmt.ctorInvocationStmt(cs);
     }
+     */
     
     public static $stmt<ContinueStmt> continueStmt(){
         return $stmt.continueStmt();
@@ -1001,9 +1063,11 @@ public final class $ {
         return $stmt.of(cs);
     }
 
+    /*
     public static $stmt<ContinueStmt> continueStmt(Predicate<ContinueStmt> cs){
         return $stmt.continueStmt(cs);
     }
+     */
         
     public static $stmt<DoStmt> doStmt(){
         return $stmt.doStmt();
@@ -1012,9 +1076,37 @@ public final class $ {
     public static $stmt<DoStmt> doStmt(String...doStmt){
         return $stmt.doStmt(doStmt);
     }
-    
-    public static $stmt<DoStmt> doStmt(Predicate<DoStmt> ds){
-        return $stmt.doStmt(ds);
+
+
+    /**
+     * Create a prototype AssertStmt from the first assert statement that appears in the
+     * Lambda
+     * @param ec
+     * @return
+     */
+    public static $stmt<DoStmt> doStmt(Expr.Command ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(DoStmt.class).get() );
+    }
+
+    public static <A extends Object> $stmt<DoStmt> doStmt(Consumer<A> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(DoStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object>$stmt<DoStmt> doStmt(BiConsumer<A,B> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(DoStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<DoStmt> doStmt(Expr.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(DoStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<DoStmt> doStmt(Expr.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(DoStmt.class).get() );
     }
 
     public static $stmt<DoStmt> doStmt(DoStmt ds){
@@ -1037,9 +1129,44 @@ public final class $ {
         return $stmt.expressionStmt(es);
     }
 
+
+    /**
+     * Create a prototype AssertStmt from the first assert statement that appears in the
+     * Lambda
+     * @param ec
+     * @return
+     */
+    public static $stmt<ExpressionStmt> expressionStmt(Expr.Command ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(ExpressionStmt.class).get() );
+    }
+
+    public static <A extends Object> $stmt<ExpressionStmt> expressionStmt(Consumer<A> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(ExpressionStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object>$stmt<ExpressionStmt> expressionStmt(BiConsumer<A,B> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(ExpressionStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ExpressionStmt> expressionStmt(Expr.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(ExpressionStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ExpressionStmt> expressionStmt(Expr.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(ExpressionStmt.class).get() );
+    }
+
+
+    /*
     public static $stmt<ExpressionStmt> expressionStmt(Predicate<ExpressionStmt> es){
         return $stmt.expressionStmt(es);
     }
+     */
     
     public static $stmt<ForStmt> forStmt(){
         return $stmt.forStmt();
@@ -1052,9 +1179,35 @@ public final class $ {
     public static $stmt<ForStmt> forStmt(ForStmt fs){
         return $stmt.of(fs);
     }
+    /**
+     * Create a prototype AssertStmt from the first assert statement that appears in the
+     * Lambda
+     * @param ec
+     * @return
+     */
+    public static $stmt<ForStmt> forStmt(Expr.Command ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(ForStmt.class).get() );
+    }
 
-    public static $stmt<ForStmt> forStmt(Predicate<ForStmt> fs){
-        return $stmt.forStmt().and(fs);
+    public static <A extends Object> $stmt<ForStmt> forStmt(Consumer<A> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(ForStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object>$stmt<ForStmt> forStmt(BiConsumer<A,B> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(ForStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ForStmt> forStmt(Expr.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(ForStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ForStmt> forStmt(Expr.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(ForStmt.class).get() );
     }
     
     public static $stmt<ForEachStmt> forEachStmt(){
@@ -1069,8 +1222,35 @@ public final class $ {
         return $stmt.forEachStmt(fes);
     }
 
-    public static $stmt<ForEachStmt> forEachStmt(Predicate<ForEachStmt> fes){
-        return $stmt.forEachStmt(fes);
+    /**
+     * Create a prototype AssertStmt from the first assert statement that appears in the
+     * Lambda
+     * @param ec
+     * @return
+     */
+    public static $stmt<ForEachStmt> forEachStmt(Expr.Command ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(ForEachStmt.class).get() );
+    }
+
+    public static <A extends Object> $stmt<ForEachStmt> forEachStmt(Consumer<A> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(ForEachStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object>$stmt<ForEachStmt> forEachStmt(BiConsumer<A,B> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(ForEachStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ForEachStmt> forEachStmt(Expr.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(ForEachStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ForEachStmt> forEachStmt(Expr.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(ForEachStmt.class).get() );
     }
     
     public static $stmt<IfStmt> ifStmt(){
@@ -1080,9 +1260,36 @@ public final class $ {
     public static $stmt<IfStmt> ifStmt(String...is){
         return $stmt.ifStmt(is);
     }
-    
-    public static $stmt<IfStmt> ifStmt(Predicate<IfStmt> is){
-        return $stmt.ifStmt(is);
+
+    /**
+     * Create a prototype IfStmt from the first assert statement that appears in the
+     * Lambda
+     * @param ec
+     * @return
+     */
+    public static $stmt<IfStmt> ifStmt(Expr.Command ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(IfStmt.class).get() );
+    }
+
+    public static <A extends Object> $stmt<IfStmt> ifStmt(Consumer<A> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(IfStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object>$stmt<IfStmt> ifStmt(BiConsumer<A,B> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(IfStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<IfStmt> ifStmt(Expr.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(IfStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<IfStmt> ifStmt(Expr.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(IfStmt.class).get() );
     }
 
     public static $stmt<IfStmt> ifStmt( IfStmt is){
@@ -1096,9 +1303,36 @@ public final class $ {
     public static $stmt<LabeledStmt> labeledStmt(String ls){
         return $stmt.labeledStmt(ls);
     }
-    
-    public static $stmt<LabeledStmt> labeledStmt(Predicate<LabeledStmt> ls){
-        return $stmt.labeledStmt(ls);
+
+    /**
+     * Create a prototype Labeled from the first assert statement that appears in the
+     * Lambda
+     * @param ec
+     * @return
+     */
+    public static $stmt<LabeledStmt> labeledStmt(Expr.Command ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(LabeledStmt.class).get() );
+    }
+
+    public static <A extends Object> $stmt<LabeledStmt> labeledStmt(Consumer<A> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(LabeledStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object>$stmt<LabeledStmt> labeledStmt(BiConsumer<A,B> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(LabeledStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<LabeledStmt> labeledStmt(Expr.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(LabeledStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<LabeledStmt> labeledStmt(Expr.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(LabeledStmt.class).get() );
     }
 
     public static $stmt<LabeledStmt> labeledStmt(LabeledStmt ls){
@@ -1117,9 +1351,11 @@ public final class $ {
         return $stmt.localClassStmt(lcds);
     }
 
+    /*
     public static $stmt<LocalClassDeclarationStmt> localClassStmt(Predicate<LocalClassDeclarationStmt> lcds){
         return $stmt.localClassStmt().and(lcds);
     }
+     */
 
     /**
      *
@@ -1134,10 +1370,11 @@ public final class $ {
      * i.e."return VALUE;"
      * @param constraint
      * @return
-     */
+
     public static $stmt<ReturnStmt> returnStmt( Predicate<ReturnStmt> constraint ) {
         return $stmt.returnStmt(constraint);
     }
+    */
 
     /**
      * i.e."return VALUE;"
@@ -1165,9 +1402,36 @@ public final class $ {
     public static $stmt<SwitchStmt> switchStmt(String ... ss){
         return $stmt.switchStmt(ss);
     }
-    
-    public static $stmt<SwitchStmt> switchStmt(Predicate<SwitchStmt> ss){
-        return $stmt.switchStmt(ss);
+
+    /**
+     * Create a prototype Labeled from the first assert statement that appears in the
+     * Lambda
+     * @param ec
+     * @return
+     */
+    public static $stmt<SwitchStmt> switchStmt(Expr.Command ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(SwitchStmt.class).get() );
+    }
+
+    public static <A extends Object> $stmt<SwitchStmt> switchStmt(Consumer<A> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(SwitchStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object>$stmt<SwitchStmt> switchStmt(BiConsumer<A,B> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(SwitchStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<SwitchStmt> switchStmt(Expr.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(SwitchStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<SwitchStmt> switchStmt(Expr.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(SwitchStmt.class).get() );
     }
 
     public static $stmt<SwitchStmt> switchStmt(SwitchStmt ss){
@@ -1180,8 +1444,35 @@ public final class $ {
         return $stmt.synchronizedStmt(ss);
     }
 
-    public static $stmt<SynchronizedStmt> synchronizedStmt(Predicate<SynchronizedStmt> ss){
-        return $stmt.synchronizedStmt(ss);
+    /**
+     * Create a prototype Labeled from the first assert statement that appears in the
+     * Lambda
+     * @param ec
+     * @return
+     */
+    public static $stmt<SynchronizedStmt> synchronizedStmt(Expr.Command ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(SynchronizedStmt.class).get() );
+    }
+
+    public static <A extends Object> $stmt<SynchronizedStmt> synchronizedStmt(Consumer<A> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(SynchronizedStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object>$stmt<SynchronizedStmt> synchronizedStmt(BiConsumer<A,B> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(SynchronizedStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<SynchronizedStmt> synchronizedStmt(Expr.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(SynchronizedStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<SynchronizedStmt> synchronizedStmt(Expr.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(SynchronizedStmt.class).get() );
     }
 
     public static $stmt<SynchronizedStmt> synchronizedStmt(SynchronizedStmt ss){
@@ -1200,9 +1491,37 @@ public final class $ {
         return $stmt.throwStmt(ts);
     }
 
-    public static $stmt<ThrowStmt> throwStmt(Predicate<ThrowStmt> ts){
-        return $stmt.throwStmt(ts);
+    /**
+     * Create a prototype Labeled from the first assert statement that appears in the
+     * Lambda
+     * @param ec
+     * @return
+     */
+    public static $stmt<ThrowStmt> throwStmt(Expr.Command ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(ThrowStmt.class).get() );
     }
+
+    public static <A extends Object> $stmt<ThrowStmt> throwStmt(Consumer<A> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(ThrowStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object>$stmt<ThrowStmt> throwStmt(BiConsumer<A,B> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(ThrowStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ThrowStmt> throwStmt(Expr.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(ThrowStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ThrowStmt> throwStmt(Expr.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(ThrowStmt.class).get() );
+    }
+
     
     public static $stmt<TryStmt> tryStmt(){
         return $stmt.tryStmt();
@@ -1216,10 +1535,38 @@ public final class $ {
         return $stmt.tryStmt(ts);
     }
 
-    public static $stmt<TryStmt> tryStmt(Predicate<TryStmt> ts){
-        return $stmt.tryStmt(ts);
+    /**
+     * Create a prototype Labeled from the first assert statement that appears in the
+     * Lambda
+     * @param ec
+     * @return
+     */
+    public static $stmt<TryStmt> tryStmt(Expr.Command ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(TryStmt.class).get() );
     }
-    
+
+    public static <A extends Object> $stmt<TryStmt> tryStmt(Consumer<A> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(TryStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object>$stmt<TryStmt> tryStmt(BiConsumer<A,B> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(TryStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<TryStmt> tryStmt(Expr.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(TryStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<TryStmt> tryStmt(Expr.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(TryStmt.class).get() );
+    }
+
+
     public static $stmt<WhileStmt> whileStmt(){
         return $stmt.whileStmt();
     }
@@ -1232,8 +1579,35 @@ public final class $ {
         return $stmt.whileStmt(ws);
     }
 
-    public static $stmt<WhileStmt> whileStmt(Predicate<WhileStmt> ws){
-        return $stmt.whileStmt(ws);
+    /**
+     * Create a prototype Labeled from the first assert statement that appears in the
+     * Lambda
+     * @param ec
+     * @return
+     */
+    public static $stmt<WhileStmt> whileStmt(Expr.Command ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(WhileStmt.class).get() );
+    }
+
+    public static <A extends Object> $stmt<WhileStmt> whileStmt(Consumer<A> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(WhileStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object>$stmt<WhileStmt> whileStmt(BiConsumer<A,B> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(WhileStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<WhileStmt> whileStmt(Expr.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(WhileStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<WhileStmt> whileStmt(Expr.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(WhileStmt.class).get() );
     }
     
     public static $throws thrown(){

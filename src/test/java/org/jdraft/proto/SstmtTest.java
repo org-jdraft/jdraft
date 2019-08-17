@@ -1,5 +1,6 @@
 package org.jdraft.proto;
 
+import com.github.javaparser.ast.stmt.AssertStmt;
 import org.jdraft.*;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
@@ -7,6 +8,8 @@ import org.jdraft.proto.$stmt.Select;
 import junit.framework.TestCase;
 
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.function.Consumer;
 import static junit.framework.TestCase.assertTrue;
 
@@ -16,6 +19,28 @@ import static junit.framework.TestCase.assertTrue;
  * @author Eric
  */
 public class SstmtTest extends TestCase {
+
+    public void test$assertStmt(){
+        //command
+        $stmt<AssertStmt> $as = $.assertStmt( ()-> {assert(1==1);} );
+        assertTrue( $as.matches( Stmt.of( ()->{assert(1==1);})) );
+
+        //consumer
+        $as = $.assertStmt( (Integer a)-> {assert(a==1);} );
+        assertTrue( $as.matches( Stmt.of( (Integer a)->{assert(a==1);})) );
+
+        //biconsumer
+        $as = $.assertStmt( (Integer a, String b)-> {assert(a==1);} );
+        assertTrue( $as.matches( Stmt.of( (Integer a)->{assert(a==1);})) );
+
+        //triconsumer
+        $as = $.assertStmt( (Integer a, String b, Map d)-> {assert(a==1);} );
+        assertTrue( $as.matches( Stmt.of( (Integer a)->{assert(a==1);})) );
+
+        //quadconsumer
+        $as = $.assertStmt( (Integer a, String b, Map d, UUID g)-> {assert(a==1);} );
+        assertTrue( $as.matches( Stmt.of( (Integer a)->{assert(a==1);})) );
+    }
 
     public void testWalkCompose(){
         Tokens keyValues = new Tokens().add("label", "assert(true)", "block", true);

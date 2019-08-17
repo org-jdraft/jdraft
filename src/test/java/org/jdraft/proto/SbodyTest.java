@@ -11,6 +11,27 @@ import junit.framework.TestCase;
  */
 public class SbodyTest extends TestCase {
 
+    public void test$BodyLambda(){
+        /*
+        $body $b = $.body( ()->{
+           System.out.println(1);
+           System.out.println(2);
+        } );
+        */
+
+        $body $b = $.body( (a, b,c)->{
+           System.out.println(a);
+           System.out.println(b);
+           System.out.println(c);
+        });
+
+        _body _bd = $b.compose();
+        /*
+        assertEquals( Stmt.of((a)->System.out.println(a)), _bd.getStatement(0));
+        assertEquals( Stmt.of((b)->System.out.println(b)), _bd.getStatement(1));
+        assertEquals( Stmt.of((c)->System.out.println(c)), _bd.getStatement(2));
+        */
+    }
     public void testFlattenStmts(){
         $stmt $s = $stmt.of( ()-> {
             System.out.println(1);

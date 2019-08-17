@@ -178,42 +178,12 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public static <S extends Statement> $stmt<S> of(String...pattern ){
-
         S st = (S)Stmt.of(pattern);
         return new $stmt<S>(st);
-        // I want to find all methodCallExprs in the pattern that have a method name
-        // that starts with
-
-        /*
-        // replace all instances of $label$:{} with a parameter $label$
-        List<LabeledStmt> lss = _walk.list( st, LabeledStmt.class,
-                ls-> ls.getLabel().toString().startsWith("$")
-                && ls.getLabel().toString().endsWith("$")
-                && ls.getStatement().isBlockStmt()
-                && ls.getStatement().asBlockStmt().isEmpty());
-
-        System.out.println( "FOUND "+ lss  );
-        String str = st.toString(Ast.PRINT_NO_COMMENTS);
-        for(int i=0;i< lss.size(); i++){
-            //str = str.replace( lss.get(i).toString(Ast.PRINT_NO_COMMENTS), lss.get(i).getLabel().asString());
-
-            System.out.println( "LOOKIN FOR "+lss.get(i).toString(Ast.PRINT_NO_COMMENTS));
-            System.out.println( "FOUND PADDED "+ Text.matchFirstPaddedTarget( str, lss.get(i).toString(Ast.PRINT_NO_COMMENTS)));
-            str = str.replace( Text.matchFirstPaddedTarget( str, lss.get(i).toString(Ast.PRINT_NO_COMMENTS)), lss.get(i).getLabel().asString());
-            System.out.println( "REPLACED  "+ lss.get(i).getLabel().asString()+System.lineSeparator()+ str );
-            //convert all $label$:{} to $label$
-            //if( i == 0 ) {
-            //    str = str.replace( Text.matchFirstPaddedTarget( str, lss.get(i).toString(Ast.PRINT_NO_COMMENTS)), lss.get(i).getLabel().asString() );
-            //} else {
-           // }
-        }
-         */
-        //return new $stmt<>((Class<S>)st.getClass(), str );
     }
     
     /**
-     * 
-     * @param <S>
+     *
      * @param astProto
      * @return 
      */ 
@@ -262,12 +232,13 @@ public final class $stmt<T extends Statement>
      * i.e."{ int i=1; return i;}"
      * @param constraint
      * @return the BlockStmt
-     */
+
     public static $stmt<BlockStmt> blockStmt(Predicate<BlockStmt> constraint) {
         return new $stmt( Stmt.block("{ a(); }"))
                 .$(Stmt.block("{ a(); }"), "any")
                 .and(constraint);
     }
+    */
     
     /**
      * NOTE: If you omit the opening and closing braces { }, they will be added
@@ -291,8 +262,7 @@ public final class $stmt<T extends Statement>
     public static $stmt<BlockStmt> blockStmt(String pattern, Predicate<BlockStmt> constraint) {
         return new $stmt( Stmt.block(pattern)).and(constraint);
     }
-    
-    
+
     /**
      * Returns a prototype that matches ANY assertStmt
      * @return 
@@ -305,12 +275,13 @@ public final class $stmt<T extends Statement>
      * i.e."break;" or "break outer;"
      * @param constraint
      * @return the breakStmt
-     */
+
     public static $stmt<BreakStmt> breakStmt(Predicate<BreakStmt> constraint) {
         return new $stmt( Stmt.breakStmt("break;"))
                 .$(Stmt.breakStmt("break;"), "any")
                 .and(constraint);
     }
+    */
     
     /**
      * i.e."break;" or "break outer;"
@@ -344,11 +315,12 @@ public final class $stmt<T extends Statement>
      * i.e."continue outer;" 
      * @param constraint
      * @return 
-     */
+
     public static $stmt<ContinueStmt> continueStmt(Predicate<ContinueStmt> constraint) {
         return new $stmt( Stmt.continueStmt("continue r;")).
                 $(Stmt.continueStmt("continue r;"), "any").and(constraint);
     }
+    */
     
     /** 
      * i.e."continue outer;" 
@@ -391,11 +363,12 @@ public final class $stmt<T extends Statement>
      * i.e."do{ System.out.println(1); }while( a < 100 );" 
      * @param constraint
      * @return 
-     */
+
     public static $stmt<DoStmt> doStmt(Predicate<DoStmt> constraint) {
         return new $stmt( Stmt.doStmt("do{ a(); } while(a==1);") )
                 .$(Stmt.doStmt("do{ a(); } while(a==1);"), "any").and(constraint);
     }
+    */
     
     /** 
      * i.e."do{ System.out.println(1); }while( a < 100 );" 
@@ -437,12 +410,13 @@ public final class $stmt<T extends Statement>
      * i.e."this(100,2900);" 
      * @param constraint
      * @return 
-     */
+
     public static $stmt<ExplicitConstructorInvocationStmt> ctorInvocationStmt(Predicate<ExplicitConstructorInvocationStmt> constraint) {
         return new $stmt( Stmt.thisConstructor("this(a);"))
             .$(Stmt.thisConstructor("this(a);"), "any")
             .and(constraint);
     }
+    */
     
     /** 
      * i.e."this(100,2900);" 
@@ -488,17 +462,19 @@ public final class $stmt<T extends Statement>
     public static $stmt<ExpressionStmt> expressionStmt( ExpressionStmt es) {
         return new $stmt( es);
     }
+
     /** 
      * i.e."s += t;" 
      * @param constraint
      * @return 
-     */
+
     public static $stmt<ExpressionStmt> expressionStmt( Predicate<ExpressionStmt> constraint) {
         return new $stmt( Stmt.expressionStmt("a += t;"))
             .$("a += t;", "any")
             .and(constraint);
     }
-    
+    */
+
     /** 
      * i.e."s += t;" 
      * @param pattern
@@ -530,13 +506,14 @@ public final class $stmt<T extends Statement>
      * i.e."for(int i=0; i<100;i++) {...}" 
      * @param constraint
      * @return 
-     */
+
     public static $stmt<ForStmt> forStmt( Predicate<ForStmt> constraint ) {
         return new $stmt( Stmt.forStmt("for(int i=0;i<1;i++){ a(); }"))
             .$(Stmt.forStmt("for(int i=0;i<1;i++){ a(); }"), "any")
             .and(constraint);
     }
-    
+    */
+
     /** 
      * i.e."for(int i=0; i<100;i++) {...}" 
      * @param pattern
@@ -576,13 +553,14 @@ public final class $stmt<T extends Statement>
      * i.e."for(String element:arr){...}" 
      * @param constraint
      * @return 
-     */
+
     public static $stmt<ForEachStmt> forEachStmt( Predicate<ForEachStmt> constraint) {
         return new $stmt( Stmt.forEachStmt("for(int i:arr){}"))
             .$(Stmt.forEachStmt("for(int i:arr){}"), "any")
             .and(constraint);
     }
-    
+    */
+
     /** 
      * i.e."for(String element:arr){...}" 
      * @param pattern
@@ -622,12 +600,13 @@ public final class $stmt<T extends Statement>
      * i.e."if(a==1){...}" 
      * @param constraint
      * @return 
-     */
+
     public static $stmt<IfStmt> ifStmt(Predicate<IfStmt> constraint) {
         return new $stmt( Stmt.ifStmt("if(a){ b(); }"))
             .$(Stmt.of("if(a){ b();}"), "any")
             .and(constraint);
     }
+    */
     
     /** 
      * i.e."if(a==1){...}" 
@@ -660,11 +639,12 @@ public final class $stmt<T extends Statement>
      * i.e."outer:   start = getValue();" 
      * @param constraint
      * @return 
-     */
+
     public static $stmt<LabeledStmt> labeledStmt( Predicate<LabeledStmt> constraint) {
         return new $stmt( Stmt.labeledStmt("l: a();"))
                 .$(Stmt.labeledStmt("l:a();"), "any").and(constraint);
     }
+    */
 
     /**
      * i.e."outer:   start = getValue();"
@@ -715,12 +695,13 @@ public final class $stmt<T extends Statement>
      * i.e."class C{ int a, b; }"
      * @param constraint
      * @return the AST implementation
-     */
+
     public static $stmt<LocalClassDeclarationStmt> localClassStmt( Predicate<LocalClassDeclarationStmt> constraint) {
         return new $stmt( Stmt.localClass( "class C{}"))
                 .$(Stmt.localClass("class C{}"), "any")
                 .and(constraint);
     }
+    */
     
     /**
      * Converts from a String to a LocalClass
@@ -755,11 +736,12 @@ public final class $stmt<T extends Statement>
      * i.e."return VALUE;" 
      * @param constraint
      * @return 
-     */
+
     public static $stmt<ReturnStmt> returnStmt( Predicate<ReturnStmt> constraint ) {
         return new $stmt( Stmt.returnStmt("return a;"))
                 .$(Stmt.of("return a;"), "any").and(constraint);
     }
+    */
     
     /** 
      * i.e."return VALUE;" 
@@ -820,12 +802,13 @@ public final class $stmt<T extends Statement>
      * 
      * @param constraint
      * @return 
-     */
+
     public static $stmt<SwitchStmt> switchStmt(Predicate<SwitchStmt> constraint) {
         return new $stmt( Stmt.switchStmt("switch(a){ default : a(); }"))
                 .$(Stmt.of("switch(a){ default : a(); }"), "any")
                 .and(constraint);
     }
+    */
     
     /**
      * 
@@ -839,12 +822,13 @@ public final class $stmt<T extends Statement>
      * 
      * @param constraint
      * @return 
-     */
+
     public static $stmt<SynchronizedStmt> synchronizedStmt( Predicate<SynchronizedStmt> constraint ) {
         return new $stmt( Stmt.synchronizedStmt("synchronized(a){ b();}") ).
             $(Stmt.synchronizedStmt("synchronized(a){ b();}"), "any")
             .and(constraint);
     }
+    */
     
     /**
      * 
@@ -877,11 +861,12 @@ public final class $stmt<T extends Statement>
      * 
      * @param constraint
      * @return 
-     */
+
     public static $stmt<ThrowStmt> throwStmt( Predicate<ThrowStmt> constraint ) {
         return new $stmt( Stmt.throwStmt("throw a;")).$(Stmt.throwStmt("throw a;"), "any")
                 .and(constraint);
     }
+    */
 
     /**
      *
@@ -932,12 +917,13 @@ public final class $stmt<T extends Statement>
      * i.e."try{ clazz.getMethod("fieldName"); }" 
      * @param constraint
      * @return 
-     */
+
     public static $stmt<TryStmt> tryStmt( Predicate<TryStmt> constraint ) {
         return new $stmt( Stmt.tryStmt("try{ a(); }"))
             .$(Stmt.tryStmt("try{ a();}"), "any")
             .and(constraint);
     }
+    */
     
     /** 
      * i.e."try{ clazz.getMethod("fieldName"); }" 
@@ -998,11 +984,12 @@ public final class $stmt<T extends Statement>
      * i.e."while(i< 1) { ...}"
      * @param constraint
      * @return 
-     */
+
     public static $stmt<WhileStmt> whileStmt( Predicate<WhileStmt> constraint ) {
         return new $stmt( Stmt.whileStmt("while(true){a();}") ).
                 $(Stmt.whileStmt("while(true){a();}").toString(), "any").and(constraint);
     }
+    */
 
     /**
      * Optional matching predicate applied to matches to ensure 
@@ -1122,7 +1109,7 @@ public final class $stmt<T extends Statement>
         }
         for(int i=0;i<stringsToReplace.size();i++){
             int indexOfAssert = this.stmtPattern.getTextBlanks().getFixedText().indexOf( stringsToReplace.get(i) );
-            System.out.println( indexOfAssert );
+            //System.out.println( indexOfAssert );
             //System.out.println( "PATTERN " + this.stmtPattern );
             this.stmtPattern = this.stmtPattern.$( stringsToReplace.get(i), $name);
             //System.out.println( "PATTERN " + this.stmtPattern );
@@ -1353,17 +1340,7 @@ public final class $stmt<T extends Statement>
             }
             return selectFirstIn( ((_type)_n).ast(), selectConstraint);
         }
-        return selectFirstIn( ((_node)_n).ast(), selectConstraint );        
-        /*
-        Optional<T> f = _n.ast().findFirst(this.statementClass, s -> {
-            Select<T> sel = this.select(s); 
-            return sel != null && selectConstraint.test(sel);
-            });         
-        if( f.isPresent()){
-            return select( f.get() );
-        }
-        return null;
-        */
+        return selectFirstIn( ((_node)_n).ast(), selectConstraint );
     }
 
     /**
@@ -1530,21 +1507,6 @@ public final class $stmt<T extends Statement>
         });
         return sts;
     }
-    
-    /*
-    @Override
-    public List<Select<T>> listSelectedIn(_node _n ){
-        List<Select<T>>sts = new ArrayList<>();
-        _walk.in(_n, this.statementClass, st->{
-            //$args tokens = deconstruct(st);
-            Select sel = select(st);
-            if (sel != null) {
-                sts.add(sel);
-            }
-        });
-        return sts;
-    }
-    */
 
     /**
      * 
@@ -1565,7 +1527,6 @@ public final class $stmt<T extends Statement>
     public List<Select<T>> listSelectedIn(Node astNode, Predicate<Select<T>> selectConstraint ){
         List<Select<T>>sts = new ArrayList<>();
         astNode.walk(this.statementClass, st-> {
-            //$args tokens = deconstruct( st );
             Select sel = select(st);
             if( sel != null && selectConstraint.test(sel)){
                 sts.add( sel); //new Select( (T)st, tokens) );
@@ -1583,7 +1544,6 @@ public final class $stmt<T extends Statement>
     public List<Select<T>> listSelectedIn(_java _n, Predicate<Select<T>> selectConstraint ){
         List<Select<T>>sts = new ArrayList<>();
         _walk.in(_n, this.statementClass, st->{
-            //$args tokens = deconstruct(st);
             Select sel = select(st);
             if (sel != null && selectConstraint.test(sel)){
                 sts.add(sel);
@@ -1766,31 +1726,6 @@ public final class $stmt<T extends Statement>
             }
         });
         return node;
-        /*
-        _walk.in(node,
-            LabeledStmt.class, 
-            ls-> ls.getLabel().asString().startsWith("$"),
-            ls -> {
-                Statement st = labelStmtReplacement(ls, tokens);
-                if( st.isEmptyStmt() || (st.isBlockStmt() && st.asBlockStmt().isEmpty()) ){
-                    System.out.println( "REMOVE FORCED !!!");
-                    ls.removeForced();
-
-                    boolean rem = ls.remove();
-                    if( !rem ){
-                        ls.replace( st );
-                    }
-
-                } else{
-                    //always 1) replace it with a labeled statement ...2)then Flatten the label
-                    LabeledStmt $TO_REPLACE = Stmt.labeledStmt("$TO_REPLACE: {}");
-                    $TO_REPLACE.setStatement(st);
-                    ls.replace( $TO_REPLACE );
-                    Ast.flattenLabel(node, "$TO_REPLACE");
-                }                
-            });        
-        return node;
-         */
     }
     
     private static Statement labelStmtReplacement(LabeledStmt ls, Map<String,Object> tokens){

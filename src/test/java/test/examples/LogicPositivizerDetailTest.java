@@ -23,7 +23,7 @@ public class LogicPositivizerDetailTest extends TestCase {
             .$("el();", "else"); //replace el(); method call to a parameter "else"
 
     public void testMatchVariants(){
-        $stmt.of( ()->{
+        $stmt $protoIfStmt = $stmt.of( ()->{
             if(true != false){
                 System.out.println("NOT EQUALS");
             } else{
