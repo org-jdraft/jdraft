@@ -39,20 +39,20 @@ public final class $anno
         return new $anno(name, memberValues);
     }
     
-    public static $anno of(String pattern) {
-        return new $anno(_anno.of(pattern));
+    public static $anno of(String codePattern) {
+        return new $anno(_anno.of(codePattern));
     }
     
-    public static $anno of(String... pattern) {
-        return new $anno(_anno.of(pattern));
+    public static $anno of(String... codePattern) {
+        return new $anno(_anno.of(codePattern));
     }
     
     public static $anno of( Predicate<_anno> constraint ){
         return of().and(constraint);
     }
     
-    public static $anno of(String pattern, Predicate<_anno>constraint) {
-        return new $anno(_anno.of(pattern)).and(constraint);
+    public static $anno of(String codePattern, Predicate<_anno>constraint) {
+        return new $anno(_anno.of(codePattern)).and(constraint);
     }
     
     public static $anno of(_anno _an) {
@@ -179,7 +179,18 @@ public final class $anno
         this.$mvs.add( new $memberValue(key, value) );
         return this;
     }
-    
+
+    @Override
+    public $anno hardcode$(Translator translator, Tokens kvs) {
+        this.name = this.name.hardcode$(translator,kvs);
+
+        //this.label = this.label.hardcode$(translator, kvs);
+        List<$memberValue> sts = new ArrayList<>();
+        this.$mvs.forEach(st -> sts.add( st.hardcode$(translator, kvs)));
+
+        return this;
+    }
+
     /**
      * 
      * @return 
@@ -227,7 +238,7 @@ public final class $anno
         if (astAnn instanceof SingleMemberAnnotationExpr) {
             if ($mvs.size() == 1) {
                 SingleMemberAnnotationExpr sme = (SingleMemberAnnotationExpr) astAnn;
-                Tokens props = $mvs.get(0).decompose(sme.getMemberValue());
+                Tokens props = $mvs.get(0).parse(sme.getMemberValue());
                 if( props == null ){
                     return null;
                 }
@@ -270,11 +281,11 @@ public final class $anno
                         return null;
                     } else {
                         mvpsC.remove(sel.astMvp); //whenever I find a match, I remove the matcher
-                        if( !ts.isConsistent(sel.args.asTokens())){
+                        if( !ts.isConsistent(sel.tokens.asTokens())){
                             return null;
                         }
                         //System.out.println( "    Adding Tokens "+ ts );
-                        ts.putAll(sel.args.asTokens());
+                        ts.putAll(sel.tokens.asTokens());
                         //System.out.println( "    Added Tokens "+ ts );
                     }
                 }
@@ -414,11 +425,11 @@ public final class $anno
      * (composing the replacement from the constructed tokens in the source)
      *
      * @param clazz 
-     * @param a the template to be constructed as the replacement
+     * @param $annoReplace the template to be constructed as the replacement
      * @return
      */
-    public _type replaceIn(Class clazz, $anno a ){
-        return replaceIn(_java.type(clazz), a);
+    public <_CT extends _type> _CT replaceIn(Class clazz, $anno $annoReplace ){
+        return (_CT)replaceIn((_type)_java.type(clazz), $annoReplace);
     }
     
     /**
@@ -437,22 +448,22 @@ public final class $anno
      * (composing the replacement from the constructed tokens in the source)
      *
      * @param _j the model to find replacements
-     * @param a the template to be constructed as the replacement
+     * @param $annoReplacement the template to be constructed as the replacement
      * @param <_J> the TYPE of model
      * @return
      */
-    public <_J extends _java> _J replaceIn(_J _j, $anno a ){
+    public <_J extends _java> _J replaceIn(_J _j, $anno $annoReplacement ){
         if( _j instanceof _code ){
             _code _c = (_code) _j;
             if( _c.isTopLevel() ){
-                replaceIn(_c.astCompilationUnit(), a);
+                replaceIn(_c.astCompilationUnit(), $annoReplacement);
                 return _j;
             }
             _type _t = (_type) _j; //only possible
-            replaceIn(_t.ast(), a); //return the TypeDeclaration, not the CompilationUnit
+            replaceIn(_t.ast(), $annoReplacement); //return the TypeDeclaration, not the CompilationUnit
             return _j;
         }
-        replaceIn(((_node) _j).ast(), a);
+        replaceIn(((_node) _j).ast(), $annoReplacement);
         return _j;
     }
     
@@ -471,23 +482,23 @@ public final class $anno
      * 
      * @param <N>
      * @param astNode
-     * @param a
+     * @param $annoReplacement
      * @return 
      */
-    public <N extends Node> N replaceIn(N astNode, $anno a ){
+    public <N extends Node> N replaceIn(N astNode, $anno $annoReplacement ){
         astNode.walk(AnnotationExpr.class, e-> {
             Select sel = select( e );
             if( sel != null ){
-                sel._ann.ast().replace(a.draft(sel.tokens).ast() );
+                sel._ann.ast().replace($annoReplacement.draft(sel.tokens).ast() );
             }
         });
         return astNode;
     }
     
     @Override
-    public _anno firstIn(Node astStartNode, Predicate<_anno> _annoMatchFn) {
+    public _anno firstIn(Node astNode, Predicate<_anno> _annoMatchFn) {
         Optional<Node>on = 
-            astStartNode.stream().filter(
+            astNode.stream().filter(
                 n -> {
                     if( n instanceof AnnotationExpr){
                         Select sel = select((AnnotationExpr)n); 
@@ -526,7 +537,7 @@ public final class $anno
      */
     @Override
     public Select selectFirstIn( Class clazz){
-        return selectFirstIn( _java.type(clazz));
+        return selectFirstIn( (_type)_java.type(clazz));
     } 
     
     /**
@@ -536,18 +547,18 @@ public final class $anno
      * @return 
      */
     public Select selectFirstIn( Class clazz, Predicate<Select> selectConstraint ){
-        return selectFirstIn(_java.type(clazz), selectConstraint );
+        return selectFirstIn((_type)_java.type(clazz), selectConstraint );
     }
     
     /**
      * 
-     * @param astRootNode
+     * @param astNode
      * @param selectConstraint
      * @return 
      */
-    public Select selectFirstIn(Node astRootNode, Predicate<Select> selectConstraint) {
+    public Select selectFirstIn(Node astNode, Predicate<Select> selectConstraint) {
         Optional<Node>on = 
-            astRootNode.stream().filter(
+            astNode.stream().filter(
                 n -> {
                     if( n instanceof AnnotationExpr){
                         Select sel = select( (AnnotationExpr)n);
@@ -594,13 +605,13 @@ public final class $anno
 
     /**
      * 
-     * @param astRootNode
+     * @param astNode
      * @param selectConstraint
      * @return 
      */
-    public List<Select> listSelectedIn(Node astRootNode, Predicate<Select> selectConstraint) {
+    public List<Select> listSelectedIn(Node astNode, Predicate<Select> selectConstraint) {
         List<Select> found = new ArrayList<>();
-        astRootNode.walk(AnnotationExpr.class, a-> {
+        astNode.walk(AnnotationExpr.class, a-> {
             Select sel = select(_anno.of(a));
             if( sel != null && selectConstraint.test(sel)){
                 found.add( sel  );
@@ -616,7 +627,7 @@ public final class $anno
      * @return 
      */
     public List<Select> listSelectedIn(Class clazz, Predicate<Select> selectConstraint) {
-        return listSelectedIn(_java.type(clazz), selectConstraint);
+        return listSelectedIn((_type)_java.type(clazz), selectConstraint);
     }
     
     /**
@@ -651,18 +662,18 @@ public final class $anno
     /**
      * 
      * @param <N>
-     * @param astRootNode
+     * @param astNode
      * @param selectActionFn
      * @return 
      */
-    public <N extends Node> N forSelectedIn(N astRootNode, Consumer<Select> selectActionFn) {
-        astRootNode.walk(AnnotationExpr.class, a-> {
+    public <N extends Node> N forSelectedIn(N astNode, Consumer<Select> selectActionFn) {
+        astNode.walk(AnnotationExpr.class, a-> {
             Select sel = select(_anno.of(a));
             if( sel != null ){
                 selectActionFn.accept(sel);
             }
         });
-        return astRootNode;
+        return astNode;
     }
     
     /**
@@ -734,8 +745,8 @@ public final class $anno
      * @param selectActionFn
      * @return 
      */
-    public _type forSelectedIn(Class clazz, Consumer<Select> selectActionFn) {
-        return forSelectedIn(_java.type(clazz), selectActionFn);         
+    public <_CT extends _type> _CT forSelectedIn(Class clazz, Consumer<Select> selectActionFn) {
+        return (_CT)forSelectedIn((_type)_java.type(clazz), selectActionFn);
     }
 
     /**
@@ -745,8 +756,8 @@ public final class $anno
      * @param selectActionFn
      * @return 
      */
-    public _type forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
-        return forSelectedIn(_java.type (clazz), selectConstraint, selectActionFn);         
+    public <_CT extends _type> _CT forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
+        return (_CT)forSelectedIn((_type)_java.type (clazz), selectConstraint, selectActionFn);
     }
     
     /**
@@ -777,7 +788,7 @@ public final class $anno
      * prototype for member values (i.e. the key values inside the annotation)
      * i.e. @A(key="value")
      */
-    public static class $memberValue {
+    public static class $memberValue implements $proto<MemberValuePair, $memberValue> {
 
         public $id key = $id.any();
 
@@ -833,6 +844,19 @@ public final class $anno
             }
         }
 
+        public $memberValue hardcode$( Translator translator, Tokens tokens){
+            if( this.key != null ) {
+                this.key = this.key.hardcode$(translator, tokens);
+            }
+            this.value = this.value.hardcode$(translator, tokens);
+            return this;
+        }
+
+        public $memberValue and( Predicate<MemberValuePair> mvpMatchFn){
+            this.constraint = this.constraint.and(mvpMatchFn);
+            return this;
+        }
+
         /**
          *
          * @param target
@@ -867,6 +891,40 @@ public final class $anno
             return false;
         }
 
+        @Override
+        public MemberValuePair firstIn(Node astNode, Predicate<MemberValuePair> nodeMatchFn) {
+            return _walk.first(astNode, MemberValuePair.class, m -> matches(m) && nodeMatchFn.test(m));
+        }
+
+        @Override
+        public Select selectFirstIn(Node astNode) {
+            MemberValuePair mvp = _walk.first(astNode, MemberValuePair.class, m -> matches(m) );
+            if( mvp != null ){
+                return select(mvp);
+            }
+            return null;
+        }
+
+        @Override
+        public List<Select> listSelectedIn(Node astNode) {
+            List<Select> sel = new ArrayList<>();
+            _walk.in(astNode,
+                    MemberValuePair.class,
+                    (MemberValuePair n)-> match(n),
+                    (MemberValuePair n) -> sel.add( select(n) )
+            );
+            return sel;
+        }
+
+        @Override
+        public <N extends Node> N forEachIn(N astNode, Predicate<MemberValuePair> nodeMatchFn, Consumer<MemberValuePair> nodeActionFn) {
+            return _walk.in(astNode,
+                    MemberValuePair.class,
+                    (MemberValuePair n)-> match(n) && nodeMatchFn.test(n),
+                    (MemberValuePair n) -> nodeActionFn.accept(n)
+                );
+        }
+
         /**
          * 
          * @param mvp
@@ -881,7 +939,7 @@ public final class $anno
          * @param onlyValueExpression
          * @return 
          */
-        public Tokens decompose(Expression onlyValueExpression){            
+        public Tokens parse(Expression onlyValueExpression){
             if( constraint.test( new MemberValuePair("_", onlyValueExpression) ) ) {
                 $expr.Select sel = value.select(onlyValueExpression.toString());
                 if( sel == null ){
@@ -897,7 +955,7 @@ public final class $anno
          * @param mvp
          * @return 
          */
-        public Tokens decompose(MemberValuePair mvp ){
+        public Tokens parse(MemberValuePair mvp ){
             if (mvp == null) {
                 return null;
             }
@@ -908,7 +966,6 @@ public final class $anno
                     return null;
                 }
                 ts.putAll(sel.tokens.asTokens());
-                //ts = value.decomposeTo(mvp.getValue().toString(), ts);
                 return ts;
             }
             return null;
@@ -961,23 +1018,23 @@ public final class $anno
             implements $proto.selected, selectAst<MemberValuePair> {
 
             public final MemberValuePair astMvp;
-            public final $tokens args;
+            public final $tokens tokens;
 
             public Select(MemberValuePair astMvp, Tokens tokens) {
                 this.astMvp = astMvp;
-                this.args = $tokens.of(tokens);
+                this.tokens = $tokens.of(tokens);
             }
 
             @Override
             public $tokens tokens() {
-                return args;
+                return tokens;
             }
 
             @Override
             public String toString() {
                 return "$anno.$memberValue.Select {" + System.lineSeparator()
                         + Text.indent(astMvp.toString()) + System.lineSeparator()
-                        + Text.indent("$args : " + args) + System.lineSeparator()
+                        + Text.indent("$tokens : " + tokens) + System.lineSeparator()
                         + "}";
             }
 
@@ -1043,7 +1100,7 @@ public final class $anno
         public String toString() {
             return "$anno.Select {" + System.lineSeparator()
                 + Text.indent(_ann.toString()) + System.lineSeparator()
-                + Text.indent("$args : " + tokens) + System.lineSeparator()
+                + Text.indent("$tokens : " + tokens) + System.lineSeparator()
                 + "}";
         }
 

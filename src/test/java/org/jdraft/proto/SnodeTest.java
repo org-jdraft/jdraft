@@ -97,7 +97,7 @@ public class SnodeTest extends TestCase {
 
         }
         //assertEquals( 1, $.typeRef(System.class).count(C.class));
-        $.methodCall().forEachIn(C.class, _walk::describe);
+        $.methodCall().forEachIn(C.class, Ast::describe);
         assertEquals(1, $.typeRef("System").count(C.class)); //there is (1) referece to System (return type)
         assertEquals( 1, $.of("System", SimpleName.class).$hasAncestor( $.fieldAccessExpr() ).count(C.class));
         //assertEquals( 1, $.of("System", SimpleName.class).$hasAncestor( $.methodReference() ).count(C.class));
@@ -150,7 +150,7 @@ public class SnodeTest extends TestCase {
         Expression scope = Expr.fieldAccess("System.out" ).asFieldAccessExpr().getScope();
         Ast.isParent(scope, FieldAccessExpr.class);
 
-        _walk.describe( (Node)$.stmt("System.out.println(1);").firstIn(_c) );
+        Ast.describe( (Node)$.stmt("System.out.println(1);").firstIn(_c) );
 
         assertEquals(6, $typeRef.of(System.class).count(_c));
         $typeRef.of(System.class).forEachIn( _c, s-> System.out.println(s+" parent -> "+ s.ast().getParentNode().get()));

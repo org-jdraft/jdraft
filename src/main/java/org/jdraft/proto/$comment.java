@@ -256,10 +256,10 @@ public final class $comment <C extends Comment>
     }
 
     @Override
-    public C firstIn(Node astStartNode, Predicate<C> commentMatchFn) {
+    public C firstIn(Node astNode, Predicate<C> commentMatchFn) {
         
         //this is extra work, but it "acts" like we want it to
-        List<C> found = listIn(astStartNode, commentMatchFn);
+        List<C> found = listIn(astNode, commentMatchFn);
         Ast.sortNodesByPosition(found);
         //Collections.sort( found, Ast.COMPARE_NODE_BY_LOCATION);
         if( found.isEmpty() ){
@@ -302,13 +302,13 @@ public final class $comment <C extends Comment>
 
     /**
      *
-     * @param astRootNode
+     * @param astNode
      * @param selectConstraint
      * @return
      */
-    public List<Select> listSelectedIn(Node astRootNode, Predicate<Select> selectConstraint) {
+    public List<Select> listSelectedIn(Node astNode, Predicate<Select> selectConstraint) {
         List<Select> found = new ArrayList<>();
-        forSelectedIn( astRootNode, selectConstraint, s -> found.add(s));
+        forSelectedIn( astNode, selectConstraint, s -> found.add(s));
         return found;
     }
 
@@ -340,15 +340,15 @@ public final class $comment <C extends Comment>
         return (_J)_j;
     }
     
-    public <N extends Node> N forSelectedIn(N astRootNode, Consumer<Select> selectActionFn) {
+    public <N extends Node> N forSelectedIn(N astNode, Consumer<Select> selectActionFn) {
         //_walk will organize by order
-        _walk.comments(astRootNode, c->{
+        _walk.comments(astNode, c->{
             Select s = select(c);
             if( s != null ){
                 selectActionFn.accept(s);
             }
         });
-        return astRootNode;
+        return astNode;
     }
     
     public <_J extends _java> _J forSelectedIn(_java _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
@@ -361,14 +361,14 @@ public final class $comment <C extends Comment>
         return (_J)_j;
     }
     
-    public <N extends Node> N forSelectedIn(N astRootNode, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
-        _walk.comments(astRootNode, c->{
+    public <N extends Node> N forSelectedIn(N astNode, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
+        _walk.comments(astNode, c->{
             Select s = select(c);
             if( s != null && selectConstraint.test(s)){
                 selectActionFn.accept(s);
             }
         });
-        return astRootNode;
+        return astNode;
     }
         
     @Override

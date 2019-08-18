@@ -34,6 +34,10 @@ import java.util.*;
 public class _javaTest extends TestCase {
 
 
+    public void testBuildEnum(){
+        _enum _e = _java.type("enum E{}");
+    }
+
     class Base{
 
     }

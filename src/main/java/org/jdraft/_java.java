@@ -73,16 +73,34 @@ import org.jdraft.macro._macro;
  */
 public interface _java {
 
+    /**
+     *
+     * @param _j
+     */
+    static void describe( _java _j ){
+        if( _j instanceof _code && ((_code) _j).isTopLevel() ){
+            Ast.describe( ((_code) _j).astCompilationUnit());
+        }
+        Ast.describe ( ((_node)_j).ast() );
+    }
+
+    /**
+     * Describes the Ast node (i.e. the class and content)
+     * @param astNode
+     */
+    static void describe( Node astNode ){
+        Ast.describe(astNode);
+    }
 
     /**
      * Read in a .java file from the InputStream and return the _type(_class, _enum, _interface, _annotation)
      * @param is
      * @return
      */
-    static _type type(InputStream is) {
+    static <T extends _type> T type(InputStream is) {
         _code _c = _java.code(is);
         if (_c instanceof _type) {
-            return (_type) _c;
+            return (T) _c;
         }
         throw new _draftException("_code in inputStream " + is + " does not represent a _type");
     }
@@ -92,10 +110,10 @@ public interface _java {
      * @param path
      * @return
      */
-    static _type type(Path path) {
+    static <T extends _type> T type(Path path) {
         _code _c = _java.code(path);
         if (_c instanceof _type) {
-            return (_type) _c;
+            return (T) _c;
         }
         throw new _draftException("_code at " + path + " does not represent a _type");
     }
@@ -107,7 +125,7 @@ public interface _java {
      * @return the _type
      * {@link _class} {@link _enum} {@link _interface}, {@link _annotation}
      */
-    static _type type(String... code) {
+    static <T extends _type> T type(String... code) {
         return type(Ast.type(code));
     }
 
@@ -118,7 +136,7 @@ public interface _java {
      * @param astRoot the root AST node containing the top level TYPE
      * @return the _model _type
      */
-    static _type type(CompilationUnit astRoot) {
+    static <T extends _type> T type(CompilationUnit astRoot) {
         //if only 1 type, it's the top type
         if (astRoot.getTypes().size() == 1) {
             return type(astRoot, astRoot.getType(0));
@@ -172,7 +190,7 @@ public interface _java {
      * @param td
      * @return
      */
-    static _type type(TypeDeclaration td) {
+    static <T extends _type> T type(TypeDeclaration td) {
 
         /*** MED
         if (td.isTopLevelType()) {
@@ -182,14 +200,14 @@ public interface _java {
         if (td instanceof ClassOrInterfaceDeclaration) {
             ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration) td;
             if (coid.isInterface()) {
-                return _interface.of(coid);
+                return (T)_interface.of(coid);
             }
-            return _class.of(coid);
+            return (T)_class.of(coid);
         }
         if (td instanceof EnumDeclaration) {
-            return _enum.of((EnumDeclaration) td);
+            return (T)_enum.of((EnumDeclaration) td);
         }
-        return _annotation.of((AnnotationDeclaration) td);
+        return (T)_annotation.of((AnnotationDeclaration) td);
     }
 
     /**
@@ -201,18 +219,18 @@ public interface _java {
      * @return the appropriate _model _type (_class, _enum, _interface,
      * _annotation)
      */
-    static _type type(CompilationUnit astRoot, TypeDeclaration td) {
+    static <T extends _type> T type(CompilationUnit astRoot, TypeDeclaration td) {
         if (td instanceof ClassOrInterfaceDeclaration) {
             ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration) td;
             if (coid.isInterface()) {
-                return _interface.of(coid);
+                return (T)_interface.of(coid);
             }
-            return _class.of(coid);
+            return (T)_class.of(coid);
         }
         if (td instanceof EnumDeclaration) {
-            return _enum.of((EnumDeclaration) td);
+            return (T)_enum.of((EnumDeclaration) td);
         }
-        return _annotation.of((AnnotationDeclaration) td);
+        return (T)_annotation.of((AnnotationDeclaration) td);
     }
 
     /**
@@ -253,7 +271,7 @@ public interface _java {
      * @param clazz the class
      * @return
      */
-    static _type type(Class clazz) {
+    static <T extends _type & _java> T type(Class clazz) {
         return type(clazz, _io.IN_DEFAULT);
     }
 

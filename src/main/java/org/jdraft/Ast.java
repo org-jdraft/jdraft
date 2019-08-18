@@ -516,6 +516,14 @@ public enum Ast {
     }
 
     /**
+     * Describe the node and it's contents by walking
+     * @param astNode the node to describe
+     */
+    public static void describe( Node astNode ){
+        astNode.walk(n-> System.out.println( n.getClass().getCanonicalName()+" \""+n+"\"") );
+    }
+
+    /**
      * parse and return a CompilationUnit based on the .java source contents
      * that were read from the javaSourceReader
      * @param javaSourceReader the reader for the source

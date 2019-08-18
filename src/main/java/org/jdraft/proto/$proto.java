@@ -42,6 +42,234 @@ public interface $proto<P, $P extends $proto>{
     $P and( Predicate<P> constraint );
 
     /**
+     *
+     * @param map
+     * @return
+     */
+    default $P hardcode$( Map map ){
+        return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of(map) );
+    }
+
+    /**
+     * Hardcode parameterized values
+     * (i.e. what was once a parameter, now is static text)
+     *
+     * @param kvs the key parameter NAME and String VALUE to assign to the
+     * @return the modified Stencil
+     */
+    default $P hardcode$( Tokens kvs ) {
+        return hardcode$( Translator.DEFAULT_TRANSLATOR, kvs );
+    }
+
+    /**
+     * Hardcode parameterized values
+     * (i.e. what was once a parameter, now is static text)
+     *
+     * @param keyValues the key parameter NAME and String VALUE to assign to the
+     * @return the modified Stencil
+     */
+    default $P hardcode$( Object... keyValues ) {
+        return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of( keyValues ) );
+    }
+
+    /**
+     * Hardcode parameterized values
+     * (i.e. what was once a parameter, now is static text)
+     *
+     * @param translator translates values to be hardcoded into the Stencil
+     * @param keyValues the key parameter NAME and String VALUE to assign to the
+     * @return the modified Stencil
+     */
+    default $P hardcode$( Translator translator, Object... keyValues ) {
+        return hardcode$( translator, Tokens.of( keyValues ) );
+    }
+
+    /**
+     * Hardcode parameterized values
+     * (i.e. what was once a parameter, now is static text)
+     *
+     * @param translator
+     * @param kvs
+     * @return
+     */
+    $P hardcode$( Translator translator, Tokens kvs );
+
+    /**
+     * Is this node the child of a a proto?
+     * @param proto
+     * @return
+     */
+    default $P $hasParent( $proto proto ){
+        return and(n -> {
+            if (n instanceof Node) {
+                return Ast.isParent( (Node)n, c->proto.match(c) );
+            } else if (n instanceof _node) {
+                return Ast.isParent( ((_node)n).ast(), c->proto.match(c) );
+            } else {
+                //NEED TO MANUALLY IMPLEMENT FOR:
+                // $parameters, $annos, $snip, $throws, $typeParameters
+                // if( n instanceof List ){
+                //    List l = (List)n;
+                //    l.forEach();
+                // }
+                throw new _draftException("Not implemented yet for type : " + n.getClass());
+            }
+        });
+        //return and( (n)-> Ast.isParent( (Node)n, e-> proto.match(e) ) );
+    }
+
+    default $P $hasParent( Class... parentClassTypes ){
+        return and(n -> {
+                    if (n instanceof Node) {
+                        return Ast.isParent( (Node)n, parentClassTypes);
+                    } else if (n instanceof _node) {
+                        return Ast.isParent( ((_node)n).ast(), parentClassTypes);
+                    } else {
+                        //NEED TO MANUALLY IMPLEMENT FOR:
+                        // $parameters, $annos, $snip, $throws, $typeParameters
+                        // if( n instanceof List ){
+                        //    List l = (List)n;
+                        //    l.forEach();
+                        // }
+                        throw new _draftException("Not implemented yet for type : " + n.getClass());
+                    }
+                });
+        //return and(n -> Ast.isParent( (Node)n, parentClassTypes));
+    }
+
+    default $P $hasAncestor( Predicate<Node> ancestorMatchFn ){
+        return and(n-> {
+            if( n instanceof Node ) {
+                return _walk.firstParent( (Node)n, c-> ancestorMatchFn.test(c)) != null;
+            }else if (n instanceof _node) {
+                return _walk.firstParent( (_java)n, c-> ancestorMatchFn.test(c) ) != null;
+            } else{
+                //NEED TO MANUALLY IMPLEMENT FOR:
+                // $parameters, $annos, $snip, $throws, $typeParameters
+                // if( n instanceof List ){
+                //    List l = (List)n;
+                //    l.forEach();
+                // }
+                throw new _draftException("Not implemented yet for type : "+ n.getClass());
+            }
+        } );
+        //return and(n-> Ast.hasAncestor( (Node)n, ancestorMatchFn));
+    }
+
+    default $P $hasAncestor( $proto ancestorProto ){
+        return and(n-> {
+            if( n instanceof Node ) {
+                return _walk.firstParent( (Node)n, c-> ancestorProto.match(c)) != null;
+            }else if (n instanceof _node) {
+                return _walk.firstParent( (_java)n, c-> ancestorProto.match(c)) != null;
+            } else{
+                //NEED TO MANUALLY IMPLEMENT FOR:
+                // $parameters, $annos, $snip, $throws, $typeParameters
+                // if( n instanceof List ){
+                //    List l = (List)n;
+                //    l.forEach();
+                // }
+                throw new _draftException("Not implemented yet for type : "+ n.getClass());
+            }
+        } );
+    }
+
+    default $P $hasAncestor( Class... ancestorClassTypes ){
+        return and(n-> {
+            if( n instanceof Node ) {
+                return _walk.firstParent( (Node)n, c-> Ast.isNodeOfType(c, ancestorClassTypes) ) != null;
+            }else if (n instanceof _node) {
+                return _walk.firstParent( (_java)n, c-> Ast.isNodeOfType(c, ancestorClassTypes) ) != null;
+            } else{
+                //NEED TO MANUALLY IMPLEMENT FOR:
+                // $parameters, $annos, $snip, $throws, $typeParameters
+                // if( n instanceof List ){
+                //    List l = (List)n;
+                //    l.forEach();
+                // }
+                throw new _draftException("Not implemented yet for type : "+ n.getClass());
+            }
+        } );
+        //return and(n-> ((Node)n).stream(_walk.PARENTS).anyMatch(c -> Ast.isParent( c, parentClassTypes) ));
+    }
+
+    default $P $hasChild( $proto childProto ){
+
+        return and(n-> {
+            if( n instanceof Node ){
+                return ((Node)n).getChildNodes().stream().anyMatch(c -> childProto.match(c));
+            } else if( n instanceof _node){
+                return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> childProto.match(c));
+            } else{
+                throw new _draftException("Not implemented yet for type : "+ n.getClass());
+            }
+        } );
+    }
+
+    default $P $hasChild( Class... childClassTypes ){
+        return and(n-> {
+            if( n instanceof Node ){
+                return ((Node)n).getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) );
+            } else if( n instanceof _node){
+                return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) );
+            } else{
+                throw new _draftException("Not implemented yet for type : "+ n.getClass());
+            }
+        } );
+
+        //return and(n-> ((Node)n).getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) ));
+    }
+
+    default $P $hasChild( Predicate<Node> childMatchFn ){
+
+        return and(n-> {
+            if( n instanceof Node ){
+                return ((Node)n).getChildNodes().stream().anyMatch(c -> childMatchFn.test(c) );
+            } else if( n instanceof _node){
+                return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> childMatchFn.test(c) );
+            } else{
+                throw new _draftException("Not implemented yet for type : "+ n.getClass());
+            }
+        } );
+    }
+
+    default $P $hasDescendant( Class... childClassTypes ){
+        return and(n-> {
+            if( n instanceof Node ){
+                return ((Node)n).getChildNodes().stream().anyMatch(c -> c.stream().anyMatch(d -> Ast.isNodeOfType(d, childClassTypes) ));
+            } else if( n instanceof _node){
+                return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> c.stream().anyMatch(d -> Ast.isNodeOfType(d, childClassTypes) ));
+            } else{
+                throw new _draftException("Not implemented yet for type : "+ n.getClass());
+            }
+        } );
+    }
+    default $P $hasDescendant( Predicate<Node> childMatchFn ){
+        return and(n-> {
+            if( n instanceof Node ){
+                return ((Node)n).getChildNodes().stream().anyMatch(c -> c.stream().anyMatch(d -> childMatchFn.test(d)) );
+            } else if( n instanceof _node){
+                return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> c.stream().anyMatch(d -> childMatchFn.test(d)) );
+            } else{
+                throw new _draftException("Not implemented yet for type : "+ n.getClass());
+            }
+        } );
+    }
+
+    default $P $hasDescendant( $proto descendantProto ){
+        return and(n-> {
+            if( n instanceof Node ){
+                return ((Node)n).getChildNodes().stream().anyMatch(c -> c.stream().anyMatch(d -> descendantProto.match(d)) );
+            } else if( n instanceof _node){
+                return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> c.stream().anyMatch(d -> descendantProto.match(d)) );
+            } else{
+                throw new _draftException("Not implemented yet for type : "+ n.getClass());
+            }
+        } );
+        //return and(n-> ((Node)n).getChildNodes().stream().anyMatch(c-> c.stream().anyMatch(d -> descendantProto.match(d)) ));
+    }
+
+    /**
      * does this prototype match this ast candidate node?
      * @param candidate an ast candidate node
      * @return
@@ -54,7 +282,7 @@ public interface $proto<P, $P extends $proto>{
      * @return 
      */
     default P firstIn(Class clazz){
-        return firstIn( _java.type(clazz) );
+        return firstIn((_type)_java.type(clazz) );
     }
 
     /**
@@ -64,7 +292,7 @@ public interface $proto<P, $P extends $proto>{
      */
     default P firstIn(Class... clazzes){
         for( int i=0; i< clazzes.length; i++){
-            P p = firstIn( _java.type(clazzes[i]) );
+            P p = firstIn( (_type)_java.type(clazzes[i]) );
             if( p != null ){
                 return p;
             }
@@ -77,7 +305,7 @@ public interface $proto<P, $P extends $proto>{
      * @param _js
      * @return
      */
-    default P firstIn(_java... _js){
+    default <_J extends _java> P firstIn(_J... _js){
         for( int i=0; i< _js.length; i++){
             P p = firstIn( _js[i] );
             if( p != null ){
@@ -134,7 +362,7 @@ public interface $proto<P, $P extends $proto>{
      * @param _j the the _model node
      * @return  the first matching instance or null if none is found
      */
-    default P firstIn(_java _j){
+    default <_J extends _java> P firstIn(_J _j){
         if( _j instanceof _code ){
             _code _c = (_code)_j;
             if( _c.isTopLevel() ){
@@ -188,7 +416,7 @@ public interface $proto<P, $P extends $proto>{
      * @return 
      */
     default <S extends selected> S selectFirstIn( Class clazz ){
-        return selectFirstIn( _java.type(clazz));
+        return selectFirstIn( (_type)_java.type(clazz));
     }
 
     /**
@@ -199,7 +427,7 @@ public interface $proto<P, $P extends $proto>{
      */
     default <S extends selected> S selectFirstIn( Class... classes ){
         for(int i=0;i<classes.length; i++){
-            S s = selectFirstIn( _java.type(classes[i]) );
+            S s = selectFirstIn( (_type)_java.type(classes[i]) );
             if( s != null ){
                 return s;
             }
@@ -213,7 +441,7 @@ public interface $proto<P, $P extends $proto>{
      * @param _js
      * @return
      */
-    default <S extends selected> S selectFirstIn( _java... _js ){
+    default <S extends selected, _J extends _java> S selectFirstIn( _J... _js ){
         for(int i=0;i<_js.length; i++){
             S s = selectFirstIn( _js[i] );
             if( s != null ){
@@ -289,7 +517,7 @@ public interface $proto<P, $P extends $proto>{
      * @return a List of P that match the query
      */
     default List<P> listIn(Class clazz){
-        return listIn( _java.type(clazz));
+        return listIn( (_type)_java.type(clazz));
     }
 
     /**
@@ -338,7 +566,7 @@ public interface $proto<P, $P extends $proto>{
      * @return 
      */
     default List<P> listIn(Class clazz, Predicate<P> nodeMatchFn){
-        return listIn( _java.type(clazz), nodeMatchFn);
+        return listIn( (_type)_java.type(clazz), nodeMatchFn);
     }
 
     /**
@@ -429,7 +657,7 @@ public interface $proto<P, $P extends $proto>{
      * @return the selected
      */
     default <S extends selected> List<S> listSelectedIn(Class clazz){
-        return listSelectedIn( _java.type(clazz));
+        return listSelectedIn( (_type)_java.type(clazz));
     }
 
     /**
@@ -481,9 +709,9 @@ public interface $proto<P, $P extends $proto>{
      * @param nodeActionFn what to do with each entity matching the prototype
      * @return the (potentially modified) _type 
      */
-    default <_T extends _type> _T forEachIn(Class clazz, Consumer<P>nodeActionFn ){
+    default <_CT extends _type> _CT forEachIn(Class clazz, Consumer<P>nodeActionFn ){
         
-        return forEachIn( (_T)_java.type(clazz), nodeActionFn);
+        return forEachIn( (_CT)_java.type(clazz), nodeActionFn);
     }
 
     /**
@@ -585,7 +813,7 @@ public interface $proto<P, $P extends $proto>{
      * @return 
      */
     default int count( Class clazz ){
-        return count( _java.type(clazz));
+        return count( (_type)_java.type(clazz));
     }
 
     /**
@@ -678,8 +906,8 @@ public interface $proto<P, $P extends $proto>{
      * @param clazz the runtime _type (MUST have .java SOURCE in the classpath) 
      * @return the _type with all entities matching the prototype (& constraint) removed
      */
-    default _type removeIn(Class clazz){
-        return removeIn( _java.type(clazz));
+    default <_CT extends _type> _CT removeIn(Class clazz){
+        return (_CT)removeIn( (_type)_java.type(clazz));
     } 
     
     /**
@@ -688,8 +916,8 @@ public interface $proto<P, $P extends $proto>{
      * @param nodeMatchFn 
      * @return the _type with all entities matching the prototype (& constraint) removed
      */
-    default _type removeIn(Class clazz, Predicate<P> nodeMatchFn){
-        return removeIn( _java.type(clazz), nodeMatchFn);
+    default <_CT extends _type> _CT removeIn(Class clazz, Predicate<P> nodeMatchFn){
+        return (_CT)removeIn( (_type)_java.type(clazz), nodeMatchFn);
     } 
     
     /**

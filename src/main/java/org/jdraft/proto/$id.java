@@ -78,7 +78,12 @@ public final class $id implements $constructor.$part, $method.$part, $field.$par
         this.pattern = this.pattern.$(target, $Name);
         return this;
     }
-    
+
+    public $id hardcode$( Translator tr, Tokens tokens){
+        this.pattern = this.pattern.hardcode$(tr, tokens);
+        return this;
+    }
+
     public $id hardcode$( Translator tr, Object...keyValues){
         this.pattern = this.pattern.hardcode$(tr, keyValues);
         return this;

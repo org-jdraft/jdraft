@@ -284,11 +284,12 @@ public final class $typeParameters
      *
      * @param hardcodedKeyValues the key parameter NAME and VALUE to hardcode
      * @return the modified Stencil
-     */
+
     public $typeParameters hardcode$( Tokens hardcodedKeyValues ) {
         this.typeParams.forEach(t -> t.hardcode$(hardcodedKeyValues) );
         return this;
     }
+    */
 
     /**
      * Hardcode parameterized values
@@ -296,10 +297,11 @@ public final class $typeParameters
      *
      * @param keyValues the key parameter NAME and String VALUE to assign to the
      * @return the modified Stencil
-     */
+
     public $typeParameters hardcode$( Object... keyValues ) {
         return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of( keyValues ) );
     }
+    */
 
     /**
      * Hardcode parameterized values
@@ -308,10 +310,11 @@ public final class $typeParameters
      * @param translator translates values to be hardcoded into the Stencil
      * @param keyValues the key parameter NAME and String VALUE to assign to the
      * @return the modified Stencil
-     */
+
     public $typeParameters hardcode$( Translator translator, Object... keyValues ) {
         return hardcode$( translator, Tokens.of( keyValues ) );
     }
+    */
 
     /**
      * 
@@ -378,18 +381,18 @@ public final class $typeParameters
     
     /**
      * Returns the first _import that matches the pattern and constraint
-     * @param _n the _java node
+     * @param _j the _java node
      * @param selectConstraint
      * @return  the first _import that matches (or null if none found)
      */
-    public Select selectFirstIn( _java _n, Predicate<Select> selectConstraint ){
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                return selectFirstIn( ((_code) _n).astCompilationUnit(), selectConstraint);
+    public Select selectFirstIn( _java _j, Predicate<Select> selectConstraint ){
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                return selectFirstIn( ((_code) _j).astCompilationUnit(), selectConstraint);
             }
-            return selectFirstIn( ((_type)_n).ast(), selectConstraint);
+            return selectFirstIn( ((_type)_j).ast(), selectConstraint);
         }
-        return selectFirstIn( ((_node)_n).ast(), selectConstraint);
+        return selectFirstIn( ((_node)_j).ast(), selectConstraint);
     }
 
     /**
@@ -433,7 +436,7 @@ public final class $typeParameters
      */
     @Override
     public List<Select> listSelectedIn(Class clazz){
-        return listSelectedIn(_java.type(clazz));
+        return listSelectedIn((_type)_java.type(clazz));
     }
     
     @Override
@@ -456,7 +459,7 @@ public final class $typeParameters
      * @return 
      */
     public List<Select> listSelectedIn( Class clazz, Predicate<Select> selectConstraint ){
-        return listSelectedIn(_java.type(clazz), selectConstraint);
+        return listSelectedIn((_type)_java.type(clazz), selectConstraint);
     }
     
     /**
@@ -500,19 +503,19 @@ public final class $typeParameters
      * @param importDecl
      * @return 
      */
-    public _type replaceIn(Class clazz, String importDecl){
-        return replaceIn( _java.type(clazz), importDecl);
+    public <_CT extends _type> _CT  replaceIn(Class clazz, String importDecl){
+        return (_CT)replaceIn( (_type)_java.type(clazz), importDecl);
     }
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param importDecl
      * @return 
      */
-    public <N extends _java> N replaceIn(N _n, String importDecl){
-        return replaceIn(_n, $typeParameters.of(importDecl));
+    public <_J extends _java> _J replaceIn(_J _j, String importDecl){
+        return replaceIn(_j, $typeParameters.of(importDecl));
     }
     
     /**
@@ -521,19 +524,19 @@ public final class $typeParameters
      * @param _i
      * @return 
      */
-    public _type replaceIn(Class clazz, _typeParameters _i){
-        return replaceIn( _java.type(clazz), _i);
+    public <_CT extends _type> _CT  replaceIn(Class clazz, _typeParameters _i){
+        return (_CT)replaceIn( (_type)_java.type(clazz), _i);
     }
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param _i
      * @return 
      */
-    public <N extends _java> N replaceIn(N _n, _typeParameters _i){
-        return replaceIn(_n, $typeParameters.of(_i));
+    public <_J extends _java> _J replaceIn(_J _j, _typeParameters _i){
+        return replaceIn(_j, $typeParameters.of(_i));
     }
     
     /**
@@ -542,30 +545,30 @@ public final class $typeParameters
      * @param $i
      * @return 
      */
-    public _type replaceIn(Class clazz, $typeParameters $i ){
-        return replaceIn(_java.type(clazz), $i);
+    public <_CT extends _type> _CT  replaceIn(Class clazz, $typeParameters $i ){
+        return (_CT)replaceIn((_type)_java.type(clazz), $i);
     }
     
     /**
      * Replace all occurrences of the template in the code with the replacement
      * (composing the replacement from the constructed tokens in the source)
      *
-     * @param _n the model to find replacements
+     * @param _j the model to find replacements
      * @param $i the template to be constructed as the replacement
-     * @param <N> the TYPE of model
+     * @param <_J> the TYPE of model
      * @return
      */
-    public <N extends _java> N replaceIn(N _n, $typeParameters $i ){
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                replaceIn( ((_code) _n).astCompilationUnit(), $i);
-                return _n;
+    public <_J extends _java> _J replaceIn(_J _j, $typeParameters $i ){
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                replaceIn( ((_code) _j).astCompilationUnit(), $i);
+                return _j;
             }
-            replaceIn( ((_type)_n).ast(), $i);
-            return _n;
+            replaceIn( ((_type) _j).ast(), $i);
+            return _j;
         }
-        replaceIn( ((_node)_n).ast(), $i);        
-        return _n;
+        replaceIn( ((_node) _j).ast(), $i);
+        return _j;
     }
     
     /**
@@ -594,8 +597,8 @@ public final class $typeParameters
      * @param selectConsumer
      * @return 
      */
-    public _type forSelectedIn( Class clazz, Consumer<Select> selectConsumer){
-        return forSelectedIn(_java.type(clazz), selectConsumer);
+    public <_CT extends _type> _CT  forSelectedIn( Class clazz, Consumer<Select> selectConsumer){
+        return (_CT)forSelectedIn((_type)_java.type(clazz), selectConsumer);
     }
     
     /**
@@ -636,8 +639,8 @@ public final class $typeParameters
      * @param selectConsumer
      * @return 
      */
-    public _type forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
-       return forSelectedIn(_java.type(clazz), selectConstraint, selectConsumer); 
+    public <_CT extends _type> _CT  forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
+       return (_CT)forSelectedIn((_type)_java.type(clazz), selectConstraint, selectConsumer);
     }
     
     /**

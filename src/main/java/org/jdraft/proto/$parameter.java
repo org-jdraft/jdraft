@@ -434,6 +434,14 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
     }
 
     @Override
+    public $parameter hardcode$(Translator translator, Tokens kvs) {
+        this.annos = this.annos.hardcode$(translator, kvs);
+        this.type = this.type.hardcode$(translator, kvs);
+        this.name = this.name.hardcode$(translator, kvs);
+        return this;
+    }
+
+    @Override
     public List<String> list$() {
         List<String> all = new ArrayList<>();
         all.addAll( this.annos.list$());
@@ -458,7 +466,7 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
      */
     @Override
     public List<$parameter.Select>listSelectedIn( Class clazz){
-        return listSelectedIn(_java.type(clazz));
+        return listSelectedIn( (_type)_java.type(clazz));
     }
     
     @Override
@@ -472,20 +480,6 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
         });
         return found;
     }
-
-    /*
-    @Override
-    public List<Select> listSelectedIn(_node _n) {
-        List<Select> found = new ArrayList<>();
-        _walk.in(_n, _parameter.class, p-> {
-            Select sel = select(p);
-            if( sel != null ){
-                found.add(sel);
-            }
-        });
-        return found;
-    }
-    */
     
     /**
      * 
@@ -494,7 +488,7 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
      * @return 
      */
     public List<Select> listSelectedIn(Class clazz, Predicate<Select> selectConstraint) {
-        return listSelectedIn(_java.type(clazz), selectConstraint);
+        return listSelectedIn( (_type)_java.type(clazz), selectConstraint);
     }
     
     /**
@@ -556,10 +550,10 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
      * @param selectActionFn
      * @return 
      */
-    public _type forSelectedIn(Class clazz, Consumer<Select> selectActionFn) {
-        return forSelectedIn(_java.type(clazz), selectActionFn);
+    public <_CT extends _type> _CT forSelectedIn(Class clazz, Consumer<Select> selectActionFn) {
+        return (_CT)forSelectedIn( (_type)_java.type(clazz), selectActionFn);
     }
-    
+
     /**
      * 
      * @param <N>
@@ -600,8 +594,8 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
      * @param selectActionFn
      * @return 
      */
-    public _type forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
-        return forSelectedIn(_java.type(clazz), selectConstraint, selectActionFn);
+    public <_CT extends _type> _CT forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
+        return (_CT)forSelectedIn((_type)_java.type(clazz), selectConstraint, selectActionFn);
     }
     
     /**
@@ -645,7 +639,7 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
      * @return 
      */
     public _parameter firstIn( Class clazz ){
-        return firstIn(_java.type(clazz));
+        return firstIn( (_type)_java.type(clazz));
     }
     
     /**
@@ -703,7 +697,7 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
      * @return  the first _field that matches (or null if none found)
      */
     public Select selectFirstIn( Class clazz, Predicate<Select>selectConstraint ){
-        return selectFirstIn(_java.type(clazz), selectConstraint);
+        return selectFirstIn((_type)_java.type(clazz), selectConstraint);
     }
     
     /**
@@ -721,17 +715,6 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
             return selectFirstIn( ((_type)_j).ast(), selectConstraint);
         }
         return selectFirstIn( ((_node)_j).ast(), selectConstraint);
-        /*
-        Optional<Parameter> p = _n.ast().findFirst(Parameter.class, 
-            pa -> {
-                Select s = this.select(pa); 
-                return s != null && selectConstraint.test(s);
-            });         
-        if( p.isPresent()){
-            return select(p.get());
-        }
-        return null;
-        */
     }
     
     /**

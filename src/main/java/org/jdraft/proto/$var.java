@@ -99,7 +99,6 @@ public final class $var
         return of(constraint).$local();
     }
 
-
     /**
      * Only select local variables (NOT member fields)
      * @return
@@ -107,8 +106,6 @@ public final class $var
     public static $var member(){
         return of().$member();
     }
-
-
 
     /**
      * specify to select only member vars (i.e. fields) with the pattern
@@ -383,7 +380,6 @@ public final class $var
         return this;
     }
 
-
     public boolean match( Node n){
         if( n instanceof VariableDeclarator ){
             return matches( (VariableDeclarator) n);
@@ -521,21 +517,22 @@ public final class $var
      *
      * @param kvs the key parameter NAME and String VALUE to assign to the
      * @return the modified Stencil
-     */
+
     public $var hardcode$( Tokens kvs ) {
         return hardcode$( Translator.DEFAULT_TRANSLATOR, kvs );
     }
-
+    */
     /**
      * Hardcode parameterized values
      * (i.e. what was once a parameter, now is static text)
      *
      * @param keyValues the key parameter NAME and String VALUE to assign to the
      * @return the modified Stencil
-     */
+
     public $var hardcode$( Object... keyValues ) {
         return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of( keyValues ) );
     }
+    */
 
     /**
      * Hardcode parameterized values
@@ -544,10 +541,11 @@ public final class $var
      * @param translator translates values to be hardcoded into the Stencil
      * @param keyValues the key parameter NAME and String VALUE to assign to the
      * @return the modified $field
-     */
+
     public $var hardcode$( Translator translator, Object... keyValues ) {
         return hardcode$( translator, Tokens.of( keyValues ) );
     }
+    */
 
     /**
      * 
@@ -604,7 +602,7 @@ public final class $var
      */
     @Override
     public Select selectFirstIn( Class clazz){
-        return selectFirstIn(_java.type(clazz));
+        return selectFirstIn( (_type)_java.type(clazz));
     }
 
     /**
@@ -628,23 +626,23 @@ public final class $var
      * @return 
      */
     public Select selectFirstIn( Class clazz, Predicate<Select> selectConstraint){
-       return selectFirstIn(_java.type(clazz), selectConstraint); 
+       return selectFirstIn( (_type)_java.type(clazz), selectConstraint);
     }
     
     /**
      * Returns the first VaribleDeclarator that matches the pattern and constraint
-     * @param _n the _java node
+     * @param _j the _java node
      * @param selectConstraint
      * @return  the first VaribleDeclarator that matches (or null if none found)
      */
-    public Select selectFirstIn( _java _n, Predicate<Select> selectConstraint ){
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                return selectFirstIn( ((_code) _n).astCompilationUnit(), selectConstraint);
+    public Select selectFirstIn( _java _j, Predicate<Select> selectConstraint ){
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                return selectFirstIn( ((_code) _j).astCompilationUnit(), selectConstraint);
             }
-            return selectFirstIn( ((_type)_n).ast(), selectConstraint);
+            return selectFirstIn( ((_type)_j).ast(), selectConstraint);
         }
-        return selectFirstIn( ((_node)_n).ast(), selectConstraint);
+        return selectFirstIn( ((_node)_j).ast(), selectConstraint);
     }
 
     /**
@@ -666,7 +664,7 @@ public final class $var
 
     @Override
     public List<Select> listSelectedIn(Class clazz){
-        return listSelectedIn(_java.type(clazz));
+        return listSelectedIn( (_type)_java.type(clazz));
     }
     
     @Override
@@ -701,7 +699,7 @@ public final class $var
      * @return 
      */
     public List<Select> listSelectedIn(Class clazz, Predicate<Select> selectConstraint){
-        return listSelectedIn(_java.type(clazz), selectConstraint);
+        return listSelectedIn( (_type)_java.type(clazz), selectConstraint);
     }
     
     /**
@@ -744,8 +742,8 @@ public final class $var
      * @param $replaceProto
      * @return 
      */
-    public _type replaceIn(Class clazz, $var $replaceProto ){
-        return replaceIn( _java.type(clazz), $replaceProto);    
+    public <_CT extends _type> _CT replaceIn(Class clazz, $var $replaceProto ){
+        return (_CT)replaceIn( (_type)_java.type(clazz), $replaceProto);
     }
     
     /**
@@ -767,19 +765,19 @@ public final class $var
 
     /**
      * 
-     * @param <N>
-     * @param _le
+     * @param <_J>
+     * @param _j
      * @param $replaceProto
      * @return 
      */
-    public <N extends _java> N replaceIn(N _le, $var $replaceProto ){
-        _walk.in(_le, VariableDeclarator.class, e-> {
+    public <_J extends _java> _J replaceIn(_J _j, $var $replaceProto ){
+        _walk.in(_j, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
                 sel.astVar.replace($replaceProto.draft(sel.tokens) );
             }
         });
-        return _le;
+        return _j;
     }
 
     /**
@@ -788,25 +786,25 @@ public final class $var
      * @param selectConsumer
      * @return 
      */
-    public _type forSelectedIn( Class clazz, Consumer<Select> selectConsumer){
-        return forSelectedIn( _java.type(clazz), selectConsumer);
+    public < _CT extends _type> _CT forSelectedIn( Class clazz, Consumer<Select> selectConsumer){
+        return (_CT)forSelectedIn( (_type)_java.type(clazz), selectConsumer);
     }
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectConsumer
      * @return 
      */
-    public <N extends _java> N forSelectedIn(N _n, Consumer<Select> selectConsumer ){
-        _walk.in(_n, VariableDeclarator.class, e-> {
+    public <_J extends _java> _J forSelectedIn(_J _j, Consumer<Select> selectConsumer ){
+        _walk.in(_j, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
                 selectConsumer.accept( sel );
             }
         });
-        return _n;
+        return _j;
     }
     
     /**
@@ -833,26 +831,26 @@ public final class $var
      * @param selectConsumer
      * @return 
      */
-    public _type forSelectedIn( Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer){
-        return forSelectedIn( _java.type(clazz), selectConstraint, selectConsumer);
+    public <_CT extends _type> _CT forSelectedIn( Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer){
+        return (_CT)forSelectedIn( (_type)_java.type(clazz), selectConstraint, selectConsumer);
     }
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectConstraint
      * @param selectConsumer
      * @return 
      */
-    public <N extends _java> N forSelectedIn(N _n, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
-        _walk.in(_n, VariableDeclarator.class, e-> {
+    public <_J extends _java> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
+        _walk.in(_j, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null && selectConstraint.test(sel)){
                 selectConsumer.accept( sel );
             }
         });
-        return _n;
+        return _j;
     }
     
     /**

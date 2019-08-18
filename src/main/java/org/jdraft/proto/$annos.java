@@ -206,9 +206,21 @@ public final class $annos
      * @param tr
      * @param keyValues
      * @return
-     */
+
     public $annos hardcode$( Translator tr, Object... keyValues ) {
         $annosList.forEach(a -> a.hardcode$(tr, keyValues));
+        return this;
+    }
+    */
+
+    /**
+     *
+     * @param tr
+     *
+     * @return
+     */
+    public $annos hardcode$( Translator tr, Tokens ts ) {
+        $annosList.forEach(a -> a.hardcode$(tr, ts));
         return this;
     }
     
@@ -296,9 +308,9 @@ public final class $annos
         return select( _annotated.getAnnos() );        
     }
 
-    public boolean match( Node n){
-        if( n instanceof NodeWithAnnotations ){
-            return matches( (NodeWithAnnotations) n);
+    public boolean match( Node astNode){
+        if( astNode instanceof NodeWithAnnotations ){
+            return matches( (NodeWithAnnotations) astNode);
         }
         return false;
     }
@@ -325,14 +337,14 @@ public final class $annos
     
     /**
      * Returns the first Statement that matches the 
-     * @param astStartNode the
+     * @param astNode the
      * @param _annosMatchFn 
      * @return 
      */
     @Override
-    public _annos firstIn(Node astStartNode, Predicate<_annos> _annosMatchFn){
+    public _annos firstIn(Node astNode, Predicate<_annos> _annosMatchFn){
         Optional<Node> f =                 
-            astStartNode.findFirst( Node.class,
+            astNode.findFirst( Node.class,
                 n -> {
                     if(n instanceof NodeWithAnnotations){
                         Select sel = select((NodeWithAnnotations)n);
@@ -356,7 +368,7 @@ public final class $annos
      * @return 
      */
     public Select selectFirstIn( Class clazz, Predicate<Select>selectConstraint ){
-        return selectFirstIn(_java.type(clazz), selectConstraint);
+        return selectFirstIn((_type)_java.type(clazz), selectConstraint);
     }
     
     /**
@@ -443,7 +455,7 @@ public final class $annos
      * @return 
      */
     public List<Select> listSelectedIn( Class clazz, Predicate<Select> selectConstraint) {
-        return listSelectedIn(_java.type(clazz), selectConstraint);
+        return listSelectedIn((_type)_java.type(clazz), selectConstraint);
     }
     
     /**
@@ -493,12 +505,12 @@ public final class $annos
     /**
      * 
      * @param <N>
-     * @param astRootNode
+     * @param astNode
      * @param selectActionFn
      * @return 
      */
-    public <N extends Node> N forSelectedIn(N astRootNode, Consumer<Select> selectActionFn) {
-        astRootNode.walk(Node.class, 
+    public <N extends Node> N forSelectedIn(N astNode, Consumer<Select> selectActionFn) {
+        astNode.walk(Node.class,
             n -> {
                 if( n instanceof NodeWithAnnotations ){
                     Select sel = select( (NodeWithAnnotations)n);
@@ -507,7 +519,7 @@ public final class $annos
                     }
                 }            
             });
-        return astRootNode;
+        return astNode;
     }
     
      /**
@@ -537,8 +549,8 @@ public final class $annos
      * @param selectActionFn
      * @return 
      */
-    public _type forSelectedIn(Class clazz, Consumer<Select> selectActionFn) {
-        return forSelectedIn(_java.type(clazz), selectActionFn);
+    public  <_CT extends _type> _CT  forSelectedIn(Class clazz, Consumer<Select> selectActionFn) {
+        return (_CT)forSelectedIn((_type)_java.type(clazz), selectActionFn);
     }
     
     /**
@@ -548,8 +560,8 @@ public final class $annos
      * @param selectActionFn
      * @return 
      */
-    public _type forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
-        return forSelectedIn( _java.type(clazz), selectConstraint, selectActionFn);
+    public  <_CT extends _type> _CT forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
+        return (_CT)forSelectedIn( (_type)_java.type(clazz), selectConstraint, selectActionFn);
     }
     
     /**
@@ -635,7 +647,7 @@ public final class $annos
         public String toString() {
             return "$annos.Select {" + System.lineSeparator()
                 + Text.indent(_anns.toString()) + System.lineSeparator()
-                + Text.indent("$args : " + tokens) + System.lineSeparator()
+                + Text.indent("$tokens : " + tokens) + System.lineSeparator()
                 + "}";
         }
 

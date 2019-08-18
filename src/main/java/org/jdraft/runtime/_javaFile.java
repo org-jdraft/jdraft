@@ -47,7 +47,7 @@ public class _javaFile<C extends _code>
      * @return 
      */
     public static _javaFile of( String...code ){
-        return new _javaFile( _java.type(code) );
+        return new _javaFile( (_type)_java.type(code) );
     }
     
     /**

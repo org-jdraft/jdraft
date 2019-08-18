@@ -62,8 +62,7 @@ public final class $case
         this.label = $labelExpr;
         Arrays.stream(stmts).forEach(s -> this.statements.add(s));        
     }
-    
-    
+
     public $case(SwitchEntry se){   
         if( se.getLabels().isNonEmpty() ){
             this.label = $expr.of( se.getLabels().get( 0 ) );
@@ -78,9 +77,9 @@ public final class $case
         return this;
     }
 
-    public boolean match( Node node ) {
-        if (node instanceof SwitchEntry) {
-            return matches((SwitchEntry) node);
+    public boolean match( Node astNode ) {
+        if (astNode instanceof SwitchEntry) {
+            return matches((SwitchEntry) astNode);
         }
         return false;
     }
@@ -189,7 +188,7 @@ public final class $case
      * @return 
      */
     public Select selectFirstIn(Class clazz, Predicate<Select>selectConstraint ){
-        return selectFirstIn( _java.type(clazz), selectConstraint);
+        return selectFirstIn( (_type)_java.type(clazz), selectConstraint);
     }
     
     /**
@@ -207,7 +206,7 @@ public final class $case
             _type _t = (_type)_j; //only possible
             return selectFirstIn(_t.ast(), selectConstraint);
         }
-        return selectFirstIn((_node)_j, selectConstraint);
+        return selectFirstIn( ((_node)_j).ast(), selectConstraint);
     }
     
     /**
@@ -256,13 +255,13 @@ public final class $case
     
     /**
      * 
-     * @param astRootNode
+     * @param astNode
      * @param selectConstraint
      * @return 
      */
-    public List<Select> listSelectedIn(Node astRootNode, Predicate<Select> selectConstraint) {
+    public List<Select> listSelectedIn(Node astNode, Predicate<Select> selectConstraint) {
         List<Select> found = new ArrayList<>();
-        forEachIn( astRootNode, s-> {
+        forEachIn( astNode, s-> {
             Select sel = select(s);
             if( selectConstraint.test(sel ) ){
                 found.add( sel );
@@ -288,8 +287,8 @@ public final class $case
      * @param selectActionFn
      * @return 
      */
-    public _type forSelectedIn(Class clazz, Consumer<Select> selectActionFn) {
-        return forSelectedIn(_java.type(clazz), selectActionFn);
+    public  <_CT extends _type> _CT  forSelectedIn(Class clazz, Consumer<Select> selectActionFn) {
+        return (_CT)forSelectedIn((_type)_java.type(clazz), selectActionFn);
     }
     
     /**
@@ -299,8 +298,8 @@ public final class $case
      * @param selectActionFn
      * @return 
      */
-    public _type forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
-        return forSelectedIn(_java.type(clazz), selectConstraint, selectActionFn);
+    public  <_CT extends _type> _CT forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
+        return (_CT)forSelectedIn((_type)_java.type(clazz), selectConstraint, selectActionFn);
     }
     
     /**
@@ -368,19 +367,19 @@ public final class $case
     /**
      * 
      * @param <N>
-     * @param astRootNode
+     * @param astNode
      * @param selectMatchFn
      * @param selectActionFn
      * @return 
      */
-    public <N extends Node> N forSelectedIn(N astRootNode, Predicate<Select> selectMatchFn, Consumer<Select> selectActionFn) {
-        astRootNode.walk(SwitchEntry.class, se-> {
+    public <N extends Node> N forSelectedIn(N astNode, Predicate<Select> selectMatchFn, Consumer<Select> selectActionFn) {
+        astNode.walk(SwitchEntry.class, se-> {
             Select sel = select(se);
             if( sel != null && selectMatchFn.test(sel) ) {
                 selectActionFn.accept(sel);
             }
         });
-        return astRootNode;
+        return astNode;
     }
     
     @Override
@@ -436,11 +435,20 @@ public final class $case
     }
 
     @Override
-    public Template<SwitchEntry> $(String target, String $Name) {
+    public $case $(String target, String $Name) {
         if( this.label != null ){
             this.label.$(target, $Name);
         }
         this.statements.forEach(s -> s.$(target, $Name));
+        return this;
+    }
+
+    @Override
+    public $case hardcode$(Translator translator, Tokens kvs) {
+        this.label = this.label.hardcode$(translator, kvs);
+        List<$stmt> sts = new ArrayList<>();
+        this.statements.forEach(st -> sts.add( st.hardcode$(translator, kvs)));
+        this.statements = sts;
         return this;
     }
 

@@ -48,23 +48,22 @@ public interface $exprProto<T extends Expression>
 
     T fill(Object... values);
 
-
     /**
      *
      * @param clazz the target class to search through
      * @param selectConsumer the consumer to operate on all selected entities
      * @return the (potentially modified) _type of the clazz
      */
-    _type forSelectedIn(Class clazz, Consumer<Select<T>> selectConsumer);
+    <_CT extends _type> _CT forSelectedIn(Class clazz, Consumer<Select<T>> selectConsumer);
 
     /**
      *
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectConsumer
      * @return
      */
-    <N extends _java> N forSelectedIn(N _n, Consumer<Select<T>> selectConsumer);
+    <_J extends _java> _J forSelectedIn(_J _j, Consumer<Select<T>> selectConsumer);
 
     /**
      *
@@ -82,17 +81,17 @@ public interface $exprProto<T extends Expression>
      * @param selectConsumer
      * @return
      */
-    _type forSelectedIn(Class clazz, Predicate<Select<T>> selectConstraint, Consumer<Select<T>> selectConsumer);
+    <_CT extends _type> _CT forSelectedIn(Class clazz, Predicate<Select<T>> selectConstraint, Consumer<Select<T>> selectConsumer);
 
     /**
      *
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectConstraint
      * @param selectConsumer
      * @return
      */
-    <N extends _java> N forSelectedIn(N _n, Predicate<Select<T>> selectConstraint, Consumer<Select<T>> selectConsumer);
+    <_J extends _java> _J forSelectedIn(_J _j, Predicate<Select<T>> selectConstraint, Consumer<Select<T>> selectConsumer);
 
     /**
      *
@@ -103,42 +102,6 @@ public interface $exprProto<T extends Expression>
      * @return
      */
     <N extends Node> N forSelectedIn(N astNode, Predicate<Select<T>> selectConstraint, Consumer<Select<T>> selectConsumer);
-
-    /**
-     * Hardcode parameterized values
-     * (i.e. what was once a parameter, now is static text)
-     *
-     * @param kvs the key parameter NAME and String VALUE to assign to the
-     * @return the modified Stencil
-     */
-    $expr hardcode$(Tokens kvs);
-
-    /**
-     * Hardcode parameterized values
-     * (i.e. what was once a parameter, now is static text)
-     *
-     * @param keyValues the key parameter NAME and String VALUE to assign to the
-     * @return the modified Stencil
-     */
-    $expr hardcode$(Object... keyValues);
-
-    /**
-     * Hardcode parameterized values
-     * (i.e. what was once a parameter, now is static text)
-     *
-     * @param translator translates values to be hardcoded into the Stencil
-     * @param keyValues the key parameter NAME and String VALUE to assign to the
-     * @return the modified Stencil
-     */
-    $expr hardcode$(Translator translator, Object... keyValues);
-
-    /**
-     *
-     * @param translator
-     * @param tokens
-     * @return
-     */
-    $expr hardcode$(Translator translator, Tokens tokens);
 
     /**
      * Does this $expr match ANY
@@ -204,25 +167,25 @@ public interface $exprProto<T extends Expression>
      * @param astExprReplace
      * @return
      */
-    _type replaceIn(Class clazz, Node astExprReplace);
+    <_CT extends _type> _CT replaceIn(Class clazz, Node astExprReplace);
 
     /**
      *
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param astExprReplace
      * @return
      */
-    <N extends _java> N replaceIn(N _n, Node astExprReplace);
+    <_J extends _java> _J replaceIn(_J _j, Node astExprReplace);
 
     /**
      *
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param protoReplaceExpr
      * @return
      */
-    <N extends _java> N replaceIn(N _n, String protoReplaceExpr);
+    <_J extends _java> _J replaceIn(_J _j, String protoReplaceExpr);
 
     /**
      *
@@ -230,16 +193,16 @@ public interface $exprProto<T extends Expression>
      * @param $replaceProto
      * @return
      */
-    _type replaceIn(Class clazz, $expr $replaceProto);
+    <_CT extends _type> _CT replaceIn(Class clazz, $expr $replaceProto);
 
     /**
      *
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param $replaceProto
      * @return
      */
-    <N extends _java> N replaceIn(N _n, $expr $replaceProto);
+    <_J extends _java> _J replaceIn(_J _j, $expr $replaceProto);
 
     /**
      *

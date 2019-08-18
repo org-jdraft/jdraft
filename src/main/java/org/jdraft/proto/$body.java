@@ -39,7 +39,6 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $cons
     }
     
     public static $body of( String body ){
-        //System.out.println( "BODY " + body );
         $body $b = new $body( _body.of(body));
         return $b;
     }
@@ -62,8 +61,6 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $cons
     
     public static $body of(Expr.Command commandLambda ){
         LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
-        //System.out.println( " LLL "+ le );
-        //System.out.println( " LLL >> "+ le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
         return $body.of( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
     }
     
@@ -438,8 +435,8 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $cons
     }
     
     @Override
-    public _body firstIn(Node astStartNode, Predicate<_body> _bodyMatchFn) {
-        Optional<Node> on = astStartNode.findFirst(Node.class, n-> {
+    public _body firstIn(Node astNode, Predicate<_body> _bodyMatchFn) {
+        Optional<Node> on = astNode.findFirst(Node.class, n-> {
             if(n instanceof NodeWithBlockStmt){
                 Select sel = select( (NodeWithBlockStmt)n );
                 return sel != null && _bodyMatchFn.test(sel.body);
@@ -467,7 +464,7 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $cons
      * @return 
      */
     public Select selectFirstIn( Class clazz, Predicate<Select>selectConstraint){
-        return selectFirstIn(_java.type(clazz), selectConstraint);
+        return selectFirstIn((_type)_java.type(clazz), selectConstraint);
     }
     
     /**
@@ -490,12 +487,12 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $cons
     
     /**
      * 
-     * @param astRootNode
+     * @param astNode
      * @param selectConstraint
      * @return 
      */
-    public Select selectFirstIn(Node astRootNode, Predicate<Select> selectConstraint) {
-        Optional<Node> on = astRootNode.findFirst(Node.class, n-> { 
+    public Select selectFirstIn(Node astNode, Predicate<Select> selectConstraint) {
+        Optional<Node> on = astNode.findFirst(Node.class, n-> {
             if(n instanceof NodeWithBlockStmt){
                 Select sel = select( (NodeWithBlockStmt)n );
                 return sel != null && selectConstraint.test(sel);
@@ -552,8 +549,8 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $cons
      * @param selectActionFn
      * @return 
      */
-    public _type forSelectedIn( Class clazz, Consumer<Select>selectActionFn){
-        return forSelectedIn(_java.type(clazz), selectActionFn);
+    public  <_CT extends _type> _CT  forSelectedIn( Class clazz, Consumer<Select>selectActionFn){
+        return (_CT)forSelectedIn((_type)_java.type(clazz), selectActionFn);
     }
     
     /**
@@ -563,8 +560,8 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $cons
      * @param selectActionFn
      * @return 
      */
-    public _type forSelectedIn( Class clazz, Predicate<Select>selectConstraint,  Consumer<Select>selectActionFn){
-        return forSelectedIn(_java.type(clazz), selectConstraint, selectActionFn);
+    public  <_CT extends _type> _CT  forSelectedIn( Class clazz, Predicate<Select>selectConstraint,  Consumer<Select>selectActionFn){
+        return (_CT)forSelectedIn((_type)_java.type(clazz), selectConstraint, selectActionFn);
     }
     
     /**

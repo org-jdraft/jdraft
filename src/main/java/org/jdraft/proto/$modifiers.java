@@ -136,6 +136,12 @@ public final class $modifiers
         this.constraint = this.constraint.and(constraint);
         return this;
     }
+
+    @Override
+    public $modifiers hardcode$(Translator translator, Tokens kvs) {
+        //hmm... just return i guess
+        return this;
+    }
     
     public _modifiers draft(Translator translator, Map<String,Object> keyValues){
         //parameter override
@@ -258,8 +264,8 @@ public final class $modifiers
             });
     }
     
-    public _type forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
-        return forSelectedIn(_java.type(clazz), selectConstraint, selectActionFn);
+    public <_CT extends _type> _CT forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
+        return (_CT)forSelectedIn((_type)_java.type(clazz), selectConstraint, selectActionFn);
     }
     
     public <_J extends _java> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
@@ -279,8 +285,8 @@ public final class $modifiers
      * @param selectActionFn
      * @return 
      */
-    public _type forSelectedIn(Class clazz, Consumer<Select> selectActionFn) {
-        return forSelectedIn(_java.type(clazz), selectActionFn);
+    public <_CT extends _type> _CT  forSelectedIn(Class clazz, Consumer<Select> selectActionFn) {
+        return (_CT)forSelectedIn((_type)_java.type(clazz), selectActionFn);
     }
     
     /**

@@ -218,7 +218,7 @@ public class _interfaceTest extends TestCase {
         
         _method _m = _i.getMethod( "getValue" );
         
-        _m.decompose().forEach( (s, o)->{
+        _m.tokenize().forEach( (s, o)->{
             System.out.println( s+" "+o+" : "+ Objects.hashCode(o) );
         });
         
@@ -227,7 +227,7 @@ public class _interfaceTest extends TestCase {
             "return 12345;",
             "}");
         
-        _m2.decompose().forEach( (s, o)->{
+        _m2.tokenize().forEach( (s, o)->{
             System.out.println( s+" "+o+" : "+ Objects.hashCode(o) );
         });
         assertTrue( _m.is("@ann2(v=12345,k='F') @ann", //NOTE: i intentionally out of order

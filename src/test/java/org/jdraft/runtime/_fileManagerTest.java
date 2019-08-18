@@ -6,6 +6,7 @@ import javax.tools.*;
 import javax.tools.JavaFileManager.Location;
 import javax.tools.JavaFileObject.Kind;
 import junit.framework.TestCase;
+import org.jdraft._class;
 import org.jdraft._java;
 
 /**
@@ -57,11 +58,11 @@ public class _fileManagerTest extends TestCase {
      */
     public void testMultipleListRecurse() throws IOException{
         _runtime ahi = _runtime.of(
-            _java.type("public class Root{}"),
-            _java.type("package basepkg;", "public class BasePkg{}"),    
-            _java.type("package basepkg.subpkg;", "public class SubPkg{}"),    
-            _java.type("package basepkg.subpkg;", "public class Another{}"),    
-            _java.type("package basepkg.subpkg.subsub;", "public class SS{}")    
+            _class.of("public class Root{}"),
+            _class.of("package basepkg;", "public class BasePkg{}"),
+            _class.of("package basepkg.subpkg;", "public class SubPkg{}"),
+            _class.of("package basepkg.subpkg;", "public class Another{}"),
+            _class.of("package basepkg.subpkg.subsub;", "public class SS{}")
         );
         _fileManager ahfm = ahi.fileManager;
         

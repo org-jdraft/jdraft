@@ -1227,7 +1227,7 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @param nestToRemove
      * @return 
      */
-    default _T removeNest(_type nestToRemove ){
+    default <_NT extends _type> _T removeNest(_NT nestToRemove ){
         listNests( t-> t.equals(nestToRemove) ).forEach( n -> n.ast().removeForced() );
         return (_T) this;
     }
@@ -1237,8 +1237,8 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @param nestToRemove
      * @return 
      */
-    default _T removeNest(TypeDeclaration nestToRemove ){
-        return removeNest( _java.type(nestToRemove ) );        
+    default <_NT extends _type> _T removeNest(TypeDeclaration nestToRemove ){
+        return removeNest( (_type)_java.type(nestToRemove ) );
     }
     
     /**

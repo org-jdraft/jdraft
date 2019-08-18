@@ -285,11 +285,12 @@ public final class $throws
      *
      * @param hardcodedKeyValues the key parameter NAME and VALUE to hardcode
      * @return the modified Stencil
-     */
+
     public $throws hardcode$( Tokens hardcodedKeyValues ) {
         this.throwsPatterns.forEach(t -> t.hardcode$(Translator.DEFAULT_TRANSLATOR, hardcodedKeyValues) );
         return this;
     }
+    */
 
     /**
      * Hardcode parameterized values
@@ -297,10 +298,11 @@ public final class $throws
      *
      * @param keyValues the key parameter NAME and String VALUE to assign to the
      * @return the modified Stencil
-     */
+
     public $throws hardcode$( Object... keyValues ) {
         return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of( keyValues ) );
     }
+    */
 
     /**
      * Hardcode parameterized values
@@ -309,10 +311,11 @@ public final class $throws
      * @param translator translates values to be hardcoded into the Stencil
      * @param keyValues the key parameter NAME and String VALUE to assign to the
      * @return the modified Stencil
-     */
+
     public $throws hardcode$( Translator translator, Object... keyValues ) {
         return hardcode$( translator, Tokens.of( keyValues ) );
     }
+    */
 
     /**
      * 
@@ -379,18 +382,18 @@ public final class $throws
     
     /**
      * Returns the first _import that matches the pattern and constraint
-     * @param _n the _java node
+     * @param _j the _java node
      * @param selectConstraint
      * @return  the first _import that matches (or null if none found)
      */
-    public Select selectFirstIn( _java _n, Predicate<Select> selectConstraint ){
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                return selectFirstIn( ((_code) _n).astCompilationUnit(), selectConstraint);
+    public Select selectFirstIn( _java _j, Predicate<Select> selectConstraint ){
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                return selectFirstIn( ((_code) _j).astCompilationUnit(), selectConstraint);
             }
-            return selectFirstIn( ((_type)_n).ast(), selectConstraint);
+            return selectFirstIn( ((_type)_j).ast(), selectConstraint);
         }
-        return selectFirstIn( ((_node)_n).ast(), selectConstraint );
+        return selectFirstIn( ((_node)_j).ast(), selectConstraint );
     }
 
     /**
@@ -434,7 +437,7 @@ public final class $throws
      * @return 
      */
     public List<Select> listSelectedIn( Class clazz, Predicate<Select> selectConstraint ){
-        return listSelectedIn(_java.type(clazz), selectConstraint);
+        return listSelectedIn( (_type)_java.type(clazz), selectConstraint);
     }
     
     /**
@@ -458,19 +461,18 @@ public final class $throws
 
     /**
      * 
-     * @param _n
+     * @param _j
      * @param selectConstraint
      * @return 
      */
-    public List<Select> listSelectedIn( _java _n, Predicate<Select> selectConstraint ){
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                return listSelectedIn( ((_code) _n).astCompilationUnit(), selectConstraint );
+    public List<Select> listSelectedIn( _java _j, Predicate<Select> selectConstraint ){
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                return listSelectedIn( ((_code) _j).astCompilationUnit(), selectConstraint );
             }
-            return listSelectedIn( ((_type)_n).ast(), selectConstraint);
+            return listSelectedIn( ((_type)_j).ast(), selectConstraint);
         }
-        return listSelectedIn( ((_node)_n).ast(), selectConstraint );                
-        //return listSelectedIn( _n.ast() );        
+        return listSelectedIn( ((_node)_j).ast(), selectConstraint );
     }
 
     /**
@@ -479,19 +481,19 @@ public final class $throws
      * @param throwClasses
      * @return 
      */
-    public _type replaceIn(Class clazz, Class<? extends Throwable>... throwClasses){
-        return replaceIn(_java.type(clazz), _throws.of(throwClasses));
+    public <_CT extends _type> _CT replaceIn(Class clazz, Class<? extends Throwable>... throwClasses){
+        return (_CT)replaceIn((_type)_java.type(clazz), _throws.of(throwClasses));
     }
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param throwClasses
      * @return 
      */
-    public <N extends _java> N replaceIn(N _n, Class<? extends Throwable>... throwClasses){
-        return replaceIn(_n, $throws.of(throwClasses));
+    public <_J extends _java> _J replaceIn(_J _j, Class<? extends Throwable>... throwClasses){
+        return replaceIn(_j, $throws.of(throwClasses));
     }
     
     /**
@@ -500,19 +502,19 @@ public final class $throws
      * @param importDecl
      * @return 
      */
-    public _type replaceIn(Class clazz, String importDecl){
-        return replaceIn( _java.type(clazz), importDecl);
+    public <_CT extends _type> _CT replaceIn(Class clazz, String importDecl){
+        return (_CT)replaceIn( (_type)_java.type(clazz), importDecl);
     }
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param importDecl
      * @return 
      */
-    public <N extends _java> N replaceIn(N _n, String importDecl){
-        return replaceIn(_n, $throws.of(importDecl));
+    public <_J extends _java> _J replaceIn(_J _j, String importDecl){
+        return replaceIn(_j, $throws.of(importDecl));
     }
     
     /**
@@ -521,28 +523,28 @@ public final class $throws
      * @param _i
      * @return 
      */
-    public _type replaceIn(Class clazz, _throws _i){
-        return replaceIn( _java.type(clazz), _i);
+    public <_CT extends _type> _CT replaceIn(Class clazz, _throws _i){
+        return (_CT)replaceIn( (_type)_java.type(clazz), _i);
     }
     
     /**
      * 
-     * @param <N>
-     * @param _n
-     * @param _i
+     * @param <_J>
+     * @param _j
+     * @param _replaceThrows
      * @return 
      */
-    public <N extends _java> N replaceIn(N _n, _throws _i){
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                replaceIn( ((_code) _n).astCompilationUnit(), $throws.of(_i));
-                return _n;
+    public <_J extends _java> _J replaceIn(_J _j, _throws _replaceThrows){
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                replaceIn( ((_code) _j).astCompilationUnit(), $throws.of(_replaceThrows));
+                return _j;
             }
-            replaceIn( ((_type)_n).ast(), $throws.of(_i));
-            return _n;
+            replaceIn( ((_type) _j).ast(), $throws.of(_replaceThrows));
+            return _j;
         }
-        replaceIn( ((_node)_n).ast(), $throws.of(_i));        
-        return _n;
+        replaceIn( ((_node) _j).ast(), $throws.of(_replaceThrows));
+        return _j;
     }
     
     /**
@@ -551,40 +553,40 @@ public final class $throws
      * @param $i
      * @return 
      */
-    public _type replaceIn(Class clazz, $throws $i ){
-        return replaceIn(_java.type(clazz), $i);
+    public <_CT extends _type> _CT replaceIn(Class clazz, $throws $i ){
+        return (_CT)replaceIn((_type)_java.type(clazz), $i);
     }
 
     /**
      * Replace all occurrences of the template in the code with the replacement
      * (composing the replacement from the constructed tokens in the source)
      *
-     * @param _n the model to find replacements
-     * @param $i the template to be constructed as the replacement
-     * @param <N> the TYPE of model
+     * @param _j the model to find replacements
+     * @param $replaceThrows the template to be constructed as the replacement
+     * @param <_J> the TYPE of model
      * @return
      */
-    public <N extends _java> N replaceIn(N _n, $throws $i ){
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                replaceIn( ((_code) _n).astCompilationUnit(), $i);
-                return _n;
+    public <_J extends _java> _J replaceIn(_J _j, $throws $replaceThrows ){
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                replaceIn( ((_code) _j).astCompilationUnit(), $replaceThrows);
+                return _j;
             }
-            replaceIn( ((_type)_n).ast(), $i);
-            return _n;
+            replaceIn( ((_type) _j).ast(), $replaceThrows);
+            return _j;
         }
-        replaceIn( ((_node)_n).ast(), $i);        
-        return _n;
+        replaceIn( ((_node) _j).ast(), $replaceThrows);
+        return _j;
     }
     
     /**
      * 
      * @param <N>
      * @param astNode
-     * @param $i
+     * @param $replaceThrows
      * @return 
      */
-    public <N extends Node> N replaceIn(N astNode, $throws $i ){
+    public <N extends Node> N replaceIn(N astNode, $throws $replaceThrows ){
         if( astNode.findCompilationUnit().isPresent() ){
             astNode.findCompilationUnit().get().walk(CallableDeclaration.class, e-> {
                 Select sel = select( e );
@@ -594,7 +596,7 @@ public final class $throws
                         $id th = this.throwsPatterns.get(i);
                         nodes.removeIf(t -> th.matches(t.toString()) );
                     }
-                    _throws _ths = $i.draft(sel.tokens.asTokens());
+                    _throws _ths = $replaceThrows.draft(sel.tokens.asTokens());
                     sel.thrown.addAll(_ths.list());
                 }
             });
@@ -608,8 +610,8 @@ public final class $throws
      * @param selectConsumer
      * @return 
      */
-    public _type forSelectedIn( Class clazz, Consumer<Select> selectConsumer){
-        return forSelectedIn(_java.type(clazz), selectConsumer);
+    public <_CT extends _type> _CT forSelectedIn( Class clazz, Consumer<Select> selectConsumer){
+        return (_CT)forSelectedIn((_type)_java.type(clazz), selectConsumer);
     }
     
     /**
@@ -650,19 +652,19 @@ public final class $throws
      * @param selectConsumer
      * @return 
      */
-    public _type forSelectedIn( Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer){
-        return forSelectedIn(_java.type(clazz), selectConstraint, selectConsumer);
+    public <_CT extends _type> _CT forSelectedIn( Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer){
+        return (_CT)forSelectedIn((_type)_java.type(clazz), selectConstraint, selectConsumer);
     }
     
     /**
      * 
-     * @param <T>
+     * @param <_T>
      * @param _t
      * @param selectConstraint
      * @param selectConsumer
      * @return 
      */
-    public <T extends _type> T forSelectedIn(T _t, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
+    public <_T extends _type> _T forSelectedIn(_T _t, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
         forSelectedIn(_t.astCompilationUnit(), selectConstraint, selectConsumer);
         return _t;
     }

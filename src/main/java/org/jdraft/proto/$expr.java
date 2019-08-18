@@ -1618,7 +1618,7 @@ public final class $expr <T extends Expression>
      *
      * @param kvs the key parameter NAME and String VALUE to assign to the
      * @return the modified Stencil
-     */
+
     @Override
     public $expr<T> hardcode$( Tokens kvs ) {
         return hardcode$( Translator.DEFAULT_TRANSLATOR, kvs );
@@ -1630,7 +1630,7 @@ public final class $expr <T extends Expression>
      *
      * @param keyValues the key parameter NAME and String VALUE to assign to the
      * @return the modified Stencil
-     */
+
     @Override
     public $expr<T> hardcode$( Object... keyValues ) {
         return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of( keyValues ) );
@@ -1643,11 +1643,12 @@ public final class $expr <T extends Expression>
      * @param translator translates values to be hardcoded into the Stencil
      * @param keyValues the key parameter NAME and String VALUE to assign to the
      * @return the modified Stencil
-     */
+
     @Override
     public $expr<T> hardcode$( Translator translator, Object... keyValues ) {
         return hardcode$( translator, Tokens.of( keyValues ) );
     }
+    */
 
     /**
      * 
@@ -1668,7 +1669,7 @@ public final class $expr <T extends Expression>
      */
     @Override
     public T draft(_node _n ){
-        return (T)$expr.this.draft(_n.decompose());
+        return (T)draft(_n.tokenize());
     }
 
     @Override
@@ -1814,13 +1815,13 @@ public final class $expr <T extends Expression>
 
     /**
      * Returns the first Expression that matches the pattern and constraint
-     * @param astStartNode the node to look through
+     * @param astNode the node to look through
      * @param exprMatchFn
      * @return  the first Expression that matches (or null if none found)
      */
     @Override
-    public T firstIn(Node astStartNode, Predicate<T> exprMatchFn ){
-        Optional<T> f = astStartNode.findFirst(this.expressionClass, s ->{
+    public T firstIn(Node astNode, Predicate<T> exprMatchFn ){
+        Optional<T> f = astNode.findFirst(this.expressionClass, s ->{
             Select sel = select(s);
             return sel != null && exprMatchFn.test( (T)sel.astExpression);
             });         
@@ -1837,7 +1838,7 @@ public final class $expr <T extends Expression>
      */
     @Override
     public Select<T> selectFirstIn( Class clazz ){
-        return selectFirstIn(_java.type(clazz));
+        return selectFirstIn( (_type)_java.type(clazz));
     }
     
     /**
@@ -1880,7 +1881,7 @@ public final class $expr <T extends Expression>
      */
     @Override
     public Select<T> selectFirstIn( Class clazz, Predicate<Select<T>> selectConstraint ){
-        return selectFirstIn(_java.type(clazz), selectConstraint);
+        return selectFirstIn((_type)_java.type(clazz), selectConstraint);
     }
     
     /**
@@ -1985,7 +1986,7 @@ public final class $expr <T extends Expression>
     @Override
     public List<Select<T>> listSelectedIn(Class clazz){
         List<Select<T>>sts = new ArrayList<>();
-        _walk.in(_java.type(clazz), this.expressionClass, e -> {
+        _walk.in((_type)_java.type(clazz), this.expressionClass, e -> {
             Select s = select( e );
             if( s != null ){
                 sts.add( s);
@@ -2002,7 +2003,7 @@ public final class $expr <T extends Expression>
      */
     @Override
     public List<Select<T>> listSelectedIn(Class clazz, Predicate<Select<T>> selectConstraint ){
-        return listSelectedIn(_java.type(clazz), selectConstraint);
+        return listSelectedIn((_type)_java.type(clazz), selectConstraint);
     }
     
     /**
@@ -2064,8 +2065,8 @@ public final class $expr <T extends Expression>
      * @return 
      */
     @Override
-    public _type replaceIn( Class clazz, Node astExprReplace ){
-        return replaceIn(_java.type(clazz), astExprReplace);
+    public <_CT extends _type> _CT replaceIn( Class clazz, Node astExprReplace ){
+        return (_CT)replaceIn((_type)_java.type(clazz), astExprReplace);
     }
     
     /**
@@ -2105,8 +2106,8 @@ public final class $expr <T extends Expression>
      * @return 
      */
     @Override
-    public _type replaceIn(Class clazz, $expr $replaceProto){
-        return replaceIn(_java.type(clazz), $replaceProto);
+    public <_CT extends _type> _CT replaceIn(Class clazz, $expr $replaceProto){
+        return (_CT)replaceIn((_type)_java.type(clazz), $replaceProto);
     }
     
     /**
@@ -2135,8 +2136,8 @@ public final class $expr <T extends Expression>
      * @return the (potentially modified) _type of the clazz
      */
     @Override
-    public _type forSelectedIn(Class clazz, Consumer<Select<T>> selectConsumer ){
-        return forSelectedIn(_java.type(clazz), selectConsumer);
+    public <_CT extends _type> _CT forSelectedIn(Class clazz, Consumer<Select<T>> selectConsumer ){
+        return (_CT)forSelectedIn((_type)_java.type(clazz), selectConsumer);
     }
     
     /**
@@ -2183,8 +2184,8 @@ public final class $expr <T extends Expression>
      * @return 
      */
     @Override
-    public _type forSelectedIn( Class clazz, Predicate<Select<T>> selectConstraint, Consumer<Select<T>> selectConsumer ){
-        return forSelectedIn(_java.type(clazz), selectConstraint, selectConsumer );
+    public <_CT extends _type> _CT forSelectedIn( Class clazz, Predicate<Select<T>> selectConstraint, Consumer<Select<T>> selectConsumer ){
+        return (_CT)forSelectedIn((_type)_java.type(clazz), selectConstraint, selectConsumer );
     }
     
     /**
@@ -2224,7 +2225,6 @@ public final class $expr <T extends Expression>
         });
         return astNode;
     }
-    
 
     @Override
     public String toString() {

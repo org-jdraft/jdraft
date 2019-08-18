@@ -245,10 +245,12 @@ public final class $typeParameter
         this.$typeBound.forEach( tb -> found.addAll(tb.list$Normalized()));
         return found.stream().distinct().collect(Collectors.toList());
     }
-    
+
+    /*
     public $typeParameter hardcode$( Tokens hardcodedKeyValues ) {
         return hardcode$(Translator.DEFAULT_TRANSLATOR, hardcodedKeyValues);        
     }
+     */
     
     public $typeParameter hardcode$( Translator trans, Tokens hardcodedKeyValues ) {
         this.$anns.hardcode$(trans, hardcodedKeyValues);
@@ -289,13 +291,13 @@ public final class $typeParameter
     
     /**
      * 
-     * @param n
+     * @param astNode
      * @param selectConstraint
      * @return 
      */
-    public Select selectFirstIn(Node n, Predicate<Select> selectConstraint) {
+    public Select selectFirstIn(Node astNode, Predicate<Select> selectConstraint) {
         Optional<TypeParameter> otp = 
-            n.findFirst(TypeParameter.class, tp-> {
+            astNode.findFirst(TypeParameter.class, tp-> {
                 Select sel = select(tp); 
                 return sel != null && selectConstraint.test(sel);
             });

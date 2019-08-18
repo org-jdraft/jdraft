@@ -60,11 +60,11 @@ public interface _node<N extends Node, _N extends _node> extends _java {
     Map<_java.Component, Object> components();
 
     /**
-     * Decompose the entity into smaller named components
+     * Decompose the entity into smaller named tokens
      * returning a mapping between the name and the constituent part
      * @return a Map with the names mapped to the corresponding components
      */
-    default Map<String, Object> decompose() {
+    default Map<String, Object> tokenize() {
         Map<_java.Component, Object> parts = components();
         Map<String, Object> mdd = new HashMap<>();
         parts.forEach((p, o) -> {

@@ -463,8 +463,19 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
     public $field $init( Predicate<Expression> initConstraint ){
         this.init.constraint = this.init.constraint.and(initConstraint);
         return this;
-    }    
-    
+    }
+
+    @Override
+    public $field hardcode$(Translator translator, Tokens kvs) {
+        this.init = this.init.hardcode$(translator, kvs);
+        this.annos = this.annos.hardcode$(translator, kvs);
+        this.type = this.type.hardcode$(translator, kvs);
+        this.javadoc = this.javadoc.hardcode$(translator, kvs);
+        this.name = this.name.hardcode$(translator, kvs);
+        this.modifiers = this.modifiers.hardcode$(translator, kvs);
+        return this;
+    }
+
     /**
      * Adds ANOTHER constraint to the existing _field level constraint
      * @param constraint
@@ -475,9 +486,9 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
         return this;
     }
 
-    public boolean match( Node n){
-        if( n instanceof VariableDeclarator ){
-            return matches( (VariableDeclarator) n);
+    public boolean match( Node astNode){
+        if( astNode instanceof VariableDeclarator ){
+            return matches( (VariableDeclarator) astNode);
         }
         return false;
     }
@@ -521,23 +532,23 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
      * @return 
      */
     public Select selectFirstIn( Class clazz, Predicate<Select>selectConstraint ){
-       return selectFirstIn(_java.type(clazz), selectConstraint); 
+       return selectFirstIn( (_type)_java.type(clazz), selectConstraint);
     }
     
     /**
      * Returns the first _field that matches the pattern and constraint
-     * @param _n the _java node
+     * @param _j the _java node
      * @param selectConstraint
      * @return  the first _field that matches (or null if none found)
      */
-    public Select selectFirstIn( _java _n, Predicate<Select> selectConstraint){
-         if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                return selectFirstIn(((_code) _n).astCompilationUnit(), selectConstraint);
+    public Select selectFirstIn( _java _j, Predicate<Select> selectConstraint){
+         if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                return selectFirstIn(((_code) _j).astCompilationUnit(), selectConstraint);
             }
-            return selectFirstIn(((_type) _n).ast(), selectConstraint);
+            return selectFirstIn(((_type) _j).ast(), selectConstraint);
         }
-        return selectFirstIn( ((_node)_n).ast(), selectConstraint );
+        return selectFirstIn( ((_node)_j).ast(), selectConstraint );
     }
 
     /**
@@ -594,23 +605,23 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
      * @return 
      */
     public List<Select> listSelectedIn(Class clazz, Predicate<Select> selectConstraint){
-        return listSelectedIn(_java.type(clazz), selectConstraint);    
+        return listSelectedIn((_type)_java.type(clazz), selectConstraint);
     }
     
     /**
      * 
-     * @param _n
+     * @param _j
      * @param selectConstraint
      * @return 
      */
-    public List<Select> listSelectedIn(_java _n, Predicate<Select> selectConstraint){
-         if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                return listSelectedIn(((_code) _n).astCompilationUnit(), selectConstraint);
+    public List<Select> listSelectedIn(_java _j, Predicate<Select> selectConstraint){
+         if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                return listSelectedIn(((_code) _j).astCompilationUnit(), selectConstraint);
             }
-            return listSelectedIn(((_type) _n).ast(), selectConstraint);
+            return listSelectedIn(((_type) _j).ast(), selectConstraint);
         }
-        return listSelectedIn( ((_node)_n).ast(), selectConstraint);    
+        return listSelectedIn( ((_node)_j).ast(), selectConstraint);
     }
 
     /**
@@ -619,8 +630,8 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
      * @param $replaceProto
      * @return 
      */
-    public _type replaceIn(Class clazz, $field $replaceProto ){
-        return replaceIn(_java.type(clazz), $replaceProto);
+    public <_CT extends _type> _CT replaceIn(Class clazz, $field $replaceProto ){
+        return (_CT)replaceIn( (_type)_java.type(clazz), $replaceProto);
     }
     
     /**
@@ -664,7 +675,7 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
      * @return 
      */
     public _type forSelectedIn(Class clazz, Consumer<Select> selectConsumer ){
-       return forSelectedIn(_java.type(clazz), selectConsumer ); 
+       return forSelectedIn( (_type)_java.type(clazz), selectConsumer );
     }
     
     /**
@@ -708,8 +719,8 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
      * @param selectConsumer
      * @return 
      */
-    public _type forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
-        return forSelectedIn(_java.type(clazz), selectConstraint, selectConsumer);
+    public <_CT extends _type> _CT forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
+        return (_CT)forSelectedIn( (_type)_java.type(clazz), selectConstraint, selectConsumer);
     }
     
     /**

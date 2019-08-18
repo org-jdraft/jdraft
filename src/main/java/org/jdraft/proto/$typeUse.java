@@ -155,32 +155,32 @@ public final class $typeUse {
         return this;
     }
     
-    public $node.Select select( Node n ){
+    public $node.Select select( Node astNode ){
         
-        Select sel = $fullName.select(n);
+        Select sel = $fullName.select(astNode);
         if( sel != null ){
             return sel;
         }
         Optional<$node> on = 
-            $memberNames.stream().filter( m -> m.select(n) != null ).findFirst();
+            $memberNames.stream().filter( m -> m.select(astNode) != null ).findFirst();
         if( on.isPresent() ){
-            return on.get().select(n);
+            return on.get().select(astNode);
         }
-        sel = $simpleName.select(n);
+        sel = $simpleName.select(astNode);
         return sel;
     }
     
-    public <N extends _java> N replaceIn(N _n, Class replacement) {
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                replaceIn( ((_code) _n).astCompilationUnit(), replacement);
-                return _n;
+    public <_J extends _java> _J replaceIn(_J _j, Class replacement) {
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                replaceIn( ((_code) _j).astCompilationUnit(), replacement);
+                return _j;
             }
-            replaceIn( ((_type)_n).ast(), replacement);
-            return _n;
+            replaceIn( ((_type) _j).ast(), replacement);
+            return _j;
         }
-        replaceIn( ((_node)_n).ast(), replacement);        
-        return _n;
+        replaceIn( ((_node) _j).ast(), replacement);
+        return _j;
     }
     
     private static List<$node> buildMemberClassNames(Class clazz ){
@@ -222,21 +222,21 @@ public final class $typeUse {
         return astRootNode;
     }
 
-    public _type replaceIn(Class clazz, String replacement){
-        return replaceIn( _java.type(clazz), replacement);
+    public <_CT extends _type> _CT  replaceIn(Class clazz, String replacement){
+        return (_CT)replaceIn( (_type)_java.type(clazz), replacement);
     }
     
-    public <N extends _java> N replaceIn(N _n, String replacement) {
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                replaceIn( ((_code) _n).astCompilationUnit(), replacement);
-                return _n;
+    public <_J extends _java> _J replaceIn(_J _j, String replacement) {
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                replaceIn( ((_code) _j).astCompilationUnit(), replacement);
+                return _j;
             }
-            replaceIn( ((_type)_n).ast(), replacement);
-            return _n;
+            replaceIn( ((_type) _j).ast(), replacement);
+            return _j;
         }
-        replaceIn( ((_node)_n).ast(), replacement);        
-        return _n;
+        replaceIn( ((_node) _j).ast(), replacement);
+        return _j;
     }
     
     public <N extends Node> N replaceIn(N astRootNode, Node replacement) {
@@ -246,28 +246,28 @@ public final class $typeUse {
         return astRootNode;
     }
 
-    public <N extends _java> N replaceIn(N _n, Node replacement) {
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                replaceIn( ((_code) _n).astCompilationUnit(), replacement);
-                return _n;
+    public <_J extends _java> _J replaceIn(_J _j, Node replacement) {
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel()){
+                replaceIn( ((_code) _j).astCompilationUnit(), replacement);
+                return _j;
             }
-            replaceIn( ((_type)_n).ast(), replacement);
-            return _n;
+            replaceIn( ((_type) _j).ast(), replacement);
+            return _j;
         }
-        replaceIn( ((_node)_n).ast(), replacement);        
-        return _n;
+        replaceIn( ((_node) _j).ast(), replacement);
+        return _j;
     }
     
-    public _type replaceIn(Class clazz, Node replacement){
-        return replaceIn(_java.type(clazz), replacement);
+    public <_CT extends _type> _CT  replaceIn(Class clazz, Node replacement){
+        return (_CT)replaceIn((_type)_java.type(clazz), replacement);
     }
     
-    public _type removeIn(Class clazz){
-        return removeIn(_java.type(clazz) );
+    public <_CT extends _type> _CT  removeIn(Class clazz){
+        return (_CT)removeIn((_type)_java.type(clazz) );
     }
     
-    public <N extends _node> N removeIn(N _n ) {
+    public <_N extends _node> _N removeIn(_N _n ) {
         if( _n instanceof _code ){
             if( ((_code) _n).isTopLevel()){
                 removeIn( ((_code) _n).astCompilationUnit() );
@@ -309,7 +309,7 @@ public final class $typeUse {
     }
 
     public List<Node> listIn( Class clazz ){
-        return listIn(_java.type(clazz));
+        return listIn((_type)_java.type(clazz));
     }
 
     public <_N extends _node> List<Node> listIn( _N _node ){
@@ -364,43 +364,43 @@ public final class $typeUse {
         return uniqueSels;        
     }
     
-    public <N extends _java> N forEachIn(N _n, Consumer<Node> nodeActionFn ) {
-        $fullName.forEachIn(_n, nodeActionFn);
-        $memberNames.forEach(n -> n.forEachIn(_n, nodeActionFn ) );
-        $simpleName.forEachIn(_n, nodeActionFn);        
-        return _n;
+    public <_J extends _java> _J forEachIn(_J _j, Consumer<Node> nodeActionFn ) {
+        $fullName.forEachIn(_j, nodeActionFn);
+        $memberNames.forEach(n -> n.forEachIn(_j, nodeActionFn ) );
+        $simpleName.forEachIn(_j, nodeActionFn);
+        return _j;
     }
     
-    public <N extends _java> N forSelectedIn(N _n, Consumer<$node.Select> selectActionFn ) {
-        $fullName.forSelectedIn(_n, selectActionFn);
-        $memberNames.forEach( e-> e.forSelectedIn(_n, selectActionFn) );
-        $simpleName.forSelectedIn(_n, selectActionFn);
-        return _n;
+    public <_J extends _java> _J forSelectedIn(_J _j, Consumer<$node.Select> selectActionFn ) {
+        $fullName.forSelectedIn(_j, selectActionFn);
+        $memberNames.forEach( e-> e.forSelectedIn(_j, selectActionFn) );
+        $simpleName.forSelectedIn(_j, selectActionFn);
+        return _j;
     }
      
-    public <N extends _java> N forSelectedIn(N _n, Predicate<$node.Select> selectConstraint, Consumer<$node.Select> selectActionFn ) {
-        $fullName.forSelectedIn(_n, selectConstraint, selectActionFn);
-        $memberNames.forEach( e-> e.forSelectedIn(_n, selectConstraint, selectActionFn) );
-        $simpleName.forSelectedIn(_n, selectConstraint, selectActionFn);
-        return _n;
+    public <_J extends _java> _J forSelectedIn(_J _j, Predicate<$node.Select> selectConstraint, Consumer<$node.Select> selectActionFn ) {
+        $fullName.forSelectedIn(_j, selectConstraint, selectActionFn);
+        $memberNames.forEach( e-> e.forSelectedIn(_j, selectConstraint, selectActionFn) );
+        $simpleName.forSelectedIn(_j, selectConstraint, selectActionFn);
+        return _j;
     }
     
-    public <N extends _java> List<$node.Select> listSelectedIn( N _n ){
+    public <_J extends _java> List<$node.Select> listSelectedIn(_J _j){
         List<$node.Select> sels = new ArrayList<>();
-        sels.addAll( $fullName.listSelectedIn(_n) );
-        $memberNames.forEach( e-> sels.addAll( e.listSelectedIn(_n) ) );
-        sels.addAll( $simpleName.listSelectedIn(_n) );
+        sels.addAll( $fullName.listSelectedIn(_j) );
+        $memberNames.forEach( e-> sels.addAll( e.listSelectedIn(_j) ) );
+        sels.addAll( $simpleName.listSelectedIn(_j) );
         
         List<$node.Select>res = sels.stream().distinct().collect(Collectors.toList());
         Collections.sort(res, $node.SELECT_START_POSITION_COMPARATOR);
         return res;               
     }
     
-    public <N extends _java> List<$node.Select> listSelectedIn( N _n, Predicate<$node.Select> selectConstraint){
+    public <_J extends _java> List<$node.Select> listSelectedIn(_J _j, Predicate<$node.Select> selectConstraint){
         List<$node.Select> sels = new ArrayList<>();
-        sels.addAll( $fullName.listSelectedIn(_n, selectConstraint) );
-        $memberNames.forEach( e-> sels.addAll( e.listSelectedIn(_n) ) );
-        sels.addAll( $simpleName.listSelectedIn(_n) );
+        sels.addAll( $fullName.listSelectedIn(_j, selectConstraint) );
+        $memberNames.forEach( e-> sels.addAll( e.listSelectedIn(_j) ) );
+        sels.addAll( $simpleName.listSelectedIn(_j) );
         
         //dedupe
         List<$node.Select>uniqueSels = sels.stream().distinct().collect(Collectors.toList());
@@ -413,22 +413,22 @@ public final class $typeUse {
     }
     
     public _type forEachIn(Class clazz, Consumer<Node> nodeActionFn ) {
-        return forEachIn( _java.type(clazz), nodeActionFn);
+        return forEachIn( (_type)_java.type(clazz), nodeActionFn);
     }
     
     public _type forSelectedIn(Class clazz, Consumer<$node.Select> selectActionFn ) {
-        return forSelectedIn( _java.type(clazz), selectActionFn);
+        return forSelectedIn( (_type)_java.type(clazz), selectActionFn);
     }
      
     public _type forSelectedIn(Class clazz, Predicate<$node.Select> selectConstraint, Consumer<$node.Select> selectActionFn ) {
-        return forSelectedIn(_java.type(clazz), selectConstraint, selectActionFn);
+        return forSelectedIn((_type)_java.type(clazz), selectConstraint, selectActionFn);
     }
     
     public List<$node.Select> listSelectedIn( Class clazz ){        
-        return listSelectedIn( _java.type(clazz));
+        return listSelectedIn( (_type)_java.type(clazz));
     }
     
     public List<$node.Select> listSelectedIn( Class clazz, Predicate<$node.Select> selectConstraint){
-        return listSelectedIn( _java.type(clazz));        
+        return listSelectedIn( (_type)_java.type(clazz));
     }    
 }

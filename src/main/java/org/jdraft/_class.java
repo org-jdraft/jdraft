@@ -194,6 +194,11 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         return of( new String[]{classDef});
     }
 
+
+    public static _class of(String classDef1, String classDef2){
+        return of( new String[]{classDef1, classDef2});
+    }
+
     /**
      * if you pass a single line, with a single token (NO SPACES) into this, we create a shortcut class
      * you can specify the PACKAGE_NAME.className

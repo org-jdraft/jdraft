@@ -245,10 +245,11 @@ public final class $import
      *
      * @param hardcodedKeyValues the key parameter NAME and VALUE to hardcode
      * @return the modified Stencil
-     */
+
     public $import hardcode$( Tokens hardcodedKeyValues ) {
         return hardcode$(Translator.DEFAULT_TRANSLATOR, hardcodedKeyValues );
     }
+    */
 
     /**
      * Hardcode parameterized values
@@ -256,10 +257,11 @@ public final class $import
      *
      * @param keyValues the key parameter NAME and String VALUE to assign to the
      * @return the modified Stencil
-     */
+
     public $import hardcode$( Object... keyValues ) {
         return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of( keyValues ) );
     }
+    */
 
     /**
      * Hardcode parameterized values
@@ -268,10 +270,11 @@ public final class $import
      * @param translator translates values to be hardcoded into the Stencil
      * @param keyValues the key parameter NAME and String VALUE to assign to the
      * @return the modified Stencil
-     */
+
     public $import hardcode$( Translator translator, Object... keyValues ) {
         return hardcode$( translator, Tokens.of( keyValues ) );
     }
+    */
 
     /**
      * 
@@ -303,14 +306,14 @@ public final class $import
 
     /**
      * Returns the first _import that matches the pattern and constraint
-     * @param astStartNode the node to look through
+     * @param astNode the node to look through
      * @param _importMatchFn
      * @return  the first _import that matches (or null if none found)
      */
     @Override
-    public _import firstIn(Node astStartNode, Predicate<_import> _importMatchFn){
-        if( astStartNode.findCompilationUnit().isPresent() ){
-            Optional<ImportDeclaration> f = astStartNode.findCompilationUnit().get()
+    public _import firstIn(Node astNode, Predicate<_import> _importMatchFn){
+        if( astNode.findCompilationUnit().isPresent() ){
+            Optional<ImportDeclaration> f = astNode.findCompilationUnit().get()
                 .findFirst(ImportDeclaration.class, s ->{
                     Select sel = select(s);
                     return sel != null && _importMatchFn.test(sel._i);
@@ -397,7 +400,7 @@ public final class $import
      * @return 
      */
     public List<Select> listSelectedIn( Class clazz, Predicate<Select> selectConstraint ){
-        return listSelectedIn(_java.type(clazz), selectConstraint);
+        return listSelectedIn((_type)_java.type(clazz), selectConstraint);
     }
     
     /**
@@ -443,8 +446,8 @@ public final class $import
      * @param importClass
      * @return 
      */
-    public _type replaceIn(Class clazz, Class importClass){
-        return replaceIn( _java.type(clazz), importClass);
+    public <_CT extends _type> _CT  replaceIn(Class clazz, Class importClass){
+        return (_CT)replaceIn( (_type)_java.type(clazz), importClass);
     }
     
     /**
@@ -474,8 +477,8 @@ public final class $import
      * @param importDecl
      * @return 
      */
-    public _type replaceIn(Class clazz, String importDecl){
-        return replaceIn( _java.type(clazz), importDecl);
+    public <_CT extends _type> _CT replaceIn(Class clazz, String importDecl){
+        return (_CT)replaceIn( (_type)_java.type(clazz), importDecl);
     }
     
     /**
@@ -505,8 +508,8 @@ public final class $import
      * @param _i
      * @return 
      */
-    public _type replaceIn(Class clazz, _import _i){
-        return replaceIn( _java.type(clazz), _i);
+    public <_CT extends _type> _CT  replaceIn(Class clazz, _import _i){
+        return (_CT)replaceIn( (_type)_java.type(clazz), _i);
     }
     
     /**
@@ -536,8 +539,8 @@ public final class $import
      * @param $i
      * @return 
      */
-    public _type replaceIn(Class clazz, $import $i ){
-        return replaceIn(_java.type(clazz), $i);
+    public <_CT extends _type> _CT  replaceIn(Class clazz, $import $i ){
+        return (_CT)replaceIn((_type)_java.type(clazz), $i);
     }
     
     /**
@@ -610,8 +613,8 @@ public final class $import
      * @param selectConsumer
      * @return 
      */
-    public _type forSelectedIn( Class clazz, Consumer<Select> selectConsumer){
-        return forSelectedIn(_java.type(clazz), selectConsumer);
+    public <_CT extends _type> _CT forSelectedIn( Class clazz, Consumer<Select> selectConsumer){
+        return (_CT)forSelectedIn((_type)_java.type(clazz), selectConsumer);
     }
     
     /**
@@ -652,8 +655,8 @@ public final class $import
      * @param selectConsumer
      * @return 
      */
-    public _type forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
-        return forSelectedIn(_java.type(clazz), selectConstraint, selectConsumer );
+    public <_CT extends _type> _CT forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
+        return (_CT)forSelectedIn((_type)_java.type(clazz), selectConstraint, selectConsumer );
     }
     
     /**

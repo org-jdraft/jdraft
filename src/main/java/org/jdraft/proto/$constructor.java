@@ -575,37 +575,37 @@ public final class $constructor
      * @return 
      */
     public _constructor draft(_node _n ){
-        return draft(_n.decompose() );
+        return draft(_n.tokenize() );
     }
 
     public static final BlockStmt EMPTY = Stmt.block("{}");
 
     /**
      * 
-     * @param _m
+     * @param _ct
      * @return 
      */
-    public Select select( _constructor _m){
-        if( !this.constraint.test(_m)){
+    public Select select( _constructor _ct){
+        if( !this.constraint.test(_ct)){
             return null;
         }
-        if( modifiers.select(_m) == null ){
+        if( modifiers.select(_ct) == null ){
             return null;
         }
         Tokens all = new Tokens();
-        if( _m.getJavadoc() != null ){
-            all = javadoc.parseTo(_m.getJavadoc().ast(), all);
+        if( _ct.getJavadoc() != null ){
+            all = javadoc.parseTo(_ct.getJavadoc().ast(), all);
         } else{
             all = javadoc.parseTo(null, all);
         }
-        all = annos.parseTo(_m.getAnnos(), all);
-        all = typeParameters.parseTo(_m.getTypeParameters(), all);
-        all = name.parseTo(_m.getName(), all);
-        all = parameters.decomposeTo(_m.getParameters(), all);
-        all = thrown.parseTo(_m.getThrows(), all);
-        all = body.parseTo(_m.getBody(), all);
+        all = annos.parseTo(_ct.getAnnos(), all);
+        all = typeParameters.parseTo(_ct.getTypeParameters(), all);
+        all = name.parseTo(_ct.getName(), all);
+        all = parameters.parseTo(_ct.getParameters(), all);
+        all = thrown.parseTo(_ct.getThrows(), all);
+        all = body.parseTo(_ct.getBody(), all);
         if( all != null ){
-            return new Select( _m, $tokens.of(all));
+            return new Select( _ct, $tokens.of(all));
         }
         return null;        
     }
@@ -617,40 +617,6 @@ public final class $constructor
      */
     public Select select( ConstructorDeclaration astCtor){
         return select(_constructor.of(astCtor));
-    }
-    
-    /**
-     * Hardcode parameterized values
-     * (i.e. what was once a parameter, now is static text)
-     *
-     * @param kvs the key parameter NAME and String VALUE to assign to the
-     * @return the modified Stencil
-     */
-    public $constructor hardcode$( Tokens kvs ) {
-        return hardcode$( Translator.DEFAULT_TRANSLATOR, kvs );
-    }
-
-    /**
-     * Hardcode parameterized values
-     * (i.e. what was once a parameter, now is static text)
-     *
-     * @param keyValues the key parameter NAME and String VALUE to assign to the
-     * @return the modified Stencil
-     */
-    public $constructor hardcode$( Object... keyValues ) {
-        return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of( keyValues ) );
-    }
-
-    /**
-     * Hardcode parameterized values
-     * (i.e. what was once a parameter, now is static text)
-     *
-     * @param translator translates values to be hardcoded into the Stencil
-     * @param keyValues the key parameter NAME and String VALUE to assign to the
-     * @return the modified Stencil
-     */
-    public $constructor hardcode$( Translator translator, Object... keyValues ) {
-        return hardcode$( translator, Tokens.of( keyValues ) );
     }
 
     /**
@@ -715,13 +681,13 @@ public final class $constructor
 
     /**
      * Returns the first _constructor that matches the pattern and constraint
-     * @param astStartNode the node to look through
+     * @param astNode the node to look through
      * @param _ctorMatchFn additional matching function for selecting the constructor
      * @return  the first _constructor that matches (or null if none found)
      */
     @Override
-    public _constructor firstIn(Node astStartNode, Predicate<_constructor> _ctorMatchFn){
-        Optional<ConstructorDeclaration> f = astStartNode.findFirst(
+    public _constructor firstIn(Node astNode, Predicate<_constructor> _ctorMatchFn){
+        Optional<ConstructorDeclaration> f = astNode.findFirst(
             ConstructorDeclaration.class, s ->{
                 Select sel = select(s); 
                 return sel != null && _ctorMatchFn.test(sel._ct);
@@ -739,7 +705,7 @@ public final class $constructor
      */ 
     @Override
     public Select selectFirstIn( Class clazz){
-        return selectFirstIn( _java.type(clazz));
+        return selectFirstIn( (_type)_java.type(clazz));
     }
      
     /**
@@ -749,7 +715,7 @@ public final class $constructor
      * @return  the first _constructor that matches (or null if none found)
      */
     public Select selectFirstIn( Class clazz, Predicate<Select> selectConstraint){
-        return selectFirstIn( _java.type(clazz), selectConstraint);
+        return selectFirstIn( (_type)_java.type(clazz), selectConstraint);
     }
     
     /**
@@ -834,7 +800,7 @@ public final class $constructor
      * @return 
      */
     public List<Select> listSelectedIn(Class clazz, Predicate<Select> selectConstraint){
-        return listSelectedIn(_java.type(clazz), selectConstraint);
+        return listSelectedIn( (_type)_java.type(clazz), selectConstraint);
     }
     
     /**
@@ -902,8 +868,8 @@ public final class $constructor
      * @param selectActionFn
      * @return 
      */
-    public _type forSelectedIn(Class clazz, Consumer<Select> selectActionFn ){
-        return forSelectedIn(_java.type(clazz), selectActionFn );
+    public <_CT extends _type> _CT forSelectedIn(Class clazz, Consumer<Select> selectActionFn ){
+        return (_CT)forSelectedIn((_type)_java.type(clazz), selectActionFn );
     }
     
     /**
@@ -913,8 +879,8 @@ public final class $constructor
      * @param selectActionFn
      * @return 
      */
-    public _type forSelectedIn(Class clazz, Predicate<Select>selectConstraint, Consumer<Select> selectActionFn ){
-        return forSelectedIn(_java.type(clazz), selectConstraint, selectActionFn );
+    public <_CT extends _type> _CT forSelectedIn(Class clazz, Predicate<Select>selectConstraint, Consumer<Select> selectActionFn ){
+        return (_CT)forSelectedIn((_type)_java.type(clazz), selectConstraint, selectActionFn );
     }
     
     /**
@@ -996,7 +962,7 @@ public final class $constructor
      * @return 
      */
     public _type replaceIn(Class clazz, $constructor $replace ){
-        return forSelectedIn(_java.type(clazz), s -> {
+        return forSelectedIn((_type)_java.type(clazz), s -> {
             _constructor repl = $replace.draft(Translator.DEFAULT_TRANSLATOR, s.tokens);
             s._ct.ast().replace(repl.ast());
         });
@@ -1008,8 +974,8 @@ public final class $constructor
      * @param replacementProto
      * @return 
      */
-    public _type replaceIn(Class clazz,  String... replacementProto ){
-        return replaceIn(_java.type(clazz), $constructor.of(replacementProto));        
+    public <_CT extends _type> _CT  replaceIn(Class clazz,  String... replacementProto ){
+        return (_CT)replaceIn((_type)_java.type(clazz), $constructor.of(replacementProto));
     }
     
     /**
@@ -1018,8 +984,8 @@ public final class $constructor
      * @param _ct
      * @return 
      */
-    public _type replaceIn(Class clazz,  _constructor _ct ){
-        return replaceIn(_java.type(clazz), $constructor.of(_ct));        
+    public <_CT extends _type> _CT replaceIn(Class clazz,  _constructor _ct ){
+        return (_CT)replaceIn((_type)_java.type(clazz), $constructor.of(_ct));
     }
     
     /**
@@ -1028,8 +994,8 @@ public final class $constructor
      * @param astCtor
      * @return 
      */
-    public _type replaceIn(Class clazz, ConstructorDeclaration astCtor ){
-        return replaceIn(_java.type(clazz), $constructor.of(astCtor));        
+    public <_CT extends _type> _CT replaceIn(Class clazz, ConstructorDeclaration astCtor ){
+        return (_CT)replaceIn( (_type)_java.type(clazz), $constructor.of(astCtor));
     }
     
     /**

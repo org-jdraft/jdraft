@@ -85,6 +85,12 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
         return this;
     }
 
+    @Override
+    public $parameters hardcode$(Translator translator, Tokens kvs) {
+        $params.forEach(p-> p.hardcode$(translator, kvs));
+        return this;
+    }
+
     public boolean match( Node node ){
         if( node instanceof NodeWithParameters ){
             return matches( (NodeWithParameters) node);
@@ -135,7 +141,7 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
         return null;
     } 
     
-     public Tokens decomposeTo(_parameters p, Tokens all) {
+     public Tokens parseTo(_parameters p, Tokens all) {
         if (all == null) { /* Skip decompose if the tokens already null*/
             return null;
         }
@@ -150,7 +156,7 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
         }
         return null;        
     }
-    
+
     public $parameters hardcode$(Object...keyValues){
         this.$params.forEach(p -> p.hardcode$(keyValues));
         return this;
@@ -233,24 +239,24 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
     /**
      * 
      * @param <N>
-     * @param astRootNode
+     * @param astNode
      * @param parametersPattern
      * @return 
      */
-    public <N extends Node> N replaceIn(N astRootNode, String...parametersPattern ) {        
-        return replaceIn(astRootNode, $parameters.of(parametersPattern));        
+    public <N extends Node> N replaceIn(N astNode, String...parametersPattern ) {
+        return replaceIn(astNode, $parameters.of(parametersPattern));
     }
 
     /**
      * 
      * @param <N>
-     * @param astRootNode
+     * @param astNode
      * @param $replacementProto
      * @return 
      */
-    public <N extends Node> N replaceIn(N astRootNode, $parameters $replacementProto) {
+    public <N extends Node> N replaceIn(N astNode, $parameters $replacementProto) {
         
-        return forSelectedIn( astRootNode, s->{            
+        return forSelectedIn( astNode, s->{
             _parameters _replaceParams = $replacementProto.draft(s.tokens);
             s._params.astHolder().setParameters(_replaceParams.ast());             
             } );
@@ -258,24 +264,24 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param parametersPattern
      * @return 
      */
-    public <N extends _java> N replaceIn(N _n, String...parametersPattern ) {     
-        return replaceIn(_n, $parameters.of(parametersPattern));    
+    public <_J extends _java> _J replaceIn(_J _j, String...parametersPattern ) {
+        return replaceIn(_j, $parameters.of(parametersPattern));
     }
 
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param $replacementProto
      * @return 
      */
-    public <N extends _java> N replaceIn(N _n, $parameters $replacementProto) {
-        return forSelectedIn( _n, s->{            
+    public <_J extends _java> _J replaceIn(_J _j, $parameters $replacementProto) {
+        return forSelectedIn(_j, s->{
             _parameters _replaceParams = $replacementProto.draft(s.tokens);
             s._params.astHolder().setParameters(_replaceParams.ast());             
             } );
@@ -341,25 +347,25 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
      * @param _parametersActionFn
      * @return 
      */
-    public _type forSelectedIn(Class clazz, Consumer<Select> _parametersActionFn) {
-        return forSelectedIn(_java.type(clazz), _parametersActionFn);
+    public <_CT extends _type> _CT forSelectedIn(Class clazz, Consumer<Select> _parametersActionFn) {
+        return (_CT)forSelectedIn((_type)_java.type(clazz), _parametersActionFn);
     }
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param _parametersActionFn
      * @return 
      */
-    public <N extends _java> N forSelectedIn(N _n, Consumer<Select> _parametersActionFn) {
-        _walk.in(_n, _parameters.class, n-> {
+    public <_J extends _java> _J forSelectedIn(_J _j, Consumer<Select> _parametersActionFn) {
+        _walk.in(_j, _parameters.class, n-> {
             Select sel = select( n );
             if( sel != null ){
                 _parametersActionFn.accept(sel);            
             }
         });        
-        return _n;        
+        return _j;
     }
     
     /**
@@ -369,26 +375,26 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
      * @param _parametersActionFn
      * @return 
      */
-    public _type forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> _parametersActionFn) {
-        return forSelectedIn(_java.type(clazz), selectConstraint, _parametersActionFn);
+    public <_CT extends _type> _CT forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> _parametersActionFn) {
+        return (_CT)forSelectedIn((_type)_java.type(clazz), selectConstraint, _parametersActionFn);
     }
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectConstraint
      * @param _parametersActionFn
      * @return 
      */
-    public <N extends _java> N forSelectedIn(N _n, Predicate<Select> selectConstraint, Consumer<Select> _parametersActionFn) {
-        _walk.in(_n, _parameters.class, n-> {
+    public <_J extends _java> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> _parametersActionFn) {
+        _walk.in(_j, _parameters.class, n-> {
             Select sel = select( n );
             if( sel != null && selectConstraint.test(sel) ){
                 _parametersActionFn.accept(sel);            
             }
         });        
-        return _n;        
+        return _j;
     }
     
     @Override

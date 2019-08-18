@@ -957,7 +957,7 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public T draft(_node _n ){
-        Map<String,Object> decons = _n.decompose();
+        Map<String,Object> decons = _n.tokenize();
         return (T) draft( decons );
     }
 
@@ -1008,21 +1008,22 @@ public final class $stmt<T extends Statement>
      *
      * @param kvs the key parameter NAME and String VALUE to assign to the
      * @return the modified Stencil
-     */
+
     public $stmt hardcode$( Tokens kvs ) {
         return hardcode$( Translator.DEFAULT_TRANSLATOR, kvs );
     }
-
+    */
     /**
      * Hardcode parameterized values
      * (i.e. what was once a parameter, now is static text)
      *
      * @param keyValues the key parameter NAME and String VALUE to assign to the
      * @return the modified Stencil
-     */
+
     public $stmt hardcode$( Object... keyValues ) {
         return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of( keyValues ) );
     }
+    */
 
     /**
      * Hardcode parameterized values
@@ -1031,10 +1032,11 @@ public final class $stmt<T extends Statement>
      * @param translator translates values to be hardcoded into the Stencil
      * @param keyValues the key parameter NAME and String VALUE to assign to the
      * @return the modified Stencil
-     */
+
     public $stmt hardcode$( Translator translator, Object... keyValues ) {
         return hardcode$( translator, Tokens.of( keyValues ) );
     }
+    */
 
     /**
      * 
@@ -1212,25 +1214,25 @@ public final class $stmt<T extends Statement>
      * @param selectedActionFn
      * @return 
      */
-    public _type forSelectedIn(Class clazz, Consumer<Select<T>> selectedActionFn){
-        return forSelectedIn(_java.type(clazz), selectedActionFn);
+    public <_CT extends _type> _CT forSelectedIn(Class clazz, Consumer<Select<T>> selectedActionFn){
+        return (_CT)forSelectedIn((_type)_java.type(clazz), selectedActionFn);
     }
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectedActionFn
      * @return 
      */
-    public <N extends _java> N forSelectedIn(N _n, Consumer<Select<T>> selectedActionFn){
-        _walk.in(_n, this.statementClass, e->{
+    public <_J extends _java> _J forSelectedIn(_J _j, Consumer<Select<T>> selectedActionFn){
+        _walk.in(_j, this.statementClass, e->{
             Select<T> sel = select( e );
             if( sel != null ){
                 selectedActionFn.accept( sel );
             }
         });
-        return _n;
+        return _j;
     }
 
     /**
@@ -1258,26 +1260,26 @@ public final class $stmt<T extends Statement>
      * @param selectedActionFn
      * @return 
      */
-    public _type forSelectedIn(Class clazz, Predicate<Select<T>> selectConstraint, Consumer<Select<T>> selectedActionFn){
-        return forSelectedIn(_java.type(clazz), selectConstraint, selectedActionFn);
+    public <CT extends _type> CT forSelectedIn(Class clazz, Predicate<Select<T>> selectConstraint, Consumer<Select<T>> selectedActionFn){
+        return forSelectedIn((CT)_java.type(clazz), selectConstraint, selectedActionFn);
     }
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectConstraint
      * @param selectedActionFn
      * @return 
      */
-    public <N extends _java> N forSelectedIn(N _n, Predicate<Select<T>> selectConstraint, Consumer<Select<T>> selectedActionFn){
-        _walk.in(_n, this.statementClass, e->{
+    public <_J extends _java> _J forSelectedIn(_J _j, Predicate<Select<T>> selectConstraint, Consumer<Select<T>> selectedActionFn){
+        _walk.in(_j, this.statementClass, e->{
             Select<T> sel = select( e );
             if( sel != null && selectConstraint.test(sel)){
                 selectedActionFn.accept( sel );
             }
         });
-        return _n;
+        return _j;
     }
     
     /** Write the Statements without comments (for matching, comparison) */
@@ -1292,7 +1294,7 @@ public final class $stmt<T extends Statement>
      */
     @Override
     public List<Select<T>> listSelectedIn(Class clazz){
-        return listSelectedIn(_java.type(clazz));
+        return listSelectedIn((_type)_java.type(clazz));
     }
     
     @Override
@@ -1314,7 +1316,7 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public List<Select<T>> listSelectedIn(Class clazz, Predicate<Select<T>> selectConstraint ){
-        return listSelectedIn(_java.type(clazz), selectConstraint);
+        return listSelectedIn( (_type)_java.type(clazz), selectConstraint);
     }
     
     /**
@@ -1336,13 +1338,13 @@ public final class $stmt<T extends Statement>
     
     /**
      * 
-     * @param _n
+     * @param _j
      * @param selectConstraint
      * @return 
      */
-    public List<Select<T>> listSelectedIn(_java _n, Predicate<Select<T>> selectConstraint ){
+    public List<Select<T>> listSelectedIn(_java _j, Predicate<Select<T>> selectConstraint ){
         List<Select<T>>sts = new ArrayList<>();
-        _walk.in(_n, this.statementClass, st->{
+        _walk.in(_j, this.statementClass, st->{
             Select sel = select(st);
             if (sel != null && selectConstraint.test(sel)){
                 sts.add(sel);
@@ -1357,8 +1359,8 @@ public final class $stmt<T extends Statement>
      * @param $repl
      * @return 
      */
-    public _type replaceIn( Class clazz, $stmt $repl){
-        return replaceIn(_java.type(clazz), $repl);
+    public <_CT extends _type> _CT replaceIn(Class clazz, $stmt $repl){
+        return replaceIn( (_CT)_java.type(clazz), $repl);
     }
     
     /**
@@ -1367,44 +1369,44 @@ public final class $stmt<T extends Statement>
      * @param replacement
      * @return 
      */
-    public _type replaceIn( Class clazz, String...replacement){
-        return replaceIn(_java.type(clazz), replacement);
+    public <_CT extends _type> _CT  replaceIn( Class clazz, String...replacement){
+        return (_CT)replaceIn( (_type)_java.type(clazz), replacement);
     }
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param $repl
      * @return 
      */
-    public <N extends _java> N replaceIn(N _n, $stmt $repl ){
+    public <_J extends _java> _J replaceIn(_J _j, $stmt $repl ){
         $snip $sn = new $snip($repl);
-        return replaceIn(_n, $sn);
+        return replaceIn(_j, $sn);
     }
 
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param statment_s
      * @return 
      */
-    public <N extends _java> N replaceIn(N _n, String... statment_s ){
+    public <_J extends _java> _J replaceIn(_J _j, String... statment_s ){
         $snip $sn = $snip.of(statment_s);
-        return replaceIn(_n, $sn);
+        return replaceIn(_j, $sn);
     }    
 
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param $protoReplacement
      * @return 
      */
-    public <N extends _java> N replaceIn(N _n, $snip $protoReplacement ){
+    public <_J extends _java> _J replaceIn(_J _j, $snip $protoReplacement ){
         AtomicInteger ai = new AtomicInteger(0);
-        _walk.in(_n, this.statementClass, st->{
+        _walk.in(_j, this.statementClass, st->{
             $stmt.Select sel = select( st );
             if( sel != null ){
                 //construct the replacement snippet
@@ -1431,10 +1433,10 @@ public final class $stmt<T extends Statement>
                 //System.out.println("PAR AFTER Remove "+ par );
             }
         });
-        if( _n instanceof _node ){
-            Ast.flattenLabel( ((_node) _n).ast(), "$replacement$");
+        if( _j instanceof _node ){
+            Ast.flattenLabel( ((_node) _j).ast(), "$replacement$");
         }
-        return (N)_n;
+        return (_J) _j;
     }
     
     @Override

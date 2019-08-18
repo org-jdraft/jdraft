@@ -159,7 +159,12 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
         add($st);
     }
 
-    
+    /**
+     * Adds a new stmt to the end of the prototype snippet
+     *
+     * @param astProtoStmt
+     * @return
+     */
     public $snip add(Statement astProtoStmt){
         $sts.add(new $stmt(astProtoStmt) );
         return this;
@@ -275,7 +280,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
      * @return 
      */
     public List<Statement> draft(_node _n ){
-        return draft(_n.decompose());
+        return draft(_n.tokenize());
     }
 
     @Override
@@ -425,7 +430,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
     
     @Override
     public Select selectFirstIn( Class clazz){
-        return selectFirstIn(_java.type(clazz));
+        return selectFirstIn((_type)_java.type(clazz));
     }
     
     /**
@@ -471,7 +476,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
      */
     @Override
     public List<Select> listSelectedIn(Class clazz){
-        return listSelectedIn(_java.type(clazz));
+        return listSelectedIn((_type)_java.type(clazz));
     }
     
     @Override
@@ -486,7 +491,6 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
         }
         return listSelectedIn( ((_node) _j).ast());
     }
-    
 
     @Override
     public List<Select> listSelectedIn(Node astNode ){
@@ -506,12 +510,11 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
         return astNode;
     }
 
-    
     @Override
-    public <N extends _java> N removeIn( N _n ){
-        List<Select> sels= (List<Select>)listSelectedIn(_n);
+    public <_J extends _java> _J removeIn(_J _j){
+        List<Select> sels= (List<Select>)listSelectedIn(_j);
         sels.forEach(s -> s.statements.forEach(st-> st.removeForced()));
-        return _n;
+        return _j;
     }
     
     /**
@@ -520,12 +523,12 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
      * @param $repl
      * @return 
      */
-    public _type replaceIn( Class clazz, $stmt $repl ){
-        return replaceIn(_java.type(clazz), $repl);
+    public <_CT extends _type> _CT replaceIn( Class clazz, $stmt $repl ){
+        return (_CT)replaceIn((_type)_java.type(clazz), $repl);
     }
     
-    public _type replaceIn( Class clazz, String... repl ){
-        return replaceIn(_java.type(clazz), $snip.of(repl));
+    public <_CT extends _type> _CT replaceIn( Class clazz, String... repl ){
+        return (_CT)replaceIn((_type)_java.type(clazz), $snip.of(repl));
     }
     
     public <N extends Node> N replaceIn(N astNode, String...repl ){        
@@ -550,8 +553,8 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
      * @param $repl
      * @return 
      */
-    public _type replaceIn( Class clazz, $snip $repl ){
-        return replaceIn(_java.type(clazz), $repl);
+    public <_CT extends _type> _CT replaceIn( Class clazz, $snip $repl ){
+        return (_CT)replaceIn((_type)_java.type(clazz), $repl);
     }
     
     /**
@@ -599,33 +602,33 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
         return astNode;
     }
 
-    public <N extends _java> N replaceIn(N _n, String... repl ){
-        return replaceIn(_n, $snip.of(repl));
+    public <_J extends _java> _J replaceIn(_J _j, String... repl ){
+        return replaceIn(_j, $snip.of(repl));
     }
     
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param $repl
      * @return 
      */
-    public <N extends _java> N replaceIn(N _n, $stmt $repl ){
+    public <_J extends _java> _J replaceIn(_J _j, $stmt $repl ){
         $snip $sn = new $snip($repl);
-        return $snip.this.replaceIn(_n, $sn);
+        return $snip.this.replaceIn(_j, $sn);
     }
 
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param $repl
      * @return 
      */
-    public <N extends _java> N replaceIn(N _n, $snip $repl ){
+    public <_J extends _java> _J replaceIn(_J _j, $snip $repl ){
         AtomicInteger ai = new AtomicInteger(0);
 
-        _walk.in(_n, this.$sts.get(0).statementClass, st-> {
+        _walk.in(_j, this.$sts.get(0).statementClass, st-> {
         //_le.walk( this.$sts.get(0).statementClass, st-> {
             Select sel = select( (Statement)st );
             if( sel != null ){
@@ -656,10 +659,10 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
                 //System.out.println("PAR AFTER Remove "+ par );
             }
         });
-        if( _n instanceof _node ){
-            Ast.flattenLabel( ((_node) _n).ast(), "$replacement$");
+        if( _j instanceof _node ){
+            Ast.flattenLabel( ((_node) _j).ast(), "$replacement$");
         }
-        return _n;
+        return _j;
     }
 
     /**
@@ -668,8 +671,8 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
      * @param selectedAction
      * @return 
      */
-    public _type forSelectedIn( Class clazz, Consumer<Select>selectedAction ){
-        return forSelectedIn(_java.type(clazz), selectedAction ); 
+    public <_CT extends _type> _CT forSelectedIn( Class clazz, Consumer<Select>selectedAction ){
+        return (_CT)forSelectedIn((_type)_java.type(clazz), selectedAction );
     }
     
     /**
@@ -691,19 +694,19 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
 
     /**
      * 
-     * @param <N>
-     * @param _n
+     * @param <_J>
+     * @param _j
      * @param selectedAction
      * @return 
      */
-    public <N extends _java> N forSelectedIn(N _n, Consumer<Select>selectedAction ){
-        _walk.in(_n, this.$sts.get(0).statementClass, st-> {
+    public <_J extends _java> _J forSelectedIn(_J _j, Consumer<Select>selectedAction ){
+        _walk.in(_j, this.$sts.get(0).statementClass, st-> {
             Select sel = select( (Statement)st );
             if( sel != null ){
                 selectedAction.accept(sel);
             }
         });
-        return _n;
+        return _j;
     }
 
     @Override
@@ -737,7 +740,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
             this.statements.forEach( s -> sb.append(s).append( System.lineSeparator()) );
             return "$snip.Select{"+ System.lineSeparator()+
                 Text.indent( sb.toString() )+ System.lineSeparator()+
-                Text.indent("$args : " + tokens) + System.lineSeparator()+
+                Text.indent("$tokens : " + tokens) + System.lineSeparator()+
                 "}";
         }
         

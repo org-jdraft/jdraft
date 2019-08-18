@@ -10,18 +10,17 @@ import org.jdraft.proto.$stmt;
  */
 public class LogicPositivizerTest extends TestCase {
 
-    // a "source" parameterized prototype used for identify matching source IfStmts...
-    // we also extract the $parameterized values of ("left", "right", "then" and "else")
-    static $stmt $sourceIf = $stmt.of("if($left$ != $right$){ then(); }else{ el(); }")
+    // "match" prototype for matching source IfStmts found anywhere in code
+    // $parameterized values {"left", "right", "then", "else"}
+    static $stmt $matchIf = $stmt.of("if($left$ != $right$){ then(); }else{ el(); }")
                     .$("then();", "then").$("el();", "else");
 
-    // a "target" parameterized prototype used for populating the target IfStmt
-    // we change the static perator from "!=" to "==" and swapped the "else" and "then" parameters
-    static $stmt $targetIf = $stmt.of("if($left$ == $right$){ then(); }else{ el(); }")
+    // "replace" prototype for populating the target IfStmt
+    // we change the static Operator from "!=" to "==" and swapped the "else" and "then" token positions
+    static $stmt $replaceIf = $stmt.of("if($left$ == $right$){ then(); }else{ el(); }")
                     .$("then();", "else").$("el();", "then");
 
-    //this is an example to make sure we can use the above (2) parameterized prototypes to refactor
-    // the if statements
+    // simple example to refactor the if statements
     public void testRefactor(){
         class F{
             int a, b;
@@ -33,7 +32,8 @@ public class LogicPositivizerTest extends TestCase {
                 }
             }
         }
-        _type _c = $sourceIf.replaceIn(F.class, $targetIf);
+        //here, do the refactoring and
+        _type _c = $matchIf.replaceIn(F.class, $replaceIf);
         System.out.println( _c );
     }
 }

@@ -608,7 +608,7 @@ public final class $method
      * @return 
      */
     public _method draft(_node _n ){
-        return draft(_n.decompose() );
+        return draft(_n.tokenize() );
     }
 
     public static final BlockStmt EMPTY = Stmt.block("{}");
@@ -646,7 +646,7 @@ public final class $method
         all = typeParameters.parseTo(_m.getTypeParameters(), all);
         all = type.parseTo(_m.getType(), all);
         all = name.parseTo(_m.getName(), all);
-        all = parameters.decomposeTo(_m.getParameters(), all);
+        all = parameters.parseTo(_m.getParameters(), all);
         all = thrown.parseTo(_m.getThrows(), all);
         all = body.parseTo(_m.getBody(), all);
         if( all != null ){
@@ -670,7 +670,7 @@ public final class $method
      *
      * @param kvs the key parameter NAME and String VALUE to assign to the
      * @return the modified Stencil
-     */
+
     public $method hardcode$( Tokens kvs ) {
         return hardcode$( Translator.DEFAULT_TRANSLATOR, kvs );
     }
@@ -681,7 +681,7 @@ public final class $method
      *
      * @param keyValues the key parameter NAME and String VALUE to assign to the
      * @return the modified Stencil
-     */
+
     public $method hardcode$( Object... keyValues ) {
         return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of( keyValues ) );
     }
@@ -693,10 +693,11 @@ public final class $method
      * @param translator translates values to be hardcoded into the Stencil
      * @param keyValues the key parameter NAME and String VALUE to assign to the
      * @return the modified Stencil
-     */
+
     public $method hardcode$( Translator translator, Object... keyValues ) {
         return hardcode$( translator, Tokens.of( keyValues ) );
     }
+    */
 
     /**
      * 
@@ -780,13 +781,13 @@ public final class $method
 
     /**
      * Returns the first _method that matches the pattern and constraint
-     * @param astStartNode the node to look through
+     * @param astNode the node to look through
      * @param _methodMatchFn
      * @return  the first _method that matches (or null if none found)
      */
     @Override
-    public _method firstIn(Node astStartNode, Predicate<_method> _methodMatchFn){
-        Optional<MethodDeclaration> f = astStartNode.findFirst(MethodDeclaration.class, s -> {
+    public _method firstIn(Node astNode, Predicate<_method> _methodMatchFn){
+        Optional<MethodDeclaration> f = astNode.findFirst(MethodDeclaration.class, s -> {
             Select sel = select(s);
             return sel != null && _methodMatchFn.test(sel._m);
         });         
@@ -803,7 +804,7 @@ public final class $method
      */
     @Override
     public Select selectFirstIn( Class clazz){
-        return selectFirstIn( _java.type(clazz));
+        return selectFirstIn( (_type)_java.type(clazz));
     }
     
     /**
@@ -813,7 +814,7 @@ public final class $method
      * @return  the first _method that matches (or null if none found)
      */
     public Select selectFirstIn( Class clazz, Predicate<Select> selectConstraint){
-        return selectFirstIn( _java.type(clazz), selectConstraint);
+        return selectFirstIn( (_type)_java.type(clazz), selectConstraint);
     }
     
     /**
@@ -883,7 +884,7 @@ public final class $method
      * @return 
      */
     public List<Select> listSelectedIn(Class clazz, Predicate<Select> selectConstraint){
-        return listSelectedIn( _java.type(clazz), selectConstraint);        
+        return listSelectedIn( (_type)_java.type(clazz), selectConstraint);
     }
     
     /**
@@ -943,8 +944,8 @@ public final class $method
      * @param selectedActionFn
      * @return 
      */
-    public _type forSelectedIn(Class clazz, Consumer<Select> selectedActionFn ){
-        return forSelectedIn( _java.type(clazz), selectedActionFn);
+    public <_CT extends _type> _CT  forSelectedIn(Class clazz, Consumer<Select> selectedActionFn ){
+        return (_CT)forSelectedIn( (_type)_java.type(clazz), selectedActionFn);
     }    
     
     /**
@@ -989,8 +990,8 @@ public final class $method
      * @param selectedActionFn
      * @return 
      */
-    public _type forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectedActionFn ){
-        return forSelectedIn(_java.type(clazz), selectConstraint, selectedActionFn);
+    public <_CT extends _type> _CT  forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectedActionFn ){
+        return (_CT)forSelectedIn((_type)_java.type(clazz), selectConstraint, selectedActionFn);
     }
     
     /**
@@ -1017,9 +1018,9 @@ public final class $method
      * @param $replace
      * @return 
      */
-    public _type replaceIn(Class clazz,  $method $replace ){
-        return forSelectedIn(_java.type(clazz), s -> {
-            _method repl = $replace.draft(Translator.DEFAULT_TRANSLATOR, s.args);
+    public <_CT extends _type> _CT replaceIn(Class clazz,  $method $replace ){
+        return (_CT) forSelectedIn( (_type)_java.type(clazz), s -> {
+            _method repl = $replace.draft(Translator.DEFAULT_TRANSLATOR, s.tokens());
             s._m.ast().replace(repl.ast());
         });
     }
@@ -1030,8 +1031,8 @@ public final class $method
      * @param replacementProto
      * @return 
      */
-    public _type replaceIn(Class clazz,  String... replacementProto ){
-        return replaceIn(_java.type(clazz), $method.of(replacementProto));        
+    public <_CT extends _type> _CT  replaceIn(Class clazz,  String... replacementProto ){
+        return (_CT)replaceIn((_type)_java.type(clazz), $method.of(replacementProto));
     }
     
     /**
@@ -1040,8 +1041,8 @@ public final class $method
      * @param method
      * @return 
      */
-    public _type replaceIn(Class clazz,  _method method ){
-        return replaceIn(_java.type(clazz), $method.of(method));        
+    public <_CT extends _type> _CT  replaceIn(Class clazz,  _method method ){
+        return (_CT)replaceIn( (_type)_java.type(clazz), $method.of(method));
     }
     
     /**
@@ -1050,8 +1051,8 @@ public final class $method
      * @param astMethod
      * @return 
      */
-    public _type replaceIn(Class clazz, MethodDeclaration astMethod ){
-        return replaceIn(_java.type(clazz), $method.of(astMethod));        
+    public <_CT extends _type> _CT  replaceIn(Class clazz, MethodDeclaration astMethod ){
+        return (_CT)replaceIn( (_type)_java.type(clazz), $method.of(astMethod));
     }
     
     /**
@@ -1063,7 +1064,7 @@ public final class $method
      */
     public <_J extends _java> _J replaceIn(_J _j, $method $replace ){
         return forSelectedIn(_j, s -> {
-            _method repl = $replace.draft(Translator.DEFAULT_TRANSLATOR, s.args.asTokens());
+            _method repl = $replace.draft(Translator.DEFAULT_TRANSLATOR, s.tokens.asTokens());
             s._m.ast().replace(repl.ast());
         });
     }
@@ -1129,28 +1130,28 @@ public final class $method
             select_java<_method> {
         
         public final _method _m;
-        public final $tokens args;
+        public final $tokens tokens;
 
         public Select( _method _m, $tokens tokens ){
             this._m = _m;
-            this.args = tokens;
+            this.tokens = tokens;
         }
                 
         public Select( MethodDeclaration astMethod, $tokens tokens ){
             this._m = _method.of(astMethod);
-            this.args = tokens;
+            this.tokens = tokens;
         }
 
         @Override
         public $tokens tokens(){
-            return args;
+            return tokens;
         }
         
         @Override
         public String toString(){
             return "$method.Select{"+ System.lineSeparator()+
                 Text.indent(_m.toString() )+ System.lineSeparator()+
-                Text.indent("$args : " + args) + System.lineSeparator()+
+                Text.indent("$tokens : " + tokens) + System.lineSeparator()+
                 "}";
         }
 

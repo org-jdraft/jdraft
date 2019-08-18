@@ -113,18 +113,18 @@ public final class $node implements $proto<Node, $node> {
      *
      * @param kvs the key parameter NAME and String VALUE to assign to the
      * @return the modified Stencil
-     */
+
     public $node hardcode$( Tokens kvs ) {
         return hardcode$( Translator.DEFAULT_TRANSLATOR, kvs );
     }
-
+    */
     /**
      * Hardcode parameterized values
      * (i.e. what was once a parameter, now is static text)
      *
      * @param keyValues the key parameter NAME and String VALUE to assign to the
      * @return the modified Stencil
-     */
+
     public $node hardcode$( Object... keyValues ) {
         return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of( ).add(keyValues ) );
     }
@@ -132,7 +132,7 @@ public final class $node implements $proto<Node, $node> {
     public $node hardcode$( Map args ){
         return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of( args ));
     }
-
+    */
     /**
      * Hardcode parameterized values
      * (i.e. what was once a parameter, now is static text)
@@ -140,10 +140,11 @@ public final class $node implements $proto<Node, $node> {
      * @param translator translates values to be hardcoded into the Stencil
      * @param keyValues the key parameter NAME and String VALUE to assign to the
      * @return the modified Stencil
-     */
+
     public $node hardcode$( Translator translator, Object... keyValues ) {
         return hardcode$( translator, Tokens.of( keyValues ) );
     }
+    */
 
     /**
      *
@@ -168,48 +169,6 @@ public final class $node implements $proto<Node, $node> {
     public $node and(Predicate<Node>constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
-    }
-
-    /**
-     * Is this node the child of a a proto?
-     * @param proto
-     * @return
-     */
-    public $node $hasParent( $proto proto ){
-        return and(n-> Ast.isParent(n, e-> proto.match(e) ) );
-    }
-
-    public $node $hasParent( Class... parentClassTypes ){
-        return and(n -> Ast.isParent(n, parentClassTypes));
-    }
-
-    public $node $hasAncestor( Predicate<Node> ancestorMatchFn ){
-        return and(n-> Ast.hasAncestor(n, ancestorMatchFn));
-    }
-
-    public $node $hasAncestor( $proto ancestorProto ){
-        return and(n-> n.stream(_walk.PARENTS).anyMatch(c -> ancestorProto.match(c)) );
-    }
-
-    public $node $hasAncestor( Class... parentClassTypes ){
-        return and(n-> n.stream(_walk.PARENTS).anyMatch(c -> Ast.isParent( c, parentClassTypes) ));
-    }
-
-    public $node $hasChild( $proto childProto ){
-        return and(n-> n.getChildNodes().stream().anyMatch(c -> childProto.match(c)) );
-    }
-
-    public $node $hasChild( Class... childClassTypes ){
-        return and(n-> n.getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) ));
-    }
-
-    public $node $hasChild( Predicate<Node> childMatchFn ){
-        return and(n-> Ast.hasChild(n, childMatchFn));
-    }
-
-
-    public $node $hasDescendant( $proto descendantProto ){
-        return and(n-> n.getChildNodes().stream().anyMatch(c-> c.stream().anyMatch(d -> descendantProto.match(d)) ));
     }
 
 
@@ -257,15 +216,15 @@ public final class $node implements $proto<Node, $node> {
     
     /**
      * Returns the first Statement that matches the 
-     * @param astStartNode the
-     * @param _nodeMatchFn 
+     * @param astNode the
+     * @param nodeMatchFn
      * @return 
      */
     @Override
-    public Node firstIn(Node astStartNode, Predicate<Node> _nodeMatchFn){
-        Optional<Node> f = astStartNode.findFirst( Node.class, n ->{
+    public Node firstIn(Node astNode, Predicate<Node> nodeMatchFn){
+        Optional<Node> f = astNode.findFirst( Node.class, n ->{
                 Select sel = select(n);
-                return select(n) != null && _nodeMatchFn.test(n);
+                return select(n) != null && nodeMatchFn.test(n);
         });         
         
         if( f.isPresent()){
@@ -315,7 +274,6 @@ public final class $node implements $proto<Node, $node> {
         return listSelectedIn( ((_node) _j).ast());
     }
 
-
     /**
      * 
      * @param astRootNode
@@ -360,7 +318,7 @@ public final class $node implements $proto<Node, $node> {
             } else if( target instanceof SimpleName) {
                 isRep = target.replace( new SimpleName( replacement.toString()) );
             } else if( target instanceof VariableDeclarator ){
-                System.out.println( "replacing Variable "+ target);
+                //System.out.println( "replacing Variable "+ target);
                 VariableDeclarator vd = (VariableDeclarator)target;
                 vd.setName(replacement.toString());
                 isRep = true;
@@ -406,12 +364,12 @@ public final class $node implements $proto<Node, $node> {
     /**
      * 
      * @param <N>
-     * @param astRootNode
+     * @param astNode
      * @param $replacement
      * @return 
      */
-    public <N extends Node> N replaceIn(N astRootNode, $node $replacement) {
-        astRootNode.walk(n -> {
+    public <N extends Node> N replaceIn(N astNode, $node $replacement) {
+        astNode.walk(n -> {
             if( this.constraint.test(n) ) {
                 Tokens ts = this.pattern.parse( n.toString(Ast.PRINT_NO_COMMENTS) );
                 if( ts != null ){
@@ -422,7 +380,7 @@ public final class $node implements $proto<Node, $node> {
                 }                
             }
         });
-        return astRootNode;
+        return astNode;
     }
     
     /**
@@ -448,12 +406,12 @@ public final class $node implements $proto<Node, $node> {
     /**
      * 
      * @param <N>
-     * @param astRootNode
+     * @param astNode
      * @param replacement
      * @return 
      */
-    public <N extends Node> N replaceIn(N astRootNode, String replacement) {
-        astRootNode.walk(n -> {
+    public <N extends Node> N replaceIn(N astNode, String replacement) {
+        astNode.walk(n -> {
             if( this.constraint.test(n)) {
                 String st = n.toString(Ast.PRINT_NO_COMMENTS);
                 Tokens ts = this.pattern.parse( st );
@@ -465,18 +423,18 @@ public final class $node implements $proto<Node, $node> {
                 }                
             }
         });
-        return astRootNode;
+        return astNode;
     }
     
     /**
      * 
      * @param <N>
-     * @param astRootNode
+     * @param astNode
      * @param replacement
      * @return 
      */
-    public <N extends Node> N replaceIn(N astRootNode, Node replacement) {
-        astRootNode.walk(n -> {
+    public <N extends Node> N replaceIn(N astNode, Node replacement) {
+        astNode.walk(n -> {
             if( this.constraint.test(n)) {
                 Tokens ts = this.pattern.parse( n.toString(Ast.PRINT_NO_COMMENTS) );
                 if( ts != null ){
@@ -484,7 +442,7 @@ public final class $node implements $proto<Node, $node> {
                 }                
             }
         });
-        return astRootNode;
+        return astNode;
     }
 
     /**
@@ -510,18 +468,18 @@ public final class $node implements $proto<Node, $node> {
     /**
      * 
      * @param <N>
-     * @param astRootNode
+     * @param astNode
      * @param selectActionFn
      * @return 
      */
-    public <N extends Node> N forSelectedIn(N astRootNode, Consumer<Select> selectActionFn) {
-         astRootNode.walk(n -> {
+    public <N extends Node> N forSelectedIn(N astNode, Consumer<Select> selectActionFn) {
+        astNode.walk(n -> {
             Select sel = select(n);
             if( sel != null ){
                 selectActionFn.accept(sel);
             }            
         });
-        return astRootNode;
+        return astNode;
     }
 
     /**
@@ -547,19 +505,19 @@ public final class $node implements $proto<Node, $node> {
     /**
      * 
      * @param <N>
-     * @param astRootNode
+     * @param astNode
      * @param selectConstraint
      * @param selectActionFn
      * @return 
      */
-    public <N extends Node> N forSelectedIn(N astRootNode, Predicate<Select>selectConstraint, Consumer<Select> selectActionFn) {
-         astRootNode.walk(n -> {
+    public <N extends Node> N forSelectedIn(N astNode, Predicate<Select>selectConstraint, Consumer<Select> selectActionFn) {
+         astNode.walk(n -> {
             Select sel = select(n);
             if( sel != null && selectConstraint.test(sel)){
                 selectActionFn.accept(sel);
             }            
         });
-        return astRootNode;
+        return astNode;
     }
 
     /**

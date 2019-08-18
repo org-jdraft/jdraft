@@ -1780,6 +1780,10 @@ public enum _walk {
         return _walk.first(PARENTS, astNode, Node.class, nodeMatchFn);
     }
 
+    public static Node firstParent( _java _j, Predicate<Node> nodeMatchFn){
+        return _walk.first(PARENTS, _j, Node.class, nodeMatchFn);
+    }
+
     /**
      * Traverse up the AST to find the first Node that is a nodeTargetClass (or
      * returns null)
@@ -2092,20 +2096,6 @@ public enum _walk {
         return null;
     }
 
-    /**
-     * Describe the node and it's contents by walking
-     * @param astNode the node to describe
-     */
-    public static void describe( Node astNode ){
-        astNode.walk(n-> System.out.println( n.getClass()+" "+n ) );
-    }
-
-    public static void describe( _java _j ){
-        if( _j instanceof _code && ((_code) _j).isTopLevel() ){
-            describe( ((_code) _j).astCompilationUnit());
-        }
-        describe ( ((_node)_j).ast() );
-    }
 
     /**
      * 
