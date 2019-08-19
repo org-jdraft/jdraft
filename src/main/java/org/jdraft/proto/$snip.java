@@ -221,40 +221,6 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
     }
 
     /**
-     * Hardcode parameterized values
-     * (i.e. what was once a parameter, now is static text)
-     *
-     * @param kvs the key parameter NAME and String VALUE to assign to the
-     * @return the modified Stencil
-     */
-    public $snip hardcode$( Tokens kvs ) {
-        return hardcode$( Translator.DEFAULT_TRANSLATOR, kvs );
-    }
-
-    /**
-     * Hardcode parameterized values
-     * (i.e. what was once a parameter, now is static text)
-     *
-     * @param keyValues the key parameter NAME and String VALUE to assign to the
-     * @return the modified Stencil
-     */
-    public $snip hardcode$( Object... keyValues ) {
-        return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of( keyValues ) );
-    }
-
-    /**
-     * Hardcode parameterized values
-     * (i.e. what was once a parameter, now is static text)
-     *
-     * @param translator translates values to be hardcoded into the Stencil
-     * @param keyValues the key parameter NAME and String VALUE to assign to the
-     * @return the modified Stencil
-     */
-    public $snip hardcode$( Translator translator, Object... keyValues ) {
-        return hardcode$( translator, Tokens.of( keyValues ) );
-    }
-
-    /**
      * 
      * @param translator
      * @param kvs
@@ -346,11 +312,8 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
             }
             NodeWithStatements nws = (NodeWithStatements)astStmt.getParentNode().get();
             List<Statement>childs = nws.getStatements();
-            //List<Node> childs =
-            //        statement.getParentNode().get().getChildNodes();
             idx = childs.indexOf(astStmt);
             if( childs.size() - idx < this.$sts.size() ){
-                //System.out.println("cant be a match, b/c not enough sibling nodes to match $snip");
                 return null; //cant be a match, b/c not enough sibling nodes to match $snip
             }
             for(int i = 1; i<this.$sts.size(); i++){ //add the rest of the statements to the array

@@ -901,28 +901,19 @@ public final class $stmt<T extends Statement>
         int nextInd = fixedText.indexOf(stmtString);        
         while( nextInd >= 0 ){
             String padded = Text.matchNextPaddedTarget(fixedText, stmtString, nextInd );
-            //System.out.println( "FOUND "+ padded );
-            //String prefix = Text.getLeadingSpaces( fixedText, nextInd );
-            //String postfix = Text.getTrailingSpaces(fixedText, stmtString.length() + nextInd);
-            //System.out.println( "FOUND \""+ (prefix+stmtString+postfix) +"\"");
             stringsToReplace.add( padded );
             nextInd = fixedText.indexOf(stmtString, nextInd + stmtString.length() );
         }
         for(int i=0;i<stringsToReplace.size();i++){
             int indexOfAssert = this.stmtPattern.getTextBlanks().getFixedText().indexOf( stringsToReplace.get(i) );
-            //System.out.println( indexOfAssert );
-            //System.out.println( "PATTERN " + this.stmtPattern );
             this.stmtPattern = this.stmtPattern.$( stringsToReplace.get(i), $name);
-            //System.out.println( "PATTERN " + this.stmtPattern );
         }
         return this;
     }
 
     @Override
     public T fill(Translator t, Object...values){
-        //if( this.commentPattern != null ){
-        //    return (T)Stmt.of(Stencil.of(commentPattern, stmtPattern).fill(t, values) );
-        //}
+
         List<String> keys = list$Normalized();
         if( values.length < keys.size() ){
             throw new _draftException("not enough values("+values.length+") to fill ("+keys.size()+") variables "+ keys);
@@ -1001,42 +992,6 @@ public final class $stmt<T extends Statement>
     public List<String> list$Normalized(){
         return this.stmtPattern.list$Normalized();
     }
-
-    /**
-     * Hardcode parameterized values
-     * (i.e. what was once a parameter, now is static text)
-     *
-     * @param kvs the key parameter NAME and String VALUE to assign to the
-     * @return the modified Stencil
-
-    public $stmt hardcode$( Tokens kvs ) {
-        return hardcode$( Translator.DEFAULT_TRANSLATOR, kvs );
-    }
-    */
-    /**
-     * Hardcode parameterized values
-     * (i.e. what was once a parameter, now is static text)
-     *
-     * @param keyValues the key parameter NAME and String VALUE to assign to the
-     * @return the modified Stencil
-
-    public $stmt hardcode$( Object... keyValues ) {
-        return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of( keyValues ) );
-    }
-    */
-
-    /**
-     * Hardcode parameterized values
-     * (i.e. what was once a parameter, now is static text)
-     *
-     * @param translator translates values to be hardcoded into the Stencil
-     * @param keyValues the key parameter NAME and String VALUE to assign to the
-     * @return the modified Stencil
-
-    public $stmt hardcode$( Translator translator, Object... keyValues ) {
-        return hardcode$( translator, Tokens.of( keyValues ) );
-    }
-    */
 
     /**
      * 

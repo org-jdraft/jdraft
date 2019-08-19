@@ -190,7 +190,6 @@ public final class $annos
             kvs.putAll(keyValues);
             kvs.remove("$annos");
             _as.addAll( $as.draft(translator, kvs).list() );
-            //sb.append($as.compose(translator, keyValues, separator));                
         }
         return _as;
     }
@@ -200,18 +199,6 @@ public final class $annos
         $annosList.forEach(a -> a.$(target, $Name));
         return this;
     }
-
-    /**
-     *
-     * @param tr
-     * @param keyValues
-     * @return
-
-    public $annos hardcode$( Translator tr, Object... keyValues ) {
-        $annosList.forEach(a -> a.hardcode$(tr, keyValues));
-        return this;
-    }
-    */
 
     /**
      *
@@ -268,34 +255,25 @@ public final class $annos
         if( ! this.constraint.test(_anns)){
             return null;
         }
-        //System.out.println( "annos BEFORE "+_anns);
-        //System.out.println( "annos BEFORE "+_anns.list());
         List<_anno> annosLeft = new ArrayList<>();
         annosLeft.addAll( _anns.list() );
         Tokens tokens = new Tokens();
-        //_annos _as = _annotated.getAnnos();
         for(int i=0;i<this.$annosList.size();i++){
             
             $anno $a = $annosList.get(i);
-            //System.out.println("checking "+ $a );
             Optional<_anno> oa = annosLeft.stream().filter(a-> $a.matches(a)).findFirst();
             if( !oa.isPresent() ){
-                //System.out.println( "Not present anno "+$a +"  : "+annosLeft);
                 return null; //didnf find a matching anno
             }
             _anno got = oa.get();
-           // System.out.println( "annosLeft BEFORE "+annosLeft +" "+ got);
             annosLeft.remove(got);
-            //System.out.println( "annosLeft AFTER  "+annosLeft +" "+got);
             $anno.Select $as = $a.select(oa.get());
             if( tokens.isConsistent($as.tokens.asTokens())){ //args are consistent
                 tokens.putAll($as.tokens.asTokens());
             } else{
-                //System.out.println( "Consistency error for "+tokens +"  : "+$as.args.asTokens() );
                 return null;
             }
         }
-        //System.out.println("returning new Select for "+_anns);
         return new Select(_anns, tokens);
     }
 
@@ -416,8 +394,7 @@ public final class $annos
      * @return 
      */
     public Select selectFirstIn( Node astNode, Predicate<Select> selectConstraint){
-        Optional<Node> f = 
-                
+        Optional<Node> f =
             astNode.findFirst( Node.class, 
                 n -> {
                     if (n instanceof NodeWithAnnotations){ 

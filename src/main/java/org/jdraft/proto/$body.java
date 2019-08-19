@@ -370,13 +370,7 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $cons
             return _body.of(";");
         }
         Statement r = this.bodyStmts.draft( translator, keyValues );
-        //System.out.println("THE CONSTRUCTED STATEMENTS"+r );
         return _body.of( r );
-        //return _body.of(this.bodyStmts.construct( translator, keyValues ));
-        /**
-        return _body.of( $stmt.walkCompose$LabeledStmt(
-            (Statement)this.bodyStmts.construct(translator, keyValues),keyValues) );
-         */
     }
     
     /**

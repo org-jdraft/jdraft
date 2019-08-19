@@ -1613,44 +1613,6 @@ public final class $expr <T extends Expression>
     }
 
     /**
-     * Hardcode parameterized values
-     * (i.e. what was once a parameter, now is static text)
-     *
-     * @param kvs the key parameter NAME and String VALUE to assign to the
-     * @return the modified Stencil
-
-    @Override
-    public $expr<T> hardcode$( Tokens kvs ) {
-        return hardcode$( Translator.DEFAULT_TRANSLATOR, kvs );
-    }
-
-    /**
-     * Hardcode parameterized values
-     * (i.e. what was once a parameter, now is static text)
-     *
-     * @param keyValues the key parameter NAME and String VALUE to assign to the
-     * @return the modified Stencil
-
-    @Override
-    public $expr<T> hardcode$( Object... keyValues ) {
-        return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of( keyValues ) );
-    }
-
-    /**
-     * Hardcode parameterized values
-     * (i.e. what was once a parameter, now is static text)
-     *
-     * @param translator translates values to be hardcoded into the Stencil
-     * @param keyValues the key parameter NAME and String VALUE to assign to the
-     * @return the modified Stencil
-
-    @Override
-    public $expr<T> hardcode$( Translator translator, Object... keyValues ) {
-        return hardcode$( translator, Tokens.of( keyValues ) );
-    }
-    */
-
-    /**
      * 
      * @param translator
      * @param tokens
@@ -1789,11 +1751,6 @@ public final class $expr <T extends Expression>
                 }catch(Exception e){
                     //it might not be a number... so comparison will fail
                 }
-                //Number expected = parseNumber( exprPattern.getTextBlanks().getFixedText() );
-                //Number actual = parseNumber( ((IntegerLiteralExpr) astExpr).getValue() );
-                //if( Objects.equals( expected,actual) ){
-                //    return new Select(astExpr, new Tokens());
-                //}                    
                 return null;                
             }
             Tokens ts = exprPattern.parse(astExpr.toString(Ast.PRINT_NO_COMMENTS) );

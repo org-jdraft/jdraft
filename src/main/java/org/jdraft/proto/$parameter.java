@@ -253,7 +253,6 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
     
     public $parameter $type( String type ){
         this.type.type = Ast.typeRef( type );
-        //this.type.typePattern = Stencil.of(type);
         return this;
     }
     

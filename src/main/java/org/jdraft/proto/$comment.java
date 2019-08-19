@@ -261,7 +261,6 @@ public final class $comment <C extends Comment>
         //this is extra work, but it "acts" like we want it to
         List<C> found = listIn(astNode, commentMatchFn);
         Ast.sortNodesByPosition(found);
-        //Collections.sort( found, Ast.COMPARE_NODE_BY_LOCATION);
         if( found.isEmpty() ){
             return null;
         }

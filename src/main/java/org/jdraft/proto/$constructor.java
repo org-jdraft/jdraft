@@ -961,8 +961,8 @@ public final class $constructor
      * @param $replace
      * @return 
      */
-    public _type replaceIn(Class clazz, $constructor $replace ){
-        return forSelectedIn((_type)_java.type(clazz), s -> {
+    public <_CT extends _type> _CT replaceIn(Class clazz, $constructor $replace ){
+        return (_CT)forSelectedIn((_type)_java.type(clazz), s -> {
             _constructor repl = $replace.draft(Translator.DEFAULT_TRANSLATOR, s.tokens);
             s._ct.ast().replace(repl.ast());
         });

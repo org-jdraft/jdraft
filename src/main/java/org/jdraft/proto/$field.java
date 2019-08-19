@@ -113,51 +113,6 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
     public static $field of( Predicate<_field> constraint ){
         return of().and( constraint);
     }
-
-    /**
-     *
-     * @param str
-     * @return
-     */
-    public static $field ofName( String str){
-        return of( _field.of("$type$ "+str) );
-    }
-
-    /**
-     *
-     * @param nameConstraint
-     * @return
-     */
-    public static $field ofName( Predicate<String> nameConstraint){
-        return of().$name(nameConstraint);
-    }
-
-    /**
-     *
-     * @param clazz
-     * @return
-     */
-    public static $field ofType( Class clazz ){
-        return ofType( _typeRef.of(clazz) );
-    }
-    
-    /**
-     * represents a prototype field of this type (any name, doesn't matter)
-     * @param type
-     * @return 
-     */
-    public static $field ofType( _typeRef type ){
-        _field _f = _field.of( type+ " $name$;" );
-        return of( _f );
-    }
-    
-    public static $field ofType( String type ){
-        return of( _field.of( type + " $name$;") );
-    }
-    
-    public static $field ofType( Predicate<_typeRef> _typeConstraint ){
-        return of().$type(_typeConstraint);
-    }
     
     public static $field of( _field _f ){
         $field $inst = new $field();
@@ -195,7 +150,7 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
     public $annos annos = new $annos(); 
     public $modifiers modifiers = $modifiers.of();
     public $typeRef type = $typeRef.of();
-    public $id name = $id.of();
+    public $id name = $id.of("$name$");
     public $expr init = null;
     
     private $field( $part...parts ){
@@ -316,6 +271,7 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
         this.annos.$annosList.add($anno.of(_an) );
         return this;
     }
+
     /**
      * set a constraint on the 
      * @param javadocConstraint
@@ -914,8 +870,6 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
             }
         }
         sb.append(";");
-        //String s = sb.toString();
-        //System.out.println( s );
         return _field.of( sb.toString() );        
     }
 

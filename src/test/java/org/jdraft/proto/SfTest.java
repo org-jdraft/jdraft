@@ -99,13 +99,13 @@ public class SfTest extends TestCase {
     
     /** Build a $field prototype with only the name */
     public void testOfName(){
-        $field $x = $field.ofName("x");
+        $field $x = $field.of($id.of("x"));
         assertTrue( $x.matches("public static final List<String> x;") );
     }
     
     /** build a $field prototype with only the type */
     public void testAnyFieldOfType(){
-        $field $anyInt = $field.ofType( int.class );
+        $field $anyInt = $field.of( $typeRef.of(int.class) );
         
         //it will match any field
         assertTrue( $anyInt.matches("int x"));
@@ -132,13 +132,13 @@ public class SfTest extends TestCase {
     }
     
     public void testTypeGeneric$field(){
-        $field $listType = $field.ofType("List<$elType$>");
+        $field $listType = $field.of($typeRef.of("List<$elType$>"));
         assertTrue( $listType.matches("List<String> f;") );
         assertTrue( $listType.matches("List<Map<Integer,String>> g;") );
         
         assertFalse( $listType.matches("Map<List<Integer>,String> g;") );
         
-        $listType = $field.ofType(_typeRef.of("List<$elType$>"));
+        $listType = $field.of($typeRef.of("List<$elType$>"));
         assertTrue( $listType.matches("List<String> f;") );
         assertTrue( $listType.matches("List<Map<Integer,String>> g;") );
         
@@ -210,10 +210,10 @@ public class SfTest extends TestCase {
         
         assertTrue( _f.is("int f") );
         
-        _f = $field.ofName("f").draft("type", int.class);
+        _f = $field.of($id.of("f")).draft("type", int.class);
         assertTrue( _f.is("int f") );
         
-        _f = $field.ofType(int.class).draft("name", "f");
+        _f = $field.of($typeRef.of(int.class)).draft("name", "f");
         assertTrue( _f.is("int f") );
         
         

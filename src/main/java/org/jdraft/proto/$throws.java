@@ -280,44 +280,6 @@ public final class $throws
     }
 
     /**
-     * Hardcode (one or more) parameterized values
-     * (i.e. what was once a parameter, now is static text)
-     *
-     * @param hardcodedKeyValues the key parameter NAME and VALUE to hardcode
-     * @return the modified Stencil
-
-    public $throws hardcode$( Tokens hardcodedKeyValues ) {
-        this.throwsPatterns.forEach(t -> t.hardcode$(Translator.DEFAULT_TRANSLATOR, hardcodedKeyValues) );
-        return this;
-    }
-    */
-
-    /**
-     * Hardcode parameterized values
-     * (i.e. what was once a parameter, now is static text)
-     *
-     * @param keyValues the key parameter NAME and String VALUE to assign to the
-     * @return the modified Stencil
-
-    public $throws hardcode$( Object... keyValues ) {
-        return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of( keyValues ) );
-    }
-    */
-
-    /**
-     * Hardcode parameterized values
-     * (i.e. what was once a parameter, now is static text)
-     *
-     * @param translator translates values to be hardcoded into the Stencil
-     * @param keyValues the key parameter NAME and String VALUE to assign to the
-     * @return the modified Stencil
-
-    public $throws hardcode$( Translator translator, Object... keyValues ) {
-        return hardcode$( translator, Tokens.of( keyValues ) );
-    }
-    */
-
-    /**
      * 
      * @param translator
      * @param kvs

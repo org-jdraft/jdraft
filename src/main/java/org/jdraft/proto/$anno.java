@@ -356,12 +356,6 @@ public final class $anno
         $mvs.forEach(mv -> mv.key.pattern = mv.key.pattern.$(target, $Name));
         return this;
     }
-    
-    public $anno hardcode$( Translator tr, Object...keyValues){
-        name.hardcode$(tr, keyValues);
-        $mvs.forEach(mv -> mv.key.pattern = mv.key.pattern.hardcode$(tr, keyValues));
-        return this;
-    }
 
     public boolean match( Node node ){
         if( node instanceof AnnotationExpr ){

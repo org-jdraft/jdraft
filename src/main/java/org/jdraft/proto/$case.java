@@ -98,13 +98,10 @@ public final class $case
     }
     
     private Select selectStatements(SwitchEntry astSwitchEntry, Tokens tokens){
-        //System.out.println( "In selectStatements");
         if( statements.isEmpty()){
-            //System.out.println("Statments empty");
             return new Select( astSwitchEntry, $tokens.of(tokens) );
         }
         if( statements.size() != astSwitchEntry.getStatements().size() ){
-            //System.out.println( "Statement size mismatch");
             return null;
         }
         Tokens ts = Tokens.of(tokens);
@@ -113,7 +110,6 @@ public final class $case
             $stmt.Select ss = 
                 statements.get(i).select(astSwitchEntry.getStatement(i));
             if( ss == null || !ts.isConsistent(ss.tokens.asTokens()) ){
-                //System.out.println( "NOT consistent with "+i+" " );
                 return null;
             }
             ts.putAll(ss.tokens.asTokens());
@@ -126,33 +122,25 @@ public final class $case
     }
     
     public Select select( SwitchEntry astSwitchEntry ){
-        //System.out.println( "KKKKLLL ");
         if( ! constraint.test(astSwitchEntry)){
             return null;
         }
         if( astSwitchEntry.getLabels().isEmpty() ){
-            //System.out.println( "test label is null");  
             if( this.label == null ){
-                //System.out.println( "$case label is null");                
                 return selectStatements( astSwitchEntry, new Tokens());
             }
             if( this.label.isMatchAny() ){
-                //System.out.println( "isMatchAny");                
                 return selectStatements( astSwitchEntry, new Tokens());
             }
             return null;
         }
         Expression label = astSwitchEntry.getLabels().get(0);
-        //System.out.println("the label is "+ label);
         if( this.label == null ){
-            //System.out.println( "$case label is null");
             return null;
         }
-        //System.out.println("Selecting "+ this.label);
         $expr.Select sel = this.label.select(label);
         
         if( sel != null ){
-            //System.out.println("Matched the label "+ label+" to "+this.label );
             return selectStatements(astSwitchEntry, sel.tokens.asTokens());
         }
         return null;

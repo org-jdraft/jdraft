@@ -214,7 +214,6 @@ public final class $typeParameters
             return new Select(_i, $tokens.of(ts) );
         }            
         return null;
-            
     }
  
     @Override
@@ -277,44 +276,6 @@ public final class $typeParameters
         this.typeParams.forEach(t -> t.$(target, $Name) );        
         return this;
     }
-
-    /**
-     * Hardcode (one or more) parameterized values
-     * (i.e. what was once a parameter, now is static text)
-     *
-     * @param hardcodedKeyValues the key parameter NAME and VALUE to hardcode
-     * @return the modified Stencil
-
-    public $typeParameters hardcode$( Tokens hardcodedKeyValues ) {
-        this.typeParams.forEach(t -> t.hardcode$(hardcodedKeyValues) );
-        return this;
-    }
-    */
-
-    /**
-     * Hardcode parameterized values
-     * (i.e. what was once a parameter, now is static text)
-     *
-     * @param keyValues the key parameter NAME and String VALUE to assign to the
-     * @return the modified Stencil
-
-    public $typeParameters hardcode$( Object... keyValues ) {
-        return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of( keyValues ) );
-    }
-    */
-
-    /**
-     * Hardcode parameterized values
-     * (i.e. what was once a parameter, now is static text)
-     *
-     * @param translator translates values to be hardcoded into the Stencil
-     * @param keyValues the key parameter NAME and String VALUE to assign to the
-     * @return the modified Stencil
-
-    public $typeParameters hardcode$( Translator translator, Object... keyValues ) {
-        return hardcode$( translator, Tokens.of( keyValues ) );
-    }
-    */
 
     /**
      * 

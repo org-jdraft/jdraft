@@ -51,7 +51,6 @@ public final class $node implements $proto<Node, $node> {
      * @return
      */
     public static $node of( $proto... prototypes ){
-
         Predicate<Node> constraint = (n)-> prototypes[0].match(n);
         for(int i=1; i< prototypes.length; i++){
             final $proto $p = prototypes[i];
@@ -108,45 +107,6 @@ public final class $node implements $proto<Node, $node> {
     }
 
     /**
-     * Hardcode parameterized values
-     * (i.e. what was once a parameter, now is static text)
-     *
-     * @param kvs the key parameter NAME and String VALUE to assign to the
-     * @return the modified Stencil
-
-    public $node hardcode$( Tokens kvs ) {
-        return hardcode$( Translator.DEFAULT_TRANSLATOR, kvs );
-    }
-    */
-    /**
-     * Hardcode parameterized values
-     * (i.e. what was once a parameter, now is static text)
-     *
-     * @param keyValues the key parameter NAME and String VALUE to assign to the
-     * @return the modified Stencil
-
-    public $node hardcode$( Object... keyValues ) {
-        return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of( ).add(keyValues ) );
-    }
-
-    public $node hardcode$( Map args ){
-        return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of( args ));
-    }
-    */
-    /**
-     * Hardcode parameterized values
-     * (i.e. what was once a parameter, now is static text)
-     *
-     * @param translator translates values to be hardcoded into the Stencil
-     * @param keyValues the key parameter NAME and String VALUE to assign to the
-     * @return the modified Stencil
-
-    public $node hardcode$( Translator translator, Object... keyValues ) {
-        return hardcode$( translator, Tokens.of( keyValues ) );
-    }
-    */
-
-    /**
      *
      * @param translator
      * @param kvs
@@ -170,7 +130,6 @@ public final class $node implements $proto<Node, $node> {
         this.constraint = this.constraint.and(constraint);
         return this;
     }
-
 
    /**
     * 
