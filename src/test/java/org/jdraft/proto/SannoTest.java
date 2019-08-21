@@ -13,8 +13,8 @@ public class SannoTest extends TestCase {
         class GHJ{
             @Deprecated int i;
         }
-        assertEquals( 2, $anno.any().listIn(GHJ.class).size());        
-        $anno.any().forEachIn(GHJ.class, a-> System.out.println(a));
+        assertEquals( 2, $anno.of().listIn(GHJ.class).size());
+        $anno.of().forEachIn(GHJ.class, a-> System.out.println(a));
     }
     
     public void testConstruct(){
@@ -52,14 +52,14 @@ public class SannoTest extends TestCase {
     
     public void testAny(){
         _class _c = _class.of("C");
-        assertEquals( 0, $anno.any().listIn(_c).size());
+        assertEquals( 0, $anno.of().listIn(_c).size());
         
         //add a top level annotation
         _c.annotate(Deprecated.class);
-        assertEquals( 1, $anno.any().listIn(_c).size());
+        assertEquals( 1, $anno.of().listIn(_c).size());
         
-        $anno.any().forEachIn(_c, a-> System.out.println(a.getName()));
-        $anno.any().forEachIn(_c, a-> !a.hasValues(), a-> System.out.println( a) );
+        $anno.of().forEachIn(_c, a-> System.out.println(a.getName()));
+        $anno.of().forEachIn(_c, a-> !a.hasValues(), a-> System.out.println( a) );
     }
     
     @interface R{ int value() default 10; }

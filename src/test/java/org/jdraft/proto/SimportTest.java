@@ -34,7 +34,7 @@ public class SimportTest extends TestCase {
         _import _i = _import.of("java.util.*;");
         assertEquals("java.util", _i.getName());
         
-        System.out.println( $i.importPattern );
+        System.out.println( $i.importStencil);
         assertTrue( $i.matches("java.util.*"));
         
         _c = _class.of("F").imports("java.util.*;");

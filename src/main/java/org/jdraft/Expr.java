@@ -15,9 +15,11 @@ import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import com.github.javaparser.ast.stmt.Statement;
 
+import com.github.javaparser.ast.type.Type;
 import org.jdraft.io._io;
 import org.jdraft.io._ioException;
 import org.jdraft.io._in;
+import org.jdraft.proto.$typeRef;
 
 /**
  * Utility for converting free form Strings and Runtime entities (lambdas, Anonymous Objects)
@@ -681,6 +683,25 @@ public enum Expr {
         return of( code ).asCastExpr();
     }
 
+    public static CastExpr cast( Class castType, Expression expr ){
+        return cast( Ast.typeRef(castType), expr);
+    }
+
+    /**
+     * Builds a cast from a Type and expression
+     * (type)expr
+     *
+     * @param type the cast type
+     * @param expr the expression to be cast
+     * @return the CastExpr
+     */
+    public static CastExpr cast ( Type type, Expression expr ){
+        CastExpr ce = new CastExpr();
+        ce.setType(type);
+        ce.setExpression(expr);
+        return ce;
+    }
+
     /** 'c' */
     public static final Class<CharLiteralExpr> CHAR_LITERAL = CharLiteralExpr.class;
 
@@ -890,6 +911,8 @@ public enum Expr {
     public static InstanceOfExpr instanceOf(String... code ) {
         return of( code ).asInstanceOfExpr();
     }
+
+
     
     public static InstanceOfExpr instanceOf( Function<? extends Object, ? extends Object> fun ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];

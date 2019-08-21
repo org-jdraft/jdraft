@@ -3,6 +3,8 @@ package org.jdraft;
 import java.util.*;
 import java.io.*;
 import java.nio.file.Path;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
@@ -717,10 +719,171 @@ public interface _java {
             }
             return Component.ANNOTATION;
         }
-
-
     }
-    
+
+    // ------------------ COMMENTS --------------------------
+
+    /**
+     * list all comments within this astRootNode (including the comment applied
+     * to the astRootNode if the AstRootNode is an instance of {@link NodeWithJavadoc}
+     *
+     * @param astRootNode the root node to look through
+     * @return a list of all comments on or underneath the node
+     */
+    static List<Comment> listComments(Node astRootNode) {
+        return Ast.listComments(astRootNode);
+    }
+
+    /**
+     * @param <C>                the comment class
+     * @param astRootNode        the root node to start the search
+     * @param commentTargetClass the TYPE of comment ({@link Comment},
+     *                           {@link LineComment}, {@link JavadocComment}, {@link BlockComment})
+     * @param commentMatchFn     predicate for selecting comments
+     * @return a list of matching comments
+     */
+    static <C extends Comment> List<C> listComments(
+            Node astRootNode, Class<C> commentTargetClass, Predicate<C> commentMatchFn) {
+        return Ast.listComments(astRootNode, commentTargetClass, commentMatchFn);
+    }
+
+    /**
+     * list all comments within this astRootNode that match the predicate
+     * (including the comment applied to the astRootNode if the AstRootNode is
+     * an instance of {@link NodeWithJavadoc})
+     *
+     * @param astRootNode    the root node to look through
+     * @param commentMatchFn matching function for comments
+     * @return a list of all comments on or underneath the node
+     */
+    static List<Comment> listComments(Node astRootNode, Predicate<Comment> commentMatchFn) {
+        return Ast.listComments(astRootNode, commentMatchFn);
+    }
+
+    /**
+     *
+     * @param <C>
+     * @param <_J>
+     * @param _j
+     * @param commentTargetClass
+     * @param commentMatchFn
+     * @return
+     */
+    static <C extends Comment, _J extends _java> List<C> listComments(
+            _J _j, Class<C> commentTargetClass, Predicate<C> commentMatchFn){
+
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel() ){
+                return Ast.listComments( ((_code) _j).astCompilationUnit(), commentTargetClass, commentMatchFn );
+            }
+            else{
+                return Ast.listComments( ((_type) _j).ast(), commentTargetClass, commentMatchFn );
+            }
+        } else{
+            return Ast.listComments(  ((_node) _j).ast(), commentTargetClass, commentMatchFn);
+        }
+    }
+
+    /**
+     *
+     * @param <_J>
+     * @param _j
+     * @param commentMatchFn
+     * @return
+     */
+    static <_J extends _java> List<Comment> listComments(_J _j, Predicate<Comment> commentMatchFn){
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel() ){
+                return Ast.listComments( ((_code) _j).astCompilationUnit(), commentMatchFn );
+            }
+            else{
+                return Ast.listComments( ((_type) _j).ast(), commentMatchFn);
+            }
+        } else{
+            return Ast.listComments(  ((_node) _j).ast(), commentMatchFn );
+        }
+    }
+
+    /**
+     *
+     * @param <_J>
+     * @param _j
+     * @param commentMatchFn
+     * @param commentActionFn
+     */
+    static <_J extends _java> void forComments(_J _j, Predicate<Comment> commentMatchFn, Consumer<Comment> commentActionFn ){
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel() ){
+                Ast.forComments( ((_code) _j).astCompilationUnit(), commentMatchFn, commentActionFn);
+            }
+            else{
+                Ast.forComments( ((_type) _j).ast(), commentMatchFn, commentActionFn);
+            }
+        } else{
+            Ast.forComments(  ((_node) _j).ast(), commentMatchFn, commentActionFn );
+        }
+    }
+
+
+    /**
+     *
+     * @param <C>
+     * @param <_J>
+     * @param _j
+     * @param commentClass
+     * @param commentMatchFn
+     * @param commentActionFn
+     */
+    static <C extends Comment, _J extends _java> void forComments(_J _j, Class<C> commentClass, Predicate<C> commentMatchFn, Consumer<C> commentActionFn ){
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel() ){
+                Ast.forComments( ((_code) _j).astCompilationUnit(), commentClass, commentMatchFn, commentActionFn);
+            }
+            else{
+                Ast.forComments( ((_type) _j).ast(),  commentClass, commentMatchFn, commentActionFn);
+            }
+        } else{
+            Ast.forComments(  ((_node) _j).ast(),  commentClass, commentMatchFn, commentActionFn );
+        }
+    }
+
+    /**
+     *
+     * @param _j
+     * @param commentActionFn
+     */
+    static void forComments(_java _j, Consumer<Comment> commentActionFn){
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel() ){
+                Ast.forComments( ((_code) _j).astCompilationUnit(), commentActionFn);
+            }
+            else{
+                Ast.forComments( ((_type) _j).ast(), commentActionFn);
+            }
+        } else{
+            Ast.forComments(  ((_node)_j).ast(), commentActionFn );
+        }
+    }
+
+    /**
+     *
+     * @param <_J>
+     * @param _j
+     * @return
+     */
+    static <_J extends _java> List<Comment> listComments(_J _j){
+        if( _j instanceof _code ){
+            if( ((_code) _j).isTopLevel() ){
+                return Ast.listComments( ((_code) _j).astCompilationUnit() );
+            }
+            else{
+                return Ast.listComments( ((_type) _j).ast() );
+            }
+        } else{
+            return Ast.listComments(  ((_node) _j).ast() );
+        }
+    }
+
     /**
      * Mappings from JavaParser AST models (i.e. {@link AnnotationExpr}) 
      * ...to jdraft _java models (i.e. {@link _anno})

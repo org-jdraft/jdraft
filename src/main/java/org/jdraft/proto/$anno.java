@@ -26,11 +26,13 @@ import org.jdraft.Template;
 public final class $anno
     implements Template<_anno>, $proto<_anno, $anno>, $constructor.$part, $method.$part,
         $field.$part, $parameter.$part, $typeParameter.$part {
-    
+
+    /*
     public static $anno any(){
         return of();
     }
-    
+    */
+
     public static $anno of(){
         return new $anno( $id.of() );
     }
@@ -87,7 +89,7 @@ public final class $anno
     /** Default Matching constraint (by default ALWAYS Match)*/
     public Predicate<_anno> constraint = a -> true;
 
-    /** the id of the annotation */
+    /** the id / name of the annotation */
     public $id name;
 
     /** the member values of the annotation */
@@ -124,7 +126,7 @@ public final class $anno
      * @return
      */
     public $anno $name(){
-        this.name = $id.any();
+        this.name = $id.of();
         return this;
     }
     
@@ -217,7 +219,7 @@ public final class $anno
         
         Tokens ts = name.parse(_a.getName());
         if( ts == null ){
-            //System.out.println( "Decompose null for name "+name+" for \""+_a.getName()+"\"");
+            //System.out.println( "Parse null for name "+name+" for \""+_a.getName()+"\"");
             return null;
         }
         if ($mvs.isEmpty() ) {
@@ -353,7 +355,7 @@ public final class $anno
     @Override
     public $anno $(String target, String $Name) {
         name.$(target, $Name);
-        $mvs.forEach(mv -> mv.key.pattern = mv.key.pattern.$(target, $Name));
+        $mvs.forEach(mv -> mv.key.idStencil = mv.key.idStencil.$(target, $Name));
         return this;
     }
 
@@ -387,7 +389,7 @@ public final class $anno
         List<String> params = new ArrayList<>();
         params.addAll( this.name.list$() );
         this.$mvs.forEach(m -> {
-            params.addAll( m.key.pattern.list$() ); 
+            params.addAll( m.key.idStencil.list$() );
             params.addAll( m.value.list$() ); 
         });
         return params;
@@ -398,7 +400,7 @@ public final class $anno
         List<String> params = new ArrayList<>();
         params.addAll( this.name.list$() );
         this.$mvs.forEach(m -> {
-            params.addAll( m.key.pattern.list$Normalized() ); 
+            params.addAll( m.key.idStencil.list$Normalized() );
             params.addAll( m.value.list$Normalized() ); 
         });
         return params.stream().distinct().collect(Collectors.toList() );
@@ -762,7 +764,7 @@ public final class $anno
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("@");
-        sb.append(this.name.pattern);
+        sb.append(this.name.idStencil);
         if( this.$mvs.isEmpty() ){
             return sb.toString();
         }
@@ -784,7 +786,7 @@ public final class $anno
      */
     public static class $memberValue implements $proto<MemberValuePair, $memberValue> {
 
-        public $id key = $id.any();
+        public $id key = $id.of();
 
         public $expr value = new $expr(Expression.class, "$value$");
 
@@ -829,7 +831,7 @@ public final class $anno
         }
 
         public $memberValue(String name, Expression value) {
-            this.key.pattern = Stencil.of(name);
+            this.key.idStencil = Stencil.of(name);
             Stencil st = Stencil.of(value.toString());
             if( st.isMatchAny() ){
                 this.value = new $expr(Expression.class, value.toString() );   
@@ -858,7 +860,7 @@ public final class $anno
          * @return
          */
         public $memberValue $(String target, String $name) {
-            this.key.pattern = this.key.pattern.$(target, $name);
+            this.key.idStencil = this.key.idStencil.$(target, $name);
             this.value = this.value.$(target, $name);
             return this;
         }
@@ -935,11 +937,11 @@ public final class $anno
          */
         public Tokens parse(Expression onlyValueExpression){
             if( constraint.test( new MemberValuePair("_", onlyValueExpression) ) ) {
-                $expr.Select sel = value.select(onlyValueExpression.toString());
+                $expr.Select<?>sel = value.select(onlyValueExpression);
                 if( sel == null ){
                     return null;
                 }
-                return sel.tokens.asTokens();
+                return sel.tokens().asTokens();
             }
             return null;
         }

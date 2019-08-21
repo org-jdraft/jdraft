@@ -31,15 +31,7 @@ public final class $throws
     public static $throws none(){
         return of().and(t-> t.isEmpty() );
     }
-    
-    /**
-     * 
-     * @return 
-     */
-    public static $throws any(){
-        return of();
-    }
-    
+
     /**
      * Match ANY import
      * @return 
@@ -116,14 +108,14 @@ public final class $throws
     
     public Predicate<_throws> constraint = t-> true;
         
-    public List<$id> throwsPatterns = new ArrayList<>();
+    public List<$id> throws$ids = new ArrayList<>();
     
     private <C extends Throwable> $throws( Class<C>...thrownExceptions ){
         this(_throws.of(thrownExceptions));
     } 
     
     private $throws(_throws proto ){
-        proto.forEach( t-> throwsPatterns.add(new $id(t.toString())));
+        proto.forEach( t-> throws$ids.add(new $id(t.toString())));
     }
 
     private $throws( Predicate<_throws> constraint ){        
@@ -209,12 +201,12 @@ public final class $throws
     public Select select(_throws _i){
         if( this.constraint.test(_i)){            
             List<ReferenceType> listed = _i.list();
-            if( listed.size() < this.throwsPatterns.size() ){
+            if( listed.size() < this.throws$ids.size() ){
                 return null;
             }
             Tokens ts = new Tokens();
-            for(int i=0;i<throwsPatterns.size();i++ ){
-                $id $tp = throwsPatterns.get(i);
+            for(int i = 0; i< throws$ids.size(); i++ ){
+                $id $tp = throws$ids.get(i);
                 
                 Optional<ReferenceType> ort = 
                     listed.stream().filter(rt -> $tp.matches(rt.asString()) ).findFirst();
@@ -236,7 +228,7 @@ public final class $throws
  
     @Override
     public String toString() {
-        return "($throws) : \"" +this.throwsPatterns + "\"";
+        return "($throws) : \"" +this.throws$ids + "\"";
     }
 
     @Override
@@ -249,7 +241,7 @@ public final class $throws
             kvs.remove("$throws$");
             return $ths.draft(translator, kvs);
         } 
-        this.throwsPatterns.forEach( tp -> _ts.add( tp.draft(translator, keyValues) ) );
+        this.throws$ids.forEach(tp -> _ts.add( tp.draft(translator, keyValues) ) );
         return _ts;
     }
     
@@ -275,7 +267,7 @@ public final class $throws
      
     @Override
     public $throws $(String target, String $Name) {
-        this.throwsPatterns.forEach(t -> t.$(target, $Name) );        
+        this.throws$ids.forEach(t -> t.$(target, $Name) );
         return this;
     }
 
@@ -286,21 +278,21 @@ public final class $throws
      * @return 
      */
     public $throws hardcode$( Translator translator, Tokens kvs ) {
-        this.throwsPatterns.forEach(t -> t.hardcode$(translator, kvs) );
+        this.throws$ids.forEach(t -> t.hardcode$(translator, kvs) );
         return this;
     }
 
     @Override
     public List<String> list$() {
         List<String> $names = new ArrayList<>();
-        this.throwsPatterns.forEach(t -> $names.addAll( t.list$() ) );
+        this.throws$ids.forEach(t -> $names.addAll( t.list$() ) );
         return $names;
     }
 
     @Override
     public List<String> list$Normalized() {
         List<String> $namesNormalized = new ArrayList<>();
-        this.throwsPatterns.forEach(t -> $namesNormalized.addAll( t.list$Normalized() ) );
+        this.throws$ids.forEach(t -> $namesNormalized.addAll( t.list$Normalized() ) );
         return $namesNormalized.stream().distinct().collect(Collectors.toList());
     }
 
@@ -553,9 +545,9 @@ public final class $throws
             astNode.findCompilationUnit().get().walk(CallableDeclaration.class, e-> {
                 Select sel = select( e );
                 if( sel != null ){
-                    for(int i=0;i< this.throwsPatterns.size(); i++){
+                    for(int i = 0; i< this.throws$ids.size(); i++){
                         final NodeList<ReferenceType> nodes = sel.thrown.astNodeWithThrows.getThrownExceptions();
-                        $id th = this.throwsPatterns.get(i);
+                        $id th = this.throws$ids.get(i);
                         nodes.removeIf(t -> th.matches(t.toString()) );
                     }
                     _throws _ths = $replaceThrows.draft(sel.tokens.asTokens());

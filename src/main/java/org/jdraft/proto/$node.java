@@ -93,16 +93,16 @@ public final class $node implements $proto<Node, $node> {
     }
 
     /** the string pattern */
-    public Stencil pattern;
+    public Stencil nodeStencil;
     
     public Predicate<Node> constraint = t -> true;
     
-    public $node( String pattern ){
+    public $node( String pattern){
         this( Stencil.of(pattern) );
     }
     
-    public $node( Stencil pattern ){
-        this.pattern = pattern;
+    public $node( Stencil nodeStencil){
+        this.nodeStencil = nodeStencil;
         this.constraint = t-> true;
     }
 
@@ -113,7 +113,7 @@ public final class $node implements $proto<Node, $node> {
      * @return
      */
     public $node hardcode$( Translator translator, Tokens kvs ) {
-        this.pattern = this.pattern.hardcode$(translator, kvs);
+        this.nodeStencil = this.nodeStencil.hardcode$(translator, kvs);
         return this;
     }
 
@@ -138,7 +138,7 @@ public final class $node implements $proto<Node, $node> {
     * @return 
     */
     public $node $(String target, String $Name) {
-        this.pattern = this.pattern.$(target, $Name);
+        this.nodeStencil = this.nodeStencil.$(target, $Name);
         return this;
     }
     
@@ -147,7 +147,7 @@ public final class $node implements $proto<Node, $node> {
      * @return 
      */
     public List<String> list$() {
-        return this.pattern.list$();
+        return this.nodeStencil.list$();
     }
 
     /**
@@ -155,7 +155,7 @@ public final class $node implements $proto<Node, $node> {
      * @return 
      */
     public List<String> list$Normalized() {
-        return this.pattern.list$Normalized();
+        return this.nodeStencil.list$Normalized();
     }
 
     /**
@@ -165,7 +165,7 @@ public final class $node implements $proto<Node, $node> {
      */
     public Select select(Node astNode){
         if( this.constraint.test(astNode)) {
-            Tokens ts = this.pattern.parse( astNode.toString(Ast.PRINT_NO_COMMENTS) );
+            Tokens ts = this.nodeStencil.parse( astNode.toString(Ast.PRINT_NO_COMMENTS) );
             if( ts != null ){
                 return new Select( astNode, ts);
             }
@@ -330,9 +330,9 @@ public final class $node implements $proto<Node, $node> {
     public <N extends Node> N replaceIn(N astNode, $node $replacement) {
         astNode.walk(n -> {
             if( this.constraint.test(n) ) {
-                Tokens ts = this.pattern.parse( n.toString(Ast.PRINT_NO_COMMENTS) );
+                Tokens ts = this.nodeStencil.parse( n.toString(Ast.PRINT_NO_COMMENTS) );
                 if( ts != null ){
-                    String constructed = $replacement.pattern.draft(ts);
+                    String constructed = $replacement.nodeStencil.draft(ts);
                     if( ! replaceNode( n, constructed ) ){
                         //System.out.println("DIDNT REPLACE "+ n);
                     }                    
@@ -373,7 +373,7 @@ public final class $node implements $proto<Node, $node> {
         astNode.walk(n -> {
             if( this.constraint.test(n)) {
                 String st = n.toString(Ast.PRINT_NO_COMMENTS);
-                Tokens ts = this.pattern.parse( st );
+                Tokens ts = this.nodeStencil.parse( st );
                 if( ts != null ){
                     //System.out.println( "replacing "+ n +" of "+n.getClass()+" with "+ replacement );
                     boolean isRep = replaceNode( n, replacement );                    
@@ -395,7 +395,7 @@ public final class $node implements $proto<Node, $node> {
     public <N extends Node> N replaceIn(N astNode, Node replacement) {
         astNode.walk(n -> {
             if( this.constraint.test(n)) {
-                Tokens ts = this.pattern.parse( n.toString(Ast.PRINT_NO_COMMENTS) );
+                Tokens ts = this.nodeStencil.parse( n.toString(Ast.PRINT_NO_COMMENTS) );
                 if( ts != null ){
                     replaceNode( n, replacement );                    
                 }                

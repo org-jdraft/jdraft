@@ -35,15 +35,7 @@ import java.util.stream.Collectors;
 public final class $field implements Template<_field>, $proto<_field, $field> {
   
     public interface $part{} 
-    
-    /**
-     * 
-     * @return 
-     */
-    public static $field any(){
-        return of();
-    }
-    
+
     /** @return BUILD AND RETURN prototype instances */    
     public static $field of(){
         return of (_field.of(" $type$ $name$;") );
@@ -199,7 +191,7 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
      * @return
      */
     public $field $javadoc( String... javadoc ){
-        this.javadoc.contentsPattern = Stencil.of((Object[])javadoc);
+        this.javadoc.contentsStencil = Stencil.of((Object[])javadoc);
         return this;
     }
 
@@ -209,7 +201,7 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
      * @return
      */
      public $field $javadoc( _javadoc _jd ){
-        this.javadoc.contentsPattern = Stencil.of(_jd.getContent() );
+        this.javadoc.contentsStencil = Stencil.of(_jd.getContent() );
         return this;
      }
 
@@ -347,7 +339,7 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
      * @return
      */
     public $field $name(){
-        this.name.pattern = Stencil.of("$name$");
+        this.name.idStencil = Stencil.of("$name$");
         return this;
     }
 
@@ -367,7 +359,7 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
      * @return
      */
     public $field $name(String pattern ){
-        this.name.pattern = Stencil.of(pattern);
+        this.name.idStencil = Stencil.of(pattern);
         return this;
     }
 
@@ -387,7 +379,7 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
      */
     public $field $init(){
         this.init = $expr.of();        
-        this.init.exprPattern = Stencil.of( "$init$" );
+        this.init.exprStencil = Stencil.of( "$init$" );
         return this;
     }
 
@@ -397,7 +389,7 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
      * @return
      */
     public $field $init( String initPattern ){
-        this.init.exprPattern = Stencil.of(Expr.of(initPattern).toString() );
+        this.init.exprStencil = Stencil.of(Expr.of(initPattern).toString() );
         return this;
     }
 
@@ -407,7 +399,7 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
      * @return
      */
     public $field $init( Expression initProto ){
-        this.init.exprPattern = Stencil.of(initProto.toString() );
+        this.init.exprStencil = Stencil.of(initProto.toString() );
         return this;
     }
 
@@ -861,7 +853,7 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
         sb.append(" ");
         sb.append(type.draft(translator, baseMap) );
         sb.append(" ");
-        sb.append(name.pattern.draft(translator, baseMap) );
+        sb.append(name.idStencil.draft(translator, baseMap) );
         if( init != null ){
             Expression expr = init.draft(translator, baseMap);
             if( expr != null ){
@@ -933,7 +925,7 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
         sb.append(" ");
         sb.append(type.toString() );
         sb.append(" ");
-        sb.append(name.pattern );
+        sb.append(name.idStencil);
         if( init != null ){
             sb.append(" = ");
             sb.append(init.toString());

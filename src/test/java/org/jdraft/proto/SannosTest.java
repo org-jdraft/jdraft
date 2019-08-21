@@ -77,14 +77,20 @@ public class SannosTest extends TestCase {
         $annos $as = new $annos();
         _class _c = _class.of("C");
         assertNotNull( $as.select(_c) );
+        assertNotNull( $as.parse(_c.getAnnos()) );
         _c.annotate("@A");
         assertNotNull( $as.select(_c) );
+        assertNotNull( $as.parse(_c.getAnnos()) );
+
         
         
         $as = $annos.of("@A");
         assertNotNull( $as.select(_c) );
+        assertNotNull( $as.select(_c.getAnnos()) );
+        assertNotNull( $as.parse(_c.getAnnos()) );
         _c.removeAnnos("A");
         assertNull( $as.select(_c) );
+        assertNull( $as.parse(_c.getAnnos()) );
         
         $as = $annos.of($anno.of(Deprecated.class) );
         

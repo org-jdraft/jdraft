@@ -804,7 +804,7 @@ public final class _body implements _java {
             if (coms.size() > 0) {
                 c = coms.get(0);
             }
-            Collections.sort(coms, new _walk.CommentPositionComparator());
+            Collections.sort(coms, new Ast.CommentPositionComparator());
 
             for (int i = 0; i < bs.getStatements().size(); i++) {
                 Statement st = bs.getStatement(i);

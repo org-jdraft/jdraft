@@ -81,12 +81,12 @@ public class _codeProtoTest extends TestCase {
     public void testPkgInfo(){
         _code _pi = _packageInfo.of("package aaaa.ffff.gggg;", "import java.util.*;", "import java.net.URL;");
         assertEquals(1, $import.of(URL.class).count(_pi));
-        assertEquals(2, $import.any().count(_pi));        
+        assertEquals(2, $import.of().count(_pi));
     }
     
     public void testModuleInfo(){
         _code _pi = _moduleInfo.of("import java.util.*;", "import java.net.URL;", "module aaaa.ffff.gggg{}" );
         assertEquals(1, $import.of(URL.class).count(_pi));
-        assertEquals(2, $import.any().count(_pi));        
+        assertEquals(2, $import.of().count(_pi));
     }
 }

@@ -23,15 +23,7 @@ public final class $typeParameter
 
     /** */
     public interface $part { }
-    
-    /**
-     * Matches / constructs any 
-     * @return 
-     */
-    public static $typeParameter any(){
-        return new $typeParameter();
-    }
-    
+
     /**
      * prototype to match ANY typeParameter
      * @return 
@@ -139,7 +131,7 @@ public final class $typeParameter
     }
     
     public $typeParameter $anno(){
-        this.$anns = $annos.any();
+        this.$anns = $annos.of();
         return this;
     }
     
@@ -159,7 +151,7 @@ public final class $typeParameter
     }
     
     public $typeParameter $name( String $name){
-        this.$name.pattern = Stencil.of($name);
+        this.$name.idStencil = Stencil.of($name);
         return this;
     }
     

@@ -21,14 +21,6 @@ public final class $import
     implements Template<_import>, $proto<_import, $import> {
     
     /**
-     * $proto representing any import
-     * @return 
-     */
-    public static $import any(){
-        return of();
-    }
-    
-    /**
      * Match ANY import
      * @return 
      */
@@ -120,7 +112,7 @@ public final class $import
     
     public Predicate<_import> constraint = t-> true;
         
-    public Stencil importPattern;
+    public Stencil importStencil;
     
     /** 
      * Only match on static imports & compose a static import 
@@ -136,16 +128,16 @@ public final class $import
     
     private $import(_import proto ){
         if( proto.isWildcard() ){
-            this.importPattern = Stencil.of( proto.getName()+".*" );
+            this.importStencil = Stencil.of( proto.getName()+".*" );
         } else{
-            this.importPattern = Stencil.of( proto.getName() );
+            this.importStencil = Stencil.of( proto.getName() );
         }
         this.isStatic = proto.isStatic();
         this.isWildcard = proto.isWildcard();        
     }
 
     private $import( Predicate<_import> constraint ){
-        this.importPattern = Stencil.of("$any$");
+        this.importStencil = Stencil.of("$any$");
         this.constraint = constraint;
         this.isStatic = false;
         this.isWildcard = false;   
@@ -203,7 +195,7 @@ public final class $import
             if( _i.isWildcard() ){
                 name += ".*";
             }            
-            Tokens ts = importPattern.parse( name );
+            Tokens ts = importStencil.parse( name );
             if( ts != null ){
                 return new Select(_i, $tokens.of(ts) );
             }            
@@ -222,12 +214,12 @@ public final class $import
     
     @Override
     public String toString() {
-        return "($import) : \"" +this.importPattern + "\"";
+        return "($import) : \"" +this.importStencil + "\"";
     }
 
     @Override
     public _import draft(Translator translator, Map<String, Object> keyValues) {
-        _import _ii = _import.of(importPattern.draft(translator, keyValues));
+        _import _ii = _import.of(importStencil.draft(translator, keyValues));
         _ii.setStatic(this.isStatic);
         _ii.setWildcard(this.isWildcard);
         return _ii;
@@ -235,7 +227,7 @@ public final class $import
     
     @Override
     public $import $(String target, String $Name) {
-        this.importPattern = this.importPattern.$(target, $Name);
+        this.importStencil = this.importStencil.$(target, $Name);
         return this;
     }
 
@@ -246,18 +238,18 @@ public final class $import
      * @return 
      */
     public $import hardcode$( Translator translator, Tokens kvs ) {
-        this.importPattern = this.importPattern.hardcode$(translator,kvs);
+        this.importStencil = this.importStencil.hardcode$(translator,kvs);
         return this;
     }
 
     @Override
     public List<String> list$() {
-        return this.importPattern.list$();
+        return this.importStencil.list$();
     }
 
     @Override
     public List<String> list$Normalized() {
-        return this.importPattern.list$Normalized();
+        return this.importStencil.list$Normalized();
     }
 
     public boolean match( Node node ) {

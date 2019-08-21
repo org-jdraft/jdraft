@@ -25,16 +25,17 @@ public final class $case
     implements $proto<SwitchEntry, $case>, Template<SwitchEntry> {
 
     public static $case of( Predicate<SwitchEntry> constraint ){
-        return any().and(constraint);
+        return of().and(constraint);
     }
     
     public static $case of( String...acase ){
         return of( Ast.switchEntry(acase ));
     }
-    
-    public static $case any(){
-        return new $case( $expr.any() );
+
+    public static $case of(){
+        return new $case( $expr.of() );
     }
+
     
     public static $case of( SwitchEntry astSwitchEntry ){
         return new $case(astSwitchEntry );
@@ -50,7 +51,7 @@ public final class $case
     
     public Predicate<SwitchEntry> constraint = t-> true;
     
-    public $expr label = $expr.any();
+    public $expr label = $expr.of();
     
     public List<$stmt> statements = new ArrayList<>();
        
@@ -73,7 +74,7 @@ public final class $case
     }
     
     public $case $label(){
-        this.label = $expr.any();
+        this.label = $expr.of();
         return this;
     }
 
@@ -120,16 +121,14 @@ public final class $case
     public Select select( String... switchCase ){
         return select( Ast.caseStmt(switchCase));
     }
-    
+
+
     public Select select( SwitchEntry astSwitchEntry ){
         if( ! constraint.test(astSwitchEntry)){
             return null;
         }
         if( astSwitchEntry.getLabels().isEmpty() ){
-            if( this.label == null ){
-                return selectStatements( astSwitchEntry, new Tokens());
-            }
-            if( this.label.isMatchAny() ){
+            if( this.label == null || this.label.isMatchAny()){
                 return selectStatements( astSwitchEntry, new Tokens());
             }
             return null;

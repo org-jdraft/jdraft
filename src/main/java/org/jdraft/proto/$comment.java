@@ -2,7 +2,6 @@ package org.jdraft.proto;
 
 import org.jdraft._javadoc;
 import org.jdraft._java;
-import org.jdraft._walk;
 import org.jdraft.Ast;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.comments.*;
@@ -34,7 +33,7 @@ public final class $comment <C extends Comment>
     
     public static $comment<JavadocComment> javadocComment(){
         $comment $c = new $comment().omitBlockComments().omitLineComments();
-        $c.contentsPattern = Stencil.of("$javadoc$");
+        $c.contentsStencil = Stencil.of("$javadoc$");
         return $c;
     }
 
@@ -113,14 +112,14 @@ public final class $comment <C extends Comment>
     public Set<Class<? extends Comment>> commentClasses = new HashSet<>();
     
     /** The pattern for the contents of the Comment */
-    public Stencil contentsPattern = Stencil.of("$comment$");
+    public Stencil contentsStencil = Stencil.of("$comment$");
     
     public Predicate<C> constraint = t -> true;
     
     /** this is the any() constructor private intentionally*/
     private $comment(){
         commentClasses.addAll(ALL_COMMENT_CLASSES);
-        contentsPattern = Stencil.of("$comment$");        
+        contentsStencil = Stencil.of("$comment$");
     }
     
     /**
@@ -130,7 +129,7 @@ public final class $comment <C extends Comment>
      */
     public <C extends Comment> $comment( C astComment ){
         this.commentClasses.add(astComment.getClass() );
-        this.contentsPattern = Stencil.of(Ast.getContent(astComment) );        
+        this.contentsStencil = Stencil.of(Ast.getContent(astComment) );
     }
     
     /**
@@ -140,7 +139,7 @@ public final class $comment <C extends Comment>
      * @return 
      */
     public $comment hardcode$(Translator translator, Tokens kvs ) {
-        this.contentsPattern = this.contentsPattern.hardcode$(translator, kvs);        
+        this.contentsStencil = this.contentsStencil.hardcode$(translator, kvs);
         return this;
     }
     
@@ -208,7 +207,7 @@ public final class $comment <C extends Comment>
         if( !this.constraint.test( (C)astComment) ){
             return null;
         }        
-        Tokens ts = this.contentsPattern.parse(Ast.getContent(astComment));
+        Tokens ts = this.contentsStencil.parse(Ast.getContent(astComment));
         if( ts == null ){
             return null;
         }
@@ -222,7 +221,7 @@ public final class $comment <C extends Comment>
     public boolean isMatchAny(){
         try{
             return 
-                this.contentsPattern.isMatchAny() && this.constraint.test(null);
+                this.contentsStencil.isMatchAny() && this.constraint.test(null);
         }catch(Exception e){
             return false;
         }
@@ -313,7 +312,7 @@ public final class $comment <C extends Comment>
 
     @Override
     public <N extends Node> N forEachIn(N astNode, Predicate<C> commentMatchFn, Consumer<C> _nodeActionFn) {
-        _walk.comments(astNode, c->{
+        Ast.forComments(astNode, c->{
             Select s = select(c);
             if( s != null && commentMatchFn.test( (C)s.comment) ) {
                 _nodeActionFn.accept( (C)c);
@@ -330,7 +329,7 @@ public final class $comment <C extends Comment>
      * @return
      */
     public <_J extends _java> _J forSelectedIn(_java _j, Consumer<Select> selectActionFn) {
-        _walk.comments(_j, c->{
+        _java.forComments(_j, c->{
             Select s = select(c);
             if( s != null ){
                 selectActionFn.accept(s);
@@ -341,7 +340,7 @@ public final class $comment <C extends Comment>
     
     public <N extends Node> N forSelectedIn(N astNode, Consumer<Select> selectActionFn) {
         //_walk will organize by order
-        _walk.comments(astNode, c->{
+        Ast.forComments(astNode, c->{
             Select s = select(c);
             if( s != null ){
                 selectActionFn.accept(s);
@@ -351,7 +350,7 @@ public final class $comment <C extends Comment>
     }
     
     public <_J extends _java> _J forSelectedIn(_java _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
-        _walk.comments(_j, c->{
+        _java.forComments(_j, c->{
             Select s = select(c);
             if( s != null && selectConstraint.test(s)){
                 selectActionFn.accept(s);
@@ -361,7 +360,7 @@ public final class $comment <C extends Comment>
     }
     
     public <N extends Node> N forSelectedIn(N astNode, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
-        _walk.comments(astNode, c->{
+        Ast.forComments(astNode, c->{
             Select s = select(c);
             if( s != null && selectConstraint.test(s)){
                 selectActionFn.accept(s);
@@ -376,7 +375,7 @@ public final class $comment <C extends Comment>
     }
 
     public JavadocComment draftJavadocComment(Translator translator, Map<String, Object> keyValues) {
-        String contents = this.contentsPattern.draft(translator, keyValues);
+        String contents = this.contentsStencil.draft(translator, keyValues);
         if( contents.trim().length() == 0 ){
             return null;
         }
@@ -388,7 +387,7 @@ public final class $comment <C extends Comment>
     
     public BlockComment draftBlockComment(Translator translator, Map<String, Object> keyValues) {
         
-        String contents = this.contentsPattern.draft(translator, keyValues);
+        String contents = this.contentsStencil.draft(translator, keyValues);
         if( contents.trim().length() == 0 || contents.equals("null")){
             return null;
         }
@@ -396,7 +395,7 @@ public final class $comment <C extends Comment>
     }
     
     public LineComment draftLineComment(Translator translator, Map<String,Object> keyValues){
-        String contents = this.contentsPattern.draft(translator, keyValues);
+        String contents = this.contentsStencil.draft(translator, keyValues);
         if( contents.trim().length() == 0 || contents.equals("null")){
             return null;
         }
@@ -435,18 +434,18 @@ public final class $comment <C extends Comment>
 
     @Override
     public $comment $(String target, String $Name) {
-        this.contentsPattern = this.contentsPattern.$(target, $Name);
+        this.contentsStencil = this.contentsStencil.$(target, $Name);
         return this;
     }
 
     @Override
     public List<String> list$() {
-        return this.contentsPattern.list$();
+        return this.contentsStencil.list$();
     }
 
     @Override
     public List<String> list$Normalized() {
-        return this.contentsPattern.list$Normalized();
+        return this.contentsStencil.list$Normalized();
     }
 
     public boolean match( Node n){

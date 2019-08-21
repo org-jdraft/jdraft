@@ -15,7 +15,7 @@ public class StypeParametersTest extends TestCase {
         assertEquals( _typeParameters.of("A,B"), $typeParameters.of("A,B").draft());
         assertEquals( _typeParameters.of("A,B"), $typeParameters.of("<A,B>").draft());
         
-        assertEquals( _typeParameters.of(), $typeParameters.any().draft()); //any
+        assertEquals( _typeParameters.of(), $typeParameters.of().draft()); //any
         assertEquals( _typeParameters.of(), $typeParameters.none().draft()); //none
         assertEquals( _typeParameters.of("NAME"), $typeParameters.of("$name$").draft("name","NAME"));
         
@@ -27,10 +27,10 @@ public class StypeParametersTest extends TestCase {
     }
     
     public void testSelectMatch(){
-        assertTrue( $typeParameters.any().matches("A") );
-        assertTrue( $typeParameters.any().matches("A extends B & C") );
-        assertTrue( $typeParameters.any().matches("A extends B & C, D, E") );
-        assertTrue( $typeParameters.any().matches(_typeParameters.of()) );
+        assertTrue( $typeParameters.of().matches("A") );
+        assertTrue( $typeParameters.of().matches("A extends B & C") );
+        assertTrue( $typeParameters.of().matches("A extends B & C, D, E") );
+        assertTrue( $typeParameters.of().matches(_typeParameters.of()) );
         
         assertTrue( $typeParameters.of("A extends B & C, D, E").matches( "A extends B & C, D, E"));
         assertTrue( $typeParameters.of("A extends B & C, D, E").matches( "D, E, A extends B & C"));

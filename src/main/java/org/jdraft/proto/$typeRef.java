@@ -199,11 +199,7 @@ public final class $typeRef
         }
         return null;
     }
-    
-    public static $typeRef any(){
-        return of();
-    }
-    
+
     /**
      * 
      * @return 

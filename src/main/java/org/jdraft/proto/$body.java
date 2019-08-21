@@ -24,10 +24,12 @@ import java.util.function.*;
  * @author Eric
  */
 public final class $body implements Template<_body>, $proto<_body, $body>, $constructor.$part, $method.$part{
-    
+
+    /*
     public static $body any(){
         return of();
     }
+     */
     
     /**
      * ANY body (or lack of body)... so 
@@ -307,13 +309,43 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $cons
     public Select select (String...body ){
         return select(_body.of(body));
     }
-    
+
+    public Tokens parse( _body body ){
+        if( isMatchAny() ){
+            return new Tokens();
+        }
+        if( !this.constraint.test(body)){
+            return null;
+        }
+        if( !body.isImplemented() ){
+            if( this.isImplemented ){
+                return null;
+            }
+            return new Tokens();
+        }
+        if( this.isImplemented ){
+            $stmt.Select ss = this.bodyStmts.select((Statement)body.ast());
+            if( ss != null ){
+                return ss.tokens().asTokens();
+                //return new Select( body, ss.tokens);
+            }
+            return null;
+        }
+        return new Tokens();
+    }
+
     /**
      * 
      * @param body
      * @return 
      */
     public Select select( _body body ){
+        Tokens ts = parse(body);
+        if( ts == null ){
+            return null;
+        }
+        return new Select(body, $tokens.of( ts ));
+        /*
         if( isMatchAny() ){
             return new Select( body, $tokens.of());
         }
@@ -334,6 +366,8 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $cons
             return null;
         }
         return new Select( body, $tokens.of());
+
+         */
     }
     
     /**

@@ -45,20 +45,20 @@ public class StypeParameterTest extends TestCase {
     }
     
     public void testAny(){
-        assertTrue( $typeParameter.any().matches("A"));
-        assertTrue( $typeParameter.any().matches(new TypeParameter("A")));
-        assertTrue( $typeParameter.any().matches(_typeParameter.of("A")));
-        assertNotNull( $typeParameter.any().select("A"));
+        assertTrue( $typeParameter.of().matches("A"));
+        assertTrue( $typeParameter.of().matches(new TypeParameter("A")));
+        assertTrue( $typeParameter.of().matches(_typeParameter.of("A")));
+        assertNotNull( $typeParameter.of().select("A"));
         
-        assertTrue( $typeParameter.any().matches("A extends B"));
-        assertTrue( $typeParameter.any().matches("A extends B & C"));
+        assertTrue( $typeParameter.of().matches("A extends B"));
+        assertTrue( $typeParameter.of().matches("A extends B & C"));
         
         $typeParameter.Select sel = 
-            $typeParameter.any().select(_typeParameter.of("A"));
+            $typeParameter.of().select(_typeParameter.of("A"));
         assertNotNull( sel );
         
         assertEquals( _typeParameter.of("A"), 
-            $typeParameter.any().draft("name", "A"));
+            $typeParameter.of().draft("name", "A"));
     }
     
     public void testMatchTypeBound(){
@@ -104,7 +104,7 @@ public class StypeParameterTest extends TestCase {
             void m(Object r){}
         }
         AtomicInteger count = new AtomicInteger(0);
-        $typeParameter.any().forEachIn(C.class, tp ->count.incrementAndGet());
+        $typeParameter.of().forEachIn(C.class, tp ->count.incrementAndGet());
         assertEquals( 1, count.get());
     }
     

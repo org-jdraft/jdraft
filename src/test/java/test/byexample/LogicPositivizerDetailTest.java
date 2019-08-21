@@ -1,4 +1,4 @@
-package test.examples;
+package test.byexample;
 
 import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.stmt.Statement;

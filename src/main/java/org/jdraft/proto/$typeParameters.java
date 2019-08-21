@@ -27,14 +27,6 @@ public final class $typeParameters
      * 
      * @return 
      */
-    public static $typeParameters any(){
-        return of();
-    }
-    
-    /**
-     * 
-     * @return 
-     */
     public static $typeParameters none(){
         return of().and(tps-> tps.isEmpty());
     }

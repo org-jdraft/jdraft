@@ -28,18 +28,18 @@ public final class $catch implements $proto<CatchClause, $catch> {
     }
     
     public static $catch of( Predicate<CatchClause> constraint ){
-        return any().and(constraint);
+        return of().and(constraint);
     }
     
-    public static $catch any(){
-        return new $catch( $parameter.any(), $body.any() );
+    public static $catch of(){
+        return new $catch( $parameter.of(), $body.of() );
     }
     
     public Predicate<CatchClause> constraint = t-> true;
     
-    public $parameter $param = $parameter.any();
+    public $parameter $param = $parameter.of();
     
-    public $body $bd = $body.any();
+    public $body $bd = $body.of();
     
     public $catch(CatchClause astCC){
         $param = $parameter.of( astCC.getParameter() );
@@ -64,12 +64,12 @@ public final class $catch implements $proto<CatchClause, $catch> {
     }
 
     public $catch $parameter(){
-        this.$param = $parameter.any();
+        this.$param = $parameter.of();
         return this;
     }
     
     public $catch $body(){
-        this.$bd = $body.any();
+        this.$bd = $body.of();
         return this;
     }
     

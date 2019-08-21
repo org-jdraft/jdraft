@@ -103,7 +103,7 @@ public class SbodyTest extends TestCase {
     }
     
     public void testAnyConstruct(){
-        _body _b = $body.any().draft();
+        _body _b = $body.of().draft();
         System.out.println("BODY " + _b );
         assertFalse( _b.isImplemented() );
         
@@ -230,7 +230,7 @@ public class SbodyTest extends TestCase {
             System.out.println(2);        
         } ).$(Stmt.of("assert true;"), "meat");
         
-        System.out.println( $b.bodyStmts.stmtPattern );
+        System.out.println( $b.bodyStmts.stmtStencil);
         
         //test 1 meat
         assertTrue( $b.matches("System.out.println(1);", "meat();", "System.out.println(2);")); 

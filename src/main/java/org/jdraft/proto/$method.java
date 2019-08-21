@@ -69,10 +69,10 @@ public final class $method
         return of( _macro.to(anonymousObjectContainingMethod.getClass(), _method.of( theMethod ) ));
     }
 
-    public static $method any(){
-        return of();
-    }
-    
+    /**
+     *
+     * @return
+     */
     public static $method of(){
         return new $method(_method.of("$type$ $name$();") ).anyBody();
     }
@@ -161,7 +161,7 @@ public final class $method
     public $modifiers modifiers = $modifiers.of();
     public $typeRef type = $typeRef.of();
 
-    public $typeParameters typeParameters = $typeParameters.any();
+    public $typeParameters typeParameters = $typeParameters.of();
     public $id name = $id.of();    
     public $parameters parameters = $parameters.of();
     public $throws thrown = $throws.of();
@@ -187,13 +187,16 @@ public final class $method
                 this.modifiers = ($modifiers)parts[i];
             }
             else if(parts[i] instanceof $typeRef){
-                this.modifiers = ($modifiers)parts[i];
+                this.type = ($typeRef)parts[i];
             }
             else if(parts[i] instanceof $id){
                 this.name = ($id)parts[i];
             }
             else if(parts[i] instanceof $parameters){
                 this.parameters = ($parameters)parts[i];
+            }
+            else if(parts[i] instanceof $parameter){
+                this.parameters.$add(  ($parameter)parts[i] );
             }
             else if(parts[i] instanceof $body){
                 this.body = ($body)parts[i];
@@ -274,7 +277,7 @@ public final class $method
     @Override
     public List<String> list$Normalized(){
         List<String>normalized$ = new ArrayList<>();
-        if( javadoc.contentsPattern.isMatchAny() && javadoc.contentsPattern.list$().contains("javadoc")){
+        if( javadoc.contentsStencil.isMatchAny() && javadoc.contentsStencil.list$().contains("javadoc")){
             //Javadoc is OPTIONAL (it's only 
         } else{
             //all$.addAll( javadoc.list$() );
@@ -283,7 +286,7 @@ public final class $method
         normalized$.addAll( annos.list$Normalized() );
         normalized$.addAll( typeParameters.list$Normalized() );
         normalized$.addAll( type.list$Normalized() );        
-        normalized$.addAll( name.pattern.list$Normalized() );
+        normalized$.addAll( name.idStencil.list$Normalized() );
         normalized$.addAll( parameters.list$Normalized() );
         normalized$.addAll( thrown.list$Normalized() );
         normalized$.addAll( body.list$Normalized() );
@@ -293,7 +296,7 @@ public final class $method
     @Override
     public List<String> list$(){
         List<String>all$ = new ArrayList<>();
-        if( javadoc.contentsPattern.isMatchAny() && javadoc.contentsPattern.list$().contains("javadoc")){
+        if( javadoc.contentsStencil.isMatchAny() && javadoc.contentsStencil.list$().contains("javadoc")){
             //Javadoc is OPTIONAL (it's only 
         } else{
             all$.addAll( javadoc.list$() );
@@ -301,7 +304,7 @@ public final class $method
         all$.addAll( annos.list$() );
         all$.addAll( typeParameters.list$() );
         all$.addAll( type.list$() );        
-        all$.addAll( name.pattern.list$() );
+        all$.addAll( name.idStencil.list$() );
         all$.addAll( parameters.list$() );
         all$.addAll( thrown.list$() );
         all$.addAll( body.list$() );           
@@ -329,7 +332,7 @@ public final class $method
     }
     
     public $method $throws(){
-        this.thrown = $throws.any();
+        this.thrown = $throws.of();
         return this;
     }
     
@@ -429,7 +432,7 @@ public final class $method
     }
     
     public $method $typeParameters(){
-        this.typeParameters = $typeParameters.any(); //pattern("$typeParameters$");
+        this.typeParameters = $typeParameters.of(); //pattern("$typeParameters$");
         return this;
     }
     
@@ -479,12 +482,12 @@ public final class $method
     }
     
     public $method $javadoc( String... form ){
-        this.javadoc.contentsPattern = Stencil.of((Object[])form);
+        this.javadoc.contentsStencil = Stencil.of((Object[])form);
         return this;
     }
     
     public $method $body (){
-        this.body = $body.any();
+        this.body = $body.of();
         return this;
     }
     
@@ -675,7 +678,7 @@ public final class $method
         annos = annos.hardcode$(translator, kvs);
         typeParameters = typeParameters.hardcode$(translator, kvs);
         type = type.hardcode$(translator, kvs);
-        name.pattern = name.pattern.hardcode$(translator, kvs);
+        name.idStencil = name.idStencil.hardcode$(translator, kvs);
         parameters = parameters.hardcode$(translator, kvs);
         thrown = thrown.hardcode$(translator, kvs);
         body = body.hardcode$(translator, kvs);
@@ -690,7 +693,7 @@ public final class $method
         annos = annos.$(target, $Name);
         typeParameters = typeParameters.$(target, $Name);
         type = type.$(target, $Name);
-        name.pattern = name.pattern.$(target, $Name);
+        name.idStencil = name.idStencil.$(target, $Name);
         parameters = parameters.$(target, $Name);
         thrown = thrown.$(target, $Name);
         body = body.$(target, $Name);  

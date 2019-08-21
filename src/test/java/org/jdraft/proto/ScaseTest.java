@@ -22,7 +22,7 @@ public class ScaseTest extends TestCase {
     
     public void testConstructAny(){
         SwitchEntry se = 
-            $case.any().draft("$label", Expr.of(1),
+            $case.of().draft("$label", Expr.of(1),
                 "$statements", "System.out.println(1);");
         System.out.println( se );
     }
@@ -51,7 +51,7 @@ public class ScaseTest extends TestCase {
     }
     
     public void testCaseAny(){
-        $case $c = $case.any();
+        $case $c = $case.of();
         assertTrue( $c.matches("case 1:") );
         assertTrue( $c.matches("case 1: return 2;") );
         assertTrue( $c.matches("case 'c': System.out.println(1); System.out.println(2);break;") );
@@ -62,7 +62,7 @@ public class ScaseTest extends TestCase {
     
     
     public void testDynamicCase(){
-        $case $c = $case.of($expr.any(), $stmt.of( (String $content$)-> System.out.println($content$)));
+        $case $c = $case.of($expr.of(), $stmt.of( (String $content$)-> System.out.println($content$)));
         
         assertTrue($c.select("default: System.out.println(1);").is("content", 1));
         assertTrue($c.select("case 1: System.out.println('a');").is("content", 'a'));
@@ -106,7 +106,7 @@ public class ScaseTest extends TestCase {
                 }
             }
         }
-        assertEquals( 9, $case.any().count(CC.class));
+        assertEquals( 9, $case.of().count(CC.class));
         
         assertEquals(2, $.of(1).count(CC.class));
         

@@ -365,7 +365,7 @@ public class AstTest extends TestCase {
         assertFalse(Ast.AST_CACHE_MAP.containsKey(L.class));
     }
     public void testAstWalkList(){
-        System.out.println( _walk.listComments( Ast.type( Ex.class) ));
+        System.out.println( Ast.listComments( Ast.type( Ex.class) ));
 
         _walk.in(Ast.type( Ex.class ), Comment.class, c-> System.out.println(c.getClass()) );
         //Ast.walk( Ast.type( Ex.class ), Comment.class, c-> System.out.println(c.getClass()) );

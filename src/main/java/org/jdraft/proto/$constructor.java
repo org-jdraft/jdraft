@@ -122,14 +122,6 @@ public final class $constructor
      *
      * @return
      */
-    public static $constructor any(){
-        return of();
-    }
-
-    /**
-     *
-     * @return
-     */
     public static $constructor of(){
         return new $constructor(_constructor.of("$name$(){}") );
     }
@@ -206,7 +198,7 @@ public final class $constructor
     public $annos annos = new $annos();
     public $modifiers modifiers = $modifiers.of();
     
-    public $typeParameters typeParameters = $typeParameters.any();
+    public $typeParameters typeParameters = $typeParameters.of();
     public $id name = $id.of();
     public $parameters parameters = $parameters.of();
     public $throws thrown = $throws.of();
@@ -243,6 +235,9 @@ public final class $constructor
             }
             else if( components[i] instanceof $parameters ){
                 this.parameters = ($parameters)components[i];
+            }
+            else if(components[i] instanceof $parameter){
+                this.parameters.$add(  ($parameter)components[i] );
             }
             else if( components[i] instanceof $body ){
                 this.body = ($body)components[i];
@@ -317,7 +312,7 @@ public final class $constructor
         normalized$.addAll( javadoc.list$Normalized() );
         normalized$.addAll( annos.list$Normalized() );
         normalized$.addAll( typeParameters.list$Normalized() );
-        normalized$.addAll( name.pattern.list$Normalized() );
+        normalized$.addAll( name.idStencil.list$Normalized() );
         normalized$.addAll( parameters.list$Normalized() );
         
         normalized$.addAll( thrown.list$Normalized() );
@@ -331,7 +326,7 @@ public final class $constructor
         all$.addAll( javadoc.list$() );
         all$.addAll( annos.list$() );
         all$.addAll( typeParameters.list$() );
-        all$.addAll( name.pattern.list$() );
+        all$.addAll( name.idStencil.list$() );
         all$.addAll( parameters.list$() );
         all$.addAll( thrown.list$() );
         all$.addAll( body.list$() );        
@@ -349,7 +344,7 @@ public final class $constructor
     }
     
     public $constructor $javadoc( String... form ){
-        this.javadoc.contentsPattern = Stencil.of((Object[])form);
+        this.javadoc.contentsStencil = Stencil.of((Object[])form);
         return this;
     }
     
@@ -418,7 +413,7 @@ public final class $constructor
     }
     
     public $constructor $name(String name){
-        this.name.pattern = Stencil.of(name);
+        this.name.idStencil = Stencil.of(name);
         return this;
     }
     
@@ -438,7 +433,7 @@ public final class $constructor
     }
     
     public $constructor $typeParameters(){
-        this.typeParameters = $typeParameters.any();
+        this.typeParameters = $typeParameters.of();
         return this;
     }
     
@@ -629,7 +624,7 @@ public final class $constructor
         javadoc = javadoc.hardcode$(translator, kvs);
         annos = annos.hardcode$(translator, kvs);
         typeParameters = typeParameters.hardcode$(translator, kvs);
-        name.pattern = name.pattern.hardcode$(translator, kvs);
+        name.idStencil = name.idStencil.hardcode$(translator, kvs);
         parameters = parameters.hardcode$(translator, kvs);
         thrown = thrown.hardcode$(translator, kvs);
         body = body.hardcode$(translator, kvs );
@@ -643,7 +638,7 @@ public final class $constructor
         javadoc = javadoc.$(target, $Name);
         annos = annos.$(target, $Name);
         typeParameters = typeParameters.$(target, $Name);
-        name.pattern = name.pattern.$(target, $Name);
+        name.idStencil = name.idStencil.$(target, $Name);
         parameters = parameters.$(target, $Name);
         thrown = thrown.$(target, $Name);
         body = body.$(target, $Name);

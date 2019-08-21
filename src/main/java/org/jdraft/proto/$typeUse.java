@@ -51,6 +51,7 @@ public final class $typeUse {
     public static $typeUse of( Class clazz, Predicate<Node> constraint ){
         return of(clazz).and(constraint);
     }
+
     public final String packageName;
     
     /** 
@@ -97,12 +98,7 @@ public final class $typeUse {
             !(n.getParentNode().get() instanceof Name ||
               n.getParentNode().get() instanceof SimpleName ||      
               n.getParentNode().get() instanceof ClassOrInterfaceType) );
-    
 
-    public static $typeUse any(){
-        return of();
-    }
-    
     /**
      * Matches any 
      * @return the classUse

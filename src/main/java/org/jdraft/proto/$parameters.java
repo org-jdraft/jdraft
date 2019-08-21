@@ -22,10 +22,12 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
     List<$parameter> $params = new ArrayList<>();
     
     Predicate<_parameters> constraint = t-> true;
-    
+
+    /*
     public static $parameters any(){
         return of();
     }
+     */
     
     /**
      * Matches empty parameters lists only
@@ -42,7 +44,19 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
     public static $parameters of( _parameters _ps ){
         return new $parameters(_ps);
     }
-    
+
+
+    public static $parameters of( Class...parameterTypes){
+        $parameters $ps = of();
+        for(int i=0;i<parameterTypes.length;i++){
+
+            $ps = $ps.$add( $parameter.of(parameterTypes[i]) );
+            System.out.println( $ps );
+        }
+        //Arrays.stream(parameterTypes).forEach( pt -> $ps.$add( $parameter.of(pt)) );
+        return $ps;
+    }
+
     public static $parameters of( String...pattern){
         return new $parameters(_parameters.of(pattern));
     }
@@ -65,7 +79,15 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
     }
     
     public $parameters $add($parameter $param ){
-        this.$params.add($param);
+        //always rename the $id$ name to a parameter name based on the position in the parameters
+        // i.e. we dont want this: ( int $id$, int $id$ ) because this assumes that the names $id$ and $id$ must be the same
+        // we rather want this: (int $p1$, nit $p2$ ) so each name is distinct
+        $param.name.idStencil = $param.name.idStencil.rename$( "id", "p"+this.$params.size() + 1);
+        //if( $param.name.isMatchAny() ){
+
+        //} else {
+        //    this.$params.add($param);
+        //}
         return this;
     }
     
@@ -130,9 +152,10 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
             Tokens ts = new Tokens();
             for(int i=0;i<_ps.size(); i++ ){
                 $parameter.Select sel = this.$params.get(i).select( _ps.get(i) );
-                if( sel != null && ts.isConsistent(sel.tokens.asTokens()) ){
+                if( sel != null ) { //&& ts.isConsistent(sel.tokens.asTokens()) ){
                     ts.putAll( sel.tokens.asTokens() );
                 } else{
+                    System.out.println( "NO match on parameter "+ i + sel);
                     return null;
                 }
             }

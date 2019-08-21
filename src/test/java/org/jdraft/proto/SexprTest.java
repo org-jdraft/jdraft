@@ -467,7 +467,7 @@ public class SexprTest extends TestCase {
         
         $expr $e = $expr.longLiteral("0b0010000101000101101000010100010110100001010001011010000101000101L");
         assertEquals( $e.expressionClass, LongLiteralExpr.class);
-        System.out.println("PATTERN" + $e.exprPattern );
+        System.out.println("PATTERN" + $e.exprStencil);
         
         LongLiteralExpr lle = (LongLiteralExpr)Expr.of("0b0010000101000101101000010100010110100001010001011010000101000101L");
         System.out.println("VALUE  " + lle.getValue() );

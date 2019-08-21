@@ -27,11 +27,12 @@ public final class $annos
     /**
      * 
      * @return 
-     */
+
     public static $annos any(){
         return of();
     }
-    
+    */
+
     /**
      * Entities that have NO annotations applied to them */
     public static $annos none(){
@@ -247,22 +248,23 @@ public final class $annos
     }
 
     /**
-     *
+     * Returns the tokens from the _anns (or null if the anns dont comply with the proto)
      * @param _anns
      * @return
      */
-    public Select select( _annos _anns ){
+    public Tokens parse( _annos _anns ){
         if( ! this.constraint.test(_anns)){
             return null;
         }
         List<_anno> annosLeft = new ArrayList<>();
-        annosLeft.addAll( _anns.list() );
+        annosLeft.addAll(_anns.list());
         Tokens tokens = new Tokens();
         for(int i=0;i<this.$annosList.size();i++){
-            
+
             $anno $a = $annosList.get(i);
             Optional<_anno> oa = annosLeft.stream().filter(a-> $a.matches(a)).findFirst();
             if( !oa.isPresent() ){
+                //System.out.println("NO MATCHING "+ $a);
                 return null; //didnf find a matching anno
             }
             _anno got = oa.get();
@@ -273,6 +275,20 @@ public final class $annos
             } else{
                 return null;
             }
+        }
+        return tokens;
+    }
+
+    /**
+     *
+     * @param _anns
+     * @return
+     */
+    public Select select( _annos _anns ){
+
+        Tokens tokens = parse(_anns );
+        if( tokens == null ){
+            return null;
         }
         return new Select(_anns, tokens);
     }
@@ -292,6 +308,7 @@ public final class $annos
         }
         return false;
     }
+
 
     /**
      *

@@ -816,13 +816,21 @@ public final class $expr <T extends Expression>
     public static $expr<InstanceOfExpr> instanceOf(String pattern, Predicate<InstanceOfExpr> constraint ) {
         return new $expr( Expr.instanceOf(pattern ) ).and(constraint);
     }
-    
+
+    public static $expr<InstanceOfExpr> instanceOf( $typeRef type ){
+        return instanceOf("$expr$ instanceof $type$", e-> type.matches( e.getType() ) );
+    }
+
     /**
      * 
      * @return 
      */
     public static $expr<InstanceOfExpr> instanceOf() {
         return new $expr( InstanceOfExpr.class, "$instanceOf$" );
+    }
+
+    public static $expr<InstanceOfExpr> instanceOf( Class typeClass ){
+        return instanceOf( $typeRef.of(typeClass) );
     }
     
     /**
@@ -886,7 +894,7 @@ public final class $expr <T extends Expression>
      * @return 
      */
     public static $expr<IntegerLiteralExpr> intLiteral(String... pattern ) {
-        return new $expr( Expr.intLiteral(pattern ) );
+        return new $expr( IntegerLiteralExpr.class, Text.combine(pattern) );
     }
 
     /**
@@ -1524,10 +1532,12 @@ public final class $expr <T extends Expression>
     public static $expr<VariableDeclarationExpr> varLocal( ) {
         return new $expr( VariableDeclarationExpr.class, "$varDecl$");
     }
-    
+
+    /*
     public static $expr<Expression> any(){
         return of();
     }
+     */
     
     /**
      * Matches ANY expression
@@ -1550,7 +1560,7 @@ public final class $expr <T extends Expression>
     public Class<T> expressionClass;
     
     /** The pattern (including potential tokens within $_$) */
-    public Stencil exprPattern;
+    public Stencil exprStencil;
     
     /**
      * Matching Constraint this proto
@@ -1564,7 +1574,7 @@ public final class $expr <T extends Expression>
      */
     public $expr(T astExpressionProto){
         this.expressionClass = (Class<T>)astExpressionProto.getClass();
-        this.exprPattern = Stencil.of(astExpressionProto.toString() );
+        this.exprStencil = Stencil.of(astExpressionProto.toString() );
     }
    
     /**
@@ -1574,7 +1584,7 @@ public final class $expr <T extends Expression>
      */
     public $expr (Class<T>expressionClass, String stencil ){
         this.expressionClass = expressionClass;
-        this.exprPattern = Stencil.of(stencil);
+        this.exprStencil = Stencil.of(stencil);
     }
 
     /**
@@ -1590,13 +1600,13 @@ public final class $expr <T extends Expression>
     
     @Override
     public T fill(Object...values){
-        String str = exprPattern.fill(Translator.DEFAULT_TRANSLATOR, values);
+        String str = exprStencil.fill(Translator.DEFAULT_TRANSLATOR, values);
         return (T)Expr.of( str);
     }
 
     @Override
     public $expr<T> $(String target, String $name ) {
-        this.exprPattern = this.exprPattern.$(target, $name);
+        this.exprStencil = this.exprStencil.$(target, $name);
         return this;
     }
 
@@ -1608,7 +1618,7 @@ public final class $expr <T extends Expression>
      */
     @Override
     public $expr<T> $( Expression astExpr, String $name){
-        this.exprPattern = this.exprPattern.$(astExpr.toString(), $name);
+        this.exprStencil = this.exprStencil.$(astExpr.toString(), $name);
         return this;
     }
 
@@ -1620,7 +1630,7 @@ public final class $expr <T extends Expression>
      */
     @Override
     public $expr<T> hardcode$( Translator translator, Tokens tokens) {
-        this.exprPattern = this.exprPattern.hardcode$(translator, tokens);
+        this.exprStencil = this.exprStencil.hardcode$(translator, tokens);
         return this;
     }
 
@@ -1636,7 +1646,7 @@ public final class $expr <T extends Expression>
 
     @Override
     public T draft(Translator t, Map<String,Object> tokens ){
-        return (T)Expr.of(exprPattern.draft( t, tokens ));
+        return (T)Expr.of(exprStencil.draft( t, tokens ));
     }
 
     public boolean match( Node node ){
@@ -1675,19 +1685,19 @@ public final class $expr <T extends Expression>
         try{
             return  //this.expressionClass == Expression.class 
                 this.constraint.test(null) 
-                && this.exprPattern.isMatchAny();
+                && this.exprStencil.isMatchAny();
         }catch(Exception e){
             return false;
         }
     }
     @Override
     public List<String> list$(){
-        return this.exprPattern.list$();
+        return this.exprStencil.list$();
     }
 
     @Override
     public List<String> list$Normalized(){
-        return this.exprPattern.list$Normalized();
+        return this.exprStencil.list$Normalized();
     }
 
     /**
@@ -1738,14 +1748,14 @@ public final class $expr <T extends Expression>
             if( (astExpr instanceof IntegerLiteralExpr 
                 || astExpr instanceof DoubleLiteralExpr 
                 || astExpr instanceof LongLiteralExpr)  
-                    && exprPattern.isFixedText()) {       
+                    && exprStencil.isFixedText()) {
                 
                 //there is an issue here the lowercase and uppercase Expressions 1.23d =/= 1.23D (which they are equivalent
                 //need to handle postfixes 1.2f, 2.3d, 1000l
                 //need to handle postfixes 1.2F, 2.3D, 1000L
                 String st = astExpr.toString(Ast.PRINT_NO_COMMENTS);
                 try{
-                    if( compareNumberLiterals(exprPattern.getTextBlanks().getFixedText(), st) ){
+                    if( compareNumberLiterals(exprStencil.getTextBlanks().getFixedText(), st) ){
                         return new Select(astExpr, new Tokens());
                     }
                 }catch(Exception e){
@@ -1753,7 +1763,7 @@ public final class $expr <T extends Expression>
                 }
                 return null;                
             }
-            Tokens ts = exprPattern.parse(astExpr.toString(Ast.PRINT_NO_COMMENTS) );
+            Tokens ts = exprStencil.parse(astExpr.toString(Ast.PRINT_NO_COMMENTS) );
             if( ts != null ){
                 return new Select(astExpr, ts);
             }            
@@ -2185,7 +2195,7 @@ public final class $expr <T extends Expression>
 
     @Override
     public String toString() {
-        return "(" + this.expressionClass.getSimpleName() + ") : \"" + this.exprPattern + "\"";
+        return "(" + this.expressionClass.getSimpleName() + ") : \"" + this.exprStencil + "\"";
     }
        
     /**

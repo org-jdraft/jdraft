@@ -133,10 +133,11 @@ public final class $stmt<T extends Statement>
     /**
      * 
      * @return 
-     */
+
     public static $stmt<Statement> any(){
         return of();
     }
+    */
     
     /** 
      * Will match ANY statement, or empty statemen
@@ -799,7 +800,7 @@ public final class $stmt<T extends Statement>
     public Predicate<T> constraint = t-> true;
     
     /** The stencil representing the statement */
-    public Stencil stmtPattern;
+    public Stencil stmtStencil;
 
     /** the class of the statement */
     public Class<T> statementClass;
@@ -811,18 +812,18 @@ public final class $stmt<T extends Statement>
     private $stmt( Class<T> statementClass, String pattern){
         this.constraint = t->true;
         this.statementClass = statementClass;
-        this.stmtPattern = Stencil.of(pattern);
+        this.stmtStencil = Stencil.of(pattern);
     }
     
     private $stmt( Class<T> statementClass, Predicate<T> constraint ){
         this.statementClass = statementClass;
-        this.stmtPattern = Stencil.of("$any$");
+        this.stmtStencil = Stencil.of("$any$");
         this.constraint = constraint;        
     }
     
     public $stmt( T st ){
         this.statementClass = (Class<T>)st.getClass();
-        this.stmtPattern = Stencil.of( st.toString(NO_COMMENTS) );
+        this.stmtStencil = Stencil.of( st.toString(NO_COMMENTS) );
     }
 
     public $stmt<T> and(Predicate<T> constraint ){
@@ -832,13 +833,13 @@ public final class $stmt<T extends Statement>
     
     @Override
     public T fill(Object...values){
-        String str = stmtPattern.fill(Translator.DEFAULT_TRANSLATOR, values);
+        String str = stmtStencil.fill(Translator.DEFAULT_TRANSLATOR, values);
         return (T)Stmt.of( str);
     }
 
     @Override
     public $stmt $(String target, String $name ) {
-        this.stmtPattern = this.stmtPattern.$(target, $name);
+        this.stmtStencil = this.stmtStencil.$(target, $name);
         return this;
     }
 
@@ -897,7 +898,7 @@ public final class $stmt<T extends Statement>
         String stmtString = stmt.toString( Ast.PRINT_NO_COMMENTS );
         
         List<String> stringsToReplace = new ArrayList<>();
-        String fixedText  = this.stmtPattern.getTextBlanks().getFixedText();
+        String fixedText  = this.stmtStencil.getTextBlanks().getFixedText();
         int nextInd = fixedText.indexOf(stmtString);        
         while( nextInd >= 0 ){
             String padded = Text.matchNextPaddedTarget(fixedText, stmtString, nextInd );
@@ -905,8 +906,8 @@ public final class $stmt<T extends Statement>
             nextInd = fixedText.indexOf(stmtString, nextInd + stmtString.length() );
         }
         for(int i=0;i<stringsToReplace.size();i++){
-            int indexOfAssert = this.stmtPattern.getTextBlanks().getFixedText().indexOf( stringsToReplace.get(i) );
-            this.stmtPattern = this.stmtPattern.$( stringsToReplace.get(i), $name);
+            int indexOfAssert = this.stmtStencil.getTextBlanks().getFixedText().indexOf( stringsToReplace.get(i) );
+            this.stmtStencil = this.stmtStencil.$( stringsToReplace.get(i), $name);
         }
         return this;
     }
@@ -928,18 +929,18 @@ public final class $stmt<T extends Statement>
     @Override
     public T draft(Object...keyValues ){
         Tokens tokens = Tokens.of(keyValues);
-        return (T) parameterize$LabeledStmt( Stmt.of(stmtPattern.draft( tokens )), tokens );
+        return (T) parameterize$LabeledStmt( Stmt.of(stmtStencil.draft( tokens )), tokens );
     }
     
     @Override
     public T draft(Translator t, Object...keyValues ){
         Tokens tokens = Tokens.of(keyValues);
-        return (T) parameterize$LabeledStmt( Stmt.of(stmtPattern.draft( t, tokens )), tokens );
+        return (T) parameterize$LabeledStmt( Stmt.of(stmtStencil.draft( t, tokens )), tokens );
     }
 
     @Override
     public T draft(Map<String,Object> tokens ){
-        return (T) parameterize$LabeledStmt( Stmt.of(stmtPattern.draft( tokens )), tokens );
+        return (T) parameterize$LabeledStmt( Stmt.of(stmtStencil.draft( tokens )), tokens );
     }
     
     /**
@@ -954,7 +955,7 @@ public final class $stmt<T extends Statement>
 
     @Override
     public T draft(Translator t, Map<String,Object> tokens ){
-        return (T) parameterize$LabeledStmt( Stmt.of(stmtPattern.draft( t, tokens )), tokens );
+        return (T) parameterize$LabeledStmt( Stmt.of(stmtStencil.draft( t, tokens )), tokens );
     }
 
     public boolean match( Node node ) {
@@ -985,12 +986,12 @@ public final class $stmt<T extends Statement>
 
     @Override
     public List<String> list$(){        
-        return this.stmtPattern.list$();
+        return this.stmtStencil.list$();
     }
 
     @Override
     public List<String> list$Normalized(){
-        return this.stmtPattern.list$Normalized();
+        return this.stmtStencil.list$Normalized();
     }
 
     /**
@@ -1000,8 +1001,12 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public $stmt hardcode$( Translator translator, Tokens kvs ) {
-        this.stmtPattern = this.stmtPattern.hardcode$(translator, kvs);
+        this.stmtStencil = this.stmtStencil.hardcode$(translator, kvs);
         return this;
+    }
+
+    public Select<T> select(String s){
+        return select( new String[]{s});
     }
 
     /**
@@ -1021,7 +1026,7 @@ public final class $stmt<T extends Statement>
         try{
             return this.constraint.test(null) 
                 && this.statementClass == Statement.class 
-                && this.stmtPattern.isMatchAny();
+                && this.stmtStencil.isMatchAny();
         }catch(Exception e){
             return false;
         }
@@ -1043,7 +1048,7 @@ public final class $stmt<T extends Statement>
         if( ! constraint.test(t)){
             return null;
         }
-        Tokens st = this.stmtPattern.parse(astStmt.toString(NO_COMMENTS));
+        Tokens st = this.stmtStencil.parse(astStmt.toString(NO_COMMENTS));
         if( st == null ){
             return null;
         }      
@@ -1315,7 +1320,7 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public <_CT extends _type> _CT replaceIn(Class clazz, $stmt $repl){
-        return replaceIn( (_CT)_java.type(clazz), $repl);
+        return (_CT)replaceIn( (_type)_java.type(clazz), $repl);
     }
     
     /**
@@ -1396,7 +1401,7 @@ public final class $stmt<T extends Statement>
     
     @Override
     public String toString(){
-        return "("+this.statementClass.getSimpleName()+") : \""+ this.stmtPattern+"\"";
+        return "("+this.statementClass.getSimpleName()+") : \""+ this.stmtStencil +"\"";
     }
 
     /**

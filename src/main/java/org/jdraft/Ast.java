@@ -27,6 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static com.github.javaparser.utils.Utils.normalizeEolInTextBlock;
 import java.nio.file.Paths;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
@@ -3004,6 +3005,156 @@ public enum Ast {
                 }
                 int comp2 = o1.getEnd().get().compareTo(o2.getEnd().get());
                 return comp2;                
+            }
+            //if one or the other doesnt have a begin
+            // put the one WITHOUT a being BEFORE the other
+            // if neither have a being, return
+            if (!o1.getBegin().isPresent() && !o2.getBegin().isPresent()) {
+                return 0;
+            }
+            if (o1.getBegin().isPresent()) {
+                return -1;
+            }
+            return 1;
+        }
+    }
+
+    /**
+     * Given an AST node, walk check its comments (in order)
+     *
+     * @param astRootNode
+     * @param commentActionFn
+     */
+    public static void forComments(Node astRootNode, Consumer<Comment> commentActionFn) {
+        forComments(astRootNode, t -> true, commentActionFn);
+    }
+
+    /**
+     *
+     * @param <C>
+     * @param astRootNode
+     * @param commentClass
+     * @param commentMatchFn
+     * @param commentActionFn
+     */
+    public static <C extends Comment> void forComments(
+            Node astRootNode, Class<C> commentClass, Predicate<C> commentMatchFn, Consumer<C> commentActionFn) {
+        if (astRootNode instanceof NodeWithJavadoc && commentClass == JavadocComment.class) {
+            NodeWithJavadoc nwj = (NodeWithJavadoc) astRootNode;
+            if (nwj.getJavadocComment().isPresent()) {
+                if (commentMatchFn.test((C) nwj.getJavadocComment().get())) {
+                    commentActionFn.accept((C) nwj.getJavadocComment().get());
+                }
+            }
+        }
+        List<Comment> acs = astRootNode.getAllContainedComments();
+
+        Collections.sort(acs, new CommentPositionComparator());
+        LinkedHashSet<Comment> lhs = new LinkedHashSet<>();
+        lhs.addAll(acs);
+
+        lhs.stream().filter(c ->
+                commentClass.isAssignableFrom(c.getClass())
+                        && commentMatchFn.test((C) c))
+                .forEach(c -> commentActionFn.accept((C) c));
+    }
+
+    /**
+     * @param astRootNode
+     * @param commentMatchFn
+     * @param commentActionFn
+     */
+    public static void forComments(
+            Node astRootNode, Predicate<Comment> commentMatchFn, Consumer<Comment> commentActionFn) {
+
+        if (astRootNode == null) {
+            return;
+        }
+        if (astRootNode instanceof NodeWithJavadoc) {
+            NodeWithJavadoc nwj = (NodeWithJavadoc) astRootNode;
+            if (nwj.getJavadocComment().isPresent()) {
+                if (commentMatchFn.test((Comment) nwj.getJavadocComment().get())) {
+                    commentActionFn.accept((Comment) nwj.getJavadocComment().get());
+                }
+            }
+        }
+        List<Comment> acs = astRootNode.getAllContainedComments();
+        List<Comment> ocs = astRootNode.getOrphanComments();
+        acs.addAll(ocs);
+
+        Collections.sort(acs, new CommentPositionComparator());
+        LinkedHashSet<Comment> lhs = new LinkedHashSet<>();
+        lhs.addAll(acs);
+        lhs.stream()
+                .filter(commentMatchFn).forEach(commentActionFn);
+    }
+
+
+    /**
+     * list all comments within this astRootNode (including the comment applied
+     * to the astRootNode if the AstRootNode is an instance of {@link NodeWithJavadoc}
+     *
+     * @param astRootNode the root node to look through
+     * @return a list of all comments on or underneath the node
+     */
+    public static List<Comment> listComments(Node astRootNode) {
+        List<Comment> found = new ArrayList<>();
+        forComments(astRootNode, c -> found.add(c));
+        return found;
+    }
+
+    /**
+     * list all comments within this astRootNode that match the predicate
+     * (including the comment applied to the astRootNode if the AstRootNode is
+     * an instance of {@link NodeWithJavadoc})
+     *
+     * @param astRootNode    the root node to look through
+     * @param commentMatchFn matching function for comments
+     * @return a list of all comments on or underneath the node
+     */
+    public static List<Comment> listComments(Node astRootNode, Predicate<Comment> commentMatchFn) {
+        List<Comment> found = new ArrayList<>();
+        forComments(astRootNode, c -> {
+            if (commentMatchFn.test(c)) {
+                found.add(c);
+            }
+        });
+        return found;
+    }
+
+    /**
+     * @param <C>                the comment class
+     * @param astRootNode        the root node to start the search
+     * @param commentTargetClass the TYPE of comment ({@link Comment},
+     *                           {@link LineComment}, {@link JavadocComment}, {@link BlockComment})
+     * @param commentMatchFn     predicate for selecting comments
+     * @return a list of matching comments
+     */
+    public static <C extends Comment> List<C> listComments(
+            Node astRootNode, Class<C> commentTargetClass, Predicate<C> commentMatchFn) {
+
+        List<C> found = new ArrayList<>();
+        forComments(astRootNode, c -> {
+            if (commentTargetClass.isAssignableFrom(c.getClass())) {
+                C cc = (C) c;
+                if (commentMatchFn.test(cc)) {
+                    found.add(cc);
+                }
+            }
+        });
+        return found;
+    }
+
+    /**
+     * Comparator for Comments within an AST node that organizes based on the
+     * start position
+     */
+    public static class CommentPositionComparator implements Comparator<Comment> {
+
+        @Override
+        public int compare(Comment o1, Comment o2) {
+            if (o1.getBegin().isPresent() && o2.getBegin().isPresent()) {
+                return o1.getBegin().get().compareTo(o2.getBegin().get());
             }
             //if one or the other doesnt have a begin
             // put the one WITHOUT a being BEFORE the other

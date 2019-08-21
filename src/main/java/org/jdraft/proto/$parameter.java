@@ -20,7 +20,8 @@ import java.util.stream.Collectors;
 /**
  * @author Eric
  */
-public final class $parameter implements Template<_parameter>, $proto<_parameter, $parameter> {
+public final class $parameter implements Template<_parameter>, $proto<_parameter, $parameter>,
+        $method.$part, $constructor.$part {
 
     /**
      * the component parts of a $parameter
@@ -123,14 +124,6 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
      * 
      * @return 
      */
-    public static $parameter any(){
-        return of();
-    }
-    
-    /**
-     * 
-     * @return 
-     */
     public static $parameter of(){
         return new $parameter( $typeRef.of( ), $id.of() );
     }
@@ -162,7 +155,11 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
     public static $parameter of( String parameter ){
         return new $parameter( _parameter.of(parameter), p->true );
     }
-    
+
+    public static $parameter of( Class parameterType ){
+        return new $parameter( $typeRef.of(parameterType));
+    }
+
     /**
      * 
      * @param type
@@ -196,13 +193,13 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
         if( _p.isVarArg() ){
             this.isVarArg = true;
         }
-        this.name.pattern = Stencil.of(_p.getName() );
+        this.name.idStencil = Stencil.of(_p.getName() );
         this.type = $typeRef.of(_p.getType());     
         this.annos = $annos.of( _p.getAnnos() );        
     }
     
     public $parameter $anno(){
-        this.annos = $annos.any();
+        this.annos = $annos.of();
         return this;
     }
     
@@ -222,7 +219,7 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
     }
     
     public $parameter $name(){
-        this.name = $id.any();
+        this.name = $id.of();
         return this;
     }
     
@@ -232,7 +229,7 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
     }
     
     public $parameter $name( String name ){
-        this.name.pattern = Stencil.of(name);
+        this.name.idStencil = Stencil.of(name);
         return this;
     }
     
@@ -247,7 +244,7 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
     }
     
     public $parameter $type(){
-        this.type = $typeRef.any();
+        this.type = $typeRef.of();
         return this;
     }
     
@@ -306,11 +303,13 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append( this.annos.toString() );
+        if( !this.annos.isMatchAny() ) {
+            sb.append(this.annos.toString());
+        }
         if( isFinal ){
             sb.append("final ");
         }
-        sb.append( type );
+        sb.append( type.type );
         if( isVarArg ){
             sb.append("...");
         }

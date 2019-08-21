@@ -42,15 +42,6 @@ public final class $var
     
     /** marker interface for components that are a part of a var */ 
     public interface $part{}   
-    
-    /**
-     * 
-     * @return 
-     */
-    public static $var any(){
-        return of();
-    }
-
 
     /**
      * Only select local variables (NOT member fields)
@@ -297,12 +288,12 @@ public final class $var
     }
 
     public $var $name( String name ){
-        this.name.pattern = Stencil.of(name);
+        this.name.idStencil = Stencil.of(name);
         return this;
     }
     
     public $var $name( String name, Predicate<String> constraint){
-        this.name.pattern = Stencil.of(name);
+        this.name.idStencil = Stencil.of(name);
         this.name.and(constraint);
         return this;
     }
@@ -313,7 +304,7 @@ public final class $var
     }
 
     public $var $type(){
-        this.type = $typeRef.any();
+        this.type = $typeRef.of();
         return this;
     }
     
@@ -343,7 +334,7 @@ public final class $var
     }
     
     public $var $init(){
-        this.init = $expr.any();
+        this.init = $expr.of();
         return this;
     }
     

@@ -20,7 +20,7 @@ public class ScatchTest
                 }
             }
         }
-        assertEquals(1, $catch.any().count(C.class));
+        assertEquals(1, $catch.of().count(C.class));
     }
     
 }

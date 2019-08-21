@@ -410,6 +410,14 @@ public interface $proto<P, $P extends $proto>{
     P firstIn(Node astStartNode, Predicate<P> nodeMatchFn);
 
     /**
+     *
+     * @param instance
+     * @param <S>
+     * @return
+     */
+    <S extends selected> S select(P instance);
+
+    /**
      * 
      * @param <S>
      * @param clazz

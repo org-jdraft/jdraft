@@ -32,6 +32,51 @@ import org.jdraft.macro._remove;
  */
 public final class $ {
 
+    public static $modifiers PUBLIC = $modifiers.of("public");
+    public static $modifiers PRIVATE = $modifiers.of("private");
+    public static $modifiers PROTECTED = $modifiers.of("protected");
+
+    public static $modifiers ABSTRACT = $modifiers.of("abstract");
+    public static $modifiers STATIC = $modifiers.of("static");
+    public static $modifiers FINAL = $modifiers.of("final");
+
+    public static $modifiers SYNCHRONIZED = $modifiers.of("synchronized");
+    public static $modifiers TRANSIENT = $modifiers.of("transient");
+    public static $modifiers VOLATILE = $modifiers.of("volatile");
+    public static $modifiers NATIVE = $modifiers.of("native");
+    public static $modifiers STRICT_FP = $modifiers.of("strictfp");
+
+    public static final UnaryExpr.Operator PLUS = UnaryExpr.Operator.PLUS; //+(val)
+    public static final UnaryExpr.Operator MINUS= UnaryExpr.Operator.MINUS; //-(val)
+    public static final UnaryExpr.Operator PREFIX_INCREMENT= UnaryExpr.Operator.PREFIX_INCREMENT; //++(val)
+    public static final UnaryExpr.Operator PREFIX_DECREMENT= UnaryExpr.Operator.PREFIX_DECREMENT; //--(val)
+    public static final UnaryExpr.Operator LOGICAL_COMPLIMENT = UnaryExpr.Operator.LOGICAL_COMPLEMENT; //!(val)
+    public static final UnaryExpr.Operator BITWISE_COMPLIMENT = UnaryExpr.Operator.BITWISE_COMPLEMENT; //~(val)
+    public static final UnaryExpr.Operator POSTFIX_INCREMENT= UnaryExpr.Operator.POSTFIX_INCREMENT; //(val)++
+    public static final UnaryExpr.Operator POSTFIX_DECREMENT= UnaryExpr.Operator.POSTFIX_DECREMENT; //(val)--
+
+    public static final BinaryExpr.Operator OR = BinaryExpr.Operator.OR; // a || b
+    public static final BinaryExpr.Operator AND = BinaryExpr.Operator.AND; // a && b
+    public static final BinaryExpr.Operator BINARY_OR = BinaryExpr.Operator.BINARY_OR; // a | b
+    public static final BinaryExpr.Operator BINARY_AND = BinaryExpr.Operator.BINARY_AND; // a & b
+    public static final BinaryExpr.Operator XOR = BinaryExpr.Operator.XOR; // a ^ b
+    public static final BinaryExpr.Operator EQUALS = BinaryExpr.Operator.EQUALS; // a == b
+    public static final BinaryExpr.Operator NOT_EQUALS = BinaryExpr.Operator.NOT_EQUALS; // a != b
+    public static final BinaryExpr.Operator LESS = BinaryExpr.Operator.LESS; // a < b
+    public static final BinaryExpr.Operator LESS_EQUALS = BinaryExpr.Operator.LESS_EQUALS; // a <= b
+    public static final BinaryExpr.Operator GREATER = BinaryExpr.Operator.GREATER; // a > b
+    public static final BinaryExpr.Operator GREATER_EQUALS = BinaryExpr.Operator.GREATER_EQUALS; // a >= b
+
+    public static final BinaryExpr.Operator ADD = BinaryExpr.Operator.PLUS; // a + b
+    public static final BinaryExpr.Operator SUBTRACT = BinaryExpr.Operator.MINUS; // a - b
+    public static final BinaryExpr.Operator MULTIPLY = BinaryExpr.Operator.MULTIPLY; // a * b
+    public static final BinaryExpr.Operator DIVIDE = BinaryExpr.Operator.DIVIDE; // a / b
+    public static final BinaryExpr.Operator REMAINDER = BinaryExpr.Operator.REMAINDER; // a % b
+
+    public static final BinaryExpr.Operator SHIFT_LEFT = BinaryExpr.Operator.LEFT_SHIFT; // a < b
+    public static final BinaryExpr.Operator SHIFT_RIGHT = BinaryExpr.Operator.SIGNED_RIGHT_SHIFT; // a >> b
+    public static final BinaryExpr.Operator SHIFT_RIGHT_UNSIGNED = BinaryExpr.Operator.UNSIGNED_RIGHT_SHIFT; // a >>> b
+
     /** cant construct one of these */
     private $(){}
 
@@ -49,6 +94,18 @@ public final class $ {
      */
     public static <N extends Node> $node of(String proto, Class<N>...nodeClasses){
         return $node.of(proto, nodeClasses);
+    }
+
+    public static $node of(Class<? extends Node> nodeClass){
+        return $node.of(new Class[]{nodeClass});
+    }
+
+    public static $node of(Class<? extends Node> nodeClass, Class<? extends Node> nodeClass2){
+        return $node.of(new Class[]{nodeClass, nodeClass2});
+    }
+
+    public static $node of(Class<? extends Node> nodeClass, Class<? extends Node> nodeClass2, Class<? extends Node> nodeClass3){
+        return $node.of(new Class[]{nodeClass, nodeClass2, nodeClass3});
     }
 
     /**
@@ -71,7 +128,7 @@ public final class $ {
     }
 
     public static $anno anno(){
-        return $anno.any();
+        return $anno.of();
     }
     
     public static $anno anno( $id name, $anno.$memberValue...memberValues ){
@@ -79,7 +136,7 @@ public final class $ {
     }
     
     public static $anno anno( Predicate<_anno> constraint){
-        return $anno.any().and(constraint);
+        return $anno.of().and(constraint);
     }
     
     public static $anno anno( String pattern){
@@ -99,7 +156,7 @@ public final class $ {
     }
     
     public static $annos annos(){
-        return $annos.any();
+        return $annos.of();
     }
     
     public static $annos annos( Predicate<_annos> constraint ){
@@ -119,7 +176,7 @@ public final class $ {
     }
     
     public static $body body(){
-        return $body.any();
+        return $body.of();
     }
     
     public static $body body( Predicate<_body> constraint){
@@ -212,7 +269,7 @@ public final class $ {
     } 
     
     public static $constructor constructor(){
-        return $constructor.any();
+        return $constructor.of();
     }
 
     public static $constructor constructor( Predicate<_constructor> constraint){
@@ -253,7 +310,7 @@ public final class $ {
     }
 
     public static $method method(){
-        return $method.any();
+        return $method.of();
     }
 
     public static $method method(String methodPrototype){
@@ -278,7 +335,7 @@ public final class $ {
     }
 
     public static $method method(Predicate<_method> constraint){
-        return $method.any().and(constraint);
+        return $method.of().and(constraint);
     }
 
     public static $method method(_method ms){
@@ -298,11 +355,15 @@ public final class $ {
     }
 
     public static $expr expr(){
-        return $expr.any();
+        return $expr.of();
+    }
+
+    public static $expr literal(){
+        return $expr.of().and(e-> e.isLiteralExpr());
     }
     
     public static $expr expr(Predicate<Expression> constraint){
-        return $expr.any().and(constraint);
+        return $expr.of().and(constraint);
     }
     
     public static $expr expr(String... pattern){
@@ -473,6 +534,10 @@ public final class $ {
         return $expr.of(be);
     }
 
+    public static $expr<BinaryExpr> binaryExpr( BinaryExpr.Operator bo){
+        return $expr.binary( be-> be.getOperator() == bo);
+    }
+
     public static $expr<BinaryExpr> binaryExpr(Predicate<BinaryExpr> be){        
         return $expr.binary(be);
     }
@@ -488,7 +553,11 @@ public final class $ {
     public static $expr<BooleanLiteralExpr> booleanLiteral(Predicate<BooleanLiteralExpr> bl){
         return $expr.booleanLiteral(bl);
     }
-        
+
+    public static $expr<CastExpr> cast(Class castClazz){
+        return $expr.cast("($type$)$expr$").and( c->Ast.typesEqual(c.getType(), Ast.typeRef(castClazz) ) );
+    }
+
     public static $expr<CastExpr> cast(){
         return $expr.cast();
     }
@@ -605,6 +674,10 @@ public final class $ {
         return $expr.instanceOf(io);
     }
 
+    public static $expr<InstanceOfExpr> instanceOf(Class instanceOfClass){
+        return $expr.instanceOf(instanceOfClass);
+    }
+
     public static $expr<InstanceOfExpr> instanceOf(InstanceOfExpr io){
         return $expr.of(io);
     }
@@ -616,7 +689,11 @@ public final class $ {
     public static $expr<IntegerLiteralExpr> intLiteral(){
         return $expr.intLiteral();
     }
-    
+
+    public static $expr<IntegerLiteralExpr> intLiteral(String pattern){
+        return $expr.intLiteral(pattern);
+    }
+
     public static $expr<IntegerLiteralExpr> intLiteral(Predicate<IntegerLiteralExpr> il){
         return $expr.intLiteral(il);
     }
@@ -789,6 +866,10 @@ public final class $ {
         return $expr.of(ue);
     }
 
+    public static $expr<UnaryExpr> unary( UnaryExpr.Operator op){
+        return $expr.unary(u-> u.getOperator() == op);
+    }
+
     public static $expr<UnaryExpr> unary(Predicate<UnaryExpr> ue){
         return $expr.unary();
     }
@@ -810,7 +891,7 @@ public final class $ {
     }
         
     public static $case switchCase(){
-        return $case.any();
+        return $case.of();
     }
 
     public static $case switchCase(String... sc){
@@ -822,11 +903,11 @@ public final class $ {
     }
 
     public static $case switchCase(Predicate<SwitchEntry> se){
-        return $case.any().and(se);
+        return $case.of().and(se);
     }
     
     public static $catch catchClause(){
-        return $catch.any();
+        return $catch.of();
     }
 
     public static $catch catchClause(String cc){
@@ -838,11 +919,11 @@ public final class $ {
     }
 
     public static $catch catchClause(Predicate<CatchClause> cc ){
-        return $catch.any().and(cc);
+        return $catch.of().and(cc);
     }
         
     public static $field field(){
-        return $field.any();
+        return $field.of();
     }
 
     public static $field field(String fc){
@@ -850,7 +931,7 @@ public final class $ {
     }
     
     public static $field field(Predicate<_field> constraint){
-        return $field.any().and(constraint);
+        return $field.of().and(constraint);
     }
 
     public static $field field(_field f){
@@ -858,7 +939,7 @@ public final class $ {
     }
     
     public static $import importStmt(){
-        return $import.any();
+        return $import.of();
     }
 
     public static $import importStmt(String pattern){
@@ -866,7 +947,7 @@ public final class $ {
     }
     
     public static $import importStmt(Predicate<_import> constraint){
-        return $import.any().and(constraint);
+        return $import.of().and(constraint);
     }
 
     public static $import importStmt( _import imp){
@@ -874,7 +955,7 @@ public final class $ {
     }
 
     public static $modifiers modifiers(){
-        return $modifiers.any();
+        return $modifiers.of();
     }
 
     public static $modifiers modifiers(String...ms){
@@ -882,7 +963,7 @@ public final class $ {
     }
     
     public static $modifiers modifiers(Predicate<_modifiers> constraint){
-        return $modifiers.any().and(constraint);
+        return $modifiers.of().and(constraint);
     }
 
     public static $modifiers modifiers(_modifiers ms){
@@ -890,7 +971,7 @@ public final class $ {
     }
 
     public static $parameters parameters(){
-        return $parameters.any();
+        return $parameters.of();
     }
 
     public static $parameters parameters(String... parameters){
@@ -898,11 +979,11 @@ public final class $ {
     }
     
     public static $parameters parameters(Predicate<_parameters> constraint){
-        return $parameters.any().and(constraint);
+        return $parameters.of().and(constraint);
     }
     
     public static $parameter parameter(){
-        return $parameter.any();
+        return $parameter.of();
     }
 
     public static $parameter parameter(String p){
@@ -914,11 +995,11 @@ public final class $ {
     }
 
     public static $parameter parameter(Predicate<_parameter> constraint){
-        return $parameter.any().and(constraint);
+        return $parameter.of().and(constraint);
     }
     
     public static $stmt stmt(){
-        return $stmt.any();
+        return $stmt.of();
     }
 
     public static $stmt stmt(String...pattern){
@@ -1611,7 +1692,7 @@ public final class $ {
     }
     
     public static $throws thrown(){
-        return $throws.any();
+        return $throws.of();
     }
 
     public static $throws thrown(String...th){
@@ -1623,11 +1704,11 @@ public final class $ {
     }
 
     public static $throws thrown(Predicate<_throws> ts){
-        return $throws.any().and( ts);
+        return $throws.of().and( ts);
     }
     
     public static $typeParameter typeParameter(){
-        return $typeParameter.any();
+        return $typeParameter.of();
     }
 
     public static $typeParameter typeParameter(String tp){
@@ -1639,11 +1720,11 @@ public final class $ {
     }
 
     public static $typeParameter typeParameter(Predicate<_typeParameter> tp){
-        return $typeParameter.any().and(tp);
+        return $typeParameter.of().and(tp);
     }
     
     public static $typeParameters typeParameters(){
-        return $typeParameters.any();
+        return $typeParameters.of();
     }
 
     public static $typeParameters typeParameters(String...tps){
@@ -1655,11 +1736,11 @@ public final class $ {
     }
 
     public static $typeParameters typeParameters(Predicate<_typeParameters> tps){
-        return $typeParameters.any().and(tps);
+        return $typeParameters.of().and(tps);
     }
     
     public static $typeRef typeRef(){
-        return $typeRef.any();
+        return $typeRef.of();
     }
 
     public static $typeRef typeRef(String tr){
@@ -1675,11 +1756,11 @@ public final class $ {
     }
 
     public static $typeRef typeRef(Predicate<_typeRef> tr){
-        return $typeRef.any().and(tr);
+        return $typeRef.of().and(tr);
     }
     
     public static $var var(){
-        return $var.any();
+        return $var.of();
     }
 
     public static $var var(String var){
@@ -1691,6 +1772,6 @@ public final class $ {
     }
     
     public static $var var(Predicate<VariableDeclarator> vd){
-        return $var.any().and(vd);
+        return $var.of().and(vd);
     }
 }

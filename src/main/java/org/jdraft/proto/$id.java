@@ -14,10 +14,6 @@ import java.util.function.Predicate;
 public final class $id implements $constructor.$part, $method.$part, $field.$part,
         $parameter.$part, $typeParameter.$part, $var.$part {
 
-    public static $id any(){
-        return of();
-    }
-    
     public static $id of(){
         return $id.of("$id$");
     }
@@ -31,7 +27,7 @@ public final class $id implements $constructor.$part, $method.$part, $field.$par
     }
     
     /** the pattern of the id*/
-    public Stencil pattern;
+    public Stencil idStencil;
 
     /**  */
     public Predicate<String> constraint = t -> true;
@@ -41,7 +37,7 @@ public final class $id implements $constructor.$part, $method.$part, $field.$par
      * @return 
      */
     public boolean isMatchAny(){
-        if( this.pattern.isMatchAny()) {
+        if( this.idStencil.isMatchAny()) {
             try{
                 return this.constraint.test( null );
             } catch(Exception e){
@@ -53,14 +49,14 @@ public final class $id implements $constructor.$part, $method.$part, $field.$par
     
     /**
      * 
-     * @param pattern
+     * @param idStencil
      */
-    public $id(String pattern) {
-        this(pattern, t->true);
+    public $id(String idStencil) {
+        this(idStencil, t->true);
     }
 
-    public $id(String pattern, Predicate<String> constraint) {
-        this.pattern = Stencil.of(pattern);
+    public $id(String idStencil, Predicate<String> constraint) {
+        this.idStencil = Stencil.of(idStencil);
         this.constraint = constraint;
     }
     
@@ -75,30 +71,30 @@ public final class $id implements $constructor.$part, $method.$part, $field.$par
     }
    
     public $id $(String target, String $Name){
-        this.pattern = this.pattern.$(target, $Name);
+        this.idStencil = this.idStencil.$(target, $Name);
         return this;
     }
 
     public $id hardcode$( Translator tr, Tokens tokens){
-        this.pattern = this.pattern.hardcode$(tr, tokens);
+        this.idStencil = this.idStencil.hardcode$(tr, tokens);
         return this;
     }
 
     public $id hardcode$( Translator tr, Object...keyValues){
-        this.pattern = this.pattern.hardcode$(tr, keyValues);
+        this.idStencil = this.idStencil.hardcode$(tr, keyValues);
         return this;
     }
     
     public List<String> list$() {
-        return this.pattern.list$();
+        return this.idStencil.list$();
     }
 
     public List<String> list$Normalized() {
-        return this.pattern.list$Normalized();
+        return this.idStencil.list$Normalized();
     }
 
     public String draft(Translator t, Map<String, Object> keyValues) {
-        return this.pattern.draft(t, keyValues);
+        return this.idStencil.draft(t, keyValues);
     }
 
     public boolean matches(String t) {
@@ -111,8 +107,8 @@ public final class $id implements $constructor.$part, $method.$part, $field.$par
             /**
              * Null is allowed IF and ONLY If the Stencil $form isMatchAll
              */
-            if (pattern.isMatchAny()) {
-                return Tokens.of(pattern.list$().get(0), "");
+            if (idStencil.isMatchAny()) {
+                return Tokens.of(idStencil.list$().get(0), "");
             }
             return null;
         }
@@ -120,15 +116,15 @@ public final class $id implements $constructor.$part, $method.$part, $field.$par
             int idx = t.lastIndexOf(".");
             if( idx > 0 ){ //input is fully qualified id
                 //if the pattern is NOT fully qualified
-                if( !this.pattern.getTextBlanks().getFixedText().contains(".") ){ 
-                    String oldPattern = this.pattern.toString();
+                if( !this.idStencil.getTextBlanks().getFixedText().contains(".") ){
+                    String oldPattern = this.idStencil.toString();
                     String newPattern = oldPattern.substring(oldPattern.lastIndexOf(".")+1);
                     Tokens ts = Stencil.of(newPattern).parse(normalize(t));
                     return ts;
                 }
             }            
             //if neither or both are 
-            return pattern.parse( t );
+            return idStencil.parse( t );
         }
         return null;
     }
@@ -139,7 +135,7 @@ public final class $id implements $constructor.$part, $method.$part, $field.$par
      */
     @Override
     public String toString(){
-        return this.pattern.toString();
+        return this.idStencil.toString();
     }
     
     public final String normalize( String str ){

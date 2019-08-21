@@ -35,10 +35,6 @@ public final class $modifiers
     public static $modifiers NATIVE = $modifiers.of("native");
     public static $modifiers STRICT_FP = $modifiers.of("strictfp");
 
-
-    public static $modifiers any(){
-        return of();
-    }
     
     public static $modifiers of(){
         return new $modifiers();

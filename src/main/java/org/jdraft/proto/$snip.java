@@ -115,10 +115,6 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
         astBlockStmt.getStatements().forEach(s -> $s.add(s));
         return $s;
     }
-
-    public static $snip any(){
-        return of();
-    }
     
     public static $snip of(){
         return new $snip( $stmt.of() );
@@ -254,7 +250,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
         List<Statement>sts = new ArrayList<>();
         $sts.forEach(stmt -> {
             if( stmt.statementClass == LabeledStmt.class &&
-                    stmt.stmtPattern.getTextBlanks().startsWithText()) {
+                    stmt.stmtStencil.getTextBlanks().startsWithText()) {
                     //&&
                     //stmt.stencil.getTextBlanks().getFixedText().startsWith("$") ){
                 /* Dynamic labeled Statements are Labeled Statements like this:
@@ -265,7 +261,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
                  * "$callSuperEquals" if the VALUE associated with $doThis is passed into the input,
                  * and the VALUE of $doThis is NOT NULL or NOT Boolean.FALSE
                  */
-                String sttext = stmt.stmtPattern.getTextBlanks().getFixedText();
+                String sttext = stmt.stmtStencil.getTextBlanks().getFixedText();
                 String name = sttext.substring(0, sttext.indexOf(":") );
                 Object val = tokens.get(name );
                 if( val instanceof BlockStmt ){
@@ -295,7 +291,14 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
         });       
         return sts;
     }
-    
+
+
+    @Override
+    public <S extends selected> S select(List<Statement> instance) {
+        //return null;
+        return (S)select(instance.get(0));
+    }
+
     /**
      * 
      * @param astStmt
@@ -378,7 +381,9 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
         }        
         return ss.get(0);        
     }
-    
+
+
+
     @Override
     public List<List<Statement>> listIn(Node astStartNode, Predicate<List<Statement>> statementsMatchFn){
         List<List<Statement>>sts = new ArrayList<>();
