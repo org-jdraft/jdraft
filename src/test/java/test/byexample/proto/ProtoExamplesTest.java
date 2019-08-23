@@ -1,4 +1,4 @@
-package test.byexample;
+package test.byexample.proto;
 
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.expr.*;
@@ -24,6 +24,17 @@ import java.util.function.Predicate;
  */
 public class ProtoExamplesTest extends TestCase {
 
+    static $expr ANY_EXPR = $.expr();                         //any expression
+
+    //static $expr CONST_NAME = $.expr("Name");          //any expression matching pattern "Name"
+    static $expr LITERAL =  $.expr(e -> e.isLiteralExpr());   //any literals (ints, floats, Strings, etc.)
+    static $expr LITERAL_ = $.literal();                      //any literals (booleans, int, float, String, etc)
+
+    static $expr<IntegerLiteralExpr> INT_LITERAL = $.intLiteral();                   // any int literal
+    static $expr<IntegerLiteralExpr> INT_100 = $.intLiteral(100);           // exact int literal 100
+    static $expr<IntegerLiteralExpr> INT_VAL_PARAM = $.intLiteral("$val$");    // any int literal (parameterized)
+    static $expr<IntegerLiteralExpr> INT_POSITIVE = $.intLiteral(i -> i.asInt() > 0);  // any int literal > 100 (constrained)
+
     /*
     $.of();                             // ANY AST Node
         $.of(Name.class);                   // any AST Node of class Name
@@ -36,56 +47,6 @@ public class ProtoExamplesTest extends TestCase {
         $.of(Expression.class);             //any expression
         $.of(SimpleName.class, Name.class); //any Name OR SimpleName node
     }
-
-    public void testExpressionExamples() {
-
-        $.expr();                         //any expression
-        $.expr("Name");          //any expression matching pattern "Name"
-        $.expr(e -> e.isLiteralExpr());   //any literals (ints, floats, Strings, etc.)
-
-        $.literal();                      //any literals (booleans, int, float, String, etc)
-
-        $.intLiteral();                   // any int literal
-        $.intLiteral(100);           // exact int literal 100
-        $.intLiteral("$val$");    // any int literal (parameterized)
-        $.intLiteral(i -> i.asInt() > 0);  // any int literal > 100 (constrained)
-
-        $.unary();                         // any unary expression
-        $.unary("!isEmpty()");         // exact !isEmpty() unary expression
-        $.unary("!$exp$");            // any ! unary expression (parameterized)
-        $.unary($.MINUS);
-        $.unary($.LOGICAL_COMPLIMENT);    // any ! unary expressions (constrained)
-        $.unary(ue -> ue.getExpression().isMethodCallExpr()); //unary expressions on method Calls (constrained)
-
-
-        //$.instanceOf(String.class);
-        //ObjectCreationExpr oce = Expr.objectCreation("new Integer(5)");
-        //Expr.fieldAccess("Ast.Comparator").;
-        //Expr.cast(String.class, Expr.name("a") );
-        //Expr.cast(Ast.typeRef( String.class), Expr.name("a") );
-        $.cast(String.class);
-
-        $.field();
-
-        $.binaryExpr();                  // any binary expression
-        $.binaryExpr("x + 4");       // exact "x + 4" binary expression
-        $.binaryExpr("$a$ + 4");     // match any addition of + 4 (parameterized)
-        $.binaryExpr("$a$ + $b$");   //match any addition of 2 things (parameterized)
-        $.binaryExpr($.ADD);             //any additions (constrained)
-
-        $.methodCall(); //any method call
-
-        $.methodCall("hashCode()"); //specific hashCode method
-        $.methodCall("set$Name$($args$)"); //all calls to some set
-        $.methodCall(mc -> mc.getArguments().isEmpty()); //all no arg method calls
-
-        $.lambda(); //any lambda expression
-        $.lambda("()-> System.out.println(1);");
-        $.lambda("($vars$)-> System.out.println(1);");
-        $.lambda().$hasChild($parameter.of($typeRef.of(int.class)));
-        $.lambda(l -> l.getParameterByType(UnknownType.class).isPresent()); //any lambda with an unknown type
-    }
-
 
     public void testExprShorts(){
         class GTH{
@@ -104,6 +65,7 @@ public class ProtoExamplesTest extends TestCase {
         assertEquals(2, $expr.instanceOf(String.class).count(GTH.class));
         assertEquals(2, $expr.instanceOf($typeRef.of(String.class)).count(GTH.class));
     }
+
     public void testMemberExpressions(){
 
         $.method();                        //any method

@@ -14,7 +14,8 @@ import java.util.function.*;
  * @param <T> the underlying Expression TYPE
  */
 public final class $expr <T extends Expression>
-    implements Template<T>, $exprProto<T> {
+    implements $field.$part, $proto<T, $expr<T>>, $var.$part, Template<T> {
+    //implements Template<T>{ //}, $exprProto<T> {
 
     /**
      * 
@@ -342,6 +343,14 @@ public final class $expr <T extends Expression>
      */
     public static $expr<BooleanLiteralExpr> of( boolean b ){
         return new $expr<>( Expr.of( b ) );
+    }
+
+    public static $expr<LiteralExpr> literal() {
+        return new $expr(LiteralExpr.class, "$expr$");
+    }
+
+    public static $expr<LiteralExpr> literal( Predicate<LiteralExpr> constraint) {
+        return new $expr(LiteralExpr.class, "$expr$").and(constraint);
     }
 
     /**
@@ -1616,7 +1625,6 @@ public final class $expr <T extends Expression>
      * @param $name
      * @return 
      */
-    @Override
     public $expr<T> $( Expression astExpr, String $name){
         this.exprStencil = this.exprStencil.$(astExpr.toString(), $name);
         return this;
@@ -1639,7 +1647,6 @@ public final class $expr <T extends Expression>
      * @param _n
      * @return 
      */
-    @Override
     public T draft(_node _n ){
         return (T)draft(_n.tokenize());
     }
@@ -1661,7 +1668,6 @@ public final class $expr <T extends Expression>
      * @param expression
      * @return 
      */
-    @Override
     public boolean matches( String...expression ){
         return select( expression) != null;
     }
@@ -1671,7 +1677,6 @@ public final class $expr <T extends Expression>
      * @param astExpr
      * @return 
      */
-    @Override
     public boolean matches( Expression astExpr ){
         return select(astExpr) != null;
     }
@@ -1680,7 +1685,6 @@ public final class $expr <T extends Expression>
      * Does this $expr match ANY
      * @return 
      */
-    @Override
     public boolean isMatchAny(){
         try{
             return  //this.expressionClass == Expression.class 
@@ -1770,8 +1774,7 @@ public final class $expr <T extends Expression>
         }
         return null;        
     }
-    
-    @Override
+
     public Select<T> select(String...expr){
         try{
             return select(Expr.of(expr));
@@ -1846,7 +1849,6 @@ public final class $expr <T extends Expression>
      * @param selectConstraint
      * @return 
      */
-    @Override
     public Select<T> selectFirstIn( Class clazz, Predicate<Select<T>> selectConstraint ){
         return selectFirstIn((_type)_java.type(clazz), selectConstraint);
     }
@@ -1857,7 +1859,6 @@ public final class $expr <T extends Expression>
      * @param selectConstraint
      * @return  the first Expression that matches (or null if none found)
      */
-    @Override
     public Select<T> selectFirstIn( _java _j, Predicate<Select<T>> selectConstraint){
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
@@ -1875,7 +1876,6 @@ public final class $expr <T extends Expression>
      * @param selectConstraint
      * @return  the first Expression that matches (or null if none found)
      */
-    @Override
     public Select<T> selectFirstIn( Node astNode,Predicate<Select<T>> selectConstraint){
         Optional<T> f = astNode.findFirst(this.expressionClass, s -> {
             Select<T> sel = select(s);
@@ -1968,7 +1968,6 @@ public final class $expr <T extends Expression>
      * @param selectConstraint
      * @return 
      */
-    @Override
     public List<Select<T>> listSelectedIn(Class clazz, Predicate<Select<T>> selectConstraint ){
         return listSelectedIn((_type)_java.type(clazz), selectConstraint);
     }
@@ -1979,7 +1978,6 @@ public final class $expr <T extends Expression>
      * @param selectConstraint
      * @return 
      */
-    @Override
     public List<Select<T>> listSelectedIn(Node astNode , Predicate<Select<T>> selectConstraint){
         List<Select<T>>sts = new ArrayList<>();
         astNode.walk(this.expressionClass, e-> {
@@ -1997,7 +1995,6 @@ public final class $expr <T extends Expression>
      * @param selectConstraint
      * @return 
      */
-    @Override
     public List<Select<T>> listSelectedIn(_java _j, Predicate<Select<T>> selectConstraint){
         List<Select<T>>sts = new ArrayList<>();
         _walk.in(_j, this.expressionClass, e -> {
@@ -2031,7 +2028,6 @@ public final class $expr <T extends Expression>
      * @param astExprReplace
      * @return 
      */
-    @Override
     public <_CT extends _type> _CT replaceIn( Class clazz, Node astExprReplace ){
         return (_CT)replaceIn((_type)_java.type(clazz), astExprReplace);
     }
@@ -2043,7 +2039,6 @@ public final class $expr <T extends Expression>
      * @param astExprReplace
      * @return 
      */
-    @Override
     public <_J extends _java> _J replaceIn(_J _j, Node astExprReplace ){
         _walk.in(_j, this.expressionClass, e-> {
             Select sel = select( e );
@@ -2061,7 +2056,6 @@ public final class $expr <T extends Expression>
      * @param protoReplaceExpr
      * @return 
      */
-    @Override
     public <_J extends _java> _J replaceIn(_J _j, String protoReplaceExpr ){
         return replaceIn(_j, $expr.of(protoReplaceExpr) );
     }
@@ -2072,7 +2066,6 @@ public final class $expr <T extends Expression>
      * @param $replaceProto
      * @return 
      */
-    @Override
     public <_CT extends _type> _CT replaceIn(Class clazz, $expr $replaceProto){
         return (_CT)replaceIn((_type)_java.type(clazz), $replaceProto);
     }
@@ -2084,7 +2077,6 @@ public final class $expr <T extends Expression>
      * @param $replaceProto
      * @return 
      */
-    @Override
     public <_J extends _java> _J replaceIn(_J _j, $expr $replaceProto){
         _walk.in(_j, this.expressionClass, e-> {
             Select sel = select( e );
@@ -2102,7 +2094,6 @@ public final class $expr <T extends Expression>
      * @param selectConsumer the consumer to operate on all selected entities
      * @return the (potentially modified) _type of the clazz
      */
-    @Override
     public <_CT extends _type> _CT forSelectedIn(Class clazz, Consumer<Select<T>> selectConsumer ){
         return (_CT)forSelectedIn((_type)_java.type(clazz), selectConsumer);
     }
@@ -2114,7 +2105,6 @@ public final class $expr <T extends Expression>
      * @param selectConsumer
      * @return 
      */
-    @Override
     public <_J extends _java> _J forSelectedIn(_J _j, Consumer<Select<T>> selectConsumer ){
         _walk.in(_j, this.expressionClass, e-> {
             Select sel = select( e );
@@ -2132,7 +2122,6 @@ public final class $expr <T extends Expression>
      * @param selectConsumer
      * @return 
      */
-    @Override
     public <N extends Node> N forSelectedIn(N astNode, Consumer<Select<T>> selectConsumer ){
         astNode.walk(this.expressionClass, e-> {
             Select sel = select( e );
@@ -2150,7 +2139,6 @@ public final class $expr <T extends Expression>
      * @param selectConsumer
      * @return 
      */
-    @Override
     public <_CT extends _type> _CT forSelectedIn( Class clazz, Predicate<Select<T>> selectConstraint, Consumer<Select<T>> selectConsumer ){
         return (_CT)forSelectedIn((_type)_java.type(clazz), selectConstraint, selectConsumer );
     }
@@ -2163,7 +2151,6 @@ public final class $expr <T extends Expression>
      * @param selectConsumer
      * @return 
      */
-    @Override
     public <_J extends _java> _J forSelectedIn(_J _j, Predicate<Select<T>> selectConstraint, Consumer<Select<T>> selectConsumer ){
         _walk.in(_j, this.expressionClass, e-> {
             Select sel = select( e );
@@ -2182,7 +2169,6 @@ public final class $expr <T extends Expression>
      * @param selectConsumer
      * @return 
      */
-    @Override
     public <N extends Node> N forSelectedIn(N astNode, Predicate<Select<T>> selectConstraint, Consumer<Select<T>> selectConsumer ){
         astNode.walk(this.expressionClass, e-> {
             Select sel = select( e );

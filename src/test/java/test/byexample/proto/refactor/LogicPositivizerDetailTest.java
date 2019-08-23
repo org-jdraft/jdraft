@@ -1,4 +1,4 @@
-package test.byexample;
+package test.byexample.proto.refactor;
 
 import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.stmt.Statement;
@@ -9,15 +9,25 @@ import org.jdraft.proto.$;
 import org.jdraft.proto.$stmt;
 
 /**
- * This goes into more detail of using parameterized proto(types) for refacatoring code
+ * This goes into more detail of using parameterized proto(types) for refactoring code
  *
  * What are the main steps to an individual refactoring?
  * 1) identify a particular (target) pattern in the code
  * 2) formulate a (replacement) pattern (often using the identified pattern as input)
  * 3) replace the (target) code pattern with the (replacement) code pattern
  */
-public class LogicPositivizerDetailTest extends TestCase {
 
+public class LogicPositivizerDetailTest extends TestCase {
+    /*
+    tags:
+    $stmt
+    .$(...) parameterize
+    $proto.match(...)
+    $proto.select(...)
+    $proto.firstIn(...)
+    $proto.count(...)
+
+     */
     static $stmt $sif = $stmt.of("if($left$ != $right$){ then(); }else{ el(); }")
             .$("then();", "then") //replace then(); method call to a parameter "then"
             .$("el();", "else"); //replace el(); method call to a parameter "else"
@@ -73,7 +83,6 @@ public class LogicPositivizerDetailTest extends TestCase {
         assertTrue( ss.is("right", false));
         assertTrue( ss.is("then", Stmt.of( ()-> System.out.println("NOT EQUALS"))));
         assertTrue( ss.is("else", Stmt.of( ()-> System.out.println("EQUALS"))));
-
     }
 
 
@@ -133,7 +142,8 @@ public class LogicPositivizerDetailTest extends TestCase {
         _type _c = $sourceIf.replaceIn(F.class, $targetIf);
         System.out.println( _c );
     }
-    public void testMatch(){
+
+    public void test$ProtoMatches(){
         Statement st = Stmt.of(
                 (Integer a, Integer b)-> {
                     if(a != b){

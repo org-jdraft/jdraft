@@ -28,7 +28,7 @@ import java.util.function.*;
  * NOTE: although this does not implement the Template<> and $query<> interfaces
  * it follows the same naming conventions
  */
-public final class $snip implements Template<List<Statement>>, $proto<List<Statement>, $snip> {
+public final class $code implements Template<List<Statement>>, $proto<List<Statement>, $code> {
     
     /**
      * Build a dynamic code snippet based on the content of a method defined within an anonymous Object
@@ -50,7 +50,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
      * @param anonymousObjectWithBody
      * @return the dynamic code snippet
      */
-    public static $snip of( Object anonymousObjectWithBody ){
+    public static $code of(Object anonymousObjectWithBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         ObjectCreationExpr oce = Expr.anonymousObject(ste);
         //find the first method that doesnt have removeIn on it and has a BODY
@@ -59,65 +59,65 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
             oce.getAnonymousClassBody().get().stream().filter(m -> m instanceof MethodDeclaration &&
                 !m.isAnnotationPresent(_remove.class) &&
                 ((MethodDeclaration) m).getBody().isPresent()).findFirst().get();
-        return $snip.of( theMethod.getBody().get());
+        return $code.of( theMethod.getBody().get());
     }
 
-    public static $snip of( String proto ){
-        return $snip.of(new String[] {proto});
+    public static $code of(String proto ){
+        return $code.of(new String[] {proto});
     }
 
-    public static $snip of( Expr.Command c ){
+    public static $code of(Expr.Command c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $snip.of( Expr.lambda(ste));
+        return $code.of( Expr.lambda(ste));
     }
 
-    public static <T extends Object>  $snip of( Consumer<T> c ){
+    public static <T extends Object> $code of(Consumer<T> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $snip.of( Expr.lambda(ste));
+        return $code.of( Expr.lambda(ste));
     }
 
-    public static <T extends Object, U extends Object>  $snip of( Function<T,U> c ){
+    public static <T extends Object, U extends Object> $code of(Function<T,U> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $snip.of( Expr.lambda(ste));
+        return $code.of( Expr.lambda(ste));
     }
 
-    public static <T extends Object, U extends Object, V extends Object>  $snip of( BiFunction<T,U, V> c ){
+    public static <T extends Object, U extends Object, V extends Object> $code of(BiFunction<T,U, V> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $snip.of( Expr.lambda(ste));
+        return $code.of( Expr.lambda(ste));
     }
 
-    public static <T extends Object, U extends Object>$snip of( BiConsumer<T,U> c ){
+    public static <T extends Object, U extends Object> $code of(BiConsumer<T,U> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $snip.of( Expr.lambda(ste));
+        return $code.of( Expr.lambda(ste));
     }
 
-    public static <T extends Object, U extends Object, V extends Object>$snip of( Expr.TriConsumer<T,U,V> c ){
+    public static <T extends Object, U extends Object, V extends Object> $code of(Expr.TriConsumer<T,U,V> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $snip.of( Expr.lambda(ste));
+        return $code.of( Expr.lambda(ste));
     }
 
-    public static <T extends Object, U extends Object, V extends Object, Z extends Object>$snip of( Expr.QuadConsumer<T,U,V,Z> c ){
+    public static <T extends Object, U extends Object, V extends Object, Z extends Object> $code of(Expr.QuadConsumer<T,U,V,Z> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $snip.of( Expr.lambda(ste));
+        return $code.of( Expr.lambda(ste));
     }
 
-    public static $snip of( LambdaExpr astLambda ){
+    public static $code of(LambdaExpr astLambda ){
         Statement st = Stmt.from(astLambda);
-        return new $snip(st);
+        return new $code(st);
     }
 
-    public static $snip of( _body _b ){
-        return $snip.of( _b.ast() );
+    public static $code of(_body _b ){
+        return $code.of( _b.ast() );
     }
 
-    public static $snip of(BlockStmt astBlockStmt ){
-        $snip $s = new $snip();
+    public static $code of(BlockStmt astBlockStmt ){
+        $code $s = new $code();
         astBlockStmt.getStatements().forEach(s -> $s.add(s));
         return $s;
     }
     
-    public static $snip of(){
-        return new $snip( $stmt.of() );
+    public static $code of(){
+        return new $code( $stmt.of() );
     }
      
     /**
@@ -125,8 +125,8 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
      * @param protoSnippet
      * @return 
      */
-    public static $snip of(String... protoSnippet) {
-        $snip $s = new $snip();
+    public static $code of(String... protoSnippet) {
+        $code $s = new $code();
         BlockStmt bs = Ast.blockStmt(protoSnippet);
 
         bs.getStatements().forEach(s -> $s.add(s));
@@ -140,10 +140,10 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
     public List<$stmt> $sts = new ArrayList<>();
 
 
-    public $snip(){
+    public $code(){
     }
 
-    private $snip( Statement astProtoStmt ){
+    private $code(Statement astProtoStmt ){
         if( astProtoStmt instanceof BlockStmt ){
             astProtoStmt.asBlockStmt().getStatements().forEach(s -> add(s) );
         } else{
@@ -151,7 +151,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
         }
     }
 
-    public $snip($stmt $st){
+    public $code($stmt $st){
         add($st);
     }
 
@@ -161,12 +161,12 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
      * @param astProtoStmt
      * @return
      */
-    public $snip add(Statement astProtoStmt){
+    public $code add(Statement astProtoStmt){
         $sts.add(new $stmt(astProtoStmt) );
         return this;
     }
 
-    public $snip add($stmt $st ){
+    public $code add($stmt $st ){
         $sts.add($st);
         return this;
     }
@@ -177,13 +177,13 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
      * @param constraint
      * @return the modified snip
      */
-    public $snip and(Predicate<List<Statement>> constraint ){
+    public $code and(Predicate<List<Statement>> constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }
     
     @Override
-    public $snip $(String target, String paramName){
+    public $code $(String target, String paramName){
         this.$sts.forEach(s -> s.$(target, paramName));
         return this;
     }
@@ -222,7 +222,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
      * @param kvs
      * @return 
      */
-    public $snip hardcode$( Translator translator, Tokens kvs ) {
+    public $code hardcode$(Translator translator, Tokens kvs ) {
         this.$sts.forEach( $s -> $s.hardcode$(translator, kvs));
         return this;
     }
@@ -233,7 +233,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
      * @return 
      */
     public List<Statement> draft(Tokens tokens ){
-        return $snip.this.draft( Translator.DEFAULT_TRANSLATOR, tokens.map());
+        return $code.this.draft( Translator.DEFAULT_TRANSLATOR, tokens.map());
     }
 
     /**
@@ -496,11 +496,11 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
     }
     
     public <_CT extends _type> _CT replaceIn( Class clazz, String... repl ){
-        return (_CT)replaceIn((_type)_java.type(clazz), $snip.of(repl));
+        return (_CT)replaceIn((_type)_java.type(clazz), $code.of(repl));
     }
     
     public <N extends Node> N replaceIn(N astNode, String...repl ){        
-        return $snip.this.replaceIn(astNode, $snip.of(repl));
+        return $code.this.replaceIn(astNode, $code.of(repl));
     }
         
     /**
@@ -511,8 +511,8 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
      * @return 
      */
     public <N extends Node> N replaceIn(N astNode, $stmt $repl ){
-        $snip $sn = new $snip($repl);
-        return $snip.this.replaceIn(astNode, $sn);
+        $code $sn = new $code($repl);
+        return $code.this.replaceIn(astNode, $sn);
     }
 
     /**
@@ -521,7 +521,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
      * @param $repl
      * @return 
      */
-    public <_CT extends _type> _CT replaceIn( Class clazz, $snip $repl ){
+    public <_CT extends _type> _CT replaceIn( Class clazz, $code $repl ){
         return (_CT)replaceIn((_type)_java.type(clazz), $repl);
     }
     
@@ -532,7 +532,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
      * @param $repl
      * @return 
      */
-    public <N extends Node> N replaceIn(N astNode, $snip $repl ){
+    public <N extends Node> N replaceIn(N astNode, $code $repl ){
         AtomicInteger ai = new AtomicInteger(0);
 
         astNode.walk(this.$sts.get(0).statementClass, st-> {
@@ -571,7 +571,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
     }
 
     public <_J extends _java> _J replaceIn(_J _j, String... repl ){
-        return replaceIn(_j, $snip.of(repl));
+        return replaceIn(_j, $code.of(repl));
     }
     
     /**
@@ -582,8 +582,8 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
      * @return 
      */
     public <_J extends _java> _J replaceIn(_J _j, $stmt $repl ){
-        $snip $sn = new $snip($repl);
-        return $snip.this.replaceIn(_j, $sn);
+        $code $sn = new $code($repl);
+        return $code.this.replaceIn(_j, $sn);
     }
 
     /**
@@ -593,7 +593,7 @@ public final class $snip implements Template<List<Statement>>, $proto<List<State
      * @param $repl
      * @return 
      */
-    public <_J extends _java> _J replaceIn(_J _j, $snip $repl ){
+    public <_J extends _java> _J replaceIn(_J _j, $code $repl ){
         AtomicInteger ai = new AtomicInteger(0);
 
         _walk.in(_j, this.$sts.get(0).statementClass, st-> {

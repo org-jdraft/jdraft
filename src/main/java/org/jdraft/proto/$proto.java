@@ -118,6 +118,14 @@ public interface $proto<P, $P extends $proto>{
         //return and( (n)-> Ast.isParent( (Node)n, e-> proto.match(e) ) );
     }
 
+    default <P extends Node> $P $hasParent( Class<P> parentClass, Predicate<P> parentMatchFn){
+        return and( n -> Ast.isParent( (Node)n, parentClass, parentMatchFn) );
+    }
+
+    default $P $hasParent( Predicate<Node> parentMatchFn ){
+        return and( n -> Ast.isParent((Node)n, parentMatchFn) );
+    }
+
     default $P $hasParent( Class... parentClassTypes ){
         return and(n -> {
                     if (n instanceof Node) {

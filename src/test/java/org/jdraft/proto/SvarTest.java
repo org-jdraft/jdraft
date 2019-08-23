@@ -132,6 +132,6 @@ public class SvarTest extends TestCase {
         List<String> typeNames = new ArrayList<>();
         $var.of().forEachIn(_c, vv -> typeNames.add(vv.getTypeAsString()));
         System.out.println( typeNames );
-        
     }
+
 }

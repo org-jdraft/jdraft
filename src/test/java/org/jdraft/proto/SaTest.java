@@ -156,8 +156,8 @@ public class SaTest extends TestCase {
     }
     
     public void testS(){
-        $anno.$memberValue.any().matches(new MemberValuePair());
-        $anno.$memberValue.any().matches(new MemberValuePair("a", Expr.of(1)));
+        $anno.$memberValue.of().matches(new MemberValuePair());
+        $anno.$memberValue.of().matches(new MemberValuePair("a", Expr.of(1)));
         
         //static  membervalues
         $anno.$memberValue.of("a", "100").matches(new MemberValuePair("a", Expr.stringLiteral("100")));

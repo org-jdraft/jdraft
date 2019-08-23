@@ -1341,7 +1341,7 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public <_J extends _java> _J replaceIn(_J _j, $stmt $repl ){
-        $snip $sn = new $snip($repl);
+        $code $sn = new $code($repl);
         return replaceIn(_j, $sn);
     }
 
@@ -1353,7 +1353,7 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public <_J extends _java> _J replaceIn(_J _j, String... statment_s ){
-        $snip $sn = $snip.of(statment_s);
+        $code $sn = $code.of(statment_s);
         return replaceIn(_j, $sn);
     }    
 
@@ -1364,7 +1364,7 @@ public final class $stmt<T extends Statement>
      * @param $protoReplacement
      * @return 
      */
-    public <_J extends _java> _J replaceIn(_J _j, $snip $protoReplacement ){
+    public <_J extends _java> _J replaceIn(_J _j, $code $protoReplacement ){
         AtomicInteger ai = new AtomicInteger(0);
         _walk.in(_j, this.statementClass, st->{
             $stmt.Select sel = select( st );

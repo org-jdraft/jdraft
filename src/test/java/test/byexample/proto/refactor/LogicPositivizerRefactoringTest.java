@@ -1,11 +1,16 @@
-package test.byexample;
+package test.byexample.proto.refactor;
 
 import junit.framework.TestCase;
 import org.jdraft._class;
-import org.jdraft._type;
 import org.jdraft.proto.$stmt;
 
 /**
+ * tags:
+ * $stmt<IfStmt>
+ * $proto.$replaceIn
+ * proto.$() //post-parameterize
+ *
+ *
  * This illustrates a real-world refactoring scenario where we use $proto
  * to do refactoring of Java code
  *

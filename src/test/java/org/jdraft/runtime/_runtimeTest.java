@@ -1,6 +1,5 @@
 package org.jdraft.runtime;
 
-import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.LabeledStmt;
 import org.jdraft.*;
 import org.jdraft.macro.*;
@@ -17,7 +16,6 @@ import java.util.function.Function;
 
 import junit.framework.TestCase;
 import org.jdraft.proto.$;
-import org.jdraft.proto.$snip;
 import org.junit.Assert;
 
 /**

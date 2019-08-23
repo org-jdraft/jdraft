@@ -10,7 +10,7 @@ import org.jdraft.Stmt;
 import org.jdraft._body;
 import org.jdraft._class;
 import org.jdraft._method;
-import org.jdraft.proto.$snip.Select;
+import org.jdraft.proto.$code.Select;
 import junit.framework.TestCase;
 
 import java.util.*;
@@ -20,12 +20,12 @@ public class SsnipTest extends TestCase {
 
     public void testSnipAnyMatchesEmptyOrLongBlocks(){
         //assertTrue( $snip.any().matches( _method.of("void m();").getBody().ast() ));
-        assertTrue( $snip.of().matches( _method.of("void m(){}").getBody().ast() ));
-        assertTrue( $snip.of().matches(Stmt.assertStmt("assert(1==1)")));
-        assertTrue( $snip.of().matches(Stmt.breakStmt("break;")));
-        assertTrue( $snip.of().matches(Stmt.assertStmt("assert(1==1)")));
+        assertTrue( $code.of().matches( _method.of("void m(){}").getBody().ast() ));
+        assertTrue( $code.of().matches(Stmt.assertStmt("assert(1==1)")));
+        assertTrue( $code.of().matches(Stmt.breakStmt("break;")));
+        assertTrue( $code.of().matches(Stmt.assertStmt("assert(1==1)")));
         
-        assertTrue( $snip.of().matches( _body.of( new Object(){
+        assertTrue( $code.of().matches( _body.of(new Object(){
             void m(){
                 int i=0;
                 int j=1;
@@ -43,13 +43,13 @@ public class SsnipTest extends TestCase {
         $stmt $st = $stmt.of( str);
         System.out.println ( $st.draft("NAME", "LOG", "any", "\"message\"") );
 
-        $snip $s = $snip.of( str );
+        $code $s = $code.of( str );
         $s.draft("NAME", "LOG", "any", "\"message\"");
 
     }
 
     public void test$snip2$label(){
-        $snip $s = $snip.of( new Object(){
+        $code $s = $code.of(new Object(){
            void m( String $any$ ){
                System.out.println( $any$ );
                $label: System.out.println( 111 );
@@ -59,7 +59,7 @@ public class SsnipTest extends TestCase {
         assertEquals(1, $s.draft("any", 1).size());
         assertEquals(2, $s.draft("any", 1, "$label", true).size());
 
-        $s = $snip.of( ()->{
+        $s = $code.of( ()->{
            label: System.out.println(1);
         });
 
@@ -69,7 +69,7 @@ public class SsnipTest extends TestCase {
     }
 
     public void testFillLabelWithSingleStatement(){
-        $snip $s = $snip.of(() -> {
+        $code $s = $code.of(() -> {
             $body:{ /** Dynamic code filled in here */ }
             System.out.println("Hello");
         });
@@ -81,7 +81,7 @@ public class SsnipTest extends TestCase {
     }
 
     public void testFillLabelWithMultipleStatements(){
-        $snip $s = $snip.of(() -> {
+        $code $s = $code.of(() -> {
             $body:{}
             System.out.println("Hello");
         });
@@ -104,7 +104,7 @@ public class SsnipTest extends TestCase {
         //}
         //$snip $s = $snip.of( _class.of(C.class).getMethod("f").getBody() );
 
-        $snip $s = $snip.of(() -> {
+        $code $s = $code.of(() -> {
             $doThis:
             System.out.println("Hello");
         });
@@ -118,7 +118,7 @@ public class SsnipTest extends TestCase {
     }
 
     public void testMultiStatementLabel(){
-        $snip $s = $snip.of( (String $name$, Integer $i$)-> {
+        $code $s = $code.of( (String $name$, Integer $i$)-> {
             System.out.println($i$);
             $label : {
                 System.out.println( 1 );
@@ -135,8 +135,8 @@ public class SsnipTest extends TestCase {
     }
 
     public void test$snipAvoidInfLoop(){
-        $snip $s = $snip.of( (Object $i$)-> System.out.println($i$) );
-        $snip $r = $snip.of( ($i$)-> { System.out.println($i$); System.out.println($i$);} );
+        $code $s = $code.of( (Object $i$)-> System.out.println($i$) );
+        $code $r = $code.of( ($i$)-> { System.out.println($i$); System.out.println($i$);} );
 
         class D{
             void g(){
@@ -154,7 +154,7 @@ public class SsnipTest extends TestCase {
         //System.out.println( _c );
         
         _c = _class.of(D.class);
-        $snip.of("System.out.println($i$);").replaceIn( _c, "{System.out.println($i$); System.out.println($i$);}" );
+        $code.of("System.out.println($i$);").replaceIn( _c, "{System.out.println($i$); System.out.println($i$);}" );
         //System.out.println( _c );
 
         assertTrue( _c.getMethod("g").getBody().is( 
@@ -165,11 +165,11 @@ public class SsnipTest extends TestCase {
     }
 
     public void test$snipRep(){
-        $snip $s = $snip.of( (Integer $i$)-> {
+        $code $s = $code.of( (Integer $i$)-> {
             assert $i$ > 0;
             System.out.println( $i$ );
         } );
-        $snip $dbl = $snip.of( (Integer $i$)->{
+        $code $dbl = $code.of( (Integer $i$)->{
             System.out.println( $i$ + $i$ );
             assert $i$ + $i$ > 0;
         } );
@@ -199,7 +199,7 @@ public class SsnipTest extends TestCase {
     }
 
     public void test$snipReplace(){
-        $snip $s = $snip.of( (Integer $i$)-> {
+        $code $s = $code.of( (Integer $i$)-> {
             assert $i$ > 0;
             System.out.println( $i$ );
         } );
@@ -211,7 +211,7 @@ public class SsnipTest extends TestCase {
             }
         }
         _class _c = _class.of(L.class);
-        $s.forSelectedIn( _c, ($snip.Select s) -> {
+        $s.forSelectedIn( _c, ($code.Select s) -> {
             //rearrage the order of the statements, first the println then the assert
             s.statements.get(0).replace( $s.$sts.get(1).draft(s.tokens) );
             s.statements.get(1).replace( $s.$sts.get(0).draft(s.tokens) );
@@ -224,7 +224,7 @@ public class SsnipTest extends TestCase {
     // a block of code with statements that have comments
     //a snip w/o comments will match Statements With comments
     public void test$snipMatchBlockComments(){
-        $snip $s = $snip.of( (Integer $i$)-> {
+        $code $s = $code.of( (Integer $i$)-> {
             assert $i$ > 0;
             System.out.println( $i$ );
         } );
@@ -237,7 +237,7 @@ public class SsnipTest extends TestCase {
             // comment 2
             System.out.println( 1 ); /* comment 3 */
         });
-        $snip.Select ss = $s.select( bs.getStatement(0 ) );
+        $code.Select ss = $s.select( bs.getStatement(0 ) );
 
         assertNotNull( ss );
         assertTrue( ss.tokens.is("i", "1"));
@@ -250,17 +250,17 @@ public class SsnipTest extends TestCase {
 
     public void test$snipSelectStaticStatement() {
         //partsMap & match a static statement
-        $snip s = $snip.of(() -> System.out.println(1));
+        $code s = $code.of(() -> System.out.println(1));
         assertNotNull(s.select(Stmt.of("System.out.println(1);")));
         assertTrue(s.matches(Stmt.of("System.out.println(1);")));
     }
 
     public void test$snipSelectVarStatement() {
         //partsMap a variable statement
-        $snip s = $snip.of( (Object $any$) -> System.out.println($any$));
+        $code s = $code.of( (Object $any$) -> System.out.println($any$));
         assertNotNull(s.select(Stmt.of("System.out.println(1);")));
         assertNotNull(s.select(Stmt.of("System.out.println(1);")));
-        $snip.Select tks = s.select(Stmt.of("System.out.println(1);"));
+        $code.Select tks = s.select(Stmt.of("System.out.println(1);"));
         assertTrue(tks.is("any", "1"));
     }
 
@@ -273,7 +273,7 @@ public class SsnipTest extends TestCase {
                 System.out.println(2);
             }
         }
-        List<$snip.Select> ss = $snip.of( (Object $any$)-> System.out.println($any$) ).listSelectedIn( _class.of(F.class) );
+        List<$code.Select> ss = $code.of( (Object $any$)-> System.out.println($any$) ).listSelectedIn( _class.of(F.class) );
         assertEquals(2, ss.size());
         assertEquals( ss.get(0).statements.get(0), Stmt.of( ()-> System.out.println(1)));
         assertEquals( ss.get(1).statements.get(0), Stmt.of( ()-> System.out.println(2)));
@@ -295,7 +295,7 @@ public class SsnipTest extends TestCase {
                 System.out.println(3);
             }
         }
-        ss = $snip.of( (Object $any$)-> System.out.println($any$) ).listSelectedIn( _class.of(G.class) );
+        ss = $code.of( (Object $any$)-> System.out.println($any$) ).listSelectedIn( _class.of(G.class) );
 
         assertEquals(3, ss.size());
         assertTrue( $stmt.of( Stmt.of(()-> System.out.println(1) )).matches( ss.get(0).statements.get(0) ));
@@ -313,7 +313,7 @@ public class SsnipTest extends TestCase {
     }
 
     public void test$snipMultiVarMultiStatement(){
-        $snip s = $snip.of( ($a$, $b$, $c$, $d$)-> {
+        $code s = $code.of( ($a$, $b$, $c$, $d$)-> {
             System.out.println(" $a$ "+$a$);
             System.out.println(" $b$ "+$b$);
             System.out.println(" $c$ "+$c$);
@@ -342,13 +342,13 @@ public class SsnipTest extends TestCase {
 
     public void test$snipDecomposeStaticMultiStatements(){
         //static
-        $snip s = $snip.of( ()-> {System.out.println(1); assert(true);});
+        $code s = $code.of( ()-> {System.out.println(1); assert(true);});
         BlockStmt bs = Stmt.block("{System.out.println(1); assert(true);}");
         assertNotNull(s.select(bs.getStatement(0)) );
     }
 
     public void test$snipDecomposeStaticVarMultiStatements(){
-        $snip s = $snip.of( (Object $any$, Boolean $expr$)-> {System.out.println($any$); assert($expr$);});
+        $code s = $code.of( (Object $any$, Boolean $expr$)-> {System.out.println($any$); assert($expr$);});
         BlockStmt bs = Stmt.block("{System.out.println(1); assert(true);}");
         Select tks = s.select(bs.getStatement(0));
         assertNotNull(tks);
@@ -357,40 +357,40 @@ public class SsnipTest extends TestCase {
 
     public void test$snip(){
         //single statement
-        $snip $s = $snip.of("System.out.println($any$);");
+        $code $s = $code.of("System.out.println($any$);");
         List<Statement> ls =  $s.fill(1);
         assertEquals(Stmt.of("System.out.println(1);"), ls.get(0));
 
-        $s = $snip.of( (Object $any$) -> System.out.println($any$) );
+        $s = $code.of( (Object $any$) -> System.out.println($any$) );
         ls =  $s.fill(1);
         assertEquals(Stmt.of("System.out.println(1);"), ls.get(0));
     }
 
     public void test$snipPostParameterize(){
-        $snip $s = $snip.of( ()->System.out.println( 4 + 5 ));
+        $code $s = $code.of( ()->System.out.println( 4 + 5 ));
         $s.$("4 + 5", "BODY"); //here we parameterize 4 + 5
         assertEquals( Stmt.of("System.out.println(1);"), $s.fill(1).get(0));
     }
 
     public void test$snippetLocal(){
         assertEquals(Stmt.of("System.out.println(\"Eric\");"),
-                $snip.of((Object $any$)->System.out.println($any$)).fill("\"Eric\"").get(0));
-        assertEquals( Stmt.of("assert(1==1);"), $snip.of((Boolean $any$)-> {assert($any$);}).fill("1==1").get(0) );
+                $code.of((Object $any$)->System.out.println($any$)).fill("\"Eric\"").get(0));
+        assertEquals( Stmt.of("assert(1==1);"), $code.of((Boolean $any$)-> {assert($any$);}).fill("1==1").get(0) );
     }
 
     //simple snippets that are represented as lambdas
-    public static final $snip $s = $snip.of( (Object $any$)-> System.out.println($any$));
-    public static final $snip $s2 = $snip.of((Object $x$, Object $y$)-> System.out.println( "$x$ is "+$x$+ " $y$ is "+$y$));
-    public static final $snip $s3 = $snip.of(($x$, $y$, $z$)-> System.out.println( "$x$ is "+$x$+ " $y$ is "+$y$+" $z$ is "+$z$));
-    public static final $snip $s4 = $snip.of(($a$,$b$,$c$,$d$)-> System.out.println( "$a$ is "+$a$+ " $b$ is "+$b$+" $c$ is "+$c$+ " $d$ is "+$d$));
+    public static final $code $s = $code.of( (Object $any$)-> System.out.println($any$));
+    public static final $code $s2 = $code.of((Object $x$, Object $y$)-> System.out.println( "$x$ is "+$x$+ " $y$ is "+$y$));
+    public static final $code $s3 = $code.of(($x$, $y$, $z$)-> System.out.println( "$x$ is "+$x$+ " $y$ is "+$y$+" $z$ is "+$z$));
+    public static final $code $s4 = $code.of(($a$, $b$, $c$, $d$)-> System.out.println( "$a$ is "+$a$+ " $b$ is "+$b$+" $c$ is "+$c$+ " $d$ is "+$d$));
 
     //the PARAMETERS can have types
-    public static final $snip $s5 = $snip.of((Integer $a$, String $b$, Map $c$, UUID $d$)-> System.out.println( "$a$ is "+$a$+ " $b$ is "+$b$+" $c$ is "+$c$+ " $d$ is "+$d$));
+    public static final $code $s5 = $code.of((Integer $a$, String $b$, Map $c$, UUID $d$)-> System.out.println( "$a$ is "+$a$+ " $b$ is "+$b$+" $c$ is "+$c$+ " $d$ is "+$d$));
 
 
     public void test$snippetLambda(){
-        System.out.println( $snip.of( (Object $any$)->System.out.println($any$) ).fill(1).get(0));
-        System.out.println( $snip.of( (Boolean $any$)->{ assert($any$); } ).fill(true).get(0));
+        System.out.println( $code.of( (Object $any$)->System.out.println($any$) ).fill(1).get(0));
+        System.out.println( $code.of( (Boolean $any$)->{ assert($any$); } ).fill(true).get(0));
 
         System.out.println( $s.fill("1==1").get(0));
         System.out.println( $s2.fill(100,200).get(0));

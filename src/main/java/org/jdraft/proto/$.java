@@ -18,6 +18,7 @@ import org.jdraft.*;
 import org.jdraft._anno._annos;
 import org.jdraft._parameter._parameters;
 import java.lang.annotation.Annotation;
+import java.util.Arrays;
 import java.util.function.*;
 import org.jdraft._typeParameter._typeParameters;
 import org.jdraft.macro._macro;
@@ -107,6 +108,19 @@ public final class $ {
     public static $node of(Class<? extends Node> nodeClass, Class<? extends Node> nodeClass2, Class<? extends Node> nodeClass3){
         return $node.of(new Class[]{nodeClass, nodeClass2, nodeClass3});
     }
+
+    public static $id id (){
+        return $id.of();
+    }
+
+    public static $id id( String pattern ){
+        return $id.of(pattern);
+    }
+
+    public static $id id( Predicate<String> idMatchFn){
+        return $id.of(idMatchFn);
+    }
+
 
     /**
      *
@@ -538,6 +552,10 @@ public final class $ {
         return $expr.binary( be-> be.getOperator() == bo);
     }
 
+    public static $expr<BinaryExpr> binaryExpr( BinaryExpr.Operator... ops){
+        return $expr.binary(b-> Arrays.stream(ops).anyMatch( o->b.getOperator() == o));
+    }
+
     public static $expr<BinaryExpr> binaryExpr(Predicate<BinaryExpr> be){        
         return $expr.binary(be);
     }
@@ -866,6 +884,11 @@ public final class $ {
         return $expr.of(ue);
     }
 
+    //a unary with any of these operators
+    public static $expr<UnaryExpr> unary( UnaryExpr.Operator... ops){
+        return $expr.unary(u-> Arrays.stream(ops).anyMatch( o->u.getOperator() == o));
+    }
+
     public static $expr<UnaryExpr> unary( UnaryExpr.Operator op){
         return $expr.unary(u-> u.getOperator() == op);
     }
@@ -1000,6 +1023,10 @@ public final class $ {
     
     public static $stmt stmt(){
         return $stmt.of();
+    }
+
+    public static <S extends Statement>  $stmt<S> stmt(S stmt ){
+        return $stmt.of(stmt);
     }
 
     public static $stmt stmt(String...pattern){

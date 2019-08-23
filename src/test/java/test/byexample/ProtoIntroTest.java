@@ -13,6 +13,35 @@ import org.jdraft.proto.$stmt;
 import java.util.List;
 
 /**
+ * This gives you a basic introduction into $proto implementations
+ *
+ * $proto implementations are signified by the $ prefix,
+ * (as apposed to the _ prefix for _java model entities)
+ * there are many $proto types including:
+ *
+ * $expr, $stmt, $field, $method, $case, $catchClause, $constructor, $parameter...
+ *
+ * each $proto entity can be used for (2) purposes
+ * 1) $protos can be "drafted" into (by using the draft(...) or fill(...) methods):
+ * $stmt $st = $stmt.of("System.out.println($toPrint$);")
+ * Statement st = $st.draft("toPrint", 1);
+ * // will set the value of st to be this Statement:
+ * // System.out.println(1);
+ * Statment st2 = $st.fill(101);
+ * // will set the value of st to be this Statement:
+ * // System.out.println(101);
+ *
+ *
+ * 2) $protos can "query into existing Java source code and do something" where do something is:
+ * <UL>
+ *     <LI>finding/selecting entities that match the $proto (match/matches/select/findFirstIn
+ *     <LI>counting the number of entities that match the $proto (count())
+ *     <LI>returning a list of all entities that match the $proto (listIn()/listSelectedIn())
+ *     <LI>removing entities that match the $proto (removeIn())
+ *     <LI>performing some action (lambda)on each matching node (forEachIn()/forSelectedIn())
+ *     <LI>replacing all matching entities with another generated code pattern (replaceIn())
+ * </UL>
+ *
  * $proto
  *
  * MatchAny                   Parameterized                             Constant
@@ -22,7 +51,7 @@ import java.util.List;
  * $.expr();                  $.expr("$a$ + $b$");                      $.expr("a + 1");
  *
  */
-public class ProtoByExampleTest extends TestCase {
+public class ProtoIntroTest extends TestCase {
 
     /**
      *

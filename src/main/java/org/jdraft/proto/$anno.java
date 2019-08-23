@@ -27,12 +27,6 @@ public final class $anno
     implements Template<_anno>, $proto<_anno, $anno>, $constructor.$part, $method.$part,
         $field.$part, $parameter.$part, $typeParameter.$part {
 
-    /*
-    public static $anno any(){
-        return of();
-    }
-    */
-
     public static $anno of(){
         return new $anno( $id.of() );
     }
@@ -822,9 +816,12 @@ public final class $anno
             return new $memberValue(key, exp);
         }
 
-        public static $memberValue any() {
+        public static $memberValue of() {
             return new $memberValue("$key$", "$value$");
         }
+        //public static $memberValue any() {
+        //    return new $memberValue("$key$", "$value$");
+       // }
 
         public $memberValue(String name, String value) {
             this(name, Expr.of(value));
