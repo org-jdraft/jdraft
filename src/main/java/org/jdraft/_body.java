@@ -57,12 +57,7 @@ public final class _body implements _java {
         // method
 
         _method _m = _method.of("void __BODYHOLDER();");
-        //System.out.println( "METHOD "+ _m );
-
         _m.add(body);
-        //System.out.println( "ADDING "+ body );
-
-        //System.out.println( "METHOD "+ _m );
         return of(  _m.ast() );
     }
     
@@ -637,8 +632,7 @@ public final class _body implements _java {
             }
             return add( bdy );
         }
-        
-        
+
         default <A extends Object> _HB add(int index, Consumer<A> lambdaWithBody){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
             if( bdy.isBlockStmt() ){
@@ -769,8 +763,7 @@ public final class _body implements _java {
          * @return the modified T (_method, _constructor, _staticBlock)
          */
         _HB add(int startStatementIndex, Statement... statements);
-        
-        
+
         /**
          * Add Statements to the end of the BODY
          *
@@ -778,14 +771,7 @@ public final class _body implements _java {
          * @return the modified T (_method, _constructor, _staticBlock)
          */
         default _HB add(String... statements) {
-            BlockStmt bs = Ast.blockStmt(statements);                      
-            // we have to create a body (blockStmt) FIRST before adding
-            /* OLD
-            if( !this.getBody().isImplemented() && bs.getStatements().isEmpty() ){ //empty body
-                //System.out.println("creating empty body");
-                this.setBody("{}");
-            }
-            */
+            BlockStmt bs = Ast.blockStmt(statements);
 
             if( !this.getBody().isImplemented() ){ //empty body
                 if( bs.getStatements().isEmpty() ) {
@@ -1090,80 +1076,6 @@ public final class _body implements _java {
             }
             return ols.get();
         }
-
-        /**
-         * Replaces the Labeled Statement/Block with sequential code w/o a label
-         * and without a block for instance:
-         * <PRE>
-         *
-         * //FLATTEN WILL REPLACE A LABELED STATEMENT WITH A SINGLE STATEMENT
-         * public int method(){
-         *     label: System.out.println(1);
-         * }
-         * //...
-         * method.flattenLabel("label");
-         * //...(PRODUCES)
-         * public int method(){
-         *      System.out.println(1);
-         * }
-         *
-         * //FLATTEN WILL REPLACE THE LABELED BLOCK WITH SEQUENTIAL CODE:
-         *
-         * public int method(){
-         *     label: {
-         *         System.out.println(1);
-         *         System.out.println(2);
-         *     }
-         * }
-         * //...
-         * method.flattenLabel("label");
-         * //...(PRODUCES)
-         * public int method(){
-         *     System.out.println(1);
-         *     System.out.println(2);
-         * }
-         *
-         * </PRE>
-         *
-         * @param labelName the NAME of the label to be flattened
-         * @return the modified codeBlock
-         * @throws _draftException is the code does not contain a label with the
-         * LabelName
-
-        default T flattenLabel(String labelName) {
-            if( !isImplemented() ){
-                throw new _jDraftException("No label : "+labelName+" in non-implemented body");
-            }
-
-            Optional<LabeledStmt> ols
-                    = this.getBody().ast().findFirst(LabeledStmt.class, ls -> ls.getLabel().toString().equals(labelName));
-            while (ols.isPresent()) {
-                LabeledStmt ls = ols.get();
-                if (ls.getStatement().isBlockStmt()) {
-                    BlockStmt bs = ls.getStatement().asBlockStmt();
-                    NodeList<Statement> stmts = bs.getStatements();
-                    if (stmts.isEmpty()) {
-                        (ls.getParentNode().get()).replace(ls, new EmptyStmt());
-                    } else if (stmts.size() == 1) {
-                        ls.getParentNode().get().replace(ls, stmts.get(0));
-                    } else {
-                        Node parent = ls.getParentNode().get();
-                        NodeWithStatements parentNode = (NodeWithStatements) parent;
-                        int stmtIndex = parentNode.getStatements().indexOf(ls);                        
-                        for (int i = 0; i < stmts.size(); i++) {
-                            parentNode.addStatement(stmtIndex + i, stmts.get(i));
-                        }
-                        parent.remove(ls);
-                    }
-                } else {
-                    ls.getParentNode().get().replace(ls, ls.getStatement().clone());
-                }
-                //check if there is another to be flattened
-                ols = this.getBody().ast().findFirst(LabeledStmt.class, lbs -> lbs.getLabel().toString().equals(labelName));
-            }
-            return (T) this;
-        }
-        */
 
         /**
          * For each Expression in the body, call the exprActionFn lambda
