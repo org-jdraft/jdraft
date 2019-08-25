@@ -76,6 +76,46 @@ import org.jdraft.macro._macro;
 public interface _java {
 
     /**
+     * Check to see if this java entity has an Ancestor(parents, grandparents...) that
+     * matches the type and matchFn
+     * @param _j the _java entity to check
+     * @param type the target type
+     * @param matchFn matching lambda function
+     * @param <T> the match type
+     * @return true if
+     */
+    static <T> boolean hasAncestor( _java _j, Class<T> type, Predicate<T> matchFn){
+        return _walk.first(Node.TreeTraversal.PARENTS, _j, type, matchFn) != null;
+    }
+
+    /**
+     * Check to see if this java entity has an Descendant(child, grandchild...) that
+     * matches the type and matchFn
+     *
+     * @param _j the _java entity to check
+     * @param type the target type
+     * @param matchFn matching lambda function
+     * @param <T> the match type
+     * @return
+     */
+    static <T> boolean hasDescendant(_java _j, Class<T> type, Predicate<T> matchFn) {
+        return _walk.first(Node.TreeTraversal.POSTORDER,_j, type, matchFn) != null;
+    }
+
+    /**
+     * Check to see if this java entity has a Child that matches the type and matchFn
+     *
+     * @param _j the _java entity to check
+     * @param type the target type
+     * @param matchFn matching lambda function
+     * @param <T> the match type
+     * @return
+     */
+    static <T> boolean hasChild(_java _j, Class<T> type, Predicate<T> matchFn) {
+        return _walk.first(Node.TreeTraversal.DIRECT_CHILDREN,_j, type, matchFn) != null;
+    }
+
+    /**
      *
      * @param _j
      */
@@ -823,7 +863,6 @@ public interface _java {
             Ast.forComments(  ((_node) _j).ast(), commentMatchFn, commentActionFn );
         }
     }
-
 
     /**
      *
