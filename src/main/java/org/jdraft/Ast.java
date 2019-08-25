@@ -517,6 +517,99 @@ public enum Ast {
     }
 
     /**
+     * Given a class and a line/column find the "most specific" source code node at this (line:column) cursor position
+     *
+     * @param clazz the runtime class
+     * @param line the line of the source code
+     * @param column the column cursor position within the source code
+     * @return an AST node or null if the position is not within the Clazzes source code
+     */
+    public static Node at(Class clazz, int line, int column) {
+        return at( of(clazz), line, column);
+    }
+
+    /**
+     * Try to return the most "specific" node that contains the (line:column) cursor position
+     * @param top the Top level Ast node to look through
+     * @param line the line cursor position
+     * @param column the column cursor position
+     * @return an AST node or null if the position is not within the top node
+     */
+    public static Node at(Node top, int line, int column){
+        Position p = new Position(line, column);
+        List<Node> found = new ArrayList<>();
+        top.walk( n-> {
+            if( n.getRange().isPresent() && n.getRange().get().contains(p)){
+                if( found.isEmpty() ){
+                    found.add( n );
+                } else{
+                    if( found.get(0).containsWithinRange(n) ){
+                        found.clear(); //remove the old one
+                        found.add(n); //add the new one
+                    }
+                }
+            }
+        } );
+        if( found.isEmpty() ){
+            return null;
+        }
+        return found.get(0);
+    }
+
+    /**
+     * return a member (method, field, constructor, staticBlock)
+     *
+     * @see TypeDeclaration
+     * @see EnumDeclaration
+     * @see ClassOrInterfaceDeclaration
+     * @see AnnotationDeclaration
+     * @see MethodDeclaration
+     * @see FieldDeclaration
+     * @see InitializerDeclaration
+     * @see EnumConstantDeclaration
+     * @see AnnotationMemberDeclaration
+     *
+     * @param clazz
+     * @param line
+     * @param column
+     * @param <M>
+     * @return
+     */
+    public static <M extends BodyDeclaration> M memberAt(Class clazz, int line, int column) {
+        return memberAt( Ast.of(clazz), line, column);
+    }
+
+    /**
+     * finds the closest member CONTAINING this position and returns it (or null if the position is outside for range)
+     *
+     * @see TypeDeclaration
+     * @see EnumDeclaration
+     * @see ClassOrInterfaceDeclaration
+     * @see AnnotationDeclaration
+     * @see MethodDeclaration
+     * @see FieldDeclaration
+     * @see InitializerDeclaration
+     * @see EnumConstantDeclaration
+     * @see AnnotationMemberDeclaration
+     *
+     * @param top
+     * @param line
+     * @param column
+     * @param <M>
+     * @return
+     */
+    public static <M extends BodyDeclaration> M memberAt(Node top, int line, int column) {
+        Node n = at( top, line, column);
+        if( n == null ){
+            return null;
+        }
+        if( n instanceof BodyDeclaration) {
+            return (M)n;
+        }
+        return (M) n.stream(Node.TreeTraversal.PARENTS).filter( p -> p instanceof BodyDeclaration).findFirst().get();
+    }
+
+    /**
      * Describe the node and it's contents by walking
      * @param astNode the node to describe
      */
@@ -693,6 +786,11 @@ public enum Ast {
         return false;
     }
 
+    /**
+     * List all ancestors of the node
+     * @param node
+     * @return
+     */
     public static List<Node> listAncestors( Node node ){
         List<Node>ancestors = new ArrayList<>();
         node.walk(Node.TreeTraversal.PARENTS, a -> ancestors.add(a));
@@ -1961,9 +2059,15 @@ public enum Ast {
         if (!str.endsWith(";")) {
             str = str + ";";
         }
-        ClassOrInterfaceDeclaration cd = Ast.of("public class $$$$Y{" 
-            + System.lineSeparator() + str + System.lineSeparator() + "}")
-            .getClassByName("$$$$Y").get();
+        String cl = "public class $$$$Y{"
+                + System.lineSeparator() + str + System.lineSeparator() + "}";
+
+        //System.out.println( cl );
+        ClassOrInterfaceDeclaration cd = Ast.of(cl).getClassByName("$$$$Y").get();
+
+        //ClassOrInterfaceDeclaration cd = Ast.of("public class $$$$Y{"
+        //    + System.lineSeparator() + str + System.lineSeparator() + "}")
+        //    .getClassByName("$$$$Y").get();
         FieldDeclaration fd = cd.getFields().get(0);
         if (cd.getAllContainedComments().size() > 0) {
             fd.setJavadocComment((JavadocComment) cd.getAllContainedComments().get(0));
