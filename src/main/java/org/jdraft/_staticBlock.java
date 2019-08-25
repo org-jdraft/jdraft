@@ -31,9 +31,63 @@ public final class _staticBlock
         return of( id );
     }
 
+    public static _staticBlock of( Statement st ){
+        if( st instanceof BlockStmt ){
+            return of( (BlockStmt)st);
+        }
+        BlockStmt bs = new BlockStmt().addStatement(st);
+        return of( bs );
+    }
+
+    public static _staticBlock of( BlockStmt body ){
+        InitializerDeclaration id = new InitializerDeclaration(true, body);
+        return new _staticBlock(id);
+    }
+
     public static _staticBlock of( InitializerDeclaration id ) {
         return new _staticBlock( id );
     }
+
+    public static _staticBlock of(Expr.Command lambdaWithBody){
+        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        if( bdy instanceof BlockStmt ) {
+            return of( (BlockStmt)bdy);
+        }
+        return of( new BlockStmt().addStatement(bdy) );
+    }
+
+    public static <A extends Object> _staticBlock of (Consumer<A> lambdaWithBody){
+        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        if( bdy instanceof BlockStmt ) {
+            return of( (BlockStmt)bdy);
+        }
+        return of( new BlockStmt().addStatement(bdy) );
+    }
+
+    public static <A extends Object, B extends Object>  _staticBlock of(BiConsumer<A,B> lambdaWithBody ){
+        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        if( bdy instanceof BlockStmt ) {
+            return of( (BlockStmt)bdy);
+        }
+        return of( new BlockStmt().addStatement(bdy) );
+    }
+
+    public static <A extends Object, B extends Object,C extends Object>  _staticBlock of(Expr.TriConsumer<A,B,C> lambdaWithBody ){
+        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        if( bdy instanceof BlockStmt ) {
+            return of( (BlockStmt)bdy);
+        }
+        return of( new BlockStmt().addStatement(bdy) );
+    }
+
+    public static <A extends Object, B extends Object,C extends Object, D extends Object> _staticBlock of(Expr.QuadConsumer<A,B,C,D> lambdaWithBody ){
+        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        if( bdy instanceof BlockStmt ) {
+            return of( (BlockStmt)bdy);
+        }
+        return of( new BlockStmt().addStatement(bdy) );
+    }
+
 
     public _staticBlock( InitializerDeclaration id ) {
         this.astStaticInit = id;
