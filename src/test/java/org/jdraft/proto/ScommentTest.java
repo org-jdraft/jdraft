@@ -29,9 +29,9 @@ public class ScommentTest extends TestCase {
     }
     
     public void testAnyMatch(){
-        assertTrue( $comment.any().matches("//Hello") );
-        assertTrue( $comment.any().matches("/*Hello*/") );
-        assertTrue( $comment.any().matches("/** Hello*/") );
+        assertTrue( $comment.of().matches("//Hello") );
+        assertTrue( $comment.of().matches("/*Hello*/") );
+        assertTrue( $comment.of().matches("/** Hello*/") );
         
         assertTrue( $comment.lineComment().matches("//Hello") );
         assertFalse( $comment.lineComment().matches("/*Hello*/") );
@@ -59,12 +59,12 @@ public class ScommentTest extends TestCase {
                assert(1==1);
             }            
         }
-        assertEquals(4, $comment.any().count(C.class));
+        assertEquals(4, $comment.of().count(C.class));
         
         
         //as expected the orphaned comment comes first...
-        System.out.println( $comment.any().firstIn(C.class) );
-        assertTrue( $comment.any().firstIn(C.class).isJavadocComment());
+        System.out.println( $comment.of().firstIn(C.class) );
+        assertTrue( $comment.of().firstIn(C.class).isJavadocComment());
         
         assertEquals( Ast.lineComment("// line comment (orphan)"), 
             $comment.lineComment().firstIn(C.class));
@@ -79,7 +79,7 @@ public class ScommentTest extends TestCase {
             $comment.lineComment(c -> !c.isOrphan()).firstIn(C.class)); //first un orphaed line comment
         
         assertEquals( Ast.lineComment("// line comment (orphan)"), 
-            $comment.any().and( (c) -> c.isOrphan() )
+            $comment.of().and( (c) -> c.isOrphan() )
                     .firstIn(C.class)); //first orphaned comment
     }       
 }

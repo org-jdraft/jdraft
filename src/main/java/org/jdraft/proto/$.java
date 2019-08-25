@@ -2,11 +2,14 @@ package org.jdraft.proto;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.comments.JavadocComment;
+import com.github.javaparser.ast.comments.LineComment;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt;
 import com.github.javaparser.ast.nodeTypes.NodeWithOptionalBlockStmt;
@@ -32,6 +35,12 @@ import org.jdraft.macro._remove;
  * @author Eric
  */
 public final class $ {
+
+    public static Node.TreeTraversal PARENTS = Node.TreeTraversal.PARENTS;
+    public static Node.TreeTraversal PRE_ORDER = Node.TreeTraversal.PREORDER;
+    public static Node.TreeTraversal POST_ORDER = Node.TreeTraversal.POSTORDER;
+    public static Node.TreeTraversal BREADTH_FIRST = Node.TreeTraversal.BREADTHFIRST;
+    public static Node.TreeTraversal DIRECT_CHILDREN = Node.TreeTraversal.DIRECT_CHILDREN;
 
     public static $modifiers PUBLIC = $modifiers.of("public");
     public static $modifiers PRIVATE = $modifiers.of("private");
@@ -78,8 +87,35 @@ public final class $ {
     public static final BinaryExpr.Operator SHIFT_RIGHT = BinaryExpr.Operator.SIGNED_RIGHT_SHIFT; // a >> b
     public static final BinaryExpr.Operator SHIFT_RIGHT_UNSIGNED = BinaryExpr.Operator.UNSIGNED_RIGHT_SHIFT; // a >>> b
 
+
     /** cant construct one of these */
     private $(){}
+
+
+
+    /** Functionality */
+    public static boolean hasAncestor( Node node, Predicate<Node> ancestorMatchFn){
+        return Ast.hasAncestor(node, ancestorMatchFn );
+    }
+
+    /** True if the node has an ancestor */
+    public static boolean hasAncestor( Node node, $proto $p ){
+        return Ast.hasAncestor(node, a -> $p.match(a) );
+    }
+
+    public static boolean hasAncestor( _java _j, $proto $p ){
+        return _java.hasAncestor( _j, Node.class, a-> $p.match(a) );
+    }
+
+    /** True if the node has an ancestor */
+    public static boolean hasDescendant( Node node, $proto $p ){
+        return Ast.hasDescendant(node, a -> $p.match(a) );
+    }
+
+    public static boolean hasDescendant( _java _j, $proto $p ){
+        return _java.hasDescendant( _j, Node.class, a-> $p.match(a) );
+    }
+
 
     /**
      *
@@ -107,6 +143,10 @@ public final class $ {
 
     public static $node of(Class<? extends Node> nodeClass, Class<? extends Node> nodeClass2, Class<? extends Node> nodeClass3){
         return $node.of(new Class[]{nodeClass, nodeClass2, nodeClass3});
+    }
+
+    public static $node of(Class<? extends Node> nodeClass, Class<? extends Node> nodeClass2, Class<? extends Node> nodeClass3, Class<? extends Node> nodeClass4){
+        return $node.of(new Class[]{nodeClass, nodeClass2, nodeClass3, nodeClass4});
     }
 
     public static $id id (){
@@ -263,7 +303,7 @@ public final class $ {
     }
     
     public static $comment comment(){
-        return $comment.any();
+        return $comment.of();
     }
     
     public static $comment comment( Predicate<Comment> constraint ){
@@ -273,68 +313,268 @@ public final class $ {
     public static $comment comment( String commentPattern ){
         return $comment.of(commentPattern);
     }
-    
+
+    /**
+     * Java Comments
+     *
+     * @see LineComment
+     * @see BlockComment
+     * @see JavadocComment
+     *
+     * @param commentPattern
+     * @param commentPredicate
+     * @return
+     */
+    public static $comment comment( String commentPattern, Predicate<Comment> commentPredicate){
+        return $comment.of(commentPattern, commentPredicate);
+    }
+
+    /**
+     * //Line Comment
+     *
+     * @see LineComment
+     * @return
+     */
+    public static $comment<LineComment> lineComment(){
+        return $comment.lineComment();
+    }
+
+    /**
+     *  //Line Comment
+     *
+     * @see LineComment
+     * @param contentPattern
+     * @return
+     */
+    public static $comment<LineComment> lineComment( String contentPattern){
+        return $comment.lineComment(contentPattern);
+    }
+
+    /**
+     * //Line Comment
+     * @see LineComment
+     * @param constraint
+     * @return
+     */
+    public static $comment<LineComment> lineComment( Predicate<LineComment> constraint ){
+        return $comment.lineComment(constraint);
+    }
+
+    /**
+     *  //Line Comment
+     * @see LineComment
+     * @param commentPattern
+     * @param commentPredicate
+     * @return
+     */
+    public static $comment<LineComment> lineComment( String commentPattern, Predicate<LineComment> commentPredicate){
+        return $comment.lineComment(commentPattern, commentPredicate);
+    }
+
+
+    /**
+     * /* block comment * /
+     * @see BlockComment
+     * @return
+     */
+    public static $comment<BlockComment> blockComment(){
+        return $comment.blockComment();
+    }
+
+    /**
+     *
+     * @see BlockComment
+     * @param contentPattern
+     * @return
+     */
+    public static $comment<LineComment> blockComment( String contentPattern){
+        return $comment.lineComment(contentPattern);
+    }
+
+    /**
+     * @see BlockComment
+     * @param constraint
+     * @return
+     */
+    public static $comment<LineComment> blockComment( Predicate<LineComment> constraint ){
+        return $comment.lineComment(constraint);
+    }
+
+    /**
+     *
+     * @see BlockComment
+     * @param commentPattern
+     * @param commentPredicate
+     * @return
+     */
+    public static $comment<BlockComment> blockComment( String commentPattern, Predicate<BlockComment> commentPredicate){
+        return $comment.blockComment(commentPattern, commentPredicate);
+    }
+
+    /**
+     * @see JavadocComment
+     * @return
+     */
+    public static $comment<JavadocComment> javadoc(){
+        return $comment.javadocComment();
+    }
+
+    /**
+     * @see JavadocComment
+     * @param contentPattern
+     * @return
+     */
     public static $comment<JavadocComment> javadoc( String contentPattern){
         return $comment.javadocComment(contentPattern);
-    } 
-    
+    }
+
+    /**
+     *
+     * @see JavadocComment
+     * @param constraint
+     * @return
+     */
     public static $comment<JavadocComment> javadoc( Predicate<JavadocComment> constraint ){
         return $comment.javadocComment(constraint);
-    } 
-    
+    }
+
+    /**
+     * @see com.github.javaparser.ast.body.ConstructorDeclaration
+     * @see _constructor
+     * @return
+     */
     public static $constructor constructor(){
         return $constructor.of();
     }
 
+    /**
+     * @see com.github.javaparser.ast.body.ConstructorDeclaration
+     * @see _constructor
+     * @param constraint
+     * @return
+     */
     public static $constructor constructor( Predicate<_constructor> constraint){
         return $constructor.of().and(constraint);
     }
-    
+
+    /**
+     * @see com.github.javaparser.ast.body.ConstructorDeclaration
+     * @see _constructor
+     * @param _proto
+     * @return
+     */
     public static $constructor constructor( _constructor _proto ){
         return $constructor.of(_proto);
     }
-    
+
+    /**
+     * @see com.github.javaparser.ast.body.ConstructorDeclaration
+     * @see _constructor
+     * @param _proto
+     * @param constraint
+     * @return
+     */
     public static $constructor constructor( _constructor _proto, Predicate<_constructor> constraint ){
         return $constructor.of(_proto).and(constraint);
     }
-    
+
+    /**
+     * @see com.github.javaparser.ast.body.ConstructorDeclaration
+     * @see _constructor
+     * @param pattern
+     * @return
+     */
     public static $constructor constructor( String pattern){
         return $constructor.of(pattern);
     }
-    
+
+    /**
+     * @see com.github.javaparser.ast.body.ConstructorDeclaration
+     * @see _constructor
+     * @param pattern
+     * @param constraint
+     * @return
+     */
     public static $constructor constructor( String pattern, Predicate<_constructor> constraint){
         return $constructor.of(pattern).and(constraint);
     }
-    
+
+    /**
+     * @see com.github.javaparser.ast.body.ConstructorDeclaration
+     * @see _constructor
+     * @param pattern
+     * @return
+     */
     public static $constructor constructor( String...pattern){
         return $constructor.of(pattern);
     }
-    
+
+    /**
+     * @see com.github.javaparser.ast.body.ConstructorDeclaration
+     * @see _constructor
+     * @param part
+     * @return
+     */
     public static $constructor constructor($constructor.$part part){
         return $constructor.of(part);
     }
-    
+
+    /**
+     * @see com.github.javaparser.ast.body.ConstructorDeclaration
+     * @see _constructor
+     * @param parts
+     * @return
+     */
     public static $constructor constructor($constructor.$part...parts){
         return $constructor.of(parts);
     }
-    
+
+    /**
+     * @see com.github.javaparser.ast.body.ConstructorDeclaration
+     * @see _constructor
+     * @param anonymousObjectContainingMethod
+     * @return
+     */
     public static $constructor constructor(Object anonymousObjectContainingMethod){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return $constructor.of( ste, anonymousObjectContainingMethod);
     }
 
+    /**
+     * @see com.github.javaparser.ast.body.MethodDeclaration
+     * @see _method
+     * @return
+     */
     public static $method method(){
         return $method.of();
     }
 
+    /**
+     * @see com.github.javaparser.ast.body.MethodDeclaration
+     * @see _method
+     * @param methodPrototype
+     * @return
+     */
     public static $method method(String methodPrototype){
         return $method.of(methodPrototype);
     }
 
+    /**
+     * @see com.github.javaparser.ast.body.MethodDeclaration
+     * @see _method
+     * @param ms
+     * @return
+     */
     public static $method method(String...ms){
         return $method.of(ms);
     }
 
+    /**
+     * @see com.github.javaparser.ast.body.MethodDeclaration
+     * @see _method
+     * @param anonymousObjectContainingMethod
+     * @return
+     */
     public static $method method(Object anonymousObjectContainingMethod){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         ObjectCreationExpr oce = Expr.anonymousObject(ste);
@@ -348,22 +588,53 @@ public final class $ {
         return $method.of( _m);
     }
 
+    /**
+     * @see com.github.javaparser.ast.body.MethodDeclaration
+     * @see _method
+     * @param constraint
+     * @return
+     */
     public static $method method(Predicate<_method> constraint){
         return $method.of().and(constraint);
     }
 
+    /**
+     * @see com.github.javaparser.ast.body.MethodDeclaration
+     * @see _method
+     * @param ms
+     * @return
+     */
     public static $method method(_method ms){
         return $method.of(ms);
     }
 
+    /**
+     * @see com.github.javaparser.ast.body.MethodDeclaration
+     * @see _method
+     * @param ms
+     * @param _methodMatchFn
+     * @return
+     */
     public static $method method(_method ms, Predicate<_method> _methodMatchFn){
         return $method.of(ms).and(_methodMatchFn);
     }
 
+    /**
+     * @see com.github.javaparser.ast.body.MethodDeclaration
+     * @see _method
+     * @param part
+     * @return
+     */
     public static $method method($method.$part part){
         return $method.of(part);
     }
 
+    /**
+     * @see com.github.javaparser.ast.body.MethodDeclaration
+     * @see _method
+     * @param parts
+     * @return
+     */
     public static $method method($method.$part...parts){
         return $method.of(parts);
     }
@@ -960,37 +1231,128 @@ public final class $ {
     public static $field field(_field f){
         return $field.of(f);
     }
-    
+
+    /**
+     * @see com.github.javaparser.ast.ImportDeclaration
+     * @see _import
+     * @return
+     */
     public static $import importStmt(){
         return $import.of();
     }
 
+    /**
+     * @see com.github.javaparser.ast.ImportDeclaration
+     * @see _import
+     * @param pattern
+     * @return
+     */
     public static $import importStmt(String pattern){
         return $import.of(pattern);
     }
-    
+
+    /**
+     * @see com.github.javaparser.ast.ImportDeclaration
+     * @see _import
+     * @param constraint
+     * @return
+     */
     public static $import importStmt(Predicate<_import> constraint){
         return $import.of().and(constraint);
     }
 
+    /**
+     * @see com.github.javaparser.ast.ImportDeclaration
+     * @see _import
+     * @param imp
+     * @return
+     */
     public static $import importStmt( _import imp){
         return $import.of(imp);
     }
 
+    /**
+     * @see com.github.javaparser.ast.Modifier
+     * @see com.github.javaparser.ast.nodeTypes.NodeWithModifiers
+     * @see _modifiers
+     * @return
+     */
     public static $modifiers modifiers(){
         return $modifiers.of();
     }
 
+    /**
+     * @see com.github.javaparser.ast.Modifier
+     * @see com.github.javaparser.ast.nodeTypes.NodeWithModifiers
+     * @see _modifiers
+     * @param $mods
+     * @return
+     */
+    public static $modifiers modifiers( $modifiers... $mods ){
+        return $modifiers.of( $mods );
+    }
+
+    /**
+     * @see com.github.javaparser.ast.Modifier
+     * @see com.github.javaparser.ast.nodeTypes.NodeWithModifiers
+     * @see _modifiers
+     * @param ms
+     * @return
+     */
     public static $modifiers modifiers(String...ms){
         return $modifiers.of(ms);
     }
-    
+
+    /**
+     * @see com.github.javaparser.ast.Modifier
+     * @see com.github.javaparser.ast.nodeTypes.NodeWithModifiers
+     * @see _modifiers
+     * @param constraint
+     * @return
+     */
     public static $modifiers modifiers(Predicate<_modifiers> constraint){
         return $modifiers.of().and(constraint);
     }
 
+    /**
+     * @see com.github.javaparser.ast.Modifier
+     * @see com.github.javaparser.ast.nodeTypes.NodeWithModifiers
+     * @see _modifiers
+     * @param ms
+     * @return
+     */
     public static $modifiers modifiers(_modifiers ms){
         return $modifiers.of(ms);
+    }
+
+    public static $package packageName( ){
+        return $package.of();
+    }
+
+    public static $package packageName( Predicate<PackageDeclaration> packageNameMatchFn ){
+        return $package.of(packageNameMatchFn);
+    }
+
+    public static $package packageName( String pattern ){
+        return $package.of(pattern);
+    }
+
+    public static $package packageName( String pattern, Predicate<PackageDeclaration> packageFn){
+        return $package.of(pattern, packageFn);
+    }
+
+
+
+    public static $staticBlock staticBlock( ){
+        return $staticBlock.of();
+    }
+
+    public static $staticBlock staticBlock( Predicate<_staticBlock> packageNameMatchFn ){
+        return $staticBlock.of( packageNameMatchFn);
+    }
+
+    public static $staticBlock staticBlock( String... pattern ){
+        return $staticBlock.of(pattern);
     }
 
     public static $parameters parameters(){
@@ -1801,4 +2163,5 @@ public final class $ {
     public static $var var(Predicate<VariableDeclarator> vd){
         return $var.of().and(vd);
     }
+
 }

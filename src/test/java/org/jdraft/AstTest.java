@@ -23,6 +23,7 @@ import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.TypeParameter;
 import junit.framework.TestCase;
 import org.jdraft.proto.$stmt;
+import test.byexample.proto.ProtoBuildTest;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -72,6 +73,20 @@ public class AstTest extends TestCase {
                 Ast.isParent( _c.getField("x").getFieldDeclaration(),
                         ClassOrInterfaceDeclaration.class, c-> c.getNameAsString().equals("V")) );
     }
+
+    //NOTE: this is sensititve to lines in file method should start at 78
+    public void testAt(){
+        Node n = Ast.at(AstTest.class, 79, 9);
+        assertNotNull(n);
+
+        assertNotNull( Ast.at(AstTest.class, 79, 5) );
+
+        MethodDeclaration m = Ast.memberAt(AstTest.class, 79, 9);
+        assertTrue( m.getNameAsString().equals("testAt"));
+    }
+
+    //within(Range)
+
     public static class Outer{
 
     }
