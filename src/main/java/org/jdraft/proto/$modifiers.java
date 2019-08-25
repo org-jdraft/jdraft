@@ -51,7 +51,23 @@ public final class $modifiers
     public static $modifiers of(String...mods){
         return of(_modifiers.of(mods));
     }
-    
+
+    /**
+     * Composite many $modifiers together
+     * including their constraints and mustInclude / mustExclude
+     * @param $mods
+     * @return
+     */
+    public static $modifiers of( $modifiers...$mods ){
+        $modifiers $mm = of();
+        for(int i=0;i<$mods.length;i++){
+            $mm.constraint = $mm.constraint.and($mods[i].constraint);
+            $mm.mustInclude.addAll($mods[i].mustInclude);
+            $mm.mustExclude.addAll($mods[i].mustExclude);
+        }
+        return $mm;
+    }
+
     /**
      * 
      * @param ms
@@ -95,7 +111,7 @@ public final class $modifiers
      * @param mods
      * @return 
      */
-    public static $modifiers noneOf( Collection<Modifier> mods ){
+    public static $modifiers not(Collection<Modifier> mods ){
         $modifiers $mods = new $modifiers();
         $mods.mustExclude.addAll(mods);
         return $mods;
@@ -106,10 +122,26 @@ public final class $modifiers
      * @param mods
      * @return 
      */
-    public static $modifiers noneOf( Modifier... mods ){
+    public static $modifiers not(Modifier... mods ){
         $modifiers $mods = new $modifiers();
         Arrays.stream(mods).forEach( m -> $mods.mustExclude.add(m) );        
         return $mods;
+    }
+
+    public $modifiers not($modifiers... mods ){
+        for(int i=0;i<mods.length;i++) {
+            this.mustExclude.addAll(mods[i].mustInclude);
+            this.mustInclude.addAll(mods[i].mustExclude);
+            boolean isMatchAny = true;
+            try{
+                mods[i].constraint.test(null);
+            } catch(Exception e){
+                //ONLY add and negate the constraint if it's NOT a match any constraint
+                //OTHERWISE WE'LL NEVER MATCH
+                and(mods[i].constraint.negate());
+            }
+        }
+        return this;
     }
    
     /** A matching lambda constraint */
