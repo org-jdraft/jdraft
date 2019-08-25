@@ -25,15 +25,6 @@ public final class $annos
         $field.$part, $parameter.$part, $typeParameter.$part {
 
     /**
-     * 
-     * @return 
-
-    public static $annos any(){
-        return of();
-    }
-    */
-
-    /**
      * Entities that have NO annotations applied to them */
     public static $annos none(){
         return of().and(as -> as.isEmpty());
@@ -309,6 +300,15 @@ public final class $annos
         return false;
     }
 
+    /**
+     *
+     * @param nwa
+     * @param allTokens
+     * @return
+     */
+    public Tokens parseTo(NodeWithAnnotations nwa, Tokens allTokens){
+        return parseTo( _annos.of(nwa), allTokens);
+    }
 
     /**
      *
@@ -606,7 +606,7 @@ public final class $annos
     @Override
     public String toString(){
         if( this.isMatchAny()){
-            return "$annos(MATCH ANY)";
+            return "$annos$";
         }
         StringBuilder sb = new StringBuilder();
         this.$annosList.forEach(a -> sb.append("    ").append(a));
