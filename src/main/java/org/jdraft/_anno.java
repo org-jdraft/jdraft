@@ -213,7 +213,7 @@ public final class _anno
      * @return 
      */
     public boolean hasValue(Expression astExpr){
-        return listValues().stream().filter(e -> e.equals(astExpr) ).findFirst().isPresent();        
+        return listValues().stream().anyMatch(e -> e.equals(astExpr) );
     }
 
     /**
@@ -276,7 +276,7 @@ public final class _anno
      * @return 
      */
     public boolean hasValue( Predicate<Expression> astExprMatchFn){
-        return listValues().stream().filter(astExprMatchFn ).findFirst().isPresent();
+        return listValues().stream().anyMatch(astExprMatchFn );
     }
     
     /**
@@ -409,7 +409,7 @@ public final class _anno
     
     @Override
     public Map<_java.Component,Object> components(){
-        Map<_java.Component,Object> m = new HashMap();
+        Map<_java.Component,Object> m = new HashMap<>();
         m.put(_java.Component.NAME, this.getName() );
         if( this.astAnno instanceof NormalAnnotationExpr ){
             NormalAnnotationExpr nae = (NormalAnnotationExpr)this.astAnno;
@@ -1153,9 +1153,9 @@ public final class _anno
             Arrays.stream( annClasses ).forEach( c -> ls.add( c ) );
 
             //send a predicate
-            return remove( a -> ls.stream().filter(
+            return remove( a -> ls.stream().anyMatch(
                 c -> c.getSimpleName().equals( a.getName() )
-                    || c.getCanonicalName().equals( a.getName() ) ).findFirst().isPresent() );
+                    || c.getCanonicalName().equals( a.getName() ) ));
         }
 
         /**
@@ -1168,8 +1168,8 @@ public final class _anno
             List<String> ls = new ArrayList<>();
             Arrays.stream( annName ).forEach( c -> ls.add( c ) );
 
-            return remove( a -> ls.stream().filter(
-                    n -> n.equals( a.getName() ) ).findFirst().isPresent() );
+            return remove( a -> ls.stream().anyMatch(
+                    n -> n.equals( a.getName() ) ));
         }
 
         public _annos clear() {
