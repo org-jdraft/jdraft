@@ -19,7 +19,7 @@ import java.util.function.Predicate;
 public final class $comment <C extends Comment>
     implements $proto<C, $comment<C>>, Template<C>, $constructor.$part, $method.$part, $field.$part {
     
-    public static $comment<Comment> any(){
+    public static $comment<Comment> of(){
         return new $comment();
     }
     
@@ -28,7 +28,7 @@ public final class $comment <C extends Comment>
     }
     
     public static $comment<Comment> of( Predicate<Comment> constraint ){
-        return any().and(constraint);
+        return of().and(constraint);
     }
     
     public static $comment<JavadocComment> javadocComment(){
@@ -63,13 +63,13 @@ public final class $comment <C extends Comment>
         return new $comment(Ast.blockComment(blockComment)).omitJavadocComments().omitLineComments();
     }
     
-    public static $comment<BlockComment> blockComment(String pattern, Predicate<Comment> constraint){
+    public static $comment<BlockComment> blockComment(String pattern, Predicate<BlockComment> constraint){
         return new $comment(Ast.blockComment(pattern)).omitJavadocComments().omitLineComments()
             .and(constraint);
     }
     
     public static $comment<BlockComment> blockComment(Predicate<Comment> constraint){
-        return new $comment().omitJavadocComments().omitLineComments()
+        return new $comment<BlockComment>().omitJavadocComments().omitLineComments()
             .and(constraint);
     }
     
@@ -95,7 +95,11 @@ public final class $comment <C extends Comment>
     public static <C extends Comment> $comment<C> of(C comment){
         return new $comment(comment);
     }
-    
+
+    public static <C extends Comment> $comment<C> of( String comment ){
+        return new $comment( Ast.comment(comment));
+    }
+
     public static <C extends Comment> $comment<C> of( String...comment ){
         return new $comment( Ast.comment(comment));
     }
