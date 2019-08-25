@@ -66,6 +66,17 @@ public final class $stmt<T extends Statement>
     }
 
     /**
+     *
+     * @param stmtClass
+     * @param pattern
+     * @param <S>
+     * @return
+     */
+    public static <S extends Statement> $stmt<S> of(Class<S> stmtClass, String...pattern){
+        return new $stmt<S>(stmtClass, Text.combine(pattern));
+    }
+
+    /**
      * 
      * @param <S>
      * @param proto
@@ -129,15 +140,6 @@ public final class $stmt<T extends Statement>
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return from( ste );
     }
-
-    /**
-     * 
-     * @return 
-
-    public static $stmt<Statement> any(){
-        return of();
-    }
-    */
     
     /** 
      * Will match ANY statement, or empty statemen
@@ -226,7 +228,16 @@ public final class $stmt<T extends Statement>
     public static $stmt<BlockStmt> blockStmt(){
         return new $stmt( BlockStmt.class, "$blockStmt$" );
     }
-    
+
+    /**
+     *
+     * @param block
+     * @return
+     */
+    public static $stmt<BlockStmt> blockStmt(BlockStmt block){
+        return new $stmt( block );
+    }
+
     /**
      * NOTE: If you omit the opening and closing braces { }, they will be added
      *
