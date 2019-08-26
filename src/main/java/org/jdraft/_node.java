@@ -27,7 +27,7 @@ import java.util.Map;
  * @param <_N> the jdraft _node type
  * @param <N> ast node {@link com.github.javaparser.ast.body.MethodDeclaration}, {@link com.github.javaparser.ast.body.FieldDeclaration}
  */
-public interface _node<N extends Node, _N extends _node> extends _java {
+public interface _node<N extends Node, _N extends _node> extends _java, _java._componentized {
 
     /**
      * Build and return an (independent) copy of this _node entity
@@ -53,11 +53,6 @@ public interface _node<N extends Node, _N extends _node> extends _java {
      */
     boolean is(N astNode);
 
-    /**
-     * Decompose the entity into key-VALUE pairs where the key is the Component
-     * @return a map of key values
-     */
-    Map<_java.Component, Object> components();
 
     /**
      * Decompose the entity into smaller named tokens

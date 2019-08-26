@@ -924,7 +924,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     public Map<_java.Component, Object> components( ) {
         Map<_java.Component, Object> parts = new HashMap<>();
         parts.put( Component.HEADER_COMMENT, this.getHeaderComment() );
-        parts.put( Component.PACKAGE_NAME, this.getPackage() );
+        parts.put( Component.PACKAGE, this.getPackage() );
         parts.put( Component.IMPORTS, this.getImports().list() );
         parts.put( Component.ANNOS, this.listAnnos() );
         parts.put( Component.EXTENDS, this.astClass.getExtendedTypes() );

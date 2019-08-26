@@ -562,7 +562,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
     public Map<_java.Component, Object> components( ) {
         Map<_java.Component, Object> parts = new HashMap<>();
         parts.put( _java.Component.HEADER_COMMENT, this.getHeaderComment() );
-        parts.put( _java.Component.PACKAGE_NAME, this.getPackage() );
+        parts.put( _java.Component.PACKAGE, this.getPackage() );
         parts.put( _java.Component.IMPORTS, this.getImports().list() );
         parts.put( _java.Component.ANNOS, this.listAnnos() );
         parts.put( _java.Component.IMPLEMENTS, this.listImplements() );
@@ -905,7 +905,6 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
             parts.put( _java.Component.JAVADOC, this.getJavadoc() );
             parts.put( _java.Component.NAME, this.getName());
             parts.put( _java.Component.ARGUMENTS, this.listArguments());
-            parts.put( _java.Component.NAME, this.getName() );
             parts.put( _java.Component.METHODS, this.listMethods() );
             parts.put( _java.Component.FIELDS, this.listFields() );
             return parts;
@@ -915,11 +914,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         public String toString(){
             return this.astConstant.toString();
         }
-        
-        @Override
-        public String toString( PrettyPrinterConfiguration ppv ){
-            return this.astConstant.toString(ppv);
-        }
+
         
         @Override
         public int hashCode() {

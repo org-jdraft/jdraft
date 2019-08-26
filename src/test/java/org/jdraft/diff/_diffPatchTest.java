@@ -1,9 +1,6 @@
 package org.jdraft.diff;
 
-import com.github.javaparser.ast.CompilationUnit;
 import org.jdraft.*;
-import org.jdraft.diff._diff;
-import org.jdraft.diff._typesDiff;
 
 import java.io.Serializable;
 import junit.framework.TestCase;
@@ -134,7 +131,7 @@ public class _diffPatchTest
         dl = _diff.of(_c, _c2);
         System.out.println( dl );
         assertEquals("NESTST  1.1 ", 1, _c.listNests().size() );
-        assertTrue( dl.firstOn(PACKAGE_NAME).isChange() );        
+        assertTrue( dl.firstOn(PACKAGE).isChange() );
         dl.patchLeftToRight();        
         
         System.out.println( _c );

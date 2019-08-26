@@ -1,27 +1,39 @@
 package org.jdraft;
 
-import org.jdraft._class;
-import org.jdraft._type;
-import org.jdraft._method;
-import org.jdraft._import;
-import org.jdraft._field;
-import org.jdraft._interface;
-import org.jdraft._java;
-import org.jdraft.Ast;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.TypeDeclaration;
+import com.github.javaparser.ast.comments.Comment;
 import org.jdraft.macro._static;
 import org.jdraft.proto.$var;
-//import draft.java.runtime._javac;
 import java.io.Serializable;
 import java.util.List;
 import junit.framework.TestCase;
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNotNull;
-//import static draft.java.Ast.PrintRawComments.*;
 
 public class _typeTest extends TestCase {
+
+    public void testTypeInt(){
+        class PP{
+
+        }
+        _type _t = _java.type(PP.class);
+        List<_method> _ms = _t.listMembers(_method.class);
+        assertTrue( _ms.isEmpty() );
+        _ms = _t.listMembers(_method.class, _m-> ((_method)_m).isImplemented() );
+        assertTrue( _ms.isEmpty() );
+        _ms = _t.listMethods(_m -> ((_method)_m).isImplemented());
+        assertTrue( _ms.isEmpty() );
+
+        List<_field> _fs = _t.listFields();
+        assertTrue( _fs.isEmpty() );
+        _fs = _t.listFields( (_f)-> ((_field)_f).hasAnnos());
+        assertTrue( _fs.isEmpty() );
+
+        _t.setHeaderComment("This is a header comment", "on multiple lines");
+
+        Comment c = _t.getHeaderComment();
+        assertTrue( c.isBlockComment() );
+    }
 
     /**
      * Here we play around with a CompilationUnit that has (2) package private classes

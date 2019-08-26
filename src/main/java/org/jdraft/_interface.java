@@ -488,7 +488,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     public Map<_java.Component, Object> components( ) {
         Map<_java.Component, Object> parts = new HashMap<>();
         parts.put( _java.Component.HEADER_COMMENT, this.getHeaderComment() );
-        parts.put( _java.Component.PACKAGE_NAME, this.getPackage() );        
+        parts.put( _java.Component.PACKAGE, this.getPackage() );
         parts.put( _java.Component.IMPORTS, this.getImports().list() );
         parts.put( _java.Component.ANNOS, this.listAnnos() );
         parts.put( _java.Component.JAVADOC, this.getJavadoc() );

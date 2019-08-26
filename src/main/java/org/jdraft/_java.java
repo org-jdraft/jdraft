@@ -619,6 +619,27 @@ public interface _java {
     }
 
     /**
+     * Breaking down a larger thing into constituent things
+     * often we need to look at properties (like name, modifiers)
+     * or sub components (like methods, fields) to understand a thing...
+     * Also decomposing things (for diffing, etc.) is useful in analysis
+     *
+     * @see _packageInfo
+     * @see _moduleInfo
+     * @see _type
+     * @see _node
+     * @see _member
+     */
+    interface _componentized{
+
+        /**
+         * Decompose the entity into key-VALUE pairs where the key is the Component
+         * @return a map of key values
+         */
+        Map<Component, Object> components();
+    }
+
+    /**
      * A "concrete" way of identifying/addressing elements and properties that are the components
      * of a Java program. A way to consistently name things when we construct and deconstruct
      * Components of Java programs (external tools for building & matching &
@@ -628,6 +649,7 @@ public interface _java {
      */
     enum Component {
         MODULE_DECLARATION("moduleDeclaration", ModuleDeclaration.class),
+        PACKAGE("package", PackageDeclaration.class),
         /** i.e. @Deprecated @NotNull */
         ANNOS("annos", _anno._annos.class),
         /** i.e. @Deprecated */
@@ -649,22 +671,17 @@ public interface _java {
         TYPE_PARAMETER("typeParameter", TypeParameter.class), //_typeParameter.class
         THROWS("throws", _throws.class),
         NAME("name", String.class),
+
         KEY_VALUES("keyValues", List.class, MemberValuePair.class), //anno
-        //KeyValue
         KEY_VALUE("keyValue", MemberValuePair.class), //anno
 
-        //VALUE("value", Expression.class), //anno
-        PACKAGE_NAME("package", PackageDeclaration.class),
         IMPORTS("imports", List.class, _import.class),
-        //IMPORT
         IMPORT("import", ImportDeclaration.class),
         STATIC("static", Boolean.class),
         WILDCARD("wildcard", Boolean.class),
         ELEMENTS("elements", List.class, _annotation._element.class), //_annotation
-        //ELEMENT
         ELEMENT("element", _annotation._element.class), //annotation
         FIELDS("fields", List.class, _field.class),
-        //FIELD
         FIELD("field", _field.class),
         NESTS("nests", List.class, _type.class),
         NEST("nest", _type.class),
@@ -680,13 +697,10 @@ public interface _java {
         STATIC_BLOCKS("staticBlocks", List.class, _staticBlock.class), //class, _enum
         STATIC_BLOCK("staticBlocks", _staticBlock.class), //class, _enum
         CONSTRUCTORS("constructors", List.class, _constructor.class), //class, _enum
-        //CONSTRUCTOR
         CONSTRUCTOR("constructor", _constructor.class),
         METHODS("methods", List.class, _method.class), //class, _enum, _interface, _enum._constant
-        //METHOD
         METHOD("method", _method.class),
         CONSTANTS("constants", List.class, _enum._constant.class),
-        //CONSTANT
         CONSTANT("constant", _enum._constant.class), //_enum
 
         ARGUMENT("argument", Expression.class), //_enum._constant

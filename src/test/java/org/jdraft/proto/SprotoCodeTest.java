@@ -54,7 +54,7 @@ public class SprotoCodeTest extends TestCase {
             }
         });
 
-        $m.$hasAncestor(ClassOrInterfaceDeclaration.class);
+        $m.$hasAncestor($.of(ClassOrInterfaceDeclaration.class));
         assertEquals(1, $m.count(_c));
 
         $m = $.method( new Object(){
@@ -63,7 +63,7 @@ public class SprotoCodeTest extends TestCase {
                 return this.$name$;
             }
         });
-        $m.$hasAncestor(EnumDeclaration.class);
+        $m.$hasAncestor($.of(EnumDeclaration.class));
         assertEquals(0, $m.count(_c));
 
         $node $n = $node.of( ClassOrInterfaceDeclaration.class).$hasDescendant( $method.of().$type(int.class) );

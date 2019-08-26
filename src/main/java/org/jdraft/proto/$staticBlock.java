@@ -63,6 +63,7 @@ public class $staticBlock implements $proto<_staticBlock, $staticBlock>, Templat
             return new $staticBlock( $stmt.blockStmt( new BlockStmt().addStatement( st) ), t->true );
         }
     }
+
     public static $staticBlock of(Expr.Command lambdaWithBody){
         Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return of(bdy);

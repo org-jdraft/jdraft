@@ -145,12 +145,29 @@ public interface $proto<P, $P extends $proto>{
         //return and(n -> Ast.isParent( (Node)n, parentClassTypes));
     }
 
+    /**
+     *
+     * @param ancestorMatchFn
+     * @return
+     */
     default $P $hasAncestor( Predicate<Node> ancestorMatchFn ){
+        return $hasAncestor(Integer.MAX_VALUE, ancestorMatchFn);
+    }
+
+    /**
+     *
+     * @param levels
+     * @param ancestorMatchFn
+     * @return
+     */
+    default $P $hasAncestor( int levels, Predicate<Node> ancestorMatchFn ){
         return and(n-> {
             if( n instanceof Node ) {
-                return _walk.firstParent( (Node)n, c-> ancestorMatchFn.test(c)) != null;
+                return ((Node)n).stream($.PARENTS).limit(levels).anyMatch( ancestorMatchFn  );
+                //return _walk.firstParent( (Node)n, c-> ancestorMatchFn.test(c)) != null;
             }else if (n instanceof _node) {
-                return _walk.firstParent( (_java)n, c-> ancestorMatchFn.test(c) ) != null;
+                return ((_node)n).ast().stream($.PARENTS).limit(levels).anyMatch( ancestorMatchFn );
+                //return _walk.firstParent( (_java)n, c-> ancestorMatchFn.test(c) ) != null;
             } else{
                 //NEED TO MANUALLY IMPLEMENT FOR:
                 // $parameters, $annos, $snip, $throws, $typeParameters
@@ -164,12 +181,18 @@ public interface $proto<P, $P extends $proto>{
         //return and(n-> Ast.hasAncestor( (Node)n, ancestorMatchFn));
     }
 
-    default $P $hasAncestor( $proto ancestorProto ){
+    default $P $hasAncestor( $proto ancestorProto ) {
+        return $hasAncestor(10000, ancestorProto);
+    }
+
+    default $P $hasAncestor( int levels, $proto ancestorProto ){
         return and(n-> {
             if( n instanceof Node ) {
-                return _walk.firstParent( (Node)n, c-> ancestorProto.match(c)) != null;
+                return ((Node)n).stream($.PARENTS).limit(levels).anyMatch( c-> ancestorProto.match(c) );
+                //return _walk.firstParent( (Node)n, c-> ancestorProto.match(c)) != null;
             }else if (n instanceof _node) {
-                return _walk.firstParent( (_java)n, c-> ancestorProto.match(c)) != null;
+                return ((_node)n).ast().stream($.PARENTS).limit(levels).anyMatch( c-> ancestorProto.match(c) );
+                //return _walk.firstParent( (_java)n, c-> ancestorProto.match(c)) != null;
             } else{
                 //NEED TO MANUALLY IMPLEMENT FOR:
                 // $parameters, $annos, $snip, $throws, $typeParameters
@@ -182,10 +205,22 @@ public interface $proto<P, $P extends $proto>{
         } );
     }
 
-    default $P $hasAncestor( Class... ancestorClassTypes ){
+    /*
+    default $P $hasAncestor( Class... ancestorClassTypes ) {
+        return $hasAncestor(Integer.MAX_VALUE, ancestorClassTypes);
+    }
+     */
+
+    /**
+     * TODO
+     * @return
+
+    default $P $hasAncestor(int levels, Class... ancestorClassTypes ) {
         return and(n-> {
             if( n instanceof Node ) {
-                return _walk.firstParent( (Node)n, c-> Ast.isNodeOfType(c, ancestorClassTypes) ) != null;
+                List<Node> ns = new ArrayList<>();
+                return ((Node)n).stream().limit(levels).anyMatch( c-> Ast.isNodeOfType(c, ancestorClassTypes) );
+                //return _walk.firstParent( (Node)n, c-> Ast.isNodeOfType(c, ancestorClassTypes) ) != null;
             }else if (n instanceof _node) {
                 return _walk.firstParent( (_java)n, c-> Ast.isNodeOfType(c, ancestorClassTypes) ) != null;
             } else{
@@ -200,6 +235,7 @@ public interface $proto<P, $P extends $proto>{
         } );
         //return and(n-> ((Node)n).stream(_walk.PARENTS).anyMatch(c -> Ast.isParent( c, parentClassTypes) ));
     }
+    */
 
     default $P $hasChild( $proto childProto ){
 
@@ -241,40 +277,88 @@ public interface $proto<P, $P extends $proto>{
         } );
     }
 
-    default $P $hasDescendant( Class... childClassTypes ){
+    /**
+     *
+     * @param depth
+     * @param descendantClassTypes
+     * @return
+     */
+    default $P $hasDescendant( int depth, Class... descendantClassTypes ){
         return and(n-> {
             if( n instanceof Node ){
-                return ((Node)n).getChildNodes().stream().anyMatch(c -> c.stream().anyMatch(d -> Ast.isNodeOfType(d, childClassTypes) ));
+                return ((Node)n).getChildNodes().stream().limit(depth).anyMatch(c -> c.stream().anyMatch(d -> Ast.isNodeOfType(d, descendantClassTypes) ));
             } else if( n instanceof _node){
-                return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> c.stream().anyMatch(d -> Ast.isNodeOfType(d, childClassTypes) ));
-            } else{
-                throw new _draftException("Not implemented yet for type : "+ n.getClass());
-            }
-        } );
-    }
-    default $P $hasDescendant( Predicate<Node> childMatchFn ){
-        return and(n-> {
-            if( n instanceof Node ){
-                return ((Node)n).getChildNodes().stream().anyMatch(c -> c.stream().anyMatch(d -> childMatchFn.test(d)) );
-            } else if( n instanceof _node){
-                return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> c.stream().anyMatch(d -> childMatchFn.test(d)) );
+                return ((_node)n).ast().getChildNodes().stream().limit(depth).anyMatch(c -> c.stream().anyMatch(d -> Ast.isNodeOfType(d, descendantClassTypes) ));
             } else{
                 throw new _draftException("Not implemented yet for type : "+ n.getClass());
             }
         } );
     }
 
-    default $P $hasDescendant( $proto descendantProto ){
+    /**
+     *
+     * @param descendantClassTypes
+     * @return
+     */
+    default $P $hasDescendant( Class... descendantClassTypes ){
+        return $hasDescendant(Integer.MAX_VALUE, descendantClassTypes);
+    }
+
+    /**
+     *
+     * @param descendantMatchFn
+     * @return
+     */
+    default $P $hasDescendant( Predicate<Node> descendantMatchFn ){
+        return $hasDescendant(Integer.MAX_VALUE, descendantMatchFn);
+    }
+
+    /**
+     *
+     * @param depth
+     * @param descendantMatchFn
+     * @return
+     */
+    default $P $hasDescendant( int depth, Predicate<Node> descendantMatchFn ){
         return and(n-> {
             if( n instanceof Node ){
-                return ((Node)n).getChildNodes().stream().anyMatch(c -> c.stream().anyMatch(d -> descendantProto.match(d)) );
+                return ((Node)n).getChildNodes().stream().anyMatch(c -> c.stream().limit(depth).anyMatch(d -> descendantMatchFn.test(d)) );
             } else if( n instanceof _node){
-                return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> c.stream().anyMatch(d -> descendantProto.match(d)) );
+                return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> c.stream().limit(depth).anyMatch(d -> descendantMatchFn.test(d)) );
             } else{
                 throw new _draftException("Not implemented yet for type : "+ n.getClass());
             }
         } );
-        //return and(n-> ((Node)n).getChildNodes().stream().anyMatch(c-> c.stream().anyMatch(d -> descendantProto.match(d)) ));
+    }
+
+    /**
+     *
+     * @param depth how many levels deep to look for descendants
+     * @param descendantProto a prototype to match against
+     * @return the modified
+     */
+    default $P $hasDescendant( int depth, $proto descendantProto ){
+        if( depth <= 0 ){
+            return ($P)this;
+        }
+        return and( n->{
+            if( n instanceof Node ){
+                return ((Node)n).getChildNodes().stream().limit(depth).anyMatch(c -> c.stream().anyMatch(d -> descendantProto.match(d)) );
+            }else if( n instanceof _node){
+                return ((_node)n).ast().getChildNodes().stream().limit(depth).anyMatch(c -> c.stream().anyMatch(d -> descendantProto.match(d)) );
+            } else{
+                throw new _draftException("Not implemented yet for type : "+ n.getClass());
+            }
+        });
+    }
+
+    /**
+     *
+     * @param descendantProto
+     * @return
+     */
+    default $P $hasDescendant( $proto descendantProto ){
+        return $hasDescendant(Integer.MAX_VALUE, descendantProto);
     }
 
     /**

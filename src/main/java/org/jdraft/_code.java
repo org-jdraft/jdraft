@@ -22,10 +22,19 @@ import java.util.stream.*;
  * @author Eric
  * @param <_C> the code implementation type
  */
-public interface _code<_C> extends _java {
+public interface _code<_C> extends _java, _java._componentized {
 
     /**
-     * @return the compilationUnit (NOTE: could be null for nested _types)
+     * Resolve the Compilation Unit that contains this _type,
+     * either this TYPE is:
+     * <UL>
+     * <LI>a top-level class
+     * <LI>a nested/member class
+     * <LI>an orphan class (a class built separately without linkage to a CompilationUnit
+     * (in which case this method returns a null)
+     * </UL>
+     * @return the top level CompilationUnit, or null if this _type is "orphaned" or a nested type
+     * (created without linking to a CompilationUnit)
      */
     CompilationUnit astCompilationUnit();
 
@@ -71,13 +80,14 @@ public interface _code<_C> extends _java {
             return fullName.substring(0, fullName.indexOf(simpleName) -1 );
         }
     }
-    
+
     /**
-     * Gets the "Header comment" (usually the License) from the compilationUnit
-     * (NOTE: returns null if there are no header comments or this is nested
-     * _code)
+     * Gets the header comment (i.e. the license copyright, etc.)
+     * at the top of the CompilationUnit
+     * (NOTE: returns null if there are no header comments or
+     * this type is not a top level type)
      *
-     * @return the Comment implementation of the Header comment
+     * @return the Comment a JavaDoc comment or BlockComment or null
      */
     default Comment getHeaderComment() {
         if (this.isTopLevel()) {
@@ -90,11 +100,11 @@ public interface _code<_C> extends _java {
     }
 
     /**
-     * sets the header comment (i.e.the license copyright, etc.) at the top of
-     * the _compilationUnit
-     *
-     * @param astBlockComment
-     * @return the Comment a JavaDoc comment or BlockComment or null
+     * Sets the header comment as the block comment provided
+     * (Assuming the _type is a top level type... (i.e. not a nested type)
+     * (this is for setting /resetting the copywrite, etc.)
+     * @param astBlockComment the comment (i.e. the copyright)
+     * @return the modified T
      */
     default _C setHeaderComment(BlockComment astBlockComment) {
         astCompilationUnit().setComment(astBlockComment);
@@ -124,6 +134,11 @@ public interface _code<_C> extends _java {
         return new _imports(new CompilationUnit()); //better of all the evils
     }
 
+    /**
+     * Gets the index(th) import for the compilationUnit
+     * @param index
+     * @return
+     */
     default ImportDeclaration getImport(int index ){
         return this.astCompilationUnit().getImport(index);
     }

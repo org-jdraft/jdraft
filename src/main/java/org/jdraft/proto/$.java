@@ -1727,6 +1727,10 @@ public final class $ {
         return $stmt.ifStmt();
     }
 
+    public static $stmt<IfStmt> ifStmt(String is){
+        return $stmt.ifStmt( new String[]{is});
+    }
+
     public static $stmt<IfStmt> ifStmt(String...is){
         return $stmt.ifStmt(is);
     }
@@ -1753,6 +1757,21 @@ public final class $ {
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<IfStmt> ifStmt(Expr.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(IfStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object> $stmt<IfStmt> ifStmt(Function<A,B> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(IfStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> $stmt<IfStmt> ifStmt(BiFunction<A,B,C> ec){
+        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        return $stmt.of( le.findFirst(IfStmt.class).get() );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<IfStmt> ifStmt(Expr.TriFunction<A,B,C,D> ec){
         LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(IfStmt.class).get() );
     }

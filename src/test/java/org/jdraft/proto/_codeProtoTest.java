@@ -50,7 +50,9 @@ public class _codeProtoTest extends TestCase {
         $stmt $assignCall = $.stmt("int $param$ = $instance$.getType();");
 
         //2) find all variable assignments
-        $node $varAssignment = $node.of( "$param$" ).$hasAncestor(VariableDeclarator.class);
+        $node $varAssignment = $node.of( "$param$" )
+                .$hasParent(VariableDeclarator.class);
+                //.$hasAncestor($.of(VariableDeclarator.class));
 
         //3) find
         $expr<MethodCallExpr> $mce = $.methodCall("$prefix$foo($any$)");

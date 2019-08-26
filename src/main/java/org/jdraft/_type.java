@@ -58,7 +58,7 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
  * //draft / compile & load a new Class then create a new proxied instance and 
  * // call the getNum instance method
  * int num = (int)
- *    _adhoc.of( _class.of("C", new Object(){ public static int getNum(){return 123;} }))
+ *    _runtime.of( _class.of("C", new Object(){ public static int getNum(){return 123;} }))
  *        .proxy("C").call("getNum");
  * }</PRE>
  * @author Eric
@@ -78,31 +78,7 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @return a list of matching methods
      */
     List<_method> listMethods(Predicate<_method> _methodMatchFn );
-    
-    /**
-     * Is this TYPE the top level class TYPE within a compilationUnit 
-     * (i.e. the child of a CompilationUnit?) 
-     * @return true if the _type is a top level TYPE, false otherwise
-     */
-    @Override
-    boolean isTopLevel();
-    
-    /**
-     * Resolve the Compilation Unit that contains this _type,
-     * either this TYPE is:
-     * <UL>
-     * <LI>a top-level class
-     * <LI>a nested/member class
-     * <LI>an orphan class (a class built separately without linkage to a CompilationUnit
-     * (in which case this method returns a null)
-     * </UL>
-     * @return the top level CompilationUnit, or null if this _type is "orphaned"
-     * (created without linking to a CompilationUnit)
-     */
-    @Override
-    CompilationUnit astCompilationUnit();    
-    
-    
+
     /**
      * If we are a top level _type add the types as companion types
      * (other top level types that are package private) to the CompilationUnit
@@ -454,40 +430,6 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @return the modified T type
      */
     _T forMembers(Predicate<_member> _memberMatchFn, Consumer<_member> _memberAction );
-    
-    /**
-     * Gets the comment (i.e. the copyright, etc.)
-     * at the top of the CompilationUnit
-     * (NOTE: returns null if there are no header comments or
-     * this type is not a top level type)
-     *
-     * @return the Comment a JavaDoc comment or BlockComment or null
-     */
-    @Override
-    default Comment getHeaderComment(){
-        if( isTopLevel() && astCompilationUnit().getComment().isPresent()){
-            return astCompilationUnit().getComment().get();
-        }
-        return null;
-    }
-
-    /**
-     * Sets the header comment as the block comment provided
-     * (Assuming the _type is a top level type... (i.e. not a nested type)
-     * (this is for setting /resetting the copywrite, etc.)
-     * @param astBlockComment the comment (i.e. the copyright)
-     * @return the modified T
-     */
-    @Override
-    default _T setHeaderComment(BlockComment astBlockComment ){
-        if( isTopLevel() ){
-            if( astCompilationUnit().getComment().isPresent()){
-                astCompilationUnit().removeComment();
-            }
-            astCompilationUnit().setComment(astBlockComment);
-        }
-        return (_T)this;
-    }
 
     /**
      * add one or more _member(s) (_field, _method, _constructor, enum._constant, etc.) to the BODY of the _type
@@ -771,34 +713,6 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
     }
 
     @Override
-    default _T javadoc(String...content ){
-        ast().setJavadocComment( Text.combine(content));
-        return (_T)this;
-    }
-
-    @Override
-    default _T javadoc(JavadocComment astJavadocComment ){
-        ast().setJavadocComment( astJavadocComment );
-        return (_T)this;
-    }
-    
-    @Override
-    default _T removeJavadoc(){
-        ast().removeJavaDocComment();
-        return (_T) this;
-    }
-
-    @Override
-    default boolean hasJavadoc(){
-        return ast().getJavadocComment().isPresent();
-    }
-
-    @Override
-    default _javadoc getJavadoc() {
-        return _javadoc.of(this.ast());
-    }
-
-    @Override
     default _modifiers getModifiers(){
         return _modifiers.of(this.ast() );
     }
@@ -1019,17 +933,6 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
         });
         return _fs;
     }
-
-    /**
-     *
-     * @param _fieldMatchFn
-     * @return 
-
-    @Override
-    default List<_field> listFields( Predicate<_field> _fieldMatchFn ){
-        return listFields().stream().filter(_fieldMatchFn).collect(Collectors.toList());
-    }
-    */
 
     /**
      * List the fully qualified names of all types defined in this _type

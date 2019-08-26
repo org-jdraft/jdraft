@@ -6,7 +6,8 @@ import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 
 /**
- * model of a package-info
+ * model of a package-info.java file
+ *
  */
 public class _packageInfo
         implements _code<_packageInfo>, _anno._hasAnnos<_packageInfo>, _node<CompilationUnit, _packageInfo> {
@@ -182,7 +183,7 @@ public class _packageInfo
         Map m = new HashMap();
         m.put(_java.Component.HEADER_COMMENT, this.getHeaderComment());
         m.put(_java.Component.JAVADOC, this.javadocHolder.getJavadoc());
-        m.put(_java.Component.PACKAGE_NAME, getPackage());
+        m.put(_java.Component.PACKAGE, getPackage());
         m.put(_java.Component.ANNOS, getAnnos());
         m.put(_java.Component.IMPORTS, _import._imports.of(astCompUnit));
         return m;
