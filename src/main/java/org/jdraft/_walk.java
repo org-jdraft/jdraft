@@ -615,15 +615,24 @@ public enum _walk {
             Class<N> targetNodeClass,
             Predicate<N> nodeMatchFn,
             Consumer<N> nodeActionFn) {
+        /*
+        astRootNode.stream(traversal).filter(n -> targetNodeClass.isAssignableFrom(n.getClass()) && nodeMatchFn.test((N) n))
+                .forEach(n->nodeActionFn.accept( (N)n ) );
+        return astRootNode;
+        */
+        return in( traversal, Integer.MAX_VALUE, astRootNode, targetNodeClass, nodeMatchFn, nodeActionFn);
+    }
 
-        astRootNode.walk(traversal,
-                n -> {
-                    if( targetNodeClass.isAssignableFrom(n.getClass())) {
-                        if (nodeMatchFn.test((N) n)) {
-                            nodeActionFn.accept((N) n);
-                        }
-                    }
-                });
+    public static <R extends Node, N extends Node> R in(
+            Node.TreeTraversal traversal,
+            int levels,
+            R astRootNode,
+            Class<N> targetNodeClass,
+            Predicate<N> nodeMatchFn,
+            Consumer<N> nodeActionFn) {
+
+        astRootNode.stream(traversal).limit(levels).filter(n -> targetNodeClass.isAssignableFrom(n.getClass()) && nodeMatchFn.test((N) n))
+                .forEach(n->nodeActionFn.accept( (N)n ) );
         return astRootNode;
     }
 
@@ -1366,7 +1375,7 @@ public enum _walk {
             }
         }//maybe
         else{
-            return model(tt, astRootNode, (Class<_J>)targetClass, (Predicate<_J>)matchFn, (Consumer<_J>)action);
+            return in_java(tt, astRootNode, (Class<_J>)targetClass, (Predicate<_J>)matchFn, (Consumer<_J>)action);
         }
     }
 
@@ -1382,26 +1391,53 @@ public enum _walk {
      *
      * @param tt the traversal TYPE
      * @param astRootNode the root AST node
-     * @param _modelClass the class of the model
-     * @param _modelMatchFn
-     * @param _modelAction
+     * @param _javaClass the class of the model
+     * @param _javaMatchFn
+     * @param _javaAction
      * @param <_J>
      * @param <N> the Root node type
      * @return
      */
-    public static <_J extends _java, N extends Node> N model(
-            Node.TreeTraversal tt, N astRootNode, Class<_J> _modelClass, Predicate<_J> _modelMatchFn, Consumer<_J> _modelAction ){
-        
-        if( _modelClass == _code.class ){
-            in(tt, 
+    public static <_J extends _java, N extends Node> N in_java(
+            Node.TreeTraversal tt, N astRootNode, Class<_J> _javaClass, Predicate<_J> _javaMatchFn, Consumer<_J> _javaAction ) {
+        return in_java(tt, Integer.MAX_VALUE, astRootNode, _javaClass, _javaMatchFn, _javaAction);
+    }
+
+
+    /**
+     * A _walk that resolves {@link _java} classes (as apposed to AST {@link Node}
+     * implementation
+     * this requires "special work" building temporary ad-hoc models
+     * (i.e. _field, _class, _parameter) to test against predicates
+     *
+     * NOTE: this ALSO works with {@link _java} interfaces like
+     * {@link _java}, {@link _method._hasMethods}
+     * {@link _parameter._hasParameters} etc.
+     *
+     * @param tt the traversal TYPE
+     * @param levels the number of levels (walking up (through parents) or down (through children)) to limit the walk
+     * @param astRootNode the root AST node
+     * @param _javaClass the class of the model
+     * @param _javaMatchFn
+     * @param _javaAction
+     * @param <_J>
+     * @param <N> the Root node type
+     * @return
+     */
+    public static <_J extends _java, N extends Node> N in_java(
+            Node.TreeTraversal tt, int levels, N astRootNode, Class<_J> _javaClass, Predicate<_J> _javaMatchFn, Consumer<_J> _javaAction ) {
+
+        if( _javaClass == _code.class ){
+            in(tt,
+                levels,
                 astRootNode,
                     Node.class,
                     n ->(n instanceof CompilationUnit || n instanceof TypeDeclaration),
                     a -> {
                         if( a instanceof CompilationUnit ){
                             _code _c = _java.code( (CompilationUnit)a );
-                            if( _modelMatchFn.test((_J)_c) ){
-                                _modelAction.accept( (_J)_c );
+                            if( _javaMatchFn.test((_J)_c) ){
+                                _javaAction.accept( (_J)_c );
                             }
                         } else if( a instanceof TypeDeclaration && !((TypeDeclaration)a).isTopLevelType()){
                             /** 
@@ -1409,54 +1445,56 @@ public enum _walk {
                              * WILL ALREADY HAVE BEEN BE CALLED IN THE WALK
                              */
                             _code _c = _java.type( (TypeDeclaration)a);
-                            if( _modelMatchFn.test((_J)_c) ){
-                                _modelAction.accept( (_J)_c );
+                            if( _javaMatchFn.test((_J)_c) ){
+                                _javaAction.accept( (_J)_c );
                             }
                         }                        
                     } );
             return astRootNode;
-        } else if (_modelClass == _packageInfo.class){
-            in(tt, 
+        } else if (_javaClass == _packageInfo.class){
+            in(tt,
+                levels,
                 astRootNode,
                     Node.class,
                     n ->n instanceof CompilationUnit,
                     a -> {
                         _code _c = _java.code( (CompilationUnit)a );
-                            if( _c instanceof _packageInfo && _modelMatchFn.test((_J)_c) ){
-                                _modelAction.accept( (_J)_c );
+                            if( _c instanceof _packageInfo && _javaMatchFn.test((_J)_c) ){
+                                _javaAction.accept( (_J)_c );
                             }                                                
                     } );
             return astRootNode;
-        } else if(_modelClass == _moduleInfo.class ){
-            in(tt, 
+        } else if(_javaClass == _moduleInfo.class ){
+            in(tt,
+                levels,
                 astRootNode,
                     Node.class,
                     n ->n instanceof CompilationUnit,
                     a -> {
                         _code _c = _java.code( (CompilationUnit)a );
-                            if( _c instanceof _moduleInfo && _modelMatchFn.test((_J)_c) ){
-                                _modelAction.accept( (_J)_c );
+                            if( _c instanceof _moduleInfo && _javaMatchFn.test((_J)_c) ){
+                                _javaAction.accept( (_J)_c );
                             }                                                
                     } );
             return astRootNode;
         }
-        else if( _modelClass == _field.class ){
+        else if( _javaClass == _field.class ){
             //fields are tricky because a single field declaration can be multiple variable declarations
             //i.e. int x,y,z; is a single FieldDeclaration but (3) VarDeclarators (3) _fields
             //however we have local fields that are defined as VariableDeclarators (so we dont want to count those)
-            in( tt,
+            in( tt, levels,
                     astRootNode,
                     VariableDeclarator.class,
                     v-> v.getParentNode().isPresent() && (v.getParentNode().get() instanceof FieldDeclaration),
                     v-> {
                         _field _f = _field.of(v);
-                        if( _modelMatchFn.test((_J)_f) ){
-                            _modelAction.accept( (_J) _f);
+                        if( _javaMatchFn.test((_J)_f) ){
+                            _javaAction.accept( (_J) _f);
                         }
                     });
             return astRootNode;
         }
-        else if( _java.Model._JAVA_TO_AST_NODE_CLASSES.containsKey( _modelClass ) ) {
+        else if( _java.Model._JAVA_TO_AST_NODE_CLASSES.containsKey( _javaClass ) ) {
             //System.out.println("Node Classes ");
             // _anno.class, AnnotationExpr.class
             // _annotation._element.class, AnnotationMemberDeclaration.class
@@ -1475,48 +1513,48 @@ public enum _walk {
             // _interface ClassOrInterfaceDeclaration.class
             // _annotation AnnotationDeclaration.class
             //class switch would be nice here
-            in(tt, 
+            in(tt, levels,
                 astRootNode,
-                    _java.Model._JAVA_TO_AST_NODE_CLASSES.get( _modelClass ),
+                    _java.Model._JAVA_TO_AST_NODE_CLASSES.get( _javaClass ),
                     t ->true,
                     a -> {
                         _J logical = (_J)_java.of( a );
-                        if( _modelMatchFn.test( logical ) ) {
-                            _modelAction.accept( logical );
+                        if( _javaMatchFn.test( logical ) ) {
+                            _javaAction.accept( logical );
                         }
                     } );
             return astRootNode;
         }
-        else if( _modelClass == _member.class ) {
-            in(tt,
+        else if( _javaClass == _member.class ) {
+            in(tt, levels,
                     astRootNode,
                     BodyDeclaration.class,
                     t-> !t.isInitializerDeclaration(), //static Blocks are not members
                     n-> {
                         _member _n = (_member)_java.of(n);
 
-                        if( ((Predicate<_member>)_modelMatchFn).test( _n) ){
-                            ((Consumer<_member>)_modelAction).accept( _n);
+                        if( ((Predicate<_member>)_javaMatchFn).test( _n) ){
+                            ((Consumer<_member>)_javaAction).accept( _n);
                         }
                     });
             return astRootNode;
         }
-        else if( _modelClass == _node.class ) {
-            in(tt,
+        else if( _javaClass == _node.class ) {
+            in(tt, levels,
                     astRootNode,
                     BodyDeclaration.class,
                     t-> true,
                     n-> {
                         _node _n = (_node)_java.of(n);
 
-                        if( ((Predicate<_node>)_modelMatchFn).test( _n) ){
-                            ((Consumer<_node>)_modelAction).accept( _n);
+                        if( ((Predicate<_node>)_javaMatchFn).test( _n) ){
+                            ((Consumer<_node>)_javaAction).accept( _n);
                         }
                     });
             return astRootNode;
         }
-        else if( _modelClass == _body.class ) {
-            in( tt,
+        else if( _javaClass == _body.class ) {
+            in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof NodeWithBlockStmt || n instanceof NodeWithOptionalBlockStmt,
@@ -1527,28 +1565,28 @@ public enum _walk {
                         }else{
                             _b = _body.of( (NodeWithOptionalBlockStmt)n );
                         }
-                        if( ((Predicate<_body>)_modelMatchFn).test( _b) ){
-                            ((Consumer<_body>)_modelAction).accept( _b);
+                        if( ((Predicate<_body>)_javaMatchFn).test( _b) ){
+                            ((Consumer<_body>)_javaAction).accept( _b);
                         }
                     });
             return astRootNode;
         }
-        else if( _modelClass == _body._hasBody.class ) {
-            in( tt,
+        else if( _javaClass == _body._hasBody.class ) {
+            in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof NodeWithBlockStmt || n instanceof NodeWithOptionalBlockStmt,
                     n-> {
                         _body._hasBody _hb = (_body._hasBody)_java.of(n);
 
-                        if( ((Predicate<_body._hasBody>)_modelMatchFn).test( _hb) ){
-                            ((Consumer<_body._hasBody>)_modelAction).accept( _hb);
+                        if( ((Predicate<_body._hasBody>)_javaMatchFn).test( _hb) ){
+                            ((Consumer<_body._hasBody>)_javaAction).accept( _hb);
                         }
                     });
             return astRootNode;
         }
-        else if( _modelClass == _anno._hasAnnos.class ) {
-            in(tt,
+        else if( _javaClass == _anno._hasAnnos.class ) {
+            in(tt, levels,
                     astRootNode,
                     Node.class,
                     //NOTE: we DONT use NodeWithAnnotations because Annotations CAN be applied in interesting ways
@@ -1557,98 +1595,98 @@ public enum _walk {
                     n -> n instanceof BodyDeclaration || n instanceof Parameter || n instanceof ReceiverParameter,
                     n ->{
                         _anno._hasAnnos ha = (_anno._hasAnnos)_java.of( n );
-                        if( ((Predicate<_anno._hasAnnos>)_modelMatchFn).test( ha ) ){
-                            ((Consumer<_anno._hasAnnos>)_modelAction).accept(ha);
+                        if( ((Predicate<_anno._hasAnnos>)_javaMatchFn).test( ha ) ){
+                            ((Consumer<_anno._hasAnnos>)_javaAction).accept(ha);
                         }
                     });
             return astRootNode;
         }
-        else if( _modelClass == _constructor._hasConstructors.class ) {
-            in( tt,
+        else if( _javaClass == _constructor._hasConstructors.class ) {
+            in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof NodeWithConstructors,
                     n-> {
                         _constructor._hasConstructors hc = (_constructor._hasConstructors)_java.of( n );
 
-                        if( ((Predicate<_constructor._hasConstructors>)_modelMatchFn).test( hc) ){
-                            ((Consumer<_constructor._hasConstructors>)_modelAction).accept( hc );
+                        if( ((Predicate<_constructor._hasConstructors>)_javaMatchFn).test( hc) ){
+                            ((Consumer<_constructor._hasConstructors>)_javaAction).accept( hc );
                         }
                     });
             return astRootNode;
         }
-        else if( _modelClass == _field._hasFields.class ) {
-            in( tt,
+        else if( _javaClass == _field._hasFields.class ) {
+            in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof TypeDeclaration || n instanceof EnumConstantDeclaration,
                     n-> {
                         _field._hasFields hf = (_field._hasFields)_java.of( n );
 
-                        if( ((Predicate<_field._hasFields>)_modelMatchFn).test( hf) ){
-                            ((Consumer<_field._hasFields>)_modelAction).accept( hf );
+                        if( ((Predicate<_field._hasFields>)_javaMatchFn).test( hf) ){
+                            ((Consumer<_field._hasFields>)_javaAction).accept( hf );
                         }
                     });
             return astRootNode;
         }
-        else if( _modelClass == _javadoc._hasJavadoc.class ) {
-            in( tt,
+        else if( _javaClass == _javadoc._hasJavadoc.class ) {
+            in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof NodeWithJavadoc,
                     n-> {
                         _javadoc._hasJavadoc hf = (_javadoc._hasJavadoc)_java.of( n );
 
-                        if( ((Predicate<_javadoc._hasJavadoc>)_modelMatchFn).test( hf) ){
-                            ((Consumer<_javadoc._hasJavadoc>)_modelAction).accept( hf );
+                        if( ((Predicate<_javadoc._hasJavadoc>)_javaMatchFn).test( hf) ){
+                            ((Consumer<_javadoc._hasJavadoc>)_javaAction).accept( hf );
                         }
                     });
             return astRootNode;
         }
-        else if( _modelClass == _method._hasMethods.class ) {
-            in( tt,
+        else if( _javaClass == _method._hasMethods.class ) {
+            in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof EnumConstantDeclaration || n instanceof ClassOrInterfaceDeclaration || n instanceof EnumDeclaration,
                     n-> {
                         _method._hasMethods hm = (_method._hasMethods)_java.of( n );
 
-                        if( ((Predicate<_method._hasMethods>)_modelMatchFn).test( hm) ){
-                            ((Consumer<_method._hasMethods>)_modelAction).accept( hm );
+                        if( ((Predicate<_method._hasMethods>)_javaMatchFn).test( hm) ){
+                            ((Consumer<_method._hasMethods>)_javaAction).accept( hm );
                         }
                     });
             return astRootNode;
         }
-        else if( _modelClass == _modifiers._hasModifiers.class ) {
-            in( tt,
+        else if( _javaClass == _modifiers._hasModifiers.class ) {
+            in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof NodeWithModifiers,
                     n-> {
                         _modifiers._hasModifiers  hm = (_modifiers._hasModifiers)_java.of( n );
 
-                        if( ((Predicate<_modifiers._hasModifiers>)_modelMatchFn).test( hm) ){
-                            ((Consumer<_modifiers._hasModifiers>)_modelAction).accept( hm );
+                        if( ((Predicate<_modifiers._hasModifiers>)_javaMatchFn).test( hm) ){
+                            ((Consumer<_modifiers._hasModifiers>)_javaAction).accept( hm );
                         }
                     });
             return astRootNode;
         }
-        else if( _modelClass == _parameter._hasParameters.class ) {
-            in( tt,
+        else if( _javaClass == _parameter._hasParameters.class ) {
+            in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof NodeWithParameters,
                     n-> {
                         _parameter._hasParameters  hm = (_parameter._hasParameters)_java.of( n );
 
-                        if( ((Predicate<_parameter._hasParameters>)_modelMatchFn).test( hm) ){
-                            ((Consumer<_parameter._hasParameters>)_modelAction).accept( hm );
+                        if( ((Predicate<_parameter._hasParameters>)_javaMatchFn).test( hm) ){
+                            ((Consumer<_parameter._hasParameters>)_javaAction).accept( hm );
                         }
                     });
             return astRootNode;
         }
-        else if( _modelClass == _parameter._parameters.class ) {
-            in( tt,
+        else if( _javaClass == _parameter._parameters.class ) {
+            in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof NodeWithParameters,
@@ -1656,28 +1694,28 @@ public enum _walk {
                         //need a lambda...
                         _parameter._hasParameters hp = (_parameter._hasParameters)_java.of( n );
                             
-                        if( ((Predicate<_parameter._parameters>)_modelMatchFn).test( hp.getParameters() ) ){
-                            ((Consumer<_parameter._parameters>)_modelAction).accept( hp.getParameters() );
+                        if( ((Predicate<_parameter._parameters>)_javaMatchFn).test( hp.getParameters() ) ){
+                            ((Consumer<_parameter._parameters>)_javaAction).accept( hp.getParameters() );
                         }
                     });
             return astRootNode;
         }
-        else if( _modelClass == _receiverParameter._hasReceiverParameter.class ) {
-            in( tt,
+        else if( _javaClass == _receiverParameter._hasReceiverParameter.class ) {
+            in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof MethodDeclaration || n instanceof ConstructorDeclaration,
                     n-> {
                         _receiverParameter._hasReceiverParameter hm = (_receiverParameter._hasReceiverParameter)_java.of( n );
 
-                        if( ((Predicate<_receiverParameter._hasReceiverParameter>)_modelMatchFn).test( hm) ){
-                            ((Consumer<_receiverParameter._hasReceiverParameter>)_modelAction).accept( hm );
+                        if( ((Predicate<_receiverParameter._hasReceiverParameter>)_javaMatchFn).test( hm) ){
+                            ((Consumer<_receiverParameter._hasReceiverParameter>)_javaAction).accept( hm );
                         }
                     });
             return astRootNode;
         }
-        else if( _modelClass == _staticBlock._hasStaticBlocks.class ) {
-            in( tt,
+        else if( _javaClass == _staticBlock._hasStaticBlocks.class ) {
+            in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof ClassOrInterfaceDeclaration || n instanceof EnumDeclaration,
@@ -1691,69 +1729,69 @@ public enum _walk {
                         } else {
                             hsb = _enum.of( (EnumDeclaration)n);
                         }
-                        if( hsb != null && ((Predicate<_staticBlock._hasStaticBlocks>)_modelMatchFn).test( hsb) ){
-                            ((Consumer<_staticBlock._hasStaticBlocks>)_modelAction).accept( hsb );
+                        if( hsb != null && ((Predicate<_staticBlock._hasStaticBlocks>)_javaMatchFn).test( hsb) ){
+                            ((Consumer<_staticBlock._hasStaticBlocks>)_javaAction).accept( hsb );
                         }
                     });
             return astRootNode;
         }
-        else if( _modelClass == _throws._hasThrows.class ) {
-            in( tt,
+        else if( _javaClass == _throws._hasThrows.class ) {
+            in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof NodeWithThrownExceptions,
                     n-> {
                         _throws._hasThrows ht = (_throws._hasThrows)_java.of(n);
 
-                        if( ((Predicate<_throws._hasThrows>)_modelMatchFn).test( ht) ){
-                            ((Consumer<_throws._hasThrows>)_modelAction).accept( ht );
+                        if( ((Predicate<_throws._hasThrows>)_javaMatchFn).test( ht) ){
+                            ((Consumer<_throws._hasThrows>)_javaAction).accept( ht );
                         }
                     });
             return astRootNode;
         }
-        else if( _modelClass == _typeParameter._hasTypeParameters.class ) {
-            in( tt,
+        else if( _javaClass == _typeParameter._hasTypeParameters.class ) {
+            in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof NodeWithTypeParameters,
                     n-> {
                         _typeParameter._hasTypeParameters ht = (_typeParameter._hasTypeParameters)_java.of(n);
 
-                        if( ((Predicate<_typeParameter._hasTypeParameters>)_modelMatchFn).test( ht) ){
-                            ((Consumer<_typeParameter._hasTypeParameters>)_modelAction).accept( ht );
+                        if( ((Predicate<_typeParameter._hasTypeParameters>)_javaMatchFn).test( ht) ){
+                            ((Consumer<_typeParameter._hasTypeParameters>)_javaAction).accept( ht );
                         }
                     });
             return astRootNode;
         }
-        else if( _modelClass == _throws.class ) {
-            in( tt,
+        else if( _javaClass == _throws.class ) {
+            in( tt, levels,
                     astRootNode,
                     Node.class,
                     n -> n instanceof MethodDeclaration || n instanceof ConstructorDeclaration,
                     n -> {
                         _throws _t = _throws.of( (NodeWithThrownExceptions)n);
 
-                        if( ((Predicate<_throws>)_modelMatchFn).test( _t) ){
-                            ((Consumer<_throws>)_modelAction).accept( _t );
+                        if( ((Predicate<_throws>)_javaMatchFn).test( _t) ){
+                            ((Consumer<_throws>)_javaAction).accept( _t );
                         }
                     });
             return astRootNode;
         }
-        else if( _modelClass == _typeParameter._typeParameters.class ) {
-            in( tt,
+        else if( _javaClass == _typeParameter._typeParameters.class ) {
+            in( tt, levels,
                     astRootNode,
                     Node.class,
                     n -> n instanceof MethodDeclaration || n instanceof ConstructorDeclaration,
                     n -> {
                         _throws _t = _throws.of( (NodeWithThrownExceptions)n);
 
-                        if( ((Predicate<_throws>)_modelMatchFn).test( _t) ){
-                            ((Consumer<_throws>)_modelAction).accept( _t );
+                        if( ((Predicate<_throws>)_javaMatchFn).test( _t) ){
+                            ((Consumer<_throws>)_javaAction).accept( _t );
                         }
                     });
             return astRootNode;
         }
-        throw new _draftException( "Could not convert Node of Class " + _modelClass + " to _java type" );
+        throw new _draftException( "Could not convert Node of Class " + _javaClass + " to _java type" );
     }
 
     /**

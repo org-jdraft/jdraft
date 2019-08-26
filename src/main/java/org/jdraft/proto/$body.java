@@ -25,12 +25,6 @@ import java.util.function.*;
  */
 public final class $body implements Template<_body>, $proto<_body, $body>, $constructor.$part, $method.$part{
 
-    /*
-    public static $body any(){
-        return of();
-    }
-     */
-    
     /**
      * ANY body (or lack of body)... so 
      * 
@@ -200,6 +194,16 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $cons
         }
         return false;
     }
+
+    public boolean match( _java _j ){
+        if( _j instanceof _body._hasBody ){
+            return matches( (_body._hasBody)_j );
+        }
+        return false;
+    }
+
+    public boolean matches(_body._hasBody _hb ){ return select( _hb) != null; }
+
     /**
      * 
      * @param astNwb
@@ -235,7 +239,8 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $cons
     public boolean matches( _body body){
         return select(body) != null;
     }
-    
+
+
     public Select select(Expr.Command commandLambda ){
         LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
         return select( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
@@ -311,7 +316,7 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $cons
     }
 
     public Tokens parse( _body body ){
-        if( isMatchAny() ){
+        if( isMatchAny() && body == null ){
             return new Tokens();
         }
         if( !this.constraint.test(body)){
@@ -332,6 +337,11 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $cons
             return null;
         }
         return new Tokens();
+    }
+
+
+    public Select select( _body._hasBody _hb ){
+        return select(_hb.getBody());
     }
 
     /**

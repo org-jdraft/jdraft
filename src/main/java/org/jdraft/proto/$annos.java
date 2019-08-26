@@ -300,6 +300,13 @@ public final class $annos
         return false;
     }
 
+    public boolean match( _java _j){
+        if( _j instanceof _anno._hasAnnos){
+            return matches( (_hasAnnos)_j);
+        }
+        return false;
+    }
+
     /**
      *
      * @param nwa

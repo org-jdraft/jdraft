@@ -53,7 +53,6 @@ public interface _node<N extends Node, _N extends _node> extends _java, _java._c
      */
     boolean is(N astNode);
 
-
     /**
      * Decompose the entity into smaller named tokens
      * returning a mapping between the name and the constituent part

@@ -3,6 +3,7 @@ package org.jdraft;
 import java.util.*;
 import java.io.*;
 import java.nio.file.Path;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -74,6 +75,43 @@ import org.jdraft.macro._macro;
  * @author Eric
  */
 public interface _java {
+
+    /**
+     * Shortcut for checking if an ast has a parent of a particular class that complies with a particular Predicate
+     * @param _j the _java entity
+     * @param parentNodeClass the node class expected of the parent node
+     * @param parentMatchFn predicate for matching the parent
+     * @param <_J> the expected _java node type
+     * @return true if the parent node exists, is of a particular type and complies with the predicate
+     */
+    static <_J extends _java> boolean isParent( _java _j, Class<_J> parentNodeClass, Predicate<_J> parentMatchFn){
+        if( _j instanceof _node ){
+            AtomicBoolean ans = new AtomicBoolean(false);
+            _walk.in_java(Node.TreeTraversal.PARENTS, 1, ((_node)_j).ast(), parentNodeClass, parentMatchFn, (t)-> ans.set(true) );
+            return ans.get();
+        }
+        //need to handle _typeParameters, _parameters, _annos
+        if( _j instanceof _typeParameters ){
+            _typeParameters _tps = (_typeParameters)_j;
+            _node _n = (_node)_java.of( (Node)_tps.astHolder());
+            return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
+        }
+        if( _j instanceof _body){
+            _body _tps = (_body)_j;
+            Object par = _tps.astParentNode();
+            if( par != null ){
+                _node _n = (_node)_java.of( (Node)par );
+                return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
+            }
+        }
+        if( _j instanceof _parameter._parameters){
+            _parameter._parameters _tps = (_parameter._parameters)_j;
+            _node _n = (_node)_java.of( (Node)_tps.astHolder());
+            return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
+        }
+        return false;
+    }
+
 
     /**
      * Check to see if this java entity has an Ancestor(parents, grandparents...) that

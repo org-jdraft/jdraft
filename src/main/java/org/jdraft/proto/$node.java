@@ -121,6 +121,13 @@ public final class $node implements $proto<Node, $node> {
         return select(node) != null;
     }
 
+    public boolean match(_java _j){
+        if( _j instanceof _node){
+            return match( ((_node)_j).ast());
+        }
+        return false;
+    }
+
     /**
      * ADDS an additional matching constraint to the prototype
      * @param constraint a constraint to be added

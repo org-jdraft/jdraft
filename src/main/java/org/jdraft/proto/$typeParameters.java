@@ -1,5 +1,8 @@
 package org.jdraft.proto;
 
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.type.TypeParameter;
 import org.jdraft._typeParameter;
 import org.jdraft._code;
 import org.jdraft._java;
@@ -128,6 +131,30 @@ public final class $typeParameters
             return matches( (NodeWithTypeParameters)node);
         }
         return false;
+    }
+
+    public boolean match( _java _j ){
+        if( _j instanceof _typeParameter._hasTypeParameters  ){
+            return matches( (_typeParameter._hasTypeParameters)_j);
+        }
+        return false;
+    }
+
+    /**
+     * Not great, but working implementation (because I need to synthesize a NodeWithTypeParameters)
+     * in order to use the API (wasteful but gets the job done)
+     * @param ntps
+     * @return
+     */
+    public boolean matches(NodeList<TypeParameter> ntps){
+        //this sucks... but ohh well
+        MethodDeclaration dummy = Ast.method("void $DUMMY_TYPE_PARAMETER_HOLDER$(){}");
+        ntps.forEach(tp -> dummy.addTypeParameter(tp) );
+        return matches(_typeParameters.of(dummy));
+    }
+
+    public boolean matches(_typeParameter._hasTypeParameters _htp){
+        return matches( (NodeWithTypeParameters) ((_node)_htp).ast() );
     }
 
     /**

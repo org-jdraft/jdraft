@@ -342,6 +342,20 @@ public final class $modifiers
         return false;
     }
 
+    public boolean match( _java _j ) {
+        if (_j instanceof _modifiers) {
+            return matches( (_modifiers)_j);
+        }
+        if( _j instanceof _modifiers._hasModifiers) {
+            return matches( (_modifiers._hasModifiers)_j);
+        }
+        return false;
+    }
+
+    public boolean matches( _hasModifiers _hm){
+        return select(_hm) != null;
+    }
+
     public boolean matches( NodeWithModifiers nwm ){
         return select( nwm ) != null;
     }

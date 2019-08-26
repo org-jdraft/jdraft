@@ -131,7 +131,18 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
     public boolean matches( _parameters _ps ){
         return select(_ps) != null;
     }
-    
+
+    public boolean matches( _parameter._hasParameters _ps ){
+        return select( _ps.getParameters() ) != null;
+    }
+
+    public boolean match( _java _j) {
+        if (_j instanceof _parameter._hasParameters) {
+            return matches((_parameter._hasParameters) _j);
+        }
+        return false;
+    }
+
     public Select select(NodeWithParameters astNodeWithParams ){
         return select( _parameters.of(astNodeWithParams) );
     }
@@ -139,7 +150,11 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
     public Select select( String... parameters ){
         return select(_parameters.of( parameters));
     }
-    
+
+    public Select select( _parameter._hasParameters _hp){
+        return select(_hp.getParameters());
+    }
+
     public Select select( _parameters _ps ){
         if( this.constraint.test(_ps)){
             
