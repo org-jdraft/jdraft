@@ -1,8 +1,6 @@
 package org.jdraft.proto;
 
-import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.ast.body.InitializerDeclaration;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
@@ -22,11 +20,11 @@ import java.util.stream.Collectors;
  *
  * @see InitializerDeclaration
  */
-public class $staticBlock implements $proto<_staticBlock, $staticBlock>, Template<_staticBlock> {
+public class $staticBlock implements $proto<_initBlock, $staticBlock>, Template<_initBlock> {
 
     public $stmt<BlockStmt> body;
 
-    public Predicate<_staticBlock> constraint = t->true;
+    public Predicate<_initBlock> constraint = t->true;
 
     public static $staticBlock of(){
         return new $staticBlock($stmt.of(BlockStmt.class, "$staticBlock$"), t->true);
@@ -42,11 +40,11 @@ public class $staticBlock implements $proto<_staticBlock, $staticBlock>, Templat
         return new $staticBlock( $stmt.of( BlockStmt.class, str),  t->true );
     }
 
-    public static $staticBlock of(Predicate<_staticBlock> matchFn ){
+    public static $staticBlock of(Predicate<_initBlock> matchFn ){
         return new $staticBlock( $stmt.of( BlockStmt.class, "$staticBlock$"), matchFn );
     }
 
-    public static $staticBlock of(String str, Predicate<_staticBlock> matchFn ){
+    public static $staticBlock of(String str, Predicate<_initBlock> matchFn ){
 
         if( str.trim().startsWith("static" )){
             str = str.substring(str.indexOf("{")+1 );
@@ -89,14 +87,14 @@ public class $staticBlock implements $proto<_staticBlock, $staticBlock>, Templat
         return of(bdy);
     }
 
-    public $staticBlock( $stmt<BlockStmt> $body,Predicate<_staticBlock> constraint){
+    public $staticBlock( $stmt<BlockStmt> $body,Predicate<_initBlock> constraint){
         //the pattern must be a valid package name
         this.body = $body;
         this.constraint = constraint;
     }
 
     @Override
-    public $staticBlock and(Predicate<_staticBlock> constraint) {
+    public $staticBlock and(Predicate<_initBlock> constraint) {
         this.constraint = this.constraint.and(constraint);
         return null;
     }
@@ -129,10 +127,10 @@ public class $staticBlock implements $proto<_staticBlock, $staticBlock>, Templat
             return isMatchAny();
         }
 
-        return matches(_staticBlock.of(staticBlock));
+        return matches(_initBlock.of(staticBlock));
     }
 
-    public boolean matches( _staticBlock staticBlock ){
+    public boolean matches( _initBlock staticBlock ){
         if( staticBlock == null ){
             return isMatchAny();
         }
@@ -153,15 +151,15 @@ public class $staticBlock implements $proto<_staticBlock, $staticBlock>, Templat
         return false;
     }
     @Override
-    public _staticBlock firstIn(Node astStartNode, Predicate<_staticBlock> nodeMatchFn) {
-        Optional<InitializerDeclaration> opd = astStartNode.findFirst(InitializerDeclaration.class, pd-> matches(pd) && nodeMatchFn.test(_staticBlock.of(pd)));
+    public _initBlock firstIn(Node astStartNode, Predicate<_initBlock> nodeMatchFn) {
+        Optional<InitializerDeclaration> opd = astStartNode.findFirst(InitializerDeclaration.class, pd-> matches(pd) && nodeMatchFn.test(_initBlock.of(pd)));
         if( opd.isPresent() ){
-            return _staticBlock.of(opd.get());
+            return _initBlock.of(opd.get());
         }
         return null;
     }
 
-    public Tokens parse (_staticBlock _sb ){
+    public Tokens parse (_initBlock _sb ){
         if( constraint.test(_sb) ){
             return body.select( _sb.ast().getBody()).tokens().asTokens();
         }
@@ -172,11 +170,11 @@ public class $staticBlock implements $proto<_staticBlock, $staticBlock>, Templat
         if(pd == null && isMatchAny() ){
             return new Tokens();
         }
-        return parse( _staticBlock.of(pd));
+        return parse( _initBlock.of(pd));
     }
 
     @Override
-    public Select select(_staticBlock _sb) {
+    public Select select(_initBlock _sb) {
         Tokens ts = parse( _sb);
         if( ts == null ){
             return null;
@@ -240,19 +238,19 @@ public class $staticBlock implements $proto<_staticBlock, $staticBlock>, Templat
     }
 
     @Override
-    public <N extends Node> N forEachIn(N astNode, Predicate<_staticBlock> nodeMatchFn, Consumer<_staticBlock> nodeActionFn) {
+    public <N extends Node> N forEachIn(N astNode, Predicate<_initBlock> nodeMatchFn, Consumer<_initBlock> nodeActionFn) {
         astNode.walk(InitializerDeclaration.class, pd-> {
-            if(matches(pd) && nodeMatchFn.test( _staticBlock.of(pd))){
-                nodeActionFn.accept(_staticBlock.of(pd));
+            if(matches(pd) && nodeMatchFn.test( _initBlock.of(pd))){
+                nodeActionFn.accept(_initBlock.of(pd));
             }
         });
         return astNode;
     }
 
     @Override
-    public _staticBlock draft(Translator translator, Map<String, Object> keyValues) {
+    public _initBlock draft(Translator translator, Map<String, Object> keyValues) {
         if( keyValues.isEmpty() && isMatchAny() ){
-            return new _staticBlock(new InitializerDeclaration());
+            return new _initBlock(new InitializerDeclaration());
         }
         Statement body = null;
         Object staticBlock = keyValues.get("$staticBlock");
@@ -262,7 +260,7 @@ public class $staticBlock implements $proto<_staticBlock, $staticBlock>, Templat
         } else{
             body = this.body.draft(translator, keyValues);
         }
-        return _staticBlock.of(body);
+        return _initBlock.of(body);
     }
 
     @Override
@@ -292,17 +290,17 @@ public class $staticBlock implements $proto<_staticBlock, $staticBlock>, Templat
      * inside of some Node or _node
      */
     public static class Select implements selected,
-            selectAst<InitializerDeclaration>, select_java<_staticBlock> {
+            selectAst<InitializerDeclaration>, select_java<_initBlock> {
 
         public $tokens tokens;
-        public _staticBlock _sb;
+        public _initBlock _sb;
 
         public Select( InitializerDeclaration id, Tokens tokens){
-            this._sb = _staticBlock.of(id);
+            this._sb = _initBlock.of(id);
             this.tokens = $tokens.of(tokens);
         }
 
-        public Select( _staticBlock _sb, Tokens tokens){
+        public Select(_initBlock _sb, Tokens tokens){
             this._sb = _sb;
             this.tokens = $tokens.of(tokens);
         }
@@ -318,7 +316,7 @@ public class $staticBlock implements $proto<_staticBlock, $staticBlock>, Templat
         }
 
         @Override
-        public _staticBlock _node() {
+        public _initBlock _node() {
             return _sb;
         }
     }

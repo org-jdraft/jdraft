@@ -17,7 +17,7 @@ import org.jdraft._modifiers._hasModifiers;
 import org.jdraft._receiverParameter._hasReceiverParameter;
 import org.jdraft._throws._hasThrows;
 import org.jdraft._typeParameter._hasTypeParameters;
-import org.jdraft._staticBlock._hasStaticBlocks;
+import org.jdraft._initBlock._hasInitBlocks;
 
 import org.jdraft.diff._diffNode._edit;
 
@@ -211,8 +211,8 @@ public interface _diff {
         return _typeParametersDiff.INSTANCE.diff(left, right);
     }
 
-    static _diff staticBlocksOf(_hasStaticBlocks left, _hasStaticBlocks right) {
-        return _staticBlocksDiff.INSTANCE.diff(left, right);
+    static _diff staticBlocksOf(_hasInitBlocks left, _hasInitBlocks right) {
+        return _initBlocksDiff.INSTANCE.diff(left, right);
     }
 
     static _diff receiverParameterOf(_hasReceiverParameter left, _hasReceiverParameter right) {

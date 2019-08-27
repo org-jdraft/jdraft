@@ -5,12 +5,6 @@
  */
 package org.jdraft;
 
-import org.jdraft._field;
-import org.jdraft._method;
-import org.jdraft._constructor;
-import org.jdraft._enum;
-import org.jdraft.Ast;
-import org.jdraft.Expr;
 import java.io.Serializable;
 import junit.framework.TestCase;
 import static junit.framework.TestCase.assertEquals;
@@ -123,8 +117,8 @@ public class _enumTest extends TestCase {
         assertEquals(Expr.of(2), _cc.getArgument(0));
         assertEquals(Expr.stringLiteral("Blah"), _cc.getArgument(1));
         
-        assertTrue( _e.hasStaticBlock() );
-        assertTrue( _e.getStaticBlock(0).is("System.out.println(12231);"));
+        assertTrue( _e.hasInitBlock() );
+        assertTrue( _e.getInitBlock(0).is("System.out.println(12231);"));
         
         assertTrue( _e.hasConstructors());
         _constructor _ct = _e.getConstructor( 0 );

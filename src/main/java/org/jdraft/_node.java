@@ -19,7 +19,7 @@ import java.util.Map;
  * <LI>{@link _method} {@link com.github.javaparser.ast.body.MethodDeclaration}</LI>
  * <LI>{@link _parameter} {@link com.github.javaparser.ast.body.Parameter}</LI>
  * <LI>{@link _receiverParameter} {@link com.github.javaparser.ast.body.ReceiverParameter}</LI>
- * <LI>{@link _staticBlock} {@link com.github.javaparser.ast.body.InitializerDeclaration}</LI>
+ * <LI>{@link _initBlock} {@link com.github.javaparser.ast.body.InitializerDeclaration}</LI>
  * <LI>{@link _typeParameter} {@link com.github.javaparser.ast.type.TypeParameter}</LI>
  * <LI>{@link _typeRef} {@link com.github.javaparser.ast.type.Type}</LI>
  * </UL>

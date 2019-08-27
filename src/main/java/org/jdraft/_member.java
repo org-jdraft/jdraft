@@ -21,7 +21,7 @@ import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
  * </UL>
  *
  * NOTE:
- * <LI>{@link _staticBlock} {@link com.github.javaparser.ast.body.InitializerDeclaration}
+ * <LI>{@link _initBlock} {@link com.github.javaparser.ast.body.InitializerDeclaration}
  * is NOT a member (primarily because it does not satisfy the {@link _named}
  * {@link _anno._hasAnnos} or {@link _javadoc._hasJavadoc} interfaces
  * (this generally maps to Accessible Java Member things
@@ -60,5 +60,4 @@ public interface _member<N extends Node, _M extends _node & _named & _anno._hasA
         ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
         return (_M) this;
     }
-    
 }

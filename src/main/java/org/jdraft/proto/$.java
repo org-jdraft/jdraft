@@ -1347,7 +1347,7 @@ public final class $ {
         return $staticBlock.of();
     }
 
-    public static $staticBlock staticBlock( Predicate<_staticBlock> packageNameMatchFn ){
+    public static $staticBlock staticBlock( Predicate<_initBlock> packageNameMatchFn ){
         return $staticBlock.of( packageNameMatchFn);
     }
 

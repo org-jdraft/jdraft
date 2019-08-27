@@ -23,8 +23,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import junit.framework.TestCase;
 import org.jdraft.proto.$;
-import org.jdraft.proto.$body;
-import org.jdraft.runtime._typeTree;
 import test.ComplexClass;
 import test.NativeMethod;
 
@@ -608,8 +606,8 @@ _class.of("aaaa.bbbb.Local",
         assertTrue( _c.getMethod( "getpid").is( "native int getpid();" ));
         
         assertTrue( _c.hasMethods() );
-        assertTrue( _c.hasStaticBlock() );
-        assertTrue( _c.getStaticBlock(0).is( " System.loadLibrary(\"getpid\");"));
+        assertTrue( _c.hasInitBlock() );
+        assertTrue( _c.getInitBlock(0).is( " System.loadLibrary(\"getpid\");"));
         _method _m = _c.getMethod(0);
         //System.out.println( _m );
         
@@ -644,10 +642,10 @@ _class.of("aaaa.bbbb.Local",
         assertFalse( _c.isStatic());
         assertFalse( _c.isFinal());
         assertFalse( _c.isAbstract());
-        assertFalse( _c.hasStaticBlock());
+        assertFalse( _c.hasInitBlock());
         assertFalse( _c.isExtends( Serializable.class ) );
         assertFalse( _c.isImplements( Serializable.class ) );
-        assertNull( _c.getStaticBlock(0) );
+        assertNull( _c.getInitBlock(0) );
         assertTrue( _c.listMethods().isEmpty() );
         assertTrue( _c.listFields().isEmpty() );
         assertTrue( _c.listConstructors().isEmpty() );
@@ -671,7 +669,7 @@ _class.of("aaaa.bbbb.Local",
         _c.typeParameters("<T extends Impl>");
         _c.extend( "Base");
         _c.implement( "A", "B");
-        _c.staticBlock("System.out.println(34);");
+        _c.initBlock("System.out.println(34);");
         _c.field( "/** field JAVADOC */",
             "@ann2(k=2,v='g')",
             "public static final List<String> l = new ArrayList<>();");
@@ -824,8 +822,8 @@ _class.of("aaaa.bbbb.Local",
         assertTrue( _c.isExtends( "Base") );
         assertTrue( _c.isImplements( "A"));
         assertTrue( _c.isImplements( "B"));        
-        assertTrue( _c.hasStaticBlock());
-        assertNotNull( _c.getStaticBlock(0) ); //todo better static block
+        assertTrue( _c.hasInitBlock());
+        assertNotNull( _c.getInitBlock(0) ); //todo better static block
         assertTrue( _c.hasFields());        
     }
 }

@@ -6,7 +6,6 @@ import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import org.jdraft._anno.*;
 import org.jdraft.io._in;
 import org.jdraft.macro._macro;
@@ -25,7 +24,7 @@ import java.util.stream.Collectors;
  * @author Eric
  */
 public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMethods<_enum>,
-        _constructor._hasConstructors<_enum, EnumDeclaration>, _staticBlock._hasStaticBlocks<_enum>,
+        _constructor._hasConstructors<_enum, EnumDeclaration>, _initBlock._hasInitBlocks<_enum>,
         _type._hasImplements<_enum>{
 
     public static _enum of( Class<? extends Enum> clazz ){
@@ -430,10 +429,10 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         if( !Objects.equals( this.getName(), other.getName() ) ) {
             return false;
         }
-        Set<_staticBlock>tsb = new HashSet<>();
-        Set<_staticBlock>osb = new HashSet<>();
-        tsb.addAll(listStaticBlocks());
-        osb.addAll(other.listStaticBlocks());
+        Set<_initBlock>tsb = new HashSet<>();
+        Set<_initBlock>osb = new HashSet<>();
+        tsb.addAll(listInitBlocks());
+        osb.addAll(other.listInitBlocks());
         if( !Objects.equals( tsb, osb ) ) {
             return false;
         }
@@ -568,7 +567,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         parts.put( _java.Component.IMPLEMENTS, this.listImplements() );
         parts.put( _java.Component.JAVADOC, this.getJavadoc() );
         parts.put( _java.Component.CONSTANTS, this.listConstants());
-        parts.put( _java.Component.STATIC_BLOCKS, this.listStaticBlocks());
+        parts.put( _java.Component.STATIC_BLOCKS, this.listInitBlocks());
         parts.put( _java.Component.NAME, this.getName() );
         parts.put( _java.Component.MODIFIERS, this.getModifiers() );
         parts.put( _java.Component.CONSTRUCTORS, this.listConstructors() );
@@ -600,8 +599,8 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         Set<_type> ct = new HashSet<>();
         ct.addAll( this.listCompanionTypes());
 
-        Set<_staticBlock> sbs = new HashSet<>();
-        sbs.addAll( this.listStaticBlocks() );
+        Set<_initBlock> sbs = new HashSet<>();
+        sbs.addAll( this.listInitBlocks() );
 
         hash = 53 * hash + Objects.hash( this.getPackage(),
                 Expr.hashAnnos(astEnum),

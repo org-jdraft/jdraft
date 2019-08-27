@@ -29,7 +29,7 @@ import org.jdraft.macro._toCtor;
  */
 public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         _method._hasMethods<_class>, _constructor._hasConstructors<_class, ClassOrInterfaceDeclaration>,
-        _typeParameter._hasTypeParameters<_class>, _staticBlock._hasStaticBlocks<_class>,
+        _typeParameter._hasTypeParameters<_class>, _initBlock._hasInitBlocks<_class>,
         _modifiers._hasAbstract<_class>,_modifiers._hasFinal<_class>,
         _modifiers._hasStatic<_class>,_type._hasImplements<_class>,
         _type._hasExtends<_class>{
@@ -867,10 +867,10 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         if( !Ast.typesEqual( this.listImplements(), other.listImplements())){
             return false;
         }
-        Set<_staticBlock> tsb = new HashSet<>();
-        Set<_staticBlock> osb = new HashSet<>();
-        tsb.addAll(listStaticBlocks());
-        osb.addAll(other.listStaticBlocks());
+        Set<_initBlock> tsb = new HashSet<>();
+        Set<_initBlock> osb = new HashSet<>();
+        tsb.addAll(listInitBlocks());
+        osb.addAll(other.listInitBlocks());
         if( !Objects.equals( tsb, osb)){
             return false;
         }
@@ -931,7 +931,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         parts.put( Component.IMPLEMENTS, this.listImplements() );
         parts.put( Component.JAVADOC, this.getJavadoc() );
         parts.put( Component.TYPE_PARAMETERS, this.getTypeParameters() );
-        parts.put( Component.STATIC_BLOCKS, this.listStaticBlocks());
+        parts.put( Component.STATIC_BLOCKS, this.listInitBlocks());
         parts.put( Component.NAME, this.getName() );
         parts.put( Component.MODIFIERS, this.getModifiers() );
         parts.put( Component.CONSTRUCTORS, this.listConstructors() );
@@ -958,8 +958,8 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         Set<_type> ct = new HashSet<>();
         ct.addAll( this.listCompanionTypes());
 
-        Set<_staticBlock> sbs = new HashSet<>();
-        sbs.addAll( this.listStaticBlocks());
+        Set<_initBlock> sbs = new HashSet<>();
+        sbs.addAll( this.listInitBlocks());
 
         hash = 47 * hash + Objects.hash( this.getPackage(), this.getName(),
                 this.getJavadoc(), this.getAnnos(), this.getModifiers(),

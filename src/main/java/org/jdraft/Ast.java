@@ -2384,6 +2384,25 @@ public enum Ast {
         return rep;
     }
 
+    public static InitializerDeclaration initBlock(String...code ){
+        String st = Text.combine(code);
+        String str = "";
+        if( st.startsWith("/*") ){ //if they start with a comment... then they MUST provide the static{} or {} braces
+            str = "class C{" + System.lineSeparator() + st + System.lineSeparator() + "}";
+        }
+        else if( st.startsWith("static")  || st.startsWith("{") ) {
+            str = "class C{" + System.lineSeparator() + st + System.lineSeparator() + "}";
+        } else{
+            str = "class C{ " + System.lineSeparator()
+                    +"{" +System.lineSeparator()
+                    + st
+                    + System.lineSeparator() + "} }";
+        }
+        InitializerDeclaration id = (InitializerDeclaration) classDeclaration(str).getMembers().get(0);
+        id.removeForced(); //disconnect
+        return id;
+    }
+
     /**
      * Creates a static block {@link InitializerDeclaration}, tries to account
      * for missing "static" missing "{" missing "}"
@@ -2394,6 +2413,10 @@ public enum Ast {
      * @return
      */
     public static InitializerDeclaration staticBlock(String... code) {
+        InitializerDeclaration id = initBlock(code);
+        id.setStatic(true);
+        return id;
+        /*
         //_1_build me a class to "wrap the static block, then parse it out
         String st = Text.combine(code);
 
@@ -2413,6 +2436,7 @@ public enum Ast {
         InitializerDeclaration id = (InitializerDeclaration) classDeclaration(str).getMembers().get(0);
         id.removeForced(); //disconnect
         return id;
+         */
     }
 
     /**

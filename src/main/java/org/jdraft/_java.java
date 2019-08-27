@@ -28,7 +28,7 @@ import org.jdraft._javadoc._hasJavadoc;
 import org.jdraft._method._hasMethods;
 import org.jdraft._modifiers.*;
 import org.jdraft._receiverParameter._hasReceiverParameter;
-import org.jdraft._staticBlock._hasStaticBlocks;
+import org.jdraft._initBlock._hasInitBlocks;
 import org.jdraft._throws._hasThrows;
 import org.jdraft._type._hasExtends;
 import org.jdraft._type._hasImplements;
@@ -459,7 +459,7 @@ public interface _java {
         if (_typeRef.class == nodeClass) {
             return typeRef(Text.combine(code).trim());
         }
-        if (_staticBlock.class == nodeClass) {
+        if (_initBlock.class == nodeClass) {
             return staticBlock(code);
         }
         if (_type.class.isAssignableFrom(nodeClass)) {
@@ -505,7 +505,7 @@ public interface _java {
      * {@link _method}
      * {@link _parameter}
      * {@link _receiverParameter}
-     * {@link _staticBlock}
+     * {@link _initBlock}
      * {@link _typeParameter}
      * {@link _typeRef}
      * </PRE>
@@ -584,7 +584,7 @@ public interface _java {
         }
         if (astNode instanceof InitializerDeclaration) {
             InitializerDeclaration id = (InitializerDeclaration) astNode;
-            return _staticBlock.of(id);
+            return _initBlock.of(id);
         }
         if (astNode instanceof ReceiverParameter) {
             ReceiverParameter rp = (ReceiverParameter) astNode;
@@ -732,8 +732,8 @@ public interface _java {
 
         EXTENDS("extends", List.class, ClassOrInterfaceType.class), //_class, //_interface
         IMPLEMENTS("implements", List.class, ClassOrInterfaceType.class), //_class, _enum
-        STATIC_BLOCKS("staticBlocks", List.class, _staticBlock.class), //class, _enum
-        STATIC_BLOCK("staticBlocks", _staticBlock.class), //class, _enum
+        STATIC_BLOCKS("staticBlocks", List.class, _initBlock.class), //class, _enum
+        STATIC_BLOCK("staticBlocks", _initBlock.class), //class, _enum
         CONSTRUCTORS("constructors", List.class, _constructor.class), //class, _enum
         CONSTRUCTOR("constructor", _constructor.class),
         METHODS("methods", List.class, _method.class), //class, _enum, _interface, _enum._constant
@@ -1032,7 +1032,7 @@ public interface _java {
         Class<_typeParameter> TYPE_PARAMETER = _typeParameter.class;
         Class<_typeParameters> TYPE_PARAMETERS = _typeParameters.class;
         Class<_receiverParameter> RECEIVER_PARAMETER = _receiverParameter.class;
-        Class<_staticBlock> STATIC_BLOCK = _staticBlock.class;
+        Class<_initBlock> STATIC_BLOCK = _initBlock.class;
         Class<_throws> THROWS = _throws.class;
         Class<_typeRef> TYPEREF = _typeRef.class;
 
@@ -1053,7 +1053,7 @@ public interface _java {
         Class<_hasModifiers> HAS_MODIFIERS = _hasModifiers.class;
         Class<_parameter._hasParameters> HAS_PARAMETERS = _parameter._hasParameters.class;
         Class<_hasReceiverParameter> HAS_RECEIVER_PARAMETER = _hasReceiverParameter.class;
-        Class<_hasStaticBlocks> HAS_STATIC_BLOCKS = _hasStaticBlocks.class;
+        Class<_hasInitBlocks> HAS_STATIC_BLOCKS = _hasInitBlocks.class;
         Class<_hasExtends> HAS_EXTENDS = _hasExtends.class;
         Class<_hasImplements> HAS_IMPLEMENTS = _hasImplements.class;
 
@@ -1082,7 +1082,7 @@ public interface _java {
             _JAVA_TO_AST_NODE_CLASSES.put(_method.class, MethodDeclaration.class);
             _JAVA_TO_AST_NODE_CLASSES.put(_parameter.class, Parameter.class);
             _JAVA_TO_AST_NODE_CLASSES.put(_receiverParameter.class, ReceiverParameter.class);
-            _JAVA_TO_AST_NODE_CLASSES.put(_staticBlock.class, InitializerDeclaration.class);
+            _JAVA_TO_AST_NODE_CLASSES.put(_initBlock.class, InitializerDeclaration.class);
             _JAVA_TO_AST_NODE_CLASSES.put(_typeParameter.class, TypeParameter.class);
             _JAVA_TO_AST_NODE_CLASSES.put(_typeRef.class, Type.class);
 
@@ -1117,7 +1117,7 @@ public interface _java {
             AST_NODE_TO_JAVA_CLASSES.put(MethodDeclaration.class, _method.class);
             AST_NODE_TO_JAVA_CLASSES.put(Parameter.class, _parameter.class);
             AST_NODE_TO_JAVA_CLASSES.put(ReceiverParameter.class, _receiverParameter.class);
-            AST_NODE_TO_JAVA_CLASSES.put(InitializerDeclaration.class, _staticBlock.class);
+            AST_NODE_TO_JAVA_CLASSES.put(InitializerDeclaration.class, _initBlock.class);
             AST_NODE_TO_JAVA_CLASSES.put(TypeParameter.class, _typeParameter.class);
 
             AST_NODE_TO_JAVA_CLASSES.put(Type.class, _typeRef.class);

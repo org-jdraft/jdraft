@@ -1714,13 +1714,13 @@ public enum _walk {
                     });
             return astRootNode;
         }
-        else if( _javaClass == _staticBlock._hasStaticBlocks.class ) {
+        else if( _javaClass == _initBlock._hasInitBlocks.class ) {
             in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof ClassOrInterfaceDeclaration || n instanceof EnumDeclaration,
                     n-> {
-                        _staticBlock._hasStaticBlocks hsb = null;
+                        _initBlock._hasInitBlocks hsb = null;
                         if( n instanceof ClassOrInterfaceDeclaration){
                             ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)n;
                             if( !coid.isInterface() ) {
@@ -1729,8 +1729,8 @@ public enum _walk {
                         } else {
                             hsb = _enum.of( (EnumDeclaration)n);
                         }
-                        if( hsb != null && ((Predicate<_staticBlock._hasStaticBlocks>)_javaMatchFn).test( hsb) ){
-                            ((Consumer<_staticBlock._hasStaticBlocks>)_javaAction).accept( hsb );
+                        if( hsb != null && ((Predicate<_initBlock._hasInitBlocks>)_javaMatchFn).test( hsb) ){
+                            ((Consumer<_initBlock._hasInitBlocks>)_javaAction).accept( hsb );
                         }
                     });
             return astRootNode;

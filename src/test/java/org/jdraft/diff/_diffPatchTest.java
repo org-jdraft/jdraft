@@ -227,7 +227,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.removeStaticBlock( _c.getStaticBlock(0));
+        _c.removeInitBlock( _c.getInitBlock(0));
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(STATIC_BLOCK).isRightOnly() );        
         dl.patchLeftToRight();        
@@ -594,7 +594,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();
         assertTrue(_diff.of(_i, _i2).isEmpty());
         
-        _c.removeStaticBlock(_c.getStaticBlock(0));
+        _c.removeInitBlock(_c.getInitBlock(0));
         dl = _diff.of(_i, _i2);
         assertTrue( dl.hasRightOnlyAt(STATIC_BLOCK));        
         dl.patchLeftToRight();

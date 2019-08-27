@@ -425,7 +425,7 @@ public final class _body implements _java {
     }
 
     /**
-     * Examples {@link _staticBlock}, {@link _method}, {@link _constructor}
+     * Examples {@link _initBlock}, {@link _method}, {@link _constructor}
      *
      * @author Eric
      * @param <_HB> enclosing TYPE (to access this)

@@ -1,13 +1,6 @@
 
 package org.jdraft;
 
-import org.jdraft._class;
-import org.jdraft._body;
-import org.jdraft._method;
-import org.jdraft._constructor;
-import org.jdraft._interface;
-import org.jdraft._staticBlock;
-import org.jdraft.Ast;
 import org.jdraft.macro._abstract;
 import junit.framework.TestCase;
 
@@ -116,7 +109,7 @@ public class _bodyTest extends TestCase {
         _method _m = _i.getMethod("noBody");
         _method _sm = _i.getMethod("someBody");
         _class _c = _class.of(F.class);
-        _staticBlock _sb = _c.getStaticBlock(0);
+        _initBlock _sb = _c.getInitBlock(0);
         _constructor _ct = _c.getConstructor( 0 );
         
         assertNotNull( _ct.getBody() );
@@ -145,14 +138,14 @@ public class _bodyTest extends TestCase {
     
     public void testStaticBody(){
         _class _c = _class.of(_bodyTest.class );
-        assertTrue( _c.listStaticBlocks().get(0).ast().getJavadocComment().isPresent());
+        assertTrue( _c.listInitBlocks().get(0).ast().getJavadocComment().isPresent());
         
         
-        assertTrue( _c.getStaticBlock(0).ast().getJavadocComment().get().getContent().contains( "A JAVADOC"));
+        assertTrue( _c.getInitBlock(0).ast().getJavadocComment().get().getContent().contains( "A JAVADOC"));
         
-        _c.getStaticBlock(0).ast().addAnnotation( Ast.anno( "@ann"));
+        _c.getInitBlock(0).ast().addAnnotation( Ast.anno( "@ann"));
         
-        _c.getStaticBlock(0).ast().getJavadocComment().get().setContent( "Different Javadoc");
+        _c.getInitBlock(0).ast().getJavadocComment().get().setContent( "Different Javadoc");
         
         System.out.println( _c );
         
