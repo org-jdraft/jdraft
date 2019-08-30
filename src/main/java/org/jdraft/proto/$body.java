@@ -101,11 +101,11 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $cons
     }
     
     public static $body notImplemented(){
-        return new $body().and(b-> !b.isImplemented());
+        return new $body().$and(b-> !b.isImplemented());
     }
     
     public static $body empty(){
-        return new $body().and(b -> b.isEmpty() );
+        return new $body().$and(b -> b.isEmpty() );
     }
     
     public Predicate<_body> constraint = t->true;
@@ -148,7 +148,7 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $cons
      * @param constraint
      * @return 
      */
-    public $body and(Predicate<_body> constraint ){
+    public $body $and(Predicate<_body> constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }

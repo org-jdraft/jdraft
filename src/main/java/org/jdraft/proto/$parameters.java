@@ -34,7 +34,7 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
      * @return 
      */
     public static $parameters none(){
-        return $parameters.of().and(ps-> ps.isEmpty());
+        return $parameters.of().$and(ps-> ps.isEmpty());
     }
     
     public static $parameters of(){
@@ -73,7 +73,7 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
         this.constraint = constraint;
     }
     
-    public $parameters and(Predicate<_parameters> constraint ){
+    public $parameters $and(Predicate<_parameters> constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }

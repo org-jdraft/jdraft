@@ -1,6 +1,6 @@
 package org.jdraft;
 
-import org.jdraft.TextBlanks.Builder;
+import org.jdraft.TextForm.Builder;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
@@ -8,124 +8,124 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class TextBlanksTest extends TestCase{
+public class TextFormTest extends TestCase{
 
     public void testOnlyBlank(){
-        TextBlanks tb = TextBlanks.of(null);
-        List<String> all = tb.decompose("The whole thing");
+        TextForm tb = TextForm.of((String)null);
+        List<String> all = tb.parse("The whole thing");
         assertTrue( all.size() == 1);
         assertEquals( all.get(0), "The whole thing" );
 
-        TextBlanks.Builder tbb = new TextBlanks.Builder();
+        TextForm.Builder tbb = new TextForm.Builder();
         tbb.blank();
         tb = tbb.compile();
-        all = tb.decompose("The whole thing");
+        all = tb.parse("The whole thing");
         assertTrue( all.size() == 1);
         assertEquals( all.get(0), "The whole thing" );
     }
     public void testStartsWithBlank() {
         //only text
-        TextBlanks fitb = TextBlanks.of( "t");
+        TextForm fitb = TextForm.of( "t");
         assertFalse( fitb.startsWithBlank() );
         assertFalse( fitb.endsWithBlank() );
         assertEquals(0, fitb.getBlanksCount());
 
         //only blank
-        fitb = TextBlanks.of( null );
+        fitb = TextForm.of( null );
         assertTrue( fitb.startsWithBlank());
         assertTrue( fitb.endsWithBlank());
         assertEquals( 1, fitb.getBlanksCount());
-        assertEquals( "toDir Extract", fitb.decompose("toDir Extract").get(0));
+        assertEquals( "toDir Extract", fitb.parse("toDir Extract").get(0));
     }
 
     public void testExtractOnlyBlank() {
-        TextBlanks fitb = TextBlanks.of("");
+        TextForm fitb = TextForm.of("");
         assertFalse(fitb.startsWithBlank());
         assertFalse(fitb.endsWithBlank());
         assertEquals(0, fitb.getBlanksCount());
-        assertEquals(0, fitb.decompose("").size());
+        assertEquals(0, fitb.parse("").size());
 
-        fitb = TextBlanks.of(null);
-        List<String> strs = fitb.decompose("Pretty much anything");
+        fitb = TextForm.of(null);
+        List<String> strs = fitb.parse("Pretty much anything");
         assertEquals(1, strs.size());
         assertEquals("Pretty much anything", strs.get(0));
     }
 
     public void testExtractStartsWithBlank(){
-        TextBlanks fitb = TextBlanks.of(null, " a");
-        List<String> strs = fitb.decompose("Ends with a");
+        TextForm fitb = TextForm.of(null, " a");
+        List<String> strs = fitb.parse("Ends with a");
         assertEquals("Ends with", strs.get(0));
         assertEquals(1, strs.size());
     }
 
     public void testExtractEndsWithBlank() {
-        TextBlanks fitb = TextBlanks.of("a ", null);
-        List<String> strs = fitb.decompose("a Starts With");
+        TextForm fitb = TextForm.of("a ", null);
+        List<String> strs = fitb.parse("a Starts With");
         System.out.println(strs);
         assertEquals("Starts With", strs.get(0));
         assertEquals(1, strs.size());
     }
 
     public void testExtractBlankInMiddle() {
-        TextBlanks fitb = TextBlanks.of("in the ", null, " of text");
-        List<String> strs = fitb.decompose("in the MIDDLE of text");
+        TextForm fitb = TextForm.of("in the ", null, " of text");
+        List<String> strs = fitb.parse("in the MIDDLE of text");
         assertEquals("MIDDLE", strs.get(0));
         assertEquals(1, strs.size());
     }
 
     public void testEquals(){
-        assertEquals( TextBlanks.of(null," A ", null, " B- ", null), TextBlanks.of(null," A ", null, " B- ", null) );
+        assertEquals( TextForm.of(null," A ", null, " B- ", null), TextForm.of(null," A ", null, " B- ", null) );
 
-        TextBlanks fitb = TextBlanks.of(null," A ", null, " B- ", null);
-        List<String> strs = fitb.decompose("much at the front A then B- for the exam");
-        assertEquals( fitb, TextBlanks.of(null," A ", null, " B- ", null) );
+        TextForm fitb = TextForm.of(null," A ", null, " B- ", null);
+        List<String> strs = fitb.parse("much at the front A then B- for the exam");
+        assertEquals( fitb, TextForm.of(null," A ", null, " B- ", null) );
     }
 
     public void testExtractStartEndMiddleBlanks(){
-        TextBlanks fitb = TextBlanks.of(null," A ", null, " B- ", null);
-        List<String> strs = fitb.decompose("much at the front A then B- for the exam");
+        TextForm fitb = TextForm.of(null," A ", null, " B- ", null);
+        List<String> strs = fitb.parse("much at the front A then B- for the exam");
         assertEquals("much at the front",strs.get(0));
         assertEquals("then",strs.get(1));
         assertEquals("for the exam",strs.get(2));
         assertEquals(3, strs.size() );
 
-        TextBlanks another = TextBlanks.of(null," A ", null, " B- ", null);
+        TextForm another = TextForm.of(null," A ", null, " B- ", null);
 
         assertEquals( fitb, another );
         assertEquals( fitb.hashCode(), another.hashCode() );
     }
 
     public void testEndsWithBlank(){
-        TextBlanks fitb = TextBlanks.of( "This is some data" );
+        TextForm fitb = TextForm.of( "This is some data" );
         assertFalse(fitb.endsWithBlank());
 
-        fitb = TextBlanks.of( "This is some data", null );
+        fitb = TextForm.of( "This is some data", null );
         assertTrue(fitb.endsWithBlank());
 
-        fitb = TextBlanks.of( "This is some data", null, "text" );
+        fitb = TextForm.of( "This is some data", null, "text" );
         assertFalse(fitb.endsWithBlank());
     }
 
     public void testNoBlanksGetTextAfterBlank(){
-        TextBlanks fitb =
-                TextBlanks.of( "This is some data" );
-        assertEquals("This is some data", fitb.getTextBeforeBlank( 0 ));
+        TextForm fitb =
+                TextForm.of( "This is some data" );
+        assertEquals("This is some data", fitb.getTextSegmentBeforeBlank( 0 ));
         //assertEquals("this is some data", fitb.getTextAfterBlank( -1 ));
     }
 
     public void testCombine (){
-        TextBlanks f = TextBlanks.of( "a");
-        TextBlanks f0 = TextBlanks.of( "b");
-        TextBlanks fcomb = TextBlanks.combine(f,f0);
+        TextForm f = TextForm.of( "a");
+        TextForm f0 = TextForm.of( "b");
+        TextForm fcomb = TextForm.combine(f,f0);
         assertEquals( "ab", fcomb.fill(  ) );
 
-        TextBlanks f1 = TextBlanks.of( "1", "3", "5" );
-        TextBlanks f2 = TextBlanks.of( "6", "8", "10" );
+        TextForm f1 = TextForm.of( "1", "3", "5" );
+        TextForm f2 = TextForm.of( "6", "8", "10" );
 
         assertEquals( "12345", f1.fill( 2, 4 ) );
         assertEquals( "678910", f2.fill( 7,9 ) );
 
-        TextBlanks f3 = TextBlanks.combine( f1, f2 );
+        TextForm f3 = TextForm.combine( f1, f2 );
 
         assertEquals( f3.getBlanksCount(), f1.getBlanksCount() + f2.getBlanksCount() );
         assertEquals( f3.getFixedText(), f1.getFixedText() + f2.getFixedText() );
@@ -134,13 +134,13 @@ public class TextBlanksTest extends TestCase{
     }
 
     public void testMergeBlanksAtEdges(){
-        TextBlanks f1 = TextBlanks.of( null, "2", "4", null );
-        TextBlanks f2 = TextBlanks.of( null, "7", "9", null );
+        TextForm f1 = TextForm.of( null, "2", "4", null );
+        TextForm f2 = TextForm.of( null, "7", "9", null );
 
         assertEquals( "12345", f1.fill( 1, 3, 5 ) );
         assertEquals( "678910", f2.fill( 6, 8, 10 ) );
 
-        TextBlanks f3 = TextBlanks.combine(f1,f2);
+        TextForm f3 = TextForm.combine(f1,f2);
 
         assertEquals( f3.getBlanksCount(), f1.getBlanksCount() + f2.getBlanksCount() );
         assertEquals( f3.getFixedText(), f1.getFixedText() + f2.getFixedText() );
@@ -148,7 +148,7 @@ public class TextBlanksTest extends TestCase{
     }
 
     public void testOfBetweenStrings(){
-        TextBlanks ft = TextBlanks.of( "A", "C", "E", "G" );
+        TextForm ft = TextForm.of( "A", "C", "E", "G" );
         assertEquals( ft.getFixedText(), "ACEG" );
         assertEquals( "ABCDEFG", ft.fill( "B", "D", "F" ) );
         assertEquals( 3, ft.getBlanks().cardinality() );
@@ -159,18 +159,18 @@ public class TextBlanksTest extends TestCase{
 
         assertEquals( 3, ft.getBlanksCount() );
 
-        assertEquals( ft.getTextAfterBlank( 0 ), "C" );
-        assertEquals( ft.getTextAfterBlank( 1 ), "E" );
-        assertEquals( ft.getTextAfterBlank( 2 ), "G" );
+        assertEquals( ft.getTextSegmentAfterBlank( 0 ), "C" );
+        assertEquals( ft.getTextSegmentAfterBlank( 1 ), "E" );
+        assertEquals( ft.getTextSegmentAfterBlank( 2 ), "G" );
 
-        assertEquals( ft.getTextBeforeBlank( 0 ), "A" );
-        assertEquals( ft.getTextBeforeBlank( 1 ), "C" );
-        assertEquals( ft.getTextBeforeBlank( 2 ), "E" );
+        assertEquals( ft.getTextSegmentBeforeBlank( 0 ), "A" );
+        assertEquals( ft.getTextSegmentBeforeBlank( 1 ), "C" );
+        assertEquals( ft.getTextSegmentBeforeBlank( 2 ), "E" );
     }
 
     public void testOfDoubleBlanks(){
         //toDir create multiple (N) blanks in a row, accept (N) nulls in a row
-        TextBlanks ft = TextBlanks.of( "A", null, null, "D", "F" );
+        TextForm ft = TextForm.of( "A", null, null, "D", "F" );
         assertEquals( ft.getFixedText(), "ADF" );
         assertEquals( "ABCDEF", ft.fill( "B", "C", "E" ) );
         assertEquals( 3, ft.getBlanks().cardinality() );
@@ -181,13 +181,13 @@ public class TextBlanksTest extends TestCase{
 
         assertEquals( 3, ft.getBlanksCount() );
 
-        assertEquals( ft.getTextAfterBlank( 0 ), "" );
-        assertEquals( ft.getTextAfterBlank( 1 ), "D" );
-        assertEquals( ft.getTextAfterBlank( 2 ), "F" );
+        assertEquals( ft.getTextSegmentAfterBlank( 0 ), "" );
+        assertEquals( ft.getTextSegmentAfterBlank( 1 ), "D" );
+        assertEquals( ft.getTextSegmentAfterBlank( 2 ), "F" );
 
-        assertEquals( ft.getTextBeforeBlank( 0 ), "A" );
-        assertEquals( ft.getTextBeforeBlank( 1 ), "" );
-        assertEquals( ft.getTextBeforeBlank( 2 ), "D" );
+        assertEquals( ft.getTextSegmentBeforeBlank( 0 ), "A" );
+        assertEquals( ft.getTextSegmentBeforeBlank( 1 ), "" );
+        assertEquals( ft.getTextSegmentBeforeBlank( 2 ), "D" );
     }
     /*
     public void testOfAllBlanks()
@@ -203,15 +203,15 @@ public class TextBlanksTest extends TestCase{
     }
     */
     public void testOfPrefixBlanks(){
-        TextBlanks ft = TextBlanks.of( null, null, "345", null );
+        TextForm ft = TextForm.of( null, null, "345", null );
         assertEquals( "123456", ft.fill( 1,2,6 ) );
 
-        ft = TextBlanks.of( null, null, "3", "5", null );
+        ft = TextForm.of( null, null, "3", "5", null );
         assertEquals( "123456", ft.fill( 1,2,4,6 ) );
     }
 
     public void testOfTrailingBlanks(){
-        TextBlanks ft = TextBlanks.of( "12", null, null, null );
+        TextForm ft = TextForm.of( "12", null, null, null );
         assertEquals( "12345", ft.fill( 3,4,5 ) );
 
     }
@@ -225,8 +225,8 @@ public class TextBlanksTest extends TestCase{
      */
     public void testReplaceComment(){
         String comment = "/+**+/";
-        TextBlanks replaceComment =
-                new TextBlanks.Builder().text( comment ).compile();
+        TextForm replaceComment =
+                new TextForm.Builder().text( comment ).compile();
         assertTrue( replaceComment.getBlanksCount() == 0 );
         //assertTrue( replaceComment.getFixedText().typesEqual( "/**/" ) );
 
@@ -234,13 +234,13 @@ public class TextBlanksTest extends TestCase{
 
         comment = "/+*/+**+/*+/";
         replaceComment =
-                new TextBlanks.Builder().text( comment ).compile();
+                new TextForm.Builder().text( comment ).compile();
         assertTrue( replaceComment.getBlanksCount() == 0 );
         //assertTrue( replaceComment.getFixedText().typesEqual( "/*/**/*/" ) );
 
         comment = "/+** JAVADOC comment *+/";
-        TextBlanks replaceJdocComment =
-                new TextBlanks.Builder().text( comment ).compile();
+        TextForm replaceJdocComment =
+                new TextForm.Builder().text( comment ).compile();
         assertTrue( replaceJdocComment.getBlanksCount() == 0 );
         //assertTrue( replaceJdocComment.getFixedText().typesEqual( "/** JAVADOC comment */" ) );
     }
@@ -249,8 +249,8 @@ public class TextBlanksTest extends TestCase{
         String alpha = "abcdefghijklmnopqrstuvwxyz";
 
 
-        TextBlanks noBlanks =
-                new TextBlanks.Builder().text( alpha ).compile();
+        TextForm noBlanks =
+                new TextForm.Builder().text( alpha ).compile();
 
         assertTrue( noBlanks.getBlanksCount() == 0 );
 
@@ -261,64 +261,64 @@ public class TextBlanksTest extends TestCase{
         String alpha = "abcdefghijklmnopqrstuvwxyz";
         Builder b = new Builder();
         b.text( alpha );
-        TextBlanks fo = b.compile();
+        TextForm fo = b.compile();
         assertTrue( fo.getFixedText().equals( alpha ) );
     }
 
     public void testGetTextAfterBlanks(){
-        TextBlanks empty =
+        TextForm empty =
                 new Builder()
                         .blank().blank().blank().blank().compile();
 
-        assertTrue( empty.getTextAfterBlank( -1 ).equals( "" ) );
-        assertTrue( empty.getTextAfterBlank( 0 ).equals( "" ) );
-        assertTrue( empty.getTextAfterBlank( 1 ).equals( "" ) );
-        assertTrue( empty.getTextAfterBlank( 2 ).equals( "" ) );
-        assertTrue( empty.getTextAfterBlank( 3 ).equals( "" ) );
-        assertTrue( empty.getTextAfterBlank( 4 ).equals( "" ) );
-        assertTrue( empty.getTextAfterBlank( 5 ).equals( "" ) );
+        assertTrue( empty.getTextSegmentAfterBlank( -1 ).equals( "" ) );
+        assertTrue( empty.getTextSegmentAfterBlank( 0 ).equals( "" ) );
+        assertTrue( empty.getTextSegmentAfterBlank( 1 ).equals( "" ) );
+        assertTrue( empty.getTextSegmentAfterBlank( 2 ).equals( "" ) );
+        assertTrue( empty.getTextSegmentAfterBlank( 3 ).equals( "" ) );
+        assertTrue( empty.getTextSegmentAfterBlank( 4 ).equals( "" ) );
+        assertTrue( empty.getTextSegmentAfterBlank( 5 ).equals( "" ) );
 
-        TextBlanks fo = new Builder()
+        TextForm fo = new Builder()
                 .text( "0123" ).blank().text( "567" ).blank()
                 .text( "901" ).blank().text( "3456" ).blank()
                 .text( "890" ).blank().text( "23" ).blank().compile();
         //( "0123_567_901_3456_890_23_", "to" );
 
-        assertTrue( fo.getTextAfterBlank( -1 ).equals( "" ) );
+        assertTrue( fo.getTextSegmentAfterBlank( -1 ).equals( "" ) );
 
-        assertTrue( fo.getTextAfterBlank( 0 ).equals( "567" ) );
-        assertTrue( fo.getTextAfterBlank( 1 ).equals( "901" ) );
-        assertTrue( fo.getTextAfterBlank( 2 ).equals( "3456" ) );
-        assertTrue( fo.getTextAfterBlank( 3 ).equals( "890" ) );
-        assertTrue( fo.getTextAfterBlank( 4 ).equals( "23" ) );
-        assertTrue( fo.getTextAfterBlank( 5 ).equals( "" ) );
+        assertTrue( fo.getTextSegmentAfterBlank( 0 ).equals( "567" ) );
+        assertTrue( fo.getTextSegmentAfterBlank( 1 ).equals( "901" ) );
+        assertTrue( fo.getTextSegmentAfterBlank( 2 ).equals( "3456" ) );
+        assertTrue( fo.getTextSegmentAfterBlank( 3 ).equals( "890" ) );
+        assertTrue( fo.getTextSegmentAfterBlank( 4 ).equals( "23" ) );
+        assertTrue( fo.getTextSegmentAfterBlank( 5 ).equals( "" ) );
     }
 
     public void testGetTextBeforeBlanks(){
-        TextBlanks empty =
+        TextForm empty =
                 new Builder().blank().blank().blank().blank().compile();
-        assertTrue( empty.getTextBeforeBlank( -1 ).equals( "" ) );
-        assertTrue( empty.getTextBeforeBlank( 0 ).equals( "" ) );
-        assertTrue( empty.getTextBeforeBlank( 1 ).equals( "" ) );
-        assertTrue( empty.getTextBeforeBlank( 2 ).equals( "" ) );
-        assertTrue( empty.getTextBeforeBlank( 3 ).equals( "" ) );
-        assertTrue( empty.getTextBeforeBlank( 4 ).equals( "" ) );
-        assertTrue( empty.getTextBeforeBlank( 5 ).equals( "" ) );
+        assertTrue( empty.getTextSegmentBeforeBlank( -1 ).equals( "" ) );
+        assertTrue( empty.getTextSegmentBeforeBlank( 0 ).equals( "" ) );
+        assertTrue( empty.getTextSegmentBeforeBlank( 1 ).equals( "" ) );
+        assertTrue( empty.getTextSegmentBeforeBlank( 2 ).equals( "" ) );
+        assertTrue( empty.getTextSegmentBeforeBlank( 3 ).equals( "" ) );
+        assertTrue( empty.getTextSegmentBeforeBlank( 4 ).equals( "" ) );
+        assertTrue( empty.getTextSegmentBeforeBlank( 5 ).equals( "" ) );
 
-        TextBlanks fo =
+        TextForm fo =
                 new Builder().text("0123").blank().text( "567").blank().text( "901" )
                         .blank().text( "3456" ).blank().text( "890" ).blank() .text( "23")
                         .blank().compile();
 
-        assertTrue( fo.getTextBeforeBlank( -1 ).equals( "" ) );
+        assertTrue( fo.getTextSegmentBeforeBlank( -1 ).equals( "" ) );
 
-        assertTrue( fo.getTextBeforeBlank( 0 ).equals( "0123" ) );
-        assertTrue( fo.getTextBeforeBlank( 1 ).equals( "567" ) );
-        assertTrue( fo.getTextBeforeBlank( 2 ).equals( "901" ) );
-        assertTrue( fo.getTextBeforeBlank( 3 ).equals( "3456" ) );
-        assertTrue( fo.getTextBeforeBlank( 4 ).equals( "890" ) );
-        assertTrue( fo.getTextBeforeBlank( 5 ).equals( "23" ) );
-        assertTrue( fo.getTextBeforeBlank( 6 ).equals( "" ) );
+        assertTrue( fo.getTextSegmentBeforeBlank( 0 ).equals( "0123" ) );
+        assertTrue( fo.getTextSegmentBeforeBlank( 1 ).equals( "567" ) );
+        assertTrue( fo.getTextSegmentBeforeBlank( 2 ).equals( "901" ) );
+        assertTrue( fo.getTextSegmentBeforeBlank( 3 ).equals( "3456" ) );
+        assertTrue( fo.getTextSegmentBeforeBlank( 4 ).equals( "890" ) );
+        assertTrue( fo.getTextSegmentBeforeBlank( 5 ).equals( "23" ) );
+        assertTrue( fo.getTextSegmentBeforeBlank( 6 ).equals( "" ) );
     }
 
     public void testGetCharIndexOfBlank(){
@@ -335,7 +335,7 @@ public class TextBlanksTest extends TestCase{
                 .getCharIndexOfBlank( 0 ) == 0 );
 
         //System.out.println( FillInTheBlanks.parse( "__B__" ).getCharIndexOfBlank( 1 ) );
-        TextBlanks fo =
+        TextForm fo =
                 new Builder().blank().text( "B" ).blank().compile();
         //System.out.println( fo );
         //System.out.println( fo.getCharIndexOfBlank( 1 ) );
@@ -379,9 +379,9 @@ public class TextBlanksTest extends TestCase{
             );
         */
 
-        TextBlanks fillOrder = new Builder().text( "a" ).compile();
-        assertTrue( fillOrder.getTextAfterBlank( 0 ).equals( "" ) );
-        assertTrue( fillOrder.getTextAfterBlank( 1 ).equals( "" ) );
+        TextForm fillOrder = new Builder().text( "a" ).compile();
+        assertTrue( fillOrder.getTextSegmentAfterBlank( 0 ).equals( "" ) );
+        assertTrue( fillOrder.getTextSegmentAfterBlank( 1 ).equals( "" ) );
 
         //fillOrder = new Builder().blank().compile();
         //assertTrue( fillOrder.getTextAfterBlank( 0 ).typesEqual( ", b" ) );
@@ -397,19 +397,19 @@ public class TextBlanksTest extends TestCase{
     }
 
     public void testBlanks2(){
-        TextBlanks f2 =
+        TextForm f2 =
                 new Builder()
                         .text( "A" ).blank()
                         .text( "C" ).blank()
                         .text( "E" ).blank()
                         .text( "G" ).blank()
                         .text( "I" ).compile();
-        assertTrue( f2.getTextAfterBlank( 0 ).equals( "C" ) );
-        assertTrue( f2.getTextAfterBlank( 1 ).equals( "E" ) );
+        assertTrue( f2.getTextSegmentAfterBlank( 0 ).equals( "C" ) );
+        assertTrue( f2.getTextSegmentAfterBlank( 1 ).equals( "E" ) );
 
-        assertTrue( f2.getTextAfterBlank( 2 ).equals( "G" ) );
-        assertTrue( f2.getTextAfterBlank( 3 ).equals( "I" ) );
-        assertTrue( f2.getTextAfterBlank( 4 ).equals( "" ) );
+        assertTrue( f2.getTextSegmentAfterBlank( 2 ).equals( "G" ) );
+        assertTrue( f2.getTextSegmentAfterBlank( 3 ).equals( "I" ) );
+        assertTrue( f2.getTextSegmentAfterBlank( 4 ).equals( "" ) );
     }
 
     /**
@@ -463,7 +463,7 @@ public class TextBlanksTest extends TestCase{
 
 
     public void testBuildRegexPattern1(){
-        TextBlanks tb = TextBlanks.of( "$NAME ", null, " $VALUE" );
+        TextForm tb = TextForm.of( "$NAME ", null, " $VALUE" );
         //String regexPattern = tb.buildRegexPattern( tb );
         //System.out.println( regexPattern );
         //Pattern p = Pattern.compile( regexPattern );
@@ -474,7 +474,7 @@ public class TextBlanksTest extends TestCase{
         System.out.println( m.group( 1) );
         System.out.println( m.group( 2 ) );
 
-        tb = TextBlanks.of("first ", null, " second");
+        tb = TextForm.of("first ", null, " second");
         //regexPattern = buildRegexPattern( tb );
         //p = Pattern.compile( regexPattern );
 
@@ -486,7 +486,7 @@ public class TextBlanksTest extends TestCase{
 
     public void testBuildRegexPatternString(){
         //builds a pattern String that can be used toDir listAnyMatch the text/blanks
-        TextBlanks tb = TextBlanks.of( "return ", null, ";" );
+        TextForm tb = TextForm.of( "return ", null, ";" );
         //String regexPattern = buildRegexPattern( tb );
         //Pattern p = Pattern.compile( regexPattern );
 
@@ -503,7 +503,7 @@ public class TextBlanksTest extends TestCase{
         //System.out.println( matcher.hasAnchoringBounds() );
         //System.out.println( matcher.hasTransparentBounds() );
 
-        tb = TextBlanks.of( null, " is a ", null );
+        tb = TextForm.of( null, " is a ", null );
         matcher = tb.getRegexPattern().matcher("Eric is a good dude");
         System.out.println( tb.getRegexPattern() );
         assertTrue( matcher.matches() );

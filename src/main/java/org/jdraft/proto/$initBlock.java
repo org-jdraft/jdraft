@@ -20,87 +20,108 @@ import java.util.stream.Collectors;
  *
  * @see InitializerDeclaration
  */
-public class $staticBlock implements $proto<_initBlock, $staticBlock>, Template<_initBlock> {
+public class $initBlock implements $proto<_initBlock, $initBlock>, Template<_initBlock> {
 
+    /** contents of the body */
     public $stmt<BlockStmt> body;
+
+    /**
+     * true means MUST BE STATIC,
+     * null means can be static or non-static,
+     * false means must be NON-STATIC
+     */
+    public Boolean isStatic = null;
 
     public Predicate<_initBlock> constraint = t->true;
 
-    public static $staticBlock of(){
-        return new $staticBlock($stmt.of(BlockStmt.class, "$staticBlock$"), t->true);
+    public static $initBlock of(){
+        return new $initBlock($stmt.of(BlockStmt.class, "$initBody$"), null, t->true);
     }
 
+    public static $initBlock of(String bodyPattern ){
+        return of( new String[]{bodyPattern});
+    }
 
-    public static $staticBlock of(String... bodyPattern ){
-        String str =  Text.combine( bodyPattern );
+    public static $initBlock of(String... bodyPattern ){
+        InitializerDeclaration id = Ast.initBlock(bodyPattern);
+        $initBlock $ib = new $initBlock( $stmt.of( BlockStmt.class, id.getBody().toString()), id.isStatic(), t->true );
+        return $ib;
+    }
+
+    public static $initBlock of( Predicate<_initBlock> matchFn ){
+        return new $initBlock( $stmt.of( BlockStmt.class, "$initBody$"), null, matchFn );
+    }
+
+    public static $initBlock of(String str, Predicate<_initBlock> matchFn ){
+        return of(str).$and(matchFn);
+        /*
         if( str.trim().startsWith("static" )){
             str = str.substring(str.indexOf("{")+1 );
             str = str.substring(0, str.indexOf("}") );
         }
-        return new $staticBlock( $stmt.of( BlockStmt.class, str),  t->true );
-    }
-
-    public static $staticBlock of(Predicate<_initBlock> matchFn ){
-        return new $staticBlock( $stmt.of( BlockStmt.class, "$staticBlock$"), matchFn );
-    }
-
-    public static $staticBlock of(String str, Predicate<_initBlock> matchFn ){
-
-        if( str.trim().startsWith("static" )){
-            str = str.substring(str.indexOf("{")+1 );
-            str = str.substring(0, str.indexOf("}") );
-        }
-        return new $staticBlock( $stmt.of(BlockStmt.class, str),  matchFn );
+        return new $initBlock( $stmt.of(BlockStmt.class, str),  null, matchFn );
+         */
     }
 
 
-    public static $staticBlock of(Statement st){
+    public static $initBlock of(Statement st){
         if( st instanceof BlockStmt ){
-            return new $staticBlock( $stmt.blockStmt((BlockStmt)st), t->true );
+            return new $initBlock( $stmt.blockStmt((BlockStmt)st), null, t->true );
         } else{
-            return new $staticBlock( $stmt.blockStmt( new BlockStmt().addStatement( st) ), t->true );
+            return new $initBlock( $stmt.blockStmt( new BlockStmt().addStatement( st) ), null, t->true );
         }
     }
 
-    public static $staticBlock of(Expr.Command lambdaWithBody){
+    public static $initBlock of(Expr.Command lambdaWithBody){
         Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return of(bdy);
     }
 
-    public static <A extends Object> $staticBlock of (Consumer<A> lambdaWithBody){
+    public static <A extends Object> $initBlock of (Consumer<A> lambdaWithBody){
         Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return of(bdy);
     }
 
-    public static <A extends Object, B extends Object>  $staticBlock of(BiConsumer<A,B> lambdaWithBody ){
+    public static <A extends Object, B extends Object> $initBlock of(BiConsumer<A,B> lambdaWithBody ){
         Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return of(bdy);
     }
 
-    public static <A extends Object, B extends Object,C extends Object>  $staticBlock of(Expr.TriConsumer<A,B,C> lambdaWithBody ){
+    public static <A extends Object, B extends Object,C extends Object> $initBlock of(Expr.TriConsumer<A,B,C> lambdaWithBody ){
         Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return of(bdy);
     }
 
-    public static <A extends Object, B extends Object,C extends Object, D extends Object> $staticBlock of(Expr.QuadConsumer<A,B,C,D> lambdaWithBody ){
+    public static <A extends Object, B extends Object,C extends Object, D extends Object> $initBlock of(Expr.QuadConsumer<A,B,C,D> lambdaWithBody ){
         Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return of(bdy);
     }
 
-    public $staticBlock( $stmt<BlockStmt> $body,Predicate<_initBlock> constraint){
+
+    public $initBlock($stmt<BlockStmt> $body, Boolean isStatic, Predicate<_initBlock> constraint){
         //the pattern must be a valid package name
         this.body = $body;
+        this.isStatic = isStatic;
         this.constraint = constraint;
     }
 
     @Override
-    public $staticBlock and(Predicate<_initBlock> constraint) {
+    public $initBlock $and(Predicate<_initBlock> constraint) {
         this.constraint = this.constraint.and(constraint);
         return null;
     }
 
+    public $initBlock setStatic(){
+        return setStatic(true);
+    }
+
+    public $initBlock setStatic(Boolean toSet){
+        this.isStatic = toSet;
+        return this;
+    }
+
     @Override
-    public $staticBlock hardcode$(Translator translator, Tokens kvs) {
+    public $initBlock hardcode$(Translator translator, Tokens kvs) {
         this.body = this.body.hardcode$(translator, kvs);
         return this;
     }
@@ -114,20 +135,19 @@ public class $staticBlock implements $proto<_initBlock, $staticBlock>, Template<
         return false;
     }
 
-    public boolean matches(String... staticBlock){
+    public boolean matches(String... initBlock){
         try{
-            return matches(Ast.staticBlock(staticBlock));
+            return matches(Ast.staticBlock(initBlock));
         } catch(Exception e){
             return false;
         }
     }
 
-    public boolean matches(InitializerDeclaration staticBlock){
-        if( staticBlock == null ){
+    public boolean matches(InitializerDeclaration initBlock){
+        if( initBlock == null ){
             return isMatchAny();
         }
-
-        return matches(_initBlock.of(staticBlock));
+        return matches(_initBlock.of(initBlock));
     }
 
     public boolean matches( _initBlock staticBlock ){
@@ -135,7 +155,11 @@ public class $staticBlock implements $proto<_initBlock, $staticBlock>, Template<
             return isMatchAny();
         }
         if( constraint.test(staticBlock)){
-            return this.body.matches(staticBlock.ast().getBody());
+            if( this.isStatic == null ) { //we dont care
+                return this.body.matches(staticBlock.ast().getBody());
+            }
+            //make sure we check static exist and body
+            return this.isStatic == staticBlock.isStatic() && this.body.matches(staticBlock.ast().getBody());
         }
         return false;
     }
@@ -143,6 +167,7 @@ public class $staticBlock implements $proto<_initBlock, $staticBlock>, Template<
     public boolean isMatchAny(){
         try{
             return constraint.test(null) &&
+                    this.isStatic == null &&
                     this.body.constraint.test(null) &&
                     this.body.stmtStencil.isMatchAny();
         } catch(Exception e){
@@ -174,12 +199,12 @@ public class $staticBlock implements $proto<_initBlock, $staticBlock>, Template<
     }
 
     @Override
-    public Select select(_initBlock _sb) {
-        Tokens ts = parse( _sb);
+    public Select select(_initBlock _ib) {
+        Tokens ts = parse( _ib);
         if( ts == null ){
             return null;
         }
-        return new Select(_sb, ts);
+        return new Select(_ib, ts);
     }
 
     public Select select(InitializerDeclaration pd) {
@@ -194,7 +219,6 @@ public class $staticBlock implements $proto<_initBlock, $staticBlock>, Template<
     public Select selectFirstIn(Node astNode) {
         return selectFirstIn(astNode, t->true);
     }
-
 
     /**
      * Select the first matching the prototype AND the selectMatchFn
@@ -253,18 +277,23 @@ public class $staticBlock implements $proto<_initBlock, $staticBlock>, Template<
             return new _initBlock(new InitializerDeclaration());
         }
         Statement body = null;
-        Object staticBlock = keyValues.get("$staticBlock");
+        Object staticBlock = keyValues.get("$initBlock");
         if( staticBlock != null ){ //check for an override parameter
-            keyValues.remove("$staticBlock");
+            keyValues.remove("$initBlock");
             body = Stmt.block( Stencil.of(staticBlock.toString()).draft(translator, keyValues) );
         } else{
             body = this.body.draft(translator, keyValues);
         }
-        return _initBlock.of(body);
+        Object isStatic = keyValues.get("$static");
+        if( isStatic != null && isStatic.equals(false) ){
+            return _initBlock.of(body);
+        }
+        //probably a static block
+        return _initBlock.of(body).setStatic();
     }
 
     @Override
-    public $staticBlock $(String target, String $Name) {
+    public $initBlock $(String target, String $Name) {
         if( ! this.isMatchAny() ){
             this.body = this.body.$(target, $Name);
         }
@@ -293,15 +322,15 @@ public class $staticBlock implements $proto<_initBlock, $staticBlock>, Template<
             selectAst<InitializerDeclaration>, select_java<_initBlock> {
 
         public $tokens tokens;
-        public _initBlock _sb;
+        public _initBlock initBlock;
 
         public Select( InitializerDeclaration id, Tokens tokens){
-            this._sb = _initBlock.of(id);
+            this.initBlock = _initBlock.of(id);
             this.tokens = $tokens.of(tokens);
         }
 
-        public Select(_initBlock _sb, Tokens tokens){
-            this._sb = _sb;
+        public Select(_initBlock initBlock, Tokens tokens){
+            this.initBlock = initBlock;
             this.tokens = $tokens.of(tokens);
         }
 
@@ -310,14 +339,15 @@ public class $staticBlock implements $proto<_initBlock, $staticBlock>, Template<
             return tokens;
         }
 
+        public boolean isStatic(){ return this.initBlock.isStatic(); }
         @Override
         public InitializerDeclaration ast() {
-            return _sb.ast();
+            return initBlock.ast();
         }
 
         @Override
         public _initBlock _node() {
-            return _sb;
+            return initBlock;
         }
     }
 }

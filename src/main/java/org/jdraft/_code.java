@@ -491,4 +491,164 @@ public interface _code<_C> extends _java, _java._componentized {
         }
         throw new _draftException("No AST CompilationUnit of to add imports");
     }
+
+    /**
+     * An entity that can provide source code
+     * (this could be reading source code from a .zip or jar file, reading the source code
+     * from a Online repository, or any other mechanism for finding and returning _code models
+     *
+     */
+    interface _provider{
+
+        /**
+         *
+         * @param codeClass
+         * @param _codeMatchFn
+         * @param _codeActionFn
+         * @param <_C>
+         * @return
+         */
+        <_C extends _code> List<_C> for_code(Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn);
+
+        /**
+         *
+         * @param codeClass
+         * @param _codeActionFn
+         * @param <_C>
+         * @return
+         */
+        default <_C extends _code> List<_C> for_code(Class<_C> codeClass, Consumer<_C> _codeActionFn){
+            return for_code( codeClass, c->true, _codeActionFn);
+        }
+
+        /**
+         * Perform some action on the _code entities
+         * (INCLUDES _packageInfo and _moduleInfo files)
+         * use {@link #for_code(Consumer)} to operate on
+         * the {@link _type} files alone
+         * @param _codeActionFn
+         * @return
+         */
+        default List<_code> for_code(Predicate<_code> _codeMatchFn, Consumer<_code> _codeActionFn){
+            return for_code(_code.class, _codeMatchFn, _codeActionFn);
+        }
+
+        /**
+         * Perform some action on the _code entities
+         * (INCLUDES _packageInfo and _moduleInfo files)
+         * use {@link #for_code(Consumer)} to operate on
+         * the {@link _type} files alone
+         * @param _codeActionFn
+         * @return
+         */
+        default List<_code> for_code(Consumer<_code> _codeActionFn ){
+            return for_code(_code.class, c->true, _codeActionFn);
+        }
+
+        /**
+         *
+         * @return
+         */
+        default List<_code> list_code(){
+            List<_code> found = new ArrayList<>();
+            for_code(t-> found.add(t));
+            return found;
+        }
+
+        /**
+         *
+         * @return
+         */
+        default  <_C extends _code> List<_C> list_code( Class<_C> _codeClass){
+            List<_C> found = new ArrayList<>();
+            for_code(_codeClass, t-> found.add(t));
+            return found;
+        }
+
+        /**
+         *
+         * @return
+         */
+        default <_C extends _code> List<_C> list_code( Class<_C> _codeClass, Predicate<_C>_codeMatchFn){
+            List<_C> found = new ArrayList<>();
+            for_code(_codeClass, _codeMatchFn, t-> found.add(t));
+            return found;
+        }
+
+        /**
+         *
+         * @param _typeClass
+         * @param _typeMatchFn
+         * @param _typeActionFn
+         * @param <_T>
+         * @return
+         */
+        default <_T extends _type> List<_T> for_types(Class<_T> _typeClass, Predicate<_T> _typeMatchFn, Consumer<_T> _typeActionFn){
+            return for_code(_typeClass, _typeMatchFn, _typeActionFn);
+        }
+
+        /**
+         *
+         * @param _typeClass
+         * @param _typeActionFn
+         * @param <_T>
+         * @return
+         */
+        default <_T extends _type> List<_T> for_types(Class<_T> _typeClass,  Consumer<_T> _typeActionFn){
+            return for_code(_typeClass, _t->true, _typeActionFn);
+        }
+
+        /**
+         *
+         * @param _typeActionFn
+         * @return
+         */
+        default List<_type> for_types( Consumer<_type> _typeActionFn){
+            return for_code(_type.class, _t->true, _typeActionFn);
+        }
+
+        /**
+         *
+         * @return
+         */
+        default List<_type> list_types( ){
+            return list_code(_type.class, t->true);
+        }
+
+        /**
+         *
+         * @return
+         */
+        default <_T extends _type> List<_T> list_types(Class<_T> _typeClass){
+            return list_code(_typeClass, t->true);
+        }
+
+        /**
+         *
+         * @return
+         */
+        default <_T extends _type> List<_T> list_types(Class<_T> _typeClass, Predicate<_T>_typeMatchFn){
+            return list_code(_typeClass, _typeMatchFn);
+        }
+    }
+
+    /**
+     * Implementation of a _code._provider that is just a List of _types locally in memory
+     */
+    class _memory implements _provider{
+        List<_code> codeList = new ArrayList<>();
+
+        @Override
+        public <_C extends _code> List<_C> for_code(Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn) {
+            List<_C> acted = new ArrayList<>();
+            codeList.forEach( c -> {
+                if(codeClass.isAssignableFrom( c.getClass() ) && _codeMatchFn.test( (_C)c) ){
+                    _codeActionFn.accept( (_C)c );
+                    acted.add((_C)c);
+                }
+            });
+            return acted;
+        }
+
+    }
 }

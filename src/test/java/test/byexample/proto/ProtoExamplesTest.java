@@ -3,7 +3,6 @@ package test.byexample.proto;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import com.github.javaparser.ast.type.UnknownType;
 import junit.framework.TestCase;
 import org.jdraft.*;
 import org.jdraft.proto.*;
@@ -119,7 +118,7 @@ public class ProtoExamplesTest extends TestCase {
         //_java.describe(_class.of(G.class));
         //$node $n = $.of(SimpleName.class); //any SimpleName
         $node $n = $.of(SimpleName.class)
-                .and(n-> !Ast.hasAncestor(n, ClassOrInterfaceType.class)); //but not simpleNames making up fully qualified names
+                .$and(n-> !Ast.hasAncestor(n, ClassOrInterfaceType.class)); //but not simpleNames making up fully qualified names
 
 
         _class _c = _class.of( G.class);

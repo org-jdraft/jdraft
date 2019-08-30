@@ -16,7 +16,7 @@ import org.jdraft.proto.$node;
  * $proto($expr) listIn()
  * $proto($expr) $hasParent()
  */
-public class ProtoQueryListTest extends TestCase {
+public class _1_WhatIsProtoTest extends TestCase {
 
     @interface LitAnno{
         int value();
@@ -65,7 +65,7 @@ public class ProtoQueryListTest extends TestCase {
 
         //lets build a $expr<UnaryExpr> that represents + or - and some int (i.e. "+5", "-3")
         $expr $plusMinusInt = $.unary($.PLUS,$.MINUS) // matches UnaryExpr with either operator
-                .and( u-> u.getExpression().isIntegerLiteralExpr()); //verifies the UnaryExpr expression is an int literal
+                .$and(u-> u.getExpression().isIntegerLiteralExpr()); //verifies the UnaryExpr expression is an int literal
 
         //query the class and verify we can find the UnaryExpr -1
         //[-1]

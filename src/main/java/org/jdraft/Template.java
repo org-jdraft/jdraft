@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * Dynamically create a T where accepting Key-Value Data Parameters
  * (i.e. a {@link Tokens}) and optionally a {@link Translator}
- * (for converting Objects to text)
+ * (for converting Objects to text and filling the Template)
  * T can be an unstructured String
  * or
  * T can be an Object entity (_field, _method, _anno)

@@ -64,7 +64,7 @@ public class StencilTest
 
     public void testStencilExtract(){
         Stencil s = Stencil.of( "$a$ and a $b$ of $c$;" );
-        List<String> strs = s.getTextBlanks().decompose("XXX and a YYY of ZZZ;");
+        List<String> strs = s.getTextForm().parse("XXX and a YYY of ZZZ;");
         assertEquals( Tokens.of("a", "XXX", "b", "YYY", "c", "ZZZ"), s.parse("XXX and a YYY of ZZZ;"));
 
     }
@@ -208,7 +208,7 @@ public class StencilTest
         //segs             "    ------    ----    ----"
         //params           "----      ----    ----    "
         //params           "$a$       $b$     $c$
-        TextBlanks tb = st.getTextBlanks();
+        TextForm tb = st.getTextForm();
         assertFalse(tb.startsWithText());
         assertTrue(tb.startsWithBlank());
 
@@ -217,7 +217,7 @@ public class StencilTest
         assertEquals(3, segs.size());
 
         //the textBind will tokenize
-        List<String> vals = st.getTextBlanks().decompose(toExtract);
+        List<String> vals = st.getTextForm().parse(toExtract);
         assertEquals("Eric", vals.get(0));
         assertEquals("math", vals.get(1));
         assertEquals("hard", vals.get(2));
@@ -233,7 +233,7 @@ public class StencilTest
         Stencil st2 = Stencil.of("public static final $type$ $paramName$ = $init$");
         String MyVAL = "public static final String STATIC = \"Eric\"";
 
-        List<String>vals = st2.getTextBlanks().decompose( MyVAL );
+        List<String>vals = st2.getTextForm().parse( MyVAL );
 
         assertEquals( vals.get(0), "String");
         assertEquals( vals.get(1), "STATIC");

@@ -116,7 +116,7 @@ public final class $id implements $constructor.$part, $method.$part, $field.$par
             int idx = t.lastIndexOf(".");
             if( idx > 0 ){ //input is fully qualified id
                 //if the pattern is NOT fully qualified
-                if( !this.idStencil.getTextBlanks().getFixedText().contains(".") ){
+                if( !this.idStencil.getTextForm().getFixedText().contains(".") ){
                     String oldPattern = this.idStencil.toString();
                     String newPattern = oldPattern.substring(oldPattern.lastIndexOf(".")+1);
                     Tokens ts = Stencil.of(newPattern).parse(normalize(t));

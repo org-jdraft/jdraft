@@ -218,7 +218,7 @@ public final class $stmt<T extends Statement>
      * @return and AssertStmt with the code
      */
     public static $stmt<AssertStmt> assertStmt(String pattern, Predicate<AssertStmt> constraint) {
-        return new $stmt( Stmt.assertStmt(pattern) ).and(constraint);
+        return new $stmt( Stmt.assertStmt(pattern) ).$and(constraint);
     }
     
     /**
@@ -258,7 +258,7 @@ public final class $stmt<T extends Statement>
      * @return the BlockStmt
      */
     public static $stmt<BlockStmt> blockStmt(String pattern, Predicate<BlockStmt> constraint) {
-        return new $stmt( Stmt.block(pattern)).and(constraint);
+        return new $stmt( Stmt.block(pattern)).$and(constraint);
     }
 
     /**
@@ -285,7 +285,7 @@ public final class $stmt<T extends Statement>
      * @return the breakStmt
      */
     public static $stmt<BreakStmt> breakStmt(String pattern, Predicate<BreakStmt> constraint) {
-        return new $stmt( Stmt.breakStmt(pattern)).and(constraint);
+        return new $stmt( Stmt.breakStmt(pattern)).$and(constraint);
     }
         
     /**
@@ -313,7 +313,7 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public static $stmt<ContinueStmt> continueStmt(String pattern, Predicate<ContinueStmt> constraint) {
-        return new $stmt( Stmt.continueStmt(pattern)).and(constraint);
+        return new $stmt( Stmt.continueStmt(pattern)).$and(constraint);
     }
     
     
@@ -350,7 +350,7 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public static $stmt<DoStmt> doStmt(String pattern, Predicate<DoStmt> constraint) {
-        return new $stmt( Stmt.doStmt(pattern)).and(constraint);
+        return new $stmt( Stmt.doStmt(pattern)).$and(constraint);
     }
     
     /**
@@ -395,7 +395,7 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public static $stmt<ExplicitConstructorInvocationStmt> ctorInvocationStmt(String pattern, Predicate<ExplicitConstructorInvocationStmt> constraint) {
-        return new $stmt( Stmt.thisConstructor(pattern)).and(constraint);
+        return new $stmt( Stmt.thisConstructor(pattern)).$and(constraint);
     }
     
     /** 
@@ -431,7 +431,7 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public static $stmt<ExpressionStmt> expressionStmt( String pattern, Predicate<ExpressionStmt> constraint) {
-        return new $stmt( Stmt.expressionStmt(pattern)).and(constraint);
+        return new $stmt( Stmt.expressionStmt(pattern)).$and(constraint);
     }
 
     /** 
@@ -458,7 +458,7 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public static $stmt<ForStmt> forStmt( String pattern, Predicate<ForStmt> constraint ) {
-        return new $stmt( Stmt.forStmt(pattern)).and(constraint);
+        return new $stmt( Stmt.forStmt(pattern)).$and(constraint);
     }
 
     /**
@@ -493,7 +493,7 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public static $stmt<ForEachStmt> forEachStmt( String pattern, Predicate<ForEachStmt> constraint) {
-        return new $stmt( Stmt.forEachStmt(pattern)).and(constraint);
+        return new $stmt( Stmt.forEachStmt(pattern)).$and(constraint);
     }
 
     /** 
@@ -528,7 +528,7 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public static $stmt<IfStmt> ifStmt( String pattern, Predicate<IfStmt> constraint) {
-        return new $stmt( Stmt.ifStmt(pattern)).and(constraint);
+        return new $stmt( Stmt.ifStmt(pattern)).$and(constraint);
     }
 
     /** 
@@ -564,7 +564,7 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public static $stmt<LabeledStmt> labeledStmt( String pattern, Predicate<LabeledStmt> constraint) {
-        return new $stmt( Stmt.labeledStmt(pattern)).and(constraint);
+        return new $stmt( Stmt.labeledStmt(pattern)).$and(constraint);
     }
     
     /**
@@ -602,7 +602,7 @@ public final class $stmt<T extends Statement>
      * @return the AST implementation
      */
     public static $stmt<LocalClassDeclarationStmt> localClassStmt( String pattern, Predicate<LocalClassDeclarationStmt> constraint) {
-        return new $stmt( Stmt.localClass(pattern)).and(constraint);
+        return new $stmt( Stmt.localClass(pattern)).$and(constraint);
     }
 
     /**
@@ -629,7 +629,7 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public static $stmt<ReturnStmt> returnStmt( String pattern, Predicate<ReturnStmt> constraint ) {
-        return new $stmt( Stmt.returnStmt(pattern)).and(constraint);
+        return new $stmt( Stmt.returnStmt(pattern)).$and(constraint);
     }
 
     /**
@@ -665,7 +665,7 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public static $stmt<SwitchStmt> switchStmt( String pattern, Predicate<SwitchStmt> constraint) {
-        return new $stmt( Stmt.switchStmt(pattern)).and(constraint);
+        return new $stmt( Stmt.switchStmt(pattern)).$and(constraint);
     }
 
     /**
@@ -692,7 +692,7 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public static $stmt<SynchronizedStmt> synchronizedStmt( String pattern, Predicate<SynchronizedStmt> constraint ) {
-        return new $stmt( Stmt.synchronizedStmt(pattern)).and(constraint);
+        return new $stmt( Stmt.synchronizedStmt(pattern)).$and(constraint);
     }
     
     /**
@@ -729,7 +729,7 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public static $stmt<ThrowStmt> throwStmt( String pattern, Predicate<ThrowStmt> constraint) {
-        return new $stmt( Stmt.throwStmt(pattern)).and(constraint);
+        return new $stmt( Stmt.throwStmt(pattern)).$and(constraint);
     }
 
     /**
@@ -765,7 +765,7 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public static $stmt<TryStmt> tryStmt( String pattern, Predicate<TryStmt> constraint ) {
-        return new $stmt( Stmt.tryStmt(pattern)).and(constraint);
+        return new $stmt( Stmt.tryStmt(pattern)).$and(constraint);
     }
     
     /**
@@ -801,7 +801,7 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public static $stmt<WhileStmt> whileStmt( String pattern, Predicate<WhileStmt> constraint ) {
-        return new $stmt( Stmt.whileStmt(pattern)).and(constraint);
+        return new $stmt( Stmt.whileStmt(pattern)).$and(constraint);
     }
 
     /**
@@ -837,7 +837,7 @@ public final class $stmt<T extends Statement>
         this.stmtStencil = Stencil.of( st.toString(NO_COMMENTS) );
     }
 
-    public $stmt<T> and(Predicate<T> constraint ){
+    public $stmt<T> $and(Predicate<T> constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }
@@ -852,6 +852,16 @@ public final class $stmt<T extends Statement>
     public $stmt $(String target, String $name ) {
         this.stmtStencil = this.stmtStencil.$(target, $name);
         return this;
+    }
+
+    /**
+     * Convert (normalize) the expr to an Expression, then to a String
+     * @param expr
+     * @param $name
+     * @return
+     */
+    public $stmt $expr( String expr, String $name){
+        return $(Expr.of(expr).toString(), $name);
     }
 
     /**
@@ -909,7 +919,7 @@ public final class $stmt<T extends Statement>
         String stmtString = stmt.toString( Ast.PRINT_NO_COMMENTS );
         
         List<String> stringsToReplace = new ArrayList<>();
-        String fixedText  = this.stmtStencil.getTextBlanks().getFixedText();
+        String fixedText  = this.stmtStencil.getTextForm().getFixedText();
         int nextInd = fixedText.indexOf(stmtString);        
         while( nextInd >= 0 ){
             String padded = Text.matchNextPaddedTarget(fixedText, stmtString, nextInd );
@@ -917,7 +927,7 @@ public final class $stmt<T extends Statement>
             nextInd = fixedText.indexOf(stmtString, nextInd + stmtString.length() );
         }
         for(int i=0;i<stringsToReplace.size();i++){
-            int indexOfAssert = this.stmtStencil.getTextBlanks().getFixedText().indexOf( stringsToReplace.get(i) );
+            int indexOfAssert = this.stmtStencil.getTextForm().getFixedText().indexOf( stringsToReplace.get(i) );
             this.stmtStencil = this.stmtStencil.$( stringsToReplace.get(i), $name);
         }
         return this;

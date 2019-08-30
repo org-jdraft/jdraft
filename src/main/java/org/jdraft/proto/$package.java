@@ -55,7 +55,7 @@ public class $package implements $proto<PackageDeclaration, $package>, Template<
     }
 
     @Override
-    public $package and(Predicate<PackageDeclaration> constraint) {
+    public $package $and(Predicate<PackageDeclaration> constraint) {
         this.constraint = this.constraint.and(constraint);
         return null;
     }

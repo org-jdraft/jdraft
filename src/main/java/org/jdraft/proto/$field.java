@@ -84,7 +84,7 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
      * @return
      */
     public static $field of( String field, Predicate<_field> constraint){
-        return of( _field.of(field)).and(constraint);
+        return of( _field.of(field)).$and(constraint);
     }
 
     /**
@@ -94,7 +94,7 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
      * @return
      */
     public static $field of( _field _f, Predicate<_field> constraint){
-        return of(_f).and(constraint);
+        return of(_f).$and(constraint);
     }
 
     /**
@@ -103,7 +103,7 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
      * @return
      */
     public static $field of( Predicate<_field> constraint ){
-        return of().and( constraint);
+        return of().$and( constraint);
     }
     
     public static $field of( _field _f ){
@@ -220,7 +220,7 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
      * @return
      */
     public $field $annos( Predicate<_anno._annos> as ){
-        this.annos.and(as);
+        this.annos.$and(as);
         return this;
     }
 
@@ -270,7 +270,7 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
      * @return 
      */
     public $field $javadoc(Predicate<JavadocComment> javadocConstraint ){
-        this.javadoc.and(javadocConstraint);
+        this.javadoc.$and(javadocConstraint);
         return this;
     }
 
@@ -429,7 +429,7 @@ public final class $field implements Template<_field>, $proto<_field, $field> {
      * @param constraint
      * @return 
      */ 
-    public $field and(Predicate<_field> constraint ){
+    public $field $and(Predicate<_field> constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }

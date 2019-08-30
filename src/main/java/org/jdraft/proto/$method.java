@@ -93,7 +93,7 @@ public final class $method
      * @return 
      */
     public static $method of( _method _m, Predicate<_method> constraint){
-        return new $method( _m).and(constraint);
+        return new $method( _m).$and(constraint);
     }
         
     /**
@@ -123,7 +123,7 @@ public final class $method
      * @return 
      */
     public static $method of( String proto, Predicate<_method> constraint ){
-        return new $method(_method.of(proto) ).and(constraint);
+        return new $method(_method.of(proto) ).$and(constraint);
     }
     
     /**
@@ -132,7 +132,7 @@ public final class $method
      * @return 
      */
     public static $method of( Predicate<_method> constraint ){
-        return of().and(constraint);
+        return of().$and(constraint);
     }
     
     /**
@@ -262,7 +262,7 @@ public final class $method
      * @param constraint a constraint to be added
      * @return the modified prototype
      */
-    public $method and(Predicate<_method>constraint ){
+    public $method $and(Predicate<_method>constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }
@@ -327,7 +327,7 @@ public final class $method
     }
     
     public $method $parameters( Predicate<_parameters> constraint){
-        this.parameters.and( constraint);
+        this.parameters.$and( constraint);
         return this;
     }
     
@@ -347,7 +347,7 @@ public final class $method
     }
     
     public $method $throws( Predicate<_throws> constraint ){
-        this.thrown.and(constraint);
+        this.thrown.$and(constraint);
         return this;
     }
     
@@ -362,7 +362,7 @@ public final class $method
     }
     
     public $method $annos( Predicate<_annos> as ){
-        this.annos.and(as);
+        this.annos.$and(as);
         return this;
     }
     
@@ -412,7 +412,7 @@ public final class $method
     }
     
     public $method $type(Predicate<_typeRef> _tr){
-        this.type.and(_tr);
+        this.type.$and(_tr);
         return this;
     }
     
@@ -442,7 +442,7 @@ public final class $method
     }
     
     public $method $typeParameters(Predicate<_typeParameters> constraint){
-        this.typeParameters.and(constraint);
+        this.typeParameters.$and(constraint);
         return this;
     }
     
@@ -467,7 +467,7 @@ public final class $method
     }    
     
     public $method $modifiers(Predicate<_modifiers> constraint){
-        this.modifiers.and(constraint);
+        this.modifiers.$and(constraint);
         return this;
     }
     
@@ -497,7 +497,7 @@ public final class $method
     }
     
     public $method $body( Predicate<_body> constraint){
-        this.body.and(constraint);
+        this.body.$and(constraint);
         return this;
     }
 

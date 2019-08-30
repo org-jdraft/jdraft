@@ -39,7 +39,7 @@ public interface $proto<P, $P extends $proto>{
      * @param constraint a constraint on the instance of P
      * @return the modified $P ($proto)
      */
-    $P and( Predicate<P> constraint );
+    $P $and(Predicate<P> constraint );
 
     /**
      *
@@ -100,7 +100,7 @@ public interface $proto<P, $P extends $proto>{
      * @return
      */
     default $P $hasParent( $proto $p ){
-        return and(n -> {
+        return $and(n -> {
             if (n instanceof Node) {
                 return Ast.isParent( (Node)n, c->$p.match(c) );
             } else if (n instanceof _node) {
@@ -119,15 +119,15 @@ public interface $proto<P, $P extends $proto>{
     }
 
     default <N extends Node> $P $hasParent(Class<N> parentClass, Predicate<N> parentMatchFn){
-        return and( n -> Ast.isParent( (Node)n, parentClass, parentMatchFn) );
+        return $and(n -> Ast.isParent( (Node)n, parentClass, parentMatchFn) );
     }
 
     default $P $hasParent( Predicate<Node> parentMatchFn ){
-        return and( n -> Ast.isParent((Node)n, parentMatchFn) );
+        return $and(n -> Ast.isParent((Node)n, parentMatchFn) );
     }
 
     default $P $hasParent( Class... parentClassTypes ){
-        return and(n -> {
+        return $and(n -> {
                     if (n instanceof Node) {
                         return Ast.isParent( (Node)n, parentClassTypes);
                     } else if (n instanceof _node) {
@@ -161,7 +161,7 @@ public interface $proto<P, $P extends $proto>{
      * @return
      */
     default $P $hasAncestor( int levels, Predicate<Node> ancestorMatchFn ){
-        return and(n-> {
+        return $and(n-> {
             if( n instanceof Node ) {
                 return ((Node)n).stream($.PARENTS).limit(levels).anyMatch( ancestorMatchFn  );
             }else if (n instanceof _node) {
@@ -184,7 +184,7 @@ public interface $proto<P, $P extends $proto>{
     }
 
     default $P $hasAncestor( int levels, $proto $p ){
-        return and(n-> {
+        return $and(n-> {
             if( n instanceof Node ) {
                 return ((Node)n).stream($.PARENTS).limit(levels).anyMatch( c-> $p.match(c) );
                 //return _walk.firstParent( (Node)n, c-> ancestorProto.match(c)) != null;
@@ -210,7 +210,7 @@ public interface $proto<P, $P extends $proto>{
      */
     default $P $hasChild( $proto $p ){
 
-        return and(n-> {
+        return $and(n-> {
             if( n instanceof Node ){
                 return ((Node)n).getChildNodes().stream().anyMatch(c -> $p.match(c));
             } else if( n instanceof _node){
@@ -222,7 +222,7 @@ public interface $proto<P, $P extends $proto>{
     }
 
     default $P $hasChild( Class... childClassTypes ){
-        return and(n-> {
+        return $and(n-> {
             if( n instanceof Node ){
                 return ((Node)n).getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) );
             } else if( n instanceof _node){
@@ -237,7 +237,7 @@ public interface $proto<P, $P extends $proto>{
 
     default $P $hasChild( Predicate<Node> childMatchFn ){
 
-        return and(n-> {
+        return $and(n-> {
             if( n instanceof Node ){
                 return ((Node)n).getChildNodes().stream().anyMatch(c -> childMatchFn.test(c) );
             } else if( n instanceof _node){
@@ -264,7 +264,7 @@ public interface $proto<P, $P extends $proto>{
      * @return
      */
     default $P $hasDescendant( int depth, Class... descendantClassTypes ){
-        return and(n-> {
+        return $and(n-> {
             if( n instanceof Node ){
                 return ((Node)n).getChildNodes().stream().limit(depth).anyMatch(c -> c.stream().anyMatch(d -> Ast.isNodeOfType(d, descendantClassTypes) ));
             } else if( n instanceof _node){
@@ -291,7 +291,7 @@ public interface $proto<P, $P extends $proto>{
      * @return
      */
     default $P $hasDescendant( int depth, Predicate<Node> descendantMatchFn ){
-        return and(n-> {
+        return $and(n-> {
             if( n instanceof Node ){
                 return ((Node)n).getChildNodes().stream().anyMatch(c -> c.stream().limit(depth).anyMatch(d -> descendantMatchFn.test(d)) );
             } else if( n instanceof _node){
@@ -332,7 +332,7 @@ public interface $proto<P, $P extends $proto>{
         if( depth <= 0 ){
             return ($P)this;
         }
-        return and( n->{
+        return $and(n->{
             if( n instanceof Node ){
                 return ((Node)n).getChildNodes().stream().limit(depth).anyMatch(c -> c.stream().anyMatch(d -> $p.match(d)) );
             }else if( n instanceof _node){
@@ -363,6 +363,10 @@ public interface $proto<P, $P extends $proto>{
             return match( ((_node)_j).ast());
         }
         return false;
+    }
+
+    default P firstIn( _code._provider _codeProvider ){
+       return firstIn(_codeProvider, t->true);
     }
 
     /**
@@ -445,6 +449,24 @@ public interface $proto<P, $P extends $proto>{
     default P firstIn( Class clazz, Predicate<P> nodeMatchFn){
         return firstIn(_java.type(clazz).astCompilationUnit(), nodeMatchFn);
     }
+
+    /**
+     *
+     * @param _codeProvider
+     * @param matchFn
+     * @return
+     */
+    default P firstIn(_code._provider _codeProvider, Predicate<P> matchFn){
+        P found = null;
+        List<_code> _lc = _codeProvider.list_code();
+        for(int i=0;i<_lc.size();i++){
+            found = firstIn(_lc.get(i));
+            if( found != null && matchFn.test(found)){
+                return found;
+            }
+        }
+        return null;
+    }
     
     /**
      * Find the first instance matching the prototype instance within the node
@@ -525,6 +547,23 @@ public interface $proto<P, $P extends $proto>{
     default <S extends selected> S selectFirstIn( Class... classes ){
         for(int i=0;i<classes.length; i++){
             S s = selectFirstIn( (_type)_java.type(classes[i]) );
+            if( s != null ){
+                return s;
+            }
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param <S>
+     * @param _codeProvider
+     * @return
+     */
+    default <S extends selected> S selectFirstIn(_code._provider _codeProvider ){
+        List<_code> _cs = _codeProvider.list_code();
+        for(int i=0;i<_cs.size(); i++){
+            S s = selectFirstIn( _cs.get(i) );
             if( s != null ){
                 return s;
             }
@@ -632,6 +671,18 @@ public interface $proto<P, $P extends $proto>{
     /**
      * Find and return a list of all matching prototypes within the clazz
      *
+     * @param _codeProvider the provider of _code instances
+     * @return a List of P that match the query
+     */
+    default List<P> listIn( _code._provider _codeProvider ){
+        List<P> found = new ArrayList<>();
+        _codeProvider.for_code(c -> found.addAll( listIn(c)));
+        return found;
+    }
+
+    /**
+     * Find and return a list of all matching prototypes within the clazz
+     *
      * @param _js any collection of _code entities( _class, _enum, ...etc)
      * @param <_J> the underlying _code type (_code, _type, _packageInfo, etc.)
      * @return list of matching P for the query
@@ -657,6 +708,20 @@ public interface $proto<P, $P extends $proto>{
     }
 
     /**
+     * Find and return a list of all matching prototypes within the clazz
+     *
+     * @param _codeProvider any collection of _code entities( _class, _enum, ...etc)
+     * @param nodeMatchFn additional function predicate for matching
+     * @param <_J> the underlying _code type (_code, _type, _packageInfo, etc.)
+     * @return list of matching P for the query
+     */
+    default <_J extends _java> List<P> listIn(_code._provider _codeProvider, Predicate<P> nodeMatchFn){
+        List<P> found = new ArrayList<>();
+        _codeProvider.for_code(c -> found.addAll( listIn(c, nodeMatchFn) ));
+        return found;
+    }
+
+    /**
      * 
      * @param clazz
      * @param nodeMatchFn
@@ -664,6 +729,18 @@ public interface $proto<P, $P extends $proto>{
      */
     default List<P> listIn(Class clazz, Predicate<P> nodeMatchFn){
         return listIn( (_type)_java.type(clazz), nodeMatchFn);
+    }
+
+    /**
+     *
+     * @param clazzes the list of classes to search
+     * @param nodeMatchFn
+     * @return
+     */
+    default List<P> listIn(Class[] clazzes, Predicate<P> nodeMatchFn){
+        List<P> found = new ArrayList<>();
+        Arrays.stream(clazzes).forEach( c-> found.addAll(listIn(c, nodeMatchFn)) );
+        return found;
     }
 
     /**
@@ -759,6 +836,30 @@ public interface $proto<P, $P extends $proto>{
 
     /**
      *
+     * @param clazzes
+     * @param <S>
+     * @return
+     */
+    default <S extends selected> List<S> listSelectedIn(Class... clazzes){
+        List<S> sel = new ArrayList<>();
+        Arrays.stream(clazzes).forEach( c -> sel.addAll(listSelectedIn(c)));
+        return sel;
+    }
+
+    /**
+     *
+     * @param _codeProvider
+     * @param <S>
+     * @return
+     */
+    default <S extends selected> List<S> listSelectedIn(_code._provider _codeProvider){
+        List<S> sel = new ArrayList<>();
+        _codeProvider.for_code(_j -> sel.addAll( listSelectedIn( _j )) );
+        return sel;
+    }
+
+    /**
+     *
      * @param _js
      * @param <S>
      * @param <_J>
@@ -807,8 +908,33 @@ public interface $proto<P, $P extends $proto>{
      * @return the (potentially modified) _type 
      */
     default <_CT extends _type> _CT forEachIn(Class clazz, Consumer<P>nodeActionFn ){
-        
         return forEachIn( (_CT)_java.type(clazz), nodeActionFn);
+    }
+
+    /**
+     * Look through the models for all of these {@link _type}s and when we encounter a matching one execute the nodeActionFn
+     * @param clazzes an array of loaded classes
+     * @param nodeActionFn some action to take on the matches
+     * @return the _types for all of the classes (we had to create them so might as well return em)
+     * NOTE: since we pass Class references in, we know they must be _type implementations
+     * (_class, _enum, _interface, _annotation) because we cant reference package-info.class or module-info.class
+     */
+    default List<_type> forEachIn(Class[] clazzes, Consumer<P>nodeActionFn ){
+        List<_type> types = new ArrayList<>();
+        Arrays.stream(clazzes).forEach( c -> types.add( forEachIn(c, nodeActionFn)));
+        return types;
+    }
+
+    /**
+     *
+     * @param _codeProvider
+     * @param nodeActionFn
+     * @return
+     */
+    default List<_code> forEachIn(_code._provider _codeProvider, Consumer<P> nodeActionFn ){
+        List<_code> ts = new ArrayList<>();
+        _codeProvider.for_code( j-> ts.add( forEachIn( j, nodeActionFn) ) );
+        return ts;
     }
 
     /**
@@ -915,6 +1041,17 @@ public interface $proto<P, $P extends $proto>{
 
     /**
      * Count the number of occurrences within the collection of code
+     * @param _codeProvider the collection to search through
+     * @return
+     */
+    default int count( _code._provider _codeProvider){
+        AtomicInteger ai = new AtomicInteger();
+        _codeProvider.for_code(c-> ai.addAndGet(count(c)));
+        return ai.get();
+    }
+
+    /**
+     * Count the number of occurrences within the collection of code
      * @param cs the collection to search through
      * @param <_C>
      * @return
@@ -978,6 +1115,15 @@ public interface $proto<P, $P extends $proto>{
 
     /**
      *
+     * @param _cp
+     * @return
+     */
+    default List<_code> removeIn(_code._provider _cp ){
+        return _cp.for_code(c-> removeIn(c) );
+    }
+
+    /**
+     *
      * @param _js
      * @param <_J>
      * @return
@@ -996,6 +1142,15 @@ public interface $proto<P, $P extends $proto>{
     default <_J extends _java> Collection<_J> removeIn(Collection<_J> _js, Predicate<P> nodeMatchFn){
         _js.forEach( _j -> removeIn(_j, nodeMatchFn) );
         return _js;
+    }
+
+    /**
+     *
+     * @param _cp
+     * @return
+     */
+    default List<_code> removeIn(_code._provider _cp, Predicate<P>nodeMatchFn){
+        return _cp.for_code(c-> removeIn(c, nodeMatchFn) );
     }
 
     /**

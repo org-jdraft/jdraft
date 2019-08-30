@@ -40,11 +40,12 @@ import java.util.regex.Pattern;
 public final class Stencil implements Template<String>{
 
     /**
-     * Keeps track of the blanks within the Stencils (Holes where data can be
-     * filled in) NOTE: there is a 1-to1 relationship between the blanks and
+     * Keeps track of the blanks (parameters) and fixed text within the Stencils
+     * (Holes where data can be filled in)
+     * NOTE: there is a 1-to1 relationship between the blanks and
      * the $Names (each blank is associated with a parameter)
      */
-    private final TextBlanks textBlanks;
+    private final TextForm textForm;
 
     /**
      * the $Names names for PARAMETERS
@@ -68,8 +69,8 @@ public final class Stencil implements Template<String>{
         return this.$NamesNormalized;
     }
 
-    public Stencil( TextBlanks textBlanks, List<String> $names ) {
-        this.textBlanks = textBlanks;
+    public Stencil(TextForm textForm, List<String> $names ) {
+        this.textForm = textForm;
         this.$Names = $names;
 
         for (String $name : $names) {
@@ -85,17 +86,20 @@ public final class Stencil implements Template<String>{
      * @return true if the pattern is fixed (no blanks to be filled)
      */
     public boolean isFixedText(){
-        return !this.textBlanks.hasBlanks();
+        return !this.textForm.hasBlanks();
     }
     
     /**
      * Returns the Predicate<String> for matching the Stencil as a String
-     * for instance :
-     *
+     * for instance:
+     * <PRE>
+     * Stencil today = Stencil.of("Today is $dayOfWeek$ the $dayOfMonth$ day of $month$");
+     * assertTrue( today.asPredicate().test( "today is Monday the 4th day of August"));
+     * </PRE>
      * @return
      */
-    public Predicate<String> getPredicate(){
-        return this.getPattern().asPredicate();
+    public Predicate<String> asPredicate(){
+        return this.getRegexPattern().asPredicate();
     }
 
     /**
@@ -115,8 +119,8 @@ public final class Stencil implements Template<String>{
      */ 
     public boolean isMatchAny(){
         return this.$Names.size() == 1 && 
-            this.textBlanks.getFixedText() == null || 
-            this.textBlanks.getFixedText().length() == 0;
+            this.textForm.getFixedText() == null ||
+            this.textForm.getFixedText().length() == 0;
     }
     
     /**
@@ -143,13 +147,13 @@ public final class Stencil implements Template<String>{
      */
     public static Stencil of( Stencil... stencils ) {
 
-        List<TextBlanks> textBlanks = new ArrayList<>();
+        List<TextForm> textBlanks = new ArrayList<>();
         List<String> parameters = new ArrayList<>();
         for( Stencil stencil : stencils ) {
-            textBlanks.add( stencil.textBlanks );
+            textBlanks.add( stencil.textForm);
             parameters.addAll( stencil.$Names );
         }
-        return new Stencil( TextBlanks.combine( textBlanks.toArray( new TextBlanks[ 0 ] ) ), parameters );
+        return new Stencil( TextForm.combine( textBlanks.toArray( new TextForm[ 0 ] ) ), parameters );
     }
 
     /**
@@ -189,7 +193,7 @@ public final class Stencil implements Template<String>{
                 revisedParams.add($Name);
             }
         }
-        return new Stencil( this.textBlanks, revisedParams );
+        return new Stencil( this.textForm, revisedParams );
     }
 
     /**
@@ -213,13 +217,13 @@ public final class Stencil implements Template<String>{
             return false;
         }
         Stencil st = (Stencil)o;
-        return this.textBlanks.equals( st.textBlanks )
+        return this.textForm.equals( st.textForm)
                 && this.$Names.equals( st.$Names );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash( textBlanks, $Names );
+        return Objects.hash(textForm, $Names );
     }
 
     /**
@@ -231,8 +235,8 @@ public final class Stencil implements Template<String>{
      * @param $name the tag being parsed
      */
     private static void parseStencil(
-        TextBlanks.Builder builder, List<String> $names, String text,
-        String target, String $name ) {
+            TextForm.Builder builder, List<String> $names, String text,
+            String target, String $name ) {
 
         int previous = 0;
         int cursor = text.indexOf( target );
@@ -248,17 +252,16 @@ public final class Stencil implements Template<String>{
     }
 
     /**
-     * gets the text blanks underlying the Stencil
+     * Gets the text and blanks underlying the Stencils parameters
      * @return the text blanks for the stencil
      */
-    public TextBlanks getTextBlanks() {
-        return this.textBlanks;
+    public TextForm getTextForm() {
+        return this.textForm;
     }
 
     /**
-     * Creates & return a NEW STENCIL that parameterizes the "var" the given
-     * NAME
-     *
+     * Creates & return a NEW STENCIL that parameterizes the "var" the given NAME
+     * <PRE>
      * Stencil alpha = Stencil.of("abcdefghijklmnopqrstuvwxyz");
      * Stencil vowels = alpha.$("a").$("e").$("i").$("o").$("u");
      * will create a Stencil similar to:
@@ -266,7 +269,7 @@ public final class Stencil implements Template<String>{
      *
      * ..where we parameterized the vowels...
      * Note: duplicate values will be parameterized
-     *
+     * </PRE>
      * @param targetAndName
      * @return a ** NEW ** Stencil instance with the target parameterized
      */
@@ -277,6 +280,17 @@ public final class Stencil implements Template<String>{
     /**
      * Hardcode parameterized values
      * (i.e. what was once a parameter, now is static text)
+     * Example:
+     * <PRE>
+     *     Stencil $letter = Stencil.of( "$letter$ is a $letterType$ and $case$");
+     *     Stencil $vowels = $s.hardcode$("letterType", "vowel");
+     *
+     *     //the stencil returned has constant text "vowel" in place of $parameter "$letter$"
+     *     assertEquals( $vowels, Stencil.of("$letter$ is a vowel and $case$"));
+     *
+     *     //the original stencil is unchanged
+     *     assertEquals( $letter, Stencil.of("$letter$ is a $letterType$ and $case$"));
+     * </PRE>
      *
      * @param kvs the key parameter NAME and String VALUE to assign to the
      * @return a ** NEW ** Stencil instance
@@ -288,6 +302,17 @@ public final class Stencil implements Template<String>{
     /**
      * Hardcode parameterized values
      * (i.e. what was once a parameter, now is static text)
+     * Example:
+     * <PRE>
+     *     Stencil $letter = Stencil.of( "$letter$ is a $letterType$ and $case$");
+     *     Stencil $vowels = $s.hardcode$("letterType", "vowel");
+     *
+     *     //the stencil returned has constant text "vowel" in place of $parameter "$letter$"
+     *     assertEquals( $vowels, Stencil.of("$letter$ is a vowel and $case$"));
+     *
+     *     //the original stencil is unchanged
+     *     assertEquals( $letter, Stencil.of("$letter$ is a $letterType$ and $case$"));
+     * </PRE>
      *
      * @param keyValues the key parameter NAME and String VALUE to assign to the
      * @return a ** NEW ** Stencil instance
@@ -299,6 +324,17 @@ public final class Stencil implements Template<String>{
     /**
      * Hardcode parameterized values
      * (i.e. what was once a parameter, now is static text)
+     * Example:
+     * <PRE>
+     *     Stencil $letter = Stencil.of( "$letter$ is a $letterType$ and $case$");
+     *     Stencil $vowels = $s.hardcode$("letterType", "vowel");
+     *
+     *     //the stencil returned has constant text "vowel" in place of $parameter "$letter$"
+     *     assertEquals( $vowels, Stencil.of("$letter$ is a vowel and $case$"));
+     *
+     *     //the original stencil is unchanged
+     *     assertEquals( $letter, Stencil.of("$letter$ is a $letterType$ and $case$"));
+     * </PRE>
      *
      * @param translator translates values to be hardcoded into the Stencil
      * @param keyValues the key parameter NAME and String VALUE to assign to the
@@ -332,10 +368,10 @@ public final class Stencil implements Template<String>{
         if( this.$Names.isEmpty() ) {
             return this;
         }
-        TextBlanks.Builder tbb = new TextBlanks.Builder();
+        TextForm.Builder tbb = new TextForm.Builder();
         List<String> new$Names = new ArrayList<>();
         for( int i = 0; i < this.$Names.size(); i++ ) {
-            String text = this.getTextBlanks().getTextBeforeBlank( i );
+            String text = this.getTextForm().getTextSegmentBeforeBlank( i );
             if( text.length() > 0 ) {
                 tbb.text( text );
             }
@@ -350,7 +386,7 @@ public final class Stencil implements Template<String>{
             }
         }
         //check if there is trailing text
-        String text = this.getTextBlanks().getTextAfterBlank( this.$Names.size() - 1 );
+        String text = this.getTextForm().getTextSegmentAfterBlank( this.$Names.size() - 1 );
         if( text.length() > 0 ) {
             tbb.text( text );
         }
@@ -360,6 +396,7 @@ public final class Stencil implements Template<String>{
     /**
      * Creates a NEW STENCIL that parameterizes the "target" the given $NAME
      * For example:
+     * <PRE>
      * Stencil dna = Stencil.of("AACCGTTCAAAGGT");
      * Stencil varAni = dna.$("T", "typ");
      * //is like:
@@ -369,28 +406,28 @@ public final class Stencil implements Template<String>{
      * Stencil s = Stencil.of("abcdefghijklmnopqrstuvwxyz")
      * .$("a","A").$("e", "E").$("i","I").$("o"."O").$("u","U");
      * Stencil s =
-     * Stencil.of("$a$bcd$e$fgh$i$jklmn$o$pqrst$u$vwxyz").$("y","sometimes");
-     *
+     *    Stencil.of("$a$bcd$e$fgh$i$jklmn$o$pqrst$u$vwxyz").$("y","sometimes");
+     * </PRE>
      * @param target some static text to be parameterized
      * @param $name the NAME to assign to this parameter
      * @return a ** NEW ** Stencil instance with the target parameterized
      */
     @Override
     public Stencil $( String target, String $name ) {
-        TextBlanks.Builder builder = new TextBlanks.Builder();
+        TextForm.Builder builder = new TextForm.Builder();
         List<String> params = new ArrayList<>();
 
-        if( !textBlanks.hasBlanks() ) {
-            String text = textBlanks.getFixedText();
+        if( !textForm.hasBlanks() ) {
+            String text = textForm.getFixedText();
             parseStencil( builder, params, text, target, $name );
         }
-        for( int i = 0; i < textBlanks.getBlanksCount(); i++ ) {
-            String text = textBlanks.getTextBeforeBlank( i );
+        for(int i = 0; i < textForm.getBlanksCount(); i++ ) {
+            String text = textForm.getTextSegmentBeforeBlank( i );
             parseStencil( builder, params, text, target, $name );
             params.add( this.$Names.get( i ) );
             builder.blank();
         }
-        String text = textBlanks.getTextAfterBlank( textBlanks.getBlanksCount() - 1 );
+        String text = textForm.getTextSegmentAfterBlank( textForm.getBlanksCount() - 1 );
         parseStencil( builder, params, text, target, $name );
 
         return new Stencil( builder.compile(), params );
@@ -402,7 +439,7 @@ public final class Stencil implements Template<String>{
         Map<String, Object> combinedParams = new HashMap<>($nameValues);
 
         Object[] fills = inline( translator, $Names, combinedParams );
-        return this.textBlanks.fill( fills );
+        return this.textForm.fill( fills );
     }
 
     /**
@@ -481,7 +518,7 @@ public final class Stencil implements Template<String>{
      * @return true if the stencil pattern matches, false otherwise
      */
     public boolean matches(String constructed ) {
-        List<String> valsInOrder = this.textBlanks.decompose( constructed );
+        List<String> valsInOrder = this.textForm.parse( constructed );
         return (valsInOrder != null);
     }
 
@@ -489,8 +526,8 @@ public final class Stencil implements Template<String>{
      * Gets the regex pattern
      * @return
      */
-    public Pattern getPattern(){
-        return this.textBlanks.getRegexPattern();
+    public Pattern getRegexPattern(){
+        return this.textForm.getRegexPattern();
     }
 
     /**
@@ -512,7 +549,7 @@ public final class Stencil implements Template<String>{
      * @return the Tokens (or null if the constructed String doesnt match the stencil pattern)
      */
     public Tokens parse(String... constructed ) {
-        List<String> valsInOrder = this.textBlanks.decompose( Text.combine( constructed) );
+        List<String> valsInOrder = this.textForm.parse( Text.combine( constructed) );
         if( valsInOrder == null ) {
             return null;
         }
@@ -537,7 +574,7 @@ public final class Stencil implements Template<String>{
         }
 
         Object[] fis = inline( Translator.DEFAULT_TRANSLATOR, $Names, fillMap );
-        return this.textBlanks.fill( fis );
+        return this.textForm.fill( fis );
     }
 
     /**
@@ -565,7 +602,7 @@ public final class Stencil implements Template<String>{
             int cursor = 0;
             int next = nextToken( code, cursor );
 
-            TextBlanks.Builder bb = new TextBlanks.Builder();
+            TextForm.Builder bb = new TextForm.Builder();
             List<String> parameters = new ArrayList<>();
 
             while( next > 0 ) {

@@ -25,7 +25,7 @@ public final class $case
     implements $proto<SwitchEntry, $case>, Template<SwitchEntry> {
 
     public static $case of( Predicate<SwitchEntry> constraint ){
-        return of().and(constraint);
+        return of().$and(constraint);
     }
     
     public static $case of( String...acase ){
@@ -42,7 +42,7 @@ public final class $case
     }
     
     public static $case of( SwitchEntry astSwitchEntry, Predicate<SwitchEntry> constraint){
-        return new $case(astSwitchEntry).and(constraint);
+        return new $case(astSwitchEntry).$and(constraint);
     }
     
     public static $case of( $expr expr, $stmt...stmts ){
@@ -93,7 +93,7 @@ public final class $case
         return select(switchEntry) != null;
     }
     
-    public $case and(Predicate<SwitchEntry> constraint ){
+    public $case $and(Predicate<SwitchEntry> constraint ){
         this.constraint = constraint;
         return this;
     }

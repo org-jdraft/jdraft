@@ -44,11 +44,11 @@ public final class $anno
     }
     
     public static $anno of( Predicate<_anno> constraint ){
-        return of().and(constraint);
+        return of().$and(constraint);
     }
     
     public static $anno of(String codePattern, Predicate<_anno>constraint) {
-        return new $anno(_anno.of(codePattern)).and(constraint);
+        return new $anno(_anno.of(codePattern)).$and(constraint);
     }
     
     public static $anno of(_anno _an) {
@@ -56,7 +56,7 @@ public final class $anno
     }
 
     public static $anno of(_anno _an, Predicate<_anno>constraint) {
-        return new $anno(_an).and(constraint);
+        return new $anno(_an).$and(constraint);
     }
         
     public static $anno of(Class<? extends Annotation>sourceAnnoClass) {
@@ -64,7 +64,7 @@ public final class $anno
     }
     
     public static $anno of (Class<? extends Annotation>sourceAnnoClass, Predicate<_anno> constraint) {
-        return of( sourceAnnoClass).and(constraint);
+        return of( sourceAnnoClass).$and(constraint);
     }
     
     /**
@@ -201,7 +201,7 @@ public final class $anno
      * @param constraint a constraint to be added
      * @return the modified prototype
      */
-    public $anno and(Predicate<_anno> constraint) {
+    public $anno $and(Predicate<_anno> constraint) {
         this.constraint = this.constraint.and(constraint);
         return this;
     }
@@ -845,7 +845,7 @@ public final class $anno
             return this;
         }
 
-        public $memberValue and( Predicate<MemberValuePair> mvpMatchFn){
+        public $memberValue $and(Predicate<MemberValuePair> mvpMatchFn){
             this.constraint = this.constraint.and(mvpMatchFn);
             return this;
         }

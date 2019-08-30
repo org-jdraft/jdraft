@@ -47,7 +47,7 @@ public final class $typeParameter
      * @return 
      */
     public static $typeParameter of( Predicate<_typeParameter> constraint ){
-        return of().and(constraint);
+        return of().$and(constraint);
     }
     
     /**
@@ -146,7 +146,7 @@ public final class $typeParameter
     }
     
     public $typeParameter $annos( Predicate<_annos> constraint ){
-        this.$anns.and(constraint);
+        this.$anns.$and(constraint);
         return this;
     }
     
@@ -170,7 +170,7 @@ public final class $typeParameter
         return this;
     }
     
-    public $typeParameter and(Predicate<_typeParameter> constraint ){
+    public $typeParameter $and(Predicate<_typeParameter> constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }

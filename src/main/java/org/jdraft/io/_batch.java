@@ -131,7 +131,7 @@ import static java.nio.file.FileVisitResult.CONTINUE;
  *
  * @author Eric
  */
-public class _batch {
+public class _batch implements _code._provider {
 
     public static final Predicate<Path> EXCLUDE_PACKAGE_INFO =
         path-> !path.endsWith("package-info.java");
@@ -188,36 +188,6 @@ public class _batch {
     }
 
     /**
-     * Perform some action on the _code entities in the files
-     * (INCLUDES _packageInfo and _moduleInfo files)
-     * use {@link #for_types(Consumer)} to operate on
-     * the {@link _type} files alone
-     * @param _codeActionFn
-     * @return 
-     */
-    public List<_code> for_code(Consumer<_code> _codeActionFn ){
-        List<_code> theCode = new ArrayList<>();
-        this.list(JAVA_FILES_ONLY).forEach(
-            p-> {
-                try{
-                    _code _t = _java.code(p);
-                    _codeActionFn.accept(_t);
-                    theCode.add(_t);
-                }catch(_draftException e){
-                    try{
-                        byte[] bs = Files.readAllBytes(p);
-                        if( bs.length == 0){
-                            throw new _ioException("blank file at "+ p );
-                        }
-                    }catch(IOException ioe){
-                        throw new _ioException("Error reading file at "+ p,ioe);
-                    }
-                }
-            });
-        return theCode;
-    }
-
-    /**
      *
      * @param codeClass
      * @param _codeMatchFn
@@ -252,86 +222,6 @@ public class _batch {
 
     /**
      *
-     * @return
-     */
-    public List<_type> list_types(){
-        return list_types(_type.class, t->true);
-    }
-
-    /**
-     *
-     * @param typeClass
-     * @param <_T>
-     * @return
-     */
-    public <_T extends _type> List<_T> list_types(Class<_T> typeClass ){
-        return list_types(typeClass, t->true);
-    }
-
-    /**
-     *
-     * @param typePredicate
-     * @return
-     */
-    public List<_type> list_types(Predicate<_type> typePredicate ){
-        return list_types(_type.class, typePredicate);
-    }
-
-    /**
-     * Find and return a list of all {@link _type}s
-     * @param typeClass the class (_class, _enum, _interface, _annotation)
-     * @param _typeMatchFn
-     * @param <_T>
-     * @return
-     */
-    public <_T extends _type> List<_T> list_types(Class<_T> typeClass, Predicate<_T> _typeMatchFn ){
-        List<_T> found = new ArrayList<>();
-        for_types(typeClass, _typeMatchFn, t-> found.add(t));
-        return found;
-    }
-
-    /**
-     *
-     * @param typeClass
-     * @param _typeActionFn
-     * @param <_T>
-     * @return
-     */
-    public <_T extends _type> List<_T> for_types(Class<_T> typeClass, Consumer<_T> _typeActionFn ){
-        return for_types(typeClass, t->true, _typeActionFn);
-    }
-
-    /**
-     *
-     * @param _typeActionFn
-     * @return
-     */
-    public <_T extends _type> List<_T> for_types(Class<_T> typeClass, Predicate<_T>_typeMatchFn, Consumer<_T> _typeActionFn ){
-        List<_T> types = new ArrayList<>();
-        this.list(JAVA_TYPES_ONLY).forEach(
-                p-> {
-                    try{
-                        _type _t = _java.type(p);
-                        if( typeClass.isAssignableFrom(_t.getClass()) && _typeMatchFn.test((_T)_t)) {
-                            _typeActionFn.accept( (_T)_t);
-                            types.add( (_T)_t);
-                        }
-                    }catch(Exception e){
-                        try{
-                            byte[] bs = Files.readAllBytes(p);
-                            if( bs.length == 0){
-                                System.err.println("Blank file _type file at "+ p );
-                            }
-                        }catch(IOException ioe){
-                            throw new _ioException("Error reading file at Path"+ p,ioe);
-                        }
-                    }
-                });
-        return types;
-    }
-
-    /**
-     *
      * @param pathAction
      * @return
      */
@@ -359,14 +249,6 @@ public class _batch {
         return paths;
     }
 
-    /**
-     *
-     * @param _typeActionFn
-     * @return
-     */
-    public List<_type> for_types(Consumer<_type> _typeActionFn ){
-        return for_types(_type.class, t->true, _typeActionFn);
-    }
 
     /**
      * Will do the most appropriate action for listing the filePaths at the root path

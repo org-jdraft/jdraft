@@ -7,7 +7,7 @@ import org.jdraft._initBlock;
 public class SstaticBlockTest extends TestCase {
 
     public void testMatchAny(){
-        $staticBlock $sb = $staticBlock.of();
+        $initBlock $sb = $initBlock.of();
         assertTrue($sb.isMatchAny());
         _initBlock _sb = $sb.draft();
 
@@ -16,7 +16,7 @@ public class SstaticBlockTest extends TestCase {
     }
 
     public void testDraftConstant(){
-        _initBlock _sb = $staticBlock.of("System.out.println(1);").draft();
+        _initBlock _sb = $initBlock.of("System.out.println(1);").draft();
         System.out.println( _sb );
 
         assertEquals( _initBlock.of("System.out.println(1);"), _sb);
@@ -31,7 +31,7 @@ public class SstaticBlockTest extends TestCase {
     }
 
     public void testSelectParameterized(){
-        $staticBlock $sb = $staticBlock.of( ($any$)->{
+        $initBlock $sb = $initBlock.of( ($any$)->{
             System.out.println($any$);
         });
 
@@ -44,7 +44,7 @@ public class SstaticBlockTest extends TestCase {
         assertTrue($sb.select( _initBlock.of( ()-> System.out.println(1))).is("any", 1));
     }
     public void testDraftParameterized(){
-        $staticBlock $sb = $staticBlock.of( (Object $p$)->System.out.println($p$) );
+        $initBlock $sb = $initBlock.of( (Object $p$)->System.out.println($p$) );
         assertEquals( Stmt.of(()->System.out.println('c')), $sb.draft("p", 'c').getStatement(0));
     }
 }

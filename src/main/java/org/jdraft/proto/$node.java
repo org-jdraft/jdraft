@@ -42,7 +42,7 @@ public final class $node implements $proto<Node, $node> {
      * @return 
      */
     public static $node of( Predicate<Node> constraint ){
-        return new $node("$node$").and(constraint);
+        return new $node("$node$").$and(constraint);
     }
 
     /**
@@ -89,7 +89,7 @@ public final class $node implements $proto<Node, $node> {
      * @return
      */
     public static $node of( String pattern, Class...nodeTypes ){
-        return of(pattern).and(n-> Ast.isNodeOfType(n, nodeTypes));
+        return of(pattern).$and(n-> Ast.isNodeOfType(n, nodeTypes));
     }
 
     /** the string pattern */
@@ -133,7 +133,7 @@ public final class $node implements $proto<Node, $node> {
      * @param constraint a constraint to be added
      * @return the modified prototype
      */
-    public $node and(Predicate<Node>constraint ){
+    public $node $and(Predicate<Node>constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }

@@ -35,7 +35,7 @@ import java.util.regex.Pattern;
  *
  * @author M. Eric DeFazio
  */
-public final class TextBlanks{
+public final class TextForm {
 
     /**
      * All the "Static" Text for the Sequence For instance if we had:
@@ -93,6 +93,16 @@ public final class TextBlanks{
     private Pattern pattern;
 
     /**
+     * Builds a textform with a single blank (no text)
+     * @return
+     */
+    public static TextForm of(){
+        BitSet bs = new BitSet(1);
+        bs.set(0);
+        return new TextForm("", bs);
+    }
+
+    /**
      * Uses the Builder to _1_build a TextBlanks...
      *
      * Here is the BLANK Rules:
@@ -117,7 +127,7 @@ public final class TextBlanks{
      * @param textOrNullBlanks PARAMETERS, text is static, null typesEqual a blank
      * @return a TextBlanks
      */
-    public static TextBlanks of(String... textOrNullBlanks ) {
+    public static TextForm of(String... textOrNullBlanks ) {
         Builder builder = new Builder();
 
         if( textOrNullBlanks == null ) {
@@ -146,7 +156,7 @@ public final class TextBlanks{
      * @param blankIndexes the character positions where "blanks" are to be filled
      * within the document
      */
-    public TextBlanks( String fixedText, BitSet blankIndexes ) {
+    public TextForm(String fixedText, BitSet blankIndexes ) {
         this.fixedText = fixedText;
         this.blankIndexes = blankIndexes;
     }
@@ -156,10 +166,10 @@ public final class TextBlanks{
         if( o == null){
             return false;
         }
-        if( !( o instanceof TextBlanks )){
+        if( !( o instanceof TextForm)){
             return false;
         }
-        TextBlanks tb = (TextBlanks)o;
+        TextForm tb = (TextForm)o;
         return this.fixedText.equals(tb.fixedText) && this.blankIndexes.equals(tb.blankIndexes);
     }
 
@@ -185,7 +195,7 @@ public final class TextBlanks{
      * @param tb a textBlanks
      * @return the String that can be used as a Regex pattern
      */
-    public static String buildRegexPattern( TextBlanks tb ){
+    public static String buildRegexPattern( TextForm tb ){
         int currentTextCharAt = 0; //current char index in the document
         int previousBlankAt = -1; // previous blank index in the document
 
@@ -228,30 +238,30 @@ public final class TextBlanks{
     /**
      * Combines many {@code TextBlank}s into a single {@code TextBlank} in order
      *
-     * @param textBlanks multiple textBlanks to sequence into one
-     * @return a single {@link TextBlanks}
+     * @param textForms multiple textBlanks to sequence into one
+     * @return a single {@link TextForm}
      */
-    public static TextBlanks combine(TextBlanks... textBlanks ) {
+    public static TextForm combine(TextForm... textForms ) {
         Builder builder = new Builder();
-        for( TextBlanks thisTemplate : textBlanks ) {
+        for( TextForm thisTemplate : textForms ) {
             int blankCountInThisTemplate = thisTemplate.getBlanksCount();
             if( blankCountInThisTemplate == 0 ) {
                 builder.text( thisTemplate.getFixedText() );
             }
             else {
                 for( int b = 0; b < blankCountInThisTemplate; b++ ) {
-                    String staticText = thisTemplate.getTextBeforeBlank( b );
+                    String staticText = thisTemplate.getTextSegmentBeforeBlank( b );
                     builder.text( staticText );
                     builder.blank();
                 }
             }
-            builder.text( thisTemplate.getTextAfterBlank( blankCountInThisTemplate - 1 ) );
+            builder.text( thisTemplate.getTextSegmentAfterBlank( blankCountInThisTemplate - 1 ) );
         }
         return builder.compile();
     }
 
     /**
-     * Is the first thing in the TextBlanks a character?
+     * Is the first thing in the TextForm a character?
      * @return true if the first thing in the text is a character (NOT a blank)
      */
     public boolean startsWithText(){
@@ -259,7 +269,8 @@ public final class TextBlanks{
     }
 
     /**
-     * Is the first thing in the TextBlanks a blank?
+     * Is the first thing in the TextForm a blank?
+     * (if the TextForm starts with a blank it is said to be "open" on the left)
      * @return true if the first thing in the text is a blank (not a textual char)
      */
     public boolean startsWithBlank(){
@@ -273,12 +284,12 @@ public final class TextBlanks{
     public List<String> getTextSegments(){
         List<String> segs = new ArrayList<>();
         for(int i=0;i<this.getBlanksCount() +1;i++){
-            String nt = getTextBeforeBlank(i);
+            String nt = getTextSegmentBeforeBlank(i);
             if( nt.length() > 0 ){
                 segs.add( nt );
             }
         }
-        String nt = getTextAfterBlank( this.getBlanksCount() -1);
+        String nt = getTextSegmentAfterBlank( this.getBlanksCount() -1);
         if( nt.length() > 0 ){
             segs.add( nt );
         }
@@ -286,15 +297,15 @@ public final class TextBlanks{
     }
 
     /**
-     * Does this textBlanks have ANY blanks? 
-     * @return true if there are ANY blanks in the TextBlanks
+     * Does this TextForm have ANY blanks?
+     * @return true if there are ANY blanks in the TextForm
      */
     public boolean hasBlanks() {
         return blankIndexes.cardinality() > 0;
     }
 
     /**
-     * Fill the blanks matching the order of the blanks with the fills
+     * Fill the blanks of the TextForm matching the order of the blanks with the fills
      * @param fillsInOrder the fills objects in order of
      * @return the filled in TextBlanks
      */
@@ -303,7 +314,7 @@ public final class TextBlanks{
     }
 
     /**
-     * fills and returns the filled Text as a String
+     * fills the TextForm and returns the a String
      *
      * @param translator translates input PARAMETERS objects to textual representations
      * @param fillsInOrder the files to be put into the Template in order
@@ -369,9 +380,9 @@ public final class TextBlanks{
     }
 
     /**
-     * Returns the Static Text and the blanks annotated as {<1>, <2>, <3>,...}
+     * Returns the Fixed Text and the blanks annotated as {<1>, <2>, <3>,...}
      *
-     * @return the String representation ofLines the Template
+     * @return the String representation of Lines the TextForm
      */
     @Override
     public String toString() {
@@ -383,9 +394,9 @@ public final class TextBlanks{
     }
 
     /**
-     * the number ofLines blanks in the FillTemplate
+     * the number of blanks in the TextForm
      *
-     * @return count ofLines blanks in the Template
+     * @return count of blanks in the TextForm
      */
     public int getBlanksCount() {
         return blankIndexes.cardinality();
@@ -393,7 +404,7 @@ public final class TextBlanks{
 
     /**
      * BitSet where set bits represent a "blank" to be filled where text.
-     *
+     * each 0 bit corresponds to a fixed character
      * @return
      */
     public BitSet getBlanks() {
@@ -401,8 +412,8 @@ public final class TextBlanks{
     }
 
     /**
-     * given an index ofLines a blank, find the character index within the
-     * static
+     * Count to the nth blank, and return the character index within the
+     * TextForm
      * {@code text} where the blank would be placed
      *
      * @param index the index ofLines the blank (0-based) {0, 1,,2, ...}
@@ -452,7 +463,7 @@ public final class TextBlanks{
      * @return the text between the {@index}<SUP>th</SUP> blank and the blank after (or the remaining text
      * if the {@index}<SUP>th</SUP> blank is the last blank
      */
-    public String getTextBeforeBlank( int blankIndex ) {
+    public String getTextSegmentBeforeBlank(int blankIndex ) {
         if( getBlanksCount() == 0 ) {
             return fixedText;
         }
@@ -496,7 +507,7 @@ public final class TextBlanks{
      * @return the text between the {@index}<SUP>th</SUP> blank and the blank after (or the remaining text
      * if the {@index}<SUP>th</SUP> blank is the last blank
      */
-    public String getTextAfterBlank( int blankIndex ) {
+    public String getTextSegmentAfterBlank(int blankIndex ) {
         if( blankIndex >= getBlanksCount() ) {
             return "";
         }
@@ -512,11 +523,10 @@ public final class TextBlanks{
         return getFixedText().substring( start, end );
     }
 
-
     /**
-     * Determines if the Template has (2) or more blanks immediately next to 
-     * each other
-     * 
+     * Determines if the TextForm has (2) or more blanks immediately next to
+     * each other i.e. TextForm.of("a", null, null, "b");
+     *
      * This presents problems if we try to use a regex pattern to match
      * since there is no way of knowing where one blank ends and the next blank 
      * starts since there are no delimiter(s) between two consecutive blanks
@@ -560,17 +570,14 @@ public final class TextBlanks{
      * @return a List of Strings representing the values that exist where the blanks would be, in the order they are
      * extracted from the constructed text
      */
-    public List<String> decompose(String constructed ){
+    public List<String> parse(String constructed ){
 
         if( this.hasConsecutiveBlanks() ){
-            //System.out.println("HAS consecutiveBlanks");
             return null; //cant listAnyMatch which
         }
         Pattern pat = this.getRegexPattern();
-        //System.out.println( "pattern "+ pattern );
         Matcher matcher = pat.matcher( constructed);
         if( !matcher.matches() ){
-            //System.out.println( "Not Matches "+ pat);
             return null;
         }
 
@@ -591,10 +598,13 @@ public final class TextBlanks{
         return ext;
     }
 
-    //there is no text after the last blank
+    /**
+     * Is there any fixed text after the last blank?
+     * (If not the TextForm is "open" on the right)
+     */
     public boolean endsWithBlank() {
         if( this.getBlanksCount() > 0 ) {
-            return getTextAfterBlank(this.getBlanksCount() - 1).length() == 0;
+            return getTextSegmentAfterBlank(this.getBlanksCount() - 1).length() == 0;
         }
         return false;
     }
@@ -674,8 +684,8 @@ public final class TextBlanks{
             return this;
         }
 
-        public TextBlanks compile() {
-            return new TextBlanks( sb.toString(), blankIndexes );
+        public TextForm compile() {
+            return new TextForm( sb.toString(), blankIndexes );
         }
     }
 }

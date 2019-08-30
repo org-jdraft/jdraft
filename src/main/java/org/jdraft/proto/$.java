@@ -50,6 +50,10 @@ public final class $ {
     public static $modifiers STATIC = $modifiers.of("static");
     public static $modifiers FINAL = $modifiers.of("final");
 
+    public static $modifiers NOT_ABSTRACT = $modifiers.of(m -> !m.isAbstract() );
+    public static $modifiers NOT_STATIC = $modifiers.of(m -> !m.isStatic() );
+    public static $modifiers NOT_FINAL = $modifiers.of(m -> !m.isFinal() );
+
     public static $modifiers SYNCHRONIZED = $modifiers.of("synchronized");
     public static $modifiers TRANSIENT = $modifiers.of("transient");
     public static $modifiers VOLATILE = $modifiers.of("volatile");
@@ -87,11 +91,8 @@ public final class $ {
     public static final BinaryExpr.Operator SHIFT_RIGHT = BinaryExpr.Operator.SIGNED_RIGHT_SHIFT; // a >> b
     public static final BinaryExpr.Operator SHIFT_RIGHT_UNSIGNED = BinaryExpr.Operator.UNSIGNED_RIGHT_SHIFT; // a >>> b
 
-
     /** cant construct one of these */
     private $(){}
-
-
 
     /** Functionality */
     public static boolean hasAncestor( Node node, Predicate<Node> ancestorMatchFn){
@@ -190,7 +191,7 @@ public final class $ {
     }
     
     public static $anno anno( Predicate<_anno> constraint){
-        return $anno.of().and(constraint);
+        return $anno.of().$and(constraint);
     }
     
     public static $anno anno( String pattern){
@@ -198,7 +199,7 @@ public final class $ {
     }
     
     public static $anno anno(String pattern, Predicate<_anno> constraint){
-        return $anno.of(pattern).and(constraint);
+        return $anno.of(pattern).$and(constraint);
     }
     
     public static $anno anno( Class<? extends Annotation> clazz ){
@@ -206,7 +207,7 @@ public final class $ {
     }
     
     public static $anno anno( Class<? extends Annotation> clazz, Predicate<_anno> constraint){
-        return $anno.of(clazz).and(constraint);
+        return $anno.of(clazz).$and(constraint);
     }
     
     public static $annos annos(){
@@ -214,7 +215,7 @@ public final class $ {
     }
     
     public static $annos annos( Predicate<_annos> constraint ){
-        return $annos.of().and(constraint);
+        return $annos.of().$and(constraint);
     }
     
     public static $annos annos( _annos _anns ){
@@ -222,7 +223,7 @@ public final class $ {
     }
     
     public static $annos annos( _annos _anns, Predicate<_annos> constraint){
-        return $annos.of(_anns).and(constraint);
+        return $annos.of(_anns).$and(constraint);
     }
     
     public static $annos annos($anno... annos){
@@ -234,7 +235,7 @@ public final class $ {
     }
     
     public static $body body( Predicate<_body> constraint){
-        return $body.of().and(constraint);
+        return $body.of().$and(constraint);
     }
     
     public static $body body(String...body){
@@ -454,7 +455,7 @@ public final class $ {
      * @return
      */
     public static $constructor constructor( Predicate<_constructor> constraint){
-        return $constructor.of().and(constraint);
+        return $constructor.of().$and(constraint);
     }
 
     /**
@@ -475,7 +476,7 @@ public final class $ {
      * @return
      */
     public static $constructor constructor( _constructor _proto, Predicate<_constructor> constraint ){
-        return $constructor.of(_proto).and(constraint);
+        return $constructor.of(_proto).$and(constraint);
     }
 
     /**
@@ -496,7 +497,7 @@ public final class $ {
      * @return
      */
     public static $constructor constructor( String pattern, Predicate<_constructor> constraint){
-        return $constructor.of(pattern).and(constraint);
+        return $constructor.of(pattern).$and(constraint);
     }
 
     /**
@@ -595,7 +596,7 @@ public final class $ {
      * @return
      */
     public static $method method(Predicate<_method> constraint){
-        return $method.of().and(constraint);
+        return $method.of().$and(constraint);
     }
 
     /**
@@ -616,7 +617,7 @@ public final class $ {
      * @return
      */
     public static $method method(_method ms, Predicate<_method> _methodMatchFn){
-        return $method.of(ms).and(_methodMatchFn);
+        return $method.of(ms).$and(_methodMatchFn);
     }
 
     /**
@@ -644,11 +645,11 @@ public final class $ {
     }
 
     public static $expr literal(){
-        return $expr.of().and(e-> e.isLiteralExpr());
+        return $expr.of().$and(e-> e.isLiteralExpr());
     }
     
     public static $expr expr(Predicate<Expression> constraint){
-        return $expr.of().and(constraint);
+        return $expr.of().$and(constraint);
     }
     
     public static $expr expr(String... pattern){
@@ -660,7 +661,7 @@ public final class $ {
     }
     
     public static <T extends Expression> $expr<T> of(T protoExpr, Predicate<T> constraint){
-        return $expr.of(protoExpr).and(constraint);
+        return $expr.of(protoExpr).$and(constraint);
     }
    
     public static $expr<StringLiteralExpr> of( String stringLiteral ){
@@ -844,7 +845,7 @@ public final class $ {
     }
 
     public static $expr<CastExpr> cast(Class castClazz){
-        return $expr.cast("($type$)$expr$").and( c->Ast.typesEqual(c.getType(), Ast.typeRef(castClazz) ) );
+        return $expr.cast("($type$)$expr$").$and(c->Ast.typesEqual(c.getType(), Ast.typeRef(castClazz) ) );
     }
 
     public static $expr<CastExpr> cast(){
@@ -1197,7 +1198,7 @@ public final class $ {
     }
 
     public static $case switchCase(Predicate<SwitchEntry> se){
-        return $case.of().and(se);
+        return $case.of().$and(se);
     }
     
     public static $catch catchClause(){
@@ -1213,7 +1214,7 @@ public final class $ {
     }
 
     public static $catch catchClause(Predicate<CatchClause> cc ){
-        return $catch.of().and(cc);
+        return $catch.of().$and(cc);
     }
         
     public static $field field(){
@@ -1225,7 +1226,7 @@ public final class $ {
     }
     
     public static $field field(Predicate<_field> constraint){
-        return $field.of().and(constraint);
+        return $field.of().$and(constraint);
     }
 
     public static $field field(_field f){
@@ -1258,7 +1259,7 @@ public final class $ {
      * @return
      */
     public static $import importStmt(Predicate<_import> constraint){
-        return $import.of().and(constraint);
+        return $import.of().$and(constraint);
     }
 
     /**
@@ -1311,7 +1312,7 @@ public final class $ {
      * @return
      */
     public static $modifiers modifiers(Predicate<_modifiers> constraint){
-        return $modifiers.of().and(constraint);
+        return $modifiers.of().$and(constraint);
     }
 
     /**
@@ -1342,17 +1343,48 @@ public final class $ {
     }
 
 
-
-    public static $staticBlock staticBlock( ){
-        return $staticBlock.of();
+    /**
+     * Static initializer block of a type
+     * @return a prototype representing any static initializer block
+     */
+    public static $initBlock staticBlock( ){
+        return $initBlock.of().setStatic();
     }
 
-    public static $staticBlock staticBlock( Predicate<_initBlock> packageNameMatchFn ){
-        return $staticBlock.of( packageNameMatchFn);
+    /**
+     * Static initializer block of a type
+     * @return a prototype representing any static initializer block
+     */
+    public static $initBlock staticBlock(Predicate<_initBlock> packageNameMatchFn ){
+        return $initBlock.of( packageNameMatchFn).setStatic();
     }
 
-    public static $staticBlock staticBlock( String... pattern ){
-        return $staticBlock.of(pattern);
+    /**
+     * Static initializer block of a type
+     * @return a prototype representing any static initializer block
+     */
+    public static $initBlock staticBlock(String pattern ){
+        return $initBlock.of(pattern).setStatic();
+    }
+
+    /**
+     * Static initializer block of a type
+     * @return a prototype representing any static initializer block
+     */
+    public static $initBlock staticBlock(String... pattern ){
+        return $initBlock.of(pattern).setStatic();
+    }
+
+    public static $initBlock initBlock( ){
+        return $initBlock.of();
+    }
+
+    public static $initBlock initBlock(Predicate<_initBlock> packageNameMatchFn ){
+        return $initBlock.of( packageNameMatchFn);
+    }
+
+    public static $initBlock initBlock(String... pattern ){
+        return $initBlock.of(pattern);
     }
 
     public static $parameters parameters(){
@@ -1364,7 +1396,7 @@ public final class $ {
     }
     
     public static $parameters parameters(Predicate<_parameters> constraint){
-        return $parameters.of().and(constraint);
+        return $parameters.of().$and(constraint);
     }
     
     public static $parameter parameter(){
@@ -1380,7 +1412,7 @@ public final class $ {
     }
 
     public static $parameter parameter(Predicate<_parameter> constraint){
-        return $parameter.of().and(constraint);
+        return $parameter.of().$and(constraint);
     }
     
     public static $stmt stmt(){
@@ -2112,7 +2144,7 @@ public final class $ {
     }
 
     public static $throws thrown(Predicate<_throws> ts){
-        return $throws.of().and( ts);
+        return $throws.of().$and( ts);
     }
     
     public static $typeParameter typeParameter(){
@@ -2128,7 +2160,7 @@ public final class $ {
     }
 
     public static $typeParameter typeParameter(Predicate<_typeParameter> tp){
-        return $typeParameter.of().and(tp);
+        return $typeParameter.of().$and(tp);
     }
     
     public static $typeParameters typeParameters(){
@@ -2144,7 +2176,7 @@ public final class $ {
     }
 
     public static $typeParameters typeParameters(Predicate<_typeParameters> tps){
-        return $typeParameters.of().and(tps);
+        return $typeParameters.of().$and(tps);
     }
     
     public static $typeRef typeRef(){
@@ -2164,7 +2196,7 @@ public final class $ {
     }
 
     public static $typeRef typeRef(Predicate<_typeRef> tr){
-        return $typeRef.of().and(tr);
+        return $typeRef.of().$and(tr);
     }
     
     public static $var var(){
@@ -2180,7 +2212,7 @@ public final class $ {
     }
     
     public static $var var(Predicate<VariableDeclarator> vd){
-        return $var.of().and(vd);
+        return $var.of().$and(vd);
     }
 
 }

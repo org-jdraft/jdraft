@@ -204,18 +204,18 @@ public class _annoTest extends TestCase {
             //.constraint( a->a.ast().getParentNode().isPresent() 
             //    && a.ast().getParentNode().get().findFirst(Statement.class).isPresent());
         
-        $stmt $s = $stmt.of().and(
+        $stmt $s = $stmt.of().$and(
             (s)-> ((Statement)s).findFirst(
                 AnnotationExpr.class, (AnnotationExpr a)-> $aa.matches(a) ).isPresent() 
                 && !(s instanceof BlockStmt) );
         System.out.println( $s.listIn(C.class) );
         
-        $expr $ex = $expr.of().and(o-> !(o instanceof AnnotationExpr)
+        $expr $ex = $expr.of().$and(o-> !(o instanceof AnnotationExpr)
             && o.findFirst(AnnotationExpr.class).isPresent());
         
         System.out.println( $ex.listIn(C.class) );
         
-        $expr $e = $expr.objectCreation().and(o-> o.findFirst(AnnotationExpr.class).isPresent());
+        $expr $e = $expr.objectCreation().$and(o-> o.findFirst(AnnotationExpr.class).isPresent());
         
         System.out.println( $e.listIn(C.class) );
         

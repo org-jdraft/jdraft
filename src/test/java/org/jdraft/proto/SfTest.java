@@ -160,7 +160,7 @@ public class SfTest extends TestCase {
      */
     public void testBuild$f(){
         $field $b = $field.of(); //any field
-        $b.and(f-> f.hasAnno(Deprecated.class));
+        $b.$and(f-> f.hasAnno(Deprecated.class));
         
         assertFalse( $b.matches("int a") ); //expected Deprecated
         assertTrue( $b.matches("@Deprecated int a") ); //expected Deprecated
@@ -169,10 +169,10 @@ public class SfTest extends TestCase {
         
         //assertTrue( $b.matches("@Deprecated int a=1;") );
 
-        $b.and(f -> f.isType(String.class));
+        $b.$and(f -> f.isType(String.class));
         //assertTrue( $b.matches("@Deprecated String a=1;") );
         
-        $b.and(f -> f.hasInit());
+        $b.$and(f -> f.hasInit());
         
         assertTrue( $b.constraint.test( _field.of("@Deprecated String i = \"e\";") ));
         assertFalse( $b.constraint.test( _field.of("String i = \"e\";") ));

@@ -799,6 +799,13 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
 
     @Override
     default _T name(String name ){
+        if( name.contains(".") ){
+            //setting the package AND type name all at once
+            String packageName = name.substring(0, name.lastIndexOf(".") );
+            String typeName = name.substring(name.lastIndexOf(".")+1);
+            this.setPackage(packageName);
+            return name(typeName);
+        }
         ast().setName( name );
         if( this instanceof _class ){
             //make sure to rename the CONSTRUCTORS
@@ -1201,19 +1208,20 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
 
     /**
      * A container for {@link _type}s
-     */
+
     interface _hasTypes extends _java{
 
-        /** @return list all of the {@link _type}s */
+        @return list all of the {@link _type}s
         List<_type> list();
 
         default List<_type> list(Predicate<_type> _typePredicate ){
             return list().stream().filter(_typePredicate).collect(Collectors.toList());
         }
          
-        /** @return container of Types that is empty */
+        @return container of Types that is empty
         boolean isEmpty();
     }
+    */
 
     /**
      * {@link _type} that can implement an {@link _interface}

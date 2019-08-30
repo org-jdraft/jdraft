@@ -29,7 +29,7 @@ public final class $throws
      * @return 
      */
     public static $throws none(){
-        return of().and(t-> t.isEmpty() );
+        return of().$and(t-> t.isEmpty() );
     }
 
     /**
@@ -74,7 +74,7 @@ public final class $throws
      * @return 
      */
     public static $throws of( String pattern, Predicate<_throws> constraint){        
-        return new $throws( _throws.of(pattern) ).and(constraint);
+        return new $throws( _throws.of(pattern) ).$and(constraint);
     }
     
     /**
@@ -84,7 +84,7 @@ public final class $throws
      * @return 
      */
     public static $throws of( Class<? extends Throwable> exception, Predicate<_throws> constraint){
-        return new $throws( exception  ).and(constraint);
+        return new $throws( exception  ).$and(constraint);
     }
     
     /**
@@ -103,7 +103,7 @@ public final class $throws
      * @return 
      */
     public static $throws of( _throws _proto, Predicate<_throws> constraint){
-        return new $throws( _proto ).and(constraint);
+        return new $throws( _proto ).$and(constraint);
     }
     
     public Predicate<_throws> constraint = t-> true;
@@ -127,7 +127,7 @@ public final class $throws
      * @param constraint a constraint to be added
      * @return the modified prototype
      */
-    public $throws and(Predicate<_throws>constraint ){
+    public $throws $and(Predicate<_throws>constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }

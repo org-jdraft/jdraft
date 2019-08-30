@@ -111,9 +111,9 @@ public class SannoTest extends TestCase {
         assertTrue($anno.of(S.class, "($any$)").matches("S()"));
         assertTrue($anno.of(S.class, "($any$)").matches("S(Float.class)"));
         */
-        assertTrue($anno.of(S.class).and(a-> a.hasValue(v -> v.isClassExpr())).matches("@S(Float.class)"));
-        assertFalse($anno.of(S.class).and(a-> a.hasValue(v -> v.isClassExpr())).matches("@S"));
-        assertFalse($anno.of(S.class).and(a-> a.hasValue(v -> v.isClassExpr())).matches("@S({Float.class, String.class})"));
+        assertTrue($anno.of(S.class).$and(a-> a.hasValue(v -> v.isClassExpr())).matches("@S(Float.class)"));
+        assertFalse($anno.of(S.class).$and(a-> a.hasValue(v -> v.isClassExpr())).matches("@S"));
+        assertFalse($anno.of(S.class).$and(a-> a.hasValue(v -> v.isClassExpr())).matches("@S({Float.class, String.class})"));
         
     }
     

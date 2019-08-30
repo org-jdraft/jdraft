@@ -83,7 +83,6 @@ public class _initBlockTest extends TestCase {
         assertEquals( _ib.getStatement(1), Stmt.of( ()-> System.out.println(2)) );
     }
     
-    
     public void testIB(){
 
         _initBlock _sb = _initBlock.of("i = 100;");

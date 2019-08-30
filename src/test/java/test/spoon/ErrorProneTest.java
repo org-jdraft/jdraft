@@ -2,12 +2,8 @@ package test.spoon;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.CallableDeclaration;
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import junit.framework.TestCase;
-import org.jdraft.Ast;
-import org.jdraft._walk;
 import org.jdraft.proto.*;
 
 /**
@@ -24,7 +20,7 @@ public class ErrorProneTest extends TestCase {
 
         //this models all return statements that return the null literal
         $stmt<ReturnStmt> $returnNull =
-                $.returnStmt().and(r -> r.getExpression().isPresent()
+                $.returnStmt().$and(r -> r.getExpression().isPresent()
                         && r.getExpression().get().isNullLiteralExpr() );
 
         class retNull{
@@ -48,12 +44,12 @@ public class ErrorProneTest extends TestCase {
 
         //match any callable declaration that is annotated with Nullable
         $node $memberAnnotatedWithNullable = $node.of(CallableDeclaration.class)
-                .and( cd-> ((CallableDeclaration)cd).getAnnotationByName("Nullable").isPresent());
+                .$and(cd-> ((CallableDeclaration)cd).getAnnotationByName("Nullable").isPresent());
 
         //match any Return null where that is NOT within a Member
-        $stmt<ReturnStmt> $returnNull = $.returnStmt().and(r -> r.getExpression().isPresent()
+        $stmt<ReturnStmt> $returnNull = $.returnStmt().$and(r -> r.getExpression().isPresent()
                 && r.getExpression().get().isNullLiteralExpr() )
-                .and(r -> !$.hasAncestor(r, $memberAnnotatedWithNullable));
+                .$and(r -> !$.hasAncestor(r, $memberAnnotatedWithNullable));
 
 
         class FFF{

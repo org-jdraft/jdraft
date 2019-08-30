@@ -2,8 +2,6 @@ package test.spoon;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
 import com.github.javaparser.ast.nodeTypes.NodeWithModifiers;
@@ -25,7 +23,7 @@ public class SpoonAnalysisTests extends TestCase {
 
     public void testFindEmptyCatchBlocks(){
         //this represents empty catch blocks
-        $catch $empty = $catch.of().and(c-> c.getBody().isEmpty());
+        $catch $empty = $catch.of().$and(c-> c.getBody().isEmpty());
 
         class C{
             void m(){
@@ -43,7 +41,7 @@ public class SpoonAnalysisTests extends TestCase {
         //find members that dont have javadocs
         $node $memberWithNoJavadoc =
                 $.of( TypeDeclaration.class, MethodDeclaration.class, FieldDeclaration.class, ConstructorDeclaration.class)
-                .and(n -> ((NodeWithModifiers)n).hasModifier(Modifier.Keyword.PUBLIC)
+                .$and(n -> ((NodeWithModifiers)n).hasModifier(Modifier.Keyword.PUBLIC)
                         && !((NodeWithJavadoc)n).hasJavaDocComment() );
         @_public class EX{
             public int a;
@@ -57,7 +55,7 @@ public class SpoonAnalysisTests extends TestCase {
 
     public void testFindEmptyMethodBodies(){
         $method $implementedMethodsWithNoBody =
-                $method.of().and( m -> m.isImplemented() && m.getBody().isEmpty());
+                $method.of().$and(m -> m.isImplemented() && m.getBody().isEmpty());
         @_abstract class MEB{
 
             void a(){} //this counts
@@ -82,7 +80,7 @@ public class SpoonAnalysisTests extends TestCase {
 
         //this sorta sucks
         $node $expectedPkg = $.of(CompilationUnit.class)
-                .and( c -> {
+                .$and(c -> {
                     CompilationUnit cu = (CompilationUnit) c;
                     return cu.getPackageDeclaration().isPresent()
                             && (cu.getPackageDeclaration().get().getName().asString().equals("qpwc")

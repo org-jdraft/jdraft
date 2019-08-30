@@ -41,7 +41,7 @@ public final class $modifiers
     }
     
     public static $modifiers of( Predicate<_modifiers> constraint ){
-        return of().and(constraint);
+        return of().$and(constraint);
     }
     
     public static $modifiers of( _hasModifiers _hm ){
@@ -138,7 +138,7 @@ public final class $modifiers
             } catch(Exception e){
                 //ONLY add and negate the constraint if it's NOT a match any constraint
                 //OTHERWISE WE'LL NEVER MATCH
-                and(mods[i].constraint.negate());
+                $and(mods[i].constraint.negate());
             }
         }
         return this;
@@ -160,7 +160,7 @@ public final class $modifiers
         return select(_ms) != null;
     }
 
-    public $modifiers and(Predicate<_modifiers> constraint ){
+    public $modifiers $and(Predicate<_modifiers> constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }
