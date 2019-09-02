@@ -24,8 +24,25 @@ import org.jdraft.Template;
  * @author Eric
  */
 public final class $anno
-    implements Template<_anno>, $proto<_anno, $anno>, $constructor.$part, $method.$part,
+    implements Template<_anno>, $proto<_anno, $anno>, $proto.$java<_anno, $anno>,
+        $constructor.$part, $method.$part,
         $field.$part, $parameter.$part, $typeParameter.$part {
+
+    /**
+     * Returns the Ast node implementation type that is used to identify the types as walking the AST
+     * @return the type that this $proto intercepts
+     */
+    public Class<AnnotationExpr> astType(){
+        return AnnotationExpr.class;
+    }
+
+    /**
+     * Returns the _java node implementation type
+     * @return
+     */
+    public Class<_anno> javaType(){
+        return _anno.class;
+    }
 
     public static $anno of(){
         return new $anno( $id.of() );
@@ -401,38 +418,33 @@ public final class $anno
     }
 
     /**
-     * Return a
-     * @param clazz
-     * @param annoType
-     * @return
-     */
-    public _type replaceIn(Class clazz, Class<? extends Annotation> annoType ){
-        return replaceIn(clazz, $anno.of(annoType) );
-    }
-    
-    /**
      * Replace all occurrences of the template in the code with the replacement
      * (composing the replacement from the constructed tokens in the source)
      *
      * @param clazz 
      * @param $annoReplace the template to be constructed as the replacement
      * @return
-     */
+
     public <_CT extends _type> _CT replaceIn(Class clazz, $anno $annoReplace ){
         return (_CT)replaceIn((_type)_java.type(clazz), $annoReplace);
     }
-    
     /**
-     * 
-     * @param <_J>
-     * @param _j
-     * @param annoType
-     * @return 
-     */
-    public <_J extends _java> _J replaceIn(_J _j, Class<? extends Annotation> annoType ){
-        return replaceIn(_j, $anno.of(annoType) );
+     *
+     * @param <N>
+     * @param astNode
+     * @param $annoReplacement
+     * @return
+
+    public <N extends Node> N replaceIn(N astNode, $anno $annoReplacement ){
+        astNode.walk(AnnotationExpr.class, e-> {
+            Select sel = select( e );
+            if( sel != null ){
+                sel._ann.ast().replace($annoReplacement.draft(sel.tokens).ast() );
+            }
+        });
+        return astNode;
     }
-     
+
     /**
      * Replace all occurrences of the template in the code with the replacement
      * (composing the replacement from the constructed tokens in the source)
@@ -441,7 +453,7 @@ public final class $anno
      * @param $annoReplacement the template to be constructed as the replacement
      * @param <_J> the TYPE of model
      * @return
-     */
+
     public <_J extends _java> _J replaceIn(_J _j, $anno $annoReplacement ){
         if( _j instanceof _code ){
             _code _c = (_code) _j;
@@ -456,7 +468,29 @@ public final class $anno
         replaceIn(((_node) _j).ast(), $annoReplacement);
         return _j;
     }
-    
+    */
+
+    /**
+     * Return a
+     * @param clazz
+     * @param annoType
+     * @return
+     */
+    public _type replaceIn(Class clazz, Class<? extends Annotation> annoType ){
+        return replaceIn(clazz, $anno.of(annoType) );
+    }
+
+    /**
+     * 
+     * @param <_J>
+     * @param _j
+     * @param annoType
+     * @return 
+     */
+    public <_J extends _java> _J replaceIn(_J _j, Class<? extends Annotation> annoType ){
+        return replaceIn(_j, $anno.of(annoType) );
+    }
+
     /**
      * 
      * @param <N>
@@ -467,24 +501,7 @@ public final class $anno
     public <N extends Node> N replaceIn(N astNode, Class<? extends Annotation> annoType ){
         return replaceIn(astNode, $anno.of(annoType));
     }
-    
-    /**
-     * 
-     * @param <N>
-     * @param astNode
-     * @param $annoReplacement
-     * @return 
-     */
-    public <N extends Node> N replaceIn(N astNode, $anno $annoReplacement ){
-        astNode.walk(AnnotationExpr.class, e-> {
-            Select sel = select( e );
-            if( sel != null ){
-                sel._ann.ast().replace($annoReplacement.draft(sel.tokens).ast() );
-            }
-        });
-        return astNode;
-    }
-    
+
     @Override
     public _anno firstIn(Node astNode, Predicate<_anno> _annoMatchFn) {
         Optional<Node>on = 

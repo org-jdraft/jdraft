@@ -19,7 +19,12 @@ import java.util.function.Predicate;
  * @author Eric
  */
 public final class $modifiers
-    implements $proto<_modifiers, $modifiers>, $constructor.$part, $method.$part, $field.$part{
+    implements $proto<_modifiers, $modifiers>, $proto.$java<_modifiers,$modifiers>, $constructor.$part, $method.$part, $field.$part{
+
+
+    public Class<_modifiers> javaType(){
+        return _modifiers.class;
+    }
 
     public static $modifiers PUBLIC = $modifiers.of("public");
     public static $modifiers PRIVATE = $modifiers.of("private");

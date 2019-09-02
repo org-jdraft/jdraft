@@ -21,8 +21,12 @@ import java.util.stream.Collectors;
  * @author Eric
  */
 public final class $annos
-    implements Template<_annos>, $proto<_annos, $annos>, $constructor.$part, $method.$part,
+    implements Template<_annos>, $proto<_annos, $annos>, $proto.$java<_annos, $annos>, $constructor.$part, $method.$part,
         $field.$part, $parameter.$part, $typeParameter.$part {
+
+    public Class<_annos> javaType(){
+        return _annos.class;
+    }
 
     /**
      * Entities that have NO annotations applied to them */

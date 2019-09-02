@@ -351,7 +351,7 @@ public interface _java {
      * @param clazz the class
      * @return
      */
-    static <T extends _type & _java> T type(Class clazz) {
+    static <T extends _type> T type(Class clazz) {
         return type(clazz, _io.IN_DEFAULT);
     }
 

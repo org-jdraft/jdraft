@@ -22,8 +22,12 @@ import java.util.stream.Collectors;
  *
  */
 public final class $throws
-    implements Template<_throws>, $proto<_throws, $throws>, $method.$part, $constructor.$part {
-    
+    implements Template<_throws>, $proto<_throws, $throws>, $proto.$java<_throws,$throws>, $method.$part, $constructor.$part {
+
+    public Class<_throws> javaType(){
+        return _throws.class;
+    }
+
     /**
      * Matches entities that CAN have throws but have none
      * @return 

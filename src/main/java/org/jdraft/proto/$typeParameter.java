@@ -19,7 +19,13 @@ import java.util.stream.Collectors;
  * @author Eric
  */
 public final class $typeParameter
-    implements Template<_typeParameter>, $proto<_typeParameter, $typeParameter>, $method.$part, $constructor.$part {
+    implements Template<_typeParameter>, $proto<_typeParameter, $typeParameter>, $proto.$java<_typeParameter,$typeParameter>,
+        $method.$part, $constructor.$part {
+
+
+    public Class<_typeParameter> javaType(){
+        return _typeParameter.class;
+    }
 
     /** */
     public interface $part { }

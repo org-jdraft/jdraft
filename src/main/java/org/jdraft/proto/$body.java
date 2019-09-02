@@ -23,7 +23,11 @@ import java.util.function.*;
  *
  * @author Eric
  */
-public final class $body implements Template<_body>, $proto<_body, $body>, $constructor.$part, $method.$part{
+public final class $body implements Template<_body>, $proto<_body, $body>, $proto.$java<_body, $body>, $constructor.$part, $method.$part{
+
+    public Class<_body> javaType(){
+        return _body.class;
+    }
 
     /**
      * ANY body (or lack of body)... so 

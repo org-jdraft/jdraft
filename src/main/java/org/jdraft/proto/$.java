@@ -162,6 +162,17 @@ public final class $ {
         return $id.of(idMatchFn);
     }
 
+    public static $id name (){
+        return $id.of();
+    }
+
+    public static $id name( String pattern ){
+        return $id.of(pattern);
+    }
+
+    public static $id name( Predicate<String> idMatchFn){
+        return $id.of(idMatchFn);
+    }
 
     /**
      *

@@ -20,7 +20,11 @@ import java.util.stream.Collectors;
  *
  * @see InitializerDeclaration
  */
-public class $initBlock implements $proto<_initBlock, $initBlock>, Template<_initBlock> {
+public class $initBlock implements $proto<_initBlock, $initBlock>, $proto.$java<_initBlock,$initBlock>, Template<_initBlock> {
+
+    public Class<_initBlock> javaType(){
+        return _initBlock.class;
+    }
 
     /** contents of the body */
     public $stmt<BlockStmt> body;

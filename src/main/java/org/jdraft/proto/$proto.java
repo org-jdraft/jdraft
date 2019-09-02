@@ -24,7 +24,9 @@ import java.util.stream.Collectors;
 /**
  * Model of a query-by-prototype, (a buildable/mutable query object that has the 
  * structure of the AST entity being queried and contains a hierarchial structure)
- * 
+ *
+ * Template of a <P> for drafting new entities
+ *
  * $proto objects define a mechanism to walk the AST and query/modify Java code
  * matching against grammar entries via the _node model 
  *
@@ -142,7 +144,6 @@ public interface $proto<P, $P extends $proto>{
                         throw new _draftException("Not implemented yet for type : " + n.getClass());
                     }
                 });
-        //return and(n -> Ast.isParent( (Node)n, parentClassTypes));
     }
 
     /**
@@ -1033,7 +1034,7 @@ public interface $proto<P, $P extends $proto>{
     /**
      *
      * @param clazz
-     * @return 
+     * @return
      */
     default int count( Class clazz ){
         return count( (_type)_java.type(clazz));
@@ -1088,30 +1089,130 @@ public interface $proto<P, $P extends $proto>{
         }
         return count;
     }
-    
+
     /**
-     * 
+     *
      * @param <N>
      * @param astNode
-     * @return 
+     * @return
      */
     default <N extends Node> int count( N astNode ){
         AtomicInteger ai = new AtomicInteger(0);
         forEachIn( astNode, e -> ai.incrementAndGet() );
         return ai.get();
     }
-    
+
     /**
-     * 
+     *
      * @param <_J>
      * @param _j
-     * @return 
+     * @return
      */
     default <_J extends _java> int count(_J _j ){
         AtomicInteger ai = new AtomicInteger(0);
         forEachIn(_j, e -> ai.incrementAndGet() );
         return ai.get();
     }
+
+    /**
+     * print each occurrence of the proto found within the class
+     * @param clazz
+     * @return
+     */
+    default void printIn( Class clazz ){
+        printIn( (_type)_java.type(clazz));
+    }
+
+    /**
+     * print each occurrence of the proto found within the code providers code
+     * @param _codeProvider the collection to search through
+     * @return
+     */
+    default void printIn( _code._provider _codeProvider){
+        _codeProvider.for_code(c-> printIn(c));
+    }
+
+    /**
+     * print each occurrence of the proto found within the code collection
+     * @param cs the collection to search through
+     * @param <_C>
+     * @return
+     */
+    default <_C extends _code> void printIn( Collection<_C> cs){
+        cs.forEach( c -> printIn(c));
+    }
+
+    /**
+     * print each occurrence of the proto found within the Classes provided
+     * @param classes
+     * @return
+     */
+    default void printIn( Class... classes ){
+        for(int i=0;i<classes.length;i++) {
+            printIn((_type) _java.type(classes[i]));
+        }
+    }
+
+    /**
+     * print each occurrence of the proto found within the code providers code
+     * @param astNodes AST nodes (TypeDeclaration, MethodDeclaration, CompilationUnit)
+     * @param <N> the underlying Node type
+     * @return the count of instances found
+     */
+    default <N extends Node> void printIn( N... astNodes ){
+        for(int i=0;i<astNodes.length;i++) {
+            printIn( astNodes[i]);
+        }
+    }
+
+    /**
+     * print each occurrence of the proto found within the ast node
+     * @param <N>
+     * @param astNode
+     * @return
+     */
+    default <N extends Node> void printIn( N astNode ){
+        forEachIn( astNode, e -> System.out.println( e ) );
+    }
+
+    /**
+     * print each occurrence of the proto found within the _java entity
+     * @param <_J>
+     * @param _j
+     * @return
+     */
+    default <_J extends _java> void printIn(_J _j ){
+        forEachIn(_j, e -> System.out.println( e ) );
+    }
+
+    /**
+     *
+     * @param clazz
+     * @param astExprReplace
+     * @return
+
+    default <_CT extends _type> _CT replaceIn( Class clazz, Node astExprReplace ){
+        return (_CT)replaceIn((_type)_java.type(clazz), astExprReplace);
+    }
+    */
+
+    /**
+     *
+     * @param <_J>
+     * @param _j
+     * @param astExprReplace
+     * @return
+
+    default <_J extends _java> _J replaceIn(_J _j, Node astExprReplace ){
+        _walk.in(_j, this.expressionClass, e-> {
+            Select sel = select( e );
+            if( sel != null ){
+                sel.astExpression.replace( astExprReplace );
+            }
+        });
+        return _j;
+    }
+    */
 
     /**
      *
@@ -1236,7 +1337,81 @@ public interface $proto<P, $P extends $proto>{
             }            
         });
     }
-    
+
+
+
+    /**
+     * Common functionality present in $protos that are related to
+     * AST elements /searches
+     * @param <A>
+     */
+    interface $ast<A extends Node, $P extends $proto> extends $proto<A, $P> {
+
+        Class<A> astType();
+
+
+    }
+
+    /**
+     * Common functionality present in $protos that are related to
+     * AST elements /searches
+     * @param <_J>
+     */
+    interface $java<_J extends _java, $P extends $proto> extends $proto<_J, $P> {
+
+        Class<_J> javaType();
+
+
+        default <_CT extends _type> _CT replaceIn( Class clazz, $P $protoReplace ){
+            return (_CT)replaceIn((_type)_java.type(clazz), $protoReplace);
+        }
+
+        default List<_code> replaceIn( _code._provider _codeProvider, $P $protoReplace ){
+            return _codeProvider.for_code( c -> replaceIn(c, $protoReplace));
+        }
+
+        default <_J extends _java> _J replaceIn( _J _j , $P $protoReplace ){
+            _walk.in(_j, javaType(), e-> {
+                $proto.select_java<_J> sel = select(e);
+                if( sel != null ){
+                    _node _n = (_node)sel._node();
+                    Template<_J> tj = (Template<_J>) $protoReplace;
+                    _node rep = (_node)tj.draft( sel.tokens() );
+                    _n.ast().replace( rep.ast() );
+                }
+            });
+            return _j;
+        }
+
+        /**
+         *
+         * @param <N>
+         * @param astNode
+         * @param $protoReplace
+         * @return
+         */
+        default <N extends Node> N replaceIn(N astNode, $P $protoReplace ){
+            _walk.in( astNode, javaType(), t->true, e-> {
+                $proto.selected sel = select( (_J)e );
+                //$proto.select_java<P> sel = select((P)e);
+                if( sel != null ){
+                    $proto.select_java<_J> found = ($proto.select_java<_J>) sel;
+                    //build the replacement
+
+                    Template<_J> $rp = (Template<_J>)$protoReplace;
+                    _J replacement = $rp.draft(sel.tokens());
+
+                    //replace the replacement
+                    ((_node)found._node()).ast().replace( ((_node)replacement).ast() );
+                }
+                //sel._ann.ast().replace($annoReplacement.draft(sel.tokens).ast() );
+                //}
+            });
+            return astNode;
+        }
+
+    }
+
     /**
      * An extra layer on top of a Tokens that is specifically
      * for holding value data that COULD be Expressions, Statements and the 
@@ -1565,7 +1740,7 @@ public interface $proto<P, $P extends $proto>{
      *
      * @param <N> the specific type of AST Node that is selected
      */
-    interface selectAst<N extends Node> {
+    interface selectAst<N extends Node> extends selected {
 
         /**
          * @return the selected AST Node (i.e. Expression, Statement,
@@ -1580,7 +1755,7 @@ public interface $proto<P, $P extends $proto>{
      *
      * @param <_J> the jDraft _java representation
      */
-    interface select_java<_J extends _java> {
+    interface select_java<_J extends _java> extends selected {
 
         /**
          * @return the selected _java node (i.e. _method for a MethodDeclaration)

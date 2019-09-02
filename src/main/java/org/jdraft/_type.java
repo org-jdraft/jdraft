@@ -1207,23 +1207,6 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
     }
 
     /**
-     * A container for {@link _type}s
-
-    interface _hasTypes extends _java{
-
-        @return list all of the {@link _type}s
-        List<_type> list();
-
-        default List<_type> list(Predicate<_type> _typePredicate ){
-            return list().stream().filter(_typePredicate).collect(Collectors.toList());
-        }
-         
-        @return container of Types that is empty
-        boolean isEmpty();
-    }
-    */
-
-    /**
      * {@link _type} that can implement an {@link _interface}
      * @param <_HI> the TYPE (either {@link _class}, or {@link _enum})
      */

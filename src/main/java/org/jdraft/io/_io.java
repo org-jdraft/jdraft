@@ -63,7 +63,7 @@ public class _io{
      * @param _c a single _code to write to file
      * @return the Path written to
      */
-    public static Path out( _code _c ){
+    public static<_C extends _code> Path out( _C _c ){
         return out( new _code[]{_c} ).get(0);
     }
     
@@ -77,7 +77,7 @@ public class _io{
      * @param _c a single _code to write to .java file
      * @return the Path written to
      */
-    public static Path out( Path sourceRootPath, _code _c ){
+    public static<_C extends _code> Path out( Path sourceRootPath, _C _c ){
         return out( sourceRootPath, new _code[]{_c} ).get(0);
     }
     
@@ -99,11 +99,43 @@ public class _io{
      * @param _c 
      * @return a list of Paths to the files written
      */
-    public static List<Path> out( _code... _c ){
+    public static<_C extends _code>  List<Path> out( _C... _c ){
         String outJavaDir = getOutJavaDir();
         return out( Paths.get(outJavaDir ), _c);        
     }
-    
+
+    /**
+     *
+     * @param sourceRootPath
+     * @param _c
+     * @return
+     */
+    public static<_C extends _code> List<Path> out( String sourceRootPath, _C..._c){
+        return out(Paths.get(sourceRootPath), _c);
+    }
+
+    /**
+     *
+     * @param sourceRootPath
+     * @param _code
+     * @param <_C>
+     * @return
+     */
+    public static<_C extends _code> List<Path> out(String sourceRootPath, List<_C> _code){
+        return out(sourceRootPath, _code.toArray(new _code[0]));
+    }
+
+    /**
+     *
+     * @param sourceRootPath
+     * @param _code
+     * @param <_C>
+     * @return
+     */
+    public static<_C extends _code> List<Path> out(Path sourceRootPath, List<_C> _code){
+         return out(sourceRootPath, _code.toArray(new _code[0]));
+    }
+
     /**
      * Write a .java files out to the for these top level entities:
      * (gets the root directory to write to from : {@link #getOutJavaDir()} )
@@ -126,7 +158,7 @@ public class _io{
      * @param _c the _code entity (_type, _packageInfo, _moduleInfo) to be written
      * @return a list of Paths to the files written
      */
-    public static List<Path> out(Path sourceRootPath, _code..._c){
+    public static<_C extends _code>  List<Path> out(Path sourceRootPath, _C..._c){
         List<Path> writtenFiles = new ArrayList<>();
         Arrays.stream(_c).forEach(c -> {
             String fileName = c.getFullName().replace(".", "/")+".java";

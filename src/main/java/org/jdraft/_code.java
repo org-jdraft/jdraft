@@ -633,10 +633,23 @@ public interface _code<_C> extends _java, _java._componentized {
     }
 
     /**
-     * Implementation of a _code._provider that is just a List of _types locally in memory
+     * Implementation of a _code._provider as List of _code local in memory
      */
-    class _memory implements _provider{
-        List<_code> codeList = new ArrayList<>();
+    class _cache <_C extends _code> implements _provider{
+
+        public static _cache of(_provider _p ){
+            return of(_p.list_code());
+        }
+
+        public static <_C extends _code> _cache of( List<_C> _codeToCache){
+            return new _cache( _codeToCache );
+        }
+
+        List<_C> codeList;
+
+        public _cache( List<_C> _codeToCache ){
+             this.codeList = _codeToCache;
+        }
 
         @Override
         public <_C extends _code> List<_C> for_code(Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn) {
@@ -649,6 +662,5 @@ public interface _code<_C> extends _java, _java._componentized {
             });
             return acted;
         }
-
     }
 }
