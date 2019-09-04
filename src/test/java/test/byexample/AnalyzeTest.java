@@ -1,14 +1,12 @@
 package test.byexample;
 
+import com.github.javaparser.ast.body.TypeDeclaration;
 import junit.framework.TestCase;
 import org.jdraft._code;
 import org.jdraft._type;
 import org.jdraft.io._archive;
 import org.jdraft.io._io;
-import org.jdraft.proto.$;
-import org.jdraft.proto.$anno;
-import org.jdraft.proto.$id;
-import org.jdraft.proto.$typeRef;
+import org.jdraft.proto.*;
 
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -30,6 +28,42 @@ public class AnalyzeTest extends TestCase {
      */
 
 
+    public void testAnalyzeSpringInLocalJar(){
+        _archive _ar =
+                _archive.of("C:\\Users\\Eric\\Downloads\\spring-core-5.1.9.RELEASE-sources.jar");
+
+        //Cache all of the code so we can do multiple analysis (without reparsing each time)
+        _code._cache cc = _code._cache.of(_ar);
+
+        //print all the annotations found in the Spring framework core
+        $.anno().printIn(cc);
+
+        //print all comments with "TODO"
+        $.comment(c -> c.getContent().contains("TODO")).printIn(cc);
+
+        //print all methods containing synchronized statements
+        $.method().$hasDescendant( $.synchronizedStmt() ).printIn(cc);
+
+        //print all local classes that are within methods
+        $.localClassStmt().$hasParent($.method()).printIn(cc);
+
+        //print all lambdas with no parameters
+        $.lambda(l-> l.getParameters().isEmpty()).printIn(cc);
+
+        //print all nested types
+        $.of(TypeDeclaration.class).$hasAncestor(1, $.of(TypeDeclaration.class)).printIn(cc);
+
+        //count all types containing at least one nested type
+        System.out.println( $.of(TypeDeclaration.class).$hasDescendant(1, $.of(TypeDeclaration.class)).count(cc) );
+
+    }
+
+
+    public void testAnalyzeJavaParserInURLJar(){
+        String JavaParserUrl = "https://repo1.maven.org/maven2/com/github/javaparser/javaparser-core/3.14.11/javaparser-core-3.14.11-sources.jar";
+
+
+    }
     public void testAnaylzeArchive(){
         //read all the source code in this .jar file
         _archive _a2 = _archive.of("C:\\temp\\gen-source.jar");

@@ -2067,7 +2067,7 @@ public final class $expr <T extends Expression>
      * @return 
      */
     public <_CT extends _type> _CT replaceIn(Class clazz, $expr $replaceProto){
-        return (_CT)replaceIn((_type)_java.type(clazz), $replaceProto);
+        return replaceIn((_CT)_java.type(clazz), $replaceProto);
     }
     
     /**

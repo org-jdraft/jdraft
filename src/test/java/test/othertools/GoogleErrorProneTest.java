@@ -1,4 +1,4 @@
-package test.spoon;
+package test.othertools;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.CallableDeclaration;
@@ -11,7 +11,7 @@ import org.jdraft.proto.*;
  * https://github.com/google/error-prone/wiki/Writing-a-check
  *
  */
-public class ErrorProneTest extends TestCase {
+public class GoogleErrorProneTest extends TestCase {
 
     /**
      * Look through code to find return null;

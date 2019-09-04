@@ -32,7 +32,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         _typeParameter._hasTypeParameters<_class>, _initBlock._hasInitBlocks<_class>,
         _modifiers._hasAbstract<_class>,_modifiers._hasFinal<_class>,
         _modifiers._hasStatic<_class>,_type._hasImplements<_class>,
-        _type._hasExtends<_class>{
+        _type._hasExtends<_class> {
 
     /**
      * Build a _class from the source of the Class, while applying any

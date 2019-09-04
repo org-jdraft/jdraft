@@ -108,6 +108,17 @@ public class _io{
      *
      * @param sourceRootPath
      * @param _c
+     * @param <_C>
+     * @return
+     */
+    public static<_C extends _code> Path out( String sourceRootPath, _C _c){
+        return out(Paths.get(sourceRootPath), _c);
+    }
+
+    /**
+     *
+     * @param sourceRootPath
+     * @param _c
      * @return
      */
     public static<_C extends _code> List<Path> out( String sourceRootPath, _C..._c){

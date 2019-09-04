@@ -152,7 +152,7 @@ public interface $proto<P, $P extends $proto>{
      * @return
      */
     default $P $hasAncestor( Predicate<Node> ancestorMatchFn ){
-        return $hasAncestor(Integer.MAX_VALUE, ancestorMatchFn);
+        return $hasAncestor(Integer.MAX_VALUE -100, ancestorMatchFn);
     }
 
     /**
@@ -181,7 +181,7 @@ public interface $proto<P, $P extends $proto>{
     }
 
     default $P $hasAncestor( $proto $p ) {
-        return $hasAncestor(Integer.MAX_VALUE, $p);
+        return $hasAncestor(Integer.MAX_VALUE -100, $p);
     }
 
     default $P $hasAncestor( int levels, $proto $p ){
@@ -255,7 +255,7 @@ public interface $proto<P, $P extends $proto>{
      * @return
      */
     default $P $hasDescendant( Class... descendantClassTypes ){
-        return $hasDescendant(Integer.MAX_VALUE, descendantClassTypes);
+        return $hasDescendant(Integer.MAX_VALUE -100, descendantClassTypes);
     }
 
     /**
@@ -265,6 +265,8 @@ public interface $proto<P, $P extends $proto>{
      * @return
      */
     default $P $hasDescendant( int depth, Class... descendantClassTypes ){
+        return $hasDescendant(depth, c-> Ast.isNodeOfType(c, descendantClassTypes));
+        /*
         return $and(n-> {
             if( n instanceof Node ){
                 return ((Node)n).getChildNodes().stream().limit(depth).anyMatch(c -> c.stream().anyMatch(d -> Ast.isNodeOfType(d, descendantClassTypes) ));
@@ -274,6 +276,7 @@ public interface $proto<P, $P extends $proto>{
                 throw new _draftException("Not implemented yet for type : "+ n.getClass());
             }
         } );
+         */
     }
 
     /**
@@ -282,7 +285,7 @@ public interface $proto<P, $P extends $proto>{
      * @return
      */
     default $P $hasDescendant( Predicate<Node> descendantMatchFn ){
-        return $hasDescendant(Integer.MAX_VALUE, descendantMatchFn);
+        return $hasDescendant(Integer.MAX_VALUE -100, descendantMatchFn);
     }
 
     /**
@@ -294,9 +297,13 @@ public interface $proto<P, $P extends $proto>{
     default $P $hasDescendant( int depth, Predicate<Node> descendantMatchFn ){
         return $and(n-> {
             if( n instanceof Node ){
-                return ((Node)n).getChildNodes().stream().anyMatch(c -> c.stream().limit(depth).anyMatch(d -> descendantMatchFn.test(d)) );
+                return Ast.matchDescendant( (Node)n, depth, descendantMatchFn);
+                //return ((Node)n).stream($.PRE_ORDER).skip(1).anyMatch(c -> c.stream().limit(depth).anyMatch(d -> descendantMatchFn.test(d)) );
+                //return ((Node)n).getChildNodes().stream().anyMatch(c -> c.stream().limit(depth).anyMatch(d -> descendantMatchFn.test(d)) );
             } else if( n instanceof _node){
-                return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> c.stream().limit(depth).anyMatch(d -> descendantMatchFn.test(d)) );
+                return Ast.matchDescendant( ((_node)n).ast(), depth, descendantMatchFn);
+                //return ((_node)n).ast().stream($.PRE_ORDER).skip(1).anyMatch(c -> c.stream().limit(depth).anyMatch(d -> descendantMatchFn.test(d)) );
+                //return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> c.stream().limit(depth).anyMatch(d -> descendantMatchFn.test(d)) );
             } else{
                 throw new _draftException("Not implemented yet for type : "+ n.getClass());
             }
@@ -314,7 +321,7 @@ public interface $proto<P, $P extends $proto>{
      * @return the modified $P
      */
     default $P $hasDescendant( $proto $p ){
-        return $hasDescendant(Integer.MAX_VALUE, $p);
+        return $hasDescendant(Integer.MAX_VALUE -100, $p);
     }
 
     /**
@@ -335,14 +342,23 @@ public interface $proto<P, $P extends $proto>{
         }
         return $and(n->{
             if( n instanceof Node ){
-                return ((Node)n).getChildNodes().stream().limit(depth).anyMatch(c -> c.stream().anyMatch(d -> $p.match(d)) );
+                //first get children
+                //List<Node> children = ((Node)n).getChildNodes();
+                //children.stream($.PRE_ORDER).
+                //return ((Node)n).getChildNodes().stream().limit(depth).anyMatch(c -> c.stream().anyMatch(d -> $p.match(d)) );
+                //return ((Node)n).stream($.PRE_ORDER).skip(1).limit(depth+1).anyMatch(c -> c.stream().anyMatch(d -> $p.match(d)) );
+                return Ast.matchDescendant( (Node)n, depth, c->$p.match(c) );
             }else if( n instanceof _node){
-                return ((_node)n).ast().getChildNodes().stream().limit(depth).anyMatch(c -> c.stream().anyMatch(d -> $p.match(d)) );
+                //return ((_node)n).ast().stream($.PRE_ORDER).skip(1).limit(depth+1).anyMatch(c -> c.stream().anyMatch(d -> $p.match(d)) );
+                return Ast.matchDescendant( ((_node)n).ast(), depth, c->$p.match(c));
+                //return ((_node)n).ast().getChildNodes().stream().limit(depth).anyMatch(c -> c.stream().anyMatch(d -> $p.match(d)) );
             } else{
                 throw new _draftException("Not implemented yet for type : "+ n.getClass());
             }
         });
     }
+
+
 
     /**
      * does this prototype match this ast candidate node?

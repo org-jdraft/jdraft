@@ -1,4 +1,4 @@
-package test.spoon;
+package test.othertools;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
@@ -23,7 +23,7 @@ public class SpoonAnalysisTests extends TestCase {
 
     public void testFindEmptyCatchBlocks(){
         //this represents empty catch blocks
-        $catch $empty = $catch.of().$and(c-> c.getBody().isEmpty());
+        $catch $empty = $catch.of(c-> c.getBody().isEmpty());
 
         class C{
             void m(){

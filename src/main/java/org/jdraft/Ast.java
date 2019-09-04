@@ -928,7 +928,13 @@ public enum Ast {
      * @return true if the ancestor node exists, is of a particular type and complies with the predicate
      */
     public static <N extends Node> boolean hasDescendant( Node node, Class<N> descendantNodeClass, Predicate<N> descendantMatchFn){
-        return node.stream(Node.TreeTraversal.PREORDER).anyMatch(a -> descendantNodeClass.isAssignableFrom(a.getClass()) && descendantMatchFn.test( (N)a ));
+        //return node.stream(Node.TreeTraversal.PREORDER).anyMatch(a -> descendantNodeClass.isAssignableFrom(a.getClass()) && descendantMatchFn.test( (N)a ));
+        //return hasDescendant(node, Class)
+        return matchDescendant(node, descendantNodeClass,Integer.MAX_VALUE -100, descendantMatchFn );
+    }
+
+    public static <N extends Node> boolean hasDescendant( Node node, int depth, Class<N> descendantNodeClass, Predicate<N> descendantMatchFn){
+        return matchDescendant(node, descendantNodeClass,depth, descendantMatchFn );
     }
 
     /**
@@ -938,7 +944,7 @@ public enum Ast {
      * @param descendantMatchFn
      * @param <N>
      * @return
-     */
+
     public static <N extends Node> N descendant( Node node, Class<N> descendantNodeClass, Predicate<N> descendantMatchFn){
 
         //
@@ -948,6 +954,39 @@ public enum Ast {
             return (N) on.get();
         }
         return null;
+    }
+    */
+
+
+    /**
+     * Recursive descent-level search that returns if the node or any of it's children
+     * up to (depth) levels deep
+     *
+     * @param node
+     * @param depth
+     * @param nodeMatchFn
+     * @return
+     */
+    public static boolean matchDescendant(Node node, int depth, Predicate<Node> nodeMatchFn ) {
+        return matchDescendant(node, Node.class, depth, nodeMatchFn);
+    }
+
+    public static <N extends Node> boolean  matchDescendant(Node node, Class<N>nodeClass, int depth, Predicate<N>nodeMatchFn){
+        if( depth < 0 ){
+            return false;
+        }
+        if( nodeClass.isAssignableFrom(node.getClass()) && nodeMatchFn.test((N)node) ){
+            //System.out.println( "FOUND "+node+" with "+ depth );
+            return true;
+        }
+        List<Node> children = node.getChildNodes();
+        //final int lvl = levels-1;
+        for(int i=0;i<children.size();i++){
+            if(matchDescendant(children.get(i),nodeClass, depth-1, nodeMatchFn)){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -1525,7 +1564,13 @@ public enum Ast {
         if (n instanceof CompilationUnit) {
             return (CompilationUnit) n;
         }
+        if( clazz.isMemberClass() || clazz.isLocalClass() || clazz.isAnonymousClass() ){
+            CompilationUnit cu = new CompilationUnit();
+            cu.addType( (TypeDeclaration)n);
+            return cu;
+        }
         if (n.findCompilationUnit().isPresent()) {
+
             return n.findCompilationUnit().get();
         }
         throw new _draftException("No .java source for " + clazz + System.lineSeparator() + _io.describe());

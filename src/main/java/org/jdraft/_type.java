@@ -70,7 +70,7 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
  */
 public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithModifiers & NodeWithAnnotations, _T extends _type>
     extends _javadoc._hasJavadoc<_T>, _anno._hasAnnos<_T>, _modifiers._hasModifiers<_T>,
-        _field._hasFields<_T>, _member<AST, _T>, _code<_T>, _node<AST, _T> {
+        _field._hasFields<_T>, _member<AST, _T>, _code<_T>, _node<AST, _T>, _java {
 
     /**
      * 
