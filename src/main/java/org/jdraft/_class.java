@@ -217,8 +217,10 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
 
         if( classDef.length == 1){
             String[] strs = classDef[0].split(" ");
+
             if( strs.length == 1 ){
                 //definately shortcut classes
+
                 String shortcutClass = strs[0];
                 String packageName = null;
                 int lastDotIndex = shortcutClass.lastIndexOf('.');
@@ -228,19 +230,32 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
                     if(!shortcutClass.endsWith("}")){
                         shortcutClass = shortcutClass + "{}";
                     }
+
                     return of( Ast.of( "package "+packageName+";"+System.lineSeparator()+
                         "public class "+shortcutClass));
                 }
                 if(!shortcutClass.endsWith("}")){
                     shortcutClass = shortcutClass + "{}";
                 }
-                return of( Ast.of("public class "+shortcutClass));
+                _class _c = of( Ast.of("public class "+shortcutClass));
+                return _c;
             }
             else{
                 if( !classDef[0].trim().endsWith("}" ) ){
                     classDef[0] = classDef[0]+"{}";
                 }
             }
+        }
+        //check if the classDef has a "private " before " class ", if so, remove it
+        //because it'll fail, so remove the private, then add it back in manually
+        String cc = Text.combine(classDef);
+        int classIndex = cc.indexOf(" class ");
+        int privateIndex = cc.indexOf( "private ");
+        if( privateIndex >= 0 && privateIndex < classIndex ){
+            cc = cc.substring(0, privateIndex)+ cc.substring(privateIndex + "private ".length());
+            _class _c = of( Ast.of( cc ));
+            _c.setPrivate();
+            return _c;
         }
         return of( Ast.of( classDef ));
     }
