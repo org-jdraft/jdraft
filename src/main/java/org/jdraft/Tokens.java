@@ -190,15 +190,20 @@ public class Tokens implements Map<String,Object>{
      * @param t a prospective Tokens
      * @return true if we can merge the tokens without conflict, false if there is a conflict
      */
-    public boolean isConsistent( Tokens t ){
-        Optional<String> unmatchedKey = 
-            t.kvMap.keySet().stream().filter( k-> containsKey(k) && (!Objects.equals( t.get(k), get(k)) )).findFirst();
+    public <M extends Map<String,Object>> boolean isConsistent( M t ){
+        if( t == null ){
+            return false;
+        }
+        Optional<String> unmatchedKey =
+                t.keySet().stream().filter( k-> containsKey(k) && (!Objects.equals( t.get(k), get(k)) )).findFirst();
+            //t.kvMap.keySet().stream().filter( k-> containsKey(k) && (!Objects.equals( t.get(k), get(k)) )).findFirst();
         if( unmatchedKey.isPresent() ){
             System.out.println( "Unmatched key \""+ unmatchedKey.get()+"\" values : \""+ t.get(unmatchedKey.get())+ "\"  \""+ get(unmatchedKey.get())+"\""  );
             return false;
         }
         return true;        
     }
+
 
     /**
      *

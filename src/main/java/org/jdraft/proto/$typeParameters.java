@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  */
 public final class $typeParameters
     implements Template<_typeParameters>, $proto<_typeParameters,$typeParameters>, $proto.$java<_typeParameters,$typeParameters>,
-        $method.$part, $constructor.$part {
+        $method.$part, $constructor.$part, $class.$part {
 
     public Class<_typeParameters> javaType(){
         return _typeParameters.class;
@@ -162,6 +162,14 @@ public final class $typeParameters
         return matches( (NodeWithTypeParameters) ((_node)_htp).ast() );
     }
 
+    public boolean isMatchAny(){
+        try {
+            return this.constraint.test(null) && this.typeParams.isEmpty();
+        } catch(Exception e ){
+            return false;
+        }
+    }
+
     /**
      *
      * @param nwtp
@@ -274,7 +282,16 @@ public final class $typeParameters
         this.typeParams.forEach( tp -> _ts.add( tp.draft(translator, keyValues) ) );
         return _ts;         
     }
-    
+
+    //TODO this seems backwards, select should call parse
+    public Tokens parse(_typeParameters _ts){
+        Select sel = select(_ts);
+        if( sel != null ){
+            return sel.tokens.asTokens();
+        }
+        return null;
+    }
+
     /**
      * 
      * @param _ts

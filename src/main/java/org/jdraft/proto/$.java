@@ -1520,11 +1520,6 @@ public final class $ {
         return $stmt.of( le.findFirst(BlockStmt.class).get() );
     }
 
-    //public static $stmt<BlockStmt> blockStmt(Predicate<BlockStmt> bs){
-    //    return $stmt.blockStmt(bs);
-    //}
-
-
     public static $stmt<BlockStmt> blockStmt( BlockStmt bs){
         return $stmt.of(bs);
     }
@@ -1540,10 +1535,6 @@ public final class $ {
     public static $stmt<BreakStmt> breakStmt(BreakStmt bs){
         return $stmt.of(bs);
     }
-
-    //public static $stmt<BreakStmt> breakStmt(Predicate<BreakStmt> bs){
-    //    return $stmt.breakStmt().and(bs);
-    //}
     
     public static $stmt<ExplicitConstructorInvocationStmt> constructorInvocationStmt(){
         return $stmt.ctorInvocationStmt();
@@ -1556,13 +1547,6 @@ public final class $ {
     public static $stmt<ExplicitConstructorInvocationStmt> constructorInvocationStmt( ExplicitConstructorInvocationStmt cs){
         return $stmt.of(cs);
     }
-
-    /*
-    public static $stmt<ExplicitConstructorInvocationStmt> constructorInvocationStmt(Predicate<ExplicitConstructorInvocationStmt> cs){
-
-        return $stmt.ctorInvocationStmt(cs);
-    }
-     */
     
     public static $stmt<ContinueStmt> continueStmt(){
         return $stmt.continueStmt();
@@ -1575,12 +1559,6 @@ public final class $ {
     public static $stmt<ContinueStmt> continueStmt(ContinueStmt cs){
         return $stmt.of(cs);
     }
-
-    /*
-    public static $stmt<ContinueStmt> continueStmt(Predicate<ContinueStmt> cs){
-        return $stmt.continueStmt(cs);
-    }
-     */
         
     public static $stmt<DoStmt> doStmt(){
         return $stmt.doStmt();
@@ -1642,7 +1620,6 @@ public final class $ {
         return $stmt.expressionStmt(es);
     }
 
-
     /**
      * Create a prototype AssertStmt from the first assert statement that appears in the
      * Lambda
@@ -1673,13 +1650,6 @@ public final class $ {
         LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ExpressionStmt.class).get() );
     }
-
-
-    /*
-    public static $stmt<ExpressionStmt> expressionStmt(Predicate<ExpressionStmt> es){
-        return $stmt.expressionStmt(es);
-    }
-     */
     
     public static $stmt<ForStmt> forStmt(){
         return $stmt.forStmt();
@@ -1883,12 +1853,6 @@ public final class $ {
         return $stmt.localClassStmt(lcds);
     }
 
-    /*
-    public static $stmt<LocalClassDeclarationStmt> localClassStmt(Predicate<LocalClassDeclarationStmt> lcds){
-        return $stmt.localClassStmt().and(lcds);
-    }
-     */
-
     /**
      *
      * @return
@@ -1896,17 +1860,6 @@ public final class $ {
     public static $stmt<ReturnStmt> returnStmt() {
         return $stmt.returnStmt();
     }
-
-
-    /**
-     * i.e."return VALUE;"
-     * @param constraint
-     * @return
-
-    public static $stmt<ReturnStmt> returnStmt( Predicate<ReturnStmt> constraint ) {
-        return $stmt.returnStmt(constraint);
-    }
-    */
 
     /**
      * i.e."return VALUE;"
@@ -2225,5 +2178,6 @@ public final class $ {
     public static $var var(Predicate<VariableDeclarator> vd){
         return $var.of().$and(vd);
     }
+
 
 }

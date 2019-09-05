@@ -40,7 +40,8 @@ import org.jdraft.macro._toCtor;
  * prototype/template for a Java {@link _constructor}
  */
 public final class $constructor
-    implements Template<_constructor>, $proto<_constructor, $constructor>, $proto.$java<_constructor, $constructor> {
+    implements Template<_constructor>, $proto<_constructor, $constructor>,
+        $proto.$java<_constructor, $constructor>, $class.$part {
 
     public Class<_constructor> javaType(){
         return _constructor.class;

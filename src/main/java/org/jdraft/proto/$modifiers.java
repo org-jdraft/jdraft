@@ -19,7 +19,8 @@ import java.util.function.Predicate;
  * @author Eric
  */
 public final class $modifiers
-    implements $proto<_modifiers, $modifiers>, $proto.$java<_modifiers,$modifiers>, $constructor.$part, $method.$part, $field.$part{
+    implements $proto<_modifiers, $modifiers>, $proto.$java<_modifiers,$modifiers>, $constructor.$part, $method.$part,
+        $field.$part, $class.$part{
 
 
     public Class<_modifiers> javaType(){
@@ -347,6 +348,14 @@ public final class $modifiers
         return false;
     }
 
+    public boolean isMatchAny(){
+        try{
+            return this.constraint.test(null) && this.mustExclude.isEmpty() && this.mustInclude.isEmpty();
+        }catch(Exception e){
+            return false;
+        }
+    }
+
     public boolean match( _java _j ) {
         if (_j instanceof _modifiers) {
             return matches( (_modifiers)_j);
@@ -363,6 +372,20 @@ public final class $modifiers
 
     public boolean matches( NodeWithModifiers nwm ){
         return select( nwm ) != null;
+    }
+
+    public $tokens parse(_modifiers._hasModifiers _ms){
+        if( select(_ms) != null){
+            return $tokens.of();
+        }
+        return null;
+    }
+
+    public $tokens parse(_modifiers _ms){
+        if( select(_ms) != null){
+            return $tokens.of();
+        }
+        return null;
     }
 
     public Select select(_hasModifiers _hm ){

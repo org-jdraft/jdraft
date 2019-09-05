@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
  * prototype/template for a Java {@link _method}
  */
 public final class $method
-    implements Template<_method>, $proto<_method, $method>, $proto.$java<_method,$method> {
+    implements Template<_method>, $proto<_method, $method>, $proto.$java<_method,$method>, $class.$part {
 
 
     public Class<_method> javaType(){

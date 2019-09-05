@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  */
 public final class $annos
     implements Template<_annos>, $proto<_annos, $annos>, $proto.$java<_annos, $annos>, $constructor.$part, $method.$part,
-        $field.$part, $parameter.$part, $typeParameter.$part {
+        $field.$part, $parameter.$part, $typeParameter.$part, $class.$part {
 
     public Class<_annos> javaType(){
         return _annos.class;
@@ -221,6 +221,11 @@ public final class $annos
         return found.stream().distinct().collect(Collectors.toList());
     }
 
+    public $annos add($anno...$as){
+        Arrays.stream($as).forEach( a -> this.$annosList.add( a) );
+        return this;
+    }
+
     public $annos add(String...annoPatterns){
         Arrays.stream(annoPatterns).forEach( a -> this.$annosList.add( $anno.of(a) ) );
         return this;
@@ -240,6 +245,10 @@ public final class $annos
     
     public Select select( NodeWithAnnotations astAnnoNode ){
         return select(_annos.of(astAnnoNode) );
+    }
+
+    public Tokens parse( _hasAnnos _ha ){
+        return parse(_ha.getAnnos());
     }
 
     /**

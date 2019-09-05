@@ -12,7 +12,7 @@ import java.util.function.Predicate;
  * 
  */
 public final class $id implements $constructor.$part, $method.$part, $field.$part,
-        $parameter.$part, $typeParameter.$part, $var.$part {
+        $parameter.$part, $typeParameter.$part, $var.$part, $class.$part {
 
     public static $id of(){
         return $id.of("$id$");
@@ -104,9 +104,7 @@ public final class $id implements $constructor.$part, $method.$part, $field.$par
     public Tokens parse(String t) {
 
         if (t == null) {
-            /**
-             * Null is allowed IF and ONLY If the Stencil $form isMatchAll
-             */
+            /** Null is allowed IF and ONLY If the Stencil $form isMatchAll */
             if (idStencil.isMatchAny()) {
                 return Tokens.of(idStencil.list$().get(0), "");
             }
@@ -162,7 +160,7 @@ public final class $id implements $constructor.$part, $method.$part, $field.$par
 
     public Tokens parseTo(String t, Tokens tokens) {
         if (tokens == null) {
-            /* Skip decompose if the tokens already null*/
+            /* Skip parse if the tokens already null*/
             return null;
         }
 

@@ -17,7 +17,7 @@ import java.util.function.Predicate;
  * @param <C> the underlying comment type
  */
 public final class $comment <C extends Comment>
-    implements $proto<C, $comment<C>>, Template<C>, $constructor.$part, $method.$part, $field.$part {
+    implements $proto<C, $comment<C>>, Template<C>, $constructor.$part, $method.$part, $field.$part, $class.$part {
     
     public static $comment<Comment> of(){
         return new $comment();
@@ -229,6 +229,30 @@ public final class $comment <C extends Comment>
         }catch(Exception e){
             return false;
         }
+    }
+
+    public $tokens parse(_javadoc._hasJavadoc hj){
+        _javadoc _jd = hj.getJavadoc();
+        if( _jd == null){
+            return parse( (Comment)null);
+        }
+        return parse(_jd.ast() );
+    }
+
+    /** TODO i should reverse this (seelct should call parse */
+    public $tokens parse(Comment comment) {
+        if (comment == null) {
+            if (isMatchAny()) {
+                return $tokens.of();
+            } else {
+                return null;
+            }
+        }
+        Select sel = select(comment);
+        if (sel != null) {
+            return sel.tokens;
+        }
+        return null;
     }
 
     /**

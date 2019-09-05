@@ -19,6 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -1504,14 +1505,66 @@ public interface $proto<P, $P extends $proto>{
             return Stmt.block(obj.toString()).getStatements();
         }
 
+        /*
+        public $tokens to(Supplier<$tokens> tokenSupplier ){
+            $tokens $ts = tokenSupplier.get();
+            if( isConsistent($ts.tokens)){
+                this.putAll($ts);
+                return this;
+            }
+            return null;
+        }
+        */
+
+        /**
+         *
+         * $tokens.to(...) will short circuit
+         * IF "tokens" is null: return null (without running the lambda)
+         * IF "tokens" is not null : run the lambda and derive "newTokens" of Map<String,Object>
+         * IF "newTokens" is null : return null (this means that this particular match failed)
+         * IF "newTokens" is not null : check that the "tokens" are consistent with "newTokens"
+         * IF "tokens"/"newTokens" ARE NOT consistent (i.e. at least one var is assigned (2) distinct values) : return null
+         * IF "tokens"/"newTokens" ARE consistent : return the "composite" tokens list (the union of "tokens" & "newTokens")
+         */
+        public static $tokens to( $tokens tokens, Supplier<Map<String,Object>>supplier){
+            if( tokens == null ){
+                return null; //short circuit (no need to run the check, tokens already null)
+            }
+            Map<String,Object> newTokens = supplier.get(); //run the lambda to find new tokens
+            if( tokens.isConsistent(newTokens)){
+                tokens.putAll(newTokens);
+                return tokens;
+            }
+            return null;
+        }
+
+        /*
+        public static $tokens to( $tokens existingTokens, Supplier<$tokens>supplier){
+            if( existingTokens == null ){
+                return null;
+            }
+            $tokens $ts = supplier.get();
+            if( existingTokens.isConsistent($ts.tokens)){
+                existingTokens.putAll($ts);
+                return existingTokens;
+            }
+            return null;
+        }
+        */
+
+        public <M extends Map<String,Object>> boolean isConsistent(M tokens){
+            return this.tokens.isConsistent(tokens);
+        }
+
         /**
          * 
          * @param tokens
          * @return 
-         */
+
         public boolean isConsistent(Tokens tokens ){
             return this.tokens.isConsistent(tokens);
         }
+        */
         
         /**
          * is the clause with the key equal to the Type?

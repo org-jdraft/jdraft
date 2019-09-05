@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  *
  * @see PackageDeclaration
  */
-public class $package implements $proto<PackageDeclaration, $package>, Template<PackageDeclaration> {
+public class $package implements $proto<PackageDeclaration, $package>, Template<PackageDeclaration>, $class.$part{
 
     public Stencil name = Stencil.of("$packageName$");
 
@@ -123,6 +123,17 @@ public class $package implements $proto<PackageDeclaration, $package>, Template<
             return opd.get();
         }
         return null;
+    }
+
+
+    public Tokens parse( CompilationUnit cu ){
+        if( !cu.getPackageDeclaration().isPresent() ){
+            if( isMatchAny() ) {
+                return new Tokens();
+            }
+            return null;
+        }
+        return parse(cu.getPackageDeclaration().get());
     }
 
     public Tokens parse( PackageDeclaration pd ){

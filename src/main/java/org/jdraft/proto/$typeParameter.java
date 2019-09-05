@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  */
 public final class $typeParameter
     implements Template<_typeParameter>, $proto<_typeParameter, $typeParameter>, $proto.$java<_typeParameter,$typeParameter>,
-        $method.$part, $constructor.$part {
+        $method.$part, $constructor.$part, $class.$part {
 
 
     public Class<_typeParameter> javaType(){
@@ -249,6 +249,14 @@ public final class $typeParameter
         this.$name.hardcode$(trans, hardcodedKeyValues);
         this.$typeBound.forEach(tb -> tb.hardcode$(trans, hardcodedKeyValues));
         return this;
+    }
+
+    public boolean isMatchAny(){
+        try{
+            return this.constraint.test(null ) && this.$name.isMatchAny() && this.$anns.isMatchAny() && this.$typeBound.isEmpty();
+        } catch(Exception e){
+            return false;
+        }
     }
 
     public boolean match( Node n){

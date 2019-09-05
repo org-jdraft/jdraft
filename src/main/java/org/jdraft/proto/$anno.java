@@ -26,7 +26,7 @@ import org.jdraft.Template;
 public final class $anno
     implements Template<_anno>, $proto<_anno, $anno>, $proto.$java<_anno, $anno>,
         $constructor.$part, $method.$part,
-        $field.$part, $parameter.$part, $typeParameter.$part {
+        $field.$part, $parameter.$part, $typeParameter.$part, $class.$part {
 
     /**
      * Returns the Ast node implementation type that is used to identify the types as walking the AST
