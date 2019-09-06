@@ -4,7 +4,6 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
-import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.comments.JavadocComment;
 import org.jdraft.*;
 
@@ -26,7 +25,7 @@ public final class $class
     public $annos annos = $annos.of();
     public $modifiers modifiers = $modifiers.of();
     public $typeParameters typeParameters = $typeParameters.of();
-    public $id name = $id.of("$name$"); //name required
+    public $id name = $id.of("$className$"); //name required
 
     //body parts
     public List<$constructor> ctors = new ArrayList<>();
@@ -226,7 +225,6 @@ public final class $class
         tokens = $tokens.to( tokens, ()-> $type.selectFields(this.fields, instance ) );
         tokens = $tokens.to( tokens, ()-> $type.selectInitBlocks(this.initBlocks, instance ) );
 
-
         //nests
         if( tokens != null ){
             return new Select(instance, tokens);
@@ -240,18 +238,22 @@ public final class $class
         return this;
     }
 
-    /*
-    public $class $headerComment( $comment<BlockComment> headerComment ){
-        this.headerComment = headerComment;
-        return this;
-    }
-     */
-
     public $class $javadoc( Predicate<JavadocComment> javadocMatchFn ){
         this.javadoc = $comment.javadocComment(javadocMatchFn);
         //System.out.println( this.javadoc.commentClasses);
         return this;
     }
+
+    public $class $modifiers( $modifiers...$mods){
+        this.modifiers = $modifiers.of($mods);
+        return this;
+    }
+
+    public $class $initBlock( $initBlock... $ibs ){
+        Arrays.stream($ibs).forEach(i -> this.initBlocks.add(i));
+        return this;
+    }
+    //TODO other static blocks
 
     public $class $javadoc( $comment<JavadocComment> javadocComment ){
         this.javadoc = javadocComment;
@@ -282,6 +284,90 @@ public final class $class
         return this;
     }
 
+    public $class $imports( $import...$is ){
+        Arrays.stream($is).forEach( i -> this.imports.add(i));
+        return this;
+    }
+
+    public $class $imports( Class... clazzes ){
+        Arrays.stream(clazzes).forEach( i -> this.imports.add($import.of(i)));
+        return this;
+    }
+
+    public $class $package( $package $p ){
+        this.packageDecl = $p;
+        return this;
+    }
+
+    public $class $name( Predicate<String> nameMatchFn){
+        this.name = $id.of(nameMatchFn);
+        return this;
+    }
+
+    public $class $name( String name ){
+        this.name = $id.of(name);
+        return this;
+    }
+
+    public $class $name( $id name ){
+        this.name = name;
+        return this;
+    }
+
+    public $class $annos(Predicate<_anno._annos> annosMatchFn){
+        this.annos.$and(annosMatchFn);
+        return this;
+    }
+
+    public $class $annos( $annos $as ){
+        this.annos = $as;
+        return this;
+    }
+
+    public $class $annos( $anno... $a){
+        this.annos.add($a);
+        return this;
+    }
+
+    public $class $methods( $method...$ms ){
+        Arrays.stream($ms).forEach(m-> this.methods.add(m));
+        return this;
+    }
+
+    public $class $fields( $field...$fs){
+        Arrays.stream($fs).forEach(f-> this.fields.add(f));
+        return this;
+    }
+
+    public $class $constructors( $constructor...$cs){
+        Arrays.stream($cs).forEach(c-> this.ctors.add(c));
+        return this;
+    }
+
+    public $class $typeParameters( $typeParameters $tps ){
+        this.typeParameters = $tps;
+        return this;
+    }
+
+    public $class $typeParameters( $typeParameter... $tps ){
+        Arrays.stream($tps).forEach(tp-> this.typeParameters.$add(tp));
+        return this;
+    }
+
+    public $class $extends( Class clazz ){
+        this.extend = $typeRef.of(clazz);
+        return this;
+    }
+
+    public $class $extends( String typeRef ){
+        this.extend = $typeRef.of(typeRef);
+        return this;
+    }
+
+    public $class $extends( $typeRef $tr ){
+        this.extend = $tr;
+        return this;
+    }
 
     @Override
     public boolean match(Node candidate) {

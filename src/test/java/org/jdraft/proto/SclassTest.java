@@ -20,9 +20,20 @@ public class SclassTest extends TestCase {
         $class.Select sel = $c.select(_class.of("aaaa.bbbb.C"));
         assertNotNull(sel);
         assertNotNull(sel.tokens);
+        System.out.println( sel.tokens );
+        assertTrue(sel.is("className", "C"));
+        assertTrue(sel.is("packageName", "aaaa.bbbb"));
+
+        sel = $c.select(_class.of("C"));
+        System.out.println( sel.tokens );
+        assertTrue(sel.is("className", "C"));
+
+
+        //assertTrue( sel.tokens.isEmpty());
     }
 
-    //check that individual matches work (match and exclude appropriately
+
+    //check that individual matches work (match and exclude appropriately based on a property)
     public void testMatchOne(){
         _class _notMatch = _class.of("NotMatch");
         assertTrue( $class.of($package.of("aaaa.bbbb")).match(_class.of("aaaa.bbbb.C")) );
