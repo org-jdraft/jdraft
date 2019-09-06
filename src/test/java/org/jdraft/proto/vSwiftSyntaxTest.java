@@ -5,9 +5,7 @@
  */
 package org.jdraft.proto;
 
-import org.jdraft.proto.$;
-import org.jdraft.Expr;
-import org.jdraft._class;
+import org.jdraft.Ex;
 import org.jdraft._type;
 import junit.framework.TestCase;
 
@@ -57,13 +55,13 @@ public class vSwiftSyntaxTest extends TestCase {
         }
         _type _t = $$.intLiteral().forEachIn(C.class,
             //i-> i.setInt( Integer.parseInt(i.getValue().replace("_", "")) +1) );    
-            i-> i.setInt( Expr.parseInt(i.getValue()) +1) );    
+            i-> i.setInt( Ex.parseInt(i.getValue()) +1) );
         
         assertTrue( _t.getField("x").is("int x = 3") );
         assertTrue( _t.getField("y").is("int y = 3001") );
         
         assertTrue( _t.getField("b").is("int b = 2") );
-        assertEquals( Expr.parseInt( _t.getField("hex").getInit().asIntegerLiteralExpr().getValue() ), 
+        assertEquals( Ex.parseInt( _t.getField("hex").getInit().asIntegerLiteralExpr().getValue() ),
             new Integer(0xDEAE) );
     }
     

@@ -28,7 +28,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         _type._hasImplements<_enum>{
 
     public static _enum of( Class<? extends Enum> clazz ){
-        Node n = Ast.type( clazz );
+        Node n = Ast.typeDecl( clazz );
         if( n instanceof CompilationUnit ){
             return _macro.to(clazz, of( (CompilationUnit)n));
         }
@@ -90,7 +90,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
     public static _enum of(String signature, Object anonymousBody, Function<_type,_type>... typeFns ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         _enum _e = _enum.of(signature);
-        ObjectCreationExpr oce = Expr.anonymousObject( ste );
+        ObjectCreationExpr oce = Ex.anonymousObjectEx( ste );
         if( oce.getAnonymousClassBody().isPresent()) {
             NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
             for(int i=0; i<bds.size(); i++) {
@@ -336,7 +336,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
     }
     
     public _enum constant ( String...constantDecl ) {
-        return constant( Ast.constant( constantDecl ));
+        return constant( Ast.constantDecl( constantDecl ));
     }
 
     /**
@@ -367,8 +367,8 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
      */
     public _enum constant (String signature, Object anonymousBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Expr.anonymousObject(ste);
-        _constant _ct = _constant.of( Ast.constant(signature));
+        ObjectCreationExpr oce = Ex.anonymousObjectEx(ste);
+        _constant _ct = _constant.of( Ast.constantDecl(signature));
         if( oce.getAnonymousClassBody().isPresent()){
             // here, I'm putting the BODY into a temp _class, so that I can apply
             // annotation macros to it
@@ -417,7 +417,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         if( !Objects.equals( this.getPackage(), other.getPackage() ) ) {
             return false;
         }
-        if( ! Expr.equivalentAnnos(this.astEnum, other.astEnum)){
+        if( ! Ex.equivalentAnnos(this.astEnum, other.astEnum)){
             return false;
         }     
         if( !Objects.equals( this.getJavadoc(), other.getJavadoc() ) ) {
@@ -603,7 +603,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         sbs.addAll( this.listInitBlocks() );
 
         hash = 53 * hash + Objects.hash( this.getPackage(),
-                Expr.hashAnnos(astEnum),
+                Ex.hashAnnos(astEnum),
                 this.getJavadoc(), 
                 this.getEffectiveModifiers(),
                 this.getName(), 
@@ -630,7 +630,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
             _member<EnumConstantDeclaration, _constant> {
 
         public static _constant of( String... ecd ){
-            return of(Ast.constant(ecd));
+            return of(Ast.constantDecl(ecd));
         }
         
         public static _constant of( EnumConstantDeclaration ecd ){
@@ -660,7 +660,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         @Override
         public boolean is(String...stringRep){
            try{
-               return is(Ast.constant(stringRep));
+               return is(Ast.constantDecl(stringRep));
            }     
            catch(Exception e){
                return false;
@@ -679,27 +679,27 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         }
 
         public _constant addArgument( int i){
-            return addArgument( Expr.of(i) );
+            return addArgument( Ex.of(i) );
         }
         
         public _constant addArgument( boolean b){
-            return addArgument( Expr.of(b) );
+            return addArgument( Ex.of(b) );
         }
         
         public _constant addArgument( float f){
-            return addArgument( Expr.of(f) );
+            return addArgument( Ex.of(f) );
         }
         
         public _constant addArgument( long l){
-            return addArgument( Expr.of(l) );
+            return addArgument( Ex.of(l) );
         }
         
         public _constant addArgument( double d){
-            return addArgument( Expr.of(d) );
+            return addArgument( Ex.of(d) );
         }
         
         public _constant addArgument( char c){
-            return addArgument( Expr.of(c) );
+            return addArgument( Ex.of(c) );
         }
         
         public _constant addArgument( Expression e ){
@@ -735,27 +735,27 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         }
         
         public _constant setArgument( int index, boolean b){
-            return setArgument(index, Expr.of(b));
+            return setArgument(index, Ex.of(b));
         }
         
         public _constant setArgument( int index, int i){
-            return setArgument(index, Expr.of(i));
+            return setArgument(index, Ex.of(i));
         }
         
         public _constant setArgument( int index, char c){
-            return setArgument(index, Expr.of(c));
+            return setArgument(index, Ex.of(c));
         }
 
         public _constant setArgument( int index, float f){
-            return setArgument(index, Expr.of(f));
+            return setArgument(index, Ex.of(f));
         }
         
         public _constant setArgument( int index, long l){
-            return setArgument(index, Expr.of(l));
+            return setArgument(index, Ex.of(l));
         }
         
         public _constant setArgument(int index, double d){
-            return setArgument(index, Expr.of(d));
+            return setArgument(index, Ex.of(d));
         }
         
         public _constant forArguments( Consumer<Expression> expressionAction ){
@@ -867,7 +867,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
             if( this.astConstant == other.astConstant){
                 return true; //two _constant pointing to the same AstEnumDeclaration
             }
-            if( !Expr.equivalentAnnos(this.astConstant, other.astConstant ) ){
+            if( !Ex.equivalentAnnos(this.astConstant, other.astConstant ) ){
                   return false;  
             }
             if( !Objects.equals( this.getJavadoc(), other.getJavadoc() ) ) {
@@ -925,7 +925,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
             tfs.addAll( this.listFields());
 
             hash = 13 * hash + Objects.hash( tms, tfs, 
-                    Expr.hashAnnos(astConstant),
+                    Ex.hashAnnos(astConstant),
                     getJavadoc(),
                     getName(), listArguments() );
             return hash;

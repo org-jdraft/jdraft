@@ -23,16 +23,16 @@ import java.util.function.Predicate;
  */
 public class ProtoExamplesTest extends TestCase {
 
-    static $expr ANY_EXPR = $$.expr();                         //any expression
+    static $ex ANY_EXPR = $$.expr();                         //any expression
 
     //static $expr CONST_NAME = $.expr("Name");          //any expression matching pattern "Name"
-    static $expr LITERAL =  $$.expr(e -> e.isLiteralExpr());   //any literals (ints, floats, Strings, etc.)
-    static $expr LITERAL_ = $$.literal();                      //any literals (booleans, int, float, String, etc)
+    static $ex LITERAL =  $$.expr(e -> e.isLiteralExpr());   //any literals (ints, floats, Strings, etc.)
+    static $ex LITERAL_ = $$.literal();                      //any literals (booleans, int, float, String, etc)
 
-    static $expr<IntegerLiteralExpr> INT_LITERAL = $$.intLiteral();                   // any int literal
-    static $expr<IntegerLiteralExpr> INT_100 = $$.intLiteral(100);           // exact int literal 100
-    static $expr<IntegerLiteralExpr> INT_VAL_PARAM = $$.intLiteral("$val$");    // any int literal (parameterized)
-    static $expr<IntegerLiteralExpr> INT_POSITIVE = $$.intLiteral(i -> i.asInt() > 0);  // any int literal > 100 (constrained)
+    static $ex<IntegerLiteralExpr> INT_LITERAL = $$.intLiteral();                   // any int literal
+    static $ex<IntegerLiteralExpr> INT_100 = $$.intLiteral(100);           // exact int literal 100
+    static $ex<IntegerLiteralExpr> INT_VAL_PARAM = $$.intLiteral("$val$");    // any int literal (parameterized)
+    static $ex<IntegerLiteralExpr> INT_POSITIVE = $$.intLiteral(i -> i.asInt() > 0);  // any int literal > 100 (constrained)
 
     /*
     $.of();                             // ANY AST Node
@@ -61,8 +61,8 @@ public class ProtoExamplesTest extends TestCase {
         }
 
         assertEquals( 1, $$.cast(String.class).count(GTH.class) );
-        assertEquals(2, $expr.instanceOf(String.class).count(GTH.class));
-        assertEquals(2, $expr.instanceOf($typeRef.of(String.class)).count(GTH.class));
+        assertEquals(2, $ex.instanceOfEx(String.class).count(GTH.class));
+        assertEquals(2, $ex.instanceOfEx($typeRef.of(String.class)).count(GTH.class));
     }
 
     public void testMemberExpressions(){

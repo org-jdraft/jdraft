@@ -42,7 +42,7 @@ public class ReceiverParameterUsage extends TestCase {
     }
     
     public void testR(){
-        ClassOrInterfaceDeclaration tp = (ClassOrInterfaceDeclaration)Ast.type( RP.class);
+        ClassOrInterfaceDeclaration tp = (ClassOrInterfaceDeclaration)Ast.typeDecl( RP.class);
         MethodDeclaration md = tp.getMethodsByName("getCode").get(0);
         assertEquals( 0, md.getParameters().size());
         assertTrue( md.getReceiverParameter().isPresent() );

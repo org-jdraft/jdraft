@@ -69,7 +69,7 @@ public class ProtoBuildTest extends TestCase {
         $id $i = $id.of();
         $i = $.id();
 
-        $expr $e = $expr.of(); //specific $expr
+        $ex $e = $ex.of(); //specific $expr
         $$.expr();
         $stmt $s = $stmt.of(); //specific $stmt
         $$.stmt();

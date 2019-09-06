@@ -206,7 +206,7 @@ public interface _java {
      * {@link _class} {@link _enum} {@link _interface}, {@link _annotation}
      */
     static <T extends _type> T type(String... code) {
-        return type(Ast.type(code));
+        return type(Ast.typeDecl(code));
     }
 
     /**
@@ -320,7 +320,7 @@ public interface _java {
      * @return
      */
     static <_T extends _type> _T type(Class clazz, _in._resolver resolver ){
-        Node n = Ast.type( clazz, resolver );
+        Node n = Ast.typeDecl( clazz, resolver );
         TypeDeclaration td = null;
         if( n instanceof CompilationUnit) { //top level TYPE
             CompilationUnit cu = (CompilationUnit) n;
@@ -463,7 +463,7 @@ public interface _java {
             return staticBlock(code);
         }
         if (_type.class.isAssignableFrom(nodeClass)) {
-            return Ast.type(code);
+            return Ast.typeDecl(code);
         }
         if (_parameter.class == nodeClass) {
             return parameter(code);
@@ -475,10 +475,10 @@ public interface _java {
             return field(code);
         }
         if (_enum._constant.class == nodeClass) {
-            return constant(code);
+            return constantDecl(code);
         }
         if (_annotation._element.class == nodeClass) {
-            return annotationMember(code);
+            return annotationMemberDecl(code);
         }
         if (_method.class == nodeClass) {
             return method(code);

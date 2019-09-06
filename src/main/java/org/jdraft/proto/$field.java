@@ -17,7 +17,7 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.type.Type;
 import org.jdraft.*;
-import org.jdraft.Expr;
+import org.jdraft.Ex;
 import org.jdraft._node;
 import org.jdraft.macro._macro;
 import org.jdraft.macro._remove;
@@ -53,7 +53,7 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
      */
     public static $field of( Object anonymousObjectWithField ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Expr.anonymousObject(ste);
+        ObjectCreationExpr oce = Ex.anonymousObjectEx(ste);
         FieldDeclaration fd = (FieldDeclaration) oce.getAnonymousClassBody().get().stream().filter(bd -> bd instanceof FieldDeclaration
                 && !bd.getAnnotationByClass(_remove.class).isPresent()).findFirst().get();
 
@@ -123,7 +123,7 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
         $inst.type = $typeRef.of(_f.getType());
         $inst.name = $id.of( _f.getName() );
         if( _f.hasInit() ){
-            $inst.init = $expr.of(_f.getInit() );
+            $inst.init = $ex.of(_f.getInit() );
         }
         return $inst;
     }
@@ -148,7 +148,7 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
     public $modifiers modifiers = $modifiers.of();
     public $typeRef type = $typeRef.of();
     public $id name = $id.of("$name$");
-    public $expr init = null;
+    public $ex init = null;
     
     private $field( $part...parts ){
         for(int i=0;i<parts.length;i++){
@@ -167,8 +167,8 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
             else if( parts[i] instanceof $id){
                 this.name = ($id)parts[i];
             }
-            else if( parts[i] instanceof $expr ){
-                this.init = ($expr)parts[i];
+            else if( parts[i] instanceof $ex){
+                this.init = ($ex)parts[i];
             }
             else if(parts[i] instanceof $comment ){
                 this.javadoc = ($comment<JavadocComment>)parts[i];
@@ -383,7 +383,7 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
      * @return
      */
     public $field $init(){
-        this.init = $expr.of();        
+        this.init = $ex.of();
         this.init.exprStencil = Stencil.of( "$init$" );
         return this;
     }
@@ -394,7 +394,7 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
      * @return
      */
     public $field $init( String initPattern ){
-        this.init.exprStencil = Stencil.of(Expr.of(initPattern).toString() );
+        this.init.exprStencil = Stencil.of(Ex.of(initPattern).toString() );
         return this;
     }
 
@@ -790,7 +790,7 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
                 if( !_f.hasInit() ){
                     return null;
                 }
-                $expr.Select sel = init.select(_f.getInit());
+                $ex.Select sel = init.select(_f.getInit());
                 if( all.isConsistent(sel.tokens.asTokens()) ){
                     all.putAll( sel.tokens().asTokens() );
                 } else{

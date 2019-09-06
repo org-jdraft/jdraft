@@ -13,7 +13,7 @@ public class SclassTest extends TestCase {
         assertTrue( $c.isMatchAny());
 
         //its matches ANY Class
-        assertTrue($c.match(Ast.classDeclaration("public class A{}") ));
+        assertTrue($c.match(Ast.classDecl("public class A{}") ));
         assertTrue($c.match(Ast.of("public class A{}") ));
         assertTrue($c.match(_class.of("A") ));
         assertTrue($c.match(_class.of(SclassTest.class) ));

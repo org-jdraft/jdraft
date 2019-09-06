@@ -1,7 +1,5 @@
 package org.jdraft.proto;
 
-import org.jdraft.proto.$typeUse;
-import org.jdraft.proto.$expr;
 import org.jdraft._class;
 import java.util.HashMap;
 import java.util.Map;
@@ -90,9 +88,9 @@ public class SclassUseTest extends TestCase {
         
         //System.out.println( _pExpr.list(_c, Expr.ARRAY_INITIALIZER ) );
         //gets the  array Initializer
-        $expr $arrVals = $expr.arrayInitializer("{ $a$, $b$, $c$, Replace.class, Stan.class, Outer.class }", a-> a.getValues().size() == 6 );
+        $ex $arrVals = $ex.arrayInitEx("{ $a$, $b$, $c$, Replace.class, Stan.class, Outer.class }", a-> a.getValues().size() == 6 );
         //assertNotNull($arrVals.selectFirstIn(_c));
-        $expr.Select s = $arrVals.selectFirstIn(_c);
+        $ex.Select s = $arrVals.selectFirstIn(_c);
         
         assertTrue( s.is("a", "Base")); 
         assertTrue( s.is("b", "Ann")); 

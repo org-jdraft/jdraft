@@ -6,8 +6,7 @@ import org.jdraft.proto.$$;
 import org.jdraft.runtime.*;
 import org.jdraft.diff._diff;
 import org.jdraft.macro.*;
-import org.jdraft.proto.$;
-import org.jdraft.proto.$expr;
+import org.jdraft.proto.$ex;
 import org.jdraft.proto.$typeRef;
 
 
@@ -58,10 +57,10 @@ public class APIIntegrationTest extends TestCase {
         }
         _class _c = _class.of(LL.class);
         //make sure there are (4) int literals (100, 200, 300, 400) in class
-        assertEquals( 4, $expr.intLiteral().count(LL.class));
+        assertEquals( 4, $ex.intLiteralEx().count(LL.class));
         assertEquals( 4, $$.intLiteral().count(LL.class));
         //there is (1) 200 int literal
-        assertEquals( 1, $expr.intLiteral(200).count(LL.class));
+        assertEquals( 1, $ex.intLiteralEx(200).count(LL.class));
         
         
         //(3) reference to the int type in the class

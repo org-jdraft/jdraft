@@ -1,13 +1,12 @@
 package test.byexample.proto;
 
 import junit.framework.TestCase;
-import org.jdraft.Expr;
+import org.jdraft.Ex;
 import org.jdraft._method;
 import org.jdraft.proto.*;
 import org.jdraft.proto.$node.Select;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * Talk about what parts
@@ -102,7 +101,7 @@ public class _2_Proto_API_AnatomyTest extends TestCase {
         List<Select> sel = $.of( $stmt.of("if($cond$){ thenDo(); }"), $stmt.of("if($cond$) thenDo();") ).listSelectedIn(exampleClass.class);
 
         assertEquals( 2, sel.size());
-        sel.get(0).is("cond", Expr.of("a==0"));
-        sel.get(1).is("cond", Expr.of("a>1"));
+        sel.get(0).is("cond", Ex.of("a==0"));
+        sel.get(1).is("cond", Ex.of("a>1"));
     }
 }

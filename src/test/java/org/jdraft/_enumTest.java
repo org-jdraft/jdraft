@@ -73,7 +73,7 @@ public class _enumTest extends TestCase {
     }
 
     public void testEnum(){
-        Ast.constant("A(1)");
+        Ast.constantDecl("A(1)");
         _enum _e = _enum.of("E")
                 .constant("A(1)")
                 .field("private int i;")
@@ -98,13 +98,13 @@ public class _enumTest extends TestCase {
         assertTrue(_c.hasFields());
         assertTrue(_c.hasArguments());
         assertEquals( 2, _c.listArguments().size());
-        assertEquals( Expr.intLiteral( "1"), _c.getArgument(0));
-        assertEquals( Expr.stringLiteral("String"), _c.getArgument(1));
+        assertEquals( Ex.intLiteralEx( "1"), _c.getArgument(0));
+        assertEquals( Ex.stringLiteralEx("String"), _c.getArgument(1));
         assertTrue( _c.getAnnos().is("@ann", "@ann2(k='o')"));
         _field _f = _c.getField( "num");
         assertNotNull( _f);
         assertTrue( _f.getModifiers().is( "public static final"));
-        assertEquals( Expr.of(12233), _f.getInit() );
+        assertEquals( Ex.of(12233), _f.getInit() );
         
         _method _m = _c.getMethod("getNum");
         assertTrue( _m.hasJavadoc() );
@@ -114,8 +114,8 @@ public class _enumTest extends TestCase {
         
         _enum._constant _cc = _e.getConstant("C");
         assertEquals(2, _cc.listArguments().size() );
-        assertEquals(Expr.of(2), _cc.getArgument(0));
-        assertEquals(Expr.stringLiteral("Blah"), _cc.getArgument(1));
+        assertEquals(Ex.of(2), _cc.getArgument(0));
+        assertEquals(Ex.stringLiteralEx("Blah"), _cc.getArgument(1));
         
         assertTrue( _e.hasInitBlock() );
         assertTrue( _e.getInitBlock(0).is("System.out.println(12231);"));

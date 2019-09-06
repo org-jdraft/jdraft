@@ -38,7 +38,7 @@ public class _methodTest extends TestCase {
         });
         
         //verify that I 
-        assertEquals( _m.firstExpr(Expr.STRING_LITERAL), Expr.stringLiteral("mr") );
+        assertEquals( _m.firstExpr(Ex.STRING_LITERAL), Ex.stringLiteralEx("mr") );
         
         //for All exprs and statements
         _m.forExprs(e-> System.out.println( e + " | " + e.getClass() ) );
@@ -184,7 +184,7 @@ public class _methodTest extends TestCase {
         //assertTrue(_m.hasParametersOfType());
 
         assertNotNull( _m.firstExpr(StringLiteralExpr.class) );
-        assertNotNull( _m.firstExpr(Expr.STRING_LITERAL) );
+        assertNotNull( _m.firstExpr(Ex.STRING_LITERAL) );
         //assertNotNull( _m.findFirst(_anno.class) );
 
         //_m.ast().accept( VoidVisitor );

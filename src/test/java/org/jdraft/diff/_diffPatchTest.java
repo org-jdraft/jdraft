@@ -267,9 +267,9 @@ public class _diffPatchTest
         
         _c.getField("aFieldIAdded").init(54321);
         dl = _diff.of(_c, _c2);
-        assertEquals( dl.firstOn(FIELD, "aFieldIAdded").asChange().right(), Expr.of(1023) );    
-        assertEquals( dl.firstOn(FIELD, "aFieldIAdded").asChange().left(), Expr.of(54321) );    
-        assertEquals( dl.firstAt(INIT).asChange().left(), Expr.of(54321) );    
+        assertEquals( dl.firstOn(FIELD, "aFieldIAdded").asChange().right(), Ex.of(1023) );
+        assertEquals( dl.firstOn(FIELD, "aFieldIAdded").asChange().left(), Ex.of(54321) );
+        assertEquals( dl.firstAt(INIT).asChange().left(), Ex.of(54321) );
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());        
         

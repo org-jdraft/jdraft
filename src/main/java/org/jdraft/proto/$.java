@@ -9,7 +9,7 @@ import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.type.Type;
-import org.jdraft.Expr;
+import org.jdraft.Ex;
 import org.jdraft.*;
 import org.jdraft._anno._annos;
 import org.jdraft._parameter._parameters;
@@ -367,7 +367,7 @@ public final class $ {
      */
     public static $method method(Object anonymousObjectContainingMethod){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Expr.anonymousObject(ste);
+        ObjectCreationExpr oce = Ex.anonymousObjectEx(ste);
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
         //removeIn all things that aren't METHODS or METHODS WITH @_remove
         bds.removeIf(b -> b.isAnnotationPresent(_remove.class) || (!(b instanceof MethodDeclaration)));
@@ -538,19 +538,19 @@ public final class $ {
         return $modifiers.of(ms);
     }
 
-    public static $package packageName( ){
+    public static $package packageDecl( ){
         return $package.of();
     }
 
-    public static $package packageName( Predicate<PackageDeclaration> packageNameMatchFn ){
+    public static $package packageDecl(Predicate<PackageDeclaration> packageNameMatchFn ){
         return $package.of(packageNameMatchFn);
     }
 
-    public static $package packageName( String pattern ){
+    public static $package packageDecl(String pattern ){
         return $package.of(pattern);
     }
 
-    public static $package packageName( String pattern, Predicate<PackageDeclaration> packageFn){
+    public static $package packageDecl(String pattern, Predicate<PackageDeclaration> packageFn){
         return $package.of(pattern, packageFn);
     }
 
@@ -627,19 +627,19 @@ public final class $ {
     }
     
 
-    public static $throws thrown(){
+    public static $throws throwsDecl(){
         return $throws.of();
     }
 
-    public static $throws thrown(String...th){
+    public static $throws throwsDecl(String...th){
         return $throws.of(th);
     }
 
-    public static $throws thrown(_throws ts){
+    public static $throws throwsDecl(_throws ts){
         return $throws.of(ts);
     }
 
-    public static $throws thrown(Predicate<_throws> ts){
+    public static $throws throwsDecl(Predicate<_throws> ts){
         return $throws.of().$and( ts);
     }
     

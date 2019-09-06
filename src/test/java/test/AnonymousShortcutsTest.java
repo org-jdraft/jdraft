@@ -238,12 +238,12 @@ public class AnonymousShortcutsTest extends TestCase {
     }
     
     public void testLambda(){
-        LambdaExpr l = Expr.of(()-> System.out.println("hey") );
+        LambdaExpr l = Ex.of(()-> System.out.println("hey") );
     }
     
     public void testExpressions(){
-        IntegerLiteralExpr ile = Expr.of(1);
-        DoubleLiteralExpr dle = Expr.of(3.14f);        
+        IntegerLiteralExpr ile = Ex.of(1);
+        DoubleLiteralExpr dle = Ex.of(3.14f);
     }
     
     

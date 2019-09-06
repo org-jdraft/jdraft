@@ -11,7 +11,7 @@ import org.jdraft._throws;
 import org.jdraft._type;
 import org.jdraft._body;
 import org.jdraft._walk;
-import org.jdraft.Expr;
+import org.jdraft.Ex;
 import org.jdraft.Stmt;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
@@ -84,7 +84,7 @@ public final class $constructor
      * @return
      */
     public static $constructor of( StackTraceElement ste, Object anonymousObjectContainingMethod ){
-        ObjectCreationExpr oce = Expr.anonymousObject( ste );        
+        ObjectCreationExpr oce = Ex.anonymousObjectEx( ste );
         
         _class _c = _class.of("C");
         if( oce.getAnonymousClassBody().isPresent() ){
@@ -590,7 +590,7 @@ public final class $constructor
         return draft(_n.tokenize() );
     }
 
-    public static final BlockStmt EMPTY = Stmt.block("{}");
+    public static final BlockStmt EMPTY = Stmt.blockStmt("{}");
 
     /**
      * 

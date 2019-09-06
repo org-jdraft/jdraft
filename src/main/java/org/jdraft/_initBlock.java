@@ -48,7 +48,7 @@ public final class _initBlock
      * @return
      */
     public static _initBlock of( Object anonymousObject ){
-        ObjectCreationExpr oce = Expr.anonymousObject(Thread.currentThread().getStackTrace()[2]);
+        ObjectCreationExpr oce = Ex.anonymousObjectEx(Thread.currentThread().getStackTrace()[2]);
 
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
         InitializerDeclaration id =
@@ -87,7 +87,7 @@ public final class _initBlock
         return new _initBlock( id );
     }
 
-    public static _initBlock of(Expr.Command lambdaWithBody){
+    public static _initBlock of(Ex.Command lambdaWithBody){
         Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
         if( bdy instanceof BlockStmt ) {
             return of( (BlockStmt)bdy);
@@ -111,7 +111,7 @@ public final class _initBlock
         return of( new BlockStmt().addStatement(bdy) );
     }
 
-    public static <A extends Object, B extends Object,C extends Object> _initBlock of(Expr.TriConsumer<A,B,C> lambdaWithBody ){
+    public static <A extends Object, B extends Object,C extends Object> _initBlock of(Ex.TriConsumer<A,B,C> lambdaWithBody ){
         Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
         if( bdy instanceof BlockStmt ) {
             return of( (BlockStmt)bdy);
@@ -119,7 +119,7 @@ public final class _initBlock
         return of( new BlockStmt().addStatement(bdy) );
     }
 
-    public static <A extends Object, B extends Object,C extends Object, D extends Object> _initBlock of(Expr.QuadConsumer<A,B,C,D> lambdaWithBody ){
+    public static <A extends Object, B extends Object,C extends Object, D extends Object> _initBlock of(Ex.QuadConsumer<A,B,C,D> lambdaWithBody ){
         Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
         if( bdy instanceof BlockStmt ) {
             return of( (BlockStmt)bdy);
@@ -365,9 +365,9 @@ public final class _initBlock
          * @param command
          * @return
          */
-        default _HIB staticBlock(Expr.Command command ){
+        default _HIB staticBlock(Ex.Command command ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-            return staticBlock( Stmt.block(ste));
+            return staticBlock( Stmt.blockStmt(ste));
         }
 
         /**
@@ -378,7 +378,7 @@ public final class _initBlock
          */
         default <A extends Object> _HIB staticBlock(Consumer<A> command ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-            return staticBlock( Stmt.block(ste));
+            return staticBlock( Stmt.blockStmt(ste));
         }
 
         /**
@@ -390,7 +390,7 @@ public final class _initBlock
          */
         default <A extends Object, B extends Object> _HIB staticBlock(BiConsumer<A, B> command ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-            return staticBlock( Stmt.block(ste));
+            return staticBlock( Stmt.blockStmt(ste));
         }
 
         /**
@@ -401,9 +401,9 @@ public final class _initBlock
          * @param command the lambda command body (to get the source of the Static Block)
          * @return the modified T
          */
-        default <A extends Object, B extends Object, C extends Object> _HIB staticBlock(Expr.TriConsumer<A, B, C> command ){
+        default <A extends Object, B extends Object, C extends Object> _HIB staticBlock(Ex.TriConsumer<A, B, C> command ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-            return staticBlock( Stmt.block(ste));
+            return staticBlock( Stmt.blockStmt(ste));
         }
 
         /**
@@ -415,9 +415,9 @@ public final class _initBlock
          * @param command the lambda command body (to get the source of the Static Block)
          * @return the modified T
          */
-        default <A extends Object, B extends Object, C extends Object, D extends Object> _HIB staticBlock(Expr.QuadConsumer<A, B, C, D> command ){
+        default <A extends Object, B extends Object, C extends Object, D extends Object> _HIB staticBlock(Ex.QuadConsumer<A, B, C, D> command ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-            return staticBlock( Stmt.block(ste));
+            return staticBlock( Stmt.blockStmt(ste));
         }
 
         default _HIB staticBlock(BlockStmt block){
@@ -427,7 +427,7 @@ public final class _initBlock
         }
 
         default _HIB staticBlock(Object anonymousObjectWithInitBlock){
-            ObjectCreationExpr oce = Expr.anonymousObject( Thread.currentThread().getStackTrace()[2] );
+            ObjectCreationExpr oce = Ex.anonymousObjectEx( Thread.currentThread().getStackTrace()[2] );
             InitializerDeclaration id =
                     (InitializerDeclaration)oce.getAnonymousClassBody().get().stream().filter(t-> t instanceof InitializerDeclaration).findFirst().get();
             //if( anonymousObjectWithInitBlock.getClass().getAnnotation(_static.class) != null){
@@ -463,9 +463,9 @@ public final class _initBlock
          * @param command
          * @return
          */
-        default _HIB initBlock(Expr.Command command ){
+        default _HIB initBlock(Ex.Command command ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-            return initBlock( Stmt.block(ste));
+            return initBlock( Stmt.blockStmt(ste));
         }
 
         /**
@@ -476,7 +476,7 @@ public final class _initBlock
          */
         default <A extends Object> _HIB initBlock(Consumer<A> command ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-            return initBlock( Stmt.block(ste));
+            return initBlock( Stmt.blockStmt(ste));
         }
 
         /**
@@ -488,7 +488,7 @@ public final class _initBlock
          */
         default <A extends Object, B extends Object> _HIB initBlock(BiConsumer<A, B> command ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-            return initBlock( Stmt.block(ste));
+            return initBlock( Stmt.blockStmt(ste));
         }
 
         /**
@@ -499,9 +499,9 @@ public final class _initBlock
          * @param command the lambda command body (to get the source of the Static Block)         
          * @return the modified T
          */
-        default <A extends Object, B extends Object, C extends Object> _HIB initBlock(Expr.TriConsumer<A, B, C> command ){
+        default <A extends Object, B extends Object, C extends Object> _HIB initBlock(Ex.TriConsumer<A, B, C> command ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-            return initBlock( Stmt.block(ste));
+            return initBlock( Stmt.blockStmt(ste));
         }
 
         /**
@@ -513,9 +513,9 @@ public final class _initBlock
          * @param command the lambda command body (to get the source of the Static Block)         
          * @return the modified T
          */
-        default <A extends Object, B extends Object, C extends Object, D extends Object> _HIB initBlock(Expr.QuadConsumer<A, B, C, D> command ){
+        default <A extends Object, B extends Object, C extends Object, D extends Object> _HIB initBlock(Ex.QuadConsumer<A, B, C, D> command ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-            return initBlock( Stmt.block(ste));
+            return initBlock( Stmt.blockStmt(ste));
         }
 
         default _HIB initBlock(BlockStmt block){
@@ -525,7 +525,7 @@ public final class _initBlock
         }
 
         default _HIB initBlock(Object anonymousObjectWithInitBlock){
-            ObjectCreationExpr oce = Expr.anonymousObject( Thread.currentThread().getStackTrace()[2] );
+            ObjectCreationExpr oce = Ex.anonymousObjectEx( Thread.currentThread().getStackTrace()[2] );
             InitializerDeclaration id =
                     (InitializerDeclaration)oce.getAnonymousClassBody().get().stream().filter(t-> t instanceof InitializerDeclaration).findFirst().get();
             if( anonymousObjectWithInitBlock.getClass().getAnnotation(_static.class) != null){

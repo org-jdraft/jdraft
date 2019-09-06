@@ -3,7 +3,7 @@ package org.jdraft.proto;
 import org.jdraft._code;
 import org.jdraft._java;
 import org.jdraft._type;
-import org.jdraft.Expr;
+import org.jdraft.Ex;
 import org.jdraft.Ast;
 import org.jdraft.Stmt;
 import com.github.javaparser.ast.Node;
@@ -1469,7 +1469,7 @@ public interface $proto<P, $P extends $proto>{
             if (obj == null || obj.toString().trim().length() == 0) {
                 return null;
             }
-            return Expr.of(obj.toString());
+            return Ex.of(obj.toString());
         }
 
         public Statement stmt(String $name) {
@@ -1502,7 +1502,7 @@ public interface $proto<P, $P extends $proto>{
             if (obj.toString().trim().length() == 0) {
                 return Collections.EMPTY_LIST;
             }
-            return Stmt.block(obj.toString()).getStatements();
+            return Stmt.blockStmt(obj.toString()).getStatements();
         }
 
         /*
@@ -1659,10 +1659,10 @@ public interface $proto<P, $P extends $proto>{
                 return s.equals(v);
             }
             if (expectedValue instanceof Expression) {
-                return Expr.equivalent((Expression) expectedValue, get($name));
+                return Ex.equivalent((Expression) expectedValue, get($name));
             } else if (expectedValue instanceof String) {
                 try {
-                    return Expr.equivalent(Expr.of((String) expectedValue), o);
+                    return Ex.equivalent(Ex.of((String) expectedValue), o);
                 } catch (Exception e) {
 
                 }

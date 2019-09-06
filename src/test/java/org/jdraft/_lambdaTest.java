@@ -1,8 +1,6 @@
 package org.jdraft;
 
-import org.jdraft._lambda;
-import org.jdraft.Expr;
-import org.jdraft.Expr.Command;
+import org.jdraft.Ex.Command;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import junit.framework.TestCase;
@@ -15,11 +13,11 @@ public class _lambdaTest extends TestCase {
     
     
     public void testOf(){
-        Expr.of(()-> System.out.println() );
-        Expr.of((Object o)->System.out.println(o) );
-        Expr.of( o-> "e" );
-        Expr.of((o)-> "e" );
-        Expr.of((o)-> {return "e";} );
+        Ex.of(()-> System.out.println() );
+        Ex.of((Object o)->System.out.println(o) );
+        Ex.of(o-> "e" );
+        Ex.of((o)-> "e" );
+        Ex.of((o)-> {return "e";} );
         
         _lambda.of(()-> System.out.println() );        
         _lambda.of((String o)->System.out.println(o) );

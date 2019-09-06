@@ -5,7 +5,7 @@ import org.jdraft._code;
 import org.jdraft._java;
 import org.jdraft._type;
 import org.jdraft._walk;
-import org.jdraft.Expr;
+import org.jdraft.Ex;
 import org.jdraft.Ast;
 import org.jdraft.Stmt;
 import com.github.javaparser.ast.Node;
@@ -13,8 +13,8 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import org.jdraft.*;
-import org.jdraft.Expr.QuadConsumer;
-import org.jdraft.Expr.TriConsumer;
+import org.jdraft.Ex.QuadConsumer;
+import org.jdraft.Ex.TriConsumer;
 import org.jdraft._node;
 
 import java.util.*;
@@ -82,7 +82,7 @@ public final class $stmt<T extends Statement>
      * @param proto
      * @return 
      */
-    public static <S extends Statement> $stmt<S> of( Expr.Command proto ){
+    public static <S extends Statement> $stmt<S> of( Ex.Command proto ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return from( ste );
     }
@@ -163,7 +163,7 @@ public final class $stmt<T extends Statement>
      * @return
      */
     public static <S extends Statement> $stmt<S> of( Object anonymousObjectWithStatement ){
-        ObjectCreationExpr oce = Expr.anonymousObject( Thread.currentThread().getStackTrace()[2]);
+        ObjectCreationExpr oce = Ex.anonymousObjectEx( Thread.currentThread().getStackTrace()[2]);
         BlockStmt bs = oce.findFirst(com.github.javaparser.ast.stmt.BlockStmt.class).get();
 
         //?? do I want to do anything with $label$:{} ?
@@ -246,7 +246,7 @@ public final class $stmt<T extends Statement>
      * @return the BlockStmt
      */
     public static $stmt<BlockStmt> blockStmt(String... pattern ) {
-        return new $stmt( Stmt.block(pattern));
+        return new $stmt( Stmt.blockStmt(pattern));
     }
     
     /**
@@ -258,7 +258,7 @@ public final class $stmt<T extends Statement>
      * @return the BlockStmt
      */
     public static $stmt<BlockStmt> blockStmt(String pattern, Predicate<BlockStmt> constraint) {
-        return new $stmt( Stmt.block(pattern)).$and(constraint);
+        return new $stmt( Stmt.blockStmt(pattern)).$and(constraint);
     }
 
     /**
@@ -376,7 +376,7 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public static $stmt<ExplicitConstructorInvocationStmt> ctorInvocationStmt(String... pattern ) {
-        return new $stmt( Stmt.thisConstructor(pattern));
+        return new $stmt( Stmt.thisConstructorStmt(pattern));
     }
 
     /**
@@ -395,7 +395,7 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public static $stmt<ExplicitConstructorInvocationStmt> ctorInvocationStmt(String pattern, Predicate<ExplicitConstructorInvocationStmt> constraint) {
-        return new $stmt( Stmt.thisConstructor(pattern)).$and(constraint);
+        return new $stmt( Stmt.thisConstructorStmt(pattern)).$and(constraint);
     }
     
     /** 
@@ -591,7 +591,7 @@ public final class $stmt<T extends Statement>
      * @return the AST implementation
      */
     public static $stmt<LocalClassDeclarationStmt> localClassStmt( String... pattern ) {
-        return new $stmt( Stmt.localClass(pattern));
+        return new $stmt( Stmt.localClassStmt(pattern));
     }
     
     /**
@@ -602,7 +602,7 @@ public final class $stmt<T extends Statement>
      * @return the AST implementation
      */
     public static $stmt<LocalClassDeclarationStmt> localClassStmt( String pattern, Predicate<LocalClassDeclarationStmt> constraint) {
-        return new $stmt( Stmt.localClass(pattern)).$and(constraint);
+        return new $stmt( Stmt.localClassStmt(pattern)).$and(constraint);
     }
 
     /**
@@ -861,7 +861,7 @@ public final class $stmt<T extends Statement>
      * @return
      */
     public $stmt $expr( String expr, String $name){
-        return $(Expr.of(expr).toString(), $name);
+        return $(Ex.of(expr).toString(), $name);
     }
 
     /**

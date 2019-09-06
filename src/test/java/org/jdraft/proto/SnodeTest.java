@@ -7,9 +7,7 @@ import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.Statement;
-import org.jdraft.Expr;
-import org.jdraft._walk;
-import org.jdraft.proto.$node;
+import org.jdraft.Ex;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import org.jdraft.Ast;
@@ -147,7 +145,7 @@ public class SnodeTest extends TestCase {
         _class _c = _class.of(C.class);
         _c.astCompilationUnit().addImport(new ImportDeclaration("java.lang.System", false, false));
 
-        Expression scope = Expr.fieldAccess("System.out" ).asFieldAccessExpr().getScope();
+        Expression scope = Ex.fieldAccessEx("System.out" ).asFieldAccessExpr().getScope();
         Ast.isParent(scope, FieldAccessExpr.class);
 
         Ast.describe( (Node)$$.stmt("System.out.println(1);").firstIn(_c) );

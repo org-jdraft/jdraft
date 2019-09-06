@@ -26,7 +26,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         _type._hasExtends<_interface>{
 
     public static _interface of( Class clazz ){
-        Node n = Ast.type( clazz );
+        Node n = Ast.typeDecl( clazz );
         if( n instanceof CompilationUnit ){
             return _macro.to(clazz, of( (CompilationUnit)n));
         } 
@@ -94,7 +94,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         //@_abstract
         //@_default
         //@_static
-        ObjectCreationExpr oce = Expr.anonymousObject(ste);
+        ObjectCreationExpr oce = Ex.anonymousObjectEx(ste);
         if( oce.getAnonymousClassBody().isPresent() ){
             oce.getAnonymousClassBody().get().forEach( e -> _i.astInterface.addMember(e) );
         }
@@ -305,7 +305,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         if( !Objects.equals( this.getPackage(), other.getPackage())){
             return false;
         }
-        if( ! Expr.equivalentAnnos(this.astInterface, other.astInterface)){
+        if( ! Ex.equivalentAnnos(this.astInterface, other.astInterface)){
             return false;
         }
         if( this.hasJavadoc() != other.hasJavadoc() ){
@@ -385,7 +385,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         companionTypes.addAll(listCompanionTypes());
 
         hash = 53 * Objects.hash( this.getPackage(), 
-            Expr.hashAnnos(astInterface),
+            Ex.hashAnnos(astInterface),
             this.getJavadoc(),this.getModifiers(), this.getTypeParameters(),
             tm, tf,
             Ast.importsHash(astInterface),

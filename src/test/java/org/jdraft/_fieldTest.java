@@ -1,20 +1,12 @@
 package org.jdraft;
 
-import org.jdraft._typeRef;
-import org.jdraft._modifiers;
-import org.jdraft._field;
-import org.jdraft._interface;
-import org.jdraft.Ast;
-import org.jdraft.Expr;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import org.jdraft._anno.*;
-import org.jdraft.Text;
 
 import java.util.List;
-import java.util.function.Predicate;
+
 import junit.framework.TestCase;
-import test.ann;
 
 /**
  *
@@ -157,7 +149,7 @@ public class _fieldTest extends TestCase {
         assertEquals( _modifiers.of( "public", "static", "final"), _f.getModifiers() );
         assertTrue( _f.isType( "int"));
         assertEquals("W", _f.getName() );
-        assertEquals( Expr.of("103 + 45"), _f.getInit() );        
+        assertEquals( Ex.of("103 + 45"), _f.getInit() );
     }
     
 }

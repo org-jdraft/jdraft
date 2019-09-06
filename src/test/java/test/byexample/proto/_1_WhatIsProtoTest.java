@@ -3,7 +3,7 @@ package test.byexample.proto;
 import junit.framework.TestCase;
 import org.jdraft.proto.$;
 import org.jdraft.proto.$$;
-import org.jdraft.proto.$expr;
+import org.jdraft.proto.$ex;
 import org.jdraft.proto.$node;
 
 /**
@@ -65,7 +65,7 @@ public class _1_WhatIsProtoTest extends TestCase {
         //   (an Operator "-")  (an IntLiteralExpr "1")
 
         //lets build a $expr<UnaryExpr> that represents + or - and some int (i.e. "+5", "-3")
-        $expr $plusMinusInt = $$.unary($$.PLUS,$$.MINUS) // matches UnaryExpr with either operator
+        $ex $plusMinusInt = $$.unary($$.PLUS,$$.MINUS) // matches UnaryExpr with either operator
                 .$and(u-> u.getExpression().isIntegerLiteralExpr()); //verifies the UnaryExpr expression is an int literal
 
         //query the class and verify we can find the UnaryExpr -1
@@ -73,7 +73,7 @@ public class _1_WhatIsProtoTest extends TestCase {
         System.out.println( $plusMinusInt.listIn(MostlyIntLiterals.class));
 
         //match all int literals THAT ARE NOT children of of a +/- unaryExpression
-        $expr $unsignedIntLiteral = $$.intLiteral().$hasParent( p -> !$plusMinusInt.match(p) );
+        $ex $unsignedIntLiteral = $$.intLiteral().$hasParent(p -> !$plusMinusInt.match(p) );
 
         //now combine the $proto matchers for finding:
         // 1) UnaryExpressions with +/- operators and Int literals

@@ -56,7 +56,7 @@ public final class _anno
 
     public static _anno of( Object anonymousObject ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Expr.anonymousObject(ste);
+        ObjectCreationExpr oce = Ex.anonymousObjectEx(ste);
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
         BodyDeclaration bd = bds.stream().filter(b -> b.getAnnotations().isNonEmpty() ).findFirst().get();
         return of( bd.getAnnotation(0) );
@@ -222,7 +222,7 @@ public final class _anno
      * @return 
      */
     public boolean hasValue( int i){
-        return hasValue( Expr.of(i));
+        return hasValue( Ex.of(i));
     }
 
     /**
@@ -231,7 +231,7 @@ public final class _anno
      * @return 
      */
     public boolean hasValue( char c){
-        return hasValue( Expr.of(c));
+        return hasValue( Ex.of(c));
     }    
     
     /**
@@ -240,7 +240,7 @@ public final class _anno
      * @return 
      */
     public boolean hasValue( float f){
-        return hasValue( Expr.of(f));
+        return hasValue( Ex.of(f));
     }
 
     /**
@@ -249,7 +249,7 @@ public final class _anno
      * @return 
      */
     public boolean hasValue( String s){
-        return hasValue( Expr.stringLiteral(s));
+        return hasValue( Ex.stringLiteralEx(s));
     }
     
     /**
@@ -258,7 +258,7 @@ public final class _anno
      * @return 
      */
     public boolean hasValue( long l){
-        return hasValue( Expr.of(l));
+        return hasValue( Ex.of(l));
     }
     
     /**
@@ -267,7 +267,7 @@ public final class _anno
      * @return 
      */
     public boolean hasValue( boolean b){
-        return hasValue( Expr.of(b));
+        return hasValue( Ex.of(b));
     }    
     
     /**
@@ -293,7 +293,7 @@ public final class _anno
      */
     public boolean hasAttr( String attrKeyValue ){
         try{
-            AssignExpr ae = Expr.assign(attrKeyValue);
+            AssignExpr ae = Ex.assignEx(attrKeyValue);
             String name = ae.getTarget().toString();
             return hasAttr( name, ae.getValue());
         } catch (Exception e){
@@ -436,7 +436,7 @@ public final class _anno
 
     public _anno addAttr( String attrNameValue) {
         try{
-            AssignExpr ae = Expr.assign(attrNameValue);
+            AssignExpr ae = Ex.assignEx(attrNameValue);
             return addAttr( ae.getTarget().toString(), ae.getValue() );
         }catch(Exception e){
             throw new _draftException("Unable to parse Attr Name value \""+ attrNameValue+"\"");
@@ -444,27 +444,27 @@ public final class _anno
     }
     
     public _anno addAttr( String key, char c ) {
-        return addAttr( key, Expr.of( c ) );
+        return addAttr( key, Ex.of( c ) );
     }
 
     public _anno addAttr( String key, boolean b ) {
-        return addAttr( key, Expr.of( b ) );
+        return addAttr( key, Ex.of( b ) );
     }
 
     public _anno addAttr( String key, int value ) {
-        return addAttr( key, Expr.of( value ) );
+        return addAttr( key, Ex.of( value ) );
     }
 
     public _anno addAttr( String key, long value ) {
-        return addAttr( key, Expr.of( value ) );
+        return addAttr( key, Ex.of( value ) );
     }
 
     public _anno addAttr( String key, float f ) {
-        return addAttr( key, Expr.of( f ) );
+        return addAttr( key, Ex.of( f ) );
     }
 
     public _anno addAttr( String key, double d ) {
-        return addAttr( key, Expr.of( d ) );
+        return addAttr( key, Ex.of( d ) );
     }
 
     public _anno addAttr( String key, Expression astExpr ) {
@@ -484,35 +484,35 @@ public final class _anno
     }
 
     public _anno addAttr( String key, String value ) {
-        return addAttr(key, Expr.stringLiteral(value));        
+        return addAttr(key, Ex.stringLiteralEx(value));
     }
 
     public _anno setValue( String key, char c ) {
-        return setValue( key, Expr.of( c ) );
+        return setValue( key, Ex.of( c ) );
     }
 
     public _anno setValue( String key, boolean b ) {
-        return addAttr( key, Expr.of( b ) );
+        return addAttr( key, Ex.of( b ) );
     }
 
     public _anno setValue( String key, int value ) {
-        return addAttr( key, Expr.of( value ) );
+        return addAttr( key, Ex.of( value ) );
     }
 
     public _anno setValue( String key, long value ) {
-        return addAttr( key, Expr.of( value ) );
+        return addAttr( key, Ex.of( value ) );
     }
 
     public _anno setValue( String key, float f ) {
-        return addAttr( key, Expr.of( f ) );
+        return addAttr( key, Ex.of( f ) );
     }
 
     public _anno setValue( String key, double d ) {
-        return addAttr( key, Expr.of( d ) );
+        return addAttr( key, Ex.of( d ) );
     }
 
     public _anno setValue( String name, String expression ) {
-        return setValue( name, Expr.stringLiteral( expression ) );
+        return setValue( name, Ex.stringLiteralEx( expression ) );
     }
 
     public _anno removeAttr( String name ) {
@@ -570,27 +570,27 @@ public final class _anno
     }
 
     public _anno setValue( int index, String stringLiteral ) {
-        return setValue( index, Expr.stringLiteral( stringLiteral ) );
+        return setValue( index, Ex.stringLiteralEx( stringLiteral ) );
     }
     
     public _anno setValue( int index, int intLiteral) {
-        return setValue( index, Expr.of( intLiteral ) );
+        return setValue( index, Ex.of( intLiteral ) );
     }
 
     public _anno setValue( int index, boolean boolLiteral) {
-        return setValue( index, Expr.of( boolLiteral ) );
+        return setValue( index, Ex.of( boolLiteral ) );
     }
     
     public _anno setValue( int index, char charLiteral) {
-        return setValue( index, Expr.of( charLiteral ) );
+        return setValue( index, Ex.of( charLiteral ) );
     }
     
     public _anno setValue( int index, float floatLiteral) {
-        return setValue( index, Expr.of( floatLiteral ) );
+        return setValue( index, Ex.of( floatLiteral ) );
     }
     
     public _anno setValue( int index, double doubleLiteral) {
-        return setValue( index, Expr.of( doubleLiteral ) );
+        return setValue( index, Ex.of( doubleLiteral ) );
     }
     
     public _anno setValue( int index, Expression value ) {
@@ -662,11 +662,11 @@ public final class _anno
         }
         if( this.astAnno instanceof SingleMemberAnnotationExpr){            
             Map<String,Integer> hm = new HashMap<>();
-            hm.put( "value", Expr.hash(this.astAnno.asSingleMemberAnnotationExpr().getMemberValue()));
+            hm.put( "value", Ex.hash(this.astAnno.asSingleMemberAnnotationExpr().getMemberValue()));
             return hm.hashCode();
         }        
         Map<String,Integer> hm = new HashMap<>();
-        this.astAnno.asNormalAnnotationExpr().getPairs().forEach(p -> hm.put(p.getNameAsString(), Expr.hash( p.getValue()) ) );        
+        this.astAnno.asNormalAnnotationExpr().getPairs().forEach(p -> hm.put(p.getNameAsString(), Ex.hash( p.getValue()) ) );
         return hm.hashCode();
     }
 
@@ -683,7 +683,7 @@ public final class _anno
         }
         final _anno other = (_anno)obj;
 
-        return Expr.equivalent(astAnno, other.astAnno);
+        return Ex.equivalent(astAnno, other.astAnno);
     }
 
     @Override
@@ -1184,7 +1184,7 @@ public final class _anno
 
         public int indexOf( AnnotationExpr astAnno ) {
             for( int i = 0; i < this.astAnnNode.getAnnotations().size(); i++ ) {
-                if( Expr.equivalent((AnnotationExpr)this.astAnnNode.getAnnotations().get( i ), astAnno ) ) {
+                if( Ex.equivalent((AnnotationExpr)this.astAnnNode.getAnnotations().get( i ), astAnno ) ) {
                     return i;
                 }
             }
@@ -1197,7 +1197,7 @@ public final class _anno
 
         public boolean contains( AnnotationExpr astAnno ) {
             return this.astAnnNode.getAnnotations().stream().filter(
-                a -> Expr.equivalent((AnnotationExpr)a, astAnno ) ).findFirst().isPresent();            
+                a -> Ex.equivalent((AnnotationExpr)a, astAnno ) ).findFirst().isPresent();
         }
 
         public boolean contains( Class<? extends Annotation> clazz ) {
@@ -1277,7 +1277,7 @@ public final class _anno
                 AnnotationExpr e = (AnnotationExpr)this.astAnnNode.getAnnotations().get( i );
                 //find a matching annotation in other, if one isnt found, then not equal
                 if( !other.astAnnNode.getAnnotations().stream().filter( 
-                    a -> Expr.equivalent(e, (AnnotationExpr)a ) ).findFirst().isPresent() ) {    
+                    a -> Ex.equivalent(e, (AnnotationExpr)a ) ).findFirst().isPresent() ) {
                     
                     return false;
                 }

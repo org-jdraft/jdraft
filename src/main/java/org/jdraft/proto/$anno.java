@@ -4,7 +4,7 @@ import org.jdraft._code;
 import org.jdraft._java;
 import org.jdraft._anno;
 import org.jdraft._type;
-import org.jdraft.Expr;
+import org.jdraft.Ex;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.BodyDeclaration;
@@ -91,7 +91,7 @@ public final class $anno
      */
     public static $anno of( Object anonymousObjectWithAnnotation ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Expr.anonymousObject( ste );
+        ObjectCreationExpr oce = Ex.anonymousObjectEx( ste );
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
         BodyDeclaration bd = bds.stream().filter(b -> b.getAnnotations().isNonEmpty() ).findFirst().get();
         return of( _anno.of(bd.getAnnotation(0) ) );        
@@ -799,7 +799,7 @@ public final class $anno
 
         public $id key = $id.of();
 
-        public $expr value = new $expr(Expression.class, "$value$");
+        public $ex value = new $ex(Expression.class, "$value$");
 
         public Predicate<MemberValuePair> constraint = t -> true;
 
@@ -841,16 +841,16 @@ public final class $anno
        // }
 
         public $memberValue(String name, String value) {
-            this(name, Expr.of(value));
+            this(name, Ex.of(value));
         }
 
         public $memberValue(String name, Expression value) {
             this.key.idStencil = Stencil.of(name);
             Stencil st = Stencil.of(value.toString());
             if( st.isMatchAny() ){
-                this.value = new $expr(Expression.class, value.toString() );   
+                this.value = new $ex(Expression.class, value.toString() );
             } else {
-                this.value = $expr.of(value);
+                this.value = $ex.of(value);
             }
         }
 
@@ -951,7 +951,7 @@ public final class $anno
          */
         public Tokens parse(Expression onlyValueExpression){
             if( constraint.test( new MemberValuePair("_", onlyValueExpression) ) ) {
-                $expr.Select<?>sel = value.select(onlyValueExpression);
+                $ex.Select<?>sel = value.select(onlyValueExpression);
                 if( sel == null ){
                     return null;
                 }
@@ -971,7 +971,7 @@ public final class $anno
             }
             if (constraint.test(mvp)) {
                 Tokens ts = key.parse(mvp.getNameAsString());
-                $expr.Select sel = value.select(mvp.getValue());
+                $ex.Select sel = value.select(mvp.getValue());
                 if( sel == null || !ts.isConsistent(sel.tokens.asTokens())){
                     return null;
                 }
@@ -992,7 +992,7 @@ public final class $anno
         public Select select (Expression onlyValueExpression){            
             MemberValuePair mvp = new MemberValuePair("", onlyValueExpression); 
             if( constraint.test( mvp ) ) {
-                $expr.Select sel = value.select(onlyValueExpression);
+                $ex.Select sel = value.select(onlyValueExpression);
                 if( sel != null ){
                     return new Select(mvp, sel.tokens.asTokens());
                 }
@@ -1014,7 +1014,7 @@ public final class $anno
                 if( ts == null ){
                     return null;
                 }
-                $expr.Select sel = value.select(mvp.getValue());
+                $ex.Select sel = value.select(mvp.getValue());
                 if( sel == null || !ts.isConsistent(sel.tokens.asTokens())){
                     return null;
                 }

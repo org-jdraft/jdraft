@@ -33,7 +33,7 @@ public final class $case
     }
 
     public static $case of(){
-        return new $case( $expr.of() );
+        return new $case( $ex.of() );
     }
 
     
@@ -45,28 +45,28 @@ public final class $case
         return new $case(astSwitchEntry).$and(constraint);
     }
     
-    public static $case of( $expr expr, $stmt...stmts ){
+    public static $case of($ex expr, $stmt...stmts ){
         return new $case(expr, stmts);
     }
     
     public Predicate<SwitchEntry> constraint = t-> true;
     
-    public $expr label = $expr.of();
+    public $ex label = $ex.of();
     
     public List<$stmt> statements = new ArrayList<>();
        
-    private $case( $expr $labelExpr ){
+    private $case( $ex $labelExpr ){
         this.label = $labelExpr; 
     }
     
-    private $case($expr $labelExpr, $stmt...stmts){
+    private $case($ex $labelExpr, $stmt...stmts){
         this.label = $labelExpr;
         Arrays.stream(stmts).forEach(s -> this.statements.add(s));        
     }
 
     public $case(SwitchEntry se){   
         if( se.getLabels().isNonEmpty() ){
-            this.label = $expr.of( se.getLabels().get( 0 ) );
+            this.label = $ex.of( se.getLabels().get( 0 ) );
         } 
         for(int i=0;i<se.getStatements().size(); i++){
             this.statements.add($stmt.of(se.getStatements().get(i))); 
@@ -74,7 +74,7 @@ public final class $case
     }
     
     public $case $label(){
-        this.label = $expr.of();
+        this.label = $ex.of();
         return this;
     }
 
@@ -137,7 +137,7 @@ public final class $case
         if( this.label == null ){
             return null;
         }
-        $expr.Select sel = this.label.select(label);
+        $ex.Select sel = this.label.select(label);
         
         if( sel != null ){
             return selectStatements(astSwitchEntry, sel.tokens.asTokens());
@@ -383,13 +383,13 @@ public final class $case
         //parameteric override of the label
         if( keyValues.get("$label") != null ){
             Object ll = keyValues.get("$label" );
-            if( ll instanceof $expr ){
+            if( ll instanceof $ex){
                 NodeList<Expression> labels = new NodeList<>();
-                labels.add( (($expr) ll).draft(translator, keyValues) );
+                labels.add( (($ex) ll).draft(translator, keyValues) );
                 se.setLabels(labels);                 
             } else{
                 NodeList<Expression> labels = new NodeList<>();
-                labels.add( $expr.of(ll.toString()).draft( translator, keyValues) );
+                labels.add( $ex.of(ll.toString()).draft( translator, keyValues) );
                 se.setLabels(labels);                                 
             }                
         } 

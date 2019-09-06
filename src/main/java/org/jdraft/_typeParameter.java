@@ -140,7 +140,7 @@ public final class _typeParameter
         implements _java {
 
         public static _typeParameters of(){
-            return of( Ast.classDeclaration("class Dummy{}" ));
+            return of( Ast.classDecl("class Dummy{}" ));
         }
         
         public static _typeParameters of( String...tps){
@@ -148,7 +148,7 @@ public final class _typeParameter
             if( !typeParams.startsWith("<") ){
                 typeParams = "<"+ typeParams +">";
             }
-            ClassOrInterfaceDeclaration coid = Ast.classDeclaration("class Dummy"+ typeParams +"{}");
+            ClassOrInterfaceDeclaration coid = Ast.classDecl("class Dummy"+ typeParams +"{}");
             return of( coid );
         }
 

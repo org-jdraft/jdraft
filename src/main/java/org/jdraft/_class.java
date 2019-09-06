@@ -53,7 +53,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * @return
      */
     public static _class of( Class clazz, Function<_type, _type>...typeFns  ){
-        Node n = Ast.type( clazz );
+        Node n = Ast.typeDecl( clazz );
         if( n instanceof CompilationUnit ){            
             _class _c = of( (CompilationUnit)n);
             
@@ -145,7 +145,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      */
     public static _class of( Object anonymousObjectWithLocalClass, Function<_type, _type>...macroFunctions ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr anon = Expr.anonymousObject(ste);
+        ObjectCreationExpr anon = Ex.anonymousObjectEx(ste);
         if( anon.getAnonymousClassBody().isPresent() ){
             NodeList<BodyDeclaration<?>> bdy = anon.getAnonymousClassBody().get();
             Optional<BodyDeclaration<?>> obd = bdy.stream().filter( b -> b instanceof ClassOrInterfaceDeclaration
@@ -348,7 +348,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             _c.extend(theClass.getSuperclass());
         }
 
-        ObjectCreationExpr oce = Expr.anonymousObject(ste);
+        ObjectCreationExpr oce = Ex.anonymousObjectEx(ste);
         if( oce.getAnonymousClassBody().isPresent() ) {
             NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
             for (int i = 0; i <bds.size(); i++){
@@ -494,7 +494,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             implement( new Class[]{anonymousImplementation.getClass().getInterfaces()[i]} );
             imports( new Class[]{anonymousImplementation.getClass().getInterfaces()[i]});
         }
-        ObjectCreationExpr oce = Expr.anonymousObject(ste);
+        ObjectCreationExpr oce = Ex.anonymousObjectEx(ste);
         if( oce.getAnonymousClassBody().isPresent()){
             oce.getAnonymousClassBody().get().forEach( m->this.ast().addMember(m) );
         }
@@ -573,7 +573,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         Class sup = anonymousImplementationBody.getClass().getSuperclass();
         extend(sup);
         imports( new Class[]{sup} );
-        ObjectCreationExpr oce = Expr.anonymousObject(ste);
+        ObjectCreationExpr oce = Ex.anonymousObjectEx(ste);
         if( oce.getAnonymousClassBody().isPresent()){
             oce.getAnonymousClassBody().get().forEach( m->this.ast().addMember(m) );
         }
@@ -614,7 +614,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      */
     public _class body(Object anonymousClassBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Expr.anonymousObject(ste);
+        ObjectCreationExpr oce = Ex.anonymousObjectEx(ste);
 
         //create a temp _class to add these to so I can run _macro ANNOTATIONS on them        
         _class _temp = _class.of("temp");
@@ -861,7 +861,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         if( !Objects.equals( this.getJavadoc(), other.getJavadoc() ) ) {
             return false;
         }
-        if( ! Expr.equivalentAnnos(this.astClass, other.astClass)){
+        if( ! Ex.equivalentAnnos(this.astClass, other.astClass)){
             return false;
         }
         if( !Objects.equals( this.getModifiers(), other.getModifiers() ) ) {
@@ -980,7 +980,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
                 this.getJavadoc(), this.getAnnos(), this.getModifiers(),
                 this.getTypeParameters(), Ast.typeHash(this.getExtends()),
                 sbs, Ast.typesHashCode( ast().getImplementedTypes() ),
-                Expr.hashAnnos(astClass),
+                Ex.hashAnnos(astClass),
                 tf, tm, tc, tn, ct);
 
         return hash;

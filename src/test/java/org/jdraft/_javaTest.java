@@ -139,7 +139,7 @@ public class _javaTest extends TestCase {
         assertFalse( _c.getAnnos().contains(_promote.class));
         assertFalse( _c.getAnnos().contains(_final.class));
         
-        _class _c2 = _class.of( Ast.type( OldName.class) );
+        _class _c2 = _class.of( Ast.typeDecl( OldName.class) );
 
         assertTrue( _c2.getAnnos().contains(_promote.class));
         assertTrue( _c2.getAnnos().contains(_final.class));
@@ -224,10 +224,10 @@ public class _javaTest extends TestCase {
         _class _c = _class.of(C.class);
         
         //alternatively to NOT process the annotations, build the AST first
-        TypeDeclaration td = Ast.type(C.class);
+        TypeDeclaration td = Ast.typeDecl(C.class);
         System.out.println("GOT THE TYPE" + td );
         
-        _class _c2 = _class.of( Ast.type(C.class) );
+        _class _c2 = _class.of( Ast.typeDecl(C.class) );
 
         System.out.println( _c2);
         assertTrue( _c2.hasAnno(_package.class));

@@ -77,7 +77,7 @@ public class $initBlock implements $proto<_initBlock, $initBlock>, $proto.$java<
         }
     }
 
-    public static $initBlock of(Expr.Command lambdaWithBody){
+    public static $initBlock of(Ex.Command lambdaWithBody){
         Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return of(bdy);
     }
@@ -92,12 +92,12 @@ public class $initBlock implements $proto<_initBlock, $initBlock>, $proto.$java<
         return of(bdy);
     }
 
-    public static <A extends Object, B extends Object,C extends Object> $initBlock of(Expr.TriConsumer<A,B,C> lambdaWithBody ){
+    public static <A extends Object, B extends Object,C extends Object> $initBlock of(Ex.TriConsumer<A,B,C> lambdaWithBody ){
         Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return of(bdy);
     }
 
-    public static <A extends Object, B extends Object,C extends Object, D extends Object> $initBlock of(Expr.QuadConsumer<A,B,C,D> lambdaWithBody ){
+    public static <A extends Object, B extends Object,C extends Object, D extends Object> $initBlock of(Ex.QuadConsumer<A,B,C,D> lambdaWithBody ){
         Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return of(bdy);
     }
@@ -285,7 +285,7 @@ public class $initBlock implements $proto<_initBlock, $initBlock>, $proto.$java<
         Object staticBlock = keyValues.get("$initBlock");
         if( staticBlock != null ){ //check for an override parameter
             keyValues.remove("$initBlock");
-            body = Stmt.block( Stencil.of(staticBlock.toString()).draft(translator, keyValues) );
+            body = Stmt.blockStmt( Stencil.of(staticBlock.toString()).draft(translator, keyValues) );
         } else{
             body = this.body.draft(translator, keyValues);
         }

@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 import org.jdraft._class;
 import org.jdraft.proto.$;
 import org.jdraft.proto.$$;
-import org.jdraft.proto.$expr;
+import org.jdraft.proto.$ex;
 
 import java.util.function.Function;
 
@@ -45,9 +45,9 @@ public class IntelliJPSIExample extends TestCase {
      */
     public void testConvertEqualBinaryExprToEqualsMethodCall(){
         //basically represent the BINARY EXPRESSION "x == y" (for any X and Y)
-        $expr $binEqEq = $$.expr("$x$ == $y$");
+        $ex $binEqEq = $$.expr("$x$ == $y$");
         //then convert to a METHOD CALL EXPRESSION  "x.equals(y)" for any x and y
-        $expr $methodEq = $$.expr("$x$.equals($y$)");
+        $ex $methodEq = $$.expr("$x$.equals($y$)");
 
         class someEx{
             Integer a,b,c,d;

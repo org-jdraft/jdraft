@@ -32,7 +32,7 @@ public class ReplaceLabeledStatementsTest extends TestCase {
             }            
         }
         
-        TypeDeclaration td = Ast.type(F.class);
+        TypeDeclaration td = Ast.typeDecl(F.class);
         td.walk(LabeledStmt.class, ls-> {
             if( ls.getLabel().asString().startsWith("$") && ls.getStatement().isBlockStmt()){
                 BlockStmt bs = (BlockStmt)ls.getStatement();

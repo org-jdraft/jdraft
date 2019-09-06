@@ -33,7 +33,7 @@ public class EclipseJDTTest extends TestCase {
 
 
         //print the distinct package names occurring in the code
-        $.packageName().listIn(_cc).stream().map(p->p.getName()).distinct().forEach(e-> System.out.println( e ));
+        $.packageDecl().listIn(_cc).stream().map(p->p.getName()).distinct().forEach(e-> System.out.println( e ));
 
         //get the names of all the types along with the line count
         _cc.for_code(c-> System.out.println( c.getFullName() + ":" + c.astCompilationUnit().getRange().get().getLineCount() ));

@@ -84,20 +84,20 @@ public class StypeRefTest extends TestCase {
         _walk.in(_c, MethodCallExpr.class, mc -> {
             if(mc.getScope().isPresent()){
                 if( mc.getScope().get().toString().equals("draft.java.proto.$typeRefTest.OldT")){
-                    mc.setScope(Expr.of("draft.java.proto.$typeRefTest.NewT"));
+                    mc.setScope(Ex.of("draft.java.proto.$typeRefTest.NewT"));
                 }
                 if( mc.getScope().get().toString().equals("OldT")){
-                    mc.setScope(Expr.of("NewT"));
+                    mc.setScope(Ex.of("NewT"));
                 }
             }
         });
         
         _walk.in(_c, Ast.FIELD_ACCESS_EXPR, mc -> {
             if(mc.getScope().toString().equals("draft.java.proto.$typeRefTest.OldT")){
-                mc.setScope(Expr.of("draft.java.proto.$typeRefTest.NewT"));
+                mc.setScope(Ex.of("draft.java.proto.$typeRefTest.NewT"));
             }
             if( mc.getScope().toString().equals("OldT")){
-                mc.setScope(Expr.of("NewT"));
+                mc.setScope(Ex.of("NewT"));
             }
         });
         
@@ -108,7 +108,7 @@ public class StypeRefTest extends TestCase {
         System.out.println("FOUND METHODS 1+ " + _walk.in(_c, Ast.METHOD_CALL_EXPR, m-> m.toString().equals( "draft.java.proto.$typeRefTest.OldT" ) ) );
         
         _walk.in( _c, Ast.METHOD_CALL_EXPR, mc -> mc.getScope().isPresent() && mc.getScope().get().toString().equals("draft.java.proto.$typeRefTest.OldT"),
-                mc -> mc.setScope(Expr.of("draft.java.proto.$typeRefTest.OldT")));
+                mc -> mc.setScope(Ex.of("draft.java.proto.$typeRefTest.OldT")));
         
         System.out.println( _c );
         

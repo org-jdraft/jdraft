@@ -154,7 +154,7 @@ public final class _parameter
         int hash = 7;
         hash = 71 * hash +
                 Objects.hash( 
-                        Expr.hashAnnos(astParameter),
+                        Ex.hashAnnos(astParameter),
                         this.getName(),
                         
                         Ast.typeHash(astParameter.getType()),
@@ -188,7 +188,7 @@ public final class _parameter
         if( left.isFinal() != right.isFinal()){
             return false;
         }
-        if( ! Expr.equivalentAnnos(left, right)){
+        if( ! Ex.equivalentAnnos(left, right)){
             return false;
         }
         if( ! Ast.typesEqual(left.getType(), right.getType())){
@@ -221,7 +221,7 @@ public final class _parameter
         if( !Ast.typesEqual(astParameter.getType(), other.astParameter.getType())){
             return false;
         }
-        if( !Expr.equivalentAnnos(astParameter, other.astParameter)){
+        if( !Ex.equivalentAnnos(astParameter, other.astParameter)){
             return false;
         }
         return true;

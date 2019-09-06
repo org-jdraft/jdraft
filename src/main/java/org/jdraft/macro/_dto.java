@@ -2,7 +2,7 @@ package org.jdraft.macro;
 
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
-import org.jdraft.Expr;
+import org.jdraft.Ex;
 import org.jdraft._class;
 import org.jdraft._java;
 import org.jdraft._type;
@@ -60,7 +60,7 @@ public @interface _dto {
          */
         public static _class of(String signature, Object body ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-            ObjectCreationExpr oce = Expr.anonymousObject( ste );
+            ObjectCreationExpr oce = Ex.anonymousObjectEx( ste );
             _class _c = _class.of(signature);
             oce.getAnonymousClassBody().get().forEach( b-> _c.ast().addMember(b));
             // Todo implement or extend

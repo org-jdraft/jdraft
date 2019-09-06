@@ -17,8 +17,8 @@ public class _diffApiTest extends TestCase {
 
         _diff _d = _diff.of( A.class, B.class );
         assertEquals("B", _d.listChanges().get(0).right() );
-        assertEquals(Expr.of(100), _d.listChanges().get(1).left() );
-        assertEquals(Expr.of(200), _d.listChanges().get(1).right() );
+        assertEquals(Ex.of(100), _d.listChanges().get(1).left() );
+        assertEquals(Ex.of(200), _d.listChanges().get(1).right() );
         assertEquals(_field.of("String name;"), _d.listRightOnlys().get(0).right() );
 
         //we can even directly patch
@@ -332,14 +332,14 @@ public class _diffApiTest extends TestCase {
         _diffNode _dn = _d.list().get(0);
         
         assertTrue(_dn.isChange());
-        assertEquals(Expr.of(200), _dn.asChange().left());//the left value
-        assertEquals(Expr.of(100), _dn.asChange().right());//the right value
+        assertEquals(Ex.of(200), _dn.asChange().left());//the left value
+        assertEquals(Ex.of(100), _dn.asChange().right());//the right value
         assertTrue( _dn.at(Component.INIT) );
         assertTrue(_dn.on(_class.class));
         assertTrue(_dn.on("Inner"));
         
-        assertTrue(_d.isDiffOf(Expr.of(200))); //there is some change from/to 200
-        assertTrue(_d.isDiffOf(Expr.of(100))); //there is some change from/to 100
+        assertTrue(_d.isDiffOf(Ex.of(200))); //there is some change from/to 200
+        assertTrue(_d.isDiffOf(Ex.of(100))); //there is some change from/to 100
         
         assertTrue( _d.hasChange() );
         assertTrue( _d.hasChangeAt(Component.INIT));        
@@ -356,8 +356,8 @@ public class _diffApiTest extends TestCase {
         // _a and _b are both equal
         assertTrue( _diff.of(_a, _b).isEmpty());
         //AND verify they are now BOTH 200
-        assertEquals( _a.getNest("Inner").getField("g").getInit(), Expr.of(200));
-        assertEquals( _b.getNest("Inner").getField("g").getInit(), Expr.of(200));
+        assertEquals( _a.getNest("Inner").getField("g").getInit(), Ex.of(200));
+        assertEquals( _b.getNest("Inner").getField("g").getInit(), Ex.of(200));
         //assertEquals( _a.getNest("Inner").getField("g"), _a.getNest("Inner").getField("g"));        
     }
     

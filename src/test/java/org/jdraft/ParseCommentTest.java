@@ -1,7 +1,5 @@
 package org.jdraft;
 
-import org.jdraft.Stmt;
-import org.jdraft.Expr;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.expr.Expression;
@@ -17,7 +15,7 @@ public class ParseCommentTest extends TestCase {
     
     public void testParseCommentsOnExpressions(){
         
-        Expr.lambda("/** */()->blah");
+        Ex.lambdaEx("/** */()->blah");
         
         Statement st = StaticJavaParser.parseStatement(
             "class L{" 

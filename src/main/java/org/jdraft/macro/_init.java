@@ -5,7 +5,7 @@ import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import org.jdraft._field;
 import org.jdraft._anno;
-import org.jdraft.Expr;
+import org.jdraft.Ex;
 import com.github.javaparser.ast.expr.Expression;
 
 import java.lang.annotation.*;
@@ -47,10 +47,10 @@ public @interface _init {
     class Macro implements _macro<_anno._hasAnnos> {
         Expression init;
 
-        public Macro( _init _p ){ this.init = Expr.of(_p.value() ); }
+        public Macro( _init _p ){ this.init = Ex.of(_p.value() ); }
 
         public Macro( String init ){
-            this.init = Expr.of(init);
+            this.init = Ex.of(init);
         }
 
         @Override
@@ -76,7 +76,7 @@ public @interface _init {
                 _f.ast().removeInitializer();
                 return _f;
             }
-            _f.init(Expr.of(init) );
+            _f.init(Ex.of(init) );
             return _f;
         }
     }
@@ -90,7 +90,7 @@ public @interface _init {
         }
 
         public Act( String initExpression ){
-            this( Expr.of(initExpression));
+            this( Ex.of(initExpression));
         }
 
         public Act( Expression e ){

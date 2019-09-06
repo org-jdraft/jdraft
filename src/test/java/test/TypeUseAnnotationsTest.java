@@ -2,22 +2,20 @@ package test;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.body.FieldDeclaration;
-import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.jdraft._anno;
 import org.jdraft._class;
 import org.jdraft._field;
 import org.jdraft._typeParameter;
-import org.jdraft.macro._package;
-import org.jdraft.proto.$expr;
+import org.jdraft.proto.$ex;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
 import java.util.List;
-import java.util.function.Consumer;
+
 import junit.framework.TestCase;
 
 /**
@@ -114,7 +112,7 @@ public class TypeUseAnnotationsTest
         _class _c = _class.of( TC.class );
         System.out.println( _c );
         
-        $expr.objectCreation().firstIn(_c);
+        $ex.objectCreationEx().firstIn(_c);
         
         _typeParameter _tp = _c.getTypeParameters().get(0);
         assertEquals( _anno.of(TypeAnno.class), _tp.getAnno(0) );

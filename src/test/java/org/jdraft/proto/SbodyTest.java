@@ -43,7 +43,7 @@ public class SbodyTest extends TestCase {
         System.out.println( "HIDE" + $s.draft("A", false) );
         System.out.println( "SHOW" + $s.draft("A", true) );
         System.out.println( "OVERRIDE WITH ASSERT" + $s.draft("A", "assert(true);") );
-        System.out.println( "OVERRIDE WITH MULTIPLE STMTS" + $s.draft("A", Stmt.block( "assert(true);", "assert(1==1);") ));
+        System.out.println( "OVERRIDE WITH MULTIPLE STMTS" + $s.draft("A", Stmt.blockStmt( "assert(true);", "assert(1==1);") ));
     }
 
     public void testFlatten$Body(){

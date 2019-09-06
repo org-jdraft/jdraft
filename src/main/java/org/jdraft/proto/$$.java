@@ -196,48 +196,48 @@ public final class $$ {
         return $body.of(_body.of(astNodeWithBlock));
     }
 
-    public static $body body(Expr.Command commandLambda ){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static $body body(Ex.Command commandLambda ){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return new $body( le );
     }
 
     public static $body body(Consumer commandLambda ){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return new $body( le );
     }
 
     public static $body body(BiConsumer commandLambda ){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return new $body( le );
     }
 
-    public static $body body(Expr.TriConsumer commandLambda ){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static $body body(Ex.TriConsumer commandLambda ){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return new $body( le );
     }
 
-    public static $body body(Expr.QuadConsumer commandLambda ){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static $body body(Ex.QuadConsumer commandLambda ){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return new $body( le );
     }
 
     public static <A extends Object, B extends Object> $body body(Function<A,B> commandLambda ){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return new $body( le );
     }
 
     public static <A extends Object, B extends Object, C extends Object> $body body(BiFunction<A,B,C> commandLambda ){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return new $body( le );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $body body(Expr.TriFunction<A,B,C,D> commandLambda ){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $body body(Ex.TriFunction<A,B,C,D> commandLambda ){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return new $body( le );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object>  $body body(Expr.QuadFunction<A,B,C,D,E> commandLambda ){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object>  $body body(Ex.QuadFunction<A,B,C,D,E> commandLambda ){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return new $body ( le );
     }
 
@@ -350,40 +350,40 @@ public final class $$ {
         return $comment.blockComment(commentPattern, commentPredicate);
     }
 
-    public static $expr expr(){
-        return $expr.of();
+    public static $ex expr(){
+        return $ex.of();
     }
 
-    public static $expr literal(){
-        return $expr.of().$and(e-> e.isLiteralExpr());
+    public static $ex literal(){
+        return $ex.of().$and(e-> e.isLiteralExpr());
     }
 
-    public static $expr expr(Predicate<Expression> constraint){
-        return $expr.of().$and(constraint);
+    public static $ex expr(Predicate<Expression> constraint){
+        return $ex.of().$and(constraint);
     }
 
-    public static $expr expr(String... pattern){
-        return $expr.of(pattern);
+    public static $ex expr(String... pattern){
+        return $ex.of(pattern);
     }
 
-    public static <T extends Expression> $expr<T> of(T protoExpr ){
-        return $expr.of(protoExpr);
+    public static <T extends Expression> $ex<T> of(T protoExpr ){
+        return $ex.of(protoExpr);
     }
 
-    public static <T extends Expression> $expr<T> of(T protoExpr, Predicate<T> constraint){
-        return $expr.of(protoExpr).$and(constraint);
+    public static <T extends Expression> $ex<T> of(T protoExpr, Predicate<T> constraint){
+        return $ex.of(protoExpr).$and(constraint);
     }
 
-    public static $expr<StringLiteralExpr> of(String stringLiteral ){
-        return $expr.stringLiteral(stringLiteral);
+    public static $ex<StringLiteralExpr> of(String stringLiteral ){
+        return $ex.stringLiteralEx(stringLiteral);
     }
 
-    public static $expr<CharLiteralExpr> of(char c){
-        return $expr.of(c);
+    public static $ex<CharLiteralExpr> of(char c){
+        return $ex.of(c);
     }
 
-    public static $expr<IntegerLiteralExpr> of(int i){
-        return $expr.of(i);
+    public static $ex<IntegerLiteralExpr> of(int i){
+        return $ex.of(i);
     }
 
     /**
@@ -391,7 +391,7 @@ public final class $$ {
      * @param f
      * @return
      */
-    public static $expr<DoubleLiteralExpr> of(float f){
+    public static $ex<DoubleLiteralExpr> of(float f){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         Class clazz = null;
         try{
@@ -399,7 +399,7 @@ public final class $$ {
         }catch(Exception e){
             throw new _draftException("unable to resolve calling class "+ ste.getClassName());
         }
-        $expr.Select s = $expr.of("$$.of($val$)").selectFirstIn(
+        $ex.Select s = $ex.of("$$.of($val$)").selectFirstIn(
                 clazz, se-> {
                     try{
                         if( se.astExpression.getBegin().get().line == ste.getLineNumber() ){
@@ -411,10 +411,10 @@ public final class $$ {
                         return false;
                     }
                 });
-        return $expr.doubleLiteral( s.get("val").toString() );
+        return $ex.doubleLiteralEx( s.get("val").toString() );
     }
 
-    public static $expr<DoubleLiteralExpr> of(double d){
+    public static $ex<DoubleLiteralExpr> of(double d){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         Class clazz = null;
         try{
@@ -422,7 +422,7 @@ public final class $$ {
         }catch(Exception e){
             throw new _draftException("unable to resolve calling class "+ ste.getClassName());
         }
-        $expr.Select s = $expr.of("$$.of($val$)").selectFirstIn(
+        $ex.Select s = $ex.of("$$.of($val$)").selectFirstIn(
                 clazz, se-> {
                     try{
                         if( se.astExpression.getBegin().get().line == ste.getLineNumber() ){
@@ -434,465 +434,465 @@ public final class $$ {
                         return false;
                     }
                 });
-        return $expr.doubleLiteral( s.get("val").toString() );
+        return $ex.doubleLiteralEx( s.get("val").toString() );
     }
 
 
-    public static $expr<LongLiteralExpr> of(long l){
-        return $expr.of(l);
+    public static $ex<LongLiteralExpr> of(long l){
+        return $ex.of(l);
     }
 
-    public static $expr<BooleanLiteralExpr> of(boolean b){
-        return $expr.of(b);
+    public static $ex<BooleanLiteralExpr> of(boolean b){
+        return $ex.of(b);
     }
 
     /**
      * index Expression
      * @return
      */
-    public static $expr<ArrayAccessExpr> arrayAccess(){
-        return $expr.arrayAccess();
+    public static $ex<ArrayAccessExpr> arrayAccess(){
+        return $ex.arrayAccessEx();
     }
 
-    public static $expr<ArrayAccessExpr> arrayAccess(String ae){
-        return $expr.arrayAccess(ae);
+    public static $ex<ArrayAccessExpr> arrayAccess(String ae){
+        return $ex.arrayAccessEx(ae);
     }
 
-    public static $expr<ArrayAccessExpr> arrayAccess(ArrayAccessExpr aae){
-        return $expr.of(aae);
+    public static $ex<ArrayAccessExpr> arrayAccess(ArrayAccessExpr aae){
+        return $ex.of(aae);
     }
 
-    public static $expr<ArrayAccessExpr> arrayAccess(Predicate<ArrayAccessExpr> aae){
-        return $expr.arrayAccess(aae);
+    public static $ex<ArrayAccessExpr> arrayAccess(Predicate<ArrayAccessExpr> aae){
+        return $ex.arrayAccessEx(aae);
     }
 
-    public static $expr<ArrayCreationExpr> arrayCreation(){
-        return $expr.arrayCreation();
+    public static $ex<ArrayCreationExpr> arrayCreation(){
+        return $ex.arrayCreationEx();
     }
 
-    public static $expr<ArrayCreationExpr> arrayCreation(String ac){
-        return $expr.arrayCreation(ac);
+    public static $ex<ArrayCreationExpr> arrayCreation(String ac){
+        return $ex.arrayCreationEx(ac);
     }
 
-    public static $expr<ArrayCreationExpr> arrayCreation(ArrayCreationExpr ace){
-        return $expr.of(ace);
+    public static $ex<ArrayCreationExpr> arrayCreation(ArrayCreationExpr ace){
+        return $ex.of(ace);
     }
 
-    public static $expr<ArrayCreationExpr> arrayCreation(Predicate<ArrayCreationExpr> ace){
-        return $expr.arrayCreation(ace);
+    public static $ex<ArrayCreationExpr> arrayCreation(Predicate<ArrayCreationExpr> ace){
+        return $ex.arrayCreationEx(ace);
     }
 
     /**
      * new int[][]{{1, 1}, {2, 2}};
      * @return
      */
-    public static $expr<ArrayInitializerExpr> arrayInit(){
-        return $expr.arrayInitializer();
+    public static $ex<ArrayInitializerExpr> arrayInit(){
+        return $ex.arrayInitEx();
     }
 
-    public static $expr<ArrayInitializerExpr> arrayInit(String ae){
-        return $expr.arrayInitializer(ae);
+    public static $ex<ArrayInitializerExpr> arrayInit(String ae){
+        return $ex.arrayInitEx(ae);
     }
 
-    public static $expr<ArrayInitializerExpr> arrayInit( ArrayInitializerExpr aei){
-        return $expr.of(aei);
+    public static $ex<ArrayInitializerExpr> arrayInit(ArrayInitializerExpr aei){
+        return $ex.of(aei);
     }
 
-    public static $expr<ArrayInitializerExpr> arrayInit(Predicate<ArrayInitializerExpr> aei){
-        return $expr.arrayInitializer(aei);
+    public static $ex<ArrayInitializerExpr> arrayInit(Predicate<ArrayInitializerExpr> aei){
+        return $ex.arrayInitEx(aei);
     }
 
-    public static $expr<AssignExpr> assign(){
-        return $expr.assign();
+    public static $ex<AssignExpr> assign(){
+        return $ex.assignEx();
     }
 
-    public static $expr<AssignExpr> assign(String a){
-        return $expr.assign(a);
+    public static $ex<AssignExpr> assign(String a){
+        return $ex.assignEx(a);
     }
 
-    public static $expr<AssignExpr> assign(AssignExpr ae){
-        return $expr.of(ae);
+    public static $ex<AssignExpr> assign(AssignExpr ae){
+        return $ex.of(ae);
     }
 
-    public static $expr<AssignExpr> assign(Predicate<AssignExpr> ae){
-        return $expr.assign(ae);
+    public static $ex<AssignExpr> assign(Predicate<AssignExpr> ae){
+        return $ex.assignEx(ae);
     }
 
-    public static $expr<BinaryExpr> binaryExpr(){
-        return $expr.binary();
+    public static $ex<BinaryExpr> binaryExpr(){
+        return $ex.binaryEx();
     }
 
-    public static $expr<BinaryExpr> binaryExpr(String be){
-        return $expr.binary(be);
+    public static $ex<BinaryExpr> binaryExpr(String be){
+        return $ex.binaryEx(be);
     }
 
-    public static $expr<BinaryExpr> binaryExpr(BinaryExpr be){
-        return $expr.of(be);
+    public static $ex<BinaryExpr> binaryExpr(BinaryExpr be){
+        return $ex.of(be);
     }
 
-    public static $expr<BinaryExpr> binaryExpr( BinaryExpr.Operator bo){
-        return $expr.binary( be-> be.getOperator() == bo);
+    public static $ex<BinaryExpr> binaryExpr(BinaryExpr.Operator bo){
+        return $ex.binaryEx(be-> be.getOperator() == bo);
     }
 
-    public static $expr<BinaryExpr> binaryExpr( BinaryExpr.Operator... ops){
-        return $expr.binary(b-> Arrays.stream(ops).anyMatch(o->b.getOperator() == o));
+    public static $ex<BinaryExpr> binaryExpr(BinaryExpr.Operator... ops){
+        return $ex.binaryEx(b-> Arrays.stream(ops).anyMatch(o->b.getOperator() == o));
     }
 
-    public static $expr<BinaryExpr> binaryExpr(Predicate<BinaryExpr> be){
-        return $expr.binary(be);
+    public static $ex<BinaryExpr> binaryExpr(Predicate<BinaryExpr> be){
+        return $ex.binaryEx(be);
     }
 
-    public static $expr<BooleanLiteralExpr> booleanLiteral(){
-        return $expr.booleanLiteral();
+    public static $ex<BooleanLiteralExpr> booleanLiteral(){
+        return $ex.booleanLiteralEx();
     }
 
-    public static $expr<BooleanLiteralExpr> booleanLiteral(boolean bool){
-        return $expr.booleanLiteral(bool);
+    public static $ex<BooleanLiteralExpr> booleanLiteral(boolean bool){
+        return $ex.booleanLiteralEx(bool);
     }
 
-    public static $expr<BooleanLiteralExpr> booleanLiteral(Predicate<BooleanLiteralExpr> bl){
-        return $expr.booleanLiteral(bl);
+    public static $ex<BooleanLiteralExpr> booleanLiteral(Predicate<BooleanLiteralExpr> bl){
+        return $ex.booleanLiteralEx(bl);
     }
 
-    public static $expr<CastExpr> cast(Class castClazz){
-        return $expr.cast("($type$)$expr$").$and(c-> Ast.typesEqual(c.getType(), Ast.typeRef(castClazz) ) );
+    public static $ex<CastExpr> cast(Class castClazz){
+        return $ex.castEx("($type$)$expr$").$and(c-> Ast.typesEqual(c.getType(), Ast.typeRef(castClazz) ) );
     }
 
-    public static $expr<CastExpr> cast(){
-        return $expr.cast();
+    public static $ex<CastExpr> cast(){
+        return $ex.castEx();
     }
 
-    public static $expr<CastExpr> cast(String ce){
-        return $expr.cast(ce);
+    public static $ex<CastExpr> cast(String ce){
+        return $ex.castEx(ce);
     }
 
-    public static $expr<CastExpr> cast(CastExpr ce){
-        return $expr.of(ce);
+    public static $ex<CastExpr> cast(CastExpr ce){
+        return $ex.of(ce);
     }
 
-    public static $expr<CastExpr> cast(Predicate<CastExpr> ce){
-        return $expr.cast(ce);
+    public static $ex<CastExpr> cast(Predicate<CastExpr> ce){
+        return $ex.castEx(ce);
     }
 
-    public static $expr<CharLiteralExpr> charLiteral(){
-        return $expr.charLiteral();
+    public static $ex<CharLiteralExpr> charLiteral(){
+        return $ex.charLiteralEx();
     }
 
-    public static $expr<CharLiteralExpr> charLiteral(char c){
-        return $expr.charLiteral(c);
+    public static $ex<CharLiteralExpr> charLiteral(char c){
+        return $ex.charLiteralEx(c);
     }
 
-    public static $expr<CharLiteralExpr> charLiteral(Predicate<CharLiteralExpr> pc){
-        return $expr.charLiteral(pc);
+    public static $ex<CharLiteralExpr> charLiteral(Predicate<CharLiteralExpr> pc){
+        return $ex.charLiteralEx(pc);
     }
 
-    public static $expr<ClassExpr> classExpr(){
-        return $expr.classExpr();
+    public static $ex<ClassExpr> classExpr(){
+        return $ex.classEx();
     }
 
-    public static $expr<ClassExpr> classExpr(String ce){
-        return $expr.classExpr(ce);
+    public static $ex<ClassExpr> classExpr(String ce){
+        return $ex.classEx(ce);
     }
 
-    public static $expr<ClassExpr> classExpr( ClassExpr ce){
-        return $expr.of(ce);
+    public static $ex<ClassExpr> classExpr(ClassExpr ce){
+        return $ex.of(ce);
     }
 
-    public static $expr<ClassExpr> classExpr(Predicate<ClassExpr> ce){
-        return $expr.classExpr(ce);
+    public static $ex<ClassExpr> classExpr(Predicate<ClassExpr> ce){
+        return $ex.classEx(ce);
     }
 
-    public static $expr<ConditionalExpr> conditionalExpr(){
-        return $expr.conditional();
+    public static $ex<ConditionalExpr> conditionalExpr(){
+        return $ex.conditionalEx();
     }
 
-    public static $expr<ConditionalExpr> conditionalExpr(String ce){
-        return $expr.conditional(ce);
+    public static $ex<ConditionalExpr> conditionalExpr(String ce){
+        return $ex.conditionalEx(ce);
     }
 
-    public static $expr<ConditionalExpr> conditionalExpr(ConditionalExpr ce){
-        return $expr.of(ce);
+    public static $ex<ConditionalExpr> conditionalExpr(ConditionalExpr ce){
+        return $ex.of(ce);
     }
 
-    public static $expr<ConditionalExpr> conditionalExpr(Predicate<ConditionalExpr> ce){
-        return $expr.conditional(ce);
+    public static $ex<ConditionalExpr> conditionalExpr(Predicate<ConditionalExpr> ce){
+        return $ex.conditionalEx(ce);
     }
 
-    public static $expr<DoubleLiteralExpr> doubleLiteral(){
-        return $expr.doubleLiteral();
+    public static $ex<DoubleLiteralExpr> doubleLiteral(){
+        return $ex.doubleLiteralEx();
     }
 
-    public static $expr<DoubleLiteralExpr> doubleLiteral(Predicate<DoubleLiteralExpr> dl){
-        return $expr.doubleLiteral(dl);
+    public static $ex<DoubleLiteralExpr> doubleLiteral(Predicate<DoubleLiteralExpr> dl){
+        return $ex.doubleLiteralEx(dl);
     }
 
-    public static $expr<DoubleLiteralExpr> doubleLiteral(String pattern){
-        return $expr.doubleLiteral(pattern);
+    public static $ex<DoubleLiteralExpr> doubleLiteral(String pattern){
+        return $ex.doubleLiteralEx(pattern);
     }
 
-    public static $expr<DoubleLiteralExpr> doubleLiteral(double dbl){
-        return $expr.doubleLiteral(dbl);
+    public static $ex<DoubleLiteralExpr> doubleLiteral(double dbl){
+        return $ex.doubleLiteralEx(dbl);
     }
 
-    public static $expr<EnclosedExpr> enclosedExpr(){
-        return $expr.enclosedExpr();
+    public static $ex<EnclosedExpr> enclosedExpr(){
+        return $ex.enclosedEx();
     }
 
-    public static $expr<EnclosedExpr> enclosedExpr(String ee){
-        return $expr.enclosedExpr(ee);
+    public static $ex<EnclosedExpr> enclosedExpr(String ee){
+        return $ex.enclosedEx(ee);
     }
 
-    public static $expr<EnclosedExpr> enclosedExpr( EnclosedExpr ee){
-        return $expr.of(ee);
+    public static $ex<EnclosedExpr> enclosedExpr(EnclosedExpr ee){
+        return $ex.of(ee);
     }
 
-    public static $expr<EnclosedExpr> enclosedExpr(Predicate<EnclosedExpr> ee){
-        return $expr.enclosedExpr(ee);
+    public static $ex<EnclosedExpr> enclosedExpr(Predicate<EnclosedExpr> ee){
+        return $ex.enclosedEx(ee);
     }
 
-    public static $expr<FieldAccessExpr> fieldAccessExpr(){
-        return $expr.fieldAccess();
+    public static $ex<FieldAccessExpr> fieldAccessExpr(){
+        return $ex.fieldAccessEx();
     }
 
-    public static $expr<FieldAccessExpr> fieldAccessExpr(String fae){
-        return $expr.fieldAccess(fae);
+    public static $ex<FieldAccessExpr> fieldAccessExpr(String fae){
+        return $ex.fieldAccessEx(fae);
     }
 
-    public static $expr<FieldAccessExpr> fieldAccessExpr(FieldAccessExpr fae){
-        return $expr.of(fae);
+    public static $ex<FieldAccessExpr> fieldAccessExpr(FieldAccessExpr fae){
+        return $ex.of(fae);
     }
 
-    public static $expr<FieldAccessExpr> fieldAccessExpr(Predicate<FieldAccessExpr> fae){
-        return $expr.fieldAccess(fae);
+    public static $ex<FieldAccessExpr> fieldAccessExpr(Predicate<FieldAccessExpr> fae){
+        return $ex.fieldAccessEx(fae);
     }
 
-    public static $expr<InstanceOfExpr> instanceOf(){
-        return $expr.instanceOf();
+    public static $ex<InstanceOfExpr> instanceOf(){
+        return $ex.instanceOfEx();
     }
 
-    public static $expr<InstanceOfExpr> instanceOf(String io){
-        return $expr.instanceOf(io);
+    public static $ex<InstanceOfExpr> instanceOf(String io){
+        return $ex.instanceOfEx(io);
     }
 
-    public static $expr<InstanceOfExpr> instanceOf(Class instanceOfClass){
-        return $expr.instanceOf(instanceOfClass);
+    public static $ex<InstanceOfExpr> instanceOf(Class instanceOfClass){
+        return $ex.instanceOfEx(instanceOfClass);
     }
 
-    public static $expr<InstanceOfExpr> instanceOf(InstanceOfExpr io){
-        return $expr.of(io);
+    public static $ex<InstanceOfExpr> instanceOf(InstanceOfExpr io){
+        return $ex.of(io);
     }
 
-    public static $expr<InstanceOfExpr> instanceOf(Predicate<InstanceOfExpr> io){
-        return $expr.instanceOf(io);
+    public static $ex<InstanceOfExpr> instanceOf(Predicate<InstanceOfExpr> io){
+        return $ex.instanceOfEx(io);
     }
 
-    public static $expr<IntegerLiteralExpr> intLiteral(){
-        return $expr.intLiteral();
+    public static $ex<IntegerLiteralExpr> intLiteral(){
+        return $ex.intLiteralEx();
     }
 
-    public static $expr<IntegerLiteralExpr> intLiteral(String pattern){
-        return $expr.intLiteral(pattern);
+    public static $ex<IntegerLiteralExpr> intLiteral(String pattern){
+        return $ex.intLiteralEx(pattern);
     }
 
-    public static $expr<IntegerLiteralExpr> intLiteral(Predicate<IntegerLiteralExpr> il){
-        return $expr.intLiteral(il);
+    public static $ex<IntegerLiteralExpr> intLiteral(Predicate<IntegerLiteralExpr> il){
+        return $ex.intLiteralEx(il);
     }
 
-    public static $expr<IntegerLiteralExpr> intLiteral(int val){
-        return $expr.intLiteral(val);
+    public static $ex<IntegerLiteralExpr> intLiteral(int val){
+        return $ex.intLiteralEx(val);
     }
 
-    public static $expr<LambdaExpr> lambda(){
-        return $expr.lambda();
+    public static $ex<LambdaExpr> lambda(){
+        return $ex.lambdaEx();
     }
 
-    public static $expr<LambdaExpr> lambda(String lm){
-        return $expr.lambda(lm);
+    public static $ex<LambdaExpr> lambda(String lm){
+        return $ex.lambdaEx(lm);
     }
 
-    public static $expr<LambdaExpr> lambda( LambdaExpr le){
-        return $expr.of(le);
+    public static $ex<LambdaExpr> lambda(LambdaExpr le){
+        return $ex.of(le);
     }
 
-    public static $expr<LambdaExpr> lambda(Predicate<LambdaExpr> le){
-        return $expr.lambda(le);
+    public static $ex<LambdaExpr> lambda(Predicate<LambdaExpr> le){
+        return $ex.lambdaEx(le);
     }
 
-    public static $expr<LongLiteralExpr> longLiteral(){
-        return $expr.longLiteral();
+    public static $ex<LongLiteralExpr> longLiteral(){
+        return $ex.longLiteralEx();
     }
 
-    public static $expr<LongLiteralExpr> longLiteral(long lit){
-        return $expr.longLiteral(lit);
+    public static $ex<LongLiteralExpr> longLiteral(long lit){
+        return $ex.longLiteralEx(lit);
     }
 
-    public static $expr<LongLiteralExpr> longLiteral(Predicate<LongLiteralExpr> lle){
-        return $expr.longLiteral(lle);
+    public static $ex<LongLiteralExpr> longLiteral(Predicate<LongLiteralExpr> lle){
+        return $ex.longLiteralEx(lle);
     }
 
-    public static $expr<MethodCallExpr> methodCall(){
-        return $expr.methodCall();
+    public static $ex<MethodCallExpr> methodCall(){
+        return $ex.methodCallEx();
     }
 
-    public static $expr<MethodCallExpr> methodCall(String mc){
-        return $expr.methodCall(mc);
+    public static $ex<MethodCallExpr> methodCall(String mc){
+        return $ex.methodCallEx(mc);
     }
 
-    public static $expr<MethodCallExpr> methodCall(MethodCallExpr mce){
-        return $expr.of(mce);
+    public static $ex<MethodCallExpr> methodCall(MethodCallExpr mce){
+        return $ex.of(mce);
     }
 
-    public static $expr<MethodCallExpr> methodCall(Predicate<MethodCallExpr> mce){
-        return $expr.methodCall(mce);
+    public static $ex<MethodCallExpr> methodCall(Predicate<MethodCallExpr> mce){
+        return $ex.methodCallEx(mce);
     }
 
-    public static $expr<MethodReferenceExpr> methodReference(){
-        return $expr.methodReference();
+    public static $ex<MethodReferenceExpr> methodReference(){
+        return $ex.methodReferenceEx();
     }
 
-    public static $expr<MethodReferenceExpr> methodReference(String mr){
-        return $expr.methodReference(mr);
+    public static $ex<MethodReferenceExpr> methodReference(String mr){
+        return $ex.methodReferenceEx(mr);
     }
 
-    public static $expr<MethodReferenceExpr> methodReference( MethodReferenceExpr mre){
-        return $expr.of(mre);
+    public static $ex<MethodReferenceExpr> methodReference(MethodReferenceExpr mre){
+        return $ex.of(mre);
     }
 
-    public static $expr<MethodReferenceExpr> methodReference(Predicate<MethodReferenceExpr> mre){
-        return $expr.methodReference(mre);
+    public static $ex<MethodReferenceExpr> methodReference(Predicate<MethodReferenceExpr> mre){
+        return $ex.methodReferenceEx(mre);
     }
 
-    public static $expr<NameExpr> nameExpr(){
-        return $expr.name();
+    public static $ex<NameExpr> nameExpr(){
+        return $ex.nameEx();
     }
 
-    public static $expr<NameExpr> nameExpr(String name){
-        return $expr.name(name);
+    public static $ex<NameExpr> nameExpr(String name){
+        return $ex.nameEx(name);
     }
 
-    public static $expr<NameExpr> nameExpr( NameExpr ne){
-        return $expr.of(ne);
+    public static $ex<NameExpr> nameExpr(NameExpr ne){
+        return $ex.of(ne);
     }
 
-    public static $expr<NameExpr> nameExpr(Predicate<NameExpr> ne){
-        return $expr.name(ne);
+    public static $ex<NameExpr> nameExpr(Predicate<NameExpr> ne){
+        return $ex.nameEx(ne);
     }
 
-    public static $expr<NullLiteralExpr> nullExpr(){
-        return $expr.nullExpr();
+    public static $ex<NullLiteralExpr> nullExpr(){
+        return $ex.nullEx();
     }
 
-    public static $expr<NullLiteralExpr> nullExpr(NullLiteralExpr nle){
-        return $expr.of(nle);
+    public static $ex<NullLiteralExpr> nullExpr(NullLiteralExpr nle){
+        return $ex.of(nle);
     }
 
-    public static $expr<NullLiteralExpr> nullExpr(Predicate<NullLiteralExpr> nle){
-        return $expr.nullExpr(nle);
+    public static $ex<NullLiteralExpr> nullExpr(Predicate<NullLiteralExpr> nle){
+        return $ex.nullEx(nle);
     }
 
-    public static $expr<ObjectCreationExpr> objectCreation(){
-        return $expr.objectCreation();
+    public static $ex<ObjectCreationExpr> objectCreation(){
+        return $ex.objectCreationEx();
     }
 
-    public static $expr<ObjectCreationExpr> objectCreation(String oc){
-        return $expr.objectCreation(oc);
+    public static $ex<ObjectCreationExpr> objectCreation(String oc){
+        return $ex.objectCreationEx(oc);
     }
 
-    public static $expr<ObjectCreationExpr> objectCreation( ObjectCreationExpr oce){
-        return $expr.of(oce);
+    public static $ex<ObjectCreationExpr> objectCreation(ObjectCreationExpr oce){
+        return $ex.of(oce);
     }
 
-    public static $expr<ObjectCreationExpr> objectCreation(Predicate<ObjectCreationExpr> oce){
-        return $expr.objectCreation(oce);
+    public static $ex<ObjectCreationExpr> objectCreation(Predicate<ObjectCreationExpr> oce){
+        return $ex.objectCreationEx(oce);
     }
 
-    public static $expr<StringLiteralExpr> stringLiteral(){
-        return $expr.stringLiteral();
+    public static $ex<StringLiteralExpr> stringLiteral(){
+        return $ex.stringLiteralEx();
     }
 
-    public static $expr<StringLiteralExpr> stringLiteral(String lit){
-        return $expr.stringLiteral(lit);
+    public static $ex<StringLiteralExpr> stringLiteral(String lit){
+        return $ex.stringLiteralEx(lit);
     }
 
-    public static $expr<StringLiteralExpr> stringLiteral(StringLiteralExpr sl){
-        return $expr.of(sl);
+    public static $ex<StringLiteralExpr> stringLiteral(StringLiteralExpr sl){
+        return $ex.of(sl);
     }
 
-    public static $expr<StringLiteralExpr> stringLiteral(Predicate<StringLiteralExpr> sl){
-        return $expr.stringLiteral(sl);
+    public static $ex<StringLiteralExpr> stringLiteral(Predicate<StringLiteralExpr> sl){
+        return $ex.stringLiteralEx(sl);
     }
 
-    public static $expr<SuperExpr> superExpr(){
-        return $expr.superExpr();
+    public static $ex<SuperExpr> superExpr(){
+        return $ex.superEx();
     }
 
-    public static $expr<SuperExpr> superExpr(String se){
-        return $expr.superExpr(se);
+    public static $ex<SuperExpr> superExpr(String se){
+        return $ex.superEx(se);
     }
 
-    public static $expr<SuperExpr> superExpr(SuperExpr se){
-        return $expr.superExpr(se);
+    public static $ex<SuperExpr> superExpr(SuperExpr se){
+        return $ex.superEx(se);
     }
 
-    public static $expr<SuperExpr> superExpr(Predicate<SuperExpr> se){
-        return $expr.superExpr(se);
+    public static $ex<SuperExpr> superExpr(Predicate<SuperExpr> se){
+        return $ex.superEx(se);
     }
 
-    public static $expr<ThisExpr> thisExpr(){
-        return $expr.thisExpr();
+    public static $ex<ThisExpr> thisExpr(){
+        return $ex.thisEx();
     }
 
-    public static $expr<ThisExpr> thisExpr(String se){
-        return $expr.thisExpr(se);
+    public static $ex<ThisExpr> thisExpr(String se){
+        return $ex.thisEx(se);
     }
 
-    public static $expr<ThisExpr> thisExpr( ThisExpr te){
-        return $expr.thisExpr(te);
+    public static $ex<ThisExpr> thisExpr(ThisExpr te){
+        return $ex.thisEx(te);
     }
 
-    public static $expr<ThisExpr> thisExpr(Predicate<ThisExpr> te){
-        return $expr.thisExpr(te);
+    public static $ex<ThisExpr> thisExpr(Predicate<ThisExpr> te){
+        return $ex.thisEx(te);
     }
 
-    public static $expr<UnaryExpr> unary(){
-        return $expr.unary();
+    public static $ex<UnaryExpr> unary(){
+        return $ex.unaryEx();
     }
 
-    public static $expr<UnaryExpr> unary(String ue){
-        return $expr.unary(ue);
+    public static $ex<UnaryExpr> unary(String ue){
+        return $ex.unaryEx(ue);
     }
 
-    public static $expr<UnaryExpr> unary( UnaryExpr ue){
-        return $expr.of(ue);
+    public static $ex<UnaryExpr> unary(UnaryExpr ue){
+        return $ex.of(ue);
     }
 
     //a unary with any of these operators
-    public static $expr<UnaryExpr> unary( UnaryExpr.Operator... ops){
-        return $expr.unary(u-> Arrays.stream(ops).anyMatch( o->u.getOperator() == o));
+    public static $ex<UnaryExpr> unary(UnaryExpr.Operator... ops){
+        return $ex.unaryEx(u-> Arrays.stream(ops).anyMatch(o->u.getOperator() == o));
     }
 
-    public static $expr<UnaryExpr> unary( UnaryExpr.Operator op){
-        return $expr.unary(u-> u.getOperator() == op);
+    public static $ex<UnaryExpr> unary(UnaryExpr.Operator op){
+        return $ex.unaryEx(u-> u.getOperator() == op);
     }
 
-    public static $expr<UnaryExpr> unary(Predicate<UnaryExpr> ue){
-        return $expr.unary();
+    public static $ex<UnaryExpr> unary(Predicate<UnaryExpr> ue){
+        return $ex.unaryEx();
     }
 
-    public static $expr<VariableDeclarationExpr> varLocal(){
-        return $expr.varLocal();
+    public static $ex<VariableDeclarationExpr> varLocal(){
+        return $ex.varLocalEx();
     }
 
-    public static $expr<VariableDeclarationExpr> varLocal(String ve){
-        return $expr.varLocal(ve);
+    public static $ex<VariableDeclarationExpr> varLocal(String ve){
+        return $ex.varLocalEx(ve);
     }
 
-    public static $expr<VariableDeclarationExpr> varLocal(VariableDeclarationExpr vde){
-        return $expr.of(vde);
+    public static $ex<VariableDeclarationExpr> varLocal(VariableDeclarationExpr vde){
+        return $ex.of(vde);
     }
 
-    public static $expr<VariableDeclarationExpr> varLocal(Predicate<VariableDeclarationExpr> vde){
-        return $expr.varLocal(vde);
+    public static $ex<VariableDeclarationExpr> varLocal(Predicate<VariableDeclarationExpr> vde){
+        return $ex.varLocalEx(vde);
     }
 
     public static $case switchCase(){
@@ -958,28 +958,28 @@ public final class $$ {
      * @param ec
      * @return
      */
-    public static $stmt<AssertStmt> assertStmt(Expr.Command ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static $stmt<AssertStmt> assertStmt(Ex.Command ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(AssertStmt.class).get() );
     }
 
     public static <A extends Object> $stmt<AssertStmt> assertStmt(Consumer<A> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(AssertStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object>$stmt<AssertStmt> assertStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(AssertStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<AssertStmt> assertStmt(Expr.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<AssertStmt> assertStmt(Ex.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(AssertStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<AssertStmt> assertStmt(Expr.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<AssertStmt> assertStmt(Ex.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(AssertStmt.class).get() );
     }
 
@@ -997,28 +997,28 @@ public final class $$ {
      * @param ec
      * @return
      */
-    public static $stmt<BlockStmt> blockStmt(Expr.Command ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static $stmt<BlockStmt> blockStmt(Ex.Command ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(BlockStmt.class).get() );
     }
 
     public static <A extends Object> $stmt<BlockStmt> blockStmt(Consumer<A> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(BlockStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object>$stmt<BlockStmt> blockStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(BlockStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<BlockStmt> blockStmt(Expr.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<BlockStmt> blockStmt(Ex.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(BlockStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<BlockStmt> blockStmt(Expr.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<BlockStmt> blockStmt(Ex.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(BlockStmt.class).get() );
     }
 
@@ -1077,28 +1077,28 @@ public final class $$ {
      * @param ec
      * @return
      */
-    public static $stmt<DoStmt> doStmt(Expr.Command ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static $stmt<DoStmt> doStmt(Ex.Command ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(DoStmt.class).get() );
     }
 
     public static <A extends Object> $stmt<DoStmt> doStmt(Consumer<A> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(DoStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object>$stmt<DoStmt> doStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(DoStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<DoStmt> doStmt(Expr.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<DoStmt> doStmt(Ex.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(DoStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<DoStmt> doStmt(Expr.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<DoStmt> doStmt(Ex.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(DoStmt.class).get() );
     }
 
@@ -1128,28 +1128,28 @@ public final class $$ {
      * @param ec
      * @return
      */
-    public static $stmt<ExpressionStmt> expressionStmt(Expr.Command ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static $stmt<ExpressionStmt> expressionStmt(Ex.Command ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ExpressionStmt.class).get() );
     }
 
     public static <A extends Object> $stmt<ExpressionStmt> expressionStmt(Consumer<A> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ExpressionStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object>$stmt<ExpressionStmt> expressionStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ExpressionStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ExpressionStmt> expressionStmt(Expr.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ExpressionStmt> expressionStmt(Ex.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ExpressionStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ExpressionStmt> expressionStmt(Expr.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ExpressionStmt> expressionStmt(Ex.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ExpressionStmt.class).get() );
     }
 
@@ -1170,28 +1170,28 @@ public final class $$ {
      * @param ec
      * @return
      */
-    public static $stmt<ForStmt> forStmt(Expr.Command ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static $stmt<ForStmt> forStmt(Ex.Command ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ForStmt.class).get() );
     }
 
     public static <A extends Object> $stmt<ForStmt> forStmt(Consumer<A> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ForStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object>$stmt<ForStmt> forStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ForStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ForStmt> forStmt(Expr.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ForStmt> forStmt(Ex.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ForStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ForStmt> forStmt(Expr.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ForStmt> forStmt(Ex.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ForStmt.class).get() );
     }
 
@@ -1213,28 +1213,28 @@ public final class $$ {
      * @param ec
      * @return
      */
-    public static $stmt<ForEachStmt> forEachStmt(Expr.Command ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static $stmt<ForEachStmt> forEachStmt(Ex.Command ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ForEachStmt.class).get() );
     }
 
     public static <A extends Object> $stmt<ForEachStmt> forEachStmt(Consumer<A> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ForEachStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object>$stmt<ForEachStmt> forEachStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ForEachStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ForEachStmt> forEachStmt(Expr.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ForEachStmt> forEachStmt(Ex.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ForEachStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ForEachStmt> forEachStmt(Expr.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ForEachStmt> forEachStmt(Ex.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ForEachStmt.class).get() );
     }
 
@@ -1256,43 +1256,43 @@ public final class $$ {
      * @param ec
      * @return
      */
-    public static $stmt<IfStmt> ifStmt(Expr.Command ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static $stmt<IfStmt> ifStmt(Ex.Command ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(IfStmt.class).get() );
     }
 
     public static <A extends Object> $stmt<IfStmt> ifStmt(Consumer<A> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(IfStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object>$stmt<IfStmt> ifStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(IfStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<IfStmt> ifStmt(Expr.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<IfStmt> ifStmt(Ex.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(IfStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object> $stmt<IfStmt> ifStmt(Function<A,B> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(IfStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object> $stmt<IfStmt> ifStmt(BiFunction<A,B,C> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(IfStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<IfStmt> ifStmt(Expr.TriFunction<A,B,C,D> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<IfStmt> ifStmt(Ex.TriFunction<A,B,C,D> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(IfStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<IfStmt> ifStmt(Expr.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<IfStmt> ifStmt(Ex.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(IfStmt.class).get() );
     }
 
@@ -1314,28 +1314,28 @@ public final class $$ {
      * @param ec
      * @return
      */
-    public static $stmt<LabeledStmt> labeledStmt(Expr.Command ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static $stmt<LabeledStmt> labeledStmt(Ex.Command ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(LabeledStmt.class).get() );
     }
 
     public static <A extends Object> $stmt<LabeledStmt> labeledStmt(Consumer<A> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(LabeledStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object>$stmt<LabeledStmt> labeledStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(LabeledStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<LabeledStmt> labeledStmt(Expr.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<LabeledStmt> labeledStmt(Ex.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(LabeledStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<LabeledStmt> labeledStmt(Expr.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<LabeledStmt> labeledStmt(Ex.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(LabeledStmt.class).get() );
     }
 
@@ -1396,28 +1396,28 @@ public final class $$ {
      * @param ec
      * @return
      */
-    public static $stmt<SwitchStmt> switchStmt(Expr.Command ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static $stmt<SwitchStmt> switchStmt(Ex.Command ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(SwitchStmt.class).get() );
     }
 
     public static <A extends Object> $stmt<SwitchStmt> switchStmt(Consumer<A> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(SwitchStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object>$stmt<SwitchStmt> switchStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(SwitchStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<SwitchStmt> switchStmt(Expr.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<SwitchStmt> switchStmt(Ex.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(SwitchStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<SwitchStmt> switchStmt(Expr.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<SwitchStmt> switchStmt(Ex.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(SwitchStmt.class).get() );
     }
 
@@ -1437,28 +1437,28 @@ public final class $$ {
      * @param ec
      * @return
      */
-    public static $stmt<SynchronizedStmt> synchronizedStmt(Expr.Command ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static $stmt<SynchronizedStmt> synchronizedStmt(Ex.Command ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(SynchronizedStmt.class).get() );
     }
 
     public static <A extends Object> $stmt<SynchronizedStmt> synchronizedStmt(Consumer<A> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(SynchronizedStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object>$stmt<SynchronizedStmt> synchronizedStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(SynchronizedStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<SynchronizedStmt> synchronizedStmt(Expr.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<SynchronizedStmt> synchronizedStmt(Ex.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(SynchronizedStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<SynchronizedStmt> synchronizedStmt(Expr.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<SynchronizedStmt> synchronizedStmt(Ex.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(SynchronizedStmt.class).get() );
     }
 
@@ -1484,28 +1484,28 @@ public final class $$ {
      * @param ec
      * @return
      */
-    public static $stmt<ThrowStmt> throwStmt(Expr.Command ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static $stmt<ThrowStmt> throwStmt(Ex.Command ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ThrowStmt.class).get() );
     }
 
     public static <A extends Object> $stmt<ThrowStmt> throwStmt(Consumer<A> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ThrowStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object>$stmt<ThrowStmt> throwStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ThrowStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ThrowStmt> throwStmt(Expr.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ThrowStmt> throwStmt(Ex.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ThrowStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ThrowStmt> throwStmt(Expr.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ThrowStmt> throwStmt(Ex.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ThrowStmt.class).get() );
     }
 
@@ -1528,28 +1528,28 @@ public final class $$ {
      * @param ec
      * @return
      */
-    public static $stmt<TryStmt> tryStmt(Expr.Command ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static $stmt<TryStmt> tryStmt(Ex.Command ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(TryStmt.class).get() );
     }
 
     public static <A extends Object> $stmt<TryStmt> tryStmt(Consumer<A> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(TryStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object>$stmt<TryStmt> tryStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(TryStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<TryStmt> tryStmt(Expr.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<TryStmt> tryStmt(Ex.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(TryStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<TryStmt> tryStmt(Expr.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<TryStmt> tryStmt(Ex.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(TryStmt.class).get() );
     }
 
@@ -1572,28 +1572,28 @@ public final class $$ {
      * @param ec
      * @return
      */
-    public static $stmt<WhileStmt> whileStmt(Expr.Command ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static $stmt<WhileStmt> whileStmt(Ex.Command ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(WhileStmt.class).get() );
     }
 
     public static <A extends Object> $stmt<WhileStmt> whileStmt(Consumer<A> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(WhileStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object>$stmt<WhileStmt> whileStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(WhileStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<WhileStmt> whileStmt(Expr.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<WhileStmt> whileStmt(Ex.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(WhileStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<WhileStmt> whileStmt(Expr.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Expr.lambda(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<WhileStmt> whileStmt(Ex.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(WhileStmt.class).get() );
     }
 

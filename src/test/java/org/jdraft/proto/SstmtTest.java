@@ -45,7 +45,7 @@ public class SstmtTest extends TestCase {
     public void testWalkCompose(){
         Tokens keyValues = new Tokens().add("label", "assert(true)", "block", true);
         Translator translator = Translator.DEFAULT_TRANSLATOR;
-        BlockStmt bodyStmts = Stmt.block( ()->{
+        BlockStmt bodyStmts = Stmt.blockStmt( ()->{
             System.out.println(1);
             $label: System.out.println(2);
             $block: {
@@ -88,7 +88,7 @@ public class SstmtTest extends TestCase {
         assertEquals(Stmt.of(()->System.out.println(3)),  bs.getStatement(2)); //1 'c' 3
 
         // OVERRIDE "A" = (BlockStatement)
-        bs = $s.draft("A", Stmt.block( "System.out.println('c');", "System.out.println('d');"));
+        bs = $s.draft("A", Stmt.blockStmt( "System.out.println('c');", "System.out.println('d');"));
 
         assertEquals(4,  bs.getStatements().size()); //1,'c','d',3
         assertEquals(Stmt.of(()->System.out.println(1)),  bs.getStatement(0)); //1 'c' 'd' 3
@@ -269,7 +269,7 @@ public class SstmtTest extends TestCase {
         assertTrue($stmt.of().matches(";"));
         
         assertTrue($stmt.of().matches( Stmt.of("a(1);") ) );
-        assertTrue($stmt.of().matches( Stmt.block("{ a=1; assert(a != 0); }") ) );        
+        assertTrue($stmt.of().matches( Stmt.blockStmt("{ a=1; assert(a != 0); }") ) );
         
         assertFalse($stmt.of().matches( (Statement)null));        
     }
@@ -352,7 +352,7 @@ public class SstmtTest extends TestCase {
         
         //$expr.of(new int[]{1,2,3}).listIn(_c);
         
-        assertEquals( 2, $expr.of(1).listIn(_c).size());
+        assertEquals( 2, $ex.of(1).listIn(_c).size());
     }
     
     public void testFullApi(){

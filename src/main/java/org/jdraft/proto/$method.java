@@ -10,7 +10,7 @@ import org.jdraft._throws;
 import org.jdraft._type;
 import org.jdraft._body;
 import org.jdraft._walk;
-import org.jdraft.Expr;
+import org.jdraft.Ex;
 import org.jdraft.Stmt;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.BodyDeclaration;
@@ -67,7 +67,7 @@ public final class $method
      */
     public static $method of( Object anonymousObjectContainingMethod ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Expr.anonymousObject( ste );
+        ObjectCreationExpr oce = Ex.anonymousObjectEx( ste );
         MethodDeclaration theMethod = (MethodDeclaration)
                 oce.getAnonymousClassBody().get().stream().filter(m -> m instanceof MethodDeclaration &&
                 !m.isAnnotationPresent(_remove.class) ).findFirst().get();
@@ -538,7 +538,7 @@ public final class $method
      */
     public $method $body( Object anonymousClassWithMethodContainingBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Expr.anonymousObject(ste);
+        ObjectCreationExpr oce = Ex.anonymousObjectEx(ste);
         Optional<BodyDeclaration<?>> on = oce.getAnonymousClassBody().get().stream().filter(m -> 
             m instanceof MethodDeclaration 
             && !((MethodDeclaration)m)
@@ -643,7 +643,7 @@ public final class $method
         return draft(_n.tokenize() );
     }
 
-    public static final BlockStmt EMPTY = Stmt.block("{}");
+    public static final BlockStmt EMPTY = Stmt.blockStmt("{}");
 
     /**
      * 

@@ -11,7 +11,7 @@ import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.type.Type;
 import org.jdraft.proto.$anno;
-import org.jdraft.proto.$expr;
+import org.jdraft.proto.$ex;
 import org.jdraft.proto.$stmt;
 import java.io.IOException;
 import java.io.Serializable;
@@ -210,12 +210,12 @@ public class _annoTest extends TestCase {
                 && !(s instanceof BlockStmt) );
         System.out.println( $s.listIn(C.class) );
         
-        $expr $ex = $expr.of().$and(o-> !(o instanceof AnnotationExpr)
+        $ex $ex = org.jdraft.proto.$ex.of().$and(o-> !(o instanceof AnnotationExpr)
             && o.findFirst(AnnotationExpr.class).isPresent());
         
         System.out.println( $ex.listIn(C.class) );
         
-        $expr $e = $expr.objectCreation().$and(o-> o.findFirst(AnnotationExpr.class).isPresent());
+        org.jdraft.proto.$ex $e = org.jdraft.proto.$ex.objectCreationEx().$and(o-> o.findFirst(AnnotationExpr.class).isPresent());
         
         System.out.println( $e.listIn(C.class) );
         
@@ -254,9 +254,9 @@ public class _annoTest extends TestCase {
     public void testAnnoHasAttr(){
         _anno _a = _anno.of("a(1)");
         _anno _b = _anno.of("a(x=1)");
-        assertTrue( _a.hasValue(Expr.of(1)) );
+        assertTrue( _a.hasValue(Ex.of(1)) );
         assertTrue( _a.hasValue(1) );
-        assertTrue( _b.hasValue(Expr.of(1)) );
+        assertTrue( _b.hasValue(Ex.of(1)) );
         assertTrue( _b.hasValue(1) );
         
         assertTrue( _b.hasAttr("x=1") );
@@ -343,16 +343,16 @@ public class _annoTest extends TestCase {
 
         //to a Single Value Annotation
         _a.setValue( 0, 100 );
-        assertEquals( _a.getValue( 0 ), Expr.of(100) );
+        assertEquals( _a.getValue( 0 ), Ex.of(100) );
 
         //to a Normal Annotation
         _a.addAttr( "k", 200 );
-        assertEquals( _a.getValue( 0 ), Expr.of(200) );
-        assertEquals( _a.getValue( "k" ), Expr.of(200) );
+        assertEquals( _a.getValue( 0 ), Ex.of(200) );
+        assertEquals( _a.getValue( "k" ), Ex.of(200) );
 
         _a.addAttr( "v", 300 );
-        assertEquals( _a.getValue( 1 ), Expr.of(300) );
-        assertEquals( _a.getValue( "v" ), Expr.of(300) );
+        assertEquals( _a.getValue( 1 ), Ex.of(300) );
+        assertEquals( _a.getValue( "v" ), Ex.of(300) );
 
         assertEquals( 2, _a.listKeys().size());
 

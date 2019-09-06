@@ -4,7 +4,7 @@ import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import org.jdraft._annotation._element;
 import java.util.List;
 
-import org.jdraft.proto.$expr;
+import org.jdraft.proto.$ex;
 import java.lang.annotation.ElementType;
 import junit.framework.TestCase;
 import test.ComplexAnnotationType;
@@ -61,8 +61,8 @@ public class _annotationTest extends TestCase  {
             String ss = "Some String";
         });
         assertEquals(5, _a.listElements().size());
-        assertTrue($expr.of("{1,2,3,4,5}").matches(_a.getElement("vs").getDefaultValue()));
-        assertTrue($expr.stringLiteral("Some String").matches(_a.getElement("ss").getDefaultValue()));
+        assertTrue($ex.of("{1,2,3,4,5}").matches(_a.getElement("vs").getDefaultValue()));
+        assertTrue($ex.stringLiteralEx("Some String").matches(_a.getElement("ss").getDefaultValue()));
     }
 
     public void testImport(){
@@ -78,7 +78,7 @@ public class _annotationTest extends TestCase  {
         assertTrue( _an.hasFields() );
         assertTrue( _an.getField( "V").getModifiers().is( "public static final") );
         assertTrue( _an.getField("V").isType( int.class));
-        assertEquals( Expr.of( 102), _an.getField("V").getInit());
+        assertEquals( Ex.of( 102), _an.getField("V").getInit());
 
         _element _p = _an.getElement("value");
         assertTrue(_p.getAnnos().is( "@ann", "@ann2(k='3',v=2)"));
@@ -90,7 +90,7 @@ public class _annotationTest extends TestCase  {
         assertFalse( _p.hasJavadoc() );
         assertFalse( _p.hasAnnos() );
         assertTrue( _p.hasDefaultValue());
-        assertEquals( Expr.stringLiteral( "String"), _p.getDefaultValue());
+        assertEquals( Ex.stringLiteralEx( "String"), _p.getDefaultValue());
 
         _p = _an.getElement("clazz");
         assertFalse( _p.hasJavadoc() );
@@ -99,14 +99,14 @@ public class _annotationTest extends TestCase  {
         assertEquals( _p.getType(), _typeRef.of(Ast.typeRef("Class[]")));
 
         assertTrue( _p.isType(Class[].class) );
-        assertEquals( Expr.arrayInitializer( "{}"),_p.getDefaultValue());
+        assertEquals( Ex.arrayInitializerEx( "{}"),_p.getDefaultValue());
 
         _p = _an.getElement("vval");
         assertFalse( _p.hasJavadoc() );
         assertFalse( _p.hasAnnos() );
         assertTrue( _p.hasDefaultValue());
         assertTrue( _p.isType( int.class) );
-        assertEquals( Expr.name("V"),_p.getDefaultValue());
+        assertEquals( Ex.nameEx("V"),_p.getDefaultValue());
         assertEquals( "ComplexAnnotationType", _an.getName());
 
         assertEquals( 4, _an.listNests().size());
@@ -117,10 +117,10 @@ public class _annotationTest extends TestCase  {
 
 
         //verify we can find the field in each nested TYPE
-        assertEquals( Expr.intLiteral(123), _an.listNests(t-> t instanceof _class).get(0).getField("f").getInit() );
-        assertEquals( Expr.intLiteral(123), _an.listNests(t-> t instanceof _enum).get(0).getField("f").getInit() );
-        assertEquals( Expr.intLiteral(123), _an.listNests(t-> t instanceof _interface).get(0).getField("f").getInit() );
-        assertEquals( Expr.intLiteral(123), _an.listNests(t-> t instanceof _annotation).get(0).getField("f").getInit() );
+        assertEquals( Ex.intLiteralEx(123), _an.listNests(t-> t instanceof _class).get(0).getField("f").getInit() );
+        assertEquals( Ex.intLiteralEx(123), _an.listNests(t-> t instanceof _enum).get(0).getField("f").getInit() );
+        assertEquals( Ex.intLiteralEx(123), _an.listNests(t-> t instanceof _interface).get(0).getField("f").getInit() );
+        assertEquals( Ex.intLiteralEx(123), _an.listNests(t-> t instanceof _annotation).get(0).getField("f").getInit() );
 
 
         //add NESTS
@@ -139,7 +139,7 @@ public class _annotationTest extends TestCase  {
 
         //find every int literal in the code and return it
         List<IntegerLiteralExpr> ls =
-                _walk.list(_an, Expr.INT_LITERAL, i-> i.asInt() > 0 );
+                _walk.list(_an, Ex.INT_LITERAL, i-> i.asInt() > 0 );
 
         System.out.println( ls );
 

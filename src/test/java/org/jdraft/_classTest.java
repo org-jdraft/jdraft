@@ -813,7 +813,7 @@ _class.of("aaaa.bbbb.Local",
         assertTrue( _f.getModifiers().is( "public static final"));
         assertTrue( _f.isType( "List<String>"));
         assertTrue( _f.getName().equals( "l"));
-        assertTrue( _f.isInit(Expr.of("new ArrayList<>()")));
+        assertTrue( _f.isInit(Ex.of("new ArrayList<>()")));
         //System.out.println( _c.listFields());
         
         assertTrue(_c.hasJavadoc());

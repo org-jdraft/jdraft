@@ -1,10 +1,5 @@
 package org.jdraft.io;
 
-import org.jdraft.io._inClassPath;
-import org.jdraft.io._io;
-import org.jdraft.io._inFilePath;
-import org.jdraft.io._inProject;
-import org.jdraft.io._in;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import org.jdraft.Ast;
 import org.jdraft._class;
@@ -15,7 +10,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 
 /**
  * Verify we can set use read and write files easily using the
@@ -47,11 +41,11 @@ public class _ioTest extends TestCase {
     }
     public void testDefaultReadThisSourceCode(){
         //I SHOULD be able to read this from
-        TypeDeclaration td = Ast.type(_ioTest.class);
+        TypeDeclaration td = Ast.typeDecl(_ioTest.class);
         assertEquals( "_ioTest", td.getNameAsString());
 
         //explicitly use the project to read the .java source code
-        td = Ast.type(_ioTest.class, new _inProject());
+        td = Ast.typeDecl(_ioTest.class, new _inProject());
         assertEquals( "_ioTest", td.getNameAsString());
 
         String cn = _ioTest.class.getCanonicalName().replace(".", "/")+".class";

@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 public class _evalTest extends TestCase {
     
     public void testEval(){
-        Expression e = Expr.of("3+4");
+        Expression e = Ex.of("3+4");
         assertEquals(7, _runtime.eval(e));
     }
     

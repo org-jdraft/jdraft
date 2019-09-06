@@ -4,7 +4,7 @@ import org.jdraft._code;
 import org.jdraft._type;
 import org.jdraft._body;
 import org.jdraft._walk;
-import org.jdraft.Expr;
+import org.jdraft.Ex;
 import org.jdraft.Ast;
 import org.jdraft.Stmt;
 import com.github.javaparser.ast.Node;
@@ -52,7 +52,7 @@ public final class $code implements Template<List<Statement>>, $proto<List<State
      */
     public static $code of(Object anonymousObjectWithBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Expr.anonymousObject(ste);
+        ObjectCreationExpr oce = Ex.anonymousObjectEx(ste);
         //find the first method that doesnt have removeIn on it and has a BODY
         // to get it's contents
         MethodDeclaration theMethod = (MethodDeclaration)
@@ -66,39 +66,39 @@ public final class $code implements Template<List<Statement>>, $proto<List<State
         return $code.of(new String[] {proto});
     }
 
-    public static $code of(Expr.Command c ){
+    public static $code of(Ex.Command c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $code.of( Expr.lambda(ste));
+        return $code.of( Ex.lambdaEx(ste));
     }
 
     public static <T extends Object> $code of(Consumer<T> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $code.of( Expr.lambda(ste));
+        return $code.of( Ex.lambdaEx(ste));
     }
 
     public static <T extends Object, U extends Object> $code of(Function<T,U> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $code.of( Expr.lambda(ste));
+        return $code.of( Ex.lambdaEx(ste));
     }
 
     public static <T extends Object, U extends Object, V extends Object> $code of(BiFunction<T,U, V> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $code.of( Expr.lambda(ste));
+        return $code.of( Ex.lambdaEx(ste));
     }
 
     public static <T extends Object, U extends Object> $code of(BiConsumer<T,U> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $code.of( Expr.lambda(ste));
+        return $code.of( Ex.lambdaEx(ste));
     }
 
-    public static <T extends Object, U extends Object, V extends Object> $code of(Expr.TriConsumer<T,U,V> c ){
+    public static <T extends Object, U extends Object, V extends Object> $code of(Ex.TriConsumer<T,U,V> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $code.of( Expr.lambda(ste));
+        return $code.of( Ex.lambdaEx(ste));
     }
 
-    public static <T extends Object, U extends Object, V extends Object, Z extends Object> $code of(Expr.QuadConsumer<T,U,V,Z> c ){
+    public static <T extends Object, U extends Object, V extends Object, Z extends Object> $code of(Ex.QuadConsumer<T,U,V,Z> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $code.of( Expr.lambda(ste));
+        return $code.of( Ex.lambdaEx(ste));
     }
 
     public static $code of(LambdaExpr astLambda ){

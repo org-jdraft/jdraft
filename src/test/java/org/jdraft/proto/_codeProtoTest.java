@@ -55,7 +55,7 @@ public class _codeProtoTest extends TestCase {
                 //.$hasAncestor($.of(VariableDeclarator.class));
 
         //3) find
-        $expr<MethodCallExpr> $mce = $$.methodCall("$prefix$foo($any$)");
+        $ex<MethodCallExpr> $mce = $$.methodCall("$prefix$foo($any$)");
 
         //$varAssignment.hardcode$($args);
 

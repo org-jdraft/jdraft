@@ -343,13 +343,13 @@ public class SsnipTest extends TestCase {
     public void test$snipDecomposeStaticMultiStatements(){
         //static
         $code s = $code.of( ()-> {System.out.println(1); assert(true);});
-        BlockStmt bs = Stmt.block("{System.out.println(1); assert(true);}");
+        BlockStmt bs = Stmt.blockStmt("{System.out.println(1); assert(true);}");
         assertNotNull(s.select(bs.getStatement(0)) );
     }
 
     public void test$snipDecomposeStaticVarMultiStatements(){
         $code s = $code.of( (Object $any$, Boolean $expr$)-> {System.out.println($any$); assert($expr$);});
-        BlockStmt bs = Stmt.block("{System.out.println(1); assert(true);}");
+        BlockStmt bs = Stmt.blockStmt("{System.out.println(1); assert(true);}");
         Select tks = s.select(bs.getStatement(0));
         assertNotNull(tks);
         assertTrue(tks.is("any", "1") && tks.is("expr", "true") );

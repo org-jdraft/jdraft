@@ -37,24 +37,24 @@ public class StmtTest extends TestCase {
 
     public void testBlock(){
         //single stmt
-        BlockStmt bs = Stmt.block( ()-> System.out.println(1));
+        BlockStmt bs = Stmt.blockStmt( ()-> System.out.println(1));
 
         assertEquals(1, bs.getStatements().size());
-        bs = Stmt.block( ()-> {
+        bs = Stmt.blockStmt( ()-> {
             System.out.println(1);
             System.out.println(2);
         });
         assertEquals(2, bs.getStatements().size());
 
         //ananoymous TYPE var
-        bs = Stmt.block( (o)->System.out.println(o));
+        bs = Stmt.blockStmt( (o)->System.out.println(o));
 
         //typed var
-        bs = Stmt.block( (Integer i)->System.out.println(i));
+        bs = Stmt.blockStmt( (Integer i)->System.out.println(i));
         assertEquals(Stmt.of( (Integer i)->System.out.println(i)), bs.getStatement(0) );
 
         //typed vars
-        bs = Stmt.block( (Integer i, String s)->{
+        bs = Stmt.blockStmt( (Integer i, String s)->{
             System.out.println(i);
             System.out.println(s);
         });
@@ -62,7 +62,7 @@ public class StmtTest extends TestCase {
         assertEquals(Stmt.of( (Integer s)->System.out.println(s)), bs.getStatement(1) );
 
         //untyped vars
-        bs = Stmt.block( (a,b,c,d)->{
+        bs = Stmt.blockStmt( (a, b, c, d)->{
             System.out.println(a);
             System.out.println(b);
             System.out.println(c);
@@ -106,7 +106,7 @@ public class StmtTest extends TestCase {
             assert (1 == 1);
         });
 
-        BlockStmt bs = Stmt.block("{ block(); }");
+        BlockStmt bs = Stmt.blockStmt("{ block(); }");
         bs = (BlockStmt) Stmt.of(() -> {
             System.out.println(1);
             System.out.println(2);
@@ -124,7 +124,7 @@ public class StmtTest extends TestCase {
         Stmt.continueStmt("continue;");
         Stmt.continueStmt("continue outer;");
 
-        Stmt.thisConstructor("this(1);");
+        Stmt.thisConstructorStmt("this(1);");
         st = Stmt.of((Integer n) -> {
             do {
                 assert (1 == 1);
@@ -170,7 +170,7 @@ public class StmtTest extends TestCase {
                         int i;
                     }
                 }),
-                Stmt.localClass("class F{ int i; }"));
+                Stmt.localClassStmt("class F{ int i; }"));
 
         assertEquals(Stmt.of(() -> {
                     label:

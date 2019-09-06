@@ -76,7 +76,7 @@ public class _typeTest extends TestCase {
                 "public class C{"+System.lineSeparator()+
                 "}");
         //assertTrue( cu.getPrimaryType().isPresent() );
-        cu = cu.addType( Ast.enumDeclaration("enum E{}") );
+        cu = cu.addType( Ast.enumDecl("enum E{}") );
         
         System.out.println( cu );
         

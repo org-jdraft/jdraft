@@ -30,7 +30,7 @@ public final class _annotation
         implements _type<AnnotationDeclaration, _annotation> {
 
     public static _annotation of( Class<? extends Annotation> clazz ){
-        Node n = Ast.type( clazz );
+        Node n = Ast.typeDecl( clazz );
         if( n instanceof CompilationUnit ){
             return _macro.to(clazz, of( (CompilationUnit)n));
         }
@@ -72,7 +72,7 @@ public final class _annotation
     public static _annotation of( String signature, Object anonymousObjectBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         _annotation _a = of( signature );
-        ObjectCreationExpr oce = Expr.anonymousObject(ste);
+        ObjectCreationExpr oce = Ex.anonymousObjectEx(ste);
         
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
 
@@ -287,7 +287,7 @@ public final class _annotation
     }
 
     public _annotation element( String... elementDeclaration ){
-        return element( Ast.annotationMember( elementDeclaration ));
+        return element( Ast.annotationMemberDecl( elementDeclaration ));
     }
 
     public _annotation element( _element _p){
@@ -344,7 +344,7 @@ public final class _annotation
         if( !Objects.equals( this.getJavadoc(), other.getJavadoc()) ){
             return false;
         }
-        if( !Expr.equivalentAnnos(astAnnotation, astAnnotation)){
+        if( !Ex.equivalentAnnos(astAnnotation, astAnnotation)){
             return false;
         }
         if( !Objects.equals( this.getName(), other.getName()) ){
@@ -540,7 +540,7 @@ public final class _annotation
         hash = 13 * hash + Objects.hashCode( this.getEffectiveModifiers() );
 
         hash = 13 * hash + Objects.hashCode( this.getJavadoc() );
-        hash = 13 * hash + Expr.hashAnnos(astAnnotation);
+        hash = 13 * hash + Ex.hashAnnos(astAnnotation);
 
         hash = 13 * hash + Objects.hashCode( this.getName() );
 
@@ -584,7 +584,7 @@ public final class _annotation
     @Override
     public boolean is( String...annotationDeclaration){
         try {
-            return is(Ast.annotationDeclaration(annotationDeclaration));
+            return is(Ast.annotationDecl(annotationDeclaration));
         }catch(Exception e){
             return false;
         }
@@ -633,7 +633,7 @@ public final class _annotation
         }
 
         public static _element of( String...code ){
-            return new _element( Ast.annotationMember( code ) );
+            return new _element( Ast.annotationMemberDecl( code ) );
         }
 
         public static _element of( Type type, String name ){
@@ -664,7 +664,7 @@ public final class _annotation
         
         @Override
         public boolean is(String...stringRep){
-            return is(Ast.annotationMember(stringRep));
+            return is(Ast.annotationMemberDecl(stringRep));
         }
         
         @Override
@@ -709,42 +709,42 @@ public final class _annotation
         }
         
         public _element setDefaultValue(int intValue ){
-            this.astAnnMember.setDefaultValue( Expr.of( intValue ) );
+            this.astAnnMember.setDefaultValue( Ex.of( intValue ) );
             return this;
         }
         
         public _element setDefaultValue(long longValue ){
-            this.astAnnMember.setDefaultValue( Expr.of( longValue ) );
+            this.astAnnMember.setDefaultValue( Ex.of( longValue ) );
             return this;
         }
         
         public _element setDefaultValue(char charValue ){
-            this.astAnnMember.setDefaultValue( Expr.of( charValue ) );
+            this.astAnnMember.setDefaultValue( Ex.of( charValue ) );
             return this;
         }
         
         public _element setDefaultValue(boolean booleanValue ){
-            this.astAnnMember.setDefaultValue( Expr.of( booleanValue ) );
+            this.astAnnMember.setDefaultValue( Ex.of( booleanValue ) );
             return this;
         }
         
         public _element setDefaultValueNull(){
-            this.astAnnMember.setDefaultValue( Expr.nullExpr() );
+            this.astAnnMember.setDefaultValue( Ex.nullEx() );
             return this;
         }
         
         public _element setDefaultValue(float floatValue ){
-            this.astAnnMember.setDefaultValue( Expr.of( floatValue ) );
+            this.astAnnMember.setDefaultValue( Ex.of( floatValue ) );
             return this;
         }
         
         public _element setDefaultValue(double doubleValue ){
-            this.astAnnMember.setDefaultValue( Expr.of( doubleValue ) );
+            this.astAnnMember.setDefaultValue( Ex.of( doubleValue ) );
             return this;
         }
         
         public _element setDefaultValue( String defaultValueExpression){
-            this.astAnnMember.setDefaultValue( Ast.expr( defaultValueExpression) );
+            this.astAnnMember.setDefaultValue( Ast.ex( defaultValueExpression) );
             return this;
         }
 
@@ -780,7 +780,7 @@ public final class _annotation
             if( this.astAnnMember == other.astAnnMember){
                 return true; //two _element instances pointing to same AstMemberDeclaration
             }
-            if( ! Expr.equivalentAnnos(this.astAnnMember, other.astAnnMember)){
+            if( ! Ex.equivalentAnnos(this.astAnnMember, other.astAnnMember)){
                 return false;
             }
             if( !Objects.equals( this.getJavadoc(), other.getJavadoc() ) ) {
@@ -813,7 +813,7 @@ public final class _annotation
         public int hashCode() {
             int hash = 7;
             hash = 97 * hash + Objects.hash(
-                    Expr.hashAnnos(this.astAnnMember),
+                    Ex.hashAnnos(this.astAnnMember),
                     this.getJavadoc(),
                     this.getName(),
                     Ast.typeHash(this.astAnnMember.getType()),

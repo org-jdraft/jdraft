@@ -7,7 +7,7 @@ import com.github.javaparser.ast.expr.LongLiteralExpr;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.SwitchEntry;
 import com.github.javaparser.ast.stmt.SwitchStmt;
-import org.jdraft.Expr;
+import org.jdraft.Ex;
 import org.jdraft._class;
 import java.text.NumberFormat;
 import junit.framework.TestCase;
@@ -38,14 +38,14 @@ public class SexprTest extends TestCase {
         //   org.junit.Assert.assertTrue("message", 1==1);
         //   Assert.assertTrue("message", 1==1);
         //   assertTrue("message", 1==1);
-        $expr $oldAssert = $expr.of("$scope$assertTrue($message$, $condition$)");
-        $expr $newAssert = $expr.of("Assertions.assertTrue($condition$, $message$)");
+        $ex $oldAssert = $ex.of("$scope$assertTrue($message$, $condition$)");
+        $ex $newAssert = $ex.of("Assertions.assertTrue($condition$, $message$)");
         
         $oldAssert.replaceIn(_c, $newAssert);
         
         //Expression exp = Expr.of("Assertions.assertTrue(1==1,\"message\")");
         //System.out.println( exp );
-        $expr $e = $expr.of("Assertions.assertTrue(1==1,\"message\")");
+        $ex $e = $ex.of("Assertions.assertTrue(1==1,\"message\")");
         assertTrue($e.listIn(_c).size() == 3);
     }
      
@@ -77,11 +77,11 @@ public class SexprTest extends TestCase {
             double dD = 3.14D;            
         }
         //doesnt matter if you use the F/f/d/D postfixes, we can match
-        assertEquals(5, $expr.of("3.14").count(AClass.class));
-        assertEquals(5, $expr.of("3.14f").count(AClass.class));
-        assertEquals(5, $expr.of("3.14F").count(AClass.class));
-        assertEquals(5, $expr.of("3.14d").count(AClass.class));
-        assertEquals(5, $expr.of("3.14D").count(AClass.class));        
+        assertEquals(5, $ex.of("3.14").count(AClass.class));
+        assertEquals(5, $ex.of("3.14f").count(AClass.class));
+        assertEquals(5, $ex.of("3.14F").count(AClass.class));
+        assertEquals(5, $ex.of("3.14d").count(AClass.class));
+        assertEquals(5, $ex.of("3.14D").count(AClass.class));
     }
     
     public void testNumLiteralsIntsHexBin(){
@@ -92,11 +92,11 @@ public class SexprTest extends TestCase {
             int ih = 0x1;
             int ihz = 0x01;
         }
-        assertEquals(5, $expr.of("1").count(IntClass.class));
-        assertEquals(5, $expr.of("0b1").count(IntClass.class));
-        assertEquals(5, $expr.of("0b01").count(IntClass.class));
-        assertEquals(5, $expr.of("0x1").count(IntClass.class));
-        assertEquals(5, $expr.of("0x01").count(IntClass.class));        
+        assertEquals(5, $ex.of("1").count(IntClass.class));
+        assertEquals(5, $ex.of("0b1").count(IntClass.class));
+        assertEquals(5, $ex.of("0b01").count(IntClass.class));
+        assertEquals(5, $ex.of("0x1").count(IntClass.class));
+        assertEquals(5, $ex.of("0x01").count(IntClass.class));
     }
     
     public void testNumLiteralsLongsHexBin(){
@@ -120,23 +120,23 @@ public class SexprTest extends TestCase {
             long llh = 0x1L;
             long llhz = 0x01L;
         }
-        assertEquals(15, $expr.of("1").count(LongClass.class));
-        assertEquals(15, $expr.of("0b1").count(LongClass.class));
-        assertEquals(15, $expr.of("0b01").count(LongClass.class));
-        assertEquals(15, $expr.of("0x1").count(LongClass.class));
-        assertEquals(15, $expr.of("0x01").count(LongClass.class));        
+        assertEquals(15, $ex.of("1").count(LongClass.class));
+        assertEquals(15, $ex.of("0b1").count(LongClass.class));
+        assertEquals(15, $ex.of("0b01").count(LongClass.class));
+        assertEquals(15, $ex.of("0x1").count(LongClass.class));
+        assertEquals(15, $ex.of("0x01").count(LongClass.class));
         
-        assertEquals(15, $expr.of("1L").count(LongClass.class));
-        assertEquals(15, $expr.of("0b1L").count(LongClass.class));
-        assertEquals(15, $expr.of("0b01L").count(LongClass.class));
-        assertEquals(15, $expr.of("0x1L").count(LongClass.class));
-        assertEquals(15, $expr.of("0x01L").count(LongClass.class));        
+        assertEquals(15, $ex.of("1L").count(LongClass.class));
+        assertEquals(15, $ex.of("0b1L").count(LongClass.class));
+        assertEquals(15, $ex.of("0b01L").count(LongClass.class));
+        assertEquals(15, $ex.of("0x1L").count(LongClass.class));
+        assertEquals(15, $ex.of("0x01L").count(LongClass.class));
         
-        assertEquals(15, $expr.of("1l").count(LongClass.class));
-        assertEquals(15, $expr.of("0b1l").count(LongClass.class));
-        assertEquals(15, $expr.of("0b01l").count(LongClass.class));
-        assertEquals(15, $expr.of("0x1l").count(LongClass.class));
-        assertEquals(15, $expr.of("0x01l").count(LongClass.class));
+        assertEquals(15, $ex.of("1l").count(LongClass.class));
+        assertEquals(15, $ex.of("0b1l").count(LongClass.class));
+        assertEquals(15, $ex.of("0b01l").count(LongClass.class));
+        assertEquals(15, $ex.of("0x1l").count(LongClass.class));
+        assertEquals(15, $ex.of("0x01l").count(LongClass.class));
     }
     
     /**
@@ -144,19 +144,19 @@ public class SexprTest extends TestCase {
      * its like, if you are going to support it, then support it
      */
     public void testNumbersThousandsSeparator(){
-        assertTrue( $expr.of(1_000_000).matches("1000000") );
-        assertTrue( $expr.of(1000000).matches("1_000_000") );
+        assertTrue( $ex.of(1_000_000).matches("1000000") );
+        assertTrue( $ex.of(1000000).matches("1_000_000") );
     }
     
     public void testLiteralsWithPrefix(){
         
         
-        Number f2 = Expr.parseNumber("3.14F");
-        Number f3 = Expr.parseNumber("3.14f");
+        Number f2 = Ex.parseNumber("3.14F");
+        Number f3 = Ex.parseNumber("3.14f");
         
-        Number d = Expr.parseNumber("3.14");
-        Number d1 = Expr.parseNumber("3.14d");
-        Number d2 = Expr.parseNumber("3.14D");
+        Number d = Ex.parseNumber("3.14");
+        Number d1 = Ex.parseNumber("3.14d");
+        Number d2 = Ex.parseNumber("3.14D");
         
         assertEquals( f2, f3);        
         assertEquals( d1, d2);
@@ -181,13 +181,13 @@ public class SexprTest extends TestCase {
         assertEquals( Hex, one);
         assertEquals( Binary, binary);
         
-        assertTrue( $expr.compareNumberLiterals( "1", "0x1"));
-        assertTrue( $expr.compareNumberLiterals( "1", "0X1"));
-        assertTrue( $expr.compareNumberLiterals( "1", "0b1"));
-        assertTrue( $expr.compareNumberLiterals( "1", "0B1"));
+        assertTrue( $ex.compareNumberLiterals( "1", "0x1"));
+        assertTrue( $ex.compareNumberLiterals( "1", "0X1"));
+        assertTrue( $ex.compareNumberLiterals( "1", "0b1"));
+        assertTrue( $ex.compareNumberLiterals( "1", "0B1"));
         
-        assertTrue( $expr.compareNumberLiterals( "15", "0xF"));
-        assertTrue( $expr.compareNumberLiterals( "15", "0XF"));
+        assertTrue( $ex.compareNumberLiterals( "15", "0xF"));
+        assertTrue( $ex.compareNumberLiterals( "15", "0XF"));
         
         //assertEquals( 1, $expr.parseNumber("0x1"));
         
@@ -196,10 +196,10 @@ public class SexprTest extends TestCase {
         //assertEquals( 1, $expr.parseNumber("0x01")); 
         //assertEquals( 1, $expr.parseNumber("0b01"));
         
-        assertEquals( Expr.parseNumber("0x01"), Expr.parseNumber("0b01") );
+        assertEquals( Ex.parseNumber("0x01"), Ex.parseNumber("0b01") );
         
-        System.out.println( Expr.parseNumber("1").getClass() );
-        System.out.println( Expr.parseNumber("0x01").getClass() );
+        System.out.println( Ex.parseNumber("1").getClass() );
+        System.out.println( Ex.parseNumber("0x01").getClass() );
         
         //assertEquals( $expr.parseNumber("0x01"), $expr.parseNumber("1") );
         //assertEquals( $expr.parseNumber("0X01"), $expr.parseNumber("0B01") );
@@ -212,11 +212,11 @@ public class SexprTest extends TestCase {
         IntegerLiteralExpr eHex = new IntegerLiteralExpr("0X01");
         IntegerLiteralExpr eBin = new IntegerLiteralExpr("0B01");
         
-        $expr<IntegerLiteralExpr> $one = $expr.intLiteral("1");
-        $expr<IntegerLiteralExpr> $hex = $expr.intLiteral("0x01");
-        $expr<IntegerLiteralExpr> $bin = $expr.intLiteral("0b01");
-        $expr<IntegerLiteralExpr> $Hex = $expr.intLiteral("0X01");
-        $expr<IntegerLiteralExpr> $Bin = $expr.intLiteral("0B01");
+        $ex<IntegerLiteralExpr> $one = $ex.intLiteralEx("1");
+        $ex<IntegerLiteralExpr> $hex = $ex.intLiteralEx("0x01");
+        $ex<IntegerLiteralExpr> $bin = $ex.intLiteralEx("0b01");
+        $ex<IntegerLiteralExpr> $Hex = $ex.intLiteralEx("0X01");
+        $ex<IntegerLiteralExpr> $Bin = $ex.intLiteralEx("0B01");
         
         assertTrue($one.matches("1"));
         assertTrue($one.matches("0x01"));
@@ -253,9 +253,9 @@ public class SexprTest extends TestCase {
     public void testFloatAndDouble(){
         //assertEquals( new DoubleLiteralExpr("3.14F"), new DoubleLiteralExpr("3.14f") );
         
-        $expr<DoubleLiteralExpr>d = $expr.of( new DoubleLiteralExpr("3.14") );
-        $expr<DoubleLiteralExpr>dd = $expr.of( new DoubleLiteralExpr("3.14d") );
-        $expr<DoubleLiteralExpr>dD = $expr.of( new DoubleLiteralExpr("3.14D"));
+        $ex<DoubleLiteralExpr> d = $ex.of( new DoubleLiteralExpr("3.14") );
+        $ex<DoubleLiteralExpr> dd = $ex.of( new DoubleLiteralExpr("3.14d") );
+        $ex<DoubleLiteralExpr> dD = $ex.of( new DoubleLiteralExpr("3.14D"));
         
         assertTrue( d.matches("3.14") );
         assertTrue( d.matches("3.14d") );
@@ -270,9 +270,9 @@ public class SexprTest extends TestCase {
         assertTrue( dD.matches("3.14D") );
         
         
-        $expr<DoubleLiteralExpr>f = $expr.of( new DoubleLiteralExpr("3.14") );
-        $expr<DoubleLiteralExpr>fd = $expr.of( new DoubleLiteralExpr("3.14f") );
-        $expr<DoubleLiteralExpr>fD = $expr.of( new DoubleLiteralExpr("3.14F"));
+        $ex<DoubleLiteralExpr> f = $ex.of( new DoubleLiteralExpr("3.14") );
+        $ex<DoubleLiteralExpr> fd = $ex.of( new DoubleLiteralExpr("3.14f") );
+        $ex<DoubleLiteralExpr> fD = $ex.of( new DoubleLiteralExpr("3.14F"));
         
         assertTrue( d.matches("3.14") );
         assertTrue( d.matches("3.14f") );
@@ -330,21 +330,21 @@ public class SexprTest extends TestCase {
     
     public void testSuperThis(){
         _class _c = _class.of(Derived.class);
-        $expr.thisExpr().listIn(_c);
-        $expr.superExpr().listIn(_c);
+        $ex.thisEx().listIn(_c);
+        $ex.superEx().listIn(_c);
     }
     
     public void testGenericExpr(){
         //LocalClassDeclarationExpr lc =  Expr.("class $any${}");
         
         //find EVERY lambda with a comment
-        $expr $anyLambda = $expr.of("($params$)->$body$", e -> e.getComment().isPresent() );
+        $ex $anyLambda = $ex.of("($params$)->$body$", e -> e.getComment().isPresent() );
         
-        System.out.println( Expr.lambda("/** comment */ ()->true") );
+        System.out.println( Ex.lambdaEx("/** comment */ ()->true") );
         
-        assertTrue( $anyLambda.matches( Expr.lambda("/** comment */ ()->true") ) );
+        assertTrue( $anyLambda.matches( Ex.lambdaEx("/** comment */ ()->true") ) );
         
-        assertTrue( $expr.lambda(l -> l.getComment().isPresent() ).matches("/** comment */ ()->true;") );
+        assertTrue( $ex.lambdaEx(l -> l.getComment().isPresent() ).matches("/** comment */ ()->true;") );
         
         /** A comment */
         //lass C{}
@@ -364,8 +364,8 @@ public class SexprTest extends TestCase {
             int a = 1;
             int b = 3 + 4;
         });        
-        assertEquals( 1, $expr.of(2).listIn(_c).size());
-        assertEquals( 4, $expr.of(2).$("2", "number").listIn(_c).size());
+        assertEquals( 1, $ex.of(2).listIn(_c).size());
+        assertEquals( 4, $ex.of(2).$("2", "number").listIn(_c).size());
     }
     
     
@@ -376,7 +376,7 @@ public class SexprTest extends TestCase {
 
     public void test$exprPostParameterize(){
         //a template expression
-        $expr $e = $expr.of("1 + 2");
+        $ex $e = $ex.of("1 + 2");
         //post parameterize the + as an operator
         $e.$("+", "op");
 
@@ -388,15 +388,15 @@ public class SexprTest extends TestCase {
         assertTrue($e.matches("1 << 2"));
 
         //works for expressions obviously
-        assertTrue($e.matches(Expr.of("1 + 2")));
+        assertTrue($e.matches(Ex.of("1 + 2")));
 
         //select returns the expression and
-        assertNotNull($e.select(Expr.of("1 + 2")));
+        assertNotNull($e.select(Ex.of("1 + 2")));
 
         //select returns the selected tokens
-        assertTrue($e.select(Expr.of("1 * 2")).tokens.is("op", "*"));
+        assertTrue($e.select(Ex.of("1 * 2")).tokens.is("op", "*"));
 
-        $e = $expr.binary("$a$ + $b$");
+        $e = $ex.binaryEx("$a$ + $b$");
         @aa(1 + 2)
         class G{
             int f = 3 + 5;
@@ -410,53 +410,53 @@ public class SexprTest extends TestCase {
     }
 
     public void testExprOf(){
-        $expr $e = $expr.of("1 + 2");
-        assertEquals( $e.draft(), Expr.of("1 + 2"));
-        assertTrue( $e.matches(Expr.of("1+2")));
+        $ex $e = $ex.of("1 + 2");
+        assertEquals( $e.draft(), Ex.of("1 + 2"));
+        assertTrue( $e.matches(Ex.of("1+2")));
 
-        $e = $expr.of("$a$ + $b$");
-        assertTrue( $e.matches(Expr.of("1+2")));
+        $e = $ex.of("$a$ + $b$");
+        assertTrue( $e.matches(Ex.of("1+2")));
     }
 
     public void testExprTypes(){
         boolean var = true;
 
-        assertTrue( $expr.assign("$var$=100").matches("y=100"));
-        assertTrue($expr.arrayAccess("arr[$index$]").matches("arr[0]"));
-        assertTrue( $expr.arrayCreation("new $arr$[][]").matches("new xy[][]"));
-        assertTrue($expr.arrayInitializer("{$any$}").matches("{1,2,3}"));
-        assertTrue($expr.binary("$left$ > $right$").matches("a > b"));
-        assertTrue($expr.of(true).matches("true"));
-        assertTrue($expr.booleanLiteral(true).matches("true"));
-        assertTrue($expr.of('c').matches( "'c'"));
-        assertTrue($expr.cast("($type$)o").matches("(String)o"));
-        assertTrue($expr.classExpr("$type$.class").matches("String.class"));
-        assertTrue( $expr.conditional("($left$ < $right$) ? $left$ : $right$;").matches("(a < b) ? a : b;"));
-        assertEquals( Expr.of(3.14f), Expr.of(3.14f));
-        assertEquals( Expr.of(12.3), Expr.of("12.3"));
-        assertEquals( Expr.of("12.3f"), Expr.of("12.3f"));
-        assertTrue($expr.doubleLiteral(12.3).matches("12.3"));
-        assertTrue($expr.doubleLiteral("12.3f").matches("12.3f"));
-        assertTrue($expr.enclosedExpr("($a$ + $b$)").matches("(100 + 200)"));
-        assertTrue($expr.fieldAccess("my.$field$").matches("my.a"));
-        assertTrue($expr.intLiteral(100).matches("100"));
-        assertTrue($expr.of(100).matches("100"));
-        assertTrue($expr.instanceOf("$obj$ instanceof String").matches("a instanceof String"));
-        assertTrue( $expr.longLiteral(100).matches( Expr.longLiteral( "100")));
-        assertTrue($expr.lambda("$param$ -> a.$method$()").matches("x-> a.toString()"));
-        assertTrue($expr.methodCall("$methodCall$($params$)").matches("a()"));
-        assertTrue($expr.methodCall("$methodCall$($params$)").matches("a(1,2,3)"));
-        assertTrue($expr.methodReference("$target$::$methodName$").matches("String::toString"));
-        assertTrue($expr.nullExpr().matches("null"));
-        assertTrue($expr.name("eric").matches("eric"));
-        assertTrue($expr.objectCreation("new $Object$()").matches("new String()"));
-        assertTrue($expr.objectCreation("new $Object$($params$)").matches("new Date(101010)"));
-        assertTrue($expr.stringLiteral("Hello $name$").matches("\"Hello Eric\""));
-        assertTrue($expr.superExpr().matches("super"));
-        assertTrue( $expr.thisExpr().matches("this"));
-        assertTrue( $expr.typeExpr("$type$").matches(Expr.typeExpr("AType")));
-        assertTrue( $expr.unary("!$var$").matches("!isDead"));
-        assertTrue($expr.varLocal("int $var$").matches("int x"));
+        assertTrue( $ex.assignEx("$var$=100").matches("y=100"));
+        assertTrue($ex.arrayAccessEx("arr[$index$]").matches("arr[0]"));
+        assertTrue( $ex.arrayCreationEx("new $arr$[][]").matches("new xy[][]"));
+        assertTrue($ex.arrayInitEx("{$any$}").matches("{1,2,3}"));
+        assertTrue($ex.binaryEx("$left$ > $right$").matches("a > b"));
+        assertTrue($ex.of(true).matches("true"));
+        assertTrue($ex.booleanLiteralEx(true).matches("true"));
+        assertTrue($ex.of('c').matches( "'c'"));
+        assertTrue($ex.castEx("($type$)o").matches("(String)o"));
+        assertTrue($ex.classEx("$type$.class").matches("String.class"));
+        assertTrue( $ex.conditionalEx("($left$ < $right$) ? $left$ : $right$;").matches("(a < b) ? a : b;"));
+        assertEquals( Ex.of(3.14f), Ex.of(3.14f));
+        assertEquals( Ex.of(12.3), Ex.of("12.3"));
+        assertEquals( Ex.of("12.3f"), Ex.of("12.3f"));
+        assertTrue($ex.doubleLiteralEx(12.3).matches("12.3"));
+        assertTrue($ex.doubleLiteralEx("12.3f").matches("12.3f"));
+        assertTrue($ex.enclosedEx("($a$ + $b$)").matches("(100 + 200)"));
+        assertTrue($ex.fieldAccessEx("my.$field$").matches("my.a"));
+        assertTrue($ex.intLiteralEx(100).matches("100"));
+        assertTrue($ex.of(100).matches("100"));
+        assertTrue($ex.instanceOfEx("$obj$ instanceof String").matches("a instanceof String"));
+        assertTrue( $ex.longLiteralEx(100).matches( Ex.longLiteralEx( "100")));
+        assertTrue($ex.lambdaEx("$param$ -> a.$method$()").matches("x-> a.toString()"));
+        assertTrue($ex.methodCallEx("$methodCall$($params$)").matches("a()"));
+        assertTrue($ex.methodCallEx("$methodCall$($params$)").matches("a(1,2,3)"));
+        assertTrue($ex.methodReferenceEx("$target$::$methodName$").matches("String::toString"));
+        assertTrue($ex.nullEx().matches("null"));
+        assertTrue($ex.nameEx("eric").matches("eric"));
+        assertTrue($ex.objectCreationEx("new $Object$()").matches("new String()"));
+        assertTrue($ex.objectCreationEx("new $Object$($params$)").matches("new Date(101010)"));
+        assertTrue($ex.stringLiteralEx("Hello $name$").matches("\"Hello Eric\""));
+        assertTrue($ex.superEx().matches("super"));
+        assertTrue( $ex.thisEx().matches("this"));
+        assertTrue( $ex.typeEx("$type$").matches(Ex.typeEx("AType")));
+        assertTrue( $ex.unaryEx("!$var$").matches("!isDead"));
+        assertTrue($ex.varLocalEx("int $var$").matches("int x"));
 
         //assertEquals(0b1010000101000101101000010100010110100001010001011010000101000101L, 
         //        0b1010000101000101101000010100010110100001010001011010000101000101L);
@@ -465,20 +465,20 @@ public class SexprTest extends TestCase {
         
         //Long.parseLong("1010000101000101101000010100010110100001010001011010000101000101", 2);
         
-        $expr $e = $expr.longLiteral("0b0010000101000101101000010100010110100001010001011010000101000101L");
+        $ex $e = $ex.longLiteralEx("0b0010000101000101101000010100010110100001010001011010000101000101L");
         assertEquals( $e.expressionClass, LongLiteralExpr.class);
         System.out.println("PATTERN" + $e.exprStencil);
         
-        LongLiteralExpr lle = (LongLiteralExpr)Expr.of("0b0010000101000101101000010100010110100001010001011010000101000101L");
+        LongLiteralExpr lle = (LongLiteralExpr) Ex.of("0b0010000101000101101000010100010110100001010001011010000101000101L");
         System.out.println("VALUE  " + lle.getValue() );
         assertTrue( $e.matches(lle) );
         assertTrue( 
-            $expr.of("0b0010000101000101101000010100010110100001010001011010000101000101L")
+            $ex.of("0b0010000101000101101000010100010110100001010001011010000101000101L")
             .matches("0b0010000101000101101000010100010110100001010001011010000101000101L"));
     }
 
     public void testSelect(){
-        $expr<IntegerLiteralExpr> e = $expr.intLiteral("1").$("1", "val");
+        $ex<IntegerLiteralExpr> e = $ex.intLiteralEx("1").$("1", "val");
         assertTrue(e.matches("1"));
         class C{
             public void f(){
@@ -493,7 +493,7 @@ public class SexprTest extends TestCase {
                 System.out.println("another method"+6+" values");
             }
         }
-        List<$expr.Select<IntegerLiteralExpr>> sel =  e.listSelectedIn( _class.of(C.class) );
+        List<$ex.Select<IntegerLiteralExpr>> sel =  e.listSelectedIn( _class.of(C.class) );
         assertEquals(6, sel.size()); //verify that I have (6) selections
 
         //System.out.println(">>"+ sel.get(0).tokens );
@@ -512,30 +512,30 @@ public class SexprTest extends TestCase {
     
     public void testAPI(){
         
-        assertTrue($expr.arrayAccess(a -> a.getIndex().isIntegerLiteralExpr() ).matches("a[1]"));
-        assertTrue($expr.arrayAccess("a[$any$]", a -> a.getIndex().isIntegerLiteralExpr() ).matches("a[1]"));
-        assertFalse($expr.arrayAccess("a[$any$]", a -> a.getIndex().isIntegerLiteralExpr() ).matches("a[b.count()]"));
+        assertTrue($ex.arrayAccessEx(a -> a.getIndex().isIntegerLiteralExpr() ).matches("a[1]"));
+        assertTrue($ex.arrayAccessEx("a[$any$]", a -> a.getIndex().isIntegerLiteralExpr() ).matches("a[1]"));
+        assertFalse($ex.arrayAccessEx("a[$any$]", a -> a.getIndex().isIntegerLiteralExpr() ).matches("a[b.count()]"));
         _class _c = _class.of("C").field("int i=1;");
         
-        assertEquals(1, $expr.of(1).listIn(_c ).size());
+        assertEquals(1, $ex.of(1).listIn(_c ).size());
         
-        System.out.println( Expr.of("1").getClass() );
+        System.out.println( Ex.of("1").getClass() );
         
-        System.out.println( $expr.of(1).replaceIn(_c, Expr.of(2)) );
+        System.out.println( $ex.of(1).replaceIn(_c, Ex.of(2)) );
 
-        System.out.println( $expr.of("1").replaceIn(_c, "2") );
+        System.out.println( $ex.of("1").replaceIn(_c, "2") );
         
-        assertTrue( $expr.of("1").replaceIn(_c,"2").getField("i").isInit(2));
+        assertTrue( $ex.of("1").replaceIn(_c,"2").getField("i").isInit(2));
         
         //assertTrue( $expr.replace(_c, "1", "2").getField("i").initIs("2"));
         
-        assertTrue($expr.of("2").listIn(_c).size() == 1);
+        assertTrue($ex.of("2").listIn(_c).size() == 1);
         
         //assertTrue( $expr.list(_c, "2").size() == 1 );
         
         //look for every literal
-        $expr $bin = 
-            $expr.binary("$a$ > $b$", 
+        $ex $bin =
+            $ex.binaryEx("$a$ > $b$",
                 b-> b.getLeft().isIntegerLiteralExpr() && b.getRight().isIntegerLiteralExpr());
         assertTrue($bin.matches("3 > 2"));
         assertFalse($bin.matches("3L > 2"));
@@ -557,15 +557,15 @@ public class SexprTest extends TestCase {
             
         }             
         _class _c = _class.of(C.class);
-        assertNotNull( $expr.intLiteral("2").firstIn(_c));        
-        assertNotNull( $expr.intLiteral(1).firstIn(_c));                
+        assertNotNull( $ex.intLiteralEx("2").firstIn(_c));
+        assertNotNull( $ex.intLiteralEx(1).firstIn(_c));
         
         Predicate<IntegerLiteralExpr> p = (IntegerLiteralExpr i)-> i.asInt() % 2 == 1;
-        $expr.intLiteral( p );
+        $ex.intLiteralEx( p );
         
-        assertNotNull( $expr.intLiteral( (i)-> i.asInt() % 2 == 1 ).firstIn(_c)); 
+        assertNotNull( $ex.intLiteralEx( (i)-> i.asInt() % 2 == 1 ).firstIn(_c));
                
-        $expr $e = $expr.of(1).$("1", "num");
+        $ex $e = $ex.of(1).$("1", "num");
         
     }
 }

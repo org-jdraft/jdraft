@@ -133,7 +133,7 @@ public enum Ast {
 
     /* -------------------------- EXPRESSIONS -----------------------------------*/
     /**
-     * See also {@link Expr}
+     * See also {@link Ex}
      */
     /* ( in com.github.javaparser.ast.expr ) */
     public static final Class<Expression> EXPR = Expression.class;
@@ -427,7 +427,7 @@ public enum Ast {
     /**
      * Switch Stmt (i.e. "switch( NAME.charAt(i))" )
      */
-    public static final Class<SwitchStmt> SWITCH = SwitchStmt.class;
+    public static final Class<SwitchStmt> SWITCH_STMT = SwitchStmt.class;
 
     /**
      * Synchronized Stmt i.e. "synchronized(key) {...}"
@@ -462,7 +462,7 @@ public enum Ast {
      * <br/><code>int a = switch(x) { case 5,6 -> 20; case 9 -> 30; default -> 40; };</code>
      * <br/><code>int a = switch(x) { case 5,6: break 20; default: break 5+5; };</code>
      */
-    public static final Class<SwitchExpr> SWITCH_EXPR = SwitchExpr.class;
+    public static final Class<SwitchExpr> SWITCH_EX = SwitchExpr.class;
     
     /**
      *
@@ -1095,7 +1095,7 @@ public enum Ast {
             return Stmt.of(code);
         }
         if (Expression.class.isAssignableFrom(nodeClass)) {
-            return Expr.of(code);
+            return Ex.of(code);
         }
         if (CatchClause.class.isAssignableFrom(nodeClass)) {
             return catchClause(code);
@@ -1110,7 +1110,7 @@ public enum Ast {
             return staticBlock(code);
         }
         if (TypeDeclaration.class.isAssignableFrom(nodeClass)) {
-            return type(code);
+            return typeDecl(code);
         }
         if (Parameter.class == nodeClass) {
             return parameter(code);
@@ -1122,13 +1122,13 @@ public enum Ast {
             return packageDeclaration(Text.combine(code));
         }
         if (VariableDeclarator.class == nodeClass) {
-            return var(code);
+            return varDecl(code);
         }
         if (FieldDeclaration.class == nodeClass) {
             return field(code);
         }
         if (EnumConstantDeclaration.class == nodeClass) {
-            return constant(code);
+            return constantDecl(code);
         }
         if (CompilationUnit.class == nodeClass) {
             return of(code);
@@ -1137,7 +1137,7 @@ public enum Ast {
             return comment(code);
         }
         if (AnnotationMemberDeclaration.class == nodeClass) {
-            return annotationMember(code);
+            return annotationMemberDecl(code);
         }
         if (MethodDeclaration.class == nodeClass) {
             return method(code);
@@ -1166,8 +1166,8 @@ public enum Ast {
      * @param clazz the runtime class to acquire the
      * @return
      */
-    public static TypeDeclaration type(Class clazz) {
-        return Ast.type(clazz, _io.IN_DEFAULT);
+    public static TypeDeclaration typeDecl(Class clazz) {
+        return Ast.typeDecl(clazz, _io.IN_DEFAULT);
     }
 
     /**
@@ -1179,7 +1179,7 @@ public enum Ast {
      * @param resolver how to look up the source code
      * @return the typeDeclaration or an exception
      */
-    public static TypeDeclaration type(Class clazz, _in._resolver resolver) {
+    public static TypeDeclaration typeDecl(Class clazz, _in._resolver resolver) {
         TypeDeclaration cached = AST_CACHE_MAP.get(clazz);
         if (cached != null) {
             return cached.clone();
@@ -1223,7 +1223,7 @@ public enum Ast {
             //get the enclosing class
             List<TypeDeclaration> tds = new ArrayList<>();
 
-            TypeDeclaration td = type( _i );
+            TypeDeclaration td = typeDecl( _i );
             td.walk(TypeDeclaration.class, t -> {
                 if (t.getName().asString().equals(clazz.getEnclosingClass().getSimpleName())) {
                     tds.add(t);
@@ -1560,7 +1560,7 @@ public enum Ast {
      * @return the compilationUnit
      */
     public static CompilationUnit of(Class clazz) throws _draftException {
-        Node n = type(clazz);
+        Node n = typeDecl(clazz);
         if (n instanceof CompilationUnit) {
             return (CompilationUnit) n;
         }
@@ -1604,8 +1604,8 @@ public enum Ast {
         return cu;        
     }
 
-    public static TypeDeclaration type(_in in ){
-        TypeDeclaration td = type(in.getInputStream() );
+    public static TypeDeclaration typeDecl(_in in ){
+        TypeDeclaration td = typeDecl(in.getInputStream() );
         if( td.findCompilationUnit().isPresent() ){
             td.findCompilationUnit().get().setStorage(in.getPath() );
         }
@@ -1616,7 +1616,7 @@ public enum Ast {
      * @param is the input Stream walk
      * @return the Top Level Ast Node (CompilationUnit, TypeDeclaration)
      */
-    public static TypeDeclaration type(InputStream is) {
+    public static TypeDeclaration typeDecl(InputStream is) {
         CompilationUnit cu = parse(is);
         if( cu.getPrimaryType().isPresent()){
             return cu.getPrimaryType().get();
@@ -1801,7 +1801,7 @@ public enum Ast {
      * @return the BlockStmt
      */
     public static BlockStmt blockStmt(String... code) {
-        return Stmt.block(code);
+        return Stmt.blockStmt(code);
     }
 
     /**
@@ -1851,7 +1851,7 @@ public enum Ast {
      * @return an ExplicitConstructorInvocationStmt based on the code
      */
     public static ExplicitConstructorInvocationStmt ctorInvocationStmt(String... code ) {
-        return Stmt.thisConstructor(  code );
+        return Stmt.thisConstructorStmt(  code );
     }
 
     /**
@@ -1959,8 +1959,8 @@ public enum Ast {
         return Stmt.whileStmt(  code );
     }
 
-    public static MethodCallExpr methodCallExpr(String... code) {
-        return Expr.methodCall(code);
+    public static MethodCallExpr methodCallEx(String... code) {
+        return Ex.methodCallEx(code);
     }
 
     public static Name name(String code) {
@@ -2126,8 +2126,8 @@ public enum Ast {
      * @param code the code comprising the variable
      * @return
      */
-    public static VariableDeclarationExpr varLocal(String...code ){
-        return Expr.varLocal(code);
+    public static VariableDeclarationExpr varLocalEx(String...code ){
+        return Ex.varLocalEx(code);
     }
 
     /**
@@ -2136,13 +2136,13 @@ public enum Ast {
      * {@link VariableDeclarationExpr} variables defined with code bodies
      *
      *
-     * @see #varLocal(String...)
+     * @see #varLocalEx(String...)
      * @see #field(String...)
      *
      * @param code
      * @return
      */
-    public static VariableDeclarator var(String... code) {
+    public static VariableDeclarator varDecl(String... code) {
         VariableDeclarator vd = field(code).getVariable(0);
         vd.removeForced();
         return vd;
@@ -2154,10 +2154,10 @@ public enum Ast {
      * @param code
      * @return
      */
-    public static AnnotationMemberDeclaration annotationMember(String... code) {
+    public static AnnotationMemberDeclaration annotationMemberDecl(String... code) {
         String str = Text.combine(code);
         str = "@interface $$$$$${" + System.lineSeparator() + str + System.lineSeparator() + "}";
-        AnnotationDeclaration ad = annotationDeclaration(str);
+        AnnotationDeclaration ad = annotationDecl(str);
         AnnotationMemberDeclaration amd = (AnnotationMemberDeclaration) ad.getMember(0);
         ad.remove(amd); //disconnect
         return amd;
@@ -2170,7 +2170,7 @@ public enum Ast {
      * @param code
      * @return
      */
-    public static TypeDeclaration type(String... code) {
+    public static TypeDeclaration typeDecl(String... code) {
         CompilationUnit cu = Ast.of(code);
         
         List<Comment> jdc = new ArrayList<>();
@@ -2210,36 +2210,36 @@ public enum Ast {
         });
     }
 
-    public static EnumDeclaration enumDeclaration(Class clazz) {
-        return (EnumDeclaration) Ast.type(clazz);
+    public static EnumDeclaration enumDecl(Class clazz) {
+        return (EnumDeclaration) Ast.typeDecl(clazz);
     }
 
-    public static EnumDeclaration enumDeclaration(String... code) {
-        return (EnumDeclaration) type(code);
+    public static EnumDeclaration enumDecl(String... code) {
+        return (EnumDeclaration) typeDecl(code);
     }
 
-    public static ClassOrInterfaceDeclaration classDeclaration(Class clazz) {
-        return (ClassOrInterfaceDeclaration) Ast.type(clazz);
+    public static ClassOrInterfaceDeclaration classDecl(Class clazz) {
+        return (ClassOrInterfaceDeclaration) Ast.typeDecl(clazz);
     }
 
-    public static ClassOrInterfaceDeclaration classDeclaration(String... code) {
-        return (ClassOrInterfaceDeclaration) type(code);
+    public static ClassOrInterfaceDeclaration classDecl(String... code) {
+        return (ClassOrInterfaceDeclaration) typeDecl(code);
     }
 
-    public static ClassOrInterfaceDeclaration interfaceDeclaration(Class clazz) {
-        return (ClassOrInterfaceDeclaration) Ast.type(clazz);
+    public static ClassOrInterfaceDeclaration interfaceDecl(Class clazz) {
+        return (ClassOrInterfaceDeclaration) Ast.typeDecl(clazz);
     }
 
-    public static ClassOrInterfaceDeclaration interfaceDeclaration(String... code) {
-        return (ClassOrInterfaceDeclaration) type(code);
+    public static ClassOrInterfaceDeclaration interfaceDecl(String... code) {
+        return (ClassOrInterfaceDeclaration) typeDecl(code);
     }
 
-    public static AnnotationDeclaration annotationDeclaration(Class clazz) {
-        return (AnnotationDeclaration) Ast.type(clazz);
+    public static AnnotationDeclaration annotationDecl(Class clazz) {
+        return (AnnotationDeclaration) Ast.typeDecl(clazz);
     }
 
-    public static AnnotationDeclaration annotationDeclaration(String... code) {
-        return (AnnotationDeclaration) type(code);
+    public static AnnotationDeclaration annotationDecl(String... code) {
+        return (AnnotationDeclaration) typeDecl(code);
     }
 
     /**
@@ -2248,36 +2248,36 @@ public enum Ast {
      * @param code
      * @return
      */
-    public static Expression expr(String... code) {
-        return Expr.of(code);
+    public static Expression ex(String... code) {
+        return Ex.of(code);
     }
 
-    public static NullLiteralExpr nullExpr() {
-        return Expr.nullExpr();
+    public static NullLiteralExpr nullEx() {
+        return Ex.nullEx();
     }
 
-    public static IntegerLiteralExpr expr(int intValue) {
-        return Expr.of(intValue);
+    public static IntegerLiteralExpr ex(int intValue) {
+        return Ex.of(intValue);
     }
 
-    public static BooleanLiteralExpr expr(boolean booleanValue) {
-        return Expr.of(booleanValue);
+    public static BooleanLiteralExpr ex(boolean booleanValue) {
+        return Ex.of(booleanValue);
     }
 
-    public static CharLiteralExpr expr(char charValue) {
-        return Expr.of(charValue);
+    public static CharLiteralExpr ex(char charValue) {
+        return Ex.of(charValue);
     }
 
-    public static LongLiteralExpr expr(long longValue) {
-        return Expr.of(longValue);
+    public static LongLiteralExpr ex(long longValue) {
+        return Ex.of(longValue);
     }
 
-    public static DoubleLiteralExpr expr(float floatValue) {
-        return Expr.of(floatValue);
+    public static DoubleLiteralExpr ex(float floatValue) {
+        return Ex.of(floatValue);
     }
 
-    public static DoubleLiteralExpr expr(double doubleValue) {
-        return Expr.of(doubleValue);
+    public static DoubleLiteralExpr ex(double doubleValue) {
+        return Ex.of(doubleValue);
     }
 
     /**
@@ -2286,7 +2286,7 @@ public enum Ast {
      * @param switchExpr
      * @return 
      */
-    public static SwitchExpr switchExpr( String... switchExpr ){
+    public static SwitchExpr switchEx(String... switchExpr ){
         
         return StaticJavaParser.parseExpression( Text.combine(switchExpr) );
     }
@@ -2297,7 +2297,7 @@ public enum Ast {
      * @param caseExpr
      * @return 
      */
-    public static SwitchEntry caseExpr( String...caseExpr ){
+    public static SwitchEntry caseEntry(String...caseExpr ){
         SwitchExpr se = (SwitchExpr)StaticJavaParser.parseExpression("switch(x) { " +  Text.combine(caseExpr) + "};");
         return se.getEntry(0);
     }
@@ -2401,21 +2401,21 @@ public enum Ast {
      * @param code
      * @return
      */
-    public static EnumConstantDeclaration constant(String... code) {
+    public static EnumConstantDeclaration constantDecl(String... code) {
         String comb = Text.combine(code).trim();
         if (comb.endsWith(";")) {
-            EnumDeclaration ed = enumDeclaration("enum E{ " + System.lineSeparator() + comb + System.lineSeparator() + " }");
+            EnumDeclaration ed = enumDecl("enum E{ " + System.lineSeparator() + comb + System.lineSeparator() + " }");
             EnumConstantDeclaration ecd = ed.getEntry(0);
             ecd.removeForced(); //disconnect
             return ecd;
         }
         if (comb.endsWith(",")) {
-            EnumDeclaration ed = enumDeclaration("enum E{ " + System.lineSeparator() + comb.substring(0, comb.length() - 1) + ";" + System.lineSeparator() + " }");
+            EnumDeclaration ed = enumDecl("enum E{ " + System.lineSeparator() + comb.substring(0, comb.length() - 1) + ";" + System.lineSeparator() + " }");
             EnumConstantDeclaration ecd = ed.getEntry(0);
             ecd.removeForced(); //disconnet
             return ecd;
         }
-        EnumDeclaration ed = enumDeclaration("enum E{ " + System.lineSeparator() + comb + ";" + System.lineSeparator() + " }");
+        EnumDeclaration ed = enumDecl("enum E{ " + System.lineSeparator() + comb + ";" + System.lineSeparator() + " }");
         EnumConstantDeclaration ecd = ed.getEntry(0);
         ecd.removeForced(); //disconnet
         return ecd;
@@ -2443,7 +2443,7 @@ public enum Ast {
                     + st
                     + System.lineSeparator() + "} }";
         }
-        InitializerDeclaration id = (InitializerDeclaration) classDeclaration(str).getMembers().get(0);
+        InitializerDeclaration id = (InitializerDeclaration) classDecl(str).getMembers().get(0);
         id.removeForced(); //disconnect
         return id;
     }

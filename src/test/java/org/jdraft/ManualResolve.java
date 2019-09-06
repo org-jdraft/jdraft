@@ -1,19 +1,15 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MethodCallExpr;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.Statement;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import junit.framework.TestCase;
-import org.jdraft.proto.$;
 import org.jdraft.proto.$$;
-import org.jdraft.proto.$expr;
 import org.jdraft.proto.$var;
 
 /**

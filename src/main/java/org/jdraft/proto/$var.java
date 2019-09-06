@@ -6,7 +6,7 @@ import org.jdraft._field;
 import org.jdraft._java;
 import org.jdraft._type;
 import org.jdraft._walk;
-import org.jdraft.Expr;
+import org.jdraft.Ex;
 import org.jdraft.Ast;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.FieldDeclaration;
@@ -210,7 +210,7 @@ public final class $var
      * @return 
      */
     public static $var of(String...pattern){
-        return new $var( Ast.var(pattern ) );
+        return new $var( Ast.varDecl(pattern ) );
     }
 
     /**
@@ -242,7 +242,7 @@ public final class $var
     public $id name = $id.of();
     
     /** */
-    public $expr init = $expr.of("$init$");
+    public $ex init = $ex.of("$init$");
 
     public static final PrettyPrinterConfiguration NO_COMMENTS = new PrettyPrinterConfiguration()
         .setPrintComments(false).setPrintJavadoc(false);
@@ -256,7 +256,7 @@ public final class $var
                 this.name = ($id)parts[i];
             }
             else{
-                this.init = ($expr)parts[i];
+                this.init = ($ex)parts[i];
             }
         }
     }
@@ -265,7 +265,7 @@ public final class $var
         this.name = $id.of(astProtoVar.getNameAsString());
         this.type = $typeRef.of(astProtoVar.getTypeAsString());
         if( astProtoVar.getInitializer().isPresent() ){
-            this.init = $expr.of(astProtoVar.getInitializer().get());
+            this.init = $ex.of(astProtoVar.getInitializer().get());
             this.constraint = v -> v.getInitializer().isPresent();
         }           
     }
@@ -334,7 +334,7 @@ public final class $var
     }
     
     public $var $init(){
-        this.init = $expr.of();
+        this.init = $ex.of();
         return this;
     }
     
@@ -348,7 +348,7 @@ public final class $var
      * @return 
      */    
     public $var $init( String...expr ){
-        this.init = $expr.of(expr);
+        this.init = $ex.of(expr);
         return this;
     }
     
@@ -361,12 +361,12 @@ public final class $var
     }
     
     public <E extends Expression> $var $init( E initExprProto){
-        this.init = $expr.of(initExprProto);
+        this.init = $ex.of(initExprProto);
         return this;
     }
     
     public <E extends Expression> $var $init( E initExprProto, Predicate<E> constraint){
-        this.init = $expr.of(initExprProto).$and(constraint);
+        this.init = $ex.of(initExprProto).$and(constraint);
         return this;
     }
 
@@ -383,7 +383,7 @@ public final class $var
      * @return 
      */
     public boolean matches( String...var ){
-        return matches(Ast.var(var));
+        return matches(Ast.varDecl(var));
     }
 
     /**
@@ -408,7 +408,7 @@ public final class $var
                 return null;
             }
             if( astVar.getInitializer().isPresent()){
-                $expr.Select sel = this.init.select(astVar.getInitializer().get());
+                $ex.Select sel = this.init.select(astVar.getInitializer().get());
                 if( sel == null ){
                     return null;
                 }
@@ -440,9 +440,9 @@ public final class $var
         
         String in = init.draft(translator, base).toString();
         if( in != null ){
-            return Ast.var(this.type.draft(translator, base)+ " "+ this.name.draft(translator, base)+" = "+in+";");
+            return Ast.varDecl(this.type.draft(translator, base)+ " "+ this.name.draft(translator, base)+" = "+in+";");
         }        
-        return Ast.var(this.type.draft(translator, base)+ " "+ this.name.draft(translator, base)+";");
+        return Ast.varDecl(this.type.draft(translator, base)+ " "+ this.name.draft(translator, base)+";");
     }
    
     @Override
@@ -496,7 +496,7 @@ public final class $var
             for(int i=0;i<vars.size();i++){
                 toCompose.put(allVars.get(i), values[i]);
             }
-            return Ast.var( type.draft(translator, toCompose) + " "+ name.draft(translator, toCompose) );
+            return Ast.varDecl( type.draft(translator, toCompose) + " "+ name.draft(translator, toCompose) );
         }
         throw new _draftException("Expected fill fields of size ("+allVars.size()+") or ("+vars.size()+") got ("+values.length+")");
     }
@@ -910,39 +910,39 @@ public final class $var
         }
         
         public boolean isInit(String init){
-            return Objects.equals( getInit(), Expr.of(init));
+            return Objects.equals( getInit(), Ex.of(init));
         }
         
         public boolean isInit(byte init){
-            return Objects.equals( getInit(), Expr.of(init));
+            return Objects.equals( getInit(), Ex.of(init));
         }
         
         public boolean isInit(short init){
-            return Objects.equals( getInit(), Expr.of(init));
+            return Objects.equals( getInit(), Ex.of(init));
         }
         
         public boolean isInit(long init){
-            return Objects.equals( getInit(), Expr.of(init));
+            return Objects.equals( getInit(), Ex.of(init));
         }
         
         public boolean isInit(char init){
-            return Objects.equals( getInit(), Expr.of(init));
+            return Objects.equals( getInit(), Ex.of(init));
         }
         
         public boolean isInit(double init){
-            return Objects.equals( getInit(), Expr.of(init));
+            return Objects.equals( getInit(), Ex.of(init));
         }
         
         public boolean isInit(float init){
-            return Objects.equals( getInit(), Expr.of(init));
+            return Objects.equals( getInit(), Ex.of(init));
         }
         
         public boolean isInit(boolean init){
-            return Objects.equals( getInit(), Expr.of(init));
+            return Objects.equals( getInit(), Ex.of(init));
         }
         
         public boolean isInit(int init){
-            return Objects.equals( getInit(), Expr.of(init));
+            return Objects.equals( getInit(), Ex.of(init));
         }
         
         public boolean isInit(Expression init){
