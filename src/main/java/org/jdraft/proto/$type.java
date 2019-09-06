@@ -1,5 +1,6 @@
 package org.jdraft.proto;
 
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.jdraft.*;
 
 import java.util.ArrayList;
@@ -8,6 +9,69 @@ import java.util.List;
 import java.util.Map;
 
 public class $type {
+
+    public static $proto.$tokens selectImplements(List<$typeRef> $protoTypes, _type._hasImplements _hi ){
+        Map<$typeRef, List<$typeRef.Select>> selectMap = new HashMap<>();
+
+        for(int i=0;i<$protoTypes.size(); i++) {
+            final $typeRef t = $protoTypes.get(i);
+            List<$typeRef.Select>matches = new ArrayList<>();
+            _hi.listImplements().forEach( c ->{
+                $typeRef.Select sel = t.select( _typeRef.of( (ClassOrInterfaceType)c) );
+                if( sel != null ){
+                    matches.add(sel);
+                }
+            } );
+            if( matches.isEmpty()){
+                return null; //couldnt match a $constructor to ANY constructors
+            } else{
+                selectMap.put(t, matches); //associated the matches with
+            }
+        }
+        //Now create a map with ALL tokens
+        $proto.$tokens all = $proto.$tokens.of();
+        selectMap.values().forEach( ls -> ls.forEach( s-> all.putAll(s.tokens()) ));
+        all.remove("type");
+        all.remove("name");
+        return all;
+    }
+
+    public static $proto.$tokens selectExtends($typeRef $protoType, _type._hasExtends _he ){
+        if( !_he.hasExtends() && $protoType.isMatchAny() ){
+            return $proto.$tokens.of();
+        }
+        List<$typeRef> lt = new ArrayList<>();
+        lt.add($protoType);
+        return selectExtends(lt, _he);
+    }
+
+    public static $proto.$tokens selectExtends(List<$typeRef> $protoTypes, _type._hasExtends _he ){
+
+        Map<$typeRef, List<$typeRef.Select>> selectMap = new HashMap<>();
+
+        for(int i=0;i<$protoTypes.size(); i++) {
+            final $typeRef t = $protoTypes.get(i);
+            List<$typeRef.Select>matches = new ArrayList<>();
+            _he.listExtends().forEach( c ->{
+                $typeRef.Select sel = t.select( _typeRef.of( (ClassOrInterfaceType)c) );
+                if( sel != null ){
+                    matches.add(sel);
+                }
+            } );
+            if( matches.isEmpty()){
+                return null; //couldnt match a $constructor to ANY constructors
+            } else{
+                selectMap.put(t, matches); //associated the matches with
+            }
+        }
+        //Now create a map with ALL tokens
+        $proto.$tokens all = $proto.$tokens.of();
+        selectMap.values().forEach( ls -> ls.forEach( s-> all.putAll(s.tokens()) ));
+
+        all.remove("type");
+        all.remove("name");
+        return all;
+    }
 
     public static $proto.$tokens selectConstructors(List<$constructor> $protoCtors, _constructor._hasConstructors _hcs ){
         Map<$constructor, List<$constructor.Select>> selectMap = new HashMap<>();
@@ -30,6 +94,9 @@ public class $type {
         //Now create a map with ALL tokens
         $proto.$tokens all = $proto.$tokens.of();
         selectMap.values().forEach( ls -> ls.forEach( s-> all.putAll(s.tokens()) ));
+
+        all.remove("type");
+        all.remove("name");
         return all;
     }
 
@@ -40,14 +107,15 @@ public class $type {
         for(int i=0;i<$protoMethods.size(); i++) {
             final $method t = $protoMethods.get(i);
             List<$method.Select>matches = new ArrayList<>();
-            _hcs.listMethods().forEach( c ->{
-                $method.Select sel = t.select( (_method)c);
+            _hcs.listMethods().forEach( m ->{
+                $method.Select sel = t.select( (_method)m);
                 if( sel != null ){
                     matches.add(sel);
+                    //System.out.println( "FOUND "+ sel+" "+ matches);
                 }
             } );
             if( matches.isEmpty()){
-                return null; //couldnt match a $constructor to ANY constructors
+                return null; //couldnt match a $method to ANY constructors
             } else{
                 selectMap.put(t, matches); //associated the matches with
             }
@@ -55,6 +123,9 @@ public class $type {
         //Now create a map with ALL tokens
         $proto.$tokens all = $proto.$tokens.of();
         selectMap.values().forEach( ls -> ls.forEach( s-> all.putAll(s.tokens()) ));
+        //we have to remove these from method so they dont "trickle up"
+        all.remove("type");
+        all.remove("name");
         return all;
     }
 
@@ -79,6 +150,8 @@ public class $type {
         //Now create a map with ALL tokens
         $proto.$tokens all = $proto.$tokens.of();
         selectMap.values().forEach( ls -> ls.forEach( s-> all.putAll(s.tokens()) ));
+        all.remove("type");
+        all.remove("name");
         return all;
     }
 
@@ -104,6 +177,8 @@ public class $type {
         //Now create a map with ALL tokens
         $proto.$tokens all = $proto.$tokens.of();
         selectMap.values().forEach( ls -> ls.forEach( s-> all.putAll(s.tokens()) ));
+        all.remove("type");
+        all.remove("name");
         return all;
     }
 
@@ -128,6 +203,8 @@ public class $type {
         //Now create a map with ALL tokens
         $proto.$tokens all = $proto.$tokens.of();
         selectMap.values().forEach( ls -> ls.forEach( s-> all.putAll(s.tokens()) ));
+        all.remove("type");
+        all.remove("name");
         return all;
     }
 }

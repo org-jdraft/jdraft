@@ -737,10 +737,11 @@ public final class _anno
 
         /**
          * @return true if there are ANNOTATIONS for ane entity
-         */
+
         default boolean isAnnotated() {
             return !getAnnos().isEmpty();
         }
+        */
 
         /**
          * apply a function to all annos
@@ -831,7 +832,7 @@ public final class _anno
             return getAnnos().list( annotationClass );
         }
 
-        default _HA annotate(List<AnnotationExpr> astAnnoList ){
+        default _HA anno(List<AnnotationExpr> astAnnoList ){
             astAnnoList.forEach( a -> getAnnos().add(a) );
             return (_HA)this;
         }
@@ -842,7 +843,7 @@ public final class _anno
          * @param _anns ANNOTATIONS to to
          * @return the annotated entity
          */
-        default _HA annotate(_anno... _anns ) {
+        default _HA anno(_anno... _anns ) {
             getAnnos().add(_anns );
             return (_HA)this;
         }
@@ -853,7 +854,7 @@ public final class _anno
          * @param annoClasses
          * @return
          */
-        default _HA annotate(Class<? extends Annotation>... annoClasses ) {
+        default _HA anno(Class<? extends Annotation>... annoClasses ) {
             getAnnos().add(annoClasses );
             return (_HA)this;
         }
@@ -864,7 +865,7 @@ public final class _anno
          * @param annotations
          * @return
          */
-        default _HA annotate(String... annotations ) {
+        default _HA anno(String... annotations ) {
             getAnnos().add( annotations );
             return (_HA)this;
         }

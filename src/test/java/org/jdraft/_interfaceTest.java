@@ -136,7 +136,7 @@ public class _interfaceTest extends TestCase {
         _i.setPackage("test");
         _i.imports( Serializable.class, MarkerInterface.class, WithDefaultMethods.class, ann2.class);
         _i.javadoc( "javadocs", "@author Eric", "@param <Y>", "@param <Z>");
-        _i.annotate( "@ann", "@ann2(k='d')");
+        _i.anno( "@ann", "@ann2(k='d')");
         _i.setPublic();
         _i.typeParameters( "<Y, Z extends Base>");
         _i.extend( "MarkerInterface<String>").extend( "WithDefaultMethods<Serializable>");

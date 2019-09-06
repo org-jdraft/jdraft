@@ -338,16 +338,6 @@ public final class _initBlock
             return listInitBlocks().stream().filter(_staticBlockMatchFn).collect(Collectors.toList());
         }
 
-        /** 
-         * adds a Static block based on the body of the lambda
-         * @param command
-         * @return 
-         */
-        default _HIB initBlock(Expr.Command command ){
-            StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-            return initBlock( Stmt.block(ste));
-        }
-
         /**
          * Apply an "action" function to all static blocks
          * @param _staticBlockAction action to take on static blocks
@@ -367,6 +357,115 @@ public final class _initBlock
         default _HIB forInitBlocks(Predicate<_initBlock> _staticBlockMatchFn, Consumer<_initBlock> _staticBlockAction ){
             listInitBlocks(_staticBlockMatchFn).forEach(_staticBlockAction );
             return (_HIB)this;
+        }
+
+
+        /**
+         * adds a Static block based on the body of the lambda
+         * @param command
+         * @return
+         */
+        default _HIB staticBlock(Expr.Command command ){
+            StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+            return staticBlock( Stmt.block(ste));
+        }
+
+        /**
+         * Build a static Block based on the Lambda Command Body
+         * @param command the lambda command body (to get the source of the Static Block)
+         * @param <A> the command type
+         * @return the modified T
+         */
+        default <A extends Object> _HIB staticBlock(Consumer<A> command ){
+            StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+            return staticBlock( Stmt.block(ste));
+        }
+
+        /**
+         * Build a static Block based on the Lambda Body
+         * @param command the lambda command body (to get the source of the Static Block)
+         * @param <A> the command type
+         * @param <B>
+         * @return the modified T
+         */
+        default <A extends Object, B extends Object> _HIB staticBlock(BiConsumer<A, B> command ){
+            StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+            return staticBlock( Stmt.block(ste));
+        }
+
+        /**
+         * Build a static Block based on the Lambda Body
+         * @param <A> the command type
+         * @param <B>
+         * @param <C>
+         * @param command the lambda command body (to get the source of the Static Block)
+         * @return the modified T
+         */
+        default <A extends Object, B extends Object, C extends Object> _HIB staticBlock(Expr.TriConsumer<A, B, C> command ){
+            StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+            return staticBlock( Stmt.block(ste));
+        }
+
+        /**
+         * Build a static Block based on the Lambda Body
+         * @param <A> the command type
+         * @param <B>
+         * @param <C>
+         * @param <D>
+         * @param command the lambda command body (to get the source of the Static Block)
+         * @return the modified T
+         */
+        default <A extends Object, B extends Object, C extends Object, D extends Object> _HIB staticBlock(Expr.QuadConsumer<A, B, C, D> command ){
+            StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+            return staticBlock( Stmt.block(ste));
+        }
+
+        default _HIB staticBlock(BlockStmt block){
+            BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addStaticInitializer();
+            bs.setStatements( block.getStatements());
+            return (_HIB)this;
+        }
+
+        default _HIB staticBlock(Object anonymousObjectWithInitBlock){
+            ObjectCreationExpr oce = Expr.anonymousObject( Thread.currentThread().getStackTrace()[2] );
+            InitializerDeclaration id =
+                    (InitializerDeclaration)oce.getAnonymousClassBody().get().stream().filter(t-> t instanceof InitializerDeclaration).findFirst().get();
+            //if( anonymousObjectWithInitBlock.getClass().getAnnotation(_static.class) != null){
+            id.setStatic(true);
+            //System.out.println( id );
+            //}
+            return initBlock( _initBlock.of(id) );
+        }
+
+        default _HIB staticBlock(String  content){
+            return staticBlock(new String[]{content});
+        }
+
+        default _HIB staticBlock(String... content){
+            //reserve the static initializer on the _type
+            BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addStaticInitializer();
+
+            bs.setStatements( Ast.blockStmt( content ).getStatements());
+            return (_HIB)this;
+        }
+
+        default _HIB staticBlock(_initBlock sb){
+            BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addStaticInitializer();
+            bs.setStatements(sb.astInit.getBody().getStatements());
+            return (_HIB)this;
+        }
+
+
+
+
+        /**
+         * adds a Static block based on the body of the lambda
+         * @param command
+         * @return
+         */
+        default _HIB initBlock(Expr.Command command ){
+            StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+            return initBlock( Stmt.block(ste));
         }
 
         /**
@@ -419,12 +518,8 @@ public final class _initBlock
             return initBlock( Stmt.block(ste));
         }
 
-        default boolean hasInitBlock(){
-            return ((TypeDeclaration)((_type)this).ast()).stream().anyMatch( m -> m instanceof InitializerDeclaration );
-        }
-
         default _HIB initBlock(BlockStmt block){
-            BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addStaticInitializer();
+            BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addInitializer();
             bs.setStatements( block.getStatements());
             return (_HIB)this;
         }
@@ -444,19 +539,28 @@ public final class _initBlock
         }
 
         default _HIB initBlock(String... content){
-            //reserve the static initializer on the _type            
-            BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addStaticInitializer();
+            //reserve the static initializer on the _type
+            BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addInitializer();
 
             bs.setStatements( Ast.blockStmt( content ).getStatements());
             return (_HIB)this;
         }
 
         default _HIB initBlock(_initBlock sb){
-             BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addStaticInitializer();
-             bs.setStatements(sb.astInit.getBody().getStatements());
-             return (_HIB)this;
+            BlockStmt bs = null;
+            if( sb.isStatic() ) {
+                bs = ((TypeDeclaration) ((_type) this).ast()).addStaticInitializer();
+            }else{
+                bs = ((TypeDeclaration) ((_type) this).ast()).addInitializer();
+            }
+            bs.setStatements(sb.astInit.getBody().getStatements());
+            return (_HIB)this;
         }
-        
+
+        default boolean hasInitBlock(){
+            return ((TypeDeclaration)((_type)this).ast()).stream().anyMatch( m -> m instanceof InitializerDeclaration );
+        }
+
         /** 
          * remove the _staticBlock from the _type and return the _type 
          * @param _sb the staticBlock

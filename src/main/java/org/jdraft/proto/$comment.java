@@ -181,11 +181,32 @@ public final class $comment <C extends Comment>
         this.commentClasses.remove(JavadocComment.class );
         return this;
     }
-    
+
+    public boolean matches( _javadoc _j ){
+        if( _j == null ){
+            return this.isMatchAny();
+        }
+        return matches( _j.ast());
+    }
+
     public boolean matches( String...comment ){
         return matches( Ast.comment(comment));
     }
-    
+
+    public boolean matches( _javadoc._hasJavadoc _j){
+        if( !_j.hasJavadoc() ){
+             return this.isMatchAny();
+        }
+        return matches(_j.getJavadoc().ast());
+    }
+
+    public boolean matches( Node nodeWithComment){
+        if( !nodeWithComment.getComment().isPresent() ){
+            return isMatchAny();
+        }
+        return matches( nodeWithComment.getComment().get());
+    }
+
     public boolean matches( Comment astComment ){
         return select(astComment) != null;
     }
@@ -206,9 +227,12 @@ public final class $comment <C extends Comment>
      */
     public Select select( Comment astComment ){
         if(! this.commentClasses.contains(astComment.getClass())){
+            //System.out.println( "Coment"+ astComment+ " "+astComment.isJavadocComment()+ " "+astComment.getClass());
+            //System.out.println( "not correct comment class"+ this.commentClasses+" "+ astComment.getClass());
             return null;
         }
         if( !this.constraint.test( (C)astComment) ){
+            //System.out.println( "failed constraint");
             return null;
         }        
         Tokens ts = this.contentsStencil.parse(Ast.getContent(astComment));
@@ -227,15 +251,25 @@ public final class $comment <C extends Comment>
             return 
                 this.contentsStencil.isMatchAny() && this.constraint.test(null);
         }catch(Exception e){
+            //System.out.println("COMMENT NOT MATCH ANY" );
             return false;
         }
     }
 
     public $tokens parse(_javadoc._hasJavadoc hj){
+        //System.out.println( "1>>>>>>>>>>>>> parsin "+hj);
+        //System.out.println( "1>>>>>>>>>>>>> parsin "+this.commentClasses);
         _javadoc _jd = hj.getJavadoc();
         if( _jd == null){
-            return parse( (Comment)null);
+            //System.out.println( "Javadoc is null");
+            if (isMatchAny()) {
+                return $tokens.of();
+            }
+            return null;
+            //return parse( (Comment)null);
         }
+        //System.out.println( _jd);
+        //System.out.println( "CONTENT"+ _jd.getContent());
         return parse(_jd.ast() );
     }
 
@@ -248,6 +282,7 @@ public final class $comment <C extends Comment>
                 return null;
             }
         }
+        //System.out.println( comment.getClass() +  "  "+ comment );
         Select sel = select(comment);
         if (sel != null) {
             return sel.tokens;

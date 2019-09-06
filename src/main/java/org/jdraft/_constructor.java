@@ -79,7 +79,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
         }
         //System.out.println( "Setting throws");
         _ct.setThrows( theMethod.getThrownExceptions() );
-        _ct.annotate( theMethod.getAnnotations()); //add annos
+        _ct.anno( theMethod.getAnnotations()); //add annos
         _ct.removeAnnos(_toCtor.class); //remove the _ctor anno if it exists
         _ct.setBody( theMethod.getBody().get() ); //BODY
         
@@ -544,7 +544,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
             }
             _ct.setThrows( theMethod.getThrownExceptions() ); 
             _ct.setBody( theMethod.getBody().get() ); //BODY
-            _ct.annotate( theMethod.getAnnotations() ); //ANNOTATIONS
+            _ct.anno( theMethod.getAnnotations() ); //ANNOTATIONS
             if( theMethod.hasJavaDocComment() ){
                 _ct.ast().setJavadocComment( theMethod.getJavadocComment().get());
             }

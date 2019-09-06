@@ -123,7 +123,7 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $prot
      * which is 
      */
     private $body( ){
-        this.isImplemented = false;        
+        this.isImplemented = null;
     }
 
     /**
@@ -294,9 +294,17 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $prot
      * @return 
      */
     public boolean isMatchAny(){
+
         try{
-            return this.constraint.test(null) && this.bodyStmts.isMatchAny();
+            if(this.constraint.test(null)){
+                if( this.bodyStmts == null ){
+                    return true;
+                }
+                return this.bodyStmts.stmtStencil.isMatchAny();
+            }
+            return false;
         }catch(Exception e){
+            System.out.println("BODY NOT MATCH ANY" );
             return false;
         }
     }
@@ -320,18 +328,23 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $prot
     }
 
     public Tokens parse( _body body ){
+        if( this.isImplemented == null && this.bodyStmts ==null ){
+            return new Tokens();
+        }
         if( isMatchAny() && body == null ){
             return new Tokens();
         }
         if( !this.constraint.test(body)){
             return null;
         }
+
         if( !body.isImplemented() ){
-            if( this.isImplemented ){
+            if( this.isImplemented == true){
                 return null;
             }
             return new Tokens();
         }
+
         if( this.isImplemented ){
             $stmt.Select ss = this.bodyStmts.select((Statement)body.ast());
             if( ss != null ){
@@ -354,6 +367,9 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $prot
      * @return 
      */
     public Select select( _body body ){
+        if( !this.constraint.test(body) ){
+            return null;
+        }
         Tokens ts = parse(body);
         if( ts == null ){
             return null;
@@ -414,7 +430,7 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $prot
             tks.remove("$body");
             return $bd.draft(translator, tks);
         }
-        if( !this.isImplemented ){
+        if( this.isImplemented == null || !this.isImplemented ){
             return _body.of(";");
         }
         Statement r = this.bodyStmts.draft( translator, keyValues );

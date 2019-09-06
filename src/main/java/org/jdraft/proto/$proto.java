@@ -1534,6 +1534,8 @@ public interface $proto<P, $P extends $proto>{
             if( tokens.isConsistent(newTokens)){
                 tokens.putAll(newTokens);
                 return tokens;
+            } else{
+                //System.out.println( "Consistency failure at "+ newTokens+" "+ tokens);
             }
             return null;
         }

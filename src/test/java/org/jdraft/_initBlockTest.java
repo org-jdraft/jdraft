@@ -18,7 +18,15 @@ public class _initBlockTest extends TestCase {
     @interface T{
         
     }
-    
+
+
+    public void testAddStaticBlock(){
+        _class _c = _class.of("aaaa.b.C").staticBlock(new Object(){
+            {System.out.println(1);}
+        });
+        assertEquals(1, _c.listInitBlocks().size());
+        assertTrue( _c.getInitBlock(0).isStatic());
+    }
 
     public void testAddInitBlock(){
         _class _c = _class.of("aaaa.b.C").initBlock(new @_static Object(){

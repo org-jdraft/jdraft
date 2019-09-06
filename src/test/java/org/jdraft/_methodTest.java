@@ -630,8 +630,8 @@ public class _methodTest extends TestCase {
      public void testFromScratch(){
         _method _m = _method.of( "void a();");
         _m.javadoc(" JAVADOC");
-        _m.annotate( ann.class );
-        _m.annotate( "@ann2(key=7,VALUE='r')");
+        _m.anno( ann.class );
+        _m.anno( "@ann2(key=7,VALUE='r')");
         _m.setPublic().setStatic().setFinal();
         _m.type("List<String>");
         _m.name("aMethod");

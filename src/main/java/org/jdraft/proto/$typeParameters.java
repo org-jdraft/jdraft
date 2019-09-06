@@ -166,6 +166,7 @@ public final class $typeParameters
         try {
             return this.constraint.test(null) && this.typeParams.isEmpty();
         } catch(Exception e ){
+            System.out.println("TYPEPARAMETERS NOT MATCH ANY" );
             return false;
         }
     }

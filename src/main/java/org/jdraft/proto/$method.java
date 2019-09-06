@@ -79,6 +79,8 @@ public final class $method
      * @return
      */
     public static $method of(){
+        //return new $method(_method.of("$anyMethod$") ).anyBody();
+        //return new $method(_method.of("$type$ $name$();") ).anyBody();
         return new $method(_method.of("$type$ $name$();") ).anyBody();
     }
     
@@ -261,7 +263,29 @@ public final class $method
         this.body = $body.of();
         return this;
     }
-    
+
+    /**
+     * Does this prototype match ANY _method?
+     * @return true if this prototype will match ANY method
+     */
+    public boolean isMatchAny(){
+        try {
+            return this.constraint.test(null) &&
+                    this.annos.isMatchAny() &&
+                    this.name.isMatchAny() &&
+                    this.type.isMatchAny() &&
+                    this.typeParameters.isMatchAny() &&
+                    this.thrown.isMatchAny() &&
+                    this.body.isMatchAny() &&
+                    this.javadoc.isMatchAny() &&
+                    this.modifiers.isMatchAny() &&
+                    this.parameters.isMatchAny();
+        } catch(Exception e){
+          return false;
+        }
+
+
+    }
     /**
      * ADDS an additional matching constraint to the prototype
      * @param constraint a constraint to be added

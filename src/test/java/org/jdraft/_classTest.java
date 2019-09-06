@@ -32,6 +32,15 @@ import test.NativeMethod;
  */
 public class _classTest extends TestCase {
 
+    /**
+     * Found this bug... (specifying a private class to parse)
+     * it's barf on parsing
+     * : org.jdraft._draftException: ErrorParsing :[(line 1,col 1) 'private' is not allowed here.]
+     */
+    public void testPrivateClassCtor(){
+        _class _c = _class.of("private class PRIVATE{}");
+    }
+
     @Retention( RetentionPolicy.RUNTIME )
     @Target({ ElementType.TYPE, ElementType.TYPE_USE})
     @interface _post{
@@ -663,7 +672,7 @@ _class.of("aaaa.bbbb.Local",
         _c.imports(Map.class,HashMap.class);
         _c.imports( "aaaa.bbbb.C", "blah.dat.*");
         _c.javadoc("class JAVADOC");
-        _c.annotate( "@ann", "@ann(k=1,v='y')");
+        _c.anno( "@ann", "@ann(k=1,v='y')");
         _c.setPublic();
         _c.name("Cgg");
         _c.typeParameters("<T extends Impl>");

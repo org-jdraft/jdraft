@@ -51,7 +51,7 @@ public class _diffApiTest extends TestCase {
         assertTrue(_diff.of(_a, _b).isEmpty());
         
         //add deprecated to _a only
-        _a.annotate(Deprecated.class);
+        _a.anno(Deprecated.class);
         
         _diff _d = _diff.of(_a, _b);
         
@@ -100,7 +100,7 @@ public class _diffApiTest extends TestCase {
         assertTrue(_diff.of(_a, _b).isEmpty());
         
         //change something on the left (_a) add annotation to field g
-        _a.getNest("Inner").getField("g").annotate(Deprecated.class);
+        _a.getNest("Inner").getField("g").anno(Deprecated.class);
         
         _diff _d = _diff.of(_a,_b);
         //How many changes?
@@ -215,7 +215,7 @@ public class _diffApiTest extends TestCase {
         assertTrue(_diff.of(_b, _a).isEmpty());
         
         //change something on the left (_a) add annotation to field g
-        _a.getNest("Inner").getField("g").annotate(Deprecated.class);
+        _a.getNest("Inner").getField("g").anno(Deprecated.class);
         
         _diff _d = _diff.of(_b,_a);
         

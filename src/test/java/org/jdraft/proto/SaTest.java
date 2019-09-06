@@ -184,7 +184,7 @@ public class SaTest extends TestCase {
         assertEquals( 0, $anno.of().listIn(_c).size());
         
         //add a top level annotation
-        _c.annotate(Deprecated.class);
+        _c.anno(Deprecated.class);
         assertEquals( 1, $anno.of().listIn(_c).size());
 
 

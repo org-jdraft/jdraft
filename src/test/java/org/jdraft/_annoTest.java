@@ -292,7 +292,7 @@ public class _annoTest extends TestCase {
         });
 
         _method _m = _method.of("public abstract LogReceipt recordEvent(LogRecord logRecord);")
-                .annotate(_a);
+                .anno(_a);
 
         System.out.println( _m);
     }

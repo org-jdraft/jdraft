@@ -116,7 +116,7 @@ public final class $constructor
             _ct.javadoc(theMethod.getJavadocComment().get());
         }
         _ct.setThrows( theMethod.getThrownExceptions() );
-        _ct.annotate( theMethod.getAnnotations()); //add annos
+        _ct.anno( theMethod.getAnnotations()); //add annos
         _ct.removeAnnos(_toCtor.class); //remove the _ctor anno if it exists
         _ct.setBody( theMethod.getBody().get() ); //BODY
         
@@ -128,7 +128,8 @@ public final class $constructor
      * @return
      */
     public static $constructor of(){
-        return new $constructor(_constructor.of("$name$(){}") );
+        return new $constructor( $id.of("$name$"), $body.of() );
+        //return new $constructor(_constructor.of("$name$(){}") );
     }
     
     /**
@@ -317,7 +318,7 @@ public final class $constructor
         normalized$.addAll( javadoc.list$Normalized() );
         normalized$.addAll( annos.list$Normalized() );
         normalized$.addAll( typeParameters.list$Normalized() );
-        normalized$.addAll( name.idStencil.list$Normalized() );
+        normalized$.addAll( name.list$Normalized() );
         normalized$.addAll( parameters.list$Normalized() );
         
         normalized$.addAll( thrown.list$Normalized() );
@@ -331,7 +332,7 @@ public final class $constructor
         all$.addAll( javadoc.list$() );
         all$.addAll( annos.list$() );
         all$.addAll( typeParameters.list$() );
-        all$.addAll( name.idStencil.list$() );
+        all$.addAll( name.list$() );
         all$.addAll( parameters.list$() );
         all$.addAll( thrown.list$() );
         all$.addAll( body.list$() );        
@@ -531,7 +532,18 @@ public final class $constructor
         }
         return draft(translator, ts);
     }
-    
+
+    public boolean isMatchAny(){
+        try {
+            return this.constraint.test(null) && this.javadoc.isMatchAny() && this.annos.isMatchAny()
+                    && this.modifiers.isMatchAny() && this.name.isMatchAny() && this.typeParameters.isMatchAny()
+                    && this.thrown.isMatchAny() && this.body.isMatchAny();
+        } catch(Exception e){
+            System.out.println("CONSTRUCTOR NOT MATCH ANY" );
+            return false;
+        }
+    }
+
     @Override
     public _constructor draft(Translator translator, Map<String, Object> keyValues) {
         
@@ -587,6 +599,7 @@ public final class $constructor
      */
     public Select select( _constructor _ct){
         if( !this.constraint.test(_ct)){
+            System.out.println( "FAILED CONSTRAINT");
             return null;
         }
         if( modifiers.select(_ct) == null ){

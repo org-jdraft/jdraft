@@ -229,7 +229,15 @@ public final class $throws
         }
         return null;
     }
- 
+
+    public boolean isMatchAny(){
+        try{
+            return this.constraint.test(null) && this.throws$ids.isEmpty();
+        }catch(Exception e){
+            System.out.println("THROWS NOT MATCH ANY" );
+            return false;
+        }
+    }
     @Override
     public String toString() {
         return "($throws) : \"" +this.throws$ids + "\"";

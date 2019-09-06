@@ -125,9 +125,10 @@ public final class $annos
         try{
             return( this.constraint.test(null) && 
                 this.$annosList.isEmpty() || 
-                this.$annosList.size() == 1 
-                && this.$annosList.get(0).isMatchAny());
+                    (this.$annosList.size() == 1
+                    && this.$annosList.get(0).isMatchAny()));
         } catch(Exception e){
+            System.out.println("ANNOS NOT MATCH ANY" );
             return false;
         }
     }

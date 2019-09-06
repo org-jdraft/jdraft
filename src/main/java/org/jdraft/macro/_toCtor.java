@@ -80,7 +80,7 @@ public @interface _toCtor {
                 _ct.setTypeParameters( _m.getTypeParameters() );
             }
             if( _m.hasAnnos() ) {
-                _ct.annotate(_m.ast().getAnnotations() );
+                _ct.anno(_m.ast().getAnnotations() );
             }
             _ct.setBody( _m.getBody() );
             _ct.setThrows(_m.ast().getThrownExceptions());

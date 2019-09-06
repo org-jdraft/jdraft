@@ -288,7 +288,7 @@ public final class $typeRef
             }
             Tokens ts = typePattern().parse(_tr.toString() );
             if( ts != null ){
-                return new Select( _tr, ts); //$args.of(ts);
+                return new Select( _tr, ts);
             }
         }        
         return null;

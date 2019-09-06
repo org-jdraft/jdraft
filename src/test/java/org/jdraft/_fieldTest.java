@@ -116,7 +116,6 @@ public class _fieldTest extends TestCase {
         _field _f = _field.of("int i;");
         assertEquals( "i", _f.getName());
         assertEquals( _typeRef.of( "int"), _f.getType());
-        assertFalse( _f.isAnnotated() );
         assertFalse( _f.isFinal() );
         assertFalse( _f.isPrivate() );
         assertFalse( _f.isProtected() );

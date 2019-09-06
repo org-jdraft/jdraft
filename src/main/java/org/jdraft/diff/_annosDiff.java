@@ -101,9 +101,9 @@ public class _annosDiff
         public void patchLeftToRight() {
             
             leftParent.removeAnno(left.ast());
-            leftParent.annotate(left);
+            leftParent.anno(left);
             rightParent.removeAnno(left.ast());
-            rightParent.annotate(left);
+            rightParent.anno(left);
         }
 
         @Override
@@ -150,9 +150,9 @@ public class _annosDiff
         public void patchRightToLeft() {
             //remove it before just so we dont mistakenly add it twice
             leftParent.removeAnno(right.ast());
-            leftParent.annotate(right);
+            leftParent.anno(right);
             rightParent.removeAnno(right.ast());
-            rightParent.annotate(right);
+            rightParent.anno(right);
         }
 
         @Override

@@ -165,11 +165,11 @@ public class _inspectTest extends TestCase {
         System.out.println( dt );
         assertTrue(dt.at(_path.of(FIELD,"a",INIT)) instanceof _change); //field init is change from left to right 
         _f2.init(1);        
-        _f2.annotate("@Ann");
+        _f2.anno("@Ann");
         dt = _diff.of(_c1, _c2);
         assertTrue(dt.firstAt(ANNO) instanceof _rightOnly);
         
-        _f1.annotate("@Ann");
+        _f1.anno("@Ann");
         _f1.setPrivate();
         dt = _diff.of(_c1, _c2);
         assertTrue(dt.firstAt(MODIFIERS) instanceof _change ); 
@@ -239,7 +239,7 @@ public class _inspectTest extends TestCase {
     public void testMethodDiff(){
         _class _c1 = _class.of("C").method("void m(){}");
         _class _c2 = _class.of("C").method("void m(){}");
-        _c2.forMethods(m-> m.annotate(Deprecated.class));
+        _c2.forMethods(m-> m.anno(Deprecated.class));
         
         //System.out.println( _c2 );
         _diff dt = _diff.of(_c1, _c2);
@@ -297,7 +297,7 @@ public class _inspectTest extends TestCase {
         dt.forEach(d -> System.out.println( d.path().componentPath) );
         assertTrue(dt.listAt(CONSTRUCTOR).size() >= 1);
         
-        _c1.getMethod("m").annotate(Deprecated.class);        
+        _c1.getMethod("m").anno(Deprecated.class);
         dt = _diff.of(_c1, _c2);
         assertTrue(dt.firstAt(ANNO) instanceof _leftOnly); //its removed from left -> right
         

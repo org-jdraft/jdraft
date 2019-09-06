@@ -87,7 +87,9 @@ public class SbodyTest extends TestCase {
         abstract String b(); 
     }
     
-    public void testBodyNotImpl(){        
+    public void testBodyNotImpl(){
+        System.out.println( $body.notImplemented().listIn(FFF.class) );
+
         assertEquals(2, $body.notImplemented().count(FFF.class));
     }
     

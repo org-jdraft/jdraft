@@ -12,6 +12,12 @@ import org.jdraft.macro._toCtor;
 
 public class SconstructorTest extends TestCase {
 
+    public void testConstructorLambda(){
+        $constructor $c = $.constructor(); //c->!c.listStatements().isEmpty());
+
+        assertTrue($c.matches(_constructor.of("C(){System.out.println(1);}")));
+    }
+
     //what if I allowed the passing in of Classes
     //if the class is an annotation add it to annotations
     //if the class is a throwable, add it to ...
@@ -155,6 +161,16 @@ public class SconstructorTest extends TestCase {
                 
             }
         }
+        assertTrue( $.constructor().matches(_constructor.of("C(){}")));
+        assertTrue( $.constructor().matches(_constructor.of("private C(){}")));
+        _constructor _ct = _constructor.of("private C(){System.out.println(1);}");
+
+        System.out.println( _ct );
+
+        assertTrue($.constructor().isMatchAny());
+        assertTrue($constructor.of().isMatchAny());
+        assertTrue( $.constructor().matches(_ct));
+
         assertEquals(1, $constructor.of().listIn(c.class).size());
         assertTrue(! $constructor.of().selectFirstIn(c.class).hasParameters());
         assertTrue($constructor.of().selectFirstIn(c.class).isParameters("()"));

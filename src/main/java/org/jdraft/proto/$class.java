@@ -3,11 +3,10 @@ package org.jdraft.proto;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.comments.JavadocComment;
-import org.jdraft.Tokens;
-import org.jdraft.Translator;
-import org.jdraft._class;
+import org.jdraft.*;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -21,7 +20,6 @@ public final class $class
 
     public Predicate<_class> constraint = t->true;
 
-    public $comment<BlockComment> headerComment = $comment.blockComment();
     public $package packageDecl = $package.of();
     public List<$import> imports = new ArrayList<>();
     public $comment<JavadocComment>javadoc = $comment.javadocComment();
@@ -35,6 +33,10 @@ public final class $class
     public List<$field> fields = new ArrayList<>();
     public List<$method> methods = new ArrayList<>();
     public List<$initBlock> initBlocks = new ArrayList<>();
+
+
+    public $typeRef extend = $typeRef.of();
+    public List<$typeRef> implement = new ArrayList<>();
 
     //nested types???
 
@@ -64,8 +66,11 @@ public final class $class
             if( parts[i] instanceof $anno ){
                 this.annos.add(($anno)parts[i]);
             }
+            if( parts[i] instanceof $comment){
+                this.javadoc = ($comment<JavadocComment>)parts[i];
+            }
             if( parts[i] instanceof $constructor ){
-                this.annos = ($annos)parts[i];
+                this.ctors.add (($constructor)parts[i]);
             }
             if( parts[i] instanceof $field ){
                 this.fields.add( ($field) parts[i]);
@@ -98,6 +103,7 @@ public final class $class
                 this.typeParameters.$add(  ($typeParameter)parts[i]);
             }
             //Nested classes
+            //doesnt do javadoc, headercomment, extend, implement
         }
     }
 
@@ -107,7 +113,7 @@ public final class $class
         this.annos.hardcode$(translator, kvs);
         this.ctors.forEach( c-> c.hardcode$(translator, kvs));
         this.fields.forEach(f-> f.hardcode$(translator, kvs));
-        this.headerComment.hardcode$(translator, kvs);
+        //this.headerComment.hardcode$(translator, kvs);
         this.imports.forEach( i-> i.hardcode$(translator, kvs));
         this.initBlocks.forEach( i-> i.hardcode$(translator, kvs));
         this.javadoc.hardcode$(translator, kvs);
@@ -117,6 +123,9 @@ public final class $class
         this.packageDecl = this.packageDecl.hardcode$(translator, kvs);
         this.typeParameters = this.typeParameters.hardcode$(translator, kvs);
 
+        //extends  implements
+        this.extend.hardcode$(translator, kvs);
+        this.implement.forEach( i-> i.hardcode$(translator, kvs));
         //still need nests
 
         return this;
@@ -131,17 +140,62 @@ public final class $class
                  this.methods.isEmpty() &&
                  this.initBlocks.isEmpty() &&
                  this.imports.isEmpty() &&
-                 this.headerComment.isMatchAny() &&
+
+                 //this.headerComment.isMatchAny() &&
                  this.javadoc.isMatchAny() &&
                  this.modifiers.isMatchAny() &&
                  this.packageDecl.isMatchAny() &&
-                 this.typeParameters.isMatchAny();
+                 this.typeParameters.isMatchAny() &&
+
+                 //extends, implements
+                 this.extend.isMatchAny() &&
+                 this.implement.isEmpty();
             //NESTS
         } catch(Exception e){
             return false;
         }
     }
 
+    public boolean match( _class _c){
+        return select(_c) != null;
+    }
+
+    public boolean matches(CompilationUnit cu){
+        if( cu != null){
+            if( cu.getTypes().size() == 1 && cu.getType(0) instanceof ClassOrInterfaceDeclaration){
+                return matches( cu.getType(0).asClassOrInterfaceDeclaration() );
+            }
+            if( cu.getPrimaryType().isPresent() ){
+                return matches(cu.getPrimaryType().get());
+            }
+        }
+        return false;
+    }
+
+    public boolean matches(TypeDeclaration td ){
+        if( td instanceof ClassOrInterfaceDeclaration ){
+            return matches( (ClassOrInterfaceDeclaration) td);
+        }
+        return false;
+    }
+
+    public boolean matches(ClassOrInterfaceDeclaration coid ){
+        if( coid != null && ! coid.isInterface()){
+            return select(_class.of(coid)) != null;
+        }
+        return false;
+    }
+
+    public boolean matches( _code _c){
+        if( _c instanceof _class){
+            return matches( (_class)_c);
+        }
+        return false;
+    }
+
+    public boolean matches( _class _c){
+        return select(_c) != null;
+    }
 
     @Override
     public Select select(_class instance) {
@@ -153,19 +207,25 @@ public final class $class
         // IF "NewTokens" is not null : check that the "tokens" are consistent with "NewTokens"
         // IF "tokens"/"NewTokens" ARE NOT consistent (i.e. at least one var is assigned (2) distinct values) : return null
         // IF "tokens"/NewTokens" ARE consistent : return the "composite" tokens list (the union of "tokens" & "NewTokens")
-        $tokens tokens = this.headerComment.parse(instance);
+        //$tokens tokens = this.headerComment.parse(instance);
+        $tokens tokens = $type.selectImports(this.imports, instance);
+        //$tokens tokens = this.packageDecl.parse(instance.astCompilationUnit() );
         tokens = $tokens.to( tokens, ()-> this.packageDecl.parse(instance.astCompilationUnit() ) );
-        tokens = $tokens.to( tokens, ()-> $type.selectImports(this.imports, instance));
+
         tokens = $tokens.to( tokens, ()-> this.annos.parse(instance));
         tokens = $tokens.to( tokens, ()-> this.javadoc.parse(instance ));
         tokens = $tokens.to( tokens, ()-> this.modifiers.parse(instance));
-        tokens = $tokens.to( tokens, ()->this.name.parse(instance.getName()));
+        tokens = $tokens.to( tokens, ()-> this.name.parse(instance.getName()));
         tokens = $tokens.to( tokens, ()-> this.typeParameters.parse(instance.getTypeParameters()) );
+
+        tokens = $tokens.to( tokens, ()-> $type.selectExtends(this.extend, instance) );
+        tokens = $tokens.to( tokens, ()-> $type.selectImplements(this.implement, instance) );
 
         tokens = $tokens.to( tokens, ()-> $type.selectConstructors(this.ctors, instance ) );
         tokens = $tokens.to( tokens, ()-> $type.selectMethods(this.methods, instance ) );
         tokens = $tokens.to( tokens, ()-> $type.selectFields(this.fields, instance ) );
         tokens = $tokens.to( tokens, ()-> $type.selectInitBlocks(this.initBlocks, instance ) );
+
 
         //nests
         if( tokens != null ){
@@ -179,6 +239,49 @@ public final class $class
         this.constraint = this.constraint.and(constraint);
         return this;
     }
+
+    /*
+    public $class $headerComment( $comment<BlockComment> headerComment ){
+        this.headerComment = headerComment;
+        return this;
+    }
+     */
+
+    public $class $javadoc( Predicate<JavadocComment> javadocMatchFn ){
+        this.javadoc = $comment.javadocComment(javadocMatchFn);
+        //System.out.println( this.javadoc.commentClasses);
+        return this;
+    }
+
+    public $class $javadoc( $comment<JavadocComment> javadocComment ){
+        this.javadoc = javadocComment;
+        return this;
+    }
+
+    public $class $extend( $typeRef ext ){
+        this.extend = ext;
+        return this;
+    }
+
+    public $class $extend( Class clazz ){
+        return $extend( $typeRef.of(clazz));
+    }
+
+    public $class $implement( Class... clazz){
+         Arrays.stream(clazz).forEach(c -> this.implement.add( $typeRef.of(c)));
+         return this;
+    }
+
+    public $class $implement( String...types){
+        Arrays.stream(types).forEach(c -> this.implement.add( $typeRef.of(c)));
+        return this;
+    }
+
+    public $class $implement( $typeRef...impl){
+        Arrays.stream(impl).forEach(i -> this.implement.add(i));
+        return this;
+    }
+
 
     @Override
     public boolean match(Node candidate) {

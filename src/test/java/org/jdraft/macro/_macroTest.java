@@ -1,10 +1,5 @@
 package org.jdraft.macro;
 
-import org.jdraft.macro._hashCode;
-import org.jdraft.macro._toString;
-import org.jdraft.macro._autoConstructor;
-import org.jdraft.macro._equals;
-import org.jdraft.macro._macro;
 import org.jdraft._anno._hasAnnos;
 import org.jdraft._class;
 import org.jdraft._type;
@@ -122,7 +117,7 @@ public class _macroTest extends TestCase {
         }
 
         _class _c = _class.of( C.class);
-        _c.annotate(removePrintlns.class);
+        _c.anno(removePrintlns.class);
 
         //verify that AFTER I run the _macro, there are no matching $printlns left
         //assertEquals(0, removePrintlns.$println.selectAllIn(_c).size());
