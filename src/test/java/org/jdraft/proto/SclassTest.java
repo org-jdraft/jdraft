@@ -80,6 +80,8 @@ public class SclassTest extends TestCase {
         assertTrue( $c.matches(_class.of("ACExtra") )); //extra
         assertFalse( $c.matches(_class.of("CAF"))); //mismatch
 
+        //hmm $$.expr, $$.stmt, $$.catchClause $$.comment $$.anno $$.throwStmt
+        //$.import $.field $.package, $.javadoc $.modifiers $.anno() $.thrown() $.parameter()
     }
 
     public void testF(){

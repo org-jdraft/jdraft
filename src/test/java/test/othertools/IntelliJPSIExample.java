@@ -5,6 +5,7 @@ import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import junit.framework.TestCase;
 import org.jdraft._class;
 import org.jdraft.proto.$;
+import org.jdraft.proto.$$;
 import org.jdraft.proto.$expr;
 
 import java.util.function.Function;
@@ -44,9 +45,9 @@ public class IntelliJPSIExample extends TestCase {
      */
     public void testConvertEqualBinaryExprToEqualsMethodCall(){
         //basically represent the BINARY EXPRESSION "x == y" (for any X and Y)
-        $expr $binEqEq = $.expr("$x$ == $y$");
+        $expr $binEqEq = $$.expr("$x$ == $y$");
         //then convert to a METHOD CALL EXPRESSION  "x.equals(y)" for any x and y
-        $expr $methodEq = $.expr("$x$.equals($y$)");
+        $expr $methodEq = $$.expr("$x$.equals($y$)");
 
         class someEx{
             Integer a,b,c,d;
@@ -90,7 +91,7 @@ public class IntelliJPSIExample extends TestCase {
             }
         }
         //print the cursor locations of all of the local vars
-        $.varLocal().forEachIn(L.class, v-> System.out.println("Found a variable at offset " + v.getRange().get().begin) );
+        $$.varLocal().forEachIn(L.class, v-> System.out.println("Found a variable at offset " + v.getRange().get().begin) );
     }
 
     /**
@@ -106,7 +107,7 @@ public class IntelliJPSIExample extends TestCase {
             }
         }
         //first navigate to a part of the code (find the int literal 54)
-        IntegerLiteralExpr ile = $.intLiteral(54).firstIn(K.class);
+        IntegerLiteralExpr ile = $$.intLiteral(54).firstIn(K.class);
 
         MethodDeclaration md = //walk parents of the literal node to get to the containing method
                 (MethodDeclaration)ile.stream($.PARENTS).filter(n-> n instanceof MethodDeclaration ).findFirst().get();

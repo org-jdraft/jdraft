@@ -20,7 +20,7 @@ public class GoogleErrorProneTest extends TestCase {
 
         //this models all return statements that return the null literal
         $stmt<ReturnStmt> $returnNull =
-                $.returnStmt().$and(r -> r.getExpression().isPresent()
+                $$.returnStmt().$and(r -> r.getExpression().isPresent()
                         && r.getExpression().get().isNullLiteralExpr() );
 
         class retNull{
@@ -47,7 +47,7 @@ public class GoogleErrorProneTest extends TestCase {
                 .$and(cd-> ((CallableDeclaration)cd).getAnnotationByName("Nullable").isPresent());
 
         //match any Return null where that is NOT within a Member
-        $stmt<ReturnStmt> $returnNull = $.returnStmt().$and(r -> r.getExpression().isPresent()
+        $stmt<ReturnStmt> $returnNull = $$.returnStmt().$and(r -> r.getExpression().isPresent()
                 && r.getExpression().get().isNullLiteralExpr() )
                 .$and(r -> !$.hasAncestor(r, $memberAnnotatedWithNullable));
 

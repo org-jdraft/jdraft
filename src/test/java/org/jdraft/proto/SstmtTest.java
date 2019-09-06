@@ -22,23 +22,23 @@ public class SstmtTest extends TestCase {
 
     public void test$assertStmt(){
         //command
-        $stmt<AssertStmt> $as = $.assertStmt( ()-> {assert(1==1);} );
+        $stmt<AssertStmt> $as = $$.assertStmt( ()-> {assert(1==1);} );
         assertTrue( $as.matches( Stmt.of( ()->{assert(1==1);})) );
 
         //consumer
-        $as = $.assertStmt( (Integer a)-> {assert(a==1);} );
+        $as = $$.assertStmt( (Integer a)-> {assert(a==1);} );
         assertTrue( $as.matches( Stmt.of( (Integer a)->{assert(a==1);})) );
 
         //biconsumer
-        $as = $.assertStmt( (Integer a, String b)-> {assert(a==1);} );
+        $as = $$.assertStmt( (Integer a, String b)-> {assert(a==1);} );
         assertTrue( $as.matches( Stmt.of( (Integer a)->{assert(a==1);})) );
 
         //triconsumer
-        $as = $.assertStmt( (Integer a, String b, Map d)-> {assert(a==1);} );
+        $as = $$.assertStmt( (Integer a, String b, Map d)-> {assert(a==1);} );
         assertTrue( $as.matches( Stmt.of( (Integer a)->{assert(a==1);})) );
 
         //quadconsumer
-        $as = $.assertStmt( (Integer a, String b, Map d, UUID g)-> {assert(a==1);} );
+        $as = $$.assertStmt( (Integer a, String b, Map d, UUID g)-> {assert(a==1);} );
         assertTrue( $as.matches( Stmt.of( (Integer a)->{assert(a==1);})) );
     }
 

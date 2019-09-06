@@ -5,6 +5,7 @@ import org.jdraft.Ast;
 import org.jdraft.Stmt;
 import org.jdraft._class;
 import org.jdraft.proto.$;
+import org.jdraft.proto.$$;
 import org.jdraft.proto.$stmt;
 
 /**
@@ -23,7 +24,7 @@ public class ProtoQueryTest extends TestCase {
         public int i=0;
     }
 
-    public static final $stmt $printOne = $.stmt("System.out.print(1);");
+    public static final $stmt $printOne = $$.stmt("System.out.print(1);");
 
     public void testMatches(){
         assertTrue( $printOne.matches("System.out.print(1);") );

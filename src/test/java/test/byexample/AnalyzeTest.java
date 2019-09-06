@@ -39,16 +39,16 @@ public class AnalyzeTest extends TestCase {
         $.anno().printIn(cc);
 
         //print all comments with "TODO"
-        $.comment(c -> c.getContent().contains("TODO")).printIn(cc);
+        $$.comment(c -> c.getContent().contains("TODO")).printIn(cc);
 
         //print all methods containing synchronized statements
-        $.method().$hasDescendant( $.synchronizedStmt() ).printIn(cc);
+        $.method().$hasDescendant( $$.synchronizedStmt() ).printIn(cc);
 
         //print all local classes that are within methods
-        $.localClassStmt().$hasParent($.method()).printIn(cc);
+        $$.localClassStmt().$hasParent($.method()).printIn(cc);
 
         //print all lambdas with no parameters
-        $.lambda(l-> l.getParameters().isEmpty()).printIn(cc);
+        $$.lambda(l-> l.getParameters().isEmpty()).printIn(cc);
 
         //print all nested types
         $.of(TypeDeclaration.class).$hasAncestor(1, $.of(TypeDeclaration.class)).printIn(cc);

@@ -57,7 +57,7 @@ public class SexprTest extends TestCase {
             float f = 3.14f;
             double d = 3.145;
         }
-        assertEquals(1, $.of(3.14f).count(FF.class));
+        assertEquals(1, $$.of(3.14f).count(FF.class));
     }
     
     public void testDoubleLiteral(){
@@ -65,7 +65,7 @@ public class SexprTest extends TestCase {
             double d = 3.14;
             float f = 3.1f;
         }        
-        assertEquals(1, $.of(3.14).count(DD.class));
+        assertEquals(1, $$.of(3.14).count(DD.class));
     }
     
     public void testNumberLiteralsFloatDouble(){

@@ -72,9 +72,9 @@ public class _2_Proto_API_AnatomyTest extends TestCase {
 
     public void testWhenToUsePatternAndWhenToUseConstraint(){
         //All if Stmts that call the thenDo(); method if the condition is true
-        $stmt $ifBracesPattern = $.ifStmt("if($cond$){ thenDo(); }");
+        $stmt $ifBracesPattern = $$.ifStmt("if($cond$){ thenDo(); }");
 
-        $stmt $ifConstraint = $.ifStmt().$and(i ->
+        $stmt $ifConstraint = $$.ifStmt().$and(i ->
                 $stmt.of("thenDo();").matches( i.getThenStmt())
                         || $stmt.blockStmt("{ thenDo(); }").matches(i.getThenStmt()) );
         //$stmt $ifConstraint = $.ifStmt().$hasDescendant( 2, $stmt.of("thenDo();") );

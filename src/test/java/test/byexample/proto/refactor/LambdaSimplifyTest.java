@@ -3,6 +3,7 @@ package test.byexample.proto.refactor;
 import junit.framework.TestCase;
 import org.jdraft._class;
 import org.jdraft.proto.$;
+import org.jdraft.proto.$$;
 import org.jdraft.proto.$expr;
 
 import java.util.ArrayList;
@@ -21,8 +22,8 @@ public class LambdaSimplifyTest extends TestCase {
 
     public void testMatch(){
 
-        $expr $filterFindFirstIsPresent = $.expr("$any$.stream().filter($match$).findFirst().isPresent()");
-        $expr $anyMatch = $.expr("$any$.stream().anyMatch($match$)");
+        $expr $filterFindFirstIsPresent = $$.expr("$any$.stream().filter($match$).findFirst().isPresent()");
+        $expr $anyMatch = $$.expr("$any$.stream().anyMatch($match$)");
 
         class EX{
             String aName;

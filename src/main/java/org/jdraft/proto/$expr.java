@@ -15,7 +15,6 @@ import java.util.function.*;
  */
 public final class $expr <T extends Expression>
     implements $field.$part, $proto<T, $expr<T>>, $var.$part, Template<T> {
-    //implements Template<T>{ //}, $exprProto<T> {
 
     /**
      * 

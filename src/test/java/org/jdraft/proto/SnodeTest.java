@@ -81,8 +81,8 @@ public class SnodeTest extends TestCase {
 
         //...but we ARE using Collections, to access a specific variable (Collections.EMPTY_LIST)
         // and to call a static method Collections.sort(...)
-        assertEquals( 1, $.of("Collections", NameExpr.class).$hasParent( $.methodCall("Collections.$call$($any$)") ).count(D.class));
-        assertEquals( 1, $.of("Collections", NameExpr.class).$hasParent( $.fieldAccessExpr("Collections.$field$") ).count(D.class));
+        assertEquals( 1, $.of("Collections", NameExpr.class).$hasParent( $$.methodCall("Collections.$call$($any$)") ).count(D.class));
+        assertEquals( 1, $.of("Collections", NameExpr.class).$hasParent( $$.fieldAccessExpr("Collections.$field$") ).count(D.class));
         //assertEquals(1, $typeRef.of(Collections.class).count(D.class));
     }
     public void testMethodCall(){
@@ -97,9 +97,9 @@ public class SnodeTest extends TestCase {
 
         }
         //assertEquals( 1, $.typeRef(System.class).count(C.class));
-        $.methodCall().forEachIn(C.class, Ast::describe);
+        $$.methodCall().forEachIn(C.class, Ast::describe);
         assertEquals(1, $.typeRef("System").count(C.class)); //there is (1) reference to System (return type)
-        assertEquals( 1, $.of("System", SimpleName.class).$hasAncestor( $.fieldAccessExpr() ).count(C.class));
+        assertEquals( 1, $.of("System", SimpleName.class).$hasAncestor( $$.fieldAccessExpr() ).count(C.class));
         //assertEquals( 1, $.of("System", SimpleName.class).$hasAncestor( $.methodReference() ).count(C.class));
     }
 
@@ -150,14 +150,14 @@ public class SnodeTest extends TestCase {
         Expression scope = Expr.fieldAccess("System.out" ).asFieldAccessExpr().getScope();
         Ast.isParent(scope, FieldAccessExpr.class);
 
-        Ast.describe( (Node)$.stmt("System.out.println(1);").firstIn(_c) );
+        Ast.describe( (Node)$$.stmt("System.out.println(1);").firstIn(_c) );
 
         assertEquals(6, $typeRef.of(System.class).count(_c));
         $typeRef.of(System.class).forEachIn( _c, s-> System.out.println(s+" parent -> "+ s.ast().getParentNode().get()));
 
-        assertEquals( 1, $.of("System", SimpleName.class).$hasAncestor( $.methodReference() ).count(_c));
+        assertEquals( 1, $.of("System", SimpleName.class).$hasAncestor( $$.methodReference() ).count(_c));
 
-        $.of(SimpleName.class).$hasAncestor( $.fieldAccessExpr() );
+        $.of(SimpleName.class).$hasAncestor( $$.fieldAccessExpr() );
         //screw it, we should be able to manually look for things
         //assertEquals(1, $.of(  ).count(_c)); //OK
         assertEquals( 1, $import.of(System.class).count(_c));
@@ -221,7 +221,7 @@ public class SnodeTest extends TestCase {
         $node.of(Ast.SYNCHRONIZED_STMT).$hasAncestor( $method.of(m->m.isPublic()) ).forEachIn( C.class, s -> System.out.println( s) );
 
         //find and return all types that have synchronized statements
-        $node.of(Ast.TYPE_DECLARATION).$hasDescendant( $.synchronizedStmt() ).forEachIn( C.class, s-> System.out.println(s));
+        $node.of(Ast.TYPE_DECLARATION).$hasDescendant( $$.synchronizedStmt() ).forEachIn( C.class, s-> System.out.println(s));
 
         //$node.of(Ast.NODE_WITH_CONSTRUCTORS).forEachIn( C.class, e-> System.out.println( e.getClass()));
         //$node.of(Ast.NODE_WITH_ANNOTATIONS).forEachIn( C.class, e-> System.out.println( e.getClass()));

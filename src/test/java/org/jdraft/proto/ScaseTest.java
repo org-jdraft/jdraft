@@ -108,7 +108,7 @@ public class ScaseTest extends TestCase {
         }
         assertEquals( 9, $case.of().count(CC.class));
         
-        assertEquals(2, $.of(1).count(CC.class));
+        assertEquals(2, $$.of(1).count(CC.class));
         
         
         ArrayList<$case> $cases = new ArrayList<>();

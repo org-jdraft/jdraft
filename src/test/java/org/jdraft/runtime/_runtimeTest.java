@@ -16,6 +16,7 @@ import java.util.function.Function;
 
 import junit.framework.TestCase;
 import org.jdraft.proto.$;
+import org.jdraft.proto.$$;
 import org.junit.Assert;
 
 /**
@@ -70,8 +71,8 @@ public class _runtimeTest extends TestCase {
                      return _m;
                  }
                  //go through each return statement and preface it
-                 if( $.returnStmt().count(_m) > 0 ) {
-                     $.returnStmt().forSelectedIn(_m, sel-> {
+                 if( $$.returnStmt().count(_m) > 0 ) {
+                     $$.returnStmt().forSelectedIn(_m, sel-> {
                            //replace it with a labeled statement... then flatten
                            LabeledStmt ls = Stmt.labeledStmt(
                            "$add$ : { System.out.println(\" " + ((_named) _m).getName() + " took \" + (System.currentTimeMillis() - start)); " + sel.astStatement.toString() + " }");

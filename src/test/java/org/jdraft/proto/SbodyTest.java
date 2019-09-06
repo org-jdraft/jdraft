@@ -13,13 +13,13 @@ public class SbodyTest extends TestCase {
 
     public void test$BodyLambda(){
 
-        $body $b = $.body( ()->{
+        $body $b = $$.body( ()->{
            System.out.println(1);
            System.out.println(2);
         } );
         $b.draft();
 
-        $b = $.body( (a, b,c)->{
+        $b = $$.body( (a, b,c)->{
            System.out.println(a);
            System.out.println(b);
            System.out.println(c);
