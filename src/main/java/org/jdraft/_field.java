@@ -154,8 +154,15 @@ public final class _field
     }
 
     public boolean isInit(String... initExpression) {
-        Expression e = Ex.of(initExpression);
-        return this.getInit().equals(e);
+        if( this.hasInit() ) {
+            try {
+                Expression e = Ex.of(initExpression);
+                return this.getInit().equals(e);
+            }catch (Exception e){
+                return false;
+            }
+        }
+        return false;
     }
     
     public boolean isInit(Expression e) {
