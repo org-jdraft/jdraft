@@ -307,7 +307,7 @@ public enum Ast {
     public static final Class<NodeWithBlockStmt> NODE_WITH_BLOCK_STMT = NodeWithBlockStmt.class;
     public static final Class<NodeWithBody> NODE_WITH_BODY = NodeWithBody.class;
     public static final Class<NodeWithCondition> NODE_WITH_CONDITION = NodeWithCondition.class;
-    public static final Class<NodeWithConstructors> NODE_WITH_CONSTRUCTORS = NodeWithConstructors.class;
+    //public static final Class<NodeWithConstructors> NODE_WITH_CONSTRUCTORS = NodeWithConstructors.class;
     public static final Class<NodeWithDeclaration> NODE_WITH_DECLARATION = NodeWithDeclaration.class;
     public static final Class<NodeWithExpression> NODE_WITH_EXPRESSION = NodeWithExpression.class;
     public static final Class<NodeWithExtends> NODE_WITH_EXTENDS = NodeWithExtends.class;

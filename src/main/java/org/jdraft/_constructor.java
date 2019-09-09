@@ -5,7 +5,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
-import com.github.javaparser.ast.nodeTypes.NodeWithConstructors;
+//import com.github.javaparser.ast.nodeTypes.NodeWithConstructors;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
 
@@ -408,7 +408,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
      * @param <_HC>
      * @param <N> the AST node type (must implement NodeWithConstructors)
      */
-    public interface _hasConstructors<_HC extends _hasConstructors & _type, N extends Node & NodeWithConstructors>
+    public interface _hasConstructors<_HC extends _hasConstructors & _type, N extends TypeDeclaration>
         extends _java {
 
         /** 

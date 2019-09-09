@@ -1,5 +1,6 @@
 package org.jdraft.diff;
 
+import com.github.javaparser.ast.stmt.BlockStmt;
 import org.jdraft.*;
 
 import java.io.Serializable;
@@ -146,13 +147,47 @@ public class _diffPatchTest
         assertEquals("NESTST  2 ", 1, _c.listNests().size() );
         
     }
+
+    public void testCtorChange(){
+        _class _c = _class.of("C", new Object(){
+            @_toCtor void C(){
+            }
+        });
+        _class _c2 = _class.of("C", new Object(){
+            @_toCtor void C(){
+            }
+        });
+        //this will change api
+        _c.getConstructor(0).addParameter("final int lastParameter");
+
+        System.out.println( _c );
+        System.out.println( _c2 );
+        _diff dl = _diff.of(_c, _c2);
+        System.out.println( dl);
+
+        dl.hasLeftOnlyAt(_constructor.class);
+        dl.hasRightOnlyAt(_constructor.class);
+
+        //assertTrue( dl.firstOn(CONSTRUCTOR).isChange() );
+        //assertTrue( dl.hasChange());
+
+        assertTrue(dl.hasLeftOnlyOn(CONSTRUCTOR));
+        assertTrue(dl.hasRightOnlyOn(CONSTRUCTOR));
+        //assertTrue(dl.hasChangeAt(PARAMETERS));
+        dl.patchLeftToRight();
+
+        //verify the patch worked (no changes)
+        assertTrue(_diff.of(_c, _c2).isEmpty());
+    }
     public void testDiffAndPatchComplexTypes(){
         //verify a complex class copied has no diff
         _class _c = _class.of(ComplexClass.class);
         assertEquals(1, _c.listNests().size() );
         _class _c2 = _c.copy();
         assertEquals(1, _c2.listNests().size() );
-        //System.out.println("C2 "+ _c2 );
+
+        System.out.println("C2 "+ _c2 );
+
         assertTrue(_diff.of(_c, _c2).isEmpty() ) ;
         
         _diff dl = null;
@@ -327,7 +362,8 @@ public class _diffPatchTest
         dl.patchLeftToRight();                
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        
+
+
         _c.getConstructor(0).clearBody();
         dl = _diff.of(_c, _c2);
         //System.out.println( dl);
@@ -354,7 +390,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();                
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        
+        /*
         //this will change api
         _c.getConstructor(0).addParameter("final int lastParameter");
         dl = _diff.of(_c, _c2);
@@ -365,13 +401,17 @@ public class _diffPatchTest
         assertTrue(dl.hasChangeAt(PARAMETERS));
         dl.patchLeftToRight();                
         assertTrue(_diff.of(_c, _c2).isEmpty());
-        
+        */
+
+        /** ----METHOD ON CLASS */
         _c.getMethod(0).anno(Deprecated.class);
          dl = _diff.of(_c, _c2);
         //System.out.println( dl);
         assertNotNull( dl.firstOn(ANNO).isLeftOnly() );        
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());
+
+
         
         _c.getMethod(0).addThrows("BlahException");
          dl = _diff.of(_c, _c2);
@@ -379,7 +419,9 @@ public class _diffPatchTest
         assertNotNull( dl.firstOn(THROWS).isLeftOnly() );                
         dl.patchLeftToRight();                
         assertTrue(_diff.of(_c, _c2).isEmpty());
-        
+
+        System.out.println("******** "+ _c.getMethod("doIt"));
+
         _c.getMethod(0).anno("AGGGG");
         dl = _diff.of(_c, _c2);
         //System.out.println( dl);
@@ -387,9 +429,11 @@ public class _diffPatchTest
         assertNotNull( dl.firstOn(ANNO).isLeftOnly() );
         dl.patchLeftToRight();                
         assertTrue(_diff.of(_c, _c2).isEmpty());
+
+        System.out.println("****>>>> "+ _c.getMethod("doIt"));
         
-        
-        _c.getMethod(0).clearBody();
+        _c.getMethod(0).setBody( new BlockStmt());
+        System.out.println("CBCBCBCB****>>>> "+ _c.getMethod("doIt"));
         dl = _diff.of(_c, _c2);
         //System.out.println( dl);
         assertNotNull( dl.firstOn(METHOD).isEdit() );                
@@ -397,7 +441,9 @@ public class _diffPatchTest
         
         dl.patchLeftToRight();                
         assertTrue(_diff.of(_c, _c2).isEmpty());
-        
+
+        System.out.println("<<<<<<1>>>>>> "+ _c.getMethod("doIt"));
+
         _c.getMethod(0).setPrivate();
         dl = _diff.of(_c, _c2);
         System.out.println( dl);
@@ -405,6 +451,8 @@ public class _diffPatchTest
         assertNotNull( dl.firstOn(MODIFIERS).isChange() );
         dl.patchLeftToRight();                
         assertTrue(_diff.of(_c, _c2).isEmpty());
+
+        System.out.println("AFTER "+ _c.getMethod("doIt"));
         
         
         _c.getMethod(0).removeTypeParameters();
@@ -414,15 +462,22 @@ public class _diffPatchTest
         assertNotNull( dl.firstOn(TYPE_PARAMETERS).isRightOnly() );
         dl.patchLeftToRight();                
         assertTrue(_diff.of(_c, _c2).isEmpty());
-        
+
+        System.out.println("BEFORE "+ _c );
+
         //this will change api
-        _c.getMethod(0).addParameter("final int lastParameter");
+        _c.getMethod(0).getParameters().astHolder().getParameters().add( 0, Ast.parameter( "final int firstParameter"));
         dl = _diff.of(_c, _c2);
         System.out.println( dl);
-        assertNotNull( dl.firstOn(METHOD).isChange() );
-        assertTrue( dl.hasChange());
-        assertTrue(dl.hasChangeOn(METHOD));
-        assertTrue(dl.hasChangeAt(PARAMETERS));
+        assertTrue(dl.hasLeftOnly());
+        assertTrue(dl.hasRightOnly());
+        assertTrue(dl.hasLeftOnlyOn(METHOD));
+        //assertTrue(dl.hasRightOnlyOn(PARAMETER));
+
+        //assertTrue( dl.firstOn(METHOD).isChange() );
+        //assertTrue( dl.hasChange());
+        //assertTrue(dl.hasChangeOn(METHOD));
+        //assertTrue(dl.hasChangeAt(PARAMETERS));
         dl.patchLeftToRight();                
         assertTrue(_diff.of(_c, _c2).isEmpty());
         

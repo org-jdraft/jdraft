@@ -34,6 +34,29 @@ import java.util.function.Consumer;
  */
 public class AstTest extends TestCase {
 
+
+    /**
+    @interface ann2{
+        int k();
+        char v();
+    }
+    @interface AGGGG{}
+
+     * method JAVADOC
+
+    @ann
+    @ann2(k = 3, v = 'i')
+    @Deprecated
+    @AGGGG
+    abstract static private void doIt(final int firstParameter, @ann @ann2(k = 5) final String xx, int... varArgs) throws DumbException, AnotherException, BlahException {
+    }
+    */
+
+    public void testAstStaticAbstract(){
+        //Ast.method("abstract static private void doIt();");
+        //Ast.method("abstract static private void doIt(){}");
+    }
+
     public void testCommonAncestor(){
         class FG{
             void m(){
@@ -80,7 +103,7 @@ public class AstTest extends TestCase {
 
         assertNotNull( Ast.at(AstTest.class, 79, 5) );
 
-        MethodDeclaration m = Ast.memberAt(AstTest.class, 79, 9);
+        MethodDeclaration m = Ast.memberAt(AstTest.class, 103, 9);
         assertTrue( m.getNameAsString().equals("testAt"));
     }
 

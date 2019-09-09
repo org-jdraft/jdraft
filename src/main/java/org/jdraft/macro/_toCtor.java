@@ -2,10 +2,8 @@ package org.jdraft.macro;
 
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.ConstructorDeclaration;
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.body.TypeDeclaration;
-import com.github.javaparser.ast.nodeTypes.NodeWithConstructors;
+import com.github.javaparser.ast.body.*;
+//import com.github.javaparser.ast.nodeTypes.NodeWithConstructors;
 import org.jdraft._draftException;
 import org.jdraft._walk;
 import org.jdraft._constructor;
@@ -82,6 +80,7 @@ public @interface _toCtor {
             if( _m.hasAnnos() ) {
                 _ct.anno(_m.ast().getAnnotations() );
             }
+            _ct.removeAnnos(_toCtor.class);
             _ct.setBody( _m.getBody() );
             _ct.setThrows(_m.ast().getThrownExceptions());
             _ct.setTypeParameters(_m.getTypeParameters());
@@ -124,16 +123,22 @@ public @interface _toCtor {
             List<TypeDeclaration>tds = new ArrayList<>();
             _macro.removeAnnotation(methodDeclaration, _toCtor.class);
             _constructor _ct = Macro.fromMethod( _method.of(methodDeclaration));
-            Optional<Node> op = methodDeclaration.stream(Node.TreeTraversal.PARENTS).filter(n-> n instanceof NodeWithConstructors).findFirst();
+            Optional<Node> op = methodDeclaration.stream(Node.TreeTraversal.PARENTS).filter(n-> n instanceof EnumDeclaration
+                    || (n instanceof ClassOrInterfaceDeclaration && !((ClassOrInterfaceDeclaration)n).isInterface())).findFirst();
             //remove the old method, add the constructor
             if( !op.isPresent()){
                 throw new _draftException("Could not find parent of "+ methodDeclaration+" to replace as constructor");
             }
-            NodeWithConstructors nwm = (NodeWithConstructors) op.get();
-            nwm.getMembers().remove(methodDeclaration);
+            TypeDeclaration td = (TypeDeclaration)op.get();
+            //NodeWithConstructors nwm = (NodeWithConstructors) op.get();
+            td.getMethods().remove(methodDeclaration);
+            //nwm.getMembers().remove(methodDeclaration);
             ConstructorDeclaration cd =
-                    nwm.addConstructor(_ct.getModifiers().ast().stream().map(m -> m.getKeyword()).collect(Collectors.toList()).toArray(new Modifier.Keyword[0]) );
+                    td.addConstructor(_ct.getModifiers().ast().stream().map(m -> m.getKeyword()).collect(Collectors.toList()).toArray(new Modifier.Keyword[0]) );
 
+            if( td instanceof EnumDeclaration ){
+                cd.setPrivate(true); //enum constructors are ALWAYS private
+            }
             //port all the constructor stuff to the AST constructor
             cd.setTypeParameters(_ct.getTypeParameters().ast());
             cd.setBody(_ct.getBody().ast());
@@ -141,6 +146,8 @@ public @interface _toCtor {
             cd.setThrownExceptions( _ct.getThrows().ast());
             cd.setJavadocComment( _ct.getJavadoc().ast());
             cd.setAnnotations( _ct.getAnnos().ast());
+            System.out.println( "Trying to REMMMOOOOOVVVVVVVVVEEEEEEE");
+            cd.getAnnotations().removeIf( a -> a.getNameAsString().equals(_toCtor.class.getName() ) || a.getNameAsString().equals(_toCtor.class.getCanonicalName()) );
         }
     }
 }

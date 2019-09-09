@@ -5,7 +5,6 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
-import com.github.javaparser.ast.nodeTypes.NodeWithConstructors;
 import com.github.javaparser.ast.type.Type;
 import junit.framework.TestCase;
 import org.jdraft.*;
@@ -151,7 +150,7 @@ public class _annoMacroTest extends TestCase {
             }
         }
         CompilationUnit cu = Ast.of(C.class);
-        ConstructorDeclaration ct = (ConstructorDeclaration) ((NodeWithConstructors)cu.getType(0)).getConstructors().get(0);
+        ConstructorDeclaration ct = (ConstructorDeclaration) ((TypeDeclaration)cu.getType(0)).getConstructors().get(0);
         assertTrue( ct.isPrivate() );
 
         //apply macro
@@ -167,7 +166,7 @@ public class _annoMacroTest extends TestCase {
             D( @_final int f){ }
         }
         CompilationUnit cu = Ast.of(D.class);
-        ConstructorDeclaration ct = (ConstructorDeclaration) ((NodeWithConstructors)cu.getType(0)).getConstructors().get(0);
+        ConstructorDeclaration ct = (ConstructorDeclaration) ((TypeDeclaration)cu.getType(0)).getConstructors().get(0);
         assertFalse( ct.getParameter(0).isFinal() );
         assertTrue( ct.getParameter(0).getAnnotationByClass(_final.class).isPresent() );
 

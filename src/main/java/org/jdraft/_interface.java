@@ -123,7 +123,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         //actually, all methods that are NOT static or default need to have their
         //bodies removed with ; (since it's an interface)
         _i.forMethods(m-> !m.isDefault() && !m.isStatic(), 
-                m -> m.clearBody() );
+                m -> m.ast().removeBody() );
         return _i;
     }
 

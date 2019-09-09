@@ -464,7 +464,7 @@ public final class _method
     @Override
     public _method clearBody() {
         if (this.astMethod.getBody().isPresent()) {
-            this.astMethod.getBody().get().remove();
+            this.astMethod.setBody( new BlockStmt() );
         }
         return this;
     }

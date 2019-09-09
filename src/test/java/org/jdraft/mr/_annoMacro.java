@@ -6,7 +6,7 @@ import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
-import com.github.javaparser.ast.nodeTypes.NodeWithConstructors;
+//import com.github.javaparser.ast.nodeTypes.NodeWithConstructors;
 import org.jdraft._constructor;
 import org.jdraft._draftException;
 
@@ -275,8 +275,9 @@ public class _annoMacro {
             td.getMethods().forEach( m -> to(clazz, (MethodDeclaration)m));
 
             //4) process annotation macros on Constructors
-            if( td instanceof NodeWithConstructors ){
-                NodeWithConstructors nwc = (NodeWithConstructors) td;
+
+            if( td instanceof EnumDeclaration || (td instanceof ClassOrInterfaceDeclaration && !((ClassOrInterfaceDeclaration)td).isInterface()) ){
+                TypeDeclaration nwc = (TypeDeclaration) td;
                 nwc.getConstructors().forEach( c -> to(clazz, (ConstructorDeclaration)c) );
             }
 

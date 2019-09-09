@@ -4,8 +4,9 @@ import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
+import com.github.javaparser.ast.body.EnumDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
-import com.github.javaparser.ast.nodeTypes.NodeWithConstructors;
+//import com.github.javaparser.ast.nodeTypes.NodeWithConstructors;
 import org.jdraft.*;
 
 import java.lang.annotation.*;
@@ -59,18 +60,19 @@ public @interface _autoConstructor {
 
         @Override
         public void accept(Node node) {
-            if( node instanceof NodeWithConstructors && node instanceof TypeDeclaration){
-                NodeWithConstructors nwcs = (NodeWithConstructors)node;
+            //MED CHANGED
+            if( node instanceof EnumDeclaration || ( node instanceof ClassOrInterfaceDeclaration && !((ClassOrInterfaceDeclaration)node).isInterface() )){
+                //NodeWithConstructors nwcs = (NodeWithConstructors)node;
                 TypeDeclaration td = (TypeDeclaration)node;
-                List<_field> _fs = _field.of( nwcs.getFields() );
+                List<_field> _fs = _field.of( td.getFields() );
                 _fs = _fs.stream().filter( CTOR_REQUIRED_FIELD ).collect(Collectors.toList());
                 //_constructor _ct = _constructor.of( td.getName() + "(){}");
                 ConstructorDeclaration cd = null;
                 if (node instanceof ClassOrInterfaceDeclaration && !((ClassOrInterfaceDeclaration)node).isInterface()) {
-                    cd = nwcs.addConstructor(Modifier.Keyword.PUBLIC);
+                    cd = td.addConstructor(Modifier.Keyword.PUBLIC);
                     //_ct.setPublic(); //assume class CONSTRUCTORS are public
                 } else{
-                    cd = nwcs.addConstructor();
+                    cd = td.addConstructor();
                 }
                 _constructor _ct = _constructor.of( cd );
                 _fs.forEach(f -> {

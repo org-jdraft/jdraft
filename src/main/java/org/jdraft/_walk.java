@@ -1605,7 +1605,7 @@ public enum _walk {
             in( tt, levels,
                     astRootNode,
                     Node.class,
-                    n-> n instanceof NodeWithConstructors,
+                    n-> n instanceof EnumDeclaration || (n instanceof ClassOrInterfaceDeclaration && !((ClassOrInterfaceDeclaration)n).isInterface()),
                     n-> {
                         _constructor._hasConstructors hc = (_constructor._hasConstructors)_java.of( n );
 
