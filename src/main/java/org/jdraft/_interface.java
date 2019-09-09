@@ -75,6 +75,17 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
                 return of( Ast.of("public interface "+shortcutClass));
             }
         }
+        //check if the interfaceDef has a "private " before " class ", if so, remove it
+        //because it'll fail, so remove the private, then add it back in manually
+        String cc = Text.combine(interfaceDef);
+        int classIndex = cc.indexOf(" interface ");
+        int privateIndex = cc.indexOf( "private ");
+        if( privateIndex >= 0 && privateIndex < classIndex ){
+            cc = cc.substring(0, privateIndex)+ cc.substring(privateIndex + "private ".length());
+            _interface _i = of( Ast.of( cc ));
+            _i.setPrivate();
+            return _i;
+        }
         return of( Ast.of( interfaceDef ));
     }
 

@@ -76,15 +76,32 @@ public final class _annotation
         
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
 
-        //each field REALLY represents
-        bds.stream().filter( bd-> bd instanceof FieldDeclaration ).forEach( f-> {
+        //each (non-static) field REALLY represents an annotation with a possible default
+        bds.stream().filter( bd-> bd instanceof FieldDeclaration && !bd.asFieldDeclaration().isStatic() ).forEach( f-> {
             VariableDeclarator vd = ((FieldDeclaration) f).getVariable(0);
+            _annotation._element _ae = null;
             if( vd.getInitializer().isPresent()){
-                _a.element(_element.of(vd.getType(), vd.getNameAsString(), vd.getInitializer().get()) );
+                _ae = _annotation._element.of(vd.getType(), vd.getNameAsString(), vd.getInitializer().get());
+                //add comment and annotations
+
             } else {
-                _a.element(_annotation._element.of(vd.getType(), vd.getNameAsString()));
+                _ae = _annotation._element.of(vd.getType(), vd.getNameAsString());
+                //_a.element(_annotation._element.of(vd.getType(), vd.getNameAsString()));
             }
+            if( ((FieldDeclaration) f).getJavadocComment().isPresent()){
+                _ae.javadoc( ((FieldDeclaration) f).getJavadocComment().get());
+            }
+            if( !f.getAnnotations().isEmpty()){
+                _ae.anno( f.getAnnotations());
+            }
+            _a.element(_ae);
         });
+
+        //static fields are static fields on the annotation
+        bds.stream().filter( bd-> bd instanceof FieldDeclaration && bd.asFieldDeclaration().isStatic() ).forEach( f-> {
+            ((FieldDeclaration) f).getVariables().forEach( v-> _a.field(v));
+        });
+
         return _a;
     }
 
@@ -226,6 +243,15 @@ public final class _annotation
                 }
                 return of(Ast.of("public @interface " + shortcutClass));
             }
+        }
+        String cc = Text.combine(classDef);
+        int atInterfaceIndex = cc.indexOf(" @interface ");
+        int privateIndex = cc.indexOf( "private ");
+        if( privateIndex >= 0 && privateIndex < atInterfaceIndex ){
+            cc = cc.substring(0, privateIndex)+ cc.substring(privateIndex + "private ".length());
+            _annotation _i = of( Ast.of( cc ));
+            _i.setPrivate();
+            return _i;
         }
         return of(Ast.of(classDef));
     }

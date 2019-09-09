@@ -61,6 +61,15 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
                 return of( Ast.of("public enum "+shortcutClass));
             }
         }
+        String cc = Text.combine(classDef);
+        int enumIndex = cc.indexOf(" enum ");
+        int privateIndex = cc.indexOf( "private ");
+        if( privateIndex >= 0 && privateIndex < enumIndex ){
+            cc = cc.substring(0, privateIndex)+ cc.substring(privateIndex + "private ".length());
+            _enum _i = of( Ast.of( cc ));
+            _i.setPrivate();
+            return _i;
+        }
         return of( Ast.of( classDef ));
     }
 
