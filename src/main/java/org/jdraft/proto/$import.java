@@ -18,7 +18,8 @@ import java.util.function.Predicate;
  *
  */
 public final class $import
-    implements Template<_import>, $proto<_import, $import>, $proto.$java<_import, $import>, $class.$part {
+    implements Template<_import>, $proto<_import, $import>, $proto.$java<_import, $import>, $class.$part,
+        $interface.$part, $enum.$part, $annotation.$part {
 
     public Class<_import> javaType(){
         return _import.class;

@@ -27,7 +27,16 @@ public class _interfaceTest extends TestCase {
     interface $Member{        
         interface MemberMember{}
     }
-    
+
+    /**
+     * Found this bug... (specifying a private class to parse)
+     * it's barf on parsing
+     * : org.jdraft._draftException: ErrorParsing :[(line 1,col 1) 'private' is not allowed here.]
+     */
+    public void testPrivateInterfaceCtor(){
+        _interface _i = _interface.of("private interface PRIVATE{}");
+    }
+
     public void testExtendsMemberWith$(){
         _interface _i = _interface.of("I")
                 .extend(MemberI.class, $Member.class, $Member.MemberMember.class);

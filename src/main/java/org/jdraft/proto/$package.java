@@ -18,7 +18,8 @@ import java.util.stream.Collectors;
  *
  * @see PackageDeclaration
  */
-public class $package implements $proto<PackageDeclaration, $package>, Template<PackageDeclaration>, $class.$part{
+public class $package implements $proto<PackageDeclaration, $package>, Template<PackageDeclaration>, $class.$part,
+        $interface.$part, $enum.$part, $annotation.$part{
 
     public Stencil name = Stencil.of("$packageName$");
 

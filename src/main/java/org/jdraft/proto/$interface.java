@@ -2,22 +2,26 @@ package org.jdraft.proto;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.JavadocComment;
 import org.jdraft.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
  * Note... at the moment this is NOT a template... should it be??
  */
-public final class $class
-        implements $proto<_class, $class>, $proto.$java<_class,$class> {
+public final class $interface
+        implements $proto<_interface, $interface>, $proto.$java<_interface, $interface> {
 
-    public Predicate<_class> constraint = t->true;
+    public Predicate<_interface> constraint = t->true;
 
     public $package packageDecl = $package.of();
     public List<$import> imports = new ArrayList<>();
@@ -25,39 +29,39 @@ public final class $class
     public $annos annos = $annos.of();
     public $modifiers modifiers = $modifiers.of();
     public $typeParameters typeParameters = $typeParameters.of();
-    public $id name = $id.of("$className$"); //name required
+    public $id name = $id.of("$interfaceName$"); //name required
 
     //body parts
-    public List<$constructor> ctors = new ArrayList<>();
+    //public List<$constructor> ctors = new ArrayList<>();
     public List<$field> fields = new ArrayList<>();
     public List<$method> methods = new ArrayList<>();
-    public List<$initBlock> initBlocks = new ArrayList<>();
+    //public List<$initBlock> initBlocks = new ArrayList<>();
 
 
-    public $typeRef extend = $typeRef.of();
-    public List<$typeRef> implement = new ArrayList<>();
+    public List<$typeRef> extend = new ArrayList<>(); //$typeRef.of();
+    //public List<$typeRef> implement = new ArrayList<>();
 
     //nested types???
 
     /** marker interface for member entities that are part of the class */
     public interface $part{ }
 
-    public static $class of(){
-        return new $class();
+    public static $interface of(){
+        return new $interface();
     }
 
-    public static $class of(Predicate<_class> constraint ){
-        return new $class().$and(constraint);
+    public static $interface of(Predicate<_interface> constraint ){
+        return new $interface().$and(constraint);
     }
 
-    public static $class of( $part...parts){
-        return new $class(parts);
+    public static $interface of($part...parts){
+        return new $interface(parts);
     }
 
-    private $class(){
+    private $interface(){
     }
 
-    public $class($part...parts){
+    public $interface($part...parts){
         for(int i=0;i<parts.length;i++){
             if( parts[i] instanceof $annos ){
                 this.annos = ($annos)parts[i];
@@ -68,17 +72,11 @@ public final class $class
             if( parts[i] instanceof $comment){
                 this.javadoc = ($comment<JavadocComment>)parts[i];
             }
-            if( parts[i] instanceof $constructor ){
-                this.ctors.add (($constructor)parts[i]);
-            }
             if( parts[i] instanceof $field ){
                 this.fields.add( ($field) parts[i]);
             }
             if( parts[i] instanceof $import ){
                 this.imports.add( ($import)parts[i]);
-            }
-            if( parts[i] instanceof $initBlock ){
-                this.initBlocks.add( ($initBlock) parts[i]);
             }
             if( parts[i] instanceof $method ){
                 this.methods.add( ($method)parts[i]);
@@ -107,14 +105,11 @@ public final class $class
     }
 
     @Override
-    public $class hardcode$(Translator translator, Tokens kvs) {
+    public $interface hardcode$(Translator translator, Tokens kvs) {
 
         this.annos.hardcode$(translator, kvs);
-        this.ctors.forEach( c-> c.hardcode$(translator, kvs));
         this.fields.forEach(f-> f.hardcode$(translator, kvs));
-        //this.headerComment.hardcode$(translator, kvs);
         this.imports.forEach( i-> i.hardcode$(translator, kvs));
-        this.initBlocks.forEach( i-> i.hardcode$(translator, kvs));
         this.javadoc.hardcode$(translator, kvs);
         this.methods.forEach(m-> m.hardcode$(translator, kvs));
         this.modifiers.hardcode$(translator, kvs);
@@ -122,9 +117,8 @@ public final class $class
         this.packageDecl = this.packageDecl.hardcode$(translator, kvs);
         this.typeParameters = this.typeParameters.hardcode$(translator, kvs);
 
-        //extends  implements
-        this.extend.hardcode$(translator, kvs);
-        this.implement.forEach( i-> i.hardcode$(translator, kvs));
+        //extends
+        this.extend.forEach( i-> i.hardcode$(translator, kvs));
         //still need nests
 
         return this;
@@ -134,29 +128,22 @@ public final class $class
         try{
             return constraint.test(null) &&
                  this.annos.isMatchAny() &&
-                 this.ctors.isEmpty() &&
                  this.fields.isEmpty() &&
                  this.methods.isEmpty() &&
-                 this.initBlocks.isEmpty() &&
                  this.imports.isEmpty() &&
-
-                 //this.headerComment.isMatchAny() &&
                  this.javadoc.isMatchAny() &&
                  this.modifiers.isMatchAny() &&
                  this.packageDecl.isMatchAny() &&
                  this.typeParameters.isMatchAny() &&
-
-                 //extends, implements
-                 this.extend.isMatchAny() &&
-                 this.implement.isEmpty();
+                 this.extend.isEmpty();
             //NESTS
         } catch(Exception e){
             return false;
         }
     }
 
-    public boolean match( _class _c){
-        return select(_c) != null;
+    public boolean match( _interface _i){
+        return select(_i) != null;
     }
 
     public boolean matches(CompilationUnit cu){
@@ -179,25 +166,25 @@ public final class $class
     }
 
     public boolean matches(ClassOrInterfaceDeclaration coid ){
-        if( coid != null && ! coid.isInterface()){
-            return select(_class.of(coid)) != null;
+        if( coid != null && coid.isInterface()){
+            return select(_interface.of(coid)) != null;
         }
         return false;
     }
 
     public boolean matches( _code _c){
-        if( _c instanceof _class){
-            return matches( (_class)_c);
+        if( _c instanceof _interface){
+            return matches( (_interface)_c);
         }
         return false;
     }
 
-    public boolean matches( _class _c){
+    public boolean matches( _interface _c){
         return select(_c) != null;
     }
 
     @Override
-    public Select select(_class instance) {
+    public Select select(_interface instance) {
 
         //$tokens.to will short circuit
         // IF "tokens" is null: return null (without running the lambda)
@@ -218,12 +205,9 @@ public final class $class
         tokens = $tokens.to( tokens, ()-> this.typeParameters.parse(instance.getTypeParameters()) );
 
         tokens = $tokens.to( tokens, ()-> $type.selectExtends(this.extend, instance) );
-        tokens = $tokens.to( tokens, ()-> $type.selectImplements(this.implement, instance) );
 
-        tokens = $tokens.to( tokens, ()-> $type.selectConstructors(this.ctors, instance ) );
         tokens = $tokens.to( tokens, ()-> $type.selectMethods(this.methods, instance ) );
         tokens = $tokens.to( tokens, ()-> $type.selectFields(this.fields, instance ) );
-        tokens = $tokens.to( tokens, ()-> $type.selectInitBlocks(this.initBlocks, instance ) );
 
         //nests
         if( tokens != null ){
@@ -233,146 +217,138 @@ public final class $class
     }
 
     @Override
-    public $class $and(Predicate<_class> constraint) {
+    public $interface $and(Predicate<_interface> constraint) {
         this.constraint = this.constraint.and(constraint);
         return this;
     }
 
-    public $class $javadoc( Predicate<JavadocComment> javadocMatchFn ){
+    public $interface $javadoc(Predicate<JavadocComment> javadocMatchFn ){
         this.javadoc = $comment.javadocComment(javadocMatchFn);
         //System.out.println( this.javadoc.commentClasses);
         return this;
     }
 
-    public $class $modifiers( $modifiers...$mods){
+    public $interface $modifiers($modifiers...$mods){
         this.modifiers = $modifiers.of($mods);
         return this;
     }
 
-    public $class $initBlock( $initBlock... $ibs ){
-        Arrays.stream($ibs).forEach(i -> this.initBlocks.add(i));
-        return this;
-    }
-    //TODO other static blocks
-
-    public $class $javadoc( $comment<JavadocComment> javadocComment ){
+    public $interface $javadoc($comment<JavadocComment> javadocComment ){
         this.javadoc = javadocComment;
         return this;
     }
 
-    public $class $extend( $typeRef ext ){
-        this.extend = ext;
+    public $interface $extend($typeRef... ext ){
+        Arrays.stream(ext).forEach(c -> this.extend.add( c));
         return this;
     }
 
-    public $class $extend( Class clazz ){
-        return $extend( $typeRef.of(clazz));
-    }
-
-    public $class $implement( Class... clazz){
-         Arrays.stream(clazz).forEach(c -> this.implement.add( $typeRef.of(c)));
+    public $interface $extend(Class... clazz){
+         Arrays.stream(clazz).forEach(c -> this.extend.add( $typeRef.of(c)));
          return this;
     }
 
-    public $class $implement( String...types){
-        Arrays.stream(types).forEach(c -> this.implement.add( $typeRef.of(c)));
+    public $interface $extend(String...types){
+        Arrays.stream(types).forEach(c -> this.extend.add( $typeRef.of(c)));
         return this;
     }
 
-    public $class $implement( $typeRef...impl){
-        Arrays.stream(impl).forEach(i -> this.implement.add(i));
-        return this;
-    }
-
-    public $class $imports( $import...$is ){
+    public $interface $imports($import...$is ){
         Arrays.stream($is).forEach( i -> this.imports.add(i));
         return this;
     }
 
-    public $class $imports( Class... clazzes ){
+    public $interface $imports(String...$is ){
+        Arrays.stream($is).forEach( i -> this.imports.add($import.of(i)));
+        return this;
+    }
+    public $interface $imports(Class... clazzes ){
         Arrays.stream(clazzes).forEach( i -> this.imports.add($import.of(i)));
         return this;
     }
 
-    public $class $package( $package $p ){
+    public $interface $package($package $p ){
         this.packageDecl = $p;
         return this;
     }
 
-    public $class $name( Predicate<String> nameMatchFn){
+    public $interface $package(Predicate<PackageDeclaration> packageMatchFn){
+        this.packageDecl = $package.of(packageMatchFn);
+        return this;
+    }
+
+
+    public $interface $name(Predicate<String> nameMatchFn){
         this.name = $id.of(nameMatchFn);
         return this;
     }
 
-    public $class $name( String name ){
+    public $interface $name(String name ){
         this.name = $id.of(name);
         return this;
     }
 
-    public $class $name( $id name ){
+    public $interface $name($id name ){
         this.name = name;
         return this;
     }
 
-    public $class $annos(Predicate<_anno._annos> annosMatchFn){
+    public $interface $annos(Predicate<_anno._annos> annosMatchFn){
         this.annos.$and(annosMatchFn);
         return this;
     }
 
-    public $class $annos( $annos $as ){
+    public $interface $annos($annos $as ){
         this.annos = $as;
         return this;
     }
 
-    public $class $annos( $anno... $a){
+    public $interface $annos($anno... $a){
         this.annos.add($a);
         return this;
     }
 
-    public $class $methods( $method...$ms ){
+    public $interface $method(Predicate<_method> _methodMatchFn ){
+        this.methods.add($method.of(_methodMatchFn));
+        return this;
+    }
+
+    public $interface $methods($method...$ms ){
         Arrays.stream($ms).forEach(m-> this.methods.add(m));
         return this;
     }
 
-    public $class $fields( $field...$fs){
+    public $interface $field(Predicate<_field> _fieldMatchFn ){
+        this.fields.add($field.of(_fieldMatchFn));
+        return this;
+    }
+
+    public $interface $fields($field...$fs){
         Arrays.stream($fs).forEach(f-> this.fields.add(f));
         return this;
     }
 
-    public $class $constructors( $constructor...$cs){
-        Arrays.stream($cs).forEach(c-> this.ctors.add(c));
+    public $interface $typeParameters(Predicate<_typeParameter._typeParameters> _tpMatchFn){
+        this.typeParameters.$and(_tpMatchFn);
         return this;
     }
 
-    public $class $typeParameters( $typeParameters $tps ){
+    public $interface $typeParameters($typeParameters $tps ){
         this.typeParameters = $tps;
         return this;
     }
 
-    public $class $typeParameters( $typeParameter... $tps ){
+    public $interface $typeParameters($typeParameter... $tps ){
         Arrays.stream($tps).forEach(tp-> this.typeParameters.$add(tp));
         return this;
     }
 
-    public $class $extends( Class clazz ){
-        this.extend = $typeRef.of(clazz);
-        return this;
-    }
 
-    public $class $extends( String typeRef ){
-        this.extend = $typeRef.of(typeRef);
-        return this;
-    }
-
-    public $class $extends( $typeRef $tr ){
-        this.extend = $tr;
-        return this;
-    }
 
     @Override
     public boolean match(Node candidate) {
-        if(candidate instanceof ClassOrInterfaceDeclaration && !((ClassOrInterfaceDeclaration) candidate).asClassOrInterfaceDeclaration().isInterface()){
-            return select( _class.of((ClassOrInterfaceDeclaration)candidate)) != null;
+        if(candidate instanceof ClassOrInterfaceDeclaration && ((ClassOrInterfaceDeclaration) candidate).asClassOrInterfaceDeclaration().isInterface()){
+            return select( _interface.of((ClassOrInterfaceDeclaration)candidate)) != null;
         }
         if( candidate instanceof CompilationUnit){
             //check if it's only got one class
@@ -390,14 +366,14 @@ public final class $class
     }
 
     @Override
-    public _class firstIn(Node astStartNode, Predicate<_class> nodeMatchFn) {
+    public _interface firstIn(Node astStartNode, Predicate<_interface> nodeMatchFn) {
         Optional<Node> oc = astStartNode.stream().filter(n ->
                 (n instanceof ClassOrInterfaceDeclaration)
-                && ( !((ClassOrInterfaceDeclaration)n).isInterface() )
+                && ( ((ClassOrInterfaceDeclaration)n).isInterface() )
                 && match(n)
-                && nodeMatchFn.test( _class.of( (ClassOrInterfaceDeclaration)n)) ).findFirst();
+                && nodeMatchFn.test( _interface.of( (ClassOrInterfaceDeclaration)n)) ).findFirst();
         if( oc.isPresent()){
-            return _class.of( (ClassOrInterfaceDeclaration)oc.get() );
+            return _interface.of( (ClassOrInterfaceDeclaration)oc.get() );
         }
         return null;
     }
@@ -406,10 +382,10 @@ public final class $class
     public Select selectFirstIn(Node astNode ) {
         Optional<Node> oc = astNode.stream().filter(n ->
                 n instanceof ClassOrInterfaceDeclaration
-                        && ( !((ClassOrInterfaceDeclaration)n).isInterface() )
+                        && ( ((ClassOrInterfaceDeclaration)n).isInterface() )
                         && match(n) ).findFirst();
         if( oc.isPresent()){
-            return select( _class.of( (ClassOrInterfaceDeclaration)oc.get() ) );
+            return select( _interface.of( (ClassOrInterfaceDeclaration)oc.get() ) );
         }
         return null;
     }
@@ -422,9 +398,9 @@ public final class $class
     public List<Select> listSelectedIn(Node astNode, Predicate<Select>selectMatchFn) {
         List<Select> found = new ArrayList<>();
         astNode.walk(ClassOrInterfaceDeclaration.class, c->{
-            if( !c.isInterface() ){
-                _class _c = _class.of( c );
-                Select sel = select(_c);
+            if( c.isInterface() ){
+                _interface _i = _interface.of( c );
+                Select sel = select(_i);
                 if( sel != null && selectMatchFn.test(sel)){
                     found.add(sel);
                 }
@@ -434,12 +410,12 @@ public final class $class
     }
 
     @Override
-    public <N extends Node> N forEachIn(N astNode, Predicate<_class> nodeMatchFn, Consumer<_class> nodeActionFn) {
+    public <N extends Node> N forEachIn(N astNode, Predicate<_interface> nodeMatchFn, Consumer<_interface> nodeActionFn) {
         astNode.walk(ClassOrInterfaceDeclaration.class, c->{
-            if( !c.isInterface() ){
-                _class _c = _class.of( c );
-                if( match(_c) && nodeMatchFn.test(_c)){
-                    nodeActionFn.accept(_c);
+            if( c.isInterface() ){
+                _interface _i = _interface.of( c );
+                if( match(_i) && nodeMatchFn.test(_i)){
+                    nodeActionFn.accept(_i);
                 }
             }
         });
@@ -447,18 +423,18 @@ public final class $class
     }
 
     @Override
-    public Class<_class> javaType() {
-        return _class.class;
+    public Class<_interface> javaType() {
+        return _interface.class;
     }
 
     /**
      * The selected Class
      */
-    public static class Select implements $proto.select_java<_class>{
-        public _class selected;
+    public static class Select implements select_java<_interface>{
+        public _interface selected;
         public $tokens tokens;
 
-        public Select( _class _c, $tokens tokens){
+        public Select( _interface _c, $tokens tokens){
             this.selected = _c;
             this.tokens = tokens;
         }
@@ -469,7 +445,7 @@ public final class $class
         }
 
         @Override
-        public _class _node() {
+        public _interface _node() {
             return selected;
         }
     }

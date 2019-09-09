@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  */
 public final class $annos
     implements Template<_annos>, $proto<_annos, $annos>, $proto.$java<_annos, $annos>, $constructor.$part, $method.$part,
-        $field.$part, $parameter.$part, $typeParameter.$part, $class.$part {
+        $field.$part, $parameter.$part, $typeParameter.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part {
 
     public Class<_annos> javaType(){
         return _annos.class;

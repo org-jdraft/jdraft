@@ -429,6 +429,10 @@ public final class $ {
         return $method.of(parts);
     }
 
+    public static $field field( $field.$part...parts ){
+        return $field.of(parts);
+    }
+
     public static $field field(){
         return $field.of();
     }

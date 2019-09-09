@@ -11,9 +11,9 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
- * Wraps looking at an archive
+ * Wraps looking at an archive (.zip or .jar file)
  */
-public class _archive  implements _code._provider{
+public class _archive implements _code._provider{
 
     public static _archive of( String path ){
         return new _archive(Paths.get(path));

@@ -20,7 +20,7 @@ import java.util.function.Predicate;
  */
 public final class $modifiers
     implements $proto<_modifiers, $modifiers>, $proto.$java<_modifiers,$modifiers>, $constructor.$part, $method.$part,
-        $field.$part, $class.$part{
+        $field.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part{
 
 
     public Class<_modifiers> javaType(){

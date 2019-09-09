@@ -41,7 +41,7 @@ import org.jdraft.macro._toCtor;
  */
 public final class $constructor
     implements Template<_constructor>, $proto<_constructor, $constructor>,
-        $proto.$java<_constructor, $constructor>, $class.$part {
+        $proto.$java<_constructor, $constructor>, $class.$part, $enum.$part {
 
     public Class<_constructor> javaType(){
         return _constructor.class;

@@ -147,6 +147,10 @@ public interface $proto<P, $P extends $proto>{
                 });
     }
 
+    default $P $hasAncestor(Class...classes){
+        return $hasAncestor(Integer.MAX_VALUE -100, n-> Ast.isNodeOfType(n, classes ));
+    }
+
     /**
      *
      * @param ancestorMatchFn
@@ -1450,6 +1454,10 @@ public interface $proto<P, $P extends $proto>{
                 return null;
             }
             return new $tokens(ts);
+        }
+
+        public $tokens(){
+            this.tokens = new Tokens();
         }
 
         public $tokens(Tokens ts) {

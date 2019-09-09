@@ -1,5 +1,7 @@
 package org.jdraft.proto;
 
+import com.github.javaparser.ast.body.CallableDeclaration;
+import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import junit.framework.TestCase;
 import org.jdraft.*;
 
@@ -114,4 +116,42 @@ public class SclassTest extends TestCase {
                 .matches(_class.of("C").javadoc("no to d: fix something")));
     }
 
+
+    /**
+     * verify I can use a $class to ...
+     */
+    public void testLocalClass(){
+        _class _c = _class.of("aaaa.HHH", new Object(){
+                    void m(){
+                        class G{}// (a local class)
+                    }
+            });
+
+        //ensure I can use a $class to match against a local Class (here a class named "G")
+        assertEquals(1, $class.of( $.name("G") ).count(_c));
+    }
+
+    public void testHasDescendant(){
+        _class _c = _class.of("V", new Object(){
+           public synchronized int g(){
+               return 102;
+           }
+        });
+        //verify I can find the synchronized modifier
+        assertEquals(1, $.SYNCHRONIZED.count(_c));
+
+        //verify I can match a class that HAS a Synchronized modifier beneath
+        assertTrue( $class.of().$hasDescendant($.SYNCHRONIZED).matches(_c) );
+
+        //verify I can find an instance of a CallableDeclaration that contains a descendant with the synchronized modifier
+        assertEquals(1, $.of(CallableDeclaration.class).$hasDescendant($.SYNCHRONIZED).count(_c));
+
+        IntegerLiteralExpr ile = $$.of(102).firstIn(_c);
+        assertNotNull(ile);
+
+        //verify that I can find a literal expression 102 that has a synchronized ancestor node
+        assertEquals(1, $$.of(102).$hasAncestor( $.of().$hasDescendant($.SYNCHRONIZED)).count(_c));
+
+        //I mean at this point, I'm just trying to break something
+    }
 }
