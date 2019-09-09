@@ -16,6 +16,8 @@ import java.lang.annotation.Target;
 import java.util.function.Consumer;
 
 /**
+ * Annotation/Macro to add the public modifier<BR/>
+ *
  * Macro annotation to apply the public modifier to a {@link _type}, {@link org.jdraft._field},
  * {@link org.jdraft._method}, or {@link org.jdraft._constructor}.<BR>
  *
@@ -42,6 +44,8 @@ import java.util.function.Consumer;
  *     //  }
  * }
  * </PRE>
+ *
+ * @see _macro
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.TYPE_USE})
@@ -97,6 +101,12 @@ public @interface _public {
                     _macro.removeAnnotation(fd, _public.class);
                 }
             }
+        }
+
+
+        @Override
+        public String toString(){
+            return "macro[public]";
         }
     }
 }

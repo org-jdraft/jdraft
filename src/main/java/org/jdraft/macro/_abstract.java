@@ -12,8 +12,12 @@ import java.lang.annotation.*;
 import java.util.function.Consumer;
 
 /**
+ * Annotation/Macro to set the abstract modifier on a {@link _method}, {@link _class}
+ *
  * apply the abstract modifier to a {@link _method} or {@link _class}
  * ... if it is a {@link _method}, setting it to be abstract will removeIn the BODY
+ *
+ * @see _macro
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.TYPE, ElementType.TYPE_USE})

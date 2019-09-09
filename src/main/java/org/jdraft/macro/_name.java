@@ -10,7 +10,9 @@ import java.lang.annotation.*;
 import java.util.function.Consumer;
 
 /**
- * Annotation Macro to update the name of anm entity
+ * Annotation/Macro to update the name of an entity
+ *
+ * @see _macro
  */
 @Retention( RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.TYPE_USE})
@@ -64,6 +66,11 @@ public @interface _name{
                 NodeWithSimpleName nwsn = (NodeWithSimpleName)node;
                 nwsn.setName(name);
             }
+        }
+
+        @Override
+        public String toString(){
+            return "macro[name("+name+")]";
         }
     }
 }

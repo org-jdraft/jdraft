@@ -12,8 +12,12 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
+ * Annotation/Macro for synthesizing an equals() based on the _fields of a _type
+ *
  * Builds a an typesEqual(Object){...} method for all non_static FIELDS on the _type
  * Works on {@link _class} and {@link org.jdraft._enum} {@link _type}s
+ *
+ * @see _macro
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.TYPE_USE})
@@ -25,7 +29,7 @@ public @interface _equals {
 
         @Override
         public String toString(){
-           return "macro[autoEquals]"; 
+           return "macro[equals]";
         }
         
         @Override
@@ -115,6 +119,11 @@ public @interface _equals {
         @Override
         public void accept(TypeDeclaration typeDeclaration) {
             Macro.to(_java.type(typeDeclaration));
+        }
+
+        @Override
+        public String toString(){
+            return "macro[equals]";
         }
     }
 }

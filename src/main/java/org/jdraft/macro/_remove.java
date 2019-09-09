@@ -10,6 +10,8 @@ import java.util.function.Consumer;
 
 /**
  * Annotation macro to remove some entity (field, method, etc.) that doenst belong in the final model
+ *
+ * @see _macro
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.CONSTRUCTOR, ElementType.TYPE_USE})
@@ -61,6 +63,11 @@ public @interface _remove {
     }
 
     class Act implements Consumer<Node> {
+
+        @Override
+        public String toString(){
+            return "macro[remove]";
+        }
 
         @Override
         public void accept(Node node) {

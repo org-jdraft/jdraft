@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.function.Consumer;
 
 /**
- * Annotation Macro to add implements and imports to a _type
+ * Annotation/Macro to add implements and imports to a {@link _type}
  * can be accessed by:
  * <UL>
  *     <LI>{@link _macro#to(Class, _type)} via the @_implement annotation
@@ -17,6 +17,8 @@ import java.util.function.Consumer;
  *         _t = new _implement.Macro(Serializable.class).expand( _t );
  *     <LI>calling the _implement.Macro.to(_t, Serializable.class);
  * </UL>
+ *
+ * @see _macro
  */
 @Retention( RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.TYPE_USE})
@@ -81,6 +83,18 @@ public @interface _implement {
                 Arrays.stream( toImplement ).forEach( i -> nwi.addImplementedType(i));
             }
             _macro.removeAnnotation(typeDeclaration, _implement.class);
+        }
+
+        @Override
+        public String toString(){
+            String s = "";
+            for(int i=0;i<toImplement.length;i++){
+                if( i > 0){
+                    s +=",";
+                }
+                s += toImplement[i].getCanonicalName();
+            }
+            return "macro[toImplement("+s+")]";
         }
     }
 }

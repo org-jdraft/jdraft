@@ -12,6 +12,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
+ * Annotation/Macro to create a hashCode() method based on fields of a {@link _type}
+ *
  * Builds a hashCode for all non-static FIELDS on the {@link _class}
  * optionally calls super.hashCode() if the class extends something
  * other than Object.
@@ -39,6 +41,8 @@ import java.util.function.Predicate;
  * }
  * </OL>
  * </PRE>
+ *
+ * @see _macro
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.TYPE_USE})
@@ -156,6 +160,11 @@ public @interface _hashCode {
         @Override
         public void accept(ClassOrInterfaceDeclaration typeDeclaration) {
             Macro.to(_java.type(typeDeclaration));
+        }
+
+        @Override
+        public String toString(){
+            return "macro[hashCode]";
         }
     }
 }

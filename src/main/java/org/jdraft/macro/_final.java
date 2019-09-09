@@ -48,7 +48,11 @@ public @interface _final {
                 fd.setFinal(true);
                 _macro.removeAnnotation(fd, _final.class);
             }
+        }
 
+        @Override
+        public String toString(){
+            return "macro[final]";
         }
     }
 }

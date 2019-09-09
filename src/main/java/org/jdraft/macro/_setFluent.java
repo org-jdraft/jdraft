@@ -13,8 +13,14 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
+ * Annotation/Macro to add fluent setXXX() methods to a Class or Enum.<BR/>
+ *
+ * NOTE: "Fluent" means we return the instance after setting to enable "stringing":<BR/>
+ *
  * Builds a setXXX methods for all non_static, non final FIELDS on the TYPE
  * Works on {@link org.jdraft._class}
+ *
+ * @see _macro
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.TYPE_USE})
@@ -36,7 +42,7 @@ public @interface _setFluent {
 
         @Override
         public String toString(){
-           return "macro[autoSetFluent]"; 
+           return "macro[setFluent]";
         }
         
         @Override
@@ -67,6 +73,7 @@ public @interface _setFluent {
                 "    this.$name$ = $name$;",
                 "    return this;",
                 "}");
+
         @Override
         public void accept(TypeDeclaration typeDeclaration) {
             List<_field> _fs = _field.of(typeDeclaration.getFields());
@@ -74,6 +81,11 @@ public @interface _setFluent {
             _fs.forEach(f ->
                     typeDeclaration.addMember(
                             $SET_FLUENT.draft("className", typeDeclaration.getNameAsString(), "name", f.getName(), "type", f.getType()).ast()));
+        }
+
+        @Override
+        public String toString(){
+            return "macro[setFluent]";
         }
     }
 }

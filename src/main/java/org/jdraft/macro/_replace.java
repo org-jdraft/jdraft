@@ -8,7 +8,9 @@ import java.lang.annotation.*;
 import java.util.function.Consumer;
 
 /**
- * Annotation Macro to replace the text of some elements within the entity
+ * Annotation/Macro to replace the text of some elements within the entity
+ *
+ * @see _macro
  */
 @Retention( RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD, ElementType.CONSTRUCTOR, ElementType.TYPE_USE})
@@ -77,6 +79,13 @@ public @interface _replace {
         String oldValue;
         String newValue;
 
+        public Act(_replace _rep ){
+            if( _rep.value() == null || _rep.value().length != 2 ){
+                throw new _draftException("FAILURE constructing replace macro, expected (2) values {old, new}");
+            }
+            this.oldValue = _rep.value()[0];
+            this.newValue = _rep.value()[1];
+        }
         public Act(String oldValue, String newValue){
             this.oldValue = oldValue;
             this.newValue = newValue;
@@ -93,6 +102,10 @@ public @interface _replace {
             });
             //node.walk(Node.TreeTraversal.POSTORDER, Node.class, n-> {
             //    String str = n.toString();
+        }
+
+        public String toString(){
+            return "macro[replace(\""+oldValue+ "\", \""+newValue+"\")]";
         }
     }
 }  

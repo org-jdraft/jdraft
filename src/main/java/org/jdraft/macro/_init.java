@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 import java.util.function.Consumer;
 
 /**
- * Set the initializer for a field
+ * Annotation/Macro to set the initializer for a {@link _field}
  *
  * NOTE: we can use this to avoid the "double tap"
  * i.e. we do this:
@@ -37,6 +37,7 @@ import java.util.function.Consumer;
  * });
  * ...this will update the fields initializer WITHOUT CALLING the "readInAFileContents()"
  * </PRE>
+ * @see _macro
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
@@ -55,7 +56,7 @@ public @interface _init {
 
         @Override
         public String toString(){
-           return "macro[init(...)]"; 
+           return "macro[init("+init+")]";
         }
         
         @Override
@@ -83,33 +84,39 @@ public @interface _init {
 
     class Act implements Consumer<Node>{
 
-        public Expression initExperssion;
+        public Expression initEx;
 
         public Act( _init _i ){
             this( _i.value() );
         }
 
-        public Act( String initExpression ){
-            this( Ex.of(initExpression));
+        public Act( String initEx){
+            this( Ex.of(initEx));
         }
 
         public Act( Expression e ){
-            this.initExperssion = e;
+            this.initEx = e;
         }
 
         @Override
         public void accept(Node node) {
             if( node instanceof FieldDeclaration ){
                 FieldDeclaration fieldDeclaration = (FieldDeclaration)node;
-                fieldDeclaration.getVariables().forEach( v -> v.setInitializer(initExperssion));
+                fieldDeclaration.getVariables().forEach( v -> v.setInitializer(initEx));
                 _macro.removeAnnotation(node, _init.class);
             } else if( node instanceof VariableDeclarator) {
                 VariableDeclarator vd = (VariableDeclarator)node;
-                vd.setInitializer(initExperssion);
+                vd.setInitializer(initEx);
 
                 _macro.removeAnnotation(vd.getParentNode().get(), _init.class);
                 //_macro.removeAnnotation(node, _init.class);
             }
+        }
+
+
+        @Override
+        public String toString(){
+            return "macro[init("+ initEx +")]";
         }
     }
 }

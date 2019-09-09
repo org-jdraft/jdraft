@@ -32,7 +32,7 @@ public @interface _dto {
 
         @Override
         public String toString(){
-           return "macro[autoDto]"; 
+           return "macro[dto]";
         }
         
         @Override
@@ -89,7 +89,12 @@ public @interface _dto {
             t = _autoConstructor.Macro.to(t);
 
             t.removeAnnos(_dto.class);
-         }
+        }
+
+        @Override
+        public String toString(){
+            return "macro[dto]";
+        }
     }
 
 }

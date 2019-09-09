@@ -16,12 +16,15 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
+ * Annotation/Macro to replace System.out.print/ln() with log.XXX() statements
  * A Macro that can be applied to _types that will
  * 1) check if there are any System.out.println statements in the code
  *    ...IF there are
  *    A) check if there is a static Logger implementation (if not will add a Logger)
  * 2) import the classes needed for the logger
  * 3) convert all println statements to log statements
+ *
+ * @see _macro
  */
 public class _replaceSystemOutWithLog implements _macro<_type> {
     /** find these statements to be replaced */

@@ -9,6 +9,11 @@ import org.jdraft._field;
 import java.lang.annotation.*;
 import java.util.function.Consumer;
 
+/**
+ * Annotation/Macro to add the volatile modifier to a Field
+ *
+ * @see _macro
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD })
 public @interface _volatile {
@@ -34,6 +39,11 @@ public @interface _volatile {
     }
 
     class Act implements Consumer<Node> {
+
+        @Override
+        public String toString(){
+            return "macro[volatile]";
+        }
 
         @Override
         public void accept(Node node) {

@@ -13,8 +13,12 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
+ * Annotation/Macro to add fluent setXXX() methods to a Class or Enum.<BR/>
+ *
  * Builds a setXXX METHODS for all non_static, non final FIELDS on the TYPE
  * Works on {@link org.jdraft._class}, {@link org.jdraft._enum}
+ *
+ * @see _macro
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.TYPE_USE})
@@ -35,7 +39,7 @@ public @interface _set {
 
         @Override
         public String toString(){
-           return "macro[autoSet]"; 
+           return "macro[set]";
         }
         
         @Override
@@ -58,6 +62,7 @@ public @interface _set {
         /** template method for a setXXX() method */
         public static $method $SET = $method.of(
                 "public void set$Name$($type$ $name$){ this.$name$ = $name$; }" );
+
         @Override
         public void accept(TypeDeclaration typeDeclaration) {
             List<_field> _fs = _field.of(typeDeclaration.getFields());
@@ -65,6 +70,11 @@ public @interface _set {
             _fs.forEach(f ->
                     typeDeclaration.addMember(
                             $SET.draft("name", f.getName(), "type", f.getType()).ast()));
+        }
+
+        @Override
+        public String toString(){
+            return "macro[set]";
         }
     }
 }

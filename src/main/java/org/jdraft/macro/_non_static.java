@@ -10,6 +10,12 @@ import org.jdraft._modifiers;
 import java.lang.annotation.*;
 import java.util.function.Consumer;
 
+/**
+ * Annotation/Macro to remove the static modifier from {@link org.jdraft._type}, {@link org.jdraft._field}
+ * {@link org.jdraft._method}
+ *
+ * @see _macro
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.TYPE_USE})
 public @interface _non_static {
@@ -48,6 +54,11 @@ public @interface _non_static {
                     _macro.removeAnnotation(fd, _non_static.class);
                 }
             }
+        }
+
+        @Override
+        public String toString(){
+            return "macro[non_static]";
         }
     }
 }

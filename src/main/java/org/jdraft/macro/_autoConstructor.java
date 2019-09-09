@@ -16,11 +16,15 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
+ * Annotation/Macro to create an appropriate {@link org.jdraft._constructor} based on the {@link _field}s of the {@link _type}
+ *
  * Builds a constructor based on the final, non_static FIELDS without initializers
  * Works on {@link _class} and {@link org.jdraft._enum} {@link _type}s
  *
  * NOTE: this DOES NOT look into the super class to see if there are final FIELDS that
  * are not initialized
+ *
+ * @see _macro
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.TYPE_USE})
@@ -84,6 +88,11 @@ public @interface _autoConstructor {
             else{
                 throw new _draftException("cannot add a constructor ");
             }
+        }
+
+        @Override
+        public String toString(){
+            return "macro[autoConstructor]";
         }
     }
 }

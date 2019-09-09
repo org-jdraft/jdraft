@@ -17,8 +17,12 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
+ * Annotation/Macro to add the toString() method based on the non static fields of the class
+ *
  * Builds a toString METHODS for all {@link _field}s on the {@link _type} that
  * are not static Works on {@link org.jdraft._class}
+ *
+ * @see _macro
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE,ElementType.TYPE_USE})
@@ -35,7 +39,7 @@ public @interface _toString {
 
         @Override
         public String toString(){
-           return "macro[autoToString]"; 
+           return "macro[toString]";
         }
         
         public static final $method $TO_STRING = $method.of(
@@ -105,7 +109,7 @@ public @interface _toString {
                 "    $body: {}",
                 "    sb.append( \"}\" );",
                 "    return sb.toString();",
-                "    }");
+                "}");
 
         @Override
         public void accept(TypeDeclaration typeDeclaration) {
@@ -125,6 +129,11 @@ public @interface _toString {
                 }
             });
             _method _m = $TO_STRING.draft("className", typeDeclaration.getName(), "body", body );
+        }
+
+        @Override
+        public String toString(){
+            return "macro[toString]";
         }
     }
 }

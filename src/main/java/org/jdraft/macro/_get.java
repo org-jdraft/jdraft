@@ -25,7 +25,7 @@ public @interface _get {
 
         @Override
         public String toString(){
-           return "macro[autoGet]"; 
+           return "macro[get]";
         }
         
         @Override
@@ -58,6 +58,11 @@ public @interface _get {
         @Override
         public void accept(TypeDeclaration typeDeclaration) {
             to(typeDeclaration);
+        }
+
+        @Override
+        public String toString(){
+            return "macro[get]";
         }
     }
 }

@@ -12,6 +12,12 @@ import org.jdraft._anno._hasAnnos;
 import java.lang.annotation.*;
 import java.util.function.Consumer;
 
+/**
+ * Annotation/Macro to add the static modifier to a {@link org.jdraft._type},
+ * {@link org.jdraft._field}, of {@link org.jdraft._method}
+ *
+ * @see _macro
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.TYPE_USE})
 public @interface _static  {
@@ -37,6 +43,11 @@ public @interface _static  {
     }
 
     class Act implements Consumer<Node> {
+
+        @Override
+        public String toString(){
+            return "macro[static]";
+        }
 
         @Override
         public void accept(Node node) {

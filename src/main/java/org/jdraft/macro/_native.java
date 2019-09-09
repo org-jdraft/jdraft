@@ -7,6 +7,11 @@ import org.jdraft._modifiers;
 import java.lang.annotation.*;
 import java.util.function.Consumer;
 
+/**
+ * Annotation/Macro for setting the native modifier on a {@link org.jdraft._method}
+ *
+ * @see _macro
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface _native {
@@ -35,6 +40,11 @@ public @interface _native {
         @Override
         public void accept(MethodDeclaration methodDeclaration) {
             methodDeclaration.setNative(true);
+        }
+
+        @Override
+        public String toString(){
+            return "macro[native]";
         }
     }
 }

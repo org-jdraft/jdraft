@@ -7,9 +7,13 @@ import java.lang.annotation.*;
 import java.util.function.Consumer;
 
 /**
+ * Annotation/Macro to set the default modifier on a {@link org.jdraft._interface} {@link _method}
+ *
  * For Interface METHODS,
  * sets the interface to be default and
  * REMOVES the static modifier if it exists
+ *
+ * @see _macro
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
@@ -42,6 +46,11 @@ public @interface _default {
         public void accept(MethodDeclaration methodDeclaration) {
             methodDeclaration.setStatic(false);
             methodDeclaration.setDefault(true);
+        }
+
+        @Override
+        public String toString(){
+            return "macro[default]";
         }
     }
 }

@@ -7,6 +7,10 @@ import org.jdraft._type;
 import java.lang.annotation.*;
 import java.util.function.Consumer;
 
+/**
+ * Annotation / Macro for moving a nested or local class to it's own top level class within a package)
+ * @see _macro
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.TYPE_USE})
 public @interface _promote {
@@ -52,7 +56,7 @@ public @interface _promote {
         }
     }
 
-    class Act  implements Consumer<TypeDeclaration> {
+    class Act implements Consumer<TypeDeclaration> {
         String packageName;
 
         public Act( String packageName ){
@@ -77,6 +81,11 @@ public @interface _promote {
                 cu.setPackageDeclaration(packageName);
             }
             _macro.removeAnnotation( typeDeclaration, _promote.class);
+        }
+
+        @Override
+        public String toString(){
+            return "macro[promote(\""+packageName+"\")]";
         }
     }
 }

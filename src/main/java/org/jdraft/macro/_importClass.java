@@ -11,7 +11,9 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 /**
- * Annotation Macro to add imports (and static imports) to a {@link _type}
+ * Annotation/Macro to add imports (and static imports) to a {@link _type}
+ *
+ * @see _macro
  */
 @Retention( RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.TYPE_USE})

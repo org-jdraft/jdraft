@@ -3,12 +3,16 @@ package org.jdraft.macro;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithStaticModifier;
 import org.jdraft._field;
 
 import java.lang.annotation.*;
 import java.util.function.Consumer;
 
+/**
+ * Annotation/Macro to add the transient modifier to a Field
+ *
+ * @see _macro
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})
 public @interface _transient {
@@ -35,6 +39,11 @@ public @interface _transient {
 
 
     class Act implements Consumer<Node> {
+
+        @Override
+        public String toString(){
+            return "macro[transient]";
+        }
 
         @Override
         public void accept(Node node) {

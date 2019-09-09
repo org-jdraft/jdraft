@@ -20,7 +20,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
- * Annotation _macro to convert a _method to a _constructor (removing the
+ * Annotation _macro to convert a {@link _method} to a {@link _constructor} (removing the
  * _method from its container and adding a _constructor)
  *
  * useful when the BODY of a _class or _enum is defined using an anonymous object
@@ -43,6 +43,8 @@ import java.util.stream.Collectors;
  *         }
  *     }
  * </PRE>
+ *
+ * @see _macro
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
@@ -119,6 +121,11 @@ public @interface _toCtor {
     class Act implements Consumer<MethodDeclaration> {
 
         @Override
+        public String toString(){
+            return "macro[ctor]";
+        }
+
+        @Override
         public void accept(MethodDeclaration methodDeclaration) {
             List<TypeDeclaration>tds = new ArrayList<>();
             _macro.removeAnnotation(methodDeclaration, _toCtor.class);
@@ -146,7 +153,7 @@ public @interface _toCtor {
             cd.setThrownExceptions( _ct.getThrows().ast());
             cd.setJavadocComment( _ct.getJavadoc().ast());
             cd.setAnnotations( _ct.getAnnos().ast());
-            System.out.println( "Trying to REMMMOOOOOVVVVVVVVVEEEEEEE");
+            //System.out.println( "Trying to REMMMOOOOOVVVVVVVVVEEEEEEE");
             cd.getAnnotations().removeIf( a -> a.getNameAsString().equals(_toCtor.class.getName() ) || a.getNameAsString().equals(_toCtor.class.getCanonicalName()) );
         }
     }

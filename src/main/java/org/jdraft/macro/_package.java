@@ -7,6 +7,12 @@ import org.jdraft._type;
 import java.lang.annotation.*;
 import java.util.function.Consumer;
 
+/**
+ * Annotation/Macro to set the package of a {@link _type} (and optionally create a top-level type
+ * from a nested/local type)
+ *
+ * @see _macro
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.TYPE_USE})
 public @interface _package {
@@ -67,6 +73,11 @@ public @interface _package {
             } else{
                 typeDeclaration.findCompilationUnit().get().setPackageDeclaration(packageName);
             }
+        }
+
+        @Override
+        public String toString(){
+            return "macro[package(\""+packageName+"\")]";
         }
     }
 }

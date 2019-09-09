@@ -10,7 +10,9 @@ import java.util.Arrays;
 import java.util.function.Consumer;
 
 /**
- * Annotation Macro to add imports to a _type
+ * Annotation / Macro to add add extend to a {@link _type}
+ *
+ * @see _macro
  */
 @Retention( RetentionPolicy.RUNTIME)
 @Target({ ElementType.TYPE, ElementType.TYPE_USE})
@@ -74,6 +76,18 @@ public @interface _extend{
                     throw new _draftException("cannot add extends to node of " + node.getClass());
                 }
             }
+        }
+
+        @Override
+        public String toString(){
+            String s = "";
+            for(int i=0;i<classes.length;i++){
+                if( i > 0){
+                    s +=",";
+                }
+                s += classes[i].getCanonicalName();
+            }
+            return "macro[extend("+s+")]";
         }
     }
 }

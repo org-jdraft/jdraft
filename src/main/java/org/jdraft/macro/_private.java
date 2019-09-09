@@ -11,6 +11,12 @@ import org.jdraft._modifiers;
 import java.lang.annotation.*;
 import java.util.function.Consumer;
 
+/**
+ * Annotation/Macro to set the private modifier on {@link org.jdraft._type}, {@link org.jdraft._field},
+ * {@link org.jdraft._method}, {@link org.jdraft._constructor}
+ *
+ * @see _macro
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.TYPE_USE})
 public @interface _private {
@@ -52,7 +58,11 @@ public @interface _private {
                     _macro.removeAnnotation(fd, _private.class);
                 }
             }
+        }
 
+        @Override
+        public String toString(){
+            return "macro[private]";
         }
     }
 }

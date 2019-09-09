@@ -230,6 +230,7 @@ public interface _macro<M extends _anno._hasAnnos>
         if (_t instanceof _constructor._hasConstructors) {
             ((_constructor._hasConstructors) _t).forConstructors(_c -> to(clazz, (_constructor)_c));
         }
+        //Process methods
         if (_t instanceof _method._hasMethods) {
             ((_method._hasMethods) _t).forMethods(_m -> {
                 _method _mm = ((_method) _m);
@@ -261,6 +262,8 @@ public interface _macro<M extends _anno._hasAnnos>
 
         Class[] declaredClazzes = clazz.getDeclaredClasses();
         List<Class> nestedClasses = Arrays.stream(declaredClazzes).collect(Collectors.toList());
+
+        //process nested classes
         _t.forNests(_nt -> {
             //System.out.println( "IN NESTED CLASS ");
             Optional<Class> foundClass = nestedClasses.stream().filter(c -> c.getSimpleName().equals(((_type) _nt).getName())).findFirst();
@@ -269,6 +272,7 @@ public interface _macro<M extends _anno._hasAnnos>
             }
             to( foundClass.get(), (_type)_nt);
         });
+
         //the last thing to do is to run on the top level _type
         return applyAllAnnotationMacros(_t, clazz);
     }
