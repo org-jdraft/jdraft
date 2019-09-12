@@ -946,7 +946,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         parts.put( Component.IMPLEMENTS, this.listImplements() );
         parts.put( Component.JAVADOC, this.getJavadoc() );
         parts.put( Component.TYPE_PARAMETERS, this.getTypeParameters() );
-        parts.put( Component.STATIC_BLOCKS, this.listInitBlocks());
+        parts.put( Component.INIT_BLOCKS, this.listInitBlocks());
         parts.put( Component.NAME, this.getName() );
         parts.put( Component.MODIFIERS, this.getModifiers() );
         parts.put( Component.CONSTRUCTORS, this.listConstructors() );
