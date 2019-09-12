@@ -1023,7 +1023,9 @@ public enum Ast {
                 if( prb.getLocation().isPresent() ){
                     TokenRange tr = prb.getLocation().get();
                     String withStatic = tr.toString();
-                    String withoutStatic = tr.toString().replace(" static ", " ");
+                    //int stindex = withStatic.indexOf(" static ");
+                    String withoutStatic = tr.toString().replaceFirst(" static ", " ");
+
                     str = str.replace(withStatic, withoutStatic);
                     pr = JAVAPARSER.parse(str);      
                     if( pr.isSuccessful() ){
