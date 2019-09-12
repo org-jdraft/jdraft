@@ -576,7 +576,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         parts.put( _java.Component.IMPLEMENTS, this.listImplements() );
         parts.put( _java.Component.JAVADOC, this.getJavadoc() );
         parts.put( _java.Component.CONSTANTS, this.listConstants());
-        parts.put( _java.Component.STATIC_BLOCKS, this.listInitBlocks());
+        parts.put( _java.Component.INIT_BLOCKS, this.listInitBlocks());
         parts.put( _java.Component.NAME, this.getName() );
         parts.put( _java.Component.MODIFIERS, this.getModifiers() );
         parts.put( _java.Component.CONSTRUCTORS, this.listConstructors() );
