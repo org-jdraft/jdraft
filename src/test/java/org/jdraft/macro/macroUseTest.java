@@ -17,7 +17,7 @@ import java.lang.reflect.Type;
 import java.util.*;
 import java.util.function.Function;
 
-public class macroTest extends TestCase {
+public class macroUseTest extends TestCase {
 
     public void testAnonymousObjectWithMacroAnnotation(){
         _class _c = _class.of("demo.Point2D", new @_dto Object(){
