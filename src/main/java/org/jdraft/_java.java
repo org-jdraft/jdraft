@@ -732,8 +732,8 @@ public interface _java {
 
         EXTENDS("extends", List.class, ClassOrInterfaceType.class), //_class, //_interface
         IMPLEMENTS("implements", List.class, ClassOrInterfaceType.class), //_class, _enum
-        STATIC_BLOCKS("staticBlocks", List.class, _initBlock.class), //class, _enum
-        STATIC_BLOCK("staticBlocks", _initBlock.class), //class, _enum
+        INIT_BLOCKS("initBlocks", List.class, _initBlock.class), //class, _enum
+        INIT_BLOCK("initBlocks", _initBlock.class), //class, _enum
         CONSTRUCTORS("constructors", List.class, _constructor.class), //class, _enum
         CONSTRUCTOR("constructor", _constructor.class),
         METHODS("methods", List.class, _method.class), //class, _enum, _interface, _enum._constant
