@@ -76,6 +76,8 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
         td.getMethods().forEach(
                 m ->{
                     _method _m = _method.of( (MethodDeclaration)m);
+                    //TODO do parameters
+
                     Optional<Method> om =
                             Arrays.stream(clazz.getDeclaredMethods()).filter( em -> _m.hasParametersOf(em)).findFirst();
                     if( om.isPresent() ) {

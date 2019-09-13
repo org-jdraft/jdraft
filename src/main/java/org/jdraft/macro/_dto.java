@@ -28,6 +28,8 @@ public @interface _dto {
 
     Macro $ = new Macro();
 
+    Act A = new Act();
+
     class Macro implements _macro<_type> {
 
         @Override

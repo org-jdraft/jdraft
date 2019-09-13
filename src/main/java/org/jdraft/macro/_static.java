@@ -42,15 +42,18 @@ public @interface _static  {
         }
     }
 
-    class Act implements Consumer<Node> {
+     class Act extends macro<_static, Node> {
 
+        public Act(_static _s){
+            super(_s);
+        }
         @Override
         public String toString(){
             return "macro[static]";
         }
 
         @Override
-        public void accept(Node node) {
+        public void expand(Node node) {
             if( node instanceof NodeWithStaticModifier){
                 NodeWithStaticModifier nwp = (NodeWithStaticModifier)node;
                 nwp.setStatic(true);
