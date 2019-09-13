@@ -75,11 +75,12 @@ public @interface _replace {
         }
     }
 
-    class Act implements Consumer<Node> {
+    class Act extends macro<_replace, Node> {
         String oldValue;
         String newValue;
 
         public Act(_replace _rep ){
+            super( _rep );
             if( _rep.value() == null || _rep.value().length != 2 ){
                 throw new _draftException("FAILURE constructing replace macro, expected (2) values {old, new}");
             }
@@ -87,12 +88,13 @@ public @interface _replace {
             this.newValue = _rep.value()[1];
         }
         public Act(String oldValue, String newValue){
+            super(_replace.class);
             this.oldValue = oldValue;
             this.newValue = newValue;
         }
 
         @Override
-        public void accept(Node node) {
+        public void expand(Node node) {
             node.walk(_walk.POST_ORDER, n->{ //by walking (in postorder fashion)
                 String s = n.toString(Ast.PRINT_NO_COMMENTS);
                 if( s.contains(oldValue) ) {

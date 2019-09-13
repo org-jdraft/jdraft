@@ -57,14 +57,18 @@ public @interface _abstract {
         }
     }
 
-    class Act implements Consumer<Node>{
+    class Act extends macro<_abstract, Node> { //implements Consumer<Node>{
+
+        public Act(_abstract _a){
+            super(_a);
+        }
 
         @Override
         public String toString(){
             return "macro[abstract]";
         }
 
-        public void accept(Node n){
+        public void expand(Node n){
             if (n instanceof NodeWithAbstractModifier) {
                 NodeWithAbstractModifier nwa = (NodeWithAbstractModifier) n;
                 nwa.setAbstract(true);

@@ -41,10 +41,14 @@ public @interface _private {
         }
     }
 
-    class Act implements Consumer<Node> {
+    class Act extends macro<_private,Node> {
+
+        public Act(){
+            super(_private.class);
+        }
 
         @Override
-        public void accept(Node node) {
+        public void expand(Node node) {
             if( node instanceof NodeWithPrivateModifier ){
                 NodeWithPrivateModifier nwp = (NodeWithPrivateModifier)node;
                 nwp.setModifier(Modifier.Keyword.PUBLIC, false);

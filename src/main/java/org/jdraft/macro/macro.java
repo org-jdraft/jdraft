@@ -28,9 +28,16 @@ import java.util.stream.Collectors;
 public abstract class macro<A extends Annotation,N extends Node> implements Consumer<N> {
 
     /** Annotation instance */
-    public final A annotation;
+    public A annotation;
+
+    public final Class<A> aType;
+
+    public macro(Class<A> aType ){
+        this.aType = aType;
+    }
 
     public macro(A annotation){
+        this.aType = (Class<A>)annotation.annotationType();
         this.annotation = annotation;
         Log.info("          Constructing %s ", ()->toString());
     }
@@ -38,7 +45,7 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
     public void accept(N node){
         Log.info("          Expanding %s\n          on:\n%s", ()->toString(), ()->Text.indent(node.toString(), "          "));
         expand(node);
-        removeAnnotation(node, annotation.annotationType());
+        removeAnnotation(node, aType);
     }
 
     public abstract void expand(N node);
@@ -76,11 +83,21 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
         td.getMethods().forEach(
                 m ->{
                     _method _m = _method.of( (MethodDeclaration)m);
-                    //TODO do parameters
-
                     Optional<Method> om =
-                            Arrays.stream(clazz.getDeclaredMethods()).filter( em -> _m.hasParametersOf(em)).findFirst();
+                            Arrays.stream(clazz.getDeclaredMethods()).filter(
+                                    em -> em.getName().equals(_m.getName()) && _m.hasParametersOf(em)).findFirst();
+
                     if( om.isPresent() ) {
+                        Method mm = om.get();
+
+                        //i need to skip the first one if it's a non-static nested type
+                        //int startIndex = 0;
+                        //if( mm.getParameterCount() > _m.getParameters().size()){
+                        //    startIndex = 1;
+                        //}
+                        for(int i=0;i<_m.getParameters().size(); i++){
+                            to( _m.getParameter(i).ast(), mm.getParameters()[i]);
+                        }
                         to( (MethodDeclaration)m, om.get());
                     }
                 }
@@ -88,11 +105,25 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
         Log.info("    3 of 5) constructors of %s", ()->clazz );
         td.getConstructors().forEach(
                 c->{
-                    _constructor _ct = _constructor.of( c );
+                    _constructor _ct = _constructor.of( (ConstructorDeclaration)c );
                     Optional<Constructor> oc =
                             Arrays.stream(clazz.getDeclaredConstructors()).filter( ct -> _ct.hasParametersOf(ct) ).findFirst();
                     if( oc.isPresent() ){
-                        to((ConstructorDeclaration)c, oc.get());
+                        Constructor ct = oc.get();
+                        //todo do parameters
+                        //i need to skip the first one if it'sd a receiver parameter or nested class parameter
+                        //int startIndex = 0;
+                        //if( ct.getParameterCount() > _ct.getParameters().size()){
+                            //System.out.println( "MisMatched Parameter count" + ct.getParameterCount()+" "+ _ct.getParameters().size());
+                        //    startIndex = 1;
+                        //}
+
+                        for(int i=0;i<_ct.getParameters().size(); i++){
+                            //System.out.println( "ON "+ ct.getParameters()[i] );
+                            to( _ct.getParameter(i).ast(), ct.getParameters()[i]);
+                            //to( _ct.getParameter(i).ast(), ct.getAnnotatedParameterTypes()[i+startIndex]);
+                        }
+                        to((ConstructorDeclaration)c, ct);
                     }
                 }
         );
@@ -104,7 +135,7 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
                     Optional<Class> oc =
                             Arrays.stream(clazz.getDeclaredClasses()).filter(c-> c.getName().equals( ((TypeDeclaration)nt).getNameAsString()) ).findFirst();
                     if( oc.isPresent() ){
-                        to(nt, oc.get());
+                        toType( (TypeDeclaration)nt, oc.get());
                     }
                 }
         );

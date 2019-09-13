@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 /**
  * Annotation / Macro to add add extend to a {@link _type}
  *
- * @see _macro
+ * @see macro
  */
 @Retention( RetentionPolicy.RUNTIME)
 @Target({ ElementType.TYPE, ElementType.TYPE_USE})
@@ -54,17 +54,21 @@ public @interface _extend{
         }
     }
 
-    class Act implements Consumer<TypeDeclaration> {
+    class Act extends macro<_extend, TypeDeclaration>{ //} Consumer<TypeDeclaration> {
 
         public Class[] classes;
 
         public Act(_extend _e) {
-            this(_e.value() );
+            super(_e);
+            this.classes = _e.value();
         }
 
-        public Act( Class[] classes ) { this.classes = classes; }
+        public Act( Class[] classes ) {
+            super( _extend.class);
+            this.classes = classes;
+        }
 
-        public void accept(TypeDeclaration node) {
+        public void expand(TypeDeclaration node) {
             if (node instanceof NodeWithExtends) {
                 NodeWithExtends nwe = (NodeWithExtends) node;
                 for (int i = 0; i < classes.length; i++) {

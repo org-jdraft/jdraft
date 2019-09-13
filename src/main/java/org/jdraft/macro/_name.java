@@ -49,16 +49,17 @@ public @interface _name{
      *
      * ..same thing if I have the name as a return type...or a static instance field
      */
-    class Act implements Consumer<Node> {
+    class Act extends macro<_name, Node>{
+
         String name;
-        public Act( String name){
-            this.name = name;
-        }
+
         public Act( _name _n ){
-            this(_n.value());
+            super(_n);
+            this.name = _n.value();
         }
+
         @Override
-        public void accept(Node node) {
+        public void expand(Node node) {
             if( node instanceof NodeWithName){
                 NodeWithName nwn = (NodeWithName)node;
                 nwn.setName(name);

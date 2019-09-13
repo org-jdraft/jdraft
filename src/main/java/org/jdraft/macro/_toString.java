@@ -85,7 +85,8 @@ public @interface _toString {
             return _t;
         }
     }
-    class Act implements Consumer<TypeDeclaration> {
+
+    class Act extends macro<_toString,TypeDeclaration> {
 
         /**
          * Decide which FIELDS are to be added into the toString method
@@ -111,8 +112,12 @@ public @interface _toString {
                 "    return sb.toString();",
                 "}");
 
+        public Act(){
+            super(_toString.class);
+        }
+
         @Override
-        public void accept(TypeDeclaration typeDeclaration) {
+        public void expand(TypeDeclaration typeDeclaration) {
             BlockStmt body = new BlockStmt();
             List<_field> _fs = _field.of(typeDeclaration.getFields());
 

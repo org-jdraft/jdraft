@@ -118,15 +118,19 @@ public @interface _toCtor {
         }
     }
 
-    class Act implements Consumer<MethodDeclaration> {
+    class Act extends macro<_toCtor, MethodDeclaration> {
 
-        @Override
-        public String toString(){
-            return "macro[ctor]";
+        public Act(){
+            super(_toCtor.class);
         }
 
         @Override
-        public void accept(MethodDeclaration methodDeclaration) {
+        public String toString(){
+            return "macro[toCtor]";
+        }
+
+        @Override
+        public void expand(MethodDeclaration methodDeclaration) {
             List<TypeDeclaration>tds = new ArrayList<>();
             _macro.removeAnnotation(methodDeclaration, _toCtor.class);
             _constructor _ct = Macro.fromMethod( _method.of(methodDeclaration));

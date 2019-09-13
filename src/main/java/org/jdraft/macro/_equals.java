@@ -114,10 +114,14 @@ public @interface _equals {
         }
     }
 
-    class Act implements Consumer<TypeDeclaration> {
+    class Act extends macro<_equals, TypeDeclaration> {
+
+        public Act(_equals _e){
+            super(_e);
+        }
 
         @Override
-        public void accept(TypeDeclaration typeDeclaration) {
+        public void expand(TypeDeclaration typeDeclaration) {
             Macro.to(_java.type(typeDeclaration));
         }
 

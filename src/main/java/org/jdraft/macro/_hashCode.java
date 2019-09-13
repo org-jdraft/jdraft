@@ -1,6 +1,7 @@
 package org.jdraft.macro;
 
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.TypeDeclaration;
 import org.jdraft.*;
 import org.jdraft.proto.$stmt;
 import org.jdraft.proto.$method;
@@ -155,10 +156,14 @@ public @interface _hashCode {
         }
     }
 
-    class Act implements Consumer<ClassOrInterfaceDeclaration> {
+    class Act extends macro<_hashCode, TypeDeclaration> {
+
+        public Act(){
+            super(_hashCode.class);
+        }
 
         @Override
-        public void accept(ClassOrInterfaceDeclaration typeDeclaration) {
+        public void expand(TypeDeclaration typeDeclaration) {
             Macro.to(_java.type(typeDeclaration));
         }
 

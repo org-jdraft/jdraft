@@ -83,10 +83,14 @@ public @interface _public {
         }
     }
 
-    class Act implements Consumer<Node> {
+    class Act extends macro<_public, Node> {
+
+        public Act(_public _p){
+            super(_p);
+        }
 
         @Override
-        public void accept(Node node) {
+        public void expand(Node node) {
             if( node instanceof NodeWithPublicModifier){
                 NodeWithPublicModifier nwp = (NodeWithPublicModifier)node;
                 nwp.setModifier(Modifier.Keyword.PRIVATE, false);
@@ -102,7 +106,6 @@ public @interface _public {
                 }
             }
         }
-
 
         @Override
         public String toString(){

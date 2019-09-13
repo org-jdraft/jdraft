@@ -37,8 +37,11 @@ public @interface _transient {
         }
     }
 
+    class Act extends macro<_transient, Node> {
 
-    class Act implements Consumer<Node> {
+        public Act(){
+            super(_transient.class);
+        }
 
         @Override
         public String toString(){
@@ -46,7 +49,7 @@ public @interface _transient {
         }
 
         @Override
-        public void accept(Node node) {
+        public void expand(Node node) {
             if( node instanceof FieldDeclaration){
                 FieldDeclaration nwp = (FieldDeclaration) node;
                 nwp.setTransient(true);

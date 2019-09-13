@@ -35,10 +35,14 @@ public @interface _native {
         }
     }
 
-    class Act implements Consumer<MethodDeclaration> {
+    class Act extends macro<_native,MethodDeclaration>{ //} Consumer<MethodDeclaration> {
+
+        public Act(){
+            super(_native.class);
+        }
 
         @Override
-        public void accept(MethodDeclaration methodDeclaration) {
+        public void expand(MethodDeclaration methodDeclaration) {
             methodDeclaration.setNative(true);
         }
 

@@ -43,7 +43,11 @@ public @interface _get {
         }
     }
 
-    class Act implements Consumer<TypeDeclaration> {
+    class Act extends macro<_get, TypeDeclaration>{
+
+        public Act(){
+            super(_get.class);
+        }
 
         public static final $method $GET = $method.of(
                 "public $type$ get$Name$(){ return $name$; }");
@@ -56,7 +60,7 @@ public @interface _get {
         }
 
         @Override
-        public void accept(TypeDeclaration typeDeclaration) {
+        public void expand(TypeDeclaration typeDeclaration) {
             to(typeDeclaration);
         }
 

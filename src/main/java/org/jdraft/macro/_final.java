@@ -34,10 +34,14 @@ public @interface _final {
         }
     }
 
-    class Act implements Consumer<Node> {
+    class Act extends macro<_final, Node> { //implements Consumer<Node> {
+
+        public Act( _final _f ){
+            super(_f);
+        }
 
         @Override
-        public void accept(Node node) {
+        public void expand(Node node) {
             if( node instanceof NodeWithFinalModifier){
                 NodeWithFinalModifier nwf = (NodeWithFinalModifier)node;
                 nwf.setFinal(true);

@@ -62,7 +62,11 @@ public @interface _remove {
         }
     }
 
-    class Act implements Consumer<Node> {
+    class Act extends macro<_remove, Node>{ //implements Consumer<Node> {
+
+        public Act(){
+            super(_remove.class);
+        }
 
         @Override
         public String toString(){
@@ -70,7 +74,7 @@ public @interface _remove {
         }
 
         @Override
-        public void accept(Node node) {
+        public void expand(Node node) {
             node.removeForced();
         }
     }

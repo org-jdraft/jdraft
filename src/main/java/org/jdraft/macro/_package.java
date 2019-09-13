@@ -52,19 +52,22 @@ public @interface _package {
         }
     }
 
-    class Act implements Consumer<TypeDeclaration> {
+    class Act extends macro<_package, TypeDeclaration> {
+
         String packageName = "";
 
         public Act(String packageName ){
+            super(_package.class);
             this.packageName = packageName;
         }
 
         public Act( _package p){
-            this (p.value());
+            super(p);
+            this.packageName = p.value();
         }
 
         @Override
-        public void accept(TypeDeclaration typeDeclaration) {
+        public void expand(TypeDeclaration typeDeclaration) {
             if( !typeDeclaration.isTopLevelType() ){
                 typeDeclaration.setStatic(false);
                 CompilationUnit cu = new CompilationUnit();

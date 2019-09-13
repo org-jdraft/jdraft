@@ -57,14 +57,18 @@ public @interface _set {
             return t;
         }
     }
-    class Act implements Consumer<TypeDeclaration> {
+    class Act extends macro<_set, TypeDeclaration> {
 
         /** template method for a setXXX() method */
         public static $method $SET = $method.of(
                 "public void set$Name$($type$ $name$){ this.$name$ = $name$; }" );
 
+        public Act(){
+            super(_set.class);
+        }
+
         @Override
-        public void accept(TypeDeclaration typeDeclaration) {
+        public void expand(TypeDeclaration typeDeclaration) {
             List<_field> _fs = _field.of(typeDeclaration.getFields());
             _fs = _fs.stream().filter(f-> !f.isStatic() && !f.isFinal() ).collect(Collectors.toList());
             _fs.forEach(f ->

@@ -38,7 +38,11 @@ public @interface _volatile {
         }
     }
 
-    class Act implements Consumer<Node> {
+    class Act extends macro<_volatile, Node> {
+
+        public Act(){
+            super(_volatile.class);
+        }
 
         @Override
         public String toString(){
@@ -46,7 +50,7 @@ public @interface _volatile {
         }
 
         @Override
-        public void accept(Node node) {
+        public void expand(Node node) {
             if( node instanceof FieldDeclaration){
                 FieldDeclaration nwp = (FieldDeclaration)node;
                 nwp.setVolatile(true);

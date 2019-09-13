@@ -62,7 +62,7 @@ public @interface _setFluent {
         }
     }
 
-    class Act implements Consumer<TypeDeclaration> {
+    class Act extends macro<_setFluent, TypeDeclaration> {
 
         /** picks _fields of the _class that are required in the constructor */
         public static Predicate<_field> SET_REQUIRED = _f -> !_f.isStatic() && !_f.isFinal();
@@ -74,8 +74,12 @@ public @interface _setFluent {
                 "    return this;",
                 "}");
 
+        public Act(){
+            super(_setFluent.class);
+        }
+
         @Override
-        public void accept(TypeDeclaration typeDeclaration) {
+        public void expand(TypeDeclaration typeDeclaration) {
             List<_field> _fs = _field.of(typeDeclaration.getFields());
             _fs = _fs.stream().filter(SET_REQUIRED ).collect(Collectors.toList());
             _fs.forEach(f ->

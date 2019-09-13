@@ -39,10 +39,13 @@ public @interface _non_static {
             return _model;
         }
     }
-    class Act implements Consumer<Node>{
+    class Act extends macro<_non_static,Node>{
 
+        public Act(){
+            super(_non_static.class);
+        }
         @Override
-        public void accept(Node node) {
+        public void expand(Node node) {
             if( node instanceof NodeWithStaticModifier ){
                 NodeWithStaticModifier nwsm = (NodeWithStaticModifier)node;
                 nwsm.setStatic(false);

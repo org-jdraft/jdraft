@@ -60,10 +60,13 @@ public @interface _autoConstructor {
             return t;
         }
     }
-    class Act implements Consumer<Node> {
+    class Act extends macro<_autoConstructor, Node> {
 
+        public Act(_autoConstructor _ac){
+            super(_ac);
+        }
         @Override
-        public void accept(Node node) {
+        public void expand(Node node) {
             //MED CHANGED
             if( node instanceof EnumDeclaration || ( node instanceof ClassOrInterfaceDeclaration && !((ClassOrInterfaceDeclaration)node).isInterface() )){
                 //NodeWithConstructors nwcs = (NodeWithConstructors)node;
@@ -86,7 +89,7 @@ public @interface _autoConstructor {
                 _macro.removeAnnotation(node, _autoConstructor.class);
             }
             else{
-                throw new _draftException("cannot add a constructor ");
+                throw new _draftException( "cannot add a constructor ");
             }
         }
 

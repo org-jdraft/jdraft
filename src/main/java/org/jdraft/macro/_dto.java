@@ -78,10 +78,18 @@ public @interface _dto {
         }
     }
 
-    class Act implements Consumer<TypeDeclaration> {
+    class Act extends macro<_dto, TypeDeclaration> { //} Consumer<TypeDeclaration> {
+
+        public Act(){
+            super(_dto.class);
+        }
+
+        public Act(_dto _d){
+            super(_d);
+        }
 
         @Override
-        public void accept(TypeDeclaration typeDeclaration) {
+        public void expand(TypeDeclaration typeDeclaration) {
             _type t = _java.type(typeDeclaration);
             t = _get.Macro.to(t);
             t = _setFluent.Macro.to(t);

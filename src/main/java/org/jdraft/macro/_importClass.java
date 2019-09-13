@@ -81,20 +81,22 @@ public @interface _importClass {
         }
     }
 
-    class Act implements Consumer<TypeDeclaration> {
+    class Act extends macro<_importClass, TypeDeclaration> {
 
         Class[] classes;
 
         public Act( _importClass _ic ){
-            this(_ic.value());
+            super(_ic);
+            this.classes = _ic.value();
         }
 
         public Act( Class...classes ){
+            super(_importClass.class);
             this.classes = classes;
         }
 
         @Override
-        public void accept(TypeDeclaration typeDeclaration) {
+        public void expand(TypeDeclaration typeDeclaration) {
             Arrays.stream(this.classes).forEach( c ->
                 typeDeclaration.tryAddImportToParentCompilationUnit(c) );
         }

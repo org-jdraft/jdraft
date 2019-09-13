@@ -82,24 +82,27 @@ public @interface _init {
         }
     }
 
-    class Act implements Consumer<Node>{
+    class Act extends macro<_init, Node>{ //implements Consumer<Node>{
 
         public Expression initEx;
 
         public Act( _init _i ){
-            this( _i.value() );
+            super(_i);
+            this.initEx = Ex.of(_i.value());
         }
 
         public Act( String initEx){
-            this( Ex.of(initEx));
+            super(_init.class);
+            this.initEx = Ex.of(initEx);
         }
 
         public Act( Expression e ){
+            super(_init.class);
             this.initEx = e;
         }
 
         @Override
-        public void accept(Node node) {
+        public void expand(Node node) {
             if( node instanceof FieldDeclaration ){
                 FieldDeclaration fieldDeclaration = (FieldDeclaration)node;
                 fieldDeclaration.getVariables().forEach( v -> v.setInitializer(initEx));

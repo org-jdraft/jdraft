@@ -41,10 +41,14 @@ public @interface _protected {
         }
     }
 
-    class Act implements Consumer<Node> {
+    class Act extends macro<_protected,Node> {
+
+        public Act(){
+            super(_protected.class);
+        }
 
         @Override
-        public void accept(Node node) {
+        public void expand(Node node) {
             if( node instanceof NodeWithProtectedModifier){
                 NodeWithProtectedModifier nwpm = (NodeWithProtectedModifier)node;
                 nwpm.setModifier(Modifier.Keyword.PRIVATE, false);

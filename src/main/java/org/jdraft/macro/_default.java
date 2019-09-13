@@ -1,5 +1,6 @@
 package org.jdraft.macro;
 
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import org.jdraft._method;
 
@@ -40,10 +41,14 @@ public @interface _default {
         }
     }
 
-    class Act implements Consumer<MethodDeclaration> {
+    class Act extends macro<_default, MethodDeclaration> {
+
+        public Act(_default _d){
+            super(_d);
+        }
 
         @Override
-        public void accept(MethodDeclaration methodDeclaration) {
+        public void expand(MethodDeclaration methodDeclaration) {
             methodDeclaration.setStatic(false);
             methodDeclaration.setDefault(true);
         }

@@ -56,19 +56,22 @@ public @interface _promote {
         }
     }
 
-    class Act implements Consumer<TypeDeclaration> {
+    class Act extends macro<_promote, TypeDeclaration> {
+
         String packageName;
 
         public Act( String packageName ){
+            super(_promote.class);
             this.packageName = packageName;
         }
 
         public Act( _promote _pr){
-            this(_pr.value());
+            super(_pr );
+            this.packageName = _pr.value();
         }
 
         @Override
-        public void accept(TypeDeclaration typeDeclaration) {
+        public void expand(TypeDeclaration typeDeclaration) {
             typeDeclaration.setPublic(true);
             typeDeclaration.setStatic(false);
             //remove from old

@@ -64,20 +64,22 @@ public @interface _implement {
         }
     }
 
-    class Act implements Consumer<TypeDeclaration> {
+    class Act extends macro<_implement, TypeDeclaration>{
 
         Class[] toImplement;
 
         public Act( _implement _i ){
-            this(_i.value());
+            super(_i);
+            this.toImplement = _i.value();
         }
 
         public Act( Class[] toImplement ){
+            super(_implement.class);
             this.toImplement = toImplement;
         }
 
         @Override
-        public void accept(TypeDeclaration typeDeclaration) {
+        public void expand(TypeDeclaration typeDeclaration) {
             if( typeDeclaration instanceof NodeWithImplements ){
                 NodeWithImplements nwi = (NodeWithImplements) typeDeclaration;
                 Arrays.stream( toImplement ).forEach( i -> nwi.addImplementedType(i));
