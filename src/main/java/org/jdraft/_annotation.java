@@ -14,6 +14,7 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.type.Type;
 
+import com.github.javaparser.utils.Log;
 import org.jdraft._anno.*;
 import org.jdraft.io._in;
 import org.jdraft.macro._macro;
@@ -31,15 +32,12 @@ public final class _annotation
         implements _type<AnnotationDeclaration, _annotation> {
 
     public static _annotation of( Class<? extends Annotation> clazz ){
-        Node n = Ast.typeDecl( clazz );
-        if( n instanceof CompilationUnit ){
-            return macro.to(clazz, of( (CompilationUnit)n));
-        }
+        TypeDeclaration n = Ast.typeDecl( clazz );
         //not a compilation
         Set<Class> imps = _import.inferImportsFrom(clazz);
         _annotation _a = of( (AnnotationDeclaration)n);
         imps.forEach(i -> _a.imports(i) );
-        return macro.to(clazz, _a);
+        return macro.to(clazz, n); //_a);
     }
 
     public static _annotation of( CompilationUnit cu ){
@@ -54,7 +52,6 @@ public final class _annotation
             if( coid.isPresent() ){
                 return of( (AnnotationDeclaration)coid.get());
             }
-            //return of( cu.getType(0) );
         }
         if( cu.getPrimaryType().isPresent() ){
             return of( (AnnotationDeclaration)( cu.getPrimaryType().get() ) );
@@ -83,11 +80,8 @@ public final class _annotation
             _annotation._element _ae = null;
             if( vd.getInitializer().isPresent()){
                 _ae = _annotation._element.of(vd.getType(), vd.getNameAsString(), vd.getInitializer().get());
-                //add comment and annotations
-
             } else {
                 _ae = _annotation._element.of(vd.getType(), vd.getNameAsString());
-                //_a.element(_annotation._element.of(vd.getType(), vd.getNameAsString()));
             }
             if( ((FieldDeclaration) f).getJavadocComment().isPresent()){
                 _ae.javadoc( ((FieldDeclaration) f).getJavadocComment().get());
@@ -415,7 +409,6 @@ public final class _annotation
         if( !Objects.equals( ctn, con)){
             return false;
         }
-
         return true;
     }
 
@@ -811,15 +804,19 @@ public final class _annotation
                 return false;
             }
             if( !Objects.equals( this.getJavadoc(), other.getJavadoc() ) ) {
+                Log.trace("expected javadoc %s got %s", this::getJavadoc, other::getJavadoc);
                 return false;
             }
             if( !Objects.equals( this.getName(), other.getName() ) ) {
+                Log.trace("expected name %s got %s", this::getName, other::getName);
                 return false;
             }
             if( !Ast.typesEqual( astAnnMember.getType(), other.astAnnMember.getType())){
+                Log.trace("expected type %s got %s", astAnnMember::getType, other.astAnnMember::getType);
                 return false;
             }
             if( !Objects.equals( this.getDefaultValue(), other.getDefaultValue() ) ) {
+                Log.trace("expected name %s got %s", this::getDefaultValue, other::getDefaultValue);
                 return false;
             }
             return true;
