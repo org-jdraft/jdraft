@@ -736,14 +736,6 @@ public final class _anno
         }
 
         /**
-         * @return true if there are ANNOTATIONS for ane entity
-
-        default boolean isAnnotated() {
-            return !getAnnos().isEmpty();
-        }
-        */
-
-        /**
          * apply a function to all annos
          * @param _annoActionFn
          * @return the modified T
