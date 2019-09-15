@@ -5,6 +5,7 @@ import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithFinalModifier;
 import org.jdraft._anno;
+import org.jdraft._java;
 import org.jdraft._modifiers;
 
 import java.lang.annotation.*;
@@ -51,6 +52,13 @@ public @interface _final {
                 FieldDeclaration fd = (FieldDeclaration)vd.getParentNode().get();
                 fd.setFinal(true);
                 _macro.removeAnnotation(fd, _final.class);
+            } else{
+                System.out.println("NOT PROCESSED YET" );
+                try{
+                    ((_modifiers._hasModifiers) _java.of(node)).getModifiers().setFinal();
+                }catch(Exception e){
+                    System.out.println("AND FAILED");
+                }
             }
         }
 

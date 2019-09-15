@@ -47,6 +47,7 @@ public @interface _static  {
         public Act(_static _s){
             super(_s);
         }
+
         @Override
         public String toString(){
             return "macro[static]";

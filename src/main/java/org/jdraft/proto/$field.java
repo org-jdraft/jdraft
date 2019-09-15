@@ -21,6 +21,8 @@ import org.jdraft.Ex;
 import org.jdraft._node;
 import org.jdraft.macro._macro;
 import org.jdraft.macro._remove;
+import org.jdraft.macro.macro;
+
 import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.function.Consumer;
@@ -59,7 +61,7 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
 
         //add the field to a class so I can run macros
         _class _c = _class.of("Temp").add(_field.of(fd.clone().getVariable(0)));
-        _macro.to(anonymousObjectWithField.getClass(), _c);
+        macro.to(anonymousObjectWithField.getClass(), _c);
 
         return of( _c.getField(0) );        
     }

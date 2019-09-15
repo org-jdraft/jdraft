@@ -67,6 +67,10 @@ public @interface _set {
             super(_set.class);
         }
 
+        public Act(_set _s){
+            super(_s);
+        }
+
         @Override
         public void expand(TypeDeclaration typeDeclaration) {
             List<_field> _fs = _field.of(typeDeclaration.getFields());

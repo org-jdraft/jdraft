@@ -16,6 +16,7 @@ public class _removeTest extends TestCase {
         }
 
         _class _c = _class.of(D.class);
+        System.out.println( _c );
         assertEquals(0, _c.listMethods().size());
         assertEquals(0, _c.listFields().size());
         assertEquals(0, _c.listConstructors().size());

@@ -35,6 +35,7 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
 import org.jdraft.macro._toCtor;
+import org.jdraft.macro.macro;
 
 /**
  * prototype/template for a Java {@link _constructor}
@@ -93,7 +94,7 @@ public final class $constructor
         }
         
         //run macros on the things
-        _macro.to( anonymousObjectContainingMethod.getClass(), _c);
+        macro.to( anonymousObjectContainingMethod.getClass(), _c.ast());
         
         MethodDeclaration theMethod = (MethodDeclaration)
             oce.getAnonymousClassBody().get().stream().filter(m -> m instanceof MethodDeclaration &&

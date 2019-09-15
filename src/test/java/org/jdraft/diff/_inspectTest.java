@@ -1,5 +1,6 @@
 package org.jdraft.diff;
 
+import com.github.javaparser.utils.Log;
 import org.jdraft.Stmt;
 import org.jdraft._class;
 import org.jdraft._field;
@@ -9,8 +10,7 @@ import org.jdraft._member;
 import org.jdraft._method;
 import org.jdraft.diff._diffNode._change;
 import org.jdraft.diff._diffNode._edit;
-import org.jdraft.macro._name;
-import org.jdraft.macro._static;
+import org.jdraft.macro.*;
 
 import java.util.List;
 import junit.framework.TestCase;
@@ -19,9 +19,6 @@ import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
 import org.jdraft.diff._diffNode._rightOnly;
 import org.jdraft.diff._diffNode._leftOnly;
-import org.jdraft.macro._dto;
-import org.jdraft.macro._set;
-import org.jdraft.macro._get;
 
 /**
  * 
@@ -123,10 +120,14 @@ public class _inspectTest extends TestCase {
         assertTrue(_d.atPath(CONSTRUCTOR, "C()").isAdd());
     }
     */
-    
+
+    public void setUp(){
+        Log.setAdapter( new Log.StandardOutStandardErrorAdapter());
+    }
+
     public void testMulti(){
         _class _v1 = _class.of("C");
-        _class _v2 = _class.of("C", new Object(){
+        _class _v2 = _class.of("C", new @_get @_set Object(){
             int x;
             int y;
             
@@ -136,8 +137,7 @@ public class _inspectTest extends TestCase {
             void n(){
                 System.out.println("n");
             }
-            
-        }, _get.$, _set.$);
+        });
         
         //move ALL members from _v2 to _v1
         _v1.add(_v2.listMembers().toArray(new _member[0]));
@@ -348,23 +348,33 @@ public class _inspectTest extends TestCase {
         */
         
     }
-    
+
+    public void testAnonymousClassAnnotations(){
+        _class _c = _class.of( "AAAA", new @_get Object(){
+           int x;
+        });
+
+        System.out.println( _c );
+    }
+
+    /** TODO FIX THE Anonymous Annotations (add @_dto) */
     public void testInspectMethods(){
+        //add @_dto
         _class _c = _class.of("A", new Object(){
-            final String name = "bozo";
+            @_final String name = "bozo";
             int x,y,z;                
             public @_static int calc(){
                 return 1 * 2 * 3;
             }            
-        }, _dto.$);
+        });
         
-        _class _d = _class.of("A", new Object(){            
+        _class _d = _class.of("A", new Object(){
             final String name = "bozo";
             int x,y,z;                       
             public @_static int calc(){
                 return 1 * 2 * 3;
             }            
-        }, _dto.$);
+        });
         
         List<_method> ms = _c.listMethods();
         List<_method> ms2 = _d.listMethods();

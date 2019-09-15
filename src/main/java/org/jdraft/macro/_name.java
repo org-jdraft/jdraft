@@ -4,6 +4,8 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.nodeTypes.NodeWithName;
 import com.github.javaparser.ast.nodeTypes.NodeWithSimpleName;
 import org.jdraft._anno;
+import org.jdraft._java;
+import org.jdraft._modifiers;
 import org.jdraft._named;
 
 import java.lang.annotation.*;
@@ -60,6 +62,8 @@ public @interface _name{
 
         @Override
         public void expand(Node node) {
+            Macro.to((_anno._hasAnnos) _java.of(node), name);
+            /*
             if( node instanceof NodeWithName){
                 NodeWithName nwn = (NodeWithName)node;
                 nwn.setName(name);
@@ -67,6 +71,8 @@ public @interface _name{
                 NodeWithSimpleName nwsn = (NodeWithSimpleName)node;
                 nwsn.setName(name);
             }
+
+             */
         }
 
         @Override

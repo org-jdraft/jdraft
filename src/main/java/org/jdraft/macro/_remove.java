@@ -1,6 +1,8 @@
 package org.jdraft.macro;
 
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.ast.body.VariableDeclarator;
 import org.jdraft.*;
 import org.jdraft._draftException;
 import org.jdraft._anno._hasAnnos;
@@ -68,6 +70,10 @@ public @interface _remove {
             super(_remove.class);
         }
 
+        public Act(_remove _r){
+            super(_r);
+        }
+
         @Override
         public String toString(){
             return "macro[remove]";
@@ -75,7 +81,12 @@ public @interface _remove {
 
         @Override
         public void expand(Node node) {
-            node.removeForced();
+            if( node instanceof VariableDeclarator && node.getParentNode().isPresent() ){
+                  FieldDeclaration fd = (FieldDeclaration)node.getParentNode().get();
+                  fd.remove();
+            } else {
+                node.remove();
+            }
         }
     }
 }

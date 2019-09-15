@@ -116,6 +116,10 @@ public @interface _toString {
             super(_toString.class);
         }
 
+        public Act(_toString _ts){
+            super(_ts);
+        }
+
         @Override
         public void expand(TypeDeclaration typeDeclaration) {
             BlockStmt body = new BlockStmt();
@@ -134,6 +138,7 @@ public @interface _toString {
                 }
             });
             _method _m = $TO_STRING.draft("className", typeDeclaration.getName(), "body", body );
+            typeDeclaration.addMember(_m.ast());
         }
 
         @Override

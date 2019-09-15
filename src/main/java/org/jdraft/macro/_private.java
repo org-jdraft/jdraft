@@ -47,6 +47,10 @@ public @interface _private {
             super(_private.class);
         }
 
+        public Act(_private _p){
+            super(_p);
+        }
+
         @Override
         public void expand(Node node) {
             if( node instanceof NodeWithPrivateModifier ){

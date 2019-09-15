@@ -44,6 +44,11 @@ public @interface _non_static {
         public Act(){
             super(_non_static.class);
         }
+
+        public Act(_non_static _ns){
+            super(_ns);
+        }
+
         @Override
         public void expand(Node node) {
             if( node instanceof NodeWithStaticModifier ){

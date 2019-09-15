@@ -1,5 +1,6 @@
 package org.jdraft.macro;
 
+import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
@@ -39,7 +40,7 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
     public macro(A annotation){
         this.aType = (Class<A>)annotation.annotationType();
         this.annotation = annotation;
-        Log.info("          Constructing %s ", ()->toString());
+        //Log.info("          Constructing %s ", ()->toString());
     }
 
     public void accept(N node){
@@ -60,16 +61,52 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
         return node;
     }
 
-    public static <_T extends _type> _T to(Class clazz ){
-        Log.info("  Macros to %s", ()->clazz);
-        TypeDeclaration td = Ast.typeDecl(clazz);
+    public static _method to(Class clazz, MethodDeclaration md){
+        //_method _mm = macro.to(anonymousObjectContainingMethod.getClass(), md);
+        _method _m = _method.of(md);
+
+        Method rm = Arrays.stream(clazz.getDeclaredMethods()).filter(mm ->_m.hasParametersOf(mm)).findFirst().get();
+
+        macro.to(md, rm );
+        return _method.of(md);
+    }
+
+    public static <_T extends _type> _T to(Class clazz, _T _t){
+        //if(clazz.isLocalClass() ){
+
+        //}
+        Node n = _t.ast();
+        if( n instanceof  TypeDeclaration ) {
+            //System.out.println( "CLAZZ "+ clazz+" to "+_t );
+            TypeDeclaration td = (TypeDeclaration)n;
+            toType(td, clazz);
+            return _java.type(td);
+        }
+        CompilationUnit cu = (CompilationUnit)n;
+        TypeDeclaration td =cu.getTypes().stream().filter(t-> t.getNameAsString().equals(_t.getName())).findFirst().get();
+        toType(td, clazz);
+        return _java.type(td);
+    }
+
+    public static <_T extends _type> _T to(Class clazz, TypeDeclaration td){
+        Log.info("  Macros to %s", () -> clazz);
         toType( td, clazz);
         return _java.type( td );
     }
 
+    public static <_T extends _type> _T to(Class clazz ) {
+        TypeDeclaration td = Ast.typeDecl(clazz);
+        return to(clazz, td);
+    }
+
+
     public static void toType( TypeDeclaration td, Class clazz ){
         Log.info("    1 of 5) fields of %s", ()->clazz );
-        td.getFields().forEach(
+        //we can't use lambdas, because we (potentially) remove
+        List<FieldDeclaration> fs = new ArrayList<>();
+        fs.addAll(td.getFields()); //we need a copy because we may remove
+
+        fs.forEach(
                 f-> ((FieldDeclaration)f).getVariables().forEach(v->{
                         try {
                             Field ff = clazz.getDeclaredField(v.getNameAsString());
@@ -80,7 +117,9 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
                 })
         );
         Log.info("    2 of 5) methods of %s", ()->clazz );
-        td.getMethods().forEach(
+        List<MethodDeclaration>mds = new ArrayList<>();
+        mds.addAll(td.getMethods());
+        mds.forEach(
                 m ->{
                     _method _m = _method.of( (MethodDeclaration)m);
                     Optional<Method> om =
@@ -103,7 +142,9 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
                 }
         );
         Log.info("    3 of 5) constructors of %s", ()->clazz );
-        td.getConstructors().forEach(
+        List<ConstructorDeclaration> cds = new ArrayList<>();
+        cds.addAll( td.getConstructors());
+        cds.forEach(
                 c->{
                     _constructor _ct = _constructor.of( (ConstructorDeclaration)c );
                     Optional<Constructor> oc =
@@ -130,12 +171,25 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
 
         //nested types
         Log.info("    4 of 5) nested types of %s", ()->clazz );
-        td.stream($.DIRECT_CHILDREN).filter(n -> TypeDeclaration.class.isAssignableFrom(n.getClass())).forEach(
+        List<TypeDeclaration> ncd = new ArrayList<>();
+        td.getMembers().forEach(m -> {
+            if( m instanceof TypeDeclaration){
+                System.out.println("A MEMBER "+ m);
+                ncd.add( (TypeDeclaration)m);
+            }
+        } );
+        //td.getMembers().stream().filter( m-> m instanceof TypeDeclaration ).forEach(t -> ncd.add( (TypeDeclaration)t ) );
+        //td.stream($.DIRECT_CHILDREN).filter(n -> TypeDeclaration.class.isAssignableFrom(n.getClass())).forEach( cc -> ncd.add( (TypeDeclaration)cc)); //collect(Collectors.toList()) );
+        ncd.forEach(
                 nt->{
+                    //we do this because a nested class of an anonymous class has a name like $1$NestedName,
                     Optional<Class> oc =
-                            Arrays.stream(clazz.getDeclaredClasses()).filter(c-> c.getName().equals( ((TypeDeclaration)nt).getNameAsString()) ).findFirst();
+                            Arrays.stream(clazz.getDeclaredClasses()).filter(c-> c.getSimpleName().endsWith( ((TypeDeclaration)nt).getNameAsString()) ).findFirst();
                     if( oc.isPresent() ){
                         toType( (TypeDeclaration)nt, oc.get());
+                    } else{
+                        System.out.println( "NOt Present " +nt );
+                        Arrays.stream(clazz.getDeclaredClasses()).forEach(dc -> System.out.println("DC "+ dc.getName()));
                     }
                 }
         );

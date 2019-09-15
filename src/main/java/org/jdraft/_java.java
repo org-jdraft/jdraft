@@ -36,6 +36,7 @@ import org.jdraft._typeParameter._typeParameters;
 import org.jdraft.io._in;
 import org.jdraft.io._io;
 import org.jdraft.macro._macro;
+import org.jdraft.macro.macro;
 
 /**
  * API adapting the access & manipulation of an interconnected nodes of an AST
@@ -335,13 +336,13 @@ public interface _java {
         if( td instanceof ClassOrInterfaceDeclaration ){
             ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)td;
             if( coid.isInterface() ){
-                return (_T)_macro.to(clazz, _interface.of(coid));
+                return (_T)macro.to(clazz, _interface.of(coid));
             }
-            return (_T)_macro.to(clazz,  _class.of(coid) );
+            return (_T)macro.to(clazz,  _class.of(coid) );
         }else if( td instanceof EnumDeclaration){
-            return (_T)_macro.to(clazz, _enum.of( (EnumDeclaration)td));
+            return (_T)macro.to(clazz, _enum.of( (EnumDeclaration)td));
         }
-        return (_T)_macro.to(clazz, _annotation.of( (AnnotationDeclaration)td));
+        return (_T)macro.to(clazz, _annotation.of( (AnnotationDeclaration)td));
     }
     
     /**

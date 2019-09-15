@@ -18,6 +18,7 @@ import java.util.function.*;
 import org.jdraft._typeParameter._typeParameters;
 import org.jdraft.macro._macro;
 import org.jdraft.macro._remove;
+import org.jdraft.macro.macro;
 
 /**
  * This abstraction is a shortcut to unify all of the $prototypes in a single
@@ -373,7 +374,7 @@ public final class $ {
         bds.removeIf(b -> b.isAnnotationPresent(_remove.class) || (!(b instanceof MethodDeclaration)));
         //there should be only (1) method left, if > 1 take the first method
         MethodDeclaration md = (MethodDeclaration) bds.get(0);
-        _method _m =  _macro.to(anonymousObjectContainingMethod.getClass(), _method.of(md));
+        _method _m =  macro.to(anonymousObjectContainingMethod.getClass(), md);
 
         return $method.of( _m);
     }

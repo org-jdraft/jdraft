@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
@@ -15,6 +16,7 @@ import org.jdraft._parameter.*;
 import org.jdraft._anno.*;
 import org.jdraft.macro._macro;
 import org.jdraft.macro._remove;
+import org.jdraft.macro.macro;
 
 /**
  * Model of a Java method (wraps a {@link MethodDeclaration} AST node
@@ -89,8 +91,14 @@ public final class _method
         //there should be only (1) method left, if > 1 take the first method
         MethodDeclaration md = (MethodDeclaration) bds.get(0);
 
+        _method _m = _method.of(md);
+
+        Method rm = Arrays.stream(anonymousObjectContainingMethod.getClass().getDeclaredMethods()).filter(mm ->_m.hasParametersOf(mm)).findFirst().get();
+
+        macro.to(md, rm );
+        _method _mm = _method.of(md);
         //call the macro on it
-        _method _mm = _macro.to(anonymousObjectContainingMethod.getClass(), of(md));
+        //_method _mm = macro.to(anonymousObjectContainingMethod.getClass(), md); //of(md));
 
         //ensure we remove the parent reference to the method from the (old) code
         if( _mm.ast().getParentNode().isPresent() ){

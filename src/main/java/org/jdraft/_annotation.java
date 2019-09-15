@@ -17,6 +17,7 @@ import com.github.javaparser.ast.type.Type;
 import org.jdraft._anno.*;
 import org.jdraft.io._in;
 import org.jdraft.macro._macro;
+import org.jdraft.macro.macro;
 
 /**
  * Logical Mutable Model of the source code representing a Java annotation.<BR>
@@ -32,13 +33,13 @@ public final class _annotation
     public static _annotation of( Class<? extends Annotation> clazz ){
         Node n = Ast.typeDecl( clazz );
         if( n instanceof CompilationUnit ){
-            return _macro.to(clazz, of( (CompilationUnit)n));
+            return macro.to(clazz, of( (CompilationUnit)n));
         }
         //not a compilation
         Set<Class> imps = _import.inferImportsFrom(clazz);
         _annotation _a = of( (AnnotationDeclaration)n);
         imps.forEach(i -> _a.imports(i) );
-        return _macro.to(clazz, _a);        
+        return macro.to(clazz, _a);
     }
 
     public static _annotation of( CompilationUnit cu ){

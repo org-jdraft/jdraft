@@ -1,5 +1,7 @@
 package org.jdraft.macro;
 
+import com.github.javaparser.ast.body.TypeDeclaration;
+import org.jdraft.Ast;
 import org.jdraft._anno._hasAnnos;
 import org.jdraft._class;
 import org.jdraft._type;
@@ -38,7 +40,8 @@ public class _macroTest extends TestCase {
         //_c = _class.of("C").FIELDS("int x, y, z;");
         _class _s = _hashCode.Macro.to( _equals.Macro.to(_autoConstructor.Macro.to( _toString.Macro.to(_c))));
 
-       // assertEquals( _r, _s );
+        System.out.println("S" +  _s);
+
         @_hashCode
         @_equals
         @_autoConstructor
@@ -47,7 +50,7 @@ public class _macroTest extends TestCase {
             int x,y,z;
         }
         _class _v = _class.of(C.class);
-
+        System.out.println( _v);
         assertEquals( _v, _s);
     }
 
@@ -58,13 +61,14 @@ public class _macroTest extends TestCase {
      */
     @Retention(RetentionPolicy.RUNTIME)
     @interface ID{
-        class M implements _macro<_type> {
+        class M extends macro<ID, TypeDeclaration> {
 
-            public M( ID id ){}
+            public M( ID id ){
+                super(id);
+            }
 
-            public _type apply(_type _t) {
-                _t.field("public static String ID=\""+ UUID.randomUUID()+"\";");
-                return _t;
+            public void expand(TypeDeclaration t) {
+                t.addMember(Ast.field( "public static String ID=\""+ UUID.randomUUID()+"\";"));
             }
         }
     }

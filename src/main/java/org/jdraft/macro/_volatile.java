@@ -44,6 +44,10 @@ public @interface _volatile {
             super(_volatile.class);
         }
 
+        public Act(_volatile _v){
+            super( _v);
+        }
+
         @Override
         public String toString(){
             return "macro[volatile]";

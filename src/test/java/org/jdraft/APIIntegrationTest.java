@@ -34,7 +34,7 @@ public class APIIntegrationTest extends TestCase {
     }
     
     public void testAdhocAndMacroIntegration(){
-        _runtime _ah = _runtime.of(_class.of( "aaaa.bbbb.C", new Object(){ int x, y;}, _dto.$) );
+        _runtime _ah = _runtime.of(_class.of( "aaaa.bbbb.C", new @_dto Object(){ int x, y;}) );
         _proxy p = _ah.proxy("aaaa.bbbb.C" ).set("x", 100).set("y", 200);
         assertEquals(100, p.get("x"));
         assertEquals(200, p.get("y"));

@@ -26,6 +26,7 @@ import org.jdraft._parameter._parameters;
 import org.jdraft._typeParameter._typeParameters;
 import org.jdraft.macro._macro;
 import org.jdraft.macro._remove;
+import org.jdraft.macro.macro;
 
 import java.util.*;
 import java.util.function.*;
@@ -72,7 +73,7 @@ public final class $method
         MethodDeclaration theMethod = (MethodDeclaration)
                 oce.getAnonymousClassBody().get().stream().filter(m -> m instanceof MethodDeclaration &&
                 !m.isAnnotationPresent(_remove.class) ).findFirst().get();
-        return of( _macro.to(anonymousObjectContainingMethod.getClass(), _method.of( theMethod ) ));
+        return of( macro.to(anonymousObjectContainingMethod.getClass(), theMethod  ));
     }
 
     /**

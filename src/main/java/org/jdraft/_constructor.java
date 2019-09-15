@@ -20,6 +20,7 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
 import org.jdraft.macro._toCtor;
+import org.jdraft.macro.macro;
 
 /**
  * Model of a java constructor
@@ -55,7 +56,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
         }
         
         //run macros on the things
-        _macro.to( anonymousObjectBody.getClass(), _c);
+        macro.to( anonymousObjectBody.getClass(), _c);
         
         MethodDeclaration theMethod = (MethodDeclaration)
             oce.getAnonymousClassBody().get().stream().filter(m -> m instanceof MethodDeclaration &&

@@ -1,5 +1,9 @@
 package org.jdraft.runtime;
 
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.nodeTypes.NodeWithBody;
+import com.github.javaparser.ast.nodeTypes.NodeWithOptionalBlockStmt;
 import com.github.javaparser.ast.stmt.LabeledStmt;
 import org.jdraft.*;
 import org.jdraft.macro.*;
@@ -11,6 +15,7 @@ import com.github.javaparser.ast.body.BodyDeclaration;
 import java.io.Serializable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -49,6 +54,20 @@ public class _runtimeTest extends TestCase {
     @Retention(RetentionPolicy.RUNTIME)
     @interface _timed{
 
+        public static final Act A = new Act();
+
+        class Act extends macro<_timed, Node>{
+            public Act(){
+                super(_timed.class);
+            }
+
+            public void expand(Node n){
+                if( n instanceof NodeWithBody ){
+                    MacroAnno.to( (_body._hasBody) _java.of(n) );
+                }
+                //if( n instanceof NodeWithOptionalBlockStmt)
+            }
+        }
          class MacroAnno implements _macro<_member> {
 
              @Override
@@ -136,9 +155,11 @@ public class _runtimeTest extends TestCase {
      */
     public void testMacrosAndProxy(){
         _class _c = _class.of("A", 
-            new Serializable(){
+            new @_dto Serializable(){ //_dto adds constructor, equals, hashcode, toString)
                 @_final int a; //final field will need int in (generated) constructor
-                String name = "Fido";
+                //public String name = "Fido";
+                List bb;
+                //String nn = "Fido";
                 
                 public @_static int twoX(int val){
                     return val*2;
@@ -147,8 +168,9 @@ public class _runtimeTest extends TestCase {
                 public int threeX(int val){
                     return val * 3;
                 }
-            }).apply(_dto.$);//_autoDto adds constructor, equals, hashcode, toString)        
-        
+            });
+
+        System.out.println( _c );
         //compile, load, and create a new instance of _c with 100 arg
         _proxy<Serializable, _code> p = _runtime.of(_c).proxy(_c, 100);
         assertEquals(100, p.get("a"));
@@ -160,9 +182,9 @@ public class _runtimeTest extends TestCase {
         assertEquals( p.toString(), p2.toString()); //verify toString works
         
         //change p2 to make sure the equals and hashcode are different
-        p2.set("name", "Rex");
+        p2.set("bb", new ArrayList<>());
         
-        assertEquals("Rex", p2.get("name"));
+        assertEquals(new ArrayList<>(), p2.get("bb"));
         
         Assert.assertNotEquals(p, p2); //verify equals diff
         Assert.assertNotEquals( p.hashCode(), p2.hashCode()); //verify hashCodes diff

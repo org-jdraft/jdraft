@@ -31,11 +31,6 @@ import java.util.function.Predicate;
  * _class _c = _class.of(A.class, _autoHashCode.$);
  * }
  *
- * <LI> via the {@link _type#apply(Function)} method
- * {@code
- * class A{ int x,y,z; }
- * _class _c = _class.of(A.class)).apply(_autoHashCode.$);
- * }
  * <LI> via external call: pass the _class in to the {@link _hashCode.Macro#to(_type)}
  * {@code class A{ int x,y,z; }
  * _class _c = _autoHashCode.Macro.to(_class.of(A.class));
@@ -160,6 +155,10 @@ public @interface _hashCode {
 
         public Act(){
             super(_hashCode.class);
+        }
+
+        public Act(_hashCode _h){
+            super(_h);
         }
 
         @Override

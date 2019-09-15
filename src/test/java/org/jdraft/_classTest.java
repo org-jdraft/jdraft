@@ -1,9 +1,11 @@
 package org.jdraft;
 
 
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
+import com.github.javaparser.utils.Log;
 import org.jdraft.macro.*;
 
 import java.io.IOException;
@@ -41,11 +43,12 @@ public class _classTest extends TestCase {
         _class _c = _class.of("private class PRIVATE{}");
     }
 
+    /*
     @Retention( RetentionPolicy.RUNTIME )
     @Target({ ElementType.TYPE, ElementType.TYPE_USE})
     @interface _post{
         //String[] values; maybe this will be method names to call in order
-        class AnnoMacro implements _macro<_type>{
+        class AnnoMacro implements macro<_post, Node>{
 
             @Override
             public _type apply(_type _t) {
@@ -55,6 +58,12 @@ public class _classTest extends TestCase {
                 return _t;
             }
         }
+    }
+
+     */
+
+    public void setUp(){
+        Log.setAdapter( new Log.StandardOutStandardErrorAdapter() );
     }
 
     //@_postDraft
@@ -81,9 +90,12 @@ public class _classTest extends TestCase {
         //System.out.println( _c.getMethod("getU"));
         assertNotNull(
                 $.method("public boolean equals( Object $a$);").firstIn(_c));
+
+        System.out.println("OUTPUT " + _c);
+
         assertNotNull(
                 $.method("public URI getU(){ return u; }").firstIn(_c));
-        //System.out.println(_c);
+
     }
     public void testStaticClass(){
         _class _c = _class.of("public static class G{}");
@@ -490,13 +502,13 @@ public class _classTest extends TestCase {
      */
     public static final _class _c = //_autoDto.Macro.to(
 _class.of("aaaa.bbbb.Local",
-            new Object(){
+            new @_dto Object(){
                 public int a,b,c;
                 @_final String name;
                 @_static public void main(String[] args){
                     System.out.println("Some Print Statement");
                 }
-            }, _dto.$);
+            });
 
     @interface _annotat{
 

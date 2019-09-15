@@ -9,6 +9,7 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.jdraft._anno.*;
 import org.jdraft.io._in;
 import org.jdraft.macro._macro;
+import org.jdraft.macro.macro;
 
 import java.io.InputStream;
 import java.util.*;
@@ -30,12 +31,12 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
     public static _enum of( Class<? extends Enum> clazz ){
         Node n = Ast.typeDecl( clazz );
         if( n instanceof CompilationUnit ){
-            return _macro.to(clazz, of( (CompilationUnit)n));
+            return macro.to(clazz, of( (CompilationUnit)n));
         }
         _enum _e = of( (EnumDeclaration)n);
         Set<Class> importClasses = _import.inferImportsFrom(clazz);
         _e.imports(importClasses.toArray(new Class[0]));
-        return _macro.to(clazz, _e);        
+        return macro.to(clazz, _e);
     }
 
     public static _enum of( String...classDef ){
@@ -96,7 +97,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         return of( in.getInputStream());
     }
 
-    public static _enum of(String signature, Object anonymousBody, Function<_type,_type>... typeFns ){
+    public static _enum of(String signature, Object anonymousBody){ //, Function<_type,_type>... typeFns ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         _enum _e = _enum.of(signature);
         ObjectCreationExpr oce = Ex.anonymousObjectEx( ste );
@@ -109,10 +110,12 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         Set<Class> importClasses = _import.inferImportsFrom(anonymousBody);
         _e.imports(importClasses.toArray(new Class[0]));
         
-        _e = _macro.to(anonymousBody.getClass(), _e);
+        _e = macro.to(anonymousBody.getClass(), _e);
+        /*
         for(int i=0;i<typeFns.length; i++){
             _e = (_enum)typeFns[i].apply(_e);
         }
+         */
         return _e;
     }
 
@@ -387,7 +390,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
                 _c.ast().addMember(bds.get(i));
             }
             //apply macros to the constant BODY (here stored in a class)
-            _c = _macro.to(anonymousBody.getClass(), _c);
+            _c = macro.to(anonymousBody.getClass(), _c);
             //the potentially modified BODY members are added
             _ct.ast().setClassBody(_c.ast().getMembers());
         }

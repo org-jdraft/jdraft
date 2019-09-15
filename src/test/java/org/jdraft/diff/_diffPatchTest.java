@@ -1,6 +1,7 @@
 package org.jdraft.diff;
 
 import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.utils.Log;
 import org.jdraft.*;
 
 import java.io.Serializable;
@@ -37,7 +38,11 @@ public class _diffPatchTest
         System.out.println( _diff.of(L.class, M.class) );
         assertEquals(1, _diff.of(L.class, M.class).size());
     }
-    
+
+    public void setUp(){
+        Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
+    }
+
     public void testDiffParts(){
         class L{
             int i=0;

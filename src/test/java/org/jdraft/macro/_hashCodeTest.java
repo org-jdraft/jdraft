@@ -16,20 +16,20 @@ public class _hashCodeTest extends TestCase {
         class A{ int x,y,z;}
 
         /** 1) call the _class constructor with the {@link _autoHashCode#$} argument */
-        _class _1 = _class.of(A.class, _hashCode.$);
+        //_class _1 = _class.of(A.class, _hashCode.$);
 
         /** 2) call {@link draft.java._type#apply(_macro[])} with {@link _autoHashCode#$} */
-        _class _2 = _class.of(A.class).apply(_hashCode.$);
+        _class _2 = (_class)_hashCode.$.apply( _class.of(A.class) ); //.apply(_hashCode.$);
 
         /** 3) call with static to method {@link _autoHashCode.Macro#to(T t)} */
         _class _3 = _hashCode.Macro.to(_class.of(A.class));
 
         /** 4) annotate with @_autoHashCode & call annotation Macro processor {@link $$#to(T t)} */
 
-        @_replace({"B", "A"}) @_hashCode class B{ int x,y,z;}
-        _class _4 = _class.of(B.class);
+        @_name("A") @_hashCode class B{ int x,y,z;}
+        _class _4 = _class.of(B.class).name("A");
 
-        assertEquals( _1, _2);
+        //assertEquals( _1, _2);
         assertEquals( _2, _3);
         assertEquals( _3, _4);
     }

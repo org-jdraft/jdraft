@@ -16,6 +16,7 @@ import org.jdraft.io._in;
 import org.jdraft.macro._macro;
 import org.jdraft.macro._remove;
 import org.jdraft.macro._toCtor;
+import org.jdraft.macro.macro;
 
 /**
  * Top-Level draft object representing a Java class, and implementation of a {@link _type}<BR/>
@@ -49,31 +50,38 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * </PRE>
      *
      * @param clazz
-     * @param typeFns
+     * //@param typeFns
      * @return
      */
-    public static _class of( Class clazz, Function<_type, _type>...typeFns  ){
-        Node n = Ast.typeDecl( clazz );
-        if( n instanceof CompilationUnit ){            
-            _class _c = of( (CompilationUnit)n);
+    public static _class of( Class clazz) { //}, Function<_type, _type>...typeFns  ){
+        TypeDeclaration n = Ast.typeDecl( clazz );
+        //if( n instanceof CompilationUnit ){
+        //   _class _c = of( (CompilationUnit)n);
             
-            _macro.to(clazz, _c);
-            
+        //    macro.to(clazz, _c);
+
+            /*
             for(int i=0; i< typeFns.length; i++){
                 _c = (_class)typeFns[i].apply(_c);
             }
-            return _c;
-        } else if( n instanceof ClassOrInterfaceDeclaration){
+             */
+        //    return _c;
+        //} else
+        if( n instanceof ClassOrInterfaceDeclaration){
             _class _c = of( (ClassOrInterfaceDeclaration)n);
             
-            _c = _macro.to(clazz, _c); //run annotation macros on the class
+            _c = macro.to(clazz, n); //run annotation macros on the class
             Set<Class> importClasses = _import.inferImportsFrom(clazz);
             _c.imports(importClasses.toArray(new Class[0]));
+            /*
             for(int i=0; i< typeFns.length; i++){
                 _c = (_class)typeFns[i].apply(_c);
             }
+             */
             return _c;
-        } else if( n instanceof LocalClassDeclarationStmt){
+        }
+        /*
+        else if( n instanceof LocalClassDeclarationStmt){
             //System.out.println("Local Class");
             //TODO I need to break the reference to the "old" AST
             LocalClassDeclarationStmt loc = (LocalClassDeclarationStmt)n;
@@ -84,12 +92,16 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             }
             Set<Class> importClasses = _import.inferImportsFrom(clazz);            
             _c.imports(importClasses.toArray(new Class[0]));
-            _c = _macro.to(clazz, _c);
+            //_c = macro.to(clazz, _c);
+            _c = macro.to(clazz, ((LocalClassDeclarationStmt)n).getClassDeclaration());
+            /*
             for(int i=0; i< typeFns.length; i++){
                 _c = (_class)typeFns[i].apply(_c);
-            }            
+            }
+
             return _c;
         }
+         */
         if( clazz.isInterface() ){
             throw new _draftException("cannot create _class from (interface) "+ clazz);
         }
@@ -140,12 +152,12 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * }
      * </PRE>
      * @param anonymousObjectWithLocalClass
-     * @param macroFunctions
      * @return
-     */
-    public static _class of( Object anonymousObjectWithLocalClass, Function<_type, _type>...macroFunctions ){
+
+    public static _class of( Object anonymousObjectWithLocalClass) { //}, Function<_type, _type>...macroFunctions ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         ObjectCreationExpr anon = Ex.anonymousObjectEx(ste);
+        System.out.println( "ANNOY " +anon);
         if( anon.getAnonymousClassBody().isPresent() ){
             NodeList<BodyDeclaration<?>> bdy = anon.getAnonymousClassBody().get();
             Optional<BodyDeclaration<?>> obd = bdy.stream().filter( b -> b instanceof ClassOrInterfaceDeclaration
@@ -169,12 +181,13 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
 
             CompilationUnit cu = new CompilationUnit(); //add it to a new CompilationUnit
             cu.addType(coid);
-            _class _c = _class.of(coid); //create the instance
-            _c = _macro.to(clazz, _c); //run annotation macros on the class
+            //_class _c = _class.of(coid); //create the instance
+            _class _c = macro.to(clazz, coid); //run annotation macros on the class
 
             for(int i=0;i<macroFunctions.length;i++){ //run supplied macros
                 _c = (_class)macroFunctions[i].apply(_c);
             }
+
 
             Class[] toImport = _import.inferImportsFrom(clazz).toArray(new Class[0]);
             for(int i=0;i<toImport.length;i++){
@@ -184,6 +197,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         }
         throw new _draftException("No Class Body for Anonymous Object containing a Local class to build");
     }
+    */
 
     /**
      * Return the _class represented by this single line ClassDef
@@ -326,10 +340,9 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * </PRE>
      * @param signature
      * @param anonymousClassBody
-     * @param typeFn
      * @return
      */
-    public static _class of( String signature, Object anonymousClassBody, Function<_type, _type>...typeFn){
+    public static _class of( String signature, Object anonymousClassBody) {
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         _class _c = _class.of(signature);
         Class theClass = anonymousClassBody.getClass();
@@ -373,10 +386,17 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         _c.imports(toImport.toArray(new Class[0]));
         
         //we process the ANNOTATIONS on the TYPE
-        _macro.to( theClass, _c);
+        //System.out.println( "THE ANONYMOUS CLASS IS " + anonymousClassBody.getClass() );
+        //System.out.println( "THE CLASS IS " + theClass );
+
+        //macro.to( theClass, _c);
+        TypeDeclaration td = _c.astCompilationUnit().getType(0);
+        macro.to( theClass, td);
+        /*
         for(int i=0;i<typeFn.length; i++){
             _c = (_class)typeFn[i].apply( _c);
         }
+         */
         return _c;
     }
 
@@ -623,10 +643,18 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             oce.getAnonymousClassBody().get().forEach(b-> _temp.ast().addMember(b));
         }
         //run the macros on the temp class (we might removeIn some stuff, etc.)
-        _macro.to( anonymousClassBody.getClass(), _temp);
+        macro.to( anonymousClassBody.getClass(), _temp);
 
         //now add the finished members from temp to this _class
-        _temp.ast().getMembers().forEach( m -> this.astClass.addMember(m));
+        _temp.ast().getMembers().forEach( m -> {
+            if( m instanceof ConstructorDeclaration ){
+                ConstructorDeclaration cd = (ConstructorDeclaration)m;
+                cd.setName(this.getName()); //if we add a member that is a constructor, update it's name
+                this.astClass.addMember(cd);
+            } else {
+                this.astClass.addMember(m);
+            }
+        });
         
         //create the approrpriate imports based on the signature of the 
         // added fields and methods, throws, etc.

@@ -7,7 +7,7 @@ import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.type.*;
 import org.jdraft._anno.*;
 import org.jdraft.io._in;
-import org.jdraft.macro._macro;
+import org.jdraft.macro.macro;
 
 import java.io.InputStream;
 import java.util.*;
@@ -28,10 +28,10 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     public static _interface of( Class clazz ){
         Node n = Ast.typeDecl( clazz );
         if( n instanceof CompilationUnit ){
-            return _macro.to(clazz, of( (CompilationUnit)n));
+            return macro.to(clazz, of( (CompilationUnit)n));
         } 
         
-        return _macro.to(clazz, of((ClassOrInterfaceDeclaration)n));        
+        return macro.to(clazz, of((ClassOrInterfaceDeclaration)n));
     }
 
     /**
@@ -89,7 +89,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         return of( Ast.of( interfaceDef ));
     }
 
-    public static _interface of( String signature, Object anonymousBody, _macro<_type>...typeMacros) {
+    public static _interface of( String signature, Object anonymousBody) { //}, _macro<_type>...typeMacros) {
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         final _interface _i = of( signature );
 
@@ -109,13 +109,15 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         if( oce.getAnonymousClassBody().isPresent() ){
             oce.getAnonymousClassBody().get().forEach( e -> _i.astInterface.addMember(e) );
         }
-        _macro.to(anonymousBody.getClass(), _i);
+        macro.to(anonymousBody.getClass(), _i);
 
+        /*
         //lastly... apply the passed in macros
         for(int i=0;i<typeMacros.length;i++){
             typeMacros[i].apply(_i);
         }
-        
+        */
+
         //look at the anonymous body (runtime class) which can infer all the imports
         Set<Class> importClasses = _import.inferImportsFrom(anonymousBody);
         _i.imports(importClasses.toArray(new Class[0]));

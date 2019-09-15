@@ -14,11 +14,10 @@ public class _initTest extends TestCase {
     }
 
     public void testAnno(){
-        _class _c = _class.of(new Object(){
-            class G {
-                @_init("1")
-                int f;
-            }
+        _class _c = _class.of("AAAA", new Object(){
+            //class G {
+                @_init("1") int f;
+            //}
         });
         assertEquals( Ex.of(1), _c.getField("f").getInit());
     }

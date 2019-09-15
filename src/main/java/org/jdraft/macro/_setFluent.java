@@ -78,6 +78,10 @@ public @interface _setFluent {
             super(_setFluent.class);
         }
 
+        public Act(_setFluent sf ){
+            super( sf );
+        }
+
         @Override
         public void expand(TypeDeclaration typeDeclaration) {
             List<_field> _fs = _field.of(typeDeclaration.getFields());

@@ -41,6 +41,10 @@ public @interface _native {
             super(_native.class);
         }
 
+        public Act(_native _n){
+            super(_n);
+        }
+
         @Override
         public void expand(MethodDeclaration methodDeclaration) {
             methodDeclaration.setNative(true);

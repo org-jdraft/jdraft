@@ -126,11 +126,11 @@ public class _javaTest extends TestCase {
         //@_static
         @_implement(Serializable.class)
         @_extend(BaseClass.class)
-        @_replace({" OldName ", " NewName "})
+        //@_replace({" OldName ", " NewName "})
         class OldName{
             @_static
             @_final
-            @_replace({"Hello", "Goodbye"})
+            //@_replace({"Hello", "Goodbye"})
             public String Message = "Hello";
         }
         //creating a class this way DOES NOT process the ANNOTATIONS
@@ -159,7 +159,7 @@ public class _javaTest extends TestCase {
         assertEquals( "aaaa.bbbb", _c.getPackage());
 
         _c.getField("Message").getModifiers().is("public", "static", "final");
-        assertEquals( "Goodbye", _c.getField("Message").getInit().asStringLiteralExpr().asString()) ;
+        assertEquals( "Hello", _c.getField("Message").getInit().asStringLiteralExpr().asString()) ;
     }
 
 
@@ -213,7 +213,7 @@ public class _javaTest extends TestCase {
         @_final
         @_implement(Serializable.class)
         @_extend(BaseClass.class)
-        @_replace({"C", "D"})
+        //@_replace({"C", "D"})
         class C{
             @_static
             @_final

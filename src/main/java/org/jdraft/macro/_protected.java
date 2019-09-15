@@ -47,6 +47,10 @@ public @interface _protected {
             super(_protected.class);
         }
 
+        public Act(_protected _p){
+            super(_p);
+        }
+
         @Override
         public void expand(Node node) {
             if( node instanceof NodeWithProtectedModifier){

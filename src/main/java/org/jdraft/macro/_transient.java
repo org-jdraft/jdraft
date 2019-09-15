@@ -43,6 +43,10 @@ public @interface _transient {
             super(_transient.class);
         }
 
+        public Act(_transient _t){
+            super(_t);
+        }
+
         @Override
         public String toString(){
             return "macro[transient]";

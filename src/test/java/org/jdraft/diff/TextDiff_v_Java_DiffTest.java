@@ -1,6 +1,7 @@
 package org.jdraft.diff;
 
 import org.jdraft._class;
+import org.jdraft._interface;
 import org.jdraft._java;
 import java.lang.reflect.Modifier;
 import java.util.*;
@@ -56,8 +57,8 @@ public class TextDiff_v_Java_DiffTest extends TestCase {
         
         
         {   //naive textual diff between A1 and A2        
-            String A1Text = _class.of(A1.class).toString();
-            String A2Text = _class.of(A2.class).toString();
+            String A1Text = _interface.of(A1.class).toString();
+            String A2Text = _interface.of(A2.class).toString();
         
             diff_match_patch dmp = new diff_match_patch();        
             LinkedList<diff_match_patch.Diff> naiveTextDiffResults 
@@ -86,7 +87,7 @@ public class TextDiff_v_Java_DiffTest extends TestCase {
             assertEquals(capturedEqualPartsTrim, expectEqualPartsTrim);
         }
         {    //java.diff between A1 and A2
-            _diff _dl = _diff.of(_class.of(A1.class), _class.of(A2.class) );
+            _diff _dl = _diff.of(_interface.of(A1.class), _interface.of(A2.class) );
             assertTrue(_dl.size() == 1 ); //ONLY 1 diff (name A1 vs A2)
             assertTrue(_dl.firstAt(_java.Component.NAME).isChange()); //is name change
         }        

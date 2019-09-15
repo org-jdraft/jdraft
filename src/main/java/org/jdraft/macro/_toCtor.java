@@ -124,6 +124,10 @@ public @interface _toCtor {
             super(_toCtor.class);
         }
 
+        public Act( _toCtor _tc){
+            super(_tc);
+        }
+
         @Override
         public String toString(){
             return "macro[toCtor]";
@@ -142,7 +146,11 @@ public @interface _toCtor {
             }
             TypeDeclaration td = (TypeDeclaration)op.get();
             //NodeWithConstructors nwm = (NodeWithConstructors) op.get();
+
+            /** OLD REMOVE
             td.getMethods().remove(methodDeclaration);
+             */
+
             //nwm.getMembers().remove(methodDeclaration);
             ConstructorDeclaration cd =
                     td.addConstructor(_ct.getModifiers().ast().stream().map(m -> m.getKeyword()).collect(Collectors.toList()).toArray(new Modifier.Keyword[0]) );
@@ -159,6 +167,17 @@ public @interface _toCtor {
             cd.setAnnotations( _ct.getAnnos().ast());
             //System.out.println( "Trying to REMMMOOOOOVVVVVVVVVEEEEEEE");
             cd.getAnnotations().removeIf( a -> a.getNameAsString().equals(_toCtor.class.getName() ) || a.getNameAsString().equals(_toCtor.class.getCanonicalName()) );
+
+            //remove the old method
+            boolean isRemoved = methodDeclaration.remove();
+            System.out.println( "REMOVED "+isRemoved);
+
+            System.out.println(" ************ "+td );
+            System.out.println(" >>>>>>>> "+cd );
+            if( !td.getNameAsString().equals("temp") ){
+                cd.setName( td.getNameAsString());
+            }
+            System.out.println(" >>>>>>>> "+ cd );
         }
     }
 }

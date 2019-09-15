@@ -9,6 +9,7 @@ import com.github.javaparser.ast.type.*;
 import org.jdraft._anno.*;
 import org.jdraft.macro._macro;
 import org.jdraft.macro._remove;
+import org.jdraft.macro.macro;
 
 import java.util.*;
 import java.util.function.*;
@@ -49,7 +50,7 @@ public final class _field
 
         //add the field to a class so I can run
         _class _c = _class.of("Temp").add(_field.of(fd.clone().getVariable(0)));
-        _macro.to(anonymousObjectWithField.getClass(), _c);
+        macro.to(anonymousObjectWithField.getClass(), _c);
 
         //I NEED TO DISSOCIATE THE FIELD FROM THE OTHER ??? (I think clone does that)
         return _c.getField(0);

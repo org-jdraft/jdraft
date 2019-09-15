@@ -49,6 +49,10 @@ public @interface _get {
             super(_get.class);
         }
 
+        public Act(_get _g){
+            super(_g);
+        }
+
         public static final $method $GET = $method.of(
                 "public $type$ get$Name$(){ return $name$; }");
 
