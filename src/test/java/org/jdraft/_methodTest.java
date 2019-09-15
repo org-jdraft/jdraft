@@ -21,6 +21,15 @@ import junit.framework.TestCase;
  */
 public class _methodTest extends TestCase {
 
+    public void testModifierEqualsOrder(){
+
+        _method _m1 = _method.of( "protected final static int g() { return 102; }");
+        _method _m2 = _method.of( "protected static final int g() { return 102; }");
+
+        assertEquals( _m1, _m2);
+        assertEquals( _m1.hashCode(), _m2.hashCode());
+    }
+
     public void testMM(){
         _method _m = _method.of("public int a(){ return 1;}");
         //_m.hasParametersOf(_m.ast());

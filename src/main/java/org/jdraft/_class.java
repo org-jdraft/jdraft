@@ -11,6 +11,7 @@ import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
+import com.github.javaparser.utils.Log;
 import org.jdraft._anno.*;
 import org.jdraft.io._in;
 import org.jdraft.macro._macro;
@@ -19,7 +20,7 @@ import org.jdraft.macro._toCtor;
 import org.jdraft.macro.macro;
 
 /**
- * Top-Level draft object representing a Java class, and implementation of a {@link _type}<BR/>
+ * Top-Level jdraft object representing a Java class, and implementation of a {@link _type}<BR/>
  *
  * Logical Mutable Model of the source code representing a Java class.<BR>
  *
@@ -53,55 +54,16 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * //@param typeFns
      * @return
      */
-    public static _class of( Class clazz) { //}, Function<_type, _type>...typeFns  ){
+    public static _class of( Class clazz) {
         TypeDeclaration n = Ast.typeDecl( clazz );
-        //if( n instanceof CompilationUnit ){
-        //   _class _c = of( (CompilationUnit)n);
-            
-        //    macro.to(clazz, _c);
-
-            /*
-            for(int i=0; i< typeFns.length; i++){
-                _c = (_class)typeFns[i].apply(_c);
-            }
-             */
-        //    return _c;
-        //} else
         if( n instanceof ClassOrInterfaceDeclaration){
-            _class _c = of( (ClassOrInterfaceDeclaration)n);
+            _class _c = of(n);
             
             _c = macro.to(clazz, n); //run annotation macros on the class
             Set<Class> importClasses = _import.inferImportsFrom(clazz);
             _c.imports(importClasses.toArray(new Class[0]));
-            /*
-            for(int i=0; i< typeFns.length; i++){
-                _c = (_class)typeFns[i].apply(_c);
-            }
-             */
             return _c;
         }
-        /*
-        else if( n instanceof LocalClassDeclarationStmt){
-            //System.out.println("Local Class");
-            //TODO I need to break the reference to the "old" AST
-            LocalClassDeclarationStmt loc = (LocalClassDeclarationStmt)n;
-            
-            _class _c = of(  ((LocalClassDeclarationStmt)n).getClassDeclaration());
-            if( loc.getComment().isPresent() ){
-                _c.ast().setComment( loc.getComment().get());
-            }
-            Set<Class> importClasses = _import.inferImportsFrom(clazz);            
-            _c.imports(importClasses.toArray(new Class[0]));
-            //_c = macro.to(clazz, _c);
-            _c = macro.to(clazz, ((LocalClassDeclarationStmt)n).getClassDeclaration());
-            /*
-            for(int i=0; i< typeFns.length; i++){
-                _c = (_class)typeFns[i].apply(_c);
-            }
-
-            return _c;
-        }
-         */
         if( clazz.isInterface() ){
             throw new _draftException("cannot create _class from (interface) "+ clazz);
         }
@@ -131,73 +93,6 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     public static _class of( InputStream is ){
         return (_class)_java.type(is);
     }
-
-    /**
-     * 
-     * <PRE>
-     * i.e.
-     * _class _c = _class.of( new Object(){
-     *     @_public @_static class F{
-     *          int x;
-     *     }
-     * }, _autoGet.$);
-     * //produces:
-     * 
-     * public static class F{
-     *    int x;
-     *    
-     *    public int getX(){
-     *       return this.x;
-     *    }
-     * }
-     * </PRE>
-     * @param anonymousObjectWithLocalClass
-     * @return
-
-    public static _class of( Object anonymousObjectWithLocalClass) { //}, Function<_type, _type>...macroFunctions ){
-        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr anon = Ex.anonymousObjectEx(ste);
-        System.out.println( "ANNOY " +anon);
-        if( anon.getAnonymousClassBody().isPresent() ){
-            NodeList<BodyDeclaration<?>> bdy = anon.getAnonymousClassBody().get();
-            Optional<BodyDeclaration<?>> obd = bdy.stream().filter( b -> b instanceof ClassOrInterfaceDeclaration
-                    && !b.getAnnotationByClass(_remove.class).isPresent()
-                    && !b.asClassOrInterfaceDeclaration().isInterface() ).findFirst();
-
-            if( !obd.isPresent()){
-                throw new _draftException("Unable to find Local Class in anonymous Object body ");
-            }
-            ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)obd.get();
-            //get the class
-            Class clazz =
-                Arrays.stream(anonymousObjectWithLocalClass.getClass().getDeclaredClasses())
-                    .filter( c -> {
-                    //NOTE: the name is a mess with $1$ nonsense for Anonymous Local class
-                    // so convert it to a typeRef for simplicity
-                    return _typeRef.of( coid.getNameAsString() ).is(c.getName());
-                    }).findFirst().get();
-
-            coid.remove(); //remove it from the old AST (the Anonymous class)
-
-            CompilationUnit cu = new CompilationUnit(); //add it to a new CompilationUnit
-            cu.addType(coid);
-            //_class _c = _class.of(coid); //create the instance
-            _class _c = macro.to(clazz, coid); //run annotation macros on the class
-
-            for(int i=0;i<macroFunctions.length;i++){ //run supplied macros
-                _c = (_class)macroFunctions[i].apply(_c);
-            }
-
-
-            Class[] toImport = _import.inferImportsFrom(clazz).toArray(new Class[0]);
-            for(int i=0;i<toImport.length;i++){
-                _c.imports(toImport[i]);
-            }
-            return _c;
-        }
-        throw new _draftException("No Class Body for Anonymous Object containing a Local class to build");
-    }
-    */
 
     /**
      * Return the _class represented by this single line ClassDef
@@ -233,7 +128,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             String[] strs = classDef[0].split(" ");
 
             if( strs.length == 1 ){
-                //definately shortcut classes
+                //definitely shortcut classes
 
                 String shortcutClass = strs[0];
                 String packageName = null;
@@ -384,19 +279,9 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         Set<Class>toImport = _import.inferImportsFrom(anonymousClassBody);
 
         _c.imports(toImport.toArray(new Class[0]));
-        
-        //we process the ANNOTATIONS on the TYPE
-        //System.out.println( "THE ANONYMOUS CLASS IS " + anonymousClassBody.getClass() );
-        //System.out.println( "THE CLASS IS " + theClass );
 
-        //macro.to( theClass, _c);
         TypeDeclaration td = _c.astCompilationUnit().getType(0);
         macro.to( theClass, td);
-        /*
-        for(int i=0;i<typeFn.length; i++){
-            _c = (_class)typeFn[i].apply( _c);
-        }
-         */
         return _c;
     }
 
@@ -884,30 +769,39 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         final _class other = (_class)obj;
 
         if( !Objects.equals( this.getPackage(), other.getPackage() ) ) {
+            Log.trace("Expected package %s got: %s", this::getPackage, other::getPackage);
             return false;
         }
         if( !Objects.equals( this.getJavadoc(), other.getJavadoc() ) ) {
+            Log.trace("Expected javadoc %s got: %s", this::getJavadoc, other::getJavadoc);
             return false;
         }
         if( ! Ex.equivalentAnnos(this.astClass, other.astClass)){
+            Log.trace("Expected annos %s got: %s", this.astClass::getAnnotations, other.astClass::getAnnotations);
             return false;
         }
         if( !Objects.equals( this.getModifiers(), other.getModifiers() ) ) {
+            Log.trace("Expected modifiers %s got: %s", this::getModifiers, other::getModifiers);
             return false;
         }
         if( !Objects.equals( this.getTypeParameters(), other.getTypeParameters() ) ) {
+            Log.trace("Expected typeParameters %s got: %s", this::getTypeParameters, other::getTypeParameters);
             return false;
         }
         if( !Objects.equals( this.getName(), other.getName() ) ) {
+            Log.trace("Expected name %s got: %s", this::getName, other::getName);
             return false;
         }
         if( !Ast.typesEqual(this.getExtends(), other.getExtends()) ){
+            Log.trace("Expected extends %s got: %s", this::getExtends, other::getExtends);
             return false;
         }
         if( !Ast.importsEqual(this.astClass, other.astClass)){
+            Log.trace("Expected imports %s got: %s", this::listImports, other::listImports);
             return false;
         }
         if( !Ast.typesEqual( this.listImplements(), other.listImplements())){
+            Log.trace("Expected implements %s got: %s", this::listImplements, other::listImplements);
             return false;
         }
         Set<_initBlock> tsb = new HashSet<>();
@@ -915,6 +809,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         tsb.addAll(listInitBlocks());
         osb.addAll(other.listInitBlocks());
         if( !Objects.equals( tsb, osb)){
+            Log.trace("Expected initBlocks %s got: %s", ()->tsb, ()->osb);
             return false;
         }
         Set<_field> tf = new HashSet<>();
@@ -923,6 +818,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         of.addAll( other.listFields());
 
         if( !Objects.equals( tf, of ) ) {
+            Log.trace("Expected fields %s got: %s", ()->tf, ()->of);
             return false;
         }
 
@@ -932,6 +828,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         om.addAll( other.listMethods());
 
         if( !Objects.equals( tm, om ) ) {
+            Log.trace("Expected methods %s got: %s", ()->tm, ()->om);
             return false;
         }
 
@@ -941,6 +838,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         oc.addAll( other.listConstructors());
 
         if( !Objects.equals( tc, oc ) ) {
+            Log.trace("Expected constructors %s got: %s", ()->tc, ()->oc);
             return false;
         }
 
@@ -950,6 +848,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         on.addAll( other.listNests());
 
         if( !Objects.equals( tn, on ) ) {
+            Log.trace("Expected nested types %s got: %s", ()->tn, ()->on);
             return false;
         }
 
@@ -958,6 +857,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         tn.addAll(this.listCompanionTypes());
         on.addAll(other.listCompanionTypes());
         if( !Objects.equals( tn, on ) ) {
+            Log.trace("Expected companion types %s got: %s", ()->tn, ()->on);
             return false;
         }
         return true;

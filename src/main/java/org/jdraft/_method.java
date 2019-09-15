@@ -244,11 +244,15 @@ public final class _method
     public int hashCode() {
         int hash = 3;
 
+        //the ORDER of the modifiers is unimportant
+        Set<Modifier> modsSet = new HashSet<>();
+        modsSet.addAll(this.getEffectiveModifiers());
+
         hash = 23 * hash + Objects.hash(
                 Ex.hashAnnos(astMethod),
                 this.getBody(),
                 this.getJavadoc(),
-                this.getEffectiveModifiers(), //this.getModifiers(),
+                modsSet, //this.getEffectiveModifiers(), //this.getModifiers(),
                 this.getName(),
                 this.getParameters(),
                 Ast.typesHashCode(astMethod.getThrownExceptions()),

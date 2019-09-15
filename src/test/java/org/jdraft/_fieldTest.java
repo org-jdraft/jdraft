@@ -14,6 +14,13 @@ import junit.framework.TestCase;
  */
 public class _fieldTest extends TestCase {
 
+    public void testModifierOrderEqualsHash(){
+        _field _f1 = _field.of("@a @b @c public final static int ID = 102;");
+        _field _f2 = _field.of("@c @b @a public static final int ID = 102;");
+        assertEquals(_f1, _f2);
+        assertEquals(_f1.hashCode(), _f2.hashCode());
+    }
+
     public void testFieldWithAnnotationOrder(){
         _field _f1 = _field.of("@A @B int i= 0;");
         _field _f2 = _field.of("@B @A int i= 0;");
