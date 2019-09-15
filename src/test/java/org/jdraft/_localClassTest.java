@@ -3,7 +3,7 @@ package org.jdraft;
 
 import org.jdraft.macro._static;
 import org.jdraft.macro._volatile;
-import org.jdraft.macro._replace;
+//import org.jdraft.macro._replace;
 import org.jdraft.macro._importClass;
 import org.jdraft.macro._non_static;
 import org.jdraft.macro._protected;
@@ -21,12 +21,11 @@ public class _localClassTest extends TestCase {
 
     @_package("som.pkg")
     @_importClass({Map.class, List.class, Set.class, HashSet.class})
-    @_replace({"target","replaced"})
     @_non_static @_public @_final
     private static class Baseline{
 
         static{
-            System.out.println("target");
+            System.out.println("replaced");
         }
 
         @_volatile @_public

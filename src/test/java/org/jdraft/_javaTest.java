@@ -7,7 +7,6 @@ package org.jdraft;
 
 import org.jdraft.macro._remove;
 import org.jdraft.macro._static;
-import org.jdraft.macro._replace;
 import org.jdraft.macro._autoConstructor;
 import org.jdraft.macro._promote;
 import org.jdraft.macro._package;
@@ -217,7 +216,7 @@ public class _javaTest extends TestCase {
         class C{
             @_static
             @_final
-            @_replace({"Hello", "Goodbye"})
+            //@_replace({"Hello", "Goodbye"})
             public String Message = "Hello";
         }
         //creating a class this way DOES process the ANNOTATIONS
