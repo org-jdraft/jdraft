@@ -19,6 +19,7 @@ import java.util.function.Consumer;
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.CONSTRUCTOR, ElementType.TYPE_USE})
 public @interface _remove {
 
+    /*
     Macro $ = new Macro();
 
     class Macro implements _macro<_hasAnnos> {
@@ -63,8 +64,9 @@ public @interface _remove {
             return _model;
         }
     }
+     */
 
-    class Act extends macro<_remove, Node>{ //implements Consumer<Node> {
+    class Act extends macro<_remove, Node>{
 
         public Act(){
             super(_remove.class);

@@ -4,6 +4,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithFinalModifier;
+import com.github.javaparser.utils.Log;
 import org.jdraft._anno;
 import org.jdraft._java;
 import org.jdraft._modifiers;
@@ -15,6 +16,7 @@ import java.util.function.Consumer;
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.TYPE_USE})
 public @interface _final {
 
+    /*
     Macro $ = new Macro();
 
     class Macro implements _macro<_anno._hasAnnos> {
@@ -34,8 +36,9 @@ public @interface _final {
             return _model;
         }
     }
+    */
 
-    class Act extends macro<_final, Node> { //implements Consumer<Node> {
+    class Act extends macro<_final, Node> {
 
         public Act( _final _f ){
             super(_f);
@@ -43,6 +46,10 @@ public @interface _final {
 
         @Override
         public void expand(Node node) {
+            to( node );
+        }
+
+        public static final <N extends Node> N to (N node ){
             if( node instanceof NodeWithFinalModifier){
                 NodeWithFinalModifier nwf = (NodeWithFinalModifier)node;
                 nwf.setFinal(true);
@@ -53,13 +60,14 @@ public @interface _final {
                 fd.setFinal(true);
                 _macro.removeAnnotation(fd, _final.class);
             } else{
-                System.out.println("NOT PROCESSED YET" );
+                //System.out.println("NOT PROCESSED YET" );
                 try{
                     ((_modifiers._hasModifiers) _java.of(node)).getModifiers().setFinal();
-                }catch(Exception e){
-                    System.out.println("AND FAILED");
+                } catch(Exception e){
+                    Log.error("Failed setting final modifier on %s", ()->node);
                 }
             }
+            return node;
         }
 
         @Override

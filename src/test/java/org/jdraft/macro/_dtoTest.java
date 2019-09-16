@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 public class _dtoTest extends TestCase {
 
     public void testAutoDto(){
-        _class _c = _dto.Macro.of("aaa.bbb.C", new Object(){
+        _class _c = _dto.Act.of("aaa.bbb.C", new Object(){
            public int x,y,z;
            public final String s = "eric";
         });

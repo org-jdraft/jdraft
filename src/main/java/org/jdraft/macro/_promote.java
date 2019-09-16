@@ -2,10 +2,8 @@ package org.jdraft.macro;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.TypeDeclaration;
-import org.jdraft._type;
 
 import java.lang.annotation.*;
-import java.util.function.Consumer;
 
 /**
  * Annotation / Macro for moving a nested or local class to it's own top level class within a package)
@@ -15,9 +13,11 @@ import java.util.function.Consumer;
 @Target({ElementType.TYPE, ElementType.TYPE_USE})
 public @interface _promote {
 
-    Macro $ = new Macro((String)null);
-
+    /** the value is the package name, by default its the base package "" */
     String value() default "";
+
+    /*
+    Macro $ = new Macro((String)null);
 
     class Macro implements _macro<_type> {
 
@@ -55,6 +55,7 @@ public @interface _promote {
             return _model;
         }
     }
+    */
 
     class Act extends macro<_promote, TypeDeclaration> {
 
@@ -72,6 +73,10 @@ public @interface _promote {
 
         @Override
         public void expand(TypeDeclaration typeDeclaration) {
+            to(typeDeclaration, packageName);
+        }
+
+        public static <T extends TypeDeclaration> T to(T typeDeclaration, String packageName){
             typeDeclaration.setPublic(true);
             typeDeclaration.setStatic(false);
             //remove from old
@@ -83,7 +88,8 @@ public @interface _promote {
             if( packageName != null && !packageName.isEmpty()){
                 cu.setPackageDeclaration(packageName);
             }
-            _macro.removeAnnotation( typeDeclaration, _promote.class);
+            //_macro.removeAnnotation( typeDeclaration, _promote.class);
+            return typeDeclaration;
         }
 
         @Override

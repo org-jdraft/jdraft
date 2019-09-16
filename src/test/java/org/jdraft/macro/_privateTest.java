@@ -10,10 +10,10 @@ import junit.framework.TestCase;
 public class _privateTest extends TestCase {
 
     public void testDirectCall(){
-        assertTrue( _private.Macro.to(_class.of("C")).isPrivate());
-        assertTrue( _private.Macro.to(_constructor.of("C(){}")).isPrivate());
-        assertTrue( _private.Macro.to(_field.of("int a;")).isPrivate());
-        assertTrue( _private.Macro.to(_method.of("void m(){}")).isPrivate());
+        assertTrue( _private.Act.to(_class.of("C")).isPrivate());
+        assertTrue( _private.Act.to(_constructor.of("C(){}")).isPrivate());
+        assertTrue( _private.Act.to(_field.of("int a;")).isPrivate());
+        assertTrue( _private.Act.to(_method.of("void m(){}")).isPrivate());
     }
 
     public void testAnnotationExpand(){

@@ -10,11 +10,12 @@ import java.util.function.Consumer;
 /**
  * Annotation/Macro for setting the native modifier on a {@link org.jdraft._method}
  *
- * @see _macro
+ * @see macro
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface _native {
+    /*
     Macro $ = new Macro();
 
     class Macro implements _macro<_anno._hasAnnos> {
@@ -34,8 +35,9 @@ public @interface _native {
             return _model;
         }
     }
+     */
 
-    class Act extends macro<_native,MethodDeclaration>{ //} Consumer<MethodDeclaration> {
+    class Act extends macro<_native,MethodDeclaration>{
 
         public Act(){
             super(_native.class);
@@ -47,7 +49,12 @@ public @interface _native {
 
         @Override
         public void expand(MethodDeclaration methodDeclaration) {
-            methodDeclaration.setNative(true);
+            to(methodDeclaration);
+        }
+
+        public static MethodDeclaration to(MethodDeclaration md){
+            md.setNative(true);
+            return md;
         }
 
         @Override

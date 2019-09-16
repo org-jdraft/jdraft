@@ -22,15 +22,8 @@ import javax.tools.ToolProvider;
 import org.jdraft.*;
 
 /**
- * Simple API to adapt all of the functionality in the _draftAdhoc.INSTANCE
- * statically, so you don't have to always use: 
- * <CODE>
- * Adhoc ah = _draftAdhoc.INSTANCE.load(_class.of("C));
- * </CODE>
- * ...but rather:
- * <CODE>
- * Adhoc ah = _adhoc.load(_class.of("C"));
- * </CODE>
+ * Simple API to adapt all of the functionality in the
+ * statically, so you don't have to always use:
  * 
  * Compiles and Loads BOTH draft based {@link _code} entities:
  * <UL>
@@ -76,6 +69,7 @@ public class _runtime {
      * @param compilerOptions
      * @param codeLines
      * @return
+     * @see <A HREF="https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javac.html#options">javac options</A>
      */
     public static List<_classFile> compile(List<String> compilerOptions, String... codeLines) {
         return compile(compilerOptions, (_type)_java.type(codeLines));
@@ -87,6 +81,7 @@ public class _runtime {
      * @param ignoreWarnings
      * @param codeLines
      * @return
+     * @see <A HREF="https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javac.html#options">javac options</A>
      */
     public static List<_classFile> compile(List<String> compilerOptions, boolean ignoreWarnings, String... codeLines) {
         return compile(compilerOptions, ignoreWarnings, (_type)_java.type(codeLines));
@@ -162,6 +157,7 @@ public class _runtime {
      * @param compilerOptions
      * @param codeFiles
      * @return
+     * @see <A HREF="https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javac.html#options">javac options</A>
      */
     public static List<_classFile> compile(List<String> compilerOptions, JavaFileObject... codeFiles) {
         return compile(compilerOptions, true, Arrays.asList(codeFiles));
@@ -171,7 +167,8 @@ public class _runtime {
      * 
      * @param compilerOptions
      * @param code
-     * @return 
+     * @return
+     * @see <A HREF="https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javac.html#options">javac options</A>
      */
     public static List<_classFile> compile(List<String>compilerOptions, CompilationUnit...code){
         List<JavaFileObject> fs = new ArrayList<>();
@@ -184,7 +181,8 @@ public class _runtime {
      * @param compilerOptions
      * @param ignoreWarnings
      * @param code
-     * @return 
+     * @return
+     * @see <A HREF="https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javac.html#options">javac options</A>
      */
     public static List<_classFile> compile(List<String>compilerOptions, boolean ignoreWarnings, CompilationUnit...code){
         List<JavaFileObject> codeModelFiles = new ArrayList<>();
@@ -199,7 +197,8 @@ public class _runtime {
      * @param compilerOptions
      * @param ignoreWarnings
      * @param code
-     * @return 
+     * @return
+     * @see <A HREF="https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javac.html#options">javac options</A>
      */
     public static List<_classFile> compile(List<String>compilerOptions, boolean ignoreWarnings, _code...code){
         List<JavaFileObject> fs = new ArrayList<>();
@@ -238,7 +237,8 @@ public class _runtime {
      * @param compilerOptions
      * @param ignoreWarnings
      * @param _t
-     * @return
+     * @return a runtime class compiled and loaded into a new classloader
+     * @see <A HREF="https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javac.html#options">javac options</A>
      */
     public static <_T extends _type> Class<?> Class(List<String>compilerOptions, boolean ignoreWarnings, _T _t ){
           _runtime _rt = of(compilerOptions, ignoreWarnings, _t);
@@ -260,7 +260,8 @@ public class _runtime {
      * @param compilerOptions the compiler options for creating the source files
      * @param _c the model of the class
      * @param ctorArgs the constructor args
-     * @return 
+     * @return
+     * @see <A HREF="https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javac.html#options">javac options</A>
      */
     public static _proxy proxyOf(List<String>compilerOptions, _class _c, Object...ctorArgs){
         return _runtime.of(compilerOptions, _c).proxy(_c, ctorArgs);
@@ -281,7 +282,8 @@ public class _runtime {
      * @param compilerOptions
      * @param astCu
      * @param ctorArgs
-     * @return 
+     * @return
+     * @see <A HREF="https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javac.html#options">javac options</A>
      */
     public static Object instanceOf(List<String> compilerOptions, CompilationUnit astCu, Object...ctorArgs){
         _class _c = _class.of(astCu);
@@ -292,7 +294,9 @@ public class _runtime {
      * 
      * @param _c the model of the class
      * @param ctorArgs the constructor args
-     * @return 
+     * @return
+
+     *
      */
     public static Object instanceOf(_class _c, Object...ctorArgs){
         return _runtime.of(_c).instance(_c, ctorArgs);

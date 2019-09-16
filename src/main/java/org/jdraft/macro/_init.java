@@ -45,6 +45,7 @@ public @interface _init {
 
     String value() default "";
 
+    /*
     class Macro implements _macro<_anno._hasAnnos> {
         Expression init;
 
@@ -81,8 +82,9 @@ public @interface _init {
             return _f;
         }
     }
+    */
 
-    class Act extends macro<_init, Node>{ //implements Consumer<Node>{
+    class Act extends macro<_init, Node>{
 
         public Expression initEx;
 
@@ -103,19 +105,21 @@ public @interface _init {
 
         @Override
         public void expand(Node node) {
+            to(node, this.initEx);
+        }
+
+        public static<N extends Node> N to( N node, Expression initEx){
             if( node instanceof FieldDeclaration ){
                 FieldDeclaration fieldDeclaration = (FieldDeclaration)node;
                 fieldDeclaration.getVariables().forEach( v -> v.setInitializer(initEx));
-                _macro.removeAnnotation(node, _init.class);
+                //_macro.removeAnnotation(node, _init.class);
             } else if( node instanceof VariableDeclarator) {
                 VariableDeclarator vd = (VariableDeclarator)node;
                 vd.setInitializer(initEx);
-
-                _macro.removeAnnotation(vd.getParentNode().get(), _init.class);
-                //_macro.removeAnnotation(node, _init.class);
+                //_macro.removeAnnotation(vd.getParentNode().get(), _init.class);
             }
+            return node;
         }
-
 
         @Override
         public String toString(){

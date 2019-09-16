@@ -18,7 +18,7 @@ public class _defaultTest extends TestCase {
 
         //manually apply the _macro to the method
         _method _m = _method.of("public static int getY(){ return 1; }");
-        _default.Macro.to(_m);
+        _default.Act.to(_m.ast());
         assertTrue( _m.isDefault() );
         assertFalse( _m.isStatic());
     }

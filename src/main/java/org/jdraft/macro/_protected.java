@@ -21,6 +21,7 @@ import java.util.function.Consumer;
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.TYPE_USE})
 public @interface _protected {
 
+    /*
     Macro $ = new Macro();
 
     class Macro implements _macro<_anno._hasAnnos> {
@@ -40,6 +41,7 @@ public @interface _protected {
             return _model;
         }
     }
+    */
 
     class Act extends macro<_protected,Node> {
 
@@ -53,19 +55,24 @@ public @interface _protected {
 
         @Override
         public void expand(Node node) {
+            to(node);
+        }
+
+        public static <N extends Node> N to(N node){
             if( node instanceof NodeWithProtectedModifier){
                 NodeWithProtectedModifier nwpm = (NodeWithProtectedModifier)node;
                 nwpm.setModifier(Modifier.Keyword.PRIVATE, false);
                 nwpm.setModifier(Modifier.Keyword.PUBLIC, false);
                 nwpm.setProtected(true);
-                _macro.removeAnnotation(node, _protected.class);
+                //_macro.removeAnnotation(node, _protected.class);
             }else{
                 if( node instanceof VariableDeclarator){
                     FieldDeclaration fd = (FieldDeclaration)node.getParentNode().get();
                     fd.setProtected(true);
-                    _macro.removeAnnotation(fd, _protected.class);
+                    //_macro.removeAnnotation(fd, _protected.class);
                 }
             }
+            return node;
         }
 
         @Override

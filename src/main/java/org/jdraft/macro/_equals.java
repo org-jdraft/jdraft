@@ -23,36 +23,19 @@ import java.util.function.Predicate;
 @Target({ElementType.TYPE, ElementType.TYPE_USE})
 public @interface _equals {
 
-    Macro $ = new Macro();
+    /** Select which FIELDS are being checked for the typesEqual method */
+    Predicate<_field> FIELDS_FOR_EQUALS = f -> !f.isStatic();
 
-    class Macro implements _macro<_type> {
+    /** template statements for typesEqual based on the field TYPE */
+    static $stmt $float = $stmt.of("eq = eq && Float.compare(this.$name$,test.$name$) == 0;");
+    static $stmt $double = $stmt.of("eq = eq && Double.compare(this.$name$,test.$name$) == 0;");
+    static $stmt $primitive = $stmt.of("eq = eq && this.$name$ == test.$name$;");
+    static $stmt $arrayOfPrimitives = $stmt.of("eq = eq && java.util.Arrays.equals(this.$name$,test.$name$);");
+    static $stmt $arrayOfObject = $stmt.of("eq = eq && java.util.Arrays.deepEquals(this.$name$,test.$name$);");
+    static $stmt $default = $stmt.of("eq = eq && java.util.Objects.equals(this.$name$,test.$name$);");
 
-        @Override
-        public String toString(){
-           return "macro[equals]";
-        }
-        
-        @Override
-        public _type apply(_type _t) {
-            return to(_t);
-        }
-
-        /** Select which FIELDS are being checked for the typesEqual method */
-        static final Predicate<_field> FIELDS_FOR_EQUALS = f -> !f.isStatic();
-
-        /** template statements for typesEqual based on the field TYPE */
-        static $stmt $float = $stmt.of("eq = eq && Float.compare(this.$name$,test.$name$) == 0;");
-        static $stmt $double = $stmt.of("eq = eq && Double.compare(this.$name$,test.$name$) == 0;");
-        static $stmt $primitive = $stmt.of("eq = eq && this.$name$ == test.$name$;");
-        static $stmt $arrayOfPrimitives = $stmt.of("eq = eq && java.util.Arrays.equals(this.$name$,test.$name$);");
-        static $stmt $arrayOfObject = $stmt.of("eq = eq && java.util.Arrays.deepEquals(this.$name$,test.$name$);");
-        static $stmt $default = $stmt.of("eq = eq && java.util.Objects.equals(this.$name$,test.$name$);");
-
-        /** dummy class only used as a template parameter */
-        private class $className${}
-
-        /** NOTE: we made this a String (not a lambda, etc.) to improve startup perf */
-        static $method $equals = $method.of(
+    /** NOTE: we made this a String (not a lambda, etc.) to improve startup perf */
+    static $method $equals = $method.of(
             "public boolean equals(Object o){",
             "if(o == null) {",
             "   return false;",
@@ -71,7 +54,50 @@ public @interface _equals {
             "}");
 
 
-        public static <T extends _type> T to( T _t ){
+
+    /*
+    Macro $ = new Macro();
+
+    class Macro implements _macro<_type> {
+
+        @Override
+        public String toString(){
+           return "macro[equals]";
+        }
+        
+        @Override
+        public _type apply(_type _t) {
+            return to(_t);
+        }
+
+        /** dummy class only used as a template parameter
+        private class $className${}
+    }
+     */
+
+    class Act extends macro<_equals, TypeDeclaration> {
+
+        public Act(_equals _e){
+            super(_e);
+        }
+
+        @Override
+        public void expand(TypeDeclaration typeDeclaration) {
+            to( (_type)_java.type(typeDeclaration));
+        }
+
+        @Override
+        public String toString(){
+            return "macro[equals]";
+        }
+
+
+        public static <T extends TypeDeclaration> T to (T t){
+            to( (_type)_java.type(t));
+            return t;
+        }
+
+        public static <_T extends _type> _T to( _T _t ){
             if( _t instanceof _class ) {
                 _class _c = (_class)_t;
 
@@ -111,23 +137,6 @@ public @interface _equals {
                 _c.method( $equals.draft(ts) );
             }
             return _t;
-        }
-    }
-
-    class Act extends macro<_equals, TypeDeclaration> {
-
-        public Act(_equals _e){
-            super(_e);
-        }
-
-        @Override
-        public void expand(TypeDeclaration typeDeclaration) {
-            Macro.to(_java.type(typeDeclaration));
-        }
-
-        @Override
-        public String toString(){
-            return "macro[equals]";
         }
     }
 }

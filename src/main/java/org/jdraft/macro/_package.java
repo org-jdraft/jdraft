@@ -19,6 +19,7 @@ public @interface _package {
 
     String value() default "";
 
+    /*
     class Macro implements _macro<_type> {
         String packageName;
 
@@ -51,6 +52,7 @@ public @interface _package {
             return _model;
         }
     }
+    */
 
     class Act extends macro<_package, TypeDeclaration> {
 
@@ -68,6 +70,10 @@ public @interface _package {
 
         @Override
         public void expand(TypeDeclaration typeDeclaration) {
+            to(typeDeclaration, this.packageName);
+        }
+
+        public static <T extends TypeDeclaration> T to(T typeDeclaration, String packageName){
             if( !typeDeclaration.isTopLevelType() ){
                 typeDeclaration.setStatic(false);
                 CompilationUnit cu = new CompilationUnit();
@@ -76,6 +82,7 @@ public @interface _package {
             } else{
                 typeDeclaration.findCompilationUnit().get().setPackageDeclaration(packageName);
             }
+            return typeDeclaration;
         }
 
         @Override

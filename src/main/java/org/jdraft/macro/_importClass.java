@@ -1,14 +1,10 @@
 package org.jdraft.macro;
 
-import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import org.jdraft._type;
 
 import java.lang.annotation.*;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.function.Consumer;
 
 /**
  * Annotation/Macro to add imports (and static imports) to a {@link _type}
@@ -21,9 +17,8 @@ public @interface _importClass {
     /** @return the classes to be imported */
     Class[] value() default {};
 
-    /** @return static imports (for static member fields / methods) */
-    //String[] statically() default {};
 
+    /*
     class Macro implements _macro<_type> {
         Set<ImportDeclaration> importDeclarations = new HashSet<>();
 
@@ -49,9 +44,9 @@ public @interface _importClass {
                 }
                 importDeclarations.add(new ImportDeclaration( s, true, isAsterisk));
             });
-             */
-        }
 
+        }
+    */
         /*
         public Macro add( ImportDeclaration ...ids ){
             Arrays.stream(ids).forEach( id-> this.importDeclarations.add(id));
@@ -68,7 +63,7 @@ public @interface _importClass {
             });
             return this;
         }
-        */
+
 
         @Override
         public _type apply( _type _t){
@@ -80,6 +75,7 @@ public @interface _importClass {
             return _t;
         }
     }
+    */
 
     class Act extends macro<_importClass, TypeDeclaration> {
 

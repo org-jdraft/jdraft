@@ -28,6 +28,30 @@ import java.util.function.Predicate;
 @Target({ElementType.TYPE,ElementType.TYPE_USE})
 public @interface _toString {
 
+    /**
+     * Decide which FIELDS are to be added into the toString method
+     */
+    Predicate<_field> TO_STRING_FIELDS = f-> !f.isStatic() && !f.isTransient();
+
+    $stmt $simple = $stmt.of(
+            "sb.append(\" $name$: \").append($name$).append(System.lineSeparator());" );
+
+    $stmt $arrayOfPrimitives = $stmt.of(
+            "sb.append(\" $name$: \").append(java.util.Arrays.toString($name$)).append(System.lineSeparator());" );
+
+    $stmt $arrayOfObjects = $stmt.of(
+            "sb.append(\" $name$: \").append(java.util.Arrays.deepToString($name$)).append(System.lineSeparator());");
+
+    $method $TO_STRING = $method.of(
+            "public String toString(){",
+            "    StringBuilder sb = new StringBuilder();",
+            "    sb.append( \"$className$\" ).append(\"{\" );",
+            "    sb.append( System.lineSeparator() );",
+            "    $body: {}",
+            "    sb.append( \"}\" );",
+            "    return sb.toString();",
+            "}");
+    /*
     Macro $ = new Macro();
 
     class Macro implements _macro<_type> {
@@ -52,9 +76,8 @@ public @interface _toString {
             "    return sb.toString();",
             "    }");
 
-        /**
-         * Decide which FIELDS are to be added into the toString method
-         */
+        //Decide which FIELDS are to be added into the toString method
+
         public static final Predicate<_field> TO_STRING_FIELDS = f-> !f.isStatic() && !f.isTransient();
 
         static $stmt $simple = $stmt.of(
@@ -85,32 +108,9 @@ public @interface _toString {
             return _t;
         }
     }
+     */
 
     class Act extends macro<_toString,TypeDeclaration> {
-
-        /**
-         * Decide which FIELDS are to be added into the toString method
-         */
-        public static final Predicate<_field> TO_STRING_FIELDS = f-> !f.isStatic() && !f.isTransient();
-
-        static $stmt $simple = $stmt.of(
-                "sb.append(\" $name$: \").append($name$).append(System.lineSeparator());" );
-
-        static $stmt $arrayOfPrimitives = $stmt.of(
-                "sb.append(\" $name$: \").append(java.util.Arrays.toString($name$)).append(System.lineSeparator());" );
-
-        static $stmt $arrayOfObjects = $stmt.of(
-                "sb.append(\" $name$: \").append(java.util.Arrays.deepToString($name$)).append(System.lineSeparator());");
-
-        public static final $method $TO_STRING = $method.of(
-                "public String toString(){",
-                "    StringBuilder sb = new StringBuilder();",
-                "    sb.append( \"$className$\" ).append(\"{\" );",
-                "    sb.append( System.lineSeparator() );",
-                "    $body: {}",
-                "    sb.append( \"}\" );",
-                "    return sb.toString();",
-                "}");
 
         public Act(){
             super(_toString.class);
@@ -122,6 +122,15 @@ public @interface _toString {
 
         @Override
         public void expand(TypeDeclaration typeDeclaration) {
+            to(typeDeclaration);
+        }
+
+        public static <_T extends _type> _T to( _T _t){
+            to( (TypeDeclaration)_t.ast());
+            return _t;
+        }
+
+        public static <T extends TypeDeclaration> T to( T typeDeclaration){
             BlockStmt body = new BlockStmt();
             List<_field> _fs = _field.of(typeDeclaration.getFields());
 
@@ -139,6 +148,7 @@ public @interface _toString {
             });
             _method _m = $TO_STRING.draft("className", typeDeclaration.getName(), "body", body );
             typeDeclaration.addMember(_m.ast());
+            return typeDeclaration;
         }
 
         @Override

@@ -1,6 +1,8 @@
 package org.jdraft.macro;
 
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.ConstructorDeclaration;
+import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.nodeTypes.NodeWithName;
 import com.github.javaparser.ast.nodeTypes.NodeWithSimpleName;
 import org.jdraft._anno;
@@ -21,6 +23,7 @@ import java.util.function.Consumer;
 public @interface _name{
     String value();
 
+    /*
     class Macro implements _macro<_anno._hasAnnos> {
         String name;
 
@@ -44,6 +47,7 @@ public @interface _name{
             return _a;            
         }
     }
+    */
 
     /**
      * I Wonder whatll happen if I change the name of a class with constructors
@@ -62,7 +66,8 @@ public @interface _name{
 
         @Override
         public void expand(Node node) {
-            Macro.to((_anno._hasAnnos) _java.of(node), name);
+            to(node, name);
+            //Macro.to((_anno._hasAnnos) _java.of(node), name);
             /*
             if( node instanceof NodeWithName){
                 NodeWithName nwn = (NodeWithName)node;
@@ -73,6 +78,23 @@ public @interface _name{
             }
 
              */
+        }
+
+        public static <N extends Node> N to(N node, String name){
+            if( node instanceof TypeDeclaration ){
+                TypeDeclaration td = (TypeDeclaration) node;
+                td.setName(name);
+                //also update all constructors of the type
+                td.getConstructors().forEach(c -> ((ConstructorDeclaration)c).setName(name));
+            }
+            else if( node instanceof NodeWithName){
+                NodeWithName nwn = (NodeWithName)node;
+                nwn.setName(name);
+            } else if (node instanceof NodeWithSimpleName ){
+                NodeWithSimpleName nwsn = (NodeWithSimpleName)node;
+                nwsn.setName(name);
+            }
+            return node;
         }
 
         @Override

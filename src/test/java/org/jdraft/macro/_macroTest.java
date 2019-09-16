@@ -12,6 +12,8 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -32,13 +34,16 @@ import java.util.UUID;
  */
 public class _macroTest extends TestCase {
 
+    /*
     public void testManualMac(){
 
         _class _c = _class.of("C").fields("int x, y, z;");
 
         //_class _r = $$.to(_c, _autoToString.INSTANCE, _autoConstructor.INSTANCE, _autoEquals.INSTANCE, _autoHashCode.INSTANCE);
         //_c = _class.of("C").FIELDS("int x, y, z;");
-        _class _s = _hashCode.Macro.to( _equals.Macro.to(_autoConstructor.Macro.to( _toString.Macro.to(_c))));
+        List<macro> lms = new ArrayList<>();
+        lms.add(_hashCode.Act)
+        _class _s = _hashCode.Macro.to( _equals.Act.to(_autoConstructor.Act.to( _toString.Act.to( _c.ast()) )));
 
         System.out.println("S" +  _s);
 
@@ -53,7 +58,7 @@ public class _macroTest extends TestCase {
         System.out.println( _v);
         assertEquals( _v, _s);
     }
-
+    */
     /**
      * Code in a tweet:
      *

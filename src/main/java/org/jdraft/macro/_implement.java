@@ -26,6 +26,7 @@ public @interface _implement {
 
     Class[] value();
 
+    /*
     class Macro implements _macro<_type> {
 
         Class[] toImplement;
@@ -43,11 +44,11 @@ public @interface _implement {
         }
         
         public Macro( _implement _i ){
-            /** Transfer the properties on the _implement annotation to a field in the Macro instance*/
+            //Transfer the properties on the _implement annotation to a field in the Macro instance
             this.toImplement = _i.value();
         }
 
-        /** Here we construct a Macro with the properties (no annotation) */
+        //Here we construct a Macro with the properties (no annotation)
         public Macro( Class...toImplement ){
             this.toImplement = toImplement;
         }
@@ -63,6 +64,7 @@ public @interface _implement {
             return _t;
         }
     }
+    */
 
     class Act extends macro<_implement, TypeDeclaration>{
 

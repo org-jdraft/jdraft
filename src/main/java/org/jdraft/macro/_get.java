@@ -16,6 +16,7 @@ import java.util.function.Consumer;
 @Target({ElementType.TYPE, ElementType.TYPE_USE})
 public @interface _get {
 
+    /*
     Macro $ = new Macro();
 
     class Macro implements _macro<_type> {
@@ -42,6 +43,7 @@ public @interface _get {
             return t;
         }
     }
+    */
 
     class Act extends macro<_get, TypeDeclaration>{
 
@@ -56,11 +58,12 @@ public @interface _get {
         public static final $method $GET = $method.of(
                 "public $type$ get$Name$(){ return $name$; }");
 
-        public static void to( TypeDeclaration typeDeclaration ){
+        public static <T extends TypeDeclaration> T to( T typeDeclaration ){
             List<_field> _fs = _field.of(typeDeclaration.getFields());
             _fs.stream().filter(_f -> !((_field)_f).isStatic())
                     .forEach( _f-> typeDeclaration.addMember(
                             $GET.draft("type", _f.getType(), "name", _f.getName()).ast() ) );
+            return typeDeclaration;
         }
 
         @Override

@@ -12,12 +12,13 @@ import java.util.function.Consumer;
 /**
  * Annotation/Macro to add the volatile modifier to a Field
  *
- * @see _macro
+ * @see macro
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD })
 public @interface _volatile {
 
+    /*
     Macro $ = new Macro();
 
     class Macro implements _macro<_field> {
@@ -37,6 +38,7 @@ public @interface _volatile {
             return _f;
         }
     }
+    */
 
     class Act extends macro<_volatile, Node> {
 
@@ -55,6 +57,10 @@ public @interface _volatile {
 
         @Override
         public void expand(Node node) {
+            to(node);
+        }
+
+        public static <N extends Node> N to( N node){
             if( node instanceof FieldDeclaration){
                 FieldDeclaration nwp = (FieldDeclaration)node;
                 nwp.setVolatile(true);
@@ -66,6 +72,7 @@ public @interface _volatile {
                     _macro.removeAnnotation(fd, _volatile.class);
                 }
             }
+            return node;
         }
     }
 }

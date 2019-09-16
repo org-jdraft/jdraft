@@ -7,6 +7,7 @@ import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithPrivateModifier;
 import org.jdraft._anno;
 import org.jdraft._modifiers;
+import org.jdraft._node;
 
 import java.lang.annotation.*;
 import java.util.function.Consumer;
@@ -21,6 +22,7 @@ import java.util.function.Consumer;
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.TYPE_USE})
 public @interface _private {
 
+    /*
     Macro INSTANCE = new Macro();
 
     class Macro implements _macro<_anno._hasAnnos> {
@@ -40,6 +42,7 @@ public @interface _private {
             return _model;
         }
     }
+     */
 
     class Act extends macro<_private,Node> {
 
@@ -53,19 +56,29 @@ public @interface _private {
 
         @Override
         public void expand(Node node) {
+            to(node);
+        }
+
+        public static <_N extends _node> _N to(_N _n){
+            to(_n.ast());
+            return _n;
+        }
+
+        public static <N extends Node> N to(N node){
             if( node instanceof NodeWithPrivateModifier ){
                 NodeWithPrivateModifier nwp = (NodeWithPrivateModifier)node;
                 nwp.setModifier(Modifier.Keyword.PUBLIC, false);
                 nwp.setModifier(Modifier.Keyword.PROTECTED, false);
                 nwp.setPrivate(true);
-                _macro.removeAnnotation(node, _private.class);
+                //_macro.removeAnnotation(node, _private.class);
             } else{
                 if( node instanceof VariableDeclarator){
                     FieldDeclaration fd = (FieldDeclaration)node.getParentNode().get();
                     fd.setPrivate(true);
-                    _macro.removeAnnotation(fd, _private.class);
+                    //_macro.removeAnnotation(fd, _private.class);
                 }
             }
+            return node;
         }
 
         @Override

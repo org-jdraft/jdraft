@@ -12,6 +12,22 @@ import junit.framework.TestCase;
 
 public class _typeTest extends TestCase {
 
+    //I have a theory, but I want to verify, that when I create a _type instance, ast should ALWAYS return a
+    //TypeDeclaration and NOT a Node (signifying that it COULD be a CompilationUnit)
+    public void testT(){
+        _class _c = _class.of("aaaa.bbb.C");
+        assertTrue( _c.ast() instanceof TypeDeclaration );
+
+        _enum _e = _enum.of("aaaa.bbb.C");
+        assertTrue( _e.ast() instanceof TypeDeclaration );
+
+        _interface _i = _interface.of("aaaa.bbb.C");
+        assertTrue( _i.ast() instanceof TypeDeclaration );
+
+        _annotation _a = _annotation.of("aaaa.bbb.C");
+        assertTrue( _a.ast() instanceof TypeDeclaration );
+
+    }
     public void testTypeInt(){
         class PP{
 

@@ -447,29 +447,6 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
         }  );
         return (_T)this;
     }
-    
-    /**
-     * Apply a single type Function to the type and return the modified _type
-     * @param _typeFn the function on the type
-     * @return the modified type
-
-    default _T apply(Function<_type, _type> _typeFn ){
-        return (_T)_typeFn.apply(this);
-    }
-    */
-    
-    /**
-     * Apply each of the Macros and return the modified T
-     * @param _typeFn all of the macros to execute
-     * @return the modified T after applying the macros
-
-    default _T apply(Function<_type, _type>..._typeFn ){
-        for(int i=0; i < _typeFn.length; i++){
-            _typeFn[i].apply(this);
-        }
-        return (_T)this;
-    }
-    */
 
     /**
      * List the members (_fields, _methods, _constructors,...) of the _type

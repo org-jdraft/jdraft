@@ -8,6 +8,7 @@ import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithStaticModifier;
 import org.jdraft._modifiers;
 import org.jdraft._anno;
 import org.jdraft._anno._hasAnnos;
+import org.jdraft._node;
 
 import java.lang.annotation.*;
 import java.util.function.Consumer;
@@ -22,6 +23,7 @@ import java.util.function.Consumer;
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.TYPE_USE})
 public @interface _static  {
 
+    /*
     Macro $ = new Macro();
 
     class Macro implements _macro<_hasAnnos> {
@@ -41,6 +43,7 @@ public @interface _static  {
             return _model;
         }
     }
+     */
 
      class Act extends macro<_static, Node> {
 
@@ -55,6 +58,15 @@ public @interface _static  {
 
         @Override
         public void expand(Node node) {
+            to(node);
+        }
+
+        public static <_N extends _node> _N to (_N _n){
+            to( _n.ast());
+            return _n;
+        }
+
+        public static <N extends Node> N to(N node){
             if( node instanceof NodeWithStaticModifier){
                 NodeWithStaticModifier nwp = (NodeWithStaticModifier)node;
                 nwp.setStatic(true);
@@ -66,6 +78,7 @@ public @interface _static  {
                     _macro.removeAnnotation(fd, _static.class);
                 }
             }
+            return node;
         }
     }
 }

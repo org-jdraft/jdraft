@@ -8,9 +8,9 @@ import junit.framework.TestCase;
 public class _staticTest extends TestCase {
 
     public void testStatic(){
-        assertTrue( _static.Macro.to(_class.of("C")).isStatic());
-        assertTrue( _static.Macro.to(_field.of("int a;")).isStatic());
-        assertTrue( _static.Macro.to(_method.of("void m(){}")).isStatic());
+        assertTrue( _static.Act.to(_class.of("C")).isStatic());
+        assertTrue( _static.Act.to(_field.of("int a;")).isStatic());
+        assertTrue( _static.Act.to(_method.of("void m(){}")).isStatic());
     }
 
     public void testT(){

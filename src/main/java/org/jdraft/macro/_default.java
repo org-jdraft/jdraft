@@ -20,6 +20,7 @@ import java.util.function.Consumer;
 @Target(ElementType.METHOD)
 public @interface _default {
 
+    /*
     Macro $ = new Macro();
 
     class Macro implements _macro<_method> {
@@ -40,6 +41,7 @@ public @interface _default {
             return _m;
         }
     }
+     */
 
     class Act extends macro<_default, MethodDeclaration> {
 
@@ -49,8 +51,13 @@ public @interface _default {
 
         @Override
         public void expand(MethodDeclaration methodDeclaration) {
+            to(methodDeclaration);
+        }
+
+        public static MethodDeclaration to(MethodDeclaration methodDeclaration){
             methodDeclaration.setStatic(false);
             methodDeclaration.setDefault(true);
+            return methodDeclaration;
         }
 
         @Override

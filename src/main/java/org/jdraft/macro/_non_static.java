@@ -14,12 +14,13 @@ import java.util.function.Consumer;
  * Annotation/Macro to remove the static modifier from {@link org.jdraft._type}, {@link org.jdraft._field}
  * {@link org.jdraft._method}
  *
- * @see _macro
+ * @see macro
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.TYPE_USE})
 public @interface _non_static {
 
+    /*
     Macro $ = new Macro();
 
     class Macro implements _macro<_anno._hasAnnos> {
@@ -39,6 +40,8 @@ public @interface _non_static {
             return _model;
         }
     }
+     */
+
     class Act extends macro<_non_static,Node>{
 
         public Act(){
@@ -51,6 +54,10 @@ public @interface _non_static {
 
         @Override
         public void expand(Node node) {
+            to(node);
+        }
+
+        public static <N extends Node> N to(N node ){
             if( node instanceof NodeWithStaticModifier ){
                 NodeWithStaticModifier nwsm = (NodeWithStaticModifier)node;
                 nwsm.setStatic(false);
@@ -62,6 +69,7 @@ public @interface _non_static {
                     _macro.removeAnnotation(fd, _non_static.class);
                 }
             }
+            return node;
         }
 
         @Override

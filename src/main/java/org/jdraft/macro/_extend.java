@@ -69,17 +69,22 @@ public @interface _extend{
         }
 
         public void expand(TypeDeclaration node) {
+            to(node, this.classes);
+        }
+
+        public static <T extends TypeDeclaration> T to( T node, Class... classes){
             if (node instanceof NodeWithExtends) {
                 NodeWithExtends nwe = (NodeWithExtends) node;
                 for (int i = 0; i < classes.length; i++) {
                     nwe.addExtendedType(classes[i]);
                 }
-                _macro.removeAnnotation(node, _extend.class);
+                //_macro.removeAnnotation(node, _extend.class);
             } else {
                 if (classes.length > 0) {
                     throw new _draftException("cannot add extends to node of " + node.getClass());
                 }
             }
+            return node;
         }
 
         @Override

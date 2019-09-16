@@ -50,6 +50,7 @@ import java.util.stream.Collectors;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface _toCtor {
 
+    /*
     Macro $ = new Macro();
     
     class Macro implements _macro<_method>{
@@ -58,39 +59,11 @@ public @interface _toCtor {
         public String toString(){
            return "macro[ctor]"; 
         }
+
+
         
-        /**
-         * Given a MethodDeclaration, convert it to a ConstructorDeclaration
-         * @param md
-         * @return 
-         */
-        public static ConstructorDeclaration fromMethod( MethodDeclaration md ){
-            return fromMethod(_method.of(md)).ast();
-        }
-        
-        /**
-         * turn a _method into a _constructor
-         * @param _m the method to turn into a _constructor
-         * @return the _constructor
-         */
-        public static _constructor fromMethod( _method _m ){
-            _constructor _ct = _constructor.of( _m.getModifiers()+" "+_m.getName() +"(){}");        
-            _m.forParameters( p-> _ct.addParameter(p) );
-            if( _m.hasTypeParameters()){
-                _ct.setTypeParameters( _m.getTypeParameters() );
-            }
-            if( _m.hasAnnos() ) {
-                _ct.anno(_m.ast().getAnnotations() );
-            }
-            _ct.removeAnnos(_toCtor.class);
-            _ct.setBody( _m.getBody() );
-            _ct.setThrows(_m.ast().getThrownExceptions());
-            _ct.setTypeParameters(_m.getTypeParameters());
-            if( _m.hasJavadoc() ){
-                _ct.ast().setJavadocComment(_m.ast().getJavadocComment().get());
-            }
-            return _ct;
-        }
+
+
         
         @Override
         public _method apply(_method _m) {
@@ -117,6 +90,7 @@ public @interface _toCtor {
             return _m;
         }
     }
+     */
 
     class Act extends macro<_toCtor, MethodDeclaration> {
 
@@ -135,9 +109,37 @@ public @interface _toCtor {
 
         @Override
         public void expand(MethodDeclaration methodDeclaration) {
+            to(methodDeclaration);
+        }
+
+        public static ConstructorDeclaration fromMethod( MethodDeclaration md ){
+            return fromMethod(_method.of(md)).ast();
+        }
+
+        /** given a _method turn it into a _constructor */
+        public static _constructor fromMethod( _method _m ){
+            _constructor _ct = _constructor.of( _m.getModifiers()+" "+_m.getName() +"(){}");
+            _m.forParameters( p-> _ct.addParameter(p) );
+            if( _m.hasTypeParameters()){
+                _ct.setTypeParameters( _m.getTypeParameters() );
+            }
+            if( _m.hasAnnos() ) {
+                _ct.anno(_m.ast().getAnnotations() );
+            }
+            _ct.removeAnnos(_toCtor.class);
+            _ct.setBody( _m.getBody() );
+            _ct.setThrows(_m.ast().getThrownExceptions());
+            _ct.setTypeParameters(_m.getTypeParameters());
+            if( _m.hasJavadoc() ){
+                _ct.ast().setJavadocComment(_m.ast().getJavadocComment().get());
+            }
+            return _ct;
+        }
+
+        public static ConstructorDeclaration to(MethodDeclaration methodDeclaration){
             List<TypeDeclaration>tds = new ArrayList<>();
             _macro.removeAnnotation(methodDeclaration, _toCtor.class);
-            _constructor _ct = Macro.fromMethod( _method.of(methodDeclaration));
+            _constructor _ct = fromMethod( _method.of(methodDeclaration));
             Optional<Node> op = methodDeclaration.stream(Node.TreeTraversal.PARENTS).filter(n-> n instanceof EnumDeclaration
                     || (n instanceof ClassOrInterfaceDeclaration && !((ClassOrInterfaceDeclaration)n).isInterface())).findFirst();
             //remove the old method, add the constructor
@@ -170,14 +172,15 @@ public @interface _toCtor {
 
             //remove the old method
             boolean isRemoved = methodDeclaration.remove();
-            System.out.println( "REMOVED "+isRemoved);
+            //System.out.println( "REMOVED "+isRemoved);
 
-            System.out.println(" ************ "+td );
-            System.out.println(" >>>>>>>> "+cd );
+            //System.out.println(" ************ "+td );
+            //System.out.println(" >>>>>>>> "+cd );
             if( !td.getNameAsString().equals("temp") ){
                 cd.setName( td.getNameAsString());
             }
-            System.out.println(" >>>>>>>> "+ cd );
+            //System.out.println(" >>>>>>>> "+ cd );
+            return cd;
         }
     }
 }

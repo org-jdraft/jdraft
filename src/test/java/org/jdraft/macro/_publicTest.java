@@ -6,10 +6,10 @@ import junit.framework.TestCase;
 public class _publicTest extends TestCase {
 
     public void testDirectCall(){
-        assertTrue( _public.Macro.to(_class.of("C")).isPublic());
-        assertTrue( _public.Macro.to(_constructor.of("C(){}")).isPublic());
-        assertTrue( _public.Macro.to(_field.of("int a;")).isPublic());
-        assertTrue( _public.Macro.to(_method.of("void m(){}")).isPublic());
+        assertTrue( _public.Act.to(_class.of("C")).isPublic());
+        assertTrue( _public.Act.to(_constructor.of("C(){}")).isPublic());
+        assertTrue( _public.Act.to(_field.of("int a;")).isPublic());
+        assertTrue( _public.Act.to(_method.of("void m(){}")).isPublic());
     }
 
     public void testAnnotationExpand(){

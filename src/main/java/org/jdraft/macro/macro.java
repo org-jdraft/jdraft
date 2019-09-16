@@ -1,11 +1,9 @@
 package org.jdraft.macro;
 
-import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import org.jdraft.*;
-import org.jdraft.proto.$;
 
 import com.github.javaparser.utils.Log;
 
@@ -72,20 +70,17 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
     }
 
     public static <_T extends _type> _T to(Class clazz, _T _t){
-        //if(clazz.isLocalClass() ){
-
-        //}
-        Node n = _t.ast();
-        if( n instanceof  TypeDeclaration ) {
-            //System.out.println( "CLAZZ "+ clazz+" to "+_t );
-            TypeDeclaration td = (TypeDeclaration)n;
-            toType(td, clazz);
-            return _java.type(td);
-        }
-        CompilationUnit cu = (CompilationUnit)n;
-        TypeDeclaration td =cu.getTypes().stream().filter(t-> t.getNameAsString().equals(_t.getName())).findFirst().get();
+        TypeDeclaration td = (TypeDeclaration)_t.ast();
+        //if( n instanceof  TypeDeclaration ) {
+        //System.out.println( "CLAZZ "+ clazz+" to "+_t );
+        //TypeDeclaration td = (TypeDeclaration)n;
         toType(td, clazz);
         return _java.type(td);
+        //}
+        //CompilationUnit cu = (CompilationUnit)n;
+        //TypeDeclaration td =cu.getTypes().stream().filter(t-> t.getNameAsString().equals(_t.getName())).findFirst().get();
+        //toType(td, clazz);
+        //return _java.type(td);
     }
 
     public static <_T extends _type> _T to(Class clazz, TypeDeclaration td){
@@ -98,7 +93,6 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
         TypeDeclaration td = Ast.typeDecl(clazz);
         return to(clazz, td);
     }
-
 
     public static void toType( TypeDeclaration td, Class clazz ){
         Log.info("    1 of 5) fields of %s", ()->clazz );

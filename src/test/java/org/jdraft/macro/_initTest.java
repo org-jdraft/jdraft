@@ -9,7 +9,7 @@ public class _initTest extends TestCase {
 
     public void testF(){
         _field _f = _field.of( "int i" );
-        _init.Macro.to(_f, Ex.of(100));
+        _init.Act.to(_f.ast(), Ex.of(100));
         assertEquals( Ex.of(100), _f.getInit() );
     }
 

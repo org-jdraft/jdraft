@@ -7,6 +7,7 @@ import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithPublicModifier;
 import org.jdraft._anno;
 import org.jdraft._modifiers;
+import org.jdraft._node;
 import org.jdraft._type;
 
 import java.lang.annotation.ElementType;
@@ -51,14 +52,14 @@ import java.util.function.Consumer;
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.TYPE_USE})
 public @interface _public {
 
+    /**
     Macro $ = new Macro();
 
-    /**
      * Because this static member class implements _macro, it can be processed by
      * {@link _macro#to(Class, _type)}
      *
      * to _2_template the model
-     */
+
     class Macro implements _macro<_anno._hasAnnos> {
 
         @Override
@@ -71,17 +72,17 @@ public @interface _public {
             return to(_annotatedModel);
         }
 
-        /**
          * Apply this Macro directly to the
          * @param _model
          * @param <T>
          * @return
-         */
+
         public static <T extends _anno._hasAnnos> T to( T _model ){
             ((_modifiers._hasModifiers) _model).getModifiers().setPublic();
             return _model;
         }
     }
+     */
 
     class Act extends macro<_public, Node> {
 
@@ -91,20 +92,29 @@ public @interface _public {
 
         @Override
         public void expand(Node node) {
+            to(node);
+        }
+
+        public static <_N extends _node> _N to(_N _n){
+            to(_n.ast());
+            return _n;
+        }
+
+        public static <N extends Node> N to( N node){
             if( node instanceof NodeWithPublicModifier){
                 NodeWithPublicModifier nwp = (NodeWithPublicModifier)node;
                 nwp.setModifier(Modifier.Keyword.PRIVATE, false);
                 nwp.setModifier(Modifier.Keyword.PROTECTED, false);
                 nwp.setPublic(true);
-
-                _macro.removeAnnotation(node, _public.class);
+                //_macro.removeAnnotation(node, _public.class);
             } else{
                 if( node instanceof VariableDeclarator ){
                     FieldDeclaration fd = (FieldDeclaration)node.getParentNode().get();
                     fd.setPublic(true);
-                    _macro.removeAnnotation(fd, _public.class);
+                    //_macro.removeAnnotation(fd, _public.class);
                 }
             }
+            return node;
         }
 
         @Override

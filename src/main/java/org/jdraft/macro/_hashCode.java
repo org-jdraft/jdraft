@@ -8,8 +8,6 @@ import org.jdraft.proto.$method;
 import com.github.javaparser.ast.stmt.*;
 
 import java.lang.annotation.*;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
@@ -22,18 +20,13 @@ import java.util.function.Predicate;
  * can be applied:
  * <PRE>
  * <OL>
- * <LI> via annotation : using the annotation _macro processor {@link _macro#to(Class, _type)}
+ * <LI> via annotation : using the annotation _macro processor {@link macro#to(Class, _type)}
  * {@code @_hashCode class A{ int x,y,z; }
- * _class _c = $$.to(A.class);
+ * _class _c = _class.of(A.class);
  * }
- * <LI> via _class constructor argument : pass the {@link _hashCode#$} instance in
+ * <LI> via external call: pass the _class in to the {@link _hashCode.Act#to(TypeDeclaration)}
  * {@code class A{ int x,y,z; }
- * _class _c = _class.of(A.class, _autoHashCode.$);
- * }
- *
- * <LI> via external call: pass the _class in to the {@link _hashCode.Macro#to(_type)}
- * {@code class A{ int x,y,z; }
- * _class _c = _autoHashCode.Macro.to(_class.of(A.class));
+ * _class _c = _hashCode.Act.to(_class.of(A.class));
  * }
  * </OL>
  * </PRE>
@@ -44,8 +37,8 @@ import java.util.function.Predicate;
 @Target({ElementType.TYPE, ElementType.TYPE_USE})
 public @interface _hashCode {
 
-    /** Static Instance */
-     Macro $ = new Macro();
+     /** Static Instance */
+     //Macro $ = new Macro();
 
      /**
       * method template for hashCode with PARAMETERS:
@@ -93,32 +86,33 @@ public @interface _hashCode {
          public static $stmt $simplePrimitive = $stmt.of("hash = hash * prime + $name$;");
 
          public static Statement constructStmt(_field _f){
-            if( _f.getType().isArray() ){
-                if( _f.getType().getElementType().isPrimitiveType()){
-                    return $arrayOfPrimitives.draft(_f);
-                }
-                return $arrayOfObject.draft(_f);
-            }
-            if( _f.getType().isPrimitive()){
-                if( _f.isType(boolean.class)){
-                    return $boolean.draft(_f);
-                }
-                if( _f.isType(double.class)){
-                    return $double.draft(_f);
-                }
-                if( _f.isType(float.class)){
-                    return $float.draft(_f);
-                }
-                if( _f.isType(long.class)){
-                    return $long.draft(_f);
-                }
-                return $simplePrimitive.draft(_f);
-            }
-            return $default.draft(_f);
-        }
-    }
+             if( _f.getType().isArray() ){
+                 if( _f.getType().getElementType().isPrimitiveType()){
+                     return $arrayOfPrimitives.draft(_f);
+                 }
+                 return $arrayOfObject.draft(_f);
+             }
+             if( _f.getType().isPrimitive()){
+                 if( _f.isType(boolean.class)){
+                     return $boolean.draft(_f);
+                 }
+                 if( _f.isType(double.class)){
+                     return $double.draft(_f);
+                 }
+                 if( _f.isType(float.class)){
+                     return $float.draft(_f);
+                 }
+                 if( _f.isType(long.class)){
+                     return $long.draft(_f);
+                 }
+                 return $simplePrimitive.draft(_f);
+             }
+             return $default.draft(_f);
+         }
+     }
 
-    class Macro implements _macro<_type> {
+     /*
+     class Macro implements _macro<_type> {
          @Override
          public _type apply(_type _t) {
              return to(_t);
@@ -132,6 +126,50 @@ public @interface _hashCode {
          public static <T extends _type> T to(T _t){
             if( _t instanceof _class){
                 _class _c = (_class)_t;
+                Tokens tokens = new Tokens(); // tokens for the {@link $HASHCODE} template
+
+                int prime = PRIMES[Math.abs(_c.getFullName().hashCode()) % PRIMES.length];
+                tokens.put("prime",prime);
+                tokens.put("seed",PRIMES[Math.abs(prime - _c.listFields(HASH_CODE_FIELD_MATCH_FN).size()) % PRIMES.length]);
+
+                if( _c.hasExtends() && !_c.isExtends(Object.class)){ //if _class extends something other than Object
+                    tokens.put("callSuperHashCode", true); // print the code at "callSuperEquals" in {@link #$HASHCODE}
+                }
+                BlockStmt body = new BlockStmt();
+                //construct Statements for all FIELDS into the BODY BlockStmt
+                _c.forFields(HASH_CODE_FIELD_MATCH_FN, f-> body.addStatement(_fieldToStatement.constructStmt(f)));
+                tokens.put("body", body); //the body:{} will be replaced with the code in the BlockStmt
+                _c.method($HASHCODE.draft(tokens));
+            }
+            return _t;
+        }
+    }
+      */
+
+    class Act extends macro<_hashCode, TypeDeclaration> {
+
+         public Act(){
+            super(_hashCode.class);
+         }
+
+         public Act(_hashCode _h){
+            super(_h);
+         }
+
+         @Override
+         public void expand(TypeDeclaration typeDeclaration) {
+            to( typeDeclaration);
+         }
+
+
+         public static <_T extends _type> _T to(_T _t){
+              to((TypeDeclaration)_t.ast());
+              return _t;
+         }
+
+         public static <T extends TypeDeclaration> T to(T t){
+            if( t instanceof ClassOrInterfaceDeclaration){
+                _class _c = _class.of(t);
                 Tokens tokens = new Tokens(); /** tokens for the {@link $HASHCODE} template */
 
                 int prime = PRIMES[Math.abs(_c.getFullName().hashCode()) % PRIMES.length];
@@ -147,23 +185,7 @@ public @interface _hashCode {
                 tokens.put("body", body); //the body:{} will be replaced with the code in the BlockStmt
                 _c.method($HASHCODE.draft(tokens));
             }
-            return _t;
-        }
-    }
-
-    class Act extends macro<_hashCode, TypeDeclaration> {
-
-        public Act(){
-            super(_hashCode.class);
-        }
-
-        public Act(_hashCode _h){
-            super(_h);
-        }
-
-        @Override
-        public void expand(TypeDeclaration typeDeclaration) {
-            Macro.to(_java.type(typeDeclaration));
+            return t;
         }
 
         @Override

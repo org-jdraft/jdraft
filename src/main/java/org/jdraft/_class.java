@@ -266,7 +266,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
                 if( bd instanceof MethodDeclaration ){
                     MethodDeclaration md = (MethodDeclaration)bd;
                     if( md.getNameAsString().equals(_c.getName() ) && md.getType().isVoidType() ){
-                        _c.constructor(_constructor.of(_toCtor.Macro.fromMethod(md)));
+                        _c.constructor(_constructor.of(_toCtor.Act.fromMethod(md)));
                     } else{
                         _c.ast().addMember( bd );    
                     }

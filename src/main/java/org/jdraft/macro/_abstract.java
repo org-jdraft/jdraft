@@ -23,6 +23,7 @@ import java.util.function.Consumer;
 @Target({ElementType.METHOD, ElementType.TYPE, ElementType.TYPE_USE})
 public @interface _abstract {
 
+    /*
     Macro $ = new Macro();
 
     class Macro implements _macro<_anno._hasAnnos> {
@@ -56,6 +57,7 @@ public @interface _abstract {
             return t;
         }
     }
+     */
 
     class Act extends macro<_abstract, Node> { //implements Consumer<Node>{
 
@@ -69,6 +71,10 @@ public @interface _abstract {
         }
 
         public void expand(Node n){
+            to(n);
+        }
+
+        public static <N extends Node> N to( N n){
             if (n instanceof NodeWithAbstractModifier) {
                 NodeWithAbstractModifier nwa = (NodeWithAbstractModifier) n;
                 nwa.setAbstract(true);
@@ -78,6 +84,7 @@ public @interface _abstract {
                     nwb.removeBody();
                 }
                 _macro.removeAnnotation(n, _abstract.class);
+                return n;
             } else {
                 throw new _draftException("@_abstract applied to a non abstract-able AST Node " + n.getClass());
             }

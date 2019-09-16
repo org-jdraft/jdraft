@@ -11,12 +11,13 @@ import java.util.function.Consumer;
 /**
  * Annotation/Macro to add the transient modifier to a Field
  *
- * @see _macro
+ * @see macro
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})
 public @interface _transient {
 
+    /*
     Macro $ = new Macro();
 
     class Macro implements _macro<_field> {
@@ -36,6 +37,7 @@ public @interface _transient {
             return _f;
         }
     }
+    */
 
     class Act extends macro<_transient, Node> {
 
@@ -54,6 +56,10 @@ public @interface _transient {
 
         @Override
         public void expand(Node node) {
+            to(node);
+        }
+
+        public static <N extends Node> N to(N node){
             if( node instanceof FieldDeclaration){
                 FieldDeclaration nwp = (FieldDeclaration) node;
                 nwp.setTransient(true);
@@ -66,6 +72,7 @@ public @interface _transient {
                     _macro.removeAnnotation(fd, _transient.class);
                 }
             }
+            return node;
         }
     }
 

@@ -19,10 +19,10 @@ public class _hashCodeTest extends TestCase {
         //_class _1 = _class.of(A.class, _hashCode.$);
 
         /** 2) call {@link draft.java._type#apply(_macro[])} with {@link _autoHashCode#$} */
-        _class _2 = (_class)_hashCode.$.apply( _class.of(A.class) ); //.apply(_hashCode.$);
+        _class _2 = (_class)_hashCode.Act.to( _class.of(A.class) ); //.apply(_hashCode.$);
 
         /** 3) call with static to method {@link _autoHashCode.Macro#to(T t)} */
-        _class _3 = _hashCode.Macro.to(_class.of(A.class));
+        _class _3 = _hashCode.Act.to(_class.of(A.class));
 
         /** 4) annotate with @_autoHashCode & call annotation Macro processor {@link $$#to(T t)} */
 
@@ -65,7 +65,7 @@ public class _hashCodeTest extends TestCase {
         _class _c = _class.of(K.class);
         System.out.println( _c );
 
-        _hashCode.Macro.to(_c);
+        _hashCode.Act.to(_c);
         _method _m = _c.getMethod("hashCode");
 
         assertEquals(1, $stmt.of("int hash = $any$;").listIn(_m).size() );

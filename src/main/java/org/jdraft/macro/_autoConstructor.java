@@ -30,9 +30,10 @@ import java.util.stream.Collectors;
 @Target({ElementType.TYPE, ElementType.TYPE_USE})
 public @interface _autoConstructor {
 
+    /*
     Macro $ = new Macro();
 
-    /** picks _fields of the _class or enum that are required in the constructor */
+    /** picks _fields of the _class or enum that are required in the constructor
     Predicate<_field> CTOR_REQUIRED_FIELD = _f -> !_f.isStatic() && _f.isFinal() && !_f.hasInit();
 
     class Macro implements _macro<_type> {
@@ -60,14 +61,24 @@ public @interface _autoConstructor {
             return t;
         }
     }
-    class Act extends macro<_autoConstructor, Node> {
+     */
+    class Act extends macro<_autoConstructor, TypeDeclaration> {
+
+        static final Predicate<_field> CTOR_REQUIRED_FIELD = _f -> !_f.isStatic() && _f.isFinal() && !_f.hasInit();
 
         public Act(_autoConstructor _ac){
             super(_ac);
         }
 
         @Override
-        public void expand(Node node) {
+        public void expand(TypeDeclaration node) {
+            to(node);
+        }
+
+        //public static <_T extends _type> void to(_T t){
+
+        //}
+        public static <_T extends TypeDeclaration> _T to(_T node ){
             //MED CHANGED
             if( node instanceof EnumDeclaration || ( node instanceof ClassOrInterfaceDeclaration && !((ClassOrInterfaceDeclaration)node).isInterface() )){
                 //NodeWithConstructors nwcs = (NodeWithConstructors)node;
@@ -87,11 +98,13 @@ public @interface _autoConstructor {
                     _ct.addParameter(f.getType(), f.getName());
                     _ct.add("this." + f.getName() + " = " + f.getName() + ";");
                 });
-                _macro.removeAnnotation(node, _autoConstructor.class);
+                //_macro.removeAnnotation(node, _autoConstructor.class);
+                return node;
             }
             else{
                 throw new _draftException( "cannot add a constructor ");
             }
+
         }
 
         @Override
