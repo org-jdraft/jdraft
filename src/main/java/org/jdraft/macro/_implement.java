@@ -6,7 +6,6 @@ import org.jdraft._type;
 
 import java.lang.annotation.*;
 import java.util.Arrays;
-import java.util.function.Consumer;
 
 /**
  * Annotation/Macro to add implements and imports to a {@link _type}
@@ -18,53 +17,13 @@ import java.util.function.Consumer;
  *     <LI>calling the _implement.Macro.to(_t, Serializable.class);
  * </UL>
  *
- * @see _macro
+ * @see macro
  */
 @Retention( RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.TYPE_USE})
 public @interface _implement {
 
     Class[] value();
-
-    /*
-    class Macro implements _macro<_type> {
-
-        Class[] toImplement;
-
-        @Override
-        public String toString(){
-            String s = "";
-            for(int i=0;i<toImplement.length;i++){
-                if( i > 0){
-                    s +=",";
-                }
-                s += toImplement[i].getCanonicalName();
-            }
-            return "macro[toImplement("+s+")]"; 
-        }
-        
-        public Macro( _implement _i ){
-            //Transfer the properties on the _implement annotation to a field in the Macro instance
-            this.toImplement = _i.value();
-        }
-
-        //Here we construct a Macro with the properties (no annotation)
-        public Macro( Class...toImplement ){
-            this.toImplement = toImplement;
-        }
-
-        public _type apply( _type  _t){
-            return to( _t, toImplement );
-        }
-
-        public static <T extends _type> T to( T _t, Class...toImplement){
-            if( _t instanceof _type._hasImplements) {
-                ((_type._hasImplements)_t).implement(toImplement);
-            }
-            return _t;
-        }
-    }
-    */
 
     class Act extends macro<_implement, TypeDeclaration>{
 

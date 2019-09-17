@@ -1,16 +1,12 @@
 package org.jdraft.macro;
 
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import org.jdraft.Ex;
 import org.jdraft._class;
-import org.jdraft._java;
-import org.jdraft._type;
 
 import java.lang.annotation.*;
 import java.util.Arrays;
-import java.util.function.Consumer;
 
 /**
  * Treats the Object as a DTO (Data Transfer Object) adding:
@@ -22,45 +18,13 @@ import java.util.function.Consumer;
  * <LI>an equals(Object o) method</LI>
  * <LI>a default minimal constructor (initializing non initialized final non static FIELDS)</LI>
  * </UL>
+ * @see macro
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.TYPE_USE})
 public @interface _dto {
 
-    /*
-    Macro $ = new Macro();
-
-    Act A = new Act();
-
-    class Macro implements _macro<_type> {
-
-        @Override
-        public String toString(){
-           return "macro[dto]";
-        }
-        
-        @Override
-        public _type apply(_type _t) {
-            return to(_t);
-        }
-
-        public static <T extends _type> T to(T t) {
-            t = _get.Macro.to(t);
-            t = _setFluent.Macro.to(t);
-            t = _equals.Macro.to(t);
-            t = _hashCode.Macro.to(t);
-            t = _toString.Macro.to(t);
-            t = _autoConstructor.Macro.to(t);
-
-            t.removeAnnos(_dto.class);
-            return t;
-        }
-
-
-    }
-    */
-
-    class Act extends macro<_dto, TypeDeclaration> { //} Consumer<TypeDeclaration> {
+    class Act extends macro<_dto, TypeDeclaration> {
 
         public Act() {
             super(_dto.class);
@@ -99,17 +63,13 @@ public @interface _dto {
             to(typeDeclaration);
         }
 
-
         public static <T extends TypeDeclaration> T to( T typeDeclaration ){
-            _type t = _java.type(typeDeclaration);
-            typeDeclaration = _get.Act.to(typeDeclaration);
-            typeDeclaration = _setFluent.Act.to(typeDeclaration);
-            typeDeclaration = _equals.Act.to(typeDeclaration);
-            typeDeclaration = _hashCode.Act.to(typeDeclaration);
-            typeDeclaration = _toString.Act.to(typeDeclaration);
+            _get.Act.to(typeDeclaration);
+            _setFluent.Act.to(typeDeclaration);
+            _equals.Act.to(typeDeclaration);
+            _hashCode.Act.to(typeDeclaration);
+            _toString.Act.to(typeDeclaration);
             _autoConstructor.Act.to(typeDeclaration);
-
-            t.removeAnnos(_dto.class);
             return typeDeclaration;
         }
         @Override
@@ -117,5 +77,4 @@ public @interface _dto {
             return "macro[dto]";
         }
     }
-
 }

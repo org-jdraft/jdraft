@@ -37,52 +37,13 @@ import java.util.function.Consumer;
  * });
  * ...this will update the fields initializer WITHOUT CALLING the "readInAFileContents()"
  * </PRE>
- * @see _macro
+ * @see macro
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface _init {
 
     String value() default "";
-
-    /*
-    class Macro implements _macro<_anno._hasAnnos> {
-        Expression init;
-
-        public Macro( _init _p ){ this.init = Ex.of(_p.value() ); }
-
-        public Macro( String init ){
-            this.init = Ex.of(init);
-        }
-
-        @Override
-        public String toString(){
-           return "macro[init("+init+")]";
-        }
-        
-        @Override
-        public _anno._hasAnnos apply(_anno._hasAnnos _f) {
-            if( _f instanceof _field) {
-                return to( (_field)_f, init);
-            }
-            return _f;
-        }
-
-        public static _field to( _field _f, Expression init ){
-            _f.init(init);
-            return _f;
-        }
-
-        public static _field to( _field _f, String init ){
-            if( init == null || init.trim().length() == 0 ){
-                _f.ast().removeInitializer();
-                return _f;
-            }
-            _f.init(Ex.of(init) );
-            return _f;
-        }
-    }
-    */
 
     class Act extends macro<_init, Node>{
 
@@ -112,11 +73,9 @@ public @interface _init {
             if( node instanceof FieldDeclaration ){
                 FieldDeclaration fieldDeclaration = (FieldDeclaration)node;
                 fieldDeclaration.getVariables().forEach( v -> v.setInitializer(initEx));
-                //_macro.removeAnnotation(node, _init.class);
             } else if( node instanceof VariableDeclarator) {
                 VariableDeclarator vd = (VariableDeclarator)node;
                 vd.setInitializer(initEx);
-                //_macro.removeAnnotation(vd.getParentNode().get(), _init.class);
             }
             return node;
         }

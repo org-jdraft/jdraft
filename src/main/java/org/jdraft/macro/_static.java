@@ -17,33 +17,11 @@ import java.util.function.Consumer;
  * Annotation/Macro to add the static modifier to a {@link org.jdraft._type},
  * {@link org.jdraft._field}, of {@link org.jdraft._method}
  *
- * @see _macro
+ * @see macro
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.TYPE_USE})
 public @interface _static  {
-
-    /*
-    Macro $ = new Macro();
-
-    class Macro implements _macro<_hasAnnos> {
-
-        @Override
-        public String toString(){
-           return "macro[static]"; 
-        }
-        
-        @Override
-        public _hasAnnos apply(_anno._hasAnnos _annotatedModel) {
-            return to(_annotatedModel);
-        }
-
-        public static <T extends _anno._hasAnnos> T to( T _model ){
-            ((_modifiers._hasModifiers) _model).getModifiers().setStatic();
-            return _model;
-        }
-    }
-     */
 
      class Act extends macro<_static, Node> {
 
@@ -70,12 +48,10 @@ public @interface _static  {
             if( node instanceof NodeWithStaticModifier){
                 NodeWithStaticModifier nwp = (NodeWithStaticModifier)node;
                 nwp.setStatic(true);
-                _macro.removeAnnotation(node, _static.class);
             }else{
                 if( node instanceof VariableDeclarator){
                     FieldDeclaration fd = (FieldDeclaration)node.getParentNode().get();
                     fd.setStatic(true);
-                    _macro.removeAnnotation(fd, _static.class);
                 }
             }
             return node;

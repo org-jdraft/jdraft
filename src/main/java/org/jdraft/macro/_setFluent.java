@@ -36,36 +36,6 @@ public @interface _setFluent {
             "    return this;",
             "}");
 
-    /*
-    Macro $ = new Macro();
-
-
-    class Macro implements _macro<_type> {
-
-
-        @Override
-        public String toString(){
-           return "macro[setFluent]";
-        }
-        
-        @Override
-        public _type apply(_type _t) {
-            return to( _t );
-        }
-
-        public static <T extends _type> T to(T t) {
-            List<_field> _fs = t.listFields(SET_REQUIRED);
-            if (t instanceof _method._hasMethods) {
-                _fs.forEach(f -> {
-                    _method _m = $SET_FLUENT.draft( "className", t.getName(), "name", f.getName(),"type", f.getType());
-                    ((_method._hasMethods) t).method(_m);
-                });
-            }
-            return t;
-        }
-    }
-    */
-
     class Act extends macro<_setFluent, TypeDeclaration> {
 
         public Act(){

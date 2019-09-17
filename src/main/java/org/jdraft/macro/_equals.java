@@ -8,7 +8,6 @@ import org.jdraft.proto.$stmt;
 
 import java.lang.annotation.* ;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
@@ -17,7 +16,7 @@ import java.util.function.Predicate;
  * Builds a an typesEqual(Object){...} method for all non_static FIELDS on the _type
  * Works on {@link _class} and {@link org.jdraft._enum} {@link _type}s
  *
- * @see _macro
+ * @see macro
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.TYPE_USE})
@@ -27,15 +26,15 @@ public @interface _equals {
     Predicate<_field> FIELDS_FOR_EQUALS = f -> !f.isStatic();
 
     /** template statements for typesEqual based on the field TYPE */
-    static $stmt $float = $stmt.of("eq = eq && Float.compare(this.$name$,test.$name$) == 0;");
-    static $stmt $double = $stmt.of("eq = eq && Double.compare(this.$name$,test.$name$) == 0;");
-    static $stmt $primitive = $stmt.of("eq = eq && this.$name$ == test.$name$;");
-    static $stmt $arrayOfPrimitives = $stmt.of("eq = eq && java.util.Arrays.equals(this.$name$,test.$name$);");
-    static $stmt $arrayOfObject = $stmt.of("eq = eq && java.util.Arrays.deepEquals(this.$name$,test.$name$);");
-    static $stmt $default = $stmt.of("eq = eq && java.util.Objects.equals(this.$name$,test.$name$);");
+    $stmt $float = $stmt.of("eq = eq && Float.compare(this.$name$,test.$name$) == 0;");
+    $stmt $double = $stmt.of("eq = eq && Double.compare(this.$name$,test.$name$) == 0;");
+    $stmt $primitive = $stmt.of("eq = eq && this.$name$ == test.$name$;");
+    $stmt $arrayOfPrimitives = $stmt.of("eq = eq && java.util.Arrays.equals(this.$name$,test.$name$);");
+    $stmt $arrayOfObject = $stmt.of("eq = eq && java.util.Arrays.deepEquals(this.$name$,test.$name$);");
+    $stmt $default = $stmt.of("eq = eq && java.util.Objects.equals(this.$name$,test.$name$);");
 
     /** NOTE: we made this a String (not a lambda, etc.) to improve startup perf */
-    static $method $equals = $method.of(
+    $method $equals = $method.of(
             "public boolean equals(Object o){",
             "if(o == null) {",
             "   return false;",
@@ -53,29 +52,11 @@ public @interface _equals {
             "return eq;",
             "}");
 
-
-
-    /*
-    Macro $ = new Macro();
-
-    class Macro implements _macro<_type> {
-
-        @Override
-        public String toString(){
-           return "macro[equals]";
-        }
-        
-        @Override
-        public _type apply(_type _t) {
-            return to(_t);
-        }
-
-        /** dummy class only used as a template parameter
-        private class $className${}
-    }
-     */
-
     class Act extends macro<_equals, TypeDeclaration> {
+
+        public Act(){
+            super(_equals.class);
+        }
 
         public Act(_equals _e){
             super(_e);
@@ -90,7 +71,6 @@ public @interface _equals {
         public String toString(){
             return "macro[equals]";
         }
-
 
         public static <T extends TypeDeclaration> T to (T t){
             to( (_type)_java.type(t));

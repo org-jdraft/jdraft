@@ -6,7 +6,6 @@ import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import org.jdraft.*;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import org.jdraft._draftException;
-//import draft.java.runtime._new;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;

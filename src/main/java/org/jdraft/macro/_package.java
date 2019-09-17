@@ -11,48 +11,13 @@ import java.util.function.Consumer;
  * Annotation/Macro to set the package of a {@link _type} (and optionally create a top-level type
  * from a nested/local type)
  *
- * @see _macro
+ * @see macro
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.TYPE_USE})
 public @interface _package {
 
     String value() default "";
-
-    /*
-    class Macro implements _macro<_type> {
-        String packageName;
-
-        @Override
-        public String toString(){
-           return "macro[package(\""+packageName+"\")]"; 
-        }
-        
-        public Macro( _package _p ){ this.packageName = _p.value(); }
-
-        public Macro( String packageName ){
-            this.packageName = packageName;
-        }
-
-        @Override
-        public _type apply(_type _t) {
-            return to( _t, packageName);
-        }
-
-        public static <T extends _type> T to( T _model, String packageName ){
-            if( !_model.isTopLevel() ){
-                _model.getModifiers().setStatic(false); //top level entities cannot be static
-                CompilationUnit cu = new CompilationUnit();
-                cu.addType( (TypeDeclaration)_model.ast());
-                if( packageName != null && !packageName.isEmpty()){
-                    cu.setPackageDeclaration(packageName);
-                }
-            }
-            _model.setPackage(packageName);
-            return _model;
-        }
-    }
-    */
 
     class Act extends macro<_package, TypeDeclaration> {
 

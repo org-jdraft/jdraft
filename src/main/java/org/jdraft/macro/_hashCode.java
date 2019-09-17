@@ -31,14 +31,11 @@ import java.util.function.Predicate;
  * </OL>
  * </PRE>
  *
- * @see _macro
+ * @see macro
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.TYPE_USE})
 public @interface _hashCode {
-
-     /** Static Instance */
-     //Macro $ = new Macro();
 
      /**
       * method template for hashCode with PARAMETERS:
@@ -72,7 +69,6 @@ public @interface _hashCode {
       * for all {@link _field}s depending on the {@link _field}s TYPE
       */
      class _fieldToStatement {
-        //private static Integer prime, hash;
 
          public static $stmt $default = $stmt.of( "hash = hash * prime + java.util.Objects.hashCode($name$);");
          public static $stmt $arrayOfPrimitives = $stmt.of( "hash = hash * prime + java.util.Arrays.hashCode($name$);");
@@ -110,41 +106,6 @@ public @interface _hashCode {
              return $default.draft(_f);
          }
      }
-
-     /*
-     class Macro implements _macro<_type> {
-         @Override
-         public _type apply(_type _t) {
-             return to(_t);
-         }
-
-        @Override
-        public String toString(){
-           return "macro[autoHashCode]"; 
-        }
-        
-         public static <T extends _type> T to(T _t){
-            if( _t instanceof _class){
-                _class _c = (_class)_t;
-                Tokens tokens = new Tokens(); // tokens for the {@link $HASHCODE} template
-
-                int prime = PRIMES[Math.abs(_c.getFullName().hashCode()) % PRIMES.length];
-                tokens.put("prime",prime);
-                tokens.put("seed",PRIMES[Math.abs(prime - _c.listFields(HASH_CODE_FIELD_MATCH_FN).size()) % PRIMES.length]);
-
-                if( _c.hasExtends() && !_c.isExtends(Object.class)){ //if _class extends something other than Object
-                    tokens.put("callSuperHashCode", true); // print the code at "callSuperEquals" in {@link #$HASHCODE}
-                }
-                BlockStmt body = new BlockStmt();
-                //construct Statements for all FIELDS into the BODY BlockStmt
-                _c.forFields(HASH_CODE_FIELD_MATCH_FN, f-> body.addStatement(_fieldToStatement.constructStmt(f)));
-                tokens.put("body", body); //the body:{} will be replaced with the code in the BlockStmt
-                _c.method($HASHCODE.draft(tokens));
-            }
-            return _t;
-        }
-    }
-      */
 
     class Act extends macro<_hashCode, TypeDeclaration> {
 

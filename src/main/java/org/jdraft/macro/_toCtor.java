@@ -3,9 +3,7 @@ package org.jdraft.macro;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.*;
-//import com.github.javaparser.ast.nodeTypes.NodeWithConstructors;
 import org.jdraft._draftException;
-import org.jdraft._walk;
 import org.jdraft._constructor;
 import org.jdraft._method;
 
@@ -16,7 +14,6 @@ import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -49,48 +46,6 @@ import java.util.stream.Collectors;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface _toCtor {
-
-    /*
-    Macro $ = new Macro();
-    
-    class Macro implements _macro<_method>{
-
-        @Override
-        public String toString(){
-           return "macro[ctor]"; 
-        }
-
-
-        
-
-
-        
-        @Override
-        public _method apply(_method _m) {
-            _m.removeAnnos(_toCtor.class);
-            List<TypeDeclaration>tds = new ArrayList<>();
-            _walk.parents( _m, TypeDeclaration.class, t-> tds.add(t) );
-            if( ! (tds.size() > 0 )){
-                throw new _draftException("no TypeDeclaration parent for "+_m+" to convert to constructor ");
-            }
-            TypeDeclaration astParentType = tds.get(0);
-            _constructor _ct = fromMethod( _m );
-            astParentType.addMember( _ct.ast() );
-            boolean removed = astParentType.remove( _m.ast() );
-            if( ! removed ){
-                throw new _draftException("Unable to remove "+_m+" from parent TYPE");
-            }
-            // set the name of the constructor to the name of 
-            // the parent type (since it's no longer a method
-            //System.out.println( astParentType.getNameAsString() + " " +astParentType.getClass() + " "+ astParentType.getParentNode().get().getClass() );
-            if( !astParentType.getNameAsString().equals("temp") ){
-                _ct.name(astParentType.getNameAsString());
-            }
-            //note this is dangerous, seeing as _m is removed... but we'll return it
-            return _m;
-        }
-    }
-     */
 
     class Act extends macro<_toCtor, MethodDeclaration> {
 
@@ -167,19 +122,13 @@ public @interface _toCtor {
             cd.setThrownExceptions( _ct.getThrows().ast());
             cd.setJavadocComment( _ct.getJavadoc().ast());
             cd.setAnnotations( _ct.getAnnos().ast());
-            //System.out.println( "Trying to REMMMOOOOOVVVVVVVVVEEEEEEE");
             cd.getAnnotations().removeIf( a -> a.getNameAsString().equals(_toCtor.class.getName() ) || a.getNameAsString().equals(_toCtor.class.getCanonicalName()) );
 
             //remove the old method
             boolean isRemoved = methodDeclaration.remove();
-            //System.out.println( "REMOVED "+isRemoved);
-
-            //System.out.println(" ************ "+td );
-            //System.out.println(" >>>>>>>> "+cd );
             if( !td.getNameAsString().equals("temp") ){
                 cd.setName( td.getNameAsString());
             }
-            //System.out.println(" >>>>>>>> "+ cd );
             return cd;
         }
     }

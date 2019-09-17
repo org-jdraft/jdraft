@@ -24,42 +24,6 @@ import java.util.stream.Collectors;
 @Target({ElementType.TYPE, ElementType.TYPE_USE})
 public @interface _set {
 
-    /*
-    Macro $ = new Macro();
-
-    class Macro implements _macro<_type> {
-
-        public static final Macro INSTANCE = new Macro();
-
-        //picks _fields of the _class that are required in the constructor
-        public static Predicate<_field> SET_FIELDS = _f -> !_f.isStatic() && !_f.isFinal();
-
-        //template method for a setXXX() method
-        public static $method $SET = $method.of(
-            "public void set$Name$($type$ $name$){ this.$name$ = $name$; }" );
-
-        @Override
-        public String toString(){
-           return "macro[set]";
-        }
-        
-        @Override
-        public _type apply(_type _t) {
-            return to( _t );
-        }
-
-        public static <T extends _type> T to(T t) {
-            if (t instanceof _method._hasMethods) {
-                List<_field> _fs = t.listFields(SET_FIELDS);
-                _fs.forEach(f ->
-                        ((_method._hasMethods) t).method($SET.draft("name", f.getName(), "type", f.getType()))
-                );
-            }
-            return t;
-        }
-    }
-    */
-
     /** template method for a setXXX() method */
     $method $SET = $method.of(
             "public void set$Name$($type$ $name$){ this.$name$ = $name$; }" );

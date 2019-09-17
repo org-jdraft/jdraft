@@ -23,7 +23,7 @@ import java.util.function.Consumer;
  * {@link org.jdraft._method}, or {@link org.jdraft._constructor}.<BR>
  *
  * when processed by
- * {@link _macro#to(Class, _type)}
+ * {@link macro#to(Class, _type)}
  *
  * example:
  * <PRE>
@@ -35,7 +35,7 @@ import java.util.function.Consumer;
  *
  *         @_public void print(){}
  *     }
- *     _class _c = _macro._class(D.class);
+ *     _class _c = _class.of(D.class);
  * }
  *     where _c is:
  *     //  public class D{
@@ -52,39 +52,11 @@ import java.util.function.Consumer;
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.TYPE_USE})
 public @interface _public {
 
-    /**
-    Macro $ = new Macro();
-
-     * Because this static member class implements _macro, it can be processed by
-     * {@link _macro#to(Class, _type)}
-     *
-     * to _2_template the model
-
-    class Macro implements _macro<_anno._hasAnnos> {
-
-        @Override
-        public String toString(){
-           return "macro[public]"; 
-        }
-        
-        @Override
-        public _anno._hasAnnos apply(_anno._hasAnnos _annotatedModel) {
-            return to(_annotatedModel);
-        }
-
-         * Apply this Macro directly to the
-         * @param _model
-         * @param <T>
-         * @return
-
-        public static <T extends _anno._hasAnnos> T to( T _model ){
-            ((_modifiers._hasModifiers) _model).getModifiers().setPublic();
-            return _model;
-        }
-    }
-     */
-
     class Act extends macro<_public, Node> {
+
+        public Act(){
+            super(_public.class);
+        }
 
         public Act(_public _p){
             super(_p);
@@ -106,12 +78,10 @@ public @interface _public {
                 nwp.setModifier(Modifier.Keyword.PRIVATE, false);
                 nwp.setModifier(Modifier.Keyword.PROTECTED, false);
                 nwp.setPublic(true);
-                //_macro.removeAnnotation(node, _public.class);
             } else{
                 if( node instanceof VariableDeclarator ){
                     FieldDeclaration fd = (FieldDeclaration)node.getParentNode().get();
                     fd.setPublic(true);
-                    //_macro.removeAnnotation(fd, _public.class);
                 }
             }
             return node;
