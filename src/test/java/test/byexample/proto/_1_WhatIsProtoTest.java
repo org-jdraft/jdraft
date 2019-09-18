@@ -108,7 +108,6 @@ public class _1_WhatIsProtoTest extends TestCase {
         // matchAnyPrototype by calling isMatchAny()
         assertTrue( $anyNode.isMatchAny() );
 
-
         // matchAny prototypes are also used for matching any nodes of a certain type/category
         // for example: the building blocks of most java code are "Expressions" which are
         // implementations of {@link com.github.javaparser.ast.expr.Expression}
@@ -153,9 +152,6 @@ public class _1_WhatIsProtoTest extends TestCase {
         });
 
         //the following $method proto representations will match it
-
-
-
         assertTrue( $method.of().matches(_getX) ); //anyMatch $method will match it of course
         assertTrue( $method.of($.PUBLIC).matches(_getX) ); //match only public methods
         assertTrue( $method.of($.NOT_STATIC).matches(_getX) ); //match only NON-static methods
@@ -165,7 +161,8 @@ public class _1_WhatIsProtoTest extends TestCase {
         assertTrue( $method.of( $body.of("return this.$name$;")).matches(_getX)); //with specific body
 
         assertFalse( $method.of($.PRIVATE ).matches(_getX));
-        assertFalse( $method.of($.PRIVATE).matches(_getX));
+        assertFalse( $method.of($id.of("getY")).matches(_getX));
+        assertFalse( $method.of($id.of("getY")).matches(_getX));
 
         $method $m = $method.of( $.PUBLIC, $.NOT_STATIC, $id.of("get$Name$"), $typeRef.of("$type$"), $body.of("return this.$name$;") );
         assertTrue($m.matches(_getX));
@@ -180,19 +177,25 @@ public class _1_WhatIsProtoTest extends TestCase {
     }
 
     /**
-     * prototypes are also mutable, so you can add constraints after construction
+     * prototypes are mutable, constraints and modifications can be changed after construction
      */
-    public void testAddConstraints(){
-
+    public void test$andConstraint(){
         $field $f = $field.of( "int i;");
 
+        assertTrue($f.matches("int i;"));
+        assertTrue($f.matches("static int i;"));
+        assertTrue($f.matches("@A(1) public static int i;"));
+
+        /* Modify $f (only match fields that have an init) */
+        $f.$and(f -> f.hasInit() ); //modify the prototype $f to be more strict
+
+        assertFalse($f.matches("int i;")); //no init
+        assertFalse($f.matches("static int i;")); //no init
+        assertFalse($f.matches("@A(1) public static int i;")); //no init
+
+        assertTrue( $f.matches("int i=0;"));
     }
 
-    public void testProtoDraftSpecialization(){
-        // prototypes can be specialized in a way that can produce a meta-representation version
-        // using the draft() (or sometimes the fill() ) method
-        _field _f = $field.of("int i;").draft();
-    }
 
     public void testDollarPrefix(){
         // prototypes are easily recognized by the $ prefix

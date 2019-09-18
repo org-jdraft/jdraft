@@ -121,6 +121,15 @@ public final class $annotation
         return select(_a) != null;
     }
 
+
+    public boolean matches( Class clazz){
+        try {
+            return matches(Ast.annotationDecl(clazz));
+        }catch(Exception e){
+            return false;
+        }
+    }
+
     public boolean matches(CompilationUnit cu){
         if( cu != null){
             if( cu.getTypes().size() == 1 && cu.getType(0) instanceof AnnotationDeclaration){
@@ -161,6 +170,9 @@ public final class $annotation
     @Override
     public Select select(_annotation instance) {
 
+        if(!this.constraint.test(instance)){
+            return null;
+        }
         //$tokens.to will short circuit
         // IF "tokens" is null: return null (without running the lambda)
         // IF "tokens" is not null : run the lambda and derive "NewTokens" of Map<String,Object>

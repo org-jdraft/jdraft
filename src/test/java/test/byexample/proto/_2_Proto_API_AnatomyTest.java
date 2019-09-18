@@ -2,10 +2,12 @@ package test.byexample.proto;
 
 import junit.framework.TestCase;
 import org.jdraft.Ex;
+import org.jdraft._class;
 import org.jdraft._method;
 import org.jdraft.proto.*;
 import org.jdraft.proto.$node.Select;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -24,11 +26,11 @@ public class _2_Proto_API_AnatomyTest extends TestCase {
         _method _m = _method.of("public int m();");
         assertTrue( $m.matches(_m));
 
-        // by convention prototypes should all have a field called "constraint"
-        // it's a predicate for matching against...
+        // by convention prototypes have a field called "constraint"
+        // it's a predicate for matching against the
+        // meta-representation/AST representation/String representation...
         // by default the constraint will match ANYTHING (even null)
         assertTrue( $m.constraint.test(null));
-
 
         //we can modify the constraint by calling the $and(...) method
         $m.$and(m -> m.isImplemented());
@@ -36,16 +38,27 @@ public class _2_Proto_API_AnatomyTest extends TestCase {
         //now testing the $m against our example method will not match
         //(because the example _m is not implemented)
         assertFalse($m.matches(_m));
+
+        //here is an example of a matching method (as a String representation)
+        assertTrue( $m.matches("public void m(){}"));
     }
 
     /**
      * one or more Stencil "patterns" can also be used for defining
      * the
      */
-    public void testStencil(){
+    public void testParameterizedProto(){
+        //this $method models a specific get method (with a specific form, type and name)
+        // it is NOT-PARAMETERIZED (no $param$s) and can be used for matching
+        // it is very strict in that the variable name must be "x" and type must be int
+        $method $getX = $method.of("public int getX(){ return this.x; }");
+
+        //If we want to be MORE GENERAL, i.e. if we want to accept/match the set of ALL
+        //"getter methods", we can
+
+        //we can create a "parameterized" prototype to help
         //we can use a Stencil to match against the text/code of each com
         $method $getMethod = $method.of("public $type$ get$Name$(){ return this.$name$; }");
-
 
         /** Heres some example */
         class Get{
@@ -67,6 +80,40 @@ public class _2_Proto_API_AnatomyTest extends TestCase {
         }
 
         assertEquals( 2, $getMethod.count(Get.class));
+
+
+
+    }
+
+    public void testExampleSerializableClassWithSerialVersionUID(){
+        //this will represent all serialVersionUid fields within code
+        $field $serialVersionUid = $field.of("static long serialVersionUID;").$and(f-> f.hasInit());
+
+        //classes that implement Serializable AND have a serialVersionUnid
+        $class $hasSVUID = $class.of().$implement(Serializable.class).$and( c-> $serialVersionUid.count(c) >= 1);
+
+        //this represents a class that IMPLEMENTS serializable and DOES NOT have a SerialVersionUid field
+        $class $missingSVUID = $class.of().$implement(Serializable.class).$and( c-> $serialVersionUid.count(c) ==0);
+
+        class hasSVUID implements Serializable{
+            public static final long serialVersionUID = 12345L;
+        }
+        class noSVUID implements Serializable{
+
+        }
+        assertEquals(1, $serialVersionUid.count(hasSVUID.class));
+        assertEquals(0, $serialVersionUid.count(noSVUID.class));
+
+        assertTrue( $hasSVUID.matches(hasSVUID.class));
+
+        assertFalse( $hasSVUID.matches(noSVUID.class));
+
+        assertTrue( $missingSVUID.matches(noSVUID.class) );
+        assertFalse( $missingSVUID.matches(hasSVUID.class) );
+
+
+
+        //$class.of().$implement(Serializable.class).$hasChild($serialVersionUid);
     }
 
     public void testWhenToUsePatternAndWhenToUseConstraint(){

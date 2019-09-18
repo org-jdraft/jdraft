@@ -46,6 +46,11 @@ public interface $proto<P, $P extends $proto>{
      */
     $P $and(Predicate<P> constraint );
 
+
+    default $P $not(Predicate<P> constraint){
+        return $and( constraint.negate() );
+    }
+
     /**
      *
      * @param map

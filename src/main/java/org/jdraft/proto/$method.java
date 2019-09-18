@@ -81,8 +81,6 @@ public final class $method
      * @return
      */
     public static $method of(){
-        //return new $method(_method.of("$anyMethod$") ).anyBody();
-        //return new $method(_method.of("$type$ $name$();") ).anyBody();
         return new $method(_method.of("$type$ $name$();") ).anyBody();
     }
     

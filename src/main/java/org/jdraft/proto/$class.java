@@ -166,6 +166,15 @@ public final class $class
             return false;
         }
     }
+
+    public boolean matches( Class clazz){
+        try {
+            return matches(Ast.classDecl(clazz));
+        }catch(Exception e){
+            return false;
+        }
+    }
+
     public boolean matches(CompilationUnit cu){
         if( cu != null){
             if( cu.getTypes().size() == 1 && cu.getType(0) instanceof ClassOrInterfaceDeclaration){
@@ -214,6 +223,9 @@ public final class $class
         // IF "tokens"/"NewTokens" ARE NOT consistent (i.e. at least one var is assigned (2) distinct values) : return null
         // IF "tokens"/NewTokens" ARE consistent : return the "composite" tokens list (the union of "tokens" & "NewTokens")
         //$tokens tokens = this.headerComment.parse(instance);
+        if(!this.constraint.test(instance)){
+            return null;
+        }
         $tokens tokens = $type.selectImports(this.imports, instance);
         //$tokens tokens = this.packageDecl.parse(instance.astCompilationUnit() );
         tokens = $tokens.to( tokens, ()-> this.packageDecl.parse(instance.astCompilationUnit() ) );

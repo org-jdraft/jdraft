@@ -164,6 +164,14 @@ public final class $enum
         return false;
     }
 
+    public boolean matches( Class clazz){
+        try {
+            return matches(Ast.enumDecl(clazz));
+        }catch(Exception e){
+            return false;
+        }
+    }
+
     public boolean matches(TypeDeclaration td ){
         if( td instanceof EnumDeclaration ){
             return matches( (EnumDeclaration) td);
@@ -192,6 +200,9 @@ public final class $enum
     @Override
     public Select select(_enum instance) {
 
+        if(!this.constraint.test(instance)){
+            return null;
+        }
         //$tokens.to will short circuit
         // IF "tokens" is null: return null (without running the lambda)
         // IF "tokens" is not null : run the lambda and derive "NewTokens" of Map<String,Object>

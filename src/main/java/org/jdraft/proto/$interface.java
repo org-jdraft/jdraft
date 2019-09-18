@@ -152,6 +152,15 @@ public final class $interface
         return false;
     }
 
+
+    public boolean matches( Class clazz){
+        try {
+            return matches(Ast.interfaceDecl(clazz));
+        }catch(Exception e){
+            return false;
+        }
+    }
+
     public boolean matches(TypeDeclaration td ){
         if( td instanceof ClassOrInterfaceDeclaration ){
             return matches( (ClassOrInterfaceDeclaration) td);
@@ -180,6 +189,9 @@ public final class $interface
     @Override
     public Select select(_interface instance) {
 
+        if(!this.constraint.test(instance)){
+            return null;
+        }
         //$tokens.to will short circuit
         // IF "tokens" is null: return null (without running the lambda)
         // IF "tokens" is not null : run the lambda and derive "NewTokens" of Map<String,Object>
