@@ -159,6 +159,13 @@ public final class $class
         return select(_c) != null;
     }
 
+    public boolean matches(String...code){
+        try{
+            return matches(Ast.of(code));
+        } catch(Exception e){
+            return false;
+        }
+    }
     public boolean matches(CompilationUnit cu){
         if( cu != null){
             if( cu.getTypes().size() == 1 && cu.getType(0) instanceof ClassOrInterfaceDeclaration){

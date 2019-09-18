@@ -37,6 +37,8 @@ import java.util.stream.Collectors;
  */
 public interface $proto<P, $P extends $proto>{
 
+    boolean isMatchAny();
+
     /**
      * Add an (AND) matching constraint for matching the $proto against an instance of P
      * @param constraint a constraint on the instance of P

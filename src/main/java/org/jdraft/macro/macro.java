@@ -168,7 +168,7 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
         List<TypeDeclaration> ncd = new ArrayList<>();
         td.getMembers().forEach(m -> {
             if( m instanceof TypeDeclaration){
-                System.out.println("A MEMBER "+ m);
+                //System.out.println("A MEMBER "+ m);
                 ncd.add( (TypeDeclaration)m);
             }
         } );

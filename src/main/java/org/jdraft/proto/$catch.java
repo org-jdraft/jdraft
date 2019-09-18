@@ -337,6 +337,14 @@ public final class $catch implements $proto<CatchClause, $catch> {
         }
         return null;        
     }
+
+    public boolean isMatchAny(){
+        try{
+            return this.constraint.test(null) && this.$param.isMatchAny() && this.$bd.isMatchAny();
+        } catch(Exception e){
+            return false;
+        }
+    }
     
     public static class Select 
         implements $proto.selected, selectAst<CatchClause> {

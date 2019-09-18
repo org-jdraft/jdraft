@@ -12,7 +12,8 @@ import java.util.function.Predicate;
  * 
  */
 public final class $id implements $constructor.$part, $method.$part, $field.$part,
-        $parameter.$part, $typeParameter.$part, $var.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part {
+        $parameter.$part, $typeParameter.$part, $var.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part,
+        $enumConstant.$part{
 
     public static $id of(){
         return $id.of("$id$");

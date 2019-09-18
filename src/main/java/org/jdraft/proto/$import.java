@@ -130,7 +130,18 @@ public final class $import
      * NOTE: if isWildcard is false, this will still match wildcard imports
      */
     public final Boolean isWildcard;
-    
+
+
+    @Override
+    public boolean isMatchAny(){
+        try{
+            return this.constraint.test(null) && this.importStencil.isMatchAny() && this.isStatic == null
+                    && this.isWildcard == null;
+        } catch(Exception e){
+            return false;
+        }
+    }
+
     private $import(_import proto ){
         if( proto.isWildcard() ){
             this.importStencil = Stencil.of( proto.getName()+".*" );

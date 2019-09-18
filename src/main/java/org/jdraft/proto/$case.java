@@ -123,6 +123,14 @@ public final class $case
     }
 
 
+    public boolean isMatchAny(){
+        try{
+            return this.constraint.test(null) && this.label.isMatchAny() && this.statements.isEmpty();
+        } catch(Exception e){
+            return false;
+        }
+    }
+
     public Select select( SwitchEntry astSwitchEntry ){
         if( ! constraint.test(astSwitchEntry)){
             return null;

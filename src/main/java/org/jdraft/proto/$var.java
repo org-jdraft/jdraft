@@ -356,10 +356,12 @@ public final class $var
      * Select/match only variables that do not have an init
      * @return 
      */
-    public $var noInit(){
+    public $var $noInit(){
         return $and(v -> !v.getInitializer().isPresent());
     }
-    
+
+
+
     public <E extends Expression> $var $init( E initExprProto){
         this.init = $ex.of(initExprProto);
         return this;
@@ -393,7 +395,17 @@ public final class $var
      */
     public boolean matches( VariableDeclarator astVar ){
         return select(astVar ) != null;
-    }   
+    }
+
+    @Override
+    public boolean isMatchAny(){
+        try{
+            return this.constraint.test(null) && this.init.isMatchAny() && this.type.isMatchAny()
+                    && this.name.isMatchAny();
+        } catch(Exception e){
+            return false;
+        }
+    }
 
     /**
      * 

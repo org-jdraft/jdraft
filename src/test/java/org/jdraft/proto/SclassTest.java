@@ -129,6 +129,9 @@ public class SclassTest extends TestCase {
 
         //ensure I can use a $class to match against a local Class (here a class named "G")
         assertEquals(1, $class.of( $.name("G") ).count(_c));
+
+        //find a nested type named "G" that has a parent named "HHH"
+        assertEquals(1, $class.of( $.name("G") ).$hasParent($class.of($.name("HHH"))).count(_c));
     }
 
     public void testHasDescendant(){

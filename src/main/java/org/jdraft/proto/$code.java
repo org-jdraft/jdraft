@@ -355,6 +355,11 @@ public final class $code implements Template<List<Statement>>, $proto<List<State
         return false;
     }
 
+    @Override
+    public boolean isMatchAny(){
+        return false;
+    }
+
     public boolean matches( List<Statement> stmts ){
         throw new _draftException("Cant do this yet...addded for _proto convenience");
     }

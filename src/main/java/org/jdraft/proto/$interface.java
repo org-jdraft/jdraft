@@ -31,15 +31,11 @@ public final class $interface
     public $typeParameters typeParameters = $typeParameters.of();
     public $id name = $id.of("$interfaceName$"); //name required
 
-    //body parts
-    //public List<$constructor> ctors = new ArrayList<>();
     public List<$field> fields = new ArrayList<>();
     public List<$method> methods = new ArrayList<>();
-    //public List<$initBlock> initBlocks = new ArrayList<>();
 
 
     public List<$typeRef> extend = new ArrayList<>(); //$typeRef.of();
-    //public List<$typeRef> implement = new ArrayList<>();
 
     //nested types???
 
@@ -116,8 +112,6 @@ public final class $interface
         this.name = this.name.hardcode$(translator, kvs);
         this.packageDecl = this.packageDecl.hardcode$(translator, kvs);
         this.typeParameters = this.typeParameters.hardcode$(translator, kvs);
-
-        //extends
         this.extend.forEach( i-> i.hardcode$(translator, kvs));
         //still need nests
 
@@ -224,7 +218,6 @@ public final class $interface
 
     public $interface $javadoc(Predicate<JavadocComment> javadocMatchFn ){
         this.javadoc = $comment.javadocComment(javadocMatchFn);
-        //System.out.println( this.javadoc.commentClasses);
         return this;
     }
 
@@ -342,8 +335,6 @@ public final class $interface
         Arrays.stream($tps).forEach(tp-> this.typeParameters.$add(tp));
         return this;
     }
-
-
 
     @Override
     public boolean match(Node candidate) {

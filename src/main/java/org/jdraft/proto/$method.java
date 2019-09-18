@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
  */
 public final class $method
     implements Template<_method>, $proto<_method, $method>, $proto.$java<_method,$method>, $class.$part,
-        $interface.$part, $enum.$part {
+        $interface.$part, $enum.$part,$enumConstant.$part {
 
 
     public Class<_method> javaType(){

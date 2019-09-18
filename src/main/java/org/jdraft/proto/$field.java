@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
  * @author Eric
  */
 public final class $field implements Template<_field>, $proto<_field, $field>,
-        $proto.$java<_field, $field>, $class.$part, $interface.$part, $enum.$part, $annotation.$part{
+        $proto.$java<_field, $field>, $class.$part, $interface.$part, $enum.$part, $annotation.$part,$enumConstant.$part{
 
     public Class<_field> javaType(){
         return _field.class;
@@ -431,6 +431,16 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
         return this;
     }
 
+    @Override
+    public boolean isMatchAny(){
+        try{
+            return this.constraint.test(null) && this.init.isMatchAny() && this.annos.isMatchAny() && this.type.isMatchAny()
+                    && this.javadoc.isMatchAny() && this.name.isMatchAny() && this.modifiers.isMatchAny();
+        } catch(Exception e){
+            return false;
+        }
+    }
+
     /**
      * Adds ANOTHER constraint to the existing _field level constraint
      * @param constraint
@@ -737,7 +747,12 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
             return false;
         }
     }
-    
+
+    public boolean matches(FieldDeclaration fd ){
+        List<_field> fds = _field.of(fd);
+        return fds.size() == 1 && matches(fds.get(0));
+    }
+
     /**
      * does this variable match the prototype
      * @param astVar

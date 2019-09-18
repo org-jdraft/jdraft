@@ -117,6 +117,14 @@ public final class $node implements $proto<Node, $node> {
         return this;
     }
 
+    public boolean isMatchAny(){
+        try{
+            return this.nodeStencil.isMatchAny() && this.constraint.test(null);
+        } catch(Exception e){
+            return false;
+        }
+    }
+
     public boolean match(Node node ){
         return select(node) != null;
     }

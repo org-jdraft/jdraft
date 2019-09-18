@@ -1466,6 +1466,23 @@ public final class $$ {
         return ($stmt<SynchronizedStmt>)$stmt.of(ss);
     }
 
+
+    public static $throws throwsDecl(){
+        return $throws.of();
+    }
+
+    public static $throws throwsDecl(String...th){
+        return $throws.of(th);
+    }
+
+    public static $throws throwsDecl(_throws ts){
+        return $throws.of(ts);
+    }
+
+    public static $throws throwsDecl(Predicate<_throws> ts){
+        return $throws.of().$and( ts);
+    }
+
     public static $stmt<ThrowStmt> throwStmt(){
         return $stmt.throwStmt();
     }

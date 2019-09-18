@@ -113,7 +113,6 @@ public interface _java {
         return false;
     }
 
-
     /**
      * Check to see if this java entity has an Ancestor(parents, grandparents...) that
      * matches the type and matchFn

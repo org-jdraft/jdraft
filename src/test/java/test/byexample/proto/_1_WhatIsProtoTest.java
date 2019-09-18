@@ -1,12 +1,20 @@
 package test.byexample.proto;
 
+import com.github.javaparser.ast.body.FieldDeclaration;
 import junit.framework.TestCase;
-import org.jdraft.proto.$;
-import org.jdraft.proto.$$;
-import org.jdraft.proto.$ex;
-import org.jdraft.proto.$node;
+
+import org.jdraft.Ast;
+import org.jdraft.Ex;
+import org.jdraft._field;
+import org.jdraft._method;
+import org.jdraft.proto.*;
 
 /**
+ * Proto representation org.jdraft.proto.$field
+ *     Meta Representation org.jdraft._field
+ *         Ast Representation org.github.javaparser.ast.body.FieldDeclaration
+ *             String Representation
+ *     Runtime Representation java.lang.reflect.Field
  * tags:
  *
  * $proto.$
@@ -18,6 +26,185 @@ import org.jdraft.proto.$node;
  * $proto($expr) $hasParent()
  */
 public class _1_WhatIsProtoTest extends TestCase {
+
+    /**
+     * the proto abstraction is a level of abstraction above the meta-representation.
+     * For example a meta-representation of a field :
+     * _field _f = _field.of("int i;");
+     * ...represents a (single) field that is EXACTLY "int" type and name "i"
+     * (with no modifiers, no annotations, no javadoc, no initial value)
+     */
+    public void test_MetaRepresentationV$ProtoRepresentation(){
+
+        // a meta-representation of a _field (_f):
+        //...represents a SPECIFIC field that is EXACTLY "int" type and name "i"
+        //(ALSO with no modifiers, no annotations, no javadoc, no initial value)
+        //meta-representations are EXPLICITLY PRECISE, meaning they are EXACT in specification
+        _field _f = _field.of("int i;");
+
+        // a prototype-representation of a field ($f)
+        // ...represents ANY field that has the type "int" and name "i"
+        // (it MAY have ANY modifiers, ANY annotations, ANY javadoc, ANY initial value)
+        // prototype-representations are IMPLICITLY LENIENT, meaning:
+        // they match SIMILAR VARIANTS provided there is NO CONFLICT
+        //... so you can say the prototype below MATCHES/EXPECTS int and i, (for type and name)
+        // AND ACCEPTS any VARIANT for any other properties (annos, javadoc, modifiers, init value)
+        $field $f = $field.of("int i;");
+
+        //For categorization:
+        // we can ask the prototype if any String representation,
+        // AST representation(FieldDeclaration), or meta-representation (_field) matches the
+        // prototype instance by using match(...) or matches(...)
+        assertTrue( $f.matches("int i;")); //the string representation matches the prototype
+        FieldDeclaration astField = Ast.field("int i;"); //Ast representation
+        assertTrue( $f.matches( astField)); //the AST representation matches the prototype
+        assertTrue( $f.matches(_f) ); //the meta-representation matches the prototype
+
+        //...$f doesn't only match a single explicit field representation
+        // but other representations (by default, prototypes are "IMPLICITLY LENIENT")
+        // or another way of putting it: it will match UNLESS YOU EXPLICITLY SPECIFY what to NOT MATCH.
+
+        //in this case, the proto representation $f matches against ANY field declaration with name "i" and type "int"
+        assertTrue( $f.matches("int i = 0;")); //with init
+        assertTrue( $f.matches("public static final int i;")); //with modifiers
+        assertTrue( $f.matches("public static final int i = 0;")); //with modifiers & init
+        assertTrue( $f.matches("/** javadoc */ @ann public static final int i = methodCall(5+4);")); //
+
+        //while _f (the meta representation) will only match fields that are EXACTLY name "i" & type "int"
+        //(meta-representation perform matching (to String representations) using the is(...) method
+        assertTrue( _f.is("int i;")); //string exact matches
+        assertTrue( _f.is(Ast.field("int i;"))); //FieldDeclaration exact matches
+        assertTrue( _f.equals(_field.of("int i;"))); //another _field exact matches
+        //... (AND NOTHING ELSE)
+        assertFalse( _f.is("int i = 0;"));
+        assertFalse( _f.is("public static final int i;"));
+        assertFalse( _f.is("public static final int i = 0;"));
+        assertFalse( _f.is("/** javadoc */ @ann public static final int i = methodCall(5+4);"));
+    }
+
+    //Prototypes are IMPLICITLY LENIENT by default,
+    // so the LESS constraints we provide the MORE a prototype will match against candidates
+    // prototypes with NO constraints are called "MatchAny" prototypes
+    //and we can be very granular as to HOW LENIENT we want to be (what we "match against").
+    public void testProtoMatchAny(){
+
+        /**
+         * $node represents ANY ast node...
+         * All entities that make up Java code are Ast Nodes all inherit from {@link com.github.javaparser.ast.Node}
+         * (i.e. {@link com.github.javaparser.ast.expr.Expression}, //any expression
+         * {@link com.github.javaparser.ast.expr.BinaryExpr), //a binary expression
+         * {@link com.github.javaparser.ast.expr.BinaryExpr), //a binary expression
+         */
+        $node $anyNode = $node.of();
+
+        //...from a simple atomic IntLiteral ("1")
+        assertTrue($anyNode.match( Ex.of(1) ));
+
+        //...to a 100+ line composite CompilationUnit made of other nodes
+        assertTrue($anyNode.match( Ast.of(_1_WhatIsProtoTest.class) ));
+
+        //...prototypes instanced that will match ANY implementation are "special"
+        // they are called "matchAny" prototypes, you can find out if a
+        // matchAnyPrototype by calling isMatchAny()
+        assertTrue( $anyNode.isMatchAny() );
+
+
+        // matchAny prototypes are also used for matching any nodes of a certain type/category
+        // for example: the building blocks of most java code are "Expressions" which are
+        // implementations of {@link com.github.javaparser.ast.expr.Expression}
+        $ex $anyExpression = $ex.of();
+        assertTrue( $anyExpression.isMatchAny() ); //matches any expression
+        assertTrue( $anyExpression.matches("1") ); //match an int literal
+        assertTrue( $anyExpression.matches("()->System.out.println(1)")); //a lambda expression
+
+        //match any statement
+        $stmt $anyStmt = $stmt.of();
+        assertTrue( $anyStmt.isMatchAny() );
+        assertTrue( $anyStmt.matches("assert (true); ") );
+        assertTrue( $anyStmt.matches("return 100") );
+
+        //match any Field
+        $field $anyField = $field.of();
+        assertTrue( $anyField.isMatchAny());
+        assertTrue( $anyField.matches("int i;"));
+        assertTrue( $anyField.matches("public static final int i=213;"));
+
+        //match any Method
+        $method $anyMethod = $method.of();
+        assertTrue( $anyMethod.isMatchAny() );
+        assertTrue( $anyMethod.matches("public void m();") );
+
+        //match any Class
+        $class $anyClass = $class.of();
+        assertTrue( $anyClass.isMatchAny());
+        assertTrue( $anyClass.matches("public class AnyClass{}") );
+    }
+
+    /**
+     * Composite Prototypes (ones with multiple parts) can be built by their component
+     */
+    public void testProtoFromComponentParts(){
+        //a meta-representation of a simple getter method
+        _method _getX = _method.of(new Object(){
+            public int getX(){
+                return this.x;
+            }
+            int x;
+        });
+
+        //the following $method proto representations will match it
+
+
+
+        assertTrue( $method.of().matches(_getX) ); //anyMatch $method will match it of course
+        assertTrue( $method.of($.PUBLIC).matches(_getX) ); //match only public methods
+        assertTrue( $method.of($.NOT_STATIC).matches(_getX) ); //match only NON-static methods
+        assertTrue( $method.of($id.of("getX")).matches(_getX) ); //method with name matching stencil get$Name$
+        assertTrue( $method.of($id.of("get$Name$")).matches(_getX) ); //method with name matching stencil get$Name$
+        assertTrue( $method.of( $typeRef.of(int.class)).matches(_getX) ); //methods with int return type
+        assertTrue( $method.of( $body.of("return this.$name$;")).matches(_getX)); //with specific body
+
+        assertFalse( $method.of($.PRIVATE ).matches(_getX));
+        assertFalse( $method.of($.PRIVATE).matches(_getX));
+
+        $method $m = $method.of( $.PUBLIC, $.NOT_STATIC, $id.of("get$Name$"), $typeRef.of("$type$"), $body.of("return this.$name$;") );
+        assertTrue($m.matches(_getX));
+
+        //a prototype via stencil
+        assertTrue( $method.of(new Object(){
+            public int get$Name$(){
+                return this.$name$;
+            }
+            int $name$;
+        }).matches(_getX) );
+    }
+
+    /**
+     * prototypes are also mutable, so you can add constraints after construction
+     */
+    public void testAddConstraints(){
+
+        $field $f = $field.of( "int i;");
+
+    }
+
+    public void testProtoDraftSpecialization(){
+        // prototypes can be specialized in a way that can produce a meta-representation version
+        // using the draft() (or sometimes the fill() ) method
+        _field _f = $field.of("int i;").draft();
+    }
+
+    public void testDollarPrefix(){
+        // prototypes are easily recognized by the $ prefix
+        // a prototype field ($field) is easy to distinguish
+        // ...from a meta-representation of a field (_field)
+        // ...from a AST representation of a field (FieldDeclaration)
+        // ...from a Runtime Reflective representation of a field ( Field)
+
+        //by convention, we use the $ prefix as the variable name($f), so it is easy to distinguish
+
+
+    }
 
     @interface LitAnno{
         int value();

@@ -8,10 +8,7 @@ import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.JavadocComment;
 import org.jdraft.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -35,6 +32,7 @@ public final class $enum
     public List<$field> fields = new ArrayList<>();
     public List<$method> methods = new ArrayList<>();
     public List<$initBlock> initBlocks = new ArrayList<>();
+    public List<$enumConstant> enumConstants = new ArrayList<>();
 
 
     //public $typeRef extend = $typeRef.of();
@@ -92,6 +90,9 @@ public final class $enum
                 this.modifiers.mustExclude.addAll(ms.mustExclude);
                 this.modifiers.$and(ms.constraint);
             }
+            if( parts[i] instanceof $enumConstant ){
+                this.enumConstants.add( ($enumConstant)parts[i] );
+            }
             if( parts[i] instanceof $id ){
                 this.name = ($id)parts[i];
             }
@@ -100,7 +101,6 @@ public final class $enum
             }
             //Need constant
             //Nested classes
-            //doesnt do javadoc, headercomment, extend, implement
         }
     }
 
@@ -117,6 +117,8 @@ public final class $enum
         this.modifiers.hardcode$(translator, kvs);
         this.name = this.name.hardcode$(translator, kvs);
         this.packageDecl = this.packageDecl.hardcode$(translator, kvs);
+
+        this.enumConstants.forEach(e-> e.hardcode$(translator, kvs));
 
         this.implement.forEach( i-> i.hardcode$(translator, kvs));
         //need $constants
@@ -135,14 +137,11 @@ public final class $enum
                  this.methods.isEmpty() &&
                  this.initBlocks.isEmpty() &&
                  this.imports.isEmpty() &&
-
+                 this.enumConstants.isEmpty() &&
                  this.javadoc.isMatchAny() &&
                  this.modifiers.isMatchAny() &&
                  this.packageDecl.isMatchAny() &&
-
-                 //extends, implements
                  this.implement.isEmpty();
-                 //this.constants
             //NESTS
         } catch(Exception e){
             return false;
@@ -209,6 +208,8 @@ public final class $enum
         tokens = $tokens.to( tokens, ()-> this.modifiers.parse(instance));
         tokens = $tokens.to( tokens, ()-> this.name.parse(instance.getName()));
 
+        //ADDED THIS
+        tokens = $tokens.to( tokens, ()-> selectEnumConstants(this.enumConstants, instance) );
         tokens = $tokens.to( tokens, ()-> $type.selectImplements(this.implement, instance) );
 
         tokens = $tokens.to( tokens, ()-> $type.selectConstructors(this.ctors, instance ) );
@@ -221,6 +222,33 @@ public final class $enum
             return new Select(instance, tokens);
         }
         return null;
+    }
+
+    public static $proto.$tokens selectEnumConstants(List<$enumConstant> $protoConst, _enum _e ){
+        Map<$enumConstant, List<$enumConstant.Select>> selectMap = new HashMap<>();
+
+        for(int i=0;i<$protoConst.size(); i++) {
+            final $enumConstant t = $protoConst.get(i);
+            List<$enumConstant.Select>matches = new ArrayList<>();
+            _e.listConstants().forEach( c ->{
+                $enumConstant.Select sel = t.select( c);
+                if( sel != null ){
+                    matches.add(sel);
+                }
+            } );
+            if( matches.isEmpty()){
+                return null; //couldnt match a $constructor to ANY constructors
+            } else{
+                selectMap.put(t, matches); //associated the matches with
+            }
+        }
+        //Now create a map with ALL tokens
+        $proto.$tokens all = $proto.$tokens.of();
+        selectMap.values().forEach( ls -> ls.forEach( s-> all.putAll(s.tokens()) ));
+
+        all.remove("type");
+        all.remove("name");
+        return all;
     }
 
     @Override
@@ -239,11 +267,21 @@ public final class $enum
         return this;
     }
 
+    public $enum $constant( String... $ec ){
+        Arrays.stream( $ec ).forEach( ec -> this.enumConstants.add($enumConstant.of(ec)));
+        return this;
+    }
+
+    public $enum $constant( $enumConstant... $ec ){
+        Arrays.stream( $ec ).forEach( ec -> this.enumConstants.add(ec));
+        return this;
+    }
+
     public $enum $initBlock($initBlock... $ibs ){
         Arrays.stream($ibs).forEach(i -> this.initBlocks.add(i));
         return this;
     }
-    //TODO other static blocks
+    //TODO other static blocks?
 
     public $enum $javadoc($comment<JavadocComment> javadocComment ){
         this.javadoc = javadocComment;
@@ -341,7 +379,7 @@ public final class $enum
                 return match( cu.getPrimaryType().get() );
             }
         }
-        //its not a Class
+        //its not an Enum
         return false;
     }
 

@@ -14,7 +14,7 @@ import java.util.function.*;
  * @param <T> the underlying Expression TYPE (could be Expression to mean all expressions)
  */
 public final class $ex<T extends Expression>
-    implements $field.$part, $proto<T, $ex<T>>, $var.$part, Template<T> {
+    implements $field.$part, $proto<T, $ex<T>>, $var.$part, $enumConstant.$part, Template<T> {
 
     /**
      * 
