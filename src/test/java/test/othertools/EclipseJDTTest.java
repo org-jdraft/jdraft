@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Eclipse JDT core
@@ -25,15 +26,11 @@ public class EclipseJDTTest extends TestCase {
     public static _code._cache _cc = _code._cache.of(
             _archive.of("C:\\Users\\Eric\\Downloads\\spring-core-5.1.9.RELEASE-sources.jar"));
 
-    public void testStringJoin(){
-        //System.out.println( String.format("this is %1i and %1i", 1, 2) );
-        System.out.println( ">"+String.join(System.lineSeparator(), "this", "is", "multi", "line" ) +"<");
-    }
     public void testReadAllPackagesAndMethods(){
 
-
         //print the distinct package names occurring in the code
-        $.packageDecl().listIn(_cc).stream().map(p->p.getName()).distinct().forEach(e-> System.out.println( e ));
+        //$.packageDecl().listIn(_cc).stream().map(p->p.getName()).distinct().forEach(e-> System.out.println( e ));
+        $.packageDecl().streamIn(_cc).map(p->p.getName()).distinct().forEach(e-> System.out.println( e ));
 
         //get the names of all the types along with the line count
         _cc.for_code(c-> System.out.println( c.getFullName() + ":" + c.astCompilationUnit().getRange().get().getLineCount() ));
@@ -44,7 +41,6 @@ public class EclipseJDTTest extends TestCase {
                 "Signature: " + m.ast().getSignature().toString()+System.lineSeparator()+
                 "ReturnType: "+ m.getType()+System.lineSeparator() ));
 
-        //$.method().streamIn(_cc)... return a stream of things containing
     }
 
     /**
@@ -108,6 +104,17 @@ public class EclipseJDTTest extends TestCase {
     }
 
     /**
+     * A variant on the above, often you want to do more with the entities than just list them
+     * here we return a stream then map to get method names then distinct, then limit and finally return
+     *
+     * we could add more "stages" to the stream, (i.e. additional filters, etc.) but it is just an
+     * illustration
+     */
+    public void testFindFirst20DistinctMethodNames() {
+        List<String> names = $.method().streamIn(_cc).map(_method::getName).distinct().limit(20).collect(Collectors.toList());
+    }
+
+    /**
      * https://www.vogella.com/tutorials/EclipseJDT/article.html#add-hello-world-statement-with-jdt-using-methoddeclarationfinder
      * String source = String.join("\n",
      *         "public class HelloWorld {",
@@ -142,14 +149,21 @@ public class EclipseJDTTest extends TestCase {
      * }
      */
     public void testAddSystemOutPrintlnVia$method(){
-        _class _c = _class.of("HelloWorld").main(()->{
-            // Insert the following statement.
-            // System.out.println("Hello, World");
-        });
+        class HelloWorld{
+            public @_static void main(String[] args){
+                //Insert the following statement
+                //System.out.println( "Hello, World");
+            }
+        }
+        _class _c = _class.of(HelloWorld.class);
         System.out.println(_c);
-        $.method($.name("main"))
-                .forEachIn(_c, m-> m.add(()->System.out.println("Hello, World!")));
+        //find the first method named "main" in the class & add the statement
+        $.method($.name("main")).firstIn(_c)
+                .add(()->System.out.println("Hello, World!"));
+
         System.out.println(_c);
+        assertEquals( Stmt.of( ()->System.out.println("Hello, World!")),
+                _c.getMethod("main").getStatement(0));
     }
 
     /**
@@ -194,7 +208,7 @@ public class EclipseJDTTest extends TestCase {
         System.out.println( n );// "Node"
 
         //here we can get a "member" (method, constructor, field) containing this location
-        MethodDeclaration astMd = Ast.memberAt(EclipseJDTTest.class, 193, 10);
+        MethodDeclaration astMd = Ast.memberAt(EclipseJDTTest.class, 208, 10);
         assertEquals( "testGettingElementAtACertainLineNumber", astMd.getNameAsString() );
     }
 }

@@ -21,12 +21,12 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
- * Model of a query-by-prototype, (a buildable/mutable query object that has the 
- * structure of the AST entity being queried and contains a hierarchial structure)
- *
- * Template of a <P> for drafting new entities
+ * Model of a <A HREF="https://en.wikipedia.org/wiki/Query_by_Example">query-by-example</A>,
+ * (a buildable/mutable query object that has the structure of the AST entity being queried
+ * and contains a hierarchical structure)
  *
  * $proto objects define a mechanism to walk the AST and query/modify Java code
  * matching against grammar entries via the _node model 
@@ -37,6 +37,19 @@ import java.util.stream.Collectors;
  */
 public interface $proto<P, $P extends $proto>{
 
+    /**
+     * Will this prototype match ANY instance of the type (or null)?
+     * <PRE>
+     *     //i.e. matches null
+     *     assertTrue($method.of().matches(null));
+     *     //matches any method with any properties
+     *     assertTrue($method.of().matches("public void m(){}"));
+     *
+     *     //WILL NOT match String that is NOT a method
+     *     assertTrue($method.of().matches("int i=0;"));
+     * </PRE>
+     * @return true if the instance will match ANY instance of the type (or null)
+     */
     boolean isMatchAny();
 
     /**
@@ -46,7 +59,11 @@ public interface $proto<P, $P extends $proto>{
      */
     $P $and(Predicate<P> constraint );
 
-
+    /**
+     * Add a (NOT) matching constraint to add to the proto
+     * @param constraint a constraint to be negated and added (via and) to the constraint
+     * @return the modified prototype
+     */
     default $P $not(Predicate<P> constraint){
         return $and( constraint.negate() );
     }
@@ -189,7 +206,6 @@ public interface $proto<P, $P extends $proto>{
                 throw new _draftException("Not implemented yet for type : "+ n.getClass());
             }
         } );
-        //return and(n-> Ast.hasAncestor( (Node)n, ancestorMatchFn));
     }
 
     default $P $hasAncestor( $proto $p ) {
@@ -244,8 +260,6 @@ public interface $proto<P, $P extends $proto>{
                 throw new _draftException("Not implemented yet for type : "+ n.getClass());
             }
         } );
-
-        //return and(n-> ((Node)n).getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) ));
     }
 
     default $P $hasChild( Predicate<Node> childMatchFn ){
@@ -278,17 +292,6 @@ public interface $proto<P, $P extends $proto>{
      */
     default $P $hasDescendant( int depth, Class... descendantClassTypes ){
         return $hasDescendant(depth, c-> Ast.isNodeOfType(c, descendantClassTypes));
-        /*
-        return $and(n-> {
-            if( n instanceof Node ){
-                return ((Node)n).getChildNodes().stream().limit(depth).anyMatch(c -> c.stream().anyMatch(d -> Ast.isNodeOfType(d, descendantClassTypes) ));
-            } else if( n instanceof _node){
-                return ((_node)n).ast().getChildNodes().stream().limit(depth).anyMatch(c -> c.stream().anyMatch(d -> Ast.isNodeOfType(d, descendantClassTypes) ));
-            } else{
-                throw new _draftException("Not implemented yet for type : "+ n.getClass());
-            }
-        } );
-         */
     }
 
     /**
@@ -370,8 +373,6 @@ public interface $proto<P, $P extends $proto>{
         });
     }
 
-
-
     /**
      * does this prototype match this ast candidate node?
      * @param candidate an ast candidate node
@@ -394,6 +395,11 @@ public interface $proto<P, $P extends $proto>{
         return false;
     }
 
+    /**
+     * Find and return the first matching instance given the code provider
+     * @param _codeProvider
+     * @return
+     */
     default P firstIn( _code._provider _codeProvider ){
        return firstIn(_codeProvider, t->true);
     }
@@ -685,6 +691,10 @@ public interface $proto<P, $P extends $proto>{
         return listIn( (_type)_java.type(clazz));
     }
 
+    default Stream<P> streamIn(Class clazz){
+        return listIn(clazz).stream();
+    }
+
     /**
      * Find and return a list of all matching prototypes within the clazz
      *
@@ -695,6 +705,10 @@ public interface $proto<P, $P extends $proto>{
         List<P> found = new ArrayList<>();
         Arrays.stream(classes).forEach(c -> found.addAll( listIn(c) ));
         return found;
+    }
+
+    default Stream<P> streamIn(Class...classes){
+        return listIn(classes).stream();
     }
 
     /**
@@ -709,6 +723,10 @@ public interface $proto<P, $P extends $proto>{
         return found;
     }
 
+    default Stream<P> streamIn( _code._provider _codeProvider ){
+        return listIn(_codeProvider).stream();
+    }
+
     /**
      * Find and return a list of all matching prototypes within the clazz
      *
@@ -720,6 +738,10 @@ public interface $proto<P, $P extends $proto>{
         List<P> found = new ArrayList<>();
         _js.forEach(c -> found.addAll( listIn(c) ));
         return found;
+    }
+
+    default <_J extends _java> Stream<P> streamIn(Collection<_J> _js){
+        return listIn(_js).stream();
     }
 
     /**
@@ -736,6 +758,10 @@ public interface $proto<P, $P extends $proto>{
         return found;
     }
 
+    default <_J extends _java> Stream<P> streamIn(Collection<_J> _js, Predicate<P> nodeMatchFn){
+        return listIn(_js, nodeMatchFn).stream();
+    }
+
     /**
      * Find and return a list of all matching prototypes within the clazz
      *
@@ -750,6 +776,10 @@ public interface $proto<P, $P extends $proto>{
         return found;
     }
 
+    default <_J extends _java> Stream<P> streamIn(_code._provider _codeProvider, Predicate<P> nodeMatchFn){
+        return listIn(_codeProvider, nodeMatchFn).stream();
+    }
+
     /**
      * 
      * @param clazz
@@ -758,6 +788,10 @@ public interface $proto<P, $P extends $proto>{
      */
     default List<P> listIn(Class clazz, Predicate<P> nodeMatchFn){
         return listIn( (_type)_java.type(clazz), nodeMatchFn);
+    }
+
+    default Stream<P> streamIn(Class clazz, Predicate<P> nodeMatchFn){
+        return listIn(clazz, nodeMatchFn).stream();
     }
 
     /**
@@ -772,6 +806,10 @@ public interface $proto<P, $P extends $proto>{
         return found;
     }
 
+    default Stream<P> streamIn(Class[] clazzes, Predicate<P> nodeMatchFn){
+        return listIn(clazzes, nodeMatchFn).stream();
+    }
+
     /**
      *
      * @param _js
@@ -783,6 +821,9 @@ public interface $proto<P, $P extends $proto>{
         return found;
     }
 
+    default Stream<P> streamIn(_java..._js){
+        return listIn(_js).stream();
+    }
     /**
      * Find and return a List of all matching node types within _n
      *
@@ -800,6 +841,10 @@ public interface $proto<P, $P extends $proto>{
             return listIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
         }
         return listIn( ((_node)_j).ast() );
+    }
+
+    default Stream<P> streamIn(_java _j) {
+        return listIn(_j).stream();
     }
     
     /**
@@ -820,6 +865,10 @@ public interface $proto<P, $P extends $proto>{
         return listIn(((_node)_j).ast(),nodeMatchFn);
     }
 
+    default Stream<P> streamIn(_java _j, Predicate<P>nodeMatchFn){
+        return listIn(_j, nodeMatchFn).stream();
+    }
+
     /**
      *
      * @param astNodes
@@ -831,6 +880,10 @@ public interface $proto<P, $P extends $proto>{
         return ap;
     }
 
+    default Stream<P> streamIn( Node...astNodes){
+        return listIn(astNodes).stream();
+    }
+
     /**
      *
      * @param astNode the root AST node to start the search
@@ -839,7 +892,11 @@ public interface $proto<P, $P extends $proto>{
     default List<P> listIn(Node astNode){
         return listIn( astNode, t->true);
     }
-    
+
+    default Stream<P> streamIn(Node astNode){
+        return listIn(astNode).stream();
+    }
+
     /**
      * 
      * @param astStartNode
@@ -850,6 +907,10 @@ public interface $proto<P, $P extends $proto>{
         List<P> found = new ArrayList<>();
         forEachIn(astStartNode, nodeMatchFn, b-> found.add(b));
         return found;    
+    }
+
+    default Stream<P> streamIn(Node astStartNode, Predicate<P> nodeMatchFn){
+        return listIn(astStartNode, nodeMatchFn).stream();
     }
 
     /**
@@ -1215,35 +1276,6 @@ public interface $proto<P, $P extends $proto>{
 
     /**
      *
-     * @param clazz
-     * @param astExprReplace
-     * @return
-
-    default <_CT extends _type> _CT replaceIn( Class clazz, Node astExprReplace ){
-        return (_CT)replaceIn((_type)_java.type(clazz), astExprReplace);
-    }
-    */
-
-    /**
-     *
-     * @param <_J>
-     * @param _j
-     * @param astExprReplace
-     * @return
-
-    default <_J extends _java> _J replaceIn(_J _j, Node astExprReplace ){
-        _walk.in(_j, this.expressionClass, e-> {
-            Select sel = select( e );
-            if( sel != null ){
-                sel.astExpression.replace( astExprReplace );
-            }
-        });
-        return _j;
-    }
-    */
-
-    /**
-     *
      * @param _cp
      * @return
      */
@@ -1366,18 +1398,13 @@ public interface $proto<P, $P extends $proto>{
         });
     }
 
-
-
     /**
      * Common functionality present in $protos that are related to
      * AST elements /searches
      * @param <A>
      */
     interface $ast<A extends Node, $P extends $proto> extends $proto<A, $P> {
-
         Class<A> astType();
-
-
     }
 
     /**
@@ -1388,7 +1415,6 @@ public interface $proto<P, $P extends $proto>{
     interface $java<_J extends _java, $P extends $proto> extends $proto<_J, $P> {
 
         Class<_J> javaType();
-
 
         default <_CT extends _type> _CT replaceIn( Class clazz, $P $protoReplace ){
             return (_CT)replaceIn((_type)_java.type(clazz), $protoReplace);
@@ -1520,26 +1546,16 @@ public interface $proto<P, $P extends $proto>{
             return Stmt.blockStmt(obj.toString()).getStatements();
         }
 
-        /*
-        public $tokens to(Supplier<$tokens> tokenSupplier ){
-            $tokens $ts = tokenSupplier.get();
-            if( isConsistent($ts.tokens)){
-                this.putAll($ts);
-                return this;
-            }
-            return null;
-        }
-        */
-
         /**
          *
          * $tokens.to(...) will short circuit
          * IF "tokens" is null: return null (without running the lambda)
-         * IF "tokens" is not null : run the lambda and derive "newTokens" of Map<String,Object>
+         * IF "tokens" is not null : run the {@param supplier} lambda and derive "newTokens" of Map<String,Object>
          * IF "newTokens" is null : return null (this means that this particular match failed)
          * IF "newTokens" is not null : check that the "tokens" are consistent with "newTokens"
          * IF "tokens"/"newTokens" ARE NOT consistent (i.e. at least one var is assigned (2) distinct values) : return null
          * IF "tokens"/"newTokens" ARE consistent : return the "composite" tokens list (the union of "tokens" & "newTokens")
+         *
          */
         public static $tokens to( $tokens tokens, Supplier<Map<String,Object>>supplier){
             if( tokens == null ){
@@ -1555,34 +1571,10 @@ public interface $proto<P, $P extends $proto>{
             return null;
         }
 
-        /*
-        public static $tokens to( $tokens existingTokens, Supplier<$tokens>supplier){
-            if( existingTokens == null ){
-                return null;
-            }
-            $tokens $ts = supplier.get();
-            if( existingTokens.isConsistent($ts.tokens)){
-                existingTokens.putAll($ts);
-                return existingTokens;
-            }
-            return null;
-        }
-        */
-
         public <M extends Map<String,Object>> boolean isConsistent(M tokens){
             return this.tokens.isConsistent(tokens);
         }
 
-        /**
-         * 
-         * @param tokens
-         * @return 
-
-        public boolean isConsistent(Tokens tokens ){
-            return this.tokens.isConsistent(tokens);
-        }
-        */
-        
         /**
          * is the clause with the key equal to the Type?
          *

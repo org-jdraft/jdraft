@@ -177,7 +177,48 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
             }
         }
     }
-    
+
+    /**
+     * Adds a NOT constraint to the constraints based on one or more $field.$part
+     * @param parts
+     * @return
+     */
+    public $field $not(final $part...parts ){
+        for(int i=0;i<parts.length;i++){
+            if( parts[i] instanceof $anno ){
+                final $anno $fa = (($anno)parts[i]);
+                Predicate<_field> pf = f-> !f.listAnnos(a -> $fa.matches(a)).isEmpty();
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $modifiers ){
+                final $modifiers $fa = (($modifiers)parts[i]);
+                Predicate<_field> pf = f-> $fa.matches(f.getModifiers());
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $typeRef){
+                final $typeRef $ft = (($typeRef)parts[i]);
+                Predicate<_field> pf = f-> $ft.matches(f.getType());
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $id){
+                final $id $fn = (($id)parts[i]);
+                Predicate<_field> pf = f-> $fn.matches(f.getName());
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $ex){
+                final $ex $fi = (($ex)parts[i]);
+                Predicate<_field> pf = f-> $fi.matches(f.getInit());
+                $and( pf.negate() );
+            }
+            else if(parts[i] instanceof $comment ){
+                final $comment $fj = (($comment)parts[i]);
+                Predicate<_field> pf = f-> $fj.matches(f.getJavadoc());
+                $and( pf.negate() );
+            }
+        }
+        return this;
+    }
+
     private $field(){        
     }
     
@@ -434,7 +475,7 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
     @Override
     public boolean isMatchAny(){
         try{
-            return this.constraint.test(null) && this.init.isMatchAny() && this.annos.isMatchAny() && this.type.isMatchAny()
+            return this.constraint.test(null) && (this.init== null || this.init.isMatchAny() ) && this.annos.isMatchAny() && this.type.isMatchAny()
                     && this.javadoc.isMatchAny() && this.name.isMatchAny() && this.modifiers.isMatchAny();
         } catch(Exception e){
             return false;
@@ -849,10 +890,45 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
         }   
         return null;
     } 
-    
+
+    /*
+    public _field fill(Translator translator, Object... values) {
+        Set<String>defaultKeys = new HashSet<>();
+        defaultKeys.add("javadoc");
+        defaultKeys.add("annos");
+        defaultKeys.add("modifiers");
+        defaultKeys.add("init");
+        List<String> keys = list$Normalized();
+        List<String>requiredKeys = new ArrayList<>();
+        requiredKeys.addAll(keys);
+        requiredKeys.removeAll(defaultKeys);
+
+        if( values.length < requiredKeys.size() ){
+            throw new _draftException("not enough values("+values.length+") to fill ("+keys.size()+") variables "+ keys);
+        }
+        Map<String,Object> kvs = new HashMap<>();
+        int currentValueIndex = 0;
+        for(int i=0;i<keys.size();i++){
+            if( keys)
+            Object extractedVal = values[currentValueIndex];
+            if( extractedVal == null ){
+                kvs.put(keys.get(i), "");
+            } else {
+                kvs.put(keys.get(i), values[currentValueIndex]);
+                currentValueIndex++;
+            }
+        }
+        //
+        return draft( translator, kvs );
+    }
+    */
+
     @Override
     public _field draft(Translator translator, Map<String, Object> keyValues) {
+
         Map<String,Object> baseMap = new HashMap<>();
+        baseMap.putAll(keyValues);
+        /*
         //we need to set these to empty
         baseMap.put("javadoc", "" );
         baseMap.put("annos", "");
@@ -862,13 +938,20 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
         baseMap.put("init", "");
         
         baseMap.putAll(keyValues);
-        
+        */
+        //System.out.println("BASEMAP "+baseMap );
         StringBuilder sb = new StringBuilder();
-        JavadocComment jdc = javadoc.draft(translator, baseMap);
-        if( jdc != null){
-            sb.append(jdc);
-            sb.append(System.lineSeparator());
-        }        
+
+        //dont get "hung up" on using a parameter for javadoc... if its a match any and there isnt an explicit
+        //key passed in
+        boolean matchAny = this.javadoc.isMatchAny();
+        if( !matchAny || (matchAny && !keyValues.containsKey("javadoc") )) {
+            JavadocComment jdc = javadoc.draft(translator, baseMap);
+            if (jdc != null) {
+                sb.append(jdc);
+                sb.append(System.lineSeparator());
+            }
+        }
         sb.append(annos.draft(translator, baseMap) );
         sb.append(System.lineSeparator());
         sb.append(modifiers.draft(translator, baseMap) );
@@ -913,7 +996,9 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
     @Override
     public List<String> list$() {
         List<String> vars = new ArrayList<>();
-        vars.addAll( javadoc.list$() );
+        if( !javadoc.isMatchAny() ) {
+            vars.addAll(javadoc.list$());
+        }
         vars.addAll( annos.list$() );
         vars.addAll( type.list$() );
         vars.addAll( name.list$() );
@@ -926,7 +1011,9 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
     @Override
     public List<String> list$Normalized() {
         List<String> vars = new ArrayList<>();
-        vars.addAll( javadoc.list$Normalized() );
+        if( !javadoc.isMatchAny()) {
+            vars.addAll(javadoc.list$Normalized());
+        }
         vars.addAll( annos.list$Normalized() );
         vars.addAll( type.list$Normalized() );
         vars.addAll( name.list$Normalized() );

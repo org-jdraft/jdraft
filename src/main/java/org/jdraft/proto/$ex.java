@@ -768,7 +768,7 @@ public final class $ex<T extends Expression>
     }
 
     /**
-     * 
+     * i.e. "System.out"
      * @param constraint
      * @return 
      */
@@ -778,7 +778,7 @@ public final class $ex<T extends Expression>
     }
     
     /**
-     * 
+     * i.e. "System.out"
      * @param pattern
      * @param constraint
      * @return 
@@ -788,7 +788,7 @@ public final class $ex<T extends Expression>
     }
     
     /**
-     * System.out
+     * i.e. "System.out"
      * 
      * @return 
      */
@@ -1677,6 +1677,9 @@ public final class $ex<T extends Expression>
      * @return 
      */
     public boolean matches( Expression astExpr ){
+        if( astExpr == null ){
+            return this.isMatchAny();
+        }
         return select(astExpr) != null;
     }
 
@@ -1745,6 +1748,11 @@ public final class $ex<T extends Expression>
      */
     @Override
     public Select select( Expression astExpr){
+        if( astExpr == null ){
+            if(this.isMatchAny()){
+                return new Select(null, new Tokens());
+            }
+        }
         if( expressionClass.isAssignableFrom(astExpr.getClass()) 
                 && constraint.test( (T)astExpr)){
             //slight modification..
@@ -2199,11 +2207,11 @@ public final class $ex<T extends Expression>
             this.tokens = $tokens.of(tokens);
         }
                 
-        public Select( T astExpr, $tokens tokens){
+        public Select( T astExpr, $tokens tokens) {
             this.astExpression = astExpr;
             this.tokens = tokens;
         }
-        
+
         @Override
         public $tokens tokens(){
             return tokens;

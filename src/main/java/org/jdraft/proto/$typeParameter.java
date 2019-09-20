@@ -125,7 +125,28 @@ public final class $typeParameter
             }
         }
     }
-    
+
+    /**
+     * Adds a NOT constraint to the {@link #constraint} based on one or more $method.$part
+     * @param parts
+     * @return
+     */
+    public $typeParameter $not(final $part...parts ){
+        for(int i=0;i<parts.length;i++){
+            if( parts[i] instanceof $anno ){
+                final $anno $fa = (($anno)parts[i]);
+                Predicate<_typeParameter> pf = f-> $fa.count(f) > 0;
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $id){
+                final $id $fn = (($id)parts[i]);
+                Predicate<_typeParameter> pf = f-> $fn.matches(f.getName());
+                $and( pf.negate() );
+            }
+        }
+        return this;
+    }
+
     private $typeParameter(){
         //no arg... match defaults (can be created through of(), and any() static methods)
     }

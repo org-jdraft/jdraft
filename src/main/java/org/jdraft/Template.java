@@ -109,6 +109,7 @@ public interface Template<T> {
      */
     default T fill( Translator translator, Object... values ){
         List<String> keys = list$Normalized();
+
         if( values.length < keys.size() ){
             throw new _draftException("not enough values("+values.length+") to fill ("+keys.size()+") variables "+ keys);
         }
@@ -116,6 +117,7 @@ public interface Template<T> {
         for(int i=0;i<values.length;i++){
             kvs.put( keys.get(i), values[i]);
         }
+        //
         return draft( translator, kvs );
     }
 

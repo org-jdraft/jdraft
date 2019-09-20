@@ -124,6 +124,18 @@ public class _1_WhatIsProtoTest extends TestCase {
 
         //match any Field
         $field $anyField = $field.of();
+
+        //todo remove after fix
+        assertTrue( $anyField.constraint.test(null));
+
+        /*
+        assertTrue( $anyField.init.isMatchAny() );
+        assertTrue( $anyField.annos.isMatchAny() );
+        assertTrue( $anyField.type.isMatchAny() );
+        assertTrue( $anyField.javadoc.isMatchAny() );
+        assertTrue( $anyField.name.isMatchAny() );
+        assertTrue( $anyField.modifiers.isMatchAny() );
+        */
         assertTrue( $anyField.isMatchAny());
         assertTrue( $anyField.matches("int i;"));
         assertTrue( $anyField.matches("public static final int i=213;"));

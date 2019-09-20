@@ -2110,6 +2110,8 @@ public enum Ast {
                 + System.lineSeparator() + str + System.lineSeparator() + "}";
 
         //System.out.println( cl );
+
+
         ClassOrInterfaceDeclaration cd = Ast.of(cl).getClassByName("$$$$Y").get();
 
         //ClassOrInterfaceDeclaration cd = Ast.of("public class $$$$Y{"

@@ -283,9 +283,8 @@ public final class $method
         } catch(Exception e){
           return false;
         }
-
-
     }
+
     /**
      * ADDS an additional matching constraint to the prototype
      * @param constraint a constraint to be added
@@ -293,6 +292,72 @@ public final class $method
      */
     public $method $and(Predicate<_method>constraint ){
         this.constraint = this.constraint.and(constraint);
+        return this;
+    }
+
+    /**
+     * Adds a NOT constraint to the {@link #constraint} based on one or more $method.$part
+     * @param parts
+     * @return
+     */
+    public $method $not(final $part...parts ){
+        for(int i=0;i<parts.length;i++){
+            if( parts[i] instanceof $anno ){
+                final $anno $fa = (($anno)parts[i]);
+                Predicate<_method> pf = f-> $fa.count(f) > 0;
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $modifiers ){
+                final $modifiers $fa = (($modifiers)parts[i]);
+                Predicate<_method> pf = f-> $fa.matches(f.getModifiers());
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $parameters ){
+                final $parameters $fa = (($parameters)parts[i]);
+                Predicate<_method> pf = f-> $fa.matches(f.getParameters());
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $parameter ){
+                final $parameter $fa = (($parameter)parts[i]);
+                Predicate<_method> pf = f-> $fa.count(f) > 0;
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $typeParameters ){
+                final $typeParameters $fa = (($typeParameters)parts[i]);
+                Predicate<_method> pf = f-> $fa.matches(f.getTypeParameters());
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $typeParameter ){
+                final $typeParameter $fa = (($typeParameter)parts[i]);
+                Predicate<_method> pf = f-> $fa.count(f) > 0;
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $typeRef){
+                final $typeRef $ft = (($typeRef)parts[i]);
+                Predicate<_method> pf = f-> $ft.matches(f.getType());
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $id){
+                final $id $fn = (($id)parts[i]);
+                Predicate<_method> pf = f-> $fn.matches(f.getName());
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $throws){
+                final $throws $ft = (($throws)parts[i]);
+                Predicate<_method> pf = f-> $ft.matches(f.getName());
+                $and( pf.negate() );
+            }
+            else if(parts[i] instanceof $comment ){
+                final $comment $fj = (($comment)parts[i]);
+                Predicate<_method> pf = f-> $fj.matches(f.getJavadoc());
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $body){
+                final $body $fj = (($body)parts[i]);
+                Predicate<_method> pf = f-> $fj.matches(f.getBody());
+                $and( pf.negate() );
+            }
+        }
         return this;
     }
 

@@ -5,6 +5,7 @@ import java.util.*;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.type.Type;
 
+import com.github.javaparser.ast.type.VoidType;
 import org.jdraft._anno._annos;
 
 /**
@@ -16,6 +17,7 @@ import org.jdraft._anno._annos;
 public final class _typeRef<T extends Type>
         implements _node<Type, _typeRef>, _anno._hasAnnos<_typeRef> {
 
+    public static _typeRef VOID = of( new VoidType() );
     /**
      *
      * @param t

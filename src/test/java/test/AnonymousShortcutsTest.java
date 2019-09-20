@@ -71,7 +71,8 @@ public class AnonymousShortcutsTest extends TestCase {
             @Deprecated
             public static final int a = 100 + 20;
         }); 
-        
+
+        System.out.println( $f.draft());
         assertEquals( $f.draft(), _field.of("/** Javadoc */ @Deprecated public static final int a = 100 + 20;" ) );
     }
     

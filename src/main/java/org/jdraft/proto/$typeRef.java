@@ -1,5 +1,6 @@
 package org.jdraft.proto;
 
+import com.github.javaparser.ast.type.VoidType;
 import org.jdraft._code;
 import org.jdraft._typeRef;
 import org.jdraft._java;
@@ -22,7 +23,9 @@ import java.util.function.Predicate;
 public final class $typeRef
     implements Template<_typeRef>, $proto<_typeRef, $typeRef>, $method.$part, $field.$part,
         $parameter.$part, $typeParameter.$part, $var.$part {
-    
+
+    public static final $typeRef VOID = of( new VoidType() );
+
     /**
      * 
      * @param pattern

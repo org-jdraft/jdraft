@@ -131,7 +131,7 @@ public class SclassTest extends TestCase {
         assertEquals(1, $class.of( $.name("G") ).count(_c));
 
         //find a nested type named "G" that has a parent named "HHH"
-        assertEquals(1, $class.of( $.name("G") ).$hasParent($class.of($.name("HHH"))).count(_c));
+        assertEquals(1, $class.of( $.name("G") ).$hasAncestor($class.of($.name("HHH"))).count(_c));
     }
 
     public void testHasDescendant(){

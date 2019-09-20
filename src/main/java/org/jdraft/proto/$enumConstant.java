@@ -160,6 +160,42 @@ public final class $enumConstant
         return null;
     }
 
+    /**
+     * Adds a NOT constraint to the {@link #constraint} based on one or more $method.$part
+     * @param parts
+     * @return
+     */
+    public $enumConstant $not(final $part...parts ){
+        for(int i=0;i<parts.length;i++){
+            if( parts[i] instanceof $anno ){
+                final $anno $fa = (($anno)parts[i]);
+                Predicate<_enum._constant> pf = f-> $fa.count(f) > 0;
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $id){
+                final $id $fn = (($id)parts[i]);
+                Predicate<_enum._constant> pf = f-> $fn.matches(f.getName());
+                $and( pf.negate() );
+            }
+            else if(parts[i] instanceof $comment ){
+                final $comment $fj = (($comment)parts[i]);
+                Predicate<_enum._constant> pf = f-> $fj.matches(f.getJavadoc());
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $method){
+                final $method $fj = (($method)parts[i]);
+                Predicate<_enum._constant> pf = f-> !f.listMethods(m -> $fj.matches(m)).isEmpty();
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $field){
+                final $field $fj = (($field)parts[i]);
+                Predicate<_enum._constant> pf = f-> !f.listFields(ff -> $fj.matches(ff)).isEmpty();
+                $and( pf.negate() );
+            }
+        }
+        return this;
+    }
+
     public static $proto.$tokens selectArgs(List<$ex> $protoArgs, _enum._constant _ec ){
         Map<$ex, List<$ex.Select>> selectMap = new HashMap<>();
 

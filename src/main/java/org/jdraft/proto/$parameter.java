@@ -123,7 +123,32 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
             }
         }
     }
-    
+
+    /**
+     * Adds a NOT constraint to the {@link #constraint} based on one or more $parameter.$part
+     * @param parts
+     * @return
+     */
+    public $parameter $not(final $part...parts ){
+        for(int i=0;i<parts.length;i++){
+            if( parts[i] instanceof $anno ){
+                final $anno $fa = (($anno)parts[i]);
+                Predicate<_parameter> pf = f-> $fa.count(f) > 0;
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $id){
+                final $id $fn = (($id)parts[i]);
+                Predicate<_parameter> pf = f-> $fn.matches(f.getName());
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $typeRef){
+                final $typeRef $fj = (($typeRef)parts[i]);
+                Predicate<_parameter> pf = f-> $fj.matches(f.getType());
+                $and( pf.negate() );
+            }
+        }
+        return this;
+    }
     /**
      * 
      * @return 

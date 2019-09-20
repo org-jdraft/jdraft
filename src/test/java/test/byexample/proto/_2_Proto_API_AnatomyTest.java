@@ -18,7 +18,7 @@ public class _2_Proto_API_AnatomyTest extends TestCase {
     // $proto.$java get_javaType
     // $proto.$ast  public <A extends Node> get_AstType
 
-    public void testConstraint(){
+    public void test$andConstraint(){
         //this $m represents/matches ALL methods
         $method $m = $.method();
 
@@ -81,8 +81,6 @@ public class _2_Proto_API_AnatomyTest extends TestCase {
 
         assertEquals( 2, $getMethod.count(Get.class));
 
-
-
     }
 
     public void testExampleSerializableClassWithSerialVersionUID(){
@@ -111,9 +109,6 @@ public class _2_Proto_API_AnatomyTest extends TestCase {
         assertTrue( $missingSVUID.matches(noSVUID.class) );
         assertFalse( $missingSVUID.matches(hasSVUID.class) );
 
-
-
-        //$class.of().$implement(Serializable.class).$hasChild($serialVersionUid);
     }
 
     public void testWhenToUsePatternAndWhenToUseConstraint(){
