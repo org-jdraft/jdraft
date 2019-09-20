@@ -5,10 +5,7 @@ import org.jdraft.Ast;
 import org.jdraft.Stencil;
 import org.jdraft.Stmt;
 import org.jdraft._class;
-import org.jdraft.proto.$;
-import org.jdraft.proto.$$;
-import org.jdraft.proto.$class;
-import org.jdraft.proto.$stmt;
+import org.jdraft.proto.*;
 
 /**
  * Go over the main methods for querying into source code
@@ -26,7 +23,7 @@ public class ProtoQueryTest extends TestCase {
         public int i=0;
     }
 
-    public static final $stmt $printOne = $$.stmt("System.out.print(1);");
+    public static final $stmt $printOne = $.stmt("System.out.print(1);");
 
     public void testMatches(){
         assertTrue( $printOne.matches("System.out.print(1);") );
@@ -64,4 +61,34 @@ public class ProtoQueryTest extends TestCase {
         assertEquals(Stencil.of("Aclass"),$cl.name.idStencil);
 
     }
+
+    public void test$protoRelativeMatch(){
+
+        // relative constraints
+        $.of().$hasChild($.literal());
+        $.of().$hasParent($.lambda());
+        $.of().$hasAncestor($.localClassStmt());
+        $.of().$hasDescendant($enum.of());
+
+        $.of().$hasNoChild($enum.of());
+        $.of().$hasNoParent($class.of($.ABSTRACT), $interface.of(), $annotation.of());
+        $.of().$hasNoDescendant($enum.of());
+        $.of().$hasNoAncestor($class.of($.ABSTRACT));//not the member of an abstract class
+    }
+
+    public void test$protoLocationMatch(){
+        //$isBefore( $expr );
+        //$isBefore( $stmt );
+
+        //$isAfter( $expr );
+        //$isAfter( $stmt );
+    }
+
+    //I need a way of scanning from the bottom up...
+    //i.e. I might be at a particular point in the code
+    // like when debugging you narrow things down to a particular line/statement/expression
+    ///...then you "look at the preceding code"
+
+    //expand scope
+    //i.e. if
 }

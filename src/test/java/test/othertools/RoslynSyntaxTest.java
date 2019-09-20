@@ -98,7 +98,7 @@ public class RoslynSyntaxTest extends TestCase {
             public String str = "THT";
             int i = 1 + 2;
         }
-        $$.literal().printIn(CCC.class);
+        $.literal().printIn(CCC.class);
     }
 
     /**

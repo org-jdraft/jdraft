@@ -2,7 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.CompilationUnit;
 import junit.framework.TestCase;
-import org.jdraft.proto.$$;
+import org.jdraft.proto.$;
 import org.jdraft.runtime.*;
 import org.jdraft.diff._diff;
 import org.jdraft.macro.*;
@@ -58,7 +58,7 @@ public class APIIntegrationTest extends TestCase {
         _class _c = _class.of(LL.class);
         //make sure there are (4) int literals (100, 200, 300, 400) in class
         assertEquals( 4, $ex.intLiteralEx().count(LL.class));
-        assertEquals( 4, $$.intLiteral().count(LL.class));
+        assertEquals( 4, $.intLiteral().count(LL.class));
         //there is (1) 200 int literal
         assertEquals( 1, $ex.intLiteralEx(200).count(LL.class));
         
@@ -67,7 +67,7 @@ public class APIIntegrationTest extends TestCase {
         assertEquals(3, $typeRef.of(int.class).count(LL.class));
         //$.intLiteral()
         
-        assertNotNull($$.stringLiteral("OUTPUT ").firstIn(LL.class));
+        assertNotNull($.stringLiteral("OUTPUT ").firstIn(LL.class));
         // $expr.stringLiteral(pattern);
         //assertEquals(1, $.stringLiteral("OUTPUT").count(LL.class));
     }

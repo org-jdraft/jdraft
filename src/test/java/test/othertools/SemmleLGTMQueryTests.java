@@ -61,7 +61,7 @@ public class SemmleLGTMQueryTests extends TestCase {
      * select r
      */
     public void testReturnNullStatements(){
-        $stmt $s = $$.returnStmt("return null;");
+        $stmt $s = $.returnStmt("return null;");
         class C{
             Object oo(){
                 return null;
@@ -82,7 +82,7 @@ public class SemmleLGTMQueryTests extends TestCase {
         //another
 
         //an outside access to the field
-        $ex $outsideFieldAccess = $$.fieldAccessExpr("$className$.$fieldName$");
+        $ex $outsideFieldAccess = $.fieldAccessExpr("$className$.$fieldName$");
 
         //$reflectivelyRead ??
 
@@ -108,7 +108,7 @@ public class SemmleLGTMQueryTests extends TestCase {
             }
         }
         //all methodCalls with scope
-        $$.expr("v").printIn(SomeClass.class);
+        $.expr("v").printIn(SomeClass.class);
         //$$.methodCall().$and(m -> m.getScope().isPresent() && m.getScope().get().).printIn(SomeClass.class);
 
         //gets the list of all container classes

@@ -65,7 +65,7 @@ public class _codeProtoTest extends TestCase {
         //1)
         //find method calls
         //I'm calling getType() on some instance and returning it's value
-        $stmt $assignCall = $$.stmt("int $param$ = $instance$.getType();");
+        $stmt $assignCall = $.stmt("int $param$ = $instance$.getType();");
 
         //2) find all variable assignments
         $node $varAssignment = $node.of( "$param$" )
@@ -73,7 +73,7 @@ public class _codeProtoTest extends TestCase {
                 //.$hasAncestor($.of(VariableDeclarator.class));
 
         //3) find
-        $ex<MethodCallExpr> $mce = $$.methodCall("$prefix$foo($any$)");
+        $ex<MethodCallExpr> $mce = $.methodCall("$prefix$foo($any$)");
 
         //$varAssignment.hardcode$($args);
 
@@ -90,11 +90,11 @@ public class _codeProtoTest extends TestCase {
         assertTrue( $varAssignment.hardcode$(args).count(F.class) > 0);
 
 
-        assertEquals( 1, $$.stmt( "int $param$ = $obj$.getType();" ).count(F.class));
+        assertEquals( 1, $.stmt( "int $param$ = $obj$.getType();" ).count(F.class));
 
-        assertEquals(1, $$.methodCall("$var$.getType()").count(F.class));
+        assertEquals(1, $.methodCall("$var$.getType()").count(F.class));
 
-        assertEquals( 1, $$.methodCall( "foo($any$)" ).count(F.class));
+        assertEquals( 1, $.methodCall( "foo($any$)" ).count(F.class));
 
     }
 

@@ -133,11 +133,11 @@ public class SannotationTest extends TestCase {
         assertEquals(1, $.of(TypeDeclaration.class).count(_c));
         assertEquals(1, $.of(TypeDeclaration.class).$hasDescendant($.field($.STATIC)).count(_c));
 
-        IntegerLiteralExpr ile = $$.of(200).firstIn(_c);
+        IntegerLiteralExpr ile = $.of(200).firstIn(_c);
         assertNotNull(ile);
 
         //verify that I can find a literal expression 102 that has a synchronized ancestor node
-        assertEquals(1, $$.of(200).$hasAncestor( $.of().$hasDescendant($.STATIC)).count(_c));
+        assertEquals(1, $.of(200).$hasAncestor( $.of().$hasDescendant($.STATIC)).count(_c));
 
         //I mean at this point, I'm just trying to break something
     }

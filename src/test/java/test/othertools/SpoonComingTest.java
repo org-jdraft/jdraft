@@ -5,13 +5,12 @@ import com.github.javaparser.ast.stmt.ReturnStmt;
 import junit.framework.TestCase;
 import org.jdraft.Ast;
 import org.jdraft.proto.$;
-import org.jdraft.proto.$$;
 import org.jdraft.proto.$stmt;
 
 public class SpoonComingTest extends TestCase {
 
     public void testOffShootDepth(){
-        $stmt<IfStmt> $ifReturn = $$.ifStmt().$hasDescendant(1, $$.returnStmt());
+        $stmt<IfStmt> $ifReturn = $.ifStmt().$hasDescendant(1, $.returnStmt());
         class Ex{
             public int ex(int a){
                 if( a > 0 ){
@@ -42,7 +41,7 @@ public class SpoonComingTest extends TestCase {
      * </pattern>
      */
     public void testIfReturnConstraint(){
-        $stmt<IfStmt> $ifReturn = $$.ifStmt().$and( (IfStmt is) ->
+        $stmt<IfStmt> $ifReturn = $.ifStmt().$and( (IfStmt is) ->
                 Ast.hasDescendant( is.getThenStmt(), n -> n instanceof ReturnStmt) ); //.$hasDescendant(2, $.returnStmt());
         class Ex{
             public int ex(int a){
@@ -55,7 +54,7 @@ public class SpoonComingTest extends TestCase {
                 }
             }
         }
-        Ast.describe( $$.ifStmt().firstIn(Ex.class) );
+        Ast.describe( $.ifStmt().firstIn(Ex.class) );
 
         assertEquals(1, $ifReturn.count(Ex.class));
     }
@@ -64,7 +63,7 @@ public class SpoonComingTest extends TestCase {
      * Alternative way of representing an if statement with a returnStatement
      */
     public void testIfReturnPattern(){
-        $stmt $ifReturn = $$.ifStmt("if($cond$){ return $ret$;}");
+        $stmt $ifReturn = $.ifStmt("if($cond$){ return $ret$;}");
 
         class Ex{
             public int ex(int a){

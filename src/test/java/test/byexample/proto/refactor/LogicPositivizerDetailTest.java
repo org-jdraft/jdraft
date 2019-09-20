@@ -6,7 +6,6 @@ import junit.framework.TestCase;
 import org.jdraft.Stmt;
 import org.jdraft._type;
 import org.jdraft.proto.$;
-import org.jdraft.proto.$$;
 import org.jdraft.proto.$stmt;
 
 /**
@@ -89,12 +88,12 @@ public class LogicPositivizerDetailTest extends TestCase {
 
     // a "source" parameterized prototype used for identify matching source IfStmts...
     // we also extract the $parameterized values of ("left", "right", "then" and "else")
-    static $stmt $sourceIf = $$.stmt("if($left$ != $right$){ then(); }else{ el(); }")
+    static $stmt $sourceIf = $.stmt("if($left$ != $right$){ then(); }else{ el(); }")
             .$("then();", "then").$("el();", "else");
 
     // a "target" parameterized prototype used for populating the target IfStmt
     // we change the operator from "!=" to "==" and swapped the "else" and "then" parameters
-    static $stmt $targetIf = $$.stmt("if($left$ == $right$){ then(); }else{ el(); }")
+    static $stmt $targetIf = $.stmt("if($left$ == $right$){ then(); }else{ el(); }")
             .$("then();", "else").$("el();", "then");
 
     /**

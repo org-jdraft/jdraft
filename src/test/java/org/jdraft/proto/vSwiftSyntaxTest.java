@@ -53,7 +53,7 @@ public class vSwiftSyntaxTest extends TestCase {
            int b = 0b01;
            int hex = 0xDEAD;
         }
-        _type _t = $$.intLiteral().forEachIn(C.class,
+        _type _t = $.intLiteral().forEachIn(C.class,
             //i-> i.setInt( Integer.parseInt(i.getValue().replace("_", "")) +1) );    
             i-> i.setInt( Ex.parseInt(i.getValue()) +1) );
         

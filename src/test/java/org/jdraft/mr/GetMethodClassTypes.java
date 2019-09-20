@@ -20,11 +20,9 @@ public class GetMethodClassTypes extends TestCase {
 
             }
         }
-        //$parameter.of().printIn(c.class);
-        $.of().$hasChild($$.literal());
-        $.of().$hasParent($$.lambda());
-        $.of().$hasAncestor($$.localClassStmt());
-        $.of().$hasDescendant($enum.of());
+        // $parameter.of().printIn(c.class);
+
+
 
         //$parameter.of().$hasDescendant();
         //$typeRef.of().$hasParent($parameter.of()).printIn( c.class );

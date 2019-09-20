@@ -23,16 +23,16 @@ import java.util.function.Predicate;
  */
 public class ProtoExamplesTest extends TestCase {
 
-    static $ex ANY_EXPR = $$.expr();                         //any expression
+    static $ex ANY_EXPR = $.expr();                         //any expression
 
     //static $expr CONST_NAME = $.expr("Name");          //any expression matching pattern "Name"
-    static $ex LITERAL =  $$.expr(e -> e.isLiteralExpr());   //any literals (ints, floats, Strings, etc.)
-    static $ex LITERAL_ = $$.literal();                      //any literals (booleans, int, float, String, etc)
+    static $ex LITERAL =  $.expr(e -> e.isLiteralExpr());   //any literals (ints, floats, Strings, etc.)
+    static $ex LITERAL_ = $.literal();                      //any literals (booleans, int, float, String, etc)
 
-    static $ex<IntegerLiteralExpr> INT_LITERAL = $$.intLiteral();                   // any int literal
-    static $ex<IntegerLiteralExpr> INT_100 = $$.intLiteral(100);           // exact int literal 100
-    static $ex<IntegerLiteralExpr> INT_VAL_PARAM = $$.intLiteral("$val$");    // any int literal (parameterized)
-    static $ex<IntegerLiteralExpr> INT_POSITIVE = $$.intLiteral(i -> i.asInt() > 0);  // any int literal > 100 (constrained)
+    static $ex<IntegerLiteralExpr> INT_LITERAL = $.intLiteral();                   // any int literal
+    static $ex<IntegerLiteralExpr> INT_100 = $.intLiteral(100);           // exact int literal 100
+    static $ex<IntegerLiteralExpr> INT_VAL_PARAM = $.intLiteral("$val$");    // any int literal (parameterized)
+    static $ex<IntegerLiteralExpr> INT_POSITIVE = $.intLiteral(i -> i.asInt() > 0);  // any int literal > 100 (constrained)
 
     /*
     $.of();                             // ANY AST Node
@@ -60,7 +60,7 @@ public class ProtoExamplesTest extends TestCase {
              }
         }
 
-        assertEquals( 1, $$.cast(String.class).count(GTH.class) );
+        assertEquals( 1, $.cast(String.class).count(GTH.class) );
         assertEquals(2, $ex.instanceOfEx(String.class).count(GTH.class));
         assertEquals(2, $ex.instanceOfEx($typeRef.of(String.class)).count(GTH.class));
     }
@@ -96,7 +96,7 @@ public class ProtoExamplesTest extends TestCase {
         assertNotNull( $.method( $id.of("get$Name$") ).firstIn(GG.class));
 
         //lambdas containing a Integer type parameter
-        assertNotNull( $$.lambda( ).$hasChild( $parameter.of( $typeRef.of(Integer.class))) );
+        assertNotNull( $.lambda( ).$hasChild( $parameter.of( $typeRef.of(Integer.class))) );
 
     }
 
@@ -111,8 +111,8 @@ public class ProtoExamplesTest extends TestCase {
             }
         }
 
-        assertEquals( 2, $$.literal().count(G.class) ); //(2) literals {2,"2"} above
-        assertEquals(1, $$.of(2).count(G.class)); //there is (1) instance of the int literal {2} above
+        assertEquals( 2, $.literal().count(G.class) ); //(2) literals {2,"2"} above
+        assertEquals(1, $.of(2).count(G.class)); //there is (1) instance of the int literal {2} above
 
 
         //_java.describe(_class.of(G.class));
@@ -134,7 +134,7 @@ public class ProtoExamplesTest extends TestCase {
     public void test$ctorProto(){
         $.constructor( $.PRIVATE ); //private constructors
 
-        $$.unary( UnaryExpr.Operator.LOGICAL_COMPLEMENT );
+        $.unary( UnaryExpr.Operator.LOGICAL_COMPLEMENT );
     }
     public void test$methodProto(){
         class AMM{

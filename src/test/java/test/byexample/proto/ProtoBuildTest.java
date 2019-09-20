@@ -70,19 +70,19 @@ public class ProtoBuildTest extends TestCase {
         $i = $.id();
 
         $ex $e = $ex.of(); //specific $expr
-        $$.expr();
+        $.expr();
         $stmt $s = $stmt.of(); //specific $stmt
-        $$.stmt();
+        $.stmt();
         $anno $a = $anno.of();
         $.anno();
         $case $c = $case.of();
-        $$.switchCase();
+        $.switchCase();
 
         $import $im = $import.of();
         $.importDecl();
 
         $catch $ca = $catch.of();
-        $$.catchClause();
+        $.catchClause();
 
         $modifiers $ms = $modifiers.of();
         $.modifiers();
@@ -94,17 +94,17 @@ public class ProtoBuildTest extends TestCase {
         $.parameter();
 
         $comment $co = $comment.of(); //any comment (line, block, javadoc)
-        $$.comment();
+        $.comment();
         $comment<JavadocComment> $jc = $comment.javadocComment(); //any /** javadoc comment */
         $.javadoc();
         $comment<LineComment> $lc = $comment.lineComment(); //any  // line comment
-        $$.lineComment();
+        $.lineComment();
 
         $.typeParameter();
         $typeParameter.of();
 
         $comment<BlockComment>$bc = $comment.blockComment(); //any /* block comment */
-        $$.blockComment();
+        $.blockComment();
 
         $typeRef.of();
         $.typeRef();
@@ -116,7 +116,7 @@ public class ProtoBuildTest extends TestCase {
 
         //$.staticBlock();
         $.field();
-        $$.var();
+        $.var();
         $var.of();
 
         // $at(line, column)
@@ -135,7 +135,7 @@ public class ProtoBuildTest extends TestCase {
 
         //multi- $proto
         $throws $ts = $throws.of();
-        $$.throwStmt();
+        $.throwStmt();
 
         $typeParameters.of();
         $.typeParameters();

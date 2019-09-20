@@ -248,18 +248,18 @@ public class _1_WhatIsProtoTest extends TestCase {
 
         // $.expr() represents ALL expressions (Note: some expressions are composed of other expressions)
         //[-1, 1, @LitAnno(0), 0, 1, 2, 3 + 4, 3, 4, { 5, 6, 7, 8, 9, 10 }, 5, 6, 7, 8, 9, 10, "StringLiteral", a += 11, a, 11]
-        System.out.println( $$.expr().listIn(MostlyIntLiterals.class) );
+        System.out.println( $.expr().listIn(MostlyIntLiterals.class) );
 
         /**
          * $.literal() represents all {@link com.github.javaparser.ast.expr.LiteralExpr}
          * NOTE the first 1 (should it be -1**)
          * [1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, "StringLiteral", 11]
          */
-        System.out.println( $$.literal().listIn(MostlyIntLiterals.class) );
+        System.out.println( $.literal().listIn(MostlyIntLiterals.class) );
 
         //NOTE the first 1 (should it be -1?)
         //[1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-        System.out.println( $$.intLiteral().listIn(MostlyIntLiterals.class));
+        System.out.println( $.intLiteral().listIn(MostlyIntLiterals.class));
 
         // ** above the -1 is actually a unaryExpr with two child nodes
         //              UnaryExpr (-1)
@@ -267,7 +267,7 @@ public class _1_WhatIsProtoTest extends TestCase {
         //   (an Operator "-")  (an IntLiteralExpr "1")
 
         //lets build a $expr<UnaryExpr> that represents + or - and some int (i.e. "+5", "-3")
-        $ex $plusMinusInt = $$.unary($$.PLUS,$$.MINUS) // matches UnaryExpr with either operator
+        $ex $plusMinusInt = $.unary($.PLUS,$.MINUS) // matches UnaryExpr with either operator
                 .$and(u-> u.getExpression().isIntegerLiteralExpr()); //verifies the UnaryExpr expression is an int literal
 
         //query the class and verify we can find the UnaryExpr -1
@@ -275,7 +275,7 @@ public class _1_WhatIsProtoTest extends TestCase {
         System.out.println( $plusMinusInt.listIn(MostlyIntLiterals.class));
 
         //match all int literals THAT ARE NOT children of of a +/- unaryExpression
-        $ex $unsignedIntLiteral = $$.intLiteral().$hasParent(p -> !$plusMinusInt.match(p) );
+        $ex $unsignedIntLiteral = $.intLiteral().$hasParent(p -> !$plusMinusInt.match(p) );
 
         //now combine the $proto matchers for finding:
         // 1) UnaryExpressions with +/- operators and Int literals
