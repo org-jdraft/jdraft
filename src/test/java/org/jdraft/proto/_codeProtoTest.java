@@ -19,6 +19,24 @@ import junit.framework.TestCase;
  */
 public class _codeProtoTest extends TestCase {
 
+    @interface N{
+        int value();
+    }
+
+    public void testHasNoParent(){
+        //find all literal 1's that ARE NOT direct children of binary expressions
+        class C{
+            @N(1)
+            int i = 1 + 2;
+            int y = (1);
+        }
+        $ex.intLiteralEx(1).forEachIn(C.class, e-> System.out.println( e.getParentNodeForChildren().getClass() ) );
+
+        assertEquals( 3, $ex.of(1).count(C.class));
+        assertEquals( 2, $ex.of(1).$hasNoParent( $ex.binaryEx() ).count(C.class));
+        assertEquals( 1, $ex.of(1).$hasNoParent( $ex.binaryEx(), $ex.enclosedEx() ).count(C.class));
+    }
+
     /**
      * int a = obj.getType()
      * int b = a

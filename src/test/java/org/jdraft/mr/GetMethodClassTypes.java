@@ -5,10 +5,7 @@ import junit.framework.TestCase;
 import org.jdraft.Stencil;
 import org.jdraft.Tokens;
 import org.jdraft._class;
-import org.jdraft.proto.$;
-import org.jdraft.proto.$parameter;
-import org.jdraft.proto.$proto;
-import org.jdraft.proto.$typeRef;
+import org.jdraft.proto.*;
 import org.jdraft.runtime._typeTree;
 
 public class GetMethodClassTypes extends TestCase {
@@ -24,10 +21,10 @@ public class GetMethodClassTypes extends TestCase {
             }
         }
         //$parameter.of().printIn(c.class);
-        $.of().$hasChild();
-        $.of().$hasParent();
-        $.of().$hasAncestor();
-        $.of().$hasDescendant();
+        $.of().$hasChild($$.literal());
+        $.of().$hasParent($$.lambda());
+        $.of().$hasAncestor($$.localClassStmt());
+        $.of().$hasDescendant($enum.of());
 
         //$parameter.of().$hasDescendant();
         //$typeRef.of().$hasParent($parameter.of()).printIn( c.class );
