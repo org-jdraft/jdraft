@@ -35,7 +35,6 @@ import org.jdraft._type._hasImplements;
 import org.jdraft._typeParameter._typeParameters;
 import org.jdraft.io._in;
 import org.jdraft.io._io;
-import org.jdraft.macro._macro;
 import org.jdraft.macro.macro;
 
 /**
@@ -666,7 +665,7 @@ public interface _java {
      * @see _moduleInfo
      * @see _type
      * @see _node
-     * @see _member
+     * @see _declaration
      */
     interface _componentized{
 
@@ -1040,7 +1039,7 @@ public interface _java {
          * The classes below are categorical interfaces that are applied to classes
          */
         Class<_node> NODE = _node.class;
-        Class<_member> MEMBER = _member.class;
+        Class<_declaration> MEMBER = _declaration.class;
         Class<_named> NAMED = _named.class;
         Class<_namedType> NAMED_TYPE = _namedType.class;
 

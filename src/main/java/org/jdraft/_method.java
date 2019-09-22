@@ -14,7 +14,6 @@ import com.github.javaparser.ast.type.*;
 
 import org.jdraft._parameter.*;
 import org.jdraft._anno.*;
-import org.jdraft.macro._macro;
 import org.jdraft.macro._remove;
 import org.jdraft.macro.macro;
 
@@ -30,7 +29,7 @@ public final class _method
         _typeParameter._hasTypeParameters<_method>, _receiverParameter._hasReceiverParameter<_method>,
         _modifiers._hasStatic<_method>, _modifiers._hasNative<_method>, _modifiers._hasFinal<_method>,
         _modifiers._hasAbstract<_method>, _modifiers._hasSynchronized<_method>,
-        _modifiers._hasStrictFp<_method>, _member<MethodDeclaration, _method> {
+        _modifiers._hasStrictFp<_method>, _declaration<MethodDeclaration, _method> {
 
     public static _method of(String methodDecl) {
         return of(new String[]{methodDecl});

@@ -33,9 +33,9 @@ public class _typeTest extends TestCase {
 
         }
         _type _t = _java.type(PP.class);
-        List<_method> _ms = _t.listMembers(_method.class);
+        List<_method> _ms = _t.listDeclarations(_method.class);
         assertTrue( _ms.isEmpty() );
-        _ms = _t.listMembers(_method.class, _m-> ((_method)_m).isImplemented() );
+        _ms = _t.listDeclarations(_method.class, _m-> ((_method)_m).isImplemented() );
         assertTrue( _ms.isEmpty() );
         _ms = _t.listMethods(_m -> ((_method)_m).isImplemented());
         assertTrue( _ms.isEmpty() );
@@ -60,7 +60,7 @@ public class _typeTest extends TestCase {
         assertNotNull( _t.getCompanionType("AnotherPackagePrivateClass") );
         assertNotNull( _t.getCompanionType(_class.class, "AnotherPackagePrivateClass") );
         
-        _t.forMembers(_method.class, _m-> System.out.println(_m) );
+        _t.forDeclarations(_method.class, _m-> System.out.println(_m) );
         
         List<_class> _cs = _t.listCompanionTypes(_class.class);
         assertEquals(1, _cs.size() );

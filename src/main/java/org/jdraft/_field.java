@@ -7,7 +7,6 @@ import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.type.*;
 
 import org.jdraft._anno.*;
-import org.jdraft.macro._macro;
 import org.jdraft.macro._remove;
 import org.jdraft.macro.macro;
 
@@ -34,7 +33,7 @@ public final class _field
         implements _javadoc._hasJavadoc<_field>, _anno._hasAnnos<_field>, _modifiers._hasModifiers<_field>,
         _modifiers._hasFinal<_field>, _modifiers._hasStatic<_field>, _modifiers._hasTransient<_field>,
         _modifiers._hasVolatile<_field>, _namedType<_field>,
-        _member<VariableDeclarator, _field> {
+        _declaration<VariableDeclarator, _field> {
 
     private final VariableDeclarator astVar;
 

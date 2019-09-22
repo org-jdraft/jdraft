@@ -16,7 +16,7 @@ import java.util.function.Predicate;
  * Note... at the moment this is NOT a template... should it be??
  */
 public final class $enum
-        implements $proto<_enum, $enum>, $proto.$java<_enum, $enum> {
+        implements $proto<_enum, $enum>, $proto.$java<_enum, $enum>, $member.$named<$enum> {
 
     public Predicate<_enum> constraint = t->true;
 

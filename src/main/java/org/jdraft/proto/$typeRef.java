@@ -22,7 +22,7 @@ import java.util.function.Predicate;
  */
 public final class $typeRef
     implements Template<_typeRef>, $proto<_typeRef, $typeRef>, $method.$part, $field.$part,
-        $parameter.$part, $typeParameter.$part, $var.$part {
+        $parameter.$part, $typeParameter.$part, $var.$part, $annotationElement.$part {
 
     public static final $typeRef VOID = of( new VoidType() );
 

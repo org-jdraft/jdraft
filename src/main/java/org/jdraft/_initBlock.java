@@ -29,7 +29,7 @@ import org.jdraft.macro._static;
  */
 public final class _initBlock
         implements _body._hasBody<_initBlock>, _javadoc._hasJavadoc<_initBlock>,
-        _node<InitializerDeclaration, _initBlock> {
+        _member<InitializerDeclaration, _initBlock> {
 
     /**
      *

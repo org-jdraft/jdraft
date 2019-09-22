@@ -13,7 +13,8 @@ import java.util.function.Predicate;
  * Note... at the moment this is NOT a template... should it be??
  */
 public final class $enumConstant
-        implements $proto<_enum._constant, $enumConstant>, $proto.$java<_enum._constant, $enumConstant>, $enum.$part {
+        implements $proto<_enum._constant, $enumConstant>, $proto.$java<_enum._constant, $enumConstant>, $enum.$part,
+        $member.$named<$enumConstant> {
 
     public Predicate<_enum._constant> constraint = t->true;
 
@@ -139,6 +140,9 @@ public final class $enumConstant
     @Override
     public Select select(_enum._constant instance) {
 
+        if( !this.constraint.test(instance)){
+            return null;
+        }
         //$tokens.to will short circuit
         // IF "tokens" is null: return null (without running the lambda)
         // IF "tokens" is not null : run the lambda and derive "NewTokens" of Map<String,Object>

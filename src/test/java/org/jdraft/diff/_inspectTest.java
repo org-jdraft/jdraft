@@ -6,7 +6,7 @@ import org.jdraft._class;
 import org.jdraft._field;
 
 import static org.jdraft._java.Component.*;
-import org.jdraft._member;
+import org.jdraft._declaration;
 import org.jdraft._method;
 import org.jdraft.diff._diffNode._change;
 import org.jdraft.diff._diffNode._edit;
@@ -140,7 +140,7 @@ public class _inspectTest extends TestCase {
         });
         
         //move ALL members from _v2 to _v1
-        _v1.add(_v2.listMembers().toArray(new _member[0]));
+        _v1.add(_v2.listDeclarations().toArray(new _declaration[0]));
         assertEquals( _v1, _v2);        
     }
     

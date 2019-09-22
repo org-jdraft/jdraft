@@ -35,7 +35,8 @@ import java.util.stream.Collectors;
  * @author Eric
  */
 public final class $field implements Template<_field>, $proto<_field, $field>,
-        $proto.$java<_field, $field>, $class.$part, $interface.$part, $enum.$part, $annotation.$part,$enumConstant.$part{
+        $proto.$java<_field, $field>, $class.$part, $interface.$part, $enum.$part, $annotation.$part,$enumConstant.$part,
+        $member.$named<$field> {
 
     public Class<_field> javaType(){
         return _field.class;

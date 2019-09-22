@@ -6,12 +6,10 @@ import com.github.javaparser.ast.body.AnnotationDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.JavadocComment;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.jdraft.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -19,7 +17,7 @@ import java.util.function.Predicate;
  * Note... at the moment this is NOT a template... should it be??
  */
 public final class $annotation
-        implements $proto<_annotation, $annotation>, $proto.$java<_annotation, $annotation> {
+        implements $proto<_annotation, $annotation>, $proto.$java<_annotation, $annotation>, $member.$named<$annotation> {
 
     public Predicate<_annotation> constraint = t->true;
 
@@ -29,6 +27,8 @@ public final class $annotation
     public $annos annos = $annos.of();
     public $modifiers modifiers = $modifiers.of();
     public $id name = $id.of("$annotationName$"); //name required
+
+    public List<$annotationElement> annotationElements = new ArrayList<>();
 
     //body parts
     public List<$field> fields = new ArrayList<>();
@@ -77,12 +77,14 @@ public final class $annotation
             if( parts[i] instanceof $id ){
                 this.name = ($id)parts[i];
             }
+            if( parts[i] instanceof $annotationElement ){
+                this.annotationElements.add( ($annotationElement)parts[i]);
+            }
             if( parts[i] instanceof $package ){
                 this.packageDecl = ($package)parts[i];
             }
             // $element
             //Nested classes
-            //doesnt do javadoc, headercomment, extend, implement
         }
     }
 
@@ -91,6 +93,7 @@ public final class $annotation
         this.annos.hardcode$(translator, kvs);
         this.fields.forEach(f-> f.hardcode$(translator, kvs));
         this.imports.forEach( i-> i.hardcode$(translator, kvs));
+        this.annotationElements.forEach(e ->e.hardcode$(translator, kvs));
         this.javadoc.hardcode$(translator, kvs);
         this.modifiers.hardcode$(translator, kvs);
         this.name = this.name.hardcode$(translator, kvs);
@@ -105,11 +108,11 @@ public final class $annotation
                  this.annos.isMatchAny() &&
                  this.fields.isEmpty() &&
                  this.imports.isEmpty() &&
-
+                 this.annotationElements.isEmpty() &&
                  this.javadoc.isMatchAny() &&
                  this.modifiers.isMatchAny() &&
                  this.packageDecl.isMatchAny();
-                // nests, $property
+                // nests
 
             //NESTS
         } catch(Exception e){
@@ -120,7 +123,6 @@ public final class $annotation
     public boolean match( _annotation _a){
         return select(_a) != null;
     }
-
 
     public boolean matches( Class clazz){
         try {
@@ -189,14 +191,42 @@ public final class $annotation
         tokens = $tokens.to( tokens, ()-> this.javadoc.parse(instance ));
         tokens = $tokens.to( tokens, ()-> this.modifiers.parse(instance));
         tokens = $tokens.to( tokens, ()-> this.name.parse(instance.getName()));
+        tokens = $tokens.to( tokens, ()-> selectAnnotationElements(this.annotationElements, instance));
         tokens = $tokens.to( tokens, ()-> $type.selectFields(this.fields, instance ) );
 
-        //nests, elements
+        //nests
 
         if( tokens != null ){
             return new Select(instance, tokens);
         }
         return null;
+    }
+
+    /* These are methods shared/used by all $type implementations */
+    static $proto.$tokens selectAnnotationElements(List<$annotationElement> $protoTypes, _annotation _a){
+        Map<$annotationElement, List<$annotationElement.Select>> selectMap = new HashMap<>();
+
+        for(int i=0;i<$protoTypes.size(); i++) {
+            final $annotationElement t = $protoTypes.get(i);
+            List<$annotationElement.Select>matches = new ArrayList<>();
+            _a.listElements().forEach( c ->{
+                $annotationElement.Select sel = t.select( c );
+                if( sel != null ){
+                    matches.add(sel);
+                }
+            } );
+            if( matches.isEmpty()){
+                return null; //couldnt match a $constructor to ANY constructors
+            } else{
+                selectMap.put(t, matches); //associated the matches with
+            }
+        }
+        //Now create a map with ALL tokens
+        $proto.$tokens all = $proto.$tokens.of();
+        selectMap.values().forEach( ls -> ls.forEach( s-> all.putAll(s.tokens()) ));
+        all.remove("type");
+        all.remove("name");
+        return all;
     }
 
     @Override
@@ -270,6 +300,10 @@ public final class $annotation
         return this;
     }
 
+    public $annotation $elements( $annotationElement...$aes ){
+        Arrays.stream($aes).forEach(a-> this.annotationElements.add(a));
+        return this;
+    }
 
     @Override
     public boolean match(Node candidate) {

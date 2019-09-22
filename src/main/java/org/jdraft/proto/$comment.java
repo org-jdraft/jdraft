@@ -18,7 +18,7 @@ import java.util.function.Predicate;
  */
 public final class $comment <C extends Comment>
     implements $proto<C, $comment<C>>, Template<C>, $constructor.$part, $method.$part, $field.$part, $class.$part,
-        $interface.$part, $enum.$part, $annotation.$part,$enumConstant.$part {
+        $interface.$part, $enum.$part, $annotation.$part,$enumConstant.$part, $annotationElement.$part {
     
     public static $comment<Comment> of(){
         return new $comment();

@@ -11,8 +11,6 @@ import org.jdraft.proto.*;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 /**
  * I just wanted to compare and contrast how Roslyn (and C#) does
@@ -32,7 +30,7 @@ public class RoslynSyntaxTest extends TestCase {
         });
 
         //examine the members (of the class)
-        _c.forMembers(m -> System.out.println(m));
+        _c.forDeclarations(m -> System.out.println(m));
 
         CompilationUnit cu = _c.astCompilationUnit();
 

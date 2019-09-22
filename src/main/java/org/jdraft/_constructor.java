@@ -1,7 +1,6 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.Modifier;
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
@@ -12,7 +11,6 @@ import com.github.javaparser.ast.stmt.Statement;
 import org.jdraft._anno.*;
 import org.jdraft._parameter.*;
 import org.jdraft._typeParameter.*;
-import org.jdraft.macro._macro;
 import org.jdraft.macro._remove;
 
 import java.lang.reflect.Constructor;
@@ -32,7 +30,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
     _body._hasBody<_constructor>, _modifiers._hasModifiers<_constructor>,
     _parameter._hasParameters<_constructor>, _typeParameter._hasTypeParameters<_constructor>,
     _receiverParameter._hasReceiverParameter<_constructor>,
-    _member<ConstructorDeclaration, _constructor> {
+        _declaration<ConstructorDeclaration, _constructor> {
 
 
     public static _constructor of( String signature ){

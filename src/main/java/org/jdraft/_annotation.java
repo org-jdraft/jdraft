@@ -17,7 +17,6 @@ import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.utils.Log;
 import org.jdraft._anno.*;
 import org.jdraft.io._in;
-import org.jdraft.macro._macro;
 import org.jdraft.macro.macro;
 
 /**
@@ -415,24 +414,24 @@ public final class _annotation
     /**
      * list all the members that match the predicate
      *
-     * @param _memberMatchFn
+     * @param _declarationMatchFn
      * @return matching members
      */
     @Override
-    public List<_member> listMembers( Predicate<_member> _memberMatchFn ){
-        return listMembers().stream().filter(_memberMatchFn).collect(Collectors.toList());
+    public List<_declaration> listDeclarations(Predicate<_declaration> _declarationMatchFn){
+        return listDeclarations().stream().filter(_declarationMatchFn).collect(Collectors.toList());
     }
 
     /**
      * lists all of the members that are of a specific member class
      * @param <_M> the specific member class to find
-     * @param memberClass the member class
+     * @param declarationClass the member class
      * @return the list of members
      */
     @Override
-    public <_M extends _member> List<_M> listMembers(Class<_M> memberClass ){
+    public <_M extends _declaration> List<_M> listDeclarations(Class<_M> declarationClass){
         List<_M> found = new ArrayList<>();
-        listMembers().stream().filter(m -> memberClass.isAssignableFrom(m.getClass()))
+        listDeclarations().stream().filter(m -> declarationClass.isAssignableFrom(m.getClass()))
                 .forEach(m -> found.add( (_M)m) );
         return found;
     }
@@ -440,18 +439,18 @@ public final class _annotation
     /**
      * lists all of the members that are of a specific member class
      * @param <_M> the specific member class to find
-     * @param memberClass the member class
-     * @param _memberMatchFn a matching function for selecting which members
+     * @param declarationClass the member class
+     * @param declarationMatchFn a matching function for selecting which members
      * @return the list of members
      */
     @Override
-    public <_M extends _member> List<_M> listMembers(Class<_M> memberClass, Predicate<_M> _memberMatchFn){
-        return listMembers(memberClass).stream().filter(_memberMatchFn).collect(Collectors.toList());        
+    public <_M extends _declaration> List<_M> listDeclarations(Class<_M> declarationClass, Predicate<_M> declarationMatchFn){
+        return listDeclarations(declarationClass).stream().filter(declarationMatchFn).collect(Collectors.toList());
     }
     
     @Override
-    public _member getMember(Predicate<_member> memberMatchFn){
-        List<_member> mems = listMembers(memberMatchFn);
+    public _declaration getDeclaration(Predicate<_declaration> _declarationMatchFn){
+        List<_declaration> mems = listDeclarations(_declarationMatchFn);
         if( mems.isEmpty()){
             return null;
         }
@@ -459,8 +458,8 @@ public final class _annotation
     }
     
     @Override
-    public <_M extends _member> _M getMember(Class<_M> memberClass ){
-        List<_M> mems = listMembers(memberClass);
+    public <_M extends _declaration> _M getDeclaration(Class<_M> declarationClass){
+        List<_M> mems = listDeclarations(declarationClass);
         if( mems.isEmpty()){
             return null;
         }
@@ -468,8 +467,8 @@ public final class _annotation
     }
     
     @Override
-    public <_M extends _member> _M getMember(Class<_M> memberClass, Predicate<_M> memberMatchFn){
-        List<_M> mems = listMembers(memberClass, memberMatchFn);
+    public <_M extends _declaration> _M getDeclaration(Class<_M> declarationClass, Predicate<_M> _declarationMatchFn){
+        List<_M> mems = listDeclarations(declarationClass, _declarationMatchFn);
         if( mems.isEmpty()){
             return null;
         }
@@ -477,8 +476,8 @@ public final class _annotation
     }
     
     @Override
-    public <_M extends _member> _M getMember(Class<_M> memberClass, String memberName){
-        List<_M> mems = listMembers(memberClass, m-> m.getName().equals(memberName));
+    public <_M extends _declaration> _M getDeclaration(Class<_M> declarationClass, String declarationName){
+        List<_M> mems = listDeclarations(declarationClass, m-> m.getName().equals(declarationName));
         if( mems.isEmpty()){
             return null;
         }
@@ -514,8 +513,8 @@ public final class _annotation
     }
 
     @Override
-    public List<_member> listMembers(){
-        List<_member> _mems = new ArrayList<>();
+    public List<_declaration> listDeclarations(){
+        List<_declaration> _mems = new ArrayList<>();
         forFields( f-> _mems.add( f));
         forElements(e -> _mems.add(e));
         forNests(n -> _mems.add(n));
@@ -528,8 +527,8 @@ public final class _annotation
     }
     
     @Override
-    public _annotation forMembers( Predicate<_member>_memberMatchFn, Consumer<_member> _memberActionFn){
-        listMembers(_memberMatchFn).forEach(m -> _memberActionFn.accept(m) );
+    public _annotation forDeclarations(Predicate<_declaration> _declarationMatchFn, Consumer<_declaration> _declarationAction){
+        listDeclarations(_declarationMatchFn).forEach(m -> _declarationAction.accept(m) );
         return this;
     }
 
@@ -646,7 +645,7 @@ public final class _annotation
      */
     public static class _element implements _javadoc._hasJavadoc<_element>,
             _anno._hasAnnos<_element>, _namedType<_element>,
-            _member<AnnotationMemberDeclaration, _element> {
+            _declaration<AnnotationMemberDeclaration, _element> {
 
         public static _element of( AnnotationMemberDeclaration am){
             return new _element( am );

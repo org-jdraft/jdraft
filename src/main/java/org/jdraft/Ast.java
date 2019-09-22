@@ -938,27 +938,6 @@ public enum Ast {
     }
 
     /**
-     * returns the first descendant of the node that is of the node class and matches the descendant matchfn
-     * @param node
-     * @param descendantNodeClass
-     * @param descendantMatchFn
-     * @param <N>
-     * @return
-
-    public static <N extends Node> N descendant( Node node, Class<N> descendantNodeClass, Predicate<N> descendantMatchFn){
-
-        //
-        Optional<Node> on =                                    //cant be the node itself
-                node.stream(Node.TreeTraversal.PREORDER).filter(a -> !a.equals(node) && descendantNodeClass.isAssignableFrom(a.getClass()) && descendantMatchFn.test( (N)a )).findFirst();
-        if( on.isPresent() ) {
-            return (N) on.get();
-        }
-        return null;
-    }
-    */
-
-
-    /**
      * Recursive descent-level search that returns if the node or any of it's children
      * up to (depth) levels deep
      *

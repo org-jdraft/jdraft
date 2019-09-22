@@ -1,5 +1,6 @@
 package org.jdraft.proto;
 
+import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.jdraft.*;
 
@@ -8,9 +9,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class $type {
+public interface $type { //<T extends TypeDeclaration, _T extends _type> {
 
-    public static $proto.$tokens selectImplements(List<$typeRef> $protoTypes, _type._hasImplements _hi ){
+
+    /** this is a $type representation */
+    public static class $impl{
+
+    }
+
+
+
+
+    /* These are methods shared/used by all $type implementations */
+    static $proto.$tokens selectImplements(List<$typeRef> $protoTypes, _type._hasImplements _hi){
         Map<$typeRef, List<$typeRef.Select>> selectMap = new HashMap<>();
 
         for(int i=0;i<$protoTypes.size(); i++) {
@@ -36,7 +47,7 @@ public class $type {
         return all;
     }
 
-    public static $proto.$tokens selectExtends($typeRef $protoType, _type._hasExtends _he ){
+    static $proto.$tokens selectExtends($typeRef $protoType, _type._hasExtends _he ){
         if( !_he.hasExtends() && $protoType.isMatchAny() ){
             return $proto.$tokens.of();
         }
@@ -45,7 +56,7 @@ public class $type {
         return selectExtends(lt, _he);
     }
 
-    public static $proto.$tokens selectExtends(List<$typeRef> $protoTypes, _type._hasExtends _he ){
+    static $proto.$tokens selectExtends(List<$typeRef> $protoTypes, _type._hasExtends _he ){
 
         Map<$typeRef, List<$typeRef.Select>> selectMap = new HashMap<>();
 
@@ -73,7 +84,7 @@ public class $type {
         return all;
     }
 
-    public static $proto.$tokens selectConstructors(List<$constructor> $protoCtors, _constructor._hasConstructors _hcs ){
+    static $proto.$tokens selectConstructors(List<$constructor> $protoCtors, _constructor._hasConstructors _hcs ){
         Map<$constructor, List<$constructor.Select>> selectMap = new HashMap<>();
 
         for(int i=0;i<$protoCtors.size(); i++) {
@@ -101,7 +112,7 @@ public class $type {
     }
 
 
-    public static $proto.$tokens selectMethods(List<$method> $protoMethods, _method._hasMethods _hcs ){
+    static $proto.$tokens selectMethods(List<$method> $protoMethods, _method._hasMethods _hcs ){
         Map<$method, List<$method.Select>> selectMap = new HashMap<>();
 
         for(int i=0;i<$protoMethods.size(); i++) {
@@ -129,7 +140,7 @@ public class $type {
         return all;
     }
 
-    public static $proto.$tokens selectFields(List<$field> $protoFields, _field._hasFields _hcs ){
+    static $proto.$tokens selectFields(List<$field> $protoFields, _field._hasFields _hcs ){
         Map<$field, List<$field.Select>> selectMap = new HashMap<>();
 
         for(int i=0;i<$protoFields.size(); i++) {
@@ -156,7 +167,7 @@ public class $type {
     }
 
 
-    public static $proto.$tokens selectInitBlocks(List<$initBlock> $protoInitBlocks, _initBlock._hasInitBlocks _hcs ){
+    static $proto.$tokens selectInitBlocks(List<$initBlock> $protoInitBlocks, _initBlock._hasInitBlocks _hcs ){
         Map<$initBlock, List<$initBlock.Select>> selectMap = new HashMap<>();
 
         for(int i=0;i<$protoInitBlocks.size(); i++) {
@@ -182,7 +193,7 @@ public class $type {
         return all;
     }
 
-    public static $proto.$tokens selectImports(List<$import> $protoImports, _code _hcs ){
+    static $proto.$tokens selectImports(List<$import> $protoImports, _code _hcs ){
         Map<$import, List<$import.Select>> selectMap = new HashMap<>();
 
         for(int i=0;i<$protoImports.size(); i++) {

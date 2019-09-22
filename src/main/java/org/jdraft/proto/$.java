@@ -23,7 +23,6 @@ import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.function.*;
 import org.jdraft._typeParameter._typeParameters;
-import org.jdraft.macro._macro;
 import org.jdraft.macro._remove;
 import org.jdraft.macro.macro;
 
@@ -1150,7 +1149,7 @@ public final class $ {
     }
 
     /**
-     * Create a prototype AssertStmt from the first assert statement that appears in the
+     * Create a prototype forEachStmt from the first assert statement that appears in the
      * Lambda
      * @param ec
      * @return
@@ -1586,15 +1585,15 @@ public final class $ {
     }
 
     public static $node of(Class<? extends Node> nodeClass, Class<? extends Node> nodeClass2){
-        return $node.of(new Class[]{nodeClass, nodeClass2});
+        return $node.of( nodeClass, nodeClass2);
     }
 
     public static $node of(Class<? extends Node> nodeClass, Class<? extends Node> nodeClass2, Class<? extends Node> nodeClass3){
-        return $node.of(new Class[]{nodeClass, nodeClass2, nodeClass3});
+        return $node.of( nodeClass, nodeClass2, nodeClass3);
     }
 
     public static $node of(Class<? extends Node> nodeClass, Class<? extends Node> nodeClass2, Class<? extends Node> nodeClass3, Class<? extends Node> nodeClass4){
-        return $node.of(new Class[]{nodeClass, nodeClass2, nodeClass3, nodeClass4});
+        return $node.of( nodeClass, nodeClass2, nodeClass3, nodeClass4);
     }
 
     public static $id id (){

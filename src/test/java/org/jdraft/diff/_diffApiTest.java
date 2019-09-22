@@ -397,7 +397,7 @@ public class _diffApiTest extends TestCase {
         assertEquals(_a, _b);
         assertTrue( _diff.of(_a,_b).isEmpty());
         
-        _method m = (_method)_a.getNest("Inner").getMember( _method.class );
+        _method m = (_method)_a.getNest("Inner").getDeclaration( _method.class );
         
         //add a new Statement at the beginning of the method
         m.add(0, Stmt.of(()->{ System.out.println("started");}) );

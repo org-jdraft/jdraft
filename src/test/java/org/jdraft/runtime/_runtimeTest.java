@@ -65,12 +65,12 @@ public class _runtimeTest extends TestCase {
                 //if( n instanceof NodeWithOptionalBlockStmt)
             }
         }
-         class MacroAnno implements _macro<_member> {
+         class MacroAnno implements _macro<_declaration> {
 
              @Override
-             public _member apply( _member _m ){
+             public _declaration apply(_declaration _m ){
                 if( _m instanceof _body._hasBody ){
-                    return (_member)to( (_body._hasBody)_m);
+                    return (_declaration)to( (_body._hasBody)_m);
                 }
                 if( _m instanceof _type ){
                     System.out.println( "TYPED " );

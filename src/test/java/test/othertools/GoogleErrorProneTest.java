@@ -4,6 +4,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.CallableDeclaration;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import junit.framework.TestCase;
+import org.jdraft.Ast;
 import org.jdraft.proto.*;
 
 /**
@@ -20,8 +21,7 @@ public class GoogleErrorProneTest extends TestCase {
 
         //this models all return statements that return the null literal
         $stmt<ReturnStmt> $returnNull =
-                $.returnStmt().$and(r -> r.getExpression().isPresent()
-                        && r.getExpression().get().isNullLiteralExpr() );
+                $.returnStmt("return null;");
 
         class retNull{
             String v(){
@@ -46,9 +46,8 @@ public class GoogleErrorProneTest extends TestCase {
         $node $memberAnnotatedWithNullable = $node.of(CallableDeclaration.class)
                 .$and(cd-> ((CallableDeclaration)cd).getAnnotationByName("Nullable").isPresent());
 
-        //match any Return null where that is NOT within a Member
-        $stmt<ReturnStmt> $returnNull = $.returnStmt().$and(r -> r.getExpression().isPresent()
-                && r.getExpression().get().isNullLiteralExpr() )
+        //match any Return null where that is NOT within a Member of
+        $stmt<ReturnStmt> $returnNull = $.returnStmt("return null;")
                 .$and(r -> !$.hasAncestor(r, $memberAnnotatedWithNullable));
 
 
@@ -56,13 +55,14 @@ public class GoogleErrorProneTest extends TestCase {
             @Nullable Object m(){ //this shouldnt match
                 return null;
             }
+
             String name(){ //this should match
                 /** comment */
                 return null;
             }
         }
         assertEquals(1, $returnNull.count(FFF.class));
-        System.out.println( "FOUND " + $returnNull.firstIn(FFF.class) );
+        //System.out.println( "FOUND " + $returnNull.firstIn(FFF.class) );
 
         assertTrue( $returnNull.firstIn(FFF.class)
                 .stream(Node.TreeTraversal.PARENTS).anyMatch( p-> $method.of().$name("name").match(p) ) );

@@ -37,19 +37,18 @@ import java.util.stream.Collectors;
  */
 public final class $method
     implements Template<_method>, $proto<_method, $method>, $proto.$java<_method,$method>, $class.$part,
-        $interface.$part, $enum.$part,$enumConstant.$part {
-
-
-    public Class<_method> javaType(){
-        return _method.class;
-    }
+        $interface.$part, $enum.$part,$enumConstant.$part, $member.$named<$method> {
 
     /**
      * Marker interface for categorizing/identifying parts that make up the
      * $method
      */
     public interface $part{}
-    
+
+    public Class<_method> javaType(){
+        return _method.class;
+    }
+
     /**
      * 
      * @param protoMethod
@@ -494,7 +493,15 @@ public final class $method
         this.name = id;
         return this;
     }
-    
+
+    /*
+    @Override
+    public $method name(String name) {
+        return null;
+    }
+     */
+
+    @Override
     public $method $name(String name){
         this.name = $id.of(name);
         return this;
