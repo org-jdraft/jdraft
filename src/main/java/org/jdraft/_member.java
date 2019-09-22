@@ -1,13 +1,17 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.comments.JavadocComment;
-import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
 
 /**
- * A member component of the {@link _type} (it can be associated with a larger entity or context)
- * NOTE: each {@link _member} maps directly to an AST Node
+ * A member within the body of a Class (something defined in the  { }) including {@link _initBlock}s.
+ * All _{@link _member}s are {@link _node}s (they are represented by BOTH a meta-representation i.e. {@link _method},
+ * and an AST representation {@link com.github.javaparser.ast.body.MethodDeclaration}.
+ *
+ * {@link _initBlock} IS a {@link _member}, BUT IS NOT a {@link _declaration}, because even though
+ * {@link _initBlock} is defined within the context of a Class, it is not named/reachable/callable or "declared"
+ * and referenced outside of the class where it is defined.
  * <UL>
+ * <LI>{@link _initBlock} {@link com.github.javaparser.ast.body.InitializerDeclaration}
  * <LI>{@link _field} {@link com.github.javaparser.ast.body.FieldDeclaration}
  * <LI>{@link _constructor} {@link com.github.javaparser.ast.body.ConstructorDeclaration}
  * <LI>{@link _method} {@link com.github.javaparser.ast.body.MethodDeclaration}
@@ -20,44 +24,12 @@ import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
  * <LI>{@link _annotation} {@link com.github.javaparser.ast.body.AnnotationDeclaration}
  * </UL>
  *
- * NOTE:
- * <LI>{@link _initBlock} {@link com.github.javaparser.ast.body.InitializerDeclaration}
- * is NOT a member (primarily because it does not satisfy the {@link _named}
- * {@link _anno._hasAnnos} or {@link _javadoc._hasJavadoc} interfaces
- * (this generally maps to Accessible Java Member things
- * (available via reflection at runtime)
- *
- * @param <N> the node type (i.e. {@link com.github.javaparser.ast.expr.AnnotationExpr})
- * @param <_M> the draft type (i.e. {@link _anno})
+ * @param <N>
+ * @param <_N>
+ * @see _declaration (an EXTENSION of {@link _member}s that are also {@link _named}...(all {@link _member}s are
+ * {@link _declaration}s, ACCEPT {@link _initBlock} which is ONLY a {@link _member}
  */
-public interface _member<N extends Node, _M extends _node & _named & _anno._hasAnnos & _javadoc._hasJavadoc>
-        extends _node<N, _M>, _named<_M>, _anno._hasAnnos<_M>, _javadoc._hasJavadoc<_M> {
+public interface _member <N extends Node, _N extends _node>
+        extends _node<N, _N> {
 
-    @Override
-    default _javadoc getJavadoc() {
-        return _javadoc.of((NodeWithJavadoc) this.ast());
-    }
-
-    @Override
-    default _M removeJavadoc() {
-        ((NodeWithJavadoc) this.ast()).removeJavaDocComment();
-        return (_M) this;
-    }
-
-    @Override
-    default boolean hasJavadoc() {
-        return ((NodeWithJavadoc) this.ast()).getJavadoc().isPresent();
-    }
-
-    @Override
-    default _M javadoc(String... content) {
-        ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
-        return (_M) this;
-    }
-
-    @Override
-    default _M javadoc(JavadocComment astJavadocComment) {
-        ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
-        return (_M) this;
-    }
 }
