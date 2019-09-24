@@ -71,7 +71,6 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
     extends _javadoc._hasJavadoc<_T>, _anno._hasAnnos<_T>, _modifiers._hasModifiers<_T>,
         _field._hasFields<_T>, _declared<AST, _T>, _code<_T>, _node<AST, _T>, _java {
 
-
     /**
      * If we are a top level _type add the types as companion types
      * (other top level types that are package private) to the CompilationUnit
@@ -117,7 +116,6 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
             ("cannot add companion Types to a Nested Type \""+this.getName()+"\"");
     }
 
-    
     /**
      * Applies transforms to "companion types" declared in this compilationUnit
      * "companion types" are top level types that are "package private" (i.e. they
@@ -291,7 +289,6 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
         }
         return ts.get(0); //just return the first one        
     }
-
 
     /**
      * Looks for all "companion types" that match the _typeMatchFn and removes them
@@ -556,7 +553,6 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      */
     default <_D extends _declared> List<_D> listDeclared(Class<_D> declarationClass, Predicate<_D> _declarationMatchFn){
         return listMembers(declarationClass, _declarationMatchFn);
-
     }
 
     /**

@@ -498,7 +498,7 @@ public interface _code<_C> extends _java, _java._componentized {
      * from a Online repository, or any other mechanism for finding and returning _code models
      *
      */
-    interface _provider{
+    interface _provider extends _java{
 
         /**
          *
