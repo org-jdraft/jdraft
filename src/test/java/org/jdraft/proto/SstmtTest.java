@@ -468,7 +468,7 @@ public class SstmtTest extends TestCase {
      */
     public void testReplace$stmtWith$snip(){
         $stmt $s = $stmt.of( ($any$)-> System.out.println($any$) );
-        $code $r = $code.of( (Integer $any$)-> {
+        $statements $r = $statements.of( (Integer $any$)-> {
 
             assert $any$ != null;
             System.out.print($any$);

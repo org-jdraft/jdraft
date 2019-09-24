@@ -1,6 +1,8 @@
 package org.jdraft.runtime;
 
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.ConstructorDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.nodeTypes.NodeWithBody;
 import com.github.javaparser.ast.stmt.LabeledStmt;
 import org.jdraft.*;
@@ -51,8 +53,9 @@ public class _runtimeTest extends TestCase {
     @Retention(RetentionPolicy.RUNTIME)
     @interface _timed{
 
-        public static final Act A = new Act();
+        //public static final Act A = new Act();
 
+        /*
         class Act extends macro<_timed, Node>{
             public Act(){
                 super(_timed.class);
@@ -65,17 +68,19 @@ public class _runtimeTest extends TestCase {
                 //if( n instanceof NodeWithOptionalBlockStmt)
             }
         }
-         class MacroAnno implements _macro<_declaration> {
+         */
+         class MacroAnno extends macro<_timed, Node> {
+             public MacroAnno(_timed _t){
+                 super (_t);
+             }
 
              @Override
-             public _declaration apply(_declaration _m ){
-                if( _m instanceof _body._hasBody ){
-                    return (_declaration)to( (_body._hasBody)_m);
-                }
-                if( _m instanceof _type ){
-                    System.out.println( "TYPED " );
-                }
-                return _m;
+             public void expand(Node n){
+                 if( n instanceof MethodDeclaration ){
+                     to( _method.of( (MethodDeclaration)n) );
+                 } else if (n instanceof ConstructorDeclaration){
+                     to( _constructor.of( (ConstructorDeclaration)n) );
+                 }
              }
 
              public static <_HB extends _body._hasBody> _HB to(_HB _m) {
@@ -112,12 +117,15 @@ public class _runtimeTest extends TestCase {
      *
      */
     public void testChangingExistingCode(){
-        _timed.MacroAnno macro = new _timed.MacroAnno();
+        //_timed.MacroAnno macro = new _timed.MacroAnno();
         _class _c = _class.of("C", new Object(){
+
+            @_timed
             public void m(){
                 System.out.println( "Run here ");
             }
 
+            @_timed
             public int m2(int i){
                 if( i==1 ){
                     return 1;
@@ -125,10 +133,10 @@ public class _runtimeTest extends TestCase {
                 return 2;
             }
         });
-        _method _mm = macro.to(_c.getMethod("m"));
+        _method _mm = _c.getMethod("m");
         System.out.println( _mm );
 
-        _mm = macro.to(_c.getMethod("m2"));
+        _mm = _c.getMethod("m2");
         System.out.println( _mm );
     }
 

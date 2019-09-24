@@ -1,7 +1,7 @@
 package org.jdraft.macro;
 
 import org.jdraft.proto.$stmt;
-import org.jdraft.proto.$code;
+import org.jdraft.proto.$statements;
 import org.jdraft.proto.$field;
 import org.jdraft._field;
 import org.jdraft._type;
@@ -24,9 +24,8 @@ import java.util.stream.Collectors;
  * 2) import the classes needed for the logger
  * 3) convert all println statements to log statements
  *
- * @see _macro
  */
-public class _replaceSystemOutWithLog implements _macro<_type> {
+public class _replaceSystemOutWithLog {
     /** find these statements to be replaced */
 
     static $stmt $anySystemOut = $stmt.of("System.out.println($any$);");
@@ -79,8 +78,7 @@ public class _replaceSystemOutWithLog implements _macro<_type> {
         this.loggerStatementsFormat = loggerStatementsFormat;
     }
 
-    @Override
-    public _type apply(_type _t) {
+    public void expand(_type _t) {
         if( $anySystemOut.listIn(_t).size() > 0 ) {
             _field _f = _t.getField(preDefinedLoggerMatcher);
             if( _f == null ){ /* we didnt find a matching logger, create & add a new one*/
@@ -89,17 +87,17 @@ public class _replaceSystemOutWithLog implements _macro<_type> {
                 _t.field( _f ); /* add logger field to the TYPE */
             }
             /** add the actual log statement */
-            $anySystemOut.replaceIn(_t, $code.of( loggerStatementsFormat )
+            $anySystemOut.replaceIn(_t, $statements.of( loggerStatementsFormat )
                     .hardcode$("name", _f.getName() ) );
         }
-        return _t;
+        //return _t;
     }
     
     /** (HERE IS HOW WE CREATE A SIMPLE IMPLEMENTATION)
      * A specific implementation that will replace System.out.printlns 
      * with java.util.Logger Log.fine()...statements of the macro
      */
-    public static _macro<_type> JavaLoggerFine = new _replaceSystemOutWithLog(
+    public static _replaceSystemOutWithLog JavaLoggerFine = new _replaceSystemOutWithLog(
             (_field f)->f.isStatic() && f.isType(Logger.class),
             new ImportDeclaration[] { Ast.importDeclaration( Logger.class ),Ast.importDeclaration( Level.class )},
             $field.of("public static final Logger LOG = Logger.getLogger($className$.class.getCanonicalName());"),

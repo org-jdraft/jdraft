@@ -18,7 +18,7 @@ public class _hashCodeTest extends TestCase {
         /** 1) call the _class constructor with the {@link _autoHashCode#$} argument */
         //_class _1 = _class.of(A.class, _hashCode.$);
 
-        /** 2) call {@link draft.java._type#apply(_macro[])} with {@link _autoHashCode#$} */
+        /** 2) call {@link draft.java._type#apply(macro[])} with {@link _autoHashCode#$} */
         _class _2 = (_class)_hashCode.Act.to( _class.of(A.class) ); //.apply(_hashCode.$);
 
         /** 3) call with static to method {@link _autoHashCode.Macro#to(T t)} */

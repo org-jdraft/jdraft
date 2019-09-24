@@ -13,7 +13,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * Annotation/Macro to create an appropriate {@link org.jdraft._constructor} based on the {@link _field}s of the {@link _type}
+ * Annotation/Macro to create an appropriate {@link org.jdraft._constructor} based on the
+ * {@link _field}s of the {@link _type}
  *
  * Builds a constructor based on the final, non_static FIELDS without initializers
  * Works on {@link _class} and {@link org.jdraft._enum} {@link _type}s

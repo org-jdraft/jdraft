@@ -39,13 +39,13 @@ public @interface _transient {
             if( node instanceof FieldDeclaration){
                 FieldDeclaration nwp = (FieldDeclaration) node;
                 nwp.setTransient(true);
-                _macro.removeAnnotation(node, _transient.class);
+                //_macro.removeAnnotation(node, _transient.class);
             }
             else{
                 if( node instanceof VariableDeclarator){
                     FieldDeclaration fd = (FieldDeclaration)node.getParentNode().get();
                     fd.setTransient(true);
-                    _macro.removeAnnotation(fd, _transient.class);
+                    //_macro.removeAnnotation(fd, _transient.class);
                 }
             }
             return node;

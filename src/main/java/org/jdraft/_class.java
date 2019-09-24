@@ -616,7 +616,14 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         this.astClass.addExtendedType( toExtend );
         return this;
     }
-    
+
+    public List<_member> listMembers(){
+        List<_member> members = new ArrayList<>();
+        members.addAll( listDeclarations() );
+        members.addAll( listInitBlocks());
+        return members;
+    }
+
     @Override
     public List<_declaration> listDeclarations(){
         List<_declaration> _mems = new ArrayList<>();

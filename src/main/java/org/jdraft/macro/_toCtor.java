@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
  *     }
  * </PRE>
  *
- * @see _macro
+ * @see macro
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
@@ -93,7 +93,7 @@ public @interface _toCtor {
 
         public static ConstructorDeclaration to(MethodDeclaration methodDeclaration){
             List<TypeDeclaration>tds = new ArrayList<>();
-            _macro.removeAnnotation(methodDeclaration, _toCtor.class);
+            //_macro.removeAnnotation(methodDeclaration, _toCtor.class);
             _constructor _ct = fromMethod( _method.of(methodDeclaration));
             Optional<Node> op = methodDeclaration.stream(Node.TreeTraversal.PARENTS).filter(n-> n instanceof EnumDeclaration
                     || (n instanceof ClassOrInterfaceDeclaration && !((ClassOrInterfaceDeclaration)n).isInterface())).findFirst();

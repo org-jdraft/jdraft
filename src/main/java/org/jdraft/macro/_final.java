@@ -10,6 +10,12 @@ import org.jdraft._modifiers;
 
 import java.lang.annotation.*;
 
+/**
+ * Annotation / Macro to add add the final modifier to a
+ * {@link org.jdraft._type} {@link org.jdraft._method}, {@link org.jdraft._field}, {@link org.jdraft._parameter}
+ *
+ * @see macro
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.TYPE_USE})
 public @interface _final {
@@ -33,12 +39,12 @@ public @interface _final {
             if( node instanceof NodeWithFinalModifier){
                 NodeWithFinalModifier nwf = (NodeWithFinalModifier)node;
                 nwf.setFinal(true);
-                _macro.removeAnnotation(node, _final.class);
+                //_macro.removeAnnotation(node, _final.class);
             } else if (node instanceof VariableDeclarator ){
                 VariableDeclarator vd = (VariableDeclarator)node;
                 FieldDeclaration fd = (FieldDeclaration)vd.getParentNode().get();
                 fd.setFinal(true);
-                _macro.removeAnnotation(fd, _final.class);
+                //_macro.removeAnnotation(fd, _final.class);
             } else{
                 try{
                     ((_modifiers._hasModifiers) _java.of(node)).getModifiers().setFinal();

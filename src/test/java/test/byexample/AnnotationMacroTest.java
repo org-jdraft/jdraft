@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 import org.jdraft._class;
 import org.jdraft._type;
 import org.jdraft.macro._macro;
+import org.jdraft.macro.macro;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -18,22 +19,27 @@ public class AnnotationMacroTest extends TestCase {
     @Retention(RetentionPolicy.RUNTIME)
     public @interface _annoMac{
 
-        public static Act A = new Act();
+        //public static Act A = new Act();
 
-        class Macro implements _macro<_type> {
+        class Macro extends macro<_annoMac, TypeDeclaration> {
+
+            public Macro(_annoMac _a){
+                super(_a);
+            }
 
             @Override
-            public _type apply(_type type) {
+            public void expand(TypeDeclaration type) {
                 System.out.println( "HERE "+type);
-                return type;
             }
         }
+        /*
         class Act implements Consumer<TypeDeclaration> {
             @Override
             public void accept(TypeDeclaration typeDeclaration) {
                 System.out.println( "Macro Called");
             }
         }
+         */
     }
 
     public void testAM(){

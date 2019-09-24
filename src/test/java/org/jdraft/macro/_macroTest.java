@@ -1,5 +1,6 @@
 package org.jdraft.macro;
 
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import org.jdraft.Ast;
 import org.jdraft._anno._hasAnnos;
@@ -97,12 +98,13 @@ public class _macroTest extends TestCase {
         
         $stmt $println = $stmt.of( "System.out.println($any$);" );
 
-        class Macro implements _macro<_hasAnnos> {
-            public Macro( removePrintlns rp ){}
+        class Macro extends macro<removePrintlns, Node> {
+            public Macro( removePrintlns rp ){
+                super(rp);
+            }
             @Override
-            public _hasAnnos apply(_hasAnnos _model) {
-                $println.removeIn((org.jdraft._node)_model);
-                return _model;
+            public void expand(Node n) {
+                $println.removeIn(n);
             }
         }
     }

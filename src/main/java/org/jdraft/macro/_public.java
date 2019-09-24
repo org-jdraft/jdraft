@@ -46,7 +46,7 @@ import java.util.function.Consumer;
  * }
  * </PRE>
  *
- * @see _macro
+ * @see macro
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.TYPE_USE})

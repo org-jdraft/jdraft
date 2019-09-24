@@ -9,13 +9,6 @@ import java.util.Arrays;
 
 /**
  * Annotation/Macro to add implements and imports to a {@link _type}
- * can be accessed by:
- * <UL>
- *     <LI>{@link _macro#to(Class, _type)} via the @_implement annotation
- *     <LI>creating a new instance and calling the {@link _macro#to(Class, _type)}  method
- *         _t = new _implement.Macro(Serializable.class).expand( _t );
- *     <LI>calling the _implement.Macro.to(_t, Serializable.class);
- * </UL>
  *
  * @see macro
  */
@@ -45,7 +38,7 @@ public @interface _implement {
                 NodeWithImplements nwi = (NodeWithImplements) typeDeclaration;
                 Arrays.stream( toImplement ).forEach( i -> nwi.addImplementedType(i));
             }
-            _macro.removeAnnotation(typeDeclaration, _implement.class);
+            //_macro.removeAnnotation(typeDeclaration, _implement.class);
         }
 
         @Override

@@ -60,6 +60,10 @@ public final class _initBlock
         return of(id);
     }
 
+    public static _initBlock of(){
+        return of("{}");
+    }
+
     public static _initBlock of(String body ) {
         InitializerDeclaration id = Ast.initBlock( body );
         return of( id );
@@ -125,6 +129,10 @@ public final class _initBlock
             return of( (BlockStmt)bdy);
         }
         return of( new BlockStmt().addStatement(bdy) );
+    }
+
+    public _initBlock(){
+        this(new InitializerDeclaration());
     }
 
     public _initBlock(InitializerDeclaration id ) {

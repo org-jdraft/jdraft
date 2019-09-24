@@ -23,18 +23,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.*;
 
 /**
- * Template of a Java code snippet (one or more {@link Statement}s
+ * Template of a Java statements (one or more {@link Statement}s
  *
  * NOTE: although this does not implement the Template<> and $query<> interfaces
  * it follows the same naming conventions
  */
-public final class $code implements Template<List<Statement>>, $proto<List<Statement>, $code> {
+public final class $statements implements Template<List<Statement>>, $proto<List<Statement>, $statements> {
     
     /**
      * Build a dynamic code snippet based on the content of a method defined within an anonymous Object
      * <PRE>
      * i.e.
-     * $snip $s = $snip.of( new Object(){
+     * $statements $s = $statements.of( new Object(){
      *     int m(String $name$, Integer $init$){
      *         // The code inside is used
      *
@@ -42,15 +42,14 @@ public final class $code implements Template<List<Statement>>, $proto<List<State
      *              return $init$;
      *         }
      *         return $name$.hashCode();
-     *
      *     }
      * });
-     * System.out.println( $s.construct( _field.of("int x;") ));
+     * System.out.println( $s.draft( _field.of("int x;") ));
      * </PRE>
      * @param anonymousObjectWithBody
      * @return the dynamic code snippet
      */
-    public static $code of(Object anonymousObjectWithBody ){
+    public static $statements of(Object anonymousObjectWithBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         ObjectCreationExpr oce = Ex.anonymousObjectEx(ste);
         //find the first method that doesnt have removeIn on it and has a BODY
@@ -59,65 +58,65 @@ public final class $code implements Template<List<Statement>>, $proto<List<State
             oce.getAnonymousClassBody().get().stream().filter(m -> m instanceof MethodDeclaration &&
                 !m.isAnnotationPresent(_remove.class) &&
                 ((MethodDeclaration) m).getBody().isPresent()).findFirst().get();
-        return $code.of( theMethod.getBody().get());
+        return $statements.of( theMethod.getBody().get());
     }
 
-    public static $code of(String proto ){
-        return $code.of(new String[] {proto});
+    public static $statements of(String proto ){
+        return $statements.of(new String[] {proto});
     }
 
-    public static $code of(Ex.Command c ){
+    public static $statements of(Ex.Command c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $code.of( Ex.lambdaEx(ste));
+        return $statements.of( Ex.lambdaEx(ste));
     }
 
-    public static <T extends Object> $code of(Consumer<T> c ){
+    public static <T extends Object> $statements of(Consumer<T> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $code.of( Ex.lambdaEx(ste));
+        return $statements.of( Ex.lambdaEx(ste));
     }
 
-    public static <T extends Object, U extends Object> $code of(Function<T,U> c ){
+    public static <T extends Object, U extends Object> $statements of(Function<T,U> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $code.of( Ex.lambdaEx(ste));
+        return $statements.of( Ex.lambdaEx(ste));
     }
 
-    public static <T extends Object, U extends Object, V extends Object> $code of(BiFunction<T,U, V> c ){
+    public static <T extends Object, U extends Object, V extends Object> $statements of(BiFunction<T,U, V> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $code.of( Ex.lambdaEx(ste));
+        return $statements.of( Ex.lambdaEx(ste));
     }
 
-    public static <T extends Object, U extends Object> $code of(BiConsumer<T,U> c ){
+    public static <T extends Object, U extends Object> $statements of(BiConsumer<T,U> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $code.of( Ex.lambdaEx(ste));
+        return $statements.of( Ex.lambdaEx(ste));
     }
 
-    public static <T extends Object, U extends Object, V extends Object> $code of(Ex.TriConsumer<T,U,V> c ){
+    public static <T extends Object, U extends Object, V extends Object> $statements of(Ex.TriConsumer<T,U,V> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $code.of( Ex.lambdaEx(ste));
+        return $statements.of( Ex.lambdaEx(ste));
     }
 
-    public static <T extends Object, U extends Object, V extends Object, Z extends Object> $code of(Ex.QuadConsumer<T,U,V,Z> c ){
+    public static <T extends Object, U extends Object, V extends Object, Z extends Object> $statements of(Ex.QuadConsumer<T,U,V,Z> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $code.of( Ex.lambdaEx(ste));
+        return $statements.of( Ex.lambdaEx(ste));
     }
 
-    public static $code of(LambdaExpr astLambda ){
+    public static $statements of(LambdaExpr astLambda ){
         Statement st = Stmt.from(astLambda);
-        return new $code(st);
+        return new $statements(st);
     }
 
-    public static $code of(_body _b ){
-        return $code.of( _b.ast() );
+    public static $statements of(_body _b ){
+        return $statements.of( _b.ast() );
     }
 
-    public static $code of(BlockStmt astBlockStmt ){
-        $code $s = new $code();
+    public static $statements of(BlockStmt astBlockStmt ){
+        $statements $s = new $statements();
         astBlockStmt.getStatements().forEach(s -> $s.add(s));
         return $s;
     }
     
-    public static $code of(){
-        return new $code( $stmt.of() );
+    public static $statements of(){
+        return new $statements( $stmt.of() );
     }
      
     /**
@@ -125,8 +124,8 @@ public final class $code implements Template<List<Statement>>, $proto<List<State
      * @param protoSnippet
      * @return 
      */
-    public static $code of(String... protoSnippet) {
-        $code $s = new $code();
+    public static $statements of(String... protoSnippet) {
+        $statements $s = new $statements();
         BlockStmt bs = Ast.blockStmt(protoSnippet);
 
         bs.getStatements().forEach(s -> $s.add(s));
@@ -140,10 +139,10 @@ public final class $code implements Template<List<Statement>>, $proto<List<State
     public List<$stmt> $sts = new ArrayList<>();
 
 
-    public $code(){
+    public $statements(){
     }
 
-    private $code(Statement astProtoStmt ){
+    private $statements(Statement astProtoStmt ){
         if( astProtoStmt instanceof BlockStmt ){
             astProtoStmt.asBlockStmt().getStatements().forEach(s -> add(s) );
         } else{
@@ -151,7 +150,7 @@ public final class $code implements Template<List<Statement>>, $proto<List<State
         }
     }
 
-    public $code($stmt $st){
+    public $statements($stmt $st){
         add($st);
     }
 
@@ -161,12 +160,12 @@ public final class $code implements Template<List<Statement>>, $proto<List<State
      * @param astProtoStmt
      * @return
      */
-    public $code add(Statement astProtoStmt){
+    public $statements add(Statement astProtoStmt){
         $sts.add(new $stmt(astProtoStmt) );
         return this;
     }
 
-    public $code add($stmt $st ){
+    public $statements add($stmt $st ){
         $sts.add($st);
         return this;
     }
@@ -177,13 +176,13 @@ public final class $code implements Template<List<Statement>>, $proto<List<State
      * @param constraint
      * @return the modified snip
      */
-    public $code $and(Predicate<List<Statement>> constraint ){
+    public $statements $and(Predicate<List<Statement>> constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }
     
     @Override
-    public $code $(String target, String paramName){
+    public $statements $(String target, String paramName){
         this.$sts.forEach(s -> s.$(target, paramName));
         return this;
     }
@@ -222,7 +221,7 @@ public final class $code implements Template<List<Statement>>, $proto<List<State
      * @param kvs
      * @return 
      */
-    public $code hardcode$(Translator translator, Tokens kvs ) {
+    public $statements hardcode$(Translator translator, Tokens kvs ) {
         this.$sts.forEach( $s -> $s.hardcode$(translator, kvs));
         return this;
     }
@@ -233,7 +232,7 @@ public final class $code implements Template<List<Statement>>, $proto<List<State
      * @return 
      */
     public List<Statement> draft(Tokens tokens ){
-        return $code.this.draft( Translator.DEFAULT_TRANSLATOR, tokens.map());
+        return $statements.this.draft( Translator.DEFAULT_TRANSLATOR, tokens.map());
     }
 
     /**
@@ -501,11 +500,11 @@ public final class $code implements Template<List<Statement>>, $proto<List<State
     }
     
     public <_CT extends _type> _CT replaceIn( Class clazz, String... repl ){
-        return (_CT)replaceIn((_type)_java.type(clazz), $code.of(repl));
+        return (_CT)replaceIn((_type)_java.type(clazz), $statements.of(repl));
     }
     
     public <N extends Node> N replaceIn(N astNode, String...repl ){        
-        return $code.this.replaceIn(astNode, $code.of(repl));
+        return $statements.this.replaceIn(astNode, $statements.of(repl));
     }
         
     /**
@@ -516,8 +515,8 @@ public final class $code implements Template<List<Statement>>, $proto<List<State
      * @return 
      */
     public <N extends Node> N replaceIn(N astNode, $stmt $repl ){
-        $code $sn = new $code($repl);
-        return $code.this.replaceIn(astNode, $sn);
+        $statements $sn = new $statements($repl);
+        return $statements.this.replaceIn(astNode, $sn);
     }
 
     /**
@@ -526,7 +525,7 @@ public final class $code implements Template<List<Statement>>, $proto<List<State
      * @param $repl
      * @return 
      */
-    public <_CT extends _type> _CT replaceIn( Class clazz, $code $repl ){
+    public <_CT extends _type> _CT replaceIn( Class clazz, $statements $repl ){
         return (_CT)replaceIn((_type)_java.type(clazz), $repl);
     }
     
@@ -537,7 +536,7 @@ public final class $code implements Template<List<Statement>>, $proto<List<State
      * @param $repl
      * @return 
      */
-    public <N extends Node> N replaceIn(N astNode, $code $repl ){
+    public <N extends Node> N replaceIn(N astNode, $statements $repl ){
         AtomicInteger ai = new AtomicInteger(0);
 
         astNode.walk(this.$sts.get(0).statementClass, st-> {
@@ -576,7 +575,7 @@ public final class $code implements Template<List<Statement>>, $proto<List<State
     }
 
     public <_J extends _java> _J replaceIn(_J _j, String... repl ){
-        return replaceIn(_j, $code.of(repl));
+        return replaceIn(_j, $statements.of(repl));
     }
     
     /**
@@ -587,8 +586,8 @@ public final class $code implements Template<List<Statement>>, $proto<List<State
      * @return 
      */
     public <_J extends _java> _J replaceIn(_J _j, $stmt $repl ){
-        $code $sn = new $code($repl);
-        return $code.this.replaceIn(_j, $sn);
+        $statements $sn = new $statements($repl);
+        return $statements.this.replaceIn(_j, $sn);
     }
 
     /**
@@ -598,7 +597,7 @@ public final class $code implements Template<List<Statement>>, $proto<List<State
      * @param $repl
      * @return 
      */
-    public <_J extends _java> _J replaceIn(_J _j, $code $repl ){
+    public <_J extends _java> _J replaceIn(_J _j, $statements $repl ){
         AtomicInteger ai = new AtomicInteger(0);
 
         _walk.in(_j, this.$sts.get(0).statementClass, st-> {

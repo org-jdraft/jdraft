@@ -39,12 +39,12 @@ public @interface _non_static {
             if( node instanceof NodeWithStaticModifier ){
                 NodeWithStaticModifier nwsm = (NodeWithStaticModifier)node;
                 nwsm.setStatic(false);
-                _macro.removeAnnotation(node, _non_static.class);
+                //_macro.removeAnnotation(node, _non_static.class);
             } else{
                 if( node instanceof VariableDeclarator){
                     FieldDeclaration fd = (FieldDeclaration)node.getParentNode().get();
                     fd.setStatic(false);
-                    _macro.removeAnnotation(fd, _non_static.class);
+                    //_macro.removeAnnotation(fd, _non_static.class);
                 }
             }
             return node;

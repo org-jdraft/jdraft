@@ -29,11 +29,11 @@ public class EclipseJDTTest extends TestCase {
     public void testReadAllPackagesAndMethods(){
 
         //print the distinct package names occurring in the code
-        //$.packageDecl().listIn(_cc).stream().map(p->p.getName()).distinct().forEach(e-> System.out.println( e ));
         $.packageDecl().streamIn(_cc).map(p->p.getName()).distinct().forEach(e-> System.out.println( e ));
 
         //get the names of all the types along with the line count
         _cc.for_code(c-> System.out.println( c.getFullName() + ":" + c.astCompilationUnit().getRange().get().getLineCount() ));
+
 
         //print the name, signature and return type for all methods
         $.method().forEachIn(_cc, m->System.out.println(
@@ -93,7 +93,9 @@ public class EclipseJDTTest extends TestCase {
             }
         });
         _c.getMethod("main").add( ()->System.out.println("Hello, World!") );
-        System.out.println( _c );
+        //System.out.println( _c );
+        assertEquals( Stmt.of( ()->System.out.println("Hello, World!")),
+                _c.getMethod("main").getStatement(0) );
     }
 
     /**
@@ -156,12 +158,12 @@ public class EclipseJDTTest extends TestCase {
             }
         }
         _class _c = _class.of(HelloWorld.class);
-        System.out.println(_c);
+        //System.out.println(_c);
         //find the first method named "main" in the class & add the statement
         $.method($.name("main")).firstIn(_c)
                 .add(()->System.out.println("Hello, World!"));
 
-        System.out.println(_c);
+        //System.out.println(_c);
         assertEquals( Stmt.of( ()->System.out.println("Hello, World!")),
                 _c.getMethod("main").getStatement(0));
     }

@@ -8,7 +8,7 @@ import org.jdraft._type;
 import java.lang.annotation.*;
 
 /**
- * Annotation / Macro to add add extend to a {@link _type}
+ * Annotation / Macro to add extend to a {@link _type}
  *
  * @see macro
  */

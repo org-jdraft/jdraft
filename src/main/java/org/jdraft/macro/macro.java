@@ -243,7 +243,7 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
                     Log.info("     ---Resolved Static Field Macro %s", ()->cn);
                     macros.add( cn );
                 } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                    Log.info( "%s", ()->e  );
                 }
             } else{ //2) get all of the declared classes beneath the Annotation that implement Consumer
                 Class[] decls = a.annotationType().getDeclaredClasses();

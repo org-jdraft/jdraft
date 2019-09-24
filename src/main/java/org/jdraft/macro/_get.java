@@ -8,8 +8,9 @@ import java.lang.annotation.*;
 import java.util.List;
 
 /**
- * Builds a getXXX METHODS for all non_static FIELDS on the TYPE
+ * Builds getXXX() METHODS for all non_static FIELDS on the TYPE
  * Works on {@link _class} and {@link _enum} {@link _type}s
+ * @see macro
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.TYPE_USE})

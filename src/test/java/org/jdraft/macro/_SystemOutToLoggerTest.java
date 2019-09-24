@@ -34,7 +34,7 @@ public class _SystemOutToLoggerTest extends TestCase {
         //convert System outs to LOG WARN
         testClasses.stream().forEach( t-> {
             System.out.println( t.getName() );
-            LOGWARN.apply(t);
+            LOGWARN.expand(t);
         } );
 
         //now compile all tet classes
@@ -61,7 +61,7 @@ public class _SystemOutToLoggerTest extends TestCase {
 
         //apply the macro
 
-        _c = (_class)lr.apply(_c);
+        lr.expand(_c);
         _runtime.of(_c).call(_c, "m");
     }
 

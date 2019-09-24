@@ -5,6 +5,8 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.Comment;
 import org.jdraft.macro._static;
+import org.jdraft.macro._toCtor;
+import org.jdraft.macro._toInit;
 import org.jdraft.proto.$var;
 import java.io.Serializable;
 import java.util.List;
@@ -12,11 +14,53 @@ import junit.framework.TestCase;
 
 public class _typeTest extends TestCase {
 
+    public void testMembersDeclarations(){
+        _class _c = _class.of("A", new Object(){
+            //1
+            @_toCtor void ctor(){ }
+
+            //2
+            void method(){ }
+
+            //3 static init block
+            @_toInit @_static
+            void i(){  System.out.println(1); }
+
+            //4 non-static init block
+            @_toInit void ii(){ }
+
+            //5
+            int x = 100;
+        });
+        _type _t = _c;
+
+
+        //ctor, methodf, field, instance init block, static init block
+        assertEquals(5, _t.listMembers().size());
+
+        //this is what the API provides (on the type)
+        List<_method> _ms = _t.listMembers(_method.class);
+
+        assertEquals( 1, _t.listMembers(_method.class).size());
+        assertEquals( 1, _t.listMembers(_constructor.class).size());
+        assertEquals( 2, _t.listMembers(_initBlock.class).size());
+        assertEquals( 1, _t.listMembers(_field.class).size());
+
+        System.out.println( _t );
+
+        assertEquals( 1, _t.listMembers(_initBlock.class, ib->((_initBlock)ib).isStatic()).size() );
+        assertEquals( 1, _t.listMembers(_initBlock.class, ib->!((_initBlock)ib).isStatic()).size() );
+
+    }
+
     //I have a theory, but I want to verify, that when I create a _type instance, ast should ALWAYS return a
     //TypeDeclaration and NOT a Node (signifying that it COULD be a CompilationUnit)
     public void testT(){
         _class _c = _class.of("aaaa.bbb.C");
         assertTrue( _c.ast() instanceof TypeDeclaration );
+
+        _type _t = _c;
+        assertTrue( _t.ast() instanceof TypeDeclaration);
 
         _enum _e = _enum.of("aaaa.bbb.C");
         assertTrue( _e.ast() instanceof TypeDeclaration );

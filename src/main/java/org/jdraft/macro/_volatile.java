@@ -42,12 +42,12 @@ public @interface _volatile {
             if( node instanceof FieldDeclaration){
                 FieldDeclaration nwp = (FieldDeclaration)node;
                 nwp.setVolatile(true);
-                _macro.removeAnnotation(node, _volatile.class);
+                //_macro.removeAnnotation(node, _volatile.class);
             } else{
                 if( node instanceof VariableDeclarator){
                     FieldDeclaration fd = (FieldDeclaration)node.getParentNode().get();
                     fd.setVolatile(true);
-                    _macro.removeAnnotation(fd, _volatile.class);
+                    //_macro.removeAnnotation(fd, _volatile.class);
                 }
             }
             return node;

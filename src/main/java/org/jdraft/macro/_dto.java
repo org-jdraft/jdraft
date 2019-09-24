@@ -19,6 +19,12 @@ import java.util.Arrays;
  * <LI>a default minimal constructor (initializing non initialized final non static FIELDS)</LI>
  * </UL>
  * @see macro
+ * @see _get
+ * @see _setFluent
+ * @see _equals
+ * @see _hashCode
+ * @see _toString
+ * @see _autoConstructor
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.TYPE_USE})

@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Annotation _macro to convert a {@link _method} to a {@link _initBlock} (removing the
- * _method from its container and adding an {@link _initBlock})
+ * Annotation macro to convert a {@link _method} to a {@link _initBlock} (removing the
+ * {@link _method} from its container and adding an {@link _initBlock})
  *
  * useful when the BODY of a {@link org.jdraft._class} or {@link org.jdraft._enum} is defined using
  * an anonymous object and (since anonymous objects cant have init blocks) for example:
@@ -24,7 +24,7 @@ import java.util.Optional;
  *     _class _c = _class.of("aaaa.bbbb.C", new Object(){
  *         public @_final int x = 1002;
  *
- *         @_static @_init void si(){
+ *         @_init @_static void si(){
  *             System.out.println("In Static Init"+x);
  *         }
  *
@@ -47,7 +47,8 @@ import java.util.Optional;
  *     }
  * </PRE>
  *
- * @see _macro
+ * @see _toStaticInit
+ * @see macro
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
@@ -94,7 +95,7 @@ public @interface _toInit {
 
         public static InitializerDeclaration to(MethodDeclaration methodDeclaration){
             List<TypeDeclaration>tds = new ArrayList<>();
-            _macro.removeAnnotation(methodDeclaration, _toInit.class);
+            //_macro.removeAnnotation(methodDeclaration, _toInit.class);
             _initBlock _ct = fromMethod( _method.of(methodDeclaration));
             Optional<Node> op = methodDeclaration.stream(Node.TreeTraversal.PARENTS).filter(n-> n instanceof EnumDeclaration
                     || (n instanceof ClassOrInterfaceDeclaration && !((ClassOrInterfaceDeclaration)n).isInterface())).findFirst();
