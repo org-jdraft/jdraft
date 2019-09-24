@@ -1,13 +1,13 @@
 package org.jdraft.proto;
 
-import org.jdraft._declaration;
+import org.jdraft._declared;
 import org.jdraft._type;
 
 import java.util.function.Predicate;
 
 /**
  *  A prototype member component of the {@link _type} (it can be associated with a larger entity or context)
- *  NOTE: each {@link _declaration} maps directly to an AST Node
+ *  NOTE: each {@link _declared} maps directly to an AST Node
  *  <UL>
  *  <LI>{@link $initBlock} {@link com.github.javaparser.ast.body.InitializerDeclaration}
  *  <LI>{@link $field} {@link com.github.javaparser.ast.body.FieldDeclaration}
@@ -24,6 +24,7 @@ import java.util.function.Predicate;
  */
 public interface $member<M, $M extends $proto> extends $proto<M,$M> {
 
+    //$getMember()
     /**
      * Is this $member $prototype a $member of another $member<PRE>
      * //all static methods that are the members of an interface

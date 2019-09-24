@@ -30,7 +30,7 @@ public class RoslynSyntaxTest extends TestCase {
         });
 
         //examine the members (of the class)
-        _c.forDeclarations(m -> System.out.println(m));
+        _c.forDeclared(m -> System.out.println(m));
 
         CompilationUnit cu = _c.astCompilationUnit();
 

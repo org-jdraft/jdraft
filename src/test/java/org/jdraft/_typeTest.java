@@ -7,6 +7,7 @@ import com.github.javaparser.ast.comments.Comment;
 import org.jdraft.macro._static;
 import org.jdraft.macro._toCtor;
 import org.jdraft.macro._toInit;
+import org.jdraft.macro._toStaticInit;
 import org.jdraft.proto.$var;
 import java.io.Serializable;
 import java.util.List;
@@ -14,6 +15,48 @@ import junit.framework.TestCase;
 
 public class _typeTest extends TestCase {
 
+    static class SC{
+
+        //blocks
+        { System.out.println("instance block"); }
+        static { System.out.println("static block"); }
+
+        //fields
+        int f = 100;
+        static final String G = "String";
+
+        //method
+        void m(){}
+        static int sm(){ return 100; }
+
+        //constructor
+        @Deprecated SC(){ }
+        private SC(int f){ this.f = 100; }
+
+        //nested types
+        class NC{}
+        enum NE{}
+        interface NI{}
+        @interface NA{}
+    }
+
+    public void testMemberDecl(){
+        _class _c = _class.of(SC.class);
+        assertEquals(12, _c.listMembers().size());
+        assertEquals( 2, _c.listMembers(_initBlock.class).size());
+        assertEquals( 2, _c.listMembers(_field.class).size());
+        assertEquals( 2, _c.listMembers(_method.class).size());
+        assertEquals( 2, _c.listMembers(_constructor.class).size());
+
+        assertEquals( 4, _c.listMembers(_type.class).size()); //all nested types
+        assertEquals( 1, _c.listMembers(_class.class).size()); //nested classes
+        assertEquals( 1, _c.listMembers(_enum.class).size()); //nested enum
+        assertEquals( 1, _c.listMembers(_interface.class).size()); //nested interface
+        assertEquals( 1, _c.listMembers(_annotation.class).size()); //nested annotation
+
+        assertEquals(10, _c.listDeclared().size()); //initBlocks are NOT declarations
+        assertNotNull(_c.getDeclared("NC")); //list the thing declares
+    }
     public void testMembersDeclarations(){
         _class _c = _class.of("A", new Object(){
             //1
@@ -23,7 +66,7 @@ public class _typeTest extends TestCase {
             void method(){ }
 
             //3 static init block
-            @_toInit @_static
+            @_toStaticInit
             void i(){  System.out.println(1); }
 
             //4 non-static init block
@@ -31,6 +74,7 @@ public class _typeTest extends TestCase {
 
             //5
             int x = 100;
+
         });
         _type _t = _c;
 
@@ -51,6 +95,8 @@ public class _typeTest extends TestCase {
         assertEquals( 1, _t.listMembers(_initBlock.class, ib->((_initBlock)ib).isStatic()).size() );
         assertEquals( 1, _t.listMembers(_initBlock.class, ib->!((_initBlock)ib).isStatic()).size() );
 
+
+
     }
 
     //I have a theory, but I want to verify, that when I create a _type instance, ast should ALWAYS return a
@@ -70,16 +116,16 @@ public class _typeTest extends TestCase {
 
         _annotation _a = _annotation.of("aaaa.bbb.C");
         assertTrue( _a.ast() instanceof TypeDeclaration );
-
     }
+
     public void testTypeInt(){
         class PP{
 
         }
         _type _t = _java.type(PP.class);
-        List<_method> _ms = _t.listDeclarations(_method.class);
+        List<_method> _ms = _t.listDeclared(_method.class);
         assertTrue( _ms.isEmpty() );
-        _ms = _t.listDeclarations(_method.class, _m-> ((_method)_m).isImplemented() );
+        _ms = _t.listDeclared(_method.class, _m-> ((_method)_m).isImplemented() );
         assertTrue( _ms.isEmpty() );
         _ms = _t.listMethods(_m -> ((_method)_m).isImplemented());
         assertTrue( _ms.isEmpty() );
@@ -104,7 +150,7 @@ public class _typeTest extends TestCase {
         assertNotNull( _t.getCompanionType("AnotherPackagePrivateClass") );
         assertNotNull( _t.getCompanionType(_class.class, "AnotherPackagePrivateClass") );
         
-        _t.forDeclarations(_method.class, _m-> System.out.println(_m) );
+        _t.forDeclared(_method.class, _m-> System.out.println(_m) );
         
         List<_class> _cs = _t.listCompanionTypes(_class.class);
         assertEquals(1, _cs.size() );

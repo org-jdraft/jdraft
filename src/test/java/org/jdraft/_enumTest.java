@@ -54,7 +54,7 @@ public class _enumTest extends TestCase {
             public static final String NAME = "Eric";
         }).constants("A", "B", "C", "D", "E");
            
-        _e.forDeclarations(_field.class, f-> f.isStatic(), f->System.out.println(f));
+        _e.forDeclared(_field.class, f-> f.isStatic(), f->System.out.println(f));
         
         _e.forFields( f-> f.isStatic(), f-> System.out.println(f));
     }

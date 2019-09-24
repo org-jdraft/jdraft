@@ -661,7 +661,7 @@ public class _runtime {
     public void main(){
         Optional<_code> oc = 
             this.fileManager.classLoader.list_code().stream()
-                .filter( _c-> _c instanceof _type && ((_type)_c).getDeclaration(_method.class, m-> ((_method)m).isMain()) !=null )
+                .filter( _c-> _c instanceof _type && ((_type)_c).getDeclared(_method.class, m-> ((_method)m).isMain()) !=null )
                     .findFirst();
         if( !oc.isPresent() ){
             throw new _runtimeException("cannot find type with a public static void main(String[] args) method");

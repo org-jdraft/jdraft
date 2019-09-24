@@ -39,7 +39,7 @@ public class AstWalkTest extends TestCase {
         // getField("F.A");
 
         // getMethod("E.A.toString")
-        _method _m = _c.getNestedEnum("E").getConstant("A").getMethod("toString");
+        _method _m = _c.getDeclared(_enum.class, "E").getConstant("A").getMethod("toString");
 
          //List<Node>
          List<Node>parents = new ArrayList<Node>();

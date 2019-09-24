@@ -665,7 +665,7 @@ public interface _java {
      * @see _moduleInfo
      * @see _type
      * @see _node
-     * @see _declaration
+     * @see _declared
      */
     interface _componentized{
 
@@ -1039,7 +1039,7 @@ public interface _java {
          * The classes below are categorical interfaces that are applied to classes
          */
         Class<_node> NODE = _node.class;
-        Class<_declaration> MEMBER = _declaration.class;
+        Class<_declared> MEMBER = _declared.class;
         Class<_named> NAMED = _named.class;
         Class<_namedType> NAMED_TYPE = _namedType.class;
 

@@ -321,13 +321,13 @@ public final class _typeParameter
         extends _java {
         
         default _typeParameters getTypeParameters(){
-            _declaration _m = (_declaration) this;
+            _declared _m = (_declared) this;
             return _typeParameters.of( (NodeWithTypeParameters)_m.ast() );
         }
 
         /* return a list of AST typeParameters */
         default NodeList<TypeParameter> listAstTypeParameters() {
-            _declaration _m = (_declaration) this;
+            _declared _m = (_declared) this;
             return ((NodeWithTypeParameters)_m.ast()).getTypeParameters();
         }
         
@@ -351,19 +351,19 @@ public final class _typeParameter
         }
 
         default _HTP typeParameters(_typeParameters _tps ){
-            _declaration _m = (_declaration) this;
+            _declared _m = (_declared) this;
             ((NodeWithTypeParameters)_m.ast()).setTypeParameters(_tps.ast());            
             return (_HTP)this;
         }
 
         default _HTP typeParameters(NodeList<TypeParameter> astTypeParams ){
-            _declaration _m = (_declaration) this;
+            _declared _m = (_declared) this;
             ((NodeWithTypeParameters)_m.ast()).setTypeParameters(astTypeParams);            
             return (_HTP)this;
         }
 
         default _HTP removeTypeParameter(TypeParameter tp ){
-            _declaration _m = (_declaration) this;
+            _declared _m = (_declared) this;
             ((NodeWithTypeParameters)_m.ast()).getTypeParameters().remove(tp);   
             return (_HTP)this;
         }
@@ -373,14 +373,14 @@ public final class _typeParameter
          * @return 
          */
         default _HTP removeTypeParameters(){
-            _declaration _m = (_declaration) this;
+            _declared _m = (_declared) this;
             ((NodeWithTypeParameters)_m.ast()).getTypeParameters().clear();   
             return (_HTP)this;
         }
 
         /** does this have non empty type parameters */
         default boolean hasTypeParameters(){
-            _declaration _m = (_declaration) this;
+            _declared _m = (_declared) this;
             return ((NodeWithTypeParameters)_m.ast()).getTypeParameters().isNonEmpty();
         }
     }    

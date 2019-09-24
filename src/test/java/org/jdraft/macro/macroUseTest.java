@@ -218,7 +218,7 @@ public class macroUseTest extends TestCase {
         assertTrue( _c.getMethod("m").isFinal());
 
         System.out.println( _c);
-        assertTrue( _c.getNestedClass("F").isFinal());
+        assertTrue( ((_class)_c.getDeclared("F")).isFinal());
     }
 
     public void testImplement(){
@@ -277,7 +277,7 @@ public class macroUseTest extends TestCase {
         assertTrue( _c.isPrivate());
         assertTrue( _c.getField("f").isPrivate());
         assertTrue( _c.getMethod("m").isPrivate());
-        assertTrue( _c.getNestedClass("F").isPrivate());
+        assertTrue( _c.getDeclared(_class.class,"F").isPrivate());
     }
 
     @_promote("aaaa.ffff")

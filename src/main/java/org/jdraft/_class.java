@@ -291,80 +291,6 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         return this.astClass;
     }
 
-    
-    /**
-     * list all the members that match the predicate
-     *
-     * @param _declarationMatchFn
-     * @return matching members
-     */
-    @Override
-    public List<_declaration> listDeclarations(Predicate<_declaration> _declarationMatchFn){
-        return listDeclarations().stream().filter(_declarationMatchFn).collect(Collectors.toList());
-    }
-
-    /**
-     * lists all of the members that are of a specific member class
-     * @param <_M> the specific member class to find
-     * @param declarationClass the member class
-     * @return the list of members
-     */
-    @Override
-    public <_M extends _declaration> List<_M> listDeclarations(Class<_M> declarationClass){
-        List<_M> found = new ArrayList<>();
-        listDeclarations().stream().filter(m -> declarationClass.isAssignableFrom(m.getClass()))
-                .forEach(m -> found.add( (_M)m) );
-        return found;
-    }
-    
-    /**
-     * lists all of the members that are of a specific member class
-     * @param <_M> the specific member class to find
-     * @param declarationClass the member class
-     * @param declarationMatchFn a matching function for selecting which members
-     * @return the list of members
-     */
-    @Override
-    public <_M extends _declaration> List<_M> listDeclarations(Class<_M> declarationClass, Predicate<_M> declarationMatchFn){
-        return listDeclarations(declarationClass).stream().filter(declarationMatchFn).collect(Collectors.toList());
-    }
-    
-    @Override
-    public _declaration getDeclaration(Predicate<_declaration> _declarationMatchFn){
-        List<_declaration> mems = listDeclarations(_declarationMatchFn);
-        if( mems.isEmpty()){
-            return null;
-        }
-        return mems.get(0);
-    }
-    
-    @Override
-    public <_M extends _declaration> _M getDeclaration(Class<_M> declarationClass){
-        List<_M> mems = listDeclarations(declarationClass);
-        if( mems.isEmpty()){
-            return null;
-        }
-        return mems.get(0);
-    }
-    
-    @Override
-    public <_M extends _declaration> _M getDeclaration(Class<_M> declarationClass, Predicate<_M> _declarationMatchFn){
-        List<_M> mems = listDeclarations(declarationClass, _declarationMatchFn);
-        if( mems.isEmpty()){
-            return null;
-        }
-        return mems.get(0);
-    }
-    
-    @Override
-    public <_M extends _declaration> _M getDeclaration(Class<_M> declarationClass, String declarationName){
-        List<_M> mems = listDeclarations(declarationClass, m-> m.getName().equals(declarationName));
-        if( mems.isEmpty()){
-            return null;
-        }
-        return mems.get(0);
-    }
-    
     /**
      * <PRE>
      * i.e. 
@@ -617,29 +543,6 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         return this;
     }
 
-    public List<_member> listMembers(){
-        List<_member> members = new ArrayList<>();
-        members.addAll( listDeclarations() );
-        members.addAll( listInitBlocks());
-        return members;
-    }
-
-    @Override
-    public List<_declaration> listDeclarations(){
-        List<_declaration> _mems = new ArrayList<>();
-        forFields( f-> _mems.add( f));
-        forMethods(m -> _mems.add(m));
-        forConstructors(c -> _mems.add(c));
-        forNests(n -> _mems.add(n));
-        return _mems;
-    }
-
-    @Override
-    public _class forDeclarations(Predicate<_declaration> _declarationMatchFn, Consumer<_declaration> _declarationAction){
-        listDeclarations(_declarationMatchFn).forEach(m -> _declarationAction.accept(m) );
-        return this;
-    }
-
     @Override
     public List<_method> listMethods() {
         List<_method> _ms = new ArrayList<>();
@@ -658,7 +561,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         } );
         return _ms;
     }
-    
+
     public _method getMethod( int index ){
         return _method.of(astClass.getMethods().get( index ));
     }
@@ -741,7 +644,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     }
 
     @Override
-    public boolean isStatic(){
+    public boolean isStatic() {
         return this.astClass.isStatic();
     }
     

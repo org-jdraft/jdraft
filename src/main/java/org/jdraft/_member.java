@@ -7,7 +7,7 @@ import com.github.javaparser.ast.Node;
  * All _{@link _member}s are {@link _node}s (they are represented by BOTH a meta-representation i.e. {@link _method},
  * and an AST representation {@link com.github.javaparser.ast.body.MethodDeclaration}.
  *
- * {@link _initBlock} IS a {@link _member}, BUT IS NOT a {@link _declaration}, because even though
+ * {@link _initBlock} IS a {@link _member}, BUT IS NOT a {@link _declared}, because even though
  * {@link _initBlock} is defined within the context of a Class, it is not named/reachable/callable or "declared"
  * and referenced outside of the class where it is defined.
  * <UL>
@@ -26,8 +26,8 @@ import com.github.javaparser.ast.Node;
  *
  * @param <N>
  * @param <_N>
- * @see _declaration (an EXTENSION of {@link _member}s that are also {@link _named}...(all {@link _member}s are
- * {@link _declaration}s, ACCEPT {@link _initBlock} which is ONLY a {@link _member}
+ * @see _declared (an EXTENSION of {@link _member}s that are also {@link _named}...(all {@link _member}s are
+ * {@link _declared}s, ACCEPT {@link _initBlock} which is ONLY a {@link _member}
  */
 public interface _member <N extends Node, _N extends _node>
         extends _node<N, _N> {

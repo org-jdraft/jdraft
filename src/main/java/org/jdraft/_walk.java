@@ -1525,16 +1525,16 @@ public enum _walk {
                     } );
             return astRootNode;
         }
-        else if( _javaClass == _declaration.class ) {
+        else if( _javaClass == _declared.class ) {
             in(tt, levels,
                     astRootNode,
                     BodyDeclaration.class,
                     t-> !t.isInitializerDeclaration(), //static Blocks are not members
                     n-> {
-                        _declaration _n = (_declaration)_java.of(n);
+                        _declared _n = (_declared)_java.of(n);
 
-                        if( ((Predicate<_declaration>)_javaMatchFn).test( _n) ){
-                            ((Consumer<_declaration>)_javaAction).accept( _n);
+                        if( ((Predicate<_declared>)_javaMatchFn).test( _n) ){
+                            ((Consumer<_declared>)_javaAction).accept( _n);
                         }
                     });
             return astRootNode;

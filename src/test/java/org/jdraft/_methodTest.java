@@ -323,7 +323,7 @@ public class _methodTest extends TestCase {
         //    System.out.println( "ITS A MEMBER CLASS");
         //}
 
-        _class _c = _class.of( _methodTest.class ).getNestedClass("Internal");
+        _class _c = _class.of( _methodTest.class ).getDeclared("Internal");
         //_class _c = _class.of( Internal.class );
         System.out.println( "JAVADOC "+ _c.getMethod("add").getJavadoc() );
         System.out.println( _c );

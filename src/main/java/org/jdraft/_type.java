@@ -69,14 +69,8 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
  */
 public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithModifiers & NodeWithAnnotations, _T extends _type>
     extends _javadoc._hasJavadoc<_T>, _anno._hasAnnos<_T>, _modifiers._hasModifiers<_T>,
-        _field._hasFields<_T>, _declaration<AST, _T>, _code<_T>, _node<AST, _T>, _java {
+        _field._hasFields<_T>, _declared<AST, _T>, _code<_T>, _node<AST, _T>, _java {
 
-    /**
-     * 
-     * @param _methodMatchFn function for matching appropriate methods
-     * @return a list of matching methods
-     */
-    List<_method> listMethods(Predicate<_method> _methodMatchFn );
 
     /**
      * If we are a top level _type add the types as companion types
@@ -122,42 +116,7 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
         throw new _draftException
             ("cannot add companion Types to a Nested Type \""+this.getName()+"\"");
     }
-    
-    /**
-     * Looks for all "companion types" that match the _typeMatchFn and removes them
-     * "companion types" are top level types that are "package private" (i.e. they
-     * are neither public, private, or protected)
-     * 
-     * @param _typeMatchFn
-     * @return the modified T
-     */
-    default _T removeCompanionTypes(Predicate<_type> _typeMatchFn){
-        listCompanionTypes(_typeMatchFn)
-            .forEach( t -> astCompilationUnit().remove( t.ast() ) );
-        return (_T)this;
-    }
 
-    /**
-     * Removes the companionType given the type
-     * @param _t
-     * @return
-     */
-    default _T removeCompanionType(_type _t){
-        listCompanionTypes(t -> t.equals(_t))
-                .forEach( t -> astCompilationUnit().remove( t.ast() ) );
-        return (_T)this;
-    }
-     /**
-     * Looks for all "companion types" that match the _typeMatchFn and removes them
-     * "companion types" are top level types that are "package private" (i.e. they
-     * are neither public, private, or protected)
-     * 
-     * @param name the name of the companion type to remove
-     * @return the modified T
-     */
-    default _T removeCompanionType(String name ){
-        return removeCompanionTypes( t-> t.getName().equals(name) );
-    }
     
     /**
      * Applies transforms to "companion types" declared in this compilationUnit
@@ -332,7 +291,44 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
         }
         return ts.get(0); //just return the first one        
     }
-    
+
+
+    /**
+     * Looks for all "companion types" that match the _typeMatchFn and removes them
+     * "companion types" are top level types that are "package private" (i.e. they
+     * are neither public, private, or protected)
+     *
+     * @param _typeMatchFn
+     * @return the modified T
+     */
+    default _T removeCompanionTypes(Predicate<_type> _typeMatchFn){
+        listCompanionTypes(_typeMatchFn)
+                .forEach( t -> astCompilationUnit().remove( t.ast() ) );
+        return (_T)this;
+    }
+
+    /**
+     * Removes the companionType given the type
+     * @param _t
+     * @return
+     */
+    default _T removeCompanionType(_type _t){
+        listCompanionTypes(t -> t.equals(_t))
+                .forEach( t -> astCompilationUnit().remove( t.ast() ) );
+        return (_T)this;
+    }
+    /**
+     * Looks for all "companion types" that match the _typeMatchFn and removes them
+     * "companion types" are top level types that are "package private" (i.e. they
+     * are neither public, private, or protected)
+     *
+     * @param name the name of the companion type to remove
+     * @return the modified T
+     */
+    default _T removeCompanionType(String name ){
+        return removeCompanionTypes( t-> t.getName().equals(name) );
+    }
+
     /**
      * Gets the Primary Type according to the CompilationUnit
      * the "primary type" is the type associated with the file name)
@@ -362,42 +358,6 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
     }
 
     /**
-     * find _declarations that are of the specific class and perform the _declarationAction on them
-     * @param <_D>
-     * @param declarationClass the _declaration Class (i.e. _field, _method, _constructor)
-     * @param _declarationAction the Action function to apply to _declarations
-     * @return the modified T
-     */
-    default <_D extends _declaration> _T forDeclarations(Class<_D> declarationClass, Consumer<_D> _declarationAction){
-        listDeclarations(declarationClass).forEach(_declarationAction);
-        return (_T)this;
-    }
-
-    /**
-     * find _declaration that are of the specific class and perform the _declarationAction on them
-     * @param <_D>
-     * @param declarationClass the _declaration Class (i.e. _field, _method, _constructor)
-     * @param _declarationMatchFn the matching function for selecting which _declaration to take action on
-     * @param _declarationAction the Action function to apply to _declaration
-     * @return the modified T
-     */
-    default <_D extends _declaration> _T forDeclarations(Class<_D> declarationClass, Predicate<_D> _declarationMatchFn, Consumer<_D> _declarationAction){
-        listDeclarations(declarationClass, _declarationMatchFn).forEach(_declarationAction);
-        return (_T)this;
-    }
-    
-    /**
-     * Iterate & apply the action function to all {@link _declaration}s ({@link _field}s,
-     * {@link _method}s, {@link _constructor}s,{@link _enum._constant}s, {@link _annotation._element}s),
-     * and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s, {@link _annotation}s)
-     * that satisfy the _declarationMatchFn
-     * @param _declarationMatchFn function for selecting which _declarations to apply the _declarationActionFn
-     * @param _declarationAction the action to apply to all selected _declarations that satisfy the _declarationMatchFn
-     * @return the modified T type
-     */
-    _T forDeclarations(Predicate<_declaration> _declarationMatchFn, Consumer<_declaration> _declarationAction );
-
-    /**
      * Adds {@link _initBlock}s ({@link _field}s, {@link _method}s, {@link _constructor}s,{@link _enum._constant}s,
      * {@link _annotation._element}s), and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
      * {@link _annotation}s) to the BODY of the {@link _type} and return the modified {@link _type}
@@ -419,7 +379,7 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * List the {@link _member}s: ({@link _initBlock}s, {@link _field}s, {@link _method}s, {@link _constructor}s,
      * {@link _enum._constant}s, {@link _annotation._element}s) , and nested {@link _type}s, {@link _enum}s,
      * {@link _class}es, {@link _interface}s, {@link _annotation}s) on the _type
-     * @return a List of {@link _declaration}s on the type
+     * @return a List of {@link _declared}s on the type
      */
     default List<_member> listMembers(){
         List<_member> _ms = new ArrayList<>();
@@ -457,17 +417,110 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @return
      */
     default <_M extends _member> List<_M> listMembers(Class<_M> memberClass, Predicate<_M> _memberMatchFn){
-        List<_M> _ms = listMembers(memberClass);
-        return _ms.stream().filter(_memberMatchFn).collect(Collectors.toList());
+        List<_M> _ms = new ArrayList<>();
+        NodeList<BodyDeclaration<?>> bds = ast().getMembers();
+        bds.forEach(b -> {
+            if(b instanceof FieldDeclaration){
+                 FieldDeclaration fd = (FieldDeclaration)b;
+                 if (memberClass.isAssignableFrom(_field.class)) {
+                    fd.getVariables().forEach( v->{
+                        _field _f = _field.of(v);
+                        if (_memberMatchFn.test((_M) _f)) {
+                           _ms.add((_M) _f);
+                        }
+                    });
+                 }
+            } else {
+                _member _mem = (_member) _java.of(b);
+                if (memberClass.isAssignableFrom(_mem.getClass()) && _memberMatchFn.test((_M) _mem)) {
+                    _ms.add((_M) _mem);
+                }
+            }
+        });
+        return _ms;
     }
 
     /**
-     * List the {@link _declaration}s ({@link _field}s, {@link _method}s, {@link _constructor}s,{@link _enum._constant}s,
+     * finds the first declaration {@link _declared}s of Class: ({@link _field}s,
+     * {@link _method}s, {@link _constructor}s,{@link _enum._constant}s, {@link _annotation._element}s) ,
+     * and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s, {@link _annotation}s)
+     *  with the name and returns it
+     *
+     * @param name
+     * @param <_D>
+     */
+    default <_D extends _declared> _D getDeclared(String name ){
+        List<_declared> _ds = listDeclared();
+        Optional<_declared> od = _ds.stream().filter(d-> d.getName().equals(name)).findFirst();
+        if( od.isPresent() ){
+            return (_D)od.get();
+        }
+        return null;
+    }
+
+    /**
+     * @param <_D> the type (i.e. _method.class, _field.class, _staticBlock.class)
+     * @param declarationClass the Class (i.e. _method.class, _field.class, _staticBlock.class)
+     * @param name the name of the declaration
+     * @return a List of the _declarations (empty if none found)
+     */
+    default <_D extends _declared> _D getDeclared(Class<_D> declarationClass, String name){
+        List<_D> _ds = listDeclared(declarationClass);
+        Optional<_D> od = _ds.stream().filter(d-> d.getName().equals(name)).findFirst();
+        if( od.isPresent() ){
+            return od.get();
+        }
+        return null;
+    }
+
+    /**
+     * find _declarations that are of the specific class and perform the _declarationAction on them
+     * @param <_D>
+     * @param declarationClass the _declaration Class (i.e. _field, _method, _constructor)
+     * @param _declarationAction the Action function to apply to _declarations
+     * @return the modified T
+     */
+    default <_D extends _declared> _T forDeclared(Class<_D> declarationClass, Consumer<_D> _declarationAction){
+        listDeclared(declarationClass).forEach(_declarationAction);
+        return (_T)this;
+    }
+
+    /**
+     * find _declaration that are of the specific class and perform the _declarationAction on them
+     * @param <_D>
+     * @param declarationClass the _declaration Class (i.e. _field, _method, _constructor)
+     * @param _declarationMatchFn the matching function for selecting which _declaration to take action on
+     * @param _declarationAction the Action function to apply to _declaration
+     * @return the modified T
+     */
+    default <_D extends _declared> _T forDeclared(Class<_D> declarationClass, Predicate<_D> _declarationMatchFn, Consumer<_D> _declarationAction){
+        listDeclared(declarationClass, _declarationMatchFn).forEach(_declarationAction);
+        return (_T)this;
+    }
+
+    /**
+     * Iterate & apply the action function to all {@link _declared}s ({@link _field}s,
+     * {@link _method}s, {@link _constructor}s,{@link _enum._constant}s, {@link _annotation._element}s),
+     * and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s, {@link _annotation}s)
+     * that satisfy the _declarationMatchFn
+     * @param _declarationMatchFn function for selecting which _declarations to apply the _declarationActionFn
+     * @param _declarationAction the action to apply to all selected _declarations that satisfy the _declarationMatchFn
+     * @return the modified T type
+     */
+    default _T forDeclared(Predicate<_declared> _declarationMatchFn, Consumer<_declared> _declarationAction ){
+        listDeclared(_declarationMatchFn).forEach(_declarationAction);
+        return (_T)this;
+    }
+
+    /**
+     * List the {@link _declared}s ({@link _field}s, {@link _method}s, {@link _constructor}s,{@link _enum._constant}s,
      * {@link _annotation._element}s), and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
      * {@link _annotation}s) on the _type
-     * @return a List of {@link _declaration}s on the _type
+     * @return a List of {@link _declared}s on the _type
      */
-    List<_declaration> listDeclarations();
+    default List<_declared> listDeclared(){
+        return listDeclared(_declared.class, t->true);
+    }
 
     /**
      * List all _declarations ({@link _field}s, {@link _method}s, {@link _constructor}s,{@link _enum._constant}s,
@@ -476,17 +529,21 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @param _declarationMatchFn
      * @return a list of _declarations
      */
-    List<_declaration> listDeclarations(Predicate<_declaration> _declarationMatchFn);
+    default List<_declared> listDeclared(Predicate<_declared> _declarationMatchFn){
+        return listDeclared(_declared.class, _declarationMatchFn);
+    }
     
     /**
-     * list all _declaration ({@link _field}s, {@link _method}s, {@link _constructor}s,{@link _enum._constant}s,
+     * list all _declared ({@link _field}s, {@link _method}s, {@link _constructor}s,{@link _enum._constant}s,
      * {@link _annotation._element}s), and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
      * {@link _annotation}s) oon the _type that are of the declarationClass
      * @param <_D> the _declaration type (i.e. _method.class, _field.class, _staticBlock.class)
      * @param declarationClass the Class (i.e. _method.class, _field.class, _staticBlock.class)
      * @return a List of the types (empty if none found)
      */
-    <_D extends _declaration> List<_D> listDeclarations(Class<_D> declarationClass);
+    default <_D extends _declared> List<_D> listDeclared(Class<_D> declarationClass){
+        return listDeclared(declarationClass, t->true);
+    }
     
     /**
      * list all _declarations ({@link _field}s, {@link _method}s, {@link _constructor}s,{@link _enum._constant}s,
@@ -497,7 +554,61 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @param _declarationMatchFn function for matching a specific member type
      * @return a List of the types (empty if none found)
      */
-    <_D extends _declaration> List<_D> listDeclarations(Class<_D> declarationClass, Predicate<_D> _declarationMatchFn);
+    default <_D extends _declared> List<_D> listDeclared(Class<_D> declarationClass, Predicate<_D> _declarationMatchFn){
+        return listMembers(declarationClass, _declarationMatchFn);
+
+    }
+
+    /**
+     * Gets the first _declaration matching the _declarationMatchFn
+     * @param _declarationMatchFn
+     * @return the first _declaration found (or null if none found)
+     */
+    default _declared getDeclared(Predicate<_declared> _declarationMatchFn){
+        List<_declared> _ds = listDeclared(_declarationMatchFn);
+        if( _ds.isEmpty()){
+            return null;
+        }
+        return _ds.get(0);
+    }
+
+    /**
+     * Gets the first _declaration of the _declarationClass
+     * @param <_D> the type (i.e. _method.class, _field.class, _staticBlock.class)
+     * @param declarationClass the Class (i.e. _method.class, _field.class, _staticBlock.class)
+     * @return the first _declaration found (null if none found)
+     */
+    default <_D extends _declared> _D getDeclared(Class<_D> declarationClass){
+        List<_D> _ds = listDeclared(declarationClass);
+        if( _ds.isEmpty()){
+            return null;
+        }
+        return _ds.get(0);
+    }
+
+    /**
+     * Gets the first _declaration of the declarationClass matching the _declarationMatchFn
+     * @param <_D> the type (i.e. _method.class, _field.class, _staticBlock.class)
+     * @param declarationClass the Class (i.e. _method.class, _field.class, _staticBlock.class)
+     * @param _declarationMatchFn function for matching a specific _declaration type
+     * @return a List of the _declarations (empty if none found)
+     */
+    default <_D extends _declared> _D getDeclared(Class<_D> declarationClass, Predicate<_D> _declarationMatchFn){
+        List<_D> _ds = listDeclared(declarationClass, _declarationMatchFn);
+        if( _ds.isEmpty()){
+            return null;
+        }
+        return _ds.get(0);
+    }
+
+    /**
+     * Iterate & apply some functional action towards _declarations on the _type
+     * @param _declarationAction the action to apply to ALL declarations
+     * @return the (modified) _T _type
+     */
+    default _T forDeclared(Consumer<_declared> _declarationAction ){
+        return forDeclared(t-> true, _declarationAction );
+    }
 
     /**
      * remove all declarations ({@link _initBlock}s, {@link _field}s, {@link _method}s, {@link _constructor}s,{@link _enum._constant}s,
@@ -515,53 +626,22 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
     }
 
     /**
-     * Gets the first _declaration matching the _declarationMatchFn
-     * @param _declarationMatchFn
-     * @return the first _declaration found (or null if none found)
+     *
+     * @return a list of matching methods
      */
-    _declaration getDeclaration(Predicate<_declaration> _declarationMatchFn);
-    
-    /**
-     * Gets the first _declaration of the _declarationClass
-     * @param <_D> the type (i.e. _method.class, _field.class, _staticBlock.class)
-     * @param declarationClass the Class (i.e. _method.class, _field.class, _staticBlock.class)
-     * @return the first _declaration found (null if none found)
-     */
-    <_D extends _declaration> _D getDeclaration(Class<_D> declarationClass);
-    
-    /**
-     * Gets the first _declaration of the declarationClass matching the _declarationMatchFn
-     * @param <_D> the type (i.e. _method.class, _field.class, _staticBlock.class)
-     * @param declarationClass the Class (i.e. _method.class, _field.class, _staticBlock.class)
-     * @param _declarationMatchFn function for matching a specific _declaration type
-     * @return a List of the _declarations (empty if none found)
-     */
-    <_D extends _declaration> _D getDeclaration(Class<_D> declarationClass, Predicate<_D> _declarationMatchFn);
-
-    /**
-     * Iterate & apply some functional action towards _declarations on the _type
-     * @param _declarationAction the action to apply to ALL declarations
-     * @return the (modified) _T _type
-     */
-    default _T forDeclarations(Consumer<_declaration> _declarationAction ){
-        return forDeclarations(t-> true, _declarationAction );
+    default List<_method> listMethods(){
+        return listDeclared(_method.class);
     }
 
     /**
-     * Gets the first _declaration of the declarationClass with the given name
-     * i.e. <PRE>
-     * _type _t = _class.of(SomeClass.class);
-     * 
-     * _t.getDeclaration(_method.class, "m");//gets the method named "m" from _t
-     * _t.getDeclaration(_field.class, "ID");//gets the _field named "ID" from _t
-     * </PRE>
-     * @param <_D> the type (i.e. _method.class, _field.class, _staticBlock.class)
-     * @param declarationClass the Class (i.e. _method.class, _field.class, _staticBlock.class)
-     * @param declarationName the name of the member
-     * @return a List of the types (empty if none found)
+     *
+     * @param _methodMatchFn function for matching appropriate methods
+     * @return a list of matching methods
      */
-    <_D extends _declaration> _D getDeclaration(Class<_D> declarationClass, String declarationName);
-    
+    default List<_method> listMethods(Predicate<_method> _methodMatchFn ){
+        return listDeclared(_method.class, _methodMatchFn);
+    }
+
     /**
      * Does this _type have a {@link PackageDeclaration} Node set?
      * @return true if the TYPE is a top level TYPE AND has a declared package
@@ -961,8 +1041,6 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
         return names;
     }
 
-
-
     /**
      * returns a _type or a nested _type if
      * the NAME provided matches i.e.
@@ -1066,58 +1144,6 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
     default _T forNests(Consumer<_type> _typeActionFn ){
         listNests().forEach( _typeActionFn );
         return (_T)this;
-    }
-
-    /**
-     * Get the nested _class with this NAME defined within this _type (or null)
-     * @param name
-     * @return the nested _class or null if not found
-     */
-    default _class getNestedClass( String name){
-        List<_type> ts = listNests( (t)-> t instanceof _class && t.getName().equals(name));
-        if( ts.size() == 1 ){
-            return (_class)ts.get(0);
-        }
-        return null;
-    }
-
-    /**
-     * Gets the nested _interface with this NAME defined in this _type
-     * @param name
-     * @return the _interface or null if not found
-     */
-    default _interface getNestedInterface( String name){
-        List<_type> ts = listNests( (t)-> t instanceof _interface && t.getName().equals(name));
-        if( ts.size() == 1 ){
-            return (_interface)ts.get(0);
-        }
-        return null;
-    }
-
-    /**
-     * Gets the nested _enum with this NAME defined in this _type
-     * @param name
-     * @return the _enum or null if not found
-     */
-    default _enum getNestedEnum( String name){
-        List<_type> ts = listNests( (t)-> t instanceof _enum && t.getName().equals(name));
-        if( ts.size() == 1 ){
-            return (_enum)ts.get(0);
-        }
-        return null;
-    }
-
-    /**
-     * Gets the nested _annotation defined in this _type
-     * @param name the NAME of the annotation
-     * @return the _annotation (if found) or null
-     */
-    default _annotation getNestedAnnotation( String name){
-        List<_type> ts = listNests( (t)-> t instanceof _annotation && t.getName().equals(name));
-        if( ts.size() == 1 ){
-            return (_annotation)ts.get(0);
-        }
-        return null;
     }
 
     /**

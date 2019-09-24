@@ -496,7 +496,7 @@ public class _diffPatchTest
         System.out.println( _c.listNests() );
         assertEquals(1, _c.listNests().size() );
         
-        _c.getNestedEnum("E").javadoc("Nested Enum Javadoc");
+        _c.getDeclared(_enum.class, "E").javadoc("Nested Enum Javadoc");
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(ENUM).isChange());
         assertTrue( dl.firstOn(JAVADOC).isChange());
@@ -504,7 +504,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();                   
         assertTrue(_diff.of(_c, _c2).isEmpty());        
         
-        _c.getNestedEnum("E").anno("AFG");
+        _c.getDeclared(_enum.class, "E").anno("AFG");
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(ENUM).isLeftOnly());
         assertTrue( dl.firstOn(ANNO).isLeftOnly());
@@ -512,7 +512,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();                     
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.getNestedEnum("E").setPrivate();
+        _c.getDeclared(_enum.class, "E").setPrivate();
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(ENUM).isChange());
         assertTrue( dl.firstOn(MODIFIERS).isChange());
@@ -521,7 +521,7 @@ public class _diffPatchTest
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
         
-        _c.getNestedEnum("E").implement("IM");
+        _c.getDeclared(_enum.class, "E").implement("IM");
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(ENUM).isLeftOnly());
         assertTrue( dl.firstOn(IMPLEMENTS).isLeftOnly());
@@ -529,7 +529,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();                     
         assertTrue(_diff.of(_c, _c2).isEmpty());
      
-        _c.getNestedEnum("E").field("int aa = 11;");
+        _c.getDeclared(_enum.class, "E").field("int aa = 11;");
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(ENUM).isLeftOnly());
         assertTrue( dl.firstOn(FIELD).isLeftOnly());
@@ -538,7 +538,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();                     
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.getNestedEnum("E").constant("D(2)");
+        _c.getDeclared(_enum.class, "E").constant("D(2)");
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(ENUM).isLeftOnly());
         assertTrue( dl.firstOn(CONSTANT).isLeftOnly());
@@ -548,7 +548,7 @@ public class _diffPatchTest
         System.out.println(_diff.of(_c, _c2) );
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.getNestedEnum("E").constructor("(String s){}");
+        _c.getDeclared(_enum.class, "E").constructor("(String s){}");
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(ENUM).isLeftOnly());
         assertTrue( dl.firstOn(CONSTRUCTOR).isLeftOnly());
@@ -560,7 +560,7 @@ public class _diffPatchTest
         
         
         
-        _c.getNestedEnum("E").main(()-> System.out.println("MainMethod"));
+        _c.getDeclared(_enum.class, "E").main(()-> System.out.println("MainMethod"));
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(ENUM).isLeftOnly());
         assertTrue( dl.firstOn(METHOD).isLeftOnly());
@@ -569,10 +569,10 @@ public class _diffPatchTest
         System.out.println(_diff.of(_c, _c2) );
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.getNestedEnum("E").getMethod("main").addThrows(IOException.class);
+        _c.getDeclared(_enum.class, "E").getMethod("main").addThrows(IOException.class);
         
-        System.out.println( _c.getNestedEnum("E").getMethod("main") );
-        System.out.println( _c2.getNestedEnum("E").getMethod("main") );
+        System.out.println( _c.getDeclared(_enum.class, "E").getMethod("main") );
+        System.out.println( _c2.getDeclared(_enum.class, "E").getMethod("main") );
         dl = _diff.of(_c, _c2);
         System.out.println( dl);
         
@@ -650,7 +650,7 @@ public class _diffPatchTest
         
         //--------------------------NESTED INNER CLASS
         
-        _class _c = _i.getNestedClass("C");
+        _class _c = _i.getDeclared(_class.class, "C");
         _c.setStatic(false);
         dl = _diff.of(_i, _i2);
         assertTrue( dl.hasChangeAt(MODIFIERS));        

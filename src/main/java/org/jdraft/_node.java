@@ -9,7 +9,7 @@ import java.util.Map;
  * {@link _node} entity that maps directly to an AST {@link Node}
  * for example:
  * <UL>
- * <LI>{@link _declaration}s</LI>
+ * <LI>{@link _declared}s</LI>
  * <UL>
  *     <LI>{@link _type} {@link com.github.javaparser.ast.body.TypeDeclaration}</LI>
  *     <LI>{@link _annotation} {@link com.github.javaparser.ast.body.AnnotationDeclaration}

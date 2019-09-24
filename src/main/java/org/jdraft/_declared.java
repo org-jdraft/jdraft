@@ -7,7 +7,7 @@ import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
 /**
  * A {@link _member} defined within a {@link _type} (that is callable/referenceable/reachable) from the outside
  * it can be associated with a larger entity or context)
- * NOTE: each {@link _declaration} maps directly to:
+ * NOTE: each {@link _declared} maps directly to:
  * <UL>
  *     <LI>an AST representation {@link Node}
  *     <LI></LI>a meta-representation {@link _node}
@@ -27,7 +27,7 @@ import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
  *
  * NOTE:
  * <LI>{@link _initBlock} {@link com.github.javaparser.ast.body.InitializerDeclaration}
- * is a {@link _member} but is NOT {@link _declaration} (primarily because it is not
+ * is a {@link _member} but is NOT {@link _declared} (primarily because it is not
  * callable/referenceable/accessible outside of the Class where it is defined and does
  * not satisfy the {@link _named} {@link _anno._hasAnnos} or {@link _javadoc._hasJavadoc} interfaces
  * (Not available via reflection at runtime)
@@ -35,7 +35,7 @@ import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
  * @param <N> the AST node type (i.e. {@link com.github.javaparser.ast.body.MethodDeclaration})
  * @param <_D> the meta-representation declaration type (i.e. {@link _method})
  */
-public interface _declaration<N extends Node, _D extends _node & _named & _anno._hasAnnos & _javadoc._hasJavadoc>
+public interface _declared<N extends Node, _D extends _node & _named & _anno._hasAnnos & _javadoc._hasJavadoc>
         extends _member<N, _D>, _named<_D>, _anno._hasAnnos<_D>, _javadoc._hasJavadoc<_D> {
 
     @Override

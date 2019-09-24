@@ -111,13 +111,6 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         }
         macro.to(anonymousBody.getClass(), _i);
 
-        /*
-        //lastly... apply the passed in macros
-        for(int i=0;i<typeMacros.length;i++){
-            typeMacros[i].apply(_i);
-        }
-        */
-
         //look at the anonymous body (runtime class) which can infer all the imports
         Set<Class> importClasses = _import.inferImportsFrom(anonymousBody);
         _i.imports(importClasses.toArray(new Class[0]));
@@ -244,6 +237,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         this.astInterface.addExtendedType( toExtend);
         return this;
     }
+
 
     @Override
     public List<_method> listMethods() {
@@ -407,94 +401,6 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
             companionTypes);
 
         return hash;
-    }
-
-    /**
-     * list all the members that match the predicate
-     *
-     * @param _declarationMatchFn
-     * @return matching members
-     */
-    @Override
-    public List<_declaration> listDeclarations(Predicate<_declaration> _declarationMatchFn){
-        return listDeclarations().stream().filter(_declarationMatchFn).collect(Collectors.toList());
-    }
-
-    /**
-     * lists all of the members that are of a specific member class
-     * @param <_M> the specific member class to find
-     * @param declarationClass the member class
-     * @return the list of members
-     */
-    @Override
-    public <_M extends _declaration> List<_M> listDeclarations(Class<_M> declarationClass){
-        List<_M> found = new ArrayList<>();
-        listDeclarations().stream().filter(m -> declarationClass.isAssignableFrom(m.getClass()))
-                .forEach(m -> found.add( (_M)m) );
-        return found;
-    }
-    
-    /**
-     * lists all of the members that are of a specific member class
-     * @param <_M> the specific member class to find
-     * @param declarationClass the member class
-     * @param declarationMatchFn a matching function for selecting which members
-     * @return the list of members
-     */
-    @Override
-    public <_M extends _declaration> List<_M> listDeclarations(Class<_M> declarationClass, Predicate<_M> declarationMatchFn){
-        return listDeclarations(declarationClass).stream().filter(declarationMatchFn).collect(Collectors.toList());
-    }
-    
-    @Override
-    public _declaration getDeclaration(Predicate<_declaration> _declarationMatchFn){
-        List<_declaration> mems = listDeclarations(_declarationMatchFn);
-        if( mems.isEmpty()){
-            return null;
-        }
-        return mems.get(0);
-    }
-    
-    @Override
-    public <_M extends _declaration> _M getDeclaration(Class<_M> declarationClass){
-        List<_M> mems = listDeclarations(declarationClass);
-        if( mems.isEmpty()){
-            return null;
-        }
-        return mems.get(0);
-    }
-    
-    @Override
-    public <_M extends _declaration> _M getDeclaration(Class<_M> declarationClass, Predicate<_M> _declarationMatchFn){
-        List<_M> mems = listDeclarations(declarationClass, _declarationMatchFn);
-        if( mems.isEmpty()){
-            return null;
-        }
-        return mems.get(0);
-    }
-    
-    @Override
-    public <_M extends _declaration> _M getDeclaration(Class<_M> declarationClass, String declarationName){
-        List<_M> mems = listDeclarations(declarationClass, m-> m.getName().equals(declarationName));
-        if( mems.isEmpty()){
-            return null;
-        }
-        return mems.get(0);
-    }
-    
-    @Override
-    public List<_declaration> listDeclarations(){
-        List<_declaration> _declarations = new ArrayList<>();
-        forFields( f-> _declarations.add( f));
-        forMethods(m -> _declarations.add(m));
-        forNests(n -> _declarations.add(n));
-        return _declarations;
-    }
-
-    @Override
-    public _interface forDeclarations(Predicate<_declaration> _declarationMatchFn, Consumer<_declaration> _declarationAction){
-        listDeclarations(_declarationMatchFn).forEach(m -> _declarationAction.accept(m) );
-        return this;
     }
 
     @Override

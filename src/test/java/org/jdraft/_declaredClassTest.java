@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class _declarationClassTest extends TestCase {
+public class _declaredClassTest extends TestCase {
 
     @_package("som.pkg")
     @_importClass({Map.class, List.class, Set.class, HashSet.class})
