@@ -1,10 +1,11 @@
-package org.jdraft.macro;
+package org.jdraft.refactor;
 
 import com.github.javaparser.ast.ImportDeclaration;
 import junit.framework.TestCase;
 import org.jdraft.Ast;
 import org.jdraft._class;
 import org.jdraft._field;
+import org.jdraft.macro._static;
 import org.jdraft.runtime._runtime;
 import org.jdraft.runtime._classFile;
 import org.jdraft.io._batch;
@@ -16,10 +17,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class _SystemOutToLoggerTest extends TestCase {
-    //org.jdraft.macro._replaceSystemOutWithLog rep = new _replaceSystemOutWithLog
+public class _refactorPrintToLogTest extends TestCase {
 
-    static _replaceSystemOutWithLog LOGWARN = new _replaceSystemOutWithLog(
+    static _refactorPrintToLog LOGWARN = new _refactorPrintToLog(
             (_field f)->f.isStatic() && f.isType(Logger.class),
             new ImportDeclaration[] { Ast.importDeclaration( Logger.class ),Ast.importDeclaration( Level.class )},
             $field.of("public static final Logger LOG = Logger.getLogger($className$.class.getCanonicalName());"),
@@ -53,7 +53,7 @@ public class _SystemOutToLoggerTest extends TestCase {
         }
         _class _c = _class.of( C.class );
 
-        _replaceSystemOutWithLog lr = new _replaceSystemOutWithLog(
+        _refactorPrintToLog lr = new _refactorPrintToLog(
                 (_field f)->f.isStatic() && f.isType(Logger.class),
                 new ImportDeclaration[] { Ast.importDeclaration( Logger.class ),Ast.importDeclaration( Level.class )},
                 $field.of("public static final Logger LOG = Logger.getLogger($className$.class.getCanonicalName());"),
@@ -65,7 +65,7 @@ public class _SystemOutToLoggerTest extends TestCase {
         _runtime.of(_c).call(_c, "m");
     }
 
-    public static final Logger LOG = Logger.getLogger(_SystemOutToLoggerTest.class.getCanonicalName());
+    public static final Logger LOG = Logger.getLogger(_refactorPrintToLogTest.class.getCanonicalName());
 
     public void testLL(){
         LOG.severe("A MESSAGE");

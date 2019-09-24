@@ -1,4 +1,4 @@
-package org.jdraft.macro;
+package org.jdraft.refactor;
 
 import org.jdraft.proto.$stmt;
 import org.jdraft.proto.$statements;
@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
- * Annotation/Macro to replace System.out.print/ln() with log.XXX() statements
+ * An Automated Refactoring that will replace System.out.print/ln() with log.XXX() statements
  * A Macro that can be applied to _types that will
  * 1) check if there are any System.out.println statements in the code
  *    ...IF there are
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * 3) convert all println statements to log statements
  *
  */
-public class _replaceSystemOutWithLog {
+public class _refactorPrintToLog {
     /** find these statements to be replaced */
 
     static $stmt $anySystemOut = $stmt.of("System.out.println($any$);");
@@ -42,10 +42,10 @@ public class _replaceSystemOutWithLog {
     /** IF ... i have to create an ad hoc logger, these are the imports I need*/
     List<ImportDeclaration> adHocLoggerImports;
 
-    public _replaceSystemOutWithLog(Predicate<_field> preDefinedLoggerMatcher,
-        ImportDeclaration[] adHocLoggerImports,
-        $field adHocLogger,
-        String loggerStatementsFormat){
+    public _refactorPrintToLog(Predicate<_field> preDefinedLoggerMatcher,
+                               ImportDeclaration[] adHocLoggerImports,
+                               $field adHocLogger,
+                               String loggerStatementsFormat){
         
         this( preDefinedLoggerMatcher,
                 Arrays.stream( adHocLoggerImports).collect(Collectors.toList()),
@@ -53,10 +53,10 @@ public class _replaceSystemOutWithLog {
                 loggerStatementsFormat);
     }
 
-    public _replaceSystemOutWithLog( Predicate<_field> preDefinedLoggerMatcher,
-            List<ImportDeclaration> adHocLoggerImports,
-            $field adHocLogger,
-            String loggerStatementsFormat){
+    public _refactorPrintToLog(Predicate<_field> preDefinedLoggerMatcher,
+                               List<ImportDeclaration> adHocLoggerImports,
+                               $field adHocLogger,
+                               String loggerStatementsFormat){
 
         Stencil st = Stencil.of(loggerStatementsFormat);
         List<String> vars = st.list$();
@@ -90,14 +90,13 @@ public class _replaceSystemOutWithLog {
             $anySystemOut.replaceIn(_t, $statements.of( loggerStatementsFormat )
                     .hardcode$("name", _f.getName() ) );
         }
-        //return _t;
     }
     
     /** (HERE IS HOW WE CREATE A SIMPLE IMPLEMENTATION)
      * A specific implementation that will replace System.out.printlns 
      * with java.util.Logger Log.fine()...statements of the macro
      */
-    public static _replaceSystemOutWithLog JavaLoggerFine = new _replaceSystemOutWithLog(
+    public static _refactorPrintToLog JavaLoggerFine = new _refactorPrintToLog(
             (_field f)->f.isStatic() && f.isType(Logger.class),
             new ImportDeclaration[] { Ast.importDeclaration( Logger.class ),Ast.importDeclaration( Level.class )},
             $field.of("public static final Logger LOG = Logger.getLogger($className$.class.getCanonicalName());"),
