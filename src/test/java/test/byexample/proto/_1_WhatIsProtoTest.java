@@ -7,7 +7,7 @@ import org.jdraft.Ast;
 import org.jdraft.Ex;
 import org.jdraft._field;
 import org.jdraft._method;
-import org.jdraft.proto.*;
+import org.jdraft.pattern.*;
 
 /**
  * Proto representation org.jdraft.proto.$field

@@ -1,14 +1,12 @@
 package test.byexample.proto;
 
 import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import junit.framework.TestCase;
 import org.jdraft.Stmt;
 import org.jdraft.Tokens;
-import org.jdraft.proto.$;
-import org.jdraft.proto.$proto;
-import org.jdraft.proto.$stmt;
+import org.jdraft.pattern.$pattern;
+import org.jdraft.pattern.$stmt;
 
 import java.util.List;
 
@@ -191,7 +189,7 @@ public class ProtoIntroTest extends TestCase {
         assertNotNull(sel); //select returns null if it doesnt match
 
         Statement st = sel.ast(); //gets the Statement
-        $proto.$tokens $ts = sel.tokens(); //gets the tokens {{"a", "1"}}
+        $pattern.$tokens $ts = sel.tokens(); //gets the tokens {{"a", "1"}}
 
         //we can inspect each $token manually (here verify "a" is "1")
         assertEquals("1", $ts.get("a"));

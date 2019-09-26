@@ -4,8 +4,8 @@ import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import junit.framework.TestCase;
 import org.jdraft.Ast;
-import org.jdraft.proto.$;
-import org.jdraft.proto.$stmt;
+import org.jdraft.pattern.$;
+import org.jdraft.pattern.$stmt;
 
 public class SpoonComingTest extends TestCase {
 

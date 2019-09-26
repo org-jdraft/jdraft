@@ -8,7 +8,7 @@ import com.github.javaparser.ast.stmt.Statement;
 import org.jdraft.*;
 import org.jdraft.macro.*;
 
-import org.jdraft.proto.*;
+import org.jdraft.pattern.*;
 
 import org.jdraft.runtime.*;
 import java.io.FileNotFoundException;

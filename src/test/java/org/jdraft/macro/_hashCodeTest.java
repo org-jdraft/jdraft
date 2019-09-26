@@ -2,7 +2,7 @@ package org.jdraft.macro;
 
 import com.github.javaparser.ast.stmt.EmptyStmt;
 import org.jdraft.*;
-import org.jdraft.proto.*;
+import org.jdraft.pattern.*;
 import org.jdraft.runtime.*;
 
 import junit.framework.TestCase;

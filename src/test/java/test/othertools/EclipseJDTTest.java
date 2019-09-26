@@ -8,7 +8,7 @@ import org.jdraft.*;
 import org.jdraft.io._archive;
 import org.jdraft.io._io;
 import org.jdraft.macro._static;
-import org.jdraft.proto.$;
+import org.jdraft.pattern.$;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

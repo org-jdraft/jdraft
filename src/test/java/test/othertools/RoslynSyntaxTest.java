@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 import org.jdraft.*;
 import org.jdraft.macro._importClass;
 import org.jdraft.macro._static;
-import org.jdraft.proto.*;
+import org.jdraft.pattern.*;
 
 import java.util.Collection;
 import java.util.Collections;

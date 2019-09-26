@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import junit.framework.TestCase;
-import org.jdraft.proto.$;
-import org.jdraft.proto.$var;
+import org.jdraft.pattern.$;
+import org.jdraft.pattern.$var;
 
 /**
  *

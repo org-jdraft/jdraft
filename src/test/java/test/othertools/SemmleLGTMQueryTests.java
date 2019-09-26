@@ -1,16 +1,11 @@
 package test.othertools;
 
-import com.github.javaparser.ast.body.FieldDeclaration;
 import junit.framework.TestCase;
-import org.jdraft.Ast;
 import org.jdraft.Stmt;
-import org.jdraft._typeRef;
-import org.jdraft.proto.*;
+import org.jdraft.pattern.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * https://blog.semmle.com/secure-software-github-semmle/

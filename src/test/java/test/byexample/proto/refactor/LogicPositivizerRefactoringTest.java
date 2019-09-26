@@ -2,7 +2,7 @@ package test.byexample.proto.refactor;
 
 import junit.framework.TestCase;
 import org.jdraft._class;
-import org.jdraft.proto.$stmt;
+import org.jdraft.pattern.$stmt;
 
 /**
  * tags:

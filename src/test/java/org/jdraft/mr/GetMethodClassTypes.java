@@ -3,9 +3,8 @@ package org.jdraft.mr;
 import com.github.javaparser.ast.Node;
 import junit.framework.TestCase;
 import org.jdraft.Stencil;
-import org.jdraft.Tokens;
 import org.jdraft._class;
-import org.jdraft.proto.*;
+import org.jdraft.pattern.*;
 import org.jdraft.runtime._typeTree;
 
 public class GetMethodClassTypes extends TestCase {
@@ -40,7 +39,7 @@ public class GetMethodClassTypes extends TestCase {
     public static String printTemplate(Node n, String...format ){
 
         Stencil s = Stencil.of(format);
-        $proto.$tokens t = new $proto.$tokens();
+        $pattern.$tokens t = new $pattern.$tokens();
 
         //NodeTokens or some shit
         t.put("class", n.getClass() );

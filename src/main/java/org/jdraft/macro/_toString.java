@@ -5,8 +5,8 @@ import org.jdraft._method;
 import org.jdraft._field;
 import org.jdraft._type;
 import com.github.javaparser.ast.stmt.BlockStmt;
-import org.jdraft.proto.$method;
-import org.jdraft.proto.$stmt;
+import org.jdraft.pattern.$method;
+import org.jdraft.pattern.$stmt;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

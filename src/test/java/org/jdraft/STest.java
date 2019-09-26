@@ -7,7 +7,7 @@ package org.jdraft;
 
 import junit.framework.TestCase;
 
-import org.jdraft.proto.$;
+import org.jdraft.pattern.$;
 
 /**
  *

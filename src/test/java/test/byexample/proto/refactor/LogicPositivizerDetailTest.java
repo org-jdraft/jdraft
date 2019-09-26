@@ -5,8 +5,8 @@ import com.github.javaparser.ast.stmt.Statement;
 import junit.framework.TestCase;
 import org.jdraft.Stmt;
 import org.jdraft._type;
-import org.jdraft.proto.$;
-import org.jdraft.proto.$stmt;
+import org.jdraft.pattern.$;
+import org.jdraft.pattern.$stmt;
 
 /**
  * This goes into more detail of using parameterized proto(types) for refactoring code

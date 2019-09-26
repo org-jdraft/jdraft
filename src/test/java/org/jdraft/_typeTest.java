@@ -8,7 +8,7 @@ import org.jdraft.macro._static;
 import org.jdraft.macro._toCtor;
 import org.jdraft.macro._toInit;
 import org.jdraft.macro._toStaticInit;
-import org.jdraft.proto.$var;
+import org.jdraft.pattern.$var;
 import java.io.Serializable;
 import java.util.List;
 import junit.framework.TestCase;

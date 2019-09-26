@@ -3,13 +3,10 @@ package test.byexample;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import junit.framework.TestCase;
 import org.jdraft._code;
-import org.jdraft._type;
 import org.jdraft.io._archive;
 import org.jdraft.io._io;
-import org.jdraft.proto.*;
+import org.jdraft.pattern.*;
 
-import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.List;
 
 public class AnalyzeTest extends TestCase {

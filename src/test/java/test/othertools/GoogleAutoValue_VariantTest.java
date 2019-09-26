@@ -5,10 +5,9 @@ import junit.framework.TestCase;
 import org.jdraft._class;
 import org.jdraft._type;
 import org.jdraft.macro._final;
-import org.jdraft.macro._macro;
-import org.jdraft.proto.$;
-import org.jdraft.proto.$field;
-import org.jdraft.proto.$method;
+import org.jdraft.pattern.$;
+import org.jdraft.pattern.$field;
+import org.jdraft.pattern.$method;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

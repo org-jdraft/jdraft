@@ -4,8 +4,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.CallableDeclaration;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import junit.framework.TestCase;
-import org.jdraft.Ast;
-import org.jdraft.proto.*;
+import org.jdraft.pattern.*;
 
 /**
  * this example came from Google's Error-Prone project:

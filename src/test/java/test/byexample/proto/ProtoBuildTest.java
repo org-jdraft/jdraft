@@ -4,7 +4,7 @@ import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.comments.LineComment;
 import junit.framework.TestCase;
-import org.jdraft.proto.*;
+import org.jdraft.pattern.*;
 
 /**
  * WHAT are $protos & HOW to build $protos

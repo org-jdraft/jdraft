@@ -2,12 +2,12 @@ package org.jdraft;
 
 import com.github.javaparser.ast.CompilationUnit;
 import junit.framework.TestCase;
-import org.jdraft.proto.$;
+import org.jdraft.pattern.$;
 import org.jdraft.runtime.*;
 import org.jdraft.diff._diff;
 import org.jdraft.macro.*;
-import org.jdraft.proto.$ex;
-import org.jdraft.proto.$typeRef;
+import org.jdraft.pattern.$ex;
+import org.jdraft.pattern.$typeRef;
 
 
 /**

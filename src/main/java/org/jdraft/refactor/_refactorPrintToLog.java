@@ -1,8 +1,8 @@
 package org.jdraft.refactor;
 
-import org.jdraft.proto.$stmt;
-import org.jdraft.proto.$stmts;
-import org.jdraft.proto.$field;
+import org.jdraft.pattern.$stmt;
+import org.jdraft.pattern.$stmts;
+import org.jdraft.pattern.$field;
 import org.jdraft._field;
 import org.jdraft._type;
 import org.jdraft.Ast;

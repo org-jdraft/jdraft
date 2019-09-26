@@ -9,7 +9,7 @@ import org.jdraft.macro._static;
 import org.jdraft.runtime._runtime;
 import org.jdraft.runtime._classFile;
 import org.jdraft.io._batch;
-import org.jdraft.proto.$field;
+import org.jdraft.pattern.$field;
 
 import java.nio.file.Paths;
 import java.util.ArrayList;

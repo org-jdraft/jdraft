@@ -2,10 +2,9 @@ package test.byexample.proto;
 
 import junit.framework.TestCase;
 import org.jdraft.Ex;
-import org.jdraft._class;
 import org.jdraft._method;
-import org.jdraft.proto.*;
-import org.jdraft.proto.$node.Select;
+import org.jdraft.pattern.*;
+import org.jdraft.pattern.$node.Select;
 
 import java.io.Serializable;
 import java.util.List;

@@ -11,10 +11,10 @@ import org.jdraft._type;
 import org.jdraft.macro._abstract;
 import org.jdraft.macro._public;
 import org.jdraft.macro._static;
-import org.jdraft.proto.$;
-import org.jdraft.proto.$catch;
-import org.jdraft.proto.$method;
-import org.jdraft.proto.$node;
+import org.jdraft.pattern.$;
+import org.jdraft.pattern.$catch;
+import org.jdraft.pattern.$method;
+import org.jdraft.pattern.$node;
 
 import java.util.ArrayList;
 import java.util.List;

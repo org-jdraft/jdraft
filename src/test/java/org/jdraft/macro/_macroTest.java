@@ -3,18 +3,14 @@ package org.jdraft.macro;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import org.jdraft.Ast;
-import org.jdraft._anno._hasAnnos;
 import org.jdraft._class;
-import org.jdraft._type;
-import org.jdraft.proto.$stmt;
+import org.jdraft.pattern.$stmt;
 import junit.framework.TestCase;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 /**

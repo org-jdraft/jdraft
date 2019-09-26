@@ -8,7 +8,7 @@ import org.jdraft._anno;
 import org.jdraft._class;
 import org.jdraft._field;
 import org.jdraft._typeParameter;
-import org.jdraft.proto.$ex;
+import org.jdraft.pattern.$ex;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.Serializable;

@@ -2,9 +2,8 @@ package test.byexample.batch;
 
 import junit.framework.TestCase;
 import org.jdraft.io._batch;
-import org.jdraft.proto.$;
-import org.jdraft.proto.$id;
-import org.jdraft.proto.$name;
+import org.jdraft.pattern.$;
+import org.jdraft.pattern.$name;
 
 public class _batchByExampleTest extends TestCase {
 

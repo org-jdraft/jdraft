@@ -1,7 +1,6 @@
 package org.jdraft.io;
 
-import org.jdraft.io._batch;
-import org.jdraft.proto.$parameter;
+import org.jdraft.pattern.$parameter;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

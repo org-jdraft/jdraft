@@ -4,7 +4,7 @@ import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import org.jdraft._annotation._element;
 import java.util.List;
 
-import org.jdraft.proto.$ex;
+import org.jdraft.pattern.$ex;
 import java.lang.annotation.ElementType;
 import junit.framework.TestCase;
 import test.ComplexAnnotationType;

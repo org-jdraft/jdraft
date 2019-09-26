@@ -2,7 +2,7 @@ package test.byexample.proto;
 
 import junit.framework.TestCase;
 import org.jdraft._field;
-import org.jdraft.proto.$field;
+import org.jdraft.pattern.$field;
 
 public class _Proto_DraftFillTest extends TestCase {
 

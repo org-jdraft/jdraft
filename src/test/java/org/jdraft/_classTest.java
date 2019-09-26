@@ -1,7 +1,6 @@
 package org.jdraft;
 
 
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
@@ -10,10 +9,6 @@ import org.jdraft.macro.*;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.net.URI;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.sort;
@@ -24,7 +19,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import junit.framework.TestCase;
-import org.jdraft.proto.$;
+import org.jdraft.pattern.$;
 import test.ComplexClass;
 import test.NativeMethod;
 

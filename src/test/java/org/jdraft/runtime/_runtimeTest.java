@@ -3,7 +3,6 @@ package org.jdraft.runtime;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.nodeTypes.NodeWithBody;
 import com.github.javaparser.ast.stmt.LabeledStmt;
 import org.jdraft.*;
 import org.jdraft.macro.*;
@@ -20,7 +19,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import junit.framework.TestCase;
-import org.jdraft.proto.$;
+import org.jdraft.pattern.$;
 import org.junit.Assert;
 
 /**

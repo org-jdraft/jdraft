@@ -22,7 +22,7 @@ import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.TypeParameter;
 import junit.framework.TestCase;
-import org.jdraft.proto.$stmt;
+import org.jdraft.pattern.$stmt;
 
 import java.util.List;
 import java.util.function.Consumer;

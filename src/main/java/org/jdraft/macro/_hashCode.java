@@ -3,8 +3,8 @@ package org.jdraft.macro;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import org.jdraft.*;
-import org.jdraft.proto.$stmt;
-import org.jdraft.proto.$method;
+import org.jdraft.pattern.$stmt;
+import org.jdraft.pattern.$method;
 import com.github.javaparser.ast.stmt.*;
 
 import java.lang.annotation.*;

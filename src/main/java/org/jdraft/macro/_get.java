@@ -2,7 +2,7 @@ package org.jdraft.macro;
 
 import com.github.javaparser.ast.body.TypeDeclaration;
 import org.jdraft.*;
-import org.jdraft.proto.$method;
+import org.jdraft.pattern.$method;
 
 import java.lang.annotation.*;
 import java.util.List;

@@ -3,8 +3,8 @@ package test.byexample;
 import junit.framework.TestCase;
 import org.jdraft._code;
 import org.jdraft.io._archive;
-import org.jdraft.proto.$;
-import org.jdraft.proto.$anno;
+import org.jdraft.pattern.$;
+import org.jdraft.pattern.$anno;
 
 import java.util.List;
 

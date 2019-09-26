@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
 import org.jdraft.macro._dto;
-import org.jdraft.proto.$;
+import org.jdraft.pattern.$;
 
 
 public class walkTest extends TestCase {

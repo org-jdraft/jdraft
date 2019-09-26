@@ -4,8 +4,8 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import junit.framework.TestCase;
 import org.jdraft._class;
-import org.jdraft.proto.$;
-import org.jdraft.proto.$ex;
+import org.jdraft.pattern.$;
+import org.jdraft.pattern.$ex;
 
 import java.util.function.Function;
 

@@ -1,15 +1,11 @@
 package org.jdraft.macro;
 
 import com.github.javaparser.ast.body.TypeDeclaration;
-import org.jdraft._method;
 import org.jdraft._field;
-import org.jdraft._type;
-import org.jdraft.proto.$method;
+import org.jdraft.pattern.$method;
 
 import java.lang.annotation.*;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**

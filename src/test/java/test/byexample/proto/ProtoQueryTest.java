@@ -1,11 +1,10 @@
 package test.byexample.proto;
 
 import junit.framework.TestCase;
-import org.jdraft.Ast;
 import org.jdraft.Stencil;
 import org.jdraft.Stmt;
 import org.jdraft._class;
-import org.jdraft.proto.*;
+import org.jdraft.pattern.*;
 
 /**
  * Go over the main methods for querying into source code

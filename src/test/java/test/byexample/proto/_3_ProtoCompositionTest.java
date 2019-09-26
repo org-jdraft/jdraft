@@ -2,9 +2,9 @@ package test.byexample.proto;
 
 
 import junit.framework.TestCase;
-import org.jdraft.proto.$;
-import org.jdraft.proto.$node;
-import org.jdraft.proto.$stmt;
+import org.jdraft.pattern.$;
+import org.jdraft.pattern.$node;
+import org.jdraft.pattern.$stmt;
 
 public class _3_ProtoCompositionTest extends TestCase {
 

@@ -5,7 +5,7 @@ import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import junit.framework.TestCase;
 import org.jdraft.*;
-import org.jdraft.proto.*;
+import org.jdraft.pattern.*;
 
 import java.io.IOException;
 import java.io.Serializable;

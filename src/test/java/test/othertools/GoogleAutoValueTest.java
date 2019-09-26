@@ -1,18 +1,8 @@
 package test.othertools;
 
-import com.github.javaparser.ast.body.TypeDeclaration;
 import junit.framework.TestCase;
 import org.jdraft.*;
 import org.jdraft.macro.*;
-import org.jdraft.proto.$;
-import org.jdraft.proto.$field;
-import org.jdraft.proto.$method;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-import java.util.function.Consumer;
 
 /**
  * Emulate what is going on in AutoValue with jdraft
