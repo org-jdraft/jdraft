@@ -21,7 +21,7 @@ import org.jdraft.macro._static;
  */
 public class SpatternCodeTest extends TestCase {
 
-    public void test$protoParentChildDescendant(){
+    public void test$ParentChildDescendant(){
         class C <A extends Map> {
             int x = 0;
             Map m;
