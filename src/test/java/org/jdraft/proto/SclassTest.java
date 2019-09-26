@@ -41,8 +41,8 @@ public class SclassTest extends TestCase {
         assertTrue( $class.of($package.of("aaaa.bbbb")).match(_class.of("aaaa.bbbb.C")) );
         assertFalse( $class.of($package.of("aaaa.bbbb")).match(_notMatch) );
 
-        assertTrue($class.of($id.of("A")).matches(_class.of("A")));
-        assertFalse($class.of($id.of("A")).matches(_notMatch));
+        assertTrue($class.of($name.of("A")).matches(_class.of("A")));
+        assertFalse($class.of($name.of("A")).matches(_notMatch));
 
         assertTrue( $class.of($import.of(Map.class)).matches(_class.of("A").imports(Map.class)) );
         assertFalse( $class.of($import.of(Map.class)).matches(_notMatch) );
@@ -88,7 +88,7 @@ public class SclassTest extends TestCase {
         assertTrue( $c.matches(_class.of("F").anno(Deprecated.class)));
         assertFalse( $c.matches(_class.of("F")));
 
-        $c = $class.of($.id("AC$afterPrefix$"));
+        $c = $class.of($.name("AC$afterPrefix$"));
         assertTrue( $c.matches(_class.of("AC") )); //exact match
         assertTrue( $c.matches(_class.of("ACExtra") )); //extra
         assertFalse( $c.matches(_class.of("CAF"))); //mismatch

@@ -599,7 +599,10 @@ public final class $typeRef
 
     @Override
     public String toString() {
-        return "(_typeRef) : \"" + this.typePattern() + "\"";
+        //if( this.isMatchAny() ){
+        //    return "$typeRef{ $ANY$ }";
+        // }
+        return "$typeRef{ "+ this.typePattern() + " }";
     }
 
     /**

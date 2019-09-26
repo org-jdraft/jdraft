@@ -519,6 +519,36 @@ public final class $comment <C extends Comment>
         return false;
     }
 
+    public String toString(){
+        if( this.isMatchAny() ){
+            return "$comment { $ANY$ }";
+        }
+        StringBuilder str = new StringBuilder();
+        if( this.commentClasses.size() == 1 ) {
+            if( commentClasses.contains(JavadocComment.class)) {
+                str.append("$javadoc{").append(System.lineSeparator())
+                        .append("    ").append(contentsStencil.toString()).append(System.lineSeparator())
+                        .append("}").append(System.lineSeparator());
+            }
+            else if( commentClasses.contains(BlockComment.class)) {
+                str.append("$comment<BlockComment>{").append(System.lineSeparator())
+                        .append("    ").append(contentsStencil.toString()).append(System.lineSeparator())
+                        .append("}").append(System.lineSeparator());
+            }
+            else {
+                str.append("$comment<LineComment>{").append(System.lineSeparator())
+                        .append("    ").append(contentsStencil.toString()).append(System.lineSeparator())
+                        .append("}").append(System.lineSeparator());
+            }
+        }
+        else{
+            str.append("$comment{").append(System.lineSeparator())
+                    .append("    ").append(contentsStencil.toString()).append(System.lineSeparator())
+                    .append("}").append(System.lineSeparator());
+        }
+        return str.toString();
+    }
+
     /**
      * 
      * @param <C> 

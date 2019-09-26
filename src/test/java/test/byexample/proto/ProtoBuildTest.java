@@ -143,7 +143,7 @@ public class ProtoBuildTest extends TestCase {
         $parameters $ps = $parameters.of();
         $.parameters();
 
-        $statements $cd = $statements.of();
+        $stmts $cd = $stmts.of();
 
 
 

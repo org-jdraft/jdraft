@@ -35,13 +35,18 @@ public final class $modifiers
     public static $modifiers STATIC = $modifiers.of("static");
     public static $modifiers FINAL = $modifiers.of("final");
 
+    public static $modifiers NOT_ABSTRACT = $modifiers.not("abstract");
+    public static $modifiers NOT_STATIC = $modifiers.not("static");
+    public static $modifiers NOT_FINAL = $modifiers.not("final");
+
     public static $modifiers SYNCHRONIZED = $modifiers.of("synchronized");
     public static $modifiers TRANSIENT = $modifiers.of("transient");
     public static $modifiers VOLATILE = $modifiers.of("volatile");
     public static $modifiers NATIVE = $modifiers.of("native");
     public static $modifiers STRICT_FP = $modifiers.of("strictfp");
 
-    
+
+
     public static $modifiers of(){
         return new $modifiers();
     }
@@ -111,7 +116,20 @@ public final class $modifiers
         $mods.mustInclude.addAll(mods);
         return $mods;
     }
-    
+
+    /**
+     *
+     * @param keywords
+     * @return
+     */
+    public static $modifiers not(String...keywords){
+        $modifiers $ms = $modifiers.of();
+        _modifiers _ms = _modifiers.of(keywords);
+
+        Arrays.stream( _ms.asKeywords() ).forEach(m -> $ms.mustExclude.add( _modifiers.KEYWORD_TO_ENUM_MAP.get(m) ) );
+        return $ms;
+    }
+
     /**
      * Matches sets of modifiers that have None of these modifiers
      * @param mods
@@ -134,6 +152,11 @@ public final class $modifiers
         return $mods;
     }
 
+    /**
+     *
+     * @param mods
+     * @return
+     */
     public $modifiers not($modifiers... mods ){
         for(int i=0;i<mods.length;i++) {
             this.mustExclude.addAll(mods[i].mustInclude);
@@ -176,7 +199,39 @@ public final class $modifiers
         //hmm... just return i guess
         return this;
     }
-    
+
+    public String toString(){
+        if(this.isMatchAny() ){
+            return "$modifiers{ $ANY$ }";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("$modifiers{").append(System.lineSeparator());
+        if( !mustInclude.isEmpty() ){
+            sb.append("    { ");
+            Modifier[] kws = this.mustInclude.toArray(new Modifier[0]);
+            for(int i=0;i<kws.length;i++){
+                if( i > 0){
+                    sb.append(", ");
+                }
+                sb.append(kws[i].getKeyword().asString());
+            }
+            sb.append(" }").append(System.lineSeparator());
+        }
+        if( !mustExclude.isEmpty()){
+            sb.append("    NOT { ");
+            Modifier[] kws = this.mustExclude.toArray(new Modifier[0]);
+            for(int i=0;i<kws.length;i++){
+                if( i > 0){
+                    sb.append(",");
+                }
+                sb.append(kws[i].getKeyword().asString());
+            }
+            sb.append(" }").append(System.lineSeparator());
+        }
+        sb.append("}");
+        return sb.toString();
+    }
+
     public _modifiers draft(Translator translator, Map<String,Object> keyValues){
         //parameter override
         if( keyValues.get("$modifiers") != null){
@@ -352,7 +407,7 @@ public final class $modifiers
         try{
             return this.constraint.test(null) && this.mustExclude.isEmpty() && this.mustInclude.isEmpty();
         }catch(Exception e){
-            System.out.println("MODIFIERS NOT MATCH ANY" );
+            //System.out.println("MODIFIERS NOT MATCH ANY" );
             return false;
         }
     }
@@ -409,6 +464,7 @@ public final class $modifiers
     public static class Select implements selected, select_java<_modifiers> {
 
         public _modifiers _mods;
+
         public $tokens tokens = new $tokens(new Tokens());
         
         public Select(_modifiers _mods ) {

@@ -628,10 +628,12 @@ public final class $annos
     @Override
     public String toString(){
         if( this.isMatchAny()){
-            return "$annos$";
+            return "$annos{ $ANY$ }";
         }
         StringBuilder sb = new StringBuilder();
-        this.$annosList.forEach(a -> sb.append("    ").append(a));
+        sb.append("$annos{").append(System.lineSeparator());
+        this.$annosList.forEach(a -> sb.append(Text.indent(a.toString(), "    ")));
+        sb.append("}");
         return sb.toString();
     }
     

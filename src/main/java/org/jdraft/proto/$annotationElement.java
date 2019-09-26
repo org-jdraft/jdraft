@@ -22,7 +22,7 @@ public final class $annotationElement
     public Predicate<_annotation._element> constraint = t->true;
 
     public $comment<JavadocComment>javadoc = $comment.javadocComment();
-    public $id name = $id.of("$annotationElementName$"); //name required
+    public $name name = $name.of("$annotationElementName$"); //name required
     public $typeRef type = $typeRef.of();
     public $ex defaultValue = null;
 
@@ -40,7 +40,7 @@ public final class $annotationElement
         if( _ec.hasJavadoc()) {
             ec.javadoc = $comment.javadocComment(_ec.getJavadoc());
         }
-        ec.name = $id.of(_ec.getName());
+        ec.name = $name.of(_ec.getName());
         ec.type = $typeRef.of(_ec.getType() );
         if( _ec.hasDefaultValue() ){
             ec.defaultValue = $ex.of(_ec.getDefaultValue());
@@ -64,8 +64,8 @@ public final class $annotationElement
             if( parts[i] instanceof $comment){
                 this.javadoc = ($comment<JavadocComment>)parts[i];
             }
-            if( parts[i] instanceof $id ){
-                this.name = ($id)parts[i];
+            if( parts[i] instanceof $name ){
+                this.name = ($name)parts[i];
             }
             if( parts[i] instanceof $typeRef ){
                 this.type = ($typeRef)parts[i];
@@ -160,8 +160,8 @@ public final class $annotationElement
                 Predicate<_annotation._element> pf = f-> $fa.matches(f.getType());
                 $and( pf.negate() );
             }
-            else if( parts[i] instanceof $id){
-                final $id $fn = (($id)parts[i]);
+            else if( parts[i] instanceof $name){
+                final $name $fn = (($name)parts[i]);
                 Predicate<_annotation._element> pf = f-> $fn.matches(f.getName());
                 $and( pf.negate() );
             }
@@ -191,16 +191,16 @@ public final class $annotationElement
     }
 
     public $annotationElement $name(Predicate<String> nameMatchFn){
-        this.name = $id.of(nameMatchFn);
+        this.name = $name.of(nameMatchFn);
         return this;
     }
 
     public $annotationElement $name(String name ){
-        this.name = $id.of(name);
+        this.name = $name.of(name);
         return this;
     }
 
-    public $annotationElement $name($id name ){
+    public $annotationElement $name($name name ){
         this.name = name;
         return this;
     }

@@ -131,7 +131,7 @@ public final class $name implements $constructor.$part, $method.$part, $field.$p
      */
     @Override
     public String toString(){
-        return this.nameStencil.toString();
+        return "$name{ "+this.nameStencil.toString()+" }";
     }
 
     /*

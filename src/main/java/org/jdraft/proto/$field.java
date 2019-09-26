@@ -34,9 +34,8 @@ import java.util.stream.Collectors;
  *
  * @author Eric
  */
-public final class $field implements Template<_field>, $proto<_field, $field>,
-        $proto.$java<_field, $field>, $class.$part, $interface.$part, $enum.$part, $annotation.$part,$enumConstant.$part,
-        $member.$named<$field> {
+public final class $field implements Template<_field>, $proto<_field, $field>, $proto.$java<_field, $field>,
+        $class.$part, $interface.$part, $enum.$part, $annotation.$part, $enumConstant.$part, $member.$named<$field> {
 
     public Class<_field> javaType(){
         return _field.class;
@@ -124,7 +123,7 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
         }
         $inst.modifiers = $modifiers.of(_f);        
         $inst.type = $typeRef.of(_f.getType());
-        $inst.name = $id.of( _f.getName() );
+        $inst.name = $name.of( _f.getName() );
         if( _f.hasInit() ){
             $inst.init = $ex.of(_f.getInit() );
         }
@@ -150,7 +149,7 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
     public $annos annos = new $annos(); 
     public $modifiers modifiers = $modifiers.of();
     public $typeRef type = $typeRef.of();
-    public $id name = $id.of("$name$");
+    public $name name = $name.of("$name$");
     public $ex init = null;
     
     private $field( $part...parts ){
@@ -167,8 +166,8 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
             else if( parts[i] instanceof $typeRef){
                 this.type = ($typeRef)parts[i];
             }
-            else if( parts[i] instanceof $id){
-                this.name = ($id)parts[i];
+            else if( parts[i] instanceof $name){
+                this.name = ($name)parts[i];
             }
             else if( parts[i] instanceof $ex){
                 this.init = ($ex)parts[i];
@@ -201,8 +200,8 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
                 Predicate<_field> pf = f-> $ft.matches(f.getType());
                 $and( pf.negate() );
             }
-            else if( parts[i] instanceof $id){
-                final $id $fn = (($id)parts[i]);
+            else if( parts[i] instanceof $name){
+                final $name $fn = (($name)parts[i]);
                 Predicate<_field> pf = f-> $fn.matches(f.getName());
                 $and( pf.negate() );
             }
@@ -388,7 +387,7 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
      * @return
      */
     public $field $name(){
-        this.name.idStencil = Stencil.of("$name$");
+        this.name.nameStencil = Stencil.of("$name$");
         return this;
     }
 
@@ -397,7 +396,7 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
      * @param id
      * @return
      */
-    public $field $name( $id id ){
+    public $field $name( $name id ){
         this.name = id;
         return this;
     }
@@ -408,7 +407,7 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
      * @return
      */
     public $field $name(String pattern ){
-        this.name.idStencil = Stencil.of(pattern);
+        this.name.nameStencil = Stencil.of(pattern);
         return this;
     }
 
@@ -959,7 +958,7 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
         sb.append(" ");
         sb.append(type.draft(translator, baseMap) );
         sb.append(" ");
-        sb.append(name.idStencil.draft(translator, baseMap) );
+        sb.append(name.nameStencil.draft(translator, baseMap) );
         if( init != null ){
             Expression expr = init.draft(translator, baseMap);
             if( expr != null ){
@@ -1022,8 +1021,38 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
             vars.addAll( init.list$Normalized() );
         }
         return vars.stream().distinct().collect(Collectors.toList());
-    }    
-    
+    }
+
+    public String toString(){
+        if( isMatchAny() ){
+            return "$type{ $ANY$ }";
+        }
+        StringBuilder str = new StringBuilder();
+        str.append("$type{").append( System.lineSeparator() );
+        if( ! javadoc.isMatchAny() ){
+            str.append( Text.indent( javadoc.toString()));
+        }
+        if( ! annos.isMatchAny() ){
+            str.append(Text.indent(annos.toString()));
+        }
+        if( ! modifiers.isMatchAny() ){
+            str.append(Text.indent( modifiers.toString()) );
+        }
+        if( ! type.isMatchAny() ){
+            str.append(Text.indent( type.toString()));
+        }
+        if( ! name.isMatchAny() ){
+            str.append(Text.indent( name.toString()));
+        }
+        if( this.init != null && !this.init.isMatchAny()){
+            str.append(Text.indent( "init{" + System.lineSeparator())+
+                       Text.indent(init.toString(), "        "+System.lineSeparator())+
+                       Text.indent("}") );
+        }
+        str.append("}");
+        return str.toString();
+    }
+    /*
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -1035,7 +1064,7 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
         sb.append(" ");
         sb.append(type.toString() );
         sb.append(" ");
-        sb.append(name.idStencil);
+        sb.append(name.nameStencil);
         if( init != null ){
             sb.append(" = ");
             sb.append(init.toString());
@@ -1044,6 +1073,7 @@ public final class $field implements Template<_field>, $proto<_field, $field>,
         
         return "($field): "+ System.lineSeparator()+ Text.indent( sb.toString() );
     }
+    */
     
      /**
      * A Matched Selection result returned from matching a prototype $field

@@ -49,7 +49,7 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
     public Boolean isVarArg = false;
     
     /** Name of the parameter */
-    public $id name = $id.of();
+    public $name name = $name.of();
     
     /** the underlying type of the parameter */
     public $typeRef type = $typeRef.of();
@@ -100,8 +100,8 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
      */
     public $parameter( $part...parts){
         for(int i=0;i<parts.length;i++){
-            if( parts[i] instanceof $id){
-                name = ($id)parts[i];
+            if( parts[i] instanceof $name){
+                name = ($name)parts[i];
             }
             else if( parts[i] instanceof $typeRef){
                 type = ($typeRef)parts[i];
@@ -136,8 +136,8 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
                 Predicate<_parameter> pf = f-> $fa.count(f) > 0;
                 $and( pf.negate() );
             }
-            else if( parts[i] instanceof $id){
-                final $id $fn = (($id)parts[i]);
+            else if( parts[i] instanceof $name){
+                final $name $fn = (($name)parts[i]);
                 Predicate<_parameter> pf = f-> $fn.matches(f.getName());
                 $and( pf.negate() );
             }
@@ -154,7 +154,7 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
      * @return 
      */
     public static $parameter of(){
-        return new $parameter( $typeRef.of( ), $id.of() );
+        return new $parameter( $typeRef.of( ), $name.of() );
     }
     
     
@@ -194,7 +194,7 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
      * @param type
      * @param name 
      */
-    public $parameter( $typeRef type, $id name ){
+    public $parameter( $typeRef type, $name name ){
         this( $annos.of(), type, name );
     }
     
@@ -204,7 +204,7 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
      * @param type
      * @param name 
      */
-    public $parameter( $annos annos, $typeRef type, $id name ){
+    public $parameter( $annos annos, $typeRef type, $name name ){
         this.annos = annos;
         this.type = type;
         this.name = name;        
@@ -222,7 +222,7 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
         if( _p.isVarArg() ){
             this.isVarArg = true;
         }
-        this.name.idStencil = Stencil.of(_p.getName() );
+        this.name.nameStencil = Stencil.of(_p.getName() );
         this.type = $typeRef.of(_p.getType());     
         this.annos = $annos.of( _p.getAnnos() );        
     }
@@ -248,22 +248,22 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
     }
     
     public $parameter $name(){
-        this.name = $id.of();
+        this.name = $name.of();
         return this;
     }
     
-    public $parameter $name( $id name ){
+    public $parameter $name( $name name ){
         this.name = name;
         return this;
     }
     
     public $parameter $name( String name ){
-        this.name.idStencil = Stencil.of(name);
+        this.name.nameStencil = Stencil.of(name);
         return this;
     }
     
     public $parameter $name( String name, Predicate<String> constraint){
-        this.name= $id.of(name).and(constraint);
+        this.name= $name.of(name).and(constraint);
         return this;
     }
     
@@ -343,7 +343,8 @@ public final class $parameter implements Template<_parameter>, $proto<_parameter
             sb.append("...");
         }
         sb.append(" ");
-        sb.append(name);
+        sb.append(name.nameStencil);
+        System.out.println("PPP"+ sb.toString() );
         return sb.toString();        
     }
     

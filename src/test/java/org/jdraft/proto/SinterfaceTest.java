@@ -38,8 +38,8 @@ public class SinterfaceTest extends TestCase {
         assertTrue( $interface.of($package.of("aaaa.bbbb")).match(_interface.of("aaaa.bbbb.C")) );
         assertFalse( $interface.of($package.of("aaaa.bbbb")).match(_notMatch) );
 
-        assertTrue($interface.of($id.of("A")).matches(_interface.of("A")));
-        assertFalse($interface.of($id.of("A")).matches(_notMatch));
+        assertTrue($interface.of($name.of("A")).matches(_interface.of("A")));
+        assertFalse($interface.of($name.of("A")).matches(_notMatch));
 
         assertTrue( $interface.of($import.of(Map.class)).matches(_interface.of("A").imports(Map.class)) );
         assertFalse( $interface.of($import.of(Map.class)).matches(_notMatch) );
@@ -74,7 +74,7 @@ public class SinterfaceTest extends TestCase {
         assertTrue( $i.matches(_interface.of("F").anno(Deprecated.class)));
         assertFalse( $i.matches(_interface.of("F")));
 
-        $i = $interface.of($.id("AC$afterPrefix$"));
+        $i = $interface.of($.name("AC$afterPrefix$"));
         assertTrue( $i.matches(_interface.of("AC") )); //exact match
         assertTrue( $i.matches(_interface.of("ACExtra") )); //extra
         assertFalse( $i.matches(_interface.of("CAF"))); //mismatch

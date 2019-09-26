@@ -163,20 +163,23 @@ public class _1_WhatIsProtoTest extends TestCase {
             int x;
         });
 
+        System.out.println( _getX );
+
         //the following $method proto representations will match it
         assertTrue( $method.of().matches(_getX) ); //anyMatch $method will match it of course
         assertTrue( $method.of($.PUBLIC).matches(_getX) ); //match only public methods
         assertTrue( $method.of($.NOT_STATIC).matches(_getX) ); //match only NON-static methods
-        assertTrue( $method.of($id.of("getX")).matches(_getX) ); //method with name matching stencil get$Name$
-        assertTrue( $method.of($id.of("get$Name$")).matches(_getX) ); //method with name matching stencil get$Name$
+        assertTrue( $method.of($name.of("getX")).matches(_getX) ); //method with name matching stencil get$Name$
+        assertTrue( $method.of($name.of("get$Name$")).matches(_getX) ); //method with name matching stencil get$Name$
         assertTrue( $method.of( $typeRef.of(int.class)).matches(_getX) ); //methods with int return type
-        assertTrue( $method.of( $body.of("return this.$name$;")).matches(_getX)); //with specific body
+        assertTrue( $method.of( $body.of("return this.$n$;")).matches(_getX)); //with specific body
 
         assertFalse( $method.of($.PRIVATE ).matches(_getX));
-        assertFalse( $method.of($id.of("getY")).matches(_getX));
-        assertFalse( $method.of($id.of("getY")).matches(_getX));
+        assertFalse( $method.of($name.of("getY")).matches(_getX));
+        assertFalse( $method.of($name.of("getY")).matches(_getX));
 
-        $method $m = $method.of( $.PUBLIC, $.NOT_STATIC, $id.of("get$Name$"), $typeRef.of("$type$"), $body.of("return this.$name$;") );
+        $method $m = $method.of( $.PUBLIC, $.NOT_STATIC, $name.of("get$Name$"), $typeRef.of("$type$"), $body.of("return this.$name$;") );
+        System.out.println( $m );
         assertTrue($m.matches(_getX));
 
         //a prototype via stencil

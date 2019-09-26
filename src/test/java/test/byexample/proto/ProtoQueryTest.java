@@ -53,12 +53,12 @@ public class ProtoQueryTest extends TestCase {
         //we can use/reuse it (i.e. an ad hoc query verses a "stored procedure"
 
         //verify the name stencil is
-        assertEquals(Stencil.of("A$nm$"),$cl.name.idStencil);
+        assertEquals(Stencil.of("A$nm$"),$cl.name.nameStencil);
 
         //AND it is also modifyable (hardcode "class" for "nm" parameter
         $cl.hardcode$("nm", "class");
 
-        assertEquals(Stencil.of("Aclass"),$cl.name.idStencil);
+        assertEquals(Stencil.of("Aclass"),$cl.name.nameStencil);
 
     }
 

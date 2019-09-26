@@ -20,7 +20,7 @@ public final class $enumConstant
 
     public $comment<JavadocComment>javadoc = $comment.javadocComment();
     public $annos annos = $annos.of();
-    public $id name = $id.of("$enumConstantName$"); //name required
+    public $name name = $name.of("$enumConstantName$"); //name required
     //args?
     public List<$ex> args = new ArrayList<>();
 
@@ -46,7 +46,7 @@ public final class $enumConstant
         if( _ec.hasJavadoc()) {
             ec.javadoc = $comment.javadocComment(_ec.getJavadoc());
         }
-        ec.name = $id.of(_ec.getName());
+        ec.name = $name.of(_ec.getName());
         if( _ec.hasArguments() ) {
             _ec.listArguments().forEach(a -> ec.args.add($ex.of(a)));
         }
@@ -90,8 +90,8 @@ public final class $enumConstant
             if( parts[i] instanceof $ex ){
                 this.args.add( ($ex)parts[i]);
             }
-            if( parts[i] instanceof $id ){
-                this.name = ($id)parts[i];
+            if( parts[i] instanceof $name ){
+                this.name = ($name)parts[i];
             }
         }
     }
@@ -176,8 +176,8 @@ public final class $enumConstant
                 Predicate<_enum._constant> pf = f-> $fa.count(f) > 0;
                 $and( pf.negate() );
             }
-            else if( parts[i] instanceof $id){
-                final $id $fn = (($id)parts[i]);
+            else if( parts[i] instanceof $name){
+                final $name $fn = (($name)parts[i]);
                 Predicate<_enum._constant> pf = f-> $fn.matches(f.getName());
                 $and( pf.negate() );
             }
@@ -244,16 +244,16 @@ public final class $enumConstant
     }
 
     public $enumConstant $name(Predicate<String> nameMatchFn){
-        this.name = $id.of(nameMatchFn);
+        this.name = $name.of(nameMatchFn);
         return this;
     }
 
     public $enumConstant $name(String name ){
-        this.name = $id.of(name);
+        this.name = $name.of(name);
         return this;
     }
 
-    public $enumConstant $name($id name ){
+    public $enumConstant $name($name name ){
         this.name = name;
         return this;
     }

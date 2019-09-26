@@ -24,7 +24,7 @@ public class SconstructorTest extends TestCase {
     public void testConstructOf(){
         $constructor $ct = $constructor.of($anno.of( Deprecated.class ), 
             $modifiers.of( _modifiers.PRIVATE ),
-            $id.of("TT"),
+            $name.of("TT"),
             $throws.of( IOException.class ), 
             $body.of("{}"), 
             $parameters.of("$type$ $name$")
@@ -56,8 +56,8 @@ public class SconstructorTest extends TestCase {
     
     public void testConstructConsistentArg(){
         $constructor $ct = $constructor.of( 
-            $parameters.of("int $name$"),
-            $body.of("this.$name$ = $name$;") );    
+            $parameters.of("int $n$"),
+            $body.of("this.$n$ = $n$;") );
                 
         class FF{
             int i;
@@ -144,7 +144,7 @@ public class SconstructorTest extends TestCase {
         $constructor $c = $constructor.of( 
             $anno.of(Deprecated.class), 
             $body.of("{}"), 
-            $id.of(s -> s.startsWith("a")) );
+            $name.of(s -> s.startsWith("a")) );
         
         class aaaa{
             @Deprecated

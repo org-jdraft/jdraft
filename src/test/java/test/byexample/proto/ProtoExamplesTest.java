@@ -69,7 +69,7 @@ public class ProtoExamplesTest extends TestCase {
 
         $.method();                        //any method
         $.method($.PRIVATE);      // private methods
-        $.method($id.of("get$Name$"));     // methods named get???()
+        $.method($name.of("get$Name$"));     // methods named get???()
         $.method(m->m.hasBody());          // methods with a body
 
         //a method that returns an int and throws RuntimeException
@@ -93,7 +93,7 @@ public class ProtoExamplesTest extends TestCase {
                 Predicate<Integer> p = (Integer a)-> true;
             }
         }
-        assertNotNull( $.method( $id.of("get$Name$") ).firstIn(GG.class));
+        assertNotNull( $.method( $name.of("get$Name$") ).firstIn(GG.class));
 
         //lambdas containing a Integer type parameter
         assertNotNull( $.lambda( ).$hasChild( $parameter.of( $typeRef.of(Integer.class))) );
@@ -171,11 +171,14 @@ public class ProtoExamplesTest extends TestCase {
                 $anno.of(Deprecated.class),
                 $modifiers.of("private"),
                 $typeRef.of(int.class),
-                $id.of(i-> i.toString().endsWith("Method")),
+                $name.of(i-> i.toString().endsWith("Method")),
                 $parameters.of(int.class, String.class),
                 $typeParameter.of().$hasChild( $typeRef.of(Serializable.class)),
                 $throws.of( IOException.class),
                 $body.of( (Object $any$)-> {return $any$;} ) );
+
+        System.out.println( $m.toString() );
+
         assertEquals(1, $m.count(AMM.class));
     }
 }

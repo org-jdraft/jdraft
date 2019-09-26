@@ -367,7 +367,6 @@ public final class _initBlock
             return (_HIB)this;
         }
 
-
         /**
          * adds a Static block based on the body of the lambda
          * @param command
@@ -462,9 +461,6 @@ public final class _initBlock
             bs.setStatements(sb.astInit.getBody().getStatements());
             return (_HIB)this;
         }
-
-
-
 
         /**
          * adds a Static block based on the body of the lambda

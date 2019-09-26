@@ -59,15 +59,7 @@ public class $initBlock implements $proto<_initBlock, $initBlock>, $proto.$java<
 
     public static $initBlock of(String str, Predicate<_initBlock> matchFn ){
         return of(str).$and(matchFn);
-        /*
-        if( str.trim().startsWith("static" )){
-            str = str.substring(str.indexOf("{")+1 );
-            str = str.substring(0, str.indexOf("}") );
-        }
-        return new $initBlock( $stmt.of(BlockStmt.class, str),  null, matchFn );
-         */
     }
-
 
     public static $initBlock of(Statement st){
         if( st instanceof BlockStmt ){
@@ -102,7 +94,6 @@ public class $initBlock implements $proto<_initBlock, $initBlock>, $proto.$java<
         return of(bdy);
     }
 
-
     public $initBlock($stmt<BlockStmt> $body, Boolean isStatic, Predicate<_initBlock> constraint){
         //the pattern must be a valid package name
         this.body = $body;
@@ -129,6 +120,21 @@ public class $initBlock implements $proto<_initBlock, $initBlock>, $proto.$java<
     public $initBlock hardcode$(Translator translator, Tokens kvs) {
         this.body = this.body.hardcode$(translator, kvs);
         return this;
+    }
+
+    public String toString(){
+         if( isMatchAny() ){
+             return "$initBlock{ $ANY$ }";
+         }
+         StringBuilder sb = new StringBuilder();
+         if( this.isStatic != null && this.isStatic ){
+             sb.append( "$initBlock{ static " );
+         } else{
+             sb.append( "$initBlock{ " );
+         }
+         sb.append( Text.indent( this.body.toString() ) );
+         sb.append("}");
+         return sb.toString();
     }
 
     @Override

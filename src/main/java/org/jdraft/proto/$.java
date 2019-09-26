@@ -1,5 +1,6 @@
 package org.jdraft.proto;
 
+import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.PackageDeclaration;
@@ -67,9 +68,9 @@ public final class $ {
     public static $modifiers STATIC = $modifiers.of("static");
     public static $modifiers FINAL = $modifiers.of("final");
 
-    public static $modifiers NOT_ABSTRACT = $modifiers.of(m -> !m.isAbstract() );
-    public static $modifiers NOT_STATIC = $modifiers.of(m -> !m.isStatic() );
-    public static $modifiers NOT_FINAL = $modifiers.of(m -> !m.isFinal() );
+    public static $modifiers NOT_ABSTRACT = $modifiers.not("abstract");
+    public static $modifiers NOT_STATIC = $modifiers.not("static");
+    public static $modifiers NOT_FINAL = $modifiers.not("final");
 
     public static $modifiers SYNCHRONIZED = $modifiers.of("synchronized");
     public static $modifiers TRANSIENT = $modifiers.of("transient");
@@ -1604,20 +1605,20 @@ public final class $ {
         return $id.of(pattern);
     }
 
-    public static $id id( Predicate<String> idMatchFn){
-        return $id.of(idMatchFn);
+    public static $name id( Predicate<String> idMatchFn){
+        return $name.of(idMatchFn);
     }
 
-    public static $id name (){
-        return $id.of();
+    public static $name name (){
+        return $name.of();
     }
 
-    public static $id name( String pattern ){
-        return $id.of(pattern);
+    public static $name name( String pattern ){
+        return $name.of(pattern);
     }
 
-    public static $id name( Predicate<String> idMatchFn){
-        return $id.of(idMatchFn);
+    public static $name name( Predicate<String> idMatchFn){
+        return $name.of(idMatchFn);
     }
 
     /**

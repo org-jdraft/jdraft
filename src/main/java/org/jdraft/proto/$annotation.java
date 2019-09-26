@@ -26,7 +26,7 @@ public final class $annotation
     public $comment<JavadocComment>javadoc = $comment.javadocComment();
     public $annos annos = $annos.of();
     public $modifiers modifiers = $modifiers.of();
-    public $id name = $id.of("$annotationName$"); //name required
+    public $name name = $name.of("$annotationName$"); //name required
 
     public List<$annotationElement> annotationElements = new ArrayList<>();
 
@@ -74,8 +74,8 @@ public final class $annotation
                 this.modifiers.mustExclude.addAll(ms.mustExclude);
                 this.modifiers.$and(ms.constraint);
             }
-            if( parts[i] instanceof $id ){
-                this.name = ($id)parts[i];
+            if( parts[i] instanceof $name ){
+                this.name = ($name)parts[i];
             }
             if( parts[i] instanceof $annotationElement ){
                 this.annotationElements.add( ($annotationElement)parts[i]);
@@ -266,16 +266,16 @@ public final class $annotation
     }
 
     public $annotation $name(Predicate<String> nameMatchFn){
-        this.name = $id.of(nameMatchFn);
+        this.name = $name.of(nameMatchFn);
         return this;
     }
 
     public $annotation $name(String name ){
-        this.name = $id.of(name);
+        this.name = $name.of(name);
         return this;
     }
 
-    public $annotation $name($id name ){
+    public $annotation $name($name name ){
         this.name = name;
         return this;
     }

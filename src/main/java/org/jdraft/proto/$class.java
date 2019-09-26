@@ -25,7 +25,7 @@ public final class $class
     public $annos annos = $annos.of();
     public $modifiers modifiers = $modifiers.of();
     public $typeParameters typeParameters = $typeParameters.of();
-    public $id name = $id.of("$className$"); //name required
+    public $name name = $name.of("$className$"); //name required
 
     //body parts
     public List<$constructor> ctors = new ArrayList<>();
@@ -89,8 +89,8 @@ public final class $class
                 this.modifiers.mustExclude.addAll(ms.mustExclude);
                 this.modifiers.$and(ms.constraint);
             }
-            if( parts[i] instanceof $id ){
-                this.name = ($id)parts[i];
+            if( parts[i] instanceof $name ){
+                this.name = ($name)parts[i];
             }
             if( parts[i] instanceof $package ){
                 this.packageDecl = ($package)parts[i];
@@ -319,16 +319,16 @@ public final class $class
     }
 
     public $class $name( Predicate<String> nameMatchFn){
-        this.name = $id.of(nameMatchFn);
+        this.name = $name.of(nameMatchFn);
         return this;
     }
 
     public $class $name( String name ){
-        this.name = $id.of(name);
+        this.name = $name.of(name);
         return this;
     }
 
-    public $class $name( $id name ){
+    public $class $name( $name name ){
         this.name = name;
         return this;
     }

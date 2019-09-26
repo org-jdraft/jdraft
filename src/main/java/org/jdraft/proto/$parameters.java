@@ -85,9 +85,17 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
     
     public $parameters $add($parameter $param ){
         //always rename the $id$ name to a parameter name based on the position in the parameters
-        // i.e. we dont want this: ( int $id$, int $id$ ) because this assumes that the names $id$ and $id$ must be the same
-        // we rather want this: (int $p1$, nit $p2$ ) so each name is distinct
-        $param.name.idStencil = $param.name.idStencil.rename$( "id", "p"+this.$params.size() + 1);
+        // i.e. we dont want this: ( int $name$, int $name$ ) because this assumes that the names $name$ and $name$
+        // must be the same we rather want this: (int $p1$, int $p2$ ) so each name is distinct
+        //first find out if there is a name conflict
+        this.$params.add( $param );
+
+        
+        if( !this.$params.isEmpty() ) {
+            for(int i=0;i<this.$params.size(); i++){
+                $params.get(i).name.nameStencil = $params.get(i).name.nameStencil.rename$("name", "p" + (i + 1));
+            }
+        }
         //if( $param.name.isMatchAny() ){
 
         //} else {
@@ -442,15 +450,17 @@ public final class $parameters implements Template<_parameters>, $proto<_paramet
     @Override
     public String toString(){
         if( isMatchAny() ){
-            return "( $any$ )";
+            return "$parameters{ $ANY$ }";
         }
         StringBuilder sb = new StringBuilder();
+        sb.append("$parameters{ ");
         for(int i=0;i<this.$params.size(); i++){
             if( i > 0 ){
                 sb.append(",");
             }
             sb.append( $params.get(i) );
         }
+        sb.append(" }");
         return sb.toString();    
     }
  

@@ -156,7 +156,20 @@ public final class $body implements Template<_body>, $proto<_body, $body>, $prot
         this.constraint = this.constraint.and(constraint);
         return this;
     }
-    
+
+    public String toString(){
+        if( this.isMatchAny() ){
+            return "$body{ $ANY$ }";
+        }
+        if( this.isImplemented != null && !this.isImplemented ){
+            return "$body{ ; } (not implemented)";
+        }
+        //if( !this.bodyStmts.stmtStencil.isMatchAny() ){
+        //    return "$body" + this.bodyStmts.stmtStencil +System.lineSeparator();
+        //}
+        return "$body" + this.bodyStmts.stmtStencil + System.lineSeparator();
+    }
+
     /**
      * 
      * @param body

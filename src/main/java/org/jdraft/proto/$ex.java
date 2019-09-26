@@ -2188,7 +2188,7 @@ public final class $ex<T extends Expression>
 
     @Override
     public String toString() {
-        return "(" + this.expressionClass.getSimpleName() + ") : \"" + this.exprStencil + "\"";
+        return "$ex{ (" + this.expressionClass.getSimpleName() + ") : \"" + this.exprStencil + "\" }";
     }
        
     /**

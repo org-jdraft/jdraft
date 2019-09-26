@@ -56,6 +56,18 @@ public final class $catch implements $proto<CatchClause, $catch> {
         return this;
     }
 
+    public String toString(){
+        if( isMatchAny() ){
+            return "$catch{ $ANY$ }";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("$catch{").append(System.lineSeparator());
+        sb.append( Text.indent( this.$param.toString()) );
+        sb.append( Text.indent( this.$bd.toString()) );
+        sb.append("}");
+        return sb.toString();
+    }
+
     @Override
     public $catch hardcode$(Translator translator, Tokens kvs) {
         this.$bd = this.$bd.hardcode$(translator, kvs);

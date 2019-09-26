@@ -29,7 +29,7 @@ public final class $interface
     public $annos annos = $annos.of();
     public $modifiers modifiers = $modifiers.of();
     public $typeParameters typeParameters = $typeParameters.of();
-    public $id name = $id.of("$interfaceName$"); //name required
+    public $name name = $name.of("$interfaceName$"); //name required
 
     public List<$field> fields = new ArrayList<>();
     public List<$method> methods = new ArrayList<>();
@@ -83,8 +83,8 @@ public final class $interface
                 this.modifiers.mustExclude.addAll(ms.mustExclude);
                 this.modifiers.$and(ms.constraint);
             }
-            if( parts[i] instanceof $id ){
-                this.name = ($id)parts[i];
+            if( parts[i] instanceof $name ){
+                this.name = ($name)parts[i];
             }
             if( parts[i] instanceof $package ){
                 this.packageDecl = ($package)parts[i];
@@ -284,16 +284,16 @@ public final class $interface
 
 
     public $interface $name(Predicate<String> nameMatchFn){
-        this.name = $id.of(nameMatchFn);
+        this.name = $name.of(nameMatchFn);
         return this;
     }
 
     public $interface $name(String name ){
-        this.name = $id.of(name);
+        this.name = $name.of(name);
         return this;
     }
 
-    public $interface $name($id name ){
+    public $interface $name($name name ){
         this.name = name;
         return this;
     }

@@ -55,6 +55,20 @@ public class $package implements $proto<PackageDeclaration, $package>, Template<
         this.constraint = constraint;
     }
 
+    public String toString(){
+        if( this.isMatchAny() ){
+            return "$package{ $ANY$ }";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("$package{ ").append(System.lineSeparator());
+        if( !this.annos.isMatchAny() ){
+            sb.append(Text.indent(this.annos.toString()));
+        }
+        sb.append(Text.indent(this.name.toString()));
+        sb.append("}");
+        return sb.toString();
+    }
+
     @Override
     public $package $and(Predicate<PackageDeclaration> constraint) {
         this.constraint = this.constraint.and(constraint);

@@ -85,9 +85,9 @@ public final class $typeParameter
 
     public Predicate<_typeParameter> constraint = t-> true;
     
-    public $annos $anns = $annos.of();
+    public $annos anns = $annos.of();
     
-    public $id $name = $id.of("$name$");
+    public $name name = $name.of("$typeParameter$");
     
     /**
      * The (optional) lower bound on a type parameter (i.e. extends)
@@ -99,26 +99,26 @@ public final class $typeParameter
     
     /**
      * 
-     * @param $anns
+     * @param anns
      * @param name
      * @param typeBounds 
      */
-    private $typeParameter( $annos $anns, $id name, $typeRef...typeBounds){
-        this.$anns = $anns;
-        this.$name = name;
+    private $typeParameter($annos anns, $name name, $typeRef...typeBounds){
+        this.anns = anns;
+        this.name = name;
         Arrays.stream(typeBounds).forEach( t -> this.$typeBound.add(t));
     }
     
     private $typeParameter($typeParameter.$part...parts ){
         for(int i=0;i<parts.length;i++){
-            if( parts[i] instanceof $id ){
-                this.$name = ($id)parts[i];
+            if( parts[i] instanceof $name ){
+                this.name = ($name)parts[i];
             }
             else if( parts[i] instanceof $annos ){
-                this.$anns = ($annos)parts[i];
+                this.anns = ($annos)parts[i];
             }
             else if( parts[i] instanceof $anno ){
-                this.$anns.$annosList.add( ($anno)parts[i] );
+                this.anns.$annosList.add( ($anno)parts[i] );
             }
             else if( parts[i] instanceof $typeRef ){
                 this.$typeBound.add(($typeRef)parts[i]);
@@ -138,8 +138,8 @@ public final class $typeParameter
                 Predicate<_typeParameter> pf = f-> $fa.count(f) > 0;
                 $and( pf.negate() );
             }
-            else if( parts[i] instanceof $id){
-                final $id $fn = (($id)parts[i]);
+            else if( parts[i] instanceof $name){
+                final $name $fn = (($name)parts[i]);
                 Predicate<_typeParameter> pf = f-> $fn.matches(f.getName());
                 $and( pf.negate() );
             }
@@ -152,43 +152,43 @@ public final class $typeParameter
     }
     
     public $typeParameter(_typeParameter _tp){
-        $anns = $annos.of(_tp);
-        $name = $id.of(_tp.getName() );
+        anns = $annos.of(_tp);
+        name = name.of(_tp.getName() );
         _tp.getTypeBound().forEach(tb -> this.$typeBound.add($typeRef.of(tb)));                   
     }
     
     public $typeParameter $anno(){
-        this.$anns = $annos.of();
+        this.anns = $annos.of();
         return this;
     }
     
     public $typeParameter $anno( $anno $ann ){
-        this.$anns.$annosList.add($ann);
+        this.anns.$annosList.add($ann);
         return this;
     }
     
     public $typeParameter $annos( $annos $anns ){
-        this.$anns = $anns;
+        this.anns = $anns;
         return this;
     }
     
     public $typeParameter $annos( Predicate<_annos> constraint ){
-        this.$anns.$and(constraint);
+        this.anns.$and(constraint);
         return this;
     }
     
     public $typeParameter $name( String $name){
-        this.$name.idStencil = Stencil.of($name);
+        this.name.nameStencil = Stencil.of($name);
         return this;
     }
     
     public $typeParameter $name(Predicate<String> constraint){
-        this.$name.and(constraint);
+        this.name.and(constraint);
         return this;
     }
     
-    public $typeParameter $name( $id $name){
-        this.$name = $name;
+    public $typeParameter $name( $name $name){
+        this.name = $name;
         return this;
     }
     
@@ -220,8 +220,8 @@ public final class $typeParameter
             }
             return $typeParameter.of( tp.toString() ).draft(translator, kvs);
         }
-        String anos = this.$anns.draftToString(translator, keyValues);
-        String nm = this.$name.draft(translator, keyValues);
+        String anos = this.anns.draftToString(translator, keyValues);
+        String nm = this.name.draft(translator, keyValues);
         if( nm.length() == 0 && keyValues.containsKey("name")){ //this handles $any$
             nm = keyValues.get("name").toString();
         }
@@ -241,8 +241,8 @@ public final class $typeParameter
 
     @Override
     public $typeParameter $(String target, String $Name) {
-        this.$anns.$(target, $Name);
-        this.$name.$(target, $Name);
+        this.anns.$(target, $Name);
+        this.name.$(target, $Name);
         this.$typeBound.forEach(tb -> tb.$(target, $Name));
         return this;
     }
@@ -250,8 +250,8 @@ public final class $typeParameter
     @Override
     public List<String> list$() {
         List<String> found = new ArrayList<>();
-        found.addAll(this.$anns.list$());
-        found.addAll(this.$name.list$());
+        found.addAll(this.anns.list$());
+        found.addAll(this.name.list$());
         this.$typeBound.forEach( tb -> found.addAll(tb.list$()));
         return found;
     }
@@ -259,22 +259,22 @@ public final class $typeParameter
     @Override
     public List<String> list$Normalized() {
         List<String> found = new ArrayList<>();
-        found.addAll(this.$anns.list$Normalized());
-        found.addAll(this.$name.list$Normalized());
+        found.addAll(this.anns.list$Normalized());
+        found.addAll(this.name.list$Normalized());
         this.$typeBound.forEach( tb -> found.addAll(tb.list$Normalized()));
         return found.stream().distinct().collect(Collectors.toList());
     }
     
     public $typeParameter hardcode$( Translator trans, Tokens hardcodedKeyValues ) {
-        this.$anns.hardcode$(trans, hardcodedKeyValues);
-        this.$name.hardcode$(trans, hardcodedKeyValues);
+        this.anns.hardcode$(trans, hardcodedKeyValues);
+        this.name.hardcode$(trans, hardcodedKeyValues);
         this.$typeBound.forEach(tb -> tb.hardcode$(trans, hardcodedKeyValues));
         return this;
     }
 
     public boolean isMatchAny(){
         try{
-            return this.constraint.test(null ) && this.$name.isMatchAny() && this.$anns.isMatchAny() && this.$typeBound.isEmpty();
+            return this.constraint.test(null ) && this.name.isMatchAny() && this.anns.isMatchAny() && this.$typeBound.isEmpty();
         } catch(Exception e){
             return false;
         }
@@ -401,12 +401,15 @@ public final class $typeParameter
     
     @Override
     public String toString(){
+        if( isMatchAny() ){
+            return "$typeParameter{ $ANY$ }";
+        }
         String ans = "";
-        if( !$anns.isMatchAny() ){
-            ans = $anns.toString()+" ";            
+        if( !anns.isMatchAny() ){
+            ans = anns.toString()+" ";
         }
         if( $typeBound.isEmpty() ){
-            return ans + $name.toString();
+            return ans + name.toString();
         }
         StringBuilder tb = new StringBuilder();
         tb.append(" extends ");
@@ -416,7 +419,7 @@ public final class $typeParameter
             } 
             tb.append(this.$typeBound.get(i) );
         }
-        return "($typeParmeter):" + ans + $name.toString()+tb;
+        return "$typeParameter{ " + ans + name.toString()+tb +" }";
     }
     
     public boolean matches(String typeParameter){
@@ -440,11 +443,11 @@ public final class $typeParameter
             System.out.println( "Failed constraint");
             return null;
         }
-        $annos.Select asel = this.$anns.select(_tp);
+        $annos.Select asel = this.anns.select(_tp);
 
         if( asel != null ){
             Tokens ts = asel.tokens().asTokens();
-            ts = this.$name.parseTo(_tp.getName(), ts);
+            ts = this.name.parseTo(_tp.getName(), ts);
             if( ts == null ){
                 return null;
             }

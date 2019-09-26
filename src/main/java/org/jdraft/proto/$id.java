@@ -9,11 +9,10 @@ import java.util.function.Predicate;
  * Notion of a name or identifier that can be :
  * "simple" i.e. "Map"
  * or "fully qualified" i.e. "java.util.Map"
- * 
+ *
+ * @see $name (a "simple" name cannot be fully qualified
  */
-public final class $id implements $constructor.$part, $method.$part, $field.$part,
-        $parameter.$part, $typeParameter.$part, $var.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part,
-        $enumConstant.$part,  $annotationElement.$part{
+public final class $id {
 
     public static $id of(){
         return $id.of("$id$");
@@ -42,11 +41,9 @@ public final class $id implements $constructor.$part, $method.$part, $field.$par
             try{
                 return this.constraint.test( null );
             } catch(Exception e){
-                System.out.println("NAME NOT MATCH ANY" );
                 return false;
             }
         }
-        System.out.println("NAME NOT MATCH ANY" );
         return false;
     }
     
@@ -100,32 +97,33 @@ public final class $id implements $constructor.$part, $method.$part, $field.$par
         return this.idStencil.draft(t, keyValues);
     }
 
-    public boolean matches(String t) {
-        return parse(t) != null;
+    public boolean matches(String id) {
+        return parse(id) != null;
     }
 
-    public Tokens parse(String t) {
 
-        if (t == null) {
+    public Tokens parse(String id) {
+
+        if (id == null) {
             /** Null is allowed IF and ONLY If the Stencil $form isMatchAll */
             if (idStencil.isMatchAny()) {
                 return Tokens.of(idStencil.list$().get(0), "");
             }
             return null;
         }
-        if( constraint.test( t ) ) {       
-            int idx = t.lastIndexOf(".");
+        if( constraint.test( id ) ) {
+            int idx = id.lastIndexOf(".");
             if( idx > 0 ){ //input is fully qualified id
                 //if the pattern is NOT fully qualified
                 if( !this.idStencil.getTextForm().getFixedText().contains(".") ){
                     String oldPattern = this.idStencil.toString();
                     String newPattern = oldPattern.substring(oldPattern.lastIndexOf(".")+1);
-                    Tokens ts = Stencil.of(newPattern).parse(normalize(t));
+                    Tokens ts = Stencil.of(newPattern).parse(normalize(id));
                     return ts;
                 }
             }            
             //if neither or both are 
-            return idStencil.parse( t );
+            return idStencil.parse( id );
         }
         return null;
     }

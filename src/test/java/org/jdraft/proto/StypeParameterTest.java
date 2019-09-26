@@ -25,8 +25,8 @@ public class StypeParameterTest extends TestCase {
         }
 
         assertEquals( 2, $typeParameter.of().count(F.class)); //A, I
-        assertEquals( 1, $typeParameter.of().$name( $id.of("A")).count(F.class)); //A
-        assertEquals( 1, $typeParameter.of().$name( $id.of("I")).count(F.class)); //A
+        assertEquals( 1, $typeParameter.of().$name( $name.of("A")).count(F.class)); //A
+        assertEquals( 1, $typeParameter.of().$name( $name.of("I")).count(F.class)); //A
 
         //_class _c = _class.of(F.class);
 
@@ -58,7 +58,7 @@ public class StypeParameterTest extends TestCase {
         assertNotNull( sel );
         
         assertEquals( _typeParameter.of("A"), 
-            $typeParameter.of().draft("name", "A"));
+            $typeParameter.of().draft("typeParameter", "A"));
     }
     
     public void testMatchTypeBound(){

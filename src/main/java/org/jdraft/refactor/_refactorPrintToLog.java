@@ -1,7 +1,7 @@
 package org.jdraft.refactor;
 
 import org.jdraft.proto.$stmt;
-import org.jdraft.proto.$statements;
+import org.jdraft.proto.$stmts;
 import org.jdraft.proto.$field;
 import org.jdraft._field;
 import org.jdraft._type;
@@ -87,7 +87,7 @@ public class _refactorPrintToLog {
                 _t.field( _f ); /* add logger field to the TYPE */
             }
             /** add the actual log statement */
-            $anySystemOut.replaceIn(_t, $statements.of( loggerStatementsFormat )
+            $anySystemOut.replaceIn(_t, $stmts.of( loggerStatementsFormat )
                     .hardcode$("name", _f.getName() ) );
         }
     }

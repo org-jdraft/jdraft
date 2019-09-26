@@ -122,6 +122,12 @@ public final class $case
         return select( Ast.caseStmt(switchCase));
     }
 
+    public String toString(){
+        if( isMatchAny() ){
+            return "$case{ $ANY$ }";
+        }
+        return "$case{ "+this.label.toString() + ":" +this.statements+ " }";
+    }
 
     public boolean isMatchAny(){
         try{

@@ -240,7 +240,19 @@ public final class $throws
     }
     @Override
     public String toString() {
-        return "($throws) : \"" +this.throws$ids + "\"";
+        if(this.isMatchAny() ){
+            return "$throws{ $ANY$ }";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("$throws{ ");
+        for(int i=0;i<this.throws$ids.size(); i++){
+            if( i > 0 ){
+                sb.append(", ");
+            }
+            sb.append(this.throws$ids.get(i));
+        }
+        sb.append(" }");
+        return sb.toString();
     }
 
     @Override

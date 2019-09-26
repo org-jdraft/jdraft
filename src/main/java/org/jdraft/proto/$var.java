@@ -239,7 +239,7 @@ public final class $var
     public $typeRef type = $typeRef.of("$type$");
     
     /** */
-    public $id name = $id.of();
+    public $name name = $name.of();
     
     /** */
     public $ex init = $ex.of("$init$");
@@ -252,8 +252,8 @@ public final class $var
             if( parts[i] instanceof $typeRef ){
                 this.type = ($typeRef)parts[i];
             }
-            else if( parts[i] instanceof $id ){
-                this.name = ($id)parts[i];
+            else if( parts[i] instanceof $name ){
+                this.name = ($name)parts[i];
             }
             else{
                 this.init = ($ex)parts[i];
@@ -262,7 +262,7 @@ public final class $var
     }
     
     private $var( VariableDeclarator astProtoVar ){
-        this.name = $id.of(astProtoVar.getNameAsString());
+        this.name = $name.of(astProtoVar.getNameAsString());
         this.type = $typeRef.of(astProtoVar.getTypeAsString());
         if( astProtoVar.getInitializer().isPresent() ){
             this.init = $ex.of(astProtoVar.getInitializer().get());
@@ -288,12 +288,12 @@ public final class $var
     }
 
     public $var $name( String name ){
-        this.name.idStencil = Stencil.of(name);
+        this.name.nameStencil = Stencil.of(name);
         return this;
     }
     
     public $var $name( String name, Predicate<String> constraint){
-        this.name.idStencil = Stencil.of(name);
+        this.name.nameStencil = Stencil.of(name);
         this.name.and(constraint);
         return this;
     }
@@ -439,9 +439,10 @@ public final class $var
     @Override
     public String toString() {
         if( this.init.isMatchAny()){
-            return "($var) : \"" + this.type + " "+this.name+ ";\"";
+            return "$var{ (" + this.type + ") " + this.name+ "}";
         }
-        return "($var) : \"" + this.type + " "+this.name+ " = "+this.init+";\"";
+        return "$var{ (" + this.type + ") " + this.name+ " = "+this.init+" }";
+        //return "($var) : \"" + this.type + " "+this.name + " = "+this.init+";\"";
     }
 
     @Override

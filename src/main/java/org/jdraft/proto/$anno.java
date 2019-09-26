@@ -771,11 +771,13 @@ public final class $anno
     }
     
     /**
-     * 
-     * @return 
+     * builds and returns a toString representation of the $anno
      */
     @Override
     public String toString(){
+        if( this.isMatchAny() ){
+            return "$anno{ $ANY$ }";
+        }
         StringBuilder sb = new StringBuilder();
         sb.append("@");
         sb.append(this.name.idStencil);
@@ -791,7 +793,7 @@ public final class $anno
         }
         sb.append(")");
         sb.append(System.lineSeparator());
-        return sb.toString();        
+        return "$anno{"+System.lineSeparator()+sb.toString()+"}";
     }
     
     /**

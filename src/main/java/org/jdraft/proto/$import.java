@@ -230,7 +230,11 @@ public final class $import
     
     @Override
     public String toString() {
-        return "($import) : \"" +this.importStencil + "\"";
+        if( this.isMatchAny() ){
+            return "$import{ $ANY$ }";
+        }
+
+        return "$import{ "+ this.importStencil + "}";
     }
 
     @Override

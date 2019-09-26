@@ -99,7 +99,7 @@ public class SfTest extends TestCase {
     
     /** Build a $field prototype with only the name */
     public void testOfName(){
-        $field $x = $field.of($id.of("x"));
+        $field $x = $field.of($name.of("x"));
         assertTrue( $x.matches("public static final List<String> x;") );
     }
     
@@ -210,7 +210,7 @@ public class SfTest extends TestCase {
         
         assertTrue( _f.is("int f") );
         
-        _f = $field.of($id.of("f")).draft("type", int.class);
+        _f = $field.of($name.of("f")).draft("type", int.class);
         assertTrue( _f.is("int f") );
         
         _f = $field.of($typeRef.of(int.class)).draft("name", "f");

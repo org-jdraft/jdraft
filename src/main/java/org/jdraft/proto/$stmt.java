@@ -1362,7 +1362,7 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public <_J extends _java> _J replaceIn(_J _j, $stmt $repl ){
-        $statements $sn = new $statements($repl);
+        $stmts $sn = new $stmts($repl);
         return replaceIn(_j, $sn);
     }
 
@@ -1374,7 +1374,7 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     public <_J extends _java> _J replaceIn(_J _j, String... statment_s ){
-        $statements $sn = $statements.of(statment_s);
+        $stmts $sn = $stmts.of(statment_s);
         return replaceIn(_j, $sn);
     }    
 
@@ -1385,7 +1385,7 @@ public final class $stmt<T extends Statement>
      * @param $protoReplacement
      * @return 
      */
-    public <_J extends _java> _J replaceIn(_J _j, $statements $protoReplacement ){
+    public <_J extends _java> _J replaceIn(_J _j, $stmts $protoReplacement ){
         AtomicInteger ai = new AtomicInteger(0);
         _walk.in(_j, this.statementClass, st->{
             $stmt.Select sel = select( st );
@@ -1422,7 +1422,7 @@ public final class $stmt<T extends Statement>
     
     @Override
     public String toString(){
-        return "("+this.statementClass.getSimpleName()+") : \""+ this.stmtStencil +"\"";
+        return "$stmt{ ("+this.statementClass.getSimpleName()+") : \""+ this.stmtStencil +"\" }";
     }
 
     /**

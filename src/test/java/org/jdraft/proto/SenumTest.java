@@ -39,8 +39,8 @@ public class SenumTest extends TestCase {
         assertTrue( $enum.of($package.of("aaaa.bbbb")).match(_enum.of("aaaa.bbbb.C")) );
         assertFalse( $enum.of($package.of("aaaa.bbbb")).match(_notMatch) );
 
-        assertTrue($enum.of($id.of("A")).matches(_enum.of("A")));
-        assertFalse($enum.of($id.of("A")).matches(_notMatch));
+        assertTrue($enum.of($name.of("A")).matches(_enum.of("A")));
+        assertFalse($enum.of($name.of("A")).matches(_notMatch));
 
         assertTrue( $enum.of($import.of(Map.class)).matches(_enum.of("A").imports(Map.class)) );
         assertFalse( $enum.of($import.of(Map.class)).matches(_notMatch) );
@@ -80,7 +80,7 @@ public class SenumTest extends TestCase {
         assertTrue( $c.matches(_enum.of("F").anno(Deprecated.class)));
         assertFalse( $c.matches(_enum.of("F")));
 
-        $c = $enum.of($.id("AC$afterPrefix$"));
+        $c = $enum.of($.name("AC$afterPrefix$"));
         assertTrue( $c.matches(_enum.of("AC") )); //exact match
         assertTrue( $c.matches(_enum.of("ACExtra") )); //extra
         assertFalse( $c.matches(_enum.of("CAF"))); //mismatch

@@ -39,8 +39,8 @@ public class SannotationTest extends TestCase {
         assertTrue( $annotation.of($package.of("aaaa.bbbb")).match(_annotation.of("aaaa.bbbb.C")) );
         assertFalse( $annotation.of($package.of("aaaa.bbbb")).match(_notMatch) );
 
-        assertTrue($annotation.of($id.of("A")).matches(_annotation.of("A")));
-        assertFalse($annotation.of($id.of("A")).matches(_notMatch));
+        assertTrue($annotation.of($name.of("A")).matches(_annotation.of("A")));
+        assertFalse($annotation.of($name.of("A")).matches(_notMatch));
 
         assertTrue( $annotation.of($import.of(Map.class)).matches(_annotation.of("A").imports(Map.class)) );
         assertFalse( $annotation.of($import.of(Map.class)).matches(_notMatch) );
@@ -65,7 +65,7 @@ public class SannotationTest extends TestCase {
         assertTrue( $c.matches(_annotation.of("F").anno(Deprecated.class)));
         assertFalse( $c.matches(_annotation.of("F")));
 
-        $c = $annotation.of($.id("AC$afterPrefix$"));
+        $c = $annotation.of($.name("AC$afterPrefix$"));
         assertTrue( $c.matches(_annotation.of("AC") )); //exact match
         assertTrue( $c.matches(_annotation.of("ACExtra") )); //extra
         assertFalse( $c.matches(_annotation.of("CAF"))); //mismatch

@@ -69,6 +69,9 @@ public final class $method
     public static $method of( Object anonymousObjectContainingMethod ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         ObjectCreationExpr oce = Ex.anonymousObjectEx( ste );
+        if( anonymousObjectContainingMethod instanceof $proto ){
+            throw new UnsupportedOperationException("We cant create an instance of $method from unsupported $proto");
+        }
         MethodDeclaration theMethod = (MethodDeclaration)
                 oce.getAnonymousClassBody().get().stream().filter(m -> m instanceof MethodDeclaration &&
                 !m.isAnnotationPresent(_remove.class) ).findFirst().get();
@@ -168,7 +171,7 @@ public final class $method
     public $typeRef type = $typeRef.of();
 
     public $typeParameters typeParameters = $typeParameters.of();
-    public $id name = $id.of();    
+    public $name name = $name.of();    
     public $parameters parameters = $parameters.of();
     public $throws thrown = $throws.of();
     public $body body = $body.of();
@@ -176,7 +179,44 @@ public final class $method
     private $method( _method _p ){
         this( _p, t-> true );
     }
-    
+
+    public String toString(){
+        if( isMatchAny() ){
+            return "$method{ $ANY$ }";
+        }
+        StringBuilder str = new StringBuilder();
+        str.append("$method{").append( System.lineSeparator() );
+        if( !javadoc.isMatchAny() ){
+            str.append( Text.indent( javadoc.toString()));
+        }
+        if( !annos.isMatchAny() ){
+            str.append(Text.indent(annos.toString()));
+        }
+        if( !modifiers.isMatchAny() ){
+            str.append(Text.indent( modifiers.toString()) );
+        }
+        if( !type.isMatchAny() ){
+            str.append(Text.indent( type.toString()));
+        }
+        if( ! typeParameters.isMatchAny() ){
+            str.append(Text.indent( typeParameters.toString()));
+        }
+        if( ! name.isMatchAny() ){
+            str.append(Text.indent( name.toString()));
+        }
+        if( ! parameters.isMatchAny() ){
+            str.append(Text.indent( parameters.toString()));
+        }
+        if( ! thrown.isMatchAny() ){
+            str.append(Text.indent( thrown.toString()));
+        }
+        if( ! body.isMatchAny() ){
+            str.append(Text.indent( body.toString()));
+        }
+        str.append("}");
+        return str.toString();
+    }
+
     /**
      * Build a $method from component parts
      * @param parts 
@@ -190,13 +230,13 @@ public final class $method
                 this.annos.$annosList.add( ($anno)parts[i]);
             }
             else if(parts[i] instanceof $modifiers){
-                this.modifiers = ($modifiers)parts[i];
+                this.modifiers = $modifiers.of( this.modifiers, ($modifiers)parts[i]);
             }
             else if(parts[i] instanceof $typeRef){
                 this.type = ($typeRef)parts[i];
             }
-            else if(parts[i] instanceof $id){
-                this.name = ($id)parts[i];
+            else if(parts[i] instanceof $name){
+                this.name = ($name)parts[i];
             }
             else if(parts[i] instanceof $parameters){
                 this.parameters = ($parameters)parts[i];
@@ -243,7 +283,7 @@ public final class $method
             final _typeParameters etps = _m.getTypeParameters();
             typeParameters = $typeParameters.of( etps );           
         }
-        name = $id.of(_m.getName());
+        name = $name.of(_m.getName());
         if( _m.hasParameters() ){
             parameters = $parameters.of(_m.getParameters());
         }        
@@ -336,8 +376,8 @@ public final class $method
                 Predicate<_method> pf = f-> $ft.matches(f.getType());
                 $and( pf.negate() );
             }
-            else if( parts[i] instanceof $id){
-                final $id $fn = (($id)parts[i]);
+            else if( parts[i] instanceof $name){
+                final $name $fn = (($name)parts[i]);
                 Predicate<_method> pf = f-> $fn.matches(f.getName());
                 $and( pf.negate() );
             }
@@ -379,7 +419,7 @@ public final class $method
         normalized$.addAll( annos.list$Normalized() );
         normalized$.addAll( typeParameters.list$Normalized() );
         normalized$.addAll( type.list$Normalized() );        
-        normalized$.addAll( name.idStencil.list$Normalized() );
+        normalized$.addAll( name.nameStencil.list$Normalized() );
         normalized$.addAll( parameters.list$Normalized() );
         normalized$.addAll( thrown.list$Normalized() );
         normalized$.addAll( body.list$Normalized() );
@@ -397,7 +437,7 @@ public final class $method
         all$.addAll( annos.list$() );
         all$.addAll( typeParameters.list$() );
         all$.addAll( type.list$() );        
-        all$.addAll( name.idStencil.list$() );
+        all$.addAll( name.nameStencil.list$() );
         all$.addAll( parameters.list$() );
         all$.addAll( thrown.list$() );
         all$.addAll( body.list$() );           
@@ -480,7 +520,7 @@ public final class $method
     }
     
     public $method $name(){
-        this.name = $id.of();
+        this.name = $name.of();
         return this;
     }
     
@@ -489,7 +529,7 @@ public final class $method
         return this;
     }
     
-    public $method $name($id id){
+    public $method $name($name id){
         this.name = id;
         return this;
     }
@@ -503,7 +543,7 @@ public final class $method
 
     @Override
     public $method $name(String name){
-        this.name = $id.of(name);
+        this.name = $name.of(name);
         return this;
     }
     
@@ -779,7 +819,7 @@ public final class $method
         annos = annos.hardcode$(translator, kvs);
         typeParameters = typeParameters.hardcode$(translator, kvs);
         type = type.hardcode$(translator, kvs);
-        name.idStencil = name.idStencil.hardcode$(translator, kvs);
+        name.nameStencil = name.nameStencil.hardcode$(translator, kvs);
         parameters = parameters.hardcode$(translator, kvs);
         thrown = thrown.hardcode$(translator, kvs);
         body = body.hardcode$(translator, kvs);
@@ -794,7 +834,7 @@ public final class $method
         annos = annos.$(target, $Name);
         typeParameters = typeParameters.$(target, $Name);
         type = type.$(target, $Name);
-        name.idStencil = name.idStencil.$(target, $Name);
+        name.nameStencil = name.nameStencil.$(target, $Name);
         parameters = parameters.$(target, $Name);
         thrown = thrown.$(target, $Name);
         body = body.$(target, $Name);  

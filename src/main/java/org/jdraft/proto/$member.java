@@ -62,7 +62,7 @@ public interface $member<M, $M extends $proto> extends $proto<M,$M> {
     interface $named<$N extends $named & $proto> {
 
         /** set the name prototype property and return the modified prototype */
-        $N $name($id name);
+        $N $name($name name);
 
         /** set the name pattern prototype property and return the modified prototype */
         $N $name(String name);

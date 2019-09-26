@@ -51,7 +51,7 @@ public final class $constructor
     /**
      * Marker interface for designating prototypes that are "part" of
      * the $constructor
-     * (i.e. all of the components $annos, $annos, $id, $body,... )
+     * (i.e. all of the components $annos, $annos, $name, $body,... )
      * that make up the $constructor
      */
     public interface $part{ }
@@ -129,7 +129,7 @@ public final class $constructor
      * @return
      */
     public static $constructor of(){
-        return new $constructor( $id.of("$name$"), $body.of() );
+        return new $constructor( $name.of("$name$"), $body.of() );
         //return new $constructor(_constructor.of("$name$(){}") );
     }
     
@@ -206,7 +206,7 @@ public final class $constructor
     public $modifiers modifiers = $modifiers.of();
     
     public $typeParameters typeParameters = $typeParameters.of();
-    public $id name = $id.of();
+    public $name name = $name.of();
     public $parameters parameters = $parameters.of();
     public $throws thrown = $throws.of();
     public $body body = $body.of();
@@ -237,14 +237,14 @@ public final class $constructor
             else if( components[i] instanceof $modifiers ){
                 this.modifiers = ($modifiers)components[i];
             }
-            else if( components[i] instanceof $id ){
-                this.name = ($id)components[i];
+            else if( components[i] instanceof $name ){
+                this.name = ($name)components[i];
             }
             else if( components[i] instanceof $parameters ){
                 this.parameters = ($parameters)components[i];
             }
             else if(components[i] instanceof $parameter){
-                this.parameters.$add(  ($parameter)components[i] );
+                this.parameters.$add( ($parameter)components[i] );
             }
             else if( components[i] instanceof $body ){
                 this.body = ($body)components[i];
@@ -266,7 +266,41 @@ public final class $constructor
             }            
         }
     }
-    
+
+    public String toString(){
+        if( isMatchAny() ){
+            return "$constructor{ $ANY$ }";
+        }
+        StringBuilder str = new StringBuilder();
+        str.append("$constructor{").append( System.lineSeparator() );
+        if( !javadoc.isMatchAny() ){
+            str.append( Text.indent( javadoc.toString()));
+        }
+        if( !annos.isMatchAny() ){
+            str.append(Text.indent(annos.toString()));
+        }
+        if( !modifiers.isMatchAny() ){
+            str.append(Text.indent( modifiers.toString()) );
+        }
+        if( ! typeParameters.isMatchAny() ){
+            str.append(Text.indent( typeParameters.toString()));
+        }
+        if( ! name.isMatchAny() ){
+            str.append(Text.indent( name.toString()));
+        }
+        if( ! parameters.isMatchAny() ){
+            str.append(Text.indent( parameters.toString()));
+        }
+        if( ! thrown.isMatchAny() ){
+            str.append(Text.indent( thrown.toString()));
+        }
+        if( ! body.isMatchAny() ){
+            str.append(Text.indent( body.toString()));
+        }
+        str.append("}");
+        return str.toString();
+    }
+
     /**
      * 
      * @param _ct
@@ -285,7 +319,7 @@ public final class $constructor
             final _typeParameters etps = _ct.getTypeParameters();
             typeParameters = $typeParameters.of(etps);
         }
-        name = $id.of(_ct.getName() );
+        name = $name.of(_ct.getName() );
         if( _ct.hasParameters() ){
             parameters = $parameters.of(_ct.getParameters());
         }        
@@ -343,8 +377,8 @@ public final class $constructor
                 Predicate<_constructor> pf = f-> $fa.count(f) > 0;
                 $and( pf.negate() );
             }
-            else if( parts[i] instanceof $id){
-                final $id $fn = (($id)parts[i]);
+            else if( parts[i] instanceof $name){
+                final $name $fn = (($name)parts[i]);
                 Predicate<_constructor> pf = f-> $fn.matches(f.getName());
                 $and( pf.negate() );
             }
@@ -471,7 +505,7 @@ public final class $constructor
     }
     
     public $constructor $name(){
-        this.name = $id.of();
+        this.name = $name.of();
         return this;
     }
     
@@ -481,11 +515,11 @@ public final class $constructor
     }
     
     public $constructor $name(String name){
-        this.name.idStencil = Stencil.of(name);
+        this.name.nameStencil = Stencil.of(name);
         return this;
     }
     
-    public $constructor $name($id name ){
+    public $constructor $name($name name ){
         this.name = name;
         return this;
     }
@@ -704,7 +738,7 @@ public final class $constructor
         javadoc = javadoc.hardcode$(translator, kvs);
         annos = annos.hardcode$(translator, kvs);
         typeParameters = typeParameters.hardcode$(translator, kvs);
-        name.idStencil = name.idStencil.hardcode$(translator, kvs);
+        name.nameStencil = name.nameStencil.hardcode$(translator, kvs);
         parameters = parameters.hardcode$(translator, kvs);
         thrown = thrown.hardcode$(translator, kvs);
         body = body.hardcode$(translator, kvs );
@@ -718,7 +752,7 @@ public final class $constructor
         javadoc = javadoc.$(target, $Name);
         annos = annos.$(target, $Name);
         typeParameters = typeParameters.$(target, $Name);
-        name.idStencil = name.idStencil.$(target, $Name);
+        name.nameStencil = name.nameStencil.$(target, $Name);
         parameters = parameters.$(target, $Name);
         thrown = thrown.$(target, $Name);
         body = body.$(target, $Name);

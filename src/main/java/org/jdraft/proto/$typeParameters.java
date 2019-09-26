@@ -251,15 +251,23 @@ public final class $typeParameters
  
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for(int i=0;i<this.typeParams.size(); i++){
-            if( i > 0 ){
-                sb.append(",");
-            }
-            sb.append(this.typeParams.get(i));
+        if( this.isMatchAny() ){
+            return "$typeParameters{ $ANY$ }";
         }
-        this.typeParams.forEach(tp ->sb.append(tp.toString() ));
-        return "($typeParameters) :  <"+sb.toString()+ ">";        
+        StringBuilder sb = new StringBuilder();
+        sb.append("$typeParameters{").append(System.lineSeparator());
+        for(int i=0;i<this.typeParams.size(); i++){
+            //if( i > 0 ){
+            //    sb.append(",");
+            //}
+            sb.append(Text.indent(this.typeParams.get(i).toString()));
+        }
+        sb.append("}");
+        //this.typeParams.forEach(tp ->sb.append(tp.toString() ));
+        return sb.toString();
+        //"$typeParameters{"+System.lineSeparator()+
+        //        sb.toString()+ System.lineSeparator()+
+        //        "}";
     }
 
     @Override
