@@ -34,8 +34,7 @@ public final class $interface
     public List<$field> fields = new ArrayList<>();
     public List<$method> methods = new ArrayList<>();
 
-
-    public List<$typeRef> extend = new ArrayList<>(); //$typeRef.of();
+    public List<$typeRef> extend = new ArrayList<>();
 
     //nested types???
 
@@ -152,7 +151,6 @@ public final class $interface
         return false;
     }
 
-
     public boolean matches( Class clazz){
         try {
             return matches(Ast.interfaceDecl(clazz));
@@ -222,6 +220,54 @@ public final class $interface
         return null;
     }
 
+    public String toString(){
+        if(this.isMatchAny() ){
+            return "$interface{ $ANY$ }";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("$interface{").append(System.lineSeparator());
+        if( this.packageDecl != null && !this.packageDecl.isMatchAny() ){
+            sb.append( Text.indent(this.packageDecl.toString())).append(System.lineSeparator());
+        }
+        if( !this.imports.isEmpty()){
+            this.imports.forEach( i -> sb.append( Text.indent(i.toString()) ));
+        }
+        if(this.javadoc.isMatchAny()){
+            sb.append( Text.indent(this.javadoc.toString()));
+        }
+        if(!this.annos.isMatchAny()){
+            sb.append( Text.indent(this.annos.toString()));
+        }
+        if(! this.modifiers.isMatchAny()){
+            sb.append( Text.indent(this.modifiers.toString()));
+        }
+        if( ! this.typeParameters.isMatchAny()){
+            sb.append( Text.indent(this.typeParameters.toString()));
+        }
+        if(! this.name.isMatchAny()){
+            sb.append( Text.indent(this.name.toString()));
+        }
+        if(! this.extend.isEmpty()){
+            sb.append(Text.indent( "$extend{ ") );
+            for(int i=0;i<extend.size();i++){
+                if( i > 0 ){
+                    sb.append(", ");
+                }
+                sb.append(this.extend.get(i).toString());
+            }
+            sb.append(Text.indent("}"));
+        }
+        if(! this.fields.isEmpty()){
+            this.fields.forEach(f -> sb.append(Text.indent(f.toString()) ));
+        }
+        if(! this.methods.isEmpty()){
+            this.methods.forEach(m -> sb.append(Text.indent(m.toString()) ));
+        }
+        //nests
+        sb.append("}");
+        return sb.toString();
+    }
+
     @Override
     public $interface $and(Predicate<_interface> constraint) {
         this.constraint = this.constraint.and(constraint);
@@ -267,6 +313,7 @@ public final class $interface
         Arrays.stream($is).forEach( i -> this.imports.add($import.of(i)));
         return this;
     }
+
     public $interface $imports(Class... clazzes ){
         Arrays.stream(clazzes).forEach( i -> this.imports.add($import.of(i)));
         return this;
@@ -281,7 +328,6 @@ public final class $interface
         this.packageDecl = $package.of(packageMatchFn);
         return this;
     }
-
 
     public $interface $name(Predicate<String> nameMatchFn){
         this.name = $name.of(nameMatchFn);

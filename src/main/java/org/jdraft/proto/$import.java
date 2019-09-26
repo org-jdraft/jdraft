@@ -233,8 +233,17 @@ public final class $import
         if( this.isMatchAny() ){
             return "$import{ $ANY$ }";
         }
-
-        return "$import{ "+ this.importStencil + "}";
+        StringBuilder sb = new StringBuilder();
+        sb.append("$import{ ");
+        if( this.isStatic != null && this.isStatic ){
+            sb.append(" static ");
+        }
+        sb.append( this.importStencil );
+        if( this.isWildcard != null && this.isWildcard) {
+            sb.append(".*");
+        }
+        sb.append(" }");
+        return sb.toString();
     }
 
     @Override

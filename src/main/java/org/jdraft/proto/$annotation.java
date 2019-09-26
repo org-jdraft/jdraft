@@ -202,6 +202,41 @@ public final class $annotation
         return null;
     }
 
+    public String toString(){
+        if(this.isMatchAny() ){
+            return "$class{ $ANY$ }";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("$class{").append(System.lineSeparator());
+        if( this.packageDecl != null && !this.packageDecl.isMatchAny() ){
+            sb.append( Text.indent(this.packageDecl.toString())).append(System.lineSeparator());
+        }
+        if( !this.imports.isEmpty()){
+            this.imports.forEach( i -> sb.append( Text.indent(i.toString()) ));
+        }
+        if(this.javadoc.isMatchAny()){
+            sb.append( Text.indent(this.javadoc.toString()));
+        }
+        if(!this.annos.isMatchAny()){
+            sb.append( Text.indent(this.annos.toString()));
+        }
+        if(! this.modifiers.isMatchAny()){
+            sb.append( Text.indent(this.modifiers.toString()));
+        }
+        if( ! this.annotationElements.isEmpty()){
+            this.annotationElements.forEach(e -> sb.append(Text.indent(e.toString()) ));
+        }
+        if(! this.name.isMatchAny()){
+            sb.append( Text.indent(this.name.toString()));
+        }
+        if(! this.fields.isEmpty()){
+            this.fields.forEach(f -> sb.append(Text.indent(f.toString()) ));
+        }
+        sb.append("}");
+        //nests
+        return sb.toString();
+    }
+
     /* These are methods shared/used by all $type implementations */
     static $proto.$tokens selectAnnotationElements(List<$annotationElement> $protoTypes, _annotation _a){
         Map<$annotationElement, List<$annotationElement.Select>> selectMap = new HashMap<>();

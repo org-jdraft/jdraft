@@ -121,11 +121,63 @@ public final class $enum
         this.enumConstants.forEach(e-> e.hardcode$(translator, kvs));
 
         this.implement.forEach( i-> i.hardcode$(translator, kvs));
-        //need $constants
 
         //still need nests
-
         return this;
+    }
+
+    public String toString(){
+        if(this.isMatchAny() ){
+            return "$enum{ $ANY$ }";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("$enum{").append(System.lineSeparator());
+        if( this.packageDecl != null && !this.packageDecl.isMatchAny() ){
+            sb.append( Text.indent(this.packageDecl.toString())).append(System.lineSeparator());
+        }
+        if( !this.imports.isEmpty()){
+            this.imports.forEach( i -> sb.append( Text.indent(i.toString()) ));
+        }
+        if(this.javadoc.isMatchAny()){
+            sb.append( Text.indent(this.javadoc.toString()));
+        }
+        if(!this.annos.isMatchAny()){
+            sb.append( Text.indent(this.annos.toString()));
+        }
+        if(! this.modifiers.isMatchAny()){
+            sb.append( Text.indent(this.modifiers.toString()));
+        }
+        if(! this.name.isMatchAny()){
+            sb.append( Text.indent(this.name.toString()));
+        }
+        if(! this.implement.isEmpty()){
+            sb.append(Text.indent( "$implement{ ") );
+            for(int i=0;i<implement.size();i++){
+                if( i > 0 ){
+                    sb.append(", ");
+                }
+                sb.append(this.implement.get(i).toString());
+            }
+            sb.append(Text.indent("}"));
+        }
+        if(! this.enumConstants.isEmpty() ){
+            this.enumConstants.forEach(c -> sb.append(Text.indent(c.toString())) );
+        }
+        if(! this.fields.isEmpty()){
+            this.fields.forEach(f -> sb.append(Text.indent(f.toString())) );
+        }
+        if(! this.initBlocks.isEmpty()){
+            this.initBlocks.forEach(i -> sb.append(Text.indent(i.toString())) );
+        }
+        if(! this.ctors.isEmpty()){
+            this.ctors.forEach(c -> sb.append(Text.indent(c.toString())) );
+        }
+        if(! this.methods.isEmpty()){
+            this.methods.forEach(m -> sb.append(Text.indent(m.toString())) );
+        }
+        sb.append("}");
+        //nests
+        return sb.toString();
     }
 
     public boolean isMatchAny(){

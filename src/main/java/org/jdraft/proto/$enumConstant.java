@@ -27,6 +27,42 @@ public final class $enumConstant
     public List<$field> fields = new ArrayList<>();
     public List<$method> methods = new ArrayList<>();
 
+    public String toString(){
+        if(this.isMatchAny() ){
+            return "$enumConstant{ $ANY$ }";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("$enumConstant{").append(System.lineSeparator());
+
+        if(this.javadoc.isMatchAny()){
+            sb.append( Text.indent(this.javadoc.toString()));
+        }
+        if(!this.annos.isMatchAny()){
+            sb.append( Text.indent(this.annos.toString()));
+        }
+        if(! this.name.isMatchAny()){
+            sb.append( Text.indent(this.name.toString()));
+        }
+        if(! this.args.isEmpty() ){
+            sb.append(Text.indent( "$args{ ") );
+            for(int i=0;i<args.size();i++){
+                if( i > 0 ){
+                    sb.append(", ");
+                }
+                sb.append(this.args.get(i).toString());
+            }
+            sb.append(Text.indent("}"));
+        }
+        if(! this.fields.isEmpty()){
+            this.fields.forEach(f -> sb.append(Text.indent(f.toString()) ));
+        }
+        if(! this.methods.isEmpty()){
+            this.methods.forEach(m -> sb.append(Text.indent(m.toString()) ));
+        }
+        sb.append("}");
+        return sb.toString();
+    }
+
     /** marker interface for member entities that are part of the class */
     public interface $part{ }
 

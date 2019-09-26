@@ -599,9 +599,6 @@ public final class $typeRef
 
     @Override
     public String toString() {
-        //if( this.isMatchAny() ){
-        //    return "$typeRef{ $ANY$ }";
-        // }
         return "$typeRef{ "+ this.typePattern() + " }";
     }
 

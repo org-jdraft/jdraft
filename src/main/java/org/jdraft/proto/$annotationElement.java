@@ -99,6 +99,28 @@ public final class $annotationElement
         }
     }
 
+    public String toString(){
+        if( this.isMatchAny() ){
+            return "$annotationElement{ $ANY$ }";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("$annotationElement{").append(System.lineSeparator());
+        if( !this.javadoc.isMatchAny() ){
+            sb.append( Text.indent(this.javadoc.toString())).append(System.lineSeparator());
+        }
+        if( !this.name.isMatchAny() ){
+            sb.append( Text.indent(this.name.toString())).append(System.lineSeparator());
+        }
+        if( !this.type.isMatchAny() ){
+            sb.append( Text.indent(this.type.toString())).append(System.lineSeparator());
+        }
+        if( this.defaultValue != null && !this.defaultValue.isMatchAny() ){
+            sb.append( Text.indent( this.defaultValue.toString())).append(System.lineSeparator());
+        }
+        sb.append("}");
+        return sb.toString();
+    }
+
     public boolean match(_annotation._element _e){
         return select(_e) != null;
     }
