@@ -17,7 +17,7 @@ import junit.framework.TestCase;
  * Verify the module info and package info classes work
  * @author Eric
  */
-public class _codeProtoTest extends TestCase {
+public class _codePatternTest extends TestCase {
 
     @interface N{
         int value();

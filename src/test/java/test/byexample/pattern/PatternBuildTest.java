@@ -1,4 +1,4 @@
-package test.byexample.proto;
+package test.byexample.pattern;
 
 import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.comments.JavadocComment;
@@ -60,7 +60,7 @@ import org.jdraft.pattern.*;
  *
  *
  */
-public class ProtoBuildTest extends TestCase {
+public class PatternBuildTest extends TestCase {
 
     public void testAll$protoTypes(){
         $node $n = $node.of(); //node

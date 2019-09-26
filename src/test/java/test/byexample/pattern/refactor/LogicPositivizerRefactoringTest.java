@@ -1,4 +1,4 @@
-package test.byexample.proto.refactor;
+package test.byexample.pattern.refactor;
 
 import junit.framework.TestCase;
 import org.jdraft._class;

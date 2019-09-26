@@ -1,4 +1,4 @@
-package test.byexample.proto;
+package test.byexample.pattern;
 
 
 import junit.framework.TestCase;
@@ -6,7 +6,7 @@ import org.jdraft.pattern.$;
 import org.jdraft.pattern.$node;
 import org.jdraft.pattern.$stmt;
 
-public class _3_ProtoCompositionTest extends TestCase {
+public class _3_PatternCompositionTest extends TestCase {
 
     public void testCompose(){
         $stmt $ifThenBraces = $stmt.of("if($cond$){ then(); }");

@@ -1,4 +1,4 @@
-package test.byexample.proto;
+package test.byexample.pattern;
 
 import junit.framework.TestCase;
 import org.jdraft.Ex;
@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Talk about what parts
  */
-public class _2_Proto_API_AnatomyTest extends TestCase {
+public class _2_Pattern_API_AnatomyTest extends TestCase {
 
     // $proto.$java get_javaType
     // $proto.$ast  public <A extends Node> get_AstType

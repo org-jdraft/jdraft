@@ -1,10 +1,10 @@
-package test.byexample.proto;
+package test.byexample.pattern;
 
 import junit.framework.TestCase;
 import org.jdraft._field;
 import org.jdraft.pattern.$field;
 
-public class _Proto_DraftFillTest extends TestCase {
+public class _Pattern_DraftFillTest extends TestCase {
 
     /**
      * prototypes can be "specialized" to produce a meta-representation versions

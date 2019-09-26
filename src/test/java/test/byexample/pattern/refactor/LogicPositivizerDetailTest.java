@@ -1,4 +1,4 @@
-package test.byexample.proto.refactor;
+package test.byexample.pattern.refactor;
 
 import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.stmt.Statement;

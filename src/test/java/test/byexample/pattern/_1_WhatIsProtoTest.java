@@ -1,4 +1,4 @@
-package test.byexample.proto;
+package test.byexample.pattern;
 
 import com.github.javaparser.ast.body.FieldDeclaration;
 import junit.framework.TestCase;

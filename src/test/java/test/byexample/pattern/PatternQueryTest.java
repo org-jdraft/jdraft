@@ -1,4 +1,4 @@
-package test.byexample.proto;
+package test.byexample.pattern;
 
 import junit.framework.TestCase;
 import org.jdraft.Stencil;
@@ -11,7 +11,7 @@ import org.jdraft.pattern.*;
  * using the proto
  *
  */
-public class ProtoQueryTest extends TestCase {
+public class PatternQueryTest extends TestCase {
     @interface Ann{
         int value();
         String name() default "Eric";

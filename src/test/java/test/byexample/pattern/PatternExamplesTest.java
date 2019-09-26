@@ -1,4 +1,4 @@
-package test.byexample.proto;
+package test.byexample.pattern;
 
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.expr.*;
@@ -21,7 +21,7 @@ import java.util.function.Predicate;
  * $method.of( $typeRef.of(int.class), $throws.of( RuntimeException.class));
  *
  */
-public class ProtoExamplesTest extends TestCase {
+public class PatternExamplesTest extends TestCase {
 
     static $ex ANY_EXPR = $.expr();                         //any expression
 

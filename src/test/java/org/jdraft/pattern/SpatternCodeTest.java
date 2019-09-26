@@ -19,7 +19,7 @@ import org.jdraft.macro._static;
  *
  * @author Eric
  */
-public class SprotoCodeTest extends TestCase {
+public class SpatternCodeTest extends TestCase {
 
     public void test$protoParentChildDescendant(){
         class C <A extends Map> {

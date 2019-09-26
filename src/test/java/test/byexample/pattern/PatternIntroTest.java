@@ -1,4 +1,4 @@
-package test.byexample.proto;
+package test.byexample.pattern;
 
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
@@ -49,7 +49,7 @@ import java.util.List;
  * $.expr();                  $.expr("$a$ + $b$");                      $.expr("a + 1");
  *
  */
-public class ProtoIntroTest extends TestCase {
+public class PatternIntroTest extends TestCase {
 
     /**
      *
