@@ -231,7 +231,12 @@ public final class $var
     public static $var of(VariableDeclarator proto, Predicate<VariableDeclarator> constraint){
         return new $var( proto  ).$and(constraint);
     }
-    
+
+
+    public static $var not($part...parts){
+        return of().$not(parts);
+    }
+
     /** Matching constraint */
     public Predicate<VariableDeclarator> constraint = t -> true;
     

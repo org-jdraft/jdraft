@@ -218,6 +218,14 @@ public final class $annotation
         return false;
     }
 
+    public boolean matches(String...code ){
+        try {
+            return matches(_annotation.of(code));
+        }catch(Exception e){
+            return false;
+        }
+    }
+
     public boolean matches( _code _c){
         if( _c instanceof _annotation){
             return matches( (_annotation)_c);

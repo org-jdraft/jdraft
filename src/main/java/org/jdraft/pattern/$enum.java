@@ -302,6 +302,14 @@ public final class $enum
         return false;
     }
 
+    public boolean matches(String...code){
+        try{
+            return matches( _enum.of(code));
+        }catch(Exception e){
+            return false;
+        }
+    }
+
     public boolean matches(EnumDeclaration coid ){
         if( coid != null ){
             return select(_enum.of(coid)) != null;

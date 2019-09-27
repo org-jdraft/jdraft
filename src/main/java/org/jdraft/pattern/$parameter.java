@@ -99,7 +99,7 @@ public final class $parameter implements Template<_parameter>, $pattern<_paramet
      * @param parts
      * @return
      */
-    public $parameter not( $part...parts){
+    public static $parameter not( $part...parts){
         $parameter $p = of();
         $p.$not(parts);
         return $p;

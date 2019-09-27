@@ -783,6 +783,10 @@ public final class $constructor
         return select( _ct ) != null;
     }
 
+    public boolean matches( String...code ){
+        return matches(_constructor.of(code));
+    }
+
     /**
      * 
      * @param astCtor

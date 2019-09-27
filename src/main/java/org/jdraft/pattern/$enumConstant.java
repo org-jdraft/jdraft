@@ -168,6 +168,14 @@ public final class $enumConstant
         return select(_e) != null;
     }
 
+    public boolean matches(String...code){
+        try{
+            return matches(_enum._constant.of(code));
+        }catch(Exception e){
+            return false;
+        }
+    }
+
     public boolean matches(EnumConstantDeclaration coid ){
         if( coid != null ){
             return select(_enum._constant.of(coid)) != null;

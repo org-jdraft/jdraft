@@ -170,6 +170,13 @@ public final class $interface
         }
     }
 
+    public boolean matches(String...code ){
+        try{
+            return matches(_interface.of(code));
+        }catch(Exception e){
+            return false;
+        }
+    }
     public boolean matches(TypeDeclaration td ){
         if( td instanceof ClassOrInterfaceDeclaration ){
             return matches( (ClassOrInterfaceDeclaration) td);

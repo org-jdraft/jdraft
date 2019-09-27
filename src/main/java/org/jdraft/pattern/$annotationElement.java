@@ -136,6 +136,14 @@ public final class $annotationElement
         return select(_e) != null;
     }
 
+    public boolean matches(String...code){
+        try {
+            return matches(_annotation._element.of(code));
+        }catch(Exception e){
+            return false;
+        }
+    }
+
     public boolean matches(AnnotationMemberDeclaration amd ){
         if( amd != null ){
             return select(_annotation._element.of(amd)) != null;
