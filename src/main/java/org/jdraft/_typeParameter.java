@@ -325,6 +325,14 @@ public final class _typeParameter
             return _typeParameters.of( (NodeWithTypeParameters)_m.ast() );
         }
 
+        default _typeParameter getTypeParameter(Predicate<_typeParameter> _typeParameterMatchFn){
+            List<_typeParameter> tps = getTypeParameters().list(_typeParameterMatchFn);
+            if( tps.isEmpty() ){
+                return null;
+            }
+            return tps.get(0);
+        }
+
         /* return a list of AST typeParameters */
         default NodeList<TypeParameter> listAstTypeParameters() {
             _declared _m = (_declared) this;

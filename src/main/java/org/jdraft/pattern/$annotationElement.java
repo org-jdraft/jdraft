@@ -56,6 +56,17 @@ public final class $annotationElement
         return new $annotationElement(parts);
     }
 
+    /**
+     * Adds a NOT constraint to the {@link #constraint} based on one or more $method.$part
+     * @param parts
+     * @return
+     */
+    public static $annotationElement not(final $annotationElement.$part...parts ){
+        $annotationElement $ae = of();
+        $ae.$not(parts);
+        return $ae;
+    }
+
     private $annotationElement(){
     }
 

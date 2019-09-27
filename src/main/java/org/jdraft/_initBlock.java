@@ -336,6 +336,14 @@ public final class _initBlock
             }
             return null;
         }
+
+        default _initBlock getInitBlock( Predicate<_initBlock> _initBlockMatchFn){
+            List<_initBlock> ibs = listInitBlocks(_initBlockMatchFn);
+            if( ibs.isEmpty()){
+                return null;
+            }
+            return ibs.get(0);
+        }
         
         /** 
          * returns the static Blocks on the _type matching the matchFn 

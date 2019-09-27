@@ -237,6 +237,15 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         return this;
     }
 
+    public _constant getConstant(Predicate<_constant> constantMatchFn){
+
+        List<_constant> _ct = listConstants(constantMatchFn );
+        if( _ct.isEmpty() ){
+            return null;
+        }
+        return _ct.get(0);
+    }
+
     public _constant getConstant(String name){
         Optional<EnumConstantDeclaration> ed =
                 astEnum.getEntries().stream().filter( e-> e.getNameAsString().equals( name ) ).findFirst();

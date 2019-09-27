@@ -524,6 +524,14 @@ public final class _method
             return lm.get(0);
         }
 
+        default _method getMethod(Predicate<_method> _methodMatchFn){
+            List<_method> lm = listMethods(_methodMatchFn);
+            if (lm.isEmpty()) {
+                return null;
+            }
+            return lm.get(0);
+        }
+
         default List<_method> listMethods(String name) {
             return listMethods().stream().filter(m -> m.getName().equals(name)).collect(Collectors.toList());
         }

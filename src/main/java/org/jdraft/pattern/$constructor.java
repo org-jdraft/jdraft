@@ -129,9 +129,14 @@ public final class $constructor
      */
     public static $constructor of(){
         return new $constructor( $name.of("$name$"), $body.of() );
-        //return new $constructor(_constructor.of("$name$(){}") );
     }
-    
+
+    public static $constructor not( $part...parts){
+        $constructor $ct = of();
+        $ct.$not(parts);
+        return $ct;
+    }
+
     /**
      * 
      * @param _ct

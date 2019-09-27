@@ -53,6 +53,17 @@ public final class $interface
         return new $interface(parts);
     }
 
+    /**
+     *
+     * @param parts
+     * @return
+     */
+    public static $interface not( $part...parts){
+        $interface $i = of();
+        $i.$not(parts);
+        return $i;
+    }
+
     private $interface(){
     }
 
@@ -266,6 +277,74 @@ public final class $interface
         //nests
         sb.append("}");
         return sb.toString();
+    }
+
+    /**
+     *
+     * @param parts
+     * @return
+     */
+    public $interface $not( $part...parts ){
+        for(int i=0;i<parts.length;i++){
+            if( parts[i] instanceof $anno ){
+                final $anno $fa = (($anno)parts[i]);
+                Predicate<_interface> pf = an-> an.getAnno( a ->$fa.matches(a) ) != null;
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $annos ){
+                final $annos $fa = (($annos)parts[i]);
+                Predicate<_interface> pf = an-> $fa.matches(an.getAnnos());
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $typeParameters){
+                final $typeParameters $fa = (($typeParameters)parts[i]);
+                Predicate<_interface> pf = an-> $fa.matches(an.getTypeParameters());
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $typeParameter){
+                final $typeParameter $fa = (($typeParameter)parts[i]);
+                Predicate<_interface> pf = an-> an.getTypeParameter( a ->$fa.matches(a) ) != null;
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $modifiers ) {
+                final $modifiers $fa = (($modifiers) parts[i]);
+                Predicate<_interface> pf = f -> $fa.matches(f.getModifiers());
+                $and(pf.negate());
+            }
+            else if(parts[i] instanceof $field ){
+                final $field $fj = (($field)parts[i]);
+                Predicate<_interface> aFn = a-> a.getField(e->$fj.matches(e)) != null; //found one
+                $and( aFn.negate() );
+            }
+            else if(parts[i] instanceof $method ){
+                final $method $fj = (($method)parts[i]);
+                Predicate<_interface> aFn = a-> a.getMethod(e->$fj.matches(e)) != null; //found one
+                $and( aFn.negate() );
+            }
+            else if( parts[i] instanceof $import) {
+                final $import $fj = (($import)parts[i]);
+                Predicate<_interface> aFn = a-> a.getImport(im->$fj.matches(im)) != null; //found one
+                $and( aFn.negate() );
+            }
+            else if( parts[i] instanceof $package ) {
+                final $package $fa = (($package) parts[i]);
+                Predicate<_interface> pf = f -> $fa.matches(f.getPackage());
+                $and(pf.negate());
+            }
+            else if( parts[i] instanceof $name){
+                final $name $fn = (($name)parts[i]);
+                Predicate<_interface> pf = f-> $fn.matches(f.getName());
+                $and( pf.negate() );
+            }
+            else if(parts[i] instanceof $comment ){
+                final $comment $fj = (($comment)parts[i]);
+                Predicate<_interface> pf = f-> $fj.matches(f.getJavadoc());
+                $and( pf.negate() );
+            }
+            //Nested classes
+            //doesnt do extend, implement
+        }
+        return this;
     }
 
     @Override

@@ -260,7 +260,33 @@ public final class $var
             }
         }
     }
-    
+
+    public $var $not( $part...parts ){
+        for(int i=0;i<parts.length;i++){
+            if( parts[i] instanceof $name){
+                final $name $fn = (($name)parts[i]);
+                Predicate<VariableDeclarator> pf = f-> $fn.matches(f.getNameAsString());
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $typeRef){
+                final $typeRef $fj = (($typeRef)parts[i]);
+                Predicate<VariableDeclarator> pf = f-> $fj.matches(f.getType());
+                $and( pf.negate() );
+            } else if( parts[i] instanceof $ex){
+                final $ex $fj = (($ex)parts[i]);
+                Predicate<VariableDeclarator> pf = f-> {
+                    if(f.getInitializer().isPresent() ){
+                        return $fj.match(f.getInitializer().get());
+                    }else{
+                        return $fj.match((Node)null);
+                    }
+                };
+                $and( pf.negate() );
+            }
+        }
+        return this;
+    }
+
     private $var( VariableDeclarator astProtoVar ){
         this.name = $name.of(astProtoVar.getNameAsString());
         this.type = $typeRef.of(astProtoVar.getTypeAsString());

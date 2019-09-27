@@ -102,8 +102,77 @@ public final class $class
                 this.typeParameters.$add(  ($typeParameter)parts[i]);
             }
             //Nested classes
-            //doesnt do javadoc, headercomment, extend, implement
+            //doesnt do extend, implement
         }
+    }
+
+    public $class $not( $part...parts ){
+        for(int i=0;i<parts.length;i++){
+            if( parts[i] instanceof $anno ){
+                final $anno $fa = (($anno)parts[i]);
+                Predicate<_class> pf = an-> an.getAnno( a ->$fa.match(a) ) != null;
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $annos ){
+                final $annos $fa = (($annos)parts[i]);
+                Predicate<_class> pf = an-> $fa.matches(an.getAnnos());
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $modifiers ) {
+                final $modifiers $fa = (($modifiers) parts[i]);
+                Predicate<_class> pf = f -> $fa.matches(f.getModifiers());
+                $and(pf.negate());
+            }
+            else if(parts[i] instanceof $field ){
+                final $field $fj = (($field)parts[i]);
+                Predicate<_class> aFn = a-> a.getField(e->$fj.match(e)) != null; //found one
+                $and( aFn.negate() );
+            }
+            else if(parts[i] instanceof $method ){
+                final $method $fj = (($method)parts[i]);
+                Predicate<_class> aFn = a-> a.getMethod(e->$fj.match(e)) != null; //found one
+                $and( aFn.negate() );
+            }
+            else if(parts[i] instanceof $constructor ){
+                final $constructor $fj = (($constructor)parts[i]);
+                Predicate<_class> aFn = a-> a.getConstructor(e->$fj.match(e)) != null; //found one
+                $and( aFn.negate() );
+            }
+            else if(parts[i] instanceof $initBlock){
+                final $initBlock $fj = (($initBlock)parts[i]);
+                Predicate<_class> aFn = a-> a.getInitBlock(e->$fj.match(e)) != null; //found one
+                $and( aFn.negate() );
+            }
+            else if( parts[i] instanceof $import) {
+                final $import $fj = (($import)parts[i]);
+                Predicate<_class> aFn = a-> a.getImport(im->$fj.match(im)) != null; //found one
+                $and( aFn.negate() );
+            }
+            else if( parts[i] instanceof $package ) {
+                final $package $fa = (($package) parts[i]);
+                Predicate<_class> pf = f -> $fa.matches(f.getPackage());
+                $and(pf.negate());
+            }
+            else if( parts[i] instanceof $name){
+                final $name $fn = (($name)parts[i]);
+                Predicate<_class> pf = f-> $fn.matches(f.getName());
+                $and( pf.negate() );
+            }
+            else if(parts[i] instanceof $comment ){
+                final $comment $fj = (($comment)parts[i]);
+                Predicate<_class> pf = f-> $fj.matches(f.getJavadoc());
+                $and( pf.negate() );
+            }
+            //Nested classes
+            //doesnt do extend, implement
+        }
+        return this;
+    }
+
+    public static $class not( $part...parts ){
+        $class $c = of();
+        $c.$not(parts);
+        return $c;
     }
 
     @Override
@@ -112,7 +181,6 @@ public final class $class
         this.annos.hardcode$(translator, kvs);
         this.ctors.forEach( c-> c.hardcode$(translator, kvs));
         this.fields.forEach(f-> f.hardcode$(translator, kvs));
-        //this.headerComment.hardcode$(translator, kvs);
         this.imports.forEach( i-> i.hardcode$(translator, kvs));
         this.initBlocks.forEach( i-> i.hardcode$(translator, kvs));
         this.javadoc.hardcode$(translator, kvs);
@@ -121,8 +189,6 @@ public final class $class
         this.name = this.name.hardcode$(translator, kvs);
         this.packageDecl = this.packageDecl.hardcode$(translator, kvs);
         this.typeParameters = this.typeParameters.hardcode$(translator, kvs);
-
-        //extends  implements
         this.extend.hardcode$(translator, kvs);
         this.implement.forEach( i-> i.hardcode$(translator, kvs));
         //still need nests

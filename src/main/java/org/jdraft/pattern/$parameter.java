@@ -93,7 +93,18 @@ public final class $parameter implements Template<_parameter>, $pattern<_paramet
         $part[] parts = new $part[]{part};
         return new $parameter(parts);
     }
-    
+
+    /**
+     *
+     * @param parts
+     * @return
+     */
+    public $parameter not( $part...parts){
+        $parameter $p = of();
+        $p.$not(parts);
+        return $p;
+    }
+
     /**
      * 
      * @param parts 

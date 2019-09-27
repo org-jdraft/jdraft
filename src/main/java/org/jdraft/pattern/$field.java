@@ -178,6 +178,17 @@ public final class $field implements Template<_field>, $pattern<_field, $field>,
     }
 
     /**
+     *
+     * @param parts
+     * @return
+     */
+    public static $field not( $part...parts ){
+        $field $f = of();
+        $f.$not(parts);
+        return $f;
+    }
+
+    /**
      * Adds a NOT constraint to the constraints based on one or more $field.$part
      * @param parts
      * @return
@@ -1051,28 +1062,6 @@ public final class $field implements Template<_field>, $pattern<_field, $field>,
         str.append("}");
         return str.toString();
     }
-    /*
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(javadoc );
-        sb.append(System.lineSeparator());
-        sb.append(annos );
-        sb.append(System.lineSeparator());
-        sb.append(modifiers.toString()); //construct(Translator.TypeTranslate, new HashMap<String,Object>() ) );
-        sb.append(" ");
-        sb.append(type.toString() );
-        sb.append(" ");
-        sb.append(name.nameStencil);
-        if( init != null ){
-            sb.append(" = ");
-            sb.append(init.toString());
-        }
-        sb.append(";");
-        
-        return "($field): "+ System.lineSeparator()+ Text.indent( sb.toString() );
-    }
-    */
     
      /**
      * A Matched Selection result returned from matching a prototype $field

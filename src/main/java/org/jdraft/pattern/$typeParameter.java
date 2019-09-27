@@ -83,6 +83,12 @@ public final class $typeParameter
         return new $typeParameter(_typeParameter.of(astTp));
     }
 
+    public static $typeParameter not( $part...parts){
+        $typeParameter $tp = of();
+        $tp.$not(parts);
+        return $tp;
+    }
+
     public Predicate<_typeParameter> constraint = t-> true;
     
     public $annos anns = $annos.of();

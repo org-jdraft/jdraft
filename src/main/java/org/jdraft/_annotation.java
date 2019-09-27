@@ -16,6 +16,7 @@ import com.github.javaparser.ast.type.Type;
 
 import com.github.javaparser.utils.Log;
 import org.jdraft._anno.*;
+import org.jdraft.diff._annotationDiff;
 import org.jdraft.io._in;
 import org.jdraft.macro.macro;
 
@@ -318,6 +319,14 @@ public final class _annotation
     public _annotation element( AnnotationMemberDeclaration annotationProperty){
         this.astAnnotation.addMember( annotationProperty );
         return this;
+    }
+
+    public _element getElement(Predicate<_annotation._element> _ae){
+        List<_element> lps = listElements(_ae );
+        if( lps.isEmpty() ){
+            return null;
+        }
+        return lps.get(0);
     }
 
     public _element getElement( String name ){

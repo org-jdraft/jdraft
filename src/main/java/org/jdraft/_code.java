@@ -143,6 +143,14 @@ public interface _code<_C> extends _java, _java._componentized {
         return this.astCompilationUnit().getImport(index);
     }
 
+    default ImportDeclaration getImport(Predicate<_import> _importMatchFn){
+        List<_import> _is = this.listImports(_importMatchFn);
+        if( _is.isEmpty()){
+            return null;
+        }
+        return _is.get(0).ast();
+    }
+
     /**
      * remove imports based on predicate
      *

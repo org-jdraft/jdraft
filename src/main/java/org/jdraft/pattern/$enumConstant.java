@@ -103,6 +103,12 @@ public final class $enumConstant
         return new $enumConstant(parts);
     }
 
+    public static $enumConstant not($part...parts){
+        $enumConstant $ec = of();
+        $ec.$not(parts);
+        return $ec;
+    }
+
     private $enumConstant(){
     }
 

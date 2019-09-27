@@ -162,6 +162,17 @@ public final class $method
         return new $method( parts ); 
     }
 
+    /**
+     *
+     * @param parts
+     * @return
+     */
+    public static $method not($part...parts ){
+        $method $m = of();
+        $m.$not(parts);
+        return $m;
+    }
+
     public Predicate<_method> constraint = t -> true;
 
     public $comment<JavadocComment> javadoc = $comment.javadocComment("$javadoc$");

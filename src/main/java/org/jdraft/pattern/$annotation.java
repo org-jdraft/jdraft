@@ -86,6 +86,68 @@ public final class $annotation
         }
     }
 
+    public $annotation $not(final $annotation.$part...parts ){
+        for(int i=0;i<parts.length;i++){
+            if( parts[i] instanceof $anno ){
+                final $anno $fa = (($anno)parts[i]);
+                Predicate<_annotation> pf = an-> an.getAnno( a ->$fa.match(a) ) != null;
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $annos ){
+                final $annos $fa = (($annos)parts[i]);
+                Predicate<_annotation> pf = an-> $fa.matches(an.getAnnos());
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $modifiers ) {
+                final $modifiers $fa = (($modifiers) parts[i]);
+                Predicate<_annotation> pf = f -> $fa.matches(f.getModifiers());
+                $and(pf.negate());
+            }
+            else if(parts[i] instanceof $field ){
+                final $field $fj = (($field)parts[i]);
+                Predicate<_annotation> aFn = a-> a.getField(e->$fj.match(e)) != null; //found one
+                $and( aFn.negate() );
+            }
+            else if( parts[i] instanceof $import) {
+                final $import $fj = (($import)parts[i]);
+                Predicate<_annotation> aFn = a-> a.getImport(im->$fj.match(im)) != null; //found one
+                $and( aFn.negate() );
+            }
+            else if( parts[i] instanceof $package ) {
+                final $package $fa = (($package) parts[i]);
+                Predicate<_annotation> pf = f -> $fa.matches(f.getPackage());
+                $and(pf.negate());
+            }
+            else if( parts[i] instanceof $name){
+                final $name $fn = (($name)parts[i]);
+                Predicate<_annotation> pf = f-> $fn.matches(f.getName());
+                $and( pf.negate() );
+            }
+            else if(parts[i] instanceof $comment ){
+                final $comment $fj = (($comment)parts[i]);
+                Predicate<_annotation> pf = f-> $fj.matches(f.getJavadoc());
+                $and( pf.negate() );
+            }
+            else if(parts[i] instanceof $annotationElement ){
+                final $annotationElement $fj = (($annotationElement)parts[i]);
+                Predicate<_annotation> aFn = a-> a.getElement(e->$fj.match(e)) != null;
+                $and( aFn.negate() );
+            }
+        }
+        return this;
+    }
+
+    /**
+     * Adds a NOT constraint to the {@link #constraint} based on one or more $method.$part
+     * @param parts
+     * @return
+     */
+    public static $annotation not(final $annotation.$part...parts ){
+        $annotation $a = of();
+        $a.$not(parts);
+        return $a;
+    }
+
     @Override
     public $annotation hardcode$(Translator translator, Tokens kvs) {
         this.annos.hardcode$(translator, kvs);
