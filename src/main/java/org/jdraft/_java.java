@@ -18,7 +18,6 @@ import com.github.javaparser.ast.type.*;
 
 import static org.jdraft.Ast.*;
 
-import com.github.javaparser.utils.Log;
 import org.jdraft._anno._annos;
 import org.jdraft._anno._hasAnnos;
 import org.jdraft._annotation._element;
@@ -441,7 +440,7 @@ public interface _java {
      * class can be a _model, or Ast Node class
      *
      * @param nodeClass the class of the node (implementation class)
-     * must extend {@link _java} or {@link Node}
+     * must extend {@link _meta_model} or {@link Node}
      * @param code the java source code representation
      * @return the node implementation of the code
      */
@@ -519,7 +518,7 @@ public interface _java {
      * @param astNode the ast node
      * @return the _model entity
      */
-    static  _meta_model of(Node astNode) {
+    static _meta_model of(Node astNode) {
         if (astNode instanceof ImportDeclaration ){
             return _import.of((ImportDeclaration) astNode);
         }
@@ -663,7 +662,8 @@ public interface _java {
     }
 
     /**
-     * return a member (method, field, constructor, staticBlock)
+     * return the most specific member ({@link _method}, {@link _field}, {@link _constructor},
+     * {@link _initBlock}...) that is at of or contains the line number
      *
      * @see _type
      * @see _enum
@@ -687,7 +687,22 @@ public interface _java {
     }
 
     /**
-     * finds the closest member CONTAINING this position and returns it (or null if the position is outside for range)
+     * return the most specific member ({@link _method}, {@link _field}, {@link _constructor},
+     * {@link _initBlock}...) that is at of or contains the line number
+     *
+     * @param model
+     * @param line
+     * @param column
+     * @param <_M>
+     * @return
+     */
+    static <_M extends _member> _M  memberAt(_member model, int line, int column) {
+        return memberAt(model.ast(), line, column);
+    }
+
+    /**
+     * return the most specific member ({@link _method}, {@link _field}, {@link _constructor},
+     * {@link _initBlock}...) that is at of or contains the line number
      *
      * @see _type
      * @see _enum
@@ -715,7 +730,8 @@ public interface _java {
     }
 
     /**
-     * return a member (method, field, constructor, staticBlock)
+     * return the most specific member ({@link _method}, {@link _field}, {@link _constructor},
+     * {@link _initBlock}...) that is at of or contains the line number
      *
      * @see _type
      * @see _enum
@@ -735,6 +751,30 @@ public interface _java {
      */
     static <_M extends _member> _M memberAt(Class clazz, int line ) {
         return memberAt( Ast.of(clazz), line);
+    }
+
+    /**
+     * return the most specific member ({@link _method}, {@link _field}, {@link _constructor},
+     * {@link _initBlock}...) that is at of or contains the line number
+     *
+     * @see _type
+     * @see _enum
+     * @see _class
+     * @see _interface
+     * @see _annotation
+     * @see _method
+     * @see _field
+     * @see _initBlock
+     * @see _enum._constant
+     * @see _annotation._element
+     *
+     * @param _mem
+     * @param line
+     * @param <_M>
+     * @return
+     */
+    static <_M extends _member> _M  memberAt(_member _mem, int line ) {
+        return memberAt(_mem.ast(), line );
     }
 
     /**
@@ -1052,7 +1092,7 @@ public interface _java {
      * @param _j
      * @param commentActionFn
      */
-    static void forComments(_java _j, Consumer<Comment> commentActionFn){
+    static void forComments(_meta_model _j, Consumer<Comment> commentActionFn){
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel() ){
                 Ast.forComments( ((_code) _j).astCompilationUnit(), commentActionFn);

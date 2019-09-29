@@ -708,7 +708,10 @@ public enum Ast {
         //we cant have negative or 0 line numbers
         final int l = Math.max( Math.abs(line), 1);//if it's 0, we "really mean" 1
         Node n = at( top, line);
-
+        if( n == null ){
+            Log.info("Line number : %s is outside of member %s ", ()->l, ()->n.getClass() );
+            return null;
+        }
         if( n instanceof BodyDeclaration) {
             Log.info("Found member %s containing node %s at line : %s ", ()->n.getClass(), ()->n.getClass(), ()->l );
             return (M)n;
