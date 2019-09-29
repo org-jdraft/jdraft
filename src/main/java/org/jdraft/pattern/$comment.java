@@ -392,7 +392,7 @@ public final class $comment <C extends Comment>
      * @param <_J>
      * @return
      */
-    public <_J extends _java> _J forSelectedIn(_java _j, Consumer<Select> selectActionFn) {
+    public <_J extends _java> _J forSelectedIn(_meta_model _j, Consumer<Select> selectActionFn) {
         _java.forComments(_j, c->{
             Select s = select(c);
             if( s != null ){
@@ -413,7 +413,7 @@ public final class $comment <C extends Comment>
         return astNode;
     }
     
-    public <_J extends _java> _J forSelectedIn(_java _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
+    public <_J extends _meta_model> _J forSelectedIn(_meta_model _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
         _java.forComments(_j, c->{
             Select s = select(c);
             if( s != null && selectConstraint.test(s)){
