@@ -24,7 +24,6 @@ import org.jdraft._anno._annos;
 import org.jdraft._node;
 import org.jdraft._parameter._parameters;
 import org.jdraft._typeParameter._typeParameters;
-import org.jdraft.macro._$;
 import org.jdraft.macro._remove;
 import org.jdraft.macro.macro;
 
@@ -78,7 +77,6 @@ public final class $method
             throw new UnsupportedOperationException("We cant create an instance of $method from unsupported $pattern");
         }
 
-
         MethodDeclaration theMethod = (MethodDeclaration)
                 oce.getAnonymousClassBody().get().stream().filter(m -> m instanceof MethodDeclaration &&
                 !m.isAnnotationPresent(_remove.class) ).findFirst().get();
@@ -104,7 +102,6 @@ public final class $method
             //remember to remove the annotation from the $method model
             $m.annos.$annosList.removeIf(a -> a.name.idStencil.isFixedText() && a.name.idStencil.getTextForm().getFixedText().equals("_$"));
         }
-
         return $m;
     }
 

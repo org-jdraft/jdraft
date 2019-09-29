@@ -175,6 +175,28 @@ public final class $enum
         return this;
     }
 
+
+    @Override
+    public $enum $(String target, String paramName) {
+
+        this.annos.$(target, paramName);
+        this.ctors.forEach( c-> c.$(target, paramName));
+        this.fields.forEach(f-> f.$(target, paramName));
+        this.imports.forEach( i-> i.$(target, paramName));
+        this.initBlocks.forEach( i-> i.$(target, paramName));
+        this.javadoc.$(target, paramName);
+        this.methods.forEach(m-> m.$(target, paramName));
+        this.modifiers.$(target, paramName);
+        this.name = this.name.$(target, paramName);
+        this.packageDecl = this.packageDecl.$(target, paramName);
+
+        this.enumConstants.forEach(c -> c.$(target, paramName));
+        this.implement.forEach( i-> i.$(target, paramName));
+        //still need nests
+
+        return this;
+    }
+
     @Override
     public $enum hardcode$(Translator translator, Tokens kvs) {
         this.annos.hardcode$(translator, kvs);

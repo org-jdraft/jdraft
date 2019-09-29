@@ -355,7 +355,7 @@ public final class $parameter implements Template<_parameter>, $pattern<_paramet
         }
         sb.append(" ");
         sb.append(name.nameStencil);
-        System.out.println("PPP"+ sb.toString() );
+        //System.out.println("PPP"+ sb.toString() );
         return sb.toString();        
     }
     

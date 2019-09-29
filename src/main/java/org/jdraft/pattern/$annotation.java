@@ -148,6 +148,23 @@ public final class $annotation
         return $a;
     }
 
+
+    @Override
+    public $annotation $(String target, String paramName) {
+
+        this.annos.$(target, paramName);
+        this.fields.forEach(f-> f.$(target, paramName));
+        this.imports.forEach( i-> i.$(target, paramName));
+        this.javadoc.$(target, paramName);
+        this.modifiers.$(target, paramName);
+        this.name = this.name.$(target, paramName);
+        this.packageDecl = this.packageDecl.$(target, paramName);
+        this.annotationElements.forEach( ae -> ae.$(target, paramName));
+        //still need nests
+
+        return this;
+    }
+
     @Override
     public $annotation hardcode$(Translator translator, Tokens kvs) {
         this.annos.hardcode$(translator, kvs);

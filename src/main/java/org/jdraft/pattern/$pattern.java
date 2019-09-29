@@ -53,6 +53,14 @@ public interface $pattern<P, $P extends $pattern>{
     boolean isMatchAny();
 
     /**
+     *
+     * @param target
+     * @param paramName
+     * @return
+     */
+    $P $(String target, String paramName);
+
+    /**
      * Add an (AND) matching constraint for matching the $proto against an instance of P
      * @param constraint a constraint on the instance of P
      * @return the modified $P ($proto)

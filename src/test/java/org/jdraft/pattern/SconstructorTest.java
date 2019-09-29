@@ -12,6 +12,26 @@ import org.jdraft.macro._toCtor;
 
 public class SconstructorTest extends TestCase {
 
+    public void testConstructorParam(){
+        $constructor $ct = $constructor.of(new Object(){
+            @Deprecated
+            @_toCtor private void TT(int name) throws IOException{}
+        });
+
+        System.out.println( $ct.parameters );
+    }
+    public void testConstructorAnnoParameter(){
+        $constructor $ct = $constructor.of( new Object(){
+            @_toCtor @_$({"x", "pName"}) public void c(int x){
+                this.x = x;
+            }
+            int x;
+        });
+
+        System.out.println( $ct.parameters );
+
+        System.out.println( $ct );
+    }
     public void testConstructorLambda(){
         $constructor $c = $.constructor(); //c->!c.listStatements().isEmpty());
 

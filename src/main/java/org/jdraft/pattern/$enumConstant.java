@@ -138,6 +138,19 @@ public final class $enumConstant
         }
     }
 
+
+    @Override
+    public $enumConstant $(String target, String paramName) {
+
+        this.annos.$(target, paramName);
+        this.fields.forEach(f-> f.$(target, paramName));
+        this.javadoc.$(target, paramName);
+        this.methods.forEach(m-> m.$(target, paramName));
+        this.args.forEach(a -> a.$(target,paramName));
+        this.name = this.name.$(target, paramName);
+        return this;
+    }
+
     @Override
     public $enumConstant hardcode$(Translator translator, Tokens kvs) {
         this.annos.hardcode$(translator, kvs);

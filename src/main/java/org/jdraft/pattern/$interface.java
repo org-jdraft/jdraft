@@ -110,6 +110,24 @@ public final class $interface
         }
     }
 
+
+    @Override
+    public $interface $(String target, String paramName) {
+        this.annos.$(target, paramName);
+        this.fields.forEach(f-> f.$(target, paramName));
+        this.imports.forEach( i-> i.$(target, paramName));
+        this.javadoc.$(target, paramName);
+        this.methods.forEach(m-> m.$(target, paramName));
+        this.modifiers.$(target, paramName);
+        this.name = this.name.$(target, paramName);
+        this.packageDecl = this.packageDecl.$(target, paramName);
+        this.typeParameters = this.typeParameters.$(target, paramName);
+        this.extend.forEach(e-> e.$(target, paramName));
+
+        //still need nests
+        return this;
+    }
+
     @Override
     public $interface hardcode$(Translator translator, Tokens kvs) {
 

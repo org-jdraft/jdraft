@@ -1,5 +1,6 @@
 package org.jdraft.pattern;
 
+import com.github.javaparser.utils.Log;
 import org.jdraft._code;
 import org.jdraft._modifiers;
 import org.jdraft._javadoc;
@@ -30,6 +31,7 @@ import org.jdraft._typeParameter._typeParameters;
 import org.jdraft.macro._remove;
 import java.lang.annotation.Annotation;
 
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
@@ -98,7 +100,12 @@ public final class $constructor
         MethodDeclaration theMethod = (MethodDeclaration)
             oce.getAnonymousClassBody().get().stream().filter(m -> m instanceof MethodDeclaration &&
                 !m.isAnnotationPresent(_remove.class) ).findFirst().get();
-        
+
+        _method _m = _method.of(theMethod);
+
+        //get the Runtime Reflection Method
+        Method rm = Arrays.stream(anonymousObjectContainingMethod.getClass().getDeclaredMethods()).filter(mm ->_m.hasParametersOf(mm)).findFirst().get();
+
         //build the base method first
         _constructor _ct = _constructor.of( theMethod.getNameAsString() + " " +_parameter._parameters.of( theMethod )+"{}" );
         
@@ -119,8 +126,28 @@ public final class $constructor
         _ct.anno( theMethod.getAnnotations()); //add annos
         _ct.removeAnnos(_toCtor.class); //remove the _ctor anno if it exists
         _ct.setBody( theMethod.getBody().get() ); //BODY
-        
-        return of(_ct);        
+
+
+        //MED
+        $constructor $ct = of( _ct );
+
+        //Look for a VERY SPECIFIC @_$ annotation which will "post parameterize"
+        _$ postParameterize = rm.getAnnotation( _$.class );
+        if(  postParameterize != null ){
+            //
+            String[] paramKeyValues = postParameterize.value();
+            if( (paramKeyValues.length % 2) != 0  ){
+                throw new _draftException("invalid parameter count for @_$ annotation (must be pairs)");
+            }
+            for(int i=0;i<paramKeyValues.length;i+=2) {
+                $ct.$(paramKeyValues[i], paramKeyValues[i+1]);
+            }
+            //remember to remove the annotation from the $method model
+            $ct.annos.$annosList.removeIf(a -> a.name.idStencil.isFixedText() && a.name.idStencil.getTextForm().getFixedText().equals("_$"));
+        }
+        return $ct;
+
+        //return of(_ct);
     }
 
     /**
@@ -639,7 +666,7 @@ public final class $constructor
                     && this.modifiers.isMatchAny() && this.name.isMatchAny() && this.typeParameters.isMatchAny()
                     && this.thrown.isMatchAny() && this.body.isMatchAny();
         } catch(Exception e){
-            System.out.println("CONSTRUCTOR NOT MATCH ANY" );
+            Log.info("$constructor not match any" );
             return false;
         }
     }
@@ -699,7 +726,7 @@ public final class $constructor
      */
     public Select select( _constructor _ct){
         if( !this.constraint.test(_ct)){
-            System.out.println( "FAILED CONSTRAINT");
+            Log.info( "failed constraint");
             return null;
         }
         if( modifiers.select(_ct) == null ){

@@ -130,6 +130,10 @@ public final class $modifiers
         return $ms;
     }
 
+    public $modifiers $(String target, String paramName){
+        return this;
+    }
+
     /**
      * Matches sets of modifiers that have None of these modifiers
      * @param mods

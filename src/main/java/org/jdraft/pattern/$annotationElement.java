@@ -87,6 +87,18 @@ public final class $annotationElement
         }
     }
 
+
+    @Override
+    public $annotationElement $(String target, String paramName) {
+        this.javadoc.$(target, paramName);
+        this.name = this.name.$(target, paramName);
+        this.type = this.type.$(target, paramName);
+        if( this.defaultValue != null ) {
+            this.defaultValue.$(target, paramName);
+        }
+        return this;
+    }
+
     @Override
     public $annotationElement hardcode$(Translator translator, Tokens kvs) {
         this.javadoc.hardcode$(translator, kvs);

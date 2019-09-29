@@ -2,6 +2,7 @@ package org.jdraft.pattern;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
+import com.github.javaparser.utils.Log;
 import org.jdraft.*;
 import org.jdraft._walk;
 import org.jdraft._java;
@@ -56,7 +57,7 @@ public final class $parameters implements Template<_parameters>, $pattern<_param
         for(int i=0;i<parameterTypes.length;i++){
 
             $ps = $ps.$add( $parameter.of(parameterTypes[i]) );
-            System.out.println( $ps );
+            //System.out.println( $ps );
         }
         //Arrays.stream(parameterTypes).forEach( pt -> $ps.$add( $parameter.of(pt)) );
         return $ps;
@@ -183,7 +184,8 @@ public final class $parameters implements Template<_parameters>, $pattern<_param
                 if( sel != null ) { //&& ts.isConsistent(sel.tokens.asTokens()) ){
                     ts.putAll( sel.tokens.asTokens() );
                 } else{
-                    System.out.println( "NO match on parameter "+ i + sel);
+                    final int f = i;
+                    Log.error( "NO match on parameter %s with %s", ()->f, ()-> sel);
                     return null;
                 }
             }

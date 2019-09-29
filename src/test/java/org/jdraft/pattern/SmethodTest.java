@@ -22,7 +22,11 @@ public class SmethodTest extends TestCase {
             int x;
         });
 
-        System.out.println( $m );
+        //System.out.println( $m );
+        //verify we parameterized the name ("X") to parameter ("Name")
+        assertEquals($m.name.nameStencil, $name.of("get$Name$").nameStencil);
+        //verify we parameterized the body ("x") to parameter ("name")
+        assertEquals( $body.of("{ return $name$; }").bodyStmts.stmtStencil, $m.body.bodyStmts.stmtStencil);
 
     }
 
