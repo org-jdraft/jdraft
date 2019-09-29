@@ -5,6 +5,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.JavadocComment;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.jdraft.*;
 
 import java.util.*;
@@ -41,6 +42,46 @@ public final class $class
 
     /** marker interface for member entities that are part of the class */
     public interface $part{ }
+
+    public static $class of( _class _c ){
+        $class $c = of();
+        if( _c.isTopLevel() ){
+            $c.$package( _c.getPackage() );
+            $c.$imports( _c.getImports() );
+        }
+
+        $c.$javadoc(_c.getJavadoc());
+        _c.forAnnos(a-> $c.annos.add($anno.of(a)));
+        $c.modifiers = $modifiers.of(_c.getModifiers());
+        $c.$name(_c.getSimpleName());
+        _c.getTypeParameters().forEach(tp-> $c.typeParameters.$add($typeParameter.of(tp)));
+        if( _c.getExtends() != null) {
+            $c.extend = $typeRef.of(_c.getExtends());
+        }
+        _c.listImplements().forEach(i -> $c.$implement(i));
+
+        _c.forInitBlocks(ib -> $c.initBlocks.add($initBlock.of(ib.ast())));
+
+
+        _c.forConstructors(ct -> $c.ctors.add($constructor.of(ct)));
+        _c.forFields(f-> $c.fields.add($field.of(f)));
+        _c.forMethods(m -> $c.$methods($method.of(m)));
+        _c.forNests( n -> {
+            if( n instanceof _class) {
+                $c.$hasChild( $class.of((_class)n) );
+            }
+            if( n instanceof _enum) {
+                $c.$hasChild( $enum.of((_enum)n) );
+            }
+            if( n instanceof _interface) {
+                $c.$hasChild( $interface.of((_interface)n) );
+            }
+            if( n instanceof _annotation) {
+                $c.$hasChild( $annotation.of((_annotation)n) );
+            }
+        });
+        return $c;
+    }
 
     public static $class of(){
         return new $class();
@@ -401,9 +442,16 @@ public final class $class
         return this;
     }
 
+    public $class $javadoc( _javadoc _jd){
+        if( _jd != null ) {
+            this.javadoc = $comment.javadocComment(_jd);
+        } else{
+            this.javadoc = $comment.javadocComment();
+        }
+        return this;
+    }
     public $class $javadoc( Predicate<JavadocComment> javadocMatchFn ){
         this.javadoc = $comment.javadocComment(javadocMatchFn);
-        //System.out.println( this.javadoc.commentClasses);
         return this;
     }
 
@@ -432,6 +480,11 @@ public final class $class
         return $extend( $typeRef.of(clazz));
     }
 
+    public $class $implement( ClassOrInterfaceType... coits ){
+        Arrays.stream(coits).forEach(c -> this.implement.add( $typeRef.of(c)));
+        return this;
+    }
+
     public $class $implement( Class... clazz){
          Arrays.stream(clazz).forEach(c -> this.implement.add( $typeRef.of(c)));
          return this;
@@ -447,6 +500,15 @@ public final class $class
         return this;
     }
 
+    public $class $imports( _import._imports _is ){
+        return $imports( _is.list());
+    }
+
+    public $class $imports( List<_import> _is){
+        _is.forEach( i -> this.imports.add($import.of(i)));
+        return this;
+    }
+
     public $class $imports( $import...$is ){
         Arrays.stream($is).forEach( i -> this.imports.add(i));
         return this;
@@ -454,6 +516,11 @@ public final class $class
 
     public $class $imports( Class... clazzes ){
         Arrays.stream(clazzes).forEach( i -> this.imports.add($import.of(i)));
+        return this;
+    }
+
+    public $class $package( String packageName ){
+        this.packageDecl = $package.of(packageName);
         return this;
     }
 

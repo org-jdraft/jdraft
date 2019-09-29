@@ -6,6 +6,7 @@ import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.JavadocComment;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.jdraft.*;
 
 import java.util.ArrayList;
@@ -51,6 +52,38 @@ public final class $interface
 
     public static $interface of($part...parts){
         return new $interface(parts);
+    }
+
+    public static $interface of( _interface _c ){
+        $interface $c = of();
+        if( _c.isTopLevel() ){
+            $c.$package( _c.getPackage() );
+            $c.$imports( _c.getImports() );
+        }
+
+        $c.$javadoc(_c.getJavadoc());
+        _c.forAnnos(a-> $c.annos.add($anno.of(a)));
+        $c.modifiers = $modifiers.of(_c.getModifiers());
+        $c.$name(_c.getSimpleName());
+        _c.getTypeParameters().forEach(tp-> $c.typeParameters.$add($typeParameter.of(tp)));
+        _c.listExtends().forEach(i -> $c.$extend(i));
+        _c.forFields(f-> $c.fields.add($field.of(f)));
+        _c.forMethods(m -> $c.$methods($method.of(m)));
+        _c.forNests( n -> {
+            if( n instanceof _class) {
+                $c.$hasChild( $class.of((_class)n) );
+            }
+            if( n instanceof _enum) {
+                $c.$hasChild( $enum.of((_enum)n) );
+            }
+            if( n instanceof _interface) {
+                $c.$hasChild( $interface.of((_interface)n) );
+            }
+            if( n instanceof _annotation) {
+                $c.$hasChild( $annotation.of((_annotation)n) );
+            }
+        });
+        return $c;
     }
 
     /**
@@ -388,8 +421,22 @@ public final class $interface
         return this;
     }
 
+    public $interface $javadoc(_javadoc _jd){
+        if( _jd != null ){
+            this.javadoc = $comment.javadocComment(_jd);
+        } else{
+            this.javadoc = $comment.javadocComment();
+        }
+        return this;
+    }
+
     public $interface $javadoc($comment<JavadocComment> javadocComment ){
         this.javadoc = javadocComment;
+        return this;
+    }
+
+    public $interface $extend(ClassOrInterfaceType... coit){
+        Arrays.stream(coit).forEach(c -> this.extend.add( $typeRef.of(c)));
         return this;
     }
 
@@ -413,6 +460,14 @@ public final class $interface
         return this;
     }
 
+    public $interface $imports( _import._imports _is ){
+        return $imports( _is.list());
+    }
+
+    public $interface $imports( List<_import> _is){
+        _is.forEach( i -> this.imports.add($import.of(i)));
+        return this;
+    }
     public $interface $imports(String...$is ){
         Arrays.stream($is).forEach( i -> this.imports.add($import.of(i)));
         return this;
@@ -421,6 +476,10 @@ public final class $interface
     public $interface $imports(Class... clazzes ){
         Arrays.stream(clazzes).forEach( i -> this.imports.add($import.of(i)));
         return this;
+    }
+
+    public $interface $package(String packageName){
+        return $package( $package.of(packageName));
     }
 
     public $interface $package($package $p ){

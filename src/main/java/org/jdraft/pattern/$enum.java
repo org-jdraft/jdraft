@@ -5,6 +5,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.EnumDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.JavadocComment;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.jdraft.*;
 
 import java.util.*;
@@ -50,6 +51,40 @@ public final class $enum
 
     public static $enum of($part...parts){
         return new $enum(parts);
+    }
+
+    public static $enum of( _enum _c ){
+        $enum $c = of();
+        if( _c.isTopLevel() ){
+            $c.$package( _c.getPackage() );
+            $c.$imports( _c.getImports() );
+        }
+
+        $c.$javadoc(_c.getJavadoc());
+        _c.forAnnos(a-> $c.annos.add($anno.of(a)));
+        $c.modifiers = $modifiers.of(_c.getModifiers());
+        $c.$name(_c.getSimpleName());
+        _c.listImplements().forEach(i -> $c.$implement(i));
+        _c.forConstants(cn -> $c.$constant($enumConstant.of(cn)));
+        _c.forInitBlocks(ib -> $c.initBlocks.add($initBlock.of(ib.ast())));
+        _c.forConstructors(ct -> $c.ctors.add($constructor.of(ct)));
+        _c.forFields(f-> $c.fields.add($field.of(f)));
+        _c.forMethods(m -> $c.$methods($method.of(m)));
+        _c.forNests( n -> {
+            if( n instanceof _class) {
+                $c.$hasChild( $class.of((_class)n) );
+            }
+            if( n instanceof _enum) {
+                $c.$hasChild( $enum.of((_enum)n) );
+            }
+            if( n instanceof _interface) {
+                $c.$hasChild( $interface.of((_interface)n) );
+            }
+            if( n instanceof _annotation) {
+                $c.$hasChild( $annotation.of((_annotation)n) );
+            }
+        });
+        return $c;
     }
 
     public static $enum not( $part...parts ){
@@ -447,8 +482,22 @@ public final class $enum
     }
     //TODO other static blocks?
 
+    public $enum $javadoc(_javadoc _jd ){
+        if( _jd != null ) {
+            this.javadoc = $comment.javadocComment(_jd);
+        }else{
+            this.javadoc = $comment.javadocComment();
+        }
+        return this;
+    }
+
     public $enum $javadoc($comment<JavadocComment> javadocComment ){
         this.javadoc = javadocComment;
+        return this;
+    }
+
+    public $enum $implement(ClassOrInterfaceType... clazz){
+        Arrays.stream(clazz).forEach(c -> this.implement.add( $typeRef.of(c)));
         return this;
     }
 
@@ -462,8 +511,14 @@ public final class $enum
         return this;
     }
 
+
     public $enum $implement($typeRef...impl){
         Arrays.stream(impl).forEach(i -> this.implement.add(i));
+        return this;
+    }
+
+    public $enum $imports(_import._imports _is){
+        _is.forEach( i -> this.imports.add($import.of(i)));
         return this;
     }
 
@@ -475,6 +530,10 @@ public final class $enum
     public $enum $imports(Class... clazzes ){
         Arrays.stream(clazzes).forEach( i -> this.imports.add($import.of(i)));
         return this;
+    }
+
+    public $enum $package(String packageName){
+        return $package( $package.of(packageName));
     }
 
     public $enum $package($package $p ){

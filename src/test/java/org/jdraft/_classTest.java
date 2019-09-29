@@ -622,7 +622,7 @@ _class.of("aaaa.bbbb.Local",
         assertTrue( _c.getMethod( "getpid").is( "native int getpid();" ));
         
         assertTrue( _c.hasMethods() );
-        assertTrue( _c.hasInitBlock() );
+        assertTrue( _c.hasInitBlocks() );
         assertTrue( _c.getInitBlock(0).is( " System.loadLibrary(\"getpid\");"));
         _method _m = _c.getMethod(0);
         //System.out.println( _m );
@@ -658,7 +658,7 @@ _class.of("aaaa.bbbb.Local",
         assertFalse( _c.isStatic());
         assertFalse( _c.isFinal());
         assertFalse( _c.isAbstract());
-        assertFalse( _c.hasInitBlock());
+        assertFalse( _c.hasInitBlocks());
         assertFalse( _c.isExtends( Serializable.class ) );
         assertFalse( _c.isImplements( Serializable.class ) );
         assertNull( _c.getInitBlock(0) );
@@ -838,7 +838,7 @@ _class.of("aaaa.bbbb.Local",
         assertTrue( _c.isExtends( "Base") );
         assertTrue( _c.isImplements( "A"));
         assertTrue( _c.isImplements( "B"));        
-        assertTrue( _c.hasInitBlock());
+        assertTrue( _c.hasInitBlocks());
         assertNotNull( _c.getInitBlock(0) ); //todo better static block
         assertTrue( _c.hasFields());        
     }

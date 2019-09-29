@@ -47,6 +47,15 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
         return of( new String[]{bodyPattern});
     }
 
+    public static $initBlock of( _initBlock _ib ){
+        return of( _ib.ast());
+    }
+
+    public static $initBlock of( InitializerDeclaration id ){
+        $initBlock $ib = new $initBlock( $stmt.of( BlockStmt.class, id.getBody().toString()), id.isStatic(), t->true );
+        return $ib;
+    }
+
     public static $initBlock of(String... bodyPattern ){
         InitializerDeclaration id = Ast.initBlock(bodyPattern);
         $initBlock $ib = new $initBlock( $stmt.of( BlockStmt.class, id.getBody().toString()), id.isStatic(), t->true );

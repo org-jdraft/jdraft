@@ -622,10 +622,10 @@ public final class _initBlock
         }
 
         /**
-         *
+         * returns true if the TypeDeclaration_model instance has one or more _initBlocks)
          * @return
          */
-        default boolean hasInitBlock(){
+        default boolean hasInitBlocks(){
             return ((TypeDeclaration)((_type)this).ast()).stream().anyMatch( m -> m instanceof InitializerDeclaration );
         }
 

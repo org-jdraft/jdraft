@@ -46,6 +46,37 @@ public final class $annotation
         return new $annotation(parts);
     }
 
+    public static $annotation of( _annotation _c ){
+        $annotation $c = of();
+        if( _c.isTopLevel() ){
+            $c.$package( _c.getPackage() );
+            $c.$imports( _c.getImports() );
+        }
+
+        $c.$javadoc(_c.getJavadoc());
+        _c.forAnnos(a-> $c.annos.add($anno.of(a)));
+        $c.modifiers = $modifiers.of(_c.getModifiers());
+        $c.$name(_c.getSimpleName());
+        _c.forElements(e -> $c.$elements($annotationElement.of(e)));
+        _c.forFields(f-> $c.fields.add($field.of(f)));
+
+        _c.forNests( n -> {
+            if( n instanceof _class) {
+                $c.$hasChild( $class.of((_class)n) );
+            }
+            if( n instanceof _enum) {
+                $c.$hasChild( $enum.of((_enum)n) );
+            }
+            if( n instanceof _interface) {
+                $c.$hasChild( $interface.of((_interface)n) );
+            }
+            if( n instanceof _annotation) {
+                $c.$hasChild( $annotation.of((_annotation)n) );
+            }
+        });
+        return $c;
+    }
+
     private $annotation(){
     }
 
@@ -365,6 +396,15 @@ public final class $annotation
         return this;
     }
 
+    public $annotation $javadoc(_javadoc _jd){
+        if( _jd != null ){
+            this.javadoc = $comment.javadocComment(_jd);
+        } else{
+            this.javadoc = $comment.javadocComment();
+        }
+        return this;
+    }
+
     public $annotation $javadoc($comment<JavadocComment> javadocComment ){
         this.javadoc = javadocComment;
         return this;
@@ -375,10 +415,24 @@ public final class $annotation
         return this;
     }
 
+    public $annotation $imports( _import._imports _is ){
+        return $imports( _is.list());
+    }
+
+    public $annotation $imports( List<_import> _is){
+        _is.forEach( i -> this.imports.add($import.of(i)));
+        return this;
+    }
+
     public $annotation $imports(Class... clazzes ){
         Arrays.stream(clazzes).forEach( i -> this.imports.add($import.of(i)));
         return this;
     }
+
+    public $annotation $package(String packageName){
+        return $package( $package.of(packageName));
+    }
+
 
     public $annotation $package($package $p ){
         this.packageDecl = $p;
