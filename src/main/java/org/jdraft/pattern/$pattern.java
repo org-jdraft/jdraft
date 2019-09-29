@@ -569,7 +569,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _j a _java entity
      * @return true if the
      */
-    default boolean match( _java _j ){
+    default boolean match( _meta_model _j ){
         if( _j instanceof _field ){ //I think this'll work??
             return match( ((_field)_j).getFieldDeclaration());
         }
@@ -617,7 +617,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _js
      * @return
      */
-    default <_J extends _java> P firstIn(_J... _js){
+    default <_J extends _meta_model> P firstIn(_J... _js){
         for( int i=0; i< _js.length; i++){
             P p = firstIn( _js[i] );
             if( p != null ){
@@ -648,7 +648,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param <_J> the _code type ( _type, _class, _enum, etc.)
      * @return the first instance found within the code collection
      */
-    default <_J extends _java> P firstIn(Collection<_J> codeCollection){
+    default <_J extends _meta_model> P firstIn(Collection<_J> codeCollection){
         List<_J> lc = codeCollection.stream().collect(Collectors.toList());
         for( int i=0; i< lc.size(); i++){
             P p = firstIn( lc.get(i) );
@@ -692,7 +692,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _j the the _model node
      * @return  the first matching instance or null if none is found
      */
-    default <_J extends _java> P firstIn(_J _j){
+    default <_J extends _meta_model> P firstIn(_J _j){
         if( _j instanceof _code ){
             _code _c = (_code)_j;
             if( _c.isTopLevel() ){
@@ -710,7 +710,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param nodeMatchFn
      * @return 
      */
-    default P firstIn(_java _j, Predicate<P> nodeMatchFn){
+    default P firstIn(_meta_model _j, Predicate<P> nodeMatchFn){
         if( _j instanceof _code ){
             _code _c = (_code)_j;
             if( _c.isTopLevel() ){
@@ -796,7 +796,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _js
      * @return
      */
-    default <S extends selected, _J extends _java> S selectFirstIn( _J... _js ){
+    default <S extends selected, _J extends _meta_model> S selectFirstIn( _J... _js ){
         for(int i=0;i<_js.length; i++){
             S s = selectFirstIn( _js[i] );
             if( s != null ){
@@ -812,7 +812,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _jc
      * @return
      */
-    default <S extends selected, _J extends _java> S selectFirstIn(Collection<_J> _jc ){
+    default <S extends selected, _J extends _meta_model> S selectFirstIn(Collection<_J> _jc ){
         List<_J> l = _jc.stream().collect(Collectors.toList());
         for(int i=0;i<l.size(); i++){
             S s = selectFirstIn( l.get(i) );
@@ -829,7 +829,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _j
      * @return 
      */
-    default <S extends selected> S selectFirstIn( _java _j ){
+    default <S extends selected> S selectFirstIn( _meta_model _j ){
         if( _j instanceof _code ){
             _code _c = (_code)_j;
             if( _c.isTopLevel() ){
@@ -918,13 +918,13 @@ public interface $pattern<P, $P extends $pattern>{
      * @param <_J> the underlying _code type (_code, _type, _packageInfo, etc.)
      * @return list of matching P for the query
      */
-    default <_J extends _java> List<P> listIn(Collection<_J> _js){
+    default <_J extends _meta_model> List<P> listIn(Collection<_J> _js){
         List<P> found = new ArrayList<>();
         _js.forEach(c -> found.addAll( listIn(c) ));
         return found;
     }
 
-    default <_J extends _java> Stream<P> streamIn(Collection<_J> _js){
+    default <_J extends _meta_model> Stream<P> streamIn(Collection<_J> _js){
         return listIn(_js).stream();
     }
 
@@ -936,13 +936,13 @@ public interface $pattern<P, $P extends $pattern>{
      * @param <_J> the underlying _code type (_code, _type, _packageInfo, etc.)
      * @return list of matching P for the query
      */
-    default <_J extends _java> List<P> listIn(Collection<_J> _js, Predicate<P> nodeMatchFn){
+    default <_J extends _meta_model> List<P> listIn(Collection<_J> _js, Predicate<P> nodeMatchFn){
         List<P> found = new ArrayList<>();
         _js.forEach(c -> found.addAll( listIn(c, nodeMatchFn) ));
         return found;
     }
 
-    default <_J extends _java> Stream<P> streamIn(Collection<_J> _js, Predicate<P> nodeMatchFn){
+    default <_J extends _meta_model> Stream<P> streamIn(Collection<_J> _js, Predicate<P> nodeMatchFn){
         return listIn(_js, nodeMatchFn).stream();
     }
 
@@ -954,13 +954,13 @@ public interface $pattern<P, $P extends $pattern>{
      * @param <_J> the underlying _code type (_code, _type, _packageInfo, etc.)
      * @return list of matching P for the query
      */
-    default <_J extends _java> List<P> listIn(_code._provider _codeProvider, Predicate<P> nodeMatchFn){
+    default <_J extends _meta_model> List<P> listIn(_code._provider _codeProvider, Predicate<P> nodeMatchFn){
         List<P> found = new ArrayList<>();
         _codeProvider.for_code(c -> found.addAll( listIn(c, nodeMatchFn) ));
         return found;
     }
 
-    default <_J extends _java> Stream<P> streamIn(_code._provider _codeProvider, Predicate<P> nodeMatchFn){
+    default <_J extends _meta_model> Stream<P> streamIn(_code._provider _codeProvider, Predicate<P> nodeMatchFn){
         return listIn(_codeProvider, nodeMatchFn).stream();
     }
 
@@ -999,13 +999,13 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _js
      * @return
      */
-    default List<P> listIn(_java..._js){
+    default List<P> listIn(_meta_model..._js){
         List<P> found = new ArrayList<>();
         Arrays.stream(_js).forEach( j -> found.addAll( listIn(j)) );
         return found;
     }
 
-    default Stream<P> streamIn(_java..._js){
+    default Stream<P> streamIn(_meta_model..._js){
         return listIn(_js).stream();
     }
 
@@ -1016,7 +1016,7 @@ public interface $pattern<P, $P extends $pattern>{
      * _method, _packageInfo)
      * @return a List of Q that match the query
      */
-    default List<P> listIn(_java _j) {
+    default List<P> listIn(_meta_model _j) {
         if( _j instanceof _code ){
             _code _c = (_code)_j;
             if( _c.isTopLevel() ){
@@ -1028,7 +1028,7 @@ public interface $pattern<P, $P extends $pattern>{
         return listIn( ((_node)_j).ast() );
     }
 
-    default Stream<P> streamIn(_java _j) {
+    default Stream<P> streamIn(_meta_model _j) {
         return listIn(_j).stream();
     }
     
@@ -1038,7 +1038,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param nodeMatchFn
      * @return 
      */
-    default List<P> listIn(_java _j, Predicate<P>nodeMatchFn){
+    default List<P> listIn(_meta_model _j, Predicate<P>nodeMatchFn){
         if( _j instanceof _code ){
             _code _c = (_code)_j;
             if( _c.isTopLevel() ){
@@ -1050,7 +1050,7 @@ public interface $pattern<P, $P extends $pattern>{
         return listIn(((_node)_j).ast(),nodeMatchFn);
     }
 
-    default Stream<P> streamIn(_java _j, Predicate<P>nodeMatchFn){
+    default Stream<P> streamIn(_meta_model _j, Predicate<P>nodeMatchFn){
         return listIn(_j, nodeMatchFn).stream();
     }
 
@@ -1140,7 +1140,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param <_J>
      * @return
      */
-    default <S extends selected, _J extends _java> List<S> listSelectedIn(Collection<_J> _js){
+    default <S extends selected, _J extends _meta_model> List<S> listSelectedIn(Collection<_J> _js){
         List<S> sel = new ArrayList<>();
         _js.forEach(_j -> sel.addAll( listSelectedIn( _j )) );
         return sel;
@@ -1154,7 +1154,7 @@ public interface $pattern<P, $P extends $pattern>{
      * search
      * @return a list of the selected
      */
-    default <S extends selected> List<S> listSelectedIn(_java _j){
+    default <S extends selected> List<S> listSelectedIn(_meta_model _j){
         if( _j instanceof _code ){
             _code _c = (_code)_j;
             if( _c.isTopLevel() ){
@@ -1218,7 +1218,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param nodeActionFn
      * @return
      */
-    default <_J extends _java> List<_J> forEachIn(Collection<_J> _js, Consumer<P>nodeActionFn ){
+    default <_J extends _meta_model> List<_J> forEachIn(Collection<_J> _js, Consumer<P>nodeActionFn ){
         List<_J> ts = new ArrayList<>();
         _js.stream().forEach( j-> ts.add( forEachIn( j, nodeActionFn) ) );
         return ts;
@@ -1231,7 +1231,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param nodeActionFn
      * @return
      */
-    default <_J extends _java> List<_J> forEachIn(Collection<_J> _js, Predicate<P> nodeMatchFn, Consumer<P>nodeActionFn ){
+    default <_J extends _meta_model> List<_J> forEachIn(Collection<_J> _js, Predicate<P> nodeMatchFn, Consumer<P>nodeActionFn ){
         List<_J> ts = new ArrayList<>();
         _js.stream().forEach( j-> ts.add( forEachIn( j, nodeMatchFn, nodeActionFn) ) );
         return ts;
@@ -1246,7 +1246,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param nodeActionFn the function to run on all matching entities
      * @return the modified _java node
      */
-    default <_J extends _java> _J forEachIn(_J _j, Consumer<P> nodeActionFn){
+    default <_J extends _meta_model> _J forEachIn(_J _j, Consumer<P> nodeActionFn){
         return forEachIn(_j, t->true, nodeActionFn);
     }
     
@@ -1261,7 +1261,7 @@ public interface $pattern<P, $P extends $pattern>{
      * matching node
      * @return the modified astRootNode
      */
-    default <_J extends _java> _J forEachIn(_J _j, Predicate<P> nodeMatchFn, Consumer<P> nodeActionFn){
+    default <_J extends _meta_model> _J forEachIn(_J _j, Predicate<P> nodeMatchFn, Consumer<P> nodeActionFn){
         if( _j instanceof _code ){
             _code _c = (_code) _j;
             if( _c.isTopLevel() ){
@@ -1382,7 +1382,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _j
      * @return
      */
-    default <_J extends _java> int count(_J _j ){
+    default <_J extends _meta_model> int count(_J _j ){
         AtomicInteger ai = new AtomicInteger(0);
         forEachIn(_j, e -> ai.incrementAndGet() );
         return ai.get();
@@ -1455,7 +1455,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _j
      * @return
      */
-    default <_J extends _java> void printIn(_J _j ){
+    default <_J extends _meta_model> void printIn(_J _j ){
         forEachIn(_j, e -> System.out.println( e ) );
     }
 
@@ -1474,7 +1474,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param <_J>
      * @return
      */
-    default <_J extends _java> Collection<_J> removeIn(Collection<_J> _js ){
+    default <_J extends _meta_model> Collection<_J> removeIn(Collection<_J> _js ){
         _js.forEach( _j -> removeIn(_j) );
         return _js;
     }
@@ -1485,7 +1485,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param <_J>
      * @return
      */
-    default <_J extends _java> Collection<_J> removeIn(Collection<_J> _js, Predicate<P> nodeMatchFn){
+    default <_J extends _meta_model> Collection<_J> removeIn(Collection<_J> _js, Predicate<P> nodeMatchFn){
         _js.forEach( _j -> removeIn(_j, nodeMatchFn) );
         return _js;
     }
@@ -1524,7 +1524,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param <_J> the TYPE of model node
      * @return the modified model node
      */
-    default <_J extends _java> _J removeIn(_J _j){
+    default <_J extends _meta_model> _J removeIn(_J _j){
         removeIn(_j, t->true);
         return _j;
     }
@@ -1536,7 +1536,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param nodeMatchFn
      * @return the modified model node
      */
-    default <_J extends _java> _J removeIn(_J _j, Predicate<P> nodeMatchFn){
+    default <_J extends _meta_model> _J removeIn(_J _j, Predicate<P> nodeMatchFn){
         if( _j instanceof _code ){
             _code _c = (_code) _j;
             if( _c.isTopLevel() ){
@@ -1597,7 +1597,7 @@ public interface $pattern<P, $P extends $pattern>{
      * AST elements /searches
      * @param <_J>
      */
-    interface $java<_J extends _java, $P extends $pattern> extends $pattern<_J, $P> {
+    interface $java<_J extends _meta_model, $P extends $pattern> extends $pattern<_J, $P> {
 
         Class<_J> javaType();
 
@@ -1609,7 +1609,7 @@ public interface $pattern<P, $P extends $pattern>{
             return _codeProvider.for_code( c -> replaceIn(c, $protoReplace));
         }
 
-        default <_J extends _java> _J replaceIn( _J _j , $P $protoReplace ){
+        default <_J extends _meta_model> _J replaceIn( _J _j , $P $protoReplace ){
             _walk.in(_j, javaType(), e-> {
                 $pattern.select_java<_J> sel = select(e);
                 if( sel != null ){
@@ -2018,7 +2018,7 @@ public interface $pattern<P, $P extends $pattern>{
      *
      * @param <_J> the jDraft _java representation
      */
-    interface select_java<_J extends _java> extends selected {
+    interface select_java<_J extends _meta_model> extends selected {
 
         /**
          * @return the selected _java node (i.e. _method for a MethodDeclaration)

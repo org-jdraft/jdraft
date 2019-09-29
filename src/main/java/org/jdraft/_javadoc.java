@@ -12,7 +12,7 @@ import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
  * @author Eric
  */
 public final class _javadoc
-    implements _java {
+    implements _meta_model {
 
     public static _javadoc of( NodeWithJavadoc jdnode ) {
         return new _javadoc( jdnode );
@@ -117,7 +117,7 @@ public final class _javadoc
      * @param <_HJ>
      */
     public interface _hasJavadoc<_HJ extends _hasJavadoc>
-            extends _java {
+            extends _meta_model {
 
         /** @return the JAVADOC for this element (or returns null) */
         _javadoc getJavadoc();

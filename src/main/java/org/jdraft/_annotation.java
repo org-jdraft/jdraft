@@ -461,7 +461,7 @@ public final class _annotation
         parts.put( _java.Component.ELEMENTS, this.listElements() );
         parts.put( _java.Component.FIELDS, this.listFields() );
         parts.put( _java.Component.NESTS, this.listNests() );
-        parts.put( Component.COMPANION_TYPES, this.listCompanionTypes() );
+        parts.put( _java.Component.COMPANION_TYPES, this.listCompanionTypes() );
         return parts;
     }
 

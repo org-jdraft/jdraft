@@ -69,7 +69,7 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
  */
 public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithModifiers & NodeWithAnnotations, _T extends _type>
     extends _javadoc._hasJavadoc<_T>, _anno._hasAnnos<_T>, _modifiers._hasModifiers<_T>,
-        _field._hasFields<_T>, _declared<AST, _T>, _code<_T>, _node<AST, _T>, _java {
+        _field._hasFields<_T>, _declared<AST, _T>, _code<_T>, _node<AST, _T>, _meta_model {
 
     /**
      * If we are a top level _type add the types as companion types
@@ -397,7 +397,7 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
         List<_M> _ms = new ArrayList<>();
         NodeList<BodyDeclaration<?>> bds = ast().getMembers();
         bds.forEach(b -> {
-            _java _mem = _java.of(b);
+            _meta_model _mem = _java.of(b);
             if (memberClass.isAssignableFrom(_mem.getClass())) {
                 _ms.add((_M) _mem);
             }

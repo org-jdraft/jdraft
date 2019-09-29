@@ -1082,7 +1082,7 @@ public final class $stmt<T extends Statement>
      * @return 
      */
     @Override
-    public Select<T> selectFirstIn( _java _j){
+    public Select<T> selectFirstIn( _meta_model _j){
         if( _j instanceof _code ){
             _code _c = (_code) _j;
             if( _c.isTopLevel() ){
@@ -1115,7 +1115,7 @@ public final class $stmt<T extends Statement>
      * @param selectConstraint
      * @return 
      */
-    public Select<T> selectFirstIn( _java _n, Predicate<Select<T>> selectConstraint ){
+    public Select<T> selectFirstIn( _meta_model _n, Predicate<Select<T>> selectConstraint ){
         if( _n instanceof _code ){
             if( ((_code) _n).isTopLevel()){
                 return selectFirstIn( ((_code) _n).astCompilationUnit(), selectConstraint );
@@ -1206,7 +1206,7 @@ public final class $stmt<T extends Statement>
      * @param selectedActionFn
      * @return 
      */
-    public <_J extends _java> _J forSelectedIn(_J _j, Consumer<Select<T>> selectedActionFn){
+    public <_J extends _meta_model> _J forSelectedIn(_J _j, Consumer<Select<T>> selectedActionFn){
         _walk.in(_j, this.statementClass, e->{
             Select<T> sel = select( e );
             if( sel != null ){
@@ -1253,7 +1253,7 @@ public final class $stmt<T extends Statement>
      * @param selectedActionFn
      * @return 
      */
-    public <_J extends _java> _J forSelectedIn(_J _j, Predicate<Select<T>> selectConstraint, Consumer<Select<T>> selectedActionFn){
+    public <_J extends _meta_model> _J forSelectedIn(_J _j, Predicate<Select<T>> selectConstraint, Consumer<Select<T>> selectedActionFn){
         _walk.in(_j, this.statementClass, e->{
             Select<T> sel = select( e );
             if( sel != null && selectConstraint.test(sel)){
@@ -1323,7 +1323,7 @@ public final class $stmt<T extends Statement>
      * @param selectConstraint
      * @return 
      */
-    public List<Select<T>> listSelectedIn(_java _j, Predicate<Select<T>> selectConstraint ){
+    public List<Select<T>> listSelectedIn(_meta_model _j, Predicate<Select<T>> selectConstraint ){
         List<Select<T>>sts = new ArrayList<>();
         _walk.in(_j, this.statementClass, st->{
             Select sel = select(st);
@@ -1361,7 +1361,7 @@ public final class $stmt<T extends Statement>
      * @param $repl
      * @return 
      */
-    public <_J extends _java> _J replaceIn(_J _j, $stmt $repl ){
+    public <_J extends _meta_model> _J replaceIn(_J _j, $stmt $repl ){
         $stmts $sn = new $stmts($repl);
         return replaceIn(_j, $sn);
     }
@@ -1373,7 +1373,7 @@ public final class $stmt<T extends Statement>
      * @param statment_s
      * @return 
      */
-    public <_J extends _java> _J replaceIn(_J _j, String... statment_s ){
+    public <_J extends _meta_model> _J replaceIn(_J _j, String... statment_s ){
         $stmts $sn = $stmts.of(statment_s);
         return replaceIn(_j, $sn);
     }    
@@ -1385,7 +1385,7 @@ public final class $stmt<T extends Statement>
      * @param $protoReplacement
      * @return 
      */
-    public <_J extends _java> _J replaceIn(_J _j, $stmts $protoReplacement ){
+    public <_J extends _meta_model> _J replaceIn(_J _j, $stmts $protoReplacement ){
         AtomicInteger ai = new AtomicInteger(0);
         _walk.in(_j, this.statementClass, st->{
             $stmt.Select sel = select( st );

@@ -255,7 +255,7 @@ public final class _parameter
      * @param <_HP>
      */
     public interface _hasParameters<_HP extends _hasParameters>
-        extends _java {
+        extends _meta_model {
 
         _parameters getParameters();
         
@@ -382,7 +382,7 @@ public final class _parameter
      * @author Eric
      */
     public static final class _parameters
-            implements _java {
+            implements _meta_model {
 
         /**
          *

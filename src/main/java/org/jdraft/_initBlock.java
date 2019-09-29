@@ -301,7 +301,7 @@ public final class _initBlock
      * @param <_HIB>
      */
     public interface _hasInitBlocks<_HIB extends _hasInitBlocks & _type>
-            extends _java {
+            extends _meta_model {
 
         /** 
          * returns the static Blocks on the _type (ordered by when they are declared) 

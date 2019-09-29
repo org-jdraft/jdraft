@@ -499,7 +499,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         parts.put( _java.Component.METHODS, this.listMethods() );
         parts.put( _java.Component.FIELDS, this.listFields() );
         parts.put( _java.Component.NESTS, this.listNests() );
-        parts.put( Component.COMPANION_TYPES, this.listCompanionTypes());
+        parts.put( _java.Component.COMPANION_TYPES, this.listCompanionTypes());
         return parts;
     }
 

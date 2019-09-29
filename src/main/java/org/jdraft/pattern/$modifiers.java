@@ -126,7 +126,7 @@ public final class $modifiers
         $modifiers $ms = $modifiers.of();
         _modifiers _ms = _modifiers.of(keywords);
 
-        Arrays.stream( _ms.asKeywords() ).forEach(m -> $ms.mustExclude.add( _modifiers.KEYWORD_TO_ENUM_MAP.get(m) ) );
+        Arrays.stream( _ms.asKeywords() ).forEach(m -> $ms.mustExclude.add( Ast.MODS_KEYWORD_TO_ENUM_MAP.get(m) ) );
         return $ms;
     }
 
@@ -357,7 +357,7 @@ public final class $modifiers
         return (_CT)forSelectedIn((_type)_java.type(clazz), selectConstraint, selectActionFn);
     }
     
-    public <_J extends _java> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
+    public <_J extends _meta_model> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
         return _walk.in(_j,
             NodeWithModifiers.class, 
             nwm->{
@@ -385,7 +385,7 @@ public final class $modifiers
      * @param selectActionFn
      * @return 
      */
-    public <_J extends _java> _J forSelectedIn(_J _j, Consumer<Select> selectActionFn) {
+    public <_J extends _meta_model> _J forSelectedIn(_J _j, Consumer<Select> selectActionFn) {
         return _walk.in(_j,
             NodeWithModifiers.class, 
             nwm->{
@@ -412,7 +412,7 @@ public final class $modifiers
         }
     }
 
-    public boolean match( _java _j ) {
+    public boolean match( _meta_model _j ) {
         if (_j instanceof _modifiers) {
             return matches( (_modifiers)_j);
         }

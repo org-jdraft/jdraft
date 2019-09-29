@@ -17,7 +17,7 @@ import java.util.Objects;
  * @author Eric
  * @param <_N>
  */
-public interface _named<_N extends _named> extends _java {
+public interface _named<_N extends _named> extends _meta_model {
 
     /**
      * @param name set the name on the entity and return the modified entity

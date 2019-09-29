@@ -166,7 +166,7 @@ public final class $typeUse {
         return sel;
     }
     
-    public <_J extends _java> _J replaceIn(_J _j, Class replacement) {
+    public <_J extends _meta_model> _J replaceIn(_J _j, Class replacement) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 replaceIn( ((_code) _j).astCompilationUnit(), replacement);
@@ -222,7 +222,7 @@ public final class $typeUse {
         return (_CT)replaceIn( (_type)_java.type(clazz), replacement);
     }
     
-    public <_J extends _java> _J replaceIn(_J _j, String replacement) {
+    public <_J extends _meta_model> _J replaceIn(_J _j, String replacement) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 replaceIn( ((_code) _j).astCompilationUnit(), replacement);
@@ -242,7 +242,7 @@ public final class $typeUse {
         return astRootNode;
     }
 
-    public <_J extends _java> _J replaceIn(_J _j, Node replacement) {
+    public <_J extends _meta_model> _J replaceIn(_J _j, Node replacement) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 replaceIn( ((_code) _j).astCompilationUnit(), replacement);
@@ -360,28 +360,28 @@ public final class $typeUse {
         return uniqueSels;        
     }
     
-    public <_J extends _java> _J forEachIn(_J _j, Consumer<Node> nodeActionFn ) {
+    public <_J extends _meta_model> _J forEachIn(_J _j, Consumer<Node> nodeActionFn ) {
         $fullName.forEachIn(_j, nodeActionFn);
         $memberNames.forEach(n -> n.forEachIn(_j, nodeActionFn ) );
         $simpleName.forEachIn(_j, nodeActionFn);
         return _j;
     }
     
-    public <_J extends _java> _J forSelectedIn(_J _j, Consumer<$node.Select> selectActionFn ) {
+    public <_J extends _meta_model> _J forSelectedIn(_J _j, Consumer<$node.Select> selectActionFn ) {
         $fullName.forSelectedIn(_j, selectActionFn);
         $memberNames.forEach( e-> e.forSelectedIn(_j, selectActionFn) );
         $simpleName.forSelectedIn(_j, selectActionFn);
         return _j;
     }
      
-    public <_J extends _java> _J forSelectedIn(_J _j, Predicate<$node.Select> selectConstraint, Consumer<$node.Select> selectActionFn ) {
+    public <_J extends _meta_model> _J forSelectedIn(_J _j, Predicate<$node.Select> selectConstraint, Consumer<$node.Select> selectActionFn ) {
         $fullName.forSelectedIn(_j, selectConstraint, selectActionFn);
         $memberNames.forEach( e-> e.forSelectedIn(_j, selectConstraint, selectActionFn) );
         $simpleName.forSelectedIn(_j, selectConstraint, selectActionFn);
         return _j;
     }
     
-    public <_J extends _java> List<$node.Select> listSelectedIn(_J _j){
+    public <_J extends _meta_model> List<$node.Select> listSelectedIn(_J _j){
         List<$node.Select> sels = new ArrayList<>();
         sels.addAll( $fullName.listSelectedIn(_j) );
         $memberNames.forEach( e-> sels.addAll( e.listSelectedIn(_j) ) );
@@ -392,7 +392,7 @@ public final class $typeUse {
         return res;               
     }
     
-    public <_J extends _java> List<$node.Select> listSelectedIn(_J _j, Predicate<$node.Select> selectConstraint){
+    public <_J extends _meta_model> List<$node.Select> listSelectedIn(_J _j, Predicate<$node.Select> selectConstraint){
         List<$node.Select> sels = new ArrayList<>();
         sels.addAll( $fullName.listSelectedIn(_j, selectConstraint) );
         $memberNames.forEach( e-> sels.addAll( e.listSelectedIn(_j) ) );

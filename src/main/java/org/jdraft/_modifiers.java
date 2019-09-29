@@ -12,7 +12,7 @@ import java.util.*;
  *
  * @author Eric
  */
-public final class _modifiers implements _java {
+public final class _modifiers implements _meta_model {
 
     /** Making the internal AST modifiers more accessible */
     public static final Modifier PUBLIC = Modifier.publicModifier();
@@ -83,7 +83,7 @@ public final class _modifiers implements _java {
     }
 
     public _modifiers set( String keyword ) {
-        com.github.javaparser.ast.Modifier m = KEYWORD_TO_ENUM_MAP.get( keyword );
+        com.github.javaparser.ast.Modifier m = Ast.MODS_KEYWORD_TO_ENUM_MAP.get( keyword );
         if( m == null ) {
             throw new IllegalArgumentException( "invalid modifier keyword \"" + keyword + "\"" );
         }
@@ -92,7 +92,7 @@ public final class _modifiers implements _java {
     }
 
     public _modifiers unset( String keyword ) {
-        com.github.javaparser.ast.Modifier m = KEYWORD_TO_ENUM_MAP.get( keyword );
+        com.github.javaparser.ast.Modifier m = Ast.MODS_KEYWORD_TO_ENUM_MAP.get( keyword );
         if( m == null ) {
             throw new IllegalArgumentException( "invalid modifier keyword \"" + keyword + "\"" );
         }
@@ -399,7 +399,7 @@ public final class _modifiers implements _java {
         for( int i = 0; i < count; i++ ) {
             //bithacks: isolate the rightmost bit
             int nextBit = theMods & -theMods;
-            keywords[ i ] = (BIT_TO_KEYWORD_MAP.get( nextBit ));
+            keywords[ i ] = (Ast.MODS_BIT_TO_KEYWORD_MAP.get( nextBit ));
 
             //bithacks: turn off the rightmost bit
             theMods = theMods & (theMods - 1);
@@ -418,7 +418,7 @@ public final class _modifiers implements _java {
             if( !first ) {
                 sb.append( " " );
             }
-            sb.append( BIT_TO_KEYWORD_MAP.get( nextBit ) );
+            sb.append( Ast.MODS_BIT_TO_KEYWORD_MAP.get( nextBit ) );
 
             //bithacks: turn off the rightmost bit
             theMods = theMods & (theMods - 1);
@@ -453,85 +453,7 @@ public final class _modifiers implements _java {
         return false;
     }
     
-    public static final Map<String, Integer> KEYWORD_TO_BIT_MAP = new HashMap<String, Integer>();
-    public static final Map<Integer, String> BIT_TO_KEYWORD_MAP = new HashMap<Integer, String>();
-    public static final Map<Integer, com.github.javaparser.ast.Modifier> BIT_TO_ENUM_MAP = new HashMap<>();
-    public static final Map<String, com.github.javaparser.ast.Modifier> KEYWORD_TO_ENUM_MAP = new HashMap<>();
-    public static final Map<com.github.javaparser.ast.Modifier, String> ENUM_TO_KEYWORD_MAP = new HashMap<>();
-
-
-    static {
-        KEYWORD_TO_BIT_MAP.put( "public", java.lang.reflect.Modifier.PUBLIC );
-        BIT_TO_KEYWORD_MAP.put( java.lang.reflect.Modifier.PUBLIC, "public" );
-        BIT_TO_ENUM_MAP.put( java.lang.reflect.Modifier.PUBLIC, com.github.javaparser.ast.Modifier.publicModifier() );
-        ENUM_TO_KEYWORD_MAP.put( com.github.javaparser.ast.Modifier.publicModifier(), "public" );
-        KEYWORD_TO_ENUM_MAP.put( "public", com.github.javaparser.ast.Modifier.publicModifier() );
-
-        KEYWORD_TO_BIT_MAP.put( "protected", java.lang.reflect.Modifier.PROTECTED );
-        BIT_TO_KEYWORD_MAP.put( java.lang.reflect.Modifier.PROTECTED, "protected" );
-        BIT_TO_ENUM_MAP.put( java.lang.reflect.Modifier.PROTECTED, com.github.javaparser.ast.Modifier.protectedModifier() );
-        ENUM_TO_KEYWORD_MAP.put( com.github.javaparser.ast.Modifier.protectedModifier(), "protected" );
-        KEYWORD_TO_ENUM_MAP.put( "protected", com.github.javaparser.ast.Modifier.protectedModifier() );
-
-        KEYWORD_TO_BIT_MAP.put( "private", java.lang.reflect.Modifier.PRIVATE );
-        BIT_TO_KEYWORD_MAP.put( java.lang.reflect.Modifier.PRIVATE, "private" );
-        BIT_TO_ENUM_MAP.put( java.lang.reflect.Modifier.PRIVATE, com.github.javaparser.ast.Modifier.privateModifier() );
-        KEYWORD_TO_ENUM_MAP.put( "private", com.github.javaparser.ast.Modifier.privateModifier() );
-        ENUM_TO_KEYWORD_MAP.put( com.github.javaparser.ast.Modifier.privateModifier(), "private" );
-
-        KEYWORD_TO_BIT_MAP.put( "static", java.lang.reflect.Modifier.STATIC );
-        BIT_TO_KEYWORD_MAP.put( java.lang.reflect.Modifier.STATIC, "static" );
-        BIT_TO_ENUM_MAP.put( java.lang.reflect.Modifier.STATIC, com.github.javaparser.ast.Modifier.staticModifier() );
-        KEYWORD_TO_ENUM_MAP.put( "static", com.github.javaparser.ast.Modifier.staticModifier() );
-        ENUM_TO_KEYWORD_MAP.put( com.github.javaparser.ast.Modifier.staticModifier(), "static" );
-
-        KEYWORD_TO_BIT_MAP.put( "synchronized", java.lang.reflect.Modifier.SYNCHRONIZED );
-        BIT_TO_KEYWORD_MAP.put( java.lang.reflect.Modifier.SYNCHRONIZED, "synchronized" );
-        BIT_TO_ENUM_MAP.put( java.lang.reflect.Modifier.SYNCHRONIZED, com.github.javaparser.ast.Modifier.synchronizedModifier() );
-        KEYWORD_TO_ENUM_MAP.put( "synchronized", com.github.javaparser.ast.Modifier.synchronizedModifier() );
-        ENUM_TO_KEYWORD_MAP.put( com.github.javaparser.ast.Modifier.synchronizedModifier(), "synchronized" );
-
-        KEYWORD_TO_BIT_MAP.put( "abstract", java.lang.reflect.Modifier.ABSTRACT );
-        BIT_TO_KEYWORD_MAP.put( java.lang.reflect.Modifier.ABSTRACT, "abstract" );
-        BIT_TO_ENUM_MAP.put( java.lang.reflect.Modifier.ABSTRACT, com.github.javaparser.ast.Modifier.abstractModifier() );
-        KEYWORD_TO_ENUM_MAP.put( "abstract", com.github.javaparser.ast.Modifier.abstractModifier() );
-        ENUM_TO_KEYWORD_MAP.put( com.github.javaparser.ast.Modifier.abstractModifier(), "abstract" );
-
-        KEYWORD_TO_BIT_MAP.put( "final", java.lang.reflect.Modifier.FINAL );
-        BIT_TO_KEYWORD_MAP.put( java.lang.reflect.Modifier.FINAL, "final" );
-        BIT_TO_ENUM_MAP.put( java.lang.reflect.Modifier.FINAL, com.github.javaparser.ast.Modifier.finalModifier() );
-        KEYWORD_TO_ENUM_MAP.put( "final", com.github.javaparser.ast.Modifier.finalModifier() );
-        ENUM_TO_KEYWORD_MAP.put( com.github.javaparser.ast.Modifier.finalModifier(), "final" );
-
-        KEYWORD_TO_BIT_MAP.put( "native", java.lang.reflect.Modifier.NATIVE );
-        BIT_TO_KEYWORD_MAP.put( java.lang.reflect.Modifier.NATIVE, "native" );
-        BIT_TO_ENUM_MAP.put( java.lang.reflect.Modifier.NATIVE, com.github.javaparser.ast.Modifier.nativeModifier() );
-        KEYWORD_TO_ENUM_MAP.put( "native", com.github.javaparser.ast.Modifier.nativeModifier() );
-        ENUM_TO_KEYWORD_MAP.put( com.github.javaparser.ast.Modifier.nativeModifier(), "native" );
-
-        KEYWORD_TO_BIT_MAP.put( "transient", java.lang.reflect.Modifier.TRANSIENT );
-        BIT_TO_KEYWORD_MAP.put( java.lang.reflect.Modifier.TRANSIENT, "transient" );
-        BIT_TO_ENUM_MAP.put( java.lang.reflect.Modifier.TRANSIENT, com.github.javaparser.ast.Modifier.transientModifier() );
-        KEYWORD_TO_ENUM_MAP.put( "transient", com.github.javaparser.ast.Modifier.transientModifier() );
-        ENUM_TO_KEYWORD_MAP.put( com.github.javaparser.ast.Modifier.transientModifier(), "transient" );
-
-        KEYWORD_TO_BIT_MAP.put( "volatile", java.lang.reflect.Modifier.VOLATILE );
-        BIT_TO_KEYWORD_MAP.put( java.lang.reflect.Modifier.VOLATILE, "volatile" );
-        BIT_TO_ENUM_MAP.put( java.lang.reflect.Modifier.VOLATILE, com.github.javaparser.ast.Modifier.volatileModifier() );
-        KEYWORD_TO_ENUM_MAP.put( "volatile", com.github.javaparser.ast.Modifier.volatileModifier() );
-
-        KEYWORD_TO_BIT_MAP.put( "strictfp", java.lang.reflect.Modifier.STRICT );
-        BIT_TO_KEYWORD_MAP.put( java.lang.reflect.Modifier.STRICT, "strictfp" );
-        BIT_TO_ENUM_MAP.put( java.lang.reflect.Modifier.STRICT, com.github.javaparser.ast.Modifier.strictfpModifier() );
-        KEYWORD_TO_ENUM_MAP.put( "strictfp", com.github.javaparser.ast.Modifier.strictfpModifier() );
-        ENUM_TO_KEYWORD_MAP.put( com.github.javaparser.ast.Modifier.strictfpModifier(), "strictfp" );
-
-        //ANY_FOR DEFAULT INTERFACES
-        KEYWORD_TO_BIT_MAP.put( "default", 1 << 12 );
-        BIT_TO_KEYWORD_MAP.put( 1 << 12, "default" );
-        //BIT_TO_ENUM_MAP.put( 1 << 12, com.github.javaparser.ast.Modifier );
-        //KEYWORD_TO_ENUM_MAP.put( "default", com.github.javaparser.ast.Modifier.DEFAULT );
-    }
+    
     
     /**
      *
@@ -539,7 +461,7 @@ public final class _modifiers implements _java {
      * @param <_HM> the target TYPE
      */
     public interface _hasModifiers<_HM extends _hasModifiers>
-        extends _java {
+        extends _meta_model {
         
         /**
          * gets the explicitly set modifiers for the node
@@ -556,7 +478,7 @@ public final class _modifiers implements _java {
             NodeList<Modifier> effective = getEffectiveModifiers();
             int bitMask = 0;
             for(int i=0;i<effective.size();i++){
-                bitMask |= KEYWORD_TO_BIT_MAP.get( effective.get(i).getKeyword().asString() );
+                bitMask |= Ast.MODS_KEYWORD_TO_BIT_MAP.get( effective.get(i).getKeyword().asString() );
             }
             return bitMask;            
         } 

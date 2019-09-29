@@ -419,7 +419,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         parts.put( _java.Component.FIELDS, this.listFields() );
         parts.put( _java.Component.METHODS, this.listMethods() );
         parts.put( _java.Component.NESTS, this.listNests() );
-        parts.put( Component.COMPANION_TYPES, this.listCompanionTypes() );
+        parts.put( _java.Component.COMPANION_TYPES, this.listCompanionTypes() );
         return parts;
     }
 

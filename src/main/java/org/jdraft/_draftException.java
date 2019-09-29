@@ -1,14 +1,12 @@
 package org.jdraft;
 
-import org.jdraft.runtime._runtimeException;
-
 /**
  * Base RuntimeException for the jdraft tool(s)
  *
  * Often used to wrap lower level exceptions (IOException, JavaParserException)
  * from being thrown, or extended
  *
- * @see _runtimeException
+ * @see org.jdraft.runtime._runtimeException
  * @see org.jdraft.io._ioException
  *
  * @author M. Eric DeFazio

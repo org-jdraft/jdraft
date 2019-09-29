@@ -291,11 +291,11 @@ public class _import implements _node<ImportDeclaration, _import> {
     }
 
     @Override
-    public Map<Component, Object> components() {
-        Map<Component,Object>components = new HashMap<>();
-        components.put(Component.NAME, this.astId.getNameAsString());
-        components.put(Component.STATIC, this.astId.isStatic());
-        components.put(Component.WILDCARD, this.astId.isAsterisk());
+    public Map<_java.Component, Object> components() {
+        Map<_java.Component,Object>components = new HashMap<>();
+        components.put(_java.Component.NAME, this.astId.getNameAsString());
+        components.put(_java.Component.STATIC, this.astId.isStatic());
+        components.put(_java.Component.WILDCARD, this.astId.isAsterisk());
         return components;
     }
 
@@ -303,7 +303,7 @@ public class _import implements _node<ImportDeclaration, _import> {
      * mutable grouping of ImportDeclarations applied to an Ast CompilationUnit
      * 
      */
-    public static class _imports implements _java {
+    public static class _imports implements _meta_model {
 
         public static _imports of( CompilationUnit cu ){
             return new _imports(cu);

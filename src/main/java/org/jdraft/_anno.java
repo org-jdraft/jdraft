@@ -391,11 +391,11 @@ public final class _anno
         return false;
     }
 
-    public Object get(Component component){
-        if( component == Component.NAME ){
+    public Object get(_java.Component component){
+        if( component == _java.Component.NAME ){
             return this.getName();
         }
-        if( component == Component.KEY_VALUES ){
+        if( component == _java.Component.KEY_VALUES ){
             if( this.astAnno instanceof NormalAnnotationExpr ){
                 NormalAnnotationExpr nae = (NormalAnnotationExpr)this.astAnno;
                 return nae.getPairs();
@@ -709,7 +709,7 @@ public final class _anno
      * @param <_HA> the container type (that has Annos)
      */
     public interface _hasAnnos<_HA extends _hasAnnos>
-        extends _java {
+        extends _meta_model {
         
         /**
          * @return the annos
@@ -977,7 +977,7 @@ public final class _anno
      *
      */
     public static class _annos
-        implements _java {
+        implements _meta_model {
 
         /** A reference to the container entity that is being annotated*/
         public final NodeWithAnnotations astAnnNode;

@@ -10,6 +10,7 @@ import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
+import org.jdraft._java.*;
 import com.github.javaparser.utils.Log;
 import org.jdraft._anno.*;
 import org.jdraft.io._in;
@@ -773,10 +774,10 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     @Override
     public Map<_java.Component, Object> components( ) {
         Map<_java.Component, Object> parts = new HashMap<>();
-        parts.put( Component.HEADER_COMMENT, this.getHeaderComment() );
-        parts.put( Component.PACKAGE, this.getPackage() );
-        parts.put( Component.IMPORTS, this.getImports().list() );
-        parts.put( Component.ANNOS, this.listAnnos() );
+        parts.put(_java.Component.HEADER_COMMENT, this.getHeaderComment() );
+        parts.put( _java.Component.PACKAGE, this.getPackage() );
+        parts.put( _java.Component.IMPORTS, this.getImports().list() );
+        parts.put( _java.Component.ANNOS, this.listAnnos() );
         parts.put( Component.EXTENDS, this.astClass.getExtendedTypes() );
         parts.put( Component.IMPLEMENTS, this.listImplements() );
         parts.put( Component.JAVADOC, this.getJavadoc() );

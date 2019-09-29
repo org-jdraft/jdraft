@@ -508,7 +508,7 @@ public final class _method
      * @param <_HM>
      */
     public interface _hasMethods<_HM extends _hasMethods>
-            extends _java {
+            extends _meta_model {
 
         List<_method> listMethods();
 

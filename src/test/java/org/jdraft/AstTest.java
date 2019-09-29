@@ -21,6 +21,7 @@ import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.TypeParameter;
+import com.github.javaparser.utils.Log;
 import junit.framework.TestCase;
 import org.jdraft.pattern.$stmt;
 
@@ -33,7 +34,53 @@ import java.util.function.Consumer;
  * @author Eric
  */
 public class AstTest extends TestCase {
+    //NOTE: this is sensititve to lines in file method should start at
+    //IF YOU REFACTOR THIS CODE YOU NEED TO UPDATE THE VALUE OF THIS_LINE_NUMBER
+    public void testAt(){
+/*<--*/ int THIS_LINE_NUMBER = 40; //<-- THIS VALUE IS SENSITIVE TO THE LINE NUMBER
+        Node n = Ast.at(AstTest.class, THIS_LINE_NUMBER, 9);
+        assertNotNull(n);
+        assertNotNull( Ast.at(AstTest.class, THIS_LINE_NUMBER, 9) );
+        MethodDeclaration m = Ast.memberAt(AstTest.class, THIS_LINE_NUMBER, 9);
+        assertTrue( m.getNameAsString().equals("testAt"));
+        MethodDeclaration md = Ast.memberAt(n, 40);
+        assertEquals("testAt", md.getNameAsString());
 
+        Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
+        md = Ast.memberAt(Ast.of(AstTest.class), 39);
+        Log.setAdapter(new Log.SilentAdapter());
+        assertEquals("testAt", md.getNameAsString());
+    }
+
+    public void testAtLineOnly(){
+        /*<--*/ int THIS_LINE_NUMBER = 56; //<-- THIS VALUE IS SENSITIVE TO THE LINE NUMBER
+        CompilationUnit cu = Ast.of(AstTest.class);
+        assertEquals( 1, cu.getType(0).getMethodsByName("testAtLineOnly").size());
+        MethodDeclaration md = Ast.memberAt(cu, THIS_LINE_NUMBER);
+        assertEquals("testAtLineOnly",md.getNameAsString());
+        Statement st = Ast.at(cu, 56);
+        assertNotNull( st );
+        System.out.println( st );
+    }
+
+    public void testP( ){
+        CompilationUnit cu = Ast.of(AstTest.class);
+        cu.walk(VariableDeclarationExpr.class, v -> System.out.println(v + " "+ v.getRange().get()));
+    }
+
+    public void testMemberAt(){
+        CompilationUnit cu = Ast.of(
+                "class C{ ",
+                "int f=1;",
+                "}");
+        Ast.memberAt(cu, 1);
+        System.out.println( cu.getRange().get() );
+
+        Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
+        Ast.memberAt(cu, 1);
+        Log.setAdapter(new Log.SilentAdapter());
+
+    }
 
     /**
     @interface ann2{
@@ -96,16 +143,7 @@ public class AstTest extends TestCase {
                         ClassOrInterfaceDeclaration.class, c-> c.getNameAsString().equals("V")) );
     }
 
-    //NOTE: this is sensititve to lines in file method should start at 78
-    public void testAt(){
-        Node n = Ast.at(AstTest.class, 79, 9);
-        assertNotNull(n);
 
-        assertNotNull( Ast.at(AstTest.class, 79, 5) );
-
-        MethodDeclaration m = Ast.memberAt(AstTest.class, 103, 9);
-        assertTrue( m.getNameAsString().equals("testAt"));
-    }
 
     //within(Range)
 

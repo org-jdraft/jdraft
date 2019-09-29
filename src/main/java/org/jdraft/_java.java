@@ -17,6 +17,8 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.type.*;
 
 import static org.jdraft.Ast.*;
+
+import com.github.javaparser.utils.Log;
 import org.jdraft._anno._annos;
 import org.jdraft._anno._hasAnnos;
 import org.jdraft._annotation._element;
@@ -38,13 +40,18 @@ import org.jdraft.io._io;
 import org.jdraft.macro.macro;
 
 /**
+ * <P>A "Meta-Model" implementation/view of entities for representing java source code
+ * in a concrete way that sits "above" that AST implementation
  * API adapting the access & manipulation of an interconnected nodes of an AST
- * as an intuitive logical model
+ * as an intuitive logical model.
  *
- * Logical Facade instances store NO DATA, but references(s) into
+ * <P>Logical Facade instances store NO DATA, but references(s) into
  * {@link com.github.javaparser.ast.Node}s of the AST, and
  * provide a simple API to query or manipulate the AST as is it were
  * a simple Dto or VALUE object.
+ *
+ * <P>To put it another way, _java models that DO HAVE STATE STORED IN THE UNDERLYING AST,
+ * but that state is (so each entity has a pointer to an AST Node that can be operated on)
  *
  * The purpose of these nested interfaces is to define the relationship between
  * the AST Node(s) and the Logical entities... and trying to provide consistency
@@ -84,7 +91,7 @@ public interface _java {
      * @param <_J> the expected _java node type
      * @return true if the parent node exists, is of a particular type and complies with the predicate
      */
-    static <_J extends _java> boolean isParent( _java _j, Class<_J> parentNodeClass, Predicate<_J> parentMatchFn){
+    static <_J extends _meta_model> boolean isParent( _meta_model _j, Class<_J> parentNodeClass, Predicate<_J> parentMatchFn){
         if( _j instanceof _node ){
             AtomicBoolean ans = new AtomicBoolean(false);
             _walk.in_java(Node.TreeTraversal.PARENTS, 1, ((_node)_j).ast(), parentNodeClass, parentMatchFn, (t)-> ans.set(true) );
@@ -121,7 +128,7 @@ public interface _java {
      * @param <T> the match type
      * @return true if
      */
-    static <T> boolean hasAncestor( _java _j, Class<T> type, Predicate<T> matchFn){
+    static <T> boolean hasAncestor(  _meta_model _j, Class<T> type, Predicate<T> matchFn){
         return _walk.first(Node.TreeTraversal.PARENTS, _j, type, matchFn) != null;
     }
 
@@ -135,7 +142,7 @@ public interface _java {
      * @param <T> the match type
      * @return
      */
-    static <T> boolean hasDescendant(_java _j, Class<T> type, Predicate<T> matchFn) {
+    static <T> boolean hasDescendant( _meta_model _j, Class<T> type, Predicate<T> matchFn) {
         return _walk.first(Node.TreeTraversal.POSTORDER,_j, type, matchFn) != null;
     }
 
@@ -148,7 +155,7 @@ public interface _java {
      * @param <T> the match type
      * @return
      */
-    static <T> boolean hasChild(_java _j, Class<T> type, Predicate<T> matchFn) {
+    static <T> boolean hasChild( _meta_model _j, Class<T> type, Predicate<T> matchFn) {
         return _walk.first(Node.TreeTraversal.DIRECT_CHILDREN,_j, type, matchFn) != null;
     }
 
@@ -156,7 +163,7 @@ public interface _java {
      *
      * @param _j
      */
-    static void describe( _java _j ){
+    static void describe( _meta_model _j ){
         if( _j instanceof _code && ((_code) _j).isTopLevel() ){
             Ast.describe( ((_code) _j).astCompilationUnit());
         }
@@ -440,7 +447,7 @@ public interface _java {
      */
     static Node node(Class nodeClass, String... code) {
         
-        if (!_java.class.isAssignableFrom(nodeClass)) {
+        if (! _meta_model.class.isAssignableFrom(nodeClass)) {
             return Ast.nodeOf(nodeClass, code);
         }
         if (_import.class == nodeClass) {
@@ -512,7 +519,7 @@ public interface _java {
      * @param astNode the ast node
      * @return the _model entity
      */
-    static _java of(Node astNode) {
+    static  _meta_model of(Node astNode) {
         if (astNode instanceof ImportDeclaration ){
             return _import.of((ImportDeclaration) astNode);
         }
@@ -647,12 +654,115 @@ public interface _java {
      * @param _j
      * @param labelName
      */
-    static void flattenLabel( _java _j, String labelName){
+    static void flattenLabel( _meta_model _j, String labelName){
         if( _j instanceof _node ){
             Ast.flattenLabel( ((_node)_j).ast(), labelName);
             return;
         }
         throw new _draftException("cannot flatten a label :"+labelName+" from "+ _j.getClass());
+    }
+
+    /**
+     * return a member (method, field, constructor, staticBlock)
+     *
+     * @see _type
+     * @see _enum
+     * @see _class
+     * @see _interface
+     * @see _annotation
+     * @see _method
+     * @see _field
+     * @see _initBlock
+     * @see _enum._constant
+     * @see _annotation._element
+     *
+     * @param clazz
+     * @param line
+     * @param column
+     * @param <_M>
+     * @return
+     */
+    static <_M extends _member> _M  memberAt(Class clazz, int line, int column) {
+        return memberAt( Ast.of(clazz), Math.max( line, 1), column);
+    }
+
+    /**
+     * finds the closest member CONTAINING this position and returns it (or null if the position is outside for range)
+     *
+     * @see _type
+     * @see _enum
+     * @see _class
+     * @see _interface
+     * @see _annotation
+     * @see _method
+     * @see _field
+     * @see _initBlock
+     * @see _enum._constant
+     * @see _annotation._element
+     *
+     * @param top the top node
+     * @param line a 1-based line number (we start with line 1)
+     * @param column the column within the file
+     * @param <_M> a _member implementation
+     * @return
+     */
+    static <_M extends _member> _M  memberAt(Node top, int line, int column) {
+        BodyDeclaration astM = Ast.memberAt(top, line, column);
+        if( astM == null ){
+            return null;
+        }
+        return (_M)_java.of(astM);
+    }
+
+    /**
+     * return a member (method, field, constructor, staticBlock)
+     *
+     * @see _type
+     * @see _enum
+     * @see _class
+     * @see _interface
+     * @see _annotation
+     * @see _method
+     * @see _field
+     * @see _initBlock
+     * @see _enum._constant
+     * @see _annotation._element
+     *
+     * @param clazz the runtime Class
+     * @param line a 1-based line number (we start with line 1)
+     * @param <_M> a _member implementation
+     * @return
+     */
+    static <_M extends _member> _M memberAt(Class clazz, int line ) {
+        return memberAt( Ast.of(clazz), line);
+    }
+
+    /**
+     * finds the closest/most specific _java _member CONTAINING this position and
+     * returns it (or null if the position is outside for range)
+     *
+     * @see _type
+     * @see _enum
+     * @see _class
+     * @see _interface
+     * @see _annotation
+     * @see _method
+     * @see _field
+     * @see _initBlock
+     * @see _enum._constant
+     * @see _annotation._element
+     *
+     * @param top the top node
+     * @param line a 1-based line number (we start with line 1)
+     * @param <_M> a _member implementation
+     * @return an instance of a BodyDeclaration AST Node (or null if not found)
+     */
+    static <_M extends _member> _M memberAt(Node top, int line ) {
+        BodyDeclaration astM = Ast.memberAt(top, line);
+        if( astM == null ){
+            return null;
+        }
+        return (_M)_java.of(astM);
     }
 
     /**
@@ -860,7 +970,7 @@ public interface _java {
      * @param commentMatchFn
      * @return
      */
-    static <C extends Comment, _J extends _java> List<C> listComments(
+    static <C extends Comment, _J extends _meta_model> List<C> listComments(
             _J _j, Class<C> commentTargetClass, Predicate<C> commentMatchFn){
 
         if( _j instanceof _code ){
@@ -882,7 +992,7 @@ public interface _java {
      * @param commentMatchFn
      * @return
      */
-    static <_J extends _java> List<Comment> listComments(_J _j, Predicate<Comment> commentMatchFn){
+    static <_J extends _meta_model> List<Comment> listComments(_J _j, Predicate<Comment> commentMatchFn){
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel() ){
                 return Ast.listComments( ((_code) _j).astCompilationUnit(), commentMatchFn );
@@ -902,7 +1012,7 @@ public interface _java {
      * @param commentMatchFn
      * @param commentActionFn
      */
-    static <_J extends _java> void forComments(_J _j, Predicate<Comment> commentMatchFn, Consumer<Comment> commentActionFn ){
+    static <_J extends _meta_model> void forComments(_J _j, Predicate<Comment> commentMatchFn, Consumer<Comment> commentActionFn ){
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel() ){
                 Ast.forComments( ((_code) _j).astCompilationUnit(), commentMatchFn, commentActionFn);
@@ -924,7 +1034,7 @@ public interface _java {
      * @param commentMatchFn
      * @param commentActionFn
      */
-    static <C extends Comment, _J extends _java> void forComments(_J _j, Class<C> commentClass, Predicate<C> commentMatchFn, Consumer<C> commentActionFn ){
+    static <C extends Comment, _J extends _meta_model> void forComments(_J _j, Class<C> commentClass, Predicate<C> commentMatchFn, Consumer<C> commentActionFn ){
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel() ){
                 Ast.forComments( ((_code) _j).astCompilationUnit(), commentClass, commentMatchFn, commentActionFn);
@@ -961,7 +1071,7 @@ public interface _java {
      * @param _j
      * @return
      */
-    static <_J extends _java> List<Comment> listComments(_J _j){
+    static <_J extends _meta_model> List<Comment> listComments(_J _j){
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel() ){
                 return Ast.listComments( ((_code) _j).astCompilationUnit() );

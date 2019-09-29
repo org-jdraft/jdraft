@@ -71,12 +71,12 @@ public class _namedDiff implements _differ<String, _node> {
         
         
         @Override
-        public _java leftParent() {
+        public _meta_model leftParent() {
             return leftParent;
         }
 
         @Override
-        public _java rightParent() {
+        public _meta_model rightParent() {
             return rightParent;
         }
 

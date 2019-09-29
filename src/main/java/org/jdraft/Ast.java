@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.utils.Log;
 import org.jdraft.io._io;
 import org.jdraft.io._ioException;
 import org.jdraft.io._in;
@@ -521,10 +522,62 @@ public enum Ast {
      *
      * @param clazz the runtime class
      * @param line the line of the source code
+     * @return an AST node or null if the position is not within the Clazzes source code
+     */
+    public static <N extends Node> N at(Class clazz, int line) {
+        return at( of(clazz), line);
+    }
+
+    /**
+     * Given a class and a line/column find the "most specific" source code node at this (line) cursor position
+     *
+     * @param top the top node to search through
+     * @param line the line of the source code
+     * @return an AST node or null if the position is not within the Node
+     */
+    public static <N extends Node> N at(Node top, int line){
+        final int l = Math.max( Math.abs(line), 1);
+        Range r = new Range(new Position(l, 0), new Position(l, Integer.MAX_VALUE -1000));
+
+        List<Node> ns = top.findAll(Node.class, (Node n)-> n.getRange().isPresent()
+                        && (n.getRange().get().overlapsWith( r ) || r.overlapsWith( n.getRange().get() )) );
+        if( ns.isEmpty() ){
+            Log.error("None found at : %s ", ()-> l);
+            return null;
+        }
+        //the last node is the "most specific node", but lets climb up (parents)
+        //to find a parent that is on the start of the line that contains the small node
+
+        Node theLast = ns.get(ns.size() -1);
+        Node theFullLineNode  = theLast;
+        boolean done = false;
+
+        while( theFullLineNode.getParentNode().isPresent() && ! done ){
+            Node par = theFullLineNode.getParentNode().get();
+            if( par.getRange().isPresent() && (! (par instanceof CompilationUnit ))){
+                if( par.getRange().get().begin.line == line && par.getRange().get().end.line == line){
+                    theFullLineNode = par;
+                } else{
+                    done = true;
+                }
+            } else{
+                done = true;
+            }
+        }
+
+        return (N)theFullLineNode;
+    }
+
+    /**
+     * Given a class and a line/column find the "most specific" source code node at this (line:column) cursor position
+     *
+     * @param clazz the runtime class
+     * @param line the line of the source code
      * @param column the column cursor position within the source code
      * @return an AST node or null if the position is not within the Clazzes source code
      */
-    public static Node at(Class clazz, int line, int column) {
+    public static <N extends Node> N at(Class clazz, int line, int column) {
+        line = Math.max( Math.abs(line), 1);
         return at( of(clazz), line, column);
     }
 
@@ -535,8 +588,8 @@ public enum Ast {
      * @param column the column cursor position
      * @return an AST node or null if the position is not within the top node
      */
-    public static Node at(Node top, int line, int column){
-        Position p = new Position(line, column);
+    public static <N extends Node> N at(Node top, int line, int column){
+        Position p = new Position(Math.max( Math.abs(line), 1), column);
         List<Node> found = new ArrayList<>();
         top.walk( n-> {
             if( n.getRange().isPresent() && n.getRange().get().contains(p)){
@@ -553,7 +606,7 @@ public enum Ast {
         if( found.isEmpty() ){
             return null;
         }
-        return found.get(0);
+        return (N)found.get(0);
     }
 
     /**
@@ -576,7 +629,8 @@ public enum Ast {
      * @return
      */
     public static <M extends BodyDeclaration> M memberAt(Class clazz, int line, int column) {
-        return memberAt( Ast.of(clazz), line, column);
+        line = Math.max( Math.abs(line), 1); //make sure non negative line number (also non zero)
+        return memberAt( Ast.of(clazz), Math.max( line, 1), column);
     }
 
     /**
@@ -599,6 +653,7 @@ public enum Ast {
      * @return
      */
     public static <M extends BodyDeclaration> M memberAt(Node top, int line, int column) {
+        line = Math.max( Math.abs(line), 1);
         Node n = at( top, line, column);
         if( n == null ){
             return null;
@@ -607,6 +662,64 @@ public enum Ast {
             return (M)n;
         }
         return (M) n.stream(Node.TreeTraversal.PARENTS).filter( p -> p instanceof BodyDeclaration).findFirst().get();
+    }
+
+    /**
+     * return a member (method, field, constructor, staticBlock)
+     *
+     * @see TypeDeclaration
+     * @see EnumDeclaration
+     * @see ClassOrInterfaceDeclaration
+     * @see AnnotationDeclaration
+     * @see MethodDeclaration
+     * @see FieldDeclaration
+     * @see InitializerDeclaration
+     * @see EnumConstantDeclaration
+     * @see AnnotationMemberDeclaration
+     *
+     * @param clazz
+     * @param line
+     * @param <M>
+     * @return
+     */
+    public static <M extends BodyDeclaration> M memberAt(Class clazz, int line ) {
+        return memberAt( Ast.of(clazz), line);
+    }
+
+    /**
+     * finds the closest member CONTAINING this position and returns it (or null if the position is outside for range)
+     *
+     * @see TypeDeclaration
+     * @see EnumDeclaration
+     * @see ClassOrInterfaceDeclaration
+     * @see AnnotationDeclaration
+     * @see MethodDeclaration
+     * @see FieldDeclaration
+     * @see InitializerDeclaration
+     * @see EnumConstantDeclaration
+     * @see AnnotationMemberDeclaration
+     *
+     * @param top the top node
+     * @param line a 1-based line number (we start with line 1)
+     * @param <M> a BodyDeclaration (Member)
+     * @return an instance of a BodyDeclaration AST Node (or null if not found)
+     */
+    public static <M extends BodyDeclaration> M memberAt(Node top, int line ) {
+        //we cant have negative or 0 line numbers
+        final int l = Math.max( Math.abs(line), 1);//if it's 0, we "really mean" 1
+        Node n = at( top, line);
+
+        if( n instanceof BodyDeclaration) {
+            Log.info("Found member %s containing node %s at line : %s ", ()->n.getClass(), ()->n.getClass(), ()->l );
+            return (M)n;
+        }
+        Optional<Node>on = n.stream(Node.TreeTraversal.PARENTS).filter( p -> p instanceof BodyDeclaration).findFirst();
+        if( on.isPresent() ){
+            Log.info("Found member %s containing node %s at line : %s ", ()->on.get().getClass(), ()->n.getClass(), ()->l );
+            return (M) on.get();
+        }
+        Log.info("No Parent Member found containing Node %s at line : %s ", ()->n.getClass(), ()->l );
+        return null;
     }
 
     /**
@@ -1133,11 +1246,91 @@ public enum Ast {
             return typeRef( Text.combine(code));
         }
         if( Modifier.class == nodeClass ){
-            return _modifiers.KEYWORD_TO_ENUM_MAP.get(Text.combine(code) );
+            return MODS_KEYWORD_TO_ENUM_MAP.get(Text.combine(code) );
         }        
         throw new _draftException("Could not parse Node of class " + nodeClass);
     }
 
+    /* FOR MODIFIERS translate between a String, an int (used in the runtime modifiers bitmask) and an Ast Enum */
+    public static final Map<String, Integer> MODS_KEYWORD_TO_BIT_MAP = new HashMap<String, Integer>();
+    public static final Map<Integer, String> MODS_BIT_TO_KEYWORD_MAP = new HashMap<Integer, String>();
+    public static final Map<Integer, com.github.javaparser.ast.Modifier> MODS_BIT_TO_ENUM_MAP = new HashMap<>();
+    public static final Map<String, com.github.javaparser.ast.Modifier> MODS_KEYWORD_TO_ENUM_MAP = new HashMap<>();
+    public static final Map<com.github.javaparser.ast.Modifier, String> MODS_ENUM_TO_KEYWORD_MAP = new HashMap<>();
+
+    static {
+        MODS_KEYWORD_TO_BIT_MAP.put( "public", java.lang.reflect.Modifier.PUBLIC );
+        MODS_BIT_TO_KEYWORD_MAP.put( java.lang.reflect.Modifier.PUBLIC, "public" );
+        MODS_BIT_TO_ENUM_MAP.put( java.lang.reflect.Modifier.PUBLIC, com.github.javaparser.ast.Modifier.publicModifier() );
+        MODS_ENUM_TO_KEYWORD_MAP.put( com.github.javaparser.ast.Modifier.publicModifier(), "public" );
+        MODS_KEYWORD_TO_ENUM_MAP.put( "public", com.github.javaparser.ast.Modifier.publicModifier() );
+
+        MODS_KEYWORD_TO_BIT_MAP.put( "protected", java.lang.reflect.Modifier.PROTECTED );
+        MODS_BIT_TO_KEYWORD_MAP.put( java.lang.reflect.Modifier.PROTECTED, "protected" );
+        MODS_BIT_TO_ENUM_MAP.put( java.lang.reflect.Modifier.PROTECTED, com.github.javaparser.ast.Modifier.protectedModifier() );
+        MODS_ENUM_TO_KEYWORD_MAP.put( com.github.javaparser.ast.Modifier.protectedModifier(), "protected" );
+        MODS_KEYWORD_TO_ENUM_MAP.put( "protected", com.github.javaparser.ast.Modifier.protectedModifier() );
+
+        MODS_KEYWORD_TO_BIT_MAP.put( "private", java.lang.reflect.Modifier.PRIVATE );
+        MODS_BIT_TO_KEYWORD_MAP.put( java.lang.reflect.Modifier.PRIVATE, "private" );
+        MODS_BIT_TO_ENUM_MAP.put( java.lang.reflect.Modifier.PRIVATE, com.github.javaparser.ast.Modifier.privateModifier() );
+        MODS_KEYWORD_TO_ENUM_MAP.put( "private", com.github.javaparser.ast.Modifier.privateModifier() );
+        MODS_ENUM_TO_KEYWORD_MAP.put( com.github.javaparser.ast.Modifier.privateModifier(), "private" );
+
+        MODS_KEYWORD_TO_BIT_MAP.put( "static", java.lang.reflect.Modifier.STATIC );
+        MODS_BIT_TO_KEYWORD_MAP.put( java.lang.reflect.Modifier.STATIC, "static" );
+        MODS_BIT_TO_ENUM_MAP.put( java.lang.reflect.Modifier.STATIC, com.github.javaparser.ast.Modifier.staticModifier() );
+        MODS_KEYWORD_TO_ENUM_MAP.put( "static", com.github.javaparser.ast.Modifier.staticModifier() );
+        MODS_ENUM_TO_KEYWORD_MAP.put( com.github.javaparser.ast.Modifier.staticModifier(), "static" );
+
+        MODS_KEYWORD_TO_BIT_MAP.put( "synchronized", java.lang.reflect.Modifier.SYNCHRONIZED );
+        MODS_BIT_TO_KEYWORD_MAP.put( java.lang.reflect.Modifier.SYNCHRONIZED, "synchronized" );
+        MODS_BIT_TO_ENUM_MAP.put( java.lang.reflect.Modifier.SYNCHRONIZED, com.github.javaparser.ast.Modifier.synchronizedModifier() );
+        MODS_KEYWORD_TO_ENUM_MAP.put( "synchronized", com.github.javaparser.ast.Modifier.synchronizedModifier() );
+        MODS_ENUM_TO_KEYWORD_MAP.put( com.github.javaparser.ast.Modifier.synchronizedModifier(), "synchronized" );
+
+        MODS_KEYWORD_TO_BIT_MAP.put( "abstract", java.lang.reflect.Modifier.ABSTRACT );
+        MODS_BIT_TO_KEYWORD_MAP.put( java.lang.reflect.Modifier.ABSTRACT, "abstract" );
+        MODS_BIT_TO_ENUM_MAP.put( java.lang.reflect.Modifier.ABSTRACT, com.github.javaparser.ast.Modifier.abstractModifier() );
+        MODS_KEYWORD_TO_ENUM_MAP.put( "abstract", com.github.javaparser.ast.Modifier.abstractModifier() );
+        MODS_ENUM_TO_KEYWORD_MAP.put( com.github.javaparser.ast.Modifier.abstractModifier(), "abstract" );
+
+        MODS_KEYWORD_TO_BIT_MAP.put( "final", java.lang.reflect.Modifier.FINAL );
+        MODS_BIT_TO_KEYWORD_MAP.put( java.lang.reflect.Modifier.FINAL, "final" );
+        MODS_BIT_TO_ENUM_MAP.put( java.lang.reflect.Modifier.FINAL, com.github.javaparser.ast.Modifier.finalModifier() );
+        MODS_KEYWORD_TO_ENUM_MAP.put( "final", com.github.javaparser.ast.Modifier.finalModifier() );
+        MODS_ENUM_TO_KEYWORD_MAP.put( com.github.javaparser.ast.Modifier.finalModifier(), "final" );
+
+        MODS_KEYWORD_TO_BIT_MAP.put( "native", java.lang.reflect.Modifier.NATIVE );
+        MODS_BIT_TO_KEYWORD_MAP.put( java.lang.reflect.Modifier.NATIVE, "native" );
+        MODS_BIT_TO_ENUM_MAP.put( java.lang.reflect.Modifier.NATIVE, com.github.javaparser.ast.Modifier.nativeModifier() );
+        MODS_KEYWORD_TO_ENUM_MAP.put( "native", com.github.javaparser.ast.Modifier.nativeModifier() );
+        MODS_ENUM_TO_KEYWORD_MAP.put( com.github.javaparser.ast.Modifier.nativeModifier(), "native" );
+
+        MODS_KEYWORD_TO_BIT_MAP.put( "transient", java.lang.reflect.Modifier.TRANSIENT );
+        MODS_BIT_TO_KEYWORD_MAP.put( java.lang.reflect.Modifier.TRANSIENT, "transient" );
+        MODS_BIT_TO_ENUM_MAP.put( java.lang.reflect.Modifier.TRANSIENT, com.github.javaparser.ast.Modifier.transientModifier() );
+        MODS_KEYWORD_TO_ENUM_MAP.put( "transient", com.github.javaparser.ast.Modifier.transientModifier() );
+        MODS_ENUM_TO_KEYWORD_MAP.put( com.github.javaparser.ast.Modifier.transientModifier(), "transient" );
+
+        MODS_KEYWORD_TO_BIT_MAP.put( "volatile", java.lang.reflect.Modifier.VOLATILE );
+        MODS_BIT_TO_KEYWORD_MAP.put( java.lang.reflect.Modifier.VOLATILE, "volatile" );
+        MODS_BIT_TO_ENUM_MAP.put( java.lang.reflect.Modifier.VOLATILE, com.github.javaparser.ast.Modifier.volatileModifier() );
+        MODS_KEYWORD_TO_ENUM_MAP.put( "volatile", com.github.javaparser.ast.Modifier.volatileModifier() );
+
+        MODS_KEYWORD_TO_BIT_MAP.put( "strictfp", java.lang.reflect.Modifier.STRICT );
+        MODS_BIT_TO_KEYWORD_MAP.put( java.lang.reflect.Modifier.STRICT, "strictfp" );
+        MODS_BIT_TO_ENUM_MAP.put( java.lang.reflect.Modifier.STRICT, com.github.javaparser.ast.Modifier.strictfpModifier() );
+        MODS_KEYWORD_TO_ENUM_MAP.put( "strictfp", com.github.javaparser.ast.Modifier.strictfpModifier() );
+        MODS_ENUM_TO_KEYWORD_MAP.put( com.github.javaparser.ast.Modifier.strictfpModifier(), "strictfp" );
+
+        //ANY_FOR DEFAULT INTERFACES
+        MODS_KEYWORD_TO_BIT_MAP.put( "default", 1 << 12 );
+        MODS_BIT_TO_KEYWORD_MAP.put( 1 << 12, "default" );
+        //BIT_TO_ENUM_MAP.put( 1 << 12, com.github.javaparser.ast.Modifier );
+        //KEYWORD_TO_ENUM_MAP.put( "default", com.github.javaparser.ast.Modifier.DEFAULT );
+    }
+    
     /**
      * Build and return a JavaParser Ast from the runtime clazz and return the
      * top level typeDeclaration.
