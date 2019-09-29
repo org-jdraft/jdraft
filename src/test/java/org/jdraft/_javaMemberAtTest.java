@@ -10,7 +10,8 @@ public class _javaMemberAtTest extends TestCase {
                 "    public C(int f){ this.f = f; }",   //line 3
                 "    public int getF(){ return f;}",    //line 4
                 "    ",                                 //line 5
-                "}");                                   //line 6
+                "    { System.out.println(1); }",       //line 6
+                "}");                                   //line 7
 
         _class _cc = _java.memberAt(_c, 1);
         assertEquals( _c, _cc);
@@ -24,7 +25,10 @@ public class _javaMemberAtTest extends TestCase {
         _cc = _java.memberAt(_c, 5);
         assertEquals( _c, _cc);
 
-        _cc = _java.memberAt(_c, 6);
+        _initBlock _ib = _java.memberAt(_c, 6);
+        assertEquals( _initBlock.of("{ System.out.println(1); }"), _ib);
+
+        _cc = _java.memberAt(_c, 7);
         assertEquals( _c, _cc);
 
         assertNull( _java.memberAt(_c, 8));

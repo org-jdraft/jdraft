@@ -517,8 +517,10 @@ public enum Ast {
     public @interface cache {
     }
 
+    /*--------------------- LOCATION-BASED RESOLVING IN AST ---------------------------*/
     /**
-     * Given a class and a line/column find the "most specific" source code node at this (line:column) cursor position
+     * Given a class and a line/column find the "most specific" source code node at this
+     * (line:column) cursor position
      *
      * @param clazz the runtime class
      * @param line the line of the source code
@@ -529,7 +531,7 @@ public enum Ast {
     }
 
     /**
-     * Given a class and a line/column find the "most specific" source code node at this (line) cursor position
+     * Given a class and a line/column find the "most specific" node at this (line) cursor position
      *
      * @param top the top node to search through
      * @param line the line of the source code
@@ -564,12 +566,12 @@ public enum Ast {
                 done = true;
             }
         }
-
         return (N)theFullLineNode;
     }
 
     /**
-     * Given a class and a line/column find the "most specific" source code node at this (line:column) cursor position
+     * Given a class and a line/column find the "most specific" source code node at this (line:column)
+     * cursor position
      *
      * @param clazz the runtime class
      * @param line the line of the source code
@@ -582,7 +584,8 @@ public enum Ast {
     }
 
     /**
-     * Try to return the most "specific" node that contains the (line:column) cursor position
+     * Given top level node to return the most "specific" node that contains the (line:column)
+     * cursor position
      * @param top the Top level Ast node to look through
      * @param line the line cursor position
      * @param column the column cursor position
@@ -634,7 +637,8 @@ public enum Ast {
     }
 
     /**
-     * finds the closest member CONTAINING this position and returns it (or null if the position is outside for range)
+     * Finds the most specific {@link BodyDeclaration} member containing this
+     * position and returns it (or null if the position is outside for range)
      *
      * @see TypeDeclaration
      * @see EnumDeclaration
@@ -665,7 +669,8 @@ public enum Ast {
     }
 
     /**
-     * return a member (method, field, constructor, staticBlock)
+     * Finds the most specific {@link BodyDeclaration} member containing this
+     * position and returns it (or null if the position is outside for range)
      *
      * @see TypeDeclaration
      * @see EnumDeclaration
@@ -687,7 +692,8 @@ public enum Ast {
     }
 
     /**
-     * finds the closest member CONTAINING this position and returns it (or null if the position is outside for range)
+     * Finds the most specific {@link BodyDeclaration} member containing this
+     * line position and returns it (or null if the position is outside for range)
      *
      * @see TypeDeclaration
      * @see EnumDeclaration
@@ -709,7 +715,7 @@ public enum Ast {
         final int l = Math.max( Math.abs(line), 1);//if it's 0, we "really mean" 1
         Node n = at( top, line);
         if( n == null ){
-            Log.info("Line number : %s is outside of member %s ", ()->l, ()->n.getClass() );
+            Log.info("Line number : %s is outside of member %s ", ()->l, ()->top.getClass() );
             return null;
         }
         if( n instanceof BodyDeclaration) {
