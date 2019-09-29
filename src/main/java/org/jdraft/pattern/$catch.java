@@ -124,7 +124,7 @@ public final class $catch implements $pattern<CatchClause, $catch> {
      * @param selectConstraint
      * @return 
      */
-    public Select selectFirstIn(_meta_model _j, Predicate<Select> selectConstraint) {
+    public Select selectFirstIn(_model _j, Predicate<Select> selectConstraint) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 return selectFirstIn( ((_code)_j).astCompilationUnit(), selectConstraint);
@@ -182,7 +182,7 @@ public final class $catch implements $pattern<CatchClause, $catch> {
      * @param <_J>
      * @return
      */
-    public <_J extends _meta_model> List<Select> listSelectedIn(_J _j, Predicate<Select> selectConstraint) {
+    public <_J extends _model> List<Select> listSelectedIn(_J _j, Predicate<Select> selectConstraint) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 return listSelectedIn( ((_code) _j).astCompilationUnit(), selectConstraint);
@@ -265,7 +265,7 @@ public final class $catch implements $pattern<CatchClause, $catch> {
      * @param nodeActionFn
      * @return 
      */
-    public <_J extends _meta_model> _J forSelectedIn(_J _j, Consumer<Select> nodeActionFn) {
+    public <_J extends _model> _J forSelectedIn(_J _j, Consumer<Select> nodeActionFn) {
         _walk.in(_j, CatchClause.class, cc-> {
                 Select sel = select(cc);
                 if( sel != null ){
@@ -283,7 +283,7 @@ public final class $catch implements $pattern<CatchClause, $catch> {
      * @param nodeActionFn
      * @return 
      */
-    public <_J extends _meta_model> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> nodeActionFn) {
+    public <_J extends _model> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> nodeActionFn) {
         _walk.in(_j, CatchClause.class, cc-> {
                 Select sel = select(cc);
                 if( sel != null && selectConstraint.test(sel)){

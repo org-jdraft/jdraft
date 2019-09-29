@@ -289,7 +289,7 @@ public final class _initBlock
         return this.astInit.getJavadocComment().isPresent();
     }
 
-    @Override
+    //@Override
     public _initBlock removeJavadoc() {
         this.astInit.removeJavaDocComment();
         return this;
@@ -301,7 +301,7 @@ public final class _initBlock
      * @param <_HIB>
      */
     public interface _hasInitBlocks<_HIB extends _hasInitBlocks & _type>
-            extends _meta_model {
+            extends _model {
 
         /** 
          * returns the static Blocks on the _type (ordered by when they are declared) 
@@ -337,6 +337,11 @@ public final class _initBlock
             return null;
         }
 
+        /**
+         * finds the first initBlock that matched with _initBlockMatchFn
+         * @param _initBlockMatchFn
+         * @return
+         */
         default _initBlock getInitBlock( Predicate<_initBlock> _initBlockMatchFn){
             List<_initBlock> ibs = listInitBlocks(_initBlockMatchFn);
             if( ibs.isEmpty()){
@@ -435,27 +440,44 @@ public final class _initBlock
             return staticBlock( Stmt.blockStmt(ste));
         }
 
+        /**
+         * builds and adds a new staticBlock
+         * @param block the blockStmt
+         * @return the modified block container
+         */
         default _HIB staticBlock(BlockStmt block){
             BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addStaticInitializer();
             bs.setStatements( block.getStatements());
             return (_HIB)this;
         }
 
+        /**
+         *
+         * @param anonymousObjectWithInitBlock
+         * @return
+         */
         default _HIB staticBlock(Object anonymousObjectWithInitBlock){
             ObjectCreationExpr oce = Ex.anonymousObjectEx( Thread.currentThread().getStackTrace()[2] );
             InitializerDeclaration id =
                     (InitializerDeclaration)oce.getAnonymousClassBody().get().stream().filter(t-> t instanceof InitializerDeclaration).findFirst().get();
-            //if( anonymousObjectWithInitBlock.getClass().getAnnotation(_static.class) != null){
             id.setStatic(true);
-            //System.out.println( id );
-            //}
             return initBlock( _initBlock.of(id) );
         }
 
+        /**
+         *
+         * @param content
+         * @return
+         */
         default _HIB staticBlock(String  content){
             return staticBlock(new String[]{content});
         }
 
+        /**
+         *
+         * @param content
+         * @return
+         */
         default _HIB staticBlock(String... content){
             //reserve the static initializer on the _type
             BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addStaticInitializer();
@@ -464,6 +486,11 @@ public final class _initBlock
             return (_HIB)this;
         }
 
+        /**
+         *
+         * @param sb
+         * @return
+         */
         default _HIB staticBlock(_initBlock sb){
             BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addStaticInitializer();
             bs.setStatements(sb.astInit.getBody().getStatements());
@@ -530,12 +557,22 @@ public final class _initBlock
             return initBlock( Stmt.blockStmt(ste));
         }
 
+        /**
+         *
+         * @param block
+         * @return
+         */
         default _HIB initBlock(BlockStmt block){
             BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addInitializer();
             bs.setStatements( block.getStatements());
             return (_HIB)this;
         }
 
+        /**
+         *
+         * @param anonymousObjectWithInitBlock
+         * @return
+         */
         default _HIB initBlock(Object anonymousObjectWithInitBlock){
             ObjectCreationExpr oce = Ex.anonymousObjectEx( Thread.currentThread().getStackTrace()[2] );
             InitializerDeclaration id =
@@ -546,10 +583,20 @@ public final class _initBlock
             return initBlock( _initBlock.of(id) );
         }
 
+        /**
+         *
+         * @param content
+         * @return
+         */
         default _HIB initBlock(String  content){
             return initBlock(new String[]{content});
         }
 
+        /**
+         *
+         * @param content
+         * @return
+         */
         default _HIB initBlock(String... content){
             //reserve the static initializer on the _type
             BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addInitializer();
@@ -558,6 +605,11 @@ public final class _initBlock
             return (_HIB)this;
         }
 
+        /**
+         *
+         * @param sb
+         * @return
+         */
         default _HIB initBlock(_initBlock sb){
             BlockStmt bs = null;
             if( sb.isStatic() ) {
@@ -569,6 +621,10 @@ public final class _initBlock
             return (_HIB)this;
         }
 
+        /**
+         *
+         * @return
+         */
         default boolean hasInitBlock(){
             return ((TypeDeclaration)((_type)this).ast()).stream().anyMatch( m -> m instanceof InitializerDeclaration );
         }

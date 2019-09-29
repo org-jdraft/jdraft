@@ -128,7 +128,7 @@ public final class $node implements $pattern<Node, $node> {
         return select(node) != null;
     }
 
-    public boolean match(_meta_model _j){
+    public boolean match(_model _j){
         if( _j instanceof _node){
             return match( ((_node)_j).ast());
         }
@@ -235,7 +235,7 @@ public final class $node implements $pattern<Node, $node> {
     }
 
     @Override
-    public List<Select> listSelectedIn(_meta_model _j) {
+    public List<Select> listSelectedIn(_model _j) {
         if( _j instanceof _code ){
             _code _c = (_code) _j;
             if( _c.isTopLevel() ){
@@ -270,7 +270,7 @@ public final class $node implements $pattern<Node, $node> {
      * @param selectConstraint
      * @return 
      */
-    public List<Select> listSelectedIn(_meta_model _j, Predicate<Select> selectConstraint) {
+    public List<Select> listSelectedIn(_model _j, Predicate<Select> selectConstraint) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 return listSelectedIn( ((_code) _j).astCompilationUnit(), selectConstraint);
@@ -321,7 +321,7 @@ public final class $node implements $pattern<Node, $node> {
      * @param $replacement
      * @return 
      */
-    public <_J extends _meta_model> _J replaceIn(_J _j, $node $replacement) {
+    public <_J extends _model> _J replaceIn(_J _j, $node $replacement) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 replaceIn( ((_code) _j).astCompilationUnit(), $replacement);
@@ -363,7 +363,7 @@ public final class $node implements $pattern<Node, $node> {
      * @param replacement
      * @return 
      */
-    public <_J extends _meta_model> _J replaceIn(_J _j, String replacement) {
+    public <_J extends _model> _J replaceIn(_J _j, String replacement) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 replaceIn( ((_code) _j).astCompilationUnit(), replacement);
@@ -425,7 +425,7 @@ public final class $node implements $pattern<Node, $node> {
      * @param replacement
      * @return 
      */
-    public <_J extends _meta_model> _J replaceIn(_J _j, Node replacement) {
+    public <_J extends _model> _J replaceIn(_J _j, Node replacement) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 replaceIn( ((_code) _j).astCompilationUnit(), replacement);
@@ -462,7 +462,7 @@ public final class $node implements $pattern<Node, $node> {
      * @param nodeActionFn
      * @return 
      */
-    public <_J extends _meta_model> _J forSelectedIn(_J _j, Consumer<Select> nodeActionFn) {
+    public <_J extends _model> _J forSelectedIn(_J _j, Consumer<Select> nodeActionFn) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 forSelectedIn( ((_code) _j).astCompilationUnit(), nodeActionFn);
@@ -501,7 +501,7 @@ public final class $node implements $pattern<Node, $node> {
      * @param nodeActionFn
      * @return 
      */
-    public <_J extends _meta_model> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> nodeActionFn) {
+    public <_J extends _model> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> nodeActionFn) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 forSelectedIn( ((_code) _j).astCompilationUnit(), nodeActionFn);

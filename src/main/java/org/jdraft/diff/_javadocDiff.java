@@ -73,8 +73,8 @@ public class _javadocDiff implements _differ<_javadoc, _node> {
                 //System.out.println("RIGHT JAVADOC"+right.getJavadoc() );
                 //System.out.println( "ARE THEY EQUAL " + left.getJavadoc().equals( right.getJavadoc() ));
             } else{
-                leftParent.removeJavadoc();
-                rightParent.removeJavadoc();
+                ((_declared)leftParent).removeJavadoc();
+                ((_declared)rightParent).removeJavadoc();
             }
         }
 
@@ -95,12 +95,12 @@ public class _javadocDiff implements _differ<_javadoc, _node> {
         }
 
         @Override
-        public _meta_model leftParent() {
+        public _model leftParent() {
             return leftParent;
         }
 
         @Override
-        public _meta_model rightParent() {
+        public _model rightParent() {
             return rightParent;
         }
 

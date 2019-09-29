@@ -13,6 +13,19 @@ import java.util.List;
 
 public class SmethodTest extends TestCase {
 
+    public void testMethod(){
+        $method $m = $method.of( new Object(){
+            @_static @Deprecated @_$({"X", "Name", "x", "name"})
+            public int getX(){
+                return x;
+            }
+            int x;
+        });
+
+        System.out.println( $m );
+
+    }
+
     public void testLikeDOM(){
         class A{
             public int doMethod(){

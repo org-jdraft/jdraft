@@ -24,9 +24,11 @@ import org.jdraft._anno._annos;
 import org.jdraft._node;
 import org.jdraft._parameter._parameters;
 import org.jdraft._typeParameter._typeParameters;
+import org.jdraft.macro._$;
 import org.jdraft.macro._remove;
 import org.jdraft.macro.macro;
 
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
@@ -62,19 +64,48 @@ public final class $method
      * NOTE: if the anonymous Object contains more than one method, ENSURE only one method
      * DOES NOT have the @_remove annotation, (mark all trivial METHODS with @_remove)
      *
+     * ALSO does a "Post Parameterize" step
+     *
      * @param anonymousObjectContainingMethod
      * @return
+     * @see _remove for methods that exist in the anonymous object & contain
+     * @see _$ post parameterize certain text within the component
      */
     public static $method of( Object anonymousObjectContainingMethod ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         ObjectCreationExpr oce = Ex.anonymousObjectEx( ste );
         if( anonymousObjectContainingMethod instanceof $pattern){
-            throw new UnsupportedOperationException("We cant create an instance of $method from unsupported $proto");
+            throw new UnsupportedOperationException("We cant create an instance of $method from unsupported $pattern");
         }
+
+
         MethodDeclaration theMethod = (MethodDeclaration)
                 oce.getAnonymousClassBody().get().stream().filter(m -> m instanceof MethodDeclaration &&
                 !m.isAnnotationPresent(_remove.class) ).findFirst().get();
-        return of( macro.to(anonymousObjectContainingMethod.getClass(), theMethod  ));
+        //apply macros
+        _method _m = macro.to(anonymousObjectContainingMethod.getClass(), theMethod  );
+
+        //get the Runtime Reflection Method
+        Method rm = Arrays.stream(anonymousObjectContainingMethod.getClass().getDeclaredMethods()).filter(mm ->_m.hasParametersOf(mm)).findFirst().get();
+
+        $method $m = of( _m );
+
+        //Look for a VERY SPECIFIC @_$ annotation which will "post parameterize"
+        _$ postParameterize = rm.getAnnotation( _$.class );
+        if(  postParameterize != null ){
+            //
+            String[] paramKeyValues = postParameterize.value();
+            if( (paramKeyValues.length % 2) != 0  ){
+                throw new _draftException("invalid parameter count for @_$ annotation (must be pairs)");
+            }
+            for(int i=0;i<paramKeyValues.length;i+=2) {
+                $m.$(paramKeyValues[i], paramKeyValues[i+1]);
+            }
+            //remember to remove the annotation from the $method model
+            $m.annos.$annosList.removeIf(a -> a.name.idStencil.isFixedText() && a.name.idStencil.getTextForm().getFixedText().equals("_$"));
+        }
+
+        return $m;
     }
 
     /**
@@ -956,7 +987,7 @@ public final class $method
      * @param selectConstraint
      * @return  the first _method that matches (or null if none found)
      */
-    public Select selectFirstIn( _meta_model _j, Predicate<Select> selectConstraint){
+    public Select selectFirstIn(_model _j, Predicate<Select> selectConstraint){
          if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 return selectFirstIn( ((_code) _j).astCompilationUnit(), selectConstraint);
@@ -1029,7 +1060,7 @@ public final class $method
      * @param selectConstraint
      * @return 
      */
-    public List<Select> listSelectedIn(_meta_model _j, Predicate<Select> selectConstraint){
+    public List<Select> listSelectedIn(_model _j, Predicate<Select> selectConstraint){
         List<Select>sts = new ArrayList<>();
         _walk.in(_j, MethodDeclaration.class, m -> {
             Select sel = select( m );
@@ -1074,7 +1105,7 @@ public final class $method
      * @param selectedActionFn
      * @return 
      */
-    public <_J extends _meta_model> _J forSelectedIn(_J _j, Consumer<Select> selectedActionFn ){
+    public <_J extends _model> _J forSelectedIn(_J _j, Consumer<Select> selectedActionFn ){
         _walk.in(_j, _method.class, m ->{
             Select s = select( m );
             if( s != null ){
@@ -1121,7 +1152,7 @@ public final class $method
      * @param selectedActionFn
      * @return 
      */
-    public <_J extends _meta_model> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectedActionFn ){
+    public <_J extends _model> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectedActionFn ){
         _walk.in(_j, _method.class, m ->{
             Select s = select( m );
             if( s != null && selectConstraint.test(s)){
@@ -1181,7 +1212,7 @@ public final class $method
      * @param $replace
      * @return 
      */
-    public <_J extends _meta_model> _J replaceIn(_J _j, $method $replace ){
+    public <_J extends _model> _J replaceIn(_J _j, $method $replace ){
         return forSelectedIn(_j, s -> {
             _method repl = $replace.draft(Translator.DEFAULT_TRANSLATOR, s.tokens.asTokens());
             s._m.ast().replace(repl.ast());
@@ -1195,7 +1226,7 @@ public final class $method
      * @param replacementProto
      * @return 
      */
-    public <_J extends _meta_model> _J replaceIn(_J _j, String... replacementProto ){
+    public <_J extends _model> _J replaceIn(_J _j, String... replacementProto ){
         return replaceIn(_j, $method.of(replacementProto));
     }
     
@@ -1206,7 +1237,7 @@ public final class $method
      * @param method
      * @return 
      */
-    public <_J extends _meta_model> _J replaceIn(_J _j, _method method ){
+    public <_J extends _model> _J replaceIn(_J _j, _method method ){
         return replaceIn(_j, $method.of(method));
     }
     
@@ -1217,7 +1248,7 @@ public final class $method
      * @param astMethod
      * @return 
      */
-    public <_J extends _meta_model> _J replaceIn(_J _j, MethodDeclaration astMethod ){
+    public <_J extends _model> _J replaceIn(_J _j, MethodDeclaration astMethod ){
         return replaceIn(_j, $method.of(astMethod));
     }
     

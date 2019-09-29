@@ -709,7 +709,7 @@ public final class _anno
      * @param <_HA> the container type (that has Annos)
      */
     public interface _hasAnnos<_HA extends _hasAnnos>
-        extends _meta_model {
+        extends _model {
         
         /**
          * @return the annos
@@ -977,7 +977,7 @@ public final class _anno
      *
      */
     public static class _annos
-        implements _meta_model {
+        implements _model {
 
         /** A reference to the container entity that is being annotated*/
         public final NodeWithAnnotations astAnnNode;

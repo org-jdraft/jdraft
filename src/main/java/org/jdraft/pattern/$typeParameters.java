@@ -451,7 +451,7 @@ public final class $typeParameters
     }
     
     @Override
-    public List<Select> listSelectedIn( _meta_model _j){
+    public List<Select> listSelectedIn( _model _j){
         if( _j instanceof _code ){
             _code _c = (_code) _j;
             if( _c.isTopLevel() ){
@@ -498,7 +498,7 @@ public final class $typeParameters
      * @param selectConstraint
      * @return 
      */
-    public List<Select> listSelectedIn( _meta_model _n, Predicate<Select> selectConstraint ){
+    public List<Select> listSelectedIn(_model _n, Predicate<Select> selectConstraint ){
         if( _n instanceof _code ){
             if( ((_code) _n).isTopLevel()){
                 return listSelectedIn( ((_code) _n).astCompilationUnit(), selectConstraint);
@@ -525,7 +525,7 @@ public final class $typeParameters
      * @param importDecl
      * @return 
      */
-    public <_J extends _meta_model> _J replaceIn(_J _j, String importDecl){
+    public <_J extends _model> _J replaceIn(_J _j, String importDecl){
         return replaceIn(_j, $typeParameters.of(importDecl));
     }
     
@@ -546,7 +546,7 @@ public final class $typeParameters
      * @param _i
      * @return 
      */
-    public <_J extends _meta_model> _J replaceIn(_J _j, _typeParameters _i){
+    public <_J extends _model> _J replaceIn(_J _j, _typeParameters _i){
         return replaceIn(_j, $typeParameters.of(_i));
     }
     
@@ -569,7 +569,7 @@ public final class $typeParameters
      * @param <_J> the TYPE of model
      * @return
      */
-    public <_J extends _meta_model> _J replaceIn(_J _j, $typeParameters $i ){
+    public <_J extends _model> _J replaceIn(_J _j, $typeParameters $i ){
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 replaceIn( ((_code) _j).astCompilationUnit(), $i);

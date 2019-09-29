@@ -16,7 +16,7 @@ import com.github.javaparser.ast.type.ReferenceType;
  * @author Eric
  */
 public final class _throws
-        implements _meta_model {
+        implements _model {
 
     /**
      *
@@ -359,7 +359,7 @@ public final class _throws
      * @author Eric
      * @param <_HT> the hasThrows container {@link _method} {@link _constructor}
      */
-    public interface _hasThrows<_HT extends _hasThrows> extends _meta_model {
+    public interface _hasThrows<_HT extends _hasThrows> extends _model {
 
         _throws getThrows();
 

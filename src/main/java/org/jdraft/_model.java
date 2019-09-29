@@ -5,6 +5,6 @@ package org.jdraft;
  * (We have this interface to differentiate between entities/classes that are
  * Ast entities (i.e. Node) and
  */
-public interface _meta_model {
+public interface _model {
 
 }

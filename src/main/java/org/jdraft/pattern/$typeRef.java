@@ -377,7 +377,7 @@ public final class $typeRef
     }
 
     @Override
-    public List<Select> listSelectedIn(_meta_model _j){
+    public List<Select> listSelectedIn(_model _j){
         if( _j instanceof _code ){
             _code _c = (_code) _j;
             if( _c.isTopLevel() ){
@@ -395,7 +395,7 @@ public final class $typeRef
      * @param selectConstraint
      * @return 
      */
-    public List<Select> listSelectedIn(_meta_model _j,Predicate<Select> selectConstraint){
+    public List<Select> listSelectedIn(_model _j, Predicate<Select> selectConstraint){
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 return listSelectedIn( ((_code) _j).astCompilationUnit(), selectConstraint);
@@ -422,7 +422,7 @@ public final class $typeRef
      * @param selectConsumer
      * @return 
      */
-    public <_J extends _meta_model> _J forSelectedIn(_J _j, Consumer<Select> selectConsumer ){
+    public <_J extends _model> _J forSelectedIn(_J _j, Consumer<Select> selectConsumer ){
         _walk.in(_j, Type.class, e-> {
             Select sel = select( e );
             if( sel != null ){
@@ -450,7 +450,7 @@ public final class $typeRef
      * @param selectConsumer
      * @return 
      */
-    public <_J extends _meta_model> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
+    public <_J extends _model> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
         _walk.in(_j, Type.class, e-> {
             Select sel = select( e );
             if( sel != null && selectConstraint.test(sel) ){
@@ -512,7 +512,7 @@ public final class $typeRef
      * @param replacementType
      * @return 
      */
-    public <N extends _meta_model> N replaceIn(N _n, Class replacementType){
+    public <N extends _model> N replaceIn(N _n, Class replacementType){
         return replaceIn(_n, $typeRef.of(replacementType));
     }
     
@@ -533,7 +533,7 @@ public final class $typeRef
      * @param replacementType
      * @return 
      */
-    public <_J extends _meta_model> _J replaceIn(_J _j, _typeRef replacementType){
+    public <_J extends _model> _J replaceIn(_J _j, _typeRef replacementType){
         return replaceIn(_j, $typeRef.of(replacementType));
     }
 
@@ -544,7 +544,7 @@ public final class $typeRef
      * @param <_J>
      * @return
      */
-    public <_J extends _meta_model> _J replaceIn(_J _j, Type astReplacementType){
+    public <_J extends _model> _J replaceIn(_J _j, Type astReplacementType){
         return replaceIn(_j, $typeRef.of(astReplacementType));
     }
 
@@ -563,7 +563,7 @@ public final class $typeRef
      * @param <_J>
      * @return
      */
-    public <_J extends _meta_model> _J replaceIn(_J _j, $typeRef $replacementType){
+    public <_J extends _model> _J replaceIn(_J _j, $typeRef $replacementType){
         _walk.in(_j, Type.class, e -> {
             Select select = select(e);
             if( select != null ){
@@ -582,7 +582,7 @@ public final class $typeRef
      * @param replacementPattern
      * @return 
      */
-    public <_J extends _meta_model> _J replaceIn(_J _j, String...replacementPattern){
+    public <_J extends _model> _J replaceIn(_J _j, String...replacementPattern){
         return replaceIn(_j, $typeRef.of( Text.combine(replacementPattern)) );
     }
 

@@ -452,7 +452,7 @@ public final class $stmts implements Template<List<Statement>>, $pattern<List<St
     }
     
     @Override
-    public List<Select> listSelectedIn(_meta_model _j){
+    public List<Select> listSelectedIn(_model _j){
         if( _j instanceof _code ){
             _code _c = (_code) _j;
             if( _c.isTopLevel() ){
@@ -483,7 +483,7 @@ public final class $stmts implements Template<List<Statement>>, $pattern<List<St
     }
 
     @Override
-    public <_J extends _meta_model> _J removeIn(_J _j){
+    public <_J extends _model> _J removeIn(_J _j){
         List<Select> sels= (List<Select>)listSelectedIn(_j);
         sels.forEach(s -> s.statements.forEach(st-> st.removeForced()));
         return _j;
@@ -574,7 +574,7 @@ public final class $stmts implements Template<List<Statement>>, $pattern<List<St
         return astNode;
     }
 
-    public <_J extends _meta_model> _J replaceIn(_J _j, String... repl ){
+    public <_J extends _model> _J replaceIn(_J _j, String... repl ){
         return replaceIn(_j, $stmts.of(repl));
     }
     
@@ -585,7 +585,7 @@ public final class $stmts implements Template<List<Statement>>, $pattern<List<St
      * @param $repl
      * @return 
      */
-    public <_J extends _meta_model> _J replaceIn(_J _j, $stmt $repl ){
+    public <_J extends _model> _J replaceIn(_J _j, $stmt $repl ){
         $stmts $sn = new $stmts($repl);
         return $stmts.this.replaceIn(_j, $sn);
     }
@@ -597,7 +597,7 @@ public final class $stmts implements Template<List<Statement>>, $pattern<List<St
      * @param $repl
      * @return 
      */
-    public <_J extends _meta_model> _J replaceIn(_J _j, $stmts $repl ){
+    public <_J extends _model> _J replaceIn(_J _j, $stmts $repl ){
         AtomicInteger ai = new AtomicInteger(0);
 
         _walk.in(_j, this.$sts.get(0).statementClass, st-> {
@@ -671,7 +671,7 @@ public final class $stmts implements Template<List<Statement>>, $pattern<List<St
      * @param selectedAction
      * @return 
      */
-    public <_J extends _meta_model> _J forSelectedIn(_J _j, Consumer<Select>selectedAction ){
+    public <_J extends _model> _J forSelectedIn(_J _j, Consumer<Select>selectedAction ){
         _walk.in(_j, this.$sts.get(0).statementClass, st-> {
             Select sel = select( (Statement)st );
             if( sel != null ){

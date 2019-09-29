@@ -147,7 +147,7 @@ public final class _receiverParameter
      * @param <_HRP>
      */
     public interface _hasReceiverParameter<_HRP extends _hasReceiverParameter>
-            extends _meta_model {
+            extends _model {
 
         default boolean hasReceiverParameter() {      
             return getAstReceiverParameter() != null;            

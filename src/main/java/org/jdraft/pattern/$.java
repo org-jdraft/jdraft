@@ -1551,7 +1551,7 @@ public final class $ {
         return Ast.hasAncestor(node, a -> $p.match(a) );
     }
 
-    public static boolean hasAncestor( _meta_model _j, $pattern $p ){
+    public static boolean hasAncestor(_model _j, $pattern $p ){
         return _java.hasAncestor( _j, Node.class, a-> $p.match(a) );
     }
 
@@ -1560,7 +1560,7 @@ public final class $ {
         return Ast.hasDescendant(node, a -> $p.match(a) );
     }
 
-    public static boolean hasDescendant( _meta_model _j, $pattern $p ){
+    public static boolean hasDescendant(_model _j, $pattern $p ){
         return _java.hasDescendant( _j, Node.class, a-> $p.match(a) );
     }
 

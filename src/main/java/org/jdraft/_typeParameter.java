@@ -137,7 +137,7 @@ public final class _typeParameter
      * @author Eric
      */
     public static final class _typeParameters
-        implements _meta_model {
+        implements _model {
 
         public static _typeParameters of(){
             return of( Ast.classDecl("class Dummy{}" ));
@@ -318,7 +318,7 @@ public final class _typeParameter
      * @param <_HTP>
      */
     public interface _hasTypeParameters<_HTP extends _hasTypeParameters>
-        extends _meta_model {
+        extends _model {
         
         default _typeParameters getTypeParameters(){
             _declared _m = (_declared) this;

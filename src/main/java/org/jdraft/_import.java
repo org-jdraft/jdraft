@@ -303,7 +303,7 @@ public class _import implements _node<ImportDeclaration, _import> {
      * mutable grouping of ImportDeclarations applied to an Ast CompilationUnit
      * 
      */
-    public static class _imports implements _meta_model {
+    public static class _imports implements _model {
 
         public static _imports of( CompilationUnit cu ){
             return new _imports(cu);

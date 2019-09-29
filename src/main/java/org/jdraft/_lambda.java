@@ -19,7 +19,7 @@ import org.jdraft._parameter._parameters;
  * @author Eric
  */
 public class _lambda 
-    implements _meta_model, _hasParameters<_lambda> {
+    implements _model, _hasParameters<_lambda> {
 
       /**
      * Builds a lambda expression from the *CODE* passed in...i,.e.<PRE>

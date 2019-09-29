@@ -1824,7 +1824,7 @@ public final class $ex<T extends Expression>
      * @return  the first Expression that matches (or null if none found)
      */
     @Override
-    public Select<T> selectFirstIn( _meta_model _j){
+    public Select<T> selectFirstIn( _model _j){
         if( _j instanceof _code ){
             _code _c = (_code) _j;
             if( _c.isTopLevel() ){
@@ -1866,7 +1866,7 @@ public final class $ex<T extends Expression>
      * @param selectConstraint
      * @return  the first Expression that matches (or null if none found)
      */
-    public Select<T> selectFirstIn( _meta_model _j, Predicate<Select<T>> selectConstraint){
+    public Select<T> selectFirstIn(_model _j, Predicate<Select<T>> selectConstraint){
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 return selectFirstIn(((_code) _j).astCompilationUnit(), selectConstraint);
@@ -1895,7 +1895,7 @@ public final class $ex<T extends Expression>
     }
 
     @Override
-    public List<T> listIn(_meta_model _j){
+    public List<T> listIn(_model _j){
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 return listIn(((_code) _j).astCompilationUnit());
@@ -1946,7 +1946,7 @@ public final class $ex<T extends Expression>
     }
 
     @Override
-    public List<Select<T>> listSelectedIn(_meta_model _j){
+    public List<Select<T>> listSelectedIn(_model _j){
         List<Select<T>>sts = new ArrayList<>();
         _walk.in(_j, this.expressionClass, e -> {
             Select s = select( e );
@@ -2002,7 +2002,7 @@ public final class $ex<T extends Expression>
      * @param selectConstraint
      * @return 
      */
-    public List<Select<T>> listSelectedIn(_meta_model _j, Predicate<Select<T>> selectConstraint){
+    public List<Select<T>> listSelectedIn(_model _j, Predicate<Select<T>> selectConstraint){
         List<Select<T>>sts = new ArrayList<>();
         _walk.in(_j, this.expressionClass, e -> {
             Select s = select( e );
@@ -2046,7 +2046,7 @@ public final class $ex<T extends Expression>
      * @param astExprReplace
      * @return 
      */
-    public <_J extends _meta_model> _J replaceIn(_J _j, Node astExprReplace ){
+    public <_J extends _model> _J replaceIn(_J _j, Node astExprReplace ){
         _walk.in(_j, this.expressionClass, e-> {
             Select sel = select( e );
             if( sel != null ){
@@ -2063,7 +2063,7 @@ public final class $ex<T extends Expression>
      * @param protoReplaceExpr
      * @return 
      */
-    public <_J extends _meta_model> _J replaceIn(_J _j, String protoReplaceExpr ){
+    public <_J extends _model> _J replaceIn(_J _j, String protoReplaceExpr ){
         return replaceIn(_j, $ex.of(protoReplaceExpr) );
     }
     
@@ -2084,7 +2084,7 @@ public final class $ex<T extends Expression>
      * @param $replaceProto
      * @return 
      */
-    public <_J extends _meta_model> _J replaceIn(_J _j, $ex $replaceProto){
+    public <_J extends _model> _J replaceIn(_J _j, $ex $replaceProto){
         _walk.in(_j, this.expressionClass, e-> {
             Select sel = select( e );
             if( sel != null ){
@@ -2112,7 +2112,7 @@ public final class $ex<T extends Expression>
      * @param selectConsumer
      * @return 
      */
-    public <_J extends _meta_model> _J forSelectedIn(_J _j, Consumer<Select<T>> selectConsumer ){
+    public <_J extends _model> _J forSelectedIn(_J _j, Consumer<Select<T>> selectConsumer ){
         _walk.in(_j, this.expressionClass, e-> {
             Select sel = select( e );
             if( sel != null ){
@@ -2158,7 +2158,7 @@ public final class $ex<T extends Expression>
      * @param selectConsumer
      * @return 
      */
-    public <_J extends _meta_model> _J forSelectedIn(_J _j, Predicate<Select<T>> selectConstraint, Consumer<Select<T>> selectConsumer ){
+    public <_J extends _model> _J forSelectedIn(_J _j, Predicate<Select<T>> selectConstraint, Consumer<Select<T>> selectConsumer ){
         _walk.in(_j, this.expressionClass, e-> {
             Select sel = select( e );
             if( sel != null  && selectConstraint.test(sel)){

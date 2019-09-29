@@ -319,7 +319,7 @@ public final class $parameters implements Template<_parameters>, $pattern<_param
      * @param parametersPattern
      * @return 
      */
-    public <_J extends _meta_model> _J replaceIn(_J _j, String...parametersPattern ) {
+    public <_J extends _model> _J replaceIn(_J _j, String...parametersPattern ) {
         return replaceIn(_j, $parameters.of(parametersPattern));
     }
 
@@ -330,7 +330,7 @@ public final class $parameters implements Template<_parameters>, $pattern<_param
      * @param $replacementProto
      * @return 
      */
-    public <_J extends _meta_model> _J replaceIn(_J _j, $parameters $replacementProto) {
+    public <_J extends _model> _J replaceIn(_J _j, $parameters $replacementProto) {
         return forSelectedIn(_j, s->{
             _parameters _replaceParams = $replacementProto.draft(s.tokens);
             s._params.astHolder().setParameters(_replaceParams.ast());             
@@ -408,7 +408,7 @@ public final class $parameters implements Template<_parameters>, $pattern<_param
      * @param _parametersActionFn
      * @return 
      */
-    public <_J extends _meta_model> _J forSelectedIn(_J _j, Consumer<Select> _parametersActionFn) {
+    public <_J extends _model> _J forSelectedIn(_J _j, Consumer<Select> _parametersActionFn) {
         _walk.in(_j, _parameters.class, n-> {
             Select sel = select( n );
             if( sel != null ){
@@ -437,7 +437,7 @@ public final class $parameters implements Template<_parameters>, $pattern<_param
      * @param _parametersActionFn
      * @return 
      */
-    public <_J extends _meta_model> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> _parametersActionFn) {
+    public <_J extends _model> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> _parametersActionFn) {
         _walk.in(_j, _parameters.class, n-> {
             Select sel = select( n );
             if( sel != null && selectConstraint.test(sel) ){
