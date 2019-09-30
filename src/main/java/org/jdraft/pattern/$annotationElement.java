@@ -14,7 +14,7 @@ import java.util.function.Predicate;
  */
 public final class $annotationElement
         implements $pattern<_annotation._element, $annotationElement>, $pattern.$java<_annotation._element, $annotationElement>,
-        $annotation.$part, $member.$named<$annotationElement> {
+        $annotation.$part, $member.$named<$annotationElement>, $member<_annotation._element,$annotationElement> {
 
     /** marker interface for member entities that are part of the class */
     public interface $part{ }

@@ -2,6 +2,7 @@ package org.jdraft.pattern;
 
 import com.github.javaparser.Range;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.NullLiteralExpr;
 import com.github.javaparser.ast.stmt.Statement;
@@ -81,6 +82,48 @@ public interface $pattern<P, $P extends $pattern>{
     }
 
     /**
+     * Finds the parent "member" (a {@link BodyDeclaration}) and checks that it matches one of these
+     * $member {@link $pattern}s
+     * @param members the member $patterns to match against the parent member
+     * @return the modified $P (after adding the constraint)
+     */
+    default $P $isParentMember( $member... members){
+        Predicate<P> pp = n -> {
+            if (n instanceof Node) {
+                Node node = (Node)n;
+                return Ast.isParentMember(node, nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
+                //return Arrays.stream(members).filter( $m -> $m.match(node)).findFirst().isPresent();
+            } else if (n instanceof _node) {
+                Node node = ((_node)n).ast();
+                return Ast.isParentMember(node, nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
+                //return Arrays.stream(members).filter( $m -> $m.match(node)).findFirst().isPresent();
+            }
+            return false;
+        };
+        return $and( pp );
+    }
+
+    /**
+     * Finds the parent "member" (a {@link BodyDeclaration}) and checks that it matches one of these
+     * $member {@link $pattern}s (IF so returns false/ does not match)
+     * @param members the member $patterns to match against the parent member
+     * @return the modified $P (after adding the constraint)
+     */
+    default $P $isNotParentMember( $member... members){
+        Predicate<P> pp = n -> {
+            if (n instanceof Node) {
+                Node node = (Node)n;
+                return Ast.isParentMember(node, nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
+            } else if (n instanceof _node) {
+                Node node = ((_node)n).ast();
+                return Ast.isParentMember(node, nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
+            }
+            return false;
+        };
+        return $not( pp );
+    }
+
+    /**
      * Adds a constraint that the instance occurs will be within the Range
      * @param range
      * @return
@@ -121,11 +164,11 @@ public interface $pattern<P, $P extends $pattern>{
     }
 
     /**
-     * Verifies that the ENTIRE matching patter exists on this specific line
+     * Verifies that the ENTIRE matching pattern exists on this specific line in the code
      * @param line the line expected
      * @return the modified $pattern
      */
-    default $P $isOnLine(int line ){
+    default $P $onLine(int line ){
         return $isInRange(Range.range(line,0,line, Integer.MAX_VALUE -10000));
     }
 

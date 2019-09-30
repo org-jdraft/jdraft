@@ -34,7 +34,8 @@ import java.util.stream.Collectors;
  * @author Eric
  */
 public final class $field implements Template<_field>, $pattern<_field, $field>, $pattern.$java<_field, $field>,
-        $class.$part, $interface.$part, $enum.$part, $annotation.$part, $enumConstant.$part, $member.$named<$field> {
+        $class.$part, $interface.$part, $enum.$part, $annotation.$part, $enumConstant.$part, $member.$named<$field>,
+        $member<_field,$field>{
 
     public Class<_field> javaType(){
         return _field.class;
@@ -505,6 +506,9 @@ public final class $field implements Template<_field>, $pattern<_field, $field>,
     public boolean match( Node astNode){
         if( astNode instanceof VariableDeclarator ){
             return matches( (VariableDeclarator) astNode);
+        }
+        if( astNode instanceof FieldDeclaration ){
+            return matches( (FieldDeclaration) astNode);
         }
         return false;
     }

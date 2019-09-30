@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
  */
 public final class $method
     implements Template<_method>, $pattern<_method, $method>, $pattern.$java<_method,$method>, $class.$part,
-        $interface.$part, $enum.$part,$enumConstant.$part, $member.$named<$method> {
+        $interface.$part, $enum.$part,$enumConstant.$part, $member.$named<$method>, $member<_method,$method> {
 
     /**
      * Marker interface for categorizing/identifying parts that make up the

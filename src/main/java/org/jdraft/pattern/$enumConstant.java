@@ -14,7 +14,7 @@ import java.util.function.Predicate;
  */
 public final class $enumConstant
         implements $pattern<_enum._constant, $enumConstant>, $pattern.$java<_enum._constant, $enumConstant>, $enum.$part,
-        $member.$named<$enumConstant> {
+        $member.$named<$enumConstant>, $member<_enum._constant,$enumConstant> {
 
     public Predicate<_enum._constant> constraint = t->true;
 

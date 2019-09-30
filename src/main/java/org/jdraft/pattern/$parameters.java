@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
  *
  * @author Eric
  */
-public final class $parameters implements Template<_parameters>, $pattern<_parameters,$parameters>, $pattern.$java<_parameters,$parameters>,
-        $constructor.$part, $method.$part {
+public final class $parameters implements Template<_parameters>, $pattern<_parameters,$parameters>,
+        $pattern.$java<_parameters,$parameters>, $constructor.$part, $method.$part {
 
     @Override
     public Class<_parameters> javaType(){
@@ -29,12 +29,6 @@ public final class $parameters implements Template<_parameters>, $pattern<_param
     
     Predicate<_parameters> constraint = t-> true;
 
-    /*
-    public static $parameters any(){
-        return of();
-    }
-     */
-    
     /**
      * Matches empty parameters lists only
      * @return 
@@ -51,15 +45,11 @@ public final class $parameters implements Template<_parameters>, $pattern<_param
         return new $parameters(_ps);
     }
 
-
     public static $parameters of( Class...parameterTypes){
         $parameters $ps = of();
         for(int i=0;i<parameterTypes.length;i++){
-
             $ps = $ps.$add( $parameter.of(parameterTypes[i]) );
-            //System.out.println( $ps );
         }
-        //Arrays.stream(parameterTypes).forEach( pt -> $ps.$add( $parameter.of(pt)) );
         return $ps;
     }
 
@@ -97,11 +87,6 @@ public final class $parameters implements Template<_parameters>, $pattern<_param
                 $params.get(i).name.nameStencil = $params.get(i).name.nameStencil.rename$("name", "p" + (i + 1));
             }
         }
-        //if( $param.name.isMatchAny() ){
-
-        //} else {
-        //    this.$params.add($param);
-        //}
         return this;
     }
     

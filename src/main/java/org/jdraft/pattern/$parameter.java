@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 /**
  * @author Eric
  */
-public final class $parameter implements Template<_parameter>, $pattern<_parameter, $parameter>, $pattern.$java<_parameter,$parameter>,
-        $method.$part, $constructor.$part {
+public final class $parameter implements Template<_parameter>, $pattern<_parameter, $parameter>,
+        $pattern.$java<_parameter,$parameter>, $method.$part, $constructor.$part {
 
     public Class<_parameter> javaType(){
         return _parameter.class;

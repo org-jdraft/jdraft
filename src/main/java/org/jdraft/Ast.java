@@ -1,9 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.utils.Log;
-import org.jdraft.io._io;
-import org.jdraft.io._ioException;
-import org.jdraft.io._in;
+
 import com.github.javaparser.*;
 import com.github.javaparser.ParserConfiguration.LanguageLevel;
 import com.github.javaparser.ast.*;
@@ -16,6 +14,7 @@ import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.*;
 import com.github.javaparser.printer.PrettyPrintVisitor;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
+import static com.github.javaparser.utils.Utils.normalizeEolInTextBlock;
 
 import java.io.*;
 import java.lang.annotation.*;
@@ -26,11 +25,14 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.github.javaparser.utils.Utils.normalizeEolInTextBlock;
 import java.nio.file.Paths;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
+
+import org.jdraft.io._io;
+import org.jdraft.io._ioException;
+import org.jdraft.io._in;
 
 /**
  * Translator for Converting from a String or Java reflective classes to AST
@@ -865,7 +867,7 @@ public enum Ast {
     }
 
     /**
-     * Shortcut for checking if the parent exists and matches the predicate
+     * Shortcut for checking if the (direct) parent exists and matches the predicate
      * @param node
      * @param parentMatchFn
      * @return
@@ -904,6 +906,45 @@ public enum Ast {
             if( parentNodeClass.isAssignableFrom(parent.getClass()) ) {
                 return parentMatchFn.test( (N)node.getParentNode().get());
             }
+        }
+        return false;
+    }
+
+    /**
+     * Finds the Parent "member" {@link BodyDeclaration} (the member "containing" the $pattern match)
+     * and test that it matches the memberMatchFn
+     * <PRE>
+     * i.e.
+     * class FF{
+     *     @Deprecated
+     *     public int getF(){
+     *         int i = 0;
+     *         int j = 1;
+     *         return 2;
+     *     }
+     * }
+     * //...if we start at the int literal 0:
+     * Node oneLiteral = $.of(0).firstIn(FF.class);
+     * //we might want to know something about it's containing member, (the method getF())
+     *
+     * // here we test that the literal is not contained in a parent member/BodyDeclaration
+     * // that has the @Deprecated annotation
+     * assertTrue( Ast.isParentMember(oneLiteral, bd-> bd.getAnnotation(Deprecated.class) == null) )
+     *
+     * </PRE>
+     *
+     * @param node
+     * @param parentMemberMatchFn
+     * @return
+     */
+    public static boolean isParentMember( Node node, Predicate<BodyDeclaration> parentMemberMatchFn){
+        if( node.getParentNode().isPresent()){
+            Node parent = node.getParentNode().get();
+            if( parent instanceof BodyDeclaration ){
+                return parentMemberMatchFn.test( (BodyDeclaration)parent);
+            }
+            //recurse to next parent until we find a BodyDeclaration to test of no parent
+            return isParentMember(parent, parentMemberMatchFn);
         }
         return false;
     }

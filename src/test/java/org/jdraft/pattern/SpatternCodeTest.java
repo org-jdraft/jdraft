@@ -1,16 +1,14 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.EnumDeclaration;
 import org.jdraft.*;
 
 import java.net.URI;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import junit.framework.TestCase;
 import org.jdraft.macro._static;
@@ -21,7 +19,60 @@ import org.jdraft.macro._static;
  */
 public class SpatternCodeTest extends TestCase {
 
-    public void testIsIn(){
+    public void testIDO(){
+        _class _c = _class.of(
+                "public class C{", //1
+                "    public int i = 0;", //2
+                "    public int x = 1;", //3
+                "    public C(){ this.i = 2; }", //4
+                "    public C(int i){ this.i = i; }", //5
+                "    public int getU(){ return 3; }", //6
+                "    public int getI(){ return i; }", //7
+                "    { System.out.println(4); }",  //8
+                "    { System.out.println(5); }",  //9
+                "}");//10
+        assertEquals(4, $.intLiteral().$isNotParentMember($field.of()).count(_c)); //2,3,4,5
+    }
+    public void testIsParentMember(){
+        _class _c = _class.of(
+                "public class C{", //1
+                "    public int i = 0;", //2
+                "    public int x = 1;", //3
+                "    public C(){ this.i = 2; }", //4
+                "    public C(int i){ this.i = i; }", //5
+                "    public int getU(){ return 3; }", //6
+                "    public int getI(){ return i; }", //7
+                "    { System.out.println(4); }",  //8
+                "    { System.out.println(5); }",  //9
+                "}");//10
+
+        assertEquals( $field.of().count(_c), 2);
+
+
+        $member[] members = new $member[]{$field.of()};
+        Node node = $.of(0).firstIn(_c);
+
+        assertTrue( Ast.isParentMember(node, pm -> {
+            System.out.println(pm+" "+ pm.getClass());
+            return $field.of().match(pm);
+        }));
+
+        //assertTrue( Ast.isParentMember(node, nn-> Arrays.stream(members).filter($m ->Ast$m.match(nn)).findFirst().isPresent()) );
+        assertTrue( Ast.isParentMember(node, nn-> Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent()) );
+
+        //there are (2) int literals (0, 2) which have parents associated with fields ("int i = 0", "int x = 2")
+        assertEquals(2, $.intLiteral().$isParentMember($field.of()).count(_c)); //i,x
+        //System.out.println( "Is parent ");
+        //$.intLiteral().$isParentMember($field.of()).printIn(_c);
+
+        //there are (3) int literal (23, 1, 2) which are Not part of members that are fields (
+        //System.out.println( "Is Not parent ");
+        //$.intLiteral().$isNotParentMember($field.of()).printIn(_c);
+
+        assertEquals(4, $.intLiteral().$isNotParentMember($field.of()).count(_c));
+    }
+
+    public void testIsInRange(){
         _class _c = _class.of(
                 "public class C{", //1
                 "    public int i = 0;", //2
@@ -40,9 +91,9 @@ public class SpatternCodeTest extends TestCase {
         //verify (2) fields on lines 2 and 3 (2, 3)
         assertEquals(2, $field.of().count(_c) );
         //1 field on line 2
-        assertEquals(1, $field.of().$isOnLine(2).count(_c) );
+        assertEquals(1, $field.of().$onLine(2).count(_c) );
         //1 field on line 3
-        assertEquals(1, $field.of().$isOnLine(3).count(_c) );
+        assertEquals(1, $field.of().$onLine(3).count(_c) );
         //field on line 2
         $field $f = $.field().$isInRange(2,0, 2,100);
         assertEquals(1, $f.count(_c));

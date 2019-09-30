@@ -20,7 +20,8 @@ import java.util.function.Predicate;
  * Note... at the moment this is NOT a template... should it be??
  */
 public final class $interface
-        implements $pattern<_interface, $interface>, $pattern.$java<_interface, $interface>, $member.$named<$interface> {
+        implements $pattern<_interface, $interface>, $pattern.$java<_interface, $interface>, $member.$named<$interface>,
+        $member<_interface,$interface>{
 
     public Predicate<_interface> constraint = t->true;
 

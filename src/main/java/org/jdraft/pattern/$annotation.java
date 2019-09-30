@@ -15,7 +15,8 @@ import java.util.function.Predicate;
  * Note... at the moment this is NOT a template... should it be??
  */
 public final class $annotation
-        implements $pattern<_annotation, $annotation>, $pattern.$java<_annotation, $annotation>, $member.$named<$annotation> {
+        implements $pattern<_annotation, $annotation>, $pattern.$java<_annotation, $annotation>, $member.$named<$annotation>,
+        $member<_annotation,$annotation>  {
 
     public Predicate<_annotation> constraint = t->true;
 
