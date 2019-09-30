@@ -1,6 +1,8 @@
 package org.jdraft.pattern;
 
+import com.github.javaparser.ast.body.BodyDeclaration;
 import org.jdraft._declared;
+import org.jdraft._method;
 import org.jdraft._type;
 
 import java.util.function.Predicate;
@@ -24,6 +26,9 @@ import java.util.function.Predicate;
  */
 public interface $member<M, $M extends $pattern> extends $pattern<M,$M> {
 
+    public static $node of( $pattern...$patterns ){
+        return null;
+    }
     //$getMember()
     /**
      * Is this $member $prototype a $member of another $member<PRE>

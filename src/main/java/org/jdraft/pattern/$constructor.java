@@ -1,6 +1,22 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.utils.Log;
+import com.github.javaparser.ast.Modifier;
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.BodyDeclaration;
+import com.github.javaparser.ast.body.ConstructorDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.comments.JavadocComment;
+import com.github.javaparser.ast.expr.*;
+import com.github.javaparser.ast.stmt.*;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.Collectors;
+
 import org.jdraft._code;
 import org.jdraft._modifiers;
 import org.jdraft._javadoc;
@@ -14,27 +30,12 @@ import org.jdraft._body;
 import org.jdraft._walk;
 import org.jdraft.Ex;
 import org.jdraft.Stmt;
-import com.github.javaparser.ast.Modifier;
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.BodyDeclaration;
-import com.github.javaparser.ast.body.ConstructorDeclaration;
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.comments.JavadocComment;
-import com.github.javaparser.ast.expr.*;
-import com.github.javaparser.ast.stmt.*;
 import org.jdraft.*;
 import org.jdraft._anno._annos;
 import org.jdraft._node;
 import org.jdraft._parameter._parameters;
 import org.jdraft._typeParameter._typeParameters;
 import org.jdraft.macro._remove;
-import java.lang.annotation.Annotation;
-
-import java.lang.reflect.Method;
-import java.util.*;
-import java.util.function.*;
-import java.util.stream.Collectors;
 import org.jdraft.macro._toCtor;
 import org.jdraft.macro.macro;
 
@@ -127,7 +128,6 @@ public final class $constructor
         _ct.removeAnnos(_toCtor.class); //remove the _ctor anno if it exists
         _ct.setBody( theMethod.getBody().get() ); //BODY
 
-
         //MED
         $constructor $ct = of( _ct );
 
@@ -146,8 +146,6 @@ public final class $constructor
             $ct.annos.$annosList.removeIf(a -> a.name.idStencil.isFixedText() && a.name.idStencil.getTextForm().getFixedText().equals("_$"));
         }
         return $ct;
-
-        //return of(_ct);
     }
 
     /**
@@ -158,6 +156,11 @@ public final class $constructor
         return new $constructor( $name.of("$name$"), $body.of() );
     }
 
+    /**
+     *
+     * @param parts
+     * @return
+     */
     public static $constructor not( $part...parts){
         $constructor $ct = of();
         $ct.$not(parts);
@@ -298,6 +301,10 @@ public final class $constructor
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public String toString(){
         if( isMatchAny() ){
             return "$constructor{ $ANY$ }";
@@ -660,6 +667,10 @@ public final class $constructor
         return draft(translator, ts);
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isMatchAny(){
         try {
             return this.constraint.test(null) && this.javadoc.isMatchAny() && this.annos.isMatchAny()
@@ -810,6 +821,11 @@ public final class $constructor
         return select( _ct ) != null;
     }
 
+    /**
+     *
+     * @param code
+     * @return
+     */
     public boolean matches( String...code ){
         return matches(_constructor.of(code));
     }

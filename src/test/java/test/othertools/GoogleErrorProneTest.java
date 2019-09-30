@@ -1,9 +1,14 @@
 package test.othertools;
 
+import com.github.javaparser.Position;
+import com.github.javaparser.Range;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.CallableDeclaration;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import junit.framework.TestCase;
+import org.jdraft.Ast;
+import org.jdraft._class;
 import org.jdraft.pattern.*;
 
 /**
@@ -12,6 +17,51 @@ import org.jdraft.pattern.*;
  *
  */
 public class GoogleErrorProneTest extends TestCase {
+
+    public void testMember(){
+        //a $member is just a BodyDeclaration
+        //
+        Range searchRange = new Range(new Position(0, 0), new Position(100, 100));
+
+        //$isInRange( Range )
+        //$isInRange(startLine, startColumn, endLine, endColumn)
+        //$isInRange(startLine, endLine)
+
+
+        BodyDeclaration bd = Ast.method("int i(){return 3;}");
+        assertTrue( searchRange.strictlyContains( bd.getRange().get() ) );
+        assertTrue(
+                $node.of(BodyDeclaration.class).match(Ast.method("int i(){return 1;}")) );
+    }
+    //https://errorprone.info/bugpattern/AndroidInjectionBeforeSuper
+    public void testAndroidInjectBeforeSuper(){
+        //here we have the components
+        $ex $onCreate = $.expr("super.onCreate($any$)");
+        $ex $onAttach = $.expr("super.onAttach($any$)");
+        $ex $inject = $ex.of("AndroidInjection.inject(this)");
+        $anno $suppress = $anno.of("@SuppressWarnings(\"AndroidInjectionBeforeSuper\")");
+
+        /*
+
+        $inject.$notMember($member.of($suppress))
+
+        $inject.$before(3, $pattern...)
+        $inject.$after(3, $pattern...)
+
+        $inject.$notAfter(3, $onCreate, $onAttach);
+        $inject.$notBefore(3, $onCreate, $onAttach);
+        */
+        _class _c = _class.of("public class WrongOrder extends Activity {",
+            "    @Override",
+            "    public void onCreate(Bundle savedInstanceState) {",
+            "        super.onCreate(savedInstanceState);",
+            "        // BUG: Diagnostic contains: AndroidInjectionBeforeSuper",
+            "        AndroidInjection.inject(this);",
+            "    }",
+            "}");
+            assertEquals(1, $onCreate.count(_c));
+            assertEquals(1, $inject.count(_c));
+    }
 
     /**
      * Look through code to find return null;

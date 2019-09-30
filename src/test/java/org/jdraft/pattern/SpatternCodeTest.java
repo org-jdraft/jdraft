@@ -21,6 +21,42 @@ import org.jdraft.macro._static;
  */
 public class SpatternCodeTest extends TestCase {
 
+    public void testIsIn(){
+        _class _c = _class.of(
+                "public class C{", //1
+                "    public int i = 0;", //2
+                "    public int x = 2;", //3
+                "    public C(){ this.i = 0; }", //4
+                "    public C(int i){ this.i = i; }", //5
+                "    public int getU(){ return 23; }", //6
+                "    public int getI(){ return i; }", //7
+                "    { System.out.println(1); }",  //8
+                "    { System.out.println(2); }",  //9
+                "}");//10
+        assertEquals( 2, $constructor.of().count(_c) );
+        assertEquals( 2, $constructor.of().$isInRange(0,0, 10,100).count(_c) );
+        assertEquals( 2, $constructor.of().$isInRange(0, 10).count(_c) );
+
+        //verify (2) fields on lines 2 and 3 (2, 3)
+        assertEquals(2, $field.of().count(_c) );
+        //1 field on line 2
+        assertEquals(1, $field.of().$isOnLine(2).count(_c) );
+        //1 field on line 3
+        assertEquals(1, $field.of().$isOnLine(3).count(_c) );
+        //field on line 2
+        $field $f = $.field().$isInRange(2,0, 2,100);
+        assertEquals(1, $f.count(_c));
+
+        //exact (2, 4) - (2-21)
+        $f = $.field().$isInRange(2,4, 2,21);
+        assertEquals(1, $f.count(_c));
+
+        //on single line
+        $f = $.field().$isInRange(2,2);
+        assertEquals(1, $f.count(_c));assertEquals(1, $f.count(_c));
+
+    }
+
     public void test$ParentChildDescendant(){
         class C <A extends Map> {
             int x = 0;

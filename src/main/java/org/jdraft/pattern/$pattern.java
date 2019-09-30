@@ -1,19 +1,12 @@
 package org.jdraft.pattern;
 
-import org.jdraft._code;
-import org.jdraft._java;
-import org.jdraft._type;
-import org.jdraft.Ex;
-import org.jdraft.Ast;
-import org.jdraft.Stmt;
+import com.github.javaparser.Range;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.NullLiteralExpr;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.type.Type;
-import org.jdraft.*;
-import org.jdraft._node;
-import org.jdraft._typeRef;
+
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -22,6 +15,17 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.jdraft._code;
+import org.jdraft._java;
+import org.jdraft._type;
+import org.jdraft.Ex;
+import org.jdraft.Ast;
+import org.jdraft.Stmt;
+
+import org.jdraft.*;
+import org.jdraft._node;
+import org.jdraft._typeRef;
 
 /**
  * Model of a <A HREF="https://en.wikipedia.org/wiki/Query_by_Example">query-by-example</A>,
@@ -74,6 +78,55 @@ public interface $pattern<P, $P extends $pattern>{
      */
     default $P $not(Predicate<P> constraint){
         return $and( constraint.negate() );
+    }
+
+    /**
+     * Adds a constraint that the instance occurs will be within the Range
+     * @param range
+     * @return
+     */
+    default $P $isInRange(final Range range ){
+        Predicate<P> pp = n -> {
+            if (n instanceof Node) {
+                return ((Node)n).getRange().isPresent() && range.strictlyContains( ((Node) n).getRange().get());
+            } else if (n instanceof _node) {
+                Node node = ((_node)n).ast();
+                return node.getRange().isPresent() && range.strictlyContains(node.getRange().get());
+            }
+            return false;
+        };
+        return $and( pp );
+    }
+
+    /**
+     * Adds a constraint that the instance occurs will be within the Range
+     * @param beginLine
+     * @param beginColumn
+     * @param endLine
+     * @param endColumn
+     * @return
+     */
+    default $P $isInRange(int beginLine, int beginColumn, int endLine, int endColumn){
+        return $isInRange(Range.range(beginLine,beginColumn,endLine, endColumn));
+    }
+
+    /**
+     * Adds a constraint that the instance occurs will be within the Range
+     * @param beginLine
+     * @param endLine
+     * @return
+     */
+    default $P $isInRange(int beginLine, int endLine){
+        return $isInRange(Range.range(beginLine,0,endLine, Integer.MAX_VALUE -10000));
+    }
+
+    /**
+     * Verifies that the ENTIRE matching patter exists on this specific line
+     * @param line the line expected
+     * @return the modified $pattern
+     */
+    default $P $isOnLine(int line ){
+        return $isInRange(Range.range(line,0,line, Integer.MAX_VALUE -10000));
     }
 
     /**

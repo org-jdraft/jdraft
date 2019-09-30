@@ -360,6 +360,7 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
         }
 
         public boolean isStatic(){ return this.initBlock.isStatic(); }
+
         @Override
         public InitializerDeclaration ast() {
             return initBlock.ast();

@@ -71,19 +71,37 @@ public final class $annos
         Arrays.stream($anns).forEach(a -> $as.$annosList.add(a));
         return $as;
     }
-    
+
+    /**
+     *
+     * @param annoPatterns
+     * @return
+     */
     public static $annos of(String...annoPatterns){
         return new $annos(annoPatterns);
     }
-    
+
+    /**
+     *
+     * @param annos
+     * @return
+     */
     public static $annos of(_annos annos){
         return new $annos(annos);
     }
-    
+
+    /**
+     *
+     * @param annoPatterns
+     */
     public $annos( String...annoPatterns ){
         this(_annos.of(annoPatterns));
     }
-    
+
+    /**
+     *
+     * @param _anns
+     */
     public $annos( _annos _anns){
         if( _anns != null ){
             for(int i=0;i<_anns.size();i++){
@@ -103,7 +121,11 @@ public final class $annos
      * A Matching predicate for _annos
      */
     public Predicate<_annos> constraint = t-> true;
-    
+
+    /**
+     *
+     * @return
+     */
     public boolean isEmpty(){
         return this.$annosList.isEmpty();
     }
@@ -223,11 +245,21 @@ public final class $annos
         return found.stream().distinct().collect(Collectors.toList());
     }
 
+    /**
+     *
+     * @param $as
+     * @return
+     */
     public $annos add($anno...$as){
         Arrays.stream($as).forEach( a -> this.$annosList.add( a) );
         return this;
     }
 
+    /**
+     *
+     * @param annoPatterns
+     * @return
+     */
     public $annos add(String...annoPatterns){
         Arrays.stream(annoPatterns).forEach( a -> this.$annosList.add( $anno.of(a) ) );
         return this;
