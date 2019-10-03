@@ -251,7 +251,7 @@ public class _1_WhatIsProtoTest extends TestCase {
 
         // $.expr() represents ALL expressions (Note: some expressions are composed of other expressions)
         //[-1, 1, @LitAnno(0), 0, 1, 2, 3 + 4, 3, 4, { 5, 6, 7, 8, 9, 10 }, 5, 6, 7, 8, 9, 10, "StringLiteral", a += 11, a, 11]
-        System.out.println( $.expr().listIn(MostlyIntLiterals.class) );
+        System.out.println( $.ex().listIn(MostlyIntLiterals.class) );
 
         /**
          * $.literal() represents all {@link com.github.javaparser.ast.expr.LiteralExpr}

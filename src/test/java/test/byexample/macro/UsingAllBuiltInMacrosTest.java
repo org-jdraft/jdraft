@@ -82,6 +82,9 @@ public class UsingAllBuiltInMacrosTest extends TestCase {
         _interface _i2 = _interface.of("asd.Inter",
                 new @_extend({Serializable.class, Cloneable.class}) Object(){});
 
+        System.out.println( _i2 );
+        assertTrue( _i2.isExtends(Serializable.class));
+        assertTrue(_i2.isExtends(Cloneable.class));
         assertTrue( _i2.isExtends(Serializable.class) && _i2.isExtends(Cloneable.class));
 
         //@_final works on types

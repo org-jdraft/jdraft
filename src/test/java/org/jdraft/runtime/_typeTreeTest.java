@@ -1,13 +1,138 @@
 package org.jdraft.runtime;
 
 import com.github.javaparser.ast.type.Type;
+import com.github.javaparser.utils.Log;
 import junit.framework.TestCase;
 import org.jdraft.*;
+import org.jdraft.io._archive;
 import org.jdraft.macro._importClass;
+import org.jdraft.macro._package;
 
 import java.io.Serializable;
+import java.util.function.Supplier;
 
 public class _typeTreeTest extends TestCase {
+
+    public void testIntF(){
+        //assertEquals( 1, 0x1);
+
+        assertEquals( 15, 0xF);
+        assertEquals( -268435456, 0xF0000000);
+        assertEquals( 15, Integer.parseInt("F", 16));
+        assertEquals( 15, Integer.parseUnsignedInt("F", 16));
+        assertEquals( -268435456, Integer.parseUnsignedInt("F0000000",16) );
+        /*
+        System.out.println( Long.parseLong("F0000000",16) );
+        long l = Long.parseLong("F0000000", 16);
+        System.out.println( Long.toHexString(l) );
+
+        System.out.println( "UnsignedInt" + Integer.parseUnsignedInt("F0000000", 16));
+
+        assertEquals( -268435456, Integer.parseInt("F0000000", 16));
+        assertEquals( -268435456, Integer.parseInt("F0000000", 16));
+        */
+        /*
+        assertEquals( 15, Integer.parseInt("F", 16));
+        assertEquals( -268435456, 0xF0000000);
+
+        //assertEquals( 16, 0x10);
+        assertEquals( -268435456, 0xF0000000);
+
+        assertEquals( -268435456, 0xF0000000);
+
+        assertEquals( 1, Integer.parseInt("1", 16));
+        assertEquals( 15, Integer.parseInt("F", 16));
+        assertEquals( 16, Integer.parseInt("10", 16));
+
+        int i = 0xF0000000;
+        int j = Integer.parseInt("F", 16);
+
+        int k = Integer.parseInt("F0000000", 16);
+        int l = Integer.parseInt("0xF0000000", 16);
+        Ex.parseNumber("0xF0000000");
+        */
+        /*
+        class C {
+            int i = 0xF0000000;
+            int j = 0XF0000000;
+        }
+        _class _c = _class.of(C.class);
+        //fail
+        _c.hashCode();
+         */
+    }
+
+    /** COMMENTED OUT BECAUSE SLOW
+    public void testSpringTypeTree(){
+        //Class c  = org.objenesis.Objenesis.class;
+
+        _archive _ar = _archive.of("C:\\Users\\Eric\\Downloads\\spring-core-5.1.9.RELEASE-sources.jar");
+        _code._cache _cc = _code._cache.of(_ar );
+        System.out.println( "CODE FILES :" + _cc.list_code().size() );
+        System.out.println( "TYPE FILES :" + _cc.list_types().size() );
+
+        //only print out the errors
+        Log.setAdapter( new Log.StandardOutStandardErrorAdapter(){
+            public void info(Supplier<String> messageSupplier){ }
+            public void trace(Supplier<String> messageSupplier){ }
+        });
+        _typeTree _tt = _typeTree.of( _cc );
+        //turn logger back off
+        Log.setAdapter( new Log.SilentAdapter());
+        System.out.println( _tt );
+
+        System.out.println( "DIRECT CHILDREN" + _tt.listDirectChildren(Serializable.class));
+        System.out.println( "DIRECT CHILDREN" + _tt.listDirectChildren(Serializable.class).size());
+        System.out.println( "ALL IMPLEMENTERS OF SERIALIZABLE " + _tt.listAllDescendants(Serializable.class) );
+        System.out.println( "ALL IMPLEMENTERS OF SERIALIZABLE " + _tt.listAllDescendants(Serializable.class).size() );
+    }
+    */
+
+    @_package("aaaa.bbbb")
+    @_importClass(Serializable.class)
+    interface I1 extends Serializable{}
+
+    @_package("bbbb.aaaa")
+    interface I2{ }
+
+    @_package("bbbb.aaaa")
+    class C1{}
+
+    @_package("aaaa.bbbb")
+    class C2{}
+
+    public void testDescendants(){
+        _interface _i1 = _interface.of(I1.class);
+        _interface _i2 = _interface.of(I2.class);
+        _class _c1 = _class.of(C1.class);
+        _class _c2 = _class.of(C2.class);
+
+        _c1.implement(_i1);
+        _c2.implement(_i2);
+
+        _typeTree _tt = _typeTree.of(_i1, _i2, _c1, _c2);
+
+        //System.out.println( _tt );
+
+        //walks DOWN the
+        assertEquals(2, _tt.listAllDescendants(Serializable.class).size());
+
+        _c2.implement(Serializable.class);
+        _tt = _typeTree.of(_i1, _i2, _c1, _c2);
+        //System.out.println( _tt );
+        assertEquals(3, _tt.listAllDescendants(Serializable.class).size());
+
+        //this is true because c1 implements _i1 extends Serializable
+        assertTrue(_tt.isImplements( _c1, Serializable.class));
+
+        //_c2 directly implements Serializable
+        assertTrue(_tt.isImplements( _c2, Serializable.class));
+
+        //_c2
+        assertFalse(_tt.isImplements(_c1, _i2) );
+    }
+
+
 
     public @interface Blarf {
         @interface Blorf { }
@@ -33,8 +158,8 @@ public class _typeTreeTest extends TestCase {
         }
         _class _l = _class.of(L.class);
         _typeTree _tt = _typeTree.of(_l);
-        assertEquals(1, _tt.listAllChildren(_l).size());
-        assertEquals(1, _tt.listAllChildren(Serializable.class).size());
+        assertEquals(1, _tt.listAllDescendants(_l).size());
+        assertEquals(1, _tt.listAllDescendants(Serializable.class).size());
         //System.out.println( _tt.listAllChildren(Serializable.class));
         //System.out.println( _tt.listAllChildren(Serializable.class).get(0).fullyQualifiedClassName);
     }
@@ -70,7 +195,7 @@ public class _typeTreeTest extends TestCase {
                 _enum.of("E").implement(Serializable.class),
                 _class.of("C").implement("I"));
         assertEquals(2, _tt.listDirectChildren(Serializable.class).size());
-        assertEquals(3, _tt.listAllChildren(Serializable.class).size());
+        assertEquals(3, _tt.listAllDescendants(Serializable.class).size());
 
         assertEquals( 2, _tt.listAllAncestors("C").size()); //I, "Serializable"
 
@@ -146,8 +271,8 @@ public class _typeTreeTest extends TestCase {
         assertEquals(1, _tt.listDirectChildren("TestCase").size() );
         assertEquals(0, _tt.listDirectChildren("A").size() );
 
-        assertEquals(1, _tt.listAllChildren("TestCase").size() );
-        assertEquals(0, _tt.listAllChildren("A").size() );
+        assertEquals(1, _tt.listAllDescendants("TestCase").size() );
+        assertEquals(0, _tt.listAllDescendants("A").size() );
 
     }
 
@@ -160,7 +285,7 @@ public class _typeTreeTest extends TestCase {
         assertEquals(1, _tt.listDirectChildren("B").size() );
         assertEquals(0, _tt.listDirectChildren("C").size() );
 
-        assertEquals( 3, _tt.listAllChildren("TestCase").size() );
+        assertEquals( 3, _tt.listAllDescendants("TestCase").size() );
     }
 }
 

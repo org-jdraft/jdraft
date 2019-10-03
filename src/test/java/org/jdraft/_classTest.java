@@ -20,6 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import junit.framework.TestCase;
 import org.jdraft.pattern.$;
+import org.jdraft.runtime._runtime;
 import test.ComplexClass;
 import test.NativeMethod;
 
@@ -150,6 +151,8 @@ public class _classTest extends TestCase {
         assertFalse( _t.isExtends(String.class));
         
         _t = _class.of("C").extend(Be.class);
+        System.out.println( _t );
+
         assertTrue( _t.isExtends(Be.class));
         assertTrue( _t.isExtends("Be"));
         assertTrue( _t.isExtends(Be.class.getCanonicalName()));        
@@ -157,13 +160,52 @@ public class _classTest extends TestCase {
     
     public void testIsImplements(){
         _type _t = _class.of("C").extend("B").implement(Serializable.class);
+        System.out.println( _t);
         assertTrue( _t.isImplements(Serializable.class));
         assertTrue( _t.isImplements(Serializable.class.getCanonicalName()));
         assertTrue( _t.isImplements("Serializable"));
-        
-        
     }
-    
+
+
+
+    /**
+     * Checking isImports for
+     */
+    public void testClassExtend(){
+
+        //explicitly extending the fully qualified type
+        _class _c = _class.of("C").extend(java.util.Map.class.getCanonicalName());
+        System.out.println( _c);
+        assertTrue( _c.isExtends(Map.class));
+
+        //implementing by simple name, _enum is in the same package as interface
+        _class _base = _class.of("aaaa.bbbb.Base");
+        Class iClass = _runtime.Class(_base); //create me the base class in same package
+        _c = _class.of("aaaa.bbbb.C").extend("Base");
+        assertTrue( _c.isExtends(iClass));
+
+        //implementing by simple name, importing by fully qualified name
+        _c = _class.of("C").extend("Base").imports(iClass);
+        assertTrue( _c.isExtends(iClass));
+
+        //implementing by simple name, importing by wildcard
+        //Might fail...
+        _c = _class.of("E").extend("Base").imports("aaaa.bbbb.*");
+        assertTrue( _c.isExtends(iClass));
+
+        //test generic extend
+        _c = _class.of("E").extend("aaaa.bbbb.G<I>");
+        //should match
+        assertTrue( _c.isExtends("aaaa.bbbb.G<I>"));
+        assertTrue( _c.isExtends("aaaa.bbbb.G"));
+
+        //test generic extend
+        _c = _class.of("E").extend("aaaa.bbbb.G<String>");
+        assertTrue( _c.isExtends("aaaa.bbbb.G<String>")); //fully qualified
+        assertTrue( _c.isExtends("G<String>")); //not fully qualified
+        //assertTrue( _e.isImplements("aaaa.bbbb.G<java.lang.String>"));
+    }
+
     public class Inner{
         
     }

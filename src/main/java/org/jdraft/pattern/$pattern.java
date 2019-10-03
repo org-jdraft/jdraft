@@ -2129,4 +2129,22 @@ public interface $pattern<P, $P extends $pattern>{
          */
         _J _node();
     }
+
+    /**
+     *
+     */
+    public static class $exception extends _draftException{
+        public $exception(String message, Throwable throwable){
+            super(message, throwable);
+        }
+
+        public $exception(String message){
+            super(message);
+        }
+
+        public $exception(Throwable throwable){
+            super(throwable);
+        }
+    }
+
 }

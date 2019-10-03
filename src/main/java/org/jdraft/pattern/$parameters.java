@@ -53,6 +53,11 @@ public final class $parameters implements Template<_parameters>, $pattern<_param
         return $ps;
     }
 
+    public static $parameters of( $parameter...$ps ){
+        $parameters $tps = of();
+        Arrays.stream($ps).forEach( $p -> $tps.$add($p) );
+        return $tps;
+    }
     public static $parameters of( String...pattern){
         return new $parameters(_parameters.of(pattern));
     }

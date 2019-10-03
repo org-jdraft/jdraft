@@ -44,9 +44,9 @@ public class IntelliJPSIExample extends TestCase {
      */
     public void testConvertEqualBinaryExprToEqualsMethodCall(){
         //basically represent the BINARY EXPRESSION "x == y" (for any X and Y)
-        $ex $binEqEq = $.expr("$x$ == $y$");
+        $ex $binEqEq = $.ex("$x$ == $y$");
         //then convert to a METHOD CALL EXPRESSION  "x.equals(y)" for any x and y
-        $ex $methodEq = $.expr("$x$.equals($y$)");
+        $ex $methodEq = $.ex("$x$.equals($y$)");
 
         class someEx{
             Integer a,b,c,d;

@@ -340,6 +340,11 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         return implement( new String[]{classToImplement});
     }
 
+    public _class implement (_interface _i) {
+        imports(_i);
+        return implement(new _interface[]{_i});
+    }
+
     @Override
     public _class removeImplements( Class toRemove ){
         this.astClass.getImplementedTypes().removeIf( im -> im.getNameAsString().equals( toRemove.getSimpleName() ) ||

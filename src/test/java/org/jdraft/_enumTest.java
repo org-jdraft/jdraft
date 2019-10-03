@@ -6,11 +6,15 @@
 package org.jdraft;
 
 import java.io.Serializable;
+
+import com.github.javaparser.ast.type.Type;
 import junit.framework.TestCase;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
+
+import org.jdraft.runtime._runtime;
 import test.ComplexEnum;
 
 /**
@@ -80,6 +84,83 @@ public class _enumTest extends TestCase {
                 .constructor("private E(int i){ this.i = i;}");
     }
 
+    public void testType(){
+        //todo, ned to
+        Type t = Ast.typeRef("@ann aaaa.bbbb.I<T>");
+        assertTrue( t.isClassOrInterfaceType() );
+        System.out.println( t.toString() );
+        assertEquals( "aaaa.bbbb.I", t.toString(Ast.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS));
+
+        System.out.println( t.getElementType() );
+    }
+
+    /**
+     * Checking isImports based on different usages
+     * (fully qualified or not)
+     * fully qualified import
+     * wildcardImport
+     * Generic
+     */
+    public void testTypeImport(){
+
+        //explicitly implementing the fully qualified type
+        _enum _e = _enum.of("E").implement(java.io.Serializable.class.getCanonicalName());
+        System.out.println( _e);
+        assertTrue( _e.isImplements(Serializable.class));
+        assertTrue( _e.isImplements("Serializable"));
+        assertTrue( _e.isImplements(Serializable.class.getCanonicalName()));
+
+        //implementing by simple name, _enum is in the same package as interface
+        _interface _i = _interface.of("aaaa.bbbb.I");
+        Class iClass = _runtime.Class(_i); //create me the interface class in same package
+        _e = _enum.of("aaaa.bbbb.E").implement("I");
+        assertTrue( _e.isImplements("I"));
+        assertTrue( _e.isImplements("aaaa.bbbb.I"));
+
+        //implementing by simple name, importing by fully qualified name
+        _e = _enum.of("E").implement("Serializable").imports(Serializable.class);
+        assertTrue( _e.isImplements(Serializable.class));
+        assertTrue( _e.isImplements("Serializable"));
+        assertTrue( _e.isImplements(Serializable.class.getCanonicalName()));
+
+        //implementing by simple name, importing by wildcard
+        _e = _enum.of("E").implement("Serializable").imports("java.io.*");
+        assertTrue( _e.isImplements(Serializable.class));
+        assertTrue( _e.isImplements("Serializable"));
+        assertTrue( _e.isImplements(Serializable.class.getCanonicalName()));
+
+        //test generic implement
+        _e = _enum.of("E").implement("aaaa.bbbb.G<I>");
+        //should match
+        assertTrue( _e.isImplements("aaaa.bbbb.G<I>"));
+        assertTrue( _e.isImplements("aaaa.bbbb.G"));
+        assertTrue( _e.isImplements("G"));
+        assertTrue( _e.isImplements("G<I>"));
+
+        assertFalse(_e.isImplements("xxx.yyy.G"));
+        assertFalse(_e.isImplements("xxx.yyy.G<I>"));
+
+        //test generic implement
+        _e = _enum.of("E").implement("aaaa.bbbb.G<String>");
+        assertTrue( _e.isImplements("aaaa.bbbb.G<String>")); //fully qualified
+        assertTrue( _e.isImplements("G<String>")); //not fully qualified
+
+        //yeah this is still a PITA
+        //assertTrue( _e.isImplements("aaaa.bbbb.G<java.lang.String>"));
+    }
+
+    interface F{
+
+    }
+    class R{
+
+    }
+    interface II<U extends String>{
+
+    }
+    class D implements II<String>{
+
+    }
 
     public void testImport(){
         _enum _e = _enum.of( ComplexEnum.class);

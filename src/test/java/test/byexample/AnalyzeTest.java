@@ -7,7 +7,9 @@ import org.jdraft.io._archive;
 import org.jdraft.io._io;
 import org.jdraft.pattern.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AnalyzeTest extends TestCase {
 
@@ -25,7 +27,35 @@ public class AnalyzeTest extends TestCase {
      */
 
 
+    /************************************************************************** WORKS BUT SLOW
+
+    public void testAnalyzeProjects(){
+        _archive _ar =
+                //_archive.of("C:\\Users\\Eric\\Downloads\\jackson-core-2.9.9-sources.jar");
+                //_archive.of("C:\\Users\\Eric\\Downloads\\jetty-server-9.4.20.v20190813-sources.jar");
+                //_archive.of("C:\\Users\\Eric\\Downloads\\guava-28.1-jre-sources.jar");
+                //_archive.of("C:\\Users\\Eric\\Downloads\\commons-lang-2.6-sources.jar");
+                _archive.of("C:\\Users\\Eric\\Downloads\\commons-lang3-3.9-sources.jar");
+
+        //Cache all of the code so we can do multiple analysis (without reparsing each time)
+        _code._cache cc = _code._cache.of(_ar);
+
+        $interface.of().streamIn(cc).forEach( i -> System.out.println(i.getFullName()));
+
+        //print all anonymous classes
+        $.objectCreation(oce-> oce.getAnonymousClassBody().isPresent()).printIn(cc);
+
+        //print all local classes that are within methods
+        $.localClassStmt().$hasParent($.method()).printIn(cc);
+
+        $.comment(c -> c.getContent().contains("TODO")).printIn(cc);
+
+        //print all lambdas with no parameters
+        $.lambda(l-> l.getParameters().isEmpty()).printIn(cc);
+    }
+
     public void testAnalyzeSpringInLocalJar(){
+
         _archive _ar =
                 _archive.of("C:\\Users\\Eric\\Downloads\\spring-core-5.1.9.RELEASE-sources.jar");
 
@@ -52,15 +82,22 @@ public class AnalyzeTest extends TestCase {
 
         //count all types containing at least one nested type
         System.out.println( $.of(TypeDeclaration.class).$hasDescendant(1, $.of(TypeDeclaration.class)).count(cc) );
-
     }
+     */
 
 
     public void testAnalyzeJavaParserInURLJar(){
-        String JavaParserUrl = "https://repo1.maven.org/maven2/com/github/javaparser/javaparser-core/3.14.11/javaparser-core-3.14.11-sources.jar";
+        Map<String,String> mm = new HashMap();
+        //mm.putAll( System.getProperties() );
+        System.getProperties().entrySet().stream().filter(e -> e.getValue().toString().contains(".m2"))
+                .forEach(e ->System.out.println(e.getKey()+" "+e.getValue()));
 
-
+        //System.getProperties().entrySet().stream().filter(e -> e.getValue().toString().contains(".m2"))
+        //        .forEach(e ->System.out.println(e.getKey()+" "+e.getValue()));
+        //System.out.println(  );
+        //String JavaParserUrl = "https://repo1.maven.org/maven2/com/github/javaparser/javaparser-core/3.14.11/javaparser-core-3.14.11-sources.jar";
     }
+
     public void testAnaylzeArchive(){
         //read all the source code in this .jar file
         _archive _a2 = _archive.of("C:\\temp\\gen-source.jar");

@@ -23,10 +23,10 @@ import java.util.function.Predicate;
  */
 public class PatternExamplesTest extends TestCase {
 
-    static $ex ANY_EXPR = $.expr();                         //any expression
+    static $ex ANY_EXPR = $.ex();                         //any expression
 
     //static $expr CONST_NAME = $.expr("Name");          //any expression matching pattern "Name"
-    static $ex LITERAL =  $.expr(e -> e.isLiteralExpr());   //any literals (ints, floats, Strings, etc.)
+    static $ex LITERAL =  $.ex(e -> e.isLiteralExpr());   //any literals (ints, floats, Strings, etc.)
     static $ex LITERAL_ = $.literal();                      //any literals (booleans, int, float, String, etc)
 
     static $ex<IntegerLiteralExpr> INT_LITERAL = $.intLiteral();                   // any int literal

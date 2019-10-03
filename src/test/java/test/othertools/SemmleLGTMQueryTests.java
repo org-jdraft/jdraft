@@ -103,7 +103,7 @@ public class SemmleLGTMQueryTests extends TestCase {
             }
         }
         //all methodCalls with scope
-        $.expr("v").printIn(SomeClass.class);
+        $.ex("v").printIn(SomeClass.class);
         //$$.methodCall().$and(m -> m.getScope().isPresent() && m.getScope().get().).printIn(SomeClass.class);
 
         //gets the list of all container classes

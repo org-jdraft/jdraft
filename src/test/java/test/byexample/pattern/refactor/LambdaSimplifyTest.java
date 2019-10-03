@@ -21,8 +21,8 @@ public class LambdaSimplifyTest extends TestCase {
 
     public void testMatch(){
 
-        $ex $filterFindFirstIsPresent = $.expr("$any$.stream().filter($match$).findFirst().isPresent()");
-        $ex $anyMatch = $.expr("$any$.stream().anyMatch($match$)");
+        $ex $filterFindFirstIsPresent = $.ex("$any$.stream().filter($match$).findFirst().isPresent()");
+        $ex $anyMatch = $.ex("$any$.stream().anyMatch($match$)");
 
         class EX{
             String aName;

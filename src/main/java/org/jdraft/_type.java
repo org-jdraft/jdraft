@@ -10,6 +10,8 @@ import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.nodeTypes.*;
 import com.github.javaparser.ast.stmt.LocalClassDeclarationStmt;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
+import com.github.javaparser.ast.type.Type;
+import com.github.javaparser.utils.Log;
 
 /**
  * The Definition of a Java type (one of : class, enum, interface, @interface)
@@ -927,10 +929,26 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @return 
      */
     default boolean isExtends( ClassOrInterfaceType astType ){
+
         if( this instanceof _hasExtends ){
+            NodeList<ClassOrInterfaceType> impls =
+                    ((NodeWithExtends)((_type)this).ast()).getExtendedTypes();
+            if( astType.getTypeArguments().isPresent() ){ //if I DO have type args
+                return impls.stream().anyMatch(i -> Ast.typesEqual(i, astType));
+            } else{
+                //they didnt provide typeArgs so match against no type args
+                return impls.stream().anyMatch(i -> Ast.typesEqual( Ast.typeRef(i.toString(Ast.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS)), astType));
+            }
+            /*
             NodeList<ClassOrInterfaceType> extnds = 
                 ((NodeWithExtends)((_type)this).ast()).getExtendedTypes();
-            return extnds.stream().filter(i -> Ast.typesEqual(i, astType)).findFirst().isPresent();
+            if( astType.getTypeArguments().isPresent()){
+                return extnds.stream().anyMatch(i -> Ast.typesEqual(i, astType));
+            } else {
+                return extnds.stream().anyMatch(i -> i.toString(Ast.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS)
+                        .equals(astType.toString(Ast.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS)));
+            }
+             */
         }
         return false;
     }
@@ -943,13 +961,11 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      */
     default boolean isExtends( String baseType ){
         try{
-            return isExtends( (ClassOrInterfaceType)Ast.typeRef( baseType ) );
-        } catch( Exception e){}
-        
-        if( baseType.contains(".") ){
-            return isExtends (baseType.substring(baseType.lastIndexOf(".")+1 ) );
+            ClassOrInterfaceType coit = (ClassOrInterfaceType)Ast.typeRef( baseType );
+            return isExtends(coit);
+        } catch( Exception e){
+            return false;
         }
-        return false;
     }
     
     /**
@@ -960,11 +976,70 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @return true if the type extends this (raw) type
      */
     default boolean isExtends( Class clazz ){
+        TypeDeclaration td =(TypeDeclaration) ((_type)this).ast();
+        List<ClassOrInterfaceType> coit = null;
+        if( td.isClassOrInterfaceDeclaration() ) {
+            coit = td.asClassOrInterfaceDeclaration().getExtendedTypes();
+        } else { //not an enum or class
+            return false;
+        }
+        if( coit.isEmpty() ){
+            return false;
+        }
+
+        String canonicalName = clazz.getCanonicalName();
+        String packageName = clazz.getPackage().getName();
+        String simpleName = clazz.getSimpleName();
+
+        { /* 1) implement a fully qualified class name  */
+            Optional<ClassOrInterfaceType> ot =
+                    coit.stream().filter(impl -> impl.toString(Ast.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS).equals(canonicalName)).findFirst();
+            if (ot.isPresent()) {
+                return true; //it directly implements the fully qualified class name
+            }
+        }
+
+        CompilationUnit cu = this.astCompilationUnit();
+
+        if( cu != null ){
+            // 2...4 We need access to the CompilationUnit
+
+            //we need to check that we Are implementing the SimpleName
+            Optional<ClassOrInterfaceType> ot = //we need to Strip all implements of (potential) Annotations & Type params
+                    coit.stream().filter(impl -> impl.toString(Ast.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS).equals(simpleName)).findFirst();
+            if( ot.isPresent() ) {
+                //2) a)If this class is in the same package as the target class
+                if (cu.getPackageDeclaration().isPresent() &&
+                        cu.getPackageDeclaration().get().getNameAsString().equals(packageName)) {
+                    //2) b) ...and I am implementing the simpleName
+                    return true;
+                }
+                //3) if we imported if I can find an import the fully qua
+                if (cu.getImports().stream().anyMatch(id -> id.getNameAsString().equals(canonicalName))) {
+                    return true;
+                }
+                //4) if we wildcard-imported the package
+                if (cu.getImports().stream().anyMatch(id -> id.isAsterisk() &&
+                        id.getNameAsString().equals(packageName)) ){
+                    return true;
+                }
+                //5) if the class is in the standard package "java.lang" (i.e. Cloneable)
+                if(clazz.getPackage().getName().equals("java.lang")){
+                    return true;
+                }
+                Log.info("WE are importing %s but can't verify it is precisely %s", ()->simpleName, ()->canonicalName);
+                return false;
+            }
+        }
+        return false;
+        /*
         try{
             return isExtends( (ClassOrInterfaceType)Ast.typeRef( clazz ) ) ||
                 isExtends( (ClassOrInterfaceType)Ast.typeRef( clazz.getSimpleName() ) );
         }catch( Exception e){}
         return false;
+
+         */
     }
    
     /**
@@ -974,7 +1049,8 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      */
     default boolean isImplements( String str ){
         try{
-            return isImplements( (ClassOrInterfaceType)Ast.typeRef( str ) );
+            ClassOrInterfaceType coit = (ClassOrInterfaceType)Ast.typeRef( str );
+            return isImplements( coit );
         } catch( Exception e){}
         
         if( str.contains(".") ){
@@ -989,20 +1065,109 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
      * @param astType 
      * @return 
      */
-    default boolean isImplements( ClassOrInterfaceType astType ){        
-        NodeList<ClassOrInterfaceType> impls = 
-            ((NodeWithImplements)((_type)this).ast()).getImplementedTypes();
-        return impls.stream().filter(i -> Ast.typesEqual(i, astType)).findFirst().isPresent();        
+    default boolean isImplements( ClassOrInterfaceType astType ){
+        NodeList<ClassOrInterfaceType> impls =
+                ((NodeWithImplements)((_type)this).ast()).getImplementedTypes();
+        if( astType.getTypeArguments().isPresent() ){ //if I DO have type args
+            return impls.stream().filter(i -> Ast.typesEqual(i, astType)).findFirst().isPresent();
+        } else{
+            //they didnt provide typeArgs so match against no type args
+            return impls.stream().filter(i -> Ast.typesEqual( Ast.typeRef(i.toString(Ast.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS)), astType)).findFirst().isPresent();
+        }
+        //TODO ONE possible issue is if I have Generic Type "Type<String>" and "Type<java.lang.String>"
     }
-        
+
     /**
      * does this class implement this (raw) interface
+     *
+     * i.e. Use cases where we want to return true for:
+     * _class _c = _class.of(C.class).isImplements(java.util.Map.class);
+     *
+     * <PRE>
+     * // 1) directly implement a fully qualified class name (easy)
+     * class C implements java.util.Map{}
+     *
+     * // 2) class located in the "java.util" package & we implement "Map" (simple name)
+     * package java.util;
+     * class C implements Map{}
+     *
+     * //3) we import "java.util.Map" class directly & implement "Map" (simple name)
+     * import java.util.Map;
+     * class C implements Map{}
+     *
+     * //4) we wildcard import "java.util" the classes package & implement Map (simple name)
+     * import java.util.*;
+     * class C implements Map{}
+     *
+     * //if the class is in the standard library (i.e. java.lang.Cloneable) no need to import
+     * class C implements Cloneable{}
+     *
+     *
+     * //TODO what about implementing inner classes??
+     * //?? this WONT handle implementing subclasses (use TypeTree) (put TypeTree on ThreadLocal?)
+     * </PRE>
      * @param clazz the (raw...not generic) interface class
      * @return true 
      */
-    default boolean isImplements( Class clazz ){        
-        return isImplements( StaticJavaParser.parseClassOrInterfaceType(clazz.getCanonicalName()) ) 
-                || isImplements( StaticJavaParser.parseClassOrInterfaceType(clazz.getSimpleName()) );        
+    default boolean isImplements( Class clazz ){
+        TypeDeclaration td =(TypeDeclaration) ((_type)this).ast();
+        List<ClassOrInterfaceType> coit = null;
+        if( td.isClassOrInterfaceDeclaration() ) {
+            coit = td.asClassOrInterfaceDeclaration().getImplementedTypes();
+        } else if ( td.isEnumDeclaration() ) {
+            coit = td.asEnumDeclaration().getImplementedTypes();
+        } else { //not an enum or class
+            return false;
+        }
+        if( coit.isEmpty() ){
+            return false;
+        }
+
+        String canonicalName = clazz.getCanonicalName();
+        String packageName = clazz.getPackage().getName();
+        String simpleName = clazz.getSimpleName();
+
+        { /* 1) implement a fully qualified class name  */
+            Optional<ClassOrInterfaceType> ot =
+                    coit.stream().filter(impl -> impl.toString(Ast.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS).equals(canonicalName)).findFirst();
+            if (ot.isPresent()) {
+                return true; //it directly implements the fully qualified class name
+            }
+        }
+
+        CompilationUnit cu = this.astCompilationUnit();
+
+        if( cu != null ){
+            // 2...4 We need access to the CompilationUnit
+
+            //we need to check that we Are implementing the SimpleName
+            Optional<ClassOrInterfaceType> ot = //we need to Strip all implements of (potential) Annotations & Type params
+                    coit.stream().filter(impl -> impl.toString(Ast.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS).equals(simpleName)).findFirst();
+            if( ot.isPresent() ) {
+                //2) a)If this class is in the same package as the target class
+                if (cu.getPackageDeclaration().isPresent() &&
+                        cu.getPackageDeclaration().get().getNameAsString().equals(packageName)) {
+                    //2) b) ...and I am implementing the simpleName
+                    return true;
+                }
+                //3) if we imported if I can find an import the fully qua
+                if (cu.getImports().stream().anyMatch(id -> id.getNameAsString().equals(canonicalName))) {
+                    return true;
+                }
+                //4) if we wildcard-imported the package
+                if (cu.getImports().stream().anyMatch(id -> id.isAsterisk() &&
+                        id.getNameAsString().equals(packageName)) ){
+                    return true;
+                }
+                //5) if the class is in the standard package "java.lang" (i.e. Cloneable)
+                if(clazz.getPackage().getName().equals("java.lang")){
+                    return true;
+                }
+                Log.info("WE are importing %s but can't verify it is precisely %s", ()->simpleName, ()->canonicalName);
+                return false;
+            }
+        }
+        return false;
     }
     
     /**

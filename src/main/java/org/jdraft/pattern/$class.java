@@ -340,6 +340,16 @@ public final class $class
         return select(_c) != null;
     }
 
+    public Select select( CompilationUnit cu ){
+        _class _c = _class.of(cu);
+        return select(_c);
+    }
+
+    public Select select( ClassOrInterfaceDeclaration coid ){
+        _class _c = _class.of(coid);
+        return select(_c);
+    }
+
     @Override
     public Select select(_class instance) {
 
@@ -604,6 +614,7 @@ public final class $class
         if(candidate instanceof ClassOrInterfaceDeclaration && !((ClassOrInterfaceDeclaration) candidate).asClassOrInterfaceDeclaration().isInterface()){
             return select( _class.of((ClassOrInterfaceDeclaration)candidate)) != null;
         }
+        /*
         if( candidate instanceof CompilationUnit){
             //check if it's only got one class
             CompilationUnit cu = (CompilationUnit)candidate;
@@ -615,6 +626,7 @@ public final class $class
                 return match( cu.getPrimaryType().get() );
             }
         }
+        */
         //its not a Class
         return false;
     }
@@ -684,7 +696,7 @@ public final class $class
     /**
      * The selected Class
      */
-    public static class Select implements $pattern.select_java<_class>{
+    public static class Select implements $pattern.select_java<_class>, $pattern.selectAst<ClassOrInterfaceDeclaration>{
         public _class selected;
         public $tokens tokens;
 
@@ -693,9 +705,18 @@ public final class $class
             this.tokens = tokens;
         }
 
+        public Select( ClassOrInterfaceDeclaration coid, $tokens tokens){
+            this.selected = _class.of(coid);
+            this.tokens = tokens;
+        }
+
         @Override
         public $tokens tokens() {
             return tokens;
+        }
+
+        public ClassOrInterfaceDeclaration ast(){
+            return selected.ast();
         }
 
         @Override

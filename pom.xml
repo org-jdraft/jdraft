@@ -17,11 +17,32 @@
             <!-- <version>3.14.159265359</version> -->
              <version>3.14.16</version>
         </dependency>
+        <!-- these are temporary for testing... should be removed
+
+        <dependency>
+            <groupId>org.objenesis</groupId>
+            <artifactId>objenesis</artifactId>
+            <version>3.0.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>3.3.0</version>
+            <scope>test</scope>
+        </dependency>
+        end of temp test dependencies -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.objenesis</groupId>
+            <artifactId>objenesis</artifactId>
+            <version>3.0.1</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
     <build>

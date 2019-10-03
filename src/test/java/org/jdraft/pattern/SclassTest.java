@@ -16,7 +16,7 @@ public class SclassTest extends TestCase {
 
         //its matches ANY Class
         assertTrue($c.match(Ast.classDecl("public class A{}") ));
-        assertTrue($c.match(Ast.of("public class A{}") ));
+        assertTrue($c.match(Ast.of("public class A{}").getType(0) ));
         assertTrue($c.match(_class.of("A") ));
         assertTrue($c.match(_class.of(SclassTest.class) ));
         $class.Select sel = $c.select(_class.of("aaaa.bbbb.C"));

@@ -1831,13 +1831,13 @@ public enum Ex {
                 //returns me the appropriate long value... but NOOOOOOOO
                 // they have to just screw it all up and waste my time with this 
                 // bullshit
-                if( str.equals("0x0L")|| str.equals("0X0L") || str.equals("0x0l") || str.equals("0X0L") ){
+                if( str.equals("0x0L") || str.equals("0x0l") || str.equals("0X0L") ){
                     return 0L;
                 }                
                 return new BigInteger( str.replace("L", "").replace("l", "")
                     .replace("0x", "").replace("0X", "").replace("_", ""), 16).longValue();                
             }
-            return Integer.parseInt(str.substring(2).replace("_", ""), 16);
+            return Integer.parseUnsignedInt(str.substring(2).replace("_", ""), 16);
         }
         if( str.startsWith("0b")|| str.startsWith("0B")){
             if( str.endsWith("L") || str.endsWith("l") ){

@@ -2790,6 +2790,66 @@ public enum Ast {
         return node;
     }
 
+    //public static final PrintNoAnnotationsOrTypeParameters PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS =
+    //        new PrintNoAnnotationsOrTypeParameters(new PrettyPrinterConfiguration() );
+
+    /**
+     * Dont print TypeParameters or Annotations... this is for dealing with {@link ClassOrInterfaceType} types
+     * which MAY have "TYPE_UYSE" annotations AND erased generics in source code and we want to look at
+     * ONLY the stripped/raw type:<PRE>
+     *
+     * for example:
+     * Type t = Ast.typeRef("@ann aaaa.bbbb.MyType<T extends Blah>
+     * assertEquals( "aaaa.bbbb.MyType", t.toString( PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS ) );
+     *
+     * if we want to compare the type (proper) to another type without annotations and Generics
+     * </PRE>
+     */
+    public static final PrettyPrinterConfiguration PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS
+            = new PrettyPrinterConfiguration()
+            .setPrintComments(false).setPrintJavadoc(false).setVisitorFactory(PrintNoAnnotationsOrTypeParameters::new);
+
+    /**
+     * An instance of a {@link com.github.javaparser.ast.visitor.VoidVisitor}
+     * used to print out entities, will specifically Avoid printing ANNOTATIONS
+     * and TypeParameters by simply overriding specific annotation METHODS with no-ops:
+     *
+     * @see #PRINT_NO_ANNOTATIONS_OR_COMMENTS
+     *
+     * This is also an example of an implementation of a Visitor for generating
+     * the formatted .java source code, for the more comprehensive example:
+     * @see com.github.javaparser.printer.PrettyPrintVisitor
+     */
+    public static class PrintNoAnnotationsOrTypeParameters extends PrettyPrintVisitor {
+
+        public PrintNoAnnotationsOrTypeParameters(PrettyPrinterConfiguration prettyPrinterConfiguration) {
+            super(prettyPrinterConfiguration);
+        }
+
+        @Override
+        public void visit(final ClassOrInterfaceType n, final Void arg) {
+            if (n.getScope().isPresent()) {
+                n.getScope().get().accept(this, arg);
+                printer.print(".");
+            }
+            n.getName().accept(this, arg);
+        }
+
+        public void visit(TypeParameter tp, Void arg){ }
+
+        @Override
+        public void visit(MarkerAnnotationExpr n, Void arg) {
+        }
+
+        @Override
+        public void visit(SingleMemberAnnotationExpr n, Void arg) {
+        }
+
+        @Override
+        public void visit(NormalAnnotationExpr n, Void arg) {
+        }
+    }
+
     /**
      * An instance of a {@link com.github.javaparser.ast.visitor.VoidVisitor}
      * used to print out entities, will specifically Avoid printing ANNOTATIONS
@@ -3311,6 +3371,11 @@ public enum Ast {
         return hashes.hashCode();
     }
 
+    /*
+    public static boolean typesExactlyEqual(Type t1, Type t2){
+
+    }
+     */
     /**
      * Verify that the referenceTypes are equal irregardless of package
      *

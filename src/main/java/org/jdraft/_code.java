@@ -649,6 +649,10 @@ public interface _code<_C> extends _model, _java._componentized {
             return of(_p.list_code());
         }
 
+        public static <_C extends _code> _cache of( _C... _codeToCache){
+            return of(Arrays.stream(_codeToCache).collect(Collectors.toList()));
+        }
+
         public static <_C extends _code> _cache of( List<_C> _codeToCache){
             return new _cache( _codeToCache );
         }

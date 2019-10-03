@@ -291,7 +291,7 @@ public final class $ {
         return $comment.blockComment(commentPattern, commentPredicate);
     }
 
-    public static $ex expr(){
+    public static $ex ex(){
         return $ex.of();
     }
 
@@ -299,11 +299,11 @@ public final class $ {
         return $ex.of().$and(e-> e.isLiteralExpr());
     }
 
-    public static $ex expr(Predicate<Expression> constraint){
+    public static $ex ex(Predicate<Expression> constraint){
         return $ex.of().$and(constraint);
     }
 
-    public static $ex expr(String... pattern){
+    public static $ex ex(String... pattern){
         return $ex.of(pattern);
     }
 

@@ -70,7 +70,7 @@ public class PatternBuildTest extends TestCase {
         $i = $.id();
 
         $ex $e = $ex.of(); //specific $expr
-        $.expr();
+        $.ex();
         $stmt $s = $stmt.of(); //specific $stmt
         $.stmt();
         $anno $a = $anno.of();

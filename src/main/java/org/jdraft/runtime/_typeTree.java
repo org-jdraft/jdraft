@@ -1,6 +1,8 @@
 package org.jdraft.runtime;
 
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
+import com.github.javaparser.utils.Log;
+//import com.sun.org.apache.xalan.internal.xsltc.compiler.util.ClassGenerator;
 import org.jdraft.*;
 
 import java.util.*;
@@ -28,6 +30,18 @@ import java.util.stream.Collectors;
  * Note: there are some examples where we have two
  */
 public class _typeTree {
+
+    /**
+     * Builds a _typeTree from one or more _code._provider (s)
+     * @param _codeProviders where the code comes from
+     * @return the _typeTree
+     */
+    public static _typeTree of(_code._provider..._codeProviders){
+        List<_type>codeList = new ArrayList<>();
+        Arrays.stream(_codeProviders).forEach(_cp -> codeList.addAll(_cp.list_types()));
+        System.out.println( codeList.size() );
+        return of( codeList );
+    }
 
     /**
      * Build an return the _typeTree relationships among the types
@@ -100,7 +114,23 @@ public class _typeTree {
      */
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        this.parentChild.forEach( (p,c)-> sb.append(p).append("->").append(c).append(System.lineSeparator()));
+
+        //lets put the high instances on top and the no children at the bottom
+        Map<_typeNode, Integer> instanceMap = new HashMap<>();
+        this.parentChild.forEach( (p,c) -> instanceMap.put(p, c.size()));
+
+        instanceMap.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()) )
+                .forEachOrdered(x -> {
+                        _typeNode _tn = x.getKey();
+                        Set<_typeNode> c = parentChild.get(_tn);
+                        if( c.isEmpty() ){ //"parent nodes that have no children are "terminal nodes"
+                            sb.append("  ").append(_tn.fullyQualifiedClassName).append(System.lineSeparator());
+                        } else {
+                            sb.append(_tn.fullyQualifiedClassName).append("->").append(c).append(System.lineSeparator());
+                        }
+                });
         return sb.toString();
     }
 
@@ -226,21 +256,53 @@ public class _typeTree {
     }
 
     /**
+     * Does the _type _t implement the type defined by the fullyQualified Type Name
+     * @param _t the type to check
+     * @param fullyQualifiedTypeName fully qualified type name (no generics)
+     * @return true
+     */
+    public boolean isImplements( _type _t, String fullyQualifiedTypeName){
+        return listAllDescendants(fullyQualifiedTypeName).stream().filter(tn -> tn.is(_t)).findFirst().isPresent();
+    }
+
+    /**
+     * Does the _type _t implement the type defined by the fullyQualified Type Name
+     * @param _t the type to check
+     * @param _t the interface (or class)
+     * @return true
+     */
+    public boolean isImplements( _type _t, _type _i){
+        return listAllDescendants(_i).stream().filter(tn -> tn.is(_t)).findFirst().isPresent();
+    }
+
+    /**
+     *
+     * @param _t
+     * @param clazz
+     * @return
+     */
+    public boolean isImplements( _type _t, Class clazz){
+        return listAllDescendants(clazz).stream().filter(tn -> tn.is(_t)).findFirst().isPresent();
+    }
+
+    /**
      *
      * @param _t
      * @return
      */
-    public List<_typeNode> listAllChildren( _type _t ){
+    public List<_typeNode> listAllDescendants(_type _t ){
         return listDirectChildren(_t.getFullName() );
     }
+
+
 
     /**
      *
      * @param clazz
      * @return
      */
-    public List<_typeNode> listAllChildren( Class clazz){
-        return listAllChildren(clazz.getCanonicalName());
+    public List<_typeNode> listAllDescendants(Class clazz){
+        return listAllDescendants(clazz.getCanonicalName());
     }
 
     /**
@@ -248,12 +310,12 @@ public class _typeTree {
      * @param typeName
      * @return
      */
-    public List<_typeNode> listAllChildren( String typeName){
+    public List<_typeNode> listAllDescendants(String typeName){
         _typeNode _tn = node(typeName);
         if( _tn == null ){
             throw new _runtimeException("Could not find typeNode for "+typeName);
         }
-        return listAllChildren(_tn);
+        return listAllDescendants(_tn);
     }
 
     /**
@@ -261,16 +323,16 @@ public class _typeTree {
      * @param _tn
      * @return
      */
-    public List<_typeNode> listAllChildren( _typeNode _tn ){
+    public List<_typeNode> listAllDescendants(_typeNode _tn ){
         Set<_typeNode>coll = this.parentChild.get(_tn);
         _typeNode[] found = coll.toArray(new _typeNode[0]);
 
         for(int i=0;i< found.length;i++){
             //deeply follow children
-            List<_typeNode> ch = listAllChildren(found[i].fullyQualifiedClassName);
+            List<_typeNode> ch = listAllDescendants(found[i].fullyQualifiedClassName);
             coll.addAll(ch);
             if( !ch.isEmpty() ){
-                ch.forEach( c -> coll.addAll(listAllChildren(c.fullyQualifiedClassName)));
+                ch.forEach( c -> coll.addAll(listAllDescendants(c.fullyQualifiedClassName)));
             }
         }
         return coll.stream().collect(Collectors.toList());
@@ -288,6 +350,7 @@ public class _typeTree {
             ((_type._hasExtends)_t).listExtends().forEach( e-> {
                 String name = ((ClassOrInterfaceType )e).getNameAsString();
                 //find (or create) the appropriate _typeNode
+                Log.info(" mapping extends for %s", ()->_t.getFullName());
                 _typeNode parent = _typeNode.findOrCreate(typeNodes, name, _t.getImports());
                 Set<_typeNode> children = parentToChildMap.get(parent);
                 if (children == null) {
@@ -299,6 +362,7 @@ public class _typeTree {
         }
         if( _t instanceof _type._hasImplements ){
             ((_type._hasImplements)_t).listImplements().forEach( e-> {
+                Log.info(" mapping implements for %s", ()->_t.getFullName());
                 String name = ((ClassOrInterfaceType )e).getNameAsString();
                 //find (or create) the appropriate _typeNode
                 _typeNode parent = _typeNode.findOrCreate(typeNodes, name, _t.getImports());
@@ -409,6 +473,20 @@ public class _typeTree {
             this.clazz = clazz;
         }
 
+        public boolean is( _type _t ){
+            if( Objects.equals(_t, this.type) ){
+                return true;
+            }
+            return _t.getFullName().equals( fullyQualifiedClassName);
+        }
+
+        public boolean is( Class clazz ){
+            if( Objects.equals(this.clazz, clazz) ){
+                return true;
+            }
+            return this.fullyQualifiedClassName.equals(clazz.getCanonicalName());
+        }
+
         public boolean isName(String name){
             return this.fullyQualifiedClassName.equals(name)
                     || (this.type != null && this.type.getName().equals(name))
@@ -417,7 +495,8 @@ public class _typeTree {
 
         @Override
         public String toString() {
-            return "_typeNode[" + fullyQualifiedClassName + ']';
+            //return "_typeNode[" + fullyQualifiedClassName + ']';
+            return "[" + fullyQualifiedClassName + ']';
         }
 
         public boolean equals(Object obj){
@@ -435,6 +514,7 @@ public class _typeTree {
 
         @Override
         public int hashCode() {
+
             return Objects.hash(fullyQualifiedClassName, clazz, type);
         }
 
@@ -448,22 +528,27 @@ public class _typeTree {
          * @return
          */
         public static _typeNode findOrCreate(List<_typeNode> tns, String name, _import._imports _is) {
+            Log.info("Finding %s", ()->name);
             Optional<_typeNode> tn = tns.stream().filter(t-> t.isName(name)).findFirst();
             if( tn.isPresent() ){
                 return tn.get();
             }
-            //check if thie type I'm looking for is "directly" imported
+            //check if the type I'm looking for is "directly" imported
             List<_import> ii = _is.list(i-> i.getName().equals( name) || i.getName().endsWith("."+name) );
             if( !ii.isEmpty() ){
+                Log.info("   FOUND Direct imports to find %s type %s", ()->name, ()->ii );
                 _typeNode ntn = new _typeNode(ii.get(0).getName());
                 tns.add( ntn );
                 return ntn;
             }
             //ok the best I can do is to expect to find a wildcard import that completes the name
             List<_import> wcs = _is.list(_import::isWildcard);
+
             for(int i=0;i<wcs.size();i++){
                 String fcn = wcs.get(i).getName().replace(".*", "."+name);
+                Log.info("  try wildcard imports to find type %s"+wcs.get(i).getName(), ()->name);
                 try {
+
                     Class clazz = Class.forName(fcn);
                     _typeNode ntn = new _typeNode(clazz);
                     tns.add( ntn );
@@ -471,6 +556,25 @@ public class _typeTree {
                 }catch(ClassNotFoundException cnfe){
                     //expected
                 }
+            }
+            //last ditch effort... it's a "java.lang.*" type
+            try{
+                Class clazz = Class.forName("java.lang."+name);
+                _typeNode ntn = new _typeNode(clazz);
+                tns.add( ntn );
+                return ntn;
+            } catch( ClassNotFoundException cnfe){
+
+            }
+            Log.error("Could not find type %s with %s", ()->name, ()->_is);
+            if( name.equals("Objenesis")) {
+                return new _typeNode("org.objenesis.Objenesis");
+            }
+            if( name.equals("ClassGenerator") ){
+                return new _typeNode("org.springframework.cglib.core.ClassGenerator"); //org.springframework.ClassGenerator.class);
+            }
+            if( name.equals("DefaultNamingPolicy")){
+                return new _typeNode("net.sf.cglib.core.DefaultNamingPolicy");
             }
             throw new _runtimeException("type not found: " + name);
         }

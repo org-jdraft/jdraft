@@ -19,7 +19,7 @@ import org.jdraft.macro._static;
  */
 public class SpatternCodeTest extends TestCase {
 
-    public void testIDO(){
+    public void testIsParentMemberNotParentMember(){
         _class _c = _class.of(
                 "public class C{", //1
                 "    public int i = 0;", //2
@@ -31,7 +31,12 @@ public class SpatternCodeTest extends TestCase {
                 "    { System.out.println(4); }",  //8
                 "    { System.out.println(5); }",  //9
                 "}");//10
+        assertEquals( 2, $.intLiteral().$isParentMember($field.of()).count(_c)); //0,1
         assertEquals(4, $.intLiteral().$isNotParentMember($field.of()).count(_c)); //2,3,4,5
+
+        assertEquals( 1, $.intLiteral(1).$isParentMember($field.of()).count(_c));
+        assertEquals( 0, $.intLiteral(1).$isNotParentMember($field.of()).count(_c));
+
     }
     public void testIsParentMember(){
         _class _c = _class.of(
