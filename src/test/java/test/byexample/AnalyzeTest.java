@@ -39,27 +39,52 @@ public class AnalyzeTest extends TestCase {
         assertTrue( $m.matches(_method.of("public void m(){ assert(true); Log.setAdapter( new Log.StandardOutStandardErrorAdapter()); }")) );
         Log.setAdapter(new Log.SilentAdapter());
     }
-    public void testULShortHand(){
-        $class $c = $class.of( new TestCase(){
-            //@_$and
-            public void setUp(){
-                Log.setAdapter( new Log.StandardOutStandardErrorAdapter());
-                //Documented.class
-            }
-            /*
-            //@_$not
+
+    public void testTD(){
+        $method $tearDown = $method.of(new Object(){
             public void tearDown(){
                 Log.setAdapter( new Log.SilentAdapter() );
             }
-             */
         });
-        System.out.println($c);
+        $class $wTearDown = $class.of($tearDown);
 
-        assertTrue( $c.matches( _class.of("aaaa.bbbb.C", new TestCase(){
+        $class $noTearDown = $class.of().$not($tearDown);
+        _class _wTearDown = _class.of("C", new Object(){
+            public void tearDown(){
+                Log.setAdapter(new Log.SilentAdapter());
+            }
+        });
+        _class _noTearDownStmt = _class.of("C", new Object(){
+            public void tearDown(){
+                //Log.setAdapter(new Log.SilentAdapter());
+            }
+        });
+
+        _class _noTearDownMethod = _class.of("C", new Object(){
+        });
+
+        assertTrue( $wTearDown.matches(_wTearDown));
+        assertFalse( $wTearDown.matches(_noTearDownStmt));
+        assertFalse( $wTearDown.matches(_noTearDownMethod));
+
+        assertFalse( $noTearDown.matches(_wTearDown));
+        assertTrue( $noTearDown.matches(_noTearDownStmt));
+        assertTrue( $noTearDown.matches(_noTearDownMethod));
+    }
+
+    public void testULShortHand(){
+
+        $class $c = $class.of( new TestCase(){
             public void setUp(){
                 Log.setAdapter( new Log.StandardOutStandardErrorAdapter());
             }
-        })));
+
+            @_$not
+            public void tearDown(){
+                Log.setAdapter( new Log.SilentAdapter() );
+            }
+        });
+        System.out.println($c);
 
         assertTrue( $c.matches( _class.of("aaaa.bbbb.C", new TestCase(){
             public void setUp(){
@@ -67,6 +92,18 @@ public class AnalyzeTest extends TestCase {
                 Log.setAdapter( new Log.StandardOutStandardErrorAdapter());
             }
         })));
+
+
+        assertFalse( $c.matches( _class.of("aaaa.bbbb.C", new TestCase(){
+            public void setUp(){
+                Log.setAdapter( new Log.StandardOutStandardErrorAdapter());
+            }
+            public void tearDown(){
+                Log.setAdapter( new Log.SilentAdapter() );
+            }
+        })));
+
+
 
     }
 

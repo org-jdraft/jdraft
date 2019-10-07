@@ -112,7 +112,18 @@ public final class $field implements Template<_field>, $pattern<_field, $field>,
     public static $field of( Predicate<_field> constraint ){
         return of().$and( constraint);
     }
-    
+
+    public static $field of( FieldDeclaration fd ){
+        if( fd.getVariables().size() != 1){
+            throw new _draftException("cannot convert multi-field declaration to single $field");
+        }
+        return of( _field.of(fd.getVariable(0)));
+    }
+
+    public static $field of( VariableDeclarator vd ){
+        return of( _field.of(vd));
+    }
+
     public static $field of( _field _f ){
         $field $inst = new $field();
         if( _f.hasJavadoc() ){

@@ -55,6 +55,10 @@ public final class $interface
         return new $interface(parts);
     }
 
+    public static $interface of(ClassOrInterfaceDeclaration coid ){
+        return of( _interface.of(coid));
+    }
+
     public static $interface of( _interface _c ){
         $interface $c = of();
         if( _c.isTopLevel() ){

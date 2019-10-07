@@ -47,6 +47,10 @@ public final class $annotation
         return new $annotation(parts);
     }
 
+    public static $annotation of( AnnotationDeclaration astAd ){
+        return of( _annotation.of(astAd));
+    }
+
     public static $annotation of( _annotation _a ){
         $annotation $c = of();
         if( _a.isTopLevel() ){

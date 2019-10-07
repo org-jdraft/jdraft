@@ -2,6 +2,7 @@ package org.jdraft.pattern;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.JavadocComment;
@@ -50,7 +51,21 @@ public final class $class
 
     public static $class of( Object anonymousClass ){
         _class _c = _class.of("$name$", anonymousClass, Thread.currentThread().getStackTrace()[2] );
-        return of(_c);
+        List<BodyDeclaration> nots = new ArrayList<>();
+
+        //only _declared members can have annotations (i.e. @_$not )
+        _c.forDeclared(d -> d.hasAnno(_$not.class), d -> {
+            nots.add( (BodyDeclaration)d.ast() );
+            d.ast().remove(); //remove it from the AST so we dont treat it as an $and
+        });
+        $class $c = of(_c);
+        List<$member> $mems = $member.of(nots);
+        $mems.forEach($m -> $c.$not( ($class.$part)$m));
+        return $c;
+    }
+
+    public static $class of( ClassOrInterfaceDeclaration coid ){
+        return of( _class.of(coid));
     }
 
     public static $class of( _class _c ){
@@ -103,7 +118,7 @@ public final class $class
 
     /**
      * We need this since the Anonymous Object version seems to take precedence over the
-     * 
+     *
      * @param part
      * @return
      */

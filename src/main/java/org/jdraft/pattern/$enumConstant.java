@@ -74,6 +74,10 @@ public final class $enumConstant
         return of( _enum._constant.of(enumConstant) );
     }
 
+    public static $enumConstant of( EnumConstantDeclaration ecd ){
+        return of( _enum._constant.of(ecd));
+    }
+
     public static $enumConstant of( _enum._constant _ec ){
         $enumConstant ec = new $enumConstant();
         if( _ec.hasAnnos() ) {

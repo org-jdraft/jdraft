@@ -168,6 +168,10 @@ public final class $constructor
         return $ct;
     }
 
+    public static $constructor of( ConstructorDeclaration cd){
+        return of( _constructor.of(cd));
+    }
+
     /**
      * 
      * @param _ct
@@ -245,7 +249,8 @@ public final class $constructor
     public $parameters parameters = $parameters.of();
     public $throws thrown = $throws.of();
     public $body body = $body.of();
-    
+
+
     private $constructor( _constructor _ct ){
         this(_ct, t-> true );
     }

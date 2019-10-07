@@ -467,6 +467,16 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
     }
 
     /**
+     * apply a _memberActionFn to all  {@link _member}s (i.e. _initBlock.class, _method.class, _field.class, _staticBlock.class)
+     * @param _memberActionFn the action function to apply to _members
+     * @return the modified T
+     */
+    default _T forMembers(Consumer<_member> _memberActionFn){
+        listMembers().forEach(_memberActionFn);
+        return (_T)this;
+    }
+
+    /**
      * find {@link _member}s that are of the specific memberClass and perform the _memberAction on them
      * @param <_M> the type (i.e. _initBlock.class, _method.class, _field.class, _staticBlock.class)
      * @param memberClass the Class (i.e. _initBlock.class, _method.class, _field.class, _staticBlock.class)

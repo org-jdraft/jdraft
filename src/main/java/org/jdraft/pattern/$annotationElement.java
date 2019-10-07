@@ -34,6 +34,10 @@ public final class $annotationElement
         return of( _annotation._element.of(annotationElement) );
     }
 
+    public static $annotationElement of(AnnotationMemberDeclaration _ec ){
+        return of( _annotation._element.of(_ec));
+    }
+
     public static $annotationElement of(_annotation._element _ec ){
         $annotationElement ec = new $annotationElement();
 

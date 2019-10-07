@@ -53,6 +53,10 @@ public final class $enum
         return new $enum(parts);
     }
 
+    public static $enum of( EnumDeclaration ed){
+        return of( _enum.of(ed));
+    }
+
     public static $enum of( _enum _c ){
         $enum $c = of();
         if( _c.isTopLevel() ){

@@ -112,7 +112,12 @@ public final class $method
     public static $method of(){
         return new $method(_method.of("$type$ $name$();") ).anyBody();
     }
-    
+
+
+    public static $method of( MethodDeclaration astMd){
+        return of( _method.of(astMd));
+    }
+
     /**
      * 
      * @param _m
