@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
  * and 
  */
 public final class $var
-    implements Template<VariableDeclarator>, $pattern<VariableDeclarator, $var> {
+    implements Template<VariableDeclarator>, $pattern<VariableDeclarator, $var>, $body.$part {
     
     /** marker interface for components that are a part of a var */ 
     public interface $part{}   

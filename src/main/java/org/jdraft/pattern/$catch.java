@@ -13,7 +13,7 @@ import java.util.function.Predicate;
  *
  * @author Eric
  */
-public final class $catch implements $pattern<CatchClause, $catch> {
+public final class $catch implements $pattern<CatchClause, $catch>, $body.$part {
     
     public static $catch of( String...catchCode ){
         return new $catch( Ast.catchClause(catchCode));

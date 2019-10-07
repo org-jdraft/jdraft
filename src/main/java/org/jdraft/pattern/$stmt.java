@@ -22,10 +22,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.*;
 
 /**
- * Prototype of a Java {@link Statement} that provides operations for 
- * constructing, analyzing, extracting, removing, replacing / etc. Statement
+ * Pattern of a Java {@link Statement} that provides operations for
+ * constructing, analyzing, matching, extracting, removing, replacing / etc. Statement
  * type nodes within the AST.
+ * <PRE>
+ * NOTE: In the future I might create individual implementations for each Statement type
+ * i.e. $assertStmt, $blockStmt, $continueStmt...
+ * rather than:
+ * $stmt<AssertStmt>, $stmt<BlockStmt>, $stmt<ContinueStmt>...
  *
+ * </PRE>
  * <PRE>
  * $stmt
  * CONSTRUCT
@@ -53,7 +59,7 @@ import java.util.function.*;
  * @param <T> underlying Statement implementation type
  */
 public final class $stmt<T extends Statement>
-    implements Template<T>, $pattern<T, $stmt<T>> {
+    implements Template<T>, $pattern<T, $stmt<T>>, $body.$part {
         
     /**
      * 
@@ -1090,6 +1096,9 @@ public final class $stmt<T extends Statement>
             }
             _type _t = (_type) _j; //only possible
             return selectFirstIn(_t.ast());
+        }
+        if( _j instanceof _body ){
+            return selectFirstIn( ((_body)_j).ast() );
         }
         return selectFirstIn( ((_node) _j).ast() );
     }

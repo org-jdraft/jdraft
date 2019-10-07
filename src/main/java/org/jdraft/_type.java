@@ -4,13 +4,11 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.nodeTypes.*;
 import com.github.javaparser.ast.stmt.LocalClassDeclarationStmt;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.utils.Log;
 
 /**
@@ -440,36 +438,81 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
     }
 
     /**
-     * finds the first declaration {@link _declared}s of Class: ({@link _field}s,
-     * {@link _method}s, {@link _constructor}s,{@link _enum._constant}s, {@link _annotation._element}s) ,
-     * and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s, {@link _annotation}s)
-     *  with the name and returns it
-     *
-     * @param name
-     * @param <_D>
+     * Gets the first {@link _member} of the memberClass
+     * @param <_M> the _member type (i.e. _initBlock, _method.class, _field.class, _staticBlock.class)
+     * @param memberClass the Class (i.e. _initBlock.class, _method.class, _field.class, _staticBlock.class)
+     * @return the first member found (null if none found)
      */
-    default <_D extends _declared> _D getDeclared(String name ){
-        List<_declared> _ds = listDeclared();
-        Optional<_declared> od = _ds.stream().filter(d-> d.getName().equals(name)).findFirst();
-        if( od.isPresent() ){
-            return (_D)od.get();
+    default <_M extends _member> _M getMember(Class<_M> memberClass){
+        List<_M> _ms = listMembers(memberClass);
+        if( _ms.isEmpty()){
+            return null;
         }
-        return null;
+        return _ms.get(0);
     }
 
     /**
-     * @param <_D> the type (i.e. _method.class, _field.class, _staticBlock.class)
-     * @param declarationClass the Class (i.e. _method.class, _field.class, _staticBlock.class)
-     * @param name the name of the declaration
-     * @return a List of the _declarations (empty if none found)
+     * Gets the first _member of the _memberClass matching the _memberMatchFn
+     * @param <_M> the type (i.e. _initBlock.class, _method.class, _field.class, _staticBlock.class)
+     * @param memberClass the Class (i.e. _initBlock.class, _method.class, _field.class, _staticBlock.class)
+     * @param _memberMatchFn function for matching a specific _declaration type
+     * @return a single _member (or null if none found)
      */
-    default <_D extends _declared> _D getDeclared(Class<_D> declarationClass, String name){
-        List<_D> _ds = listDeclared(declarationClass);
-        Optional<_D> od = _ds.stream().filter(d-> d.getName().equals(name)).findFirst();
-        if( od.isPresent() ){
-            return od.get();
+    default <_M extends _member> _M getMember(Class<_M> memberClass, Predicate<_M> _memberMatchFn){
+        List<_M> _ms = listMembers(memberClass, _memberMatchFn);
+        if( _ms.isEmpty()){
+            return null;
         }
-        return null;
+        return _ms.get(0);
+    }
+
+    /**
+     * find {@link _member}s that are of the specific memberClass and perform the _memberAction on them
+     * @param <_M> the type (i.e. _initBlock.class, _method.class, _field.class, _staticBlock.class)
+     * @param memberClass the Class (i.e. _initBlock.class, _method.class, _field.class, _staticBlock.class)
+     * @param _memberAction the action function to apply to _members
+     * @return the modified T
+     */
+    default <_M extends _member> _T forMembers(Class<_M> memberClass, Consumer<_M> _memberAction){
+        listMembers(memberClass).forEach(_memberAction);
+        return (_T)this;
+    }
+
+    /**
+     * find _members that are of the specific class and perform the _memberAction on them
+     * @param <_M> the type (i.e. _initBlock.class, _method.class, _field.class, _staticBlock.class)
+     * @param memberClass the member Class (i.e. _initBlock, _field, _method, _constructor)
+     * @param _memberMatchFn the matching function for selecting which member to take action on
+     * @param _memberAction the Action function to apply to member
+     * @return the modified T
+     */
+    default <_M extends _member> _T forMembers(Class<_M> memberClass, Predicate<_M> _memberMatchFn, Consumer<_M> _memberAction){
+        listMembers(memberClass, _memberMatchFn).forEach(_memberAction);
+        return (_T)this;
+    }
+
+    /**
+     * remove all members ({@link _initBlock}s, {@link _field}s, {@link _method}s, {@link _constructor}s,{@link _enum._constant}s,
+     * {@link _annotation._element}s, and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
+     * {@link _annotation}s) on the _type that are of the declarationClass and match the _declarationMatchFn
+     * @param <_M> the _member type (i.e. _initBlock.class, _method.class, _field.class, _constructor.class, _initBlock.class)
+     * @param memberClass the Class (i.e. _initBlock.class, _method.class, _field.class, _constructor.class, _initBlock.class)
+     * @param _memberMatchFn function for matching a specific member type to remove
+     * @return the removed {@link _member}s
+     */
+    default <_M extends _member> List<_M> removeMembers(Class<_M> memberClass, Predicate<_M> _memberMatchFn){
+        List<_M> ms = listMembers( memberClass, _memberMatchFn);
+        ms.forEach( m -> this.ast().remove(m.ast()) );
+        return ms;
+    }
+
+    /**
+     * Iterate & apply some functional action towards _declarations on the _type
+     * @param _declarationAction the action to apply to ALL declarations
+     * @return the (modified) _T _type
+     */
+    default _T forDeclared(Consumer<_declared> _declarationAction ){
+        return forDeclared(t-> true, _declarationAction );
     }
 
     /**
@@ -600,27 +643,36 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
     }
 
     /**
-     * Iterate & apply some functional action towards _declarations on the _type
-     * @param _declarationAction the action to apply to ALL declarations
-     * @return the (modified) _T _type
+     * finds the first declaration {@link _declared}s of Class: ({@link _field}s,
+     * {@link _method}s, {@link _constructor}s,{@link _enum._constant}s, {@link _annotation._element}s) ,
+     * and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s, {@link _annotation}s)
+     *  with the name and returns it
+     *
+     * @param name
+     * @param <_D>
      */
-    default _T forDeclared(Consumer<_declared> _declarationAction ){
-        return forDeclared(t-> true, _declarationAction );
+    default <_D extends _declared> _D getDeclared(String name ){
+        List<_declared> _ds = listDeclared();
+        Optional<_declared> od = _ds.stream().filter(d-> d.getName().equals(name)).findFirst();
+        if( od.isPresent() ){
+            return (_D)od.get();
+        }
+        return null;
     }
 
     /**
-     * remove all declarations ({@link _initBlock}s, {@link _field}s, {@link _method}s, {@link _constructor}s,{@link _enum._constant}s,
-     * {@link _annotation._element}s, and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
-     * {@link _annotation}s) on the _type that are of the declarationClass and match the _declarationMatchFn
-     * @param <_M> the _member type (i.e. _method.class, _field.class, _constructor.class, _initBlock.class)
-     * @param memberClass the Class (i.e. _method.class, _field.class, _constructor.class, _initBlock.class)
-     * @param _memberMatchFn function for matching a specific member type
-     * @return
+     * @param <_D> the type (i.e. _method.class, _field.class, _staticBlock.class)
+     * @param declarationClass the Class (i.e. _method.class, _field.class, _staticBlock.class)
+     * @param name the name of the declaration
+     * @return a List of the _declarations (empty if none found)
      */
-    default <_M extends _member> List<_M> removeMembers(Class<_M> memberClass, Predicate<_M> _memberMatchFn){
-        List<_M> ms = listMembers( memberClass, _memberMatchFn);
-        ms.forEach( m -> this.ast().remove(m.ast()) );
-        return ms;
+    default <_D extends _declared> _D getDeclared(Class<_D> declarationClass, String name){
+        List<_D> _ds = listDeclared(declarationClass);
+        Optional<_D> od = _ds.stream().filter(d-> d.getName().equals(name)).findFirst();
+        if( od.isPresent() ){
+            return od.get();
+        }
+        return null;
     }
 
     /**

@@ -1706,7 +1706,7 @@ public enum Ast {
      */
     public static LineComment lineComment(String... str) {
         StringBuilder sb = new StringBuilder();
-        System.out.println( "In line comment ");
+        //System.out.println( "In line comment ");
         for(int i=0;i<str.length;i++){
             String st = str[i];
             if( i > 0 ){

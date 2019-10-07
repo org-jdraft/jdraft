@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * @author Eric
  */
 public final class $case
-    implements $pattern<SwitchEntry, $case>, Template<SwitchEntry> {
+    implements $pattern<SwitchEntry, $case>, Template<SwitchEntry>, $body.$part {
 
     public static $case of( Predicate<SwitchEntry> constraint ){
         return of().$and(constraint);

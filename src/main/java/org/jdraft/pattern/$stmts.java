@@ -28,7 +28,7 @@ import java.util.function.*;
  * NOTE: although this does not implement the Template<> and $query<> interfaces
  * it follows the same naming conventions
  */
-public final class $stmts implements Template<List<Statement>>, $pattern<List<Statement>, $stmts> {
+public final class $stmts implements Template<List<Statement>>, $pattern<List<Statement>, $stmts>, $body.$part {
     
     /**
      * Build a dynamic code snippet based on the content of a method defined within an anonymous Object
@@ -385,8 +385,6 @@ public final class $stmts implements Template<List<Statement>>, $pattern<List<St
         }        
         return ss.get(0);        
     }
-
-
 
     @Override
     public List<List<Statement>> listIn(Node astStartNode, Predicate<List<Statement>> statementsMatchFn){

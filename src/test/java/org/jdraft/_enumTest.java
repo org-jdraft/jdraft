@@ -9,11 +9,7 @@ import java.io.Serializable;
 
 import com.github.javaparser.ast.type.Type;
 import junit.framework.TestCase;
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertTrue;
-
+import org.jdraft._enum.*;
 import org.jdraft.runtime._runtime;
 import test.ComplexEnum;
 
@@ -28,7 +24,25 @@ public class _enumTest extends TestCase {
     interface $Member{        
         interface MemberMember{}
     }
-    
+
+    public void testConstantInit(){
+
+            _enum _e =_enum.of("E", new Object(){
+                /** a javadoc */
+                _constant Y;
+                _constant XX, XY, X0;
+                _constant WithConstructorArgs = new _constant("arg1", 100);
+                _constant Yes = new _constant();
+                _constant No = new _constant("a", 100){
+                    public int i = 0;
+                    public String toString(){
+                        return "HELLO";
+                    }
+                };
+            });
+            System.out.println( _e );
+
+    }
     public void testImplementMemberClass(){
         _enum _e = _enum.of("E").implement(MemberI.class).implement($Member.class).implement($Member.MemberMember.class);
         System.out.println( _e );

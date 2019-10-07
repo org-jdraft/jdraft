@@ -5,6 +5,7 @@ import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
+import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.jdraft._anno.*;
 import org.jdraft.io._in;
@@ -96,17 +97,64 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         return of( in.getInputStream());
     }
 
-    public static _enum of(String signature, Object anonymousBody){ //, Function<_type,_type>... typeFns ){
+    //
+    public static _enum of(String signature, Object anonymousBody){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         _enum _e = _enum.of(signature);
         ObjectCreationExpr oce = Ex.anonymousObjectEx( ste );
         if( oce.getAnonymousClassBody().isPresent()) {
             NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
             for(int i=0; i<bds.size(); i++) {
-                _e.ast().addMember(bds.get(i));
+                if(bds.get(i) instanceof FieldDeclaration){
+                    //System.out.println( "FIELD "+ bds.get(i));
+                    //check if it's an _enum.constant
+                    /*
+                    _enum _e = _enum.of("E", new Object(){
+                        _constant C; //
+                        _constant A,B;
+                        _constant D = new _constant();
+                        _constant E = new _constant(1);
+                        _constant F = new _constant(1, 3);
+                        _constant G = new _constant("A", 4){
+
+                        }
+                    });
+                     */
+                    FieldDeclaration fd = (FieldDeclaration)bds.get(i);
+
+                    if( Ast.typesEqual( fd.getVariable(0).getType(), Ast.typeRef(_constant.class) ) ){
+
+                        for(int f=0;f<fd.getVariables().size();f++){
+                            VariableDeclarator vd = fd.getVariable(f);
+                            EnumConstantDeclaration ecd = new EnumConstantDeclaration();
+                            ecd.setName(vd.getNameAsString());
+                            if(vd.getInitializer().isPresent()){
+                                Expression init = vd.getInitializer().get();
+                                if( init.isObjectCreationExpr() ){
+                                    //add arguments A(1, "name")
+                                    ObjectCreationExpr foce = (ObjectCreationExpr) init;
+                                    foce.getArguments().forEach( fa -> ecd.addArgument(fa));
+                                    //add body fields and methods A(){...}
+                                    if( foce.getAnonymousClassBody().isPresent()){
+                                        foce.getAnonymousClassBody().get().forEach(e-> ecd.getClassBody().add(e));
+                                    }
+                                }
+                            }
+                            if( ((FieldDeclaration)vd.getParentNode().get()).getJavadoc().isPresent() ){
+                                ecd.setJavadocComment( ((FieldDeclaration)vd.getParentNode().get()).getJavadoc().get() );
+                            }
+                            _e.constant(ecd); //add the constant
+                        }
+                    } else{
+                        _e.ast().addMember(fd);
+                    }
+                } else {
+                    _e.ast().addMember(bds.get(i));
+                }
             }
         }
         Set<Class> importClasses = _import.inferImportsFrom(anonymousBody);
+        importClasses.remove(_enum._constant.class);
         _e.imports(importClasses.toArray(new Class[0]));
         
         _e = macro.to(anonymousBody.getClass(), _e);
@@ -550,7 +598,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
      * }
      * </PRE>
      */
-    public static final class _constant implements _javadoc._hasJavadoc<_constant>,
+    public static class _constant implements _javadoc._hasJavadoc<_constant>,
             _anno._hasAnnos<_constant>,_method._hasMethods<_constant>, _field._hasFields<_constant>,
             _declared<EnumConstantDeclaration, _constant> {
 
@@ -566,7 +614,52 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
             this.astConstant = ecd;
         }
 
-        public final EnumConstantDeclaration astConstant;
+        /**
+         * This is a "prototype" object, it exists as a temporary
+         * "holder" to represent an enum constant
+         * <PRE>
+         *     _enum _e = _enum.of("E", new Object(){
+         *         _constant Yes, No, MaybeSo;
+         *     }
+         *     //is equivalent to :
+         *     public enum E{
+         *         Yes, No, MaybeSo;
+         *     }
+         * </PRE>
+         * <PRE>
+         *     //for example:
+         *     _enum _e = _enum.of("E", new Object(){
+         *         _constant C;
+         *         _constant F = new _constant("A");    //prototype constructor (to pass args in)
+         *         _constant G = new _constant("A", 1);
+         *         _constant H = new _constant("B",2){ //prototype constructor (args & body w field(s) and method(s))
+         *             int field = 200;
+         *             public String toString(){
+         *                 return "Hello "+field;
+         *             }
+         *         }
+         *     }
+         *     //equivlanet to:
+         *     enum E{
+         *         C,
+         *         F("A"),
+         *         G("A",1),
+         *         H("B",2){
+         *             int field = 200;
+         *             public String toString(){
+         *                 return "Hello "+field;
+         *             }
+         *         }
+         *     }
+         *
+         * </PRE>
+         */
+        public _constant(Object...constructorArgs){
+
+            //throw new RuntimeException("This constant constructor only exists for 'prototypes', it does not actualy build a _constant");
+        }
+
+        public EnumConstantDeclaration astConstant;
 
         @Override
         public EnumConstantDeclaration ast(){

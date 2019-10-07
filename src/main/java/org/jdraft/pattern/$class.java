@@ -43,9 +43,19 @@ public final class $class
     /** marker interface for member entities that are part of the class */
     public interface $part{ }
 
+    public static $class of( String signature, Object anonymousClass){
+        _class _c = _class.of(signature, anonymousClass, Thread.currentThread().getStackTrace()[2] );
+        return of(_c);
+    }
+
+    public static $class of( Object anonymousClass ){
+        _class _c = _class.of("$name$", anonymousClass, Thread.currentThread().getStackTrace()[2] );
+        return of(_c);
+    }
+
     public static $class of( _class _c ){
         $class $c = of();
-        if( _c.isTopLevel() ){
+        if( _c.isTopLevel() && (_c.getPackage()!= null) ){
             $c.$package( _c.getPackage() );
             $c.$imports( _c.getImports() );
         }
@@ -89,6 +99,16 @@ public final class $class
 
     public static $class of(Predicate<_class> constraint ){
         return new $class().$and(constraint);
+    }
+
+    /**
+     * We need this since the Anonymous Object version seems to take precedence over the
+     * 
+     * @param part
+     * @return
+     */
+    public static $class of( $part part ){
+        return of( new $part[]{part});
     }
 
     public static $class of( $part...parts){

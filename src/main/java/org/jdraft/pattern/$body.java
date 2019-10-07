@@ -1,6 +1,8 @@
 package org.jdraft.pattern;
 
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.utils.Log;
 import org.jdraft._code;
 import org.jdraft._java;
 import org.jdraft._type;
@@ -25,6 +27,9 @@ import java.util.function.*;
  */
 public final class $body implements Template<_body>, $pattern<_body, $body>, $pattern.$java<_body, $body>, $constructor.$part, $method.$part{
 
+    /** a part of the body... a $ex, $stmt, $stmts, $case, $comment, $var */
+    public interface $part { }
+
     public Class<_body> javaType(){
         return _body.class;
     }
@@ -42,7 +47,20 @@ public final class $body implements Template<_body>, $pattern<_body, $body>, $pa
         $body $b = new $body( _body.of(body));
         return $b;
     }
-    
+
+    /**
+     *
+     * @param parts
+     * @return
+     */
+    public static $body of( $part...parts ){
+        $body $b = of();
+        for(int i=0;i<parts.length;i++){
+            $b.$and( parts[i] );
+        }
+        return $b;
+    }
+
     public static $body of( String...body ){
         return new $body( _body.of(body));
     }
@@ -99,7 +117,7 @@ public final class $body implements Template<_body>, $pattern<_body, $body>, $pa
         return $body.of( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
     }
     
-    public static <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object>  $body of(Ex.QuadFunction<A,B,C,D,E> commandLambda ){
+    public static <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> $body of(Ex.QuadFunction<A,B,C,D,E> commandLambda ){
         LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $body.of( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
     }
@@ -154,6 +172,19 @@ public final class $body implements Template<_body>, $pattern<_body, $body>, $pa
      */
     public $body $and(Predicate<_body> constraint ){
         this.constraint = this.constraint.and(constraint);
+        return this;
+    }
+
+    /**
+     * A Body containing some parts (i.e. a $stmt, $stmts, $ex, $case, $catch)
+     * @param parts
+     * @return
+     */
+    public $body $and( $part...parts){
+        for(int i=0;i<parts.length;i++){
+            final $part $p = parts[i];
+            $and( b-> (($pattern)$p).firstIn(b) != null);
+        }
         return this;
     }
 
@@ -341,6 +372,7 @@ public final class $body implements Template<_body>, $pattern<_body, $body>, $pa
     }
 
     public Tokens parse( _body body ){
+
         if( this.isImplemented == null && this.bodyStmts ==null ){
             return new Tokens();
         }
@@ -357,7 +389,6 @@ public final class $body implements Template<_body>, $pattern<_body, $body>, $pa
             }
             return new Tokens();
         }
-
         if( this.isImplemented ){
             $stmt.Select ss = this.bodyStmts.select((Statement)body.ast());
             if( ss != null ){
@@ -369,6 +400,60 @@ public final class $body implements Template<_body>, $pattern<_body, $body>, $pa
         return new Tokens();
     }
 
+    /**
+     *
+     * @param body
+     * @return
+     */
+    public Tokens parseOf( _body body ){
+
+        if( this.isImplemented == null && this.bodyStmts ==null ){
+            return new Tokens();
+        }
+        if( isMatchAny() && body == null ){
+            return new Tokens();
+        }
+        if( !this.constraint.test(body)){
+            Log.info("failed $body constaint");
+            return null;
+        }
+
+        if( !body.isImplemented() ){
+            if( this.isImplemented == true){
+                Log.info("failed Expected Body implemented");
+                return null;
+            }
+            return new Tokens();
+        }
+        if( this.isImplemented ){
+            $stmt.Select ss = this.bodyStmts.select((Statement)body.ast());
+            if( ss != null ){
+                return ss.tokens().asTokens();
+                //return new Select( body, ss.tokens);
+            } else{
+                try {
+                    BlockStmt bs = Ast.blockStmt( this.bodyStmts.stmtStencil.toString() );
+                    Tokens ts = new Tokens();
+                    NodeList<Statement> stmts = bs.getStatements();
+                    for(int i=0; i<stmts.size(); i++){
+                        $stmt $s = $stmt.of( stmts.get(i) );
+                        $stmt.Select sts = $s.selectFirstIn(body);
+                        if( sts == null ){
+                            return null;
+                        }
+                        ts.putAll( sts.tokens );
+                    }
+                    return ts;
+                } catch(Exception e){
+                    throw e;
+                    //Log.info("Exception in parsing code %s", ()->e.getMessage());
+                    //return null;
+                }
+            }
+            //return null;
+        }
+        return new Tokens();
+    }
 
     public Select select( _body._hasBody _hb ){
         return select(_hb.getBody());
@@ -380,37 +465,19 @@ public final class $body implements Template<_body>, $pattern<_body, $body>, $pa
      * @return 
      */
     public Select select( _body body ){
+
         if( !this.constraint.test(body) ){
             return null;
         }
-        Tokens ts = parse(body);
+        Log.info("passed body constraint");
+        //Old
+        //Tokens ts = parse(body);
+        //NEW
+        Tokens ts = parseOf(body);
         if( ts == null ){
             return null;
         }
         return new Select(body, $tokens.of( ts ));
-        /*
-        if( isMatchAny() ){
-            return new Select( body, $tokens.of());
-        }
-        if( !this.constraint.test(body)){
-            return null;
-        }        
-        if( !body.isImplemented() ){
-            if( this.isImplemented ){
-                return null;
-            } 
-            return new Select(body, $tokens.of());
-        }       
-        if( this.isImplemented ){
-            $stmt.Select ss = this.bodyStmts.select((Statement)body.ast());
-            if( ss != null ){
-                return new Select( body, ss.tokens);
-            }
-            return null;
-        }
-        return new Select( body, $tokens.of());
-
-         */
     }
     
     /**

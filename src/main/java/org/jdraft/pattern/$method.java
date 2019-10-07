@@ -180,7 +180,11 @@ public final class $method
         $part[] parts = new $part[]{part};
         return of(parts);
     }
-    
+
+    public static $method of( String name, $part...parts){
+        return new $method(parts).$name(name);
+    }
+
     /**
      * Build a method from the constituent parts
      * @param parts the parts of the $method
@@ -369,6 +373,72 @@ public final class $method
      */
     public $method $and(Predicate<_method>constraint ){
         this.constraint = this.constraint.and(constraint);
+        return this;
+    }
+
+    /**
+     * Adds a NOT constraint to the {@link #constraint} based on one or more $method.$part
+     * @param parts
+     * @return
+     */
+    public $method $and(final $part...parts ){
+        for(int i=0;i<parts.length;i++){
+            if( parts[i] instanceof $anno ){
+                final $anno $fa = (($anno)parts[i]);
+                Predicate<_method> pf = f-> $fa.count(f) > 0;
+                $and( pf  );
+            }
+            else if( parts[i] instanceof $modifiers ){
+                final $modifiers $fa = (($modifiers)parts[i]);
+                Predicate<_method> pf = f-> $fa.matches(f.getModifiers());
+                $and( pf );
+            }
+            else if( parts[i] instanceof $parameters ){
+                final $parameters $fa = (($parameters)parts[i]);
+                Predicate<_method> pf = f-> $fa.matches(f.getParameters());
+                $and( pf  );
+            }
+            else if( parts[i] instanceof $parameter ){
+                final $parameter $fa = (($parameter)parts[i]);
+                Predicate<_method> pf = f-> $fa.count(f) > 0;
+                $and( pf  );
+            }
+            else if( parts[i] instanceof $typeParameters ){
+                final $typeParameters $fa = (($typeParameters)parts[i]);
+                Predicate<_method> pf = f-> $fa.matches(f.getTypeParameters());
+                $and( pf  );
+            }
+            else if( parts[i] instanceof $typeParameter ){
+                final $typeParameter $fa = (($typeParameter)parts[i]);
+                Predicate<_method> pf = f-> $fa.count(f) > 0;
+                $and( pf  );
+            }
+            else if( parts[i] instanceof $typeRef){
+                final $typeRef $ft = (($typeRef)parts[i]);
+                Predicate<_method> pf = f-> $ft.matches(f.getType());
+                $and( pf );
+            }
+            else if( parts[i] instanceof $name){
+                final $name $fn = (($name)parts[i]);
+                Predicate<_method> pf = f-> $fn.matches(f.getName());
+                $and( pf );
+            }
+            else if( parts[i] instanceof $throws){
+                final $throws $ft = (($throws)parts[i]);
+                Predicate<_method> pf = f-> $ft.matches(f.getName());
+                $and( pf  );
+            }
+            else if(parts[i] instanceof $comment ){
+                final $comment $fj = (($comment)parts[i]);
+                Predicate<_method> pf = f-> $fj.matches(f.getJavadoc());
+                $and( pf  );
+            }
+            else if( parts[i] instanceof $body){
+                final $body $fj = (($body)parts[i]);
+                Predicate<_method> pf = f-> $fj.matches(f.getBody());
+                $and( pf  );
+            }
+        }
         return this;
     }
 

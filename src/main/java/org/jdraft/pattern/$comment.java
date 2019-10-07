@@ -18,7 +18,7 @@ import java.util.function.Predicate;
  */
 public final class $comment <C extends Comment>
     implements $pattern<C, $comment<C>>, Template<C>, $constructor.$part, $method.$part, $field.$part, $class.$part,
-        $interface.$part, $enum.$part, $annotation.$part,$enumConstant.$part, $annotationElement.$part {
+        $interface.$part, $enum.$part, $annotation.$part,$enumConstant.$part, $annotationElement.$part, $body.$part {
     
     public static $comment<Comment> of(){
         return new $comment();
@@ -133,8 +133,10 @@ public final class $comment <C extends Comment>
      * @param astComment 
      */
     public <C extends Comment> $comment( C astComment ){
-        this.commentClasses.add(astComment.getClass() );
-        this.contentsStencil = Stencil.of(Ast.getContent(astComment) );
+        if(astComment != null ) {
+            this.commentClasses.add(astComment.getClass());
+            this.contentsStencil = Stencil.of(Ast.getContent(astComment));
+        }
     }
     
     /**

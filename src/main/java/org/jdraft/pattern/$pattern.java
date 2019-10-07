@@ -805,6 +805,10 @@ public interface $pattern<P, $P extends $pattern>{
             _type _t = (_type)_j;
             return firstIn(_t.ast());
         }
+        if( _j instanceof _body){
+            _body _b = (_body)_j;
+            return firstIn(_b.ast());
+        }
         return firstIn( ((_node)_j).ast());
     }
     

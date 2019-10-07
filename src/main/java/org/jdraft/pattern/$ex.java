@@ -9,12 +9,20 @@ import java.util.*;
 import java.util.function.*;
 
 /**
- * $proto for some {@link com.github.javaparser.ast.expr.Expression}) implementation
+ * $pattern for any {@link com.github.javaparser.ast.expr.Expression}) implementation
  *
+ * NOTE: in the future I might make more or ALL of the expression implementations separate implementations
+ * <PRE>
+ * (i.e.
+ * $arrayAccessEx, $arrayCreationEx, $binaryEx)
+ * rather than:
+ * $ex<ArrayAccessExpr>, $ex<ArrayCreationExpr>, $ex<BinaryExpr>
+ * </PRE>
  * @param <T> the underlying Expression TYPE (could be Expression to mean all expressions)
  */
 public final class $ex<T extends Expression>
-    implements $field.$part, $pattern<T, $ex<T>>, $var.$part, $enumConstant.$part, $annotationElement.$part, Template<T> {
+    implements $field.$part, $pattern<T, $ex<T>>, $var.$part, $enumConstant.$part, $annotationElement.$part, Template<T>,
+    $body.$part {
 
     /**
      * 

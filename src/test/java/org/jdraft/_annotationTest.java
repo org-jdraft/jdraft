@@ -16,6 +16,24 @@ import test.subpkg.ann2;
  */
 public class _annotationTest extends TestCase  {
 
+
+
+
+    public void testAnnotationObject(){
+
+        _annotation _a = _annotation.of( "A", new Object(){
+            /** A Javadoc */
+            int value = 100;
+
+            String name= "Eric";
+        });
+
+        System.out.println( _a );
+
+        assertTrue( _a.getElement("value").equals(_annotation._element.of("/** A Javadoc */ int value() default 100;")));
+        assertTrue( _a.getElement("name").is("String name() default \"Eric\";"));
+    }
+
     public void testHeader(){
         _annotation _a = _annotation.of("/* License */",
                 "package aaaa.bbbb;",

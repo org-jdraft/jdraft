@@ -111,7 +111,7 @@ public class SconstructorTest extends TestCase {
     }
     
     public void testConstruct(){
-        $constructor $ct = $constructor.of( $body.of("{}") );
+        $constructor $ct = $constructor.of( $body.empty() );
         class c{
             c(){}
             c(int i){} //count this one

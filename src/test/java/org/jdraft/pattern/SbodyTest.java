@@ -101,7 +101,7 @@ public class SbodyTest extends TestCase {
         assertTrue( $body.of("{}").matches("{}"));
         assertFalse( $stmt.of("{}").matches("{ assert true; }"));        
         
-        assertFalse( $body.of("{}").matches("{ assert(true); }"));
+        assertFalse( $body.notImplemented().matches("{ assert(true); }"));
     }
     
     public void testAnyConstruct(){

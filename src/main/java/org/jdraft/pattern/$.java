@@ -77,6 +77,8 @@ public final class $ {
     public static $modifiers NATIVE = $modifiers.of("native");
     public static $modifiers STRICT_FP = $modifiers.of("strictfp");
 
+    /** the VOID type */
+    public static $typeRef VOID = $typeRef.VOID;
 
     public static final UnaryExpr.Operator PLUS = UnaryExpr.Operator.PLUS; //+(val)
     public static final UnaryExpr.Operator MINUS= UnaryExpr.Operator.MINUS; //-(val)

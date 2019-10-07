@@ -47,21 +47,21 @@ public final class $annotation
         return new $annotation(parts);
     }
 
-    public static $annotation of( _annotation _c ){
+    public static $annotation of( _annotation _a ){
         $annotation $c = of();
-        if( _c.isTopLevel() ){
-            $c.$package( _c.getPackage() );
-            $c.$imports( _c.getImports() );
+        if( _a.isTopLevel() ){
+            $c.$package( _a.getPackage() );
+            $c.$imports( _a.getImports() );
         }
 
-        $c.$javadoc(_c.getJavadoc());
-        _c.forAnnos(a-> $c.annos.add($anno.of(a)));
-        $c.modifiers = $modifiers.of(_c.getModifiers());
-        $c.$name(_c.getSimpleName());
-        _c.forElements(e -> $c.$elements($annotationElement.of(e)));
-        _c.forFields(f-> $c.fields.add($field.of(f)));
+        $c.$javadoc(_a.getJavadoc());
+        _a.forAnnos(a-> $c.annos.add($anno.of(a)));
+        $c.modifiers = $modifiers.of(_a.getModifiers());
+        $c.$name(_a.getSimpleName());
+        _a.forElements(e -> $c.$elements($annotationElement.of(e)));
+        _a.forFields(f-> $c.fields.add($field.of(f)));
 
-        _c.forNests( n -> {
+        _a.forNests( n -> {
             if( n instanceof _class) {
                 $c.$hasChild( $class.of((_class)n) );
             }

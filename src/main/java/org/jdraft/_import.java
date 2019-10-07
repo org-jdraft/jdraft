@@ -620,7 +620,7 @@ public class _import implements _node<ImportDeclaration, _import> {
         }
         // field types
         Arrays.stream(anonymousClass.getDeclaredFields()).forEach( f-> {
-            if( !f.isSynthetic() && f.getAnnotation(_remove.class) == null ) {
+            if( !f.isSynthetic() && f.getAnnotation(_remove.class) == null ){
                 classes.add(f.getType());
             }
         } );

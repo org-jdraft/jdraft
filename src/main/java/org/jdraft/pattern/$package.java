@@ -32,7 +32,10 @@ public class $package implements $pattern<PackageDeclaration, $package>, Templat
     }
 
     public static $package of( String namePattern ){
-        return new $package( namePattern, $annos.of(), t->true );
+        if( namePattern != null ) {
+            return new $package(namePattern, $annos.of(), t -> true);
+        }
+        return of();
     }
 
     public static $package of( Predicate<PackageDeclaration> matchFn ){
