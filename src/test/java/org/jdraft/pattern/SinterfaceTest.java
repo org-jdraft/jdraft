@@ -2,10 +2,37 @@ package org.jdraft.pattern;
 
 import junit.framework.TestCase;
 import org.jdraft.*;
+import org.jdraft.macro._importClass;
+import org.jdraft.macro._static;
 
+import java.io.Serializable;
 import java.util.Map;
+import java.util.UUID;
 
 public class SinterfaceTest extends TestCase {
+
+    public void testAnony(){
+        $interface $i = $interface.of(new Object(){ @_static int i=0;});
+        assertEquals( 1, $i.fields.size());
+
+        //this should now EXTEND serializable
+        $i = $interface.of("aaaa.bbbb.I<String>", new Serializable(){
+            public @_static int m(){
+                return 56;
+            }
+        });
+        System.out.println( $i );
+        //make sure the macros are run
+        assertTrue($i.methods.get(0).modifiers.matches("public static"));
+        assertTrue($i.packageDecl.matches("aaaa.bbbb"));
+        assertTrue($i.name.matches("I"));
+        assertTrue($i.typeParameters.matches("<String>"));
+
+        //use a pre Anonymous macro
+        $i = $interface.of("AAA",new @_importClass(UUID.class) Object(){});
+
+        assertEquals( 1, $i.imports.size() );
+    }
 
     public void testMatchAny(){
         $interface $i = $interface.of();

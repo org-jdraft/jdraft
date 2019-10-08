@@ -239,6 +239,13 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         return of(signature, anonymousClassBody, Thread.currentThread().getStackTrace()[2]);
     }
 
+    /**
+     *
+     * @param signature
+     * @param anonymousClassBody
+     * @param ste
+     * @return
+     */
     public static _class of( String signature, Object anonymousClassBody, StackTraceElement ste) {
         _class _c = _class.of(signature);
         Class theClass = anonymousClassBody.getClass();
@@ -246,7 +253,6 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         //interfaces to implement
         if(theClass.getInterfaces().length > 0){
             for(int i=0; i< theClass.getInterfaces().length; i++){
-                
                 _c.imports(theClass.getInterfaces()[i]);
                 _c.implement(theClass.getInterfaces()[i]);
             }
@@ -387,20 +393,20 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     /**
      * i.e. 
      * <PRE>
-     * _class _c = _class.of("C").implement(
+     * _class _c = _class.of("C").extend(
      *    new Descriptive(){
      *       public String describe(){
      *           return "a description";
      *       }
      * });
      *
-     * public class C implements Descriptive{
+     * public class C extends Descriptive{
      *     public String describe(){
      *         return "a description";
      *     }
      * }
      * </PRE>
-     * @param anonymousImplementationBody anonymous Class that implements the interface and the method(s)
+     * @param anonymousImplementationBody anonymous Object that implements the interface and the method(s)
      *                                    required that will be "imported" in the _class
      * @return the modified Class
      */

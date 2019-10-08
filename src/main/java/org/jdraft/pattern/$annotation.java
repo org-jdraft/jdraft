@@ -43,12 +43,23 @@ public final class $annotation
         return new $annotation().$and(constraint);
     }
 
+    /** We need this as to not interfere with the anonymousBodyConstructor */
+    public static $annotation of($part part){ return of( new $part[]{part}); }
+
     public static $annotation of($part...parts){
         return new $annotation(parts);
     }
 
     public static $annotation of( AnnotationDeclaration astAd ){
         return of( _annotation.of(astAd));
+    }
+
+    public static $annotation of( Object anonymousObjectBody){
+        return of( _annotation.of("$annotationName$", anonymousObjectBody, Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static $annotation of( String name, Object anonymousObjectBody ){
+        return of( _annotation.of(name, anonymousObjectBody, Thread.currentThread().getStackTrace()[2]));
     }
 
     public static $annotation of( _annotation _a ){

@@ -51,12 +51,23 @@ public final class $interface
         return new $interface().$and(constraint);
     }
 
+    public static $interface of($part part){ return of( new $part[]{part}); }
+
     public static $interface of($part...parts){
         return new $interface(parts);
     }
 
+
     public static $interface of(ClassOrInterfaceDeclaration coid ){
         return of( _interface.of(coid));
+    }
+
+    public static $interface of( Object anonymousObjectBody){
+        return of( _interface.of("$interfaceName$", anonymousObjectBody, Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static $interface of( String name, Object anonymousObjectBody ){
+        return of( _interface.of(name, anonymousObjectBody, Thread.currentThread().getStackTrace()[2]));
     }
 
     public static $interface of( _interface _c ){

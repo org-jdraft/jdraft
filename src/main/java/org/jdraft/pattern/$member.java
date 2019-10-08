@@ -45,10 +45,9 @@ public interface $member<M, $M extends $pattern> extends $pattern<M,$M> {
         List<$member> $mems = new ArrayList<>();
 
         bds.forEach(b -> {
-
             //FIRST REMOVE THE _$not annotation we dont want to match against it
-            b.getAnnotations().removeIf( a -> ((AnnotationExpr)a).getNameAsString().equals(_$not.class.getSimpleName())
-                        || ((AnnotationExpr)a).getNameAsString().equals(_$not.class.getCanonicalName() ));
+            //b.getAnnotations().removeIf( a -> ((AnnotationExpr)a).getNameAsString().equals(_$not.class.getSimpleName())
+            //            || ((AnnotationExpr)a).getNameAsString().equals(_$not.class.getCanonicalName() ));
             if(b instanceof FieldDeclaration){
                 FieldDeclaration fd = (FieldDeclaration)b;
                 fd.getVariables().forEach(v-> {

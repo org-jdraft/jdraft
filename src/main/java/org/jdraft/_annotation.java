@@ -58,23 +58,22 @@ public final class _annotation
         }
         throw new _draftException("Unable to locate primary TYPE in "+ cu);
     }
+
     /**
-     *
-     * NOTE: default values are set to initial values
-     *
-     * NOTE: macros are not run on the Anonymous Object BODY
-     * @param signature
-     * @param anonymousObjectBody
+     * USED MOSTLY INTERNALLY
+     * builds an annotation
+     * @param signature the simple signature (name:"A" / package & name: "aaaa.bbbb.A")
+     * @param anonymousClassBody
+     * @param ste the stackTraceElement
      * @return
      */
-    public static _annotation of( String signature, Object anonymousObjectBody ){
-        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+    public static _annotation of( String signature, Object anonymousClassBody, StackTraceElement ste) {
         _annotation _a = of( signature );
         ObjectCreationExpr oce = Ex.anonymousObjectEx(ste);
-        
+
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
 
-        //each (non-static) field REALLY represents an annotation with a possible default
+        //each (non-static) field REALLY represents an annotation.element with a possible default
         bds.stream().filter( bd-> bd instanceof FieldDeclaration && !bd.asFieldDeclaration().isStatic() ).forEach( f-> {
             VariableDeclarator vd = ((FieldDeclaration) f).getVariable(0);
             _annotation._element _ae = null;
@@ -96,8 +95,20 @@ public final class _annotation
         bds.stream().filter( bd-> bd instanceof FieldDeclaration && bd.asFieldDeclaration().isStatic() ).forEach( f-> {
             ((FieldDeclaration) f).getVariables().forEach( v-> _a.field(v));
         });
-
         return _a;
+    }
+
+    /**
+     *
+     * NOTE: default values are set to initial values
+     *
+     * NOTE: macros are not run on the Anonymous Object BODY
+     * @param signature
+     * @param anonymousObjectBody
+     * @return
+     */
+    public static _annotation of( String signature, Object anonymousObjectBody ){
+        return of(signature, anonymousObjectBody, Thread.currentThread().getStackTrace()[2]);
     }
 
     public _annotation retentionPolicyRuntime(){

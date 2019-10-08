@@ -49,8 +49,18 @@ public final class $enum
         return new $enum().$and(constraint);
     }
 
+    public static $enum of($part part){ return of(new $part[]{part}); }
+
     public static $enum of($part...parts){
         return new $enum(parts);
+    }
+
+    public static $enum of( Object anonymousObjectBody){
+        return of( _enum.of("$enumName$", anonymousObjectBody, Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static $enum of( String name, Object anonymousObjectBody ){
+        return of( _enum.of(name, anonymousObjectBody, Thread.currentThread().getStackTrace()[2]));
     }
 
     public static $enum of( EnumDeclaration ed){

@@ -10,6 +10,24 @@ import java.util.Map;
 
 public class SannotationTest extends TestCase {
 
+    public void testAnonConstructor(){
+        $annotation $a = $annotation.of("A", new Object(){
+           int value = 100;
+        });
+        assertTrue( $a.name.matches("A"));
+        assertEquals(1, $a.annotationElements.size());
+        //System.out.println( $a );
+
+        $a = $annotation.of( new Object(){
+           String name;
+           int a = 1;
+           int[] vals = new int[]{1,2,3};
+        });
+
+        assertTrue( $a.name.matches("A"));
+        assertEquals(3, $a.annotationElements.size());
+        //System.out.println( $a );
+    }
     public void testMatchAny(){
         $annotation $c = $annotation.of();
         assertTrue( $c.isMatchAny());

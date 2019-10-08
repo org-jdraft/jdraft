@@ -4,11 +4,47 @@ import com.github.javaparser.ast.body.CallableDeclaration;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import junit.framework.TestCase;
 import org.jdraft.*;
+import org.jdraft.macro._toInit;
+import org.jdraft.macro._toStaticInit;
 
 import java.io.Serializable;
 import java.util.Map;
 
 public class SclassTest extends TestCase {
+
+    public void testAnonymousBody(){
+        $class $c = $class.of(new Object(){
+           int i = 100;
+        });
+        assertEquals( 1, $c.fields.size());
+
+        $c = $class.of("A", new Object(){
+            void m(){}
+        });
+        assertEquals("A", $c.name.nameStencil.toString() );
+        assertEquals( 1, $c.methods.size());
+
+        //heres how I represent I want the class to extend a specific interface
+        //NOTE: TestCase is a Class (not interface) so we EXTEND not IMPLEMENT this class
+        $c = $class.of( new TestCase(){});
+        assertTrue( $c.extend.matches(_typeRef.of(TestCase.class)) );
+
+        //heres how to represent a class that implements a particular interface
+        //NOTE: Serializable is an Interface (not a class) so we IMPLEMENT not EXTEND this class
+        $c = $class.of(new Serializable() {});
+        assertTrue( $c.implement.size() == 1);
+        assertTrue( $c.implement.get(0).matches(_typeRef.of(Serializable.class)) );
+
+        $c = $class.of( new Object(){
+            @_toInit void m(){ System.out.println( "initBlock"); }
+        });
+        assertEquals( 1, $c.initBlocks.size());
+
+        $c = $class.of( new Object(){
+            @_toStaticInit void m(){ System.out.println( "static initBlock"); }
+        });
+        assertTrue( $c.initBlocks.get(0).isStatic);
+    }
 
     public void testMatchAny(){
         $class $c = $class.of();

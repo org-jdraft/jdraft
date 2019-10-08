@@ -97,9 +97,16 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         return of( in.getInputStream());
     }
 
-    //
-    public static _enum of(String signature, Object anonymousBody){
-        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+    /**
+     * ---Mostly called internally & from $enum $pattern --
+     *
+     * @param signature the signature
+     * @param anonymousBody
+     * @param ste the stackTraceElement to refer back to the code used to build the enum
+     * (we scrape the code from the calling source)
+     * @return
+     */
+    public static _enum of( String signature, Object anonymousBody, StackTraceElement ste){
         _enum _e = _enum.of(signature);
         ObjectCreationExpr oce = Ex.anonymousObjectEx( ste );
         if( oce.getAnonymousClassBody().isPresent()) {
@@ -116,15 +123,14 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
                         _constant E = new _constant(1);
                         _constant F = new _constant(1, 3);
                         _constant G = new _constant("A", 4){
-
                         }
                     });
                      */
                     FieldDeclaration fd = (FieldDeclaration)bds.get(i);
-
                     if( Ast.typesEqual( fd.getVariable(0).getType(), Ast.typeRef(_constant.class) ) ){
 
                         for(int f=0;f<fd.getVariables().size();f++){
+
                             VariableDeclarator vd = fd.getVariable(f);
                             EnumConstantDeclaration ecd = new EnumConstantDeclaration();
                             ecd.setName(vd.getNameAsString());
@@ -156,9 +162,14 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         Set<Class> importClasses = _import.inferImportsFrom(anonymousBody);
         importClasses.remove(_enum._constant.class);
         _e.imports(importClasses.toArray(new Class[0]));
-        
+
         _e = macro.to(anonymousBody.getClass(), _e);
         return _e;
+    }
+
+    public static _enum of(String signature, Object anonymousBody){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        return of(signature, anonymousBody, ste);
     }
 
     public _enum( EnumDeclaration astClass ){

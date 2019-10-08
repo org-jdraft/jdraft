@@ -450,9 +450,17 @@ public interface _code<_C> extends _model, _java._componentized {
                         // so java.lang.annotation.* classes are not imported when they should be
                         if (classesToImport[i].getPackage() != Integer.class.getPackage()
                                 && classesToImport[i].getCanonicalName().startsWith("java.lang")) {
-                            cu.addImport(classesToImport[i].getCanonicalName());
+
+                            //cu.addImport(classesToImport[i].getCanonicalName());
+                            //here there is some changes to JavaParser that (works in some versions not in others)
+                            // so just "manually" create the importDeclaration with the name
+                            cu.addImport( new ImportDeclaration(classesToImport[i].getCanonicalName(), false, false));
                         } else {
-                            cu.addImport(cn);
+                            //System.out.println( "IMPORTING "+ cn );
+                            //here there is some changes to JavaParser that (works in some versions not in others)
+                            // so just "manually" create the importDeclaration with the name
+                            cu.addImport( new ImportDeclaration(cn, false, false));
+                            //cu.addImport(cn);
                         }
                     }
                 }                

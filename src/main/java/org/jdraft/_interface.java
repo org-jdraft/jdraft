@@ -89,8 +89,24 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         return of( Ast.of( interfaceDef ));
     }
 
-    public static _interface of( String signature, Object anonymousBody) { //}, _macro<_type>...typeMacros) {
-        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+    /**
+     *
+     * @param signature
+     * @param anonymousBody
+     * @return
+     */
+    public static _interface of( String signature, Object anonymousBody) {
+        return of( signature, anonymousBody, Thread.currentThread().getStackTrace()[2] );
+    }
+
+    /**
+     *
+     * @param signature
+     * @param anonymousBody
+     * @param ste
+     * @return
+     */
+    public static _interface of( String signature, Object anonymousBody, StackTraceElement ste) {
         final _interface _i = of( signature );
 
         //interfaces to be extended

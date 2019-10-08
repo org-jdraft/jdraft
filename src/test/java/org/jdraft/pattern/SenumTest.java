@@ -1,6 +1,7 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.ast.body.CallableDeclaration;
+import com.github.javaparser.ast.body.EnumDeclaration;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import junit.framework.TestCase;
 import org.jdraft.*;
@@ -9,6 +10,58 @@ import java.io.Serializable;
 import java.util.Map;
 
 public class SenumTest extends TestCase {
+
+    /**
+     * Ran into this issue, is really part of Ast tests, but needed it here
+     * (PARTIALLY
+     */
+    public void testTypesEquality(){
+        //TYPE _enum._constant
+        //TYPE org.jdraft._enum._constant
+        assertTrue( Ast.typesEqual( Ast.typeRef("_enum._constant"), Ast.typeRef(_enum._constant.class)) );
+        assertTrue( Ast.typesEqual( Ast.typeRef("_constant"), Ast.typeRef(_enum._constant.class)) );
+        assertTrue( Ast.typesEqual( Ast.typeRef("_constant"), Ast.typeRef(_enum._constant.class.getCanonicalName())) );
+
+    }
+
+    public void testAnonBody(){
+        _enum _ae = _enum.of("E").constants("A", "B","C", "D", "E");
+        assertEquals( 5, _ae.listConstants().size());
+
+        _enum _e = _enum.of("E", new Object(){
+           _enum._constant A,B,C,D,E;
+        });
+        assertEquals( 5, _ae.listConstants().size());
+
+        $enum $e = $enum.of(new Object(){ _enum._constant A,B,C; } );
+        assertEquals(3, $e.enumConstants.size());
+
+        $e = $enum.of(new Object(){ _enum._constant A; } );
+        assertEquals(1, $e.enumConstants.size());
+
+        $e = $enum.of(new Object(){ _enum._constant A = new _enum._constant(); } );
+        assertEquals(1, $e.enumConstants.size());
+
+        //enum with constructor args
+        $e = $enum.of(new Object(){ _enum._constant A = new _enum._constant(1,2,"E"); } );
+        assertEquals(1, $e.enumConstants.size());
+        assertEquals(3, $e.enumConstants.get(0).args.size());
+
+        //enum with constructor args AND body (with field and method)
+        $e = $enum.of(new Object(){ _enum._constant A = new _enum._constant(1,2,"E"){
+                int aField = 10234;
+                public String toString(){
+                    return "HELLO";
+                }
+            };
+        } );
+        assertEquals(1, $e.enumConstants.size());
+        assertEquals(3, $e.enumConstants.get(0).args.size());
+        assertEquals(1, $e.enumConstants.get(0).methods.size());
+        assertEquals(1, $e.enumConstants.get(0).fields.size());
+
+        //System.out.println( $e );
+    }
 
     public void testMatchAny(){
         $enum $e = $enum.of();

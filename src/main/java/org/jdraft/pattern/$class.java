@@ -6,6 +6,7 @@ import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.JavadocComment;
+import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.jdraft.*;
 
@@ -35,7 +36,6 @@ public final class $class
     public List<$method> methods = new ArrayList<>();
     public List<$initBlock> initBlocks = new ArrayList<>();
 
-
     public $typeRef extend = $typeRef.of();
     public List<$typeRef> implement = new ArrayList<>();
 
@@ -45,12 +45,11 @@ public final class $class
     public interface $part{ }
 
     public static $class of( String signature, Object anonymousClass){
-        _class _c = _class.of(signature, anonymousClass, Thread.currentThread().getStackTrace()[2] );
-        return of(_c);
+        return of( signature, anonymousClass, Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $class of( Object anonymousClass ){
-        _class _c = _class.of("$name$", anonymousClass, Thread.currentThread().getStackTrace()[2] );
+    private static $class of( String signature, Object anonymousClass, StackTraceElement ste){
+        _class _c = _class.of(signature, anonymousClass, ste); //Thread.currentThread().getStackTrace()[2] );
         List<BodyDeclaration> nots = new ArrayList<>();
 
         //only _declared members can have annotations (i.e. @_$not )
@@ -59,9 +58,18 @@ public final class $class
             d.ast().remove(); //remove it from the AST so we dont treat it as an $and
         });
         $class $c = of(_c);
+
+        //remove the @_$not annotations
+        nots.forEach(b ->
+                //FIRST REMOVE THE _$not annotation we dont want to match against it
+                b.getAnnotations().removeIf( a -> ((AnnotationExpr)a).getNameAsString().equals(_$not.class.getSimpleName())
+                        || ((AnnotationExpr)a).getNameAsString().equals(_$not.class.getCanonicalName() ))  );
         List<$member> $mems = $member.of(nots);
         $mems.forEach($m -> $c.$not( ($class.$part)$m));
         return $c;
+    }
+    public static $class of( Object anonymousClass ){
+        return of( "$className$", anonymousClass, Thread.currentThread().getStackTrace()[2]);
     }
 
     public static $class of( ClassOrInterfaceDeclaration coid ){
@@ -70,7 +78,7 @@ public final class $class
 
     public static $class of( _class _c ){
         $class $c = of();
-        if( _c.isTopLevel() && (_c.getPackage()!= null) ){
+        if( _c.isTopLevel() && (_c.getPackage() != null) ){
             $c.$package( _c.getPackage() );
             $c.$imports( _c.getImports() );
         }

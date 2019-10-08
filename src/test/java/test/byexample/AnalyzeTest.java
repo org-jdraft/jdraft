@@ -33,9 +33,10 @@ public class AnalyzeTest extends TestCase {
     public void test$methodShorthand(){
 
         $method $m = $method.of( $body.of(()->Log.setAdapter( new Log.StandardOutStandardErrorAdapter())));
-
+        assertTrue( $m.matches("public void m(){ Log.setAdapter( new Log.StandardOutStandardErrorAdapter()); }") );
         assertTrue( $m.matches(_method.of("public void m(){ Log.setAdapter( new Log.StandardOutStandardErrorAdapter()); }")) );
         Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
+        assertTrue( $m.matches("public void m(){ assert(true); Log.setAdapter( new Log.StandardOutStandardErrorAdapter()); }") );
         assertTrue( $m.matches(_method.of("public void m(){ assert(true); Log.setAdapter( new Log.StandardOutStandardErrorAdapter()); }")) );
         Log.setAdapter(new Log.SilentAdapter());
     }
@@ -102,9 +103,6 @@ public class AnalyzeTest extends TestCase {
                 Log.setAdapter( new Log.SilentAdapter() );
             }
         })));
-
-
-
     }
 
     public void testUL(){

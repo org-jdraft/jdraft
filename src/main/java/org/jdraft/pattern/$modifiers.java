@@ -189,6 +189,13 @@ public final class $modifiers
     public $modifiers(){        
     }
 
+    public boolean matches(String...modifiers ){
+        try {
+            return matches(_modifiers.of(modifiers));
+        }catch(Exception e){
+            return false;
+        }
+    }
     public boolean matches( _modifiers _ms ){
         return select(_ms) != null;
     }
