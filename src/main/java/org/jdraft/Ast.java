@@ -3430,6 +3430,31 @@ public enum Ast {
             }
             return true;
         }
+        //here we could have both types that have '.'s but one is from an inner class
+        // i.e.
+        // _typeRef _t1 = _typeRef.of("_enum._constant");
+        // _typeRef _t2 = _typeRef.of("org.jdraft._enum._constant");
+        //ok... lets parse out the first
+
+        List<String> t1s = tokenizeType(r1);
+        List<String> t2s = tokenizeType(r2);
+        if (t1s.size() != t2s.size()) {
+            return false;
+        }
+        String s1n  = t1s.get(0); //get the first (type) token
+        String s2n  = t2s.get(0); //get the second (type) token
+        int dotIndex1 = s1n.lastIndexOf('.');
+        int dotIndex2 = s2n.lastIndexOf('.');
+        if( dotIndex1 > 0 ){ //this means BOTH must be qualified (partially or otherwise)
+            //Log.info( "BOTH PARTIALLY QUALIFIED");
+            if( s1n.contains(s2n) || s2n.contains(s1n) ){ //compare that either one contains the other JUST THE NAME NOT GENERICS
+                //String normalizedName = s1n.substring(dotIndex);
+                String t1 = r1.asString().substring(dotIndex1+1);
+                String t2 = r2.asString().substring(dotIndex2+1);
+                //call types equal on the SIMPLE type name and (potentially) any generics after it
+                return typesEqual( Ast.typeRef(t1), Ast.typeRef(t2));
+            }
+        }
         return false;
     }
     
