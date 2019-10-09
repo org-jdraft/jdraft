@@ -52,7 +52,7 @@ public interface $member<M, $M extends $pattern> extends $pattern<M,$M> {
                 FieldDeclaration fd = (FieldDeclaration)b;
                 fd.getVariables().forEach(v-> {
                     $field $f = $field.of(v);
-                    Log.info( "    adding $field %f ", ()->$f.toString() );
+                    Log.info( "    adding $field %s ", ()->$f.toString() );
                     $mems.add($f);
                 } );
             } else{
