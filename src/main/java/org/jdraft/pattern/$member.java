@@ -28,6 +28,9 @@ import java.util.function.Predicate;
  */
 public interface $member<M, $M extends $pattern> extends $pattern<M,$M> {
 
+    //public static List<$member> of(List<Node> n ){
+
+    //}
     /**
      * Added this because when we have multi-declared fields in code/ast:
      * <PRE>

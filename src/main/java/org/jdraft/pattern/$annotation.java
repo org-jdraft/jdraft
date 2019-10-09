@@ -3,7 +3,9 @@ package org.jdraft.pattern;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.AnnotationDeclaration;
+import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
+import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.comments.JavadocComment;
 import org.jdraft.*;
 
@@ -69,6 +71,22 @@ public final class $annotation
             $c.$imports( _a.getImports() );
         }
 
+        //not annotated elements
+        List<Node>nots = new ArrayList<>();
+
+        //remove _$not things
+        _a.forDeclared( d -> d.hasAnno(_$not.class), d-> {
+            //System.out.println("NODE" +  d + d.getClass());
+            if( d instanceof _field ){
+                ((_field) d).getFieldDeclaration().remove();
+                nots.add( d.ast() );
+                //System.out.println("Field "+ d);
+            } else {
+                d.ast().remove(); //remove so we dont
+                nots.add((BodyDeclaration) d.ast());
+            }
+        } );
+
         $c.$javadoc(_a.getJavadoc());
         _a.forAnnos(a-> $c.annos.add($anno.of(a)));
         $c.modifiers = $modifiers.of(_a.getModifiers());
@@ -90,6 +108,16 @@ public final class $annotation
                 $c.$hasChild( $annotation.of((_annotation)n) );
             }
         });
+
+        for(int i=0;i<nots.size();i++){
+            if( nots.get(i) instanceof VariableDeclarator ){
+                $member $m = $field.of((VariableDeclarator) nots.get(i));
+                $c.$not(($part) $m);
+            } else {
+                $member $m = $member.of((BodyDeclaration) nots.get(i));
+                $c.$not(($part) $m);
+            }
+        }
         return $c;
     }
 

@@ -24,6 +24,15 @@ public class SenumTest extends TestCase {
 
     }
 
+    public void testAnonBody$Not(){
+        $enum $e = $enum.of( new Object(){
+           @_$not public int $fieldName$; //there is no int field (with any name)
+        });
+
+        System.out.println($e);
+        assertFalse($e.matches("public enum E{ public int i; }"));
+    }
+
     public void testAnonBody(){
         _enum _ae = _enum.of("E").constants("A", "B","C", "D", "E");
         assertEquals( 5, _ae.listConstants().size());

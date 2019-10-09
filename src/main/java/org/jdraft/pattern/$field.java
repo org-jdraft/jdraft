@@ -1050,10 +1050,10 @@ public final class $field implements Template<_field>, $pattern<_field, $field>,
 
     public String toString(){
         if( isMatchAny() ){
-            return "$type{ $ANY$ }";
+            return "$field{ $ANY$ }";
         }
         StringBuilder str = new StringBuilder();
-        str.append("$type{").append( System.lineSeparator() );
+        str.append("$field{").append( System.lineSeparator() );
         if( ! javadoc.isMatchAny() ){
             str.append( Text.indent( javadoc.toString()));
         }
@@ -1070,8 +1070,9 @@ public final class $field implements Template<_field>, $pattern<_field, $field>,
             str.append(Text.indent( name.toString()));
         }
         if( this.init != null && !this.init.isMatchAny()){
-            str.append(Text.indent( "init{" + System.lineSeparator())+
-                       Text.indent(init.toString(), "        "+System.lineSeparator())+
+            str.append(
+                    Text.indent( "init{" + System.lineSeparator())+
+                       Text.indent(init.toString(), "        ")+
                        Text.indent("}") );
         }
         str.append("}");

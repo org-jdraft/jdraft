@@ -3,7 +3,9 @@ package org.jdraft.pattern;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.PackageDeclaration;
+import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
@@ -72,10 +74,25 @@ public final class $interface
 
     public static $interface of( _interface _c ){
         $interface $c = of();
+
         if( _c.isTopLevel() ){
             $c.$package( _c.getPackage() );
             $c.$imports( _c.getImports() );
         }
+        List<Node> nots = new ArrayList<>();
+
+        //remove _$not things
+        _c.forDeclared( d -> d.hasAnno(_$not.class), d-> {
+            System.out.println("NODE" +  d + d.getClass());
+            if( d instanceof _field ){
+                ((_field) d).getFieldDeclaration().remove();
+                nots.add( ((_field) d).getFieldDeclaration() );
+                System.out.println("Not Field "+ d);
+            } else {
+                d.ast().remove(); //remove so we dont
+                nots.add((BodyDeclaration) d.ast());
+            }
+        } );
 
         $c.$javadoc(_c.getJavadoc());
         _c.forAnnos(a-> $c.annos.add($anno.of(a)));
@@ -98,7 +115,14 @@ public final class $interface
             if( n instanceof _annotation) {
                 $c.$hasChild( $annotation.of((_annotation)n) );
             }
+            //$member.of( nots ).forEach( $m -> $c.$not(($part)$m) );
         });
+        //for all nots add them
+        List<$member> $ms = new ArrayList<>();
+        for(int i=0;i<nots.size();i++){
+            $member $m =  $member.of( (BodyDeclaration)nots.get(i) );
+            $c.$not( ($part)$m);
+        }
         return $c;
     }
 

@@ -12,6 +12,15 @@ import java.util.Map;
 
 public class SclassTest extends TestCase {
 
+    public void testAnonNot(){
+        $class $c = $class.of(new Object(){
+           @_$not int i;
+           @_$not void m(){}
+        });
+        System.out.println( $c );
+        assertFalse( $c.matches("public class C{ int i; }"));
+        assertFalse( $c.matches("public class C{ void m(){ System.out.println(12); } }"));
+    }
     public void testAnonymousBody(){
         $class $c = $class.of(new Object(){
            int i = 100;

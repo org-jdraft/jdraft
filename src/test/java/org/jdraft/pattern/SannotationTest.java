@@ -10,6 +10,16 @@ import java.util.Map;
 
 public class SannotationTest extends TestCase {
 
+    public void testNotAnno(){
+        $annotation $a = $annotation.of( new Object(){
+            @_$not String name;
+            int value;
+        });
+        assertTrue( $a.annotationElements.size() == 1 );
+        assertTrue( $a.annotationElements.get(0).matches("int value();") );
+        System.out.println( $a );
+
+    }
     public void testAnonConstructor(){
         $annotation $a = $annotation.of("A", new Object(){
            int value = 100;

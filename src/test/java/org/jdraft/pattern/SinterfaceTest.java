@@ -11,6 +11,19 @@ import java.util.UUID;
 
 public class SinterfaceTest extends TestCase {
 
+    public void test$Not(){
+        $interface $i = $interface.of( new Object(){
+            @_$not @_static int i = 102;
+        });
+        $field $f = $field.of("static int i=102;");
+        System.out.println( $f );
+        assertTrue( $f.matches("static int i=102;"));
+
+        System.out.println( $i );
+        assertFalse( $i.matches("public interface I{ static int i = 102; }"));
+
+    }
+
     public void testAnony(){
         $interface $i = $interface.of(new Object(){ @_static int i=0;});
         assertEquals( 1, $i.fields.size());

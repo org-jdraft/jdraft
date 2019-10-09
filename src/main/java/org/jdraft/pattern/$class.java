@@ -4,6 +4,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.expr.AnnotationExpr;
@@ -54,8 +55,13 @@ public final class $class
 
         //only _declared members can have annotations (i.e. @_$not )
         _c.forDeclared(d -> d.hasAnno(_$not.class), d -> {
-            nots.add( (BodyDeclaration)d.ast() );
-            d.ast().remove(); //remove it from the AST so we dont treat it as an $and
+            if( d instanceof _field ){
+                nots.add(((_field) d).getFieldDeclaration());
+                ((_field)d).getFieldDeclaration().remove(); //remove it from the AST so we dont treat it as an $and
+            } else {
+                nots.add((BodyDeclaration) d.ast());
+                d.ast().remove(); //remove it from the AST so we dont treat it as an $and
+            }
         });
         $class $c = of(_c);
 

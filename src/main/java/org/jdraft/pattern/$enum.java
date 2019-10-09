@@ -2,8 +2,10 @@ package org.jdraft.pattern;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.EnumDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
+import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.jdraft.*;
@@ -67,24 +69,40 @@ public final class $enum
         return of( _enum.of(ed));
     }
 
-    public static $enum of( _enum _c ){
+    public static $enum of( _enum _e ){
         $enum $c = of();
-        if( _c.isTopLevel() ){
-            $c.$package( _c.getPackage() );
-            $c.$imports( _c.getImports() );
+        if( _e.isTopLevel() ){
+            $c.$package( _e.getPackage() );
+            $c.$imports( _e.getImports() );
         }
 
-        $c.$javadoc(_c.getJavadoc());
-        _c.forAnnos(a-> $c.annos.add($anno.of(a)));
-        $c.modifiers = $modifiers.of(_c.getModifiers());
-        $c.$name(_c.getSimpleName());
-        _c.listImplements().forEach(i -> $c.$implement(i));
-        _c.forConstants(cn -> $c.$constant($enumConstant.of(cn)));
-        _c.forInitBlocks(ib -> $c.initBlocks.add($initBlock.of(ib.ast())));
-        _c.forConstructors(ct -> $c.ctors.add($constructor.of(ct)));
-        _c.forFields(f-> $c.fields.add($field.of(f)));
-        _c.forMethods(m -> $c.$methods($method.of(m)));
-        _c.forNests( n -> {
+        List<Node>nots = new ArrayList<>();
+
+        //remove _$not things
+        _e.forDeclared( d -> d.hasAnno(_$not.class), d-> {
+            //System.out.println("NODE" +  d + d.getClass());
+            if( d instanceof _field ){
+                ((_field) d).getFieldDeclaration().remove();
+                nots.add( d.ast() );
+                //System.out.println("Field "+ d);
+            } else {
+                d.ast().remove(); //remove so we dont
+                nots.add((BodyDeclaration) d.ast());
+            }
+        } );
+
+
+        $c.$javadoc(_e.getJavadoc());
+        _e.forAnnos(a-> $c.annos.add($anno.of(a)));
+        $c.modifiers = $modifiers.of(_e.getModifiers());
+        $c.$name(_e.getSimpleName());
+        _e.listImplements().forEach(i -> $c.$implement(i));
+        _e.forConstants(cn -> $c.$constant($enumConstant.of(cn)));
+        _e.forInitBlocks(ib -> $c.initBlocks.add($initBlock.of(ib.ast())));
+        _e.forConstructors(ct -> $c.ctors.add($constructor.of(ct)));
+        _e.forFields(f-> $c.fields.add($field.of(f)));
+        _e.forMethods(m -> $c.$methods($method.of(m)));
+        _e.forNests( n -> {
             if( n instanceof _class) {
                 $c.$hasChild( $class.of((_class)n) );
             }
@@ -98,6 +116,16 @@ public final class $enum
                 $c.$hasChild( $annotation.of((_annotation)n) );
             }
         });
+
+        for(int i=0;i<nots.size();i++){
+            if( nots.get(i) instanceof VariableDeclarator ){
+                $member $m = $field.of((VariableDeclarator) nots.get(i));
+                $c.$not(($part) $m);
+            } else {
+                $member $m = $member.of((BodyDeclaration) nots.get(i));
+                $c.$not(($part) $m);
+            }
+        }
         return $c;
     }
 
