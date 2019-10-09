@@ -28,9 +28,6 @@ import java.util.function.Predicate;
  */
 public interface $member<M, $M extends $pattern> extends $pattern<M,$M> {
 
-    //public static List<$member> of(List<Node> n ){
-
-    //}
     /**
      * Added this because when we have multi-declared fields in code/ast:
      * <PRE>
@@ -55,12 +52,12 @@ public interface $member<M, $M extends $pattern> extends $pattern<M,$M> {
                 FieldDeclaration fd = (FieldDeclaration)b;
                 fd.getVariables().forEach(v-> {
                     $field $f = $field.of(v);
-                    Log.info( "    adding $field %f ", ()->$f );
+                    Log.info( "    adding $field %f ", ()->$f.toString() );
                     $mems.add($f);
                 } );
             } else{
                 $member $m = of(b);
-                Log.info( "    adding member %s ", ()->$m );
+                Log.info( "    adding member %s ", ()->$m.toString() );
                 $mems.add($m);
             }
         });
