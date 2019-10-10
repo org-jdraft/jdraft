@@ -37,7 +37,8 @@ import java.util.stream.Collectors;
  */
 public final class $method
     implements Template<_method>, $pattern<_method, $method>, $pattern.$java<_method,$method>, $class.$part,
-        $interface.$part, $enum.$part,$enumConstant.$part, $member.$named<$method>, $member<_method,$method> {
+        $interface.$part, $enum.$part,$enumConstant.$part, $member.$named<$method>, $declared<_method,$method>, has$annos {
+
 
     /**
      * Marker interface for categorizing/identifying parts that make up the
@@ -88,6 +89,8 @@ public final class $method
 
         $method $m = of( _m );
 
+        has$annos.at_$Process(rm, $m);
+        /*
         //Look for a VERY SPECIFIC @_$ annotation which will "post parameterize"
         _$ postParameterize = rm.getAnnotation( _$.class );
         if(  postParameterize != null ){
@@ -102,6 +105,7 @@ public final class $method
             //remember to remove the annotation from the $method model
             $m.annos.$annosList.removeIf(a -> a.name.idStencil.isFixedText() && a.name.idStencil.getTextForm().getFixedText().equals("_$"));
         }
+         */
         return $m;
     }
 
@@ -601,7 +605,12 @@ public final class $method
         this.thrown = $throws.of(thro);
         return this;
     }
-     
+
+    @Override
+    public $annos get$annos() {
+        return this.annos;
+    }
+
     public $method $annos(){
         this.annos = $annos.of();
         return this;
@@ -729,7 +738,29 @@ public final class $method
         this.modifiers = $m;
         return this;
     }
-    
+
+    @Override
+    public $comment<JavadocComment> get$javadoc() {
+        return javadoc;
+    }
+
+    @Override
+    public $method $javadoc(Predicate<JavadocComment> javadocMatchFn ){
+        this.javadoc = $comment.javadocComment(javadocMatchFn);
+        return this;
+    }
+
+    @Override
+    public $method $javadoc ($comment<JavadocComment> javadoc) {
+        this.javadoc = javadoc;
+        return this;
+    }
+
+    public $method $javadoc(_javadoc javadocComment ){
+        this.javadoc = $comment.javadocComment(javadocComment);
+        return this;
+    }
+
     public $method $javadoc(){
         this.javadoc = $comment.javadocComment("$javadoc$");
         return this;
@@ -942,15 +973,15 @@ public final class $method
 
     /** Post - parameterize, create a parameter from the target string named $Name#$*/
     @Override
-    public $method $(String target, String $Name) {
-        javadoc = javadoc.$(target, $Name);
-        annos = annos.$(target, $Name);
-        typeParameters = typeParameters.$(target, $Name);
-        type = type.$(target, $Name);
-        name.nameStencil = name.nameStencil.$(target, $Name);
-        parameters = parameters.$(target, $Name);
-        thrown = thrown.$(target, $Name);
-        body = body.$(target, $Name);  
+    public $method $(String target, String $paramName) {
+        javadoc = javadoc.$(target, $paramName);
+        annos = annos.$(target, $paramName);
+        typeParameters = typeParameters.$(target, $paramName);
+        type = type.$(target, $paramName);
+        name.nameStencil = name.nameStencil.$(target, $paramName);
+        parameters = parameters.$(target, $paramName);
+        thrown = thrown.$(target, $paramName);
+        body = body.$(target, $paramName);
         return this;
     }
 

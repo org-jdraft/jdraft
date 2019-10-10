@@ -465,10 +465,10 @@ public final class $parameter implements Template<_parameter>, $pattern<_paramet
     }
     
     @Override
-    public $parameter $(String target, String $Name) {
-        this.annos.$(target, $Name);
-        this.name.$(target, $Name);
-        this.type.$(target, $Name);
+    public $parameter $(String target, String $paramName) {
+        this.annos.$(target, $paramName);
+        this.name.$(target, $paramName);
+        this.type.$(target, $paramName);
         return this;
     }
 

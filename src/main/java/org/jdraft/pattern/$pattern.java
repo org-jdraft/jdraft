@@ -58,12 +58,25 @@ public interface $pattern<P, $P extends $pattern>{
     boolean isMatchAny();
 
     /**
+     * Parameterizes (2) targets and parameters
      *
-     * @param target
-     * @param paramName
+     * @param target1
+     * @param $paramName1
+     * @param target2
+     * @param $paramName2
      * @return
      */
-    $P $(String target, String paramName);
+    default $P $(String target1, String $paramName1, String target2, String $paramName2){
+        return ($P)$(target1,$paramName1).$(target2, $paramName2);
+    }
+
+    /**
+     * Parameterize the target String with the $paramName
+     * @param target
+     * @param $paramName
+     * @return
+     */
+    $P $(String target, String $paramName);
 
     /**
      * Add an (AND) matching constraint for matching the $proto against an instance of P

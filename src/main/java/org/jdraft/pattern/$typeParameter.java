@@ -246,10 +246,10 @@ public final class $typeParameter
     }
 
     @Override
-    public $typeParameter $(String target, String $Name) {
-        this.anns.$(target, $Name);
-        this.name.$(target, $Name);
-        this.$typeBound.forEach(tb -> tb.$(target, $Name));
+    public $typeParameter $(String target, String $paramName) {
+        this.anns.$(target, $paramName);
+        this.name.$(target, $paramName);
+        this.$typeBound.forEach(tb -> tb.$(target, $paramName));
         return this;
     }
 

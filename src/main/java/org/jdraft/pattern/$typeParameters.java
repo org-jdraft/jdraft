@@ -322,8 +322,8 @@ public final class $typeParameters
     }
      
     @Override
-    public $typeParameters $(String target, String $Name) {
-        this.typeParams.forEach(t -> t.$(target, $Name) );        
+    public $typeParameters $(String target, String $paramName) {
+        this.typeParams.forEach(t -> t.$(target, $paramName) );
         return this;
     }
 

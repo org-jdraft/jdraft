@@ -11,6 +11,9 @@ import org.jdraft._code;
 import org.jdraft._java;
 import org.jdraft._node;
 import org.jdraft._type;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -215,8 +218,8 @@ public final class $annos
     }
 
     @Override
-    public $annos $(String target, String $Name) {
-        $annosList.forEach(a -> a.$(target, $Name));
+    public $annos $(String target, String $paramName) {
+        $annosList.forEach(a -> a.$(target, $paramName));
         return this;
     }
 
@@ -704,6 +707,59 @@ public final class $annos
         @Override
         public _annos _node() {
             return _anns;
+        }
+    }
+}
+/**
+ * Interface for annotated $pattern entities similar to Runtime Reflective {@link AnnotatedElement}
+ * (To process macro annotations on $pattern types,
+ *
+ * i.e. @_$({"target", "$paramName"}) int target = 100;
+ *
+ * ...which are processed separately for $pattern types of things that _model types
+ * @see has$annos#at_$Process(AnnotatedElement, has$annos)
+ */
+interface has$annos {
+
+    $annos get$annos();
+
+    default void removeAnnos(Class<? extends Annotation> annoClass){
+        List<$anno> toRemove = new ArrayList<>();
+        this.get$annos().$annosList.stream().forEach($a -> {
+            if($a.name.matches(annoClass.getSimpleName()) || $a.name.matches(annoClass.getCanonicalName()) ){
+                toRemove.add($a);
+            }
+        } );
+        this.get$annos().$annosList.removeAll(toRemove);
+    }
+
+    /**
+     * Process (& remove) the {@link _$} annotation applied to {@link AnnotatedElement}s on {@link $pattern}s
+     *
+     * Given a runtime {@link java.lang.reflect.AnnotatedElement}
+     * (A reflective {@link java.lang.reflect.Method}, {@link java.lang.reflect.Constructor}, ...)
+     * and its corresponding $pattern that is an implementation of {@link has$annos}
+     * (may contain annotation(s) look for the @_$ annotation and "post-parameterize")
+     * call {@link $pattern#$(String, String)} for the values in the Annotation.
+     *
+     * @param runtimeEl the reflective runtime annotatedElement that MAY have an @_$() annotation
+     * @param $ha the $pattern implementation (which is an $hasAnnos) will be
+     */
+    public static void at_$Process(AnnotatedElement runtimeEl, has$annos $ha ){
+        //Look for a VERY SPECIFIC @_$ annotation which will "post parameterize"
+        _$ postParameterize = runtimeEl.getAnnotation( _$.class );
+        if(  postParameterize != null ){
+            //
+            String[] paramKeyValues = postParameterize.value();
+            if( (paramKeyValues.length % 2) != 0  ){
+                throw new _draftException("invalid parameter count for @_$ annotation (must be pairs)");
+            }
+            for(int i=0;i<paramKeyValues.length;i+=2) {
+                (($pattern)$ha).$(paramKeyValues[i], paramKeyValues[i+1]);
+            }
+            //remember to remove the annotation from the $hasAnnos $pattern
+            $ha.removeAnnos( _$.class);
+            //$ct.annos.$annosList.removeIf(a -> a.name.idStencil.isFixedText() && a.name.idStencil.getTextForm().getFixedText().equals("_$"));
         }
     }
 }

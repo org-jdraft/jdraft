@@ -855,8 +855,8 @@ public final class $stmt<T extends Statement>
     }
 
     @Override
-    public $stmt $(String target, String $name ) {
-        this.stmtStencil = this.stmtStencil.$(target, $name);
+    public $stmt $(String target, String $paramName) {
+        this.stmtStencil = this.stmtStencil.$(target, $paramName);
         return this;
     }
 

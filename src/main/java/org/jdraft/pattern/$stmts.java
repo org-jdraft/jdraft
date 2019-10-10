@@ -182,8 +182,8 @@ public final class $stmts implements Template<List<Statement>>, $pattern<List<St
     }
     
     @Override
-    public $stmts $(String target, String paramName){
-        this.$sts.forEach(s -> s.$(target, paramName));
+    public $stmts $(String target, String $paramName){
+        this.$sts.forEach(s -> s.$(target, $paramName));
         return this;
     }
 

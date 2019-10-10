@@ -436,11 +436,11 @@ public final class $case
     }
 
     @Override
-    public $case $(String target, String $Name) {
+    public $case $(String target, String $paramName) {
         if( this.label != null ){
-            this.label.$(target, $Name);
+            this.label.$(target, $paramName);
         }
-        this.statements.forEach(s -> s.$(target, $Name));
+        this.statements.forEach(s -> s.$(target, $paramName));
         return this;
     }
 

@@ -75,9 +75,9 @@ public final class $catch implements $pattern<CatchClause, $catch>, $body.$part 
         return this;
     }
 
-    public $catch $(String target, String paramName){
-        this.$bd.$(target, paramName);
-        this.$param.$(target, paramName);
+    public $catch $(String target, String $paramName){
+        this.$bd.$(target, $paramName);
+        this.$param.$(target, $paramName);
         return this;
     }
     public $catch $parameter(){

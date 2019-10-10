@@ -47,6 +47,9 @@ public @interface _abstract {
 
                 if( n instanceof NodeWithOptionalBlockStmt){ //abstract methods need to remove the body
                     NodeWithOptionalBlockStmt  nwb = (NodeWithOptionalBlockStmt)n;
+                    //this can only happen to interfaces, so its an implied modifier, no need to set it explicitly
+                    nwa.setAbstract(false);
+
                     nwb.removeBody();
                 }
                 return n;

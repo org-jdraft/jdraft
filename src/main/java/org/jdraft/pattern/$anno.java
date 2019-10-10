@@ -367,9 +367,9 @@ public final class $anno
     }
 
     @Override
-    public $anno $(String target, String $Name) {
-        name.$(target, $Name);
-        $mvs.forEach(mv -> mv.key.idStencil = mv.key.idStencil.$(target, $Name));
+    public $anno $(String target, String $paramName) {
+        name.$(target, $paramName);
+        $mvs.forEach(mv -> mv.key.idStencil = mv.key.idStencil.$(target, $paramName));
         return this;
     }
 
@@ -875,12 +875,12 @@ public final class $anno
         /**
          *
          * @param target
-         * @param $name
+         * @param $paramName
          * @return
          */
-        public $memberValue $(String target, String $name) {
-            this.key.idStencil = this.key.idStencil.$(target, $name);
-            this.value = this.value.$(target, $name);
+        public $memberValue $(String target, String $paramName) {
+            this.key.idStencil = this.key.idStencil.$(target, $paramName);
+            this.value = this.value.$(target, $paramName);
             return this;
         }
 

@@ -499,8 +499,8 @@ public final class $comment <C extends Comment>
     }
 
     @Override
-    public $comment $(String target, String $Name) {
-        this.contentsStencil = this.contentsStencil.$(target, $Name);
+    public $comment $(String target, String $paramName) {
+        this.contentsStencil = this.contentsStencil.$(target, $paramName);
         return this;
     }
 

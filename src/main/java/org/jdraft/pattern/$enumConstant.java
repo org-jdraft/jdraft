@@ -14,7 +14,7 @@ import java.util.function.Predicate;
  */
 public final class $enumConstant
         implements $pattern<_enum._constant, $enumConstant>, $pattern.$java<_enum._constant, $enumConstant>, $enum.$part,
-        $member.$named<$enumConstant>, $member<_enum._constant,$enumConstant> {
+        $member.$named<$enumConstant>, $declared<_enum._constant,$enumConstant> {
 
     public Predicate<_enum._constant> constraint = t->true;
 
@@ -144,14 +144,14 @@ public final class $enumConstant
 
 
     @Override
-    public $enumConstant $(String target, String paramName) {
+    public $enumConstant $(String target, String $paramName) {
 
-        this.annos.$(target, paramName);
-        this.fields.forEach(f-> f.$(target, paramName));
-        this.javadoc.$(target, paramName);
-        this.methods.forEach(m-> m.$(target, paramName));
-        this.args.forEach(a -> a.$(target,paramName));
-        this.name = this.name.$(target, paramName);
+        this.annos.$(target, $paramName);
+        this.fields.forEach(f-> f.$(target, $paramName));
+        this.javadoc.$(target, $paramName);
+        this.methods.forEach(m-> m.$(target, $paramName));
+        this.args.forEach(a -> a.$(target, $paramName));
+        this.name = this.name.$(target, $paramName);
         return this;
     }
 
@@ -300,8 +300,18 @@ public final class $enumConstant
         return this;
     }
 
+    @Override
+    public $comment<JavadocComment> get$javadoc() {
+        return javadoc;
+    }
+
     public $enumConstant $javadoc(Predicate<JavadocComment> javadocMatchFn ){
         this.javadoc = $comment.javadocComment(javadocMatchFn);
+        return this;
+    }
+
+    public $enumConstant $javadoc(_javadoc javadocComment ){
+        this.javadoc = $comment.javadocComment(javadocComment);
         return this;
     }
 

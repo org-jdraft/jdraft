@@ -1,5 +1,6 @@
 package org.jdraft.pattern;
 
+import com.github.javaparser.utils.Log;
 import org.jdraft._code;
 import org.jdraft._javadoc;
 import org.jdraft._typeRef;
@@ -35,7 +36,7 @@ import java.util.stream.Collectors;
  */
 public final class $field implements Template<_field>, $pattern<_field, $field>, $pattern.$java<_field, $field>,
         $class.$part, $interface.$part, $enum.$part, $annotation.$part, $enumConstant.$part, $member.$named<$field>,
-        $member<_field,$field>{
+        $declared<_field,$field>, has$annos {
 
     public Class<_field> javaType(){
         return _field.class;
@@ -62,8 +63,15 @@ public final class $field implements Template<_field>, $pattern<_field, $field>,
         //add the field to a class so I can run macros
         _class _c = _class.of("Temp").add(_field.of(fd.clone().getVariable(0)));
         macro.to(anonymousObjectWithField.getClass(), _c);
+        _field _f = _c.getField(0);
+        $field $f = of( _f );
+        try{
+            has$annos.at_$Process( anonymousObjectWithField.getClass().getDeclaredField(_f.getName()), $f);
+        } catch(NoSuchFieldException nsfe){
+            Log.error("No such field to process @_$ annotation");
+        }
 
-        return of( _c.getField(0) );        
+        return $f;
     }
 
     /**
@@ -245,7 +253,18 @@ public final class $field implements Template<_field>, $pattern<_field, $field>,
     }
     
     /** prototype post parameterization (i.e. the query can change) */
-    
+
+    @Override
+    public $comment<JavadocComment> get$javadoc() {
+        return javadoc;
+    }
+
+    @Override
+    public $field $javadoc ($comment<JavadocComment> javadoc) {
+        this.javadoc = javadoc;
+        return this;
+    }
+
     /**
      * Post parameterize the javadoc field (accept any and return it as "javadoc")
      * @return 
@@ -273,6 +292,10 @@ public final class $field implements Template<_field>, $pattern<_field, $field>,
      public $field $javadoc( _javadoc _jd ){
         this.javadoc.contentsStencil = Stencil.of(_jd.getContent() );
         return this;
+     }
+
+     public $annos get$annos(){
+         return this.annos;
      }
 
     /**
@@ -1007,13 +1030,13 @@ public final class $field implements Template<_field>, $pattern<_field, $field>,
     }
     
     @Override
-    public $field $(String target, String $Name) {
-        javadoc.$(target, $Name);
-        annos.$(target, $Name);
-        type.$(target, $Name);
-        name.$(target, $Name);
+    public $field $(String target, String $paramName) {
+        javadoc.$(target, $paramName);
+        annos.$(target, $paramName);
+        type.$(target, $paramName);
+        name.$(target, $paramName);
         if( init != null ){
-            init.$(target, $Name);
+            init.$(target, $paramName);
         }
         return this;
     }

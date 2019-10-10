@@ -94,10 +94,10 @@ public final class $or<$p extends $pattern>
    /**
     *
     * @param target
-    * @param $Name
+    * @param $paramName
     * @return
     */
-    public $or $(String target, String $Name) {
+    public $or $(String target, String $paramName) {
         throw new $pattern.$exception("cannot modify $or");
     }
 

@@ -14,7 +14,7 @@ import java.util.function.Predicate;
  */
 public final class $annotationElement
         implements $pattern<_annotation._element, $annotationElement>, $pattern.$java<_annotation._element, $annotationElement>,
-        $annotation.$part, $member.$named<$annotationElement>, $member<_annotation._element,$annotationElement> {
+        $annotation.$part, $member.$named<$annotationElement>, $declared<_annotation._element,$annotationElement> {
 
     /** marker interface for member entities that are part of the class */
     public interface $part{ }
@@ -93,12 +93,12 @@ public final class $annotationElement
 
 
     @Override
-    public $annotationElement $(String target, String paramName) {
-        this.javadoc.$(target, paramName);
-        this.name = this.name.$(target, paramName);
-        this.type = this.type.$(target, paramName);
+    public $annotationElement $(String target, String $paramName) {
+        this.javadoc.$(target, $paramName);
+        this.name = this.name.$(target, $paramName);
+        this.type = this.type.$(target, $paramName);
         if( this.defaultValue != null ) {
-            this.defaultValue.$(target, paramName);
+            this.defaultValue.$(target, $paramName);
         }
         return this;
     }
@@ -237,8 +237,18 @@ public final class $annotationElement
         return this;
     }
 
+    @Override
+    public $comment<JavadocComment> get$javadoc() {
+        return javadoc;
+    }
+
     public $annotationElement $javadoc(Predicate<JavadocComment> javadocMatchFn ){
         this.javadoc = $comment.javadocComment(javadocMatchFn);
+        return this;
+    }
+
+    public $annotationElement $javadoc(_javadoc javadocComment ){
+        this.javadoc = $comment.javadocComment(javadocComment);
         return this;
     }
 

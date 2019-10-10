@@ -23,7 +23,7 @@ import java.util.function.Predicate;
  */
 public final class $interface
         implements $pattern<_interface, $interface>, $pattern.$java<_interface, $interface>, $member.$named<$interface>,
-        $member<_interface,$interface>{
+        $declared<_interface,$interface>, has$annos{
 
     public Predicate<_interface> constraint = t->true;
 
@@ -65,11 +65,16 @@ public final class $interface
     }
 
     public static $interface of( Object anonymousObjectBody){
-        return of( _interface.of("$interfaceName$", anonymousObjectBody, Thread.currentThread().getStackTrace()[2]));
+        $interface $i = of( _interface.of("$interfaceName$", anonymousObjectBody, Thread.currentThread().getStackTrace()[2]));
+
+        has$annos.at_$Process(anonymousObjectBody.getClass(), $i);
+        return $i;
     }
 
     public static $interface of( String name, Object anonymousObjectBody ){
-        return of( _interface.of(name, anonymousObjectBody, Thread.currentThread().getStackTrace()[2]));
+        $interface $i =  of( _interface.of(name, anonymousObjectBody, Thread.currentThread().getStackTrace()[2]));
+        has$annos.at_$Process(anonymousObjectBody.getClass(), $i);
+        return $i;
     }
 
     public static $interface of( _interface _c ){
@@ -185,17 +190,17 @@ public final class $interface
 
 
     @Override
-    public $interface $(String target, String paramName) {
-        this.annos.$(target, paramName);
-        this.fields.forEach(f-> f.$(target, paramName));
-        this.imports.forEach( i-> i.$(target, paramName));
-        this.javadoc.$(target, paramName);
-        this.methods.forEach(m-> m.$(target, paramName));
-        this.modifiers.$(target, paramName);
-        this.name = this.name.$(target, paramName);
-        this.packageDecl = this.packageDecl.$(target, paramName);
-        this.typeParameters = this.typeParameters.$(target, paramName);
-        this.extend.forEach(e-> e.$(target, paramName));
+    public $interface $(String target, String $paramName) {
+        this.annos.$(target, $paramName);
+        this.fields.forEach(f-> f.$(target, $paramName));
+        this.imports.forEach( i-> i.$(target, $paramName));
+        this.javadoc.$(target, $paramName);
+        this.methods.forEach(m-> m.$(target, $paramName));
+        this.modifiers.$(target, $paramName);
+        this.name = this.name.$(target, $paramName);
+        this.packageDecl = this.packageDecl.$(target, $paramName);
+        this.typeParameters = this.typeParameters.$(target, $paramName);
+        this.extend.forEach(e-> e.$(target, $paramName));
 
         //still need nests
         return this;
@@ -470,6 +475,11 @@ public final class $interface
         return this;
     }
 
+    @Override
+    public $comment<JavadocComment> get$javadoc() {
+        return javadoc;
+    }
+
     public $interface $javadoc($comment<JavadocComment> javadocComment ){
         this.javadoc = javadocComment;
         return this;
@@ -545,6 +555,11 @@ public final class $interface
     public $interface $name($name name ){
         this.name = name;
         return this;
+    }
+
+    @Override
+    public $annos get$annos(){
+        return this.annos;
     }
 
     public $interface $annos(Predicate<_anno._annos> annosMatchFn){

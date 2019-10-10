@@ -106,8 +106,8 @@ public final class $parameters implements Template<_parameters>, $pattern<_param
     }
 
     @Override
-    public $parameters $(String target, String $Name) {
-        $params.forEach(p-> p.$(target, $Name));
+    public $parameters $(String target, String $paramName) {
+        $params.forEach(p-> p.$(target, $paramName));
         return this;
     }
 

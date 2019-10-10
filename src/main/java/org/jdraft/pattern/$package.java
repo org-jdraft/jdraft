@@ -250,10 +250,10 @@ public class $package implements $pattern<PackageDeclaration, $package>, Templat
     }
 
     @Override
-    public $package $(String target, String $Name) {
+    public $package $(String target, String $paramName) {
         if( ! this.isMatchAny() ){
-            this.name = this.name.$(target, $Name);
-            this.annos = this.annos.$(target, $Name);
+            this.name = this.name.$(target, $paramName);
+            this.annos = this.annos.$(target, $paramName);
         }
         return this;
     }

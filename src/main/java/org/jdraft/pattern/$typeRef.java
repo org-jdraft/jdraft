@@ -153,9 +153,9 @@ public final class $typeRef
     }
     
     @Override
-    public $typeRef $(String target, String $name ) {
+    public $typeRef $(String target, String $paramName) {
         Stencil st = typePattern();
-        st = st.$(target, $name);
+        st = st.$(target, $paramName);
         this.type = Ast.typeRef(st.toString());
         return this;
     }

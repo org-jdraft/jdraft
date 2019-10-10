@@ -539,9 +539,9 @@ public final class $body implements Template<_body>, $pattern<_body, $body>, $pa
     }
     
     @Override
-    public $body $(String target, String $Name) {
+    public $body $(String target, String $paramName) {
         if( this.isImplemented ){            
-            this.bodyStmts = this.bodyStmts.$(target, $Name);
+            this.bodyStmts = this.bodyStmts.$(target, $paramName);
         }
         return this;
     }

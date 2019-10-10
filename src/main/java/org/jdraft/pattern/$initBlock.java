@@ -313,9 +313,9 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
     }
 
     @Override
-    public $initBlock $(String target, String $Name) {
+    public $initBlock $(String target, String $paramName) {
         if( ! this.isMatchAny() ){
-            this.body = this.body.$(target, $Name);
+            this.body = this.body.$(target, $paramName);
         }
         return this;
     }

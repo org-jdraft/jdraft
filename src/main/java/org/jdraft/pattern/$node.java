@@ -148,11 +148,11 @@ public final class $node implements $pattern<Node, $node> {
    /**
     * 
     * @param target
-    * @param $Name
+    * @param $paramName
     * @return 
     */
-    public $node $(String target, String $Name) {
-        this.nodeStencil = this.nodeStencil.$(target, $Name);
+    public $node $(String target, String $paramName) {
+        this.nodeStencil = this.nodeStencil.$(target, $paramName);
         return this;
     }
     

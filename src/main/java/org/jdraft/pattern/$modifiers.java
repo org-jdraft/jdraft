@@ -130,7 +130,7 @@ public final class $modifiers
         return $ms;
     }
 
-    public $modifiers $(String target, String paramName){
+    public $modifiers $(String target, String $paramName){
         return this;
     }
 

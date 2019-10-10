@@ -290,8 +290,8 @@ public final class $throws
     }
      
     @Override
-    public $throws $(String target, String $Name) {
-        this.throws$ids.forEach(t -> t.$(target, $Name) );
+    public $throws $(String target, String $paramName) {
+        this.throws$ids.forEach(t -> t.$(target, $paramName) );
         return this;
     }
 

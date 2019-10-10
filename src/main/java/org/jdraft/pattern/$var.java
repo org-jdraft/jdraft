@@ -510,10 +510,10 @@ public final class $var
     }
 
     @Override
-    public $var $(String target, String $Name) {
-        this.name.$(target, $Name);
-        this.type.$(target, $Name);
-        this.init.$(target, $Name);
+    public $var $(String target, String $paramName) {
+        this.name.$(target, $paramName);
+        this.type.$(target, $paramName);
+        this.init.$(target, $paramName);
         return this;
     }
     

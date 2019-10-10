@@ -18,7 +18,8 @@ import java.util.function.Predicate;
  * Note... at the moment this is NOT a template... should it be??
  */
 public final class $enum
-        implements $pattern<_enum, $enum>, $pattern.$java<_enum, $enum>, $member.$named<$enum>, $member<_enum,$enum>{
+        implements $pattern<_enum, $enum>, $pattern.$java<_enum, $enum>, $member.$named<$enum>, $declared<_enum,$enum>,
+        has$annos {
 
     public Predicate<_enum> constraint = t->true;
 
@@ -58,11 +59,18 @@ public final class $enum
     }
 
     public static $enum of( Object anonymousObjectBody){
-        return of( _enum.of("$enumName$", anonymousObjectBody, Thread.currentThread().getStackTrace()[2]));
+        $enum $e = of( _enum.of("$enumName$", anonymousObjectBody, Thread.currentThread().getStackTrace()[2]));
+        //handle @_$ (parameterize) annotations
+        has$annos.at_$Process(anonymousObjectBody.getClass(), $e);
+        return $e;
     }
 
     public static $enum of( String name, Object anonymousObjectBody ){
-        return of( _enum.of(name, anonymousObjectBody, Thread.currentThread().getStackTrace()[2]));
+        $enum $e = of( _enum.of(name, anonymousObjectBody, Thread.currentThread().getStackTrace()[2]));
+
+        //handle @_$ (parameterize) annotations
+        has$annos.at_$Process(anonymousObjectBody.getClass(), $e);
+        return $e;
     }
 
     public static $enum of( EnumDeclaration ed){
@@ -70,10 +78,10 @@ public final class $enum
     }
 
     public static $enum of( _enum _e ){
-        $enum $c = of();
+        $enum $e = of();
         if( _e.isTopLevel() ){
-            $c.$package( _e.getPackage() );
-            $c.$imports( _e.getImports() );
+            $e.$package( _e.getPackage() );
+            $e.$imports( _e.getImports() );
         }
 
         List<Node>nots = new ArrayList<>();
@@ -92,41 +100,43 @@ public final class $enum
         } );
 
 
-        $c.$javadoc(_e.getJavadoc());
-        _e.forAnnos(a-> $c.annos.add($anno.of(a)));
-        $c.modifiers = $modifiers.of(_e.getModifiers());
-        $c.$name(_e.getSimpleName());
-        _e.listImplements().forEach(i -> $c.$implement(i));
-        _e.forConstants(cn -> $c.$constant($enumConstant.of(cn)));
-        _e.forInitBlocks(ib -> $c.initBlocks.add($initBlock.of(ib.ast())));
-        _e.forConstructors(ct -> $c.ctors.add($constructor.of(ct)));
-        _e.forFields(f-> $c.fields.add($field.of(f)));
-        _e.forMethods(m -> $c.$methods($method.of(m)));
+        $e.$javadoc(_e.getJavadoc());
+        _e.forAnnos(a-> $e.annos.add($anno.of(a)));
+        $e.modifiers = $modifiers.of(_e.getModifiers());
+        $e.$name(_e.getSimpleName());
+        _e.listImplements().forEach(i -> $e.$implement(i));
+        _e.forConstants(cn -> $e.$constant($enumConstant.of(cn)));
+        _e.forInitBlocks(ib -> $e.initBlocks.add($initBlock.of(ib.ast())));
+        _e.forConstructors(ct -> $e.ctors.add($constructor.of(ct)));
+        _e.forFields(f-> $e.fields.add($field.of(f)));
+        _e.forMethods(m -> $e.$methods($method.of(m)));
         _e.forNests( n -> {
             if( n instanceof _class) {
-                $c.$hasChild( $class.of((_class)n) );
+                $e.$hasChild( $class.of((_class)n) );
             }
             if( n instanceof _enum) {
-                $c.$hasChild( $enum.of((_enum)n) );
+                $e.$hasChild( $enum.of((_enum)n) );
             }
             if( n instanceof _interface) {
-                $c.$hasChild( $interface.of((_interface)n) );
+                $e.$hasChild( $interface.of((_interface)n) );
             }
             if( n instanceof _annotation) {
-                $c.$hasChild( $annotation.of((_annotation)n) );
+                $e.$hasChild( $annotation.of((_annotation)n) );
             }
         });
 
+        //handle @_$not annotated $patterns
         for(int i=0;i<nots.size();i++){
             if( nots.get(i) instanceof VariableDeclarator ){
                 $member $m = $field.of((VariableDeclarator) nots.get(i));
-                $c.$not(($part) $m);
+                $e.$not(($part) $m);
             } else {
                 $member $m = $member.of((BodyDeclaration) nots.get(i));
-                $c.$not(($part) $m);
+                $e.$not(($part) $m);
             }
         }
-        return $c;
+
+        return $e;
     }
 
     public static $enum not( $part...parts ){
@@ -254,21 +264,21 @@ public final class $enum
 
 
     @Override
-    public $enum $(String target, String paramName) {
+    public $enum $(String target, String $paramName) {
 
-        this.annos.$(target, paramName);
-        this.ctors.forEach( c-> c.$(target, paramName));
-        this.fields.forEach(f-> f.$(target, paramName));
-        this.imports.forEach( i-> i.$(target, paramName));
-        this.initBlocks.forEach( i-> i.$(target, paramName));
-        this.javadoc.$(target, paramName);
-        this.methods.forEach(m-> m.$(target, paramName));
-        this.modifiers.$(target, paramName);
-        this.name = this.name.$(target, paramName);
-        this.packageDecl = this.packageDecl.$(target, paramName);
+        this.annos.$(target, $paramName);
+        this.ctors.forEach( c-> c.$(target, $paramName));
+        this.fields.forEach(f-> f.$(target, $paramName));
+        this.imports.forEach( i-> i.$(target, $paramName));
+        this.initBlocks.forEach( i-> i.$(target, $paramName));
+        this.javadoc.$(target, $paramName);
+        this.methods.forEach(m-> m.$(target, $paramName));
+        this.modifiers.$(target, $paramName);
+        this.name = this.name.$(target, $paramName);
+        this.packageDecl = this.packageDecl.$(target, $paramName);
 
-        this.enumConstants.forEach(c -> c.$(target, paramName));
-        this.implement.forEach( i-> i.$(target, paramName));
+        this.enumConstants.forEach(c -> c.$(target, $paramName));
+        this.implement.forEach( i-> i.$(target, $paramName));
         //still need nests
 
         return this;
@@ -533,6 +543,11 @@ public final class $enum
         return this;
     }
 
+    @Override
+    public $comment<JavadocComment> get$javadoc() {
+        return javadoc;
+    }
+
     public $enum $javadoc($comment<JavadocComment> javadocComment ){
         this.javadoc = javadocComment;
         return this;
@@ -596,6 +611,11 @@ public final class $enum
     public $enum $name($name name ){
         this.name = name;
         return this;
+    }
+
+    @Override
+    public $annos get$annos(){
+        return this.annos;
     }
 
     public $enum $annos(Predicate<_anno._annos> annosMatchFn){

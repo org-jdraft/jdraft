@@ -1621,8 +1621,8 @@ public final class $ex<T extends Expression>
     }
 
     @Override
-    public $ex<T> $(String target, String $name ) {
-        this.exprStencil = this.exprStencil.$(target, $name);
+    public $ex<T> $(String target, String $paramName) {
+        this.exprStencil = this.exprStencil.$(target, $paramName);
         return this;
     }
 

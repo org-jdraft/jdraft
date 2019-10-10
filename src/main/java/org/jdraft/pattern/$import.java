@@ -255,8 +255,8 @@ public final class $import
     }
     
     @Override
-    public $import $(String target, String $Name) {
-        this.importStencil = this.importStencil.$(target, $Name);
+    public $import $(String target, String $paramName) {
+        this.importStencil = this.importStencil.$(target, $paramName);
         return this;
     }
 

@@ -20,6 +20,7 @@ public class SconstructorTest extends TestCase {
 
         System.out.println( $ct.parameters );
     }
+
     public void testConstructorAnnoParameter(){
         $constructor $ct = $constructor.of( new Object(){
             @_toCtor @_$({"x", "pName"}) public void c(int x){

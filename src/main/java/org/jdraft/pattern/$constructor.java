@@ -45,7 +45,7 @@ import org.jdraft.macro.macro;
 public final class $constructor
     implements Template<_constructor>, $pattern<_constructor, $constructor>,
         $pattern.$java<_constructor, $constructor>, $class.$part, $enum.$part, $member.$named<$constructor>,
-        $member<_constructor,$constructor> {
+        $declared<_constructor,$constructor>, has$annos{
 
     public Class<_constructor> javaType(){
         return _constructor.class;
@@ -131,7 +131,9 @@ public final class $constructor
 
         //MED
         $constructor $ct = of( _ct );
+        has$annos.at_$Process(rm, $ct);
 
+        /**** Commented out
         //Look for a VERY SPECIFIC @_$ annotation which will "post parameterize"
         _$ postParameterize = rm.getAnnotation( _$.class );
         if(  postParameterize != null ){
@@ -146,6 +148,7 @@ public final class $constructor
             //remember to remove the annotation from the $method model
             $ct.annos.$annosList.removeIf(a -> a.name.idStencil.isFixedText() && a.name.idStencil.getTextForm().getFixedText().equals("_$"));
         }
+        */
         return $ct;
     }
 
@@ -478,7 +481,12 @@ public final class $constructor
         all$.addAll( body.list$() );        
         return all$;
     }
-    
+
+    @Override
+    public $comment<JavadocComment> get$javadoc() {
+        return javadoc;
+    }
+
     public $constructor $javadoc(){
         this.javadoc = $comment.javadocComment();
         return this;
@@ -498,7 +506,12 @@ public final class $constructor
         this.javadoc.$and(_javadocMatchFn);
         return this;
     }
-    
+
+    public $constructor $javadoc( $comment<JavadocComment> $javadocComment){
+        this.javadoc = $javadocComment;
+        return this;
+    }
+
     public $constructor $parameters( ){
         this.parameters = $parameters.of();
         return this;
@@ -518,7 +531,12 @@ public final class $constructor
         this.parameters.$and(constraint);
         return this;
     }
-    
+
+    @Override
+    public $annos get$annos(){
+        return this.annos;
+    }
+
     public $constructor $annos(){
         this.annos = $annos.of();
         return this;
@@ -796,14 +814,14 @@ public final class $constructor
 
     /** Post - parameterize, create a parameter from the target string named $Name#$*/
     @Override
-    public $constructor $(String target, String $Name) {
-        javadoc = javadoc.$(target, $Name);
-        annos = annos.$(target, $Name);
-        typeParameters = typeParameters.$(target, $Name);
-        name.nameStencil = name.nameStencil.$(target, $Name);
-        parameters = parameters.$(target, $Name);
-        thrown = thrown.$(target, $Name);
-        body = body.$(target, $Name);
+    public $constructor $(String target, String $paramName) {
+        javadoc = javadoc.$(target, $paramName);
+        annos = annos.$(target, $paramName);
+        typeParameters = typeParameters.$(target, $paramName);
+        name.nameStencil = name.nameStencil.$(target, $paramName);
+        parameters = parameters.$(target, $paramName);
+        thrown = thrown.$(target, $paramName);
+        body = body.$(target, $paramName);
         return this;
     }
 

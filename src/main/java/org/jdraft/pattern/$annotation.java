@@ -18,7 +18,7 @@ import java.util.function.Predicate;
  */
 public final class $annotation
         implements $pattern<_annotation, $annotation>, $pattern.$java<_annotation, $annotation>, $member.$named<$annotation>,
-        $member<_annotation,$annotation>  {
+        $declared<_annotation,$annotation>, has$annos {
 
     public Predicate<_annotation> constraint = t->true;
 
@@ -57,11 +57,15 @@ public final class $annotation
     }
 
     public static $annotation of( Object anonymousObjectBody){
-        return of( _annotation.of("$annotationName$", anonymousObjectBody, Thread.currentThread().getStackTrace()[2]));
+        $annotation $a = of( _annotation.of("$annotationName$", anonymousObjectBody, Thread.currentThread().getStackTrace()[2]));
+        //has$annos.at_$Process(anonymousObjectBody.getClass(), $a);
+        return $a;
     }
 
     public static $annotation of( String name, Object anonymousObjectBody ){
-        return of( _annotation.of(name, anonymousObjectBody, Thread.currentThread().getStackTrace()[2]));
+        $annotation $a = of( _annotation.of(name, anonymousObjectBody, Thread.currentThread().getStackTrace()[2]));
+        //has$annos.at_$Process(anonymousObjectBody.getClass(), $a);
+        return $a;
     }
 
     public static $annotation of( _annotation _a ){
@@ -225,16 +229,16 @@ public final class $annotation
 
 
     @Override
-    public $annotation $(String target, String paramName) {
+    public $annotation $(String target, String $paramName) {
 
-        this.annos.$(target, paramName);
-        this.fields.forEach(f-> f.$(target, paramName));
-        this.imports.forEach( i-> i.$(target, paramName));
-        this.javadoc.$(target, paramName);
-        this.modifiers.$(target, paramName);
-        this.name = this.name.$(target, paramName);
-        this.packageDecl = this.packageDecl.$(target, paramName);
-        this.annotationElements.forEach( ae -> ae.$(target, paramName));
+        this.annos.$(target, $paramName);
+        this.fields.forEach(f-> f.$(target, $paramName));
+        this.imports.forEach( i-> i.$(target, $paramName));
+        this.javadoc.$(target, $paramName);
+        this.modifiers.$(target, $paramName);
+        this.name = this.name.$(target, $paramName);
+        this.packageDecl = this.packageDecl.$(target, $paramName);
+        this.annotationElements.forEach( ae -> ae.$(target, $paramName));
         //still need nests
 
         return this;
@@ -254,6 +258,7 @@ public final class $annotation
         return this;
     }
 
+    @Override
     public boolean isMatchAny(){
         try{
             return constraint.test(null) &&
@@ -430,13 +435,18 @@ public final class $annotation
         return this;
     }
 
-    public $annotation $javadoc(Predicate<JavadocComment> javadocMatchFn ){
-        this.javadoc = $comment.javadocComment(javadocMatchFn);
+    public $annotation $modifiers($modifiers...$mods){
+        this.modifiers = $modifiers.of($mods);
         return this;
     }
 
-    public $annotation $modifiers($modifiers...$mods){
-        this.modifiers = $modifiers.of($mods);
+    @Override
+    public $comment<JavadocComment> get$javadoc() {
+        return javadoc;
+    }
+
+    public $annotation $javadoc(Predicate<JavadocComment> javadocMatchFn ){
+        this.javadoc = $comment.javadocComment(javadocMatchFn);
         return this;
     }
 
@@ -496,6 +506,10 @@ public final class $annotation
     public $annotation $name($name name ){
         this.name = name;
         return this;
+    }
+
+    public $annos get$annos(){
+        return this.annos;
     }
 
     public $annotation $annos(Predicate<_anno._annos> annosMatchFn){

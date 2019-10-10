@@ -9,6 +9,7 @@ import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
+import com.github.javaparser.utils.Log;
 import org.jdraft.*;
 
 import java.util.*;
@@ -19,7 +20,7 @@ import java.util.function.Predicate;
  * Note... at the moment this is NOT a template... should it be??
  */
 public final class $class
-        implements $pattern.$java<_class,$class>, $member.$named<$class>, $member<_class,$class>{ //$pattern<_class, $class>,
+        implements $pattern.$java<_class,$class>, $member.$named<$class>, $declared<_class,$class>, has$annos {
 
     public Predicate<_class> constraint = t->true;
 
@@ -72,8 +73,13 @@ public final class $class
                         || ((AnnotationExpr)a).getNameAsString().equals(_$not.class.getCanonicalName() ))  );
         List<$member> $mems = $member.of(nots);
         $mems.forEach($m -> $c.$not( ($class.$part)$m));
+
+        //handle the @_$ parameterize annotations
+        has$annos.at_$Process( anonymousClass.getClass(), $c);
+
         return $c;
     }
+
     public static $class of( Object anonymousClass ){
         return of( "$className$", anonymousClass, Thread.currentThread().getStackTrace()[2]);
     }
@@ -266,21 +272,21 @@ public final class $class
     }
 
     @Override
-    public $class $(String target, String paramName) {
+    public $class $(String target, String $paramName) {
 
-        this.annos.$(target, paramName);
-        this.ctors.forEach( c-> c.$(target, paramName));
-        this.fields.forEach(f-> f.$(target, paramName));
-        this.imports.forEach( i-> i.$(target, paramName));
-        this.initBlocks.forEach( i-> i.$(target, paramName));
-        this.javadoc.$(target, paramName);
-        this.methods.forEach(m-> m.$(target, paramName));
-        this.modifiers.$(target, paramName);
-        this.name = this.name.$(target, paramName);
-        this.packageDecl = this.packageDecl.$(target, paramName);
-        this.typeParameters = this.typeParameters.$(target, paramName);
-        this.extend.$(target, paramName);
-        this.implement.forEach( i-> i.$(target, paramName));
+        this.annos.$(target, $paramName);
+        this.ctors.forEach( c-> c.$(target, $paramName));
+        this.fields.forEach(f-> f.$(target, $paramName));
+        this.imports.forEach( i-> i.$(target, $paramName));
+        this.initBlocks.forEach( i-> i.$(target, $paramName));
+        this.javadoc.$(target, $paramName);
+        this.methods.forEach(m-> m.$(target, $paramName));
+        this.modifiers.$(target, $paramName);
+        this.name = this.name.$(target, $paramName);
+        this.packageDecl = this.packageDecl.$(target, $paramName);
+        this.typeParameters = this.typeParameters.$(target, $paramName);
+        this.extend.$(target, $paramName);
+        this.implement.forEach( i-> i.$(target, $paramName));
         //still need nests
 
         return this;
@@ -525,6 +531,11 @@ public final class $class
     }
     //TODO other static blocks
 
+    @Override
+    public $comment<JavadocComment> get$javadoc() {
+        return javadoc;
+    }
+
     public $class $javadoc( $comment<JavadocComment> javadocComment ){
         this.javadoc = javadocComment;
         return this;
@@ -601,6 +612,10 @@ public final class $class
     public $class $name( $name name ){
         this.name = name;
         return this;
+    }
+
+    public $annos get$annos(){
+        return this.annos;
     }
 
     public $class $annos(Predicate<_anno._annos> annosMatchFn){
