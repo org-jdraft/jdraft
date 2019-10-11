@@ -493,6 +493,11 @@ public final class $annotation
         return this;
     }
 
+    @Override
+    public $name get$Name(){
+        return this.name;
+    }
+
     public $annotation $name(Predicate<String> nameMatchFn){
         this.name = $name.of(nameMatchFn);
         return this;
@@ -508,7 +513,7 @@ public final class $annotation
         return this;
     }
 
-    public $annos get$annos(){
+    public $annos get$Annos(){
         return this.annos;
     }
 

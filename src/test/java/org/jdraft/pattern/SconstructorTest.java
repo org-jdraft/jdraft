@@ -23,11 +23,11 @@ public class SconstructorTest extends TestCase {
 
     public void testConstructorAnnoParameter(){
         $constructor $ct = $constructor.of( new Object(){
-            @_toCtor @_$({"x", "pName"}) public void c(int x){
+            @_toCtor public void c(int x){
                 this.x = x;
             }
             int x;
-        });
+        }).$("x", "pName");
 
         System.out.println( $ct.parameters );
 

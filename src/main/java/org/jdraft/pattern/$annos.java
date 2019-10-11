@@ -717,20 +717,20 @@ public final class $annos
  * i.e. @_$({"target", "$paramName"}) int target = 100;
  *
  * ...which are processed separately for $pattern types of things that _model types
- * @see has$annos#at_$Process(AnnotatedElement, has$annos)
+ * //@see has$annos#at_$Process(AnnotatedElement, has$annos)
  */
 interface has$annos {
 
-    $annos get$annos();
+    $annos get$Annos();
 
     default void removeAnnos(Class<? extends Annotation> annoClass){
         List<$anno> toRemove = new ArrayList<>();
-        this.get$annos().$annosList.stream().forEach($a -> {
+        this.get$Annos().$annosList.stream().forEach($a -> {
             if($a.name.matches(annoClass.getSimpleName()) || $a.name.matches(annoClass.getCanonicalName()) ){
                 toRemove.add($a);
             }
         } );
-        this.get$annos().$annosList.removeAll(toRemove);
+        this.get$Annos().$annosList.removeAll(toRemove);
     }
 
     /**
@@ -744,7 +744,7 @@ interface has$annos {
      *
      * @param runtimeEl the reflective runtime annotatedElement that MAY have an @_$() annotation
      * @param $ha the $pattern implementation (which is an $hasAnnos) will be
-     */
+
     public static void at_$Process(AnnotatedElement runtimeEl, has$annos $ha ){
         //Look for a VERY SPECIFIC @_$ annotation which will "post parameterize"
         _$ postParameterize = runtimeEl.getAnnotation( _$.class );
@@ -762,4 +762,5 @@ interface has$annos {
             //$ct.annos.$annosList.removeIf(a -> a.name.idStencil.isFixedText() && a.name.idStencil.getTextForm().getFixedText().equals("_$"));
         }
     }
+    */
 }

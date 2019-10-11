@@ -14,13 +14,14 @@ import java.util.List;
 public class SmethodTest extends TestCase {
 
     public void testMethod(){
+        //@_$({"X", "Name", "x", "name"})
         $method $m = $method.of( new Object(){
-            @_static @Deprecated @_$({"X", "Name", "x", "name"})
+            @_static @Deprecated
             public int getX(){
                 return x;
             }
-            int x;
-        });
+                int x;
+        }).$("X", "Name", "x", "name");
 
         //System.out.println( $m );
         //verify we parameterized the name ("X") to parameter ("Name")

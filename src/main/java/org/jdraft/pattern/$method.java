@@ -89,7 +89,7 @@ public final class $method
 
         $method $m = of( _m );
 
-        has$annos.at_$Process(rm, $m);
+        //has$annos.at_$Process(rm, $m);
         /*
         //Look for a VERY SPECIFIC @_$ annotation which will "post parameterize"
         _$ postParameterize = rm.getAnnotation( _$.class );
@@ -607,7 +607,7 @@ public final class $method
     }
 
     @Override
-    public $annos get$annos() {
+    public $annos get$Annos() {
         return this.annos;
     }
 
@@ -640,7 +640,12 @@ public final class $method
         this.annos.$annosList.add($anno.of(_an) );
         return this;
     }
-    
+
+    @Override
+    public $name get$Name(){
+        return this.name;
+    }
+
     public $method $name(){
         this.name = $name.of();
         return this;

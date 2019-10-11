@@ -320,6 +320,11 @@ public final class $enumConstant
         return this;
     }
 
+    @Override
+    public $name get$Name(){
+        return this.name;
+    }
+
     public $enumConstant $name(Predicate<String> nameMatchFn){
         this.name = $name.of(nameMatchFn);
         return this;
@@ -329,6 +334,8 @@ public final class $enumConstant
         this.name = $name.of(name);
         return this;
     }
+
+
 
     public $enumConstant $name($name name ){
         this.name = name;

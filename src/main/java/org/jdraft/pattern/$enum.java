@@ -61,7 +61,7 @@ public final class $enum
     public static $enum of( Object anonymousObjectBody){
         $enum $e = of( _enum.of("$enumName$", anonymousObjectBody, Thread.currentThread().getStackTrace()[2]));
         //handle @_$ (parameterize) annotations
-        has$annos.at_$Process(anonymousObjectBody.getClass(), $e);
+        //has$annos.at_$Process(anonymousObjectBody.getClass(), $e);
         return $e;
     }
 
@@ -69,7 +69,7 @@ public final class $enum
         $enum $e = of( _enum.of(name, anonymousObjectBody, Thread.currentThread().getStackTrace()[2]));
 
         //handle @_$ (parameterize) annotations
-        has$annos.at_$Process(anonymousObjectBody.getClass(), $e);
+        //has$annos.at_$Process(anonymousObjectBody.getClass(), $e);
         return $e;
     }
 
@@ -598,6 +598,11 @@ public final class $enum
         return this;
     }
 
+    @Override
+    public $name get$Name(){
+        return this.name;
+    }
+
     public $enum $name(Predicate<String> nameMatchFn){
         this.name = $name.of(nameMatchFn);
         return this;
@@ -614,7 +619,7 @@ public final class $enum
     }
 
     @Override
-    public $annos get$annos(){
+    public $annos get$Annos(){
         return this.annos;
     }
 

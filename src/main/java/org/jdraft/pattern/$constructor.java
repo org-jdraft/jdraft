@@ -131,7 +131,7 @@ public final class $constructor
 
         //MED
         $constructor $ct = of( _ct );
-        has$annos.at_$Process(rm, $ct);
+        //has$annos.at_$Process(rm, $ct);
 
         /**** Commented out
         //Look for a VERY SPECIFIC @_$ annotation which will "post parameterize"
@@ -533,7 +533,7 @@ public final class $constructor
     }
 
     @Override
-    public $annos get$annos(){
+    public $annos get$Annos(){
         return this.annos;
     }
 
@@ -565,7 +565,12 @@ public final class $constructor
         this.annos.$annosList.add($a);
         return this;
     }
-    
+
+    @Override
+    public $name get$Name(){
+        return this.name;
+    }
+
     public $constructor $name(){
         this.name = $name.of();
         return this;

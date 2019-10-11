@@ -65,12 +65,13 @@ public final class $field implements Template<_field>, $pattern<_field, $field>,
         macro.to(anonymousObjectWithField.getClass(), _c);
         _field _f = _c.getField(0);
         $field $f = of( _f );
+        /*
         try{
             has$annos.at_$Process( anonymousObjectWithField.getClass().getDeclaredField(_f.getName()), $f);
         } catch(NoSuchFieldException nsfe){
             Log.error("No such field to process @_$ annotation");
         }
-
+        */
         return $f;
     }
 
@@ -294,7 +295,7 @@ public final class $field implements Template<_field>, $pattern<_field, $field>,
         return this;
      }
 
-     public $annos get$annos(){
+     public $annos get$Annos(){
          return this.annos;
      }
 
@@ -425,6 +426,11 @@ public final class $field implements Template<_field>, $pattern<_field, $field>,
     public $field $type(Predicate<_typeRef> typeConstraint ){
         this.type.constraint = this.type.constraint.and(typeConstraint);
         return this;
+    }
+
+    @Override
+    public $name get$Name(){
+        return this.name;
     }
 
     /**

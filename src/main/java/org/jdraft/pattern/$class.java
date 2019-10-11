@@ -75,7 +75,7 @@ public final class $class
         $mems.forEach($m -> $c.$not( ($class.$part)$m));
 
         //handle the @_$ parameterize annotations
-        has$annos.at_$Process( anonymousClass.getClass(), $c);
+        //has$annos.at_$Process( anonymousClass.getClass(), $c);
 
         return $c;
     }
@@ -599,6 +599,11 @@ public final class $class
         return this;
     }
 
+    @Override
+    public $name get$Name(){
+        return this.name;
+    }
+
     public $class $name( Predicate<String> nameMatchFn){
         this.name = $name.of(nameMatchFn);
         return this;
@@ -614,7 +619,7 @@ public final class $class
         return this;
     }
 
-    public $annos get$annos(){
+    public $annos get$Annos(){
         return this.annos;
     }
 

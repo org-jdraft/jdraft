@@ -257,6 +257,11 @@ public final class $annotationElement
         return this;
     }
 
+    @Override
+    public $name get$Name(){
+        return this.name;
+    }
+
     public $annotationElement $name(Predicate<String> nameMatchFn){
         this.name = $name.of(nameMatchFn);
         return this;

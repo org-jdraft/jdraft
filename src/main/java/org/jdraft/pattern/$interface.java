@@ -67,13 +67,13 @@ public final class $interface
     public static $interface of( Object anonymousObjectBody){
         $interface $i = of( _interface.of("$interfaceName$", anonymousObjectBody, Thread.currentThread().getStackTrace()[2]));
 
-        has$annos.at_$Process(anonymousObjectBody.getClass(), $i);
+        //has$annos.at_$Process(anonymousObjectBody.getClass(), $i);
         return $i;
     }
 
     public static $interface of( String name, Object anonymousObjectBody ){
         $interface $i =  of( _interface.of(name, anonymousObjectBody, Thread.currentThread().getStackTrace()[2]));
-        has$annos.at_$Process(anonymousObjectBody.getClass(), $i);
+        //has$annos.at_$Process(anonymousObjectBody.getClass(), $i);
         return $i;
     }
 
@@ -542,6 +542,11 @@ public final class $interface
         return this;
     }
 
+    @Override
+    public $name get$Name(){
+        return this.name;
+    }
+
     public $interface $name(Predicate<String> nameMatchFn){
         this.name = $name.of(nameMatchFn);
         return this;
@@ -558,7 +563,7 @@ public final class $interface
     }
 
     @Override
-    public $annos get$annos(){
+    public $annos get$Annos(){
         return this.annos;
     }
 

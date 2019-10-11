@@ -11,38 +11,42 @@ public class At$_TestCase extends TestCase {
 
     public void testConstructorAnnoParameter(){
 
+        //@_$({"x", "pName"})
         $constructor $ct = $constructor.of( new Object(){
             @_toCtor
-            @_$({"x", "pName"}) public void c(int x){
+            public void c(int x){
                 this.x = x;
             }
             int x;
-        });
+        }).$("x", "pName");
         assertTrue( $ct.parameters.$params.get(0).matches("int anyName"));
     }
 
     public void testMethod$_Parameter(){
+        //@_$({"x", "pName"})
         $method $m = $method.of( new Object(){
-           @_$({"x", "pName"}) public void c(int x){
+           public void c(int x){
                this.x = x;
            }
            int x;
-        });
+        }).$("x", "pName");
 
         assertTrue( $m.parameters.$params.get(0).matches("int anyName"));
         assertTrue( $m.body.matches("this.fieldName = fieldName;"));
     }
 
     public void testField$_(){
+        //@_$({"id", "fieldName"})
         $field $f = $field.of(new Object(){
-           @_$({"id", "fieldName"}) public @_static final int id = 12345;
-        });
+           public @_static final int id = 12345;
+        }).$("id", "fieldName");
         //System.out.println($f);
         assertTrue( $f.matches("public static final int ANYTHING = 12345;"));
     }
 
     public void testClass$_(){
-        $class $c = $class.of( new @_$({"fieldName", "nm", "FieldName", "Nm"}) Object(){
+        //@_$({"fieldName", "nm", "FieldName", "Nm"})
+        $class $c = $class.of( new Object(){
            public int fieldName;
 
            public int getFieldName(){
@@ -52,7 +56,7 @@ public class At$_TestCase extends TestCase {
            public void setFieldName( int fieldName){
                this.fieldName = fieldName;
            }
-        });
+        }).$("fieldName", "nm", "FieldName", "Nm");
         assertTrue($c.fields.get(0).matches("public int anything;"));
         assertTrue($c.methods.get(0).matches("public int getAnything(){ return this.anything; }"));
         assertTrue($c.methods.get(1).matches("public void setAnything(int anything){ this.anything = anything; }"));
@@ -79,7 +83,7 @@ public class At$_TestCase extends TestCase {
     }
 
     public void testInterface$_(){
-        $interface $c = $interface.of( new @_$({"fieldName", "nm", "FieldName", "Nm"}) Object(){
+        $interface $c = $interface.of( new  Object(){
             @_remove int fieldName;
 
             @_abstract public int getFieldName(){
@@ -89,7 +93,7 @@ public class At$_TestCase extends TestCase {
             @_abstract public void setFieldName( int fieldName){
                 this.fieldName = fieldName;
             }
-        });
+        }).$("fieldName", "nm", "FieldName", "Nm");
 
         System.out.println( $c);
         assertTrue($c.fields.isEmpty());
@@ -102,17 +106,19 @@ public class At$_TestCase extends TestCase {
     }
 
     public void testAnnotation$_(){
+        /*
         _annotation _a = _annotation.of( "ANN", new Object(){
             public int fieldName = 100;
         });
 
         System.out.println( _a );
+         */
 
         $annotation $c = $annotation.of( new Object(){
             public int fieldName = 100;
-        });
+        }).$("fieldName", "fn");;
 
-        assertTrue($c.annotationElements.get(0).matches("int fieldName() default 100;"));
+        assertTrue($c.annotationElements.get(0).matches("int someProperty() default 100;"));
         //System.out.println( $c );
     }
 
