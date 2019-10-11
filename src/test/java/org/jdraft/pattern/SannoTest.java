@@ -7,6 +7,37 @@ import java.util.regex.Pattern;
 import junit.framework.TestCase;
 
 public class SannoTest extends TestCase {
+
+    public void testAs(){
+        $anno $a = $anno.as("A");
+        assertTrue( $a.matches("@A") );
+        assertTrue( $a.matches("@A()") );
+
+        assertFalse($a.matches("@A(1)") );
+        assertFalse($a.matches("@A(a=1)") );
+
+        $a = $anno.as("A(1)");
+        assertFalse( $a.matches("@A") );
+        assertFalse( $a.matches("@A()") );
+
+        assertTrue($a.matches("@A(1)") );
+        assertTrue($a.matches("@A(any=1)") );
+
+        assertFalse($a.matches("@A(any=1,key=2)") );
+
+        $a = $anno.as("A(key=1)");
+        assertFalse( $a.matches("@A") );
+        assertFalse( $a.matches("@A()") );
+
+        assertTrue($a.matches("@A(1)") );
+        assertTrue($a.matches("@A(key=1)") );
+
+        assertFalse($a.matches("@A(any=1)") );
+        assertFalse($a.matches("@A(key=2)") );
+        assertFalse($a.matches("@A(key=1,any=2)") );
+        assertFalse($a.matches("@A(any=1,key=2)") );
+
+    }
  
     public void testStaticConvenience(){
         @Deprecated

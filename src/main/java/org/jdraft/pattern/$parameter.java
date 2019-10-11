@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public final class $parameter implements Template<_parameter>, $pattern<_parameter, $parameter>,
         $pattern.$java<_parameter,$parameter>, $method.$part, $constructor.$part {
 
-    public Class<_parameter> javaType(){
+    public Class<_parameter> _modelType(){
         return _parameter.class;
     }
 

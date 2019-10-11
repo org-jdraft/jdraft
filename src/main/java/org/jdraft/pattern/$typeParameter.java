@@ -23,7 +23,7 @@ public final class $typeParameter
         $method.$part, $constructor.$part, $class.$part,$interface.$part {
 
 
-    public Class<_typeParameter> javaType(){
+    public Class<_typeParameter> _modelType(){
         return _typeParameter.class;
     }
 

@@ -7,6 +7,7 @@ package org.jdraft.pattern;
 
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.MethodCallExpr;
+import org.jdraft._class;
 import org.jdraft._code;
 import org.jdraft._moduleInfo;
 import org.jdraft._packageInfo;
@@ -18,6 +19,31 @@ import junit.framework.TestCase;
  * @author Eric
  */
 public class _codePatternTest extends TestCase {
+
+    /**
+     *  https://github.com/javaparser/javaparser/issues/2373
+     *  Lord knows, I cant really figure out what this person is asking
+     *
+     */
+    public void testJPExample(){
+        _class _c = _class.of(
+                "import net.weg.eng.service.object.ComponentBase;" + '\n' +
+                "import net.weg.parserpoc.sampleobjects.*; //ObjectA is inside. " + '\n' +
+                "public class TestClass { " + '\n' +
+                "    public void execute(ComponentBase componentBase){ " + '\n' +
+                "        String testString = componentBase.get(\"TEST_CHAR_1\"); " + '\n' +
+                "    }" +'\n' +
+                "}");
+        //replace the parameters
+        $parameters.of("(ComponentBase componentBase)")
+                .replaceIn(_c, "(ObjectA componentBase)");
+
+        $stmt $s = $stmt.of("String testString = componentBase.get(\"TEST_CHAR_1\");");
+        $stmt $t = $stmt.of("MaestroString testString = componentBase.getTest_char_1();");
+        $s.replaceIn(_c, $t);
+
+        System.out.println( _c);
+    }
 
     @interface N{
         int value();

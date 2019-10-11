@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
  */
 public final class $method
     implements Template<_method>, $pattern<_method, $method>, $pattern.$java<_method,$method>, $class.$part,
-        $interface.$part, $enum.$part,$enumConstant.$part, $member.$named<$method>, $declared<_method,$method>, has$annos {
+        $interface.$part, $enum.$part,$enumConstant.$part, $member.$named<$method>, $declared<_method,$method>, has$Annos {
 
 
     /**
@@ -46,7 +46,7 @@ public final class $method
      */
     public interface $part{}
 
-    public Class<_method> javaType(){
+    public Class<_method> _modelType(){
         return _method.class;
     }
 

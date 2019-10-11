@@ -21,7 +21,7 @@ public final class $import
     implements Template<_import>, $pattern<_import, $import>, $pattern.$java<_import, $import>, $class.$part,
         $interface.$part, $enum.$part, $annotation.$part {
 
-    public Class<_import> javaType(){
+    public Class<_import> _modelType(){
         return _import.class;
     }
 

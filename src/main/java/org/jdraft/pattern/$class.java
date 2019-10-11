@@ -4,12 +4,10 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import com.github.javaparser.utils.Log;
 import org.jdraft.*;
 
 import java.util.*;
@@ -20,7 +18,7 @@ import java.util.function.Predicate;
  * Note... at the moment this is NOT a template... should it be??
  */
 public final class $class
-        implements $pattern.$java<_class,$class>, $member.$named<$class>, $declared<_class,$class>, has$annos {
+        implements $pattern.$java<_class,$class>, $member.$named<$class>, $declared<_class,$class>, has$Annos {
 
     public Predicate<_class> constraint = t->true;
 
@@ -758,7 +756,7 @@ public final class $class
     }
 
     @Override
-    public Class<_class> javaType() {
+    public Class<_class> _modelType() {
         return _class.class;
     }
 

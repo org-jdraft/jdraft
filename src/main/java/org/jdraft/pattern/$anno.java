@@ -41,7 +41,7 @@ public final class $anno
      * Returns the _java node implementation type
      * @return
      */
-    public Class<_anno> javaType(){
+    public Class<_anno> _modelType(){
         return _anno.class;
     }
 
@@ -83,6 +83,17 @@ public final class $anno
     
     public static $anno of (Class<? extends Annotation>sourceAnnoClass, Predicate<_anno> constraint) {
         return of( sourceAnnoClass).$and(constraint);
+    }
+
+    public static $anno as(String...codePattern ){
+        return as( _anno.of(codePattern) );
+    }
+
+    public static $anno as( _anno _an){
+        $anno $a = of( _an);
+        //add a constraint to verify there are EXACTLY only the same
+        $a.$and( _a-> _an.listKeys().size() == _a.listKeys().size() && _an.listValues().size() == _an.listValues().size());
+        return $a;
     }
     
     /**
@@ -160,10 +171,28 @@ public final class $anno
     public $anno $name(String name){
         this.name = $id.of(name);
         return this;
-    } 
-    
+    }
+
     /**
-     * 
+     * Adds a constraint to only match against
+     * <PRE>
+     * marker annotations : @A
+     * NOT single value  : @A(1)
+     * NOT key/value     : @A(key=1)
+     * </PRE>
+     * @return the modified
+     */
+    public $anno $markerAnnotation(){
+        return $and(_a -> _a.isMarker() );
+    }
+
+    /**
+     * Adds a member value to the annotation (A KeyValue pair)
+     * i.e.
+     * <PRE>
+     *     $anno $a = $anno.of("A"); // @A
+     *     $a.$memberValue(new $memberValue("Name", "EE") );  //@A("name", "EE")
+     * </PRE>
      * @param mv
      * @return 
      */

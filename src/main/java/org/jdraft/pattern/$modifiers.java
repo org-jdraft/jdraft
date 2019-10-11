@@ -9,6 +9,7 @@ import org.jdraft._modifiers._hasModifiers;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * instead of directly matching (some expected set of modifiers) against a target
@@ -23,7 +24,7 @@ public final class $modifiers
         $field.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part{
 
 
-    public Class<_modifiers> javaType(){
+    public Class<_modifiers> _modelType(){
         return _modifiers.class;
     }
 
@@ -45,8 +46,6 @@ public final class $modifiers
     public static $modifiers NATIVE = $modifiers.of("native");
     public static $modifiers STRICT_FP = $modifiers.of("strictfp");
 
-
-
     public static $modifiers of(){
         return new $modifiers();
     }
@@ -61,6 +60,44 @@ public final class $modifiers
     
     public static $modifiers of(String...mods){
         return of(_modifiers.of(mods));
+    }
+
+    private static final List<Modifier> ALL_MODIFIERS = Ast.MODS_KEYWORD_TO_ENUM_MAP.values().stream().collect(Collectors.toList());
+
+    /**
+     * Matches "Exactly these" modifiers...
+     * <PRE>
+     * for example
+     * $modifiers $onlyStatic = $modifiers.as("static");
+     * assertTrue( $onlyStatic.matches("static"));
+     *
+     * //ANY modifiers NOT in the constructor are explicitly forbidden to match
+     * assertFalse( $onlyStatic.matches("public static"));
+     * assertFalse( $onlyStatic.matches("public static final "));
+     * </PRE>
+     * @param mods
+     * @return
+     */
+    public static $modifiers as(String...mods) {
+        $modifiers $ms = of( mods );
+        //make all the other modifiers MUST exclude
+        List<Modifier> leftModifiers = ALL_MODIFIERS.stream().collect(Collectors.toList());
+        leftModifiers.removeAll($ms.mustInclude);
+        for(int i=0;i<Ast.MODS_KEYWORD_TO_ENUM_MAP.values().size(); i++){
+            $ms.mustExclude.addAll(leftModifiers);
+        }
+        return $ms;
+    }
+
+    public static $modifiers as($modifiers...mods) {
+        $modifiers $ms = of( mods );
+        //make all the other modifiers MUST exclude
+        List<Modifier> leftModifiers = ALL_MODIFIERS.stream().collect(Collectors.toList());
+        leftModifiers.removeAll($ms.mustInclude);
+        for(int i=0;i<Ast.MODS_KEYWORD_TO_ENUM_MAP.values().size(); i++){
+            $ms.mustExclude.addAll(leftModifiers);
+        }
+        return $ms;
     }
 
     /**

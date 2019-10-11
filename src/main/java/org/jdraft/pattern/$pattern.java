@@ -1063,6 +1063,13 @@ public interface $pattern<P, $P extends $pattern>{
         return found;
     }
 
+    /**
+     *
+     * @param _js
+     * @param nodeMatchFn
+     * @param <_J>
+     * @return
+     */
     default <_J extends _model> Stream<P> streamIn(Collection<_J> _js, Predicate<P> nodeMatchFn){
         return listIn(_js, nodeMatchFn).stream();
     }
@@ -1081,6 +1088,13 @@ public interface $pattern<P, $P extends $pattern>{
         return found;
     }
 
+    /**
+     *
+     * @param _codeProvider
+     * @param nodeMatchFn
+     * @param <_J>
+     * @return
+     */
     default <_J extends _model> Stream<P> streamIn(_code._provider _codeProvider, Predicate<P> nodeMatchFn){
         return listIn(_codeProvider, nodeMatchFn).stream();
     }
@@ -1652,7 +1666,7 @@ public interface $pattern<P, $P extends $pattern>{
     
     /**
      * 
-     * @param <_J> the TYPE of model node
+     * @param <_J> the TYPE of _model
      * @param _j the root _java node to start from (_type, _method, etc.)
      * @param nodeMatchFn
      * @return the modified model node
@@ -1705,22 +1719,24 @@ public interface $pattern<P, $P extends $pattern>{
     }
 
     /**
-     * Common functionality present in $protos that are related to
+     * Common functionality present in $patterns that are related to
      * AST elements /searches
-     * @param <A>
+     * @param <A> the Ast type
      */
     interface $ast<A extends Node, $P extends $pattern> extends $pattern<A, $P> {
+
+        /** The Java Ast type associated with this pattern */
         Class<A> astType();
     }
 
     /**
-     * Common functionality present in $protos that are related to
-     * AST elements /searches
-     * @param <_J>
+     * Common functionality present in $patterns that are related to AST elements /searches
+     * @param <_J> the java _model type associated with this pattern
      */
     interface $java<_J extends _model, $P extends $pattern> extends $pattern<_J, $P> {
 
-        Class<_J> javaType();
+        /** The Java _model type that is represented by this $patern */
+        Class<_J> _modelType();
 
         default <_CT extends _type> _CT replaceIn( Class clazz, $P $protoReplace ){
             return (_CT)replaceIn((_type)_java.type(clazz), $protoReplace);
@@ -1731,7 +1747,7 @@ public interface $pattern<P, $P extends $pattern>{
         }
 
         default <_J extends _model> _J replaceIn(_J _j , $P $protoReplace ){
-            _walk.in(_j, javaType(), e-> {
+            _walk.in(_j, _modelType(), e-> {
                 $pattern.select_java<_J> sel = select(e);
                 if( sel != null ){
                     _node _n = (_node)sel._node();
@@ -1751,7 +1767,7 @@ public interface $pattern<P, $P extends $pattern>{
          * @return
          */
         default <N extends Node> N replaceIn(N astNode, $P $protoReplace ){
-            _walk.in( astNode, javaType(), t->true, e-> {
+            _walk.in( astNode, _modelType(), t->true, e-> {
                 $pattern.selected sel = select( (_J)e );
                 //$proto.select_java<P> sel = select((P)e);
                 if( sel != null ){

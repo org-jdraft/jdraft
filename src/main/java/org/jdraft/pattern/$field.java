@@ -1,6 +1,5 @@
 package org.jdraft.pattern;
 
-import com.github.javaparser.utils.Log;
 import org.jdraft._code;
 import org.jdraft._javadoc;
 import org.jdraft._typeRef;
@@ -36,9 +35,9 @@ import java.util.stream.Collectors;
  */
 public final class $field implements Template<_field>, $pattern<_field, $field>, $pattern.$java<_field, $field>,
         $class.$part, $interface.$part, $enum.$part, $annotation.$part, $enumConstant.$part, $member.$named<$field>,
-        $declared<_field,$field>, has$annos {
+        $declared<_field,$field>, has$Annos {
 
-    public Class<_field> javaType(){
+    public Class<_field> _modelType(){
         return _field.class;
     }
 

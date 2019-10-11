@@ -27,7 +27,7 @@ public final class $typeParameters
     implements Template<_typeParameters>, $pattern<_typeParameters,$typeParameters>, $pattern.$java<_typeParameters,$typeParameters>,
         $method.$part, $constructor.$part, $class.$part,$interface.$part {
 
-    public Class<_typeParameters> javaType(){
+    public Class<_typeParameters> _modelType(){
         return _typeParameters.class;
     }
 

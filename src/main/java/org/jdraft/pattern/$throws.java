@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public final class $throws
     implements Template<_throws>, $pattern<_throws, $throws>, $pattern.$java<_throws,$throws>, $method.$part, $constructor.$part {
 
-    public Class<_throws> javaType(){
+    public Class<_throws> _modelType(){
         return _throws.class;
     }
 

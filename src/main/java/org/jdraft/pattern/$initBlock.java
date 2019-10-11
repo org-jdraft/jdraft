@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$java<_initBlock,$initBlock>,
         Template<_initBlock>, $class.$part, $enum.$part, $member<_initBlock, $initBlock>{
 
-    public Class<_initBlock> javaType(){
+    public Class<_initBlock> _modelType(){
         return _initBlock.class;
     }
 

@@ -9,7 +9,18 @@ import junit.framework.TestCase;
  * @author Eric
  */
 public class SmodifiersTest extends TestCase {
-    
+
+    public void test$modifiersAsTest(){
+
+        $modifiers $ms = $modifiers.as("public static");
+
+        assertTrue( $ms.matches("public static") );
+        assertFalse( $ms.matches("public static final") );
+        assertFalse( $ms.matches("public") );
+        assertFalse( $ms.matches("static") );
+
+    }
+
     static _method _m = _method.of(new Object(){
         public void m(){
         }

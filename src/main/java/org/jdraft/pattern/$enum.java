@@ -19,7 +19,7 @@ import java.util.function.Predicate;
  */
 public final class $enum
         implements $pattern<_enum, $enum>, $pattern.$java<_enum, $enum>, $member.$named<$enum>, $declared<_enum,$enum>,
-        has$annos {
+        has$Annos {
 
     public Predicate<_enum> constraint = t->true;
 
@@ -725,7 +725,7 @@ public final class $enum
     }
 
     @Override
-    public Class<_enum> javaType() {
+    public Class<_enum> _modelType() {
         return _enum.class;
     }
 

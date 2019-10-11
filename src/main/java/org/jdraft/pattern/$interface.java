@@ -5,7 +5,6 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
@@ -23,7 +22,7 @@ import java.util.function.Predicate;
  */
 public final class $interface
         implements $pattern<_interface, $interface>, $pattern.$java<_interface, $interface>, $member.$named<$interface>,
-        $declared<_interface,$interface>, has$annos{
+        $declared<_interface,$interface>, has$Annos {
 
     public Predicate<_interface> constraint = t->true;
 
@@ -695,7 +694,7 @@ public final class $interface
     }
 
     @Override
-    public Class<_interface> javaType() {
+    public Class<_interface> _modelType() {
         return _interface.class;
     }
 

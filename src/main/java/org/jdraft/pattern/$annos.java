@@ -28,7 +28,7 @@ public final class $annos
         $field.$part, $parameter.$part, $typeParameter.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part,
         $enumConstant.$part{
 
-    public Class<_annos> javaType(){
+    public Class<_annos> _modelType(){
         return _annos.class;
     }
 
@@ -91,6 +91,40 @@ public final class $annos
      */
     public static $annos of(_annos annos){
         return new $annos(annos);
+    }
+
+
+    /**
+     *
+     * @param _ha
+     * @return
+     */
+    public static $annos as( _anno._hasAnnos _ha){
+        return as( _ha.getAnnos() );
+    }
+
+    /**
+     *
+     * @param annoPatterns
+     * @return
+     */
+    public static $annos as(String...annoPatterns){
+        return as(_annos.of(annoPatterns));
+    }
+
+    public static $annos as(_annos _anns){
+        if( _anns.size() == 0 ){
+            return none();
+        }
+        $annos $as = new $annos();
+        if( _anns != null ){
+            for(int i=0;i<_anns.size();i++){
+                $anno a = $anno.as(_anns.get(i) );
+                $as.$annosList.add(a);
+            }
+        }
+        $as.$and(_as -> _as.size() == _anns.size() );
+        return $as;
     }
 
     /**
@@ -271,7 +305,15 @@ public final class $annos
     public boolean matches( NodeWithAnnotations astAnnoNode ){
         return select(astAnnoNode)!= null;
     }
-    
+
+    public boolean matches(String...anns){
+        try{
+            return matches( _annos.of(anns));
+        }catch(Exception e){
+            return false;
+        }
+    }
+
     public boolean matches( _annos _as) {
         return select(_as)!= null;
     }
@@ -719,7 +761,7 @@ public final class $annos
  * ...which are processed separately for $pattern types of things that _model types
  * //@see has$annos#at_$Process(AnnotatedElement, has$annos)
  */
-interface has$annos {
+interface has$Annos {
 
     $annos get$Annos();
 
@@ -738,7 +780,7 @@ interface has$annos {
      *
      * Given a runtime {@link java.lang.reflect.AnnotatedElement}
      * (A reflective {@link java.lang.reflect.Method}, {@link java.lang.reflect.Constructor}, ...)
-     * and its corresponding $pattern that is an implementation of {@link has$annos}
+     * and its corresponding $pattern that is an implementation of {@link has$Annos}
      * (may contain annotation(s) look for the @_$ annotation and "post-parameterize")
      * call {@link $pattern#$(String, String)} for the values in the Annotation.
      *

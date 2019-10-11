@@ -18,7 +18,7 @@ import java.util.function.Predicate;
  */
 public final class $annotation
         implements $pattern<_annotation, $annotation>, $pattern.$java<_annotation, $annotation>, $member.$named<$annotation>,
-        $declared<_annotation,$annotation>, has$annos {
+        $declared<_annotation,$annotation>, has$Annos {
 
     public Predicate<_annotation> constraint = t->true;
 
@@ -614,7 +614,7 @@ public final class $annotation
     }
 
     @Override
-    public Class<_annotation> javaType() {
+    public Class<_annotation> _modelType() {
         return _annotation.class;
     }
 

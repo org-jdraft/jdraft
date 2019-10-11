@@ -21,7 +21,7 @@ public final class $parameters implements Template<_parameters>, $pattern<_param
         $pattern.$java<_parameters,$parameters>, $constructor.$part, $method.$part {
 
     @Override
-    public Class<_parameters> javaType(){
+    public Class<_parameters> _modelType(){
         return _parameters.class;
     }
 

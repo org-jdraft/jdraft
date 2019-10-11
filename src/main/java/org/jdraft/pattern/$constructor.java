@@ -45,9 +45,9 @@ import org.jdraft.macro.macro;
 public final class $constructor
     implements Template<_constructor>, $pattern<_constructor, $constructor>,
         $pattern.$java<_constructor, $constructor>, $class.$part, $enum.$part, $member.$named<$constructor>,
-        $declared<_constructor,$constructor>, has$annos{
+        $declared<_constructor,$constructor>, has$Annos {
 
-    public Class<_constructor> javaType(){
+    public Class<_constructor> _modelType(){
         return _constructor.class;
     }
 

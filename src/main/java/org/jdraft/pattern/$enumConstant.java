@@ -432,7 +432,7 @@ public final class $enumConstant
     }
 
     @Override
-    public Class<_enum._constant> javaType() {
+    public Class<_enum._constant> _modelType() {
         return _enum._constant.class;
     }
 

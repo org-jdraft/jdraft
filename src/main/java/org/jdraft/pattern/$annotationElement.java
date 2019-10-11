@@ -337,7 +337,7 @@ public final class $annotationElement
     }
 
     @Override
-    public Class<_annotation._element> javaType() {
+    public Class<_annotation._element> _modelType() {
         return _annotation._element.class;
     }
 

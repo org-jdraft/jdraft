@@ -30,7 +30,7 @@ public final class $body implements Template<_body>, $pattern<_body, $body>, $pa
     /** a part of the body... a $ex, $stmt, $stmts, $case, $comment, $var */
     public interface $part { }
 
-    public Class<_body> javaType(){
+    public Class<_body> _modelType(){
         return _body.class;
     }
 

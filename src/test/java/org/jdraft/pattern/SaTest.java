@@ -21,7 +21,23 @@ import static junit.framework.TestCase.assertTrue;
  * @author Eric
  */
 public class SaTest extends TestCase {
-    
+
+    public void test$annosAs(){
+        //
+        $annos $as = $annos.as();
+
+        assertTrue($as.matches(_anno._annos.of()));
+        assertTrue($as.matches(""));
+        assertFalse($as.matches("@A"));
+
+        $as = $annos.as("@A");
+
+        assertTrue($as.matches("@A"));
+        assertFalse($as.matches(""));
+        assertFalse($as.matches("@A(1)"));
+        assertFalse($as.matches("@A", "@B"));
+
+    }
     public void goal(){
         //this is a prototype for a $method which matches all methods that
         //have a matching annotation @A(count=1)
