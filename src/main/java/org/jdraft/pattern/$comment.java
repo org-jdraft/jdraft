@@ -25,7 +25,8 @@ public final class $comment <C extends Comment>
     }
     
     public static<C extends Comment> $comment<C> of( String pattern, Predicate<C> constraint ){
-        return (($comment<C>) new $comment(Ast.comment(pattern))).$and(constraint);
+        return (($comment<C>) new $comment(pattern)).$and(constraint);
+        //return (($comment<C>) new $comment(Ast.comment(pattern))).$and(constraint);
     }
     
     public static $comment<Comment> of( Predicate<Comment> constraint ){
@@ -98,11 +99,11 @@ public final class $comment <C extends Comment>
     }
 
     public static <C extends Comment> $comment<C> of( String comment ){
-        return new $comment( Ast.comment(comment));
+        return new $comment( comment);
     }
 
     public static <C extends Comment> $comment<C> of( String...comment ){
-        return new $comment( Ast.comment(comment));
+        return new $comment(comment);
     }
     
     public static final Set<Class<? extends Comment>> ALL_COMMENT_CLASSES = new HashSet<>();
@@ -126,7 +127,27 @@ public final class $comment <C extends Comment>
         commentClasses.addAll(ALL_COMMENT_CLASSES);
         contentsStencil = Stencil.of("$comment$");
     }
-    
+
+    public $comment (String... comment){
+        String trimmed = Text.combine(comment);
+        if (trimmed.startsWith("/**") ){
+            commentClasses.add(JavadocComment.class);
+            contentsStencil = Stencil.of( Ast.getContent( Ast.comment(comment) ).trim() );
+        } else if( trimmed.startsWith("/*") ){
+            commentClasses.add(BlockComment.class);
+            contentsStencil = Stencil.of( Ast.getContent( Ast.comment(comment) ).trim() );
+        } else if( trimmed.startsWith("//")){
+            commentClasses.add(LineComment.class);
+            Comment com = Ast.comment(comment);
+            String content = Ast.getContent(com );
+            //System.out.println("CON" + content );
+            contentsStencil = Stencil.of( content.trim() );
+        } else{
+            commentClasses.addAll(ALL_COMMENT_CLASSES);
+            contentsStencil = Stencil.of( Ast.getContent( Ast.comment(comment) ).trim() );
+        }
+    }
+
     /**
      * A $proto based on a particular kind of comment
      * @param <C>
@@ -135,7 +156,7 @@ public final class $comment <C extends Comment>
     public <C extends Comment> $comment( C astComment ){
         if(astComment != null ) {
             this.commentClasses.add(astComment.getClass());
-            this.contentsStencil = Stencil.of(Ast.getContent(astComment));
+            this.contentsStencil = Stencil.of(Ast.getContent(astComment).trim());
         }
     }
     
@@ -193,7 +214,13 @@ public final class $comment <C extends Comment>
     }
 
     public boolean matches( String...comment ){
-        return matches( Ast.comment(comment));
+        Comment com = Ast.comment(comment);
+        System.out.println( com.getClass() );
+        System.out.println( "COMMENT TOSTRING " + com.toString() );
+        System.out.println( "CONTENTS STENCIL \"" + this.contentsStencil+"\"");
+        System.out.println( "Ast content \"" + Ast.getContent(com)+"\"");
+        System.out.println( this.contentsStencil.parseFirst(Ast.getContent(com)) );
+        return matches( com );
     }
 
     public boolean matches( _javadoc._hasJavadoc _j){
@@ -231,11 +258,11 @@ public final class $comment <C extends Comment>
     public Select select( Comment astComment ){
         if(! this.commentClasses.contains(astComment.getClass())){
             //System.out.println( "Coment"+ astComment+ " "+astComment.isJavadocComment()+ " "+astComment.getClass());
-            //System.out.println( "not correct comment class"+ this.commentClasses+" "+ astComment.getClass());
+            System.out.println( "not correct comment class"+ this.commentClasses+" "+ astComment.getClass());
             return null;
         }
         if( !this.constraint.test( (C)astComment) ){
-            //System.out.println( "failed constraint");
+            System.out.println( "failed constraint");
             return null;
         }
 

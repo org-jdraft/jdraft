@@ -4,6 +4,7 @@ import org.jdraft.Ast;
 import junit.framework.TestCase;
 import org.jdraft.Stencil;
 import org.jdraft.Tokens;
+import org.jdraft._class;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,27 @@ import java.util.regex.Pattern;
 public class ScommentTest extends TestCase {
 
 
+    public void testMatchLineComment(){
+        assertTrue($comment.of("//TODO").matches("//TODO"));
+    }
+    public void testMatchOf(){
+        /** TODO something */
+        class C{
+            /*TODO something else */
+            public int i=0;
+
+            void m(){
+                // TODO fix this
+            }
+        }
+        _class _c = _class.of(C.class);
+        System.out.println( _c );
+
+        assertEquals(3, $comment.of("TODO").count(C.class));
+        assertEquals(1, $comment.of("/** TODO */").count(C.class));
+        assertEquals(1, $comment.of("/* TODO */").count(C.class));
+        assertEquals(1, $comment.of("// TODO").count(C.class));
+    }
     public void testCompose(){
         assertEquals( Ast.lineComment("//Hello ").getContent().trim(), 
                 $comment.of("//Hello").draft().getContent().trim());

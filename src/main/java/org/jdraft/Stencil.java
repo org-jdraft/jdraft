@@ -587,6 +587,11 @@ public final class Stencil implements Template<String>{
      * @return
      */
     public Tokens parseFirst(String text ){
+        text = text.trim();
+        Tokens ts = parse(text);
+        if( ts != null ){
+            return ts;
+        }
         MatchResult mr = matchFirst(this, text);
         if( mr != null ) {
             return parse(mr.group(0));
