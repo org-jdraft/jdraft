@@ -21,7 +21,10 @@ public class ScommentTest extends TestCase {
 
     public void testMatchLineComment(){
         assertTrue($comment.of("//TODO").matches("//TODO"));
+        assertTrue($comment.of("/*TODO*/").matches("/*TODO*/"));
+        assertTrue($comment.of("/**TODO*/").matches("/**TODO*/"));
     }
+
     public void testMatchOf(){
         /** TODO something */
         class C{

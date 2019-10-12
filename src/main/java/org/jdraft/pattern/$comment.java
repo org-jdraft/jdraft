@@ -215,11 +215,6 @@ public final class $comment <C extends Comment>
 
     public boolean matches( String...comment ){
         Comment com = Ast.comment(comment);
-        System.out.println( com.getClass() );
-        System.out.println( "COMMENT TOSTRING " + com.toString() );
-        System.out.println( "CONTENTS STENCIL \"" + this.contentsStencil+"\"");
-        System.out.println( "Ast content \"" + Ast.getContent(com)+"\"");
-        System.out.println( this.contentsStencil.parseFirst(Ast.getContent(com)) );
         return matches( com );
     }
 
