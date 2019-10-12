@@ -2,6 +2,8 @@ package org.jdraft;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -575,6 +577,45 @@ public final class Stencil implements Template<String>{
 
         Object[] fis = inline( Translator.DEFAULT_TRANSLATOR, $Names, fillMap );
         return this.textForm.fill( fis );
+    }
+
+    /**
+     * find the first match within the text, parses it and returns the tokens
+     * if not match is found, return null
+     *
+     * @param text the text to look through for a match
+     * @return
+     */
+    public Tokens parseFirst(String text ){
+        MatchResult mr = matchFirst(this, text);
+        if( mr != null ) {
+            return parse(mr.group(0));
+        }
+        return null;
+    }
+
+    /**
+     * Returns the first MatchResult for the first to match the stencil within the text
+     * @param st the stencil
+     * @param text the text to look through
+     * @return the first Match within the text or null if none found
+     */
+    public static MatchResult matchFirst(Stencil st, String text){
+        return matchFirst(st.getRegexPattern(),text);
+    }
+
+    /**
+     * Returns the first MatchResult for the first to match the stencil within the text
+     * @param pattern the regex pattern
+     * @param text the text to look through
+     * @return the first Match within the text or null if none found
+     */
+    public static MatchResult matchFirst(Pattern pattern, String text ){
+        Matcher matcher = pattern.matcher(text);
+        if( matcher.find() ){
+            return matcher.toMatchResult();
+        }
+        return null;
     }
 
     /**

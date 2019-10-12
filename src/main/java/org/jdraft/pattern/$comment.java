@@ -237,12 +237,23 @@ public final class $comment <C extends Comment>
         if( !this.constraint.test( (C)astComment) ){
             //System.out.println( "failed constraint");
             return null;
-        }        
+        }
+
+        /** NEW looks for the existence (i.e. match anywhere within the comment content */
+        Tokens ts = this.contentsStencil.parseFirst(Ast.getContent(astComment));
+        if( ts == null ){
+            return null;
+        }
+        return new Select(astComment, $tokens.of(ts));
+
+        /* OLD looks for an exact match
         Tokens ts = this.contentsStencil.parse(Ast.getContent(astComment));
         if( ts == null ){
             return null;
         }
         return new Select( astComment, $tokens.of( ts ));
+
+        /* */
     }
 
     /**

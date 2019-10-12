@@ -4,6 +4,8 @@ import junit.framework.TestCase;
 
 import java.util.List;
 import java.util.Map;
+import java.util.regex.MatchResult;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -11,6 +13,127 @@ import java.util.Map;
  */
 public class StencilTest
         extends TestCase {
+
+
+    public void testRegexPattern(){
+        Stencil st = Stencil.of("Hey $name$;");
+        System.out.println( st.getRegexPattern().pattern() );
+        assertTrue(st.matches("Hey a;"));
+        assertFalse(st.matches("Hey a"));
+    }
+
+    public void testParseFirstConstant2(){
+        //simple constant
+        Stencil st = Stencil.of("Hey Eric");
+        Tokens toks = st.parseFirst( "Hey Eric");
+        assertNotNull( toks );
+        assertTrue( toks.is());
+
+        toks = st.parseFirst( "Blah blah blahHey Eric");
+        assertNotNull( toks );
+        assertTrue( toks.is());
+
+        toks = st.parseFirst( "Hey EricBlahBlahBlah");
+        assertNotNull( toks );
+        assertTrue( toks.is());
+
+        toks = st.parseFirst( "Blah blah blahHey EricBlahBlahBlah");
+        assertNotNull( toks );
+        assertTrue( toks.is());
+
+        //not match
+        toks = st.parseFirst("Not match");
+        assertNull(toks);
+    }
+
+    public void testParseFirstOpenLeft(){
+        Stencil st = Stencil.of("$left$ closed;");
+        assertNotNull( st.parse("any closed;") );
+        assertNotNull( st.parse("a closed;") );
+
+        Tokens ts = st.parseFirst("a closed;");
+        assertNotNull( ts );
+        assertTrue(ts.is("left", "a"));
+
+        ts = st.parseFirst("a closed;AND MORE STUFF ON THE RIGHT");
+        assertNotNull( ts );
+        assertTrue(ts.is("left", "a"));
+    }
+
+    public void testParseFirstOpenRight(){
+
+        Stencil endsWith = Stencil.of("Hey $name$");
+        Tokens toks = endsWith.parseFirst( "Hey Eric");
+        assertNotNull( toks );
+        assertEquals("Eric", toks.get("name"));
+
+        toks = endsWith.parseFirst("Hey this is the end");
+        assertEquals( "this is the end", toks.get("name"));
+
+        toks = endsWith.parseFirst("asdkljflkasdklfasdkljklsadjfkHey this is the end");
+        assertEquals( "this is the end", toks.get("name"));
+
+        toks = endsWith.parseFirst("asdkljflkasdklfasdkljklsadjfkHey this is the end"+'\n'+"Hey this is the second");
+        assertEquals( "this is the end"+'\n'+"Hey this is the second", toks.get("name"));
+    }
+
+    public void testParseFirstConstant(){
+        //simple constant
+        Stencil st = Stencil.of("Hey Eric");
+        MatchResult mr = Stencil.matchFirst(st, "Hey Eric");
+        assertNotNull(mr );
+
+        //System.out.println( mr.group() );
+        assertEquals(0, mr.start());
+        assertEquals( "Hey Eric".length(), mr.end());
+
+        mr = Stencil.matchFirst(st, "NO MATCH AT ALL");
+        assertNull(mr);
+
+        //multi match
+        mr = Stencil.matchFirst( st, "Hey EricHey Eric");
+        assertEquals(0, mr.start(0));
+        assertEquals("Hey Eric".length(), mr.end(0));
+
+        //assertEquals("Hey Eric".length()+1, mr.start(1));
+        //assertEquals("Hey Eric".length()*2, mr.end(1));
+    }
+
+    public void testStencilFind(){
+
+        Stencil s = Stencil.of( "Hey $name$;" );
+        assertTrue( s.matches("Hey Eric;") );
+        assertTrue( s.matches("Hey This can be anything Eric;") );
+        assertFalse( s.matches("Hey This can be anything Eric") );
+        assertFalse( s.matches("And Hey Eric;") );
+
+        Pattern p = s.getRegexPattern();
+
+
+        //Closed on left and right
+        String ss = "";
+
+
+        String[] splits = p.split("Hey Eric;");
+        assertEquals(0, splits.length );
+
+        splits = p.split("And Hey Eric;");
+        assertEquals(1, splits.length );
+        assertEquals("And ", splits[0]);
+
+        splits = p.split("Nothing matches;");
+        assertEquals(1, splits.length );
+        assertEquals("Nothing matches;",splits[0] );
+
+        p.matcher("Nothing matches");
+
+        //System.out.println( splits[0] );
+        //System.out.println( splits[1]);
+        //assertTrue( splits.length == 2 );
+
+        //Matcher m = s.getRegexPattern().matcher("And Hey Eric;");
+        //System.out.println( m.start() );
+    }
 
     /*
     public void testNest(){
