@@ -18,11 +18,22 @@ import java.util.regex.Pattern;
  */
 public class ScommentTest extends TestCase {
 
+    public void testMatchComments(){
+        //without providing a comment type... this will match
+        assertTrue($comment.of("TODO").matches("//TODO"));
+        assertTrue($comment.of("TODO").matches("/*TODO*/"));
+        assertTrue($comment.of("TODO").matches("/**TODO*/"));
 
-    public void testMatchLineComment(){
+        assertTrue($comment.of("TODO").matches("//before TODO after "));
+        assertTrue($comment.of("TODO").matches("/*before TODO after */"));
+        assertTrue($comment.of("TODO").matches("/**before TODO after */"));
+
         assertTrue($comment.of("//TODO").matches("//TODO"));
+        assertTrue($comment.of("//TODO").matches("//stuff before TODO stuff after"));
         assertTrue($comment.of("/*TODO*/").matches("/*TODO*/"));
+        assertTrue($comment.of("/*TODO*/").matches("/*stuffBeofre TODOStuffAfter*/"));
         assertTrue($comment.of("/**TODO*/").matches("/**TODO*/"));
+        assertTrue($comment.of("/**TODO*/").matches("/**Stuff before TODO --- stuff after*/"));
     }
 
     public void testMatchOf(){
