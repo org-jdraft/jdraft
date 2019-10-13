@@ -40,13 +40,13 @@ public final class $parameter implements Template<_parameter>, $pattern<_paramet
      * in this context, false will match final or non final, 
      * will compose w/o final 
      */
-    public Boolean isFinal = false;
+    public Boolean isFinal = null;
     
     /** 
      * in this context, false will match varARg or non varArg, 
      * will compose w/o varArg 
      */
-    public Boolean isVarArg = false;
+    public Boolean isVarArg = null;
     
     /** Name of the parameter */
     public $name name = $name.of();
@@ -186,7 +186,32 @@ public final class $parameter implements Template<_parameter>, $pattern<_paramet
     public static $parameter of( _parameter _p ){
         return new $parameter( _p, p->true );
     }
-    
+
+    public static $parameter as( String param ){
+        return as( _parameter.of(param) );
+    }
+
+    public static $parameter as( _parameter _p){
+        $annos $as = $annos.none();
+        if( _p.hasAnnos() ){
+            $as = $annos.as(_p); //set the EXACT annos
+        }
+        $name $nm = $name.of( _p.getName() );
+        $typeRef $tr = $typeRef.as(_p.getType());
+        $parameter $p = of( $as, $nm, $tr );
+        if( _p.isFinal() ){
+            $p.isFinal = true;
+        } else{
+            $p.isFinal = false;
+        }
+        if( _p.isVarArg() ){
+            $p.isVarArg = true;
+        } else{
+            $p.isVarArg = false;
+        }
+        return $p;
+        //return of( $as, $nm, $tr ).$and( _pa -> Objects.equals(_pa.isFinal(), _p.isFinal()) && Objects.equals(_pa.isVarArg(), _p.isVarArg() ) );
+    }
     /**
      * Build and return a parameter
      * @param parameter
@@ -308,7 +333,7 @@ public final class $parameter implements Template<_parameter>, $pattern<_paramet
      * @return 
      */
     public boolean isMatchAny(){
-        return this.annos.isMatchAny() && isFinal != true && isVarArg != true && this.name.isMatchAny() && this.type.isMatchAny();
+        return this.annos.isMatchAny() && isFinal == null  && isVarArg == null && this.name.isMatchAny() && this.type.isMatchAny();
     }
 
     public boolean match( Node n){
@@ -328,11 +353,11 @@ public final class $parameter implements Template<_parameter>, $pattern<_paramet
         StringBuilder sb = new StringBuilder();
         //here use a single " " as a separator between annos and after the last anno
         sb.append( this.annos.draft(translator, keyValues, " ") );
-        if( isFinal ){
+        if( isFinal != null && isFinal){
             sb.append("final ");
         }
         sb.append( type.draft(translator, keyValues).toString() );
-        if( isVarArg){
+        if( isVarArg != null && isVarArg){
             sb.append("...");
         }
         sb.append(" ");
@@ -346,11 +371,11 @@ public final class $parameter implements Template<_parameter>, $pattern<_paramet
         if( !this.annos.isMatchAny() ) {
             sb.append(this.annos.toString());
         }
-        if( isFinal ){
+        if( isFinal != null && isFinal ){
             sb.append("final ");
         }
         sb.append( type.type );
-        if( isVarArg ){
+        if( isVarArg != null && isVarArg){
             sb.append("...");
         }
         sb.append(" ");
@@ -436,11 +461,37 @@ public final class $parameter implements Template<_parameter>, $pattern<_paramet
      * @return 
      */
     public Select select( _parameter _p ){
-        
+
+        if( this.isFinal != null ){
+            if( this.isFinal ) {
+                if( !_p.isFinal()){
+                    return null;
+                }
+            }
+            else{
+                if( _p.isFinal() ){
+                    return null;
+                }
+            }
+        }
+        if( this.isVarArg != null ){
+            if( this.isVarArg ) {
+                if( !_p.isVarArg()){
+                    return null;
+                }
+            }
+            else{
+                if( _p.isVarArg() ){
+                    return null;
+                }
+            }
+        }
+        /*
         if( this.isFinal && !_p.isFinal() 
             || this.isVarArg && !_p.isVarArg() ){            
             return null;
         }
+        */
         $annos.Select ans = annos.select(_p.ast() );
         if( ans == null ){
             return null;

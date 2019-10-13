@@ -13,7 +13,43 @@ import junit.framework.TestCase;
  * @author Eric
  */
 public class SparameterTest extends TestCase {
-    
+
+    public void testParameter(){
+        $parameter $p = $parameter.of("A a");
+        assertTrue($p.matches("A a")); //exact
+        assertTrue($p.matches("final A a")); //with final
+        assertTrue($p.matches("@Ann A a")); //with anno
+        assertTrue($p.matches("A<B> a")); //generic
+        assertTrue($p.matches("@Ann final A<B> a")); //anno final generic
+        assertTrue($p.matches("@Ann final A<B>... a")); //anno final generic, vararg
+
+        _parameter _pp = _parameter.of("final A a");
+        assertTrue( _pp.isFinal());
+
+        $p = $parameter.as("A a");
+        assertFalse( $p.isFinal );
+        assertTrue($p.matches("A a")); //exact
+
+        assertFalse($p.matches("A... a")); //vararg
+        assertFalse($p.matches("final A a")); //with final
+        assertFalse($p.matches("@Ann A a")); //with anno
+        assertFalse($p.matches("A<B> a")); //generic
+        assertFalse($p.matches("@Ann final A<B> a")); //generic
+        assertFalse($p.matches("@Ann final A<B>... a")); //+vararg
+
+        $p = $parameter.as("@Ann final A<B>... a");
+        assertTrue($p.matches("@Ann final A<B>... a")); //exact
+
+        assertFalse($p.matches("A a")); //
+        assertFalse($p.matches("A... a")); //vararg
+        assertFalse($p.matches("final A a")); //with final
+        assertFalse($p.matches("@Ann A a")); //with anno
+        assertFalse($p.matches("A<B> a")); //generic
+        assertFalse($p.matches("@Ann final A<B> a")); //generic
+
+
+    }
+
     public void testCompose(){
         $parameter $p = $parameter.of("int i");        
         _parameter _p = _parameter.of("int i");
