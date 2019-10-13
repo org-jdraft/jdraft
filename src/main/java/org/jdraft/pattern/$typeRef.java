@@ -258,7 +258,14 @@ public final class $typeRef
     public boolean matches( _typeRef _tr ){
         return select(_tr) != null;
     }
-    
+
+    public boolean matches(java.lang.reflect.Type t){
+        return matches(_typeRef.of(t));
+    }
+
+    public boolean matches(Class clazz){
+        return matches(_typeRef.of(clazz));
+    }
     /**
      * 
      * @param astType
@@ -286,9 +293,21 @@ public final class $typeRef
     public Select select( _typeRef _tr){
 
         if( this.constraint.test(_tr ) ) {
+            if( _tr.isArray() && !this.type.isArrayType() ){
+                //both array types:
+                //still match
+                return select( _typeRef.of(_tr.getElementType()));
+            }
+            if( _tr.isGenericType() && !(this.type.isClassOrInterfaceType() && this.type.asClassOrInterfaceType().getTypeArguments().isPresent()) ){
+                return select( _tr.getNonGenericType() );
+            }
+            if( _tr.hasAnnos() && this.type.getAnnotations().isEmpty()){ //the candidate has annotation(s) the target does not
+                return select( _tr.toString(Ast.PRINT_NO_ANNOTATIONS_OR_COMMENTS));
+            }
             if( Ast.typesEqual(_tr.ast(), this.type)){
                 return new Select( _tr, Tokens.of());
             }
+
             Tokens ts = typePattern().parse(_tr.toString() );
             if( ts != null ){
                 return new Select( _tr, ts);

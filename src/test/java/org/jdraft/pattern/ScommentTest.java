@@ -18,7 +18,9 @@ import java.util.regex.Pattern;
  */
 public class ScommentTest extends TestCase {
 
-    public void testMatchComments(){
+
+    public void testMatchOfComments(){
+
         //without providing a comment type... this will match
         assertTrue($comment.of("TODO").matches("//TODO"));
         assertTrue($comment.of("TODO").matches("/*TODO*/"));
@@ -34,6 +36,25 @@ public class ScommentTest extends TestCase {
         assertTrue($comment.of("/*TODO*/").matches("/*stuffBeofre TODOStuffAfter*/"));
         assertTrue($comment.of("/**TODO*/").matches("/**TODO*/"));
         assertTrue($comment.of("/**TODO*/").matches("/**Stuff before TODO --- stuff after*/"));
+    }
+
+    public void testMatchAsComments(){
+
+        //without providing a comment type... this will match
+        assertTrue($comment.as("TODO").matches("//TODO"));
+        assertTrue($comment.as("TODO").matches("/*TODO*/"));
+        assertTrue($comment.as("TODO").matches("/**TODO*/"));
+
+        assertFalse($comment.as("TODO").matches("//before TODO after "));
+        assertFalse($comment.as("TODO").matches("/*before TODO after */"));
+        assertFalse($comment.as("TODO").matches("/**before TODO after */"));
+
+        assertTrue($comment.as("//TODO").matches("//TODO"));
+        assertFalse($comment.as("//TODO").matches("//stuff before TODO stuff after"));
+        assertTrue($comment.as("/*TODO*/").matches("/*TODO*/"));
+        assertFalse($comment.as("/*TODO*/").matches("/*stuffBeofre TODOStuffAfter*/"));
+        assertTrue($comment.as("/**TODO*/").matches("/**TODO*/"));
+        assertFalse($comment.as("/**TODO*/").matches("/**Stuff before TODO --- stuff after*/"));
     }
 
     public void testMatchOf(){

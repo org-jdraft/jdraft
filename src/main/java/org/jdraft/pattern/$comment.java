@@ -28,7 +28,22 @@ public final class $comment <C extends Comment>
         return (($comment<C>) new $comment(pattern)).$and(constraint);
         //return (($comment<C>) new $comment(Ast.comment(pattern))).$and(constraint);
     }
-    
+
+    /** Look for an exact match for the comment */
+    public static<C extends Comment> $comment<C> as( String pattern ) {
+        $comment<C> $c = of( pattern );
+        $c.$and(c->$c.contentsStencil.parse(Ast.getContent( c ) ) != null);
+        return $c;
+    }
+
+    /** Look for an exact match for the comment */
+    public static<C extends Comment> $comment<C> as( C comment ) {
+        $comment<C> $c = of( comment );
+        $c.$and(c->$c.contentsStencil.parse(Ast.getContent( c ) ) != null);
+        return $c;
+    }
+
+
     public static $comment<Comment> of( Predicate<Comment> constraint ){
         return of().$and(constraint);
     }
@@ -253,11 +268,11 @@ public final class $comment <C extends Comment>
     public Select select( Comment astComment ){
         if(! this.commentClasses.contains(astComment.getClass())){
             //System.out.println( "Coment"+ astComment+ " "+astComment.isJavadocComment()+ " "+astComment.getClass());
-            System.out.println( "not correct comment class"+ this.commentClasses+" "+ astComment.getClass());
+            //System.out.println( "not correct comment class"+ this.commentClasses+" "+ astComment.getClass());
             return null;
         }
         if( !this.constraint.test( (C)astComment) ){
-            System.out.println( "failed constraint");
+            //System.out.println( "failed constraint");
             return null;
         }
 

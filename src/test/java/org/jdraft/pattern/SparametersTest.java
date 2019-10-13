@@ -10,7 +10,11 @@ import junit.framework.TestCase;
  * @author Eric
  */
 public class SparametersTest extends TestCase {
-    
+
+    public void testAs(){
+        //$parameters.as("int i, String s");
+    }
+
     public void testEmptyParameters(){
         class M{
             void a(){}

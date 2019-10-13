@@ -118,9 +118,29 @@ public final class _typeRef<T extends Type>
         return astType.isWildcardType();
     }
 
-    public boolean isIntersection() {
+    public boolean isIntersectionType() {
         return astType.isIntersectionType();
     }
+
+    public boolean isUnionType() {
+        return astType.isUnionType();
+    }
+
+    /**
+     * Does this type Represent Any Generic Type?
+     * @return
+     */
+    public boolean isGenericType(){
+        return astType.isClassOrInterfaceType() && astType.asClassOrInterfaceType().getTypeArguments().isPresent();
+    }
+
+    public _typeRef getNonGenericType(){
+        if( !isGenericType() ){
+            return this;
+        }
+        return _typeRef.of(astType.asClassOrInterfaceType().getNameAsString());
+    }
+
 
     public boolean isArray() {
         return astType.isArrayType();

@@ -10,6 +10,39 @@ import java.util.*;
 
 public class StypeRefTest extends TestCase {
 
+    public void testType(){
+        _typeRef _t = _typeRef.of("A<B>");
+        assertEquals(_typeRef.of("A"), _t.getNonGenericType() );
+    }
+    public void testTypeOfGeneric(){
+        $typeRef $t = $typeRef.of("A");
+        assertTrue( $t.matches("A"));
+        assertTrue( $t.matches("aaaa.bbbb.A"));
+        assertTrue( $t.matches("A<B>"));
+        assertTrue( $t.matches("aaaa.bbbb.A<B>"));
+        assertTrue( $t.matches("A<? extends C>"));
+        assertTrue( $t.matches("aaaaa.bbbb.A<? extends C>[]")); //generic AND array
+    }
+    public void testTypeOfAnno(){
+        $typeRef $t = $typeRef.of("A");
+        assertTrue( $t.matches("@NotNull A"));
+        assertTrue( $t.matches("@NotNull aaaa.bbbb.A<B,C>[]")); //annotated generic and array
+    }
+    public void testTypeOfArr(){
+        $typeRef $t = $typeRef.of(int.class);
+        assertTrue( $t.matches(int.class));
+        assertTrue( $t.matches(int[].class));
+
+        $t = $typeRef.of(int[].class);
+        assertFalse( $t.matches(int.class));
+        assertTrue( $t.matches(int[].class));
+
+        $t = $typeRef.of(int[][].class);
+        assertFalse( $t.matches(int.class));
+        assertFalse( $t.matches(int[].class));
+        assertTrue( $t.matches(int[][].class));
+    }
+
     public void testHardcode$(){
         $typeRef $tr = $typeRef.of( "Map<$A$, $B$>" );
 
