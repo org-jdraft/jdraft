@@ -2263,7 +2263,11 @@ public enum Ast {
             code = code.replaceAll(LOCAL_CLASS_NAME_PACKAGE_PATTERN, ".");
             return typeRef(code.substring(code.lastIndexOf('.') + 1));
         }
-        return StaticJavaParser.parseType(code);
+        try {
+            return StaticJavaParser.parseType(code);
+        }catch(Exception e){
+            throw new _draftException("Unable to parse type :\""+code+"\"", e);
+        }
     }
 
     public static NodeList<Parameter> parameters(String... code) {
@@ -2790,8 +2794,8 @@ public enum Ast {
         return node;
     }
 
-    //public static final PrintNoAnnotationsOrTypeParameters PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS =
-    //        new PrintNoAnnotationsOrTypeParameters(new PrettyPrinterConfiguration() );
+    public static final PrettyPrinterConfiguration PRINT_NO_TYPE_PARAMETERS = new PrettyPrinterConfiguration()
+            .setPrintComments(false).setPrintJavadoc(false).setVisitorFactory(PrintNoTypeParameters::new);
 
     /**
      * Dont print TypeParameters or Annotations... this is for dealing with {@link ClassOrInterfaceType} types
@@ -2808,6 +2812,65 @@ public enum Ast {
     public static final PrettyPrinterConfiguration PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS
             = new PrettyPrinterConfiguration()
             .setPrintComments(false).setPrintJavadoc(false).setVisitorFactory(PrintNoAnnotationsOrTypeParameters::new);
+
+    /**
+     * An instance of a {@link com.github.javaparser.ast.visitor.VoidVisitor}
+     * used to print out entities, will specifically Avoid printing ANNOTATIONS
+     * and TypeParameters by simply overriding specific annotation METHODS with no-ops:
+     *
+     * @see #PRINT_NO_ANNOTATIONS_OR_COMMENTS
+     *
+     * This is also an example of an implementation of a Visitor for generating
+     * the formatted .java source code, for the more comprehensive example:
+     * @see com.github.javaparser.printer.PrettyPrintVisitor
+     */
+    public static class PrintNoTypeParameters extends PrettyPrintVisitor {
+
+        public PrintNoTypeParameters(PrettyPrinterConfiguration prettyPrinterConfiguration) {
+            super(prettyPrinterConfiguration);
+        }
+
+
+        @Override
+        public void visit(final ClassOrInterfaceType n, final Void arg) {
+            if (!n.getAnnotations().isEmpty()) {
+                NodeList<AnnotationExpr> annotations = n.getAnnotations();
+                //System.out.println( "PRINTING ANNOS"+annotations);
+                for (AnnotationExpr annotation : annotations) {
+                    annotation.accept(this, arg);
+                    printer.print(" ");
+                }
+                printer.print(" ");
+            }
+
+            if (n.getScope().isPresent()) {
+                n.getScope().get().accept(this, arg);
+                printer.print(".");
+            }
+            n.getName().accept(this, arg);
+            /* manual print annotations
+            super.printAnnotations(n.getAnnotations(), false, arg);
+            */
+
+            //
+
+        }
+
+        @Override
+        public void visit(final MarkerAnnotationExpr n, final Void arg) {
+            //System.out.println("PRINTING VISITING ANNOTATION"+n);
+            super.visit(n, arg);
+            /*
+            printOrphanCommentsBeforeThisChildNode(n);
+            printComment(n.getComment(), arg);
+            printer.print("@");
+            n.getName().accept(this, arg);
+
+             */
+        }
+
+        public void visit(TypeParameter tp, Void arg){ }
+    }
 
     /**
      * An instance of a {@link com.github.javaparser.ast.visitor.VoidVisitor}

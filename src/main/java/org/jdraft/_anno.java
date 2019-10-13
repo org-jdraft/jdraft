@@ -992,7 +992,13 @@ public final class _anno
             _annos _as = new _annos( fd );
             return _as;
         }
-        
+
+        public static _annos of( List<AnnotationExpr> aes){
+            _annos _as = _annos.of();
+            aes.forEach(_a -> _as.add(_a));
+            return _as;
+        }
+
         public static _annos of( TypeParameter astTypeParam ){
             return new _annos( astTypeParam );
         }

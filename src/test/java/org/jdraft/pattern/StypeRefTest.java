@@ -1,7 +1,9 @@
 package org.jdraft.pattern;
 
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.ast.type.Type;
 import org.jdraft.*;
 import org.jdraft._walk;
 import junit.framework.TestCase;
@@ -12,8 +14,27 @@ public class StypeRefTest extends TestCase {
 
     public void testType(){
         _typeRef _t = _typeRef.of("A<B>");
-        assertEquals(_typeRef.of("A"), _t.getNonGenericType() );
+        assertEquals(_typeRef.of("A"), _t.getErasedType() );
+        NodeList<Type> tas = _t.getTypeArguments();
+        assertTrue( tas.isNonEmpty() );
+        assertTrue(Ast.typesEqual( tas.get(0), Ast.typeRef("B")));
+
+        _t = _typeRef.of("@NotNull A<? extends C, D>[][]");
+        assertTrue( _t.isGenericType());
+        assertTrue( _t.isArrayType());
+        //System.out.println( _t);
+        //Ast.describe(_t.ast());
+        assertTrue( _t.hasAnnos());
+        //System.out.println( _t.getAnnos() );
+        assertEquals( _anno._annos.of("@NotNull"), _t.getAnnos() );
+        //System.out.println( _t.getBaseType() );
+
+        _t = _typeRef.of("@NotNull aaaaa.bbbb.A<? extends C, D>[][]");
+        assertEquals(_typeRef.of("@NotNull aaaaa.bbbb.A[][]"), _t.getErasedType() );
+        assertEquals(_typeRef.of("aaaaa.bbbb.A"), _t.getBaseType() );
     }
+
+
     public void testTypeOfGeneric(){
         $typeRef $t = $typeRef.of("A");
         assertTrue( $t.matches("A"));
@@ -23,11 +44,14 @@ public class StypeRefTest extends TestCase {
         assertTrue( $t.matches("A<? extends C>"));
         assertTrue( $t.matches("aaaaa.bbbb.A<? extends C>[]")); //generic AND array
     }
+
     public void testTypeOfAnno(){
         $typeRef $t = $typeRef.of("A");
+        Type t = Ast.typeRef("@NotNull A");
         assertTrue( $t.matches("@NotNull A"));
         assertTrue( $t.matches("@NotNull aaaa.bbbb.A<B,C>[]")); //annotated generic and array
     }
+
     public void testTypeOfArr(){
         $typeRef $t = $typeRef.of(int.class);
         assertTrue( $t.matches(int.class));

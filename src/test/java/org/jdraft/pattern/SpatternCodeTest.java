@@ -130,6 +130,7 @@ public class SpatternCodeTest extends TestCase {
         }
         _class _c = _class.of(C.class);
 
+        $typeRef.of().printIn(_c);
 
         _java.describe( $typeParameter.of().firstIn(_c) );
         assertEquals( 2, $typeRef.of(Map.class).count(_c) );

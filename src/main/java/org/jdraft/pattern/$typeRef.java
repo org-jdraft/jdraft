@@ -81,7 +81,21 @@ public final class $typeRef
     public static $typeRef of( _typeRef _proto){
         return new $typeRef(_proto.ast());
     }
-    
+
+    public static $typeRef as(_typeRef _exact){
+        $typeRef $t = of(_exact);
+
+        $t.$and(_t->
+            _anno._annos.of(_t.ast()).equals(_anno._annos.of(_exact.ast())) && /* Type Annotations */
+            _t.getArrayDimensions() == _exact.getArrayDimensions() /* Array Dimensions */
+            /* Type Arguments */
+            /* Generics */
+            /* Base Type */
+          );
+
+        return $t;
+    }
+
     /**
      * 
      * @param _proto
@@ -293,13 +307,13 @@ public final class $typeRef
     public Select select( _typeRef _tr){
 
         if( this.constraint.test(_tr ) ) {
-            if( _tr.isArray() && !this.type.isArrayType() ){
+            if( _tr.isArrayType() && !this.type.isArrayType() ){
                 //both array types:
                 //still match
                 return select( _typeRef.of(_tr.getElementType()));
             }
             if( _tr.isGenericType() && !(this.type.isClassOrInterfaceType() && this.type.asClassOrInterfaceType().getTypeArguments().isPresent()) ){
-                return select( _tr.getNonGenericType() );
+                return select( _tr.getErasedType() );
             }
             if( _tr.hasAnnos() && this.type.getAnnotations().isEmpty()){ //the candidate has annotation(s) the target does not
                 return select( _tr.toString(Ast.PRINT_NO_ANNOTATIONS_OR_COMMENTS));
@@ -678,7 +692,7 @@ public final class $typeRef
         }
         
         public boolean isArray(){
-            return this.type.isArray();
+            return this.type.isArrayType();
         }
         
         /**

@@ -2,10 +2,10 @@ package org.jdraft;
 
 import java.util.*;
 
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.AnnotationExpr;
-import com.github.javaparser.ast.type.Type;
+import com.github.javaparser.ast.type.*;
 
-import com.github.javaparser.ast.type.VoidType;
 import org.jdraft._anno._annos;
 
 /**
@@ -52,6 +52,37 @@ public final class _typeRef<T extends Type>
      */
     public static _typeRef of( String string ) {
         return new _typeRef( Ast.typeRef( string ) );
+    }
+
+    public _annos getAnnos(){
+        /** this is a hack... because right now accessing the annotations from the Type AST is a mess frought with danger
+         * often when there ARE annotations that are applied at the wrong level... it
+         * s not JavaParsers fault, but rather the sheer ambiguity of how Annotaitons can be applied to BOTH
+         * return types AND/OR entities like MethodDeclarations like:
+         * <PRE>
+         * @NotNull A doSomething(){...}
+         * </PRE>
+         *
+         * here the @NotNull annotation COULD be assigned to the return type A
+         * -OR-
+         * @NotNull COULD be assigned to the method doSomething()
+         *
+         * anyways it stinks that you are given back a "Synthetic" _annos
+         * that cannot Really be manipulated
+         *
+         * TODO Make an Implementation of _hasAnnos that effectively unifies JUST Annotations on Types
+         * so this can be fixed (i.e. I can return an implementation of _annos that allows you to manipulate it
+         * as if you were directly manipulating the AST on the Type... but it's really just an abstraction layer
+         * on top
+         */
+        Type t = getErasedType(this.astType);
+        List<AnnotationExpr> aes = new ArrayList<>();
+        t.walk(AnnotationExpr.class, a->aes.add(a));
+        return _annos.of(aes);
+    }
+
+    public boolean hasAnnos(){
+        return getErasedType(this.astType).findFirst(AnnotationExpr.class).isPresent();
     }
 
     /**
@@ -131,18 +162,75 @@ public final class _typeRef<T extends Type>
      * @return
      */
     public boolean isGenericType(){
-        return astType.isClassOrInterfaceType() && astType.asClassOrInterfaceType().getTypeArguments().isPresent();
+        return astType.isClassOrInterfaceType() && astType.asClassOrInterfaceType().getTypeArguments().isPresent() ||
+                astType.isArrayType() && astType.asArrayType().getElementType().isClassOrInterfaceType() && astType.asArrayType().getElementType().asClassOrInterfaceType().getTypeArguments().isPresent() ;
     }
 
-    public _typeRef getNonGenericType(){
-        if( !isGenericType() ){
-            return this;
+    /**
+     * Gets the Type without Type Arguments
+     * <PRE>
+     * i.e.
+     * _typeRef _tr = _typeRef.of( "Map<String,Integer>" );
+     * assertEquals( _typeRef.of("Map"), _tr.getErasedType());
+     * </PRE>
+     * @return a _typeRef with generics erased
+     */
+    public _typeRef getErasedType(){
+        return _typeRef.of( getErasedType(this.astType));
+    }
+
+    /**
+     * Returns a corresponding _typeRef stripped of:
+     * <UL>
+     * <LI>annotations
+     * <LI>array brackets
+     * <LI>type arguments
+     * </UL>
+     * @return
+     */
+    public _typeRef getBaseType(){
+        return _typeRef.of(getBaseType( this.astType ));
+    }
+
+    public static Type getElementType( Type type){
+        if( type.isArrayType() ){
+            return getElementType(type.getElementType());
         }
-        return _typeRef.of(astType.asClassOrInterfaceType().getNameAsString());
+        return type;
     }
 
+    private static String dims(int level){
+        String dims = "";
+        for(int i=0;i<level;i++){
+            dims+="[]";
+        }
+        return dims;
+    }
 
-    public boolean isArray() {
+    public static boolean isGenericType(Type type){
+        return ( type.isClassOrInterfaceType() && type.asClassOrInterfaceType().getTypeArguments().isPresent() ) ||
+                type.isArrayType() && type.asArrayType().getElementType().isClassOrInterfaceType() &&
+                        type.asArrayType().getElementType().asClassOrInterfaceType().getTypeArguments().isPresent();
+    }
+
+    public static Type getErasedType( Type type ){
+        if( type.getClass() == UnknownType.class || type.getClass() ==TypeParameter.class){
+            return type;
+        }
+        //System.out.println("BEFORE \""+type.getClass()+"\"" );
+        //System.out.println("BEFORE THE ERASED TYPE \""+type.toString(Ast.PRINT_NO_TYPE_PARAMETERS )+"\"" );
+        String st = type.toString(Ast.PRINT_NO_TYPE_PARAMETERS );
+        //System.out.println("THE ERASED TYPE "+st );
+        return Ast.typeRef(st);
+    }
+
+    public static Type getBaseType(Type type ){
+        Type t = getErasedType(getElementType(type));
+        //now remove annotations
+        return Ast.typeRef( t.toString(Ast.PRINT_NO_ANNOTATIONS_OR_COMMENTS));
+    }
+
+    public boolean isArrayType() {
         return astType.isArrayType();
     }
 
@@ -152,6 +240,13 @@ public final class _typeRef<T extends Type>
 
     public int getArrayDimensions() {
         return astType.getArrayLevel();
+    }
+
+    public NodeList<Type> getTypeArguments(){
+        if( astType.isClassOrInterfaceType() && astType.asClassOrInterfaceType().getTypeArguments().isPresent()){
+            return astType.asClassOrInterfaceType().getTypeArguments().get();
+        }
+        return new NodeList<Type>();
     }
 
     @Override
@@ -255,14 +350,14 @@ public final class _typeRef<T extends Type>
      * 
      * THANKFULLY type use annotations are exceedingly rare
      * @return 
-     */
+
     @Override
     public _annos getAnnos() {
         _annos _as = _annos.of();
         _as.add(this.astType.getAnnotations().toArray(new AnnotationExpr[0]));
         return _as;        
     }
-
+    */
 
     private static class Normalizer{
         /**

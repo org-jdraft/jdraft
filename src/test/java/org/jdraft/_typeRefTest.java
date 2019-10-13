@@ -261,12 +261,12 @@ public class _typeRefTest extends TestCase {
       assertTrue( _t.isPrimitive());
 
       _t = _typeRef.of("int[]");
-      assertTrue( _t.isArray());
+      assertTrue( _t.isArrayType());
       assertEquals(1, _t.getArrayDimensions() );
       assertEquals( "int[]", _t.toString() );
 
       _t = _typeRef.of("int[][]");
-      assertTrue( _t.isArray());
+      assertTrue( _t.isArrayType());
       assertEquals(2, _t.getArrayDimensions() );
       assertEquals( "int[][]", _t.toString() );
 

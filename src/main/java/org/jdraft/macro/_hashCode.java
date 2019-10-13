@@ -82,7 +82,7 @@ public @interface _hashCode {
          public static $stmt $simplePrimitive = $stmt.of("hash = hash * prime + $name$;");
 
          public static Statement constructStmt(_field _f){
-             if( _f.getType().isArray() ){
+             if( _f.getType().isArrayType() ){
                  if( _f.getType().getElementType().isPrimitiveType()){
                      return $arrayOfPrimitives.draft(_f);
                  }
