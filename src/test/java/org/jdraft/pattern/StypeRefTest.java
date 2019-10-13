@@ -34,7 +34,6 @@ public class StypeRefTest extends TestCase {
         assertEquals(_typeRef.of("aaaaa.bbbb.A"), _t.getBaseType() );
     }
 
-
     public void testTypeOfGeneric(){
         $typeRef $t = $typeRef.of("A");
         assertTrue( $t.matches("A"));
@@ -43,6 +42,19 @@ public class StypeRefTest extends TestCase {
         assertTrue( $t.matches("aaaa.bbbb.A<B>"));
         assertTrue( $t.matches("A<? extends C>"));
         assertTrue( $t.matches("aaaaa.bbbb.A<? extends C>[]")); //generic AND array
+        assertTrue( $t.matches("@NotNull aaaaa.bbbb.A<? extends C>[]")); //generic AND array
+
+        //as for EXACT AS match
+        $t = $typeRef.as("A");
+        assertTrue( $t.matches("A"));
+        assertTrue( $t.matches("aaaa.bbbb.A"));
+
+        assertFalse( $t.matches("@NotNull A"));
+        assertFalse( $t.matches("A<B>"));
+        assertFalse( $t.matches("aaaa.bbbb.A<B>"));
+        assertFalse( $t.matches("A<? extends C>"));
+        assertFalse( $t.matches("aaaaa.bbbb.A<? extends C>[]")); //generic AND array
+        assertFalse( $t.matches("@NotNull aaaaa.bbbb.A<? extends C>[]")); //annotated generic AND array
     }
 
     public void testTypeOfAnno(){

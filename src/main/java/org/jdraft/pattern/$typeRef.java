@@ -82,14 +82,18 @@ public final class $typeRef
         return new $typeRef(_proto.ast());
     }
 
+    public static $typeRef as(String exact){
+        return as(_typeRef.of(exact));
+    }
+
     public static $typeRef as(_typeRef _exact){
         $typeRef $t = of(_exact);
 
         $t.$and(_t->
             _anno._annos.of(_t.ast()).equals(_anno._annos.of(_exact.ast())) && /* Type Annotations */
-            _t.getArrayDimensions() == _exact.getArrayDimensions() /* Array Dimensions */
-            /* Type Arguments */
-            /* Generics */
+            _t.getArrayDimensions() == _exact.getArrayDimensions() && /* Array Dimensions */
+            Ast.typesEqual( _t.getTypeArguments(), _exact.getTypeArguments() ) && /* Type Arguments */
+            Ast.typesEqual(_t.getBaseType().ast(), _exact.getBaseType().ast() )
             /* Base Type */
           );
 
