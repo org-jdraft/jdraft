@@ -38,7 +38,27 @@ public final class $typeParameters
     public static $typeParameters none(){
         return of().$and(tps-> tps.isEmpty());
     }
-    
+
+    public static $typeParameters as(String...str){
+        if( str.length == 0 ){
+            return none();
+        }
+        String combined = Text.combine(str);
+        if( combined.length() == 0 ){
+            return none();
+        }
+        return as( _typeParameters.of(combined) );
+    }
+
+    public static $typeParameters as(_typeParameters _tps){
+        if( _tps.isEmpty() ){
+            return none();
+        }
+        List<$typeParameter> $tps = new ArrayList<>();
+        _tps.forEach(t-> $tps.add($typeParameter.as(t) ) );
+        return of( $tps ).$and(_ttps -> _ttps.size() == _tps.size() );
+    }
+
     /**
      * Match ANY import
      * @return 
@@ -54,6 +74,10 @@ public final class $typeParameters
      */
     public static $typeParameters of( String... pattern){
         return new $typeParameters( _typeParameters.of(pattern)  );
+    }
+
+    public static $typeParameters of( List<$typeParameter> $tps ){
+        return new $typeParameters($tps);
     }
 
     /**
@@ -100,6 +124,10 @@ public final class $typeParameters
     
     private $typeParameters(_typeParameters proto ){
         proto.forEach(t-> typeParams.add(new $typeParameter(t )));
+    }
+
+    private $typeParameters( List<$typeParameter> $tps){
+        this.typeParams.addAll($tps);
     }
 
     private $typeParameters( Predicate<_typeParameters> constraint ){        
@@ -186,6 +214,10 @@ public final class $typeParameters
      * @return 
      */
     public boolean matches( String... typeParams ){
+        String composite = Text.combine(typeParams);
+        //if( composite.length() == 0 ){
+        //    return this.isMatchAny();
+        //}
         return matches(_typeParameters.of(typeParams) );
     }
     

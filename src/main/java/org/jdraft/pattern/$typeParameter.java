@@ -122,7 +122,6 @@ public final class $typeParameter
      * "A extends Serializable & Clonable"
      */
     public List<$typeRef> $typeBound = new ArrayList<>();
-    //public List<$id> $typeBound = new ArrayList<>();
     
     /**
      * 

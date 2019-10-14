@@ -89,11 +89,10 @@ public class StypeParameterTest extends TestCase {
         $anno $a = $anno.of("A");
         assertTrue( $a.matches("fully.qualified.A"));
         assertTrue( $a.matches("@fully.qualified.A"));
-    }
 
-    public void testTypesEquals(){
-        //List<String> r1Toks = Ast.tokenizeType(r1.asString());
-        //List<String> r2Toks = Ast.tokenizeType(r2.asString());
+        $a = $anno.as("A");
+        assertTrue( $a.matches("fully.qualified.A"));
+        assertTrue( $a.matches("@fully.qualified.A"));
     }
 
     public void test$typeRefAnn(){

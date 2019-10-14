@@ -145,6 +145,9 @@ public final class _typeParameter
         
         public static _typeParameters of( String...tps){
             String typeParams = Text.combine(tps);
+            if( typeParams.length() == 0 ){
+                return of();
+            }
             if( !typeParams.startsWith("<") ){
                 typeParams = "<"+ typeParams +">";
             }

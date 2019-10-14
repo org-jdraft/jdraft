@@ -3440,6 +3440,12 @@ public enum Ast {
      * in situations where I am testing equality i.e. assertTrue(
      * Ast.typesEqual( Ast.typeRef("java.lang.String"), Ast.typeRef("String")));
      *
+     * TODO: this doesnt work for matching crazy fully qualified Annotations and TypeBounds
+     * FIXME: I need to probably walk/extract the Annotations separately (because they could be out of order
+     * and partially/fully qualified, also I SHOULD match TypeParameter typeBounds with a more
+     * robust matching (to ensure fully qualified names "java.util.Map" always match "Map")
+     *
+     * This (however) should work for the vast majority of cases
      * @param r1 the first reference TYPE
      * @param r2 the second reference TYPE
      * @return io
