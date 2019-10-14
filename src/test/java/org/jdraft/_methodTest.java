@@ -14,6 +14,7 @@ import com.github.javaparser.ast.stmt.ExpressionStmt;
 import org.jdraft.macro._abstract;
 import org.jdraft.macro._static;
 import junit.framework.TestCase;
+import org.jdraft.runtime._runtime;
 
 /**
  *
@@ -21,6 +22,27 @@ import junit.framework.TestCase;
  */
 public class _methodTest extends TestCase {
 
+    public void testMethodMatch(){
+        _class _c = _class.of("C", new Object(){
+            void m(){}
+            int i(){ return 1;}
+            int[] ii(){ return new int[]{1,2};}
+            void p(int p){}
+            void tp(int i, String j){}
+
+            void vararg(char...c){}
+            List<UUID> vararg2(char...c){ return null;}
+
+            List<String> listString(){ return null; }
+            Map<String,Integer>map(){ return null; }
+
+        });
+        Class clazz = _runtime.Class(_c);
+
+        //verify the number of methods I can match from _c IS the same as the number of
+        assertTrue( _c.listMethods().stream().allMatch( _m -> Arrays.stream(clazz.getDeclaredMethods()).anyMatch( m -> _method.match(_m, m) ) ));
+
+    }
     public void testModifierEqualsOrder(){
 
         _method _m1 = _method.of( "protected final static int g() { return 102; }");

@@ -2072,7 +2072,7 @@ public final class $ex<T extends Expression>
      * @return 
      */
     public <_J extends _model> _J replaceIn(_J _j, String protoReplaceExpr ){
-        return replaceIn(_j, $ex.of(protoReplaceExpr) );
+        return (_J) replaceIn(_j, $ex.of(protoReplaceExpr) );
     }
     
     /**

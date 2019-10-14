@@ -35,6 +35,26 @@ public final class _method
         return of(new String[]{methodDecl});
     }
 
+    public static _method of( Class clazz, String methodName, Class<?>... parameterTypes){
+        try {
+            Method m = clazz.getMethod(methodName, parameterTypes);
+            return of( m);
+        }catch(Exception e){
+            throw new _draftException("Could not resolve "+clazz+" method "+ methodName+" with "+parameterTypes, e);
+        }
+    }
+
+    /**
+     * Finds and returns the
+     * @param m
+     * @return
+     */
+    public static _method of( Method m ){
+        Class declClass = m.getDeclaringClass();
+        _class _c = _class.of(declClass);
+        return _c.getMethod(_m -> _m.hasParametersOf(m));
+    }
+
     public static _method of(String... methodDecl) {
 
         //check for shortcut method
@@ -311,6 +331,20 @@ public final class _method
             }
         }
         return true;
+    }
+
+    /**
+     * Test to match a java reflect Method to a _method
+     * @param _m the method to test
+     * @param m the reflective method
+     * @return true if they match, false otherwise
+     */
+    public static boolean match( _method _m, java.lang.reflect.Method m ){
+        if( _m.getName().equals(m.getName()) && _m.hasParametersOf(m)){
+            //System.out.println( m.getGenericReturnType() );
+            return _m.getType().is(m.getGenericReturnType());
+        }
+        return false;
     }
 
     @Override

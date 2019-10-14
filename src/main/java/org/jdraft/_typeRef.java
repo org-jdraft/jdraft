@@ -262,7 +262,12 @@ public final class _typeRef<T extends Type>
     public _typeRef copy(){
         return of(this.astType.clone());
     }
-    
+
+
+    public boolean is(java.lang.reflect.Type t){
+        return equals(_typeRef.of(t.toString()));
+    }
+
     public boolean is(Class expectedType ){
         try{
             return of( expectedType ).equals(this);
