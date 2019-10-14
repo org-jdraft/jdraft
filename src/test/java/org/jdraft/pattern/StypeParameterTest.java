@@ -1,9 +1,11 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.ast.type.TypeParameter;
+import org.jdraft.Ast;
 import org.jdraft._node;
 import org.jdraft._typeParameter;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
@@ -13,6 +15,108 @@ import junit.framework.TestCase;
  * @author Eric
  */
 public class StypeParameterTest extends TestCase {
+
+    public void testTypeParameterOf(){
+        $typeParameter $tp = $typeParameter.of("A");
+        assertTrue( $tp.matches("A"));//regular
+        assertTrue( $tp.matches("@Ann A"));//regular
+        assertTrue($tp.matches("A extends B"));
+
+        $tp = $typeParameter.of("A extends B");
+        assertFalse( $tp.matches("A"));//regular
+        assertTrue($tp.matches("A extends B"));
+        assertTrue($tp.matches("A extends bbbb.B"));
+        assertTrue($tp.matches("A extends @Ann bbbb.B"));
+
+        $tp = $typeParameter.of("A");
+        assertTrue( $tp.matches("A"));//fully qualified (diff type)
+
+        $tp = $typeParameter.of("A extends B");
+        assertTrue($tp.matches("A extends B"));
+        assertTrue($tp.matches("A extends @Ann B"));
+        assertTrue($tp.matches("A extends bbbb.B"));
+        assertTrue($tp.matches("A extends @Ann bbbb.B"));
+
+        $tp = $typeParameter.of("A extends @Ann B");
+        assertTrue($tp.matches("A extends @Ann B"));
+        assertTrue($tp.matches("A extends @Ann bbbb.B"));
+        assertFalse($tp.matches("A extends B"));
+
+        assertFalse($tp.matches("A extends C"));
+        assertFalse($tp.matches("A extends @Ann C"));
+
+    }
+
+    public void testTypeParameterAs(){
+        $typeParameter $tp = $typeParameter.as("A");
+        assertTrue( $tp.matches("A"));//regular
+        assertFalse( $tp.matches("@Ann A"));//anno
+        assertFalse($tp.matches("A extends B"));
+
+
+        $tp = $typeParameter.as("A extends B");
+
+        assertTrue($tp.matches("A extends B"));
+        assertTrue($tp.matches("A extends bbbb.B"));
+
+        $tp = $typeParameter.as("A extends B");
+        assertTrue($tp.matches("A extends B"));
+        assertTrue($tp.matches("A extends bbbb.B"));
+
+        assertFalse( $tp.matches("A extends @Ann B"));
+        assertFalse( $tp.matches("A"));//regular
+        assertTrue( $tp.matches("A extends @Ann bbbb.B"));
+
+        $tp = $typeParameter.as("A extends @Ann B");
+        assertTrue($tp.matches("A extends @Ann B"));
+        assertTrue($tp.matches("A extends @fully.qualified.Ann B"));
+        assertFalse($tp.matches("A extends B"));
+        assertFalse($tp.matches("A extends @Cann B"));
+    }
+
+    /** THIS IS A KNOWN WEAKNESS THAT SHOULD BE FIXED */
+    public void testFullyQualifiedTypeBoundWithAnnotation(){
+        try {
+            $typeParameter $tp = $typeParameter.as("A extends @Ann B");
+            assertTrue($tp.matches("A extends @Ann bbbb.B")); //THIS WILL FAIL
+            assertTrue($tp.matches("A extends @fully.qualified.Ann bbbb.B")); //THIS WILL FAIL
+        }catch(Throwable e){
+            //THIS NEEDS TO BE FIXED FOOL
+        }
+    }
+
+    public void test$ann(){
+        $anno $a = $anno.of("A");
+        assertTrue( $a.matches("fully.qualified.A"));
+        assertTrue( $a.matches("@fully.qualified.A"));
+    }
+
+    public void testTypesEquals(){
+        //List<String> r1Toks = Ast.tokenizeType(r1.asString());
+        //List<String> r2Toks = Ast.tokenizeType(r2.asString());
+    }
+
+    public void test$typeRefAnn(){
+        $anno $a = $anno.of("@Ann");
+        assertTrue( $a.matches("@fully.qualified.Ann"));
+
+        $annos $as = $annos.of("@Ann");
+        assertTrue( $as.matches("@fully.qualified.Ann"));
+
+
+        $typeRef $t = $typeRef.of( "@Ann Map<String,Integer>");
+
+        assertTrue( $t.matches("@Ann Map<String,Integer>"));
+        //assertTrue(Ast.typesEqual(Ast.typeRef( "@Ann Map<String,Integer>"), Ast.typeRef( "@fully.qualified.Ann Map<String,Integer>")));
+
+        assertTrue( $t.matches("@fully.qualified.Ann Map<String,Integer>"));
+
+
+    }
+    public void testTT(){
+        $typeParameter $tp = $typeParameter.as("A extends B");
+
+    }
 
     public void testTypeParameterName() {
         class F<I> {

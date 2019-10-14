@@ -86,6 +86,10 @@ public final class $typeRef
         return as(_typeRef.of(exact));
     }
 
+    public static $typeRef as( Type type ){
+        return as( _typeRef.of(type));
+    }
+
     public static $typeRef as(_typeRef _exact){
         $typeRef $t = of(_exact);
 
@@ -322,13 +326,32 @@ public final class $typeRef
             if( _tr.hasAnnos() && this.type.getAnnotations().isEmpty()){ //the candidate has annotation(s) the target does not
                 return select( _tr.toString(Ast.PRINT_NO_ANNOTATIONS_OR_COMMENTS));
             }
+            Tokens ats = new Tokens();
+            _anno._annos _as = _typeRef.of(this.type).getAnnos();
+            if( _tr.hasAnnos() && !_as.isEmpty() ){
+                //System.out.println ("BOTH HAVE ANNOS");
+                ats = $annos.of(_as).parse(_tr.getAnnos());
+                if( ats == null ){
+                    //System.out.println( "Tokens not equal");
+                    return null;
+                }
+                Select sel = $typeRef.of(this.type.toString(Ast.PRINT_NO_ANNOTATIONS_OR_COMMENTS))
+                        .select(_tr.toString(Ast.PRINT_NO_ANNOTATIONS_OR_COMMENTS));
+                if( sel == null){
+                    return null;
+                }
+                sel.type = _tr;
+                sel.tokens.putAll(ats);
+                return sel;
+            }
             if( Ast.typesEqual(_tr.ast(), this.type)){
                 return new Select( _tr, Tokens.of());
             }
 
             Tokens ts = typePattern().parse(_tr.toString() );
             if( ts != null ){
-                return new Select( _tr, ts);
+                ts.putAll(ats);
+                return new Select( _tr, ts );
             }
         }        
         return null;

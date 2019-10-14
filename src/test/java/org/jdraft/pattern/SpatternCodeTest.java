@@ -4,6 +4,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.EnumDeclaration;
+import com.github.javaparser.utils.Log;
 import org.jdraft.*;
 
 import java.net.URI;
@@ -132,7 +133,10 @@ public class SpatternCodeTest extends TestCase {
 
         $typeRef.of().printIn(_c);
 
+        System.out.println( $typeParameter.of().firstIn(_c) );
+        Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
         _java.describe( $typeParameter.of().firstIn(_c) );
+        Log.setAdapter(new Log.SilentAdapter());
         assertEquals( 2, $typeRef.of(Map.class).count(_c) );
         assertEquals( 1, $typeRef.of(Map.class).$hasAncestor($typeParameter.of()).count(_c) ); //a map used in a TypeParameter
         //assertEquals( 1, $typeRef.of().$hasParent($typeParameter.class).count(_c) );

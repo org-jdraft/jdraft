@@ -3434,18 +3434,13 @@ public enum Ast {
         return hashes.hashCode();
     }
 
-    /*
-    public static boolean typesExactlyEqual(Type t1, Type t2){
-
-    }
-     */
     /**
      * Verify that the referenceTypes are equal irregardless of package
      *
      * in situations where I am testing equality i.e. assertTrue(
      * Ast.typesEqual( Ast.typeRef("java.lang.String"), Ast.typeRef("String")));
      *
-     * @param r1 the first referece TYPE
+     * @param r1 the first reference TYPE
      * @param r2 the second reference TYPE
      * @return io
      */
@@ -3457,7 +3452,10 @@ public enum Ast {
             //System.out.println( "ONE NULL" );
             return false;
         }
-        //otherwise, if ONE or the OTHER is fully
+        if( r1.getClass() != r2.getClass() ){
+            return false;
+        }
+        //if ONE or the OTHER is fully
         boolean r1FullyQualified = r1.asString().contains(".");
         boolean r2FullyQualified = r2.asString().contains(".");
 

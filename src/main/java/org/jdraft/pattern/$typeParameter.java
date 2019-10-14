@@ -4,6 +4,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.TypeParameter;
+import com.github.javaparser.utils.Log;
 import org.jdraft.*;
 import org.jdraft._anno._annos;
 import org.jdraft._typeParameter;
@@ -21,7 +22,6 @@ import java.util.stream.Collectors;
 public final class $typeParameter
     implements Template<_typeParameter>, $pattern<_typeParameter, $typeParameter>, $pattern.$java<_typeParameter,$typeParameter>,
         $method.$part, $constructor.$part, $class.$part,$interface.$part {
-
 
     public Class<_typeParameter> _modelType(){
         return _typeParameter.class;
@@ -83,6 +83,26 @@ public final class $typeParameter
         return new $typeParameter(_typeParameter.of(astTp));
     }
 
+    public static $typeParameter as( String typeParameter){
+        return as( _typeParameter.of(typeParameter));
+    }
+
+    public static $typeParameter as( _typeParameter _tp ){
+        $annos $as = $annos.none();
+        if( _tp.hasAnnos() ){
+            $as = $annos.as(_tp);
+        }
+        $name $nm = $name.as( _tp.getName() );
+
+        List<$typeRef> $tbs = new ArrayList<>();
+        _tp.getTypeBound().forEach( t -> $tbs.add($typeRef.as(t)));
+        $typeParameter $tp = new $typeParameter( $as, $nm);
+        $tp.$typeBound.addAll($tbs);
+
+
+        return $tp.$and( tp-> tp.getTypeBound().size() == _tp.getTypeBound().size());
+    }
+
     public static $typeParameter not( $part...parts){
         $typeParameter $tp = of();
         $tp.$not(parts);
@@ -102,6 +122,7 @@ public final class $typeParameter
      * "A extends Serializable & Clonable"
      */
     public List<$typeRef> $typeBound = new ArrayList<>();
+    //public List<$id> $typeBound = new ArrayList<>();
     
     /**
      * 
@@ -114,7 +135,7 @@ public final class $typeParameter
         this.name = name;
         Arrays.stream(typeBounds).forEach( t -> this.$typeBound.add(t));
     }
-    
+
     private $typeParameter($typeParameter.$part...parts ){
         for(int i=0;i<parts.length;i++){
             if( parts[i] instanceof $name ){
@@ -449,7 +470,11 @@ public final class $typeParameter
             System.out.println( "Failed constraint");
             return null;
         }
+
         $annos.Select asel = this.anns.select(_tp);
+        if( asel == null ){
+            System.out.println("Failed Annotations Select");
+        }
 
         if( asel != null ){
             Tokens ts = asel.tokens().asTokens();
@@ -459,7 +484,18 @@ public final class $typeParameter
             }
             List<ClassOrInterfaceType> availableTypeBounds = new ArrayList<>();
             availableTypeBounds.addAll(_tp.getTypeBound());
-            
+            //System.out.println( "Available type bound s"+ availableTypeBounds);
+            //System.out.println( "this.$typeBound"+ this.$typeBound);
+            /*
+            if( availableTypeBounds.size() > this.$typeBound.size() ){
+                Log.info("Not correct number of type bounds %s ONLY HAVE %s", ()->availableTypeBounds.size(),()-> this.$typeBound.size() );
+                Log.info("Not correct number of type bounds %s WITH %s", ()->availableTypeBounds,()-> this.$typeBound );
+                if( this.isMatchAny() ){
+                    return new Select(_tp, ts);
+                }
+                return null;
+            }
+             */
             for(int i=0;i<this.$typeBound.size(); i++){
                 $typeRef $tb = this.$typeBound.get(i);
                 Optional<ClassOrInterfaceType> coit = 
