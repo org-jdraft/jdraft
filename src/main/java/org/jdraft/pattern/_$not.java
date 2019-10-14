@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
  * <PRE>
  * for example:
  *
- * //$pattern to Match TestCase classes that have a "setUp()" method but no "tearDown()" method.
+ * //$pattern to Match TestCase classes that have a "setUp()" method but NO "tearDown()" method.
  * //    NOTE: we don't know (care or match on) the CONTENTS of the setUp and/or tearDown methods
  * //    we just want to check for existence and NON-existence
  * $class $setUpNoTearDown = $class.of( new TestCase(){

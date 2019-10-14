@@ -1,6 +1,8 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
 import com.github.javaparser.utils.Log;
 import org.jdraft.*;
@@ -14,7 +16,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- *
+ * Pattern for parameter list
  * @author Eric
  */
 public final class $parameters implements Template<_parameters>, $pattern<_parameters,$parameters>,
@@ -58,8 +60,29 @@ public final class $parameters implements Template<_parameters>, $pattern<_param
         Arrays.stream($ps).forEach( $p -> $tps.$add($p) );
         return $tps;
     }
+
     public static $parameters of( String...pattern){
         return new $parameters(_parameters.of(pattern));
+    }
+
+    public static $parameters as( List<Parameter> parameters ){
+        return as( _parameters.of(parameters));
+    }
+
+    public static $parameters as( String...parameters ){
+        return as( _parameters.of(parameters));
+    }
+
+    public static $parameters as( _parameters _ps ){
+        if( _ps.size() == 0 ){
+            return none();
+        }
+        $parameter[] $ps = new $parameter[_ps.size()];
+        for(int i=0;i<_ps.size(); i++){
+            $ps[i] = $parameter.as(_ps.get(i) );
+        }
+        $parameters $psa = of($ps);
+        return $psa.$and( _pls -> _pls.size() == _ps.size() );
     }
     
     /**

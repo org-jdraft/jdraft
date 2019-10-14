@@ -33,7 +33,9 @@ public final class $name implements $constructor.$part, $method.$part, $field.$p
         return new $name( name );
     }
 
-    /** the pattern of the id*/
+    public static $name as(String name) { return of(name); }
+
+    /** the pattern of the name*/
     public Stencil nameStencil;
 
     /**  */
@@ -134,16 +136,6 @@ public final class $name implements $constructor.$part, $method.$part, $field.$p
         return "$name{ "+this.nameStencil.toString()+" }";
     }
 
-    /*
-    public final String normalize( String name ){
-        int idx = name.lastIndexOf(".");
-        if( idx > 0 ){
-            return name.substring(idx+1);
-        }
-        return name;
-    }
-     */
-    
     public $pattern.$tokens parseTo(String t, $pattern.$tokens tokens) {
         if (tokens == null) {
             return null;

@@ -384,6 +384,12 @@ public final class _parameter
     public static final class _parameters
             implements _model {
 
+        public static _parameters of( List<Parameter> ps ){
+            _parameters _ps = of();
+            ps.forEach(p->  _ps.add(p) );
+            return _ps;
+        }
+
         /**
          *
          * @param strs

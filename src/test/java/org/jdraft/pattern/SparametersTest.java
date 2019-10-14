@@ -12,7 +12,35 @@ import junit.framework.TestCase;
 public class SparametersTest extends TestCase {
 
     public void testAs(){
-        //$parameters.as("int i, String s");
+        $parameters $ps = $parameters.of("(int i, String s)");
+        assertTrue( $ps.matches("int i, String s"));
+        assertTrue( $ps.matches("final int i, final String s"));
+        assertTrue( $ps.matches("final int[] i, final String[] s"));
+        assertTrue( $ps.matches("@NotNull final int[] i, @NotNull final String[] s"));
+        assertTrue( $ps.matches("@NotNull final int[] i, @NotNull final String... s"));
+
+        $ps = $parameters.as("(A a, B b)");
+        assertTrue( $ps.matches("A a,B b"));
+        assertFalse( $ps.matches("final A a, B b"));
+        assertFalse( $ps.matches("A[] a, B b"));
+        assertFalse( $ps.matches("@NotNull A a, B b"));
+        assertFalse( $ps.matches("A<C> a, B b"));
+        assertFalse( $ps.matches("@NotNull final A<B>[] a, B b"));
+        assertFalse( $ps.matches("@NotNull final A<B>[] a, B... b"));
+
+        $ps = $parameters.as("(@NotNull final A<? extends C> a, B...b)");
+        assertTrue( $ps.matches("@NotNull final A<? extends C> a,B... b"));
+
+        assertFalse( $ps.matches("Z z, @NotNull final A<? extends C> a,B... b"));
+        assertFalse( $ps.matches("A a,B b"));
+        assertFalse( $ps.matches("A a,B b,C c"));
+        assertFalse( $ps.matches("final A a, B b"));
+        assertFalse( $ps.matches("A[] a, B b"));
+        assertFalse( $ps.matches("@NotNull A a, B b"));
+        assertFalse( $ps.matches("A<C> a, B b"));
+        assertFalse( $ps.matches("@NotNull final A<B>[] a, B b"));
+        assertFalse( $ps.matches("@NotNull final A<B>[] a, B... b"));
+
     }
 
     public void testEmptyParameters(){
