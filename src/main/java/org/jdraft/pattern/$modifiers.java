@@ -89,6 +89,14 @@ public final class $modifiers
         return $ms;
     }
 
+    public static $modifiers as(_hasModifiers _hm){
+        return as(_hm.getModifiers());
+    }
+
+    public static $modifiers as(_modifiers _ms ){
+        return as(_ms.asKeywords());
+    }
+
     public static $modifiers as($modifiers...mods) {
         $modifiers $ms = of( mods );
         //make all the other modifiers MUST exclude

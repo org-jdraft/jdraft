@@ -12,6 +12,62 @@ import org.jdraft.macro._toCtor;
 
 public class SconstructorTest extends TestCase {
 
+    public void testConstructorMatch() {
+        $constructor $ct = $constructor.of(new Object() {
+            @_toCtor
+            void C(int i) throws IOException {
+                System.out.println(i);
+            }
+        });
+
+        assertTrue($ct.matches("C(int i) throws IOException {",
+                "    System.out.println(i);",
+                "}")
+        );
+
+        assertTrue($ct.matches("C(int i) throws IOException {",
+                "    System.out.println(i);",
+                "    System.out.println(2);",
+                "}")
+        );
+
+
+        assertTrue($ct.matches("public C(@Ann final int i) throws IOException, FileNotFoundException {",
+                "    System.out.println(i);",
+                "    System.out.println(2);",
+                "}")
+        );
+    }
+    public void testConstructorAsMatch(){
+        $constructor $ct = $constructor.as( new Object(){
+            @_toCtor void C(int i) throws IOException {
+                System.out.println(i);
+            }
+        });
+
+        assertTrue( $ct.matches("C(int i) throws IOException {",
+                "    System.out.println(i);",
+                "}"));
+
+        assertFalse( $ct.matches("C(int i) throws FileException, IOException {",
+                "    System.out.println(i);",
+                "}"));
+
+        assertFalse( $ct.matches("public C(int i) throws IOException {",
+                "    System.out.println(i);",
+                "}"));
+
+        assertFalse( $ct.matches("C(final int i) throws IOException {",
+                "    System.out.println(i);",
+                "}")
+        );
+
+        assertFalse( $ct.matches("@Ann C(int i) throws IOException {",
+                "    System.out.println(i);",
+                "}")
+        );
+    }
+
     public void testConstructorParam(){
         $constructor $ct = $constructor.of(new Object(){
             @Deprecated
