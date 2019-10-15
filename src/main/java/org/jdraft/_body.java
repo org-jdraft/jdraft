@@ -10,6 +10,7 @@ import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt;
 import com.github.javaparser.ast.nodeTypes.NodeWithOptionalBlockStmt;
@@ -60,7 +61,66 @@ public final class _body implements _model {
         _m.add(body);
         return of(  _m.ast() );
     }
-    
+
+    public static _body of( Ex.Command ec ){
+        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from( le);
+    }
+
+    public static _body of( Supplier<? extends Object> s){
+        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from( le);
+    }
+
+    public static _body of( Consumer<? extends Object> s){
+        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from( le);
+    }
+
+    public static _body of( BiConsumer<? extends Object, ? extends Object> s){
+        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from( le);
+    }
+
+    public static _body of( Ex.TriConsumer<? extends Object, ? extends Object, ? extends Object> s){
+        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from( le);
+    }
+
+
+    public static _body of( Function<? extends Object, ? extends Object> f){
+        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from( le);
+    }
+
+    public static _body of( BiFunction<? extends Object, ? extends Object, ? extends Object> f){
+        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from( le);
+    }
+    public static _body of( Ex.TriFunction<? extends Object, ? extends Object, ? extends Object, ? extends Object> f){
+        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from( le);
+    }
+
+    public static _body of( Ex.QuadFunction<? extends Object, ? extends Object, ? extends Object, ? extends Object, ? extends Object> f){
+        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from( le);
+    }
+
+    private static _body from( LambdaExpr le ){
+
+        if( le.getBody().isBlockStmt() ){
+            return of( le.getBody().asBlockStmt() );
+        } else {
+            NodeList<Statement> nl = new NodeList<>();
+            nl.add(le.getBody());
+            return of(new BlockStmt(nl));
+        }
+        //if( le.getExpressionBody().isPresent() ){
+        //            return of( new ReturnStmt(le.getExpressionBody().get()));
+        //        }
+    }
+
     /**
      * 
      * @param body

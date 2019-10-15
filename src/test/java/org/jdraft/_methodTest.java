@@ -57,13 +57,14 @@ public class _methodTest extends TestCase {
     public void testMethodMatch2(){
         _class _c = _class.of("C", new Object(){
 
-            List<UUID>[] ii(){ return null;}
+            List<UUID>[] ii(){ return null;} //generic AND array
         });
         Class clazz = _runtime.Class(_c.imports(UUID.class));
 
         //verify I can match all signatures
         assertTrue( _c.listMethods().stream().allMatch( _m -> Arrays.stream(clazz.getDeclaredMethods()).anyMatch( m -> _method.match(_m, m) ) ));
     }
+
     public void testModifierEqualsOrder(){
 
         _method _m1 = _method.of( "protected final static int g() { return 102; }");

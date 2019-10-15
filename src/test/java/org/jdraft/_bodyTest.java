@@ -16,6 +16,7 @@ public class _bodyTest extends TestCase {
         assertEquals( Stmt.of(()->System.out.println(1)), m.getStatement(0));
         m.getBody().clear();
     }
+
     public void testBodyCommentEqualsHashCode(){
         class C{
             @_abstract void noBody(){}

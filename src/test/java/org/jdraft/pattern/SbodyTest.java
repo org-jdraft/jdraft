@@ -12,6 +12,17 @@ import junit.framework.TestCase;
 public class SbodyTest extends TestCase {
 
     public void testBodyAs(){
+        $body $b = $body.of();
+        //_body _b = _body.of( ()-> System.out.println(1));
+        //System.out.println( _body.of( ()-> System.out.println(1)) );
+        //System.out.println( _body.of( ()-> {return 1;}) );
+        //System.out.println( _body.of( (Object $name$)-> System.out.println($name$)) );
+
+        assertTrue($b.matches( _body.of(()-> System.out.println(1)) ));
+        assertTrue($b.matches( _body.of(()-> {
+            System.out.println(1);
+            return 3;
+        }) ));
 
     }
 

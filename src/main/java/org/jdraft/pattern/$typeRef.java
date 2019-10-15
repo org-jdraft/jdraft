@@ -86,6 +86,10 @@ public final class $typeRef
         return as(_typeRef.of(exact));
     }
 
+    public static $typeRef as(Class clazz){
+        return as( _typeRef.of(clazz));
+    }
+
     public static $typeRef as( Type type ){
         return as( _typeRef.of(type));
     }
