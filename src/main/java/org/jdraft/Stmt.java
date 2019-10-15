@@ -825,22 +825,22 @@ public enum Stmt {
      * @param s
      * @return
      */
-    public static ReturnStmt returnStmt( Function<? extends Object, ? extends Object> s ){
+    public static ReturnStmt returnStmt( Function<? extends Object, ? extends Object> s ) {
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr le = Ex.lambdaEx(ste);
-        if( le.getExpressionBody().isPresent() ){
-            return new ReturnStmt(le.getExpressionBody().get());
-        }
-        return le.findFirst(ReturnStmt.class).get();
+        return returnStmt(ste);
     }
 
-    public static ReturnStmt returnStmt( Supplier<? extends Object> s ){
+    public static ReturnStmt returnStmt( Supplier<? extends Object> s ) {
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        return returnStmt(ste);
+    }
+
+    public static ReturnStmt returnStmt( StackTraceElement ste ){
         LambdaExpr le = Ex.lambdaEx(ste);
         if( le.getExpressionBody().isPresent() ){
             return new ReturnStmt(le.getExpressionBody().get());
         }
-        return le.getExpressionBody().get().findFirst(ReturnStmt.class).get();
+        return le.getBody().findFirst(ReturnStmt.class).get();
     }
 
     /** i.e. "switch(a) { case 1: break; default : doMethod(a); }" */ 

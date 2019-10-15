@@ -11,6 +11,12 @@ import junit.framework.TestCase;
  */
 public class SfTest extends TestCase {
 
+    public void testReturnStmtLambda(){
+        assertTrue( $.returnStmt(()-> 1).matches("return 1;"));
+        assertTrue( $.returnStmt((String $name$)->{ return $name$;}).matches("return $name$;"));
+        //assertEquals( $.returnStmt("return 1;"), $.returnStmt(()-> 1));
+        //assertEquals( $.returnStmt("return $name$;"), $.returnStmt((String $name$)->{ return $name$;}));
+    }
     public void testVar_v_VarDecl(){
         class D{
             int a;

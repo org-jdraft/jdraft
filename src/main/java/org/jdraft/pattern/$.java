@@ -1307,6 +1307,24 @@ public final class $ {
     }
 
     /**
+     * Builds and returns a ReturnStmt
+     * @param s
+     * @return
+     */
+    public static $stmt<ReturnStmt> returnStmt( Supplier<? extends Object> s){
+        return $stmt.returnStmt( Stmt.returnStmt(Thread.currentThread().getStackTrace()[2]) );
+    }
+
+    /**
+     * Builds and returns a ReturnStmt
+     * @param s
+     * @return
+     */
+    public static $stmt<ReturnStmt> returnStmt( Function<? extends Object, ? extends Object> s){
+        return $stmt.returnStmt( Stmt.returnStmt(Thread.currentThread().getStackTrace()[2]) );
+    }
+
+    /**
      * i.e."return VALUE;"
      * @param pattern
      * @return

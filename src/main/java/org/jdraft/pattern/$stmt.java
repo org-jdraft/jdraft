@@ -619,6 +619,15 @@ public final class $stmt<T extends Statement>
         return new $stmt(ReturnStmt.class, "$returnStmt$");
     }
 
+    /**
+     *
+     * @param rs
+     * @return
+     */
+    public static $stmt<ReturnStmt> returnStmt(ReturnStmt rs){
+        return new $stmt(rs);
+    }
+
     /** 
      * i.e."return VALUE;" 
      * @param pattern
