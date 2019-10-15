@@ -28,7 +28,8 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
     }
 
     /** contents of the body */
-    public $stmt<BlockStmt> body;
+    //public $stmt<BlockStmt> body;
+    public $body body;
 
     /**
      * true means MUST BE STATIC,
@@ -39,12 +40,67 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
 
     public Predicate<_initBlock> constraint = t->true;
 
+    //public static $initBlock of(){
+    //    return new $initBlock($stmt.of(BlockStmt.class, "$initBody$"), null, t->true);
+    //}
+
     public static $initBlock of(){
-        return new $initBlock($stmt.of(BlockStmt.class, "$initBody$"), null, t->true);
+        return new $initBlock($body.of(), null, t->true);
     }
 
     public static $initBlock of(String bodyPattern ){
         return of( new String[]{bodyPattern});
+    }
+
+
+    public static $initBlock as(_initBlock _ib){
+        return as( _ib.ast());
+    }
+
+    public static $initBlock as(InitializerDeclaration astId){
+        //String body = astId.getBody().toString();
+        $initBlock $ib = new $initBlock( $body.as(astId.getBody()), astId.isStatic(), t->true );
+        return $ib;
+    }
+
+    public static $initBlock as(String... bodyPattern ){
+        InitializerDeclaration id = Ast.initBlock(bodyPattern);
+        return as(id);
+    }
+
+    public static $initBlock as(Ex.Command lambdaWithBody){
+        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        return as(bdy);
+    }
+
+    public static <A extends Object> $initBlock as (Consumer<A> lambdaWithBody){
+        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        return as(bdy);
+    }
+
+    public static <A extends Object, B extends Object> $initBlock as(BiConsumer<A,B> lambdaWithBody ){
+        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        return as(bdy);
+    }
+
+    public static <A extends Object, B extends Object,C extends Object> $initBlock as(Ex.TriConsumer<A,B,C> lambdaWithBody ){
+        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        return as(bdy);
+    }
+
+    public static <A extends Object, B extends Object,C extends Object, D extends Object> $initBlock as(Ex.QuadConsumer<A,B,C,D> lambdaWithBody ){
+        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        return as(bdy);
+    }
+
+    public static $initBlock as(Statement st){
+        if( st instanceof BlockStmt ){
+            //return new $initBlock( $stmt.blockStmt((BlockStmt)st), null, t->true );
+            return new $initBlock( $body.as((BlockStmt)st), null, t->true );
+        } else{
+            //return new $initBlock( $stmt.blockStmt( new BlockStmt().addStatement( st) ), null, t->true );
+            return new $initBlock( $body.as( new BlockStmt().addStatement( st) ), null, t->true );
+        }
     }
 
     public static $initBlock of( _initBlock _ib ){
@@ -52,18 +108,22 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
     }
 
     public static $initBlock of( InitializerDeclaration id ){
-        $initBlock $ib = new $initBlock( $stmt.of( BlockStmt.class, id.getBody().toString()), id.isStatic(), t->true );
+        //$initBlock $ib = new $initBlock( $stmt.of( BlockStmt.class, id.getBody().toString()), id.isStatic(), t->true );
+        $initBlock $ib = new $initBlock( $body.of( id), id.isStatic(), t->true );
         return $ib;
     }
 
     public static $initBlock of(String... bodyPattern ){
         InitializerDeclaration id = Ast.initBlock(bodyPattern);
-        $initBlock $ib = new $initBlock( $stmt.of( BlockStmt.class, id.getBody().toString()), id.isStatic(), t->true );
+        //$initBlock $ib = new $initBlock( $stmt.of( BlockStmt.class, id.getBody().toString()), id.isStatic(), t->true );
+        $initBlock $ib = new $initBlock( $body.of( id ), id.isStatic(), t->true );
         return $ib;
     }
 
     public static $initBlock of( Predicate<_initBlock> matchFn ){
-        return new $initBlock( $stmt.of( BlockStmt.class, "$initBody$"), null, matchFn );
+        //return new $initBlock( $stmt.of( BlockStmt.class, "$initBody$"), null, matchFn );
+        //return new $initBlock( $body.of("$initBody$"), null, matchFn );
+        return new $initBlock( $body.of(), null, matchFn );
     }
 
     public static $initBlock of(String str, Predicate<_initBlock> matchFn ){
@@ -72,9 +132,11 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
 
     public static $initBlock of(Statement st){
         if( st instanceof BlockStmt ){
-            return new $initBlock( $stmt.blockStmt((BlockStmt)st), null, t->true );
+            //return new $initBlock( $stmt.blockStmt((BlockStmt)st), null, t->true );
+            return new $initBlock( $body.of((BlockStmt)st), null, t->true );
         } else{
-            return new $initBlock( $stmt.blockStmt( new BlockStmt().addStatement( st) ), null, t->true );
+            //return new $initBlock( $stmt.blockStmt( new BlockStmt().addStatement( st) ), null, t->true );
+            return new $initBlock( $body.of( new BlockStmt().addStatement( st) ), null, t->true );
         }
     }
 
@@ -103,7 +165,8 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
         return of(bdy);
     }
 
-    public $initBlock($stmt<BlockStmt> $body, Boolean isStatic, Predicate<_initBlock> constraint){
+    //public $initBlock($stmt<BlockStmt> $body, Boolean isStatic, Predicate<_initBlock> constraint){
+    public $initBlock($body $body, Boolean isStatic, Predicate<_initBlock> constraint){
         //the pattern must be a valid package name
         this.body = $body;
         this.isStatic = isStatic;
@@ -176,10 +239,12 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
         }
         if( constraint.test(staticBlock)){
             if( this.isStatic == null ) { //we dont care
-                return this.body.matches(staticBlock.ast().getBody());
+                return this.body.matches(staticBlock);
+                //return this.body.matches(staticBlock.ast().getBody());
             }
             //make sure we check static exist and body
-            return this.isStatic == staticBlock.isStatic() && this.body.matches(staticBlock.ast().getBody());
+            return this.isStatic == staticBlock.isStatic()
+                    && this.body.matches(staticBlock);
         }
         return false;
     }
@@ -189,7 +254,8 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
             return constraint.test(null) &&
                     this.isStatic == null &&
                     this.body.constraint.test(null) &&
-                    this.body.stmtStencil.isMatchAny();
+                    this.body.isMatchAny();
+                    //this.body.stmtStencil.isMatchAny();
         } catch(Exception e){
 
         }
@@ -206,7 +272,8 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
 
     public Tokens parse (_initBlock _sb ){
         if( constraint.test(_sb) ){
-            return body.select( _sb.ast().getBody()).tokens().asTokens();
+            return body.select( _sb ).tokens().asTokens();
+            //return body.select( _sb.ast().getBody()).tokens().asTokens();
         }
         return null;
     }
@@ -300,9 +367,10 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
         Object staticBlock = keyValues.get("$initBlock");
         if( staticBlock != null ){ //check for an override parameter
             keyValues.remove("$initBlock");
+            //body = $body.of( Stencil.of(staticBlock.toString()).draft(translator, keyValues) );
             body = Stmt.blockStmt( Stencil.of(staticBlock.toString()).draft(translator, keyValues) );
         } else{
-            body = this.body.draft(translator, keyValues);
+            body = this.body.draft(translator, keyValues).ast();
         }
         Object isStatic = keyValues.get("$static");
         if( isStatic != null && isStatic.equals(false) ){

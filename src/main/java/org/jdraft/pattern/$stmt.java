@@ -58,7 +58,7 @@ import java.util.function.*;
  *</PRE>      
  * @param <T> underlying Statement implementation type
  */
-public final class $stmt<T extends Statement>
+public class $stmt<T extends Statement>
     implements Template<T>, $pattern<T, $stmt<T>>, $body.$part {
         
     /**

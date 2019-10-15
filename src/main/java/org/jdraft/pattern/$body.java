@@ -60,6 +60,10 @@ public final class $body implements Template<_body>, $pattern<_body, $body>, $pa
         return as( _body.of(s));
     }
 
+    public static $body as(BlockStmt bs ){
+        return as(_body.of(bs));
+    }
+
     public static $body as(_body b){
         $body $b = of( b );
         if( b.isImplemented()) {
@@ -140,7 +144,11 @@ public final class $body implements Template<_body>, $pattern<_body, $body>, $pa
     public static $body of( String...body ){
         return new $body( _body.of(body));
     }
-    
+
+    public static $body of( BlockStmt bs ){
+        return of( _body.of(bs));
+    }
+
     public static $body of( _body _bd ){
         return new $body(_bd);
     }

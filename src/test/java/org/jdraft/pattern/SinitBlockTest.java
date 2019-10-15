@@ -4,14 +4,31 @@ import junit.framework.TestCase;
 import org.jdraft.Stmt;
 import org.jdraft._initBlock;
 
-public class SstaticBlockTest extends TestCase {
+public class SinitBlockTest extends TestCase {
+
+    public void testMatchStmt(){
+        $initBlock $ib = $initBlock.of(()-> System.out.println( 12 ) );
+
+        //matches static exact
+        assertTrue( $ib.matches("static { System.out.println( 12 ); } "));
+
+        //matches instance exact
+        assertTrue( $ib.matches("{ System.out.println( 12 ); } "));
+
+        //matches with other statement
+        assertTrue( $ib.matches("{ System.out.println( 12 ); assert(true); } "));
+
+        $ib = $initBlock.as(()-> System.out.println( 12 ) );
+        assertFalse( $ib.matches("{ System.out.println( 12 ); assert(true); } "));
+    }
+
 
     public void testMatchAny(){
-        $initBlock $sb = $initBlock.of();
-        assertTrue($sb.isMatchAny());
-        _initBlock _sb = $sb.draft();
+        $initBlock $ib = $initBlock.of();
+        assertTrue($ib.isMatchAny());
+        _initBlock _sb = $ib.draft();
 
-        assertTrue($sb.matches(_initBlock.of("static{}")));
+        assertTrue($ib.matches(_initBlock.of("static{}")));
         assertTrue( _sb.hasBody());
     }
 
