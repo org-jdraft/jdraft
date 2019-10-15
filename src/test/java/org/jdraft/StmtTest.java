@@ -14,6 +14,14 @@ import java.util.function.Predicate;
 @Ast.cache
 public class StmtTest extends TestCase {
 
+    public void testReturnStmtLambda(){
+        assertEquals( Stmt.of("return 1;") , Stmt.returnStmt(()-> 1));
+        assertEquals( Stmt.of("return \"String\";"), Stmt.returnStmt(()-> "String"));
+        assertEquals( Stmt.of("return $name$;"), Stmt.returnStmt((String $name$)-> {
+            return $name$;
+        }));
+    }
+
     public void testDoStmtLambda(){
         DoStmt ds = Stmt.doStmt( ()->{
             do{

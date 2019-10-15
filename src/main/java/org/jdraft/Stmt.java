@@ -820,6 +820,29 @@ public enum Stmt {
         return of( code ).asReturnStmt();
     }
 
+    /**
+     * Finds the first ReturnStmt in this Function
+     * @param s
+     * @return
+     */
+    public static ReturnStmt returnStmt( Function<? extends Object, ? extends Object> s ){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        LambdaExpr le = Ex.lambdaEx(ste);
+        if( le.getExpressionBody().isPresent() ){
+            return new ReturnStmt(le.getExpressionBody().get());
+        }
+        return le.findFirst(ReturnStmt.class).get();
+    }
+
+    public static ReturnStmt returnStmt( Supplier<? extends Object> s ){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        LambdaExpr le = Ex.lambdaEx(ste);
+        if( le.getExpressionBody().isPresent() ){
+            return new ReturnStmt(le.getExpressionBody().get());
+        }
+        return le.getExpressionBody().get().findFirst(ReturnStmt.class).get();
+    }
+
     /** i.e. "switch(a) { case 1: break; default : doMethod(a); }" */ 
     public static final Class<SwitchStmt> SWITCH = SwitchStmt.class;
     
@@ -1139,5 +1162,6 @@ public enum Stmt {
 
     /** an empty statement i.e. ";" */
     public static final Class<EmptyStmt> EMPTY = EmptyStmt.class;
+
 }
 
