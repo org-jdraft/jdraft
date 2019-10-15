@@ -26,7 +26,17 @@ public class _methodTest extends TestCase {
         _class _c = _class.of("C", new Object(){
             void m(){}
             int i(){ return 1;}
+            //primitive arrays are different
+            boolean[] bb() { return null; }
+            byte[] by() { return null; }
+            short[] sh() { return null; }
+            float[] ff() { return null; }
+            char[] cc() { return null; }
+            double[] dd() { return null; }
+            long[] ll() { return null; }
+
             int[] ii(){ return new int[]{1,2};}
+
             void p(int p){}
             void tp(int i, String j){}
 
@@ -37,11 +47,22 @@ public class _methodTest extends TestCase {
             Map<String,Integer>map(){ return null; }
 
         });
-        Class clazz = _runtime.Class(_c);
+        //create me a class with the signatures above
+        Class clazz = _runtime.Class(_c.imports(UUID.class));
 
-        //verify the number of methods I can match from _c IS the same as the number of
+        //verify I can match all signatures
         assertTrue( _c.listMethods().stream().allMatch( _m -> Arrays.stream(clazz.getDeclaredMethods()).anyMatch( m -> _method.match(_m, m) ) ));
+    }
 
+    public void testMethodMatch2(){
+        _class _c = _class.of("C", new Object(){
+
+            List<UUID>[] ii(){ return null;}
+        });
+        Class clazz = _runtime.Class(_c.imports(UUID.class));
+
+        //verify I can match all signatures
+        assertTrue( _c.listMethods().stream().allMatch( _m -> Arrays.stream(clazz.getDeclaredMethods()).anyMatch( m -> _method.match(_m, m) ) ));
     }
     public void testModifierEqualsOrder(){
 

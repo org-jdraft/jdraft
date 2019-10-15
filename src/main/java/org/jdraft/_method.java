@@ -341,7 +341,13 @@ public final class _method
      */
     public static boolean match( _method _m, java.lang.reflect.Method m ){
         if( _m.getName().equals(m.getName()) && _m.hasParametersOf(m)){
-            //System.out.println( m.getGenericReturnType() );
+
+            /** ARRG we have to handle Array Types returns because they return "[Z", "[B", ,"[S, "[F"... for class names*/
+            //if( m.getGenericReturnType().)
+            //System.out.println("GEN"+m.getGenericReturnType() );
+            //System.out.println("GEN TYPE NANME "+m.getGenericReturnType().getTypeName() );
+            //System.out.println("GEN"+m.getGenericReturnType(). );
+
             return _m.getType().is(m.getGenericReturnType());
         }
         return false;

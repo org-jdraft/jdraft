@@ -11,6 +11,10 @@ import junit.framework.TestCase;
  */
 public class SbodyTest extends TestCase {
 
+    public void testBodyAs(){
+
+    }
+
     public void test$BodyLambda(){
 
         $body $b = $.body( ()->{

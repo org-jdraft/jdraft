@@ -81,6 +81,19 @@ public final class _typeRef<T extends Type>
         return _annos.of(aes);
     }
 
+    /**
+     * Does the Main Type itself have annotations
+     * NOTE: the Generics CAN have annotations,
+     * <PRE>
+     *     List<@NonNull String> l;
+     * </PRE>
+     * and we dont mean those... but rather
+     * <PRE>
+     * @NonNull List<String> l;
+     * </PRE>
+     * this is why we need to strip off the Generics before looking
+     * @return
+     */
     public boolean hasAnnos(){
         return getErasedType(this.astType).findFirst(AnnotationExpr.class).isPresent();
     }
@@ -265,7 +278,13 @@ public final class _typeRef<T extends Type>
 
 
     public boolean is(java.lang.reflect.Type t){
-        return equals(_typeRef.of(t.toString()));
+        if( t.getTypeName().startsWith("[") ){
+            //primitive arrays
+            /** ARRG we have to handle Array Types returns because they return "[Z", "[B", ,"[S, "[F"... for class names*/
+            return equals(_typeRef.of(t.toString()));
+        }
+        //otherwise, this will maintain the
+        return equals(_typeRef.of(t.getTypeName()));
     }
 
     public boolean is(Class expectedType ){
