@@ -28,7 +28,6 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
     }
 
     /** contents of the body */
-    //public $stmt<BlockStmt> body;
     public $body body;
 
     /**
@@ -39,10 +38,6 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
     public Boolean isStatic = null;
 
     public Predicate<_initBlock> constraint = t->true;
-
-    //public static $initBlock of(){
-    //    return new $initBlock($stmt.of(BlockStmt.class, "$initBody$"), null, t->true);
-    //}
 
     public static $initBlock of(){
         return new $initBlock($body.of(), null, t->true);
@@ -115,14 +110,11 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
 
     public static $initBlock of(String... bodyPattern ){
         InitializerDeclaration id = Ast.initBlock(bodyPattern);
-        //$initBlock $ib = new $initBlock( $stmt.of( BlockStmt.class, id.getBody().toString()), id.isStatic(), t->true );
         $initBlock $ib = new $initBlock( $body.of( id ), id.isStatic(), t->true );
         return $ib;
     }
 
     public static $initBlock of( Predicate<_initBlock> matchFn ){
-        //return new $initBlock( $stmt.of( BlockStmt.class, "$initBody$"), null, matchFn );
-        //return new $initBlock( $body.of("$initBody$"), null, matchFn );
         return new $initBlock( $body.of(), null, matchFn );
     }
 

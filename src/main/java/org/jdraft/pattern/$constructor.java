@@ -131,24 +131,6 @@ public final class $constructor
 
         //MED
         $constructor $ct = of( _ct );
-        //has$annos.at_$Process(rm, $ct);
-
-        /**** Commented out
-        //Look for a VERY SPECIFIC @_$ annotation which will "post parameterize"
-        _$ postParameterize = rm.getAnnotation( _$.class );
-        if(  postParameterize != null ){
-            //
-            String[] paramKeyValues = postParameterize.value();
-            if( (paramKeyValues.length % 2) != 0  ){
-                throw new _draftException("invalid parameter count for @_$ annotation (must be pairs)");
-            }
-            for(int i=0;i<paramKeyValues.length;i+=2) {
-                $ct.$(paramKeyValues[i], paramKeyValues[i+1]);
-            }
-            //remember to remove the annotation from the $method model
-            $ct.annos.$annosList.removeIf(a -> a.name.idStencil.isFixedText() && a.name.idStencil.getTextForm().getFixedText().equals("_$"));
-        }
-        */
         return $ct;
     }
 

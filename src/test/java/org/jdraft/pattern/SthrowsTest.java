@@ -1,6 +1,8 @@
 package org.jdraft.pattern;
 
 import org.jdraft._throws;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import junit.framework.TestCase;
@@ -10,7 +12,15 @@ import junit.framework.TestCase;
  * @author Eric
  */
 public class SthrowsTest extends TestCase {
-    
+
+    public void testMatchAs(){
+        assertTrue( $throws.as().matches("") );
+        assertTrue( $throws.as(IOException.class).matches(_throws.of(IOException.class)));
+        assertFalse($throws.as().matches(_throws.of(IOException.class)));
+        assertTrue( $throws.as(IOException.class).matches(_throws.of(IOException.class)));
+
+        assertFalse( $throws.as(IOException.class).matches(_throws.of(IOException.class, FileNotFoundException.class)));
+    }
     public void testThrowsNone(){
         
         class TTTT{
@@ -21,6 +31,7 @@ public class SthrowsTest extends TestCase {
             void f() throws URISyntaxException{} //YES
             void g() throws RuntimeException{} //YES            
         }
+        assertEquals(6, $throws.of().count(TTTT.class));
         assertEquals(2, $throws.none().count(TTTT.class));
         
     }
@@ -45,6 +56,8 @@ public class SthrowsTest extends TestCase {
             void g() throws RuntimeException{} //YES            
         }
         assertEquals( 4, $ts.count(B.class));
+        assertEquals( 2, $throws.of(IOException.class).count(B.class) );
+        assertEquals( 2, $throws.of("IOException").count(B.class) );
         
         $ts = $throws.of(IOException.class);
         

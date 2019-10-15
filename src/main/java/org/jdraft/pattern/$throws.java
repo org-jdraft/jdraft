@@ -36,6 +36,10 @@ public final class $throws
         return of().$and(t-> t.isEmpty() );
     }
 
+    public static $throws as(){
+        return none();
+    }
+
     /**
      * Match ANY import
      * @return 
@@ -43,7 +47,27 @@ public final class $throws
     public static $throws of(){
         return new $throws( t-> true );        
     }
-    
+
+
+    public static $throws as( String... pattern){
+        _throws _ths =  _throws.of(pattern);
+        return new $throws( _ths ).$and(t-> t.size() ==_ths.size() );
+    }
+
+    public static $throws as( Class<? extends Throwable>...throwsClasses ){
+        _throws _ths =  _throws.of(throwsClasses);
+        return new $throws( _ths ).$and(t-> t.size() ==_ths.size() );
+    }
+
+    /**
+     *
+     * @param _proto
+     * @return
+     */
+    public static $throws as( _throws _proto){
+        return new $throws( _proto  ).$and(t-> t.size() ==_proto.size() );
+    }
+
     /**
      * 
      * @param pattern
