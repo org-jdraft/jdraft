@@ -48,6 +48,82 @@ public final class $body implements Template<_body>, $pattern<_body, $body>, $pa
         return $b;
     }
 
+    public static $body as(){
+        return notImplemented();
+    }
+
+    public static $body as( String... body ){
+        String s = Text.combine(body);
+        if( s.trim().length() == 0 || s.equals(";")){
+            return as();
+        }
+        return as( _body.of(s));
+    }
+
+    public static $body as(_body b){
+        $body $b = of( b );
+        if( b.isImplemented()) {
+
+            //System.out.println( $s );
+            if( b.isEmpty() ){
+                $b.$and( _b -> _b.isEmpty() );
+            } else {
+                final $stmt $s = $stmt.of(b.ast());
+                //make sure the number of statements is the same AND the top BlockStmt it matches (exactly)
+                $b.$and(_b -> _b.getStatements().size() == b.getStatements().size() && $s.matches(_b.ast()));
+            }
+        }
+        return $b;
+    }
+
+    public static $body as(Ex.Command commandLambda ){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        return $body.as( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
+    }
+
+    public static $body as(Consumer<? extends Object>  commandLambda ){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        return $body.as( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
+    }
+
+    public static $body as(BiConsumer<? extends Object, ? extends Object> commandLambda ){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        return $body.as( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
+    }
+
+    public static $body as(Ex.TriConsumer<? extends Object, ? extends Object, ? extends Object>  commandLambda ){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        return $body.as( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
+    }
+
+    public static $body as(Ex.QuadConsumer<? extends Object, ? extends Object,? extends Object, ? extends Object>  commandLambda ){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        return $body.as( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
+    }
+
+    public static <A extends Object, B extends Object> $body as(Function<A,B> commandLambda ){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        return $body.as( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object>  $body as(BiFunction<A,B,C> commandLambda ){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        return $body.as( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $body as(Ex.TriFunction<A,B,C,D> commandLambda ){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        return $body.as( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> $body as(Ex.QuadFunction<A,B,C,D,E> commandLambda ){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        return $body.as( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
+    }
+
+
+
+
     /**
      *
      * @param parts
@@ -348,7 +424,7 @@ public final class $body implements Template<_body>, $pattern<_body, $body>, $pa
             }
             return false;
         }catch(Exception e){
-            System.out.println("BODY NOT MATCH ANY" );
+            //System.out.println("BODY NOT MATCH ANY" );
             return false;
         }
     }

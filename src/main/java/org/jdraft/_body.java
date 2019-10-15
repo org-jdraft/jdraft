@@ -292,7 +292,8 @@ public final class _body implements _model {
         return null; 
         // returning null as I dont want to return an empty node list that
         // someone might presume will be modifyable ( which the changes WONT be 
-        // refleceted in the underlying 
+        // reflected in the underlying...its a bold strategy cotton, lets see if it pays off for em
+        //https://www.youtube.com/watch?v=4Ru8DMW-grY
     }
 
     /**

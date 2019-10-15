@@ -1,5 +1,6 @@
 package org.jdraft.pattern;
 
+import org.jdraft.Ast;
 import org.jdraft.Stmt;
 import org.jdraft._body;
 import org.jdraft._method;
@@ -24,7 +25,38 @@ public class SbodyTest extends TestCase {
             return 3;
         }) ));
 
+        $b = $body.as(); //not implemented body
+        assertTrue( $b.matches( Ast.method("void m();")));
+        assertFalse( $b.matches( Ast.method("void m(){}"))); //it DOENST match an Empty body
+
+        assertTrue( $body.as("{}").matches( Ast.method("void m(){}"))); //THIS matches an Empty body
+        assertFalse( $body.as("{}").matches( Ast.method("void m();"))); //Doesnt match unimplemented
+
+        $b = $body.as( ()-> System.out.println( 1) );
+        assertTrue( $b.matches(_body.of(()->System.out.println(1) )));
+        assertFalse( $b.matches(_body.of(()->System.out.println(2) )));
+
+        $b = $body.as( (String $name$)-> System.out.println( $name$) );
+        assertTrue( $b.matches(_body.of(()->System.out.println(1) )));
+        assertTrue( $b.matches(_body.of(()->System.out.println(2) )));
+        assertTrue( $b.matches(_body.of(()->System.out.println("eric") )));
+
+        _body _b = _body.of(
+                ()->{
+                    System.out.println("eric");
+                    assert(true);
+                } );
+        System.out.println( _b );
+        assertFalse( $b.constraint.test( _body.of("assert(true);") ) );
+        assertFalse( $b.constraint.test( _body.of("assert(true);") ) );
+
+        assertFalse( $b.matches(_body.of(()->{
+            System.out.println("eric");
+            assert(true); //this extra statement will make it NOT match
+        } )));
+
     }
+
 
     public void test$BodyLambda(){
 
