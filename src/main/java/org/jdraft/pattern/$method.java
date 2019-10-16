@@ -39,7 +39,6 @@ public final class $method
     implements Template<_method>, $pattern<_method, $method>, $pattern.$java<_method,$method>, $class.$part,
         $interface.$part, $enum.$part,$enumConstant.$part, $member.$named<$method>, $declared<_method,$method>, has$Annos {
 
-
     /**
      * Marker interface for categorizing/identifying parts that make up the
      * $method
@@ -69,10 +68,19 @@ public final class $method
      * @param anonymousObjectContainingMethod
      * @return
      * @see _remove for methods that exist in the anonymous object & contain
-     * @see _$ post parameterize certain text within the component
      */
     public static $method of( Object anonymousObjectContainingMethod ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        _method _m = from(ste, anonymousObjectContainingMethod);
+
+        //get the Runtime Reflection Method
+        //Method rm = Arrays.stream(anonymousObjectContainingMethod.getClass().getDeclaredMethods()).filter(mm ->_m.hasParametersOf(mm)).findFirst().get();
+
+        $method $m = of( _m );
+        return $m;
+    }
+
+    public static _method from (StackTraceElement ste, Object anonymousObjectContainingMethod ){
         ObjectCreationExpr oce = Ex.anonymousObjectEx( ste );
         if( anonymousObjectContainingMethod instanceof $pattern){
             throw new UnsupportedOperationException("We cant create an instance of $method from unsupported $pattern");
@@ -80,32 +88,48 @@ public final class $method
 
         MethodDeclaration theMethod = (MethodDeclaration)
                 oce.getAnonymousClassBody().get().stream().filter(m -> m instanceof MethodDeclaration &&
-                !m.isAnnotationPresent(_remove.class) ).findFirst().get();
+                        !m.isAnnotationPresent(_remove.class) ).findFirst().get();
         //apply macros
         _method _m = macro.to(anonymousObjectContainingMethod.getClass(), theMethod  );
+        return _m;
+    }
 
-        //get the Runtime Reflection Method
-        Method rm = Arrays.stream(anonymousObjectContainingMethod.getClass().getDeclaredMethods()).filter(mm ->_m.hasParametersOf(mm)).findFirst().get();
+    public static $method as( Object anonymousObjectContainingMethod ){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        _method _m = from(ste, anonymousObjectContainingMethod);
+        return as(_m);
+    }
 
-        $method $m = of( _m );
+    public static $method as( String...method ){
+        return as( _method.of(method));
+    }
 
-        //has$annos.at_$Process(rm, $m);
-        /*
-        //Look for a VERY SPECIFIC @_$ annotation which will "post parameterize"
-        _$ postParameterize = rm.getAnnotation( _$.class );
-        if(  postParameterize != null ){
-            //
-            String[] paramKeyValues = postParameterize.value();
-            if( (paramKeyValues.length % 2) != 0  ){
-                throw new _draftException("invalid parameter count for @_$ annotation (must be pairs)");
-            }
-            for(int i=0;i<paramKeyValues.length;i+=2) {
-                $m.$(paramKeyValues[i], paramKeyValues[i+1]);
-            }
-            //remember to remove the annotation from the $method model
-            $m.annos.$annosList.removeIf(a -> a.name.idStencil.isFixedText() && a.name.idStencil.getTextForm().getFixedText().equals("_$"));
+    public static $method as( _method _m ){
+        $method $m = new $method();
+        if( _m.hasJavadoc() ){
+            $m.javadoc = $comment.javadocComment(_m.getJavadoc());
         }
-         */
+        if( _m.hasAnnos() ){
+            $m.annos = $annos.as(_m.getAnnos() );
+        } else{
+            $m.annos = $annos.none();
+        }
+        $m.modifiers = $modifiers.as(_m );
+        $m.type = $typeRef.as(_m.getType());
+        if( !_m.hasTypeParameters() ){
+            final _typeParameters etps = _m.getTypeParameters();
+            $m.typeParameters = $typeParameters.as(etps);
+        } else{
+            $m.typeParameters = $typeParameters.none();
+        }
+        $m.name = $name.as(_m.getName() );
+        if( _m.hasParameters() ){
+            $m.parameters = $parameters.as(_m.getParameters());
+        } else{
+            $m.parameters = $parameters.none();
+        }
+        $m.thrown = $throws.as( _m.getThrows() );
+        $m.body = $body.as(_m.getBody());
         return $m;
     }
 

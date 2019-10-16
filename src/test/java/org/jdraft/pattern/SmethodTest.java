@@ -13,6 +13,33 @@ import java.util.List;
 
 public class SmethodTest extends TestCase {
 
+    public void testMethodAsMatch(){
+        $method $m = $method.as(new Object(){
+            void m(){}
+        });
+        assertTrue( $m.matches("void m(){}"));
+        assertFalse($m.matches( "@Ann void m(){}"));
+        assertFalse($m.matches( "void ma(){}"));
+        assertFalse($m.matches( "int m(){}"));
+        assertFalse($m.matches( "void m(int g){}"));
+        assertFalse($m.matches( "void m(){ System.out.println(1); }"));
+
+        $m = $method.as(new Object(){
+            int m(int...$var$){
+                return 1;
+            }
+        });
+
+        assertTrue( $m.matches("int m(int...is){ return 1; }") );
+
+        assertFalse( $m.matches("int m(int is){ return 1; }") );
+        assertFalse( $m.matches("int m(int...is){ return 2; }") );
+        assertFalse( $m.matches("public int m(int...is){ return 1; }") );
+        assertTrue( $m.matches("int m(int...v){ return 1; }") );
+
+    }
+
+
     public void testMethod(){
         //@_$({"X", "Name", "x", "name"})
         $method $m = $method.of( new Object(){
