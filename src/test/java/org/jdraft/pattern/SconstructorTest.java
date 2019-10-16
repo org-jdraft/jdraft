@@ -9,7 +9,6 @@ import java.net.URISyntaxException;
 import junit.framework.TestCase;
 import org.jdraft.macro._toCtor;
 
-
 public class SconstructorTest extends TestCase {
 
     public void testConstructorMatch() {
@@ -30,8 +29,6 @@ public class SconstructorTest extends TestCase {
                 "    System.out.println(2);",
                 "}")
         );
-
-
         assertTrue($ct.matches("public C(@Ann final int i) throws IOException, FileNotFoundException {",
                 "    System.out.println(i);",
                 "    System.out.println(2);",

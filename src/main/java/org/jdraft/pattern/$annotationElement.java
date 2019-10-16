@@ -34,6 +34,30 @@ public final class $annotationElement
         return of( _annotation._element.of(annotationElement) );
     }
 
+    public static $annotationElement as(String...annotationElement){
+        return as( _annotation._element.of(annotationElement) );
+    }
+
+    public static $annotationElement as(AnnotationMemberDeclaration _ec ){
+        return as( _annotation._element.of(_ec));
+    }
+
+    public static $annotationElement as(_annotation._element _ec ){
+        $annotationElement ae = new $annotationElement();
+
+        if( _ec.hasJavadoc()) {
+            ae.javadoc = $comment.javadocComment(_ec.getJavadoc());
+        }
+        ae.name = $name.as(_ec.getName());
+        ae.type = $typeRef.as(_ec.getType() );
+        if( _ec.hasDefaultValue() ){
+            ae.defaultValue = $ex.of(_ec.getDefaultValue());
+        } else{
+            ae.$and( _ae -> !_ae.hasDefaultValue());
+        }
+        return ae;
+    }
+
     public static $annotationElement of(AnnotationMemberDeclaration _ec ){
         return of( _annotation._element.of(_ec));
     }
