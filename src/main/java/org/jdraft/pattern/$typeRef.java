@@ -208,7 +208,29 @@ public final class $typeRef
         this.type = Ast.typeRef(st.toString());
         return this;
     }
-    
+
+    /**
+     *
+     * @param allTokens
+     * @return
+     */
+    public Tokens parseTo(Type t, Tokens allTokens ){
+        return parseTo( _typeRef.of(t), allTokens);
+        /*
+        if(allTokens == null){
+            return null;
+        }
+        Select sel = select(_t);
+        if( sel != null ){
+            if( allTokens.isConsistent(sel.tokens.asTokens()) ){
+                allTokens.putAll(sel.tokens.asTokens());
+                return allTokens;
+            }
+        }
+        return null;
+        */
+    }
+
     /**
      * 
      * @param _t

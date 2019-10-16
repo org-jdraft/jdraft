@@ -1712,7 +1712,24 @@ public interface $pattern<P, $P extends $pattern>{
                 if( s instanceof Node ){
                     ((Node) s).remove();
                 } else{
-                    ((_node)s).ast().remove();
+                    if(s instanceof _node){
+                        ((_node)s).ast().remove();
+                    } else{
+                        /* yeah this is kinda a mess
+                        if( s instanceof _throws ){
+                            //for throws... ONLY remove the ones we found (NOT ALL THROWS)
+                            $throws $ts = ($throws)this;
+                            _throws _th = (_throws)s;
+                            _th.forEach(t -> {
+                                if($ts.matches(t)){
+                                    t.remove()
+                                }
+                            });
+                        }
+                        */
+                        //throws, typeRef
+                    }
+
                 }
             }            
         });

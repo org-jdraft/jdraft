@@ -18,7 +18,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * prototype for an _import declaration on a Java top level _type 
+ * pattern for an _import declaration on a Java top level _type
  *
  */
 public final class $throws
@@ -135,15 +135,19 @@ public final class $throws
     }
     
     public Predicate<_throws> constraint = t-> true;
-        
-    public List<$id> throws$ids = new ArrayList<>();
+
+    public List<$typeRef> throws$ids = new ArrayList<>();
     
     private <C extends Throwable> $throws( Class<C>...thrownExceptions ){
         this(_throws.of(thrownExceptions));
     } 
     
+    //private $throws(_throws proto ){
+    //    proto.forEach( t-> throws$ids.add(new $id(t.toString())));
+    //}
+
     private $throws(_throws proto ){
-        proto.forEach( t-> throws$ids.add(new $id(t.toString())));
+        proto.forEach( t-> throws$ids.add($typeRef.of(t.toString())));
     }
 
     private $throws( Predicate<_throws> constraint ){        
@@ -159,7 +163,13 @@ public final class $throws
         this.constraint = this.constraint.and(constraint);
         return this;
     }
-    
+
+    /*
+    public boolean matches( ReferenceType rt ){
+        return
+    }
+    */
+
     /**
      * 
      * @param thrws
@@ -234,14 +244,16 @@ public final class $throws
             }
             Tokens ts = new Tokens();
             for(int i = 0; i< throws$ids.size(); i++ ){
-                $id $tp = throws$ids.get(i);
+                //$id $tp = throws$ids.get(i);
+                $typeRef $tp = throws$ids.get(i);
                 
                 Optional<ReferenceType> ort = 
                     listed.stream().filter(rt -> $tp.matches(rt.asString()) ).findFirst();
                 if( !ort.isPresent() ){
                     return null;
                 }
-                ts = $tp.parseTo( ort.get().asString(), ts );
+                ts = $tp.parseTo( ort.get(), ts );
+                //ts = $tp.parseTo( ort.get().asString(), ts );
                 listed.remove( ort.get() );
                 if( ts == null ){
                     return null;
@@ -258,7 +270,7 @@ public final class $throws
         try{
             return this.constraint.test(null) && this.throws$ids.isEmpty();
         }catch(Exception e){
-            System.out.println("THROWS NOT MATCH ANY" );
+            //System.out.println("THROWS NOT MATCH ANY" );
             return false;
         }
     }
@@ -595,8 +607,10 @@ public final class $throws
                 if( sel != null ){
                     for(int i = 0; i< this.throws$ids.size(); i++){
                         final NodeList<ReferenceType> nodes = sel.thrown.astNodeWithThrows.getThrownExceptions();
-                        $id th = this.throws$ids.get(i);
-                        nodes.removeIf(t -> th.matches(t.toString()) );
+                        $typeRef th = this.throws$ids.get(i);
+                        nodes.removeIf(t -> th.matches(t) );
+                        //$id th = this.throws$ids.get(i);
+                        //nodes.removeIf(t -> th.matches(t.toString()) );
                     }
                     _throws _ths = $replaceThrows.draft(sel.tokens.asTokens());
                     sel.thrown.addAll(_ths.list());

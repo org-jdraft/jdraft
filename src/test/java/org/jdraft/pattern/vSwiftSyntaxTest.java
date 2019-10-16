@@ -10,7 +10,7 @@ import org.jdraft._type;
 import junit.framework.TestCase;
 
 /**
- * I wanted to look at tools that do something like $proto work in other languages
+ * I wanted to look at tools that do something like $pattern work in other languages
  * to get a feel for how intuitive it is to read/ write and build 
  * 
  * https://github.com/apple/swift-syntax#example

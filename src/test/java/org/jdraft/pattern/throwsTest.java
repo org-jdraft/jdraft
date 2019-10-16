@@ -9,6 +9,8 @@ import org.jdraft._walk;
 import org.jdraft._class;
 import java.io.IOException;
 import java.net.BindException;
+import java.net.MalformedURLException;
+
 import junit.framework.TestCase;
 
 /**
@@ -34,5 +36,8 @@ public class throwsTest extends TestCase {
         
         $typeUse.of(BindException.class).removeIn(_c);
         System.out.println( _c );
+
+        //$throws.of(MalformedURLException.class).removeIn(_c);
+        //System.out.println( _c );
     }
 }
