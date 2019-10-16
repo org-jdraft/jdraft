@@ -78,6 +78,54 @@ public final class $enumConstant
         return of( _enum._constant.of(ecd));
     }
 
+    public static $enumConstant as(EnumConstantDeclaration ecd ){
+        return as(_enum._constant.of(ecd));
+    }
+
+    public static $enumConstant as(String... constant ){
+        return as(_enum._constant.of(constant));
+    }
+
+    public static $enumConstant as( _enum._constant _ec ){
+        $enumConstant ec = new $enumConstant();
+        if( _ec.hasAnnos() ) {
+            ec.annos = $annos.as(_ec.getAnnos());
+        } else{
+            ec.annos = $annos.none();
+        }
+        if( _ec.hasJavadoc()) {
+            ec.javadoc = $comment.javadocComment(_ec.getJavadoc());
+        }
+        ec.name = $name.as(_ec.getName());
+        if( _ec.hasArguments() ) {
+            _ec.listArguments().forEach(a -> ec.args.add($ex.of(a)));
+            ec.$and(c-> {
+                if( c.listArguments().size() != _ec.listArguments().size()){
+                    //System.out.println( "Diff Arg Size " );
+                    return false;
+                }
+                for(int i = 0; i < c.listArguments().size(); i++){
+                    if( !ec.args.get(i).matches(c.getArgument(i))){
+                        return false;
+                    }
+                }
+                return true;
+            });
+        }
+        if( _ec.hasFields() ) {
+            _ec.listFields().forEach(f -> ec.fields.add($field.as(f)));
+        }
+        if( _ec.hasMethods() ) {
+            _ec.listMethods().forEach(m -> ec.methods.add($method.as(m)));
+        }
+        //make sure they have EXACTLY this many arguments, fields and methods
+        ec.$and( c -> c.listArguments().size() == _ec.listArguments().size() );
+        ec.$and( c -> c.listFields().size() == _ec.listFields().size() );
+        ec.$and( c -> c.listMethods().size() == _ec.listMethods().size() );
+
+        return ec;
+    }
+
     public static $enumConstant of( _enum._constant _ec ){
         $enumConstant ec = new $enumConstant();
         if( _ec.hasAnnos() ) {

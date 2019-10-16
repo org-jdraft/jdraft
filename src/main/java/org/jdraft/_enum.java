@@ -815,6 +815,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
             return this.astConstant.getArguments().stream().filter( expressionMatchFn ).collect(Collectors.toList() );
         }
 
+
         public Expression getArgument( int index ){
             return listArguments().get( index );
         }

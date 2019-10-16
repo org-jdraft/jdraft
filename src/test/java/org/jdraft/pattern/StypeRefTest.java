@@ -12,6 +12,15 @@ import java.util.*;
 
 public class StypeRefTest extends TestCase {
 
+    public void testTT(){
+        $typeRef $tr = $typeRef.of("A<B,C>");
+        assertTrue( $tr.matches("A<B,C>"));
+        assertTrue( $tr.matches("aaaa.A<bbbb.B,ccc.C>"));
+        assertFalse( $tr.matches("A<C,B>")); //wrong order
+
+
+    }
+
     public void testType(){
         _typeRef _t = _typeRef.of("A<B>");
         assertEquals(_typeRef.of("A"), _t.getErasedType() );

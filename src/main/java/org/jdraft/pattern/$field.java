@@ -55,6 +55,50 @@ public final class $field implements Template<_field>, $pattern<_field, $field>,
      */
     public static $field of( Object anonymousObjectWithField ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        _field _f = from(ste, anonymousObjectWithField);
+
+        $field $f = of( _f );
+        return $f;
+    }
+
+    public static $field as( Object anonymousClassWithField ){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        _field _f = from(ste, anonymousClassWithField);
+
+        $field $f = as( _f );
+        return $f;
+    }
+
+    public static $field as( FieldDeclaration fd ){
+        return as( _field.of(fd));
+    }
+
+    public static $field as( VariableDeclarator vd ){
+        return as( _field.of(vd));
+    }
+
+    public static $field as( _field _f ){
+        $field $inst = new $field();
+        if( _f.hasJavadoc() ){
+            $inst.javadoc = $comment.javadocComment(_f.getJavadoc());
+        }
+        if( _f.hasAnnos() ){
+            $inst.annos = $annos.as(_f.getAnnos());
+        } else{
+            $inst.annos = $annos.none();
+        }
+        $inst.modifiers = $modifiers.as(_f);
+        $inst.type = $typeRef.as(_f.getType());
+        $inst.name = $name.as( _f.getName() );
+        if( _f.hasInit() ){
+            $inst.init = $ex.of(_f.getInit() );
+        } else{
+            $inst.$and( f-> !f.hasInit());
+        }
+        return $inst;
+    }
+
+    public static _field from( StackTraceElement ste, Object anonymousObjectWithField ){
         ObjectCreationExpr oce = Ex.anonymousObjectEx(ste);
         FieldDeclaration fd = (FieldDeclaration) oce.getAnonymousClassBody().get().stream().filter(bd -> bd instanceof FieldDeclaration
                 && !bd.getAnnotationByClass(_remove.class).isPresent()).findFirst().get();
@@ -63,16 +107,9 @@ public final class $field implements Template<_field>, $pattern<_field, $field>,
         _class _c = _class.of("Temp").add(_field.of(fd.clone().getVariable(0)));
         macro.to(anonymousObjectWithField.getClass(), _c);
         _field _f = _c.getField(0);
-        $field $f = of( _f );
-        /*
-        try{
-            has$annos.at_$Process( anonymousObjectWithField.getClass().getDeclaredField(_f.getName()), $f);
-        } catch(NoSuchFieldException nsfe){
-            Log.error("No such field to process @_$ annotation");
-        }
-        */
-        return $f;
+        return _f;
     }
+
 
     /**
      *

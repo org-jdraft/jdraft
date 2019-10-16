@@ -133,7 +133,5 @@ public class RoslynSyntaxTest extends TestCase {
         //add sorting
         $m.streamIn(SimpleClass.class, AnotherClass.class).map(_method::getName).distinct().limit(5).sorted().forEach(System.out::println);
         $m.streamIn(SimpleClass.class, AnotherClass.class).map(_method::getName).distinct().limit(5).forEach(System.out::println);
-
-
     }
 }
