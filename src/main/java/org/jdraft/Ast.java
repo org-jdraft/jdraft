@@ -2555,11 +2555,19 @@ public enum Ast {
      * @return 
      */
     public static SwitchEntry switchEntry(String...switchEntry){
-        SwitchStmt ss = (SwitchStmt) StaticJavaParser.parseStatement(
-            "switch (a){"+ Text.combine(switchEntry)+ System.lineSeparator() + "}");
-        SwitchEntry se = ss.getEntry(0);
-        ss.remove(se);
-        return se;
+        String se = Text.combine(switchEntry);
+        if( !se.startsWith("case") && !(se.startsWith("default"))){
+            se = "case "+se;
+        }
+        try {
+            SwitchStmt ss = (SwitchStmt) StaticJavaParser.parseStatement(
+                    "switch (a){" + se + System.lineSeparator() + "}");
+            SwitchEntry swe = ss.getEntry(0);
+            ss.remove(swe);
+            return swe;
+        } catch(Exception e){
+            throw new _draftException("could not parse \""+se+"\"" );
+        }
     }
     
     private static final String TRY_HARDCODED = "try{ assert(true); }";

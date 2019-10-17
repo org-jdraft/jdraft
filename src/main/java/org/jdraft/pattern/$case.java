@@ -24,19 +24,18 @@ import java.util.stream.Collectors;
 public final class $case
     implements $pattern<SwitchEntry, $case>, Template<SwitchEntry>, $body.$part {
 
-    public static $case of( Predicate<SwitchEntry> constraint ){
-        return of().$and(constraint);
-    }
-    
-    public static $case of( String...acase ){
-        return of( Ast.switchEntry(acase ));
-    }
-
     public static $case of(){
         return new $case( $ex.of() );
     }
 
-    
+    public static $case of( Predicate<SwitchEntry> constraint ){
+        return of().$and(constraint);
+    }
+
+    public static $case of( String...acase ){
+        return of( Ast.switchEntry(acase ));
+    }
+
     public static $case of( SwitchEntry astSwitchEntry ){
         return new $case(astSwitchEntry );
     }
@@ -48,7 +47,34 @@ public final class $case
     public static $case of($ex expr, $stmt...stmts ){
         return new $case(expr, stmts);
     }
-    
+
+    public static $case as( String...st){
+        return as( Ast.switchEntry(st));
+    }
+
+    public static $case as( SwitchEntry astSwitchEntry ){
+        $case $c = of( astSwitchEntry );
+
+        //need to make sure there are
+        final List<$stmt>$sts = new ArrayList<>();
+        NodeList<Statement> sts = astSwitchEntry.getStatements();
+        for(int i=0;i<sts.size();i++){
+            $sts .add( $stmt.of(sts.get(i)));
+        }
+        $c.$and( s-> {
+            if (s.getStatements().size() != astSwitchEntry.getStatements().size()) {
+                return false;
+            }
+            for(int i=0;i<$sts.size();i++){
+                if( !$sts.get(i).matches(s.getStatement(i))){
+                    return false;
+                }
+            }
+            return true;
+        });
+        return $c;
+    }
+
     public Predicate<SwitchEntry> constraint = t-> true;
     
     public $ex label = $ex.of();
@@ -102,15 +128,23 @@ public final class $case
         if( statements.isEmpty()){
             return new Select( astSwitchEntry, $tokens.of(tokens) );
         }
-        if( statements.size() != astSwitchEntry.getStatements().size() ){
-            return null;
-        }
+        //if( astSwitchEntry.getStatements().size() >  ){
+
+        //    return null;
+        //}
+        //if( statements.size() != astSwitchEntry.getStatements().size() ){
+        //    return null;
+        //}
         Tokens ts = Tokens.of(tokens);
             
         for(int i=0;i< this.statements.size();i++){
-            $stmt.Select ss = 
-                statements.get(i).select(astSwitchEntry.getStatement(i));
+
+            //$stmt.Select ss =
+            //    statements.get(i).select(astSwitchEntry.getStatement(i));
+            $stmt.Select ss =
+                    statements.get(i).selectFirstIn(astSwitchEntry);
             if( ss == null || !ts.isConsistent(ss.tokens.asTokens()) ){
+                //System.out.println( "NOT CONSISTENT");
                 return null;
             }
             ts.putAll(ss.tokens.asTokens());
@@ -139,16 +173,20 @@ public final class $case
 
     public Select select( SwitchEntry astSwitchEntry ){
         if( ! constraint.test(astSwitchEntry)){
+            System.out.println( "Failed constraint");
             return null;
         }
         if( astSwitchEntry.getLabels().isEmpty() ){
             if( this.label == null || this.label.isMatchAny()){
+                System.out.println( "Selecting labelless "+ this.label);
                 return selectStatements( astSwitchEntry, new Tokens());
             }
+            System.out.println( "Failed constraint label "+ this.label);
             return null;
         }
         Expression label = astSwitchEntry.getLabels().get(0);
         if( this.label == null ){
+            System.out.println( "Expected default (labells) "+ label);
             return null;
         }
         $ex.Select sel = this.label.select(label);
@@ -156,6 +194,7 @@ public final class $case
         if( sel != null ){
             return selectStatements(astSwitchEntry, sel.tokens.asTokens());
         }
+        System.out.println("Not same label "+ this.label+" "+label);
         return null;
     }
 

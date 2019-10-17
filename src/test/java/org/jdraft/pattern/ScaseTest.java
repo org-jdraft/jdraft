@@ -12,7 +12,43 @@ import junit.framework.TestCase;
  * @author Eric
  */
 public class ScaseTest extends TestCase {
-    
+
+    public void testOfMatch(){
+        //System.out.println( Ast.switchEntry("'a': System.out.println( 1 ); assert(true);") );
+        $case $c = $case.of( "'a' : System.out.println( 1 ); ");
+
+        assertTrue( $c.matches("'a': System.out.println( 1 );") );
+        //extra statements ok
+        assertTrue( $c.matches("'a': System.out.println( 1 ); assert(true);") );
+        assertTrue( $c.matches("'a': System.out.println( 1 ); break;") );
+        assertTrue( $c.matches("'a': System.out.println( 1 ); break outer;") );
+        assertTrue( $c.matches("'a': assert(true); System.out.println( 1 ); break outer;") ); //statement does not have to be first
+
+        assertTrue( $c.matches("'a': if(true){ assert(true); System.out.println( 1 ); }break outer;") ); //statement can be nested
+
+        assertFalse( $c.matches("'b': System.out.println( 1 );"));//different label
+        assertFalse( $c.matches("'a': System.out.println( 2 );"));//different statement
+        assertFalse( $c.matches("'a': "));//different (no) statement
+
+        $c = $case.of( "'a' : System.out.println( 1 ); break outer;");
+        assertTrue( $c.matches("'a': System.out.println( 1 ); break outer;") );
+        assertTrue( $c.matches("'a': System.out.println( 1 ); System.out.println(2); break outer;") );
+
+    }
+
+    public void testAsMatch(){
+        $case $c = $case.as( "'a' : System.out.println( 1 ); ");
+        assertTrue( $c.matches("'a': System.out.println( 1 );") ); //matches exact
+
+        assertFalse( $c.matches("'a': System.out.println( 1 ); assert(true);") );
+        assertFalse( $c.matches("'a': System.out.println( 1 ); break;") );
+        assertFalse( $c.matches("'a': System.out.println( 1 ); break outer;") );
+
+        $c = $case.as( "'a' : System.out.println( 1 ); break outer;");
+        assertTrue( $c.matches("'a': System.out.println( 1 ); break outer;") );
+        assertFalse( $c.matches("'a': System.out.println( 1 ); System.out.println(2); break outer;") );
+    }
+
     public void testConstruct(){
         $case $c = $case.of( $ex.of("$val$")
             .$and(i -> i.isIntegerLiteralExpr() && Integer.parseInt( i.asIntegerLiteralExpr().getValue() ) % 2 == 1 ),
