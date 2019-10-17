@@ -222,6 +222,23 @@ public final class $var
         return new $var( proto  );
     }
 
+    public static $var as(String...pattern){
+        return as( Ast.varDecl(pattern ) );
+    }
+
+    public static $var as(VariableDeclarator proto ) {
+        $typeRef $t = $typeRef.as(proto.getType());
+        $name $n = $name.as(proto.getNameAsString());
+        $var $v = of($t, $n);
+
+        if( proto.getInitializer().isPresent()){
+            $v.init = $ex.of(proto.getInitializer().get());
+        } else{
+            $v.$and( v-> !v.getInitializer().isPresent());
+        }
+        return $v;
+    }
+
     /**
      * 
      * @param proto

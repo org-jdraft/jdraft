@@ -16,7 +16,62 @@ import junit.framework.TestCase;
  * @author Eric
  */
 public class SvarTest extends TestCase {
-    
+
+    public void testVarMatchOf(){
+        $var $v = $var.of("int i");
+        assertTrue($v.matches("int i"));
+        assertTrue($v.matches("int[] i"));
+        assertTrue($v.matches("int i=1;"));
+        assertTrue($v.matches("@Ann int i"));
+        assertTrue($v.matches("@Ann int[] i=1"));
+
+        assertFalse( $v.matches("int j"));
+        assertFalse( $v.matches("float i"));
+
+        $v = $var.of("Map<Integer,String> is = new $impl$Map<>();");
+        assertTrue($v.matches("Map<Integer,String> is = new Map<>();"));
+        assertTrue($v.matches("Map<Integer,String> is = new HashMap<>();"));
+        assertTrue($v.matches("Map<Integer,String> is = new TreeMap<>();"));
+        assertTrue($v.matches("Map<Integer,String>[] is = new TreeMap<>();"));
+
+        //hmm
+        //assertTrue($v.matches("@Ann Map<@Ann Integer, @Ann String> is = new TreeMap<>();"));
+
+        assertTrue($v.matches("java.util.Map<java.lang.Integer,java.lang.String> is = new java.util.TreeMap<>();"));
+        assertTrue($v.matches("@Ann java.util.Map<java.lang.Integer,java.lang.String> is = new @NotNull java.util.TreeMap<>();"));
+
+        //wrong order, should be Integer,String in type
+        assertFalse($v.matches("Map<String, Integer> is = new TreeMap<>();"));
+        assertFalse($v.matches("java.util.Map<java.lang.String, java.lang.Integer> is = new java.util.TreeMap<>();"));
+    }
+
+    public void testVarMatchAs(){
+        $var $v = $var.as("int i");
+        assertTrue($v.matches("int i"));
+        assertFalse($v.matches("int[] i"));
+        assertFalse($v.matches("int i=1;"));
+
+
+        assertFalse( $v.matches("int j"));
+        assertFalse( $v.matches("float i"));
+
+        $v = $var.as("Map<Integer,String> is = new $impl$Map<>();");
+        assertTrue($v.matches("Map<Integer,String> is = new Map<>();"));
+        assertTrue($v.matches("Map<Integer,String> is = new HashMap<>();"));
+        assertTrue($v.matches("Map<Integer,String> is = new TreeMap<>();"));
+        assertFalse($v.matches("Map<Integer,String>[] is = new TreeMap<>();"));
+
+        //hmm
+        //assertTrue($v.matches("@Ann Map<@Ann Integer, @Ann String> is = new TreeMap<>();"));
+
+        assertTrue($v.matches("java.util.Map<java.lang.Integer,java.lang.String> is = new java.util.TreeMap<>();"));
+        assertFalse($v.matches("java.util.Map<java.lang.Integer,java.lang.String>[] is = new TreeMap<>();"));
+
+        //wrong order, should be Integer,String in type
+        assertFalse($v.matches("Map<String, Integer> is = new TreeMap<>();"));
+        assertFalse($v.matches("java.util.Map<java.lang.String, java.lang.Integer> is = new java.util.TreeMap<>();"));
+    }
+
     public void testLoop(){
         class C{
             int[] array;

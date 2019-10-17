@@ -87,7 +87,7 @@ public final class $annotation
                 //System.out.println("Field "+ d);
             } else {
                 d.ast().remove(); //remove so we dont
-                nots.add((BodyDeclaration) d.ast());
+                nots.add(d.ast());
             }
         } );
 
