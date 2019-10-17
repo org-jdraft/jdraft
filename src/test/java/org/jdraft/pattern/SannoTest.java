@@ -1,12 +1,74 @@
 package org.jdraft.pattern;
 
+import org.jdraft.Ast;
 import org.jdraft._anno;
 import org.jdraft._class;
 import org.jdraft._type;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 import junit.framework.TestCase;
 
+
 public class SannoTest extends TestCase {
+
+    public void testOr(){
+        $anno $aor = $anno.or( $anno.of("A"), $anno.of("B") );
+        assertTrue($aor.matches("@A"));
+        assertTrue($aor.matches("@B"));
+
+        assertNotNull( $aor.select("@A"));
+        assertNotNull( $aor.select("@B"));
+
+        $anno $dep = $anno.of(Deprecated.class);
+        System.out.println("DEP" +  $dep.toString() );
+
+        $aor = $anno.or( Override.class, Deprecated.class );
+
+        class C{
+            @Deprecated int i;
+
+            @Override
+            public String toString(){
+                return "H";
+            }
+        }
+
+        assertTrue($aor.match(Ast.anno("@Deprecated")));
+        assertTrue($aor.match(Ast.anno("@Override")));
+        assertEquals(2, $aor.count(C.class));
+        assertNotNull($aor.firstIn(C.class));
+        assertNotNull($aor.firstIn(C.class, a -> a.isInstance(Override.class)));
+        AtomicInteger ai = new AtomicInteger();
+        $aor.forEachIn(C.class, a->ai.incrementAndGet());
+        assertEquals( 2, ai.intValue());
+        ai.set(0);
+        $aor.forEachIn(_class.of(C.class), a->a.isInstance(Deprecated.class), a-> ai.incrementAndGet() );
+        assertEquals( 1, ai.intValue());
+        ai.set(0);
+        $aor.forSelectedIn(C.class, s->ai.incrementAndGet());
+        assertEquals( 2, ai.intValue());
+        ai.set(0);
+        assertEquals(2, $aor.listIn(C.class).size());
+        assertEquals(2, $aor.listSelectedIn(C.class).size());
+
+        $aor.printIn(C.class);
+
+        assertNotNull($aor.parse(_anno.of("@Deprecated") ));
+        _class _c = $aor.removeIn(C.class); //remove em
+        assertEquals(0, $aor.count(_c)); //verify them some
+
+        _c = $aor.replaceIn(C.class, $anno.of("@A"));
+        assertEquals(2, $anno.of("A").count(_c));
+
+        assertNotNull($aor.selectFirstIn(C.class));
+        assertEquals( 2, $aor.streamIn(C.class).count());
+
+        System.out.println( $aor.toString() );
+
+    }
 
     public void testAs(){
         $anno $a = $anno.as("A");

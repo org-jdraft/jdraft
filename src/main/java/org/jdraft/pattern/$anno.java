@@ -23,7 +23,7 @@ import org.jdraft.Template;
  *
  * @author Eric
  */
-public final class $anno
+public class $anno
     implements Template<_anno>, $pattern<_anno, $anno>, $pattern.$java<_anno, $anno>,
         $constructor.$part, $method.$part,
         $field.$part, $parameter.$part, $typeParameter.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part,
@@ -85,6 +85,18 @@ public final class $anno
         return of( sourceAnnoClass).$and(constraint);
     }
 
+    public static $anno.Or or( Class<? extends Annotation>... annClasses ){
+        $anno[] $ac = new $anno[annClasses.length];
+        for(int i=0;i<annClasses.length; i++){
+            $ac[i] = $anno.of(annClasses[i]);
+        }
+        return or( $ac );
+    }
+
+    public static $anno.Or or( $anno...$as ){
+        return new Or($as);
+    }
+
     public static $anno as(String...codePattern ){
         return as( _anno.of(codePattern) );
     }
@@ -110,13 +122,14 @@ public final class $anno
     }
 
     /** Default Matching constraint (by default ALWAYS Match)*/
-    public Predicate<_anno> constraint = a -> true;
+    Predicate<_anno> constraint = a -> true;
 
     /** the id / name of the annotation */
-    public $id name;
+    $id name;
 
     /** the member values of the annotation */
-    public List<$memberValue> $mvs = new ArrayList<>();
+    List<$memberValue> $mvs = new ArrayList<>();
+
 
     /**
      * 
@@ -126,6 +139,10 @@ public final class $anno
     private $anno( $id name, $memberValue...mvs ){
        this.name = name;
        Arrays.stream(mvs).forEach( mv -> this.$mvs.add(mv));       
+    }
+
+    //internal (or) constructor
+    protected $anno(){
     }
 
     /**
@@ -252,8 +269,6 @@ public final class $anno
         this.constraint = this.constraint.and(constraint);
         return this;
     }
-
-
 
     public Tokens parse(_anno _a) {
         if( ! this.constraint.test(_a)){
@@ -448,59 +463,6 @@ public final class $anno
         });
         return params.stream().distinct().collect(Collectors.toList() );
     }
-
-    /**
-     * Replace all occurrences of the template in the code with the replacement
-     * (composing the replacement from the constructed tokens in the source)
-     *
-     * @param clazz 
-     * @param $annoReplace the template to be constructed as the replacement
-     * @return
-
-    public <_CT extends _type> _CT replaceIn(Class clazz, $anno $annoReplace ){
-        return (_CT)replaceIn((_type)_java.type(clazz), $annoReplace);
-    }
-    /**
-     *
-     * @param <N>
-     * @param astNode
-     * @param $annoReplacement
-     * @return
-
-    public <N extends Node> N replaceIn(N astNode, $anno $annoReplacement ){
-        astNode.walk(AnnotationExpr.class, e-> {
-            Select sel = select( e );
-            if( sel != null ){
-                sel._ann.ast().replace($annoReplacement.draft(sel.tokens).ast() );
-            }
-        });
-        return astNode;
-    }
-
-    /**
-     * Replace all occurrences of the template in the code with the replacement
-     * (composing the replacement from the constructed tokens in the source)
-     *
-     * @param _j the model to find replacements
-     * @param $annoReplacement the template to be constructed as the replacement
-     * @param <_J> the TYPE of model
-     * @return
-
-    public <_J extends _java> _J replaceIn(_J _j, $anno $annoReplacement ){
-        if( _j instanceof _code ){
-            _code _c = (_code) _j;
-            if( _c.isTopLevel() ){
-                replaceIn(_c.astCompilationUnit(), $annoReplacement);
-                return _j;
-            }
-            _type _t = (_type) _j; //only possible
-            replaceIn(_t.ast(), $annoReplacement); //return the TypeDeclaration, not the CompilationUnit
-            return _j;
-        }
-        replaceIn(((_node) _j).ast(), $annoReplacement);
-        return _j;
-    }
-    */
 
     /**
      * Return a
@@ -811,7 +773,7 @@ public final class $anno
         sb.append("@");
         sb.append(this.name.idStencil);
         if( this.$mvs.isEmpty() ){
-            return sb.toString();
+            return "$anno{"+sb.toString()+"}";
         }
         sb.append("(");
         for(int i=0;i<this.$mvs.size();i++){
@@ -1110,7 +1072,69 @@ public final class $anno
             }
         }
     }
-    
+
+    public static class Or extends $anno{
+
+         final List<$anno>ors = new ArrayList<>();
+
+         public Or($anno...$as){
+             super();
+             Arrays.stream($as).forEach($a -> ors.add($a));
+         }
+
+         @Override
+         public String toString(){
+             StringBuilder sb = new StringBuilder();
+             sb.append("$anno.Or{");
+             sb.append(System.lineSeparator());
+             ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+             sb.append("}");
+             return sb.toString();
+         }
+
+         /**
+          *
+          * @param astNode
+          * @return
+          */
+          public $anno.Select select(AnnotationExpr astNode){
+              $anno $a = whichMatch(astNode);
+              if( $a != null ){
+                  return $a.select(astNode);
+              }
+              return null;
+          }
+
+          public boolean isMatchAny(){
+              return false;
+          }
+
+          public $anno whichMatch(_anno _a){
+              return whichMatch(_a.ast());
+          }
+
+        /**
+         * Return the underlying $anno that matches the AnnotationExpr or null if none of the match
+         * @param ae
+         * @return
+         */
+         public $anno whichMatch(AnnotationExpr ae){
+             Optional<$anno> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
+             if( orsel.isPresent() ){
+                 return orsel.get();
+             }
+             return null;
+         }
+
+         public Tokens parse(_anno _a){
+             $anno $a = whichMatch(_a);
+             if( $a != null) {
+                 return $a.parse(_a);
+             }
+             return null;
+         }
+    }
+
     /**
      * A Matched Selection result returned from matching a prototype $a
      * inside of some Node or _node
