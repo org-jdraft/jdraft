@@ -14,6 +14,15 @@ import junit.framework.TestCase;
 
 public class SannoTest extends TestCase {
 
+    public void testOrList(){
+        $anno $aor = $anno.or( $anno.of("A($e1$)"), $anno.of("B($e2$)") );
+        assertTrue( $aor.list$().contains("e1"));
+        assertTrue( $aor.list$().contains("e2"));
+
+        assertTrue( $aor.list$Normalized().contains("e1"));
+        assertTrue( $aor.list$Normalized().contains("e2"));
+    }
+
     public void testOr(){
         $anno $aor = $anno.or( $anno.of("A"), $anno.of("B") );
         assertTrue($aor.matches("@A"));

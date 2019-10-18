@@ -773,7 +773,7 @@ public class $anno
         sb.append("@");
         sb.append(this.name.idStencil);
         if( this.$mvs.isEmpty() ){
-            return "$anno{"+sb.toString()+"}";
+            return "$anno{ "+sb.toString()+" }";
         }
         sb.append("(");
         for(int i=0;i<this.$mvs.size();i++){
@@ -1073,14 +1073,59 @@ public class $anno
         }
     }
 
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are supressed.
+     */
     public static class Or extends $anno{
 
          final List<$anno>ors = new ArrayList<>();
 
          public Or($anno...$as){
              super();
-             Arrays.stream($as).forEach($a -> ors.add($a));
+             Arrays.stream($as).forEach($a -> ors.add($a) );
          }
+
+         @Override
+         public List<String> list$(){
+             return ors.stream().map( $a ->$a.list$() ).flatMap(Collection::stream).collect(Collectors.toList());
+         }
+
+         @Override
+         public List<String> list$Normalized(){
+             return ors.stream().map( $a ->$a.list$Normalized() ).flatMap(Collection::stream).distinct().collect(Collectors.toList());
+         }
+
+         @Override
+         public _anno fill(Object...vals){
+             throw new _draftException("Cannot draft/fill "+getClass()+" pattern"+ this );
+         }
+
+         @Override
+         public _anno fill(Translator tr, Object...vals){
+             throw new _draftException("Cannot draft/fill "+getClass()+" pattern"+ this );
+         }
+
+         @Override
+         public _anno draft(Translator tr, Map<String,Object> map){
+              throw new _draftException("Cannot draft "+getClass()+" pattern"+ this );
+         }
+
+         @Override
+         public String draftToString(Object...vals){
+             throw new _draftException("Cannot draft "+getClass()+" pattern"+ this );
+         }
+
+         @Override
+         public String draftToString(Translator tr, Map<String,Object> map){
+            throw new _draftException("Cannot draft "+getClass()+" pattern"+ this );
+         }
+
+        @Override
+        public $anno hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
 
          @Override
          public String toString(){
