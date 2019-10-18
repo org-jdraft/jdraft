@@ -17,7 +17,7 @@ import java.util.function.Predicate;
 /**
  * Note... at the moment this is NOT a template... should it be??
  */
-public final class $class
+public class $class
         implements $pattern.$java<_class,$class>, $member.$named<$class>, $declared<_class,$class>, has$Annos {
 
     public Predicate<_class> constraint = t->true;
@@ -146,6 +146,15 @@ public final class $class
 
     public static $class of( $part...parts){
         return new $class(parts);
+    }
+
+    /**
+     * Builds a Or matching pattern for many different or patterns
+     * @param $as
+     * @return
+     */
+    public static $class.Or or( $class...$as ){
+        return new Or($as);
     }
 
     private $class(){
@@ -758,6 +767,67 @@ public final class $class
     @Override
     public Class<_class> _modelType() {
         return _class.class;
+    }
+
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are supressed.
+     */
+    public static class Or extends $class{
+
+        final List<$class>ors = new ArrayList<>();
+
+        public Or($class...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $class hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$class.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param astNode
+         * @return
+         */
+        public $class.Select select(_class astNode){
+            $class $a = whichMatch(astNode);
+            if( $a != null ){
+                return $a.select(astNode);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $anno that matches the AnnotationExpr or null if none of the match
+         * @param ae
+         * @return
+         */
+        public $class whichMatch(_class ae){
+            Optional<$class> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
     }
 
     /**

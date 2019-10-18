@@ -17,7 +17,7 @@ import java.util.function.Predicate;
 /**
  * Note... at the moment this is NOT a template... should it be??
  */
-public final class $enum
+public class $enum
         implements $pattern<_enum, $enum>, $pattern.$java<_enum, $enum>, $member.$named<$enum>, $declared<_enum,$enum>,
         has$Annos {
 
@@ -137,6 +137,15 @@ public final class $enum
         }
 
         return $e;
+    }
+
+    /**
+     * Builds a Or matching pattern for many different or patterns
+     * @param $as
+     * @return
+     */
+    public static $enum.Or or( $enum...$as ){
+        return new Or($as);
     }
 
     public static $enum not( $part...parts ){
@@ -727,6 +736,67 @@ public final class $enum
     @Override
     public Class<_enum> _modelType() {
         return _enum.class;
+    }
+
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are supressed.
+     */
+    public static class Or extends $enum{
+
+        final List<$enum>ors = new ArrayList<>();
+
+        public Or($enum...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $enum.Or hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$enum.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param astNode
+         * @return
+         */
+        public $enum.Select select(_enum astNode){
+            $enum $a = whichMatch(astNode);
+            if( $a != null ){
+                return $a.select(astNode);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $anno that matches the AnnotationExpr or null if none of the match
+         * @param ae
+         * @return
+         */
+        public $enum whichMatch(_enum ae){
+            Optional<$enum> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
     }
 
     /**

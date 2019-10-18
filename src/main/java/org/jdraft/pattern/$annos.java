@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * Prototype of (group of) {@link _annos} for composing and query
  * @author Eric
  */
-public final class $annos
+public class $annos
     implements Template<_annos>, $pattern<_annos, $annos>, $pattern.$java<_annos, $annos>, $constructor.$part, $method.$part,
         $field.$part, $parameter.$part, $typeParameter.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part,
         $enumConstant.$part{
@@ -101,6 +101,15 @@ public final class $annos
      */
     public static $annos as( _anno._hasAnnos _ha){
         return as( _ha.getAnnos() );
+    }
+
+    /**
+     * Builds a Or matching pattern for many different or patterns
+     * @param $as
+     * @return
+     */
+    public static $annos.Or or( $annos...$as ){
+        return new Or($as);
     }
 
     /**
@@ -713,7 +722,111 @@ public final class $annos
         sb.append("}");
         return sb.toString();
     }
-    
+
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are supressed.
+     */
+    public static class Or extends $annos{
+
+        final List<$annos>ors = new ArrayList<>();
+
+        public Or($annos...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public List<String> list$(){
+            return ors.stream().map( $a ->$a.list$() ).flatMap(Collection::stream).collect(Collectors.toList());
+        }
+
+        @Override
+        public List<String> list$Normalized(){
+            return ors.stream().map( $a ->$a.list$Normalized() ).flatMap(Collection::stream).distinct().collect(Collectors.toList());
+        }
+
+        @Override
+        public _annos fill(Object...vals){
+            throw new _draftException("Cannot draft/fill "+getClass()+" pattern"+ this );
+        }
+
+        @Override
+        public _annos fill(Translator tr, Object...vals){
+            throw new _draftException("Cannot draft/fill "+getClass()+" pattern"+ this );
+        }
+
+        @Override
+        public _annos draft(Translator tr, Map<String,Object> map){
+            throw new _draftException("Cannot draft "+getClass()+" pattern"+ this );
+        }
+
+        @Override
+        public String draftToString(Translator tr, Map<String,Object> map){
+            throw new _draftException("Cannot draft "+getClass()+" pattern"+ this );
+        }
+
+        @Override
+        public $annos hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$annos.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param astNode
+         * @return
+         */
+        public $annos.Select select(_annos astNode){
+            $annos $a = whichMatch(astNode);
+            if( $a != null ){
+                return $a.select(astNode);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+
+        /**
+         * Return the underlying $anno that matches the AnnotationExpr or null if none of the match
+         * @param ae
+         * @return
+         */
+        public $annos whichMatch(_annos ae){
+            Optional<$annos> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
+
+        public Tokens parse(_annos _a){
+            $annos $a = whichMatch(_a);
+            if( $a != null) {
+                return $a.parse(_a);
+            }
+            return null;
+        }
+    }
+
+
+
+
+
     /**
      * A Matched Selection result returned from matching a prototype $a
      * inside of some Node or _node

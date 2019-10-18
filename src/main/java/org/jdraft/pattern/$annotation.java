@@ -12,11 +12,12 @@ import org.jdraft.*;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Note... at the moment this is NOT a template... should it be??
  */
-public final class $annotation
+public class $annotation
         implements $pattern<_annotation, $annotation>, $pattern.$java<_annotation, $annotation>, $member.$named<$annotation>,
         $declared<_annotation,$annotation>, has$Annos {
 
@@ -123,6 +124,15 @@ public final class $annotation
             }
         }
         return $c;
+    }
+
+    /**
+     * Builds a Or matching pattern for many different or patterns
+     * @param $as
+     * @return
+     */
+    public static $annotation.Or or( $annotation...$as ){
+        return new Or($as);
     }
 
     private $annotation(){
@@ -616,6 +626,67 @@ public final class $annotation
     @Override
     public Class<_annotation> _modelType() {
         return _annotation.class;
+    }
+
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are supressed.
+     */
+    public static class Or extends $annotation{
+
+        final List<$annotation>ors = new ArrayList<>();
+
+        public Or($annotation...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $annotation hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$annotation.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param astNode
+         * @return
+         */
+        public $annotation.Select select(_annotation astNode){
+            $annotation $a = whichMatch(astNode);
+            if( $a != null ){
+                return $a.select(astNode);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $anno that matches the AnnotationExpr or null if none of the match
+         * @param ae
+         * @return
+         */
+        public $annotation whichMatch(_annotation ae){
+            Optional<$annotation> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
     }
 
     /**

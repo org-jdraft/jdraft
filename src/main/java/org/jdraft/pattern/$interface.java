@@ -20,7 +20,7 @@ import java.util.function.Predicate;
 /**
  * Note... at the moment this is NOT a template... should it be??
  */
-public final class $interface
+public class $interface
         implements $pattern<_interface, $interface>, $pattern.$java<_interface, $interface>, $member.$named<$interface>,
         $declared<_interface,$interface>, has$Annos {
 
@@ -128,6 +128,15 @@ public final class $interface
             $c.$not( ($part)$m);
         }
         return $c;
+    }
+
+    /**
+     * Builds a Or matching pattern for many different or patterns
+     * @param $as
+     * @return
+     */
+    public static $interface.Or or( $interface...$as ){
+        return new Or($as);
     }
 
     /**
@@ -697,6 +706,69 @@ public final class $interface
     public Class<_interface> _modelType() {
         return _interface.class;
     }
+
+
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are supressed.
+     */
+    public static class Or extends $interface{
+
+        final List<$interface>ors = new ArrayList<>();
+
+        public Or($interface...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $interface hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$interface.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param astNode
+         * @return
+         */
+        public $interface.Select select(_interface astNode){
+            $interface $a = whichMatch(astNode);
+            if( $a != null ){
+                return $a.select(astNode);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $anno that matches the AnnotationExpr or null if none of the match
+         * @param ae
+         * @return
+         */
+        public $interface whichMatch(_interface ae){
+            Optional<$interface> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
+    }
+
 
     /**
      * The selected Class
