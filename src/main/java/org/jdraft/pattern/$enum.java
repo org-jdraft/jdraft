@@ -139,6 +139,23 @@ public class $enum
         return $e;
     }
 
+    public static $enum.Or or( _enum... _protos ){
+        $enum[] arr = new $enum[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $enum.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $enum.Or or( EnumDeclaration... _protos ){
+        $enum[] arr = new $enum[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $enum.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+
     /**
      * Builds a Or matching pattern for many different or patterns
      * @param $as

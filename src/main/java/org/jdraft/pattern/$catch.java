@@ -13,7 +13,7 @@ import java.util.function.Predicate;
  *
  * @author Eric
  */
-public final class $catch implements $pattern<CatchClause, $catch>, $body.$part {
+public class $catch implements $pattern<CatchClause, $catch>, $body.$part {
     
     public static $catch of( String...catchCode ){
         return new $catch( Ast.catchClause(catchCode));
@@ -34,13 +34,28 @@ public final class $catch implements $pattern<CatchClause, $catch>, $body.$part 
     public static $catch of(){
         return new $catch( $parameter.of(), $body.of() );
     }
-    
+
+    public static $catch.Or or( CatchClause... _protos ){
+        $catch[] arr = new $catch[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $catch.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $catch.Or or( $catch...$tps ){
+        return new $catch.Or($tps);
+    }
+
     public Predicate<CatchClause> constraint = t-> true;
     
     public $parameter $param = $parameter.of();
     
     public $body $bd = $body.of();
-    
+
+    $catch(){
+    }
+
     public $catch(CatchClause astCC){
         $param = $parameter.of( astCC.getParameter() );
         $bd = $body.of( astCC );
@@ -362,7 +377,68 @@ public final class $catch implements $pattern<CatchClause, $catch>, $body.$part 
             return false;
         }
     }
-    
+
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are supressed.
+     */
+    public static class Or extends $catch{
+
+        final List<$catch>ors = new ArrayList<>();
+
+        public Or($catch...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $catch hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$catch.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param astNode
+         * @return
+         */
+        public $catch.Select select(CatchClause astNode){
+            $catch $a = whichMatch(astNode);
+            if( $a != null ){
+                return $a.select(astNode);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $anno that matches the AnnotationExpr or null if none of the match
+         * @param ae
+         * @return
+         */
+        public $catch whichMatch(CatchClause ae){
+            Optional<$catch> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
+    }
+
     public static class Select 
         implements $pattern.selected, selectAst<CatchClause> {
 

@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  *
  * @author Eric
  */
-public final class $typeParameter
+public class $typeParameter
     implements Template<_typeParameter>, $pattern<_typeParameter, $typeParameter>, $pattern.$java<_typeParameter,$typeParameter>,
         $method.$part, $constructor.$part, $class.$part,$interface.$part {
 
@@ -81,6 +81,19 @@ public final class $typeParameter
      */
     public static $typeParameter of( TypeParameter astTp){
         return new $typeParameter(_typeParameter.of(astTp));
+    }
+
+
+    public static $typeParameter.Or or( _typeParameter... _protos ){
+        $typeParameter[] arr = new $typeParameter[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $typeParameter.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $typeParameter.Or or( $typeParameter...$tps ){
+        return new $typeParameter.Or($tps);
     }
 
     public static $typeParameter as( String typeParameter){
@@ -515,7 +528,68 @@ public final class $typeParameter
     public Select select(TypeParameter astTp){
         return select( _typeParameter.of(astTp));
     }
-    
+
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are suppressed.
+     */
+    public static class Or extends $typeParameter {
+
+        final List<$typeParameter>ors = new ArrayList<>();
+
+        public Or($typeParameter...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $typeParameter.Or hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$typeParameter.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param n
+         * @return
+         */
+        public $typeParameter.Select select(_typeParameter n){
+            $typeParameter $a = whichMatch(n);
+            if( $a != null ){
+                return $a.select(n);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $method that matches the Method or null if none of the match
+         * @param tp
+         * @return
+         */
+        public $typeParameter whichMatch(_typeParameter tp){
+            Optional<$typeParameter> orsel  = this.ors.stream().filter( $p-> $p.matches(tp) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
+    }
+
     public static class Select 
         implements $pattern.selected,
             selectAst<TypeParameter>,

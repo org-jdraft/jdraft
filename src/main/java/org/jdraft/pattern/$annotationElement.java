@@ -12,7 +12,7 @@ import java.util.function.Predicate;
 /**
  * Note... at the moment this is NOT a template... should it be??
  */
-public final class $annotationElement
+public class $annotationElement
         implements $pattern<_annotation._element, $annotationElement>, $pattern.$java<_annotation._element, $annotationElement>,
         $annotation.$part, $member.$named<$annotationElement>, $declared<_annotation._element,$annotationElement> {
 
@@ -32,6 +32,18 @@ public final class $annotationElement
 
     public static $annotationElement of (String... annotationElement ){
         return of( _annotation._element.of(annotationElement) );
+    }
+
+    public static $annotationElement.Or or( _annotation._element... _protos ){
+        $annotationElement[] arr = new $annotationElement[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $annotationElement.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $annotationElement.Or or( $annotationElement...$tps ){
+        return new $annotationElement.Or($tps);
     }
 
     public static $annotationElement as(String...annotationElement){
@@ -363,6 +375,66 @@ public final class $annotationElement
     @Override
     public Class<_annotation._element> _modelType() {
         return _annotation._element.class;
+    }
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are supressed.
+     */
+    public static class Or extends $annotationElement{
+
+        final List<$annotationElement>ors = new ArrayList<>();
+
+        public Or($annotationElement...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $annotationElement hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$annotationElement.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param astNode
+         * @return
+         */
+        public $annotationElement.Select select(_annotation._element astNode){
+            $annotationElement $a = whichMatch(astNode);
+            if( $a != null ){
+                return $a.select(astNode);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $anno that matches the AnnotationExpr or null if none of the match
+         * @param ae
+         * @return
+         */
+        public $annotationElement whichMatch(_annotation._element ae){
+            Optional<$annotationElement> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
     }
 
     /**

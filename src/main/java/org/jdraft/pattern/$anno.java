@@ -93,6 +93,14 @@ public class $anno
         return or( $ac );
     }
 
+    public static $anno.Or or( _anno... anns ){
+        $anno[] $ac = new $anno[anns.length];
+        for(int i=0;i<anns.length; i++){
+            $ac[i] = $anno.of(anns[i]);
+        }
+        return or( $ac );
+    }
+
     public static $anno.Or or( $anno...$as ){
         return new Or($as);
     }

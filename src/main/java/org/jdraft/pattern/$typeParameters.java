@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * prototype for an _import declaration on a Java top level _type 
  *
  */
-public final class $typeParameters
+public class $typeParameters
     implements Template<_typeParameters>, $pattern<_typeParameters,$typeParameters>, $pattern.$java<_typeParameters,$typeParameters>,
         $method.$part, $constructor.$part, $class.$part,$interface.$part {
 
@@ -117,11 +117,27 @@ public final class $typeParameters
     public static $typeParameters of( _typeParameters _proto, Predicate<_typeParameters> constraint){
         return new $typeParameters( _proto ).$and(constraint);
     }
+
+    public static $typeParameters.Or or( _typeParameters... _protos ){
+        $typeParameters[] arr = new $typeParameters[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $typeParameters.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $typeParameters.Or or( $typeParameters...$tps ){
+        return new Or($tps);
+    }
     
     public Predicate<_typeParameters> constraint = t-> true;
         
     public List<$typeParameter> typeParams = new ArrayList<>();
-    
+
+    private $typeParameters(){
+        this(new ArrayList<>());
+    }
+
     private $typeParameters(_typeParameters proto ){
         proto.forEach(t-> typeParams.add(new $typeParameter(t )));
     }
@@ -729,7 +745,67 @@ public final class $typeParameters
         });
         return astNode;
     }
- 
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are suppressed.
+     */
+    public static class Or extends $typeParameters {
+
+        final List<$typeParameters>ors = new ArrayList<>();
+
+        public Or($typeParameters...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $typeParameters hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$typeParameters.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param n
+         * @return
+         */
+        public $typeParameters.Select select(_typeParameters n){
+            $typeParameters $a = whichMatch(n);
+            if( $a != null ){
+                return $a.select(n);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $method that matches the Method or null if none of the match
+         * @param tps
+         * @return
+         */
+        public $typeParameters whichMatch(_typeParameters tps){
+            Optional<$typeParameters> orsel  = this.ors.stream().filter( $p-> $p.matches(tps) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
+    }
+
     /**
      * A Matched Selection result returned from matching a prototype $import
      * inside of some CompilationUnit

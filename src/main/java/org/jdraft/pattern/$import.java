@@ -17,7 +17,7 @@ import java.util.function.Predicate;
  * prototype for an _import declaration on a Java top level _type 
  *
  */
-public final class $import
+public class $import
     implements Template<_import>, $pattern<_import, $import>, $pattern.$java<_import, $import>, $class.$part,
         $interface.$part, $enum.$part, $annotation.$part {
 
@@ -95,7 +95,11 @@ public final class $import
         _import _i = _import.of( clazz );
         return new $import( _i  ).$and(constraint);
     }
-    
+
+    public static $import of(ImportDeclaration astId){
+        return of( _import.of(astId));
+    }
+
     /**
      * 
      * @param _proto
@@ -113,6 +117,26 @@ public final class $import
      */
     public static $import of( _import _proto, Predicate<_import> constraint){
         return new $import( _proto ).$and(constraint);
+    }
+
+    public static $import.Or or( _import... _protos ){
+        $import[] arr = new $import[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $import.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $import.Or or( ImportDeclaration... _protos ){
+        $import[] arr = new $import[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $import.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $import.Or or( $import...$tps ){
+        return new $import.Or($tps);
     }
     
     public Predicate<_import> constraint = t-> true;
@@ -140,6 +164,12 @@ public final class $import
         } catch(Exception e){
             return false;
         }
+    }
+
+    private $import(){
+        this.importStencil = Stencil.of("$import$");
+        this.isStatic = null;
+        this.isWildcard = null;
     }
 
     private $import(_import proto ){
@@ -685,6 +715,70 @@ public final class $import
             }
         });
         return astNode;
+    }
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are suppressed.
+     *
+     * example: (match against a Logger or LogFactory import)
+     * $import $log = $import.or( $import.of(Logger.class), $import.of(LogFactory.class) );
+     *
+     */
+    public static class Or extends $import{
+
+        final List<$import>ors = new ArrayList<>();
+
+        public Or($import...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $import hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$import.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param astNode
+         * @return
+         */
+        public $import.Select select(ImportDeclaration astNode){
+            $import $a = whichMatch(astNode);
+            if( $a != null ){
+                return $a.select(astNode);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $anno that matches the AnnotationExpr or null if none of the match
+         * @param ae
+         * @return
+         */
+        public $import whichMatch(ImportDeclaration ae){
+            Optional<$import> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
     }
 
     /**

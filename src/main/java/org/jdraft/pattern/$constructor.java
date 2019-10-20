@@ -42,7 +42,7 @@ import org.jdraft.macro.macro;
 /**
  * prototype/template for a Java {@link _constructor}
  */
-public final class $constructor
+public class $constructor
     implements Template<_constructor>, $pattern<_constructor, $constructor>,
         $pattern.$java<_constructor, $constructor>, $class.$part, $enum.$part, $member.$named<$constructor>,
         $declared<_constructor,$constructor>, has$Annos {
@@ -264,7 +264,27 @@ public final class $constructor
     public static $constructor of( $part...components ){       
         return new $constructor( components );
     }
-    
+
+    public static $constructor.Or or( _constructor... _protos ){
+        $constructor[] arr = new $constructor[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $constructor.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $constructor.Or or( ConstructorDeclaration... _protos ){
+        $constructor[] arr = new $constructor[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $constructor.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $constructor.Or or( $constructor...$tps ){
+        return new $constructor.Or($tps);
+    }
+
     public Predicate<_constructor> constraint = t -> true;
     
     public $comment<JavadocComment> javadoc = $comment.javadocComment();
@@ -1280,7 +1300,69 @@ public final class $constructor
         });
         return astNode;
     }
-    
+
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are supressed.
+     */
+    public static class Or extends $constructor{
+
+        final List<$constructor>ors = new ArrayList<>();
+
+        public Or($constructor...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $constructor hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$constructor.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param astNode
+         * @return
+         */
+        public $constructor.Select select(_constructor astNode){
+            $constructor $a = whichMatch(astNode);
+            if( $a != null ){
+                return $a.select(astNode);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $anno that matches the AnnotationExpr or null if none of the match
+         * @param ae
+         * @return
+         */
+        public $constructor whichMatch(_constructor ae){
+            Optional<$constructor> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
+    }
+
+
     /**
      * A Matched Selection result returned from matching a prototype $ctor
      * inside of some Node or _node

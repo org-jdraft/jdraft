@@ -33,6 +33,13 @@ public final class _javadoc
         return this;
     }
 
+    public boolean contains( CharSequence content ){
+        if( !isEmpty() ){
+            return getContent().contains(content);
+        }
+        return false;
+    }
+
     public boolean isEmpty(){
         return !astJavadocedNode.hasJavaDocComment();
     }

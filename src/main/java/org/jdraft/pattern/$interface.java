@@ -130,6 +130,21 @@ public class $interface
         return $c;
     }
 
+    public static $interface.Or or( _interface... _protos ){
+        $interface[] arr = new $interface[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $interface.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $interface.Or or( ClassOrInterfaceDeclaration... _protos ){
+        $interface[] arr = new $interface[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $interface.of( _protos[i]);
+        }
+        return or(arr);
+    }
     /**
      * Builds a Or matching pattern for many different or patterns
      * @param $as

@@ -24,7 +24,7 @@ import java.util.function.Predicate;
  * 
  * @author Eric
  */
-public final class $node implements $pattern<Node, $node> {
+public class $node implements $pattern<Node, $node> {
 
     /**
      * 
@@ -81,6 +81,10 @@ public final class $node implements $pattern<Node, $node> {
         return of( "$node$", nodeTypes);
     }
 
+    public static $node of( Node node ){
+        return of( node.toString(Ast.PRINT_NO_ANNOTATIONS_OR_COMMENTS), node.getClass() );
+    }
+
     /**
      *
      * @param pattern
@@ -91,11 +95,27 @@ public final class $node implements $pattern<Node, $node> {
         return of(pattern).$and(n-> Ast.isNodeOfType(n, nodeTypes));
     }
 
+    public static $node.Or or( Node... _protos ){
+        $node[] arr = new $node[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $node.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $node.Or or( $node...$tps ){
+        return new $node.Or($tps);
+    }
+
     /** the string pattern */
     public Stencil nodeStencil;
     
     public Predicate<Node> constraint = t -> true;
-    
+
+    private $node(){
+        nodeStencil = Stencil.of("$node$");
+    }
+
     public $node( String pattern){
         this( Stencil.of(pattern) );
     }
@@ -541,7 +561,67 @@ public final class $node implements $pattern<Node, $node> {
             return Ast.COMPARE_NODE_BY_LOCATION.compare(o1.ast(), o2.ast());
         }        
     }
-    
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are suppressed.
+     */
+    public static class Or extends $node{
+
+        final List<$node>ors = new ArrayList<>();
+
+        public Or($node...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $node hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$node.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param n
+         * @return
+         */
+        public $node.Select select(Node n){
+            $node $a = whichMatch(n);
+            if( $a != null ){
+                return $a.select(n);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $method that matches the Method or null if none of the match
+         * @param n
+         * @return
+         */
+        public $node whichMatch(Node n){
+            Optional<$node> orsel  = this.ors.stream().filter( $p-> $p.match(n) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
+    }
+
     /**
      * A Matched Selection result returned from matching a prototype Node
      * @param <T> the underlying Node implementation, because classUse can be

@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * Pattern for parameter list
  * @author Eric
  */
-public final class $parameters implements Template<_parameters>, $pattern<_parameters,$parameters>,
+public class $parameters implements Template<_parameters>, $pattern<_parameters,$parameters>,
         $pattern.$java<_parameters,$parameters>, $constructor.$part, $method.$part {
 
     @Override
@@ -65,6 +65,19 @@ public final class $parameters implements Template<_parameters>, $pattern<_param
         return new $parameters(_parameters.of(pattern));
     }
 
+
+    public static $parameters.Or or( _parameters... _protos ){
+        $parameters[] arr = new $parameters[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $parameters.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $parameters.Or or( $parameters...$tps ){
+        return new $parameters.Or($tps);
+    }
+
     public static $parameters as( List<Parameter> parameters ){
         return as( _parameters.of(parameters));
     }
@@ -84,7 +97,11 @@ public final class $parameters implements Template<_parameters>, $pattern<_param
         $parameters $psa = of($ps);
         return $psa.$and( _pls -> _pls.size() == _ps.size() );
     }
-    
+
+    private $parameters(){
+        $params = new ArrayList<>();
+    }
+
     /**
      * 
      * @param _ps prototype parameters 
@@ -277,8 +294,7 @@ public final class $parameters implements Template<_parameters>, $pattern<_param
             return _parameters.of( (NodeWithParameters)f.get());
         }
         return null;
-    }    
-    
+    }
     
     @Override
     public Select selectFirstIn( Node astNode ){
@@ -478,7 +494,68 @@ public final class $parameters implements Template<_parameters>, $pattern<_param
         sb.append(" }");
         return sb.toString();    
     }
- 
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are suppressed.
+     */
+    public static class Or extends $parameters{
+
+        final List<$parameters>ors = new ArrayList<>();
+
+        public Or($parameters...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $parameters hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$parameters.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param n
+         * @return
+         */
+        public $parameters.Select select(NodeWithParameters n){
+            $parameters $a = whichMatch(n);
+            if( $a != null ){
+                return $a.select(n);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $method that matches the Method or null if none of the match
+         * @param parameters
+         * @return
+         */
+        public $parameters whichMatch(NodeWithParameters parameters){
+            Optional<$parameters> orsel  = this.ors.stream().filter( $p-> $p.matches(parameters) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
+    }
+
+
     /**
      * A Matched Selection result returned from matching a prototype $anno
      * inside of some Node or _node

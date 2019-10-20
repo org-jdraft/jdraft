@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 /**
  * @author Eric
  */
-public final class $parameter implements Template<_parameter>, $pattern<_parameter, $parameter>,
+public class $parameter implements Template<_parameter>, $pattern<_parameter, $parameter>,
         $pattern.$java<_parameter,$parameter>, $method.$part, $constructor.$part {
 
     public Class<_parameter> _modelType(){
@@ -185,6 +185,18 @@ public final class $parameter implements Template<_parameter>, $pattern<_paramet
      */
     public static $parameter of( _parameter _p ){
         return new $parameter( _p, p->true );
+    }
+
+    public static $parameter.Or or( _parameter... _protos ){
+        $parameter[] arr = new $parameter[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $parameter.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $parameter.Or or( $parameter...$tps ){
+        return new $parameter.Or($tps);
     }
 
     public static $parameter as( String param ){
@@ -824,7 +836,67 @@ public final class $parameter implements Template<_parameter>, $pattern<_paramet
         }
         return null;        
     }
-    
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are suppressed.
+     */
+    public static class Or extends $parameter{
+
+        final List<$parameter>ors = new ArrayList<>();
+
+        public Or($parameter...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $parameter hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$parameter.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param n
+         * @return
+         */
+        public $parameter.Select select(Parameter n){
+            $parameter $a = whichMatch(n);
+            if( $a != null ){
+                return $a.select(n);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $method that matches the Method or null if none of the match
+         * @param parameter
+         * @return
+         */
+        public $parameter whichMatch(Parameter parameter){
+            Optional<$parameter> orsel  = this.ors.stream().filter( $p-> $p.match(parameter) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
+    }
+
     /**
      * A Matched Selection result returned from matching a prototype $anno
      * inside of some Node or _node

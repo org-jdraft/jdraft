@@ -5,10 +5,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.PackageDeclaration;
 import org.jdraft.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -31,6 +28,13 @@ public class $package implements $pattern<PackageDeclaration, $package>, Templat
         return new $package("$packageName$", $annos.of(), t->true);
     }
 
+    public static $package of(PackageDeclaration pd ){
+        if( pd.getAnnotations().isEmpty()) {
+            return new $package(pd.getNameAsString(), $annos.of(), t -> true);
+        }
+        return new $package(pd.getNameAsString(), $annos.of(pd.getAnnotations()), t->true);
+    }
+
     public static $package of( String namePattern ){
         if( namePattern != null ) {
             return new $package(namePattern, $annos.of(), t -> true);
@@ -48,6 +52,24 @@ public class $package implements $pattern<PackageDeclaration, $package>, Templat
 
     public static $package of( String namePattern, $annos annos, Predicate<PackageDeclaration> matchFn ){
         return new $package( namePattern, annos, matchFn );
+    }
+
+    public static $package.Or or( PackageDeclaration... _protos ){
+        $package[] arr = new $package[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $package.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $package.Or or( $package...$tps ){
+        return new $package.Or($tps);
+    }
+
+    private $package(){
+        this.name = Stencil.of("$packageName$");
+        this.annos= $annos.of();
+        this.constraint = t -> true;
     }
 
     public $package( String namePattern, $annos annos, Predicate<PackageDeclaration> constraint){
@@ -271,6 +293,67 @@ public class $package implements $pattern<PackageDeclaration, $package>, Templat
         strs.addAll( this.name.list$Normalized() );
         return strs.stream().distinct().collect(Collectors.toList());
     }
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are suppressed.
+     */
+    public static class Or extends $package{
+
+        final List<$package>ors = new ArrayList<>();
+
+        public Or($package...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $package hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$package.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param n
+         * @return
+         */
+        public $package.Select select(PackageDeclaration n){
+            $package $a = whichMatch(n);
+            if( $a != null ){
+                return $a.select(n);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $method that matches the Method or null if none of the match
+         * @param packageDeclaration
+         * @return
+         */
+        public $package whichMatch(PackageDeclaration packageDeclaration){
+            Optional<$package> orsel  = this.ors.stream().filter( $p-> $p.match(packageDeclaration) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
+    }
+
 
     /**
      * A Matched Selection result returned from matching a prototype $field

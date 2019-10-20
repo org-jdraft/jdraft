@@ -25,7 +25,7 @@ import java.util.function.*;
  *
  * @author Eric
  */
-public final class $body implements Template<_body>, $pattern<_body, $body>, $pattern.$java<_body, $body>, $constructor.$part, $method.$part{
+public class $body implements Template<_body>, $pattern<_body, $body>, $pattern.$java<_body, $body>, $constructor.$part, $method.$part{
 
     /** a part of the body... a $ex, $stmt, $stmts, $case, $comment, $var */
     public interface $part { }
@@ -46,6 +46,18 @@ public final class $body implements Template<_body>, $pattern<_body, $body>, $pa
     public static $body of( String body ){
         $body $b = new $body( _body.of(body));
         return $b;
+    }
+
+    public static $body.Or or( _body... _protos ){
+        $body[] arr = new $body[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $body.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $body.Or or( $body...$tps ){
+        return new $body.Or($tps);
     }
 
     public static $body as(){
@@ -890,7 +902,67 @@ public final class $body implements Template<_body>, $pattern<_body, $body>, $pa
         });
         return astNode;
     }
-    
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are supressed.
+     */
+    public static class Or extends $body{
+
+        final List<$body>ors = new ArrayList<>();
+
+        public Or($body...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $body hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$body.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param astNode
+         * @return
+         */
+        public $body.Select select(_body astNode){
+            $body $a = whichMatch(astNode);
+            if( $a != null ){
+                return $a.select(astNode);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $anno that matches the AnnotationExpr or null if none of the match
+         * @param ae
+         * @return
+         */
+        public $body whichMatch(_body ae){
+            Optional<$body> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
+    }
+
     /**
      * 
      */

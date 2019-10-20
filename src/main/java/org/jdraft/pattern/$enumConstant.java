@@ -12,7 +12,7 @@ import java.util.function.Predicate;
 /**
  * Note... at the moment this is NOT a template... should it be??
  */
-public final class $enumConstant
+public class $enumConstant
         implements $pattern<_enum._constant, $enumConstant>, $pattern.$java<_enum._constant, $enumConstant>, $enum.$part,
         $member.$named<$enumConstant>, $declared<_enum._constant,$enumConstant> {
 
@@ -76,6 +76,26 @@ public final class $enumConstant
 
     public static $enumConstant of( EnumConstantDeclaration ecd ){
         return of( _enum._constant.of(ecd));
+    }
+
+    public static $enumConstant.Or or( _enum._constant... _protos ){
+        $enumConstant[] arr = new $enumConstant[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $enumConstant.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $enumConstant.Or or( EnumConstantDeclaration... _protos ){
+        $enumConstant[] arr = new $enumConstant[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $enumConstant.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $enumConstant.Or or( $enumConstant...$tps ){
+        return new $enumConstant.Or($tps);
     }
 
     public static $enumConstant as(EnumConstantDeclaration ecd ){
@@ -161,7 +181,7 @@ public final class $enumConstant
         return $ec;
     }
 
-    private $enumConstant(){
+    $enumConstant(){
     }
 
     public $enumConstant($part...parts){
@@ -483,6 +503,67 @@ public final class $enumConstant
     public Class<_enum._constant> _modelType() {
         return _enum._constant.class;
     }
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are supressed.
+     */
+    public static class Or extends $enumConstant{
+
+        final List<$enumConstant>ors = new ArrayList<>();
+
+        public Or($enumConstant...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $enumConstant hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$enumConstant.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param astNode
+         * @return
+         */
+        public $enumConstant.Select select(_enum._constant astNode){
+            $enumConstant $a = whichMatch(astNode);
+            if( $a != null ){
+                return $a.select(astNode);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $anno that matches the AnnotationExpr or null if none of the match
+         * @param ae
+         * @return
+         */
+        public $enumConstant whichMatch(_enum._constant ae){
+            Optional<$enumConstant> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
+    }
+
 
     /**
      * The selected Class

@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
  * if you want to operate ONLY on (local body variables) you can use Select
  * and 
  */
-public final class $var
+public class $var
     implements Template<VariableDeclarator>, $pattern<VariableDeclarator, $var>, $body.$part {
     
     /** marker interface for components that are a part of a var */ 
@@ -220,6 +220,24 @@ public final class $var
      */
     public static $var of(VariableDeclarator proto){
         return new $var( proto  );
+    }
+
+
+    /**
+     * Returns a matcher to match against any one of the provided $pattern implementations
+     * @param vars the potential vars
+     * @return a new $var Or implementation (which extends $var)
+     */
+    public static $var.Or or( $var...vars ){
+        return new Or(vars);
+    }
+
+    public static $var.Or or( VariableDeclarator... _protos ){
+        $var[] arr = new $var[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $var.of( _protos[i]);
+        }
+        return or(arr);
     }
 
     public static $var as(String...pattern){
@@ -896,6 +914,66 @@ public final class $var
         });
         return astNode;
     }
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are suppressed.
+     */
+    public static class Or extends $var {
+
+        final List<$var>ors = new ArrayList<>();
+
+        public Or($var...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $var hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$var.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param n
+         * @return
+         */
+        public $var.Select select(VariableDeclarator n){
+            $var $a = whichMatch(n);
+            if( $a != null ){
+                return $a.select(n);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $method that matches the Method or null if none of the match
+         * @param tps
+         * @return
+         */
+        public $var whichMatch(VariableDeclarator tps){
+            Optional<$var> orsel  = this.ors.stream().filter( $p-> $p.matches(tps) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
+    }/* Or */
 
     /**
      * A Matched Selection result returned from matching a prototype $var

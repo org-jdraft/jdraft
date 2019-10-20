@@ -28,7 +28,7 @@ import java.util.function.*;
  * NOTE: although this does not implement the Template<> and $query<> interfaces
  * it follows the same naming conventions
  */
-public final class $stmts implements Template<List<Statement>>, $pattern<List<Statement>, $stmts>, $body.$part {
+public class $stmts implements Template<List<Statement>>, $pattern<List<Statement>, $stmts>, $body.$part {
     
     /**
      * Build a dynamic code snippet based on the content of a method defined within an anonymous Object
@@ -130,6 +130,18 @@ public final class $stmts implements Template<List<Statement>>, $pattern<List<St
 
         bs.getStatements().forEach(s -> $s.add(s));
         return $s;
+    }
+
+    public static $stmts.Or or( List<Statement>... _protos ){
+        $stmts[] arr = new $stmts[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $stmts.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $stmts.Or or( $stmts...$tps ){
+        return new $stmts.Or($tps);
     }
 
     /**     */
@@ -685,6 +697,76 @@ public final class $stmts implements Template<List<Statement>>, $pattern<List<St
         this.$sts.forEach(s -> sb.append(s).append( System.lineSeparator() ));
         return "$stmts { "+ System.lineSeparator() + Text.indent( sb.toString() ) + "}";
     }
+
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are suppressed.
+     */
+    public static class Or extends $stmts {
+
+        final List<$stmts>ors = new ArrayList<>();
+
+        public Or($stmts...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $stmts hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$stmts.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param n
+         * @return
+         */
+        public Select select(Statement n){
+            $stmts $a = whichMatch(n);
+            if( $a != null ){
+                return $a.select(n);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        public $stmts whichMatch(Statement st){
+            Optional<$stmts> orsel  = this.ors.stream().filter( $p-> $p.matches(st) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
+
+        /**
+         * Return the underlying $method that matches the Method or null if none of the match
+         * @param stmts
+         * @return
+         */
+        public $stmts whichMatch(List<Statement> stmts){
+            Optional<$stmts> orsel  = this.ors.stream().filter( $p-> $p.matches(stmts) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
+    }
+
 
     /**
      * A Matched Selection result returned from matching a prototype $field

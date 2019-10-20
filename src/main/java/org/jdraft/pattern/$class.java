@@ -148,6 +148,21 @@ public class $class
         return new $class(parts);
     }
 
+    public static $class.Or or( _class... _protos ){
+        $class[] arr = new $class[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $class.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $class.Or or( ClassOrInterfaceDeclaration... _protos ){
+        $class[] arr = new $class[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $class.of( _protos[i]);
+        }
+        return or(arr);
+    }
     /**
      * Builds a Or matching pattern for many different or patterns
      * @param $as

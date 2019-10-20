@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * if we want som EXACT set of modifiers (i.e. only "private"  )
  * @author Eric
  */
-public final class $modifiers
+public class $modifiers
     implements $pattern<_modifiers, $modifiers>, $pattern.$java<_modifiers,$modifiers>, $constructor.$part, $method.$part,
         $field.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part{
 
@@ -160,6 +160,10 @@ public final class $modifiers
         $modifiers $mods = new $modifiers();
         $mods.mustInclude.addAll(mods);
         return $mods;
+    }
+
+    public static $modifiers.Or or( $modifiers...$tps ){
+        return new $modifiers.Or($tps);
     }
 
     /**
@@ -515,6 +519,66 @@ public final class $modifiers
             return new Select( _ms );
         }
         return null;
+    }
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are suppressed.
+     */
+    public static class Or extends $modifiers{
+
+        final List<$modifiers>ors = new ArrayList<>();
+
+        public Or($modifiers...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $modifiers hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$modifiers.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param _m
+         * @return
+         */
+        public $modifiers.Select select(_modifiers _m){
+            $modifiers $a = whichMatch(_m);
+            if( $a != null ){
+                return $a.select(_m);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $method that matches the Method or null if none of the match
+         * @param ae
+         * @return
+         */
+        public $modifiers whichMatch(_modifiers ae){
+            Optional<$modifiers> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
     }
     
     public static class Select implements selected, select_java<_modifiers> {

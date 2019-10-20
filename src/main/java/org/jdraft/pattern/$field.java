@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
  *
  * @author Eric
  */
-public final class $field implements Template<_field>, $pattern<_field, $field>, $pattern.$java<_field, $field>,
+public class $field implements Template<_field>, $pattern<_field, $field>, $pattern.$java<_field, $field>,
         $class.$part, $interface.$part, $enum.$part, $annotation.$part, $enumConstant.$part, $member.$named<$field>,
         $declared<_field,$field>, has$Annos {
 
@@ -199,6 +199,27 @@ public final class $field implements Template<_field>, $pattern<_field, $field>,
     public static $field of($part...parts ){
         return new $field(parts);
     }
+
+    public static $field.Or or( _field... _protos ){
+        $field[] arr = new $field[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $field.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $field.Or or( VariableDeclarator... _protos ){
+        $field[] arr = new $field[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $field.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $field.Or or( $field...$tps ){
+        return new $field.Or($tps);
+    }
+
     
     public Predicate<_field> constraint = t->true;
     public $comment<JavadocComment> javadoc = $comment.javadocComment("$javadoc$");
@@ -1143,7 +1164,68 @@ public final class $field implements Template<_field>, $pattern<_field, $field>,
         str.append("}");
         return str.toString();
     }
-    
+
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are suppressed.
+     */
+    public static class Or extends $field{
+
+        final List<$field>ors = new ArrayList<>();
+
+        public Or($field...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $field hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$field.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param astNode
+         * @return
+         */
+        public $field.Select select(VariableDeclarator astNode){
+            $field $a = whichMatch(astNode);
+            if( $a != null ){
+                return $a.select(astNode);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $anno that matches the AnnotationExpr or null if none of the match
+         * @param ae
+         * @return
+         */
+        public $field whichMatch(VariableDeclarator ae){
+            Optional<$field> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
+    }
+
      /**
      * A Matched Selection result returned from matching a prototype $field
      * inside of some Node or _node

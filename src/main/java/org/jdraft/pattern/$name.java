@@ -1,11 +1,11 @@
 package org.jdraft.pattern;
 
 import org.jdraft.Stencil;
+import org.jdraft.Text;
 import org.jdraft.Tokens;
 import org.jdraft.Translator;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 
 /**
@@ -17,7 +17,7 @@ import java.util.function.Predicate;
  * @see $id a potentially qualified (i.e. java.util.Map) identifier/name
  * @see $ex#nameEx() a name expression
  */
-public final class $name implements $constructor.$part, $method.$part, $field.$part,
+public class $name implements $constructor.$part, $method.$part, $field.$part,
         $parameter.$part, $typeParameter.$part, $var.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part,
         $enumConstant.$part,  $annotationElement.$part{
 
@@ -31,6 +31,19 @@ public final class $name implements $constructor.$part, $method.$part, $field.$p
 
     public static $name of(String name ){
         return new $name( name );
+    }
+
+
+    public static $name.Or or( String... _protos ){
+        $name[] arr = new $name[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $name.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $name.Or or( $name...$tps ){
+        return new $name.Or($tps);
     }
 
     public static $name as(String name) { return of(name); }
@@ -165,5 +178,69 @@ public final class $name implements $constructor.$part, $method.$part, $field.$p
             }
         }
         return null;
+    }
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are suppressed.
+     */
+    public static class Or extends $name {
+
+        final List<$name>ors = new ArrayList<>();
+
+        public Or($name...$as){
+            super("$name$");
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $name hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$name.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        public Tokens parse(String name){
+            $name $n = whichMatch(name);
+            if( $n != null ){
+                return $n.parse(name);
+            }
+            return null;
+        }
+
+        public Tokens parseTo(String name, Tokens tokens) {
+            $name $n = whichMatch(name);
+            if( $n != null ){
+                return $n.parseTo(name, tokens);
+            }
+            return null;
+        }
+
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $method that matches the Method or null if none of the match
+         * @param name
+         * @return
+         */
+        public $name whichMatch(String name){
+            Optional<$name> orsel  = this.ors.stream().filter($p-> $p.matches(name) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
     }
 }

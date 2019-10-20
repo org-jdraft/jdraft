@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 /**
  * prototype/template for a Java {@link _method}
  */
-public final class $method
+public class $method
     implements Template<_method>, $pattern<_method, $method>, $pattern.$java<_method,$method>, $class.$part,
         $interface.$part, $enum.$part,$enumConstant.$part, $member.$named<$method>, $declared<_method,$method>, has$Annos {
 
@@ -225,6 +225,19 @@ public final class $method
      */
     public static $method of( $part...parts ){
         return new $method( parts ); 
+    }
+
+
+    public static $method.Or or( _method... _protos ){
+        $method[] arr = new $method[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $method.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $method.Or or( $method...$tps ){
+        return new $method.Or($tps);
     }
 
     /**
@@ -1401,6 +1414,83 @@ public final class $method
             }
         });
         return astNode;
+    }
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are suppressed.
+     */
+    public static class Or extends $method{
+
+        final List<$method>ors = new ArrayList<>();
+
+        public Or($method...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $method hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$method.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param astNode
+         * @return
+         */
+        public $method.Select select(MethodDeclaration astNode){
+            $method $a = whichMatch(astNode);
+            if( $a != null ){
+                return $a.select(astNode);
+            }
+            return null;
+        }
+
+        /**
+         *
+         * @param _m
+         * @return
+         */
+        public $method.Select select(_method _m){
+            $method $a = whichMatch(_m);
+            if( $a != null ){
+                return $a.select(_m);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        public $method whichMatch(_method _m){
+            return whichMatch(_m.ast());
+        }
+
+        /**
+         * Return the underlying $method that matches the Method or null if none of the match
+         * @param ae
+         * @return
+         */
+        public $method whichMatch(MethodDeclaration ae){
+            Optional<$method> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
     }
     
     /**

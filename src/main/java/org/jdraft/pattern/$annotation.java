@@ -126,6 +126,22 @@ public class $annotation
         return $c;
     }
 
+    public static $annotation.Or or( _annotation... _protos ){
+        $annotation[] arr = new $annotation[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $annotation.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $annotation.Or or( AnnotationDeclaration... _protos ){
+        $annotation[] arr = new $annotation[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $annotation.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
     /**
      * Builds a Or matching pattern for many different or patterns
      * @param $as

@@ -20,7 +20,7 @@ import java.util.function.*;
  * </PRE>
  * @param <T> the underlying Expression TYPE (could be Expression to mean all expressions)
  */
-public final class $ex<T extends Expression>
+public class $ex<T extends Expression>
     implements $field.$part, $pattern<T, $ex<T>>, $var.$part, $enumConstant.$part, $annotationElement.$part, Template<T>,
     $body.$part {
 
@@ -69,7 +69,18 @@ public final class $ex<T extends Expression>
     public static <T extends Expression> $ex<T> of(T protoExpr, Predicate<T> constraint ){
         return new $ex<>(protoExpr ).$and(constraint);
     }
-     
+
+    public static $ex.Or or( Expression... _protos ){
+        $ex[] arr = new $ex[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $ex.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $ex.Or or( $ex...$tps ){
+        return new $ex.Or($tps);
+    }
     
     /**
      * i.e. "arr[3]"
@@ -2198,7 +2209,67 @@ public final class $ex<T extends Expression>
     public String toString() {
         return "$ex{ (" + this.expressionClass.getSimpleName() + ") : \"" + this.exprStencil + "\" }";
     }
-       
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are supressed.
+     */
+    public static class Or extends $ex{
+
+        final List<$ex>ors = new ArrayList<>();
+
+        public Or($ex...$as){
+            super(Expression.class, "$ex$" );
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $ex hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$ex.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param astNode
+         * @return
+         */
+        public $ex.Select select(Expression astNode){
+            $ex $a = whichMatch(astNode);
+            if( $a != null ){
+                return $a.select(astNode);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $anno that matches the AnnotationExpr or null if none of the match
+         * @param ae
+         * @return
+         */
+        public $ex whichMatch(Expression ae){
+            Optional<$ex> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
+    }
+
     /**
      * A Matched Selection result returned from matching a prototype $expr
      * inside of some (Ast)Node or (_java)_node

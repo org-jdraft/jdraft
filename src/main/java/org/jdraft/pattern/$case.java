@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  *
  * @author Eric
  */
-public final class $case
+public class $case
     implements $pattern<SwitchEntry, $case>, Template<SwitchEntry>, $body.$part {
 
     public static $case of(){
@@ -46,6 +46,18 @@ public final class $case
     
     public static $case of($ex expr, $stmt...stmts ){
         return new $case(expr, stmts);
+    }
+
+    public static $case.Or or( SwitchEntry... _protos ){
+        $case[] arr = new $case[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $case.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $case.Or or( $case...$tps ){
+        return new $case.Or($tps);
     }
 
     public static $case as( String...st){
@@ -80,7 +92,10 @@ public final class $case
     public $ex label = $ex.of();
     
     public List<$stmt> statements = new ArrayList<>();
-       
+
+    $case(){
+        this.label = null;
+    }
     private $case( $ex $labelExpr ){
         this.label = $labelExpr; 
     }
@@ -510,6 +525,67 @@ public final class $case
         }
         this.statements.forEach(s -> allN.addAll(s.list$Normalized()));
         return allN.stream().distinct().collect(Collectors.toList());
+    }
+
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are supressed.
+     */
+    public static class Or extends $case{
+
+        final List<$case>ors = new ArrayList<>();
+
+        public Or($case...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $case hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$case.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param astNode
+         * @return
+         */
+        public $case.Select select(SwitchEntry astNode){
+            $case $a = whichMatch(astNode);
+            if( $a != null ){
+                return $a.select(astNode);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $anno that matches the AnnotationExpr or null if none of the match
+         * @param ae
+         * @return
+         */
+        public $case whichMatch(SwitchEntry ae){
+            Optional<$case> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
     }
 
     public static class Select 

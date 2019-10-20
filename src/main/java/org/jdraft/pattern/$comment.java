@@ -16,7 +16,7 @@ import java.util.function.Predicate;
  * @author Eric
  * @param <C> the underlying comment type
  */
-public final class $comment <C extends Comment>
+public class $comment <C extends Comment>
     implements $pattern<C, $comment<C>>, Template<C>, $constructor.$part, $method.$part, $field.$part, $class.$part,
         $interface.$part, $enum.$part, $annotation.$part,$enumConstant.$part, $annotationElement.$part, $body.$part {
     
@@ -27,6 +27,18 @@ public final class $comment <C extends Comment>
     public static<C extends Comment> $comment<C> of( String pattern, Predicate<C> constraint ){
         return (($comment<C>) new $comment(pattern)).$and(constraint);
         //return (($comment<C>) new $comment(Ast.comment(pattern))).$and(constraint);
+    }
+
+    public static $comment.Or or( Comment... _protos ){
+        $comment[] arr = new $comment[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $comment.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $comment.Or or( $comment...$tps ){
+        return new $comment.Or($tps);
     }
 
     /** Look for an exact match for the comment */
@@ -597,6 +609,67 @@ public final class $comment <C extends Comment>
                     .append("}").append(System.lineSeparator());
         }
         return str.toString();
+    }
+
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are supressed.
+     */
+    public static class Or extends $comment{
+
+        final List<$comment>ors = new ArrayList<>();
+
+        public Or($comment...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $comment hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$comment.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param astNode
+         * @return
+         */
+        public $comment.Select select(Comment astNode){
+            $comment $a = whichMatch(astNode);
+            if( $a != null ){
+                return $a.select(astNode);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $anno that matches the AnnotationExpr or null if none of the match
+         * @param ae
+         * @return
+         */
+        public $comment whichMatch(Comment ae){
+            Optional<$comment> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
     }
 
     /**

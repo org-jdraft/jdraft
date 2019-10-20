@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * pattern for an _import declaration on a Java top level _type
  *
  */
-public final class $throws
+public class $throws
     implements Template<_throws>, $pattern<_throws, $throws>, $pattern.$java<_throws,$throws>, $method.$part, $constructor.$part {
 
     public Class<_throws> _modelType(){
@@ -133,7 +133,20 @@ public final class $throws
     public static $throws of( _throws _proto, Predicate<_throws> constraint){
         return new $throws( _proto ).$and(constraint);
     }
-    
+
+    public static $throws.Or or( _throws... _protos ){
+        $throws[] arr = new $throws[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $throws.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $throws.Or or( $throws...$tps ){
+        return new $throws.Or($tps);
+    }
+
+
     public Predicate<_throws> constraint = t-> true;
 
     public List<$typeRef> throws$ids = new ArrayList<>();
@@ -714,6 +727,66 @@ public final class $throws
             }
         });
         return astNode;
+    }
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are suppressed.
+     */
+    public static class Or extends $throws {
+
+        final List<$throws>ors = new ArrayList<>();
+
+        protected Or($throws...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $throws hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$throws.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param n
+         * @return
+         */
+        public $throws.Select select(_throws n){
+            $throws $a = whichMatch(n);
+            if( $a != null ){
+                return $a.select(n);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $method that matches the Method or null if none of the match
+         * @param stmt
+         * @return
+         */
+        public $throws whichMatch(_throws stmt){
+            Optional<$throws> orsel  = this.ors.stream().filter( $p-> $p.matches(stmt) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
     }
 
     /**

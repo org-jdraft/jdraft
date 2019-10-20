@@ -20,7 +20,7 @@ import java.util.function.Predicate;
 /**
  * Template for a Java Type {@link Type} Reference
  */
-public final class $typeRef
+public class $typeRef
     implements Template<_typeRef>, $pattern<_typeRef, $typeRef>, $method.$part, $field.$part,
         $parameter.$part, $typeParameter.$part, $var.$part, $annotationElement.$part {
 
@@ -80,6 +80,26 @@ public final class $typeRef
      */
     public static $typeRef of( _typeRef _proto){
         return new $typeRef(_proto.ast());
+    }
+
+    public static $typeRef.Or or( Class... typeClasses ){
+        $typeRef[] arr = new $typeRef[typeClasses.length];
+        for(int i=0;i<typeClasses.length;i++){
+            arr[i] = $typeRef.of( typeClasses[i]);
+        }
+        return or(arr);
+    }
+
+    public static $typeRef.Or or( _typeRef... _protos ){
+        $typeRef[] arr = new $typeRef[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $typeRef.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $typeRef.Or or( $typeRef...typeRefs ){
+        return new Or(typeRefs);
     }
 
     public static $typeRef as(String exact){
@@ -686,6 +706,66 @@ public final class $typeRef
     @Override
     public String toString() {
         return "$typeRef{ "+ this.typePattern() + " }";
+    }
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are suppressed.
+     */
+    public static class Or extends $typeRef {
+
+        final List<$typeRef>ors = new ArrayList<>();
+
+        public Or($typeRef...$as){
+            super("$typeRef$");
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $typeRef hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$typeRef.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param n
+         * @return
+         */
+        public $typeRef.Select select(_typeRef n){
+            $typeRef $a = whichMatch(n);
+            if( $a != null ){
+                return $a.select(n);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $typeRef that matches the Method or null if none of the match
+         * @param tps
+         * @return
+         */
+        public $typeRef whichMatch(_typeRef tps){
+            Optional<$typeRef> orsel  = this.ors.stream().filter( $p-> $p.matches(tps) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
     }
 
     /**

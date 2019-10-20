@@ -6,10 +6,7 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import org.jdraft.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -47,6 +44,18 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
         return of( new String[]{bodyPattern});
     }
 
+
+    public static $initBlock.Or or( InitializerDeclaration... _protos ){
+        $initBlock[] arr = new $initBlock[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $initBlock.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $initBlock.Or or( $initBlock...$tps ){
+        return new $initBlock.Or($tps);
+    }
 
     public static $initBlock as(_initBlock _ib){
         return as( _ib.ast());
@@ -157,6 +166,10 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
         return of(bdy);
     }
 
+    private $initBlock(){
+        this.body = $body.of();
+        this.isStatic = null;
+    }
     //public $initBlock($stmt<BlockStmt> $body, Boolean isStatic, Predicate<_initBlock> constraint){
     public $initBlock($body $body, Boolean isStatic, Predicate<_initBlock> constraint){
         //the pattern must be a valid package name
@@ -265,7 +278,6 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
     public Tokens parse (_initBlock _sb ){
         if( constraint.test(_sb) ){
             return body.select( _sb ).tokens().asTokens();
-            //return body.select( _sb.ast().getBody()).tokens().asTokens();
         }
         return null;
     }
@@ -392,6 +404,67 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
         List<String> strs = this.body.list$Normalized();
         strs.addAll( this.body.list$Normalized() );
         return strs.stream().distinct().collect(Collectors.toList());
+    }
+
+
+    /**
+     * An Or entity that can match against any of the $pattern instances provided
+     * NOTE: template features (draft/fill) are suppressed.
+     */
+    public static class Or extends $initBlock{
+
+        final List<$initBlock>ors = new ArrayList<>();
+
+        public Or($initBlock...$as){
+            super();
+            Arrays.stream($as).forEach($a -> ors.add($a) );
+        }
+
+        @Override
+        public $initBlock hardcode$(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+            return this;
+        }
+
+        @Override
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append("$initBlock.Or{");
+            sb.append(System.lineSeparator());
+            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            sb.append("}");
+            return sb.toString();
+        }
+
+        /**
+         *
+         * @param astNode
+         * @return
+         */
+        public $initBlock.Select select(InitializerDeclaration astNode){
+            $initBlock $a = whichMatch(astNode);
+            if( $a != null ){
+                return $a.select(astNode);
+            }
+            return null;
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        /**
+         * Return the underlying $anno that matches the InitBlock or null if none of the match
+         * @param ae
+         * @return
+         */
+        public $initBlock whichMatch(InitializerDeclaration ae){
+            Optional<$initBlock> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
     }
 
     /**

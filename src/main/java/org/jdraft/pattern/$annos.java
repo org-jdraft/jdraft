@@ -1,6 +1,7 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import org.jdraft.*;
 import org.jdraft._walk;
@@ -75,6 +76,10 @@ public class $annos
         return $as;
     }
 
+    public static $annos of(List<AnnotationExpr> annos){
+        return of( _annos.of(annos));
+    }
+
     /**
      *
      * @param annoPatterns
@@ -101,6 +106,14 @@ public class $annos
      */
     public static $annos as( _anno._hasAnnos _ha){
         return as( _ha.getAnnos() );
+    }
+
+    public static $annos.Or or( _anno._hasAnnos... _protos ){
+        $annos[] arr = new $annos[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $annos.of( _protos[i]);
+        }
+        return or(arr);
     }
 
     /**
