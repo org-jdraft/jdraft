@@ -3,11 +3,12 @@ package org.jdraft.pattern;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.AnnotationMemberDeclaration;
 import com.github.javaparser.ast.comments.JavadocComment;
-import org.jdraft.*;
 
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+
+import org.jdraft.*;
 
 /**
  * Note... at the moment this is NOT a template... should it be??
@@ -32,6 +33,32 @@ public class $annotationElement
 
     public static $annotationElement of (String... annotationElement ){
         return of( _annotation._element.of(annotationElement) );
+    }
+
+    public static $annotationElement of(AnnotationMemberDeclaration _ec ){
+        return of( _annotation._element.of(_ec));
+    }
+
+    public static $annotationElement of(_annotation._element _ec ){
+        $annotationElement ec = new $annotationElement();
+
+        if( _ec.hasJavadoc()) {
+            ec.javadoc = $comment.javadocComment(_ec.getJavadoc());
+        }
+        ec.name = $name.of(_ec.getName());
+        ec.type = $typeRef.of(_ec.getType() );
+        if( _ec.hasDefaultValue() ){
+            ec.defaultValue = $ex.of(_ec.getDefaultValue());
+        }
+        return ec;
+    }
+
+    public static $annotationElement of(Predicate<_annotation._element> constraint ){
+        return new $annotationElement().$and(constraint);
+    }
+
+    public static $annotationElement of($part...parts){
+        return new $annotationElement(parts);
     }
 
     public static $annotationElement.Or or( _annotation._element... _protos ){
@@ -68,32 +95,6 @@ public class $annotationElement
             ae.$and( _ae -> !_ae.hasDefaultValue());
         }
         return ae;
-    }
-
-    public static $annotationElement of(AnnotationMemberDeclaration _ec ){
-        return of( _annotation._element.of(_ec));
-    }
-
-    public static $annotationElement of(_annotation._element _ec ){
-        $annotationElement ec = new $annotationElement();
-
-        if( _ec.hasJavadoc()) {
-            ec.javadoc = $comment.javadocComment(_ec.getJavadoc());
-        }
-        ec.name = $name.of(_ec.getName());
-        ec.type = $typeRef.of(_ec.getType() );
-        if( _ec.hasDefaultValue() ){
-            ec.defaultValue = $ex.of(_ec.getDefaultValue());
-        }
-        return ec;
-    }
-
-    public static $annotationElement of(Predicate<_annotation._element> constraint ){
-        return new $annotationElement().$and(constraint);
-    }
-
-    public static $annotationElement of($part...parts){
-        return new $annotationElement(parts);
     }
 
     /**

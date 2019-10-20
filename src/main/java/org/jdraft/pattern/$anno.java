@@ -1,22 +1,17 @@
 package org.jdraft.pattern;
 
-import org.jdraft._code;
-import org.jdraft._java;
-import org.jdraft._anno;
-import org.jdraft._type;
-import org.jdraft.Ex;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.expr.*;
-import org.jdraft.*;
-import org.jdraft._node;
+
 import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import org.jdraft.Template;
+
+import org.jdraft.*;
 
 /**
  * prototype for an annotation
@@ -85,6 +80,20 @@ public class $anno
         return of( sourceAnnoClass).$and(constraint);
     }
 
+    /**
+     *
+     * @param anonymousObjectWithAnnotation
+     * @return
+     */
+    public static $anno of( Object anonymousObjectWithAnnotation ){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        ObjectCreationExpr oce = Ex.anonymousObjectEx( ste );
+        NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
+        BodyDeclaration bd = bds.stream().filter(b -> b.getAnnotations().isNonEmpty() ).findFirst().get();
+        return of( _anno.of(bd.getAnnotation(0) ) );
+    }
+
+
     public static $anno.Or or( Class<? extends Annotation>... annClasses ){
         $anno[] $ac = new $anno[annClasses.length];
         for(int i=0;i<annClasses.length; i++){
@@ -115,19 +124,6 @@ public class $anno
         $a.$and( _a-> _an.listKeys().size() == _a.listKeys().size() && _an.listValues().size() == _an.listValues().size());
         return $a;
     }
-    
-    /**
-     * 
-     * @param anonymousObjectWithAnnotation
-     * @return 
-     */
-    public static $anno of( Object anonymousObjectWithAnnotation ){
-        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Ex.anonymousObjectEx( ste );
-        NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
-        BodyDeclaration bd = bds.stream().filter(b -> b.getAnnotations().isNonEmpty() ).findFirst().get();
-        return of( _anno.of(bd.getAnnotation(0) ) );        
-    }
 
     /** Default Matching constraint (by default ALWAYS Match)*/
     Predicate<_anno> constraint = a -> true;
@@ -137,7 +133,6 @@ public class $anno
 
     /** the member values of the annotation */
     List<$memberValue> $mvs = new ArrayList<>();
-
 
     /**
      * 

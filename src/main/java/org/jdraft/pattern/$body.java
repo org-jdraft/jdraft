@@ -3,19 +3,13 @@ package org.jdraft.pattern;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.utils.Log;
-import org.jdraft._code;
-import org.jdraft._java;
-import org.jdraft._type;
-import org.jdraft._body;
-import org.jdraft.Ex;
-import org.jdraft.Ast;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt;
 import com.github.javaparser.ast.nodeTypes.NodeWithOptionalBlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
+
 import org.jdraft.*;
-import org.jdraft._node;
 
 import java.util.*;
 import java.util.function.*;
@@ -46,6 +40,85 @@ public class $body implements Template<_body>, $pattern<_body, $body>, $pattern.
     public static $body of( String body ){
         $body $b = new $body( _body.of(body));
         return $b;
+    }
+
+
+    /**
+     *
+     * @param parts
+     * @return
+     */
+    public static $body of( $part...parts ){
+        $body $b = of();
+        for(int i=0;i<parts.length;i++){
+            $b.$and( parts[i] );
+        }
+        return $b;
+    }
+
+    public static $body of( String...body ){
+        return new $body( _body.of(body));
+    }
+
+    public static $body of( BlockStmt bs ){
+        return of( _body.of(bs));
+    }
+
+    public static $body of( _body _bd ){
+        return new $body(_bd);
+    }
+
+    public static $body of( NodeWithBlockStmt astNodeWithBlock ){
+        return new $body(_body.of(astNodeWithBlock));
+    }
+
+    public static $body of( NodeWithOptionalBlockStmt astNodeWithBlock ){
+        return new $body(_body.of(astNodeWithBlock));
+    }
+
+    public static $body of(Ex.Command commandLambda ){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        return $body.of( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
+    }
+
+    public static $body of(Consumer commandLambda ){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        return $body.of( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
+    }
+
+    public static $body of(BiConsumer commandLambda ){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        return $body.of( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
+    }
+
+    public static $body of(Ex.TriConsumer commandLambda ){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        return $body.of( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
+    }
+
+    public static $body of(Ex.QuadConsumer commandLambda ){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        return $body.of( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
+    }
+
+    public static <A extends Object, B extends Object> $body of(Function<A,B> commandLambda ){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        return $body.of( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object>  $body of(BiFunction<A,B,C> commandLambda ){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        return $body.of( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $body of(Ex.TriFunction<A,B,C,D> commandLambda ){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        return $body.of( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> $body of(Ex.QuadFunction<A,B,C,D,E> commandLambda ){
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        return $body.of( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
     }
 
     public static $body.Or or( _body... _protos ){
@@ -137,87 +210,6 @@ public class $body implements Template<_body>, $pattern<_body, $body>, $pattern.
         return $body.as( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
     }
 
-
-
-
-    /**
-     *
-     * @param parts
-     * @return
-     */
-    public static $body of( $part...parts ){
-        $body $b = of();
-        for(int i=0;i<parts.length;i++){
-            $b.$and( parts[i] );
-        }
-        return $b;
-    }
-
-    public static $body of( String...body ){
-        return new $body( _body.of(body));
-    }
-
-    public static $body of( BlockStmt bs ){
-        return of( _body.of(bs));
-    }
-
-    public static $body of( _body _bd ){
-        return new $body(_bd);
-    }
-
-    public static $body of( NodeWithBlockStmt astNodeWithBlock ){
-        return new $body(_body.of(astNodeWithBlock));
-    }
-    
-    public static $body of( NodeWithOptionalBlockStmt astNodeWithBlock ){
-        return new $body(_body.of(astNodeWithBlock));
-    }
-    
-    public static $body of(Ex.Command commandLambda ){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
-        return $body.of( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
-    }
-    
-    public static $body of(Consumer commandLambda ){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
-        return $body.of( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
-    }
-    
-    public static $body of(BiConsumer commandLambda ){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
-        return $body.of( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
-    }
-    
-    public static $body of(Ex.TriConsumer commandLambda ){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
-        return $body.of( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
-    }
-    
-    public static $body of(Ex.QuadConsumer commandLambda ){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
-        return $body.of( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
-    }
-    
-    public static <A extends Object, B extends Object> $body of(Function<A,B> commandLambda ){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
-        return $body.of( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
-    }
-    
-    public static <A extends Object, B extends Object, C extends Object>  $body of(BiFunction<A,B,C> commandLambda ){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
-        return $body.of( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
-    }
-    
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $body of(Ex.TriFunction<A,B,C,D> commandLambda ){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
-        return $body.of( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
-    }
-    
-    public static <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> $body of(Ex.QuadFunction<A,B,C,D,E> commandLambda ){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
-        return $body.of( le.getBody().toString(Ast.PRINT_NO_COMMENTS ) );
-    }
-    
     public static $body notImplemented(){
         return new $body().$and(b-> !b.isImplemented());
     }

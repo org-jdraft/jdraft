@@ -8,11 +8,12 @@ import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import org.jdraft.*;
 
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+
+import org.jdraft.*;
 
 /**
  * Note... at the moment this is NOT a template... should it be??
@@ -287,7 +288,6 @@ public class $enum
         }
         return this;
     }
-
 
     @Override
     public $enum $(String target, String $paramName) {

@@ -6,12 +6,13 @@ import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.utils.Log;
-import org.jdraft.*;
 
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import org.jdraft.*;
 
 /**
  * A Conjunction over one or more patterns OR'ed together
@@ -124,7 +125,6 @@ public final class $or<$p extends $pattern>
     public Select select(_node _n ){
         return select( _n.ast());
     }
-
 
     /**
      *

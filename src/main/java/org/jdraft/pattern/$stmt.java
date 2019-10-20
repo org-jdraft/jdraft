@@ -1,25 +1,18 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
-import org.jdraft._code;
-import org.jdraft._java;
-import org.jdraft._type;
-import org.jdraft._walk;
-import org.jdraft.Ex;
-import org.jdraft.Ast;
-import org.jdraft.Stmt;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
-import org.jdraft.*;
-import org.jdraft.Ex.QuadConsumer;
-import org.jdraft.Ex.TriConsumer;
-import org.jdraft._node;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.*;
+
+import org.jdraft.*;
+import org.jdraft.Ex.QuadConsumer;
+import org.jdraft.Ex.TriConsumer;
 
 /**
  * Pattern of a Java {@link Statement} that provides operations for
@@ -199,7 +192,6 @@ public class $stmt<T extends Statement>
     public static $stmt of(Statement astProto ){
         return new $stmt<>(astProto);
     }
-
 
     public static $stmt.Or or( Statement... _protos ){
         $stmt[] arr = new $stmt[_protos.length];

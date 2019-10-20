@@ -17,22 +17,8 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
-import org.jdraft._code;
-import org.jdraft._modifiers;
-import org.jdraft._javadoc;
-import org.jdraft._constructor;
-import org.jdraft._class;
-import org.jdraft._java;
-import org.jdraft._parameter;
-import org.jdraft._throws;
-import org.jdraft._type;
-import org.jdraft._body;
-import org.jdraft._walk;
-import org.jdraft.Ex;
-import org.jdraft.Stmt;
 import org.jdraft.*;
 import org.jdraft._anno._annos;
-import org.jdraft._node;
 import org.jdraft._parameter._parameters;
 import org.jdraft._typeParameter._typeParameters;
 import org.jdraft.macro._remove;
@@ -81,88 +67,7 @@ public class $constructor
         return of( ste, anonymousObjectContainingMethod);
     }
 
-    public static $constructor as( Object anonymousObjectContainingMethod ){
-        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return as( ste, anonymousObjectContainingMethod);
-    }
 
-    public static $constructor as( StackTraceElement ste, Object anonymousObjectContainingMethod ){
-        _constructor _ct = from(ste, anonymousObjectContainingMethod);
-        return as(_ct, anonymousObjectContainingMethod );
-    }
-
-    public static $constructor as( _constructor _ct, Object anonymousObjectContainingMethod ){
-        $constructor $ct = new $constructor();
-        if( _ct.hasJavadoc() ){
-            $ct.javadoc = $comment.javadocComment(_ct.getJavadoc());
-        }
-        if( _ct.hasAnnos() ){
-            $ct.annos = $annos.as(_ct.getAnnos() );
-        } else{
-            $ct.annos = $annos.none();
-        }
-        $ct.modifiers = $modifiers.as(_ct );
-        if( !_ct.hasTypeParameters() ){
-            final _typeParameters etps = _ct.getTypeParameters();
-            $ct.typeParameters = $typeParameters.as(etps);
-        } else{
-            $ct.typeParameters = $typeParameters.none();
-        }
-        $ct.name = $name.as(_ct.getName() );
-        if( _ct.hasParameters() ){
-            $ct.parameters = $parameters.as(_ct.getParameters());
-        } else{
-            $ct.parameters = $parameters.none();
-        }
-        $ct.thrown = $throws.as( _ct.getThrows() );
-        $ct.body = $body.as(_ct.getBody());
-
-        return $ct;
-    }
-
-    private static _constructor from( StackTraceElement ste, Object anonymousObjectContainingMethod ){
-        ObjectCreationExpr oce = Ex.anonymousObjectEx( ste );
-
-        _class _c = _class.of("C");
-        if( oce.getAnonymousClassBody().isPresent() ){
-            NodeList<BodyDeclaration<?>> bs = oce.getAnonymousClassBody().get();
-            bs.forEach( b -> _c.ast().addMember(b));
-        }
-
-        //run macros on the things
-        macro.to( anonymousObjectContainingMethod.getClass(), _c.ast());
-
-        MethodDeclaration theMethod = (MethodDeclaration)
-                oce.getAnonymousClassBody().get().stream().filter(m -> m instanceof MethodDeclaration &&
-                        !m.isAnnotationPresent(_remove.class) ).findFirst().get();
-
-        _method _m = _method.of(theMethod);
-
-        //get the Runtime Reflection Method
-        Method rm = Arrays.stream(anonymousObjectContainingMethod.getClass().getDeclaredMethods()).filter(mm ->_m.hasParametersOf(mm)).findFirst().get();
-
-        //build the base method first
-        _constructor _ct = _constructor.of( theMethod.getNameAsString() + " " +_parameter._parameters.of( theMethod )+"{}" );
-
-        //MODIFIERS
-        if( theMethod.isPublic() ){
-            _ct.setPublic();
-        }
-        if(theMethod.isProtected()){
-            _ct.setProtected();
-        }
-        if(theMethod.isPrivate()){
-            _ct.setPrivate();
-        }
-        if( theMethod.hasJavaDocComment() ){
-            _ct.javadoc(theMethod.getJavadocComment().get());
-        }
-        _ct.setThrows( theMethod.getThrownExceptions() );
-        _ct.anno( theMethod.getAnnotations()); //add annos
-        _ct.removeAnnos(_toCtor.class); //remove the _ctor anno if it exists
-        _ct.setBody( theMethod.getBody().get() ); //BODY
-        return _ct;
-    }
 
     /**
      *
@@ -184,16 +89,7 @@ public class $constructor
         return new $constructor( $name.of("$name$"), $body.of() );
     }
 
-    /**
-     *
-     * @param parts
-     * @return
-     */
-    public static $constructor not( $part...parts){
-        $constructor $ct = of();
-        $ct.$not(parts);
-        return $ct;
-    }
+
 
     public static $constructor of( ConstructorDeclaration cd){
         return of( _constructor.of(cd));
@@ -283,6 +179,100 @@ public class $constructor
 
     public static $constructor.Or or( $constructor...$tps ){
         return new $constructor.Or($tps);
+    }
+
+    public static $constructor as( Object anonymousObjectContainingMethod ){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        return as( ste, anonymousObjectContainingMethod);
+    }
+
+    public static $constructor as( StackTraceElement ste, Object anonymousObjectContainingMethod ){
+        _constructor _ct = from(ste, anonymousObjectContainingMethod);
+        return as(_ct, anonymousObjectContainingMethod );
+    }
+
+    public static $constructor as( _constructor _ct, Object anonymousObjectContainingMethod ){
+        $constructor $ct = new $constructor();
+        if( _ct.hasJavadoc() ){
+            $ct.javadoc = $comment.javadocComment(_ct.getJavadoc());
+        }
+        if( _ct.hasAnnos() ){
+            $ct.annos = $annos.as(_ct.getAnnos() );
+        } else{
+            $ct.annos = $annos.none();
+        }
+        $ct.modifiers = $modifiers.as(_ct );
+        if( !_ct.hasTypeParameters() ){
+            final _typeParameters etps = _ct.getTypeParameters();
+            $ct.typeParameters = $typeParameters.as(etps);
+        } else{
+            $ct.typeParameters = $typeParameters.none();
+        }
+        $ct.name = $name.as(_ct.getName() );
+        if( _ct.hasParameters() ){
+            $ct.parameters = $parameters.as(_ct.getParameters());
+        } else{
+            $ct.parameters = $parameters.none();
+        }
+        $ct.thrown = $throws.as( _ct.getThrows() );
+        $ct.body = $body.as(_ct.getBody());
+
+        return $ct;
+    }
+
+    private static _constructor from( StackTraceElement ste, Object anonymousObjectContainingMethod ){
+        ObjectCreationExpr oce = Ex.anonymousObjectEx( ste );
+
+        _class _c = _class.of("C");
+        if( oce.getAnonymousClassBody().isPresent() ){
+            NodeList<BodyDeclaration<?>> bs = oce.getAnonymousClassBody().get();
+            bs.forEach( b -> _c.ast().addMember(b));
+        }
+
+        //run macros on the things
+        macro.to( anonymousObjectContainingMethod.getClass(), _c.ast());
+
+        MethodDeclaration theMethod = (MethodDeclaration)
+                oce.getAnonymousClassBody().get().stream().filter(m -> m instanceof MethodDeclaration &&
+                        !m.isAnnotationPresent(_remove.class) ).findFirst().get();
+
+        _method _m = _method.of(theMethod);
+
+        //get the Runtime Reflection Method
+        Method rm = Arrays.stream(anonymousObjectContainingMethod.getClass().getDeclaredMethods()).filter(mm ->_m.hasParametersOf(mm)).findFirst().get();
+
+        //build the base method first
+        _constructor _ct = _constructor.of( theMethod.getNameAsString() + " " +_parameter._parameters.of( theMethod )+"{}" );
+
+        //MODIFIERS
+        if( theMethod.isPublic() ){
+            _ct.setPublic();
+        }
+        if(theMethod.isProtected()){
+            _ct.setProtected();
+        }
+        if(theMethod.isPrivate()){
+            _ct.setPrivate();
+        }
+        if( theMethod.hasJavaDocComment() ){
+            _ct.javadoc(theMethod.getJavadocComment().get());
+        }
+        _ct.setThrows( theMethod.getThrownExceptions() );
+        _ct.anno( theMethod.getAnnotations()); //add annos
+        _ct.removeAnnos(_toCtor.class); //remove the _ctor anno if it exists
+        _ct.setBody( theMethod.getBody().get() ); //BODY
+        return _ct;
+    }
+
+    /**
+     *
+     * @param parts
+     * @return
+     */
+    public static $constructor not( $part...parts){
+        $constructor $ct = of();
+        $ct.$not(parts);
+        return $ct;
     }
 
     public Predicate<_constructor> constraint = t -> true;

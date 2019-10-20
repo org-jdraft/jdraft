@@ -41,7 +41,141 @@ public class $var
     implements Template<VariableDeclarator>, $pattern<VariableDeclarator, $var>, $body.$part {
     
     /** marker interface for components that are a part of a var */ 
-    public interface $part{}   
+    public interface $part{}
+
+    /**
+     * build a var prototype to match any var (field or local variable declaration)
+     * @return the var prototype that matches any var
+     */
+    public static $var of(){
+        return $var.of("$type$ $name$");
+    }
+
+    /**
+     *
+     * @param parts
+     * @return
+     */
+    public static $var of( $part...parts){
+        return new $var(parts);
+    }
+
+    /**
+     * Selects the vars that are of
+     * @param typeClass
+     * @return
+     */
+    public static $var of( Class...typeClass){
+        if( typeClass.length == 1){
+            return ofType(typeClass[0]);
+        }
+
+        return of().$and(v-> Arrays.stream(typeClass).anyMatch(tc-> Ast.typesEqual(v.getType(), Ast.typeRef(tc))));
+    }
+
+    /**
+     *
+     * @param constraint
+     * @return
+     */
+    public static $var of( Predicate<VariableDeclarator> constraint){
+        return of().$and(constraint);
+    }
+
+
+    /**
+     *
+     * @param pattern
+     * @return
+     */
+    public static $var of( String pattern ){
+        return $var.of(new String[]{pattern});
+    }
+
+    /**
+     *
+     * @param pattern
+     * @param constraint
+     * @return
+     */
+    public static $var of( String pattern, Predicate<VariableDeclarator> constraint){
+        return $var.of(new String[]{pattern}).$and(constraint);
+    }
+
+    /**
+     *
+     * @param pattern
+     * @return
+     */
+    public static $var of(String...pattern){
+        return new $var( Ast.varDecl(pattern ) );
+    }
+
+    /**
+     *
+     * @param proto
+     * @param constraint
+     * @return
+     */
+    public static $var of(VariableDeclarator proto, Predicate<VariableDeclarator> constraint){
+        return new $var( proto  ).$and(constraint);
+    }
+
+    /**
+     *
+     * @param proto
+     * @return
+     */
+    public static $var of(VariableDeclarator proto){
+        return new $var( proto  );
+    }
+
+    /**
+     * a Var Prototype only specifying the type
+     * @param varType
+     * @return
+     */
+    private static $var ofType( Class varType ){
+        return of( $typeRef.of(varType));
+    }
+
+    /**
+     * Returns a matcher to match against any one of the provided $pattern implementations
+     * @param vars the potential vars
+     * @return a new $var Or implementation (which extends $var)
+     */
+    public static $var.Or or( $var...vars ){
+        return new Or(vars);
+    }
+
+    public static $var.Or or( VariableDeclarator... _protos ){
+        $var[] arr = new $var[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $var.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $var as(String...pattern){
+        return as( Ast.varDecl(pattern ) );
+    }
+
+    public static $var as(VariableDeclarator proto ) {
+        $typeRef $t = $typeRef.as(proto.getType());
+        $name $n = $name.as(proto.getNameAsString());
+        $var $v = of($t, $n);
+
+        if( proto.getInitializer().isPresent()){
+            $v.init = $ex.of(proto.getInitializer().get());
+        } else{
+            $v.$and( v-> !v.getInitializer().isPresent());
+        }
+        return $v;
+    }
+
+    public static $var not($part...parts){
+        return of().$not(parts);
+    }
 
     /**
      * Only select local variables (NOT member fields)
@@ -137,140 +271,7 @@ public class $var
         return of(constraint).$member();
     }
 
-    /**
-     * build a var prototype to match any var (field or local variable declaration)
-     * @return the var prototype that matches any var
-     */
-    public static $var of(){
-        return $var.of("$type$ $name$");
-    }
-    
-    /**
-     * 
-     * @param parts
-     * @return 
-     */
-    public static $var of( $part...parts){
-        return new $var(parts);
-    }
 
-    /**
-     * Selects the vars that are of
-     * @param typeClass
-     * @return
-     */
-    public static $var of( Class...typeClass){
-        if( typeClass.length == 1){
-            return ofType(typeClass[0]);
-        }
-
-        return of().$and(v-> Arrays.stream(typeClass).anyMatch(tc-> Ast.typesEqual(v.getType(), Ast.typeRef(tc))));
-    }
-
-    /**
-     * 
-     * @param constraint
-     * @return 
-     */
-    public static $var of( Predicate<VariableDeclarator> constraint){
-        return of().$and(constraint);
-    }
-    
-    /**
-     * a Var Prototype only specifying the type
-     * @param varType
-     * @return 
-     */
-    private static $var ofType( Class varType ){
-        return of( $typeRef.of(varType));
-    }
-
-    /**
-     * 
-     * @param pattern
-     * @return 
-     */
-    public static $var of( String pattern ){
-        return $var.of(new String[]{pattern});
-    }
-    
-    /**
-     * 
-     * @param pattern
-     * @param constraint
-     * @return 
-     */
-    public static $var of( String pattern, Predicate<VariableDeclarator> constraint){
-        return $var.of(new String[]{pattern}).$and(constraint);
-    }
-    
-    /**
-     * 
-     * @param pattern
-     * @return 
-     */
-    public static $var of(String...pattern){
-        return new $var( Ast.varDecl(pattern ) );
-    }
-
-    /**
-     * 
-     * @param proto
-     * @return 
-     */
-    public static $var of(VariableDeclarator proto){
-        return new $var( proto  );
-    }
-
-
-    /**
-     * Returns a matcher to match against any one of the provided $pattern implementations
-     * @param vars the potential vars
-     * @return a new $var Or implementation (which extends $var)
-     */
-    public static $var.Or or( $var...vars ){
-        return new Or(vars);
-    }
-
-    public static $var.Or or( VariableDeclarator... _protos ){
-        $var[] arr = new $var[_protos.length];
-        for(int i=0;i<_protos.length;i++){
-            arr[i] = $var.of( _protos[i]);
-        }
-        return or(arr);
-    }
-
-    public static $var as(String...pattern){
-        return as( Ast.varDecl(pattern ) );
-    }
-
-    public static $var as(VariableDeclarator proto ) {
-        $typeRef $t = $typeRef.as(proto.getType());
-        $name $n = $name.as(proto.getNameAsString());
-        $var $v = of($t, $n);
-
-        if( proto.getInitializer().isPresent()){
-            $v.init = $ex.of(proto.getInitializer().get());
-        } else{
-            $v.$and( v-> !v.getInitializer().isPresent());
-        }
-        return $v;
-    }
-
-    /**
-     * 
-     * @param proto
-     * @param constraint
-     * @return 
-     */
-    public static $var of(VariableDeclarator proto, Predicate<VariableDeclarator> constraint){
-        return new $var( proto  ).$and(constraint);
-    }
-
-
-    public static $var not($part...parts){
-        return of().$not(parts);
-    }
 
     /** Matching constraint */
     public Predicate<VariableDeclarator> constraint = t -> true;

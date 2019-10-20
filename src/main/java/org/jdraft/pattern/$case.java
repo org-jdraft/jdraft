@@ -1,20 +1,16 @@
 package org.jdraft.pattern;
 
-import org.jdraft._code;
-import org.jdraft._java;
-import org.jdraft._type;
-import org.jdraft.Ast;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.*;
-import org.jdraft.*;
-import org.jdraft._node;
 
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import org.jdraft.*;
 
 /**
  * prototype for querying and composing a "case" within a Switch Statement (a {@link SwitchEntry})

@@ -1,12 +1,13 @@
 package org.jdraft.pattern;
 
-import org.jdraft.*;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.CatchClause;
 
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+
+import org.jdraft.*;
 
 /**
  * prototype for querying and composing a {@link CatchClause}

@@ -1,15 +1,17 @@
 package org.jdraft.pattern;
 
-import org.jdraft.*;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import org.jdraft.pattern.$node.Select;
+
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import org.jdraft.*;
+import org.jdraft.pattern.$node.Select;
 
 /**
  * Prototype representing any uses of a specific Class within code

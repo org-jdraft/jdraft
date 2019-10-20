@@ -1,21 +1,15 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.ast.type.VoidType;
-import org.jdraft._code;
-import org.jdraft._typeRef;
-import org.jdraft._java;
-import org.jdraft._type;
-import org.jdraft._walk;
-import org.jdraft.Ast;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.type.Type;
-import org.jdraft.*;
-import org.jdraft._node;
 
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+
+import org.jdraft.*;
 
 /**
  * Template for a Java Type {@link Type} Reference
@@ -82,6 +76,16 @@ public class $typeRef
         return new $typeRef(_proto.ast());
     }
 
+    /**
+     *
+     * @param _proto
+     * @param constraint
+     * @return
+     */
+    public static $typeRef of( _typeRef _proto, Predicate<_typeRef> constraint){
+        return new $typeRef(_proto.ast()).$and(constraint);
+    }
+
     public static $typeRef.Or or( Class... typeClasses ){
         $typeRef[] arr = new $typeRef[typeClasses.length];
         for(int i=0;i<typeClasses.length;i++){
@@ -128,16 +132,6 @@ public class $typeRef
         return $t;
     }
 
-    /**
-     * 
-     * @param _proto
-     * @param constraint
-     * @return 
-     */
-    public static $typeRef of( _typeRef _proto, Predicate<_typeRef> constraint){
-        return new $typeRef(_proto.ast()).$and(constraint);
-    }
-    
     /** Matching constraint */
     public Predicate<_typeRef> constraint = (t)-> true;
 

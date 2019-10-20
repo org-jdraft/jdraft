@@ -3,21 +3,17 @@ package org.jdraft.pattern;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.type.TypeParameter;
-import org.jdraft._typeParameter;
-import org.jdraft._code;
-import org.jdraft._java;
-import org.jdraft._type;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.CallableDeclaration;
 import com.github.javaparser.ast.nodeTypes.NodeWithTypeParameters;
-import org.jdraft.*;
-import org.jdraft._node;
-import org.jdraft._typeParameter._typeParameters;
 
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import org.jdraft.*;
+import org.jdraft._typeParameter._typeParameters;
 
 /**
  * prototype for an _import declaration on a Java top level _type 
@@ -27,16 +23,71 @@ public class $typeParameters
     implements Template<_typeParameters>, $pattern<_typeParameters,$typeParameters>, $pattern.$java<_typeParameters,$typeParameters>,
         $method.$part, $constructor.$part, $class.$part,$interface.$part {
 
-    public Class<_typeParameters> _modelType(){
-        return _typeParameters.class;
+    /**
+     * Match ANY import
+     * @return
+     */
+    public static $typeParameters of(){
+        return new $typeParameters( t-> true );
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @param pattern
+     * @return
      */
-    public static $typeParameters none(){
-        return of().$and(tps-> tps.isEmpty());
+    public static $typeParameters of( String... pattern){
+        return new $typeParameters( _typeParameters.of(pattern)  );
+    }
+
+    public static $typeParameters of( List<$typeParameter> $tps ){
+        return new $typeParameters($tps);
+    }
+
+    /**
+     *
+     * @param constraint
+     * @return
+     */
+    public static $typeParameters of( Predicate<_typeParameters> constraint ){
+        return new $typeParameters( constraint );
+    }
+
+    /**
+     *
+     * @param pattern
+     * @param constraint
+     * @return
+     */
+    public static $typeParameters of( String pattern, Predicate<_typeParameters> constraint){
+        return new $typeParameters( _typeParameters.of(pattern) ).$and(constraint);
+    }
+
+    /**
+     *
+     * @param _proto
+     * @return
+     */
+    public static $typeParameters of( _typeParameters _proto){
+        return new $typeParameters( _proto  );
+    }
+
+    /**
+     *
+     * @param _proto
+     * @param constraint
+     * @return
+     */
+    public static $typeParameters of( _typeParameters _proto, Predicate<_typeParameters> constraint){
+        return new $typeParameters( _proto ).$and(constraint);
+    }
+
+    public static $typeParameters.Or or( _typeParameters... _protos ){
+        $typeParameters[] arr = new $typeParameters[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $typeParameters.of( _protos[i]);
+        }
+        return or(arr);
     }
 
     public static $typeParameters as(String...str){
@@ -59,77 +110,18 @@ public class $typeParameters
         return of( $tps ).$and(_ttps -> _ttps.size() == _tps.size() );
     }
 
-    /**
-     * Match ANY import
-     * @return 
-     */
-    public static $typeParameters of(){
-        return new $typeParameters( t-> true );        
-    }
-    
-    /**
-     * 
-     * @param pattern
-     * @return 
-     */
-    public static $typeParameters of( String... pattern){
-        return new $typeParameters( _typeParameters.of(pattern)  );
-    }
-
-    public static $typeParameters of( List<$typeParameter> $tps ){
-        return new $typeParameters($tps);
-    }
-
-    /**
-     * 
-     * @param constraint
-     * @return 
-     */
-    public static $typeParameters of( Predicate<_typeParameters> constraint ){
-        return new $typeParameters( constraint );
-    }
-    
-    /**
-     * 
-     * @param pattern
-     * @param constraint
-     * @return 
-     */
-    public static $typeParameters of( String pattern, Predicate<_typeParameters> constraint){        
-        return new $typeParameters( _typeParameters.of(pattern) ).$and(constraint);
-    }
-    
-    /**
-     * 
-     * @param _proto
-     * @return 
-     */
-    public static $typeParameters of( _typeParameters _proto){
-        return new $typeParameters( _proto  );
-    }
-
-    /**
-     * 
-     * @param _proto
-     * @param constraint
-     * @return 
-     */
-    public static $typeParameters of( _typeParameters _proto, Predicate<_typeParameters> constraint){
-        return new $typeParameters( _proto ).$and(constraint);
-    }
-
-    public static $typeParameters.Or or( _typeParameters... _protos ){
-        $typeParameters[] arr = new $typeParameters[_protos.length];
-        for(int i=0;i<_protos.length;i++){
-            arr[i] = $typeParameters.of( _protos[i]);
-        }
-        return or(arr);
-    }
-
     public static $typeParameters.Or or( $typeParameters...$tps ){
         return new Or($tps);
     }
-    
+
+    /**
+     *
+     * @return
+     */
+    public static $typeParameters none(){
+        return of().$and(tps-> tps.isEmpty());
+    }
+
     public Predicate<_typeParameters> constraint = t-> true;
         
     public List<$typeParameter> typeParams = new ArrayList<>();
@@ -149,7 +141,11 @@ public class $typeParameters
     private $typeParameters( Predicate<_typeParameters> constraint ){        
         this.constraint = constraint;
     }
-    
+
+    public Class<_typeParameters> _modelType(){
+        return _typeParameters.class;
+    }
+
     /**
      * ADDS an additional matching constraint to the prototype
      * @param constraint a constraint to be added

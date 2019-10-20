@@ -1,21 +1,17 @@
 package org.jdraft.pattern;
 
-import org.jdraft._code;
-import org.jdraft._java;
-import org.jdraft._throws;
-import org.jdraft._type;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.CallableDeclaration;
 import com.github.javaparser.ast.nodeTypes.NodeWithThrownExceptions;
 import com.github.javaparser.ast.type.ReferenceType;
-import org.jdraft.*;
-import org.jdraft._node;
 
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import org.jdraft.*;
 
 /**
  * pattern for an _import declaration on a Java top level _type

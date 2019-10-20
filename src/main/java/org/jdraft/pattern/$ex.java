@@ -3,10 +3,10 @@ package org.jdraft.pattern;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.*;
 
-import org.jdraft.*;
-
 import java.util.*;
 import java.util.function.*;
+
+import org.jdraft.*;
 
 /**
  * $pattern for any {@link com.github.javaparser.ast.expr.Expression}) implementation

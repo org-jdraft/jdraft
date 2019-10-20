@@ -1,23 +1,17 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
+
+import java.util.*;
+
 import org.jdraft.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public interface $type { //<T extends TypeDeclaration, _T extends _type> {
-
 
     /** this is a $type representation */
     public static class $impl{
 
     }
-
-
-
 
     /* These are methods shared/used by all $type implementations */
     static $pattern.$tokens selectImplements(List<$typeRef> $protoTypes, _type._hasImplements _hi){

@@ -4,13 +4,14 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.InitializerDeclaration;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
-import org.jdraft.*;
 
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import org.jdraft.*;
 
 /**
  * $proto on modelling the package declaration
@@ -44,6 +45,65 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
         return of( new String[]{bodyPattern});
     }
 
+
+    public static $initBlock of( _initBlock _ib ){
+        return of( _ib.ast());
+    }
+
+    public static $initBlock of( InitializerDeclaration id ){
+        //$initBlock $ib = new $initBlock( $stmt.of( BlockStmt.class, id.getBody().toString()), id.isStatic(), t->true );
+        $initBlock $ib = new $initBlock( $body.of( id), id.isStatic(), t->true );
+        return $ib;
+    }
+
+    public static $initBlock of(String... bodyPattern ){
+        InitializerDeclaration id = Ast.initBlock(bodyPattern);
+        $initBlock $ib = new $initBlock( $body.of( id ), id.isStatic(), t->true );
+        return $ib;
+    }
+
+    public static $initBlock of( Predicate<_initBlock> matchFn ){
+        return new $initBlock( $body.of(), null, matchFn );
+    }
+
+    public static $initBlock of(String str, Predicate<_initBlock> matchFn ){
+        return of(str).$and(matchFn);
+    }
+
+    public static $initBlock of(Statement st){
+        if( st instanceof BlockStmt ){
+            //return new $initBlock( $stmt.blockStmt((BlockStmt)st), null, t->true );
+            return new $initBlock( $body.of((BlockStmt)st), null, t->true );
+        } else{
+            //return new $initBlock( $stmt.blockStmt( new BlockStmt().addStatement( st) ), null, t->true );
+            return new $initBlock( $body.of( new BlockStmt().addStatement( st) ), null, t->true );
+        }
+    }
+
+    public static $initBlock of(Ex.Command lambdaWithBody){
+        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        return of(bdy);
+    }
+
+    public static <A extends Object> $initBlock of (Consumer<A> lambdaWithBody){
+        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        return of(bdy);
+    }
+
+    public static <A extends Object, B extends Object> $initBlock of(BiConsumer<A,B> lambdaWithBody ){
+        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        return of(bdy);
+    }
+
+    public static <A extends Object, B extends Object,C extends Object> $initBlock of(Ex.TriConsumer<A,B,C> lambdaWithBody ){
+        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        return of(bdy);
+    }
+
+    public static <A extends Object, B extends Object,C extends Object, D extends Object> $initBlock of(Ex.QuadConsumer<A,B,C,D> lambdaWithBody ){
+        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        return of(bdy);
+    }
 
     public static $initBlock.Or or( InitializerDeclaration... _protos ){
         $initBlock[] arr = new $initBlock[_protos.length];
@@ -105,65 +165,6 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
             //return new $initBlock( $stmt.blockStmt( new BlockStmt().addStatement( st) ), null, t->true );
             return new $initBlock( $body.as( new BlockStmt().addStatement( st) ), null, t->true );
         }
-    }
-
-    public static $initBlock of( _initBlock _ib ){
-        return of( _ib.ast());
-    }
-
-    public static $initBlock of( InitializerDeclaration id ){
-        //$initBlock $ib = new $initBlock( $stmt.of( BlockStmt.class, id.getBody().toString()), id.isStatic(), t->true );
-        $initBlock $ib = new $initBlock( $body.of( id), id.isStatic(), t->true );
-        return $ib;
-    }
-
-    public static $initBlock of(String... bodyPattern ){
-        InitializerDeclaration id = Ast.initBlock(bodyPattern);
-        $initBlock $ib = new $initBlock( $body.of( id ), id.isStatic(), t->true );
-        return $ib;
-    }
-
-    public static $initBlock of( Predicate<_initBlock> matchFn ){
-        return new $initBlock( $body.of(), null, matchFn );
-    }
-
-    public static $initBlock of(String str, Predicate<_initBlock> matchFn ){
-        return of(str).$and(matchFn);
-    }
-
-    public static $initBlock of(Statement st){
-        if( st instanceof BlockStmt ){
-            //return new $initBlock( $stmt.blockStmt((BlockStmt)st), null, t->true );
-            return new $initBlock( $body.of((BlockStmt)st), null, t->true );
-        } else{
-            //return new $initBlock( $stmt.blockStmt( new BlockStmt().addStatement( st) ), null, t->true );
-            return new $initBlock( $body.of( new BlockStmt().addStatement( st) ), null, t->true );
-        }
-    }
-
-    public static $initBlock of(Ex.Command lambdaWithBody){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
-        return of(bdy);
-    }
-
-    public static <A extends Object> $initBlock of (Consumer<A> lambdaWithBody){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
-        return of(bdy);
-    }
-
-    public static <A extends Object, B extends Object> $initBlock of(BiConsumer<A,B> lambdaWithBody ){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
-        return of(bdy);
-    }
-
-    public static <A extends Object, B extends Object,C extends Object> $initBlock of(Ex.TriConsumer<A,B,C> lambdaWithBody ){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
-        return of(bdy);
-    }
-
-    public static <A extends Object, B extends Object,C extends Object, D extends Object> $initBlock of(Ex.QuadConsumer<A,B,C,D> lambdaWithBody ){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
-        return of(bdy);
     }
 
     private $initBlock(){

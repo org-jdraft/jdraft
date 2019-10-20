@@ -4,15 +4,14 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.TypeParameter;
-import com.github.javaparser.utils.Log;
-import org.jdraft.*;
-import org.jdraft._anno._annos;
-import org.jdraft._typeParameter;
-import org.jdraft._typeRef;
+
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import org.jdraft.*;
+import org.jdraft._anno._annos;
 
 /**
  * prototype / template model of a _typeParameter
@@ -82,7 +81,6 @@ public class $typeParameter
     public static $typeParameter of( TypeParameter astTp){
         return new $typeParameter(_typeParameter.of(astTp));
     }
-
 
     public static $typeParameter.Or or( _typeParameter... _protos ){
         $typeParameter[] arr = new $typeParameter[_protos.length];

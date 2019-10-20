@@ -3,11 +3,12 @@ package org.jdraft.pattern;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.EnumConstantDeclaration;
 import com.github.javaparser.ast.comments.JavadocComment;
-import org.jdraft.*;
 
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+
+import org.jdraft.*;
 
 /**
  * Note... at the moment this is NOT a template... should it be??
@@ -27,42 +28,6 @@ public class $enumConstant
     public List<$field> fields = new ArrayList<>();
     public List<$method> methods = new ArrayList<>();
 
-    public String toString(){
-        if(this.isMatchAny() ){
-            return "$enumConstant{ $ANY$ }";
-        }
-        StringBuilder sb = new StringBuilder();
-        sb.append("$enumConstant{").append(System.lineSeparator());
-
-        if(this.javadoc.isMatchAny()){
-            sb.append( Text.indent(this.javadoc.toString()));
-        }
-        if(!this.annos.isMatchAny()){
-            sb.append( Text.indent(this.annos.toString()));
-        }
-        if(! this.name.isMatchAny()){
-            sb.append( Text.indent(this.name.toString()));
-        }
-        if(! this.args.isEmpty() ){
-            sb.append(Text.indent( "$args{ ") );
-            for(int i=0;i<args.size();i++){
-                if( i > 0 ){
-                    sb.append(", ");
-                }
-                sb.append(this.args.get(i).toString());
-            }
-            sb.append(Text.indent("}"));
-        }
-        if(! this.fields.isEmpty()){
-            this.fields.forEach(f -> sb.append(Text.indent(f.toString()) ));
-        }
-        if(! this.methods.isEmpty()){
-            this.methods.forEach(m -> sb.append(Text.indent(m.toString()) ));
-        }
-        sb.append("}");
-        return sb.toString();
-    }
-
     /** marker interface for member entities that are part of the class */
     public interface $part{ }
 
@@ -76,6 +41,35 @@ public class $enumConstant
 
     public static $enumConstant of( EnumConstantDeclaration ecd ){
         return of( _enum._constant.of(ecd));
+    }
+
+    public static $enumConstant of( _enum._constant _ec ){
+        $enumConstant ec = new $enumConstant();
+        if( _ec.hasAnnos() ) {
+            ec.annos = $annos.of(_ec.getAnnos());
+        }
+        if( _ec.hasJavadoc()) {
+            ec.javadoc = $comment.javadocComment(_ec.getJavadoc());
+        }
+        ec.name = $name.of(_ec.getName());
+        if( _ec.hasArguments() ) {
+            _ec.listArguments().forEach(a -> ec.args.add($ex.of(a)));
+        }
+        if( _ec.hasFields() ) {
+            _ec.listFields().forEach(f -> ec.fields.add($field.of(f)));
+        }
+        if( _ec.hasMethods() ) {
+            _ec.listMethods().forEach(m -> ec.methods.add($method.of(m)));
+        }
+        return ec;
+    }
+
+    public static $enumConstant of(Predicate<_enum._constant> constraint ){
+        return new $enumConstant().$and(constraint);
+    }
+
+    public static $enumConstant of($part...parts){
+        return new $enumConstant(parts);
     }
 
     public static $enumConstant.Or or( _enum._constant... _protos ){
@@ -146,35 +140,6 @@ public class $enumConstant
         return ec;
     }
 
-    public static $enumConstant of( _enum._constant _ec ){
-        $enumConstant ec = new $enumConstant();
-        if( _ec.hasAnnos() ) {
-            ec.annos = $annos.of(_ec.getAnnos());
-        }
-        if( _ec.hasJavadoc()) {
-            ec.javadoc = $comment.javadocComment(_ec.getJavadoc());
-        }
-        ec.name = $name.of(_ec.getName());
-        if( _ec.hasArguments() ) {
-            _ec.listArguments().forEach(a -> ec.args.add($ex.of(a)));
-        }
-        if( _ec.hasFields() ) {
-            _ec.listFields().forEach(f -> ec.fields.add($field.of(f)));
-        }
-        if( _ec.hasMethods() ) {
-            _ec.listMethods().forEach(m -> ec.methods.add($method.of(m)));
-        }
-        return ec;
-    }
-
-    public static $enumConstant of(Predicate<_enum._constant> constraint ){
-        return new $enumConstant().$and(constraint);
-    }
-
-    public static $enumConstant of($part...parts){
-        return new $enumConstant(parts);
-    }
-
     public static $enumConstant not($part...parts){
         $enumConstant $ec = of();
         $ec.$not(parts);
@@ -210,6 +175,41 @@ public class $enumConstant
         }
     }
 
+    public String toString(){
+        if(this.isMatchAny() ){
+            return "$enumConstant{ $ANY$ }";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("$enumConstant{").append(System.lineSeparator());
+
+        if(this.javadoc.isMatchAny()){
+            sb.append( Text.indent(this.javadoc.toString()));
+        }
+        if(!this.annos.isMatchAny()){
+            sb.append( Text.indent(this.annos.toString()));
+        }
+        if(! this.name.isMatchAny()){
+            sb.append( Text.indent(this.name.toString()));
+        }
+        if(! this.args.isEmpty() ){
+            sb.append(Text.indent( "$args{ ") );
+            for(int i=0;i<args.size();i++){
+                if( i > 0 ){
+                    sb.append(", ");
+                }
+                sb.append(this.args.get(i).toString());
+            }
+            sb.append(Text.indent("}"));
+        }
+        if(! this.fields.isEmpty()){
+            this.fields.forEach(f -> sb.append(Text.indent(f.toString()) ));
+        }
+        if(! this.methods.isEmpty()){
+            this.methods.forEach(m -> sb.append(Text.indent(m.toString()) ));
+        }
+        sb.append("}");
+        return sb.toString();
+    }
 
     @Override
     public $enumConstant $(String target, String $paramName) {

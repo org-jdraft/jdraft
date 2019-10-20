@@ -3,15 +3,6 @@ package org.jdraft.pattern;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
-import org.jdraft.*;
-import org.jdraft._walk;
-import org.jdraft._anno;
-import org.jdraft._anno._annos;
-import org.jdraft._anno._hasAnnos;
-import org.jdraft._code;
-import org.jdraft._java;
-import org.jdraft._node;
-import org.jdraft._type;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
@@ -19,6 +10,10 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import org.jdraft.*;
+import org.jdraft._anno._annos;
+import org.jdraft._anno._hasAnnos;
 
 /**
  * Prototype of (group of) {@link _annos} for composing and query
@@ -28,10 +23,6 @@ public class $annos
     implements Template<_annos>, $pattern<_annos, $annos>, $pattern.$java<_annos, $annos>, $constructor.$part, $method.$part,
         $field.$part, $parameter.$part, $typeParameter.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part,
         $enumConstant.$part{
-
-    public Class<_annos> _modelType(){
-        return _annos.class;
-    }
 
     /**
      * Entities that have NO annotations applied to them */
@@ -99,15 +90,6 @@ public class $annos
     }
 
 
-    /**
-     *
-     * @param _ha
-     * @return
-     */
-    public static $annos as( _anno._hasAnnos _ha){
-        return as( _ha.getAnnos() );
-    }
-
     public static $annos.Or or( _anno._hasAnnos... _protos ){
         $annos[] arr = new $annos[_protos.length];
         for(int i=0;i<_protos.length;i++){
@@ -124,6 +106,16 @@ public class $annos
     public static $annos.Or or( $annos...$as ){
         return new Or($as);
     }
+
+    /**
+     *
+     * @param _ha
+     * @return
+     */
+    public static $annos as( _anno._hasAnnos _ha){
+        return as( _ha.getAnnos() );
+    }
+
 
     /**
      *
@@ -148,6 +140,7 @@ public class $annos
         $as.$and(_as -> _as.size() == _anns.size() );
         return $as;
     }
+
 
     /**
      *
@@ -180,6 +173,10 @@ public class $annos
      * A Matching predicate for _annos
      */
     public Predicate<_annos> constraint = t-> true;
+
+    public Class<_annos> _modelType(){
+        return _annos.class;
+    }
 
     /**
      *

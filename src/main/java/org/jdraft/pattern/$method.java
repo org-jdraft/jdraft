@@ -1,17 +1,5 @@
 package org.jdraft.pattern;
 
-import org.jdraft._method;
-import org.jdraft._code;
-import org.jdraft._modifiers;
-import org.jdraft._typeRef;
-import org.jdraft._java;
-import org.jdraft._anno;
-import org.jdraft._throws;
-import org.jdraft._type;
-import org.jdraft._body;
-import org.jdraft._walk;
-import org.jdraft.Ex;
-import org.jdraft.Stmt;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
@@ -19,18 +7,17 @@ import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.Type;
+
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.Collectors;
+
 import org.jdraft.*;
 import org.jdraft._anno._annos;
-import org.jdraft._node;
 import org.jdraft._parameter._parameters;
 import org.jdraft._typeParameter._typeParameters;
 import org.jdraft.macro._remove;
 import org.jdraft.macro.macro;
-
-import java.lang.reflect.Method;
-import java.util.*;
-import java.util.function.*;
-import java.util.stream.Collectors;
 
 /**
  * prototype/template for a Java {@link _method}
@@ -77,59 +64,6 @@ public class $method
         //Method rm = Arrays.stream(anonymousObjectContainingMethod.getClass().getDeclaredMethods()).filter(mm ->_m.hasParametersOf(mm)).findFirst().get();
 
         $method $m = of( _m );
-        return $m;
-    }
-
-    public static _method from (StackTraceElement ste, Object anonymousObjectContainingMethod ){
-        ObjectCreationExpr oce = Ex.anonymousObjectEx( ste );
-        if( anonymousObjectContainingMethod instanceof $pattern){
-            throw new UnsupportedOperationException("We cant create an instance of $method from unsupported $pattern");
-        }
-
-        MethodDeclaration theMethod = (MethodDeclaration)
-                oce.getAnonymousClassBody().get().stream().filter(m -> m instanceof MethodDeclaration &&
-                        !m.isAnnotationPresent(_remove.class) ).findFirst().get();
-        //apply macros
-        _method _m = macro.to(anonymousObjectContainingMethod.getClass(), theMethod  );
-        return _m;
-    }
-
-    public static $method as( Object anonymousObjectContainingMethod ){
-        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        _method _m = from(ste, anonymousObjectContainingMethod);
-        return as(_m);
-    }
-
-    public static $method as( String...method ){
-        return as( _method.of(method));
-    }
-
-    public static $method as( _method _m ){
-        $method $m = new $method();
-        if( _m.hasJavadoc() ){
-            $m.javadoc = $comment.javadocComment(_m.getJavadoc());
-        }
-        if( _m.hasAnnos() ){
-            $m.annos = $annos.as(_m.getAnnos() );
-        } else{
-            $m.annos = $annos.none();
-        }
-        $m.modifiers = $modifiers.as(_m );
-        $m.type = $typeRef.as(_m.getType());
-        if( !_m.hasTypeParameters() ){
-            final _typeParameters etps = _m.getTypeParameters();
-            $m.typeParameters = $typeParameters.as(etps);
-        } else{
-            $m.typeParameters = $typeParameters.none();
-        }
-        $m.name = $name.as(_m.getName() );
-        if( _m.hasParameters() ){
-            $m.parameters = $parameters.as(_m.getParameters());
-        } else{
-            $m.parameters = $parameters.none();
-        }
-        $m.thrown = $throws.as( _m.getThrows() );
-        $m.body = $body.as(_m.getBody());
         return $m;
     }
 
@@ -238,6 +172,60 @@ public class $method
 
     public static $method.Or or( $method...$tps ){
         return new $method.Or($tps);
+    }
+
+
+    public static _method from (StackTraceElement ste, Object anonymousObjectContainingMethod ){
+        ObjectCreationExpr oce = Ex.anonymousObjectEx( ste );
+        if( anonymousObjectContainingMethod instanceof $pattern){
+            throw new UnsupportedOperationException("We cant create an instance of $method from unsupported $pattern");
+        }
+
+        MethodDeclaration theMethod = (MethodDeclaration)
+                oce.getAnonymousClassBody().get().stream().filter(m -> m instanceof MethodDeclaration &&
+                        !m.isAnnotationPresent(_remove.class) ).findFirst().get();
+        //apply macros
+        _method _m = macro.to(anonymousObjectContainingMethod.getClass(), theMethod  );
+        return _m;
+    }
+
+    public static $method as( Object anonymousObjectContainingMethod ){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        _method _m = from(ste, anonymousObjectContainingMethod);
+        return as(_m);
+    }
+
+    public static $method as( String...method ){
+        return as( _method.of(method));
+    }
+
+    public static $method as( _method _m ){
+        $method $m = new $method();
+        if( _m.hasJavadoc() ){
+            $m.javadoc = $comment.javadocComment(_m.getJavadoc());
+        }
+        if( _m.hasAnnos() ){
+            $m.annos = $annos.as(_m.getAnnos() );
+        } else{
+            $m.annos = $annos.none();
+        }
+        $m.modifiers = $modifiers.as(_m );
+        $m.type = $typeRef.as(_m.getType());
+        if( !_m.hasTypeParameters() ){
+            final _typeParameters etps = _m.getTypeParameters();
+            $m.typeParameters = $typeParameters.as(etps);
+        } else{
+            $m.typeParameters = $typeParameters.none();
+        }
+        $m.name = $name.as(_m.getName() );
+        if( _m.hasParameters() ){
+            $m.parameters = $parameters.as(_m.getParameters());
+        } else{
+            $m.parameters = $parameters.none();
+        }
+        $m.thrown = $throws.as( _m.getThrows() );
+        $m.body = $body.as(_m.getBody());
+        return $m;
     }
 
     /**

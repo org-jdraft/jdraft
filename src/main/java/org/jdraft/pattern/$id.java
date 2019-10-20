@@ -1,9 +1,11 @@
 package org.jdraft.pattern;
 
-import org.jdraft.*;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+
+import org.jdraft.*;
+
 
 /**
  * Notion of a name or identifier that can be :
@@ -19,7 +21,7 @@ public final class $id {
     }
     
     public static $id of(Predicate<String> constraint){
-        return of().and(constraint);
+        return of().$and(constraint);
     }
     
     public static $id of( String id ){
@@ -65,7 +67,7 @@ public final class $id {
      * @param constraint
      * @return
      */
-    public $id and(Predicate<String> constraint) {
+    public $id $and(Predicate<String> constraint) {
         this.constraint = this.constraint.and(constraint);
         return this;
     }

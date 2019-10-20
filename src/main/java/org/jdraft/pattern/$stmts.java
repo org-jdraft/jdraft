@@ -1,26 +1,18 @@
 package org.jdraft.pattern;
 
-import org.jdraft._code;
-import org.jdraft._type;
-import org.jdraft._body;
-import org.jdraft._walk;
-import org.jdraft.Ex;
-import org.jdraft.Ast;
-import org.jdraft.Stmt;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithStatements;
 import com.github.javaparser.ast.stmt.*;
-import org.jdraft.*;
-import org.jdraft._java;
-import org.jdraft._node;
-import org.jdraft.macro._remove;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.*;
+
+import org.jdraft.*;
+import org.jdraft.macro._remove;
 
 /**
  * Template of a Java statements (one or more {@link Statement}s

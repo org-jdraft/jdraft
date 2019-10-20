@@ -1,19 +1,17 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
 import com.github.javaparser.utils.Log;
-import org.jdraft.*;
-import org.jdraft._walk;
-import org.jdraft._java;
-import org.jdraft._parameter._parameters;
-import org.jdraft._type;
+
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import org.jdraft.*;
+import org.jdraft._parameter._parameters;
 
 /**
  * Pattern for parameter list
@@ -22,23 +20,7 @@ import java.util.stream.Collectors;
 public class $parameters implements Template<_parameters>, $pattern<_parameters,$parameters>,
         $pattern.$java<_parameters,$parameters>, $constructor.$part, $method.$part {
 
-    @Override
-    public Class<_parameters> _modelType(){
-        return _parameters.class;
-    }
 
-    List<$parameter> $params = new ArrayList<>();
-    
-    Predicate<_parameters> constraint = t-> true;
-
-    /**
-     * Matches empty parameters lists only
-     * @return 
-     */
-    public static $parameters none(){
-        return $parameters.of().$and(ps-> ps.isEmpty());
-    }
-    
     public static $parameters of(){
         return new $parameters( _parameters.of() );
     }
@@ -64,7 +46,6 @@ public class $parameters implements Template<_parameters>, $pattern<_parameters,
     public static $parameters of( String...pattern){
         return new $parameters(_parameters.of(pattern));
     }
-
 
     public static $parameters.Or or( _parameters... _protos ){
         $parameters[] arr = new $parameters[_protos.length];
@@ -98,9 +79,24 @@ public class $parameters implements Template<_parameters>, $pattern<_parameters,
         return $psa.$and( _pls -> _pls.size() == _ps.size() );
     }
 
+    /**
+     * Matches empty parameters lists only
+     * @return
+     */
+    public static $parameters none(){
+        return $parameters.of().$and(ps-> ps.isEmpty());
+    }
+
+    /**
+     * private constructor
+     */
     private $parameters(){
         $params = new ArrayList<>();
     }
+
+    List<$parameter> $params = new ArrayList<>();
+
+    Predicate<_parameters> constraint = t-> true;
 
     /**
      * 
@@ -134,7 +130,12 @@ public class $parameters implements Template<_parameters>, $pattern<_parameters,
         }
         return this;
     }
-    
+
+    @Override
+    public Class<_parameters> _modelType(){
+        return _parameters.class;
+    }
+
     @Override
     public _parameters draft(Translator translator, Map<String, Object> keyValues) {
         _parameters _ps = _parameters.of();

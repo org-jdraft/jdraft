@@ -1,21 +1,16 @@
 package org.jdraft.pattern;
 
-import org.jdraft._code;
-import org.jdraft._typeRef;
-import org.jdraft._java;
-import org.jdraft._parameter;
-import org.jdraft._type;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.Parameter;
-import org.jdraft.*;
-import org.jdraft._walk;
-import org.jdraft._anno._annos;
-import org.jdraft._node;
+
 import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import org.jdraft.*;
+import org.jdraft._anno._annos;
 
 /**
  * @author Eric
@@ -85,6 +80,47 @@ public class $parameter implements Template<_parameter>, $pattern<_parameter, $p
     }
 
     /**
+     *
+     * @return
+     */
+    public static $parameter of(){
+        return new $parameter( $typeRef.of( ), $name.of() );
+    }
+
+
+    /**
+     *
+     * @param astParam
+     * @return
+     */
+    public static $parameter of( Parameter astParam ){
+        return new $parameter( _parameter.of(astParam), p->true);
+    }
+
+    /**
+     * Build and return a parameter
+     * @param _p the prototype parameter
+     * @return the $parameter
+     */
+    public static $parameter of( _parameter _p ){
+        return new $parameter( _p, p->true );
+    }
+
+
+    /**
+     * Build and return a parameter
+     * @param parameter
+     * @return
+     */
+    public static $parameter of( String parameter ){
+        return new $parameter( _parameter.of(parameter), p->true );
+    }
+
+    public static $parameter of( Class parameterType ){
+        return new $parameter( $typeRef.of(parameterType));
+    }
+
+    /**
      * Build a prototype of a parameter accepting these parts
      * @param part the single part of the parameter
      * @return 
@@ -92,6 +128,44 @@ public class $parameter implements Template<_parameter>, $pattern<_parameter, $p
     public static $parameter of( $part part ){
         $part[] parts = new $part[]{part};
         return new $parameter(parts);
+    }
+
+    public static $parameter.Or or( _parameter... _protos ){
+        $parameter[] arr = new $parameter[_protos.length];
+        for(int i=0;i<_protos.length;i++){
+            arr[i] = $parameter.of( _protos[i]);
+        }
+        return or(arr);
+    }
+
+    public static $parameter.Or or( $parameter...$tps ){
+        return new $parameter.Or($tps);
+    }
+
+    public static $parameter as( String param ){
+        return as( _parameter.of(param) );
+    }
+
+    public static $parameter as( _parameter _p){
+        $annos $as = $annos.none();
+        if( _p.hasAnnos() ){
+            $as = $annos.as(_p); //set the EXACT annos
+        }
+        $name $nm = $name.of( _p.getName() );
+        $typeRef $tr = $typeRef.as(_p.getType());
+        $parameter $p = of( $as, $nm, $tr );
+        if( _p.isFinal() ){
+            $p.isFinal = true;
+        } else{
+            $p.isFinal = false;
+        }
+        if( _p.isVarArg() ){
+            $p.isVarArg = true;
+        } else{
+            $p.isVarArg = false;
+        }
+        return $p;
+        //return of( $as, $nm, $tr ).$and( _pa -> Objects.equals(_pa.isFinal(), _p.isFinal()) && Objects.equals(_pa.isVarArg(), _p.isVarArg() ) );
     }
 
     /**
@@ -160,82 +234,7 @@ public class $parameter implements Template<_parameter>, $pattern<_parameter, $p
         }
         return this;
     }
-    /**
-     * 
-     * @return 
-     */
-    public static $parameter of(){
-        return new $parameter( $typeRef.of( ), $name.of() );
-    }
-    
-    
-    /**
-     * 
-     * @param astParam
-     * @return 
-     */
-    public static $parameter of( Parameter astParam ){
-        return new $parameter( _parameter.of(astParam), p->true);
-    }
-    
-    /**
-     * Build and return a parameter
-     * @param _p the prototype parameter
-     * @return the $parameter
-     */
-    public static $parameter of( _parameter _p ){
-        return new $parameter( _p, p->true );
-    }
 
-    public static $parameter.Or or( _parameter... _protos ){
-        $parameter[] arr = new $parameter[_protos.length];
-        for(int i=0;i<_protos.length;i++){
-            arr[i] = $parameter.of( _protos[i]);
-        }
-        return or(arr);
-    }
-
-    public static $parameter.Or or( $parameter...$tps ){
-        return new $parameter.Or($tps);
-    }
-
-    public static $parameter as( String param ){
-        return as( _parameter.of(param) );
-    }
-
-    public static $parameter as( _parameter _p){
-        $annos $as = $annos.none();
-        if( _p.hasAnnos() ){
-            $as = $annos.as(_p); //set the EXACT annos
-        }
-        $name $nm = $name.of( _p.getName() );
-        $typeRef $tr = $typeRef.as(_p.getType());
-        $parameter $p = of( $as, $nm, $tr );
-        if( _p.isFinal() ){
-            $p.isFinal = true;
-        } else{
-            $p.isFinal = false;
-        }
-        if( _p.isVarArg() ){
-            $p.isVarArg = true;
-        } else{
-            $p.isVarArg = false;
-        }
-        return $p;
-        //return of( $as, $nm, $tr ).$and( _pa -> Objects.equals(_pa.isFinal(), _p.isFinal()) && Objects.equals(_pa.isVarArg(), _p.isVarArg() ) );
-    }
-    /**
-     * Build and return a parameter
-     * @param parameter
-     * @return 
-     */
-    public static $parameter of( String parameter ){
-        return new $parameter( _parameter.of(parameter), p->true );
-    }
-
-    public static $parameter of( Class parameterType ){
-        return new $parameter( $typeRef.of(parameterType));
-    }
 
     /**
      * 

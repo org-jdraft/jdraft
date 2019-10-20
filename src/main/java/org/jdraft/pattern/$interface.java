@@ -8,14 +8,12 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import org.jdraft.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+
+import org.jdraft.*;
 
 /**
  * Note... at the moment this is NOT a template... should it be??
@@ -57,7 +55,6 @@ public class $interface
     public static $interface of($part...parts){
         return new $interface(parts);
     }
-
 
     public static $interface of(ClassOrInterfaceDeclaration coid ){
         return of( _interface.of(coid));

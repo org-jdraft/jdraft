@@ -17,16 +17,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.jdraft._code;
-import org.jdraft._java;
-import org.jdraft._type;
-import org.jdraft.Ex;
-import org.jdraft.Ast;
-import org.jdraft.Stmt;
-
 import org.jdraft.*;
-import org.jdraft._node;
-import org.jdraft._typeRef;
 
 /**
  * Model of a <A HREF="https://en.wikipedia.org/wiki/Query_by_Example">query-by-example</A>,

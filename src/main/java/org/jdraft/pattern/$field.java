@@ -1,14 +1,5 @@
 package org.jdraft.pattern;
 
-import org.jdraft._code;
-import org.jdraft._javadoc;
-import org.jdraft._typeRef;
-import org.jdraft._class;
-import org.jdraft._java;
-import org.jdraft._field;
-import org.jdraft._anno;
-import org.jdraft._type;
-import org.jdraft._walk;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
@@ -16,17 +7,17 @@ import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.type.Type;
-import org.jdraft.*;
-import org.jdraft.Ex;
-import org.jdraft._node;
-import org.jdraft.macro._remove;
-import org.jdraft.macro.macro;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import org.jdraft.*;
+import org.jdraft.macro._remove;
+import org.jdraft.macro.macro;
+
 
 /**
  * Prototype of a _field (for querying and composing)
@@ -220,7 +211,17 @@ public class $field implements Template<_field>, $pattern<_field, $field>, $patt
         return new $field.Or($tps);
     }
 
-    
+    /**
+     *
+     * @param parts
+     * @return
+     */
+    public static $field not( $part...parts ){
+        $field $f = of();
+        $f.$not(parts);
+        return $f;
+    }
+
     public Predicate<_field> constraint = t->true;
     public $comment<JavadocComment> javadoc = $comment.javadocComment("$javadoc$");
     public $annos annos = new $annos(); 
@@ -253,17 +254,6 @@ public class $field implements Template<_field>, $pattern<_field, $field>, $patt
                 this.javadoc = ($comment<JavadocComment>)parts[i];
             }
         }
-    }
-
-    /**
-     *
-     * @param parts
-     * @return
-     */
-    public static $field not( $part...parts ){
-        $field $f = of();
-        $f.$not(parts);
-        return $f;
     }
 
     /**

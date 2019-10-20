@@ -1,14 +1,13 @@
 package org.jdraft.pattern;
 
-import org.jdraft._javadoc;
-import org.jdraft._java;
-import org.jdraft.Ast;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.comments.*;
-import org.jdraft.*;
+
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+
+import org.jdraft.*;
 
 /**
  * prototype for different types of {@link com.github.javaparser.ast.comments.Comment}s
@@ -27,6 +26,22 @@ public class $comment <C extends Comment>
     public static<C extends Comment> $comment<C> of( String pattern, Predicate<C> constraint ){
         return (($comment<C>) new $comment(pattern)).$and(constraint);
         //return (($comment<C>) new $comment(Ast.comment(pattern))).$and(constraint);
+    }
+
+    public static $comment<Comment> of( Predicate<Comment> constraint ){
+        return of().$and(constraint);
+    }
+
+    public static <C extends Comment> $comment<C> of(C comment){
+        return new $comment(comment);
+    }
+
+    public static <C extends Comment> $comment<C> of( String comment ){
+        return new $comment( comment);
+    }
+
+    public static <C extends Comment> $comment<C> of( String...comment ){
+        return new $comment(comment);
     }
 
     public static $comment.Or or( Comment... _protos ){
@@ -55,11 +70,6 @@ public class $comment <C extends Comment>
         return $c;
     }
 
-
-    public static $comment<Comment> of( Predicate<Comment> constraint ){
-        return of().$and(constraint);
-    }
-    
     public static $comment<JavadocComment> javadocComment(){
         $comment $c = new $comment().omitBlockComments().omitLineComments();
         $c.contentsStencil = Stencil.of("$javadoc$");
@@ -120,18 +130,7 @@ public class $comment <C extends Comment>
         return new $comment().omitBlockComments().omitJavadocComments()
             .$and(constraint);
     }
-    
-    public static <C extends Comment> $comment<C> of(C comment){
-        return new $comment(comment);
-    }
 
-    public static <C extends Comment> $comment<C> of( String comment ){
-        return new $comment( comment);
-    }
-
-    public static <C extends Comment> $comment<C> of( String...comment ){
-        return new $comment(comment);
-    }
     
     public static final Set<Class<? extends Comment>> ALL_COMMENT_CLASSES = new HashSet<>();
     

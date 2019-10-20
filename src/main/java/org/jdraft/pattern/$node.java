@@ -5,14 +5,12 @@ import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import org.jdraft.*;
-import org.jdraft.Ast;
-import org.jdraft._code;
-import org.jdraft._node;
-import org.jdraft._type;
+
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+
+import org.jdraft.*;
 
 /**
  * Any Ast Node that can be matched, extracted, Selected, Removed, Replaced

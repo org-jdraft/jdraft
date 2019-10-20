@@ -1,15 +1,16 @@
 package org.jdraft.pattern;
 
-import org.jdraft.*;
-import org.jdraft._walk;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.nodeTypes.NodeWithModifiers;
-import org.jdraft._modifiers._hasModifiers;
+
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import org.jdraft.*;
+import org.jdraft._modifiers._hasModifiers;
 
 /**
  * instead of directly matching (some expected set of modifiers) against a target
@@ -62,6 +63,60 @@ public class $modifiers
         return of(_modifiers.of(mods));
     }
 
+    /**
+     * Composite many $modifiers together
+     * including their constraints and mustInclude / mustExclude
+     * @param $mods
+     * @return
+     */
+    public static $modifiers of( $modifiers...$mods ){
+        $modifiers $mm = of();
+        for(int i=0;i<$mods.length;i++){
+            $mm.constraint = $mm.constraint.and($mods[i].constraint);
+            $mm.mustInclude.addAll($mods[i].mustInclude);
+            $mm.mustExclude.addAll($mods[i].mustExclude);
+        }
+        return $mm;
+    }
+
+    /**
+     *
+     * @param ms
+     * @return
+     */
+    public static $modifiers of( Modifier...ms  ){
+        return $modifiers.of( _modifiers.of(ms) );
+    }
+
+    /**
+     * Matches sets of modifiers that have all of these modifiers
+     * @param _ms
+     * @return
+     */
+    public static $modifiers of( _modifiers _ms ){
+        return of( _ms.ast() );
+    }
+
+    /**
+     * Matches sets of modifiers that have all of these modifiers
+     * @param astNwm
+     * @return
+     */
+    public static $modifiers of( NodeWithModifiers astNwm ){
+        return of( astNwm.getModifiers() );
+    }
+
+    /**
+     * Matches sets of modifiers that have all of these modifiers
+     * @param mods
+     * @return
+     */
+    public static $modifiers of( Collection<Modifier> mods ){
+        $modifiers $mods = new $modifiers();
+        $mods.mustInclude.addAll(mods);
+        return $mods;
+    }
+
     private static final List<Modifier> ALL_MODIFIERS = Ast.MODS_KEYWORD_TO_ENUM_MAP.values().stream().collect(Collectors.toList());
 
     /**
@@ -108,60 +163,6 @@ public class $modifiers
         return $ms;
     }
 
-    /**
-     * Composite many $modifiers together
-     * including their constraints and mustInclude / mustExclude
-     * @param $mods
-     * @return
-     */
-    public static $modifiers of( $modifiers...$mods ){
-        $modifiers $mm = of();
-        for(int i=0;i<$mods.length;i++){
-            $mm.constraint = $mm.constraint.and($mods[i].constraint);
-            $mm.mustInclude.addAll($mods[i].mustInclude);
-            $mm.mustExclude.addAll($mods[i].mustExclude);
-        }
-        return $mm;
-    }
-
-    /**
-     * 
-     * @param ms
-     * @return 
-     */
-    public static $modifiers of( Modifier...ms  ){
-        return $modifiers.of( _modifiers.of(ms) );
-    }
-    
-    /**
-     * Matches sets of modifiers that have all of these modifiers
-     * @param _ms
-     * @return 
-     */
-    public static $modifiers of( _modifiers _ms ){
-        return of( _ms.ast() );
-    }
-    
-    /**
-     * Matches sets of modifiers that have all of these modifiers
-     * @param astNwm
-     * @return 
-     */
-    public static $modifiers of( NodeWithModifiers astNwm ){
-        return of( astNwm.getModifiers() );
-    }
-    
-    /**
-     * Matches sets of modifiers that have all of these modifiers
-     * @param mods
-     * @return 
-     */
-    public static $modifiers of( Collection<Modifier> mods ){
-        $modifiers $mods = new $modifiers();
-        $mods.mustInclude.addAll(mods);
-        return $mods;
-    }
-
     public static $modifiers.Or or( $modifiers...$tps ){
         return new $modifiers.Or($tps);
     }
@@ -179,9 +180,7 @@ public class $modifiers
         return $ms;
     }
 
-    public $modifiers $(String target, String $paramName){
-        return this;
-    }
+
 
     /**
      * Matches sets of modifiers that have None of these modifiers
@@ -205,6 +204,38 @@ public class $modifiers
         return $mods;
     }
 
+    /** A matching lambda constraint */
+    public Predicate<_modifiers> constraint = t-> true;
+    
+    /** The modifiers that MUST be present*/
+    public Set<Modifier>mustInclude = new HashSet<>();    
+    
+    /** Modifiers that MUST NOT be present */
+    public Set<Modifier>mustExclude = new HashSet<>();
+
+    public $modifiers(){        
+    }
+
+    public $modifiers $(String target, String $paramName){
+        return this;
+    }
+
+    public boolean matches(String...modifiers ){
+        try {
+            return matches(_modifiers.of(modifiers));
+        }catch(Exception e){
+            return false;
+        }
+    }
+    public boolean matches( _modifiers _ms ){
+        return select(_ms) != null;
+    }
+
+    public $modifiers $and(Predicate<_modifiers> constraint ){
+        this.constraint = this.constraint.and(constraint);
+        return this;
+    }
+
     /**
      *
      * @param mods
@@ -223,34 +254,6 @@ public class $modifiers
                 $and(mods[i].constraint.negate());
             }
         }
-        return this;
-    }
-   
-    /** A matching lambda constraint */
-    public Predicate<_modifiers> constraint = t-> true;
-    
-    /** The modifiers that MUST be present*/
-    public Set<Modifier>mustInclude = new HashSet<>();    
-    
-    /** Modifiers that MUST NOT be present */
-    public Set<Modifier>mustExclude = new HashSet<>();
-
-    public $modifiers(){        
-    }
-
-    public boolean matches(String...modifiers ){
-        try {
-            return matches(_modifiers.of(modifiers));
-        }catch(Exception e){
-            return false;
-        }
-    }
-    public boolean matches( _modifiers _ms ){
-        return select(_ms) != null;
-    }
-
-    public $modifiers $and(Predicate<_modifiers> constraint ){
-        this.constraint = this.constraint.and(constraint);
         return this;
     }
 

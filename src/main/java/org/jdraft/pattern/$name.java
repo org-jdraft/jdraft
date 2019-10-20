@@ -1,12 +1,9 @@
 package org.jdraft.pattern;
 
-import org.jdraft.Stencil;
-import org.jdraft.Text;
-import org.jdraft.Tokens;
-import org.jdraft.Translator;
-
 import java.util.*;
 import java.util.function.Predicate;
+
+import org.jdraft.*;
 
 /**
  * A name within the AST that can be :
