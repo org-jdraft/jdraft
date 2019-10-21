@@ -38,7 +38,16 @@ public class _import implements _node<ImportDeclaration, _import> {
      * @return 
      */
     public static _import of(String importDecl) {
-        return new _import(Ast.importDeclaration(importDecl));
+        ImportDeclaration id = Ast.importDeclaration(importDecl);
+        //Boolean isStatic = null;
+        //Boolean isWildcard = null;
+        //if( id.isStatic() ){
+        //    isStatic = true;
+        //}
+        //if( id.isAsterisk() ){
+        //    isWildcard = true;
+        //}
+        return new _import(Ast.importDeclaration(importDecl)); //.setStatic(isStatic).setWildcard(isWildcard);
     }
 
     public static _import of(String importDecl, boolean isStatic, boolean isWildcard){

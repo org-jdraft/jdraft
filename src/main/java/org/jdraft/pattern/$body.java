@@ -276,6 +276,20 @@ public class $body implements Template<_body>, $pattern<_body, $body>, $pattern.
         return this;
     }
 
+    /**
+     * Match only bodies that DO NOT contain these parts
+     * @param parts
+     * @return
+     */
+    public $body $not( $part...parts ){
+        for(int i=0;i<parts.length;i++){
+            final $part $p = parts[i];
+            Predicate<_body> pb = b-> (($pattern)$p).firstIn(b) != null;
+            $and( pb.negate() );
+        }
+        return this;
+    }
+
     public String toString(){
         if( this.isMatchAny() ){
             return "$body{ $ANY$ }";

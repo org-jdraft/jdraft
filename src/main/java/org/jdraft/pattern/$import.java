@@ -111,6 +111,16 @@ public class $import
         return new $import( _proto ).$and(constraint);
     }
 
+    public static $import as(String importString ){
+        return as(_import.of(importString));
+    }
+
+    public static $import as( _import _im){
+        $import $i = of(_im);
+        $i.$and( i-> (i.isStatic() == _im.isStatic()) && (i.isWildcard() == _im.isWildcard() ) );
+        return $i;
+    }
+
     public static $import.Or or( _import... _protos ){
         $import[] arr = new $import[_protos.length];
         for(int i=0;i<_protos.length;i++){
@@ -170,18 +180,23 @@ public class $import
     private $import(_import proto ){
         if( proto.isWildcard() ){
             this.importStencil = Stencil.of( proto.getName()+".*" );
+            this.isWildcard = true;
         } else{
             this.importStencil = Stencil.of( proto.getName() );
+            this.isWildcard = null;
         }
-        this.isStatic = proto.isStatic();
-        this.isWildcard = proto.isWildcard();        
+        if( proto.isStatic() ) {
+            this.isStatic = proto.isStatic();
+        } else{
+            this.isStatic = null;
+        }
     }
 
     private $import( Predicate<_import> constraint ){
         this.importStencil = Stencil.of("$any$");
         this.constraint = constraint;
-        this.isStatic = false;
-        this.isWildcard = false;   
+        this.isStatic = null;
+        this.isWildcard = null;
     }
     
     /**
@@ -227,15 +242,30 @@ public class $import
      * @return 
      */
     public Select select(_import _i){
+        if( this.isMatchAny() ){
+            return new Select(_i, $tokens.of() );
+        }
         if( this.constraint.test(_i)){
-            //if this $import EXPECTS static or WIlcard imports and the             
-            if( this.isStatic && !_i.isStatic() || this.isWildcard && ! _i.isWildcard() ){
-                return null;
-            }                        
-            String name = _i.getName(); 
+            //if this $import EXPECTS static or WIlcard imports and the
+            if( this.isStatic != null ){
+                if( this.isStatic != _i.isStatic() ){
+                    return null;
+                }
+            }
+            if( this.isWildcard != null ){
+                if( this.isWildcard != _i.isWildcard() ){
+                    return null;
+                }
+            }
+            //if( this.isStatic && !_i.isStatic() || this.isWildcard && ! _i.isWildcard() ){
+            //    return null;
+            //}
+            String name = _i.getName();
+
             if( _i.isWildcard() ){
                 name += ".*";
-            }            
+            }
+            //System.out.println(name + " " + importStencil);
             Tokens ts = importStencil.parse( name );
             if( ts != null ){
                 return new Select(_i, $tokens.of(ts) );
@@ -274,8 +304,12 @@ public class $import
     @Override
     public _import draft(Translator translator, Map<String, Object> keyValues) {
         _import _ii = _import.of(importStencil.draft(translator, keyValues));
-        _ii.setStatic(this.isStatic);
-        _ii.setWildcard(this.isWildcard);
+        if( this.isStatic != null && this.isStatic ) {
+            _ii.setStatic(true);
+        }
+        if(this.isWildcard!= null && this.isWildcard ){
+            _ii.setWildcard(true);
+        }
         return _ii;
     }
     

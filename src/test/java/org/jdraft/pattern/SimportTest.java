@@ -15,13 +15,41 @@ import org.junit.Assert;
  * @author Eric
  */
 public class SimportTest extends TestCase {
-    
+
+    public void testMatchOf(){
+        $import $i = $import.of("aaaa.AAAA");
+        assertTrue($i.matches("import aaaa.AAAA;"));
+        assertTrue($i.matches("import static aaaa.AAAA;"));
+        //assertTrue($i.matches("import aaaa.AAAA.*;"));
+        //assertTrue($i.matches("import static aaaa.AAAA.*;"));
+
+        $i = $import.of("aaaa.$name$");
+        assertTrue($i.matches("import aaaa.AAAA;"));
+        assertTrue($i.matches("import aaaa.AnyName;"));
+        assertTrue($i.matches("import aaaa.AnyName.*;"));
+        assertTrue($i.matches("import aaaa.subpackage.AnyName;"));
+        assertTrue($i.matches("import static aaaa.AAAA;"));
+        assertTrue($i.matches("import aaaa.subpackage.AnyName;"));
+        assertFalse($i.matches("import aaa.subpackage.AnyName;"));
+
+        $i = $import.of("$pkg$Map;");
+        assertTrue($i.matches(_import.of(Map.class)));
+        assertTrue($i.matches("aaa.Map"));
+        assertTrue($i.matches("Map"));
+
+        assertFalse($i.matches("pkg.Map.*"));
+    }
+
+    public void testMatchAs(){
+        $import $i = $import.as("aaaa.AAAA");
+        assertTrue( $i.matches("aaaa.AAAA"));
+        assertFalse( $i.matches("import static aaaa.AAAA;"));
+    }
     public void testImportSwitch(){
         _class _c = _class.of("C").imports( _import.of("import draft.java.io.*;"));
         $import.of("import draft.java.$any$;").replaceIn(_c, "import org.jdraft.$any$;");
         System.out.println( _c ); 
         assertTrue( _c.hasImport(_i-> _i.is("import org.jdraft.io.*;") ));
-        
     }
     
     public void testAnyWildcardReplace(){

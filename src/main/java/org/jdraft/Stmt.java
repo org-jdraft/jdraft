@@ -2,6 +2,8 @@ package org.jdraft;
 
 import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.body.BodyDeclaration;
+import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.*;
 
@@ -300,6 +302,16 @@ public enum Stmt {
         if( !combined.endsWith("}") || count > 0 ){
             combined = combined +System.lineSeparator()+ "}";
         }
+
+        // recent addition to handle super() within the body of a constructor
+        if( combined.contains("super") ){
+            ConstructorDeclaration bd = (ConstructorDeclaration)StaticJavaParser.parseBodyDeclaration("C()"+ combined);
+            BlockStmt bs = bd.getBody();
+            bs.remove();
+            return bs;
+        }
+        //
+
         return StaticJavaParser.parseBlock( combined );
     }
 

@@ -1,12 +1,15 @@
 package org.jdraft.pattern;
 
+import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.expr.DoubleLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import com.github.javaparser.ast.expr.LongLiteralExpr;
+import com.github.javaparser.ast.stmt.ExplicitConstructorInvocationStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.SwitchEntry;
 import com.github.javaparser.ast.stmt.SwitchStmt;
+import org.jdraft.Ast;
 import org.jdraft.Ex;
 import org.jdraft._class;
 import java.text.NumberFormat;
@@ -18,9 +21,11 @@ import java.util.function.Predicate;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
+
+import org.jdraft._java;
 import org.junit.Assert;
 
-public class SexprTest extends TestCase {
+public class SexTest extends TestCase {
 
      public void testSpecificFullyQualifiedStaticAssertions(){
         _class _c = _class.of("C", new Object(){
@@ -333,7 +338,46 @@ public class SexprTest extends TestCase {
         $ex.thisEx().listIn(_c);
         $ex.superEx().listIn(_c);
     }
-    
+
+
+    /*
+    public void testSuperEx(){
+        assertTrue( $ex.superEx().matches("super.val()") );
+
+    }
+
+     */
+
+    class C{
+        C(int i){
+        }
+        C(String s){
+
+        }
+    }
+    class D extends C{
+        D(int i){
+            super(i);
+        }
+    }
+
+    public void testGetS(){
+        _class _c = _class.of(D.class);
+        _java.describe(_c);
+    }
+    public void testBodyNot(){
+        $body $b = $body.of( ()-> System.out.println(1) );
+        assertTrue( $b.matches("System.out.println(1);"));
+        $b.$not( $ex.of("super.val($any$)") );
+        assertTrue( $b.matches("System.out.println(1);"));
+        assertFalse( $b.matches("super.val(1);", "System.out.println(1);"));
+    }
+    //assertTrue( $ex.superEx().matches("super(1)"));
+
+    //$body $bd = $body.of("System.out.println(1);")
+    //        .$not( $ex.superEx() );
+    //assertFalse($bd.matches("super(a);", "System.out.println(1);"));
+
     public void testGenericExpr(){
         //LocalClassDeclarationExpr lc =  Expr.("class $any${}");
         

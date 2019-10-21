@@ -7,10 +7,8 @@ package org.jdraft.pattern;
 
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.MethodCallExpr;
-import org.jdraft._class;
-import org.jdraft._code;
-import org.jdraft._moduleInfo;
-import org.jdraft._packageInfo;
+import org.jdraft.*;
+
 import java.net.URL;
 import junit.framework.TestCase;
 
@@ -127,6 +125,7 @@ public class _codePatternTest extends TestCase {
     public void testPkgInfo(){
         _code _pi = _packageInfo.of("package aaaa.ffff.gggg;", "import java.util.*;", "import java.net.URL;");
         assertEquals(1, $import.of(URL.class).count(_pi));
+        assertEquals(1, $import.of("java.util.*").count(_pi));
         assertEquals(2, $import.of().count(_pi));
     }
     
@@ -134,5 +133,13 @@ public class _codePatternTest extends TestCase {
         _code _pi = _moduleInfo.of("import java.util.*;", "import java.net.URL;", "module aaaa.ffff.gggg{}" );
         assertEquals(1, $import.of(URL.class).count(_pi));
         assertEquals(2, $import.of().count(_pi));
+    }
+
+    public void testBodyNot(){
+        assertTrue( $body.of("System.out.println(1);").matches("{ System.out.println(1);}") );
+        assertTrue( $body.of("System.out.println(1);").matches("{ System.out.println(2); System.out.println(1);}") );
+
+        assertFalse( $body.of("System.out.println(1);").$not($stmt.of("System.out.println(2);"))
+                .matches("{ System.out.println(2); System.out.println(1);}") );
     }
 }

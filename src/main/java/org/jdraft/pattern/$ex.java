@@ -31,7 +31,7 @@ public class $ex<T extends Expression>
      * @return 
      */
     public static <T extends Expression> $ex<T> of(String...pattern ){
-        //so.... if I JUST do a pattern, I want to se the experssion class
+        //so.... if I JUST do a pattern, I want to se the expression class
         // to Expression.class
         Expression expr = Ex.of(pattern);
         return ($ex<T>)new $ex<Expression>( Expression.class,

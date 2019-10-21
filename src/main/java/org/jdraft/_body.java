@@ -129,9 +129,11 @@ public final class _body implements _model {
     public static _body of( String...body ){
         String bd = Text.combine(body).trim();
         if( bd.equals(";")){
+            //return of( _constructor.of("C (){}").ast());
             return of( _method.of("void __BODYHOLDER();").ast());
         }
-        return of( _method.of("void __BODYHOLDER();").add(body).ast() );
+        return of( _constructor.of("C(){}").add(body).ast() );
+        //return of( _method.of("void __BODYHOLDER();").add(body).ast() );
     }
     
     /**
