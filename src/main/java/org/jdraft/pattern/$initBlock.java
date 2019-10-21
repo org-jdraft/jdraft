@@ -21,22 +21,6 @@ import org.jdraft.*;
 public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$java<_initBlock,$initBlock>,
         Template<_initBlock>, $class.$part, $enum.$part, $member<_initBlock, $initBlock>{
 
-    public Class<_initBlock> _modelType(){
-        return _initBlock.class;
-    }
-
-    /** contents of the body */
-    public $body body;
-
-    /**
-     * true means MUST BE STATIC,
-     * null means can be static or non-static,
-     * false means must be NON-STATIC
-     */
-    public Boolean isStatic = null;
-
-    public Predicate<_initBlock> constraint = t->true;
-
     public static $initBlock of(){
         return new $initBlock($body.of(), null, t->true);
     }
@@ -167,6 +151,20 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
         }
     }
 
+
+
+    /** contents of the body */
+    public $body body;
+
+    /**
+     * true means MUST BE STATIC,
+     * null means can be static or non-static,
+     * false means must be NON-STATIC
+     */
+    public Boolean isStatic = null;
+
+    public Predicate<_initBlock> constraint = t->true;
+    
     private $initBlock(){
         this.body = $body.of();
         this.isStatic = null;
@@ -177,6 +175,10 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
         this.body = $body;
         this.isStatic = isStatic;
         this.constraint = constraint;
+    }
+
+    public Class<_initBlock> _modelType(){
+        return _initBlock.class;
     }
 
     @Override

@@ -146,6 +146,10 @@ public class $parameter implements Template<_parameter>, $pattern<_parameter, $p
         return as( _parameter.of(param) );
     }
 
+    public static $parameter as( Parameter p){
+        return as(_parameter.of(p) );
+    }
+
     public static $parameter as( _parameter _p){
         $annos $as = $annos.none();
         if( _p.hasAnnos() ){

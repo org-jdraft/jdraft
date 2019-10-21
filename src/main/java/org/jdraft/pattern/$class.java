@@ -288,6 +288,11 @@ public class $class
         return this;
     }
 
+    /**
+     * Build a new pattern that matches classes that do NOT have the following parts
+     * @param parts the parts to exclude from matching
+     * @return the $class pattern
+     */
     public static $class not( $part...parts ){
         $class $c = of();
         $c.$not(parts);

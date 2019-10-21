@@ -48,6 +48,17 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part {
         return new $catch.Or($tps);
     }
 
+    public static $catch as( String...catchCode ){
+        return as(Ast.catchClause(catchCode));
+    }
+
+    /**
+     * exact match for catchClause
+     */
+    public static $catch as(CatchClause astCatch ){
+        return new $catch( $parameter.as(astCatch.getParameter()), $body.as(astCatch.getBody()) );
+    }
+
     public Predicate<CatchClause> constraint = t-> true;
     
     public $parameter $param = $parameter.of();
@@ -65,6 +76,26 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part {
     public $catch($parameter $param, $body $bd){
         this.$param = $param;
         this.$bd = $bd;
+    }
+
+    public $catch $and( $parameter $p ){
+        Predicate<CatchClause>pcc = cc-> $p.matches( cc.getParameter() );
+        return $and( pcc );
+    }
+
+    public $catch $and( $body $bd ){
+        Predicate<CatchClause>pcc = cc-> $bd.matches( _body.of(cc.getBody()) );
+        return $and( pcc );
+    }
+
+    public $catch $not( $body $bd ){
+        Predicate<CatchClause>pcc = cc-> $bd.matches( cc.getBody() );
+        return $and( pcc.negate() );
+    }
+
+    public $catch $not( $parameter $p ){
+        Predicate<CatchClause>pcc = cc-> $p.matches( cc.getParameter() );
+        return $and( pcc.negate() );
     }
 
     public $catch $and(Predicate<CatchClause> constraint){

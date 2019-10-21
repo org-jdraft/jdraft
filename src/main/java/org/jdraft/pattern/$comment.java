@@ -192,11 +192,27 @@ public class $comment <C extends Comment>
      * @param kvs
      * @return 
      */
-    public $comment hardcode$(Translator translator, Tokens kvs ) {
+    public $comment<C> hardcode$(Translator translator, Tokens kvs ) {
         this.contentsStencil = this.contentsStencil.hardcode$(translator, kvs);
         return this;
     }
-    
+
+    public $comment<C> $and( String stencilText ){
+        return $and(Stencil.of(stencilText) );
+    }
+
+    public $comment<C> $and( Stencil stencil ){
+        return $and( c-> stencil.parseFirst( c.getContent() ) != null );
+    }
+
+    public $comment<C> $not( String str ){
+        return $not( Stencil.of(str) );
+    }
+
+    public $comment<C> $not( Stencil stencil ){
+        return $not( c-> stencil.parseFirst( c.getContent() ) != null);
+    }
+
     public $comment $and(Predicate<C> constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;

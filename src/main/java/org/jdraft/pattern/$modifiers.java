@@ -241,7 +241,7 @@ public class $modifiers
      * @param mods
      * @return
      */
-    public $modifiers not($modifiers... mods ){
+    public $modifiers $not($modifiers... mods ){
         for(int i=0;i<mods.length;i++) {
             this.mustExclude.addAll(mods[i].mustInclude);
             this.mustInclude.addAll(mods[i].mustExclude);

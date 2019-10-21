@@ -92,6 +92,8 @@ public class $case
     $case(){
         this.label = null;
     }
+
+
     private $case( $ex $labelExpr ){
         this.label = $labelExpr; 
     }

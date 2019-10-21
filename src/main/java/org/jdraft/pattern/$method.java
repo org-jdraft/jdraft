@@ -229,9 +229,9 @@ public class $method
     }
 
     /**
-     *
-     * @param parts
-     * @return
+     * Matcher for methods not composed of the parts passed in
+     * @param parts parts for excluding methods
+     * @return a $method matcher
      */
     public static $method not($part...parts ){
         $method $m = of();

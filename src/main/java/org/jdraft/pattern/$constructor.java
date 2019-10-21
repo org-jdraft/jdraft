@@ -67,8 +67,6 @@ public class $constructor
         return of( ste, anonymousObjectContainingMethod);
     }
 
-
-
     /**
      *
      * @param ste
@@ -89,8 +87,11 @@ public class $constructor
         return new $constructor( $name.of("$name$"), $body.of() );
     }
 
-
-
+    /**
+     *
+     * @param cd
+     * @return
+     */
     public static $constructor of( ConstructorDeclaration cd){
         return of( _constructor.of(cd));
     }

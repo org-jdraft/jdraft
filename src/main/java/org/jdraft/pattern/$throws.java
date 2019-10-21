@@ -11,11 +11,16 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import com.github.javaparser.ast.type.Type;
 import org.jdraft.*;
 
 /**
- * pattern for an _import declaration on a Java top level _type
+ * pattern for an _throws declaration (i.e. on methods and constructors)
+ * <PRE>
+ *     void m() throws IOException {}
+ *     void m() throws URLSyntaxException, IOException {}
  *
+ * </PRE>>
  */
 public class $throws
     implements Template<_throws>, $pattern<_throws, $throws>, $pattern.$java<_throws,$throws>, $method.$part, $constructor.$part {
@@ -35,6 +40,15 @@ public class $throws
     public static $throws as(){
         return none();
     }
+
+    public static $throws not(Class...clazzes ){
+        return of().$not(clazzes);
+    }
+
+    public static $throws not(_typeRef...types ){
+        return of().$not(types);
+    }
+
 
     /**
      * Match ANY import
@@ -142,7 +156,6 @@ public class $throws
         return new $throws.Or($tps);
     }
 
-
     public Predicate<_throws> constraint = t-> true;
 
     public List<$typeRef> throws$ids = new ArrayList<>();
@@ -173,11 +186,25 @@ public class $throws
         return this;
     }
 
-    /*
-    public boolean matches( ReferenceType rt ){
-        return
+    public $throws $not( Class...clazz ){
+        Arrays.stream(clazz).forEach(c-> $not(_typeRef.of(c) ) ) ;
+        return this;
     }
-    */
+
+    public $throws $not( Type... types ){
+        Arrays.stream(types).forEach(c-> $not(_typeRef.of(c) ) ) ;
+        return this;
+    }
+
+    public $throws $not( _typeRef... types ){
+        Arrays.stream(types).forEach(_t-> $not(_t) ) ;
+        return this;
+    }
+
+    public $throws $not( _typeRef type ){
+        Predicate<_throws> pt = (thr)-> thr.has(type);
+        return $and( pt.negate() );
+    }
 
     /**
      * 

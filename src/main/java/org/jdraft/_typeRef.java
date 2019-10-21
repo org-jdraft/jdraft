@@ -17,7 +17,21 @@ import org.jdraft._anno._annos;
 public final class _typeRef<T extends Type>
         implements _node<Type, _typeRef>, _anno._hasAnnos<_typeRef> {
 
+    /** Void type used in */
     public static _typeRef VOID = of( new VoidType() );
+
+    /** Var type (awaiting inference/resolution) */
+    public static _typeRef VAR = of( new VarType() );
+
+    /**
+     * Type used when none is provided (i.e. when I write the lambda parameter with no type)
+     * i.e. "a" in:<PRE>
+     * a -> System.out.println(a);
+     * i.e. "b" in:
+     * (b) -> max(b, getWidth());
+     * </PRE>
+     */
+    public static _typeRef UNKNOWN = of( new UnknownType( ) );
     /**
      *
      * @param t
@@ -212,6 +226,11 @@ public final class _typeRef<T extends Type>
         return type;
     }
 
+    /**
+     * Prints the array dimensions
+     * @param level
+     * @return
+     */
     private static String dims(int level){
         String dims = "";
         for(int i=0;i<level;i++){
@@ -241,6 +260,19 @@ public final class _typeRef<T extends Type>
         Type t = getErasedType(getElementType(type));
         //now remove annotations
         return Ast.typeRef( t.toString(Ast.PRINT_NO_ANNOTATIONS_OR_COMMENTS));
+    }
+
+    /**
+     * VarTypes are types that are awaiting type inference
+     * Examples:
+     * <ol>
+     * <li><b>var</b> a = 1;</li>
+     * <li><b>var</b> a = new ArrayList&lt;String>();</li>
+     * </ol>
+     * @return true if the type is a varType
+     */
+    public boolean isVarType(){
+        return astType instanceof VarType;
     }
 
     public boolean isArrayType() {
@@ -280,10 +312,10 @@ public final class _typeRef<T extends Type>
     public boolean is(java.lang.reflect.Type t){
         if( t.getTypeName().startsWith("[") ){
             //primitive arrays
-            /** ARRG we have to handle Array Types returns because they return "[Z", "[B", ,"[S, "[F"... for class names*/
+            /** ARRG we have to handle Array Types returns because they return "[Z", "[B", ,"[S, "[F"... for typeName()*/
             return equals(_typeRef.of(t.toString()));
         }
-        //otherwise, this will maintain the
+        //otherwise, this will maintain the generics etc.
         return equals(_typeRef.of(t.getTypeName()));
     }
 

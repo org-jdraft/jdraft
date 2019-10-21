@@ -9,6 +9,7 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.nodeTypes.NodeWithThrownExceptions;
 import com.github.javaparser.ast.type.ReferenceType;
+import com.github.javaparser.ast.type.Type;
 
 /**
  * Model of a Java throws clause
@@ -90,7 +91,15 @@ public final class _throws
     public boolean has( String name ) {
         return astNodeWithThrows.isThrown( name );
     }
-    
+
+    public boolean has(_typeRef _type){
+        return has(_type.ast());
+    }
+
+    public boolean has( Type rt ) {
+        return astNodeWithThrows.isThrown(rt.asString());
+    }
+
     public boolean has( ReferenceType rt ) {
         return astNodeWithThrows.isThrown( rt.asString() );
     }

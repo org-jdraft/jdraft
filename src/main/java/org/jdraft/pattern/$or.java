@@ -17,7 +17,13 @@ import org.jdraft.*;
 /**
  * A Conjunction over one or more patterns OR'ed together
  *
- * //find all non static and implemented methods within
+ * NOTE: MOST $patterns contain MONOTONIC or builders:
+ * $method $m = $method.of(
+ *     $method.of($.NON_STATIC).$and(m->m.isImplemented()).$isParentMember($class.of($.PRIVATE)),
+ *     $method.of($.NON_STATIC).$and(m->m.isImplemented(()).$isParentMember($enum.of()),
+ *     $method.of($.NON_STATIC).$isParentMember($interface.of()) );
+ *
+ * //with a top level find all non static and implemented methods within
  * $or<$method> $t = $or.of(
  *     $method.of($.NON_STATIC).$and(m->m.isImplemented()).$isParentMember($class.of($.PRIVATE)),
  *     $method.of($.NON_STATIC).$and(m->m.isImplemented(()).$isParentMember($enum.of()),

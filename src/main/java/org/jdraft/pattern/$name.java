@@ -30,7 +30,6 @@ public class $name implements $constructor.$part, $method.$part, $field.$part,
         return new $name( name );
     }
 
-
     public static $name.Or or( String... _protos ){
         $name[] arr = new $name[_protos.length];
         for(int i=0;i<_protos.length;i++){
@@ -44,6 +43,11 @@ public class $name implements $constructor.$part, $method.$part, $field.$part,
     }
 
     public static $name as(String name) { return of(name); }
+
+    public static $name not( Stencil name ){
+        return of().$not( n-> name.parseFirst(n)!= null );
+    }
+
 
     /** the pattern of the name*/
     public Stencil nameStencil;
@@ -64,6 +68,16 @@ public class $name implements $constructor.$part, $method.$part, $field.$part,
             }
         }
         return false;
+    }
+
+    public $name $and(Predicate<String> constraint ){
+        this.constraint = this.constraint.and(constraint);
+        return this;
+    }
+
+    public $name $not(Predicate<String> notConstraint ){
+        this.constraint = this.constraint.and( notConstraint.negate() );
+        return this;
     }
 
     /**
@@ -221,7 +235,6 @@ public class $name implements $constructor.$part, $method.$part, $field.$part,
             }
             return null;
         }
-
 
         public boolean isMatchAny(){
             return false;

@@ -2608,10 +2608,14 @@ public enum Ast {
         if (!res.endsWith("}")) {
             res = res + "}";
         }
-        Statement st = stmt(TRY_HARDCODED + res);
-        CatchClause cc = (CatchClause) st.getChildNodes().get(1); //getType ONLY the Catch
-        cc.removeForced(); //Disconnect
-        return cc;
+        try {
+            Statement st = stmt(TRY_HARDCODED + res);
+            CatchClause cc = (CatchClause) st.getChildNodes().get(1); //getType ONLY the Catch
+            cc.removeForced(); //Disconnect
+            return cc;
+        }catch(Exception e){
+            throw new _draftException("String \""+res+"\" does not represent a valid CatchClause",e);
+        }
     }
 
     /**

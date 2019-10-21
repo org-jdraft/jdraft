@@ -213,6 +213,10 @@ public class $body implements Template<_body>, $pattern<_body, $body>, $pattern.
     public static $body notImplemented(){
         return new $body().$and(b-> !b.isImplemented());
     }
+
+    public static $body not($part...parts){
+        return of().$not(parts);
+    }
     
     public static $body empty(){
         return new $body().$and(b -> b.isEmpty() );
@@ -353,6 +357,10 @@ public class $body implements Template<_body>, $pattern<_body, $body>, $pattern.
     }
 
     public boolean matches(_body._hasBody _hb ){ return select( _hb) != null; }
+
+    public boolean matches(BlockStmt bs){
+        return matches(_body.of(bs));
+    }
 
     /**
      * 
