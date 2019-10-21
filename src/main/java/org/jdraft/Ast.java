@@ -2069,13 +2069,33 @@ public enum Ast {
     }
 
     /**
+     * i.e."this(100,2900);" "super('c', 123);"
+     *
+     * @param code the java code
+     * @return an ExplicitConstructorInvocationStmt based on the code
+     */
+    public static ExplicitConstructorInvocationStmt thisOrSuperCallStmt(String... code ) {
+        return Stmt.thisOrSuperCallStmt(  code );
+    }
+
+    /**
      * i.e."this(100,2900);"
      *
      * @param code the java code
      * @return an ExplicitConstructorInvocationStmt based on the code
      */
-    public static ExplicitConstructorInvocationStmt ctorInvocationStmt(String... code ) {
-        return Stmt.thisConstructorStmt(  code );
+    public static ExplicitConstructorInvocationStmt thisCallStmt(String... code ) {
+        return Stmt.thisOrSuperCallStmt(  code );
+    }
+
+    /**
+     * i.e. "super('c', 123);"
+     *
+     * @param code the java code
+     * @return an ExplicitConstructorInvocationStmt based on the code
+     */
+    public static ExplicitConstructorInvocationStmt superCallStmt(String... code ) {
+        return Stmt.thisOrSuperCallStmt(  code );
     }
 
     /**

@@ -132,7 +132,7 @@ public class StmtTest extends TestCase {
         Stmt.continueStmt("continue;");
         Stmt.continueStmt("continue outer;");
 
-        Stmt.thisConstructorStmt("this(1);");
+        Stmt.thisOrSuperCallStmt("this(1);");
         st = Stmt.of((Integer n) -> {
             do {
                 assert (1 == 1);

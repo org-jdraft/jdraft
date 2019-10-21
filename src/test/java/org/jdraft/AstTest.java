@@ -684,7 +684,7 @@ public class AstTest extends TestCase {
         Stmt.blockStmt( "{ int i=1; System.out.println(i);}");
         Stmt.breakStmt( "break;" );
         Stmt.breakStmt( "break out;" );
-        Stmt.thisConstructorStmt( "this();" );
+        Stmt.thisOrSuperCallStmt( "this();" );
         Stmt.continueStmt( "continue;");
         Stmt.continueStmt( "continue out;");
         ExpressionStmt es = new ExpressionStmt( org.jdraft.Ex.of("3+4"));

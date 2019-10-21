@@ -1,6 +1,7 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.ast.stmt.AssertStmt;
+import com.github.javaparser.ast.stmt.ExplicitConstructorInvocationStmt;
 import org.jdraft.*;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
@@ -40,6 +41,24 @@ public class SstmtTest extends TestCase {
         //quadconsumer
         $as = $.assertStmt( (Integer a, String b, Map d, UUID g)-> {assert(a==1);} );
         assertTrue( $as.matches( Stmt.of( (Integer a)->{assert(a==1);})) );
+    }
+
+    public void testThisOrSuperCallStmt(){
+        ExplicitConstructorInvocationStmt ec = Ast.thisOrSuperCallStmt("super(1);");
+        assertEquals( Ex.of(1), ec.getArgument(0));
+        assertFalse( ec.isThis() );
+
+        //System.out.println( ec );
+        $stmt $s = $stmt.thisCallStmt("this($args$);");
+        assertTrue($s.matches("this(1)"));
+        assertTrue($s.select("this(1)").is("args", 1));
+
+        $s = $stmt.superCallStmt("super($any$);");
+
+        assertTrue($s.matches("super(1)"));
+        assertTrue($s.select("super(1)").is("args", 1));
+
+        $.thisCallStmt("this('a');");
     }
 
     public void testWalkCompose(){
@@ -577,7 +596,7 @@ public class SstmtTest extends TestCase {
         assertTrue( $stmt.blockStmt("System.out.println($any$);").matches(Stmt.of("{System.out.println(\"anything\");}")));
         assertTrue( $stmt.breakStmt("break $where$;").matches(Stmt.of("break outer;")));
         assertTrue( $stmt.continueStmt("continue $where$;").matches(Stmt.of("continue outer;")));
-        assertTrue( $stmt.ctorInvocationStmt("this($args$);").matches(Stmt.of("this(1,2,'a');")));
+        assertTrue( $stmt.thisCallStmt("this($args$);").matches(Stmt.of("this(1,2,'a');")));
         assertTrue( $stmt.doStmt("do{ BODY(); }while($condition$)").$("BODY();", "BODY").matches(Stmt.of("do{ assert(1==1); }while(a<4)")));
         assertTrue( $stmt.expressionStmt("$any$+=1;").matches(Stmt.of("i+=1")));
 

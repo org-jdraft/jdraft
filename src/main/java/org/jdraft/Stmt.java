@@ -465,19 +465,48 @@ public enum Stmt {
     }
 
     /** 
-     * i.e. "this(100,2900);" 
+     * i.e. "this(100,2900);", "super('c',123);"
      */
-    public static final Class<ExplicitConstructorInvocationStmt> THIS_CONSTRUCTOR
+    public static final Class<ExplicitConstructorInvocationStmt> THIS_OR_SUPER_CALL_STMT
             = ExplicitConstructorInvocationStmt.class;
 
     /** 
-     * i.e."this(100,2900);" 
+     * i.e."this(100,2900);" "super('c',203);"
      * 
      * @param code the java code
      * @return an ExplicitConstructorInvocationStmt based on the code
      */
-    public static ExplicitConstructorInvocationStmt thisConstructorStmt(String... code ) {
-        return of( code ).asExplicitConstructorInvocationStmt();
+    public static ExplicitConstructorInvocationStmt thisOrSuperCallStmt(String... code ) {
+        String cd = Text.combine(code);
+        if( cd.startsWith("this")|| cd.startsWith("super") ){
+            return of( cd ).asExplicitConstructorInvocationStmt();
+        }
+        /*Hmm might as well "let it fail" */
+        try {
+            return of(cd ).asExplicitConstructorInvocationStmt();
+        }catch(Exception e){
+            throw new _draftException("could not parse \""+cd+"\" as "+ExplicitConstructorInvocationStmt.class );
+        }
+    }
+
+    /**
+     * i.e."this(100,2900);"
+     *
+     * @param code the java code
+     * @return an ExplicitConstructorInvocationStmt based on the code
+     */
+    public static ExplicitConstructorInvocationStmt thisCallStmt(String... code ) {
+        return thisOrSuperCallStmt( code );
+    }
+
+    /**
+     * i.e."super('c',203);"
+     *
+     * @param code the java code
+     * @return an ExplicitConstructorInvocationStmt based on the code
+     */
+    public static ExplicitConstructorInvocationStmt superCallStmt(String... code ) {
+        return thisOrSuperCallStmt( code );
     }
 
     /** i.e. "s += t;" */

@@ -374,11 +374,12 @@ public class $stmt<T extends Statement>
     
     
     /**
-     * Returns a prototype that matches ANY assertStmt
+     *
+     * Returns a pattern that matches ANY thisOrSuperCallStmt
      * @return 
      */
-    public static $stmt<ExplicitConstructorInvocationStmt> ctorInvocationStmt(){
-        return new $stmt( ExplicitConstructorInvocationStmt.class, "$ctorInvocationStmt$" );
+    public static $stmt<ExplicitConstructorInvocationStmt> thisCallStmt(){
+        return new $stmt( ExplicitConstructorInvocationStmt.class, "$thisCallStmt$" );
     } 
 
     /** 
@@ -386,8 +387,8 @@ public class $stmt<T extends Statement>
      * @param pattern
      * @return 
      */
-    public static $stmt<ExplicitConstructorInvocationStmt> ctorInvocationStmt(String... pattern ) {
-        return new $stmt( Stmt.thisConstructorStmt(pattern));
+    public static $stmt<ExplicitConstructorInvocationStmt> thisCallStmt(String... pattern ) {
+        return new $stmt( Stmt.thisOrSuperCallStmt(pattern));
     }
 
     /**
@@ -395,7 +396,7 @@ public class $stmt<T extends Statement>
      * @param cts
      * @return
      */
-    public static $stmt<ExplicitConstructorInvocationStmt> ctorInvocationStmt(ExplicitConstructorInvocationStmt cts) {
+    public static $stmt<ExplicitConstructorInvocationStmt> thisCallStmt(ExplicitConstructorInvocationStmt cts) {
         return new $stmt( cts );
     }
 
@@ -405,10 +406,47 @@ public class $stmt<T extends Statement>
      * @param constraint
      * @return 
      */
-    public static $stmt<ExplicitConstructorInvocationStmt> ctorInvocationStmt(String pattern, Predicate<ExplicitConstructorInvocationStmt> constraint) {
-        return new $stmt( Stmt.thisConstructorStmt(pattern)).$and(constraint);
+    public static $stmt<ExplicitConstructorInvocationStmt> thisCallStmt(String pattern, Predicate<ExplicitConstructorInvocationStmt> constraint) {
+        return new $stmt( Stmt.thisOrSuperCallStmt(pattern)).$and(constraint);
     }
-    
+
+    /**
+     *
+     * Returns a pattern that matches ANY thisOrSuperCallStmt
+     * @return
+     */
+    public static $stmt<ExplicitConstructorInvocationStmt> superCallStmt(){
+        return new $stmt( ExplicitConstructorInvocationStmt.class, "$superCallStmt$" );
+    }
+
+    /**
+     * i.e."this(100,2900);"
+     * @param pattern
+     * @return
+     */
+    public static $stmt<ExplicitConstructorInvocationStmt> superCallStmt(String... pattern ) {
+        return new $stmt( Stmt.thisOrSuperCallStmt(pattern));
+    }
+
+    /**
+     * i.e."this(100,2900);"
+     * @param cts
+     * @return
+     */
+    public static $stmt<ExplicitConstructorInvocationStmt> superCallStmt(ExplicitConstructorInvocationStmt cts) {
+        return new $stmt( cts );
+    }
+
+    /**
+     * i.e."this(100,2900);"
+     * @param pattern
+     * @param constraint
+     * @return
+     */
+    public static $stmt<ExplicitConstructorInvocationStmt> superCallStmt(String pattern, Predicate<ExplicitConstructorInvocationStmt> constraint) {
+        return new $stmt( Stmt.thisOrSuperCallStmt(pattern)).$and(constraint);
+    }
+
     /** 
      * i.e."s += t;" 
      * @return 
@@ -1121,7 +1159,7 @@ public class $stmt<T extends Statement>
     /**
      * Returns the first Statement that matches the 
      * @param astNode the 
-     * @return a Select containing the Statement and the key value pairs from the prototype
+     * @return a Select containing the Statement and the key value pairs from the pattern
      */
     @Override
     public Select<T> selectFirstIn( Node astNode ){
@@ -1152,7 +1190,7 @@ public class $stmt<T extends Statement>
      * Returns the first Statement that matches the 
      * @param astNode the 
      * @param selectConstraint 
-     * @return a Select containing the Statement and the key value pairs from the prototype
+     * @return a Select containing the Statement and the key value pairs from the pattern
      */
     public Select<T> selectFirstIn( Node astNode, Predicate<Select<T>> selectConstraint ){
         Optional<T> f = astNode.findFirst(this.statementClass, s -> {

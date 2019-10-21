@@ -365,13 +365,18 @@ public class SexTest extends TestCase {
         _class _c = _class.of(D.class);
         _java.describe(_c);
     }
+
     public void testBodyNot(){
         $body $b = $body.of( ()-> System.out.println(1) );
         assertTrue( $b.matches("System.out.println(1);"));
-        $b.$not( $ex.of("super.val($any$)") );
+        $b.$not( $ex.of("super.$methodName$($any$)") );
         assertTrue( $b.matches("System.out.println(1);"));
         assertFalse( $b.matches("super.val(1);", "System.out.println(1);"));
+
+        System.out.println( Ex.of("super.val($any$)").getClass() );
+        //$.superCallStmt();
     }
+
     //assertTrue( $ex.superEx().matches("super(1)"));
 
     //$body $bd = $body.of("System.out.println(1);")
@@ -389,19 +394,9 @@ public class SexTest extends TestCase {
         assertTrue( $anyLambda.matches( Ex.lambdaEx("/** comment */ ()->true") ) );
         
         assertTrue( $ex.lambdaEx(l -> l.getComment().isPresent() ).matches("/** comment */ ()->true;") );
-        
-        /** A comment */
-        //lass C{}
-        
-        //this disregards comments
-        //StaticJavaParser.parseExpression(expression)
-        
-        
-        
-        //_class _c = _class.of($exprTest.class);
-        //assertNotNull( $anyLocal.firstIn(_c) );
-        
+
     }
+
     public void testStatic$expr(){
         _class _c = _class.of("C", new Object(){
             @aa(2) 

@@ -982,15 +982,55 @@ public final class $ {
         return $stmt.of(bs);
     }
 
-    public static $stmt<ExplicitConstructorInvocationStmt> constructorInvocationStmt(){
-        return $stmt.ctorInvocationStmt();
+    /**
+     * i.e. "this(2);"
+     * @return
+     */
+    public static $stmt<ExplicitConstructorInvocationStmt> thisCallStmt(){
+        return $stmt.thisCallStmt();
     }
 
-    public static $stmt<ExplicitConstructorInvocationStmt> constructorInvocationStmt(String...ctor){
-        return $stmt.ctorInvocationStmt(ctor);
+    /**
+     * i.e. "this(2);"
+     * @param ctor
+     * @return
+     */
+    public static $stmt<ExplicitConstructorInvocationStmt> thisCallStmt(String...ctor){
+        return $stmt.thisCallStmt(ctor);
     }
 
-    public static $stmt<ExplicitConstructorInvocationStmt> constructorInvocationStmt( ExplicitConstructorInvocationStmt cs){
+    /**
+     * i.e. "this(2);"
+     * @param cs
+     * @return
+     */
+    public static $stmt<ExplicitConstructorInvocationStmt> thisCallStmt(ExplicitConstructorInvocationStmt cs){
+        return $stmt.of(cs);
+    }
+
+    /**
+     * i.e. "super(2);"
+     * @return
+     */
+    public static $stmt<ExplicitConstructorInvocationStmt> superCallStmt(){
+        return $stmt.superCallStmt();
+    }
+
+    /**
+     * i.e. "super(2);"
+     * @param ctor
+     * @return
+     */
+    public static $stmt<ExplicitConstructorInvocationStmt> superCallStmt(String...ctor){
+        return $stmt.superCallStmt(ctor);
+    }
+
+    /**
+     * i.e. "super(2);"
+     * @param cs
+     * @return
+     */
+    public static $stmt<ExplicitConstructorInvocationStmt> superCallStmt(ExplicitConstructorInvocationStmt cs){
         return $stmt.of(cs);
     }
 
