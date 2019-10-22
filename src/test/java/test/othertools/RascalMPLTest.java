@@ -46,6 +46,7 @@ public class RascalMPLTest extends TestCase {
      * 1) we DONT want to consider STATIC fields (dont use getters and setters to these fields)
      * 2) we DONT want to create set methods on FINAL fields (only get() methods)
      *
+     * 3) Also I added some additional tests to verify the code turns out as we expect:
      */
     public void testConvertPublicFieldsOnClassesToPrivateWithGetSet(){
         /* pattern that finds all fields that are public and non-static defined in a Class */
@@ -64,6 +65,11 @@ public class RascalMPLTest extends TestCase {
                 _hms.method( $setMethod.draft("type", f.getType(), "name", f.getName()) );
             }
         });
+        /* 3) extra validation to verify results */
+        assertEquals(2, $getMethod.count(_c) ); //verify (2) get methods in the result
+        assertEquals(2, $setMethod.count(_c) ); //verify (2) set methods in the result
+        assertEquals( 2, $field.of($.PRIVATE).count(_c)); //verify (2) private fields in the result
+        assertEquals( 0, $publicFieldOnClass.count(_c)); //verify (0) public fields in the result
         System.out.println( _c );
     }
 
