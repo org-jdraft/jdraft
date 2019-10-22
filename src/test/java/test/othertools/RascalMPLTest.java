@@ -2,12 +2,19 @@ package test.othertools;
 
 import junit.framework.TestCase;
 import org.jdraft._class;
+import org.jdraft._field;
 import org.jdraft._method;
 import org.jdraft.pattern.$;
 import org.jdraft.pattern.$class;
 import org.jdraft.pattern.$field;
 import org.jdraft.pattern.$method;
 
+import java.util.List;
+
+/**
+ * Examples to compare/contrast with Rascal MPL
+ * https://www.rascal-mpl.org
+ */
 public class RascalMPLTest extends TestCase {
 
     /**
@@ -17,13 +24,22 @@ public class RascalMPLTest extends TestCase {
      */
     public void testFindPublicFieldsInSource(){
         $field $f = $field.of( $.PUBLIC );
-        assertTrue( $f.matches( "public int i;") );
-        class C{
+        assertTrue( $f.matches( "public int i;") ); // here we can test it matches a simple field
+
+        class LE {
             public int x;
             public int y;
         }
-        /* to run this on the entire source _batch.of("C:\\jdraft\\project\\jdraft")); */
-        assertEquals(2, $f.count( C.class ));
+        /* to run this on the entire source directory replace LE.class with: _batch.of("C:\\jdraft\\project\\jdraft")); */
+        /* to run this on the entire source directory replace LE.class with: _archive.of("C:\\temp\\MyProject-src.jar")); */
+        assertEquals(2, $f.count( LE.class ));
+        // instead of just counting we can print each to System out as we encounter
+        $f.printIn( LE.class );
+
+        // we can also collect each matching field:
+        List<_field> _fs = $f.listIn( LE.class );
+        assertEquals( 2, _fs.size());
+
         // here we check for public fields... note although i, j are NOT explicitly public
         // they ARE IMPLICITLY PUBLIC because fields with initializers on imterfaces are public by default
         assertEquals( 2, $f.count(I.class));
@@ -42,20 +58,22 @@ public class RascalMPLTest extends TestCase {
      * Rascal MPL: Transform all public fields to be private and generates use getter and setter methods
      * https://youtu.be/Ffx7VtEOSx4?t=967
      *
-     * we wanted to change the requirements of this assignment to be more practical
-     * 1) we DONT want to consider STATIC fields (dont use getters and setters to these fields)
+     * NOTE: changed the requirements of this assignment to be more practical/real world
+     * 1) we DONT want to consider STATIC fields (don't use getters and setters to these fields)
      * 2) we DONT want to create set methods on FINAL fields (only get() methods)
      *
-     * 3) Also I added some additional tests to verify the code turns out as we expect:
+     * 3) Also I added some additional tests to verify the refactored code turns out as we expect:
      */
     public void testConvertPublicFieldsOnClassesToPrivateWithGetSet(){
         /* pattern that finds all fields that are public and non-static defined in a Class */
-        $field $publicFieldOnClass = $field.of($.PUBLIC, $.NOT_STATIC).$isParentMember( $class.of() );
+        $field $publicFieldOnClass = $field.of($.PUBLIC, $.NOT_STATIC)
+                .$isParentMember( $class.of() ); /* only do this on classes (not interfaces/enums) */
 
         class Sample {
             public int a;
             public int b;
         }
+        /* read the Sample.class and modifiy it set fields and methods */
         _class _c = $publicFieldOnClass.forEachIn(Sample.class, f-> {
             f.setPrivate(); //make the field private
             _method._hasMethods _hms = f.getParentMember();
