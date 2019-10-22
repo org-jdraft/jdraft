@@ -151,8 +151,9 @@ public class SannotationTest extends TestCase {
         });
         System.out.println( _c );
 
-        //verify I can find the synchronized modifier
-        assertEquals(1, $.STATIC.count(_c));
+
+        //verify I can find the static modifier (value has a static IMPLIED MODIFIER)
+        assertEquals(2, $.STATIC.count(_c));
 
         //verify I can match a class that HAS a Synchronized modifier beneath
         assertTrue( $annotation.of().$hasDescendant($.field($.STATIC)).matches(_c) );

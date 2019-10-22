@@ -3229,6 +3229,82 @@ public enum Ast {
         return true;
     }
 
+    public static NodeList<Modifier> getImpliedModifiers(NodeWithModifiers nwm ){
+        if( nwm instanceof VariableDeclarator){
+            NodeList<Modifier> nlm = getImpliedModifiers( (VariableDeclarator)nwm);
+            if( nlm == null ){
+                return new NodeList<Modifier>();
+            }
+            return nlm;
+        }
+        if( nwm instanceof FieldDeclaration){
+            NodeList<Modifier> nlm = getImpliedModifiers( (FieldDeclaration)nwm);
+            if( nlm == null ){
+                return new NodeList<Modifier>();
+            }
+            return nlm;
+        }
+        if( nwm instanceof AnnotationDeclaration){
+            NodeList<Modifier> nlm = getImpliedModifiers( (AnnotationDeclaration)nwm);
+            if( nlm == null ){
+                return new NodeList<Modifier>();
+            }
+            return nlm;
+        }
+        if( nwm instanceof ClassOrInterfaceDeclaration){
+            NodeList<Modifier> nlm = getImpliedModifiers( (ClassOrInterfaceDeclaration)nwm);
+            if( nlm == null ){
+                return new NodeList<Modifier>();
+            }
+            return nlm;
+        }
+        if( nwm instanceof ConstructorDeclaration){
+            NodeList<Modifier> nlm = getImpliedModifiers( (ConstructorDeclaration)nwm);
+            if( nlm == null ){
+                return new NodeList<Modifier>();
+            }
+            return nlm;
+        }
+        if( nwm instanceof EnumDeclaration){
+            NodeList<Modifier> nlm = getImpliedModifiers( (EnumDeclaration)nwm);
+            if( nlm == null ){
+                return new NodeList<Modifier>();
+            }
+            return nlm;
+        }
+        if( nwm instanceof MethodDeclaration){
+            NodeList<Modifier> nlm = getImpliedModifiers( (MethodDeclaration)nwm);
+            if( nlm == null ){
+                return new NodeList<Modifier>();
+            }
+            return nlm;
+        }
+        if( nwm instanceof TypeDeclaration){
+            NodeList<Modifier> nlm = getImpliedModifiers( (TypeDeclaration)nwm);
+            if( nlm == null ){
+                return new NodeList<Modifier>();
+            }
+            return nlm;
+        }
+        if( nwm instanceof AnnotationMemberDeclaration){
+            NodeList<Modifier> nlm = getImpliedModifiers( (AnnotationMemberDeclaration)nwm);
+            if( nlm == null ){
+                return new NodeList<Modifier>();
+            }
+            return nlm;
+        }
+        //Parameter?
+        throw new _draftException("Unable to get implied modifiers for "+ nwm+ " of "+nwm.getClass());
+    }
+
+    public static NodeList<Modifier> getImpliedModifiers(Parameter p){
+        return new NodeList<Modifier>();
+    }
+
+    public static NodeList<Modifier> getImpliedModifiers(AnnotationMemberDeclaration amd){
+        return new NodeList<Modifier>();
+    }
+
     public static NodeList<Modifier> getImpliedModifiers(VariableDeclarator vd) {
         if (!vd.getParentNode().isPresent()) {
             return null;

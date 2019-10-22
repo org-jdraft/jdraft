@@ -410,7 +410,6 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part {
         }
     }
 
-
     /**
      * An Or entity that can match against any of the $pattern instances provided
      * NOTE: template features (draft/fill) are supressed.

@@ -56,6 +56,15 @@ public final class _modifiers implements _model {
         return _ms;
     }
 
+    public static _modifiers of(List<Modifier> mods){
+        _modifiers _ms = new _modifiers();
+
+        for( int i = 0; i < mods.size(); i++ ) {
+            _ms.set(mods.get(i));
+        }
+        return _ms;
+    }
+
     public static _modifiers of( com.github.javaparser.ast.Modifier... mods ) {
         _modifiers _ms = new _modifiers();
 

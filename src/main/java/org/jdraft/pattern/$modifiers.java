@@ -2,6 +2,7 @@ package org.jdraft.pattern;
 
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.nodeTypes.NodeWithModifiers;
 
 import java.util.*;
@@ -516,9 +517,36 @@ public class $modifiers
     }
     
     public Select select(_modifiers _ms){
-        if( this.constraint.test(_ms) && 
-            _ms.containsAll(this.mustInclude) &&  
+        /* OLD
+        if( this.constraint.test(_ms) &&
+            _ms.containsAll(this.mustInclude) &&
             !_ms.containsAny(this.mustExclude) ){
+            return new Select( _ms );
+        }
+         */
+        //if it's "connected" to an AST tree node... I should check the IMPLIED modifiers
+        NodeWithModifiers nwm = _ms.astHolder();
+        if( nwm != null ){
+            //System.out.println( "testing " + nwm );
+            //System.out.println( "before " +_modifiers.of(nwm));
+            NodeList<Modifier> all = Ast.getImpliedModifiers(nwm);
+            //try {
+                all = Ast.merge(all, nwm.getModifiers());
+            //}catch(Exception e){
+                //System.out.println(" FFFF "+ e );
+            //}
+            //System.out.println( "after " +all);
+            _modifiers _all = _modifiers.of( all );
+            //System.out.println( "after " +_all);
+            if( this.constraint.test(_all) &&
+                    _all.containsAll(this.mustInclude) &&
+                    !_all.containsAny(this.mustExclude) ){
+                return new Select( _all );
+            }
+        }
+        if( this.constraint.test(_ms) &&
+                _ms.containsAll(this.mustInclude) &&
+                !_ms.containsAny(this.mustExclude) ){
             return new Select( _ms );
         }
         return null;
