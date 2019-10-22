@@ -313,7 +313,8 @@ public class $constructor
                 this.annos.$annosList.add( ($anno)components[i] );
             }
             else if( components[i] instanceof $modifiers ){
-                this.modifiers = ($modifiers)components[i];
+                this.modifiers = $modifiers.of( this.modifiers, ($modifiers)components[i]);
+                //this.modifiers = ($modifiers)components[i];
             }
             else if( components[i] instanceof $name ){
                 this.name = ($name)components[i];
@@ -326,7 +327,13 @@ public class $constructor
             }
             else if( components[i] instanceof $body ){
                 this.body = ($body)components[i];
-            } 
+            }
+            else if( components[i] instanceof $stmt ){
+                this.body.$and( ($stmt)components[i]);
+            }
+            else if( components[i] instanceof $ex ){
+                this.body.$and( ($ex)components[i] );
+            }
             else if( components[i] instanceof $throws ){
                 this.thrown = ($throws)components[i];
             }
@@ -477,6 +484,16 @@ public class $constructor
             else if( parts[i] instanceof $body){
                 final $body $fj = (($body)parts[i]);
                 Predicate<_constructor> pf = f-> $fj.matches(f.getBody());
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $stmt){
+                final $stmt $fj = (($stmt)parts[i]);
+                Predicate<_constructor> pf = f-> $fj.firstIn(f.getBody()) != null;
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $ex){
+                final $ex $fj = (($ex)parts[i]);
+                Predicate<_constructor> pf = f-> $fj.firstIn(f.getBody()) != null;
                 $and( pf.negate() );
             }
         }

@@ -186,10 +186,11 @@ public class $interface
                 this.methods.add( ($method)parts[i]);
             }
             if( parts[i] instanceof $modifiers ){
-                $modifiers ms = ($modifiers)parts[i];
-                this.modifiers.mustInclude.addAll(ms.mustInclude);
-                this.modifiers.mustExclude.addAll(ms.mustExclude);
-                this.modifiers.$and(ms.constraint);
+                this.modifiers = $modifiers.of( this.modifiers, ($modifiers)parts[i]);
+                //$modifiers ms = ($modifiers)parts[i];
+                //this.modifiers.mustInclude.addAll(ms.mustInclude);
+                //this.modifiers.mustExclude.addAll(ms.mustExclude);
+                //this.modifiers.$and(ms.constraint);
             }
             if( parts[i] instanceof $name ){
                 this.name = ($name)parts[i];

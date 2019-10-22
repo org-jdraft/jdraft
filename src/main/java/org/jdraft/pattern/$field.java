@@ -239,7 +239,7 @@ public class $field implements Template<_field>, $pattern<_field, $field>, $patt
                 this.annos.$annosList.add( ($anno)parts[i]);
             }
             else if( parts[i] instanceof $modifiers ){
-                this.modifiers = ($modifiers)parts[i]; 
+                this.modifiers = $modifiers.of( this.modifiers, ($modifiers)parts[i]);
             }
             else if( parts[i] instanceof $typeRef){
                 this.type = ($typeRef)parts[i];

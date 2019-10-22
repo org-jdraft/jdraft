@@ -8,6 +8,7 @@ import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.Type;
 
+import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
@@ -59,10 +60,6 @@ public class $method
     public static $method of( Object anonymousObjectContainingMethod ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         _method _m = from(ste, anonymousObjectContainingMethod);
-
-        //get the Runtime Reflection Method
-        //Method rm = Arrays.stream(anonymousObjectContainingMethod.getClass().getDeclaredMethods()).filter(mm ->_m.hasParametersOf(mm)).findFirst().get();
-
         $method $m = of( _m );
         return $m;
     }
@@ -323,6 +320,12 @@ public class $method
             else if(parts[i] instanceof $body){
                 this.body = ($body)parts[i];
             }
+            else if(parts[i] instanceof $stmt){
+                this.body.$and( ($stmt)parts[i]);
+            }
+            else if(parts[i] instanceof $ex){
+                this.body.$and( ($ex)parts[i]);
+            }
             else if( parts[i] instanceof $throws ){
                 this.thrown = ($throws)parts[i];
             }
@@ -472,6 +475,31 @@ public class $method
                 Predicate<_method> pf = f-> $fj.matches(f.getBody());
                 $and( pf  );
             }
+            else if( parts[i] instanceof $stmt){
+                final $stmt $fj = (($stmt)parts[i]);
+                Predicate<_method> pf = f-> $fj.firstIn(f.getBody()) != null;
+                $and( pf  );
+            }
+            else if( parts[i] instanceof $ex){
+                final $ex $fj = (($ex)parts[i]);
+                Predicate<_method> pf = f-> $fj.firstIn(f.getBody()) != null;
+                $and( pf  );
+            }
+
+        }
+        return this;
+    }
+
+    public $method $notThrows(Class<? extends Throwable>...exceptionClass){
+        for(int i=0;i<exceptionClass.length;i++){
+            $not($throws.of(exceptionClass[i]));
+        }
+        return this;
+    }
+
+    public $method $not(Class<? extends Annotation>...annotationClass){
+        for(int i=0;i<annotationClass.length;i++){
+            $not( $anno.of(annotationClass[i]) );
         }
         return this;
     }
@@ -536,6 +564,16 @@ public class $method
             else if( parts[i] instanceof $body){
                 final $body $fj = (($body)parts[i]);
                 Predicate<_method> pf = f-> $fj.matches(f.getBody());
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $stmt){
+                final $stmt $fj = (($stmt)parts[i]);
+                Predicate<_method> pf = f-> $fj.firstIn(f.getBody()) != null;
+                $and( pf.negate() );
+            }
+            else if( parts[i] instanceof $ex){
+                final $ex $fj = (($ex)parts[i]);
+                Predicate<_method> pf = f-> $fj.firstIn(f.getBody()) != null;
                 $and( pf.negate() );
             }
         }
@@ -685,13 +723,6 @@ public class $method
         this.name = id;
         return this;
     }
-
-    /*
-    @Override
-    public $method name(String name) {
-        return null;
-    }
-     */
 
     @Override
     public $method $name(String name){

@@ -31,16 +31,16 @@ public class RascalMPLTest extends TestCase {
             public int y;
         }
         /* to run this on the entire source directory replace LE.class with: _batch.of("C:\\jdraft\\project\\jdraft")); */
-        /* to run this on the entire source directory replace LE.class with: _archive.of("C:\\temp\\MyProject-src.jar")); */
+        /* to run this on the .jar file with source replace LE.class with: _archive.of("C:\\temp\\MyProject-src.jar")); */
         assertEquals(2, $f.count( LE.class ));
-        // instead of just counting we can print each to System out as we encounter
+        // instead of just counting we can print each field to System out as we encounter
         $f.printIn( LE.class );
 
-        // we can also collect each matching field:
+        // we can also collect/list all matching fields:
         List<_field> _fs = $f.listIn( LE.class );
         assertEquals( 2, _fs.size());
 
-        // here we check for public fields... note although i, j are NOT explicitly public
+        // here we check for public fields on an interface... note although i, j are NOT explicitly public
         // they ARE IMPLICITLY PUBLIC because fields with initializers on imterfaces are public by default
         assertEquals( 2, $f.count(I.class));
     }
@@ -87,11 +87,13 @@ public class RascalMPLTest extends TestCase {
         assertEquals(2, $getMethod.count(_c) ); //verify (2) get methods in the result
         assertEquals(2, $setMethod.count(_c) ); //verify (2) set methods in the result
         assertEquals( 2, $field.of($.PRIVATE).count(_c)); //verify (2) private fields in the result
+        $publicFieldOnClass.printIn( _c );
+        System.out.println( $publicFieldOnClass );
         assertEquals( 0, $publicFieldOnClass.count(_c)); //verify (0) public fields in the result
         System.out.println( _c );
     }
 
-    /** $pattern for a get() method */
+    /** $method pattern for a get() method */
     private static final $method $getMethod = $method.of(new Object(){
         public $type$ get$Name$(){
             return $name$;
@@ -100,7 +102,7 @@ public class RascalMPLTest extends TestCase {
         $type$ $name$;
     });
 
-    /** $pattern for a set() method */
+    /** $method pattern for a set() method */
     private static final $method $setMethod = $method.of(new Object(){
         public void set$Name$($type$ $name$){
             this.$name$ = $name$;

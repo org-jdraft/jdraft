@@ -11,6 +11,10 @@ import org.jdraft.macro._toCtor;
 
 public class SconstructorTest extends TestCase {
 
+    public void testConstructWithStmtEx(){
+
+    }
+
     public void testConstructorMatch() {
         $constructor $ct = $constructor.of(new Object() {
             @_toCtor

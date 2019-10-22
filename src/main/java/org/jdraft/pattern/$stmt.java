@@ -52,7 +52,7 @@ import org.jdraft.Ex.TriConsumer;
  * @param <T> underlying Statement implementation type
  */
 public class $stmt<T extends Statement>
-    implements Template<T>, $pattern<T, $stmt<T>>, $body.$part {
+    implements Template<T>, $pattern<T, $stmt<T>>, $body.$part, $method.$part, $constructor.$part {
         
     /**
      * 
