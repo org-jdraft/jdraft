@@ -95,10 +95,18 @@ public interface $pattern<P, $P extends $pattern>{
         Predicate<P> pp = n -> {
             if (n instanceof Node) {
                 Node node = (Node)n;
+                //System.out.println( "NODE "+ node );
                 return Ast.isParentMember(node, nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
                 //return Arrays.stream(members).filter( $m -> $m.match(node)).findFirst().isPresent();
             } else if (n instanceof _node) {
-                Node node = ((_node)n).ast();
+                //for Fields (_field) I need to skip one (since I go from the varDeclarator to FieldDeclaration)
+                Node node = null;
+                if( n instanceof _field ){
+                    node = ((_field)n).getFieldDeclaration();
+                } else {
+                    node = ((_node) n).ast();
+                }
+                //System.out.println( "_NODE "+ node );
                 return Ast.isParentMember(node, nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
                 //return Arrays.stream(members).filter( $m -> $m.match(node)).findFirst().isPresent();
             }

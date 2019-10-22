@@ -1,6 +1,8 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.BodyDeclaration;
+import com.github.javaparser.ast.body.FieldDeclaration;
 
 /**
  * A member within the body of a Class (something defined in the  { }) including {@link _initBlock}s.
@@ -32,4 +34,38 @@ import com.github.javaparser.ast.Node;
 public interface _member <N extends Node, _N extends _node>
         extends _node<N, _N> {
 
+    /**
+     * Returns the parent _member for this _member (if it exists)
+     * (traverses up through the parents to the
+     *
+     * for example:
+     * _class _c = _class.of("C", new Object(){
+     *     int x,y;
+     * });
+     *
+     * assertEquals(_c, _c.getField(i).getParentMember());
+     *
+     * @param <_M>
+     * @return
+     */
+    default <_M extends _member> _M getParentMember(){
+        if(this instanceof _field){
+            _field _f = (_field)this;
+            FieldDeclaration fd = _f.getFieldDeclaration();
+            if( fd == null ){
+                return null;
+            }
+            BodyDeclaration bd = _walk.first(_walk.PARENTS, fd, BodyDeclaration.class);
+            if( bd != null ) {
+                return (_M) _java.of(bd);
+            }
+            return null; //we didnt find a parent that was a BodyDeclaration
+        } else{
+            BodyDeclaration bd = _walk.first(_walk.PARENTS, ast(), BodyDeclaration.class);
+            if( bd != null ) {
+                return (_M) _java.of(bd);
+            }
+            return null; //we didnt find a parent that was a BodyDeclaration
+        }
+    }
 }

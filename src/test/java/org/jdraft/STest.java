@@ -8,13 +8,30 @@ package org.jdraft;
 import junit.framework.TestCase;
 
 import org.jdraft.pattern.$;
+import org.jdraft.pattern.$field;
 
 /**
  *
  * @author Eric
  */
 public class STest extends TestCase {
-    
+
+    public void testGetParentMember(){
+        class C{
+            void m(){
+                class I{
+                    int i;
+                }
+            }
+        }
+        _class _c = _class.of(C.class);
+        _field _f = $field.of().firstIn(_c);
+        assertTrue( _f.getParentMember() instanceof _class);//class I
+        assertTrue( _f.getParentMember().getParentMember() instanceof _method);
+        assertTrue( _f.getParentMember().getParentMember().getParentMember() instanceof _class);
+        assertNull( _f.getParentMember().getParentMember().getParentMember().getParentMember() );
+    }
+
     public void testQueryCount(){
         class MyClass{
             String[] s = new String[0];

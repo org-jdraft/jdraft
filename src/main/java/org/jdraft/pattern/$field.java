@@ -781,8 +781,8 @@ public class $field implements Template<_field>, $pattern<_field, $field>, $patt
      * @param selectConsumer
      * @return 
      */
-    public _type forSelectedIn(Class clazz, Consumer<Select> selectConsumer ){
-       return forSelectedIn( (_type)_java.type(clazz), selectConsumer );
+    public <_T extends _type> _T forSelectedIn(Class clazz, Consumer<Select> selectConsumer ){
+       return (_T)forSelectedIn( (_type)_java.type(clazz), selectConsumer );
     }
     
     /**

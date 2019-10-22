@@ -2045,6 +2045,14 @@ public enum _walk {
         return _walk.first( tt, ((_node)_j).ast(), nodeTargetClass, nodeMatchFn);
     }
 
+    public static <T> T first( Node.TreeTraversal tt, _model _j, Class<T> nodeTargetClass ) {
+        return first(tt, _j, nodeTargetClass, t->true);
+    }
+
+    public static <T> T first( Node.TreeTraversal tt, Node n, Class<T> nodeTargetClass ) {
+        return first(tt, n, nodeTargetClass, t->true);
+    }
+
     /**
      *
      * @param jj
