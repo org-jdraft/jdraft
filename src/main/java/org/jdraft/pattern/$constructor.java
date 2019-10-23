@@ -1362,6 +1362,9 @@ public class $constructor
          * @return
          */
         public $constructor whichMatch(_constructor ae){
+            if( !this.constraint.test( ae ) ){
+                return null;
+            }
             Optional<$constructor> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

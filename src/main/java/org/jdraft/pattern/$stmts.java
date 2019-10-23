@@ -737,13 +737,19 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
             return false;
         }
 
+
+        //had to mess with the Select to ensure the match abides by the constraint
         public $stmts whichMatch(Statement st){
-            Optional<$stmts> orsel  = this.ors.stream().filter( $p-> $p.matches(st) ).findFirst();
+            Optional<$stmts> orsel  = this.ors.stream().filter( $p-> {
+                $stmts.Select ss = $p.select(st);
+                return ( ss != null && this.constraint.test( ss.statements) );
+            }  ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();
             }
             return null;
         }
+
 
         /**
          * Return the underlying $method that matches the Method or null if none of the match
@@ -751,6 +757,9 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
          * @return
          */
         public $stmts whichMatch(List<Statement> stmts){
+            if( !this.constraint.test(stmts ) ){
+                return null;
+            }
             Optional<$stmts> orsel  = this.ors.stream().filter( $p-> $p.matches(stmts) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

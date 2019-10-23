@@ -794,6 +794,9 @@ public class $typeParameters
          * @return
          */
         public $typeParameters whichMatch(_typeParameters tps){
+            if( !this.constraint.test(tps ) ){
+                return null;
+            }
             Optional<$typeParameters> orsel  = this.ors.stream().filter( $p-> $p.matches(tps) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

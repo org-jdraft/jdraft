@@ -968,6 +968,9 @@ public class $var
          * @return
          */
         public $var whichMatch(VariableDeclarator tps){
+            if( !this.constraint.test(tps ) ){
+                return null;
+            }
             Optional<$var> orsel  = this.ors.stream().filter( $p-> $p.matches(tps) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

@@ -801,6 +801,9 @@ public class $import
          * @return
          */
         public $import whichMatch(ImportDeclaration ae){
+            if( !this.constraint.test( _import.of(ae) ) ){
+                return null;
+            }
             Optional<$import> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

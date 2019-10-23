@@ -2262,6 +2262,9 @@ public class $ex<T extends Expression>
          * @return
          */
         public $ex whichMatch(Expression ae){
+            if( !this.constraint.test( ae ) ){
+                return null;
+            }
             Optional<$ex> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

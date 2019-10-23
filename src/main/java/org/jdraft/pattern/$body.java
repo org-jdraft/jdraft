@@ -579,7 +579,7 @@ public class $body implements Template<_body>, $pattern<_body, $body>, $pattern.
         if( !this.constraint.test(body) ){
             return null;
         }
-        Log.info("passed body constraint");
+        //Log.info("passed body constraint");
         //Old
         //Tokens ts = parse(body);
         //NEW
@@ -969,6 +969,9 @@ public class $body implements Template<_body>, $pattern<_body, $body>, $pattern.
          * @return
          */
         public $body whichMatch(_body ae){
+            if( !this.constraint.test(ae ) ){
+                return null;
+            }
             Optional<$body> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

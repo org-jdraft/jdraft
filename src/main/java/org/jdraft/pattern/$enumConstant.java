@@ -556,6 +556,9 @@ public class $enumConstant
          * @return
          */
         public $enumConstant whichMatch(_enum._constant ae){
+            if( !this.constraint.test( ae ) ){
+                return null;
+            }
             Optional<$enumConstant> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

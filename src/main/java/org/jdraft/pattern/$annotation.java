@@ -698,6 +698,9 @@ public class $annotation
          * @return
          */
         public $annotation whichMatch(_annotation ae){
+            if( !this.constraint.test( ae ) ){
+                return null;
+            }
             Optional<$annotation> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

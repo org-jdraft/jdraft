@@ -774,6 +774,9 @@ public class $interface
          * @return
          */
         public $interface whichMatch(_interface ae){
+            if( !this.constraint.test( ae ) ){
+                return null;
+            }
             Optional<$interface> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

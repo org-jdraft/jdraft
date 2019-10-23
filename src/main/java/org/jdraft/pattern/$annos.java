@@ -817,6 +817,9 @@ public class $annos
          * @return
          */
         public $annos whichMatch(_annos ae){
+            if( !this.constraint.test( ae ) ){
+                return null;
+            }
             Optional<$annos> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

@@ -246,6 +246,9 @@ public class $name implements $constructor.$part, $method.$part, $field.$part,
          * @return
          */
         public $name whichMatch(String name){
+            if( !this.constraint.test(name ) ){
+                return null;
+            }
             Optional<$name> orsel  = this.ors.stream().filter($p-> $p.matches(name) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

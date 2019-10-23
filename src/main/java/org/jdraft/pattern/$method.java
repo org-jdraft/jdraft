@@ -513,7 +513,7 @@ public class $method
         for(int i=0;i<parts.length;i++){
             if( parts[i] instanceof $anno ){
                 final $anno $fa = (($anno)parts[i]);
-                Predicate<_method> pf = f-> $fa.count(f) > 0;
+                Predicate<_method> pf = f-> f.getAnnos().first(a -> $fa.matches(a) ) != null;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $modifiers ){
@@ -1504,6 +1504,9 @@ public class $method
          * @return
          */
         public $method whichMatch(MethodDeclaration ae){
+            if( !this.constraint.test(_method.of(ae) ) ){
+                return null;
+            }
             Optional<$method> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

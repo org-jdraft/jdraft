@@ -754,6 +754,9 @@ public class $typeRef
          * @return
          */
         public $typeRef whichMatch(_typeRef tps){
+            if( !this.constraint.test(tps ) ){
+                return null;
+            }
             Optional<$typeRef> orsel  = this.ors.stream().filter( $p-> $p.matches(tps) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

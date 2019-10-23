@@ -844,6 +844,9 @@ public class $class
          * @return
          */
         public $class whichMatch(_class ae){
+            if( !this.constraint.test( ae ) ){
+                return null;
+            }
             Optional<$class> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

@@ -462,6 +462,9 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part {
          * @return
          */
         public $catch whichMatch(CatchClause ae){
+            if( !this.constraint.test( ae ) ){
+                return null;
+            }
             Optional<$catch> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

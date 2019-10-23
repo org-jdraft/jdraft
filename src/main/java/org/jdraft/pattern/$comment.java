@@ -679,6 +679,9 @@ public class $comment <C extends Comment>
          * @return
          */
         public $comment whichMatch(Comment ae){
+            if( !this.constraint.test( ae ) ){
+                return null;
+            }
             Optional<$comment> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

@@ -347,6 +347,9 @@ public class $package implements $pattern<PackageDeclaration, $package>, Templat
          * @return
          */
         public $package whichMatch(PackageDeclaration packageDeclaration){
+            if( !this.constraint.test( packageDeclaration ) ){
+                return null;
+            }
             Optional<$package> orsel  = this.ors.stream().filter( $p-> $p.match(packageDeclaration) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

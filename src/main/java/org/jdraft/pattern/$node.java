@@ -612,6 +612,9 @@ public class $node implements $pattern<Node, $node> {
          * @return
          */
         public $node whichMatch(Node n){
+            if( !this.constraint.test(n ) ){
+                return null;
+            }
             Optional<$node> orsel  = this.ors.stream().filter( $p-> $p.match(n) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

@@ -548,6 +548,9 @@ public class $parameters implements Template<_parameters>, $pattern<_parameters,
          * @return
          */
         public $parameters whichMatch(NodeWithParameters parameters){
+            if( !this.constraint.test(_parameters.of(parameters) ) ){
+                return null;
+            }
             Optional<$parameters> orsel  = this.ors.stream().filter( $p-> $p.matches(parameters) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

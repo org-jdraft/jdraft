@@ -798,6 +798,7 @@ public class $anno
 
         public $id key = $id.of();
 
+
         public $ex value = new $ex(Expression.class, "$value$");
 
         public Predicate<MemberValuePair> constraint = t -> true;
@@ -950,7 +951,14 @@ public class $anno
          */
         public Tokens parse(Expression onlyValueExpression){
             if( constraint.test( new MemberValuePair("_", onlyValueExpression) ) ) {
-                $ex.Select<?>sel = value.select(onlyValueExpression);
+                //because values can be arrays we dont want to test for direct equality of the
+                //expression, but rather whether we can select the expression from the Expression value
+                // for example,
+                // if I have the value $ex = $ex.of(1);
+                // it SHOULD match against Ex.of( "{0,1,2,3}" );
+                //System.out.println( value );
+                //
+                $ex.Select<?>sel = value.selectFirstIn(onlyValueExpression);
                 if( sel == null ){
                     return null;
                 }
@@ -970,7 +978,7 @@ public class $anno
             }
             if (constraint.test(mvp)) {
                 Tokens ts = key.parse(mvp.getNameAsString());
-                $ex.Select sel = value.select(mvp.getValue());
+                $ex.Select sel = value.selectFirstIn(mvp.getValue());
                 if( sel == null || !ts.isConsistent(sel.tokens.asTokens())){
                     return null;
                 }
@@ -991,7 +999,17 @@ public class $anno
         public Select select (Expression onlyValueExpression){            
             MemberValuePair mvp = new MemberValuePair("", onlyValueExpression); 
             if( constraint.test( mvp ) ) {
-                $ex.Select sel = value.select(onlyValueExpression);
+                //because values can be arrays we dont want to test for direct equality of the
+                //expression, but rather whether we can select the expression from the Expression value
+                // for example,
+                // if I have the value $ex = $ex.of(1);
+                // it SHOULD match against Ex.of( "{0,1,2,3}" );
+                //System.out.println( value );
+                //System.out.println( mvp.getValue() );
+
+                $ex.Select sel = value.selectFirstIn(mvp.getValue());
+
+                //$ex.Select sel = value.select(onlyValueExpression);
                 if( sel != null ){
                     return new Select(mvp, sel.tokens.asTokens());
                 }
@@ -1013,7 +1031,16 @@ public class $anno
                 if( ts == null ){
                     return null;
                 }
-                $ex.Select sel = value.select(mvp.getValue());
+                //because values can be arrays we dont want to test for direct equality of the
+                //expression, but rather whether we can select the expression from the Expression value
+                // for example,
+                // if I have the value $ex = $ex.of(1);
+                // it SHOULD match against Ex.of( "{0,1,2,3}" );
+                //System.out.println( value );
+                //System.out.println( mvp.getValue() );
+
+                $ex.Select sel = value.selectFirstIn(mvp.getValue());
+                //$ex.Select sel = value.select(mvp.getValue());
                 if( sel == null || !ts.isConsistent(sel.tokens.asTokens())){
                     return null;
                 }
@@ -1167,6 +1194,9 @@ public class $anno
          * @return
          */
          public $anno whichMatch(AnnotationExpr ae){
+             if( !this.constraint.test(_anno.of(ae) ) ){
+                 return null;
+             }
              Optional<$anno> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
              if( orsel.isPresent() ){
                  return orsel.get();

@@ -462,6 +462,9 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
          * @return
          */
         public $initBlock whichMatch(InitializerDeclaration ae){
+            if( !this.constraint.test(_initBlock.of(ae) ) ){
+                return null;
+            }
             Optional<$initBlock> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

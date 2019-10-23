@@ -809,6 +809,9 @@ public class $enum
          * @return
          */
         public $enum whichMatch(_enum ae){
+            if( !this.constraint.test( ae ) ){
+                return null;
+            }
             Optional<$enum> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

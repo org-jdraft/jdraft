@@ -604,6 +604,9 @@ public class $modifiers
          * @return
          */
         public $modifiers whichMatch(_modifiers ae){
+            if( !this.constraint.test( ae ) ){
+                return null;
+            }
             Optional<$modifiers> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

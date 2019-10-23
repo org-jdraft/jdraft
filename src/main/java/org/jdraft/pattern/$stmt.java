@@ -1635,6 +1635,9 @@ public class $stmt<T extends Statement>
          * @return
          */
         public $stmt whichMatch(Statement stmt){
+            if( !this.constraint.test(stmt ) ){
+                return null;
+            }
             Optional<$stmt> orsel  = this.ors.stream().filter( $p-> $p.matches(stmt) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

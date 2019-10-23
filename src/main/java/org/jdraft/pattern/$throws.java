@@ -798,12 +798,15 @@ public class $throws
         }
 
         /**
-         * Return the underlying $method that matches the Method or null if none of the match
-         * @param stmt
+         * Return the underlying $throws that matches the _throws or null if none of the match
+         * @param th
          * @return
          */
-        public $throws whichMatch(_throws stmt){
-            Optional<$throws> orsel  = this.ors.stream().filter( $p-> $p.matches(stmt) ).findFirst();
+        public $throws whichMatch(_throws th){
+            if( !this.constraint.test(th ) ){
+                return null;
+            }
+            Optional<$throws> orsel  = this.ors.stream().filter( $p-> $p.matches(th) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();
             }

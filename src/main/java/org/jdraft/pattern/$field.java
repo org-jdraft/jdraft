@@ -1208,6 +1208,9 @@ public class $field implements Template<_field>, $pattern<_field, $field>, $patt
          * @return
          */
         public $field whichMatch(VariableDeclarator ae){
+            if( !this.constraint.test( _field.of(ae) ) ){
+                return null;
+            }
             Optional<$field> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

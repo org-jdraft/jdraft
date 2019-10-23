@@ -578,6 +578,9 @@ public class $case
          * @return
          */
         public $case whichMatch(SwitchEntry ae){
+            if( !this.constraint.test( ae ) ){
+                return null;
+            }
             Optional<$case> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();
