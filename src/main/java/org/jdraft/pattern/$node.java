@@ -544,6 +544,45 @@ public class $node implements $pattern<Node, $node> {
     }
 
     /**
+     * Adds a constraint that the beforeExpression occurs in the same context/block before the target Expression
+     * @param patternsOccurringBeforeThisNode
+     * @return
+     */
+    public $node $isAfter( $pattern... patternsOccurringBeforeThisNode ){
+        Predicate<Node> prev = e -> $pattern.BodyScope.findPrevious(e, patternsOccurringBeforeThisNode) != null;
+        return $and(prev);
+    }
+
+    /**
+     * Adds a constraint that the beforeExpression occurs in the same context/block before the target Expression
+     * @param patternsOccurringBeforeThisNode
+     * @return
+     */
+    public $node $isNotAfter( $pattern... patternsOccurringBeforeThisNode ){
+        Predicate<Node> prev = e -> $pattern.BodyScope.findPrevious(e, patternsOccurringBeforeThisNode) != null;
+        return $not(prev);
+    }
+
+    /**
+     *
+     * @param patternsOccurringAfterThisNode
+     * @return
+     */
+    public $node $isBefore( $pattern... patternsOccurringAfterThisNode ){
+        Predicate<Node> prev = e -> $pattern.BodyScope.findNext(e, patternsOccurringAfterThisNode) != null;
+        return $and(prev);
+    }
+
+    /**
+     *
+     * @param patternsOccurringAfterThisNode
+     * @return
+     */
+    public $node $isNotBefore( $pattern... patternsOccurringAfterThisNode ){
+        Predicate<Node> prev = e -> $pattern.BodyScope.findNext(e, patternsOccurringAfterThisNode) != null;
+        return $not(prev);
+    }
+    /**
      * Singleton that compares the start position of Select entities 
      * (based on the Ast node that was selected )
      */

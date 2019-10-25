@@ -22,11 +22,19 @@ import java.util.stream.Stream;
 import org.jdraft.*;
 
 /**
+ * $pattern is similar to the new Pattern matching Switch features is Java 13/14:
+ * "Patterns fuses a test, conditional extraction, and binding to variables"
+ * <A HREF="https://www.youtube.com/watch?time_continue=9&v=GAa54jXKbn4v">Brian Goetz -- Java a Look into the Future</A>
+ *
+ * In addition, the $pattern implementations "know" how to walk (an AST) to seek and find matches
+ * within one an AST to find matches, and $pattern instances provide mechanisms to perform some action
+ * (collect, modify code) within the AST they are found.
+ *
  * Model of a <A HREF="https://en.wikipedia.org/wiki/Query_by_Example">query-by-example</A>,
  * (a buildable/mutable query object that has the structure of the AST entity being queried
  * and contains a hierarchical structure)
  *
- * $proto objects define a mechanism to walk the AST and query/modify Java code
+ * $pattern objects define a mechanism to walk the AST and query/modify Java code
  * matching against grammar entries via the _node model 
  *
  * @param <P> the TYPE of the node being queried for (likely a 

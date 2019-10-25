@@ -525,6 +525,45 @@ public class $case
         return allN.stream().distinct().collect(Collectors.toList());
     }
 
+    /**
+     * Adds a constraint that the beforeExpression occurs in the same context/block before the target Expression
+     * @param patternsOccurringBeforeThisNode
+     * @return
+     */
+    public $case $isAfter( $pattern... patternsOccurringBeforeThisNode ){
+        Predicate<SwitchEntry> prev = e -> $pattern.BodyScope.findPrevious(e, patternsOccurringBeforeThisNode) != null;
+        return $and(prev);
+    }
+
+    /**
+     * Adds a constraint that the beforeExpression occurs in the same context/block before the target Expression
+     * @param patternsOccurringBeforeThisNode
+     * @return
+     */
+    public $case $isNotAfter( $pattern... patternsOccurringBeforeThisNode ){
+        Predicate<SwitchEntry> prev = e -> $pattern.BodyScope.findPrevious(e, patternsOccurringBeforeThisNode) != null;
+        return $not(prev);
+    }
+
+    /**
+     *
+     * @param patternsOccurringAfterThisNode
+     * @return
+     */
+    public $case $isBefore( $pattern... patternsOccurringAfterThisNode ){
+        Predicate<SwitchEntry> prev = e -> $pattern.BodyScope.findNext(e, patternsOccurringAfterThisNode) != null;
+        return $and(prev);
+    }
+
+    /**
+     *
+     * @param patternsOccurringAfterThisNode
+     * @return
+     */
+    public $case $isNotBefore( $pattern... patternsOccurringAfterThisNode ){
+        Predicate<SwitchEntry> prev = e -> $pattern.BodyScope.findNext(e, patternsOccurringAfterThisNode) != null;
+        return $not(prev);
+    }
 
     /**
      * An Or entity that can match against any of the $pattern instances provided

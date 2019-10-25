@@ -1480,7 +1480,47 @@ public class $stmt<T extends Statement>
         }
         return (_J) _j;
     }
-    
+
+    /**
+     * Adds a constraint that the beforeExpression occurs in the same context/block before the target Expression
+     * @param patternsOccurringBeforeThisNode
+     * @return
+     */
+    public $stmt<T> $isAfter( $pattern... patternsOccurringBeforeThisNode ){
+        Predicate<T> prev = e -> $pattern.BodyScope.findPrevious(e, patternsOccurringBeforeThisNode) != null;
+        return $and(prev);
+    }
+
+    /**
+     * Adds a constraint that the beforeExpression occurs in the same context/block before the target Expression
+     * @param patternsOccurringBeforeThisNode
+     * @return
+     */
+    public $stmt<T> $isNotAfter( $pattern... patternsOccurringBeforeThisNode ){
+        Predicate<T> prev = e -> $pattern.BodyScope.findPrevious(e, patternsOccurringBeforeThisNode) != null;
+        return $not(prev);
+    }
+
+    /**
+     *
+     * @param patternsOccurringAfterThisNode
+     * @return
+     */
+    public $stmt<T> $isBefore( $pattern... patternsOccurringAfterThisNode ){
+        Predicate<T> prev = e -> $pattern.BodyScope.findNext(e, patternsOccurringAfterThisNode) != null;
+        return $and(prev);
+    }
+
+    /**
+     *
+     * @param patternsOccurringAfterThisNode
+     * @return
+     */
+    public $stmt<T> $isNotBefore( $pattern... patternsOccurringAfterThisNode ){
+        Predicate<T> prev = e -> $pattern.BodyScope.findNext(e, patternsOccurringAfterThisNode) != null;
+        return $not(prev);
+    }
+
     @Override
     public String toString(){
         return "$stmt{ ("+this.statementClass.getSimpleName()+") : \""+ this.stmtStencil +"\" }";

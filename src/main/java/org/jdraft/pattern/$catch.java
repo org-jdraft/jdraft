@@ -411,6 +411,47 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part {
     }
 
     /**
+     * Adds a constraint that the beforeExpression occurs in the same context/block before the target Expression
+     * @param patternsOccurringBeforeThisNode
+     * @return
+     */
+    public $catch $isAfter( $pattern... patternsOccurringBeforeThisNode ){
+        Predicate<CatchClause> prev = e -> $pattern.BodyScope.findPrevious(e, patternsOccurringBeforeThisNode) != null;
+        return $and(prev);
+    }
+
+    /**
+     * Adds a constraint that the beforeExpression occurs in the same context/block before the target Expression
+     * @param patternsOccurringBeforeThisNode
+     * @return
+     */
+    public $catch $isNotAfter( $pattern... patternsOccurringBeforeThisNode ){
+        Predicate<CatchClause> prev = e -> $pattern.BodyScope.findPrevious(e, patternsOccurringBeforeThisNode) != null;
+        return $not(prev);
+    }
+
+    /**
+     *
+     * @param patternsOccurringAfterThisNode
+     * @return
+     */
+    public $catch $isBefore( $pattern... patternsOccurringAfterThisNode ){
+        Predicate<CatchClause> prev = e -> $pattern.BodyScope.findNext(e, patternsOccurringAfterThisNode) != null;
+        return $and(prev);
+    }
+
+    /**
+     *
+     * @param patternsOccurringAfterThisNode
+     * @return
+     */
+    public $catch $isNotBefore( $pattern... patternsOccurringAfterThisNode ){
+        Predicate<CatchClause> prev = e -> $pattern.BodyScope.findNext(e, patternsOccurringAfterThisNode) != null;
+        return $not(prev);
+    }
+
+
+    /**
      * An Or entity that can match against any of the $pattern instances provided
      * NOTE: template features (draft/fill) are supressed.
      */
