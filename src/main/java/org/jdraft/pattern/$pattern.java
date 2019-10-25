@@ -5,10 +5,12 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.NullLiteralExpr;
+import com.github.javaparser.ast.nodeTypes.NodeWithStatements;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.type.Type;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import java.util.function.Consumer;
@@ -694,6 +696,93 @@ public interface $pattern<P, $P extends $pattern>{
         }
         return false;
     }
+
+    /**
+     * Find and return the first matching instance given the code provider
+     * @param _codeProvider
+     * @return
+     */
+    default boolean isIn( _code._provider _codeProvider ){
+        return firstIn(_codeProvider, t->true) != null;
+    }
+
+    /**
+     *
+     * @param clazz
+     * @return
+     */
+    default boolean isIn(Class clazz){
+        return firstIn((_type)_java.type(clazz) ) != null;
+    }
+
+    /**
+     * Find the first in the collection
+     * @param codeCollection a collection of code
+     * @param <_J> the _code type ( _type, _class, _enum, etc.)
+     * @return the first instance found within the code collection
+     */
+    default <_J extends _model> boolean isIn(Collection<_J> codeCollection){
+        return firstIn(codeCollection) != null;
+    }
+
+    /**
+     *
+     * @param clazz
+     * @param nodeMatchFn
+     * @return
+     */
+    default boolean isIn( Class clazz, Predicate<P> nodeMatchFn){
+        return firstIn(clazz, nodeMatchFn) != null;
+    }
+
+    /**
+     *
+     * @param _codeProvider
+     * @param matchFn
+     * @return
+     */
+    default boolean isIn(_code._provider _codeProvider, Predicate<P> matchFn){
+        return firstIn(_codeProvider, matchFn) != null;
+    }
+
+    /**
+     * Find the first instance matching the prototype instance within the node
+     * @param _j the the _model node
+     * @return  the first matching instance or null if none is found
+     */
+    default <_J extends _model> boolean isIn(_J _j){
+        return firstIn( _j ) != null;
+    }
+
+    /**
+     *
+     * @param _j
+     * @param nodeMatchFn
+     * @return
+     */
+    default boolean isIn(_model _j, Predicate<P> nodeMatchFn){
+        return firstIn(_j, nodeMatchFn) != null;
+    }
+
+    /**
+     *
+     * @param astStartNode
+     * @return the first matching instance or null
+     */
+    default boolean isIn(Node astStartNode){
+        return firstIn(astStartNode) != null;
+    }
+
+    /**
+     *
+     * @param astStartNode
+     * @param nodeMatchFn
+     * @return
+     */
+    default boolean isIn(Node astStartNode, Predicate<P> nodeMatchFn){
+        return firstIn(astStartNode, nodeMatchFn) != null;
+    }
+
 
     /**
      * Find and return the first matching instance given the code provider
@@ -2177,6 +2266,427 @@ public interface $pattern<P, $P extends $pattern>{
          * @return the selected _java node (i.e. _method for a MethodDeclaration)
          */
         _J _node();
+    }
+
+
+    /**
+     * Methods to simplify matching code WITHIN the same BODY
+     * for example if if have a method:
+     * <PRE>
+     * class C{
+     *     void b4(){
+     *         System.out.println(0);
+     *     }
+     *     void m(){
+     *         System.out.println(1);
+     *         System.out.println(2);
+     *         {
+     *             System.out.println(3);
+     *             System.out.println(4);
+     *             if( true ){
+     *                 System.out.println( 5 );
+     *             }
+     *             HERE : System.out.println(6); //<--- at this Statement
+     *             if(1==1){
+     *                 System.out.println(7);
+     *             }
+     *             System.out.println(8);
+     *         }
+     *         System.out.println(9);
+     *     }
+     *     void after(){
+     *         System.out.println(10);
+     *     }
+     * }
+     * </PRE>
+     * <PRE>
+     *
+     * Statement here = $.labeledStmt().firstIn(C.class); //get the HERE: (labeledStatement)
+     * $stmt $anyPrintln = $.stmt.of("System.out.println($any$);");
+     *
+     * // we find the code BEFORE but in the same Body
+     * List<Node> allBefore = $pattern.BodyScope.listAllBefore( here, $anyPrintln);
+     * // allBefore contains System.out.println(1); System.out.println(2); System.out.println(3); System.out.println(4); System.out.println(5);
+     *
+     * Statement previous = $pattern.BodyScope.findPrevious( here, $anyPrintln);
+     * //previous = System.out.println(5);
+     *
+     * //find the code AFTER but within the same block
+     * List<Node> allAfter = $pattern.BodyScope.listAllAfter( here, $anyPrintln);
+     * //allAfter contains System.out.println(7); System.out.println(8); System.out.println(9);
+     *
+     * Statement next = $pattern.BodyScope.findNext( here, $anyPrintln);
+     * //next = System.out.println(7);
+     * </PRE>
+     *
+     * @see BodyScope
+     */
+    interface BodyScope {
+
+        /**
+         *
+         * @param firstNode the "terminal" node, (ONLY NODES AFTER THIS NODE WILL BE TESTED)
+         * @param $matchPatterns one or more $patterns to match within the
+         * @param <N> the type of node we expect
+         * @return
+         */
+        public static <N extends Node> N findNext(Node firstNode, $pattern...$matchPatterns ){
+            List<Node> nodesAfter = listNodesAfter( firstNode );
+
+            Optional<Node> on =
+                    nodesAfter.stream().filter(bn -> Arrays.stream($matchPatterns).anyMatch($n -> $n.match(bn) ) ).findFirst();
+            if( on.isPresent() ){
+                return (N)on.get();
+            }
+            return null;
+        }
+
+        /**
+         *
+         * @param lastNode the "terminal" node, (ONLY NODES BEFORE THIS WILL BE TESTED)
+         * @param $matchPatterns one or more $patterns to match within the
+         * @param <N>
+         * @return
+         */
+        public static <N extends Node> N findPrevious(Node lastNode, $pattern...$matchPatterns ){
+            List<Node> nodesBefore = listNodesBefore( lastNode );
+            //Since we want to find the most previous one closes to the lastNode, we need to
+            //reverse the order of the nodesBefore before
+            // i.e. if we had :
+            // int m(){
+            //     i=1;                  //<-- we SHOULD NOT return this statement... it's furthest away
+            //     System.out.println(i);
+            //     i=2;                  //<-- we should return THIS statement... as it's CLOSEST
+            //     System.out.println(i);
+            //     assert(true);         //<-- IF this is the lastNode
+            // }
+            // $stmt $matchIAssignment = $stmt.of("i = $any$;"); //if this is the ONLY matchPattern
+            // Statement st = findPrevious(lastNode, $matchIAssignment); //should return "i=2;"
+
+            // THIS IS WHY we reverse the nodesBefore, we want to identify/break as soon as we reach the FIRST match
+            Collections.reverse(nodesBefore);
+            Optional<Node> on =
+                    nodesBefore.stream().filter(bn -> Arrays.stream($matchPatterns).anyMatch($n -> $n.match(bn) ) ).findFirst();
+            if( on.isPresent() ){
+                return (N)on.get();
+            }
+            return null;
+        }
+
+        /**
+         *
+         * @param startNode
+         * @param $ps
+         * @return
+         */
+        public static List<Node> listAllBefore(Node startNode, $pattern... $ps ){
+            List<Node> before = listNodesBefore(startNode);
+            List<Node> allBefore =
+                    before.stream().filter(bn -> Arrays.stream($ps).anyMatch($n -> $n.match(bn) ) ).collect(Collectors.toList());
+            return allBefore;
+        }
+
+        /**
+         *
+         * @param startNode
+         * @param $ps
+         * @return
+         */
+        public static List<Node> listAllAfter(Node startNode, $pattern... $ps ){
+            List<Node> after = listNodesAfter(startNode);
+            List<Node> allAfter =
+                    after.stream().filter(bn -> Arrays.stream($ps).anyMatch($n -> $n.match(bn) ) ).collect(Collectors.toList());
+            return allAfter;
+        }
+
+        /**
+         *
+         * @param node
+         * @return
+         */
+        public static Node getParentBody(Node node ){
+            Optional<Node> on = node.stream(Node.TreeTraversal.PARENTS).filter(n-> n instanceof BodyDeclaration).findFirst();
+            if( on.isPresent() ) {
+                return on.get();
+            }
+            return null;
+        }
+
+        /**
+         *
+         * @param n
+         * @return
+         */
+        public static List<Node> listNodesBefore( Node n ){
+            Node  parentNode = getParentBody(n);
+
+            List<Node> nodesBefore = new ArrayList<>();
+            if( parentNode == null ){
+                return nodesBefore;
+            }
+            AtomicBoolean reached = new AtomicBoolean(false);
+
+            //walk "Down" until we reach a node that is reached
+            parentNode.walk(nn -> {
+                if(!reached.get() && nn == n){
+                    reached.set(true);
+                }
+                if( !reached.get()){
+                    if(!nn.containsWithinRange(n)) { //dont include "parent" nodes of this node
+                        nodesBefore.add(nn);
+                    }
+                }
+            });
+            return nodesBefore;
+        }
+
+        /**
+         *
+         * @param n
+         * @return
+         */
+        public static List<Node> listNodesAfter(Node n ){
+            Node  parentNode = getParentBody(n);
+            List<Node> nodesAfter = new ArrayList<>();
+            if( parentNode == null ){
+                return nodesAfter;
+            }
+            AtomicBoolean reached = new AtomicBoolean(false);
+
+            //walk "Down" until we reach a node that is reached, use postorder traversal
+            parentNode.walk(Node.TreeTraversal.POSTORDER, nn -> {
+                if( reached.get() && nn != n ){
+                    if(!nn.containsWithinRange(n)) { //dont include "parent" nodes of this node
+                        nodesAfter.add(nn);
+                    }
+                }
+                if(!reached.get() && nn == n){
+                    reached.set(true);
+                }
+            });
+            return nodesAfter;
+        }
+
+    }
+
+    /**
+     * Methods to simplify matching code WITHIN the same BLOCK
+     * for example if if have a method:
+     * <PRE>
+     * class C{
+     *     void b4(){
+     *         System.out.println(0);
+     *     }
+     *     void m(){
+     *         System.out.println(1);
+     *         System.out.println(2);
+     *         {
+     *             System.out.println(3);
+     *             System.out.println(4);
+     *             if( true ){
+     *                 System.out.println( 5 );
+     *             }
+     *             HERE : System.out.println(6); //<--- at this Statement
+     *             if(1==1){
+     *                 System.out.println(7);
+     *             }
+     *             System.out.println(8);
+     *         }
+     *         System.out.println(9);
+     *     }
+     *     void after(){
+     *         System.out.println(10);
+     *     }
+     * }
+     * </PRE>
+     * <PRE>
+     *
+     * Statement here = $.labeledStmt().firstIn(C.class); //get the HERE: (labeledStatement)
+     * $stmt $anyPrintln = $.stmt.of("System.out.println($any$);");
+     *
+     * // we find the code BEFORE but in the same Block
+     * List<Node> allBefore = $pattern.BlockScope.listAllBefore( here, $anyPrintln);
+     * // allBefore contains System.out.println(3); System.out.println(4); System.out.println(5);
+     *
+     * Statement previous = $pattern.BlockScope.findPrevious( here, $anyPrintln);
+     * //previous = System.out.println(5);
+     *
+     * //find the code AFTER but within the same block
+     * List<Node> allAfter = $pattern.BlockScope.listAllAfter( here, $anyPrintln);
+     * //allAfter contains System.out.println(7); System.out.println(8);
+     *
+     * Statement next = $pattern.BlockScope.findNext( here, $anyPrintln);
+     * //next = System.out.println(7);
+     * </PRE>
+     *
+     * @see BodyScope
+     */
+    interface BlockScope {
+
+        /**
+         *
+         * @param firstNode the "terminal" node, (ONLY NODES AFTER THIS NODE WILL BE TESTED)
+         * @param $matchPatterns one or more $patterns to match within the
+         * @param <N> the type of node we expect
+         * @return
+         */
+        public static <N extends Node> N findNext(Node firstNode, $pattern...$matchPatterns ){
+            List<Node> nodesAfter = listNodesAfter( firstNode );
+
+            Optional<Node> on =
+                    nodesAfter.stream().filter(bn -> Arrays.stream($matchPatterns).anyMatch($n -> $n.match(bn) ) ).findFirst();
+            if( on.isPresent() ){
+                return (N)on.get();
+            }
+            return null;
+        }
+
+        /**
+         *
+         * @param lastNode the "terminal" node, (ONLY NODES BEFORE THIS WILL BE TESTED)
+         * @param $matchPatterns one or more $patterns to match within the
+         * @param <N>
+         * @return
+         */
+        public static <N extends Node> N findPrevious(Node lastNode, $pattern...$matchPatterns ){
+            List<Node> nodesBefore = listNodesBefore( lastNode );
+            //Since we want to find the most previous one closes to the lastNode, we need to
+            //reverse the order of the nodesBefore before
+            // i.e. if we had :
+            // int m(){
+            //     i=1;                  //<-- we SHOULD NOT return this statement... it's furthest away
+            //     System.out.println(i);
+            //     i=2;                  //<-- we should return THIS statement... as it's CLOSEST
+            //     System.out.println(i);
+            //     assert(true);         //<-- IF this is the lastNode
+            // }
+            // $stmt $matchIAssignment = $stmt.of("i = $any$;"); //if this is the ONLY matchPattern
+            // Statement st = findPrevious(lastNode, $matchIAssignment); //should return "i=2;"
+
+            // THIS IS WHY we reverse the nodesBefore, we want to identify/break as soon as we reach the FIRST match
+            Collections.reverse(nodesBefore);
+            Optional<Node> on =
+                    nodesBefore.stream().filter(bn -> Arrays.stream($matchPatterns).anyMatch($n -> $n.match(bn) ) ).findFirst();
+            if( on.isPresent() ){
+                return (N)on.get();
+            }
+            return null;
+        }
+
+        /**
+         *
+         * @param startNode
+         * @param $ps
+         * @return
+         */
+        public static List<Node> listAllBefore(Node startNode, $pattern... $ps ) {
+            return listAllBefore( startNode, Node.class, $ps);
+        }
+
+        public static <N extends Node> List<N> listAllBefore(Node startNode, Class<N> nodeType, $pattern... $ps ){
+            List<N> before = listNodesBefore(nodeType, startNode);
+            List<N> allBefore =
+                    before.stream().filter(bn -> Arrays.stream($ps).anyMatch($n -> $n.match(bn) ) ).collect(Collectors.toList());
+            return allBefore;
+        }
+
+        /**
+         *
+         * @param startNode
+         * @param $ps
+         * @return
+         */
+        public static List<Node> listAllAfter(Node startNode, $pattern... $ps ) {
+            return listAllAfter(startNode, Node.class, $ps);
+        }
+
+        public static <N extends Node> List<N> listAllAfter(Node startNode, Class<N> nodeType, $pattern...$ps){
+            List<N> after = listNodesAfter(startNode, nodeType);
+            List<N> allAfter =
+                    after.stream().filter(bn -> Arrays.stream($ps).anyMatch($n -> $n.match(bn) ) ).collect(Collectors.toList());
+            return allAfter;
+        }
+
+        /**
+         *
+         * @param node
+         * @return
+         */
+        public static Node getParentBlock(Node node ){
+            //List<Node> matched = new ArrayList<>();
+            Optional<Node> on = node.stream(Node.TreeTraversal.PARENTS).filter(n-> n instanceof NodeWithStatements).findFirst();
+            if( on.isPresent() ) {
+                return on.get();
+            }
+            return null;
+        }
+
+        /**
+         *
+         * @param n
+         * @return
+         */
+        public static List<Node> listNodesBefore( Node n ) {
+            return listNodesBefore( Node.class, n);
+        }
+
+        public static<N extends Node> List<N> listNodesBefore( Class<N> nodeType, Node n){
+            Node parentBlock = getParentBlock(n);
+
+            List<N> nodesBefore = new ArrayList<>();
+            if( parentBlock == null ){
+                return nodesBefore;
+            }
+            AtomicBoolean reached = new AtomicBoolean(false);
+
+            //walk "Down" until we reach a node that is reached
+            parentBlock.walk(nn -> {
+                if(!reached.get() && nn == n){
+                    reached.set(true);
+                }
+                if( !reached.get()){
+                    if(!nn.containsWithinRange(n)) { //dont include "parent" nodes of this node
+                        if( nodeType.isAssignableFrom(nn.getClass())) {
+                            nodesBefore.add( (N)nn);
+                        }
+                    }
+                }
+            });
+            return nodesBefore;
+        }
+
+        /**
+         *
+         * @param n
+         * @return
+         */
+        public static List<Node> listNodesAfter(Node n ) {
+            return listNodesAfter(n, Node.class);
+        }
+
+        public static <N extends Node> List<N> listNodesAfter(Node n, Class<N>nodeType){
+            Node parentBlock = getParentBlock(n);
+            List<N> nodesAfter = new ArrayList<>();
+            if( parentBlock == null ){
+                return nodesAfter;
+            }
+            AtomicBoolean reached = new AtomicBoolean(false);
+
+            //walk "Down" until we reach a node that is reached
+            parentBlock.walk(Node.TreeTraversal.POSTORDER, nn -> {
+                if( nn == n ){
+                    //System.out.println( "FOUND AT "+ nn );
+                    reached.set(true);
+                }
+                else if( reached.get() && !nn.containsWithinRange(n)) { //dont include "parent" nodes of this node
+                    //System.out.println( "ADDING "+ nn );
+                    if(nodeType.isAssignableFrom(nn.getClass() )) {
+                        nodesAfter.add((N)nn);
+                    }
+                }
+            });
+            return nodesAfter;
+        }
     }
 
     /**

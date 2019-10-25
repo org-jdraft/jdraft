@@ -103,21 +103,7 @@ public class GoogleErrorProneTest extends TestCase {
         //$androidClasses.printIn(_cc);
         assertEquals(4, $ANDROID_CLASS.count(_cc));
     }
-    public void testMember(){
-        //a $member is just a BodyDeclaration
-        //
-        Range searchRange = new Range(new Position(0, 0), new Position(100, 100));
 
-        //$isInRange( Range )
-        //$isInRange(startLine, startColumn, endLine, endColumn)
-        //$isInRange(startLine, endLine)
-
-
-        BodyDeclaration bd = Ast.method("int i(){return 3;}");
-        assertTrue( searchRange.strictlyContains( bd.getRange().get() ) );
-        assertTrue(
-                $node.of(BodyDeclaration.class).match(Ast.method("int i(){return 1;}")) );
-    }
 
     static _class _FAIL_InjectBeforeSuperActivity = _class.of(
             "package who.cares;",
@@ -140,25 +126,26 @@ public class GoogleErrorProneTest extends TestCase {
             "import android.app.Activity;",
             "import android.os.Bundle;",
             "import dagger.android.AndroidInjection;",
-            "public class StatementsInBetween extends Activity {\n" +
-            "    @Override\n" +
-            "    public void onCreate(Bundle savedInstanceState) {\n" +
-            "      AndroidInjection.inject(this);\n" +
-            "      System.out.println(\"hello, world\");\n" +
-            "      super.onCreate(savedInstanceState);\n" +
-            "    }\n" +
+            "public class StatementsInBetween extends Activity {\n",
+            "    @Override\n",
+            "    public void onCreate(Bundle savedInstanceState) {\n",
+            "      super.onCreate(savedInstanceState);\n",
+            "      System.out.println(\"hello, world\");\n",
+            "      AndroidInjection.inject(this);\n",
+            "    }\n",
             "  }");
+
     static _class _FAIL_InFragment = _class.of(
             "package who.cares;",
             "import android.app.Fragment;",
             "import android.os.Bundle;",
             "import dagger.android.AndroidInjection;",
-            "public class CorrectOrderFragment extends Fragment {\n" +
-             "    @Override\n" +
-             "    public void onAttach(Activity activity) {\n" +
-             "      AndroidInjection.inject(this);\n" +
-             "      super.onAttach(activity);\n" +
-             "    }\n" +
+            "public class CorrectOrderFragment extends Fragment {\n",
+             "    @Override\n",
+             "    public void onAttach(Activity activity) {\n",
+             "      super.onAttach(activity);\n",
+             "      AndroidInjection.inject(this);\n",
+             "    }\n",
              "}"
     );
     //https://github.com/google/error-prone/blob/master/core/src/main/java/com/google/errorprone/bugpatterns/inject/dagger/AndroidInjectionBeforeSuper.java
@@ -259,5 +246,20 @@ public class GoogleErrorProneTest extends TestCase {
                 */
     }
 
+    public void testMember(){
+        //a $member is just a BodyDeclaration
+        //
+        Range searchRange = new Range(new Position(0, 0), new Position(100, 100));
+
+        //$isInRange( Range )
+        //$isInRange(startLine, startColumn, endLine, endColumn)
+        //$isInRange(startLine, endLine)
+
+
+        BodyDeclaration bd = Ast.method("int i(){return 3;}");
+        assertTrue( searchRange.strictlyContains( bd.getRange().get() ) );
+        assertTrue(
+                $node.of(BodyDeclaration.class).match(Ast.method("int i(){return 1;}")) );
+    }
 
 }

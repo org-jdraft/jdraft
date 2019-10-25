@@ -6,6 +6,7 @@ import com.github.javaparser.ast.expr.*;
 import java.util.*;
 import java.util.function.*;
 
+import com.github.javaparser.ast.nodeTypes.NodeWithStatements;
 import org.jdraft.*;
 
 /**
@@ -22,7 +23,7 @@ import org.jdraft.*;
  */
 public class $ex<T extends Expression>
     implements $field.$part, $pattern<T, $ex<T>>, $var.$part, $enumConstant.$part, $annotationElement.$part, Template<T>,
-    $body.$part {
+    $body.$part, $method.$part, $constructor.$part {
 
     /**
      * 
@@ -37,7 +38,7 @@ public class $ex<T extends Expression>
         return ($ex<T>)new $ex<Expression>( Expression.class,
                 expr.toString(Ast.PRINT_NO_COMMENTS) );
     }
-    
+
     /**
      * 
      * @param <T>
@@ -1560,12 +1561,46 @@ public class $ex<T extends Expression>
         return new $ex( VariableDeclarationExpr.class, "$varDecl$");
     }
 
-    /*
-    public static $expr<Expression> any(){
-        return of();
-    }
+    /**
+     * Adds a constraint that the beforeExpression occurs in the same context/block before the target Expression
+     * @param patternsOccurringBeforeThisNode
+     * @return
      */
-    
+    public $ex<T> $isAfter( $pattern... patternsOccurringBeforeThisNode ){
+        Predicate<T> prev = e -> $pattern.BodyScope.findPrevious(e, patternsOccurringBeforeThisNode) != null;
+        return $and(prev);
+    }
+
+    /**
+     * Adds a constraint that the beforeExpression occurs in the same context/block before the target Expression
+     * @param patternsOccurringBeforeThisNode
+     * @return
+     */
+    public $ex<T> $isNotAfter( $pattern... patternsOccurringBeforeThisNode ){
+        Predicate<T> prev = e -> $pattern.BodyScope.findPrevious(e, patternsOccurringBeforeThisNode) != null;
+        return $not(prev);
+    }
+
+    /**
+     *
+     * @param patternsOccurringAfterThisNode
+     * @return
+     */
+    public $ex<T> $isBefore( $pattern... patternsOccurringAfterThisNode ){
+        Predicate<T> prev = e -> $pattern.BodyScope.findNext(e, patternsOccurringAfterThisNode) != null;
+        return $and(prev);
+    }
+
+    /**
+     *
+     * @param patternsOccurringAfterThisNode
+     * @return
+     */
+    public $ex<T> $isNotBefore( $pattern... patternsOccurringAfterThisNode ){
+        Predicate<T> prev = e -> $pattern.BodyScope.findNext(e, patternsOccurringAfterThisNode) != null;
+        return $not(prev);
+    }
+
     /**
      * Matches ANY expression
      * @return 

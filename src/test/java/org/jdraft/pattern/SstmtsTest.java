@@ -16,7 +16,7 @@ import junit.framework.TestCase;
 import java.util.*;
 
 @Ast.cache
-public class SsnipTest extends TestCase {
+public class SstmtsTest extends TestCase {
 
     public void testSnipAnyMatchesEmptyOrLongBlocks(){
         //assertTrue( $snip.any().matches( _method.of("void m();").getBody().ast() ));
