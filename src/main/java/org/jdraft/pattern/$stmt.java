@@ -996,7 +996,7 @@ public class $stmt<T extends Statement>
 
         List<String> keys = list$Normalized();
         if( values.length < keys.size() ){
-            throw new _draftException("not enough values("+values.length+") to fill ("+keys.size()+") variables "+ keys);
+            throw new _jdraftException("not enough values("+values.length+") to fill ("+keys.size()+") variables "+ keys);
         }
         Map<String,Object> kvs = new HashMap<>();
         for(int i=0;i<values.length;i++){

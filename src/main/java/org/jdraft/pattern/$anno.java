@@ -1128,27 +1128,27 @@ public class $anno
 
          @Override
          public _anno fill(Object...vals){
-             throw new _draftException("Cannot draft/fill "+getClass()+" pattern"+ this );
+             throw new _jdraftException("Cannot draft/fill "+getClass()+" pattern"+ this );
          }
 
          @Override
          public _anno fill(Translator tr, Object...vals){
-             throw new _draftException("Cannot draft/fill "+getClass()+" pattern"+ this );
+             throw new _jdraftException("Cannot draft/fill "+getClass()+" pattern"+ this );
          }
 
          @Override
          public _anno draft(Translator tr, Map<String,Object> map){
-              throw new _draftException("Cannot draft "+getClass()+" pattern"+ this );
+              throw new _jdraftException("Cannot draft "+getClass()+" pattern"+ this );
          }
 
          @Override
          public String draftToString(Object...vals){
-             throw new _draftException("Cannot draft "+getClass()+" pattern"+ this );
+             throw new _jdraftException("Cannot draft "+getClass()+" pattern"+ this );
          }
 
          @Override
          public String draftToString(Translator tr, Map<String,Object> map){
-            throw new _draftException("Cannot draft "+getClass()+" pattern"+ this );
+            throw new _jdraftException("Cannot draft "+getClass()+" pattern"+ this );
          }
 
         @Override

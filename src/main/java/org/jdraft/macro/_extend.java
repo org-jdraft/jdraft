@@ -2,7 +2,7 @@ package org.jdraft.macro;
 
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.nodeTypes.NodeWithExtends;
-import org.jdraft._draftException;
+import org.jdraft._jdraftException;
 import org.jdraft._type;
 
 import java.lang.annotation.*;
@@ -43,7 +43,7 @@ public @interface _extend{
                 }
             } else {
                 if (classes.length > 0) {
-                    throw new _draftException("cannot add extends to node of " + node.getClass());
+                    throw new _jdraftException("cannot add extends to node of " + node.getClass());
                 }
             }
             return node;

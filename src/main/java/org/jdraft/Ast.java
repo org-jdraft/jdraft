@@ -750,7 +750,7 @@ public enum Ast {
     protected static CompilationUnit parse(Reader javaSourceReader){
         ParseResult<CompilationUnit> pr = JAVAPARSER.parse(javaSourceReader);
         if( !pr.isSuccessful() ){
-            throw new _draftException("Unable to parse reader "+pr.getProblems());
+            throw new _jdraftException("Unable to parse reader "+pr.getProblems());
         }
         return pr.getResult().get();
     }
@@ -764,13 +764,13 @@ public enum Ast {
         try{
             ParseResult<CompilationUnit> pr = JAVAPARSER.parse(javaSourceFile);
             if( !pr.isSuccessful() ){
-                throw new _draftException("Unable to parse reader "+pr.getProblems());
+                throw new _jdraftException("Unable to parse reader "+pr.getProblems());
             }            
             CompilationUnit cu = pr.getResult().get();
             cu.setStorage(Paths.get( javaSourceFile.getAbsolutePath()));
             return cu;
         } catch(FileNotFoundException fnfe){
-            throw new _draftException("Unable to find file "+ javaSourceFile.toString() );
+            throw new _jdraftException("Unable to find file "+ javaSourceFile.toString() );
         }
     }
     
@@ -1181,7 +1181,7 @@ public enum Ast {
                     System.err.println("Cause"+ prb.getCause().get());
                 }
             }
-            throw new _draftException("ErrorParsing :"+pr.getProblems());
+            throw new _jdraftException("ErrorParsing :"+pr.getProblems());
         }
         return pr.getResult().get();
     }
@@ -1199,7 +1199,7 @@ public enum Ast {
             throw new _ioException("Unable to read file at \""+pathToJavaSourceCode+"\"", ex);
         }
         if( !pr.isSuccessful() ){
-            throw new _draftException("Unable to parse file at \""+pathToJavaSourceCode+"\""+pr.getProblems());
+            throw new _jdraftException("Unable to parse file at \""+pathToJavaSourceCode+"\""+pr.getProblems());
         }
         CompilationUnit cu = pr.getResult().get();
         cu.setStorage(pathToJavaSourceCode);
@@ -1215,7 +1215,7 @@ public enum Ast {
     protected static CompilationUnit parse(InputStream javaSourceInputStream){
         ParseResult<CompilationUnit> pr = JAVAPARSER.parse(javaSourceInputStream);
         if( !pr.isSuccessful() ){
-            throw new _draftException("Unable to parse text in inputStream :"+pr.getProblems());
+            throw new _jdraftException("Unable to parse text in inputStream :"+pr.getProblems());
         }
         return pr.getResult().get();
     }    
@@ -1298,7 +1298,7 @@ public enum Ast {
         if( Modifier.class == nodeClass ){
             return MODS_KEYWORD_TO_ENUM_MAP.get(Text.combine(code) );
         }        
-        throw new _draftException("Could not parse Node of class " + nodeClass);
+        throw new _jdraftException("Could not parse Node of class " + nodeClass);
     }
 
     /* FOR MODIFIERS translate between a String, an int (used in the runtime modifiers bitmask) and an Ast Enum */
@@ -1420,7 +1420,7 @@ public enum Ast {
             Optional<TypeDeclaration<?>> ot = 
                 cu.getTypes().stream().filter(t -> t.getNameAsString().equals(clazz.getSimpleName()) ).findFirst();            
             if( !ot.isPresent() ){
-                throw new _draftException("Unable to in source of type "+clazz.getSimpleName()+" in inputStream ");
+                throw new _jdraftException("Unable to in source of type "+clazz.getSimpleName()+" in inputStream ");
             }
             //manually set the storage path on the cu
             if( _i.getPath() != null ){
@@ -1538,10 +1538,10 @@ public enum Ast {
 
             return td;
         } else if (tds.isEmpty()) {
-            throw new _draftException("No source for inner class " + clazz
+            throw new _jdraftException("No source for inner class " + clazz
                     + System.lineSeparator() + resolver.describe());
         }
-        throw new _draftException("Multiple inner classes share the same NAME for " + clazz);
+        throw new _jdraftException("Multiple inner classes share the same NAME for " + clazz);
     }
 
     /**
@@ -1573,7 +1573,7 @@ public enum Ast {
      */
     public static ImportDeclaration importDeclaration(Method m) {
         if (!java.lang.reflect.Modifier.isStatic(m.getModifiers())) {
-            throw new _draftException("Cannot statically import a non-static method");
+            throw new _jdraftException("Cannot statically import a non-static method");
         }
         ImportDeclaration id = new ImportDeclaration(
             m.getDeclaringClass().getCanonicalName() + "." + m.getName(), true, false);
@@ -1747,7 +1747,7 @@ public enum Ast {
      * @param javaSourceCode
      * @return an AST CompilationUnit from
      */
-    public static CompilationUnit of(String... javaSourceCode) throws _draftException {
+    public static CompilationUnit of(String... javaSourceCode) throws _jdraftException {
         String str = Text.combine(javaSourceCode);
         return parse(str);
     }
@@ -1760,7 +1760,7 @@ public enum Ast {
      * build a _code model for (including Classes, and package-info.java & module-info.java)
      * @return the Ast CompilationUnit
      */
-    public static CompilationUnit of(File javaSourceFile) throws _draftException {
+    public static CompilationUnit of(File javaSourceFile) throws _jdraftException {
         return parse(javaSourceFile);
     }
     
@@ -1770,7 +1770,7 @@ public enum Ast {
      * @param javaSourceInputStream the input stream containing .java source code
      * @return the CompilationUnit
      */
-    public static CompilationUnit of(InputStream javaSourceInputStream) throws _draftException {
+    public static CompilationUnit of(InputStream javaSourceInputStream) throws _jdraftException {
         return parse(javaSourceInputStream);
     }
 
@@ -1783,7 +1783,7 @@ public enum Ast {
      * CompilationUnit
      * @return the compilationUnit
      */
-    public static CompilationUnit of(Class clazz) throws _draftException {
+    public static CompilationUnit of(Class clazz) throws _jdraftException {
         Node n = typeDecl(clazz);
         if (n instanceof CompilationUnit) {
             return (CompilationUnit) n;
@@ -1797,7 +1797,7 @@ public enum Ast {
 
             return n.findCompilationUnit().get();
         }
-        throw new _draftException("No .java source for " + clazz + System.lineSeparator() + _io.describe());
+        throw new _jdraftException("No .java source for " + clazz + System.lineSeparator() + _io.describe());
     }
 
     /**
@@ -1807,9 +1807,9 @@ public enum Ast {
      * 
      * @param javaSourceCodeReader a reader containing .java source code
      * @return an Ast CompilationUnit
-     * @throws _draftException if there is an error reading or parsing the input
+     * @throws _jdraftException if there is an error reading or parsing the input
      */
-    public static CompilationUnit of(Reader javaSourceCodeReader) throws _draftException {
+    public static CompilationUnit of(Reader javaSourceCodeReader) throws _jdraftException {
         CompilationUnit cu = parse(javaSourceCodeReader);        
         return cu;        
     }
@@ -1820,9 +1820,9 @@ public enum Ast {
      * is invalid)
      * @param pathToJavaSourceCode the local path to a .java source file
      * @return an AST compilationUnit representing the source code
-     * @throws _draftException if there is an issue reading or parsing the source code
+     * @throws _jdraftException if there is an issue reading or parsing the source code
      */
-    public static CompilationUnit of(Path pathToJavaSourceCode) throws _draftException {
+    public static CompilationUnit of(Path pathToJavaSourceCode) throws _jdraftException {
         CompilationUnit cu = parse(pathToJavaSourceCode);
         cu.setStorage(pathToJavaSourceCode);
         return cu;        
@@ -1850,7 +1850,7 @@ public enum Ast {
         if (tds.size() == 1) {
             return tds.get(0);
         } else if (tds.isEmpty()) {
-            throw new _draftException("Unable to find primary type in "+cu);
+            throw new _jdraftException("Unable to find primary type in "+cu);
         }
         return tds.stream().filter(t -> t.isTopLevelType()).findFirst().get();
     }
@@ -1889,7 +1889,7 @@ public enum Ast {
         try {
             return StaticJavaParser.parseBodyDeclaration(Text.combine(code));
         } catch (Exception e) {
-            throw new _draftException("Invalid Body Definition : "
+            throw new _jdraftException("Invalid Body Definition : "
                     + System.lineSeparator() + Text.indent(Text.combine(code)));
         }
     }
@@ -2286,7 +2286,7 @@ public enum Ast {
         try {
             return StaticJavaParser.parseType(code);
         }catch(Exception e){
-            throw new _draftException("Unable to parse type :\""+code+"\"", e);
+            throw new _jdraftException("Unable to parse type :\""+code+"\"", e);
         }
     }
 
@@ -2586,7 +2586,7 @@ public enum Ast {
             ss.remove(swe);
             return swe;
         } catch(Exception e){
-            throw new _draftException("could not parse \""+se+"\"" );
+            throw new _jdraftException("could not parse \""+se+"\"" );
         }
     }
     
@@ -2614,7 +2614,7 @@ public enum Ast {
             cc.removeForced(); //Disconnect
             return cc;
         }catch(Exception e){
-            throw new _draftException("String \""+res+"\" does not represent a valid CatchClause",e);
+            throw new _jdraftException("String \""+res+"\" does not represent a valid CatchClause",e);
         }
     }
 
@@ -3294,7 +3294,7 @@ public enum Ast {
             return nlm;
         }
         //Parameter?
-        throw new _draftException("Unable to get implied modifiers for "+ nwm+ " of "+nwm.getClass());
+        throw new _jdraftException("Unable to get implied modifiers for "+ nwm+ " of "+nwm.getClass());
     }
 
     public static NodeList<Modifier> getImpliedModifiers(Parameter p){

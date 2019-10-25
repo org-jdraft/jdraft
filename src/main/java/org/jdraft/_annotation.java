@@ -16,7 +16,6 @@ import com.github.javaparser.ast.type.Type;
 
 import com.github.javaparser.utils.Log;
 import org.jdraft._anno.*;
-import org.jdraft.diff._annotationDiff;
 import org.jdraft.io._in;
 import org.jdraft.macro.macro;
 
@@ -56,7 +55,7 @@ public final class _annotation
         if( cu.getPrimaryType().isPresent() ){
             return of( (AnnotationDeclaration)( cu.getPrimaryType().get() ) );
         }
-        throw new _draftException("Unable to locate primary TYPE in "+ cu);
+        throw new _jdraftException("Unable to locate primary TYPE in "+ cu);
     }
 
     /**
@@ -513,7 +512,7 @@ public final class _annotation
     @Override
     public _annotation field( VariableDeclarator field ) {
         if(! field.getParentNode().isPresent()){
-            throw new _draftException("cannot add Var without parent FieldDeclaration");
+            throw new _jdraftException("cannot add Var without parent FieldDeclaration");
         }
         FieldDeclaration fd = (FieldDeclaration)field.getParentNode().get();
         //we already added it to the parent

@@ -4,7 +4,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.nodeTypes.NodeWithOptionalBlockStmt;
 import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithAbstractModifier;
 import org.jdraft._class;
-import org.jdraft._draftException;
+import org.jdraft._jdraftException;
 import org.jdraft._method;
 
 import java.lang.annotation.*;
@@ -54,7 +54,7 @@ public @interface _abstract {
                 }
                 return n;
             } else {
-                throw new _draftException("@_abstract applied to a non abstract-able AST Node " + n.getClass());
+                throw new _jdraftException("@_abstract applied to a non abstract-able AST Node " + n.getClass());
             }
         }
     }

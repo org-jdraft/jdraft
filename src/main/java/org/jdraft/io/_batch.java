@@ -1,6 +1,6 @@
 package org.jdraft.io;
 
-import org.jdraft._draftException;
+import org.jdraft._jdraftException;
 import org.jdraft.*;
 
 import java.io.IOException;
@@ -206,7 +206,7 @@ public class _batch implements _code._provider {
                             _codeActionFn.accept(_c);
                             theCode.add(_c);
                         }
-                    }catch(_draftException e){
+                    }catch(_jdraftException e){
                         try{
                             byte[] bs = Files.readAllBytes(p);
                             if( bs.length == 0){

@@ -578,7 +578,7 @@ public class $var
             }
             return Ast.varDecl( type.draft(translator, toCompose) + " "+ name.draft(translator, toCompose) );
         }
-        throw new _draftException("Expected fill fields of size ("+allVars.size()+") or ("+vars.size()+") got ("+values.length+")");
+        throw new _jdraftException("Expected fill fields of size ("+allVars.size()+") or ("+vars.size()+") got ("+values.length+")");
     }
 
     /**

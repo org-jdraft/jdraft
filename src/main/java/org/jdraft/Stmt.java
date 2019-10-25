@@ -2,7 +2,6 @@ package org.jdraft;
 
 import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
-import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.*;
@@ -225,7 +224,7 @@ public enum Stmt {
     public static AssertStmt assertStmt( LambdaExpr le ){
         Optional<AssertStmt> ods = le.findFirst(AssertStmt.class);
         if( ods == null ){
-            throw new _draftException("No AssertStmt in lambda "+ le );
+            throw new _jdraftException("No AssertStmt in lambda "+ le );
         }
         return ods.get();
     }
@@ -265,7 +264,7 @@ public enum Stmt {
         if( combined.startsWith("/*")){
             int endCommentIndex = combined.indexOf("*/");
             if( endCommentIndex < 0 ){
-                throw new _draftException("Unclosed comment");
+                throw new _jdraftException("Unclosed comment");
             }
             String startM = combined.substring(endCommentIndex+2).trim();
             if(!startM.startsWith("{")){
@@ -440,7 +439,7 @@ public enum Stmt {
     public static DoStmt doStmt( LambdaExpr le ){
         Optional<DoStmt> ods = le.findFirst(DoStmt.class);
         if( ods == null ){
-            throw new _draftException("No DoStmt in lambda "+ le );
+            throw new _jdraftException("No DoStmt in lambda "+ le );
         }
         return ods.get();
     }
@@ -485,7 +484,7 @@ public enum Stmt {
         try {
             return of(cd ).asExplicitConstructorInvocationStmt();
         }catch(Exception e){
-            throw new _draftException("could not parse \""+cd+"\" as "+ExplicitConstructorInvocationStmt.class );
+            throw new _jdraftException("could not parse \""+cd+"\" as "+ExplicitConstructorInvocationStmt.class );
         }
     }
 
@@ -553,7 +552,7 @@ public enum Stmt {
     public static ExpressionStmt expressionStmt( LambdaExpr le ){
         Optional<ExpressionStmt> ods = le.findFirst(ExpressionStmt.class);
         if( ods == null ){
-            throw new _draftException("No ExpressionStmt in lambda "+ le );
+            throw new _jdraftException("No ExpressionStmt in lambda "+ le );
         }
         return ods.get();
     }
@@ -616,7 +615,7 @@ public enum Stmt {
     public static ForStmt forStmt( LambdaExpr le ){
         Optional<ForStmt> ods = le.findFirst(ForStmt.class);
         if( ods == null ){
-            throw new _draftException("No ForStmt in lambda "+ le );
+            throw new _jdraftException("No ForStmt in lambda "+ le );
         }
         return ods.get();
     }
@@ -682,7 +681,7 @@ public enum Stmt {
     public static ForEachStmt forEachStmt( LambdaExpr le ){
         Optional<ForEachStmt> ods = le.findFirst(ForEachStmt.class);
         if( ods == null ){
-            throw new _draftException("No ForEachStmt in lambda "+ le );
+            throw new _jdraftException("No ForEachStmt in lambda "+ le );
         }
         return ods.get();
     }
@@ -745,7 +744,7 @@ public enum Stmt {
     public static IfStmt ifStmt( LambdaExpr le ){
         Optional<IfStmt> ods = le.findFirst(IfStmt.class);
         if( ods == null ){
-            throw new _draftException("No IfStmt in lambda "+ le );
+            throw new _jdraftException("No IfStmt in lambda "+ le );
         }
         return ods.get();
     }
@@ -810,7 +809,7 @@ public enum Stmt {
     public static LabeledStmt labeledStmt( LambdaExpr le ){
         Optional<LabeledStmt> ods = le.findFirst(LabeledStmt.class);
         if( ods == null ){
-            throw new _draftException("No IfStmt in lambda "+ le );
+            throw new _jdraftException("No IfStmt in lambda "+ le );
         }
         return ods.get();
     }
@@ -918,7 +917,7 @@ public enum Stmt {
     public static SwitchStmt switchStmt( LambdaExpr le ){
         Optional<SwitchStmt> ods = le.findFirst(SwitchStmt.class);
         if( ods == null ){
-            throw new _draftException("No SwitchStmt in lambda "+ le );
+            throw new _jdraftException("No SwitchStmt in lambda "+ le );
         }
         return ods.get();
     }
@@ -981,7 +980,7 @@ public enum Stmt {
     public static SynchronizedStmt synchronizedStmt( LambdaExpr le ){
         Optional<SynchronizedStmt> ods = le.findFirst(SynchronizedStmt.class);
         if( ods == null ){
-            throw new _draftException("No SynchronizedStmt in lambda "+ le );
+            throw new _jdraftException("No SynchronizedStmt in lambda "+ le );
         }
         return ods.get();
     }
@@ -1048,7 +1047,7 @@ public enum Stmt {
     public static ThrowStmt throwStmt( LambdaExpr le ){
         Optional<ThrowStmt> ods = le.findFirst(ThrowStmt.class);
         if( ods == null ){
-            throw new _draftException("No ThrowStmt in lambda "+ le );
+            throw new _jdraftException("No ThrowStmt in lambda "+ le );
         }
         return ods.get();
     }
@@ -1111,7 +1110,7 @@ public enum Stmt {
     public static TryStmt tryStmt( LambdaExpr le ){
         Optional<TryStmt> ods = le.findFirst(TryStmt.class);
         if( ods == null ){
-            throw new _draftException("No TryStmt in lambda "+ le );
+            throw new _jdraftException("No TryStmt in lambda "+ le );
         }
         return ods.get();
     }
@@ -1176,7 +1175,7 @@ public enum Stmt {
     public static WhileStmt whileStmt( LambdaExpr le ){
         Optional<WhileStmt> ods = le.findFirst(WhileStmt.class);
         if( ods == null ){
-            throw new _draftException("No WhileStmt in lambda "+ le );
+            throw new _jdraftException("No WhileStmt in lambda "+ le );
         }
         return ods.get();
     }

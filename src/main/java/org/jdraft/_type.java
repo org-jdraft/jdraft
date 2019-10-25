@@ -90,7 +90,7 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
             }
             return (_T)this;
         }   
-        throw new _draftException
+        throw new _jdraftException
             ("cannot add companion Types to a Nested Type \""+this.getName()+"\"");
     }
     
@@ -112,7 +112,7 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
             }
             return (_T)this;
         }   
-        throw new _draftException
+        throw new _jdraftException
             ("cannot add companion Types to a Nested Type \""+this.getName()+"\"");
     }
 

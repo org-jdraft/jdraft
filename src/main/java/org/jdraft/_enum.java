@@ -5,7 +5,6 @@ import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
-import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.jdraft._anno.*;
 import org.jdraft.io._in;
@@ -82,7 +81,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         if( tds.size() == 1 ){
             return of( (EnumDeclaration)tds.get(0) );
         }
-        throw new _draftException("Unable to locate EnumDeclaration in "+ cu);
+        throw new _jdraftException("Unable to locate EnumDeclaration in "+ cu);
     }
 
     public static _enum of( EnumDeclaration astClass ){
@@ -317,7 +316,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
     @Override
     public _enum field( VariableDeclarator field ) {
         if(! field.getParentNode().isPresent()){
-            throw new _draftException("cannot add Var without parent FieldDeclaration");
+            throw new _jdraftException("cannot add Var without parent FieldDeclaration");
         }
         FieldDeclaration fd = (FieldDeclaration)field.getParentNode().get();
         //we already added it to the parent
@@ -847,7 +846,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         @Override
         public _constant field( VariableDeclarator field ) {
             if(! field.getParentNode().isPresent()){
-                throw new _draftException("cannot add Var without parent FieldDeclaration");
+                throw new _jdraftException("cannot add Var without parent FieldDeclaration");
             }
             FieldDeclaration fd = (FieldDeclaration)field.getParentNode().get();
             //we already added it to the parent

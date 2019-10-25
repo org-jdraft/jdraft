@@ -34,7 +34,7 @@ public class _moduleInfo implements _code<_moduleInfo>, _node<CompilationUnit, _
     public boolean is(String... stringRep) {
         try {
             return is(Ast.of(stringRep));
-        } catch (_draftException e) {
+        } catch (_jdraftException e) {
             return false;
         }
     }

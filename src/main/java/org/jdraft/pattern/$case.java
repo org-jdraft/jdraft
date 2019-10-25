@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import org.jdraft.*;
 
 /**
- * prototype for querying and composing a "case" within a Switch Statement (a {@link SwitchEntry})
+ * pattern of "case" within a Switch Statement (a {@link SwitchEntry})
  *
  * @author Eric
  */

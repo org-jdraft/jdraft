@@ -328,7 +328,7 @@ public enum Ex {
             Class clazz = Class.forName(ste.getClassName());
             _t = _java.type(clazz, resolver);
         } catch (Exception e) {
-            throw new _draftException("no .java source for Runtime Class \"" + ste.getClassName() + "\" " + System.lineSeparator() +
+            throw new _jdraftException("no .java source for Runtime Class \"" + ste.getClassName() + "\" " + System.lineSeparator() +
                     _io.describe(), e); //print out the input config to help
         }
         int lineNumber = ste.getLineNumber();
@@ -595,7 +595,7 @@ public enum Ex {
                 //normal parsing of Variable Declarations fails, we need to call a special parse method
                 return StaticJavaParser.parseVariableDeclarationExpr(str);
             } catch(Exception e ) {
-                throw new _draftException("Unable to parse Expression \"" + str + "\" ", ppe);
+                throw new _jdraftException("Unable to parse Expression \"" + str + "\" ", ppe);
             }
         }
     }
@@ -1635,7 +1635,7 @@ public enum Ex {
                 if( ct == char.class ){
                     return equivalent(exp, Ex.of( (char[])o) );
                 }
-                throw new _draftException("Only simple primitive types supported");
+                throw new _jdraftException("Only simple primitive types supported");
             } 
         }
         return false;

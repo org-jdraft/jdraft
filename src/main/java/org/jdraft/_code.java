@@ -478,7 +478,7 @@ public interface _code<_C> extends _model, _java._componentized {
             }            
             return (_C) this;
         }
-        throw new _draftException("No AST CompilationUnit to add imports");
+        throw new _jdraftException("No AST CompilationUnit to add imports");
     }
 
     /**
@@ -493,7 +493,7 @@ public interface _code<_C> extends _model, _java._componentized {
             Arrays.stream(astImportDecls).forEach(c -> cu.addImport(c));
             return (_C) this;
         }
-        throw new _draftException("No AST CompilationUnit of class to add imports");
+        throw new _jdraftException("No AST CompilationUnit of class to add imports");
     }
 
     /**
@@ -516,7 +516,7 @@ public interface _code<_C> extends _model, _java._componentized {
             Arrays.stream(importStatements).forEach(c -> cu.addImport(Ast.importDeclaration(c)));
             return (_C) this;
         }
-        throw new _draftException("No AST CompilationUnit of to add imports");
+        throw new _jdraftException("No AST CompilationUnit of to add imports");
     }
 
     /**

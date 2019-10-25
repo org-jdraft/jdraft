@@ -668,7 +668,7 @@ public class $typeRef
             Select select = select(e);
             if( select != null ){
                 if( !e.replace($replacementType.draft(select.tokens).ast() )){
-                    throw new _draftException("unable to replaceIn "+ e + " in "+ _j +" with "+$replacementType);
+                    throw new _jdraftException("unable to replaceIn "+ e + " in "+ _j +" with "+$replacementType);
                 }
             }
         });

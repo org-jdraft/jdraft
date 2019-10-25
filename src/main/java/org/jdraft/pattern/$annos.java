@@ -759,22 +759,22 @@ public class $annos
 
         @Override
         public _annos fill(Object...vals){
-            throw new _draftException("Cannot draft/fill "+getClass()+" pattern"+ this );
+            throw new _jdraftException("Cannot draft/fill "+getClass()+" pattern"+ this );
         }
 
         @Override
         public _annos fill(Translator tr, Object...vals){
-            throw new _draftException("Cannot draft/fill "+getClass()+" pattern"+ this );
+            throw new _jdraftException("Cannot draft/fill "+getClass()+" pattern"+ this );
         }
 
         @Override
         public _annos draft(Translator tr, Map<String,Object> map){
-            throw new _draftException("Cannot draft "+getClass()+" pattern"+ this );
+            throw new _jdraftException("Cannot draft "+getClass()+" pattern"+ this );
         }
 
         @Override
         public String draftToString(Translator tr, Map<String,Object> map){
-            throw new _draftException("Cannot draft "+getClass()+" pattern"+ this );
+            throw new _jdraftException("Cannot draft "+getClass()+" pattern"+ this );
         }
 
         @Override

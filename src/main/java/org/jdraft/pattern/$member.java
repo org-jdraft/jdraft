@@ -1,7 +1,6 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.ast.body.*;
-import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.utils.Log;
 import org.jdraft.*;
 
@@ -96,7 +95,7 @@ public interface $member<M, $M extends $pattern> extends $pattern<M,$M> {
         if(_m instanceof MethodDeclaration){
             return $method.of( (MethodDeclaration)_m);
         }
-        throw new _draftException("Unable to convert _member to $member.. unknown _member "+ _m.getClass());
+        throw new _jdraftException("Unable to convert _member to $member.. unknown _member "+ _m.getClass());
         /** $type??
          if(_m instanceof _enum._constant){
          return $enumConstant.of( (_enum._constant)_m);
@@ -138,7 +137,7 @@ public interface $member<M, $M extends $pattern> extends $pattern<M,$M> {
         if(_m instanceof _method){
             return $method.of( (_method)_m);
         }
-        throw new _draftException("Unable to convert _member to $member.. unknown _member "+ _m.getClass());
+        throw new _jdraftException("Unable to convert _member to $member.. unknown _member "+ _m.getClass());
         /** $type??
         if(_m instanceof _enum._constant){
             return $enumConstant.of( (_enum._constant)_m);

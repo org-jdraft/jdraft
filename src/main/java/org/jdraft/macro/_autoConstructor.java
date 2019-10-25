@@ -64,7 +64,7 @@ public @interface _autoConstructor {
                 return node;
             }
             else{
-                throw new _draftException( "cannot add a constructor ");
+                throw new _jdraftException( "cannot add a constructor ");
             }
         }
 

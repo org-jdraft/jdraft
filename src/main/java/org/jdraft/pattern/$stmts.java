@@ -364,7 +364,7 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
     }
 
     public boolean matches( List<Statement> stmts ){
-        throw new _draftException("Cant do this yet...addded for _proto convenience");
+        throw new _jdraftException("Cant do this yet...addded for _proto convenience");
     }
     /**
      * 

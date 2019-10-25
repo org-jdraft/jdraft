@@ -290,7 +290,7 @@ public interface $pattern<P, $P extends $pattern>{
                 //    List l = (List)n;
                 //    l.forEach();
                 // }
-                throw new _draftException("Not implemented yet for type : " + n.getClass());
+                throw new _jdraftException("Not implemented yet for type : " + n.getClass());
             }
         });
         //return and( (n)-> Ast.isParent( (Node)n, e-> proto.match(e) ) );
@@ -336,7 +336,7 @@ public interface $pattern<P, $P extends $pattern>{
                         //    List l = (List)n;
                         //    l.forEach();
                         // }
-                        throw new _draftException("Not implemented yet for type : " + n.getClass());
+                        throw new _jdraftException("Not implemented yet for type : " + n.getClass());
                     }
                 });
     }
@@ -367,7 +367,7 @@ public interface $pattern<P, $P extends $pattern>{
                 //    List l = (List)n;
                 //    l.forEach();
                 // }
-                throw new _draftException("Not implemented yet for type : "+ n.getClass());
+                throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
         } );
     }
@@ -391,7 +391,7 @@ public interface $pattern<P, $P extends $pattern>{
                 //    List l = (List)n;
                 //    l.forEach();
                 // }
-                throw new _draftException("Not implemented yet for type : "+ n.getClass());
+                throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
         } );
     }
@@ -429,7 +429,7 @@ public interface $pattern<P, $P extends $pattern>{
                 //    List l = (List)n;
                 //    l.forEach();
                 // }
-                throw new _draftException("Not implemented yet for type : "+ n.getClass());
+                throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
         } );
     }
@@ -447,7 +447,7 @@ public interface $pattern<P, $P extends $pattern>{
                 //    List l = (List)n;
                 //    l.forEach();
                 // }
-                throw new _draftException("Not implemented yet for type : "+ n.getClass());
+                throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
         } );
     }
@@ -459,7 +459,7 @@ public interface $pattern<P, $P extends $pattern>{
             } else if( n instanceof _node){
                 return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> Arrays.stream($ps).anyMatch( $p->$p.match(c)));
             } else{
-                throw new _draftException("Not implemented yet for type : "+ n.getClass());
+                throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
         } );
     }
@@ -477,7 +477,7 @@ public interface $pattern<P, $P extends $pattern>{
             } else if( n instanceof _node){
                 return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> Arrays.stream($ps).anyMatch( $p->$p.match(c)));
             } else{
-                throw new _draftException("Not implemented yet for type : "+ n.getClass());
+                throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
         } );
     }
@@ -489,7 +489,7 @@ public interface $pattern<P, $P extends $pattern>{
             } else if( n instanceof _node){
                 return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) );
             } else{
-                throw new _draftException("Not implemented yet for type : "+ n.getClass());
+                throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
         } );
     }
@@ -501,7 +501,7 @@ public interface $pattern<P, $P extends $pattern>{
             } else if( n instanceof _node){
                 return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) );
             } else{
-                throw new _draftException("Not implemented yet for type : "+ n.getClass());
+                throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
         } );
     }
@@ -513,7 +513,7 @@ public interface $pattern<P, $P extends $pattern>{
             } else if( n instanceof _node){
                 return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> childMatchFn.test(c) );
             } else{
-                throw new _draftException("Not implemented yet for type : "+ n.getClass());
+                throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
         } );
     }
@@ -525,7 +525,7 @@ public interface $pattern<P, $P extends $pattern>{
             } else if( n instanceof _node){
                 return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> childMatchFn.test(c) );
             } else{
-                throw new _draftException("Not implemented yet for type : "+ n.getClass());
+                throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
         } );
     }
@@ -599,7 +599,7 @@ public interface $pattern<P, $P extends $pattern>{
             } else if( n instanceof _node){
                 return Ast.matchDescendant( ((_node)n).ast(), depth, descendantMatchFn);
             } else{
-                throw new _draftException("Not implemented yet for type : "+ n.getClass());
+                throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
         } );
     }
@@ -617,7 +617,7 @@ public interface $pattern<P, $P extends $pattern>{
             } else if( n instanceof _node){
                 return Ast.matchDescendant( ((_node)n).ast(), depth, descendantMatchFn);
             } else{
-                throw new _draftException("Not implemented yet for type : "+ n.getClass());
+                throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
         } );
     }
@@ -663,7 +663,7 @@ public interface $pattern<P, $P extends $pattern>{
             }else if( n instanceof _node){
                 return Ast.matchDescendant( ((_node)n).ast(), depth, c->Arrays.stream($ps).anyMatch( $p->$p.match(c)));
             } else{
-                throw new _draftException("Not implemented yet for type : "+ n.getClass());
+                throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
         });
     }
@@ -678,7 +678,7 @@ public interface $pattern<P, $P extends $pattern>{
             }else if( n instanceof _node){
                 return Ast.matchDescendant( ((_node)n).ast(), depth, c->Arrays.stream($ps).anyMatch( $p->$p.match(c)));
             } else{
-                throw new _draftException("Not implemented yet for type : "+ n.getClass());
+                throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
         });
     }
@@ -2122,7 +2122,7 @@ public interface $pattern<P, $P extends $pattern>{
          */
         public boolean is(Object... $nvs) {
             if ($nvs.length % 2 == 1) {
-                throw new _draftException("Expected an even number of key values, got (" + $nvs.length + ")");
+                throw new _jdraftException("Expected an even number of key values, got (" + $nvs.length + ")");
             }
             for (int i = 0; i < $nvs.length; i += 2) {
                 String key = $nvs[i].toString();
@@ -2700,7 +2700,7 @@ public interface $pattern<P, $P extends $pattern>{
     /**
      *
      */
-    public static class $exception extends _draftException{
+    public static class $exception extends _jdraftException {
         public $exception(String message, Throwable throwable){
             super(message, throwable);
         }

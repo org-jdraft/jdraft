@@ -3,12 +3,8 @@ package org.jdraft.macro;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
-import org.jdraft.*;
-import org.jdraft._draftException;
-import org.jdraft._anno._hasAnnos;
 
 import java.lang.annotation.*;
-import java.util.function.Consumer;
 
 /**
  * Annotation macro to remove some entity (field, method, etc.) that doesnt belong in the final model

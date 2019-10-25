@@ -341,7 +341,7 @@ public final class $ {
         try{
             clazz = Class.forName(ste.getClassName() );
         }catch(Exception e){
-            throw new _draftException("unable to resolve calling class "+ ste.getClassName());
+            throw new _jdraftException("unable to resolve calling class "+ ste.getClassName());
         }
         $ex.Select s = $ex.of("$.of($val$)").selectFirstIn(
                 clazz, se-> {
@@ -364,7 +364,7 @@ public final class $ {
         try{
             clazz = Class.forName(ste.getClassName() );
         }catch(Exception e){
-            throw new _draftException("unable to resolve calling class "+ ste.getClassName());
+            throw new _jdraftException("unable to resolve calling class "+ ste.getClassName());
         }
         $ex.Select s = $ex.of("$.of($val$)").selectFirstIn(
                 clazz, se-> {

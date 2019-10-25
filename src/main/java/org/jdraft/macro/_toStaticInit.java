@@ -2,7 +2,7 @@ package org.jdraft.macro;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.*;
-import org.jdraft._draftException;
+import org.jdraft._jdraftException;
 import org.jdraft._initBlock;
 import org.jdraft._method;
 
@@ -91,7 +91,7 @@ public @interface _toStaticInit {
                     || (n instanceof ClassOrInterfaceDeclaration && !((ClassOrInterfaceDeclaration)n).isInterface())).findFirst();
             //remove the old method, add the constructor
             if( !op.isPresent()){
-                throw new _draftException("Could not find parent of "+ methodDeclaration+" to replace as initBlock");
+                throw new _jdraftException("Could not find parent of "+ methodDeclaration+" to replace as initBlock");
             }
             TypeDeclaration td = (TypeDeclaration)op.get();
 

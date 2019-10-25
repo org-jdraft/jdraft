@@ -3,7 +3,6 @@ package org.jdraft;
 import java.io.InputStream;
 import java.util.*;
 import java.util.function.*;
-import java.util.stream.Collectors;
 
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
@@ -63,15 +62,15 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             return _c;
         }
         if( clazz.isInterface() ){
-            throw new _draftException("cannot create _class from (interface) "+ clazz);
+            throw new _jdraftException("cannot create _class from (interface) "+ clazz);
         }
         if( clazz.isAnnotation() ){
-            throw new _draftException("cannot create _class from annotation "+ clazz);
+            throw new _jdraftException("cannot create _class from annotation "+ clazz);
         }
         if( clazz.isEnum() ){
-            throw new _draftException("cannot create _class from enum "+ clazz);
+            throw new _jdraftException("cannot create _class from enum "+ clazz);
         }
-        throw new _draftException("Abstract or synthetic classes are not supported"+ clazz);
+        throw new _jdraftException("Abstract or synthetic classes are not supported"+ clazz);
     }
 
     /**
@@ -176,7 +175,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         if( astTypeDecl instanceof ClassOrInterfaceDeclaration && !astTypeDecl.asClassOrInterfaceDeclaration().isInterface() ) {
             return new _class( (ClassOrInterfaceDeclaration)astTypeDecl);
         }
-        throw new _draftException("Expected AST ClassOrInterfaceDeclaration as Class, got "+ astTypeDecl.getClass() );
+        throw new _jdraftException("Expected AST ClassOrInterfaceDeclaration as Class, got "+ astTypeDecl.getClass() );
     }
     
     public static _class of( CompilationUnit cu ){
@@ -202,7 +201,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             }
             return of( cu.getType(0) );
         }
-        throw new _draftException("Unable to locate primary TYPE in "+ cu);
+        throw new _jdraftException("Unable to locate primary TYPE in "+ cu);
     }
 
     public static _class of( ClassOrInterfaceDeclaration astClass ){
@@ -590,7 +589,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     @Override
     public _class field( VariableDeclarator field ) {
         if(! field.getParentNode().isPresent()){
-            throw new _draftException("cannot add Var without parent FieldDeclaration");
+            throw new _jdraftException("cannot add Var without parent FieldDeclaration");
         }
         FieldDeclaration fd = (FieldDeclaration)field.getParentNode().get();
         //we already added it to the parent

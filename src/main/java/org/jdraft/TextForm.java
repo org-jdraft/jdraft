@@ -321,19 +321,19 @@ public final class TextForm {
      * @return the Filled in template
      */
     public String fill(Translator translator, Object... fillsInOrder)
-            throws _draftException {
+            throws _jdraftException {
 
         StringBuilder out = new StringBuilder();
         if( fillsInOrder == null ) {
             if( blankIndexes.cardinality() != 1 ) {
-                throw new _draftException(
+                throw new _jdraftException(
                         "fill parameter count (1) must accept blanks count ("
                                 + blankIndexes.cardinality() + ")" );
             }
             fillsInOrder = new Object[]{ null };
         }
         if( fillsInOrder.length < blankIndexes.cardinality() ) {
-            throw new _draftException( "fill parameter count ("
+            throw new _jdraftException( "fill parameter count ("
                     + fillsInOrder.length + ") must accept blanks count ("
                     + blankIndexes.cardinality() + ")" );
         }

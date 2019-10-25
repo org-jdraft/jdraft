@@ -1,7 +1,7 @@
 
 package org.jdraft.io;
 
-import org.jdraft._draftException;
+import org.jdraft._jdraftException;
 
 /**
  * base exception for doing i/o typically reading in .java source or
@@ -10,7 +10,7 @@ import org.jdraft._draftException;
  * @author Eric
  */
 public final class _ioException
-    extends _draftException {
+    extends _jdraftException {
 
     public _ioException(String message, Throwable throwable ){
         super( message, throwable );

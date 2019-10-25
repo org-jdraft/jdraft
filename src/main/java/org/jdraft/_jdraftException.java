@@ -11,17 +11,17 @@ package org.jdraft;
  *
  * @author M. Eric DeFazio
  */
-public class _draftException extends RuntimeException{
+public class _jdraftException extends RuntimeException{
 
-    public _draftException(String message, Throwable throwable){
+    public _jdraftException(String message, Throwable throwable){
         super(message, throwable);
     }
 
-    public _draftException(String message){
+    public _jdraftException(String message){
         super(message);
     }
 
-    public _draftException(Throwable throwable){
+    public _jdraftException(Throwable throwable){
         super(throwable);
     }
 }

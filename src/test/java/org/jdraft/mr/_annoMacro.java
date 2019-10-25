@@ -8,7 +8,7 @@ import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 //import com.github.javaparser.ast.nodeTypes.NodeWithConstructors;
 import org.jdraft._constructor;
-import org.jdraft._draftException;
+import org.jdraft._jdraftException;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
@@ -473,7 +473,7 @@ public class _annoMacro {
     /**
      * An exception when resolving or using Annotation Macros with
      */
-    public static class AnnoMacroException extends _draftException {
+    public static class AnnoMacroException extends _jdraftException {
 
         public AnnoMacroException( String message){
             super( message);

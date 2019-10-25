@@ -94,7 +94,7 @@ public final class _field
         String str = Text.combine(fieldDecl);
         FieldDeclaration fd = Ast.field(str);
         if (fd.getVariables().size() != 1) {
-            throw new _draftException("unable to create a singular field from " + str);
+            throw new _jdraftException("unable to create a singular field from " + str);
         }
         return new _field(fd.getVariable(0));
     }

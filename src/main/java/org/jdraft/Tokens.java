@@ -55,7 +55,7 @@ public class Tokens implements Map<String,Object>{
      */
     public Tokens add(Object...keyValuePairs){
         if( (keyValuePairs.length % 2) != 0 ){
-            throw new _draftException("expected in pairs (divisible where 2), got ("
+            throw new _jdraftException("expected in pairs (divisible where 2), got ("
                     + keyValuePairs.length + ")");
         }
         for(int i=0;i<keyValuePairs.length; i+=2){

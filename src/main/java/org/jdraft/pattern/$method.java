@@ -339,7 +339,7 @@ public class $method
                 this.javadoc = ($comment<JavadocComment>)parts[i];
             }
             else{
-                throw new _draftException("Unable to add $part "+ parts[i]+" to $method" );
+                throw new _jdraftException("Unable to add $part "+ parts[i]+" to $method" );
             }
         }
     }
@@ -862,7 +862,7 @@ public class $method
                 .getAnnotationByClass(_remove.class).isPresent() )
                 .findFirst();
         if(!on.isPresent()){
-            throw new _draftException("Could not locate the method containing the body in "+ oce);
+            throw new _jdraftException("Could not locate the method containing the body in "+ oce);
         }
         MethodDeclaration md = (MethodDeclaration)on.get();
         md.getParentNode().get().remove(md); //decouple it from the "old" 
@@ -896,7 +896,7 @@ public class $method
         nom.remove( "throws");
         nom.remove( "body");
         if( nom.size() != values.length ){
-            throw new _draftException("Fill expected ("+nom.size()+") values "+ nom+" got ("+values.length+")");
+            throw new _jdraftException("Fill expected ("+nom.size()+") values "+ nom+" got ("+values.length+")");
         }
         Tokens ts = new Tokens();
         for(int i=0;i<nom.size();i++){

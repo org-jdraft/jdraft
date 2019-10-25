@@ -192,7 +192,7 @@ public final class _body implements _model {
                     .getAnnotationByClass(_remove.class).isPresent() )
                     .findFirst();
         if(!on.isPresent()){
-            throw new _draftException("Could not locate the method containing the body in "+ oce);
+            throw new _jdraftException("Could not locate the method containing the body in "+ oce);
         }
         MethodDeclaration md = (MethodDeclaration)on.get();
         md.getParentNode().get().remove(md); //decouple it from the "old" 
@@ -280,7 +280,7 @@ public final class _body implements _model {
         if( this.isImplemented() ){
             return ast().getStatement(index);
         }
-        throw new _draftException("No Statement at ["+index+"] for non-implemented body");
+        throw new _jdraftException("No Statement at ["+index+"] for non-implemented body");
     }
 
     /**
@@ -1014,12 +1014,12 @@ public final class _body implements _model {
          */
         default _HB addAt(String labelName, String... statements) {
             if( !isImplemented() ){
-                throw new _draftException("cannot find labeled Statement \"" + labelName + "\" on no-implemented body");
+                throw new _jdraftException("cannot find labeled Statement \"" + labelName + "\" on no-implemented body");
             }
             Optional<LabeledStmt> ols
                 = this.getBody().ast().findFirst(LabeledStmt.class, ls -> ls.getLabel().toString().equals(labelName));
             if (!ols.isPresent()) {
-                throw new _draftException("cannot find labeled Statement \"" + labelName + "\"");
+                throw new _jdraftException("cannot find labeled Statement \"" + labelName + "\"");
             }
             Statement st = ols.get().getStatement();
             if (st.isBlockStmt()) {
@@ -1036,12 +1036,12 @@ public final class _body implements _model {
         
         default _HB addAt(String labelName, Statement...statements){
              if( !isImplemented() ){
-                throw new _draftException("cannot find labeled Statement \"" + labelName + "\" on no-implemented body");
+                throw new _jdraftException("cannot find labeled Statement \"" + labelName + "\" on no-implemented body");
             }
             Optional<LabeledStmt> ols
                 = this.getBody().ast().findFirst(LabeledStmt.class, ls -> ls.getLabel().toString().equals(labelName));
             if (!ols.isPresent()) {
-                throw new _draftException("cannot find labeled Statement \"" + labelName + "\"");
+                throw new _jdraftException("cannot find labeled Statement \"" + labelName + "\"");
             }
             Statement st = ols.get().getStatement();
             if (st.isBlockStmt()) { //the labeled statement is a block statement
@@ -1087,7 +1087,7 @@ public final class _body implements _model {
          */
         default _HB addAt(String labelName, Statement astStmt) {
             if( !isImplemented() ){
-                throw new _draftException("cannot find labeled Statement \"" + labelName + "\" on no-implemented body");
+                throw new _jdraftException("cannot find labeled Statement \"" + labelName + "\" on no-implemented body");
             }
             List<Statement> stmts = new ArrayList<>();
             stmts.add(astStmt);
@@ -1103,12 +1103,12 @@ public final class _body implements _model {
          */
         default _HB addAt(String labelName, List<Statement> stmts) {
             if( !isImplemented() ){
-                throw new _draftException("cannot find labeled Statement \"" + labelName + "\" on no-implemented body");
+                throw new _jdraftException("cannot find labeled Statement \"" + labelName + "\" on no-implemented body");
             }
             Optional<LabeledStmt> ols
                     = this.getBody().ast().findFirst(LabeledStmt.class, ls -> ls.getLabel().toString().equals(labelName));
             if (!ols.isPresent()) {
-                throw new _draftException("cannot find labeled Statement \"" + labelName + "\"");
+                throw new _jdraftException("cannot find labeled Statement \"" + labelName + "\"");
             }
             Statement st = ols.get().getStatement();
             if (st.isBlockStmt()) {
@@ -1130,12 +1130,12 @@ public final class _body implements _model {
          */
         default LabeledStmt getAt(String labelName) {
             if( !isImplemented() ){
-                throw new _draftException("cannot find labeled Statement \"" + labelName + "\" on no-implemented body");
+                throw new _jdraftException("cannot find labeled Statement \"" + labelName + "\" on no-implemented body");
             }
             Optional<LabeledStmt> ols
                 = this.getBody().ast().findFirst(LabeledStmt.class, ls -> ls.getLabel().toString().equals(labelName));
             if (!ols.isPresent()) {
-                throw new _draftException("cannot find labeled Statement \"" + labelName + "\"");
+                throw new _jdraftException("cannot find labeled Statement \"" + labelName + "\"");
             }
             return ols.get();
         }

@@ -40,7 +40,7 @@ public final class _method
             Method m = clazz.getMethod(methodName, parameterTypes);
             return of( m);
         }catch(Exception e){
-            throw new _draftException("Could not resolve "+clazz+" method "+ methodName+" with "+parameterTypes, e);
+            throw new _jdraftException("Could not resolve "+clazz+" method "+ methodName+" with "+parameterTypes, e);
         }
     }
 
@@ -691,13 +691,13 @@ public final class _method
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
             ObjectCreationExpr oce = Ex.anonymousObjectEx(ste);
             if (oce == null || !oce.getAnonymousClassBody().isPresent()) {
-                throw new _draftException("No anonymous Object containing a method provided ");
+                throw new _jdraftException("No anonymous Object containing a method provided ");
             }
             Optional<BodyDeclaration<?>> obd = oce.getAnonymousClassBody().get().stream()
                 .filter(bd -> bd instanceof MethodDeclaration
                 && !bd.asMethodDeclaration().getAnnotationByClass(_remove.class).isPresent()).findFirst();
             if (!obd.isPresent()) {
-                throw new _draftException("Could not find Method in anonymous object body");
+                throw new _jdraftException("Could not find Method in anonymous object body");
             }
             MethodDeclaration md = (MethodDeclaration) obd.get();
             

@@ -151,7 +151,7 @@ public class $field implements Template<_field>, $pattern<_field, $field>, $patt
 
     public static $field of( FieldDeclaration fd ){
         if( fd.getVariables().size() != 1){
-            throw new _draftException("cannot convert multi-field declaration to single $field");
+            throw new _jdraftException("cannot convert multi-field declaration to single $field");
         }
         return of( _field.of(fd.getVariable(0)));
     }

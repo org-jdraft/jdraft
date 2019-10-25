@@ -208,7 +208,7 @@ public class $parameter implements Template<_parameter>, $pattern<_parameter, $p
                 this.isVarArg = true;
             }
             else{
-                throw new _draftException("unable to process part ["+i+"] "+ parts[i]+" not of expected type");
+                throw new _jdraftException("unable to process part ["+i+"] "+ parts[i]+" not of expected type");
             }
         }
     }
