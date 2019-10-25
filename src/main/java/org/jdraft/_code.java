@@ -25,6 +25,12 @@ import java.util.stream.*;
 public interface _code<_C> extends _model, _java._componentized {
 
     /**
+     * Return a copy of the _code
+     * @return
+     */
+    _code<_C> copy();
+
+    /**
      * Resolve the Compilation Unit that contains this _type,
      * either this TYPE is:
      * <UL>
@@ -143,6 +149,11 @@ public interface _code<_C> extends _model, _java._componentized {
         return this.astCompilationUnit().getImport(index);
     }
 
+    /**
+     *
+     * @param _importMatchFn
+     * @return
+     */
     default ImportDeclaration getImport(Predicate<_import> _importMatchFn){
         List<_import> _is = this.listImports(_importMatchFn);
         if( _is.isEmpty()){
@@ -681,6 +692,18 @@ public interface _code<_C> extends _model, _java._componentized {
                 }
             });
             return acted;
+        }
+
+        /**
+         * Build & return a copy of the _code
+         * @return
+         */
+        public _code._cache<_C> copy(){
+            List<_C>copyList = new ArrayList<>();
+            //this.codeList.stream().map(c -> c.copy())
+                    //.collect(Collectors.toList(new ArrayList<_C>()));
+            this.codeList.forEach(c -> copyList.add( (_C)c.copy() ) );
+            return new _cache<_C>(copyList);
         }
     }
 }
