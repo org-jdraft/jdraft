@@ -500,15 +500,9 @@ public class $constructor
             }
             else if( parts[i] instanceof $stmt){
                 this.body.$not( ($stmt)parts[i]);
-                //final $stmt $fj = (($stmt)parts[i]);
-                //Predicate<_constructor> pf = f-> $fj.firstIn(f.getBody()) != null;
-                //$and( pf.negate() );
             }
             else if( parts[i] instanceof $ex){
                 this.body.$not( ($ex)parts[i]);
-                //final $ex $fj = (($ex)parts[i]);
-                //Predicate<_constructor> pf = f-> $fj.firstIn(f.getBody()) != null;
-                //$and( pf.negate() );
             }
             else if(parts[i] instanceof $case){
                 this.body.$not( ($case)parts[i]);
@@ -520,7 +514,7 @@ public class $constructor
                 this.body.$not( ($var)parts[i]);
             }
             else if(parts[i] instanceof $node){
-                this.body.$and( ($node)parts[i]);
+                this.body.$not( ($node)parts[i]);
             }
         }
         return this;

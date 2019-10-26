@@ -39,7 +39,11 @@ public class $case
     public static $case of( SwitchEntry astSwitchEntry, Predicate<SwitchEntry> constraint){
         return new $case(astSwitchEntry).$and(constraint);
     }
-    
+
+    public static $case of( $stmt...stmts ){
+        return of( $ex.of(), stmts );
+    }
+
     public static $case of($ex expr, $stmt...stmts ){
         return new $case(expr, stmts);
     }

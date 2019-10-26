@@ -19,7 +19,11 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part, $meth
     public static $catch of( String...catchCode ){
         return new $catch( Ast.catchClause(catchCode));
     }
-    
+
+    public static $catch of( Class<? extends Throwable>... caughtExceptions ){
+        return of( $parameter.of( $typeRef.or(caughtExceptions) ) );
+    }
+
     public static $catch of( CatchClause astCatch){
         return new $catch( astCatch );
     }
@@ -31,7 +35,23 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part, $meth
     public static $catch of( Predicate<CatchClause> constraint ){
         return of().$and(constraint);
     }
-    
+
+    public static $catch of( $parameter $param ){
+        return of($param, $body.of());
+    }
+
+    public static $catch of( $body.$part...bodyParts ){
+        return of( $body.of(bodyParts) );
+    }
+
+    public static $catch of( $body $b ){
+        return of( $parameter.of(), $b);
+    }
+
+    public static $catch of( $parameter $param, $body $b ){
+        return new $catch( $param, $b);
+    }
+
     public static $catch of(){
         return new $catch( $parameter.of(), $body.of() );
     }

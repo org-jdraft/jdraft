@@ -7,12 +7,11 @@ import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.Statement;
-import org.jdraft.Ex;
+import org.jdraft.*;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
-import org.jdraft.Ast;
-import org.jdraft._class;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -24,8 +23,105 @@ import junit.framework.TestCase;
  */
 public class SnodeTest extends TestCase {
 
-    public void testBefore(){
+    public void testMethodOfNodeCaseCatchVar(){
+        _method _m = _method.of(new Object(){
+            public void m(int i){
+                int j = i + 100;
+                switch( i ){
 
+                    case 1 : System.out.println( 1  );
+                    default : System.out.println( "the default ");
+                }
+
+                try{
+                    UUID uuid = UUID.fromString("12231233123123");
+                }catch(IllegalArgumentException fnfe){
+                    System.out.println( fnfe );
+                }
+            }
+        });
+
+        assertTrue( $method.of( $catch.of() ).matches(_m) );
+        assertTrue( $method.of( $catch.of(IllegalArgumentException.class) ).matches(_m) );
+        assertTrue( $method.of( $catch.of( $stmt.of( ($any$)->System.out.println($any$) )) ).matches(_m) );
+
+
+        assertFalse( $method.not( $catch.of(IllegalArgumentException.class) ).matches(_m) );
+        assertFalse( $method.not( $catch.of( $stmt.of( ($any$)->System.out.println($any$) )) ).matches(_m) );
+
+
+        assertTrue( $method.of( $case.of() ).matches(_m) ); //a method with a switch case
+        assertTrue( $method.of( $case.of( $ex.of(1) ) ).matches(_m) ); //a method with a switch "case 1: ..."
+        assertTrue( $method.of( $case.of( $ex.of(1), $stmt.of(()->System.out.println(1)) ) ).matches(_m) ); //a method with a switch "case 1: System.out.println(1);"
+        assertTrue( $method.of( $case.of( $stmt.of(()->System.out.println(1)) ) ).matches(_m) ); //a method with ANY case w/ body containing: "System.out.println(1);"
+
+        assertFalse( $method.not( $case.of( $ex.of(1) ) ).matches(_m) ); //a method with a switch "case 1: ..."
+        assertFalse( $method.not( $case.of( $ex.of(1), $stmt.of(()->System.out.println(1)) ) ).matches(_m) ); //a method with a switch "case 1: System.out.println(1);"
+        assertFalse( $method.not( $case.of( $stmt.of(()->System.out.println(1)) ) ).matches(_m) ); //a method with ANY case w/ body containing: "System.out.println(1);"
+
+        //assertTrue( $method.of( $case.of(IllegalArgumentException.class) ).matches(_m) );
+
+        assertTrue( $method.of( $var.of() ).matches(_m) );
+        assertTrue( $method.of( $var.of($name.of("j")) ).matches(_m) ); //a method with a var
+        assertTrue( $method.of( $var.of(int.class) ).matches(_m) );
+
+        assertFalse( $method.not( $var.of($name.of("j")) ).matches(_m) ); //a method with a var
+        assertFalse( $method.not( $var.of(int.class) ).matches(_m) );
+
+        //_java.describe(_m );
+        $node $n = $node.of( new SimpleName("out") );
+        assertTrue( $method.of( $n ).matches(_m) );
+        assertFalse( $method.not( $n ).matches(_m) );
+    }
+
+
+    public void testConstructorOfNodeCaseCatchVar(){
+        _constructor _c = _constructor.of(new Object(){
+            public void m(int i){
+                int j = i + 100;
+                switch( i ){
+                    case 1 : System.out.println( 1  );
+                    default : System.out.println( "the default ");
+                }
+                try{
+                    UUID uuid = UUID.fromString("12231233123123");
+                }catch(IllegalArgumentException fnfe){
+                    System.out.println( fnfe );
+                }
+            }
+        });
+
+        assertTrue( $constructor.of( $catch.of() ).matches(_c) );
+        assertTrue( $constructor.of( $catch.of(IllegalArgumentException.class) ).matches(_c) );
+        assertTrue( $constructor.of( $catch.of( $stmt.of( ($any$)->System.out.println($any$) )) ).matches(_c) );
+
+
+        assertFalse( $constructor.not( $catch.of(IllegalArgumentException.class) ).matches(_c) );
+        assertFalse( $constructor.not( $catch.of( $stmt.of( ($any$)->System.out.println($any$) )) ).matches(_c) );
+
+
+        assertTrue( $constructor.of( $case.of() ).matches(_c) ); //a ctor with a switch case
+        assertTrue( $constructor.of( $case.of( $ex.of(1) ) ).matches(_c) ); //a ctor with a switch "case 1: ..."
+        assertTrue( $constructor.of( $case.of( $ex.of(1), $stmt.of(()->System.out.println(1)) ) ).matches(_c) ); //a ctor with a switch "case 1: System.out.println(1);"
+        assertTrue( $constructor.of( $case.of( $stmt.of(()->System.out.println(1)) ) ).matches(_c) ); //a ctor with ANY case w/ body containing: "System.out.println(1);"
+
+        assertFalse( $constructor.not( $case.of( $ex.of(1) ) ).matches(_c) ); //a ctor with a switch "case 1: ..."
+        assertFalse( $constructor.not( $case.of( $ex.of(1), $stmt.of(()->System.out.println(1)) ) ).matches(_c) ); //a ctor with a switch "case 1: System.out.println(1);"
+        assertFalse( $constructor.not( $case.of( $stmt.of(()->System.out.println(1)) ) ).matches(_c) ); //a ctor with ANY case w/ body containing: "System.out.println(1);"
+
+        //assertTrue( $method.of( $case.of(IllegalArgumentException.class) ).matches(_m) );
+
+        assertTrue( $constructor.of( $var.of() ).matches(_c) );
+        assertTrue( $constructor.of( $var.of($name.of("j")) ).matches(_c) ); //a ctor with a var
+        assertTrue( $constructor.of( $var.of(int.class) ).matches(_c) );
+
+        assertFalse( $constructor.not( $var.of($name.of("j")) ).matches(_c) ); //a ctor with a var
+        assertFalse( $constructor.not( $var.of(int.class) ).matches(_c) );
+
+        //_java.describe(_m );
+        $node $n = $node.of( new SimpleName("out") );
+        assertTrue( $constructor.of( $n ).matches(_c) );
+        assertFalse( $constructor.not( $n ).matches(_c) );
     }
 
     public void testAfter(){

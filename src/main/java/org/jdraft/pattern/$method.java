@@ -600,7 +600,7 @@ public class $method
                 this.body.$not( ($var)parts[i]);
             }
             else if(parts[i] instanceof $node){
-                this.body.$and( ($node)parts[i]);
+                this.body.$not( ($node)parts[i]);
             }
         }
         return this;
