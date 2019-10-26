@@ -326,6 +326,18 @@ public class $method
             else if(parts[i] instanceof $ex){
                 this.body.$and( ($ex)parts[i]);
             }
+            else if(parts[i] instanceof $case){
+                this.body.$and( ($case)parts[i]);
+            }
+            else if(parts[i] instanceof $catch){
+                this.body.$and( ($catch)parts[i]);
+            }
+            else if(parts[i] instanceof $var){
+                this.body.$and( ($var)parts[i]);
+            }
+            else if(parts[i] instanceof $node){
+                this.body.$and( ($node)parts[i]);
+            }
             else if( parts[i] instanceof $throws ){
                 this.thrown = ($throws)parts[i];
             }
@@ -567,14 +579,28 @@ public class $method
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $stmt){
-                final $stmt $fj = (($stmt)parts[i]);
-                Predicate<_method> pf = f-> $fj.firstIn(f.getBody()) != null;
-                $and( pf.negate() );
+                this.body.$not(($stmt)parts[i]);
+                //final $stmt $fj = (($stmt)parts[i]);
+                //Predicate<_method> pf = f-> $fj.firstIn(f.getBody()) != null;
+                //$and( pf.negate() );
             }
             else if( parts[i] instanceof $ex){
-                final $ex $fj = (($ex)parts[i]);
-                Predicate<_method> pf = f-> $fj.firstIn(f.getBody()) != null;
-                $and( pf.negate() );
+                this.body.$not(($ex)parts[i]);
+                //final $ex $fj = (($ex)parts[i]);
+                //Predicate<_method> pf = f-> $fj.firstIn(f.getBody()) != null;
+                //$and( pf.negate() );
+            }
+            else if(parts[i] instanceof $case){
+                this.body.$not( ($case)parts[i]);
+            }
+            else if(parts[i] instanceof $catch){
+                this.body.$not( ($catch)parts[i]);
+            }
+            else if(parts[i] instanceof $var){
+                this.body.$not( ($var)parts[i]);
+            }
+            else if(parts[i] instanceof $node){
+                this.body.$and( ($node)parts[i]);
             }
         }
         return this;

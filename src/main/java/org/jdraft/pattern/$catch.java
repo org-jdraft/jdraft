@@ -14,7 +14,7 @@ import org.jdraft.*;
  *
  * @author Eric
  */
-public class $catch implements $pattern<CatchClause, $catch>, $body.$part {
+public class $catch implements $pattern<CatchClause, $catch>, $body.$part, $method.$part, $constructor.$part {
     
     public static $catch of( String...catchCode ){
         return new $catch( Ast.catchClause(catchCode));

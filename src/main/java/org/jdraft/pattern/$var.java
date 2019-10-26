@@ -1,26 +1,18 @@
 package org.jdraft.pattern;
 
-import org.jdraft._code;
-import org.jdraft._typeRef;
-import org.jdraft._field;
-import org.jdraft._java;
-import org.jdraft._type;
-import org.jdraft._walk;
-import org.jdraft.Ex;
-import org.jdraft.Ast;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
-import org.jdraft.*;
-import org.jdraft._node;
 
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import org.jdraft.*;
 
 /**
  * prototype for querying and composing a {@link VariableDeclarator}
@@ -38,7 +30,7 @@ import java.util.stream.Collectors;
  * and 
  */
 public class $var
-    implements Template<VariableDeclarator>, $pattern<VariableDeclarator, $var>, $body.$part {
+    implements Template<VariableDeclarator>, $pattern<VariableDeclarator, $var>, $body.$part, $method.$part, $constructor.$part {
     
     /** marker interface for components that are a part of a var */ 
     public interface $part{}

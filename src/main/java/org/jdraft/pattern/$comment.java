@@ -25,7 +25,6 @@ public class $comment <C extends Comment>
     
     public static<C extends Comment> $comment<C> of( String pattern, Predicate<C> constraint ){
         return (($comment<C>) new $comment(pattern)).$and(constraint);
-        //return (($comment<C>) new $comment(Ast.comment(pattern))).$and(constraint);
     }
 
     public static $comment<Comment> of( Predicate<Comment> constraint ){

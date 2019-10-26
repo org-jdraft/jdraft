@@ -18,7 +18,7 @@ import org.jdraft.*;
  * @author Eric
  */
 public class $case
-    implements $pattern<SwitchEntry, $case>, Template<SwitchEntry>, $body.$part {
+    implements $pattern<SwitchEntry, $case>, Template<SwitchEntry>, $body.$part, $method.$part, $constructor.$part {
 
     public static $case of(){
         return new $case( $ex.of() );

@@ -302,52 +302,64 @@ public class $constructor
      * //look for all constructors with a matching annotation to A
      * $constructor $ct = $constructor.of( $anno.of("A") );
      * 
-     * @param components 
+     * @param parts
      */
-    private $constructor( $part...components ){        
-        for(int i=0;i<components.length; i++){
-            if( components[i] instanceof $annos ){
-                this.annos = ($annos)components[i];
+    private $constructor( $part...parts ){
+        for(int i=0;i<parts.length; i++){
+            if( parts[i] instanceof $annos ){
+                this.annos = ($annos)parts[i];
             }
-            else if( components[i] instanceof $anno ){
-                this.annos.$annosList.add( ($anno)components[i] );
+            else if( parts[i] instanceof $anno ){
+                this.annos.$annosList.add( ($anno)parts[i] );
             }
-            else if( components[i] instanceof $modifiers ){
-                this.modifiers = $modifiers.of( this.modifiers, ($modifiers)components[i]);
+            else if( parts[i] instanceof $modifiers ){
+                this.modifiers = $modifiers.of( this.modifiers, ($modifiers)parts[i]);
                 //this.modifiers = ($modifiers)components[i];
             }
-            else if( components[i] instanceof $name ){
-                this.name = ($name)components[i];
+            else if( parts[i] instanceof $name ){
+                this.name = ($name)parts[i];
             }
-            else if( components[i] instanceof $parameters ){
-                this.parameters = ($parameters)components[i];
+            else if( parts[i] instanceof $parameters ){
+                this.parameters = ($parameters)parts[i];
             }
-            else if(components[i] instanceof $parameter){
-                this.parameters.$add( ($parameter)components[i] );
+            else if(parts[i] instanceof $parameter){
+                this.parameters.$add( ($parameter)parts[i] );
             }
-            else if( components[i] instanceof $body ){
-                this.body = ($body)components[i];
+            else if( parts[i] instanceof $body ){
+                this.body = ($body)parts[i];
             }
-            else if( components[i] instanceof $stmt ){
-                this.body.$and( ($stmt)components[i]);
+            else if( parts[i] instanceof $stmt ){
+                this.body.$and( ($stmt)parts[i]);
             }
-            else if( components[i] instanceof $ex ){
-                this.body.$and( ($ex)components[i] );
+            else if( parts[i] instanceof $ex ){
+                this.body.$and( ($ex)parts[i] );
             }
-            else if( components[i] instanceof $throws ){
-                this.thrown = ($throws)components[i];
+            else if(parts[i] instanceof $case){
+                this.body.$and( ($case)parts[i]);
             }
-            else if( components[i] instanceof $typeParameters){
-                this.typeParameters = ($typeParameters)components[i];
+            else if(parts[i] instanceof $catch){
+                this.body.$and( ($catch)parts[i]);
             }
-            else if( components[i] instanceof $typeParameter){
-                this.typeParameters.typeParams.add( ($typeParameter)components[i]);
+            else if(parts[i] instanceof $var){
+                this.body.$and( ($var)parts[i]);
             }
-            else if( components[i] instanceof $comment){
-                this.javadoc = ($comment<JavadocComment>)components[i];
+            else if(parts[i] instanceof $node){
+                this.body.$and( ($node)parts[i]);
+            }
+            else if( parts[i] instanceof $throws ){
+                this.thrown = ($throws)parts[i];
+            }
+            else if( parts[i] instanceof $typeParameters){
+                this.typeParameters = ($typeParameters)parts[i];
+            }
+            else if( parts[i] instanceof $typeParameter){
+                this.typeParameters.typeParams.add( ($typeParameter)parts[i]);
+            }
+            else if( parts[i] instanceof $comment){
+                this.javadoc = ($comment<JavadocComment>)parts[i];
             }
             else{
-                throw new _jdraftException("Unable to use $proto component " +components[i]+" for $constructor" );
+                throw new _jdraftException("Unable to use $proto component " +parts[i]+" for $constructor" );
             }            
         }
     }
@@ -487,14 +499,28 @@ public class $constructor
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $stmt){
-                final $stmt $fj = (($stmt)parts[i]);
-                Predicate<_constructor> pf = f-> $fj.firstIn(f.getBody()) != null;
-                $and( pf.negate() );
+                this.body.$not( ($stmt)parts[i]);
+                //final $stmt $fj = (($stmt)parts[i]);
+                //Predicate<_constructor> pf = f-> $fj.firstIn(f.getBody()) != null;
+                //$and( pf.negate() );
             }
             else if( parts[i] instanceof $ex){
-                final $ex $fj = (($ex)parts[i]);
-                Predicate<_constructor> pf = f-> $fj.firstIn(f.getBody()) != null;
-                $and( pf.negate() );
+                this.body.$not( ($ex)parts[i]);
+                //final $ex $fj = (($ex)parts[i]);
+                //Predicate<_constructor> pf = f-> $fj.firstIn(f.getBody()) != null;
+                //$and( pf.negate() );
+            }
+            else if(parts[i] instanceof $case){
+                this.body.$not( ($case)parts[i]);
+            }
+            else if(parts[i] instanceof $catch){
+                this.body.$not( ($catch)parts[i]);
+            }
+            else if(parts[i] instanceof $var){
+                this.body.$not( ($var)parts[i]);
+            }
+            else if(parts[i] instanceof $node){
+                this.body.$and( ($node)parts[i]);
             }
         }
         return this;

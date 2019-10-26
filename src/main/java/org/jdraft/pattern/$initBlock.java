@@ -14,7 +14,17 @@ import java.util.stream.Collectors;
 import org.jdraft.*;
 
 /**
- * $proto on modelling the package declaration
+ * $pattern representing an initializer block (either a static or non-static)
+ * <PRE>
+ *     class C{
+ *         {
+ *             System.out.println("In Initializer Block");
+ *         }
+ *         static{
+ *             System.out.println("In Static Initializer Block");
+ *         }
+ *     }
+ * </PRE>
  *
  * @see InitializerDeclaration
  */
@@ -28,7 +38,6 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
     public static $initBlock of(String bodyPattern ){
         return of( new String[]{bodyPattern});
     }
-
 
     public static $initBlock of( _initBlock _ib ){
         return of( _ib.ast());
@@ -48,6 +57,18 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
 
     public static $initBlock of( Predicate<_initBlock> matchFn ){
         return new $initBlock( $body.of(), null, matchFn );
+    }
+
+    public static $initBlock staticBlock( $body.$part ... bodyParts ){
+        $initBlock $ib = $initBlock.of( ).setStatic(true);
+        $ib.body = $body.of(bodyParts);
+        return $ib;
+    }
+
+    public static $initBlock of( $body.$part ... bodyParts ){
+        $initBlock $ib = $initBlock.of( );
+        $ib.body = $body.of(bodyParts);
+        return $ib;
     }
 
     public static $initBlock of(String str, Predicate<_initBlock> matchFn ){
@@ -151,8 +172,6 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
         }
     }
 
-
-
     /** contents of the body */
     public $body body;
 
@@ -184,7 +203,22 @@ public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$j
     @Override
     public $initBlock $and(Predicate<_initBlock> constraint) {
         this.constraint = this.constraint.and(constraint);
-        return null;
+        return this;
+    }
+
+    public $initBlock $and( $body.$part... bodyParts){
+        this.body.$and(bodyParts);
+        return this;
+    }
+
+    public $initBlock $not(Predicate<_initBlock> constraint){
+        this.constraint = this.constraint.and( constraint.negate());
+        return this;
+    }
+
+    public $initBlock $not( $body.$part... bodyParts){
+        this.body.$not(bodyParts);
+        return this;
     }
 
     public $initBlock setStatic(){

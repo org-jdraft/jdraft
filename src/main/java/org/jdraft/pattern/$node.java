@@ -22,7 +22,7 @@ import org.jdraft.*;
  * 
  * @author Eric
  */
-public class $node implements $pattern<Node, $node> {
+public class $node implements $pattern<Node, $node>, $body.$part, $method.$part, $constructor.$part {
 
     /**
      * 
