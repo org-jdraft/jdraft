@@ -12,6 +12,11 @@ public class _4_OnDifferentElementTypes_Test extends TestCase {
         Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
     }
 
+    public void tearDown(){
+        //turn the logger off AFTER running tests
+        Log.setAdapter(new Log.SilentAdapter());
+    }
+
     /*
     public @_non_static static class SC{
         static void m(){ }

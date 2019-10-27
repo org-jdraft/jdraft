@@ -7,8 +7,8 @@ import org.jdraft.pattern.$stmt;
 /**
  * tags:
  * $stmt<IfStmt>
- * $proto.$replaceIn
- * proto.$() //post-parameterize
+ * $pattern.$replaceIn
+ * $pattern.$() //post-parameterize
  *
  *
  * This illustrates a real-world refactoring scenario where we use $proto

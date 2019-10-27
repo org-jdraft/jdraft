@@ -10,31 +10,31 @@ import org.jdraft._method;
 import org.jdraft.pattern.*;
 
 /**
- * Proto representation org.jdraft.proto.$field
+ * Pattern representation org.jdraft.pattern.$field
  *     Meta Representation org.jdraft._field
  *         Ast Representation org.github.javaparser.ast.body.FieldDeclaration
  *             String Representation
  *     Runtime Representation java.lang.reflect.Field
  * tags:
  *
- * $proto.$
- * $proto($expr) IntLiteral
- * $proto($node) composition
- * $proto($expr) query
- * $proto($expr) composition
- * $proto($expr) listIn()
- * $proto($expr) $hasParent()
+ * $pattern.$
+ * $pattern($expr) IntLiteral
+ * $pattern($node) composition
+ * $pattern($expr) query
+ * $pattern($expr) composition
+ * $pattern($expr) listIn()
+ * $pattern($expr) $hasParent()
  */
-public class _1_WhatIsProtoTest extends TestCase {
+public class _1_WhatIs$PatternTest extends TestCase {
 
     /**
-     * the proto abstraction is a level of abstraction above the meta-representation.
+     * the pattern abstraction is a level of abstraction above the meta-representation.
      * For example a meta-representation of a field :
      * _field _f = _field.of("int i;");
      * ...represents a (single) field that is EXACTLY "int" type and name "i"
      * (with no modifiers, no annotations, no javadoc, no initial value)
      */
-    public void test_MetaRepresentationV$ProtoRepresentation(){
+    public void test_MetaRepresentationV$PatternRepresentation(){
 
         // a meta-representation of a _field (_f):
         //...represents a SPECIFIC field that is EXACTLY "int" type and name "i"
@@ -42,29 +42,29 @@ public class _1_WhatIsProtoTest extends TestCase {
         //meta-representations are EXPLICITLY PRECISE, meaning they are EXACT in specification
         _field _f = _field.of("int i;");
 
-        // a prototype-representation of a field ($f)
+        // a pattern-representation of a field ($f)
         // ...represents ANY field that has the type "int" and name "i"
         // (it MAY have ANY modifiers, ANY annotations, ANY javadoc, ANY initial value)
-        // prototype-representations are IMPLICITLY LENIENT, meaning:
+        // pattern-representations are IMPLICITLY LENIENT, meaning:
         // they match SIMILAR VARIANTS provided there is NO CONFLICT
-        //... so you can say the prototype below MATCHES/EXPECTS int and i, (for type and name)
+        //... so you can say the pattern below MATCHES/EXPECTS int and i, (for type and name)
         // AND ACCEPTS any VARIANT for any other properties (annos, javadoc, modifiers, init value)
         $field $f = $field.of("int i;");
 
         //For categorization:
-        // we can ask the prototype if any String representation,
+        // we can ask the pattern if any String representation,
         // AST representation(FieldDeclaration), or meta-representation (_field) matches the
-        // prototype instance by using match(...) or matches(...)
-        assertTrue( $f.matches("int i;")); //the string representation matches the prototype
+        // pattern instance by using match(...) or matches(...)
+        assertTrue( $f.matches("int i;")); //the string representation matches the pattern
         FieldDeclaration astField = Ast.field("int i;"); //Ast representation
-        assertTrue( $f.matches( astField)); //the AST representation matches the prototype
-        assertTrue( $f.matches(_f) ); //the meta-representation matches the prototype
+        assertTrue( $f.matches( astField)); //the AST representation matches the pattern
+        assertTrue( $f.matches(_f) ); //the meta-representation matches the pattern
 
         //...$f doesn't only match a single explicit field representation
-        // but other representations (by default, prototypes are "IMPLICITLY LENIENT")
+        // but other representations (by default, patterns are "IMPLICITLY LENIENT")
         // or another way of putting it: it will match UNLESS YOU EXPLICITLY SPECIFY what to NOT MATCH.
 
-        //in this case, the proto representation $f matches against ANY field declaration with name "i" and type "int"
+        //in this case, the pattern representation $f matches against ANY field declaration with name "i" and type "int"
         assertTrue( $f.matches("int i = 0;")); //with init
         assertTrue( $f.matches("public static final int i;")); //with modifiers
         assertTrue( $f.matches("public static final int i = 0;")); //with modifiers & init
@@ -82,11 +82,11 @@ public class _1_WhatIsProtoTest extends TestCase {
         assertFalse( _f.is("/** javadoc */ @ann public static final int i = methodCall(5+4);"));
     }
 
-    //Prototypes are IMPLICITLY LENIENT by default,
-    // so the LESS constraints we provide the MORE a prototype will match against candidates
-    // prototypes with NO constraints are called "MatchAny" prototypes
+    //Patterns are IMPLICITLY LENIENT by default,
+    // so the LESS constraints we provide the MORE a pattern will match against candidates
+    // pattern with NO constraints are called "MatchAny" pattern
     //and we can be very granular as to HOW LENIENT we want to be (what we "match against").
-    public void testProtoMatchAny(){
+    public void testPatternMatchAny(){
 
         /**
          * $node represents ANY ast node...
@@ -101,14 +101,14 @@ public class _1_WhatIsProtoTest extends TestCase {
         assertTrue($anyNode.match( Ex.of(1) ));
 
         //...to a 100+ line composite CompilationUnit made of other nodes
-        assertTrue($anyNode.match( Ast.of(_1_WhatIsProtoTest.class) ));
+        assertTrue($anyNode.match( Ast.of(_1_WhatIs$PatternTest.class) ));
 
-        //...prototypes instanced that will match ANY implementation are "special"
-        // they are called "matchAny" prototypes, you can find out if a
-        // matchAnyPrototype by calling isMatchAny()
+        //...patterns instanced that will match ANY implementation are "special"
+        // they are called "matchAny" patterns, you can find out if a
+        // matchAnyPattern by calling isMatchAny()
         assertTrue( $anyNode.isMatchAny() );
 
-        // matchAny prototypes are also used for matching any nodes of a certain type/category
+        // matchAny patterns are also used for matching any nodes of a certain type/category
         // for example: the building blocks of most java code are "Expressions" which are
         // implementations of {@link com.github.javaparser.ast.expr.Expression}
         $ex $anyExpression = $ex.of();
@@ -152,9 +152,9 @@ public class _1_WhatIsProtoTest extends TestCase {
     }
 
     /**
-     * Composite Prototypes (ones with multiple parts) can be built by their component
+     * Composite Patterns (ones with multiple parts) can be built by their component
      */
-    public void testProtoFromComponentParts(){
+    public void testPatternFromComponentParts(){
         //a meta-representation of a simple getter method
         _method _getX = _method.of(new Object(){
             public int getX(){
@@ -165,7 +165,7 @@ public class _1_WhatIsProtoTest extends TestCase {
 
         System.out.println( _getX );
 
-        //the following $method proto representations will match it
+        //the following $method pattern representations will match it
         assertTrue( $method.of().matches(_getX) ); //anyMatch $method will match it of course
         assertTrue( $method.of($.PUBLIC).matches(_getX) ); //match only public methods
         assertTrue( $method.of($.NOT_STATIC).matches(_getX) ); //match only NON-static methods
@@ -182,7 +182,7 @@ public class _1_WhatIsProtoTest extends TestCase {
         System.out.println( $m );
         assertTrue($m.matches(_getX));
 
-        //a prototype via stencil
+        //a pattern via stencil
         assertTrue( $method.of(new Object(){
             public int get$Name$(){
                 return this.$name$;
@@ -192,7 +192,7 @@ public class _1_WhatIsProtoTest extends TestCase {
     }
 
     /**
-     * prototypes are mutable, constraints and modifications can be changed after construction
+     * patterns are mutable, constraints and modifications can be changed after construction
      */
     public void test$andConstraint(){
         $field $f = $field.of( "int i;");
@@ -202,7 +202,7 @@ public class _1_WhatIsProtoTest extends TestCase {
         assertTrue($f.matches("@A(1) public static int i;"));
 
         /* Modify $f (only match fields that have an init) */
-        $f.$and(f -> f.hasInit() ); //modify the prototype $f to be more strict
+        $f.$and(f -> f.hasInit() ); //modify the pattern $f to be more strict
 
         assertFalse($f.matches("int i;")); //no init
         assertFalse($f.matches("static int i;")); //no init
@@ -213,8 +213,8 @@ public class _1_WhatIsProtoTest extends TestCase {
 
 
     public void testDollarPrefix(){
-        // prototypes are easily recognized by the $ prefix
-        // a prototype field ($field) is easy to distinguish
+        // patterns are easily recognized by the $ prefix
+        // a pattern field ($field) is easy to distinguish
         // ...from a meta-representation of a field (_field)
         // ...from a AST representation of a field (FieldDeclaration)
         // ...from a Runtime Reflective representation of a field ( Field)
@@ -229,7 +229,7 @@ public class _1_WhatIsProtoTest extends TestCase {
         String name() default "provided";
     }
 
-    public void testProtoQuery(){
+    public void testPatternQuery(){
         class MostlyIntLiterals {
             int negative = -1;
 
@@ -280,12 +280,12 @@ public class _1_WhatIsProtoTest extends TestCase {
         //match all int literals THAT ARE NOT children of of a +/- unaryExpression
         $ex $unsignedIntLiteral = $.intLiteral().$hasParent(p -> !$plusMinusInt.match(p) );
 
-        //now combine the $proto matchers for finding:
+        //now combine the $pattern matchers for finding:
         // 1) UnaryExpressions with +/- operators and Int literals
         // 2) IntLiterals that ARE NOT children of (1)
         $node $ints = $.of( $plusMinusInt, $unsignedIntLiteral );
 
-        //here we use the prototype to list the numbers in order
+        //here we use the pattern to list the numbers in order
         //[-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
         System.out.println( $ints.listIn(MostlyIntLiterals.class));
     }

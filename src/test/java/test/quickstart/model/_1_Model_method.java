@@ -1,4 +1,4 @@
-package test.quickstart;
+package test.quickstart.model;
 
 import com.github.javaparser.ast.body.MethodDeclaration;
 import junit.framework.TestCase;

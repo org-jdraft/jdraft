@@ -35,6 +35,31 @@ public final class _method
         return of(new String[]{methodDecl});
     }
 
+    /**
+     * Given the class name and the method name, find and return the
+     * _method representation of the method
+     * @param clazz the declaring class
+     * @param methodName the name of the method
+     * @return
+     */
+    public static _method of( Class clazz, String methodName){
+        try {
+            Method[] ms = clazz.getDeclaredMethods();
+            List<Method> mls = Arrays.stream(ms).filter( m -> m.getName().equals(methodName)).collect(Collectors.toList());
+            if( mls.size() == 0 ){
+                throw new _jdraftException("No method with name "+ methodName+" on class "+clazz );
+            }
+            if( mls.size() == 1){
+                return of( mls.get(0)); //theres only 1 method with this name
+            }
+            //I meant the NO-arg one
+            Method m = clazz.getMethod(methodName, new Class[0]);
+            return of( m );
+        }catch(Exception e){
+            throw new _jdraftException("Could not resolve "+clazz+" method "+ methodName, e);
+        }
+    }
+
     public static _method of( Class clazz, String methodName, Class<?>... parameterTypes){
         try {
             Method m = clazz.getMethod(methodName, parameterTypes);
@@ -52,7 +77,11 @@ public final class _method
     public static _method of( Method m ){
         Class declClass = m.getDeclaringClass();
         _class _c = _class.of(declClass);
-        return _c.getMethod(_m -> _m.hasParametersOf(m));
+        _method _mm =  _c.getMethod(_m -> _m.getName().equals(m.getName()) && _m.hasParametersOf(m));
+        if( _mm != null ){
+            _mm.ast().remove();
+        }
+        return _mm;
     }
 
     public static _method of(String... methodDecl) {

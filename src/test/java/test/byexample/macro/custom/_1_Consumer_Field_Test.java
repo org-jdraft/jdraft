@@ -62,4 +62,8 @@ public class _1_Consumer_Field_Test extends TestCase {
         //remove all the properties we set
         System.clearProperty(_annConsumerField.class.getSimpleName());
     }
+
+    public void tearDown(){
+        Log.setAdapter(new Log.SilentAdapter());
+    }
 }

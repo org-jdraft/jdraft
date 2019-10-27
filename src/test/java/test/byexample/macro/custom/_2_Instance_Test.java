@@ -49,4 +49,8 @@ public class _2_Instance_Test extends TestCase {
         //remove all the properties we set
         System.clearProperty(_annInstanceNoArg.class.getSimpleName());
     }
+
+    public void tearDown(){
+        Log.setAdapter(new Log.SilentAdapter());
+    }
 }

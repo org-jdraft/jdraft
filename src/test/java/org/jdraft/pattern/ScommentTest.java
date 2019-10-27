@@ -31,7 +31,7 @@ public class ScommentTest extends TestCase {
         }
         assertEquals( 2, $todo.count(F.class));
 
-        $comment $c = $comment.of("TODO"); 
+        $comment $c = $comment.of("TODO");
         assertTrue($c.matches( "// TODO FIXME"));
 
         $c.$and("FIXME");

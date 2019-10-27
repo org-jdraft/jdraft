@@ -104,5 +104,6 @@ public class _3_Instance_Args_Test extends TestCase {
         System.clearProperty(_annInstanceArgs.class.getSimpleName());
         System.clearProperty("x");
         System.clearProperty("y");
+        Log.setAdapter(new Log.SilentAdapter());
     }
 }
