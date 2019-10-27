@@ -19,6 +19,35 @@ import java.util.regex.Pattern;
 public class ScommentTest extends TestCase {
 
 
+    public void testCommentAnd(){
+        $comment $todo = $comment.or( $comment.of("TODO"), $comment.of("FIXME") );
+        class F{
+            /** Javadoc TODO */
+            int i = 100;
+
+            public void m(){
+                /* block FIXME */
+            }
+        }
+        assertEquals( 2, $todo.count(F.class));
+
+        $comment $c = $comment.of("TODO"); 
+        assertTrue($c.matches( "// TODO FIXME"));
+
+        $c.$and("FIXME");
+        assertFalse($c.matches( "// TODO")); //needs FIXME
+        assertFalse($c.matches( "// FIXME")); //needs TODO
+        assertTrue($c.matches( "// TODO FIXME")); //has BOTH
+
+        $c = $comment.of("TODO");
+        $c.$not("FIXME");
+        assertTrue($c.matches( "// TODO"));
+        assertFalse($c.matches( "// FIXME")); //needs TODO
+        assertFalse($c.matches( "// TODO FIXME")); //has FIXME
+
+
+    }
+
     public void testMatchOfComments(){
 
         //without providing a comment type... this will match
