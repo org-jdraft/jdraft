@@ -12,7 +12,7 @@ import java.util.UUID;
  * Alternative ways of building jdraft _class (using nested classes, local classes, anonymous classes)
  * verify the _class is valid Class by calling _runtime.compile()
  */
-public class _3_Build_classNestLocalAnonymous extends TestCase {
+public class _3_Model_classNestLocalAnonymous extends TestCase {
 
     public static class ANestedClass{
         int a;
