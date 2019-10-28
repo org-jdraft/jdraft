@@ -72,6 +72,10 @@ public class UseMacrosTest extends TestCase {
         Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
     }
 
+    public void tearDown(){
+        Log.setAdapter(new Log.SilentAdapter());
+    }
+
     public void testAnno(){
         // macros are initiated by annotations, here we attach a
         @_static class C{ }

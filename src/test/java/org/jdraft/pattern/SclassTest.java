@@ -114,8 +114,8 @@ public class SclassTest extends TestCase {
         assertTrue( $class.of( $initBlock.of( (_initBlock i)-> i.isStatic())).matches( _class.of("C").staticBlock("System.out.println(1);") ) );
         assertFalse($class.of( $initBlock.of( (_initBlock i)-> i.isStatic())).matches( _class.of("C").initBlock("System.out.println(1);") ) );
 
-        assertTrue( $class.of().$extend(Map.class).matches(_class.of("AnyClass").extend(Map.class)));
-        assertFalse( $class.of().$extend(Map.class).matches(_class.of("AnyClass")));
+        assertTrue( $class.of().$extends(Map.class).matches(_class.of("AnyClass").extend(Map.class)));
+        assertFalse( $class.of().$extends(Map.class).matches(_class.of("AnyClass")));
 
         assertTrue( $class.of().$implement(Serializable.class).matches(_class.of("AnyClass").implement(Serializable.class)));
         assertFalse( $class.of().$implement(Serializable.class).matches(_class.of("AnyClass")));

@@ -134,8 +134,7 @@ public class AnalyzeTest extends TestCase {
                             $stmt.of( ()-> Log.setAdapter(new Log.SilentAdapter())))) )
                 .$extends(TestCase.class);        //the class extends TestCase
 
-
-
+        /* Commented out ... WORKS BUT SLOW
         long start = System.currentTimeMillis();
         _code._cache _cc = _code._cache.of(_batch.of("C:\\jdraft\\project\\jdraft\\src\\test\\java"));
         long end = System.currentTimeMillis();
@@ -145,6 +144,7 @@ public class AnalyzeTest extends TestCase {
         long atEnd = System.currentTimeMillis(); 
         System.out.println( "Took "+ (end - start)); //4764millis  5164                 2352millis (only test src directory)
         System.out.println( "Took "+ (atEnd - end)); //945millis   670 (added TestCase) 228 (only test src directory)
+         */
     }
 
     /**
@@ -168,7 +168,7 @@ public class AnalyzeTest extends TestCase {
                         $body.of($stmt.of( ()-> Log.setAdapter(new Log.StandardOutStandardErrorAdapter())) ) ) )
                 .$not($method.of( "tearDown", $.PUBLIC, $.VOID, $parameters.none(),
                         $body.of($stmt.of( ()-> Log.setAdapter(new Log.SilentAdapter()) )) ))
-                .$extend(TestCase.class);
+                .$extends(TestCase.class);
 
         //break down each into further components
         $stmt $logSetupStmt = $stmt.of( ()-> Log.setAdapter(new Log.StandardOutStandardErrorAdapter()) );
@@ -181,7 +181,7 @@ public class AnalyzeTest extends TestCase {
         // that have a setupMethod containing the log setup statement
         // ...and DO NOT have a tearDown Method containing the logSilent statement
         //containing the logSilent
-        $class $c = $class.of($setUp).$extend(TestCase.class).$not($tearDown);
+        $class $c = $class.of($setUp).$extends(TestCase.class).$not($tearDown);
 
         /***** THIS IS SLOW BUT IT WORKS
         _code._cache _cc = _code._cache.of(_batch.of("C:\\jdraft\\project\\jdraft\\src"));

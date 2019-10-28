@@ -12,7 +12,10 @@ import java.util.function.Predicate;
 
 import org.jdraft.*;
 
-public class $type implements $pattern<_type, $type> {
+/**
+ *
+ */
+public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
 
     public interface $part {
     }
@@ -283,9 +286,149 @@ public class $type implements $pattern<_type, $type> {
         return this;
     }
 
+    /**
+     * Add a member ($method, $field, $constructor, $initBlock, $enumConstant, $annotationElement)
+     * @param $ms the member patterns to be added
+     * @return the type
+     */
+    public $type $member($member...$ms){
+        Arrays.stream($ms).forEach($m -> this.members.add($m));
+        return this;
+    }
+
+    public $type $modifiers( $modifiers $mods ){
+        this.modifiers = $mods;
+        return this;
+    }
+
+    public $type $imports( Class...imports){
+        Arrays.stream(imports).forEach( t-> this.imports.add($import.of(t)) );
+        return this;
+    }
+
+    public $type $imports( _import...imports){
+        Arrays.stream(imports).forEach( t-> this.imports.add($import.of(t)) );
+        return this;
+    }
+
+    public $type $imports( $import...imports){
+        Arrays.stream(imports).forEach( t-> this.imports.add(t) );
+        return this;
+    }
+
+    public $type $imports( List<_import> _is){
+        _is.forEach( i -> this.imports.add($import.of(i)));
+        return this;
+    }
+
+    public $type $implement( $typeRef... types ){
+        Arrays.stream(types).forEach( t-> this.implement.add(t) );
+        return this;
+    }
+
+    public $type $implement( Class... interfaces ){
+        Arrays.stream(interfaces).forEach( i-> this.implement.add($typeRef.of(i)) );
+        return this;
+    }
+
+    public $type $implement( String... interfaces ){
+        Arrays.stream(interfaces).forEach( i-> this.implement.add($typeRef.of(i)) );
+        return this;
+    }
+
+    public $type $extend( $typeRef... types ){
+        Arrays.stream(types).forEach( t-> this.extend.add(t) );
+        return this;
+    }
+
+    public $type $extend( Class... baseClass ){
+        Arrays.stream(baseClass).forEach( c-> this.extend.add($typeRef.of(c)) );
+        return this;
+    }
+
+    public $type $extend( String... baseClass ){
+        Arrays.stream(baseClass).forEach( c-> this.extend.add($typeRef.of(c)) );
+        return this;
+    }
+
+    public $annos get$Annos(){
+        return this.annos;
+    }
+
+    public $type $annos(Predicate<_anno._annos> annosMatchFn){
+        this.annos.$and(annosMatchFn);
+        return this;
+    }
+
+    public $type $annos( $annos $as ){
+        this.annos = $as;
+        return this;
+    }
+
+    public $type $annos( $anno... $a){
+        this.annos.add($a);
+        return this;
+    }
+
+    public $type $typeParameters( $typeParameters $tps ){
+        this.typeParameters = $tps;
+        return this;
+    }
+
+    public $type $typeParameters( $typeParameter... $tps ){
+        Arrays.stream($tps).forEach(tp-> this.typeParameters.$add(tp));
+        return this;
+    }
+
     @Override
     public $type $and(Predicate<_type> constraint) {
         this.constraint = this.constraint.and(constraint);
+        return this;
+    }
+
+    @Override
+    public $name get$Name() {
+        return name;
+    }
+
+    @Override
+    public $type $name(String name) {
+        this.name = $name.of(name);
+        return this;
+    }
+
+    @Override
+    public $type $name($name name) {
+        this.name = name;
+        return this;
+    }
+
+    @Override
+    public $type $name(Predicate<String> nameMatchFn) {
+        this.name.and(nameMatchFn);
+        return this;
+    }
+
+    @Override
+    public $comment<JavadocComment> get$javadoc() {
+        return this.javadoc;
+    }
+
+    @Override
+    public $type $javadoc($comment<JavadocComment> javadocComment) {
+        this.javadoc = javadocComment;
+        return this;
+    }
+
+    @Override
+    public $type $javadoc(_javadoc _jd) {
+        this.javadoc = $comment.javadocComment(_jd);
+        return this;
+    }
+
+    @Override
+    public $type $javadoc(Predicate<JavadocComment> javadocMatchFn) {
+        this.javadoc.$and(javadocMatchFn);
         return this;
     }
 
@@ -347,7 +490,6 @@ public class $type implements $pattern<_type, $type> {
         return false;
     }
 
-
     @Override
     public _type firstIn(Node astStartNode, Predicate<_type> nodeMatchFn) {
         Optional<Node> ot = astStartNode.stream().filter(n -> match(n)).findFirst();
@@ -359,6 +501,10 @@ public class $type implements $pattern<_type, $type> {
 
     public Select select(TypeDeclaration astType) {
         return select((_type) _java.type(astType));
+    }
+
+    public Select select( CompilationUnit cu ){
+        return select( (_type)_java.type(cu));
     }
 
     @Override

@@ -125,6 +125,10 @@ public class _inspectTest extends TestCase {
         Log.setAdapter( new Log.StandardOutStandardErrorAdapter());
     }
 
+    public void tearDown(){
+        Log.setAdapter(new Log.SilentAdapter());
+    }
+
     public void testMulti(){
         _class _v1 = _class.of("C");
         _class _v2 = _class.of("C", new @_get @_set Object(){

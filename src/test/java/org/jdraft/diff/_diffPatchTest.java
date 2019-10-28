@@ -42,6 +42,9 @@ public class _diffPatchTest
     public void setUp(){
         Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
     }
+    public void tearDown(){
+        Log.setAdapter(new Log.SilentAdapter());
+    }
 
     public void testDiffParts(){
         class L{

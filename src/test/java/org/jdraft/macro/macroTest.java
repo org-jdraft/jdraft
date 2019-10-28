@@ -135,4 +135,8 @@ public class macroTest extends TestCase {
         System.clearProperty(_annInstanceNoArg.class.getSimpleName());
         System.clearProperty(_annInstanceArgs.class.getSimpleName());
     }
+
+    public void tearDown(){
+        Log.setAdapter(new Log.SilentAdapter());
+    }
 }

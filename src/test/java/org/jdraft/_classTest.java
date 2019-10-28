@@ -62,6 +62,10 @@ public class _classTest extends TestCase {
         Log.setAdapter( new Log.StandardOutStandardErrorAdapter() );
     }
 
+    public void tearDown(){
+        Log.setAdapter(new Log.SilentAdapter());
+    }
+
     //@_postDraft
     //@_postDraft(String...methodNames)
     public void testMultiTypeUseMacroAutoAnonymousImport(){

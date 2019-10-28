@@ -570,15 +570,6 @@ public class $class
         return this;
     }
 
-    public $class $extend( $typeRef ext ){
-        this.extend = ext;
-        return this;
-    }
-
-    public $class $extend( Class clazz ){
-        return $extend( $typeRef.of(clazz));
-    }
-
     public $class $implement( ClassOrInterfaceType... coits ){
         Arrays.stream(coits).forEach(c -> this.implement.add( $typeRef.of(c)));
         return this;
