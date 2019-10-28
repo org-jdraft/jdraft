@@ -26,7 +26,7 @@ import org.jdraft.macro.macro;
  */
 public class $field implements Template<_field>, $pattern<_field, $field>, $pattern.$java<_field, $field>,
         $class.$part, $interface.$part, $enum.$part, $annotation.$part, $enumConstant.$part, $member.$named<$field>,
-        $declared<_field,$field>, has$Annos {
+        $declared<_field,$field>, has$Annos, $type.$part  {
 
     public Class<_field> _modelType(){
         return _field.class;
@@ -90,7 +90,7 @@ public class $field implements Template<_field>, $pattern<_field, $field>, $patt
     }
 
     public static _field from( StackTraceElement ste, Object anonymousObjectWithField ){
-        ObjectCreationExpr oce = Ex.anonymousObjectEx(ste);
+        ObjectCreationExpr oce = Ex.newEx(ste);
         FieldDeclaration fd = (FieldDeclaration) oce.getAnonymousClassBody().get().stream().filter(bd -> bd instanceof FieldDeclaration
                 && !bd.getAnnotationByClass(_remove.class).isPresent()).findFirst().get();
 

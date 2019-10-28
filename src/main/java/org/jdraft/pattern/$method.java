@@ -25,7 +25,8 @@ import org.jdraft.macro.macro;
  */
 public class $method
     implements Template<_method>, $pattern<_method, $method>, $pattern.$java<_method,$method>, $class.$part,
-        $interface.$part, $enum.$part,$enumConstant.$part, $member.$named<$method>, $declared<_method,$method>, has$Annos {
+        $interface.$part, $enum.$part,$enumConstant.$part, $member.$named<$method>, $declared<_method,$method>, has$Annos,
+        $type.$part {
 
     /**
      * Marker interface for categorizing/identifying parts that make up the
@@ -173,7 +174,7 @@ public class $method
 
 
     public static _method from (StackTraceElement ste, Object anonymousObjectContainingMethod ){
-        ObjectCreationExpr oce = Ex.anonymousObjectEx( ste );
+        ObjectCreationExpr oce = Ex.newEx( ste );
         if( anonymousObjectContainingMethod instanceof $pattern){
             throw new UnsupportedOperationException("We cant create an instance of $method from unsupported $pattern");
         }
@@ -881,7 +882,7 @@ public class $method
      */
     public $method $body( Object anonymousClassWithMethodContainingBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Ex.anonymousObjectEx(ste);
+        ObjectCreationExpr oce = Ex.newEx(ste);
         Optional<BodyDeclaration<?>> on = oce.getAnonymousClassBody().get().stream().filter(m -> 
             m instanceof MethodDeclaration 
             && !((MethodDeclaration)m)

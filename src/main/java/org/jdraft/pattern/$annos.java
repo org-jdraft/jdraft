@@ -22,7 +22,7 @@ import org.jdraft._anno._hasAnnos;
 public class $annos
     implements Template<_annos>, $pattern<_annos, $annos>, $pattern.$java<_annos, $annos>, $constructor.$part, $method.$part,
         $field.$part, $parameter.$part, $typeParameter.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part,
-        $enumConstant.$part{
+        $enumConstant.$part, $type.$part {
 
     /**
      * Entities that have NO annotations applied to them */
@@ -299,6 +299,11 @@ public class $annos
         List<String>found = new ArrayList<>();
         $annosList.forEach(a -> found.addAll(a.list$Normalized()) );        
         return found.stream().distinct().collect(Collectors.toList());
+    }
+
+    public $annos add( $annos $as ){
+        $as.$annosList.forEach($a-> add($a));
+        return this;
     }
 
     /**

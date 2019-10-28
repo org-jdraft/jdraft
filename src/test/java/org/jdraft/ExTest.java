@@ -101,12 +101,12 @@ public class ExTest extends TestCase {
     }
     
     public void testRuntimeAnonymousClass(){
-        ObjectCreationExpr oce = Ex.anonymousObjectEx(new Object(){
+        ObjectCreationExpr oce = Ex.newEx(new Object(){
             int x,y,z;
         });
         assertTrue( oce.getAnonymousClassBody().get().get(0) instanceof FieldDeclaration );
 
-        oce = Ex.anonymousObjectEx(
+        oce = Ex.newEx(
                 /** INTENTIONALLY BLANK */
                 /** INTENTIONALLY BLANK */
                 /** INTENTIONALLY BLANK */

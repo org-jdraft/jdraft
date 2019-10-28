@@ -44,7 +44,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
      */
     public static _constructor of(Object anonymousObjectBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Ex.anonymousObjectEx( ste );
+        ObjectCreationExpr oce = Ex.newEx( ste );
         
         _class _c = _class.of("C");
         if( oce.getAnonymousClassBody().isPresent() ){
@@ -521,7 +521,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
          */
         default _HC constructor(Object anonymousObjectContainingConstructor ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-            ObjectCreationExpr oce = Ex.anonymousObjectEx(ste);
+            ObjectCreationExpr oce = Ex.newEx(ste);
             MethodDeclaration theMethod = (MethodDeclaration)
                     oce.getAnonymousClassBody().get().stream().filter(m -> m instanceof MethodDeclaration &&
                             !m.isAnnotationPresent(_remove.class) ).findFirst().get();

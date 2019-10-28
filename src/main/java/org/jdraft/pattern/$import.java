@@ -15,7 +15,7 @@ import org.jdraft.*;
  */
 public class $import
     implements Template<_import>, $pattern<_import, $import>, $pattern.$java<_import, $import>, $class.$part,
-        $interface.$part, $enum.$part, $annotation.$part {
+        $interface.$part, $enum.$part, $annotation.$part, $type.$part  {
 
     /**
      * Match ANY import

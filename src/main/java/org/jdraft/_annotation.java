@@ -68,7 +68,7 @@ public final class _annotation
      */
     public static _annotation of( String signature, Object anonymousClassBody, StackTraceElement ste) {
         _annotation _a = of( signature );
-        ObjectCreationExpr oce = Ex.anonymousObjectEx(ste);
+        ObjectCreationExpr oce = Ex.newEx(ste);
 
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
 

@@ -48,7 +48,7 @@ public final class _initBlock
      * @return
      */
     public static _initBlock of( Object anonymousObject ){
-        ObjectCreationExpr oce = Ex.anonymousObjectEx(Thread.currentThread().getStackTrace()[2]);
+        ObjectCreationExpr oce = Ex.newEx(Thread.currentThread().getStackTrace()[2]);
 
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
         InitializerDeclaration id =
@@ -457,7 +457,7 @@ public final class _initBlock
          * @return
          */
         default _HIB staticBlock(Object anonymousObjectWithInitBlock){
-            ObjectCreationExpr oce = Ex.anonymousObjectEx( Thread.currentThread().getStackTrace()[2] );
+            ObjectCreationExpr oce = Ex.newEx( Thread.currentThread().getStackTrace()[2] );
             InitializerDeclaration id =
                     (InitializerDeclaration)oce.getAnonymousClassBody().get().stream().filter(t-> t instanceof InitializerDeclaration).findFirst().get();
             id.setStatic(true);
@@ -574,7 +574,7 @@ public final class _initBlock
          * @return
          */
         default _HIB initBlock(Object anonymousObjectWithInitBlock){
-            ObjectCreationExpr oce = Ex.anonymousObjectEx( Thread.currentThread().getStackTrace()[2] );
+            ObjectCreationExpr oce = Ex.newEx( Thread.currentThread().getStackTrace()[2] );
             InitializerDeclaration id =
                     (InitializerDeclaration)oce.getAnonymousClassBody().get().stream().filter(t-> t instanceof InitializerDeclaration).findFirst().get();
             if( anonymousObjectWithInitBlock.getClass().getAnnotation(_static.class) != null){

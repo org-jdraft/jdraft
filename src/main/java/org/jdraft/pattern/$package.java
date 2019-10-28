@@ -17,7 +17,7 @@ import org.jdraft.*;
  * @see PackageDeclaration
  */
 public class $package implements $pattern<PackageDeclaration, $package>, Template<PackageDeclaration>, $class.$part,
-        $interface.$part, $enum.$part, $annotation.$part{
+        $interface.$part, $enum.$part, $annotation.$part, $type.$part {
 
     public Stencil name = Stencil.of("$packageName$");
 

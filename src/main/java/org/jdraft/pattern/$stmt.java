@@ -162,7 +162,7 @@ public class $stmt<T extends Statement>
      * @return
      */
     public static <S extends Statement> $stmt<S> of( Object anonymousObjectWithStatement ){
-        ObjectCreationExpr oce = Ex.anonymousObjectEx( Thread.currentThread().getStackTrace()[2]);
+        ObjectCreationExpr oce = Ex.newEx( Thread.currentThread().getStackTrace()[2]);
         BlockStmt bs = oce.findFirst(com.github.javaparser.ast.stmt.BlockStmt.class).get();
 
         //?? do I want to do anything with $label$:{} ?

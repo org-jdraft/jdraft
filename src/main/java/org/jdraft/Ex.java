@@ -381,7 +381,7 @@ public enum Ex {
      * {@link org.jdraft.io._io._config#inProjectsPath(java.lang.String)}
      * </UL>
      * 
-     * alternatively, you can use the {@link #anonymousObjectEx(Object)}
+     * alternatively, you can use the {@link #newEx(Object)}
      * method and pass in an _in.resolver to locate the code manually
      * 
      * @see org.jdraft.io._io._config#inFilesPath(java.lang.String)
@@ -389,9 +389,9 @@ public enum Ex {
      * @param anonymousObject an anonymous Object
      * @return the ObjectCreationExpr AST representation of the anonymousObject passed in
      */
-    public static ObjectCreationExpr anonymousObjectEx(Object anonymousObject ){
+    public static ObjectCreationExpr newEx(Object anonymousObject ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return anonymousObjectEx(ste, _io.IN_DEFAULT);
+        return newEx(ste, _io.IN_DEFAULT);
     }
 
     /**
@@ -429,9 +429,9 @@ public enum Ex {
      * code
      * @return the ObjectCreationExpr AST representation of the anonymousObject passed in
      */
-    public static ObjectCreationExpr anonymousObjectEx(Object anonymousObject, _in._resolver resolver){
+    public static ObjectCreationExpr newEx(Object anonymousObject, _in._resolver resolver){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return anonymousObjectEx(ste, resolver);
+        return newEx(ste, resolver);
     }
 
     /**
@@ -467,8 +467,8 @@ public enum Ex {
      * @return the ObjectCreationExpr AST representation of the anonymousObject passed in
      * @throws _ioException if unable to resolve the Source of the anonymousObject
      */
-    public static ObjectCreationExpr anonymousObjectEx(StackTraceElement ste ){
-         return anonymousObjectEx(ste, _io.IN_DEFAULT );
+    public static ObjectCreationExpr newEx(StackTraceElement ste ){
+         return newEx(ste, _io.IN_DEFAULT );
     }
 
     /**
@@ -504,7 +504,7 @@ public enum Ex {
      * referred to from the StackTraceElement passed in
      * @throws _ioException if unable to resolve the Source of the anonymousObject
      */
-    public static ObjectCreationExpr anonymousObjectEx(StackTraceElement ste, _in._resolver resolver ){
+    public static ObjectCreationExpr newEx(StackTraceElement ste, _in._resolver resolver ){
         _type _t = null;
         try {
             Class clazz = Class.forName(ste.getClassName());

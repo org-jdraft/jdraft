@@ -20,7 +20,7 @@ import org.jdraft._anno._annos;
  */
 public class $typeParameter
     implements Template<_typeParameter>, $pattern<_typeParameter, $typeParameter>, $pattern.$java<_typeParameter,$typeParameter>,
-        $method.$part, $constructor.$part, $class.$part,$interface.$part {
+        $method.$part, $constructor.$part, $class.$part, $interface.$part, $type.$part {
 
     public Class<_typeParameter> _modelType(){
         return _typeParameter.class;

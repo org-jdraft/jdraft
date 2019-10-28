@@ -19,7 +19,12 @@ import javax.tools.DiagnosticCollector;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 
+import com.github.javaparser.ast.expr.FieldAccessExpr;
+import com.github.javaparser.ast.expr.MethodCallExpr;
 import org.jdraft.*;
+import org.jdraft.pattern.$;
+import org.jdraft.pattern.$name;
+import org.jdraft.pattern.$type;
 
 /**
  * Simple API to adapt all of the functionality in the
@@ -324,17 +329,76 @@ public class _runtime {
         return _runtime.of(_c).instance(_c, ctorArgs);
     }
 
+    public static Object staticEval( String... expression ){
+        return staticEval( Ex.of(expression));
+    }
+
+    public static Object staticEval( Expression expr ){
+        _class _c = _class.of("adhoc.ExprEval")
+                .method("public static Object eval(){",
+                        "return "+expr+";",
+                        "}");
+        return proxyOf(_c).call("eval");
+    }
+
+    /**
+     * A simple way of evaluating an expression using the loaded classes
+     * @param expression
+     * @return
+     */
+    public Object eval( String...expression ){
+         return eval( Ex.of(expression) );
+    }
+
     /**
      *
      * @param expr
      * @return
      */
-    public static Object eval(Expression expr){
-        _class _c = _class.of("adhoc.ExprEval")
-            .method("public static Object eval(){",
-                "return "+expr+";",
-                "}");
-        return proxyOf(_c).call("eval");
+    public Object eval(Expression expr){
+        if( expr.isFieldAccessExpr() ){
+            FieldAccessExpr fae = expr.asFieldAccessExpr();
+            Expression scope = fae.getScope();
+            if( scope == null || scope.toString().equals("")){
+                System.out.println("Empty expression ");
+            }
+            //hmm if I dont have scope, I could Look for all code containing the field name as a static variable
+            // and return the value...
+            //this.fileManager.classLoader.list_code(_c -> _c.getField(fae.getNameAsString()))
+            return getFieldValue(fae.getScope().toString(), fae.getNameAsString());
+        }
+        if( expr.isNameExpr() ){
+            //System.out.println("Its an name "+ expr );
+            List<_type> _ts = this.fileManager.classLoader.list_types(_c ->{
+                //System.out.println( "checking "+_c.getFullName() );
+                if(_c instanceof _field._hasFields ){
+
+                    return ((_field._hasFields)_c).getField( (f)-> ((_field)f).getName().equals(expr.toString())
+                            && ((_field)f).isPublic() && ((_field)f).isStatic() ) != null;
+                }
+                return false;
+             });
+            if( _ts.size() == 0 ){
+                throw new _runtimeException("Unable to find a field named "+ expr);
+            }
+            if( _ts.size() ==1){
+                return getFieldValue( _ts.get(0).getFullName(), expr.toString() );
+            }
+            throw new _runtimeException("field named "+ expr+" found in multiple classes");
+        }
+        if( expr.isMethodCallExpr() ){
+            MethodCallExpr mce = expr.asMethodCallExpr();
+            if( mce.getScope().isPresent() ){
+                //TODO eval parameters
+               // System.out.println( "SCOPE IS "+ mce.getScope().get() );
+                return call(mce.getScope().get().toString(), mce.getNameAsString() );
+            }
+            //Optional<_type>
+            $type.of( $.field($.STATIC, $.PUBLIC, $name.as(mce.getNameAsString()) ) ).firstIn(this.fileManager.classLoader.list_types());
+
+            return null;
+        }
+        return staticEval(expr);
     }
     
     /**

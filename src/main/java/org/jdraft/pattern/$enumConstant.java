@@ -15,7 +15,7 @@ import org.jdraft.*;
  */
 public class $enumConstant
         implements $pattern<_enum._constant, $enumConstant>, $pattern.$java<_enum._constant, $enumConstant>, $enum.$part,
-        $member.$named<$enumConstant>, $declared<_enum._constant,$enumConstant> {
+        $member.$named<$enumConstant>, $declared<_enum._constant,$enumConstant>, $type.$part  {
 
     public Predicate<_enum._constant> constraint = t->true;
 

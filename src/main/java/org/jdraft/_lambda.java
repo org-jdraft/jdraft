@@ -155,7 +155,7 @@ public class _lambda
      * @return
      */
     public static _lambda of( Object anonymousObjectWithLambda ){
-        ObjectCreationExpr oce = Ex.anonymousObjectEx(Thread.currentThread().getStackTrace()[2]);
+        ObjectCreationExpr oce = Ex.newEx(Thread.currentThread().getStackTrace()[2]);
         Optional<LambdaExpr> ole = oce.findFirst(LambdaExpr.class);
         if(ole.isPresent()){
             return _lambda.of( ole.get());

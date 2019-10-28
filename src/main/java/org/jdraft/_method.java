@@ -132,7 +132,7 @@ public final class _method
      */
     public static _method of(Object anonymousObjectContainingMethod) {
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Ex.anonymousObjectEx(ste);
+        ObjectCreationExpr oce = Ex.newEx(ste);
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
         //removeIn all things that aren't METHODS or METHODS WITH @_remove
         bds.removeIf(b -> b.isAnnotationPresent(_remove.class) || (!(b instanceof MethodDeclaration)));
@@ -718,7 +718,7 @@ public final class _method
          */
         default _HM method(Object anonymousObjectContainingMethod) {
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-            ObjectCreationExpr oce = Ex.anonymousObjectEx(ste);
+            ObjectCreationExpr oce = Ex.newEx(ste);
             if (oce == null || !oce.getAnonymousClassBody().isPresent()) {
                 throw new _jdraftException("No anonymous Object containing a method provided ");
             }

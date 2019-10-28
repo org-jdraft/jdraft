@@ -31,7 +31,7 @@ import org.jdraft.macro.macro;
 public class $constructor
     implements Template<_constructor>, $pattern<_constructor, $constructor>,
         $pattern.$java<_constructor, $constructor>, $class.$part, $enum.$part, $member.$named<$constructor>,
-        $declared<_constructor,$constructor>, has$Annos {
+        $declared<_constructor,$constructor>, has$Annos, $type.$part {
 
     public Class<_constructor> _modelType(){
         return _constructor.class;
@@ -222,7 +222,7 @@ public class $constructor
     }
 
     private static _constructor from( StackTraceElement ste, Object anonymousObjectContainingMethod ){
-        ObjectCreationExpr oce = Ex.anonymousObjectEx( ste );
+        ObjectCreationExpr oce = Ex.newEx( ste );
 
         _class _c = _class.of("C");
         if( oce.getAnonymousClassBody().isPresent() ){

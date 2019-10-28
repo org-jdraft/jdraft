@@ -15,7 +15,7 @@ import org.jdraft.*;
  */
 public class $annotationElement
         implements $pattern<_annotation._element, $annotationElement>, $pattern.$java<_annotation._element, $annotationElement>,
-        $annotation.$part, $member.$named<$annotationElement>, $declared<_annotation._element,$annotationElement> {
+        $annotation.$part, $member.$named<$annotationElement>, $declared<_annotation._element,$annotationElement>, $type.$part  {
 
     /** marker interface for member entities that are part of the class */
     public interface $part{ }

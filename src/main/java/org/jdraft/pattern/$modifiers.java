@@ -23,7 +23,7 @@ import org.jdraft._modifiers._hasModifiers;
  */
 public class $modifiers
     implements $pattern<_modifiers, $modifiers>, $pattern.$java<_modifiers,$modifiers>, $constructor.$part, $method.$part,
-        $field.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part{
+        $field.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part, $type.$part {
 
 
     public Class<_modifiers> _modelType(){

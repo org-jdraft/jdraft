@@ -21,7 +21,7 @@ import org.jdraft._typeParameter._typeParameters;
  */
 public class $typeParameters
     implements Template<_typeParameters>, $pattern<_typeParameters,$typeParameters>, $pattern.$java<_typeParameters,$typeParameters>,
-        $method.$part, $constructor.$part, $class.$part,$interface.$part {
+        $method.$part, $constructor.$part, $class.$part,$interface.$part, $type.$part {
 
     /**
      * Match ANY import

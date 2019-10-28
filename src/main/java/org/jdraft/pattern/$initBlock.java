@@ -29,7 +29,7 @@ import org.jdraft.*;
  * @see InitializerDeclaration
  */
 public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$java<_initBlock,$initBlock>,
-        Template<_initBlock>, $class.$part, $enum.$part, $member<_initBlock, $initBlock>{
+        Template<_initBlock>, $class.$part, $enum.$part, $member<_initBlock, $initBlock>, $type.$part {
 
     public static $initBlock of(){
         return new $initBlock($body.of(), null, t->true);

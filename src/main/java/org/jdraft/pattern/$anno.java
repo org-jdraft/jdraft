@@ -22,7 +22,7 @@ public class $anno
     implements Template<_anno>, $pattern<_anno, $anno>, $pattern.$java<_anno, $anno>,
         $constructor.$part, $method.$part,
         $field.$part, $parameter.$part, $typeParameter.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part,
-        $enumConstant.$part{
+        $enumConstant.$part, $type.$part {
 
     /**
      * Returns the Ast node implementation type that is used to identify the types as walking the AST
@@ -87,7 +87,7 @@ public class $anno
      */
     public static $anno of( Object anonymousObjectWithAnnotation ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Ex.anonymousObjectEx( ste );
+        ObjectCreationExpr oce = Ex.newEx( ste );
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
         BodyDeclaration bd = bds.stream().filter(b -> b.getAnnotations().isNonEmpty() ).findFirst().get();
         return of( _anno.of(bd.getAnnotation(0) ) );
