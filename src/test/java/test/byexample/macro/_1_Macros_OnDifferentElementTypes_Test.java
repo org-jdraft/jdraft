@@ -1,44 +1,34 @@
-package test.byexample.macro.custom;
+package test.byexample.macro;
 
 import com.github.javaparser.utils.Log;
 import junit.framework.TestCase;
 import org.jdraft._class;
 import org.jdraft.macro.*;
 
-public class _4_OnDifferentElementTypes_Test extends TestCase {
+/**
+ * Annotations can be placed on different element types, and therefore Macros
+ * can be written and applied to code "in place"
+ */
+public class _1_Macros_OnDifferentElementTypes_Test extends TestCase {
 
-    public void setUp(){
-        //here we are turning internal logging (to System out) on to show internals of macros
-        Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
-    }
-
-    public void tearDown(){
-        //turn the logger off AFTER running tests
-        Log.setAdapter(new Log.SilentAdapter());
-    }
-
-    /*
-    public @_non_static static class SC{
-        static void m(){ }
-    }
-    */
     public void testOnType(){
-        //_class _c = _class.of(SC.class);
-        //assertTrue( !_c.isStatic());
-
         @_dto class C{ int x,y; }
+
+        _class _c = _class.of(C.class); //macro processed here
+        assertNotNull( _c.getMethod("getX"));
     }
 
     public void testOnTypeUse_AnonymousClass(){
-        //                    name
         _class _c = _class.of( "aaaa.C",
                 new @_dto Object(){ int x,y;});
+        assertNotNull( _c.getMethod("getY"));
     }
 
     public void testOnNestedType(){
         class T{
             @_static class N{}
         }
+        assertTrue( _class.of(T.class).getNest("N").isStatic());
     }
 
     public void testOnField(){
@@ -47,11 +37,14 @@ public class _4_OnDifferentElementTypes_Test extends TestCase {
             @_transient Integer tr;
             @_volatile Integer vol;
         }
+        _class _f = _class.of(F.class);
+        assertTrue( _f.getField("i").isStatic());
+        assertTrue( _f.getField("tr").isTransient());
+        assertTrue( _f.getField("vol").isVolatile());
     }
 
     public void testOnMethod(){
         @_abstract class M{
-
             /** WHAAAAA */
             @_abstract int absM(){ return 123; }
 
@@ -60,13 +53,9 @@ public class _4_OnDifferentElementTypes_Test extends TestCase {
         }
 
         _class _c = macro.to(M.class);
-
         assertTrue( _c.getMethod("absM").isAbstract());
-
-        System.out.println( _c );
         assertTrue( _c.isAbstract());
         assertTrue( _c.getMethod("m").is("public static final void m(){}"));
-
     }
 
     public void testOnConstructor(){
@@ -77,11 +66,11 @@ public class _4_OnDifferentElementTypes_Test extends TestCase {
 
     public void testOnParameter(){
         class P{
-            //on constructor parameters
-            //you can have 0,1, or more on EACH parameter
+            // on constructor parameters
+            // you can have 0,1, or more on EACH parameter
             P(@_final @_name("n") String s){ }
 
-            //on method parameters
+            // on method parameters
             void m( @_final String name, @_final int y){
             }
         }
@@ -90,6 +79,14 @@ public class _4_OnDifferentElementTypes_Test extends TestCase {
         assertTrue( _c.getMethod("m").getParameter(0).is("final String name"));
         assertTrue( _c.getMethod("m").getParameter(1).is("final int y"));
         System.out.println( _c );
-        //_c.getMethod("m")
+    }
+
+    public void setUp(){
+        // here we are turning internal logging (to System out) on to show internals of macros
+        Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
+    }
+
+    public void tearDown(){
+        Log.setAdapter(new Log.SilentAdapter());//turn the logger off AFTER running tests
     }
 }

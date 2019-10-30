@@ -14,7 +14,7 @@ import java.util.UUID;
 /**
  * Using the existing "Built-in jdraft @annotation macros" in the package {@link org.jdraft.macro}
  */
-public class UsingAllBuiltInMacrosTest extends TestCase {
+public class _2_UsingAllBuiltInMacrosTest extends TestCase {
 
     /** Conventions*/
     public void testUseAllBuiltInMacros(){

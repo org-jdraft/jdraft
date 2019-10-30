@@ -62,7 +62,7 @@ import org.jdraft.pattern.*;
  */
 public class PatternBuildTest extends TestCase {
 
-    public void testAll$protoTypes(){
+    public void testAll$patternTypes(){
         $node $n = $node.of(); //node
         $n = $.of();
 

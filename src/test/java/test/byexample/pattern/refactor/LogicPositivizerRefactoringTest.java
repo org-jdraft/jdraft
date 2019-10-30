@@ -10,7 +10,6 @@ import org.jdraft.pattern.$stmt;
  * $pattern.$replaceIn
  * $pattern.$() //post-parameterize
  *
- *
  * This illustrates a real-world refactoring scenario where we use $proto
  * to do refactoring of Java code
  *

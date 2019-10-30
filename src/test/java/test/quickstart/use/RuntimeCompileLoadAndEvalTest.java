@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 import org.jdraft.*;
 import org.jdraft.macro.*;
 import org.jdraft.runtime.*;
-import test.byexample.RuntimeImplementInterfaceTest;
+import test.byexample.runtime.RuntimeImplementInterfaceTest;
 
 /** _runtime can create, load, and use Classes at Runtime */
 public class RuntimeCompileLoadAndEvalTest extends TestCase {

@@ -9,7 +9,7 @@ import org.jdraft.macro.macro;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-public class _2_Instance_Test extends TestCase {
+public class _2_Annotation_With_Macro_Instance_Test extends TestCase {
 
     /* Style 2: macro instance nested class type (no annotation arguments/parameters)*/
     @Retention(RetentionPolicy.RUNTIME)

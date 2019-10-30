@@ -1,4 +1,4 @@
-package test.byexample;
+package test.byexample.runtime;
 
 import junit.framework.TestCase;
 import org.jdraft._class;

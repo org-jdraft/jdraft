@@ -30,12 +30,12 @@ import java.lang.annotation.RetentionPolicy;
  * </PRE>
  * @see macro
  */
-public class _3_Instance_Args_Test extends TestCase {
+public class _3_Annotation_With_Macro_Instance_Args_Test extends TestCase {
 
     /* Style 3 annotation with arguments (being passed as inputs to the macro implementation */
     @Retention(RetentionPolicy.RUNTIME)
     @interface _annInstanceArgs {
-        /** Here is how you pass arguments into a annotation macro (as members) */
+        /* Define arguments to be passed into a macro (as annotation members) */
         int x() default 0;
         int y() default 0;
 

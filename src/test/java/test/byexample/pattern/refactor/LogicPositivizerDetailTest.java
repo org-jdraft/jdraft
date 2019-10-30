@@ -9,7 +9,7 @@ import org.jdraft.pattern.$;
 import org.jdraft.pattern.$stmt;
 
 /**
- * This goes into more detail of using parameterized proto(types) for refactoring code
+ * This goes into more detail of using parameterized $pattern(s) for refactoring code
  *
  * What are the main steps to an individual refactoring?
  * 1) identify a particular (target) pattern in the code
@@ -18,16 +18,7 @@ import org.jdraft.pattern.$stmt;
  */
 
 public class LogicPositivizerDetailTest extends TestCase {
-    /*
-    tags:
-    $stmt
-    .$(...) parameterize
-    $proto.match(...)
-    $proto.select(...)
-    $proto.firstIn(...)
-    $proto.count(...)
 
-     */
     static $stmt $sif = $stmt.of("if($left$ != $right$){ then(); }else{ el(); }")
             .$("then();", "then") //replace then(); method call to a parameter "then"
             .$("el();", "else"); //replace el(); method call to a parameter "else"

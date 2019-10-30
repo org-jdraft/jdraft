@@ -2,16 +2,8 @@ package test.byexample.macro;
 
 import com.github.javaparser.utils.Log;
 import junit.framework.TestCase;
-import org.jdraft._annotation;
 import org.jdraft._class;
-import org.jdraft._enum;
-import org.jdraft._interface;
-import org.jdraft.diff._diff;
 import org.jdraft.macro.*;
-
-import java.io.Serializable;
-import java.util.Map;
-import java.util.UUID;
 
 /**
  * <P>Macros are programs, associated with {@link java.lang.reflect.AnnotatedElement} via Runtime Annotations
@@ -21,7 +13,7 @@ import java.util.UUID;
  * with the jdraft API, makes it easier to spot and understand where macros are being used in code,
  * </P>
  *
- * Macros can be simple modifications (i.e. addnig and/or removing a modifiers from a
+ * Macros can be simple modifications (i.e. adding and/or removing a modifiers from a
  * {@link org.jdraft._type}, {@link org.jdraft._field}, {@link org.jdraft._method}, {@link org.jdraft._constructor}):
  * <UL>
  *     <LI>{@link _public}</LI>
@@ -37,7 +29,7 @@ import java.util.UUID;
  *     <LI>{@link _default}</LI>
  * </UL>
  *
- * Macros can also be more "smart", to synthesize boilerplate code:
+ * -or- Macros can also be used to synthesize boilerplate code:
  * <UL>
  *     <LI>{@link _get}</LI>
  *     <LI>{@link _set}</LI>
@@ -49,10 +41,8 @@ import java.util.UUID;
  *     <LI>{@link _autoConstructor}</LI>
  * </UL>
  *
- * to associate a Macro with for example:
- *
  * <P>By convention Annotation/Macro Classes start with the "_"
- * this is so we can easily scan annotations to find ones that are macros
+ * this is so we can easily scan annotation uses to find ones that are macros
  * and because often what we want to accomplish is already a java keyword
  * {abstract, final, static, public, private, protected, volatile, synchronized}
  * so it's easy to read and understand the intent of the macro
@@ -65,10 +55,10 @@ import java.util.UUID;
  * intermingled with other annotations
  * logging the internals
  */
-public class UseMacrosTest extends TestCase {
+public class _0_MacrosTest extends TestCase {
 
     public void setUp(){
-        //setup the internals of the macro system to write out
+        //(Optional) setup the internals of the macro system to log information
         Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
     }
 
@@ -77,7 +67,7 @@ public class UseMacrosTest extends TestCase {
     }
 
     public void testAnno(){
-        // macros are initiated by annotations, here we attach a
+        // macros are initiated by annotations, here we attach a _static annotation to a class
         @_static class C{ }
 
         // when we construct a _class (model) processing annotation/macros is done automatically
@@ -88,28 +78,19 @@ public class UseMacrosTest extends TestCase {
         assertTrue(_c.is("public static class C{}"));
     }
 
-    /**
-     * Macros
-     */
+    /** macros are applied FIRST to members (Methods, Fields, Constructors) in the order they are declared in code*/
     public void testMultipleMacroAnnotations(){
         @_static @Deprecated class D {
             @_static @_init("1 + 2") int i;
             @_static void m(){}
         }
 
-        //both of the above macros will be processed
+        // all (4) macros will be processed, @Deprecated IS NOT an annotation/macro, so it is retained
         _class _c = macro.to(D.class);
 
-        //after we process, we expect the class to look like this:
-        //NOTE: the @Deprecated annotation IS NOT a macro annotation, so it is retained
-        _class expected = _class.of("@Deprecated public static class D{ static int i = 1 + 2; static void m(){} }");
-
-        assertEquals( _c, expected );
-
-        //verify the class and field macros are processed
-        // & both annotations are removed
-        _diff _dl = _diff.of(_c, expected);
-        assertTrue(_dl.isEmpty());
+        // after we process, we expect the class to look like this:
+        // NOTE: the @Deprecated annotation IS NOT a macro annotation, so it is retained
+        assertTrue( _c.is("@Deprecated public static class D{ static int i = 1 + 2; static void m(){} }" ));
     }
 
 

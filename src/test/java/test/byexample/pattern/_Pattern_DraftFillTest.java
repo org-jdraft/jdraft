@@ -17,8 +17,6 @@ public class _Pattern_DraftFillTest extends TestCase {
         /* a simple (not-parameterized) prototype */
         $field $f = $field.of("int i;");
 
-
-
         // we can call draft() to return a (_field) meta-representation instance
         // there are no parameters to specialize here
         _field _f = $f.draft();
@@ -42,5 +40,4 @@ public class _Pattern_DraftFillTest extends TestCase {
         //fill will "plug in" the values (first the $type$, then the $name$)
         assertTrue( _f.is("public int x;"));
     }
-
 }

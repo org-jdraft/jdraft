@@ -7,8 +7,9 @@ import org.jdraft.macro.*;
 
 /**
  *
- * for examples using the built in macros, go to:
- * @see test.byexample.macro.UsingAllBuiltInMacrosTest
+ * @see test.byexample.macro for examples of using macros
+ * @see test.byexample.macro.custom for examples of building and using custom macros
+ * @see test.byexample.macro._2_UsingAllBuiltInMacrosTest for examples using the built in macros
  */
 public class _4_Model_AnnotationMacroTest extends TestCase {
 
