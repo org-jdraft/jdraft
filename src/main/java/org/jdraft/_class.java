@@ -235,7 +235,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * @return
      */
     public static _class of( String signature, Object anonymousClassBody) {
-        System.err.println("Got here");
+        //System.err.println("Got here");
         return of(signature, anonymousClassBody, Thread.currentThread().getStackTrace()[2]);
     }
 
@@ -247,7 +247,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * @return
      */
     public static _class of( String signature, Object anonymousClassBody, StackTraceElement ste) {
-        System.err.println("Got here");
+        //System.err.println("Got here");
         _class _c = _class.of(signature);
         Class theClass = anonymousClassBody.getClass();
 
