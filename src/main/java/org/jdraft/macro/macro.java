@@ -182,7 +182,7 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
                     if( oc.isPresent() ){
                         toType( (TypeDeclaration)nt, oc.get());
                     } else{
-                        System.out.println( "NOt Present " +nt );
+                        //System.out.println( "NOt Present " +nt );
                         Arrays.stream(clazz.getDeclaredClasses()).forEach(dc -> System.out.println("DC "+ dc.getName()));
                     }
                 }

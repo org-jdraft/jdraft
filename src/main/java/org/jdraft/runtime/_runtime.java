@@ -3,6 +3,7 @@ package org.jdraft.runtime;
 import java.util.*;
 import javax.tools.JavaFileObject;
 
+import com.github.javaparser.utils.Log;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.expr.*;
@@ -20,7 +21,6 @@ import javax.tools.DiagnosticCollector;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 
-import com.github.javaparser.utils.Log;
 import org.jdraft.*;
 import org.jdraft.macro._remove;
 import org.jdraft.macro._static;
@@ -479,18 +479,11 @@ public class _runtime {
              */
             throw new _runtimeException("cannot run type expression "+ expr);
         }
-        if( expr.isMethodReferenceExpr() ){
-            MethodReferenceExpr mre = expr.asMethodReferenceExpr();
-            _class _c = _class.of("adhoc.ExprEval").method( $evalExpr.draft("expr", expr) );
-        }
-
+        //if( expr.isMethodReferenceExpr() ){
+        //    MethodReferenceExpr mre = expr.asMethodReferenceExpr();
+        //    _class _c = _class.of("adhoc.ExprEval").method( $evalExpr.draft("expr", expr) );
+        //}
         _class _c = _class.of("adhoc.ExprEval").method( $evalExpr.draft("expr", expr) );
-        /*
-                .method("public static Object eval(){",
-                        "return "+expr+";",
-                        "}");
-
-         */
         return proxyOf(_c).call("eval");
     }
 
@@ -606,7 +599,8 @@ public class _runtime {
             //System.out.println( $publicClassWithName );
             List<_class> _ts = $publicClassWithName.listIn(this.fileManager.classLoader.list_types());
             if( _ts.size() == 0 ){
-                throw new _runtimeException("could not find class by name \n"+ oce);
+                //they could be calling System.currentTimeMillis() or some other Class thats not in the _runtime Classes
+                return staticEval(expr);
             }
             if( _ts.size() == 1) {
                 Expression[] args = oce.getArguments().toArray(new Expression[0]);

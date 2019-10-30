@@ -263,7 +263,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             _c.imports(theClass.getSuperclass());
             _c.extend(theClass.getSuperclass());
         }
-        System.err.println("Got here");
+        //System.err.println("Got here");
         ObjectCreationExpr oce = Ex.newEx(ste);
         if( oce.getAnonymousClassBody().isPresent() ) {
             NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
