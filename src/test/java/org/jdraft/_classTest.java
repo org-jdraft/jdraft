@@ -266,7 +266,7 @@ public class _classTest extends TestCase {
     //Instead of manually having to import each class
     // infer the imports from the API
     public void testImplementInferImports(){
-        _class _c = _class.of("C").implement(new ChumbaWomba(){
+        _class _c = _class.of("C").impl(new ChumbaWomba(){
             URI u = null;
             @Override
             public Map m(UUID u) throws IOException {
@@ -456,7 +456,7 @@ public class _classTest extends TestCase {
     }
 
     public void testImplement(){
-        _class _c = _class.of("C").implement( new MyI(){
+        _class _c = _class.of("C").impl(new MyI(){
             public void m(){
                 System.out.println(1);
             }

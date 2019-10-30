@@ -19,6 +19,10 @@ import org.jdraft._code;
  */
 public final class _proxy<I extends Object, C extends _code>  {
 
+    public static final _proxy of( Class localClass, Object...ctorArgs ){
+        return of( _class.of(localClass), ctorArgs);
+    }
+
     public static final _proxy of( _class _c, Object...ctorArgs){
         return _runtime.of(_c).proxy(_c, ctorArgs);
     }

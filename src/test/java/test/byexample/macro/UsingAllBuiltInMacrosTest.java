@@ -12,20 +12,16 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Here is an example of using the existing "Built-in macros" from the package {@link org.jdraft.macro}
- *
+ * Using the existing "Built-in jdraft @annotation macros" in the package {@link org.jdraft.macro}
  */
 public class UsingAllBuiltInMacrosTest extends TestCase {
 
-    /**
-     * Conventions
-     */
+    /** Conventions*/
     public void testUseAllBuiltInMacros(){
 
         @_abstract class A{
             //setting abstract on a method will REMOVE the body (and set it to "abstract int m();")
             @_abstract int m(){ return 2;}
-
         }
 
         _class _a = _class.of(A.class);
@@ -71,8 +67,6 @@ public class UsingAllBuiltInMacrosTest extends TestCase {
 
         //equals will synthesize an equals method based on the fields on the type
         @_equals class E{ String name; char[] initials; }
-
-
 
         //extend works on a class (single extension)
         @_extend(Map.class) class Ex{ }

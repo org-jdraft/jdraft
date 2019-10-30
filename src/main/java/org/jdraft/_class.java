@@ -235,6 +235,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * @return
      */
     public static _class of( String signature, Object anonymousClassBody) {
+        System.err.println("Got here");
         return of(signature, anonymousClassBody, Thread.currentThread().getStackTrace()[2]);
     }
 
@@ -246,6 +247,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * @return
      */
     public static _class of( String signature, Object anonymousClassBody, StackTraceElement ste) {
+        System.err.println("Got here");
         _class _c = _class.of(signature);
         Class theClass = anonymousClassBody.getClass();
 
@@ -261,7 +263,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             _c.imports(theClass.getSuperclass());
             _c.extend(theClass.getSuperclass());
         }
-
+        System.err.println("Got here");
         ObjectCreationExpr oce = Ex.newEx(ste);
         if( oce.getAnonymousClassBody().isPresent() ) {
             NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
@@ -303,7 +305,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     /**
      * <PRE>
      * i.e. 
-     * _class _c = _class.of("C").implement(
+     * _class _c = _class.of("C").impl(
      *    new Descriptive(){
      *       public String describe() throws IOException{
      *           return "a description";
@@ -325,7 +327,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * @param anonymousImplementation
      * @return the modified Class
      */
-    public _class implement( Object anonymousImplementation ){
+    public _class impl(Object anonymousImplementation ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         for(int i=0;i<anonymousImplementation.getClass().getInterfaces().length;i++ ){
             implement( new Class[]{anonymousImplementation.getClass().getInterfaces()[i]} );

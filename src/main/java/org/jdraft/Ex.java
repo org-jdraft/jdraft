@@ -1813,7 +1813,36 @@ public enum Ex {
         Number n = parseNumber(s);
         return n.intValue();        
     }
-    
+
+    /**
+     * This String can represent a Float or a Double, since we ONLY have
+     * DoubleLiteralExpr to model both Float and Double Literals
+     *
+     * @param floatOrDbl
+     * @return
+     */
+    public static Number parseFloatOrDouble( String floatOrDbl){
+        floatOrDbl = floatOrDbl.trim().replace("_", "");
+        if( floatOrDbl.endsWith("f")|| floatOrDbl.endsWith("F")){
+            return Float.parseFloat(floatOrDbl.substring(0, floatOrDbl.length() -1));
+        }
+        if( floatOrDbl.endsWith("d")|| floatOrDbl.endsWith("D") ){
+            return Double.parseDouble(floatOrDbl.substring(0, floatOrDbl.length() -1));
+        }
+        return Double.parseDouble(floatOrDbl);
+    }
+
+    /**
+     * This String can represent a Float or a Double, since we ONLY have
+     * DoubleLiteralExpr to model both Float and Double Literals
+     *
+     * @param dblExpr
+     * @return
+     */
+    public static Number parseFloatOrDouble( DoubleLiteralExpr dblExpr ){
+        return parseFloatOrDouble(dblExpr.toString());
+    }
+
     /**
      * Parses and returns the number from the String
      * 

@@ -5,7 +5,8 @@ import javax.tools.JavaFileObject;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.TypeDeclaration;
-import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.*;
+
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -19,12 +20,11 @@ import javax.tools.DiagnosticCollector;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 
-import com.github.javaparser.ast.expr.FieldAccessExpr;
-import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.utils.Log;
 import org.jdraft.*;
-import org.jdraft.pattern.$;
-import org.jdraft.pattern.$name;
-import org.jdraft.pattern.$type;
+import org.jdraft.macro._remove;
+import org.jdraft.macro._static;
+import org.jdraft.pattern.*;
 
 /**
  * Simple API to adapt all of the functionality in the
@@ -293,14 +293,91 @@ public class _runtime {
     public static Object instanceOf(List<String> compilerOptions, CompilationUnit astCu, Object...ctorArgs){
         _class _c = _class.of(astCu);
         return _runtime.of(compilerOptions, _c).instance(_c, ctorArgs);
-    }    
-    
+    }
+
+    /**
+     *
+     * @param fullyQualifiedClassName
+     * @param anonymousImplementation
+     * @param ctorArgs
+     * @param <I>
+     * @return
+    */
+    public static <I extends Object> I impl(String fullyQualifiedClassName, I anonymousImplementation, Object...ctorArgs){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        ObjectCreationExpr oce = Ex.newEx(ste);
+        //_class _c = _class.of(fullyQualifiedClassName);
+        //generate an ENTIRELY NEW class
+        _class _c = _class.of(fullyQualifiedClassName, anonymousImplementation, ste);
+
+        //now "merge" the properties in the generated _class _gen INTO the _c the existing _class
+        //_gen.forMembers(m -> _c.add(m)); //add all members
+
+        //_gen.listImports().forEach( i -> _c.imports(i) ); //add all imports
+        //if( _gen.getExtends() != null){
+        //    _c.extend( _gen.getExtends() );
+        //}
+        //_gen.listImplements().forEach(i-> _c.implement(i) );
+        //System.out.println( _c );
+        return (I)instanceOf(_c, ctorArgs);
+    }
+
+    /**
+     * THIS causes some inconsistency issues when I use Annotation Macros as the state is not the same
+     * implements this functionality (based on the Implementation Interface or Base Class
+     * and defined in the anonymousImplementation) INTO the _class _c, then compile, load
+     * and create and
+     * @param _c the "original" class that may have some existing functionality (extends, implements, methods, constructors)
+     * @param anonymousImplementation
+     * @param <I>
+     * @return
+
+    public static <I extends Object> I impl(_class _c, I anonymousImplementation, Object...ctorArgs){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        ObjectCreationExpr oce = Ex.newEx(ste);
+        //generate an ENTIRELY NEW class
+        _class _gen = _class.of(oce.getType().getNameAsString()+"Impl", anonymousImplementation, ste);
+
+        //now "merge" the properties in the generated _class _gen INTO the _c the existing _class
+        _gen.forMembers(m -> _c.add(m)); //add all members
+        _gen.listImports().forEach( i -> _c.imports(i) ); //add all imports
+        if( _gen.getExtends() != null){
+            _c.extend( _gen.getExtends() );
+        }
+        _gen.listImplements().forEach(i-> _c.ast().addImplementedType( i) );
+        System.out.println( _c );
+        return (I)instanceOf(_c, ctorArgs);
+    }
+    */
+
+    /**
+     * Creates a new Class that implements the interface (or extends the base class)
+     * <PRE>
+     *     Object impl = _runtime.impl( new @_dto Serializeable(){
+     *         int x,y;
+     *     });
+     * </PRE>
+     *
+     * @param anonymousImplementation
+     * @param <I>
+     * @return
+     */
+    public static <I extends Object> I impl(I anonymousImplementation, Object...ctorArgs){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        ObjectCreationExpr oce = Ex.newEx(ste);
+        _class _c = _class.of(oce.getType().getNameAsString()+"Impl", anonymousImplementation, ste);
+        return (I)instanceOf(_c, ctorArgs);
+    }
+
+    public static Object instanceOf(_class _c){
+        return instanceOf(_c, new Object[0]);
+    }
+
     /**
      * 
      * @param _c the model of the class
      * @param ctorArgs the constructor args
      * @return
-
      *
      */
     public static Object instanceOf(_class _c, Object...ctorArgs){
@@ -333,11 +410,87 @@ public class _runtime {
         return staticEval( Ex.of(expression));
     }
 
+    public static $method $evalExpr = $method.of(new Object() {
+                public @_static Object eval(){
+                    return $expr$;
+                }
+                @_remove Object $expr$;
+        } );
+
     public static Object staticEval( Expression expr ){
-        _class _c = _class.of("adhoc.ExprEval")
+        if( expr.isLiteralExpr() ){ //we can shortcut these kinds of expressions and just return the value
+            LiteralExpr le = (LiteralExpr)expr;
+            if( le instanceof NullLiteralExpr){
+                return null;
+            }
+            if( le instanceof  StringLiteralExpr ){
+                return ((StringLiteralExpr)le).asString();
+            }
+            if( le instanceof CharLiteralExpr ){
+                return ((CharLiteralExpr)le).asChar();
+            }
+            if( le instanceof DoubleLiteralExpr ){
+                return Ex.parseFloatOrDouble( le.asDoubleLiteralExpr() );
+            }
+            if( le instanceof IntegerLiteralExpr){
+                return Ex.parseInt(le.asIntegerLiteralExpr());
+            }
+            if( le instanceof BooleanLiteralExpr){
+                return ((BooleanLiteralExpr) le).getValue();
+            }
+            if( le instanceof LongLiteralExpr){
+                return Ex.parseLong(le.asLongLiteralExpr());
+            }
+        }
+        if( expr instanceof ThisExpr ){
+            throw new _runtimeException("cannot run this expression "+ expr);
+        }
+        if( expr instanceof SuperExpr ){
+            throw new _runtimeException("cannot run super expression "+ expr);
+        }
+        if( expr.isAnnotationExpr() ){
+            throw new _runtimeException("cannot run annotation expression "+ expr);
+        }
+        //assignExpression??
+        if( expr.isAssignExpr() ){
+            //expr.asAssignExpr().
+            throw new _runtimeException("cannot run assign expression "+ expr);
+        }
+        if( expr.isCastExpr() ){
+            throw new _runtimeException("cannot run cast expression "+ expr);
+        }
+        if( expr.isLambdaExpr() ){
+            throw new _runtimeException("cannot run lambda expression "+ expr);
+        }
+        if( expr.isMethodReferenceExpr() ){
+            throw new _runtimeException("cannot run method reference expression "+ expr);
+        }
+        if( expr.isSwitchExpr()){
+            throw new _runtimeException("cannot run switch expression "+ expr);
+        }
+        if( expr.isTypeExpr() ){
+            /*
+            //i.e. "world::greet"
+            //convert it to a methodCallExpr
+            TypeExpr te = expr.asTypeExpr();
+            te.
+            $ex.Select $es = $ex.typeEx("$type$::$methodName$").select(expr.asTypeExpr());
+            staticEval( $ex.methodCallEx("$type$.")
+             */
+            throw new _runtimeException("cannot run type expression "+ expr);
+        }
+        if( expr.isMethodReferenceExpr() ){
+            MethodReferenceExpr mre = expr.asMethodReferenceExpr();
+            _class _c = _class.of("adhoc.ExprEval").method( $evalExpr.draft("expr", expr) );
+        }
+
+        _class _c = _class.of("adhoc.ExprEval").method( $evalExpr.draft("expr", expr) );
+        /*
                 .method("public static Object eval(){",
                         "return "+expr+";",
                         "}");
+
+         */
         return proxyOf(_c).call("eval");
     }
 
@@ -346,7 +499,7 @@ public class _runtime {
      * @param expression
      * @return
      */
-    public Object eval( String...expression ){
+    public Object eval( String expression ){
          return eval( Ex.of(expression) );
     }
 
@@ -360,14 +513,14 @@ public class _runtime {
             FieldAccessExpr fae = expr.asFieldAccessExpr();
             Expression scope = fae.getScope();
             if( scope == null || scope.toString().equals("")){
-                System.out.println("Empty expression ");
+                //System.out.println("Empty expression ");
             }
             //hmm if I dont have scope, I could Look for all code containing the field name as a static variable
             // and return the value...
             //this.fileManager.classLoader.list_code(_c -> _c.getField(fae.getNameAsString()))
             return getFieldValue(fae.getScope().toString(), fae.getNameAsString());
         }
-        if( expr.isNameExpr() ){
+        if( expr.isNameExpr() ){ //they might want to know the value of a field
             //System.out.println("Its an name "+ expr );
             List<_type> _ts = this.fileManager.classLoader.list_types(_c ->{
                 //System.out.println( "checking "+_c.getFullName() );
@@ -386,17 +539,86 @@ public class _runtime {
             }
             throw new _runtimeException("field named "+ expr+" found in multiple classes");
         }
+        /*
+        if( expr.isMethodReferenceExpr() ){
+            MethodReferenceExpr mre = expr.asMethodReferenceExpr();
+            mre.get
+            _class _c = _class.of("adhoc.ExprEval").method( $evalExpr.draft("expr", expr) );
+        }
+         */
         if( expr.isMethodCallExpr() ){
             MethodCallExpr mce = expr.asMethodCallExpr();
             if( mce.getScope().isPresent() ){
-                //TODO eval parameters
-               // System.out.println( "SCOPE IS "+ mce.getScope().get() );
-                return call(mce.getScope().get().toString(), mce.getNameAsString() );
+                //if( mce.getArguments().isEmpty() ) {
+                //    return call(mce.getScope().get().toString(), mce.getNameAsString());
+                //} else{
+                Expression[] args = mce.getArguments().toArray(new Expression[0]);
+                Object[] params = new Object[args.length];
+                for(int i=0;i<args.length; i++){
+                     params[i] = eval(args[i]);
+                     final int a = i;
+                     Log.trace("set [ %s ] to %s", ()-> a, ()->params[a] );
+                     //System.out.println( "set ["+i+"] to "+params[i]);
+                 }
+                return call(mce.getScope().get().toString(), mce.getNameAsString(), params);
             }
-            //Optional<_type>
-            $type.of( $.field($.STATIC, $.PUBLIC, $name.as(mce.getNameAsString()) ) ).firstIn(this.fileManager.classLoader.list_types());
 
-            return null;
+            //System.out.println( "NAME "+ mce.getNameAsString() );
+            $type $publicTypeNamedWithConstructor = $type.of( $.PUBLIC, $method.of($.PUBLIC, $.STATIC, $name.as(mce.getNameAsString()) ));
+
+            List<_type> _ts = $publicTypeNamedWithConstructor.listIn(this.fileManager.classLoader.list_types());
+            if( _ts.size() == 0 ){
+                throw new _runtimeException("could not find static method to evaluate \n"+ mce);
+            }
+            if( _ts.size() == 1) {
+                Expression[] args = mce.getArguments().toArray(new Expression[0]);
+                Object[] params = new Object[args.length];
+                for (int i = 0; i < args.length; i++) {
+                    params[i] = eval(args[i]);
+                    final int a = i;
+                    Log.trace("set [ %s ] to %s", ()-> a, ()->params[a] );
+                }
+                return call(_ts.get(0).getFullName(), mce.getNameAsString(), params);
+            }
+            throw new _runtimeException("ambiguous method call for "+ mce);
+        } else if ( expr instanceof ObjectCreationExpr ){
+            ObjectCreationExpr oce = (ObjectCreationExpr) expr;
+            if( oce.getScope().isPresent() ){
+                Expression[] args = oce.getArguments().toArray(new Expression[0]);
+                Object[] params = new Object[args.length];
+                for(int i=0;i<args.length; i++){
+                    params[i] = eval(args[i]);
+                    final int a = i;
+                    Log.trace("set [ %s ] to %s", ()-> a, ()->params[a] );
+                    //System.out.println( "set ["+i+"] to "+params[i]);
+                }
+                String name = oce.getType().getScope().get()+"."+ oce.getTypeAsString();
+                return instance(name, params);
+                //return call(mce.getScope().get().toString(), mce.getNameAsString(), params);
+            }
+            String typeString = oce.getTypeAsString();
+            $class $publicClassWithName = $class.of($name.as(typeString), $.PUBLIC);
+            if( typeString.contains(".")){
+                String packageName = typeString.substring(0, typeString.lastIndexOf('.'));
+                String className = typeString.substring(typeString.lastIndexOf('.')+1);
+                $publicClassWithName = $class.of($.PUBLIC, $name.as(className), $package.of(packageName) );
+            }
+            //System.out.println( $publicClassWithName );
+            List<_class> _ts = $publicClassWithName.listIn(this.fileManager.classLoader.list_types());
+            if( _ts.size() == 0 ){
+                throw new _runtimeException("could not find class by name \n"+ oce);
+            }
+            if( _ts.size() == 1) {
+                Expression[] args = oce.getArguments().toArray(new Expression[0]);
+                Object[] params = new Object[args.length];
+                for (int i = 0; i < args.length; i++) {
+                    params[i] = eval(args[i]);
+                    final int a = i;
+                    Log.trace("set [ %s ] to %s", ()-> a, ()->params[a] );
+                }
+                return instance(_ts.get(0).getFullName(), params);
+            }
+            throw new _runtimeException("ambiguous type for creating "+ oce);
         }
         return staticEval(expr);
     }
@@ -661,6 +883,24 @@ public class _runtime {
         }
     }
 
+    private Class<?> getJavaLangClass( String name ){
+        if(!name.contains(".") ){
+            try {
+                return Class.forName("java.lang." + name);
+            } catch(Exception e){
+                return null;
+            }
+        }
+        if( name.startsWith("java.lang") ){
+            try {
+                return Class.forName(name);
+            }catch(Exception e){
+                return null;
+            }
+        }
+        return null;
+    }
+
     /**
      * gets the class by the name
      * @param fullyQualifiedClassName
@@ -668,6 +908,13 @@ public class _runtime {
      */
     public Class<?> getClass(String fullyQualifiedClassName) {
         try{
+            Class cl = getJavaLangClass(fullyQualifiedClassName);
+            if( cl != null ){
+                return cl;
+            }
+            //if( fullyQualifiedClassName.equals("System") ){
+            //    return java.lang.System.class;
+            //}
             return this.fileManager.classLoader.loadClass(fullyQualifiedClassName);
         }catch(ClassNotFoundException cnfe){
             throw new _runtimeException("Unable to find class "+ fullyQualifiedClassName);
@@ -809,7 +1056,7 @@ public class _runtime {
      * @return
      */
     public _proxy proxy(Class clazz, Object... ctorArgs) {
-        return new _proxy( instance( clazz, ctorArgs ));        
+        return new _proxy( instance( clazz, ctorArgs ));
     }
     
     /**
@@ -824,13 +1071,10 @@ public class _runtime {
      */
     public static List<_classFile> compile(
         List<String> compilerOptions, boolean ignoreWarnings, Collection<JavaFileObject> codeFiles) {
-
         if (codeFiles.isEmpty()) {
             throw new _runtimeException("No source code to compile");
         }
-
         _classLoader classLoader = new _classLoader(ClassLoader.getSystemClassLoader());
-
         _fileManager fileManager
                 = new _fileManager(JAVAC.getStandardFileManager(null, null, null), classLoader);
 

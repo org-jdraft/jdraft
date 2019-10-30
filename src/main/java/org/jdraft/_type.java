@@ -381,7 +381,15 @@ public interface _type<AST extends TypeDeclaration & NodeWithJavadoc & NodeWithM
     default List<_member> listMembers(){
         List<_member> _ms = new ArrayList<>();
         NodeList<BodyDeclaration<?>> bds = ast().getMembers();
-        bds.forEach(b -> _ms.add( (_member)_java.of(b) ) );
+
+        bds.forEach(b -> {
+            if( b instanceof FieldDeclaration ){
+                FieldDeclaration fd = (FieldDeclaration)b;
+                fd.getVariables().forEach( v-> _ms.add(_field.of(v)));
+            } else {
+                _ms.add((_member) _java.of(b));
+            }
+        } );
         return _ms;
     }
 

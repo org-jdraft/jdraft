@@ -11,7 +11,7 @@ import org.jdraft._jdraftException;
 public class _runtimeException extends _jdraftException {
     
     public _runtimeException(String msg) {
-	super(msg);
+	    super(msg);
     }
     
     public _runtimeException(String msg, Throwable ex) {

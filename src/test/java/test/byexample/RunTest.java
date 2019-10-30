@@ -14,7 +14,7 @@ public class RunTest extends TestCase {
         _class _c = _class.of("aaa.Custom").extend(RunTest.ExistingClass.class);
 
         //modify the source to implement the interface and add the field & method
-        _c.implement(new Descriptive(){
+        _c.impl(new Descriptive(){
             public int a = 100;
             @Override
             public String describe(){

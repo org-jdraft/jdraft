@@ -40,8 +40,10 @@ public @interface _set {
         }
 
         public static <T extends TypeDeclaration> T to(T typeDeclaration){
+            //System.out.println( typeDeclaration );
             List<_field> _fs = _field.of(typeDeclaration.getFields());
             _fs = _fs.stream().filter(f-> !f.isStatic() && !f.isFinal() ).collect(Collectors.toList());
+
             _fs.forEach(f ->
                     typeDeclaration.addMember(
                             $SET.draft("name", f.getName(), "type", f.getType()).ast()));
