@@ -1,5 +1,10 @@
+## jdraft 
+#### for analyzing, modifying and running .java source code at runtime
 ```java
-/* jdraft is a tool for dyanmically analyzing, modifying and running .java source code */
+/* jdraft is tool to help programmers write code that analyzes or modifes java source code.  
+   to use jdraft, one must take .java code (as text from a String, File, or in a Jar)
+   and convert it into a jdraft model so the code can be analyzed or modified.
+ */
 
 /* make a model (_m) from a String representing a method */
 _method _m = _method.of("public double m(){ return x; }");
@@ -52,7 +57,10 @@ _c.method( new Object(){
     }
     @_remove double y; //this field is NOT added to the _class _c
 });
+```
 
+## jdraft Macros
+```java
 /* jdraft has built in macros that can be applied via runtime @Annotations */
 
 // here we apply the @_final annotation macro to the fields x and y
