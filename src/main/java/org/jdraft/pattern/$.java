@@ -112,6 +112,10 @@ public final class $ {
     public static final BinaryExpr.Operator SHIFT_RIGHT = BinaryExpr.Operator.SIGNED_RIGHT_SHIFT; // a >> b
     public static final BinaryExpr.Operator SHIFT_RIGHT_UNSIGNED = BinaryExpr.Operator.UNSIGNED_RIGHT_SHIFT; // a >>> b
 
+    public static $or or( $pattern...patterns){
+        return $or.of(patterns);
+    }
+
     public static $body body(){
         return $body.of();
     }

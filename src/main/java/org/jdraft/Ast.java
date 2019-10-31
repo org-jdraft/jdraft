@@ -671,6 +671,33 @@ public enum Ast {
     }
 
     /**
+     * Get the parent "member" (not JUST the parent) for some Node
+     * we need this because sometimes nodes are "deeply nested" inside code, i.e.:
+     * <PRE>
+     *     void m(){
+     *         if(true){
+     *             here: int i = 0;
+     *         }
+     *     }
+     * </PRE>
+     * ...the "parent" of the labeled statement "here: int i=0;" is the ifStatement;
+     * what we want to return is rather the method m()
+     *
+     * @param n the node to look for parent member
+     * @param <M> the (expected) member type
+     * @return the first Parent member of the node or null
+     */
+    public static <M extends BodyDeclaration> M parentMemberOf(Node n) {
+
+        Optional<Node> bd =
+                n.stream(Node.TreeTraversal.PARENTS).filter(p -> p instanceof BodyDeclaration ).findFirst();
+        if( bd.isPresent() ){
+            return (M)bd.get();
+        }
+        return null;
+    }
+
+    /**
      * Finds the most specific {@link BodyDeclaration} member containing this
      * position and returns it (or null if the position is outside for range)
      *

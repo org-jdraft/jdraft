@@ -1,15 +1,12 @@
 package test.byexample;
 
-import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.utils.Log;
 import junit.framework.TestCase;
 import org.jdraft._class;
 import org.jdraft._code;
 import org.jdraft._method;
 import org.jdraft.io._archive;
-import org.jdraft.io._batch;
 import org.jdraft.io._io;
-import org.jdraft.macro._extend;
 import org.jdraft.pattern.*;
 
 import java.util.HashMap;

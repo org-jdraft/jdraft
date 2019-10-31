@@ -14,16 +14,16 @@ import java.util.UUID;
  * at Runtime and build a _class (_c) to analyze and manipulate the .java source code
  * interaction with the JavaParser CompilationUnit, ClassOrInterfaceDeclaration &
  */
-public class _2_Model_class extends TestCase {
+public class _2_Model_classTest extends TestCase {
 
     public void testModelForThisClass(){
         // create a _class (_c) model for the java source of this runtime Class(_2_Quickstart)
-        _class _c = _class.of( _2_Model_class.class );
+        _class _c = _class.of( _2_Model_classTest.class );
 
         // we can get properties of the _class (_c) similar to Reflection
-        assertEquals( _2_Model_class.class.getSimpleName(), _c.getName() );
-        assertEquals( _2_Model_class.class.getCanonicalName(), _c.getFullName() );
-        assertEquals( _2_Model_class.class.getPackage().getName(), _c.getPackageName() );
+        assertEquals( _2_Model_classTest.class.getSimpleName(), _c.getName() );
+        assertEquals( _2_Model_classTest.class.getCanonicalName(), _c.getFullName() );
+        assertEquals( _2_Model_classTest.class.getPackage().getName(), _c.getPackageName() );
 
         // the _class API is similar to Reflection API on a runtime Class
         assertTrue( _c.isExtends( TestCase.class ) );

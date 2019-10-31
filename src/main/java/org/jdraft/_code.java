@@ -664,6 +664,12 @@ public interface _code<_C> extends _model, _java._componentized {
      */
     class _cache <_C extends _code> implements _provider{
 
+        public static _cache of(_provider..._providers ){
+            List<_code> all = new ArrayList<>();
+            Arrays.stream(_providers).forEach( _p -> all.addAll(_p.list_code()));
+            return of(all);
+        }
+
         public static _cache of(_provider _p ){
             return of(_p.list_code());
         }

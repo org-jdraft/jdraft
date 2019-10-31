@@ -246,14 +246,21 @@ public final class _typeRef<T extends Type>
     }
 
     public static Type getErasedType( Type type ){
-        if( type.getClass() == UnknownType.class || type.getClass() ==TypeParameter.class){
+        if( type.getClass() == UnknownType.class || type.getClass() ==TypeParameter.class || type.getClass() == WildcardType.class){
             return type;
         }
         //System.out.println("BEFORE \""+type.getClass()+"\"" );
         //System.out.println("BEFORE THE ERASED TYPE \""+type.toString(Ast.PRINT_NO_TYPE_PARAMETERS )+"\"" );
+
         String st = type.toString(Ast.PRINT_NO_TYPE_PARAMETERS );
         //System.out.println("THE ERASED TYPE "+st );
-        return Ast.typeRef(st);
+        try {
+            return Ast.typeRef(st);
+        }catch(Exception e){
+            System.out.println(type.getClass()+" "+type);
+            throw new _jdraftException("GOT HERE", e);
+            //return type;
+        }
     }
 
     public static Type getBaseType(Type type ){

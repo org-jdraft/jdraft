@@ -8,7 +8,7 @@ import org.jdraft._field;
 import org.jdraft.macro._static;
 import org.jdraft.runtime._runtime;
 import org.jdraft.runtime._classFile;
-import org.jdraft.io._batch;
+import org.jdraft.io._path;
 import org.jdraft.pattern.$field;
 
 import java.nio.file.Paths;
@@ -27,7 +27,7 @@ public class _refactorPrintToLogTest extends TestCase {
 
     public static void main(String[] args){
         //here's where all the test cases are
-        _batch _b = _batch.of(Paths.get("C:\\jdraft\\project\\jdraft\\src\\test"));
+        _path _b = _path.of(Paths.get("C:\\jdraft\\project\\jdraft\\src\\test"));
         List<_class> testClasses = new ArrayList<>();
         _b.for_types(_class.class, c-> c.isExtends(TestCase.class), c-> testClasses.add(c));
 

@@ -10,7 +10,7 @@ import org.jdraft.*;
  * Accessing and modifying the underlying JavaParser MethodDeclaration (astMd)
  * ...Other jdraft model types (_type, _class, _constructor, _field, _typeRef, _initBlock...)
  */
-public class _1_Model_method extends TestCase {
+public class _1_Model_methodTest extends TestCase {
 
     public void testM(){
         // here we might want to do some metaprogramming to modify some source code

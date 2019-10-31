@@ -8,17 +8,59 @@ import org.jdraft.*;
 import org.jdraft._walk;
 import junit.framework.TestCase;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.*;
 
 public class StypeRefTest extends TestCase {
 
+
+    public void testThread(){
+        class G{
+            public void testM(){
+                Thread.currentThread().getStackTrace();
+            }
+        }
+        _class _c = _class.of(G.class);
+        assertEquals(1, $.methodCall("Thread.currentThread()").count(_c));
+        //assertEquals(1, $.methodCall("Thread.currentThread()").count(_c));
+    }
+
+    public void testUnionType(){
+        class C{
+            void m (){
+                try{
+                    if( 1==1 ) {
+                        throw new IOException();
+                    }
+                    throw new URISyntaxException("HELLO", "HI");
+                }catch(IOException | URISyntaxException e){
+                    //do nothing
+                }
+            }
+        }
+        //$catch.of().forEachIn(C.class, c -> Ast.describe(c) );
+
+        //verify that we check WITHIN a Union Type
+        $typeRef $t = $typeRef.of(URISyntaxException.class);
+        assertEquals(2, $t.count(C.class));
+
+        $typeRef $i = $typeRef.of(IOException.class);
+        assertEquals(2, $t.count(C.class));
+
+        /*
+        //again we can query to the harts content
+        System.out.println("*** Thread Usages ");
+
+        $.or($.typeRef(Thread.class), $.methodCall("Thread.$methodCall$()")).forEachIn(_jdraftAllSrcTests, t-> System.out.println( t));
+                //p-> p.ast().stream(Node.TreeTraversal.PARENTS).filter( n -> n instanceof BodyDeclaration).findFirst().ifPresent(n -> System.out.println(n)) );
+        */
+    }
     public void testTT(){
         $typeRef $tr = $typeRef.of("A<B,C>");
         assertTrue( $tr.matches("A<B,C>"));
         assertTrue( $tr.matches("aaaa.A<bbbb.B,ccc.C>"));
         assertFalse( $tr.matches("A<C,B>")); //wrong order
-
-
     }
 
     public void testType(){

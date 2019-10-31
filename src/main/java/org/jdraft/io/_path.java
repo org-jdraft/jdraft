@@ -15,10 +15,10 @@ import java.util.function.Predicate;
 import static java.nio.file.FileVisitResult.CONTINUE;
 
 /**
- * Like a simple ETL tool for Java files in the FileSystem & Jar files
+ * abstract over the files of a file System based on a "Root Path"
  *
  * <P>
- * Given a root directory, (and optional Predicate for which files to include)
+ * Given a root path, (and optional Predicate for which files to include)
  * will recursively read in a the files in this directory and all
  * subdirectories) read the Paths into memory and (potentially "do something"
  * with the data in the files)
@@ -120,7 +120,7 @@ import static java.nio.file.FileVisitResult.CONTINUE;
  * //after we are done, we might want to write out these files
  * (lets put them in a new directory "C:\\output" )
  *
- * batch.of(Paths.get("C:\\input").forFilePaths(
+ * _path.of(Paths.get("C:\\input").forFilePaths(
  *     p-> {
  *         Path outPath = Paths.get("C:\\output", p.toString());
  *         outPath.getParent().toFile().mkdirs();
@@ -131,7 +131,7 @@ import static java.nio.file.FileVisitResult.CONTINUE;
  *
  * @author Eric
  */
-public class _batch implements _code._provider {
+public class _path implements _code._provider {
 
     public static final Predicate<Path> EXCLUDE_PACKAGE_INFO =
         path-> !path.endsWith("package-info.java");
@@ -151,16 +151,16 @@ public class _batch implements _code._provider {
     public static final Predicate<Path> JAVA_TYPES_ONLY =
             path -> path.toString().endsWith(".java") && (!path.endsWith("package-info.java")) && (!path.endsWith("module-info.java"));
 
-    public static _batch of( String path ){
+    public static _path of(String path ){
         return of( Paths.get( path));
     }
 
-    public static _batch of(Path rootPath){
-        return new _batch( rootPath,  p->true);
+    public static _path of(Path rootPath){
+        return new _path( rootPath, p->true);
     }
 
-    public static _batch of(Path rootPath, Predicate<Path> pathMatchFn){
-        return new _batch( rootPath, pathMatchFn );
+    public static _path of(Path rootPath, Predicate<Path> pathMatchFn){
+        return new _path( rootPath, pathMatchFn );
     }
 
     /** a predicate to screen for which files are included in the batch (by default, all files)*/
@@ -169,7 +169,7 @@ public class _batch implements _code._provider {
     /** the root path where the files were read from */
     public Path rootPath;
 
-    public _batch(Path rootPath, Predicate<Path> filePathPredicate){
+    public _path(Path rootPath, Predicate<Path> filePathPredicate){
         this.rootPath = rootPath;
         this.filePathPredicate = filePathPredicate;
     }
@@ -396,7 +396,7 @@ public class _batch implements _code._provider {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         List<Path> paths = list();
-        sb.append("_batch : \"").append(this.rootPath.toString())
+        sb.append("_path : \"").append(this.rootPath.toString())
                 .append("\" (").append(paths.size()).append(")files")
                 .append(System.lineSeparator());
         return sb.toString();

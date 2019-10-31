@@ -8,7 +8,7 @@ import java.util.List;
 import java.io.File;
 import java.util.Map;
 
-public class _batchTest  extends TestCase {
+public class _pathTest extends TestCase {
 
     static Path BASE_DIR = Paths.get(System.getProperty("java.io.tmpdir"), "_batchTest");
 
@@ -22,10 +22,10 @@ public class _batchTest  extends TestCase {
     }
 
     public void testB(){
-        _batch _b = _batch.of(BASE_DIR);
+        _path _b = _path.of(BASE_DIR);
         assertEquals(6, _b.list().size()); //includes "textFile.txt" and (5) .java files
-        assertEquals(5, _b.list(_batch.JAVA_FILES_ONLY).size()); //excludes "textFile.txt
-        assertEquals(3, _b.list(_batch.JAVA_TYPES_ONLY).size()); //excludes "package-info.java" "module-info.java"
+        assertEquals(5, _b.list(_path.JAVA_FILES_ONLY).size()); //excludes "textFile.txt
+        assertEquals(3, _b.list(_path.JAVA_TYPES_ONLY).size()); //excludes "package-info.java" "module-info.java"
 
         List<_code> _cs = _b.for_code(_c -> _c.imports(Map.class)); //add an import to all
         _cs.forEach( c-> assertTrue(c.hasImport(Map.class)));

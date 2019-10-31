@@ -20,7 +20,7 @@ public class BatchModifySourceFiles extends TestCase {
 
         pp.toFile().mkdirs();
 
-        _batch batch = _batch.of(pp, p-> !p.endsWith("TestFileIso88591.java"));
+        _path batch = _path.of(pp, p-> !p.endsWith("TestFileIso88591.java"));
         $parameter $anyParameter = $parameter.of();
         
         

@@ -13,7 +13,7 @@ import org.jdraft.*;
  *     <LI>use the model to do something useful</LI>
  * </OL>
  */
-public class _0_Model extends TestCase {
+public class _0_Model_Test extends TestCase {
 
     public void testBuildJdraftModelFromStringAndUse(){
         // jdraft builds a model representing .java source code

@@ -1,18 +1,19 @@
 package test.quickstart.model;
 
 import com.github.javaparser.ast.stmt.ExpressionStmt;
-import junit.framework.TestCase;
-import org.jdraft.*;
-import org.jdraft.runtime._runtime;
 
+import junit.framework.TestCase;
 import java.io.FileNotFoundException;
 import java.util.UUID;
+
+import org.jdraft.*;
+import org.jdraft.runtime._runtime;
 
 /**
  * Alternative ways of building jdraft _class (using nested classes, local classes, anonymous classes)
  * verify the _class is valid Class by calling _runtime.compile()
  */
-public class _3_Model_classNestLocalAnonymous extends TestCase {
+public class _3_Model_classLocalAnonymousTest extends TestCase {
 
     public static class ANestedClass{
         int a;

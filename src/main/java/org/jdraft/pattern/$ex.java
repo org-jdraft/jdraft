@@ -2245,6 +2245,19 @@ public class $ex<T extends Expression>
     }
 
     /**
+     * prints the member where the expression occurs
+     * @param clazz
+
+    public void printParentMemberIn(Class clazz){
+        forEachIn(clazz, c-> System.out.println( Ast.parentMemberOf(c) ) );
+    }
+
+    public<_J extends _model> void printParentMemberIn(_J _j ){
+        forEachIn(_j, c-> System.out.println( Ast.parentMemberOf(c) ) );
+    }
+    */
+
+    /**
      * An Or entity that can match against any of the $pattern instances provided
      * NOTE: template features (draft/fill) are supressed.
      */

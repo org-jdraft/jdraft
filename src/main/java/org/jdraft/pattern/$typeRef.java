@@ -1,5 +1,6 @@
 package org.jdraft.pattern;
 
+import com.github.javaparser.ast.type.ReferenceType;
 import com.github.javaparser.ast.type.VoidType;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.*;
@@ -9,6 +10,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import com.github.javaparser.ast.type.WildcardType;
 import org.jdraft.*;
 
 /**
@@ -355,6 +357,9 @@ public class $typeRef
     public Select select( _typeRef _tr){
 
         if( this.constraint.test(_tr ) ) {
+            if( _tr.ast().isTypeParameter() ){
+                return null;
+            }
             if( _tr.isArrayType() && !this.type.isArrayType() ){
                 //both array types:
                 //still match
@@ -363,8 +368,45 @@ public class $typeRef
             if( _tr.isGenericType() && !(this.type.isClassOrInterfaceType() && this.type.asClassOrInterfaceType().getTypeArguments().isPresent()) ){
                 return select( _tr.getErasedType() );
             }
+            if( _tr.isWildcard() ){
+                if( this.type.isWildcardType() ){
+                    WildcardType wct = this.type.asWildcardType();
+                    /** TODO THIS IS A BROKEN MESS... I NEED AN INNER IMPL SPECIFICALLY FOR WILDCARD CLASSES
+                     * ELSE THIS IS GOING TO BE A SLOW THING
+                    if( this.type.asWildcardType().getExtendedType().isPresent()){
+                        if( !wct.getExtendedType().isPresent() ){
+                            return null;
+                        }
+                        Select ext = this.type.asWildcardType().
+                    }
+                    */
+                    return null;
+                }
+                //check whether the type matches EITHER the super or extendsed type
+                Optional<ReferenceType> et = _tr.ast().asWildcardType().getExtendedType();
+                if( et.isPresent() ){
+                    Select sel = select( et.get() );
+                    if( sel != null ){
+                        return new Select( _tr, sel.tokens.asTokens());
+                    }
+                }
+                Optional<ReferenceType> st = _tr.ast().asWildcardType().getSuperType();
+                if( st.isPresent() ){
+                    Select sel = select( st.get() );
+                    if( sel != null ){
+                        return new Select( _tr, sel.tokens.asTokens());
+                    }
+                }
+                return null; //couldnt match either the super OR extended Type
+            }
             if( _tr.hasAnnos() && this.type.getAnnotations().isEmpty()){ //the candidate has annotation(s) the target does not
-                return select( _tr.toString(Ast.PRINT_NO_ANNOTATIONS_OR_COMMENTS));
+                try {
+                    return select(_tr.toString(Ast.PRINT_NO_ANNOTATIONS_OR_COMMENTS));
+                } catch(Exception e){
+                    //System.out.println( "BEFORE "+ _tr +" "+_tr.ast().getClass());
+                    //System.out.println( "AFTER "+ _tr.toString(Ast.PRINT_NO_ANNOTATIONS_OR_COMMENTS) );
+                    throw new _jdraftException("Failed on type "+ _tr+ " with "+ this );
+                }
             }
             Tokens ats = new Tokens();
             _anno._annos _as = _typeRef.of(this.type).getAnnos();
