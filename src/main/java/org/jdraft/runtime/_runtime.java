@@ -553,7 +553,12 @@ public class _runtime {
                      Log.trace("set [ %s ] to %s", ()-> a, ()->params[a] );
                      //System.out.println( "set ["+i+"] to "+params[i]);
                  }
-                return call(mce.getScope().get().toString(), mce.getNameAsString(), params);
+                 Expression es = mce.getScope().get();
+                 if( es instanceof ObjectCreationExpr ){
+                     Object instance = eval(es);
+                     return new _proxy(instance).call(mce.getNameAsString(), params);
+                 }
+                 return call(mce.getScope().get().toString(), mce.getNameAsString(), params);
             }
 
             //System.out.println( "NAME "+ mce.getNameAsString() );

@@ -21,7 +21,7 @@ public class _javadocDiff implements _differ<_javadoc, _node> {
     }
 
     public _diff diff( _hasJavadoc leftParent, _hasJavadoc rightParent){
-        return diff( _path.of(), 
+        return diff( _nodePath.of(),
             new _diffList((_node)leftParent, (_node)rightParent),
             (_node)leftParent,
             (_node)rightParent,
@@ -30,7 +30,7 @@ public class _javadocDiff implements _differ<_javadoc, _node> {
     }
 
     @Override
-    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, _javadoc left, _javadoc right) {
+    public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _javadoc left, _javadoc right) {
         if (!equivalent(left, right)) {
             dt.addDiff(new _changeJavadoc(path.in(_java.Component.JAVADOC), (_javadoc._hasJavadoc) _leftParent, (_javadoc._hasJavadoc) _rightParent));
         }
@@ -44,13 +44,13 @@ public class _javadocDiff implements _differ<_javadoc, _node> {
     public static class _changeJavadoc
             implements _diffNode, _diffNode._change<JavadocComment> {
 
-        public _path path;
+        public _nodePath path;
         public _javadoc._hasJavadoc leftParent;
         public _javadoc._hasJavadoc rightParent;
         public JavadocComment leftJavadoc;
         public JavadocComment rightJavadoc;
 
-        public _changeJavadoc(_path _p, _javadoc._hasJavadoc leftParent, _javadoc._hasJavadoc rightParent) {
+        public _changeJavadoc(_nodePath _p, _javadoc._hasJavadoc leftParent, _javadoc._hasJavadoc rightParent) {
             this.path = _p;
             this.leftParent = leftParent;
             if (leftParent.hasJavadoc()) {
@@ -105,7 +105,7 @@ public class _javadocDiff implements _differ<_javadoc, _node> {
         }
 
         @Override
-        public _path path() {
+        public _nodePath path() {
             return path;
         }
 

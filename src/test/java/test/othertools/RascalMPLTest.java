@@ -20,7 +20,6 @@ public class RascalMPLTest extends TestCase {
     /**
      * Using Rascal MPL to find public fields
      * https://youtu.be/Ffx7VtEOSx4?t=462
-     * NOTE:
      */
     public void testFindPublicFieldsInSource(){
         $field $f = $field.of( $.PUBLIC );
@@ -94,20 +93,8 @@ public class RascalMPLTest extends TestCase {
     }
 
     /** $method pattern for a get() method */
-    private static final $method $getMethod = $method.of(new Object(){
-        public $type$ get$Name$(){
-            return $name$;
-        }
-        class $type${}
-        $type$ $name$;
-    });
+    private static final $method $getMethod = $method.of("public $type$ get$Name$(){ return $name$; }");
 
     /** $method pattern for a set() method */
-    private static final $method $setMethod = $method.of(new Object(){
-        public void set$Name$($type$ $name$){
-            this.$name$ = $name$;
-        }
-        class $type${}
-        $type$ $name$;
-    });
+    private static final $method $setMethod = $method.of("public void set$Name$($type$ $name$){ this.$name$=$name$;}");
 }

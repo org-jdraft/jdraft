@@ -22,7 +22,7 @@ public class _typeParametersDiff
     }
 
     public _diff diff( _hasTypeParameters leftParent, _hasTypeParameters rightParent){
-        return diff( _path.of(), 
+        return diff( _nodePath.of(),
                 new _diffList( (_node)leftParent, (_node)rightParent),
                 (_node)leftParent,
                 (_node)rightParent,
@@ -31,7 +31,7 @@ public class _typeParametersDiff
     }
 
     @Override
-    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, _typeParameter._typeParameters left, _typeParameter._typeParameters right) {
+    public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _typeParameter._typeParameters left, _typeParameter._typeParameters right) {
         
         if (!Ast.typesEqual( ((NodeWithTypeParameters)left.astHolder()).getTypeParameters(), 
                 ((NodeWithTypeParameters)right.astHolder()).getTypeParameters())) {
@@ -44,13 +44,13 @@ public class _typeParametersDiff
     public static class _change_typeParameters
             implements _diffNode<_typeParameter._hasTypeParameters>, _diffNode._change<NodeList<TypeParameter>> {
 
-        public _path path;
+        public _nodePath path;
         public _typeParameter._hasTypeParameters leftParent;
         public _typeParameter._hasTypeParameters rightParent;
         public NodeList<TypeParameter> left;
         public NodeList<TypeParameter> right;
 
-        public _change_typeParameters(_path path, _typeParameter._hasTypeParameters leftParent, _typeParameter._hasTypeParameters rightParent) {
+        public _change_typeParameters(_nodePath path, _typeParameter._hasTypeParameters leftParent, _typeParameter._hasTypeParameters rightParent) {
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -72,7 +72,7 @@ public class _typeParametersDiff
         }
 
         @Override
-        public _path path() {
+        public _nodePath path() {
             return path;
         }
 

@@ -21,9 +21,9 @@ public class _fieldDiff implements _differ<_field, _node> {
     }
 
     @Override
-    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, _field left, _field right) {
+    public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _field left, _field right) {
 
-        _path p = path.in(Component.FIELD, left != null ? left.getName() : right.getName());
+        _nodePath p = path.in(Component.FIELD, left != null ? left.getName() : right.getName());
 
         _namedDiff.INSTANCE.diff(p, dt, left, right, left.getName(), right.getName());
         _typeRefDiff.INSTANCE.diff(p, dt, left, right, left.getType(), right.getType());
@@ -44,13 +44,13 @@ public class _fieldDiff implements _differ<_field, _node> {
     public static class _changeInit
             implements _diffNode<_field>, _diffNode._change<Expression> {
 
-        _path path;
+        _nodePath path;
         _field leftParent;
         _field rightParent;
         Expression leftExpression;
         Expression rightExpression;
 
-        public _changeInit(_path _p, _field leftParent, _field rightParent) {
+        public _changeInit(_nodePath _p, _field leftParent, _field rightParent) {
             this.path = _p;
             this.leftParent = leftParent;
             if (leftParent.hasInit()) {
@@ -95,7 +95,7 @@ public class _fieldDiff implements _differ<_field, _node> {
         }
 
         @Override
-        public _path path() {
+        public _nodePath path() {
             return path;
         }
         

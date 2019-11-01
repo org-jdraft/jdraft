@@ -22,7 +22,7 @@ public class _importsDiff
 
     public _diff diff( _type left, _type right){
         return diff( 
-                _path.of(), 
+                _nodePath.of(),
                 new _diffList(left, right),
                 left,
                 right, 
@@ -32,11 +32,11 @@ public class _importsDiff
     
     public _diff diff( _imports left, _imports right ){
         
-        return diff( _path.of(), new _diffList(null, null),
+        return diff( _nodePath.of(), new _diffList(null, null),
                 _java.type(left.astCompilationUnit), _java.type(right.astCompilationUnit), left.astCompilationUnit.getImports(), right.astCompilationUnit.getImports());
     }
     
-    public <_PN extends _node> _diff diff(_path path, _build dt, _PN leftParent, _PN rightParent, _type left, _type right) {
+    public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN leftParent, _PN rightParent, _type left, _type right) {
         if( left.isTopLevel() && right.isTopLevel() ){
             return diff( path, dt, leftParent, rightParent, left.astCompilationUnit().getImports(), right.astCompilationUnit().getImports() );
         }
@@ -60,12 +60,12 @@ public class _importsDiff
             return dt;    
     }
     
-    public <_PN extends _node> _diff diff(_path path, _build dt, _PN leftParent, _PN rightParent, _imports left, _imports right) {
+    public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN leftParent, _PN rightParent, _imports left, _imports right) {
         return diff( path, dt, leftParent, rightParent, left.astCompilationUnit.getImports(), right.astCompilationUnit.getImports() );
     }
     
     @Override
-    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, List<ImportDeclaration> left, List<ImportDeclaration> right) {
+    public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<ImportDeclaration> left, List<ImportDeclaration> right) {
         Set<ImportDeclaration> ls = new HashSet<>();
         Set<ImportDeclaration> rs = new HashSet<>();
         Set<ImportDeclaration> both = new HashSet<>();
@@ -93,12 +93,12 @@ public class _importsDiff
 
     public static class _rightOnly_import implements _diffNode<_type>, _diffNode._rightOnly<ImportDeclaration> {
 
-        public _path path;
+        public _nodePath path;
         public _type leftParent;
         public _type rightParent;
         public ImportDeclaration right;
 
-        public _rightOnly_import(_path path, _type leftParent, _type rightParent, ImportDeclaration right) {
+        public _rightOnly_import(_nodePath path, _type leftParent, _type rightParent, ImportDeclaration right) {
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -128,7 +128,7 @@ public class _importsDiff
         }
 
         @Override
-        public _path path() {
+        public _nodePath path() {
             return path;
         }
 
@@ -146,12 +146,12 @@ public class _importsDiff
 
     public static class _leftOnly_import implements _diffNode<_type>, _diffNode._leftOnly<ImportDeclaration> {
 
-        public _path path;
+        public _nodePath path;
         public _type leftParent;
         public _type rightParent;
         public ImportDeclaration left;
 
-        public _leftOnly_import(_path path, _type leftParent, _type rightParent, ImportDeclaration left) {
+        public _leftOnly_import(_nodePath path, _type leftParent, _type rightParent, ImportDeclaration left) {
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -181,7 +181,7 @@ public class _importsDiff
         }
 
         @Override
-        public _path path() {
+        public _nodePath path() {
             return path;
         }
 

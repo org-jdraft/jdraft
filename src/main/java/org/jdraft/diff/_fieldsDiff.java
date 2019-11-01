@@ -34,11 +34,11 @@ public class _fieldsDiff implements _differ<List<_field>, _node> {
     }
 
     public _diff diff( _hasFields left, _hasFields right){
-        return diff( _path.of(), new _diffList((_node)left, (_node)right), (_node)left, (_node)right, left.listFields(), right.listFields());
+        return diff( _nodePath.of(), new _diffList((_node)left, (_node)right), (_node)left, (_node)right, left.listFields(), right.listFields());
     }
     
     @Override
-    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, List<_field> left, List<_field> right) {
+    public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<_field> left, List<_field> right) {
         Set<_field> lf = new HashSet<>();
         Set<_field> rf = new HashSet<>();
         lf.addAll(left);
@@ -53,7 +53,7 @@ public class _fieldsDiff implements _differ<List<_field>, _node> {
 
         
         lf.forEach(f -> {
-            _path p = path.in(Component.FIELD, f.getName());
+            _nodePath p = path.in(Component.FIELD, f.getName());
             _field match = getFieldNamed(rf, f.getName());
             if (match != null) {
                 _fieldDiff.INSTANCE.diff(path, dt, _leftParent, _rightParent, f, match);
@@ -63,7 +63,7 @@ public class _fieldsDiff implements _differ<List<_field>, _node> {
             }
         });
         rf.forEach(f -> {
-            _path p = path.in(Component.FIELD, f.getName());
+            _nodePath p = path.in(Component.FIELD, f.getName());
             dt.addDiff(new _rightOnly_field(p, (_field._hasFields) _leftParent, (_field._hasFields) _rightParent, f.copy()));
         });
 
@@ -74,12 +74,12 @@ public class _fieldsDiff implements _differ<List<_field>, _node> {
     public static class _leftOnly_field
         implements _diffNode<_field._hasFields>, _diffNode._leftOnly<_field> {
 
-        public _path path;
+        public _nodePath path;
         public _field._hasFields leftParent;
         public _field._hasFields rightParent;
         public _field left;
 
-        public _leftOnly_field(_path p, _field._hasFields leftParent, _field._hasFields rightParent, _field left) {
+        public _leftOnly_field(_nodePath p, _field._hasFields leftParent, _field._hasFields rightParent, _field left) {
             this.path = p;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -97,7 +97,7 @@ public class _fieldsDiff implements _differ<List<_field>, _node> {
         }
 
         @Override
-        public _path path() {
+        public _nodePath path() {
             return path;
         }
 
@@ -130,12 +130,12 @@ public class _fieldsDiff implements _differ<List<_field>, _node> {
 
     public static class _rightOnly_field implements _diffNode<_field._hasFields>, _diffNode._rightOnly<_field> {
 
-        public _path path;
+        public _nodePath path;
         public _field._hasFields leftParent;
         public _field._hasFields rightParent;
         public _field right;
 
-        public _rightOnly_field(_path p, _field._hasFields leftParent, _field._hasFields rightParent, _field right) {
+        public _rightOnly_field(_nodePath p, _field._hasFields leftParent, _field._hasFields rightParent, _field right) {
             this.path = p;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -153,7 +153,7 @@ public class _fieldsDiff implements _differ<List<_field>, _node> {
         }
 
         @Override
-        public _path path() {
+        public _nodePath path() {
             return path;
         }
 

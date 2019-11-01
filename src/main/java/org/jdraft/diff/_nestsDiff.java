@@ -31,7 +31,7 @@ public class _nestsDiff implements _differ<List<_type>, _node> {
     }
 
     public _diff diff( _type left, _type right){
-        return diff( _path.of(), 
+        return diff( _nodePath.of(),
                 new _diffList(left, right),
                 left, 
                 right, 
@@ -40,7 +40,7 @@ public class _nestsDiff implements _differ<List<_type>, _node> {
     }
 
     @Override
-    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, List<_type> left, List<_type> right) {
+    public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<_type> left, List<_type> right) {
         Set<_type> ls = new HashSet<>();
         Set<_type> rs = new HashSet<>();
         Set<_type> both = new HashSet<>();
@@ -99,12 +99,12 @@ public class _nestsDiff implements _differ<List<_type>, _node> {
     public static class _rightOnly_nest
             implements _diffNode<_type>, _diffNode._rightOnly<_type> {
 
-        public _path path;
+        public _nodePath path;
         public _type leftParent;
         public _type rightParent;
         public _type right;
 
-        public _rightOnly_nest(_path path, _type leftParent, _type rightParent, _type right) {
+        public _rightOnly_nest(_nodePath path, _type leftParent, _type rightParent, _type right) {
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -136,7 +136,7 @@ public class _nestsDiff implements _differ<List<_type>, _node> {
         }
 
         @Override
-        public _path path() {
+        public _nodePath path() {
             return path;
         }
 
@@ -154,12 +154,12 @@ public class _nestsDiff implements _differ<List<_type>, _node> {
     public static class _leftOnly_nest
             implements _diffNode<_type>, _diffNode._leftOnly<_type> {
 
-        public _path path;
+        public _nodePath path;
         public _type leftParent;
         public _type rightParent;
         public _type left;
 
-        public _leftOnly_nest(_path path, _type leftParent, _type rightParent, _type left) {
+        public _leftOnly_nest(_nodePath path, _type leftParent, _type rightParent, _type left) {
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -191,7 +191,7 @@ public class _nestsDiff implements _differ<List<_type>, _node> {
         }
 
         @Override
-        public _path path() {
+        public _nodePath path() {
             return path;
         }
 

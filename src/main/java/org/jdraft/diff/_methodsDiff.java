@@ -43,7 +43,7 @@ public class _methodsDiff
 
      public _diff diff( _method._hasMethods leftParent, _method._hasMethods rightParent){
         return diff( 
-                _path.of(), 
+                _nodePath.of(),
                 new _diffList( (_node)leftParent, (_node)rightParent),
                 (_node)leftParent,
                 (_node)rightParent,
@@ -52,7 +52,7 @@ public class _methodsDiff
     }
      
     @Override
-    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, List<_method> left, List<_method> right) {
+    public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<_method> left, List<_method> right) {
         Set<_method> ls = new HashSet<>();
         ls.addAll(left);
         Set<_method> rs = new HashSet<>();
@@ -92,12 +92,12 @@ public class _methodsDiff
 
     public static class _leftOnly_method implements _diffNode<_method._hasMethods>, _diffNode._leftOnly<_method> {
 
-        public _path path;
+        public _nodePath path;
         public _method._hasMethods rightParent;
         public _method._hasMethods leftParent;
         public _method left;
 
-        public _leftOnly_method(_path path, _method._hasMethods leftParent, _method._hasMethods rightParent, _method left) {
+        public _leftOnly_method(_nodePath path, _method._hasMethods leftParent, _method._hasMethods rightParent, _method left) {
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -115,7 +115,7 @@ public class _methodsDiff
         }
 
         @Override
-        public _path path() {
+        public _nodePath path() {
             return path;
         }
 
@@ -146,12 +146,12 @@ public class _methodsDiff
 
     public static class _rightOnly_method implements _diffNode<_method._hasMethods>, _diffNode._rightOnly<_method> {
 
-        public _path path;
+        public _nodePath path;
         public _method._hasMethods rightParent;
         public _method._hasMethods leftParent;
         public _method right;
 
-        public _rightOnly_method(_path path, _method._hasMethods leftParent, _method._hasMethods rightParent, _method right) {
+        public _rightOnly_method(_nodePath path, _method._hasMethods leftParent, _method._hasMethods rightParent, _method right) {
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -169,7 +169,7 @@ public class _methodsDiff
         }
 
         @Override
-        public _path path() {
+        public _nodePath path() {
             return path;
         }
 

@@ -12,7 +12,7 @@ public class _interfaceDiff
     public static final _interfaceDiff INSTANCE = new _interfaceDiff();
     
     @Override
-    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, _interface left, _interface right) {
+    public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _interface left, _interface right) {
         _packageNameDiff.INSTANCE.diff(path, dt, left, right, left.getPackage(), right.getPackage());
         _importsDiff.INSTANCE.diff(path, dt, left, right, left, right);
         

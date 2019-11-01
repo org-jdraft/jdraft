@@ -21,10 +21,10 @@ import org.jdraft.*;
  * enum[E].nest.class[inner].method[m()].body   : (the method body on a nested class within an enum)
  * </PRE>
  */
-public class _path {
+public class _nodePath {
 
-    public static _path of(Object... pathAsTokens) {
-        _path _p = new _path();
+    public static _nodePath of(Object... pathAsTokens) {
+        _nodePath _p = new _nodePath();
         for (int i = 0; i < pathAsTokens.length; i += 2) {
             if (!(pathAsTokens[i] instanceof _java.Component) && !(pathAsTokens[i] instanceof Class)) {
                 throw new _jdraftException("element [" + i + "] MUST be a Component or _node Class ");
@@ -74,7 +74,7 @@ public class _path {
     /**
      * build a new empty path
      */
-    public _path() {
+    public _nodePath() {
         componentPath = new ArrayList<>();
         idPath = new ArrayList<>();
     }
@@ -84,7 +84,7 @@ public class _path {
      *
      * @param original
      */
-    public _path(_path original) {
+    public _nodePath(_nodePath original) {
         componentPath = new ArrayList();
         componentPath.addAll(original.componentPath);
         idPath = new ArrayList();
@@ -98,7 +98,7 @@ public class _path {
      * @param component
      * @return a new _path that has a leaf node at the component
      */
-    public _path in(_java.Component component) {
+    public _nodePath in(_java.Component component) {
         return in(component, "");
     }
 
@@ -348,8 +348,8 @@ public class _path {
      * @param id the id for the component
      * @return a new _path advanced to the next component/id
      */
-    public _path in(_java.Component component, String id) {
-        _path _p = new _path(this);
+    public _nodePath in(_java.Component component, String id) {
+        _nodePath _p = new _nodePath(this);
         _p.componentPath.add(component);
         _p.idPath.add(id);
         return _p;
@@ -400,10 +400,10 @@ public class _path {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof _path)) {
+        if (!(obj instanceof _nodePath)) {
             return false;
         }
-        _path other = (_path) obj;
+        _nodePath other = (_nodePath) obj;
 
         return Objects.equals(this.componentPath, other.componentPath)
                 && Objects.equals(this.idPath, other.idPath);

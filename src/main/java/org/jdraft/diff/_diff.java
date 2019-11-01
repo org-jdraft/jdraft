@@ -258,7 +258,7 @@ public interface _diff {
      *
      * @return
      */
-    default List<_path> paths() {
+    default List<_nodePath> paths() {
         return list().stream().map(d -> d.path()).collect(Collectors.toList());
     }
 
@@ -269,7 +269,7 @@ public interface _diff {
      * @param _p the underlying _path
      * @return the _diffNode at this path, or null if not found
      */
-    default _diffNode at(_path _p) {
+    default _diffNode at(_nodePath _p) {
         return first(d -> d.path().equals(_p));
     }
     
@@ -289,7 +289,7 @@ public interface _diff {
         return first( d-> d.on(component, id));
     }
     
-    default _diffNode leftOnlyAt(_path _p){
+    default _diffNode leftOnlyAt(_nodePath _p){
         return first(d -> d.isLeftOnly() && d.path().equals(_p));
     }
     
@@ -333,7 +333,7 @@ public interface _diff {
         return first( d-> d.isLeftOnly() && d.on( component, id) );
     }
     
-    default _diffNode rightOnlyAt(_path _p){
+    default _diffNode rightOnlyAt(_nodePath _p){
         return first(d -> d.isRightOnly() && d.path().equals(_p));
     }
     
@@ -384,7 +384,7 @@ public interface _diff {
      * @param _p
      * @return 
      */
-    default _diffNode changeAt(_path _p){
+    default _diffNode changeAt(_nodePath _p){
         return first(d -> d.isChange() && d.path().equals(_p));
     }
     
@@ -436,7 +436,7 @@ public interface _diff {
      * @param _p
      * @return 
      */
-    default _diffNode editAt(_path _p){
+    default _diffNode editAt(_nodePath _p){
         return first(d -> d.isEdit() && d.path().equals(_p));
     }
 
@@ -546,7 +546,7 @@ public interface _diff {
      * @return the _diffNode found at this path or null if not found
      */
     default _diffNode at(Object... pathAsTokens) {
-        return at(_path.of(pathAsTokens));
+        return at(_nodePath.of(pathAsTokens));
     }
 
     /**
@@ -1684,7 +1684,7 @@ public interface _diff {
          * @return
          */
         default _diff diff(T left, T right) {
-            _path _p = new _path();
+            _nodePath _p = new _nodePath();
 
             //we dont know if
             _diffList md = null;
@@ -1698,14 +1698,14 @@ public interface _diff {
             return md;
         }
 
-        default _diff diff(_path path, _RN leftRoot, _RN rightRoot) {
+        default _diff diff(_nodePath path, _RN leftRoot, _RN rightRoot) {
             _diffList md = new _diffList(leftRoot, rightRoot);
             diff(path, md, leftRoot, rightRoot);
             return md;
         }
 
         //launch a diff using the left and right roots as the main roots to diff
-        default _diff diff(_path path, _build dt, _RN leftRoot, _RN rightRoot) {
+        default _diff diff(_nodePath path, _build dt, _RN leftRoot, _RN rightRoot) {
             return diff(path, dt, leftRoot, rightRoot, (T) leftRoot, (T) rightRoot);
         }
 
@@ -1721,7 +1721,7 @@ public interface _diff {
          * @param right the right node/element/property
          * @return the diffList with all diffs between the left and right nodes
          */
-        <_PN extends _node> _diff diff(_path path, _build ds, _PN _leftParent, _PN _rightParent, T left, T right);
+        <_PN extends _node> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, T left, T right);
     }
 
 }

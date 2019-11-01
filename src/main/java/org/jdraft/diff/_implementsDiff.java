@@ -36,7 +36,7 @@ public class _implementsDiff implements
     }
     
     @Override
-    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, List<ClassOrInterfaceType> left, List<ClassOrInterfaceType> right) {
+    public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<ClassOrInterfaceType> left, List<ClassOrInterfaceType> right) {
         
         //probably the best/easiest wasy is to put something in _type
         
@@ -62,12 +62,12 @@ public class _implementsDiff implements
     public static class _rightOnly_implements
             implements _diffNode<_type>, _diffNode._rightOnly<ClassOrInterfaceType> {
 
-        public _path path;
+        public _nodePath path;
         public _type leftParent;
         public _type rightParent;
         public ClassOrInterfaceType right;
 
-        public _rightOnly_implements(_path path, _type leftParent, _type rightParent, ClassOrInterfaceType right) {
+        public _rightOnly_implements(_nodePath path, _type leftParent, _type rightParent, ClassOrInterfaceType right) {
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -99,7 +99,7 @@ public class _implementsDiff implements
         }
 
         @Override
-        public _path path() {
+        public _nodePath path() {
             return path;
         }
 
@@ -117,12 +117,12 @@ public class _implementsDiff implements
     public static class _leftOnly_implements
             implements _diffNode<_type>, _diffNode._leftOnly<ClassOrInterfaceType> {
 
-        public _path path;
+        public _nodePath path;
         public _type leftParent;
         public _type rightParent;
         public ClassOrInterfaceType left;
 
-        public _leftOnly_implements(_path path, _type leftParent, _type rightParent, ClassOrInterfaceType left) {
+        public _leftOnly_implements(_nodePath path, _type leftParent, _type rightParent, ClassOrInterfaceType left) {
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -154,7 +154,7 @@ public class _implementsDiff implements
         }
 
         @Override
-        public _path path() {
+        public _nodePath path() {
             return path;
         }
 

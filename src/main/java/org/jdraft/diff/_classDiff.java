@@ -8,7 +8,7 @@ public class _classDiff implements _differ<_class, _node> {
     public static _classDiff INSTANCE = new _classDiff();
     
     @Override
-    public <_PN extends _node> _diff diff(_path path, _build ds, _PN _leftParent, _PN _rightParent, _class left, _class right) {
+    public <_PN extends _node> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, _class left, _class right) {
         if( left.hasPackage() || right.hasPackage() ){
             _packageNameDiff.INSTANCE.diff(path, ds, left, right, left.getPackage(), right.getPackage());
         }

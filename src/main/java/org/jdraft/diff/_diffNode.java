@@ -81,7 +81,7 @@ public interface _diffNode<_PN extends _model> {
      * PARAMETER, NEST, etc.) and identifiers ( "0", "m(String)") that are
      * traversed to reach the diff node
      */
-    _path path();
+    _nodePath path();
 
     /**
      * if the type of change an Add (meaning an entity 
@@ -219,7 +219,7 @@ public interface _diffNode<_PN extends _model> {
         return path().isLeafId(id);
     }
 
-    default boolean at(_path path) {
+    default boolean at(_nodePath path) {
         return path().equals(path);
     }
 
@@ -230,7 +230,7 @@ public interface _diffNode<_PN extends _model> {
     interface _leftOnly<T> {
 
         /** the full path where this leftOnly occurs */
-        _path path();
+        _nodePath path();
 
         /**
          * The entity in the LEFT 
@@ -273,7 +273,7 @@ public interface _diffNode<_PN extends _model> {
     interface _rightOnly<T> {
 
         /** the full path where this rightOnly occurs */
-        _path path();
+        _nodePath path();
 
         /**
          * The entity added in the RIGHT, not in LEFT
@@ -302,7 +302,7 @@ public interface _diffNode<_PN extends _model> {
     interface _change<T> {
 
         /** the full path where this change occurs */
-        _path path();
+        _nodePath path();
 
         T left();
 
@@ -323,7 +323,7 @@ public interface _diffNode<_PN extends _model> {
         LinkedList<diff_match_patch.Diff> listDiffs();
 
         /** @return the path to the edit diff */
-        _path path();
+        _nodePath path();
 
         /** */
         _edit forEach(Consumer<diff_match_patch.Diff> diffActionFn);

@@ -52,14 +52,15 @@ public class _path_archive_cacheTest extends TestCase {
     public void test_archive_code_cache(){
         // _archive represents the files and paths (i.e. .java source files) within a jar
 
-        _archive _javaparserSrc = _archive.of("C:\\Users\\Eric\\.m2\\repository\\com\\github\\javaparser\\javaparser-core\\3.15.3\\javaparser-core-3.15.3-sources.jar");
-        _archive _jdraftSrc = _archive.of("C:\\Users\\Eric\\.m2\\repository\\org\\jdraft\\jdraft\\1.0\\jdraft-1.0-sources.jar");
+        _archive _javaParserSrc = _archive.of("C:\\Users\\Eric\\.m2\\repository\\com\\github\\javaparser\\javaparser-core\\3.15.3\\javaparser-core-3.15.3-sources.jar");
+        System.out.println("*** TODOs in JavaParser "); $comment.of("TODO").printIn(_javaParserSrc);
 
-        //_archive _guavaSrcJar = _archive.of("C:\\Users\\Eric\\Downloads\\guava-28.1-jre-sources.jar");
+        _archive _jdraftSrc = _archive.of("C:\\Users\\Eric\\.m2\\repository\\org\\jdraft\\jdraft\\1.0\\jdraft-1.0-sources.jar");
+        System.out.println("*** TODOs in Jdraft "); $comment.of("TODO").printIn(_jdraftSrc);
 
         // since we want to parse the source code to AST ONLY ONCE & NOT FOR EACH QUERY
         // ...we create a code.cache with the source code we want to query on (based on the code in the archives)
-        _code._cache _jdraftAllSrc = _code._cache.of(_javaparserSrc, _jdraftSrc);
+        _code._cache _jdraftAllSrc = _code._cache.of(_javaParserSrc, _jdraftSrc);
 
         //here just query all the code for some information
         System.out.println("*** TODOs "); $comment.of("TODO").printIn(_jdraftAllSrc);

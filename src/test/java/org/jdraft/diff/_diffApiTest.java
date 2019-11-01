@@ -59,10 +59,10 @@ public class _diffApiTest extends TestCase {
         
         //ensure there is a diff AT this path (the entire path)
         assertNotNull(_d.at(_anno.class, "Deprecated"));
-        assertNotNull(_d.at(_path.of(_anno.class,"Deprecated")));        
+        assertNotNull(_d.at(_nodePath.of(_anno.class,"Deprecated")));
         
         //check there is a certain type of diff
-        assertNotNull(_d.leftOnlyAt(_path.of(_anno.class, "Deprecated"))); //at this "left"        
+        assertNotNull(_d.leftOnlyAt(_nodePath.of(_anno.class, "Deprecated"))); //at this "left"
         assertNotNull(_d.leftOnlyAt(_anno.class));
         
         assertNotNull(_d.leftOnlyOn(_anno.class, "Deprecated") ); //anywhere on the deprecated annotation
@@ -121,7 +121,7 @@ public class _diffApiTest extends TestCase {
         
         //you wont use this much, but it's available (pass in the FULL PATH to where the diff occurs)
         assertEquals(_dn, _d.at(Component.NEST, "", _class.class, "Inner", _field.class, "g", _anno.class, "Deprecated"));
-        assertEquals(_dn, _d.at(_path.of(Component.NEST, "", _class.class, "Inner", _field.class, "g", _anno.class, "Deprecated")));
+        assertEquals(_dn, _d.at(_nodePath.of(Component.NEST, "", _class.class, "Inner", _field.class, "g", _anno.class, "Deprecated")));
         
         //Where does the change occur
         // At = on what "leaf node" in the AST
@@ -228,7 +228,7 @@ public class _diffApiTest extends TestCase {
         
         //you wont use this much, but it's available (pass in the FULL PATH to where the diff occurs)
         assertEquals(_dn, _d.at(Component.NEST, "", _class.class, "Inner", _field.class, "g", _anno.class, "Deprecated"));
-        assertEquals(_dn, _d.at(_path.of(Component.NEST, "", _class.class, "Inner", _field.class, "g", _anno.class, "Deprecated")));
+        assertEquals(_dn, _d.at(_nodePath.of(Component.NEST, "", _class.class, "Inner", _field.class, "g", _anno.class, "Deprecated")));
         
         //Where does the change occur
         // At = on what "leaf node" in the AST

@@ -167,7 +167,7 @@ public class _inspectTest extends TestCase {
         _f1.init(1);
         dt = _diff.of(_c1, _c2);
         System.out.println( dt );
-        assertTrue(dt.at(_path.of(FIELD,"a",INIT)) instanceof _change); //field init is change from left to right 
+        assertTrue(dt.at(_nodePath.of(FIELD,"a",INIT)) instanceof _change); //field init is change from left to right
         _f2.init(1);        
         _f2.anno("@Ann");
         dt = _diff.of(_c1, _c2);
@@ -329,7 +329,7 @@ public class _inspectTest extends TestCase {
         //_c.diff(_c2);
         _diff dt = _diff.of(_c, _c2);
         System.out.println( dt );
-        List<_path> paths = dt.paths();
+        List<_nodePath> paths = dt.paths();
         System.out.println( dt.at( paths.get(0) ) );
         
         /*

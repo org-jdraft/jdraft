@@ -20,7 +20,7 @@ public class _annosDiff
     
      public _diff diff( _hasAnnos left, _hasAnnos right){
         return diff( 
-                _path.of(), 
+                _nodePath.of(),
                 new _diffList( (_node)left, (_node)right),
                 (_node)left, 
                 (_node)right, 
@@ -29,7 +29,7 @@ public class _annosDiff
     }
      
     @Override
-    public <_PN extends _node> _diff diff(_path path, _build ds, _PN _leftParent, _PN _rightParent, _anno._annos left, _anno._annos right) {
+    public <_PN extends _node> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, _anno._annos left, _anno._annos right) {
         NodeList<AnnotationExpr> laes = left.astAnnNode.getAnnotations();
         NodeList<AnnotationExpr> raes = right.astAnnNode.getAnnotations();
         for (int i = 0; i < laes.size(); i++) {
@@ -59,12 +59,12 @@ public class _annosDiff
     public static class _leftOnly_anno
             implements _diffNode<_anno._hasAnnos>, _diffNode._leftOnly<_anno> {
 
-        public _path path;
+        public _nodePath path;
         public _anno._hasAnnos leftParent;
         public _anno._hasAnnos rightParent;
         public _anno left;
 
-        public _leftOnly_anno(_path p, _anno._hasAnnos left, _anno._hasAnnos right, _anno toRemove) {
+        public _leftOnly_anno(_nodePath p, _anno._hasAnnos left, _anno._hasAnnos right, _anno toRemove) {
             this.path = p;
             this.leftParent = left;
             this.rightParent = right;
@@ -82,7 +82,7 @@ public class _annosDiff
         }
 
         @Override
-        public _path path() {
+        public _nodePath path() {
             return path;
         }
 
@@ -114,12 +114,12 @@ public class _annosDiff
 
     public static class _rightOnly_anno implements _diffNode<_anno._hasAnnos>, _diffNode._rightOnly<_anno> {
 
-        public _path path;
+        public _nodePath path;
         public _anno._hasAnnos leftParent;
         public _anno._hasAnnos rightParent;
         public _anno right;
 
-        public _rightOnly_anno(_path p, _anno._hasAnnos leftParent, _anno._hasAnnos rightParent, _anno right) {
+        public _rightOnly_anno(_nodePath p, _anno._hasAnnos leftParent, _anno._hasAnnos rightParent, _anno right) {
             this.path = p;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -137,7 +137,7 @@ public class _annosDiff
         }
 
         @Override
-        public _path path() {
+        public _nodePath path() {
             return path;
         }
 

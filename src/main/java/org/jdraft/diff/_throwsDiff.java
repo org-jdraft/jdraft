@@ -23,11 +23,11 @@ public class _throwsDiff implements _differ<_throws, _node> {
     }
 
     public _diff diff( _hasThrows leftParent, _hasThrows rightParent){
-        return diff( _path.of(), new _diffList((_node)leftParent, (_node)rightParent), (_node)leftParent, (_node)rightParent, leftParent.getThrows(), rightParent.getThrows());
+        return diff( _nodePath.of(), new _diffList((_node)leftParent, (_node)rightParent), (_node)leftParent, (_node)rightParent, leftParent.getThrows(), rightParent.getThrows());
     }
     
     @Override
-    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, _throws left, _throws right) {
+    public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _throws left, _throws right) {
         if (!Objects.equals(left, right)) {
             dt.addDiff(new _change_throws(path.in(_java.Component.THROWS), (_throws._hasThrows) _leftParent, (_throws._hasThrows) _rightParent));
         }
@@ -37,13 +37,13 @@ public class _throwsDiff implements _differ<_throws, _node> {
     public static class _change_throws
             implements _diffNode<_throws._hasThrows>, _diffNode._change<List<ReferenceType>> {
 
-        public _path path;
+        public _nodePath path;
         public _throws._hasThrows leftParent;
         public _throws._hasThrows rightParent;
         public NodeList<ReferenceType> left;
         public NodeList<ReferenceType> right;
 
-        public _change_throws(_path p, _throws._hasThrows leftParent, _throws._hasThrows rightParent) {
+        public _change_throws(_nodePath p, _throws._hasThrows leftParent, _throws._hasThrows rightParent) {
             this.path = p;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -66,7 +66,7 @@ public class _throwsDiff implements _differ<_throws, _node> {
         }
 
         @Override
-        public _path path() {
+        public _nodePath path() {
             return this.path;
         }
 

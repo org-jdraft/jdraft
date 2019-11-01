@@ -63,7 +63,7 @@ public class _diffTest extends TestCase {
         _class _c1 = _class.of("C");
         _class _c2 = _class.of("C");
         
-        _path path = new _path();
+        _nodePath path = new _nodePath();
         _diffList dt = new _diffList(_c1, _c2);
         _classDiff.INSTANCE.diff(path, dt, _c1, _c2, _c1, _c2);
         
@@ -131,7 +131,7 @@ public class _diffTest extends TestCase {
         _annotation _a1 = _annotation.of("A");
         _annotation _a2 = _annotation.of("A");
         
-        _path path = new _path();
+        _nodePath path = new _nodePath();
         _diffList dt = new _diffList(_a1, _a2);
         _annotationDiff.INSTANCE.diff(path, dt, null, null, _a1, _a2);
         assertTrue( dt.isEmpty());
@@ -161,7 +161,7 @@ public class _diffTest extends TestCase {
         
         _e1.constant(_a1).constant(_b1);
         _e2.constant(_b2).constant(_a2);
-        _path path = new _path();
+        _nodePath path = new _nodePath();
         _diffList dt = new _diffList(_e1, _e2);
         assertEquals( _e1, _e2);
         _enumDiff.ENUM_CONSTANTS_DIFF.diff(path, dt, _e1, _e2, _e1.listConstants(), _e2.listConstants());
@@ -200,7 +200,7 @@ public class _diffTest extends TestCase {
         
         _node leftRoot = _e1;
         _node rightRoot = _e2;
-        _path path = new _path().in(Component.ENUM, "E");
+        _nodePath path = new _nodePath().in(Component.ENUM, "E");
         _enumDiff.ENUM_CONSTANT_DIFF.diff(path, dt, leftRoot, rightRoot, _a1, _a2);
         System.out.println( dt );
         
@@ -231,18 +231,18 @@ public class _diffTest extends TestCase {
         
         _node leftRoot = null;
         _node rightRoot = null;
-        _methodDiff.INSTANCE.diff(new _path(), dt, leftRoot, rightRoot, _m1, _m2);
+        _methodDiff.INSTANCE.diff(new _nodePath(), dt, leftRoot, rightRoot, _m1, _m2);
         
         dt = new _diffList(leftRoot, rightRoot);
         _m1.javadoc("Hello");
-        _methodDiff.INSTANCE.diff(new _path(), dt, leftRoot, rightRoot, _m1, _m2);
+        _methodDiff.INSTANCE.diff(new _nodePath(), dt, leftRoot, rightRoot, _m1, _m2);
         
         dt = new _diffList(leftRoot, rightRoot);
         _m1.typeParameters("<T extends A>");
         _m1.receiverParameter("rp this");
         _m1.addParameter("int i");
         _m1.addThrows(IOException.class);
-        _methodDiff.INSTANCE.diff(new _path(), dt, leftRoot, rightRoot, _m1, _m2);
+        _methodDiff.INSTANCE.diff(new _nodePath(), dt, leftRoot, rightRoot, _m1, _m2);
         
         System.out.println( dt );
         
@@ -274,14 +274,14 @@ public class _diffTest extends TestCase {
         _method _m1 = _method.of("int m(){ return 1; }");
         _method _m2 = _method.of("float n(){ return 1.0f; }");
         
-        _change_type _ct = new _change_type(_path.of(Component.CLASS, "C"), _m1, _m2 );
+        _change_type _ct = new _change_type(_nodePath.of(Component.CLASS, "C"), _m1, _m2 );
         
         _ct.patchRightToLeft();
         assertEquals( _typeRef.of(float.class), _m1.getType() );
         _ct.patchLeftToRight();
         assertEquals( _typeRef.of(int.class), _m1.getType() );       
         
-        _changeName _cn = new _changeName(_path.of(Component.CLASS, "C"), _m1, _m2 );
+        _changeName _cn = new _changeName(_nodePath.of(Component.CLASS, "C"), _m1, _m2 );
         
         _cn.patchRightToLeft();
         assertEquals( "n", _m1.getName() );

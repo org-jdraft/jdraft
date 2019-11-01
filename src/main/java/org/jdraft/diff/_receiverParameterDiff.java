@@ -14,7 +14,7 @@ public class _receiverParameterDiff
     public static final _receiverParameterDiff INSTANCE = new _receiverParameterDiff();
     
     public _diff diff( _hasReceiverParameter left, _hasReceiverParameter right){
-        return diff( _path.of(), 
+        return diff( _nodePath.of(),
                 new _diffList( (_node)left, (_node)right),
                 (_node)left, 
                 (_node)right, 
@@ -23,7 +23,7 @@ public class _receiverParameterDiff
     }
     
     @Override
-    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, _receiverParameter left, _receiverParameter right) {
+    public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _receiverParameter left, _receiverParameter right) {
         if (!Objects.equals(left, right)) {
             dt.addDiff(new change_receiverParameter(path.in(_java.Component.RECEIVER_PARAMETER), (_receiverParameter._hasReceiverParameter) _leftParent, (_receiverParameter._hasReceiverParameter) _rightParent));
         }
@@ -33,13 +33,13 @@ public class _receiverParameterDiff
     public static class change_receiverParameter 
             implements _diffNode<_receiverParameter._hasReceiverParameter>, _diffNode._change<ReceiverParameter> {
 
-        public _path path;
+        public _nodePath path;
         public _receiverParameter._hasReceiverParameter leftParent;
         public _receiverParameter._hasReceiverParameter rightParent;
         public ReceiverParameter left;
         public ReceiverParameter right;
 
-        public change_receiverParameter(_path path, _receiverParameter._hasReceiverParameter leftParent, _receiverParameter._hasReceiverParameter rightParent) {
+        public change_receiverParameter(_nodePath path, _receiverParameter._hasReceiverParameter leftParent, _receiverParameter._hasReceiverParameter rightParent) {
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -62,7 +62,7 @@ public class _receiverParameterDiff
         }
 
         @Override
-        public _path path() {
+        public _nodePath path() {
             return path;
         }
 

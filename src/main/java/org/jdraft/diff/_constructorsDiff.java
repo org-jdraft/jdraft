@@ -38,12 +38,12 @@ public class _constructorsDiff implements
     }
 
     public _diff diff(_hasConstructors left, _hasConstructors right) {
-        return diff( _path.of(), 
+        return diff( _nodePath.of(),
             new _diffList((_node)left, (_node)right), (_type)left, (_type)right, left.listConstructors(), right.listConstructors());
     }
     
     @Override
-    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, List<_constructor> left, List<_constructor> right) {
+    public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<_constructor> left, List<_constructor> right) {
         Set<_constructor> ls = new HashSet<>();
         Set<_constructor> rs = new HashSet<>();
         Set<_constructor> both = new HashSet<>();
@@ -89,12 +89,12 @@ public class _constructorsDiff implements
 
     public static class _rightOnly_constructor implements _diffNode<_constructor._hasConstructors>, _diffNode._rightOnly<_constructor> {
 
-        public _path path;
+        public _nodePath path;
         public _constructor._hasConstructors leftParent;
         public _constructor._hasConstructors rightParent;
         public _constructor right;
 
-        public _rightOnly_constructor(_path path, _constructor._hasConstructors leftParent, _constructor._hasConstructors rightParent, _constructor right) {
+        public _rightOnly_constructor(_nodePath path, _constructor._hasConstructors leftParent, _constructor._hasConstructors rightParent, _constructor right) {
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -126,7 +126,7 @@ public class _constructorsDiff implements
         }
 
         @Override
-        public _path path() {
+        public _nodePath path() {
             return path;
         }
 
@@ -144,12 +144,12 @@ public class _constructorsDiff implements
     public static class _leftOnly_constructor 
             implements _diffNode<_constructor._hasConstructors>, _diffNode._leftOnly<_constructor> {
 
-        public _path path;
+        public _nodePath path;
         public _constructor._hasConstructors leftParent;
         public _constructor._hasConstructors rightParent;
         public _constructor left;
 
-        public _leftOnly_constructor(_path path, _constructor._hasConstructors leftParent, _constructor._hasConstructors rightParent, _constructor left) {
+        public _leftOnly_constructor(_nodePath path, _constructor._hasConstructors leftParent, _constructor._hasConstructors rightParent, _constructor left) {
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -181,7 +181,7 @@ public class _constructorsDiff implements
         }
 
         @Override
-        public _path path() {
+        public _nodePath path() {
             return path;
         }
 

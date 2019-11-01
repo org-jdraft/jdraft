@@ -25,7 +25,7 @@ public class _bodyDiff
     }
 
     public _diff diff( _hasBody left, _hasBody right){
-        return diff( _path.of(), 
+        return diff( _nodePath.of(),
                 new _diffList((_node)left, (_node)right),
                 (_node)left, 
                 (_node)right, 
@@ -34,7 +34,7 @@ public class _bodyDiff
     }
 
     @Override
-    public <_PN extends _node> _diff diff(_path path, _build ds, _PN _leftParent, _PN _rightParent, _body left, _body right) {
+    public <_PN extends _node> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, _body left, _body right) {
         if (left == right) {
             return (_diff) ds;
         }
@@ -68,9 +68,9 @@ public class _bodyDiff
         final _hasBody leftParent;
         final _hasBody rightParent;
         final LinkedList<diff_match_patch.Diff> diffs;
-        final _path path;
+        final _nodePath path;
         
-        public _bodyEditNode(_path path, _hasBody leftParent, _hasBody rightParent, LinkedList<diff_match_patch.Diff> diffs ){
+        public _bodyEditNode(_nodePath path, _hasBody leftParent, _hasBody rightParent, LinkedList<diff_match_patch.Diff> diffs ){
             this.leftParent = leftParent;
             this.rightParent = rightParent;
             this.path = path;
@@ -88,7 +88,7 @@ public class _bodyDiff
         }
         
         @Override
-        public _path path(){
+        public _nodePath path(){
             return path;
         }
         

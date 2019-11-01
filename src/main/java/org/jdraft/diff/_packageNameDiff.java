@@ -16,7 +16,7 @@ public class _packageNameDiff
     public static final _packageNameDiff INSTANCE = new _packageNameDiff();
     
     public _diff diff( _type left, _type right){
-        return diff( _path.of(), 
+        return diff( _nodePath.of(),
                 new _diffList(left, right),
                 left, 
                 right, 
@@ -25,7 +25,7 @@ public class _packageNameDiff
     }
 
     @Override
-    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, String leftPackageName, String rightPackageName) {
+    public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, String leftPackageName, String rightPackageName) {
         if (!Objects.equals(leftPackageName, rightPackageName)) {            
             return dt.addDiff(
                 new _changePackageName(path.in(Component.PACKAGE), (_type) _leftParent, (_type) _rightParent));
@@ -39,9 +39,9 @@ public class _packageNameDiff
         public _type rightParent;
         public String leftPackageName;
         public String rightPackageName;
-        public _path path;
+        public _nodePath path;
 
-        public _changePackageName(_path _p, _type leftParent, _type rightParent) {
+        public _changePackageName(_nodePath _p, _type leftParent, _type rightParent) {
             this.path = _p;
             this.leftParent = leftParent;
             if (leftParent != null) {
@@ -96,7 +96,7 @@ public class _packageNameDiff
         }
 
         @Override
-        public _path path() {
+        public _nodePath path() {
             return path;
         }
 

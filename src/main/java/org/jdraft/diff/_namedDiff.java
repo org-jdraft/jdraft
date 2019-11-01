@@ -25,7 +25,7 @@ public class _namedDiff implements _differ<String, _node> {
     }
 
     @Override
-    public <_PN extends _node> _diff diff(_path path, _build dt, _PN _leftParent, _PN _rightParent, String left, String right) {
+    public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, String left, String right) {
         if (!Objects.equals(left, right)) {
             return dt.addDiff(new _changeName(path.in(component), (_named) _leftParent, (_named) _rightParent));
         }
@@ -37,9 +37,9 @@ public class _namedDiff implements _differ<String, _node> {
         _named rightParent;
         String leftName;
         String rightName;
-        _path path;
+        _nodePath path;
         
-         public _changeName(_path _p, _named leftParent, _named rightParent){
+         public _changeName(_nodePath _p, _named leftParent, _named rightParent){
             this.path = _p;
             this.leftParent = leftParent;
             this.leftName = leftParent.getName();
@@ -81,7 +81,7 @@ public class _namedDiff implements _differ<String, _node> {
         }
 
         @Override
-        public _path path() {
+        public _nodePath path() {
             return path;
         }
         
