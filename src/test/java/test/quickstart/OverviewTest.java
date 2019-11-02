@@ -3,19 +3,12 @@ package test.quickstart;
 import com.github.javaparser.ast.stmt.*;
 import junit.framework.TestCase;
 import org.jdraft.*;
+import org.jdraft.io._path;
 import org.jdraft.macro._dto;
 import org.jdraft.macro._final;
 import org.jdraft.pattern.$method;
+import org.jdraft.pattern.$node;
 import org.jdraft.runtime._runtime;
-
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class OverviewTest extends TestCase {
 
@@ -28,35 +21,39 @@ public class OverviewTest extends TestCase {
         _point.field(_x).methods(_getX, _setX);
     }
 
-    /**
-     * These Statements effect flow control and can be used as "poor mans" metric for the
-     * "complexity" of a method (by naively counting the number of these Statements within
-     * a block of code)
-     */
-    static Set<Class> FLOW_CTRL_NODES = Stream.of( DoStmt.class, WhileStmt.class, IfStmt.class, ForStmt.class,
-            ForEachStmt.class, SwitchStmt.class, SwitchEntry.class, CatchClause.class).collect(Collectors.toSet());
-
-    public static int calcMethodComplexity(_method _m){
-         if( !_m.isImplemented() ){
-             return 0;
-         }
-         AtomicInteger com = new AtomicInteger();
-         _walk.in( _m.getBody(), n-> FLOW_CTRL_NODES.contains(n.getClass()), n-> com.incrementAndGet());
-         return com.get();
-    }
-
     public void testQueryForTopMethodComplexity(){
-        class C{
-            public void m(){}
-            public void one(){
-                if( 1==1 ){}
+        /** calculate and store A rudimentary complexity metric with the _method */
+        class _methodComplexity{
+
+            public _method _m;
+            public Integer complexity;
+
+            public _methodComplexity(_method _m ){
+                this._m = _m;
+                this.complexity = calculate(_m);
+            }
+
+            /**
+             * this represents the complexity computation algorithm that Rascal has
+             * https://www.rascal-mpl.org/#_Metrics
+             */
+            public int calculate( _method _m){
+                if( !_m.isImplemented() ){
+                    return 1;
+                }
+                //count all nodes of (any of these types) found within a method (and add 1)
+                return $node.of( DoStmt.class, WhileStmt.class, IfStmt.class, ForStmt.class,
+                        ForEachStmt.class, SwitchStmt.class, SwitchEntry.class, CatchClause.class).count(_m) +1;
             }
         }
 
-        Map<_method, Integer> _methodToComplexityMap = $method.of().streamIn(C.class).collect(
-                Collectors.toMap( Function.identity(), OverviewTest::calcMethodComplexity) );
+        _path _p = _path.of("C:\\jdraft\\project\\jdraft\\src\\main\\java");
 
-        System.out.println( _methodToComplexityMap);
+        $method.of().streamIn( _p ) // find all methods in the _path (recursively)
+                .map(m -> new _methodComplexity(m)) //map to a new _methodComplexity
+                .sorted((mc1, mc2) -> mc2.complexity.compareTo(mc1.complexity) ) //sort highest complexity first
+                .limit(10) //limit to the top (10)
+                .forEach(t -> System.out.println( "COMPLEXITY ["+t.complexity+"] : \n"+ t._m)); //print
     }
 
     public void testMacroAndRuntimeEval(){
@@ -65,7 +62,6 @@ public class OverviewTest extends TestCase {
 
         /* compile & load the model (_point) as class graph.Point.class */
         _runtime _r = _runtime.of(_point);
-
 
         System.out.println( _r.eval("new Point(10.0, 20.0)") );
 
@@ -76,6 +72,5 @@ public class OverviewTest extends TestCase {
         //verify hashcode works
         assertEquals( _r.eval("new Point(3.2, 8.32).hashCode()"),
                       _r.eval("new Point(3.2, 8.32).hashCode()"));
-
     }
 }
