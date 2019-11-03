@@ -90,7 +90,7 @@ _class _c = _class.of("graph.Point", new Object(){
     }
 });
 ```
-4. build with *Macros* (`@_get` and `@_set` auto generate get() and set() methods)
+4. build `_draft` models with *@macros* (`@_get` & `@_set` auto generate `getX()`,`getY()`,`setX()` & `setY()` methods)
 ```java 
 _class _c = _class.of("graph.Point", 
     new @_get @_set Object(){ public double x,y;});
