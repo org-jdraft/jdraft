@@ -1,6 +1,7 @@
 package org.jdraft.runtime.test;
 
 import junit.framework.TestCase;
+import org.junit.experimental.ParallelComputer;
 import org.junit.internal.TextListener;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
@@ -10,8 +11,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * a "builder" to dynamically configure the TestClasses,
@@ -35,25 +34,29 @@ public class _junit4 {
 
     public List<Class<? extends TestCase>> testClasses = new ArrayList<>();
 
-    public List<RunListener> listeners = new ArrayList<>();
+    public List<RunListener> listeners;
 
-    public Consumer<Result> resultConsumer = null;
+    public List<Consumer<Result>> resultConsumers;
 
-    /* Constructors */
-    public _junit4(Class<? extends TestCase>...testClasses){
-        this(null, testClasses );
-    }
-    public _junit4(Consumer<Result> resultConsumer, Class<? extends TestCase>...testClasses){
-        this( Stream.of(SILENT_LISTENER).collect(Collectors.toList()), resultConsumer, testClasses );
+    public static _junit4 of(Consumer<Result> resultConsumer, Class<? extends TestCase>...testClasses){
+        return new _junit4(new ArrayList<>(), new ArrayList<>(), testClasses).add(resultConsumer);
     }
 
-    public _junit4(List<RunListener> runListeners, Consumer<Result> resultConsumer, Class<? extends TestCase>...testClasses){
+    public static _junit4 of(RunListener runListener, Class<? extends TestCase>...testClasses){
+        return new _junit4(new ArrayList<>(), new ArrayList<>(), testClasses).add(runListener);
+    }
+
+    public static _junit4 of(Class<? extends TestCase>...testClasses){
+        return new _junit4(new ArrayList<>(), new ArrayList<>(), testClasses);
+    }
+
+    public _junit4(List<RunListener> runListeners, List<Consumer<Result>> resultConsumers, Class<? extends TestCase>...testClasses){
         this.listeners = runListeners;
-        this.resultConsumer = resultConsumer;
+        this.resultConsumers = resultConsumers;
         Arrays.stream(testClasses).forEach(tc -> this.testClasses.add(tc));
     }
 
-    public _junit4 addTestClasses(Class<? extends TestCase>...testClasses){
+    public _junit4 add(Class<? extends TestCase>...testClasses){
         Arrays.stream(testClasses).forEach( tc -> {
             if( !this.testClasses.contains(tc) ){
                 this.testClasses.add( tc );
@@ -62,13 +65,43 @@ public class _junit4 {
         return this;
     }
 
+    /**
+     * Adds one or more result consumer to handle the Results before they are returned
+     * @param resultConsumers
+     * @return
+     */
+    public _junit4 add(Consumer<Result>...resultConsumers){
+        Arrays.stream(resultConsumers).forEach( rc->this.resultConsumers.add(rc));
+        return this;
+    }
+
+    /**
+     *
+     * @param runListeners
+     * @return
+     */
+    public _junit4 add(RunListener...runListeners){
+        Arrays.stream(runListeners).forEach( rl -> {System.out.println(rl); this.listeners.add( rl );} );
+        return this;
+    }
+
     public Result run(){
         JUnitCore junit = new JUnitCore();
         listeners.forEach(junit::addListener);
-        Result r = junit.run( testClasses.toArray(new Class[0]) );
-        if( this.resultConsumer != null ){
-            this.resultConsumer.accept(r);
-        }
-        return r;
+        Result result = junit.run( testClasses.toArray(new Class[0]) );
+        resultConsumers.forEach( rc -> rc.accept(result));
+        return result;
+    }
+
+    public Result runParallel() {
+        return runParallel(true, true);
+    }
+
+    public Result runParallel( boolean runTestClassesInParallel, boolean runTestMethodsInParallel){
+        JUnitCore junit = new JUnitCore();
+        listeners.forEach(junit::addListener);
+        Result result = junit.run( new ParallelComputer(runTestClassesInParallel, runTestMethodsInParallel), testClasses.toArray(new Class[0]) );
+        resultConsumers.forEach( rc -> rc.accept(result));
+        return result;
     }
 }

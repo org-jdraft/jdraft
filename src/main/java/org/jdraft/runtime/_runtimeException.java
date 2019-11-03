@@ -13,7 +13,11 @@ public class _runtimeException extends _jdraftException {
     public _runtimeException(String msg) {
 	    super(msg);
     }
-    
+
+    public _runtimeException(Throwable ex){
+        super(ex);
+    }
+
     public _runtimeException(String msg, Throwable ex) {
         super(msg, ex);
     }
