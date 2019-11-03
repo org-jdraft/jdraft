@@ -26,7 +26,7 @@ import org.jdraft.macro._remove;
  *
  * @author Eric
  */
-public final class _body implements _model {
+public final class _body implements _draft {
 
     /**
      * NOTE: this is an Object, because it can EITHER be a {@link NodeWithBlockStmt}
@@ -494,7 +494,7 @@ public final class _body implements _model {
      * @param <_HB> enclosing TYPE (to access this)
      */
     public interface _hasBody<_HB extends _hasBody>
-        extends _model {
+        extends _draft {
         
         /**
          * @return gets the body

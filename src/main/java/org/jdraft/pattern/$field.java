@@ -648,7 +648,7 @@ public class $field implements Template<_field>, $pattern<_field, $field>, $patt
      * @param selectConstraint
      * @return  the first _field that matches (or null if none found)
      */
-    public Select selectFirstIn(_model _j, Predicate<Select> selectConstraint){
+    public Select selectFirstIn(_draft _j, Predicate<Select> selectConstraint){
          if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 return selectFirstIn(((_code) _j).astCompilationUnit(), selectConstraint);
@@ -721,7 +721,7 @@ public class $field implements Template<_field>, $pattern<_field, $field>, $patt
      * @param selectConstraint
      * @return 
      */
-    public List<Select> listSelectedIn(_model _j, Predicate<Select> selectConstraint){
+    public List<Select> listSelectedIn(_draft _j, Predicate<Select> selectConstraint){
          if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 return listSelectedIn(((_code) _j).astCompilationUnit(), selectConstraint);
@@ -765,7 +765,7 @@ public class $field implements Template<_field>, $pattern<_field, $field>, $patt
      * @param $replaceProto
      * @return 
      */
-    public <_J extends _model> _J replaceIn(_J _j, $field $replaceProto ){
+    public <_J extends _draft> _J replaceIn(_J _j, $field $replaceProto ){
         _walk.in(_j, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
@@ -792,7 +792,7 @@ public class $field implements Template<_field>, $pattern<_field, $field>, $patt
      * @param selectConsumer
      * @return 
      */
-    public <_J extends _model> _J forSelectedIn(_J _j, Consumer<Select> selectConsumer ){
+    public <_J extends _draft> _J forSelectedIn(_J _j, Consumer<Select> selectConsumer ){
         _walk.in(_j, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
@@ -838,7 +838,7 @@ public class $field implements Template<_field>, $pattern<_field, $field>, $patt
      * @param selectConsumer
      * @return 
      */
-    public <_J extends _model> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
+    public <_J extends _draft> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
         _walk.in(_j, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null && selectConstraint.test(sel)){

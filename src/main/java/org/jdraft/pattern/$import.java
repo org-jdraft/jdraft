@@ -391,7 +391,7 @@ public class $import
      * @param selectConstraint
      * @return  the first _import that matches (or null if none found)
      */
-    public Select selectFirstIn(_model _j, Predicate<Select> selectConstraint ){
+    public Select selectFirstIn(_draft _j, Predicate<Select> selectConstraint ){
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 return selectFirstIn(((_code) _j).astCompilationUnit(), selectConstraint);
@@ -471,7 +471,7 @@ public class $import
      * @param selectConstraint
      * @return 
      */
-    public List<Select> listSelectedIn(_model _j, Predicate<Select> selectConstraint ){
+    public List<Select> listSelectedIn(_draft _j, Predicate<Select> selectConstraint ){
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 return listSelectedIn(((_code) _j).astCompilationUnit(), selectConstraint);
@@ -499,7 +499,7 @@ public class $import
      * @param importClass
      * @return 
      */
-    public <_J extends _model> _J replaceIn(_J _j, Class importClass){
+    public <_J extends _draft> _J replaceIn(_J _j, Class importClass){
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 replaceIn( ((_code) _j).astCompilationUnit(), importClass);
@@ -530,7 +530,7 @@ public class $import
      * @param importDecl
      * @return 
      */
-    public <_J extends _model> _J replaceIn(_J _j, String importDecl){
+    public <_J extends _draft> _J replaceIn(_J _j, String importDecl){
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 replaceIn( ((_code) _j).astCompilationUnit(), $import.of(importDecl));
@@ -561,7 +561,7 @@ public class $import
      * @param _i
      * @return 
      */
-    public <_J extends _model> _J replaceIn(_J _j, _import _i){
+    public <_J extends _draft> _J replaceIn(_J _j, _import _i){
          if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 replaceIn( ((_code) _j).astCompilationUnit(), $import.of(_i));
@@ -594,7 +594,7 @@ public class $import
      * @param <_J> the TYPE of model
      * @return
      */
-    public <_J extends _model> _J replaceIn(_J _j, $import $i ){
+    public <_J extends _draft> _J replaceIn(_J _j, $import $i ){
          if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 replaceIn( ((_code) _j).astCompilationUnit(), $i);

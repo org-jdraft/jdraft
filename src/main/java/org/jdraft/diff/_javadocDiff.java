@@ -95,12 +95,12 @@ public class _javadocDiff implements _differ<_javadoc, _node> {
         }
 
         @Override
-        public _model leftParent() {
+        public _draft leftParent() {
             return leftParent;
         }
 
         @Override
-        public _model rightParent() {
+        public _draft rightParent() {
             return rightParent;
         }
 

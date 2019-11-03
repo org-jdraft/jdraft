@@ -22,7 +22,7 @@ import java.util.stream.*;
  * @author Eric
  * @param <_C> the code implementation type
  */
-public interface _code<_C> extends _model, _java._componentized {
+public interface _code<_C> extends _draft, _java._componentized {
 
     /**
      * Return a copy of the _code
@@ -525,7 +525,7 @@ public interface _code<_C> extends _model, _java._componentized {
      * from a Online repository, or any other mechanism for finding and returning _code models
      *
      */
-    interface _provider extends _model {
+    interface _provider extends _draft {
 
         /**
          *

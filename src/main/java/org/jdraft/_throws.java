@@ -17,7 +17,7 @@ import com.github.javaparser.ast.type.Type;
  * @author Eric
  */
 public final class _throws
-        implements _model {
+        implements _draft {
 
     /**
      *
@@ -368,7 +368,7 @@ public final class _throws
      * @author Eric
      * @param <_HT> the hasThrows container {@link _method} {@link _constructor}
      */
-    public interface _hasThrows<_HT extends _hasThrows> extends _model {
+    public interface _hasThrows<_HT extends _hasThrows> extends _draft {
 
         _throws getThrows();
 

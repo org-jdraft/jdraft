@@ -89,7 +89,7 @@ public class _1_Model_methodTest extends TestCase {
         // source code back by calling toString():
         System.out.println( _m.toString() );
 
-        Class<? extends _model>[] _MODEL_TYPES = new Class[]{
+        Class<? extends _draft>[] _MODEL_TYPES = new Class[]{
             _type.class, _class.class, _interface.class, _enum.class, _annotation.class,
             _field.class, _constructor.class, _initBlock.class, _enum._constant.class, _annotation._element.class,
             _parameter.class, _parameter._parameters.class, _typeRef.class, _modifiers.class, _anno.class,

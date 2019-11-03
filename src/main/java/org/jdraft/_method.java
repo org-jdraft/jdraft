@@ -577,7 +577,7 @@ public final class _method
      * @param <_HM>
      */
     public interface _hasMethods<_HM extends _hasMethods>
-            extends _model {
+            extends _draft {
 
         List<_method> listMethods();
 

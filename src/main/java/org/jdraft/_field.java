@@ -605,7 +605,7 @@ public final class _field
      * @param <_HF>
      */
     public interface _hasFields<_HF extends _hasFields>
-            extends _model {
+            extends _draft {
 
         List<_field> listFields();
 

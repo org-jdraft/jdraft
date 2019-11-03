@@ -255,7 +255,7 @@ public final class _parameter
      * @param <_HP>
      */
     public interface _hasParameters<_HP extends _hasParameters>
-        extends _model {
+        extends _draft {
 
         _parameters getParameters();
         
@@ -382,7 +382,7 @@ public final class _parameter
      * @author Eric
      */
     public static final class _parameters
-            implements _model {
+            implements _draft {
 
         public static _parameters of( List<Parameter> ps ){
             _parameters _ps = of();
