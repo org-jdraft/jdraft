@@ -130,11 +130,11 @@ public class _2_UsingAllBuiltInMacrosTest extends TestCase {
         _enum _ii = _enum.of("GI", new @_implement(Serializable.class) Object(){ int x, y; });
 
         //@_importClass will add a single import class on any type
-        @_importClass(UUID.class) class IC{}
+        @_imports(UUID.class) class IC{}
         //@_importClass will add a single import class on any type
-        _enum _eic = _enum.of("aaa.EI", new @_importClass(UUID.class) Object(){});
-        _interface _iic = _interface.of("aaa.II", new @_importClass(UUID.class) Object(){});
-        _annotation _ac = _annotation.of("aaa.AI", new @_importClass(UUID.class) Object(){});
+        _enum _eic = _enum.of("aaa.EI", new @_imports(UUID.class) Object(){});
+        _interface _iic = _interface.of("aaa.II", new @_imports(UUID.class) Object(){});
+        _annotation _ac = _annotation.of("aaa.AI", new @_imports(UUID.class) Object(){});
 
         //name works on type
         @_name("Rename")class N{

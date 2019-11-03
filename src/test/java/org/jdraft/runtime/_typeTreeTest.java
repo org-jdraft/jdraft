@@ -1,15 +1,12 @@
 package org.jdraft.runtime;
 
 import com.github.javaparser.ast.type.Type;
-import com.github.javaparser.utils.Log;
 import junit.framework.TestCase;
 import org.jdraft.*;
-import org.jdraft.io._archive;
-import org.jdraft.macro._importClass;
+import org.jdraft.macro._imports;
 import org.jdraft.macro._package;
 
 import java.io.Serializable;
-import java.util.function.Supplier;
 
 public class _typeTreeTest extends TestCase {
 
@@ -89,7 +86,7 @@ public class _typeTreeTest extends TestCase {
     */
 
     @_package("aaaa.bbbb")
-    @_importClass(Serializable.class)
+    @_imports(Serializable.class)
     interface I1 extends Serializable{}
 
     @_package("bbbb.aaaa")
@@ -146,7 +143,7 @@ public class _typeTreeTest extends TestCase {
     }
 
     public void testNestedAndLocalClasses(){
-        @_importClass(Serializable.class)
+        @_imports(Serializable.class)
         class L{
             class F extends L { //F is nested in L
                 public void f(){

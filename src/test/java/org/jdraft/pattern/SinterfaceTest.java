@@ -2,7 +2,7 @@ package org.jdraft.pattern;
 
 import junit.framework.TestCase;
 import org.jdraft.*;
-import org.jdraft.macro._importClass;
+import org.jdraft.macro._imports;
 import org.jdraft.macro._static;
 
 import java.io.Serializable;
@@ -42,7 +42,7 @@ public class SinterfaceTest extends TestCase {
         assertTrue($i.typeParameters.matches("<String>"));
 
         //use a pre Anonymous macro
-        $i = $interface.of("AAA",new @_importClass(UUID.class) Object(){});
+        $i = $interface.of("AAA",new @_imports(UUID.class) Object(){});
 
         assertEquals( 1, $i.imports.size() );
     }

@@ -234,7 +234,7 @@ public class macroUseTest extends TestCase {
 
 
     public void testImport(){
-        @_importClass( Map.class )
+        @_imports( Map.class )
         class C{
 
         }

@@ -49,7 +49,7 @@ public class _annosTest extends TestCase {
 
         assertTrue( _as.is( "@b(1)", "@c(2)" ));
 
-        System.out.println( _as );
+        //System.out.println( _as );
     }
 
     //verify that

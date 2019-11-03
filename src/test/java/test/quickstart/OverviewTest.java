@@ -1,11 +1,12 @@
 package test.quickstart;
 
 import com.github.javaparser.ast.stmt.*;
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 import org.jdraft.*;
 import org.jdraft.io._path;
-import org.jdraft.macro._dto;
-import org.jdraft.macro._final;
+import org.jdraft.macro.*;
 import org.jdraft.pattern.$method;
 import org.jdraft.pattern.$node;
 import org.jdraft.runtime._runtime;
@@ -72,5 +73,18 @@ public class OverviewTest extends TestCase {
         //verify hashcode works
         assertEquals( _r.eval("new Point(3.2, 8.32).hashCode()"),
                       _r.eval("new Point(3.2, 8.32).hashCode()"));
+    }
+
+    $method $testLaunch = $method.of( new Object(){
+        public @_static Test suite(){
+            TestSuite suite = new TestSuite($testClasses$);
+            return suite;
+        }
+        @_remove Class $testClasses$;
+    });
+    public void testAutoTestSuite(){
+        _class _autoTestSuite = _class.of("gen.jdraft.AutoTestSuite", new @_imports({Test.class, TestCase.class}) TestSuite(){
+
+        });
     }
 }

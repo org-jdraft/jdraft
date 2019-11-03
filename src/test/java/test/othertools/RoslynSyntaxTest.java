@@ -4,7 +4,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import junit.framework.TestCase;
 import org.jdraft.*;
-import org.jdraft.macro._importClass;
+import org.jdraft.macro._imports;
 import org.jdraft.macro._static;
 import org.jdraft.pattern.*;
 
@@ -23,7 +23,7 @@ public class RoslynSyntaxTest extends TestCase {
     public void testParseAndQuery(){
         //granted this isnt the same language, I just wanted to show how a like thing is done in
         //jdraft (Java) vs C#
-        _class _c = _class.of("HellowWorld", new @_importClass( Collections.class) Object(){
+        _class _c = _class.of("HellowWorld", new @_imports( Collections.class) Object(){
             @_static void main (String[] args){
                 System.out.println( "Hello World");
             }
@@ -56,7 +56,7 @@ public class RoslynSyntaxTest extends TestCase {
      *                       select methodDeclaration.ParameterList.Parameters.First();
      */
     public void testQueryMethods(){
-        @_importClass(Collection.class) class HelloWorld{
+        @_imports(Collection.class) class HelloWorld{
             public @_static void main(String[] args){
                 System.out.println("Hello World");
             }
@@ -74,7 +74,7 @@ public class RoslynSyntaxTest extends TestCase {
     }
 
     public void testSyntaxWalkers(){
-        @_importClass({Collection.class})
+        @_imports({Collection.class})
         class TopLevel{
             class Child1{
                 class Foo{}

@@ -32,9 +32,10 @@ public class walkTest extends TestCase {
         assertNull( _walk.first(lts, _field.class, f-> f.isFinal()));
         assertNull( _walk.first(lts, _method.class, _method.IS_MAIN)); //find the first main method
 
-        _walk.in(lts.get(0), _method.class, m-> System.out.println( m));
-        _walk.in(lts, _method.class, m-> System.out.println( m) );
-        _walk.in(lts, _field.class, f-> System.out.println( f ));
+        //commented out for noise
+        //_walk.in(lts.get(0), _method.class, m-> System.out.println( m));
+        //_walk.in(lts, _method.class, m-> System.out.println( m) );
+        //_walk.in(lts, _field.class, f-> System.out.println( f ));
 
         assertEquals( _walk.list(lts, _field.class).size(), $.field().count(lts) );
         assertEquals( _walk.list(lts, _method.class).size(), $.method().count(lts) );
@@ -50,7 +51,7 @@ public class walkTest extends TestCase {
 
     public void testWalkPackageInfo(){
         _packageInfo _pi = _packageInfo.of("package aaaa.xxxx.gggg;", "import java.util.*;", "import java.net.URL;");
-        _walk.in(_pi, n -> System.out.println(n)); //walk nodes & do some action
+        //_walk.in(_pi, n -> System.out.println(n)); //walk nodes & do some action
         
         List<_import> imports = _walk.list(_pi, _import.class);
         assertEquals(2, imports.size());
@@ -103,10 +104,8 @@ public class walkTest extends TestCase {
         assertTrue(at.intValue() ==1);
         
         assertTrue( _walk.list(_c, Ast.ENUM_DECLARATION).isEmpty());
-        _walk.in(_c, Ast.NODE_WITH_ABSTRACT_MOD, td->System.out.println(td) );
-        _walk.in(_c, Ast.IMPORT_DECLARATION, td->System.out.println(td) );
+        //_walk.in(_c, Ast.NODE_WITH_ABSTRACT_MOD, td->System.out.println(td) );
+        //_walk.in(_c, Ast.IMPORT_DECLARATION, td->System.out.println(td) );
 
     }
-    
-    
 }
