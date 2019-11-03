@@ -1,14 +1,27 @@
 ### jdraft
+
 #### *What* is it?
 jdraft represents Java source code as `_draft` objects & has tools for 
-analyzing, modifying, querying, and running of `_draft` objects.
+analyzing, modifying, querying, diffing, running and testing `_draft` objects.
+
+#### *What* is it used for?
+jdraft was built specifically to help developers write simple programs 
+that can generate (& test) new Java code or modify (& test) existing Java code.
+
+**_"more improv, less batch job"_** 
+<OL>
+<LI>Metaprogramming</LI>
+<LI>Code Generation</LI> 
+<LI>Lint Checking / Code Metrics</LI>
+<LI>Code Querying</LI>
+<LI>Code Evolution</LI>
+</OL>
 
 #### *How* to setup and use jdraft
-jdraft requires (2) things to compile/build or run:
-1. a JDK (NOT JRE) that is 1.8 (Java 8) or later
-2. the latest version of JavaParser (3.15.3)
-*(until its up on MavenCentral)* download and compile to source, you'll only need (1) 
-dependency the current version of JavaParser:
+jdraft requires (2) things to compile/build/run:
+1. a JDK 1.8+ (*not a ~~JRE~~*)
+2. a current version of [JavaParser](https://github.com/javaparser)
+
 ```xml
 <dependency>
   <groupId>com.github.javaparser</groupId>
@@ -18,7 +31,8 @@ dependency the current version of JavaParser:
 ```   
  
 #### *How* to build jdraft models 
-1. build models `_class(_c), _field(_x, _y), _method(_getX, _getY, _setX, _setY)` from Strings:  
+1. build individual `_draft` models `_class(_c), _field(_x, _y), _method(_getX, _getY, _setX, _setY)` 
+from Strings & compose them together: 
 ```java 
 _class _c = _class.of("package graph;","public class Point{}");
 _field _x = _field.of("public double x;");
@@ -40,28 +54,28 @@ System.out.println(_c);
 >public class Point {
 >    public double x;
 >    public double y;
->
->    public double getX() {
->        return x;
->    }
->
->    public void setX(double x) {
->        this.x = x;
->    }
->
->    public double getY() {
->        return y;
->    }
->
->    public void setY(double y) {
->        this.y = y;
->    }
->}   
-
-2. build models from the source of an anonymous Object:
+>    public double getX() { return this.x; }
+>    public void setX(double x) { this.x = x; }
+>    public double getY() { return y; }
+>    public void setY(double y) {this.y = y; }
+>}</PRE>   
+2. build a `_draft` model from source of an existing class (`_class.of(Point.class)`) :
+```java
+class Point{
+    public double x;
+    public double y;
+    public double getX() { return this.x; }
+    public double getY() { return this.y; }
+    public void setX(double x){ this.x = x; }
+    public void setY(double y){ this.y = y; }
+} 
+_class _c = _class.of(Point.class);
+```
+3. build `_draft` models from the source of an anonymous Object:
 ```java
 _class _c = _class.of("graph.Point", new Object(){
-    public double x, y;
+    public double x;
+    public double y;
     public double getX(){
         return x;
     }  
@@ -76,9 +90,9 @@ _class _c = _class.of("graph.Point", new Object(){
     }
 });
 ```
-3. build with Macros (`@_get` and `@_set` auto generate get() and set() methods)
+4. build with *Macros* (`@_get` and `@_set` auto generate get() and set() methods)
 ```java 
 _class _c = _class.of("graph.Point", 
     new @_get @_set Object(){ public double x,y;});
 ```
-#### *Query* Java source code 
+#### **_Query_** Java source code 
