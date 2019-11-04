@@ -26,8 +26,19 @@ public class SpoonComingTest extends TestCase {
                 }
             }
         }
+        //if I wanted to look for the returnStmts themselves
+        assertEquals(2, $.returnStmt().count(Ex.class));
+
+        //returnStmts that are direct children of ifStmts
+        assertEquals(0, $.returnStmt().$isParent($.ifStmt()).count(Ex.class));
+        //they aren NOT
+
+        //verify, without "depth" we can find the if statement (in this case, (1) IfStmt has (2) returns
+        assertEquals( 1, $.ifStmt().$hasDescendant($.returnStmt()).count(Ex.class) );
+        //if I set depth to (1)
         assertEquals(0, $ifReturn.count(Ex.class));
     }
+
     /**
      * https://github.com/SpoonLabs/coming#change-pattern-specification
      *

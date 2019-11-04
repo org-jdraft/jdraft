@@ -278,7 +278,7 @@ public class _1_WhatIs$PatternTest extends TestCase {
         System.out.println( $plusMinusInt.listIn(MostlyIntLiterals.class));
 
         //match all int literals THAT ARE NOT children of of a +/- unaryExpression
-        $ex $unsignedIntLiteral = $.intLiteral().$hasParent(p -> !$plusMinusInt.match(p) );
+        $ex $unsignedIntLiteral = $.intLiteral().$isParent(p -> !$plusMinusInt.match(p) );
 
         //now combine the $pattern matchers for finding:
         // 1) UnaryExpressions with +/- operators and Int literals

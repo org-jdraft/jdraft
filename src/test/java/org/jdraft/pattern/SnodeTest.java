@@ -11,7 +11,6 @@ import org.jdraft.*;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 
-import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -175,8 +174,8 @@ public class SnodeTest extends TestCase {
 
         //...but we ARE using Collections, to access a specific variable (Collections.EMPTY_LIST)
         // and to call a static method Collections.sort(...)
-        assertEquals( 1, $.of("Collections", NameExpr.class).$hasParent( $.methodCall("Collections.$call$($any$)") ).count(D.class));
-        assertEquals( 1, $.of("Collections", NameExpr.class).$hasParent( $.fieldAccessExpr("Collections.$field$") ).count(D.class));
+        assertEquals( 1, $.of("Collections", NameExpr.class).$isParent( $.methodCall("Collections.$call$($any$)") ).count(D.class));
+        assertEquals( 1, $.of("Collections", NameExpr.class).$isParent( $.fieldAccessExpr("Collections.$field$") ).count(D.class));
         //assertEquals(1, $typeRef.of(Collections.class).count(D.class));
     }
     public void testMethodCall(){
@@ -305,7 +304,7 @@ public class SnodeTest extends TestCase {
         //$node.of().forEachIn(C.class, e-> System.out.println(  e.getClass() ));
 
 
-        $node.of(Ast.SIMPLE_NAME).$hasParent( $method.of( m-> m.isPackagePrivate())).forEachIn(C.class, e ->System.out.println("found " + e));
+        $node.of(Ast.SIMPLE_NAME).$isParent( $method.of(m-> m.isPackagePrivate())).forEachIn(C.class, e ->System.out.println("found " + e));
 
         //find all synchronized statements that are ancestors (within) a public class in C
         $node.of(Ast.SYNCHRONIZED_STMT).$hasAncestor( $method.of(m->m.isPublic()) ).forEachIn( C.class, s -> System.out.println( s) );
@@ -346,12 +345,12 @@ public class SnodeTest extends TestCase {
         System.out.println( $node.of(SimpleName.class).listIn(D.class) );
         System.out.println( $node.of(SimpleName.class, FieldDeclaration.class).listIn(D.class) );
 
-        System.out.println( $node.of(SimpleName.class).$hasParent(ClassOrInterfaceDeclaration.class).listIn(D.class));
-        System.out.println( $node.of(SimpleName.class).$hasParent(MethodDeclaration.class).listIn(D.class));
+        System.out.println( $node.of(SimpleName.class).$isParent(ClassOrInterfaceDeclaration.class).listIn(D.class));
+        System.out.println( $node.of(SimpleName.class).$isParent(MethodDeclaration.class).listIn(D.class));
 
         //list the names of all public methods in D class
-        System.out.println( $node.of(SimpleName.class).$hasParent($.method(m->m.isPublic())).listIn(D.class));
-        System.out.println( $node.of(SimpleName.class).$hasParent($.method(m->m.isPublic())).listIn(D.class));
+        System.out.println( $node.of(SimpleName.class).$isParent($.method(m->m.isPublic())).listIn(D.class));
+        System.out.println( $node.of(SimpleName.class).$isParent($.method(m->m.isPublic())).listIn(D.class));
 
     }
     public interface Inter{

@@ -81,7 +81,7 @@ public class PatternExamplesTest extends TestCase {
                 $throws.of( IOException.class));
 
         $.method()
-                .$hasParent(ClassOrInterfaceDeclaration.class);
+                .$isParent(ClassOrInterfaceDeclaration.class);
 
 
         class GG{

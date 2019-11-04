@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * Typcially, you might want to either selectively copy This allows Files to
  * take the form of Objects (i.e. ASTs) that can be manipulated easily or
  * through an API. (Some good examples are XML files
- * ({@link org.jdraft.io.DOMFile} and {@link org.jdraft.io.SAXFile} that can be used
+ * ({@link DOMFile} and {@link SAXFile} that can be used
  * to "adapt" the file contents to an API that is more manageable (to be queried
  * or modified).
  *

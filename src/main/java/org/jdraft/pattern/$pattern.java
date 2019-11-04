@@ -72,6 +72,19 @@ public interface $pattern<P, $P extends $pattern>{
     }
 
     /**
+     * Parameterizes (3) targets and parameters
+     *
+     * @param target1
+     * @param $paramName1
+     * @param target2
+     * @param $paramName2
+     * @return
+     */
+    default $P $(String target1, String $paramName1, String target2, String $paramName2, String target3, String $paramName3){
+        return ($P)$(target1,$paramName1).$(target2, $paramName2).$(target3, $paramName3);
+    }
+
+    /**
      * Parameterize the target String with the $paramName
      * @param target
      * @param $paramName
@@ -256,7 +269,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param $ps
      * @return
      */
-    default $P $hasNoParent( $pattern... $ps){
+    default $P $isParentNot($pattern... $ps){
         for(int i=0;i<$ps.length; i++) {
             $pattern $p = $ps[i];
             Predicate<P> pp = n -> {
@@ -277,7 +290,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param $ps the prototypes to match against
      * @return
      */
-    default $P $hasParent( $pattern... $ps ){
+    default $P $isParent($pattern... $ps ){
         return $and(n -> {
             if (n instanceof Node) {
                 return Ast.isParent( (Node)n, c->Arrays.stream($ps).anyMatch( $p->$p.match(c)) );
@@ -296,23 +309,23 @@ public interface $pattern<P, $P extends $pattern>{
         //return and( (n)-> Ast.isParent( (Node)n, e-> proto.match(e) ) );
     }
 
-    default <N extends Node> $P $hasNoParent(Class<N> parentClass, Predicate<N> parentMatchFn){
+    default <N extends Node> $P $isParentNot(Class<N> parentClass, Predicate<N> parentMatchFn){
         return $not(n -> Ast.isParent( (Node)n, parentClass, parentMatchFn) );
     }
 
-    default <N extends Node> $P $hasParent(Class<N> parentClass, Predicate<N> parentMatchFn){
+    default <N extends Node> $P $isParent(Class<N> parentClass, Predicate<N> parentMatchFn){
         return $and(n -> Ast.isParent( (Node)n, parentClass, parentMatchFn) );
     }
 
-    default $P $hasNoParent( Predicate<Node> parentMatchFn ){
+    default $P $isParentNot(Predicate<Node> parentMatchFn ){
         return $not(n -> Ast.isParent((Node)n, parentMatchFn) );
     }
 
-    default $P $hasParent( Predicate<Node> parentMatchFn ){
+    default $P $isParent(Predicate<Node> parentMatchFn ){
         return $and(n -> Ast.isParent((Node)n, parentMatchFn) );
     }
 
-    default $P $hasNoParent( Class... parentClassTypes ){
+    default $P $isParentNot(Class... parentClassTypes ){
         return $not(n -> {
             if (n instanceof Node) {
                 return Ast.isParent( (Node)n, parentClassTypes);
@@ -323,7 +336,7 @@ public interface $pattern<P, $P extends $pattern>{
         });
     }
 
-    default $P $hasParent( Class... parentClassTypes ){
+    default $P $isParent(Class... parentClassTypes ){
         return $and(n -> {
                     if (n instanceof Node) {
                         return Ast.isParent( (Node)n, parentClassTypes);

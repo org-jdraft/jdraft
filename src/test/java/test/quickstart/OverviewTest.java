@@ -16,14 +16,20 @@ public class OverviewTest extends TestCase {
     public void testS(){
         _class _point = _class.of("package graph;","public class Point{}");
         _field _x = _field.of("public double x;");
-        _method _getX = _method.of("public double getX(){ return x; }");
+        _field _y = _field.of("public double y;");
+        _method _getX = _method.of("public double getX(){ return this.x; }");
         _method _setX = _method.of("public void setX(double x){ this.x = x;}");
-        //models fit together
-        _point.field(_x).methods(_getX, _setX);
+        _method _getY = _method.of("public double getY(){ return this.y; }");
+        _method _setY = _method.of("public void setY(double y){ this.y = y;}");
+
+        //models compose
+        _point.fields(_x, _y)
+                .methods(_getX, _setX, _getY, _setY);
+        System.out.println( _point );
     }
 
     public void testQueryForTopMethodComplexity(){
-        /** calculate and store A rudimentary complexity metric with the _method */
+        /** calculate and store rudimentary complexity metric with the _method */
         class _methodComplexity{
 
             public _method _m;
@@ -58,14 +64,20 @@ public class OverviewTest extends TestCase {
     }
 
     public void testMacroAndRuntimeEval(){
-        //use the @_dto and
+        //the @_dto @macro
         _class _point = _class.of("graph.Point", new @_dto Object(){ @_final double x, y; });
-
+        //add a distance method
+        _point.method(new Object(){
+           public double distanceTo( double x, double y ){
+               return Math.sqrt((this.y - y) * (this.y - y) + (this.x - x) * (this.x - x));
+           }
+           @_remove double x, y;
+        });
         /* compile & load the model (_point) as class graph.Point.class */
         _runtime _r = _runtime.of(_point);
 
-        System.out.println( _r.eval("new Point(10.0, 20.0)") );
-
+        //verify the simple 3-4-5 triangle
+        assertEquals(5.0d,  _r.eval("new Point(0.0d, 0.0d).distanceTo(3.0d, 4.0d)") );
         //verify equals works
         assertEquals( _r.eval("new Point(5.0, 12.0)"),
                       _r.eval("new Point(5.0, 12.0)") );

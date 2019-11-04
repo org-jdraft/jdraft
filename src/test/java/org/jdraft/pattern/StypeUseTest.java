@@ -58,17 +58,17 @@ public class StypeUseTest extends TestCase {
                         .$and(t-> ! (t instanceof TypeParameter))
                         .$and(t-> $typeParameter.of().$name(t.toString()).count( Ast.root( t ) ) == 0);
 
-        $node.of().$hasParent( $import.of() ).forEachIn( F.class, n-> System.out.println(n +" "+ n.getClass()) );
+        $node.of().$isParent( $import.of() ).forEachIn( F.class, n-> System.out.println(n +" "+ n.getClass()) );
         _class _c = _class.of(F.class).imports(Map.class, UUID.class);
 
 
 
-        $node.of().$hasParent($import.of()).forEachIn(_c, e-> System.out.println(e+ " *** "+e.getClass()));
+        $node.of().$isParent($import.of()).forEachIn(_c, e-> System.out.println(e+ " *** "+e.getClass()));
 
-        $node $importNames = $node.of(Name.class).$hasParent($import.of());
+        $node $importNames = $node.of(Name.class).$isParent($import.of());
 
         // System.out.println( _c );
-        System.out.println( "NODE IMPORTS "+ $node.of( $importNames, $node.of(SimpleName.class).$hasParent(TypeDeclaration.class), typeUse).listIn(_c) );
+        System.out.println( "NODE IMPORTS "+ $node.of( $importNames, $node.of(SimpleName.class).$isParent(TypeDeclaration.class), typeUse).listIn(_c) );
         //System.out.println( "IMPORTS "+ $import.of().listIn(_c));
 
 

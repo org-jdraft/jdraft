@@ -65,12 +65,12 @@ public class PatternQueryTest extends TestCase {
 
         // relative constraints
         $.of().$hasChild($.literal());
-        $.of().$hasParent($.lambda());
+        $.of().$isParent($.lambda());
         $.of().$hasAncestor($.localClassStmt());
         $.of().$hasDescendant($enum.of());
 
         $.of().$hasNoChild($enum.of());
-        $.of().$hasNoParent($class.of($.ABSTRACT), $interface.of(), $annotation.of());
+        $.of().$isParentNot($class.of($.ABSTRACT), $interface.of(), $annotation.of());
         $.of().$hasNoDescendant($enum.of());
         $.of().$hasNoAncestor($class.of($.ABSTRACT));//not the member of an abstract class
     }

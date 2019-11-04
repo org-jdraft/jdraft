@@ -72,8 +72,6 @@ public class _path_archive_cacheTest extends TestCase {
         // (this will only PARSE the jdraft test sources, and reuse the pre-parsed models in _jdraftSrcAll)
         _code._cache _jdraftAllSrcTests = _code._cache.of( _jdraftAllSrc, _path.of("C:\\jdraft\\project\\jdraft\\src\\test\\java") );
 
-
-
     }
 
 }

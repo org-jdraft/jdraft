@@ -57,8 +57,8 @@ public class _codePatternTest extends TestCase {
         $ex.intLiteralEx(1).forEachIn(C.class, e-> System.out.println( e.getParentNodeForChildren().getClass() ) );
 
         assertEquals( 3, $ex.of(1).count(C.class));
-        assertEquals( 2, $ex.of(1).$hasNoParent( $ex.binaryEx() ).count(C.class));
-        assertEquals( 1, $ex.of(1).$hasNoParent( $ex.binaryEx(), $ex.enclosedEx() ).count(C.class));
+        assertEquals( 2, $ex.of(1).$isParentNot( $ex.binaryEx() ).count(C.class));
+        assertEquals( 1, $ex.of(1).$isParentNot( $ex.binaryEx(), $ex.enclosedEx() ).count(C.class));
     }
 
     /**
@@ -93,7 +93,7 @@ public class _codePatternTest extends TestCase {
 
         //2) find all variable assignments
         $node $varAssignment = $node.of( "$param$" )
-                .$hasParent(VariableDeclarator.class);
+                .$isParent(VariableDeclarator.class);
                 //.$hasAncestor($.of(VariableDeclarator.class));
 
         //3) find
