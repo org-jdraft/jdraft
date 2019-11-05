@@ -379,7 +379,6 @@ public interface _code<_C> extends _draft, _java._componentized {
             Arrays.stream(staticWildcardImports).forEach(i -> {
                 ImportDeclaration id = Ast.importDeclaration(i);
                 id.setStatic(true);
-                id.setAsterisk(false);
                 cu.addImport(id);
             });
         }
