@@ -6,6 +6,9 @@ import java.lang.reflect.Method;
 import junit.framework.TestCase;
 import java.util.Map;
 
+/*** THE JUNIT TESTS REQUIRE THIS IMPORT */
+import static org.jdraft.Ast.importDeclaration; /** DONT REMOVE */
+
 /**
  *
  * @author Eric
@@ -33,7 +36,8 @@ public class _importTest extends TestCase {
     }
     public void setStaticWildcardImport(){
         _import _i = _import.of(Ast.class).setStatic(true).setWildcard(true);
-        
+
+
         //static wildcard
         ImportDeclaration id = Ast.importDeclaration(Ast.class)
                 .setAsterisk( true).setStatic( true);
@@ -70,6 +74,9 @@ public class _importTest extends TestCase {
     }
     
     public void test_imports() throws NoSuchMethodException{
+        //this is to just formalize the use of the static import
+        importDeclaration("hey");
+
         _class _c = _class.of(_importTest.class);
         _imports _is = _imports.of( _c.astCompilationUnit());
         assertTrue( _is.hasImport(IOException.class));
