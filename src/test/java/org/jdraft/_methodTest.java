@@ -179,12 +179,9 @@ public class _methodTest extends TestCase {
         _method _m2 = _method.of("java.util.Map<aaaa.B, bbbbb.C> getI( G g);");
         //_method _m2 = _method.of("java.util.Map<aaaa.B, bbbbb.C> getI( fffff.G g);");
 
-
-
         assertEquals(
                 Ast.typeHash(Ast.typeRef("Map")),
                 Ast.typeHash(Ast.typeRef("java.util.Map")));
-
 
         assertTrue( Ast.typesEqual(
                 Ast.typeRef("Map<B,C>"),

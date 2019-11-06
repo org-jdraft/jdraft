@@ -1,7 +1,8 @@
-package org.jdraft;
+package org.jdraft.text;
 
 import junit.framework.TestCase;
 
+import org.jdraft._class;
 import org.jdraft.text.Translator;
 
 import java.util.ArrayList;

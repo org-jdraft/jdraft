@@ -3,7 +3,7 @@ package org.jdraft;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.StringLiteralExpr;
 import com.github.javaparser.ast.stmt.Statement;
-import com.github.javaparser.ast.type.Type;
+
 import junit.framework.TestCase;
 
 /**

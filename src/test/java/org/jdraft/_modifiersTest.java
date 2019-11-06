@@ -5,9 +5,6 @@
  */
 package org.jdraft;
 
-import org.jdraft._modifiers;
-import org.jdraft._field;
-import org.jdraft.Ast;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import junit.framework.TestCase;

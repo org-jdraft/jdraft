@@ -2,7 +2,6 @@ package org.jdraft;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.utils.Log;
 import org.jdraft.diff._diff;
 import org.jdraft.macro._static;

@@ -9,7 +9,6 @@ import org.jdraft.macro.*;
 import org.jdraft.pattern.$ex;
 import org.jdraft.pattern.$typeRef;
 
-
 /**
  * Touch all of the major APIs to make sure they work
  * 

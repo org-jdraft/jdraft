@@ -1,7 +1,6 @@
 
 package org.jdraft;
 
-import org.jdraft._class;
 import java.util.UUID;
 import junit.framework.TestCase;
 

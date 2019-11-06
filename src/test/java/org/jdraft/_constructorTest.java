@@ -1,11 +1,5 @@
 package org.jdraft;
 
-import org.jdraft._class;
-import org.jdraft._class;
-import org.jdraft._constructor;
-import org.jdraft._constructor;
-import org.jdraft._enum;
-import org.jdraft._enum;
 import org.jdraft.macro._public;
 import junit.framework.TestCase;
 

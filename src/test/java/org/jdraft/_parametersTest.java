@@ -1,9 +1,6 @@
 package org.jdraft;
 
-import org.jdraft._typeRef;
-import org.jdraft._parameter;
 import junit.framework.TestCase;
-import org.jdraft._parameter.*;
 
 /**
  *

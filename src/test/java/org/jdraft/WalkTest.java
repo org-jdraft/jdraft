@@ -1,17 +1,121 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.EnumConstantDeclaration;
 import com.github.javaparser.ast.body.EnumDeclaration;
-import com.github.javaparser.ast.expr.StringLiteralExpr;
-import junit.framework.TestCase;
+import com.github.javaparser.ast.body.TypeDeclaration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class AstWalkTest extends TestCase {
+import com.github.javaparser.ast.expr.StringLiteralExpr;
+import junit.framework.TestCase;
+import org.jdraft.macro._dto;
+import org.jdraft.pattern.$;
+
+
+public class WalkTest extends TestCase {
+
+    /**
+     * Verify I can walk into a collection of _code or _type
+     * using the first()
+     *           list()
+     *           in()
+     */
+    public void testWalkCollections(){
+        //we create a collection (in this case a list) to verify we can use the
+        // list(), in(), and first()
+        List<_type> lts = new ArrayList<>();
+        lts.add( _class.of("C", new @_dto Object(){
+            int x, y;
+            String name;
+        }));
+
+        assertEquals( Walk.list(lts, _method.class ).size(), $.method().count(lts));
+        assertNull( Walk.first(lts, _field.class, f-> f.isFinal()));
+        assertNull( Walk.first(lts, _method.class, _method.IS_MAIN)); //find the first main method
+
+        //commented out for noise
+        //_walk.in(lts.get(0), _method.class, m-> System.out.println( m));
+        //_walk.in(lts, _method.class, m-> System.out.println( m) );
+        //_walk.in(lts, _field.class, f-> System.out.println( f ));
+
+        assertEquals( Walk.list(lts, _field.class).size(), $.field().count(lts) );
+        assertEquals( Walk.list(lts, _method.class).size(), $.method().count(lts) );
+        assertEquals( Walk.list(lts, _constructor.class).size(), $.constructor().count(lts) );
+
+        //verify we can find the equals method
+        assertNotNull( $.method().$name("equals").firstIn(lts) );
+
+        assertNull( $.method(_method.IS_MAIN).firstIn(lts) ); //can't find a main method
+
+        //assertEquals( _walk.list(lts, _method.class).size(), $.staticBlock().count(lts) );
+    }
+
+    public void testWalkPackageInfo(){
+        _packageInfo _pi = _packageInfo.of("package aaaa.xxxx.gggg;", "import java.util.*;", "import java.net.URL;");
+        //_walk.in(_pi, n -> System.out.println(n)); //walk nodes & do some action
+        
+        List<_import> imports = Walk.list(_pi, _import.class);
+        assertEquals(2, imports.size());
+        
+        _import _i = Walk.first( Walk.PRE_ORDER, _pi, _import.class, t->true);
+        assertEquals(_import.of("import java.util.*;"), _i);
+        
+        _i = Walk.first( _pi, _import.class );
+        assertEquals(_import.of("import java.util.*;"), _i);
+        
+        
+        ImportDeclaration astI = Walk.first(Walk.PRE_ORDER, _pi, ImportDeclaration.class, t->true);
+        assertEquals(Ast.importDeclaration("import java.util.*;"), astI);
+        
+        astI = Walk.first(_pi, ImportDeclaration.class );
+        assertEquals(Ast.importDeclaration("import java.util.*;"), astI);
+        
+    }
+    
+    /**
+     * Note: _walk is much different than forMembers because it will walk into
+     * nested classes.
+     */
+    public void testWalkList(){
+        _class _c = _class.of("C")
+            .fields("int x=1;", "int y=2;", "String z;");
+        
+        //these arent TOO interesting, just some simple tests
+        //do some stuff with ASTs...
+        assertEquals(3, Walk.list(_c, Ast.FIELD_DECLARATION).size());
+        assertEquals(2, Walk.list(_c, Ast.FIELD_DECLARATION, fd->fd.getVariable(0).getType().isPrimitiveType() ).size());
+
+
+        //using draft classes can also walk, a little more concise IMHO
+        assertEquals(3, Walk.list(_c, _field.class).size());
+
+        assertEquals(2, Walk.list(_c, _field.class, fd->fd.isPrimitive()).size());
+        assertEquals(1, Walk.list(_c, _field.class, fd->fd.isInit(2)).size());
+
+    }
+    
+    public void testWalkIn(){
+        _class _c = _class.of("C")
+                .fields("int x=1;", "int y=2;", "String z;");
+
+
+        //_walk.in(_c, _class.class, c-> System.out.println(c));
+        AtomicInteger at = new AtomicInteger(0);
+        Walk.in(_c, TypeDeclaration.class, td->at.incrementAndGet() );
+        assertTrue(at.intValue() ==1);
+        
+        assertTrue( Walk.list(_c, Ast.ENUM_DECLARATION).isEmpty());
+        //_walk.in(_c, Ast.NODE_WITH_ABSTRACT_MOD, td->System.out.println(td) );
+        //_walk.in(_c, Ast.IMPORT_DECLARATION, td->System.out.println(td) );
+
+    }
+
 
     public @interface ann{
         String value();
@@ -32,7 +136,7 @@ public class AstWalkTest extends TestCase {
     }
 
     public void testWalkParents() {
-         _class _c = _class.of(WalkThis.class);
+        _class _c = _class.of(WalkThis.class);
         //...
 
         // getField("A")
@@ -41,14 +145,14 @@ public class AstWalkTest extends TestCase {
         // getMethod("E.A.toString")
         _method _m = _c.getDeclared(_enum.class, "E").getConstant("A").getMethod("toString");
 
-         //List<Node>
-         List<Node>parents = new ArrayList<Node>();
-         Walk.parents( _m, n -> parents.add( n ));
-         assertTrue( parents.get(0) instanceof EnumConstantDeclaration);
-         assertTrue( parents.get(1) instanceof EnumDeclaration);
-         assertTrue( parents.get(2) instanceof ClassOrInterfaceDeclaration);
-         assertTrue( parents.get(3) instanceof ClassOrInterfaceDeclaration);
-         assertTrue( parents.get(4) instanceof CompilationUnit);
+        //List<Node>
+        List<Node>parents = new ArrayList<Node>();
+        Walk.parents( _m, n -> parents.add( n ));
+        assertTrue( parents.get(0) instanceof EnumConstantDeclaration);
+        assertTrue( parents.get(1) instanceof EnumDeclaration);
+        assertTrue( parents.get(2) instanceof ClassOrInterfaceDeclaration);
+        assertTrue( parents.get(3) instanceof ClassOrInterfaceDeclaration);
+        assertTrue( parents.get(4) instanceof CompilationUnit);
 
         List<_draft>parentNodes = new ArrayList<>();
         //_m.walkParents(n -> parentNodes.add( _java.of( n ) ));
@@ -65,7 +169,7 @@ public class AstWalkTest extends TestCase {
         //_anno _b = _anno.of("a(\"t\")");
         //_class _c = _class.of("C");
         //_c.field(_field.of("int i=1;").annotate(_a, _b));
-        
+
         Node ast = Ast.typeDecl(WalkThis.class);
         //_walk.list(_a, StringLiteralExpr.class);
         List<StringLiteralExpr> l = new ArrayList<>();
@@ -79,7 +183,7 @@ public class AstWalkTest extends TestCase {
         assertEquals( "method", l.get(4).asString());
         assertEquals( "A TOSTRING", l.get(5).asString());
     }
-    
+
     public void testWalkPreorderOrPostOrder(){
         Node ast = Ast.typeDecl(WalkThis.class);
 
@@ -117,7 +221,7 @@ public class AstWalkTest extends TestCase {
         //for POST ORDER THE LEAF NODES ARE PROCESSED FIRST
         Walk.postOrder(ast, _anno._hasAnnos.class, n-> n.hasAnno(ann.class), n-> a.add(n));
         //_java.walk(Node.TreeTraversal.POSTORDER, ast, _anno._hasAnnos.class, n-> n.hasAnno(ann.class), n-> a.add(n));
-        
+
         assertEquals( 5, a.size());
         assertTrue( a.get(0).getAnnos().is("@ann(\"field\")") );
         assertTrue( a.get(1).getAnnos().is("@ann(\"method\")") );
@@ -127,13 +231,13 @@ public class AstWalkTest extends TestCase {
 
         //List<StringLiteralExpr> l = new ArrayList<>();
         //Ast.walk(Node.TreeTraversal.POSTORDER, ast, Ast.STRING_LITERAL_EXPR, n->true, n-> l.add(n));
-        
+
 
         //System.out.println( ast );
         //System.out.println( l );
-        
+
         //assertEquals( 6, l.size());
-       
+
 
         //td.walk(Node.TreeTraversal.POSTORDER).forEach(n-> System.out.println( ai.addAndGet(1)+"> ("+n.getClass().getSimpleName()+") "+ n));
         //td.walk(Node.TreeTraversal.PREORDER).forEach(n-> System.out.println( ai.addAndGet(1)+"> ("+n.getClass().getSimpleName()+") "+ n));
@@ -141,4 +245,5 @@ public class AstWalkTest extends TestCase {
         //td.walk(Node.TreeTraversal.PARENTS).forEach(n-> System.out.println( ai.addAndGet(1)+"> ("+n.getClass().getSimpleName()+") "+ n));
         //td.walk(Node.TreeTraversal.PARENTS)
     }
+
 }

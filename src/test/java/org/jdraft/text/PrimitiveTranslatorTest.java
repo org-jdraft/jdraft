@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jdraft;
+package org.jdraft.text;
 
 import junit.framework.TestCase;
 import org.jdraft.text.Translator;

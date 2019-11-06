@@ -161,8 +161,6 @@ public class _javaTest extends TestCase {
         assertEquals( "Hello", _c.getField("Message").getInit().asStringLiteralExpr().asString()) ;
     }
 
-
-
     public void testAutoCtor(){
         @_promote("aaaa")
         @_autoConstructor
@@ -275,7 +273,5 @@ public class _javaTest extends TestCase {
         //    n-> System.out.println( n ) );
         
         //_java.walk( )
-        
-        
     }
 }

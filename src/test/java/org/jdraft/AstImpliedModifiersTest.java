@@ -1,12 +1,5 @@
 package org.jdraft;
 
-import org.jdraft._annotation;
-import org.jdraft._field;
-import org.jdraft._method;
-import org.jdraft._constructor;
-import org.jdraft._enum;
-import org.jdraft._interface;
-import com.github.javaparser.ast.Modifier;
 import junit.framework.TestCase;
 
 /**
@@ -152,8 +145,5 @@ public class AstImpliedModifiersTest extends TestCase {
         System.out.println("MODS" + 
                 java.lang.reflect.Modifier.toString(EM.class.getDeclaredMethod("m", new Class[0]).getModifiers()) );
     }
-    
-    
-    
     
 }

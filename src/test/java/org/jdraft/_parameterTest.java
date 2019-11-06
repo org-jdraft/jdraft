@@ -5,7 +5,6 @@
  */
 package org.jdraft;
 
-import org.jdraft._parameter;
 import junit.framework.TestCase;
 
 /**

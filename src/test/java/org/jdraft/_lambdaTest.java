@@ -48,6 +48,5 @@ public class _lambdaTest extends TestCase {
         _l = _lambda.of(new Object(){
             Consumer c = (o)->System.out.println(o);
         });
-        
     }
 }

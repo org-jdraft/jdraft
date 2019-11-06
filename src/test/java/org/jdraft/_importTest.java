@@ -1,20 +1,10 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.ImportDeclaration;
-import org.jdraft.Ast;
-import org.jdraft.Ast;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import junit.framework.TestCase;
-import org.jdraft.Ast.*; //add all static types on Ast 
-import org.jdraft._class;
-import org.jdraft._class;
-import org.jdraft._classTest;
-import org.jdraft._import;
-import org.jdraft._import;
-import org.jdraft._imports;
 import java.util.Map;
-//import static draft.java.Ast.importDeclaration; //add a single static methods on Ast
 
 /**
  *

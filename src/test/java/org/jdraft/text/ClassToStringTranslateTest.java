@@ -1,4 +1,4 @@
-package org.jdraft;
+package org.jdraft.text;
 
 import junit.framework.TestCase;
 

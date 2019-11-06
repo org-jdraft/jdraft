@@ -1,9 +1,5 @@
 package org.jdraft;
 
-import org.jdraft._throws;
-import org.jdraft._class;
-import org.jdraft._anno;
-import org.jdraft.Ast;
 import com.github.javaparser.ast.type.ReferenceType;
 import junit.framework.TestCase;
 
