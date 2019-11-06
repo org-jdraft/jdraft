@@ -428,6 +428,18 @@ public class $method
     }
 
     /**
+     * Add a constraint the the method must have all of these annotations
+     * @param annotationClass the type of annotation
+     * @return the modified $method
+     */
+    public $method $and(Class<? extends Annotation>...annotationClass){
+        for(int i=0;i<annotationClass.length;i++){
+            $and( $anno.of(annotationClass[i]) );
+        }
+        return this;
+    }
+
+    /**
      * Adds a NOT constraint to the {@link #constraint} based on one or more $method.$part
      * @param parts
      * @return
@@ -511,6 +523,11 @@ public class $method
         return this;
     }
 
+    /**
+     * The method can NOT have
+     * @param annotationClass
+     * @return
+     */
     public $method $not(Class<? extends Annotation>...annotationClass){
         for(int i=0;i<annotationClass.length;i++){
             $not( $anno.of(annotationClass[i]) );

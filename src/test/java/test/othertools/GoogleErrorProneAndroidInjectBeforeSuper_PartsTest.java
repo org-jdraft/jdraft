@@ -6,7 +6,17 @@ import org.jdraft._code;
 import org.jdraft._method;
 import org.jdraft.pattern.*;
 
-public class GoogleErrorProneAndroidInjectBeforeSuperTest extends TestCase {
+/**
+ * This is a detailed sketch going into how we might develop a
+ * the error prone matcher...
+ *
+ * NOTE: I was modifying the $pattern implementations WHILE I was writing this
+ * test just to cover the bases... (so it's intentianally scatter brained)
+ *
+ * <A HREF=https://github.com/google/error-prone/blob/master/core/src/main/java/com/google/errorprone/bugpatterns/inject/dagger/AndroidInjectionBeforeSuper.java>the ErrorProne Java code</A>
+ * <A HREF="https://errorprone.info/bugpattern/AndroidInjectionBeforeSuper">description of the Error </A>
+ */
+public class GoogleErrorProneAndroidInjectBeforeSuper_PartsTest extends TestCase {
 
     /**
      * We can use/reuse this $pattern elsewhere, it represents top level Android Classes

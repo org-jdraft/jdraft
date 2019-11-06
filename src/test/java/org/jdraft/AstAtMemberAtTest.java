@@ -25,7 +25,4 @@ public class AstAtMemberAtTest extends TestCase {
         assertEquals( Ex.of(100),Ast.at(AstAtMemberAtTest.class, 22,18) );
     }
 
-    public void testGetMemberAt(){
-
-    }
 }
