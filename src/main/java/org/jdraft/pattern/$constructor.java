@@ -18,9 +18,9 @@ import java.util.function.*;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
-import org.jdraft._anno._annos;
+import org.jdraft._annos;
 import org.jdraft._parameters;
-import org.jdraft._typeParameter._typeParameters;
+import org.jdraft._typeParameters;
 import org.jdraft.macro._remove;
 import org.jdraft.macro._toCtor;
 import org.jdraft.macro.macro;

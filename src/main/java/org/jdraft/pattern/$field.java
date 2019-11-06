@@ -360,7 +360,7 @@ public class $field implements Template<_field>, $pattern<_field, $field>, $patt
      * @param as
      * @return
      */
-    public $field $annos( Predicate<_anno._annos> as ){
+    public $field $annos( Predicate<_annos> as ){
         this.annos.$and(as);
         return this;
     }

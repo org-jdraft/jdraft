@@ -26,8 +26,8 @@ import com.github.javaparser.ast.body.FieldDeclaration;
  * <LI>{@link _annotation} {@link com.github.javaparser.ast.body.AnnotationDeclaration}
  * </UL>
  *
- * @param <N>
- * @param <_N>
+ * @param <N> the Ast Node instance type
+ * @param <_N> the _draft instance type
  * @see _declared (an EXTENSION of {@link _member}s that are also {@link _named}...(all {@link _member}s are
  * {@link _declared}s, ACCEPT {@link _initBlock} which is ONLY a {@link _member}
  */

@@ -496,7 +496,7 @@ public class $annotation
         return this;
     }
 
-    public $annotation $imports( _import._imports _is ){
+    public $annotation $imports( _imports _is ){
         return $imports( _is.list());
     }
 
@@ -544,7 +544,7 @@ public class $annotation
         return this.annos;
     }
 
-    public $annotation $annos(Predicate<_anno._annos> annosMatchFn){
+    public $annotation $annos(Predicate<_annos> annosMatchFn){
         this.annos.$and(annosMatchFn);
         return this;
     }

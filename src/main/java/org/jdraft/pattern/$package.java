@@ -264,7 +264,7 @@ public class $package implements $pattern<PackageDeclaration, $package>, Templat
         } else{
             name = this.name.draft(translator, keyValues);
         }
-        _anno._annos _as = this.annos.draft(translator, keyValues);
+        _annos _as = this.annos.draft(translator, keyValues);
 
         PackageDeclaration pd = new PackageDeclaration();
         pd.setName(name);

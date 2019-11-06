@@ -21,8 +21,9 @@ import org.jdraft.macro._toCtor;
 import org.jdraft.macro.macro;
 
 /**
- * Model of a java constructor
- * 
+ * Representation of the Java source code of a constructor ({@link ConstructorDeclaration}
+ * (i.e. "X(){}" in : "<code>class X { X() { } }</code>)
+ *
  * @author Eric
  */
 public final class _constructor implements _anno._hasAnnos<_constructor>, 

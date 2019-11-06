@@ -355,7 +355,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         return this.annos;
     }
 
-    public $type $annos(Predicate<_anno._annos> annosMatchFn){
+    public $type $annos(Predicate<_annos> annosMatchFn){
         this.annos.$and(annosMatchFn);
         return this;
     }

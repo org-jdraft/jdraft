@@ -6,13 +6,24 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.type.Type;
 
-import org.jdraft._anno.*;
-
 /**
+ * Representation of the source of a Java Receiver Parameter
+ * i.e. <PRE>
+ * public class Calculator {
  *
- * All ANNOTATIONS preceding the TYPE will be set on this object, not on the
- * TYPE.
+ *     public Result calc(@ServerObject Calculator this){
+ *        this.getSomething();
+ *         ...
+ *     }
+ *  }
+ * </PRE>
+ * NOTE: the purpose of the Receiver Parameter is to allow Type Annotations
+ * to be applied to the instance parameter (here the instance this is annotated
+ * with @ServerObject in the calc method via a ReceiverParameter)
  *
+ * <A HREF="https://blog.joda.org/2015/12/explicit-receiver-parameters.html">About Explicit Receiver Parameters</A>
+ *
+ * NOTE: All ANNOTATIONS preceding the TYPE will be set on this object, not on the TYPE.
  * @author Eric
  */
 public final class _receiverParameter

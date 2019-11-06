@@ -527,7 +527,7 @@ public class _typeTree {
          * @param _is
          * @return
          */
-        public static _typeNode findOrCreate(List<_typeNode> tns, String name, _import._imports _is) {
+        public static _typeNode findOrCreate(List<_typeNode> tns, String name, _imports _is) {
             Log.info("Finding %s", ()->name);
             Optional<_typeNode> tn = tns.stream().filter(t-> t.isName(name)).findFirst();
             if( tn.isPresent() ){

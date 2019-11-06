@@ -8,8 +8,8 @@ import java.util.*;
 import java.util.stream.*;
 
 /**
- * Common model for all source code units of a Java codebase (a "code unit" is a
- * model of the contents contained within a source file) i.e.<UL>
+ * Common model for all top-level source code units of a Java codebase i.e. {@link CompilationUnit}
+ * (a "code unit" is a model of the contents contained within a "top level source file") i.e.<UL>
  * <LI> a model (AST, etc.) of a regular XXX.java files ({@link _type})
  * <LI> a model of the contents  <B>package-info.java</B> files
  * <LI> <B>module-info.java</B> files
@@ -689,8 +689,6 @@ public interface _code<_C> extends _draft, _java._componentized {
          */
         public _code._cache<_C> copy(){
             List<_C>copyList = new ArrayList<>();
-            //this.codeList.stream().map(c -> c.copy())
-                    //.collect(Collectors.toList(new ArrayList<_C>()));
             this.codeList.forEach(c -> copyList.add( (_C)c.copy() ) );
             return new _cache<_C>(copyList);
         }

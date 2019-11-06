@@ -191,7 +191,7 @@ public class _typeRefTest extends TestCase {
 
    public void testGenericTypes(){
       _class _c = _class.of( GenericTypes.class ); //make sure we can read thesein
-      _typeParameter._typeParameters _args = _c.getMethod( "intersection" ).getTypeParameters();
+      _typeParameters _args = _c.getMethod( "intersection" ).getTypeParameters();
       //Type t = mds.getAt( 0 ).getType();
       //System.out.println( _typeParams );
       _typeRef wc = _c.getMethod("wildcard").getType();
@@ -326,7 +326,7 @@ public class _typeRefTest extends TestCase {
    }
 
    public void testGenericParams(){
-      _typeParameter._typeParameters.of( "<T extends B1 & B2 & B3>" );
+      _typeParameters.of( "<T extends B1 & B2 & B3>" );
    }
 
    public void testFailType(){

@@ -590,7 +590,7 @@ public class $class
         return this;
     }
 
-    public $class $imports( _import._imports _is ){
+    public $class $imports( _imports _is ){
         return $imports( _is.list());
     }
 
@@ -643,7 +643,7 @@ public class $class
         return this.annos;
     }
 
-    public $class $annos(Predicate<_anno._annos> annosMatchFn){
+    public $class $annos(Predicate<_annos> annosMatchFn){
         this.annos.$and(annosMatchFn);
         return this;
     }

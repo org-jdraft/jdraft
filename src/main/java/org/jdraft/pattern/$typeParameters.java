@@ -13,7 +13,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
-import org.jdraft._typeParameter._typeParameters;
+import org.jdraft._typeParameters;
 
 /**
  * prototype for an _import declaration on a Java top level _type 

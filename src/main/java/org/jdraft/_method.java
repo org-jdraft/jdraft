@@ -12,13 +12,16 @@ import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.*;
 
-import org.jdraft._parameter.*;
-import org.jdraft._anno.*;
 import org.jdraft.macro._remove;
 import org.jdraft.macro.macro;
 
 /**
- * Model of a Java method (wraps a {@link MethodDeclaration} AST node
+ * Representation of the source code of a Java method (wraps a {@link MethodDeclaration} AST node
+ * i.e. <PRE>
+ *     public static void main(String[] args){
+ *         System.out.println("Hello World");
+ *     }
+ * </PRE>
  *
  * @author Eric
  */

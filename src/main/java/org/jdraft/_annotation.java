@@ -15,15 +15,14 @@ import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.type.Type;
 
 import com.github.javaparser.utils.Log;
-import org.jdraft._anno.*;
 import org.jdraft.io._in;
 import org.jdraft.macro.macro;
 
 /**
- * Logical Mutable Model of the source code representing a Java annotation.<BR>
+ * Model of the Java source code representing <B>Declaration</B> of an Annotation
+ * (i.e. @interface A{} ) (a {@link _type}) <BR>
  *
  * Implemented as a "Facade" on top of an AST ({@link AnnotationDeclaration})
- * All state is stored within the AST, this facade supplies access to
  *
  * @author Eric
  */

@@ -12,7 +12,12 @@ import com.github.javaparser.ast.type.ReferenceType;
 import com.github.javaparser.ast.type.Type;
 
 /**
- * Model of a Java throws clause
+ * Representation of the source of a Java throws clause attached to a constructor or method
+ * i.e. <PRE> "throws IOException, URISyntaxException" in:
+ *     public static void main(String[] args) throws IOException, URISyntaxException {
+ *      //...
+ *     }
+ * </PRE>
  *
  * @author Eric
  */

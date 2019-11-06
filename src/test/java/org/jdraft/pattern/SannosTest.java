@@ -1,7 +1,7 @@
 package org.jdraft.pattern;
 
 import org.jdraft._anno;
-import org.jdraft._anno._annos;
+import org.jdraft._annos;
 import org.jdraft._class;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;

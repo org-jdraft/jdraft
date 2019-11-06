@@ -16,11 +16,13 @@ import com.github.javaparser.ast.stmt.Statement;
 import org.jdraft.macro._static;
 
 /**
- * Model of a Java initializer block:
+ * Representation of the source code of a Java initializer block:
+ * i.e.:<PRE>
  * class C{}
  *  static { ... } //a static initializer block
  *  { ...} // a non-static (instance) initializer block called before constructor
  * }
+ * </PRE>
  * 
  * There can be one or more static initializer block in each {@link _class} or 
  * {@link _enum}

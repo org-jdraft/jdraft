@@ -6,7 +6,6 @@ import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.type.*;
 
-import org.jdraft._anno.*;
 import org.jdraft.macro._remove;
 import org.jdraft.macro.macro;
 
@@ -15,7 +14,7 @@ import java.util.function.*;
 import java.util.stream.Collectors;
 
 /**
- * Model of a Java Field (A Facade linked to a {@link VariableDeclarator} and
+ * Representation of the Java source of a Field (A Facade linked to a {@link VariableDeclarator} and
  * its parent {@link FieldDeclaration} )
  *
  * NOTE: many variables can be declared in a single {@link FieldDeclaration}:
@@ -27,7 +26,9 @@ import java.util.stream.Collectors;
  *
  * thus, each {@link _field} is a reference to the {@link VariableDeclarator}
  * and it can "lookup" it's parent {@link FieldDeclaration}
+ * quite often, there is a 1-to-1 relationship between _field and {@link FieldDeclaration}
  *
+ * @author Eric
  */
 public final class _field
         implements _javadoc._hasJavadoc<_field>, _anno._hasAnnos<_field>, _modifiers._hasModifiers<_field>,

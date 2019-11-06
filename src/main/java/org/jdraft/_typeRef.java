@@ -6,7 +6,7 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.type.*;
 
-import org.jdraft._anno._annos;
+import org.jdraft._annos;
 
 /**
  * Model of a Java TYPE Declaration (i.e. String, int, List<Boolean>)

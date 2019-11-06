@@ -531,7 +531,7 @@ public class $interface
         return this;
     }
 
-    public $interface $imports( _import._imports _is ){
+    public $interface $imports( _imports _is ){
         return $imports( _is.list());
     }
 
@@ -588,7 +588,7 @@ public class $interface
         return this.annos;
     }
 
-    public $interface $annos(Predicate<_anno._annos> annosMatchFn){
+    public $interface $annos(Predicate<_annos> annosMatchFn){
         this.annos.$and(annosMatchFn);
         return this;
     }
@@ -623,7 +623,7 @@ public class $interface
         return this;
     }
 
-    public $interface $typeParameters(Predicate<_typeParameter._typeParameters> _tpMatchFn){
+    public $interface $typeParameters(Predicate<_typeParameters> _tpMatchFn){
         this.typeParameters.$and(_tpMatchFn);
         return this;
     }

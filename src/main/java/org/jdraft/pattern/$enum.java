@@ -601,7 +601,7 @@ public class $enum
         return this;
     }
 
-    public $enum $imports(_import._imports _is){
+    public $enum $imports(_imports _is){
         _is.forEach( i -> this.imports.add($import.of(i)));
         return this;
     }
@@ -650,7 +650,7 @@ public class $enum
         return this.annos;
     }
 
-    public $enum $annos(Predicate<_anno._annos> annosMatchFn){
+    public $enum $annos(Predicate<_annos> annosMatchFn){
         this.annos.$and(annosMatchFn);
         return this;
     }

@@ -18,13 +18,13 @@ import com.github.javaparser.ast.type.*;
 
 import static org.jdraft.Ast.*;
 
-import org.jdraft._anno._annos;
+import org.jdraft._annos;
 import org.jdraft._anno._hasAnnos;
 import org.jdraft._annotation._element;
 import org.jdraft._body._hasBody;
 import org.jdraft._constructor._hasConstructors;
 import org.jdraft._enum._constant;
-import org.jdraft._import._imports;
+import org.jdraft._imports;
 import org.jdraft._javadoc._hasJavadoc;
 import org.jdraft._method._hasMethods;
 import org.jdraft._modifiers.*;
@@ -33,7 +33,7 @@ import org.jdraft._initBlock._hasInitBlocks;
 import org.jdraft._throws._hasThrows;
 import org.jdraft._type._hasExtends;
 import org.jdraft._type._hasImplements;
-import org.jdraft._typeParameter._typeParameters;
+import org.jdraft._typeParameters;
 import org.jdraft.io._in;
 import org.jdraft.io._io;
 import org.jdraft.macro.macro;
@@ -838,7 +838,7 @@ public interface _java {
         MODULE_DECLARATION("moduleDeclaration", ModuleDeclaration.class),
         PACKAGE("package", PackageDeclaration.class),
         /** i.e. @Deprecated @NotNull */
-        ANNOS("annos", _anno._annos.class),
+        ANNOS("annos", _annos.class),
         /** i.e. @Deprecated */
         ANNO("anno", _anno.class),
         CLASS("class", _class.class),
@@ -854,7 +854,7 @@ public interface _java {
         //parameter
         PARAMETER("parameter", _parameter.class),
         RECEIVER_PARAMETER("receiverParameter", _receiverParameter.class),
-        TYPE_PARAMETERS("typeParameters", _typeParameter._typeParameters.class),
+        TYPE_PARAMETERS("typeParameters", _typeParameters.class),
         TYPE_PARAMETER("typeParameter", TypeParameter.class), //_typeParameter.class
         THROWS("throws", _throws.class),
         NAME("name", String.class),
@@ -862,8 +862,11 @@ public interface _java {
         KEY_VALUES("keyValues", List.class, MemberValuePair.class), //anno
         KEY_VALUE("keyValue", MemberValuePair.class), //anno
 
-        IMPORTS("imports", List.class, _import.class),
-        IMPORT("import", ImportDeclaration.class),
+        IMPORTS("imports", _imports.class),
+        IMPORT("import", _import.class), //todo change to _import
+
+        //IMPORTS("imports", List.class, _import.class),
+        //IMPORT("import", ImportDeclaration.class), //todo change to _import
         STATIC("static", Boolean.class),
         WILDCARD("wildcard", Boolean.class),
         ELEMENTS("elements", List.class, _annotation._element.class), //_annotation

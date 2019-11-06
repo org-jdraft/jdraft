@@ -95,8 +95,8 @@ public class _moduleInfo implements _code<_moduleInfo>, _node<CompilationUnit, _
         m.put(_java.Component.HEADER_COMMENT, getHeaderComment());
         m.put(_java.Component.NAME, getModuleAst().getNameAsString());
         m.put(_java.Component.MODULE_DECLARATION, getModuleAst());
-        m.put(_java.Component.ANNOS, _anno._annos.of(getModuleAst()));
-        m.put(_java.Component.IMPORTS, _import._imports.of(astCompUnit));
+        m.put(_java.Component.ANNOS, _annos.of(getModuleAst()));
+        m.put(_java.Component.IMPORTS, _imports.of(astCompUnit));
         m.put(_java.Component.JAVADOC, this.javadocHolder.getJavadoc());
 
         return m;

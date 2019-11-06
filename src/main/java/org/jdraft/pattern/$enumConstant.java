@@ -410,7 +410,7 @@ public class $enumConstant
         return this;
     }
 
-    public $enumConstant $annos(Predicate<_anno._annos> annosMatchFn){
+    public $enumConstant $annos(Predicate<_annos> annosMatchFn){
         this.annos.$and(annosMatchFn);
         return this;
     }

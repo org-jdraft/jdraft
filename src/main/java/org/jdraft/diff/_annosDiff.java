@@ -9,12 +9,12 @@ import org.jdraft._java.Component;
 import org.jdraft.diff._diff.*;
 
 /**
- * Diff for: {@link org.jdraft._anno} {@link org.jdraft._anno._annos} and {@link org.jdraft._anno._hasAnnos}
+ * Diff for: {@link org.jdraft._anno} {@link org.jdraft._annos} and {@link org.jdraft._anno._hasAnnos}
  *
  * @author Eric
  */
 public class _annosDiff
-    implements _differ<_anno._annos, _node> {
+    implements _differ<_annos, _node> {
 
     public static final _annosDiff INSTANCE = new _annosDiff();
     
@@ -29,7 +29,7 @@ public class _annosDiff
     }
      
     @Override
-    public <_PN extends _node> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, _anno._annos left, _anno._annos right) {
+    public <_PN extends _node> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, _annos left, _annos right) {
         NodeList<AnnotationExpr> laes = left.astAnnNode.getAnnotations();
         NodeList<AnnotationExpr> raes = right.astAnnNode.getAnnotations();
         for (int i = 0; i < laes.size(); i++) {

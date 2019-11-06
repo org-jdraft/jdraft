@@ -12,7 +12,7 @@ import org.jdraft._class;
 import org.jdraft._classTest;
 import org.jdraft._import;
 import org.jdraft._import;
-import org.jdraft._import._imports;
+import org.jdraft._imports;
 import java.util.Map;
 //import static draft.java.Ast.importDeclaration; //add a single static methods on Ast
 

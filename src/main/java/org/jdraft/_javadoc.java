@@ -8,7 +8,9 @@ import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
 
 /**
- * Model of a Javadoc Comment
+ * Representation of the source code of a Javadoc Comment
+ * i.e. <PRE>/** comment &#42;/</PRE>
+ *
  * @author Eric
  */
 public final class _javadoc

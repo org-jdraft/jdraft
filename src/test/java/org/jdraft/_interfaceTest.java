@@ -105,8 +105,8 @@ public class _interfaceTest extends TestCase {
         _interface _i1 = _interface.of("interface R <U extends Comparable<? super java.io.Serializable>>{}");
         _interface _i2 = _interface.of("interface R <U extends Comparable<? super Serializable>>{}");
 
-        _typeParameter._typeParameters _tps1 = _i1.getTypeParameters();
-        _typeParameter._typeParameters _tps2 = _i2.getTypeParameters();
+        _typeParameters _tps1 = _i1.getTypeParameters();
+        _typeParameters _tps2 = _i2.getTypeParameters();
         assertEquals( _tps1, _tps2);
 
         assertEquals( _i1, _i2);

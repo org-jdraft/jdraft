@@ -6,7 +6,7 @@ import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 
 /**
- * model of a package-info.java file
+ * Representation of the Java source code of a package-info.java file
  *
  */
 public class _packageInfo
@@ -132,12 +132,12 @@ public class _packageInfo
     }
 
     @Override
-    public _anno._annos getAnnos() {
+    public _annos getAnnos() {
         if (astCompilationUnit().getPackageDeclaration().isPresent()) {
             //annos are on the packageDeclaration
-            return _anno._annos.of(astCompilationUnit().getPackageDeclaration().get());
+            return _annos.of(astCompilationUnit().getPackageDeclaration().get());
         }
-        return _anno._annos.of(); //dont like this... but
+        return _annos.of(); //dont like this... but
     }
 
     /**
@@ -185,7 +185,7 @@ public class _packageInfo
         m.put(_java.Component.JAVADOC, this.javadocHolder.getJavadoc());
         m.put(_java.Component.PACKAGE, getPackage());
         m.put(_java.Component.ANNOS, getAnnos());
-        m.put(_java.Component.IMPORTS, _import._imports.of(astCompUnit));
+        m.put(_java.Component.IMPORTS, _imports.of(astCompUnit));
         return m;
     }
 }

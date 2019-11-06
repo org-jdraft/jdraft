@@ -8,6 +8,7 @@ package org.jdraft.pattern;
 import com.github.javaparser.ast.expr.MemberValuePair;
 import org.jdraft.Ex;
 import org.jdraft._anno;
+import org.jdraft._annos;
 import org.jdraft._class;
 import java.util.regex.Pattern;
 import junit.framework.TestCase;
@@ -26,7 +27,7 @@ public class SaTest extends TestCase {
         //
         $annos $as = $annos.as();
 
-        assertTrue($as.matches(_anno._annos.of()));
+        assertTrue($as.matches(_annos.of()));
         assertTrue($as.matches(""));
         assertFalse($as.matches("@A"));
 

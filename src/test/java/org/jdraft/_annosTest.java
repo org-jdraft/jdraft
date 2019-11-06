@@ -4,7 +4,7 @@ import org.jdraft._anno;
 import org.jdraft.Ast;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.expr.AnnotationExpr;
-import org.jdraft._anno._annos;
+import org.jdraft._annos;
 import junit.framework.TestCase;
 
 /**

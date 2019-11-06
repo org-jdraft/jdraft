@@ -651,7 +651,7 @@ _class.of("aaaa.bbbb.Local",
 
         _c = _class.of("aaaa.bbbb.C<val>");
         assertTrue( _c.isPublic());
-        assertEquals( _typeParameter._typeParameters.of("<val>"), _c.getTypeParameters());
+        assertEquals( _typeParameters.of("<val>"), _c.getTypeParameters());
         assertEquals("C", _c.getName());
         assertEquals( "aaaa.bbbb", _c.getPackage());
         assertEquals( "aaaa.bbbb.C", _c.getFullName());

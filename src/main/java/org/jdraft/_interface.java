@@ -14,7 +14,8 @@ import java.util.*;
 import java.util.function.Predicate;
 
 /**
- * Model of a Java interface.<BR>
+ * Representation of the source code of a Java interface.<BR>
+ * (i.e. "public interface Marker {}")
  *
  * Implemented as a "Logical Facade" on top of an AST
  * ({@link ClassOrInterfaceDeclaration}) for logical manipulation.

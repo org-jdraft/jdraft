@@ -4,7 +4,7 @@ import java.util.*;
 import com.github.javaparser.ast.ImportDeclaration;
 
 import org.jdraft.*;
-import org.jdraft._import._imports;
+import org.jdraft._imports;
 import org.jdraft.diff._diff.*;
 
 public class _importsDiff

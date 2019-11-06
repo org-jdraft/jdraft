@@ -11,7 +11,7 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.type.TypeParameter;
 import com.github.javaparser.ast.type.UnionType;
-import org.jdraft._typeParameter._typeParameters;
+import org.jdraft._typeParameters;
 import junit.framework.TestCase;
 
 import java.io.File;
@@ -99,13 +99,13 @@ public class _typeParameterTest extends TestCase {
         assertEquals( _a, _b);
         assertEquals( _a.hashCode(), _b.hashCode());
 
-        _a = _typeParameter._typeParameters.of("<A extends aaaa.B>");
-        _b = _typeParameter._typeParameters.of("<A extends B>");
+        _a = _typeParameters.of("<A extends aaaa.B>");
+        _b = _typeParameters.of("<A extends B>");
         assertEquals( _a, _b);
 
         //out of order, &
-        _a = _typeParameter._typeParameters.of("<A extends aaaa.B, T extends ccc.R>");
-        _b = _typeParameter._typeParameters.of("<T extends R, A extends B>");
+        _a = _typeParameters.of("<A extends aaaa.B, T extends ccc.R>");
+        _b = _typeParameters.of("<T extends R, A extends B>");
         assertEquals( _a, _b);
     }
 
@@ -207,7 +207,7 @@ public class _typeParameterTest extends TestCase {
     }
 
     public void testTypeArgs(){
-        _typeParameter._typeParameters _tp = _typeParameter._typeParameters.of("<T>");
+        _typeParameters _tp = _typeParameters.of("<T>");
         System.out.println (_tp);
 
     }

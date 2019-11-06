@@ -1,6 +1,6 @@
 package org.jdraft.pattern;
 
-import org.jdraft._typeParameter._typeParameters;
+import org.jdraft._typeParameters;
 import junit.framework.TestCase;
 
 /**

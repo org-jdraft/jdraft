@@ -12,7 +12,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
-import org.jdraft._anno._annos;
+import org.jdraft._annos;
 import org.jdraft._anno._hasAnnos;
 
 /**

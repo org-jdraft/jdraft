@@ -3,12 +3,14 @@ package org.jdraft;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.nodeTypes.NodeWithModifiers;
 import com.github.javaparser.ast.Modifier;
+
 import java.util.*;
 
 /**
- * I find the default AST implementation (the EnumSet<Modifier>)
- * cumbersome to use in practice
- * this tries to make it more palatable from a Program dev API perspective
+ * Representation of the source of a listing of Java Modifiers
+ * i.e.<PRE>
+ *     "public static final"
+ * </PRE>
  *
  * @author Eric
  */

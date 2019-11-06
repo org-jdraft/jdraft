@@ -1886,7 +1886,7 @@ public enum _walk {
                     });
             return astRootNode;
         }
-        else if( _javaClass == _typeParameter._typeParameters.class ) {
+        else if( _javaClass == _typeParameters.class ) {
             in( tt, levels,
                     astRootNode,
                     Node.class,

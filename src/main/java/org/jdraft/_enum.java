@@ -6,7 +6,6 @@ import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import org.jdraft._anno.*;
 import org.jdraft.io._in;
 import org.jdraft.macro.macro;
 
@@ -16,7 +15,12 @@ import java.util.function.*;
 import java.util.stream.Collectors;
 
 /**
- * Logical Mutable Model of the source code representing a Java enum.<BR>
+ * Representation of the source code a Java enum.({@link EnumDeclaration})<BR>
+ * i.e.<PRE>
+ *     public enum Suit{
+ *         HEART,CLUBS,SPADES,DIAMONDS;
+ *     }
+ * </PRE>
  *
  * Implemented as a "Logical Facade" on top of an AST
  * ({@link EnumDeclaration}) for logical manipulation

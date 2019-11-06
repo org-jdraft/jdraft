@@ -43,7 +43,6 @@ public interface _declared<N extends Node, _D extends _node & _named & _anno._ha
         return _javadoc.of((NodeWithJavadoc) this.ast());
     }
 
-    //@Override
     default _D removeJavadoc() {
         ((NodeWithJavadoc) this.ast()).removeJavaDocComment();
         return (_D) this;
