@@ -17,6 +17,7 @@ import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.utils.Log;
 import org.jdraft.io._in;
 import org.jdraft.macro.macro;
+import org.jdraft.text.Text;
 
 /**
  * Model of the Java source code representing <B>Declaration</B> of an Annotation

@@ -1,6 +1,6 @@
 package org.jdraft.io;
 
-import org.jdraft.Text;
+import org.jdraft.text.Text;
 
 import java.io.IOException;
 import java.nio.file.FileVisitResult;

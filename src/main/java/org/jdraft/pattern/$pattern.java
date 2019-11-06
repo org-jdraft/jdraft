@@ -20,6 +20,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.jdraft.*;
+import org.jdraft.text.Template;
+import org.jdraft.text.Tokens;
+import org.jdraft.text.Translator;
 
 /**
  * $pattern is similar to the new Pattern matching Switch features is Java 13/14:

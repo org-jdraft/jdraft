@@ -14,6 +14,7 @@ import com.github.javaparser.ast.nodeTypes.NodeWithMembers;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import org.jdraft.macro._static;
+import org.jdraft.text.Text;
 
 /**
  * Representation of the source code of a Java initializer block:

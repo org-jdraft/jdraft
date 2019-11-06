@@ -13,6 +13,10 @@ import java.util.stream.Collectors;
 
 import com.github.javaparser.ast.type.Type;
 import org.jdraft.*;
+import org.jdraft.text.Template;
+import org.jdraft.text.Text;
+import org.jdraft.text.Tokens;
+import org.jdraft.text.Translator;
 
 /**
  * pattern for an _throws declaration (i.e. on methods and constructors)

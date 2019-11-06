@@ -5,6 +5,7 @@ import java.util.*;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.type.Type;
+import org.jdraft.text.Text;
 
 /**
  * Representation of the source of a Java Receiver Parameter

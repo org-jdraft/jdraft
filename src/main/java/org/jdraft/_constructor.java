@@ -8,9 +8,6 @@ import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
 
-import org.jdraft._anno.*;
-import org.jdraft._parameter.*;
-import org.jdraft._typeParameter.*;
 import org.jdraft.macro._remove;
 
 import java.lang.reflect.Constructor;
@@ -19,6 +16,7 @@ import java.util.function.*;
 import java.util.stream.Collectors;
 import org.jdraft.macro._toCtor;
 import org.jdraft.macro.macro;
+import org.jdraft.text.Text;
 
 /**
  * Representation of the Java source code of a constructor ({@link ConstructorDeclaration}

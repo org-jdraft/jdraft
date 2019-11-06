@@ -3,6 +3,7 @@ package org.jdraft;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
+import org.jdraft.text.Text;
 
 /**
  * A {@link _member} defined within a {@link _type} (that is callable/referenceable/reachable) from the outside

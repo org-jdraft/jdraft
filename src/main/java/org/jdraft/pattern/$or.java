@@ -13,6 +13,10 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
+import org.jdraft.text.Stencil;
+import org.jdraft.text.Text;
+import org.jdraft.text.Tokens;
+import org.jdraft.text.Translator;
 
 /**
  * A Conjunction over one or more patterns OR'ed together

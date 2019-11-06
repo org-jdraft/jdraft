@@ -6,7 +6,8 @@
 package org.jdraft;
 
 import junit.framework.TestCase;
-import org.jdraft.*;
+import org.jdraft.text.Translator;
+
 /**
  *
  * @author Eric

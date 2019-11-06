@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import org.jdraft.*;
 import org.jdraft.macro._remove;
 import org.jdraft.macro.macro;
+import org.jdraft.text.*;
 
 
 /**

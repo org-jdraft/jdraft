@@ -1,6 +1,6 @@
 package org.jdraft;
 
-import org.jdraft.Text;
+import org.jdraft.text.Text;
 import junit.framework.TestCase;
 
 /**

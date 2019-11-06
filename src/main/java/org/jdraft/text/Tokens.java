@@ -1,4 +1,6 @@
-package org.jdraft;
+package org.jdraft.text;
+
+import org.jdraft._jdraftException;
 
 import java.util.*;
 

@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
-import org.jdraft.*;
+import org.jdraft.text.Stencil;
+import org.jdraft.text.Tokens;
+import org.jdraft.text.Translator;
 
 
 /**
@@ -77,7 +79,7 @@ public final class $id {
         return this;
     }
 
-    public $id hardcode$( Translator tr, Tokens tokens){
+    public $id hardcode$(Translator tr, Tokens tokens){
         this.idStencil = this.idStencil.hardcode$(tr, tokens);
         return this;
     }

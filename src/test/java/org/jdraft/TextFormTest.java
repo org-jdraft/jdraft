@@ -1,6 +1,7 @@
 package org.jdraft;
 
-import org.jdraft.TextForm.Builder;
+import org.jdraft.text.TextForm;
+import org.jdraft.text.TextForm.Builder;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;

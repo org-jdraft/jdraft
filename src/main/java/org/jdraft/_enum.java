@@ -8,6 +8,7 @@ import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.jdraft.io._in;
 import org.jdraft.macro.macro;
+import org.jdraft.text.Text;
 
 import java.io.InputStream;
 import java.util.*;

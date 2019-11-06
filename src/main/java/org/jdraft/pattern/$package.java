@@ -10,6 +10,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
+import org.jdraft.text.*;
 
 /**
  * $proto on modelling the package declaration

@@ -6,6 +6,7 @@ import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import org.jdraft.*;
 
 import com.github.javaparser.utils.Log;
+import org.jdraft.text.Text;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
@@ -42,7 +43,7 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
     }
 
     public void accept(N node){
-        Log.info("          Expanding %s\n          on:\n%s", ()->toString(), ()->Text.indent(node.toString(), "          "));
+        Log.info("          Expanding %s\n          on:\n%s", ()->toString(), ()-> Text.indent(node.toString(), "          "));
         expand(node);
         removeAnnotation(node, aType);
     }

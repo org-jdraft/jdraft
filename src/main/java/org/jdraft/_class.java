@@ -11,10 +11,10 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
 import org.jdraft._java.*;
 import com.github.javaparser.utils.Log;
-import org.jdraft._anno.*;
 import org.jdraft.io._in;
 import org.jdraft.macro._toCtor;
 import org.jdraft.macro.macro;
+import org.jdraft.text.Text;
 
 /**
  * Top-Level jdraft object representing a Java class, and implementation of a {@link _type}<BR/>

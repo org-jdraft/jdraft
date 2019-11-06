@@ -11,6 +11,10 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
+import org.jdraft.text.Template;
+import org.jdraft.text.Text;
+import org.jdraft.text.Tokens;
+import org.jdraft.text.Translator;
 
 /**
  * pattern of "case" within a Switch Statement (a {@link SwitchEntry})

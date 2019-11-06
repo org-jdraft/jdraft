@@ -2,6 +2,8 @@ package org.jdraft;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.modules.ModuleDeclaration;
+import org.jdraft.text.Text;
+
 import java.util.*;
 
 /**

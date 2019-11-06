@@ -18,13 +18,11 @@ import com.github.javaparser.ast.type.*;
 
 import static org.jdraft.Ast.*;
 
-import org.jdraft._annos;
 import org.jdraft._anno._hasAnnos;
 import org.jdraft._annotation._element;
 import org.jdraft._body._hasBody;
 import org.jdraft._constructor._hasConstructors;
 import org.jdraft._enum._constant;
-import org.jdraft._imports;
 import org.jdraft._javadoc._hasJavadoc;
 import org.jdraft._method._hasMethods;
 import org.jdraft._modifiers.*;
@@ -33,10 +31,10 @@ import org.jdraft._initBlock._hasInitBlocks;
 import org.jdraft._throws._hasThrows;
 import org.jdraft._type._hasExtends;
 import org.jdraft._type._hasImplements;
-import org.jdraft._typeParameters;
 import org.jdraft.io._in;
 import org.jdraft.io._io;
 import org.jdraft.macro.macro;
+import org.jdraft.text.Text;
 
 /**
  * <P>A "Meta-Model" implementation/view of entities for representing java source code

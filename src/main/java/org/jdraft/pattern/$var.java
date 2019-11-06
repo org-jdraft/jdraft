@@ -13,6 +13,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
+import org.jdraft.text.*;
 
 /**
  * prototype for querying and composing a {@link VariableDeclarator}

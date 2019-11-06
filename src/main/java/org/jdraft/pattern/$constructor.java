@@ -24,6 +24,7 @@ import org.jdraft._typeParameters;
 import org.jdraft.macro._remove;
 import org.jdraft.macro._toCtor;
 import org.jdraft.macro.macro;
+import org.jdraft.text.*;
 
 /**
  * prototype/template for a Java {@link _constructor}

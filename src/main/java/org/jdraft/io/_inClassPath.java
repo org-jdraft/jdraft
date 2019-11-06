@@ -1,6 +1,6 @@
 package org.jdraft.io;
 
-import org.jdraft.Text;
+import org.jdraft.text.Text;
 import java.net.URISyntaxException;
 
 import java.net.URL;

@@ -1,14 +1,15 @@
 package test.byexample;
 
 import junit.framework.TestCase;
-import org.jdraft.TextForm;
+import org.jdraft.text.TextForm;
+import org.jdraft.text.Template;
 
 import java.util.BitSet;
 import java.util.List;
 import java.util.regex.Pattern;
 
 /**
- * TextBlanks is a {@link org.jdraft.Template<String>} model of text and blanks like a "Form Letter"
+ * TextBlanks is a {@link Template <String>} model of text and blanks like a "Form Letter"
  * <PRE>
  *     "I ____________ on ____________ hereby dedicate this _______________
  *     the property of ______________"

@@ -2,7 +2,7 @@ package org.jdraft.mr;
 
 import com.github.javaparser.ast.Node;
 import junit.framework.TestCase;
-import org.jdraft.Stencil;
+import org.jdraft.text.Stencil;
 import org.jdraft._class;
 import org.jdraft.pattern.*;
 import org.jdraft.runtime._typeTree;

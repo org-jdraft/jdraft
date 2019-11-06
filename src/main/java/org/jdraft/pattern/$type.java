@@ -11,6 +11,8 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import org.jdraft.*;
+import org.jdraft.text.Tokens;
+import org.jdraft.text.Translator;
 
 /**
  *

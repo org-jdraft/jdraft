@@ -13,6 +13,10 @@ import java.util.function.*;
 
 import org.jdraft.*;
 import org.jdraft.macro._remove;
+import org.jdraft.text.Template;
+import org.jdraft.text.Text;
+import org.jdraft.text.Tokens;
+import org.jdraft.text.Translator;
 
 /**
  * Template of a Java statements (one or more {@link Statement}s

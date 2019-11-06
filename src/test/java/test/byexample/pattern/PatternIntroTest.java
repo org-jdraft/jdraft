@@ -4,7 +4,7 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import junit.framework.TestCase;
 import org.jdraft.Stmt;
-import org.jdraft.Tokens;
+import org.jdraft.text.Tokens;
 import org.jdraft.pattern.$pattern;
 import org.jdraft.pattern.$stmt;
 

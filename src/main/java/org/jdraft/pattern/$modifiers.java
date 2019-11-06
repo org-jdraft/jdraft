@@ -12,6 +12,9 @@ import java.util.stream.Collectors;
 
 import org.jdraft.*;
 import org.jdraft._modifiers._hasModifiers;
+import org.jdraft.text.Text;
+import org.jdraft.text.Tokens;
+import org.jdraft.text.Translator;
 
 /**
  * instead of directly matching (some expected set of modifiers) against a target

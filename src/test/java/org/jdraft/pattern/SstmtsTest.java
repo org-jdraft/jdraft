@@ -4,7 +4,7 @@ import com.github.javaparser.ast.stmt.AssertStmt;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.Statement;
-import org.jdraft.Tokens;
+import org.jdraft.text.Tokens;
 import org.jdraft.Ast;
 import org.jdraft.Stmt;
 import org.jdraft._body;

@@ -8,6 +8,7 @@ import com.github.javaparser.ast.type.*;
 
 import org.jdraft.macro._remove;
 import org.jdraft.macro.macro;
+import org.jdraft.text.Text;
 
 import java.util.*;
 import java.util.function.*;

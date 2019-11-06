@@ -7,6 +7,8 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import org.jdraft.pattern.$stmt.Select;
 import junit.framework.TestCase;
+import org.jdraft.text.Tokens;
+import org.jdraft.text.Translator;
 
 import java.util.List;
 import java.util.Map;

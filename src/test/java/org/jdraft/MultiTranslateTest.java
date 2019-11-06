@@ -1,11 +1,11 @@
 package org.jdraft;
 
-import org.jdraft._class;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.jdraft.*;
+
+import org.jdraft.text.Translator;
 
 public class MultiTranslateTest extends TestCase {
 

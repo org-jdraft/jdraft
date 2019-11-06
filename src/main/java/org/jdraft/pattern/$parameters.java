@@ -12,6 +12,10 @@ import java.util.stream.Collectors;
 
 import org.jdraft.*;
 import org.jdraft._parameters;
+import org.jdraft.text.Template;
+import org.jdraft.text.Text;
+import org.jdraft.text.Tokens;
+import org.jdraft.text.Translator;
 
 /**
  * Pattern for parameter list

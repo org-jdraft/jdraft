@@ -2,15 +2,7 @@ package org.jdraft.pattern;
 
 import org.jdraft.Ast;
 import junit.framework.TestCase;
-import org.jdraft.Stencil;
-import org.jdraft.Tokens;
 import org.jdraft._class;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.MatchResult;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  *

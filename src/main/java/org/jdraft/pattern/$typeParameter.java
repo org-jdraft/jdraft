@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import org.jdraft.*;
 import org.jdraft._annos;
+import org.jdraft.text.*;
 
 /**
  * prototype / template model of a _typeParameter

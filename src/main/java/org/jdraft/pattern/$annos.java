@@ -14,6 +14,10 @@ import java.util.stream.Collectors;
 import org.jdraft.*;
 import org.jdraft._annos;
 import org.jdraft._anno._hasAnnos;
+import org.jdraft.text.Template;
+import org.jdraft.text.Text;
+import org.jdraft.text.Tokens;
+import org.jdraft.text.Translator;
 
 /**
  * Prototype of (group of) {@link _annos} for composing and query

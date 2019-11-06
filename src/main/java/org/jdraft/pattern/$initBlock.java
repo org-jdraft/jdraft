@@ -12,6 +12,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
+import org.jdraft.text.*;
 
 /**
  * $pattern representing an initializer block (either a static or non-static)

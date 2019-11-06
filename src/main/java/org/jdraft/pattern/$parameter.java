@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import org.jdraft.*;
 import org.jdraft._annos;
+import org.jdraft.text.*;
 
 /**
  * @author Eric
@@ -364,7 +365,7 @@ public class $parameter implements Template<_parameter>, $pattern<_parameter, $p
      * @param keyValues
      * @return 
      */
-    public String composeToString( Translator translator, Map<String, Object> keyValues) {
+    public String composeToString(Translator translator, Map<String, Object> keyValues) {
         StringBuilder sb = new StringBuilder();
         //here use a single " " as a separator between annos and after the last anno
         sb.append( this.annos.draft(translator, keyValues, " ") );

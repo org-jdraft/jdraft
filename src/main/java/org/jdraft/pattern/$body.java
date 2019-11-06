@@ -10,6 +10,10 @@ import com.github.javaparser.ast.nodeTypes.NodeWithOptionalBlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
 
 import org.jdraft.*;
+import org.jdraft.text.Template;
+import org.jdraft.text.Text;
+import org.jdraft.text.Tokens;
+import org.jdraft.text.Translator;
 
 import java.util.*;
 import java.util.function.*;
@@ -481,7 +485,7 @@ public class $body implements Template<_body>, $pattern<_body, $body>, $pattern.
         return select(_body.of(body));
     }
 
-    public Tokens parse( _body body ){
+    public Tokens parse(_body body ){
 
         if( this.isImplemented == null && this.bodyStmts ==null ){
             return new Tokens();

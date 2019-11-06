@@ -1,7 +1,7 @@
 package test.byexample.pattern;
 
 import junit.framework.TestCase;
-import org.jdraft.Stencil;
+import org.jdraft.text.Stencil;
 import org.jdraft.Stmt;
 import org.jdraft._class;
 import org.jdraft.pattern.*;

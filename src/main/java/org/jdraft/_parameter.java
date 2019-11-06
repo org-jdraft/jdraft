@@ -3,7 +3,6 @@ package org.jdraft;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
@@ -12,7 +11,7 @@ import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
 import com.github.javaparser.ast.type.Type;
 
 import org.jdraft._modifiers._hasFinal;
-import org.jdraft._anno.*;
+import org.jdraft.text.Text;
 
 /**
  * model of a parameter declaration (for {@link _method}s or {@link _constructor}s)

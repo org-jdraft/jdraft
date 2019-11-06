@@ -7,12 +7,12 @@ import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.*;
 
 import org.jdraft.*;
 import org.jdraft.Ex.QuadConsumer;
 import org.jdraft.Ex.TriConsumer;
+import org.jdraft.text.*;
 
 /**
  * Pattern of a Java {@link Statement} that provides operations for

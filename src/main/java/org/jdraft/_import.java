@@ -4,6 +4,7 @@ import com.github.javaparser.ast.ImportDeclaration;
 import java.lang.reflect.Method;
 import java.util.*;
 import org.jdraft.macro._remove;
+import org.jdraft.text.Text;
 
 /**
  * Representation of the source of a single Java import declaration

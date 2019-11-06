@@ -1,6 +1,6 @@
 package org.jdraft.io;
 
-import org.jdraft.Text;
+import org.jdraft.text.Text;
 import org.jdraft._code;
 import org.jdraft._type;
 import java.io.IOException;

@@ -8,6 +8,7 @@ import org.jdraft._type;
 import org.jdraft.Ast;
 import com.github.javaparser.ast.ImportDeclaration;
 import org.jdraft.*;
+import org.jdraft.text.Stencil;
 
 import java.util.*;
 import java.util.function.Predicate;

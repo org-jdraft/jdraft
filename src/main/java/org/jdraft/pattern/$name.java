@@ -3,7 +3,10 @@ package org.jdraft.pattern;
 import java.util.*;
 import java.util.function.Predicate;
 
-import org.jdraft.*;
+import org.jdraft.text.Stencil;
+import org.jdraft.text.Text;
+import org.jdraft.text.Tokens;
+import org.jdraft.text.Translator;
 
 /**
  * A name within the AST that can be :

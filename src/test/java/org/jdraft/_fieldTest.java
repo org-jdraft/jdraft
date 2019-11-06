@@ -2,11 +2,11 @@ package org.jdraft;
 
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
-import org.jdraft._anno.*;
 
 import java.util.List;
 
 import junit.framework.TestCase;
+import org.jdraft.text.Text;
 
 /**
  *

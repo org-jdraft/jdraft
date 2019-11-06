@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
+import org.jdraft.text.Text;
 
 /**
  * Representation of the Java source code of a package-info.java file

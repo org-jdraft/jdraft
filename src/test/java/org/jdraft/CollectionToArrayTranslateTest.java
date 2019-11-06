@@ -1,9 +1,9 @@
 package org.jdraft;
 
-import org.jdraft._class;
 import junit.framework.TestCase;
 
-import org.jdraft.*;
+import org.jdraft.text.Translator;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,7 +16,7 @@ public class CollectionToArrayTranslateTest
         assertTrue(
                 Arrays.deepEquals(
                         new Object[0],
-                        (Object[])Translator.CollectionToArray.translate( Collections.EMPTY_LIST ) )
+                        (Object[]) Translator.CollectionToArray.translate( Collections.EMPTY_LIST ) )
         );
     }
 

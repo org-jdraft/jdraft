@@ -33,6 +33,7 @@ import java.util.regex.Pattern;
 import org.jdraft.io._io;
 import org.jdraft.io._ioException;
 import org.jdraft.io._in;
+import org.jdraft.text.Text;
 
 /**
  * Translator for Converting from a String or Java reflective classes to AST

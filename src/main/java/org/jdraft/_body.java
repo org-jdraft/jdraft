@@ -18,6 +18,7 @@ import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 
 import org.jdraft.macro._remove;
+import org.jdraft.text.Text;
 
 /**
  * The "body" part of methods, constructors, and static blocks (i.e.

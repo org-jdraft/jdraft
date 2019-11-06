@@ -1,7 +1,10 @@
 package test.byexample;
 
 import junit.framework.TestCase;
-import org.jdraft.Translator;
+import org.jdraft.text.Translator;
+import org.jdraft.text.Stencil;
+import org.jdraft.text.Template;
+import org.jdraft.text.TextForm;
 
 import java.lang.reflect.AnnotatedType;
 import java.util.ArrayList;
@@ -22,9 +25,9 @@ import java.util.Map;
  * //prints out "1,2,3,4"
  *
  * </PRE>
- * @see org.jdraft.TextForm
- * @see org.jdraft.Stencil
- * @see org.jdraft.Template
+ * @see TextForm
+ * @see Stencil
+ * @see Template
  */
 public class TranslatorByExampleTest extends TestCase {
 

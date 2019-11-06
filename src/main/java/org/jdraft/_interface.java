@@ -5,9 +5,9 @@ import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.type.*;
-import org.jdraft._anno.*;
 import org.jdraft.io._in;
 import org.jdraft.macro.macro;
+import org.jdraft.text.Text;
 
 import java.io.InputStream;
 import java.util.*;

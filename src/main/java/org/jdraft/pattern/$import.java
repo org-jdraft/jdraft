@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import org.jdraft.*;
+import org.jdraft.text.*;
 
 /**
  * prototype for an _import declaration on a Java top level _type 

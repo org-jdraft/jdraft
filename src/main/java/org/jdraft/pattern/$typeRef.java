@@ -12,6 +12,7 @@ import java.util.function.Predicate;
 
 import com.github.javaparser.ast.type.WildcardType;
 import org.jdraft.*;
+import org.jdraft.text.*;
 
 /**
  * Template for a Java Type {@link Type} Reference
@@ -218,7 +219,7 @@ public class $typeRef
      * @param kvs
      * @return 
      */
-    public $typeRef hardcode$( Translator translator, Tokens kvs ) {
+    public $typeRef hardcode$(Translator translator, Tokens kvs ) {
         Stencil st = typePattern();
         st = st.hardcode$(translator, kvs);
         this.type = Ast.typeRef(st.toString());

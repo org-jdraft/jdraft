@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.function.*;
 
 import org.jdraft.*;
+import org.jdraft.text.*;
 
 /**
  * $pattern for any {@link com.github.javaparser.ast.expr.Expression}) implementation

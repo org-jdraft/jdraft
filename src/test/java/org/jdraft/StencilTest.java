@@ -1,6 +1,10 @@
 package org.jdraft;
 
 import junit.framework.TestCase;
+import org.jdraft.text.Stencil;
+import org.jdraft.text.TextForm;
+import org.jdraft.text.Tokens;
+import org.jdraft.text.Translator;
 
 import java.util.List;
 import java.util.Map;

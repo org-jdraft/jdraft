@@ -14,6 +14,7 @@ import com.github.javaparser.ast.type.*;
 
 import org.jdraft.macro._remove;
 import org.jdraft.macro.macro;
+import org.jdraft.text.Text;
 
 /**
  * Representation of the source code of a Java method (wraps a {@link MethodDeclaration} AST node

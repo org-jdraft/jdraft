@@ -1,4 +1,4 @@
-package org.jdraft;
+package org.jdraft.text;
 
 import java.lang.reflect.*;
 import java.util.Collection;

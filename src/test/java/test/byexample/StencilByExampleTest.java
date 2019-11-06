@@ -1,7 +1,7 @@
 package test.byexample;
 
 import junit.framework.TestCase;
-import org.jdraft.*;
+import org.jdraft.text.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.Map;
  * <LI>A Template/Pattern for binding parameter values and building structured text
  * <LI>A way for parsing/extracting parameters form structured text that follows the pattern
  * </UL>
- * The Stencil API builds on top of the {@link org.jdraft.TextForm} API to provide
+ * The Stencil API builds on top of the {@link TextForm} API to provide
  * NAMED parameter bindings.
  *
  * (it is a little bit like a "fill in the blanks" form and like a very Regex)
@@ -21,7 +21,7 @@ import java.util.Map;
  * We demarcate things that are intended to be "parameters" within the text
  * by using prefix and postfix $ $s
  *
- * @see org.jdraft.TextForm
+ * @see TextForm
  * @see TranslatorByExampleTest
  * @see TextFormByExampleTest
  */

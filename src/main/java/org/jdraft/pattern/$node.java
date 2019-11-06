@@ -11,6 +11,10 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import org.jdraft.*;
+import org.jdraft.text.Stencil;
+import org.jdraft.text.Text;
+import org.jdraft.text.Tokens;
+import org.jdraft.text.Translator;
 
 /**
  * Any Ast Node that can be matched, extracted, Selected, Removed, Replaced
@@ -129,7 +133,7 @@ public class $node implements $pattern<Node, $node>, $body.$part, $method.$part,
      * @param kvs
      * @return
      */
-    public $node hardcode$( Translator translator, Tokens kvs ) {
+    public $node hardcode$(Translator translator, Tokens kvs ) {
         this.nodeStencil = this.nodeStencil.hardcode$(translator, kvs);
         return this;
     }
