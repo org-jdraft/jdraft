@@ -1645,7 +1645,7 @@ public final class $ {
         return $node.of(proto, nodeClasses);
     }
 
-    public static $node of(Class<? extends Node> nodeClass){
+    public static $node of(Class nodeClass){
         return $node.of(new Class[]{nodeClass});
     }
 

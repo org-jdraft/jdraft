@@ -1437,7 +1437,37 @@ public class $stmt<T extends Statement>
     public <_J extends _draft> _J replaceIn(_J _j, String... statment_s ){
         $stmts $sn = $stmts.of(statment_s);
         return replaceIn(_j, $sn);
-    }    
+    }
+
+    /** comments out the matching code
+     * as a BlockStmt containing the code
+     * i.e.
+     * //comment out all assertStmts
+     * class A{
+     *     void m(){
+     *         assert(1==1);
+     *     }
+     * }
+     * _class _c = $.assertStmt().commentOut(A.class);
+     * class A{
+     *     void m(){
+     *         { /* assert(1==1); * / }
+     *     }
+     * }
+     */
+    public <N extends Node> N commentOut( N ast ){
+        return forEachIn(ast, n-> n.replace( Ast.blockStmt("{ /* "+n.toString(Ast.PRINT_NO_COMMENTS)+" */}")));
+    }
+
+    /** comments out the matching code */
+    public <_CT extends _type> _CT commentOut( Class clazz){
+        return (_CT)commentOut( _class.of(clazz));
+    }
+
+    /** comments out the matching code */
+    public <_J extends _draft> _J commentOut(_J _j){
+        return forEachIn(_j, s-> s.replace( Ast.blockStmt("{ /* "+s.toString(Ast.PRINT_NO_COMMENTS)+" */}")));
+    }
 
     /**
      * 
@@ -1447,7 +1477,7 @@ public class $stmt<T extends Statement>
      * @return 
      */
     public <_J extends _draft> _J replaceIn(_J _j, $stmts $protoReplacement ){
-        AtomicInteger ai = new AtomicInteger(0);
+        //AtomicInteger ai = new AtomicInteger(0);
         _walk.in(_j, this.statementClass, st->{
             $stmt.Select sel = select( st );
             if( sel != null ){

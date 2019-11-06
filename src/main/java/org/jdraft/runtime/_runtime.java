@@ -16,6 +16,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
 import javax.tools.JavaCompiler;
@@ -109,7 +110,7 @@ public class _runtime {
      * @param <C>
      * @return
      */
-    public static <C extends _code> List<_classFile> compile(List<C> codeList){
+    public static <_C extends _code> List<_classFile> compile(List<_C> codeList){
         List<JavaFileObject> fs = new ArrayList<>();
         codeList.forEach( f -> fs.add( _javaFile.of(f)));
         return compile(fs);
@@ -702,13 +703,17 @@ public class _runtime {
         return _runtime.of(Collections.EMPTY_LIST, true, sfs);
     }
 
+    public static <_C extends _code> _runtime of(_C code ){
+        return of( Stream.of(code).collect(Collectors.toList()));
+    }
+
     /**
      *
      * @param codeList
      * @param <C>
      * @return
      */
-    public static <C extends _code> _runtime of(List<C> codeList ){
+    public static <_C extends _code> _runtime of(List<_C> codeList ){
         List<JavaFileObject> sfs = new ArrayList<>();
         codeList.forEach(c-> sfs.add( _javaFile.of(c)));
         return _runtime.of(Collections.EMPTY_LIST, true, sfs);

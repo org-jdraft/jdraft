@@ -179,7 +179,8 @@ public class $import
 
     private $import(_import proto ){
         if( proto.isWildcard() ){
-            this.importStencil = Stencil.of( proto.getName()+".*" );
+            //this.importStencil = Stencil.of( proto.getName()+".*" );
+            this.importStencil = Stencil.of( proto.getName());
             this.isWildcard = true;
         } else{
             this.importStencil = Stencil.of( proto.getName() );
@@ -246,6 +247,7 @@ public class $import
             return new Select(_i, $tokens.of() );
         }
         if( this.constraint.test(_i)){
+            //System.out.println( "Passed constraint");
             //if this $import EXPECTS static or WIlcard imports and the
             if( this.isStatic != null ){
                 if( this.isStatic != _i.isStatic() ){
@@ -261,10 +263,16 @@ public class $import
             //    return null;
             //}
             String name = _i.getName();
-
-            if( _i.isWildcard() ){
-                name += ".*";
+            //System.out.println( "NAME "+ name );
+            //System.out.println( "STENCIL "+ this.importStencil );
+            /*
+            if( _i.isWildcard() && Boolean.TRUE  == this.isWildcard){
+                if( !name.endsWith(".*") ) {
+                    System.out.println( "adding Wildcard");
+                    name += ".*";
+                }
             }
+             */
             //System.out.println(name + " " + importStencil);
             Tokens ts = importStencil.parse( name );
             if( ts != null ){

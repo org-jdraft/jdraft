@@ -74,6 +74,10 @@ public class _import implements _node<ImportDeclaration, _import> {
         return new _import(Ast.importDeclaration(clazz));
     }
 
+    public static _import ofStatic( Class clazz ){
+        return new _import(Ast.importDeclaration(clazz)).setWildcard().setStatic();
+    }
+
     /** the underlying ast import declaration */
     public ImportDeclaration astId;
 

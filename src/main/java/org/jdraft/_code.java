@@ -360,7 +360,7 @@ public interface _code<_C> extends _draft, _java._componentized {
         if (cu != null) {
             Arrays.stream(wildcardStaticImports).forEach(i -> {
                 ImportDeclaration id = Ast.importDeclaration(i);
-                id.setAsterisk(false);
+                id.setAsterisk(true);
                 id.setStatic(true);
                 cu.addImport(id);
             });
@@ -380,22 +380,6 @@ public interface _code<_C> extends _draft, _java._componentized {
                 ImportDeclaration id = Ast.importDeclaration(i);
                 id.setStatic(true);
                 cu.addImport(id);
-            });
-        }
-        return (_C) this;
-    }
-
-    /**
-     * Statically import all of the
-     *
-     * @param wildcardTypeStaticImport
-     * @return
-     */
-    default _C importStatic(_type... wildcardTypeStaticImport) {
-        CompilationUnit cu = astCompilationUnit();
-        if (cu != null) {
-            Arrays.stream(wildcardTypeStaticImport).forEach(i -> {
-                cu.addImport(new ImportDeclaration(i.getFullName(), true, false));
             });
         }
         return (_C) this;
