@@ -55,13 +55,13 @@ public interface _member <N extends Node, _N extends _node>
             if( fd == null ){
                 return null;
             }
-            BodyDeclaration bd = _walk.first(_walk.PARENTS, fd, BodyDeclaration.class);
+            BodyDeclaration bd = Walk.first(Walk.PARENTS, fd, BodyDeclaration.class);
             if( bd != null ) {
                 return (_M) _java.of(bd);
             }
             return null; //we didnt find a parent that was a BodyDeclaration
         } else{
-            BodyDeclaration bd = _walk.first(_walk.PARENTS, ast(), BodyDeclaration.class);
+            BodyDeclaration bd = Walk.first(Walk.PARENTS, ast(), BodyDeclaration.class);
             if( bd != null ) {
                 return (_M) _java.of(bd);
             }

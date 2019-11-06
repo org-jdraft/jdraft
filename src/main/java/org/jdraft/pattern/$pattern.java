@@ -1876,7 +1876,7 @@ public interface $pattern<P, $P extends $pattern>{
         }
 
         default <_J extends _draft> _J replaceIn(_J _j , $P $protoReplace ){
-            _walk.in(_j, _modelType(), e-> {
+            Walk.in(_j, _modelType(), e-> {
                 $pattern.select_java<_J> sel = select(e);
                 if( sel != null ){
                     _node _n = (_node)sel._node();
@@ -1896,7 +1896,7 @@ public interface $pattern<P, $P extends $pattern>{
          * @return
          */
         default <N extends Node> N replaceIn(N astNode, $P $protoReplace ){
-            _walk.in( astNode, _modelType(), t->true, e-> {
+            Walk.in( astNode, _modelType(), t->true, e-> {
                 $pattern.selected sel = select( (_J)e );
                 //$proto.select_java<P> sel = select((P)e);
                 if( sel != null ){

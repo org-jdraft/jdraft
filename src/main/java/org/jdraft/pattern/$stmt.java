@@ -1268,7 +1268,7 @@ public class $stmt<T extends Statement>
      * @return 
      */
     public <_J extends _draft> _J forSelectedIn(_J _j, Consumer<Select<T>> selectedActionFn){
-        _walk.in(_j, this.statementClass, e->{
+        Walk.in(_j, this.statementClass, e->{
             Select<T> sel = select( e );
             if( sel != null ){
                 selectedActionFn.accept( sel );
@@ -1315,7 +1315,7 @@ public class $stmt<T extends Statement>
      * @return 
      */
     public <_J extends _draft> _J forSelectedIn(_J _j, Predicate<Select<T>> selectConstraint, Consumer<Select<T>> selectedActionFn){
-        _walk.in(_j, this.statementClass, e->{
+        Walk.in(_j, this.statementClass, e->{
             Select<T> sel = select( e );
             if( sel != null && selectConstraint.test(sel)){
                 selectedActionFn.accept( sel );
@@ -1386,7 +1386,7 @@ public class $stmt<T extends Statement>
      */
     public List<Select<T>> listSelectedIn(_draft _j, Predicate<Select<T>> selectConstraint ){
         List<Select<T>>sts = new ArrayList<>();
-        _walk.in(_j, this.statementClass, st->{
+        Walk.in(_j, this.statementClass, st->{
             Select sel = select(st);
             if (sel != null && selectConstraint.test(sel)){
                 sts.add(sel);
@@ -1478,7 +1478,7 @@ public class $stmt<T extends Statement>
      */
     public <_J extends _draft> _J replaceIn(_J _j, $stmts $protoReplacement ){
         //AtomicInteger ai = new AtomicInteger(0);
-        _walk.in(_j, this.statementClass, st->{
+        Walk.in(_j, this.statementClass, st->{
             $stmt.Select sel = select( st );
             if( sel != null ){
                 //construct the replacement snippet
@@ -1602,7 +1602,7 @@ public class $stmt<T extends Statement>
      */
     public static <N extends Node> N parameterize$LabeledStmt(N node, Map<String,Object> tokens ){
         //separate into (2) operations, (dont WALK and MUTATE at the same time)
-        List<LabeledStmt> lss  = _walk.list(node, LabeledStmt.class, ls-> ls.getLabel().asString().startsWith("$") );
+        List<LabeledStmt> lss  = Walk.list(node, LabeledStmt.class, ls-> ls.getLabel().asString().startsWith("$") );
         lss.forEach(ls-> {
             //System.out.println( "  Found "+ ls+" in "+ node);
             Statement st = labelStmtReplacement(ls, tokens);

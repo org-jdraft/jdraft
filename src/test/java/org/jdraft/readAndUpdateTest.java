@@ -16,12 +16,12 @@ public class readAndUpdateTest extends TestCase {
 
     public void testF() {
         _class _c = _class.of(_typeRef.class);
-        _walk.in( _c, ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, es -> System.out.println(es));
+        Walk.in( _c, ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, es -> System.out.println(es));
         //_c.walk(ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, es -> System.out.println(es));
-        _walk.in( _c, ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, es -> es.getParentNode().get().remove(es));
+        Walk.in( _c, ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, es -> es.getParentNode().get().remove(es));
         //_c.walk(ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, es -> es.getParentNode().get().removeIn(es));
         System.out.println("REMOVED ");
-        _walk.in(_c, ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, es -> System.out.println(es));
+        Walk.in(_c, ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, es -> System.out.println(es));
         //_c.walk(ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, es -> System.out.println(es));
 
         /*
@@ -29,7 +29,7 @@ public class readAndUpdateTest extends TestCase {
         _ts.walk(ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, es -> System.out.println(es));
         _ts.walk(ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, es -> es.getParentNode().get().removeIn(es));
         */
-        _walk.in(_c, ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, es -> System.out.println(es));
+        Walk.in(_c, ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, es -> System.out.println(es));
         //_c.walk(ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, es -> System.out.println(es));
     }
 }

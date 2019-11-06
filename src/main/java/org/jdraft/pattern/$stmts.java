@@ -606,7 +606,7 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
     public <_J extends _draft> _J replaceIn(_J _j, $stmts $repl ){
         AtomicInteger ai = new AtomicInteger(0);
 
-        _walk.in(_j, this.$sts.get(0).statementClass, st-> {
+        Walk.in(_j, this.$sts.get(0).statementClass, st-> {
         //_le.walk( this.$sts.get(0).statementClass, st-> {
             Select sel = select( (Statement)st );
             if( sel != null ){
@@ -678,7 +678,7 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
      * @return 
      */
     public <_J extends _draft> _J forSelectedIn(_J _j, Consumer<Select>selectedAction ){
-        _walk.in(_j, this.$sts.get(0).statementClass, st-> {
+        Walk.in(_j, this.$sts.get(0).statementClass, st-> {
             Select sel = select( (Statement)st );
             if( sel != null ){
                 selectedAction.accept(sel);

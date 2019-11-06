@@ -904,12 +904,12 @@ public class $anno
 
         @Override
         public MemberValuePair firstIn(Node astNode, Predicate<MemberValuePair> nodeMatchFn) {
-            return _walk.first(astNode, MemberValuePair.class, m -> matches(m) && nodeMatchFn.test(m));
+            return Walk.first(astNode, MemberValuePair.class, m -> matches(m) && nodeMatchFn.test(m));
         }
 
         @Override
         public Select selectFirstIn(Node astNode) {
-            MemberValuePair mvp = _walk.first(astNode, MemberValuePair.class, m -> matches(m) );
+            MemberValuePair mvp = Walk.first(astNode, MemberValuePair.class, m -> matches(m) );
             if( mvp != null ){
                 return select(mvp);
             }
@@ -919,7 +919,7 @@ public class $anno
         @Override
         public List<Select> listSelectedIn(Node astNode) {
             List<Select> sel = new ArrayList<>();
-            _walk.in(astNode,
+            Walk.in(astNode,
                     MemberValuePair.class,
                     (MemberValuePair n)-> match(n),
                     (MemberValuePair n) -> sel.add( select(n) )
@@ -929,7 +929,7 @@ public class $anno
 
         @Override
         public <N extends Node> N forEachIn(N astNode, Predicate<MemberValuePair> nodeMatchFn, Consumer<MemberValuePair> nodeActionFn) {
-            return _walk.in(astNode,
+            return Walk.in(astNode,
                     MemberValuePair.class,
                     (MemberValuePair n)-> match(n) && nodeMatchFn.test(n),
                     (MemberValuePair n) -> nodeActionFn.accept(n)

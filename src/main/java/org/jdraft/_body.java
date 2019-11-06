@@ -571,7 +571,7 @@ public final class _body implements _draft {
          * NOTE: this lists the "top statements" 
          * (this DOES NOT WALK INTO statements, like compound statements, 
          * statements in for loops and nested blocks)
-         * @see _walk#list(com.github.javaparser.ast.Node, java.lang.Class)
+         * @see Walk#list(com.github.javaparser.ast.Node, java.lang.Class)
          * @param <S> the statement class
          * @param stmtClass the statement class
          * @param stmtPredicate 
@@ -1150,7 +1150,7 @@ public final class _body implements _draft {
             if( !isImplemented() ){
                 return (_HB)this;
             }
-            _walk.in((BlockStmt)this.getBody().ast(), Expression.class, exprActionFn );
+            Walk.in((BlockStmt)this.getBody().ast(), Expression.class, exprActionFn );
             return (_HB)this;
         }
 
@@ -1158,8 +1158,8 @@ public final class _body implements _draft {
          * _walk the body in preorder fashion, intercepting all {@link Expression}s
          * that implement exprClass and calling the exprActionFn
          * 
-         * @see _walk#in(Node.TreeTraversal, Node, Class, Predicate, Consumer)
-         * @see _walk#in(com.github.javaparser.ast.Node, java.lang.Class, java.util.function.Predicate, java.util.function.Consumer)
+         * @see Walk#in(Node.TreeTraversal, Node, Class, Predicate, Consumer)
+         * @see Walk#in(com.github.javaparser.ast.Node, java.lang.Class, java.util.function.Predicate, java.util.function.Consumer)
          * 
          * @param <E> the underlying target Expression class
          * @param exprClass the target Expression class
@@ -1170,7 +1170,7 @@ public final class _body implements _draft {
             if( !isImplemented() ){
                 return (_HB)this;
             }                     
-            _walk.in((BlockStmt)this.getBody().ast(), exprClass, exprActionFn );
+            Walk.in((BlockStmt)this.getBody().ast(), exprClass, exprActionFn );
             return (_HB)this;
         }
         
@@ -1179,8 +1179,8 @@ public final class _body implements _draft {
          * that implement exprClass and match the exprMatchFn and processing
          * all of which with the exprActionFn
          * 
-         * @see _walk#in(com.github.javaparser.ast.Node.TreeTraversal, com.github.javaparser.ast.Node, java.lang.Class, java.util.function.Predicate, java.util.function.Consumer)
-         * @see _walk#in(com.github.javaparser.ast.Node, java.lang.Class, java.util.function.Predicate, java.util.function.Consumer)
+         * @see Walk#in(com.github.javaparser.ast.Node.TreeTraversal, com.github.javaparser.ast.Node, java.lang.Class, java.util.function.Predicate, java.util.function.Consumer)
+         * @see Walk#in(com.github.javaparser.ast.Node, java.lang.Class, java.util.function.Predicate, java.util.function.Consumer)
          * 
          * @param <E> the underlying target Expression class
          * @param exprClass the target Expression class
@@ -1192,7 +1192,7 @@ public final class _body implements _draft {
             if( !isImplemented() ){
                 return (_HB)this;
             }
-            _walk.in((BlockStmt)this.getBody().ast(), exprClass, exprMatchFn, exprActionFn );
+            Walk.in((BlockStmt)this.getBody().ast(), exprClass, exprMatchFn, exprActionFn );
             return (_HB)this;
         }
         
@@ -1207,7 +1207,7 @@ public final class _body implements _draft {
             if( !isImplemented() ){
                 return (_HB)this;
             }           
-            _walk.in((BlockStmt)this.getBody().ast(), Statement.class, stmtActionFn );
+            Walk.in((BlockStmt)this.getBody().ast(), Statement.class, stmtActionFn );
             return (_HB)this;
         }
         
@@ -1224,7 +1224,7 @@ public final class _body implements _draft {
             if( !isImplemented() ){
                 return (_HB)this;
             }
-            _walk.in((BlockStmt)this.getBody().ast(), statementClass, stmtActionFn );
+            Walk.in((BlockStmt)this.getBody().ast(), statementClass, stmtActionFn );
             return (_HB)this;
         }
         
@@ -1242,7 +1242,7 @@ public final class _body implements _draft {
             if( !isImplemented() ){
                 return (_HB)this;
             }
-            _walk.in((BlockStmt)this.getBody().ast(), statementClass, stmtMatchFn, stmtActionFn );
+            Walk.in((BlockStmt)this.getBody().ast(), statementClass, stmtMatchFn, stmtActionFn );
             return (_HB)this;
         }
         

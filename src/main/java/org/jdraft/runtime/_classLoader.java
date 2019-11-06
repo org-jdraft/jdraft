@@ -2,7 +2,7 @@ package org.jdraft.runtime;
 
 import org.jdraft._code;
 import org.jdraft._type;
-import org.jdraft._walk;
+import org.jdraft.Walk;
 
 import java.io.*;
 import java.net.*;
@@ -88,7 +88,7 @@ public class _classLoader
             return cmf.codeModel;
         }
         //we know it's an inner class... so find the parent class
-        _type _f = _walk.first( list_types(), _type.class, (_type _t) -> _t.getFullName().equals(fullyQualifiedClassName) );
+        _type _f = Walk.first( list_types(), _type.class, (_type _t) -> _t.getFullName().equals(fullyQualifiedClassName) );
         return _f;
     }
 

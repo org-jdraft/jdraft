@@ -5,7 +5,7 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.type.Type;
 import org.jdraft.*;
-import org.jdraft._walk;
+import org.jdraft.Walk;
 import junit.framework.TestCase;
 
 import java.io.IOException;
@@ -198,10 +198,10 @@ public class StypeRefTest extends TestCase {
         $typeRef $t = $typeRef.of("OldT");
         $t.replaceIn(_c, _typeRef.of("NewT"));
         
-        List<MethodCallExpr> ms = _walk.list(_c, Ast.METHOD_CALL_EXPR );
+        List<MethodCallExpr> ms = Walk.list(_c, Ast.METHOD_CALL_EXPR );
         ms.forEach(m -> System.out.println( "METHOD SCOPE " + m.getScope().get().toString() ));
         
-        _walk.in(_c, MethodCallExpr.class, mc -> {
+        Walk.in(_c, MethodCallExpr.class, mc -> {
             if(mc.getScope().isPresent()){
                 if( mc.getScope().get().toString().equals("draft.java.proto.$typeRefTest.OldT")){
                     mc.setScope(Ex.of("draft.java.proto.$typeRefTest.NewT"));
@@ -212,7 +212,7 @@ public class StypeRefTest extends TestCase {
             }
         });
         
-        _walk.in(_c, Ast.FIELD_ACCESS_EXPR, mc -> {
+        Walk.in(_c, Ast.FIELD_ACCESS_EXPR, mc -> {
             if(mc.getScope().toString().equals("draft.java.proto.$typeRefTest.OldT")){
                 mc.setScope(Ex.of("draft.java.proto.$typeRefTest.NewT"));
             }
@@ -223,18 +223,18 @@ public class StypeRefTest extends TestCase {
         
         System.out.println( _c );
         
-        System.out.println("FOUND FIELDS + " + _walk.in(_c, Ast.FIELD_ACCESS_EXPR, f-> f.toString().equals( "draft.java.proto.$typeRefTest.OldT" ) ) );
-        System.out.println("FOUND FIELDS + " + _walk.in(_c, Ast.FIELD_ACCESS_EXPR, f-> f.toString().equals( "OldT" ) ) );
-        System.out.println("FOUND METHODS 1+ " + _walk.in(_c, Ast.METHOD_CALL_EXPR, m-> m.toString().equals( "draft.java.proto.$typeRefTest.OldT" ) ) );
+        System.out.println("FOUND FIELDS + " + Walk.in(_c, Ast.FIELD_ACCESS_EXPR, f-> f.toString().equals( "draft.java.proto.$typeRefTest.OldT" ) ) );
+        System.out.println("FOUND FIELDS + " + Walk.in(_c, Ast.FIELD_ACCESS_EXPR, f-> f.toString().equals( "OldT" ) ) );
+        System.out.println("FOUND METHODS 1+ " + Walk.in(_c, Ast.METHOD_CALL_EXPR, m-> m.toString().equals( "draft.java.proto.$typeRefTest.OldT" ) ) );
         
-        _walk.in( _c, Ast.METHOD_CALL_EXPR, mc -> mc.getScope().isPresent() && mc.getScope().get().toString().equals("draft.java.proto.$typeRefTest.OldT"),
+        Walk.in( _c, Ast.METHOD_CALL_EXPR, mc -> mc.getScope().isPresent() && mc.getScope().get().toString().equals("draft.java.proto.$typeRefTest.OldT"),
                 mc -> mc.setScope(Ex.of("draft.java.proto.$typeRefTest.OldT")));
         
         System.out.println( _c );
         
         
         
-        System.out.println(_walk.list(_c, Ast.FIELD_ACCESS_EXPR, f->{
+        System.out.println(Walk.list(_c, Ast.FIELD_ACCESS_EXPR, f->{
                     Expression s = f.getScope(); 
                     System.out.println( "SCOPE CLASS " + s.getClass()+ " "+ f.getScope() );
                     return s != null; }) );

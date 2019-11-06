@@ -459,16 +459,16 @@ public class _methodTest extends TestCase {
     public void testMethodRemoveStatements(){
         _method _ih = _class.of( Inner.class).getMethod( "ih");
         final List<ExpressionStmt> sof = new ArrayList<>();
-        _walk.in( _ih.getBody().ast(), ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, e-> sof.add(e) );
+        Walk.in( _ih.getBody().ast(), ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, e-> sof.add(e) );
         //_ih.walkBody( ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, e-> sof.add(e) );
 
         assertEquals( 4, sof.size() );
 
-        _walk.in( _ih.getBody().ast(), ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, e-> e.remove() );
+        Walk.in( _ih.getBody().ast(), ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, e-> e.remove() );
         //_ih.walkBody( ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, e-> e.removeIn() );
         sof.clear();
 
-        _walk.in( _ih.getBody().ast(), ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, e-> sof.add(e) );
+        Walk.in( _ih.getBody().ast(), ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, e-> sof.add(e) );
         //_ih.walkBody( ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, e-> sof.add(e) );
         assertEquals( 0, sof.size() );
     }
@@ -559,7 +559,7 @@ public class _methodTest extends TestCase {
           
         
         //ideally we want
-        assertTrue( _walk.list(_class.of(_methodTest.class),_method.class ).size() >=5);
+        assertTrue( Walk.list(_class.of(_methodTest.class),_method.class ).size() >=5);
         
         //_1_build a method match that
         mm = m-> m.isPublic() && m.isVoid() && !m.isStatic() && m.getName().startsWith("test");
@@ -569,10 +569,10 @@ public class _methodTest extends TestCase {
         
         Predicate<_method> testMatchP = m-> m.isPublic() && m.isVoid() && m.getName().startsWith( "test");
             
-        assertTrue( _walk.list( _class.of(_methodTest.class),_method.class, mm ).size() >=5 );
+        assertTrue( Walk.list( _class.of(_methodTest.class),_method.class, mm ).size() >=5 );
         
-        assertTrue( _walk.list(_class.of(_methodTest.class),_method.class ).size() >=5 );
-        assertTrue( _walk.list(_class.of(_methodTest.class), _method.class,
+        assertTrue( Walk.list(_class.of(_methodTest.class),_method.class ).size() >=5 );
+        assertTrue( Walk.list(_class.of(_methodTest.class), _method.class,
                 m -> m.isPublic() && m.isVoid() && m.getName().startsWith("test") ).size() >=5);
             //_method.match(m-> m.isPublic() && m.isVoid())
             //    .NAME( n -> n.startsWith( "test")) ).size() >=5 );

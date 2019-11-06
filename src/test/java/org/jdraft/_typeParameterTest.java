@@ -11,7 +11,6 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.type.TypeParameter;
 import com.github.javaparser.ast.type.UnionType;
-import org.jdraft._typeParameters;
 import junit.framework.TestCase;
 
 import java.io.File;
@@ -167,7 +166,7 @@ public class _typeParameterTest extends TestCase {
         //System.out.println( _c );
         List<UnionType> uut = new ArrayList<UnionType>();
         //_c.getMethod( "f").walkBody( UnionType.class, ut-> uut.add(ut) );
-        _walk.in( _c.getMethod("f").getBody().ast(),
+        Walk.in( _c.getMethod("f").getBody().ast(),
                 UnionType.class,
                 ut-> uut.add( ut) );
         //_walk.in( _c.getMethod("f").getBody(),

@@ -341,7 +341,7 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part, $meth
      * @return 
      */
     public <_J extends _draft> _J forSelectedIn(_J _j, Consumer<Select> nodeActionFn) {
-        _walk.in(_j, CatchClause.class, cc-> {
+        Walk.in(_j, CatchClause.class, cc-> {
                 Select sel = select(cc);
                 if( sel != null ){
                     nodeActionFn.accept(sel);
@@ -359,7 +359,7 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part, $meth
      * @return 
      */
     public <_J extends _draft> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> nodeActionFn) {
-        _walk.in(_j, CatchClause.class, cc-> {
+        Walk.in(_j, CatchClause.class, cc-> {
                 Select sel = select(cc);
                 if( sel != null && selectConstraint.test(sel)){
                     nodeActionFn.accept(sel);

@@ -43,7 +43,7 @@ public class AstWalkTest extends TestCase {
 
          //List<Node>
          List<Node>parents = new ArrayList<Node>();
-         _walk.parents( _m, n -> parents.add( n ));
+         Walk.parents( _m, n -> parents.add( n ));
          assertTrue( parents.get(0) instanceof EnumConstantDeclaration);
          assertTrue( parents.get(1) instanceof EnumDeclaration);
          assertTrue( parents.get(2) instanceof ClassOrInterfaceDeclaration);
@@ -52,7 +52,7 @@ public class AstWalkTest extends TestCase {
 
         List<_draft>parentNodes = new ArrayList<>();
         //_m.walkParents(n -> parentNodes.add( _java.of( n ) ));
-        _walk.parents(_m, n -> parentNodes.add( _java.of( n ) ));
+        Walk.parents(_m, n -> parentNodes.add( _java.of( n ) ));
         assertTrue( parentNodes.get(0) instanceof _enum._constant);
         assertTrue( parentNodes.get(1) instanceof _enum);
         assertTrue( parentNodes.get(2) instanceof _class);
@@ -70,7 +70,7 @@ public class AstWalkTest extends TestCase {
         //_walk.list(_a, StringLiteralExpr.class);
         List<StringLiteralExpr> l = new ArrayList<>();
         //Ast.walk(Node.TreeTraversal.POSTORDER, ast, Ast.STRING_LITERAL_EXPR, n->true, n-> l.add(n));
-        _walk.in(_walk.POST_ORDER, ast, Ast.STRING_LITERAL_EXPR, n-> true, n-> l.add(n));
+        Walk.in(Walk.POST_ORDER, ast, Ast.STRING_LITERAL_EXPR, n-> true, n-> l.add(n));
         assertEquals(6, l.size());
         assertEquals( "class", l.get(0).asString());
         assertEquals( "field", l.get(1).asString());
@@ -87,7 +87,7 @@ public class AstWalkTest extends TestCase {
 
         //Preorder postorder not really different when dealing with leaf nodes
         //_java.walk(Node.TreeTraversal.PREORDER, ast, Ast.INT_LITERAL_EXPR, n->true, n-> i.add(n.asInt()));
-        _walk.preOrder(ast, Ast.INT_LITERAL_EXPR, n->true, n-> i.add(n.asInt()));
+        Walk.preOrder(ast, Ast.INT_LITERAL_EXPR, n->true, n-> i.add(n.asInt()));
         assertEquals(i.size(), 3);
         assertEquals( (Integer)100, i.get(0) );
         assertEquals( (Integer)1023, i.get(1) );
@@ -95,7 +95,7 @@ public class AstWalkTest extends TestCase {
 
         i.clear();
         //_java.walk(Node.TreeTraversal.POSTORDER, ast, Ast.INT_LITERAL_EXPR, n->true, n-> i.add(n.asInt()));
-        _walk.postOrder(ast, Ast.INT_LITERAL_EXPR, n->true, n-> i.add(n.asInt()));
+        Walk.postOrder(ast, Ast.INT_LITERAL_EXPR, n->true, n-> i.add(n.asInt()));
         assertEquals(i.size(), 3);
         assertEquals( (Integer)100, i.get(0) );
         assertEquals( (Integer) 1023, i.get(1) );
@@ -105,7 +105,7 @@ public class AstWalkTest extends TestCase {
         //PRE ORDER processes ROOT NODES FIRST (then leaves)
         List<_anno._hasAnnos> a = new ArrayList<>();
         //_java.walk(Node.TreeTraversal.PREORDER, ast, _anno._hasAnnos.class, n-> n.hasAnno(ann.class), n-> a.add(n));
-        _walk.preOrder(ast, _anno._hasAnnos.class, n-> n.hasAnno(ann.class), n-> a.add(n));
+        Walk.preOrder(ast, _anno._hasAnnos.class, n-> n.hasAnno(ann.class), n-> a.add(n));
         assertEquals( 5, a.size());
         assertTrue( a.get(0).getAnnos().is("@ann(\"class\")") );
         assertTrue( a.get(1).getAnnos().is("@ann(\"field\")") );
@@ -115,7 +115,7 @@ public class AstWalkTest extends TestCase {
         a.clear();
 
         //for POST ORDER THE LEAF NODES ARE PROCESSED FIRST
-        _walk.postOrder(ast, _anno._hasAnnos.class, n-> n.hasAnno(ann.class), n-> a.add(n));
+        Walk.postOrder(ast, _anno._hasAnnos.class, n-> n.hasAnno(ann.class), n-> a.add(n));
         //_java.walk(Node.TreeTraversal.POSTORDER, ast, _anno._hasAnnos.class, n-> n.hasAnno(ann.class), n-> a.add(n));
         
         assertEquals( 5, a.size());

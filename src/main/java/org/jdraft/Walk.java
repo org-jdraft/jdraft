@@ -12,8 +12,8 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
- * Graph Traversal Algorithms for traversing nodes of a Java AST
- * for selecting / visiting the nodes, providing a simple API for operations
+ * Graph Traversal Algorithms for traversing nodes of a Java AST / {@link _draft}
+ * domain objects for selecting / visiting the nodes, providing a simple API for operations
  * on Nodes within a Java source file (by manipulating the AST).
  *
  * The use is best illustrated by example:
@@ -22,14 +22,14 @@ import java.util.function.Predicate;
  *     .fields("int x=1;", "int y=2;", "String NAME;");
  *
  * //intercept & print all of the {@link _field}s within the _class _c
- * _walk.in(_c, _field.class, f-> System.out.println(f));
+ * Walk.in(_c, _field.class, f-> System.out.println(f));
  * // prints:
  * //    int x=1;
  * //    int y=2;
  * //    String NAME;
  *
  * //intercept & print all {@link _field}s within _class _c that have initial values
- * _walk.in(_c, _field.class, f-> f.hasInit(), f-> System.out.println(f));
+ * Walk.in(_c, _field.class, f-> f.hasInit(), f-> System.out.println(f));
  * // prints:
  * //    int x=1;
  * //    int y=2;
@@ -38,21 +38,21 @@ import java.util.function.Predicate;
  * //... we can traverse the node graph looking for entities that are Node implementations
  *
  * // to find all Integer literals within the code:
- * _walk.in(_c, {@link Ex#INT_LITERAL}, i-> System.out.println(i));
+ * Walk.in(_c, {@link Ex#INT_LITERAL}, i-> System.out.println(i));
  * // prints:
  * //    1
  * //    2
  *
  * // to find all types within the code:
- * _walk.in(_c, {@link Ex#TYPE}, i-> System.out.println(i));
+ * Walk.in(_c, {@link Ex#TYPE}, i-> System.out.println(i));
  *  // prints:
  *  //    "int"
  *  //    "int"
  *  //    "String"
  * </PRE>
- *
+ * @author Eric
  */
-public enum _walk {
+public enum Walk {
     ;
 
     /**
@@ -120,8 +120,6 @@ public enum _walk {
      * </PRE>
      */
     public static final Node.TreeTraversal DIRECT_CHILDREN = Node.TreeTraversal.DIRECT_CHILDREN;
-
-
 
     /**
      * _walk the nodes within & collect all nodes that match all the predicate and return them in order
@@ -425,7 +423,7 @@ public enum _walk {
      * @return the modified root astNode
      */
     public static <RN extends Node, N extends Node> RN in( RN astRootNode, Class<N> targetNodeClass, Consumer<N> nodeActionFn) {
-        _walk.in(astRootNode, targetNodeClass, t -> true, nodeActionFn);
+        Walk.in(astRootNode, targetNodeClass, t -> true, nodeActionFn);
         return astRootNode;
     }
 
@@ -549,7 +547,6 @@ public enum _walk {
         return _j;
     }
 
-
     /**
      * A preorder walk within the _model node _m
      * <PRE>
@@ -624,11 +621,11 @@ public enum _walk {
     /**
      * Walks the Ast using the
      * {@link com.github.javaparser.ast.Node.TreeTraversal} strategy provided
-     * {@link _walk#PRE_ORDER}
-     * {@link _walk#POST_ORDER}
-     * {@link _walk#BREADTH_FIRST}
-     * {@link _walk#PARENTS}
-     * {@link _walk#DIRECT_CHILDREN} starting from the astRootNode, searching
+     * {@link Walk#PRE_ORDER}
+     * {@link Walk#POST_ORDER}
+     * {@link Walk#BREADTH_FIRST}
+     * {@link Walk#PARENTS}
+     * {@link Walk#DIRECT_CHILDREN} starting from the astRootNode, searching
      * for matching targetNodeClass and selecting those who pass the
      * nodeMatchFn, to call the nodeActionFn
      *
@@ -650,11 +647,6 @@ public enum _walk {
             Class<N> targetNodeClass,
             Predicate<N> nodeMatchFn,
             Consumer<N> nodeActionFn) {
-        /*
-        astRootNode.stream(traversal).filter(n -> targetNodeClass.isAssignableFrom(n.getClass()) && nodeMatchFn.test((N) n))
-                .forEach(n->nodeActionFn.accept( (N)n ) );
-        return astRootNode;
-        */
         return in( traversal, Integer.MAX_VALUE, astRootNode, targetNodeClass, nodeMatchFn, nodeActionFn);
     }
 
@@ -674,11 +666,11 @@ public enum _walk {
     /**
      * Walks the Asts of all of the _sourceCode using the
      * {@link com.github.javaparser.ast.Node.TreeTraversal} strategy provided
-     * {@link _walk#PRE_ORDER}
-     * {@link _walk#POST_ORDER}
-     * {@link _walk#BREADTH_FIRST}
-     * {@link _walk#PARENTS}
-     * {@link _walk#DIRECT_CHILDREN} starting from the astRootNode, searching
+     * {@link Walk#PRE_ORDER}
+     * {@link Walk#POST_ORDER}
+     * {@link Walk#BREADTH_FIRST}
+     * {@link Walk#PARENTS}
+     * {@link Walk#DIRECT_CHILDREN} starting from the astRootNode, searching
      * for matching targetNodeClass and selecting those who pass the
      * nodeMatchFn, to call the nodeActionFn
      *
@@ -701,7 +693,7 @@ public enum _walk {
 
     /**
      * Walks the Asts of all of the _sourceCode using the
-     * {@link _walk#PRE_ORDER} strategy, searching for matching targetNodeClass
+     * {@link Walk#PRE_ORDER} strategy, searching for matching targetNodeClass
      * and selecting those who pass the nodeMatchFn, to call the nodeActionFn
      *
      * @param _sourceCode a Collection of source code to walk each of the ASTs
@@ -1417,7 +1409,6 @@ public enum _walk {
         return _j;
     }
 
-
     /**
      * Given an AST root node n, and a Tree Traversal Strategy (default is PreOrder),
      * walk the AST tree and match for EVERY occurrence of the target class
@@ -1924,11 +1915,11 @@ public enum _walk {
      * @return the first node that matches the criteria, else null
      */
     public static Node firstParent(Node astNode, Predicate<Node> nodeMatchFn) {
-        return _walk.first(PARENTS, astNode, Node.class, nodeMatchFn);
+        return Walk.first(PARENTS, astNode, Node.class, nodeMatchFn);
     }
 
     public static Node firstParent(_draft _j, Predicate<Node> nodeMatchFn){
-        return _walk.first(PARENTS, _j, Node.class, nodeMatchFn);
+        return Walk.first(PARENTS, _j, Node.class, nodeMatchFn);
     }
 
     /**
@@ -1955,7 +1946,7 @@ public enum _walk {
      * @return the first node that matches the criteria, else null
      */
     public static <T> T firstParent(Node astRootNode, Class<T> nodeTargetClass) {
-        return _walk.first(PARENTS, astRootNode, nodeTargetClass, n -> true);
+        return Walk.first(PARENTS, astRootNode, nodeTargetClass, n -> true);
     }
 
     /**
@@ -1983,7 +1974,7 @@ public enum _walk {
      * @return the first node that matches the criteria, else null
      */
     public static <T> T firstParent(Node astRootNode, Class<T> nodeTargetClass, Predicate<T> nodeMatchFn) {
-        return _walk.first(PARENTS, astRootNode, nodeTargetClass, nodeMatchFn);
+        return Walk.first(PARENTS, astRootNode, nodeTargetClass, nodeMatchFn);
     }
 
     /**
@@ -2005,7 +1996,7 @@ public enum _walk {
      * @return
      */
     public static <T> T first(Node astRootNode, Class<T> nodeTargetClass) {
-        return _walk.first(PRE_ORDER, astRootNode, nodeTargetClass, n -> true);
+        return Walk.first(PRE_ORDER, astRootNode, nodeTargetClass, n -> true);
     }
     
     /**
@@ -2027,7 +2018,7 @@ public enum _walk {
      * @return
      */
     public static <_J extends _draft, T> T first(_J _j, Class<T> nodeTargetClass) {
-        return _walk.first(PRE_ORDER, _j, nodeTargetClass, n -> true);
+        return Walk.first(PRE_ORDER, _j, nodeTargetClass, n -> true);
     }
 
     /**
@@ -2047,7 +2038,7 @@ public enum _walk {
      * @return
      */
     public static Node first(Node astRootNode, Predicate<Node> nodeMatchFn) {
-        return _walk.first(PRE_ORDER, astRootNode, Node.class, nodeMatchFn);
+        return Walk.first(PRE_ORDER, astRootNode, Node.class, nodeMatchFn);
     }
 
     /**
@@ -2068,7 +2059,7 @@ public enum _walk {
      * @return
      */
     public static <_J extends _draft> Node first(_J _j, Predicate<Node> nodeMatchFn) {
-        return _walk.first(PRE_ORDER, _j, Node.class, nodeMatchFn);
+        return Walk.first(PRE_ORDER, _j, Node.class, nodeMatchFn);
     }
     
     /**
@@ -2092,7 +2083,7 @@ public enum _walk {
      * @return the first node that matches the criteria, else null
      */
     public static <T> T first(Node astRootNode, Class<T> nodeTargetClass, Predicate<T> nodeMatchFn) {
-        return _walk.first(PRE_ORDER, astRootNode, nodeTargetClass, nodeMatchFn);
+        return Walk.first(PRE_ORDER, astRootNode, nodeTargetClass, nodeMatchFn);
     }
 
     /**
@@ -2116,7 +2107,7 @@ public enum _walk {
      * @return the first node that matches the criteria, else null
      */
     public static <T, _J extends _draft> T first(_J _j, Class<T> nodeTargetClass, Predicate<T> nodeMatchFn) {
-        return _walk.first(PRE_ORDER, _j, nodeTargetClass, nodeMatchFn);
+        return Walk.first(PRE_ORDER, _j, nodeTargetClass, nodeMatchFn);
     }
         
     /**
@@ -2147,14 +2138,14 @@ public enum _walk {
             if( ((_code) _j).isTopLevel()){
                 //System.out.println( " IS TOP LEVEL "+ ((_code) _j).astCompilationUnit() );
                 //System.out.println( " IS TOP LEVEL "+ nodeTargetClass );
-                return _walk.first( tt, ((_code) _j).astCompilationUnit(), nodeTargetClass, nodeMatchFn);
+                return Walk.first( tt, ((_code) _j).astCompilationUnit(), nodeTargetClass, nodeMatchFn);
             }
-            return _walk.first( tt, ((_type) _j).ast(), nodeTargetClass, nodeMatchFn);
+            return Walk.first( tt, ((_type) _j).ast(), nodeTargetClass, nodeMatchFn);
         }
         if(_j instanceof _body ){
-            return _walk.first( tt, ((_body)_j).ast(), nodeTargetClass, nodeMatchFn);
+            return Walk.first( tt, ((_body)_j).ast(), nodeTargetClass, nodeMatchFn);
         }
-        return _walk.first( tt, ((_node)_j).ast(), nodeTargetClass, nodeMatchFn);
+        return Walk.first( tt, ((_node)_j).ast(), nodeTargetClass, nodeMatchFn);
     }
 
     public static <T> T first(Node.TreeTraversal tt, _draft _j, Class<T> nodeTargetClass ) {
@@ -2174,7 +2165,7 @@ public enum _walk {
      * @return
      */
     public static <T, _C extends _code> T first( Collection<_C> jj, Class<T> nodeTargetClass, Predicate<T>nodeMatchFn ){
-        return first( _walk.PRE_ORDER, jj, nodeTargetClass, nodeMatchFn );
+        return first( Walk.PRE_ORDER, jj, nodeTargetClass, nodeMatchFn );
     }
 
     /**

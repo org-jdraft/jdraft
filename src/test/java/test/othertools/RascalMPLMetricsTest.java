@@ -3,7 +3,6 @@ package test.othertools;
 import com.github.javaparser.ast.stmt.*;
 import junit.framework.TestCase;
 import org.jdraft._method;
-import org.jdraft._walk;
 import org.jdraft.io._path;
 import org.jdraft.pattern.$method;
 import org.jdraft.pattern.$node;

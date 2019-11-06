@@ -798,7 +798,7 @@ public class $var
      * @return 
      */
     public <_J extends _draft> _J replaceIn(_J _j, $var $replaceProto ){
-        _walk.in(_j, VariableDeclarator.class, e-> {
+        Walk.in(_j, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
                 sel.astVar.replace($replaceProto.draft(sel.tokens) );
@@ -825,7 +825,7 @@ public class $var
      * @return 
      */
     public <_J extends _draft> _J forSelectedIn(_J _j, Consumer<Select> selectConsumer ){
-        _walk.in(_j, VariableDeclarator.class, e-> {
+        Walk.in(_j, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
                 selectConsumer.accept( sel );
@@ -871,7 +871,7 @@ public class $var
      * @return 
      */
     public <_J extends _draft> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
-        _walk.in(_j, VariableDeclarator.class, e-> {
+        Walk.in(_j, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null && selectConstraint.test(sel)){
                 selectConsumer.accept( sel );

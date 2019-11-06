@@ -437,12 +437,12 @@ public class _typeTree {
         Map<_typeNode, Set<_typeNode>> parentToChildMap = new HashMap();
 
         //make all the typeNodes for these nodes
-        types.stream().forEach(t-> _walk.in(t, _type.class, tt-> typeNodes.add( new _typeNode( tt ))) );
+        types.stream().forEach(t-> Walk.in(t, _type.class, tt-> typeNodes.add( new _typeNode( tt ))) );
         typeNodes.forEach( tn -> parentToChildMap.put( tn, new HashSet<>()));
 
         //traverse the map and update the map with typeNodes
         types.stream().forEach(t-> {
-            _walk.in(t, _type.class, n-> mapAncestors(n, typeNodes, parentToChildMap));
+            Walk.in(t, _type.class, n-> mapAncestors(n, typeNodes, parentToChildMap));
         });
         return parentToChildMap;
     }

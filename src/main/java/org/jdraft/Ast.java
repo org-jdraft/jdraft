@@ -1554,7 +1554,7 @@ public enum Ast {
         CompilationUnit cu = parse(_i.getInputStream());
         cu.setStorage(_i.getPath());
         List<TypeDeclaration> tds
-                = _walk.list(cu, TypeDeclaration.class, td -> td.getNameAsString().equals(clazz.getSimpleName())
+                = Walk.list(cu, TypeDeclaration.class, td -> td.getNameAsString().equals(clazz.getSimpleName())
                 && td.getParentNode().isPresent()
                 && !(td.getParentNode().get() instanceof LocalClassDeclarationStmt));//dont miz inner with Local classes
         if (tds.size() == 1) {
@@ -1874,7 +1874,7 @@ public enum Ast {
             return cu.getPrimaryType().get();
         }
         //List<TypeDeclaration> tds = listAll(cu, TypeDeclaration.class);
-        List<TypeDeclaration> tds = _walk.list(cu, TypeDeclaration.class);
+        List<TypeDeclaration> tds = Walk.list(cu, TypeDeclaration.class);
         if (tds.size() == 1) {
             return tds.get(0);
         } else if (tds.isEmpty()) {
@@ -3097,7 +3097,7 @@ public enum Ast {
 
     public static List<String> normalizeTypeParameter(TypeParameter tp) {
         List<String> tw = new ArrayList<>();
-        _walk.directChildren(tp, Node.class, t -> true, t -> {
+        Walk.directChildren(tp, Node.class, t -> true, t -> {
             if (t instanceof Type) {
                 List<String> toks = Ast.tokenizeType((Type) t);
                 toks.forEach(e -> {

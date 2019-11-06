@@ -232,7 +232,7 @@ public final class _field
     // it happens often enough  to want to shoot yourself
     public FieldDeclaration getFieldDeclaration() {
 
-        Optional<Node> on = astVar.stream(_walk.PARENTS).filter( n-> n instanceof FieldDeclaration).findFirst();
+        Optional<Node> on = astVar.stream(Walk.PARENTS).filter(n-> n instanceof FieldDeclaration).findFirst();
         if( on.isPresent() ){
             return (FieldDeclaration) on.get();
         }

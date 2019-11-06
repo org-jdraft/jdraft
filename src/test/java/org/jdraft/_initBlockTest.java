@@ -123,7 +123,7 @@ public class _initBlockTest extends TestCase {
 
         List<_class> localClasses = new ArrayList<_class>();
         //_sb.walkBody( ClassOrInterfaceDeclaration.class, c-> localClasses.add( _class.of(c) ) );
-        _walk.in( _sb.getBody().ast(), ClassOrInterfaceDeclaration.class, c-> localClasses.add( _class.of(c) ) );
+        Walk.in( _sb.getBody().ast(), ClassOrInterfaceDeclaration.class, c-> localClasses.add( _class.of(c) ) );
         System.out.println( localClasses );
 
     }

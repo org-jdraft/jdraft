@@ -91,7 +91,7 @@ public interface _java {
     static <_J extends _draft> boolean isParent(_draft _j, Class<_J> parentNodeClass, Predicate<_J> parentMatchFn){
         if( _j instanceof _node ){
             AtomicBoolean ans = new AtomicBoolean(false);
-            _walk.in_java(Node.TreeTraversal.PARENTS, 1, ((_node)_j).ast(), parentNodeClass, parentMatchFn, (t)-> ans.set(true) );
+            Walk.in_java(Node.TreeTraversal.PARENTS, 1, ((_node)_j).ast(), parentNodeClass, parentMatchFn, (t)-> ans.set(true) );
             return ans.get();
         }
         //need to handle _typeParameters, _parameters, _annos
@@ -126,7 +126,7 @@ public interface _java {
      * @return true if
      */
     static <T> boolean hasAncestor(_draft _j, Class<T> type, Predicate<T> matchFn){
-        return _walk.first(Node.TreeTraversal.PARENTS, _j, type, matchFn) != null;
+        return Walk.first(Node.TreeTraversal.PARENTS, _j, type, matchFn) != null;
     }
 
     /**
@@ -140,7 +140,7 @@ public interface _java {
      * @return
      */
     static <T> boolean hasDescendant(_draft _j, Class<T> type, Predicate<T> matchFn) {
-        return _walk.first(Node.TreeTraversal.POSTORDER,_j, type, matchFn) != null;
+        return Walk.first(Node.TreeTraversal.POSTORDER,_j, type, matchFn) != null;
     }
 
     /**
@@ -153,7 +153,7 @@ public interface _java {
      * @return
      */
     static <T> boolean hasChild(_draft _j, Class<T> type, Predicate<T> matchFn) {
-        return _walk.first(Node.TreeTraversal.DIRECT_CHILDREN,_j, type, matchFn) != null;
+        return Walk.first(Node.TreeTraversal.DIRECT_CHILDREN,_j, type, matchFn) != null;
     }
 
     /**

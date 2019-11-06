@@ -767,7 +767,7 @@ public class $field implements Template<_field>, $pattern<_field, $field>, $patt
      * @return 
      */
     public <_J extends _draft> _J replaceIn(_J _j, $field $replaceProto ){
-        _walk.in(_j, VariableDeclarator.class, e-> {
+        Walk.in(_j, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
                 sel._f.ast().replace($replaceProto.draft(sel.tokens).ast() );
@@ -794,7 +794,7 @@ public class $field implements Template<_field>, $pattern<_field, $field>, $patt
      * @return 
      */
     public <_J extends _draft> _J forSelectedIn(_J _j, Consumer<Select> selectConsumer ){
-        _walk.in(_j, VariableDeclarator.class, e-> {
+        Walk.in(_j, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
                 selectConsumer.accept( sel );
@@ -840,7 +840,7 @@ public class $field implements Template<_field>, $pattern<_field, $field>, $patt
      * @return 
      */
     public <_J extends _draft> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
-        _walk.in(_j, VariableDeclarator.class, e-> {
+        Walk.in(_j, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null && selectConstraint.test(sel)){
                 selectConsumer.accept( sel );
