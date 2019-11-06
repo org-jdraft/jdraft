@@ -16,7 +16,7 @@ public class _constructorDiff implements _differ<_constructor, _node> {
     public static String constructorSignatureDescription(_constructor ct) {
         StringBuilder sb = new StringBuilder();
 
-        _parameter._parameters _pts = ct.getParameters();
+        _parameters _pts = ct.getParameters();
         sb.append(ct.getName());
         sb.append("(");
         for (int i = 0; i < _pts.size(); i++) {

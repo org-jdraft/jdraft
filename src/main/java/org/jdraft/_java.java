@@ -110,8 +110,8 @@ public interface _java {
                 return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
             }
         }
-        if( _j instanceof _parameter._parameters){
-            _parameter._parameters _tps = (_parameter._parameters)_j;
+        if( _j instanceof _parameters){
+            _parameters _tps = (_parameters)_j;
             _node _n = (_node)_java.of( (Node)_tps.astHolder());
             return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
         }
@@ -850,7 +850,7 @@ public interface _java {
         MODIFIER("modifier", Modifier.class),
         HEADER_COMMENT("header", Comment.class),
         JAVADOC("javadoc", _javadoc.class),
-        PARAMETERS("parameters", _parameter._parameters.class),
+        PARAMETERS("parameters", _parameters.class),
         //parameter
         PARAMETER("parameter", _parameter.class),
         RECEIVER_PARAMETER("receiverParameter", _receiverParameter.class),
@@ -1177,7 +1177,7 @@ public interface _java {
 
         Class<_modifiers> MODIFIERS = _modifiers.class;
         Class<_parameter> PARAMETER = _parameter.class;
-        Class<_parameter._parameters> PARAMETERS = _parameter._parameters.class;
+        Class<_parameters> PARAMETERS = _parameters.class;
         Class<_typeParameter> TYPE_PARAMETER = _typeParameter.class;
         Class<_typeParameters> TYPE_PARAMETERS = _typeParameters.class;
         Class<_receiverParameter> RECEIVER_PARAMETER = _receiverParameter.class;

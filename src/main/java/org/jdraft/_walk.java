@@ -1794,7 +1794,7 @@ public enum _walk {
                     });
             return astRootNode;
         }
-        else if( _javaClass == _parameter._parameters.class ) {
+        else if( _javaClass == _parameters.class ) {
             in( tt, levels,
                     astRootNode,
                     Node.class,
@@ -1803,8 +1803,8 @@ public enum _walk {
                         //need a lambda...
                         _parameter._hasParameters hp = (_parameter._hasParameters)_java.of( n );
                             
-                        if( ((Predicate<_parameter._parameters>)_javaMatchFn).test( hp.getParameters() ) ){
-                            ((Consumer<_parameter._parameters>)_javaAction).accept( hp.getParameters() );
+                        if( ((Predicate<_parameters>)_javaMatchFn).test( hp.getParameters() ) ){
+                            ((Consumer<_parameters>)_javaAction).accept( hp.getParameters() );
                         }
                     });
             return astRootNode;

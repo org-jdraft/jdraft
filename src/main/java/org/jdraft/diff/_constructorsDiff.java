@@ -14,7 +14,7 @@ public class _constructorsDiff implements
     public static final _constructorsDiff INSTANCE = new _constructorsDiff();
     
     public static _constructor sameNameAndParameterTypes(_constructor ct, Set<_constructor> lcs) {
-        _parameter._parameters _pts = ct.getParameters();
+        _parameters _pts = ct.getParameters();
         _typeRef[] _trs = new _typeRef[_pts.size()];
         for (int i = 0; i < _pts.size(); i++) {
             _trs[i] = _pts.get(i).getType();

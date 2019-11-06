@@ -1,7 +1,7 @@
 package org.jdraft.pattern;
 
 import org.jdraft._class;
-import org.jdraft._parameter._parameters;
+import org.jdraft._parameters;
 import org.jdraft._type;
 import junit.framework.TestCase;
 

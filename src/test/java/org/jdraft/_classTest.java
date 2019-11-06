@@ -855,7 +855,7 @@ _class.of("aaaa.bbbb.Local",
         assertTrue( _p.isVarArg() );
         assertTrue( _ct.isVarArg());
         
-        _parameter._parameters _ps = _ct.getParameters();
+        _parameters _ps = _ct.getParameters();
         
         assertEquals(1, _c.listFields().size());
         _field _f = _c.getField("l");

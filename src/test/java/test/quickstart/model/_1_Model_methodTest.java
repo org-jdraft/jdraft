@@ -39,7 +39,7 @@ public class _1_Model_methodTest extends TestCase {
 
         // the _method can also return other _models that are also part of the _method
         _modifiers _ms = _m.getModifiers();
-        _parameter._parameters _ps = _m.getParameters();
+        _parameters _ps = _m.getParameters();
         _typeRef _t = _m.getType();
 
         // other _method _models
@@ -92,7 +92,7 @@ public class _1_Model_methodTest extends TestCase {
         Class<? extends _draft>[] _MODEL_TYPES = new Class[]{
             _type.class, _class.class, _interface.class, _enum.class, _annotation.class,
             _field.class, _constructor.class, _initBlock.class, _enum._constant.class, _annotation._element.class,
-            _parameter.class, _parameter._parameters.class, _typeRef.class, _modifiers.class, _anno.class,
+            _parameter.class, _parameters.class, _typeRef.class, _modifiers.class, _anno.class,
             _anno._annos.class, _body.class, _import.class, _throws.class, _typeParameter.class,
             _typeParameter._typeParameters.class};
     }

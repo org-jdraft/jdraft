@@ -31,7 +31,7 @@ public class _0_Model_Test extends TestCase {
         _typeRef _t = _m.getType();
         assertTrue(_t.is(int.class));
 
-        _parameter._parameters _ps = _m.getParameters();
+        _parameters _ps = _m.getParameters();
         assertTrue( _ps.isEmpty() );
 
         // jdraft models make modifying code easy

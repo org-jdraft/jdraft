@@ -11,16 +11,16 @@ import org.jdraft.diff._diff.*;
  * @author Eric
  */
 public class _parametersDiff
-        implements _differ<_parameter._parameters, _node> {
+        implements _differ<_parameters, _node> {
 
     public static final _parametersDiff INSTANCE = new _parametersDiff();
     
-    public boolean equivalent(_parameter._parameters left, _parameter._parameters right) {
+    public boolean equivalent(_parameters left, _parameters right) {
         return Objects.equals(left, right);
     }
 
     @Override
-    public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _parameter._parameters left, _parameter._parameters right) {
+    public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _parameters left, _parameters right) {
         if (!Objects.equals(left, right)) {
             dt.addDiff(new _changeParameters(path.in(_java.Component.PARAMETERS), (_parameter._hasParameters) _leftParent, (_parameter._hasParameters) _rightParent));
         }
@@ -28,13 +28,13 @@ public class _parametersDiff
     }
 
     public static class _changeParameters
-            implements _diffNode<_parameter._hasParameters>, _diffNode._change<_parameter._parameters> {
+            implements _diffNode<_parameter._hasParameters>, _diffNode._change<_parameters> {
 
         public _nodePath path;
         public _parameter._hasParameters leftParent;
         public _parameter._hasParameters rightParent;
-        public _parameter._parameters left;
-        public _parameter._parameters right;
+        public _parameters left;
+        public _parameters right;
 
         public _changeParameters(_nodePath path, _parameter._hasParameters leftParent, _parameter._hasParameters rightParent) {
             this.path = path;
@@ -60,12 +60,12 @@ public class _parametersDiff
         }
 
         @Override
-        public _parameter._parameters left() {
+        public _parameters left() {
             return left;
         }
 
         @Override
-        public _parameter._parameters right() {
+        public _parameters right() {
             return right;
         }
 

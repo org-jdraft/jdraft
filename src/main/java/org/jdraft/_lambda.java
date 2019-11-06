@@ -11,7 +11,7 @@ import com.github.javaparser.ast.stmt.EmptyStmt;
 import com.github.javaparser.ast.stmt.Statement;
 
 import org.jdraft._parameter._hasParameters;
-import org.jdraft._parameter._parameters;
+import org.jdraft._parameters;
 
 /**
  * Representation of a java lambda expression

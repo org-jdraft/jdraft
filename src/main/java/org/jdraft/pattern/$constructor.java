@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 import org.jdraft.*;
 import org.jdraft._anno._annos;
-import org.jdraft._parameter._parameters;
+import org.jdraft._parameters;
 import org.jdraft._typeParameter._typeParameters;
 import org.jdraft.macro._remove;
 import org.jdraft.macro._toCtor;
@@ -243,7 +243,7 @@ public class $constructor
         Method rm = Arrays.stream(anonymousObjectContainingMethod.getClass().getDeclaredMethods()).filter(mm ->_m.hasParametersOf(mm)).findFirst().get();
 
         //build the base method first
-        _constructor _ct = _constructor.of( theMethod.getNameAsString() + " " +_parameter._parameters.of( theMethod )+"{}" );
+        _constructor _ct = _constructor.of( theMethod.getNameAsString() + " " +_parameters.of( theMethod )+"{}" );
 
         //MODIFIERS
         if( theMethod.isPublic() ){

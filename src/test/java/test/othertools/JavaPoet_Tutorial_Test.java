@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 import org.jdraft._class;
 import org.jdraft._method;
 import org.jdraft._parameter;
+import org.jdraft._parameters;
 import org.jdraft.macro._abstract;
 import org.jdraft.macro._protected;
 import org.jdraft.macro._public;
@@ -258,6 +259,6 @@ public class JavaPoet_Tutorial_Test extends TestCase {
 
     /** https://github.com/square/javapoet#parameters */
     public void testParameters(){
-        _parameter._parameters _ps = _parameter._parameters.of("int a");
+        _parameters _ps = _parameters.of("int a");
     }
 }
