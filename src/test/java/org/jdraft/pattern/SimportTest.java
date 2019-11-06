@@ -1,5 +1,6 @@
 package org.jdraft.pattern;
 
+import com.github.javaparser.ast.ImportDeclaration;
 import org.jdraft._class;
 import org.jdraft._import;
 
@@ -10,6 +11,8 @@ import static junit.framework.TestCase.assertTrue;
 import org.hamcrest.MatcherAssert;
 import org.junit.Assert;
 
+import static org.junit.Assert.*;
+import static java.util.Map.*;
 /**
  *
  * @author Eric
@@ -37,7 +40,7 @@ public class SimportTest extends TestCase {
         assertTrue($i.matches("aaa.Map"));
         assertTrue($i.matches("Map"));
 
-        assertFalse($i.matches("pkg.Map.*"));
+        assertTrue($i.matches("pkg.Map.*"));
     }
 
     public void testMatchAs(){
@@ -58,7 +61,7 @@ public class SimportTest extends TestCase {
         $import.of("java.util.Map;").replaceIn(_c, "import java.util.*;");
         assertTrue( _c.hasImport("java.util.*;"));
         
-        $import $i = $import.of("java.util.$any$;");
+        $import $i = $import.of("java.util$any$;");
         _import _i = _import.of("java.util.*;");
         assertEquals("java.util", _i.getName());
         
@@ -66,9 +69,9 @@ public class SimportTest extends TestCase {
         assertTrue( $i.matches("java.util.*"));
         
         _c = _class.of("F").imports("java.util.*;");
-        assertEquals(1, $import.of("java.util.$any$;").count(_c ));
+        assertEquals(1, $import.of("java.util$any$;").count(_c ));
         
-        $import.of("java.util.$any$;").replaceIn(_c, "import java.net.$any$;");
+        $import.of("java.util$any$;").replaceIn(_c, "import java.net$any$;");
         assertTrue( _c.hasImport("java.net.*;"));       
         
         _c = _class.of("R").imports("draft.java.io.*;");
@@ -143,11 +146,10 @@ public class SimportTest extends TestCase {
         //the proto is wildcard, the composed is ALSO a wildcard
         assertEquals( _import.of("a.MyClass.*"), $i.draft() );
     }
-    
-    
+
     public void testImportWildcardStaticAssertions(){
         _class _c = _class.of("C").importStatic(Assert.class);
-        $import.of("import static org.junit.Assert;").replaceIn( _c, 
+        $import.of("import static org.junit.Assert.*;").replaceIn( _c,
             _import.of(MatcherAssert.class).setStatic().setWildcard() );
         
         System.out.println( _c );
@@ -163,7 +165,21 @@ public class SimportTest extends TestCase {
         assertFalse( _c.hasImport(Assert.class) );
         assertTrue( _c.hasImport(MatcherAssert.class));
     }
-    
+
+    public void testFailMatch(){
+        $import $i = $import.of("import static java.util.Map;");
+        _import _i = _import.of("java.util.Map").setWildcard().setStatic();
+        System.out.println( _i.astId.getName() );
+        assertTrue( $i.matches(_import.of("java.util.Map").setWildcard().setStatic()));
+    }
+
+    public void testM(){
+        $import $i = $import.of("import static java.util.Map.*;");
+        System.out.println( $i.importStencil );
+        _import _ii = _import.of("java.util.Map").setWildcard().setStatic();
+        System.out.println( _ii );
+        assertTrue( $i.matches( _ii) );
+    }
     public void testMatch(){
         $import $i = $import.of(Map.class);
         assertTrue( $i.matches(_import.of(Map.class)));
@@ -173,7 +189,7 @@ public class SimportTest extends TestCase {
         $i = $import.of("import static java.util.Map;");
         assertFalse( $i.matches(_import.of("java.util.Map")));
         assertFalse( $i.matches(_import.of("java.util.Map").setWildcard()));
-        assertFalse( $i.matches(_import.of("java.util.Map").setWildcard().setStatic()));
+        assertTrue( $i.matches(_import.of("java.util.Map").setWildcard().setStatic()));
         assertTrue( $i.matches(_import.of("java.util.Map").setStatic()));
         
         //wildcard AND static
@@ -185,7 +201,7 @@ public class SimportTest extends TestCase {
         
         $i = $import.of("import static java.util.Map;");
         assertTrue( $i.isStatic );
-        assertFalse( $i.matches(_import.of("java.util.Map").setWildcard().setStatic()));
+        assertTrue( $i.matches(_import.of("java.util.Map").setWildcard().setStatic()));
         assertFalse( $i.matches(_import.of("java.util.Map").setWildcard()));
         assertTrue( $i.matches(_import.of("java.util.Map").setStatic()));
         assertFalse( $i.matches(_import.of("java.util.Map")) );
@@ -198,29 +214,54 @@ public class SimportTest extends TestCase {
         
         //System.out.println( _class.of("C").importStatic(Map.class));
         assertNotNull( $import.of(Map.class).firstIn(_c ) );
-        $import $is = $import.of("import static java.util.Map;");
+        $import $is = $import.of("import static java.util.Map.*;");
         assertTrue( $is.isStatic);
-        assertTrue( $is.matches(_import.of(Map.class).setStatic()));
-        assertTrue( $is.matches("import static java.util.Map"));
+        assertTrue( $is.matches(_import.of(Map.class).setWildcard().setStatic()));
+        assertTrue( $is.matches("import static java.util.Map.*"));
         
         assertTrue( _cs.isTopLevel() );
         System.out.println( _cs );
         assertNotNull( $is.firstIn(_cs ) );
         
-        assertNotNull( $import.of("import static java.util.Map;").firstIn(_cs) );
-        assertNotNull( $import.of(Map.class, true, false).firstIn(_cs) );
+        assertNotNull( $import.of("import static java.util.Map.*;").firstIn(_cs) );
+        assertNotNull( $import.of(Map.class, true, true).firstIn(_cs) );
         assertNotNull( $import.of(Map.class).selectFirstIn(_c ) );
-        assertNotNull( $import.of(Map.class, true, false).selectFirstIn(_cs ) );
+        assertNotNull( $import.of(Map.class, true, true).selectFirstIn(_cs ) );
         
-        assertNotNull( $import.of(Map.class, true, false).firstIn(_cs, i-> i.isStatic() && !i.isWildcard()) );
+        assertNotNull( $import.of(Map.class, true, true).firstIn(_cs, i-> i.isStatic() && i.isWildcard()) );
         assertNotNull( $import.of(Map.class).firstIn(_c, i -> i.is(Map.class)) );
         assertNotNull( $import.of(Map.class).selectFirstIn(_c, i-> i.is(Map.class)) );
-        assertNotNull( $import.of(Map.class).selectFirstIn(_cs, i-> i.isStatic()) );
-        
         assertNotNull( $import.of(i-> i.isStatic()).firstIn(_cs) );
         
     }
-   
+
+    public void testImportStatic(){
+        _class _cs = _class.of( "C").importStatic(Map.class);
+        //assertTrue( $import.of().count(_cs) == 1);
+        //assertTrue( $import.of(Map.class, true, true).count(_cs) == 1);
+
+        //assertNotNull( $import.of("java.util.Map").select(new ImportDeclaration("java.util.Map", false, false)) );
+        //assertNotNull( $import.of("java.util.Map").select(new ImportDeclaration("java.util.Map", true, false)) );
+        //assertNotNull( $import.of("java.util.*").select(new ImportDeclaration("java.util", false, true)) );
+        _import _i = _import.of( new ImportDeclaration("java.util", false, true) );
+        //System.out.println( _i );
+        _i = _import.of( new ImportDeclaration("java.util.Map", true, true) );
+        System.out.println( _i );
+        assertTrue( _i.isStatic() );
+        assertTrue( _i.isWildcard() );
+        assertNull( $import.of(Map.class).isStatic);
+        assertNull( $import.of(Map.class).isWildcard);
+
+        assertNotNull( $import.of("java.util.Map").select(new ImportDeclaration("java.util.Map", true, true)) );
+
+        assertTrue( $import.of(Map.class).count(_cs) == 1);
+        System.out.println( _cs );
+
+
+        //$import.of(Map.class).
+
+        //assertNotNull( $import.of(Map.class).selectFirstIn(_cs, i-> i.isStatic()) );
+    }
     
     public void testConstantTemplate(){        
         _class _c = _class.of("C", new Object(){

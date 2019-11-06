@@ -22,7 +22,14 @@ import java.util.Map;
  */
 //@cache
 public class _importTest extends TestCase {
-    
+
+    public void testMultipleStaticImports(){
+        _class _c = _class.of("A")
+                .importStatic("com.mattel.Hoverboard.Boards.*;",
+                "com.mattel.Hoverboard.createNimbus;",
+                "java.util.Collections.*;");
+
+    }
     public void testImportPackageWildcard(){
         _import _i = _import.of("java.util.*");
     }

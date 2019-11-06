@@ -1,49 +1,40 @@
 package org.jdraft.runtime.test;
 
+import com.github.javaparser.ast.stmt.CatchClause;
+import com.github.javaparser.ast.stmt.WhileStmt;
 import junit.framework.TestCase;
-import org.jdraft._annosTest;
+import org.jdraft._class;
+import org.jdraft.macro._extend;
+import org.jdraft.macro._non_static;
+import org.jdraft.macro._package;
+import org.jdraft.runtime._runtime;
 import org.jdraft.runtime._runtimeException;
-import org.jdraft.walkTest;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 
 public class _junit4Test extends TestCase {
 
     public void testRun(){
-        Result r = _junit4.of(SingleTest.class, SetupTearDownTest.class).run();
+        Result r = _junit4.of(Single.class, SetupTearDownTest.class).run();
         assertEquals(0, r.getFailureCount());
         assertEquals( 2, r.getRunCount() );
     }
 
     public void testFailExceptionNotPropagated(){
-        Result r = _junit4.of(FailAssumptionTest.class).run();
+        Result r = _junit4.of(Inner.failAssumption).run();
         assertEquals(1, r.getFailureCount());
-        r = _junit4.of(FailExceptionTest.class).run();
+        r = _junit4.of(Inner.failException).run();
         assertEquals(1, r.getFailureCount());
     }
 
     public void testAdd(){
         _junit4 junit = _junit4.of();
-        junit.add(SetupTearDownTest.class, SingleTest.class);
+        junit.add(SetupTearDownTest.class, Single.class);
 
         junit.run();
-    }
-
-    public static class FailOnFirstExceptionRunListener extends RunListener{
-        public void testFailure(Failure failure) {
-            System.out.println("Failed, Throwing");
-            throw new _runtimeException( failure.getMessage(), failure.getException() );
-        }
-
-        public void testAssumptionFailure(Failure failure) {
-            System.out.println("Failed Assumption, Throwing");
-            throw new _runtimeException( failure.getMessage(), failure.getException() );
-        }
     }
 
     public static class SetupTearDownTest extends TestCase{
@@ -58,19 +49,33 @@ public class _junit4Test extends TestCase {
             assertTrue(a==b);
         }
     }
-    public static class SingleTest extends TestCase {
+    public static class Single extends TestCase {
         public void test(){
             assertTrue(1==1);
         }
     }
-    public static class FailAssumptionTest extends TestCase {
-        public void testAssumption(){
-            assertTrue( 1==2 );
+
+    public static class Inner {
+
+        public static Class<TestCase> failAssumption = (Class<TestCase>) _runtime.Class( _class.of(FailAssumption.class));
+        public static Class<TestCase> failException = (Class<TestCase>) _runtime.Class( _class.of( FailException.class) );
+        static {
+            System.out.println (_class.of(FailAssumption.class));
+            System.out.println (_class.of(FailException.class));
         }
-    }
-    public static class FailExceptionTest extends TestCase {
-        public void testThrowExcpetion() throws IOException {
-            throw new IOException("random IOE");
+        @_package("test")
+        @_extend(TestCase.class)
+        public class FailAssumption {
+            public void testAssumption() {
+                assertTrue(1 == 2);
+            }
+        }
+        @_package("test")
+        @_extend(TestCase.class)
+        public class FailException  {
+            public void testThrowException() throws IOException {
+                throw new IOException("random IOE");
+            }
         }
     }
 

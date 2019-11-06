@@ -64,7 +64,7 @@ public class OverviewTest extends TestCase {
     }
 
     public void testMacroAndRuntimeEval(){
-        //the @_dto @macro
+        //the @_dto @macro creates
         _class _point = _class.of("graph.Point", new @_dto Object(){ @_final double x, y; });
         //add a distance method
         _point.method(new Object(){
@@ -78,6 +78,7 @@ public class OverviewTest extends TestCase {
 
         //verify the simple 3-4-5 triangle
         assertEquals(5.0d,  _r.eval("new Point(0.0d, 0.0d).distanceTo(3.0d, 4.0d)") );
+
         //verify equals works
         assertEquals( _r.eval("new Point(5.0, 12.0)"),
                       _r.eval("new Point(5.0, 12.0)") );
