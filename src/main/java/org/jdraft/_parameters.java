@@ -3,12 +3,14 @@ package org.jdraft;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -24,6 +26,33 @@ import java.util.stream.Collectors;
  */
 public final class _parameters
         implements _draft {
+
+    public static <T extends Object> _parameters of( Consumer<T> c){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        return from( ste );
+    }
+
+    public static <T extends Object, U extends Object>_parameters of(BiConsumer<T,U> bc){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        return from( ste );
+    }
+
+    public static <T extends Object, U extends Object, V extends Object>_parameters of(Ex.TriConsumer<T,U, V> bc){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        return from( ste );
+    }
+
+    public static <T extends Object, U extends Object, V extends Object, W extends Object>_parameters of(Ex.QuadConsumer<T,U, V,W> bc){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        return from( ste );
+    }
+
+    private static _parameters from(StackTraceElement lambdaStackTrace ){
+        LambdaExpr le = Ex.lambdaEx( lambdaStackTrace );
+        _parameters _ps = of( le.getParameters() );
+        le.remove(); //dont connect the lambda with the caller
+        return _ps;
+    }
 
     public static _parameters of( List<Parameter> ps ){
         _parameters _ps = of();

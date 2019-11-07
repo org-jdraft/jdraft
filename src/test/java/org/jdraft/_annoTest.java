@@ -15,12 +15,14 @@ import org.jdraft.pattern.$ex;
 import org.jdraft.pattern.$stmt;
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
+import test.othertools.JavaPoet_Tutorial_Test;
 
 /**
  *
@@ -28,7 +30,52 @@ import junit.framework.TestCase;
  */
 public class _annoTest extends TestCase {
 
-    
+    @interface Headers{
+        String accept();
+        String userAgent();
+    }
+
+    public void testHeaders() {
+        Headers hs = new Headers() {
+            public Class annotationType() {
+                return Headers.class;
+            }
+
+            public String accept() {
+                return "application/json; charset=utf-8";
+            }
+
+            public String userAgent() {
+                return "Square Cash";
+            }
+        };
+        assertTrue(hs.annotationType().equals(Headers.class));
+        assertTrue(hs.accept().equals("application/json; charset=utf-8"));
+        assertTrue(hs.userAgent().equals("Square Cash"));
+    }
+
+    /*
+    public void test_annoInstance(){
+        _anno.of( new Headers(){
+
+            @Override
+            public Class<? extends Annotation> annotationType() {
+                return null;
+            }
+
+            @Override
+            public String accept() {
+                return null;
+            }
+
+            @Override
+            public String userAgent() {
+                return null;
+            }
+        });
+    }
+     */
+
     @interface i {
         int value();
     }
@@ -274,6 +321,7 @@ public class _annoTest extends TestCase {
         System.out.println(s);
     }
 
+    /*
     public @interface HeaderList{
         Header[] value();
     }
@@ -296,6 +344,7 @@ public class _annoTest extends TestCase {
 
         System.out.println( _m);
     }
+    */
 
     public void testAnnAst(){
         AnnotationExpr ae1 = Ast.anno( "@ann(k1=1,k2=2)");

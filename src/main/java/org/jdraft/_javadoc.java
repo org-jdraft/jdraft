@@ -6,7 +6,9 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
+import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
+import org.jdraft.text.Tokens;
 
 /**
  * Representation of the source code of a Javadoc Comment
@@ -41,6 +43,36 @@ public final class _javadoc
             return getContent().contains(content);
         }
         return false;
+    }
+
+    /**
+     * Can we find an instanceof the the stencil pattern anywhere in the code?
+     * @param stencil the stencil to match within the javadoc contents
+     * @return true if this Stencil pattern is found, false otherwise
+     */
+    public boolean contains( Stencil stencil ){
+        return parseFirst(stencil) != null;
+    }
+
+    /**
+     * create a Stencil from the stencilText, then look for the Stencil inside the text matching
+     * and extracting the first instance found into tokens and returning them.
+     * Return null if no instance of the text is found
+     *
+     * @param stencilText text to build a Stencil to match against
+     * @return Tokens of the first Stencil match, or null if no match
+     */
+    public Tokens parseFirst( String stencilText ){
+        return parseFirst(Stencil.of(stencilText));
+    }
+
+    /**
+     *
+     * @param stencil
+     * @return
+     */
+    public Tokens parseFirst(Stencil stencil ){
+        return stencil.parseFirst(getContent());
     }
 
     public boolean isEmpty(){

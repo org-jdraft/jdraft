@@ -145,7 +145,14 @@ public final class _method
 
         _method _m = _method.of(md);
 
-        Method rm = Arrays.stream(anonymousObjectContainingMethod.getClass().getDeclaredMethods()).filter(mm ->_m.hasParametersOf(mm)).findFirst().get();
+        Method rm = null;
+        Class anonClass = anonymousObjectContainingMethod.getClass();
+        if( anonClass.getDeclaredMethods().length == 1 ){
+            rm = anonClass.getDeclaredMethods()[0];
+        } else {
+            //Arrays.stream(anonymousObjectContainingMethod.getClass().getDeclaredMethods()).forEach(m -> System.out.println(m));
+            rm = Arrays.stream(anonymousObjectContainingMethod.getClass().getDeclaredMethods()).filter(mm -> _m.hasParametersOf(mm)).findFirst().get();
+        }
 
         macro.to(md, rm );
         _method _mm = _method.of(md);

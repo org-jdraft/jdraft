@@ -2579,7 +2579,25 @@ public enum Ast {
         SwitchExpr se = (SwitchExpr)StaticJavaParser.parseExpression("switch(x) { " +  Text.combine(caseExpr) + "};");
         return se.getEntry(0);
     }
-    
+
+    /**
+     * Builds a JavaParser AST model of an Anonymous Class (an {@link ObjectCreationExpr} based on the
+     * real code passed in:
+     * i.e.<PRE>
+     *     ObjectCreationExpr oce = Ast.anonymousClass( new Object(){
+     *        public int a;
+     *        public void SomeMethod(){
+     *            System.out.println(1);
+     *        }
+     *     });
+     * </PRE>
+     * @param anonymousClassImplementation
+     * @return the ObjectCreationExpr model instance of the runtime instance
+     */
+    public static ObjectCreationExpr anonymousClassEx(Object anonymousClassImplementation ){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        return Ex.newEx(ste, _io.IN_DEFAULT);
+    }
     
     /**
      * 

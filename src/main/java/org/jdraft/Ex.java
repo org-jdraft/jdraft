@@ -1281,6 +1281,25 @@ public enum Ex {
 
     public static final Class<ObjectCreationExpr> OBJECT_CREATION = ObjectCreationExpr.class;
 
+    /**
+     * Builds a JavaParser AST model of an Anonymous Class (an {@link ObjectCreationExpr} based on the
+     * real code passed in:
+     * i.e.<PRE>
+     *     ObjectCreationExpr oce = Ast.anonymousClass( new Object(){
+     *        public int a;
+     *        public void SomeMethod(){
+     *            System.out.println(1);
+     *        }
+     *     });
+     * </PRE>
+     * @param anonymousClassImplementation
+     * @return the ObjectCreationExpr model instance of the runtime instance
+     */
+    public static ObjectCreationExpr anonymousClassEx(Object anonymousClassImplementation ){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        return newEx(ste, _io.IN_DEFAULT);
+    }
+
     public static ObjectCreationExpr objectCreationEx(String... code ) {
         return of( code ).asObjectCreationExpr();
     }

@@ -171,6 +171,26 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         return _e;
     }
 
+    /**
+     * Allows the definition of the Enum AND _constants
+     * <PRE>
+     *  _enum _e = _enum.of("E", new Object(){
+     *     _constant C; //raw
+     *     _constant A,B;
+     *     _constant D = new _constant();
+     *     _constant E = new _constant(1);
+     *     _constant F = new _constant(1, 3);
+     *     _constant G = new _constant("A", 4){
+     *          public String toString(){
+     *              return
+     *          }
+     *      }
+     *  });
+     *  </PRE>
+     * @param signature
+     * @param anonymousBody
+     * @return
+     */
     public static _enum of(String signature, Object anonymousBody){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return of(signature, anonymousBody, ste);

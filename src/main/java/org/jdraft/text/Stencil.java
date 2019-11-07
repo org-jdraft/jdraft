@@ -586,7 +586,7 @@ public final class Stencil implements Template<String>{
      * if not match is found, return null
      *
      * @param text the text to look through for a match
-     * @return
+     * @return the tokens for the stencil or null if it is not found
      */
     public Tokens parseFirst(String text ){
         text = text.trim();

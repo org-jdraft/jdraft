@@ -1,23 +1,15 @@
 package test.othertools;
 
+import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import junit.framework.TestCase;
-import org.jdraft._class;
-import org.jdraft._method;
-import org.jdraft._parameter;
-import org.jdraft._parameters;
-import org.jdraft.macro._abstract;
-import org.jdraft.macro._protected;
-import org.jdraft.macro._public;
-import org.jdraft.macro._remove;
-import org.jdraft.pattern.$;
+import org.jdraft.*;
+import static org.jdraft._enum._constant;
+import org.jdraft.macro.*;
 import org.jdraft.pattern.$method;
 import org.jdraft.pattern.$node;
 import org.jdraft.runtime._runtime;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class JavaPoet_Tutorial_Test extends TestCase {
 
@@ -246,7 +238,7 @@ public class JavaPoet_Tutorial_Test extends TestCase {
     /** https://github.com/square/javapoet#constructors */
     public void testConstructors(){
         // Again we are spared writing "factory code" to create the class/constructor
-        // just write the code you want (and you can modify it as a _class object
+        // just write the code you want (and you can modify it as a _class object)
         @_public class HelloWorld {
             private final String greeting;
 
@@ -259,6 +251,189 @@ public class JavaPoet_Tutorial_Test extends TestCase {
 
     /** https://github.com/square/javapoet#parameters */
     public void testParameters(){
-        _parameters _ps = _parameters.of("int a");
+        //here we use "real code" (a NOOP lambda expression) to define parameters
+        _parameters _ps = _parameters.of((final String android, final String robot)->{});
+        _method _m  = _method.of("void welcomeOverlords(){}").setParameters(_ps);
+
+        //testing/verification
+        assertTrue( _m.is("void welcomeOverlords(final String android, final String robot){}"));
+    }
+
+    /** https://github.com/square/javapoet#fields */
+    public void testFields(){
+        _field _a = _field.of( new Object(){
+            @_private @_final String android;
+        });
+
+        _field _r = _field.of( new Object(){
+            @_private @_final String robot;
+        });
+
+        //field with initializer
+        _field _ai = _field.of(new Object(){
+            @_private @_final String android = "Lollipop v." + 5.0;
+        });
+
+        _class _c = _class.of("HelloWorld")
+                .fields(_a, _r);
+
+        //testing
+        assertTrue( _a.is("private final String android;"));
+        assertTrue( _r.is("private final String robot;"));
+
+        assertTrue( _ai.is("private final String android = \"Lollipop v.\" + 5.0;"));
+    }
+
+    /** https://github.com/square/javapoet#interfaces */
+    public void testInterfaces(){
+        _interface _i = _interface.of( "HelloWorld", new Object(){
+            String ONLY_THING_THAT_IS_CONSTANT = "change";
+            @_abstract void beep(){}
+        });
+
+        //System.out.println( _i );
+    }
+
+    /** https://github.com/square/javapoet#enums*/
+    public void testEnums(){
+        //simple _enum
+        _enum _e = _enum.of("Roshambo", new Object(){
+           _constant ROCK, SCISSORS, PAPER;
+        });
+
+        //enum with constructors, constants with constructor args and bodies
+        _e = _enum.of("Roshambo", new Object(){
+            _constant ROCK = new _constant("fist") {
+                @Override
+                public String toString() {
+                    return "avalanche!";
+                }
+            };
+            _constant SCISSORS = new _constant("peace");
+            _constant PAPER = new _constant("flat");
+
+            @_private @_final String handsign;
+
+            @_toCtor void Roshambo(String handsign) {
+                this.handsign = handsign;
+            }
+        });
+
+        //verify it creates the enum we expect
+        //System.out.println( _e );
+    }
+
+    /** https://github.com/square/javapoet#anonymous-inner-classes */
+    public void testAnonymousInnerClass(){
+
+        // the easiest way to do this is just to have the anonymous inner class
+        // (here a new Comparator<String>) directly in line in the code
+        _method.of( new Object(){
+            void sortByLength(List<String> strings) {
+                Collections.sort(strings, new Comparator<String>() {
+                    @Override
+                    public int compare(String a, String b) {
+                        return a.length() - b.length();
+                    }
+                });
+            }
+        });
+
+        // alternatively
+        /** the anonymous class can be built via code using the Ast.anonymousClass or Ex.anonymousClass */
+        ObjectCreationExpr oce = Ast.anonymousClassEx(new Comparator<String>(){
+            @Override
+            public int compare(String a, String b) {
+                return a.length() - b.length();
+            }
+        });
+
+        /** we can "plug-in" the code for the anonymous inner class with a $method */
+        $method $m = $method.of(new Object(){
+            void sortByLength(List<String> strings) {
+                Collections.sort(strings, $comparator$); /*<-param where expression code plugged in*/
+            }
+            @_remove Comparator<String> $comparator$; /*<- param is a dummy ...just to make it compile*/
+        });
+
+        /** draft a _method from a $method by pluggging in the Expression as "comparator" */
+        _method _m = $m.draft("comparator", oce);
+        System.out.println( _m );
+    }
+
+    /** https://github.com/square/javapoet#annotations */
+    public void testAnnotations(){
+
+        //annotations are retained when code is converted to _draft objects
+        _method _m = _method.of( new Object(){
+            @Override
+            public String toString() {
+               return "Hoverboard";
+            }
+        });
+        assertTrue( _m.hasAnno(Override.class));
+
+        //we can create annotations individually:
+        _anno _a = _anno.of(Override.class);
+
+        //we can add annotations to existing _draft entities (_field, _class, _method, etc.)
+        _m = _method.of( new Object(){
+            public String toString() {
+                return "Hoverboard";
+            }
+        });
+        assertFalse( _m.hasAnno(Override.class));
+        _m.anno(_a);
+        assertTrue( _m.hasAnno(Override.class));
+    }
+
+
+
+    public @interface HeaderList{
+        Header[] value();
+    }
+
+    public @interface Header{
+        String name();
+        String value();
+    }
+
+    public void testAnnotations2(){
+        //for "complicated" annotations, pass in an anonymous Object
+        // with the correct instance annotated (here a Class)
+        _anno _a = _anno.of(new Object(){
+                @HeaderList({
+                        @Header(name="Accept", value="application/json; charset=utf-8"),
+                        @Header(name="User-Agent", value="Square Cash"),
+                })
+                void m(){ }
+        });
+
+        _method _m = _method.of("public abstract LogReceipt recordEvent(LogRecord logRecord);")
+                .anno(_a);
+
+        System.out.println( _m);
+    }
+
+    class Message{}
+
+    public void testJavadoc(){
+
+        //Javadocs are ported from the "real code" to the model
+        _method _m = _method.of( new Object(){
+                /**
+                 * Hides {@code message} from the caller's history. Other
+                 * participants in the conversation will continue to see the
+                 * message in their own history unless they also delete it.
+                 *
+                 * <p>Use {@link #delete(Conversation)} to delete the entire
+                 * conversation for all participants.
+                 */
+                @_abstract void dismiss(Message message){}
+        });
+
+        System.out.println( _m );
+        assertTrue( _m.getJavadoc().contains("caller's history") );
+        assertNotNull( _m.getJavadoc().parseFirst("{@code $any$}").is("any", "message") );
     }
 }
