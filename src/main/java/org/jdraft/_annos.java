@@ -1,8 +1,10 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.expr.AnnotationExpr;
+import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.TypeParameter;
@@ -39,6 +41,20 @@ public class _annos
         FieldDeclaration fd = field( f );
         _annos _as = new _annos( fd );
         return _as;
+    }
+
+    /**
+     * Look through the anonymous Object to find some annotated entity
+     * and extract & model the first annotation as a _draft {@link _annos}
+     * @param anonymousObject an anonymous Object containing an annotated entity
+     * @return the {@link _annos} _draft object representing the annos
+     */
+    public static _annos of( Object anonymousObject ){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        ObjectCreationExpr oce = Ex.newEx(ste);
+        NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
+        BodyDeclaration bd = bds.stream().filter(b -> b.getAnnotations().isNonEmpty() ).findFirst().get();
+        return of( bd );
     }
 
     public static _annos of( List<AnnotationExpr> aes){

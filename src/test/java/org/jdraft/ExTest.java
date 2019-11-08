@@ -23,6 +23,20 @@ import java.util.*;
 @Ast.cache
 public class ExTest extends TestCase {
 
+    /**
+     * Test shortcuts for building Array initializer Expressions
+     * of Arrays with varargs
+     */
+    public void testArrayEx(){
+
+        assertEquals(Ex.of(new int[]{1,2,3,4,5}), Ex.intArray(1,2,3,4,5));
+        assertEquals(Ex.of(new boolean[]{true, false, true}), Ex.booleanArray(true,false,true));
+        assertEquals(Ex.of(new float[]{1.0f, 2.0f}), Ex.floatArray(1.0f,2.0f));
+        assertEquals(Ex.of(new char[]{'a','b','c'}), Ex.charArray('a','b','c'));
+        assertEquals(Ex.of(new double[]{1.0d, 2.0d, 3.0d}), Ex.doubleArray(1.0d,2.0d,3.0d));
+        assertEquals(Ex.of("{\"A\", \"B\", \"C\"}"), Ex.stringArray("A","B","C") );
+    }
+
     public void testExprThousandsSeparatorHexBinary(){
         StaticJavaParser.parseExpression("1_000");
         StaticJavaParser.parseExpression("0xDEADBEEF");
@@ -35,9 +49,7 @@ public class ExTest extends TestCase {
         Ex.intLiteralEx("1_000");
         Ex.intLiteralEx("0xDEADBEEF");
         Ex.intLiteralEx("0b110100111");
-        
-        
-        
+
         LongLiteralExpr l = Ex.longLiteralEx("1_000_000L");
         LongLiteralExpr ll = Ex.longLiteralEx("1000000L");
         

@@ -825,7 +825,37 @@ public enum Ex {
         sb.append(" }");
         return arrayInitializerEx( sb.toString() );
     }
-    
+
+    public static ArrayInitializerExpr charArray(char...chars ){
+        return of( chars);
+    }
+    public static ArrayInitializerExpr booleanArray( boolean...bools){
+        return of(bools);
+    }
+    public static ArrayInitializerExpr floatArray( float...floats){
+        return of(floats);
+    }
+    public static ArrayInitializerExpr doubleArray( double...doubles){
+        return of(doubles);
+    }
+    public static ArrayInitializerExpr intArray( int...ints){
+        return of(ints);
+    }
+
+    /**
+     * Creates and returns a String lister Array ArrayInitailizerExpr
+     * i.e.<PRE>
+     * {"A", "B", "C", "D"}
+     * </PRE>
+     * @param strs
+     * @return
+     */
+    public static ArrayInitializerExpr stringArray( String...strs ){
+        ArrayInitializerExpr ae = new ArrayInitializerExpr();
+        Arrays.stream(strs).forEach( s -> ae.getValues().add( Ex.stringLiteralEx(s)));
+        return ae;
+    }
+
     public static ArrayInitializerExpr arrayInitializerEx(char[] array ){
         return of( array );
     }

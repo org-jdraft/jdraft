@@ -4,6 +4,7 @@ import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.AnnotationExpr;
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
@@ -15,14 +16,13 @@ import org.jdraft.pattern.$ex;
 import org.jdraft.pattern.$stmt;
 import java.io.IOException;
 import java.io.Serializable;
-import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
-import test.othertools.JavaPoet_Tutorial_Test;
 
 /**
  *
@@ -140,14 +140,13 @@ public class _annoTest extends TestCase {
         //assertEquals( _anno.of(Test.class).ast(), t.getAnnotation(0));
     }
     
-    /** Fix not merged yet
+    /** Fix not merged yet */
     public void testObjectConstructionAnno(){
         //Statement st = Stmt.of( () -> {Integer i = new @Test Integer(100);} );
         Statement st = Stmt.of( "Integer i = new @Test Integer(100);");
         System.out.println( st );
         assertEquals(1, $anno.of(Test.class).count(st));//verify we can find the anno        
     }
-    */ 
     
     public void testCastAnno(){
         Statement st = Stmt.of( () -> {Integer i = (@Test Integer)100;} );
@@ -321,13 +320,26 @@ public class _annoTest extends TestCase {
         System.out.println(s);
     }
 
-    /*
     public @interface HeaderList{
         Header[] value();
     }
     public @interface Header{
         String name();
         String value();
+    }
+
+
+    public void testIsValue(){
+        _anno _a = _anno.of("A(1)");
+
+        assertTrue( _a.isValue(1) );
+        assertTrue( _a.isValue("value", 1));
+
+        Ex.arrayInitializerEx(new int[]{1,2,3});
+        _anno _b = _anno.of("B(k=1,v={'a','b'})");
+        assertTrue( _b.isValue("k", 1) );
+        assertTrue( _b.isValue("v", new char[]{'a', 'b'}) );
+        assertTrue( _b.isValue("v", Ex.charArray('a', 'b')) );
     }
 
     public void test23Draft(){
@@ -341,10 +353,18 @@ public class _annoTest extends TestCase {
 
         _method _m = _method.of("public abstract LogReceipt recordEvent(LogRecord logRecord);")
                 .anno(_a);
+        _a = _m.getAnno(0);
+        _a.isValue("Accept", "application/json; charset=utf-8");
+        _a.isValue("User-Agent", "Square Cash");
+
+        Expression e = _a.getValue("value");
+        Map<String,Expression> keyValues = _a.getKeyValuesMap();
+        Expression val = keyValues.get("value");
+        assertNotNull(val);
+        assertEquals( e, val);
 
         System.out.println( _m);
     }
-    */
 
     public void testAnnAst(){
         AnnotationExpr ae1 = Ast.anno( "@ann(k1=1,k2=2)");
@@ -418,8 +438,6 @@ public class _annoTest extends TestCase {
     }
 
     public void testChildParent(){
-
-
         //the underlying field has to change the implementation from
         FieldDeclaration fd = Ast.field( "@a(1) public int i=100;");
         _anno _a = new _anno(fd.getAnnotation( 0 ));
@@ -437,6 +455,4 @@ public class _annoTest extends TestCase {
         assertTrue( _aNoParent.is("@a(Key=9999)") );
         //System.out.println( _aNoParent );
     }
-
-
 }

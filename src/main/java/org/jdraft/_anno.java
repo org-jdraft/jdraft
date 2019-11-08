@@ -52,6 +52,12 @@ public final class _anno
         return new _anno( Ast.anno( annotation ) );
     }
 
+    /**
+     * Look through the anonymous Object to find some annotated entity
+     * and extract & model the first annotation as a _draft _anno
+     * @param anonymousObject an anonymous Object containing an annotated entity
+     * @return the _anno _draft object
+     */
     public static _anno of( Object anonymousObject ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         ObjectCreationExpr oce = Ex.newEx(ste);
@@ -176,6 +182,112 @@ public final class _anno
 
     public <E extends Expression> List<E> listValues( Class<E> expressionClass ) {
         return listValues( expressionClass, t -> true );
+    }
+
+    /**
+     * Builds a Map of Keys-> values
+     * @return
+     */
+    public Map<String, Expression> getKeyValuesMap(){
+        Map<String, Expression> keyValuesMap = new HashMap();
+        if( this.astAnno instanceof MarkerAnnotationExpr ){
+            return keyValuesMap;
+        }
+        if( this.astAnno instanceof SingleMemberAnnotationExpr){
+            keyValuesMap.put("value", this.astAnno.asSingleMemberAnnotationExpr().getMemberValue());
+            return keyValuesMap;
+        }
+        NormalAnnotationExpr n = (NormalAnnotationExpr)this.astAnno;
+        n.getPairs().forEach(p -> keyValuesMap.put(p.getNameAsString(), p.getValue() ) );
+        return keyValuesMap;
+    }
+
+    public boolean isValue(char[] value){
+        return isValue( "value", Ex.of(value));
+    }
+    public boolean isValue(boolean[] value){
+        return isValue( "value", Ex.of(value));
+    }
+
+    public boolean isValue(double[] value){
+        return isValue( "value", Ex.of(value));
+    }
+    public boolean isValue( float[] value){
+        return isValue( "value", Ex.of(value));
+    }
+
+    public boolean isValue(int[] value){
+        return isValue( "value", Ex.of(value));
+    }
+
+    public boolean isValue(char value){
+        return isValue( "value", Ex.of(value));
+    }
+    public boolean isValue(boolean value){
+        return isValue( "value", Ex.of(value));
+    }
+
+    public boolean isValue(double value){
+        return isValue( "value", Ex.of(value));
+    }
+    public boolean isValue(float value){
+        return isValue( "value", Ex.of(value));
+    }
+
+    public boolean isValue( String value){
+        return isValue("value", value);
+    }
+
+    public boolean isValue(int value){
+        return isValue( "value", Ex.of(value));
+    }
+
+    public boolean isValue(String name, char[] value){
+        return isValue( name, Ex.of(value));
+    }
+    public boolean isValue(String name, boolean[] value){
+        return isValue( name, Ex.of(value));
+    }
+
+    public boolean isValue(String name, double[] value){
+        return isValue( name, Ex.of(value));
+    }
+    public boolean isValue(String name, float[] value){
+        return isValue( name, Ex.of(value));
+    }
+
+    public boolean isValue(String name, int[] value){
+        return isValue( name, Ex.of(value));
+    }
+
+    public boolean isValue(String name, char value){
+        return isValue( name, Ex.of(value));
+    }
+    public boolean isValue(String name, boolean value){
+        return isValue( name, Ex.of(value));
+    }
+
+    public boolean isValue(String name, double value){
+        return isValue( name, Ex.of(value));
+    }
+    public boolean isValue(String name, float value){
+        return isValue( name, Ex.of(value));
+    }
+
+    public boolean isValue( String name, String value){
+        return isValue(name, Ex.stringLiteralEx(value));
+    }
+
+    public boolean isValue(String name, int value){
+        return isValue( name, Ex.of(value));
+    }
+
+    public boolean isValue(String name, Expression value){
+        Expression e = this.getValue(name);
+        if( e != null ){
+            return Objects.equals(e, value);
+        }
+        return false;
     }
 
     public <E extends Expression> List<E> listValues( Class<E> expressionClass,
