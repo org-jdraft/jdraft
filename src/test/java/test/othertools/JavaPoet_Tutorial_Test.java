@@ -434,6 +434,5 @@ public class JavaPoet_Tutorial_Test extends TestCase {
 
         System.out.println( _m );
         assertTrue( _m.getJavadoc().contains("caller's history") );
-        assertNotNull( _m.getJavadoc().parseFirst("{@code $any$}").is("any", "message") );
     }
 }

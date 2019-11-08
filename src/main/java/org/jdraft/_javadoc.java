@@ -62,7 +62,7 @@ public final class _javadoc
      * @param stencilText text to build a Stencil to match against
      * @return Tokens of the first Stencil match, or null if no match
      */
-    public Tokens parseFirst( String stencilText ){
+    private Tokens parseFirst( String stencilText ){
         return parseFirst(Stencil.of(stencilText));
     }
 
@@ -71,7 +71,7 @@ public final class _javadoc
      * @param stencil
      * @return
      */
-    public Tokens parseFirst(Stencil stencil ){
+    private Tokens parseFirst(Stencil stencil ){
         return stencil.parseFirst(getContent());
     }
 

@@ -107,7 +107,6 @@ public class _runtime {
     /**
      *
      * @param codeList
-     * @param <C>
      * @return
      */
     public static <_C extends _code> List<_classFile> compile(List<_C> codeList){
@@ -307,49 +306,10 @@ public class _runtime {
     public static <I extends Object> I impl(String fullyQualifiedClassName, I anonymousImplementation, Object...ctorArgs){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         ObjectCreationExpr oce = Ex.newEx(ste);
-        //_class _c = _class.of(fullyQualifiedClassName);
         //generate an ENTIRELY NEW class
         _class _c = _class.of(fullyQualifiedClassName, anonymousImplementation, ste);
-
-        //now "merge" the properties in the generated _class _gen INTO the _c the existing _class
-        //_gen.forMembers(m -> _c.add(m)); //add all members
-
-        //_gen.listImports().forEach( i -> _c.imports(i) ); //add all imports
-        //if( _gen.getExtends() != null){
-        //    _c.extend( _gen.getExtends() );
-        //}
-        //_gen.listImplements().forEach(i-> _c.implement(i) );
-        //System.out.println( _c );
         return (I)instanceOf(_c, ctorArgs);
     }
-
-    /**
-     * THIS causes some inconsistency issues when I use Annotation Macros as the state is not the same
-     * implements this functionality (based on the Implementation Interface or Base Class
-     * and defined in the anonymousImplementation) INTO the _class _c, then compile, load
-     * and create and
-     * @param _c the "original" class that may have some existing functionality (extends, implements, methods, constructors)
-     * @param anonymousImplementation
-     * @param <I>
-     * @return
-
-    public static <I extends Object> I impl(_class _c, I anonymousImplementation, Object...ctorArgs){
-        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Ex.newEx(ste);
-        //generate an ENTIRELY NEW class
-        _class _gen = _class.of(oce.getType().getNameAsString()+"Impl", anonymousImplementation, ste);
-
-        //now "merge" the properties in the generated _class _gen INTO the _c the existing _class
-        _gen.forMembers(m -> _c.add(m)); //add all members
-        _gen.listImports().forEach( i -> _c.imports(i) ); //add all imports
-        if( _gen.getExtends() != null){
-            _c.extend( _gen.getExtends() );
-        }
-        _gen.listImplements().forEach(i-> _c.ast().addImplementedType( i) );
-        System.out.println( _c );
-        return (I)instanceOf(_c, ctorArgs);
-    }
-    */
 
     /**
      * Creates a new Class that implements the interface (or extends the base class)
