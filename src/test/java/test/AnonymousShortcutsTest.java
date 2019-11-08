@@ -1,10 +1,16 @@
 package test;
 
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.expr.DoubleLiteralExpr;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.Statement;
 
+import com.github.javaparser.javadoc.Javadoc;
+import com.github.javaparser.javadoc.JavadocBlockTag;
+import com.github.javaparser.javadoc.description.JavadocSnippet;
 import org.jdraft.*;
 import org.jdraft.macro.*;
 
@@ -13,6 +19,7 @@ import org.jdraft.pattern.*;
 import org.jdraft.runtime.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import junit.framework.TestCase;
 import org.jdraft.macro._final;
@@ -23,7 +30,24 @@ import org.jdraft.macro._static;
  * @author Eric
  */
 public class AnonymousShortcutsTest extends TestCase {
-    
+
+    public void testCheckJavadoc(){
+
+        class t{
+            /**
+             * @throws IOException
+             */
+            public void mm(){}
+        }
+        CompilationUnit cu =Ast.of(t.class);
+        MethodDeclaration md = cu.getType(0).getMethods().get(0);
+        JavadocComment jdc = md.getJavadocComment().get();
+
+        Javadoc jd = md.getJavadoc().get();
+        List<JavadocBlockTag> jdb = jd.getBlockTags();
+        System.out.println( jdb );
+
+    }
     /**
      * 
      */
