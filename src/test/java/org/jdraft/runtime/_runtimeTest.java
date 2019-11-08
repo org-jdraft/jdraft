@@ -27,6 +27,18 @@ import org.junit.Assert;
  */
 public class _runtimeTest extends TestCase {
 
+    public void testRuntimeImpl(){
+        /** {@code int i=1;} */
+
+        /* <code>int i=1;</code> */
+
+        Serializable i = _runtime.impl("aaaa.bbbb.C", new @_dto Serializable(){ double x, y; });
+        System.out.println( i.toString() );
+
+        i = _runtime.impl("C", new @_dto Serializable(){ @_final double x, y; }, 3.0d, 4.0d);
+        System.out.println( i.toString() );
+    }
+
     public static class GreetingInterceptor {
         public Object greet(Object argument) {
             return "Hello from " + argument;
