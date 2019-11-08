@@ -43,6 +43,10 @@ public class _annos
         return _as;
     }
 
+    public static _annos of(String annos){
+        return of( new String[]{annos});
+    }
+
     /**
      * Look through the anonymous Object to find some annotated entity
      * and extract & model the first annotation as a _draft {@link _annos}

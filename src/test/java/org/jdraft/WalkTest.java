@@ -157,7 +157,7 @@ public class WalkTest extends TestCase {
         List<_draft>parentNodes = new ArrayList<>();
         //_m.walkParents(n -> parentNodes.add( _java.of( n ) ));
         Walk.parents(_m, n -> parentNodes.add( _java.of( n ) ));
-        assertTrue( parentNodes.get(0) instanceof _enum._constant);
+        assertTrue( parentNodes.get(0) instanceof _constant);
         assertTrue( parentNodes.get(1) instanceof _enum);
         assertTrue( parentNodes.get(2) instanceof _class);
         assertTrue( parentNodes.get(3) instanceof _class); //the typeDeclaration AstWalkTest

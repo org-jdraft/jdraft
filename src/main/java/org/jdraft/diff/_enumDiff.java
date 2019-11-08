@@ -46,21 +46,21 @@ public class _enumDiff implements _differ<_enum, _node> {
     public static _enumConstantDiff ENUM_CONSTANT_DIFF = new _enumConstantDiff();
 
     public static class _enumConstantDiff
-            implements _differ<_enum._constant, _node> {
+            implements _differ<_constant, _node> {
 
-        public boolean equivalent(_enum._constant left, _enum._constant right) {
+        public boolean equivalent(_constant left,_constant right) {
             return Objects.equals(left, right);
         }
 
         @Override
-        public _diff diff(_enum._constant left, _enum._constant right) {
+        public _diff diff(_constant left, _constant right) {
             _nodePath _p = new _nodePath();
             _diffList ds = new _diffList(left, right);
             return diff( _p, ds, left, right, left, right);
         }
         
         @Override
-        public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _enum._constant left, _enum._constant right) {
+        public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _constant left, _constant right) {
 
             _nodePath _p = path.in(CONSTANT, left.getName());
 
@@ -77,18 +77,18 @@ public class _enumDiff implements _differ<_enum, _node> {
     public static _enumConstantsDiff ENUM_CONSTANTS_DIFF = new _enumConstantsDiff();
 
     public static class _enumConstantsDiff
-            implements _differ<List<_enum._constant>, _node> {
+            implements _differ<List<_constant>, _node> {
 
-        public boolean equivalent(List<_enum._constant> left, List<_enum._constant> right) {
-            Set<_enum._constant> ls = new HashSet<>();
-            Set<_enum._constant> rs = new HashSet<>();
+        public boolean equivalent(List<_constant> left, List<_constant> right) {
+            Set<_constant> ls = new HashSet<>();
+            Set<_constant> rs = new HashSet<>();
             ls.addAll(left);
             rs.addAll(right);
             return Objects.equals(ls, rs);
         }
 
-        public _enum._constant sameName(_enum._constant target, Set<_enum._constant> source) {
-            Optional<_enum._constant> ec
+        public _constant sameName(_constant target, Set<_constant> source) {
+            Optional<_constant> ec
                     = source.stream().filter(c -> c.getName().equals(target.getName())).findFirst();
             if (ec.isPresent()) {
                 return ec.get();
@@ -97,10 +97,10 @@ public class _enumDiff implements _differ<_enum, _node> {
         }
 
         @Override
-        public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<_enum._constant> left, List<_enum._constant> right) {
-            Set<_enum._constant> ls = new HashSet<>();
-            Set<_enum._constant> rs = new HashSet<>();
-            Set<_enum._constant> both = new HashSet<>();
+        public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<_constant> left, List<_constant> right) {
+            Set<_constant> ls = new HashSet<>();
+            Set<_constant> rs = new HashSet<>();
+            Set<_constant> both = new HashSet<>();
             ls.addAll(left);
             rs.addAll(right);
             both.addAll(ls);
@@ -109,7 +109,7 @@ public class _enumDiff implements _differ<_enum, _node> {
             ls.removeAll(both);
             rs.removeAll(both);
             ls.forEach(f -> {
-                _enum._constant cc = sameName(f, rs);
+                _constant cc = sameName(f, rs);
                 if (cc != null) {
                     rs.remove(cc);
                     ENUM_CONSTANT_DIFF.diff(path, dt, _leftParent, _rightParent, f, cc);
@@ -123,18 +123,18 @@ public class _enumDiff implements _differ<_enum, _node> {
             return dt;
         }
 
-        public static class _rightOnly_enum_constant implements _diffNode<_enum>, _diffNode._rightOnly<_enum._constant> {
+        public static class _rightOnly_enum_constant implements _diffNode<_enum>, _diffNode._rightOnly<_constant> {
 
             public _nodePath path;
             public _enum leftRoot;
             public _enum rightRoot;
-            public _enum._constant right;
+            public _constant right;
 
-            public _rightOnly_enum_constant(_nodePath path, _enum leftRoot, _enum rightRoot, _enum._constant right) {
+            public _rightOnly_enum_constant(_nodePath path, _enum leftRoot, _enum rightRoot, _constant right) {
                 this.path = path;
                 this.leftRoot = leftRoot;
                 this.rightRoot = rightRoot;
-                this.right = _enum._constant.of(right.toString());
+                this.right = _constant.of(right.toString());
             }
 
             @Override
@@ -168,7 +168,7 @@ public class _enumDiff implements _differ<_enum, _node> {
             }
 
             @Override
-            public _enum._constant right() {
+            public _constant right() {
                 return this.right;
             }
 
@@ -178,18 +178,18 @@ public class _enumDiff implements _differ<_enum, _node> {
             }
         }
 
-        public static class _leftOnly_enum_constant implements _diffNode<_enum>, _diffNode._leftOnly<_enum._constant> {
+        public static class _leftOnly_enum_constant implements _diffNode<_enum>, _diffNode._leftOnly<_constant> {
 
             public _nodePath path;
             public _enum leftParent;
             public _enum rightParent;
-            public _enum._constant left;
+            public _constant left;
 
-            public _leftOnly_enum_constant(_nodePath path, _enum leftParent, _enum rightParent, _enum._constant left) {
+            public _leftOnly_enum_constant(_nodePath path, _enum leftParent, _enum rightParent, _constant left) {
                 this.path = path;
                 this.leftParent = leftParent;
                 this.rightParent = rightParent;
-                this.left = _enum._constant.of(left.toString());
+                this.left = _constant.of(left.toString());
             }
 
             @Override
@@ -224,7 +224,7 @@ public class _enumDiff implements _differ<_enum, _node> {
             }
 
             @Override
-            public _enum._constant left() {
+            public _constant left() {
                 return this.left;
             }
 
@@ -246,21 +246,21 @@ public class _enumDiff implements _differ<_enum, _node> {
         @Override
         public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<Expression> left, List<Expression> right) {
             if (!Objects.equals(left, right)) {
-                dt.addDiff(new _changeArguments(path.in(ARGUMENTS), (_enum._constant) _leftParent, (_enum._constant) _rightParent));
+                dt.addDiff(new _changeArguments(path.in(ARGUMENTS), (_constant) _leftParent, (_constant) _rightParent));
             }
             return (_diff) dt;
         }
 
         public static class _changeArguments
-                implements _diffNode<_enum._constant>, _diffNode._change<List<Expression>> {
+                implements _diffNode<_constant>, _diffNode._change<List<Expression>> {
 
             _nodePath path;
-            _enum._constant leftParent;
-            _enum._constant rightParent;
+            _constant leftParent;
+            _constant rightParent;
             NodeList<Expression> leftArguments;
             NodeList<Expression> rightArguments;
 
-            public _changeArguments(_nodePath path, _enum._constant left, _enum._constant right) {
+            public _changeArguments(_nodePath path, _constant left, _constant right) {
                 this.path = path;
                 this.leftParent = left;
                 this.rightParent = right;
@@ -273,12 +273,12 @@ public class _enumDiff implements _differ<_enum, _node> {
             }
 
             @Override
-            public _enum._constant leftParent() {
+            public _constant leftParent() {
                 return leftParent;
             }
 
             @Override
-            public _enum._constant rightParent() {
+            public _constant rightParent() {
                 return rightParent;
             }
 

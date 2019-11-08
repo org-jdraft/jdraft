@@ -22,7 +22,7 @@ import org.jdraft._anno._hasAnnos;
 import org.jdraft._annotation._element;
 import org.jdraft._body._hasBody;
 import org.jdraft._constructor._hasConstructors;
-import org.jdraft._enum._constant;
+import org.jdraft._constant;
 import org.jdraft._javadoc._hasJavadoc;
 import org.jdraft._method._hasMethods;
 import org.jdraft._modifiers.*;
@@ -477,7 +477,7 @@ public interface _java {
         if (_field.class == nodeClass) {
             return field(code);
         }
-        if (_enum._constant.class == nodeClass) {
+        if (_constant.class == nodeClass) {
             return constantDecl(code);
         }
         if (_annotation._element.class == nodeClass) {
@@ -502,7 +502,7 @@ public interface _java {
      * {@link _anno}
      * {@link _annotation._element}
      * {@link _constructor}
-     * {@link _enum._constant}
+     * {@link _constant}
      * {@link _field}
      * {@link _javadoc}
      * {@link _method}
@@ -543,7 +543,7 @@ public interface _java {
             return _enum.of((EnumDeclaration) astNode);
         }
         if (astNode instanceof EnumConstantDeclaration) {
-            return _enum._constant.of((EnumConstantDeclaration) astNode);
+            return _constant.of((EnumConstantDeclaration) astNode);
         }
         if (astNode instanceof LambdaExpr) {
             return _lambda.of((LambdaExpr) astNode);
@@ -671,7 +671,7 @@ public interface _java {
      * @see _method
      * @see _field
      * @see _initBlock
-     * @see _enum._constant
+     * @see _constant
      * @see _annotation._element
      *
      * @param clazz
@@ -710,7 +710,7 @@ public interface _java {
      * @see _method
      * @see _field
      * @see _initBlock
-     * @see _enum._constant
+     * @see _constant
      * @see _annotation._element
      *
      * @param top the top node
@@ -739,7 +739,7 @@ public interface _java {
      * @see _method
      * @see _field
      * @see _initBlock
-     * @see _enum._constant
+     * @see _constant
      * @see _annotation._element
      *
      * @param clazz the runtime Class
@@ -763,7 +763,7 @@ public interface _java {
      * @see _method
      * @see _field
      * @see _initBlock
-     * @see _enum._constant
+     * @see _constant
      * @see _annotation._element
      *
      * @param _mem
@@ -787,7 +787,7 @@ public interface _java {
      * @see _method
      * @see _field
      * @see _initBlock
-     * @see _enum._constant
+     * @see _constant
      * @see _annotation._element
      *
      * @param top the top node
@@ -888,8 +888,8 @@ public interface _java {
         CONSTRUCTOR("constructor", _constructor.class),
         METHODS("methods", List.class, _method.class), //class, _enum, _interface, _enum._constant
         METHOD("method", _method.class),
-        CONSTANTS("constants", List.class, _enum._constant.class),
-        CONSTANT("constant", _enum._constant.class), //_enum
+        CONSTANTS("constants", List.class, _constant.class),
+        CONSTANT("constant", _constant.class), //_enum
 
         ARGUMENT("argument", Expression.class), //_enum._constant
         ARGUMENTS("arguments", List.class, Expression.class), //_enum._constant
@@ -1226,7 +1226,7 @@ public interface _java {
             
             _JAVA_TO_AST_NODE_CLASSES.put(_anno.class, AnnotationExpr.class);
             _JAVA_TO_AST_NODE_CLASSES.put(_annotation._element.class, AnnotationMemberDeclaration.class);
-            _JAVA_TO_AST_NODE_CLASSES.put(_enum._constant.class, EnumConstantDeclaration.class);
+            _JAVA_TO_AST_NODE_CLASSES.put(_constant.class, EnumConstantDeclaration.class);
             _JAVA_TO_AST_NODE_CLASSES.put(_constructor.class, ConstructorDeclaration.class);
             _JAVA_TO_AST_NODE_CLASSES.put(_field.class, VariableDeclarator.class);
             _JAVA_TO_AST_NODE_CLASSES.put(_method.class, MethodDeclaration.class);
@@ -1258,7 +1258,7 @@ public interface _java {
             AST_NODE_TO_JAVA_CLASSES.put(SingleMemberAnnotationExpr.class, _anno.class);
 
             AST_NODE_TO_JAVA_CLASSES.put(AnnotationMemberDeclaration.class, _annotation._element.class);
-            AST_NODE_TO_JAVA_CLASSES.put(EnumConstantDeclaration.class, _enum._constant.class);
+            AST_NODE_TO_JAVA_CLASSES.put(EnumConstantDeclaration.class, _constant.class);
             AST_NODE_TO_JAVA_CLASSES.put(ConstructorDeclaration.class, _constructor.class);
 
             AST_NODE_TO_JAVA_CLASSES.put(VariableDeclarator.class, _field.class);

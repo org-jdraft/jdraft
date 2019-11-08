@@ -1,16 +1,11 @@
 package org.jdraft.diff;
 
-import org.jdraft._enum;
-import org.jdraft._method;
-import org.jdraft._interface;
-import org.jdraft._typeRef;
-import org.jdraft._annotation;
-import org.jdraft._class;
+import org.jdraft.*;
 import org.jdraft.diff._namedDiff._changeName;
 import org.jdraft.diff._typeRefDiff._change_type;
 import org.jdraft.diff._diff._diffList;
 import org.jdraft._java.Component;
-import org.jdraft._node;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -150,11 +145,11 @@ public class _diffTest extends TestCase {
     
     
     public void test_enumConstantListDiff(){
-        _enum._constant _a1 = _enum._constant.of("A");
-        _enum._constant _b1 = _enum._constant.of("B");
+        _constant _a1 = _constant.of("A");
+        _constant _b1 = _constant.of("B");
         
-        _enum._constant _a2 = _enum._constant.of("A");
-        _enum._constant _b2 = _enum._constant.of("B");
+        _constant _a2 = _constant.of("A");
+        _constant _b2 = _constant.of("B");
         
         _enum _e1 = _enum.of("E");
         _enum _e2 = _enum.of("E");
@@ -190,8 +185,8 @@ public class _diffTest extends TestCase {
     }
     
     public void test_enumConstantDiff(){
-        _enum._constant _a1 = _enum._constant.of("A");
-        _enum._constant _a2 = _enum._constant.of("A");
+        _constant _a1 = _constant.of("A");
+        _constant _a2 = _constant.of("A");
         _diffList dt = new _diffList(_a1, _a2);
         _enum _e1 = _enum.of("E");
         _enum _e2 = _enum.of("E");

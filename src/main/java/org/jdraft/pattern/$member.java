@@ -122,8 +122,8 @@ public interface $member<M, $M extends $pattern> extends $pattern<M,$M> {
         if(_m instanceof _enum){
             return $enum.of( (_enum)_m);
         }
-        if(_m instanceof _enum._constant){
-            return $enumConstant.of( (_enum._constant)_m);
+        if(_m instanceof _constant){
+            return $enumConstant.of( (_constant)_m);
         }
         if(_m instanceof _field){
             return $field.of( (_field)_m);

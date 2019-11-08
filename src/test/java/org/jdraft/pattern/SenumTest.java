@@ -18,9 +18,9 @@ public class SenumTest extends TestCase {
     public void testTypesEquality(){
         //TYPE _enum._constant
         //TYPE org.jdraft._enum._constant
-        assertTrue( Ast.typesEqual( Ast.typeRef("_enum._constant"), Ast.typeRef(_enum._constant.class)) );
-        assertTrue( Ast.typesEqual( Ast.typeRef("_constant"), Ast.typeRef(_enum._constant.class)) );
-        assertTrue( Ast.typesEqual( Ast.typeRef("_constant"), Ast.typeRef(_enum._constant.class.getCanonicalName())) );
+        assertTrue( Ast.typesEqual( Ast.typeRef("_constant"), Ast.typeRef(_constant.class)) );
+        assertTrue( Ast.typesEqual( Ast.typeRef("_constant"), Ast.typeRef(_constant.class)) );
+        assertTrue( Ast.typesEqual( Ast.typeRef("_constant"), Ast.typeRef(_constant.class.getCanonicalName())) );
 
     }
 
@@ -38,26 +38,26 @@ public class SenumTest extends TestCase {
         assertEquals( 5, _ae.listConstants().size());
 
         _enum _e = _enum.of("E", new Object(){
-           _enum._constant A,B,C,D,E;
+           _constant A,B,C,D,E;
         });
         assertEquals( 5, _ae.listConstants().size());
 
-        $enum $e = $enum.of(new Object(){ _enum._constant A,B,C; } );
+        $enum $e = $enum.of(new Object(){ _constant A,B,C; } );
         assertEquals(3, $e.enumConstants.size());
 
-        $e = $enum.of(new Object(){ _enum._constant A; } );
+        $e = $enum.of(new Object(){ _constant A; } );
         assertEquals(1, $e.enumConstants.size());
 
-        $e = $enum.of(new Object(){ _enum._constant A = new _enum._constant(); } );
+        $e = $enum.of(new Object(){ _constant A = new _constant(); } );
         assertEquals(1, $e.enumConstants.size());
 
         //enum with constructor args
-        $e = $enum.of(new Object(){ _enum._constant A = new _enum._constant(1,2,"E"); } );
+        $e = $enum.of(new Object(){ _constant A = new _constant(1,2,"E"); } );
         assertEquals(1, $e.enumConstants.size());
         assertEquals(3, $e.enumConstants.get(0).args.size());
 
         //enum with constructor args AND body (with field and method)
-        $e = $enum.of(new Object(){ _enum._constant A = new _enum._constant(1,2,"E"){
+        $e = $enum.of(new Object(){ _constant A = new _constant(1,2,"E"){
                 int aField = 10234;
                 public String toString(){
                     return "HELLO";

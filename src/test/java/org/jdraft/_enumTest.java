@@ -186,7 +186,7 @@ public class _enumTest extends TestCase {
         assertNotNull( _e.getConstant( "A"));
         assertNotNull( _e.getConstant( "A").getJavadoc());
         
-        _enum._constant _c = _e.getConstant("B");
+        _constant _c = _e.getConstant("B");
         
         assertTrue(_c.hasAnnos());
         assertTrue(_c.hasJavadoc());
@@ -207,7 +207,7 @@ public class _enumTest extends TestCase {
         assertTrue( _m.isType( int.class));
         assertTrue( _m.getBody().is("return 12345;") );
         
-        _enum._constant _cc = _e.getConstant("C");
+        _constant _cc = _e.getConstant("C");
         assertEquals(2, _cc.listArguments().size() );
         assertEquals(Ex.of(2), _cc.getArgument(0));
         assertEquals(Ex.stringLiteralEx("Blah"), _cc.getArgument(1));

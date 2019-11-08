@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import org.jdraft.*;
+import org.jdraft._constant;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
@@ -17,10 +18,10 @@ import org.jdraft.text.Translator;
  * Note... at the moment this is NOT a template... should it be??
  */
 public class $enumConstant
-        implements $pattern<_enum._constant, $enumConstant>, $pattern.$java<_enum._constant, $enumConstant>, $enum.$part,
-        $member.$named<$enumConstant>, $declared<_enum._constant,$enumConstant>, $type.$part  {
+        implements $pattern<_constant, $enumConstant>, $pattern.$java<_constant, $enumConstant>, $enum.$part,
+        $member.$named<$enumConstant>, $declared<_constant,$enumConstant>, $type.$part  {
 
-    public Predicate<_enum._constant> constraint = t->true;
+    public Predicate<_constant> constraint = t->true;
 
     public $comment<JavadocComment>javadoc = $comment.javadocComment();
     public $annos annos = $annos.of();
@@ -39,14 +40,14 @@ public class $enumConstant
     }
 
     public static $enumConstant of ( String... enumConstant ){
-        return of( _enum._constant.of(enumConstant) );
+        return of( _constant.of(enumConstant) );
     }
 
     public static $enumConstant of( EnumConstantDeclaration ecd ){
-        return of( _enum._constant.of(ecd));
+        return of( _constant.of(ecd));
     }
 
-    public static $enumConstant of( _enum._constant _ec ){
+    public static $enumConstant of( _constant _ec ){
         $enumConstant ec = new $enumConstant();
         if( _ec.hasAnnos() ) {
             ec.annos = $annos.of(_ec.getAnnos());
@@ -67,7 +68,7 @@ public class $enumConstant
         return ec;
     }
 
-    public static $enumConstant of(Predicate<_enum._constant> constraint ){
+    public static $enumConstant of(Predicate<_constant> constraint ){
         return new $enumConstant().$and(constraint);
     }
 
@@ -75,7 +76,7 @@ public class $enumConstant
         return new $enumConstant(parts);
     }
 
-    public static $enumConstant.Or or( _enum._constant... _protos ){
+    public static $enumConstant.Or or( _constant... _protos ){
         $enumConstant[] arr = new $enumConstant[_protos.length];
         for(int i=0;i<_protos.length;i++){
             arr[i] = $enumConstant.of( _protos[i]);
@@ -96,14 +97,14 @@ public class $enumConstant
     }
 
     public static $enumConstant as(EnumConstantDeclaration ecd ){
-        return as(_enum._constant.of(ecd));
+        return as(_constant.of(ecd));
     }
 
     public static $enumConstant as(String... constant ){
-        return as(_enum._constant.of(constant));
+        return as(_constant.of(constant));
     }
 
-    public static $enumConstant as( _enum._constant _ec ){
+    public static $enumConstant as( _constant _ec ){
         $enumConstant ec = new $enumConstant();
         if( _ec.hasAnnos() ) {
             ec.annos = $annos.as(_ec.getAnnos());
@@ -252,13 +253,13 @@ public class $enumConstant
         }
     }
 
-    public boolean match( _enum._constant _e){
+    public boolean match( _constant _e){
         return select(_e) != null;
     }
 
     public boolean matches(String...code){
         try{
-            return matches(_enum._constant.of(code));
+            return matches(_constant.of(code));
         }catch(Exception e){
             return false;
         }
@@ -266,17 +267,17 @@ public class $enumConstant
 
     public boolean matches(EnumConstantDeclaration coid ){
         if( coid != null ){
-            return select(_enum._constant.of(coid)) != null;
+            return select(_constant.of(coid)) != null;
         }
         return false;
     }
 
-    public boolean matches( _enum._constant _e){
+    public boolean matches( _constant _e){
         return select(_e) != null;
     }
 
     @Override
-    public Select select(_enum._constant instance) {
+    public Select select(_constant instance) {
 
         if( !this.constraint.test(instance)){
             return null;
@@ -311,34 +312,34 @@ public class $enumConstant
         for(int i=0;i<parts.length;i++){
             if( parts[i] instanceof $anno ){
                 final $anno $fa = (($anno)parts[i]);
-                Predicate<_enum._constant> pf = f-> $fa.count(f) > 0;
+                Predicate<_constant> pf = f-> $fa.count(f) > 0;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $name){
                 final $name $fn = (($name)parts[i]);
-                Predicate<_enum._constant> pf = f-> $fn.matches(f.getName());
+                Predicate<_constant> pf = f-> $fn.matches(f.getName());
                 $and( pf.negate() );
             }
             else if(parts[i] instanceof $comment ){
                 final $comment $fj = (($comment)parts[i]);
-                Predicate<_enum._constant> pf = f-> $fj.matches(f.getJavadoc());
+                Predicate<_constant> pf = f-> $fj.matches(f.getJavadoc());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $method){
                 final $method $fj = (($method)parts[i]);
-                Predicate<_enum._constant> pf = f-> !f.listMethods(m -> $fj.matches(m)).isEmpty();
+                Predicate<_constant> pf = f-> !f.listMethods(m -> $fj.matches(m)).isEmpty();
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $field){
                 final $field $fj = (($field)parts[i]);
-                Predicate<_enum._constant> pf = f-> !f.listFields(ff -> $fj.matches(ff)).isEmpty();
+                Predicate<_constant> pf = f-> !f.listFields(ff -> $fj.matches(ff)).isEmpty();
                 $and( pf.negate() );
             }
         }
         return this;
     }
 
-    public static $pattern.$tokens selectArgs(List<$ex> $protoArgs, _enum._constant _ec ){
+    public static $pattern.$tokens selectArgs(List<$ex> $protoArgs, _constant _ec ){
         Map<$ex, List<$ex.Select>> selectMap = new HashMap<>();
 
         for(int i=0;i<$protoArgs.size(); i++) {
@@ -366,7 +367,7 @@ public class $enumConstant
 
 
     @Override
-    public $enumConstant $and(Predicate<_enum._constant> constraint) {
+    public $enumConstant $and(Predicate<_constant> constraint) {
         this.constraint = this.constraint.and(constraint);
         return this;
     }
@@ -406,8 +407,6 @@ public class $enumConstant
         return this;
     }
 
-
-
     public $enumConstant $name($name name ){
         this.name = name;
         return this;
@@ -446,19 +445,19 @@ public class $enumConstant
     @Override
     public boolean match(Node candidate) {
         if(candidate instanceof EnumConstantDeclaration){
-            return select( _enum._constant.of((EnumConstantDeclaration)candidate)) != null;
+            return select( _constant.of((EnumConstantDeclaration)candidate)) != null;
         }
         return false;
     }
 
     @Override
-    public _enum._constant firstIn(Node astStartNode, Predicate<_enum._constant> nodeMatchFn) {
+    public _constant firstIn(Node astStartNode, Predicate<_constant> nodeMatchFn) {
         Optional<Node> oc = astStartNode.stream().filter(n ->
                 (n instanceof EnumConstantDeclaration)
                 && match(n)
-                && nodeMatchFn.test( _enum._constant.of( (EnumConstantDeclaration)n)) ).findFirst();
+                && nodeMatchFn.test( _constant.of( (EnumConstantDeclaration)n)) ).findFirst();
         if( oc.isPresent()){
-            return _enum._constant.of( (EnumConstantDeclaration)oc.get() );
+            return _constant.of( (EnumConstantDeclaration)oc.get() );
         }
         return null;
     }
@@ -469,7 +468,7 @@ public class $enumConstant
                 n instanceof EnumConstantDeclaration
                         && match(n) ).findFirst();
         if( oc.isPresent()){
-            return select( _enum._constant.of( (EnumConstantDeclaration)oc.get() ) );
+            return select( _constant.of( (EnumConstantDeclaration)oc.get() ) );
         }
         return null;
     }
@@ -482,7 +481,7 @@ public class $enumConstant
     public List<Select> listSelectedIn(Node astNode, Predicate<Select>selectMatchFn) {
         List<Select> found = new ArrayList<>();
         astNode.walk(EnumConstantDeclaration.class, c->{
-            _enum._constant _e = _enum._constant.of( c );
+            _constant _e = _constant.of( c );
             Select sel = select(_e);
             if( sel != null && selectMatchFn.test(sel)){
                 found.add(sel);
@@ -492,9 +491,9 @@ public class $enumConstant
     }
 
     @Override
-    public <N extends Node> N forEachIn(N astNode, Predicate<_enum._constant> nodeMatchFn, Consumer<_enum._constant> nodeActionFn) {
+    public <N extends Node> N forEachIn(N astNode, Predicate<_constant> nodeMatchFn, Consumer<_constant> nodeActionFn) {
         astNode.walk(EnumConstantDeclaration.class, c->{
-            _enum._constant _e = _enum._constant.of( c );
+            _constant _e = _constant.of( c );
             if( match(_e) && nodeMatchFn.test(_e)){
                 nodeActionFn.accept(_e);
             }
@@ -503,8 +502,8 @@ public class $enumConstant
     }
 
     @Override
-    public Class<_enum._constant> _modelType() {
-        return _enum._constant.class;
+    public Class<_constant> _modelType() {
+        return _constant.class;
     }
 
     /**
@@ -541,7 +540,7 @@ public class $enumConstant
          * @param astNode
          * @return
          */
-        public $enumConstant.Select select(_enum._constant astNode){
+        public $enumConstant.Select select(_constant astNode){
             $enumConstant $a = whichMatch(astNode);
             if( $a != null ){
                 return $a.select(astNode);
@@ -558,7 +557,7 @@ public class $enumConstant
          * @param ae
          * @return
          */
-        public $enumConstant whichMatch(_enum._constant ae){
+        public $enumConstant whichMatch(_constant ae){
             if( !this.constraint.test( ae ) ){
                 return null;
             }
@@ -570,15 +569,14 @@ public class $enumConstant
         }
     }
 
-
     /**
      * The selected Class
      */
-    public static class Select implements select_java<_enum._constant>{
-        public _enum._constant selected;
+    public static class Select implements select_java<_constant>{
+        public _constant selected;
         public $tokens tokens;
 
-        public Select( _enum._constant _c, $tokens tokens){
+        public Select( _constant _c, $tokens tokens){
             this.selected = _c;
             this.tokens = tokens;
         }
@@ -589,7 +587,7 @@ public class $enumConstant
         }
 
         @Override
-        public _enum._constant _node() {
+        public _constant _node() {
             return selected;
         }
     }

@@ -137,7 +137,7 @@ public interface _diff {
         return _constructorDiff.INSTANCE.diff(_left, _right);
     }
 
-    static _diff of(_enum._constant _left, _enum._constant _right) {
+    static _diff of(_constant _left, _constant _right) {
         return _enumDiff.ENUM_CONSTANT_DIFF.diff(_left, _right);
     }
 

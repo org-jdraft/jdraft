@@ -3,7 +3,7 @@ package test.othertools;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import junit.framework.TestCase;
 import org.jdraft.*;
-import static org.jdraft._enum._constant;
+import org.jdraft._constant;
 import org.jdraft.macro.*;
 import org.jdraft.pattern.$method;
 import org.jdraft.pattern.$node;
