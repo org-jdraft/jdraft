@@ -138,7 +138,7 @@ public class AstTest extends TestCase {
 
         //TODO does this make sense
         //Stmt.commentOut( _m.getStatement(0));
-        Stmt.REPLACE_WITH_EMPTY_STMT_COMMENT.accept( _m.getStatement(0) );
+        Stmt.REPLACE_WITH_EMPTY_STMT_COMMENT.apply( _m.getStatement(0) );
         System.out.println( _m  );
         System.out.println( _m.toString(Ast.EMPTY_STATEMENT_COMMENT_PRINTER) );
     }
@@ -168,8 +168,8 @@ public class AstTest extends TestCase {
 
             }
         }
-        _class _c = $stmt.of(($any$)->System.out.println($any$)).commentOut(C.class);
-
+        //_class _c = $stmt.of(($any$)->System.out.println($any$)).commentOut(C.class);
+        _class _c = _class.of(C.class);
 
         System.out.println( _c );
         System.out.println( _c.toString(Ast.EMPTY_STATEMENT_COMMENT_PRINTER));

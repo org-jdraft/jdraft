@@ -85,9 +85,9 @@ public class WhatKindaStuff extends TestCase {
                 return 37;
             }
         }
-        assertEquals(37,
-                _runtime.of( (_class)$stmt.of( "System.out.println($any$);").commentOut(C.class) ).eval("new C().m()"));
-        _class _c = $.assertStmt().commentOut(_class.of(C.class));
-        System.out.println( _c );
+        //assertEquals(37,
+        //        _runtime.of( (_class)$stmt.of( "System.out.println($any$);").commentOut(C.class) ).eval("new C().m()"));
+        //_class _c = $.assertStmt().commentOut(_class.of(C.class));
+        //System.out.println( _c );
     }
 }

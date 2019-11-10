@@ -56,8 +56,9 @@ public class $comment <C extends Comment>
      * }
      * </PRE>
      *
-     */
+
     public static final $comment STATEMENT_COMMENT = $comment.as("<code>$statement$</code>");
+     */
 
     public static $comment<Comment> of(){
         return new $comment();

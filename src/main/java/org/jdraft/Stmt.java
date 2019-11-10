@@ -4,6 +4,7 @@ import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.comments.BlockComment;
+import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.*;
 
@@ -51,10 +52,11 @@ public enum Stmt {
      * NOTE: we do not print the empty statement ";" ONLY the comment
      * @see Ast#EMPTY_STATEMENT_COMMENT_PRINTER
      */
-    public static final Consumer<Statement> REPLACE_WITH_EMPTY_STMT_COMMENT = (st)->{
+    public static final Function<Statement,Statement> REPLACE_WITH_EMPTY_STMT_COMMENT = (st)->{
         Statement es = new EmptyStmt(); //create a new empty statement
         es.setComment( new BlockComment("<code>"+st.toString(Ast.PRINT_NO_COMMENTS)+"</code>") );
         st.replace( es );
+        return es;
     };
 
     /**
@@ -87,10 +89,19 @@ public enum Stmt {
      * NOTE: we do not print the empty statement ";" ONLY the comment
      * @see Ast#EMPTY_STATEMENT_COMMENT_PRINTER
      */
-    public static final Consumer<Statement> REPLACE_WITH_EMPTY_COMMENT_BLOCK = (st)->{
+    public static final Function<Statement, Statement> REPLACE_WITH_EMPTY_COMMENT_BLOCK = (st)->{
         BlockStmt bs = Ast.blockStmt("{/*<code>"+st.toString(Ast.PRINT_NO_COMMENTS)+"</code>*" + "/}");
         st.replace( bs );
+        return bs;
     };
+
+    public static Statement commentOut(Statement st){
+        return commentOut(st, REPLACE_WITH_EMPTY_STMT_COMMENT);
+    }
+
+    public static Statement commentOut( Statement st, Function<Statement,Statement> stmtConsumer ){
+        return stmtConsumer.apply(st);
+    }
 
     /**
      * Returns the Statement associated from the lambda expression

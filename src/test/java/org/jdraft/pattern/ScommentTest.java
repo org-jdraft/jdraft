@@ -13,24 +13,25 @@ public class ScommentTest extends TestCase {
 
     public void testStmtComment(){
 
+        $comment STATEMENT_COMMENT = $comment.as("<code>$statement$</code>");
         //exact matches
-        assertTrue($comment.STATEMENT_COMMENT.matches("//<code>assert(1==1)</code>")); //line comment
-        assertTrue($comment.STATEMENT_COMMENT.matches("/*<code>assert(1==1)</code>*/")); /*block comment */
-        assertTrue($comment.STATEMENT_COMMENT.matches("/**<code>assert(1==1)</code>*/")); /** javadoc comment */
+        assertTrue(STATEMENT_COMMENT.matches("//<code>assert(1==1)</code>")); //line comment
+        assertTrue(STATEMENT_COMMENT.matches("/*<code>assert(1==1)</code>*/")); /*block comment */
+        assertTrue(STATEMENT_COMMENT.matches("/**<code>assert(1==1)</code>*/")); /** javadoc comment */
 
-        assertTrue($comment.STATEMENT_COMMENT.matches("//<code>/*comment*/ assert(1==1)</code>")); //comment with internal comment
+        assertTrue(STATEMENT_COMMENT.matches("//<code>/*comment*/ assert(1==1)</code>")); //comment with internal comment
 
-        assertTrue($comment.STATEMENT_COMMENT.matches("//  <code>/*comment*/ assert(1==1)</code>  ")); //comment with extra (leading and trailing spaces)
+        assertTrue(STATEMENT_COMMENT.matches("//  <code>/*comment*/ assert(1==1)</code>  ")); //comment with extra (leading and trailing spaces)
 
         //comment across many lines
-        assertTrue($comment.STATEMENT_COMMENT.matches("/*  <code>",
+        assertTrue(STATEMENT_COMMENT.matches("/*  <code>",
                 "if(i==1){",
                 "    System.out.println(1);",
                 "}",
                 "</code>  */")); //comment with extra (leading and trailing spaces)
 
         //javadoc comment with multiple leading "*"s across many lines
-        assertTrue($comment.STATEMENT_COMMENT.matches("/**  <code>",
+        assertTrue(STATEMENT_COMMENT.matches("/**  <code>",
                 " * if(i==1){",
                 " *     System.out.println(1);",
                 " * }",

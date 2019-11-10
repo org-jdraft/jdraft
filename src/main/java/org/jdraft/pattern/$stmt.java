@@ -92,8 +92,9 @@ public class $stmt<T extends Statement>
      *     }
      * }
      * </PRE>
-     */
+
     public static $comment STATEMENT_COMMENT = $comment.STATEMENT_COMMENT;
+    */
 
     /**
      * 
@@ -1495,22 +1496,25 @@ public class $stmt<T extends Statement>
      *         { /* assert(1==1); * / }
      *     }
      * }
-     */
+
     public <N extends Node> N commentOut( N ast ){
         return commentOut(ast, Stmt.REPLACE_WITH_EMPTY_COMMENT_BLOCK);
     }
+    */
 
-    /** comments out the matching code */
+    /** comments out the matching code
     public <_CT extends _type> _CT commentOut( Class clazz){
         return (_CT)commentOut( _class.of(clazz), Stmt.REPLACE_WITH_EMPTY_COMMENT_BLOCK);
 
     }
+     */
 
-    /** comments out the matching code */
+    /** comments out the matching code
     public <_J extends _draft> _J commentOut(_J _j){
         return commentOut(_j, Stmt.REPLACE_WITH_EMPTY_COMMENT_BLOCK);
-        //return forEachIn(_j, s -> Stmt.REPLACE_WITH_EMPTY_COMMENT_BLOCK.accept(s)); //s-> s.replace( Ast.blockStmt("{/*<code>"+s.toString(Ast.PRINT_NO_COMMENTS)+"</code>*/}")));
+        //return forEachIn(_j, s -> Stmt.REPLACE_WITH_EMPTY_COMMENT_BLOCK.accept(s)); //s-> s.replace( Ast.blockStmt("{/*<code>"+s.toString(Ast.PRINT_NO_COMMENTS)+"</code>*"+"/}")));
     }
+    */
 
     /**
      *
@@ -1518,20 +1522,22 @@ public class $stmt<T extends Statement>
      * @param commenter
      * @param <N>
      * @return
-     */
-    public <N extends Node> N commentOut( N ast, Consumer<Statement> commenter){
-        return forEachIn(ast, n-> commenter.accept(n));
-    }
 
-    /** comments out the matching code */
-    public <_CT extends _type> _CT commentOut( Class clazz, Consumer<Statement> commenter){
+    public <N extends Node> N commentOut( N ast, Function<Statement,Statement> commenter){
+        return forEachIn(ast, n-> commenter.apply(n));
+    }
+    */
+
+    /** comments out the matching code
+    public <_CT extends _type> _CT commentOut( Class clazz, Function<Statement, Statement> commenter){
         return (_CT)commentOut( _class.of(clazz), commenter);
     }
-
-    /** comments out the matching code */
-    public <_J extends _draft> _J commentOut(_J _j, Consumer<Statement>commenter){
-        return forEachIn(_j, s-> commenter.accept(s));
+    */
+    /** comments out the matching code
+    public <_J extends _draft> _J commentOut(_J _j, Function<Statement, Statement>commenter){
+        return forEachIn(_j, s-> commenter.apply(s));
     }
+    */
 
     /*
     public <N extends Node> N unComment( N ast ){
