@@ -11,6 +11,32 @@ import org.jdraft._class;
 public class ScommentTest extends TestCase {
 
 
+    public void testStmtComment(){
+
+        //exact matches
+        assertTrue($comment.STATEMENT_COMMENT.matches("//<code>assert(1==1)</code>")); //line comment
+        assertTrue($comment.STATEMENT_COMMENT.matches("/*<code>assert(1==1)</code>*/")); /*block comment */
+        assertTrue($comment.STATEMENT_COMMENT.matches("/**<code>assert(1==1)</code>*/")); /** javadoc comment */
+
+        assertTrue($comment.STATEMENT_COMMENT.matches("//<code>/*comment*/ assert(1==1)</code>")); //comment with internal comment
+
+        assertTrue($comment.STATEMENT_COMMENT.matches("//  <code>/*comment*/ assert(1==1)</code>  ")); //comment with extra (leading and trailing spaces)
+
+        //comment across many lines
+        assertTrue($comment.STATEMENT_COMMENT.matches("/*  <code>",
+                "if(i==1){",
+                "    System.out.println(1);",
+                "}",
+                "</code>  */")); //comment with extra (leading and trailing spaces)
+
+        //javadoc comment with multiple leading "*"s across many lines
+        assertTrue($comment.STATEMENT_COMMENT.matches("/**  <code>",
+                " * if(i==1){",
+                " *     System.out.println(1);",
+                " * }",
+                " * </code>  */")); //comment with extra (leading and trailing spaces)
+    }
+
     public void testCommentAnd(){
         $comment $todo = $comment.or( $comment.of("TODO"), $comment.of("FIXME") );
         class F{

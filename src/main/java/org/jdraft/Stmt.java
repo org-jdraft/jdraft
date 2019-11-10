@@ -3,6 +3,7 @@ package org.jdraft;
 import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
+import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.*;
 
@@ -19,6 +20,77 @@ import org.jdraft.text.Text;
  */
 public enum Stmt {
     ;
+
+    /**
+     * Lambda used for converting an actual Statement into a NOOP Commented statement
+     * i.e.<PRE>
+     * MethodDeclaration md = Ast.method("void m(){",
+     * "    System.out.println(1);",
+     * "}");
+     *
+     * //comment out any statement matches pattern System.out.println(????);
+     * $stmt.of("System.out.println($any$);").commentOut(md, Stmt.REPLACE_WITH_EMPTY_STMT_COMMENT);
+     *
+     * System.out.println( md );
+     * //Prints:
+     *     void m(){
+     *         /*<code>System.out.println(1);</code>* /
+     *         ;
+     *     }
+     * </PRE>
+     *
+     * NOTE: if we print with the {@link Ast#EMPTY_STATEMENT_COMMENT_PRINTER} ONLY the comment
+     * will be printed (and not the ";" empty statement) like this:
+     *
+     * System.out.println( md.toString(Ast.EMPTY_STATEMENT_COMMENT_PRINTER) );
+     * //Prints:
+     * void m(){
+     *     /*<code>System.out.println(1);</code>* /
+     * }
+     * </PRE>
+     * NOTE: we do not print the empty statement ";" ONLY the comment
+     * @see Ast#EMPTY_STATEMENT_COMMENT_PRINTER
+     */
+    public static final Consumer<Statement> REPLACE_WITH_EMPTY_STMT_COMMENT = (st)->{
+        Statement es = new EmptyStmt(); //create a new empty statement
+        es.setComment( new BlockComment("<code>"+st.toString(Ast.PRINT_NO_COMMENTS)+"</code>") );
+        st.replace( es );
+    };
+
+    /**
+     * Lambda used for converting an actual Statement into a NOOP Commented statement
+     * i.e.<PRE>
+     * MethodDeclaration md = Ast.method("void m(){",
+     * "    System.out.println(1);",
+     * "}");
+     *
+     * //comment out any statement matches pattern System.out.println(????);
+     * $stmt.of("System.out.println($any$);").commentOut(md, Stmt.REPLACE_WITH_EMPTY_COMMENT_BLOCK);
+     *
+     * System.out.println( md );
+     * //Prints:
+     *     void m(){
+     *         { /*<code>System.out.println(1);</code>* /
+     *         }
+     *     }
+     * </PRE>
+     *
+     * NOTE: if we print with the {@link Ast#EMPTY_STATEMENT_COMMENT_PRINTER} ONLY the comment
+     * will be printed (and not the ";" empty statement) like this:
+     *
+     * System.out.println( md.toString(Ast.EMPTY_STATEMENT_COMMENT_PRINTER) );
+     * //Prints:
+     * void m(){
+     *     /*<code>System.out.println(1);</code>* /
+     * }
+     * </PRE>
+     * NOTE: we do not print the empty statement ";" ONLY the comment
+     * @see Ast#EMPTY_STATEMENT_COMMENT_PRINTER
+     */
+    public static final Consumer<Statement> REPLACE_WITH_EMPTY_COMMENT_BLOCK = (st)->{
+        BlockStmt bs = Ast.blockStmt("{/*<code>"+st.toString(Ast.PRINT_NO_COMMENTS)+"</code>*" + "/}");
+        st.replace( bs );
+    };
 
     /**
      * Returns the Statement associated from the lambda expression
@@ -64,7 +136,11 @@ public enum Stmt {
      * NOTE: the source of the calling method must be resolveable via draft
      * @see org.jdraft.io._io#addInFilePath(java.lang.String)
      * @see org.jdraft.io._io#addInProjectPath(java.lang.String)
-     * 
+     *
+     * NOTE: IMPORTANT CALLER NOTE : TO ONLY HAVE (1) caller site PER LINE
+     * I.E. DONT DO THIS:<PRE>
+     *     Stmt.of( ()->assert(1==1) ), Stmt.of( ()->assert(2==2))
+     * </PRE>
      * @param c the lambda
      * @return the AST LambdaExpr representation for the runtime Command
      */

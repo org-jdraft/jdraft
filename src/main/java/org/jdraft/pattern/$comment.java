@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import com.github.javaparser.ast.stmt.Statement;
 import org.jdraft.*;
 import org.jdraft.text.*;
 
@@ -19,7 +20,45 @@ import org.jdraft.text.*;
 public class $comment <C extends Comment>
     implements $pattern<C, $comment<C>>, Template<C>, $constructor.$part, $method.$part, $field.$part, $class.$part,
         $interface.$part, $enum.$part, $annotation.$part,$enumConstant.$part, $annotationElement.$part, $body.$part, $type.$part {
-    
+
+    /**
+     * Represents a "commented out" Statement within a code body.
+     *
+     * This has special meaning because in SOME contexts (i.e. debugging, detail monitoring) we might want to
+     * uncomment the statement.
+     *
+     * The idea is that with a single Java source file,
+     * <UL>
+     *    <LI>we can produce a version that has debugging information (as Specific log statements/System.outs/etc.)
+     *    <LI>we can produce a version more suitable for production/performance sensitive (without log statements)
+     * </UL>
+     * for example, during a debug session I might add some System.out.println() Statements
+     * in a library where it is performance critical.
+     * <PRE>
+     * class C{
+     *     void next(){
+     *         queue.remove();
+     *         System.out.println("queue size "+queue.size());
+     *     }
+     * }
+     * </PRE>
+     * ...This println statement is only used when I need to debug some exceptions I might have
+     * occurring (in an integration test or otherwise)... otherwise, I DO NOT want the code to be run...
+     * I can REPLACE the System.out.println()... statement with a comment:
+     *
+     * _class _c = $stmt.of(System.out.println($any$)).forEachIn(C.class, s-> Ast.commentOut(s) );
+     * <PRE>
+     * class C{
+     *     void next(){
+     *         queue.remove();
+     *         /*<code>System.out.println("queue size "+queue.size());* /
+     *     }
+     * }
+     * </PRE>
+     *
+     */
+    public static final $comment STATEMENT_COMMENT = $comment.as("<code>$statement$</code>");
+
     public static $comment<Comment> of(){
         return new $comment();
     }
@@ -425,7 +464,7 @@ public class $comment <C extends Comment>
      */
     public Select selectFirstIn(Node astNode, Predicate<Select> selectConstraint) {
         List<Select> found = listSelectedIn(astNode, selectConstraint);
-        Collections.sort( found, (s1, s2)-> Ast.COMPARE_NODE_BY_LOCATION.compare(s1.comment, s2.comment));
+        Collections.sort( found, (s1, s2)-> Ast.COMPARE_NODE_BY_POSITION.compare(s1.comment, s2.comment));
         if( found.isEmpty() ){
             return null;
         }
@@ -509,7 +548,46 @@ public class $comment <C extends Comment>
         });
         return astNode;
     }
-        
+
+    /**
+     * A Comment (line, for
+
+    public static $comment STATEMENT_COMMENT = $comment.as("<code>$statement$</code>");
+    */
+
+    /**
+     * Replace all instances of this comment in the AST node with these (one or more) statement(s)
+     * @param clazz a runtime Class
+     * @param statements
+     * @param <_T> the resulting _type _draft objetc  (after replacements)
+     * @return
+     */
+    public <_T extends _type> _T replaceIn(Class clazz, Statement...statements) {
+        return forEachIn( clazz, c-> Ast.replaceComment(c, statements));
+    }
+
+    /**
+     * Replace all instances of this comment in the AST node with these (one or more) statement(s)
+     * @param _j a _draft entity
+     * @param statements
+     * @param <_J>
+     * @return
+     */
+    public <_J extends _draft> _J replaceIn(_J _j, Statement...statements) {
+        return forEachIn( _j, c-> Ast.replaceComment(c, statements));
+    }
+
+    /**
+     * Replace all instances of this comment in the AST node with these (one or more) statement(s)
+     * @param astNode
+     * @param statements
+     * @param <N>
+     * @return
+     */
+    public <N extends Node> N replaceIn(N astNode, Statement...statements) {
+         return forEachIn( astNode, c-> Ast.replaceComment(c, statements));
+    }
+
     @Override
     public <N extends Node> N removeIn(N astNode) {
         return forEachIn(astNode, n-> n.remove() );

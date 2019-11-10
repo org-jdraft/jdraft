@@ -206,11 +206,11 @@ public class EclipseJDTTest extends TestCase {
     public void testGettingElementAtACertainLineNumber(){
         //_type _t = _java.type(EclipseJDTTest.class);
         //here we can get the most specific node (it should be a Node)
-        Node n = Ast.at(EclipseJDTTest.class, 193, 10);
+        Node n = At.at(EclipseJDTTest.class, 193, 10);
         System.out.println( n );// "Node"
 
         //here we can get a "member" (method, constructor, field) containing this location
-        MethodDeclaration astMd = Ast.memberAt(EclipseJDTTest.class, 208, 10);
+        MethodDeclaration astMd = At.memberAt(EclipseJDTTest.class, 208, 10);
         assertEquals( "testGettingElementAtACertainLineNumber", astMd.getNameAsString() );
     }
 }

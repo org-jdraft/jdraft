@@ -16,7 +16,7 @@ import java.util.Map;
  *     <LI>{@link _interface} {@link com.github.javaparser.ast.body.ClassOrInterfaceDeclaration}</LI>
  *     <LI>{@link _class} {@link com.github.javaparser.ast.body.ClassOrInterfaceDeclaration}</LI>
  *     <LI>{@link _enum} {@link com.github.javaparser.ast.body.EnumDeclaration}</LI>
- *     <LI>{@link _enum._constant} {@link com.github.javaparser.ast.body.EnumConstantDeclaration}</LI>
+ *     <LI>{@link _constant} {@link com.github.javaparser.ast.body.EnumConstantDeclaration}</LI>
  *     <LI>{@link _annotation._element} {@link com.github.javaparser.ast.body.AnnotationMemberDeclaration}
  *     <LI>{@link _method} {@link com.github.javaparser.ast.body.MethodDeclaration}</LI>
  *     <LI>{@link _constructor} {@link com.github.javaparser.ast.body.ConstructorDeclaration}</LI>
@@ -101,5 +101,4 @@ public interface _node<N extends Node, _N extends _node> extends _draft, _java._
     default String toString(PrettyPrinterConfiguration codeFormat) {
         return ast().toString(codeFormat);
     }
-    
 }

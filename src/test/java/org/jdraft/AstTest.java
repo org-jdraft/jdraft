@@ -1,66 +1,295 @@
 package org.jdraft;
 
+import com.github.javaparser.Position;
+import com.github.javaparser.Range;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.AnnotationDeclaration;
-import com.github.javaparser.ast.body.AnnotationMemberDeclaration;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.ConstructorDeclaration;
-import com.github.javaparser.ast.body.EnumDeclaration;
-import com.github.javaparser.ast.body.FieldDeclaration;
-import com.github.javaparser.ast.body.InitializerDeclaration;
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.body.TypeDeclaration;
-import com.github.javaparser.ast.comments.BlockComment;
-import com.github.javaparser.ast.comments.Comment;
-import com.github.javaparser.ast.comments.JavadocComment;
-import com.github.javaparser.ast.comments.LineComment;
+import com.github.javaparser.ast.body.*;
+import com.github.javaparser.ast.comments.*;
 import com.github.javaparser.ast.expr.*;
+import com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.TypeParameter;
 import com.github.javaparser.utils.Log;
 import junit.framework.TestCase;
+import org.jdraft.pattern.$comment;
 import org.jdraft.pattern.$stmt;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
  * Verify that we can parse these Strings to create Ast Node entities
- *
  * @author Eric
  */
 public class AstTest extends TestCase {
-    //NOTE: this is sensititve to lines in file method should start at
-    //IF YOU REFACTOR THIS CODE YOU NEED TO UPDATE THE VALUE OF THIS_LINE_NUMBER
-    public void testAt(){
-/*<--*/ int THIS_LINE_NUMBER = 40; //<-- THIS VALUE IS SENSITIVE TO THE LINE NUMBER
-        Node n = Ast.at(AstTest.class, THIS_LINE_NUMBER, 9);
-        assertNotNull(n);
-        assertNotNull( Ast.at(AstTest.class, THIS_LINE_NUMBER, 9) );
-        MethodDeclaration m = Ast.memberAt(AstTest.class, THIS_LINE_NUMBER, 9);
-        assertTrue( m.getNameAsString().equals("testAt"));
-        MethodDeclaration md = Ast.memberAt(n, 40);
-        assertEquals("testAt", md.getNameAsString());
 
-        Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
-        md = Ast.memberAt(Ast.of(AstTest.class), 39);
-        Log.setAdapter(new Log.SilentAdapter());
-        assertEquals("testAt", md.getNameAsString());
+    public void testReplaceCommentMultiStatements(){
+        class FF{
+            void m(){
+                assert(true);
+                //Comment
+                assert(true);
+            }
+        }
+        _class _c = _class.of(FF.class);
+        //replace the comment with multiple statements
+        Ast.replaceComment(_c.ast(), $comment.of().firstIn(_c),
+                Stmt.of("System.out.println(1);"),
+                Stmt.of("System.out.println(2);"));
+
+        System.out.println( _c);
     }
 
-    public void testAtLineOnly(){
-        /*<--*/ int THIS_LINE_NUMBER = 56; //<-- THIS VALUE IS SENSITIVE TO THE LINE NUMBER
-        CompilationUnit cu = Ast.of(AstTest.class);
-        assertEquals( 1, cu.getType(0).getMethodsByName("testAtLineOnly").size());
-        MethodDeclaration md = Ast.memberAt(cu, THIS_LINE_NUMBER);
-        assertEquals("testAtLineOnly",md.getNameAsString());
-        Statement st = Ast.at(cu, 56);
-        assertNotNull( st );
-        System.out.println( st );
+    public void testReplaceCommentSingleStatement(){
+        class HH{
+            void onlyComment(){
+                /**comment*/
+            }
+
+            void lastComment(){
+                assert(true);
+                /**comment*/
+            }
+            void commentInNestedBlock(){
+                if(1==1){
+                    assert(true);
+                    /**comment*/
+                    assert(true);
+                }
+            }
+        }
+        _class _c = _class.of(HH.class);
+        MethodDeclaration md =  _c.getMethod("commentInNestedBlock").ast();
+        List<Comment> cs = md.getAllContainedComments();
+        Ast.replaceComment( md, cs.get(0), Stmt.of("System.out.println(3);") );
+        System.out.println( md );
+        assertEquals(Stmt.of("System.out.println(3);"), $stmt.ifStmt().firstIn(md).getThenStmt().asBlockStmt().getStatement(1));
+
+        md =  _c.getMethod("lastComment").ast();
+        cs  =md.getAllContainedComments();
+        Ast.replaceComment( md, cs.get(0), Stmt.of("System.out.println(2);") );
+        System.out.println( md );
+        assertEquals(Stmt.of("System.out.println(2);"), _method.of(md).getStatement(1));
+
+        md =  _c.getMethod("onlyComment").ast();
+        cs  =md.getAllContainedComments();
+        Ast.replaceComment( md, cs.get(0), Stmt.of("System.out.println(1);") );
+        assertEquals(Stmt.of("System.out.println(1);"), _method.of(md).getStatement(0));
+    }
+
+    /**
+     * Replace a Comment with one or more statements
+     * I need an insertAt(Node n, Statement s , Position startPosition )
+     */
+    public void testReplaceComment(){
+        class T{
+            void t(){
+                /*Here*/
+            }
+        }
+        _class _c = _class.of(T.class);
+        MethodDeclaration md = _c.getMethod("t").ast();
+        Comment c = md.getAllContainedComments().get(0);
+        Ast.replaceComment(c, Stmt.of( ()->System.out.println(1)));
+
+        assertEquals( Stmt.of( ()->System.out.println(1)), md.getBody().get().getStatement(0) );
+        //insertStatement(_c.astCompilationUnit(), Stmt.of("System.out.println(1);"), c.getRange().get().begin);
+
+        _c = _class.of(T.class);
+        md = _c.getMethod("t").ast();
+        c = md.getAllContainedComments().get(0);
+        Ast.replaceComment(c, Stmt.of( ()->System.out.println(1)),
+                Stmt.of( ()->System.out.println(2)) );
+
+        System.out.println( md );
+
+        assertEquals( Stmt.of( ()->System.out.println(1)), md.getBody().get().getStatement(0) );
+        assertEquals( Stmt.of( ()->System.out.println(2)), md.getBody().get().getStatement(1) );
+
+        //System.out.println( _c );
+    }
+
+    public void testAddComment(){
+        class C{
+            public void m(){
+
+            }
+            public void m2(){
+                System.out.println(1);
+                //LineComment
+                System.out.println("Hey");
+                System.out.println(2);
+            }
+            public void m3(){
+                /* block comment */
+                System.out.println( 11 );
+            }
+        }
+        _class _c =_class.of(C.class);
+        System.out.println(_c );
+        _method _m = _c.getMethod("m2");
+        _m.getStatement(0).replace(Stmt.of("assert(1==1)"));
+        System.out.println(_c);
+
+        //TODO does this make sense
+        //Stmt.commentOut( _m.getStatement(0));
+        Stmt.REPLACE_WITH_EMPTY_STMT_COMMENT.accept( _m.getStatement(0) );
+        System.out.println( _m  );
+        System.out.println( _m.toString(Ast.EMPTY_STATEMENT_COMMENT_PRINTER) );
+    }
+
+    public void testReplaceStatementWithComment(){
+        class C{
+            int a;
+            public void m(){
+                System.out.println(1);
+                //comment
+                System.out.println(2);
+                /* comment */
+                System.out.println(3);
+                /** comment */
+                System.out.println(4);
+
+                /*add*/
+
+                System.out.println( "this is the first line"+
+                        "this is the second line"+
+                        "this is the third line"+
+                        "this is the forth line"+
+                        "this is the fifth line"+
+                        "this is the sixth line");
+            }
+            public void b(){
+
+            }
+        }
+        _class _c = $stmt.of(($any$)->System.out.println($any$)).commentOut(C.class);
+
+
+        System.out.println( _c );
+        System.out.println( _c.toString(Ast.EMPTY_STATEMENT_COMMENT_PRINTER));
+
+        _c = _class.of(C.class);
+        MethodDeclaration b = _c.getMethod("b").ast();
+        System.out.println( b.getRange().get() );
+        System.out.println( b.getOrphanComments() );
+
+        BlockComment bc = new BlockComment("BLOCK");
+        b.addOrphanComment(bc);
+        System.out.println( b.getRange().get() );
+        System.out.println( b.getOrphanComments() );
+
+        MethodDeclaration md =_c.getMethod("m").ast();
+        Statement st1 = md.getBody().get().getStatement(0);
+        LineComment lc = new LineComment("//ORPHAN LINE");
+
+        lc.setRange( new Range( st1.getRange().get().begin, st1.getRange().get().end));
+        //st1.remove();
+        md.addOrphanComment( lc );
+        //md.addOrphanComment( new BlockComment("ORPHAN BLOCK"));
+        System.out.println( _c );
+        /*
+        Node parent = st1.getParentNode().get();
+
+        if( parent instanceof NodeWithBody){
+            NodeWithBody nwbs = (NodeWithBody)parent;
+            nwbs.a
+        }
+         */
+        //st1.setComment()
+    }
+
+    public void testUnCommentOnlyStmt(){
+        class C {
+            //only statement
+            void m() {
+                /*<code>System.out.println(1);</code>*/
+            }
+        }
+        _class _c = _class.of(C.class);
+        _method _m = _c.getMethod("m");
+        List<Comment> cs = _m.ast().getAllContainedComments();
+        //System.out.println( cs );
+        Comment c = cs.get(0);
+        Range range = c.getRange().get();
+
+        //$stmt.of().$isBefore()
+        List<Statement> sts = Walk.list(_m, Statement.class, st-> st.getRange().get().isAfter(c.getRange().get().end));
+        assertTrue( sts.isEmpty() );
+        //if there are NO statements before
+        if( sts.isEmpty() ){
+            String content = c.getContent();
+            c.remove();
+            _m.add(0, content.substring("<code>".length(), content.length() -"</code>".length()));
+        }
+        //System.out.println( sts );
+        System.out.println(_m);
+    }
+    /**
+     *
+     */
+    public void testUnComment(){
+        class C{
+            //only statement
+            void m(){
+                /*<code>System.out.println(1);</code>*/
+            }
+            //last statement
+            void m2(){
+                assert(0==0);
+                /*<code>System.out.println(1);</code>*/
+            }
+            //first statement
+            void m3(){
+                /*<code>System.out.println(1);</code>*/
+                assert(0==0);
+            }
+            //middle statement
+            void m4(){
+                assert(0==0);
+                assert(0==0);
+                assert(0==0);
+                /*<code>System.out.println(1);</code>*/
+                assert(0==0);
+            }
+            //nested only statement
+            void m5(){
+                if( 1== 1 ){
+                    /*<code>System.out.println(1);</code>*/
+                }
+            }
+            //nested last statement
+            void m6(){
+                if(1==1){
+                    assert(0==0);
+                    /*<code>System.out.println(1);</code>*/
+                }
+            }
+
+            void m7(){
+                if(1==1){
+                    assert(0==0);
+                    /*<code>System.out.println(1);</code>*/
+                    assert(1==1);
+                }
+            }
+        }
+        _class _c = _class.of(C.class);
+        _method _m = _c.getMethod("m");
+        List<Comment> cs = _m.ast().getAllContainedComments();
+        //System.out.println( cs );
+        Comment c = cs.get(0);
+        Range range = c.getRange().get();
+
+        List<Statement> sts = Walk.list(_m, Statement.class, st-> st.getRange().get().isAfter(c.getRange().get().end));
+        System.out.println( sts );
+
+
     }
 
     public void testP( ){
@@ -73,11 +302,11 @@ public class AstTest extends TestCase {
                 "class C{ ",
                 "int f=1;",
                 "}");
-        Ast.memberAt(cu, 1);
+        At.memberAt(cu, 1);
         System.out.println( cu.getRange().get() );
 
         Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
-        Ast.memberAt(cu, 1);
+        At.memberAt(cu, 1);
         Log.setAdapter(new Log.SilentAdapter());
 
     }

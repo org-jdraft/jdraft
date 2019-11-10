@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.text.NumberFormat;
 import java.util.*;
 import java.util.function.*;
+import java.util.stream.Collectors;
 
 import com.github.javaparser.*;
 import com.github.javaparser.ast.Node;
@@ -353,6 +354,7 @@ public enum Ex {
                 return (LambdaExpr)on.get();
             }
         }
+
         throw new _ioException("unable to find in lambda at (" + ste.getFileName() + ":" + ste.getLineNumber() + ")"+System.lineSeparator()+ _io.describe());
     }
 

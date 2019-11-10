@@ -325,7 +325,7 @@ public final class $typeUse {
 
         //the selections are interleaved, so lets organize them in positional
         //order (in the file) as to not surprise the caller
-        Collections.sort(uniqueSels, Ast.COMPARE_NODE_BY_LOCATION);
+        Collections.sort(uniqueSels, Ast.COMPARE_NODE_BY_POSITION);
 
         return uniqueSels;
     }

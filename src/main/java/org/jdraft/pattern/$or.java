@@ -509,7 +509,7 @@ public final class $or<$p extends $pattern>
     public static class SelectStartPositionComparator implements Comparator<selectAst>{
         @Override
         public int compare(selectAst o1, selectAst o2) {
-            return Ast.COMPARE_NODE_BY_LOCATION.compare(o1.ast(), o2.ast());
+            return Ast.COMPARE_NODE_BY_POSITION.compare(o1.ast(), o2.ast());
         }
     }
 

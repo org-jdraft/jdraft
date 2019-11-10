@@ -1,7 +1,5 @@
 package org.jdraft;
 
-import com.github.javaparser.utils.Log;
-
 import com.github.javaparser.*;
 import com.github.javaparser.ParserConfiguration.LanguageLevel;
 import com.github.javaparser.ast.*;
@@ -520,157 +518,6 @@ public enum Ast {
     public @interface cache {
     }
 
-    /*--------------------- LOCATION-BASED RESOLVING IN AST ---------------------------*/
-    /**
-     * Given a class and a line/column find the "most specific" source code node at this
-     * (line:column) cursor position
-     *
-     * @param clazz the runtime class
-     * @param line the line of the source code
-     * @return an AST node or null if the position is not within the Clazzes source code
-     */
-    public static <N extends Node> N at(Class clazz, int line) {
-        return at( of(clazz), line);
-    }
-
-    /**
-     * Given a class and a line/column find the "most specific" node at this (line) cursor position
-     *
-     * @param top the top node to search through
-     * @param line the line of the source code
-     * @return an AST node or null if the position is not within the Node
-     */
-    public static <N extends Node> N at(Node top, int line){
-        final int l = Math.max( Math.abs(line), 1);
-        Range r = new Range(new Position(l, 0), new Position(l, Integer.MAX_VALUE -1000));
-
-        List<Node> ns = top.findAll(Node.class, (Node n)-> n.getRange().isPresent()
-                        && (n.getRange().get().overlapsWith( r ) || r.overlapsWith( n.getRange().get() )) );
-        if( ns.isEmpty() ){
-            Log.error("None found at : %s ", ()-> l);
-            return null;
-        }
-        //the last node is the "most specific node", but lets climb up (parents)
-        //to find a parent that is on the start of the line that contains the small node
-
-        Node theLast = ns.get(ns.size() -1);
-        Node theFullLineNode  = theLast;
-        boolean done = false;
-
-        while( theFullLineNode.getParentNode().isPresent() && ! done ){
-            Node par = theFullLineNode.getParentNode().get();
-            if( par.getRange().isPresent() && (! (par instanceof CompilationUnit ))){
-                if( par.getRange().get().begin.line == line && par.getRange().get().end.line == line){
-                    theFullLineNode = par;
-                } else{
-                    done = true;
-                }
-            } else{
-                done = true;
-            }
-        }
-        return (N)theFullLineNode;
-    }
-
-    /**
-     * Given a class and a line/column find the "most specific" source code node at this (line:column)
-     * cursor position
-     *
-     * @param clazz the runtime class
-     * @param line the line of the source code
-     * @param column the column cursor position within the source code
-     * @return an AST node or null if the position is not within the Clazzes source code
-     */
-    public static <N extends Node> N at(Class clazz, int line, int column) {
-        line = Math.max( Math.abs(line), 1);
-        return at( of(clazz), line, column);
-    }
-
-    /**
-     * Given top level node to return the most "specific" node that contains the (line:column)
-     * cursor position
-     * @param top the Top level Ast node to look through
-     * @param line the line cursor position
-     * @param column the column cursor position
-     * @return an AST node or null if the position is not within the top node
-     */
-    public static <N extends Node> N at(Node top, int line, int column){
-        Position p = new Position(Math.max( Math.abs(line), 1), column);
-        List<Node> found = new ArrayList<>();
-        top.walk( n-> {
-            if( n.getRange().isPresent() && n.getRange().get().contains(p)){
-                if( found.isEmpty() ){
-                    found.add( n );
-                } else{
-                    if( found.get(0).containsWithinRange(n) ){
-                        found.clear(); //remove the old one
-                        found.add(n); //add the new one
-                    }
-                }
-            }
-        } );
-        if( found.isEmpty() ){
-            return null;
-        }
-        return (N)found.get(0);
-    }
-
-    /**
-     * return a member (method, field, constructor, staticBlock)
-     *
-     * @see TypeDeclaration
-     * @see EnumDeclaration
-     * @see ClassOrInterfaceDeclaration
-     * @see AnnotationDeclaration
-     * @see MethodDeclaration
-     * @see FieldDeclaration
-     * @see InitializerDeclaration
-     * @see EnumConstantDeclaration
-     * @see AnnotationMemberDeclaration
-     *
-     * @param clazz
-     * @param line
-     * @param column
-     * @param <M>
-     * @return
-     */
-    public static <M extends BodyDeclaration> M memberAt(Class clazz, int line, int column) {
-        line = Math.max( Math.abs(line), 1); //make sure non negative line number (also non zero)
-        return memberAt( Ast.of(clazz), Math.max( line, 1), column);
-    }
-
-    /**
-     * Finds the most specific {@link BodyDeclaration} member containing this
-     * position and returns it (or null if the position is outside for range)
-     *
-     * @see TypeDeclaration
-     * @see EnumDeclaration
-     * @see ClassOrInterfaceDeclaration
-     * @see AnnotationDeclaration
-     * @see MethodDeclaration
-     * @see FieldDeclaration
-     * @see InitializerDeclaration
-     * @see EnumConstantDeclaration
-     * @see AnnotationMemberDeclaration
-     *
-     * @param top
-     * @param line
-     * @param column
-     * @param <M>
-     * @return
-     */
-    public static <M extends BodyDeclaration> M memberAt(Node top, int line, int column) {
-        line = Math.max( Math.abs(line), 1);
-        Node n = at( top, line, column);
-        if( n == null ){
-            return null;
-        }
-        if( n instanceof BodyDeclaration) {
-            return (M)n;
-        }
-        return (M) n.stream(Node.TreeTraversal.PARENTS).filter( p -> p instanceof BodyDeclaration).findFirst().get();
-    }
-
     /**
      * Get the parent "member" (not JUST the parent) for some Node
      * we need this because sometimes nodes are "deeply nested" inside code, i.e.:
@@ -695,69 +542,6 @@ public enum Ast {
         if( bd.isPresent() ){
             return (M)bd.get();
         }
-        return null;
-    }
-
-    /**
-     * Finds the most specific {@link BodyDeclaration} member containing this
-     * position and returns it (or null if the position is outside for range)
-     *
-     * @see TypeDeclaration
-     * @see EnumDeclaration
-     * @see ClassOrInterfaceDeclaration
-     * @see AnnotationDeclaration
-     * @see MethodDeclaration
-     * @see FieldDeclaration
-     * @see InitializerDeclaration
-     * @see EnumConstantDeclaration
-     * @see AnnotationMemberDeclaration
-     *
-     * @param clazz
-     * @param line
-     * @param <M>
-     * @return
-     */
-    public static <M extends BodyDeclaration> M memberAt(Class clazz, int line ) {
-        return memberAt( Ast.of(clazz), line);
-    }
-
-    /**
-     * Finds the most specific {@link BodyDeclaration} member containing this
-     * line position and returns it (or null if the position is outside for range)
-     *
-     * @see TypeDeclaration
-     * @see EnumDeclaration
-     * @see ClassOrInterfaceDeclaration
-     * @see AnnotationDeclaration
-     * @see MethodDeclaration
-     * @see FieldDeclaration
-     * @see InitializerDeclaration
-     * @see EnumConstantDeclaration
-     * @see AnnotationMemberDeclaration
-     *
-     * @param top the top node
-     * @param line a 1-based line number (we start with line 1)
-     * @param <M> a BodyDeclaration (Member)
-     * @return an instance of a BodyDeclaration AST Node (or null if not found)
-     */
-    public static <M extends BodyDeclaration> M memberAt(Node top, int line ) {
-        //we cant have negative or 0 line numbers
-        final int l = Math.max( Math.abs(line), 1);//if it's 0, we "really mean" 1
-        Node n = at( top, line);
-        if( n == null ){
-            Log.info("Line number : %s is outside of member %s ", ()->l, ()->top.getClass() );
-            return null;
-        }
-        if( n instanceof BodyDeclaration) {
-            Log.info("Found member %s containing node %s at line : %s ", ()->n.getClass(), ()->n.getClass(), ()->l );
-            return (M)n;
-        }
-        Optional<Node>on = n.stream(Node.TreeTraversal.PARENTS).filter( p -> p instanceof BodyDeclaration).findFirst();
-        if( on.isPresent() ){
-            Log.info("Found member %s containing node %s at line : %s ", ()->on.get().getClass(), ()->n.getClass(), ()->l );
-            return (M) on.get();
-        }
-        Log.info("No Parent Member found containing Node %s at line : %s ", ()->n.getClass(), ()->l );
         return null;
     }
 
@@ -2872,6 +2656,76 @@ public enum Ast {
         return node;
     }
 
+    /**
+     * a slight variant of the PrettyPrinter
+     * that does (2) interesting things
+     * <PRE>
+     * (1)...it intercepts block statements which have NO statements and a single BlockComment
+     * with the pattern /*<code> </code>* / and just prints the
+     * {/*<code>$anything$</code>* /}
+     *
+     * (2) ...it intercepts EmptyStmts (usually printed as ";") that have comments, i.e.:
+     * //LineComment
+     * ;
+     *
+     * /* BlockComment* /
+     * ;
+     *
+     * /** JavadocComment * /
+     * ;
+     *
+     * and only prints out the comments (and NOT the ";")
+     *
+     * //LineComment
+     * /* Block Comment * /
+     * /** JavadocComment * /
+     *
+     */
+    public static final PrettyPrinterConfiguration EMPTY_STATEMENT_COMMENT_PRINTER
+            = new PrettyPrinterConfiguration()
+            .setVisitorFactory(EmptyStatementCommentPrinter::new);
+
+    public static class EmptyStatementCommentPrinter extends PrettyPrintVisitor {
+
+        public EmptyStatementCommentPrinter(PrettyPrinterConfiguration prettyPrinterConfiguration) {
+            super(prettyPrinterConfiguration);
+        }
+
+        @Override
+        public void visit(final BlockStmt n, final Void arg) {
+            //if it's a block statement w/ 0 statements containing a single block comment
+            if( n.isEmpty() && n.getOrphanComments().size() == 1 && n.getOrphanComments().get(0) instanceof BlockComment ){
+                //get the javadoc comment
+                BlockComment bc = (BlockComment)n.getOrphanComments().get(0);
+                if( bc.getContent().startsWith("<code>") && bc.getContent().endsWith("</code>") ) {
+                    //just print the comment (without the block statement)
+                    visit(bc, arg);
+                }
+                return;
+            }
+            super.visit( n, arg);
+        }
+
+        /** When we have an emptyStmt with a comment... print it as a simple comment */
+        public void visit(final EmptyStmt es, final Void arg){
+            if( es.getComment().isPresent() ){
+                Comment com = es.getComment().get();
+                if( com instanceof BlockComment ) {
+                    visit( (BlockComment) com, arg);
+                }
+                if( com instanceof LineComment ) {
+                    visit( (LineComment) com, arg);
+                }
+                if( com instanceof JavadocComment ) {
+                    visit( (JavadocComment) com, arg);
+                }
+                return;
+            }
+            //its an empty statement, print the ;
+            super.visit(es, arg);
+        }
+    }
+
     public static final PrettyPrinterConfiguration PRINT_NO_TYPE_PARAMETERS = new PrettyPrinterConfiguration()
             .setPrintComments(false).setPrintJavadoc(false).setVisitorFactory(PrintNoTypeParameters::new);
 
@@ -2913,7 +2767,6 @@ public enum Ast {
         public void visit(final ClassOrInterfaceType n, final Void arg) {
             if (!n.getAnnotations().isEmpty()) {
                 NodeList<AnnotationExpr> annotations = n.getAnnotations();
-                //System.out.println( "PRINTING ANNOS"+annotations);
                 for (AnnotationExpr annotation : annotations) {
                     annotation.accept(this, arg);
                     printer.print(" ");
@@ -2926,25 +2779,11 @@ public enum Ast {
                 printer.print(".");
             }
             n.getName().accept(this, arg);
-            /* manual print annotations
-            super.printAnnotations(n.getAnnotations(), false, arg);
-            */
-
-            //
-
         }
 
         @Override
         public void visit(final MarkerAnnotationExpr n, final Void arg) {
-            //System.out.println("PRINTING VISITING ANNOTATION"+n);
             super.visit(n, arg);
-            /*
-            printOrphanCommentsBeforeThisChildNode(n);
-            printComment(n.getComment(), arg);
-            printer.print("@");
-            n.getName().accept(this, arg);
-
-             */
         }
 
         public void visit(TypeParameter tp, Void arg){ }
@@ -3682,7 +3521,7 @@ public enum Ast {
     /**
      * Singleton instance for comparing AST nodes by
      */
-    public static final NodeStartPositionComparator COMPARE_NODE_BY_LOCATION = 
+    public static final NodeStartPositionComparator COMPARE_NODE_BY_POSITION =
         new NodeStartPositionComparator();
     
     /**
@@ -3696,7 +3535,7 @@ public enum Ast {
      * @return 
      */
     public static <N extends Node> List<N> sortNodesByPosition( List<N> unsorted){        
-        Collections.sort(unsorted, COMPARE_NODE_BY_LOCATION);
+        Collections.sort(unsorted, COMPARE_NODE_BY_POSITION);
         return unsorted;
     }
     
@@ -3799,6 +3638,40 @@ public enum Ast {
                 .filter(commentMatchFn).forEach(commentActionFn);
     }
 
+    /**
+     *
+     * @param comment
+     * @param statements
+     * @return
+     */
+    public static BlockStmt replaceComment( Comment comment, Statement...statements){
+        Optional<Node> parent = comment.getParentNode();
+        if( parent.isPresent() ){
+            return replaceComment(parent.get(), comment, statements);
+        }
+        return null;
+    }
+
+    /**
+     * Replace some Comment within the Java code with a Statement
+     * The comment has to exist within a BlockStmt (a MethodDeclaration, ConstructorDeclaration, InitializerBlock)
+     * to work
+     * @param comment
+     * @param statements
+     * @return the BlockStmt that was updated
+     */
+    public static BlockStmt replaceComment( Node parent, Comment comment, Statement...statements){
+        BlockStmt bs = At.blockAt(parent, comment.getRange().get().begin);
+        if( bs != null ){
+            int statementIndex = At.getStatementIndex(bs, comment.getRange().get().begin);
+            for(int i=0;i<statements.length;i++) {
+                bs.addStatement(statementIndex+i, statements[i]);
+            }
+            comment.remove();
+            return bs;
+        }
+        return null;
+    }
 
     /**
      * list all comments within this astRootNode (including the comment applied
