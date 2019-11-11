@@ -1,6 +1,5 @@
 package org.jdraft;
 
-import com.github.javaparser.Position;
 import com.github.javaparser.Range;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
@@ -8,7 +7,6 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.*;
 import com.github.javaparser.ast.expr.*;
-import com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.TypeParameter;
@@ -17,9 +15,7 @@ import junit.framework.TestCase;
 import org.jdraft.pattern.$comment;
 import org.jdraft.pattern.$stmt;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
@@ -138,7 +134,7 @@ public class AstTest extends TestCase {
 
         //TODO does this make sense
         //Stmt.commentOut( _m.getStatement(0));
-        Stmt.REPLACE_WITH_EMPTY_STMT_COMMENT.apply( _m.getStatement(0) );
+        Stmt.REPLACE_WITH_EMPTY_STMT_COMMENT_FN.apply( _m.getStatement(0) );
         System.out.println( _m  );
         System.out.println( _m.toString(Ast.EMPTY_STATEMENT_COMMENT_PRINTER) );
     }

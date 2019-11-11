@@ -1,5 +1,7 @@
 package org.jdraft.pattern;
 
+import com.github.javaparser.ast.comments.BlockComment;
+import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
@@ -1481,6 +1483,19 @@ public class $stmt<T extends Statement>
         return replaceIn(_j, $sn);
     }
 
+    public static final Consumer<Statement> REPLACE_WITH_EMPTY_COMMENT_BLOCK = (st)->{
+        BlockStmt bs = Ast.blockStmt("{/*<code>"+st.toString(Ast.PRINT_NO_COMMENTS)+"</code>*" + "/}");
+        if( bs != null ) {
+            st.replace(bs);
+        }
+    };
+
+    public static final Consumer<Statement> REPLACE_WITH_EMPTY_STMT_COMMENT = (st)->{
+        Statement es = new EmptyStmt(); //create a new empty statement
+        es.setComment( new BlockComment("<code>"+st.toString(Ast.PRINT_NO_COMMENTS)+"</code>") );
+        st.replace( es );
+    };
+
     /** comments out the matching code
      * as a BlockStmt containing the code
      * i.e.
@@ -1496,77 +1511,81 @@ public class $stmt<T extends Statement>
      *         { /* assert(1==1); * / }
      *     }
      * }
-
-    public <N extends Node> N commentOut( N ast ){
-        return commentOut(ast, Stmt.REPLACE_WITH_EMPTY_COMMENT_BLOCK);
-    }
-    */
-
-    /** comments out the matching code
-    public <_CT extends _type> _CT commentOut( Class clazz){
-        return (_CT)commentOut( _class.of(clazz), Stmt.REPLACE_WITH_EMPTY_COMMENT_BLOCK);
-
-    }
      */
+    public <N extends Node> N commentOut( N ast ){
+        return commentOut(ast, REPLACE_WITH_EMPTY_COMMENT_BLOCK);
+    }
 
-    /** comments out the matching code
+    //comments out the matching code
+    public <_CT extends _type> _CT commentOut( Class clazz){
+        return (_CT)commentOut( _class.of(clazz), REPLACE_WITH_EMPTY_COMMENT_BLOCK);
+    }
+
+
+    //comments out the matching code
     public <_J extends _draft> _J commentOut(_J _j){
-        return commentOut(_j, Stmt.REPLACE_WITH_EMPTY_COMMENT_BLOCK);
+        return commentOut(_j, REPLACE_WITH_EMPTY_COMMENT_BLOCK);
         //return forEachIn(_j, s -> Stmt.REPLACE_WITH_EMPTY_COMMENT_BLOCK.accept(s)); //s-> s.replace( Ast.blockStmt("{/*<code>"+s.toString(Ast.PRINT_NO_COMMENTS)+"</code>*"+"/}")));
     }
-    */
+
+    //
+    public <N extends Node> N commentOut( N ast, Consumer<Statement> commenter){
+        return forEachIn(ast, n-> commenter.accept(n));
+    }
+
+    // comments out the matching code
+    public <_CT extends _type> _CT commentOut( Class clazz, Consumer<Statement> commenter){
+        return (_CT)commentOut( _class.of(clazz), commenter);
+    }
+
+    /** comments out the matching code */
+    public <_J extends _draft> _J commentOut(_J _j, Consumer<Statement>commenter){
+        return forEachIn(_j, s-> commenter.accept(s) );
+    }
+
+    public static final $comment<Comment> $COMMENTED_STATEMENT = $comment.as("<code>$statement$</code>");
 
     /**
      *
      * @param ast
-     * @param commenter
      * @param <N>
      * @return
-
-    public <N extends Node> N commentOut( N ast, Function<Statement,Statement> commenter){
-        return forEachIn(ast, n-> commenter.apply(n));
-    }
-    */
-
-    /** comments out the matching code
-    public <_CT extends _type> _CT commentOut( Class clazz, Function<Statement, Statement> commenter){
-        return (_CT)commentOut( _class.of(clazz), commenter);
-    }
-    */
-    /** comments out the matching code
-    public <_J extends _draft> _J commentOut(_J _j, Function<Statement, Statement>commenter){
-        return forEachIn(_j, s-> commenter.apply(s));
-    }
-    */
-
-    /*
+     */
     public <N extends Node> N unComment( N ast ){
-        List<Comment> comments = ast.getAllContainedComments();
-        comments.stream().filter( c -> c instanceof BlockComment ).filter( bc-> bc.getContent().startsWith("<code>") && bc.getContent().endsWith("</code>"))
-                .map( c-> {
-                    String s = c.getContent();
-                    s =  s.substring("<code>".length(), s.length() - "</code>".length());
-                    try{
-                        Statement st = Stmt.of(s);
-                        Select sel = select(st);
-                        if( sel != null ){
-                            Ast.
-                        }
-                    }
-                });
-        return forEachIn(ast, n-> n.replace( Ast.blockStmt("{/*<code>"+n.toString(Ast.PRINT_NO_COMMENTS)+"</code>*" +"/}")));
+        $COMMENTED_STATEMENT.forSelectedIn( ast, ($comment.Select sel)-> {
+            try {
+                Statement st = Stmt.of( sel.get("statement").toString() );
+                Select ssel = this.select(st);
+                if( ssel != null ){
+                    Ast.replaceComment(sel.comment, st);
+                }
+            } catch( Exception e ){
+                //couldnt parse comment statement
+            }
+        } );
+        return ast;
     }
 
-
+    /**
+     *
+     * @param clazz
+     * @param <_CT>
+     * @return
+     */
     public <_CT extends _type> _CT unComment( Class clazz){
-        return (_CT)commentOut( _class.of(clazz));
+        return (_CT)unComment( _class.of(clazz));
     }
 
-
-    public <_J extends _draft> _J unComment(_J _j) {
-
+    /**
+     *
+     * @param _n a node to be uncommented
+     * @param <_N> the node type
+     * @return the modified node
+     */
+    public <_N extends _node> _N unComment( _N _n){
+        unComment( _n.ast() );
+        return _n;
     }
-    */
 
     /**
      * 

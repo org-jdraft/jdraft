@@ -43,16 +43,16 @@ public enum Stmt {
      * NOTE: if we print with the {@link Ast#EMPTY_STATEMENT_COMMENT_PRINTER} ONLY the comment
      * will be printed (and not the ";" empty statement) like this:
      *
-     * System.out.println( md.toString(Ast.EMPTY_STATEMENT_COMMENT_PRINTER) );
+     * System.out.println( md.toString(Stmt.REPLACE_WITH_EMPTY_STMT_COMMENT) );
      * //Prints:
      * void m(){
-     *     /*<code>System.out.println(1);</code>* /
+     *     {/*<code>System.out.println(1);</code>* /}
      * }
      * </PRE>
      * NOTE: we do not print the empty statement ";" ONLY the comment
      * @see Ast#EMPTY_STATEMENT_COMMENT_PRINTER
      */
-    public static final Function<Statement,Statement> REPLACE_WITH_EMPTY_STMT_COMMENT = (st)->{
+    public static final Function<Statement,Statement> REPLACE_WITH_EMPTY_STMT_COMMENT_FN = (st)->{
         Statement es = new EmptyStmt(); //create a new empty statement
         es.setComment( new BlockComment("<code>"+st.toString(Ast.PRINT_NO_COMMENTS)+"</code>") );
         st.replace( es );
@@ -89,16 +89,46 @@ public enum Stmt {
      * NOTE: we do not print the empty statement ";" ONLY the comment
      * @see Ast#EMPTY_STATEMENT_COMMENT_PRINTER
      */
-    public static final Function<Statement, Statement> REPLACE_WITH_EMPTY_COMMENT_BLOCK = (st)->{
+    public static final Function<Statement, Statement> REPLACE_WITH_EMPTY_COMMENT_BLOCK_FN = (st)->{
         BlockStmt bs = Ast.blockStmt("{/*<code>"+st.toString(Ast.PRINT_NO_COMMENTS)+"</code>*" + "/}");
-        st.replace( bs );
+        if( bs != null ) {
+            st.replace(bs);
+        }
         return bs;
     };
 
+    /**
+     * Replace this statement with a comment
+     * (a "comment" can be an Empty Statement with a Comment:
+     * <PRE>
+     *  commentOut( Stmt.of("System.out.println(1);") );
+     *  //returns
+     * /*<code>System.out.println(1);</code>* /
+     * ;
+     * </PRE>
+     * @param st
+     * @return
+     */
     public static Statement commentOut(Statement st){
-        return commentOut(st, REPLACE_WITH_EMPTY_STMT_COMMENT);
+        return commentOut(st, REPLACE_WITH_EMPTY_STMT_COMMENT_FN);
     }
 
+    /**
+     * Replace this statement with a comment
+     * (a "comment" can be an Empty Statement with a Comment:
+     * <PRE>
+     * commentOut(Stmt.of("System.out.println(1);"), REPLACE_WITH_EMPTY_STMT_COMMENT_FN);
+     * /*<code>System.out.println(1);</code>* /
+     * ;
+     *
+     * or a BlockStmt with interior comment
+     * commentOut(Stmt.of("System.out.println(1);"), REPLACE_WITH_EMPTY_COMMENT_BLOCK_FN
+     * {/*<code>System.out.println(1);</code>* /}
+     * </PRE>
+     * @param st
+     * @param stmtConsumer
+     * @return
+     */
     public static Statement commentOut( Statement st, Function<Statement,Statement> stmtConsumer ){
         return stmtConsumer.apply(st);
     }

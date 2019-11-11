@@ -23,6 +23,27 @@ import static junit.framework.TestCase.assertTrue;
  */
 public class SstmtTest extends TestCase {
 
+    public void testUnComment(){
+        class C{
+            void m(){
+                /*<code>System.out.println(1);</code>*/
+            }
+        }
+        assertEquals(1, $stmt.$COMMENTED_STATEMENT.count(C.class));
+
+        $stmt $println = $stmt.of(($any$)->System.out.println($any$));
+        _class _c = $stmt.of().unComment(C.class);
+        //make sure I can uncomment
+        assertEquals( $println.draft("any", 1), _c.getMethod("m").getStatement(0));
+
+
+        //build old model
+        _c = $stmt.assertStmt().unComment(C.class);
+        assertTrue( _c.getMethod("m").listStatements().isEmpty());
+
+    }
+
+
     public void test$assertStmt(){
         //command
         $stmt<AssertStmt> $as = $.assertStmt( ()-> {assert(1==1);} );

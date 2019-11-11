@@ -58,7 +58,7 @@ public class $comment <C extends Comment>
      *
 
     public static final $comment STATEMENT_COMMENT = $comment.as("<code>$statement$</code>");
-     */
+    */
 
     public static $comment<Comment> of(){
         return new $comment();
@@ -170,7 +170,6 @@ public class $comment <C extends Comment>
         return new $comment().omitBlockComments().omitJavadocComments()
             .$and(constraint);
     }
-
     
     public static final Set<Class<? extends Comment>> ALL_COMMENT_CLASSES = new HashSet<>();
     
