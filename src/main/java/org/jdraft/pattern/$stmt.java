@@ -1534,11 +1534,6 @@ public class $stmt<T extends Statement>
                 st.replace(bs);
             }
         }
-        /*
-        if( bs != null ) {
-            st.replace(bs);
-        }
-         */
     };
 
     public static final Consumer<Statement> REPLACE_WITH_EMPTY_STMT_COMMENT = (st)->{

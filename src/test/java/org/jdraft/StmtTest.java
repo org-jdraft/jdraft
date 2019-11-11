@@ -6,6 +6,7 @@ import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.comments.LineComment;
 import com.github.javaparser.ast.stmt.*;
 import junit.framework.TestCase;
+import org.jdraft.pattern.$;
 
 import java.io.*;
 import java.util.function.Predicate;
@@ -13,6 +14,81 @@ import java.util.function.Predicate;
 
 @Ast.cache
 public class StmtTest extends TestCase {
+
+    public void testAddBeforeAfter(){
+        class C{
+            void m(){
+                firstStmt: {}
+            }
+
+            void m2(){
+                firstStmt:{}
+                secondStmt:{}
+            }
+        }
+        _class _c =_class.of(C.class);
+
+        LabeledStmt first = $.labeledStmt().firstIn(_c);
+
+        Stmt.addStatementsBefore(first, Stmt.of( ()->System.out.println(1) ) );
+        Stmt.addStatementsAfter(first, Stmt.of( ()->System.out.println(2)));
+        assertEquals( Stmt.of(()->System.out.println(1)), _c.getMethod("m").getStatement(0));
+        assertEquals( Stmt.of("firstStmt:{}"), _c.getMethod("m").getStatement(1));
+        assertEquals( Stmt.of(()->System.out.println(2)), _c.getMethod("m").getStatement(2));
+
+        LabeledStmt second = $.labeledStmt("secondStmt:{}").firstIn(_c);
+        Stmt.addStatementsBefore(second, Stmt.of( ()->System.out.println(1) ) );
+        Stmt.addStatementsAfter(second, Stmt.of( ()->System.out.println(2)));
+
+        assertEquals( Stmt.of("firstStmt:{}"), _c.getMethod("m2").getStatement(0));
+        assertEquals( Stmt.of(()->System.out.println(1)), _c.getMethod("m2").getStatement(1));
+        assertEquals( Stmt.of("secondStmt:{}"), _c.getMethod("m2").getStatement(2));
+        assertEquals( Stmt.of(()->System.out.println(2)), _c.getMethod("m2").getStatement(3));
+    }
+
+    public void testAddBeforeAfterMulti(){
+        class C{
+            void m(){
+                firstStmt: {}
+            }
+
+            void m2(){
+                firstStmt:{}
+                secondStmt:{}
+            }
+        }
+        _class _c =_class.of(C.class);
+
+        LabeledStmt first = $.labeledStmt().firstIn(_c);
+
+        //NOTE: we cant create/initialize more than one Statement *via Lambda) on the same line because of how stack traces work
+        Stmt.addStatementsBefore(first, Stmt.of( ()->System.out.println(1) ),
+                Stmt.of( ()->System.out.println(2) ) );
+        Stmt.addStatementsAfter(first, Stmt.of( ()->System.out.println(3)),
+                Stmt.of( ()->System.out.println(4)) );
+
+        //System.out.println( _c );
+
+        assertEquals( Stmt.of(()->System.out.println(1)), _c.getMethod("m").getStatement(0));
+        assertEquals( Stmt.of(()->System.out.println(2)), _c.getMethod("m").getStatement(1));
+        assertEquals( Stmt.of("firstStmt:{}"), _c.getMethod("m").getStatement(2));
+        assertEquals( Stmt.of(()->System.out.println(3)), _c.getMethod("m").getStatement(3));
+        assertEquals( Stmt.of(()->System.out.println(4)), _c.getMethod("m").getStatement(4));
+
+        LabeledStmt second = $.labeledStmt("secondStmt:{}").firstIn(_c);
+        Stmt.addStatementsBefore(second, Stmt.of( ()->System.out.println(1) ),
+                Stmt.of( ()->System.out.println(2)));
+
+        Stmt.addStatementsAfter(second, Stmt.of( ()->System.out.println(3)),
+                Stmt.of( ()->System.out.println(4)));
+
+        assertEquals( Stmt.of("firstStmt:{}"), _c.getMethod("m2").getStatement(0));
+        assertEquals( Stmt.of(()->System.out.println(1)), _c.getMethod("m2").getStatement(1));
+        assertEquals( Stmt.of(()->System.out.println(2)), _c.getMethod("m2").getStatement(2));
+        assertEquals( Stmt.of("secondStmt:{}"), _c.getMethod("m2").getStatement(3));
+        assertEquals( Stmt.of(()->System.out.println(3)), _c.getMethod("m2").getStatement(4));
+        assertEquals( Stmt.of(()->System.out.println(4)), _c.getMethod("m2").getStatement(5));
+    }
 
     public void testReturnStmtLambda(){
         assertEquals( Stmt.of("return 1;") , Stmt.returnStmt(()-> 1));

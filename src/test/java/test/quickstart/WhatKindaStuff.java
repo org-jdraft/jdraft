@@ -2,6 +2,7 @@ package test.quickstart;
 
 import com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt;
 import junit.framework.TestCase;
+import org.jdraft.Stmt;
 import org.jdraft._class;
 import org.jdraft._code;
 import org.jdraft.io._archive;
@@ -9,8 +10,6 @@ import org.jdraft.io._path;
 import org.jdraft.macro._dto;
 import org.jdraft.pattern.*;
 import org.jdraft.runtime._runtime;
-
-import java.util.function.Function;
 
 public class WhatKindaStuff extends TestCase {
 
@@ -73,7 +72,6 @@ public class WhatKindaStuff extends TestCase {
 
         //remove all System.out.println() methods
         $stmt.of("System.out.println($any$);").removeIn(_cc);
-
     }
 
     public void testStmtComment(){
@@ -85,9 +83,47 @@ public class WhatKindaStuff extends TestCase {
                 return 37;
             }
         }
+
+        _class _c = _class.of(C.class);
+
+        //a pattern representing System.out.println()
+        $stmt $println = $stmt.of("System.out.println($any$);");
+        //verify we can find (2) printlns
+        assertEquals(2, $println.count(_c));
+
+        //comment out all println statements in the class and return the _class
+        _c = (_class)$println.commentOut(C.class);
+        assertEquals( 0, $println.count(_c));
+
+        //assertEquals( 2, $stmt.emptyStmt().count(_c));
+        //assertEquals( 1, _c.getMethod("m").listStatements().size() );
         //assertEquals(37,
         //        _runtime.of( (_class)$stmt.of( "System.out.println($any$);").commentOut(C.class) ).eval("new C().m()"));
         //_class _c = $.assertStmt().commentOut(_class.of(C.class));
         //System.out.println( _c );
+    }
+
+    public void testAddAndRemoveSystemOutReturn(){
+        class C{
+            public int m(){
+                return 100;
+            }
+
+            public int r(){
+                return 200;
+            }
+        }
+        _class _c = _class.of(C.class);
+        $stmt $println = $stmt.of("System.out.println($any$);");
+        $stmt.of("return $any$;").forSelectedIn(_c,
+                s-> Stmt.addStatementsBefore( s.astStatement, $println.draft( "any", s.get("any"))));
+
+        _runtime _r  = _runtime.of(_c);
+        assertEquals( 100, _r.eval("new C().m()"));
+        assertEquals( 200, _r.eval("new C().r()"));
+
+        //Stmt.addStatementBefore(Statement targetStatement, Statement....sts )
+        //Stmt.addStatementsAfter(Statement targetStatement, Statement...sts)
+        //$stmt.returnStmt().forSelectedIn(C.class, s-> s.astStatement.replace)
     }
 }

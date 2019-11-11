@@ -4,10 +4,10 @@ import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.comments.BlockComment;
-import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.*;
 
@@ -17,10 +17,88 @@ import org.jdraft.text.Text;
  * Translator for creating JavaParser AST {@link Statement} instances
  * (from Strings, Stack Traces, etc.)
  *
+ * Also provides functionality related to manipulating Statements as they occur in code.
+ * (Particularly because we often want to look at and manipulate code that is sequentially
+ * occurring before or after some Statement:
+ * <PRE>
+ * void m() {
+ *     int i=0;
+ *     increment: { i++; }
+ *     System.out.println(i);
+ * }
+ * </PRE>
+ * ... and (in the code above) if we are looking at the statement "increment: { i++; }"
+ * ... we often want to know what coded happens "before" this statement within the same block/scope (i.e. "int i=0;")
+ * ... we also often want to know what happens "after" this statement within the same block (i.e. "System.out.println(i);")
+ *
  * @author Eric
  */
 public enum Stmt {
     ;
+
+    /**
+     * Adds one or more statements before this statement
+     * @param targetStatement the statement to reference where to add
+     * @param stmtsToAddBefore all the statements to be added in-order before the target statement
+     * @return the BlockStmt containing the  new Statement block or null if this task is unsuccessful
+     */
+    public static BlockStmt addStatementsBefore( Statement targetStatement, Statement...stmtsToAddBefore){
+        if( Ast.isParent(targetStatement, BlockStmt.class) ){
+            BlockStmt parentStmt = (BlockStmt) targetStatement.getParentNode().get();
+            int index = getStatementIndex(parentStmt,targetStatement );
+            if( index == -1){
+                return null;
+            }
+            for(int i=0;i<stmtsToAddBefore.length;i++){
+                //System.out.println( "adding "+ stmtsToAddBefore[i]+" at "+ (index + i));
+                parentStmt.addStatement(index + i, stmtsToAddBefore[i]);
+            }
+            return parentStmt;
+        }
+        return null;
+    }
+
+    /**
+     * Finds the index of the Statement statement in the parent block
+     * NOTE: uses REFERENCE EQUALITY rather than logical equality for checking as there
+     * MAY be a situation where a block has the same (logical statement) multiple times
+     * in the same parseBlock
+     *
+     * @param parentBlock
+     * @param statement
+     * @return
+     */
+    public static int getStatementIndex(BlockStmt parentBlock, Statement statement){
+        List<Statement> sts = parentBlock.getStatements();
+        for(int i=0;i<sts.size(); i++){
+            if( sts.get(i) == statement){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Adds one or more statements before this statement
+     * @param targetStatement the statement to reference where to add
+     * @param stmtsToAddAfter all the statements to be added in-order AFTER the target statement
+     * @return the BlockStmt containing the  new Statement block or null if this task is unsuccessful
+     */
+    public static BlockStmt addStatementsAfter( Statement targetStatement, Statement...stmtsToAddAfter){
+        if( Ast.isParent(targetStatement, BlockStmt.class) ){
+            BlockStmt parentStmt = (BlockStmt) targetStatement.getParentNode().get();
+            int index = getStatementIndex(parentStmt,targetStatement );
+            if( index == -1){
+                return null;
+            }
+            index++; //I want to add statements AFTER this statement
+            for(int i=0;i<stmtsToAddAfter.length;i++){
+                parentStmt.addStatement(index + i, stmtsToAddAfter[i]);
+            }
+            return parentStmt;
+        }
+        return null;
+    }
 
     /**
      * Lambda used for converting an actual Statement into a NOOP Commented statement

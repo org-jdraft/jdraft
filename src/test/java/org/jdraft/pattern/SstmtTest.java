@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
-import static junit.framework.TestCase.assertTrue;
 
 /**
  * Passing in templates as parameters to other templates
@@ -293,11 +292,7 @@ public class SstmtTest extends TestCase {
         st = $stmt.construct$LabelStmt(Stmt.of("{$l: assert true;}"), Tokens.of("l", Stmt.of("assert(1==1);")) );
         assertTrue( st instanceof BlockStmt);
         assertTrue( !st.asBlockStmt().isEmpty() );        
-        assertTrue( $stmt.of("{assert (1==1);}").matches( st ) );        
-        
-        
-        
-        
+        assertTrue( $stmt.of("{assert (1==1);}").matches( st ) );
     }
     
     public void test$stmtOfBlockInternalsWithComment(){
@@ -317,8 +312,6 @@ public class SstmtTest extends TestCase {
         
         //multi statement block
         s = $stmt.of("{ doIt(); doNext(); } ");
-        
-        
     }
     
     public void test$stmtWithMultiLineBlock(){
@@ -340,8 +333,6 @@ public class SstmtTest extends TestCase {
             }
         }
         assertEquals(1, s.count(C.class));
-        
-        
     }
     
     public void testStmtAnyMatchesEmptyOrLongBlocks(){
