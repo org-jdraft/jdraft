@@ -23,25 +23,81 @@ import static junit.framework.TestCase.assertTrue;
  */
 public class SstmtTest extends TestCase {
 
-    public void testUnComment(){
+    public void testUnCommentEmptyStmt(){
         class C{
             void m(){
                 /*<code>System.out.println(1);</code>*/
             }
         }
+
         assertEquals(1, $stmt.$COMMENTED_STATEMENT.count(C.class));
 
         $stmt $println = $stmt.of(($any$)->System.out.println($any$));
-        _class _c = $stmt.of().unComment(C.class);
-        //make sure I can uncomment
-        assertEquals( $println.draft("any", 1), _c.getMethod("m").getStatement(0));
 
+        //1) uncomment & return the _class
+        _class _c = (_class)$println.unComment(C.class);
+        _method _m = _c.getMethod("m");
+        //    verify the Statement I uncommented
+        assertEquals( $println.draft("any", 1), _m.getStatement(0));
+        //System.out.println( _c );
 
-        //build old model
-        _c = $stmt.assertStmt().unComment(C.class);
-        assertTrue( _c.getMethod("m").listStatements().isEmpty());
+        // 2) comment out (i.e. replace with an emptyStmt and a comment
+        $println.commentOut(_c);
 
+        //   verify I have an emptyStatement( with comment) where the old println was
+        assertTrue( _m.getStatement(0).isEmptyStmt() );
+        assertEquals(1, _m.listStatements().size());
+        //System.out.println( _c );
+
+        // 3) unComment
+        $println.unComment(_c);
+        //    verify the Statement I uncommented
+        assertEquals( $println.draft("any", 1), _m.getStatement(0));
+        //    verify I removed the Empty statement
+        assertEquals(1, _m.listStatements().size());
+        //System.out.println( _c );
     }
+
+
+    public void testUnCommentBlockStmt(){
+        class C{
+            void m(){
+                { /*<code>System.out.println(1);</code>*/ }
+            }
+        }
+
+        assertEquals(1, $stmt.$COMMENTED_STATEMENT.count(C.class));
+
+        $stmt $println = $stmt.of(($any$)->System.out.println($any$));
+
+        //1) uncomment & return the _class
+        _class _c = (_class)$println.unComment(C.class);
+        _method _m = _c.getMethod("m");
+        //    verify the Statement I uncommented
+        //System.out.println( _c );
+        assertEquals( $println.draft("any", 1), _m.getStatement(0).asBlockStmt().getStatement(0));
+        //System.out.println( _c );
+
+        // 2) comment out (i.e. replace with an blockStmt with a comment
+        $println.commentOut(_c, $stmt.REPLACE_WITH_EMPTY_COMMENT_BLOCK);
+
+        //System.out.println( _c );
+
+        //   verify I have an emptyStatement( with comment) where the old println was
+        assertTrue( _m.getStatement(0).isBlockStmt() );
+        assertTrue( _m.getStatement(0).asBlockStmt().isEmpty() );
+        assertEquals(1, _m.listStatements().size());
+        //System.out.println( _c );
+
+        // 3) unComment
+        $println.unComment(_c);
+        //    verify the Statement I uncommented
+        assertEquals( $println.draft("any", 1), _m.getStatement(0).asBlockStmt().getStatement(0));
+        //    verify I removed the Empty statement
+        assertEquals(1, _m.listStatements().size());
+        //System.out.println( _c );
+    }
+
 
 
     public void test$assertStmt(){

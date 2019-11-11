@@ -1,5 +1,6 @@
 package org.jdraft.pattern;
 
+import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
@@ -183,7 +184,33 @@ public class $stmt<T extends Statement>
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return from( ste );
     }
-    
+
+    /**
+     * Will match ANY statement, or empty statemen
+     * @param stmtClasses the classes accepted for the Statement
+     * @return
+     */
+    public static $stmt<Statement> not(Class<? extends Statement>... stmtClasses){
+        Set<Class<? extends Statement>> notClasses = new HashSet<>();
+        Arrays.stream(stmtClasses).forEach( s -> notClasses.add(s));
+        Predicate<Statement> ps = s-> notClasses.contains(s.getClass());
+        return ($stmt<Statement>) new $stmt( Statement.class, t-> true )
+                .$not( ps );
+    }
+
+    /**
+     * Match ONLY statements of these classes
+     * @param stmtClasses the classes accepted for the Statement
+     * @return
+     */
+    public static $stmt<Statement> of(Class<? extends Statement>... stmtClasses){
+        Set<Class<? extends Statement>> notClasses = new HashSet<>();
+        Arrays.stream(stmtClasses).forEach( s -> notClasses.add(s));
+        Predicate<Statement> ps = s-> notClasses.contains(s.getClass());
+        return ($stmt<Statement>) new $stmt( Statement.class, t-> true )
+                .$and( ps );
+    }
+
     /** 
      * Will match ANY statement, or empty statemen
      * @param <S>
@@ -1485,9 +1512,33 @@ public class $stmt<T extends Statement>
 
     public static final Consumer<Statement> REPLACE_WITH_EMPTY_COMMENT_BLOCK = (st)->{
         BlockStmt bs = Ast.blockStmt("{/*<code>"+st.toString(Ast.PRINT_NO_COMMENTS)+"</code>*" + "/}");
+        /**
+         * Check if you are in this situation (replacing System.out.println()) which is already in an empty block
+         * <PRE>
+         * void m() {
+         *     {
+         *         System.out.println(1);
+         *     }
+         * }
+         * </PRE>
+         */
+        if( st.getParentNode().isPresent()
+                && st.getParentNode().get() instanceof BlockStmt
+                && ((BlockStmt)st.getParentNode().get()).getParentNode().isPresent()
+                && !(((BlockStmt)st.getParentNode().get()).getParentNode().get() instanceof BodyDeclaration) ){
+            BlockStmt par = ((BlockStmt)st.getParentNode().get());
+            if( par.getStatements().size() == 1 ){
+                bs = Ast.blockStmt("{/*<code>"+st.toString(Ast.PRINT_NO_COMMENTS)+"</code>*" + "/}");
+                par.replace( bs );
+            } else{
+                st.replace(bs);
+            }
+        }
+        /*
         if( bs != null ) {
             st.replace(bs);
         }
+         */
     };
 
     public static final Consumer<Statement> REPLACE_WITH_EMPTY_STMT_COMMENT = (st)->{
@@ -1513,19 +1564,18 @@ public class $stmt<T extends Statement>
      * }
      */
     public <N extends Node> N commentOut( N ast ){
-        return commentOut(ast, REPLACE_WITH_EMPTY_COMMENT_BLOCK);
+        return commentOut(ast, REPLACE_WITH_EMPTY_STMT_COMMENT);
     }
 
     //comments out the matching code
     public <_CT extends _type> _CT commentOut( Class clazz){
-        return (_CT)commentOut( _class.of(clazz), REPLACE_WITH_EMPTY_COMMENT_BLOCK);
+        return (_CT)commentOut( _class.of(clazz), REPLACE_WITH_EMPTY_STMT_COMMENT);
     }
 
 
     //comments out the matching code
     public <_J extends _draft> _J commentOut(_J _j){
-        return commentOut(_j, REPLACE_WITH_EMPTY_COMMENT_BLOCK);
-        //return forEachIn(_j, s -> Stmt.REPLACE_WITH_EMPTY_COMMENT_BLOCK.accept(s)); //s-> s.replace( Ast.blockStmt("{/*<code>"+s.toString(Ast.PRINT_NO_COMMENTS)+"</code>*"+"/}")));
+        return commentOut(_j, REPLACE_WITH_EMPTY_STMT_COMMENT);
     }
 
     //
@@ -1556,8 +1606,23 @@ public class $stmt<T extends Statement>
             try {
                 Statement st = Stmt.of( sel.get("statement").toString() );
                 Select ssel = this.select(st);
+
                 if( ssel != null ){
-                    Ast.replaceComment(sel.comment, st);
+                    //if it's a comment on an EmptyStmt ";", lets replace the statement
+                    Optional<Node> oc = sel.comment.getCommentedNode();
+                    if( oc.isPresent() && ( oc.get() instanceof EmptyStmt)) {
+                        //System.out.println("Empty Stmt");
+                        oc.get().replace(st);
+                    } else { //TODO handle Empty Block Comments
+                        /*
+                        if( !oc.isPresent() ){
+                            Optional<Node> oparent = sel.comment.getParentNode();
+                            if( oparent.isPresent() &&  )
+                            oparent.get().is
+                        }
+                         */
+                        Ast.replaceComment(sel.comment, st);
+                    }
                 }
             } catch( Exception e ){
                 //couldnt parse comment statement

@@ -53,8 +53,12 @@ public enum Stmt {
      * @see Ast#EMPTY_STATEMENT_COMMENT_PRINTER
      */
     public static final Function<Statement,Statement> REPLACE_WITH_EMPTY_STMT_COMMENT_FN = (st)->{
+        if( st.getParentNode().isPresent() && ! (st.getParentNode().get() instanceof Statement)){
+            return null;
+        }
         Statement es = new EmptyStmt(); //create a new empty statement
         es.setComment( new BlockComment("<code>"+st.toString(Ast.PRINT_NO_COMMENTS)+"</code>") );
+        System.out.println( st );
         st.replace( es );
         return es;
     };
