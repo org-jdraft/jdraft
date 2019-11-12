@@ -15,6 +15,28 @@ import java.util.function.Predicate;
 @Ast.cache
 public class StmtTest extends TestCase {
 
+    public void testPreviousStmtNextStmt(){
+
+        class C{
+            void m(){
+                assert(1==1);
+                assert(2==2);
+                assert(3==3);
+            }
+        }
+        _class _c = _class.of(C.class);
+        _method _m = _c.getMethod("m");
+
+        assertEquals( null, Stmt.previous( _m.getStatement(0)));
+        assertEquals( Stmt.of("assert(1==1);"), Stmt.previous( _m.getStatement(1)));
+        assertEquals( Stmt.of("assert(2==2);"), Stmt.previous( _m.getStatement(2)));
+
+        assertEquals( Stmt.of("assert(2==2);"), Stmt.next( _m.getStatement(0)));
+        assertEquals( Stmt.of("assert(3==3);"), Stmt.next( _m.getStatement(1)));
+        assertEquals( null, Stmt.next( _m.getStatement(2)));
+
+    }
+
     public void testAddBeforeAfter(){
         class C{
             void m(){
@@ -284,7 +306,6 @@ public class StmtTest extends TestCase {
                         s++;
                     }
                 }));
-
 
         assertEquals(
                 Stmt.tryStmt("try{ f.writeExternal(oos); } catch(IOException ioe){}"),

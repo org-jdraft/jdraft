@@ -30,6 +30,9 @@ import org.jdraft.text.Text;
  * ... and (in the code above) if we are looking at the statement "increment: { i++; }"
  * ... we often want to know what coded happens "before" this statement within the same block/scope (i.e. "int i=0;")
  * ... we also often want to know what happens "after" this statement within the same block (i.e. "System.out.println(i);")
+ * However in JavaParser... Statement nodes DO NOT have direct access to thier siblings, but rather you MUST
+ * go to the BlockStmt (parent) and then find the node to get the preceding or next Statement.  While this
+ * is not hard (from an implementation perspective) it can be tedious, and therefore we added some
  *
  * @author Eric
  */
@@ -101,6 +104,44 @@ public enum Stmt {
     }
 
     /**
+     * Gets the previous Statement (in the same scope) that occurred before this one
+     * (or null if this is the first Statement in the Block)
+     * @param st
+     * @return
+     */
+    public static Statement previous(Statement st ){
+        if( Ast.isParent(st, BlockStmt.class) ) {
+            BlockStmt parentStmt = (BlockStmt) st.getParentNode().get();
+            int index = getStatementIndex(parentStmt, st);
+            if( index <=0 ){
+                return null;
+            }
+            return parentStmt.getStatements().get(index - 1);
+        }
+        return null;
+    }
+
+    /**
+     * Gets the previous Statement (in the same scope) that occurred before this one
+     * (or null if this is the first Statement in the Block)
+     * @param st
+     * @return
+     */
+    public static Statement next(Statement st ){
+        if( Ast.isParent(st, BlockStmt.class) ) {
+            BlockStmt parentStmt = (BlockStmt) st.getParentNode().get();
+            int index = getStatementIndex(parentStmt, st);
+            if( index < 0 ){
+                return null;
+            }
+            if( parentStmt.getStatements().size() > (index + 1) ){
+                return parentStmt.getStatements().get(index + 1);
+            }
+        }
+        return null;
+    }
+
+    /**
      * Lambda used for converting an actual Statement into a NOOP Commented statement
      * i.e.<PRE>
      * MethodDeclaration md = Ast.method("void m(){",
@@ -136,7 +177,7 @@ public enum Stmt {
         }
         Statement es = new EmptyStmt(); //create a new empty statement
         es.setComment( new BlockComment("<code>"+st.toString(Ast.PRINT_NO_COMMENTS)+"</code>") );
-        System.out.println( st );
+        //System.out.println( st );
         st.replace( es );
         return es;
     };
