@@ -330,6 +330,14 @@ public class _runtime {
         return (I)instanceOf(_c, ctorArgs);
     }
 
+    public static Object instanceOf(Class clazz){
+        return instanceOf(_class.of(clazz), new Object[0]);
+    }
+
+    public static Object instanceOf(Class clazz, Object...ctorArgs){
+        return instanceOf(_class.of(clazz), ctorArgs);
+    }
+
     public static Object instanceOf(_class _c){
         return instanceOf(_c, new Object[0]);
     }
@@ -973,7 +981,24 @@ public class _runtime {
      * @return
      */
     public Object instance(Class clazz, Object... ctorArgs) {
-        return tryAllCtors( clazz.getConstructors(), ctorArgs);
+        if( clazz.getConstructors().length == 1){
+            try {
+                if( ctorArgs.length ==0 ){
+                    //System.out.println( "NO ARGS ");
+                    return clazz.getConstructors()[0].newInstance();
+                }
+                return clazz.getConstructors()[0].newInstance(ctorArgs);
+            }catch(Exception e){
+                throw new _runtimeException("unable to call lone constructor on "+ clazz+" ", e);
+            }
+        }
+        if( clazz.getConstructors().length > 1 ){
+            return tryAllCtors( clazz.getConstructors(), ctorArgs);
+        }
+        if( clazz.getDeclaredConstructors().length > 0 ){
+            return tryAllCtors( clazz.getDeclaredConstructors(), ctorArgs);
+        }
+        throw new _runtimeException("cannot find constructors for "+clazz);
     }
 
     /**
@@ -1185,7 +1210,7 @@ public class _runtime {
      * @param ctorArgs
      * @return
      */
-    public static Object tryAllCtors(Constructor[] ctors, Object... ctorArgs) {
+    public static Object tryAllCtors(final Constructor[] ctors, Object... ctorArgs) {
         //if ctorArgs is 0, then I check FIRST for a 
         if (ctorArgs.length == 0) {
             //check if there is a public no-arg ctor
@@ -1213,7 +1238,7 @@ public class _runtime {
                 }
             }
         }
-        //organize the CONSTRUCTORS by largest number compile parameterrs first
+        //organize the CONSTRUCTORS by largest number compile parameters first
         Comparator<Constructor> pc = (Constructor o1, Constructor o2) -> {
             Constructor c1 = (Constructor) o1;
             Constructor c2 = (Constructor) o2;
@@ -1234,10 +1259,11 @@ public class _runtime {
             }
         }
         //now that the ctors are organized...
-        ctors = exactCtors.toArray(new Constructor[0]);
+
+        Constructor[] xactCtors = exactCtors.toArray(new Constructor[0]);
 
         //test exact constructors
-        for (Constructor ctor : ctors) {
+        for (Constructor ctor : xactCtors) {
             if (ctor.getParameterCount() == ctorArgs.length || (ctor.isVarArgs() && ctor.getParameterCount() <= ctorArgs.length)) {
                 try {
                     return ctor.newInstance(ctorArgs);
@@ -1246,11 +1272,11 @@ public class _runtime {
                 }
             }
         }
-        //If I make it here, I havent found an exact constructor that works
+        //If I make it here, I haven't found an exact constructor that works
         //based on the arguments I've passed in
-        ctors = varCtors.toArray(new Constructor[0]);
+        Constructor[] vctors = varCtors.toArray(new Constructor[0]);
 
-        for (Constructor ctor : ctors) {
+        for (Constructor ctor : vctors) {
             //if (ctor.getParameterCount() <= ctorArgs.length) {
             try {
                 //I need to "condense" args

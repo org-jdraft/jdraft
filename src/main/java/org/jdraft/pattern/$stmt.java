@@ -199,6 +199,33 @@ public class $stmt<T extends Statement>
     }
 
     /**
+     * A Statement that contains this expression
+     * @param $ex the expression contained within the Statement
+     * @return the new Statement matching only Statements that contain this expression
+     */
+    public static $stmt<Statement> of( $ex $ex ){
+        return $stmt.of().$and( s-> $ex.isIn(s) );
+    }
+
+    /**
+     * A Statement
+     * @param $exprs
+     * @return
+     */
+    public static $stmt<Statement> hasAny( $ex...$exprs ){
+        return $stmt.of().$and( s-> Arrays.stream($exprs).anyMatch( e -> e.isIn(s) ));
+    }
+
+    /**
+     * A Statement
+     * @param $exprs
+     * @return
+     */
+    public static $stmt<Statement> hasAll( $ex...$exprs ){
+        return $stmt.of().$and( s-> Arrays.stream($exprs).allMatch( e -> e.isIn(s) ));
+    }
+
+    /**
      * Match ONLY statements of these classes
      * @param stmtClasses the classes accepted for the Statement
      * @return
@@ -1567,6 +1594,15 @@ public class $stmt<T extends Statement>
         return (_CT)commentOut( _class.of(clazz), REPLACE_WITH_EMPTY_STMT_COMMENT);
     }
 
+    public _code._cache commentOut( _code._provider _codeProvider){
+        return commentOut(_codeProvider, REPLACE_WITH_EMPTY_STMT_COMMENT);
+    }
+
+    public _code._cache commentOut( _code._provider _codeProvider, Consumer<Statement> commenter){
+        _code._cache cc = _code._cache.of(_codeProvider);
+        forEachIn(cc, n-> commenter.accept(n));
+        return cc;
+    }
 
     //comments out the matching code
     public <_J extends _draft> _J commentOut(_J _j){

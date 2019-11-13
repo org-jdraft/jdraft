@@ -893,6 +893,9 @@ public final class _anno
          * @return the first _anno that has the NAME, or null
          */
         default _anno getAnno( String annoName ) {
+            if( annoName.startsWith("@")){
+                return getAnnos().first(annoName.substring(1));
+            }
             return getAnnos().first( annoName );
         }
 

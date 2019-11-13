@@ -99,10 +99,52 @@ public class _io{
      * @param _c 
      * @return a list of Paths to the files written
      */
-    public static<_C extends _code>  List<Path> out( _C... _c ){
+    public static<_C extends _code> List<Path> out( _C... _c ){
         String outJavaDir = getOutJavaDir();
         return out( Paths.get(outJavaDir ), _c);        
     }
+
+    /**
+     * Writes the code contained within the _cp
+     * @param _cp the provided code to be written
+     * @return the List
+     */
+    public static List<Path> out(_code._provider _cp){
+        return out( _io.getOutJavaDir(), _cp);
+    }
+
+    /**
+     *
+     * @param rootPath
+     * @param _cp
+     * @return
+     */
+    public static List<Path> out( String rootPath, _code._provider _cp ){
+        return out(Paths.get(rootPath), _cp);
+    }
+
+    /**
+     *
+     * @param rootPath
+     * @param _cp
+     * @return
+     */
+    public static List<Path> out( Path rootPath, _code._provider _cp){
+        List<Path> writtenFiles = new ArrayList<>();
+        _cp.for_code( c -> {
+            String fileName = c.getFullName().replace(".", "/")+".java";
+            Path filePath = Paths.get(rootPath.toString(), fileName);
+            filePath.getParent().toFile().mkdirs();
+            try {
+                Files.write(filePath, c.toString().getBytes() );
+                writtenFiles.add(filePath);
+            } catch (IOException ex) {
+                Logger.getLogger(_io.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        return writtenFiles;
+    }
+
 
     /**
      *

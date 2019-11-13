@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AnalyzeTest extends TestCase {
+public class SpatternAnalyzeTest extends TestCase {
 
     /**
      * This is how I might
