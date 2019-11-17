@@ -30,10 +30,19 @@ public class _io{
         return _inFilePath.in(fileName);
     }
 
+    public static _in inFile( Path path){
+        return _inFilePath.in( path );
+    }
+
+    public static _in in(Path path){
+        return inFile(path);
+    }
+
     /** Given the current IO configuration, read in the resource given the id */
     public static _in in(String id ){
         return _inMaster.INSTANCE.resolve(id);
     }
+
 
     /** Given the current IO configuration, read in the .java source for the Class */
     public static _in in(Class clazz){

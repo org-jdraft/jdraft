@@ -10,6 +10,7 @@ import junit.framework.TestCase;
 import org.jdraft.Ast;
 import org.jdraft._class;
 import org.jdraft._code;
+import org.jdraft.io._cache;
 import org.jdraft.pattern.*;
 
 /**
@@ -94,7 +95,7 @@ public class GoogleErrorProneTest extends TestCase {
         _c.extend("android.app.Service");
         assertEquals(_c, $ANDROID_CLASS.select(_c).selected);
 
-        _code._cache _cc = _code._cache.of(
+        _cache _cc = _cache.of(
                 _class.of("A").extend("Activity").imports("android.app.Activity"),
                 _class.of("F").extend("Fragment").imports("android.app.Fragment"),
                 _class.of("F2").extend("Fragment").imports("android.support.v4.app.Fragment"),
@@ -161,8 +162,8 @@ public class GoogleErrorProneTest extends TestCase {
         $class $act = $class.of().$extends("android.app.Activity");
         $class $fra = $class.of().$extends("android.app.Fragment");
         $class $v4fra = $class.of().$extends("android.support.v4.app.Fragment");
-        _code._cache _cc =
-                _code._cache.of(_FAIL_InFragment, _FAIL_InjBeforeSuperInBetween, _FAIL_InjectBeforeSuperActivity);
+        _cache _cc =
+                _cache.of(_FAIL_InFragment, _FAIL_InjBeforeSuperInBetween, _FAIL_InjectBeforeSuperActivity);
         //verify that $extends checks fully qualified and imports (for not) and package
 
         //OR

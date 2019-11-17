@@ -5,6 +5,7 @@ import org.jdraft._class;
 import org.jdraft._code;
 import org.jdraft._interface;
 import org.jdraft.io._archive;
+import org.jdraft.io._cache;
 import org.jdraft.io._io;
 import org.jdraft.io._path;
 import org.jdraft.macro.*;
@@ -49,7 +50,7 @@ public class WhatKindaStuff2 extends TestCase {
 
     public void testFindAllMainMethods(){
 
-        $method.of("public static void main(String[] $name$){}").count(_archive.of("C:\\temp\\MySrc.jar"));
+        $method.of("public static void main(String[] $name$){}"); //.count(_cache.of("C:\\temp\\MySrc.jar"));
 
         $method $MAIN = $method.of("public static void main(String[] $name$){}");
         class C{
@@ -71,10 +72,8 @@ public class WhatKindaStuff2 extends TestCase {
 
     public void testLotsOfCode(){
         _archive _guava = _archive.of("C:\\guava-src.jar");
-        _code._cache _source = _code._cache.of(_path.of("C:\\jdraft\\project\\jdraft\\src\\main\\java"));
-        _code._cache  _tests = _code._cache.of(_path.of("C:\\jdraft\\project\\jdraft\\src\\test\\java"));
-
-
+        _cache _source = _cache.of(_path.of("C:\\jdraft\\project\\jdraft\\src\\main\\java"));
+        _cache  _tests = _cache.of(_path.of("C:\\jdraft\\project\\jdraft\\src\\test\\java"));
 
         //query
         //print all TODO tags in the source

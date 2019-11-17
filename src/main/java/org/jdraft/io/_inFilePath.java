@@ -46,6 +46,14 @@ public final class _inFilePath implements _in._resolver {
         }
     }
 
+    public static _in in(Path path){
+        try{
+            return new _in._source(path, path.toAbsolutePath().toString(), "file:" + path.toAbsolutePath().toString(), new ByteArrayInputStream( Files.readAllBytes(path) ));
+        }catch (Exception e){
+            throw new _ioException("could not read \""+path+"\"", e);
+        }
+    }
+
     public static _in in( String fileName ){
         Path path = Paths.get(fileName);
         try{

@@ -36,6 +36,21 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
     public $modifiers modifiers = $modifiers.of();
     public $name name = $name.of("$typeName$"); //name required
 
+    public static $type of( String name, $type.$part...parts ){
+        $type $t = of( parts );
+        if( name.contains("." ) ){
+            //(the package is the first part)
+            $package $p = $package.of( name.substring(0, name.lastIndexOf(".")) );
+            $name $n = $name.of(name.substring(name.lastIndexOf(".")+1));
+            $t.$name($n);
+            $t.packageDecl = $p;
+        } else{
+            $name $n = $name.of(name);
+            $t.$name($n);
+        }
+        return $t;
+    }
+
     public static $type of($type.$part... parts) {
         return new $type(parts);
     }

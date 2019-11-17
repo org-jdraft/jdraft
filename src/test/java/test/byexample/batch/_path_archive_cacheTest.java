@@ -5,6 +5,7 @@ import com.github.javaparser.ast.body.BodyDeclaration;
 import junit.framework.TestCase;
 import org.jdraft.*;
 import org.jdraft.io._archive;
+import org.jdraft.io._cache;
 import org.jdraft.io._path;
 import org.jdraft.pattern.*;
 
@@ -60,7 +61,7 @@ public class _path_archive_cacheTest extends TestCase {
 
         // since we want to parse the source code to AST ONLY ONCE & NOT FOR EACH QUERY
         // ...we create a code.cache with the source code we want to query on (based on the code in the archives)
-        _code._cache _jdraftAllSrc = _code._cache.of(_javaParserSrc, _jdraftSrc);
+        _cache _jdraftAllSrc = _cache.of(_javaParserSrc, _jdraftSrc);
 
         //here just query all the code for some information
         System.out.println("*** TODOs "); $comment.of("TODO").printIn(_jdraftAllSrc);
@@ -70,7 +71,7 @@ public class _path_archive_cacheTest extends TestCase {
         System.out.println("*** Thread.currentThread() "); $node.of(BodyDeclaration.class).$hasDescendant($ex.methodCallEx("Thread.currentThread()")).printIn(_jdraftAllSrc );
         // create ANOTHER _code._cache which includes the jdraft test sources
         // (this will only PARSE the jdraft test sources, and reuse the pre-parsed models in _jdraftSrcAll)
-        _code._cache _jdraftAllSrcTests = _code._cache.of( _jdraftAllSrc, _path.of("C:\\jdraft\\project\\jdraft\\src\\test\\java") );
+        _cache _jdraftAllSrcTests = _cache.of( _jdraftAllSrc, _path.of("C:\\jdraft\\project\\jdraft\\src\\test\\java") );
 
     }
 

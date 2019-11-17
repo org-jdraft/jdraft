@@ -10,7 +10,6 @@ import org.jdraft.macro._package;
 
 import java.beans.Encoder;
 import java.io.Serializable;
-import java.util.Map;
 import java.util.UUID;
 
 public class _1_classAPITest extends TestCase {
@@ -32,7 +31,7 @@ public class _1_classAPITest extends TestCase {
             .nest( _interface.of("Describable")  //add a nested class (here an interface)
                   .method("String describe();") );
 
-    /** We can build a _class from a String */
+    /** We can build a _class from a single String */
     static _class _FROM_ONE_STRING = _class.of(_FROM_STRING_PARTS.toString());
 
     /** Creating or modifying a _class (with String/Class/Lambda based components) */
@@ -102,8 +101,6 @@ public class _1_classAPITest extends TestCase {
         assertTrue(_FROM_STRING_PARTS.is( stringPartsJavaCode ));
         assertTrue(_FROM_RUNTIME_PARTS.is( stringPartsJavaCode ));
 
-
-
         //we can verify their hashcodes are equal
         assertEquals(_FROM_RUNTIME_PARTS.hashCode(), _FROM_STRING_PARTS.hashCode());
 
@@ -121,7 +118,7 @@ public class _1_classAPITest extends TestCase {
         //we can ask simple questions about the _draft  we can ask things about the _class
         assertTrue(_FROM_STRING_PARTS.getName().equals("C"));
         assertTrue(_FROM_STRING_PARTS.isInPackage("math.entity"));
-        assertTrue(_FROM_STRING_PARTS.hasImport(Map.class));
+        assertTrue(_FROM_STRING_PARTS.hasImport(UUID.class));
         assertTrue(_FROM_STRING_PARTS.getJavadoc().contains("This is the class"));
         assertTrue(_FROM_STRING_PARTS.hasAnno("@Deprecated"));
         assertTrue(_FROM_STRING_PARTS.isFinal());
