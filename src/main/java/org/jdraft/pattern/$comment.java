@@ -224,7 +224,7 @@ public class $comment <C extends Comment>
             this.contentsStencil = Stencil.of(Ast.getContent(astComment).trim());
         }
     }
-    
+
     /**
      * 
      * @param translator
@@ -324,6 +324,87 @@ public class $comment <C extends Comment>
      */
     public Select select( String...comment ){
         return select( Ast.comment(comment));
+    }
+
+
+    public <N extends Node> N findAndReplace(N n, String target, String replacement){
+        Map<String,String> targetToReplacement = new HashMap<>();
+        targetToReplacement.put(target, replacement);
+        return findAndReplace( n, targetToReplacement);
+    }
+
+    public <_J extends _draft> _J findAndReplace(_J _c, String target, String replacement){
+        Map<String,String> targetToReplacement = new HashMap<>();
+        targetToReplacement.put(target, replacement);
+        return findAndReplace( _c, targetToReplacement);
+    }
+
+    public <_T extends _type> _T findAndReplace(Class clazz, String target, String replacement){
+        Map<String,String> targetToReplacement = new HashMap<>();
+        targetToReplacement.put(target, replacement);
+        return findAndReplace( (_T)_java.type(clazz), targetToReplacement);
+    }
+
+    public <_CP extends _code._provider> _CP findAndReplace(_CP _cp, String target, String replacement){
+        Map<String,String> targetToReplacement = new HashMap<>();
+        targetToReplacement.put(target, replacement);
+        _cp.for_code( _c -> findAndReplace(_c, targetToReplacement));
+        return _cp;
+    }
+
+    public <_T extends _type> _T findAndReplace(Class clazz, Map<String,String>targetToReplacement){
+        return findAndReplace( (_T)_java.type(clazz), targetToReplacement);
+    }
+
+    public <_CP extends _code._provider> _CP findAndReplace(_CP _cp, Map<String, String> targetToReplacement){
+        _cp.for_code( _c -> findAndReplace(_c, targetToReplacement));
+        return _cp;
+    }
+
+    public <_J extends _draft> _J findAndReplace(_J _c, Map<String, String> targetToReplacement){
+        if( _c instanceof _node ){
+            if( _c instanceof _code) {
+                if (((_code) _c).isTopLevel()) {
+                    findAndReplace(((_code) _c).astCompilationUnit(), targetToReplacement);
+                } else {
+                    findAndReplace(((_code) _c).astCompilationUnit(), targetToReplacement);
+                }
+            } else {
+                findAndReplace(((_node) _c).ast(), targetToReplacement);
+            }
+        } else if( _c instanceof _body){
+            findAndReplace(((_body) _c).ast(), targetToReplacement);
+        }
+        return _c;
+    }
+
+    /**
+     *
+     * @param node
+     * @param targetToReplacement
+     * @param <N>
+     * @return
+     */
+    public <N extends Node> N findAndReplace(N node, Map<String, String> targetToReplacement){
+        node.getAllContainedComments().forEach( c-> {
+            if( matches(c) ){
+                targetToReplacement.forEach((t, r)-> {
+                    findAndReplace(c, t, r);
+                });
+            }
+        });
+        return node;
+    }
+
+    /**
+     *
+     * @param target
+     * @param replacement
+     */
+    public static void findAndReplace( Comment comment, String target, String replacement ){
+         String content = comment.getContent();
+         content.replace(target, replacement);
+         comment.setContent(content);
     }
 
     /**

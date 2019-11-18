@@ -135,6 +135,8 @@ public interface $pattern<P, $P extends $pattern>{
                 //System.out.println( "_NODE "+ node );
                 return Ast.isParentMember(node, nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
                 //return Arrays.stream(members).filter( $m -> $m.match(node)).findFirst().isPresent();
+            } else if( n instanceof _body ){
+                return Ast.isParentMember( ((_body)n).ast(), nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
             }
             return false;
         };
@@ -155,6 +157,9 @@ public interface $pattern<P, $P extends $pattern>{
             } else if (n instanceof _node) {
                 Node node = ((_node)n).ast();
                 return Ast.isParentMember(node, nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
+            } else if (n instanceof _body) {
+                Node node = ((_body)n).ast();
+                return Ast.isParentMember(node, nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
             }
             return false;
         };
@@ -172,6 +177,9 @@ public interface $pattern<P, $P extends $pattern>{
                 return ((Node)n).getRange().isPresent() && range.strictlyContains( ((Node) n).getRange().get());
             } else if (n instanceof _node) {
                 Node node = ((_node)n).ast();
+                return node.getRange().isPresent() && range.strictlyContains(node.getRange().get());
+            }else if (n instanceof _body) {
+                Node node = ((_body)n).ast();
                 return node.getRange().isPresent() && range.strictlyContains(node.getRange().get());
             }
             return false;
@@ -280,6 +288,8 @@ public interface $pattern<P, $P extends $pattern>{
                     return Ast.isParent((Node) n, c -> $p.match(c));
                 } else if (n instanceof _node) {
                     return Ast.isParent(((_node) n).ast(), c -> $p.match(c));
+                } else if (n instanceof _body) {
+                    return Ast.isParent(((_body) n).ast(), c -> $p.match(c));
                 }
                 return false;
             };
@@ -299,6 +309,8 @@ public interface $pattern<P, $P extends $pattern>{
                 return Ast.isParent( (Node)n, c->Arrays.stream($ps).anyMatch( $p->$p.match(c)) );
             } else if (n instanceof _node) {
                 return Ast.isParent( ((_node)n).ast(), c->Arrays.stream($ps).anyMatch( $p->$p.match(c)) );
+            } else if (n instanceof _body) {
+                return Ast.isParent( ((_body)n).ast(), c->Arrays.stream($ps).anyMatch( $p->$p.match(c)) );
             } else {
                 //NEED TO MANUALLY IMPLEMENT FOR:
                 // $parameters, $annos, $snip, $throws, $typeParameters
@@ -334,6 +346,8 @@ public interface $pattern<P, $P extends $pattern>{
                 return Ast.isParent( (Node)n, parentClassTypes);
             } else if (n instanceof _node) {
                 return Ast.isParent( ((_node)n).ast(), parentClassTypes);
+            }else if (n instanceof _body) {
+                return Ast.isParent( ((_body)n).ast(), parentClassTypes);
             }
             return false;
         });
@@ -345,7 +359,9 @@ public interface $pattern<P, $P extends $pattern>{
                         return Ast.isParent( (Node)n, parentClassTypes);
                     } else if (n instanceof _node) {
                         return Ast.isParent( ((_node)n).ast(), parentClassTypes);
-                    } else {
+                    } else if (n instanceof _body) {
+                        return Ast.isParent( ((_body)n).ast(), parentClassTypes);
+                    }  else {
                         //NEED TO MANUALLY IMPLEMENT FOR:
                         // $parameters, $annos, $snip, $throws, $typeParameters
                         // if( n instanceof List ){
@@ -376,7 +392,9 @@ public interface $pattern<P, $P extends $pattern>{
                 return ((Node)n).stream($.PARENTS).limit(levels).anyMatch( ancestorMatchFn  );
             }else if (n instanceof _node) {
                 return ((_node)n).ast().stream($.PARENTS).limit(levels).anyMatch( ancestorMatchFn );
-            } else{
+            } else if (n instanceof _body) {
+                return ((_body)n).ast().stream($.PARENTS).limit(levels).anyMatch( ancestorMatchFn );
+            }else{
                 //NEED TO MANUALLY IMPLEMENT FOR:
                 // $parameters, $annos, $snip, $throws, $typeParameters
                 // if( n instanceof List ){
@@ -400,7 +418,9 @@ public interface $pattern<P, $P extends $pattern>{
                 return ((Node)n).stream($.PARENTS).limit(levels).anyMatch( ancestorMatchFn  );
             }else if (n instanceof _node) {
                 return ((_node)n).ast().stream($.PARENTS).limit(levels).anyMatch( ancestorMatchFn );
-            } else{
+            }else if (n instanceof _body) {
+                return ((_body)n).ast().stream($.PARENTS).limit(levels).anyMatch( ancestorMatchFn );
+            }  else{
                 //NEED TO MANUALLY IMPLEMENT FOR:
                 // $parameters, $annos, $snip, $throws, $typeParameters
                 // if( n instanceof List ){
@@ -438,7 +458,9 @@ public interface $pattern<P, $P extends $pattern>{
                 return ((Node)n).stream($.PARENTS).limit(levels).anyMatch( c-> Arrays.stream($ps).anyMatch($p ->$p.match(c)));
             }else if (n instanceof _node) {
                 return ((_node)n).ast().stream($.PARENTS).limit(levels).anyMatch( c-> Arrays.stream($ps).anyMatch($p ->$p.match(c)));
-            } else{
+            }else if (n instanceof _body) {
+                return ((_body)n).ast().stream($.PARENTS).limit(levels).anyMatch( c-> Arrays.stream($ps).anyMatch($p ->$p.match(c)));
+            }  else{
                 //NEED TO MANUALLY IMPLEMENT FOR:
                 // $parameters, $annos, $snip, $throws, $typeParameters
                 // if( n instanceof List ){
@@ -456,6 +478,8 @@ public interface $pattern<P, $P extends $pattern>{
                 return ((Node)n).stream($.PARENTS).limit(levels).anyMatch( c-> Arrays.stream($ps).anyMatch($p ->$p.match(c)));
             }else if (n instanceof _node) {
                  return ((_node)n).ast().stream($.PARENTS).limit(levels).anyMatch( c-> Arrays.stream($ps).anyMatch($p ->$p.match(c)));
+            } else if (n instanceof _body) {
+                return ((_body)n).ast().stream($.PARENTS).limit(levels).anyMatch( c-> Arrays.stream($ps).anyMatch($p ->$p.match(c)));
             } else{
                 //NEED TO MANUALLY IMPLEMENT FOR:
                 // $parameters, $annos, $snip, $throws, $typeParameters
@@ -474,6 +498,8 @@ public interface $pattern<P, $P extends $pattern>{
                 return ((Node)n).getChildNodes().stream().anyMatch(c -> Arrays.stream($ps).anyMatch( $p->$p.match(c)));
             } else if( n instanceof _node){
                 return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> Arrays.stream($ps).anyMatch( $p->$p.match(c)));
+            } else if( n instanceof _body){
+                return ((_body)n).ast().getChildNodes().stream().anyMatch(c -> Arrays.stream($ps).anyMatch( $p->$p.match(c)));
             } else{
                 throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
@@ -492,6 +518,8 @@ public interface $pattern<P, $P extends $pattern>{
                 return ((Node)n).getChildNodes().stream().anyMatch(c -> Arrays.stream($ps).anyMatch( $p->$p.match(c)));
             } else if( n instanceof _node){
                 return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> Arrays.stream($ps).anyMatch( $p->$p.match(c)));
+            } else if( n instanceof _body){
+                return ((_body)n).ast().getChildNodes().stream().anyMatch(c -> Arrays.stream($ps).anyMatch( $p->$p.match(c)));
             } else{
                 throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
@@ -504,6 +532,8 @@ public interface $pattern<P, $P extends $pattern>{
                 return ((Node)n).getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) );
             } else if( n instanceof _node){
                 return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) );
+            } else if( n instanceof _body){
+                return ((_body)n).ast().getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) );
             } else{
                 throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
@@ -516,6 +546,8 @@ public interface $pattern<P, $P extends $pattern>{
                 return ((Node)n).getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) );
             } else if( n instanceof _node){
                 return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) );
+            } else if( n instanceof _body){
+                return ((_body)n).ast().getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) );
             } else{
                 throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
@@ -528,6 +560,8 @@ public interface $pattern<P, $P extends $pattern>{
                 return ((Node)n).getChildNodes().stream().anyMatch(c -> childMatchFn.test(c) );
             } else if( n instanceof _node){
                 return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> childMatchFn.test(c) );
+            } else if( n instanceof _body){
+                return ((_body)n).ast().getChildNodes().stream().anyMatch(c -> childMatchFn.test(c) );
             } else{
                 throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
@@ -540,6 +574,8 @@ public interface $pattern<P, $P extends $pattern>{
                 return ((Node)n).getChildNodes().stream().anyMatch(c -> childMatchFn.test(c) );
             } else if( n instanceof _node){
                 return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> childMatchFn.test(c) );
+            } else if( n instanceof _body){
+                return ((_body)n).ast().getChildNodes().stream().anyMatch(c -> childMatchFn.test(c) );
             } else{
                 throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
@@ -614,6 +650,8 @@ public interface $pattern<P, $P extends $pattern>{
                 return Ast.matchDescendant( (Node)n, depth, descendantMatchFn);
             } else if( n instanceof _node){
                 return Ast.matchDescendant( ((_node)n).ast(), depth, descendantMatchFn);
+            } else if( n instanceof _body){
+                return Ast.matchDescendant( ((_body)n).ast(), depth, descendantMatchFn);
             } else{
                 throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
@@ -632,6 +670,8 @@ public interface $pattern<P, $P extends $pattern>{
                 return Ast.matchDescendant( (Node)n, depth, descendantMatchFn);
             } else if( n instanceof _node){
                 return Ast.matchDescendant( ((_node)n).ast(), depth, descendantMatchFn);
+            } else if( n instanceof _body){
+                return Ast.matchDescendant( ((_body)n).ast(), depth, descendantMatchFn);
             } else{
                 throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
@@ -678,7 +718,9 @@ public interface $pattern<P, $P extends $pattern>{
                 return Ast.matchDescendant( (Node)n, depth, c->Arrays.stream($ps).anyMatch( $p-> $p.match(c) ));
             }else if( n instanceof _node){
                 return Ast.matchDescendant( ((_node)n).ast(), depth, c->Arrays.stream($ps).anyMatch( $p->$p.match(c)));
-            } else{
+            } else if( n instanceof _body){
+                return Ast.matchDescendant( ((_body)n).ast(), depth, c->Arrays.stream($ps).anyMatch( $p->$p.match(c)));
+            }else{
                 throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
         });
@@ -713,6 +755,10 @@ public interface $pattern<P, $P extends $pattern>{
      */
     default boolean match( _draft _j ){
         if( _j instanceof _field ){ //I think this'll work??
+
+            /** TODO THIS SEEMS WRONG */
+
+
             return match( ((_field)_j).getFieldDeclaration());
         }
         if( _j instanceof _node ){
@@ -952,7 +998,13 @@ public interface $pattern<P, $P extends $pattern>{
             _type _t = (_type)_j; //only possible
             return firstIn(_t.ast(), nodeMatchFn);
         }
-        return firstIn(((_node)_j).ast(), nodeMatchFn);
+        if( _j instanceof _node) {
+            return firstIn(((_node) _j).ast());
+        }
+        if( _j instanceof _body ){
+            return firstIn(((_body) _j).ast());
+        }
+        throw new _jdraftException("Not implemented for type "+_j.getClass() );
     }
     
     /**
@@ -1071,7 +1123,13 @@ public interface $pattern<P, $P extends $pattern>{
             _type _t = (_type)_j; //only possible
             return selectFirstIn(_t.ast());
         }
-        return selectFirstIn( ((_node)_j).ast() );
+        if( _j instanceof _node) {
+            return selectFirstIn(((_node) _j).ast());
+        }
+        if( _j instanceof _body ){
+            return selectFirstIn(((_body) _j).ast());
+        }
+        throw new _jdraftException("Not implemented for type "+_j.getClass() );
     }
 
     /**
@@ -1272,7 +1330,14 @@ public interface $pattern<P, $P extends $pattern>{
             _type _t = (_type)_j; //only possible
             return listIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listIn( ((_node)_j).ast() );
+        if( _j instanceof _node) {
+            return listIn(((_node) _j).ast() );
+        }
+        if( _j instanceof _body ){
+            return listIn(((_body) _j).ast() );
+        }
+        throw new _jdraftException("Not implemented for type "+_j.getClass() );
+        //return listIn( ((_node)_j).ast() );
     }
 
     default Stream<P> streamIn(_draft _j) {
@@ -1294,7 +1359,14 @@ public interface $pattern<P, $P extends $pattern>{
             _type _t = (_type)_j; //only possible
             return listIn(_t.ast(), nodeMatchFn); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listIn(((_node)_j).ast(),nodeMatchFn);
+        if( _j instanceof _node) {
+            return listIn(((_node) _j).ast(), nodeMatchFn);
+        }
+        if( _j instanceof _body ){
+            return listIn(((_body) _j).ast(), nodeMatchFn);
+        }
+        throw new _jdraftException("Not implemented for type "+_j.getClass() );
+        //return listIn(((_node)_j).ast(),nodeMatchFn);
     }
 
     default Stream<P> streamIn(_draft _j, Predicate<P>nodeMatchFn){
@@ -1410,7 +1482,14 @@ public interface $pattern<P, $P extends $pattern>{
             _type _t = (_type)_j; //only possible
             return listSelectedIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listSelectedIn( ((_node)_j).ast());
+        if( _j instanceof _node) {
+            return listSelectedIn(((_node) _j).ast());
+        }
+        if( _j instanceof _body ){
+            return listSelectedIn(((_body) _j).ast() );
+        }
+        throw new _jdraftException("Not implemented for type "+_j.getClass() );
+        //return listSelectedIn( ((_node)_j).ast());
     }
     
     /**
@@ -1519,8 +1598,15 @@ public interface $pattern<P, $P extends $pattern>{
             forEachIn(_t.ast(), nodeMatchFn, nodeActionFn); //return the TypeDeclaration, not the CompilationUnit
             return _j;
         }
-        forEachIn(((_node) _j).ast(), nodeMatchFn, nodeActionFn);
-        return _j;
+        if( _j instanceof _node) {
+            forEachIn(((_node) _j).ast(), nodeMatchFn, nodeActionFn);
+            return _j;
+        }
+        if( _j instanceof _body ){
+            forEachIn(((_body) _j).ast(), nodeMatchFn, nodeActionFn);
+            return _j;
+        }
+        throw new _jdraftException("Not implemented for type "+_j.getClass() );
     }
     
     /**

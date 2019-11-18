@@ -398,7 +398,12 @@ public class $node implements $pattern<Node, $node>, $body.$part, $method.$part,
         replaceIn( ((_node) _j).ast(), replacement);
         return _j;
     }
-    
+
+    public <_CP extends _code._provider> _CP replaceIn( _CP codeProvider, String replacement ){
+        codeProvider.for_code( c-> replaceIn(c, replacement) );
+        return codeProvider;
+    }
+
     /**
      * 
      * @param <N>
