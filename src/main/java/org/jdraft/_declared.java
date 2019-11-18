@@ -1,9 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
-import org.jdraft.text.Text;
 
 /**
  * A {@link _member} defined within a {@link _type} (that is callable/referenceable/reachable) from the outside
@@ -17,7 +15,7 @@ import org.jdraft.text.Text;
  * <LI>{@link _field} {@link com.github.javaparser.ast.body.FieldDeclaration}
  * <LI>{@link _constructor} {@link com.github.javaparser.ast.body.ConstructorDeclaration}
  * <LI>{@link _method} {@link com.github.javaparser.ast.body.MethodDeclaration}
- * <LI>{@link _enum._constant} {@link com.github.javaparser.ast.body.EnumConstantDeclaration}
+ * <LI>{@link _constant} {@link com.github.javaparser.ast.body.EnumConstantDeclaration}
  * <LI>{@link _annotation._element} {@link com.github.javaparser.ast.body.AnnotationMemberDeclaration}
  * <LI>{@link _type} {@link com.github.javaparser.ast.body.TypeDeclaration}
  * <LI>{@link _class} {@link com.github.javaparser.ast.body.ClassOrInterfaceDeclaration}
@@ -54,6 +52,7 @@ public interface _declared<N extends Node, _D extends _node & _named & _anno._ha
         return ((NodeWithJavadoc) this.ast()).getJavadoc().isPresent();
     }
 
+    /*
     @Override
     default _D javadoc(String... content) {
         ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
@@ -65,4 +64,5 @@ public interface _declared<N extends Node, _D extends _node & _named & _anno._ha
         ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
         return (_D) this;
     }
+     */
 }

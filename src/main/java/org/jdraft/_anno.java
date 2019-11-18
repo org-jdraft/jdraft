@@ -29,7 +29,7 @@ import com.github.javaparser.ast.type.Type;
  * <LI>{@link _annotation} i.e. @Deprecated @interface A{...}
  * <LI>{@link _field} i.e. @nonnull String NAME;
  * <LI>{@link _method} i.e. @Deprecated String toString(){...}
- * <LI>{@link _enum._constant} @Deprecated E(2)
+ * <LI>{@link _constant} @Deprecated E(2)
  * <LI>{@link _parameter} (@nonNull Object VALUE)
  * </UL>
  * <PRE>{@code
@@ -811,7 +811,7 @@ public final class _anno
      * {@link _constructor}
      * {@link _parameter}
      * {@link _annotation._element}
-     * {@link _enum._constant}
+     * {@link _constant}
      * </UL>
      *
      * @author Eric

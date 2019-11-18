@@ -10,8 +10,10 @@ import java.util.stream.Collectors;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
+import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
+import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
 import com.github.javaparser.ast.type.Type;
 
 import com.github.javaparser.utils.Log;
@@ -298,6 +300,18 @@ public final class _annotation
             return this.ast().findCompilationUnit().get();
         }
         return null;
+    }
+
+    @Override
+    public _annotation javadoc(String... content) {
+        ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
+        return this;
+    }
+
+    @Override
+    public _annotation javadoc(JavadocComment astJavadocComment) {
+        ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
+        return this;
     }
 
     @Override
@@ -631,6 +645,18 @@ public final class _annotation
         @Override
         public _element type( Type t){
             this.astAnnMember.setType( t );
+            return this;
+        }
+
+        @Override
+        public _element javadoc(String... content) {
+            ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
+            return this;
+        }
+
+        @Override
+        public _element javadoc(JavadocComment astJavadocComment) {
+            ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
             return this;
         }
 

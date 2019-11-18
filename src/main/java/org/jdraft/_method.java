@@ -7,8 +7,10 @@ import java.util.stream.Collectors;
 
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
+import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
+import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.*;
 
@@ -180,6 +182,18 @@ public final class _method
         return of(signature);
     }
      */
+
+    @Override
+    public _method javadoc(String... content) {
+        ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
+        return this;
+    }
+
+    @Override
+    public _method javadoc(JavadocComment astJavadocComment) {
+        ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
+        return this;
+    }
 
     public static _method of(MethodDeclaration methodDecl) {
         return new _method(methodDecl);

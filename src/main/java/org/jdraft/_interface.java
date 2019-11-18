@@ -3,7 +3,9 @@ package org.jdraft;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
+import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
+import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
 import com.github.javaparser.ast.type.*;
 import org.jdraft.io._in;
 import org.jdraft.macro.macro;
@@ -203,6 +205,18 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
             return this.astInterface.findCompilationUnit().get();
         }
         return null; //its an orphan
+    }
+
+    @Override
+    public _interface javadoc(String... content) {
+        ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
+        return this;
+    }
+
+    @Override
+    public _interface javadoc(JavadocComment astJavadocComment) {
+        ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
+        return this;
     }
 
     @Override

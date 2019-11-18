@@ -3,8 +3,10 @@ package org.jdraft;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
+import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
+import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.jdraft.io._in;
 import org.jdraft.macro.macro;
@@ -233,7 +235,19 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
     public boolean is(EnumDeclaration ed){
         return of(ed).equals(this);
     }
-    
+
+    @Override
+    public _enum javadoc(String... content) {
+        ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
+        return this;
+    }
+
+    @Override
+    public _enum javadoc(JavadocComment astJavadocComment) {
+        ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
+        return this;
+    }
+
     @Override
     public CompilationUnit astCompilationUnit(){
         //it might be a member class

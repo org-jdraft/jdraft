@@ -3,8 +3,10 @@ package org.jdraft;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.*;
+import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 //import com.github.javaparser.ast.nodeTypes.NodeWithConstructors;
+import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
 
@@ -212,6 +214,18 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
     @Override
     public _constructor name( String name ) {
         this.astCtor.setName( name );
+        return this;
+    }
+
+    @Override
+    public _constructor javadoc(String... content) {
+        ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
+        return this;
+    }
+
+    @Override
+    public _constructor javadoc(JavadocComment astJavadocComment) {
+        ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
         return this;
     }
 

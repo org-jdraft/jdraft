@@ -6,7 +6,9 @@ import java.util.function.*;
 
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
+import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
+import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
 import org.jdraft._java.*;
@@ -389,6 +391,18 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     public _class implement( Class clazz ){
         imports(clazz);
         return implement( new Class[]{clazz} );
+    }
+
+    @Override
+    public _class javadoc(String... content) {
+        ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
+        return this;
+    }
+
+    @Override
+    public _class javadoc(JavadocComment astJavadocComment) {
+        ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
+        return this;
     }
 
     /**

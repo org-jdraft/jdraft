@@ -5,7 +5,10 @@ import com.github.javaparser.ast.body.EnumConstantDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
+import org.jdraft.text.Text;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -236,6 +239,19 @@ public class _constant implements _javadoc._hasJavadoc<_constant>,
     @Override
     public _annos getAnnos() {
         return _annos.of(this.astConstant );
+    }
+
+
+    @Override
+    public _constant javadoc(String... content) {
+        ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
+        return this;
+    }
+
+    @Override
+    public _constant javadoc(JavadocComment astJavadocComment) {
+        ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
+        return this;
     }
 
     @Override
