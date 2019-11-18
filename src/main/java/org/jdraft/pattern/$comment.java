@@ -393,6 +393,13 @@ public class $comment <C extends Comment>
                 });
             }
         });
+        if( node.getComment().isPresent() ){
+            if( matches( node.getComment().get() ) ){
+                targetToReplacement.forEach((t, r)-> {
+                    findAndReplace(node.getComment().get(), t, r);
+                });
+            }
+        }
         return node;
     }
 
@@ -403,8 +410,8 @@ public class $comment <C extends Comment>
      */
     public static void findAndReplace( Comment comment, String target, String replacement ){
          String content = comment.getContent();
-         content.replace(target, replacement);
-         comment.setContent(content);
+         String replaced = content.replace(target, replacement);
+         comment.setContent(replaced);
     }
 
     /**

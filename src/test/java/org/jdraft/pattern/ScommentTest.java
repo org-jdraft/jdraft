@@ -10,6 +10,26 @@ import org.jdraft._class;
  */
 public class ScommentTest extends TestCase {
 
+    public void testFindAndReplace(){
+        /**
+         * javadoc aeiou
+         */
+        class Local{
+            /* aeiou */
+            public int f;
+            public void m(){
+                //line comment aeiou
+
+                //line comment aeiou attached
+                assert(1==1);
+            }
+        }
+
+        _class _c = $comment.of().findAndReplace(Local.class,"aeiou", "i before e accept after c");
+
+        //verify we made (4) changes above
+        assertEquals(4, $comment.of("i before e accept after c").count(_c) );
+    }
 
     public void testStmtComment(){
 
