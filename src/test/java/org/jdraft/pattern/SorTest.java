@@ -2,8 +2,7 @@ package org.jdraft.pattern;
 
 import junit.framework.TestCase;
 import org.jdraft._class;
-import org.jdraft._code;
-import org.jdraft.io._cache;
+import org.jdraft.io._source;
 
 import java.util.Map;
 
@@ -40,7 +39,7 @@ public class SorTest extends TestCase {
         _c.extend("android.app.Service");
         assertEquals(_c, $ANDROID_CLASS.select(_c).selected);
 
-        _cache _cc = _cache.of(
+        _source _cc = _source.of(
                 _class.of("A").extend("Activity").imports("android.app.Activity"),
                 _class.of("F").extend("Fragment").imports("android.app.Fragment"),
                 _class.of("F2").extend("Fragment").imports("android.support.v4.app.Fragment"),
@@ -50,7 +49,7 @@ public class SorTest extends TestCase {
         assertEquals(4, $ANDROID_CLASS.count(_cc));
         assertEquals(4, $C.count(_cc));
 
-        _cc = _cache.of(
+        _cc = _source.of(
                 _class.of("A").extend("android.app.Activity"),
                 _class.of("F").extend("android.app.Fragment"),
                 _class.of("F2").extend("android.support.v4.app.Fragment"),

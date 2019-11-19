@@ -2,9 +2,8 @@ package test.othertools;
 
 import junit.framework.TestCase;
 import org.jdraft._class;
-import org.jdraft._code;
 import org.jdraft._method;
-import org.jdraft.io._cache;
+import org.jdraft.io._source;
 import org.jdraft.pattern.*;
 
 /**
@@ -37,7 +36,7 @@ public class GoogleErrorProneAndroidInjectBeforeSuper_PartsTest extends TestCase
         assertTrue( $ANDROID_CLASS.matches(_class.of("C").extend("android.app.Service") ) );
 
         /** this test will verify classes can extend the class SimpleName */
-        _cache _cc = _cache.of(
+        _source _cc = _source.of(
                 _class.of("A").extend("Activity").imports("android.app.Activity"),
                 _class.of("F").extend("Fragment").imports("android.app.Fragment"),
                 _class.of("F2").extend("Fragment").imports("android.support.v4.app.Fragment"),
@@ -117,7 +116,7 @@ public class GoogleErrorProneAndroidInjectBeforeSuper_PartsTest extends TestCase
     );
 
     /** Heres all the examples we EXPECT to fail */
-    static _cache FAILURES = _cache.of(
+    static _source FAILURES = _source.of(
             _FAIL_InjectBeforeSuperActivity, _FAIL_InFragment, _FAIL_InjBeforeSuperInBetween, _FAIL_InjectBeforeSuperOnAttach);
 
     /** $pattern match for the onCreate Method for Android */
@@ -181,7 +180,7 @@ public class GoogleErrorProneAndroidInjectBeforeSuper_PartsTest extends TestCase
 
         // lets copy of the .java source, adding the @Suppress... annotations to each method
         // then retesting and verifying there are no matches
-        _cache SUPPRESS_ANNO = FAILURES.copy();
+        _source SUPPRESS_ANNO = FAILURES.copy();
         SUPPRESS_ANNO.for_types(_t -> _t.forMembers(_method.class, _m -> ((_method)_m).anno($SUPPRESS_WARNING_ANNO.draft())) );
         //assertEquals(4, $SUPPRESS_WARNING_ANNO.count(SUPPRESS_ANNO));
         assertEquals(4, $method.of($SUPPRESS_WARNING_ANNO).count(SUPPRESS_ANNO)); //all (4) methods have the suppress anno

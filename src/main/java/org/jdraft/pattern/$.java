@@ -298,6 +298,15 @@ public final class $ {
         return $comment.blockComment(commentPattern, commentPredicate);
     }
 
+    /**
+     * Pattern match ANY node that has equal text
+     * @param nodeText
+     * @return
+     */
+    public static $node any( String nodeText ){
+        return $node.of(nodeText);
+    }
+
     public static $ex ex(){
         return $ex.of();
     }

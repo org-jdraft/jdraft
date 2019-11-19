@@ -4,7 +4,6 @@ import com.github.javaparser.ast.body.TypeDeclaration;
 import org.jdraft.Ast;
 import org.jdraft._class;
 import junit.framework.TestCase;
-import org.jdraft._code;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +20,7 @@ import java.util.List;
 public class _ioTest extends TestCase {
 
     public void testWriteCodeProvider(){
-        _cache _cc = _cache.of(_class.of("BasePackage"), _class.of("aaaa.bbbb.SubPackage") );
+        _source _cc = _source.of(_class.of("BasePackage"), _class.of("aaaa.bbbb.SubPackage") );
         List<Path> paths = _io.out("C:\\temp", _cc);
         assertEquals( 2, paths.size());
         assertTrue(paths.contains(Paths.get("C:\\temp\\BasePackage.java")));

@@ -52,7 +52,7 @@ public interface _declared<N extends Node, _D extends _node & _named & _anno._ha
         return ((NodeWithJavadoc) this.ast()).getJavadoc().isPresent();
     }
 
-    /*
+    /* this was causing problems with generics
     @Override
     default _D javadoc(String... content) {
         ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));

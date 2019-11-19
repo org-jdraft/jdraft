@@ -5,8 +5,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import junit.framework.TestCase;
 import org.jdraft.*;
-import org.jdraft.io._archive;
-import org.jdraft.io._cache;
+import org.jdraft.io._source;
 import org.jdraft.io._io;
 import org.jdraft.macro._static;
 import org.jdraft.pattern.$;
@@ -24,7 +23,7 @@ import java.util.stream.Collectors;
 public class EclipseJDTTest extends TestCase {
 
     //read in/parse and cache some source code from a .jar file
-    public static _cache _cc = _cache.of("C:\\Users\\Eric\\Downloads\\spring-core-5.1.9.RELEASE-sources.jar");
+    public static _source _cc = _source.of("C:\\Users\\Eric\\Downloads\\spring-core-5.1.9.RELEASE-sources.jar");
             //_archive.of("C:\\Users\\Eric\\Downloads\\spring-core-5.1.9.RELEASE-sources.jar"));
 
     public void testReadAllPackagesAndMethods(){

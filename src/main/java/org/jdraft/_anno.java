@@ -62,7 +62,7 @@ public final class _anno
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         ObjectCreationExpr oce = Ex.newEx(ste);
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
-        BodyDeclaration bd = bds.stream().filter(b -> b.getAnnotations().isNonEmpty() ).findFirst().get();
+        BodyDeclaration<?> bd = bds.stream().filter(b -> b.getAnnotations().isNonEmpty() ).findFirst().get();
         return of( bd.getAnnotation(0) );
     }
 
@@ -152,7 +152,7 @@ public final class _anno
         return this.astAnno.getName().asString().equals( name );
     }
 
-    public boolean isInstance( Class clazz ) {
+    public boolean isInstance( Class<?> clazz ) {
         String str = this.astAnno.getNameAsString();
         return str.equals( clazz.getCanonicalName() ) || str.equals( clazz.getSimpleName() );
     }
@@ -189,7 +189,7 @@ public final class _anno
      * @return
      */
     public Map<String, Expression> getKeyValuesMap(){
-        Map<String, Expression> keyValuesMap = new HashMap();
+        Map<String, Expression> keyValuesMap = new HashMap<>();
         if( this.astAnno instanceof MarkerAnnotationExpr ){
             return keyValuesMap;
         }

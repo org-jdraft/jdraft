@@ -525,6 +525,11 @@ public interface _code<_C> extends _draft, _java._componentized {
      */
     interface _provider extends _draft {
 
+        /*
+        <_CC extends _code> _CC first(Class<_CC> codeClass, Predicate<_CC> _codeMatchFn);
+        <_CC extends _code> _CC first(Class<_CC> codeClass, Predicate<_CC> _codeMatchFn, Consumer<_CC> _codeActionFn);
+        */
+
         /**
          *
          * @param codeClass
@@ -598,6 +603,54 @@ public interface _code<_C> extends _draft, _java._componentized {
             List<_C> found = new ArrayList<>();
             for_code(_codeClass, _codeMatchFn, t-> found.add(t));
             return found;
+        }
+
+        default _class get_class(String name){
+            List<_class> _cs = list_types(_class.class, c-> c.getFullName().equals(name));
+            if(!_cs.isEmpty()){
+                return _cs.get(0);
+            }
+            _cs = list_types(_class.class, c-> c.getName().equals(name));
+            if(!_cs.isEmpty()){
+                return _cs.get(0);
+            }
+            return null;
+        }
+
+        default _enum get_enum(String name){
+            List<_enum> _es = list_types(_enum.class, e-> e.getFullName().equals(name));
+            if(!_es.isEmpty()){
+                return _es.get(0);
+            }
+            _es = list_types(_enum.class, c-> c.getName().equals(name));
+            if(!_es.isEmpty()){
+                return _es.get(0);
+            }
+            return null;
+        }
+
+        default _interface get_interface(String name){
+            List<_interface> _es = list_types(_interface.class, e-> e.getFullName().equals(name));
+            if(!_es.isEmpty()){
+                return _es.get(0);
+            }
+            _es = list_types(_interface.class, c-> c.getName().equals(name));
+            if(!_es.isEmpty()){
+                return _es.get(0);
+            }
+            return null;
+        }
+
+        default _annotation get_annotation(String name){
+            List<_annotation> _es = list_types(_annotation.class, e-> e.getFullName().equals(name));
+            if(!_es.isEmpty()){
+                return _es.get(0);
+            }
+            _es = list_types(_annotation.class, c-> c.getName().equals(name));
+            if(!_es.isEmpty()){
+                return _es.get(0);
+            }
+            return null;
         }
 
         /**

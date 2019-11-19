@@ -15,7 +15,7 @@ import java.util.function.*;
 import org.jdraft.*;
 import org.jdraft.Ex.QuadConsumer;
 import org.jdraft.Ex.TriConsumer;
-import org.jdraft.io._cache;
+import org.jdraft.io._source;
 import org.jdraft.text.*;
 
 /**
@@ -1595,12 +1595,12 @@ public class $stmt<T extends Statement>
         return (_CT)commentOut( _class.of(clazz), REPLACE_WITH_EMPTY_STMT_COMMENT);
     }
 
-    public _cache commentOut(_code._provider _codeProvider){
+    public _source commentOut(_code._provider _codeProvider){
         return commentOut(_codeProvider, REPLACE_WITH_EMPTY_STMT_COMMENT);
     }
 
-    public _cache commentOut( _code._provider _codeProvider, Consumer<Statement> commenter){
-        _cache cc = _cache.of(_codeProvider);
+    public _source commentOut(_code._provider _codeProvider, Consumer<Statement> commenter){
+        _source cc = _source.of(_codeProvider);
         forEachIn(cc, n-> commenter.accept(n));
         return cc;
     }
