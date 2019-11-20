@@ -45,13 +45,21 @@ public @interface _autoConstructor {
             to(node);
         }
 
-        public static <_T extends TypeDeclaration> _T to(_T node ){
-            if( node instanceof EnumDeclaration || ( node instanceof ClassOrInterfaceDeclaration && !((ClassOrInterfaceDeclaration)node).isInterface() )){
-                TypeDeclaration td = (TypeDeclaration)node;
+        /**
+         * given a typeDeclaration, builds the appropriate default constructor add it to the typeDeclaration
+         * and return the generated _constructor
+         *
+         * @param typeDeclaration
+         * @param <T>
+         * @return
+         */
+        public static<T extends TypeDeclaration> _constructor auto(T typeDeclaration){
+            if( typeDeclaration instanceof EnumDeclaration || ( typeDeclaration instanceof ClassOrInterfaceDeclaration && !((ClassOrInterfaceDeclaration)typeDeclaration).isInterface() )){
+                TypeDeclaration td = (TypeDeclaration)typeDeclaration;
                 List<_field> _fs = _field.of( td.getFields() );
                 _fs = _fs.stream().filter( CTOR_REQUIRED_FIELD ).collect(Collectors.toList());
                 ConstructorDeclaration cd = null;
-                if (node instanceof ClassOrInterfaceDeclaration && !((ClassOrInterfaceDeclaration)node).isInterface()) {
+                if (typeDeclaration instanceof ClassOrInterfaceDeclaration && !((ClassOrInterfaceDeclaration)typeDeclaration).isInterface()) {
                     cd = td.addConstructor(Modifier.Keyword.PUBLIC);
                 } else{
                     cd = td.addConstructor();
@@ -61,11 +69,22 @@ public @interface _autoConstructor {
                     _ct.addParameter(f.getType(), f.getName());
                     _ct.add("this." + f.getName() + " = " + f.getName() + ";");
                 });
-                return node;
+                return _ct;
             }
             else{
-                throw new _jdraftException( "cannot add a constructor ");
+                throw new _jdraftException( "cannot add a constructor to type "+typeDeclaration);
             }
+        }
+
+        /**
+         * Create the constructor on the typeDeclaration and return the modified typeDeclaration
+         * @param typeDeclaration the typeDeclaration to create the constructor for
+         * @param <T> the type
+         * @return the modified type (containing the newly minted constructor)
+         */
+        public static <T extends TypeDeclaration> T to(T typeDeclaration ){
+            auto(typeDeclaration);
+            return typeDeclaration;
         }
 
         @Override
