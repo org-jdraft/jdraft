@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Template composing and representing a Structured String
+ * Template composing or parsing a Structured String
  *
  * Compiles text (from markup) that has "named" blanks ($Names) that can be
  * filled (via key-values) or direct fill(in-lining).
@@ -38,6 +38,9 @@ import java.util.regex.Pattern;
  * We would like to keep our customers happy, so if you have any questions
  * or comments, please contact Ted Fergeson at ted@mywidget.com
  * </PRE>
+ * @see TextForm
+ * @see Template
+ *
  *
  * @author Eric
  */
@@ -66,7 +69,7 @@ public final class Stencil implements Template<String>{
      * returns a unique list of "normalized" $Names in the order
      * in which they occur within the Stencil (NO DUPLICATES)
      *
-     * @return
+     * @return a list of "Normalized" $ names (i.e. "Name" is converted to "name")
      */
     @Override
     public List<String> list$Normalized() {
@@ -111,7 +114,7 @@ public final class Stencil implements Template<String>{
      * (NOTE: contains possible duplicates and non_normalized params
      * (i.e. "Name" rather than "NAME")
      *
-     * @return
+     * @return a list of all (NON-NORMALIZED i.e. $name =/= $Name) $ parameter names
      */
     @Override
     public List<String> list$() {
@@ -129,7 +132,7 @@ public final class Stencil implements Template<String>{
     
     /**
      *
-     * @param code
+     * @param code an array of individual lines of text that will be "stencil-ized"
      * @return the composite stencil
      */
     public static Stencil of( Object... code ) {
@@ -147,7 +150,7 @@ public final class Stencil implements Template<String>{
      * Combine many stencils together (end to end) and return a single Stencil
      *
      * @param stencils one or more stencils
-     * @return the uber Stencil
+     * @return the uber-Stencil
      */
     public static Stencil of( Stencil... stencils ) {
 
@@ -170,8 +173,8 @@ public final class Stencil implements Template<String>{
      *
      * r = Stencil.of("public void set$name$( int $name$){ this.$name$ = $name$;}");
      *
-     * @param old$Name the old parameter NAME
-     * @param new$Name the new parameter NAME
+     * @param old$Name the old $ parameter name
+     * @param new$Name the new $ parameter name
      * @return a ** NEW ** Stencil instance with the PARAMETERS renamed
      */
     public Stencil rename$( String old$Name, String new$Name ) {
@@ -201,9 +204,9 @@ public final class Stencil implements Template<String>{
     }
 
     /**
-     * Internal A way to normalize the $names
-     * @param $name
-     * @return 
+     * Internal way to normalize the $ names
+     * @param $name the $name (parameter name)
+     * @return the normalized String representing a unique $ variable
      */
     private static String normalize$( String $name ) {
         if( $name.toUpperCase().equals( $name ) ) {
@@ -274,7 +277,7 @@ public final class Stencil implements Template<String>{
      * ..where we parameterized the vowels...
      * Note: duplicate values will be parameterized
      * </PRE>
-     * @param targetAndName
+     * @param targetAndName the target name AND the $Name (param name) of the variable
      * @return a ** NEW ** Stencil instance with the target parameterized
      */
     public Stencil $( String targetAndName ) {

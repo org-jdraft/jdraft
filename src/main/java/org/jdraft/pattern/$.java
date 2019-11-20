@@ -303,8 +303,8 @@ public final class $ {
      * @param nodeText
      * @return
      */
-    public static $node any( String nodeText ){
-        return $node.of(nodeText);
+    public static $token token(String nodeText ){
+        return $token.of(nodeText);
     }
 
     public static $ex ex(){

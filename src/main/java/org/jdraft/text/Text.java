@@ -131,7 +131,7 @@ public final class Text {
      */
     public static List<String> lines( String string ) {
         if( string == null ) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
         BufferedReader br = new BufferedReader(
                 new StringReader( string ) );

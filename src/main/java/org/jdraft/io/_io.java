@@ -3,6 +3,8 @@ package org.jdraft.io;
 import org.jdraft.text.Text;
 import org.jdraft._code;
 import org.jdraft._type;
+
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
@@ -442,6 +444,19 @@ public class _io{
      * @see #getOutDir()
      */
     public static final String OUT_RESOURCES_DIR = "draft.java.io.OutResourcesDir";
+
+    public static boolean deleteDirectoryRecursive(String pathToBeDeleted) throws IOException {
+        return deleteDirectoryRecursive(Paths.get( pathToBeDeleted));
+    }
+
+    public static boolean deleteDirectoryRecursive(Path pathToBeDeleted)
+            throws IOException {
+        Files.walk(pathToBeDeleted)
+                .sorted(Comparator.reverseOrder())
+                .map(Path::toFile)
+                .forEach(File::delete);
+        return !Files.exists(pathToBeDeleted);
+    }
 
     /**
      * Gets the root directory where .java files are configured to he written to

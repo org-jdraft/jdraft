@@ -24,12 +24,12 @@ import java.util.regex.Pattern;
  *
  * <H3>Usage Example:</H3><BR>
  * <PRE><CODE>
- * TextBlanks s = TextBlanks.of( null, null, null, null, null ); //5 blanks
+ * TextForm s = TextForm.of( null, null, null, null, null ); //5 blanks
  * System.out.println ( s.fill("A", "B", "C", "D", "E") ); //produces "ABCDE"
  * System.out.println ( s.fill(" ", " ", " ", " ", " ") ); //produces "     "
  * System.out.println ( s.fill("Don't ", "disturb ", "the ", "man ", "outside") );
  * //produces "Don't disturb the man outside"
- * TextBlanks c2 = TextBlanks.of( "four score and ", null, " years ago");
+ * TextForm c2 = TextForm.of( "four score and ", null, " years ago");
  *
  * System.out.println(c2.fill("seven"));//"four score and seven years ago"
  * System.out.println(c2.fill("7")); //"four score and 7 years ago"

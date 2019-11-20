@@ -29,12 +29,13 @@ import org.jdraft.text.Translator;
 public class $node implements $pattern<Node, $node>, $body.$part, $method.$part, $constructor.$part {
 
     /**
-     * 
+     * NOTE: this explicitly adds a $not constraint for specific Node types
      * @param pattern
      * @return 
      */
     public static $node of( String pattern ){
-        return new $node( pattern );
+        //if you do this...
+        return new $node( pattern ); //.$not(CompilationUnit.class);
     }
     
     /**
@@ -155,6 +156,13 @@ public class $node implements $pattern<Node, $node>, $body.$part, $method.$part,
             return match( ((_node)_j).ast());
         }
         return false;
+    }
+
+    public $node $not( Class...clazz ){
+        Set<Class> nodeClasses = new HashSet<>();
+        Arrays.stream(clazz).forEach( c -> nodeClasses.add(c));
+        Predicate<Node> constr = (n)-> nodeClasses.stream().anyMatch( nc-> nc.isAssignableFrom(n.getClass()));
+        return $not(constr);
     }
 
     /**
