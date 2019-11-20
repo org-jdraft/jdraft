@@ -5,6 +5,7 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
+import com.github.javaparser.ast.type.Type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,6 +127,16 @@ public final class _parameters
      */
     public NodeList<Parameter> ast() {
         return astNodeWithParams.getParameters();
+    }
+
+    /**
+     * Returns the Parameter names as a List of String names
+     * @return
+     */
+    public List<String> names(){
+        List<String> names = new ArrayList();
+        this.astNodeWithParams.getParameters().forEach( (p) -> names.add( ((Parameter)p).getNameAsString()));
+        return names;
     }
 
     /**
