@@ -2,11 +2,20 @@ package org.jdraft;
 
 import junit.framework.TestCase;
 
+import java.util.List;
+
 /**
  *
  * @author Eric
  */
 public class _parametersTest extends TestCase {
+
+    public void testNames(){
+        _parameters _ps = _parameters.of( (Object a, Object b)->{} );
+        List<String> names = _ps.names();
+        assertEquals( "a", names.get(0) );
+        assertEquals( "b", names.get(1) );
+    }
 
     public void testRemove(){
         _parameters _ps = _parameters.of( "int a", "String name", "Map m");
