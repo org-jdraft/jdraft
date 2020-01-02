@@ -421,12 +421,12 @@ public class $comment <C extends Comment>
      */
     public Select select( Comment astComment ){
         if(! this.commentClasses.contains(astComment.getClass())){
-            System.out.println( "Coment"+ astComment+ " "+astComment.isJavadocComment()+ " "+astComment.getClass());
+            //System.out.println( "Coment"+ astComment+ " "+astComment.isJavadocComment()+ " "+astComment.getClass());
             //System.out.println( "not correct comment class"+ this.commentClasses+" "+ astComment.getClass());
             return null;
         }
         if( !this.constraint.test( (C)astComment) ){
-            System.out.println( "failed constraint");
+            //System.out.println( "failed constraint");
             return null;
         }
 

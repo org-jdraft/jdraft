@@ -529,16 +529,16 @@ public final class Stencil implements Template<String>{
         /** MED: Im adding defaults for Embeds */
         Map<String,Object> combinedParams = new HashMap<>();
 
-        System.out.println( "EMBEDS "+ this.embeds);
+        //System.out.println( "EMBEDS "+ this.embeds);
 
         this.listEmbeds().forEach(e -> {
-            System.out.println("   EMBED " + e );
+            //System.out.println("   EMBED " + e );
             if( combinedParams.get(e.name) == null){
                 combinedParams.put(e.name, "");
             }
         });
         combinedParams.putAll($nameValues);
-        System.out.println( this );
+        //System.out.println( this );
         Object[] fills = inline( translator, $Names, embeds, combinedParams );
         return this.textForm.fill( fills );
     }
@@ -559,10 +559,10 @@ public final class Stencil implements Template<String>{
             Object val = $nameValues.get( p );
 
             //is the p(parameter) referring to an embed (or just a flat value?)
-            System.out.println("Looking for Embed \""+p+"\" in "+ $nameValues);
+            //System.out.println("Looking for Embed \""+p+"\" in "+ $nameValues);
             Optional<Embed> em = embeds.stream().filter(e-> e.name.equals(p)).findFirst();
             if( em.isPresent() ){
-                System.out.println("Found embed \""+p+"\"");
+                //System.out.println("Found embed \""+p+"\"");
                 String drafted = em.get().draft(val, $nameValues);
                 fills[i] = drafted;
             }
@@ -905,7 +905,7 @@ public final class Stencil implements Template<String>{
             this.name = name;
             this.stencil = stencil;
             this.translatorName = translatorName;
-            System.out.println("trnalsatorName "+translatorName);
+            //System.out.println("trnalsatorName "+translatorName);
         }
 
         public Embed copy(){
@@ -1042,7 +1042,7 @@ public final class Stencil implements Template<String>{
                 }
                 //String st = tok.substring(tok.indexOf(":") + 1, tok.length() -2);
                 String st = stripped.substring(stripped.indexOf(":") + 1 );
-                System.out.println( "Embedded Stencil String \""+st+"\"");
+                //System.out.println( "Embedded Stencil String \""+st+"\"");
                 Stencil stencil = Stencil.of(st);
                 return new Embed(name, stencil, translatorName);
             }
@@ -1138,7 +1138,7 @@ public final class Stencil implements Template<String>{
                     //System.out.println("Embed" + embed );
                     parameters.add( embed.name ); //add a parameter
                     embedded.add(embed); //add to the embedded
-                    System.out.println("EMBED "+ embed);
+                    //System.out.println("EMBED "+ embed);
                     cursor = next +1;
                 }
                 else if( isValidParameter( tok ) ) {
