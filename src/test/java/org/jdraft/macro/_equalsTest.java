@@ -1,6 +1,7 @@
 package org.jdraft.macro;
 
 import org.jdraft.*;
+import org.jdraft.pattern.$method;
 import org.jdraft.runtime.*;
 
 import junit.framework.TestCase;
@@ -26,6 +27,29 @@ public class _equalsTest extends TestCase {
         System.out.println( _class.of(V.class) );
     }
 
+
+    public void testSuperEquals(){
+        /** NOTE: we made this a String (not a lambda, etc.) to improve startup perf */
+        $method $equals = $method.of(
+                "public boolean equals(Object o){",
+                "if(o == null) {",
+                "   return false;",
+                "}",
+                "if(this == o) {",
+                "    return true;",
+                "}",
+                "if(getClass() != o.getClass()){",
+                "    return false;",
+                "}",
+                "$className$ test = ($className$)o;",
+                "boolean eq = true;",
+                "$callSuperEquals: {eq = super.equals( test );}",
+                "$BODY:{}",
+                "return eq;",
+                "}");
+
+        System.out.println( $equals.body.toString() );
+    }
 
     /**
      * Verify that if _2_template a class with _autoEquals

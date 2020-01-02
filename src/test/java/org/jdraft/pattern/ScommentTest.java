@@ -1,8 +1,10 @@
 package org.jdraft.pattern;
 
+import com.github.javaparser.ast.comments.LineComment;
 import org.jdraft.Ast;
 import junit.framework.TestCase;
 import org.jdraft._class;
+import org.jdraft.text.Stencil;
 
 /**
  *
@@ -35,6 +37,14 @@ public class ScommentTest extends TestCase {
 
         $comment STATEMENT_COMMENT = $comment.as("<code>$statement$</code>");
         //exact matches
+        LineComment lc = Ast.lineComment("//<code>assert(1==1)</code>");
+        System.out.println( lc.toString() );
+        System.out.println( STATEMENT_COMMENT.contentsStencil.toString() );
+        assertTrue(Stencil.of("<code>$statement$</code>").matches("<code>assert(1==1)</code>"));
+        assertTrue( STATEMENT_COMMENT.contentsStencil.matches("<code>assert(1==1)</code>"));
+        assertTrue( STATEMENT_COMMENT.contentsStencil.matches(" <code>assert(1==1)</code>"));
+        assertTrue(STATEMENT_COMMENT.matches(lc)); //line comment
+
         assertTrue(STATEMENT_COMMENT.matches("//<code>assert(1==1)</code>")); //line comment
         assertTrue(STATEMENT_COMMENT.matches("/*<code>assert(1==1)</code>*/")); /*block comment */
         assertTrue(STATEMENT_COMMENT.matches("/**<code>assert(1==1)</code>*/")); /** javadoc comment */
@@ -109,6 +119,9 @@ public class ScommentTest extends TestCase {
     public void testMatchAsComments(){
 
         //without providing a comment type... this will match
+        System.out.println( $comment.as("TODO") );
+        assertTrue($comment.as("TODO").contentsStencil.matches( "TODO"));
+        assertTrue($comment.as("TODO").contentsStencil.matches( " TODO"));
         assertTrue($comment.as("TODO").matches("//TODO"));
         assertTrue($comment.as("TODO").matches("/*TODO*/"));
         assertTrue($comment.as("TODO").matches("/**TODO*/"));

@@ -163,6 +163,14 @@ public final class TextForm {
         this.blankIndexes = blankIndexes;
     }
 
+    /**
+     * Return a copy of this TextForm with new mutable references
+     * @return a "clone" but we call it a copy
+     */
+    public TextForm copy(){
+        return new TextForm(this.fixedText.toString(), (BitSet)this.blankIndexes.clone());
+    }
+
     @Override
     public boolean equals( Object o ){
         if( o == null){

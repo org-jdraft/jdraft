@@ -9,9 +9,35 @@ import org.jdraft.runtime.*;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SmethodTest extends TestCase {
+
+    public void testLabeledStatementList(){
+        //$fields: m.put("$name$", $name$);
+        $method $toMap = $method.of( new Object() {
+            public Map<String,Object> toMap(){
+                Map m = new HashMap<>();
+                $fields: System.out.println($fields$);
+                return m;
+            }
+            Object $fields$, $name$;
+        });
+
+        //OK here this should just NOT print
+        _method _m = $toMap.draft();
+        assertEquals(2, _m.listStatements().size());
+
+        _m = $toMap.draft("fields", false);
+        assertEquals(2, _m.listStatements().size());
+
+
+
+        System.out.println(_m);
+        List<_field> _fs = _field.of(Ast.field("int x,y;"));
+    }
 
     public void testMethodAsMatch(){
         $method $m = $method.as(new Object(){
@@ -384,7 +410,7 @@ public class SmethodTest extends TestCase {
         $set.listSelectedIn(_c).get(0).is("type", int.class);
         // call replace with a setFluent prototype
         assertEquals(2, $set.count(_c));
-        System.out.println( $setFleunt.hardcode$("className", "Loc").type );
+        //System.out.println( $setFleunt.hardcode$("className", "Loc").type );
         $set.replaceIn(_c, $setFleunt.hardcode$("className", "Loc") );
 
 

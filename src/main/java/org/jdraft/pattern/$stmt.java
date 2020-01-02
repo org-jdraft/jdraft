@@ -7,6 +7,7 @@ import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.*;
+import com.github.javaparser.printer.PrettyPrintVisitor;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 
 import java.util.*;
@@ -991,7 +992,20 @@ public class $stmt<T extends Statement>
     
     public $stmt( T st ){
         this.statementClass = (Class<T>)st.getClass();
-        this.stmtStencil = Stencil.of( st.toString(NO_COMMENTS) );
+        this.stmtStencil = Stencil.of( st.toString(PRINT_$LABELED_AS_EMBED) );
+        //Hmm, I could just have a specific visitor that transforms
+        // $label: assert($value$);
+        //        TO
+
+        /** New... for Embeds
+        st.walk(LabeledStmt.class, ls-> {
+            String labelName = ls.getLabel().asString();
+            if( labelName.startsWith("$") ){
+                //this is MEANT to be a Stencil.Embed
+                Stencil embedBody = ls.getStatement()
+            }
+        });
+        */
     }
 
     public $stmt<T> $and(Predicate<T> constraint ){
@@ -1808,8 +1822,9 @@ public class $stmt<T extends Statement>
     } 
     
     /**
-     * Walks AST nodes looking for a $labeledStmt, if found will replace
-     * the labeled stmt with a parameter
+     * Walks AST nodes looking for a $labeledStmt,
+     *
+     * if found will replace the labeled stmt with a parameter
      * @param <N>
      * @param node
      * @param tokens
@@ -1843,8 +1858,8 @@ public class $stmt<T extends Statement>
         return node;
     }
     
-    private static Statement labelStmtReplacement(LabeledStmt ls, Map<String,Object> tokens){
-        //System.out.println("Found labeled Statenm " +ls.getLabel() );
+    public static Statement labelStmtReplacement(LabeledStmt ls, Map<String,Object> tokens){
+        System.out.println("Found labeled Statenm " +ls.getLabel() );
         String name = ls.getLabel().asString().substring(1);
         Object value = tokens.get(name);
         
@@ -1928,6 +1943,44 @@ public class $stmt<T extends Statement>
                 return orsel.get();
             }
             return null;
+        }
+    }
+
+
+    public static final PrettyPrinterConfiguration PRINT_$LABELED_AS_EMBED = new PrettyPrinterConfiguration()
+            .setPrintComments(false).setPrintJavadoc(false) //MED ADDED
+            .setVisitorFactory(Print$LabeledStatementsAsStencilEmbed::new);
+
+    public static class Print$LabeledStatementsAsStencilEmbed extends PrettyPrintVisitor {
+        //MAKE THIS A STENCIL??
+        public Predicate<String> labelMatcher = l-> l.startsWith("$");
+
+        public Function<String,String> labelToName = l-> {
+            if( l.startsWith("$") ){
+                return l.substring(1);
+            }
+            return null;
+        };
+
+        public Print$LabeledStatementsAsStencilEmbed(PrettyPrinterConfiguration prettyPrinterConfiguration) {
+            super(prettyPrinterConfiguration);
+        }
+
+        public Print$LabeledStatementsAsStencilEmbed(Function<String,String> labelToName, PrettyPrinterConfiguration prettyPrinterConfiguration) {
+            super(prettyPrinterConfiguration);
+            this.labelToName = labelToName;
+        }
+
+        //convert $label: assert($condition$);
+        //        to
+        //        $$label: assert($condition$);:$$
+        public void visit(LabeledStmt ls, Void arg){
+            String name = labelToName.apply(ls.getLabel().asString());
+            if( name != null ){
+                printer.print("$$"+name+":"+ls.getStatement().toString(Ast.PRINT_NO_COMMENTS)+":$$");
+            } else{
+                super.visit(ls, arg);
+            }
         }
     }
 

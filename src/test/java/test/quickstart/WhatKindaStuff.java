@@ -25,7 +25,7 @@ public class WhatKindaStuff extends TestCase {
         }
     }
 
-    public void testCT(){
+    public void  testCT(){
         // you could do this manually
         // open up an IDE and manually make these changes
 

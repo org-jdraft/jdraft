@@ -1,10 +1,6 @@
 package org.jdraft.text;
 
 import junit.framework.TestCase;
-import org.jdraft.text.Stencil;
-import org.jdraft.text.TextForm;
-import org.jdraft.text.Tokens;
-import org.jdraft.text.Translator;
 
 import java.util.List;
 import java.util.Map;
@@ -18,6 +14,72 @@ import java.util.regex.Pattern;
 public class StencilTest
         extends TestCase {
 
+
+    public void testEm(){
+        Stencil em = Stencil.of( "$$a:   some text  :a[,;]$$");
+        List<Stencil.Embed> emb = em.listEmbeds();
+        assertEquals(1, emb.size() );
+        Stencil.Embed e = emb.get(0);
+        assertEquals( "$$a:   some text  :a[,;]$$", e.toString());
+        assertEquals(",;", e.translatorName);
+        assertEquals("a", e.name);
+        assertEquals( "   some text  ", e.stencil.toString());
+
+        em = Stencil.of( "$$a:   some text  :a$$");
+        String drafted = em.draft("a", true);
+        System.out.println( drafted );
+        assertEquals("   some text  ", drafted);
+        System.out.println( emb );
+
+         drafted = em.draft();
+        assertEquals("", drafted);
+    }
+    public void testEmbedded(){
+        //change this to make leading and trailing whitespace matter (no trimming)
+        //look for:
+        // :a$$      symmetrical
+        // :a[any]$$ symmetrical w/ loopformat
+        // :[any]$$
+        // :$$
+        String [] same = { //because whitespace matters
+                "$$a:  some $Param$ text  :$$",   //simple normal (trailing whitespace matters)
+                "$$a:  some $Param$ text  :a$$",  //symmetrical w/ optional "closing tag" for nested
+                "$$a:  some $Param$ text  :[', ',';\n']$$", //between & after repeat format translator to pass into
+                "$$a:  some $Param$ text  :a[', ',';\n']$$", //symmetrical w/optional "closing tag" and translator name
+        };
+        String[] equivalentStencils = {
+                "$$a:some text$$",
+                "$$a:some text $$",
+                "$$a:some text:a$$",
+                "$$a:some text:a$$",
+                "$$a:some text:[,;]$$",
+        };
+
+        Stencil em = Stencil.of( "$$a:some text :$$");
+        em = Stencil.of( "$$a:some text :a$$");
+        assertTrue( em.list$().contains("a") );
+        em = Stencil.of( "$$a:some text :a$$");
+        assertTrue( em.list$().contains("a") );
+        em = Stencil.of( "$$a:some text :a[,;]$$");
+        assertTrue( em.list$().contains("a") );
+        assertEquals("$$a:some text :a[,;]$$",em.toString() );
+        List<Stencil.Embed> ses = em.listEmbeds();
+        assertEquals( 1, ses.size());
+        Stencil.Embed sem = em.getEmbed("a");
+
+
+        System.out.println( em.draft("a", true, ",;", Translator.DEFAULT_TRANSLATOR) );
+    }
+
+    public void testHardcode$(){
+        Stencil s = Stencil.of("$a$");
+        s = s.hardcode$("a", "A");
+        System.out.println(s );
+    }
+    public void testStNoTrim(){
+        Stencil st = Stencil.of("   HELLO   ");
+        assertEquals( "   HELLO   ", st.draft());
+    }
 
     public void testRegexPattern(){
         Stencil st = Stencil.of("Hey $name$;");

@@ -88,6 +88,32 @@ public final class Text {
      * @return a Single String representing the Strings
      */
     public static String combine( String... code ) {
+        if( code.length == 0 ){
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        for(int i=0;i<code.length-1;i++){
+            sb.append( code[i] );
+            sb.append( System.lineSeparator() );
+        }
+        sb.append(code[code.length-1]);
+        return sb.toString();
+        /*
+        for( String code1 : code ) {
+            sb.append( code1 );
+            sb.append( System.lineSeparator() );
+        }
+        return sb.toString();
+
+         */
+    }
+
+    /**
+     * Create a single String (with LineSeparators between each entry) based on an Array of Strings
+     * @param code the strings (each entry is on it's own line)
+     * @return a Single String representing the Strings
+     */
+    public static String combineTrim( String... code ) {
         StringBuilder sb = new StringBuilder();
         for( String code1 : code ) {
             sb.append( code1 );

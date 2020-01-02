@@ -400,7 +400,8 @@ public class SconstructorTest extends TestCase {
         //block Statement
         //assertEquals( Stmt.of("{ System.out.println(1); }"),
         assertEquals( Stmt.of("System.out.println(1); "),
-            $c.draft("label", Stmt.blockStmt("{ System.out.println(1); }")).getBody().getStatement(0));
+                $c.draft("label", Stmt.of("System.out.println(1);")).getBody().getStatement(0));
+            //$c.draft("label", Stmt.blockStmt("{ System.out.println(1); }")).getBody().getStatement(0));
 
 
 

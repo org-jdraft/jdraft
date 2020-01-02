@@ -25,6 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import java.nio.file.Paths;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
@@ -1518,7 +1519,6 @@ public enum Ast {
      */
     public static LineComment lineComment(String... str) {
         StringBuilder sb = new StringBuilder();
-        //System.out.println( "In line comment ");
         for(int i=0;i<str.length;i++){
             String st = str[i];
             if( i > 0 ){
@@ -2788,6 +2788,7 @@ public enum Ast {
 
         public void visit(TypeParameter tp, Void arg){ }
     }
+
 
     /**
      * An instance of a {@link com.github.javaparser.ast.visitor.VoidVisitor}

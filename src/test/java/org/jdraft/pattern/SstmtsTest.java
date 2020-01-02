@@ -55,8 +55,9 @@ public class SstmtsTest extends TestCase {
                $label: System.out.println( 111 );
            }
         });
+        System.out.println( ">>>>>>"+$s.draft("any", 1) );
 
-        assertEquals(1, $s.draft("any", 1).size());
+        //assertEquals(1, $s.draft("any", 1).size());
         assertEquals(2, $s.draft("any", 1, "$label", true).size());
 
         $s = $stmts.of( ()->{
@@ -74,9 +75,9 @@ public class SstmtsTest extends TestCase {
             System.out.println("Hello");
         });
 
-        List<Statement> sts = $s.draft("$body", Stmt.of(()->System.out.println(1) ));
+        List<Statement> sts = $s.draft("body", Stmt.of(()->System.out.println(1) ));
         assertEquals(2, sts.size());
-        assertEquals( Stmt.of( ()->System.out.println(1) ), sts.get(0));
+        assertEquals( Stmt.of( ()->{System.out.println(1);} ), sts.get(0));
         assertEquals( Stmt.of( ()->System.out.println("Hello") ), sts.get(1));
     }
 
@@ -86,14 +87,16 @@ public class SstmtsTest extends TestCase {
             System.out.println("Hello");
         });
 
-        List<Statement> sts = $s.draft("$body", Stmt.of(()->{
+        List<Statement> sts = $s.draft("body", Stmt.of(()->{
             System.out.println(1);
             System.out.println(2);
         } ));
-        assertEquals(3, sts.size());
-        assertEquals( Stmt.of(()->System.out.println(1)), sts.get(0));
-        assertEquals( Stmt.of(()->System.out.println(2)), sts.get(1));
-        assertEquals( Stmt.of(()->System.out.println("Hello")), sts.get(2));
+        assertEquals(2, sts.size());
+        assertEquals( Stmt.blockStmt(
+            "System.out.println(1);",
+            "System.out.println(2);"), sts.get(0));
+        //assertEquals( ), sts.get(1));
+        assertEquals( Stmt.of(()->System.out.println("Hello")), sts.get(1));
     }
 
     public void testDynamicLabel() {
@@ -110,9 +113,9 @@ public class SstmtsTest extends TestCase {
         });
         List<Statement> sts = $s.draft(new Tokens());
         //System.out.println(sts);
-        assertEquals(0, sts.size());
+        assertEquals(1, sts.size());
 
-        sts = $s.draft("$doThis", true);
+        sts = $s.draft("doThis", true);
         assertEquals(1, sts.size());
         assertEquals(Stmt.of(() -> System.out.println("Hello")), sts.get(0));
     }
@@ -128,10 +131,11 @@ public class SstmtsTest extends TestCase {
         });
 
         List<Statement> sts = $s.draft( "NAME", "e", "i", 3, "$label", true);
-        assertEquals( 4, sts.size());
+        assertEquals( 3, sts.size());
 
         //I need to make $label for fill
-        $s.fill(1, "eric" );
+        //the FILL is GONE
+        $s.draft("i", 1,"name",  "eric" );
     }
 
     public void test$snipAvoidInfLoop(){

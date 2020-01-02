@@ -99,14 +99,14 @@ public class $comment <C extends Comment>
     /** Look for an exact match for the comment */
     public static<C extends Comment> $comment<C> as( String pattern ) {
         $comment<C> $c = of( pattern );
-        $c.$and(c->$c.contentsStencil.parse(Ast.getContent( c ) ) != null);
+        $c.$and(c->$c.contentsStencil.parse(Ast.getContent( c ).trim() ) != null);
         return $c;
     }
 
     /** Look for an exact match for the comment */
     public static<C extends Comment> $comment<C> as( C comment ) {
         $comment<C> $c = of( comment );
-        $c.$and(c->$c.contentsStencil.parse(Ast.getContent( c ) ) != null);
+        $c.$and(c->$c.contentsStencil.parse(Ast.getContent( c ).trim() ) != null);
         return $c;
     }
 
@@ -421,16 +421,18 @@ public class $comment <C extends Comment>
      */
     public Select select( Comment astComment ){
         if(! this.commentClasses.contains(astComment.getClass())){
-            //System.out.println( "Coment"+ astComment+ " "+astComment.isJavadocComment()+ " "+astComment.getClass());
+            System.out.println( "Coment"+ astComment+ " "+astComment.isJavadocComment()+ " "+astComment.getClass());
             //System.out.println( "not correct comment class"+ this.commentClasses+" "+ astComment.getClass());
             return null;
         }
         if( !this.constraint.test( (C)astComment) ){
-            //System.out.println( "failed constraint");
+            System.out.println( "failed constraint");
             return null;
         }
 
         /** NEW looks for the existence (i.e. match anywhere within the comment content */
+        //Tokens ts = this.contentsStencil.parseFirst(Ast.getContent(astComment));
+
         Tokens ts = this.contentsStencil.parseFirst(Ast.getContent(astComment));
         if( ts == null ){
             return null;
