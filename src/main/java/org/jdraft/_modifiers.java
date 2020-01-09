@@ -390,6 +390,18 @@ public final class _modifiers implements _draft {
         return sb.toString();
     }
 
+    public int asInt(){
+        int modBits = 0;
+        if( node != null && node.getModifiers() != null ) {
+            NodeList<Modifier> ms = this.node.getModifiers();
+            for(int i=0;i<ms.size();i++){
+
+                modBits = modBits | Ast.MODS_KEYWORD_TO_BIT_MAP.get( ms.get(i).getKeyword().asString() );
+            }
+        }
+        return modBits;
+    }
+
     public String[] asKeywords() {
         List<String> strs = new ArrayList<>();
         if( node != null && node.getModifiers() != null ) {

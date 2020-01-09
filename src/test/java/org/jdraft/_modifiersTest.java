@@ -52,6 +52,40 @@ public class _modifiersTest extends TestCase {
         }
     }
 
+    public void testGetModifiersInt(){
+        //none
+        _modifiers _ms = _modifiers.of();
+        assertEquals(0, _modifiers.of().asInt());
+
+        _ms = _modifiers.of("volatile");
+        assertEquals( java.lang.reflect.Modifier.VOLATILE, _ms.asInt());
+
+        _ms = _modifiers.of("protected");
+        assertEquals( java.lang.reflect.Modifier.PROTECTED, _ms.asInt());
+
+        _ms = _modifiers.of("native");
+        assertEquals( java.lang.reflect.Modifier.NATIVE, _ms.asInt());
+
+        _ms = _modifiers.of("strictfp");
+        assertEquals( java.lang.reflect.Modifier.STRICT, _ms.asInt());
+
+        _ms = _modifiers.of("abstract");
+        assertEquals( java.lang.reflect.Modifier.ABSTRACT, _ms.asInt());
+
+        _ms = _modifiers.of("synchronized");
+        assertEquals( java.lang.reflect.Modifier.SYNCHRONIZED, _ms.asInt());
+
+        _ms = _modifiers.of("private", "static", "transient");
+        assertEquals( java.lang.reflect.Modifier.PRIVATE | java.lang.reflect.Modifier.STATIC | java.lang.reflect.Modifier.TRANSIENT,
+                _ms.asInt());
+
+        _ms = _modifiers.of("public", "static", "final");
+        //int modInt = _ms.asInt();
+        assertEquals( java.lang.reflect.Modifier.PUBLIC | java.lang.reflect.Modifier.STATIC | java.lang.reflect.Modifier.FINAL,
+                _ms.asInt());
+
+
+    }
     public void testM()
             throws NoSuchFieldException, NoSuchMethodException {
 
