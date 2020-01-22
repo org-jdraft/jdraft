@@ -259,7 +259,16 @@ public class _runtime {
     public static _proxy proxyOf(_class _c, Object...ctorArgs){
         return _runtime.of(_c).proxy(_c, ctorArgs);
     }
-    
+
+
+    public static _proxy proxyOf(String classSourceCode){
+        return proxyOf(_class.of(classSourceCode), new Object[0]);
+    }
+
+    public static _proxy proxyOf(String classSourceCode, Object...ctorArgs){
+        return proxyOf(_class.of(classSourceCode), ctorArgs);
+    }
+
     /**
      * 
      * @param compilerOptions the compiler options for creating the source files
@@ -338,6 +347,13 @@ public class _runtime {
         return instanceOf(_class.of(clazz), ctorArgs);
     }
 
+    public static Object instanceOf(String classSourceCode){
+        return instanceOf(_class.of(classSourceCode), new Object[0]);
+    }
+    public static Object instanceOf(String classSourceCode, Object...ctorArgs){
+        return instanceOf(_class.of(classSourceCode), ctorArgs);
+    }
+
     public static Object instanceOf(_class _c){
         return instanceOf(_c, new Object[0]);
     }
@@ -379,12 +395,20 @@ public class _runtime {
         return staticEval( Ex.of(expression));
     }
 
-    public static $method $evalExpr = $method.of(new Object() {
+    public static $method $evalExpr = $method.of(
+            "public static Object eval(){",
+            "    return $expr$;",
+            "}");
+
+    /* This requires the source of this class be on the classpath... not good
+    public static $method $evalExpr = $method.of(
+            new Object() {
                 public @_static Object eval(){
                     return $expr$;
                 }
                 @_remove Object $expr$;
         } );
+    */
 
     public static Object staticEval( Expression expr ){
         if( expr.isLiteralExpr() ){ //we can shortcut these kinds of expressions and just return the value
