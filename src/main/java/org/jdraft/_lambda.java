@@ -20,7 +20,16 @@ import org.jdraft._parameter._hasParameters;
 public class _lambda 
     implements _draft, _hasParameters<_lambda> {
 
-      /**
+    /**
+     * create a _lamba based on the code (as String)
+     * @param code
+     * @return
+     */
+    public static _lambda of( String code ){
+        return of( new String[]{code});
+    }
+
+    /**
      * Builds a lambda expression from the *CODE* passed in...i,.e.<PRE>
      * Expr.lamdba( ()-> assert(true) );  will return the same as
      * Expr.lambda("()->assert(true)");
@@ -170,7 +179,11 @@ public class _lambda
     public static _lambda from( StackTraceElement ste ){
         return _lambda.of( Ex.lambdaEx(ste));
     }
-    
+
+    public static _lambda of(){
+        return new _lambda( new LambdaExpr());
+    }
+
     public static _lambda of( String... lambda){
         return new _lambda( Ex.lambdaEx(lambda) );
     }
@@ -201,7 +214,11 @@ public class _lambda
     public Statement getBody(){        
         return astLambda.getBody();                
     }
-    
+
+    public _lambda setBody(String...body){
+        return setBody(Ast.stmt(body));
+    }
+
     /**
      * 
      * @param _b
@@ -216,7 +233,21 @@ public class _lambda
         }        
         return this;
     }
-    
+
+
+    /**
+     * Sets the parameters by taking in a String
+     * @param parameters the String representation of the parameters
+     * @return the _hasParameters entity
+     */
+    public _lambda setParameters(String...parameters){
+        setParameters( Ast.parameters(parameters) );
+        if( this.getParameters().size() > 1){
+            this.setEnclosingParameters(true);
+        }
+        return this;
+    }
+
     /**
      * 
      * @param body
@@ -241,9 +272,13 @@ public class _lambda
         return this;
     }
 
-
     public _lambda clearBody() {
         this.setBody( _body.empty() );
         return this;
     }
+
+    public String toString(){
+        return this.astLambda.toString();
+    }
+
 }

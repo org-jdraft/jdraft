@@ -2118,13 +2118,13 @@ public enum Ast {
         if (!pa.endsWith(")")) {
             pa = pa + ")";
         }
-        MethodDeclaration md = Ast.method("void $$" + pa + ";");
+        LambdaExpr le = Ex.lambdaEx( pa +"->{return 1;}");
 
-        NodeList<Parameter> nps = md.getParameters();
+        NodeList<Parameter> nps = le.getParameters();
         if (nps.getParentNode().isPresent()) {
             nps.getParentNode().get().removeForced();
         }
-        return nps;
+        return le.getParameters();
     }
 
     public static Parameter parameter(String... code) {

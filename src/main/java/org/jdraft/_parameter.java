@@ -358,8 +358,17 @@ public final class _parameter
         
         default _HP setParameters(_parameters _ps){
             return (_HP)setParameters( _ps.ast() );
-        }        
-        
+        }
+
+        /**
+         * Sets the parameters by taking in a String
+         * @param parameters the String representation of the parameters
+         * @return the _hasParameters entity
+         */
+        default _HP setParameters(String...parameters){
+            return setParameters( Ast.parameters(parameters) );
+        }
+
         default _HP setParameters(Parameter... astPs ){
             NodeList<Parameter>nl = new NodeList<>();
             Arrays.stream(astPs).forEach(p -> nl.add(p));
