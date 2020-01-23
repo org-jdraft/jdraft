@@ -60,6 +60,17 @@ public class _lambda
         return from( ste );
     } 
 
+    public boolean equals(Object o){
+        if( o instanceof _lambda){
+            return this.astLambda.equals( ((_lambda)o).astLambda );
+        }
+        return false;
+    }
+
+    public int hashCode(){
+        return 31 * this.astLambda.hashCode();
+    }
+
     /**
      * Builds a lambda expression from the *CODE* passed in...i,.e.<PRE>
      * Expr.lamdba( ()-> assert(true) );  will return the same as
@@ -217,6 +228,49 @@ public class _lambda
 
     public _lambda setBody(String...body){
         return setBody(Ast.stmt(body));
+    }
+
+    public _lambda addStatements( String... statements){
+        if( this.astLambda.getBody().isBlockStmt() ){
+            return addStatements(this.astLambda.getBody().asBlockStmt().getStatements().size(), statements);
+        }
+        Statement lsb = this.astLambda.getBody();
+        //if   return; //this is the "default" body
+        if( lsb.isReturnStmt() && !lsb.asReturnStmt().getExpression().isPresent()){
+            return addStatements(0, statements);
+        }
+        return addStatements(1, statements);
+    }
+
+    /**
+     * Add statements to the existing lambda expression at the given index (0-based)
+     * @param index
+     * @param statements
+     * @return
+     */
+    public _lambda addStatements( int index, String... statements){
+        BlockStmt bs = Ast.blockStmt(statements);
+        if( this.astLambda.getBody().isBlockStmt() ){
+            BlockStmt lbs = this.astLambda.getBody().asBlockStmt();
+            for( int i=0;i<bs.getStatements().size();i++) {
+                lbs.addStatement(index+i, bs.getStatement(i));
+            }
+            return this;
+        }
+        Statement lsb = this.astLambda.getBody();
+        //if   return; //this is the "default" body
+        if( lsb.isReturnStmt() && !lsb.asReturnStmt().getExpression().isPresent()){
+            this.astLambda.setBody(bs);
+            return this;
+        }
+        if( index == 0 ){
+            bs.addStatement(bs.getStatements().size(), lsb);
+            this.astLambda.setBody(bs);
+            return this;
+        }
+        bs.addStatement(0, lsb);
+        this.astLambda.setBody(bs);
+        return this;
     }
 
     /**

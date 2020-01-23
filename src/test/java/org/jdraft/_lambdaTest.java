@@ -23,11 +23,55 @@ public class _lambdaTest extends TestCase {
 
         assertEquals("(a, b)", _l.getParameters().toString());
         assertEquals("System.out.println(a.toString() + b.toString());", _l.getBody().toString());
-        //System.out.println(_l);
-
-        //BiConsumer bc = (a, b)-> System.out.println(a.toString() + b.toString());
     }
 
+    /**
+     * Make sure I can build an empty Lambda from Scratch
+     * (Here with vararg)
+     */
+    public void testBuildVarArg(){
+        _lambda _l = _lambda.of()
+                .setParameters("String... a")
+                .setBody("System.out.println(a.length);");
+
+        assertEquals("(String... a)", _l.getParameters().toString());
+        assertEquals("System.out.println(a.length);", _l.getBody().toString());
+    }
+
+    public void testLambdaAddStatements(){
+        //add code before
+        _lambda _l = _lambda.of()
+                .addStatements(0, "System.out.println(1);");
+        System.out.println( _l );
+        _l.addStatements("System.out.println(2);");
+        System.out.println( _l );
+    }
+
+    public void testAddWithStatement(){
+        _lambda _l = _lambda.of("a-> System.out.println(1);")
+                .addStatements(0, "System.out.println(0);");
+        //System.out.println( _l );
+        _l = _lambda.of("a-> System.out.println(1);")
+                .addStatements(1, "System.out.println(2);");
+        //System.out.println( _l );
+        assertEquals(
+                _lambda.of("a-> { "+
+                        "System.out.println(1); " +
+                        "System.out.println(2); }"), _l);
+
+        _l = _lambda.of("a-> {System.out.println(1); System.out.println(2);}")
+                .addStatements(0, "System.out.println(0);");
+        //System.out.println( _l );
+
+        _l.addStatements("System.out.println(3);");
+        //System.out.println( _l );
+        assertEquals(
+                _lambda.of("a-> { System.out.println(0); " +
+                        "System.out.println(1); " +
+                        "System.out.println(2); " +
+                        "System.out.println(3); }"), _l);
+
+    }
     public void testSetParameters(){
         _lambda _l = _lambda.of("r->{ return 1;}");
         //test setting an Unknown type parameter
