@@ -48,6 +48,11 @@ public final class _anno
     public static _anno of( String anno ){        
         return of( new String[]{anno} );
     }
+
+    public static _anno of(){
+        return new _anno( new MarkerAnnotationExpr() );
+    }
+
     public static _anno of( String... annotation ) {
         return new _anno( Ast.anno( annotation ) );
     }

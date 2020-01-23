@@ -30,6 +30,14 @@ import junit.framework.TestCase;
  */
 public class _annoTest extends TestCase {
 
+    public void testAnn(){
+        _anno _a = _anno.of()
+                .setName("n")
+                .addAttr("i", 100);
+
+        System.out.println(_a);
+    }
+
     @interface Headers{
         String accept();
         String userAgent();
