@@ -3,6 +3,7 @@ package org.jdraft;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.nodeTypes.NodeWithModifiers;
 import com.github.javaparser.ast.Modifier;
+import org.jdraft.text.Text;
 
 import java.util.*;
 
@@ -512,7 +513,9 @@ public final class _modifiers implements _draft {
          * @return
          */
         default _HM modifiers(String... mods ) {
-            getModifiers().set( mods );
+            String ms = Text.combineTrim(mods);
+            String[] mms = ms.split(" ");
+            getModifiers().set(mms);
             return (_HM)this;
         }
         
