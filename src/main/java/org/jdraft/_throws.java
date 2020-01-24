@@ -40,9 +40,14 @@ public final class _throws
      * @return
      */
     public static _throws of( Class<? extends Throwable>...clazzes ){
-        MethodDeclaration md = Ast.method( "void a(){}");
+        MethodDeclaration md = Ast.method( "void $$(){}");
         Arrays.stream( clazzes ).forEach(c -> md.addThrownException(c) );
         return new _throws( md );
+    }
+
+    public static _throws of(){
+        MethodDeclaration md = Ast.method( "void $$(){}");
+        return of( md );
     }
 
     /**

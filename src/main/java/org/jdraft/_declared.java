@@ -16,7 +16,7 @@ import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
  * <LI>{@link _constructor} {@link com.github.javaparser.ast.body.ConstructorDeclaration}
  * <LI>{@link _method} {@link com.github.javaparser.ast.body.MethodDeclaration}
  * <LI>{@link _constant} {@link com.github.javaparser.ast.body.EnumConstantDeclaration}
- * <LI>{@link _annotation._element} {@link com.github.javaparser.ast.body.AnnotationMemberDeclaration}
+ * <LI>{@link _annotation._entry} {@link com.github.javaparser.ast.body.AnnotationMemberDeclaration}
  * <LI>{@link _type} {@link com.github.javaparser.ast.body.TypeDeclaration}
  * <LI>{@link _class} {@link com.github.javaparser.ast.body.ClassOrInterfaceDeclaration}
  * <LI>{@link _enum} {@link com.github.javaparser.ast.body.EnumDeclaration}

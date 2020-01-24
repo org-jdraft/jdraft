@@ -1,10 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.EnumConstantDeclaration;
-import com.github.javaparser.ast.body.FieldDeclaration;
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
@@ -28,6 +25,10 @@ import java.util.stream.Collectors;
 public class _constant implements _javadoc._hasJavadoc<_constant>,
         _anno._hasAnnos<_constant>,_method._hasMethods<_constant>, _field._hasFields<_constant>,
         _declared<EnumConstantDeclaration, _constant> {
+
+    public static _constant of(){
+        return of( new EnumConstantDeclaration());
+    }
 
     public static _constant of( String... ecd ){
         return of(Ast.constantDecl(ecd));
@@ -120,6 +121,54 @@ public class _constant implements _javadoc._hasJavadoc<_constant>,
     @Override
     public _constant name( String name ){
         this.astConstant.setName( name );
+        return this;
+    }
+
+    /**
+     * Parses the String representing arguments
+     * i.e.
+     * <CODE>
+     * _constant.of("A")
+     *     .arguments("1, 'c'");
+     * </CODE>
+     * ...will create the constant A(1,'c')
+     *
+     * @param arguments
+     * @return
+     */
+    public _constant arguments(String ...arguments){
+        String args = Text.combine(arguments);
+        if( args.startsWith("(") && args.endsWith(")") ){
+            args = args.substring(1, args.length() -1);
+        }
+        EnumDeclaration ed = Ast.enumDecl("enum E{ A("+args+"); }");
+        NodeList<Expression> argsList = ed.getEntry(0).getArguments();
+        argsList.forEach(a-> addArgument(a));
+        return this;
+    }
+
+    public _constant body(String...bodyCode){
+        EnumDeclaration ed = Ast.enumDecl("enum E{ A{"+Text.combine(bodyCode)+" }; }");
+        ed.getEntry(0).getClassBody().forEach(bd -> this.add(bd));
+        return this;
+    }
+
+    /**
+     * Allows you to add _method, and _field entities to the constant
+     * @param _ds any declared (_method, _field) to the constant classBody
+     * @return the modified _constant
+     */
+    public _constant add( _declared... _ds ){
+        Arrays.stream(_ds).forEach(_d -> this.astConstant.getClassBody().add( (BodyDeclaration)_d.ast()) );
+        return this;
+    }
+
+    /**
+     * Add FieldDeclaration or MethodDeclarations to the classBody of this constant and return the modified constant
+     *
+     */
+    public _constant add( BodyDeclaration... bds ){
+        Arrays.stream(bds).forEach(bd -> this.astConstant.getClassBody().add(bd) );
         return this;
     }
 
@@ -273,10 +322,15 @@ public class _constant implements _javadoc._hasJavadoc<_constant>,
         return this;
     }
 
+    public _constant field( FieldDeclaration field ) {
+        this.astConstant.getClassBody().add( field );
+        return this;
+    }
+
     @Override
     public _constant field( VariableDeclarator field ) {
         if(! field.getParentNode().isPresent()){
-            throw new _jdraftException("cannot add Var without parent FieldDeclaration");
+            throw new _jdraftException("cannot add Var without parent FieldDeclaration "+ field);
         }
         FieldDeclaration fd = (FieldDeclaration)field.getParentNode().get();
         //we already added it to the parent

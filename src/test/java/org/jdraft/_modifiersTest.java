@@ -16,6 +16,11 @@ import junit.framework.TestCase;
 public class _modifiersTest extends TestCase {
 
 
+    public void testEmptyMods(){
+        _modifiers _ms = _modifiers.of();
+        assertEquals(0, _ms.asInt());
+    }
+
     public enum E{
         ;
         public static final int a = 1;

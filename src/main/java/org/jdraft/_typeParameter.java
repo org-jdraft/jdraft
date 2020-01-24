@@ -3,6 +3,7 @@ package org.jdraft;
 import java.util.*;
 import java.util.function.Predicate;
 
+import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.nodeTypes.NodeWithTypeParameters;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
@@ -17,6 +18,10 @@ import org.jdraft.text.Text;
 public final class _typeParameter
         implements _node<TypeParameter, _typeParameter>, 
         _named<_typeParameter>, _anno._hasAnnos<_typeParameter> {
+
+    public static _typeParameter of() {
+        return of( new TypeParameter());
+    }
 
     public static _typeParameter of( String typeParam ) {
         return of( Ast.typeParameter( typeParam ) );
@@ -35,7 +40,91 @@ public final class _typeParameter
     public _typeParameter copy(){
         return of( this.typeParameter.toString() );
     }
-    
+
+    /**
+     * sets the extends type bound, i.e.
+     * "A extends Base & Pair<A,B>"
+     *
+     * @param nc
+     * @return
+     */
+    public _typeParameter setExtendsTypeBound(NodeList<ClassOrInterfaceType> nc){
+        this.typeParameter.setTypeBound(nc);
+        return this;
+    }
+
+    /**
+     * sets the extends type bound, i.e.
+     * "A extends Base & Pair<A,B>"
+     *
+     * @param types
+     * @return
+     */
+    public _typeParameter setExtendsTypeBound(_typeRef...types){
+        NodeList<ClassOrInterfaceType> nc = new NodeList<>();
+        Arrays.stream(types).forEach(t -> nc.add((ClassOrInterfaceType)t.ast()));
+        setExtendsTypeBound(nc);
+        return this;
+    }
+
+    /**
+     * sets the extends type bound, i.e.
+     * "A extends Base & Pair<A,B>"
+     *
+     * @param types
+     * @return
+     */
+    public _typeParameter setExtendsTypeBound(ClassOrInterfaceType...types){
+        NodeList<ClassOrInterfaceType> nc = new NodeList<>();
+        Arrays.stream(types).forEach(t -> nc.add(t));
+        setExtendsTypeBound(nc);
+        return this;
+    }
+
+    /**
+     * _typeParameter _tp = _typeParameter.of("A extends Base");
+     * _tp.addExtendsTypeBound("Pair<A,B>")
+     *
+     * System.out.println(_tp);
+     *   // "A extends Base & Pair<A,B>"
+     * @param types
+     * @return
+     */
+    public _typeParameter addExtendsTypeBound(ClassOrInterfaceType...types){
+        Arrays.stream(types).forEach(t -> this.typeParameter.getTypeBound().add(t));
+        return this;
+    }
+
+    /**
+     * _typeParameter _tp = _typeParameter.of("A extends Base");
+     * _tp.addExtendsTypeBound("Pair<A,B>")
+     *
+     * System.out.println(_tp);
+     *   // "A extends Base & Pair<A,B>"
+     * @param types
+     * @return
+     */
+    public _typeParameter addExtendsTypeBound(_typeRef...types){
+        Arrays.stream(types).forEach(t -> this.typeParameter.getTypeBound().add((ClassOrInterfaceType)t.ast()));
+        return this;
+    }
+
+    /**
+     * adds the extends type bound, i.e.
+     * _typeParameter _tp = _typeParameter.of("A extends Base");
+     * _tp.addExtendsTypeBound("Pair<A,B>")
+     *
+     * System.out.println(_tp);
+     *   // "A extends Base & Pair<A,B>"
+     * @param types
+     * @return
+     */
+    public _typeParameter addExtendsTypeBound(String...types){
+        Arrays.stream(types).forEach(t -> this.typeParameter.getTypeBound().add(StaticJavaParser.parseClassOrInterfaceType(t)));
+        return this;
+    }
+
+
     /**
      *
      * @return

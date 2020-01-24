@@ -10,7 +10,7 @@ import java.util.function.Predicate;
  *     <LI>{@link _field},
  *     <LI>{@link _parameter},
  *     <LI>{@link _method},
- *     <LI>{@link _annotation._element},
+ *     <LI>{@link _annotation._entry},
  *     <LI>{@link _receiverParameter}
  * </UL>
  * @param <_NT> the specialized entity that is a named TYPE

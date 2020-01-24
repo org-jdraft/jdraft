@@ -90,6 +90,10 @@ public final class _method
         return _mm;
     }
 
+    public static _method of( ){
+        return of( new MethodDeclaration());
+    }
+
     public static _method of(String... methodDecl) {
 
         //check for shortcut method

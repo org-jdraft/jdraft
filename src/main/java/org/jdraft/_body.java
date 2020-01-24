@@ -148,7 +148,15 @@ public final class _body implements _draft {
         }
         return of( _method.of("void __BODYHOLDER();").add(statement).ast());
     }
-    
+
+    /**
+     * Build and return a new Body made of a block statement
+     * @return
+     */
+    public static _body of(){
+        return of( new BlockStmt());
+    }
+
     /**
      * Here, we create a "body" by passing in an Anonymous class containing
      * a method with a code body... Note we look for the FIRST method declaration 

@@ -17,13 +17,13 @@ import org.jdraft.text.Translator;
  * Note... at the moment this is NOT a template... should it be??
  */
 public class $annotationElement
-        implements $pattern<_annotation._element, $annotationElement>, $pattern.$java<_annotation._element, $annotationElement>,
-        $annotation.$part, $member.$named<$annotationElement>, $declared<_annotation._element,$annotationElement>, $type.$part  {
+        implements $pattern<_annotation._entry, $annotationElement>, $pattern.$java<_annotation._entry, $annotationElement>,
+        $annotation.$part, $member.$named<$annotationElement>, $declared<_annotation._entry,$annotationElement>, $type.$part  {
 
     /** marker interface for member entities that are part of the class */
     public interface $part{ }
 
-    public Predicate<_annotation._element> constraint = t->true;
+    public Predicate<_annotation._entry> constraint = t->true;
 
     public $comment<JavadocComment>javadoc = $comment.javadocComment();
     public $name name = $name.of("$annotationElementName$"); //name required
@@ -35,14 +35,14 @@ public class $annotationElement
     }
 
     public static $annotationElement of (String... annotationElement ){
-        return of( _annotation._element.of(annotationElement) );
+        return of( _annotation._entry.of(annotationElement) );
     }
 
     public static $annotationElement of(AnnotationMemberDeclaration _ec ){
-        return of( _annotation._element.of(_ec));
+        return of( _annotation._entry.of(_ec));
     }
 
-    public static $annotationElement of(_annotation._element _ec ){
+    public static $annotationElement of(_annotation._entry _ec ){
         $annotationElement ec = new $annotationElement();
 
         if( _ec.hasJavadoc()) {
@@ -56,7 +56,7 @@ public class $annotationElement
         return ec;
     }
 
-    public static $annotationElement of(Predicate<_annotation._element> constraint ){
+    public static $annotationElement of(Predicate<_annotation._entry> constraint ){
         return new $annotationElement().$and(constraint);
     }
 
@@ -64,7 +64,7 @@ public class $annotationElement
         return new $annotationElement(parts);
     }
 
-    public static $annotationElement.Or or( _annotation._element... _protos ){
+    public static $annotationElement.Or or( _annotation._entry... _protos ){
         $annotationElement[] arr = new $annotationElement[_protos.length];
         for(int i=0;i<_protos.length;i++){
             arr[i] = $annotationElement.of( _protos[i]);
@@ -77,14 +77,14 @@ public class $annotationElement
     }
 
     public static $annotationElement as(String...annotationElement){
-        return as( _annotation._element.of(annotationElement) );
+        return as( _annotation._entry.of(annotationElement) );
     }
 
     public static $annotationElement as(AnnotationMemberDeclaration _ec ){
-        return as( _annotation._element.of(_ec));
+        return as( _annotation._entry.of(_ec));
     }
 
-    public static $annotationElement as(_annotation._element _ec ){
+    public static $annotationElement as(_annotation._entry _ec ){
         $annotationElement ae = new $annotationElement();
 
         if( _ec.hasJavadoc()) {
@@ -188,13 +188,13 @@ public class $annotationElement
         return sb.toString();
     }
 
-    public boolean match(_annotation._element _e){
+    public boolean match(_annotation._entry _e){
         return select(_e) != null;
     }
 
     public boolean matches(String...code){
         try {
-            return matches(_annotation._element.of(code));
+            return matches(_annotation._entry.of(code));
         }catch(Exception e){
             return false;
         }
@@ -202,17 +202,17 @@ public class $annotationElement
 
     public boolean matches(AnnotationMemberDeclaration amd ){
         if( amd != null ){
-            return select(_annotation._element.of(amd)) != null;
+            return select(_annotation._entry.of(amd)) != null;
         }
         return false;
     }
 
-    public boolean matches( _annotation._element _e){
+    public boolean matches( _annotation._entry _e){
         return select(_e) != null;
     }
 
     @Override
-    public Select select(_annotation._element instance) {
+    public Select select(_annotation._entry instance) {
 
         if( !this.constraint.test(instance) ){
             return null;
@@ -249,22 +249,22 @@ public class $annotationElement
         for(int i=0;i<parts.length;i++){
             if(parts[i] instanceof $comment ){
                 final $comment $fj = (($comment)parts[i]);
-                Predicate<_annotation._element> pf = f-> $fj.matches(f.getJavadoc());
+                Predicate<_annotation._entry> pf = f-> $fj.matches(f.getJavadoc());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $typeRef ){
                 final $typeRef $fa = (($typeRef)parts[i]);
-                Predicate<_annotation._element> pf = f-> $fa.matches(f.getType());
+                Predicate<_annotation._entry> pf = f-> $fa.matches(f.getType());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $name){
                 final $name $fn = (($name)parts[i]);
-                Predicate<_annotation._element> pf = f-> $fn.matches(f.getName());
+                Predicate<_annotation._entry> pf = f-> $fn.matches(f.getName());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $ex){
                 final $ex $fj = (($ex)parts[i]);
-                Predicate<_annotation._element> pf = f-> $fj.matches(f.getDefaultValue());
+                Predicate<_annotation._entry> pf = f-> $fj.matches(f.getDefaultValue());
                 $and( pf.negate() );
             }
         }
@@ -272,7 +272,7 @@ public class $annotationElement
     }
 
     @Override
-    public $annotationElement $and(Predicate<_annotation._element> constraint) {
+    public $annotationElement $and(Predicate<_annotation._entry> constraint) {
         this.constraint = this.constraint.and(constraint);
         return this;
     }
@@ -320,19 +320,19 @@ public class $annotationElement
     @Override
     public boolean match(Node candidate) {
         if(candidate instanceof AnnotationMemberDeclaration){
-            return select( _annotation._element.of((AnnotationMemberDeclaration)candidate)) != null;
+            return select( _annotation._entry.of((AnnotationMemberDeclaration)candidate)) != null;
         }
         return false;
     }
 
     @Override
-    public _annotation._element firstIn(Node astStartNode, Predicate<_annotation._element> nodeMatchFn) {
+    public _annotation._entry firstIn(Node astStartNode, Predicate<_annotation._entry> nodeMatchFn) {
         Optional<Node> oc = astStartNode.stream().filter(n ->
                 (n instanceof AnnotationMemberDeclaration)
                 && match(n)
-                && nodeMatchFn.test( _annotation._element.of( (AnnotationMemberDeclaration)n)) ).findFirst();
+                && nodeMatchFn.test( _annotation._entry.of( (AnnotationMemberDeclaration)n)) ).findFirst();
         if( oc.isPresent()){
-            return _annotation._element.of( (AnnotationMemberDeclaration)oc.get() );
+            return _annotation._entry.of( (AnnotationMemberDeclaration)oc.get() );
         }
         return null;
     }
@@ -343,7 +343,7 @@ public class $annotationElement
                 n instanceof AnnotationMemberDeclaration
                         && match(n) ).findFirst();
         if( oc.isPresent()){
-            return select( _annotation._element.of( (AnnotationMemberDeclaration)oc.get() ) );
+            return select( _annotation._entry.of( (AnnotationMemberDeclaration)oc.get() ) );
         }
         return null;
     }
@@ -356,7 +356,7 @@ public class $annotationElement
     public List<Select> listSelectedIn(Node astNode, Predicate<Select>selectMatchFn) {
         List<Select> found = new ArrayList<>();
         astNode.walk(AnnotationMemberDeclaration.class, c->{
-            _annotation._element _e = _annotation._element.of( c );
+            _annotation._entry _e = _annotation._entry.of( c );
             Select sel = select(_e);
             if( sel != null && selectMatchFn.test(sel)){
                 found.add(sel);
@@ -366,9 +366,9 @@ public class $annotationElement
     }
 
     @Override
-    public <N extends Node> N forEachIn(N astNode, Predicate<_annotation._element> nodeMatchFn, Consumer<_annotation._element> nodeActionFn) {
+    public <N extends Node> N forEachIn(N astNode, Predicate<_annotation._entry> nodeMatchFn, Consumer<_annotation._entry> nodeActionFn) {
         astNode.walk(AnnotationMemberDeclaration.class, c->{
-            _annotation._element _e = _annotation._element.of( c );
+            _annotation._entry _e = _annotation._entry.of( c );
             if( match(_e) && nodeMatchFn.test(_e)){
                 nodeActionFn.accept(_e);
             }
@@ -377,8 +377,8 @@ public class $annotationElement
     }
 
     @Override
-    public Class<_annotation._element> _modelType() {
-        return _annotation._element.class;
+    public Class<_annotation._entry> _modelType() {
+        return _annotation._entry.class;
     }
 
     /**
@@ -415,7 +415,7 @@ public class $annotationElement
          * @param astNode
          * @return
          */
-        public $annotationElement.Select select(_annotation._element astNode){
+        public $annotationElement.Select select(_annotation._entry astNode){
             $annotationElement $a = whichMatch(astNode);
             if( $a != null ){
                 return $a.select(astNode);
@@ -432,7 +432,7 @@ public class $annotationElement
          * @param ae
          * @return
          */
-        public $annotationElement whichMatch(_annotation._element ae){
+        public $annotationElement whichMatch(_annotation._entry ae){
             if( !this.constraint.test( ae ) ){
                 return null;
             }
@@ -447,11 +447,11 @@ public class $annotationElement
     /**
      * The selected Class
      */
-    public static class Select implements select_java<_annotation._element>{
-        public _annotation._element selected;
+    public static class Select implements select_java<_annotation._entry>{
+        public _annotation._entry selected;
         public $tokens tokens;
 
-        public Select( _annotation._element _c, $tokens tokens){
+        public Select(_annotation._entry _c, $tokens tokens){
             this.selected = _c;
             this.tokens = tokens;
         }
@@ -462,7 +462,7 @@ public class $annotationElement
         }
 
         @Override
-        public _annotation._element _node() {
+        public _annotation._entry _node() {
             return selected;
         }
     }

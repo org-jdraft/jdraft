@@ -132,7 +132,7 @@ public class _diffTest extends TestCase {
         assertTrue( dt.isEmpty());
         
         _a1.targetType();
-        _a1.element("int a() default 1;");
+        _a1.entry("int a() default 1;");
         _a1.imports(IOException.class);
         _a1.field("public static final int ID = 1;");
         _a1.javadoc("javadoc");

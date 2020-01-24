@@ -85,6 +85,10 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
         return _ct;
     }
 
+    public static _constructor of(){
+        return of( new ConstructorDeclaration());
+    }
+
     public static _constructor of( String... ctorDecl ) {
         //I need to do shortcut CONSTRUCTORS
         if( ctorDecl.length == 1 ){

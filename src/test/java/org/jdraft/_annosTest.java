@@ -10,6 +10,11 @@ import junit.framework.TestCase;
  */
 public class _annosTest extends TestCase {
 
+    public void testBuildFromScratch(){
+        _annos _as = _annos.of();
+        assertEquals("", _as.toString());
+    }
+
     /** verify changes to the copy dont effect the original */
     public void testCopy(){
         //the FieldDeclaration is the "parent"

@@ -61,6 +61,9 @@ public final class _parameters
         return _ps;
     }
 
+    public static _parameters of(){
+        return of(  Ast.method( "void $$();" ));
+    }
     /**
      *
      * @param strs

@@ -187,7 +187,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
                 final $annotationElement $fj = (($annotationElement)parts[i]);
                 Predicate<_type> aFn = a-> {
                     if( a instanceof _annotation ) {
-                        return ((_annotation)a).getElement(e -> $fj.match(e)) != null;
+                        return ((_annotation)a).getEntry(e -> $fj.match(e)) != null;
                     }
                     return false;
                 };
@@ -283,7 +283,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
                 final $annotationElement $fj = (($annotationElement)parts[i]);
                 Predicate<_type> aFn = a-> {
                     if( a instanceof _annotation ) {
-                        return ((_annotation)a).getElement(e -> $fj.match(e)) != null;
+                        return ((_annotation)a).getEntry(e -> $fj.match(e)) != null;
                     }
                     return false;
                 };

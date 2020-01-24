@@ -77,11 +77,11 @@ public final class _annotation
         //each (non-static) field REALLY represents an annotation.element with a possible default
         bds.stream().filter( bd-> bd instanceof FieldDeclaration && !bd.asFieldDeclaration().isStatic() ).forEach( f-> {
             VariableDeclarator vd = ((FieldDeclaration) f).getVariable(0);
-            _annotation._element _ae = null;
+            _entry _ae = null;
             if( vd.getInitializer().isPresent()){
-                _ae = _annotation._element.of(vd.getType(), vd.getNameAsString(), vd.getInitializer().get());
+                _ae = _entry.of(vd.getType(), vd.getNameAsString(), vd.getInitializer().get());
             } else {
-                _ae = _annotation._element.of(vd.getType(), vd.getNameAsString());
+                _ae = _entry.of(vd.getType(), vd.getNameAsString());
             }
             if( ((FieldDeclaration) f).getJavadocComment().isPresent()){
                 _ae.javadoc( ((FieldDeclaration) f).getJavadocComment().get());
@@ -89,7 +89,7 @@ public final class _annotation
             if( !f.getAnnotations().isEmpty()){
                 _ae.anno( f.getAnnotations());
             }
-            _a.element(_ae);
+            _a.entry(_ae);
         });
 
         //static fields are static fields on the annotation
@@ -228,6 +228,10 @@ public final class _annotation
         return this;
     }
 
+    public static _annotation of(){
+        return of( new AnnotationDeclaration() );
+    }
+
     public static _annotation of( String...classDef ) {
         if (classDef.length == 1) {
             String[] strs = classDef[0].split(" ");
@@ -327,49 +331,52 @@ public final class _annotation
         return this.astAnnotation.toString();        
     }
 
-    public boolean hasElements(){
+    public boolean hasEntries(){
         return !listElements().isEmpty();
     }
 
-    public _annotation element( String... elementDeclaration ){
-        return element( Ast.annotationMemberDecl( elementDeclaration ));
+    public _annotation entry(){
+        return entry( new AnnotationMemberDeclaration( ));
+    }
+    public _annotation entry(String... entryDeclaration ){
+        return entry( Ast.annotationMemberDecl( entryDeclaration ));
     }
 
-    public _annotation element( _element _p){
-        this.astAnnotation.addMember( _p.astAnnMember );
+    public _annotation entry(_entry _ae){
+        this.astAnnotation.addMember( _ae.astAnnMember );
         return this;
     }
 
-    public _annotation element( AnnotationMemberDeclaration annotationProperty){
-        this.astAnnotation.addMember( annotationProperty );
+    public _annotation entry(AnnotationMemberDeclaration annotationEntry){
+        this.astAnnotation.addMember( annotationEntry );
         return this;
     }
 
-    public _element getElement(Predicate<_annotation._element> _ae){
-        List<_element> lps = listElements(_ae );
+    public _entry getEntry(Predicate<_entry> _ae){
+        List<_entry> lps = listElements(_ae );
         if( lps.isEmpty() ){
             return null;
         }
         return lps.get(0);
     }
 
-    public _element getElement( String name ){
-        List<_element> lps = listElements(p -> p.getName().equals( name ) );
+    public _entry getEntry(String name ){
+        List<_entry> lps = listElements(p -> p.getName().equals( name ) );
         if( lps.isEmpty() ){
             return null;
         }
         return lps.get(0);
     }
 
-    public List<_element> listElements(){
+    public List<_entry> listElements(){
         NodeList<BodyDeclaration<?>> nb  = this.astAnnotation.getMembers();
-        List<_element> ps = new ArrayList<>();
+        List<_entry> ps = new ArrayList<>();
         nb.stream().filter( b -> b instanceof AnnotationMemberDeclaration )
-                .forEach( am -> ps.add( _element.of( (AnnotationMemberDeclaration)am) ));
+                .forEach( am -> ps.add( _entry.of( (AnnotationMemberDeclaration)am) ));
         return ps;
     }
 
-    public List<_element> listElements(Predicate<_element> _elementMatchFn ){
+    public List<_entry> listElements(Predicate<_entry> _elementMatchFn ){
         return listElements().stream().filter( _elementMatchFn ).collect(Collectors.toList());
     }
 
@@ -415,8 +422,8 @@ public final class _annotation
             return false;
         }
 
-        Set<_element> tp = new HashSet<>();
-        Set<_element> op = new HashSet<>();
+        Set<_entry> tp = new HashSet<>();
+        Set<_entry> op = new HashSet<>();
         tp.addAll(this.listElements() );
         op.addAll(other.listElements() );
 
@@ -444,31 +451,31 @@ public final class _annotation
         return true;
     }
 
-    public _annotation forElements( Consumer<_element> elementConsumer ){
-        listElements().forEach(elementConsumer);
+    public _annotation forEntries(Consumer<_entry> entryConsumer ){
+        listElements().forEach(entryConsumer);
         return this;
     }
 
-    public _annotation forElements( Predicate<_element> elementMatchFn, Consumer<_element> elementConsumer ){
-        listElements(elementMatchFn).forEach(elementConsumer);
+    public _annotation forEntries(Predicate<_entry> entryMatchFn, Consumer<_entry> entryConsumer ){
+        listElements(entryMatchFn).forEach(entryConsumer);
         return this;
     }
 
-    public _annotation removeElement( String elementName ){
-        _element _e = this.getElement(elementName );
+    public _annotation removeEntry(String entryName ){
+        _entry _e = this.getEntry(entryName );
         if( _e != null ) {
             this.astAnnotation.remove(_e.astAnnMember);
         }
         return this;
     }
 
-    public _annotation removeElement( _element _e ){
+    public _annotation removeEntry(_entry _e ){
         listElements(e -> e.equals(_e)).forEach(e-> e.ast().removeForced() );
         return this;
     }
 
-    public _annotation removeElements( Predicate<_element> _pe ){
-        listElements(_pe).forEach( e -> removeElement(e));
+    public _annotation removeEntries(Predicate<_entry> _pe ){
+        listElements(_pe).forEach( e -> removeEntry(e));
         return this;
     }
 
@@ -508,7 +515,7 @@ public final class _annotation
         fields.addAll( this.listFields() );
         hash = 13 * hash + Objects.hashCode( fields );
 
-        Set<_element> elements = new HashSet<>();
+        Set<_entry> elements = new HashSet<>();
         elements.addAll(this.listElements() );
         hash = 13 * hash + Objects.hashCode( elements );
 
@@ -570,39 +577,39 @@ public final class _annotation
     }
     
     /**
-     * a property element added to an annotation
+     * a property entry added to an annotation
      * <PRE>
-     * // VALUE is an element of the Speed annotation
+     * // VALUE is an entry of the Speed annotation
      * public @interface Speed{
      *     int VALUE() default 0;
      * }
      * </PRE>
-     * NOTE: we called this an ELEMENT and NOT a member, because we use the
+     * NOTE: we called this an entry and NOT a member, because we use the
      * term "member" to be any member implementation (_field, _method, etc.)
      * of a type (as it is documented in Java), so we devised the term _element
      * to mean (specifically) a property of an _annotation
      * (it is also a _member) and maps to an AnnotationMemberDeclaration
      */
-    public static class _element implements _javadoc._hasJavadoc<_element>,
-            _anno._hasAnnos<_element>, _namedType<_element>,
-            _declared<AnnotationMemberDeclaration, _element> {
+    public static class _entry implements _javadoc._hasJavadoc<_entry>,
+            _anno._hasAnnos<_entry>, _namedType<_entry>,
+            _declared<AnnotationMemberDeclaration, _entry> {
 
-        public static _element of( AnnotationMemberDeclaration am){
-            return new _element( am );
+        public static _entry of(AnnotationMemberDeclaration astEntry){
+            return new _entry( astEntry );
         }
 
-        public static _element of( String...code ){
-            return new _element( Ast.annotationMemberDecl( code ) );
+        public static _entry of(String...code ){
+            return new _entry( Ast.annotationMemberDecl( code ) );
         }
 
-        public static _element of( Type type, String name ){
+        public static _entry of(Type type, String name ){
             AnnotationMemberDeclaration amd = new AnnotationMemberDeclaration();
             amd.setName(name);
             amd.setType(type);
             return of( amd );
         }
 
-        public static _element of( Type type, String name, Expression defaultValue ){
+        public static _entry of(Type type, String name, Expression defaultValue ){
             AnnotationMemberDeclaration amd = new AnnotationMemberDeclaration();
             amd.setName(name);
             amd.setType(type);
@@ -612,12 +619,12 @@ public final class _annotation
         
         private final AnnotationMemberDeclaration astAnnMember;
 
-        public _element( AnnotationMemberDeclaration astAnnMember ){
+        public _entry(AnnotationMemberDeclaration astAnnMember ){
             this.astAnnMember = astAnnMember;
         }
 
         @Override
-        public _element copy(){
+        public _entry copy(){
             return of( this.astAnnMember.toString() );
         }
         
@@ -628,11 +635,11 @@ public final class _annotation
         
         @Override
         public boolean is(AnnotationMemberDeclaration amd ){
-            return _element.of(amd).equals(this);
+            return _entry.of(amd).equals(this);
         }
         
         @Override
-        public _element name(String name){
+        public _entry name(String name){
             this.astAnnMember.setName( name );
             return this;
         }
@@ -643,19 +650,19 @@ public final class _annotation
         }
         
         @Override
-        public _element type( Type t){
+        public _entry type(Type t){
             this.astAnnMember.setType( t );
             return this;
         }
 
         @Override
-        public _element javadoc(String... content) {
+        public _entry javadoc(String... content) {
             ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
             return this;
         }
 
         @Override
-        public _element javadoc(JavadocComment astJavadocComment) {
+        public _entry javadoc(JavadocComment astJavadocComment) {
             ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
             return this;
         }
@@ -674,52 +681,52 @@ public final class _annotation
             return this.astAnnMember.getDefaultValue().isPresent();
         }
 
-        public _element removeDefaultValue(){
+        public _entry removeDefaultValue(){
             this.astAnnMember.removeDefaultValue();
             return this;
         }
         
-        public _element setDefaultValue(int intValue ){
+        public _entry setDefaultValue(int intValue ){
             this.astAnnMember.setDefaultValue( Ex.of( intValue ) );
             return this;
         }
         
-        public _element setDefaultValue(long longValue ){
+        public _entry setDefaultValue(long longValue ){
             this.astAnnMember.setDefaultValue( Ex.of( longValue ) );
             return this;
         }
         
-        public _element setDefaultValue(char charValue ){
+        public _entry setDefaultValue(char charValue ){
             this.astAnnMember.setDefaultValue( Ex.of( charValue ) );
             return this;
         }
         
-        public _element setDefaultValue(boolean booleanValue ){
+        public _entry setDefaultValue(boolean booleanValue ){
             this.astAnnMember.setDefaultValue( Ex.of( booleanValue ) );
             return this;
         }
         
-        public _element setDefaultValueNull(){
+        public _entry setDefaultValueNull(){
             this.astAnnMember.setDefaultValue( Ex.nullEx() );
             return this;
         }
         
-        public _element setDefaultValue(float floatValue ){
+        public _entry setDefaultValue(float floatValue ){
             this.astAnnMember.setDefaultValue( Ex.of( floatValue ) );
             return this;
         }
         
-        public _element setDefaultValue(double doubleValue ){
+        public _entry setDefaultValue(double doubleValue ){
             this.astAnnMember.setDefaultValue( Ex.of( doubleValue ) );
             return this;
         }
         
-        public _element setDefaultValue( String defaultValueExpression){
+        public _entry setDefaultValue(String defaultValueExpression){
             this.astAnnMember.setDefaultValue( Ast.ex( defaultValueExpression) );
             return this;
         }
 
-        public _element setDefaultValue( Expression e){
+        public _entry setDefaultValue(Expression e){
             this.astAnnMember.setDefaultValue( e );
             return this;
         }
@@ -747,7 +754,7 @@ public final class _annotation
             if( getClass() != obj.getClass() ) {
                 return false;
             }
-            final _element other = (_element)obj;
+            final _entry other = (_entry)obj;
             if( this.astAnnMember == other.astAnnMember){
                 return true; //two _element instances pointing to same AstMemberDeclaration
             }

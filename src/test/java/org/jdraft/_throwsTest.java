@@ -14,6 +14,13 @@ import java.lang.annotation.Target;
 public class _throwsTest
     extends TestCase {
 
+    public void testBuildFromScratch(){
+        _throws _ts = _throws.of();
+        System.out.println( _ts );
+        _ts.add( IOException.class);
+        System.out.println( _ts );
+    }
+
     @Target(ElementType.TYPE_USE)
     @interface Test{}
     

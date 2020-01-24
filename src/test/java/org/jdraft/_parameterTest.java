@@ -13,6 +13,12 @@ import junit.framework.TestCase;
  */
 public class _parameterTest extends TestCase {
 
+    public void testBuildFromScratch(){
+        _parameter _p = _parameter.of();
+        System.out.println( _p );
+        _p.type(int.class).name("x");
+        System.out.println( _p );
+    }
     public void testFullyQualified(){
         _parameter _a = _parameter.of("java.util.List l");
         _parameter _b = _parameter.of("List l");

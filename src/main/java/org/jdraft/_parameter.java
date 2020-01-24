@@ -51,6 +51,9 @@ public final class _parameter
         return new _parameter( p );
     }
 
+    public static _parameter of(){
+        return of( new Parameter() );
+    }
     /**
      *
      * @param parameter

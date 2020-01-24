@@ -10,6 +10,13 @@ import java.util.List;
  */
 public class _parametersTest extends TestCase {
 
+    public void testFromScratch(){
+        _parameters _ps = _parameters.of();
+        assertTrue( _ps.isEmpty());
+        _ps.add("int a");
+        assertFalse( _ps.isEmpty());
+
+    }
     public void testNames(){
         _parameters _ps = _parameters.of( (Object a, Object b)->{} );
         List<String> names = _ps.names();

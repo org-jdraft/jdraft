@@ -141,7 +141,7 @@ public interface _diff {
         return _enumDiff.ENUM_CONSTANT_DIFF.diff(_left, _right);
     }
 
-    static _diff of(_annotation._element _left, _annotation._element _right) {
+    static _diff of(_annotation._entry _left, _annotation._entry _right) {
         return _annotationDiff.ANNOTATION_ELEMENT_DIFF.diff(_left, _right);
     }
 

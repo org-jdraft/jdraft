@@ -43,6 +43,10 @@ public class _annos
         return _as;
     }
 
+    public static _annos of(){
+        return new _annos(field( "NOT_A_REAL_FIELD AST_ANNO_HOLDER;") );
+    }
+
     public static _annos of(String annos){
         return of( new String[]{annos});
     }

@@ -99,7 +99,7 @@ public class $annotation
         _a.forAnnos(a-> $c.annos.add($anno.of(a)));
         $c.modifiers = $modifiers.of(_a.getModifiers());
         $c.$name(_a.getSimpleName());
-        _a.forElements(e -> $c.$elements($annotationElement.of(e)));
+        _a.forEntries(e -> $c.$elements($annotationElement.of(e)));
         _a.forFields(f-> $c.fields.add($field.of(f)));
 
         _a.forNests( n -> {
@@ -239,7 +239,7 @@ public class $annotation
             }
             else if(parts[i] instanceof $annotationElement ){
                 final $annotationElement $fj = (($annotationElement)parts[i]);
-                Predicate<_annotation> aFn = a-> a.getElement(e->$fj.match(e)) != null;
+                Predicate<_annotation> aFn = a-> a.getEntry(e->$fj.match(e)) != null;
                 $and( aFn.negate() );
             }
         }

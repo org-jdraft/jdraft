@@ -3,13 +3,22 @@ package org.jdraft;
 import org.jdraft.macro._public;
 import junit.framework.TestCase;
 
+import java.io.IOException;
+
 /**
  *
  * @author Eric
  */
 public class _constructorTest extends TestCase {
 
-    
+    public void testBuildFromScratch(){
+        _constructor _ct = _constructor.of();
+        _ct.name("C")
+                .setParameters("int i").modifiers("public")
+                .addThrows(IOException.class);
+        System.out.println(_ct);
+    }
+
     public void testConstructorWithAnnoMacros(){
         _constructor _ct = _constructor.of( new Object(){
             @_public void m(){

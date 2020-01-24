@@ -16,7 +16,11 @@ import junit.framework.TestCase;
  * @author Eric
  */
 public class _packageInfoTest extends TestCase {
-    
+
+    public void testPIs(){
+        _packageInfo _pi = _packageInfo.of();
+
+    }
     public void testPI(){
         //you can have a completely empty compilation Unit (i.e. packageinfo)
         CompilationUnit ast = StaticJavaParser.parse("");

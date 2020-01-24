@@ -110,8 +110,8 @@ public interface $member<M, $M extends $pattern> extends $pattern<M,$M> {
         if( _m instanceof _annotation){
             return $annotation.of( (_annotation)_m);
         }
-        if( _m instanceof _annotation._element){
-            return $annotationElement.of( (_annotation._element)_m);
+        if( _m instanceof _annotation._entry){
+            return $annotationElement.of( (_annotation._entry)_m);
         }
         if(_m instanceof _class){
             return $class.of( (_class)_m);

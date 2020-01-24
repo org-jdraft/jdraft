@@ -9,8 +9,8 @@ import java.util.Objects;
  * {@link _field}
  * {@link _parameter}
  * {@link _anno}
- * {@link _enum._constant}
- * {@link _annotation._element}
+ * {@link _constant}
+ * {@link _annotation._entry}
  * {@link _typeRef}
  * {@link _typeParameter}
  *

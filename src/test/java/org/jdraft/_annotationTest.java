@@ -1,7 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
-import org.jdraft._annotation._element;
+import org.jdraft._annotation._entry;
 import java.util.List;
 
 import org.jdraft.pattern.$ex;
@@ -16,6 +16,15 @@ import test.subpkg.ann2;
  */
 public class _annotationTest extends TestCase  {
 
+    public void testFromScratch(){
+        _annotation _an = _annotation.of()
+                .name("A")
+                .setPackage("a.io")
+                .anno(Deprecated.class)
+                .setPublic();
+
+        //System.out.println(_an);
+    }
 
 
 
@@ -30,8 +39,8 @@ public class _annotationTest extends TestCase  {
 
         System.out.println( _a );
 
-        assertTrue( _a.getElement("value").equals(_annotation._element.of("/** A Javadoc */ int value() default 100;")));
-        assertTrue( _a.getElement("name").is("String name() default \"Eric\";"));
+        assertTrue( _a.getEntry("value").equals(_entry.of("/** A Javadoc */ int value() default 100;")));
+        assertTrue( _a.getEntry("name").is("String name() default \"Eric\";"));
     }
 
     public void testHeader(){
@@ -79,8 +88,8 @@ public class _annotationTest extends TestCase  {
             String ss = "Some String";
         });
         assertEquals(5, _a.listElements().size());
-        assertTrue($ex.of("{1,2,3,4,5}").matches(_a.getElement("vs").getDefaultValue()));
-        assertTrue($ex.stringLiteralEx("Some String").matches(_a.getElement("ss").getDefaultValue()));
+        assertTrue($ex.of("{1,2,3,4,5}").matches(_a.getEntry("vs").getDefaultValue()));
+        assertTrue($ex.stringLiteralEx("Some String").matches(_a.getEntry("ss").getDefaultValue()));
     }
 
     public void testImport(){
@@ -98,19 +107,19 @@ public class _annotationTest extends TestCase  {
         assertTrue( _an.getField("V").isType( int.class));
         assertEquals( Ex.of( 102), _an.getField("V").getInit());
 
-        _element _p = _an.getElement("value");
+        _entry _p = _an.getEntry("value");
         assertTrue(_p.getAnnos().is( "@ann", "@ann2(k='3',v=2)"));
         assertTrue(_p.getJavadoc().getContent().contains( "javadoc"));
         assertFalse( _p.hasDefaultValue());
         assertTrue( _p.isType( int.class));
 
-        _p = _an.getElement("s");
+        _p = _an.getEntry("s");
         assertFalse( _p.hasJavadoc() );
         assertFalse( _p.hasAnnos() );
         assertTrue( _p.hasDefaultValue());
         assertEquals( Ex.stringLiteralEx( "String"), _p.getDefaultValue());
 
-        _p = _an.getElement("clazz");
+        _p = _an.getEntry("clazz");
         assertFalse( _p.hasJavadoc() );
         assertFalse( _p.hasAnnos() );
         assertTrue( _p.hasDefaultValue());
@@ -119,7 +128,7 @@ public class _annotationTest extends TestCase  {
         assertTrue( _p.isType(Class[].class) );
         assertEquals( Ex.arrayInitializerEx( "{}"),_p.getDefaultValue());
 
-        _p = _an.getElement("vval");
+        _p = _an.getEntry("vval");
         assertFalse( _p.hasJavadoc() );
         assertFalse( _p.hasAnnos() );
         assertTrue( _p.hasDefaultValue());

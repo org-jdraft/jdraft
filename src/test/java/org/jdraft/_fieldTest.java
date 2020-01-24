@@ -14,6 +14,15 @@ import org.jdraft.text.Text;
  */
 public class _fieldTest extends TestCase {
 
+    public void testBuildFromScratch(){
+        _field _f = _field.of();
+        System.out.println(_f);
+        _f.name("A").type(int.class).modifiers("public static final");
+        //_f.name("A").type(int.class).modifiers("static");
+        //_f.name("A").type(int.class).modifiers("public", "static");
+        System.out.println(_f);
+    }
+
     public void testModifierOrderEqualsHash(){
         _field _f1 = _field.of("@a @b @c public final static int ID = 102;");
         _field _f2 = _field.of("@c @b @a public static final int ID = 102;");

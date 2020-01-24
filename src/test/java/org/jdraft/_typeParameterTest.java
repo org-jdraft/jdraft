@@ -5,10 +5,12 @@
  */
 package org.jdraft;
 
+import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.expr.SimpleName;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.TypeParameter;
 import com.github.javaparser.ast.type.UnionType;
 import junit.framework.TestCase;
@@ -25,6 +27,19 @@ import java.util.List;
  */
 public class _typeParameterTest extends TestCase {
 
+    public void testBuildFromScratch(){
+        _typeParameter _tp = _typeParameter.of();
+        NodeList<ClassOrInterfaceType> tb = new NodeList<>();
+        tb.add(StaticJavaParser.parseClassOrInterfaceType("Map<Integer,String>"));
+        _tp.setExtendsTypeBound(tb);
+
+        _tp.addExtendsTypeBound("String");
+
+
+        System.out.println( _tp );
+        //_tp.name("A").ast().setTypeBound();
+
+    }
     public void testTypeParameterT(){
         _typeParameters _tps = _typeParameters.of("B extends R & J");
         System.out.println( _tps.get(0).getTypeBound() );

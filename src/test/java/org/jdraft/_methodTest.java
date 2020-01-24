@@ -22,6 +22,10 @@ import org.jdraft.runtime._runtime;
  */
 public class _methodTest extends TestCase {
 
+    public void testBuildFromScratch(){
+        _method _m = _method.of();
+        System.out.println(_m);
+    }
     public void testMethodMatch(){
         _class _c = _class.of("C", new Object(){
             void m(){}

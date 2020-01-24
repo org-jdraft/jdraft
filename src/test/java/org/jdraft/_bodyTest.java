@@ -10,6 +10,10 @@ import junit.framework.TestCase;
  */
 public class _bodyTest extends TestCase {
 
+    public void testFromScratch(){
+        _body _b = _body.of();
+        System.out.println(_b);
+    }
     public void testAddBodyToNonImplementedMethod(){
         _method m = _method.of("public void m();");
         m.add( "System.out.println(1);");

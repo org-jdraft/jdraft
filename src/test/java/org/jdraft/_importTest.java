@@ -13,7 +13,6 @@ import static org.jdraft.Ast.importDeclaration; /** DONT REMOVE */
  *
  * @author Eric
  */
-//@cache
 public class _importTest extends TestCase {
 
     public void testMultipleStaticImports(){

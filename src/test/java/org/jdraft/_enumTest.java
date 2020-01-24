@@ -18,7 +18,33 @@ import test.ComplexEnum;
  * @author Eric
  */
 public class _enumTest extends TestCase {
- 
+
+    public void testBuildFromScratch(){
+        _constant _c = _constant.of();
+        System.out.println( _c );
+
+        //name, arguments, body
+        //name, argument, method, field
+        //TODO i need a .body(String...) method that will represent the body
+        // of the constant
+        _c.name("One")
+                .arguments("1, new HashMap()")
+                .addArgument(1)
+                .body("public int G = 234;",
+                     "public int rrrr(){",
+                    "    return 345;",
+                   "}")
+                //you can add a field this way
+                .field("public int F = 1;")
+                .field(_field.of("String nm;")) //or this way
+                .field( Ast.field("float ff = 10.2f") ) //or this way (AST)
+                .method("public int rr() { return 3; }") //this way
+                .method(_method.of("int g(){ return 12345;}")) //or this way
+                .method(Ast.method("double dd(){ return 3.45d;}")); //or this way
+
+        System.out.println( _c );
+    }
+
     interface MemberI{ }
     
     interface $Member{        

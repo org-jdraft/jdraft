@@ -357,7 +357,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * Adds {@link _initBlock}s ({@link _field}s, {@link _method}s, {@link _constructor}s,{@link _constant}s,
-     * {@link _annotation._element}s), and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
+     * {@link _annotation._entry}s), and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
      * {@link _annotation}s) to the BODY of the {@link _type} and return the modified {@link _type}
      * @param members the members to be added
      * @return the modified _type
@@ -375,7 +375,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * List the {@link _member}s: ({@link _initBlock}s, {@link _field}s, {@link _method}s, {@link _constructor}s,
-     * {@link _constant}s, {@link _annotation._element}s) , and nested {@link _type}s, {@link _enum}s,
+     * {@link _constant}s, {@link _annotation._entry}s) , and nested {@link _type}s, {@link _enum}s,
      * {@link _class}es, {@link _interface}s, {@link _annotation}s) on the _type
      * @return a List of {@link _declared}s on the type
      */
@@ -396,7 +396,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * List the {@link _member}s of the memberClass: ({@link _initBlock}s, {@link _field}s, {@link _method}s,
-     * {@link _constructor}s,{@link _constant}s, {@link _annotation._element}s) , and nested {@link _type}s,
+     * {@link _constructor}s,{@link _constant}s, {@link _annotation._entry}s) , and nested {@link _type}s,
      * {@link _enum}s, {@link _class}es, {@link _interface}s, {@link _annotation}s) on the _type
      * @param memberClass
      * @param <_M>
@@ -416,7 +416,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * List the {@link _member}s of the memberClass: ({@link _initBlock}s, {@link _field}s, {@link _method}s,
-     * {@link _constructor}s,{@link _constant}s, {@link _annotation._element}s) , and nested {@link _type}s,
+     * {@link _constructor}s,{@link _constant}s, {@link _annotation._entry}s) , and nested {@link _type}s,
      * {@link _enum}s, {@link _class}es, {@link _interface}s, {@link _annotation}s) on the _type
      * @param memberClass
      * @param <_M>
@@ -512,7 +512,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * remove all members ({@link _initBlock}s, {@link _field}s, {@link _method}s, {@link _constructor}s,{@link _constant}s,
-     * {@link _annotation._element}s, and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
+     * {@link _annotation._entry}s, and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
      * {@link _annotation}s) on the _type that are of the declarationClass and match the _declarationMatchFn
      * @param <_M> the _member type (i.e. _initBlock.class, _method.class, _field.class, _constructor.class, _initBlock.class)
      * @param memberClass the Class (i.e. _initBlock.class, _method.class, _field.class, _constructor.class, _initBlock.class)
@@ -561,7 +561,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * Iterate & apply the action function to all {@link _declared}s ({@link _field}s,
-     * {@link _method}s, {@link _constructor}s,{@link _constant}s, {@link _annotation._element}s),
+     * {@link _method}s, {@link _constructor}s,{@link _constant}s, {@link _annotation._entry}s),
      * and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s, {@link _annotation}s)
      * that satisfy the _declarationMatchFn
      * @param _declarationMatchFn function for selecting which _declarations to apply the _declarationActionFn
@@ -575,7 +575,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * List the {@link _declared}s ({@link _field}s, {@link _method}s, {@link _constructor}s,{@link _constant}s,
-     * {@link _annotation._element}s), and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
+     * {@link _annotation._entry}s), and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
      * {@link _annotation}s) on the _type
      * @return a List of {@link _declared}s on the _type
      */
@@ -585,7 +585,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * List all _declarations ({@link _field}s, {@link _method}s, {@link _constructor}s,{@link _constant}s,
-     * {@link _annotation._element}s) , and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
+     * {@link _annotation._entry}s) , and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
      * {@link _annotation}s) on the _type matching the _declarationMatchFn
      * @param _declarationMatchFn
      * @return a list of _declarations
@@ -596,7 +596,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     
     /**
      * list all _declared ({@link _field}s, {@link _method}s, {@link _constructor}s,{@link _constant}s,
-     * {@link _annotation._element}s), and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
+     * {@link _annotation._entry}s), and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
      * {@link _annotation}s) oon the _type that are of the declarationClass
      * @param <_D> the _declaration type (i.e. _method.class, _field.class, _staticBlock.class)
      * @param declarationClass the Class (i.e. _method.class, _field.class, _staticBlock.class)
@@ -608,7 +608,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     
     /**
      * list all _declarations ({@link _field}s, {@link _method}s, {@link _constructor}s,{@link _constant}s,
-     * {@link _annotation._element}s, and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
+     * {@link _annotation._entry}s, and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
      * {@link _annotation}s) on the _type that are of the declarationClass
      * @param <_D> the _declaration type (i.e. _method.class, _field.class, _constructor.class)
      * @param declarationClass the Class (i.e. _method.class, _field.class, _constructor.class)
@@ -663,7 +663,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * finds the first declaration {@link _declared}s of Class: ({@link _field}s,
-     * {@link _method}s, {@link _constructor}s,{@link _constant}s, {@link _annotation._element}s) ,
+     * {@link _method}s, {@link _constructor}s,{@link _constant}s, {@link _annotation._entry}s) ,
      * and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s, {@link _annotation}s)
      *  with the name and returns it
      *

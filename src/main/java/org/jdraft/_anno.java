@@ -815,7 +815,7 @@ public final class _anno
      * {@link _method}
      * {@link _constructor}
      * {@link _parameter}
-     * {@link _annotation._element}
+     * {@link _annotation._entry}
      * {@link _constant}
      * </UL>
      *

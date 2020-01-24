@@ -92,6 +92,14 @@ public final class _field
         return new _field(v);
     }
 
+    public static _field of(){
+        //we HAVE to create a Field parent because a variable's modifiers are on the parent
+        FieldDeclaration fd = new FieldDeclaration();
+        VariableDeclarator vd = new VariableDeclarator();
+        fd.addVariable(vd);
+        return of( vd );
+    }
+
     public static _field of(String... fieldDecl) {
         String str = Text.combine(fieldDecl);
         FieldDeclaration fd = Ast.field(str);

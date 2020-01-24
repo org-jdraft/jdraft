@@ -14,6 +14,12 @@ import java.util.List;
  */
 public class _initBlockTest extends TestCase {
 
+    public void testBuildFromScratch(){
+        _initBlock _ib = _initBlock.of();
+        _ib.setStatic();
+        assertEquals( _initBlock.of("static{}"), _ib);
+        assertEquals( Ast.initBlock( "static {}"), _ib.astInit);
+    }
     
     @interface T{
         

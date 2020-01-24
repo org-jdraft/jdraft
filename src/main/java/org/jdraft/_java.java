@@ -19,7 +19,7 @@ import com.github.javaparser.ast.type.*;
 import static org.jdraft.Ast.*;
 
 import org.jdraft._anno._hasAnnos;
-import org.jdraft._annotation._element;
+import org.jdraft._annotation._entry;
 import org.jdraft._body._hasBody;
 import org.jdraft._constructor._hasConstructors;
 import org.jdraft._javadoc._hasJavadoc;
@@ -479,7 +479,7 @@ public interface _java {
         if (_constant.class == nodeClass) {
             return constantDecl(code);
         }
-        if (_annotation._element.class == nodeClass) {
+        if (_entry.class == nodeClass) {
             return annotationMemberDecl(code);
         }
         if (_method.class == nodeClass) {
@@ -499,7 +499,7 @@ public interface _java {
      * all {@link _type}s:
      * {@link _annotation}, {@link _class}, {@link _enum}, {@link _interface}
      * {@link _anno}
-     * {@link _annotation._element}
+     * {@link _entry}
      * {@link _constructor}
      * {@link _constant}
      * {@link _field}
@@ -526,7 +526,7 @@ public interface _java {
             return _annotation.of((AnnotationDeclaration) astNode);
         }
         if (astNode instanceof AnnotationMemberDeclaration) {
-            return _annotation._element.of((AnnotationMemberDeclaration) astNode);
+            return _entry.of((AnnotationMemberDeclaration) astNode);
         }
         if (astNode instanceof ClassOrInterfaceDeclaration) {
             ClassOrInterfaceDeclaration cois = (ClassOrInterfaceDeclaration) astNode;
@@ -724,8 +724,8 @@ public interface _java {
         //IMPORT("import", ImportDeclaration.class), //todo change to _import
         STATIC("static", Boolean.class),
         WILDCARD("wildcard", Boolean.class),
-        ELEMENTS("elements", List.class, _annotation._element.class), //_annotation
-        ELEMENT("element", _annotation._element.class), //annotation
+        ELEMENTS("elements", List.class, _entry.class), //_annotation
+        ELEMENT("element", _entry.class), //annotation
         FIELDS("fields", List.class, _field.class),
         FIELD("field", _field.class),
         NESTS("nests", List.class, _type.class),
@@ -1022,7 +1022,7 @@ public interface _java {
         Class<_constant> CONSTANT = _constant.class;
 
         /** Annotation Element i.e. @interface A{ int element(); }*/
-        Class<_element> ELEMENT = _element.class;
+        Class<_entry> ELEMENT = _entry.class;
 
         Class<_body> BODY = _body.class;
         /** an annotation use i.e. @Deprecated */
@@ -1082,7 +1082,7 @@ public interface _java {
             _JAVA_TO_AST_NODE_CLASSES.put(_import.class, ImportDeclaration.class);
             
             _JAVA_TO_AST_NODE_CLASSES.put(_anno.class, AnnotationExpr.class);
-            _JAVA_TO_AST_NODE_CLASSES.put(_annotation._element.class, AnnotationMemberDeclaration.class);
+            _JAVA_TO_AST_NODE_CLASSES.put(_entry.class, AnnotationMemberDeclaration.class);
             _JAVA_TO_AST_NODE_CLASSES.put(_constant.class, EnumConstantDeclaration.class);
             _JAVA_TO_AST_NODE_CLASSES.put(_constructor.class, ConstructorDeclaration.class);
             _JAVA_TO_AST_NODE_CLASSES.put(_field.class, VariableDeclarator.class);
@@ -1114,7 +1114,7 @@ public interface _java {
             AST_NODE_TO_JAVA_CLASSES.put(MarkerAnnotationExpr.class, _anno.class);
             AST_NODE_TO_JAVA_CLASSES.put(SingleMemberAnnotationExpr.class, _anno.class);
 
-            AST_NODE_TO_JAVA_CLASSES.put(AnnotationMemberDeclaration.class, _annotation._element.class);
+            AST_NODE_TO_JAVA_CLASSES.put(AnnotationMemberDeclaration.class, _entry.class);
             AST_NODE_TO_JAVA_CLASSES.put(EnumConstantDeclaration.class, _constant.class);
             AST_NODE_TO_JAVA_CLASSES.put(ConstructorDeclaration.class, _constructor.class);
 
