@@ -7,6 +7,13 @@ import java.util.Map;
 
 public class _arrayAccess implements _expression<ArrayAccessExpr, _arrayAccess> {
 
+    public static _arrayAccess of(){
+        return new _arrayAccess(new ArrayAccessExpr());
+    }
+
+    public static _arrayAccess of( String...code){
+        return new _arrayAccess(Ex.arrayAccessEx( code));
+    }
     public ArrayAccessExpr ile;
 
     public _arrayAccess(ArrayAccessExpr ile){

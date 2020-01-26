@@ -7,6 +7,14 @@ import java.util.Map;
 
 public class _char implements _expression<CharLiteralExpr, _char> {
 
+    public static _char of(){
+        return new _char(new CharLiteralExpr());
+    }
+
+    public static _char of( String...code){
+        return new _char(Ex.charLiteralEx( code));
+    }
+
     public CharLiteralExpr ile;
 
     public _char(CharLiteralExpr ile){

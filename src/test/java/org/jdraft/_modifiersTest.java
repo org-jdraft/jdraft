@@ -16,6 +16,16 @@ import junit.framework.TestCase;
 public class _modifiersTest extends TestCase {
 
 
+    public final class FC{
+        public int f;
+        public void m(){}
+    }
+
+    public void testFinalMethodByDefault() throws NoSuchMethodException {
+        //NOTE: methods on a final class are not final
+        assertFalse( java.lang.reflect.Modifier.isFinal(FC.class.getMethod("m").getModifiers()));
+    }
+
     public void testEmptyMods(){
         _modifiers _ms = _modifiers.of();
         assertEquals(0, _ms.asInt());

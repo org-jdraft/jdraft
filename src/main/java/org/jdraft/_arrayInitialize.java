@@ -9,6 +9,14 @@ import java.util.Map;
 
 public class _arrayInitialize implements _expression<ArrayInitializerExpr, _arrayInitialize> {
 
+    public static _arrayInitialize of( ){
+        return new _arrayInitialize(new ArrayInitializerExpr());
+    }
+
+    public static _arrayInitialize of( String...code){
+        return new _arrayInitialize(Ex.arrayInitializerEx( code));
+    }
+
     public ArrayInitializerExpr ile;
 
     public _arrayInitialize(ArrayInitializerExpr ile){

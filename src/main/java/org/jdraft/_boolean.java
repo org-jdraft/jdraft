@@ -7,6 +7,14 @@ import java.util.Map;
 
 public class _boolean implements _expression<BooleanLiteralExpr, _boolean> {
 
+    public static _boolean of( ){
+        return new _boolean(new BooleanLiteralExpr());
+    }
+
+    public static _boolean of( String...code){
+        return new _boolean(Ex.booleanLiteralEx( code));
+    }
+
     public BooleanLiteralExpr ile;
 
     public _boolean(BooleanLiteralExpr ile){

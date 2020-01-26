@@ -7,6 +7,14 @@ import java.util.Map;
 
 public class _double implements _expression<DoubleLiteralExpr, _double> {
 
+    public static _double of(){
+        return new _double( new DoubleLiteralExpr());
+    }
+
+    public static _double of( String...code){
+        return new _double(Ex.doubleLiteralEx( code));
+    }
+
     public DoubleLiteralExpr ile;
 
     public _double(DoubleLiteralExpr ile){

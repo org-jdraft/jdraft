@@ -767,9 +767,26 @@ public interface _java {
         SWITCH_ENTRIES("switchEntries", List.class, SwitchEntry.class), //TODO change to _switchEntry
         SWITCH_BODY_TYPE("switchBodyType", com.github.javaparser.ast.stmt.SwitchEntry.Type.class),
         SWITCH_LABELS("switchLabels", List.class, Expression.class),
-        INDEX("index", Integer.class),
-        VALUES("values", List.class, Expression.class),
-        LITERAL("literal", Object.class); //typeRef
+        INDEX("index", Integer.class), //arrayAccess
+        VALUES("values", List.class, Expression.class), //ArrayInit
+        TARGET("target", Expression.class), //assign
+        VALUE("value", Expression.class), //assign
+        LEFT( "left", Expression.class), //binaryExpression
+        RIGHT( "right", Expression.class), //binaryExpression
+        BINARY_OPERATOR( "binaryOperator", BinaryExpr.Operator.class), //binaryExpression
+        UNARY_OPERATOR( "unaryOperator", UnaryExpr.Operator.class), //unaryExpression
+        EXPRESSION("expression", Expression.class), //CastExpr
+        CONDITION("condition", Expression.class), //ternary
+        THEN("then", Expression.class),    //ternary
+        ELSE("else", Expression.class),   //ternary
+        INNER("inner", Expression.class), //enclosedExpr
+        SCOPE("scope", Expression.class), //fieldAccessExpr
+        TYPE_ARGUMENTS("typeArguments", List.class, Type.class), //methodCall
+        IDENTIFIER("identifier", String.class),  //methodReference
+        ANONYMOUS_CLASS_BODY("anonymousClassBody", List.class, BodyDeclaration.class),//_new
+        TYPE_NAME("typeName", String.class), //_super superExpr
+        VARIABLES("variables", List.class, VariableDeclarator.class),
+        LITERAL("literal", Object.class); //typeRef, textBlock
 
 
         public final String name;

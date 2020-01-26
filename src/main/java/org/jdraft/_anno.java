@@ -43,7 +43,7 @@ import com.github.javaparser.ast.type.Type;
  * @author Eric
  */
 public final class _anno
-        implements _node<AnnotationExpr, _anno>, _named<_anno> {
+        implements _expression <AnnotationExpr, _anno>, _named<_anno> {
 
     public static _anno of( String anno ){        
         return of( new String[]{anno} );

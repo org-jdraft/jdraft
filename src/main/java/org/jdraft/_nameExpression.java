@@ -6,17 +6,25 @@ import org.jdraft.text.Text;
 import java.util.HashMap;
 import java.util.Map;
 
-public class _nameEx implements _expression<NameExpr, _nameEx> {
+public class _nameExpression implements _expression<NameExpr, _nameExpression> {
+
+    public static _nameExpression of(){
+        return new _nameExpression( new NameExpr( ));
+    }
+
+    public static _nameExpression of( String...code){
+        return new _nameExpression(Ex.nameEx( code));
+    }
 
     public NameExpr ile;
 
-    public _nameEx(NameExpr ile){
+    public _nameExpression(NameExpr ile){
         this.ile = ile;
     }
 
     @Override
-    public _nameEx copy() {
-        return new _nameEx(this.ile.clone());
+    public _nameExpression copy() {
+        return new _nameExpression(this.ile.clone());
     }
 
     @Override
@@ -40,6 +48,9 @@ public class _nameEx implements _expression<NameExpr, _nameEx> {
         return comps;
     }
 
+    public String getName(){
+        return this.ile.getNameAsString();
+    }
 
     public String toString(){
         return this.ile.toString();

@@ -740,6 +740,12 @@ public enum Ex {
         return of( code ).asConditionalExpr();
     }
 
+    /** saved ? return true; */
+    public static ConditionalExpr ternaryEx(String... code ) {
+        return of( code ).asConditionalExpr();
+    }
+
+
     /** 3.14d */
     public static final Class<DoubleLiteralExpr> DOUBLE_LITERAL = DoubleLiteralExpr.class;
 
@@ -1376,7 +1382,16 @@ public enum Ex {
         }
         return of( str ).asStringLiteralExpr();
     }
-        
+
+    public static TextBlockLiteralExpr textBlockEx(String code ){
+        return new TextBlockLiteralExpr(code);
+    }
+
+    public static TextBlockLiteralExpr textBlockEx(String... code ) {
+        String str = Text.combine( code );
+        return new TextBlockLiteralExpr(str);
+    }
+
     /** "super" */
     public static final Class<SuperExpr> SUPER = SuperExpr.class;
 
@@ -1389,8 +1404,8 @@ public enum Ex {
         return new SuperExpr();
     }
     
-    public static ThisExpr superEx(String... expr ){
-        return (ThisExpr)StaticJavaParser.parseExpression(Text.combine(expr));
+    public static SuperExpr superEx(String... expr ){
+        return (SuperExpr)StaticJavaParser.parseExpression(Text.combine(expr));
     }
     
     public static final Class<ThisExpr> THIS = ThisExpr.class;

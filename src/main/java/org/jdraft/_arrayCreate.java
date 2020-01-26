@@ -9,6 +9,14 @@ import java.util.Map;
 
 public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate> {
 
+    public static _arrayCreate of( ){
+        return new _arrayCreate(new ArrayCreationExpr());
+    }
+
+    public static _arrayCreate of( String...code){
+        return new _arrayCreate(Ex.arrayCreationEx( code));
+    }
+
     public ArrayCreationExpr ile;
 
     public _arrayCreate(ArrayCreationExpr ile){
