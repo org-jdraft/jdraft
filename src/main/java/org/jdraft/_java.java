@@ -14,6 +14,8 @@ import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.modules.ModuleDeclaration;
 import com.github.javaparser.ast.nodeTypes.*;
 import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.stmt.SwitchEntry;
 import com.github.javaparser.ast.type.*;
 
 import static org.jdraft.Ast.*;
@@ -757,7 +759,18 @@ public interface _java {
 
         AST_TYPE("astType", Type.class), //typeRef
         ARRAY_LEVEL("arrayLevel", Integer.class), //_typeRef
-        ELEMENT_TYPE("elementType", Type.class); //typeRef
+        ELEMENT_TYPE("elementType", Type.class),
+
+        //new stuff for Statements and expressions
+        STATEMENTS("statements", List.class, Statement.class), //statements of a switch entry
+        SWITCH_SELECTOR("switchSelector", Expression.class),
+        SWITCH_ENTRIES("switchEntries", List.class, SwitchEntry.class), //TODO change to _switchEntry
+        SWITCH_BODY_TYPE("switchBodyType", com.github.javaparser.ast.stmt.SwitchEntry.Type.class),
+        SWITCH_LABELS("switchLabels", List.class, Expression.class),
+        INDEX("index", Integer.class),
+        VALUES("values", List.class, Expression.class),
+        LITERAL("literal", Object.class); //typeRef
+
 
         public final String name;
         public final Class implementationClass;
