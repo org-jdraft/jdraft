@@ -801,6 +801,17 @@ public enum Stmt {
         return ods.get();
     }
 
+    public static EmptyStmt emptyStmt(){
+        return new EmptyStmt();
+    }
+
+    public static EmptyStmt emptyStmt(String...code){
+        if( Text.combine(code).equals(";")) {
+            return new EmptyStmt();
+        }
+        throw new _jdraftException("Invliad characters to represent EmptyStmt: "+Text.combine(code));
+    }
+
     public static ExpressionStmt expressionStmt( Ex.Command command ){
         return expressionStmt(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
@@ -1442,6 +1453,71 @@ public enum Stmt {
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> WhileStmt whileStmt( Ex.QuadConsumer<A,B,C,D> command ){
         return whileStmt(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    /** i.e. "yield 6;" */
+    public static final Class<YieldStmt> YIELD = YieldStmt.class;
+
+    /**
+     * i.e."yield 6;"
+     *
+     * @param code
+     * @return
+     */
+    public static YieldStmt yieldStmt( String... code ) {
+        return of( code ).asYieldStmt();
+    }
+
+    /**
+     * i.e."yield 6;"
+     *
+     * @param code
+     * @return
+     */
+    public static YieldStmt yieldStmt( String code ){
+        return yieldStmt( new String[]{code});
+    }
+
+    /**
+     * Builds a WhileStmt from the first WhileStmt within the Lambda expression code found based on the
+     * location of the
+     * StackTraceElement.  i.e.
+     * Stmt.doStmt( (Integer i)-> { do{ System.out.println(1}; System.out.println(2); }while(i==1) } );
+     *
+     * @param ste the stackTraceElement for the caller location of the
+     * @return a YieldStmt based on the Lambda Expression block
+     */
+    public static YieldStmt yieldStmt( StackTraceElement ste ){
+        LambdaExpr le = Ex.lambdaEx( ste );
+        return le.findFirst(YieldStmt.class).get();
+    }
+
+    public static YieldStmt yieldStmt( LambdaExpr le ){
+        Optional<YieldStmt> ods = le.findFirst(YieldStmt.class);
+        if( ods == null ){
+            throw new _jdraftException("No YieldStmt in lambda "+ le );
+        }
+        return ods.get();
+    }
+
+    public static YieldStmt yieldStmt( Ex.Command command ){
+        return yieldStmt(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object> YieldStmt yieldStmt( Consumer<A> command ){
+        return yieldStmt(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object> YieldStmt yieldStmt( BiConsumer<A,B> command ){
+        return yieldStmt(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> YieldStmt yieldStmt( Ex.TriConsumer<A,B,C> command ){
+        return yieldStmt(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> YieldStmt yieldStmt( Ex.QuadConsumer<A,B,C,D> command ){
+        return yieldStmt(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     /** an empty statement i.e. ";" */

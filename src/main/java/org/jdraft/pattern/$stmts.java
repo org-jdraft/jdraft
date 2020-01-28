@@ -110,7 +110,17 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
         astBlockStmt.getStatements().forEach(s -> $s.add(s));
         return $s;
     }
-    
+    public static $stmts of($stmt $st){
+        $stmts $ss = new $stmts();
+        $ss.$sts.add($st);
+        return $ss;
+    }
+    public static $stmts of($stmt...$sts){
+        $stmts $ss = new $stmts();
+        Arrays.stream($sts).forEach($s -> $ss.$sts.add($s));
+        return $ss;
+    }
+
     public static $stmts of(){
         return new $stmts( $stmt.of() );
     }

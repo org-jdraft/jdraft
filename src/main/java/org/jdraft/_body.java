@@ -13,6 +13,7 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt;
+import com.github.javaparser.ast.nodeTypes.NodeWithBody;
 import com.github.javaparser.ast.nodeTypes.NodeWithOptionalBlockStmt;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
@@ -143,6 +144,16 @@ public final class _body implements _draft {
      * @return 
      */
     public static _body of( Statement statement ){
+        if( statement.getParentNode().isPresent()){
+            Node parent = statement.getParentNode().get();
+            if( parent instanceof NodeWithBlockStmt){
+                return of( (NodeWithBlockStmt)parent);
+            }
+            if( parent instanceof NodeWithOptionalBlockStmt){
+                return of( (NodeWithOptionalBlockStmt)parent);
+            }
+        }
+        //they COULD be
         if( statement instanceof BlockStmt ){
             return of( _method.of("void __BODYHOLDER();").setBody((BlockStmt)statement).ast());
         }

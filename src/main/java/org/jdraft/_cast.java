@@ -54,6 +54,7 @@ public class _cast implements _expression<CastExpr, _cast> {
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
+
         comps.put(_java.Component.TYPE, ile.getType());
         comps.put(_java.Component.EXPRESSION, ile.getExpression());
         return comps;
@@ -62,6 +63,7 @@ public class _cast implements _expression<CastExpr, _cast> {
     public _typeRef getType(){
         return _typeRef.of(this.ile.getType());
     }
+
     public _expression getExpression(){
         return _expression.of(this.ile.getExpression());
     }

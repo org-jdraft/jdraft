@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.*;
 
@@ -18,7 +19,7 @@ import org.jdraft._parameter._hasParameters;
  * @author Eric
  */
 public class _lambda 
-    implements _draft, _hasParameters<_lambda> {
+    implements _expression<LambdaExpr, _lambda>, _draft, _hasParameters<_lambda> {
 
     /**
      * create a _lamba based on the code (as String)
@@ -214,7 +215,26 @@ public class _lambda
     }
 
     @Override
-    public NodeWithParameters ast() {
+    public _lambda copy() {
+        return _lambda.of(this.astLambda.clone());
+    }
+
+    @Override
+    public boolean is(String... stringRep) {
+        try{
+            return is(Ex.lambdaEx(stringRep));
+        } catch(Exception e){
+            return false;
+        }
+    }
+
+    @Override
+    public boolean is(LambdaExpr astNode) {
+        return this.astLambda.equals(astNode);
+    }
+
+    @Override
+    public LambdaExpr ast() {
         return astLambda;
     }
  
@@ -335,4 +355,8 @@ public class _lambda
         return this.astLambda.toString();
     }
 
+    @Override
+    public Map<_java.Component, Object> components() {
+        return null;
+    }
 }

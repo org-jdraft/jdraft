@@ -7,10 +7,7 @@ import java.util.Map;
 
 /**
  * 
- * <PRE><CODE>
- *     String.class
- * </CODE></PRE>
- *
+ * <PRE><CODE>String.class</CODE></PRE>
  */
 public class _classExpression implements _expression<ClassExpr, _classExpression> {
 

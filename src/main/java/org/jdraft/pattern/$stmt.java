@@ -1517,7 +1517,7 @@ public class $stmt<T extends Statement>
     public <_CT extends _type> _CT replaceIn(Class clazz, $stmt $repl){
         return (_CT)replaceIn( (_type)_java.type(clazz), $repl);
     }
-    
+
     /**
      * 
      * @param clazz
@@ -1698,6 +1698,41 @@ public class $stmt<T extends Statement>
         return _n;
     }
 
+    public <N extends Node> N replaceIn( N node, $stmt $pat){
+        return replaceIn(node, $stmts.of($pat));
+    }
+
+    public <N extends Node> N replaceIn( N node, $stmts $pat){
+        Walk.in(node, this.statementClass, st->{
+            $stmt.Select sel = select( st );
+            if( sel != null ){
+                //construct the replacement snippet
+                List<Statement> replacements = $pat.draft(sel.tokens);
+
+                //Statement firstStmt = sel.statements.get(0);
+                //Node par = firstStmt.getParentNode().get();
+                //NodeWithStatements parentNode = (NodeWithStatements)par;
+                //int addIndex = par.getChildNodes().indexOf( firstStmt );
+                LabeledStmt ls = Stmt.labeledStmt("$replacement$:{}");
+                // we want to add the contents of the replacement to a labeled statement,
+                // because, (if we did it INLINE, we could  end up in an infinite loop, searching the
+                // tree up to a cursor, then adding some code AT the cursor, then finding a match within the added
+                // code, then adding more code, etc. etc.
+                // this way, WE ADD A SINGLE LABELED STATEMENT AT THE LOCATION OF THE FIRST MATCH (which contains multiple statements)
+                // then, we move to the next statement
+                for(int i=0;i<replacements.size(); i++){
+                    ls.getStatement().asBlockStmt().addStatement( replacements.get(i) );
+                }
+                sel.astStatement.replace( ls );
+                //parentNode.addStatement(addIndex +1, ls);
+                //removeIn all but the first statement
+                //sel.statements.forEach( s-> s.removeIn() );
+                //System.out.println("PAR AFTER Remove "+ par );
+            }
+        });
+        Ast.flattenLabel(node, "$replacement$");
+        return node;
+    }
     /**
      * 
      * @param <_J>

@@ -63,13 +63,17 @@ public class _fieldAccess implements _expression<FieldAccessExpr, _fieldAccess> 
     /**
      * Returns the List of Type Arguments or an empty list if there are no type arguments
      * @return
+     * 1) null if there are NO typeArguments
+     * 2) an empty list if the &lt;> (Diamond operator) is being used
+     * 3) a populated list if there are type arguments
      */
     public List<_typeRef> getTypeArguments(){
-        List<_typeRef> tas = new ArrayList<>();
+
         if( this.ile.getTypeArguments().isPresent() ){
+            List<_typeRef> tas = new ArrayList<>();
             this.ile.getTypeArguments().get().forEach( ta-> tas.add(_typeRef.of(ta)));
         }
-        return tas;
+        return null;
     }
 
     public String getName(){

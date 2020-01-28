@@ -12,8 +12,14 @@ public interface _expression<E extends Expression, _E extends _expression> exten
      * @return
      */
     static _expression of( Expression e){
+        //if( e == null){
+        //    return new EmptyExpression();
+        //}
         if( e instanceof AnnotationExpr ){
             return _anno.of( (AnnotationExpr)e);
+        }
+        if( e instanceof ArrayAccessExpr){
+            return new _arrayAccess( (ArrayAccessExpr)e);
         }
         if( e instanceof AssignExpr){
             return new _assign((AssignExpr)e);
@@ -36,6 +42,9 @@ public interface _expression<E extends Expression, _E extends _expression> exten
         if( e instanceof InstanceOfExpr){
             return new _instanceOf((InstanceOfExpr)e);
         }
+        if( e instanceof LambdaExpr){
+            return new _lambda((LambdaExpr)e);
+        }
         if( e instanceof MethodCallExpr){
             return new _methodCall((MethodCallExpr)e);
         }
@@ -44,6 +53,9 @@ public interface _expression<E extends Expression, _E extends _expression> exten
         }
         if( e instanceof ObjectCreationExpr){
             return new _new((ObjectCreationExpr)e);
+        }
+        if( e instanceof NameExpr){
+            return new _nameExpression( (NameExpr)e );
         }
         if( e instanceof NullLiteralExpr){
             return new _null((NullLiteralExpr)e);
@@ -69,6 +81,7 @@ public interface _expression<E extends Expression, _E extends _expression> exten
         if( e instanceof VariableDeclarationExpr){
             return new _variable( (VariableDeclarationExpr)e);
         }
+        //literals
         if( e instanceof IntegerLiteralExpr ){
             return new _int( (IntegerLiteralExpr)e );
         }
@@ -87,12 +100,7 @@ public interface _expression<E extends Expression, _E extends _expression> exten
         if( e instanceof StringLiteralExpr){
             return new _string( (StringLiteralExpr)e );
         }
-        if( e instanceof ArrayAccessExpr){
-            return new _arrayAccess( (ArrayAccessExpr)e);
-        }
-        if( e instanceof NameExpr){
-            return new _nameExpression( (NameExpr)e );
-        }
-        throw new RuntimeException("Unsupported "+ e.getClass()+" of "+ e);
+
+        throw new _jdraftException("Unsupported "+ e.getClass()+" of "+ e);
     }
 }

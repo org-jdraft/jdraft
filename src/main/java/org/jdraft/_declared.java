@@ -51,18 +51,4 @@ public interface _declared<N extends Node, _D extends _node & _named & _anno._ha
     default boolean hasJavadoc() {
         return ((NodeWithJavadoc) this.ast()).getJavadoc().isPresent();
     }
-
-    /* this was causing problems with generics
-    @Override
-    default _D javadoc(String... content) {
-        ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
-        return (_D) this;
-    }
-
-    @Override
-    default _D javadoc(JavadocComment astJavadocComment) {
-        ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
-        return (_D) this;
-    }
-     */
 }

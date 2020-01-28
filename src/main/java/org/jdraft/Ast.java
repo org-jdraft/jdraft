@@ -453,6 +453,11 @@ public enum Ast {
     public static final Class<WhileStmt> WHILE_STMT = WhileStmt.class;
 
     /**
+     * Yield statement "yield 6;"
+     */
+    public static final Class<YieldStmt> YIELD_STMT = YieldStmt.class;
+
+    /**
      *
      */
     public static final Class<SwitchEntry> SWITCH_CASE = SwitchEntry.class;

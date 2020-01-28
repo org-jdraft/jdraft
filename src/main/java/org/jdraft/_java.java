@@ -786,6 +786,16 @@ public interface _java {
         ANONYMOUS_CLASS_BODY("anonymousClassBody", List.class, BodyDeclaration.class),//_new
         TYPE_NAME("typeName", String.class), //_super superExpr
         VARIABLES("variables", List.class, VariableDeclarator.class),
+        CHECK("check", Expression.class), //assertStmt
+        MESSAGE("message", Expression.class), //assertStmt
+        LABEL("label", String.class), //breakStmt, labeledStmt
+        THIS_CALL("thisCall", Boolean.class), //thisOrSuperStmt
+        ITERABLE("iterable", Expression.class), //forEachStmt
+        VARIABLE("variable", VariableDeclarationExpr.class), //forEachStmt
+        INITIALIZATION("initialization", List.class, Expression.class), //forStmt
+        UPDATE("update", List.class, Expression.class),
+        COMPARE("compare", Expression.class),
+        STATEMENT("statement", Statement.class), //labeledStatment
         LITERAL("literal", Object.class); //typeRef, textBlock
 
 
