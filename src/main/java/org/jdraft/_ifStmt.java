@@ -13,6 +13,9 @@ public class _ifStmt implements _statement<IfStmt, _ifStmt> {
     public static _ifStmt of(){
         return new _ifStmt( new IfStmt( ));
     }
+    public static _ifStmt of(IfStmt is){
+        return new _ifStmt( is);
+    }
 
     public static _ifStmt of(String...code){
         return new _ifStmt(Stmt.ifStmt( code));

@@ -10,7 +10,9 @@ public class _typeExpression implements _expression<TypeExpr, _typeExpression> {
     public static _typeExpression of(){
         return new _typeExpression( new TypeExpr());
     }
-
+    public static _typeExpression of(TypeExpr te){
+        return new _typeExpression(te);
+    }
     public static _typeExpression of( String...code){
         return new _typeExpression(Ex.typeEx( code));
     }

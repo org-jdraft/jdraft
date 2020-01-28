@@ -1,20 +1,71 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.expr.ArrayInitializerExpr;
+import com.github.javaparser.ast.expr.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class _arrayInitialize implements _expression<ArrayInitializerExpr, _arrayInitialize> {
 
     public static _arrayInitialize of( ){
         return new _arrayInitialize(new ArrayInitializerExpr());
     }
-
+    public static _arrayInitialize of(ArrayInitializerExpr ai){
+        return new _arrayInitialize(ai);
+    }
     public static _arrayInitialize of( String...code){
         return new _arrayInitialize(Ex.arrayInitializerEx( code));
+    }
+
+    public static _arrayInitialize ofStrings( String[] arr){
+        ArrayInitializerExpr aie = new ArrayInitializerExpr();
+        Arrays.stream(arr).forEach(i -> aie.getValues().add(new StringLiteralExpr(i)));
+        return of(aie);
+    }
+
+    public static _arrayInitialize of( int[] arr){
+        ArrayInitializerExpr aie = new ArrayInitializerExpr();
+        Arrays.stream(arr).forEach(i -> aie.getValues().add(new IntegerLiteralExpr(i)));
+        return of(aie);
+    }
+
+    public static _arrayInitialize of( boolean[] arr){
+        ArrayInitializerExpr aie = new ArrayInitializerExpr();
+        for(int i=0;i<arr.length;i++){
+            aie.getValues().add( new BooleanLiteralExpr(arr[i]));
+        }
+        return of(aie);
+    }
+
+    public static _arrayInitialize of( float[] arr){
+        ArrayInitializerExpr aie = new ArrayInitializerExpr();
+        for(int i=0;i<arr.length;i++){
+            aie.getValues().add( new DoubleLiteralExpr( arr[i] +"F" ));
+        }
+        return of(aie);
+    }
+
+    public static _arrayInitialize of( double[] arr){
+        ArrayInitializerExpr aie = new ArrayInitializerExpr();
+        for(int i=0;i<arr.length;i++){
+            aie.getValues().add( new DoubleLiteralExpr( arr[i] +"D" ));
+        }
+        return of(aie);
+    }
+
+    public static _arrayInitialize of( long[] arr){
+        ArrayInitializerExpr aie = new ArrayInitializerExpr();
+        for(int i=0;i<arr.length;i++){
+            aie.getValues().add( new LongLiteralExpr( arr[i] ));
+        }
+        return of(aie);
+    }
+
+    public static _arrayInitialize of( char[] arr){
+        ArrayInitializerExpr aie = new ArrayInitializerExpr();
+        for(int i=0;i<arr.length;i++){
+            aie.getValues().add( new CharLiteralExpr( arr[i] ));
+        }
+        return of(aie);
     }
 
     public ArrayInitializerExpr ile;
@@ -68,7 +119,6 @@ public class _arrayInitialize implements _expression<ArrayInitializerExpr, _arra
     public int hashCode(){
         return 31 * this.ile.hashCode();
     }
-
 
     public String toString(){
         return this.ile.toString();

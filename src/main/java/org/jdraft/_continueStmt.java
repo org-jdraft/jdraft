@@ -13,9 +13,15 @@ public class _continueStmt implements _statement<ContinueStmt, _continueStmt> {
     public static _continueStmt of(){
         return new _continueStmt( new ContinueStmt( ));
     }
-
+    public static _continueStmt of(ContinueStmt cs){
+        return new _continueStmt( cs);
+    }
     public static _continueStmt of(String...code){
         return new _continueStmt(Stmt.continueStmt( code));
+    }
+
+    public static _continueStmt to(String label){
+        return new _continueStmt(new ContinueStmt(label));
     }
 
     private ContinueStmt astStmt;

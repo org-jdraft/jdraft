@@ -26,17 +26,17 @@ import java.util.function.*;
  * note: this is a "virtual" thing
  *
  */
-public class _switch implements _statement<SwitchStmt, _switch> {
+public class _switchStmt implements _statement<SwitchStmt, _switchStmt> {
 
-    public static _switch of(){
-        return new _switch(new SwitchStmt());
+    public static _switchStmt of(){
+        return new _switchStmt(new SwitchStmt());
     }
 
-    public static _switch of(SwitchStmt ss){
-        return new _switch(ss);
+    public static _switchStmt of(SwitchStmt ss){
+        return new _switchStmt(ss);
     }
 
-    public static _switch of(String...code){
+    public static _switchStmt of(String...code){
         try{
             return of( Ast.switchStmt(code) );
         }catch(Exception e){
@@ -44,7 +44,7 @@ public class _switch implements _statement<SwitchStmt, _switch> {
         }
     }
 
-    public static _switch of(LambdaExpr le ){
+    public static _switchStmt of(LambdaExpr le ){
         Optional<SwitchStmt> ss = le.findFirst(SwitchStmt.class);
         if( ss.isPresent() ){
             return of(ss.get());
@@ -52,60 +52,60 @@ public class _switch implements _statement<SwitchStmt, _switch> {
         throw new _jdraftException("No switch statement in lambdaExpr"+System.lineSeparator()+ le);
     }
 
-    public static _switch of(Ex.Command lambdaContainer){
+    public static _switchStmt of(Ex.Command lambdaContainer){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
         return of( _l.astLambda);
     }
 
-    public static <A extends Object> _switch of (Consumer<A> lambdaContainer){
+    public static <A extends Object> _switchStmt of (Consumer<A> lambdaContainer){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
         return of( _l.astLambda);
     }
 
-    public static <A extends Object, B extends Object> _switch of (Function<A,B> lambdaContainer){
+    public static <A extends Object, B extends Object> _switchStmt of (Function<A,B> lambdaContainer){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
         return of( _l.astLambda);
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _switch of (BiFunction<A,B,C> lambdaContainer){
+    public static <A extends Object, B extends Object, C extends Object> _switchStmt of (BiFunction<A,B,C> lambdaContainer){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
         return of( _l.astLambda);
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _switch of (Ex.TriFunction<A,B,C, D> lambdaContainer){
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _switchStmt of (Ex.TriFunction<A,B,C, D> lambdaContainer){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
         return of( _l.astLambda);
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switch of (Ex.QuadFunction<A,B,C, D,E> lambdaContainer){
+    public static <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchStmt of (Ex.QuadFunction<A,B,C, D,E> lambdaContainer){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
         return of( _l.astLambda);
     }
 
-    public static <A extends Object, B extends Object> _switch of(BiConsumer<A,B> lambdaContainer ){
+    public static <A extends Object, B extends Object> _switchStmt of(BiConsumer<A,B> lambdaContainer ){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
         return of( _l.astLambda);
     }
 
-    public static <A extends Object, B extends Object,C extends Object> _switch of(Ex.TriConsumer<A,B,C> lambdaContainer ){
+    public static <A extends Object, B extends Object,C extends Object> _switchStmt of(Ex.TriConsumer<A,B,C> lambdaContainer ){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
         return of( _l.astLambda);
     }
 
-    public static <A extends Object, B extends Object,C extends Object, D extends Object> _switch of(Ex.QuadConsumer<A,B,C,D> lambdaContainer ){
+    public static <A extends Object, B extends Object,C extends Object, D extends Object> _switchStmt of(Ex.QuadConsumer<A,B,C,D> lambdaContainer ){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
         return of( _l.astLambda);
     }
 
     public SwitchStmt switchStmt;
 
-    public _switch(SwitchStmt stt){
+    public _switchStmt(SwitchStmt stt){
         this.switchStmt = stt;
     }
 
     @Override
-    public _switch copy() {
-        return new _switch( this.switchStmt.clone());
+    public _switchStmt copy() {
+        return new _switchStmt( this.switchStmt.clone());
     }
 
     @Override
@@ -157,7 +157,7 @@ public class _switch implements _statement<SwitchStmt, _switch> {
      * @param _e
      * @return
      */
-    public _switch setSwitchSelector( _expression _e){
+    public _switchStmt setSwitchSelector(_expression _e){
         this.switchStmt.setSelector(_e.ast());
         return this;
     }
@@ -173,7 +173,7 @@ public class _switch implements _statement<SwitchStmt, _switch> {
      * @param switchSelector
      * @return
      */
-    public _switch setSwitchSelector( Expression switchSelector){
+    public _switchStmt setSwitchSelector(Expression switchSelector){
         this.switchStmt.setSelector(switchSelector);
         return this;
     }
@@ -183,7 +183,7 @@ public class _switch implements _statement<SwitchStmt, _switch> {
      * @param switchSelector
      * @return
      */
-    public _switch setSwitchSelector( String... switchSelector){
+    public _switchStmt setSwitchSelector(String... switchSelector){
         this.switchStmt.setSelector(Ex.of(switchSelector));
         return this;
     }
@@ -233,7 +233,7 @@ public class _switch implements _statement<SwitchStmt, _switch> {
         return null;
     }
 
-    public _switch setDefault(Statement... statements){
+    public _switchStmt setDefault(Statement... statements){
         _switchEntry se = getDefault();
         if( se != null ){
             se.setStatements(statements);
@@ -244,7 +244,7 @@ public class _switch implements _statement<SwitchStmt, _switch> {
         return this;
     }
 
-    public _switch setDefault(Expression ex){
+    public _switchStmt setDefault(Expression ex){
         _switchEntry se = getDefault();
         if( se != null ){
             se.setStatements( new ExpressionStmt(ex));
@@ -260,7 +260,7 @@ public class _switch implements _statement<SwitchStmt, _switch> {
      * (if the default does not exist, create one, if one does, then modify it)
      * @return
      */
-    public _switch setDefault(String...code){
+    public _switchStmt setDefault(String...code){
         //the code COULD be an expression or a statement or a group of statements
         try {
             Expression e = Ex.of(code);
@@ -316,14 +316,14 @@ public class _switch implements _statement<SwitchStmt, _switch> {
      * @param ses
      * @return
      */
-    public _switch setSwitchEntries(String...ses){
+    public _switchStmt setSwitchEntries(String...ses){
         String comb = Text.combine(ses);
         SwitchStmt ss = Ast.switchStmt( "switch(key){"+comb+"}");
         ss.getEntries().forEach(se -> addSwitchEntries(se));
         return this;
     }
 
-    public _switch setSwitchEntries(_switchEntry...ses){
+    public _switchStmt setSwitchEntries(_switchEntry...ses){
         NodeList<SwitchEntry> nses = new NodeList<>();
         Arrays.stream(ses).forEach( se-> nses.add(se.switchEntry));
         this.switchStmt.setEntries(nses);
@@ -335,17 +335,17 @@ public class _switch implements _statement<SwitchStmt, _switch> {
      * @param caseGroups
      * @return
      */
-    public _switch addCaseGroups(_caseGroup...caseGroups){
+    public _switchStmt addCaseGroups(_caseGroup...caseGroups){
         Arrays.stream(caseGroups).forEach( cg-> this.switchStmt.getEntries().addAll(cg.switchEntries));
         return this;
     }
 
-    public _switch addSwitchEntries(SwitchEntry...ses){
+    public _switchStmt addSwitchEntries(SwitchEntry...ses){
         Arrays.stream(ses).forEach( se-> this.switchStmt.getEntries().add(se));
         return this;
     }
 
-    public _switch addSwitchEntries(_switchEntry...ses){
+    public _switchStmt addSwitchEntries(_switchEntry...ses){
         Arrays.stream(ses).forEach( se-> this.switchStmt.getEntries().add(se.switchEntry));
         return this;
     }

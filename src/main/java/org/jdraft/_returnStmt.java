@@ -1,6 +1,6 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 
 import java.util.HashMap;
@@ -8,9 +8,47 @@ import java.util.Map;
 
 
 public class _returnStmt implements _statement<ReturnStmt, _returnStmt> {
+
     public static _returnStmt of(){
         return new _returnStmt( new ReturnStmt( ));
     }
+
+    public static _returnStmt of(ReturnStmt rs){
+        return new _returnStmt( rs);
+    }
+
+    public static _returnStmt of(int literal){
+        return new _returnStmt( new ReturnStmt( new IntegerLiteralExpr(literal)));
+    }
+
+    public static _returnStmt of(long literal){
+        return new _returnStmt( new ReturnStmt( new LongLiteralExpr(literal)));
+    }
+
+    public static _returnStmt of(char literal){
+        return new _returnStmt( new ReturnStmt( new CharLiteralExpr(literal)));
+    }
+
+    public static _returnStmt of(boolean literal){
+        return new _returnStmt( new ReturnStmt( new BooleanLiteralExpr(literal)));
+    }
+
+    public static _returnStmt of(float literal){
+        return new _returnStmt( new ReturnStmt( new DoubleLiteralExpr(literal+"F")));
+    }
+
+    public static _returnStmt of(double literal){
+        return new _returnStmt( new ReturnStmt( new DoubleLiteralExpr(literal+"D")));
+    }
+
+    public static _returnStmt ofString(String literal){
+        return new _returnStmt( new ReturnStmt( new StringLiteralExpr(literal)));
+    }
+
+    public static _returnStmt ofName(String name){
+        return new _returnStmt( new ReturnStmt( new NameExpr(name)));
+    }
+
 
     public static _returnStmt of( String...code){
         return new _returnStmt(Stmt.returnStmt( code));

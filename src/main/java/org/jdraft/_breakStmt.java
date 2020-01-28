@@ -15,7 +15,9 @@ public class _breakStmt implements _statement<BreakStmt, _breakStmt> {
     public static _breakStmt of(){
         return new _breakStmt( new BreakStmt( ));
     }
-
+    public static _breakStmt of(BreakStmt bs){
+        return new _breakStmt(bs);
+    }
     public static _breakStmt of(String...code){
         return new _breakStmt(Stmt.breakStmt( code));
     }

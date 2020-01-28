@@ -12,7 +12,9 @@ public class _yieldStmt implements _statement<YieldStmt, _yieldStmt> {
     public static _yieldStmt of(){
         return new _yieldStmt( new YieldStmt( ));
     }
-
+    public static _yieldStmt of(YieldStmt ys){
+        return new _yieldStmt(ys);
+    }
     public static _yieldStmt of(String...code){
         return new _yieldStmt(Stmt.yieldStmt( code));
     }

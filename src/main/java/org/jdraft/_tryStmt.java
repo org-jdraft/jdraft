@@ -13,7 +13,9 @@ public class _tryStmt implements _statement<TryStmt, _tryStmt> {
     public static _tryStmt of(){
         return new _tryStmt( new TryStmt( ));
     }
-
+    public static _tryStmt of(TryStmt ts){
+        return new _tryStmt(ts);
+    }
     public static _tryStmt of(String...code){
         return new _tryStmt(Stmt.tryStmt(code));
     }

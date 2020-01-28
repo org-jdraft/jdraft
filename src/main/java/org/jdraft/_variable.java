@@ -12,7 +12,9 @@ public class _variable implements _expression<VariableDeclarationExpr, _variable
     public static _variable of(){
         return new _variable(new VariableDeclarationExpr());
     }
-
+    public static _variable of(VariableDeclarationExpr ve){
+        return new _variable(ve);
+    }
     public static _variable of( String...code){
         return new _variable(Ex.varLocalEx(code));
     }

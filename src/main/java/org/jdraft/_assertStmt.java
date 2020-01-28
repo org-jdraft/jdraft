@@ -11,7 +11,9 @@ public class _assertStmt implements _statement<AssertStmt, _assertStmt> {
     public static _assertStmt of(){
         return new _assertStmt( new AssertStmt( ));
     }
-
+    public static _assertStmt of(AssertStmt as){
+        return new _assertStmt(as);
+    }
     public static _assertStmt of(String...code){
         return new _assertStmt(Stmt.assertStmt( code));
     }

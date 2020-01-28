@@ -13,7 +13,9 @@ public class _forStmt implements _statement<ForStmt, _forStmt> {
     public static _forStmt of(){
         return new _forStmt( new ForStmt( ));
     }
-
+    public static _forStmt of(ForStmt fs){
+        return new _forStmt(fs);
+    }
     public static _forStmt of(String...code){
         return new _forStmt(Stmt.forStmt( code));
     }

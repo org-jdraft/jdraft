@@ -1407,7 +1407,28 @@ public enum Ex {
     public static SuperExpr superEx(String... expr ){
         return (SuperExpr)StaticJavaParser.parseExpression(Text.combine(expr));
     }
-    
+
+    /** "int res = switch(s){ case 'a': yield 2; default: yield 3; }" */
+    public static final Class<SwitchExpr> SWITCH = SwitchExpr.class;
+
+    /**
+     * "int res = switch(s){ case 'a': yield 2; default: yield 3; }"
+     *
+     * @return a switch expression
+     */
+    public static SwitchExpr switchEx(  ) {
+        return new SwitchExpr();
+    }
+
+    /**
+     * "int res = switch(s){ case 'a': yield 2; default: yield 3; }"
+     *
+     * @return a switch expression
+     */
+    public static SwitchExpr switchEx(String... expr ){
+        return (SwitchExpr)Ast.PARSER.parseExpression(Text.combine(expr)).getResult().get();
+    }
+
     public static final Class<ThisExpr> THIS = ThisExpr.class;
 
     public static ThisExpr thisEx(  ) {

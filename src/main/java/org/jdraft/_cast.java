@@ -18,7 +18,9 @@ public class _cast implements _expression<CastExpr, _cast> {
     public static _cast of(){
         return new _cast( new CastExpr());
     }
-
+    public static _cast of( CastExpr ce){
+        return new _cast(ce);
+    }
     public static _cast of( String...code){
         return new _cast(Ex.castEx( code));
     }

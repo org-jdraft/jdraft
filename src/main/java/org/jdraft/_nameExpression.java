@@ -11,7 +11,9 @@ public class _nameExpression implements _expression<NameExpr, _nameExpression> {
     public static _nameExpression of(){
         return new _nameExpression( new NameExpr( ));
     }
-
+    public static _nameExpression of(NameExpr ne){
+        return new _nameExpression( ne);
+    }
     public static _nameExpression of( String...code){
         return new _nameExpression(Ex.nameEx( code));
     }

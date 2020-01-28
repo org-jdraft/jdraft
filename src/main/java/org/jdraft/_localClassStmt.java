@@ -12,7 +12,9 @@ public class _localClassStmt implements _statement<LocalClassDeclarationStmt, _l
     public static _localClassStmt of(){
         return new _localClassStmt( new LocalClassDeclarationStmt( ));
     }
-
+    public static _localClassStmt of(LocalClassDeclarationStmt lc){
+        return new _localClassStmt( lc);
+    }
     public static _localClassStmt of(String...code){
         return new _localClassStmt(Stmt.localClassStmt( code));
     }

@@ -14,7 +14,9 @@ public class _ternary implements _expression<ConditionalExpr, _ternary> {
     public static _ternary of(){
         return new _ternary( new ConditionalExpr( ));
     }
-
+    public static _ternary of(ConditionalExpr ce){
+        return new _ternary(ce);
+    }
     public static _ternary of( String...code){
         return new _ternary(Ex.conditionalEx( code));
     }

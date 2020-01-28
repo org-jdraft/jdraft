@@ -14,7 +14,9 @@ public class _classExpression implements _expression<ClassExpr, _classExpression
     public static _classExpression of(){
         return new _classExpression(new ClassExpr());
     }
-
+    public static _classExpression of( ClassExpr ce){
+        return new _classExpression(ce);
+    }
     public static _classExpression of( String...code){
         return new _classExpression(Ex.classEx( code));
     }

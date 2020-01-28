@@ -12,7 +12,9 @@ public class _fieldAccess implements _expression<FieldAccessExpr, _fieldAccess> 
     public static _fieldAccess of(){
         return new _fieldAccess(new FieldAccessExpr());
     }
-
+    public static _fieldAccess of(FieldAccessExpr fae){
+        return new _fieldAccess(fae);
+    }
     public static _fieldAccess of( String...code){
         return new _fieldAccess(Ex.fieldAccessEx( code));
     }

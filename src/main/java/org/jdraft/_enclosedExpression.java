@@ -14,7 +14,9 @@ public class _enclosedExpression implements _expression<EnclosedExpr, _enclosedE
     public static _enclosedExpression of( ){
         return new _enclosedExpression(new EnclosedExpr( ));
     }
-
+    public static _enclosedExpression of(EnclosedExpr ee ){
+        return new _enclosedExpression(ee);
+    }
     public static _enclosedExpression of( String...code){
         return new _enclosedExpression(Ex.enclosedEx( code));
     }

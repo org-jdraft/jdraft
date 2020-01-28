@@ -2,6 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.*;
+import com.github.javaparser.ast.nodeTypes.SwitchNode;
 import com.github.javaparser.ast.stmt.*;
 
 import java.util.*;
@@ -37,10 +38,13 @@ public class _caseGroup{
         return new _caseGroup(new SwitchStmt());
     }
 
-    public final SwitchStmt parentSwitch;
+    /**
+     * NOTE the parent switchNode COULD BE a <CODE>SwitchExpr</CODE> or a <CODE>SwitchStmt</CODE>, implementation
+     */
+    public final SwitchNode parentSwitch;
     public List<SwitchEntry> switchEntries = new ArrayList<>();
 
-    public _caseGroup(SwitchStmt parentSwitch){
+    public _caseGroup(SwitchNode parentSwitch){
         this.parentSwitch = parentSwitch;
     }
 
@@ -49,6 +53,7 @@ public class _caseGroup{
         return this;
     }
 
+    //note this
     public NodeList<Statement> getStatements(){
         Optional<SwitchEntry> ose =
                 switchEntries.stream().filter( se -> !se.getStatements().isEmpty()).findFirst();

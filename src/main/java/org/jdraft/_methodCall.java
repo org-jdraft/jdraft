@@ -12,7 +12,9 @@ public class _methodCall implements _expression<MethodCallExpr, _methodCall> {
     public static _methodCall of(){
         return new _methodCall( new MethodCallExpr( ));
     }
-
+    public static _methodCall of(MethodCallExpr mce){
+        return new _methodCall(mce);
+    }
     public static _methodCall of( String...code){
         return new _methodCall(Ex.methodCallEx( code));
     }

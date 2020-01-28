@@ -11,7 +11,9 @@ public class _super implements _expression<SuperExpr, _super> {
     public static _super of(){
         return new _super( new SuperExpr());
     }
-
+    public static _super of(SuperExpr se){
+        return new _super(se);
+    }
     public static _super of( String...code){
         return new _super(Ex.superEx( code));
     }

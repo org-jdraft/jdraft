@@ -10,7 +10,9 @@ public class _forEachStmt implements _statement<ForEachStmt, _forEachStmt> {
     public static _forEachStmt of(){
         return new _forEachStmt( new ForEachStmt( ));
     }
-
+    public static _forEachStmt of(ForEachStmt fe){
+        return new _forEachStmt(fe);
+    }
     public static _forEachStmt of(String...code){
         return new _forEachStmt(Stmt.forEachStmt( code));
     }

@@ -14,7 +14,9 @@ public class _unary implements _expression<UnaryExpr, _unary> {
     public static _unary of(){
         return new _unary(new UnaryExpr());
     }
-
+    public static _unary of(UnaryExpr ue){
+        return new _unary(ue);
+    }
     public static _unary of( String...code){
         return new _unary(Ex.unaryEx( code));
     }

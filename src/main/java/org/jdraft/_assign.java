@@ -10,6 +10,9 @@ public class _assign implements _expression<AssignExpr, _assign> {
     public static _assign of(){
         return new _assign( new AssignExpr());
     }
+    public static _assign of( AssignExpr ae){
+        return new _assign(ae);
+    }
 
     public static _assign of( String...code){
         return new _assign(Ex.assignEx( code));

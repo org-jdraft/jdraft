@@ -14,7 +14,7 @@ public class _switchEntryTest extends TestCase {
     }
 
     public void testMultiCase(){
-        _switch _sw = _switch.of( (Integer key)->{
+        _switchStmt _sw = _switchStmt.of( (Integer key)->{
             switch(key){
                 case 1 : case 2: System.out.println(1);
             }

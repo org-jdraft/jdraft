@@ -12,7 +12,9 @@ public class _labeledStmt implements _statement<LabeledStmt, _labeledStmt> {
     public static _labeledStmt of(){
         return new _labeledStmt( new LabeledStmt( ));
     }
-
+    public static _labeledStmt of(LabeledStmt ls){
+        return new _labeledStmt(ls);
+    }
     public static _labeledStmt of(String...code){
         return new _labeledStmt(Stmt.labeledStmt( code));
     }

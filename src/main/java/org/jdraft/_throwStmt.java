@@ -11,7 +11,9 @@ public class _throwStmt implements _statement<ThrowStmt, _throwStmt> {
     public static _throwStmt of(){
         return new _throwStmt( new ThrowStmt( ));
     }
-
+    public static _throwStmt of(ThrowStmt ts){
+        return new _throwStmt(ts);
+    }
     public static _throwStmt of(String...code){
         return new _throwStmt(Stmt.throwStmt( code));
     }

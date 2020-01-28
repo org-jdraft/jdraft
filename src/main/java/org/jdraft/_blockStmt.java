@@ -13,7 +13,9 @@ public class _blockStmt implements _statement<BlockStmt, _blockStmt> {
     public static _blockStmt of(){
         return new _blockStmt( new BlockStmt( ));
     }
-
+    public static _blockStmt of(BlockStmt bs){
+        return new _blockStmt(bs);
+    }
     public static _blockStmt of(String...code){
         return new _blockStmt(Stmt.blockStmt( code));
     }

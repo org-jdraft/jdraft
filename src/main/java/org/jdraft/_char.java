@@ -10,7 +10,12 @@ public class _char implements _expression<CharLiteralExpr, _char> {
     public static _char of(){
         return new _char(new CharLiteralExpr());
     }
-
+    public static _char of(CharLiteralExpr cle){
+        return new _char(cle);
+    }
+    public static _char of(char c){
+        return new _char(new CharLiteralExpr(c));
+    }
     public static _char of( String...code){
         return new _char(Ex.charLiteralEx( code));
     }

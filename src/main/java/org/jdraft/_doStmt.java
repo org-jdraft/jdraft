@@ -12,7 +12,9 @@ public class _doStmt implements _statement<DoStmt, _doStmt> {
     public static _doStmt of(){
         return new _doStmt( new DoStmt( ));
     }
-
+    public static _doStmt of(DoStmt ds){
+        return new _doStmt(ds);
+    }
     public static _doStmt of(String...code){
         return new _doStmt(Stmt.doStmt( code));
     }

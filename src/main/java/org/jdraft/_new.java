@@ -12,7 +12,9 @@ public class _new implements _expression<ObjectCreationExpr, _new> {
     public static _new of(){
         return new _new( new ObjectCreationExpr() );
     }
-
+    public static _new of(ObjectCreationExpr oce){
+        return new _new( oce );
+    }
     public static _new of( String...code){
         return new _new(Ex.objectCreationEx(code));
     }

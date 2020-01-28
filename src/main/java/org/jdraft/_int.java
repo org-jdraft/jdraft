@@ -1,6 +1,5 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.expr.InstanceOfExpr;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 
 import java.util.HashMap;
@@ -11,7 +10,9 @@ public class _int implements _expression<IntegerLiteralExpr, _int> {
     public static _int of(){
         return new _int(new IntegerLiteralExpr( ));
     }
-
+    public static _int of(IntegerLiteralExpr il){
+        return new _int(il);
+    }
     public static _int of( String...code){
         return new _int(Ex.intLiteralEx( code));
     }

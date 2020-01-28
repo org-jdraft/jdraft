@@ -14,7 +14,9 @@ public class _synchronizedStmt implements _statement<SynchronizedStmt, _synchron
     public static _synchronizedStmt of(){
         return new _synchronizedStmt( new SynchronizedStmt( ));
     }
-
+    public static _synchronizedStmt of(SynchronizedStmt ss){
+        return new _synchronizedStmt( ss);
+    }
     public static _synchronizedStmt of(String...code){
         return new _synchronizedStmt(Stmt.synchronizedStmt(code));
     }

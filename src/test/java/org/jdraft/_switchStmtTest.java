@@ -2,16 +2,34 @@ package org.jdraft;
 
 import junit.framework.TestCase;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class _switchTest extends TestCase {
+public class _switchStmtTest extends TestCase {
+
+
+
+
+    public void testBuildViaMap(){
+        Map<Integer, String> valueToKey = new HashMap<>();
+        valueToKey.put(1, "A");
+        valueToKey.put(2, "B");
+        valueToKey.put(3, "C");
+
+        _switchStmt _ss = _switchStmt.of();
+        valueToKey.forEach( (v,k)->{
+            //_ss.map(_expression.of(k), _returnStmt.of(v));
+            //_ss.map(1, _returnStmt.ofString("A") );
+        } );
+    }
 
     public void testBuildEmptyCaseGroupsAndMutate(){
         //empty switch, no caseGroups
-        assertTrue( _switch.of().listCaseGroups().isEmpty() );
+        assertTrue( _switchStmt.of().listCaseGroups().isEmpty() );
 
         //build and empty switch
-        _switch _s = _switch.of();
+        _switchStmt _s = _switchStmt.of();
         //build an empty caseGroup
         _caseGroup _cg = _caseGroup.of();
         _s.addCaseGroups( _cg);
@@ -66,7 +84,7 @@ public class _switchTest extends TestCase {
     //todo I should be able to create and ADD caseGroup(s) to the _switch
     public void testCaseGroups(){
         //NOTE there was an issue when I had comments on the entities
-        _switch cg = _switch.of( (Integer dayOfWeek)-> {
+        _switchStmt cg = _switchStmt.of( (Integer dayOfWeek)-> {
             switch(dayOfWeek){
                case 1: case 2: case 3: case 4:
                    System.out.println("Week Day !");
@@ -106,7 +124,7 @@ public class _switchTest extends TestCase {
     }
 
     public void testLambdaAndDefault(){
-        _switch _s = _switch.of( (Integer key)-> {
+        _switchStmt _s = _switchStmt.of( (Integer key)-> {
            switch(key){
                default: return 1;
            }

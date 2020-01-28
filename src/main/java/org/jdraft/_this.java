@@ -17,7 +17,9 @@ public class _this implements _expression<ThisExpr, _this> {
     public static _this of(){
         return new _this(new ThisExpr());
     }
-
+    public static _this of(ThisExpr te){
+        return new _this(te);
+    }
     public static _this of( String...code){
         return new _this(Ex.thisEx( code));
     }

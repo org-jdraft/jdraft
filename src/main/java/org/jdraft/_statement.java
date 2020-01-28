@@ -10,6 +10,10 @@ public interface _statement<S extends Statement, _S extends _statement> extends 
      */
     S ast();
 
+    static _statement of( String...stmtCode ){
+        return of(Stmt.of(stmtCode));
+    }
+
     static _statement of( Statement s){
         //if( s == null ){
          //   return new EmptyStmt();

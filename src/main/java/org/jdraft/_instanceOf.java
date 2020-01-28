@@ -10,7 +10,9 @@ public class _instanceOf implements _expression<InstanceOfExpr, _instanceOf> {
     public static _instanceOf of(){
         return new _instanceOf(new InstanceOfExpr( ));
     }
-
+    public static _instanceOf of( InstanceOfExpr ie){
+        return new _instanceOf(ie);
+    }
     public static _instanceOf of( String...code){
         return new _instanceOf(Ex.instanceOfEx( code));
     }

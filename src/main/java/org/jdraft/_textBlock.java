@@ -11,6 +11,9 @@ public class _textBlock implements _expression<TextBlockLiteralExpr, _textBlock>
     public static _textBlock of(){
         return new _textBlock( new TextBlockLiteralExpr());
     }
+    public static _textBlock of(TextBlockLiteralExpr tb){
+        return new _textBlock(tb);
+    }
     public static _textBlock of( String...code){
         return new _textBlock(Ex.textBlockEx( code));
     }

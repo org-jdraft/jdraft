@@ -2,7 +2,6 @@ package org.jdraft;
 
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.stmt.AssertStmt;
 import com.github.javaparser.ast.stmt.ExplicitConstructorInvocationStmt;
 import com.github.javaparser.ast.type.Type;
 
@@ -10,8 +9,13 @@ import java.util.*;
 
 
 public class _thisOrSuperCallStmt implements _statement<ExplicitConstructorInvocationStmt, _thisOrSuperCallStmt> {
+
     public static _thisOrSuperCallStmt of(){
         return new _thisOrSuperCallStmt( new ExplicitConstructorInvocationStmt( ));
+    }
+
+    public static _thisOrSuperCallStmt of(ExplicitConstructorInvocationStmt ecs){
+        return new _thisOrSuperCallStmt( ecs);
     }
 
     public static _thisOrSuperCallStmt of(String...code){

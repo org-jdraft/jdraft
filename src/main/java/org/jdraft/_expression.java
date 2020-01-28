@@ -6,6 +6,10 @@ public interface _expression<E extends Expression, _E extends _expression> exten
 
     E ast();
 
+    static _expression of(String...code){
+        return of( Ex.of(code));
+    }
+
     /**
      * Given an AST expression, return the _expression equivalent
      * @param e
@@ -15,6 +19,7 @@ public interface _expression<E extends Expression, _E extends _expression> exten
         //if( e == null){
         //    return new EmptyExpression();
         //}
+
         if( e instanceof AnnotationExpr ){
             return _anno.of( (AnnotationExpr)e);
         }
@@ -65,6 +70,9 @@ public interface _expression<E extends Expression, _E extends _expression> exten
         }
         if( e instanceof ConditionalExpr){
             return new _ternary((ConditionalExpr)e);
+        }
+        if( e instanceof SwitchExpr){
+            return new _switchExpression( (SwitchExpr)e);
         }
         if( e instanceof TextBlockLiteralExpr){
             return new _textBlock((TextBlockLiteralExpr)e);

@@ -6,11 +6,7 @@ import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.comments.LineComment;
-import com.github.javaparser.ast.expr.LambdaExpr;
-import com.github.javaparser.ast.expr.LongLiteralExpr;
-import com.github.javaparser.ast.expr.Name;
-import com.github.javaparser.ast.expr.ObjectCreationExpr;
-import com.github.javaparser.ast.expr.UnaryExpr;
+import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.type.UnknownType;
 import junit.framework.TestCase;
 
@@ -20,9 +16,28 @@ import java.util.*;
  *
  * @author Eric
  */
-@Ast.cache
+//@Ast.cache
 public class ExTest extends TestCase {
 
+    public void testSwitchExpr(){
+        String[] sy ={
+                "switch (mode) {",
+                "    case \"a\", \"b\":",
+                "        yield 1;",
+                "    case \"c\":",
+                "        yield 2;",
+                "    case \"d\", \"e\", \"f\":",
+                "        yield 3;",
+                "    default:",
+                "        yield -1;",
+                "}"};
+
+        SwitchExpr se = Ex.switchEx(sy);
+        assertEquals( 4, se.getEntries().size());
+        assertEquals( 2, se.getEntry(0).getLabels().size());
+        assertEquals( 1, se.getEntry(1).getLabels().size());
+        assertEquals( 3, se.getEntry(2).getLabels().size());
+    }
     /**
      * Test shortcuts for building Array initializer Expressions
      * of Arrays with varargs

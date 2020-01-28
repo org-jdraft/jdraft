@@ -24,6 +24,18 @@ import java.util.function.Consumer;
  */
 public class AstTest extends TestCase {
 
+    public void testParseNewCode(){
+        SwitchExpr se = Ast.switchEx("switch(s) { default : yield 1; }");
+        assertTrue(se.getEntry(0).getLabels().isEmpty());
+        se = Ast.switchEx("switch(s) { default -> 1; }");
+        assertTrue(se.getEntry(0).getLabels().isEmpty());
+        se = Ast.switchEx("switch(s) { default : 1; }");
+        assertTrue(se.getEntry(0).getLabels().isEmpty());
+
+        se = Ast.switchEx("switch(s) { case 1: 1; }");
+        assertTrue(se.getEntry(0).getLabels().get(0).isIntegerLiteralExpr());
+    }
+
     public void testReplaceCommentMultiStatements(){
         class FF{
             void m(){

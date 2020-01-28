@@ -10,7 +10,9 @@ public class _long implements _expression<LongLiteralExpr, _long> {
     public static _long of( ){
         return new _long( new LongLiteralExpr());
     }
-
+    public static _long of(LongLiteralExpr ll){
+        return new _long(ll);
+    }
     public static _long of( String...code){
         return new _long(Ex.longLiteralEx( code));
     }

@@ -13,7 +13,9 @@ public class _whileStmt implements _statement<WhileStmt, _whileStmt> {
     public static _whileStmt of(){
         return new _whileStmt( new WhileStmt( ));
     }
-
+    public static _whileStmt of(WhileStmt ws){
+        return new _whileStmt(ws);
+    }
     public static _whileStmt of(String...code){
         return new _whileStmt(Stmt.whileStmt( code));
     }

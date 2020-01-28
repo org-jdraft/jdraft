@@ -2347,6 +2347,8 @@ public enum Ast {
         return Ex.of(doubleValue);
     }
 
+    public static JavaParser PARSER = new JavaParser( new ParserConfiguration().setLanguageLevel(LanguageLevel.BLEEDING_EDGE));
+
     /**
      * Java 12+ switch Expression
      * 
@@ -2354,8 +2356,7 @@ public enum Ast {
      * @return 
      */
     public static SwitchExpr switchEx(String... switchExpr ){
-        
-        return StaticJavaParser.parseExpression( Text.combine(switchExpr) );
+        return (SwitchExpr)PARSER.parseExpression( Text.combine(switchExpr) ).getResult().get();
     }
     
     /**
@@ -2365,7 +2366,7 @@ public enum Ast {
      * @return 
      */
     public static SwitchEntry caseEntry(String...caseExpr ){
-        SwitchExpr se = (SwitchExpr)StaticJavaParser.parseExpression("switch(x) { " +  Text.combine(caseExpr) + "};");
+        SwitchExpr se = (SwitchExpr)(PARSER.parseExpression("switch(x) { " +  Text.combine(caseExpr) + "};")).getResult().get();
         return se.getEntry(0);
     }
 

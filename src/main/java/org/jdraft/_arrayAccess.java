@@ -1,6 +1,8 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.ArrayAccessExpr;
+import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,9 +12,45 @@ public class _arrayAccess implements _expression<ArrayAccessExpr, _arrayAccess> 
     public static _arrayAccess of(){
         return new _arrayAccess(new ArrayAccessExpr());
     }
+    public static _arrayAccess of( ArrayAccessExpr ae ){
+        return new _arrayAccess(ae);
+    }
+
+    public static _arrayAccess of( String code){
+        return new _arrayAccess(Ex.arrayAccessEx( code));
+    }
 
     public static _arrayAccess of( String...code){
         return new _arrayAccess(Ex.arrayAccessEx( code));
+    }
+
+    public static _arrayAccess of( String name, int index){
+        return of( Ex.nameEx(name), index);
+    }
+    /**
+     *
+     * @param name
+     * @param indexes
+     * @return
+     */
+    public static _arrayAccess of( String name, int... indexes){
+        return of( Ex.nameEx(name), indexes);
+    }
+
+    public static _arrayAccess of(Expression e, int...indexes){
+
+        if( indexes.length < 1) {
+            throw new _jdraftException("must provide at least (1) index");
+        }
+        ArrayAccessExpr ae = new ArrayAccessExpr();
+        ae.setName(e);
+        ae.setIndex(new IntegerLiteralExpr(indexes[0]));
+        if( indexes.length == 1) {
+            return of(ae);
+        }
+        int[] left = new int[indexes.length-1];
+        System.arraycopy(indexes, 1, left, 0, left.length);
+        return of(ae, left);
     }
     public ArrayAccessExpr ile;
 

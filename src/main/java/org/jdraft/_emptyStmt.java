@@ -13,7 +13,9 @@ public class _emptyStmt implements _statement<EmptyStmt, _emptyStmt> {
     public static _emptyStmt of(){
         return new _emptyStmt( new EmptyStmt( ));
     }
-
+    public static _emptyStmt of(EmptyStmt es){
+        return new _emptyStmt( es);
+    }
     public static _emptyStmt of(String...code){
         return new _emptyStmt(Stmt.emptyStmt( code));
     }

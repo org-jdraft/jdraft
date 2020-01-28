@@ -11,6 +11,9 @@ public class _null implements _expression<NullLiteralExpr, _null> {
     public static _null of(){
         return new _null(new NullLiteralExpr());
     }
+    public static _null of(NullLiteralExpr nl){
+        return new _null(nl);
+    }
     public static _null of( String...code){
         if( Text.combine(code).equals("null")){
             return new _null( new NullLiteralExpr());
