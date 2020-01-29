@@ -44,7 +44,24 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch
         return new _switchStmt(ss);
     }
 
+    /**
+     * Creates the switch based on the ENTIRE string...
+     * accept if the String
+     * @param code
+     * @return
+     */
     public static _switchStmt of(String...code){
+        //first check if they just passed in the name or expression... a common thing to pass in the variable
+        // name to set as the SwitchSelector, if it's a single token, then just try treating it as a name
+        String comb = Text.combine(code);
+        String [] split = comb.split(" " );
+        if( split.length == 1){
+            try {
+                return of().setSwitchSelector(comb);
+            }catch(Exception e){
+
+            }
+        }
         try{
             return of( Ast.switchStmt(code) );
         }catch(Exception e){
@@ -205,7 +222,6 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch
         return this.switchStmt.getEntries().stream().anyMatch(se-> se.getLabels().size() > 1);
     }
 
-
     public _switchStmt map(char c, _statement... _st){
         return map(_char.of(c), _st);
     }
@@ -216,6 +232,14 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch
 
     public _switchStmt map(int i, _statement... _st){
         return map(_int.of(i), _st);
+    }
+
+    public <E extends Enum> _switchStmt map(E e, Statement...st){
+        return map(Ex.nameEx(e.name()), st);
+    }
+
+    public <E extends Enum> _switchStmt map(E e, _statement..._st){
+        return map(_nameExpression.of(e.name()), _st);
     }
 
     public _switchStmt map(_expression _e, _statement... _st){
@@ -269,8 +293,6 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch
         return map(new IntegerLiteralExpr(i), st);
     }
 
-
-
     public _switchStmt map(char c, long l){
         return map(new CharLiteralExpr( c), _returnStmt.of(l).ast());
     }
@@ -291,6 +313,9 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch
         return map(e, _returnStmt.of(ll).ast());
     }
 
+    public <E extends Enum> _switchStmt map(E e, long ll){
+        return map(_nameExpression.of(e.name()).ast(), _returnStmt.of(ll).ast());
+    }
 
     public _switchStmt map(char c, char c2){
         return map(new CharLiteralExpr( c), _returnStmt.of(c2).ast());
@@ -312,6 +337,9 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch
         return map(e, _returnStmt.of(c).ast());
     }
 
+    public <E extends Enum> _switchStmt map(E e, char c){
+        return map(_nameExpression.of(e.name()).ast(), _returnStmt.of(c).ast());
+    }
 
     public _switchStmt map(char c, int ii){
         return map(new CharLiteralExpr( c), _returnStmt.of(ii).ast());
@@ -331,6 +359,10 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch
 
     public _switchStmt map(Expression e, int ii){
         return map(e, _returnStmt.of(ii).ast());
+    }
+
+    public <E extends Enum> _switchStmt map(E e, int ii){
+        return map(_nameExpression.of(e.name()).ast(), _returnStmt.of(ii).ast());
     }
 
     public _switchStmt map(char c, String s){
@@ -353,6 +385,10 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch
         return map(e, _returnStmt.ofString(s).ast());
     }
 
+    public <E extends Enum> _switchStmt map(E e, String str){
+        return map(_nameExpression.of(e.name()).ast(), _returnStmt.ofString(str).ast());
+    }
+
     public _switchStmt map(char c, double dd){
         return map(new CharLiteralExpr( c), _returnStmt.of(dd).ast());
     }
@@ -373,6 +409,9 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch
         return map(e, _returnStmt.of(dd).ast());
     }
 
+    public <E extends Enum> _switchStmt map(E e, double dd){
+        return map(_nameExpression.of(e.name()).ast(), _returnStmt.of(dd).ast());
+    }
 
     public _switchStmt map(char c, float ff){
         return map(new CharLiteralExpr( c), _returnStmt.of(ff).ast());
@@ -393,6 +432,37 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch
     public _switchStmt map(Expression e, float ff){
         return map(e, _returnStmt.of(ff).ast());
     }
+
+    public <E extends Enum> _switchStmt map(E e, float ff){
+        return map(_nameExpression.of(e.name()).ast(), _returnStmt.of(ff).ast());
+    }
+
+
+
+    public <E extends Enum>_switchStmt map(char c, E e){
+        return map(new CharLiteralExpr( c), _returnStmt.of(e).ast());
+    }
+
+    public <E extends Enum>_switchStmt map(String s, E e){
+        return map(new StringLiteralExpr(s), _returnStmt.of(e).ast());
+    }
+
+    public <E extends Enum>_switchStmt map(int i, E e){
+        return map(new IntegerLiteralExpr(i), _returnStmt.of(e).ast());
+    }
+
+    public <E extends Enum>_switchStmt map(_expression _e, E e){
+        return map(_e.ast(), _returnStmt.of(e).ast());
+    }
+
+    public <E extends Enum>_switchStmt map(Expression e, E en){
+        return map(e, _returnStmt.of(en).ast());
+    }
+
+    public <E extends Enum, EE extends Enum> _switchStmt map(E e, EE ee){
+        return map(_nameExpression.of(e.name()).ast(), _returnStmt.of(ee).ast());
+    }
+
 
     /**
      * sets the selector for the switch (i.e. the selector is the content within the() i.e. "switch(selector)"
@@ -452,6 +522,9 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch
     }
 
     public _switchStmt setDefault(LambdaExpr le ){
+        if( le.getExpressionBody().isPresent()){
+            return setDefault(_returnStmt.of(le.getExpressionBody().get()));
+        }
         if( le.getBody().isBlockStmt() ){
             if( le.getBody().asBlockStmt().getStatements().size() == 1 ){
                 return setDefault( le.getBody().asBlockStmt().getStatement(0));
@@ -530,6 +603,13 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch
             return ose.get();
         }
         return null;
+    }
+    public _switchStmt setDefault(_statement... _sts){
+        Statement[] sts = new Statement[_sts.length];
+        for(int i=0;i<_sts.length; i++){
+            sts[i] = _sts[i].ast();
+        }
+        return setDefault(sts);
     }
 
     public _switchStmt setDefault(Statement... statements){

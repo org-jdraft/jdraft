@@ -17,6 +17,17 @@ public class _returnStmt implements _statement<ReturnStmt, _returnStmt> {
         return new _returnStmt( rs);
     }
 
+    public static _returnStmt of(_expression _e){
+        return of().setExpression(_e.ast());
+    }
+
+    public static _returnStmt of(Expression e){
+        return of().setExpression(e);
+    }
+
+    public static _returnStmt of(Enum e ){
+        return of().setExpression(_fieldAccess.of(e.getClass().getCanonicalName()+"."+e.name()).ast());
+    }
     public static _returnStmt of(int literal){
         return new _returnStmt( new ReturnStmt( new IntegerLiteralExpr(literal)));
     }
@@ -85,6 +96,10 @@ public class _returnStmt implements _statement<ReturnStmt, _returnStmt> {
     public _returnStmt removeExpression(){
         this.rs.removeExpression();
         return this;
+    }
+
+    public _returnStmt setExpression(_expression _e){
+        return setExpression(_e.ast());
     }
 
     public _returnStmt setExpression(Expression e){

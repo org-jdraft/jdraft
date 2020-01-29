@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LongLiteralExpr;
 import junit.framework.TestCase;
 
@@ -8,6 +9,83 @@ import java.util.List;
 import java.util.Map;
 
 public class _switchStmtTest extends TestCase {
+
+    public enum Suit{
+        HEARTS,CLUBS,DIAMONDS,SPADES;
+    }
+
+    public void testEE(){
+        Expression ee = Ex.of("com.github.javaparser.ast.expr.LongLiteralExpr");
+        System.out.println( ee.getClass() );
+        System.out.println( ee );
+    }
+    /* this is what is created when we do enums
+        switch(a) {
+            case SPADES:
+                return 1;
+            case HEARTS:
+                return 2;
+            case DIAMONDS:
+                return 3;
+            case CLUBS:
+                return 4;
+            default: return -1;
+        }
+    */
+
+    public Suit expect(){
+        int a = 2;
+        switch(a) {
+            case 1:
+                return org.jdraft._switchStmtTest.Suit.SPADES;
+            case 2:
+                return org.jdraft._switchStmtTest.Suit.HEARTS;
+            case 3:
+                return org.jdraft._switchStmtTest.Suit.DIAMONDS;
+            case 4:
+                return org.jdraft._switchStmtTest.Suit.CLUBS;
+            default:
+                return Suit.CLUBS;
+        }
+    }
+    public void testEnumValues(){
+        _switchStmt _s = _switchStmt.of("a");
+        _s.map(1, Suit.SPADES);
+        _s.map(2, Suit.HEARTS);
+        _s.map(3, Suit.DIAMONDS);
+        _s.map(4, Suit.CLUBS);
+        _s.setDefault((Object r)-> Suit.CLUBS);
+
+        System.out.println( _s);
+        assertEquals( 5, _s.listCaseGroups().size());
+        assertEquals( 5, _s.listSwitchEntries().size());
+    }
+    public void testEnumCases(){
+        _switchStmt _s = _switchStmt.of("a");
+        _s.map(Suit.SPADES, 1);
+        _s.map(Suit.HEARTS, 2);
+        _s.map(Suit.DIAMONDS, 3);
+        _s.map(Suit.CLUBS, 4);
+        _s.setDefault((Object r)-> -1);
+        assertEquals( 5, _s.listCaseGroups().size());
+        assertEquals( 5, _s.listSwitchEntries().size());
+
+        System.out.println( _s );
+    }
+
+    public void testEnumCasesMulti(){
+        _switchStmt _s = _switchStmt.of("a");
+        _s.map(Suit.SPADES, 1);
+        _s.map(Suit.HEARTS, 2);
+        _s.map(Suit.DIAMONDS, 2);
+        _s.map(Suit.CLUBS, 1);
+        _s.setDefault("return -1;");
+
+        assertEquals( 3, _s.listCaseGroups().size());
+        assertEquals( 5, _s.listSwitchEntries().size());
+
+        //System.out.println( _s );
+    }
 
     public void testF(){
         /*
@@ -37,7 +115,7 @@ public class _switchStmtTest extends TestCase {
 
     //mapping direct mapping from literals to other literals
     public void testMapTypesKeysValues(){
-        _switchStmt _ss = _switchStmt.ofSelector("a");
+        _switchStmt _ss = _switchStmt.of("a");
         //String
         _ss.map("A",1);
         _ss.map("B", 'c');
@@ -69,12 +147,12 @@ public class _switchStmtTest extends TestCase {
 
 
     public void testMapVars(){
-        _switchStmt _ss = _switchStmt.of().setSwitchSelector(_nameExpression.of("a"));
+        _switchStmt _ss = _switchStmt.of("a");
         _ss.map(1, "A");
         _ss.map(2, "A");
         _ss.map(3, "B");
 
-        _switchStmt _ss2 = _switchStmt.of().setSwitchSelector(_nameExpression.of("a"));
+        _switchStmt _ss2 = _switchStmt.of("a");
         _ss2.map(1, _returnStmt.ofString("A"));
         _ss2.map(2, _returnStmt.ofString("A"));
         _ss2.map(3, _returnStmt.ofString("B"));
@@ -92,7 +170,7 @@ public class _switchStmtTest extends TestCase {
         keyToValue.put("B", 1);
         keyToValue.put("C", 2);
 
-        _switchStmt _ss = _switchStmt.of().setSwitchSelector("a");
+        _switchStmt _ss = _switchStmt.of("a");
         keyToValue.forEach( (k,v)->{
                 _ss.map(k, v);
         } );
@@ -174,7 +252,6 @@ public class _switchStmtTest extends TestCase {
                case 6: case 7:
                    System.out.println("Week End !");
                break;
-
                default:
                    throw new RuntimeException("bad day");
           }
@@ -211,6 +288,7 @@ public class _switchStmtTest extends TestCase {
                default: return 1;
            }
         });
+
 
         assertTrue( _s.getSwitchSelector().is("key"));
         assertTrue( _s.getSwitchEntry(0).is("default: return 1;"));
