@@ -107,21 +107,6 @@ public class _switchEntry implements _node<SwitchEntry, _switchEntry> {
     }
 
     /**
-     * Sets all the case "labels" for the switchEntry i.e.
-     * case 1: case 2: ...
-     *
-     * @param caseLabels
-     * @return
-
-    public _switchEntry setCases(Expression... caseLabels){
-        NodeList<Expression>labels = new NodeList<>();
-        Arrays.stream(caseLabels).forEach(cl -> labels.add(cl));
-        this.switchEntry.setLabels(labels);
-        return this;
-    }
-    */
-
-    /**
      * i.e.
      * case 1 : throw new RuntimeException();
      *

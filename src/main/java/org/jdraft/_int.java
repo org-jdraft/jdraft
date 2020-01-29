@@ -10,6 +10,9 @@ public class _int implements _expression<IntegerLiteralExpr, _int> {
     public static _int of(){
         return new _int(new IntegerLiteralExpr( ));
     }
+    public static _int of(int i){
+        return of( new IntegerLiteralExpr(i));
+    }
     public static _int of(IntegerLiteralExpr il){
         return new _int(il);
     }

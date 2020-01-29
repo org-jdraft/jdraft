@@ -10,6 +10,11 @@ public class _long implements _expression<LongLiteralExpr, _long> {
     public static _long of( ){
         return new _long( new LongLiteralExpr());
     }
+
+    public static _long of( long l){
+        return of( new LongLiteralExpr(l));
+    }
+
     public static _long of(LongLiteralExpr ll){
         return new _long(ll);
     }

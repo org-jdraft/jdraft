@@ -8,20 +8,41 @@ import java.util.Map;
 
 public class _switchStmtTest extends TestCase {
 
+    public void testMapVars(){
+        _switchStmt _ss = _switchStmt.of().setSwitchSelector(_nameExpression.of("a"));
+        _ss.map(1, "A");
+        _ss.map(2, "A");
+        _ss.map(3, "B");
 
+        _switchStmt _ss2 = _switchStmt.of().setSwitchSelector(_nameExpression.of("a"));
+        _ss2.map(1, _returnStmt.ofString("A"));
+        _ss2.map(2, _returnStmt.ofString("A"));
+        _ss2.map(3, _returnStmt.ofString("B"));
 
+        assertEquals( _ss, _ss2);
+        System.out.println( _ss );
+    }
 
+    //TODO make the caseGroups use labels as apposed to SwitchEntries
+    //
     public void testBuildViaMap(){
-        Map<Integer, String> valueToKey = new HashMap<>();
-        valueToKey.put(1, "A");
-        valueToKey.put(2, "B");
-        valueToKey.put(3, "C");
+        Map<String, Integer> keyToValue = new HashMap<>();
+        keyToValue.put("A", 1);
+        keyToValue.put("B", 1);
+        keyToValue.put("C", 2);
 
-        _switchStmt _ss = _switchStmt.of();
-        valueToKey.forEach( (v,k)->{
-            //_ss.map(_expression.of(k), _returnStmt.of(v));
-            //_ss.map(1, _returnStmt.ofString("A") );
+        _switchStmt _ss = _switchStmt.of().setSwitchSelector("a");
+        keyToValue.forEach( (k,v)->{
+                _ss.map(k, v);
         } );
+
+        //verify I can set the default
+        _ss.setDefault((String a)->{
+           throw new RuntimeException("Bad key "+a);
+        });
+
+        assertEquals( _ss.getDefault().getStatement(0), Stmt.of( (String a)->{ throw new RuntimeException("Bad key "+ a);}) );
+        System.out.println( _ss );
     }
 
     public void testBuildEmptyCaseGroupsAndMutate(){

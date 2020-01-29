@@ -16,7 +16,7 @@ import java.util.function.*;
  * }
  * </CODE>
  *
- * the SwitchEnties
+ * the SwitchEntries
  * <CODE>
  *     case 1: case 2: return "A"; //this is a SwitchEntry
  *     default: return "C"; //this is a SwitchEntry
@@ -26,7 +26,7 @@ import java.util.function.*;
  * note: this is a "virtual" thing
  *
  */
-public class _switchStmt implements _statement<SwitchStmt, _switchStmt> {
+public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch {
 
     public static _switchStmt of(){
         return new _switchStmt(new SwitchStmt());
@@ -99,6 +99,19 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt> {
 
     public SwitchStmt switchStmt;
 
+    /**
+     * How shall we store N to 1 labels in the switch statement
+     * (can we specify multiple case labels for each switch? (a Java 12 + language feature))
+     * i.e.
+     *
+     * case 1, 2, 3, 4, 5 -> "weekend"; //multiLabelSwitch = TRUE
+     *
+     * OR must we provide a new case for each case expression?
+     *
+     * case 1: case 2: case 3: case 4: case 5: return "weekend"; //multiLabelSwitch = FALSE
+     */
+    public boolean forceMultiLabelSwitchEntry = false;
+
     public _switchStmt(SwitchStmt stt){
         this.switchStmt = stt;
     }
@@ -120,6 +133,18 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt> {
     @Override
     public boolean is(SwitchStmt astNode) {
         return this.switchStmt.equals(astNode);
+    }
+
+    public boolean equals(Object o){
+        if( o instanceof _switchStmt){
+            _switchStmt _o = (_switchStmt)o;
+            return this.ast().equals( _o.ast());
+        }
+        return false;
+    }
+
+    public int hashCode(){
+        return 31 * this.ast().hashCode();
     }
 
     @Override
@@ -153,12 +178,191 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt> {
     }
 
     /**
+     * check if the current state of the SwitchStatement HAS at least ONE multiLabel switchEntry
+     * (if so, it's safe to assume this is a multi-label switch)
      *
-     * @param _e
+     * can we specify multiple case labels for each switch? (a Java 12 + language feature)
+     * i.e.
+     *
+     * case 1, 2, 3, 4, 5 -> "weekend"; //multiLabelSwitch = TRUE
+     *
+     * OR must we provide a new case for each case expression?
+     *
+     * case 1: case 2: case 3: case 4: case 5: return "weekend"; //multiLabelSwitch = FALSE
+     *
+     * @see #forceMultiLabelSwitchEntry (this will TELL the _switchStmt to populate multi label switchesswitches
      * @return
      */
-    public _switchStmt setSwitchSelector(_expression _e){
-        this.switchStmt.setSelector(_e.ast());
+    public boolean hasMultiLabelSwitchEntry(){
+        return this.switchStmt.getEntries().stream().anyMatch(se-> se.getLabels().size() > 1);
+    }
+
+    public _switchStmt map(Expression e, NodeList<Statement> nls){
+        Optional<SwitchEntry> ose =
+                this.switchStmt.getEntries().stream().filter(se -> se.getStatements().equals(nls)).findFirst();
+        if( ose.isPresent()){
+            //we found a
+            SwitchEntry existingSwitchEntry = ose.get();
+            //THIS DOESNT HANDLE DUPLICATES
+            if( this.forceMultiLabelSwitchEntry || this.hasMultiLabelSwitchEntry() ){
+                existingSwitchEntry.getLabels().add(e);
+            } else {
+                NodeList<Expression> label = new NodeList<>();
+                label.add(e);
+                SwitchEntry labelOnly = new SwitchEntry();
+                labelOnly.setLabels(label);
+                this.switchStmt.getEntries().addBefore(labelOnly, existingSwitchEntry);
+            }
+            return this;
+        } //we didnt find an existing mapping to the target statementlist
+        SwitchEntry nse = new SwitchEntry();
+        NodeList<Expression> label = new NodeList<>();
+        label.add(e);
+        nse.setLabels(label);
+        nse.setStatements(nls);
+        this.switchStmt.getEntries().add(nse);
+        return this;
+    }
+
+    public _switchStmt map(Expression e, Statement... sts) {
+        NodeList<Statement> nls = new NodeList<>();
+        Arrays.stream(sts).forEach(s -> nls.add(s));
+        return map(e, nls);
+    }
+
+    public _switchStmt map(boolean b, _statement... _st){
+        return map(_boolean.of(b), _st);
+    }
+
+    public _switchStmt map(char c, _statement... _st){
+        return map(_char.of(c), _st);
+    }
+
+    public _switchStmt map(long l, _statement... _st){
+        return map(_long.of(l), _st);
+    }
+
+    public _switchStmt map(String s, _statement... _st){
+        return map(_string.of(s), _st);
+    }
+
+    public _switchStmt map(int i, _statement... _st){
+        return map(_int.of(i), _st);
+    }
+
+    public _switchStmt map(_expression _e, _statement... _st){
+        List<Statement>sts = new ArrayList<>();
+        Arrays.stream(_st).forEach(_s -> sts.add( _s.ast()));
+        return map(_e.ast(), sts.toArray(new Statement[0]));
+    }
+
+    public _switchStmt map(boolean b, Statement... st){
+        return map(new BooleanLiteralExpr(b), st);
+    }
+
+    public _switchStmt map(char c, Statement... st){
+        return map(new CharLiteralExpr( c), st);
+    }
+
+    public _switchStmt map(long l, Statement... st){
+        return map(new LongLiteralExpr(l), st);
+    }
+
+    public _switchStmt map(String s, Statement... st){
+        return map(new StringLiteralExpr(s), st);
+    }
+
+    public _switchStmt map(int i, Statement... st){
+        return map(new IntegerLiteralExpr(i), st);
+    }
+
+    public _switchStmt map(boolean b, long l){
+        return map(new BooleanLiteralExpr(b), _returnStmt.of(l).ast());
+    }
+
+    public _switchStmt map(char c, long l){
+        return map(new CharLiteralExpr( c), _returnStmt.of(l).ast());
+    }
+
+    public _switchStmt map(long l, long l2){
+        return map(new LongLiteralExpr(l), _returnStmt.of(l2).ast());
+    }
+
+    public _switchStmt map(String s, long l){
+        return map(new StringLiteralExpr(s), _returnStmt.of(l).ast());
+    }
+
+    public _switchStmt map(int i, long l){
+        return map(new IntegerLiteralExpr(i), _returnStmt.of(l).ast());
+    }
+
+    public _switchStmt map(boolean b, char c){
+        return map(new BooleanLiteralExpr(b), _returnStmt.of(c).ast());
+    }
+
+    public _switchStmt map(char c, char c2){
+        return map(new CharLiteralExpr( c), _returnStmt.of(c2).ast());
+    }
+
+    public _switchStmt map(long l, char c){
+        return map(new LongLiteralExpr(l), _returnStmt.of(c).ast());
+    }
+
+    public _switchStmt map(String s, char c){
+        return map(new StringLiteralExpr(s), _returnStmt.of(c).ast());
+    }
+
+    public _switchStmt map(int i, char c){
+        return map(new IntegerLiteralExpr(i), _returnStmt.of(c).ast());
+    }
+
+    public _switchStmt map(boolean b, int ii){
+        return map(new BooleanLiteralExpr(b), _returnStmt.of(ii).ast());
+    }
+
+    public _switchStmt map(char c, int ii){
+        return map(new CharLiteralExpr( c), _returnStmt.of(ii).ast());
+    }
+
+    public _switchStmt map(long l, int ii){
+        return map(new LongLiteralExpr(l), _returnStmt.of(ii).ast());
+    }
+
+    public _switchStmt map(String s, int ii){
+        return map(new StringLiteralExpr(s), _returnStmt.of(ii).ast());
+    }
+
+    public _switchStmt map(int i, int ii){
+        return map(new IntegerLiteralExpr(i), _returnStmt.of(ii).ast());
+    }
+
+    public _switchStmt map(boolean b, String s){
+        return map(new BooleanLiteralExpr(b), _returnStmt.ofString(s).ast());
+    }
+
+    public _switchStmt map(char c, String s){
+        return map(new CharLiteralExpr( c), _returnStmt.ofString(s).ast());
+    }
+
+    public _switchStmt map(long l, String s){
+        return map(new LongLiteralExpr(l), _returnStmt.ofString(s).ast());
+    }
+
+    public _switchStmt map(String s, String s2){
+        return map(new StringLiteralExpr(s), _returnStmt.ofString(s2).ast());
+    }
+
+    public _switchStmt map(int i, String s){
+        return map(new IntegerLiteralExpr(i), _returnStmt.ofString(s).ast());
+    }
+
+    /**
+     * sets the selector for the switch (i.e. the selector is the content within the() i.e. "switch(selector)"
+     * @param _selectorExpression
+     * @return
+     */
+    public _switchStmt setSwitchSelector(_expression _selectorExpression){
+        this.switchStmt.setSelector(_selectorExpression.ast());
         return this;
     }
 
@@ -208,6 +412,63 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt> {
         }
         return null;
     }
+
+    public _switchStmt setDefault(LambdaExpr le ){
+        if( le.getBody().isBlockStmt() ){
+            if( le.getBody().asBlockStmt().getStatements().size() == 1 ){
+                return setDefault( le.getBody().asBlockStmt().getStatement(0));
+            }
+        }
+        return setDefault(le.getBody());
+    }
+
+    public _switchStmt setDefault(Ex.Command lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return setDefault( _l.astLambda);
+    }
+
+    public <A extends Object> _switchStmt setDefault (Consumer<A> lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return setDefault( _l.astLambda);
+    }
+
+    public <A extends Object, B extends Object> _switchStmt setDefault (Function<A,B> lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return setDefault( _l.astLambda);
+    }
+
+    public <A extends Object, B extends Object, C extends Object> _switchStmt setDefault (BiFunction<A,B,C> lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return setDefault( _l.astLambda);
+    }
+
+    public <A extends Object, B extends Object, C extends Object, D extends Object> _switchStmt setDefault (Ex.TriFunction<A,B,C, D> lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return setDefault( _l.astLambda);
+    }
+
+    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchStmt setDefault (Ex.QuadFunction<A,B,C, D,E> lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return setDefault( _l.astLambda);
+    }
+
+    public <A extends Object, B extends Object> _switchStmt setDefault(BiConsumer<A,B> lambdaContainer ){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return setDefault( _l.astLambda);
+    }
+
+    public <A extends Object, B extends Object,C extends Object> _switchStmt setDefault(Ex.TriConsumer<A,B,C> lambdaContainer ){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return setDefault( _l.astLambda);
+    }
+
+    public <A extends Object, B extends Object,C extends Object, D extends Object> _switchStmt setDefault(Ex.QuadConsumer<A,B,C,D> lambdaContainer ){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return setDefault( _l.astLambda);
+    }
+
+
+
 
     /**
      * return the _expression wrapper on the Switch Selector
