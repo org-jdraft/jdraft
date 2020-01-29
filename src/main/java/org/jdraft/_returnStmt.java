@@ -22,7 +22,7 @@ public class _returnStmt implements _statement<ReturnStmt, _returnStmt> {
     }
 
     public static _returnStmt of(long literal){
-        return new _returnStmt( new ReturnStmt( new LongLiteralExpr(literal)));
+        return new _returnStmt( new ReturnStmt( _long.of(literal).ast()));
     }
 
     public static _returnStmt of(char literal){

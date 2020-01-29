@@ -11,8 +11,9 @@ public class _long implements _expression<LongLiteralExpr, _long> {
         return new _long( new LongLiteralExpr());
     }
 
+    //we need to manually set this L because it isnt done
     public static _long of( long l){
-        return of( new LongLiteralExpr(l));
+        return of( new LongLiteralExpr(l + "L"));
     }
 
     public static _long of(LongLiteralExpr ll){

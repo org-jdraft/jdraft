@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.LongLiteralExpr;
 import junit.framework.TestCase;
 
 import java.util.HashMap;
@@ -7,6 +8,65 @@ import java.util.List;
 import java.util.Map;
 
 public class _switchStmtTest extends TestCase {
+
+    public void testF(){
+        /*
+        int i=0;
+        switch (i){
+            case 3+4: System.out.println( "Value");
+        }
+         */
+        LongLiteralExpr lle = new LongLiteralExpr(1);
+
+        System.out.println( lle.toString() );
+        _long l = _long.of(1);
+        System.out.println( l );
+    }
+
+    public void testMapToStatements(){
+        float f = 1.23f;
+        long l = 123L;
+        String s = "ereer";
+
+        //char, byte, short, int, String, enum
+        //boolean b = true;
+        //switch(b){
+        //    case "ee" : System.out.println(1);
+        //}
+    }
+
+    //mapping direct mapping from literals to other literals
+    public void testMapTypesKeysValues(){
+        _switchStmt _ss = _switchStmt.ofSelector("a");
+        //String
+        _ss.map("A",1);
+        _ss.map("B", 'c');
+        _ss.map("C", Long.MAX_VALUE);
+        _ss.map("D", 12.03d);
+        _ss.map("E", 12.03f);
+        _ss.map(  "F", "G");
+
+        //int
+        _ss.map(1,1);
+        _ss.map(1, 'c');
+        _ss.map(1, Long.MAX_VALUE);
+        _ss.map(1, 12.03d);
+        _ss.map(1, 12.03f);
+        _ss.map(1, "G");
+
+        //char
+        _ss.map('a',1);
+        _ss.map('b', 'c');
+        _ss.map('c', Long.MAX_VALUE);
+        _ss.map('d', 12.03d);
+        _ss.map('e', 12.03f);
+        _ss.map('f', "G");
+
+        _ss.map( _int.of("0xDEAD").ast(), 1 );
+        _ss.map( _int.of("0xBEEF").ast(), 2 );
+        System.out.println( _ss);
+    }
+
 
     public void testMapVars(){
         _switchStmt _ss = _switchStmt.of().setSwitchSelector(_nameExpression.of("a"));
@@ -20,7 +80,8 @@ public class _switchStmtTest extends TestCase {
         _ss2.map(3, _returnStmt.ofString("B"));
 
         assertEquals( _ss, _ss2);
-        System.out.println( _ss );
+        assertEquals(_ss.hashCode(), _ss2.hashCode());
+        //System.out.println( _ss );
     }
 
     //TODO make the caseGroups use labels as apposed to SwitchEntries
