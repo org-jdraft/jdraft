@@ -2,9 +2,11 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.BinaryExpr;
 import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.UnaryExpr;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class _binaryExpression implements _expression<BinaryExpr, _binaryExpression> {
 
@@ -172,6 +174,39 @@ public class _binaryExpression implements _expression<BinaryExpr, _binaryExpress
         return comps;
     }
 
+    public boolean isLeft(String left){
+        try{
+            return isLeft(Ex.of(left));
+        }catch(Exception e){
+            return false;
+        }
+    }
+
+    public boolean isLeft(Expression e){
+        return this.getLeft().equals(e);
+    }
+
+
+    public boolean isRight(String right){
+        try{
+            return isRight(Ex.of(right));
+        }catch(Exception e){
+            return false;
+        }
+    }
+
+    public boolean isRight(Expression e){
+        return this.getRight().equals(e);
+    }
+
+    public boolean isOperator( BinaryExpr.Operator op){
+        return Objects.equals( this.getOperator(), op);
+    }
+
+    public boolean isOperator( String operator ){
+        return Objects.equals( this.getOperator(), UnaryExpr.Operator.valueOf(operator));
+    }
+
     public _expression getLeft(){
         return _expression.of(this.astBe.getLeft());
     }
@@ -181,6 +216,41 @@ public class _binaryExpression implements _expression<BinaryExpr, _binaryExpress
 
     public BinaryExpr.Operator getOperator(){
         return astBe.getOperator();
+    }
+
+    public _binaryExpression setOperator(BinaryExpr.Operator bo){
+        this.astBe.setOperator(bo);
+        return this;
+    }
+
+    public _binaryExpression setOperator(String o){
+        return setOperator(o);
+    }
+
+    public _binaryExpression setLeft(Expression e){
+        this.astBe.setLeft(e);
+        return this;
+    }
+
+    public _binaryExpression setLeft(_expression _e){
+        return setLeft( _e.ast());
+    }
+
+    public _binaryExpression setLeft(String code){
+        return setLeft( Ex.of(code));
+    }
+
+    public _binaryExpression setRight(Expression e){
+        this.astBe.setRight(e);
+        return this;
+    }
+
+    public _binaryExpression setRight(_expression _e){
+        return setRight( _e.ast());
+    }
+
+    public _binaryExpression setRight(String code){
+        return setRight( Ex.of(code));
     }
 
     public boolean equals(Object other){

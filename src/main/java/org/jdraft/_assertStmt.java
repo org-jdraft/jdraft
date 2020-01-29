@@ -18,6 +18,18 @@ public class _assertStmt implements _statement<AssertStmt, _assertStmt> {
         return new _assertStmt(Stmt.assertStmt( code));
     }
 
+    public static _assertStmt of(Expression check){
+        return of( new AssertStmt().setCheck(check));
+    }
+
+    public static _assertStmt of(Expression check, String message){
+        return of( new AssertStmt().setCheck(check).setMessage(Ex.of(message)));
+    }
+
+    public static _assertStmt of(Expression check, Expression message){
+        return of( new AssertStmt().setCheck(check).setMessage(message));
+    }
+
     private AssertStmt astStmt;
 
     public _assertStmt(AssertStmt astStmt){
@@ -44,6 +56,11 @@ public class _assertStmt implements _statement<AssertStmt, _assertStmt> {
 
     public AssertStmt ast(){
         return astStmt;
+    }
+
+    public _assertStmt setMessage(String message){
+        this.astStmt.setMessage(Ex.of(message));
+        return this;
     }
 
     public _assertStmt setMessage(Expression e){

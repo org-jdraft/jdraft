@@ -8,6 +8,7 @@ import java.util.function.*;
 import java.util.stream.Collectors;
 
 import com.github.javaparser.*;
+import com.github.javaparser.ast.ArrayCreationLevel;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.comments.BlockComment;
@@ -607,6 +608,8 @@ public enum Ex {
 
     /**
      * i.e. "arr[3]"
+     * "arr[n]"
+     * "arr[size - 1]"
      */
     public static final Class<ArrayAccessExpr> ARRAY_ACCESS = ArrayAccessExpr.class;
 
@@ -626,6 +629,21 @@ public enum Ex {
 
     public static ArrayCreationExpr arrayCreationEx(String... code ) {
         return of( code ).asArrayCreationExpr();
+    }
+
+    /**
+     *
+     */
+    public static final Class<ArrayCreationLevel> ARRAY_CREATION_LEVEL = ArrayCreationLevel.class;
+
+    public static NodeList<ArrayCreationLevel> arrayCreationLevels(String...code){
+        ArrayCreationExpr aae = Ex.arrayCreationEx("Object "+Text.combine(code)+" empty ");
+        return aae.getLevels();
+    }
+
+    public static ArrayCreationLevel arrayCreationLevel(String...code){
+        ArrayCreationExpr aae = Ex.arrayCreationEx("Object "+Text.combine(code)+" empty ");
+        return aae.getLevels().get(0);
     }
 
     /**

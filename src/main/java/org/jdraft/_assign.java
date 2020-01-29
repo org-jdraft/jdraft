@@ -1,9 +1,11 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.AssignExpr;
+import com.github.javaparser.ast.expr.Expression;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class _assign implements _expression<AssignExpr, _assign> {
 
@@ -52,6 +54,32 @@ public class _assign implements _expression<AssignExpr, _assign> {
         comps.put(_java.Component.TARGET, ile.getTarget());
         comps.put(_java.Component.VALUE, ile.getValue());
         return comps;
+    }
+
+    public boolean isValue(String str){
+        return Objects.equals( this.ile.getValue(), Ex.of(str));
+    }
+
+    public boolean isTarget(String str){
+        return Objects.equals( this.ile.getTarget(), Ex.of(str));
+    }
+
+    public boolean isValue(Expression e){
+        return Objects.equals( this.ile.getValue(), e);
+    }
+
+    public boolean isTarget(Expression e){
+        return Objects.equals( this.ile.getTarget(), e);
+    }
+
+    public _assign setTarget(Expression e){
+        this.ile.setTarget(e);
+        return this;
+    }
+
+    public _assign setValue(Expression e){
+        this.ile.setValue(e);
+        return this;
     }
 
     public _expression getValue(){

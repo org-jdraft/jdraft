@@ -3,9 +3,9 @@ package org.jdraft;
 import com.github.javaparser.ast.ArrayCreationLevel;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.ArrayCreationExpr;
+import com.github.javaparser.ast.expr.ArrayInitializerExpr;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate> {
 
@@ -51,10 +51,27 @@ public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
 
-        comps.put(_java.Component.INIT, ile.getInitializer());
-        comps.put(_java.Component.ARRAY_LEVEL, ile.getLevels());
+        if( ile.getInitializer().isPresent()) {
+            comps.put(_java.Component.INIT, ile.getInitializer());
+        }
+        comps.put(_java.Component.ARRAY_DIMENSIONS, ile.getLevels());
         comps.put(_java.Component.TYPE, ile.getElementType());
         return comps;
+    }
+
+    public boolean isInit(String... initCode){
+        try{
+            return isInit(Ex.arrayInitializerEx(initCode));
+        }catch(Exception e){
+            return false;
+        }
+    }
+
+    public boolean isInit(ArrayInitializerExpr aie){
+        if( this.ile.getInitializer().isPresent()) {
+            return Objects.equals(this.ile.getInitializer().get(), aie);
+        }
+        return aie == null;
     }
 
     public _expression getInit(){
@@ -68,10 +85,17 @@ public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate
         return _typeRef.of(this.ile.getElementType());
     }
 
+    public List<_arrayDimension> getArrayDimensions(){
+        List<_arrayDimension> ads = new ArrayList<>();
+        this.ile.getLevels().forEach(d -> ads.add( _arrayDimension.of(d)));
+        return ads;
+    }
+    /*
     //TODO remodel this or just leave this??
     public NodeList<ArrayCreationLevel> getArrayLevel(){
         return this.ile.getLevels();
     }
+     */
 
     public boolean equals(Object other){
         if( other instanceof _arrayCreate){

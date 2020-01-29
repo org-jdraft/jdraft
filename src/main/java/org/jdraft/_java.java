@@ -796,6 +796,8 @@ public interface _java {
         UPDATE("update", List.class, Expression.class),
         COMPARE("compare", Expression.class),
         STATEMENT("statement", Statement.class), //labeledStatment
+        ARRAY_DIMENSIONS("arrayDimensions", List.class, ArrayCreationLevel.class), //arrayCreate
+        ARRAY_DIMENSION("arrayDimension", Expression.class),
         LITERAL("literal", Object.class); //typeRef, textBlock
 
 

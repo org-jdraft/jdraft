@@ -24,6 +24,7 @@ public class _arrayAccess implements _expression<ArrayAccessExpr, _arrayAccess> 
         return new _arrayAccess(Ex.arrayAccessEx( code));
     }
 
+    //a simple literal name[3]
     public static _arrayAccess of( String name, int index){
         return of( Ex.nameEx(name), index);
     }

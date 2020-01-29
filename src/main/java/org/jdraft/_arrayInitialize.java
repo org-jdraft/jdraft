@@ -103,7 +103,7 @@ public class _arrayInitialize implements _expression<ArrayInitializerExpr, _arra
         return comps;
     }
 
-    public List<_expression> getValues(){
+    public List<_expression> listValues(){
         List<_expression> vs = new ArrayList<>();
         this.ile.getValues().forEach(v-> vs.add( _expression.of(v)));
         return vs;
