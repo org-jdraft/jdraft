@@ -10,8 +10,57 @@ import java.util.Map;
 
 public class _switchStmtTest extends TestCase {
 
+    public enum Color{
+        BLACK, RED;
+    }
     public enum Suit{
-        HEARTS,CLUBS,DIAMONDS,SPADES;
+        HEARTS(Color.RED),CLUBS(Color.BLACK),DIAMONDS(Color.RED),SPADES(Color.BLACK);
+        public final Color color;
+        Suit(Color col){
+            this.color = col;
+        }
+    }
+
+    public enum Rank{
+        ACE, TWO, THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE, TEN, JACK, QUEEN,KING;
+    }
+
+    public void testMapToLogic(){
+        _switchStmt _ss = _switchStmt.of("a").autoBrake(true);
+        _ss.mapCode(1, ()->{ System.out.println(1); });
+        _ss.mapCode(2, ()->System.out.println(2));
+        _ss.mapCode(3, ()->System.out.println(3));
+        _ss.setDefault((String a)->System.out.println(a));
+        System.out.println(_ss);
+
+        /*
+        with "autoBreak", when I add a statement or group of statements
+        ...I need to check if the last statement is not a break, return, or throw
+        ...if so, add a break at the end
+        int a = 100;
+        switch(a) {
+            case 1:
+                System.out.println(1);
+                break;
+            case 2:
+                System.out.println(2);
+                break;
+            case 3:
+                System.out.println(3);
+                break;
+            default:
+                System.out.println(a);
+                break;
+                }
+         */
+    }
+
+    public void testEnumToEnum(){
+        Suit s = Suit.CLUBS;
+        _switchStmt _ss = _switchStmt.of("rtos");
+        _ss.map(Rank.ACE, Suit.SPADES);
+
+        System.out.println( _ss );
     }
 
     public void testEE(){
@@ -33,6 +82,7 @@ public class _switchStmtTest extends TestCase {
         }
     */
 
+    /*
     public Suit expect(){
         int a = 2;
         switch(a) {
@@ -48,6 +98,7 @@ public class _switchStmtTest extends TestCase {
                 return Suit.CLUBS;
         }
     }
+    */
     public void testEnumValues(){
         _switchStmt _s = _switchStmt.of("a");
         _s.map(1, Suit.SPADES);
@@ -86,6 +137,8 @@ public class _switchStmtTest extends TestCase {
 
         //System.out.println( _s );
     }
+
+
 
     public void testF(){
         /*
@@ -153,9 +206,9 @@ public class _switchStmtTest extends TestCase {
         _ss.map(3, "B");
 
         _switchStmt _ss2 = _switchStmt.of("a");
-        _ss2.map(1, _returnStmt.ofString("A"));
-        _ss2.map(2, _returnStmt.ofString("A"));
-        _ss2.map(3, _returnStmt.ofString("B"));
+        _ss2.mapCode(1, _returnStmt.ofString("A"));
+        _ss2.mapCode(2, _returnStmt.ofString("A"));
+        _ss2.mapCode(3, _returnStmt.ofString("B"));
 
         assertEquals( _ss, _ss2);
         assertEquals(_ss.hashCode(), _ss2.hashCode());
