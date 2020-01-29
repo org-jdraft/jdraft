@@ -125,6 +125,21 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch
     public SwitchStmt switchStmt;
 
     /**
+     * if SET to true, checks when statements are added to SwitchEntries that
+     * end in either<UL>
+     *     <LI>A break statement</LI>
+     *     <LI>a return statement</LI>
+     *     <LI>a throw exception</LI>
+     * </UL>
+     */
+    public boolean autoBreakStatements = true;
+
+    public _switchStmt autoBrake(boolean toAutoBreak){
+        this.autoBreakStatements = toAutoBreak;
+        return this;
+    }
+
+    /**
      * How shall we store N to 1 labels in the switch statement
      * (can we specify multiple case labels for each switch? (a Java 12 + language feature))
      * i.e.
@@ -222,39 +237,267 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch
         return this.switchStmt.getEntries().stream().anyMatch(se-> se.getLabels().size() > 1);
     }
 
-    public _switchStmt map(char c, _statement... _st){
-        return map(_char.of(c), _st);
+
+
+
+    public _switchStmt mapCode( char c, Ex.Command lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(c, _l.astLambda);
     }
 
-    public _switchStmt map(String s, _statement... _st){
-        return map(_string.of(s), _st);
+    public <A extends Object> _switchStmt mapCode (char c, Consumer<A> lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(c, _l.astLambda);
     }
 
-    public _switchStmt map(int i, _statement... _st){
-        return map(_int.of(i), _st);
+    public <A extends Object, B extends Object> _switchStmt  mapCode (char c,Function<A,B> lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(c, _l.astLambda);
     }
 
-    public <E extends Enum> _switchStmt map(E e, Statement...st){
-        return map(Ex.nameEx(e.name()), st);
+    public <A extends Object, B extends Object, C extends Object> _switchStmt  mapCode (char c,BiFunction<A,B,C> lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(c, _l.astLambda);
     }
 
-    public <E extends Enum> _switchStmt map(E e, _statement..._st){
-        return map(_nameExpression.of(e.name()), _st);
+    public <A extends Object, B extends Object, C extends Object, D extends Object> _switchStmt  mapCode (char c,Ex.TriFunction<A,B,C, D> lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(c, _l.astLambda);
     }
 
-    public _switchStmt map(_expression _e, _statement... _st){
+    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchStmt  mapCode (char c,Ex.QuadFunction<A,B,C, D,E> lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(c, _l.astLambda);
+    }
+
+    public <A extends Object, B extends Object> _switchStmt  mapCode (char c, BiConsumer<A,B> lambdaContainer ){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(c, _l.astLambda);
+    }
+
+    public <A extends Object, B extends Object,C extends Object> _switchStmt  mapCode (char c,Ex.TriConsumer<A,B,C> lambdaContainer ){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(c, _l.astLambda);
+    }
+
+    public <A extends Object, B extends Object,C extends Object, D extends Object> _switchStmt  mapCode (char c,Ex.QuadConsumer<A,B,C,D> lambdaContainer ){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(c, _l.astLambda);
+    }
+
+    public _switchStmt mapCode(char c, LambdaExpr le ){
+        if( le.getBody().isBlockStmt() ){
+            if( le.getBody().asBlockStmt().getStatements().size() == 1 ){
+                return mapCode(c, le.getBody().asBlockStmt().getStatement(0));
+            }
+        }
+        return mapCode(c, le.getBody());
+    }
+
+
+
+    public _switchStmt mapCode( String s, Ex.Command lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(s, _l.astLambda);
+    }
+
+    public <A extends Object> _switchStmt mapCode (String s, Consumer<A> lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(s, _l.astLambda);
+    }
+
+    public <A extends Object, B extends Object> _switchStmt  mapCode (String s,Function<A,B> lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(s, _l.astLambda);
+    }
+
+    public <A extends Object, B extends Object, C extends Object> _switchStmt  mapCode (String s,BiFunction<A,B,C> lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(s, _l.astLambda);
+    }
+
+    public <A extends Object, B extends Object, C extends Object, D extends Object> _switchStmt  mapCode (String s,Ex.TriFunction<A,B,C, D> lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(s, _l.astLambda);
+    }
+
+    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchStmt  mapCode (String s,Ex.QuadFunction<A,B,C, D,E> lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(s, _l.astLambda);
+    }
+
+    public <A extends Object, B extends Object> _switchStmt  mapCode (String s, BiConsumer<A,B> lambdaContainer ){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(s, _l.astLambda);
+    }
+
+    public <A extends Object, B extends Object,C extends Object> _switchStmt  mapCode (String s,Ex.TriConsumer<A,B,C> lambdaContainer ){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(s, _l.astLambda);
+    }
+
+    public <A extends Object, B extends Object,C extends Object, D extends Object> _switchStmt  mapCode (String s,Ex.QuadConsumer<A,B,C,D> lambdaContainer ){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(s, _l.astLambda);
+    }
+
+    public _switchStmt mapCode(String s, LambdaExpr le ){
+        if( le.getBody().isBlockStmt() ){
+            if( le.getBody().asBlockStmt().getStatements().size() == 1 ){
+                return mapCode(s, le.getBody().asBlockStmt().getStatement(0));
+            }
+        }
+        return mapCode(s, le.getBody());
+    }
+
+
+    public _switchStmt mapCode( int i, Ex.Command lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(i, _l.astLambda);
+    }
+
+    public <A extends Object> _switchStmt mapCode (int i, Consumer<A> lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(i, _l.astLambda);
+    }
+
+    public <A extends Object, B extends Object> _switchStmt  mapCode (int i,Function<A,B> lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(i, _l.astLambda);
+    }
+
+    public <A extends Object, B extends Object, C extends Object> _switchStmt  mapCode (int i,BiFunction<A,B,C> lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(i, _l.astLambda);
+    }
+
+    public <A extends Object, B extends Object, C extends Object, D extends Object> _switchStmt  mapCode (int i,Ex.TriFunction<A,B,C, D> lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(i, _l.astLambda);
+    }
+
+    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchStmt  mapCode (int i, Ex.QuadFunction<A,B,C, D,E> lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(i, _l.astLambda);
+    }
+
+    public <A extends Object, B extends Object> _switchStmt  mapCode (int i, BiConsumer<A,B> lambdaContainer ){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(i, _l.astLambda);
+    }
+
+    public <A extends Object, B extends Object,C extends Object> _switchStmt  mapCode (int i,Ex.TriConsumer<A,B,C> lambdaContainer ){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(i, _l.astLambda);
+    }
+
+    public <A extends Object, B extends Object,C extends Object, D extends Object> _switchStmt  mapCode (int i,Ex.QuadConsumer<A,B,C,D> lambdaContainer ){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(i, _l.astLambda);
+    }
+
+
+
+    public _switchStmt mapCode(int i, LambdaExpr le ){
+        if( le.getBody().isBlockStmt() ){
+            if( le.getBody().asBlockStmt().getStatements().size() == 1 ){
+                return mapCode(i, le.getBody().asBlockStmt().getStatement(0));
+            }
+        }
+        return mapCode(i, le.getBody());
+    }
+
+
+
+
+
+    public <EN extends Enum> _switchStmt mapCode( EN e, Ex.Command lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(e, _l.astLambda);
+    }
+
+    public <EN extends Enum,A extends Object> _switchStmt mapCode (EN e, Consumer<A> lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(e, _l.astLambda);
+    }
+
+    public <EN extends Enum,A extends Object, B extends Object> _switchStmt  mapCode (EN e,Function<A,B> lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(e, _l.astLambda);
+    }
+
+    public <EN extends Enum,A extends Object, B extends Object, C extends Object> _switchStmt  mapCode (EN e,BiFunction<A,B,C> lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(e, _l.astLambda);
+    }
+
+    public <EN extends Enum,A extends Object, B extends Object, C extends Object, D extends Object> _switchStmt  mapCode (EN e,Ex.TriFunction<A,B,C, D> lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(e, _l.astLambda);
+    }
+
+    public <EN extends Enum,A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchStmt  mapCode (EN e, Ex.QuadFunction<A,B,C, D,E> lambdaContainer){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(e, _l.astLambda);
+    }
+
+    public <EN extends Enum,A extends Object, B extends Object> _switchStmt  mapCode (EN e, BiConsumer<A,B> lambdaContainer ){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(e, _l.astLambda);
+    }
+
+    public <EN extends Enum,A extends Object, B extends Object,C extends Object> _switchStmt  mapCode (EN e,Ex.TriConsumer<A,B,C> lambdaContainer ){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(e, _l.astLambda);
+    }
+
+    public <EN extends Enum, A extends Object, B extends Object,C extends Object, D extends Object> _switchStmt  mapCode (EN e,Ex.QuadConsumer<A,B,C,D> lambdaContainer ){
+        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        return mapCode(e, _l.astLambda);
+    }
+
+    public  <EN extends Enum>_switchStmt mapCode(EN e, LambdaExpr le ){
+        if( le.getBody().isBlockStmt() ){
+            if( le.getBody().asBlockStmt().getStatements().size() == 1 ){
+                return mapCode(e, le.getBody().asBlockStmt().getStatement(0));
+            }
+        }
+        return mapCode(e, le.getBody());
+    }
+
+    public _switchStmt mapCode(char c, _statement... _st){
+        return mapCode(_char.of(c), _st);
+    }
+
+    public _switchStmt mapCode(String s, _statement... _st){
+        return mapCode(_string.of(s), _st);
+    }
+
+    public _switchStmt mapCode(int i, _statement... _st){
+        return mapCode(_int.of(i), _st);
+    }
+
+    public <E extends Enum> _switchStmt mapCode(E e, Statement...st){
+        return mapCode(Ex.nameEx(e.name()), st);
+    }
+
+    public <E extends Enum> _switchStmt mapCode(E e, _statement..._st){
+        return mapCode(_nameExpression.of(e.name()), _st);
+    }
+
+    public _switchStmt mapCode(_expression _e, _statement... _st){
         List<Statement>sts = new ArrayList<>();
         Arrays.stream(_st).forEach(_s -> sts.add( _s.ast()));
-        return map(_e.ast(), sts.toArray(new Statement[0]));
+        return mapCode(_e.ast(), sts.toArray(new Statement[0]));
     }
 
-    public _switchStmt map(Expression e, Statement... sts) {
+    public _switchStmt mapCode(Expression e, Statement... sts) {
         NodeList<Statement> nls = new NodeList<>();
         Arrays.stream(sts).forEach(s -> nls.add(s));
-        return map(e, nls);
+        return mapCode(e, nls);
     }
 
-    public _switchStmt map(Expression e, NodeList<Statement> nls){
+    public _switchStmt mapCode(Expression e, NodeList<Statement> nls){
         Optional<SwitchEntry> ose =
                 this.switchStmt.getEntries().stream().filter(se -> se.getStatements().equals(nls)).findFirst();
         if( ose.isPresent()){
@@ -276,33 +519,41 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch
         NodeList<Expression> label = new NodeList<>();
         label.add(e);
         nse.setLabels(label);
+        if( autoBreakStatements ){ //verify that the last statement
+            Statement lastStatement = nls.get(nls.size()-1);
+            //if the last statement is neither a break, throws or returnStmt
+            if( !( lastStatement.isBreakStmt() || lastStatement.isThrowStmt() || lastStatement.isReturnStmt() )){
+                nls.add(new BreakStmt().removeLabel());
+            }
+        }
         nse.setStatements(nls);
         this.switchStmt.getEntries().add(nse);
         return this;
     }
 
-    public _switchStmt map(char c, Statement... st){
-        return map(new CharLiteralExpr( c), st);
+    public _switchStmt mapCode(char c, Statement... st){
+        return mapCode(new CharLiteralExpr( c), st);
     }
 
-    public _switchStmt map(String s, Statement... st){
-        return map(new StringLiteralExpr(s), st);
+
+    public _switchStmt mapCode(String s, Statement... st){
+        return mapCode(new StringLiteralExpr(s), st);
     }
 
-    public _switchStmt map(int i, Statement... st){
-        return map(new IntegerLiteralExpr(i), st);
+    public _switchStmt mapCode(int i, Statement... st){
+        return mapCode(new IntegerLiteralExpr(i), st);
     }
 
     public _switchStmt map(char c, long l){
-        return map(new CharLiteralExpr( c), _returnStmt.of(l).ast());
+        return mapCode(new CharLiteralExpr( c), _returnStmt.of(l).ast());
     }
 
     public _switchStmt map(String s, long l){
-        return map(new StringLiteralExpr(s), _returnStmt.of(l).ast());
+        return mapCode(new StringLiteralExpr(s), _returnStmt.of(l).ast());
     }
 
     public _switchStmt map(int i, long l){
-        return map(new IntegerLiteralExpr(i), _returnStmt.of(l).ast());
+        return mapCode(new IntegerLiteralExpr(i), _returnStmt.of(l).ast());
     }
 
     public _switchStmt map(_expression _e, long ll){
@@ -310,23 +561,23 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch
     }
 
     public _switchStmt map(Expression e, long ll){
-        return map(e, _returnStmt.of(ll).ast());
+        return mapCode(e, _returnStmt.of(ll).ast());
     }
 
     public <E extends Enum> _switchStmt map(E e, long ll){
-        return map(_nameExpression.of(e.name()).ast(), _returnStmt.of(ll).ast());
+        return mapCode(_nameExpression.of(e.name()).ast(), _returnStmt.of(ll).ast());
     }
 
     public _switchStmt map(char c, char c2){
-        return map(new CharLiteralExpr( c), _returnStmt.of(c2).ast());
+        return mapCode(new CharLiteralExpr( c), _returnStmt.of(c2).ast());
     }
 
     public _switchStmt map(String s, char c){
-        return map(new StringLiteralExpr(s), _returnStmt.of(c).ast());
+        return mapCode(new StringLiteralExpr(s), _returnStmt.of(c).ast());
     }
 
     public _switchStmt map(int i, char c){
-        return map(new IntegerLiteralExpr(i), _returnStmt.of(c).ast());
+        return mapCode(new IntegerLiteralExpr(i), _returnStmt.of(c).ast());
     }
 
     public _switchStmt map(_expression _e, char c){
@@ -334,23 +585,23 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch
     }
 
     public _switchStmt map(Expression e, char c){
-        return map(e, _returnStmt.of(c).ast());
+        return mapCode(e, _returnStmt.of(c).ast());
     }
 
     public <E extends Enum> _switchStmt map(E e, char c){
-        return map(_nameExpression.of(e.name()).ast(), _returnStmt.of(c).ast());
+        return mapCode(_nameExpression.of(e.name()).ast(), _returnStmt.of(c).ast());
     }
 
     public _switchStmt map(char c, int ii){
-        return map(new CharLiteralExpr( c), _returnStmt.of(ii).ast());
+        return mapCode(new CharLiteralExpr( c), _returnStmt.of(ii).ast());
     }
 
     public _switchStmt map(String s, int ii){
-        return map(new StringLiteralExpr(s), _returnStmt.of(ii).ast());
+        return mapCode(new StringLiteralExpr(s), _returnStmt.of(ii).ast());
     }
 
     public _switchStmt map(int i, int ii){
-        return map(new IntegerLiteralExpr(i), _returnStmt.of(ii).ast());
+        return mapCode(new IntegerLiteralExpr(i), _returnStmt.of(ii).ast());
     }
 
     public _switchStmt map(_expression _e, int ii){
@@ -358,23 +609,23 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch
     }
 
     public _switchStmt map(Expression e, int ii){
-        return map(e, _returnStmt.of(ii).ast());
+        return mapCode(e, _returnStmt.of(ii).ast());
     }
 
     public <E extends Enum> _switchStmt map(E e, int ii){
-        return map(_nameExpression.of(e.name()).ast(), _returnStmt.of(ii).ast());
+        return mapCode(_nameExpression.of(e.name()).ast(), _returnStmt.of(ii).ast());
     }
 
     public _switchStmt map(char c, String s){
-        return map(new CharLiteralExpr( c), _returnStmt.ofString(s).ast());
+        return mapCode(new CharLiteralExpr( c), _returnStmt.ofString(s).ast());
     }
 
     public _switchStmt map(String s, String s2){
-        return map(new StringLiteralExpr(s), _returnStmt.ofString(s2).ast());
+        return mapCode(new StringLiteralExpr(s), _returnStmt.ofString(s2).ast());
     }
 
     public _switchStmt map(int i, String s){
-        return map(new IntegerLiteralExpr(i), _returnStmt.ofString(s).ast());
+        return mapCode(new IntegerLiteralExpr(i), _returnStmt.ofString(s).ast());
     }
 
     public _switchStmt map(_expression _e, String s){
@@ -382,23 +633,23 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch
     }
 
     public _switchStmt map(Expression e, String s){
-        return map(e, _returnStmt.ofString(s).ast());
+        return mapCode(e, _returnStmt.ofString(s).ast());
     }
 
     public <E extends Enum> _switchStmt map(E e, String str){
-        return map(_nameExpression.of(e.name()).ast(), _returnStmt.ofString(str).ast());
+        return mapCode(_nameExpression.of(e.name()).ast(), _returnStmt.ofString(str).ast());
     }
 
     public _switchStmt map(char c, double dd){
-        return map(new CharLiteralExpr( c), _returnStmt.of(dd).ast());
+        return mapCode(new CharLiteralExpr( c), _returnStmt.of(dd).ast());
     }
 
     public _switchStmt map(String s, double dd){
-        return map(new StringLiteralExpr(s), _returnStmt.of(dd).ast());
+        return mapCode(new StringLiteralExpr(s), _returnStmt.of(dd).ast());
     }
 
     public _switchStmt map(int i, double dd){
-        return map(new IntegerLiteralExpr(i), _returnStmt.of(dd).ast());
+        return mapCode(new IntegerLiteralExpr(i), _returnStmt.of(dd).ast());
     }
 
     public _switchStmt map(_expression _e, double dd){
@@ -406,23 +657,23 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch
     }
 
     public _switchStmt map(Expression e, double dd){
-        return map(e, _returnStmt.of(dd).ast());
+        return mapCode(e, _returnStmt.of(dd).ast());
     }
 
     public <E extends Enum> _switchStmt map(E e, double dd){
-        return map(_nameExpression.of(e.name()).ast(), _returnStmt.of(dd).ast());
+        return mapCode(_nameExpression.of(e.name()).ast(), _returnStmt.of(dd).ast());
     }
 
     public _switchStmt map(char c, float ff){
-        return map(new CharLiteralExpr( c), _returnStmt.of(ff).ast());
+        return mapCode(new CharLiteralExpr( c), _returnStmt.of(ff).ast());
     }
 
     public _switchStmt map(String s, float ff){
-        return map(new StringLiteralExpr(s), _returnStmt.of(ff).ast());
+        return mapCode(new StringLiteralExpr(s), _returnStmt.of(ff).ast());
     }
 
     public _switchStmt map(int i, float ff){
-        return map(new IntegerLiteralExpr(i), _returnStmt.of(ff).ast());
+        return mapCode(new IntegerLiteralExpr(i), _returnStmt.of(ff).ast());
     }
 
     public _switchStmt map(_expression _e, float ff){
@@ -430,37 +681,35 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch
     }
 
     public _switchStmt map(Expression e, float ff){
-        return map(e, _returnStmt.of(ff).ast());
+        return mapCode(e, _returnStmt.of(ff).ast());
     }
 
     public <E extends Enum> _switchStmt map(E e, float ff){
-        return map(_nameExpression.of(e.name()).ast(), _returnStmt.of(ff).ast());
+        return mapCode(_nameExpression.of(e.name()).ast(), _returnStmt.of(ff).ast());
     }
 
-
-
     public <E extends Enum>_switchStmt map(char c, E e){
-        return map(new CharLiteralExpr( c), _returnStmt.of(e).ast());
+        return mapCode(new CharLiteralExpr( c), _returnStmt.of(e).ast());
     }
 
     public <E extends Enum>_switchStmt map(String s, E e){
-        return map(new StringLiteralExpr(s), _returnStmt.of(e).ast());
+        return mapCode(new StringLiteralExpr(s), _returnStmt.of(e).ast());
     }
 
     public <E extends Enum>_switchStmt map(int i, E e){
-        return map(new IntegerLiteralExpr(i), _returnStmt.of(e).ast());
+        return mapCode(new IntegerLiteralExpr(i), _returnStmt.of(e).ast());
     }
 
     public <E extends Enum>_switchStmt map(_expression _e, E e){
-        return map(_e.ast(), _returnStmt.of(e).ast());
+        return mapCode(_e.ast(), _returnStmt.of(e).ast());
     }
 
     public <E extends Enum>_switchStmt map(Expression e, E en){
-        return map(e, _returnStmt.of(en).ast());
+        return mapCode(e, _returnStmt.of(en).ast());
     }
 
     public <E extends Enum, EE extends Enum> _switchStmt map(E e, EE ee){
-        return map(_nameExpression.of(e.name()).ast(), _returnStmt.of(ee).ast());
+        return mapCode(_nameExpression.of(e.name()).ast(), _returnStmt.of(ee).ast());
     }
 
 
@@ -522,9 +771,9 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch
     }
 
     public _switchStmt setDefault(LambdaExpr le ){
-        if( le.getExpressionBody().isPresent()){
-            return setDefault(_returnStmt.of(le.getExpressionBody().get()));
-        }
+        //if( le.getExpressionBody().isPresent()){
+        //    return setDefault(_returnStmt.of(le.getExpressionBody().get()));
+        //}
         if( le.getBody().isBlockStmt() ){
             if( le.getBody().asBlockStmt().getStatements().size() == 1 ){
                 return setDefault( le.getBody().asBlockStmt().getStatement(0));
@@ -609,16 +858,29 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch
         for(int i=0;i<_sts.length; i++){
             sts[i] = _sts[i].ast();
         }
-        return setDefault(sts);
+        return setDefault(handleBrake(sts));
     }
 
+    private Statement[] handleBrake(Statement... stmts){
+        if( autoBreakStatements ){
+            Statement st = stmts[stmts.length-1];
+            if( !( st.isBreakStmt() || st.isReturnStmt() || st.isThrowStmt() ) ){
+                Statement[] stt = new Statement[stmts.length+1];
+                System.arraycopy(stmts, 0, stt, 0, stmts.length);
+                stt[stt.length-1] = new BreakStmt().removeLabel();
+                return stt;
+            }
+        }
+        return stmts;
+    }
     public _switchStmt setDefault(Statement... statements){
         _switchEntry se = getDefault();
         if( se != null ){
-            se.setStatements(statements);
+            se.setStatements(handleBrake(statements));
             return this;
         }
-        _switchEntry newDef = _switchEntry.of(new SwitchEntry()).setStatements(statements);
+        _switchEntry newDef = _switchEntry.of(new SwitchEntry()).setStatements(
+                handleBrake(statements) );
         this.switchStmt.getEntries().add(newDef.switchEntry);
         return this;
     }
@@ -626,10 +888,10 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch
     public _switchStmt setDefault(Expression ex){
         _switchEntry se = getDefault();
         if( se != null ){
-            se.setStatements( new ExpressionStmt(ex));
+            se.setStatements( handleBrake(new ExpressionStmt(ex)));
             return this;
         }
-        _switchEntry newDef = _switchEntry.of(new SwitchEntry()).setStatements(new ExpressionStmt(ex));
+        _switchEntry newDef = _switchEntry.of(new SwitchEntry()).setStatements(handleBrake(new ExpressionStmt(ex)));
         this.switchStmt.getEntries().add(newDef.switchEntry);
         return this;
     }
@@ -650,7 +912,7 @@ public class _switchStmt implements _statement<SwitchStmt, _switchStmt>, _switch
         }
         try {
             BlockStmt bs = Ast.blockStmt(code);
-            setDefault(bs.getStatements().toArray(new Statement[0]));
+            setDefault(handleBrake(bs.getStatements().toArray(new Statement[0])));
             return this;
         } catch (Exception e){
 

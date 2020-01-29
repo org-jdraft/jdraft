@@ -13,7 +13,7 @@ import java.util.Map;
 public class _breakStmt implements _statement<BreakStmt, _breakStmt> {
 
     public static _breakStmt of(){
-        return new _breakStmt( new BreakStmt( ));
+        return new _breakStmt( new BreakStmt( ).removeLabel());
     }
     public static _breakStmt of(BreakStmt bs){
         return new _breakStmt(bs);
