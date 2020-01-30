@@ -257,7 +257,7 @@ public final class _parameter
      * @param <_HP>
      */
     public interface _hasParameters<_HP extends _hasParameters>
-        extends _draft {
+        extends _mrJava {
 
         _parameters getParameters();
         

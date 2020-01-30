@@ -615,7 +615,7 @@ public final class _field
      * @param <_HF>
      */
     public interface _hasFields<_HF extends _hasFields>
-            extends _draft {
+            extends _mrJava {
 
         List<_field> listFields();
 

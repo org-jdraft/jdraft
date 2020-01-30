@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  * @author Eric
  */
 public final class _typeParameters
-        implements _draft {
+        implements _mrJava {
 
     public static _typeParameters of(){
         return of( Ast.classDecl("class Dummy{}" ));

@@ -12,15 +12,15 @@ public class _arrayDimension implements _node<ArrayCreationLevel, _arrayDimensio
         return new _arrayDimension(acl);
     }
 
-    public final ArrayCreationLevel arrayCreationLevel;
+    public final ArrayCreationLevel astNode;
 
     public _arrayDimension(ArrayCreationLevel acl){
-        this.arrayCreationLevel = acl;
+        this.astNode = acl;
     }
 
     @Override
     public _arrayDimension copy() {
-        return _arrayDimension.of(this.arrayCreationLevel);
+        return _arrayDimension.of(this.astNode);
     }
 
     @Override
@@ -34,18 +34,34 @@ public class _arrayDimension implements _node<ArrayCreationLevel, _arrayDimensio
 
     @Override
     public boolean is(ArrayCreationLevel astNode) {
-        return Objects.equals( arrayCreationLevel, astNode);
+        return Objects.equals(this.astNode, astNode);
     }
 
     @Override
     public ArrayCreationLevel ast() {
-        return this.arrayCreationLevel;
+        return this.astNode;
     }
 
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object>mm = new HashMap<>();
-        mm.put(_java.Component.ARRAY_DIMENSION, this.arrayCreationLevel.getDimension());
+        mm.put(_java.Component.ARRAY_DIMENSION, this.astNode.getDimension());
         return mm;
+    }
+
+    public String toString(){
+        return this.astNode.toString();
+    }
+
+    public int hashCode(){
+        return 31 * this.astNode.hashCode();
+    }
+
+    public boolean equals( Object o ){
+        if( o instanceof _arrayDimension ){
+            _arrayDimension _a = (_arrayDimension)o;
+            return Objects.equals( _a.astNode, this.astNode);
+        }
+        return false;
     }
 }

@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * @see _import representation of a single import declaration
  * @author Eric
  */
-public class _imports implements _draft {
+public class _imports implements _mrJava {
 
     public static _imports of( CompilationUnit cu ){
         return new _imports(cu);

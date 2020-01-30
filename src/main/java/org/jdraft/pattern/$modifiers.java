@@ -424,7 +424,7 @@ public class $modifiers
         return (_CT)forSelectedIn((_type)_java.type(clazz), selectConstraint, selectActionFn);
     }
     
-    public <_J extends _draft> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
+    public <_J extends _mrJava> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
         return Walk.in(_j,
             NodeWithModifiers.class, 
             nwm->{
@@ -452,7 +452,7 @@ public class $modifiers
      * @param selectActionFn
      * @return 
      */
-    public <_J extends _draft> _J forSelectedIn(_J _j, Consumer<Select> selectActionFn) {
+    public <_J extends _mrJava> _J forSelectedIn(_J _j, Consumer<Select> selectActionFn) {
         return Walk.in(_j,
             NodeWithModifiers.class, 
             nwm->{
@@ -479,7 +479,7 @@ public class $modifiers
         }
     }
 
-    public boolean match( _draft _j ) {
+    public boolean match( _mrJava _j ) {
         if (_j instanceof _modifiers) {
             return matches( (_modifiers)_j);
         }

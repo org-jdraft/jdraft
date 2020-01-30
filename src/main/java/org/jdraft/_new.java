@@ -38,11 +38,6 @@ public class _new implements _expression<ObjectCreationExpr, _new> {
         return false;
     }
 
-    @Override
-    public boolean is(ObjectCreationExpr astNode) {
-        return this.ast( ).equals(astNode);
-    }
-
     public ObjectCreationExpr ast(){
         return ile;
     }

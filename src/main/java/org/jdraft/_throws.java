@@ -23,7 +23,7 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _throws
-        implements _draft {
+        implements _mrJava {
 
     /**
      *
@@ -379,7 +379,7 @@ public final class _throws
      * @author Eric
      * @param <_HT> the hasThrows container {@link _method} {@link _constructor}
      */
-    public interface _hasThrows<_HT extends _hasThrows> extends _draft {
+    public interface _hasThrows<_HT extends _hasThrows> extends _mrJava {
 
         _throws getThrows();
 

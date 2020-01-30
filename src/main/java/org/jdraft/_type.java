@@ -70,7 +70,7 @@ import com.github.javaparser.utils.Log;
  */
 public interface _type<AST extends TypeDeclaration, _T extends _type>
     extends _javadoc._hasJavadoc<_T>, _anno._hasAnnos<_T>, _modifiers._hasModifiers<_T>,
-        _field._hasFields<_T>, _declared<AST, _T>, _code<_T>, _node<AST, _T>, _draft {
+        _field._hasFields<_T>, _declared<AST, _T>, _code<_T>, _node<AST, _T>, _mrJava {
 
     /**
      * If we are a top level _type add the types as companion types
@@ -406,7 +406,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         List<_M> _ms = new ArrayList<>();
         NodeList<BodyDeclaration<?>> bds = ast().getMembers();
         bds.forEach(b -> {
-            _draft _mem = _java.of(b);
+            _mrJava _mem = _java.of(b);
             if (memberClass.isAssignableFrom(_mem.getClass())) {
                 _ms.add((_M) _mem);
             }

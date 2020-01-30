@@ -824,7 +824,7 @@ public final class _anno
      * @param <_HA> the container type (that has Annos)
      */
     public interface _hasAnnos<_HA extends _hasAnnos>
-        extends _draft {
+        extends _mrJava {
         
         /**
          * @return the annos

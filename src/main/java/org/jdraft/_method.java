@@ -606,7 +606,7 @@ public final class _method
      * @param <_HM>
      */
     public interface _hasMethods<_HM extends _hasMethods>
-            extends _draft {
+            extends _mrJava {
 
         List<_method> listMethods();
 

@@ -5,7 +5,6 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
-import com.github.javaparser.ast.type.Type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,7 @@ import java.util.stream.Collectors;
  * @author Eric
  */
 public final class _parameters
-        implements _draft {
+        implements _mrJava {
 
     public static <T extends Object> _parameters of( Consumer<T> c){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];

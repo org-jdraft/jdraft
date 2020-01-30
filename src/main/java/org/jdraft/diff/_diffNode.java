@@ -13,7 +13,7 @@ import name.fraser.neil.plaintext.diff_match_patch;
  *
  * @param <_PN>
  */
-public interface _diffNode<_PN extends _draft> {
+public interface _diffNode<_PN extends _mrJava> {
 
     /**
      * the Entity that is the parent of the diff... for instance

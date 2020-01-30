@@ -223,7 +223,7 @@ public final class _typeParameter
      * @param <_HTP>
      */
     public interface _hasTypeParameters<_HTP extends _hasTypeParameters>
-        extends _draft {
+        extends _mrJava {
         
         default _typeParameters getTypeParameters(){
             _declared _m = (_declared) this;

@@ -27,7 +27,7 @@ import static org.jdraft.Ast.field;
  * @author Eric
  */
 public class _annos
-        implements _draft {
+        implements _mrJava {
 
     /** A reference to the container entity that is being annotated*/
     public final NodeWithAnnotations astAnnNode;

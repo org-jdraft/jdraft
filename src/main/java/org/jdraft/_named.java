@@ -17,7 +17,7 @@ import java.util.Objects;
  * @author Eric
  * @param <_N>
  */
-public interface _named<_N extends _named> extends _draft {
+public interface _named<_N extends _named> extends _mrJava {
 
     /**
      * @param name set the name on the entity and return the modified entity

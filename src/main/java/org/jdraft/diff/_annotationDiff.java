@@ -268,12 +268,12 @@ public class _annotationDiff implements _differ<_annotation, _node> {
         }
 
         @Override
-        public _draft leftParent() {
+        public _mrJava leftParent() {
             return leftParent;
         }
 
         @Override
-        public _draft rightParent() {
+        public _mrJava rightParent() {
             return rightParent;
         }
 

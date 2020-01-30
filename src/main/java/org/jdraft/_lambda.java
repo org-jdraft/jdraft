@@ -6,7 +6,6 @@ import java.util.function.*;
 
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
-import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.EmptyStmt;
 import com.github.javaparser.ast.stmt.Statement;
@@ -19,7 +18,7 @@ import org.jdraft._parameter._hasParameters;
  * @author Eric
  */
 public class _lambda 
-    implements _expression<LambdaExpr, _lambda>, _draft, _hasParameters<_lambda> {
+    implements _expression<LambdaExpr, _lambda>, _mrJava, _hasParameters<_lambda> {
 
     /**
      * create a _lamba based on the code (as String)

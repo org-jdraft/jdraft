@@ -304,7 +304,7 @@ public final class _initBlock
      * @param <_HIB>
      */
     public interface _hasInitBlocks<_HIB extends _hasInitBlocks & _type>
-            extends _draft {
+            extends _mrJava {
 
         /** 
          * returns the static Blocks on the _type (ordered by when they are declared) 

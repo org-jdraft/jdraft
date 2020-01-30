@@ -13,7 +13,6 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt;
-import com.github.javaparser.ast.nodeTypes.NodeWithBody;
 import com.github.javaparser.ast.nodeTypes.NodeWithOptionalBlockStmt;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
@@ -28,7 +27,7 @@ import org.jdraft.text.Text;
  *
  * @author Eric
  */
-public final class _body implements _draft {
+public final class _body implements _mrJava {
 
     /**
      * NOTE: this is an Object, because it can EITHER be a {@link NodeWithBlockStmt}
@@ -514,7 +513,7 @@ public final class _body implements _draft {
      * @param <_HB> enclosing TYPE (to access this)
      */
     public interface _hasBody<_HB extends _hasBody>
-        extends _draft {
+        extends _mrJava {
         
         /**
          * @return gets the body

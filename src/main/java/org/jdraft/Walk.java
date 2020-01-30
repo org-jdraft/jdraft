@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
- * Graph Traversal Algorithms for traversing nodes of a Java AST / {@link _draft}
+ * Graph Traversal Algorithms for traversing nodes of a Java AST / {@link _mrJava}
  * domain objects for selecting / visiting the nodes, providing a simple API for operations
  * on Nodes within a Java source file (by manipulating the AST).
  *
@@ -136,7 +136,7 @@ public enum Walk {
      * @param <_J>
      * @return
      */
-    public static <_J extends _draft> List<Node> list(_J _j, Predicate<Node> nodeMatchFn ) {
+    public static <_J extends _mrJava> List<Node> list(_J _j, Predicate<Node> nodeMatchFn ) {
         List<Node> found = new ArrayList<>();
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel() ){
@@ -174,7 +174,7 @@ public enum Walk {
      * @param <_J> the model entity (i.e. _class, _method, _constructor, _staticBlock)
      * @return
      */
-    public static <T, _J extends _draft> List<T> list(_J _j, Class<T> targetClass ) {
+    public static <T, _J extends _mrJava> List<T> list(_J _j, Class<T> targetClass ) {
         List<T> found = new ArrayList<>();
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel() ){
@@ -236,7 +236,7 @@ public enum Walk {
      * @param matchFn predicate for selecting nodes to collect
      * @return the list of
      */
-    public static <T, _J extends _draft> List<T> list(
+    public static <T, _J extends _mrJava> List<T> list(
             _J _j, Class<T> targetClass, Predicate<T> matchFn ) {
 
         List<T> found = new ArrayList<>();
@@ -445,7 +445,7 @@ public enum Walk {
      * @param <_J>
      * @return
      */
-    public static <T, _J extends _draft> _J in(
+    public static <T, _J extends _mrJava> _J in(
             _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel() ){
@@ -496,7 +496,7 @@ public enum Walk {
      * @param <_J> the supplied model node
      * @return
      */
-    public static <T, _J extends _draft> _J in(_J _j, Class<T> targetClass, Consumer<T> action ) {
+    public static <T, _J extends _mrJava> _J in(_J _j, Class<T> targetClass, Consumer<T> action ) {
         return in( PRE_ORDER, _j, targetClass, action);
     }
 
@@ -512,7 +512,7 @@ public enum Walk {
      * @param <_J> the supplied _java model node
      * @return
      */
-    public static <T, _J extends _draft> _J in(Node.TreeTraversal tt, _J _j, Class<T> targetClass, Consumer<T> action ) {
+    public static <T, _J extends _mrJava> _J in(Node.TreeTraversal tt, _J _j, Class<T> targetClass, Consumer<T> action ) {
         return in( tt, _j, targetClass, t->true, action);
     }
 
@@ -527,7 +527,7 @@ public enum Walk {
      * @param <_J>
      * @return
      */
-    public static <T, _J extends _draft> _J in(Node.TreeTraversal tt, _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
+    public static <T, _J extends _mrJava> _J in(Node.TreeTraversal tt, _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel() ){
                 of(tt, ((_code) _j).astCompilationUnit(), targetClass, matchFn, action);
@@ -562,7 +562,7 @@ public enum Walk {
      * @param <_J> the supplied model node
      * @return
      */
-    public static <_J extends _draft> _J in(_J _j, Consumer<Node> action ) {
+    public static <_J extends _mrJava> _J in(_J _j, Consumer<Node> action ) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel() ){
                 of(PRE_ORDER, ((_code) _j).astCompilationUnit(), Node.class, t->true, action);
@@ -598,7 +598,7 @@ public enum Walk {
      * @param <_J>
      * @return the (modified)
      */
-    public static <_J extends _draft> _J in(_J _j, Predicate<Node> nodeMatchFn, Consumer<Node> action ) {
+    public static <_J extends _mrJava> _J in(_J _j, Predicate<Node> nodeMatchFn, Consumer<Node> action ) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel() ){
                 of(PRE_ORDER, ((_code) _j).astCompilationUnit(), Node.class, nodeMatchFn, action);
@@ -759,7 +759,7 @@ public enum Walk {
      * @param <_J>
      * @return
      */
-    public static <T, _J extends _draft> _J parents(
+    public static <T, _J extends _mrJava> _J parents(
             _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel() ){
@@ -800,7 +800,7 @@ public enum Walk {
      * @param <_J>
      * @return
      */
-    public static <T, _J extends _draft> _J parents(
+    public static <T, _J extends _mrJava> _J parents(
             _J _j, Class<T> targetClass, Consumer<T> action ) {
 
         if( _j instanceof _code ){
@@ -840,7 +840,7 @@ public enum Walk {
      * @param <_J>
      * @return
      */
-    public static <_J extends _draft> _J parents(_J _j, Consumer<Node> action ) {
+    public static <_J extends _mrJava> _J parents(_J _j, Consumer<Node> action ) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel() ){
                 of(PARENTS, ((_code) _j).astCompilationUnit(), Node.class, t->true, action);
@@ -904,7 +904,7 @@ public enum Walk {
      * @param <_J>
      * @return
      */
-    public static <T, _J extends _draft> _J directChildren(
+    public static <T, _J extends _mrJava> _J directChildren(
             _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
 
         if( _j instanceof _code ){
@@ -944,7 +944,7 @@ public enum Walk {
      * @param <_J>
      * @return
      */
-    public static <T, _J extends _draft> _J directChildren(
+    public static <T, _J extends _mrJava> _J directChildren(
             _J _j, Class<T> targetClass, Consumer<T> action ) {
 
         if( _j instanceof _code ){
@@ -983,7 +983,7 @@ public enum Walk {
      * @param <_J>
      * @return
      */
-    public static <_J extends _draft> _J directChildren(_J _j, Consumer<Node> action ) {
+    public static <_J extends _mrJava> _J directChildren(_J _j, Consumer<Node> action ) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel() ){
                 of(DIRECT_CHILDREN, ((_code) _j).astCompilationUnit(), Node.class, t->true, action);
@@ -1044,7 +1044,7 @@ public enum Walk {
      * @param <_J>
      * @return
      */
-    public static <T, _J extends _draft> _J breadthFirst(
+    public static <T, _J extends _mrJava> _J breadthFirst(
             _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
 
         if( _j instanceof _code ){
@@ -1082,7 +1082,7 @@ public enum Walk {
      * @param <_J>
      * @return
      */
-    public static <T, _J extends _draft> _J breadthFirst(
+    public static <T, _J extends _mrJava> _J breadthFirst(
             _J _j, Class<T> targetClass, Consumer<T> action ) {
 
         if( _j instanceof _code ){
@@ -1118,7 +1118,7 @@ public enum Walk {
      * @param <_J>
      * @return
      */
-    public static <_J extends _draft> _J breadthFirst(_J _j, Consumer<Node> action ) {
+    public static <_J extends _mrJava> _J breadthFirst(_J _j, Consumer<Node> action ) {
         
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel() ){
@@ -1180,7 +1180,7 @@ public enum Walk {
      * @param <_J>
      * @return
      */
-    public static <T, _J extends _draft> _J postOrder(
+    public static <T, _J extends _mrJava> _J postOrder(
             _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
 
         if( _j instanceof _code ){
@@ -1218,7 +1218,7 @@ public enum Walk {
      * @param <_J> node type
      * @return
      */
-    public static <T, _J extends _draft> _J postOrder(
+    public static <T, _J extends _mrJava> _J postOrder(
             _J _j, Class<T> targetClass, Consumer<T> action ) {
 
         if( _j instanceof _code ){
@@ -1254,7 +1254,7 @@ public enum Walk {
      * @param <_J>
      * @return
      */
-    public static <_J extends _draft> _J postOrder(_J _j, Consumer<Node> action ) {
+    public static <_J extends _mrJava> _J postOrder(_J _j, Consumer<Node> action ) {
                 if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel() ){
                 of(POST_ORDER, ((_code) _j).astCompilationUnit(), Node.class, t->true, action);
@@ -1315,7 +1315,7 @@ public enum Walk {
      * @param <_J>
      * @return
      */
-    public static <T, _J extends _draft> _J preOrder(
+    public static <T, _J extends _mrJava> _J preOrder(
             _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
 
         if( _j instanceof _code ){
@@ -1353,7 +1353,7 @@ public enum Walk {
      * @param <_J>
      * @return
      */
-    public static <T, _J extends _draft> _J preOrder(
+    public static <T, _J extends _mrJava> _J preOrder(
             _J _j, Class<T> targetClass, Consumer<T> action ) {
 
         if( _j instanceof _code ){
@@ -1389,7 +1389,7 @@ public enum Walk {
      * @param <_J>
      * @return
      */
-    public static <_J extends _draft> _J preOrder(_J _j, Consumer<Node> action ) {
+    public static <_J extends _mrJava> _J preOrder(_J _j, Consumer<Node> action ) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel() ){
                 of(PRE_ORDER, ((_code) _j).astCompilationUnit(), Node.class, t->true, action);
@@ -1442,7 +1442,7 @@ public enum Walk {
      * @param matchFn the predicate for testing the intercepted Nodes/logical entities
      * @param action the action to take on nodes that match the matchFn
      */
-    public static <T, N extends Node, _J extends _draft, RN extends Node> RN of(
+    public static <T, N extends Node, _J extends _mrJava, RN extends Node> RN of(
         Node.TreeTraversal tt, RN astRootNode, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
 
         if( Node.class.isAssignableFrom( targetClass ) //Stmts and Expressions
@@ -1498,14 +1498,14 @@ public enum Walk {
      * @param <N> the Root node type
      * @return
      */
-    public static <_J extends _draft, N extends Node> N in_java(
+    public static <_J extends _mrJava, N extends Node> N in_java(
             Node.TreeTraversal tt, N astRootNode, Class<_J> _javaClass, Predicate<_J> _javaMatchFn, Consumer<_J> _javaAction ) {
         return in_java(tt, Integer.MAX_VALUE, astRootNode, _javaClass, _javaMatchFn, _javaAction);
     }
 
 
     /**
-     * A _walk that resolves {@link  _draft} classes (as apposed to AST {@link Node}
+     * A _walk that resolves {@link  _mrJava} classes (as apposed to AST {@link Node}
      * implementation
      * this requires "special work" building temporary ad-hoc models
      * (i.e. _field, _class, _parameter) to test against predicates
@@ -1524,7 +1524,7 @@ public enum Walk {
      * @param <N> the Root node type
      * @return
      */
-    public static <_J extends _draft, N extends Node> N in_java(
+    public static <_J extends _mrJava, N extends Node> N in_java(
             Node.TreeTraversal tt, int levels, N astRootNode, Class<_J> _javaClass, Predicate<_J> _javaMatchFn, Consumer<_J> _javaAction ) {
 
         if( _javaClass == _code.class ){
@@ -1918,7 +1918,7 @@ public enum Walk {
         return Walk.first(PARENTS, astNode, Node.class, nodeMatchFn);
     }
 
-    public static Node firstParent(_draft _j, Predicate<Node> nodeMatchFn){
+    public static Node firstParent(_mrJava _j, Predicate<Node> nodeMatchFn){
         return Walk.first(PARENTS, _j, Node.class, nodeMatchFn);
     }
 
@@ -2017,7 +2017,7 @@ public enum Walk {
      * @param <T> the target node type
      * @return
      */
-    public static <_J extends _draft, T> T first(_J _j, Class<T> nodeTargetClass) {
+    public static <_J extends _mrJava, T> T first(_J _j, Class<T> nodeTargetClass) {
         return Walk.first(PRE_ORDER, _j, nodeTargetClass, n -> true);
     }
 
@@ -2058,7 +2058,7 @@ public enum Walk {
      * @param nodeMatchFn
      * @return
      */
-    public static <_J extends _draft> Node first(_J _j, Predicate<Node> nodeMatchFn) {
+    public static <_J extends _mrJava> Node first(_J _j, Predicate<Node> nodeMatchFn) {
         return Walk.first(PRE_ORDER, _j, Node.class, nodeMatchFn);
     }
     
@@ -2106,7 +2106,7 @@ public enum Walk {
      * @param nodeMatchFn function for matching a particular node     
      * @return the first node that matches the criteria, else null
      */
-    public static <T, _J extends _draft> T first(_J _j, Class<T> nodeTargetClass, Predicate<T> nodeMatchFn) {
+    public static <T, _J extends _mrJava> T first(_J _j, Class<T> nodeTargetClass, Predicate<T> nodeMatchFn) {
         return Walk.first(PRE_ORDER, _j, nodeTargetClass, nodeMatchFn);
     }
         
@@ -2131,7 +2131,7 @@ public enum Walk {
      * @return the first node that matches the criteria, else null
      */
     public static <T> T first(
-            Node.TreeTraversal tt, _draft _j, Class<T> nodeTargetClass, Predicate<T> nodeMatchFn) {
+            Node.TreeTraversal tt, _mrJava _j, Class<T> nodeTargetClass, Predicate<T> nodeMatchFn) {
         //System.out.println( "FIRST IN " + _j.getClass() );
         //first order of business, determine the ast start node
         if(_j instanceof _code ){
@@ -2148,7 +2148,7 @@ public enum Walk {
         return Walk.first( tt, ((_node)_j).ast(), nodeTargetClass, nodeMatchFn);
     }
 
-    public static <T> T first(Node.TreeTraversal tt, _draft _j, Class<T> nodeTargetClass ) {
+    public static <T> T first(Node.TreeTraversal tt, _mrJava _j, Class<T> nodeTargetClass ) {
         return first(tt, _j, nodeTargetClass, t->true);
     }
 
@@ -2220,7 +2220,7 @@ public enum Walk {
         //... if not I need to
         //  1) find the matching AST class for the _node class
         //  2) search through those, creating a new instance for each node & testing 
-        if( _draft.class.isAssignableFrom(nodeTargetClass) ){
+        if( _mrJava.class.isAssignableFrom(nodeTargetClass) ){
             //here I'm looking for a _field, _method, etc.
             Optional<Node> on = astStartNode.stream(tt).filter(n -> {
                     if( Objects.equals( _java.Model.AST_NODE_TO_JAVA_CLASSES.get(n.getClass()), nodeTargetClass ) ){

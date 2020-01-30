@@ -5,6 +5,7 @@ import com.github.javaparser.ast.stmt.AssertStmt;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class _assertStmt implements _statement<AssertStmt, _assertStmt> {
@@ -47,6 +48,36 @@ public class _assertStmt implements _statement<AssertStmt, _assertStmt> {
             return is( Stmt.assertStmt(stringRep));
         } catch(Exception e){ }
         return false;
+    }
+
+    public boolean isCheck(String...checkCode){
+        try{
+            return isCheck(Ex.of(checkCode));
+        }catch(Exception e){
+            return false;
+        }
+    }
+    public boolean isCheck(Expression check){
+        return Objects.equals( this.astStmt.getCheck(), check);
+    }
+
+    public boolean hasMessage(){
+        return this.astStmt.getMessage().isPresent();
+    }
+
+    public boolean isMessage(String message){
+        try {
+            return isMessage(Ex.of(message));
+        }catch(Exception e){
+            return false;
+        }
+    }
+
+    public boolean isMessage(Expression message){
+        if( this.hasMessage()){
+            return Objects.equals(astStmt.getMessage().get(), message);
+        }
+        return message == null;
     }
 
     @Override

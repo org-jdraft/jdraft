@@ -333,7 +333,7 @@ public class $comment <C extends Comment>
         return findAndReplace( n, targetToReplacement);
     }
 
-    public <_J extends _draft> _J findAndReplace(_J _c, String target, String replacement){
+    public <_J extends _mrJava> _J findAndReplace(_J _c, String target, String replacement){
         Map<String,String> targetToReplacement = new HashMap<>();
         targetToReplacement.put(target, replacement);
         return findAndReplace( _c, targetToReplacement);
@@ -361,7 +361,7 @@ public class $comment <C extends Comment>
         return _cp;
     }
 
-    public <_J extends _draft> _J findAndReplace(_J _c, Map<String, String> targetToReplacement){
+    public <_J extends _mrJava> _J findAndReplace(_J _c, Map<String, String> targetToReplacement){
         if( _c instanceof _node ){
             if( _c instanceof _code) {
                 if (((_code) _c).isTopLevel()) {
@@ -598,7 +598,7 @@ public class $comment <C extends Comment>
      * @param <_J>
      * @return
      */
-    public <_J extends _java> _J forSelectedIn(_draft _j, Consumer<Select> selectActionFn) {
+    public <_J extends _java> _J forSelectedIn(_mrJava _j, Consumer<Select> selectActionFn) {
         _java.forComments(_j, c->{
             Select s = select(c);
             if( s != null ){
@@ -619,7 +619,7 @@ public class $comment <C extends Comment>
         return astNode;
     }
     
-    public <_J extends _draft> _J forSelectedIn(_draft _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
+    public <_J extends _mrJava> _J forSelectedIn(_mrJava _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
         _java.forComments(_j, c->{
             Select s = select(c);
             if( s != null && selectConstraint.test(s)){
@@ -663,7 +663,7 @@ public class $comment <C extends Comment>
      * @param <_J>
      * @return
      */
-    public <_J extends _draft> _J replaceIn(_J _j, Statement...statements) {
+    public <_J extends _mrJava> _J replaceIn(_J _j, Statement...statements) {
         return forEachIn( _j, c-> Ast.replaceComment(c, statements));
     }
 

@@ -53,15 +53,15 @@ public class _arrayAccess implements _expression<ArrayAccessExpr, _arrayAccess> 
         System.arraycopy(indexes, 1, left, 0, left.length);
         return of(ae, left);
     }
-    public ArrayAccessExpr ile;
+    public ArrayAccessExpr astNode;
 
-    public _arrayAccess(ArrayAccessExpr ile){
-        this.ile = ile;
+    public _arrayAccess(ArrayAccessExpr astNode){
+        this.astNode = astNode;
     }
 
     @Override
     public _arrayAccess copy() {
-        return new _arrayAccess(this.ile.clone());
+        return new _arrayAccess(this.astNode.clone());
     }
 
     @Override
@@ -78,38 +78,38 @@ public class _arrayAccess implements _expression<ArrayAccessExpr, _arrayAccess> 
     }
 
     public ArrayAccessExpr ast(){
-        return ile;
+        return astNode;
     }
 
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put(_java.Component.INDEX, ile.getIndex());
-        comps.put(_java.Component.NAME, ile.getName().toString());
+        comps.put(_java.Component.INDEX, astNode.getIndex());
+        comps.put(_java.Component.NAME, astNode.getName().toString());
         return comps;
     }
 
     public _expression getName(){
-        return _expression.of(this.ile.getName());
+        return _expression.of(this.astNode.getName());
     }
 
     public _expression getIndex(){
-        return _expression.of(this.ile.getIndex());
+        return _expression.of(this.astNode.getIndex());
     }
 
     public boolean equals(Object other){
         if( other instanceof _arrayAccess){
-            return ((_arrayAccess)other).ile.equals( this.ile );
+            return ((_arrayAccess)other).astNode.equals( this.astNode);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ile.hashCode();
+        return 31 * this.astNode.hashCode();
     }
 
 
     public String toString(){
-        return this.ile.toString();
+        return this.astNode.toString();
     }
 }

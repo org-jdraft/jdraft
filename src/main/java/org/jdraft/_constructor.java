@@ -424,7 +424,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
      * @param <N> the AST node type (must implement NodeWithConstructors)
      */
     public interface _hasConstructors<_HC extends _hasConstructors & _type, N extends TypeDeclaration>
-        extends _draft {
+        extends _mrJava {
 
         /** 
          * Gets the node that is the nodeWithConstructors (i.e._class, _enum)

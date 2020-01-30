@@ -2,12 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.comments.*;
-import org.jdraft._import.*;
-import org.jdraft.io._archive;
-import org.jdraft.io._path;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.function.*;
 import java.util.*;
 import java.util.stream.*;
@@ -27,7 +22,7 @@ import java.util.stream.*;
  * @author Eric
  * @param <_C> the code implementation type
  */
-public interface _code<_C> extends _draft, _java._componentized {
+public interface _code<_C> extends _mrJava, _java._componentized {
 
     /**
      * Return a copy of the _code
@@ -523,7 +518,7 @@ public interface _code<_C> extends _draft, _java._componentized {
      * from a Online repository, or any other mechanism for finding and returning _code models
      *
      */
-    interface _provider extends _draft {
+    interface _provider extends _mrJava {
 
         /*
         <_CC extends _code> _CC first(Class<_CC> codeClass, Predicate<_CC> _codeMatchFn);

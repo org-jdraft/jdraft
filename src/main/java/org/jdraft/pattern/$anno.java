@@ -485,7 +485,7 @@ public class $anno
      * @param annoType
      * @return 
      */
-    public <_J extends _draft> _J replaceIn(_J _j, Class<? extends Annotation> annoType ){
+    public <_J extends _mrJava> _J replaceIn(_J _j, Class<? extends Annotation> annoType ){
         return replaceIn(_j, $anno.of(annoType) );
     }
 
@@ -584,7 +584,7 @@ public class $anno
      * @param selectConstraint
      * @return 
      */
-    public Select selectFirstIn(_draft _j, Predicate<Select>selectConstraint) {
+    public Select selectFirstIn(_mrJava _j, Predicate<Select>selectConstraint) {
         if( _j instanceof _code ){
             _code _c = (_code)_j;
             if( _c.isTopLevel() ){
@@ -641,7 +641,7 @@ public class $anno
      * @param selectConstraint
      * @return 
      */
-    public List<Select> listSelectedIn(_draft _j, Predicate<Select> selectConstraint) {
+    public List<Select> listSelectedIn(_mrJava _j, Predicate<Select> selectConstraint) {
          if( _j instanceof _code ){
             _code _c = (_code)_j;
             if( _c.isTopLevel() ){
@@ -706,7 +706,7 @@ public class $anno
      * @param selectActionFn
      * @return 
      */
-    public <_J extends _draft> _J forSelectedIn(_J _j, Consumer<Select> selectActionFn) {
+    public <_J extends _mrJava> _J forSelectedIn(_J _j, Consumer<Select> selectActionFn) {
          if( _j instanceof _code ){
             _code _c = (_code) _j;
             if( _c.isTopLevel() ){
@@ -729,7 +729,7 @@ public class $anno
      * @param selectActionFn
      * @return 
      */
-    public <_J extends _draft> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
+    public <_J extends _mrJava> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
          if( _j instanceof _code ){
             _code _c = (_code) _j;
             if( _c.isTopLevel() ){

@@ -4,6 +4,7 @@ import com.github.javaparser.ast.ArrayCreationLevel;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.ArrayCreationExpr;
 import com.github.javaparser.ast.expr.ArrayInitializerExpr;
+import com.github.javaparser.ast.type.Type;
 
 import java.util.*;
 
@@ -19,15 +20,15 @@ public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate
         return new _arrayCreate(Ex.arrayCreationEx( code));
     }
 
-    public ArrayCreationExpr ile;
+    public ArrayCreationExpr astNode;
 
-    public _arrayCreate(ArrayCreationExpr ile){
-        this.ile = ile;
+    public _arrayCreate(ArrayCreationExpr astNode){
+        this.astNode = astNode;
     }
 
     @Override
     public _arrayCreate copy() {
-        return new _arrayCreate(this.ile.clone());
+        return new _arrayCreate(this.astNode.clone());
     }
 
     @Override
@@ -43,20 +44,48 @@ public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate
         return this.ast( ).equals(astNode);
     }
 
+
     public ArrayCreationExpr ast(){
-        return ile;
+        return astNode;
     }
 
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
 
-        if( ile.getInitializer().isPresent()) {
-            comps.put(_java.Component.INIT, ile.getInitializer());
+        if( astNode.getInitializer().isPresent()) {
+            comps.put(_java.Component.INIT, astNode.getInitializer());
         }
-        comps.put(_java.Component.ARRAY_DIMENSIONS, ile.getLevels());
-        comps.put(_java.Component.TYPE, ile.getElementType());
+        comps.put(_java.Component.ARRAY_DIMENSIONS, astNode.getLevels());
+        comps.put(_java.Component.TYPE, astNode.getElementType());
         return comps;
+    }
+
+    public _arrayCreate setInit(_arrayInitialize ae){
+        this.astNode.setInitializer(ae.ast());
+        return this;
+    }
+
+    public _arrayCreate setInit(ArrayInitializerExpr ae){
+        this.astNode.setInitializer(ae);
+        return this;
+    }
+
+    public boolean isElementType(String typeRef){
+        return Ast.typesEqual( this.astNode.getElementType(), _typeRef.of(typeRef).ast());
+    }
+
+
+    public boolean isElementType( _typeRef _t ){
+        return Ast.typesEqual( this.astNode.getElementType(), _t.ast());
+    }
+
+    public boolean isElementType(Type t){
+        return Ast.typesEqual( this.astNode.getElementType(),t);
+    }
+
+    public boolean hasInit(){
+        return this.astNode.getInitializer().isPresent();
     }
 
     public boolean isInit(String... initCode){
@@ -68,48 +97,79 @@ public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate
     }
 
     public boolean isInit(ArrayInitializerExpr aie){
-        if( this.ile.getInitializer().isPresent()) {
-            return Objects.equals(this.ile.getInitializer().get(), aie);
+        if( this.astNode.getInitializer().isPresent()) {
+            return Objects.equals(this.astNode.getInitializer().get(), aie);
         }
         return aie == null;
     }
 
     public _expression getInit(){
-        if( this.ile.getInitializer().isPresent()) {
-            return _expression.of(this.ile.getInitializer().get());
+        if( this.astNode.getInitializer().isPresent()) {
+            return _expression.of(this.astNode.getInitializer().get());
         }
         return null;
     }
 
-    public _typeRef getType(){
-        return _typeRef.of(this.ile.getElementType());
+    public _typeRef getElementType(){
+        return _typeRef.of(this.astNode.getElementType());
+    }
+
+    public _arrayCreate setElementType(_typeRef _tr){
+        this.astNode.setElementType(_tr.ast());
+        return this;
+    }
+
+    public _arrayCreate setElementType(Class clazz){
+        this.astNode.setElementType(clazz);
+        return this;
+    }
+
+    public _arrayCreate setElementType(String str){
+        this.astNode.setElementType(_typeRef.of(str).ast());
+        return this;
     }
 
     public List<_arrayDimension> getArrayDimensions(){
+
         List<_arrayDimension> ads = new ArrayList<>();
-        this.ile.getLevels().forEach(d -> ads.add( _arrayDimension.of(d)));
+        this.astNode.getLevels().forEach(d -> ads.add( _arrayDimension.of(d)));
         return ads;
     }
-    /*
-    //TODO remodel this or just leave this??
-    public NodeList<ArrayCreationLevel> getArrayLevel(){
-        return this.ile.getLevels();
+
+    public _arrayCreate setArrayDimensions(String...code){
+        this.astNode.setLevels( Ex.arrayCreationLevels(code) );
+        return this;
     }
-     */
+
+    public _arrayCreate setArrayDimensions(NodeList<ArrayCreationLevel> acls){
+        this.astNode.setLevels( acls );
+        return this;
+    }
+
+    public boolean isArrayDimensions(String... dimensions){
+        try {
+            return isArrayDimensions( Ex.arrayCreationLevels(dimensions));
+        } catch(Exception e){
+            return false;
+        }
+    }
+
+    public boolean isArrayDimensions(NodeList<ArrayCreationLevel> acl){
+       return Objects.equals( this.astNode.getLevels(), acl);
+    }
 
     public boolean equals(Object other){
         if( other instanceof _arrayCreate){
-            return ((_arrayCreate)other).ile.equals( this.ile );
+            return ((_arrayCreate)other).astNode.equals( this.astNode);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ile.hashCode();
+        return 31 * this.astNode.hashCode();
     }
 
-
     public String toString(){
-        return this.ile.toString();
+        return this.astNode.toString();
     }
 }

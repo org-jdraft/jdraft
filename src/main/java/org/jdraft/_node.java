@@ -4,6 +4,8 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.function.Predicate;
 
 /**
  * {@link _node} entity that maps directly to an AST {@link Node}
@@ -37,13 +39,31 @@ import java.util.Map;
  * @param <_N> the jdraft _node type {@link _method}, {@link _field}
  * @param <N> ast node {@link com.github.javaparser.ast.body.MethodDeclaration}, {@link com.github.javaparser.ast.body.FieldDeclaration}
  */
-public interface _node<N extends Node, _N extends _node> extends _draft, _java._componentized {
+public interface _node<N extends Node, _N extends _node> extends _mrJava, _java._componentized {
 
     /**
      * Build and return an (independent) copy of this _node entity
      * @return
      */
     _N copy();
+
+    /**
+     * Pass a match function to verify based on a lambda predicate
+     * @param matchFn a function to match against the entity
+     * @return true if the match function is verified, false otherwise
+     */
+    default boolean is(Predicate<_N> matchFn){
+        return matchFn.test((_N)this);
+    }
+
+    /**
+     * Pass a match function to verify based on a lambda predicate
+     * @param astMatchFn a lambda function to match against the ast
+     * @return true if the match function is verified, false otherwise
+     */
+    default boolean isAst(Predicate<N> astMatchFn){
+        return astMatchFn.test( ast() );
+    }
 
     /**
      * is the String representation equal to the _node entity
@@ -61,7 +81,9 @@ public interface _node<N extends Node, _N extends _node> extends _draft, _java._
      * @param astNode the astNode to compare against
      * @return true if they represent the same _node, false otherwise
      */
-    boolean is(N astNode);
+    default boolean is(N astNode){
+        return Objects.equals(ast(), astNode);
+    }
 
     /**
      * Decompose the entity into smaller named tokens
