@@ -222,12 +222,12 @@ public class _modifiersTest extends TestCase {
         assertTrue( _ms.is());
     }
     public void testSetOrUnset(){
-        _modifiers _mods = _modifiers.of("public");
-        assertFalse( _mods.isAbstract() );
-        _mods.setAbstract();
-        assertTrue( _mods.isAbstract() );
-        _mods.setAbstract(false);
-        assertFalse( _mods.isAbstract() );
+        _modifiers _mds = _modifiers.of("public");
+        assertFalse( _mds.isAbstract() );
+        _mds.setAbstract();
+        assertTrue( _mds.isAbstract() );
+        _mds.setAbstract(false);
+        assertFalse( _mds.isAbstract() );
     }
 
 
@@ -236,7 +236,7 @@ public class _modifiersTest extends TestCase {
         _f.setDefaultAccess(); //.getModifiers().setDefaultAccess();
         assertEquals( _field.of("static int F = 100;"), _f );
 
-        _modifiers _mods = _modifiers.of();
+        _modifiers _mds = _modifiers.of();
 
     }
 
