@@ -11,6 +11,7 @@ import java.util.UUID;
 
 public class SinterfaceTest extends TestCase {
 
+    /*
     public void test$Not(){
         $interface $i = $interface.of( new Object(){
             @_$not @_static int i = 102;
@@ -23,11 +24,16 @@ public class SinterfaceTest extends TestCase {
         assertFalse( $i.matches("public interface I{ static int i = 102; }"));
 
     }
+    */
 
+    interface I{
+        @_static int i=0;
+    }
     public void testAnony(){
-        $interface $i = $interface.of(new Object(){ @_static int i=0;});
+        $interface $i = $interface.of("interface I { static int i=0; }"); //I.class); //$interface.of(new Object(){ });
         assertEquals( 1, $i.fields.size());
 
+        /*
         //this should now EXTEND serializable
         $i = $interface.of("aaaa.bbbb.I<String>", new Serializable(){
             public @_static int m(){
@@ -40,9 +46,10 @@ public class SinterfaceTest extends TestCase {
         assertTrue($i.packageDecl.matches("aaaa.bbbb"));
         assertTrue($i.name.matches("I"));
         assertTrue($i.typeParameters.matches("<String>"));
-
+*/
         //use a pre Anonymous macro
-        $i = $interface.of("AAA",new @_imports(UUID.class) Object(){});
+        $i = $interface.of("import java.uti.UUID;",
+        "public interface AAA{}");
 
         assertEquals( 1, $i.imports.size() );
     }

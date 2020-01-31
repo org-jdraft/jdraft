@@ -28,6 +28,7 @@ import org.jdraft._modifiers.*;
 import org.jdraft._constructor._hasConstructors;
 import org.jdraft._javadoc._hasJavadoc;
 import org.jdraft._method._hasMethods;
+import org.jdraft._modifiers.*;
 import org.jdraft._receiverParameter._hasReceiverParameter;
 import org.jdraft._initBlock._hasInitBlocks;
 import org.jdraft._throws._hasThrows;

@@ -28,7 +28,7 @@ public class OverviewTest extends TestCase {
         System.out.println( _point );
     }
 
-    public void testQueryForTopMethodComplexity(){
+    public void queryForTopMethodComplexity(){
         /** calculate and store rudimentary complexity metric with the _method */
         class _methodComplexity{
 
@@ -65,7 +65,11 @@ public class OverviewTest extends TestCase {
 
     public void testMacroAndRuntimeEval(){
         //the @_dto @macro creates
-        _class _point = _class.of("graph.Point", new @_dto Object(){ @_final double x, y; });
+        @_package("graph") @_dto class Point{
+            @_final double x,y;
+        }
+        //_class _point = _class.of("graph.Point", new @_dto Object(){ @_final double x, y; });
+        _class _point = _class.of(Point.class);
         //add a distance method
         _point.method(new Object(){
            public double distanceTo( double x, double y ){

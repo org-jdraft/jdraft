@@ -15,9 +15,10 @@ import java.util.List;
 
 public class JavaParserParseString extends TestCase {
 
-    public void testPrintClassNames(){
+    public void printClassNames(){
         $class.of( $.packageDecl("org.jdraft" ) )
-                .forEachIn(_path.of("C:\\jdraft\\project\\jdraft\\src\\main\\java"), e-> System.out.println( e.getFullName() ));
+                .forEachIn(
+                        _path.of("C:\\jdraft\\project\\jdraft\\src\\main\\java"), e-> System.out.println( e.getFullName() ));
     }
     public void testSs(){
         //_class _c = _class.of("public class C{ int i= 0;}");

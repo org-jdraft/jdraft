@@ -37,11 +37,11 @@ public class _2_UsingAllBuiltInMacrosTest extends TestCase {
         assertTrue(_class.of(B.class).getConstructor(0).getParameters().is("int a"));
 
         //@_autoConstructor also works for building an _enum constructor... (but the constructor is private)
-        _enum _ea = _enum.of( "aaaa.E", new @_autoConstructor Object(){
-             @_final int i;
-        });
-        assertTrue( _ea.getConstructor(0).isPrivate());
-        assertTrue( _ea.getConstructor(0).getParameter(0).isType(int.class));
+        //_enum _ea = _enum.of( "aaaa.E", new @_autoConstructor Object(){
+        //     @_final int i;
+        //});
+        //assertTrue( _ea.getConstructor(0).isPrivate());
+        //assertTrue( _ea.getConstructor(0).getParameter(0).isType(int.class));
 
         _interface _i = _interface.of("aaaa.I", new Object(){
             //default will set the default property (for default methods on interfaces)
@@ -72,6 +72,7 @@ public class _2_UsingAllBuiltInMacrosTest extends TestCase {
         @_extend(Map.class) class Ex{ }
         assertTrue( _class.of(Ex.class).isExtends(Map.class));
 
+        /*
         //extend works on an interface (multiple Extension)
         _interface _i2 = _interface.of("asd.Inter",
                 new @_extend({Serializable.class, Cloneable.class}) Object(){});
@@ -80,6 +81,8 @@ public class _2_UsingAllBuiltInMacrosTest extends TestCase {
         assertTrue( _i2.isExtends(Serializable.class));
         assertTrue(_i2.isExtends(Cloneable.class));
         assertTrue( _i2.isExtends(Serializable.class) && _i2.isExtends(Cloneable.class));
+        */
+
 
         //@_final works on types
         @_final class F{
@@ -105,10 +108,10 @@ public class _2_UsingAllBuiltInMacrosTest extends TestCase {
         assertTrue( _g.getMethod("getY").isType(int.class));
 
         //get works on enums (creates getter methods getX(), getY())
-        _enum _e = _enum.of("GE", new @_get Object(){ int x, y; });
+        //_enum _e = _enum.of("GE", new @_get Object(){ int x, y; });
 
-        assertTrue( _e.getMethod("getX").isType(int.class));
-        assertTrue( _e.getMethod("getY").isType(int.class));
+        //assertTrue( _e.getMethod("getX").isType(int.class));
+        //assertTrue( _e.getMethod("getY").isType(int.class));
 
         //hashCode works on classes to build the hashCode method
         @_hashCode class H{ int x, y; }

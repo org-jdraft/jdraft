@@ -4,6 +4,7 @@ import org.jdraft._class;
 import org.jdraft._enum;
 import org.jdraft.macro._dto;
 import junit.framework.TestCase;
+import org.jdraft.macro._package;
 
 public class _newTest extends TestCase {
 
@@ -24,11 +25,18 @@ public class _newTest extends TestCase {
 
 
     public void testInstance() throws NoSuchMethodException {
+        @_dto @_package("aaaa") class VV{
+            int x,y,z;
+        }
+        Object o = _runtime.instanceOf(_class.of(VV.class));
+        /*
         Object o = _runtime.instanceOf(
                 _class.of("aaaa.VV", new @_dto Object() {
                     int x, y, z;
                 })
         );
+
+         */
         assertEquals("VV", o.getClass().getSimpleName());
         assertEquals("aaaa.VV", o.getClass().getCanonicalName());
         assertNotNull( o.getClass().getMethod("getX", null));
@@ -41,12 +49,20 @@ public class _newTest extends TestCase {
     }
 
     public void testRuntimeProxyInstance(){
-        _proxy p = _runtime.proxyOf( _class.of("aaaa.VV", new @_dto Object(){
+        @_package("aaaa") @_dto class VV{
             int x, y, z;
             public int sum(){
                 return  x + y + z;
             }
-        }));
+        }
+        _class _c = _class.of(VV.class);
+        _proxy p = _runtime.proxyOf(_c);
+        //_class.of("aaaa.VV", new @_dto Object(){
+        //    int x, y, z;
+        //    public int sum(){
+        //        return  x + y + z;
+        //    }
+        //}));
 
         p.set("x", 100);
         p.set("y", 200);

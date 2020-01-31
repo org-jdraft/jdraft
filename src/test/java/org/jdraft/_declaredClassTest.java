@@ -48,6 +48,15 @@ public class _declaredClassTest extends TestCase {
     public void testL(){
 
         _class _c = _class.of(Baseline.class);
+
+        @_public @_package("som.pkg") @_final @_imports({Map.class, List.class, Set.class, HashSet.class})
+        class Baseline{
+            volatile public int a;
+            protected @_static final int g() { return 102; }
+
+        }
+        _class _d = _class.of(Baseline.class).staticBlock( ()->System.out.println("replaced"));
+        /*
         _class _d = _class.of("som.pkg.Baseline",
                 new @_public @_final @_imports({Map.class, List.class, Set.class, HashSet.class}) Object(){
                     volatile public int a;
@@ -55,7 +64,7 @@ public class _declaredClassTest extends TestCase {
                     protected @_static final int g() { return 102; }
 
                 }).staticBlock( ()->System.out.println("replaced"));
-
+        */
         assertTrue( _diff.of(_c, _d).isEmpty());
 
         Log.setAdapter(new Log.StandardOutStandardErrorAdapter());

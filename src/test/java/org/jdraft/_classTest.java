@@ -68,6 +68,20 @@ public class _classTest extends TestCase {
     //@_postDraft
     //@_postDraft(String...methodNames)
     public void testMultiTypeUseMacroAutoAnonymousImport(){
+
+        @_package("aaaa.bbbb") @_equals @_hashCode @_get @_set @_autoConstructor class C{
+            public int x,y;
+            @_final URI u;
+
+            public @_static AtomicInteger getAi() throws IOException, URISyntaxException {
+                throw new IOException("Bad stuff");
+            }
+            public String toString() {
+                return "("+x+","+y+")";
+            }
+        }
+        _class _c = _class.of(C.class);
+        /*
         _class _c = _class.of( "aaaa.bbbb.C",
                 new @_equals @_hashCode @_get @_set @_autoConstructor Object(){
             public int x,y;
@@ -80,7 +94,7 @@ public class _classTest extends TestCase {
                 return "("+x+","+y+")";
             }
         });
-
+        */
         //make sure when drafting we auto import the appropriate types from the API
         // field types (i.e. URI)
         // method return types (i.e. AtomicInteger)
@@ -535,20 +549,26 @@ public class _classTest extends TestCase {
         assertNotSame( _a, _b);
 
     }
-    
+    @_package("aaaa.bbbb") @_dto @_public class Local{
+        public int a,b,c;
+        @_final String name;
+        @_static public void main(String[] args){
+            System.out.println("Some Print Statement");
+        }
+    }
      /**
      * Here _1_build a static final variant of a _class (so we dont have to parse every time)
      *
      */
-    public static final _class _c = //_autoDto.Macro.to(
-_class.of("aaaa.bbbb.Local",
-            new @_dto Object(){
-                public int a,b,c;
-                @_final String name;
-                @_static public void main(String[] args){
-                    System.out.println("Some Print Statement");
-                }
-            });
+    public static final _class _c = _class.of(Local.class); //_autoDto.Macro.to(
+//_class.of("aaaa.bbbb.Local",
+//            new @_dto Object(){
+//                public int a,b,c;
+//                @_final String name;
+//                @_static public void main(String[] args){
+//                    System.out.println("Some Print Statement");
+//                }
+//            });
 
     @interface _annotat{
 

@@ -4,6 +4,7 @@ import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import org.jdraft.Ex;
 import org.jdraft._class;
+import org.jdraft._type;
 
 import java.lang.annotation.*;
 import java.util.Arrays;
@@ -67,6 +68,11 @@ public @interface _dto {
         @Override
         public void expand(TypeDeclaration typeDeclaration) {
             to(typeDeclaration);
+        }
+
+        public static <_T extends _type> _T to( _T _t){
+            to((TypeDeclaration)_t.ast());
+            return _t;
         }
 
         public static <T extends TypeDeclaration> T to( T typeDeclaration ){

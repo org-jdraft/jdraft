@@ -19,8 +19,12 @@ public class _1_Macros_OnDifferentElementTypes_Test extends TestCase {
     }
 
     public void testOnTypeUse_AnonymousClass(){
-        _class _c = _class.of( "aaaa.C",
-                new @_dto Object(){ int x,y;});
+        @_package("aaaa") @_dto class C{
+            int x,y;
+        }
+        _class _c = _class.of(C.class);
+                //_class.of( "aaaa.C",
+                //new @_dto Object(){ int x,y;});
         assertNotNull( _c.getMethod("getY"));
     }
 

@@ -13,13 +13,50 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.github.javaparser.ast.expr.StringLiteralExpr;
+import com.github.javaparser.utils.Log;
 import junit.framework.TestCase;
+import org.jdraft.io._io;
 import org.jdraft.macro._dto;
+import org.jdraft.macro._final;
 import org.jdraft.pattern.$;
 
 
 public class WalkTest extends TestCase {
 
+    public class NestedClass{
+        int i;
+    }
+    public void testGetSource(){
+        /*
+        _class _c = _class.of(NestedClass.class);
+        System.out.println(_c);
+
+        class LocalClass{
+            int j;
+        }
+        _c = _class.of(LocalClass.class);
+        System.out.println(_c);
+
+        class LocalClass2{
+            @_final int x, y;
+        }
+        _c = _class.of(LocalClass2.class);
+        System.out.println(_c);
+
+        _c = _class.of("C", new Object(){
+            int k;
+        });
+
+        System.out.println(_c);
+*/
+        _class _c = _class.of("C", new @_final Object(){
+            String s, t;
+        });
+
+
+
+        System.out.println(_c);
+    }
     /**
      * Verify I can walk into a collection of _code or _type
      * using the first()
@@ -30,11 +67,14 @@ public class WalkTest extends TestCase {
         //we create a collection (in this case a list) to verify we can use the
         // list(), in(), and first()
         List<_type> lts = new ArrayList<>();
-        lts.add( _class.of("C", new @_dto Object(){
+        Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
+        _class _c = _dto.Act.to(_class.of("C", new @_dto Object(){
             int x, y;
             String name;
         }));
-
+        lts.add(_c);
+        System.out.println(_io.describe());
+        Log.setAdapter(new Log.SilentAdapter());
         assertEquals( Walk.list(lts, _method.class ).size(), $.method().count(lts));
         assertNull( Walk.first(lts, _field.class, f-> f.isFinal()));
         assertNull( Walk.first(lts, _method.class, _method.IS_MAIN)); //find the first main method
@@ -48,6 +88,7 @@ public class WalkTest extends TestCase {
         assertEquals( Walk.list(lts, _method.class).size(), $.method().count(lts) );
         assertEquals( Walk.list(lts, _constructor.class).size(), $.constructor().count(lts) );
 
+        System.out.println( "C IS "+ _c );
         //verify we can find the equals method
         assertNotNull( $.method().$name("equals").firstIn(lts) );
 

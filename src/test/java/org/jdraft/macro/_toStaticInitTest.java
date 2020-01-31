@@ -9,13 +9,14 @@ import java.util.UUID;
 public class _toStaticInitTest extends TestCase {
 
     public void testStaticInitSetStaticField(){
-        _class _c = _class.of("A", new @_imports(UUID.class) Object(){
+        @_imports(UUID.class) class A{
             @_public @_static @_final String ID;
             @_toStaticInit void si(){
                 System.out.println( "static init block");
                 ID = UUID.randomUUID().toString();
             }
-        });
+        }
+        _class _c = _class.of(A.class);
 
         assertTrue( _c.getInitBlock(0).isStatic() );
 

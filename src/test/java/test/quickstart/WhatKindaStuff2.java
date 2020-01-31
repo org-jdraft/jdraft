@@ -18,7 +18,7 @@ public class WhatKindaStuff2 extends TestCase {
 
 
 
-    public void testSimpleGenerateJavaCode(){
+    public void simpleGenerateJavaCode(){
 
         _class _c = _class.of("graph.Point", new @_dto Object(){
             @_private @_final double x,y;
@@ -65,7 +65,7 @@ public class WhatKindaStuff2 extends TestCase {
     }
 
 
-    public void testLotsOfCode(){
+    public void lotsOfCode(){
         _archive _guava = _archive.of("C:\\guava-src.jar");
         _source _source = org.jdraft.io._source.of(_path.of("C:\\jdraft\\project\\jdraft\\src\\main\\java"));
         org.jdraft.io._source _tests = org.jdraft.io._source.of(_path.of("C:\\jdraft\\project\\jdraft\\src\\test\\java"));

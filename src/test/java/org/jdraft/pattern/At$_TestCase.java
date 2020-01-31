@@ -82,18 +82,15 @@ public class At$_TestCase extends TestCase {
         //System.out.println( $c );
     }
 
+    interface FF {
+        public int getFieldName();
+
+        public void setFieldName();
+    }
+
     public void testInterface$_(){
-        $interface $c = $interface.of( new  Object(){
-            @_remove int fieldName;
-
-            @_abstract public int getFieldName(){
-                return this.fieldName;
-            }
-
-            @_abstract public void setFieldName( int fieldName){
-                this.fieldName = fieldName;
-            }
-        }).$("fieldName", "nm", "FieldName", "Nm");
+        $interface $c = $interface.of(FF.class)
+                .$("fieldName", "nm", "FieldName", "Nm");
 
         System.out.println( $c);
         assertTrue($c.fields.isEmpty());

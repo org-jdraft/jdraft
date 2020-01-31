@@ -19,8 +19,11 @@ import java.util.List;
  */
 public class _path_archive_sourceTest extends TestCase {
 
+    public void testF(){
+
+    }
     /* _path */
-    public void test_Read_path(){
+    public void read_path(){
         // _path represents a file System path & all files (i.e. .java source files) in the path
         _path _testsPath = _path.of("C:\\jdraft\\project\\jdraft\\src\\test\\java");
 
@@ -39,7 +42,7 @@ public class _path_archive_sourceTest extends TestCase {
         System.out.println( "FOUND ["+ totalPaths.size() +"] test files"+_testsPath );
     }
 
-    public void test_path_type_code(){
+    public void path_type_code(){
         _path _testsPath = _path.of("C:\\jdraft\\project\\jdraft\\src\\test\\java");
         // print the name of all top level interfaces
         _testsPath.for_code(_interface.class, _i-> System.out.println( _i.getFullName() ) );
@@ -49,7 +52,7 @@ public class _path_archive_sourceTest extends TestCase {
         //System.out.println( $type.of().count(_testsPath) );
     }
 
-    public void test_archive_code_cache(){
+    public void archive_code_cache(){
         // _archive represents the files and paths (i.e. .java source files) within a jar
 
         _archive _javaParserSrc = _archive.of("C:\\Users\\Eric\\.m2\\repository\\com\\github\\javaparser\\javaparser-core\\3.15.3\\javaparser-core-3.15.3-sources.jar");

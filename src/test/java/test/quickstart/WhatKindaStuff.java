@@ -8,6 +8,7 @@ import org.jdraft.io._archive;
 import org.jdraft.io._source;
 import org.jdraft.io._path;
 import org.jdraft.macro._dto;
+import org.jdraft.macro._package;
 import org.jdraft.pattern.*;
 import org.jdraft.runtime._runtime;
 
@@ -25,7 +26,7 @@ public class WhatKindaStuff extends TestCase {
         }
     }
 
-    public void  testCT(){
+    public void  stuffCT(){
         // you could do this manually
         // open up an IDE and manually make these changes
 
@@ -33,8 +34,13 @@ public class WhatKindaStuff extends TestCase {
         String aSrc = _class.of(A.class).forConstructors(m ->m.forParameters(p-> p.setFinal())).toString();
         System.out.println(aSrc);
 
+        @_dto @_package("graph") class Point{
+            double x, y;
+        }
+
         //build classes with @macros
-        _class _c = _class.of("graph.Point", new @_dto Object(){ double x,y;});
+        _class _c = _class.of(Point.class);
+        //_class _c = _class.of("graph.Point", new @_dto Object(){ double x,y;});
 
         //create and run dynamic classes
         _runtime _r = _runtime.of(_c);
@@ -55,7 +61,7 @@ public class WhatKindaStuff extends TestCase {
         _class.of(A.class).forMethods( m -> $.of( NodeWithBlockStmt.class ).count(m) );
 
         //print all TODO comments found in source jar file
-        $.comment("TODO").printIn( _archive.of("C:\\spring-core-5.1.9.RELEASE-sources.jar") );
+        //$.comment("TODO").printIn( _archive.of("C:\\spring-core-5.1.9.RELEASE-sources.jar") );
 
         // Applied to Large Codebases
 

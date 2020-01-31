@@ -195,6 +195,8 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
 
     //
     public static void to(Node ast, AnnotatedElement rte ){
+        //System.out.println("RTE" );
+        Arrays.stream(rte.getAnnotations()).forEach(a -> System.out.println( a));
         List<Consumer<Node>>macros = from(rte);
 
         //2) process each macro on the ast

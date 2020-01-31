@@ -21,10 +21,12 @@ import java.util.function.Function;
 public class macroUseTest extends TestCase {
 
     public void testAnonymousObjectWithMacroAnnotation(){
-        _class _c = _class.of("demo.Point2D", new @_dto Object(){
+        @_package("demo") @_dto class Point2D{
             @_final int x, y;
             public UUID uuid;
-        });
+        }
+
+        _class _c = _class.of(Point2D.class);
         System.out.println( _c );
         _proxy _p1 = _proxy.of(_c, 2, 100);
         _proxy _p2 = _p1.of(2, 100);

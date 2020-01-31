@@ -311,7 +311,7 @@ public class _runtime {
      * @param ctorArgs
      * @param <I>
      * @return
-    */
+     */
     public static <I extends Object> I impl(String fullyQualifiedClassName, I anonymousImplementation, Object...ctorArgs){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         ObjectCreationExpr oce = Ex.newEx(ste);
@@ -332,11 +332,11 @@ public class _runtime {
      * @param <I>
      * @return
      */
-    public static <I extends Object> I impl(I anonymousImplementation, Object...ctorArgs){
+    public static <I extends Object> I impl(I anonymousImplementation, Object...ctorArgs) {
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         ObjectCreationExpr oce = Ex.newEx(ste);
-        _class _c = _class.of(oce.getType().getNameAsString()+"Impl", anonymousImplementation, ste);
-        return (I)instanceOf(_c, ctorArgs);
+        _class _c = _class.of(oce.getType().getNameAsString() + "Impl", anonymousImplementation, ste);
+        return (I) instanceOf(_c, ctorArgs);
     }
 
     public static Object instanceOf(Class clazz){

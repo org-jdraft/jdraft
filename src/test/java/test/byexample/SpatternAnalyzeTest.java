@@ -277,7 +277,7 @@ public class SpatternAnalyzeTest extends TestCase {
         //String JavaParserUrl = "https://repo1.maven.org/maven2/com/github/javaparser/javaparser-core/3.14.11/javaparser-core-3.14.11-sources.jar";
     }
 
-    public void testAnaylzeArchive(){
+    public void anaylzeArchive(){
         //read all the source code in this .jar file
         _archive _a2 = _archive.of("C:\\temp\\gen-source.jar");
 

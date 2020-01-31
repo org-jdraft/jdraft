@@ -14,6 +14,7 @@ import java.util.*;
  */
 public class RascalMPLMetricsTest extends TestCase {
 
+    /*
     public void testFindTop10ComplexMethods(){
         _path _p = _path.of("C:\\jdraft\\project\\jdraft\\src\\main\\java");
 
@@ -23,6 +24,7 @@ public class RascalMPLMetricsTest extends TestCase {
                 .limit(10) //limit to the top (10)
                 .forEach(t -> System.out.println( "COMPLEXITY ["+t.complexity+"] : \n"+ t._m)); //print
     }
+    */
 
     /** calculate and store A rudimentary complexity metric with the _method */
     static class _methodComplexity{

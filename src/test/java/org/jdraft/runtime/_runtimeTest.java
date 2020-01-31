@@ -32,10 +32,21 @@ public class _runtimeTest extends TestCase {
 
         /* <code>int i=1;</code> */
 
-        Serializable i = _runtime.impl("aaaa.bbbb.C", new @_dto Serializable(){ double x, y; });
+        @_package("aaaa.bbbb") @_dto @_public class C implements Serializable{
+            double x,y;
+        }
+        Serializable i = (Serializable)_runtime.instanceOf(_class.of(C.class));
+                //_runtime.impl(Serializable.class, _class.of(C.class));
+        //Serializable i = _runtime.impl("aaaa.bbbb.C", new @_dto Serializable(){ double x, y; });
         System.out.println( i.toString() );
 
-        i = _runtime.impl("C", new @_dto Serializable(){ @_final double x, y; }, 3.0d, 4.0d);
+
+        @_package("aaaa.bbbb") @_dto @_public class D implements Serializable{
+            @_final double x,y;
+        }
+
+        i = (Serializable) _runtime.instanceOf(_class.of(D.class), 3.0d, 4.0d);
+                //_runtime.impl("C", new @_dto Serializable(){ @_final double x, y; }, 3.0d, 4.0d);
         System.out.println( i.toString() );
     }
 
@@ -170,21 +181,21 @@ public class _runtimeTest extends TestCase {
      * 13) verify the instance of _cd equals _c (the model that created the class)
      */
     public void testMacrosAndProxy(){
-        _class _c = _class.of("A", 
-            new @_dto Serializable(){ //_dto adds constructor, equals, hashcode, toString)
-                @_final int a; //final field will need int in (generated) constructor
-                //public String name = "Fido";
-                List bb;
-                //String nn = "Fido";
-                
-                public @_static int twoX(int val){
-                    return val*2;
-                }
-            
-                public int threeX(int val){
-                    return val * 3;
-                }
-            });
+        @_dto @_public class A implements Serializable {
+            @_public @_final int a; //final field will need int in (generated) constructor
+            //public String name = "Fido";
+            List bb;
+            //String nn = "Fido";
+
+            public @_static int twoX(int val){
+                return val*2;
+            }
+
+            public int threeX(int val){
+                return val * 3;
+            }
+        }
+        _class _c = _class.of(A.class);
 
         System.out.println( _c );
         //compile, load, and create a new instance of _c with 100 arg

@@ -59,10 +59,25 @@ public class $interface
         return new $interface(parts);
     }
 
+    public static $interface of( Class clazz){
+        return of( _interface.of(clazz));
+    }
     public static $interface of(ClassOrInterfaceDeclaration coid ){
         return of( _interface.of(coid));
     }
 
+    public static $interface of(String code){
+        return of( new String[]{ code });
+    }
+
+    public static $interface of(String code, String code2){
+        return of( new String[]{ code, code2});
+    }
+
+    public static $interface of(String...code){
+        return of( _interface.of(code));
+    }
+    /*
     public static $interface of( Object anonymousObjectBody){
         $interface $i = of( _interface.of("$interfaceName$", anonymousObjectBody, Thread.currentThread().getStackTrace()[2]));
 
@@ -75,7 +90,7 @@ public class $interface
         //has$annos.at_$Process(anonymousObjectBody.getClass(), $i);
         return $i;
     }
-
+    */
     public static $interface of( _interface _c ){
         $interface $c = of();
 
