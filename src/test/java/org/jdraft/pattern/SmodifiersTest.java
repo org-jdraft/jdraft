@@ -1,8 +1,8 @@
 package org.jdraft.pattern;
 
 import org.jdraft._method;
-import org.jdraft._modifiers;
 import junit.framework.TestCase;
+import org.jdraft._modifiers;
 
 /**
  *

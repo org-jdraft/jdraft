@@ -1,9 +1,7 @@
 package org.jdraft.pattern;
 
-import org.jdraft.Stmt;
-import org.jdraft._class;
-import org.jdraft._constructor;
-import org.jdraft._modifiers;
+import org.jdraft.*;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import junit.framework.TestCase;

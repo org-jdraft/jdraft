@@ -319,7 +319,7 @@ public class _diffPatchTest
         _c.getField("aFieldIAdded").setStatic();
         dl = _diff.of(_c, _c2);
         System.out.println( dl);
-        assertEquals( dl.at(FIELD, "aFieldIAdded", MODIFIERS).asChange().left(), _modifiers.of("public", "static").ast() );    
+        assertEquals( dl.at(FIELD, "aFieldIAdded", MODIFIERS).asChange().left(), _modifiers.of("public", "static").ast() );
         //assertEquals( dl.firstOn(FIELD, "aFieldIAdded").asChange().left(), Expr.of(54321) );    
         
         //assertEquals( dl.firstAt(MODIFIERS).asChange().left(), Expr.of(54321) );    

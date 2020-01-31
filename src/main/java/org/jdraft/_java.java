@@ -23,6 +23,8 @@ import static org.jdraft.Ast.*;
 import org.jdraft._anno._hasAnnos;
 import org.jdraft._annotation._entry;
 import org.jdraft._body._hasBody;
+
+import org.jdraft._modifiers.*;
 import org.jdraft._constructor._hasConstructors;
 import org.jdraft._javadoc._hasJavadoc;
 import org.jdraft._method._hasMethods;
