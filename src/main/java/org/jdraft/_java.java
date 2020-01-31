@@ -26,7 +26,6 @@ import org.jdraft._body._hasBody;
 import org.jdraft._constructor._hasConstructors;
 import org.jdraft._javadoc._hasJavadoc;
 import org.jdraft._method._hasMethods;
-import org.jdraft._modifiers.*;
 import org.jdraft._receiverParameter._hasReceiverParameter;
 import org.jdraft._initBlock._hasInitBlocks;
 import org.jdraft._throws._hasThrows;
@@ -701,8 +700,12 @@ public interface _java {
         INTERFACE("interface", _interface.class),
         ANNOTATION("annotation", _annotation.class),
         BODY("body", _body.class),
-        MODIFIERS("modifiers", List.class, Modifier.class),
-        MODIFIER("modifier", Modifier.class),
+
+        MODIFIERS("modifiers", _modifiers.class), //List.class, Modifier.class),
+        MODIFIER("modifier", _modifier.class),
+
+        //MODIFIERS("modifiers", List.class, Modifier.class),
+        //MODIFIER("modifier", Modifier.class),
         HEADER_COMMENT("header", Comment.class),
         JAVADOC("javadoc", _javadoc.class),
         PARAMETERS("parameters", _parameters.class),

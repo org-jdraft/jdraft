@@ -1,8 +1,6 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.FieldDeclaration;
-import com.github.javaparser.ast.expr.AnnotationExpr;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,12 +13,12 @@ import java.util.stream.Collectors;
  * Sometimes we have groupings of entities that do not
  * map to a specific Ast entity but a grouping of AST entities
  *
- * @see _annos<com.github.javaparser.ast.expr.AnnotationExpr, _anno>
- * @see _imports<com.github.javaparser.ast.ImportDeclaration, _import>
- * @see _modifiers<com.github.javaparser.ast.Modifier, _mod>
- * @see _parameters<com.github.javaparser.ast.body.Parameter, _parameter> (order matters)
- * @see _throws<com.github.javaparser.ast.type.ReferenceType, _typeRef>
- * @see _typeParameters<com.github.javaparser.ast.type.TypeParameter, _typeParameter>
+ * @see _annos<com.github.javaparser.ast.expr.AnnotationExpr,_anno>
+ * @see _imports<com.github.javaparser.ast.ImportDeclaration,_import>
+ * @see _modifiers <com.github.javaparser.ast.Modifier,_modifier>
+ * @see _parameters<com.github.javaparser.ast.body.Parameter,_parameter>
+ * @see _throws<com.github.javaparser.ast.type.ReferenceType,_typeRef>
+ * @see _typeParameters<com.github.javaparser.ast.type.TypeParameter,_typeParameter>
  *
  */
 interface _nodeList<EL extends Node, _EL extends _node, _NL extends _nodeList> extends _mrJava {

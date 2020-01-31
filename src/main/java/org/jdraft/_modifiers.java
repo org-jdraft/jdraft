@@ -1,8 +1,8 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.nodeTypes.NodeWithModifiers;
-import com.github.javaparser.ast.Modifier;
 import org.jdraft.text.Text;
 
 import java.util.*;
@@ -15,7 +15,7 @@ import java.util.*;
  *
  * @author Eric
  */
-public final class _modifiers implements _mrJava {
+public final class _modifiers implements _nodeList<Modifier, _modifier, _modifiers> {
 
     /** Making the internal AST modifiers more accessible */
     public static final Modifier PUBLIC = Modifier.publicModifier();
@@ -32,7 +32,7 @@ public final class _modifiers implements _mrJava {
 
     private final NodeWithModifiers node;
 
-    public static _modifiers of( NodeWithModifiers nm ) {
+    public static _modifiers of(NodeWithModifiers nm ) {
         return new _modifiers( nm );
     }
 
@@ -45,7 +45,7 @@ public final class _modifiers implements _mrJava {
     }
 
     //this will handle
-    public static _modifiers of( String... mods ) {
+    public static _modifiers of(String... mods ) {
         _modifiers _ms = new _modifiers();
 
         for( int i = 0; i < mods.length; i++ ) {
@@ -59,6 +59,10 @@ public final class _modifiers implements _mrJava {
         return _ms;
     }
 
+    public _modifiers copy(){
+        return _modifiers.of( this.node );
+    }
+
     public static _modifiers of(List<Modifier> mods){
         _modifiers _ms = new _modifiers();
 
@@ -68,7 +72,7 @@ public final class _modifiers implements _mrJava {
         return _ms;
     }
 
-    public static _modifiers of( com.github.javaparser.ast.Modifier... mods ) {
+    public static _modifiers of(Modifier... mods ) {
         _modifiers _ms = new _modifiers();
 
         for( int i = 0; i < mods.length; i++ ) {
@@ -81,7 +85,7 @@ public final class _modifiers implements _mrJava {
         return node.getModifiers();
     }
 
-    public _modifiers( NodeWithModifiers nm ) {
+    public _modifiers(NodeWithModifiers nm ) {
         this.node = nm;
     }
 
@@ -89,13 +93,13 @@ public final class _modifiers implements _mrJava {
         this.node = Ast.field( "int dummyParent;" );
     }
 
-    public _modifiers set( String... keywords ) {
+    public _modifiers set(String... keywords ) {
         Arrays.stream( keywords ).forEach( kw -> set( kw ) );
         return this;
     }
 
-    public _modifiers set( String keyword ) {
-        com.github.javaparser.ast.Modifier m = Ast.MODS_KEYWORD_TO_ENUM_MAP.get( keyword );
+    public _modifiers set(String keyword ) {
+        Modifier m = Ast.MODS_KEYWORD_TO_ENUM_MAP.get( keyword );
         if( m == null ) {
             throw new IllegalArgumentException( "invalid modifier keyword \"" + keyword + "\"" );
         }
@@ -103,8 +107,8 @@ public final class _modifiers implements _mrJava {
         return this;
     }
 
-    public _modifiers unset( String keyword ) {
-        com.github.javaparser.ast.Modifier m = Ast.MODS_KEYWORD_TO_ENUM_MAP.get( keyword );
+    public _modifiers unset(String keyword ) {
+        Modifier m = Ast.MODS_KEYWORD_TO_ENUM_MAP.get( keyword );
         if( m == null ) {
             throw new IllegalArgumentException( "invalid modifier keyword \"" + keyword + "\"" );
         }
@@ -112,7 +116,7 @@ public final class _modifiers implements _mrJava {
         return this;
     }
 
-    public _modifiers set(com.github.javaparser.ast.Modifier.Keyword keyword ) {
+    public _modifiers set(Modifier.Keyword keyword ) {
         if( keyword.equals( Modifier.Keyword.PUBLIC) ||
             keyword.equals( Modifier.Keyword.PROTECTED ) ||
             keyword.equals( Modifier.Keyword.PRIVATE ) ) {// || mod == Modifier.DEFAULT ) {
@@ -121,7 +125,7 @@ public final class _modifiers implements _mrJava {
         node.setModifier( keyword, true );
         return this;
     }
-    public _modifiers set( com.github.javaparser.ast.Modifier mod ) {
+    public _modifiers set(Modifier mod ) {
         if( mod.equals( Modifier.publicModifier()) ||
                 mod.equals( Modifier.privateModifier() ) ||
                 mod.equals(Modifier.protectedModifier() ) ) {// || mod == Modifier.DEFAULT ) {
@@ -131,7 +135,7 @@ public final class _modifiers implements _mrJava {
         return this;
     }
 
-    public _modifiers unset( com.github.javaparser.ast.Modifier mod ) {
+    public _modifiers unset(Modifier mod ) {
         node.setModifier( mod.getKeyword(), false );
         return this;
     }
@@ -160,9 +164,21 @@ public final class _modifiers implements _mrJava {
     /**
      *
      * @return
-     */
+
     public boolean isEmpty(){
         return this.node.getModifiers().isEmpty();
+    }
+    */
+
+    @Override
+    public List<_modifier> listElements() {
+        List<_modifier> mods = new ArrayList<>();
+        this.node.getModifiers().forEach(m -> mods.add( _modifier.of((Modifier)m)) );
+        return mods;
+    }
+
+    public List<Modifier> listAstElements(){
+        return this.node.getModifiers();
     }
 
     /**
@@ -212,7 +228,7 @@ public final class _modifiers implements _mrJava {
     public boolean isPackagePrivate(){
         return !isPublic() && ! isProtected() && ! isPrivate();
     }
-    
+
     /**
      * Is this entity a Java 8+ default method (i.e. on an interface)?
      * //HMMM SHOULD I ALSO CHECK IF ITS A METHOD ON AN INTERFACE / INFERRED
@@ -332,42 +348,42 @@ public final class _modifiers implements _mrJava {
         return this;
     }
 
-    public _modifiers setAbstract( boolean toSet ) {
+    public _modifiers setAbstract(boolean toSet ) {
         this.node.setModifier( Modifier.Keyword.ABSTRACT, toSet );
         return this;
     }
 
-    public _modifiers setStatic( boolean toSet ) {
+    public _modifiers setStatic(boolean toSet ) {
         this.node.setModifier( Modifier.Keyword.STATIC, toSet );
         return this;
     }
 
-    public _modifiers setFinal( boolean toSet ) {
+    public _modifiers setFinal(boolean toSet ) {
         this.node.setModifier( Modifier.Keyword.FINAL, toSet );
         return this;
     }
 
-    public _modifiers setSynchronized( boolean toSet ) {
+    public _modifiers setSynchronized(boolean toSet ) {
         this.node.setModifier( Modifier.Keyword.SYNCHRONIZED, toSet );
         return this;
     }
 
-    public _modifiers setNative( boolean toSet ) {
+    public _modifiers setNative(boolean toSet ) {
         this.node.setModifier( Modifier.Keyword.NATIVE, toSet );
         return this;
     }
 
-    public _modifiers setTransient( boolean toSet ) {
+    public _modifiers setTransient(boolean toSet ) {
         this.node.setModifier( Modifier.Keyword.TRANSIENT, toSet );
         return this;
     }
 
-    public _modifiers setVolatile( boolean toSet ) {
+    public _modifiers setVolatile(boolean toSet ) {
         this.node.setModifier( Modifier.Keyword.VOLATILE, toSet );
         return this;
     }
 
-    public _modifiers setStrictFp( boolean toSet ) {
+    public _modifiers setStrictFp(boolean toSet ) {
         this.node.setModifier( Modifier.Keyword.STRICTFP, toSet );
         return this;
     }
@@ -462,23 +478,21 @@ public final class _modifiers implements _mrJava {
     public boolean containsAll( Collection<Modifier> mods ) {
         return this.node.getModifiers().containsAll(mods);
     }
-    
+
     /**
-     * does this _modifiers contain ANY of the modifiers 
+     * does this _modifiers contain ANY of the modifiers
      * @param mods the modifiers to check
      * @return true IFF this _modifiers contains any of the modifiers in the list
      */
     public boolean containsAny( Collection<Modifier> mods ){
-        Optional<Modifier> om = 
+        Optional<Modifier> om =
             mods.stream().filter( m-> this.node.hasModifier(m.getKeyword()) ).findFirst();
         if( om.isPresent() ){
             return true;
         }
         return false;
     }
-    
-    
-    
+
     /**
      *
      * @author Eric
@@ -486,14 +500,14 @@ public final class _modifiers implements _mrJava {
      */
     public interface _hasModifiers<_HM extends _hasModifiers>
         extends _mrJava {
-        
+
         /**
          * gets the explicitly set modifiers for the node
          * @return the explicitly set modifiers
          */
         _modifiers getModifiers();
 
-        
+
         /**
          * Returns the Effective Modifiers as a bitMask
          * @return an int representing the BitMask of the modifiers
@@ -504,22 +518,22 @@ public final class _modifiers implements _mrJava {
             for(int i=0;i<effective.size();i++){
                 bitMask |= Ast.MODS_KEYWORD_TO_BIT_MAP.get( effective.get(i).getKeyword().asString() );
             }
-            return bitMask;            
-        } 
-        
+            return bitMask;
+        }
+
         /**
          * Set the modifiers based on the keywords passed in
          * @param mods
          * @return
          */
-        default _HM modifiers(String... mods ) {
+        default _HM modifiers(String... mods) {
             String ms = Text.combineTrim(mods);
             String[] mms = ms.split(" ");
             getModifiers().set(mms);
             return (_HM)this;
         }
-        
-        default _HM modifiers(NodeList<Modifier> mods ){
+
+        default _HM modifiers(NodeList<Modifier> mods){
             getModifiers().node.setModifiers(mods);
             return (_HM)this;
         }
@@ -600,11 +614,11 @@ public final class _modifiers implements _mrJava {
          * @param mods
          * @return
          */
-        default _HM modifiers(_modifiers mods ) {
+        default _HM modifiers(_modifiers mods) {
             return replace( mods );
         }
 
-        default _HM replace(_modifiers _ms ) {
+        default _HM replace(_modifiers _ms) {
             getModifiers().clear().set( _ms.asKeywords() );
             return (_HM)this;
         }
@@ -622,7 +636,7 @@ public final class _modifiers implements _mrJava {
             return setFinal(true);
         }
 
-        _HF setFinal(boolean toSet );
+        _HF setFinal(boolean toSet);
     }
 
     /**
@@ -637,7 +651,7 @@ public final class _modifiers implements _mrJava {
             return setStatic(true);
         }
 
-        default _HS setStatic(boolean toSet ){
+        default _HS setStatic(boolean toSet){
             _node n = (_node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.STATIC, toSet);
@@ -659,7 +673,7 @@ public final class _modifiers implements _mrJava {
             return setSynchronized(true);
         }
 
-        default _HS setSynchronized(boolean toSet ){
+        default _HS setSynchronized(boolean toSet){
             _node n = (_node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.SYNCHRONIZED, toSet);
@@ -679,7 +693,7 @@ public final class _modifiers implements _mrJava {
             return setAbstract(true);
         }
 
-        default _HA setAbstract(boolean toSet ){
+        default _HA setAbstract(boolean toSet){
             _node n = (_node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.ABSTRACT, toSet);
@@ -701,7 +715,7 @@ public final class _modifiers implements _mrJava {
             return setVolatile(true);
         }
 
-        default _HV setVolatile(boolean toSet ){
+        default _HV setVolatile(boolean toSet){
            _node n = (_node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.VOLATILE, toSet);
@@ -723,7 +737,7 @@ public final class _modifiers implements _mrJava {
             return setNative(true);
         }
 
-        default _HN setNative(boolean toSet ){
+        default _HN setNative(boolean toSet){
             _node n = (_node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.NATIVE, toSet);
@@ -745,7 +759,7 @@ public final class _modifiers implements _mrJava {
             return setTransient(true);
         }
 
-        default _HT setTransient(boolean toSet ){
+        default _HT setTransient(boolean toSet){
             _node n = (_node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.TRANSIENT, toSet);
@@ -767,7 +781,7 @@ public final class _modifiers implements _mrJava {
             return setStrictFp(true);
         }
 
-        default _HS setStrictFp(boolean toSet ){
+        default _HS setStrictFp(boolean toSet){
             _node n = (_node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.STRICTFP, toSet);

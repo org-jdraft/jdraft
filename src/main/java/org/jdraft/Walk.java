@@ -1425,7 +1425,7 @@ public enum Walk {
      * ({@link Comment}, {@link JavadocComment}, {@link LineComment}, {@link BlockComment}...)
      *
      * <LI>Logical classes
-     * ({@link _field}, {@link _method}, {@link _enum._constant}...)
+     * ({@link _field}, {@link _method}, {@link _constant}...)
      *
      * <LI>Logical interfaces
      * ({@link _javadoc._hasJavadoc}, {@link _method._hasMethods}, {@link _anno._hasAnnos}, ...)

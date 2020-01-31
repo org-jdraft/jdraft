@@ -4,11 +4,8 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithStaticModifier;
-import org.jdraft._anno;
-import org.jdraft._modifiers;
 
 import java.lang.annotation.*;
-import java.util.function.Consumer;
 
 /**
  * Annotation/Macro to remove the static modifier from {@link org.jdraft._type}, {@link org.jdraft._field}

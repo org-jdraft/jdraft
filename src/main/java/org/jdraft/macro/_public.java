@@ -5,8 +5,6 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithPublicModifier;
-import org.jdraft._anno;
-import org.jdraft._modifiers;
 import org.jdraft._node;
 import org.jdraft._type;
 
@@ -14,7 +12,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.util.function.Consumer;
 
 /**
  * Annotation/Macro to add the public modifier<BR/>

@@ -5,12 +5,9 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithPrivateModifier;
-import org.jdraft._anno;
-import org.jdraft._modifiers;
 import org.jdraft._node;
 
 import java.lang.annotation.*;
-import java.util.function.Consumer;
 
 /**
  * Annotation/Macro to set the private modifier on {@link org.jdraft._type}, {@link org.jdraft._field},

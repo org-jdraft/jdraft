@@ -5,11 +5,8 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithProtectedModifier;
-import org.jdraft._anno;
-import org.jdraft._modifiers;
 
 import java.lang.annotation.*;
-import java.util.function.Consumer;
 
 /**
  * Annotation/Macro to add the protected modifier to {@link org.jdraft._type}, {@link org.jdraft._field},

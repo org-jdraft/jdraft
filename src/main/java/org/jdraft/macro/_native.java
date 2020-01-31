@@ -1,11 +1,8 @@
 package org.jdraft.macro;
 
 import com.github.javaparser.ast.body.MethodDeclaration;
-import org.jdraft._anno;
-import org.jdraft._modifiers;
 
 import java.lang.annotation.*;
-import java.util.function.Consumer;
 
 /**
  * Annotation/Macro for setting the native modifier on a {@link org.jdraft._method}

@@ -316,9 +316,9 @@ public class $modifiers
         if( keyValues.get("modifiers") != null ){
             _ms = _modifiers.of( keyValues.get("modifiers").toString() );
         }
-        final _modifiers _mods = _ms;
-        this.mustInclude.forEach(m -> _mods.set(m) );
-        return _mods;
+        final _modifiers _mds = _ms;
+        this.mustInclude.forEach(m -> _mds.set(m) );
+        return _mds;
     }
     
      /**
@@ -335,7 +335,7 @@ public class $modifiers
                 n -> {
                     if(n instanceof NodeWithModifiers){
                         Select sel = select( (NodeWithModifiers)n );
-                        return sel != null && _modsMatchFn.test( sel._mods );
+                        return sel != null && _modsMatchFn.test( sel._modifiers);
                     }
                     return false;
                 });         
@@ -387,7 +387,7 @@ public class $modifiers
             n->{
                 if(n instanceof NodeWithModifiers ){
                     Select sel = select( (NodeWithModifiers)n );
-                    if( sel != null && _modifiersMatchFn.test(sel._mods)){
+                    if( sel != null && _modifiersMatchFn.test(sel._modifiers)){
                         _nodeActionFn.accept(sel._node());
                     }                
                 }
@@ -620,76 +620,76 @@ public class $modifiers
     
     public static class Select implements selected, select_java<_modifiers> {
 
-        public _modifiers _mods;
+        public _modifiers _modifiers;
 
         public $tokens tokens = new $tokens(new Tokens());
         
-        public Select(_modifiers _mods ) {
-            this._mods = _mods;            
+        public Select(_modifiers _modifiers) {
+            this._modifiers = _modifiers;
         }
         
         public boolean isStatic(){
-            return _mods.isStatic();
+            return _modifiers.isStatic();
         }
         
         public boolean isSynchronized(){
-            return _mods.isSynchronized();
+            return _modifiers.isSynchronized();
         }
         
         public boolean isTransient(){
-            return _mods.isTransient();
+            return _modifiers.isTransient();
         }
         
         public boolean isVolatile(){
-            return _mods.isVolatile();
+            return _modifiers.isVolatile();
         }
         
         public boolean isStrictFp(){
-            return _mods.isStrict();
+            return _modifiers.isStrict();
         }
         
         public boolean isPublic(){
-            return _mods.isPublic();
+            return _modifiers.isPublic();
         }
         
         public boolean isPrivate(){
-            return _mods.isPrivate();
+            return _modifiers.isPrivate();
         }
         
         public boolean isProtected(){
-            return _mods.isProtected();
+            return _modifiers.isProtected();
         }
         
         public boolean isPackagePrivate(){
-            return _mods.isPackagePrivate();
+            return _modifiers.isPackagePrivate();
         }
         
         public boolean isAbstract(){
-            return _mods.isAbstract();
+            return _modifiers.isAbstract();
         }
         
         public boolean isFinal(){
-            return _mods.isFinal();
+            return _modifiers.isFinal();
         }
         
         public boolean isEmpty(){
-            return _mods.isEmpty();
+            return _modifiers.isEmpty();
         }
         
         public boolean isDefault(){
-            return _mods.isDefault();
+            return _modifiers.isDefault();
         }
         
         public boolean isNative(){
-            return _mods.isNative();
+            return _modifiers.isNative();
         }
         
         public boolean containsAll( Collection<Modifier> mods ){
-            return _mods.containsAll(mods);
+            return _modifiers.containsAll(mods);
         }
         
         public boolean containsAny( Collection<Modifier> mods ){
-            return _mods.containsAny(mods);
+            return _modifiers.containsAny(mods);
         }
         
         @Override
@@ -699,13 +699,13 @@ public class $modifiers
 
         @Override
         public _modifiers _node() {
-            return _mods;
+            return _modifiers;
         }
 
         @Override
         public String toString(){
             return "$modifiers.Select{"+ System.lineSeparator()+
-                    Text.indent( _mods.toString() )+ System.lineSeparator()+
+                    Text.indent( _modifiers.toString() )+ System.lineSeparator()+
                     Text.indent("$tokens : " + tokens) + System.lineSeparator()+
                     "}";
         }

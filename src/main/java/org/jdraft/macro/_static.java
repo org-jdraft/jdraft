@@ -3,15 +3,10 @@ package org.jdraft.macro;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithPublicModifier;
 import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithStaticModifier;
-import org.jdraft._modifiers;
-import org.jdraft._anno;
-import org.jdraft._anno._hasAnnos;
 import org.jdraft._node;
 
 import java.lang.annotation.*;
-import java.util.function.Consumer;
 
 /**
  * Annotation/Macro to add the static modifier to a {@link org.jdraft._type},

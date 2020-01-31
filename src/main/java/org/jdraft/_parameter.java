@@ -10,7 +10,6 @@ import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
 import com.github.javaparser.ast.type.Type;
 
-import org.jdraft._modifiers._hasFinal;
 import org.jdraft.text.Text;
 
 /**

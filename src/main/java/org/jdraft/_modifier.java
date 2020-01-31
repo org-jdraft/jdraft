@@ -5,7 +5,7 @@ import org.jdraft.text.Text;
 
 import java.util.*;
 
-public enum _mod implements _node<Modifier,_mod> {
+public enum _modifier implements _node<Modifier, _modifier> {
 
     /** Making the internal AST modifiers more accessible */
     PUBLIC( com.github.javaparser.ast.Modifier.publicModifier(), java.lang.reflect.Modifier.PUBLIC ),
@@ -24,14 +24,14 @@ public enum _mod implements _node<Modifier,_mod> {
 
     public final int bitMask;
 
-    _mod(com.github.javaparser.ast.Modifier mod, int bitMask){
+    _modifier(com.github.javaparser.ast.Modifier mod, int bitMask){
         this.mod = mod;
         this.bitMask = bitMask;
     }
 
 
     @Override
-    public _mod copy() {
+    public _modifier copy() {
         return this; //dont need to copy enums
     }
 
@@ -40,24 +40,24 @@ public enum _mod implements _node<Modifier,_mod> {
         return Objects.equals( Text.combine(stringRep), this.mod.getKeyword().asString());
     }
 
-    public static _mod of(com.github.javaparser.ast.Modifier astMod ){
-        Optional<_mod> om = Arrays.stream(values()).filter( m-> m.mod.equals(astMod)).findFirst();
+    public static _modifier of(com.github.javaparser.ast.Modifier astMod ){
+        Optional<_modifier> om = Arrays.stream(values()).filter(m-> m.mod.equals(astMod)).findFirst();
         if( om.isPresent() ){
             return om.get();
         }
         return null;
     }
 
-    public static _mod of(String str ){
-        Optional<_mod> om = Arrays.stream(values()).filter( m-> m.mod.getKeyword().asString().equals(str)).findFirst();
+    public static _modifier of(String str ){
+        Optional<_modifier> om = Arrays.stream(values()).filter(m-> m.mod.getKeyword().asString().equals(str)).findFirst();
         if( om.isPresent() ){
             return om.get();
         }
         return null;
     }
 
-    public static _mod of(int bitMask){
-        Optional<_mod> om = Arrays.stream(values()).filter( m-> m.bitMask== bitMask).findFirst();
+    public static _modifier of(int bitMask){
+        Optional<_modifier> om = Arrays.stream(values()).filter(m-> m.bitMask== bitMask).findFirst();
         if( om.isPresent() ){
             return om.get();
         }

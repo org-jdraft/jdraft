@@ -28,7 +28,7 @@ import org.jdraft.text.Text;
  */
 public final class _constructor implements _anno._hasAnnos<_constructor>, 
     _javadoc._hasJavadoc<_constructor>,_throws._hasThrows<_constructor>, 
-    _body._hasBody<_constructor>, _modifiers._hasModifiers<_constructor>,
+    _body._hasBody<_constructor>, _modifiers._hasModifiers<_constructor>, //_modifiers._hasModifiers<_constructor>,
     _parameter._hasParameters<_constructor>, _typeParameter._hasTypeParameters<_constructor>,
     _receiverParameter._hasReceiverParameter<_constructor>, _declared<ConstructorDeclaration, _constructor> {
 
@@ -317,6 +317,13 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
     public boolean hasBody() {
         return true;
     }
+
+    /*
+    @Override
+    public _modifiers getModifiers() {
+        return _modifiers.of( astCtor );
+    }
+    */
 
     @Override
     public _modifiers getModifiers() {
