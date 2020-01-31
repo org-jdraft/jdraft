@@ -135,17 +135,17 @@ public class _javaTest extends TestCase {
         //creating a class this way DOES NOT process the ANNOTATIONS
         _class _c = _class.of(OldName.class);
         
-        assertFalse( _c.getAnnos().contains(_promote.class));
-        assertFalse( _c.getAnnos().contains(_final.class));
+        assertFalse( _c.getAnnos().has(_promote.class));
+        assertFalse( _c.getAnnos().has(_final.class));
         
         _class _c2 = _class.of( Ast.typeDecl( OldName.class) );
 
-        assertTrue( _c2.getAnnos().contains(_promote.class));
-        assertTrue( _c2.getAnnos().contains(_final.class));
+        assertTrue( _c2.getAnnos().has(_promote.class));
+        assertTrue( _c2.getAnnos().has(_final.class));
         
         //assertTrue( _c.getAnnos().contains(_static.class));
 
-        _c.getField("Message").getAnnos().contains(_final.class);
+        _c.getField("Message").getAnnos().has(_final.class);
 
         //calling this way WILL PROCESS the ANNOTATIONS
         _c = _class.of(OldName.class);
@@ -236,7 +236,7 @@ public class _javaTest extends TestCase {
         assertFalse( _c.hasAnno(_final.class));
         //assertTrue( _c.getAnnos().contains(_static.class));
 
-        _c.getField("Message").getAnnos().contains(_final.class);
+        _c.getField("Message").getAnnos().has(_final.class);
 
         //calling this way WILL PROCESS the ANNOTATIONS
         _c = _class.of(C.class);

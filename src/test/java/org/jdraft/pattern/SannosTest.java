@@ -46,7 +46,7 @@ public class SannosTest extends TestCase {
         //here you can OVERRIDE
         _as = $as.draft("$annos", "@A" );
         
-        assertTrue( _as.contains(_anno.of("@A")));
+        assertTrue( _as.has(_anno.of("@A")));
         
     }
     

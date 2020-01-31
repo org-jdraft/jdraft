@@ -27,7 +27,7 @@ import static org.jdraft.Ast.field;
  * @author Eric
  */
 public class _annos
-        implements _mrJava {
+        implements _nodeList<AnnotationExpr, _anno, _annos> {
 
     /** A reference to the container entity that is being annotated*/
     public final NodeWithAnnotations astAnnNode;
@@ -87,12 +87,14 @@ public class _annos
         this.astAnnNode = astAnns;
     }
 
+    /*
     public _annos add( _anno... anns ) {
         for( int i = 0; i < anns.length; i++ ) {
             astAnnNode.addAnnotation( anns[ i ].ast() );
         }
         return this;
     }
+     */
 
     public _annos add( String... annos ) {
         for( String anno : annos ) {
@@ -108,23 +110,28 @@ public class _annos
         return this;
     }
 
+    /*
     public _annos add( AnnotationExpr... astAnnos ) {
         for( AnnotationExpr ann : astAnnos ) {
             this.astAnnNode.addAnnotation( ann );
         }
         return this;
     }
+     */
 
     public _annos addAll( Collection<_anno> _as ){
         _as.forEach(a -> add(a));
         return this;
     }
 
+    /*
     public _anno get( int index ) {
         return _anno.of( this.astAnnNode.getAnnotation( index ) );
     }
 
-    public _anno first( String name ) {
+     */
+
+    public _anno get(String name ) {
         List<_anno> a = this.list( name );
         if( a.size() >= 1 ) {
             return a.get( 0 );
@@ -132,7 +139,7 @@ public class _annos
         return null;
     }
 
-    public _anno first( Class<? extends Annotation> clazz ) {
+    public _anno get(Class<? extends Annotation> clazz ) {
         List<_anno> a = this.list( clazz );
         if( a.size() >= 1 ) {
             return a.get( 0 );
@@ -140,13 +147,15 @@ public class _annos
         return null;
     }
 
-    public _anno first( Predicate<_anno> _annoMatchFn ) {
+    /*
+    public _anno get(Predicate<_anno> _annoMatchFn ) {
         List<_anno> a = this.list( _annoMatchFn );
         if( a.size() >= 1 ) {
             return a.get( 0 );
         }
         return null;
     }
+     */
 
     public List<_anno> list() {
         return list( t -> true );
@@ -190,14 +199,29 @@ public class _annos
         return l;
     }
 
+    /*
     public int size() {
         return this.astAnnNode.getAnnotations().size();
     }
+     */
 
+    /*
     public boolean isEmpty() {
         return this.astAnnNode.getAnnotations().isEmpty();
     }
+     */
 
+    @Override
+    public List<_anno> listElements() {
+        return this.list();
+    }
+
+    @Override
+    public List<AnnotationExpr> listAstElements() {
+        return this.astAnnNode.getAnnotations();
+    }
+
+    /*
     public _annos remove( _anno... annos ) {
         Arrays.stream( annos ).forEach(a -> this.astAnnNode.getAnnotations().remove( a.ast() ) );
         return this;
@@ -212,6 +236,7 @@ public class _annos
         list(_annoMatchFn ).forEach( a -> this.astAnnNode.getAnnotations().remove( a.ast() ) );
         return this;
     }
+    */
 
     /**
      * removeIn all ANNOTATIONS that are
@@ -248,6 +273,7 @@ public class _annos
         return this;
     }
 
+    /*
     public int indexOf( _anno _a ) {
         return indexOf( _a.ast() );
     }
@@ -260,20 +286,24 @@ public class _annos
         }
         return -1;
     }
+    */
 
-    public boolean contains( _anno _a ) {
-        return contains( _a.ast() );
+    /*
+    public boolean has(_anno _a ) {
+        return has( _a.ast() );
     }
 
-    public boolean contains( AnnotationExpr astAnno ) {
+    public boolean has(AnnotationExpr astAnno ) {
         return this.astAnnNode.getAnnotations().stream().filter(
                 a -> Ex.equivalent((AnnotationExpr)a, astAnno ) ).findFirst().isPresent();
     }
+    */
 
-    public boolean contains( Class<? extends Annotation> clazz ) {
+    public boolean has(Class<? extends Annotation> clazz ) {
         return list( clazz ).size() > 0;
     }
 
+    /*
     public void forEach( Consumer<_anno> _annoActionFn ) {
         list().forEach(_annoActionFn );
     }
@@ -282,6 +312,7 @@ public class _annos
                          Consumer<_anno> _annoActionFn ) {
         list(_annoMatchFn ).forEach(_annoActionFn );
     }
+    */
 
     public void forEach( Class<? extends Annotation> annotationClazz,
                          Consumer<_anno> _annoAction ) {

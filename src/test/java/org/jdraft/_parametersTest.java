@@ -168,7 +168,7 @@ public class _parametersTest extends TestCase {
         _parameters _ps =
                 _parameters.of( "@ann final Map<? extends Integer, String>compose, String... names" );
         assertEquals( _ps.size(), 2);
-        assertNotNull( _ps.get( 0 ).getAnnos().first("ann"));
+        assertNotNull( _ps.get( 0 ).getAnnos().get("ann"));
         assertTrue( _ps.get( 0 ).isFinal() );
         assertEquals(
                 _ps.get(0).getType(),

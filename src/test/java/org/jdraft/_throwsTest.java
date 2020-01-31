@@ -33,8 +33,8 @@ public class _throwsTest
         System.out.println( _c );
         _throws _ts = _c.getMethod("m").getThrows();
         System.out.println(_ts.toString());
-        assertEquals( _anno.of(Test.class).ast(), _ts.get(0).getAnnotation(0));
-        assertEquals( _anno.of(Test.class).ast(), _ts.get(1).getAnnotation(0));
+        assertEquals( _anno.of(Test.class).ast(), _ts.get(0).getAnno(0).ast());
+        assertEquals( _anno.of(Test.class).ast(), _ts.get(1).getAnno(0).ast());
         
         System.out.println( _ts.get(0) );
     }

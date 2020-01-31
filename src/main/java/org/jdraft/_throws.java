@@ -23,7 +23,7 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _throws
-        implements _mrJava {
+        implements _nodeList<ReferenceType, _typeRef, _throws> {
 
     /**
      *
@@ -103,17 +103,21 @@ public final class _throws
         return astNodeWithThrows.isThrown( name );
     }
 
+    /*
     public boolean has(_typeRef _type){
         return has(_type.ast());
     }
+     */
 
     public boolean has( Type rt ) {
         return astNodeWithThrows.isThrown(rt.asString());
     }
 
+    /*
     public boolean has( ReferenceType rt ) {
         return astNodeWithThrows.isThrown( rt.asString() );
     }
+     */
 
     /** verify this throws contains all of the ReferenceTypes in rt */
     public boolean hasAll( List<ReferenceType> rt ){
@@ -157,20 +161,22 @@ public final class _throws
     /**
      *
      * @param elementAction
-     */
+
     public void forEach( Consumer<ReferenceType> elementAction ) {
         this.astNodeWithThrows.getThrownExceptions().forEach( elementAction );
     }
+    */
 
     /**
      *
      * @param matchFn
      * @param elementAction
-     */
+
     public void forEach( Predicate<ReferenceType> matchFn,
                          Consumer<ReferenceType> elementAction ) {
         this.astNodeWithThrows.getThrownExceptions().stream().filter( matchFn ).forEach( elementAction );
     }
+    */
 
     /**
      *
@@ -223,31 +229,34 @@ public final class _throws
      *
      * @param elements
      * @return
-     */
+
     public _throws add( ReferenceType... elements ) {
         Arrays.stream( elements ).forEach( t -> this.astNodeWithThrows.getThrownExceptions().add( t ) );
         return this;
     }
+    */
 
     /**
      *
      * @param elements
      * @return
-     */
+
     public _throws remove( ReferenceType... elements ) {
         Arrays.stream( elements ).forEach( t -> this.astNodeWithThrows.getThrownExceptions().remove( t ) );
         return this;
     }
+    */
 
     /**
      *
      * @param matchFn
      * @return
-     */
+
     public _throws remove( Predicate<ReferenceType> matchFn ) {
         list( matchFn ).forEach( t -> this.astNodeWithThrows.getThrownExceptions().remove( t ) );
         return this;
     }
+    */
 
     /**
      *
@@ -261,27 +270,46 @@ public final class _throws
     /**
      *
      * @return
-     */
+
     public int size() {
         return this.astNodeWithThrows.getThrownExceptions().size();
     }
+    */
+
+    @Override
+    public _throws copy() {
+        return _throws.of(this.astNodeWithThrows);
+    }
 
     /**
      *
      * @return
-     */
+
     public boolean isEmpty() {
         return this.astNodeWithThrows.getThrownExceptions().isEmpty();
     }
+     */
+
+    @Override
+    public List<_typeRef> listElements() {
+        List<_typeRef> trs = new ArrayList<>();
+        this.astNodeWithThrows.getThrownExceptions().stream().forEach( (t) -> trs.add( _typeRef.of((ReferenceType)t)) );
+        return trs;
+    }
+
+    @Override
+    public List<ReferenceType> listAstElements() {
+        return this.astNodeWithThrows.getThrownExceptions();
+    }
 
     /**
      *
-     * @param node
      * @return
-     */
+
     public int indexOf( ReferenceType node ) {
         return this.astNodeWithThrows.getThrownExceptions().indexOf( node );
     }
+     */
 
     @Override
     public boolean equals( Object obj ) {
@@ -337,10 +365,11 @@ public final class _throws
      *
      * @param index
      * @return
-     */
+
     public ReferenceType get(int index){
         return this.astNodeWithThrows.getThrownException(index);       
     }
+    */
 
     /**
      *

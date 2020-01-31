@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  * @author Eric
  */
 public final class _typeParameters
-        implements _mrJava {
+        implements _nodeList<TypeParameter, _typeParameter, _typeParameters> {
 
     public static _typeParameters of(){
         return of( Ast.classDecl("class Dummy{}" ));
@@ -44,6 +44,7 @@ public final class _typeParameters
         this.astNodeWithTypeParams = ntp;
     }
 
+    /*
     public int indexOf( _typeParameter tp ) {
         return list().indexOf( tp );
     }
@@ -51,6 +52,7 @@ public final class _typeParameters
     public int indexOf( TypeParameter tp ) {
         return astNodeWithTypeParams.getTypeParameters().indexOf( tp );
     }
+     */
 
     public _typeParameters clear() {
         astNodeWithTypeParams.getTypeParameters().clear();
@@ -67,6 +69,7 @@ public final class _typeParameters
         return list().stream().filter( tps ).collect( Collectors.toList() );
     }
 
+    /*
     public _typeParameters remove( _typeParameter... tps ) {
         Arrays.stream( tps ).forEach(t -> remove( t.ast() ) );
         return this;
@@ -76,11 +79,14 @@ public final class _typeParameters
         Arrays.stream( tps ).forEach( t -> remove( t ) );
         return this;
     }
+     */
 
+    /*
     public _typeParameters remove( Predicate<? super _typeParameter> tps ) {
         remove( list( tps ) );
         return this;
     }
+    */
 
     public _typeParameters remove( List<? super _typeParameter> tps ) {
         astNodeWithTypeParams.getTypeParameters().removeAll( tps );
@@ -91,17 +97,36 @@ public final class _typeParameters
         return astNodeWithTypeParams.getTypeParameters();
     }
 
-    public int size() {
-        return astNodeWithTypeParams.getTypeParameters().size();
+    //public int size() {
+    //    return astNodeWithTypeParams.getTypeParameters().size();
+    //}
+
+    @Override
+    public _typeParameters copy() {
+        return _typeParameters.of(this.astNodeWithTypeParams);
     }
 
+    /*
     public boolean isEmpty() {
         return this.astNodeWithTypeParams.getTypeParameters().isEmpty();
     }
+    */
 
+    @Override
+    public List<_typeParameter> listElements() {
+        return this.list();
+    }
+
+    @Override
+    public List<TypeParameter> listAstElements() {
+        return this.astNodeWithTypeParams.getTypeParameters();
+    }
+
+    /*
     public _typeParameter get( int index ) {
         return _typeParameter.of( (TypeParameter)this.astNodeWithTypeParams.getTypeParameters().get( index ) );
     }
+     */
 
     public boolean is( String typeParameters ) {
         try {
@@ -173,6 +198,7 @@ public final class _typeParameters
         return this.astNodeWithTypeParams;
     }
 
+    /*
     public void forEach( Consumer<? super _typeParameter> elementAction ) {
         list().forEach( elementAction );
     }
@@ -182,7 +208,8 @@ public final class _typeParameters
 
         list( matchFn ).forEach( elementAction );
     }
-
+    */
+    /*
     public _typeParameters add( _typeParameter... elements ) {
         Arrays.stream( elements ).forEach( t -> this.astNodeWithTypeParams.addTypeParameter( t.ast() ) );
         return this;
@@ -192,4 +219,5 @@ public final class _typeParameters
         Arrays.stream( nodes ).forEach( t -> this.astNodeWithTypeParams.addTypeParameter( t ) );
         return this;
     }
+     */
 }

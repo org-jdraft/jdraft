@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * @author Eric
  */
 public final class _parameters
-        implements _mrJava {
+        implements _nodeList<Parameter, _parameter, _parameters>{
 
     public static <T extends Object> _parameters of( Consumer<T> c){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
@@ -153,10 +153,11 @@ public final class _parameters
      *
      * @param index
      * @return
-     */
+
     public _parameter get( int index ) {
         return _parameter.of( astNodeWithParams.getParameter( index ) );
     }
+    */
 
     /**
      *
@@ -164,6 +165,16 @@ public final class _parameters
      */
     public boolean isEmpty() {
         return this.astNodeWithParams.getParameters().isEmpty();
+    }
+
+    @Override
+    public List<_parameter> listElements() {
+        return this.list();
+    }
+
+    @Override
+    public List<Parameter> listAstElements() {
+        return this.astNodeWithParams.getParameters();
     }
 
     /**
@@ -198,16 +209,17 @@ public final class _parameters
      *
      * @param _p
      * @return
-     */
+
     public int indexOf( _parameter _p ) {
         return indexOf( _p.ast() );
     }
+    */
 
     /**
      *
      * @param p
      * @return
-     */
+
     public int indexOf( Parameter p ) {
         for( int i = 0; i < this.astNodeWithParams.getParameters().size(); i++ ) {
             if( p.equals( this.astNodeWithParams.getParameter( i ) ) ) {
@@ -216,6 +228,7 @@ public final class _parameters
         }
         return -1;
     }
+    */
 
     /**
      *
@@ -233,25 +246,27 @@ public final class _parameters
      *
      * @param ps
      * @return
-     */
+
     public _parameters remove( Parameter... ps ) {
         for( int i = 0; i < ps.length; i++ ) {
             this.astNodeWithParams.getParameters().remove( ps[ i ] );
         }
         return this;
     }
+    */
 
     /**
      *
      * @param _ps
      * @return
-     */
+
     public _parameters remove( _parameter... _ps ) {
         for( int i = 0; i < _ps.length; i++ ) {
             this.astNodeWithParams.getParameters().remove( _ps[ i ].ast() );
         }
         return this;
     }
+    */
 
     /**
      *
@@ -266,20 +281,22 @@ public final class _parameters
     /**
      *
      * @param paramAction
-     */
+
     public void forEach( Consumer<? super _parameter> paramAction ) {
         list().forEach( paramAction );
     }
+    */
 
     /**
      *
      * @param paramMatchFn
      * @param paramAction
-     */
+
     public void forEach( Predicate<_parameter> paramMatchFn,
                          Consumer<_parameter> paramAction ) {
         list( paramMatchFn ).forEach( paramAction );
     }
+    */
 
     /**
      *
@@ -294,11 +311,12 @@ public final class _parameters
      *
      * @param paramMatchFn
      * @return
-     */
+
     public _parameters remove( Predicate<_parameter> paramMatchFn ) {
         list( paramMatchFn ).forEach( p -> remove( p ) );
         return this;
     }
+    */
 
     /**
      *
@@ -384,25 +402,26 @@ public final class _parameters
      *
      * @param _ps
      * @return
-     */
+
     public _parameters add( _parameter... _ps ) {
         for( int i = 0; i < _ps.length; i++ ) {
             astNodeWithParams.addParameter( _ps[ i ].ast() );
         }
         return this;
     }
+    */
 
     /**
      *
-     * @param ps
      * @return
-     */
+
     public _parameters add( Parameter... ps ) {
         for( int i = 0; i < ps.length; i++ ) {
             astNodeWithParams.addParameter( ps[ i ] );
         }
         return this;
     }
+    */
 
     @Override
     public boolean equals( Object obj ) {

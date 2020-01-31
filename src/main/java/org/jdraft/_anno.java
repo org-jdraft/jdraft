@@ -878,7 +878,7 @@ public final class _anno
          * @return the first matching {@link _anno}, or null if none query
          */
         default _anno getAnno( Predicate<_anno> _annoMatchFn ) {
-            return getAnnos().first( _annoMatchFn );
+            return getAnnos().get( _annoMatchFn );
         }
 
         /**
@@ -888,7 +888,7 @@ public final class _anno
          * @return the first annotation that is of the annotationClass or null
          */
         default _anno getAnno( Class<? extends Annotation> annotationClass ) {
-            return getAnnos().first( annotationClass );
+            return getAnnos().get( annotationClass );
         }
 
         /**
@@ -899,9 +899,9 @@ public final class _anno
          */
         default _anno getAnno( String annoName ) {
             if( annoName.startsWith("@")){
-                return getAnnos().first(annoName.substring(1));
+                return getAnnos().get(annoName.substring(1));
             }
-            return getAnnos().first( annoName );
+            return getAnnos().get( annoName );
         }
 
         /**
