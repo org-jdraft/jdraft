@@ -6,6 +6,7 @@ import junit.framework.TestCase;
 import java.io.IOException;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
+import java.util.ArrayList;
 
 /**
  *
@@ -14,6 +15,21 @@ import java.lang.annotation.Target;
 public class _throwsTest
     extends TestCase {
 
+    public void testNewApi(){
+        _throws _ts = _throws.of();
+        assertEquals(_ts, _ts.copy());
+        assertEquals(_ts.hashCode(), _ts.copy().hashCode());
+
+        assertTrue(_ts.is(""));
+        assertFalse(_ts.has("anything"));
+        assertTrue(_ts.is( new ArrayList<>()));
+        assertTrue(_ts.isEmpty());
+        assertEquals(0, _ts.size());
+        assertTrue(_ts.list().isEmpty());
+        assertTrue(_ts.listAstElements().isEmpty());
+        _ts.forEach(t-> System.out.println(t));
+        assertFalse(_ts.has(IOException.class));
+    }
     public void testBuildFromScratch(){
         _throws _ts = _throws.of();
         System.out.println( _ts );

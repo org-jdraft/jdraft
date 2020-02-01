@@ -157,6 +157,7 @@ public class _annos
     }
      */
 
+    @Override
     public List<_anno> list() {
         return list( t -> true );
     }
@@ -210,11 +211,6 @@ public class _annos
         return this.astAnnNode.getAnnotations().isEmpty();
     }
      */
-
-    @Override
-    public List<_anno> listElements() {
-        return this.list();
-    }
 
     @Override
     public List<AnnotationExpr> listAstElements() {

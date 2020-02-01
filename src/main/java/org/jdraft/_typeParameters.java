@@ -65,7 +65,7 @@ public final class _typeParameters
         return lp;
     }
 
-    public List<_typeParameter> list( Predicate<? super _typeParameter> tps ) {
+    public List<_typeParameter> list( Predicate<_typeParameter> tps ) {
         return list().stream().filter( tps ).collect( Collectors.toList() );
     }
 
@@ -106,27 +106,10 @@ public final class _typeParameters
         return _typeParameters.of(this.astNodeWithTypeParams);
     }
 
-    /*
-    public boolean isEmpty() {
-        return this.astNodeWithTypeParams.getTypeParameters().isEmpty();
-    }
-    */
-
-    @Override
-    public List<_typeParameter> listElements() {
-        return this.list();
-    }
-
     @Override
     public List<TypeParameter> listAstElements() {
         return this.astNodeWithTypeParams.getTypeParameters();
     }
-
-    /*
-    public _typeParameter get( int index ) {
-        return _typeParameter.of( (TypeParameter)this.astNodeWithTypeParams.getTypeParameters().get( index ) );
-    }
-     */
 
     public boolean is( String typeParameters ) {
         try {

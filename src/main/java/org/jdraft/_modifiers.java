@@ -171,7 +171,7 @@ public final class _modifiers implements _nodeList<Modifier, _modifier, _modifie
     */
 
     @Override
-    public List<_modifier> listElements() {
+    public List<_modifier> list() {
         List<_modifier> mods = new ArrayList<>();
         this.node.getModifiers().forEach(m -> mods.add( _modifier.of((Modifier)m)) );
         return mods;

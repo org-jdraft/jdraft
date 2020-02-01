@@ -9,12 +9,29 @@ import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import junit.framework.TestCase;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Eric
  */
 public class _modifiersTest extends TestCase {
 
+    public void testNewApiEmpty(){
+        _modifiers _ts = _modifiers.of();
+        assertEquals(_ts, _ts.copy());
+        assertEquals(_ts.hashCode(), _ts.copy().hashCode());
+
+        assertTrue(_ts.is(""));
+        assertFalse(_ts.has(_modifier.of("private")));
+        assertTrue(_ts.is( new ArrayList<>()));
+        assertTrue(_ts.isEmpty());
+        assertEquals(0, _ts.size());
+        assertTrue(_ts.list().isEmpty());
+        assertTrue(_ts.listAstElements().isEmpty());
+        _ts.forEach(t-> System.out.println(t));
+
+    }
 
     public final class FC{
         public int f;

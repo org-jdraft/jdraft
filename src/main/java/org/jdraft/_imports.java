@@ -23,6 +23,10 @@ import java.util.stream.Collectors;
  */
 public class _imports implements _nodeList<ImportDeclaration, _import, _imports> {
 
+    public static _imports of(){
+        return new _imports(new CompilationUnit());
+    }
+
     public static _imports of( CompilationUnit cu ){
         return new _imports(cu);
     }
@@ -50,10 +54,12 @@ public class _imports implements _nodeList<ImportDeclaration, _import, _imports>
     }
      */
 
+    /*
     @Override
     public List<_import> listElements() {
         return list();
     }
+     */
 
     @Override
     public List<ImportDeclaration> listAstElements() {

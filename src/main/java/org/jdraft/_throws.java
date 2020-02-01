@@ -181,19 +181,20 @@ public final class _throws
     /**
      *
      * @return
-     */
+
     public List<ReferenceType> list() {
         return this.astNodeWithThrows.getThrownExceptions();
     }
-
+    */
     /**
      *
      * @param matchFn
      * @return
-     */
+
     public List<ReferenceType> list(Predicate<ReferenceType> matchFn ) {
         return (List<ReferenceType>)this.astNodeWithThrows.getThrownExceptions().stream().filter( matchFn ).collect( Collectors.toList() );
     }
+    */
 
     /**
      *
@@ -291,7 +292,7 @@ public final class _throws
      */
 
     @Override
-    public List<_typeRef> listElements() {
+    public List<_typeRef> list() {
         List<_typeRef> trs = new ArrayList<>();
         this.astNodeWithThrows.getThrownExceptions().stream().forEach( (t) -> trs.add( _typeRef.of((ReferenceType)t)) );
         return trs;
@@ -455,7 +456,7 @@ public final class _throws
         }
         
         default _HT removeThrow(Class<? extends Throwable> thrownClass ){
-            getThrows().list( t -> t.asString().equals( thrownClass.getCanonicalName()) || 
+            getThrows().listAstElements( t -> t.asString().equals( thrownClass.getCanonicalName()) ||
                     t.asString().equals( thrownClass.getSimpleName()) ).forEach( t -> t.remove() );
             return (_HT)this;
         }

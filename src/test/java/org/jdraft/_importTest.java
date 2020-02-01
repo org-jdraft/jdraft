@@ -4,6 +4,9 @@ import com.github.javaparser.ast.ImportDeclaration;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import junit.framework.TestCase;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /*** THE JUNIT TESTS REQUIRE THIS IMPORT */
@@ -14,6 +17,22 @@ import static org.jdraft.Ast.importDeclaration; /** DONT REMOVE */
  * @author Eric
  */
 public class _importTest extends TestCase {
+
+    public void testNewApiEmpty(){
+        _imports _ts = _imports.of();
+        assertEquals(_ts, _ts.copy());
+        assertEquals(_ts.hashCode(), _ts.copy().hashCode());
+
+
+        assertFalse(_ts.has(_import.of(IOException.class)));
+        assertTrue(_ts.is( new ArrayList<>()));
+        assertTrue(_ts.isEmpty());
+        assertEquals(0, _ts.size());
+        assertTrue(_ts.list().isEmpty());
+        assertTrue(_ts.listAstElements().isEmpty());
+        _ts.forEach(t-> System.out.println(t));
+
+    }
 
     public void testMultipleStaticImports(){
         _class _c = _class.of("A")

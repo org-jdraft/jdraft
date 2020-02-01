@@ -3,7 +3,11 @@ package org.jdraft;
 import org.jdraft._class;
 import junit.framework.TestCase;
 
+import java.util.ArrayList;
+
 public class _extendsTest extends TestCase {
+
+
 
     class Base{
         

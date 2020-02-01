@@ -1,6 +1,9 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.expr.AnnotationExpr;
+import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,12 +36,12 @@ interface _nodeList<EL extends Node, _EL extends _node, _NL extends _nodeList> e
         return listAstElements().size();
     }
 
-    List<_EL> listElements();
+    List<_EL> list();
 
     List<EL> listAstElements();
 
-    default List<_EL> listElements(Predicate<_EL> matchFn){
-        return listElements().stream().filter(matchFn).collect(Collectors.toList());
+    default List<_EL> list(Predicate<_EL> matchFn){
+        return list().stream().filter(matchFn).collect(Collectors.toList());
     }
 
     default List<EL> listAstElements(Predicate<EL> matchFn){
@@ -49,7 +52,7 @@ interface _nodeList<EL extends Node, _EL extends _node, _NL extends _nodeList> e
         if( this.size() != _els.size() ){
             return false;
         }
-        List<_EL> _tels = listElements();
+        List<_EL> _tels = list();
         for(int i=0;i<_els.size(); i++){
             if( !Objects.equals(_els.get(i), _tels.get(i))){
                 return false;
@@ -59,7 +62,7 @@ interface _nodeList<EL extends Node, _EL extends _node, _NL extends _nodeList> e
     }
 
     default _EL get(Predicate<_EL> matchFn){
-        List<_EL> _els = this.listElements(matchFn);
+        List<_EL> _els = this.list(matchFn);
         if( _els.isEmpty() ){
             return null;
         }
@@ -67,7 +70,7 @@ interface _nodeList<EL extends Node, _EL extends _node, _NL extends _nodeList> e
     }
 
     default _EL get(int index){
-        return this.listElements().get(index);
+        return this.list().get(index);
     }
 
     default EL getAst(int index){
@@ -75,7 +78,7 @@ interface _nodeList<EL extends Node, _EL extends _node, _NL extends _nodeList> e
     }
 
     default int indexOf( _EL target){
-        return listElements().indexOf(target);
+        return list().indexOf(target);
     }
 
     default int indexOf( EL target){
@@ -83,11 +86,11 @@ interface _nodeList<EL extends Node, _EL extends _node, _NL extends _nodeList> e
     }
 
     default boolean has(_EL target){
-        return !listElements( el-> el.equals(target)).isEmpty();
+        return !list( el-> el.equals(target)).isEmpty();
     }
 
     default boolean has(Predicate<_EL> matchFn){
-        return !listElements( matchFn).isEmpty();
+        return !list( matchFn).isEmpty();
     }
 
     default boolean has(EL target){
@@ -119,17 +122,17 @@ interface _nodeList<EL extends Node, _EL extends _node, _NL extends _nodeList> e
     }
 
     default _NL remove( Predicate<_EL> _matchFn ) {
-        this.listElements(_matchFn).stream().forEach( e-> remove(e) );
+        this.list(_matchFn).stream().forEach( e-> remove(e) );
         return (_NL)this;
     }
 
     default _NL forEach(Predicate<_EL> matchFn, Consumer<_EL> consumer ){
-        listElements(matchFn).forEach(consumer);
+        list(matchFn).forEach(consumer);
         return (_NL)this;
     }
 
     default _NL forEach(Consumer<_EL> consumer ){
-        listElements().forEach(consumer);
+        list().forEach(consumer);
         return (_NL)this;
     }
 }

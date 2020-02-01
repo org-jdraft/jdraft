@@ -168,11 +168,6 @@ public final class _parameters
     }
 
     @Override
-    public List<_parameter> listElements() {
-        return this.list();
-    }
-
-    @Override
     public List<Parameter> listAstElements() {
         return this.astNodeWithParams.getParameters();
     }

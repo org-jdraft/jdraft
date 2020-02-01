@@ -4,11 +4,29 @@ import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import junit.framework.TestCase;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Eric
  */
 public class _annosTest extends TestCase {
+
+    public void testNewApiEmpty(){
+        _annos _ts = _annos.of();
+        assertEquals(_ts, _ts.copy());
+        assertEquals(_ts.hashCode(), _ts.copy().hashCode());
+
+        assertTrue(_ts.is(""));
+        assertFalse(_ts.has(_anno.of("@_private")));
+        assertTrue(_ts.is( new ArrayList<>()));
+        assertTrue(_ts.isEmpty());
+        assertEquals(0, _ts.size());
+        assertTrue(_ts.list().isEmpty());
+        assertTrue(_ts.listAstElements().isEmpty());
+        _ts.forEach(t-> System.out.println(t));
+
+    }
 
     public void testBuildFromScratch(){
         _annos _as = _annos.of();

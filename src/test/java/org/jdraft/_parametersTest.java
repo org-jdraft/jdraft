@@ -2,6 +2,8 @@ package org.jdraft;
 
 import junit.framework.TestCase;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,6 +11,22 @@ import java.util.List;
  * @author Eric
  */
 public class _parametersTest extends TestCase {
+
+    public void testNewApiEmpty(){
+        _parameters _ts = _parameters.of();
+        assertEquals(_ts, _ts.copy());
+        assertEquals(_ts.hashCode(), _ts.copy().hashCode());
+
+        assertTrue(_ts.is(""));
+        assertFalse(_ts.has(_parameter.of("int i")));
+        assertTrue(_ts.is( new ArrayList<>()));
+        assertTrue(_ts.isEmpty());
+        assertEquals(0, _ts.size());
+        assertTrue(_ts.list().isEmpty());
+        assertTrue(_ts.listAstElements().isEmpty());
+        _ts.forEach(t-> System.out.println(t));
+
+    }
 
     public void testFromScratch(){
         _parameters _ps = _parameters.of();
