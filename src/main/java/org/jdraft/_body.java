@@ -27,7 +27,7 @@ import org.jdraft.text.Text;
  *
  * @author Eric
  */
-public final class _body implements _mrJava {
+public final class _body implements _java._domain {
 
     /**
      * NOTE: this is an Object, because it can EITHER be a {@link NodeWithBlockStmt}
@@ -513,7 +513,7 @@ public final class _body implements _mrJava {
      * @param <_HB> enclosing TYPE (to access this)
      */
     public interface _hasBody<_HB extends _hasBody>
-        extends _mrJava {
+        extends _java._domain {
         
         /**
          * @return gets the body
@@ -689,7 +689,9 @@ public final class _body implements _mrJava {
          * @param statements the statements to add to the tail of the BODY
          * @return the modified T (_method, _constructor, _staticBlock)
          */
-        _HB add(Statement... statements);
+        default _HB add(Statement... statements){
+            return add(0, statements);
+        }
         
         default <A extends Object> _HB add(int index, Ex.Command lambdaWithBody ){
             Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
@@ -1163,7 +1165,7 @@ public final class _body implements _mrJava {
          * For each Expression in the body, call the exprActionFn lambda
          * @param exprActionFn lambda to call on all expressions
          * @return  the T
-         */
+
         default _HB forExprs(Consumer<Expression> exprActionFn ){
             if( !isImplemented() ){
                 return (_HB)this;
@@ -1171,6 +1173,7 @@ public final class _body implements _mrJava {
             Walk.in((BlockStmt)this.getBody().ast(), Expression.class, exprActionFn );
             return (_HB)this;
         }
+        */
 
         /**
          * _walk the body in preorder fashion, intercepting all {@link Expression}s
@@ -1183,7 +1186,7 @@ public final class _body implements _mrJava {
          * @param exprClass the target Expression class
          * @param exprActionFn the "processing" function for matching exprs
          * @return the modified T
-         */
+
         default <E extends Expression> _HB forExprs(Class<E> exprClass, Consumer<E> exprActionFn ){
             if( !isImplemented() ){
                 return (_HB)this;
@@ -1191,6 +1194,7 @@ public final class _body implements _mrJava {
             Walk.in((BlockStmt)this.getBody().ast(), exprClass, exprActionFn );
             return (_HB)this;
         }
+        */
         
         /**
          * _walk the body in preorder fashion, intercepting all {@link Expression}s
@@ -1205,7 +1209,7 @@ public final class _body implements _mrJava {
          * @param exprMatchFn the matching function to choose which exprs to process
          * @param exprActionFn the "processing" function for matching exprs
          * @return the modified T
-         */
+
         default <E extends Expression> _HB forExprs(Class<E> exprClass, Predicate<E>exprMatchFn, Consumer<E> exprActionFn ){
             if( !isImplemented() ){
                 return (_HB)this;
@@ -1213,6 +1217,7 @@ public final class _body implements _mrJava {
             Walk.in((BlockStmt)this.getBody().ast(), exprClass, exprMatchFn, exprActionFn );
             return (_HB)this;
         }
+        */
         
         /**
          * _walk the body in preorder fashion, intercepting all Statements that
@@ -1319,11 +1324,12 @@ public final class _body implements _mrJava {
          * @param <E>
          * @param exprClass the specific Statement class 
          * @return the first matching statement or null if no statements match
-         */
+
         default <E extends Expression> E firstExpr( Class<E> exprClass ){
             return firstExpr(exprClass, e->true);
         }
-        
+        */
+
          /**
          * Find and return the first Statement of the statementClass that matches 
          * the stmtMatchFn
@@ -1338,7 +1344,7 @@ public final class _body implements _mrJava {
          * @param exprClass the specific Expression class 
          * @param exprMatchFn the matching lambda function for the Expression
          * @return the first matching statement or null if no statements match
-         */
+
         default <E extends Expression> E firstExpr( Class<E> exprClass, Predicate<E> exprMatchFn ){
             if( !isImplemented() ){
                 return null;
@@ -1348,6 +1354,7 @@ public final class _body implements _mrJava {
                 return of.get();
             }
             return null;
-        }        
+        }
+        */
     }    
 }

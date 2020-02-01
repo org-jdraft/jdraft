@@ -202,7 +202,7 @@ public final class _typeParameter
     }
 
     @Override
-    public _typeParameter name(String name) {
+    public _typeParameter setName(String name) {
         this.typeParameter.setName(name);
         return this;
     }
@@ -223,7 +223,7 @@ public final class _typeParameter
      * @param <_HTP>
      */
     public interface _hasTypeParameters<_HTP extends _hasTypeParameters>
-        extends _mrJava {
+        extends _java._domain {
         
         default _typeParameters getTypeParameters(){
             _declared _m = (_declared) this;
@@ -282,7 +282,7 @@ public final class _typeParameter
         }
         
         /**
-         * remove all typeParametersfrom the entity
+         * remove all typeParameters from the entity
          * @return 
          */
         default _HTP removeTypeParameters(){

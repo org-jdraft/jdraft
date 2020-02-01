@@ -191,7 +191,7 @@ public class _inspectTest extends TestCase {
         
         _f2.type(float.class);
         _f2.init(1.0f);
-        _f2.name("b");        
+        _f2.setName("b");
         dt = _diff.of(_c1, _c2);
         //When we change the name of the field, we are affectively changing the API
         // so instead of it being considered a CHANGE it is rather a: 
@@ -200,7 +200,7 @@ public class _inspectTest extends TestCase {
         // ...since all accesses to "a" are have to change to "b"
         assertTrue(dt.listAt(FIELD).size() == 2 );
         
-        _f1.name("b");
+        _f1.setName("b");
         dt = _diff.of(_c1, _c2);
         assertTrue(dt.isEmpty());        
     }
@@ -284,7 +284,7 @@ public class _inspectTest extends TestCase {
         
         assertTrue(_diff.of(_c1, _c2).isEmpty());
         
-        _diff dt = _diff.of(_c1.name("D"), _c2);
+        _diff dt = _diff.of(_c1.setName("D"), _c2);
         
         //there is a name diff
         System.out.println( dt );

@@ -39,7 +39,7 @@ import java.util.function.Predicate;
  * @param <_N> the jdraft _node type {@link _method}, {@link _field}
  * @param <N> ast node {@link com.github.javaparser.ast.body.MethodDeclaration}, {@link com.github.javaparser.ast.body.FieldDeclaration}
  */
-public interface _node<N extends Node, _N extends _node> extends _mrJava, _java._componentized {
+public interface _node<N extends Node, _N extends _node> extends _java._domain, _java._componentized {
 
     /**
      * Build and return an (independent) copy of this _node entity

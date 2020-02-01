@@ -1,9 +1,6 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.expr.AnnotationExpr;
-import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +21,7 @@ import java.util.stream.Collectors;
  * @see _typeParameters<com.github.javaparser.ast.type.TypeParameter,_typeParameter>
  *
  */
-interface _nodeList<EL extends Node, _EL extends _node, _NL extends _nodeList> extends _mrJava {
+interface _nodeList<EL extends Node, _EL extends _node, _NL extends _nodeList> extends _java._domain {
 
     _NL copy();
 

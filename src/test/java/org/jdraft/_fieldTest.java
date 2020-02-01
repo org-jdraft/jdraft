@@ -17,7 +17,7 @@ public class _fieldTest extends TestCase {
     public void testBuildFromScratch(){
         _field _f = _field.of();
         System.out.println(_f);
-        _f.name("A").type(int.class).modifiers("public static final");
+        _f.setName("A").type(int.class).modifiers("public static final");
         //_f.name("A").type(int.class).modifiers("static");
         //_f.name("A").type(int.class).modifiers("public", "static");
         System.out.println(_f);

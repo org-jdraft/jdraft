@@ -35,7 +35,7 @@ public class _0_Model_Test extends TestCase {
         assertTrue( _ps.isEmpty() );
 
         // jdraft models make modifying code easy
-        _m.name("getValue")
+        _m.setName("getValue")
                 .setProtected()
                 .anno(Deprecated.class)
                 .setFinal();

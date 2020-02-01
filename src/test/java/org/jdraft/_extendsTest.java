@@ -1,9 +1,6 @@
 package org.jdraft;
 
-import org.jdraft._class;
 import junit.framework.TestCase;
-
-import java.util.ArrayList;
 
 public class _extendsTest extends TestCase {
 
@@ -22,7 +19,7 @@ public class _extendsTest extends TestCase {
     
     public void testE(){
         _class _c = _class.of(C.class);
-        _class _d = _class.of(D.class).name("C");
+        _class _d = _class.of(D.class).setName("C");
         assertEquals( _c, _d);
         
         

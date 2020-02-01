@@ -499,7 +499,7 @@ public final class _modifiers implements _nodeList<Modifier, _modifier, _modifie
      * @param <_HM> the target TYPE
      */
     public interface _hasModifiers<_HM extends _hasModifiers>
-        extends _mrJava {
+        extends _java._domain {
 
         /**
          * gets the explicitly set modifiers for the node

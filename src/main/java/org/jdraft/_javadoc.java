@@ -17,7 +17,7 @@ import org.jdraft.text.Tokens;
  * @author Eric
  */
 public final class _javadoc
-    implements _mrJava {
+    implements _java._domain {
 
     public static _javadoc of( NodeWithJavadoc jdnode ) {
         return new _javadoc( jdnode );
@@ -159,7 +159,7 @@ public final class _javadoc
      * @param <_HJ>
      */
     public interface _hasJavadoc<_HJ extends _hasJavadoc>
-            extends _mrJava {
+            extends _java._domain {
 
         /** @return the JAVADOC for this element (or returns null) */
         _javadoc getJavadoc();

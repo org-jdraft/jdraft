@@ -331,7 +331,7 @@ public final class _field
     }
 
     @Override
-    public _field name(String name) {
+    public _field setName(String name) {
         this.astVar.setName(name);
         return this;
     }
@@ -614,7 +614,7 @@ public final class _field
      * @param <_HF>
      */
     public interface _hasFields<_HF extends _hasFields>
-            extends _mrJava {
+            extends _java._domain {
 
         List<_field> listFields();
 

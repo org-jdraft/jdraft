@@ -49,14 +49,14 @@ public class _namedDiff implements _differ<String, _node> {
          
         @Override
         public void patchLeftToRight(){
-            leftParent.name(leftName);
-            rightParent.name(leftName);
+            leftParent.setName(leftName);
+            rightParent.setName(leftName);
         }
         
         @Override
         public void patchRightToLeft(){
-            leftParent.name(rightName);
-            rightParent.name(rightName);
+            leftParent.setName(rightName);
+            rightParent.setName(rightName);
         }
         
         @Override
@@ -71,12 +71,12 @@ public class _namedDiff implements _differ<String, _node> {
         
         
         @Override
-        public _mrJava leftParent() {
+        public _java._domain leftParent() {
             return leftParent;
         }
 
         @Override
-        public _mrJava rightParent() {
+        public _java._domain rightParent() {
             return rightParent;
         }
 

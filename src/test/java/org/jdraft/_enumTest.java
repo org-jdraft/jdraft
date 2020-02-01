@@ -9,7 +9,6 @@ import java.io.Serializable;
 
 import com.github.javaparser.ast.type.Type;
 import junit.framework.TestCase;
-import org.jdraft._enum.*;
 import org.jdraft.runtime._runtime;
 import test.ComplexEnum;
 
@@ -27,7 +26,7 @@ public class _enumTest extends TestCase {
         //name, argument, method, field
         //TODO i need a .body(String...) method that will represent the body
         // of the constant
-        _c.name("One")
+        _c.setName("One")
                 .arguments("1, new HashMap()")
                 .addArgument(1)
                 .body("public int G = 234;",

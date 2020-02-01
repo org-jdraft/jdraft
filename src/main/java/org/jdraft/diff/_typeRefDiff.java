@@ -63,12 +63,12 @@ public class _typeRefDiff
         }
         
         @Override
-        public _mrJava leftParent() {
+        public _java._domain leftParent() {
             return leftParent;
         }
 
         @Override
-        public _mrJava rightParent() {
+        public _java._domain rightParent() {
             return rightParent;
         }
 

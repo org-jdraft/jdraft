@@ -79,7 +79,7 @@ public final class _parameter
     }
     
     @Override
-    public _parameter name( String name ) {
+    public _parameter setName(String name ) {
         this.astParameter.setName( name );
         return this;
     }
@@ -256,7 +256,7 @@ public final class _parameter
      * @param <_HP>
      */
     public interface _hasParameters<_HP extends _hasParameters>
-        extends _mrJava {
+        extends _java._domain {
 
         _parameters getParameters();
         

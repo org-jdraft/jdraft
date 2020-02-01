@@ -98,7 +98,7 @@ public class $token implements $pattern<Node, $token> {
      * @param replacement
      * @return
      */
-    public <_J extends _mrJava> _J replaceIn(_J _j, String replacement) {
+    public <_J extends _java._domain> _J replaceIn(_J _j, String replacement) {
         return $n.replaceIn(_j, replacement);
     }
 
@@ -109,7 +109,7 @@ public class $token implements $pattern<Node, $token> {
      * @param $replacement
      * @return
      */
-    public <_J extends _mrJava> _J replaceIn(_J _j, $node $replacement) {
+    public <_J extends _java._domain> _J replaceIn(_J _j, $node $replacement) {
         return $n.replaceIn(_j, $replacement);
     }
 

@@ -16,7 +16,7 @@ import java.util.Optional;
 /**
  * Ways of resolving individual {@link com.github.javaparser.ast.expr.Expression}s, {@link com.github.javaparser.ast.stmt.Statement},
  * {@link BlockStmt}s, {@link BodyDeclaration}s / {@link _member}s, etc. based on Position (line, column)
- * within a parsed {@link Node} / {@link _mrJava} object
+ * within a parsed {@link Node} / {@link _domain} object
  *
  * @author Eric
  */

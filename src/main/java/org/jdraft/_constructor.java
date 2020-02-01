@@ -216,7 +216,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
     }
 
     @Override
-    public _constructor name( String name ) {
+    public _constructor setName(String name ) {
         this.astCtor.setName( name );
         return this;
     }
@@ -431,7 +431,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
      * @param <N> the AST node type (must implement NodeWithConstructors)
      */
     public interface _hasConstructors<_HC extends _hasConstructors & _type, N extends TypeDeclaration>
-        extends _mrJava {
+        extends _java._domain {
 
         /** 
          * Gets the node that is the nodeWithConstructors (i.e._class, _enum)
@@ -511,7 +511,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
          * @return  the modified T         
          */ 
         default _HC removeConstructor(ConstructorDeclaration astConstructor ){
-            return removeConstructor( _constructor.of(astConstructor).name(((_type)this).getName()) );        
+            return removeConstructor( _constructor.of(astConstructor).setName(((_type)this).getName()) );
         }
 
         /**
@@ -520,7 +520,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
          * @return 
          */
         default _HC removeConstructor(_constructor _ct){
-            _constructor _cc = _ct.copy().name( ((_type)this).getName() );
+            _constructor _cc = _ct.copy().setName( ((_type)this).getName() );
         
             listConstructors( c-> c.equals( _cc ) ).forEach(c-> c.ast().removeForced() );        
             return (_HC)this;

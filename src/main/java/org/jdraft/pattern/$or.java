@@ -86,7 +86,7 @@ public final class $or<$p extends $pattern>
         return select(node) != null;
     }
 
-    public boolean match(_mrJava _j){
+    public boolean match(_java._domain _j){
         if( _j instanceof _node){
             return match( ((_node)_j).ast());
         }
@@ -146,7 +146,7 @@ public final class $or<$p extends $pattern>
         if( op.isPresent() ){
             $p $pat = op.get();
             Object o = $pat.firstIn(astNode);
-            if( o instanceof _mrJava){
+            if( o instanceof _java._domain){
                 $pattern.select_java sel = ($pattern.select_java) $pat.select( o );
                 return new Select($pat, sel._node(), sel.tokens().asTokens() );
             } else{
@@ -204,7 +204,7 @@ public final class $or<$p extends $pattern>
     }
 
     @Override
-    public List<Select> listSelectedIn(_mrJava _j) {
+    public List<Select> listSelectedIn(_java._domain _j) {
         if( _j instanceof _code ){
             _code _c = (_code) _j;
             if( _c.isTopLevel() ){
@@ -239,7 +239,7 @@ public final class $or<$p extends $pattern>
      * @param selectConstraint
      * @return
      */
-    public List<Select> listSelectedIn(_mrJava _j, Predicate<Select> selectConstraint) {
+    public List<Select> listSelectedIn(_java._domain _j, Predicate<Select> selectConstraint) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 return listSelectedIn( ((_code) _j).astCompilationUnit(), selectConstraint);
@@ -334,7 +334,7 @@ public final class $or<$p extends $pattern>
      * @param replacement
      * @return
      */
-    public <_J extends _mrJava> _J replaceIn(_J _j, String replacement) {
+    public <_J extends _java._domain> _J replaceIn(_J _j, String replacement) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 replaceIn( ((_code) _j).astCompilationUnit(), replacement);
@@ -396,7 +396,7 @@ public final class $or<$p extends $pattern>
      * @param replacement
      * @return
      */
-    public <_J extends _mrJava> _J replaceIn(_J _j, Node replacement) {
+    public <_J extends _java._domain> _J replaceIn(_J _j, Node replacement) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 replaceIn( ((_code) _j).astCompilationUnit(), replacement);
@@ -433,7 +433,7 @@ public final class $or<$p extends $pattern>
      * @param nodeActionFn
      * @return
      */
-    public <_J extends _mrJava> _J forSelectedIn(_J _j, Consumer<Select> nodeActionFn) {
+    public <_J extends _java._domain> _J forSelectedIn(_J _j, Consumer<Select> nodeActionFn) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 forSelectedIn( ((_code) _j).astCompilationUnit(), nodeActionFn);
@@ -472,7 +472,7 @@ public final class $or<$p extends $pattern>
      * @param nodeActionFn
      * @return
      */
-    public <_J extends _mrJava> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> nodeActionFn) {
+    public <_J extends _java._domain> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> nodeActionFn) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 forSelectedIn( ((_code) _j).astCompilationUnit(), nodeActionFn);

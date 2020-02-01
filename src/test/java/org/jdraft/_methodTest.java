@@ -1,8 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.expr.BinaryExpr;
-import com.github.javaparser.ast.expr.CastExpr;
+
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Predicate;
@@ -95,8 +94,8 @@ public class _methodTest extends TestCase {
         });
         
         //verify that I 
-        assertEquals( _m.firstExpr(Ex.STRING_LITERAL), Ex.stringLiteralEx("mr") );
-        
+        assertEquals( Walk.first( _m.getBody(), Ex.STRING_LITERAL), Ex.stringLiteralEx("mr") );
+        /*
         //for All exprs and statements
         _m.forExprs(e-> System.out.println( e + " | " + e.getClass() ) );
         _m.forStmts(s-> System.out.println( s + " | " + s.getClass()) );
@@ -105,12 +104,12 @@ public class _methodTest extends TestCase {
         assertNotNull( _m.firstExpr(BinaryExpr.class, b-> b.getLeft().isIntegerLiteralExpr()));
         assertNotNull( _m.firstExpr(BinaryExpr.class, b-> b.getRight().isNameExpr()));
         assertNull( _m.firstExpr(CastExpr.class) );
-        
+        */
         assertNotNull( _m.firstStmt(Stmt.ASSERT));
         assertNotNull( _m.firstStmt(Stmt.ASSERT, a-> a.getCheck().isBinaryExpr()));
         
         assertNull( _m.firstStmt(Stmt.RETURN));
-        
+
     }
     
     /**
@@ -237,8 +236,10 @@ public class _methodTest extends TestCase {
         //_m.findFirst(Node.class, n-> n.getComment().isPresent()); //find first commented node
         //assertTrue(_m.hasParametersOfType());
 
-        assertNotNull( _m.firstExpr(StringLiteralExpr.class) );
-        assertNotNull( _m.firstExpr(Ex.STRING_LITERAL) );
+        assertNotNull( Walk.first(_m, StringLiteralExpr.class));
+        assertNotNull( Walk.first(_m, Ast.STRING_LITERAL_EXPR));
+        //assertNotNull( _m.firstExpr(StringLiteralExpr.class) );
+        //assertNotNull( _m.firstExpr(Ex.STRING_LITERAL) );
         //assertNotNull( _m.findFirst(_anno.class) );
 
         //_m.ast().accept( VoidVisitor );
@@ -688,7 +689,7 @@ public class _methodTest extends TestCase {
         _m.anno( "@ann2(key=7,VALUE='r')");
         _m.setPublic().setStatic().setFinal();
         _m.type("List<String>");
-        _m.name("aMethod");
+        _m.setName("aMethod");
         _m.typeParameters("<E extends element>");
         _m.addParameters("@ann @ann2(key=1, VALUE='v')final int val",
             "String...varArg");

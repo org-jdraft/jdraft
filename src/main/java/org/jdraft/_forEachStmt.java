@@ -54,7 +54,7 @@ public class _forEachStmt implements _statement<ForEachStmt, _forEachStmt> {
     }
 
     public _forEachStmt setVariable( _variable _v){
-        this.astStmt.setVariable(_v.ile);
+        this.astStmt.setVariable(_v.varDeclEx);
         return this;
     }
 

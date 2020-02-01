@@ -199,7 +199,7 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part, $meth
      * @param selectConstraint
      * @return 
      */
-    public Select selectFirstIn(_mrJava _j, Predicate<Select> selectConstraint) {
+    public Select selectFirstIn(_java._domain _j, Predicate<Select> selectConstraint) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 return selectFirstIn( ((_code)_j).astCompilationUnit(), selectConstraint);
@@ -257,7 +257,7 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part, $meth
      * @param <_J>
      * @return
      */
-    public <_J extends _mrJava> List<Select> listSelectedIn(_J _j, Predicate<Select> selectConstraint) {
+    public <_J extends _java._domain> List<Select> listSelectedIn(_J _j, Predicate<Select> selectConstraint) {
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 return listSelectedIn( ((_code) _j).astCompilationUnit(), selectConstraint);
@@ -340,7 +340,7 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part, $meth
      * @param nodeActionFn
      * @return 
      */
-    public <_J extends _mrJava> _J forSelectedIn(_J _j, Consumer<Select> nodeActionFn) {
+    public <_J extends _java._domain> _J forSelectedIn(_J _j, Consumer<Select> nodeActionFn) {
         Walk.in(_j, CatchClause.class, cc-> {
                 Select sel = select(cc);
                 if( sel != null ){
@@ -358,7 +358,7 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part, $meth
      * @param nodeActionFn
      * @return 
      */
-    public <_J extends _mrJava> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> nodeActionFn) {
+    public <_J extends _java._domain> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> nodeActionFn) {
         Walk.in(_j, CatchClause.class, cc-> {
                 Select sel = select(cc);
                 if( sel != null && selectConstraint.test(sel)){

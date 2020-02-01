@@ -662,7 +662,7 @@ public class $var
      * @param selectConstraint
      * @return  the first VaribleDeclarator that matches (or null if none found)
      */
-    public Select selectFirstIn(_mrJava _j, Predicate<Select> selectConstraint ){
+    public Select selectFirstIn(_java._domain _j, Predicate<Select> selectConstraint ){
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 return selectFirstIn( ((_code) _j).astCompilationUnit(), selectConstraint);
@@ -707,7 +707,7 @@ public class $var
     }
 
     @Override
-    public List<Select> listSelectedIn(_mrJava _j){
+    public List<Select> listSelectedIn(_java._domain _j){
         if( _j instanceof _code ){
             _code _c = (_code) _j;
             if( _c.isTopLevel() ){
@@ -752,7 +752,7 @@ public class $var
      * @param selectConstraint
      * @return 
      */
-    public List<Select> listSelectedIn(_mrJava _n, Predicate<Select> selectConstraint){
+    public List<Select> listSelectedIn(_java._domain _n, Predicate<Select> selectConstraint){
         List<Select>sts = new ArrayList<>();
         if( _n instanceof _code ){
             if( ((_code) _n).isTopLevel()){
@@ -797,7 +797,7 @@ public class $var
      * @param $replaceProto
      * @return 
      */
-    public <_J extends _mrJava> _J replaceIn(_J _j, $var $replaceProto ){
+    public <_J extends _java._domain> _J replaceIn(_J _j, $var $replaceProto ){
         Walk.in(_j, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
@@ -824,7 +824,7 @@ public class $var
      * @param selectConsumer
      * @return 
      */
-    public <_J extends _mrJava> _J forSelectedIn(_J _j, Consumer<Select> selectConsumer ){
+    public <_J extends _java._domain> _J forSelectedIn(_J _j, Consumer<Select> selectConsumer ){
         Walk.in(_j, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
@@ -870,7 +870,7 @@ public class $var
      * @param selectConsumer
      * @return 
      */
-    public <_J extends _mrJava> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
+    public <_J extends _java._domain> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
         Walk.in(_j, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null && selectConstraint.test(sel)){

@@ -746,7 +746,7 @@ public class _classTest extends TestCase {
         _c.javadoc("class JAVADOC");
         _c.anno( "@ann", "@ann(k=1,v='y')");
         _c.setPublic();
-        _c.name("Cgg");
+        _c.setName("Cgg");
         _c.typeParameters("<T extends Impl>");
         _c.extend( "Base");
         _c.implement( "A", "B");

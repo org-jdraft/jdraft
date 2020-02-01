@@ -351,7 +351,7 @@ public final class _method
     }
 
     @Override
-    public _method name(String name) {
+    public _method setName(String name) {
         this.astMethod.setName(name);
         return this;
     }
@@ -606,7 +606,7 @@ public final class _method
      * @param <_HM>
      */
     public interface _hasMethods<_HM extends _hasMethods>
-            extends _mrJava {
+            extends _java._domain {
 
         List<_method> listMethods();
 

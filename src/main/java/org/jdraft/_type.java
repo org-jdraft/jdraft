@@ -70,7 +70,7 @@ import com.github.javaparser.utils.Log;
  */
 public interface _type<AST extends TypeDeclaration, _T extends _type>
     extends _javadoc._hasJavadoc<_T>, _anno._hasAnnos<_T>, _modifiers._hasModifiers<_T>,
-        _field._hasFields<_T>, _declared<AST, _T>, _code<_T>, _node<AST, _T>, _mrJava {
+        _field._hasFields<_T>, _declared<AST, _T>, _code<_T>, _node<AST, _T>, _java._domain {
 
     /**
      * If we are a top level _type add the types as companion types
@@ -406,7 +406,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         List<_M> _ms = new ArrayList<>();
         NodeList<BodyDeclaration<?>> bds = ast().getMembers();
         bds.forEach(b -> {
-            _mrJava _mem = _java.of(b);
+            _java._domain _mem = _java.of(b);
             if (memberClass.isAssignableFrom(_mem.getClass())) {
                 _ms.add((_M) _mem);
             }
@@ -956,24 +956,24 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     }
 
     @Override
-    default _T name(String name ){
+    default _T setName(String name ){
         if( name.contains(".") ){
             //setting the package AND type name all at once
             String packageName = name.substring(0, name.lastIndexOf(".") );
             String typeName = name.substring(name.lastIndexOf(".")+1);
             this.setPackage(packageName);
-            return name(typeName);
+            return setName(typeName);
         }
         ast().setName( name );
         if( this instanceof _class ){
             //make sure to rename the CONSTRUCTORS
             _class _c = (_class)this;
-            _c.forConstructors( c-> c.name(name));
+            _c.forConstructors( c-> c.setName(name));
         }
         if( this instanceof _enum ){
             //make sure to rename the CONSTRUCTORS
             _enum _e = (_enum)this;
-            _e.forConstructors( c-> c.name(name));
+            _e.forConstructors( c-> c.setName(name));
         }
         return (_T)this;
     }

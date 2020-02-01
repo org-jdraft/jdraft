@@ -44,7 +44,8 @@ public class ManualResolve extends TestCase {
         
         _method _m = _c.getMethod("localInst");
         List<MethodCallExpr> mces = new ArrayList<>();
-        _m.forExprs(Ast.METHOD_CALL_EXPR, mce-> {
+        Walk.in( _m, Ast.METHOD_CALL_EXPR, mce ->{
+        //_m.forExprs(Ast.METHOD_CALL_EXPR, mce-> {
             Optional<Expression> scope = mce.getScope();
             if( scope.isPresent() ){
                 System.out.println( "Scope is "+ scope.get());

@@ -1,9 +1,7 @@
 package org.jdraft;
 
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
@@ -409,7 +407,7 @@ public final class _throws
      * @author Eric
      * @param <_HT> the hasThrows container {@link _method} {@link _constructor}
      */
-    public interface _hasThrows<_HT extends _hasThrows> extends _mrJava {
+    public interface _hasThrows<_HT extends _hasThrows> extends _java._domain {
 
         _throws getThrows();
 

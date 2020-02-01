@@ -18,7 +18,7 @@ import org.jdraft._parameter._hasParameters;
  * @author Eric
  */
 public class _lambda 
-    implements _expression<LambdaExpr, _lambda>, _mrJava, _hasParameters<_lambda> {
+    implements _expression<LambdaExpr, _lambda>, _java._domain, _hasParameters<_lambda> {
 
     /**
      * create a _lamba based on the code (as String)

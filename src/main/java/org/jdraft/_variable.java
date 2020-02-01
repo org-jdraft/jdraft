@@ -19,15 +19,15 @@ public class _variable implements _expression<VariableDeclarationExpr, _variable
         return new _variable(Ex.varLocalEx(code));
     }
 
-    public VariableDeclarationExpr ile;
+    public VariableDeclarationExpr varDeclEx;
 
-    public _variable(VariableDeclarationExpr ile){
-        this.ile = ile;
+    public _variable(VariableDeclarationExpr varDeclEx){
+        this.varDeclEx = varDeclEx;
     }
 
     @Override
     public _variable copy() {
-        return new _variable(this.ile.clone());
+        return new _variable(this.varDeclEx.clone());
     }
 
     @Override
@@ -44,38 +44,38 @@ public class _variable implements _expression<VariableDeclarationExpr, _variable
     }
 
     public VariableDeclarationExpr ast(){
-        return ile;
+        return varDeclEx;
     }
 
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
 
-        comps.put( _java.Component.MODIFIERS, ile.getModifiers());
-        comps.put( _java.Component.VARIABLES, ile.getVariables());
+        comps.put( _java.Component.MODIFIERS, varDeclEx.getModifiers());
+        comps.put( _java.Component.VARIABLES, varDeclEx.getVariables());
         return comps;
     }
 
     public _modifiers getModifiers(){
-        return _modifiers.of(this.ile);
+        return _modifiers.of(this.varDeclEx);
     }
 
     public List<VariableDeclarator> listVariables(){
-        return this.ile.getVariables();
+        return this.varDeclEx.getVariables();
     }
 
     public boolean equals(Object other){
         if( other instanceof _variable){
-            return ((_variable)other).ile.equals( this.ile );
+            return ((_variable)other).varDeclEx.equals( this.varDeclEx);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ile.hashCode();
+        return 31 * this.varDeclEx.hashCode();
     }
     
     public String toString(){
-        return this.ile.toString();
+        return this.varDeclEx.toString();
     }
 }

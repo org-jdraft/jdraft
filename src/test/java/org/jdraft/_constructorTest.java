@@ -13,7 +13,7 @@ public class _constructorTest extends TestCase {
 
     public void testBuildFromScratch(){
         _constructor _ct = _constructor.of();
-        _ct.name("C")
+        _ct.setName("C")
                 .setParameters("int i").modifiers("public")
                 .addThrows(IOException.class);
         System.out.println(_ct);
@@ -48,14 +48,14 @@ public class _constructorTest extends TestCase {
 
         /** but they are not Syntactically the same (in the AST)*/
         assertNotSame( _enum.of( E.class ).getConstructor(0).ast(),
-                _enum.of( E2.class ).getConstructor(0).name("E").ast());
+                _enum.of( E2.class ).getConstructor(0).setName("E").ast());
 
         /** but they are equal in the _constructor model */
         assertEquals( _enum.of( E.class ).getConstructor(0),
-                _enum.of( E2.class ).getConstructor(0).name("E") );
+                _enum.of( E2.class ).getConstructor(0).setName("E") );
 
         assertEquals( _enum.of( E.class ).getConstructor(0).hashCode(),
-                _enum.of( E2.class ).getConstructor(0).name("E").hashCode() );
+                _enum.of( E2.class ).getConstructor(0).setName("E").hashCode() );
     }
 
     static abstract class C{

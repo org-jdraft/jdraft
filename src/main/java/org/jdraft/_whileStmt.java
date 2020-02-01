@@ -1,14 +1,17 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.DoStmt;
+import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.WhileStmt;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.function.Predicate;
 
-
-public class _whileStmt implements _statement<WhileStmt, _whileStmt> {
+public class _whileStmt implements _statement<WhileStmt, _whileStmt>, _body._hasBody<_whileStmt>{
 
     public static _whileStmt of(){
         return new _whileStmt( new WhileStmt( ));
@@ -20,15 +23,15 @@ public class _whileStmt implements _statement<WhileStmt, _whileStmt> {
         return new _whileStmt(Stmt.whileStmt( code));
     }
 
-    private WhileStmt astStmt;
+    private WhileStmt whileStmt;
 
     public _whileStmt(WhileStmt rs){
-        this.astStmt = rs;
+        this.whileStmt = rs;
     }
 
     @Override
     public _whileStmt copy() {
-        return new _whileStmt( this.astStmt.clone());
+        return new _whileStmt( this.whileStmt.clone());
     }
 
     @Override
@@ -39,48 +42,105 @@ public class _whileStmt implements _statement<WhileStmt, _whileStmt> {
         return false;
     }
 
-    public _expression getCondition(){
-        return _expression.of(this.astStmt.getCondition());
+    public boolean isCondition(String...expression){
+        try{
+            return isCondition(Ex.of(expression));
+        }catch(Exception e){
+            return false;
+        }
     }
 
-    public _body getBody(){
-        return _body.of( this.astStmt.getBody() );
+    public boolean isCondition(_expression _ex){
+        return Objects.equals( this.getCondition(), _ex.ast());
+    }
+
+    public boolean isCondition(Predicate<_expression> matchFn){
+        return matchFn.test(getCondition());
+    }
+
+    public boolean isCondition(Expression ex){
+        return Objects.equals( this.getCondition(), ex);
+    }
+
+    public _whileStmt setCondition(String...expression){
+        return setCondition(Ex.of(expression));
+    }
+
+    public _whileStmt setCondition(Expression e){
+        this.ast().setCondition(e);
+        return this;
     }
 
     public _whileStmt setCondition(_expression e){
-        this.astStmt.setCondition(e.ast());
+        this.whileStmt.setCondition(e.ast());
         return this;
+    }
+
+    public _expression getCondition(){
+        return _expression.of(this.whileStmt.getCondition());
+    }
+
+    public _body getBody(){
+        return _body.of( this.whileStmt.getBody() );
+    }
+
+    @Override
+    public _whileStmt setBody(BlockStmt body) {
+        this.whileStmt.setBody(body);
+        return this;
+    }
+
+    public boolean isBody(_body _b){
+        return Objects.equals( _b, this.getBody());
     }
 
     public _whileStmt setBody(_statement _st){
-        this.astStmt.setBody(_st.ast());
+        this.whileStmt.setBody(_st.ast());
         return this;
     }
 
+    /*
     public _whileStmt setBody(_body _bd){
         this.astStmt.setBody(_bd.ast());
         return this;
     }
+     */
 
     public _whileStmt clearBody(){
-        this.astStmt.setBody( new BlockStmt());
+        this.whileStmt.setBody( new BlockStmt());
+        return this;
+    }
+
+    @Override
+    public _whileStmt add(int startStatementIndex, Statement... statements) {
+        Statement st = this.whileStmt.getBody();
+        if( st instanceof BlockStmt ){
+            for(int i=0;i<statements.length; i++) {
+                st.asBlockStmt().addStatement(i + startStatementIndex, statements[i]);
+            }
+            return this;
+        }
+        BlockStmt bs = new BlockStmt();
+        bs.addStatement(st); //add the old statement
+        Arrays.stream(statements).forEach(s -> bs.addStatement(startStatementIndex, s) );
+        this.whileStmt.setBody(bs);
         return this;
     }
 
     @Override
     public boolean is(WhileStmt astNode) {
-        return this.astStmt.equals( astNode);
+        return this.whileStmt.equals( astNode);
     }
 
     public WhileStmt ast(){
-        return astStmt;
+        return whileStmt;
     }
 
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put(_java.Component.CONDITION, astStmt.getCondition());
-        comps.put(_java.Component.BODY, astStmt.getBody());
+        comps.put(_java.Component.CONDITION, whileStmt.getCondition());
+        comps.put(_java.Component.BODY, whileStmt.getBody());
         return comps;
     }
 }

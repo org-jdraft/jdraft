@@ -17,13 +17,13 @@ import java.util.Objects;
  * @author Eric
  * @param <_N>
  */
-public interface _named<_N extends _named> extends _mrJava {
+public interface _named<_N extends _named> extends _java._domain {
 
     /**
      * @param name set the name on the entity and return the modified entity
      * @return the modified entity
      */
-    _N name(String name);
+    _N setName(String name);
 
     /**
      * gets the name of the entity

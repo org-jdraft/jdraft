@@ -16,7 +16,7 @@ public class AstImpliedModifiersTest extends TestCase {
             b.class.getModifiers() );   
         
         _annotation _a  = _annotation.of( a.class );
-        _annotation _b  = _annotation.of( b.class).name("a");
+        _annotation _b  = _annotation.of( b.class).setName("a");
         assertEquals(_a.hashCode(), _b.hashCode());
         assertEquals(_a, _b);
         
@@ -34,7 +34,7 @@ public class AstImpliedModifiersTest extends TestCase {
             EE2.class.getModifiers() );
          
         _enum _a  = _enum.of( EE.class );
-        _enum _b  = _enum.of( EE2.class).name("EE");
+        _enum _b  = _enum.of( EE2.class).setName("EE");
         assertEquals(_a.hashCode(), _b.hashCode());
         assertEquals(_a, _b);         
         
@@ -59,7 +59,7 @@ public class AstImpliedModifiersTest extends TestCase {
             EC2.class.getDeclaredConstructors()[0].getModifiers() );
          
         _enum _a  = _enum.of( EC.class );
-        _enum _b  = _enum.of( EC2.class).name("EC");
+        _enum _b  = _enum.of( EC2.class).setName("EC");
         _constructor _c1 = _a.getConstructor(0);
         _constructor _c2 = _b.getConstructor(0);
         

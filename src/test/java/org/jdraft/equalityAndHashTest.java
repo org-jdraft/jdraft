@@ -56,7 +56,7 @@ public class equalityAndHashTest extends TestCase {
         
         
         _class _c = _class.of( A.class );
-        _class _b = _class.of( B.class ).name("A");
+        _class _b = _class.of( B.class ).setName("A");
         
         System.out.println( _c );
         System.out.println( _b );

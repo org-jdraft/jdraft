@@ -499,7 +499,7 @@ public class $annos
      * @param selectConstraint
      * @return 
      */
-    public Select selectFirstIn(_mrJava _j, Predicate<Select> selectConstraint){
+    public Select selectFirstIn(_java._domain _j, Predicate<Select> selectConstraint){
          if( _j instanceof _code ){
             _code _c = (_code)_j;
             if( _c.isTopLevel() ){
@@ -598,7 +598,7 @@ public class $annos
      * @param selectConstraint
      * @return 
      */
-    public List<Select> listSelectedIn(_mrJava _j, Predicate<Select> selectConstraint) {
+    public List<Select> listSelectedIn(_java._domain _j, Predicate<Select> selectConstraint) {
          if( _j instanceof _code ){
             _code _c = (_code)_j;
             if( _c.isTopLevel() ){
@@ -692,7 +692,7 @@ public class $annos
      * @param selectActionFn
      * @return 
      */
-    public <_J extends _mrJava> _J forSelectedIn(_J _j, Consumer<Select> selectActionFn) {
+    public <_J extends _java._domain> _J forSelectedIn(_J _j, Consumer<Select> selectActionFn) {
         if( _j instanceof _code ){
             _code _c = (_code) _j;
             if( _c.isTopLevel() ){
@@ -715,7 +715,7 @@ public class $annos
      * @param <_J>
      * @return
      */
-    public <_J extends _mrJava> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
+    public <_J extends _java._domain> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
         if( _j instanceof _code ){
             _code _c = (_code) _j;
             if( _c.isTopLevel() ){

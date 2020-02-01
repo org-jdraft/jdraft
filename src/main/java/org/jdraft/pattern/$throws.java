@@ -518,7 +518,7 @@ public class $throws
      * @param selectConstraint
      * @return 
      */
-    public List<Select> listSelectedIn(_mrJava _j, Predicate<Select> selectConstraint ){
+    public List<Select> listSelectedIn(_java._domain _j, Predicate<Select> selectConstraint ){
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 return listSelectedIn( ((_code) _j).astCompilationUnit(), selectConstraint );
@@ -545,7 +545,7 @@ public class $throws
      * @param throwClasses
      * @return 
      */
-    public <_J extends _mrJava> _J replaceIn(_J _j, Class<? extends Throwable>... throwClasses){
+    public <_J extends _java._domain> _J replaceIn(_J _j, Class<? extends Throwable>... throwClasses){
         return replaceIn(_j, $throws.of(throwClasses));
     }
     
@@ -566,7 +566,7 @@ public class $throws
      * @param importDecl
      * @return 
      */
-    public <_J extends _mrJava> _J replaceIn(_J _j, String importDecl){
+    public <_J extends _java._domain> _J replaceIn(_J _j, String importDecl){
         return replaceIn(_j, $throws.of(importDecl));
     }
     
@@ -587,7 +587,7 @@ public class $throws
      * @param _replaceThrows
      * @return 
      */
-    public <_J extends _mrJava> _J replaceIn(_J _j, _throws _replaceThrows){
+    public <_J extends _java._domain> _J replaceIn(_J _j, _throws _replaceThrows){
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 replaceIn( ((_code) _j).astCompilationUnit(), $throws.of(_replaceThrows));

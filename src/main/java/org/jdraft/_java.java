@@ -14,6 +14,7 @@ import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.modules.ModuleDeclaration;
 import com.github.javaparser.ast.nodeTypes.*;
 import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.CatchClause;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.SwitchEntry;
 import com.github.javaparser.ast.type.*;
@@ -28,7 +29,6 @@ import org.jdraft._modifiers.*;
 import org.jdraft._constructor._hasConstructors;
 import org.jdraft._javadoc._hasJavadoc;
 import org.jdraft._method._hasMethods;
-import org.jdraft._modifiers.*;
 import org.jdraft._receiverParameter._hasReceiverParameter;
 import org.jdraft._initBlock._hasInitBlocks;
 import org.jdraft._throws._hasThrows;
@@ -84,6 +84,22 @@ import org.jdraft.text.Text;
 public interface _java {
 
     /**
+     * Marker interface for categorizing representations in the Java Language
+     * implementers are representations of Java source code
+     * (objects which represent some Java source code syntax structures)
+     * (We have this interface to differentiate between entities/classes that are
+     * Ast/syntax entities (i.e.JavaParser Node) and part of the _jdraft API which sits on top of
+     * the JavaParser Ast nodes
+     *
+     * these _javaDomain entities are effectively facades or "logical view"s (in database terms)
+     * into the data stored in the JavaParser Ast (Syntax) entities.
+     *
+     * @see _node a one-to-one mapping between an AST (Node) and a <CODE>_javaDomain</CODE> ( _method <--> MethodDeclaration )
+     * @see _nodeList a one-to 0 or more NodeList instances of AST nodes ( _parameters <--> NodeList<Parameter> )
+     */
+    interface _domain { }
+
+    /**
      * Shortcut for checking if an ast has a parent of a particular class that complies with a particular Predicate
      * @param _j the _java entity
      * @param parentNodeClass the node class expected of the parent node
@@ -91,7 +107,7 @@ public interface _java {
      * @param <_J> the expected _java node type
      * @return true if the parent node exists, is of a particular type and complies with the predicate
      */
-    static <_J extends _mrJava> boolean isParent(_mrJava _j, Class<_J> parentNodeClass, Predicate<_J> parentMatchFn){
+    static <_J extends _domain> boolean isParent(_domain _j, Class<_J> parentNodeClass, Predicate<_J> parentMatchFn){
         if( _j instanceof _node ){
             AtomicBoolean ans = new AtomicBoolean(false);
             Walk.in_java(Node.TreeTraversal.PARENTS, 1, ((_node)_j).ast(), parentNodeClass, parentMatchFn, (t)-> ans.set(true) );
@@ -128,7 +144,7 @@ public interface _java {
      * @param <T> the match type
      * @return true if
      */
-    static <T> boolean hasAncestor(_mrJava _j, Class<T> type, Predicate<T> matchFn){
+    static <T> boolean hasAncestor(_domain _j, Class<T> type, Predicate<T> matchFn){
         return Walk.first(Node.TreeTraversal.PARENTS, _j, type, matchFn) != null;
     }
 
@@ -142,7 +158,7 @@ public interface _java {
      * @param <T> the match type
      * @return
      */
-    static <T> boolean hasDescendant(_mrJava _j, Class<T> type, Predicate<T> matchFn) {
+    static <T> boolean hasDescendant(_domain _j, Class<T> type, Predicate<T> matchFn) {
         return Walk.first(Node.TreeTraversal.POSTORDER,_j, type, matchFn) != null;
     }
 
@@ -155,7 +171,7 @@ public interface _java {
      * @param <T> the match type
      * @return
      */
-    static <T> boolean hasChild(_mrJava _j, Class<T> type, Predicate<T> matchFn) {
+    static <T> boolean hasChild(_domain _j, Class<T> type, Predicate<T> matchFn) {
         return Walk.first(Node.TreeTraversal.DIRECT_CHILDREN,_j, type, matchFn) != null;
     }
 
@@ -163,7 +179,7 @@ public interface _java {
      *
      * @param _j
      */
-    static void describe( _mrJava _j ){
+    static void describe( _domain _j ){
         if( _j instanceof _code && ((_code) _j).isTopLevel() ){
             Ast.describe( ((_code) _j).astCompilationUnit());
         }
@@ -441,13 +457,13 @@ public interface _java {
      * class can be a _model, or Ast Node class
      *
      * @param nodeClass the class of the node (implementation class)
-     * must extend {@link _mrJava} or {@link Node}
+     * must extend {@link _domain} or {@link Node}
      * @param code the java source code representation
      * @return the node implementation of the code
      */
     static Node node(Class nodeClass, String... code) {
         
-        if (! _mrJava.class.isAssignableFrom(nodeClass)) {
+        if (! _domain.class.isAssignableFrom(nodeClass)) {
             return Ast.nodeOf(nodeClass, code);
         }
         if (_import.class == nodeClass) {
@@ -519,7 +535,7 @@ public interface _java {
      * @param astNode the ast node
      * @return the _model entity
      */
-    static _mrJava of(Node astNode) {
+    static _domain of(Node astNode) {
         if (astNode instanceof ImportDeclaration ){
             return _import.of((ImportDeclaration) astNode);
         }
@@ -654,7 +670,7 @@ public interface _java {
      * @param _j
      * @param labelName
      */
-    static void flattenLabel(_mrJava _j, String labelName){
+    static void flattenLabel(_domain _j, String labelName){
         if( _j instanceof _node ){
             Ast.flattenLabel( ((_node)_j).ast(), labelName);
             return;
@@ -766,6 +782,11 @@ public interface _java {
         ELEMENT_TYPE("elementType", Type.class),
 
         //new stuff for Statements and expressions
+        TRY_BLOCK("tryBlock", BlockStmt.class),
+        CATCH_CLAUSES( "catchClauses", List.class, CatchClause.class), //tryStmt
+        FINALLY_BLOCK( "finallyBlock", BlockStmt.class),
+        RESOURCES("resources", List.class, Expression.class),
+
         STATEMENTS("statements", List.class, Statement.class), //statements of a switch entry
         SWITCH_SELECTOR("switchSelector", Expression.class),
         SWITCH_ENTRIES("switchEntries", List.class, SwitchEntry.class), //TODO change to _switchEntry
@@ -914,7 +935,7 @@ public interface _java {
      * @param commentMatchFn
      * @return
      */
-    static <C extends Comment, _J extends _mrJava> List<C> listComments(
+    static <C extends Comment, _J extends _domain> List<C> listComments(
             _J _j, Class<C> commentTargetClass, Predicate<C> commentMatchFn){
 
         if( _j instanceof _code ){
@@ -936,7 +957,7 @@ public interface _java {
      * @param commentMatchFn
      * @return
      */
-    static <_J extends _mrJava> List<Comment> listComments(_J _j, Predicate<Comment> commentMatchFn){
+    static <_J extends _domain> List<Comment> listComments(_J _j, Predicate<Comment> commentMatchFn){
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel() ){
                 return Ast.listComments( ((_code) _j).astCompilationUnit(), commentMatchFn );
@@ -956,7 +977,7 @@ public interface _java {
      * @param commentMatchFn
      * @param commentActionFn
      */
-    static <_J extends _mrJava> void forComments(_J _j, Predicate<Comment> commentMatchFn, Consumer<Comment> commentActionFn ){
+    static <_J extends _domain> void forComments(_J _j, Predicate<Comment> commentMatchFn, Consumer<Comment> commentActionFn ){
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel() ){
                 Ast.forComments( ((_code) _j).astCompilationUnit(), commentMatchFn, commentActionFn);
@@ -978,7 +999,7 @@ public interface _java {
      * @param commentMatchFn
      * @param commentActionFn
      */
-    static <C extends Comment, _J extends _mrJava> void forComments(_J _j, Class<C> commentClass, Predicate<C> commentMatchFn, Consumer<C> commentActionFn ){
+    static <C extends Comment, _J extends _domain> void forComments(_J _j, Class<C> commentClass, Predicate<C> commentMatchFn, Consumer<C> commentActionFn ){
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel() ){
                 Ast.forComments( ((_code) _j).astCompilationUnit(), commentClass, commentMatchFn, commentActionFn);
@@ -996,7 +1017,7 @@ public interface _java {
      * @param _j
      * @param commentActionFn
      */
-    static void forComments(_mrJava _j, Consumer<Comment> commentActionFn){
+    static void forComments(_domain _j, Consumer<Comment> commentActionFn){
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel() ){
                 Ast.forComments( ((_code) _j).astCompilationUnit(), commentActionFn);
@@ -1015,7 +1036,7 @@ public interface _java {
      * @param _j
      * @return
      */
-    static <_J extends _mrJava> List<Comment> listComments(_J _j){
+    static <_J extends _domain> List<Comment> listComments(_J _j){
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel() ){
                 return Ast.listComments( ((_code) _j).astCompilationUnit() );

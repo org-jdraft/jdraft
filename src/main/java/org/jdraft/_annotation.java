@@ -639,7 +639,7 @@ public final class _annotation
         }
         
         @Override
-        public _entry name(String name){
+        public _entry setName(String name){
             this.astAnnMember.setName( name );
             return this;
         }

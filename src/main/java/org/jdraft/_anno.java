@@ -95,13 +95,8 @@ public final class _anno
     }
 
     @Override
-    public _anno name( String name ){
+    public _anno setName(String name ){
         this.astAnno.setName(name);
-        return this;
-    }
-    
-    public _anno setName( String name ) {
-        this.astAnno.setName( name );
         return this;
     }
 
@@ -824,7 +819,7 @@ public final class _anno
      * @param <_HA> the container type (that has Annos)
      */
     public interface _hasAnnos<_HA extends _hasAnnos>
-        extends _mrJava {
+        extends _java._domain {
         
         /**
          * @return the annos

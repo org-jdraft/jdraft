@@ -27,7 +27,7 @@ public class _hashCodeTest extends TestCase {
         /** 4) annotate with @_autoHashCode & call annotation Macro processor {@link $$#to(T t)} */
 
         @_name("A") @_hashCode class B{ int x,y,z;}
-        _class _4 = _class.of(B.class).name("A");
+        _class _4 = _class.of(B.class).setName("A");
 
         //assertEquals( _1, _2);
         assertEquals( _2, _3);

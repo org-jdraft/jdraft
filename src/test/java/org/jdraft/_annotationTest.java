@@ -18,7 +18,7 @@ public class _annotationTest extends TestCase  {
 
     public void testFromScratch(){
         _annotation _an = _annotation.of()
-                .name("A")
+                .setName("A")
                 .setPackage("a.io")
                 .anno(Deprecated.class)
                 .setPublic();

@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.file.Path;
 import java.text.NumberFormat;
@@ -41,7 +42,7 @@ public enum Ex {
      */
     @FunctionalInterface
     public interface Command{
-        void consume();
+        void consume() throws IOException;
     }
 
     /**

@@ -73,7 +73,7 @@ public final class _receiverParameter
     }
 
     @Override
-    public _receiverParameter name( String name ) {
+    public _receiverParameter setName(String name ) {
         this.astReceiverParam.setName( name );
         return this;
     }
@@ -159,7 +159,7 @@ public final class _receiverParameter
      * @param <_HRP>
      */
     public interface _hasReceiverParameter<_HRP extends _hasReceiverParameter>
-            extends _mrJava {
+            extends _java._domain {
 
         default boolean hasReceiverParameter() {      
             return getAstReceiverParameter() != null;            

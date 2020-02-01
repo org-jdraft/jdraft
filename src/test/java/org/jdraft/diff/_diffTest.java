@@ -72,7 +72,7 @@ public class _diffTest extends TestCase {
             }                      
         });
         _c1.setPackage("aaaa.bbbb");
-        _c1.name("B");
+        _c1.setName("B");
         _c1.anno(Deprecated.class);
         _c1.extend("G");
         _c1.constructor("public C(){System.out.println(1);}");

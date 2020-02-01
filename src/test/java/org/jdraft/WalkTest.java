@@ -195,7 +195,7 @@ public class WalkTest extends TestCase {
         assertTrue( parents.get(3) instanceof ClassOrInterfaceDeclaration);
         assertTrue( parents.get(4) instanceof CompilationUnit);
 
-        List<_mrJava>parentNodes = new ArrayList<>();
+        List<_java._domain>parentNodes = new ArrayList<>();
         //_m.walkParents(n -> parentNodes.add( _java.of( n ) ));
         Walk.parents(_m, n -> parentNodes.add( _java.of( n ) ));
         assertTrue( parentNodes.get(0) instanceof _constant);

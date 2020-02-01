@@ -620,7 +620,7 @@ public class $parameter implements Template<_parameter>, $pattern<_parameter, $p
      * @param selectConstraint
      * @return 
      */
-    public List<Select> listSelectedIn(_mrJava _j, Predicate<Select> selectConstraint) {
+    public List<Select> listSelectedIn(_java._domain _j, Predicate<Select> selectConstraint) {
         List<Select> found = new ArrayList<>();
         Walk.in(_j, _parameter.class, p-> {
             Select sel = select(p);
@@ -684,7 +684,7 @@ public class $parameter implements Template<_parameter>, $pattern<_parameter, $p
      * @param selectActionFn
      * @return 
      */
-    public <_J extends _mrJava> _J forSelectedIn(_J _j, Consumer<Select> selectActionFn) {
+    public <_J extends _java._domain> _J forSelectedIn(_J _j, Consumer<Select> selectActionFn) {
         return Walk.in(_j, _parameter.class, p->{
             Select sel = select(p);
             if( sel != null ){
@@ -730,7 +730,7 @@ public class $parameter implements Template<_parameter>, $pattern<_parameter, $p
      * @param selectConstraint
      * @return 
      */
-    public <_J extends _mrJava> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
+    public <_J extends _java._domain> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
         return Walk.in(_j, _parameter.class, p->{
             Select sel = select(p);
             if( sel != null && selectConstraint.test(sel)){
@@ -754,7 +754,7 @@ public class $parameter implements Template<_parameter>, $pattern<_parameter, $p
      * @return  the first _field that matches (or null if none found)
      */
     @Override
-    public _parameter firstIn( _mrJava _j){
+    public _parameter firstIn( _java._domain _j){
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){
                 return firstIn( ((_code) _j).astCompilationUnit() );
@@ -812,7 +812,7 @@ public class $parameter implements Template<_parameter>, $pattern<_parameter, $p
      * @param selectConstraint
      * @return  the first _field that matches (or null if none found)
      */
-    public Select selectFirstIn(_mrJava _j, Predicate<Select>selectConstraint ){
+    public Select selectFirstIn(_java._domain _j, Predicate<Select>selectConstraint ){
 
         if( _j instanceof _code ){
             if( ((_code) _j).isTopLevel()){

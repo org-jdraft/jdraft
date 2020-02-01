@@ -119,7 +119,7 @@ public class _constant implements _javadoc._hasJavadoc<_constant>,
     }
 
     @Override
-    public _constant name( String name ){
+    public _constant setName(String name ){
         this.astConstant.setName( name );
         return this;
     }
