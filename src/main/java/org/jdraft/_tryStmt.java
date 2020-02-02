@@ -3,7 +3,9 @@ package org.jdraft;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
+import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.CatchClause;
+import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.TryStmt;
 
 import java.util.*;
@@ -12,7 +14,8 @@ import java.util.stream.Collectors;
 
 //TODO lambdas for
 // setBody
-public class _tryStmt implements _statement<TryStmt, _tryStmt>, _java._nodeList<CatchClause, _catch, _tryStmt> {
+public class _tryStmt implements _statement<TryStmt, _tryStmt>, _java._nodeList<CatchClause, _catch, _tryStmt>,
+        _body._hasBody<_tryStmt>{
 
     public static _tryStmt of(){
         return new _tryStmt( new TryStmt( ));
@@ -108,14 +111,45 @@ public class _tryStmt implements _statement<TryStmt, _tryStmt>, _java._nodeList<
     public boolean hasBody(){
         return !this.ast().getTryBlock().isEmpty();
     }
+
     public _body getBody(){
         return _body.of( tryStmt.getTryBlock());
+    }
+
+    @Override
+    public _tryStmt setBody(BlockStmt body) {
+        this.tryStmt.setTryBlock(body);
+        return this;
     }
 
     public _tryStmt setBody(_body _b){
         this.tryStmt.setTryBlock(_b.ast());
         return this;
     }
+
+    @Override
+    public _tryStmt clearBody() {
+        this.tryStmt.setTryBlock(new BlockStmt());
+        return this;
+    }
+
+    @Override
+    public _tryStmt add(int startStatementIndex, Statement... statements) {
+        Statement bd = this.tryStmt.getTryBlock();
+        if( bd instanceof BlockStmt ){
+            for(int i=0;i<statements.length; i++) {
+                bd.asBlockStmt().addStatement(i+startStatementIndex, statements[i]);
+            }
+            return this;
+        }
+        BlockStmt bs = new BlockStmt();
+        bs.addStatement(bd);
+        for(int i=0;i<statements.length; i++) {
+            bd.asBlockStmt().addStatement(1+startStatementIndex, statements[i]);
+        }
+        return this;
+    }
+
 
     public boolean hasWithResources(){
         return ! this.ast().getResources().isEmpty();

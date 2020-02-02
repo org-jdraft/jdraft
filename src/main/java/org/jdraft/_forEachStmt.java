@@ -3,6 +3,7 @@ package org.jdraft;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ForEachStmt;
+import com.github.javaparser.ast.stmt.Statement;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +15,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class _forEachStmt implements _statement._controlFlow._conditional<ForEachStmt, _forEachStmt>,
-        _statement._controlFlow._loop<ForEachStmt, _forEachStmt>{
+        _statement._controlFlow._loop<ForEachStmt, _forEachStmt>, _body._hasBody<_forEachStmt>{
 
     public static _forEachStmt of(){
         return new _forEachStmt( new ForEachStmt( ));
@@ -99,6 +100,12 @@ public class _forEachStmt implements _statement._controlFlow._conditional<ForEac
         return _body.of( this.astStmt.getBody() );
     }
 
+    @Override
+    public _forEachStmt setBody(BlockStmt body) {
+        this.astStmt.setBody(body);
+        return this;
+    }
+
     public _forEachStmt setIterable(_expression e){
         this.astStmt.setIterable(e.ast());
         return this;
@@ -121,6 +128,23 @@ public class _forEachStmt implements _statement._controlFlow._conditional<ForEac
 
     public _forEachStmt clearBody(){
         this.astStmt.setBody( new BlockStmt());
+        return this;
+    }
+
+    @Override
+    public _forEachStmt add(int startStatementIndex, Statement... statements) {
+        Statement bd = this.astStmt.getBody();
+        if( bd instanceof BlockStmt){
+            for(int i=0;i<statements.length; i++) {
+                bd.asBlockStmt().addStatement(i+startStatementIndex, statements[i]);
+            }
+            return this;
+        }
+        BlockStmt bs = new BlockStmt();
+        bs.addStatement(bd);
+        for(int i=0;i<statements.length; i++) {
+            bd.asBlockStmt().addStatement(1+startStatementIndex, statements[i]);
+        }
         return this;
     }
 

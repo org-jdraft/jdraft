@@ -28,7 +28,6 @@ public class _binaryExpression implements _expression<BinaryExpr, _binaryExpress
         return new _binaryExpression(Ex.binaryEx( code));
     }
 
-
     public static <A extends Object> _binaryExpression of(Ex.Command c){
         LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
@@ -70,7 +69,6 @@ public class _binaryExpression implements _expression<BinaryExpr, _binaryExpress
         }
         throw new _jdraftException("No binary expression found in lambda");
     }
-
 
     public static _binaryExpression or(String left, String right){
         return new _binaryExpression( new BinaryExpr(Ex.of(left), Ex.of(right), BinaryExpr.Operator.OR));

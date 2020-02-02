@@ -87,15 +87,6 @@ public class _annos
         this.astAnnNode = astAnns;
     }
 
-    /*
-    public _annos add( _anno... anns ) {
-        for( int i = 0; i < anns.length; i++ ) {
-            astAnnNode.addAnnotation( anns[ i ].ast() );
-        }
-        return this;
-    }
-     */
-
     public _annos add( String... annos ) {
         for( String anno : annos ) {
             this.astAnnNode.addAnnotation(Ast.anno(anno ) );
@@ -110,26 +101,10 @@ public class _annos
         return this;
     }
 
-    /*
-    public _annos add( AnnotationExpr... astAnnos ) {
-        for( AnnotationExpr ann : astAnnos ) {
-            this.astAnnNode.addAnnotation( ann );
-        }
-        return this;
-    }
-     */
-
     public _annos addAll( Collection<_anno> _as ){
         _as.forEach(a -> add(a));
         return this;
     }
-
-    /*
-    public _anno get( int index ) {
-        return _anno.of( this.astAnnNode.getAnnotation( index ) );
-    }
-
-     */
 
     public _anno get(String name ) {
         List<_anno> a = this.list( name );
@@ -146,16 +121,6 @@ public class _annos
         }
         return null;
     }
-
-    /*
-    public _anno get(Predicate<_anno> _annoMatchFn ) {
-        List<_anno> a = this.list( _annoMatchFn );
-        if( a.size() >= 1 ) {
-            return a.get( 0 );
-        }
-        return null;
-    }
-     */
 
     @Override
     public List<_anno> list() {
@@ -200,39 +165,10 @@ public class _annos
         return l;
     }
 
-    /*
-    public int size() {
-        return this.astAnnNode.getAnnotations().size();
-    }
-     */
-
-    /*
-    public boolean isEmpty() {
-        return this.astAnnNode.getAnnotations().isEmpty();
-    }
-     */
-
     @Override
     public List<AnnotationExpr> listAstElements() {
         return this.astAnnNode.getAnnotations();
     }
-
-    /*
-    public _annos remove( _anno... annos ) {
-        Arrays.stream( annos ).forEach(a -> this.astAnnNode.getAnnotations().remove( a.ast() ) );
-        return this;
-    }
-
-    public _annos remove( AnnotationExpr... astAnns ) {
-        Arrays.stream(astAnns ).forEach( a -> this.astAnnNode.getAnnotations().remove( a ) );
-        return this;
-    }
-
-    public _annos remove( Predicate<_anno> _annoMatchFn ) {
-        list(_annoMatchFn ).forEach( a -> this.astAnnNode.getAnnotations().remove( a.ast() ) );
-        return this;
-    }
-    */
 
     /**
      * removeIn all ANNOTATIONS that are
@@ -269,46 +205,9 @@ public class _annos
         return this;
     }
 
-    /*
-    public int indexOf( _anno _a ) {
-        return indexOf( _a.ast() );
-    }
-
-    public int indexOf( AnnotationExpr astAnno ) {
-        for( int i = 0; i < this.astAnnNode.getAnnotations().size(); i++ ) {
-            if( Ex.equivalent((AnnotationExpr)this.astAnnNode.getAnnotations().get( i ), astAnno ) ) {
-                return i;
-            }
-        }
-        return -1;
-    }
-    */
-
-    /*
-    public boolean has(_anno _a ) {
-        return has( _a.ast() );
-    }
-
-    public boolean has(AnnotationExpr astAnno ) {
-        return this.astAnnNode.getAnnotations().stream().filter(
-                a -> Ex.equivalent((AnnotationExpr)a, astAnno ) ).findFirst().isPresent();
-    }
-    */
-
     public boolean has(Class<? extends Annotation> clazz ) {
         return list( clazz ).size() > 0;
     }
-
-    /*
-    public void forEach( Consumer<_anno> _annoActionFn ) {
-        list().forEach(_annoActionFn );
-    }
-
-    public void forEach( Predicate<_anno> _annoMatchFn,
-                         Consumer<_anno> _annoActionFn ) {
-        list(_annoMatchFn ).forEach(_annoActionFn );
-    }
-    */
 
     public void forEach( Class<? extends Annotation> annotationClazz,
                          Consumer<_anno> _annoAction ) {

@@ -108,7 +108,6 @@ public class _arrayAccess implements _expression<ArrayAccessExpr, _arrayAccess> 
         return 31 * this.astNode.hashCode();
     }
 
-
     public String toString(){
         return this.astNode.toString();
     }

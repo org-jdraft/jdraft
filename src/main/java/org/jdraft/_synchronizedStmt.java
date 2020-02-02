@@ -1,8 +1,8 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt;
-import com.github.javaparser.ast.stmt.LabeledStmt;
+import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.SynchronizedStmt;
 
 import java.util.HashMap;
@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 
-public class _synchronizedStmt implements _statement<SynchronizedStmt, _synchronizedStmt> {
+public class _synchronizedStmt implements _statement<SynchronizedStmt, _synchronizedStmt>, _body._hasBody<_synchronizedStmt> {
 
     public static _synchronizedStmt of(){
         return new _synchronizedStmt( new SynchronizedStmt( ));
@@ -62,8 +62,37 @@ public class _synchronizedStmt implements _statement<SynchronizedStmt, _synchron
         return _body.of( (NodeWithBlockStmt)astStmt);
     }
 
+    @Override
+    public _synchronizedStmt setBody(BlockStmt body) {
+        this.astStmt.setBody(body);
+        return this;
+    }
+
     public _synchronizedStmt setBody(_body _b){
         this.astStmt.setBody(_b.ast());
+        return this;
+    }
+
+    @Override
+    public _synchronizedStmt clearBody() {
+        this.astStmt.setBody( new BlockStmt());
+        return this;
+    }
+
+    @Override
+    public _synchronizedStmt add(int startStatementIndex, Statement... statements) {
+        Statement bd = this.astStmt.getBody();
+        if( bd instanceof BlockStmt ){
+            for(int i=0;i<statements.length; i++) {
+                bd.asBlockStmt().addStatement(i+startStatementIndex, statements[i]);
+            }
+            return this;
+        }
+        BlockStmt bs = new BlockStmt();
+        bs.addStatement(bd);
+        for(int i=0;i<statements.length; i++) {
+            bd.asBlockStmt().addStatement(1+startStatementIndex, statements[i]);
+        }
         return this;
     }
 

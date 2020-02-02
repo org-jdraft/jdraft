@@ -3,10 +3,7 @@ package org.jdraft;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ForEachStmt;
-import com.github.javaparser.ast.stmt.ForStmt;
-import com.github.javaparser.ast.stmt.IfStmt;
+import com.github.javaparser.ast.stmt.*;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -15,7 +12,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class _forStmt implements _statement._controlFlow._loop<ForStmt, _forStmt>,
-        _statement._controlFlow._conditional<ForStmt,_forStmt> {
+        _statement._controlFlow._conditional<ForStmt,_forStmt>, _body._hasBody<_forStmt> {
 
     public static _forStmt of(){
         return new _forStmt( new ForStmt( ));
@@ -119,6 +116,12 @@ public class _forStmt implements _statement._controlFlow._loop<ForStmt, _forStmt
         return _body.of( this.astStmt.getBody() );
     }
 
+    @Override
+    public _forStmt setBody(BlockStmt body) {
+        this.astStmt.setBody(body);
+        return this;
+    }
+
     public _forStmt setCompare(_expression e){
         this.astStmt.setCompare(e.ast());
         return this;
@@ -155,6 +158,23 @@ public class _forStmt implements _statement._controlFlow._loop<ForStmt, _forStmt
 
     public _forStmt clearBody(){
         this.astStmt.setBody( new BlockStmt());
+        return this;
+    }
+
+    @Override
+    public _forStmt add(int startStatementIndex, Statement... statements) {
+        Statement bd = this.astStmt.getBody();
+        if( bd instanceof BlockStmt){
+            for(int i=0;i<statements.length; i++) {
+                bd.asBlockStmt().addStatement(i+startStatementIndex, statements[i]);
+            }
+            return this;
+        }
+        BlockStmt bs = new BlockStmt();
+        bs.addStatement(bd);
+        for(int i=0;i<statements.length; i++) {
+            bd.asBlockStmt().addStatement(1+startStatementIndex, statements[i]);
+        }
         return this;
     }
 

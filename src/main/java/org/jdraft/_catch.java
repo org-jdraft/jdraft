@@ -1,7 +1,9 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.LambdaExpr;
+import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.CatchClause;
+import com.github.javaparser.ast.stmt.Statement;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +14,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class _catch implements _java._node<CatchClause, _catch> {
+public class _catch implements _java._node<CatchClause, _catch>,_body._hasBody<_catch> {
 
     public static _catch of(){
         return new _catch( new CatchClause() );
@@ -85,6 +87,40 @@ public class _catch implements _java._node<CatchClause, _catch> {
         }catch(Exception e){
             return false;
         }
+    }
+
+    @Override
+    public _body getBody() {
+        return _body.of(this.cc );
+    }
+
+    @Override
+    public _catch setBody(BlockStmt body) {
+        this.cc.setBody(body);
+        return this;
+    }
+
+    @Override
+    public _catch clearBody() {
+        this.cc.setBody(new BlockStmt());
+        return this;
+    }
+
+    @Override
+    public _catch add(int startStatementIndex, Statement... statements) {
+        Statement bd = this.cc.getBody();
+        if( bd instanceof BlockStmt){
+            for(int i=0;i<statements.length; i++) {
+                bd.asBlockStmt().addStatement(i+startStatementIndex, statements[i]);
+            }
+            return this;
+        }
+        BlockStmt bs = new BlockStmt();
+        bs.addStatement(bd);
+        for(int i=0;i<statements.length; i++) {
+            bd.asBlockStmt().addStatement(1+startStatementIndex, statements[i]);
+        }
+        return this;
     }
 
     @Override

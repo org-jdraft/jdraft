@@ -10,15 +10,10 @@ public interface _statement<S extends Statement, _S extends _statement> extends 
      */
     S ast();
 
-    //declaration
-    //    localClass
-
     //control_flow
     //   looping doStmt, forStmt, forEachStmt, whileStmt
     //   terminal result, break, continue, thisOrSuperCall, throw, yield
     //   conditional doStmt, ifStmt, forStmt, forEachStmt, try, while
-
-    //computation
 
     interface _controlFlow<S extends Statement, _S extends _statement> extends _statement<S, _S>{
         interface _loop <S extends Statement, _S extends _statement> extends _controlFlow<S, _S>{}

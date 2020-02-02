@@ -4,7 +4,7 @@ import com.github.javaparser.ast.expr.*;
 
 import java.util.*;
 
-public class _arrayInitialize implements _expression<ArrayInitializerExpr, _arrayInitialize> {
+public class _arrayInitialize implements _expression<ArrayInitializerExpr, _arrayInitialize>, _java._nodeList<Expression, _expression, _arrayInitialize> {
 
     public static _arrayInitialize of( ){
         return new _arrayInitialize(new ArrayInitializerExpr());
@@ -80,6 +80,11 @@ public class _arrayInitialize implements _expression<ArrayInitializerExpr, _arra
     }
 
     @Override
+    public List<Expression> listAstElements() {
+        return this.ile.getValues();
+    }
+
+    @Override
     public boolean is(String... stringRep) {
         try{
             return is( Ex.arrayInitializerEx(stringRep));
@@ -103,7 +108,8 @@ public class _arrayInitialize implements _expression<ArrayInitializerExpr, _arra
         return comps;
     }
 
-    public List<_expression> listValues(){
+    @Override
+    public List<_expression> list(){
         List<_expression> vs = new ArrayList<>();
         this.ile.getValues().forEach(v-> vs.add( _expression.of(v)));
         return vs;

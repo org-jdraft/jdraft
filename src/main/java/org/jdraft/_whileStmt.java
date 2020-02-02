@@ -141,13 +141,6 @@ public class _whileStmt implements _statement._controlFlow._conditional<WhileStm
         return this;
     }
 
-    /*
-    public _whileStmt setBody(_body _bd){
-        this.astStmt.setBody(_bd.ast());
-        return this;
-    }
-     */
-
     public _whileStmt clearBody(){
         this.whileStmt.setBody( new BlockStmt());
         return this;

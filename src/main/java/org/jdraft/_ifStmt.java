@@ -1,8 +1,9 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.expr.InstanceOfExpr;
 import com.github.javaparser.ast.expr.LambdaExpr;
+import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.IfStmt;
+import com.github.javaparser.ast.stmt.Statement;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +15,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 
-public class _ifStmt implements _statement._controlFlow._conditional<IfStmt, _ifStmt> {
+public class _ifStmt implements _statement._controlFlow._conditional<IfStmt, _ifStmt>, _body._hasBody<_ifStmt> {
 
     public static _ifStmt of(){
         return new _ifStmt( new IfStmt( ));
@@ -163,5 +164,39 @@ public class _ifStmt implements _statement._controlFlow._conditional<IfStmt, _if
 
     public int hashCode(){
         return 31 * this.ast().hashCode();
+    }
+
+    @Override
+    public _body getBody() {
+        return _body.of( this.astStmt );
+    }
+
+    @Override
+    public _ifStmt setBody(BlockStmt body) {
+        this.astStmt.setThenStmt(body);
+        return this;
+    }
+
+    @Override
+    public _ifStmt clearBody() {
+        this.astStmt.setThenStmt(new BlockStmt());
+        return this;
+    }
+
+    @Override
+    public _ifStmt add(int startStatementIndex, Statement... statements) {
+        Statement bd = this.astStmt.getThenStmt();
+        if( bd instanceof BlockStmt){
+            for(int i=0;i<statements.length; i++) {
+                bd.asBlockStmt().addStatement(i+startStatementIndex, statements[i]);
+            }
+            return this;
+        }
+        BlockStmt bs = new BlockStmt();
+        bs.addStatement(bd);
+        for(int i=0;i<statements.length; i++) {
+            bd.asBlockStmt().addStatement(1+startStatementIndex, statements[i]);
+        }
+        return this;
     }
 }

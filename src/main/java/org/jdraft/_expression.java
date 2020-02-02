@@ -6,11 +6,11 @@ public interface _expression<E extends Expression, _E extends _expression> exten
 
     E ast();
 
-    // computation / assign
-    //   methodCall, binaryExpression, assign, unary, ternary, enclosedExpression, switchExpr
+    // computation
+    //   methodCall, binaryExpression, unary, ternary, enclosedExpression, switchExpr
 
     // declaration
-    //  variable, localClass, arrayInitialize, lambda, new
+    //   variable, localClass, arrayInitialize, lambda, new
 
     // reference
     //   anno, arrayAccess, classExpression, fieldAccess, methodReference, nameExpression, super, typeExpression, cast
@@ -61,7 +61,6 @@ public interface _expression<E extends Expression, _E extends _expression> exten
      */
     static _expression of( Expression e){
 
-        //literals
         if( e instanceof LiteralExpr ){
             if( e instanceof IntegerLiteralExpr ){
                 return new _int( (IntegerLiteralExpr)e );
