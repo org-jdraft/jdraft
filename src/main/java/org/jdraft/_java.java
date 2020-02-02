@@ -86,15 +86,7 @@ import org.jdraft.text.Text;
 public interface _java {
 
     /**
-     * Marker interface for categorizing representations in the Java Language
-     * implementers are representations of Java source code
-     * (objects which represent some Java source code syntax structures)
-     * (We have this interface to differentiate between entities/classes that are
-     * Ast/syntax entities (i.e.JavaParser Node) and part of the _jdraft API which sits on top of
-     * the JavaParser Ast nodes
-     *
-     * these _javaDomain entities are effectively facades or "logical view"s (in database terms)
-     * into the data stored in the JavaParser Ast (Syntax) entities.
+     * Marker interface for ALL models and interfaces related to Java Language constructs
      *
      * @see _node a one-to-one mapping between an AST (Node) and a <CODE>_javaDomain</CODE> ( _method <--> MethodDeclaration )
      * @see _nodeList a one-to 0 or more NodeList instances of AST nodes ( _parameters <--> NodeList<Parameter> )
