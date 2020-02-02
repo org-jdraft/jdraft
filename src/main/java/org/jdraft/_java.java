@@ -779,13 +779,13 @@ public interface _java {
 
         AST_TYPE("astType", Type.class), //typeRef
         ARRAY_LEVEL("arrayLevel", Integer.class), //_typeRef
-        ELEMENT_TYPE("elementType", Type.class),
+        ELEMENT_TYPE("elementType", Type.class), //array _typeRef
 
         //new stuff for Statements and expressions
-        TRY_BLOCK("tryBlock", BlockStmt.class),
+        TRY_BODY("tryBody", BlockStmt.class),
         CATCH_CLAUSES( "catchClauses", List.class, CatchClause.class), //tryStmt
-        FINALLY_BLOCK( "finallyBlock", BlockStmt.class),
-        RESOURCES("resources", List.class, Expression.class),
+        FINALLY_BODY( "finallyBody", BlockStmt.class),
+        WITH_RESOURCES("withResources", List.class, Expression.class), //tryStmt
 
         STATEMENTS("statements", List.class, Statement.class), //statements of a switch entry
         SWITCH_SELECTOR("switchSelector", Expression.class),

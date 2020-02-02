@@ -1,10 +1,17 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ForEachStmt;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class _forEachStmt implements _statement<ForEachStmt, _forEachStmt> {
 
@@ -16,6 +23,49 @@ public class _forEachStmt implements _statement<ForEachStmt, _forEachStmt> {
     }
     public static _forEachStmt of(String...code){
         return new _forEachStmt(Stmt.forEachStmt( code));
+    }
+
+
+    public static <A extends Object> _forEachStmt of(Ex.Command c){
+        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from(le);
+    }
+
+    public static <A extends Object> _forEachStmt of(Consumer<A> c){
+        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from(le);
+    }
+
+    public static <A extends Object, B extends Object> _forEachStmt of(BiConsumer<A,B> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> _forEachStmt of( Ex.TriConsumer<A,B,C> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _forEachStmt of( Ex.QuadConsumer<A,B,C,D> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object> _forEachStmt of( Function<A,B> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> _forEachStmt of( BiFunction<A,B,C> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _forEachStmt of( Ex.TriFunction<A,B,C,D> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    private static _forEachStmt from( LambdaExpr le){
+        Optional<ForEachStmt> ows = le.getBody().findFirst(ForEachStmt.class);
+        if( ows.isPresent() ){
+            return of(ows.get());
+        }
+        throw new _jdraftException("No for-each statement found in lambda");
     }
 
     private ForEachStmt astStmt;

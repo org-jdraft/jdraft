@@ -2,10 +2,26 @@ package org.jdraft;
 
 import junit.framework.TestCase;
 
+import java.io.FileNotFoundException;
+
 public class _tryStmtTest extends TestCase {
 
-    public void buildFromEmpty(){
+    //
+    public void testBuildFromEmpty() throws FileNotFoundException {
         _tryStmt _ts = _tryStmt.of();
+        _ts.addWithResources("FileInputStream f = new FileInputStream(\"C:\\temp\");");
+        System.out.println( _ts);
+        _ts.addCatch("catch(IOException e){ e.printStackTrace();}");
+        System.out.println( _ts);
+        _ts.setBody(_body.of( ()->{System.out.println(1);}));
+        System.out.println( _ts);
+        _ts.setFinallyBody(_body.of( ()->{System.out.println("finally"); return 3;}));
+        /*
+        try (FileInputStream f = new FileInputStream("C:\temp")) {
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        */
         /*
         _ts.setResources(()->{
             String zipFileName = "C:\\temp\\zip.zip";
@@ -27,10 +43,10 @@ public class _tryStmtTest extends TestCase {
         //List<_expression> resources = ;
         assertTrue( _ts.listWithResources().isEmpty());
         assertFalse( _ts.hasWithResources() );
-        assertFalse( _ts.hasTryBody() );
+        assertFalse( _ts.hasBody() );
         assertFalse( _ts.hasCatch() );
         assertFalse( _ts.hasFinallyBody() );
-        assertTrue(_ts.getTryBody().isEmpty());
+        assertTrue(_ts.getBody().isEmpty());
         //assertTrue(_ts.getFinallyBody().isEmpty());
         assertNull(_ts.getFinallyBody());
         assertTrue(_ts.listCatches().isEmpty());

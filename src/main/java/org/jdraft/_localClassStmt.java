@@ -1,12 +1,16 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.stmt.ExpressionStmt;
+import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.LocalClassDeclarationStmt;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
+import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class _localClassStmt implements _statement<LocalClassDeclarationStmt, _localClassStmt> {
 
@@ -18,6 +22,48 @@ public class _localClassStmt implements _statement<LocalClassDeclarationStmt, _l
     }
     public static _localClassStmt of(String...code){
         return new _localClassStmt(Stmt.localClassStmt( code));
+    }
+
+    public static <A extends Object> _localClassStmt of(Ex.Command c){
+        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from(le);
+    }
+
+    public static <A extends Object> _localClassStmt of(Consumer<A> c){
+        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from(le);
+    }
+
+    public static <A extends Object, B extends Object> _localClassStmt of(BiConsumer<A,B> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> _localClassStmt of( Ex.TriConsumer<A,B,C> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _localClassStmt of( Ex.QuadConsumer<A,B,C,D> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object> _localClassStmt of( Function<A,B> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> _localClassStmt of( BiFunction<A,B,C> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _localClassStmt of( Ex.TriFunction<A,B,C,D> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    private static _localClassStmt from( LambdaExpr le){
+        Optional<LocalClassDeclarationStmt> ows = le.getBody().findFirst(LocalClassDeclarationStmt.class);
+        if( ows.isPresent() ){
+            return of(ows.get());
+        }
+        throw new _jdraftException("No local class Statement found in lambda");
     }
 
     private LocalClassDeclarationStmt astStmt;

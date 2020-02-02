@@ -1,11 +1,17 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.AssertStmt;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 
 public class _assertStmt implements _statement<AssertStmt, _assertStmt> {
@@ -29,6 +35,48 @@ public class _assertStmt implements _statement<AssertStmt, _assertStmt> {
 
     public static _assertStmt of(Expression check, Expression message){
         return of( new AssertStmt().setCheck(check).setMessage(message));
+    }
+
+    public static <A extends Object> _assertStmt of(Ex.Command c){
+        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from(le);
+    }
+
+    public static <A extends Object> _assertStmt of(Consumer<A> c){
+        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from(le);
+    }
+
+    public static <A extends Object, B extends Object> _assertStmt of(BiConsumer<A,B> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> _assertStmt of( Ex.TriConsumer<A,B,C> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assertStmt of( Ex.QuadConsumer<A,B,C,D> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object> _assertStmt of( Function<A,B> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> _assertStmt of( BiFunction<A,B,C> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assertStmt of( Ex.TriFunction<A,B,C,D> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    private static _assertStmt from( LambdaExpr le){
+        Optional<AssertStmt> ows = le.getBody().findFirst(AssertStmt.class);
+        if( ows.isPresent() ){
+            return of(ows.get());
+        }
+        throw new _jdraftException("No binary expression found in lambda");
     }
 
     private AssertStmt astStmt;

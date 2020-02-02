@@ -44,16 +44,6 @@ public final class _typeParameters
         this.astNodeWithTypeParams = ntp;
     }
 
-    /*
-    public int indexOf( _typeParameter tp ) {
-        return list().indexOf( tp );
-    }
-
-    public int indexOf( TypeParameter tp ) {
-        return astNodeWithTypeParams.getTypeParameters().indexOf( tp );
-    }
-     */
-
     public _typeParameters clear() {
         astNodeWithTypeParams.getTypeParameters().clear();
         return this;
@@ -69,25 +59,6 @@ public final class _typeParameters
         return list().stream().filter( tps ).collect( Collectors.toList() );
     }
 
-    /*
-    public _typeParameters remove( _typeParameter... tps ) {
-        Arrays.stream( tps ).forEach(t -> remove( t.ast() ) );
-        return this;
-    }
-
-    public _typeParameters remove( TypeParameter... tps ) {
-        Arrays.stream( tps ).forEach( t -> remove( t ) );
-        return this;
-    }
-     */
-
-    /*
-    public _typeParameters remove( Predicate<? super _typeParameter> tps ) {
-        remove( list( tps ) );
-        return this;
-    }
-    */
-
     public _typeParameters remove( List<? super _typeParameter> tps ) {
         astNodeWithTypeParams.getTypeParameters().removeAll( tps );
         return this;
@@ -96,10 +67,6 @@ public final class _typeParameters
     public NodeList<TypeParameter> ast() {
         return astNodeWithTypeParams.getTypeParameters();
     }
-
-    //public int size() {
-    //    return astNodeWithTypeParams.getTypeParameters().size();
-    //}
 
     @Override
     public _typeParameters copy() {
@@ -180,27 +147,4 @@ public final class _typeParameters
     public NodeWithTypeParameters astHolder() {
         return this.astNodeWithTypeParams;
     }
-
-    /*
-    public void forEach( Consumer<? super _typeParameter> elementAction ) {
-        list().forEach( elementAction );
-    }
-
-    public void forEach( Predicate<? super _typeParameter> matchFn,
-                         Consumer<? super _typeParameter> elementAction ) {
-
-        list( matchFn ).forEach( elementAction );
-    }
-    */
-    /*
-    public _typeParameters add( _typeParameter... elements ) {
-        Arrays.stream( elements ).forEach( t -> this.astNodeWithTypeParams.addTypeParameter( t.ast() ) );
-        return this;
-    }
-
-    public _typeParameters add( TypeParameter... nodes ) {
-        Arrays.stream( nodes ).forEach( t -> this.astNodeWithTypeParams.addTypeParameter( t ) );
-        return this;
-    }
-     */
 }

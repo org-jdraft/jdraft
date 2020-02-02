@@ -1,10 +1,17 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.CatchClause;
+import com.github.javaparser.ast.stmt.DoStmt;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class _catch implements _node<CatchClause, _catch> {
 
@@ -16,6 +23,49 @@ public class _catch implements _node<CatchClause, _catch> {
     }
     public static _catch of( String...code){
         return new _catch(Ast.catchClause( code));
+    }
+
+
+    public static <A extends Object> _catch of(Ex.Command c){
+        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from(le);
+    }
+
+    public static <A extends Object> _catch of(Consumer<A> c){
+        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from(le);
+    }
+
+    public static <A extends Object, B extends Object> _catch of(BiConsumer<A,B> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> _catch of( Ex.TriConsumer<A,B,C> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _catch of( Ex.QuadConsumer<A,B,C,D> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object> _catch of( Function<A,B> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> _catch of( BiFunction<A,B,C> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _catch of( Ex.TriFunction<A,B,C,D> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    private static _catch from( LambdaExpr le){
+        Optional<CatchClause> ows = le.getBody().findFirst(CatchClause.class);
+        if( ows.isPresent() ){
+            return of(ows.get());
+        }
+        throw new _jdraftException("No catch clause found in lambda");
     }
 
     public CatchClause cc;

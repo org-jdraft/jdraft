@@ -1,11 +1,13 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class _new implements _expression<ObjectCreationExpr, _new> {
 
@@ -19,15 +21,58 @@ public class _new implements _expression<ObjectCreationExpr, _new> {
         return new _new(Ex.objectCreationEx(code));
     }
 
-    public ObjectCreationExpr ile;
 
-    public _new(ObjectCreationExpr ile){
-        this.ile = ile;
+    public static <A extends Object> _new of(Ex.Command c){
+        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from(le);
+    }
+
+    public static <A extends Object> _new of(Consumer<A> c){
+        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from(le);
+    }
+
+    public static <A extends Object, B extends Object> _new of(BiConsumer<A,B> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> _new of( Ex.TriConsumer<A,B,C> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _new of( Ex.QuadConsumer<A,B,C,D> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object> _new of( Function<A,B> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> _new of( BiFunction<A,B,C> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _new of( Ex.TriFunction<A,B,C,D> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    private static _new from( LambdaExpr le){
+        Optional<ObjectCreationExpr> ows = le.getBody().findFirst(ObjectCreationExpr.class);
+        if( ows.isPresent() ){
+            return of(ows.get());
+        }
+        throw new _jdraftException("No new expression found in lambda");
+    }
+
+    public ObjectCreationExpr oce;
+
+    public _new(ObjectCreationExpr oce){
+        this.oce = oce;
     }
 
     @Override
     public _new copy() {
-        return new _new(this.ile.clone());
+        return new _new(this.oce.clone());
     }
 
     @Override
@@ -39,25 +84,25 @@ public class _new implements _expression<ObjectCreationExpr, _new> {
     }
 
     public ObjectCreationExpr ast(){
-        return ile;
+        return oce;
     }
 
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
 
-        if( ile.getAnonymousClassBody().isPresent()){
-            comps.put(_java.Component.ANONYMOUS_CLASS_BODY, ile.getAnonymousClassBody().get());
+        if( oce.getAnonymousClassBody().isPresent()){
+            comps.put(_java.Component.ANONYMOUS_CLASS_BODY, oce.getAnonymousClassBody().get());
         }
-        comps.put(_java.Component.ARGUMENTS, ile.getArguments());
+        comps.put(_java.Component.ARGUMENTS, oce.getArguments());
 
-        if( ile.getScope().isPresent() ) {
-            comps.put(_java.Component.SCOPE, ile.getScope().get());
+        if( oce.getScope().isPresent() ) {
+            comps.put(_java.Component.SCOPE, oce.getScope().get());
         }
-        comps.put(_java.Component.TYPE, ile.getType());
+        comps.put(_java.Component.TYPE, oce.getType());
 
-        if( ile.getTypeArguments().isPresent()) {
-            comps.put(_java.Component.TYPE_ARGUMENTS, ile.getTypeArguments().get());
+        if( oce.getTypeArguments().isPresent()) {
+            comps.put(_java.Component.TYPE_ARGUMENTS, oce.getTypeArguments().get());
         }
         return comps;
     }
@@ -69,22 +114,22 @@ public class _new implements _expression<ObjectCreationExpr, _new> {
      */
     public List<_declared> listAnonymousBodyDeclarations(){
         List<_declared> ds =  new ArrayList<>();
-        if( this.ile.getAnonymousClassBody().isPresent()){
-            ile.getAnonymousClassBody().get().forEach(b -> ds.add((_declared)_java.of(b)));
+        if( this.oce.getAnonymousClassBody().isPresent()){
+            oce.getAnonymousClassBody().get().forEach(b -> ds.add((_declared)_java.of(b)));
         }
         return ds;
     }
 
     public _expression getScope(){
-        if( ile.getScope().isPresent()){
-            return _expression.of(this.ile.getScope().get());
+        if( oce.getScope().isPresent()){
+            return _expression.of(this.oce.getScope().get());
         }
         return null;
     }
 
     public List<_expression> listArguments(){
         List<_expression> args = new ArrayList<>();
-        this.ile.getArguments().forEach(a -> args.add(_expression.of(a)));
+        this.oce.getArguments().forEach(a -> args.add(_expression.of(a)));
         return args;
     }
 
@@ -93,9 +138,9 @@ public class _new implements _expression<ObjectCreationExpr, _new> {
      * @return
      */
     public List<_typeRef> listTypeArguments(){
-        if( ile.getTypeArguments().isPresent() ){
+        if( oce.getTypeArguments().isPresent() ){
             List<_typeRef> tas = new ArrayList<>();
-            ile.getTypeArguments().get().forEach(t -> tas.add(_typeRef.of(t)));
+            oce.getTypeArguments().get().forEach(t -> tas.add(_typeRef.of(t)));
             return tas;
         }
         return new ArrayList<>();
@@ -103,16 +148,16 @@ public class _new implements _expression<ObjectCreationExpr, _new> {
 
     public boolean equals(Object other){
         if( other instanceof _new){
-            return ((_new)other).ile.equals( this.ile );
+            return ((_new)other).oce.equals( this.oce);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ile.hashCode();
+        return 31 * this.oce.hashCode();
     }
     
     public String toString(){
-        return this.ile.toString();
+        return this.oce.toString();
     }
 }

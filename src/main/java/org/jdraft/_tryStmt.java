@@ -4,13 +4,15 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.CatchClause;
-import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.TryStmt;
+import com.github.javaparser.ast.stmt.WhileStmt;
 
 import java.util.*;
-import java.util.function.Predicate;
+import java.util.function.*;
 import java.util.stream.Collectors;
 
+//TODO lambdas for
+// setBody
 public class _tryStmt implements _statement<TryStmt, _tryStmt>, _nodeList<CatchClause, _catch, _tryStmt> {
 
     public static _tryStmt of(){
@@ -21,6 +23,49 @@ public class _tryStmt implements _statement<TryStmt, _tryStmt>, _nodeList<CatchC
     }
     public static _tryStmt of(String...code){
         return new _tryStmt(Stmt.tryStmt(code));
+    }
+
+
+    public static <A extends Object> _tryStmt of(Ex.Command c){
+        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from(le);
+    }
+
+    public static <A extends Object> _tryStmt of(Consumer<A> c){
+        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from(le);
+    }
+
+    public static <A extends Object, B extends Object> _tryStmt of(BiConsumer<A,B> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> _tryStmt of( Ex.TriConsumer<A,B,C> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _tryStmt of( Ex.QuadConsumer<A,B,C,D> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object> _tryStmt of( Function<A,B> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> _tryStmt of( BiFunction<A,B,C> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _tryStmt of( Ex.TriFunction<A,B,C,D> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    private static _tryStmt from( LambdaExpr le){
+        Optional<TryStmt> ows = le.getBody().findFirst(TryStmt.class);
+        if( ows.isPresent() ){
+            return of(ows.get());
+        }
+        throw new _jdraftException("No Try statement found in lambda");
     }
 
     private TryStmt tryStmt;
@@ -61,19 +106,17 @@ public class _tryStmt implements _statement<TryStmt, _tryStmt>, _nodeList<CatchC
         return this.tryStmt.equals( astNode);
     }
 
-    public boolean hasTryBody(){
+    public boolean hasBody(){
         return !this.ast().getTryBlock().isEmpty();
     }
-    public _body getTryBody(){
+    public _body getBody(){
         return _body.of( tryStmt.getTryBlock());
     }
 
-    public _tryStmt setTryBody(_body _b){
+    public _tryStmt setBody(_body _b){
         this.tryStmt.setTryBlock(_b.ast());
         return this;
     }
-
-
 
     public boolean hasWithResources(){
         return ! this.ast().getResources().isEmpty();
@@ -85,6 +128,17 @@ public class _tryStmt implements _statement<TryStmt, _tryStmt>, _nodeList<CatchC
         this.ast().setResources(nle);
         return this;
     }
+
+    public _tryStmt addWithResources(String...exs){
+        Arrays.stream(exs).forEach( e -> this.ast().getResources().add(Ex.of(e)));
+        return this;
+    }
+
+    public _tryStmt addWithResources(Expression...exs){
+        Arrays.stream(exs).forEach( e -> this.ast().getResources().add(e));
+        return this;
+    }
+
 
     public _tryStmt addWithResources(_expression..._exs){
         Arrays.stream(_exs).forEach( _e -> this.ast().getResources().add(_e.ast()));
@@ -150,9 +204,6 @@ public class _tryStmt implements _statement<TryStmt, _tryStmt>, _nodeList<CatchC
         return null;
     }
 
-
-
-
     public _tryStmt setFinallyBody(_body _b){
         this.tryStmt.setFinallyBlock(_b.ast());
         return this;
@@ -175,11 +226,11 @@ public class _tryStmt implements _statement<TryStmt, _tryStmt>, _nodeList<CatchC
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put( _java.Component.TRY_BLOCK, tryStmt.getTryBlock());
-        comps.put( _java.Component.RESOURCES, tryStmt.getResources());
+        comps.put( _java.Component.TRY_BODY, tryStmt.getTryBlock());
+        comps.put( _java.Component.WITH_RESOURCES, tryStmt.getResources());
         comps.put(_java.Component.CATCH_CLAUSES, tryStmt.getCatchClauses());
         if( tryStmt.getFinallyBlock().isPresent() ){
-            comps.put(_java.Component.FINALLY_BLOCK, tryStmt.getFinallyBlock().get());
+            comps.put(_java.Component.FINALLY_BODY, tryStmt.getFinallyBlock().get());
         }
         return comps;
     }

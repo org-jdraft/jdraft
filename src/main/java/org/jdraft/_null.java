@@ -22,15 +22,15 @@ public class _null implements _expression<NullLiteralExpr, _null> {
         throw new _jdraftException("invalid code for null literal "+System.lineSeparator()+ Text.combine(code));
     }
 
-    public NullLiteralExpr ile;
+    public NullLiteralExpr nle;
 
-    public _null(NullLiteralExpr ile){
-        this.ile = ile;
+    public _null(NullLiteralExpr nle){
+        this.nle = nle;
     }
 
     @Override
     public _null copy() {
-        return new _null(this.ile.clone());
+        return new _null(this.nle.clone());
     }
 
     @Override
@@ -44,7 +44,7 @@ public class _null implements _expression<NullLiteralExpr, _null> {
     }
 
     public NullLiteralExpr ast(){
-        return ile;
+        return nle;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class _null implements _expression<NullLiteralExpr, _null> {
     }
 
     public String toString(){
-        return this.ile.toString();
+        return this.nle.toString();
     }
 
     public boolean equals(Object other){

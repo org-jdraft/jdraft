@@ -19,15 +19,15 @@ public class _nameExpression implements _expression<NameExpr, _nameExpression> {
         return new _nameExpression(Ex.nameEx( code));
     }
 
-    public NameExpr ile;
+    public NameExpr ne;
 
-    public _nameExpression(NameExpr ile){
-        this.ile = ile;
+    public _nameExpression(NameExpr ne){
+        this.ne = ne;
     }
 
     @Override
     public _nameExpression copy() {
-        return new _nameExpression(this.ile.clone());
+        return new _nameExpression(this.ne.clone());
     }
 
     @Override
@@ -41,22 +41,22 @@ public class _nameExpression implements _expression<NameExpr, _nameExpression> {
     }
 
     public NameExpr ast(){
-        return ile;
+        return ne;
     }
 
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put(_java.Component.NAME, this.ile.getNameAsString());
+        comps.put(_java.Component.NAME, this.ne.getNameAsString());
         return comps;
     }
 
     public String getName(){
-        return this.ile.getNameAsString();
+        return this.ne.getNameAsString();
     }
 
     public String toString(){
-        return this.ile.toString();
+        return this.ne.toString();
     }
 
 

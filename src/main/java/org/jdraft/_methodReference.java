@@ -19,15 +19,15 @@ public class _methodReference implements _expression<MethodReferenceExpr, _metho
         return new _methodReference(Ex.methodReferenceEx( code));
     }
 
-    public MethodReferenceExpr ile;
+    public MethodReferenceExpr mre;
 
-    public _methodReference(MethodReferenceExpr ile){
-        this.ile = ile;
+    public _methodReference(MethodReferenceExpr mre){
+        this.mre = mre;
     }
 
     @Override
     public _methodReference copy() {
-        return new _methodReference(this.ile.clone());
+        return new _methodReference(this.mre.clone());
     }
 
     @Override
@@ -44,27 +44,27 @@ public class _methodReference implements _expression<MethodReferenceExpr, _metho
     }
 
     public MethodReferenceExpr ast(){
-        return ile;
+        return mre;
     }
 
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
 
-        comps.put(_java.Component.SCOPE, ile.getScope());
-        if( ile.getTypeArguments().isPresent()) {
-            comps.put(_java.Component.TYPE_ARGUMENTS, ile.getTypeArguments().get());
+        comps.put(_java.Component.SCOPE, mre.getScope());
+        if( mre.getTypeArguments().isPresent()) {
+            comps.put(_java.Component.TYPE_ARGUMENTS, mre.getTypeArguments().get());
         }
-        comps.put(_java.Component.IDENTIFIER, ile.getId());
+        comps.put(_java.Component.IDENTIFIER, mre.getId());
         return comps;
     }
 
     public _expression getScope(){
-        return _expression.of(this.ile.getScope());
+        return _expression.of(this.mre.getScope());
     }
 
     public String getIdentifier(){
-        return this.ile.getId();
+        return this.mre.getId();
     }
 
     /**
@@ -72,9 +72,9 @@ public class _methodReference implements _expression<MethodReferenceExpr, _metho
      * @return
      */
     public List<_typeRef> getTypeArguments(){
-        if( ile.getTypeArguments().isPresent() ){
+        if( mre.getTypeArguments().isPresent() ){
             List<_typeRef> tas = new ArrayList<>();
-            ile.getTypeArguments().get().forEach(t -> tas.add(_typeRef.of(t)));
+            mre.getTypeArguments().get().forEach(t -> tas.add(_typeRef.of(t)));
             return tas;
         }
         return new ArrayList<>();
@@ -82,16 +82,16 @@ public class _methodReference implements _expression<MethodReferenceExpr, _metho
 
     public boolean equals(Object other){
         if( other instanceof _methodReference){
-            return ((_methodReference)other).ile.equals( this.ile );
+            return ((_methodReference)other).mre.equals( this.mre);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ile.hashCode();
+        return 31 * this.mre.hashCode();
     }
     
     public String toString(){
-        return this.ile.toString();
+        return this.mre.toString();
     }
 }

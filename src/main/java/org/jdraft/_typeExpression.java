@@ -17,15 +17,15 @@ public class _typeExpression implements _expression<TypeExpr, _typeExpression> {
         return new _typeExpression(Ex.typeEx( code));
     }
 
-    public TypeExpr ile;
+    public TypeExpr te;
 
-    public _typeExpression(TypeExpr ile){
-        this.ile = ile;
+    public _typeExpression(TypeExpr te){
+        this.te = te;
     }
 
     @Override
     public _typeExpression copy() {
-        return new _typeExpression(this.ile.clone());
+        return new _typeExpression(this.te.clone());
     }
 
     @Override
@@ -42,13 +42,13 @@ public class _typeExpression implements _expression<TypeExpr, _typeExpression> {
     }
 
     public TypeExpr ast(){
-        return ile;
+        return te;
     }
 
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put(_java.Component.TYPE, ile.getType());
+        comps.put(_java.Component.TYPE, te.getType());
         return comps;
     }
 
@@ -58,22 +58,22 @@ public class _typeExpression implements _expression<TypeExpr, _typeExpression> {
      * @return
      */
     public _typeRef getType(){
-        return _typeRef.of(this.ile.getType());
+        return _typeRef.of(this.te.getType());
     }
 
     public boolean equals(Object other){
         if( other instanceof _typeExpression){
             _typeExpression _te = ((_typeExpression)other);
-            return Ast.typesEqual( _te.ast().getType(), this.ile.getType());
+            return Ast.typesEqual( _te.ast().getType(), this.te.getType());
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ile.hashCode();
+        return 31 * this.te.hashCode();
     }
     
     public String toString(){
-        return this.ile.toString();
+        return this.te.toString();
     }
 }

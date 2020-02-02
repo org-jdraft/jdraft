@@ -17,15 +17,15 @@ public class _super implements _expression<SuperExpr, _super> {
         return new _super(Ex.superEx( code));
     }
 
-    public SuperExpr ile;
+    public SuperExpr se;
 
-    public _super(SuperExpr ile){
-        this.ile = ile;
+    public _super(SuperExpr se){
+        this.se = se;
     }
 
     @Override
     public _super copy() {
-        return new _super(this.ile.clone());
+        return new _super(this.se.clone());
     }
 
     @Override
@@ -42,37 +42,37 @@ public class _super implements _expression<SuperExpr, _super> {
     }
 
     public SuperExpr ast(){
-        return ile;
+        return se;
     }
 
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
-        if(this.ile.getTypeName().isPresent()){
-            comps.put(_java.Component.NAME, ile.getTypeName().get().asString());
+        if(this.se.getTypeName().isPresent()){
+            comps.put(_java.Component.NAME, se.getTypeName().get().asString());
         }
         return comps;
     }
 
     public String getName(){
-        if(this.ile.getTypeName().isPresent()){
-            return ile.getTypeName().get().asString();
+        if(this.se.getTypeName().isPresent()){
+            return se.getTypeName().get().asString();
         }
         return "";
     }
 
     public boolean equals(Object other){
         if( other instanceof _super){
-            return ((_super)other).ile.equals( this.ile );
+            return ((_super)other).se.equals( this.se);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ile.hashCode();
+        return 31 * this.se.hashCode();
     }
 
     public String toString(){
-        return this.ile.toString();
+        return this.se.toString();
     }
 }

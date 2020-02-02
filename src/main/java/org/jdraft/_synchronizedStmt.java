@@ -8,6 +8,8 @@ import com.github.javaparser.ast.stmt.SynchronizedStmt;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 
 
 public class _synchronizedStmt implements _statement<SynchronizedStmt, _synchronizedStmt> {
@@ -35,6 +37,12 @@ public class _synchronizedStmt implements _statement<SynchronizedStmt, _synchron
 
     @Override
     public boolean is(String... stringRep) {
+        AtomicInteger ai = new AtomicInteger();
+        Consumer<Integer> ci =  (a)->{
+            synchronized (ai){
+                System.out.println(1);
+            }
+        };
         try{
             return is( Stmt.synchronizedStmt(stringRep));
         } catch(Exception e){ }
