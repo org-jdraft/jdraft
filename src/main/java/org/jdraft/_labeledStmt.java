@@ -5,6 +5,7 @@ import com.github.javaparser.ast.stmt.LabeledStmt;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class _labeledStmt implements _statement<LabeledStmt, _labeledStmt> {
@@ -71,5 +72,20 @@ public class _labeledStmt implements _statement<LabeledStmt, _labeledStmt> {
         comps.put(_java.Component.LABEL, astStmt.getLabel().asString());
         comps.put(_java.Component.STATEMENT, astStmt.getStatement());
         return comps;
+    }
+
+    public String toString(){
+        return this.astStmt.toString();
+    }
+
+    public boolean equals(Object other){
+        if( other instanceof _labeledStmt ){
+            return Objects.equals( ((_labeledStmt)other).ast(), this.ast() );
+        }
+        return false;
+    }
+
+    public int hashCode(){
+        return 31 * this.ast().hashCode();
     }
 }

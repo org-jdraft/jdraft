@@ -4,6 +4,7 @@ import com.github.javaparser.ast.stmt.ExpressionStmt;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class _expressionStmt implements _statement<ExpressionStmt, _expressionStmt> {
@@ -59,5 +60,20 @@ public class _expressionStmt implements _statement<ExpressionStmt, _expressionSt
         Map<_java.Component, Object> comps = new HashMap<>();
         comps.put( _java.Component.EXPRESSION, astStmt.getExpression());
         return comps;
+    }
+
+    public String toString(){
+        return this.astStmt.toString();
+    }
+
+    public boolean equals(Object other){
+        if( other instanceof _expressionStmt ){
+            return Objects.equals( ((_expressionStmt)other).ast(), this.ast() );
+        }
+        return false;
+    }
+
+    public int hashCode(){
+        return 31 * this.ast().hashCode();
     }
 }

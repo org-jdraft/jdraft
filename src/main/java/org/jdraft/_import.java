@@ -276,7 +276,7 @@ public class _import implements _node<ImportDeclaration, _import> {
 
     @Override
     public int hashCode() {
-        return this.astId.hashCode();
+        return 31 * this.astId.hashCode();
     }
     
     @Override

@@ -412,4 +412,15 @@ public class _switchEntry implements _node<SwitchEntry, _switchEntry> {
     public String toString(){
         return this.switchEntry.toString();
     }
+
+    public boolean equals(Object other){
+        if( other instanceof _switchEntry ){
+            return Objects.equals( ((_switchEntry)other).ast(), this.ast() );
+        }
+        return false;
+    }
+
+    public int hashCode(){
+        return 31 * this.ast().hashCode();
+    }
 }

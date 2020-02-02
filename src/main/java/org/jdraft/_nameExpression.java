@@ -5,6 +5,7 @@ import org.jdraft.text.Text;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class _nameExpression implements _expression<NameExpr, _nameExpression> {
 
@@ -56,5 +57,17 @@ public class _nameExpression implements _expression<NameExpr, _nameExpression> {
 
     public String toString(){
         return this.ile.toString();
+    }
+
+
+    public boolean equals(Object other){
+        if( other instanceof _nameExpression ){
+            return Objects.equals( ((_nameExpression)other).ast(), this.ast() );
+        }
+        return false;
+    }
+
+    public int hashCode(){
+        return 31 * this.ast().hashCode();
     }
 }

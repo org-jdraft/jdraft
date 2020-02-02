@@ -168,9 +168,6 @@ public class _tryStmt implements _statement<TryStmt, _tryStmt>, _nodeList<CatchC
         return this;
     }
 
-
-
-
     public String toString(){
         return this.tryStmt.toString();
     }
@@ -185,5 +182,17 @@ public class _tryStmt implements _statement<TryStmt, _tryStmt>, _nodeList<CatchC
             comps.put(_java.Component.FINALLY_BLOCK, tryStmt.getFinallyBlock().get());
         }
         return comps;
+    }
+
+
+    public boolean equals(Object other){
+        if( other instanceof _tryStmt ){
+            return Objects.equals( ((_tryStmt)other).ast(), this.ast() );
+        }
+        return false;
+    }
+
+    public int hashCode(){
+        return 31 * this.ast().hashCode();
     }
 }

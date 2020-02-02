@@ -64,6 +64,10 @@ public enum _modifier implements _node<Modifier, _modifier> {
         return null;
     }
 
+    public String toString(){
+        return this.mod.toString();
+    }
+
     @Override
     public Modifier ast() {
         return this.mod;

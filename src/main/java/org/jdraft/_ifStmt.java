@@ -1,11 +1,10 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.DoStmt;
 import com.github.javaparser.ast.stmt.IfStmt;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class _ifStmt implements _statement<IfStmt, _ifStmt> {
@@ -98,5 +97,20 @@ public class _ifStmt implements _statement<IfStmt, _ifStmt> {
             comps.put(_java.Component.ELSE, astStmt.getElseStmt().get());
         }
         return comps;
+    }
+
+    public String toString(){
+        return this.astStmt.toString();
+    }
+
+    public boolean equals(Object other){
+        if( other instanceof _ifStmt ){
+            return Objects.equals( ((_ifStmt)other).ast(), this.ast() );
+        }
+        return false;
+    }
+
+    public int hashCode(){
+        return 31 * this.ast().hashCode();
     }
 }

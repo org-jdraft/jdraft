@@ -5,6 +5,7 @@ import org.jdraft.text.Text;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class _textBlock implements _expression<TextBlockLiteralExpr, _textBlock> {
 
@@ -56,5 +57,16 @@ public class _textBlock implements _expression<TextBlockLiteralExpr, _textBlock>
 
     public String toString(){
         return this.ile.toString();
+    }
+
+    public boolean equals(Object other){
+        if( other instanceof _textBlock ){
+            return Objects.equals( ((_textBlock)other).ast(), this.ast() );
+        }
+        return false;
+    }
+
+    public int hashCode(){
+        return 31 * this.ast().hashCode();
     }
 }

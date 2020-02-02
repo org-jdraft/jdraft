@@ -6,6 +6,7 @@ import com.github.javaparser.ast.stmt.ContinueStmt;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class _continueStmt implements _statement<ContinueStmt, _continueStmt> {
@@ -76,5 +77,20 @@ public class _continueStmt implements _statement<ContinueStmt, _continueStmt> {
             comps.put(_java.Component.LABEL, astStmt.getLabel().get().asString());
         }
         return comps;
+    }
+
+    public String toString(){
+        return this.astStmt.toString();
+    }
+
+    public boolean equals(Object other){
+        if( other instanceof _continueStmt ){
+            return Objects.equals( ((_continueStmt)other).ast(), this.ast() );
+        }
+        return false;
+    }
+
+    public int hashCode(){
+        return 31 * this.ast().hashCode();
     }
 }

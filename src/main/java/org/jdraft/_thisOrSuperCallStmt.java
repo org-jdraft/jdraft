@@ -130,4 +130,19 @@ public class _thisOrSuperCallStmt implements _statement<ExplicitConstructorInvoc
         }
         return comps;
     }
+
+    public String toString(){
+        return this.astStmt.toString();
+    }
+
+    public boolean equals(Object other){
+        if( other instanceof _thisOrSuperCallStmt ){
+            return Objects.equals( ((_thisOrSuperCallStmt)other).ast(), this.ast() );
+        }
+        return false;
+    }
+
+    public int hashCode(){
+        return 31 * this.ast().hashCode();
+    }
 }

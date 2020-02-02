@@ -127,4 +127,19 @@ public class _forStmt implements _statement<ForStmt, _forStmt> {
         comps.put(_java.Component.BODY, astStmt.getBody());
         return comps;
     }
+
+    public String toString(){
+        return this.astStmt.toString();
+    }
+
+    public boolean equals(Object other){
+        if( other instanceof _forStmt ){
+            return Objects.equals( ((_forStmt)other).ast(), this.ast() );
+        }
+        return false;
+    }
+
+    public int hashCode(){
+        return 31 * this.ast().hashCode();
+    }
 }

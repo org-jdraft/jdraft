@@ -493,8 +493,6 @@ public class _caseGroup{
         return se.getStatement(index);
     }
 
-
-
     public boolean equals(Object o){
         if(! (o instanceof _caseGroup)){
             return false;

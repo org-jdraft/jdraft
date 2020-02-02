@@ -5,6 +5,7 @@ import com.github.javaparser.ast.stmt.ReturnStmt;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class _returnStmt implements _statement<ReturnStmt, _returnStmt> {
@@ -121,5 +122,20 @@ public class _returnStmt implements _statement<ReturnStmt, _returnStmt> {
             comps.put(_java.Component.EXPRESSION, rs.getExpression().get());
         }
         return comps;
+    }
+
+    public String toString(){
+        return this.rs.toString();
+    }
+
+    public boolean equals(Object other){
+        if( other instanceof _returnStmt ){
+            return Objects.equals( ((_returnStmt)other).ast(), this.ast() );
+        }
+        return false;
+    }
+
+    public int hashCode(){
+        return 31 * this.ast().hashCode();
     }
 }

@@ -37,29 +37,11 @@ public class _imports implements _nodeList<ImportDeclaration, _import, _imports>
         this.astCompilationUnit = astCu;
     }
 
-    /** returns the number of imports
-    public int size(){
-        return this.astCompilationUnit.getImports().size();
-    }
-     */
-
     @Override
     public _imports copy() {
         return _imports.of(astCompilationUnit);
     }
 
-    /*
-    public boolean isEmpty(){
-        return size() == 0;
-    }
-     */
-
-    /*
-    @Override
-    public List<_import> listElements() {
-        return list();
-    }
-     */
 
     @Override
     public List<ImportDeclaration> listAstElements() {
@@ -134,14 +116,6 @@ public class _imports implements _nodeList<ImportDeclaration, _import, _imports>
         return Arrays.stream(_ts).allMatch( i-> hasImport(i) );
     }
 
-    //public _import get( int index ){
-     //   return _import.of(this.astCompilationUnit.getImport(index));
-    //}
-
-    //public ImportDeclaration getAst( int index ){
-     //   return this.astCompilationUnit.getImport(index);
-    //}
-
     public boolean hasImport(Method m){
         if( this.astCompilationUnit == null ){
             return false;
@@ -168,18 +142,6 @@ public class _imports implements _nodeList<ImportDeclaration, _import, _imports>
         return list().stream().filter(_importMatchFn).collect(Collectors.toList());
     }
 
-    /*
-    public _imports forEach( Predicate<_import> _importMatchFn, Consumer<_import> _importConsumer ){
-        list(_importMatchFn).forEach(_importConsumer);
-        return this;
-    }
-
-    public _imports forEach( Consumer<_import> _importConsumer ){
-        list().forEach(_importConsumer);
-        return this;
-    }
-
-     */
     public _imports clear(){
         this.astCompilationUnit.getImports().clear();
         return this;
@@ -194,41 +156,9 @@ public class _imports implements _nodeList<ImportDeclaration, _import, _imports>
         return this;
     }
 
-    /*
-    public _imports remove( _import...imports ){
-        Arrays.stream(imports).forEach(i -> remove(i));
-        return this;
-    }
-
-    public _imports remove( Predicate<_import> importMatchFn ){
-        List<_import> toRemove = list( importMatchFn );
-        toRemove.forEach( r -> remove(r));
-        return this;
-    }
-
-     */
-
-    /*
-    public List<_import> remove( Predicate<_import> importMatchFn ){
-        List<_import> toRemove = list( importMatchFn );
-        toRemove.forEach( r -> remove(r));
-        return toRemove;
-    }
-     */
-
     public _imports remove(_import toRemove){
         return remove( toRemove.astId );
     }
-
-    /*
-    public _imports remove(ImportDeclaration toRemove){
-        if( this.astCompilationUnit == null ){
-            return this;
-        }
-        this.astCompilationUnit.getImports().remove(toRemove);
-        return this;
-    }
-    */
 
     public _imports remove( Class clazz ){
         if( this.astCompilationUnit == null ){
@@ -266,21 +196,6 @@ public class _imports implements _nodeList<ImportDeclaration, _import, _imports>
         Arrays.stream( clazzes ).forEach( r -> remove( r) );
         return this;
     }
-
-    /**
-     *  the ImportDeclarations to removeIn
-     * @return the modified _type
-
-    public _imports remove( ImportDeclaration...toRemove ){
-        if( this.astCompilationUnit == null ){
-            return this;
-        }
-        for(int i=0;i<toRemove.length;i++){
-            this.astCompilationUnit.getImports().remove( toRemove[i] );
-        }
-        return this;
-    }
-     */
 
     @Override
     public int hashCode(){

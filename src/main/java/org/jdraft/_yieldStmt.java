@@ -97,4 +97,16 @@ public class _yieldStmt implements _statement<YieldStmt, _yieldStmt> {
         comps.put(_java.Component.EXPRESSION, yieldStmt.getExpression());
         return comps;
     }
+
+
+    public boolean equals(Object other){
+        if( other instanceof _yieldStmt ){
+            return Objects.equals( ((_yieldStmt)other).ast(), this.ast() );
+        }
+        return false;
+    }
+
+    public int hashCode(){
+        return 31 * this.ast().hashCode();
+    }
 }

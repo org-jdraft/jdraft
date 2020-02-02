@@ -4,6 +4,7 @@ import com.github.javaparser.ast.stmt.CatchClause;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class _catch implements _node<CatchClause, _catch> {
 
@@ -53,5 +54,20 @@ public class _catch implements _node<CatchClause, _catch> {
         comps.put( _java.Component.BODY, this.cc.getBody());
         comps.put( _java.Component.PARAMETER, this.cc.getParameter());
         return comps;
+    }
+
+    public String toString(){
+        return this.cc.toString();
+    }
+
+    public boolean equals(Object other){
+        if( other instanceof _catch ){
+            return Objects.equals( ((_catch)other).ast(), this.ast() );
+        }
+        return false;
+    }
+
+    public int hashCode(){
+        return 31 * this.ast().hashCode();
     }
 }

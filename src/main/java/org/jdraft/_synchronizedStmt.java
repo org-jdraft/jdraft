@@ -7,6 +7,7 @@ import com.github.javaparser.ast.stmt.SynchronizedStmt;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class _synchronizedStmt implements _statement<SynchronizedStmt, _synchronizedStmt> {
@@ -74,5 +75,20 @@ public class _synchronizedStmt implements _statement<SynchronizedStmt, _synchron
         comps.put(_java.Component.EXPRESSION, astStmt.getExpression());
         comps.put(_java.Component.BODY, astStmt.getBody());
         return comps;
+    }
+
+    public String toString(){
+        return this.astStmt.toString();
+    }
+
+    public boolean equals(Object other){
+        if( other instanceof _synchronizedStmt ){
+            return Objects.equals( ((_synchronizedStmt)other).ast(), this.ast() );
+        }
+        return false;
+    }
+
+    public int hashCode(){
+        return 31 * this.ast().hashCode();
     }
 }

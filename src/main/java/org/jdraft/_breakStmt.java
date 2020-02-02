@@ -5,6 +5,7 @@ import com.github.javaparser.ast.stmt.BreakStmt;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class _breakStmt implements _statement<BreakStmt, _breakStmt> {
@@ -71,5 +72,20 @@ public class _breakStmt implements _statement<BreakStmt, _breakStmt> {
             comps.put(_java.Component.LABEL, astStmt.getLabel().get().asString());
         }
         return comps;
+    }
+
+    public String toString(){
+        return this.astStmt.toString();
+    }
+
+    public boolean equals(Object other){
+        if( other instanceof _breakStmt ){
+            return Objects.equals( ((_breakStmt)other).ast(), this.ast() );
+        }
+        return false;
+    }
+
+    public int hashCode(){
+        return 31 * this.ast().hashCode();
     }
 }

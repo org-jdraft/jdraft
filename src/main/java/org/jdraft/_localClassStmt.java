@@ -5,6 +5,7 @@ import com.github.javaparser.ast.stmt.LocalClassDeclarationStmt;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class _localClassStmt implements _statement<LocalClassDeclarationStmt, _localClassStmt> {
@@ -63,5 +64,20 @@ public class _localClassStmt implements _statement<LocalClassDeclarationStmt, _l
 
         comps.put( _java.Component.CLASS, get_class());
         return comps;
+    }
+
+    public String toString(){
+        return this.astStmt.toString();
+    }
+
+    public boolean equals(Object other){
+        if( other instanceof _localClassStmt ){
+            return Objects.equals( ((_localClassStmt)other).ast(), this.ast() );
+        }
+        return false;
+    }
+
+    public int hashCode(){
+        return 31 * this.ast().hashCode();
     }
 }

@@ -140,7 +140,6 @@ public final class _modifiers implements _nodeList<Modifier, _modifier, _modifie
         return this;
     }
 
-
     @Override
     public int hashCode() {
         return node.getModifiers().hashCode();
@@ -160,15 +159,6 @@ public final class _modifiers implements _nodeList<Modifier, _modifier, _modifie
         final _modifiers other = (_modifiers)obj;
         return this.node.getModifiers().equals( other.node.getModifiers() );
     }
-
-    /**
-     *
-     * @return
-
-    public boolean isEmpty(){
-        return this.node.getModifiers().isEmpty();
-    }
-    */
 
     @Override
     public List<_modifier> list() {

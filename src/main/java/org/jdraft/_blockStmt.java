@@ -2,10 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.stmt.BlockStmt;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class _blockStmt implements _statement<BlockStmt, _blockStmt> {
@@ -59,5 +56,20 @@ public class _blockStmt implements _statement<BlockStmt, _blockStmt> {
         Map<_java.Component, Object> comps = new HashMap<>();
         comps.put(_java.Component.STATEMENTS, astStmt.getStatements() );
         return comps;
+    }
+
+    public String toString(){
+        return this.astStmt.toString();
+    }
+
+    public boolean equals(Object other){
+        if( other instanceof _blockStmt ){
+            return Objects.equals( ((_blockStmt)other).ast(), this.ast() );
+        }
+        return false;
+    }
+
+    public int hashCode(){
+        return 31 * this.ast().hashCode();
     }
 }

@@ -5,6 +5,7 @@ import org.jdraft.text.Text;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class _null implements _expression<NullLiteralExpr, _null> {
 
@@ -54,5 +55,16 @@ public class _null implements _expression<NullLiteralExpr, _null> {
 
     public String toString(){
         return this.ile.toString();
+    }
+
+    public boolean equals(Object other){
+        if( other instanceof _null ){
+            return Objects.equals( ((_null)other).ast(), this.ast() );
+        }
+        return false;
+    }
+
+    public int hashCode(){
+        return 31 * this.ast().hashCode();
     }
 }

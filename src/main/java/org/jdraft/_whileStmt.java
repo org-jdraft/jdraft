@@ -1,15 +1,14 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.LambdaExpr;
+import com.github.javaparser.ast.stmt.AssertStmt;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.WhileStmt;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.function.Predicate;
+import java.util.*;
+import java.util.function.*;
 
 public class _whileStmt implements _statement<WhileStmt, _whileStmt>, _body._hasBody<_whileStmt>{
 
@@ -21,6 +20,48 @@ public class _whileStmt implements _statement<WhileStmt, _whileStmt>, _body._has
     }
     public static _whileStmt of(String...code){
         return new _whileStmt(Stmt.whileStmt( code));
+    }
+
+    public static <A extends Object> _whileStmt of(Ex.Command c){
+        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from(le);
+    }
+
+    public static <A extends Object> _whileStmt of(Consumer<A> c){
+        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from(le);
+    }
+
+    public static <A extends Object, B extends Object> _whileStmt of(BiConsumer<A,B> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> _whileStmt of( Ex.TriConsumer<A,B,C> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _whileStmt of( Ex.QuadConsumer<A,B,C,D> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object> _whileStmt of( Function<A,B> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> _whileStmt of( BiFunction<A,B,C> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _whileStmt of( Ex.TriFunction<A,B,C,D> command ){
+        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    private static _whileStmt from( LambdaExpr le){
+        Optional<WhileStmt> ows = le.getBody().findFirst(WhileStmt.class);
+        if( ows.isPresent() ){
+            return of(ows.get());
+        }
+        throw new _jdraftException("No while statement found in lambda");
     }
 
     private WhileStmt whileStmt;
@@ -142,5 +183,21 @@ public class _whileStmt implements _statement<WhileStmt, _whileStmt>, _body._has
         comps.put(_java.Component.CONDITION, whileStmt.getCondition());
         comps.put(_java.Component.BODY, whileStmt.getBody());
         return comps;
+    }
+
+
+    public boolean equals(Object other){
+        if( other instanceof _whileStmt ){
+            return Objects.equals( ((_whileStmt)other).ast(), this.ast() );
+        }
+        return false;
+    }
+
+    public int hashCode(){
+        return 31 * this.ast().hashCode();
+    }
+
+    public String toString(){
+        return this.whileStmt.toString();
     }
 }

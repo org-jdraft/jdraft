@@ -4,6 +4,7 @@ import com.github.javaparser.ast.stmt.EmptyStmt;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * just ";" (i.e. "for(int i=0;;;)")
@@ -52,5 +53,20 @@ public class _emptyStmt implements _statement<EmptyStmt, _emptyStmt> {
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
         return comps;
+    }
+
+    public String toString(){
+        return this.astStmt.toString();
+    }
+
+    public boolean equals(Object other){
+        if( other instanceof _emptyStmt ){
+            return Objects.equals( ((_emptyStmt)other).ast(), this.ast() );
+        }
+        return false;
+    }
+
+    public int hashCode(){
+        return 31 * this.ast().hashCode();
     }
 }

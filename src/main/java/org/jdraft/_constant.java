@@ -427,7 +427,6 @@ public class _constant implements _javadoc._hasJavadoc<_constant>,
         return this.astConstant.toString();
     }
 
-
     @Override
     public int hashCode() {
         int hash = 7;

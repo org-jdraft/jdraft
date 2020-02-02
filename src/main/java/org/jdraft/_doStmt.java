@@ -5,6 +5,7 @@ import com.github.javaparser.ast.stmt.DoStmt;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class _doStmt implements _statement<DoStmt, _doStmt> {
@@ -81,5 +82,20 @@ public class _doStmt implements _statement<DoStmt, _doStmt> {
         comps.put(_java.Component.CONDITION, astStmt.getCondition());
         comps.put(_java.Component.BODY, astStmt.getBody());
         return comps;
+    }
+
+    public String toString(){
+        return this.astStmt.toString();
+    }
+
+    public boolean equals(Object other){
+        if( other instanceof _doStmt ){
+            return Objects.equals( ((_doStmt)other).ast(), this.ast() );
+        }
+        return false;
+    }
+
+    public int hashCode(){
+        return 31 * this.ast().hashCode();
     }
 }
