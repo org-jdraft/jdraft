@@ -5,7 +5,7 @@ import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import java.util.HashMap;
 import java.util.Map;
 
-public class _int implements _expression<IntegerLiteralExpr, _int> {
+public class _int implements _expression._literal<IntegerLiteralExpr, _int> {
 
     public static _int of(){
         return new _int(new IntegerLiteralExpr( ));

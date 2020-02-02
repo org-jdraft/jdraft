@@ -5,7 +5,7 @@ import com.github.javaparser.ast.expr.LongLiteralExpr;
 import java.util.HashMap;
 import java.util.Map;
 
-public class _long implements _expression<LongLiteralExpr, _long> {
+public class _long implements _expression._literal<LongLiteralExpr, _long> {
 
     public static _long of( ){
         return new _long( new LongLiteralExpr());

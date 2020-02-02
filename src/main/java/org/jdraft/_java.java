@@ -19,10 +19,10 @@ import com.github.javaparser.ast.stmt.CatchClause;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.SwitchEntry;
 import com.github.javaparser.ast.type.*;
+import com.github.javaparser.printer.PrettyPrinterConfiguration;
 
 import static org.jdraft.Ast.*;
 
-import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import org.jdraft._anno._hasAnnos;
 import org.jdraft._annotation._entry;
 import org.jdraft._body._hasBody;

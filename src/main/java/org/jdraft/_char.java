@@ -5,7 +5,7 @@ import com.github.javaparser.ast.expr.CharLiteralExpr;
 import java.util.HashMap;
 import java.util.Map;
 
-public class _char implements _expression<CharLiteralExpr, _char> {
+public class _char implements _expression._literal<CharLiteralExpr, _char> {
 
     public static _char of(){
         return new _char(new CharLiteralExpr());

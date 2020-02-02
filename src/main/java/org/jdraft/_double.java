@@ -5,7 +5,7 @@ import com.github.javaparser.ast.expr.DoubleLiteralExpr;
 import java.util.HashMap;
 import java.util.Map;
 
-public class _double implements _expression<DoubleLiteralExpr, _double> {
+public class _double implements _expression._literal<DoubleLiteralExpr, _double> {
 
     public static _double of(){
         return new _double( new DoubleLiteralExpr());

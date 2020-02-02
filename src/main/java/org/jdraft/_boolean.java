@@ -5,7 +5,7 @@ import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 import java.util.HashMap;
 import java.util.Map;
 
-public class _boolean implements _expression<BooleanLiteralExpr, _boolean> {
+public class _boolean implements _expression._literal<BooleanLiteralExpr, _boolean> {
 
     public static _boolean of( ){
         return new _boolean(new BooleanLiteralExpr());
