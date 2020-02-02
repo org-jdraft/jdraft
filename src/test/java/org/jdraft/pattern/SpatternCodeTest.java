@@ -192,9 +192,9 @@ public class SpatternCodeTest extends TestCase {
             "    requires bbbb;" + System.lineSeparator()+
             "    requires static cccc;" + System.lineSeparator()+
             "}"); 
-        _code _c = (_code)_java.code(classAst);
-        _code _pI = (_code)_java.code(packageInfoAst);
-        _code _mI = (_code)_java.code(modAst);
+        _compilationUnit _c = (_compilationUnit)_java.code(classAst);
+        _compilationUnit _pI = (_compilationUnit)_java.code(packageInfoAst);
+        _compilationUnit _mI = (_compilationUnit)_java.code(modAst);
         
         
         assertTrue( _c instanceof _type);
@@ -206,7 +206,7 @@ public class SpatternCodeTest extends TestCase {
         _class _cA = (_class)_c;
         
         //I can add all _code items to a list
-        List<_code> cms = new ArrayList<>();
+        List<_compilationUnit> cms = new ArrayList<>();
         cms.add(_pkgInfo);
         cms.add( _modInfo);
         cms.add(_cA);

@@ -193,8 +193,8 @@ public class _diffTest extends TestCase {
         _e1.constant(_a1);
         _e2.constant(_a2);
         
-        _node leftRoot = _e1;
-        _node rightRoot = _e2;
+        _java._node leftRoot = _e1;
+        _java._node rightRoot = _e2;
         _nodePath path = new _nodePath().in(Component.ENUM, "E");
         _enumDiff.ENUM_CONSTANT_DIFF.diff(path, dt, leftRoot, rightRoot, _a1, _a2);
         System.out.println( dt );
@@ -224,8 +224,8 @@ public class _diffTest extends TestCase {
         
         _diffList dt = new _diffList(_m1, _m2);
         
-        _node leftRoot = null;
-        _node rightRoot = null;
+        _java._node leftRoot = null;
+        _java._node rightRoot = null;
         _methodDiff.INSTANCE.diff(new _nodePath(), dt, leftRoot, rightRoot, _m1, _m2);
         
         dt = new _diffList(leftRoot, rightRoot);

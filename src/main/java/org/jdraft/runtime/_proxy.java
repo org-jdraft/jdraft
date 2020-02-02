@@ -3,7 +3,7 @@ package org.jdraft.runtime;
 import java.lang.reflect.*;
 
 import org.jdraft._class;
-import org.jdraft._code;
+import org.jdraft._compilationUnit;
 
 /**
  * Wrapper around an {@link #instance} to simplify access to:
@@ -17,7 +17,7 @@ import org.jdraft._code;
  * @param <I> the instance type
  * @param <C> the code model type
  */
-public final class _proxy<I extends Object, C extends _code>  {
+public final class _proxy<I extends Object, C extends _compilationUnit>  {
 
     public static final _proxy of( Class localClass, Object...ctorArgs ){
         return of( _class.of(localClass), ctorArgs);
@@ -81,7 +81,7 @@ public final class _proxy<I extends Object, C extends _code>  {
      * Gets the specific codeModel instance 
      * <UL>
      *     <LI>JavaParser {@link com.github.javaparser.ast.CompilationUnit},
-     *     <LI>draft {@link org.jdraft._code}
+     *     <LI>draft {@link _compilationUnit}
      * </UL>
      * @return the codemodel from the ClassLoader
      */

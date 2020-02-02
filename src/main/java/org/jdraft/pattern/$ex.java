@@ -1700,7 +1700,7 @@ public class $ex<T extends Expression>
      * @param _n
      * @return 
      */
-    public T draft(_node _n ){
+    public T draft(_java._node _n ){
         return (T)draft(_n.tokenize());
     }
 
@@ -1879,15 +1879,15 @@ public class $ex<T extends Expression>
      */
     @Override
     public Select<T> selectFirstIn( _java._domain _j){
-        if( _j instanceof _code ){
-            _code _c = (_code) _j;
+        if( _j instanceof _compilationUnit){
+            _compilationUnit _c = (_compilationUnit) _j;
             if( _c.isTopLevel() ){
                 return selectFirstIn(_c.astCompilationUnit());
             }
             _type _t = (_type) _j; //only possible
             return selectFirstIn(_t.ast());
         }
-        return selectFirstIn( ((_node) _j).ast() );
+        return selectFirstIn( ((_java._node) _j).ast() );
     }
 
     /**
@@ -1921,14 +1921,14 @@ public class $ex<T extends Expression>
      * @return  the first Expression that matches (or null if none found)
      */
     public Select<T> selectFirstIn(_java._domain _j, Predicate<Select<T>> selectConstraint){
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel()){
-                return selectFirstIn(((_code) _j).astCompilationUnit(), selectConstraint);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel()){
+                return selectFirstIn(((_compilationUnit) _j).astCompilationUnit(), selectConstraint);
             } else{
                 return selectFirstIn(((_type) _j).ast(), selectConstraint);
             }
         }
-        return selectFirstIn(((_node) _j).ast(), selectConstraint);
+        return selectFirstIn(((_java._node) _j).ast(), selectConstraint);
     }
 
     /**
@@ -1950,13 +1950,13 @@ public class $ex<T extends Expression>
 
     @Override
     public List<T> listIn(_java._domain _j){
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel()){
-                return listIn(((_code) _j).astCompilationUnit());
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel()){
+                return listIn(((_compilationUnit) _j).astCompilationUnit());
             }
                 return listIn(((_type) _j).ast());
         }
-        return listIn( ((_node) _j).ast() );
+        return listIn( ((_java._node) _j).ast() );
     }    
 
     @Override

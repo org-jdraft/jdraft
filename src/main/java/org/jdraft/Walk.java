@@ -138,9 +138,9 @@ public enum Walk {
      */
     public static <_J extends _java._domain> List<Node> list(_J _j, Predicate<Node> nodeMatchFn ) {
         List<Node> found = new ArrayList<>();
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(PRE_ORDER, ((_code) _j).astCompilationUnit(), Node.class, nodeMatchFn, f -> found.add(f));
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                of(PRE_ORDER, ((_compilationUnit) _j).astCompilationUnit(), Node.class, nodeMatchFn, f -> found.add(f));
             }
             else{
                 of(PRE_ORDER, ((_type) _j).ast(), Node.class, nodeMatchFn, f -> found.add(f));
@@ -152,7 +152,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), Node.class, nodeMatchFn, f -> found.add( f) );
             return found;
         }
-        of(PRE_ORDER, ((_node) _j).ast(), Node.class, nodeMatchFn, f -> found.add(f) );
+        of(PRE_ORDER, ((_java._node) _j).ast(), Node.class, nodeMatchFn, f -> found.add(f) );
         return found;
     }
 
@@ -176,9 +176,9 @@ public enum Walk {
      */
     public static <T, _J extends _java._domain> List<T> list(_J _j, Class<T> targetClass ) {
         List<T> found = new ArrayList<>();
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(PRE_ORDER, ((_code) _j).astCompilationUnit(), targetClass, t->true, f -> found.add(f));
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                of(PRE_ORDER, ((_compilationUnit) _j).astCompilationUnit(), targetClass, t->true, f -> found.add(f));
             }
             else{
                 of(PRE_ORDER, ((_type) _j).ast(), targetClass, t->true, f -> found.add(f));
@@ -190,7 +190,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), targetClass, t->true, f -> found.add( (T)f) );
             return found;
         }
-        of(PRE_ORDER, ((_node) _j).ast(), targetClass, t->true, f -> found.add(f) );
+        of(PRE_ORDER, ((_java._node) _j).ast(), targetClass, t->true, f -> found.add(f) );
         return (List<T>)found;
     }
 
@@ -240,9 +240,9 @@ public enum Walk {
             _J _j, Class<T> targetClass, Predicate<T> matchFn ) {
 
         List<T> found = new ArrayList<>();
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(PRE_ORDER, ((_code) _j).astCompilationUnit(), targetClass, matchFn, f -> found.add( (T)f));
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                of(PRE_ORDER, ((_compilationUnit) _j).astCompilationUnit(), targetClass, matchFn, f -> found.add( (T)f));
             }
             else{
                 of(PRE_ORDER, ((_type) _j).ast(), targetClass, matchFn, f -> found.add( (T)f));
@@ -254,7 +254,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), targetClass, matchFn, f -> found.add( (T)f) );
             return found;
         }
-        of(PRE_ORDER, ((_node) _j).ast(), targetClass, matchFn, f -> found.add(f) );
+        of(PRE_ORDER, ((_java._node) _j).ast(), targetClass, matchFn, f -> found.add(f) );
         return (List<T>)found;
     }
 
@@ -346,7 +346,7 @@ public enum Walk {
      * @param <_C>
      * @return
      */
-    public static <T, _C extends _code> List<T> list(
+    public static <T, _C extends _compilationUnit> List<T> list(
             Collection<_C> _sourceCode, Class<T> targetClass ) {
         return list(_sourceCode, targetClass, t->true);
     }
@@ -360,7 +360,7 @@ public enum Walk {
      * @param <T>
      * @return
      */
-    public static <T, _C extends _code> List<T> list(
+    public static <T, _C extends _compilationUnit> List<T> list(
             Collection<_C> _sourceCode, Class<T> targetClass, Predicate<T> matchFn ) {
         return list(PRE_ORDER, _sourceCode, targetClass, matchFn);
     }
@@ -375,7 +375,7 @@ public enum Walk {
      * @param <T>
      * @return a list of all matching T within all the source code
      */
-    public static <T, _C extends _code> List<T> list(
+    public static <T, _C extends _compilationUnit> List<T> list(
             Node.TreeTraversal tt, Collection<_C> _sourceCode, Class<T> targetClass, Predicate<T> matchFn ) {
         List<T> found = new ArrayList<>();
         _sourceCode.stream().forEach( _sc -> of( tt, _sc.astCompilationUnit(), targetClass, matchFn, f-> found.add(f)));
@@ -447,9 +447,9 @@ public enum Walk {
      */
     public static <T, _J extends _java._domain> _J in(
             _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(PRE_ORDER, ((_code) _j).astCompilationUnit(), targetClass, matchFn, action);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                of(PRE_ORDER, ((_compilationUnit) _j).astCompilationUnit(), targetClass, matchFn, action);
                 return _j;
             }
             else{
@@ -462,7 +462,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(PRE_ORDER, ((_node) _j).ast(), targetClass, matchFn, action );
+        of(PRE_ORDER, ((_java._node) _j).ast(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -474,7 +474,7 @@ public enum Walk {
      * @param <T>
      * @param <_C>
      */
-    public static <T, _C extends _code> void in( Collection<_C> _sourceCode, Class<T> targetClass, Consumer<T> action ) {
+    public static <T, _C extends _compilationUnit> void in(Collection<_C> _sourceCode, Class<T> targetClass, Consumer<T> action ) {
         _sourceCode.forEach( _c-> in( _c, targetClass, action));
     }
 
@@ -528,9 +528,9 @@ public enum Walk {
      * @return
      */
     public static <T, _J extends _java._domain> _J in(Node.TreeTraversal tt, _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(tt, ((_code) _j).astCompilationUnit(), targetClass, matchFn, action);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                of(tt, ((_compilationUnit) _j).astCompilationUnit(), targetClass, matchFn, action);
                 return _j;
             }
             else{
@@ -543,7 +543,7 @@ public enum Walk {
             of( tt, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(tt, ((_node) _j).ast(), targetClass, matchFn, action );
+        of(tt, ((_java._node) _j).ast(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -563,9 +563,9 @@ public enum Walk {
      * @return
      */
     public static <_J extends _java._domain> _J in(_J _j, Consumer<Node> action ) {
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(PRE_ORDER, ((_code) _j).astCompilationUnit(), Node.class, t->true, action);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                of(PRE_ORDER, ((_compilationUnit) _j).astCompilationUnit(), Node.class, t->true, action);
                 return _j;
             }
             else{
@@ -578,7 +578,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), Node.class, t->true, action );
             return _j;
         }
-        of(PRE_ORDER, ((_node) _j).ast(), Node.class, t->true, action );
+        of(PRE_ORDER, ((_java._node) _j).ast(), Node.class, t->true, action );
         return _j;
     }
 
@@ -599,9 +599,9 @@ public enum Walk {
      * @return the (modified)
      */
     public static <_J extends _java._domain> _J in(_J _j, Predicate<Node> nodeMatchFn, Consumer<Node> action ) {
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(PRE_ORDER, ((_code) _j).astCompilationUnit(), Node.class, nodeMatchFn, action);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                of(PRE_ORDER, ((_compilationUnit) _j).astCompilationUnit(), Node.class, nodeMatchFn, action);
                 return _j;
             }
             else{
@@ -614,7 +614,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), Node.class, nodeMatchFn, action );
             return _j;
         }
-        of(PRE_ORDER, ((_node) _j).ast(), Node.class, nodeMatchFn, action );
+        of(PRE_ORDER, ((_java._node) _j).ast(), Node.class, nodeMatchFn, action );
         return _j;
     }
 
@@ -686,7 +686,7 @@ public enum Walk {
      * @param <_C> the _code type
      * @return the modified root AST node
      */
-    public static <_C extends _code, N extends Node> void in(
+    public static <_C extends _compilationUnit, N extends Node> void in(
             Node.TreeTraversal traversal, Collection<_C> _sourceCode, Class<N> targetNodeClass, Predicate<N> nodeMatchFn, Consumer<N> nodeActionFn){
         _sourceCode.forEach(_c-> in(traversal, _c.astCompilationUnit(), targetNodeClass, nodeMatchFn, nodeActionFn));
     }
@@ -707,7 +707,7 @@ public enum Walk {
      * @param <_C> the _code type
      * @return the modified root AST node
      */
-    public static <_C extends _code, N extends Node> void in(
+    public static <_C extends _compilationUnit, N extends Node> void in(
             Collection<_C> _sourceCode, Class<N> targetNodeClass, Predicate<N> nodeMatchFn, Consumer<N> nodeActionFn){
         in( PRE_ORDER, _sourceCode, targetNodeClass,nodeMatchFn,nodeActionFn);
     }
@@ -761,9 +761,9 @@ public enum Walk {
      */
     public static <T, _J extends _java._domain> _J parents(
             _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(PARENTS, ((_code) _j).astCompilationUnit(), targetClass, matchFn, action);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                of(PARENTS, ((_compilationUnit) _j).astCompilationUnit(), targetClass, matchFn, action);
                 return _j;
             }
             else{
@@ -776,7 +776,7 @@ public enum Walk {
             of( PARENTS, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(PARENTS, ((_node) _j).ast(), targetClass, matchFn, action );
+        of(PARENTS, ((_java._node) _j).ast(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -803,9 +803,9 @@ public enum Walk {
     public static <T, _J extends _java._domain> _J parents(
             _J _j, Class<T> targetClass, Consumer<T> action ) {
 
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(PARENTS, ((_code) _j).astCompilationUnit(), targetClass, t->true, action);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                of(PARENTS, ((_compilationUnit) _j).astCompilationUnit(), targetClass, t->true, action);
                 return _j;
             }
             else{
@@ -818,7 +818,7 @@ public enum Walk {
             of( PARENTS, _b.ast(), targetClass, t->true, action );
             return _j;
         }
-        of(PARENTS, ((_node) _j).ast(), targetClass, t->true, action );
+        of(PARENTS, ((_java._node) _j).ast(), targetClass, t->true, action );
         return _j;
     }
 
@@ -841,9 +841,9 @@ public enum Walk {
      * @return
      */
     public static <_J extends _java._domain> _J parents(_J _j, Consumer<Node> action ) {
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(PARENTS, ((_code) _j).astCompilationUnit(), Node.class, t->true, action);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                of(PARENTS, ((_compilationUnit) _j).astCompilationUnit(), Node.class, t->true, action);
                 return _j;
             }
             else{
@@ -856,7 +856,7 @@ public enum Walk {
             of( PARENTS, _b.ast(), Node.class, t->true, action );
             return _j;
         }
-        of(PARENTS, ((_node) _j).ast(), Node.class, t->true, action );
+        of(PARENTS, ((_java._node) _j).ast(), Node.class, t->true, action );
         return _j;
     }
 
@@ -907,9 +907,9 @@ public enum Walk {
     public static <T, _J extends _java._domain> _J directChildren(
             _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
 
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(DIRECT_CHILDREN, ((_code) _j).astCompilationUnit(), targetClass, matchFn, action);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                of(DIRECT_CHILDREN, ((_compilationUnit) _j).astCompilationUnit(), targetClass, matchFn, action);
                 return _j;
             }
             else{
@@ -921,7 +921,7 @@ public enum Walk {
             of( DIRECT_CHILDREN, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(DIRECT_CHILDREN, ((_node) _j).ast(), targetClass, matchFn, action );
+        of(DIRECT_CHILDREN, ((_java._node) _j).ast(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -947,9 +947,9 @@ public enum Walk {
     public static <T, _J extends _java._domain> _J directChildren(
             _J _j, Class<T> targetClass, Consumer<T> action ) {
 
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(DIRECT_CHILDREN, ((_code) _j).astCompilationUnit(), targetClass, t->true, action);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                of(DIRECT_CHILDREN, ((_compilationUnit) _j).astCompilationUnit(), targetClass, t->true, action);
                 return _j;
             }
             else{
@@ -962,7 +962,7 @@ public enum Walk {
             of( DIRECT_CHILDREN, _b.ast(), targetClass, t->true, action );
             return _j;
         }
-        of(DIRECT_CHILDREN, ((_node) _j).ast(), targetClass, t->true, action );
+        of(DIRECT_CHILDREN, ((_java._node) _j).ast(), targetClass, t->true, action );
         return _j;
     }
 
@@ -984,9 +984,9 @@ public enum Walk {
      * @return
      */
     public static <_J extends _java._domain> _J directChildren(_J _j, Consumer<Node> action ) {
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(DIRECT_CHILDREN, ((_code) _j).astCompilationUnit(), Node.class, t->true, action);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                of(DIRECT_CHILDREN, ((_compilationUnit) _j).astCompilationUnit(), Node.class, t->true, action);
                 return _j;
             }
             else{
@@ -999,7 +999,7 @@ public enum Walk {
             of( DIRECT_CHILDREN, _b.ast(), Node.class, t->true, action );
             return _j;
         }
-        of(DIRECT_CHILDREN, ((_node) _j).ast(), Node.class, t->true, action );
+        of(DIRECT_CHILDREN, ((_java._node) _j).ast(), Node.class, t->true, action );
         return _j;
     }
 
@@ -1047,9 +1047,9 @@ public enum Walk {
     public static <T, _J extends _java._domain> _J breadthFirst(
             _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
 
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(BREADTH_FIRST, ((_code) _j).astCompilationUnit(), targetClass, matchFn, action);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                of(BREADTH_FIRST, ((_compilationUnit) _j).astCompilationUnit(), targetClass, matchFn, action);
                 return _j;
             }
             else{
@@ -1062,7 +1062,7 @@ public enum Walk {
             of( BREADTH_FIRST, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(BREADTH_FIRST, ((_node) _j).ast(), targetClass, matchFn, action );
+        of(BREADTH_FIRST, ((_java._node) _j).ast(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -1085,9 +1085,9 @@ public enum Walk {
     public static <T, _J extends _java._domain> _J breadthFirst(
             _J _j, Class<T> targetClass, Consumer<T> action ) {
 
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(BREADTH_FIRST, ((_code) _j).astCompilationUnit(), targetClass, t->true, action);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                of(BREADTH_FIRST, ((_compilationUnit) _j).astCompilationUnit(), targetClass, t->true, action);
                 return _j;
             }
             else{
@@ -1100,7 +1100,7 @@ public enum Walk {
             of( BREADTH_FIRST, _b.ast(), targetClass, t->true, action );
             return _j;
         }
-        of(BREADTH_FIRST, ((_node) _j).ast(), targetClass, t->true, action );
+        of(BREADTH_FIRST, ((_java._node) _j).ast(), targetClass, t->true, action );
         return _j;
     }
 
@@ -1120,9 +1120,9 @@ public enum Walk {
      */
     public static <_J extends _java._domain> _J breadthFirst(_J _j, Consumer<Node> action ) {
         
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(BREADTH_FIRST, ((_code) _j).astCompilationUnit(), Node.class, t->true, action);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                of(BREADTH_FIRST, ((_compilationUnit) _j).astCompilationUnit(), Node.class, t->true, action);
                 return _j;
             }
             else{
@@ -1135,7 +1135,7 @@ public enum Walk {
             of( BREADTH_FIRST, _b.ast(), Node.class, t->true, action );
             return _j;
         }
-        of(BREADTH_FIRST, ((_node) _j).ast(), Node.class, t->true, action );
+        of(BREADTH_FIRST, ((_java._node) _j).ast(), Node.class, t->true, action );
         return _j;
     }
 
@@ -1183,9 +1183,9 @@ public enum Walk {
     public static <T, _J extends _java._domain> _J postOrder(
             _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
 
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(POST_ORDER, ((_code) _j).astCompilationUnit(), targetClass, matchFn, action);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                of(POST_ORDER, ((_compilationUnit) _j).astCompilationUnit(), targetClass, matchFn, action);
                 return _j;
             }
             else{
@@ -1198,7 +1198,7 @@ public enum Walk {
             of( POST_ORDER, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(POST_ORDER, ((_node) _j).ast(), targetClass, matchFn, action );
+        of(POST_ORDER, ((_java._node) _j).ast(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -1221,9 +1221,9 @@ public enum Walk {
     public static <T, _J extends _java._domain> _J postOrder(
             _J _j, Class<T> targetClass, Consumer<T> action ) {
 
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(POST_ORDER, ((_code) _j).astCompilationUnit(), targetClass, t->true, action);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                of(POST_ORDER, ((_compilationUnit) _j).astCompilationUnit(), targetClass, t->true, action);
                 return _j;
             }
             else{
@@ -1236,7 +1236,7 @@ public enum Walk {
             of( POST_ORDER, _b.ast(), targetClass, t->true, action );
             return _j;
         }
-        of(POST_ORDER, ((_node) _j).ast(), targetClass, t->true, action );
+        of(POST_ORDER, ((_java._node) _j).ast(), targetClass, t->true, action );
         return _j;
     }
 
@@ -1255,9 +1255,9 @@ public enum Walk {
      * @return
      */
     public static <_J extends _java._domain> _J postOrder(_J _j, Consumer<Node> action ) {
-                if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(POST_ORDER, ((_code) _j).astCompilationUnit(), Node.class, t->true, action);
+                if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                of(POST_ORDER, ((_compilationUnit) _j).astCompilationUnit(), Node.class, t->true, action);
                 return _j;
             }
             else{
@@ -1270,7 +1270,7 @@ public enum Walk {
             of( POST_ORDER, _b.ast(), Node.class, t->true, action );
             return _j;
         }
-        of(POST_ORDER, ((_node) _j).ast(), Node.class, t->true, action );
+        of(POST_ORDER, ((_java._node) _j).ast(), Node.class, t->true, action );
         return _j;
     }
 
@@ -1318,9 +1318,9 @@ public enum Walk {
     public static <T, _J extends _java._domain> _J preOrder(
             _J _j, Class<T> targetClass, Predicate<T> matchFn, Consumer<T> action ) {
 
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(PRE_ORDER, ((_code) _j).astCompilationUnit(), targetClass, matchFn, action);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                of(PRE_ORDER, ((_compilationUnit) _j).astCompilationUnit(), targetClass, matchFn, action);
                 return _j;
             }
             else{
@@ -1333,7 +1333,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(PRE_ORDER, ((_node) _j).ast(), targetClass, matchFn, action );
+        of(PRE_ORDER, ((_java._node) _j).ast(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -1356,9 +1356,9 @@ public enum Walk {
     public static <T, _J extends _java._domain> _J preOrder(
             _J _j, Class<T> targetClass, Consumer<T> action ) {
 
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(PRE_ORDER, ((_code) _j).astCompilationUnit(), targetClass, t->true, action);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                of(PRE_ORDER, ((_compilationUnit) _j).astCompilationUnit(), targetClass, t->true, action);
                 return _j;
             }
             else{
@@ -1371,7 +1371,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), targetClass, t->true, action );
             return _j;
         }
-        of(PRE_ORDER, ((_node) _j).ast(), targetClass, t->true, action );
+        of(PRE_ORDER, ((_java._node) _j).ast(), targetClass, t->true, action );
         return _j;
     }
 
@@ -1390,9 +1390,9 @@ public enum Walk {
      * @return
      */
     public static <_J extends _java._domain> _J preOrder(_J _j, Consumer<Node> action ) {
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                of(PRE_ORDER, ((_code) _j).astCompilationUnit(), Node.class, t->true, action);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                of(PRE_ORDER, ((_compilationUnit) _j).astCompilationUnit(), Node.class, t->true, action);
                 return _j;
             }
             else{
@@ -1405,7 +1405,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), Node.class, t->true, action );
             return _j;
         }
-        of(PRE_ORDER, ((_node) _j).ast(), Node.class, t->true, action );
+        of(PRE_ORDER, ((_java._node) _j).ast(), Node.class, t->true, action );
         return _j;
     }
 
@@ -1527,7 +1527,7 @@ public enum Walk {
     public static <_J extends _java._domain, N extends Node> N in_java(
             Node.TreeTraversal tt, int levels, N astRootNode, Class<_J> _javaClass, Predicate<_J> _javaMatchFn, Consumer<_J> _javaAction ) {
 
-        if( _javaClass == _code.class ){
+        if( _javaClass == _compilationUnit.class ){
             in(tt,
                 levels,
                 astRootNode,
@@ -1535,7 +1535,7 @@ public enum Walk {
                     n ->(n instanceof CompilationUnit || n instanceof TypeDeclaration),
                     a -> {
                         if( a instanceof CompilationUnit ){
-                            _code _c = _java.code( (CompilationUnit)a );
+                            _compilationUnit _c = _java.code( (CompilationUnit)a );
                             if( _javaMatchFn.test((_J)_c) ){
                                 _javaAction.accept( (_J)_c );
                             }
@@ -1544,7 +1544,7 @@ public enum Walk {
                              * NOTE: WE SKIP TOP LEVEL TYPES B/C THEIR COMPILATIONUNITS 
                              * WILL ALREADY HAVE BEEN BE CALLED IN THE WALK
                              */
-                            _code _c = _java.type( (TypeDeclaration)a);
+                            _compilationUnit _c = _java.type( (TypeDeclaration)a);
                             if( _javaMatchFn.test((_J)_c) ){
                                 _javaAction.accept( (_J)_c );
                             }
@@ -1558,7 +1558,7 @@ public enum Walk {
                     Node.class,
                     n ->n instanceof CompilationUnit,
                     a -> {
-                        _code _c = _java.code( (CompilationUnit)a );
+                        _compilationUnit _c = _java.code( (CompilationUnit)a );
                             if( _c instanceof _packageInfo && _javaMatchFn.test((_J)_c) ){
                                 _javaAction.accept( (_J)_c );
                             }                                                
@@ -1571,7 +1571,7 @@ public enum Walk {
                     Node.class,
                     n ->n instanceof CompilationUnit,
                     a -> {
-                        _code _c = _java.code( (CompilationUnit)a );
+                        _compilationUnit _c = _java.code( (CompilationUnit)a );
                             if( _c instanceof _moduleInfo && _javaMatchFn.test((_J)_c) ){
                                 _javaAction.accept( (_J)_c );
                             }                                                
@@ -1625,30 +1625,30 @@ public enum Walk {
                     } );
             return astRootNode;
         }
-        else if( _javaClass == _declared.class ) {
+        else if( _javaClass == _java._declared.class ) {
             in(tt, levels,
                     astRootNode,
                     BodyDeclaration.class,
                     t-> !t.isInitializerDeclaration(), //static Blocks are not members
                     n-> {
-                        _declared _n = (_declared)_java.of(n);
+                        _java._declared _n = (_java._declared)_java.of(n);
 
-                        if( ((Predicate<_declared>)_javaMatchFn).test( _n) ){
-                            ((Consumer<_declared>)_javaAction).accept( _n);
+                        if( ((Predicate<_java._declared>)_javaMatchFn).test( _n) ){
+                            ((Consumer<_java._declared>)_javaAction).accept( _n);
                         }
                     });
             return astRootNode;
         }
-        else if( _javaClass == _node.class ) {
+        else if( _javaClass == _java._node.class ) {
             in(tt, levels,
                     astRootNode,
                     BodyDeclaration.class,
                     t-> true,
                     n-> {
-                        _node _n = (_node)_java.of(n);
+                        _java._node _n = (_java._node)_java.of(n);
 
-                        if( ((Predicate<_node>)_javaMatchFn).test( _n) ){
-                            ((Consumer<_node>)_javaAction).accept( _n);
+                        if( ((Predicate<_java._node>)_javaMatchFn).test( _n) ){
+                            ((Consumer<_java._node>)_javaAction).accept( _n);
                         }
                     });
             return astRootNode;
@@ -2134,18 +2134,18 @@ public enum Walk {
             Node.TreeTraversal tt, _java._domain _j, Class<T> nodeTargetClass, Predicate<T> nodeMatchFn) {
         //System.out.println( "FIRST IN " + _j.getClass() );
         //first order of business, determine the ast start node
-        if(_j instanceof _code ){
-            if( ((_code) _j).isTopLevel()){
+        if(_j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel()){
                 //System.out.println( " IS TOP LEVEL "+ ((_code) _j).astCompilationUnit() );
                 //System.out.println( " IS TOP LEVEL "+ nodeTargetClass );
-                return Walk.first( tt, ((_code) _j).astCompilationUnit(), nodeTargetClass, nodeMatchFn);
+                return Walk.first( tt, ((_compilationUnit) _j).astCompilationUnit(), nodeTargetClass, nodeMatchFn);
             }
             return Walk.first( tt, ((_type) _j).ast(), nodeTargetClass, nodeMatchFn);
         }
         if(_j instanceof _body ){
             return Walk.first( tt, ((_body)_j).ast(), nodeTargetClass, nodeMatchFn);
         }
-        return Walk.first( tt, ((_node)_j).ast(), nodeTargetClass, nodeMatchFn);
+        return Walk.first( tt, ((_java._node)_j).ast(), nodeTargetClass, nodeMatchFn);
     }
 
     public static <T> T first(Node.TreeTraversal tt, _java._domain _j, Class<T> nodeTargetClass ) {
@@ -2164,7 +2164,7 @@ public enum Walk {
      * @param <T>
      * @return
      */
-    public static <T, _C extends _code> T first( Collection<_C> jj, Class<T> nodeTargetClass, Predicate<T>nodeMatchFn ){
+    public static <T, _C extends _compilationUnit> T first(Collection<_C> jj, Class<T> nodeTargetClass, Predicate<T>nodeMatchFn ){
         return first( Walk.PRE_ORDER, jj, nodeTargetClass, nodeMatchFn );
     }
 
@@ -2177,7 +2177,7 @@ public enum Walk {
      * @param <T>
      * @return
      */
-    public static <T, _C extends _code> T first( Node.TreeTraversal tt, Collection<_C> jj, Class<T> nodeTargetClass, Predicate<T>nodeMatchFn ){
+    public static <T, _C extends _compilationUnit> T first(Node.TreeTraversal tt, Collection<_C> jj, Class<T> nodeTargetClass, Predicate<T>nodeMatchFn ){
         List<T> found = new ArrayList<T>();
         jj.stream().filter( j -> {
             T t = first(tt, j, nodeTargetClass, nodeMatchFn);

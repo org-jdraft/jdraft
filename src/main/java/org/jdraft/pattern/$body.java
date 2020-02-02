@@ -726,15 +726,15 @@ public class $body implements Template<_body>, $pattern<_body, $body>, $pattern.
      * @return 
      */
     public Select selectFirstIn(_java._domain _j, Predicate<Select> selectConstraint) {
-        if( _j instanceof _code ){
-            _code _c = (_code)_j;
+        if( _j instanceof _compilationUnit){
+            _compilationUnit _c = (_compilationUnit)_j;
             if( _c.isTopLevel() ){
                 return selectFirstIn(_c.astCompilationUnit(), selectConstraint);
             }
             _type _t = (_type)_j; //only possible
             return selectFirstIn(_t.ast(), selectConstraint);
         }
-        return selectFirstIn( ((_node)_j).ast(), selectConstraint);
+        return selectFirstIn( ((_java._node)_j).ast(), selectConstraint);
     }
     
     /**
@@ -862,8 +862,8 @@ public class $body implements Template<_body>, $pattern<_body, $body>, $pattern.
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Predicate<Select>selectConstraint, Consumer<Select> selectActionFn) {
-        if( _j instanceof _code ){
-            _code _c = (_code) _j;
+        if( _j instanceof _compilationUnit){
+            _compilationUnit _c = (_compilationUnit) _j;
             if( _c.isTopLevel() ){
                 forSelectedIn(_c.astCompilationUnit(), selectActionFn);
                 return _j;
@@ -872,7 +872,7 @@ public class $body implements Template<_body>, $pattern<_body, $body>, $pattern.
             forSelectedIn(_t.ast(), selectActionFn);
             return _j;
         }
-        forSelectedIn((_node) _j, selectActionFn);
+        forSelectedIn((_java._node) _j, selectActionFn);
         return _j;
     }
     

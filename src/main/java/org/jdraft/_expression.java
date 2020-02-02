@@ -2,7 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.*;
 
-public interface _expression<E extends Expression, _E extends _expression> extends _node<E, _E>{
+public interface _expression<E extends Expression, _E extends _expression> extends _java._node<E, _E> {
 
     E ast();
 
@@ -108,7 +108,6 @@ public interface _expression<E extends Expression, _E extends _expression> exten
         if( e instanceof StringLiteralExpr){
             return new _string( (StringLiteralExpr)e );
         }
-
         throw new _jdraftException("Unsupported "+ e.getClass()+" of "+ e);
     }
 }

@@ -36,7 +36,7 @@ public class _typeTree {
      * @param _codeProviders where the code comes from
      * @return the _typeTree
      */
-    public static _typeTree of(_code._provider..._codeProviders){
+    public static _typeTree of(_compilationUnit._provider..._codeProviders){
         List<_type>codeList = new ArrayList<>();
         Arrays.stream(_codeProviders).forEach(_cp -> codeList.addAll(_cp.list_types()));
         System.out.println( codeList.size() );

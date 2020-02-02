@@ -345,7 +345,7 @@ public class $comment <C extends Comment>
         return findAndReplace( (_T)_java.type(clazz), targetToReplacement);
     }
 
-    public <_CP extends _code._provider> _CP findAndReplace(_CP _cp, String target, String replacement){
+    public <_CP extends _compilationUnit._provider> _CP findAndReplace(_CP _cp, String target, String replacement){
         Map<String,String> targetToReplacement = new HashMap<>();
         targetToReplacement.put(target, replacement);
         _cp.for_code( _c -> findAndReplace(_c, targetToReplacement));
@@ -356,21 +356,21 @@ public class $comment <C extends Comment>
         return findAndReplace( (_T)_java.type(clazz), targetToReplacement);
     }
 
-    public <_CP extends _code._provider> _CP findAndReplace(_CP _cp, Map<String, String> targetToReplacement){
+    public <_CP extends _compilationUnit._provider> _CP findAndReplace(_CP _cp, Map<String, String> targetToReplacement){
         _cp.for_code( _c -> findAndReplace(_c, targetToReplacement));
         return _cp;
     }
 
     public <_J extends _java._domain> _J findAndReplace(_J _c, Map<String, String> targetToReplacement){
-        if( _c instanceof _node ){
-            if( _c instanceof _code) {
-                if (((_code) _c).isTopLevel()) {
-                    findAndReplace(((_code) _c).astCompilationUnit(), targetToReplacement);
+        if( _c instanceof _java._node){
+            if( _c instanceof _compilationUnit) {
+                if (((_compilationUnit) _c).isTopLevel()) {
+                    findAndReplace(((_compilationUnit) _c).astCompilationUnit(), targetToReplacement);
                 } else {
-                    findAndReplace(((_code) _c).astCompilationUnit(), targetToReplacement);
+                    findAndReplace(((_compilationUnit) _c).astCompilationUnit(), targetToReplacement);
                 }
             } else {
-                findAndReplace(((_node) _c).ast(), targetToReplacement);
+                findAndReplace(((_java._node) _c).ast(), targetToReplacement);
             }
         } else if( _c instanceof _body){
             findAndReplace(((_body) _c).ast(), targetToReplacement);

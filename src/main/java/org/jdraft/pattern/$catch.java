@@ -200,14 +200,14 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part, $meth
      * @return 
      */
     public Select selectFirstIn(_java._domain _j, Predicate<Select> selectConstraint) {
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel()){
-                return selectFirstIn( ((_code)_j).astCompilationUnit(), selectConstraint);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel()){
+                return selectFirstIn( ((_compilationUnit)_j).astCompilationUnit(), selectConstraint);
             } else{                
                 return selectFirstIn( ((_type)_j).ast(), selectConstraint);
             }
         }        
-        return selectFirstIn( ((_node)_j).ast(), selectConstraint);
+        return selectFirstIn( ((_java._node)_j).ast(), selectConstraint);
     }
     
     /**
@@ -258,14 +258,14 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part, $meth
      * @return
      */
     public <_J extends _java._domain> List<Select> listSelectedIn(_J _j, Predicate<Select> selectConstraint) {
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel()){
-                return listSelectedIn( ((_code) _j).astCompilationUnit(), selectConstraint);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel()){
+                return listSelectedIn( ((_compilationUnit) _j).astCompilationUnit(), selectConstraint);
             } else{                
                 return listSelectedIn( ((_type) _j).ast(), selectConstraint);
             }
         }        
-        return listSelectedIn( ((_node) _j).ast(), selectConstraint);
+        return listSelectedIn( ((_java._node) _j).ast(), selectConstraint);
     }
 
     /**

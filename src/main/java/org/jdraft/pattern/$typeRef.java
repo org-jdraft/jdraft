@@ -292,7 +292,7 @@ public class $typeRef
      * @param _n
      * @return 
      */
-    public _typeRef draft(_node _n ){
+    public _typeRef draft(_java._node _n ){
         return draft(_n.tokenize());
     }
     
@@ -523,15 +523,15 @@ public class $typeRef
 
     @Override
     public List<Select> listSelectedIn(_java._domain _j){
-        if( _j instanceof _code ){
-            _code _c = (_code) _j;
+        if( _j instanceof _compilationUnit){
+            _compilationUnit _c = (_compilationUnit) _j;
             if( _c.isTopLevel() ){
                 return listSelectedIn(_c.astCompilationUnit());
             }
             _type _t = (_type) _j; //only possible
             return listSelectedIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listSelectedIn( ((_node) _j).ast());
+        return listSelectedIn( ((_java._node) _j).ast());
     }
 
     /**
@@ -541,13 +541,13 @@ public class $typeRef
      * @return 
      */
     public List<Select> listSelectedIn(_java._domain _j, Predicate<Select> selectConstraint){
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel()){
-                return listSelectedIn( ((_code) _j).astCompilationUnit(), selectConstraint);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel()){
+                return listSelectedIn( ((_compilationUnit) _j).astCompilationUnit(), selectConstraint);
             }
             return listSelectedIn( ((_type)_j).ast(), selectConstraint);
         }
-        return listSelectedIn( ((_node)_j).ast(), selectConstraint);
+        return listSelectedIn( ((_java._node)_j).ast(), selectConstraint);
     }
     
     /**

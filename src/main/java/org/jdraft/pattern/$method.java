@@ -1001,7 +1001,7 @@ public class $method
      * @param _n
      * @return 
      */
-    public _method draft(_node _n ){
+    public _method draft(_java._node _n ){
         return draft(_n.tokenize() );
     }
 
@@ -1197,14 +1197,14 @@ public class $method
      * @return  the first _method that matches (or null if none found)
      */
     public Select selectFirstIn(_java._domain _j, Predicate<Select> selectConstraint){
-         if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel()){
-                return selectFirstIn( ((_code) _j).astCompilationUnit(), selectConstraint);
+         if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel()){
+                return selectFirstIn( ((_compilationUnit) _j).astCompilationUnit(), selectConstraint);
             } else{
                 return selectFirstIn(((_type) _j).ast(), selectConstraint);
             }
         }
-        return selectFirstIn(((_node) _j).ast(), selectConstraint);
+        return selectFirstIn(((_java._node) _j).ast(), selectConstraint);
     }
 
     /**

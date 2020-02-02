@@ -5,7 +5,6 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.CatchClause;
 import com.github.javaparser.ast.stmt.TryStmt;
-import com.github.javaparser.ast.stmt.WhileStmt;
 
 import java.util.*;
 import java.util.function.*;
@@ -13,7 +12,7 @@ import java.util.stream.Collectors;
 
 //TODO lambdas for
 // setBody
-public class _tryStmt implements _statement<TryStmt, _tryStmt>, _nodeList<CatchClause, _catch, _tryStmt> {
+public class _tryStmt implements _statement<TryStmt, _tryStmt>, _java._nodeList<CatchClause, _catch, _tryStmt> {
 
     public static _tryStmt of(){
         return new _tryStmt( new TryStmt( ));

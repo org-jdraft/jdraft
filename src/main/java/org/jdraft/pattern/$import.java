@@ -401,14 +401,14 @@ public class $import
      * @return  the first _import that matches (or null if none found)
      */
     public Select selectFirstIn(_java._domain _j, Predicate<Select> selectConstraint ){
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel()){
-                return selectFirstIn(((_code) _j).astCompilationUnit(), selectConstraint);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel()){
+                return selectFirstIn(((_compilationUnit) _j).astCompilationUnit(), selectConstraint);
             } else{
                 return selectFirstIn(((_type) _j).ast(), selectConstraint);
             }
         }
-        return selectFirstIn(((_node) _j).ast(), selectConstraint);
+        return selectFirstIn(((_java._node) _j).ast(), selectConstraint);
     }
 
     /**
@@ -481,14 +481,14 @@ public class $import
      * @return 
      */
     public List<Select> listSelectedIn(_java._domain _j, Predicate<Select> selectConstraint ){
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel()){
-                return listSelectedIn(((_code) _j).astCompilationUnit(), selectConstraint);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel()){
+                return listSelectedIn(((_compilationUnit) _j).astCompilationUnit(), selectConstraint);
             } else{
                 return listSelectedIn(((_type) _j).ast(), selectConstraint);
             }
         }
-        return listSelectedIn(((_node) _j).ast(), selectConstraint);
+        return listSelectedIn(((_java._node) _j).ast(), selectConstraint);
     }
     
     /**
@@ -509,16 +509,16 @@ public class $import
      * @return 
      */
     public <_J extends _java._domain> _J replaceIn(_J _j, Class importClass){
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel()){
-                replaceIn( ((_code) _j).astCompilationUnit(), importClass);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel()){
+                replaceIn( ((_compilationUnit) _j).astCompilationUnit(), importClass);
                 return _j;
             } else{
                 replaceIn(((_type) _j).ast(), importClass);
                 return _j;
             }
         }
-        replaceIn(((_node) _j).ast(), importClass);
+        replaceIn(((_java._node) _j).ast(), importClass);
         return _j;
     }
     
@@ -540,16 +540,16 @@ public class $import
      * @return 
      */
     public <_J extends _java._domain> _J replaceIn(_J _j, String importDecl){
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel()){
-                replaceIn( ((_code) _j).astCompilationUnit(), $import.of(importDecl));
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel()){
+                replaceIn( ((_compilationUnit) _j).astCompilationUnit(), $import.of(importDecl));
                 return _j;
             } else{
                 replaceIn(((_type) _j).ast(), $import.of(importDecl));
                 return _j;
             }
         }
-        replaceIn(((_node) _j).ast(), $import.of(importDecl));
+        replaceIn(((_java._node) _j).ast(), $import.of(importDecl));
         return _j;
     }
     
@@ -571,16 +571,16 @@ public class $import
      * @return 
      */
     public <_J extends _java._domain> _J replaceIn(_J _j, _import _i){
-         if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel()){
-                replaceIn( ((_code) _j).astCompilationUnit(), $import.of(_i));
+         if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel()){
+                replaceIn( ((_compilationUnit) _j).astCompilationUnit(), $import.of(_i));
                 return _j;
             } else{
                 replaceIn(((_type) _j).ast(), $import.of(_i));
                 return _j;
             }
         }
-        replaceIn(((_node) _j).ast(), $import.of(_i));
+        replaceIn(((_java._node) _j).ast(), $import.of(_i));
         return _j;
     }
     
@@ -604,16 +604,16 @@ public class $import
      * @return
      */
     public <_J extends _java._domain> _J replaceIn(_J _j, $import $i ){
-         if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel()){
-                replaceIn( ((_code) _j).astCompilationUnit(), $i);
+         if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel()){
+                replaceIn( ((_compilationUnit) _j).astCompilationUnit(), $i);
                 return _j;
             } else{
                 replaceIn(((_type) _j).ast(), $i);
                 return _j;
             }
         }
-        replaceIn(((_node) _j).ast(), $i);
+        replaceIn(((_java._node) _j).ast(), $i);
         return _j;
     }
     
@@ -675,7 +675,7 @@ public class $import
      * @param selectConsumer
      * @return 
      */
-    public <_C extends _code> _C forSelectedIn(_C _c, Consumer<Select> selectConsumer ){
+    public <_C extends _compilationUnit> _C forSelectedIn(_C _c, Consumer<Select> selectConsumer ){
         forSelectedIn(_c.astCompilationUnit(), selectConsumer);
         return _c;
     }
@@ -718,7 +718,7 @@ public class $import
      * @param selectConsumer
      * @return 
      */
-    public <_C extends _code> _C forSelectedIn(_C _c, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
+    public <_C extends _compilationUnit> _C forSelectedIn(_C _c, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
         forSelectedIn(_c.astCompilationUnit(), selectConstraint, selectConsumer);
         return _c;
     }

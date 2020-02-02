@@ -663,13 +663,13 @@ public class $var
      * @return  the first VaribleDeclarator that matches (or null if none found)
      */
     public Select selectFirstIn(_java._domain _j, Predicate<Select> selectConstraint ){
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel()){
-                return selectFirstIn( ((_code) _j).astCompilationUnit(), selectConstraint);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel()){
+                return selectFirstIn( ((_compilationUnit) _j).astCompilationUnit(), selectConstraint);
             }
             return selectFirstIn( ((_type)_j).ast(), selectConstraint);
         }
-        return selectFirstIn( ((_node)_j).ast(), selectConstraint);
+        return selectFirstIn( ((_java._node)_j).ast(), selectConstraint);
     }
 
     /**
@@ -708,15 +708,15 @@ public class $var
 
     @Override
     public List<Select> listSelectedIn(_java._domain _j){
-        if( _j instanceof _code ){
-            _code _c = (_code) _j;
+        if( _j instanceof _compilationUnit){
+            _compilationUnit _c = (_compilationUnit) _j;
             if( _c.isTopLevel() ){
                 return listSelectedIn(_c.astCompilationUnit());
             }
             _type _t = (_type) _j; //only possible
             return listSelectedIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listSelectedIn( ((_node) _j).ast());
+        return listSelectedIn( ((_java._node) _j).ast());
     }
     
     /**
@@ -754,13 +754,13 @@ public class $var
      */
     public List<Select> listSelectedIn(_java._domain _n, Predicate<Select> selectConstraint){
         List<Select>sts = new ArrayList<>();
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                return listSelectedIn( ((_code) _n).astCompilationUnit(), selectConstraint);
+        if( _n instanceof _compilationUnit){
+            if( ((_compilationUnit) _n).isTopLevel()){
+                return listSelectedIn( ((_compilationUnit) _n).astCompilationUnit(), selectConstraint);
             }
             return listSelectedIn( ((_type)_n).ast(), selectConstraint);
         }
-        return listSelectedIn( ((_node)_n).ast(), selectConstraint);
+        return listSelectedIn( ((_java._node)_n).ast(), selectConstraint);
     }
 
     /**

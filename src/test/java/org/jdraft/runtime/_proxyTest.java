@@ -2,7 +2,7 @@ package org.jdraft.runtime;
 
 import java.util.Arrays;
 import junit.framework.TestCase;
-import org.jdraft._code;
+import org.jdraft._compilationUnit;
 import org.junit.Assert;
 
 /**
@@ -126,7 +126,7 @@ public class _proxyTest extends TestCase {
         _proxy p = adhoc.proxy("A", false);
         assertNotNull( p.instance );
         assertTrue( p.getClassLoader() instanceof _classLoader);
-        _code thecode = p.get_class();
+        _compilationUnit thecode = p.get_class();
         assertEquals(thecode, sc.codeModel);
     }
 }

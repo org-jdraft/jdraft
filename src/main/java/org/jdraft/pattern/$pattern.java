@@ -42,7 +42,7 @@ import org.jdraft.text.Translator;
  *
  * @param <P> the TYPE of the node being queried for (likely a 
  * {@link com.github.javaparser.ast.Node} or 
- * {@link org.jdraft._node})
+ * {@link _java._node})
  */
 public interface $pattern<P, $P extends $pattern>{
 
@@ -124,13 +124,13 @@ public interface $pattern<P, $P extends $pattern>{
                 //System.out.println( "NODE "+ node );
                 return Ast.isParentMember(node, nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
                 //return Arrays.stream(members).filter( $m -> $m.match(node)).findFirst().isPresent();
-            } else if (n instanceof _node) {
+            } else if (n instanceof _java._node) {
                 //for Fields (_field) I need to skip one (since I go from the varDeclarator to FieldDeclaration)
                 Node node = null;
                 if( n instanceof _field ){
                     node = ((_field)n).getFieldDeclaration();
                 } else {
-                    node = ((_node) n).ast();
+                    node = ((_java._node) n).ast();
                 }
                 //System.out.println( "_NODE "+ node );
                 return Ast.isParentMember(node, nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
@@ -154,8 +154,8 @@ public interface $pattern<P, $P extends $pattern>{
             if (n instanceof Node) {
                 Node node = (Node)n;
                 return Ast.isParentMember(node, nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
-            } else if (n instanceof _node) {
-                Node node = ((_node)n).ast();
+            } else if (n instanceof _java._node) {
+                Node node = ((_java._node)n).ast();
                 return Ast.isParentMember(node, nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
             } else if (n instanceof _body) {
                 Node node = ((_body)n).ast();
@@ -175,8 +175,8 @@ public interface $pattern<P, $P extends $pattern>{
         Predicate<P> pp = n -> {
             if (n instanceof Node) {
                 return ((Node)n).getRange().isPresent() && range.strictlyContains( ((Node) n).getRange().get());
-            } else if (n instanceof _node) {
-                Node node = ((_node)n).ast();
+            } else if (n instanceof _java._node) {
+                Node node = ((_java._node)n).ast();
                 return node.getRange().isPresent() && range.strictlyContains(node.getRange().get());
             }else if (n instanceof _body) {
                 Node node = ((_body)n).ast();
@@ -286,8 +286,8 @@ public interface $pattern<P, $P extends $pattern>{
             Predicate<P> pp = n -> {
                 if (n instanceof Node) {
                     return Ast.isParent((Node) n, c -> $p.match(c));
-                } else if (n instanceof _node) {
-                    return Ast.isParent(((_node) n).ast(), c -> $p.match(c));
+                } else if (n instanceof _java._node) {
+                    return Ast.isParent(((_java._node) n).ast(), c -> $p.match(c));
                 } else if (n instanceof _body) {
                     return Ast.isParent(((_body) n).ast(), c -> $p.match(c));
                 }
@@ -307,8 +307,8 @@ public interface $pattern<P, $P extends $pattern>{
         return $and(n -> {
             if (n instanceof Node) {
                 return Ast.isParent( (Node)n, c->Arrays.stream($ps).anyMatch( $p->$p.match(c)) );
-            } else if (n instanceof _node) {
-                return Ast.isParent( ((_node)n).ast(), c->Arrays.stream($ps).anyMatch( $p->$p.match(c)) );
+            } else if (n instanceof _java._node) {
+                return Ast.isParent( ((_java._node)n).ast(), c->Arrays.stream($ps).anyMatch($p->$p.match(c)) );
             } else if (n instanceof _body) {
                 return Ast.isParent( ((_body)n).ast(), c->Arrays.stream($ps).anyMatch( $p->$p.match(c)) );
             } else {
@@ -344,8 +344,8 @@ public interface $pattern<P, $P extends $pattern>{
         return $not(n -> {
             if (n instanceof Node) {
                 return Ast.isParent( (Node)n, parentClassTypes);
-            } else if (n instanceof _node) {
-                return Ast.isParent( ((_node)n).ast(), parentClassTypes);
+            } else if (n instanceof _java._node) {
+                return Ast.isParent( ((_java._node)n).ast(), parentClassTypes);
             }else if (n instanceof _body) {
                 return Ast.isParent( ((_body)n).ast(), parentClassTypes);
             }
@@ -357,8 +357,8 @@ public interface $pattern<P, $P extends $pattern>{
         return $and(n -> {
                     if (n instanceof Node) {
                         return Ast.isParent( (Node)n, parentClassTypes);
-                    } else if (n instanceof _node) {
-                        return Ast.isParent( ((_node)n).ast(), parentClassTypes);
+                    } else if (n instanceof _java._node) {
+                        return Ast.isParent( ((_java._node)n).ast(), parentClassTypes);
                     } else if (n instanceof _body) {
                         return Ast.isParent( ((_body)n).ast(), parentClassTypes);
                     }  else {
@@ -390,8 +390,8 @@ public interface $pattern<P, $P extends $pattern>{
         return $not(n-> {
             if( n instanceof Node ) {
                 return ((Node)n).stream($.PARENTS).limit(levels).anyMatch( ancestorMatchFn  );
-            }else if (n instanceof _node) {
-                return ((_node)n).ast().stream($.PARENTS).limit(levels).anyMatch( ancestorMatchFn );
+            }else if (n instanceof _java._node) {
+                return ((_java._node)n).ast().stream($.PARENTS).limit(levels).anyMatch( ancestorMatchFn );
             } else if (n instanceof _body) {
                 return ((_body)n).ast().stream($.PARENTS).limit(levels).anyMatch( ancestorMatchFn );
             }else{
@@ -416,8 +416,8 @@ public interface $pattern<P, $P extends $pattern>{
         return $and(n-> {
             if( n instanceof Node ) {
                 return ((Node)n).stream($.PARENTS).limit(levels).anyMatch( ancestorMatchFn  );
-            }else if (n instanceof _node) {
-                return ((_node)n).ast().stream($.PARENTS).limit(levels).anyMatch( ancestorMatchFn );
+            }else if (n instanceof _java._node) {
+                return ((_java._node)n).ast().stream($.PARENTS).limit(levels).anyMatch( ancestorMatchFn );
             }else if (n instanceof _body) {
                 return ((_body)n).ast().stream($.PARENTS).limit(levels).anyMatch( ancestorMatchFn );
             }  else{
@@ -456,8 +456,8 @@ public interface $pattern<P, $P extends $pattern>{
         return $not(n-> {
             if( n instanceof Node ) {
                 return ((Node)n).stream($.PARENTS).limit(levels).anyMatch( c-> Arrays.stream($ps).anyMatch($p ->$p.match(c)));
-            }else if (n instanceof _node) {
-                return ((_node)n).ast().stream($.PARENTS).limit(levels).anyMatch( c-> Arrays.stream($ps).anyMatch($p ->$p.match(c)));
+            }else if (n instanceof _java._node) {
+                return ((_java._node)n).ast().stream($.PARENTS).limit(levels).anyMatch(c-> Arrays.stream($ps).anyMatch($p ->$p.match(c)));
             }else if (n instanceof _body) {
                 return ((_body)n).ast().stream($.PARENTS).limit(levels).anyMatch( c-> Arrays.stream($ps).anyMatch($p ->$p.match(c)));
             }  else{
@@ -476,8 +476,8 @@ public interface $pattern<P, $P extends $pattern>{
         return $and(n-> {
             if( n instanceof Node ) {
                 return ((Node)n).stream($.PARENTS).limit(levels).anyMatch( c-> Arrays.stream($ps).anyMatch($p ->$p.match(c)));
-            }else if (n instanceof _node) {
-                 return ((_node)n).ast().stream($.PARENTS).limit(levels).anyMatch( c-> Arrays.stream($ps).anyMatch($p ->$p.match(c)));
+            }else if (n instanceof _java._node) {
+                 return ((_java._node)n).ast().stream($.PARENTS).limit(levels).anyMatch(c-> Arrays.stream($ps).anyMatch($p ->$p.match(c)));
             } else if (n instanceof _body) {
                 return ((_body)n).ast().stream($.PARENTS).limit(levels).anyMatch( c-> Arrays.stream($ps).anyMatch($p ->$p.match(c)));
             } else{
@@ -496,8 +496,8 @@ public interface $pattern<P, $P extends $pattern>{
         return $not(n-> {
             if( n instanceof Node ){
                 return ((Node)n).getChildNodes().stream().anyMatch(c -> Arrays.stream($ps).anyMatch( $p->$p.match(c)));
-            } else if( n instanceof _node){
-                return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> Arrays.stream($ps).anyMatch( $p->$p.match(c)));
+            } else if( n instanceof _java._node){
+                return ((_java._node)n).ast().getChildNodes().stream().anyMatch(c -> Arrays.stream($ps).anyMatch($p->$p.match(c)));
             } else if( n instanceof _body){
                 return ((_body)n).ast().getChildNodes().stream().anyMatch(c -> Arrays.stream($ps).anyMatch( $p->$p.match(c)));
             } else{
@@ -516,8 +516,8 @@ public interface $pattern<P, $P extends $pattern>{
         return $and(n-> {
             if( n instanceof Node ){
                 return ((Node)n).getChildNodes().stream().anyMatch(c -> Arrays.stream($ps).anyMatch( $p->$p.match(c)));
-            } else if( n instanceof _node){
-                return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> Arrays.stream($ps).anyMatch( $p->$p.match(c)));
+            } else if( n instanceof _java._node){
+                return ((_java._node)n).ast().getChildNodes().stream().anyMatch(c -> Arrays.stream($ps).anyMatch($p->$p.match(c)));
             } else if( n instanceof _body){
                 return ((_body)n).ast().getChildNodes().stream().anyMatch(c -> Arrays.stream($ps).anyMatch( $p->$p.match(c)));
             } else{
@@ -530,8 +530,8 @@ public interface $pattern<P, $P extends $pattern>{
         return $and(n-> {
             if( n instanceof Node ){
                 return ((Node)n).getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) );
-            } else if( n instanceof _node){
-                return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) );
+            } else if( n instanceof _java._node){
+                return ((_java._node)n).ast().getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) );
             } else if( n instanceof _body){
                 return ((_body)n).ast().getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) );
             } else{
@@ -544,8 +544,8 @@ public interface $pattern<P, $P extends $pattern>{
         return $not(n-> {
             if( n instanceof Node ){
                 return ((Node)n).getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) );
-            } else if( n instanceof _node){
-                return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) );
+            } else if( n instanceof _java._node){
+                return ((_java._node)n).ast().getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) );
             } else if( n instanceof _body){
                 return ((_body)n).ast().getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) );
             } else{
@@ -558,8 +558,8 @@ public interface $pattern<P, $P extends $pattern>{
         return $and(n-> {
             if( n instanceof Node ){
                 return ((Node)n).getChildNodes().stream().anyMatch(c -> childMatchFn.test(c) );
-            } else if( n instanceof _node){
-                return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> childMatchFn.test(c) );
+            } else if( n instanceof _java._node){
+                return ((_java._node)n).ast().getChildNodes().stream().anyMatch(c -> childMatchFn.test(c) );
             } else if( n instanceof _body){
                 return ((_body)n).ast().getChildNodes().stream().anyMatch(c -> childMatchFn.test(c) );
             } else{
@@ -572,8 +572,8 @@ public interface $pattern<P, $P extends $pattern>{
         return $not(n-> {
             if( n instanceof Node ){
                 return ((Node)n).getChildNodes().stream().anyMatch(c -> childMatchFn.test(c) );
-            } else if( n instanceof _node){
-                return ((_node)n).ast().getChildNodes().stream().anyMatch(c -> childMatchFn.test(c) );
+            } else if( n instanceof _java._node){
+                return ((_java._node)n).ast().getChildNodes().stream().anyMatch(c -> childMatchFn.test(c) );
             } else if( n instanceof _body){
                 return ((_body)n).ast().getChildNodes().stream().anyMatch(c -> childMatchFn.test(c) );
             } else{
@@ -648,8 +648,8 @@ public interface $pattern<P, $P extends $pattern>{
         return $and(n-> {
             if( n instanceof Node ){
                 return Ast.matchDescendant( (Node)n, depth, descendantMatchFn);
-            } else if( n instanceof _node){
-                return Ast.matchDescendant( ((_node)n).ast(), depth, descendantMatchFn);
+            } else if( n instanceof _java._node){
+                return Ast.matchDescendant( ((_java._node)n).ast(), depth, descendantMatchFn);
             } else if( n instanceof _body){
                 return Ast.matchDescendant( ((_body)n).ast(), depth, descendantMatchFn);
             } else{
@@ -668,8 +668,8 @@ public interface $pattern<P, $P extends $pattern>{
         return $not(n-> {
             if( n instanceof Node ){
                 return Ast.matchDescendant( (Node)n, depth, descendantMatchFn);
-            } else if( n instanceof _node){
-                return Ast.matchDescendant( ((_node)n).ast(), depth, descendantMatchFn);
+            } else if( n instanceof _java._node){
+                return Ast.matchDescendant( ((_java._node)n).ast(), depth, descendantMatchFn);
             } else if( n instanceof _body){
                 return Ast.matchDescendant( ((_body)n).ast(), depth, descendantMatchFn);
             } else{
@@ -716,8 +716,8 @@ public interface $pattern<P, $P extends $pattern>{
         return $and(n->{
             if( n instanceof Node ){
                 return Ast.matchDescendant( (Node)n, depth, c->Arrays.stream($ps).anyMatch( $p-> $p.match(c) ));
-            }else if( n instanceof _node){
-                return Ast.matchDescendant( ((_node)n).ast(), depth, c->Arrays.stream($ps).anyMatch( $p->$p.match(c)));
+            }else if( n instanceof _java._node){
+                return Ast.matchDescendant( ((_java._node)n).ast(), depth, c->Arrays.stream($ps).anyMatch($p->$p.match(c)));
             } else if( n instanceof _body){
                 return Ast.matchDescendant( ((_body)n).ast(), depth, c->Arrays.stream($ps).anyMatch( $p->$p.match(c)));
             }else{
@@ -733,8 +733,8 @@ public interface $pattern<P, $P extends $pattern>{
         return $not(n->{
             if( n instanceof Node ){
                 return Ast.matchDescendant( (Node)n, depth, c->Arrays.stream($ps).anyMatch( $p-> $p.match(c) ));
-            }else if( n instanceof _node){
-                return Ast.matchDescendant( ((_node)n).ast(), depth, c->Arrays.stream($ps).anyMatch( $p->$p.match(c)));
+            }else if( n instanceof _java._node){
+                return Ast.matchDescendant( ((_java._node)n).ast(), depth, c->Arrays.stream($ps).anyMatch($p->$p.match(c)));
             } else{
                 throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
@@ -761,8 +761,8 @@ public interface $pattern<P, $P extends $pattern>{
 
             return match( ((_field)_j).getFieldDeclaration());
         }
-        if( _j instanceof _node ){
-            return match( ((_node)_j).ast());
+        if( _j instanceof _java._node){
+            return match( ((_java._node)_j).ast());
         }
         return false;
     }
@@ -772,7 +772,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _codeProvider
      * @return
      */
-    default boolean isIn( _code._provider _codeProvider ){
+    default boolean isIn( _compilationUnit._provider _codeProvider ){
         return firstIn(_codeProvider, t->true) != null;
     }
 
@@ -811,7 +811,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param matchFn
      * @return
      */
-    default boolean isIn(_code._provider _codeProvider, Predicate<P> matchFn){
+    default boolean isIn(_compilationUnit._provider _codeProvider, Predicate<P> matchFn){
         return firstIn(_codeProvider, matchFn) != null;
     }
 
@@ -859,7 +859,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _codeProvider
      * @return
      */
-    default P firstIn( _code._provider _codeProvider ){
+    default P firstIn( _compilationUnit._provider _codeProvider ){
        return firstIn(_codeProvider, t->true);
     }
 
@@ -950,9 +950,9 @@ public interface $pattern<P, $P extends $pattern>{
      * @param matchFn
      * @return
      */
-    default P firstIn(_code._provider _codeProvider, Predicate<P> matchFn){
+    default P firstIn(_compilationUnit._provider _codeProvider, Predicate<P> matchFn){
         P found = null;
-        List<_code> _lc = _codeProvider.list_code();
+        List<_compilationUnit> _lc = _codeProvider.list_code();
         for(int i=0;i<_lc.size();i++){
             found = firstIn(_lc.get(i));
             if( found != null && matchFn.test(found)){
@@ -968,8 +968,8 @@ public interface $pattern<P, $P extends $pattern>{
      * @return  the first matching instance or null if none is found
      */
     default <_J extends _java._domain> P firstIn(_J _j){
-        if( _j instanceof _code ){
-            _code _c = (_code)_j;
+        if( _j instanceof _compilationUnit){
+            _compilationUnit _c = (_compilationUnit)_j;
             if( _c.isTopLevel() ){
                 return firstIn(_c.astCompilationUnit());
             }
@@ -980,7 +980,7 @@ public interface $pattern<P, $P extends $pattern>{
             _body _b = (_body)_j;
             return firstIn(_b.ast());
         }
-        return firstIn( ((_node)_j).ast());
+        return firstIn( ((_java._node)_j).ast());
     }
     
     /**
@@ -990,16 +990,16 @@ public interface $pattern<P, $P extends $pattern>{
      * @return 
      */
     default P firstIn(_java._domain _j, Predicate<P> nodeMatchFn){
-        if( _j instanceof _code ){
-            _code _c = (_code)_j;
+        if( _j instanceof _compilationUnit){
+            _compilationUnit _c = (_compilationUnit)_j;
             if( _c.isTopLevel() ){
                 return firstIn(_c.astCompilationUnit(), nodeMatchFn);
             }
             _type _t = (_type)_j; //only possible
             return firstIn(_t.ast(), nodeMatchFn);
         }
-        if( _j instanceof _node) {
-            return firstIn(((_node) _j).ast());
+        if( _j instanceof _java._node) {
+            return firstIn(((_java._node) _j).ast());
         }
         if( _j instanceof _body ){
             return firstIn(((_body) _j).ast());
@@ -1064,8 +1064,8 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _codeProvider
      * @return
      */
-    default <S extends selected> S selectFirstIn(_code._provider _codeProvider ){
-        List<_code> _cs = _codeProvider.list_code();
+    default <S extends selected> S selectFirstIn(_compilationUnit._provider _codeProvider ){
+        List<_compilationUnit> _cs = _codeProvider.list_code();
         for(int i=0;i<_cs.size(); i++){
             S s = selectFirstIn( _cs.get(i) );
             if( s != null ){
@@ -1115,16 +1115,16 @@ public interface $pattern<P, $P extends $pattern>{
      * @return 
      */
     default <S extends selected> S selectFirstIn( _java._domain _j ){
-        if( _j instanceof _code ){
-            _code _c = (_code)_j;
+        if( _j instanceof _compilationUnit){
+            _compilationUnit _c = (_compilationUnit)_j;
             if( _c.isTopLevel() ){
                 return selectFirstIn(_c.astCompilationUnit());
             }
             _type _t = (_type)_j; //only possible
             return selectFirstIn(_t.ast());
         }
-        if( _j instanceof _node) {
-            return selectFirstIn(((_node) _j).ast());
+        if( _j instanceof _java._node) {
+            return selectFirstIn(((_java._node) _j).ast());
         }
         if( _j instanceof _body ){
             return selectFirstIn(((_body) _j).ast());
@@ -1192,13 +1192,13 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _codeProvider the provider of _code instances
      * @return a List of P that match the query
      */
-    default List<P> listIn( _code._provider _codeProvider ){
+    default List<P> listIn( _compilationUnit._provider _codeProvider ){
         List<P> found = new ArrayList<>();
         _codeProvider.for_code(c -> found.addAll( listIn(c)));
         return found;
     }
 
-    default Stream<P> streamIn( _code._provider _codeProvider ){
+    default Stream<P> streamIn( _compilationUnit._provider _codeProvider ){
         return listIn(_codeProvider).stream();
     }
 
@@ -1252,7 +1252,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param <_J> the underlying _code type (_code, _type, _packageInfo, etc.)
      * @return list of matching P for the query
      */
-    default <_J extends _java._domain> List<P> listIn(_code._provider _codeProvider, Predicate<P> nodeMatchFn){
+    default <_J extends _java._domain> List<P> listIn(_compilationUnit._provider _codeProvider, Predicate<P> nodeMatchFn){
         List<P> found = new ArrayList<>();
         _codeProvider.for_code(c -> found.addAll( listIn(c, nodeMatchFn) ));
         return found;
@@ -1265,7 +1265,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param <_J>
      * @return
      */
-    default <_J extends _java._domain> Stream<P> streamIn(_code._provider _codeProvider, Predicate<P> nodeMatchFn){
+    default <_J extends _java._domain> Stream<P> streamIn(_compilationUnit._provider _codeProvider, Predicate<P> nodeMatchFn){
         return listIn(_codeProvider, nodeMatchFn).stream();
     }
 
@@ -1322,16 +1322,16 @@ public interface $pattern<P, $P extends $pattern>{
      * @return a List of Q that match the query
      */
     default List<P> listIn(_java._domain _j) {
-        if( _j instanceof _code ){
-            _code _c = (_code)_j;
+        if( _j instanceof _compilationUnit){
+            _compilationUnit _c = (_compilationUnit)_j;
             if( _c.isTopLevel() ){
                 return listIn(_c.astCompilationUnit());
             }
             _type _t = (_type)_j; //only possible
             return listIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
         }
-        if( _j instanceof _node) {
-            return listIn(((_node) _j).ast() );
+        if( _j instanceof _java._node) {
+            return listIn(((_java._node) _j).ast() );
         }
         if( _j instanceof _body ){
             return listIn(((_body) _j).ast() );
@@ -1351,16 +1351,16 @@ public interface $pattern<P, $P extends $pattern>{
      * @return 
      */
     default List<P> listIn(_java._domain _j, Predicate<P>nodeMatchFn){
-        if( _j instanceof _code ){
-            _code _c = (_code)_j;
+        if( _j instanceof _compilationUnit){
+            _compilationUnit _c = (_compilationUnit)_j;
             if( _c.isTopLevel() ){
                 return listIn(_c.astCompilationUnit(), nodeMatchFn);
             }
             _type _t = (_type)_j; //only possible
             return listIn(_t.ast(), nodeMatchFn); //return the TypeDeclaration, not the CompilationUnit
         }
-        if( _j instanceof _node) {
-            return listIn(((_node) _j).ast(), nodeMatchFn);
+        if( _j instanceof _java._node) {
+            return listIn(((_java._node) _j).ast(), nodeMatchFn);
         }
         if( _j instanceof _body ){
             return listIn(((_body) _j).ast(), nodeMatchFn);
@@ -1446,7 +1446,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param <S>
      * @return
      */
-    default <S extends selected> List<S> listSelectedIn(_code._provider _codeProvider){
+    default <S extends selected> List<S> listSelectedIn(_compilationUnit._provider _codeProvider){
         List<S> sel = new ArrayList<>();
         _codeProvider.for_code(_j -> sel.addAll( listSelectedIn( _j )) );
         return sel;
@@ -1474,16 +1474,16 @@ public interface $pattern<P, $P extends $pattern>{
      * @return a list of the selected
      */
     default <S extends selected> List<S> listSelectedIn(_java._domain _j){
-        if( _j instanceof _code ){
-            _code _c = (_code)_j;
+        if( _j instanceof _compilationUnit){
+            _compilationUnit _c = (_compilationUnit)_j;
             if( _c.isTopLevel() ){
                 return listSelectedIn(_c.astCompilationUnit());
             }
             _type _t = (_type)_j; //only possible
             return listSelectedIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
         }
-        if( _j instanceof _node) {
-            return listSelectedIn(((_node) _j).ast());
+        if( _j instanceof _java._node) {
+            return listSelectedIn(((_java._node) _j).ast());
         }
         if( _j instanceof _body ){
             return listSelectedIn(((_body) _j).ast() );
@@ -1532,8 +1532,8 @@ public interface $pattern<P, $P extends $pattern>{
      * @param nodeActionFn
      * @return
      */
-    default List<_code> forEachIn(_code._provider _codeProvider, Consumer<P> nodeActionFn ){
-        List<_code> ts = new ArrayList<>();
+    default List<_compilationUnit> forEachIn(_compilationUnit._provider _codeProvider, Consumer<P> nodeActionFn ){
+        List<_compilationUnit> ts = new ArrayList<>();
         _codeProvider.for_code( j-> ts.add( forEachIn( j, nodeActionFn) ) );
         return ts;
     }
@@ -1588,8 +1588,8 @@ public interface $pattern<P, $P extends $pattern>{
      * @return the modified astRootNode
      */
     default <_J extends _java._domain> _J forEachIn(_J _j, Predicate<P> nodeMatchFn, Consumer<P> nodeActionFn){
-        if( _j instanceof _code ){
-            _code _c = (_code) _j;
+        if( _j instanceof _compilationUnit){
+            _compilationUnit _c = (_compilationUnit) _j;
             if( _c.isTopLevel() ){
                 forEachIn(_c.astCompilationUnit(), nodeMatchFn, nodeActionFn);
                 return _j;
@@ -1598,8 +1598,8 @@ public interface $pattern<P, $P extends $pattern>{
             forEachIn(_t.ast(), nodeMatchFn, nodeActionFn); //return the TypeDeclaration, not the CompilationUnit
             return _j;
         }
-        if( _j instanceof _node) {
-            forEachIn(((_node) _j).ast(), nodeMatchFn, nodeActionFn);
+        if( _j instanceof _java._node) {
+            forEachIn(((_java._node) _j).ast(), nodeMatchFn, nodeActionFn);
             return _j;
         }
         if( _j instanceof _body ){
@@ -1652,7 +1652,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _codeProvider the collection to search through
      * @return
      */
-    default int count( _code._provider _codeProvider){
+    default int count( _compilationUnit._provider _codeProvider){
         AtomicInteger ai = new AtomicInteger();
         _codeProvider.for_code(c-> ai.addAndGet(count(c)));
         return ai.get();
@@ -1664,7 +1664,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param <_C>
      * @return
      */
-    default <_C extends _code> int count( Collection<_C> cs){
+    default <_C extends _compilationUnit> int count(Collection<_C> cs){
         AtomicInteger ai = new AtomicInteger();
         cs.forEach( c -> ai.addAndGet( count(c)));
         return ai.get();
@@ -1735,7 +1735,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _codeProvider the collection to search through
      * @return
      */
-    default void printIn( _code._provider _codeProvider){
+    default void printIn( _compilationUnit._provider _codeProvider){
         _codeProvider.for_code(c-> printIn(c));
     }
 
@@ -1745,7 +1745,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param <_C>
      * @return
      */
-    default <_C extends _code> void printIn( Collection<_C> cs){
+    default <_C extends _compilationUnit> void printIn(Collection<_C> cs){
         cs.forEach( c -> printIn(c));
     }
 
@@ -1797,7 +1797,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _cp
      * @return
      */
-    default List<_code> removeIn(_code._provider _cp ){
+    default List<_compilationUnit> removeIn(_compilationUnit._provider _cp ){
         return _cp.for_code(c-> removeIn(c) );
     }
 
@@ -1828,7 +1828,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _cp
      * @return
      */
-    default List<_code> removeIn(_code._provider _cp, Predicate<P>nodeMatchFn){
+    default List<_compilationUnit> removeIn(_compilationUnit._provider _cp, Predicate<P>nodeMatchFn){
         return _cp.for_code(c-> removeIn(c, nodeMatchFn) );
     }
 
@@ -1870,8 +1870,8 @@ public interface $pattern<P, $P extends $pattern>{
      * @return the modified model node
      */
     default <_J extends _java._domain> _J removeIn(_J _j, Predicate<P> nodeMatchFn){
-        if( _j instanceof _code ){
-            _code _c = (_code) _j;
+        if( _j instanceof _compilationUnit){
+            _compilationUnit _c = (_compilationUnit) _j;
             if( _c.isTopLevel() ){
                 removeIn(_c.astCompilationUnit(), nodeMatchFn);
                 return _j;
@@ -1880,7 +1880,7 @@ public interface $pattern<P, $P extends $pattern>{
             removeIn(_t.ast(), nodeMatchFn); //return the TypeDeclaration, not the CompilationUnit
             return _j;
         }
-        removeIn(((_node) _j).ast(), nodeMatchFn);
+        removeIn(((_java._node) _j).ast(), nodeMatchFn);
         return _j;
     }
     
@@ -1910,8 +1910,8 @@ public interface $pattern<P, $P extends $pattern>{
                 if( s instanceof Node ){
                     ((Node) s).remove();
                 } else{
-                    if(s instanceof _node){
-                        ((_node)s).ast().remove();
+                    if(s instanceof _java._node){
+                        ((_java._node)s).ast().remove();
                     } else{
                         /* yeah this is kinda a mess
                         if( s instanceof _throws ){
@@ -1957,7 +1957,7 @@ public interface $pattern<P, $P extends $pattern>{
             return (_CT)replaceIn((_type)_java.type(clazz), $protoReplace);
         }
 
-        default List<_code> replaceIn( _code._provider _codeProvider, $P $protoReplace ){
+        default List<_compilationUnit> replaceIn(_compilationUnit._provider _codeProvider, $P $protoReplace ){
             return _codeProvider.for_code( c -> replaceIn(c, $protoReplace));
         }
 
@@ -1965,9 +1965,9 @@ public interface $pattern<P, $P extends $pattern>{
             Walk.in(_j, _modelType(), e-> {
                 $pattern.select_java<_J> sel = select(e);
                 if( sel != null ){
-                    _node _n = (_node)sel._node();
+                    _java._node _n = (_java._node)sel._node();
                     Template<_J> tj = (Template<_J>) $protoReplace;
-                    _node rep = (_node)tj.draft( sel.tokens() );
+                    _java._node rep = (_java._node)tj.draft( sel.tokens() );
                     _n.ast().replace( rep.ast() );
                 }
             });
@@ -1993,7 +1993,7 @@ public interface $pattern<P, $P extends $pattern>{
                     _J replacement = $rp.draft(sel.tokens());
 
                     //replace the replacement
-                    ((_node)found._node()).ast().replace( ((_node)replacement).ast() );
+                    ((_java._node)found._node()).ast().replace( ((_java._node)replacement).ast() );
                 }
                 //sel._ann.ast().replace($annoReplacement.draft(sel.tokens).ast() );
                 //}

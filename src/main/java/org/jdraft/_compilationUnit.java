@@ -22,13 +22,13 @@ import java.util.stream.*;
  * @author Eric
  * @param <_C> the code implementation type
  */
-public interface _code<_C> extends _java._domain, _java._componentized {
+public interface _compilationUnit<_C> extends _java._domain, _java._componentized {
 
     /**
      * Return a copy of the _code
      * @return
      */
-    _code<_C> copy();
+    _compilationUnit<_C> copy();
 
     /**
      * Resolve the Compilation Unit that contains this _type,
@@ -533,7 +533,7 @@ public interface _code<_C> extends _java._domain, _java._componentized {
          * @param <_C>
          * @return
          */
-        <_C extends _code> List<_C> for_code(Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn);
+        <_C extends _compilationUnit> List<_C> for_code(Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn);
 
         /**
          *
@@ -542,7 +542,7 @@ public interface _code<_C> extends _java._domain, _java._componentized {
          * @param <_C>
          * @return
          */
-        default <_C extends _code> List<_C> for_code(Class<_C> codeClass, Consumer<_C> _codeActionFn){
+        default <_C extends _compilationUnit> List<_C> for_code(Class<_C> codeClass, Consumer<_C> _codeActionFn){
             return for_code( codeClass, c->true, _codeActionFn);
         }
 
@@ -554,8 +554,8 @@ public interface _code<_C> extends _java._domain, _java._componentized {
          * @param _codeActionFn
          * @return
          */
-        default List<_code> for_code(Predicate<_code> _codeMatchFn, Consumer<_code> _codeActionFn){
-            return for_code(_code.class, _codeMatchFn, _codeActionFn);
+        default List<_compilationUnit> for_code(Predicate<_compilationUnit> _codeMatchFn, Consumer<_compilationUnit> _codeActionFn){
+            return for_code(_compilationUnit.class, _codeMatchFn, _codeActionFn);
         }
 
         /**
@@ -566,16 +566,16 @@ public interface _code<_C> extends _java._domain, _java._componentized {
          * @param _codeActionFn
          * @return
          */
-        default List<_code> for_code(Consumer<_code> _codeActionFn ){
-            return for_code(_code.class, c->true, _codeActionFn);
+        default List<_compilationUnit> for_code(Consumer<_compilationUnit> _codeActionFn ){
+            return for_code(_compilationUnit.class, c->true, _codeActionFn);
         }
 
         /**
          *
          * @return
          */
-        default List<_code> list_code(){
-            List<_code> found = new ArrayList<>();
+        default List<_compilationUnit> list_code(){
+            List<_compilationUnit> found = new ArrayList<>();
             for_code(t-> found.add(t));
             return found;
         }
@@ -584,7 +584,7 @@ public interface _code<_C> extends _java._domain, _java._componentized {
          *
          * @return
          */
-        default  <_C extends _code> List<_C> list_code( Class<_C> _codeClass){
+        default  <_C extends _compilationUnit> List<_C> list_code(Class<_C> _codeClass){
             List<_C> found = new ArrayList<>();
             for_code(_codeClass, t-> found.add(t));
             return found;
@@ -594,7 +594,7 @@ public interface _code<_C> extends _java._domain, _java._componentized {
          *
          * @return
          */
-        default <_C extends _code> List<_C> list_code( Class<_C> _codeClass, Predicate<_C>_codeMatchFn){
+        default <_C extends _compilationUnit> List<_C> list_code(Class<_C> _codeClass, Predicate<_C>_codeMatchFn){
             List<_C> found = new ArrayList<>();
             for_code(_codeClass, _codeMatchFn, t-> found.add(t));
             return found;
@@ -704,6 +704,4 @@ public interface _code<_C> extends _java._domain, _java._componentized {
             return list_code(_typeClass, _typeMatchFn);
         }
     }
-
-
 }

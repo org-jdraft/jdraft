@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 
 /**
  *  A prototype member component of the {@link _type} (it can be associated with a larger entity or context)
- *  NOTE: each {@link _declared} maps directly to an AST Node
+ *  NOTE: each {@link _java._declared} maps directly to an AST Node
  *  <UL>
  *  <LI>{@link $initBlock} {@link com.github.javaparser.ast.body.InitializerDeclaration}
  *  <LI>{@link $field} {@link com.github.javaparser.ast.body.FieldDeclaration}
@@ -106,7 +106,7 @@ public interface $member<M, $M extends $pattern> extends $pattern<M,$M> {
      * Build and return a $member ($pattern implementation) based on the _member type
      * @return
      */
-    public static $member of( _member _m){
+    public static $member of( _java._member _m){
         if( _m instanceof _annotation){
             return $annotation.of( (_annotation)_m);
         }

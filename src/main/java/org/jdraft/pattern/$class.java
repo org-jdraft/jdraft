@@ -416,7 +416,7 @@ public class $class
         return false;
     }
 
-    public boolean matches( _code _c){
+    public boolean matches( _compilationUnit _c){
         if( _c instanceof _class){
             return matches( (_class)_c);
         }

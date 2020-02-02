@@ -15,19 +15,19 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * In-memory "folder" containing mutable java source {@link _code} entities (as apposed to Strings)
+ * In-memory "folder" containing mutable java source {@link _compilationUnit} entities (as apposed to Strings)
  *
- * @see _code._provider
+ * @see _compilationUnit._provider
  */
-public class _source<_C extends _code> implements _code._provider {
+public class _source<_C extends _compilationUnit> implements _compilationUnit._provider {
 
-    public static _source of(_code._provider..._providers ){
-        List<_code> all = new ArrayList<>();
+    public static _source of(_compilationUnit._provider..._providers ){
+        List<_compilationUnit> all = new ArrayList<>();
         Arrays.stream(_providers).forEach(_p -> all.addAll(_p.list_code()));
         return of(all);
     }
 
-    public static _source of(_code._provider _p ){
+    public static _source of(_compilationUnit._provider _p ){
         return of(_p.list_code());
     }
 
@@ -51,7 +51,7 @@ public class _source<_C extends _code> implements _code._provider {
      * @return
      */
     public static _source of(Path... paths ){
-        _code._provider[] _ps = new _code._provider[paths.length];
+        _compilationUnit._provider[] _ps = new _compilationUnit._provider[paths.length];
 
         for(int i=0;i<paths.length;i++){
             //what if it's a .zip or .jar
@@ -66,11 +66,11 @@ public class _source<_C extends _code> implements _code._provider {
         return of (_ps);
     }
 
-    public static <_C extends _code> _source of(_C... _codeToCache){
+    public static <_C extends _compilationUnit> _source of(_C... _codeToCache){
         return of(Arrays.stream(_codeToCache).collect(Collectors.toList()));
     }
 
-    public static <_C extends _code> _source of(List<_C> _codeToCache){
+    public static <_C extends _compilationUnit> _source of(List<_C> _codeToCache){
         return new _source( _codeToCache );
     }
 
@@ -88,7 +88,7 @@ public class _source<_C extends _code> implements _code._provider {
      * @param <_CC> the code class runtime type
      * @return the first matching or null
      */
-    public <_CC extends _code> _CC first(Class<_CC> codeClass, Predicate<_CC> _codeMatchFn) {
+    public <_CC extends _compilationUnit> _CC first(Class<_CC> codeClass, Predicate<_CC> _codeMatchFn) {
         return first(codeClass, _codeMatchFn, c -> Function.identity() );
     }
 
@@ -100,7 +100,7 @@ public class _source<_C extends _code> implements _code._provider {
      * @param <_CC> the code class runtime type
      * @return the updated instance that was modified by the _codeActionFn
      */
-    public <_CC extends _code> _CC first(Class<_CC> codeClass, Predicate<_CC> _codeMatchFn, Consumer<_CC> _codeActionFn) {
+    public <_CC extends _compilationUnit> _CC first(Class<_CC> codeClass, Predicate<_CC> _codeMatchFn, Consumer<_CC> _codeActionFn) {
         Optional<_CC> oc = (Optional<_CC>)this.codeList.stream().filter(c -> {
             if(codeClass.isAssignableFrom(c.getClass())){
                 return _codeMatchFn.test( (_CC)c );
@@ -115,7 +115,7 @@ public class _source<_C extends _code> implements _code._provider {
         return null;
     }
 
-    public <_C extends _code> _C get(Class<_C> _codeClass, Predicate<_C>_codeMatchFn){
+    public <_C extends _compilationUnit> _C get(Class<_C> _codeClass, Predicate<_C>_codeMatchFn){
         return first(_codeClass, _codeMatchFn);
     }
 
@@ -136,7 +136,7 @@ public class _source<_C extends _code> implements _code._provider {
     }
 
     @Override
-    public <_C extends _code> List<_C> for_code(Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn) {
+    public <_C extends _compilationUnit> List<_C> for_code(Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn) {
         List<_C> acted = new ArrayList<>();
         codeList.forEach( c -> {
             if(codeClass.isAssignableFrom( c.getClass() ) && _codeMatchFn.test( (_C)c) ){
@@ -167,7 +167,7 @@ public class _source<_C extends _code> implements _code._provider {
         return this;
     }
 
-    public _source add(_code._provider..._providers){
+    public _source add(_compilationUnit._provider..._providers){
         Arrays.stream(_providers).forEach(_p -> this.codeList.addAll( (List<_C>) _p.list_code()));
         return this;
     }

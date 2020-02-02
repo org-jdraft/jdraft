@@ -7,7 +7,6 @@ import com.github.javaparser.ast.type.TypeParameter;
 import org.jdraft.text.Text;
 
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
  * @author Eric
  */
 public final class _typeParameters
-        implements _nodeList<TypeParameter, _typeParameter, _typeParameters> {
+        implements _java._nodeList<TypeParameter, _typeParameter, _typeParameters> {
 
     public static _typeParameters of(){
         return of( Ast.classDecl("class Dummy{}" ));

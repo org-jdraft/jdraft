@@ -650,13 +650,13 @@ public class $field implements Template<_field>, $pattern<_field, $field>, $patt
      * @return  the first _field that matches (or null if none found)
      */
     public Select selectFirstIn(_java._domain _j, Predicate<Select> selectConstraint){
-         if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel()){
-                return selectFirstIn(((_code) _j).astCompilationUnit(), selectConstraint);
+         if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel()){
+                return selectFirstIn(((_compilationUnit) _j).astCompilationUnit(), selectConstraint);
             }
             return selectFirstIn(((_type) _j).ast(), selectConstraint);
         }
-        return selectFirstIn( ((_node)_j).ast(), selectConstraint );
+        return selectFirstIn( ((_java._node)_j).ast(), selectConstraint );
     }
 
     /**
@@ -723,13 +723,13 @@ public class $field implements Template<_field>, $pattern<_field, $field>, $patt
      * @return 
      */
     public List<Select> listSelectedIn(_java._domain _j, Predicate<Select> selectConstraint){
-         if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel()){
-                return listSelectedIn(((_code) _j).astCompilationUnit(), selectConstraint);
+         if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel()){
+                return listSelectedIn(((_compilationUnit) _j).astCompilationUnit(), selectConstraint);
             }
             return listSelectedIn(((_type) _j).ast(), selectConstraint);
         }
-        return listSelectedIn( ((_node)_j).ast(), selectConstraint);
+        return listSelectedIn( ((_java._node)_j).ast(), selectConstraint);
     }
 
     /**

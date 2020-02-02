@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
@@ -21,6 +22,7 @@ import com.github.javaparser.ast.type.*;
 
 import static org.jdraft.Ast.*;
 
+import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import org.jdraft._anno._hasAnnos;
 import org.jdraft._annotation._entry;
 import org.jdraft._body._hasBody;
@@ -180,8 +182,8 @@ public interface _java {
      * @param _j
      */
     static void describe( _domain _j ){
-        if( _j instanceof _code && ((_code) _j).isTopLevel() ){
-            Ast.describe( ((_code) _j).astCompilationUnit());
+        if( _j instanceof _compilationUnit && ((_compilationUnit) _j).isTopLevel() ){
+            Ast.describe( ((_compilationUnit) _j).astCompilationUnit());
         }
         Ast.describe ( ((_node)_j).ast() );
     }
@@ -200,7 +202,7 @@ public interface _java {
      * @return
      */
     static <T extends _type> T type(InputStream is) {
-        _code _c = _java.code(is);
+        _compilationUnit _c = _java.code(is);
         if (_c instanceof _type) {
             return (T) _c;
         }
@@ -213,7 +215,7 @@ public interface _java {
      * @return
      */
     static <T extends _type> T type(Path path) {
-        _code _c = _java.code(path);
+        _compilationUnit _c = _java.code(path);
         if (_c instanceof _type) {
             return (T) _c;
         }
@@ -384,7 +386,7 @@ public interface _java {
      * @param javaSourceFilePath the path to the local Java source code
      * @return the _code instance
      */
-    static _code code(Path javaSourceFilePath) throws _jdraftException {
+    static _compilationUnit code(Path javaSourceFilePath) throws _jdraftException {
         return code(Ast.of(javaSourceFilePath));
     }
 
@@ -395,7 +397,7 @@ public interface _java {
      * @param javaSourceInputStream
      * @return
      */
-    static _code code(InputStream javaSourceInputStream) throws _jdraftException {
+    static _compilationUnit code(InputStream javaSourceInputStream) throws _jdraftException {
         return code(Ast.of(javaSourceInputStream));
     }
 
@@ -407,7 +409,7 @@ public interface _java {
      * @return
      * @throws _jdraftException
      */
-    static _code code(File javaSourceFile) throws _jdraftException {
+    static _compilationUnit code(File javaSourceFile) throws _jdraftException {
         return code(Ast.of(javaSourceFile));
     }
 
@@ -418,7 +420,7 @@ public interface _java {
      * @param javaSourceReader reader containing .java source code
      * @return the _code model instance representing the source
      */
-    static _code code(Reader javaSourceReader) throws _jdraftException {
+    static _compilationUnit code(Reader javaSourceReader) throws _jdraftException {
         return code(Ast.of(javaSourceReader));
     }
 
@@ -429,7 +431,7 @@ public interface _java {
      * @param astRoot the AST
      * @return a _code wrapper implementation that wraps the AST
      */
-    static _code code(CompilationUnit astRoot) {
+    static _compilationUnit code(CompilationUnit astRoot) {
         if (astRoot.getModule().isPresent()) {
             return _moduleInfo.of(astRoot);
         }
@@ -938,9 +940,9 @@ public interface _java {
     static <C extends Comment, _J extends _domain> List<C> listComments(
             _J _j, Class<C> commentTargetClass, Predicate<C> commentMatchFn){
 
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                return Ast.listComments( ((_code) _j).astCompilationUnit(), commentTargetClass, commentMatchFn );
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                return Ast.listComments( ((_compilationUnit) _j).astCompilationUnit(), commentTargetClass, commentMatchFn );
             }
             else{
                 return Ast.listComments( ((_type) _j).ast(), commentTargetClass, commentMatchFn );
@@ -958,9 +960,9 @@ public interface _java {
      * @return
      */
     static <_J extends _domain> List<Comment> listComments(_J _j, Predicate<Comment> commentMatchFn){
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                return Ast.listComments( ((_code) _j).astCompilationUnit(), commentMatchFn );
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                return Ast.listComments( ((_compilationUnit) _j).astCompilationUnit(), commentMatchFn );
             }
             else{
                 return Ast.listComments( ((_type) _j).ast(), commentMatchFn);
@@ -978,9 +980,9 @@ public interface _java {
      * @param commentActionFn
      */
     static <_J extends _domain> void forComments(_J _j, Predicate<Comment> commentMatchFn, Consumer<Comment> commentActionFn ){
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                Ast.forComments( ((_code) _j).astCompilationUnit(), commentMatchFn, commentActionFn);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                Ast.forComments( ((_compilationUnit) _j).astCompilationUnit(), commentMatchFn, commentActionFn);
             }
             else{
                 Ast.forComments( ((_type) _j).ast(), commentMatchFn, commentActionFn);
@@ -1000,9 +1002,9 @@ public interface _java {
      * @param commentActionFn
      */
     static <C extends Comment, _J extends _domain> void forComments(_J _j, Class<C> commentClass, Predicate<C> commentMatchFn, Consumer<C> commentActionFn ){
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                Ast.forComments( ((_code) _j).astCompilationUnit(), commentClass, commentMatchFn, commentActionFn);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                Ast.forComments( ((_compilationUnit) _j).astCompilationUnit(), commentClass, commentMatchFn, commentActionFn);
             }
             else{
                 Ast.forComments( ((_type) _j).ast(),  commentClass, commentMatchFn, commentActionFn);
@@ -1018,9 +1020,9 @@ public interface _java {
      * @param commentActionFn
      */
     static void forComments(_domain _j, Consumer<Comment> commentActionFn){
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                Ast.forComments( ((_code) _j).astCompilationUnit(), commentActionFn);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                Ast.forComments( ((_compilationUnit) _j).astCompilationUnit(), commentActionFn);
             }
             else{
                 Ast.forComments( ((_type) _j).ast(), commentActionFn);
@@ -1037,9 +1039,9 @@ public interface _java {
      * @return
      */
     static <_J extends _domain> List<Comment> listComments(_J _j){
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel() ){
-                return Ast.listComments( ((_code) _j).astCompilationUnit() );
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel() ){
+                return Ast.listComments( ((_compilationUnit) _j).astCompilationUnit() );
             }
             else{
                 return Ast.listComments( ((_type) _j).ast() );
@@ -1069,7 +1071,7 @@ public interface _java {
                 id-> id.getBody().add(Stmt.of("System.out.println(1);"));
             _walk.list( _m, Ast.RETURN_STMT );
           */
-        Class<_code> CODE = _code.class;
+        Class<_compilationUnit> CODE = _compilationUnit.class;
 
         Class<_packageInfo> PACKAGE_INFO = _packageInfo.class;
         Class<_moduleInfo> MODULE_INFO = _moduleInfo.class;
@@ -1210,5 +1212,525 @@ public interface _java {
             AST_NODE_TO_JAVA_CLASSES.put(EnumDeclaration.class, _enum.class);
             AST_NODE_TO_JAVA_CLASSES.put(AnnotationDeclaration.class, _annotation.class);
         }        
+    }
+
+    /**
+     * A {@link _member} defined within a {@link _type} (that is callable/referenceable/reachable) from the outside
+     * it can be associated with a larger entity or context)
+     * NOTE: each {@link _declared} maps directly to:
+     * <UL>
+     *     <LI>an AST representation {@link Node}
+     *     <LI></LI>a meta-representation {@link _node}
+     * </UL>
+     * <UL>
+     * <LI>{@link _field} {@link FieldDeclaration}
+     * <LI>{@link _constructor} {@link ConstructorDeclaration}
+     * <LI>{@link _method} {@link MethodDeclaration}
+     * <LI>{@link _constant} {@link EnumConstantDeclaration}
+     * <LI>{@link _entry} {@link AnnotationMemberDeclaration}
+     * <LI>{@link _type} {@link TypeDeclaration}
+     * <LI>{@link _class} {@link ClassOrInterfaceDeclaration}
+     * <LI>{@link _enum} {@link EnumDeclaration}
+     * <LI>{@link _interface} {@link ClassOrInterfaceDeclaration}
+     * <LI>{@link _annotation} {@link AnnotationDeclaration}
+     * </UL>
+     *
+     * NOTE:
+     * <LI>{@link _initBlock} {@link InitializerDeclaration}
+     * is a {@link _member} but is NOT {@link _declared} (primarily because it is not
+     * callable/referenceable/accessible outside of the Class where it is defined and does
+     * not satisfy the {@link _named} {@link _hasAnnos} or {@link _hasJavadoc} interfaces
+     * (Not available via reflection at runtime)
+     *
+     * @param <N> the AST node type (i.e. {@link MethodDeclaration})
+     * @param <_D> the meta-representation declaration type (i.e. {@link _method})
+     */
+    interface _declared<N extends Node, _D extends _node & _named & _hasAnnos & _hasJavadoc>
+            extends _member<N, _D>, _named<_D>, _hasAnnos<_D>, _hasJavadoc<_D> {
+
+        @Override
+        default _javadoc getJavadoc() {
+            return _javadoc.of((NodeWithJavadoc) this.ast());
+        }
+
+        default _D removeJavadoc() {
+            ((NodeWithJavadoc) this.ast()).removeJavaDocComment();
+            return (_D) this;
+        }
+
+        @Override
+        default boolean hasJavadoc() {
+            return ((NodeWithJavadoc) this.ast()).getJavadoc().isPresent();
+        }
+    }
+
+    /**
+     * A member within the body of a Class (something defined in the  { }) including {@link _initBlock}s.
+     * All _{@link _member}s are {@link _node}s (they are represented by BOTH a meta-representation i.e. {@link _method},
+     * and an AST representation {@link MethodDeclaration}.
+     *
+     * {@link _initBlock} IS a {@link _member}, BUT IS NOT a {@link _declared}, because even though
+     * {@link _initBlock} is defined within the context of a Class, it is not named/reachable/callable or "declared"
+     * and referenced outside of the class where it is defined.
+     * <UL>
+     * <LI>{@link _initBlock} {@link InitializerDeclaration}
+     * <LI>{@link _field} {@link FieldDeclaration}
+     * <LI>{@link _constructor} {@link ConstructorDeclaration}
+     * <LI>{@link _method} {@link MethodDeclaration}
+     * <LI>{@link _constant} {@link EnumConstantDeclaration}
+     * <LI>{@link _entry} {@link AnnotationMemberDeclaration}
+     * <LI>{@link _type} {@link TypeDeclaration}
+     * <LI>{@link _class} {@link ClassOrInterfaceDeclaration}
+     * <LI>{@link _enum} {@link EnumDeclaration}
+     * <LI>{@link _interface} {@link ClassOrInterfaceDeclaration}
+     * <LI>{@link _annotation} {@link AnnotationDeclaration}
+     * </UL>
+     *
+     * @param <N> the Ast Node instance type
+     * @param <_N> the _draft instance type
+     * @see _declared (an EXTENSION of {@link _member}s that are also {@link _named}...(all {@link _member}s are
+     * {@link _declared}s, ACCEPT {@link _initBlock} which is ONLY a {@link _member}
+     */
+    interface _member <N extends Node, _N extends _node>
+            extends _node<N, _N> {
+
+        /**
+         * Returns the parent _member for this _member (if it exists)
+         * (traverses up through the parents to the
+         *
+         * for example:
+         * _class _c = _class.of("C", new Object(){
+         *     int x,y;
+         * });
+         *
+         * assertEquals(_c, _c.getField(i).getParentMember());
+         *
+         * @param <_M>
+         * @return
+         */
+        default <_M extends _member> _M getParentMember(){
+            if(this instanceof _field){
+                _field _f = (_field)this;
+                FieldDeclaration fd = _f.getFieldDeclaration();
+                if( fd == null ){
+                    return null;
+                }
+                BodyDeclaration bd = Walk.first(Walk.PARENTS, fd, BodyDeclaration.class);
+                if( bd != null ) {
+                    return (_M) of(bd);
+                }
+                return null; //we didnt find a parent that was a BodyDeclaration
+            } else{
+                BodyDeclaration bd = Walk.first(Walk.PARENTS, ast(), BodyDeclaration.class);
+                if( bd != null ) {
+                    return (_M) of(bd);
+                }
+                return null; //we didnt find a parent that was a BodyDeclaration
+            }
+        }
+    }
+
+    /**
+     * {@link _node} entity that maps directly to an AST {@link Node}
+     * for example:
+     * <UL>
+     * <LI>{@link _declared}s</LI>
+     * <UL>
+     *     <LI>{@link _type} {@link TypeDeclaration}</LI>
+     *     <LI>{@link _annotation} {@link AnnotationDeclaration}
+     *     <LI>{@link _interface} {@link ClassOrInterfaceDeclaration}</LI>
+     *     <LI>{@link _class} {@link ClassOrInterfaceDeclaration}</LI>
+     *     <LI>{@link _enum} {@link EnumDeclaration}</LI>
+     *     <LI>{@link _constant} {@link EnumConstantDeclaration}</LI>
+     *     <LI>{@link _entry} {@link AnnotationMemberDeclaration}
+     *     <LI>{@link _method} {@link MethodDeclaration}</LI>
+     *     <LI>{@link _constructor} {@link ConstructorDeclaration}</LI>
+     *     <LI>{@link _field} {@link FieldDeclaration}</LI>
+     * </UL>
+     * <LI>{@link _member}s</LI>
+     * <UL>
+     *         <LI>{@link _initBlock} {@link InitializerDeclaration}</LI>
+     * </UL>
+     * //adornment, property
+     * <LI>{@link _anno} {@link AnnotationExpr}
+     * <LI>{@link _parameter} {@link Parameter}</LI>
+     * <LI>{@link _receiverParameter} {@link ReceiverParameter}</LI>
+     * <LI>{@link _typeParameter} {@link TypeParameter}</LI>
+     * <LI>{@link _typeRef} {@link Type}</LI>
+     * </UL>
+     * @see _java for mappings
+     * @param <_N> the jdraft _node type {@link _method}, {@link _field}
+     * @param <N> ast node {@link MethodDeclaration}, {@link FieldDeclaration}
+     */
+    interface _node<N extends Node, _N extends _node> extends _domain, _componentized {
+
+        /**
+         * Build and return an (independent) copy of this _node entity
+         * @return
+         */
+        _N copy();
+
+        /**
+         * Pass a match function to verify based on a lambda predicate
+         * @param matchFn a function to match against the entity
+         * @return true if the match function is verified, false otherwise
+         */
+        default boolean is(Predicate<_N> matchFn){
+            return matchFn.test((_N)this);
+        }
+
+        /**
+         * Pass a match function to verify based on a lambda predicate
+         * @param astMatchFn a lambda function to match against the ast
+         * @return true if the match function is verified, false otherwise
+         */
+        default boolean isAst(Predicate<N> astMatchFn){
+            return astMatchFn.test( ast() );
+        }
+
+        /**
+         * is the String representation equal to the _node entity
+         * (i.e. if we parse the string, does it create an AST entity that
+         * is equal to the node?)
+         *
+         * @param stringRep the string representation of the node
+         * (parsed as an AST and compared to this entity to see if equal)
+         * @return true if the Parsed String represents the entity
+         */
+        boolean is(String... stringRep);
+
+        /**
+         * Is the AST node representation equal to the underlying entity
+         * @param astNode the astNode to compare against
+         * @return true if they represent the same _node, false otherwise
+         */
+        default boolean is(N astNode){
+            return Objects.equals(ast(), astNode);
+        }
+
+        /**
+         * Decompose the entity into smaller named tokens
+         * returning a mapping between the name and the constituent part
+         * @return a Map with the names mapped to the corresponding components
+         */
+        default Map<String, Object> tokenize() {
+            Map<Component, Object> parts = components();
+            Map<String, Object> mdd = new HashMap<>();
+            parts.forEach((p, o) -> {
+                mdd.put(p.name, o);
+            });
+            return mdd;
+        }
+
+        /**
+         * @return the underlying AST Node instance being manipulated
+         * by the _model._node facade
+         * NOTE: the AST node contains physical information (i.e. location in
+         * the file (line numbers) and syntax related parent/child relationships
+         */
+        N ast();
+
+        /**
+         * Pass in the AST Pretty Printer configuration which will determine how the code
+         * is formatted and return the formatted String representing the code.
+         *
+         * @see com.github.javaparser.printer.PrettyPrintVisitor the original visitor for walking and printing nodes in AST
+         * @see PrintNoAnnotations a configurable subclass of PrettyPrintVisitor that will not print ANNOTATIONS
+         * @see PrettyPrinterConfiguration the configurations for spaces, Tabs, for printing
+         * @see Ast#PRINT_NO_ANNOTATIONS_OR_COMMENTS a premade implementation for
+         * @see Ast#PRINT_NO_COMMENTS
+         *
+         * @param codeFormat the details on how the code will be formatted (for this element and all sub ELEMENTS)
+         * @return A String representing the .java code
+         */
+        default String toString(PrettyPrinterConfiguration codeFormat) {
+            return ast().toString(codeFormat);
+        }
+    }
+
+    /**
+     * Sometimes we have groupings of entities that do not
+     * map to a specific Ast entity but a grouping of AST entities
+     *
+     * @see _annos< AnnotationExpr,_anno>
+     * @see _imports< ImportDeclaration,_import>
+     * @see _modifiers <com.github.javaparser.ast.Modifier,_modifier>
+     * @see _parameters< Parameter,_parameter>
+     * @see _throws< ReferenceType,_typeRef>
+     * @see _typeParameters< TypeParameter,_typeParameter>
+     *
+     */
+    interface _nodeList<EL extends Node, _EL extends _node, _NL extends _nodeList> extends _domain {
+
+        _NL copy();
+
+        default boolean isEmpty(){
+            return size() == 0;
+        }
+
+        default int size(){
+            return listAstElements().size();
+        }
+
+        List<_EL> list();
+
+        List<EL> listAstElements();
+
+        default List<_EL> list(Predicate<_EL> matchFn){
+            return list().stream().filter(matchFn).collect(Collectors.toList());
+        }
+
+        default List<EL> listAstElements(Predicate<EL> matchFn){
+            return listAstElements().stream().filter(matchFn).collect(Collectors.toList());
+        }
+
+        default boolean is(List<_EL> _els){
+            if( this.size() != _els.size() ){
+                return false;
+            }
+            List<_EL> _tels = list();
+            for(int i=0;i<_els.size(); i++){
+                if( !Objects.equals(_els.get(i), _tels.get(i))){
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        default _EL get(Predicate<_EL> matchFn){
+            List<_EL> _els = this.list(matchFn);
+            if( _els.isEmpty() ){
+                return null;
+            }
+            return _els.get(0);
+        }
+
+        default _EL get(int index){
+            return this.list().get(index);
+        }
+
+        default EL getAst(int index){
+            return this.listAstElements().get(index);
+        }
+
+        default int indexOf(_EL target){
+            return list().indexOf(target);
+        }
+
+        default int indexOf(EL target){
+            return listAstElements().indexOf(target);
+        }
+
+        default boolean has(_EL target){
+            return !list( el-> el.equals(target)).isEmpty();
+        }
+
+        default boolean has(Predicate<_EL> matchFn){
+            return !list( matchFn).isEmpty();
+        }
+
+        default boolean has(EL target){
+            return !listAstElements( el-> el.equals(target)).isEmpty();
+        }
+
+        default _NL add(EL... astElements) {
+            for( EL el : astElements ) {
+                this.listAstElements().add(el);
+            }
+            return (_NL)this;
+        }
+
+        default _NL add(_EL... elements) {
+            for( _EL el : elements ) {
+                this.listAstElements().add( (EL)el.ast());
+            }
+            return (_NL)this;
+        }
+
+        default _NL remove(_EL... _els) {
+            Arrays.stream( _els ).forEach(e -> this.listAstElements().remove( e.ast() ) );
+            return (_NL)this;
+        }
+
+        default _NL remove(EL... els) {
+            Arrays.stream(els ).forEach( e -> this.listAstElements().remove( e ) );
+            return (_NL)this;
+        }
+
+        default _NL remove(Predicate<_EL> _matchFn) {
+            this.list(_matchFn).stream().forEach( e-> remove(e) );
+            return (_NL)this;
+        }
+
+        default _NL forEach(Predicate<_EL> matchFn, Consumer<_EL> consumer){
+            list(matchFn).forEach(consumer);
+            return (_NL)this;
+        }
+
+        default _NL forEach(Consumer<_EL> consumer){
+            list().forEach(consumer);
+            return (_NL)this;
+        }
+    }
+
+    /**
+     * Named java entities
+     * {@link _type} {@link _class} {@link _enum} {@link _interface} {@link _annotation}
+     * {@link _method}
+     * {@link _field}
+     * {@link _parameter}
+     * {@link _anno}
+     * {@link _constant}
+     * {@link _entry}
+     * {@link _typeRef}
+     * {@link _typeParameter}
+     *
+     * @author Eric
+     * @param <_N>
+     */
+    interface _named<_N extends _named> extends _domain {
+
+        /**
+         * @param name set the name on the entity and return the modified entity
+         * @return the modified entity
+         */
+        _N setName(String name);
+
+        /**
+         * gets the name of the entity
+         * @return the name of the entity
+         */
+        String getName();
+
+        /**
+         *
+         * @param name
+         * @return
+         */
+        default boolean isNamed(String name) {
+            return Objects.equals(getName(), name);
+        }
+    }
+
+    /**
+     * Entity with TYPE/NAME pair
+     * <UL>
+     *     <LI>{@link _field},
+     *     <LI>{@link _parameter},
+     *     <LI>{@link _method},
+     *     <LI>{@link _entry},
+     *     <LI>{@link _receiverParameter}
+     * </UL>
+     * @param <_NT> the specialized entity that is a named TYPE
+     */
+    interface _namedType<_NT extends _namedType> extends _named<_NT> {
+
+        /**
+         * @return they type
+         */
+        _typeRef getType();
+
+        /**
+         * Gets the element type of the type (i.e. if the type is an Array type)
+         * @return the array element type
+         */
+        default _typeRef getElementType() {
+            return _typeRef.of(getType().ast().getElementType());
+        }
+
+        /**
+         * Set the TYPE and return the modified entity
+         * @param _tr the _typeRef object
+         * @return the modified entity after setting the TYPE
+         */
+        _NT type(Type _tr);
+
+        /**
+         * set the TYPE and return
+         * @param t
+         * @return
+         */
+        default _NT type(_typeRef t) {
+            return type(t.ast());
+        }
+
+        /**
+         * Set the TYPE and return the modified entity
+         * @param typeRef the String representation of the TYPE
+         * @return the modified entity after setting the TYPE
+         */
+        default _NT type(String typeRef) {
+            return type(typeRef(typeRef));
+        }
+
+        /**
+         * Set the TYPE and return the modified entity
+         * @param clazz the class of the TYPE to set
+         * @return the modified entity after setting the TYPE
+         */
+        default _NT type(Class clazz) {
+            return type(typeRef(clazz.getCanonicalName()));
+        }
+
+        /**
+         * is the type void
+         * @return true if void
+         */
+        default boolean isVoid() {
+            return getType().ast().isVoidType();
+        }
+
+        /**
+         * Is the TYPE of this entity the same as represented where the _typeRef TYPE
+         * @param type the _typeRef representation of the TYPE
+         * @return true if the TYPE is the same
+         */
+        default boolean isType(Type type) {
+            return getType().ast().equals(type);
+        }
+
+        /**
+         * Is the TYPE of this entity the same as represented where the _typeRef TYPE
+         * @param type the _typeRef representation of the TYPE
+         * @return true if the TYPE is the same
+         */
+        default boolean isType(_typeRef type) {
+            return getType().equals(type);
+        }
+
+        /**
+         * Is the TYPE of this entity the same as represented where the _typeRef TYPE
+         * @param clazz the Class representation of the TYPE
+         * @return true if the TYPE is the same
+         */
+        default boolean isType(Class clazz) {
+            try {
+                return isType(clazz.getCanonicalName()) || isType(clazz.getSimpleName());
+            } catch (Exception e) {
+            }
+            return false;
+        }
+
+        /**
+         * Does the type of this named typed comply with the lambda
+         * @param typeMatchFn lambda matcher function
+         * @return true if the type
+         */
+        default boolean isType(Predicate<_typeRef> typeMatchFn) {
+            return typeMatchFn.test(getType());
+        }
+
+        /**
+         * Is the TYPE of this entity the same as represented where the String TYPE
+         * @param type the String representation of the TYPE
+         * @return true if the TYPE is the same
+         */
+        default boolean isType(String type) {
+            try {
+                return isType(typeRef(type));
+            } catch (Exception e) {
+            }
+            return false;
+        }
     }
 }

@@ -13,7 +13,7 @@ import java.util.function.Predicate;
 /**
  * Wraps looking at an archive (.zip or .jar file)
  */
-public class _archive implements _code._provider{
+public class _archive implements _compilationUnit._provider{
 
     public static _archive of( String path ){
         return new _archive(Paths.get(path));
@@ -119,10 +119,10 @@ public class _archive implements _code._provider{
             p.endsWith("module-info.java");
 
     @Override
-    public <_C extends _code> List<_C> for_code(Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn) {
+    public <_C extends _compilationUnit> List<_C> for_code(Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn) {
         Predicate<Path> whichJavaFiles = ALL_JAVA_TYPE_FILES;
 
-        if( codeClass == _code.class){
+        if( codeClass == _compilationUnit.class){
             //_code means parse & include package-info and module-info
             whichJavaFiles = ALL_JAVA_FILES;
         } else if( codeClass == _packageInfo.class){
@@ -133,7 +133,7 @@ public class _archive implements _code._provider{
         List<_C> found = new ArrayList<>();
 
         forEach(this.pathMatchFn.and(whichJavaFiles), p-> {
-            _code _c = _java.code(p);
+            _compilationUnit _c = _java.code(p);
             if( codeClass.isAssignableFrom( _c.getClass()) && _codeMatchFn.test( (_C)_c)){
                 _codeActionFn.accept((_C)_c);
                 found.add((_C)_c);

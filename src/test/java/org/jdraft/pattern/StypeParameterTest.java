@@ -1,11 +1,9 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.ast.type.TypeParameter;
-import org.jdraft.Ast;
-import org.jdraft._node;
+import org.jdraft._java;
 import org.jdraft._typeParameter;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
@@ -122,7 +120,7 @@ public class StypeParameterTest extends TestCase {
             int a;
             String b;
 
-            public <A extends Map & _node> A m() {
+            public <A extends Map & _java._node> A m() {
                 return null;
             }
         }

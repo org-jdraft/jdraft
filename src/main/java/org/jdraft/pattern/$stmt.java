@@ -1140,7 +1140,7 @@ public class $stmt<T extends Statement>
      * @param _n
      * @return 
      */
-    public T draft(_node _n ){
+    public T draft(_java._node _n ){
         Map<String,Object> decons = _n.tokenize();
         return (T) draft( decons );
     }
@@ -1254,8 +1254,8 @@ public class $stmt<T extends Statement>
      */
     @Override
     public Select<T> selectFirstIn( _java._domain _j){
-        if( _j instanceof _code ){
-            _code _c = (_code) _j;
+        if( _j instanceof _compilationUnit){
+            _compilationUnit _c = (_compilationUnit) _j;
             if( _c.isTopLevel() ){
                 return selectFirstIn(_c.astCompilationUnit());
             }
@@ -1265,7 +1265,7 @@ public class $stmt<T extends Statement>
         if( _j instanceof _body ){
             return selectFirstIn( ((_body)_j).ast() );
         }
-        return selectFirstIn( ((_node) _j).ast() );
+        return selectFirstIn( ((_java._node) _j).ast() );
     }
      
 
@@ -1290,13 +1290,13 @@ public class $stmt<T extends Statement>
      * @return 
      */
     public Select<T> selectFirstIn(_java._domain _n, Predicate<Select<T>> selectConstraint ){
-        if( _n instanceof _code ){
-            if( ((_code) _n).isTopLevel()){
-                return selectFirstIn( ((_code) _n).astCompilationUnit(), selectConstraint );
+        if( _n instanceof _compilationUnit){
+            if( ((_compilationUnit) _n).isTopLevel()){
+                return selectFirstIn( ((_compilationUnit) _n).astCompilationUnit(), selectConstraint );
             }
             return selectFirstIn( ((_type)_n).ast(), selectConstraint);
         }
-        return selectFirstIn( ((_node)_n).ast(), selectConstraint );
+        return selectFirstIn( ((_java._node)_n).ast(), selectConstraint );
     }
 
     /**
@@ -1609,11 +1609,11 @@ public class $stmt<T extends Statement>
         return (_CT)commentOut( _class.of(clazz), REPLACE_WITH_EMPTY_STMT_COMMENT);
     }
 
-    public _source commentOut(_code._provider _codeProvider){
+    public _source commentOut(_compilationUnit._provider _codeProvider){
         return commentOut(_codeProvider, REPLACE_WITH_EMPTY_STMT_COMMENT);
     }
 
-    public _source commentOut(_code._provider _codeProvider, Consumer<Statement> commenter){
+    public _source commentOut(_compilationUnit._provider _codeProvider, Consumer<Statement> commenter){
         _source cc = _source.of(_codeProvider);
         forEachIn(cc, n-> commenter.accept(n));
         return cc;
@@ -1693,7 +1693,7 @@ public class $stmt<T extends Statement>
      * @param <_N> the node type
      * @return the modified node
      */
-    public <_N extends _node> _N unComment( _N _n){
+    public <_N extends _java._node> _N unComment(_N _n){
         unComment( _n.ast() );
         return _n;
     }
@@ -1769,8 +1769,8 @@ public class $stmt<T extends Statement>
                 //System.out.println("PAR AFTER Remove "+ par );
             }
         });
-        if( _j instanceof _node ){
-            Ast.flattenLabel( ((_node) _j).ast(), "$replacement$");
+        if( _j instanceof _java._node){
+            Ast.flattenLabel( ((_java._node) _j).ast(), "$replacement$");
         }
         return (_J) _j;
     }

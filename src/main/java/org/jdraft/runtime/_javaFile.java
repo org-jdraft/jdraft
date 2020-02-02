@@ -26,7 +26,7 @@ import javax.tools.JavaFileObject;
 import org.jdraft.*;
 
 /**
- * Adapts the {@link _code} or {@link CompilationUnit} so it can be used as the 
+ * Adapts the {@link _compilationUnit} or {@link CompilationUnit} so it can be used as the
  * input to the (in memory javac tool in AdHoc)
  *
  * the adaptation occurs by calling functions and interpreting the contents of
@@ -38,7 +38,7 @@ import org.jdraft.*;
  * 
  * @author Eric
  */
-public class _javaFile<C extends _code>  
+public class _javaFile<C extends _compilationUnit>
     implements JavaFileObject  {
 
     /**
@@ -56,7 +56,7 @@ public class _javaFile<C extends _code>
      * @param _c the _type or other _code entity
      * @return the _codeFile
      */
-    public static <C extends _code> _javaFile of( C _c){
+    public static <C extends _compilationUnit> _javaFile of(C _c){
         return new _javaFile( _c );        
     }
     
@@ -76,7 +76,7 @@ public class _javaFile<C extends _code>
      * @return 
      */
     public static _javaFile of( Path javaSourceFilePath ){
-        _code _c = _java.code(javaSourceFilePath);
+        _compilationUnit _c = _java.code(javaSourceFilePath);
         _javaFile _cf = of( _c );
         String fullName = _c.getFullName();
         
@@ -100,7 +100,7 @@ public class _javaFile<C extends _code>
      * @return a codeFile
      */
     public static _javaFile of( Path sourceRoot, Path javaSourceFilePath ){
-        _code _c = _java.code(javaSourceFilePath);
+        _compilationUnit _c = _java.code(javaSourceFilePath);
         _javaFile _cf = of( _c );
         _cf.setSourcePath(sourceRoot);
         return _cf;
@@ -109,14 +109,14 @@ public class _javaFile<C extends _code>
     /**
      * Prints the source code within the CompilationUnit/AST
      */
-    static Function<_code, String> toStringFn = cu -> cu.toString();
+    static Function<_compilationUnit, String> toStringFn = cu -> cu.toString();
 
     /**
      * for the time being, just return the default 0L.... NOW you COULD create a
      * listener or something that would be registered for events but you dont
      * HAVE to.
      */
-    static Function<_code, Long> lastUpdatedFn = cu -> 0L;
+    static Function<_compilationUnit, Long> lastUpdatedFn = cu -> 0L;
 
     /** 
      * (Optional) The source root directory ...i.e. prior to the package path 
@@ -251,7 +251,7 @@ public class _javaFile<C extends _code>
 
     /**
      * A Function that resolves the Fully qualified Class Name (i.e.
-     * "java.util.Map" to be used for the file path) from the {@link _code}
+     * "java.util.Map" to be used for the file path) from the {@link _compilationUnit}
      * instance (using the {@link CompilationUnit}).
      *
      * <P>
@@ -264,7 +264,7 @@ public class _javaFile<C extends _code>
      * class name should resolve to "xxxx.yyyy.C"</P>
      */
     public static class ClassNameFrom_codeFn
-            implements Function<_code, String> {
+            implements Function<_compilationUnit, String> {
 
         public static final ClassNameFrom_codeFn INSTANCE
                 = new ClassNameFrom_codeFn();
@@ -317,7 +317,7 @@ public class _javaFile<C extends _code>
         }
 
         @Override
-        public String apply(_code code) {
+        public String apply(_compilationUnit code) {
             if (code instanceof _type) {
                 return ((_type) code).getFullName();
             }

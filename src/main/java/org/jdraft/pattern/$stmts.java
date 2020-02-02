@@ -258,7 +258,7 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
      * @param _n
      * @return 
      */
-    public List<Statement> draft(_node _n ){
+    public List<Statement> draft(_java._node _n ){
         return draft(_n.tokenize());
     }
 
@@ -469,15 +469,15 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
     
     @Override
     public List<Select> listSelectedIn(_java._domain _j){
-        if( _j instanceof _code ){
-            _code _c = (_code) _j;
+        if( _j instanceof _compilationUnit){
+            _compilationUnit _c = (_compilationUnit) _j;
             if( _c.isTopLevel() ){
                 return listSelectedIn(_c.astCompilationUnit());
             }
             _type _t = (_type) _j; //only possible
             return listSelectedIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listSelectedIn( ((_node) _j).ast());
+        return listSelectedIn( ((_java._node) _j).ast());
     }
 
     @Override
@@ -647,8 +647,8 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
                 //System.out.println("PAR AFTER Remove "+ par );
             }
         });
-        if( _j instanceof _node ){
-            Ast.flattenLabel( ((_node) _j).ast(), "$replacement$");
+        if( _j instanceof _java._node){
+            Ast.flattenLabel( ((_java._node) _j).ast(), "$replacement$");
         }
         return _j;
     }

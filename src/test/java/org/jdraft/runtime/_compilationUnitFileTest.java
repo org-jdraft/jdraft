@@ -8,7 +8,7 @@ import junit.framework.TestCase;
  *
  * @author Eric
  */
-public class _codeFileTest extends TestCase {
+public class _compilationUnitFileTest extends TestCase {
 
     public void testFile(){
 

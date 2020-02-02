@@ -591,8 +591,8 @@ public final class _annotation
      * (it is also a _member) and maps to an AnnotationMemberDeclaration
      */
     public static class _entry implements _javadoc._hasJavadoc<_entry>,
-            _anno._hasAnnos<_entry>, _namedType<_entry>,
-            _declared<AnnotationMemberDeclaration, _entry> {
+            _anno._hasAnnos<_entry>, _java._namedType<_entry>,
+            _java._declared<AnnotationMemberDeclaration, _entry> {
 
         public static _entry of(AnnotationMemberDeclaration astEntry){
             return new _entry( astEntry );

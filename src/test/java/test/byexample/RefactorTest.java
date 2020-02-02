@@ -1,12 +1,6 @@
 package test.byexample;
 
 import junit.framework.TestCase;
-import org.jdraft._code;
-import org.jdraft.io._archive;
-import org.jdraft.pattern.$;
-import org.jdraft.pattern.$anno;
-
-import java.util.List;
 
 public class RefactorTest extends TestCase {
 

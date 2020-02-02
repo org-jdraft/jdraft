@@ -11,7 +11,7 @@ import org.jdraft.diff._diff.*;
  * _differ for the package name
  */
 public class _packageNameDiff
-        implements _differ<String, _node> {
+        implements _differ<String, _java._node> {
 
     public static final _packageNameDiff INSTANCE = new _packageNameDiff();
     
@@ -25,7 +25,7 @@ public class _packageNameDiff
     }
 
     @Override
-    public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, String leftPackageName, String rightPackageName) {
+    public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, String leftPackageName, String rightPackageName) {
         if (!Objects.equals(leftPackageName, rightPackageName)) {            
             return dt.addDiff(
                 new _changePackageName(path.in(Component.PACKAGE), (_type) _leftParent, (_type) _rightParent));

@@ -826,7 +826,7 @@ public class $constructor
      * @param _n
      * @return 
      */
-    public _constructor draft(_node _n ){
+    public _constructor draft(_java._node _n ){
         return draft(_n.tokenize() );
     }
 
@@ -1005,9 +1005,9 @@ public class $constructor
      * @return  the first _constructor that matches (or null if none found)
      */
     public Select selectFirstIn(_java._domain _j, Predicate<Select> selectConstraint){
-        if( _j instanceof _code){
-            if( ((_code) _j).isTopLevel()){
-                Optional<ConstructorDeclaration> f = (((_code) _j).astCompilationUnit().findFirst(
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel()){
+                Optional<ConstructorDeclaration> f = (((_compilationUnit) _j).astCompilationUnit().findFirst(
                     ConstructorDeclaration.class, s -> {
                         Select sel = this.select(s);
                         return sel != null && selectConstraint.test(sel);
@@ -1030,7 +1030,7 @@ public class $constructor
                 return null;
             }
         } else{
-            Optional<ConstructorDeclaration> f = ((_node)_j).ast().findFirst(
+            Optional<ConstructorDeclaration> f = ((_java._node)_j).ast().findFirst(
                 ConstructorDeclaration.class, s -> {
                     Select sel = this.select(s);
                     return sel != null && selectConstraint.test(sel);
@@ -1117,15 +1117,15 @@ public class $constructor
     
     @Override
     public List<Select> listSelectedIn(_java._domain _j){
-        if( _j instanceof _code ){
-            _code _c = (_code) _j;
+        if( _j instanceof _compilationUnit){
+            _compilationUnit _c = (_compilationUnit) _j;
             if( _c.isTopLevel() ){
                 return listSelectedIn(_c.astCompilationUnit());
             }
             _type _t = (_type) _j; //only possible
             return listSelectedIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listSelectedIn( ((_node) _j).ast());
+        return listSelectedIn( ((_java._node) _j).ast());
     }
     
     /**

@@ -3,7 +3,7 @@ package test.byexample;
 import com.github.javaparser.utils.Log;
 import junit.framework.TestCase;
 import org.jdraft._class;
-import org.jdraft._code;
+import org.jdraft._compilationUnit;
 import org.jdraft._method;
 import org.jdraft.io._archive;
 import org.jdraft.io._io;
@@ -284,7 +284,7 @@ public class SpatternAnalyzeTest extends TestCase {
         //what I might want to do is to
 
         //replace All @annotations with @Deprecated and return all of the _code files
-        List<_code> _ts = $.anno().replaceIn(_a2, $anno.of("@Deprecated") );
+        List<_compilationUnit> _ts = $.anno().replaceIn(_a2, $anno.of("@Deprecated") );
 
         System.out.println( _io.out("C:\\temp\\refactored", _ts));
         //_ts.forEach( t -> System.out.println( t ) );

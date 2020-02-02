@@ -8,9 +8,9 @@ import org.jdraft._java.Component;
 import org.jdraft.diff._diff.*;
 
 /**
- * Differ for a {@link _named}
+ * Differ for a {@link _java._named}
  */
-public class _namedDiff implements _differ<String, _node> {
+public class _namedDiff implements _differ<String, _java._node> {
 
     public static final _namedDiff INSTANCE = new _namedDiff();
     
@@ -25,21 +25,21 @@ public class _namedDiff implements _differ<String, _node> {
     }
 
     @Override
-    public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, String left, String right) {
+    public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, String left, String right) {
         if (!Objects.equals(left, right)) {
-            return dt.addDiff(new _changeName(path.in(component), (_named) _leftParent, (_named) _rightParent));
+            return dt.addDiff(new _changeName(path.in(component), (_java._named) _leftParent, (_java._named) _rightParent));
         }
         return dt;
     }
     
     public static class _changeName implements _diffNode, _diffNode._change<String> {
-        _named leftParent;
-        _named rightParent;
+        _java._named leftParent;
+        _java._named rightParent;
         String leftName;
         String rightName;
         _nodePath path;
         
-         public _changeName(_nodePath _p, _named leftParent, _named rightParent){
+         public _changeName(_nodePath _p, _java._named leftParent, _java._named rightParent){
             this.path = _p;
             this.leftParent = leftParent;
             this.leftName = leftParent.getName();

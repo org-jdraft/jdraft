@@ -440,13 +440,13 @@ public class $throws
      * @return  the first _import that matches (or null if none found)
      */
     public Select selectFirstIn( _java _j, Predicate<Select> selectConstraint ){
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel()){
-                return selectFirstIn( ((_code) _j).astCompilationUnit(), selectConstraint);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel()){
+                return selectFirstIn( ((_compilationUnit) _j).astCompilationUnit(), selectConstraint);
             }
             return selectFirstIn( ((_type)_j).ast(), selectConstraint);
         }
-        return selectFirstIn( ((_node)_j).ast(), selectConstraint );
+        return selectFirstIn( ((_java._node)_j).ast(), selectConstraint );
     }
 
     /**
@@ -519,13 +519,13 @@ public class $throws
      * @return 
      */
     public List<Select> listSelectedIn(_java._domain _j, Predicate<Select> selectConstraint ){
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel()){
-                return listSelectedIn( ((_code) _j).astCompilationUnit(), selectConstraint );
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel()){
+                return listSelectedIn( ((_compilationUnit) _j).astCompilationUnit(), selectConstraint );
             }
             return listSelectedIn( ((_type)_j).ast(), selectConstraint);
         }
-        return listSelectedIn( ((_node)_j).ast(), selectConstraint );
+        return listSelectedIn( ((_java._node)_j).ast(), selectConstraint );
     }
 
     /**
@@ -588,15 +588,15 @@ public class $throws
      * @return 
      */
     public <_J extends _java._domain> _J replaceIn(_J _j, _throws _replaceThrows){
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel()){
-                replaceIn( ((_code) _j).astCompilationUnit(), $throws.of(_replaceThrows));
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel()){
+                replaceIn( ((_compilationUnit) _j).astCompilationUnit(), $throws.of(_replaceThrows));
                 return _j;
             }
             replaceIn( ((_type) _j).ast(), $throws.of(_replaceThrows));
             return _j;
         }
-        replaceIn( ((_node) _j).ast(), $throws.of(_replaceThrows));
+        replaceIn( ((_java._node) _j).ast(), $throws.of(_replaceThrows));
         return _j;
     }
     
@@ -620,15 +620,15 @@ public class $throws
      * @return
      */
     public <_J extends _java> _J replaceIn(_J _j, $throws $replaceThrows ){
-        if( _j instanceof _code ){
-            if( ((_code) _j).isTopLevel()){
-                replaceIn( ((_code) _j).astCompilationUnit(), $replaceThrows);
+        if( _j instanceof _compilationUnit){
+            if( ((_compilationUnit) _j).isTopLevel()){
+                replaceIn( ((_compilationUnit) _j).astCompilationUnit(), $replaceThrows);
                 return _j;
             }
             replaceIn( ((_type) _j).ast(), $replaceThrows);
             return _j;
         }
-        replaceIn( ((_node) _j).ast(), $replaceThrows);
+        replaceIn( ((_java._node) _j).ast(), $replaceThrows);
         return _j;
     }
     

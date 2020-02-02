@@ -30,12 +30,12 @@ import org.jdraft.text.Text;
  */
 public final class _method
         implements _javadoc._hasJavadoc<_method>, _anno._hasAnnos<_method>,
-        _namedType<_method>, _body._hasBody<_method>, _throws._hasThrows<_method>,
+        _java._namedType<_method>, _body._hasBody<_method>, _throws._hasThrows<_method>,
         _modifiers._hasModifiers<_method>, _parameter._hasParameters<_method>,
         _typeParameter._hasTypeParameters<_method>, _receiverParameter._hasReceiverParameter<_method>,
         _modifiers._hasStatic<_method>, _modifiers._hasNative<_method>, _modifiers._hasFinal<_method>,
         _modifiers._hasAbstract<_method>, _modifiers._hasSynchronized<_method>,
-        _modifiers._hasStrictFp<_method>, _declared<MethodDeclaration, _method> {
+        _modifiers._hasStrictFp<_method>, _java._declared<MethodDeclaration, _method> {
 
     public static _method of(String methodDecl) {
         return of(new String[]{methodDecl});
@@ -759,7 +759,7 @@ public final class _method
             }
             MethodDeclaration md = (MethodDeclaration) obd.get();
             
-            Optional<CompilationUnit> oc = ((_node)this).ast().findCompilationUnit();
+            Optional<CompilationUnit> oc = ((_java._node)this).ast().findCompilationUnit();
             if( oc.isPresent() ){
                 CompilationUnit cu = oc.get();
                 Set<Class> clazzes = _import.inferImportsFrom(anonymousObjectContainingMethod.getClass());    

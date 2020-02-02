@@ -15,7 +15,7 @@ import java.util.*;
  *
  * @author Eric
  */
-public final class _modifiers implements _nodeList<Modifier, _modifier, _modifiers> {
+public final class _modifiers implements _java._nodeList<Modifier, _modifier, _modifiers> {
 
     /** Making the internal AST modifiers more accessible */
     public static final Modifier PUBLIC = Modifier.publicModifier();
@@ -642,7 +642,7 @@ public final class _modifiers implements _nodeList<Modifier, _modifier, _modifie
         }
 
         default _HS setStatic(boolean toSet){
-            _node n = (_node)this;
+            _java._node n = (_java._node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.STATIC, toSet);
             return (_HS)this;
@@ -664,7 +664,7 @@ public final class _modifiers implements _nodeList<Modifier, _modifier, _modifie
         }
 
         default _HS setSynchronized(boolean toSet){
-            _node n = (_node)this;
+            _java._node n = (_java._node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.SYNCHRONIZED, toSet);
             return (_HS)this;
@@ -684,7 +684,7 @@ public final class _modifiers implements _nodeList<Modifier, _modifier, _modifie
         }
 
         default _HA setAbstract(boolean toSet){
-            _node n = (_node)this;
+            _java._node n = (_java._node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.ABSTRACT, toSet);
             return (_HA)this;
@@ -706,7 +706,7 @@ public final class _modifiers implements _nodeList<Modifier, _modifier, _modifie
         }
 
         default _HV setVolatile(boolean toSet){
-           _node n = (_node)this;
+           _java._node n = (_java._node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.VOLATILE, toSet);
             return (_HV)this;
@@ -728,7 +728,7 @@ public final class _modifiers implements _nodeList<Modifier, _modifier, _modifie
         }
 
         default _HN setNative(boolean toSet){
-            _node n = (_node)this;
+            _java._node n = (_java._node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.NATIVE, toSet);
             return (_HN)this;
@@ -750,7 +750,7 @@ public final class _modifiers implements _nodeList<Modifier, _modifier, _modifie
         }
 
         default _HT setTransient(boolean toSet){
-            _node n = (_node)this;
+            _java._node n = (_java._node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.TRANSIENT, toSet);
             return (_HT)this;
@@ -772,7 +772,7 @@ public final class _modifiers implements _nodeList<Modifier, _modifier, _modifie
         }
 
         default _HS setStrictFp(boolean toSet){
-            _node n = (_node)this;
+            _java._node n = (_java._node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.STRICTFP, toSet);
             return (_HS)this;

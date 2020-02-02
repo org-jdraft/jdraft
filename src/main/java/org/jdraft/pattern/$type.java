@@ -866,7 +866,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         return all;
     }
 
-    public static $pattern.$tokens selectImports(List<$import> $protoImports, _code _hcs) {
+    public static $pattern.$tokens selectImports(List<$import> $protoImports, _compilationUnit _hcs) {
         Map<$import, List<$import.Select>> selectMap = new HashMap<>();
 
         for (int i = 0; i < $protoImports.size(); i++) {

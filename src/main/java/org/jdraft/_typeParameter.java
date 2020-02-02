@@ -16,8 +16,8 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _typeParameter
-        implements _node<TypeParameter, _typeParameter>, 
-        _named<_typeParameter>, _anno._hasAnnos<_typeParameter> {
+        implements _java._node<TypeParameter, _typeParameter>,
+        _java._named<_typeParameter>, _anno._hasAnnos<_typeParameter> {
 
     public static _typeParameter of() {
         return of( new TypeParameter());
@@ -226,7 +226,7 @@ public final class _typeParameter
         extends _java._domain {
         
         default _typeParameters getTypeParameters(){
-            _declared _m = (_declared) this;
+            _java._declared _m = (_java._declared) this;
             return _typeParameters.of( (NodeWithTypeParameters)_m.ast() );
         }
 
@@ -240,7 +240,7 @@ public final class _typeParameter
 
         /* return a list of AST typeParameters */
         default NodeList<TypeParameter> listAstTypeParameters() {
-            _declared _m = (_declared) this;
+            _java._declared _m = (_java._declared) this;
             return ((NodeWithTypeParameters)_m.ast()).getTypeParameters();
         }
         
@@ -264,19 +264,19 @@ public final class _typeParameter
         }
 
         default _HTP typeParameters(_typeParameters _tps ){
-            _declared _m = (_declared) this;
+            _java._declared _m = (_java._declared) this;
             ((NodeWithTypeParameters)_m.ast()).setTypeParameters(_tps.ast());            
             return (_HTP)this;
         }
 
         default _HTP typeParameters(NodeList<TypeParameter> astTypeParams ){
-            _declared _m = (_declared) this;
+            _java._declared _m = (_java._declared) this;
             ((NodeWithTypeParameters)_m.ast()).setTypeParameters(astTypeParams);            
             return (_HTP)this;
         }
 
         default _HTP removeTypeParameter(TypeParameter tp ){
-            _declared _m = (_declared) this;
+            _java._declared _m = (_java._declared) this;
             ((NodeWithTypeParameters)_m.ast()).getTypeParameters().remove(tp);   
             return (_HTP)this;
         }
@@ -286,14 +286,14 @@ public final class _typeParameter
          * @return 
          */
         default _HTP removeTypeParameters(){
-            _declared _m = (_declared) this;
+            _java._declared _m = (_java._declared) this;
             ((NodeWithTypeParameters)_m.ast()).getTypeParameters().clear();   
             return (_HTP)this;
         }
 
         /** does this have non empty type parameters */
         default boolean hasTypeParameters(){
-            _declared _m = (_declared) this;
+            _java._declared _m = (_java._declared) this;
             return ((NodeWithTypeParameters)_m.ast()).getTypeParameters().isNonEmpty();
         }
     }    

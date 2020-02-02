@@ -131,7 +131,7 @@ import static java.nio.file.FileVisitResult.CONTINUE;
  *
  * @author Eric
  */
-public class _path implements _code._provider {
+public class _path implements _compilationUnit._provider {
 
     public static final Predicate<Path> EXCLUDE_PACKAGE_INFO =
         path-> !path.endsWith("package-info.java");
@@ -195,12 +195,12 @@ public class _path implements _code._provider {
      * @param <_C>
      * @return
      */
-    public <_C extends _code> List<_C> for_code(Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn){
+    public <_C extends _compilationUnit> List<_C> for_code(Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn){
         List<_C> theCode = new ArrayList<>();
         this.list(JAVA_FILES_ONLY).forEach(
                 p-> {
                     try{
-                        _code _t = _java.code(p);
+                        _compilationUnit _t = _java.code(p);
                         if( codeClass.isAssignableFrom(  _t.getClass() ) && _codeMatchFn.test( (_C)_t)){
                             _C _c = (_C)_t;
                             _codeActionFn.accept(_c);

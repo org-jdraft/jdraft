@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class _arrayDimension implements _node<ArrayCreationLevel, _arrayDimension>  {
+public class _arrayDimension implements _java._node<ArrayCreationLevel, _arrayDimension> {
 
     public static _arrayDimension of(ArrayCreationLevel acl){
         return new _arrayDimension(acl);

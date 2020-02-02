@@ -585,15 +585,15 @@ public class $anno
      * @return 
      */
     public Select selectFirstIn(_java._domain _j, Predicate<Select>selectConstraint) {
-        if( _j instanceof _code ){
-            _code _c = (_code)_j;
+        if( _j instanceof _compilationUnit){
+            _compilationUnit _c = (_compilationUnit)_j;
             if( _c.isTopLevel() ){
                 return selectFirstIn(_c.astCompilationUnit(), selectConstraint);
             }
             _type _t = (_type)_j; //only possible
             return selectFirstIn(_t.ast(), selectConstraint); //return the TypeDeclaration, not the CompilationUnit            
         }
-        return selectFirstIn(((_node)_j).ast(), selectConstraint);
+        return selectFirstIn(((_java._node)_j).ast(), selectConstraint);
     }
     
     @Override
@@ -642,15 +642,15 @@ public class $anno
      * @return 
      */
     public List<Select> listSelectedIn(_java._domain _j, Predicate<Select> selectConstraint) {
-         if( _j instanceof _code ){
-            _code _c = (_code)_j;
+         if( _j instanceof _compilationUnit){
+            _compilationUnit _c = (_compilationUnit)_j;
             if( _c.isTopLevel() ){
                 return listSelectedIn(_c.astCompilationUnit(), selectConstraint);
             }
             _type _t = (_type)_j; //only possible
             return listSelectedIn(_t.ast(), selectConstraint); //return the TypeDeclaration, not the CompilationUnit            
         }
-        return listSelectedIn(((_node)_j).ast(), selectConstraint);
+        return listSelectedIn(((_java._node)_j).ast(), selectConstraint);
     }    
     
     @Override
@@ -707,8 +707,8 @@ public class $anno
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Consumer<Select> selectActionFn) {
-         if( _j instanceof _code ){
-            _code _c = (_code) _j;
+         if( _j instanceof _compilationUnit){
+            _compilationUnit _c = (_compilationUnit) _j;
             if( _c.isTopLevel() ){
                 forSelectedIn(_c.astCompilationUnit(), selectActionFn);
                 return _j;
@@ -717,7 +717,7 @@ public class $anno
             forSelectedIn(_t.ast(), selectActionFn); //return the TypeDeclaration, not the CompilationUnit            
             return _j;
         }
-        forSelectedIn(((_node) _j).ast(), selectActionFn);
+        forSelectedIn(((_java._node) _j).ast(), selectActionFn);
         return _j;
     }
     
@@ -730,8 +730,8 @@ public class $anno
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
-         if( _j instanceof _code ){
-            _code _c = (_code) _j;
+         if( _j instanceof _compilationUnit){
+            _compilationUnit _c = (_compilationUnit) _j;
             if( _c.isTopLevel() ){
                 forSelectedIn(_c.astCompilationUnit(), selectConstraint, selectActionFn);
                 return _j;
@@ -740,7 +740,7 @@ public class $anno
             forSelectedIn(_t.ast(), selectConstraint, selectActionFn); //return the TypeDeclaration, not the CompilationUnit            
             return _j;
         }
-        forSelectedIn(((_node) _j).ast(), selectActionFn);
+        forSelectedIn(((_java._node) _j).ast(), selectActionFn);
         return _j;
     }
     

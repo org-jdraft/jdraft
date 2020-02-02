@@ -7,14 +7,14 @@ import org.jdraft.*;
 import org.jdraft.diff._diff.*;
 
 public class _typeRefDiff
-    implements _differ<_typeRef, _node> {
+    implements _differ<_typeRef, _java._node> {
     
     public static final _typeRefDiff INSTANCE = new _typeRefDiff();
 
     @Override
-    public <_PN extends _node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _typeRef left, _typeRef right) {
+    public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _typeRef left, _typeRef right) {
         if (!Objects.equals(left, right)) {
-            dt.addDiff(new _change_type(path.in(_java.Component.TYPE), (_namedType) _leftParent, (_namedType) _rightParent));
+            dt.addDiff(new _change_type(path.in(_java.Component.TYPE), (_java._namedType) _leftParent, (_java._namedType) _rightParent));
         }
         return  dt;
     }
@@ -27,12 +27,12 @@ public class _typeRefDiff
     public static class _change_type 
             implements _diffNode, _diffNode._change<_typeRef>{
         _nodePath path;
-        _namedType leftParent;
-        _namedType rightParent;
+        _java._namedType leftParent;
+        _java._namedType rightParent;
         _typeRef leftType;
         _typeRef rightType;
         
-        public _change_type(_nodePath _p, _namedType leftParent, _namedType rightParent){
+        public _change_type(_nodePath _p, _java._namedType leftParent, _java._namedType rightParent){
             this.path = _p;
             this.leftParent = leftParent;
             this.leftType = leftParent.getType().copy();

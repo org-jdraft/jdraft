@@ -2,11 +2,9 @@ package org.jdraft;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.ImportDeclaration;
-import com.github.javaparser.ast.NodeList;
 
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -21,7 +19,7 @@ import java.util.stream.Collectors;
  * @see _import representation of a single import declaration
  * @author Eric
  */
-public class _imports implements _nodeList<ImportDeclaration, _import, _imports> {
+public class _imports implements _java._nodeList<ImportDeclaration, _import, _imports> {
 
     public static _imports of(){
         return new _imports(new CompilationUnit());

@@ -112,10 +112,10 @@ public class _new implements _expression<ObjectCreationExpr, _new> {
      * (or an empty
      * @return
      */
-    public List<_declared> listAnonymousBodyDeclarations(){
-        List<_declared> ds =  new ArrayList<>();
+    public List<_java._declared> listAnonymousBodyDeclarations(){
+        List<_java._declared> ds =  new ArrayList<>();
         if( this.oce.getAnonymousClassBody().isPresent()){
-            oce.getAnonymousClassBody().get().forEach(b -> ds.add((_declared)_java.of(b)));
+            oce.getAnonymousClassBody().get().forEach(b -> ds.add((_java._declared)_java.of(b)));
         }
         return ds;
     }

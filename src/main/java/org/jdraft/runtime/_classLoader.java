@@ -1,6 +1,6 @@
 package org.jdraft.runtime;
 
-import org.jdraft._code;
+import org.jdraft._compilationUnit;
 import org.jdraft._type;
 import org.jdraft.Walk;
 
@@ -65,7 +65,7 @@ public class _classLoader
      * @param clazz the clazz (loaded in this AdhocClassLoader)
      * @return the codeModel (or null)
      */
-    public _code get_code(Class clazz){
+    public _compilationUnit get_code(Class clazz){
         return get_code( clazz.getCanonicalName() );
     }
     
@@ -75,7 +75,7 @@ public class _classLoader
      * @param fullyQualifiedClassName the name of the class (i.e. "java.util.Map")
      * @return 
      */
-    public _code get_code(String fullyQualifiedClassName){
+    public _compilationUnit get_code(String fullyQualifiedClassName){
         //TODO fix this to handle getting the code for internal types
         //could be inner class...
         if( classNameTo_classFile.get(fullyQualifiedClassName) == null){
@@ -184,7 +184,7 @@ public class _classLoader
      * @return a list of code Models that represent the source code that were 
      * loaded in this ClassLoader
      */
-    public List<_code> list_code(){
+    public List<_compilationUnit> list_code(){
         return this.classNameTo_javaFile.values().stream().map(c-> c.codeModel).collect(Collectors.toList());
     }
     

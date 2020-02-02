@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 public final class _field
         implements _javadoc._hasJavadoc<_field>, _anno._hasAnnos<_field>, _modifiers._hasModifiers<_field>, //_modifiers._hasModifiers<_field>,
         _modifiers._hasFinal<_field>, _modifiers._hasStatic<_field>, _modifiers._hasTransient<_field>, _modifiers._hasVolatile<_field>,
-        _namedType<_field>, _declared<VariableDeclarator, _field> {
+        _java._namedType<_field>, _java._declared<VariableDeclarator, _field> {
 
     private final VariableDeclarator astVar;
 

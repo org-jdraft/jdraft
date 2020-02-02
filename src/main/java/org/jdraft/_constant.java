@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  */
 public class _constant implements _javadoc._hasJavadoc<_constant>,
         _anno._hasAnnos<_constant>,_method._hasMethods<_constant>, _field._hasFields<_constant>,
-        _declared<EnumConstantDeclaration, _constant> {
+        _java._declared<EnumConstantDeclaration, _constant> {
 
     public static _constant of(){
         return of( new EnumConstantDeclaration());
@@ -158,7 +158,7 @@ public class _constant implements _javadoc._hasJavadoc<_constant>,
      * @param _ds any declared (_method, _field) to the constant classBody
      * @return the modified _constant
      */
-    public _constant add( _declared... _ds ){
+    public _constant add( _java._declared... _ds ){
         Arrays.stream(_ds).forEach(_d -> this.astConstant.getClassBody().add( (BodyDeclaration)_d.ast()) );
         return this;
     }

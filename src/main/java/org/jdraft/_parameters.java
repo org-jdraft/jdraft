@@ -12,8 +12,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -25,7 +23,7 @@ import java.util.stream.Collectors;
  * @author Eric
  */
 public final class _parameters
-        implements _nodeList<Parameter, _parameter, _parameters>{
+        implements _java._nodeList<Parameter, _parameter, _parameters> {
 
     public static <T extends Object> _parameters of( Consumer<T> c){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];

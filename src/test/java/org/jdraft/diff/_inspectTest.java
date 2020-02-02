@@ -1,13 +1,10 @@
 package org.jdraft.diff;
 
 import com.github.javaparser.utils.Log;
-import org.jdraft.Stmt;
-import org.jdraft._class;
-import org.jdraft._field;
+import org.jdraft.*;
 
 import static org.jdraft._java.Component.*;
-import org.jdraft._declared;
-import org.jdraft._method;
+
 import org.jdraft.diff._diffNode._change;
 import org.jdraft.diff._diffNode._edit;
 import org.jdraft.macro.*;
@@ -144,7 +141,7 @@ public class _inspectTest extends TestCase {
         });
         
         //move ALL members from _v2 to _v1
-        _v1.add(_v2.listDeclared().toArray(new _declared[0]));
+        _v1.add(_v2.listDeclared().toArray(new _java._declared[0]));
         assertEquals( _v1, _v2);        
     }
     

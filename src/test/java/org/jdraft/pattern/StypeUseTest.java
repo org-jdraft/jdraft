@@ -8,10 +8,7 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.TypeParameter;
 import junit.framework.TestCase;
-import org.jdraft.Ast;
-import org.jdraft._class;
-import org.jdraft._node;
-import org.jdraft._typeParameter;
+import org.jdraft.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,7 +34,7 @@ public class StypeUseTest extends TestCase {
             int a;
             String b;
 
-            public <A extends Map & _node> A m() throws IOException { return null; }
+            public <A extends Map & _java._node> A m() throws IOException { return null; }
 
             public java.util.List getAList(){
                 System.out.println( 1);

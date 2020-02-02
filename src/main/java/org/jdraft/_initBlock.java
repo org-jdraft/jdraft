@@ -32,7 +32,7 @@ import org.jdraft.text.Text;
  */
 public final class _initBlock
         implements _body._hasBody<_initBlock>, _javadoc._hasJavadoc<_initBlock>,
-        _member<InitializerDeclaration, _initBlock> {
+        _java._member<InitializerDeclaration, _initBlock> {
 
     /**
      *
@@ -311,7 +311,7 @@ public final class _initBlock
          * @return 
          */
         default List<_initBlock> listInitBlocks(){
-            NodeWithMembers nwm = (NodeWithMembers)((_node)this).ast();
+            NodeWithMembers nwm = (NodeWithMembers)((_java._node)this).ast();
             List<_initBlock> sbs = new ArrayList<>();
             NodeList<BodyDeclaration<?>> mems = nwm.getMembers();
             for( BodyDeclaration mem : mems ){
@@ -327,7 +327,7 @@ public final class _initBlock
          * @return the index<SUP>th</SUP> static block declared in the _type 
          */
         default _initBlock getInitBlock(int index ){
-            NodeWithMembers nwm = (NodeWithMembers)((_node)this).ast();
+            NodeWithMembers nwm = (NodeWithMembers)((_java._node)this).ast();
             NodeList<BodyDeclaration<?>> mems = nwm.getMembers();
             for( BodyDeclaration mem : mems ){
                 if( mem instanceof InitializerDeclaration){

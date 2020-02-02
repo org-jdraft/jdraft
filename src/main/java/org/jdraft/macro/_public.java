@@ -5,7 +5,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithPublicModifier;
-import org.jdraft._node;
+import org.jdraft._java;
 import org.jdraft._type;
 
 import java.lang.annotation.ElementType;
@@ -64,7 +64,7 @@ public @interface _public {
             to(node);
         }
 
-        public static <_N extends _node> _N to(_N _n){
+        public static <_N extends _java._node> _N to(_N _n){
             to(_n.ast());
             return _n;
         }

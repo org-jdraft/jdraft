@@ -456,7 +456,7 @@ public class $enum
         return false;
     }
 
-    public boolean matches( _code _c){
+    public boolean matches( _compilationUnit _c){
         if( _c instanceof _enum){
             return matches( (_enum)_c);
         }

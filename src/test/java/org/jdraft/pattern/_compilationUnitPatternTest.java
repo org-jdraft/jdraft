@@ -16,7 +16,7 @@ import junit.framework.TestCase;
  * Verify the module info and package info classes work
  * @author Eric
  */
-public class _codePatternTest extends TestCase {
+public class _compilationUnitPatternTest extends TestCase {
 
     /**
      *  https://github.com/javaparser/javaparser/issues/2373
@@ -123,14 +123,14 @@ public class _codePatternTest extends TestCase {
     }
 
     public void testPkgInfo(){
-        _code _pi = _packageInfo.of("package aaaa.ffff.gggg;", "import java.util.*;", "import java.net.URL;");
+        _compilationUnit _pi = _packageInfo.of("package aaaa.ffff.gggg;", "import java.util.*;", "import java.net.URL;");
         assertEquals(1, $import.of(URL.class).count(_pi));
         assertEquals(1, $import.of("java.util.*").count(_pi));
         assertEquals(2, $import.of().count(_pi));
     }
     
     public void testModuleInfo(){
-        _code _pi = _moduleInfo.of("import java.util.*;", "import java.net.URL;", "module aaaa.ffff.gggg{}" );
+        _compilationUnit _pi = _moduleInfo.of("import java.util.*;", "import java.net.URL;", "module aaaa.ffff.gggg{}" );
         assertEquals(1, $import.of(URL.class).count(_pi));
         assertEquals(2, $import.of().count(_pi));
     }
