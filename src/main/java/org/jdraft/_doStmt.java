@@ -13,8 +13,8 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-
-public class _doStmt implements _statement<DoStmt, _doStmt> {
+public class _doStmt implements _statement._controlFlow._loop<DoStmt, _doStmt>,
+        _statement._controlFlow._conditional<DoStmt, _doStmt> {
 
     public static _doStmt of(){
         return new _doStmt( new DoStmt( ));

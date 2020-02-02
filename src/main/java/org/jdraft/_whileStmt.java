@@ -10,7 +10,8 @@ import com.github.javaparser.ast.stmt.WhileStmt;
 import java.util.*;
 import java.util.function.*;
 
-public class _whileStmt implements _statement<WhileStmt, _whileStmt>, _body._hasBody<_whileStmt>{
+public class _whileStmt implements _statement._controlFlow._conditional<WhileStmt, _whileStmt>,
+        _statement._controlFlow._loop<WhileStmt, _whileStmt>, _body._hasBody<_whileStmt>{
 
     public static _whileStmt of(){
         return new _whileStmt( new WhileStmt( ));

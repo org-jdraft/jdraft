@@ -14,7 +14,8 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class _forStmt implements _statement<ForStmt, _forStmt> {
+public class _forStmt implements _statement._controlFlow._loop<ForStmt, _forStmt>,
+        _statement._controlFlow._conditional<ForStmt,_forStmt> {
 
     public static _forStmt of(){
         return new _forStmt( new ForStmt( ));

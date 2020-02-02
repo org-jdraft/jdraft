@@ -13,7 +13,8 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class _forEachStmt implements _statement<ForEachStmt, _forEachStmt> {
+public class _forEachStmt implements _statement._controlFlow._conditional<ForEachStmt, _forEachStmt>,
+        _statement._controlFlow._loop<ForEachStmt, _forEachStmt>{
 
     public static _forEachStmt of(){
         return new _forEachStmt( new ForEachStmt( ));
@@ -24,7 +25,6 @@ public class _forEachStmt implements _statement<ForEachStmt, _forEachStmt> {
     public static _forEachStmt of(String...code){
         return new _forEachStmt(Stmt.forEachStmt( code));
     }
-
 
     public static <A extends Object> _forEachStmt of(Ex.Command c){
         LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);

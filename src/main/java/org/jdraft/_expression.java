@@ -6,10 +6,18 @@ public interface _expression<E extends Expression, _E extends _expression> exten
 
     E ast();
 
-    static _expression of(String...code){
-        return of( Ex.of(code));
-    }
+    // computation / assign
+    //   methodCall, binaryExpression, assign, unary, ternary, enclosedExpression, switchExpr
 
+    // declaration
+    //  variable, localClass, arrayInitialize, lambda, new
+
+    // reference
+    //   anno, arrayAccess, classExpression, fieldAccess, methodReference, nameExpression, super, typeExpression, cast
+    //
+
+    // literal
+    //  String, double, int, char, null, long
     Class<_anno> ANNO = _anno.class;
     Class<_arrayAccess> ARRAY_ACCESS = _arrayAccess.class;
     Class<_assign> ASSIGN = _assign.class;
@@ -41,6 +49,10 @@ public interface _expression<E extends Expression, _E extends _expression> exten
         BINARY_EXPRESSION, BOOLEAN, CAST, CHAR, CLASS_EXPRESSION, ENCLOSED_EXPRESSION, FIELD_ACCESS,
         INT, LONG, LAMBDA, METHOD_CALL, METHOD_REFERENCE, NAME_EXPRESSION, NEW, NULL, SUPER, STRING,
         SWITCH_EXPRESSION, TYPE_EXPRESSION, TERNARY, UNARY, VARIABLE};
+
+    static _expression of(String...code){
+        return of( Ex.of(code));
+    }
 
     /**
      * Given an AST expression, return the _expression equivalent

@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 
-public class _throwStmt implements _statement<ThrowStmt, _throwStmt> {
+public class _throwStmt implements _statement._controlFlow._terminal<ThrowStmt, _throwStmt> {
 
     public static _throwStmt of(){
         return new _throwStmt( new ThrowStmt( ));

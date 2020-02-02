@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Objects;
 
 
-public class _continueStmt implements _statement<ContinueStmt, _continueStmt> {
+public class _continueStmt implements _statement._controlFlow._terminal<ContinueStmt, _continueStmt> {
 
     public static _continueStmt of(){
         return new _continueStmt( new ContinueStmt( ));
