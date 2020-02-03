@@ -166,7 +166,7 @@ public class _annos
     }
 
     @Override
-    public List<AnnotationExpr> listAstElements() {
+    public NodeList<AnnotationExpr> listAstElements() {
         return this.astAnnNode.getAnnotations();
     }
 

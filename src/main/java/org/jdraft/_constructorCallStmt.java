@@ -7,30 +7,38 @@ import com.github.javaparser.ast.type.Type;
 
 import java.util.*;
 
-//? lambda
-public class _thisOrSuperCallStmt implements _statement<ExplicitConstructorInvocationStmt, _thisOrSuperCallStmt> {
+/**
+ * A call to super or this in a constructor or initializer.
+ * <br/><code>class X { X() { super(15); } }</code>
+ * <br/><code>class X { X() { this(1, 2); } }</code>
+ *
+ * @author Julio Vilmar Gesser
+ * @see _super
+ * @see _this
+ */
+public class _constructorCallStmt implements _statement<ExplicitConstructorInvocationStmt, _constructorCallStmt> {
 
-    public static _thisOrSuperCallStmt of(){
-        return new _thisOrSuperCallStmt( new ExplicitConstructorInvocationStmt( ));
+    public static _constructorCallStmt of(){
+        return new _constructorCallStmt( new ExplicitConstructorInvocationStmt( ));
     }
 
-    public static _thisOrSuperCallStmt of(ExplicitConstructorInvocationStmt ecs){
-        return new _thisOrSuperCallStmt( ecs);
+    public static _constructorCallStmt of(ExplicitConstructorInvocationStmt ecs){
+        return new _constructorCallStmt( ecs);
     }
 
-    public static _thisOrSuperCallStmt of(String...code){
-        return new _thisOrSuperCallStmt(Stmt.thisOrSuperCallStmt( code));
+    public static _constructorCallStmt of(String...code){
+        return new _constructorCallStmt(Stmt.thisOrSuperCallStmt( code));
     }
 
     private ExplicitConstructorInvocationStmt astStmt;
 
-    public _thisOrSuperCallStmt(ExplicitConstructorInvocationStmt astStmt){
+    public _constructorCallStmt(ExplicitConstructorInvocationStmt astStmt){
         this.astStmt = astStmt;
     }
 
     @Override
-    public _thisOrSuperCallStmt copy() {
-        return new _thisOrSuperCallStmt( this.astStmt.clone());
+    public _constructorCallStmt copy() {
+        return new _constructorCallStmt( this.astStmt.clone());
     }
 
     @Override
@@ -77,7 +85,7 @@ public class _thisOrSuperCallStmt implements _statement<ExplicitConstructorInvoc
         return null;
     }
 
-    public _thisOrSuperCallStmt setExpression(_expression _e){
+    public _constructorCallStmt setExpression(_expression _e){
         this.astStmt.setExpression(_e.ast());
         return this;
     }
@@ -89,19 +97,19 @@ public class _thisOrSuperCallStmt implements _statement<ExplicitConstructorInvoc
         return args;
     }
 
-    public _thisOrSuperCallStmt setArguments( _expression... _es ){
+    public _constructorCallStmt setArguments(_expression... _es ){
         NodeList<Expression> ars = new NodeList<>();
         Arrays.stream(_es).forEach(e -> ars.add(e.ast()));
         this.astStmt.setArguments(ars);
         return this;
     }
 
-    public _thisOrSuperCallStmt setArgument( int index, _expression _e ){
+    public _constructorCallStmt setArgument(int index, _expression _e ){
         this.astStmt.setArgument(index, _e.ast());
         return this;
     }
 
-    public _thisOrSuperCallStmt setTypeArgument( int index, _typeRef _t ){
+    public _constructorCallStmt setTypeArgument(int index, _typeRef _t ){
         if( this.astStmt.getTypeArguments().isPresent()){
             this.astStmt.getTypeArguments().get().set(index, _t.ast());
         } else{
@@ -136,8 +144,8 @@ public class _thisOrSuperCallStmt implements _statement<ExplicitConstructorInvoc
     }
 
     public boolean equals(Object other){
-        if( other instanceof _thisOrSuperCallStmt ){
-            return Objects.equals( ((_thisOrSuperCallStmt)other).ast(), this.ast() );
+        if( other instanceof _constructorCallStmt){
+            return Objects.equals( ((_constructorCallStmt)other).ast(), this.ast() );
         }
         return false;
     }

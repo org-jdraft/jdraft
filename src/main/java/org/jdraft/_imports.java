@@ -2,6 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.ImportDeclaration;
+import com.github.javaparser.ast.NodeList;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -42,7 +43,7 @@ public class _imports implements _java._nodeList<ImportDeclaration, _import, _im
 
 
     @Override
-    public List<ImportDeclaration> listAstElements() {
+    public NodeList<ImportDeclaration> listAstElements() {
         return this.astCompilationUnit.getImports();
     }
 

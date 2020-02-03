@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.*;
 
 import java.util.*;
@@ -80,7 +81,7 @@ public class _arrayInitialize implements _expression<ArrayInitializerExpr, _arra
     }
 
     @Override
-    public List<Expression> listAstElements() {
+    public NodeList<Expression> listAstElements() {
         return this.ile.getValues();
     }
 

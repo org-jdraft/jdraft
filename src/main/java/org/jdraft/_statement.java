@@ -16,18 +16,21 @@ public interface _statement<S extends Statement, _S extends _statement> extends 
     //   conditional doStmt, ifStmt, forStmt, forEachStmt, try, while
 
     interface _controlFlow<S extends Statement, _S extends _statement> extends _statement<S, _S>{
+
         interface _loop <S extends Statement, _S extends _statement> extends _controlFlow<S, _S>{}
+
         interface _terminal<S extends Statement, _S extends _statement> extends _controlFlow<S, _S>{}
-        interface _conditional<S extends Statement, _S extends _statement> extends _controlFlow<S, _S>{}
+
+        interface _conditional<S extends Statement, _S extends _statement> extends _controlFlow<S, _S>{} //if is conditional w/o loop //switch
     }
 
     Class<_assertStmt> ASSERT = _assertStmt.class;
     Class<_blockStmt> BLOCK = _blockStmt.class;
-    Class<_breakStmt> BREAK = _breakStmt.class;
-    Class<_continueStmt> CONTINUE = _continueStmt.class;
-    Class<_doStmt> DO = _doStmt.class;            //nodeWithBody
+    Class<_breakStmt> BREAK = _breakStmt.class;          //terminal
+    Class<_continueStmt> CONTINUE = _continueStmt.class; //terminal
+    Class<_doStmt> DO = _doStmt.class;                   //loop //nodeWithBody
     Class<_emptyStmt> EMPTY = _emptyStmt.class;
-    Class<_thisOrSuperCallStmt> THIS_OR_SUPER = _thisOrSuperCallStmt.class;
+    Class<_constructorCallStmt> THIS_OR_SUPER = _constructorCallStmt.class;
     Class<_expressionStmt> EXPRESSION_STMT = _expressionStmt.class;
     Class<_forEachStmt> FOR_EACH = _forEachStmt.class; //nodeWithBody
     Class<_forStmt> FOR = _forStmt.class;              //nodeWithBody
@@ -69,7 +72,7 @@ public interface _statement<S extends Statement, _S extends _statement> extends 
             return new _emptyStmt( (EmptyStmt)astStatement);
         }
         if( astStatement instanceof ExplicitConstructorInvocationStmt ){
-            return new _thisOrSuperCallStmt( (ExplicitConstructorInvocationStmt)astStatement);
+            return new _constructorCallStmt( (ExplicitConstructorInvocationStmt)astStatement);
         }
         if( astStatement instanceof ExpressionStmt){
             return new _expressionStmt( (ExpressionStmt)astStatement);

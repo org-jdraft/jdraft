@@ -12,9 +12,8 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
-//TODO lambdas for
-// setBody
-public class _tryStmt implements _statement<TryStmt, _tryStmt>, _java._nodeList<CatchClause, _catch, _tryStmt>,
+public class _tryStmt implements _statement<TryStmt, _tryStmt>,
+        _java._nodeList<CatchClause, _catch, _tryStmt>,
         _body._hasBody<_tryStmt>{
 
     public static _tryStmt of(){
@@ -91,7 +90,7 @@ public class _tryStmt implements _statement<TryStmt, _tryStmt>, _java._nodeList<
     }
 
     @Override
-    public List<CatchClause> listAstElements() {
+    public NodeList<CatchClause> listAstElements() {
         return  this.ast().getCatchClauses();
     }
 

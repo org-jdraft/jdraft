@@ -1466,7 +1466,7 @@ public interface _java {
 
         List<_EL> list();
 
-        List<EL> listAstElements();
+        NodeList<EL> listAstElements();
 
         default List<_EL> list(Predicate<_EL> matchFn){
             return list().stream().filter(matchFn).collect(Collectors.toList());

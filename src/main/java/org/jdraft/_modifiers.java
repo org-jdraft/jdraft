@@ -167,7 +167,7 @@ public final class _modifiers implements _java._nodeList<Modifier, _modifier, _m
         return mods;
     }
 
-    public List<Modifier> listAstElements(){
+    public NodeList<Modifier> listAstElements(){
         return this.node.getModifiers();
     }
 

@@ -297,7 +297,7 @@ public final class _throws
     }
 
     @Override
-    public List<ReferenceType> listAstElements() {
+    public NodeList<ReferenceType> listAstElements() {
         return this.astNodeWithThrows.getThrownExceptions();
     }
 

@@ -73,7 +73,7 @@ public final class _typeParameters
     }
 
     @Override
-    public List<TypeParameter> listAstElements() {
+    public NodeList<TypeParameter> listAstElements() {
         return this.astNodeWithTypeParams.getTypeParameters();
     }
 

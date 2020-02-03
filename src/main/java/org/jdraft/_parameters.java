@@ -156,7 +156,7 @@ public final class _parameters
     }
 
     @Override
-    public List<Parameter> listAstElements() {
+    public NodeList<Parameter> listAstElements() {
         return this.astNodeWithParams.getParameters();
     }
 
