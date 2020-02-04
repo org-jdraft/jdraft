@@ -6,7 +6,15 @@ import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.function.Predicate;
 
+/**
+ * Array brackets [] being used to get a value from an array.
+ * In <br/><code>getNames()[15*15]</code> the name expression is getNames() and the index expression is 15*15.
+ *
+ * @see _arrayDimension
+ */
 public class _arrayAccess implements _expression<ArrayAccessExpr, _arrayAccess> {
 
     public static _arrayAccess of(){
@@ -28,6 +36,7 @@ public class _arrayAccess implements _expression<ArrayAccessExpr, _arrayAccess> 
     public static _arrayAccess of( String name, int index){
         return of( Ex.nameEx(name), index);
     }
+
     /**
      *
      * @param name
@@ -38,6 +47,13 @@ public class _arrayAccess implements _expression<ArrayAccessExpr, _arrayAccess> 
         return of( Ex.nameEx(name), indexes);
     }
 
+    /**
+     * Here we have to build recursive expressions to handle multi-dimensional arrays
+     * where the name could be an _arrayAccess and the index can be
+     * @param e
+     * @param indexes
+     * @return
+     */
     public static _arrayAccess of(Expression e, int...indexes){
 
         if( indexes.length < 1) {
@@ -85,9 +101,54 @@ public class _arrayAccess implements _expression<ArrayAccessExpr, _arrayAccess> 
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
         comps.put(_java.Component.INDEX, astNode.getIndex());
-        comps.put(_java.Component.NAME, astNode.getName().toString());
+        comps.put(_java.Component.ARRAY_NAME, astNode.getName());
         return comps;
     }
+
+    public boolean isName(String name){
+        try{
+            return Objects.equals( _expression.of(name), this.getName());
+        }catch(Exception e){
+            return false;
+        }
+    }
+
+    public boolean isName(Expression e){
+        return Objects.equals( _expression.of(e), this.getName());
+    }
+
+    public boolean isName(_expression _e){
+        return Objects.equals( _e, this.getName());
+    }
+
+    public boolean isName(Predicate<_expression> namePredicate){
+        return namePredicate.test(this.getName());
+    }
+
+    public boolean isIndex(String indexExpression){
+        try{
+            return Objects.equals( _expression.of(indexExpression), this.getIndex());
+        }catch(Exception e){
+            return false;
+        }
+    }
+
+    public boolean isIndex(Predicate<_expression> indexPredicate){
+        return indexPredicate.test(this.getIndex());
+    }
+
+    public boolean isIndex(int i){
+        return Objects.equals( _int.of(i), this.getName());
+    }
+
+    public boolean isIndex(Expression e){
+        return Objects.equals( _expression.of(e), this.getName());
+    }
+
+    public boolean isIndex(_expression _e){
+        return Objects.equals( _e, this.getName());
+    }
+
 
     public _expression getName(){
         return _expression.of(this.astNode.getName());

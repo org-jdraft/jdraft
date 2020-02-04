@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  * @author Eric
  */
 public final class _typeParameters
-        implements _java._nodeList<TypeParameter, _typeParameter, _typeParameters> {
+        implements _java._nodeSet<TypeParameter, _typeParameter, _typeParameters> {
 
     public static _typeParameters of(){
         return of( Ast.classDecl("class Dummy{}" ));

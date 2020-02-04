@@ -10,43 +10,70 @@ public interface _statement<S extends Statement, _S extends _statement> extends 
      */
     S ast();
 
-    //control_flow
-    //   looping doStmt, forStmt, forEachStmt, whileStmt
-    //   terminal result, break, continue, thisOrSuperCall, throw, yield
-    //   conditional doStmt, ifStmt, forStmt, forEachStmt, try, while
-
     interface _controlFlow<S extends Statement, _S extends _statement> extends _statement<S, _S>{
 
+        /**
+         *
+         * @param <S>
+         * @param <_S>
+         * @see _doStmt
+         * @see _forStmt
+         * @see _forEachStmt
+         * @see _whileStmt
+         *
+         */
         interface _loop <S extends Statement, _S extends _statement> extends _controlFlow<S, _S>{}
 
-        interface _terminal<S extends Statement, _S extends _statement> extends _controlFlow<S, _S>{}
+        /**
+         * @param <S> the Ast Node type
+         * @param <_S> the _statement type
+         * @see _breakStmt
+         * @see _continueStmt
+         * @see _returnStmt
+         * @see _throwStmt
+         * @see _yieldStmt
+         */
+        interface _signal<S extends Statement, _S extends _statement> extends _controlFlow<S, _S>{}
 
-        interface _conditional<S extends Statement, _S extends _statement> extends _controlFlow<S, _S>{} //if is conditional w/o loop //switch
+        /**
+         * Connditional
+         * @param <S>
+         * @param <_S>
+         * @see _ifStmt
+         * @see _forStmt
+         * @see _doStmt
+         * @see _forEachStmt
+         * @see _whileStmt
+         * @see _switchStmt
+         * @see _tryStmt
+         */
+        interface _branching<S extends Statement, _S extends _statement> extends _controlFlow<S, _S>{}
     }
 
     Class<_assertStmt> ASSERT = _assertStmt.class;
-    Class<_blockStmt> BLOCK = _blockStmt.class;
-    Class<_breakStmt> BREAK = _breakStmt.class;          //terminal
-    Class<_continueStmt> CONTINUE = _continueStmt.class; //terminal
-    Class<_doStmt> DO = _doStmt.class;                   //loop //nodeWithBody
+    Class<_blockStmt> BLOCK = _blockStmt.class;          //scope
+    Class<_breakStmt> BREAK = _breakStmt.class;          //signal
+    Class<_continueStmt> CONTINUE = _continueStmt.class; //signal
+    Class<_doStmt> DO = _doStmt.class;                   //branch //loop //scope
     Class<_emptyStmt> EMPTY = _emptyStmt.class;
-    Class<_constructorCallStmt> THIS_OR_SUPER = _constructorCallStmt.class;
+    Class<_constructorCallStmt> CONSTRUCTOR_CALL = _constructorCallStmt.class;
     Class<_expressionStmt> EXPRESSION_STMT = _expressionStmt.class;
-    Class<_forEachStmt> FOR_EACH = _forEachStmt.class; //nodeWithBody
-    Class<_forStmt> FOR = _forStmt.class;              //nodeWithBody
-    Class<_ifStmt> IF = _ifStmt.class;                 //nodeWithBody
+    Class<_forEachStmt> FOR_EACH = _forEachStmt.class; //branching //loop //scope
+    Class<_forStmt> FOR = _forStmt.class;              //branching //loop //scope
+    Class<_ifStmt> IF = _ifStmt.class;                 //branching //loop //scope
     Class<_labeledStmt> LABELED = _labeledStmt.class;
     Class<_localClassStmt> LOCAL_CLASS = _localClassStmt.class;
-    Class<_returnStmt> RETURN = _returnStmt.class;
-    Class<_synchronizedStmt> SYNCHRONIZED = _synchronizedStmt.class; //nodeWithBody
-    Class<_throwStmt> THROW = _throwStmt.class;
-    Class<_tryStmt> TRY = _tryStmt.class;           //
-    Class<_whileStmt> WHILE = _whileStmt.class;     //looping
-    Class<_yieldStmt> YIELD = _yieldStmt.class;
+    Class<_returnStmt> RETURN = _returnStmt.class;     //signal
+    Class<_switchStmt> SWITCH = _switchStmt.class;    //branching
+    Class<_synchronizedStmt> SYNCHRONIZED = _synchronizedStmt.class; //scope
+    Class<_throwStmt> THROW = _throwStmt.class;     //signal
+    Class<_tryStmt> TRY = _tryStmt.class;           //branching
+    Class<_whileStmt> WHILE = _whileStmt.class;     //branching //loop
+    Class<_yieldStmt> YIELD = _yieldStmt.class;     //signal
 
     Class<? extends _statement>[] ALL = new Class[]{
-            ASSERT, BLOCK, BREAK, CONTINUE, DO, EMPTY, THIS_OR_SUPER, EXPRESSION_STMT, FOR_EACH,
-            FOR, IF, LABELED, LOCAL_CLASS, RETURN, SYNCHRONIZED, THROW, TRY, WHILE, YIELD};
+            ASSERT, BLOCK, BREAK, CONTINUE, DO, EMPTY, CONSTRUCTOR_CALL, EXPRESSION_STMT, FOR_EACH,
+            FOR, IF, LABELED, LOCAL_CLASS, RETURN, SYNCHRONIZED, SWITCH, THROW, TRY, WHILE, YIELD};
 
     static _statement of( String...stmtCode ){
         return of(Stmt.of(stmtCode));
@@ -94,6 +121,9 @@ public interface _statement<S extends Statement, _S extends _statement> extends 
         }
         if( astStatement instanceof ReturnStmt){
             return new _returnStmt( (ReturnStmt)astStatement);
+        }
+        if( astStatement instanceof SwitchStmt){
+            return new _switchStmt( (SwitchStmt)astStatement);
         }
         if( astStatement instanceof SynchronizedStmt){
             return new _synchronizedStmt( (SynchronizedStmt)astStatement);

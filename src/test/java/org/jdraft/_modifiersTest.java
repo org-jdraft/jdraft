@@ -236,7 +236,7 @@ public class _modifiersTest extends TestCase {
 
     public void testIs(){
         _modifiers _ms = _modifiers.of();
-        assertTrue( _ms.is());
+        assertTrue( _ms.isEmpty());
     }
     public void testSetOrUnset(){
         _modifiers _mds = _modifiers.of("public");

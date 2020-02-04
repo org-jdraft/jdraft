@@ -27,7 +27,7 @@ import static org.jdraft.Ast.field;
  * @author Eric
  */
 public class _annos
-        implements _java._nodeList<AnnotationExpr, _anno, _annos> {
+        implements _java._nodeSet<AnnotationExpr, _anno, _annos> {
 
     /** A reference to the container entity that is being annotated*/
     public final NodeWithAnnotations astAnnNode;

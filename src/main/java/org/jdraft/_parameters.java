@@ -14,7 +14,6 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
- *
  * Parameter is the AST node TYPE (the syntax and storage TYPE in the AST)
  * _parameter is the individual element TYPE (provides a interface for
  * modifying to the AST)

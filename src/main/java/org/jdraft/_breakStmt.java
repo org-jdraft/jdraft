@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Objects;
 
 
-public class _breakStmt implements _statement._controlFlow._terminal<BreakStmt, _breakStmt> {
+public class _breakStmt implements _statement._controlFlow._signal<BreakStmt, _breakStmt> {
 
     public static _breakStmt of(){
         return new _breakStmt( new BreakStmt( ).removeLabel());

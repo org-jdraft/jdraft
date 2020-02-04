@@ -786,7 +786,8 @@ public interface _java {
         SWITCH_ENTRIES("switchEntries", List.class, SwitchEntry.class), //TODO change to _switchEntry
         SWITCH_BODY_TYPE("switchBodyType", com.github.javaparser.ast.stmt.SwitchEntry.Type.class),
         SWITCH_LABELS("switchLabels", List.class, Expression.class),
-        INDEX("index", Integer.class), //arrayAccess
+        ARRAY_NAME("arrayName", Expression.class), //arrayAccess
+        INDEX("index", Expression.class), //arrayAccess
         VALUES("values", List.class, Expression.class), //ArrayInit
         TARGET("target", Expression.class), //assign
         VALUE("value", Expression.class), //assign
@@ -1441,19 +1442,33 @@ public interface _java {
     }
 
     /**
-     * Sometimes we have groupings of entities that do not
-     * map to a specific Ast entity but a grouping of AST entities
+     * A grouping of monotonic (same type) entities where the order doesnt matter
+     * to the semantics of the set.  While they may may be stored in NodeList<N>
+     * this represents the syntax, however in the semantic side, this:
+     * <CODE>
+     * void m() throws A, B
+     * </CODE>
+     *
+     * ...is semantically equivalent to this:
+     * <CODE>
+     *  void m() throws B, A
+     * </CODE>
      *
      * @see _annos< AnnotationExpr,_anno>
      * @see _imports< ImportDeclaration,_import>
      * @see _modifiers <com.github.javaparser.ast.Modifier,_modifier>
-     * @see _parameters< Parameter,_parameter>
-     * @see _throws< ReferenceType,_typeRef>
      * @see _typeParameters< TypeParameter,_typeParameter>
+     * @see _throws< ReferenceType,_typeRef>
      *
+     *
+     * @see _parameters< Parameter,_parameter>
+     *
+     *
+     * @param <EL>
+     * @param <_EL>
+     * @param <_NL>
      */
-    interface _nodeList<EL extends Node, _EL extends _node, _NL extends _nodeList> extends _domain {
-
+    interface _nodeSet<EL extends Node, _EL extends _node, _NL extends _nodeSet> extends _domain{
         _NL copy();
 
         default boolean isEmpty(){
@@ -1464,30 +1479,66 @@ public interface _java {
             return listAstElements().size();
         }
 
+
         List<_EL> list();
 
+        /**
+         * NOTE this returns a Mutable reference to the Ast elements
+         *
+         * meaning:
+         * IF YOU ADD ELEMENTS TO THE LIST THEY ARE DIRECTLY ADDED TO THE AST
+         * (this is NOT true if you add elements to the list returned in list())
+         * @return a MUTABLE reference to the Asts List & elements
+         */
         NodeList<EL> listAstElements();
 
         default List<_EL> list(Predicate<_EL> matchFn){
             return list().stream().filter(matchFn).collect(Collectors.toList());
         }
 
+
         default List<EL> listAstElements(Predicate<EL> matchFn){
             return listAstElements().stream().filter(matchFn).collect(Collectors.toList());
         }
 
+        default boolean anyMatch(Predicate<_EL> _matchFn){
+            return list().stream().anyMatch(_matchFn);
+        }
+
+        default boolean allMatch(Predicate<_EL> _matchFn){
+            return list().stream().allMatch(_matchFn);
+        }
+
+        default boolean is(_EL... _els){
+            Set<_EL> _arr = new HashSet<>();
+            Arrays.stream(_els).forEach(n -> _arr.add(n));
+            return is(_arr);
+        }
+
         default boolean is(List<_EL> _els){
+            Set<_EL> hs = new HashSet<>();
+            hs.addAll(_els);
+            return is(hs);
+        }
+
+        default boolean is(Set<_EL> _els){
             if( this.size() != _els.size() ){
                 return false;
             }
-            List<_EL> _tels = list();
+            Set<_EL> _tels = new HashSet<>();
+            _tels.addAll( list() );
+
+            return Objects.equals( _tels, _els);
+            /*
             for(int i=0;i<_els.size(); i++){
                 if( !Objects.equals(_els.get(i), _tels.get(i))){
                     return false;
                 }
             }
             return true;
+             */
         }
+
 
         default _EL get(Predicate<_EL> matchFn){
             List<_EL> _els = this.list(matchFn);
@@ -1562,6 +1613,38 @@ public interface _java {
         default _NL forEach(Consumer<_EL> consumer){
             list().forEach(consumer);
             return (_NL)this;
+        }
+    }
+
+    /**
+     * ORDERED/ ORDER MATTERS TO THE SEMANTICS GROUP
+     * Sometimes we have groupings of entities that do not
+     * map to a specific Ast entity but a grouping of AST entities
+     *
+     * @see _parameters (parameters are ordered)
+     * @see _arrayCreate (the dimensions of the array are in an ordered list)
+     * @see _arrayInitialize (the elements located in the array are ordered)
+     */
+    interface _nodeList<EL extends Node, _EL extends _node, _NL extends _nodeList> extends _nodeSet<EL, _EL, _NL>, _domain {
+
+        default boolean is(_EL... _els){
+            List<_EL> _arr = new ArrayList<>();
+            Arrays.stream(_els).forEach(n -> _arr.add(n));
+            return is(_arr);
+        }
+
+        //dont I need to put these into sets
+        default boolean is(List<_EL> _els){
+            if( this.size() != _els.size() ){
+                return false;
+            }
+            List<_EL> _tels = list();
+            for(int i=0;i<_els.size(); i++){
+                if( !Objects.equals(_els.get(i), _tels.get(i))){
+                    return false;
+                }
+            }
+            return true;
         }
     }
 

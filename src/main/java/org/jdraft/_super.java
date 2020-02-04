@@ -5,6 +5,20 @@ import com.github.javaparser.ast.expr.SuperExpr;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Usage of the super keyword
+ *
+ * <code>super.doIt()</code> is a MethodCallExpr of method doIt(), and a SuperExpr as its scope.
+ * This SuperExpr has no typeName.
+ *
+ * <code>super.MyType.doIt()</code> is a MethodCallExpr of method doIt(), and a SuperExpr as its scope.
+ * This SuperExpr has typeName "MyType".
+ *
+ * <code>super.name</code> is a FieldAccessExpr of field greet, and a SuperExpr as its scope.
+ * This SuperExpr has no typeName.
+ *
+ * @see _constructorCallStmt
+ */
 public class _super implements _expression<SuperExpr, _super> {
 
     public static _super of(){

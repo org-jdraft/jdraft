@@ -15,7 +15,7 @@ import java.util.*;
  *
  * @author Eric
  */
-public final class _modifiers implements _java._nodeList<Modifier, _modifier, _modifiers> {
+public final class _modifiers implements _java._nodeSet<Modifier, _modifier, _modifiers> {
 
     /** Making the internal AST modifiers more accessible */
     public static final Modifier PUBLIC = Modifier.publicModifier();

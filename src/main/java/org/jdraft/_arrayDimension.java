@@ -6,6 +6,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * An expression representing a single Array dimension
+ * i.e. for the following (3) dimensional array
+ * int[10][arrs.length][getY()] vals;
+ * we have (3) distinct _arrayDimension instances
+ *  [10] an intLiteral expression denoted dimension
+ *  [arrs.length] a fieldaccessExpression denoted diumension
+ *  [getY()] a methodCallExpr denoted dimension
+ *
+ * @see _arrayCreate where we use these _arrayDimensions to declare arrays
+ */
 public class _arrayDimension implements _java._node<ArrayCreationLevel, _arrayDimension> {
 
     public static _arrayDimension of(ArrayCreationLevel acl){

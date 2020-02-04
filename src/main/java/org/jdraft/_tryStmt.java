@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
-public class _tryStmt implements _statement<TryStmt, _tryStmt>,
+public class _tryStmt implements _statement._controlFlow._branching<TryStmt, _tryStmt>,
         _java._nodeList<CatchClause, _catch, _tryStmt>,
         _body._hasBody<_tryStmt>{
 

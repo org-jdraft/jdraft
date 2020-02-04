@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Objects;
 
 
-public class _returnStmt implements _statement._controlFlow._terminal<ReturnStmt, _returnStmt> {
+public class _returnStmt implements _statement._controlFlow._signal<ReturnStmt, _returnStmt> {
 
     public static _returnStmt of(){
         return new _returnStmt( new ReturnStmt( ));

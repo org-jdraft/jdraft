@@ -14,7 +14,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class _forEachStmt implements _statement._controlFlow._conditional<ForEachStmt, _forEachStmt>,
+public class _forEachStmt implements _statement._controlFlow._branching<ForEachStmt, _forEachStmt>,
         _statement._controlFlow._loop<ForEachStmt, _forEachStmt>, _body._hasBody<_forEachStmt>{
 
     public static _forEachStmt of(){

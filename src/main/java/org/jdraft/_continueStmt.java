@@ -1,7 +1,6 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.SimpleName;
-import com.github.javaparser.ast.stmt.BreakStmt;
 import com.github.javaparser.ast.stmt.ContinueStmt;
 
 import java.util.HashMap;
@@ -9,7 +8,7 @@ import java.util.Map;
 import java.util.Objects;
 
 
-public class _continueStmt implements _statement._controlFlow._terminal<ContinueStmt, _continueStmt> {
+public class _continueStmt implements _statement._controlFlow._signal<ContinueStmt, _continueStmt> {
 
     public static _continueStmt of(){
         return new _continueStmt( new ContinueStmt( ));

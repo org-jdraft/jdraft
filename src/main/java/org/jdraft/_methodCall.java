@@ -1,5 +1,7 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 
@@ -9,7 +11,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class _methodCall implements _expression<MethodCallExpr, _methodCall> {
+public class _methodCall implements _expression<MethodCallExpr, _methodCall>, _java._nodeList<Expression, _expression, _methodCall> {
 
     public static _methodCall of(){
         return new _methodCall( new MethodCallExpr( ));
@@ -72,6 +74,18 @@ public class _methodCall implements _expression<MethodCallExpr, _methodCall> {
     @Override
     public _methodCall copy() {
         return new _methodCall(this.mce.clone());
+    }
+
+    @Override
+    public List<_expression> list() {
+        List<_expression>_exs = new ArrayList<>();
+        listAstElements().forEach(e -> _exs.add(_expression.of(e)));
+        return _exs;
+    }
+
+    @Override
+    public NodeList<Expression> listAstElements() {
+        return this.mce.getArguments();
     }
 
     @Override

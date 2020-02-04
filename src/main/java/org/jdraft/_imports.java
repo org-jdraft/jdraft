@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * @see _import representation of a single import declaration
  * @author Eric
  */
-public class _imports implements _java._nodeList<ImportDeclaration, _import, _imports> {
+public class _imports implements _java._nodeSet<ImportDeclaration, _import, _imports> {
 
     public static _imports of(){
         return new _imports(new CompilationUnit());

@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 
-public class _ifStmt implements _statement._controlFlow._conditional<IfStmt, _ifStmt>, _body._hasBody<_ifStmt> {
+public class _ifStmt implements _statement._controlFlow._branching<IfStmt, _ifStmt>, _body._hasBody<_ifStmt> {
 
     public static _ifStmt of(){
         return new _ifStmt( new IfStmt( ));

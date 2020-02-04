@@ -10,7 +10,7 @@ import java.util.Objects;
 import java.util.function.Predicate;
 
 
-public class _yieldStmt implements _statement._controlFlow._terminal<YieldStmt, _yieldStmt> {
+public class _yieldStmt implements _statement._controlFlow._signal<YieldStmt, _yieldStmt> {
     public static _yieldStmt of(){
         return new _yieldStmt( new YieldStmt( ));
     }

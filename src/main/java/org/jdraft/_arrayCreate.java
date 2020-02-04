@@ -13,7 +13,8 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate> {
+public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate>,
+        _java._nodeList<ArrayCreationLevel, _arrayDimension, _arrayCreate> {
 
     public static _arrayCreate of( ){
         return new _arrayCreate(new ArrayCreationExpr());
@@ -77,6 +78,18 @@ public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate
     @Override
     public _arrayCreate copy() {
         return new _arrayCreate(this.astNode.clone());
+    }
+
+    @Override
+    public List<_arrayDimension> list() {
+        List<_arrayDimension> _ads = new ArrayList<>();
+        this.astNode.getLevels().forEach(l-> _ads.add( _arrayDimension.of(l)));
+        return _ads;
+    }
+
+    @Override
+    public NodeList<ArrayCreationLevel> listAstElements() {
+        return this.astNode.getLevels();
     }
 
     @Override

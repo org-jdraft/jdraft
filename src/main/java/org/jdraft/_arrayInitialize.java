@@ -5,7 +5,8 @@ import com.github.javaparser.ast.expr.*;
 
 import java.util.*;
 
-public class _arrayInitialize implements _expression<ArrayInitializerExpr, _arrayInitialize>, _java._nodeList<Expression, _expression, _arrayInitialize> {
+public class _arrayInitialize implements _expression<ArrayInitializerExpr, _arrayInitialize>,
+        _java._nodeList<Expression, _expression, _arrayInitialize> {
 
     public static _arrayInitialize of( ){
         return new _arrayInitialize(new ArrayInitializerExpr());

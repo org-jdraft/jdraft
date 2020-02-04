@@ -8,7 +8,7 @@ import com.github.javaparser.ast.type.Type;
 import java.util.*;
 
 /**
- * A call to super or this in a constructor or initializer.
+ * A call to "super" or "this" in a constructor or initializer.
  * <br/><code>class X { X() { super(15); } }</code>
  * <br/><code>class X { X() { this(1, 2); } }</code>
  *
@@ -16,7 +16,9 @@ import java.util.*;
  * @see _super
  * @see _this
  */
-public class _constructorCallStmt implements _statement<ExplicitConstructorInvocationStmt, _constructorCallStmt> {
+public class _constructorCallStmt
+        implements _statement<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
+        _java._nodeList<Expression, _expression, _constructorCallStmt> {
 
     public static _constructorCallStmt of(){
         return new _constructorCallStmt( new ExplicitConstructorInvocationStmt( ));
@@ -39,6 +41,18 @@ public class _constructorCallStmt implements _statement<ExplicitConstructorInvoc
     @Override
     public _constructorCallStmt copy() {
         return new _constructorCallStmt( this.astStmt.clone());
+    }
+
+    @Override
+    public List<_expression> list() {
+        List<_expression> _la = new ArrayList<>();
+        listAstElements().forEach(a -> _la.add(_expression.of(a)));
+        return _la;
+    }
+
+    @Override
+    public NodeList<Expression> listAstElements() {
+        return this.astStmt.getArguments();
     }
 
     @Override
@@ -74,6 +88,10 @@ public class _constructorCallStmt implements _statement<ExplicitConstructorInvoc
         return !this.astStmt.isThis();
     }
 
+    /**
+     * Is using the Diamond operator/ Type Arguments <>
+     * @return
+     */
     public boolean isUsingDiamondOperator(){
         return this.astStmt.isUsingDiamondOperator();
     }
