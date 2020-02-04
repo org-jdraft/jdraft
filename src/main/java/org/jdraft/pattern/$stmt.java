@@ -426,8 +426,7 @@ public class $stmt<T extends Statement>
     public static $stmt<ContinueStmt> continueStmt(String pattern, Predicate<ContinueStmt> constraint) {
         return new $stmt( Stmt.continueStmt(pattern)).$and(constraint);
     }
-    
-    
+
     /**
      * Returns a prototype that matches ANY assertStmt
      * @return 
@@ -974,17 +973,17 @@ public class $stmt<T extends Statement>
     /** the class of the statement */
     public Class<T> statementClass;
 
-    private $stmt( Class<T> statementClass ){
+    protected $stmt( Class<T> statementClass ){
         this( statementClass, "$any$"); 
     }
     
-    private $stmt( Class<T> statementClass, String pattern){
+    protected $stmt( Class<T> statementClass, String pattern){
         this.constraint = t->true;
         this.statementClass = statementClass;
         this.stmtStencil = Stencil.of(pattern);
     }
     
-    private $stmt( Class<T> statementClass, Predicate<T> constraint ){
+    protected $stmt( Class<T> statementClass, Predicate<T> constraint ){
         this.statementClass = statementClass;
         this.stmtStencil = Stencil.of("$any$");
         this.constraint = constraint;        
@@ -1544,11 +1543,11 @@ public class $stmt<T extends Statement>
      * 
      * @param <_J>
      * @param _j
-     * @param statment_s
+     * @param statements
      * @return 
      */
-    public <_J extends _java._domain> _J replaceIn(_J _j, String... statment_s ){
-        $stmts $sn = $stmts.of(statment_s);
+    public <_J extends _java._domain> _J replaceIn(_J _j, String... statements ){
+        $stmts $sn = $stmts.of(statements);
         return replaceIn(_j, $sn);
     }
 
