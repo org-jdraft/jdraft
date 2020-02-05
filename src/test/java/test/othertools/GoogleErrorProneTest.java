@@ -9,6 +9,7 @@ import com.github.javaparser.ast.stmt.ReturnStmt;
 import junit.framework.TestCase;
 import org.jdraft.Ast;
 import org.jdraft._class;
+import org.jdraft._returnStmt;
 import org.jdraft.io._source;
 import org.jdraft.pattern.*;
 
@@ -25,7 +26,7 @@ public class GoogleErrorProneTest extends TestCase {
     public void testFindReturnNull(){
 
         //this models all return statements that return the null literal
-        $stmt<ReturnStmt> $returnNull =
+        $stmt<ReturnStmt, _returnStmt> $returnNull =
                 $.returnStmt("return null;");
 
         class retNull{
@@ -52,7 +53,7 @@ public class GoogleErrorProneTest extends TestCase {
                 .$and(cd-> ((CallableDeclaration)cd).getAnnotationByName("Nullable").isPresent());
 
         //match any Return null where that is NOT within a Member of
-        $stmt<ReturnStmt> $returnNull = $.returnStmt("return null;")
+        $stmt<ReturnStmt, _returnStmt> $returnNull = $.returnStmt("return null;")
                 .$and(r -> !$.hasAncestor(r, $memberAnnotatedWithNullable));
 
 

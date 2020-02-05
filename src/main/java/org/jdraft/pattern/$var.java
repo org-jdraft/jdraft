@@ -426,11 +426,13 @@ public class $var
         this.init = $ex.of(initExprProto);
         return this;
     }
-    
-    public <E extends Expression> $var $init( E initExprProto, Predicate<E> constraint){
+
+    /*
+    public <E extends Expression, _E extends _expression> $var $init( E initExprProto, Predicate<_E> constraint){
         this.init = $ex.of(initExprProto).$and(constraint);
         return this;
     }
+     */
 
     public boolean match( Node n){
         if( n instanceof VariableDeclarator ){

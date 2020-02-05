@@ -19,7 +19,7 @@ import org.jdraft.text.*;
  */
 public class $typeRef
     implements Template<_typeRef>, $pattern<_typeRef, $typeRef>, $method.$part, $field.$part,
-        $parameter.$part, $typeParameter.$part, $var.$part, $annotationElement.$part {
+        $parameter.$part, $typeParameter.$part, $var.$part, $annotationEntry.$part {
 
     public static final $typeRef VOID = of( new VoidType() );
 

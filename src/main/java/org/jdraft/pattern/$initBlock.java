@@ -28,6 +28,7 @@ import org.jdraft.text.*;
  * </PRE>
  *
  * @see InitializerDeclaration
+ * @see _initBlock
  */
 public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$java<_initBlock,$initBlock>,
         Template<_initBlock>, $class.$part, $enum.$part, $member<_initBlock, $initBlock>, $type.$part {

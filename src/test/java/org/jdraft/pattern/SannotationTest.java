@@ -6,6 +6,8 @@ import junit.framework.TestCase;
 import org.jdraft.Ast;
 import org.jdraft._annotation;
 import org.jdraft._field;
+import org.jdraft._int;
+
 import java.util.Map;
 
 public class SannotationTest extends TestCase {
@@ -162,7 +164,7 @@ public class SannotationTest extends TestCase {
         assertEquals(1, $.of(TypeDeclaration.class).count(_c));
         assertEquals(1, $.of(TypeDeclaration.class).$hasDescendant($.field($.STATIC)).count(_c));
 
-        IntegerLiteralExpr ile = $.of(200).firstIn(_c);
+        _int ile = $.of(200).firstIn(_c);
         assertNotNull(ile);
 
         //verify that I can find a literal expression 102 that has a synchronized ancestor node

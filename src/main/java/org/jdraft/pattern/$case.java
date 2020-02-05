@@ -22,13 +22,13 @@ import org.jdraft.text.Translator;
  * @author Eric
  */
 public class $case
-    implements $pattern<SwitchEntry, $case>, Template<SwitchEntry>, $body.$part, $method.$part, $constructor.$part {
+    implements $pattern<_switchEntry, $case>, Template<_switchEntry>, $body.$part, $method.$part, $constructor.$part {
 
     public static $case of(){
         return new $case( $ex.of() );
     }
 
-    public static $case of( Predicate<SwitchEntry> constraint ){
+    public static $case of( Predicate<_switchEntry> constraint ){
         return of().$and(constraint);
     }
 
@@ -40,7 +40,7 @@ public class $case
         return new $case(astSwitchEntry );
     }
     
-    public static $case of( SwitchEntry astSwitchEntry, Predicate<SwitchEntry> constraint){
+    public static $case of( SwitchEntry astSwitchEntry, Predicate<_switchEntry> constraint){
         return new $case(astSwitchEntry).$and(constraint);
     }
 
@@ -78,7 +78,7 @@ public class $case
             $sts .add( $stmt.of(sts.get(i)));
         }
         $c.$and( s-> {
-            if (s.getStatements().size() != astSwitchEntry.getStatements().size()) {
+            if (s.ast().getStatements().size() != astSwitchEntry.getStatements().size()) {
                 return false;
             }
             for(int i=0;i<$sts.size();i++){
@@ -91,7 +91,7 @@ public class $case
         return $c;
     }
 
-    public Predicate<SwitchEntry> constraint = t-> true;
+    public Predicate<_switchEntry> constraint = t-> true;
     
     public $ex label = $ex.of();
     
@@ -140,7 +140,7 @@ public class $case
         return select(switchEntry) != null;
     }
     
-    public $case $and(Predicate<SwitchEntry> constraint ){
+    public $case $and(Predicate<_switchEntry> constraint ){
         this.constraint = constraint;
         return this;
     }
@@ -192,8 +192,12 @@ public class $case
         }
     }
 
+    public Select select( _switchEntry _se){
+        return select(_se.ast());
+    }
+
     public Select select( SwitchEntry astSwitchEntry ){
-        if( ! constraint.test(astSwitchEntry)){
+        if( ! constraint.test(_switchEntry.of(astSwitchEntry))){
             System.out.println( "Failed constraint");
             return null;
         }
@@ -220,14 +224,14 @@ public class $case
     }
 
     @Override
-    public SwitchEntry firstIn(Node astStartNode, Predicate<SwitchEntry> caseMatchFn ) {
+    public _switchEntry firstIn(Node astStartNode, Predicate<_switchEntry> caseMatchFn ) {
         Optional<SwitchEntry> ose = 
             astStartNode.findFirst(SwitchEntry.class, se ->{
                 Select sel = select(se);
-                return sel != null && caseMatchFn.test(se);
+                return sel != null && caseMatchFn.test(sel._se);
             });
         if( ose.isPresent() ){
-            return ose.get();
+            return _switchEntry.of(ose.get());
         }
         return null;
     }
@@ -332,11 +336,11 @@ public class $case
     }
 
     @Override
-    public <N extends Node> N forEachIn(N astNode, Predicate<SwitchEntry> _caseMatchFn, Consumer<SwitchEntry> _nodeActionFn) {
+    public <N extends Node> N forEachIn(N astNode, Predicate<_switchEntry> _caseMatchFn, Consumer<_switchEntry> _nodeActionFn) {
         astNode.walk(SwitchEntry.class, se-> {
             Select sel = select(se);
-            if( sel != null && _caseMatchFn.test(se) ) {
-                _nodeActionFn.accept(se);
+            if( sel != null && _caseMatchFn.test(sel._se) ) {
+                _nodeActionFn.accept(sel._se);
             }
         });
         return astNode;
@@ -444,7 +448,7 @@ public class $case
     }
     
     @Override
-    public SwitchEntry draft(Translator translator, Map<String, Object> keyValues) {
+    public _switchEntry draft(Translator translator, Map<String, Object> keyValues) {
         SwitchEntry se = new SwitchEntry();
         //Parameteric override
         if( keyValues.get("$case") != null ){
@@ -492,7 +496,7 @@ public class $case
         } else{
             this.statements.forEach(st -> se.addStatement( st.draft(translator, keyValues) ) );
         }
-        return se;
+        return _switchEntry.of(se);
     }
 
     @Override
@@ -539,7 +543,7 @@ public class $case
      * @return
      */
     public $case $isAfter( $pattern... patternsOccurringBeforeThisNode ){
-        Predicate<SwitchEntry> prev = e -> $pattern.BodyScope.findPrevious(e, patternsOccurringBeforeThisNode) != null;
+        Predicate<_switchEntry> prev = e -> $pattern.BodyScope.findPrevious(e.ast(), patternsOccurringBeforeThisNode) != null;
         return $and(prev);
     }
 
@@ -549,7 +553,7 @@ public class $case
      * @return
      */
     public $case $isNotAfter( $pattern... patternsOccurringBeforeThisNode ){
-        Predicate<SwitchEntry> prev = e -> $pattern.BodyScope.findPrevious(e, patternsOccurringBeforeThisNode) != null;
+        Predicate<_switchEntry> prev = e -> $pattern.BodyScope.findPrevious(e.ast(), patternsOccurringBeforeThisNode) != null;
         return $not(prev);
     }
 
@@ -559,7 +563,7 @@ public class $case
      * @return
      */
     public $case $isBefore( $pattern... patternsOccurringAfterThisNode ){
-        Predicate<SwitchEntry> prev = e -> $pattern.BodyScope.findNext(e, patternsOccurringAfterThisNode) != null;
+        Predicate<_switchEntry> prev = e -> $pattern.BodyScope.findNext(e.ast(), patternsOccurringAfterThisNode) != null;
         return $and(prev);
     }
 
@@ -569,7 +573,7 @@ public class $case
      * @return
      */
     public $case $isNotBefore( $pattern... patternsOccurringAfterThisNode ){
-        Predicate<SwitchEntry> prev = e -> $pattern.BodyScope.findNext(e, patternsOccurringAfterThisNode) != null;
+        Predicate<_switchEntry> prev = e -> $pattern.BodyScope.findNext(e.ast(), patternsOccurringAfterThisNode) != null;
         return $not(prev);
     }
 
@@ -602,6 +606,10 @@ public class $case
             return sb.toString();
         }
 
+        public $case.Select select(_switchEntry _se){
+            return select(_se.ast());
+        }
+
         /**
          *
          * @param astNode
@@ -625,7 +633,7 @@ public class $case
          * @return
          */
         public $case whichMatch(SwitchEntry ae){
-            if( !this.constraint.test( ae ) ){
+            if( !this.constraint.test( _switchEntry.of(ae) ) ){
                 return null;
             }
             Optional<$case> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
@@ -639,11 +647,13 @@ public class $case
     public static class Select 
         implements $pattern.selected, selectAst<SwitchEntry> {
         
-        public SwitchEntry astCase;
+        //public SwitchEntry astCase;
+        public _switchEntry _se;
         public $tokens tokens;
         
         public Select( SwitchEntry astCase, $tokens $nv){
-            this.astCase = astCase;
+            //this.astCase = astCase;
+            this._se = _switchEntry.of(astCase);
             this.tokens = $nv;
         }
 
@@ -654,7 +664,7 @@ public class $case
 
         @Override
         public SwitchEntry ast() {
-            return astCase;
+            return _se.ast();
         }   
         
         /**
@@ -662,13 +672,13 @@ public class $case
          * @return 
          */
         public boolean isDefaultCase(){
-            return astCase.getLabels().isEmpty();
+            return _se.isDefault();
         }
 
         @Override
         public String toString(){
             return "$case.Select{"+ System.lineSeparator()+
-                    Text.indent( astCase.toString() )+ System.lineSeparator()+
+                    Text.indent( _se.toString() )+ System.lineSeparator()+
                     Text.indent("$tokens : " + tokens) + System.lineSeparator()+
                     "}";
         }

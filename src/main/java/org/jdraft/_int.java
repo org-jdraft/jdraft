@@ -50,6 +50,10 @@ public class _int implements _expression._literal<IntegerLiteralExpr, _int> {
         return ile;
     }
 
+    public int intValue(){
+        return this.ast().asInt();
+    }
+
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();

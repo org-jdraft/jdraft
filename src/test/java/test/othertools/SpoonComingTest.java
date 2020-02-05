@@ -4,13 +4,14 @@ import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import junit.framework.TestCase;
 import org.jdraft.Ast;
+import org.jdraft._ifStmt;
 import org.jdraft.pattern.$;
 import org.jdraft.pattern.$stmt;
 
 public class SpoonComingTest extends TestCase {
 
     public void testOffShootDepth(){
-        $stmt<IfStmt> $ifReturn = $.ifStmt().$hasDescendant(1, $.returnStmt());
+        $stmt<IfStmt, _ifStmt> $ifReturn = $.ifStmt().$hasDescendant(1, $.returnStmt());
         class Ex{
             public int ex(int a){
                 if( a > 0 ){
@@ -52,7 +53,7 @@ public class SpoonComingTest extends TestCase {
      * </pattern>
      */
     public void testIfReturnConstraint(){
-        $stmt<IfStmt> $ifReturn = $.ifStmt().$and( (IfStmt is) ->
+        $stmt<IfStmt, _ifStmt> $ifReturn = $.ifStmt().$and( (IfStmt is) ->
                 Ast.hasDescendant( is.getThenStmt(), n -> n instanceof ReturnStmt) ); //.$hasDescendant(2, $.returnStmt());
         class Ex{
             public int ex(int a){

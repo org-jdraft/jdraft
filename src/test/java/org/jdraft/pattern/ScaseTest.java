@@ -6,6 +6,7 @@ import org.jdraft.Ast;
 import org.jdraft.Ex;
 import java.util.ArrayList;
 import junit.framework.TestCase;
+import org.jdraft._switchEntry;
 
 /**
  *
@@ -51,13 +52,13 @@ public class ScaseTest extends TestCase {
 
     public void testConstruct(){
         $case $c = $case.of( $ex.of("$val$")
-            .$and(i -> i.isIntegerLiteralExpr() && Integer.parseInt( i.asIntegerLiteralExpr().getValue() ) % 2 == 1 ),
+            .$and(i -> i.ast().isIntegerLiteralExpr() && Integer.parseInt( i.ast().asIntegerLiteralExpr().getValue() ) % 2 == 1 ),
             $stmt.of("System.out.println($val$);"));
         System.out.println( $c.draft("val", 1) );
     }
     
     public void testConstructAny(){
-        SwitchEntry se = 
+        _switchEntry se =
             $case.of().draft("$label", Ex.of(1),
                 "$statements", "System.out.println(1);");
         System.out.println( se );
@@ -69,7 +70,7 @@ public class ScaseTest extends TestCase {
         $case $c = $case.of( se );
         assertNotNull( $c.select(se));
         assertNotNull( $c.select(sss));
-        assertEquals( se, $c.select(se).astCase);
+        assertEquals( se, $c.select(se)._se.ast());
         assertTrue( $c.matches(se));
         assertTrue( $c.matches(sss));
         

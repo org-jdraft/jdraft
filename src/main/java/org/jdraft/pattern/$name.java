@@ -19,7 +19,7 @@ import org.jdraft.text.Translator;
  */
 public class $name implements $constructor.$part, $method.$part, $field.$part,
         $parameter.$part, $typeParameter.$part, $var.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part,
-        $enumConstant.$part,  $annotationElement.$part, $type.$part {
+        $enumConstant.$part,  $annotationEntry.$part, $type.$part {
 
     public static $name of(){
         return $name.of("$name$");

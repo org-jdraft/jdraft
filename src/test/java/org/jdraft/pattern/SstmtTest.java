@@ -114,7 +114,7 @@ public class SstmtTest extends TestCase {
 
     public void test$assertStmt(){
         //command
-        $stmt<AssertStmt> $as = $.assertStmt( ()-> {assert(1==1);} );
+        $stmt<AssertStmt, _assertStmt> $as = $.assertStmt( ()-> {assert(1==1);} );
         assertTrue( $as.matches( Stmt.of( ()->{assert(1==1);})) );
 
         //consumer
@@ -183,7 +183,7 @@ public class SstmtTest extends TestCase {
         System.out.println(n);
     }
     public void testComposeStmt(){
-        $stmt<BlockStmt> $s = $stmt.of( ()->{
+        $stmt<BlockStmt, _blockStmt> $s = $stmt.of( ()->{
             System.out.println(1);
             $A:System.out.println( 2 );
             System.out.println(3);
@@ -447,7 +447,7 @@ public class SstmtTest extends TestCase {
             }
         });
         
-        $stmt<Statement> $assertAny = $stmt.of("assertTrue($any$);");
+        $stmt<Statement, _statement> $assertAny = $stmt.of("assertTrue($any$);");
         //this produces the same result just using the lambda as input 
         $assertAny = $stmt.of( (Boolean $any$)->assertTrue($any$));
         

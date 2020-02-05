@@ -9,9 +9,8 @@ import com.github.javaparser.ast.stmt.ExplicitConstructorInvocationStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.SwitchEntry;
 import com.github.javaparser.ast.stmt.SwitchStmt;
-import org.jdraft.Ast;
-import org.jdraft.Ex;
-import org.jdraft._class;
+import org.jdraft.*;
+
 import java.text.NumberFormat;
 import junit.framework.TestCase;
 
@@ -22,7 +21,6 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
 
-import org.jdraft._java;
 import org.junit.Assert;
 
 public class SexTest extends TestCase {
@@ -217,11 +215,11 @@ public class SexTest extends TestCase {
         IntegerLiteralExpr eHex = new IntegerLiteralExpr("0X01");
         IntegerLiteralExpr eBin = new IntegerLiteralExpr("0B01");
         
-        $ex<IntegerLiteralExpr> $one = $ex.intLiteralEx("1");
-        $ex<IntegerLiteralExpr> $hex = $ex.intLiteralEx("0x01");
-        $ex<IntegerLiteralExpr> $bin = $ex.intLiteralEx("0b01");
-        $ex<IntegerLiteralExpr> $Hex = $ex.intLiteralEx("0X01");
-        $ex<IntegerLiteralExpr> $Bin = $ex.intLiteralEx("0B01");
+        $ex<IntegerLiteralExpr, _int> $one = $ex.intLiteralEx("1");
+        $ex<IntegerLiteralExpr, _int> $hex = $ex.intLiteralEx("0x01");
+        $ex<IntegerLiteralExpr, _int> $bin = $ex.intLiteralEx("0b01");
+        $ex<IntegerLiteralExpr, _int> $Hex = $ex.intLiteralEx("0X01");
+        $ex<IntegerLiteralExpr, _int> $Bin = $ex.intLiteralEx("0B01");
         
         assertTrue($one.matches("1"));
         assertTrue($one.matches("0x01"));
@@ -258,9 +256,9 @@ public class SexTest extends TestCase {
     public void testFloatAndDouble(){
         //assertEquals( new DoubleLiteralExpr("3.14F"), new DoubleLiteralExpr("3.14f") );
         
-        $ex<DoubleLiteralExpr> d = $ex.of( new DoubleLiteralExpr("3.14") );
-        $ex<DoubleLiteralExpr> dd = $ex.of( new DoubleLiteralExpr("3.14d") );
-        $ex<DoubleLiteralExpr> dD = $ex.of( new DoubleLiteralExpr("3.14D"));
+        $ex<DoubleLiteralExpr, _double> d = $ex.of( new DoubleLiteralExpr("3.14") );
+        $ex<DoubleLiteralExpr, _double> dd = $ex.of( new DoubleLiteralExpr("3.14d") );
+        $ex<DoubleLiteralExpr, _double> dD = $ex.of( new DoubleLiteralExpr("3.14D"));
         
         assertTrue( d.matches("3.14") );
         assertTrue( d.matches("3.14d") );
@@ -275,9 +273,9 @@ public class SexTest extends TestCase {
         assertTrue( dD.matches("3.14D") );
         
         
-        $ex<DoubleLiteralExpr> f = $ex.of( new DoubleLiteralExpr("3.14") );
-        $ex<DoubleLiteralExpr> fd = $ex.of( new DoubleLiteralExpr("3.14f") );
-        $ex<DoubleLiteralExpr> fD = $ex.of( new DoubleLiteralExpr("3.14F"));
+        $ex<DoubleLiteralExpr, _double> f = $ex.of( new DoubleLiteralExpr("3.14") );
+        $ex<DoubleLiteralExpr, _double> fd = $ex.of( new DoubleLiteralExpr("3.14f") );
+        $ex<DoubleLiteralExpr, _double> fD = $ex.of( new DoubleLiteralExpr("3.14F"));
         
         assertTrue( d.matches("3.14") );
         assertTrue( d.matches("3.14f") );
@@ -387,13 +385,13 @@ public class SexTest extends TestCase {
         //LocalClassDeclarationExpr lc =  Expr.("class $any${}");
         
         //find EVERY lambda with a comment
-        $ex $anyLambda = $ex.of("($params$)->$body$", e -> e.getComment().isPresent() );
+        $ex $anyLambda = $ex.of("($params$)->$body$", e -> e.ast().getComment().isPresent() );
         
         System.out.println( Ex.lambdaEx("/** comment */ ()->true") );
         
         assertTrue( $anyLambda.matches( Ex.lambdaEx("/** comment */ ()->true") ) );
         
-        assertTrue( $ex.lambdaEx(l -> l.getComment().isPresent() ).matches("/** comment */ ()->true;") );
+        assertTrue( $ex.lambdaEx(l -> l.ast().getComment().isPresent() ).matches("/** comment */ ()->true;") );
 
     }
 
@@ -517,7 +515,7 @@ public class SexTest extends TestCase {
     }
 
     public void testSelect(){
-        $ex<IntegerLiteralExpr> e = $ex.intLiteralEx("1").$("1", "val");
+        $ex<IntegerLiteralExpr, _int> e = $ex.intLiteralEx("1").$("1", "val");
         assertTrue(e.matches("1"));
         class C{
             public void f(){
@@ -532,7 +530,7 @@ public class SexTest extends TestCase {
                 System.out.println("another method"+6+" values");
             }
         }
-        List<$ex.Select<IntegerLiteralExpr>> sel =  e.listSelectedIn( _class.of(C.class) );
+        List<$ex.Select<IntegerLiteralExpr, _int>> sel =  e.listSelectedIn( _class.of(C.class) );
         assertEquals(6, sel.size()); //verify that I have (6) selections
 
         //System.out.println(">>"+ sel.get(0).tokens );
@@ -545,15 +543,15 @@ public class SexTest extends TestCase {
 
         //use forAllIn to
         List<Integer>ints = new ArrayList<>();
-        e.forEachIn(_class.of(C.class), ie -> ints.add(ie.asInt()));
+        e.forEachIn(_class.of(C.class), ie -> ints.add(ie.ast().asInt()));
         assertTrue( ints.contains(1) && ints.contains(2) && ints.contains(3) && ints.contains(4) && ints.contains(5) && ints.contains(6));
     }
     
     public void testAPI(){
         
-        assertTrue($ex.arrayAccessEx(a -> a.getIndex().isIntegerLiteralExpr() ).matches("a[1]"));
-        assertTrue($ex.arrayAccessEx("a[$any$]", a -> a.getIndex().isIntegerLiteralExpr() ).matches("a[1]"));
-        assertFalse($ex.arrayAccessEx("a[$any$]", a -> a.getIndex().isIntegerLiteralExpr() ).matches("a[b.count()]"));
+        assertTrue($ex.arrayAccessEx(a -> a.getIndex().ast().isIntegerLiteralExpr() ).matches("a[1]"));
+        assertTrue($ex.arrayAccessEx("a[$any$]", a -> a.getIndex().ast().isIntegerLiteralExpr() ).matches("a[1]"));
+        assertFalse($ex.arrayAccessEx("a[$any$]", a -> a.getIndex().ast().isIntegerLiteralExpr() ).matches("a[b.count()]"));
         _class _c = _class.of("C").field("int i=1;");
         
         assertEquals(1, $ex.of(1).listIn(_c ).size());
@@ -575,7 +573,7 @@ public class SexTest extends TestCase {
         //look for every literal
         $ex $bin =
             $ex.binaryEx("$a$ > $b$",
-                b-> b.getLeft().isIntegerLiteralExpr() && b.getRight().isIntegerLiteralExpr());
+                b-> b.getLeft().ast().isIntegerLiteralExpr() && b.getRight().ast().isIntegerLiteralExpr());
         assertTrue($bin.matches("3 > 2"));
         assertFalse($bin.matches("3L > 2"));
         
@@ -599,10 +597,10 @@ public class SexTest extends TestCase {
         assertNotNull( $ex.intLiteralEx("2").firstIn(_c));
         assertNotNull( $ex.intLiteralEx(1).firstIn(_c));
         
-        Predicate<IntegerLiteralExpr> p = (IntegerLiteralExpr i)-> i.asInt() % 2 == 1;
+        Predicate<_int> p = (i)-> i.ast().asInt() % 2 == 1;
         $ex.intLiteralEx( p );
         
-        assertNotNull( $ex.intLiteralEx( (i)-> i.asInt() % 2 == 1 ).firstIn(_c));
+        assertNotNull( $ex.intLiteralEx( (i)-> i.intValue() % 2 == 1 ).firstIn(_c));
                
         $ex $e = $ex.of(1).$("1", "num");
         

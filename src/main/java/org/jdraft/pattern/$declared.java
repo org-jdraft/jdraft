@@ -1,6 +1,7 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.ast.comments.JavadocComment;
+import org.jdraft._java;
 import org.jdraft._javadoc;
 
 import java.util.function.Predicate;
@@ -11,7 +12,7 @@ import java.util.function.Predicate;
  *  <LI>{@link $constructor} {@link com.github.javaparser.ast.body.ConstructorDeclaration}
  *  <LI>{@link $method} {@link com.github.javaparser.ast.body.MethodDeclaration}
  *  <LI>{@link $enumConstant} {@link com.github.javaparser.ast.body.EnumConstantDeclaration}
- *  <LI>{@link $annotationElement} {@link com.github.javaparser.ast.body.AnnotationMemberDeclaration}
+ *  <LI>{@link $annotationEntry} {@link com.github.javaparser.ast.body.AnnotationMemberDeclaration}
  *  <LI>{@link $type} {@link com.github.javaparser.ast.body.TypeDeclaration}
  *  <LI>{@link $class} {@link com.github.javaparser.ast.body.ClassOrInterfaceDeclaration}
  *  <LI>{@link $enum} {@link com.github.javaparser.ast.body.EnumDeclaration}
@@ -21,7 +22,7 @@ import java.util.function.Predicate;
  * @param <D>
  * @param <$D>
  */
-public interface $declared <D, $D extends $pattern> extends $member<D,$D> {
+public interface $declared <D extends _java._declared, $D extends $pattern> extends $member<D,$D> {
 
     $name get$Name();
 

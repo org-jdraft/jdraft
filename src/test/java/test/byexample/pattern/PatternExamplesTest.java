@@ -26,13 +26,13 @@ public class PatternExamplesTest extends TestCase {
     static $ex ANY_EXPR = $.ex();                         //any expression
 
     //static $expr CONST_NAME = $.expr("Name");          //any expression matching pattern "Name"
-    static $ex LITERAL =  $.ex(e -> e.isLiteralExpr());   //any literals (ints, floats, Strings, etc.)
+    static $ex LITERAL =  $.ex(e -> e.ast().isLiteralExpr());   //any literals (ints, floats, Strings, etc.)
     static $ex LITERAL_ = $.literal();                      //any literals (booleans, int, float, String, etc)
 
-    static $ex<IntegerLiteralExpr> INT_LITERAL = $.intLiteral();                   // any int literal
-    static $ex<IntegerLiteralExpr> INT_100 = $.intLiteral(100);           // exact int literal 100
-    static $ex<IntegerLiteralExpr> INT_VAL_PARAM = $.intLiteral("$val$");    // any int literal (parameterized)
-    static $ex<IntegerLiteralExpr> INT_POSITIVE = $.intLiteral(i -> i.asInt() > 0);  // any int literal > 100 (constrained)
+    static $ex<IntegerLiteralExpr, _int> INT_LITERAL = $.intLiteral();                   // any int literal
+    static $ex<IntegerLiteralExpr, _int> INT_100 = $.intLiteral(100);           // exact int literal 100
+    static $ex<IntegerLiteralExpr, _int> INT_VAL_PARAM = $.intLiteral("$val$");    // any int literal (parameterized)
+    static $ex<IntegerLiteralExpr, _int> INT_POSITIVE = $.intLiteral(i -> i.intValue() > 0);  // any int literal > 100 (constrained)
 
     /*
     $.of();                             // ANY AST Node

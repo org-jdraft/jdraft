@@ -22,7 +22,8 @@ import org.jdraft.macro.macro;
 import org.jdraft.text.*;
 
 /**
- * prototype/template for a Java {@link _method}
+ *
+ * pattern/template for a Java {@link _method}
  */
 public class $method
     implements Template<_method>, $pattern<_method, $method>, $pattern.$java<_method,$method>, $class.$part,

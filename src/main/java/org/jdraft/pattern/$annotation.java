@@ -33,7 +33,7 @@ public class $annotation
     public $modifiers modifiers = $modifiers.of();
     public $name name = $name.of("$annotationName$"); //name required
 
-    public List<$annotationElement> annotationElements = new ArrayList<>();
+    public List<$annotationEntry> annotationElements = new ArrayList<>();
 
     //body parts
     public List<$field> fields = new ArrayList<>();
@@ -99,7 +99,7 @@ public class $annotation
         _a.forAnnos(a-> $c.annos.add($anno.of(a)));
         $c.modifiers = $modifiers.of(_a.getModifiers());
         $c.$name(_a.getSimpleName());
-        _a.forEntries(e -> $c.$elements($annotationElement.of(e)));
+        _a.forEntries(e -> $c.$elements($annotationEntry.of(e)));
         _a.forFields(f-> $c.fields.add($field.of(f)));
 
         _a.forNests( n -> {
@@ -184,8 +184,8 @@ public class $annotation
             if( parts[i] instanceof $name ){
                 this.name = ($name)parts[i];
             }
-            if( parts[i] instanceof $annotationElement ){
-                this.annotationElements.add( ($annotationElement)parts[i]);
+            if( parts[i] instanceof $annotationEntry){
+                this.annotationElements.add( ($annotationEntry)parts[i]);
             }
             if( parts[i] instanceof $package ){
                 this.packageDecl = ($package)parts[i];
@@ -237,8 +237,8 @@ public class $annotation
                 Predicate<_annotation> pf = f-> $fj.matches(f.getJavadoc());
                 $and( pf.negate() );
             }
-            else if(parts[i] instanceof $annotationElement ){
-                final $annotationElement $fj = (($annotationElement)parts[i]);
+            else if(parts[i] instanceof $annotationEntry){
+                final $annotationEntry $fj = (($annotationEntry)parts[i]);
                 Predicate<_annotation> aFn = a-> a.getEntry(e->$fj.match(e)) != null;
                 $and( aFn.negate() );
             }
@@ -433,14 +433,14 @@ public class $annotation
     }
 
     /* These are methods shared/used by all $type implementations */
-    static $pattern.$tokens selectAnnotationElements(List<$annotationElement> $protoTypes, _annotation _a){
-        Map<$annotationElement, List<$annotationElement.Select>> selectMap = new HashMap<>();
+    static $pattern.$tokens selectAnnotationElements(List<$annotationEntry> $protoTypes, _annotation _a){
+        Map<$annotationEntry, List<$annotationEntry.Select>> selectMap = new HashMap<>();
 
         for(int i=0;i<$protoTypes.size(); i++) {
-            final $annotationElement t = $protoTypes.get(i);
-            List<$annotationElement.Select>matches = new ArrayList<>();
+            final $annotationEntry t = $protoTypes.get(i);
+            List<$annotationEntry.Select>matches = new ArrayList<>();
             _a.listElements().forEach( c ->{
-                $annotationElement.Select sel = t.select( c );
+                $annotationEntry.Select sel = t.select( c );
                 if( sel != null ){
                     matches.add(sel);
                 }
@@ -567,7 +567,7 @@ public class $annotation
         return this;
     }
 
-    public $annotation $elements( $annotationElement...$aes ){
+    public $annotation $elements( $annotationEntry...$aes ){
         Arrays.stream($aes).forEach(a-> this.annotationElements.add(a));
         return this;
     }

@@ -19,7 +19,7 @@ import org.jdraft.text.*;
  */
 public class $comment <C extends Comment>
     implements $pattern<C, $comment<C>>, Template<C>, $constructor.$part, $method.$part, $field.$part, $class.$part,
-        $interface.$part, $enum.$part, $annotation.$part,$enumConstant.$part, $annotationElement.$part, $body.$part, $type.$part {
+        $interface.$part, $enum.$part, $annotation.$part,$enumConstant.$part, $annotationEntry.$part, $body.$part, $type.$part {
 
     /**
      * Represents a "commented out" Statement within a code body.

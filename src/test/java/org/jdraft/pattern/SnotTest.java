@@ -6,7 +6,7 @@ public class SnotTest extends TestCase {
 
     public void testNot(){
         assertTrue( $annotation.not( $.name("A$suf$") ).matches("@interface FF{ }"));
-        assertTrue( $annotationElement.not($name.of("B")).matches("int value();"));
+        assertTrue( $annotationEntry.not($name.of("B")).matches("int value();"));
         assertTrue( $class.not($.PRIVATE).matches( "public class C{}") );
         assertTrue( $constructor.not($.PRIVATE).matches("public A(){}") );
         assertTrue( $enum.not($anno.of(Deprecated.class)).matches( "public enum E{}") );

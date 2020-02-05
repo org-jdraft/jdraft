@@ -183,8 +183,8 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
                 };
                 $and( aFn );
             }
-            else if(parts[i] instanceof $annotationElement ){
-                final $annotationElement $fj = (($annotationElement)parts[i]);
+            else if(parts[i] instanceof $annotationEntry){
+                final $annotationEntry $fj = (($annotationEntry)parts[i]);
                 Predicate<_type> aFn = a-> {
                     if( a instanceof _annotation ) {
                         return ((_annotation)a).getEntry(e -> $fj.match(e)) != null;
@@ -279,8 +279,8 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
                 };
                 $and( aFn.negate() );
             }
-            else if(parts[i] instanceof $annotationElement ){
-                final $annotationElement $fj = (($annotationElement)parts[i]);
+            else if(parts[i] instanceof $annotationEntry){
+                final $annotationEntry $fj = (($annotationEntry)parts[i]);
                 Predicate<_type> aFn = a-> {
                     if( a instanceof _annotation ) {
                         return ((_annotation)a).getEntry(e -> $fj.match(e)) != null;
@@ -603,8 +603,8 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
             }
         }
 
-        List<$annotationElement> $aes = new ArrayList<>();
-        this.members.stream().filter(f -> f instanceof $annotationElement).forEach(f -> $aes.add(($annotationElement) f));
+        List<$annotationEntry> $aes = new ArrayList<>();
+        this.members.stream().filter(f -> f instanceof $annotationEntry).forEach(f -> $aes.add(($annotationEntry) f));
         if (instance instanceof _annotation) {
             tokens = $tokens.to(tokens, () -> $annotation.selectAnnotationElements($aes, (_annotation) instance));
         } else {

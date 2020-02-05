@@ -55,7 +55,7 @@ public class vSwiftSyntaxTest extends TestCase {
         }
         _type _t = $.intLiteral().forEachIn(C.class,
             //i-> i.setInt( Integer.parseInt(i.getValue().replace("_", "")) +1) );    
-            i-> i.setInt( Ex.parseInt(i.getValue()) +1) );
+            i-> i.ast().setInt( Ex.parseInt(i.ast().getValue()) +1) );
         
         assertTrue( _t.getField("x").is("int x = 3") );
         assertTrue( _t.getField("y").is("int y = 3001") );

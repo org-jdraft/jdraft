@@ -4,6 +4,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.EnumDeclaration;
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.utils.Log;
 import org.jdraft.*;
 
@@ -56,15 +57,15 @@ public class SpatternCodeTest extends TestCase {
 
 
         $member[] members = new $member[]{$field.of()};
-        Node node = $.of(0).firstIn(_c);
+        _expression e = $.of(0).firstIn(_c);
 
-        assertTrue( Ast.isParentMember(node, pm -> {
+        assertTrue( Ast.isParentMember(e.ast(), pm -> {
             System.out.println(pm+" "+ pm.getClass());
             return $field.of().match(pm);
         }));
 
         //assertTrue( Ast.isParentMember(node, nn-> Arrays.stream(members).filter($m ->Ast$m.match(nn)).findFirst().isPresent()) );
-        assertTrue( Ast.isParentMember(node, nn-> Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent()) );
+        assertTrue( Ast.isParentMember(e.ast(), nn-> Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent()) );
 
         //there are (2) int literals (0, 2) which have parents associated with fields ("int i = 0", "int x = 2")
         assertEquals(2, $.intLiteral().$isParentMember($field.of()).count(_c)); //i,x
@@ -97,9 +98,9 @@ public class SpatternCodeTest extends TestCase {
         //verify (2) fields on lines 2 and 3 (2, 3)
         assertEquals(2, $field.of().count(_c) );
         //1 field on line 2
-        assertEquals(1, $field.of().$onLine(2).count(_c) );
+        assertEquals(1, $field.of().$atLine(2).count(_c) );
         //1 field on line 3
-        assertEquals(1, $field.of().$onLine(3).count(_c) );
+        assertEquals(1, $field.of().$atLine(3).count(_c) );
         //field on line 2
         $field $f = $.field().$isInRange(2,0, 2,100);
         assertEquals(1, $f.count(_c));

@@ -230,7 +230,7 @@ public class $body implements Template<_body>, $pattern<_body, $body>, $pattern.
     
     public Boolean isImplemented = true;    
     
-    public $stmt<BlockStmt> bodyStmts = null;
+    public $stmt<BlockStmt, _blockStmt> bodyStmts = null;
     
     /**
      * This represents a "non implemented body"

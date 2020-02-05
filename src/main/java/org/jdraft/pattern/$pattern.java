@@ -40,7 +40,8 @@ import org.jdraft.text.Translator;
  * $pattern objects define a mechanism to walk the AST and query/modify Java code
  * matching against grammar entries via the _node model 
  *
- * @param <P> the TYPE of the node being queried for (likely a 
+ * @param <P> the type of node being queried for (likely a
+ * @param <$P> the pattern type
  * {@link com.github.javaparser.ast.Node} or 
  * {@link _java._node})
  */
@@ -214,7 +215,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param line the line expected
      * @return the modified $pattern
      */
-    default $P $onLine(int line ){
+    default $P $atLine(int line ){
         return $isInRange(Range.range(line,0,line, Integer.MAX_VALUE -10000));
     }
 
@@ -337,7 +338,12 @@ public interface $pattern<P, $P extends $pattern>{
     }
 
     default $P $isParent(Predicate<Node> parentMatchFn ){
-        return $and(n -> Ast.isParent((Node)n, parentMatchFn) );
+        return $and(n -> {
+            if( n instanceof _java._domain){
+                return Ast.isParent( ((_java._node)n).ast(), parentMatchFn);
+            }
+            return Ast.isParent((Node) n, parentMatchFn);
+        });
     }
 
     default $P $isParentNot(Class... parentClassTypes ){

@@ -88,7 +88,7 @@ public class SclassUseTest extends TestCase {
         
         //System.out.println( _pExpr.list(_c, Expr.ARRAY_INITIALIZER ) );
         //gets the  array Initializer
-        $ex $arrVals = $ex.arrayInitEx("{ $a$, $b$, $c$, Replace.class, Stan.class, Outer.class }", a-> a.getValues().size() == 6 );
+        $ex $arrVals = $ex.arrayInitEx("{ $a$, $b$, $c$, Replace.class, Stan.class, Outer.class }", a-> a.ast().getValues().size() == 6 );
         //assertNotNull($arrVals.selectFirstIn(_c));
         $ex.Select s = $arrVals.selectFirstIn(_c);
         

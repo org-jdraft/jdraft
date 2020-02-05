@@ -17,7 +17,7 @@ import java.util.function.Predicate;
  *  <LI>{@link $constructor} {@link com.github.javaparser.ast.body.ConstructorDeclaration}
  *  <LI>{@link $method} {@link com.github.javaparser.ast.body.MethodDeclaration}
  *  <LI>{@link $enumConstant} {@link com.github.javaparser.ast.body.EnumConstantDeclaration}
- *  <LI>{@link $annotationElement} {@link com.github.javaparser.ast.body.AnnotationMemberDeclaration}
+ *  <LI>{@link $annotationEntry} {@link com.github.javaparser.ast.body.AnnotationMemberDeclaration}
  *  <LI>{@link $type} {@link com.github.javaparser.ast.body.TypeDeclaration}
  *  <LI>{@link $class} {@link com.github.javaparser.ast.body.ClassOrInterfaceDeclaration}
  *  <LI>{@link $enum} {@link com.github.javaparser.ast.body.EnumDeclaration}
@@ -68,7 +68,7 @@ public interface $member<M, $M extends $pattern> extends $pattern<M,$M> {
             return $annotation.of( (AnnotationDeclaration)_m);
         }
         if( _m instanceof AnnotationMemberDeclaration){
-            return $annotationElement.of( (AnnotationMemberDeclaration)_m);
+            return $annotationEntry.of( (AnnotationMemberDeclaration)_m);
         }
         if(_m instanceof ClassOrInterfaceDeclaration){
             ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)_m;
@@ -111,7 +111,7 @@ public interface $member<M, $M extends $pattern> extends $pattern<M,$M> {
             return $annotation.of( (_annotation)_m);
         }
         if( _m instanceof _annotation._entry){
-            return $annotationElement.of( (_annotation._entry)_m);
+            return $annotationEntry.of( (_annotation._entry)_m);
         }
         if(_m instanceof _class){
             return $class.of( (_class)_m);
@@ -171,7 +171,7 @@ public interface $member<M, $M extends $pattern> extends $pattern<M,$M> {
       *  <LI>{@link $constructor} {@link com.github.javaparser.ast.body.ConstructorDeclaration}
       *  <LI>{@link $method} {@link com.github.javaparser.ast.body.MethodDeclaration}
       *  <LI>{@link $enumConstant} {@link com.github.javaparser.ast.body.EnumConstantDeclaration}
-      *  <LI>{@link $annotationElement} {@link com.github.javaparser.ast.body.AnnotationMemberDeclaration}
+      *  <LI>{@link $annotationEntry} {@link com.github.javaparser.ast.body.AnnotationMemberDeclaration}
       *  <LI>{@link $type} {@link com.github.javaparser.ast.body.TypeDeclaration}
       *  <LI>{@link $class} {@link com.github.javaparser.ast.body.ClassOrInterfaceDeclaration}
       *  <LI>{@link $enum} {@link com.github.javaparser.ast.body.EnumDeclaration}

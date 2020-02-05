@@ -84,6 +84,9 @@ public interface _expression<E extends Expression, _E extends _expression> exten
         if( e instanceof AnnotationExpr ){
             return _anno.of( (AnnotationExpr)e);
         }
+        if( e instanceof ArrayCreationExpr){
+            return new _arrayCreate( (ArrayCreationExpr)e);
+        }
         if( e instanceof ArrayAccessExpr){
             return new _arrayAccess( (ArrayAccessExpr)e);
         }

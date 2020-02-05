@@ -959,7 +959,7 @@ public class $anno
                 // it SHOULD match against Ex.of( "{0,1,2,3}" );
                 //System.out.println( value );
                 //
-                $ex.Select<?>sel = value.selectFirstIn(onlyValueExpression);
+                $ex.Select<?,?>sel = value.selectFirstIn(onlyValueExpression);
                 if( sel == null ){
                     return null;
                 }

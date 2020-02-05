@@ -4,6 +4,8 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import junit.framework.TestCase;
 import org.jdraft.Stmt;
+import org.jdraft._blockStmt;
+import org.jdraft._statement;
 import org.jdraft.text.Tokens;
 import org.jdraft.pattern.$pattern;
 import org.jdraft.pattern.$stmt;
@@ -85,7 +87,7 @@ public class PatternIntroTest extends TestCase {
 
         // the $stmt also has a "constraint" (a lambda Predicate that tests Statements )
         // by default the constraint returns true for anything (ANY statement OR NULL)
-        assertTrue( $printOne.constraint.test( null ) );
+        assertTrue( $printOne.astMatch.test( null ) );
 
         //it is important to note that $stmt IS MUTABLE
     }
@@ -112,7 +114,7 @@ public class PatternIntroTest extends TestCase {
 
         //we normally would not do this, but we can use the individual properties:
         assertTrue($anyStmt.stmtStencil.matches("invalid statement"));
-        assertTrue($anyStmt.constraint.test(null));
+        assertTrue($anyStmt.astMatch.test(null));
         assertEquals(Statement.class, $anyStmt.statementClass);
 
         //in addition to simple matching operations, proto defines walk/match
@@ -136,7 +138,7 @@ public class PatternIntroTest extends TestCase {
         assertTrue( sts.get(0) instanceof BlockStmt);
 
         //If we want to match/extract/count
-        $stmt<BlockStmt> $anyBlockStmt = $stmt.blockStmt();
+        $stmt<BlockStmt, _blockStmt> $anyBlockStmt = $stmt.blockStmt();
         assertEquals( 1, $anyBlockStmt.count(With4Statements.class));
     }
 
@@ -147,7 +149,7 @@ public class PatternIntroTest extends TestCase {
 
         //a prototype to represent all calls to "System.out.println(???);"
         // the "$a$" represents a parameter named "a", it will match any pattern
-        $stmt<?> $anyPrint = $stmt.of("System.out.print($a$);");
+        $stmt<?,?> $anyPrint = $stmt.of("System.out.print($a$);");
 
         //we can build new statements using $anyPrint and passing in
         // param/values that are required by the prototype (below the param "a" is required)
@@ -177,7 +179,7 @@ public class PatternIntroTest extends TestCase {
     //to return the
     public void testSelect_List_First(){
         //
-        $stmt<Statement> $anyPrint = $stmt.of("System.out.print($a$);");
+        $stmt<Statement, _statement> $anyPrint = $stmt.of("System.out.print($a$);");
 
         //select is like match, but it returns a $stmt.Select
         // containing

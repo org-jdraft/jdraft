@@ -190,7 +190,7 @@ public class SnodeTest extends TestCase {
 
         }
         //assertEquals( 1, $.typeRef(System.class).count(C.class));
-        $.methodCall().forEachIn(C.class, Ast::describe);
+        //$.methodCall().forEachIn(C.class, Ast::describe);
         assertEquals(1, $.typeRef("System").count(C.class)); //there is (1) reference to System (return type)
         assertEquals( 1, $.of("System", SimpleName.class).$hasAncestor( $.fieldAccessExpr() ).count(C.class));
         //assertEquals( 1, $.of("System", SimpleName.class).$hasAncestor( $.methodReference() ).count(C.class));

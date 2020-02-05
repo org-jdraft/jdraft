@@ -90,7 +90,7 @@ public class IntelliJPSIExample extends TestCase {
             }
         }
         //print the cursor locations of all of the local vars
-        $.varLocal().forEachIn(L.class, v-> System.out.println("Found a variable at offset " + v.getRange().get().begin) );
+        $.varLocal().forEachIn(L.class, v-> System.out.println("Found a variable at offset " + v.ast().getRange().get().begin) );
     }
 
     /**
@@ -106,7 +106,7 @@ public class IntelliJPSIExample extends TestCase {
             }
         }
         //first navigate to a part of the code (find the int literal 54)
-        IntegerLiteralExpr ile = $.intLiteral(54).firstIn(K.class);
+        IntegerLiteralExpr ile = $.intLiteral(54).firstIn(K.class).ast();
 
         MethodDeclaration md = //walk parents of the literal node to get to the containing method
                 (MethodDeclaration)ile.stream($.PARENTS).filter(n-> n instanceof MethodDeclaration ).findFirst().get();

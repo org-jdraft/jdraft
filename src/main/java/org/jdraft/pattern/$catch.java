@@ -17,7 +17,7 @@ import org.jdraft.text.Translator;
  *
  * @author Eric
  */
-public class $catch implements $pattern<CatchClause, $catch>, $body.$part, $method.$part, $constructor.$part {
+public class $catch implements $pattern<_catch, $catch>, $body.$part, $method.$part, $constructor.$part {
     
     public static $catch of( String...catchCode ){
         return new $catch( Ast.catchClause(catchCode));
@@ -31,11 +31,11 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part, $meth
         return new $catch( astCatch );
     }
     
-    public static $catch of( CatchClause astCatch, Predicate<CatchClause> constraint){
+    public static $catch of( CatchClause astCatch, Predicate<_catch> constraint){
         return new $catch( astCatch ).$and(constraint);
     }
     
-    public static $catch of( Predicate<CatchClause> constraint ){
+    public static $catch of( Predicate<_catch> constraint ){
         return of().$and(constraint);
     }
 
@@ -82,7 +82,7 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part, $meth
         return new $catch( $parameter.as(astCatch.getParameter()), $body.as(astCatch.getBody()) );
     }
 
-    public Predicate<CatchClause> constraint = t-> true;
+    public Predicate<_catch> constraint = t-> true;
     
     public $parameter $param = $parameter.of();
     
@@ -102,26 +102,26 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part, $meth
     }
 
     public $catch $and( $parameter $p ){
-        Predicate<CatchClause>pcc = cc-> $p.matches( cc.getParameter() );
+        Predicate<_catch>pcc = cc-> $p.matches( cc.ast().getParameter() );
         return $and( pcc );
     }
 
     public $catch $and( $body $bd ){
-        Predicate<CatchClause>pcc = cc-> $bd.matches( _body.of(cc.getBody()) );
+        Predicate<_catch>pcc = cc-> $bd.matches( _body.of(cc.getBody()) );
         return $and( pcc );
     }
 
     public $catch $not( $body $bd ){
-        Predicate<CatchClause>pcc = cc-> $bd.matches( cc.getBody() );
+        Predicate<_catch>pcc = cc-> $bd.matches( cc.getBody() );
         return $and( pcc.negate() );
     }
 
     public $catch $not( $parameter $p ){
-        Predicate<CatchClause>pcc = cc-> $p.matches( cc.getParameter() );
+        Predicate<_catch>pcc = cc-> $p.matches( cc.ast().getParameter() );
         return $and( pcc.negate() );
     }
 
-    public $catch $and(Predicate<CatchClause> constraint){
+    public $catch $and(Predicate<_catch> constraint){
         this.constraint = this.constraint.and(constraint);
         return this;
     }
@@ -161,14 +161,14 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part, $meth
     }
     
     @Override
-    public CatchClause firstIn(Node astNode, Predicate<CatchClause> catchMatchFn) {
+    public _catch firstIn(Node astNode, Predicate<_catch> catchMatchFn) {
         Optional<CatchClause> occ = 
             astNode.findFirst(CatchClause.class, cc-> {
                 Select sel = select(cc);
-                return sel != null && catchMatchFn.test(cc);
+                return sel != null && catchMatchFn.test(sel._cc);
             });
         if( occ.isPresent() ){
-            return occ.get();
+            return _catch.of(occ.get());
         }
         return null;
     }
@@ -286,10 +286,11 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part, $meth
     }    
         
     @Override
-    public <N extends Node> N forEachIn(N astNode, Predicate<CatchClause> catchMatchFn, Consumer<CatchClause> catchActionFn) {
+    public <N extends Node> N forEachIn(N astNode, Predicate<_catch> catchMatchFn, Consumer<_catch> catchActionFn) {
         astNode.walk(CatchClause.class, cc-> {
-                if( matches(cc) && catchMatchFn.test(cc)){
-                    catchActionFn.accept(cc);
+            _catch _cc = _catch.of(cc);
+                if( matches(cc) && catchMatchFn.test(_cc)){
+                    catchActionFn.accept(_cc);
                 }
             });
         return astNode;
@@ -404,9 +405,28 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part, $meth
     public Select select(String...catchClause ){
         return select(Ast.catchClause(catchClause));
     }
-    
+
+    public Select select(_catch _cc){
+        if( !constraint.test(_cc)){
+            return null;
+        }
+        $parameter.Select ps = this.$param.select(_cc.ast().getParameter());
+        if( ps == null ){
+            return null;
+        }
+        Tokens ts = ps.tokens.asTokens();
+        $body.Select bs = this.$bd.select(_cc);
+        if( bs == null ){
+            return null;
+        }
+        if( ts.isConsistent(bs.tokens.asTokens())){
+            ts.putAll(bs.tokens.asTokens());
+            return new Select(_cc, $tokens.of(ts));
+        }
+        return null;
+    }
     public Select select(CatchClause astCatch){
-        if( !constraint.test(astCatch)){
+        if( !constraint.test(_catch.of(astCatch))){
             return null;
         }
         $parameter.Select ps = this.$param.select(astCatch.getParameter());
@@ -439,7 +459,7 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part, $meth
      * @return
      */
     public $catch $isAfter( $pattern... patternsOccurringBeforeThisNode ){
-        Predicate<CatchClause> prev = e -> $pattern.BodyScope.findPrevious(e, patternsOccurringBeforeThisNode) != null;
+        Predicate<_catch> prev = e -> $pattern.BodyScope.findPrevious(e.ast(), patternsOccurringBeforeThisNode) != null;
         return $and(prev);
     }
 
@@ -449,7 +469,7 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part, $meth
      * @return
      */
     public $catch $isNotAfter( $pattern... patternsOccurringBeforeThisNode ){
-        Predicate<CatchClause> prev = e -> $pattern.BodyScope.findPrevious(e, patternsOccurringBeforeThisNode) != null;
+        Predicate<_catch> prev = e -> $pattern.BodyScope.findPrevious(e.ast(), patternsOccurringBeforeThisNode) != null;
         return $not(prev);
     }
 
@@ -459,7 +479,7 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part, $meth
      * @return
      */
     public $catch $isBefore( $pattern... patternsOccurringAfterThisNode ){
-        Predicate<CatchClause> prev = e -> $pattern.BodyScope.findNext(e, patternsOccurringAfterThisNode) != null;
+        Predicate<_catch> prev = e -> $pattern.BodyScope.findNext(e.ast(), patternsOccurringAfterThisNode) != null;
         return $and(prev);
     }
 
@@ -469,7 +489,7 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part, $meth
      * @return
      */
     public $catch $isNotBefore( $pattern... patternsOccurringAfterThisNode ){
-        Predicate<CatchClause> prev = e -> $pattern.BodyScope.findNext(e, patternsOccurringAfterThisNode) != null;
+        Predicate<_catch> prev = e -> $pattern.BodyScope.findNext(e.ast(), patternsOccurringAfterThisNode) != null;
         return $not(prev);
     }
 
@@ -520,20 +540,23 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part, $meth
             return false;
         }
 
+        public $catch whichMatch(_catch _cc){
+            if( !this.constraint.test( _cc ) ){
+                return null;
+            }
+            Optional<$catch> orsel  = this.ors.stream().filter( $p-> $p.match(_cc) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
         /**
          * Return the underlying $anno that matches the AnnotationExpr or null if none of the match
          * @param ae
          * @return
          */
         public $catch whichMatch(CatchClause ae){
-            if( !this.constraint.test( ae ) ){
-                return null;
-            }
-            Optional<$catch> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
-            if( orsel.isPresent() ){
-                return orsel.get();
-            }
-            return null;
+            return whichMatch(_catch.of(ae));
         }
     }
 
@@ -541,10 +564,15 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part, $meth
         implements $pattern.selected, selectAst<CatchClause> {
 
         public $tokens tokens;
-        public CatchClause astCatchClause;
-        
+        public _catch _cc;
+
+        public Select(_catch _cc, $tokens tokens){
+            this._cc = _cc;
+            this.tokens = tokens;
+        }
+
         public Select(CatchClause cc, $tokens tokens){
-            this.astCatchClause = cc;
+            this._cc = _catch.of(cc);
             this.tokens = tokens;
         }
         
@@ -555,13 +583,13 @@ public class $catch implements $pattern<CatchClause, $catch>, $body.$part, $meth
 
         @Override
         public CatchClause ast() {
-            return astCatchClause;
+            return _cc.ast();
         }
 
         @Override
         public String toString(){
             return "$catch.Select{"+ System.lineSeparator()+
-                    Text.indent( astCatchClause.toString() )+ System.lineSeparator()+
+                    Text.indent( _cc.toString() )+ System.lineSeparator()+
                     Text.indent("$tokens : " + tokens) + System.lineSeparator()+
                     "}";
         }

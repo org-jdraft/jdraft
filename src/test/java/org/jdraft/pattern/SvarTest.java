@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import junit.framework.TestCase;
+import org.jdraft._forEachStmt;
 
 /**
  *
@@ -91,7 +92,7 @@ public class SvarTest extends TestCase {
             }
         }
         _class _c = _class.of(C.class);
-        $stmt<ForEachStmt> $s = $stmt.forEachStmt("for(int $it$: array){ any(); }")
+        $stmt<ForEachStmt, _forEachStmt> $s = $stmt.forEachStmt("for(int $it$: array){ any(); }")
             .$(Stmt.of("any();"), "body");
         
         //ok this will verify, we can find (2) separate forEach statements

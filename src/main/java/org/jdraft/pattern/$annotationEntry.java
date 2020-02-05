@@ -16,9 +16,9 @@ import org.jdraft.text.Translator;
 /**
  * Note... at the moment this is NOT a template... should it be??
  */
-public class $annotationElement
-        implements $pattern<_annotation._entry, $annotationElement>, $pattern.$java<_annotation._entry, $annotationElement>,
-        $annotation.$part, $member.$named<$annotationElement>, $declared<_annotation._entry,$annotationElement>, $type.$part  {
+public class $annotationEntry
+        implements $pattern<_annotation._entry, $annotationEntry>, $pattern.$java<_annotation._entry, $annotationEntry>,
+        $annotation.$part, $member.$named<$annotationEntry>, $declared<_annotation._entry, $annotationEntry>, $type.$part  {
 
     /** marker interface for member entities that are part of the class */
     public interface $part{ }
@@ -30,20 +30,20 @@ public class $annotationElement
     public $typeRef type = $typeRef.of();
     public $ex defaultValue = null;
 
-    public static $annotationElement of(){
-        return new $annotationElement();
+    public static $annotationEntry of(){
+        return new $annotationEntry();
     }
 
-    public static $annotationElement of (String... annotationElement ){
+    public static $annotationEntry of (String... annotationElement ){
         return of( _annotation._entry.of(annotationElement) );
     }
 
-    public static $annotationElement of(AnnotationMemberDeclaration _ec ){
+    public static $annotationEntry of(AnnotationMemberDeclaration _ec ){
         return of( _annotation._entry.of(_ec));
     }
 
-    public static $annotationElement of(_annotation._entry _ec ){
-        $annotationElement ec = new $annotationElement();
+    public static $annotationEntry of(_annotation._entry _ec ){
+        $annotationEntry ec = new $annotationEntry();
 
         if( _ec.hasJavadoc()) {
             ec.javadoc = $comment.javadocComment(_ec.getJavadoc());
@@ -56,36 +56,36 @@ public class $annotationElement
         return ec;
     }
 
-    public static $annotationElement of(Predicate<_annotation._entry> constraint ){
-        return new $annotationElement().$and(constraint);
+    public static $annotationEntry of(Predicate<_annotation._entry> constraint ){
+        return new $annotationEntry().$and(constraint);
     }
 
-    public static $annotationElement of($part...parts){
-        return new $annotationElement(parts);
+    public static $annotationEntry of($part...parts){
+        return new $annotationEntry(parts);
     }
 
-    public static $annotationElement.Or or( _annotation._entry... _protos ){
-        $annotationElement[] arr = new $annotationElement[_protos.length];
+    public static $annotationEntry.Or or(_annotation._entry... _protos ){
+        $annotationEntry[] arr = new $annotationEntry[_protos.length];
         for(int i=0;i<_protos.length;i++){
-            arr[i] = $annotationElement.of( _protos[i]);
+            arr[i] = $annotationEntry.of( _protos[i]);
         }
         return or(arr);
     }
 
-    public static $annotationElement.Or or( $annotationElement...$tps ){
-        return new $annotationElement.Or($tps);
+    public static $annotationEntry.Or or($annotationEntry...$tps ){
+        return new $annotationEntry.Or($tps);
     }
 
-    public static $annotationElement as(String...annotationElement){
+    public static $annotationEntry as(String...annotationElement){
         return as( _annotation._entry.of(annotationElement) );
     }
 
-    public static $annotationElement as(AnnotationMemberDeclaration _ec ){
+    public static $annotationEntry as(AnnotationMemberDeclaration _ec ){
         return as( _annotation._entry.of(_ec));
     }
 
-    public static $annotationElement as(_annotation._entry _ec ){
-        $annotationElement ae = new $annotationElement();
+    public static $annotationEntry as(_annotation._entry _ec ){
+        $annotationEntry ae = new $annotationEntry();
 
         if( _ec.hasJavadoc()) {
             ae.javadoc = $comment.javadocComment(_ec.getJavadoc());
@@ -105,16 +105,16 @@ public class $annotationElement
      * @param parts
      * @return
      */
-    public static $annotationElement not(final $annotationElement.$part...parts ){
-        $annotationElement $ae = of();
+    public static $annotationEntry not(final $annotationEntry.$part...parts ){
+        $annotationEntry $ae = of();
         $ae.$not(parts);
         return $ae;
     }
 
-    private $annotationElement(){
+    private $annotationEntry(){
     }
 
-    public $annotationElement($part...parts){
+    public $annotationEntry($part...parts){
         for(int i=0;i<parts.length;i++){
             if( parts[i] instanceof $comment){
                 this.javadoc = ($comment<JavadocComment>)parts[i];
@@ -133,7 +133,7 @@ public class $annotationElement
 
 
     @Override
-    public $annotationElement $(String target, String $paramName) {
+    public $annotationEntry $(String target, String $paramName) {
         this.javadoc.$(target, $paramName);
         this.name = this.name.$(target, $paramName);
         this.type = this.type.$(target, $paramName);
@@ -144,7 +144,7 @@ public class $annotationElement
     }
 
     @Override
-    public $annotationElement hardcode$(Translator translator, Tokens kvs) {
+    public $annotationEntry hardcode$(Translator translator, Tokens kvs) {
         this.javadoc.hardcode$(translator, kvs);
         this.name = this.name.hardcode$(translator, kvs);
         this.type.hardcode$(translator, kvs);
@@ -245,7 +245,7 @@ public class $annotationElement
      * @param parts
      * @return
      */
-    public $annotationElement $not(final $part...parts ){
+    public $annotationEntry $not(final $part...parts ){
         for(int i=0;i<parts.length;i++){
             if(parts[i] instanceof $comment ){
                 final $comment $fj = (($comment)parts[i]);
@@ -272,7 +272,7 @@ public class $annotationElement
     }
 
     @Override
-    public $annotationElement $and(Predicate<_annotation._entry> constraint) {
+    public $annotationEntry $and(Predicate<_annotation._entry> constraint) {
         this.constraint = this.constraint.and(constraint);
         return this;
     }
@@ -282,17 +282,17 @@ public class $annotationElement
         return javadoc;
     }
 
-    public $annotationElement $javadoc(Predicate<JavadocComment> javadocMatchFn ){
+    public $annotationEntry $javadoc(Predicate<JavadocComment> javadocMatchFn ){
         this.javadoc = $comment.javadocComment(javadocMatchFn);
         return this;
     }
 
-    public $annotationElement $javadoc(_javadoc javadocComment ){
+    public $annotationEntry $javadoc(_javadoc javadocComment ){
         this.javadoc = $comment.javadocComment(javadocComment);
         return this;
     }
 
-    public $annotationElement $javadoc($comment<JavadocComment> javadocComment ){
+    public $annotationEntry $javadoc($comment<JavadocComment> javadocComment ){
         this.javadoc = javadocComment;
         return this;
     }
@@ -302,17 +302,17 @@ public class $annotationElement
         return this.name;
     }
 
-    public $annotationElement $name(Predicate<String> nameMatchFn){
+    public $annotationEntry $name(Predicate<String> nameMatchFn){
         this.name = $name.of(nameMatchFn);
         return this;
     }
 
-    public $annotationElement $name(String name ){
+    public $annotationEntry $name(String name ){
         this.name = $name.of(name);
         return this;
     }
 
-    public $annotationElement $name($name name ){
+    public $annotationEntry $name($name name ){
         this.name = name;
         return this;
     }
@@ -385,17 +385,17 @@ public class $annotationElement
      * An Or entity that can match against any of the $pattern instances provided
      * NOTE: template features (draft/fill) are supressed.
      */
-    public static class Or extends $annotationElement{
+    public static class Or extends $annotationEntry {
 
-        final List<$annotationElement>ors = new ArrayList<>();
+        final List<$annotationEntry>ors = new ArrayList<>();
 
-        public Or($annotationElement...$as){
+        public Or($annotationEntry...$as){
             super();
             Arrays.stream($as).forEach($a -> ors.add($a) );
         }
 
         @Override
-        public $annotationElement hardcode$(Translator translator, Tokens kvs) {
+        public $annotationEntry hardcode$(Translator translator, Tokens kvs) {
             ors.forEach( $a -> $a.hardcode$(translator, kvs));
             return this;
         }
@@ -415,8 +415,8 @@ public class $annotationElement
          * @param astNode
          * @return
          */
-        public $annotationElement.Select select(_annotation._entry astNode){
-            $annotationElement $a = whichMatch(astNode);
+        public $annotationEntry.Select select(_annotation._entry astNode){
+            $annotationEntry $a = whichMatch(astNode);
             if( $a != null ){
                 return $a.select(astNode);
             }
@@ -432,11 +432,11 @@ public class $annotationElement
          * @param ae
          * @return
          */
-        public $annotationElement whichMatch(_annotation._entry ae){
+        public $annotationEntry whichMatch(_annotation._entry ae){
             if( !this.constraint.test( ae ) ){
                 return null;
             }
-            Optional<$annotationElement> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
+            Optional<$annotationEntry> orsel  = this.ors.stream().filter($p-> $p.match(ae) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();
             }
