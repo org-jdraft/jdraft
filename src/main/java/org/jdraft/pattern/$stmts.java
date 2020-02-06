@@ -293,7 +293,7 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
                 }
                 else if( val != null && val != Boolean.FALSE ){
                     //construct the statement (it
-                    LabeledStmt ls = (LabeledStmt)stmt.draft(t, tokens);
+                    LabeledStmt ls = (LabeledStmt)(stmt.draft(t, tokens).ast());
                     Statement st = ls.getStatement();
                     if( st instanceof BlockStmt ) {
                         //add each of the statements
@@ -303,7 +303,7 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
                     }
                 }
             } else { //it is NOT a dymanically labeled Statement, so just process normally
-                sts.add(stmt.draft(t, tokens));
+                sts.add(stmt.draft(t, tokens).ast());
             }
         });       
         return sts;

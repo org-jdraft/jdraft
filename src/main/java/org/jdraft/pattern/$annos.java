@@ -24,7 +24,9 @@ import org.jdraft.text.Translator;
  * @author Eric
  */
 public class $annos
-    implements Template<_annos>, $pattern<_annos, $annos>, $pattern.$java<_annos, $annos>, $constructor.$part, $method.$part,
+    implements Template<_annos>,
+        //$pattern<_annos, $annos>,
+        $pattern.$java<_annos, $annos>, $constructor.$part, $method.$part,
         $field.$part, $parameter.$part, $typeParameter.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part,
         $enumConstant.$part, $type.$part {
 

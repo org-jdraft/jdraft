@@ -94,7 +94,7 @@ public class SmethodTest extends TestCase {
             }
         }
         _type mod = $.method().forEachIn(A.class, m-> m.add(0,
-                $stmt.of( ()-> System.out.println("Calling: $name$") ).fill(m.getName()) ) );
+                $stmt.of( ()-> System.out.println("Calling: $name$") ).fill(m.getName()).ast() ) );
 
         System.out.println( mod );
     }

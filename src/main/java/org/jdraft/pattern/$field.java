@@ -25,7 +25,8 @@ import org.jdraft.text.*;
  *
  * @author Eric
  */
-public class $field implements Template<_field>, $pattern<_field, $field>, $pattern.$java<_field, $field>,
+public class $field implements Template<_field>, //$pattern<_field, $field>,
+        $pattern.$java<_field, $field>,
         $class.$part, $interface.$part, $enum.$part, $annotation.$part, $enumConstant.$part, $member.$named<$field>,
         $declared<_field,$field>, has$Annos, $type.$part  {
 

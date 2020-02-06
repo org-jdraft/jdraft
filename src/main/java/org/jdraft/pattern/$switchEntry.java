@@ -480,21 +480,21 @@ public class $switchEntry
             //System.out.println( "has Statements");
             Object ll = keyValues.get("$statements" );
             if( ll instanceof Statement ){
-                se.addStatement( $stmt.of((Statement) ll).draft(translator, keyValues) );
+                se.addStatement( $stmt.of((Statement) ll).draft(translator, keyValues).ast() );
             } else if( ll instanceof $stmt ){
-                se.addStatement( (($stmt) ll).draft(translator, keyValues) );
+                se.addStatement( (($stmt) ll).draft(translator, keyValues).ast() );
             } else if( ll instanceof $stmt[]) {
                 $stmt[] sts = ($stmt[])ll;
-                Arrays.stream(sts).forEach( s-> se.addStatement(s.draft(translator, keyValues)) );
+                Arrays.stream(sts).forEach( s-> se.addStatement(s.draft(translator, keyValues).ast()) );
             } else if( ll instanceof Statement[]) {
-                Arrays.stream( (Statement[])ll).forEach( s-> se.addStatement($stmt.of(s).draft(translator, keyValues)) );
+                Arrays.stream( (Statement[])ll).forEach( s-> se.addStatement($stmt.of(s).draft(translator, keyValues).ast()) );
             } else {
                 //just toString the thing 
                 BlockStmt bs = Ast.blockStmt( (String)(ll.toString()) );
-                bs.getStatements().forEach(s -> se.addStatement( $stmt.of(s).draft(translator, keyValues)));
+                bs.getStatements().forEach(s -> se.addStatement( $stmt.of(s).draft(translator, keyValues).ast()));
             }                     
         } else{
-            this.statements.forEach(st -> se.addStatement( st.draft(translator, keyValues) ) );
+            this.statements.forEach(st -> se.addStatement( st.draft(translator, keyValues).ast() ) );
         }
         return _switchEntry.of(se);
     }

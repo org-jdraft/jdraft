@@ -21,8 +21,10 @@ import org.jdraft.text.Translator;
  * Pattern for parameter list
  * @author Eric
  */
-public class $parameters implements Template<_parameters>, $pattern<_parameters,$parameters>,
-        $pattern.$java<_parameters,$parameters>, $constructor.$part, $method.$part {
+public class $parameters implements Template<_parameters>,
+        //$pattern<_parameters,$parameters>,
+        $pattern.$java<_parameters,$parameters>,
+        $constructor.$part, $method.$part {
 
 
     public static $parameters of(){

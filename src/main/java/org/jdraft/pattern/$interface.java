@@ -22,7 +22,9 @@ import org.jdraft.text.Translator;
  * Note... at the moment this is NOT a template... should it be??
  */
 public class $interface
-        implements $pattern<_interface, $interface>, $pattern.$java<_interface, $interface>, $member.$named<$interface>,
+        implements
+        //$pattern<_interface, $interface>,
+        $pattern.$java<_interface, $interface>, $member.$named<$interface>,
         $declared<_interface,$interface>, has$Annos {
 
     public Predicate<_interface> constraint = t->true;

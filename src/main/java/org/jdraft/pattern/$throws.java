@@ -27,7 +27,8 @@ import org.jdraft.text.Translator;
  * </PRE>>
  */
 public class $throws
-    implements Template<_throws>, $pattern<_throws, $throws>, $pattern.$java<_throws,$throws>, $method.$part, $constructor.$part {
+    implements Template<_throws>, //$pattern<_throws, $throws>,
+        $pattern.$java<_throws,$throws>, $method.$part, $constructor.$part {
 
     public Class<_throws> _modelType(){
         return _throws.class;

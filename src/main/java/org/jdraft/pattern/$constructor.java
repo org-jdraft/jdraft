@@ -30,7 +30,8 @@ import org.jdraft.text.*;
  * prototype/template for a Java {@link _constructor}
  */
 public class $constructor
-    implements Template<_constructor>, $pattern<_constructor, $constructor>,
+    implements Template<_constructor>,
+        //$pattern<_constructor, $constructor>,
         $pattern.$java<_constructor, $constructor>, $class.$part, $enum.$part, $member.$named<$constructor>,
         $declared<_constructor,$constructor>, has$Annos, $type.$part {
 

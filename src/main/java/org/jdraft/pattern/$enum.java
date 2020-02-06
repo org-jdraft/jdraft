@@ -22,7 +22,8 @@ import org.jdraft.text.Translator;
  * Note... at the moment this is NOT a template... should it be??
  */
 public class $enum
-        implements $pattern<_enum, $enum>, $pattern.$java<_enum, $enum>, $member.$named<$enum>, $declared<_enum,$enum>,
+        implements //$pattern<_enum, $enum>,
+        $pattern.$java<_enum, $enum>, $member.$named<$enum>, $declared<_enum,$enum>,
         has$Annos {
 
     public Predicate<_enum> constraint = t->true;

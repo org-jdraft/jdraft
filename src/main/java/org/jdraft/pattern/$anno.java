@@ -15,12 +15,14 @@ import org.jdraft.*;
 import org.jdraft.text.*;
 
 /**
- * prototype for an annotation
+ * pattern for an annotation expression
  *
  * @author Eric
  */
 public class $anno
-    implements Template<_anno>, $pattern<_anno, $anno>, $pattern.$java<_anno, $anno>,
+    implements Template<_anno>,
+        //$pattern<_anno, $anno>,
+        $pattern.$java<_anno, $anno>,
         $constructor.$part, $method.$part,
         $field.$part, $parameter.$part, $typeParameter.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part,
         $enumConstant.$part, $type.$part {

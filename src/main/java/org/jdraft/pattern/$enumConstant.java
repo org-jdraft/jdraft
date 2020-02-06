@@ -18,7 +18,8 @@ import org.jdraft.text.Translator;
  * Note... at the moment this is NOT a template... should it be??
  */
 public class $enumConstant
-        implements $pattern<_constant, $enumConstant>, $pattern.$java<_constant, $enumConstant>, $enum.$part,
+        implements //$pattern<_constant, $enumConstant>,
+        $pattern.$java<_constant, $enumConstant>, $enum.$part,
         $member.$named<$enumConstant>, $declared<_constant,$enumConstant>, $type.$part  {
 
     public Predicate<_constant> constraint = t->true;

@@ -68,7 +68,7 @@ public class PatternIntroTest extends TestCase {
         //the are (2) main purposes for prototypes:
 
         //1) drafting (building a new instance represented by the prototype)
-        Statement printOne = $printOne.draft(); //System.out.println(1);
+        Statement printOne = $printOne.draft().ast(); //System.out.println(1);
 
         //2) matching (checking if a given Statement instances is compatible with the proto)
         assertTrue( $printOne.matches(printOne) ); //match
@@ -154,11 +154,11 @@ public class PatternIntroTest extends TestCase {
         //we can build new statements using $anyPrint and passing in
         // param/values that are required by the prototype (below the param "a" is required)
         // here we can draft new Statements by keyValuePairs
-        Statement print1 =          $anyPrint.draft("a", 1);   //System.out.print(1);
-        Statement printc =          $anyPrint.draft("a", 'c'); //System.out.print('c');
-        Statement printMethodCall = $anyPrint.draft("a", "aMethodCall()"); //System.out.print(aMethodCall());
-        Statement printString =     $anyPrint.draft("a", "\"String\""); //System.out.print("String");
-        Statement printComposite =  $anyPrint.draft("a", "\"String\" + a + \" \" + b"); //System.out.print("String" + a + " " + b );
+        Statement print1 =          $anyPrint.draft("a", 1).ast();   //System.out.print(1);
+        Statement printc =          $anyPrint.draft("a", 'c').ast(); //System.out.print('c');
+        Statement printMethodCall = $anyPrint.draft("a", "aMethodCall()").ast(); //System.out.print(aMethodCall());
+        Statement printString =     $anyPrint.draft("a", "\"String\"").ast(); //System.out.print("String");
+        Statement printComposite =  $anyPrint.draft("a", "\"String\" + a + \" \" + b").ast(); //System.out.print("String" + a + " " + b );
 
         //now that we've drafted $a$ will match anything
         assertTrue($anyPrint.matches(print1));

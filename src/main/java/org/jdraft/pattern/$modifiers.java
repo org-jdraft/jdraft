@@ -25,7 +25,8 @@ import org.jdraft.text.Translator;
  * @author Eric
  */
 public class $modifiers
-    implements $pattern<_modifiers, $modifiers>, $pattern.$java<_modifiers,$modifiers>, $constructor.$part, $method.$part,
+    implements //$pattern<_modifiers, $modifiers>,
+        $pattern.$java<_modifiers,$modifiers>, $constructor.$part, $method.$part,
         $field.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part, $type.$part {
 
 

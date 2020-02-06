@@ -21,7 +21,8 @@ import org.jdraft.text.Translator;
  * Note... at the moment this is NOT a template... should it be??
  */
 public class $annotation
-        implements $pattern<_annotation, $annotation>, $pattern.$java<_annotation, $annotation>, $member.$named<$annotation>,
+        implements //$pattern<_annotation, $annotation>,
+        $pattern.$java<_annotation, $annotation>, $member.$named<$annotation>,
         $declared<_annotation,$annotation>, has$Annos {
 
     public Predicate<_annotation> constraint = t->true;

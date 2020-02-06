@@ -4,8 +4,10 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.*;
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.nodeTypes.*;
 import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithAbstractModifier;
+import com.github.javaparser.ast.stmt.Statement;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -658,7 +660,8 @@ public enum Walk {
             Predicate<N> nodeMatchFn,
             Consumer<N> nodeActionFn) {
 
-        astRootNode.stream(traversal).limit(levels).filter(n -> targetNodeClass.isAssignableFrom(n.getClass()) && nodeMatchFn.test((N) n))
+        astRootNode.stream(traversal).limit(levels).filter(n -> targetNodeClass.isAssignableFrom(n.getClass())
+                && nodeMatchFn.test((N) n))
                 .forEach(n->nodeActionFn.accept( (N)n ) );
         return astRootNode;
     }
@@ -1527,6 +1530,34 @@ public enum Walk {
     public static <_J extends _java._domain, N extends Node> N in_java(
             Node.TreeTraversal tt, int levels, N astRootNode, Class<_J> _javaClass, Predicate<_J> _javaMatchFn, Consumer<_J> _javaAction ) {
 
+        if( _statement.class.isAssignableFrom(_javaClass)){
+            in( tt, levels,
+                    astRootNode,
+                    Statement.class,
+                    n -> true,
+                    n -> {
+                        _statement _s = _statement.of( (Statement)n);
+
+                        if( ((Predicate<_statement>)_javaMatchFn).test( _s) ){
+                            ((Consumer<_statement>)_javaAction).accept( _s );
+                        }
+                    });
+            return astRootNode;
+        }
+        if( _expression.class.isAssignableFrom(_javaClass) && !(_javaClass == _anno.class) ){
+            in( tt, levels,
+                    astRootNode,
+                    Expression.class,
+                    n -> true,
+                    n -> {
+                        _expression _e = _expression.of( (Expression)n);
+
+                        if( ((Predicate<_expression>)_javaMatchFn).test( _e) ){
+                            ((Consumer<_expression>)_javaAction).accept( _e );
+                        }
+                    });
+            return astRootNode;
+        }
         if( _javaClass == _compilationUnit.class ){
             in(tt,
                 levels,

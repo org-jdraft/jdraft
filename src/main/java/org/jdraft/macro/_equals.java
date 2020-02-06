@@ -97,20 +97,20 @@ public @interface _equals {
 
                 _fs.forEach(f-> {
                     if( f.isType(float.class) ){
-                        body.addStatement( $float.fill(f.getName()));
+                        body.addStatement( $float.fill(f.getName()).ast());
                     }else if( f.isType(double.class)){
-                        body.addStatement($double.fill(f.getName()));
+                        body.addStatement($double.fill(f.getName()).ast());
                     }else if( f.isPrimitive() ){
-                        body.addStatement($primitive.fill(f.getName()));
+                        body.addStatement($primitive.fill(f.getName()).ast());
                     }else{
                         if( f.isArray()){
                             if( f.getType().getElementType().isPrimitiveType() ){
-                                body.addStatement($arrayOfPrimitives.fill(f.getName()));
+                                body.addStatement($arrayOfPrimitives.fill(f.getName()).ast());
                             } else {
-                                body.addStatement($arrayOfObject.fill(f.getName()));
+                                body.addStatement($arrayOfObject.fill(f.getName()).ast());
                             }
                         }else {
-                            body.addStatement($default.fill(f.getName()));
+                            body.addStatement($default.fill(f.getName()).ast());
                         }
                     }
                 });

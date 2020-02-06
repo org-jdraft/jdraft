@@ -58,7 +58,11 @@ import org.jdraft.text.*;
  * @param <_S> _java._domain implementation type
  */
 public class $stmt<S extends Statement, _S extends _statement>
-    implements Template<S>, $pattern<_S, $stmt<S, _S>>, $body.$part, $method.$part, $constructor.$part {
+    implements Template<_S>, $pattern.$java<_S, $stmt<S, _S>>, $body.$part, $method.$part, $constructor.$part {
+
+    public Class<_S> _modelType(){
+        return (Class<_S>) _statement.class;
+    }
 
     /**
      * This allows Statements to be commented out or uncommented in a conventional way.
@@ -1025,12 +1029,7 @@ public class $stmt<S extends Statement, _S extends _statement>
         return this;
     }
      */
-    
-    @Override
-    public S fill(Object...values){
-        String str = stmtStencil.fill(Translator.DEFAULT_TRANSLATOR, values);
-        return (S)Stmt.of( str);
-    }
+
 
     @Override
     public $stmt $(String target, String $paramName) {
@@ -1117,8 +1116,16 @@ public class $stmt<S extends Statement, _S extends _statement>
         return this;
     }
 
+
     @Override
-    public S fill(Translator t, Object...values){
+    public _S fill(Object...values){
+        String str = stmtStencil.fill(Translator.DEFAULT_TRANSLATOR, values);
+        return (_S)_statement.of((S)Stmt.of( str));
+    }
+
+
+    @Override
+    public _S fill(Translator t, Object...values){
 
         List<String> keys = list$Normalized();
         if( values.length < keys.size() ){
@@ -1132,20 +1139,20 @@ public class $stmt<S extends Statement, _S extends _statement>
     }
 
     @Override
-    public S draft(Object...keyValues ){
+    public _S draft(Object...keyValues ){
         Tokens tokens = Tokens.of(keyValues);
-        return (S) parameterize$LabeledStmt( Stmt.of(stmtStencil.draft( tokens )), tokens );
+        return (_S)_statement.of( parameterize$LabeledStmt( Stmt.of(stmtStencil.draft( tokens )), tokens ));
     }
     
     @Override
-    public S draft(Translator t, Object...keyValues ){
+    public _S draft(Translator t, Object...keyValues ){
         Tokens tokens = Tokens.of(keyValues);
-        return (S) parameterize$LabeledStmt( Stmt.of(stmtStencil.draft( t, tokens )), tokens );
+        return (_S) _statement.of(parameterize$LabeledStmt( Stmt.of(stmtStencil.draft( t, tokens )), tokens ));
     }
 
     @Override
-    public S draft(Map<String,Object> tokens ){
-        return (S) parameterize$LabeledStmt( Stmt.of(stmtStencil.draft( tokens )), tokens );
+    public _S draft(Map<String,Object> tokens ){
+        return (_S)_statement.of((S) parameterize$LabeledStmt( Stmt.of(stmtStencil.draft( tokens )), tokens ));
     }
     
     /**
@@ -1153,14 +1160,14 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param _n
      * @return 
      */
-    public S draft(_java._node _n ){
+    public _S draft(_java._node _n ){
         Map<String,Object> decons = _n.tokenize();
-        return (S) draft( decons );
+        return (_S) draft( decons );
     }
 
     @Override
-    public S draft(Translator t, Map<String,Object> tokens ){
-        return (S) parameterize$LabeledStmt( Stmt.of(stmtStencil.draft( t, tokens )), tokens );
+    public _S draft(Translator t, Map<String,Object> tokens ){
+        return (_S) _statement.of(parameterize$LabeledStmt( Stmt.of(stmtStencil.draft( t, tokens )), tokens ));
     }
 
     public boolean match( Node node ) {
@@ -1926,7 +1933,7 @@ public class $stmt<S extends Statement, _S extends _statement>
     }
     
     public static Statement labelStmtReplacement(LabeledStmt ls, Map<String,Object> tokens){
-        System.out.println("Found labeled Statenm " +ls.getLabel() );
+        //System.out.println("Found labeled Statenm " +ls.getLabel() );
         String name = ls.getLabel().asString().substring(1);
         Object value = tokens.get(name);
         
@@ -1944,7 +1951,7 @@ public class $stmt<S extends Statement, _S extends _statement>
         }
         //OVERRIDE: with a proto Statement
         else if( value instanceof $stmt ){ 
-            return (($stmt)value).draft(tokens);
+            return (($stmt)value).draft(tokens).ast();
         }
         //SHOW (just remove the $label:)
         return ls.getStatement();        
@@ -2056,9 +2063,8 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param <T> 
      */
     public static class Select<T extends Statement, _S extends _statement> implements $pattern.selected,
-            selectAst<T> {
-        
-        //public T astStatement;
+            selectAst<T>, select_java<_S> {
+
         public _S _s;
         public $tokens tokens;
         
@@ -2083,6 +2089,11 @@ public class $stmt<S extends Statement, _S extends _statement>
         @Override
         public T ast() {
             return (T)_s.ast();
+        }
+
+        @Override
+        public _S _node() {
+            return _s;
         }
     }
 }

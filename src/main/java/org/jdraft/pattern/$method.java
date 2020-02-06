@@ -26,7 +26,8 @@ import org.jdraft.text.*;
  * pattern/template for a Java {@link _method}
  */
 public class $method
-    implements Template<_method>, $pattern<_method, $method>, $pattern.$java<_method,$method>, $class.$part,
+    implements Template<_method>, //$pattern<_method, $method>,
+        $pattern.$java<_method,$method>, $class.$part,
         $interface.$part, $enum.$part,$enumConstant.$part, $member.$named<$method>, $declared<_method,$method>, has$Annos,
         $type.$part {
 

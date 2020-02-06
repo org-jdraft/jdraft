@@ -15,7 +15,8 @@ import org.jdraft.text.*;
  *
  */
 public class $import
-    implements Template<_import>, $pattern<_import, $import>, $pattern.$java<_import, $import>, $class.$part,
+    implements Template<_import>, //$pattern<_import, $import>,
+        $pattern.$java<_import, $import>, $class.$part,
         $interface.$part, $enum.$part, $annotation.$part, $type.$part  {
 
     /**

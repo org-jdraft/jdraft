@@ -40,12 +40,13 @@ import org.jdraft.text.Translator;
  * $pattern objects define a mechanism to walk the AST and query/modify Java code
  * matching against grammar entries via the _node model 
  *
- * @param <P> the type of node being queried for (likely a
+ * @param <P> the type of node being queried for {@link _java._node}
  * @param <$P> the pattern type
  * {@link com.github.javaparser.ast.Node} or 
  * {@link _java._node})
  */
 public interface $pattern<P, $P extends $pattern>{
+
 
     /**
      * Will this prototype match ANY instance of the type (or null)?
@@ -1956,7 +1957,7 @@ public interface $pattern<P, $P extends $pattern>{
      */
     interface $java<_J extends _java._domain, $P extends $pattern> extends $pattern<_J, $P> {
 
-        /** The Java _model type that is represented by this $patern */
+        /** The Java _model type that is represented by this $pattern */
         Class<_J> _modelType();
 
         default <_CT extends _type> _CT replaceIn( Class clazz, $P $protoReplace ){

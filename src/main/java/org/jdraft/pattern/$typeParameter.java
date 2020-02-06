@@ -20,7 +20,8 @@ import org.jdraft.text.*;
  * @author Eric
  */
 public class $typeParameter
-    implements Template<_typeParameter>, $pattern<_typeParameter, $typeParameter>, $pattern.$java<_typeParameter,$typeParameter>,
+    implements Template<_typeParameter>, //$pattern<_typeParameter, $typeParameter>,
+        $pattern.$java<_typeParameter,$typeParameter>,
         $method.$part, $constructor.$part, $class.$part, $interface.$part, $type.$part {
 
     public Class<_typeParameter> _modelType(){

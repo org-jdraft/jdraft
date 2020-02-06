@@ -30,7 +30,8 @@ import org.jdraft.text.*;
  * @see InitializerDeclaration
  * @see _initBlock
  */
-public class $initBlock implements $pattern<_initBlock, $initBlock>, $pattern.$java<_initBlock,$initBlock>,
+public class $initBlock implements //$pattern<_initBlock, $initBlock>,
+        $pattern.$java<_initBlock,$initBlock>,
         Template<_initBlock>, $class.$part, $enum.$part, $member<_initBlock, $initBlock>, $type.$part {
 
     public static $initBlock of(){

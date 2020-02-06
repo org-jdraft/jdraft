@@ -23,7 +23,7 @@ import org.jdraft.text.*;
  * @param <_E> _java._domain {@link _expression} Type (could be {@link _expression} to mean all expressions)
  */
 public class $ex<E extends Expression, _E extends _expression>
-    implements $field.$part, $pattern<_E, $ex<E, _E>>, $var.$part, $enumConstant.$part, $annotationEntry.$part, Template<E>,
+    implements $field.$part, $pattern<_E, $ex<E, _E>>, $var.$part, $enumConstant.$part, $annotationEntry.$part, Template< E>,
     $body.$part, $method.$part, $constructor.$part {
 
     /**
@@ -2366,7 +2366,7 @@ public class $ex<E extends Expression, _E extends _expression>
      * @param <T> expression type
      */
     public static class Select<T extends Expression, _T extends _expression> implements $pattern.selected,
-            selectAst<T> {
+            selectAst<T>, select_java<_T> {
 
         public final _T _ex;
         //public final T astExpression;
@@ -2406,6 +2406,11 @@ public class $ex<E extends Expression, _E extends _expression>
             return (T)this._ex.ast();
         }
 
-        public _T domain(){ return this._ex; }
+        //public _T domain(){ return this._ex; }
+
+        @Override
+        public _T _node() {
+            return this._ex;
+        }
     }
 }

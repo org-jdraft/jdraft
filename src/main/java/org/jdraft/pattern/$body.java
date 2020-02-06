@@ -23,7 +23,9 @@ import java.util.function.*;
  *
  * @author Eric
  */
-public class $body implements Template<_body>, $pattern<_body, $body>, $pattern.$java<_body, $body>, $constructor.$part, $method.$part{
+public class $body implements Template<_body>,
+        //$pattern<_body, $body>,
+        $pattern.$java<_body, $body>, $constructor.$part, $method.$part{
 
     /** a part of the body... a $ex, $stmt, $stmts, $case, $comment, $var */
     public interface $part { }
@@ -627,7 +629,7 @@ public class $body implements Template<_body>, $pattern<_body, $body>, $pattern.
         if( this.isImplemented == null || !this.isImplemented ){
             return _body.of(";");
         }
-        Statement r = this.bodyStmts.draft( translator, keyValues );
+        Statement r = this.bodyStmts.draft( translator, keyValues ).ast();
         return _body.of( r );
     }
     

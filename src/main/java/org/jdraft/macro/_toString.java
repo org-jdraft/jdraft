@@ -79,12 +79,12 @@ public @interface _toString {
             _fs.stream().filter(TO_STRING_FIELDS).forEach( _f  -> {
                 if( _f.isArray() ){
                     if( _f.getElementType().isPrimitive() ){
-                        body.addStatement( $arrayOfPrimitives.fill(_f.getName()) );
+                        body.addStatement( $arrayOfPrimitives.fill(_f.getName()).ast() );
                     }else{
-                        body.addStatement( $arrayOfObjects.fill(_f.getName()) );
+                        body.addStatement( $arrayOfObjects.fill(_f.getName()).ast() );
                     }
                 } else{
-                    body.addStatement( $simple.fill(_f.getName()) );
+                    body.addStatement( $simple.fill(_f.getName()).ast() );
                 }
             });
             _method _m = $TO_STRING.draft("className", typeDeclaration.getName(), "body", body );

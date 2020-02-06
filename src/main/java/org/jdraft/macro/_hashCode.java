@@ -85,26 +85,26 @@ public @interface _hashCode {
          public static Statement constructStmt(_field _f){
              if( _f.getType().isArrayType() ){
                  if( _f.getType().getElementType().isPrimitiveType()){
-                     return $arrayOfPrimitives.draft(_f);
+                     return $arrayOfPrimitives.draft(_f).ast();
                  }
-                 return $arrayOfObject.draft(_f);
+                 return $arrayOfObject.draft(_f).ast();
              }
              if( _f.getType().isPrimitive()){
                  if( _f.isType(boolean.class)){
-                     return $boolean.draft(_f);
+                     return $boolean.draft(_f).ast();
                  }
                  if( _f.isType(double.class)){
-                     return $double.draft(_f);
+                     return $double.draft(_f).ast();
                  }
                  if( _f.isType(float.class)){
-                     return $float.draft(_f);
+                     return $float.draft(_f).ast();
                  }
                  if( _f.isType(long.class)){
-                     return $long.draft(_f);
+                     return $long.draft(_f).ast();
                  }
-                 return $simplePrimitive.draft(_f);
+                 return $simplePrimitive.draft(_f).ast();
              }
-             return $default.draft(_f);
+             return $default.draft(_f).ast();
          }
      }
 
