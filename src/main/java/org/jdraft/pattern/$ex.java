@@ -50,7 +50,17 @@ public class $ex<E extends Expression, _E extends _expression>
     public static <T extends Expression, _E extends _expression> $ex<T, _E> of(String pattern, Predicate<_E> constraint ){
         return new $ex<T, _E>( (T) Ex.of(pattern)).$and(constraint);
     }
-    
+
+    /**
+     *
+     * @param <T>
+     * @param _e
+     * @return
+     */
+    public static <T extends Expression, _E extends _expression> $ex<T, _E> of(_E _e ){
+        return ($ex<T, _E>)of(_e.ast() );
+    }
+
     /**
      * 
      * @param <T>

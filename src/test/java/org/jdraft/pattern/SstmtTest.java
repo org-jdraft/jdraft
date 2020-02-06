@@ -407,7 +407,7 @@ public class SstmtTest extends TestCase {
             }
         });
         //the easy things should be easy
-        assertTrue( $stmt.of("assertTrue(true);").firstIn(_c).getComment().isPresent());
+        assertTrue( $stmt.of("assertTrue(true);").firstIn(_c).ast().getComment().isPresent());
         assertTrue( $stmt.of("assertTrue(true);").listIn(_c).size() ==1);
         
         $stmt.of("assertTrue(true);").replaceIn(_c, "Assert.assertTrue(true);");
@@ -456,7 +456,7 @@ public class SstmtTest extends TestCase {
         // we match: assertTrue( true ); & assertTrue(1==1)
         assertTrue( $assertAny.listIn(_c).size() == 2 );
         
-        assertTrue( $assertAny.firstIn(_c).getComment().isPresent());
+        assertTrue( $assertAny.firstIn(_c).ast().getComment().isPresent());
         
         
         //using "select" will parse . match and return the variables          
@@ -464,7 +464,7 @@ public class SstmtTest extends TestCase {
         assertTrue( $assertAny.selectFirstIn(_c).tokens.is("any", true));
         
         //you can statically query for a Select object which wraps the result
-        assertTrue( $stmt.of("assertTrue($any$);").selectFirstIn(_c).astStatement.getComment().isPresent());
+        assertTrue( $stmt.of("assertTrue($any$);").selectFirstIn(_c).ast().getComment().isPresent());
         assertTrue( $stmt.of("assertTrue($any$);").listSelectedIn(_c).size() ==2);     
         
         //System.out.println( $stmt.selectFirst(_c, "System.out.println($any$);") );
@@ -489,7 +489,7 @@ public class SstmtTest extends TestCase {
         //the easy things should be easy
         assertNotNull( $stmt.of("assertTrue(true);").firstIn(_c));
         assertTrue( $stmt.of("assertTrue(true);").listIn(_c).size() ==1);
-        assertTrue( $stmt.of("assertTrue(true);").selectFirstIn(_c).astStatement.getComment().isPresent());
+        assertTrue( $stmt.of("assertTrue(true);").selectFirstIn(_c).ast().getComment().isPresent());
         $stmt.of("assertTrue(true);").replaceIn(_c, "Assert.assertTrue(true);");
         $stmt.of("Assert.assertTrue(true);").removeIn(_c);
         

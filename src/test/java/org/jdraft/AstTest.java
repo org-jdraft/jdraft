@@ -76,7 +76,7 @@ public class AstTest extends TestCase {
         List<Comment> cs = md.getAllContainedComments();
         Ast.replaceComment( md, cs.get(0), Stmt.of("System.out.println(3);") );
         System.out.println( md );
-        assertEquals(Stmt.of("System.out.println(3);"), $stmt.ifStmt().firstIn(md).getThenStmt().asBlockStmt().getStatement(1));
+        assertEquals(Stmt.of("System.out.println(3);"), $stmt.ifStmt().firstIn(md).ast().getThenStmt().asBlockStmt().getStatement(1));
 
         md =  _c.getMethod("lastComment").ast();
         cs  =md.getAllContainedComments();
@@ -359,8 +359,8 @@ public class AstTest extends TestCase {
         }
         _class _c = _class.of(FG.class);
 
-        Statement s5 = $stmt.of( ()->System.out.println(5)).firstIn(_c);
-        Statement s1 = $stmt.of( ()->System.out.println(1)).firstIn(_c);
+        Statement s5 = $stmt.of( ()->System.out.println(5)).firstIn(_c).ast();
+        Statement s1 = $stmt.of( ()->System.out.println(1)).firstIn(_c).ast();
 
         Node commonAncestor = Ast.commonAncestor(s5, s1);
         assertTrue( Ast.isParent( commonAncestor, Ast.METHOD_DECLARATION));

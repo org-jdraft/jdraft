@@ -134,8 +134,8 @@ public class PatternIntroTest extends TestCase {
         assertEquals(4, $anyStmt.count(With4Statements.class));
 
         //we can also collect and list the statements within some code:
-        List<Statement> sts = $anyStmt.listIn(With4Statements.class);
-        assertTrue( sts.get(0) instanceof BlockStmt);
+        List<_statement> sts = $anyStmt.listIn(With4Statements.class);
+        assertTrue( sts.get(0).ast() instanceof BlockStmt);
 
         //If we want to match/extract/count
         $stmt<BlockStmt, _blockStmt> $anyBlockStmt = $stmt.blockStmt();
@@ -213,7 +213,7 @@ public class PatternIntroTest extends TestCase {
             }
         }
         //here we can
-        List<$stmt.Select<Statement>> sels = $anyPrint.listSelectedIn(WithPrint.class);
+        List<$stmt.Select<Statement, _statement>> sels = $anyPrint.listSelectedIn(WithPrint.class);
         assertEquals( 4, sels.size());
         assertTrue( sels.get(0).is("a", 1));
         assertTrue( sels.get(1).is("a", 'c'));

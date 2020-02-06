@@ -1061,7 +1061,7 @@ public final class $ {
         return $stmt.of(cs);
     }
 
-    public static $stmt<DoStmt, _doStmt> doStmt(){
+    public static $doStmt doStmt(){
         return $stmt.doStmt();
     }
 

@@ -100,11 +100,11 @@ public class SvarTest extends TestCase {
         
         AtomicInteger count = new AtomicInteger(0);
         $s.forSelectedIn(_c, 
-            ($stmt.Select<ForEachStmt> s)->{
+            ($stmt.Select<ForEachStmt, _forEachStmt> s)->{
                 String iteratorName = s.get("it").toString();
                 String replaceName = iteratorName+"_"+count.incrementAndGet();
                 System.out.println( "replaceing "+iteratorName+" with "+ replaceName);
-                $node.of(iteratorName).replaceIn(s.astStatement, replaceName);
+                $node.of(iteratorName).replaceIn(s.ast(), replaceName);
             });
         
         System.out.println (_c );

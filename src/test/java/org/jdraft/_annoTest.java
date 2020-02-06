@@ -259,7 +259,7 @@ public class _annoTest extends TestCase {
             //    && a.ast().getParentNode().get().findFirst(Statement.class).isPresent());
         
         $stmt $s = $stmt.of().$and(
-            (s)-> ((Statement)s).findFirst(
+            (s)-> ((Statement)s.ast()).findFirst(
                 AnnotationExpr.class, (AnnotationExpr a)-> $aa.matches(a) ).isPresent() 
                 && !(s instanceof BlockStmt) );
         System.out.println( $s.listIn(C.class) );

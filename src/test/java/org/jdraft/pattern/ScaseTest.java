@@ -149,7 +149,7 @@ public class ScaseTest extends TestCase {
         
         
         ArrayList<$case> $cases = new ArrayList<>();
-        SwitchStmt sts = $stmt.switchStmt().firstIn(CC.class);
+        SwitchStmt sts = $stmt.switchStmt().firstIn(CC.class).ast();
         sts.getEntries().forEach( se -> $cases.add( new $case(se) ) );
         
         $cases.forEach( c-> System.out.println(c.label + " "+ c.statements));        

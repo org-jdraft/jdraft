@@ -311,7 +311,7 @@ public class SexTest extends TestCase {
         
         _c.ast().walk(Statement.class, e-> System.out.println(e+ " "+e.getClass() ) );
         
-        SwitchStmt ss = $stmt.switchStmt().firstIn(DD.class);
+        SwitchStmt ss = $stmt.switchStmt().firstIn(DD.class).ast();
         List<SwitchEntry> ses = ss.getEntries();
         
     }

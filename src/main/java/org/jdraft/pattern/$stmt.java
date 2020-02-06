@@ -58,7 +58,7 @@ import org.jdraft.text.*;
  * @param <_S> _java._domain implementation type
  */
 public class $stmt<S extends Statement, _S extends _statement>
-    implements Template<S>, $pattern<S, $stmt<S, _S>>, $body.$part, $method.$part, $constructor.$part {
+    implements Template<S>, $pattern<_S, $stmt<S, _S>>, $body.$part, $method.$part, $constructor.$part {
 
     /**
      * This allows Statements to be commented out or uncommented in a conventional way.
@@ -432,8 +432,9 @@ public class $stmt<S extends Statement, _S extends _statement>
      * Returns a prototype that matches ANY assertStmt
      * @return 
      */
-    public static $stmt<DoStmt, _doStmt> doStmt(){
-        return new $stmt( DoStmt.class, "$DoStmt$" );
+    public static $doStmt doStmt(){
+        return $doStmt.of();
+
     }
 
     /**
@@ -965,12 +966,13 @@ public class $stmt<S extends Statement, _S extends _statement>
     /**
      * Match predicate tested against the AST {@link Statement} syntax implementation
      */
-    public Predicate<S> astMatch = s -> true;
+    public Predicate<_S> astMatch = s -> true;
 
     /**
      * Match predicate tested against the domain {@link _statement} implementation
-     */
+
     public Predicate<_S> domainMatch = _s -> true;
+     */
     
     /** The stencil representing the statement */
     public Stencil stmtStencil;
@@ -988,10 +990,10 @@ public class $stmt<S extends Statement, _S extends _statement>
         this.stmtStencil = Stencil.of(pattern);
     }
     
-    protected $stmt(Class<S> statementClass, Predicate<S> astMatch){
+    protected $stmt(Class<S> statementClass, Predicate<_S> _matchFn){
         this.statementClass = statementClass;
         this.stmtStencil = Stencil.of("$any$");
-        this.astMatch = astMatch;
+        this.astMatch = _matchFn;
     }
     
     public $stmt( S st ){
@@ -1012,10 +1014,17 @@ public class $stmt<S extends Statement, _S extends _statement>
         */
     }
 
+    public $stmt<S, _S> $and(Predicate<_S> constraint ){
+        this.astMatch = this.astMatch.and(constraint);
+        return this;
+    }
+
+    /*
     public $stmt<S, _S> $and(Predicate<S> constraint ){
         this.astMatch = this.astMatch.and(constraint);
         return this;
     }
+     */
     
     @Override
     public S fill(Object...values){
@@ -1201,7 +1210,7 @@ public class $stmt<S extends Statement, _S extends _statement>
         return this;
     }
 
-    public Select<S> select(String s){
+    public Select<S, _S> select(String s){
         return select( new String[]{s});
     }
 
@@ -1210,7 +1219,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param stmt
      * @return 
      */
-    public Select<S> select(String...stmt){
+    public Select<S, _S> select(String...stmt){
         try{
             return select(Stmt.of(stmt));
         }catch(Exception e){
@@ -1227,13 +1236,32 @@ public class $stmt<S extends Statement, _S extends _statement>
             return false;
         }
     }
-    
+
+
+    public Select<S, _S> select(_statement _s){
+        if( _s == null ){
+            return null;
+        }
+        if( !statementClass.isAssignableFrom(_s.ast().getClass())){
+            return null;
+        }
+        S s = (S)_s.ast();
+        if( ! astMatch.test((_S)_statement.of(s))){
+            return null;
+        }
+        Tokens st = this.stmtStencil.parse(_s.ast().toString(NO_COMMENTS));
+        if( st == null ){
+            return null;
+        }
+        return new Select( _s.ast(), $tokens.of(st) );
+    }
+
     /**
      * 
      * @param astStmt
      * @return 
      */
-    public Select<S> select(Statement astStmt ){
+    public Select<S, _S> select(Statement astStmt ){
         if( astStmt == null ){
             return null;
         }
@@ -1241,7 +1269,7 @@ public class $stmt<S extends Statement, _S extends _statement>
             return null;
         }
         S s = (S)astStmt;
-        if( ! astMatch.test(s)){
+        if( ! astMatch.test((_S)_statement.of(s))){
             return null;
         }
         Tokens st = this.stmtStencil.parse(astStmt.toString(NO_COMMENTS));
@@ -1257,7 +1285,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     @Override
-    public Select<S> selectFirstIn(_java._domain _j){
+    public Select<S, _S> selectFirstIn(_java._domain _j){
         if( _j instanceof _compilationUnit){
             _compilationUnit _c = (_compilationUnit) _j;
             if( _c.isTopLevel() ){
@@ -1279,7 +1307,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return a Select containing the Statement and the key value pairs from the pattern
      */
     @Override
-    public Select<S> selectFirstIn(Node astNode ){
+    public Select<S, _S> selectFirstIn(Node astNode ){
         Optional<S> f = astNode.findFirst(this.statementClass, s -> this.matches(s) );
         if( f.isPresent()){
             return this.select(f.get());
@@ -1293,7 +1321,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param selectConstraint
      * @return 
      */
-    public Select<S> selectFirstIn(_java._domain _n, Predicate<Select<S>> selectConstraint ){
+    public Select<S, _S> selectFirstIn(_java._domain _n, Predicate<Select<S, _S>> selectConstraint ){
         if( _n instanceof _compilationUnit){
             if( ((_compilationUnit) _n).isTopLevel()){
                 return selectFirstIn( ((_compilationUnit) _n).astCompilationUnit(), selectConstraint );
@@ -1309,9 +1337,9 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param selectConstraint 
      * @return a Select containing the Statement and the key value pairs from the pattern
      */
-    public Select<S> selectFirstIn(Node astNode, Predicate<Select<S>> selectConstraint ){
+    public Select<S, _S> selectFirstIn(Node astNode, Predicate<Select<S, _S>> selectConstraint ){
         Optional<S> f = astNode.findFirst(this.statementClass, s -> {
-            Select<S> sel = this.select(s);
+            Select<S, _S> sel = this.select(s);
             return sel != null && selectConstraint.test(sel);
             });                         
                 //s -> this.matches(s) );         
@@ -1328,23 +1356,23 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     @Override
-    public S firstIn(Node astStartNode, Predicate<S> statementMatchFn ){
+    public _S firstIn(Node astStartNode, Predicate<_S> statementMatchFn ){
         Optional<S> f = astStartNode.findFirst(this.statementClass, s ->{
             Select sel = select(s);
-            return sel != null && statementMatchFn.test((S)sel.astStatement);
+            return sel != null && statementMatchFn.test((_S)sel._s);
         });         
         if( f.isPresent()){
-            return f.get();
+            return (_S)_statement.of(f.get());
         }
         return null;
     }    
     
     @Override
-    public <N extends Node> N forEachIn(N astNode, Predicate<S> statementMatchFn, Consumer<S> statementActionFn){
+    public <N extends Node> N forEachIn(N astNode, Predicate<_S> statementMatchFn, Consumer<_S> statementActionFn){
         astNode.walk(this.statementClass, e-> {
             Select sel = select(e);
-            if( sel != null && statementMatchFn.test((S)sel.astStatement) ) {
-                statementActionFn.accept( e);
+            if( sel != null && statementMatchFn.test((_S)sel._s) ) {
+                statementActionFn.accept((_S)sel._s);
             }
         });
         return astNode;
@@ -1357,9 +1385,9 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param selectedActionFn
      * @return 
      */
-    public <N extends Node> N forSelectedIn(N astNode, Consumer<Select<S>> selectedActionFn){
+    public <N extends Node> N forSelectedIn(N astNode, Consumer<Select<S, _S>> selectedActionFn){
         astNode.walk(this.statementClass, e-> {
-            Select<S> sel = select( e );
+            Select<S,_S> sel = select( e );
             if( sel != null ){
                 selectedActionFn.accept( sel );
             }
@@ -1373,7 +1401,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param selectedActionFn
      * @return 
      */
-    public <_CT extends _type> _CT forSelectedIn(Class clazz, Consumer<Select<S>> selectedActionFn){
+    public <_CT extends _type> _CT forSelectedIn(Class clazz, Consumer<Select<S, _S>> selectedActionFn){
         return (_CT)forSelectedIn((_type)_java.type(clazz), selectedActionFn);
     }
     
@@ -1384,9 +1412,9 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param selectedActionFn
      * @return 
      */
-    public <_J extends _java._domain> _J forSelectedIn(_J _j, Consumer<Select<S>> selectedActionFn){
+    public <_J extends _java._domain> _J forSelectedIn(_J _j, Consumer<Select<S, _S>> selectedActionFn){
         Walk.in(_j, this.statementClass, e->{
-            Select<S> sel = select( e );
+            Select<S, _S> sel = select( e );
             if( sel != null ){
                 selectedActionFn.accept( sel );
             }
@@ -1402,9 +1430,9 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param selectedActionFn
      * @return 
      */
-    public <N extends Node> N forSelectedIn(N astNode, Predicate<Select<S>> selectConstraint, Consumer<Select<S>> selectedActionFn){
+    public <N extends Node> N forSelectedIn(N astNode, Predicate<Select<S, _S>> selectConstraint, Consumer<Select<S, _S>> selectedActionFn){
         astNode.walk(this.statementClass, e-> {
-            Select<S> sel = select( e );
+            Select<S, _S> sel = select( e );
             if( sel != null  && selectConstraint.test(sel) ){
                 selectedActionFn.accept( sel );
             }
@@ -1419,7 +1447,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param selectedActionFn
      * @return 
      */
-    public <CT extends _type> CT forSelectedIn(Class clazz, Predicate<Select<S>> selectConstraint, Consumer<Select<S>> selectedActionFn){
+    public <CT extends _type> CT forSelectedIn(Class clazz, Predicate<Select<S, _S>> selectConstraint, Consumer<Select<S, _S>> selectedActionFn){
         return forSelectedIn((CT)_java.type(clazz), selectConstraint, selectedActionFn);
     }
     
@@ -1431,9 +1459,9 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param selectedActionFn
      * @return 
      */
-    public <_J extends _java._domain> _J forSelectedIn(_J _j, Predicate<Select<S>> selectConstraint, Consumer<Select<S>> selectedActionFn){
+    public <_J extends _java._domain> _J forSelectedIn(_J _j, Predicate<Select<S, _S>> selectConstraint, Consumer<Select<S,_S>> selectedActionFn){
         Walk.in(_j, this.statementClass, e->{
-            Select<S> sel = select( e );
+            Select<S, _S> sel = select( e );
             if( sel != null && selectConstraint.test(sel)){
                 selectedActionFn.accept( sel );
             }
@@ -1452,13 +1480,13 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     @Override
-    public List<Select<S>> listSelectedIn(Class clazz){
+    public List<Select<S, _S>> listSelectedIn(Class clazz){
         return listSelectedIn((_type)_java.type(clazz));
     }
     
     @Override
-    public List<Select<S>> listSelectedIn(Node astNode ){
-        List<Select<S>>sts = new ArrayList<>();
+    public List<Select<S, _S>> listSelectedIn(Node astNode ){
+        List<Select<S, _S>>sts = new ArrayList<>();
         astNode.walk(this.statementClass, st-> {
             Select sel = select(st);
             if( sel != null ){
@@ -1474,7 +1502,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param selectConstraint
      * @return 
      */
-    public List<Select<S>> listSelectedIn(Class clazz, Predicate<Select<S>> selectConstraint ){
+    public List<Select<S, _S>> listSelectedIn(Class clazz, Predicate<Select<S, _S>> selectConstraint ){
         return listSelectedIn( (_type)_java.type(clazz), selectConstraint);
     }
     
@@ -1484,8 +1512,8 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param selectConstraint
      * @return 
      */
-    public List<Select<S>> listSelectedIn(Node astNode, Predicate<Select<S>> selectConstraint ){
-        List<Select<S>>sts = new ArrayList<>();
+    public List<Select<S, _S>> listSelectedIn(Node astNode, Predicate<Select<S, _S>> selectConstraint ){
+        List<Select<S, _S>>sts = new ArrayList<>();
         astNode.walk(this.statementClass, st-> {
             Select sel = select(st);
             if( sel != null && selectConstraint.test(sel)){
@@ -1501,8 +1529,8 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param selectConstraint
      * @return 
      */
-    public List<Select<S>> listSelectedIn(_java._domain _j, Predicate<Select<S>> selectConstraint ){
-        List<Select<S>>sts = new ArrayList<>();
+    public List<Select<S, _S>> listSelectedIn(_java._domain _j, Predicate<Select<S, _S>> selectConstraint ){
+        List<Select<S, _S>>sts = new ArrayList<>();
         Walk.in(_j, this.statementClass, st->{
             Select sel = select(st);
             if (sel != null && selectConstraint.test(sel)){
@@ -1556,7 +1584,7 @@ public class $stmt<S extends Statement, _S extends _statement>
         return replaceIn(_j, $sn);
     }
 
-    public static final Consumer<Statement> REPLACE_WITH_EMPTY_COMMENT_BLOCK = (st)->{
+    public static final Consumer<_statement> REPLACE_WITH_EMPTY_COMMENT_BLOCK = (st)->{
         BlockStmt bs = Ast.blockStmt("{/*<code>"+st.toString(Ast.PRINT_NO_COMMENTS)+"</code>*" + "/}");
         /**
          * Check if you are in this situation (replacing System.out.println()) which is already in an empty block
@@ -1568,24 +1596,24 @@ public class $stmt<S extends Statement, _S extends _statement>
          * }
          * </PRE>
          */
-        if( st.getParentNode().isPresent()
-                && st.getParentNode().get() instanceof BlockStmt
-                && ((BlockStmt)st.getParentNode().get()).getParentNode().isPresent()
-                && !(((BlockStmt)st.getParentNode().get()).getParentNode().get() instanceof BodyDeclaration) ){
-            BlockStmt par = ((BlockStmt)st.getParentNode().get());
+        if( st.ast().getParentNode().isPresent()
+                && st.ast().getParentNode().get() instanceof BlockStmt
+                && ((BlockStmt)st.ast().getParentNode().get()).getParentNode().isPresent()
+                && !(((BlockStmt)st.ast().getParentNode().get()).getParentNode().get() instanceof BodyDeclaration) ){
+            BlockStmt par = ((BlockStmt)st.ast().getParentNode().get());
             if( par.getStatements().size() == 1 ){
                 bs = Ast.blockStmt("{/*<code>"+st.toString(Ast.PRINT_NO_COMMENTS)+"</code>*" + "/}");
                 par.replace( bs );
             } else{
-                st.replace(bs);
+                st.ast().replace(bs);
             }
         }
     };
 
-    public static final Consumer<Statement> REPLACE_WITH_EMPTY_STMT_COMMENT = (st)->{
+    public static final Consumer<_statement> REPLACE_WITH_EMPTY_STMT_COMMENT = (st)->{
         Statement es = new EmptyStmt(); //create a new empty statement
         es.setComment( new BlockComment("<code>"+st.toString(Ast.PRINT_NO_COMMENTS)+"</code>") );
-        st.replace( es );
+        st.ast().replace( es );
     };
 
     /** comments out the matching code
@@ -1617,7 +1645,7 @@ public class $stmt<S extends Statement, _S extends _statement>
         return commentOut(_codeProvider, REPLACE_WITH_EMPTY_STMT_COMMENT);
     }
 
-    public _source commentOut(_compilationUnit._provider _codeProvider, Consumer<Statement> commenter){
+    public _source commentOut(_compilationUnit._provider _codeProvider, Consumer<_statement> commenter){
         _source cc = _source.of(_codeProvider);
         forEachIn(cc, n-> commenter.accept(n));
         return cc;
@@ -1629,17 +1657,17 @@ public class $stmt<S extends Statement, _S extends _statement>
     }
 
     //
-    public <N extends Node> N commentOut( N ast, Consumer<Statement> commenter){
+    public <N extends Node> N commentOut( N ast, Consumer<_statement> commenter){
         return forEachIn(ast, n-> commenter.accept(n));
     }
 
     // comments out the matching code
-    public <_CT extends _type> _CT commentOut( Class clazz, Consumer<Statement> commenter){
+    public <_CT extends _type> _CT commentOut( Class clazz, Consumer<_statement> commenter){
         return (_CT)commentOut( _class.of(clazz), commenter);
     }
 
     /** comments out the matching code */
-    public <_J extends _java._domain> _J commentOut(_J _j, Consumer<Statement>commenter){
+    public <_J extends _java._domain> _J commentOut(_J _j, Consumer<_statement>commenter){
         return forEachIn(_j, s-> commenter.accept(s) );
     }
 
@@ -1727,7 +1755,7 @@ public class $stmt<S extends Statement, _S extends _statement>
                 for(int i=0;i<replacements.size(); i++){
                     ls.getStatement().asBlockStmt().addStatement( replacements.get(i) );
                 }
-                sel.astStatement.replace( ls );
+                sel._s.ast().replace( ls );
                 //parentNode.addStatement(addIndex +1, ls);
                 //removeIn all but the first statement
                 //sel.statements.forEach( s-> s.removeIn() );
@@ -1766,7 +1794,7 @@ public class $stmt<S extends Statement, _S extends _statement>
                 for(int i=0;i<replacements.size(); i++){
                     ls.getStatement().asBlockStmt().addStatement( replacements.get(i) );
                 }
-                sel.astStatement.replace( ls );
+                sel._s.ast().replace( ls );
                 //parentNode.addStatement(addIndex +1, ls);
                 //removeIn all but the first statement
                 //sel.statements.forEach( s-> s.removeIn() );
@@ -1785,7 +1813,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return
      */
     public $stmt<S, _S> $isAfter($pattern... patternsOccurringBeforeThisNode ){
-        Predicate<S> prev = e -> $pattern.BodyScope.findPrevious(e, patternsOccurringBeforeThisNode) != null;
+        Predicate<_S> prev = e -> $pattern.BodyScope.findPrevious(e.ast(), patternsOccurringBeforeThisNode) != null;
         return $and(prev);
     }
 
@@ -1795,7 +1823,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return
      */
     public $stmt<S, _S> $isNotAfter($pattern... patternsOccurringBeforeThisNode ){
-        Predicate<S> prev = e -> $pattern.BodyScope.findPrevious(e, patternsOccurringBeforeThisNode) != null;
+        Predicate<_S> prev = e -> $pattern.BodyScope.findPrevious(e.ast(), patternsOccurringBeforeThisNode) != null;
         return $not(prev);
     }
 
@@ -1805,7 +1833,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return
      */
     public $stmt<S, _S> $isBefore($pattern... patternsOccurringAfterThisNode ){
-        Predicate<S> prev = e -> $pattern.BodyScope.findNext(e, patternsOccurringAfterThisNode) != null;
+        Predicate<_S> prev = e -> $pattern.BodyScope.findNext(e.ast(), patternsOccurringAfterThisNode) != null;
         return $and(prev);
     }
 
@@ -1815,7 +1843,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return
      */
     public $stmt<S, _S> $isNotBefore($pattern... patternsOccurringAfterThisNode ){
-        Predicate<S> prev = e -> $pattern.BodyScope.findNext(e, patternsOccurringAfterThisNode) != null;
+        Predicate<_S> prev = e -> $pattern.BodyScope.findNext(e.ast(), patternsOccurringAfterThisNode) != null;
         return $not(prev);
     }
 
@@ -2027,14 +2055,15 @@ public class $stmt<S extends Statement, _S extends _statement>
      * 
      * @param <T> 
      */
-    public static class Select<T extends Statement> implements $pattern.selected,
+    public static class Select<T extends Statement, _S extends _statement> implements $pattern.selected,
             selectAst<T> {
         
-        public T astStatement;
+        //public T astStatement;
+        public _S _s;
         public $tokens tokens;
         
         public Select( T astStatement, $tokens tokens){
-            this.astStatement = astStatement;
+            this._s = (_S)_statement.of( astStatement); //this.astStatement = astStatement;
             this.tokens = tokens;
         }
         
@@ -2046,14 +2075,14 @@ public class $stmt<S extends Statement, _S extends _statement>
         @Override
         public String toString(){
             return "$stmt.Select{"+ System.lineSeparator()+
-                Text.indent(astStatement.toString() )+ System.lineSeparator()+
+                Text.indent(_s.toString() )+ System.lineSeparator()+
                 Text.indent("$tokens : " + tokens) + System.lineSeparator()+
                 "}";
         }
 
         @Override
         public T ast() {
-            return astStatement;
+            return (T)_s.ast();
         }
     }
 }

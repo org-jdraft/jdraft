@@ -118,9 +118,9 @@ public class _runtimeTest extends TestCase {
                      $.returnStmt().forSelectedIn(_m, sel-> {
                            //replace it with a labeled statement... then flatten
                            LabeledStmt ls = Stmt.labeledStmt(
-                           "$add$ : { System.out.println(\" " + ((_java._named) _m).getName() + " took \" + (System.currentTimeMillis() - start)); " + sel.astStatement.toString() + " }");
+                           "$add$ : { System.out.println(\" " + ((_java._named) _m).getName() + " took \" + (System.currentTimeMillis() - start)); " + sel.ast().toString() + " }");
 
-                            sel.astStatement.replace(ls);
+                            sel.ast().replace(ls);
                             _java.flattenLabel(_m, "$add$");
                             //Ast.flattenLabel(((_node) _m).ast(), "$add$");
                       });

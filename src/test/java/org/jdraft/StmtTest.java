@@ -50,7 +50,7 @@ public class StmtTest extends TestCase {
         }
         _class _c =_class.of(C.class);
 
-        LabeledStmt first = $.labeledStmt().firstIn(_c);
+        LabeledStmt first = $.labeledStmt().firstIn(_c).ast();
 
         Stmt.addStatementsBefore(first, Stmt.of( ()->System.out.println(1) ) );
         Stmt.addStatementsAfter(first, Stmt.of( ()->System.out.println(2)));
@@ -58,7 +58,7 @@ public class StmtTest extends TestCase {
         assertEquals( Stmt.of("firstStmt:{}"), _c.getMethod("m").getStatement(1));
         assertEquals( Stmt.of(()->System.out.println(2)), _c.getMethod("m").getStatement(2));
 
-        LabeledStmt second = $.labeledStmt("secondStmt:{}").firstIn(_c);
+        LabeledStmt second = $.labeledStmt("secondStmt:{}").firstIn(_c).ast();
         Stmt.addStatementsBefore(second, Stmt.of( ()->System.out.println(1) ) );
         Stmt.addStatementsAfter(second, Stmt.of( ()->System.out.println(2)));
 
@@ -81,7 +81,7 @@ public class StmtTest extends TestCase {
         }
         _class _c =_class.of(C.class);
 
-        LabeledStmt first = $.labeledStmt().firstIn(_c);
+        LabeledStmt first = $.labeledStmt().firstIn(_c).ast();
 
         //NOTE: we cant create/initialize more than one Statement *via Lambda) on the same line because of how stack traces work
         Stmt.addStatementsBefore(first, Stmt.of( ()->System.out.println(1) ),
@@ -97,7 +97,7 @@ public class StmtTest extends TestCase {
         assertEquals( Stmt.of(()->System.out.println(3)), _c.getMethod("m").getStatement(3));
         assertEquals( Stmt.of(()->System.out.println(4)), _c.getMethod("m").getStatement(4));
 
-        LabeledStmt second = $.labeledStmt("secondStmt:{}").firstIn(_c);
+        LabeledStmt second = $.labeledStmt("secondStmt:{}").firstIn(_c).ast();
         Stmt.addStatementsBefore(second, Stmt.of( ()->System.out.println(1) ),
                 Stmt.of( ()->System.out.println(2)));
 
