@@ -308,15 +308,15 @@ public final class $ {
     }
 
     public static $ex ex(){
-        return $ex.of();
+        return $ex.any();
     }
 
     public static $ex literal(){
-        return $ex.of().$and(e-> e.ast().isLiteralExpr());
+        return $ex.any().$and(e-> e.ast().isLiteralExpr());
     }
 
     public static $ex ex(Predicate<_expression> constraint){
-        return $ex.of().$and(constraint);
+        return $ex.any().$and(constraint);
     }
 
     public static $ex ex(String... pattern){
@@ -854,20 +854,20 @@ public final class $ {
         return $ex.varLocalEx(vde);
     }
 
-    public static $case switchCase(){
-        return $case.of();
+    public static $switchEntry switchCase(){
+        return $switchEntry.of();
     }
 
-    public static $case switchCase(String... sc){
-        return $case.of(sc);
+    public static $switchEntry switchCase(String... sc){
+        return $switchEntry.of(sc);
     }
 
-    public static $case switchCase( SwitchEntry se){
-        return $case.of(se);
+    public static $switchEntry switchCase(SwitchEntry se){
+        return $switchEntry.of(se);
     }
 
-    public static $case switchCase(Predicate<_switchEntry> se){
-        return $case.of().$and(se);
+    public static $switchEntry switchCase(Predicate<_switchEntry> se){
+        return $switchEntry.of().$and(se);
     }
 
     public static $catch catchClause(){
@@ -1062,11 +1062,11 @@ public final class $ {
     }
 
     public static $doStmt doStmt(){
-        return $stmt.doStmt();
+        return $doStmt.of();
     }
 
-    public static $stmt<DoStmt, _doStmt> doStmt(String...doStmt){
-        return $stmt.doStmt(doStmt);
+    public static $doStmt doStmt(String...doStmt){
+        return $doStmt.of(doStmt);
     }
 
 
@@ -1076,33 +1076,33 @@ public final class $ {
      * @param ec
      * @return
      */
-    public static $stmt<DoStmt, _doStmt> doStmt(Ex.Command ec){
+    public static $doStmt doStmt(Ex.Command ec){
         LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
-        return $stmt.of( le.findFirst(DoStmt.class).get() );
+        return $doStmt.of( le.findFirst(DoStmt.class).get() );
     }
 
-    public static <A extends Object> $stmt<DoStmt, _doStmt> doStmt(Consumer<A> ec){
+    public static <A extends Object> $doStmt doStmt(Consumer<A> ec){
         LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
-        return $stmt.of( le.findFirst(DoStmt.class).get() );
+        return $doStmt.of( le.findFirst(DoStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object>$stmt<DoStmt, _doStmt> doStmt(BiConsumer<A,B> ec){
+    public static <A extends Object, B extends Object> $doStmt doStmt(BiConsumer<A,B> ec){
         LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
-        return $stmt.of( le.findFirst(DoStmt.class).get() );
+        return $doStmt.of( le.findFirst(DoStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<DoStmt, _doStmt> doStmt(Ex.TriConsumer<A,B,C> ec){
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $doStmt doStmt(Ex.TriConsumer<A,B,C> ec){
         LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
-        return $stmt.of( le.findFirst(DoStmt.class).get() );
+        return $doStmt.of( le.findFirst(DoStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<DoStmt, _doStmt> doStmt(Ex.QuadConsumer<A,B,C,D> ec){
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $doStmt doStmt(Ex.QuadConsumer<A,B,C,D> ec){
         LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
-        return $stmt.of( le.findFirst(DoStmt.class).get() );
+        return $doStmt.of( le.findFirst(DoStmt.class).get() );
     }
 
-    public static $stmt<DoStmt, _doStmt> doStmt(DoStmt ds){
-        return $stmt.doStmt(ds);
+    public static $doStmt doStmt(DoStmt ds){
+        return $doStmt.of(ds);
     }
 
     public static $stmt<EmptyStmt, _emptyStmt> emptyStmt(){

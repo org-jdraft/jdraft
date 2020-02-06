@@ -1602,7 +1602,7 @@ public class $stmt<S extends Statement, _S extends _statement>
                 && !(((BlockStmt)st.ast().getParentNode().get()).getParentNode().get() instanceof BodyDeclaration) ){
             BlockStmt par = ((BlockStmt)st.ast().getParentNode().get());
             if( par.getStatements().size() == 1 ){
-                bs = Ast.blockStmt("{/*<code>"+st.toString(Ast.PRINT_NO_COMMENTS)+"</code>*" + "/}");
+                bs = Ast.blockStmt("{/*<code>"+st.toString(Ast.PRINT_NO_COMMENTS)+"</code>" + "*/}");
                 par.replace( bs );
             } else{
                 st.ast().replace(bs);

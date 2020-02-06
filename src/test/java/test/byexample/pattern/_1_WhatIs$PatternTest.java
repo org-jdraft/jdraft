@@ -111,7 +111,7 @@ public class _1_WhatIs$PatternTest extends TestCase {
         // matchAny patterns are also used for matching any nodes of a certain type/category
         // for example: the building blocks of most java code are "Expressions" which are
         // implementations of {@link com.github.javaparser.ast.expr.Expression}
-        $ex $anyExpression = $ex.of();
+        $ex $anyExpression = $ex.any();
         assertTrue( $anyExpression.isMatchAny() ); //matches any expression
         assertTrue( $anyExpression.matches("1") ); //match an int literal
         assertTrue( $anyExpression.matches("()->System.out.println(1)")); //a lambda expression

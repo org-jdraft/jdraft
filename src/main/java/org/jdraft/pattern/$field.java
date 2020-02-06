@@ -525,7 +525,7 @@ public class $field implements Template<_field>, $pattern<_field, $field>, $patt
      * @return
      */
     public $field $init(){
-        this.init = $ex.of();
+        this.init = $ex.any();
         this.init.exprStencil = Stencil.of( "$init$" );
         return this;
     }

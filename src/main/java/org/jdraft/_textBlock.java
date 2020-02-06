@@ -14,7 +14,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class _textBlock implements _expression<TextBlockLiteralExpr, _textBlock> {
+public class _textBlock implements _expression._literal<TextBlockLiteralExpr, _textBlock> {
 
     public static _textBlock of(){
         return new _textBlock( new TextBlockLiteralExpr());
@@ -118,5 +118,14 @@ public class _textBlock implements _expression<TextBlockLiteralExpr, _textBlock>
 
     public int hashCode(){
         return 31 * this.ast().hashCode();
+    }
+
+    public String getValue(){
+        return this.ile.getValue();
+    }
+
+    @Override
+    public String valueAsString() {
+        return this.ile.getValue();
     }
 }

@@ -21,55 +21,55 @@ import org.jdraft.text.Translator;
  *
  * @author Eric
  */
-public class $case
-    implements $pattern<_switchEntry, $case>, Template<_switchEntry>, $body.$part, $method.$part, $constructor.$part {
+public class $switchEntry
+    implements $pattern<_switchEntry, $switchEntry>, Template<_switchEntry>, $body.$part, $method.$part, $constructor.$part {
 
-    public static $case of(){
-        return new $case( $ex.of() );
+    public static $switchEntry of(){
+        return new $switchEntry( $ex.any() );
     }
 
-    public static $case of( Predicate<_switchEntry> constraint ){
+    public static $switchEntry of(Predicate<_switchEntry> constraint ){
         return of().$and(constraint);
     }
 
-    public static $case of( String...acase ){
+    public static $switchEntry of(String...acase ){
         return of( Ast.switchEntry(acase ));
     }
 
-    public static $case of( SwitchEntry astSwitchEntry ){
-        return new $case(astSwitchEntry );
+    public static $switchEntry of(SwitchEntry astSwitchEntry ){
+        return new $switchEntry(astSwitchEntry );
     }
     
-    public static $case of( SwitchEntry astSwitchEntry, Predicate<_switchEntry> constraint){
-        return new $case(astSwitchEntry).$and(constraint);
+    public static $switchEntry of(SwitchEntry astSwitchEntry, Predicate<_switchEntry> constraint){
+        return new $switchEntry(astSwitchEntry).$and(constraint);
     }
 
-    public static $case of( $stmt...stmts ){
-        return of( $ex.of(), stmts );
+    public static $switchEntry of($stmt...stmts ){
+        return of( $ex.any(), stmts );
     }
 
-    public static $case of($ex expr, $stmt...stmts ){
-        return new $case(expr, stmts);
+    public static $switchEntry of($ex expr, $stmt...stmts ){
+        return new $switchEntry(expr, stmts);
     }
 
-    public static $case.Or or( SwitchEntry... _protos ){
-        $case[] arr = new $case[_protos.length];
+    public static $switchEntry.Or or(SwitchEntry... _protos ){
+        $switchEntry[] arr = new $switchEntry[_protos.length];
         for(int i=0;i<_protos.length;i++){
-            arr[i] = $case.of( _protos[i]);
+            arr[i] = $switchEntry.of( _protos[i]);
         }
         return or(arr);
     }
 
-    public static $case.Or or( $case...$tps ){
-        return new $case.Or($tps);
+    public static $switchEntry.Or or($switchEntry...$tps ){
+        return new $switchEntry.Or($tps);
     }
 
-    public static $case as( String...st){
+    public static $switchEntry as(String...st){
         return as( Ast.switchEntry(st));
     }
 
-    public static $case as( SwitchEntry astSwitchEntry ){
-        $case $c = of( astSwitchEntry );
+    public static $switchEntry as(SwitchEntry astSwitchEntry ){
+        $switchEntry $c = of( astSwitchEntry );
 
         //need to make sure there are
         final List<$stmt>$sts = new ArrayList<>();
@@ -93,25 +93,25 @@ public class $case
 
     public Predicate<_switchEntry> constraint = t-> true;
     
-    public $ex label = $ex.of();
+    public $ex label = $ex.any();
     
     public List<$stmt> statements = new ArrayList<>();
 
-    $case(){
+    $switchEntry(){
         this.label = null;
     }
 
 
-    private $case( $ex $labelExpr ){
+    private $switchEntry($ex $labelExpr ){
         this.label = $labelExpr; 
     }
     
-    private $case($ex $labelExpr, $stmt...stmts){
+    private $switchEntry($ex $labelExpr, $stmt...stmts){
         this.label = $labelExpr;
         Arrays.stream(stmts).forEach(s -> this.statements.add(s));        
     }
 
-    public $case(SwitchEntry se){   
+    public $switchEntry(SwitchEntry se){
         if( se.getLabels().isNonEmpty() ){
             this.label = $ex.of( se.getLabels().get( 0 ) );
         } 
@@ -120,8 +120,8 @@ public class $case
         }
     }
     
-    public $case $label(){
-        this.label = $ex.of();
+    public $switchEntry $label(){
+        this.label = $ex.any();
         return this;
     }
 
@@ -140,7 +140,7 @@ public class $case
         return select(switchEntry) != null;
     }
     
-    public $case $and(Predicate<_switchEntry> constraint ){
+    public $switchEntry $and(Predicate<_switchEntry> constraint ){
         this.constraint = constraint;
         return this;
     }
@@ -198,15 +198,15 @@ public class $case
 
     public Select select( SwitchEntry astSwitchEntry ){
         if( ! constraint.test(_switchEntry.of(astSwitchEntry))){
-            System.out.println( "Failed constraint");
+            //System.out.println( "Failed constraint");
             return null;
         }
         if( astSwitchEntry.getLabels().isEmpty() ){
             if( this.label == null || this.label.isMatchAny()){
-                System.out.println( "Selecting labelless "+ this.label);
+                //System.out.println( "Selecting labelless "+ this.label);
                 return selectStatements( astSwitchEntry, new Tokens());
             }
-            System.out.println( "Failed constraint label "+ this.label);
+            //System.out.println( "Failed constraint label "+ this.label);
             return null;
         }
         Expression label = astSwitchEntry.getLabels().get(0);
@@ -452,7 +452,7 @@ public class $case
         SwitchEntry se = new SwitchEntry();
         //Parameteric override
         if( keyValues.get("$case") != null ){
-            $case $a = $case.of( keyValues.get("$case").toString() );
+            $switchEntry $a = $switchEntry.of( keyValues.get("$case").toString() );
             Map<String,Object> kvs = new HashMap<>();
             kvs.putAll(keyValues);
             kvs.remove("$case"); //remove to avoid stackOverflow
@@ -500,7 +500,7 @@ public class $case
     }
 
     @Override
-    public $case $(String target, String $paramName) {
+    public $switchEntry $(String target, String $paramName) {
         if( this.label != null ){
             this.label.$(target, $paramName);
         }
@@ -509,7 +509,7 @@ public class $case
     }
 
     @Override
-    public $case hardcode$(Translator translator, Tokens kvs) {
+    public $switchEntry hardcode$(Translator translator, Tokens kvs) {
         this.label = this.label.hardcode$(translator, kvs);
         List<$stmt> sts = new ArrayList<>();
         this.statements.forEach(st -> sts.add( st.hardcode$(translator, kvs)));
@@ -542,7 +542,7 @@ public class $case
      * @param patternsOccurringBeforeThisNode
      * @return
      */
-    public $case $isAfter( $pattern... patternsOccurringBeforeThisNode ){
+    public $switchEntry $isAfter($pattern... patternsOccurringBeforeThisNode ){
         Predicate<_switchEntry> prev = e -> $pattern.BodyScope.findPrevious(e.ast(), patternsOccurringBeforeThisNode) != null;
         return $and(prev);
     }
@@ -552,7 +552,7 @@ public class $case
      * @param patternsOccurringBeforeThisNode
      * @return
      */
-    public $case $isNotAfter( $pattern... patternsOccurringBeforeThisNode ){
+    public $switchEntry $isNotAfter($pattern... patternsOccurringBeforeThisNode ){
         Predicate<_switchEntry> prev = e -> $pattern.BodyScope.findPrevious(e.ast(), patternsOccurringBeforeThisNode) != null;
         return $not(prev);
     }
@@ -562,7 +562,7 @@ public class $case
      * @param patternsOccurringAfterThisNode
      * @return
      */
-    public $case $isBefore( $pattern... patternsOccurringAfterThisNode ){
+    public $switchEntry $isBefore($pattern... patternsOccurringAfterThisNode ){
         Predicate<_switchEntry> prev = e -> $pattern.BodyScope.findNext(e.ast(), patternsOccurringAfterThisNode) != null;
         return $and(prev);
     }
@@ -572,7 +572,7 @@ public class $case
      * @param patternsOccurringAfterThisNode
      * @return
      */
-    public $case $isNotBefore( $pattern... patternsOccurringAfterThisNode ){
+    public $switchEntry $isNotBefore($pattern... patternsOccurringAfterThisNode ){
         Predicate<_switchEntry> prev = e -> $pattern.BodyScope.findNext(e.ast(), patternsOccurringAfterThisNode) != null;
         return $not(prev);
     }
@@ -581,17 +581,17 @@ public class $case
      * An Or entity that can match against any of the $pattern instances provided
      * NOTE: template features (draft/fill) are supressed.
      */
-    public static class Or extends $case{
+    public static class Or extends $switchEntry {
 
-        final List<$case>ors = new ArrayList<>();
+        final List<$switchEntry>ors = new ArrayList<>();
 
-        public Or($case...$as){
+        public Or($switchEntry...$as){
             super();
             Arrays.stream($as).forEach($a -> ors.add($a) );
         }
 
         @Override
-        public $case hardcode$(Translator translator, Tokens kvs) {
+        public $switchEntry hardcode$(Translator translator, Tokens kvs) {
             ors.forEach( $a -> $a.hardcode$(translator, kvs));
             return this;
         }
@@ -606,7 +606,7 @@ public class $case
             return sb.toString();
         }
 
-        public $case.Select select(_switchEntry _se){
+        public $switchEntry.Select select(_switchEntry _se){
             return select(_se.ast());
         }
 
@@ -615,8 +615,8 @@ public class $case
          * @param astNode
          * @return
          */
-        public $case.Select select(SwitchEntry astNode){
-            $case $a = whichMatch(astNode);
+        public $switchEntry.Select select(SwitchEntry astNode){
+            $switchEntry $a = whichMatch(astNode);
             if( $a != null ){
                 return $a.select(astNode);
             }
@@ -632,11 +632,11 @@ public class $case
          * @param ae
          * @return
          */
-        public $case whichMatch(SwitchEntry ae){
+        public $switchEntry whichMatch(SwitchEntry ae){
             if( !this.constraint.test( _switchEntry.of(ae) ) ){
                 return null;
             }
-            Optional<$case> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
+            Optional<$switchEntry> orsel  = this.ors.stream().filter($p-> $p.match(ae) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();
             }

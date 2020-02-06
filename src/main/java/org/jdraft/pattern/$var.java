@@ -394,7 +394,7 @@ public class $var
     }
     
     public $var $init(){
-        this.init = $ex.of();
+        this.init = $ex.any();
         return this;
     }
     

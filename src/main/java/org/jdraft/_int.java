@@ -50,8 +50,22 @@ public class _int implements _expression._literal<IntegerLiteralExpr, _int> {
         return ile;
     }
 
-    public int intValue(){
-        return this.ast().asInt();
+    public int getValue(){
+        return this.ile.asInt();
+    }
+
+    /**
+     * Important that there are multiple representations for the same int value
+     *
+     * base-10 (normal)   123456
+     * hex                0xDEADBEE
+     * octal              023
+     * binary             0b0101001010
+     * using _ separators (i.e. 1_000_000)
+     * @return
+     */
+    public String valueAsString(){
+        return this.ile.toString();
     }
 
     @Override

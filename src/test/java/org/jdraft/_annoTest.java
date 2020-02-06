@@ -264,7 +264,7 @@ public class _annoTest extends TestCase {
                 && !(s instanceof BlockStmt) );
         System.out.println( $s.listIn(C.class) );
         
-        $ex $ex = org.jdraft.pattern.$ex.of().$and(o-> !(o.ast() instanceof AnnotationExpr)
+        $ex $ex = org.jdraft.pattern.$ex.any().$and(o-> !(o.ast() instanceof AnnotationExpr)
             && o.ast().findFirst(AnnotationExpr.class).isPresent());
         
         System.out.println( $ex.listIn(C.class) );

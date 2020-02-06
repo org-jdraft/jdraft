@@ -1616,7 +1616,7 @@ public class $ex<E extends Expression, _E extends _expression>
      * Matches ANY expression
      * @return 
      */
-    public static $ex<Expression, _expression> of(){
+    public static $ex<Expression, _expression> any(){
         return new $ex( Expression.class, "$expr$");
     }
     
@@ -1626,7 +1626,7 @@ public class $ex<E extends Expression, _E extends _expression>
      * @return 
      */
     public static $ex<Expression, _expression> of(Predicate<_expression> constraint ){
-        return of().$and(constraint);
+        return any().$and(constraint);
     }
     
     /** Class of the Expression */

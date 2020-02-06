@@ -69,13 +69,13 @@ public class PatternBuildTest extends TestCase {
         $id $i = $id.of();
         $i = $.id();
 
-        $ex $e = $ex.of(); //specific $expr
+        $ex $e = $ex.any(); //specific $expr
         $.ex();
         $stmt $s = $stmt.of(); //specific $stmt
         $.stmt();
         $anno $a = $anno.of();
         $.anno();
-        $case $c = $case.of();
+        $switchEntry $c = $switchEntry.of();
         $.switchCase();
 
         $import $im = $import.of();

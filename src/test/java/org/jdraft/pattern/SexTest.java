@@ -600,7 +600,7 @@ public class SexTest extends TestCase {
         Predicate<_int> p = (i)-> i.ast().asInt() % 2 == 1;
         $ex.intLiteralEx( p );
         
-        assertNotNull( $ex.intLiteralEx( (i)-> i.intValue() % 2 == 1 ).firstIn(_c));
+        assertNotNull( $ex.intLiteralEx( (i)-> i.getValue() % 2 == 1 ).firstIn(_c));
                
         $ex $e = $ex.of(1).$("1", "num");
         

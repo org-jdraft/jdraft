@@ -45,6 +45,14 @@ public class _string implements _expression._literal<StringLiteralExpr, _string>
         return this.ast( ).equals(astNode);
     }
 
+    public String getValue(){
+        return this.se.getValue();
+    }
+
+    public String valueAsString(){
+        return this.se.asString();
+    }
+
     public StringLiteralExpr ast(){
         return se;
     }

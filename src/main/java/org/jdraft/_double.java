@@ -43,6 +43,21 @@ public class _double implements _expression._literal<DoubleLiteralExpr, _double>
         return this.ast( ).equals(astNode);
     }
 
+    public Double getValue(){
+        return this.ile.asDouble();
+    }
+
+    /**
+     * Important that there are multiple representations for the same float value
+     * 1.23f
+     * 1.23d
+     *
+     * @return
+     */
+    public String valueAsString(){
+        return this.ile.toString();
+    }
+
     public DoubleLiteralExpr ast(){
         return ile;
     }

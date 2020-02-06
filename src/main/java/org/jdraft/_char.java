@@ -62,6 +62,14 @@ public class _char implements _expression._literal<CharLiteralExpr, _char> {
         return false;
     }
 
+    public char getValue(){
+        return this.ile.asChar();
+    }
+
+    public String valueAsString(){
+        return this.ile.toString();
+    }
+
     public int hashCode(){
         return 31 * this.ile.hashCode();
     }

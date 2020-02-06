@@ -161,14 +161,16 @@ public interface _expression<E extends Expression, _E extends _expression> exten
 
     /**
      * Marker interface for Literal expressions:
-     * @see _int
-     * @see _long
+     * @see _int //hex, binary, octal
+     * @see _long //hex, binary, octal, postfix (L, l)
      * @see _string
-     * @see _double
+     * @see _double //float postfix double postfix
      * @see _char
      * @see _boolean
+     * @see _null
      */
     interface _literal<NE extends Expression, _NE extends _expression>  extends _expression<NE, _NE>{
-
+        //get me the string representation of the literal value
+        String valueAsString();
     }
 }

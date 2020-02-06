@@ -1,7 +1,6 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.ast.ImportDeclaration;
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
@@ -49,14 +48,14 @@ public class SnodeTest extends TestCase {
         assertFalse( $method.not( $catch.of( $stmt.of( ($any$)->System.out.println($any$) )) ).matches(_m) );
 
 
-        assertTrue( $method.of( $case.of() ).matches(_m) ); //a method with a switch case
-        assertTrue( $method.of( $case.of( $ex.of(1) ) ).matches(_m) ); //a method with a switch "case 1: ..."
-        assertTrue( $method.of( $case.of( $ex.of(1), $stmt.of(()->System.out.println(1)) ) ).matches(_m) ); //a method with a switch "case 1: System.out.println(1);"
-        assertTrue( $method.of( $case.of( $stmt.of(()->System.out.println(1)) ) ).matches(_m) ); //a method with ANY case w/ body containing: "System.out.println(1);"
+        assertTrue( $method.of( $switchEntry.of() ).matches(_m) ); //a method with a switch case
+        assertTrue( $method.of( $switchEntry.of( $ex.of(1) ) ).matches(_m) ); //a method with a switch "case 1: ..."
+        assertTrue( $method.of( $switchEntry.of( $ex.of(1), $stmt.of(()->System.out.println(1)) ) ).matches(_m) ); //a method with a switch "case 1: System.out.println(1);"
+        assertTrue( $method.of( $switchEntry.of( $stmt.of(()->System.out.println(1)) ) ).matches(_m) ); //a method with ANY case w/ body containing: "System.out.println(1);"
 
-        assertFalse( $method.not( $case.of( $ex.of(1) ) ).matches(_m) ); //a method with a switch "case 1: ..."
-        assertFalse( $method.not( $case.of( $ex.of(1), $stmt.of(()->System.out.println(1)) ) ).matches(_m) ); //a method with a switch "case 1: System.out.println(1);"
-        assertFalse( $method.not( $case.of( $stmt.of(()->System.out.println(1)) ) ).matches(_m) ); //a method with ANY case w/ body containing: "System.out.println(1);"
+        assertFalse( $method.not( $switchEntry.of( $ex.of(1) ) ).matches(_m) ); //a method with a switch "case 1: ..."
+        assertFalse( $method.not( $switchEntry.of( $ex.of(1), $stmt.of(()->System.out.println(1)) ) ).matches(_m) ); //a method with a switch "case 1: System.out.println(1);"
+        assertFalse( $method.not( $switchEntry.of( $stmt.of(()->System.out.println(1)) ) ).matches(_m) ); //a method with ANY case w/ body containing: "System.out.println(1);"
 
         //assertTrue( $method.of( $case.of(IllegalArgumentException.class) ).matches(_m) );
 
@@ -99,14 +98,14 @@ public class SnodeTest extends TestCase {
         assertFalse( $constructor.not( $catch.of( $stmt.of( ($any$)->System.out.println($any$) )) ).matches(_c) );
 
 
-        assertTrue( $constructor.of( $case.of() ).matches(_c) ); //a ctor with a switch case
-        assertTrue( $constructor.of( $case.of( $ex.of(1) ) ).matches(_c) ); //a ctor with a switch "case 1: ..."
-        assertTrue( $constructor.of( $case.of( $ex.of(1), $stmt.of(()->System.out.println(1)) ) ).matches(_c) ); //a ctor with a switch "case 1: System.out.println(1);"
-        assertTrue( $constructor.of( $case.of( $stmt.of(()->System.out.println(1)) ) ).matches(_c) ); //a ctor with ANY case w/ body containing: "System.out.println(1);"
+        assertTrue( $constructor.of( $switchEntry.of() ).matches(_c) ); //a ctor with a switch case
+        assertTrue( $constructor.of( $switchEntry.of( $ex.of(1) ) ).matches(_c) ); //a ctor with a switch "case 1: ..."
+        assertTrue( $constructor.of( $switchEntry.of( $ex.of(1), $stmt.of(()->System.out.println(1)) ) ).matches(_c) ); //a ctor with a switch "case 1: System.out.println(1);"
+        assertTrue( $constructor.of( $switchEntry.of( $stmt.of(()->System.out.println(1)) ) ).matches(_c) ); //a ctor with ANY case w/ body containing: "System.out.println(1);"
 
-        assertFalse( $constructor.not( $case.of( $ex.of(1) ) ).matches(_c) ); //a ctor with a switch "case 1: ..."
-        assertFalse( $constructor.not( $case.of( $ex.of(1), $stmt.of(()->System.out.println(1)) ) ).matches(_c) ); //a ctor with a switch "case 1: System.out.println(1);"
-        assertFalse( $constructor.not( $case.of( $stmt.of(()->System.out.println(1)) ) ).matches(_c) ); //a ctor with ANY case w/ body containing: "System.out.println(1);"
+        assertFalse( $constructor.not( $switchEntry.of( $ex.of(1) ) ).matches(_c) ); //a ctor with a switch "case 1: ..."
+        assertFalse( $constructor.not( $switchEntry.of( $ex.of(1), $stmt.of(()->System.out.println(1)) ) ).matches(_c) ); //a ctor with a switch "case 1: System.out.println(1);"
+        assertFalse( $constructor.not( $switchEntry.of( $stmt.of(()->System.out.println(1)) ) ).matches(_c) ); //a ctor with ANY case w/ body containing: "System.out.println(1);"
 
         //assertTrue( $method.of( $case.of(IllegalArgumentException.class) ).matches(_m) );
 

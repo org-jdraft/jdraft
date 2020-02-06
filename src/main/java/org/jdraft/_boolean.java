@@ -62,11 +62,20 @@ public class _boolean implements _expression._literal<BooleanLiteralExpr, _boole
         return false;
     }
 
+    public boolean getValue(){
+        return this.ile.getValue();
+    }
+
     public int hashCode(){
         return 31 * this.ile.hashCode();
     }
 
     public String toString(){
         return this.ile.toString();
+    }
+
+    @Override
+    public String valueAsString() {
+        return ile.getValue()+"";
     }
 }

@@ -329,8 +329,8 @@ public class $method
             else if(parts[i] instanceof $ex){
                 this.body.$and( ($ex)parts[i]);
             }
-            else if(parts[i] instanceof $case){
-                this.body.$and( ($case)parts[i]);
+            else if(parts[i] instanceof $switchEntry){
+                this.body.$and( ($switchEntry)parts[i]);
             }
             else if(parts[i] instanceof $catch){
                 this.body.$and( ($catch)parts[i]);
@@ -610,8 +610,8 @@ public class $method
                 //Predicate<_method> pf = f-> $fj.firstIn(f.getBody()) != null;
                 //$and( pf.negate() );
             }
-            else if(parts[i] instanceof $case){
-                this.body.$not( ($case)parts[i]);
+            else if(parts[i] instanceof $switchEntry){
+                this.body.$not( ($switchEntry)parts[i]);
             }
             else if(parts[i] instanceof $catch){
                 this.body.$not( ($catch)parts[i]);

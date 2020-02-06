@@ -32,7 +32,7 @@ public class PatternExamplesTest extends TestCase {
     static $ex<IntegerLiteralExpr, _int> INT_LITERAL = $.intLiteral();                   // any int literal
     static $ex<IntegerLiteralExpr, _int> INT_100 = $.intLiteral(100);           // exact int literal 100
     static $ex<IntegerLiteralExpr, _int> INT_VAL_PARAM = $.intLiteral("$val$");    // any int literal (parameterized)
-    static $ex<IntegerLiteralExpr, _int> INT_POSITIVE = $.intLiteral(i -> i.intValue() > 0);  // any int literal > 100 (constrained)
+    static $ex<IntegerLiteralExpr, _int> INT_POSITIVE = $.intLiteral(i -> i.getValue() > 0);  // any int literal > 100 (constrained)
 
     /*
     $.of();                             // ANY AST Node

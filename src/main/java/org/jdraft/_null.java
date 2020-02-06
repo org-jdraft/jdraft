@@ -57,6 +57,14 @@ public class _null implements _expression._literal<NullLiteralExpr, _null> {
         return this.nle.toString();
     }
 
+    public String getValue(){
+        return "null";
+    }
+
+    public String valueAsString(){
+        return "null";
+    }
+
     public boolean equals(Object other){
         if( other instanceof _null ){
             return Objects.equals( ((_null)other).ast(), this.ast() );

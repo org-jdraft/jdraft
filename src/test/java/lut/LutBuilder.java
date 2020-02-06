@@ -2,7 +2,7 @@ package lut;
 
 import org.jdraft._class;
 import org.jdraft._method;
-import org.jdraft.pattern.$case;
+import org.jdraft.pattern.$switchEntry;
 import org.jdraft.pattern.$method;
 import org.jdraft.runtime._runtime;
 import org.jdraft.text.Stencil;
@@ -30,7 +30,7 @@ public class LutBuilder {
     public static final $method $LUT_METHOD = $method.of(
             "public $valueType$ lookup( $keyType$ key ){}");
 
-    public static final $case $LUT_CASE = $case.of("case $key$: return $value$;");
+    public static final $switchEntry $LUT_CASE = $switchEntry.of("case $key$: return $value$;");
 
     //I need a new Translator that treats input Strings as \" \" (Strings as LITERALS) when I write them
     // i.e. I want "case "Str": ..."

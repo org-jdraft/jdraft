@@ -51,6 +51,24 @@ public class _long implements _expression._literal<LongLiteralExpr, _long> {
         return ile;
     }
 
+    public Long getValue(){
+        return this.ile.asLong();
+    }
+
+    /**
+     * Important that there are multiple representations for the same int value
+     *
+     * base-10 (normal)   123456L
+     * hex                0xDEADL
+     * octal              023L
+     * binary             0b0101001010L
+     * using _ separators (i.e. 1_000_000_000_000L)
+     * @return
+     */
+    public String valueAsString(){
+        return this.ile.toString();
+    }
+
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
