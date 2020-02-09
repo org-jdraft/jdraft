@@ -17,11 +17,11 @@ public class _1_classAPITest extends TestCase {
     /** Naive way of creating a _class (with String based components) */
     static _class _FROM_STRING_PARTS = _class.of("C").setHeaderComment("Some License Here")
             .setPackage("math.entity")
-            .imports("java.util.UUID", "java.io.Serializable;", "java.beans.Encoder")
+            .addImports("java.util.UUID", "java.io.Serializable;", "java.beans.Encoder")
             .javadoc("This is the class", "javadoc")
             .addAnnos("@Deprecated")
             .setFinal()
-            .extend("java.beans.Encoder")
+            .addExtend("java.beans.Encoder")
             .implement("java.io.Serializable")
             .typeParameters("<T extends Serializable>")
             .staticBlock("System.out.println(\"static block \" + UUID.randomUUID().toString());")
@@ -38,12 +38,12 @@ public class _1_classAPITest extends TestCase {
     static _class _FROM_RUNTIME_PARTS = _class.of("math.entity.C")
             //.setPackage("math.entity") //we can set the name as compound to set the package name
             .setHeaderComment("Some License Here")
-            .imports(UUID.class, Serializable.class, Encoder.class)
+            .addImports(UUID.class, Serializable.class, Encoder.class)
             .javadoc("This is the class", "javadoc")
             .addAnnos(Deprecated.class)
             .setFinal()
             .typeParameters("<T extends Serializable>")
-            .extend(java.beans.Encoder.class)
+            .addExtend(java.beans.Encoder.class)
             .implement(Serializable.class)
             .staticBlock(()->System.out.println("static block " + UUID.randomUUID().toString()))
             .body( new Object(){

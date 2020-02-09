@@ -14,7 +14,7 @@ public class _classImportsTest extends TestCase {
     //imported
     public void test_class(){
         _class _c = _class.of("aaaa.bbbb.N");
-        _c.imports(String.class, UUID.class);
+        _c.addImports(String.class, UUID.class);
         System.out.println( _c );
         assertTrue( _c.hasImport(UUID.class));
     }

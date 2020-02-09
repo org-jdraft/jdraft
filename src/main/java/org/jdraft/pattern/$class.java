@@ -329,12 +329,12 @@ public class $class
         }
         _c.modifiers( this.modifiers.draft(translator, base));
         _c.typeParameters( this.typeParameters.draft(translator, base));
-        this.imports.stream().forEach( i -> _c.imports( i.draft(translator, base)));
+        this.imports.stream().forEach( i -> _c.addImports( i.draft(translator, base)));
 
         if( !extend.isMatchAny() ) {
             String e = this.extend.draft(translator, base).toString();
             if( e != null && e.length() > 0 ) {
-                _c.extend(e);
+                _c.addExtend(e);
             }
         }
         this.implement.forEach(i -> _c.implement( i.draft(translator, base).toString() ) );

@@ -56,7 +56,7 @@ public class StypeUseTest extends TestCase {
                         .$and(t-> $typeParameter.of().$name(t.toString()).count( Ast.root( t ) ) == 0);
 
         $node.of().$isParent( $import.of() ).forEachIn( F.class, n-> System.out.println(n +" "+ n.getClass()) );
-        _class _c = _class.of(F.class).imports(Map.class, UUID.class);
+        _class _c = _class.of(F.class).addImports(Map.class, UUID.class);
 
 
 

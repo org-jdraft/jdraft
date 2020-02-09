@@ -253,7 +253,7 @@ public class _typeTest extends TestCase {
         assertFalse( _c.hasImport(_c2) );
         assertFalse( _c.hasImport(_c2.getFullName()) );
         
-        _c.imports("aaaa.xxxx.G");
+        _c.addImports("aaaa.xxxx.G");
         
         assertTrue( _c.hasImport(_c2) );
         assertTrue( _c.hasImport(_c2.getFullName()) );
@@ -264,7 +264,7 @@ public class _typeTest extends TestCase {
         assertFalse( _c.hasImport(_c2.getFullName()) );
         
         //test import static on a single 
-        _c.imports( _import.of(_c2.getFullName(),true, true) );
+        _c.addImports( _import.of(_c2.getFullName(),true, true) );
         
         assertTrue( _c.hasImport(_c2) );
         assertTrue( _c.hasImport(_c2.getFullName()) );
@@ -288,7 +288,7 @@ public class _typeTest extends TestCase {
                 );
 
         _class _d = _class.of( "ffff.gggg.H")
-                .imports(_c, _c.getNest("F") );
+                .addImports(_c, _c.getNest("F") );
 
         //verify I can import another _type that hasnt been drafted yet
         assertTrue( _d.hasImport(_c) );

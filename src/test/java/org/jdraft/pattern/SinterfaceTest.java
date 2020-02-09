@@ -85,7 +85,7 @@ public class SinterfaceTest extends TestCase {
         assertTrue($interface.of($name.of("A")).matches(_interface.of("A")));
         assertFalse($interface.of($name.of("A")).matches(_notMatch));
 
-        assertTrue( $interface.of($import.of(Map.class)).matches(_interface.of("A").imports(Map.class)) );
+        assertTrue( $interface.of($import.of(Map.class)).matches(_interface.of("A").addImports(Map.class)) );
         assertFalse( $interface.of($import.of(Map.class)).matches(_notMatch) );
 
         assertTrue($interface.of($.PRIVATE).matches(_interface.of("private interface PRIVATE{}")));
@@ -102,10 +102,10 @@ public class SinterfaceTest extends TestCase {
         assertTrue($interface.of($field.of(f->f.isType(int.class))).matches(_interface.of("C").field("int i=100;")));
         assertFalse($interface.of($field.of(f->f.isType(int.class))).matches(_interface.of("C").field("String s;")));
 
-        assertTrue( $interface.of().$extend(Map.class).matches(_interface.of("AnyClass").extend(Map.class)));
+        assertTrue( $interface.of().$extend(Map.class).matches(_interface.of("AnyClass").addExtend(Map.class)));
         assertFalse( $interface.of().$extend(Map.class).matches(_interface.of("AnyClass")));
 
-        assertTrue( $interface.of( $import.of(Map.class)).matches(_interface.of("AnyClass").imports(Map.class)));
+        assertTrue( $interface.of( $import.of(Map.class)).matches(_interface.of("AnyClass").addImports(Map.class)));
         assertFalse( $interface.of( $import.of(Map.class)).matches(_interface.of("AnyClass")));
 
         _interface _i = _interface.of("C").javadoc("TODO: fix something");

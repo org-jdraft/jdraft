@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.*;
+import com.github.javaparser.ast.stmt.ForEachStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 
 import java.util.HashMap;
@@ -8,7 +9,8 @@ import java.util.Map;
 import java.util.Objects;
 
 
-public class _returnStmt implements _statement._controlFlow._signal<ReturnStmt, _returnStmt> {
+public class _returnStmt implements _statement._controlFlow._signal<ReturnStmt, _returnStmt>,
+    _java._simple<ReturnStmt, _returnStmt> {
 
     public static _returnStmt of(){
         return new _returnStmt( new ReturnStmt( ));
@@ -115,6 +117,7 @@ public class _returnStmt implements _statement._controlFlow._signal<ReturnStmt, 
         return null;
     }
 
+    /*
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
@@ -123,6 +126,7 @@ public class _returnStmt implements _statement._controlFlow._signal<ReturnStmt, 
         }
         return comps;
     }
+     */
 
     public String toString(){
         return this.rs.toString();

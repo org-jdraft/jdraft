@@ -154,7 +154,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), Node.class, nodeMatchFn, f -> found.add( f) );
             return found;
         }
-        of(PRE_ORDER, ((_java._compound) _j).ast(), Node.class, nodeMatchFn, f -> found.add(f) );
+        of(PRE_ORDER, ((_java._astNode) _j).ast(), Node.class, nodeMatchFn, f -> found.add(f) );
         return found;
     }
 
@@ -192,7 +192,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), targetClass, t->true, f -> found.add( (T)f) );
             return found;
         }
-        of(PRE_ORDER, ((_java._compound) _j).ast(), targetClass, t->true, f -> found.add(f) );
+        of(PRE_ORDER, ((_java._astNode) _j).ast(), targetClass, t->true, f -> found.add(f) );
         return (List<T>)found;
     }
 
@@ -256,7 +256,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), targetClass, matchFn, f -> found.add( (T)f) );
             return found;
         }
-        of(PRE_ORDER, ((_java._compound) _j).ast(), targetClass, matchFn, f -> found.add(f) );
+        of(PRE_ORDER, ((_java._astNode) _j).ast(), targetClass, matchFn, f -> found.add(f) );
         return (List<T>)found;
     }
 
@@ -464,7 +464,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(PRE_ORDER, ((_java._compound) _j).ast(), targetClass, matchFn, action );
+        of(PRE_ORDER, ((_java._astNode) _j).ast(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -545,7 +545,7 @@ public enum Walk {
             of( tt, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(tt, ((_java._compound) _j).ast(), targetClass, matchFn, action );
+        of(tt, ((_java._astNode) _j).ast(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -580,7 +580,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), Node.class, t->true, action );
             return _j;
         }
-        of(PRE_ORDER, ((_java._compound) _j).ast(), Node.class, t->true, action );
+        of(PRE_ORDER, ((_java._astNode) _j).ast(), Node.class, t->true, action );
         return _j;
     }
 
@@ -616,7 +616,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), Node.class, nodeMatchFn, action );
             return _j;
         }
-        of(PRE_ORDER, ((_java._compound) _j).ast(), Node.class, nodeMatchFn, action );
+        of(PRE_ORDER, ((_java._astNode) _j).ast(), Node.class, nodeMatchFn, action );
         return _j;
     }
 
@@ -779,7 +779,7 @@ public enum Walk {
             of( PARENTS, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(PARENTS, ((_java._compound) _j).ast(), targetClass, matchFn, action );
+        of(PARENTS, ((_java._astNode) _j).ast(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -821,7 +821,7 @@ public enum Walk {
             of( PARENTS, _b.ast(), targetClass, t->true, action );
             return _j;
         }
-        of(PARENTS, ((_java._compound) _j).ast(), targetClass, t->true, action );
+        of(PARENTS, ((_java._astNode) _j).ast(), targetClass, t->true, action );
         return _j;
     }
 
@@ -859,7 +859,7 @@ public enum Walk {
             of( PARENTS, _b.ast(), Node.class, t->true, action );
             return _j;
         }
-        of(PARENTS, ((_java._compound) _j).ast(), Node.class, t->true, action );
+        of(PARENTS, ((_java._astNode) _j).ast(), Node.class, t->true, action );
         return _j;
     }
 
@@ -924,7 +924,7 @@ public enum Walk {
             of( DIRECT_CHILDREN, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(DIRECT_CHILDREN, ((_java._compound) _j).ast(), targetClass, matchFn, action );
+        of(DIRECT_CHILDREN, ((_java._astNode) _j).ast(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -965,7 +965,7 @@ public enum Walk {
             of( DIRECT_CHILDREN, _b.ast(), targetClass, t->true, action );
             return _j;
         }
-        of(DIRECT_CHILDREN, ((_java._compound) _j).ast(), targetClass, t->true, action );
+        of(DIRECT_CHILDREN, ((_java._astNode) _j).ast(), targetClass, t->true, action );
         return _j;
     }
 
@@ -1002,7 +1002,7 @@ public enum Walk {
             of( DIRECT_CHILDREN, _b.ast(), Node.class, t->true, action );
             return _j;
         }
-        of(DIRECT_CHILDREN, ((_java._compound) _j).ast(), Node.class, t->true, action );
+        of(DIRECT_CHILDREN, ((_java._astNode) _j).ast(), Node.class, t->true, action );
         return _j;
     }
 
@@ -1065,7 +1065,7 @@ public enum Walk {
             of( BREADTH_FIRST, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(BREADTH_FIRST, ((_java._compound) _j).ast(), targetClass, matchFn, action );
+        of(BREADTH_FIRST, ((_java._astNode) _j).ast(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -1103,7 +1103,7 @@ public enum Walk {
             of( BREADTH_FIRST, _b.ast(), targetClass, t->true, action );
             return _j;
         }
-        of(BREADTH_FIRST, ((_java._compound) _j).ast(), targetClass, t->true, action );
+        of(BREADTH_FIRST, ((_java._astNode) _j).ast(), targetClass, t->true, action );
         return _j;
     }
 
@@ -1138,7 +1138,7 @@ public enum Walk {
             of( BREADTH_FIRST, _b.ast(), Node.class, t->true, action );
             return _j;
         }
-        of(BREADTH_FIRST, ((_java._compound) _j).ast(), Node.class, t->true, action );
+        of(BREADTH_FIRST, ((_java._astNode) _j).ast(), Node.class, t->true, action );
         return _j;
     }
 
@@ -1201,7 +1201,7 @@ public enum Walk {
             of( POST_ORDER, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(POST_ORDER, ((_java._compound) _j).ast(), targetClass, matchFn, action );
+        of(POST_ORDER, ((_java._astNode) _j).ast(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -1239,7 +1239,7 @@ public enum Walk {
             of( POST_ORDER, _b.ast(), targetClass, t->true, action );
             return _j;
         }
-        of(POST_ORDER, ((_java._compound) _j).ast(), targetClass, t->true, action );
+        of(POST_ORDER, ((_java._astNode) _j).ast(), targetClass, t->true, action );
         return _j;
     }
 
@@ -1273,7 +1273,7 @@ public enum Walk {
             of( POST_ORDER, _b.ast(), Node.class, t->true, action );
             return _j;
         }
-        of(POST_ORDER, ((_java._compound) _j).ast(), Node.class, t->true, action );
+        of(POST_ORDER, ((_java._astNode) _j).ast(), Node.class, t->true, action );
         return _j;
     }
 
@@ -1336,7 +1336,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(PRE_ORDER, ((_java._compound) _j).ast(), targetClass, matchFn, action );
+        of(PRE_ORDER, ((_java._astNode) _j).ast(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -1374,7 +1374,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), targetClass, t->true, action );
             return _j;
         }
-        of(PRE_ORDER, ((_java._compound) _j).ast(), targetClass, t->true, action );
+        of(PRE_ORDER, ((_java._astNode) _j).ast(), targetClass, t->true, action );
         return _j;
     }
 
@@ -1408,7 +1408,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), Node.class, t->true, action );
             return _j;
         }
-        of(PRE_ORDER, ((_java._compound) _j).ast(), Node.class, t->true, action );
+        of(PRE_ORDER, ((_java._astNode) _j).ast(), Node.class, t->true, action );
         return _j;
     }
 
@@ -1670,16 +1670,16 @@ public enum Walk {
                     });
             return astRootNode;
         }
-        else if( _javaClass == _java._compound.class ) {
+        else if( _javaClass == _java._astNode.class ) {
             in(tt, levels,
                     astRootNode,
                     BodyDeclaration.class,
                     t-> true,
                     n-> {
-                        _java._compound _n = (_java._compound)_java.of(n);
+                        _java._astNode _n = (_java._astNode)_java.of(n);
 
-                        if( ((Predicate<_java._compound>)_javaMatchFn).test( _n) ){
-                            ((Consumer<_java._compound>)_javaAction).accept( _n);
+                        if( ((Predicate<_java._astNode>)_javaMatchFn).test( _n) ){
+                            ((Consumer<_java._astNode>)_javaAction).accept( _n);
                         }
                     });
             return astRootNode;
@@ -2176,7 +2176,7 @@ public enum Walk {
         if(_j instanceof _body ){
             return Walk.first( tt, ((_body)_j).ast(), nodeTargetClass, nodeMatchFn);
         }
-        return Walk.first( tt, ((_java._compound)_j).ast(), nodeTargetClass, nodeMatchFn);
+        return Walk.first( tt, ((_java._astNode)_j).ast(), nodeTargetClass, nodeMatchFn);
     }
 
     public static <T> T first(Node.TreeTraversal tt, _java._domain _j, Class<T> nodeTargetClass ) {

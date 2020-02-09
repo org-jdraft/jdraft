@@ -24,7 +24,7 @@ public class RuntimeCompileTest extends TestCase {
     /** passing in compiler options */
     public void testCompileWithCompilerOptions(){
         //build a class that uses javba 8+ features (here lambda)
-        _class _c = _class.of("aaaa.bbb.C").imports(Consumer.class).main( ()-> {
+        _class _c = _class.of("aaaa.bbb.C").addImports(Consumer.class).main( ()-> {
             Consumer<String> ps = (String s )-> System.out.println( s );
         });
         List<_classFile> _cfs= _runtime.compile(_c);

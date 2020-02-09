@@ -3,6 +3,7 @@ package org.jdraft;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.ForEachStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.WhileStmt;
 
@@ -10,6 +11,7 @@ import java.util.*;
 import java.util.function.*;
 
 public class _whileStmt implements _statement._controlFlow._branching<WhileStmt, _whileStmt>,
+        _java._compound<WhileStmt, _whileStmt>,
         _statement._controlFlow._loop<WhileStmt, _whileStmt>, _body._hasBody<_whileStmt>{
 
     public static _whileStmt of(){

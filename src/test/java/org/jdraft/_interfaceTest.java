@@ -39,7 +39,7 @@ public class _interfaceTest extends TestCase {
 
     public void testExtendsMemberWith$(){
         _interface _i = _interface.of("I")
-                .extend(MemberI.class, $Member.class, $Member.MemberMember.class);
+                .addExtend(MemberI.class, $Member.class, $Member.MemberMember.class);
     }
     
     public void testHeader(){
@@ -84,8 +84,8 @@ public class _interfaceTest extends TestCase {
 
     public void testFullyQualified(){
         //the extensions are BOTH out of order, AND fully qualified vs simple
-        _interface _a = _interface.of("I").extend("aaaa.A").extend("bbbb.B");
-        _interface _b = _interface.of("I").extend("B").extend("A");
+        _interface _a = _interface.of("I").addExtend("aaaa.A").addExtend("bbbb.B");
+        _interface _b = _interface.of("I").addExtend("B").addExtend("A");
 
         //verify typesEqual and hashcode work
         assertEquals( _a, _b);
@@ -143,12 +143,12 @@ public class _interfaceTest extends TestCase {
         //start with simple
         _interface _i = _interface.of( "interface ComplexInterface{}" );
         _i.setPackage("test");
-        _i.imports( Serializable.class, MarkerInterface.class, WithDefaultMethods.class, ann2.class);
+        _i.addImports( Serializable.class, MarkerInterface.class, WithDefaultMethods.class, ann2.class);
         _i.javadoc( "javadocs", "@author Eric", "@param <Y>", "@param <Z>");
         _i.addAnnos( "@ann", "@ann2(k='d')");
         _i.setPublic();
         _i.typeParameters( "<Y, Z extends Base>");
-        _i.extend( "MarkerInterface<String>").extend( "WithDefaultMethods<Serializable>");
+        _i.addExtend( "MarkerInterface<String>").addExtend( "WithDefaultMethods<Serializable>");
         _i.field( "/** field javadoc */", "@ann @ann2(k='2',v=3)", "static final int VALUE = 120;");
         
         _i.method( "@ann @ann2(k='F',v=12345)", "static int getValue(){","return 12345;", "}");

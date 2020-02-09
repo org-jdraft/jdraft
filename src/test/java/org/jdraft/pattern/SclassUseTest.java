@@ -102,7 +102,7 @@ public class SclassUseTest extends TestCase {
     }
     
     public void testExtendsReplacement(){
-        _class _c = _class.of("C").extend(Base.class);
+        _class _c = _class.of("C").addExtend(Base.class);
         
     }
     
@@ -179,7 +179,7 @@ public class SclassUseTest extends TestCase {
             public <B extends Base> void gg(B in) {
             }
         }).implement(Inter.class)
-                .extend(Base.class);
+                .addExtend(Base.class);
         
         //System.out.println( $classUse.any().listSelectedIn(_c).size() );
         //System.out.println( _c );

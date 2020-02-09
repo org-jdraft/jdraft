@@ -92,9 +92,9 @@ public class _extendsDiff implements
         @Override
         public void patchRightToLeft() {
             ((_type._hasExtends) leftParent).removeExtends(right);
-            ((_type._hasExtends) leftParent).extend(right);
+            ((_type._hasExtends) leftParent).addExtend(right);
             ((_type._hasExtends) rightParent).removeExtends(right);
-            ((_type._hasExtends) rightParent).extend(right);
+            ((_type._hasExtends) rightParent).addExtend(right);
         }
 
         @Override
@@ -141,9 +141,9 @@ public class _extendsDiff implements
         @Override
         public void patchLeftToRight() {
             ((_type._hasExtends) leftParent).removeExtends(left);
-            ((_type._hasExtends) leftParent).extend(left);
+            ((_type._hasExtends) leftParent).addExtend(left);
             ((_type._hasExtends) rightParent).removeExtends(left);
-            ((_type._hasExtends) rightParent).extend(left);
+            ((_type._hasExtends) rightParent).addExtend(left);
         }
 
         @Override

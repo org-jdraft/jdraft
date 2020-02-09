@@ -2,6 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.ForEachStmt;
 import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.stmt.Statement;
 
@@ -15,7 +16,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 
-public class _ifStmt implements _statement._controlFlow._branching<IfStmt, _ifStmt>, _body._hasBody<_ifStmt> {
+public class _ifStmt implements _statement._controlFlow._branching<IfStmt, _ifStmt>, _body._hasBody<_ifStmt>,
+    _java._compound<IfStmt, _ifStmt> {
 
     public static _ifStmt of(){
         return new _ifStmt( new IfStmt( ));

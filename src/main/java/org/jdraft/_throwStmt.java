@@ -2,6 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
+import com.github.javaparser.ast.stmt.ForEachStmt;
 import com.github.javaparser.ast.stmt.ThrowStmt;
 
 import java.util.HashMap;
@@ -14,7 +15,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 
-public class _throwStmt implements _statement._controlFlow._signal<ThrowStmt, _throwStmt> {
+public class _throwStmt implements _statement._controlFlow._signal<ThrowStmt, _throwStmt>,
+        _java._simple<ThrowStmt, _throwStmt> {
 
     public static _throwStmt of(){
         return new _throwStmt( new ThrowStmt( ));
@@ -110,12 +112,14 @@ public class _throwStmt implements _statement._controlFlow._signal<ThrowStmt, _t
         return astStmt;
     }
 
+    /*
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
         comps.put(_java.Component.EXPRESSION, astStmt.getExpression());
         return comps;
     }
+     */
 
     public String toString(){
         return this.astStmt.toString();

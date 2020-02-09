@@ -71,7 +71,7 @@ public class SannotationTest extends TestCase {
         assertTrue($annotation.of($name.of("A")).matches(_annotation.of("A")));
         assertFalse($annotation.of($name.of("A")).matches(_notMatch));
 
-        assertTrue( $annotation.of($import.of(Map.class)).matches(_annotation.of("A").imports(Map.class)) );
+        assertTrue( $annotation.of($import.of(Map.class)).matches(_annotation.of("A").addImports(Map.class)) );
         assertFalse( $annotation.of($import.of(Map.class)).matches(_notMatch) );
 
         assertTrue($annotation.of($.PRIVATE).matches(_annotation.of("private @interface PRIVATE{}")));
@@ -81,7 +81,7 @@ public class SannotationTest extends TestCase {
         assertTrue($annotation.of($field.of(f->f.hasInit())).matches(_annotation.of("C").field("static int i=100;")));
         assertFalse($annotation.of($field.of(f->f.isInit())).matches(_annotation.of("C").field("static int i;")));
 
-        assertTrue( $annotation.of( $import.of(Map.class)).matches(_annotation.of("AnyClass").imports(Map.class)));
+        assertTrue( $annotation.of( $import.of(Map.class)).matches(_annotation.of("AnyClass").addImports(Map.class)));
         assertFalse( $annotation.of( $import.of(Map.class)).matches(_annotation.of("AnyClass")));
 
         _annotation _c = _annotation.of("C").javadoc("TODO: fix something");

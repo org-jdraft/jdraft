@@ -1,10 +1,8 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.EnumDeclaration;
-import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.utils.Log;
 import org.jdraft.*;
 
@@ -213,7 +211,7 @@ public class SpatternCodeTest extends TestCase {
         cms.add(_cA);
         
         //add the URI class to each of these (modInfo, packageInfo) 
-        cms.forEach(s -> s.imports(URI.class));
+        cms.forEach(s -> s.addImports(URI.class));
         
         //verify that I can query ... 
         assertNotNull( $import.of(URI.class).firstIn(_modInfo) );

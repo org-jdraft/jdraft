@@ -181,8 +181,8 @@ public class EclipseJDTTest extends TestCase {
      * https://www.vogella.com/tutorials/EclipseJDT/article.html#adding-imports-with-astrewrite
      */
     public void testCreateAndAddImports(){
-        _class _c = _class.of("X").imports(List.class);
-        _c.imports(Set.class);
+        _class _c = _class.of("X").addImports(List.class);
+        _c.addImports(Set.class);
     }
 
     /**

@@ -123,8 +123,8 @@ public class _importsDiff
 
         @Override
         public void patchRightToLeft() {
-            leftParent.imports(right);
-            rightParent.imports(right);
+            leftParent.addImports(right);
+            rightParent.addImports(right);
         }
 
         @Override
@@ -170,8 +170,8 @@ public class _importsDiff
 
         @Override
         public void patchLeftToRight() {
-            leftParent.imports(left);
-            rightParent.imports(left);
+            leftParent.addImports(left);
+            rightParent.addImports(left);
         }
 
         @Override

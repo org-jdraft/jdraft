@@ -102,7 +102,7 @@ public class SenumTest extends TestCase {
         assertTrue($enum.of($name.of("A")).matches(_enum.of("A")));
         assertFalse($enum.of($name.of("A")).matches(_notMatch));
 
-        assertTrue( $enum.of($import.of(Map.class)).matches(_enum.of("A").imports(Map.class)) );
+        assertTrue( $enum.of($import.of(Map.class)).matches(_enum.of("A").addImports(Map.class)) );
         assertFalse( $enum.of($import.of(Map.class)).matches(_notMatch) );
 
         assertTrue($enum.of($.PRIVATE).matches(_enum.of("private enum PRIVATE{}")));
@@ -124,10 +124,10 @@ public class SenumTest extends TestCase {
         assertTrue( $enum.of( $initBlock.of( (_initBlock i)-> i.isStatic())).matches( _enum.of("C").staticBlock("System.out.println(1);") ) );
         assertFalse($enum.of( $initBlock.of( (_initBlock i)-> i.isStatic())).matches( _enum.of("C").initBlock("System.out.println(1);") ) );
 
-        assertTrue( $enum.of().$implement(Serializable.class).matches(_enum.of("AnyClass").implement(Serializable.class)));
+        assertTrue( $enum.of().$implement(Serializable.class).matches(_enum.of("AnyClass").addImplements(Serializable.class)));
         assertFalse( $enum.of().$implement(Serializable.class).matches(_enum.of("AnyClass")));
 
-        assertTrue( $enum.of( $import.of(Map.class)).matches(_enum.of("AnyClass").imports(Map.class)));
+        assertTrue( $enum.of( $import.of(Map.class)).matches(_enum.of("AnyClass").addImports(Map.class)));
         assertFalse( $enum.of( $import.of(Map.class)).matches(_enum.of("AnyClass")));
 
         _enum _c = _enum.of("C").javadoc("TODO: fix something");

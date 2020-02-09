@@ -12,12 +12,12 @@ import java.util.*;
  * <br/><code>class X { X() { super(15); } }</code>
  * <br/><code>class X { X() { this(1, 2); } }</code>
  *
- * @author Julio Vilmar Gesser
  * @see _super
  * @see _this
  */
 public class _constructorCallStmt
         implements _statement<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
+        _java._compound<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
         _java._nodeList<Expression, _expression, _constructorCallStmt> {
 
     public static _constructorCallStmt of(){

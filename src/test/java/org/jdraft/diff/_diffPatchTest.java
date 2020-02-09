@@ -220,7 +220,7 @@ public class _diffPatchTest
         assertEquals("NESTST  2 ", 1, _c.listNests().size() );
         */
         
-        _c.imports("java.net.*");        
+        _c.addImports("java.net.*");
         assertTrue(_diff.of(_c, _c2).firstOn(IMPORT).isLeftOnly() );
         //System.out.println( _diffList.of(_c, _c2) );
         dl = _diff.of(_c, _c2);
@@ -248,7 +248,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-         _c.extend("Blarg<Integer>");
+         _c.addExtend("Blarg<Integer>");
         _diff _dl = _diff.of(_c, _c2);        
         assertNotNull( _dl.firstOn(EXTENDS) );        
         _dl.patchLeftToRight();
@@ -524,7 +524,7 @@ public class _diffPatchTest
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
         
-        _c.getDeclared(_enum.class, "E").implement("IM");
+        _c.getDeclared(_enum.class, "E").addImplements("IM");
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(ENUM).isLeftOnly());
         assertTrue( dl.firstOn(IMPLEMENTS).isLeftOnly());
@@ -593,14 +593,14 @@ public class _diffPatchTest
     
     public void testComplexInterface(){
         _interface _i = _interface.of(ComplexInterface.class);
-        _i.imports("java.util.*");
+        _i.addImports("java.util.*");
         System.out.println(_i );
         _interface _i2 = _i.copy();
         
         _diff dl = _diff.of(_i, _i2);
         assertTrue( dl.isEmpty());
         
-        _i.extend("AnotherE");
+        _i.addExtend("AnotherE");
         dl = _diff.of(_i, _i2);
         assertTrue( dl.hasLeftOnlyAt(EXTENDS));
         dl.patchLeftToRight();
@@ -645,7 +645,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();
         assertTrue(_diff.of(_i, _i2).isEmpty());
         
-        _i.imports("aaaa.bbbb.C");
+        _i.addImports("aaaa.bbbb.C");
         dl = _diff.of(_i, _i2);
         assertTrue( dl.hasLeftOnlyAt(IMPORT));        
         dl.patchLeftToRight();
@@ -673,7 +673,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();
         assertTrue(_diff.of(_i, _i2).isEmpty());
         
-        _c.extend("ExtendEd");
+        _c.addExtend("ExtendEd");
         dl = _diff.of(_i, _i2);
         assertTrue( dl.hasLeftOnlyAt(EXTENDS));        
         dl.patchLeftToRight();

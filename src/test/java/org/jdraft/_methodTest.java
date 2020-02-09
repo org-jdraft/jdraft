@@ -51,7 +51,7 @@ public class _methodTest extends TestCase {
 
         });
         //create me a class with the signatures above
-        Class clazz = _runtime.Class(_c.imports(UUID.class));
+        Class clazz = _runtime.Class(_c.addImports(UUID.class));
 
         //verify I can match all signatures
         assertTrue( _c.listMethods().stream().allMatch( _m -> Arrays.stream(clazz.getDeclaredMethods()).anyMatch( m -> _method.match(_m, m) ) ));
@@ -62,7 +62,7 @@ public class _methodTest extends TestCase {
 
             List<UUID>[] ii(){ return null;} //generic AND array
         });
-        Class clazz = _runtime.Class(_c.imports(UUID.class));
+        Class clazz = _runtime.Class(_c.addImports(UUID.class));
 
         //verify I can match all signatures
         assertTrue( _c.listMethods().stream().allMatch( _m -> Arrays.stream(clazz.getDeclaredMethods()).anyMatch( m -> _method.match(_m, m) ) ));

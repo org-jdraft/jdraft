@@ -3,16 +3,14 @@ package org.jdraft;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.CatchClause;
-import com.github.javaparser.ast.stmt.Statement;
-import com.github.javaparser.ast.stmt.TryStmt;
+import com.github.javaparser.ast.stmt.*;
 
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
 public class _tryStmt implements _statement._controlFlow._branching<TryStmt, _tryStmt>,
+        _java._compound<TryStmt, _tryStmt>,
         _java._nodeList<CatchClause, _catch, _tryStmt>,
         _body._hasBody<_tryStmt>{
 

@@ -83,7 +83,7 @@ public class _refactorPrintToLog {
         if( $anySystemOut.listIn(_t).size() > 0 ) {
             _field _f = _t.getField(preDefinedLoggerMatcher);
             if( _f == null ){ /* we didnt find a matching logger, create & add a new one*/
-                adHocLoggerImports.forEach(i -> _t.imports(i) ); /* add all Logger imports */
+                adHocLoggerImports.forEach(i -> _t.addImports(i) ); /* add all Logger imports */
                 _f = adHocLogger.draft("className", _t.getFullName()); /* create a clone/copy for this _field */
                 _t.field( _f ); /* add logger field to the TYPE */
             }

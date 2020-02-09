@@ -835,15 +835,6 @@ public final class _anno
             return getAnnos().get( index );
         }
 
-        /**
-         * replace the annotations with the _annos provided
-         * @param _as
-         * @return
-         */
-        default _HA replace(_annos _as ) {
-            this.getAnnos().clear().add( _as.list().toArray( new _anno[ 0 ] ) );
-            return (_HA)this;
-        }
 
         /**
          * apply a function to all annos
@@ -936,6 +927,17 @@ public final class _anno
         default List<_anno> listAnnos(Class<? extends Annotation> annotationClass ) {
             return getAnnos().list( annotationClass );
         }
+
+        /**
+         * replace the annotations with the _annos provided
+         * @param _as
+         * @return
+
+        default _HA replace(_annos _as ) {
+        this.getAnnos().clear().add( _as.list().toArray( new _anno[ 0 ] ) );
+        return (_HA)this;
+        }
+         */
 
         default _HA setAnnos(_annos _as){
             _as.forEach( a -> getAnnos().add(a) );

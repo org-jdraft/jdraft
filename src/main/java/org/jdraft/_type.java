@@ -1491,30 +1491,30 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
             return ((NodeWithImplements)((_type)this).ast()).getImplementedTypes();
         }
 
-        default _HI implement(_interface..._interfaces ){
-            Arrays.stream(_interfaces).forEach(i-> implement(i.getFullName() ) );
+        default _HI addImplements(_interface..._interfaces ){
+            Arrays.stream(_interfaces).forEach(i-> addImplements(i.getFullName() ) );
             return (_HI)this;
         }        
         
-        default _HI implement(ClassOrInterfaceType... toImplement ){
+        default _HI addImplements(ClassOrInterfaceType... toImplement ){
             NodeWithImplements nwi = ((NodeWithImplements)((_type)this).ast());
             Arrays.stream( toImplement ).forEach(i -> nwi.addImplementedType( i ) );
             return (_HI)this;
         }
         
-        default _HI implement(Class... toImplement ){
+        default _HI addImplements(Class... toImplement ){
             NodeWithImplements nwi = ((NodeWithImplements)((_type)this).ast());
             
             Arrays.stream( toImplement )
                 .forEach(i -> {
                         ClassOrInterfaceType coit = (ClassOrInterfaceType)Ast.typeRef(i);                    
                         nwi.addImplementedType( coit );   
-                        ((_type)this).imports(i);
+                        ((_type)this).addImports(i);
                     });
             return (_HI)this;
         }
 
-        default _HI implement(String... toImplement ){
+        default _HI addImplements(String... toImplement ){
             NodeWithImplements nwi = ((NodeWithImplements)((_type)this).ast());
             Arrays.stream( toImplement ).forEach(i -> nwi.addImplementedType( i ) );
             return (_HI)this;
@@ -1545,21 +1545,21 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
         NodeList<ClassOrInterfaceType> listExtends();
 
-        _HE extend(ClassOrInterfaceType toExtend );
+        _HE addExtend(ClassOrInterfaceType toExtend );
 
-        default _HE extend(_class _c ){
-            extend( _c.getFullName() );
+        default _HE addExtend(_class _c ){
+            addExtend( _c.getFullName() );
             return (_HE)this;
         }
 
-        default _HE extend(_interface _i ){
-            extend( _i.getFullName() );
+        default _HE addExtend(_interface _i ){
+            addExtend( _i.getFullName() );
             return (_HE)this;
         }
 
-        _HE extend(Class toExtend );
+        _HE addExtend(Class toExtend );
 
-        _HE extend(String toExtend );
+        _HE addExtend(String toExtend );
 
         _HE removeExtends(Class clazz);
 

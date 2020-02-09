@@ -1,12 +1,9 @@
 package org.jdraft.pattern;
 
-import com.github.javaparser.StaticJavaParser;
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.DoubleLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import com.github.javaparser.ast.expr.LongLiteralExpr;
-import com.github.javaparser.ast.stmt.ExplicitConstructorInvocationStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.SwitchEntry;
 import com.github.javaparser.ast.stmt.SwitchStmt;
@@ -33,7 +30,7 @@ public class SexTest extends TestCase {
                 Assert.assertTrue("message", 1==1);                
                 assertTrue("message", 1==1);
             }
-        }).imports(Assert.class);
+        }).addImports(Assert.class);
         
         //change the API AND
         //$typeUse.of(org.junit.Assert.class).replaceIn(_c, )

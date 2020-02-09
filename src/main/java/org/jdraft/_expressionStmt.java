@@ -1,6 +1,5 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 
@@ -14,7 +13,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 
-public class _expressionStmt implements _statement<ExpressionStmt, _expressionStmt> {
+public class _expressionStmt implements _statement<ExpressionStmt, _expressionStmt>,
+        _java._simple<ExpressionStmt, _expressionStmt> {
 
     public static _expressionStmt of(){
         return new _expressionStmt( new ExpressionStmt( ));
@@ -108,12 +108,14 @@ public class _expressionStmt implements _statement<ExpressionStmt, _expressionSt
         return astStmt;
     }
 
+    /*
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
         comps.put( _java.Component.EXPRESSION, astStmt.getExpression());
         return comps;
     }
+     */
 
     public String toString(){
         return this.astStmt.toString();

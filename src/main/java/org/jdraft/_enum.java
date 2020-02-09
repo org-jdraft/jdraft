@@ -41,7 +41,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         }
         _enum _e = of( (EnumDeclaration)n);
         Set<Class> importClasses = _import.inferImportsFrom(clazz);
-        _e.imports(importClasses.toArray(new Class[0]));
+        _e.addImports(importClasses.toArray(new Class[0]));
         return macro.to(clazz, _e);
     }
 
@@ -167,7 +167,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         }
         Set<Class> importClasses = _import.inferImportsFrom(anonymousBody);
         importClasses.remove(_constant.class);
-        _e.imports(importClasses.toArray(new Class[0]));
+        _e.addImports(importClasses.toArray(new Class[0]));
 
         _e = macro.to(anonymousBody.getClass(), _e);
         return _e;

@@ -30,30 +30,30 @@ public class SorTest extends TestCase {
 
     public void test$Or(){
         _class _c = _class.of("C");
-        _c.extend("android.app.Activity");
+        _c.addExtend("android.app.Activity");
         assertEquals(_c, $ANDROID_CLASS.select(_c).selected);
-        _c.extend("android.app.Fragment");
+        _c.addExtend("android.app.Fragment");
         assertEquals(_c, $ANDROID_CLASS.select(_c).selected);
-        _c.extend("android.support.v4.app.Fragment");
+        _c.addExtend("android.support.v4.app.Fragment");
         assertEquals(_c, $ANDROID_CLASS.select(_c).selected);
-        _c.extend("android.app.Service");
+        _c.addExtend("android.app.Service");
         assertEquals(_c, $ANDROID_CLASS.select(_c).selected);
 
         _source _cc = _source.of(
-                _class.of("A").extend("Activity").imports("android.app.Activity"),
-                _class.of("F").extend("Fragment").imports("android.app.Fragment"),
-                _class.of("F2").extend("Fragment").imports("android.support.v4.app.Fragment"),
-                _class.of("S").extend("Service").imports("android.app.Service")
+                _class.of("A").addExtend("Activity").addImports("android.app.Activity"),
+                _class.of("F").addExtend("Fragment").addImports("android.app.Fragment"),
+                _class.of("F2").addExtend("Fragment").addImports("android.support.v4.app.Fragment"),
+                _class.of("S").addExtend("Service").addImports("android.app.Service")
         );
         //$androidClasses.printIn(_cc);
         assertEquals(4, $ANDROID_CLASS.count(_cc));
         assertEquals(4, $C.count(_cc));
 
         _cc = _source.of(
-                _class.of("A").extend("android.app.Activity"),
-                _class.of("F").extend("android.app.Fragment"),
-                _class.of("F2").extend("android.support.v4.app.Fragment"),
-                _class.of("S").extend("android.app.Service")
+                _class.of("A").addExtend("android.app.Activity"),
+                _class.of("F").addExtend("android.app.Fragment"),
+                _class.of("F2").addExtend("android.support.v4.app.Fragment"),
+                _class.of("S").addExtend("android.app.Service")
         );
 
         assertEquals(4, $ANDROID_CLASS.count(_cc));
@@ -62,7 +62,7 @@ public class SorTest extends TestCase {
 
     //todo fix isExtends
     public void testIsImplements(){
-        _class _c = _class.of("C").imports("a.b.c.Map;").implement("Map");
+        _class _c = _class.of("C").addImports("a.b.c.Map;").implement("Map");
         assertFalse( _c.hasImport(Map.class));
         assertFalse(_c.isImplements(Map.class));
 

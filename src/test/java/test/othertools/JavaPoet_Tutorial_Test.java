@@ -139,7 +139,7 @@ public class JavaPoet_Tutorial_Test extends TestCase {
         // because we added a method with a String, we can't infer the import (Hoverboard)
         _c.method("Hoverboard tommorrow() { return new Hoverboard(); }");
         // so we can add it manually to the _class _c
-        _c.imports("com.mattel.Hoverboard");
+        _c.addImports("com.mattel.Hoverboard");
     }
 
     /** https://github.com/square/javapoet#t-for-types */
@@ -156,18 +156,18 @@ public class JavaPoet_Tutorial_Test extends TestCase {
                 " }");
 
         // so we can add it manually to the _class _c
-        _c.imports("com.mattel.Hoverboard");
-        _c.imports(ArrayList.class, List.class); //we can add imports by Class
+        _c.addImports("com.mattel.Hoverboard");
+        _c.addImports(ArrayList.class, List.class); //we can add imports by Class
     }
 
     /** https://github.com/square/javapoet#import-static */
     public void testImportStatic(){
         _class _c = _class.of("com.example.helloworld.HelloWorld").setPackagePrivate();
-        _c.importStatic("com.mattel.Hoverboard.Boards.*;",
+        _c.addImportStatic("com.mattel.Hoverboard.Boards.*;",
                 "com.mattel.Hoverboard.createNimbus;",
                 "java.util.Collections.*;")
-                .imports("com.mattel.Hoverboard")
-                .imports(ArrayList.class, List.class);
+                .addImports("com.mattel.Hoverboard")
+                .addImports(ArrayList.class, List.class);
 
         _c.method( new Object(){
             List<Hoverboard> beyond(){

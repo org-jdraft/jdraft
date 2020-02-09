@@ -5,7 +5,6 @@
  */
 package org.jdraft.diff;
 
-import org.jdraft.diff._implementsDiff;
 import org.jdraft._class;
 import junit.framework.TestCase;
 
@@ -16,8 +15,8 @@ import junit.framework.TestCase;
 public class _implementsDiffTest extends TestCase {
     
     public void testOutOfOrder(){
-        _class _a1 = _class.of("A").implement("B", "C");
-        _class _a2 = _class.of("A").implement("C", "B");
+        _class _a1 = _class.of("A").addImplements("B", "C");
+        _class _a2 = _class.of("A").addImplements("C", "B");
         
         assertTrue( _implementsDiff.INSTANCE.diff( _a1, _a2).isEmpty() );
     }
@@ -37,8 +36,8 @@ public class _implementsDiffTest extends TestCase {
     }
     
     public void testFullyQualifiedvNotAndOutOfOrder(){
-        _class _a1 = _class.of("A").implement("aaaa.bbbb.C", "aaaa.bbbb.B");
-        _class _a2 = _class.of("A").implement("B", "C");
+        _class _a1 = _class.of("A").addImplements("aaaa.bbbb.C", "aaaa.bbbb.B");
+        _class _a2 = _class.of("A").addImplements("B", "C");
         
         assertTrue( _implementsDiff.INSTANCE.diff( _a1, _a2).isEmpty() );
     }

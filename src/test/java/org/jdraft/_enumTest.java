@@ -69,7 +69,7 @@ public class _enumTest extends TestCase {
 
     }
     public void testImplementMemberClass(){
-        _enum _e = _enum.of("E").implement(MemberI.class).implement($Member.class).implement($Member.MemberMember.class);
+        _enum _e = _enum.of("E").addImplements(MemberI.class).addImplements($Member.class).addImplements($Member.MemberMember.class);
         System.out.println( _e );
     }
     
@@ -109,8 +109,8 @@ public class _enumTest extends TestCase {
 
     
     public void testFullyQualified(){
-        _enum _a = _enum.of("E").implement("aaaa.A", "bbbb.B");
-        _enum _b = _enum.of("E").implement("B", "A");
+        _enum _a = _enum.of("E").addImplements("aaaa.A", "bbbb.B");
+        _enum _b = _enum.of("E").addImplements("B", "A");
         assertEquals( _a, _b);
         assertEquals( _a.hashCode(), _b.hashCode());
     }
@@ -143,7 +143,7 @@ public class _enumTest extends TestCase {
     public void testTypeImport(){
 
         //explicitly implementing the fully qualified type
-        _enum _e = _enum.of("E").implement(java.io.Serializable.class.getCanonicalName());
+        _enum _e = _enum.of("E").addImplements(java.io.Serializable.class.getCanonicalName());
         System.out.println( _e);
         assertTrue( _e.isImplements(Serializable.class));
         assertTrue( _e.isImplements("Serializable"));
@@ -152,24 +152,24 @@ public class _enumTest extends TestCase {
         //implementing by simple name, _enum is in the same package as interface
         _interface _i = _interface.of("aaaa.bbbb.I");
         Class iClass = _runtime.Class(_i); //create me the interface class in same package
-        _e = _enum.of("aaaa.bbbb.E").implement("I");
+        _e = _enum.of("aaaa.bbbb.E").addImplements("I");
         assertTrue( _e.isImplements("I"));
         assertTrue( _e.isImplements("aaaa.bbbb.I"));
 
         //implementing by simple name, importing by fully qualified name
-        _e = _enum.of("E").implement("Serializable").imports(Serializable.class);
+        _e = _enum.of("E").addImplements("Serializable").addImports(Serializable.class);
         assertTrue( _e.isImplements(Serializable.class));
         assertTrue( _e.isImplements("Serializable"));
         assertTrue( _e.isImplements(Serializable.class.getCanonicalName()));
 
         //implementing by simple name, importing by wildcard
-        _e = _enum.of("E").implement("Serializable").imports("java.io.*");
+        _e = _enum.of("E").addImplements("Serializable").addImports("java.io.*");
         assertTrue( _e.isImplements(Serializable.class));
         assertTrue( _e.isImplements("Serializable"));
         assertTrue( _e.isImplements(Serializable.class.getCanonicalName()));
 
         //test generic implement
-        _e = _enum.of("E").implement("aaaa.bbbb.G<I>");
+        _e = _enum.of("E").addImplements("aaaa.bbbb.G<I>");
         //should match
         assertTrue( _e.isImplements("aaaa.bbbb.G<I>"));
         assertTrue( _e.isImplements("aaaa.bbbb.G"));
@@ -180,7 +180,7 @@ public class _enumTest extends TestCase {
         assertFalse(_e.isImplements("xxx.yyy.G<I>"));
 
         //test generic implement
-        _e = _enum.of("E").implement("aaaa.bbbb.G<String>");
+        _e = _enum.of("E").addImplements("aaaa.bbbb.G<String>");
         assertTrue( _e.isImplements("aaaa.bbbb.G<String>")); //fully qualified
         assertTrue( _e.isImplements("G<String>")); //not fully qualified
 

@@ -11,8 +11,6 @@ import static junit.framework.TestCase.assertTrue;
 import org.hamcrest.MatcherAssert;
 import org.junit.Assert;
 
-import static org.junit.Assert.*;
-import static java.util.Map.*;
 /**
  *
  * @author Eric
@@ -49,7 +47,7 @@ public class SimportTest extends TestCase {
         assertFalse( $i.matches("import static aaaa.AAAA;"));
     }
     public void testImportSwitch(){
-        _class _c = _class.of("C").imports( _import.of("import draft.java.io.*;"));
+        _class _c = _class.of("C").addImports( _import.of("import draft.java.io.*;"));
         $import.of("import draft.java.$any$;").replaceIn(_c, "import org.jdraft.$any$;");
         System.out.println( _c ); 
         assertTrue( _c.hasImport(_i-> _i.is("import org.jdraft.io.*;") ));
@@ -57,7 +55,7 @@ public class SimportTest extends TestCase {
     
     public void testAnyWildcardReplace(){
         
-        _class _c = _class.of("aaaa.F").imports(Map.class);
+        _class _c = _class.of("aaaa.F").addImports(Map.class);
         $import.of("java.util.Map;").replaceIn(_c, "import java.util.*;");
         assertTrue( _c.hasImport("java.util.*;"));
         
@@ -68,13 +66,13 @@ public class SimportTest extends TestCase {
         System.out.println( $i.importStencil);
         assertTrue( $i.matches("java.util.*"));
         
-        _c = _class.of("F").imports("java.util.*;");
+        _c = _class.of("F").addImports("java.util.*;");
         assertEquals(1, $import.of("java.util$any$;").count(_c ));
         
         $import.of("java.util$any$;").replaceIn(_c, "import java.net$any$;");
         assertTrue( _c.hasImport("java.net.*;"));       
         
-        _c = _class.of("R").imports("draft.java.io.*;");
+        _c = _class.of("R").addImports("draft.java.io.*;");
         $import.of("draft.java.$any$;").replaceIn(_c, "com.draftj.$any$");
         System.out.println(_c);
         
@@ -120,7 +118,7 @@ public class SimportTest extends TestCase {
     public void testAssumeWildcardReplaceCommutability(){
         assertTrue( $import.of("a.$any$").matches("import a.MyClass.*"));
         
-        _class _c = _class.of("F").imports("a.MyClass.*;");
+        _class _c = _class.of("F").addImports("a.MyClass.*;");
         $import.of("a.$any$").replaceIn(_c, "b.$any$");
         assertTrue( _c.hasImport("b.MyClass.*;"));
     }
@@ -148,7 +146,7 @@ public class SimportTest extends TestCase {
     }
 
     public void testImportWildcardStaticAssertions(){
-        _class _c = _class.of("C").importStatic(Assert.class);
+        _class _c = _class.of("C").addImportStatic(Assert.class);
         $import.of("import static org.junit.Assert.*;").replaceIn( _c,
             _import.of(MatcherAssert.class).setStatic().setWildcard() );
         
@@ -158,7 +156,7 @@ public class SimportTest extends TestCase {
         assertTrue( _c.hasImportStatic(MatcherAssert.class));
         assertTrue( _c.hasImport(MatcherAssert.class) );        
         
-        _c = _class.of("C").imports(Assert.class);
+        _c = _class.of("C").addImports(Assert.class);
         $import.of(Assert.class.getCanonicalName()).replaceIn( _c, 
             _import.of(MatcherAssert.class.getCanonicalName()) );
         
@@ -208,9 +206,9 @@ public class SimportTest extends TestCase {
     }
     
     public void testMatchRegularOrStatic(){
-        _class _c = _class.of( "C").imports(Map.class);
+        _class _c = _class.of( "C").addImports(Map.class);
         
-        _class _cs = _class.of( "C").importStatic(Map.class);
+        _class _cs = _class.of( "C").addImportStatic(Map.class);
         
         //System.out.println( _class.of("C").importStatic(Map.class));
         assertNotNull( $import.of(Map.class).firstIn(_c ) );
@@ -236,7 +234,7 @@ public class SimportTest extends TestCase {
     }
 
     public void testImportStatic(){
-        _class _cs = _class.of( "C").importStatic(Map.class);
+        _class _cs = _class.of( "C").addImportStatic(Map.class);
         //assertTrue( $import.of().count(_cs) == 1);
         //assertTrue( $import.of(Map.class, true, true).count(_cs) == 1);
 
@@ -267,7 +265,7 @@ public class SimportTest extends TestCase {
         _class _c = _class.of("C", new Object(){
             Map m = null;            
         });
-        _c.imports(Assert.class);
+        _c.addImports(Assert.class);
         
         $import $i = $import.of(Assert.class);
         $i.replaceIn(_c, MatcherAssert.class );

@@ -83,7 +83,7 @@ public class _2_Model_classTest extends TestCase {
 
         //you can also change the package & add imports from the _class (_c)
         _c.setPackage("cccc.dddd");
-        _c.imports(UUID.class, FileNotFoundException.class); //add these
+        _c.addImports(UUID.class, FileNotFoundException.class); //add these
 
         // ...the _class(_c) will reflect the changes
         assertTrue( _c.hasImport(UUID.class));

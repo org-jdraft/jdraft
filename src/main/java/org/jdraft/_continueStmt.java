@@ -8,7 +8,8 @@ import java.util.Map;
 import java.util.Objects;
 
 
-public class _continueStmt implements _statement._controlFlow._signal<ContinueStmt, _continueStmt> {
+public class _continueStmt implements _statement._controlFlow._signal<ContinueStmt, _continueStmt>,
+        _java._simple<ContinueStmt, _continueStmt> {
 
     public static _continueStmt of(){
         return new _continueStmt( new ContinueStmt( ));
@@ -69,6 +70,7 @@ public class _continueStmt implements _statement._controlFlow._signal<ContinueSt
         return astStmt;
     }
 
+    /*
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
@@ -77,6 +79,7 @@ public class _continueStmt implements _statement._controlFlow._signal<ContinueSt
         }
         return comps;
     }
+     */
 
     public String toString(){
         return this.astStmt.toString();

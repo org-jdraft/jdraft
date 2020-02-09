@@ -74,7 +74,7 @@ public class _diffTest extends TestCase {
         _c1.setPackage("aaaa.bbbb");
         _c1.setName("B");
         _c1.addAnnos(Deprecated.class);
-        _c1.extend("G");
+        _c1.addExtend("G");
         _c1.constructor("public C(){System.out.println(1);}");
         _c1.typeParameters("<T extends base>");
         _c1.javadoc("some javadoc");
@@ -133,7 +133,7 @@ public class _diffTest extends TestCase {
         
         _a1.targetType();
         _a1.entry("int a() default 1;");
-        _a1.imports(IOException.class);
+        _a1.addImports(IOException.class);
         _a1.field("public static final int ID = 1;");
         _a1.javadoc("javadoc");
         _a1.setPackage("dev.diff");

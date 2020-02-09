@@ -393,15 +393,15 @@ public class AstTest extends TestCase {
         assertTrue(_c.getImports().isEmpty());
         Ast.organizeImports(  _c.astCompilationUnit() );
         assertTrue(_c.getImports().isEmpty());
-        _c.imports("gggg.G");
+        _c.addImports("gggg.G");
         assertEquals( Ast.importDeclaration("gggg.G"), _c.getImport(0));
         Ast.organizeImports(  _c.astCompilationUnit() );
 
 
-        _c.imports("A");
-        _c.imports("import static aaaa.bbbb.B.*;");
-        _c.imports("aaaa.bbbb.C");
-        _c.imports("import static zzzz.Z");
+        _c.addImports("A");
+        _c.addImports("import static aaaa.bbbb.B.*;");
+        _c.addImports("aaaa.bbbb.C");
+        _c.addImports("import static zzzz.Z");
 
         Ast.organizeImports(  _c.astCompilationUnit() );
 

@@ -1,7 +1,10 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.LambdaExpr;
+import com.github.javaparser.ast.stmt.AssertStmt;
 import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.Statement;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -9,8 +12,8 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-
-public class _blockStmt implements _statement<BlockStmt, _blockStmt> {
+public class _blockStmt implements _statement<BlockStmt, _blockStmt>,
+        _java._nodeList<Statement, _statement, _blockStmt> {
 
     public static _blockStmt of(){
         return new _blockStmt( new BlockStmt( ));
@@ -77,6 +80,16 @@ public class _blockStmt implements _statement<BlockStmt, _blockStmt> {
     }
 
     @Override
+    public List<_statement> list() {
+        return listStatements();
+    }
+
+    @Override
+    public NodeList<Statement> listAstElements() {
+        return this.astStmt.getStatements();
+    }
+
+    @Override
     public boolean is(String... stringRep) {
         try{
             return is( Stmt.blockStmt(stringRep));
@@ -99,12 +112,14 @@ public class _blockStmt implements _statement<BlockStmt, _blockStmt> {
         return astStmt;
     }
 
+    /*
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
         comps.put(_java.Component.STATEMENTS, astStmt.getStatements() );
         return comps;
     }
+     */
 
     public String toString(){
         return this.astStmt.toString();

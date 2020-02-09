@@ -12,6 +12,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class _forStmt implements _statement._controlFlow._loop<ForStmt, _forStmt>,
+        _java._compound<ForStmt, _forStmt>,
         _statement._controlFlow._branching<ForStmt,_forStmt>, _body._hasBody<_forStmt> {
 
     public static _forStmt of(){

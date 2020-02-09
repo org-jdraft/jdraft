@@ -30,17 +30,17 @@ public class GoogleErrorProneAndroidInjectBeforeSuper_PartsTest extends TestCase
 
     /** test that $ANDROID_CLASS does its job & matches classes that extend the appropriate base classes */
     public void test$ANDROID_CLASS(){
-        assertTrue( $ANDROID_CLASS.matches(_class.of("C").extend("android.app.Activity") ) );
-        assertTrue( $ANDROID_CLASS.matches(_class.of("C").extend("android.app.Fragment") ) );
-        assertTrue( $ANDROID_CLASS.matches(_class.of("C").extend("android.support.v4.app.Fragment") ) );
-        assertTrue( $ANDROID_CLASS.matches(_class.of("C").extend("android.app.Service") ) );
+        assertTrue( $ANDROID_CLASS.matches(_class.of("C").addExtend("android.app.Activity") ) );
+        assertTrue( $ANDROID_CLASS.matches(_class.of("C").addExtend("android.app.Fragment") ) );
+        assertTrue( $ANDROID_CLASS.matches(_class.of("C").addExtend("android.support.v4.app.Fragment") ) );
+        assertTrue( $ANDROID_CLASS.matches(_class.of("C").addExtend("android.app.Service") ) );
 
         /** this test will verify classes can extend the class SimpleName */
         _source _cc = _source.of(
-                _class.of("A").extend("Activity").imports("android.app.Activity"),
-                _class.of("F").extend("Fragment").imports("android.app.Fragment"),
-                _class.of("F2").extend("Fragment").imports("android.support.v4.app.Fragment"),
-                _class.of("S").extend("Service").imports("android.app.Service")
+                _class.of("A").addExtend("Activity").addImports("android.app.Activity"),
+                _class.of("F").addExtend("Fragment").addImports("android.app.Fragment"),
+                _class.of("F2").addExtend("Fragment").addImports("android.support.v4.app.Fragment"),
+                _class.of("S").addExtend("Service").addImports("android.app.Service")
         );
         assertEquals(4, $ANDROID_CLASS.count(_cc));
     }

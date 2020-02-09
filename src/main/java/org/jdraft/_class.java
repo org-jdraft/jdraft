@@ -60,7 +60,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             
             _c = macro.to(clazz, n); //run annotation macros on the class
             Set<Class> importClasses = _import.inferImportsFrom(clazz);
-            _c.imports(importClasses.toArray(new Class[0]));
+            _c.addImports(importClasses.toArray(new Class[0]));
             return _c;
         }
         if( clazz.isInterface() ){
@@ -256,14 +256,14 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         //interfaces to implement
         if(theClass.getInterfaces().length > 0){
             for(int i=0; i< theClass.getInterfaces().length; i++){
-                _c.imports(theClass.getInterfaces()[i]);
+                _c.addImports(theClass.getInterfaces()[i]);
                 _c.implement(theClass.getInterfaces()[i]);
             }
         }
         //extends to extend
         if( theClass.getSuperclass() != Object.class ){
-            _c.imports(theClass.getSuperclass());
-            _c.extend(theClass.getSuperclass());
+            _c.addImports(theClass.getSuperclass());
+            _c.addExtend(theClass.getSuperclass());
         }
         //
         ObjectCreationExpr oce = Ex.newEx(ste);
@@ -290,7 +290,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         //add imports from methods return types parameter types
         Set<Class>toImport = _import.inferImportsFrom(anonymousClassBody);
 
-        _c.imports(toImport.toArray(new Class[0]));
+        _c.addImports(toImport.toArray(new Class[0]));
 
         TypeDeclaration td = _c.astCompilationUnit().getType(0);
         macro.to( theClass, td);
@@ -334,15 +334,15 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     public _class impl(Object anonymousImplementation ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         for(int i=0;i<anonymousImplementation.getClass().getInterfaces().length;i++ ){
-            implement( new Class[]{anonymousImplementation.getClass().getInterfaces()[i]} );
-            imports( new Class[]{anonymousImplementation.getClass().getInterfaces()[i]});
+            addImplements( new Class[]{anonymousImplementation.getClass().getInterfaces()[i]} );
+            addImports( new Class[]{anonymousImplementation.getClass().getInterfaces()[i]});
         }
         ObjectCreationExpr oce = Ex.newEx(ste);
         if( oce.getAnonymousClassBody().isPresent()){
             oce.getAnonymousClassBody().get().forEach( m->this.ast().addMember(m) );
         }
         Set<Class> ims = _import.inferImportsFrom(anonymousImplementation);
-        ims.forEach( i -> imports(i) );
+        ims.forEach( i -> addImports(i) );
         return this;
     }
 
@@ -351,12 +351,12 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * @return  
      */
     public _class implement ( String classToImplement ){
-        return implement( new String[]{classToImplement});
+        return addImplements( new String[]{classToImplement});
     }
 
     public _class implement (_interface _i) {
-        imports(_i);
-        return implement(new _interface[]{_i});
+        addImports(_i);
+        return addImplements(new _interface[]{_i});
     }
 
     @Override
@@ -391,8 +391,8 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * @return the modified _class
      */
     public _class implement( Class clazz ){
-        imports(clazz);
-        return implement( new Class[]{clazz} );
+        addImports(clazz);
+        return addImplements( new Class[]{clazz} );
     }
 
     @Override
@@ -427,17 +427,17 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      *                                    required that will be "imported" in the _class
      * @return the modified Class
      */
-    public _class extend( Object anonymousImplementationBody ){
+    public _class addExtend(Object anonymousImplementationBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
 
         Class sup = anonymousImplementationBody.getClass().getSuperclass();
-        extend(sup);
-        imports( new Class[]{sup} );
+        addExtend(sup);
+        addImports( new Class[]{sup} );
         ObjectCreationExpr oce = Ex.newEx(ste);
         if( oce.getAnonymousClassBody().isPresent()){
             oce.getAnonymousClassBody().get().forEach( m->this.ast().addMember(m) );
         }
-        _import.inferImportsFrom(anonymousImplementationBody).forEach( i -> imports(i) );
+        _import.inferImportsFrom(anonymousImplementationBody).forEach( i -> addImports(i) );
         return this;
     }
 
@@ -498,13 +498,13 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         
         //create the approrpriate imports based on the signature of the 
         // added fields and methods, throws, etc.
-        _import.inferImportsFrom(anonymousClassBody).forEach( i -> imports(i) );
+        _import.inferImportsFrom(anonymousClassBody).forEach( i -> addImports(i) );
         
         Class[] ints = anonymousClassBody.getClass().getInterfaces();
         Arrays.stream(ints).forEach( i -> implement(i) );
         
         if( anonymousClassBody.getClass().getSuperclass() != null && anonymousClassBody.getClass().getSuperclass() != Object.class ){
-            this.extend( anonymousClassBody.getClass().getSuperclass() );
+            this.addExtend( anonymousClassBody.getClass().getSuperclass() );
         }
         
         return this;
@@ -556,20 +556,20 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     }
 
     @Override
-    public _class extend( ClassOrInterfaceType toExtend ){
+    public _class addExtend(ClassOrInterfaceType toExtend ){
         this.astClass.getExtendedTypes().clear();
         this.astClass.addExtendedType( toExtend );
         return this;
     }
 
     @Override
-    public _class extend( Class toExtend ){
-        imports(toExtend);
-        return extend( (ClassOrInterfaceType) Ast.typeRef(toExtend.getCanonicalName() ) );
+    public _class addExtend(Class toExtend ){
+        addImports(toExtend);
+        return addExtend( (ClassOrInterfaceType) Ast.typeRef(toExtend.getCanonicalName() ) );
     }
 
     @Override
-    public _class extend( String toExtend ){
+    public _class addExtend(String toExtend ){
         this.astClass.getExtendedTypes().clear();
         this.astClass.addExtendedType( toExtend );
         return this;

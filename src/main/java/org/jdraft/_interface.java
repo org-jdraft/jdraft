@@ -113,8 +113,8 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         //interfaces to be extended
         if(anonymousBody.getClass().getInterfaces().length > 0){
             Arrays.stream(anonymousBody.getClass().getInterfaces()).forEach( i -> {
-                _i.imports(i);
-                _i.extend(i);
+                _i.addImports(i);
+                _i.addExtend(i);
             });
         }
 
@@ -130,7 +130,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
 
         //look at the anonymous body (runtime class) which can infer all the imports
         Set<Class> importClasses = _import.inferImportsFrom(anonymousBody);
-        _i.imports(importClasses.toArray(new Class[0]));
+        _i.addImports(importClasses.toArray(new Class[0]));
         
         //actually, all methods that are NOT static or default need to have their
         //bodies removed with ; (since it's an interface)
@@ -244,25 +244,25 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     }
 
     @Override
-    public _interface extend( ClassOrInterfaceType toExtend ){
+    public _interface addExtend(ClassOrInterfaceType toExtend ){
         this.astInterface.addExtendedType( toExtend );
         return this;
     }
 
-    public _interface extend( Class...toExtends ){
-        Arrays.stream(toExtends).forEach( e -> extend( (ClassOrInterfaceType)Ast.typeRef(e) ) );
+    public _interface addExtend(Class...toExtends ){
+        Arrays.stream(toExtends).forEach( e -> addExtend( (ClassOrInterfaceType)Ast.typeRef(e) ) );
         return this;
     }
     
     @Override
-    public _interface extend( Class toExtend ){
+    public _interface addExtend(Class toExtend ){
         this.astInterface.addExtendedType( (ClassOrInterfaceType)Ast.typeRef(toExtend) );
         this.astInterface.tryAddImportToParentCompilationUnit(toExtend);
         return this;
     }
 
     @Override
-    public _interface extend( String toExtend ){
+    public _interface addExtend(String toExtend ){
         this.astInterface.addExtendedType( toExtend);
         return this;
     }

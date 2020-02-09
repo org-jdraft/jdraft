@@ -6,7 +6,6 @@ import org.jdraft.io._io;
 import org.jdraft.macro._package;
 import org.jdraft.macro._public;
 import org.jdraft.pattern.$;
-import org.jdraft.pattern.$node;
 import org.jdraft.pattern.$token;
 
 import java.io.IOException;
@@ -92,8 +91,8 @@ public class MrCode {
         //TODO this will ALSO rename the constructors within the _class
         _class _je = _cc.get_class("_jdraftException")
             //.name( "_javaException" )
-            .extend(_mre ) //3) extends _mrCodeException
-            .imports( _mre ); //3a) add import of _mrCodeException
+            .addExtend(_mre ) //3) extends _mrCodeException
+            .addImports( _mre ); //3a) add import of _mrCodeException
 
         //4) change all references from _jdraftException to _javaException
         $.token("_jdraftException").replaceIn(_cc, "_javaException");

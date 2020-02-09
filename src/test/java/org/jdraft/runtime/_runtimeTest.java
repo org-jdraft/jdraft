@@ -61,7 +61,7 @@ public class _runtimeTest extends TestCase {
      */
     public void testRuntimeClass() throws Exception {
         Class<? extends Function> f = (Class<? extends Function>)_runtime.Class(
-                _class.of("ByteBuddy").imports(GreetingInterceptor.class)
+                _class.of("ByteBuddy").addImports(GreetingInterceptor.class)
                 .impl(new Function(){
                     @Override
                     public Object apply(Object o) {

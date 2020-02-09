@@ -93,9 +93,9 @@ public class _implementsDiff implements
         @Override
         public void patchRightToLeft() {
             ((_type._hasImplements) leftParent).removeImplements(right);
-            ((_type._hasImplements) leftParent).implement(right);
+            ((_type._hasImplements) leftParent).addImplements(right);
             ((_type._hasImplements) rightParent).removeImplements(right);
-            ((_type._hasImplements) rightParent).implement(right);
+            ((_type._hasImplements) rightParent).addImplements(right);
         }
 
         @Override
@@ -142,9 +142,9 @@ public class _implementsDiff implements
         @Override
         public void patchLeftToRight() {
             ((_type._hasImplements) leftParent).removeImplements(left);
-            ((_type._hasImplements) leftParent).implement(left);
+            ((_type._hasImplements) leftParent).addImplements(left);
             ((_type._hasImplements) rightParent).removeImplements(left);
-            ((_type._hasImplements) rightParent).implement(left);
+            ((_type._hasImplements) rightParent).addImplements(left);
         }
 
         @Override

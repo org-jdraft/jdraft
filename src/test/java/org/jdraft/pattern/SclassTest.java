@@ -88,7 +88,7 @@ public class SclassTest extends TestCase {
         assertTrue($class.of($name.of("A")).matches(_class.of("A")));
         assertFalse($class.of($name.of("A")).matches(_notMatch));
 
-        assertTrue( $class.of($import.of(Map.class)).matches(_class.of("A").imports(Map.class)) );
+        assertTrue( $class.of($import.of(Map.class)).matches(_class.of("A").addImports(Map.class)) );
         assertFalse( $class.of($import.of(Map.class)).matches(_notMatch) );
 
         assertTrue($class.of($.PRIVATE).matches(_class.of("private class PRIVATE{}")));
@@ -113,13 +113,13 @@ public class SclassTest extends TestCase {
         assertTrue( $class.of( $initBlock.of( (_initBlock i)-> i.isStatic())).matches( _class.of("C").staticBlock("System.out.println(1);") ) );
         assertFalse($class.of( $initBlock.of( (_initBlock i)-> i.isStatic())).matches( _class.of("C").initBlock("System.out.println(1);") ) );
 
-        assertTrue( $class.of().$extends(Map.class).matches(_class.of("AnyClass").extend(Map.class)));
+        assertTrue( $class.of().$extends(Map.class).matches(_class.of("AnyClass").addExtend(Map.class)));
         assertFalse( $class.of().$extends(Map.class).matches(_class.of("AnyClass")));
 
         assertTrue( $class.of().$implement(Serializable.class).matches(_class.of("AnyClass").implement(Serializable.class)));
         assertFalse( $class.of().$implement(Serializable.class).matches(_class.of("AnyClass")));
 
-        assertTrue( $class.of( $import.of(Map.class)).matches(_class.of("AnyClass").imports(Map.class)));
+        assertTrue( $class.of( $import.of(Map.class)).matches(_class.of("AnyClass").addImports(Map.class)));
         assertFalse( $class.of( $import.of(Map.class)).matches(_class.of("AnyClass")));
 
         _class _c = _class.of("C").javadoc("TODO: fix something");

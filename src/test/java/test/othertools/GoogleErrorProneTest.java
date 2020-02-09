@@ -86,20 +86,20 @@ public class GoogleErrorProneTest extends TestCase {
 
     public void test$ANDROID_CLASS(){
         _class _c = _class.of("C");
-        _c.extend("android.app.Activity");
+        _c.addExtend("android.app.Activity");
         assertEquals(_c, $ANDROID_CLASS.select(_c).selected);
-        _c.extend("android.app.Fragment");
+        _c.addExtend("android.app.Fragment");
         assertEquals(_c, $ANDROID_CLASS.select(_c).selected);
-        _c.extend("android.support.v4.app.Fragment");
+        _c.addExtend("android.support.v4.app.Fragment");
         assertEquals(_c, $ANDROID_CLASS.select(_c).selected);
-        _c.extend("android.app.Service");
+        _c.addExtend("android.app.Service");
         assertEquals(_c, $ANDROID_CLASS.select(_c).selected);
 
         _source _cc = _source.of(
-                _class.of("A").extend("Activity").imports("android.app.Activity"),
-                _class.of("F").extend("Fragment").imports("android.app.Fragment"),
-                _class.of("F2").extend("Fragment").imports("android.support.v4.app.Fragment"),
-                _class.of("S").extend("Service").imports("android.app.Service")
+                _class.of("A").addExtend("Activity").addImports("android.app.Activity"),
+                _class.of("F").addExtend("Fragment").addImports("android.app.Fragment"),
+                _class.of("F2").addExtend("Fragment").addImports("android.support.v4.app.Fragment"),
+                _class.of("S").addExtend("Service").addImports("android.app.Service")
         );
         //$androidClasses.printIn(_cc);
         assertEquals(4, $ANDROID_CLASS.count(_cc));

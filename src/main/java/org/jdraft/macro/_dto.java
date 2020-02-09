@@ -55,11 +55,11 @@ public @interface _dto {
             oce.getAnonymousClassBody().get().forEach(b -> _c.ast().addMember(b));
             Arrays.stream(body.getClass().getInterfaces()).forEach(e -> {
                 _c.implement(e);
-                _c.imports(e);
+                _c.addImports(e);
             });
             if (body.getClass().getSuperclass() != null) {
-                _c.extend(body.getClass().getSuperclass());
-                _c.imports(body.getClass().getSuperclass());
+                _c.addExtend(body.getClass().getSuperclass());
+                _c.addImports(body.getClass().getSuperclass());
             }
             to(_c.astCompilationUnit().getType(0));
             return _c;

@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.stmt.ForEachStmt;
 import com.github.javaparser.ast.stmt.YieldStmt;
 import org.jdraft.text.Text;
 
@@ -10,7 +11,9 @@ import java.util.Objects;
 import java.util.function.Predicate;
 
 
-public class _yieldStmt implements _statement._controlFlow._signal<YieldStmt, _yieldStmt> {
+public class _yieldStmt implements _statement._controlFlow._signal<YieldStmt, _yieldStmt>,
+    _java._simple<YieldStmt, _yieldStmt> {
+
     public static _yieldStmt of(){
         return new _yieldStmt( new YieldStmt( ));
     }
@@ -91,13 +94,14 @@ public class _yieldStmt implements _statement._controlFlow._signal<YieldStmt, _y
         return _expression.of(yieldStmt.getExpression());
     }
 
+    /*
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
         comps.put(_java.Component.EXPRESSION, yieldStmt.getExpression());
         return comps;
     }
-
+     */
 
     public boolean equals(Object other){
         if( other instanceof _yieldStmt ){

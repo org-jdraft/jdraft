@@ -160,14 +160,14 @@ public class _classTest extends TestCase {
     }
     
     public void testIsExtends(){
-        _type _t = _class.of("C").extend("B");        
+        _type _t = _class.of("C").addExtend("B");
         assertTrue( _t.isExtends("B"));
         assertTrue( _t.isExtends( (ClassOrInterfaceType)_typeRef.of("B").ast() ));
         
         assertFalse( _t.isExtends("D"));
         assertFalse( _t.isExtends(String.class));
         
-        _t = _class.of("C").extend(Be.class);
+        _t = _class.of("C").addExtend(Be.class);
         System.out.println( _t );
 
         assertTrue( _t.isExtends(Be.class));
@@ -176,7 +176,7 @@ public class _classTest extends TestCase {
     }
     
     public void testIsImplements(){
-        _type _t = _class.of("C").extend("B").implement(Serializable.class);
+        _type _t = _class.of("C").addExtend("B").implement(Serializable.class);
         System.out.println( _t);
         assertTrue( _t.isImplements(Serializable.class));
         assertTrue( _t.isImplements(Serializable.class.getCanonicalName()));
@@ -191,33 +191,33 @@ public class _classTest extends TestCase {
     public void testClassExtend(){
 
         //explicitly extending the fully qualified type
-        _class _c = _class.of("C").extend(java.util.Map.class.getCanonicalName());
+        _class _c = _class.of("C").addExtend(java.util.Map.class.getCanonicalName());
         System.out.println( _c);
         assertTrue( _c.isExtends(Map.class));
 
         //implementing by simple name, _enum is in the same package as interface
         _class _base = _class.of("aaaa.bbbb.Base");
         Class iClass = _runtime.Class(_base); //create me the base class in same package
-        _c = _class.of("aaaa.bbbb.C").extend("Base");
+        _c = _class.of("aaaa.bbbb.C").addExtend("Base");
         assertTrue( _c.isExtends(iClass));
 
         //implementing by simple name, importing by fully qualified name
-        _c = _class.of("C").extend("Base").imports(iClass);
+        _c = _class.of("C").addExtend("Base").addImports(iClass);
         assertTrue( _c.isExtends(iClass));
 
         //implementing by simple name, importing by wildcard
         //Might fail...
-        _c = _class.of("E").extend("Base").imports("aaaa.bbbb.*");
+        _c = _class.of("E").addExtend("Base").addImports("aaaa.bbbb.*");
         assertTrue( _c.isExtends(iClass));
 
         //test generic extend
-        _c = _class.of("E").extend("aaaa.bbbb.G<I>");
+        _c = _class.of("E").addExtend("aaaa.bbbb.G<I>");
         //should match
         assertTrue( _c.isExtends("aaaa.bbbb.G<I>"));
         assertTrue( _c.isExtends("aaaa.bbbb.G"));
 
         //test generic extend
-        _c = _class.of("E").extend("aaaa.bbbb.G<String>");
+        _c = _class.of("E").addExtend("aaaa.bbbb.G<String>");
         assertTrue( _c.isExtends("aaaa.bbbb.G<String>")); //fully qualified
         assertTrue( _c.isExtends("G<String>")); //not fully qualified
         //assertTrue( _e.isImplements("aaaa.bbbb.G<java.lang.String>"));
@@ -238,7 +238,7 @@ public class _classTest extends TestCase {
    public void testNotImport(){
        _class _c = _class.of("C");
        //System.out.println( _c.imports(String.class) );
-       _c.imports(String[].class);
+       _c.addImports(String[].class);
        assertFalse( _c.hasImports(String.class));
    }
             
@@ -263,8 +263,8 @@ public class _classTest extends TestCase {
     public void testImplementMemberClass(){
         _class _c = _class.of("C")
                 .implement(MemberI.class).implement($Member.class).implement($Member.MemberMember.class);
-        _c = _class.of("C").extend($Base.class);
-        _c = _class.of("C").extend($Base.Mem.class);
+        _c = _class.of("C").addExtend($Base.class);
+        _c = _class.of("C").addExtend($Base.Mem.class);
         //System.out.println( _c );
     }
     
@@ -305,7 +305,7 @@ public class _classTest extends TestCase {
     // When you extend and provide the implementation, we
     // the imports are inferred
     public void testExtendInferImports(){
-        _class _c = _class.of("B").extend( new BBC(){
+        _class _c = _class.of("B").addExtend(new BBC(){
                     
             AtomicBoolean ab;
                     
@@ -414,7 +414,7 @@ public class _classTest extends TestCase {
             @_remove public Hoverboard createNimbus( String val ){ return null; }
             @_remove public Hoverboard createNimbus( Hoverboard board ){ return null; }
             @_remove Hoverboard THUNDERBOLT = new Hoverboard();
-        }).importStatic(Collections.class.getCanonicalName()+".*",
+        }).addImportStatic(Collections.class.getCanonicalName()+".*",
                 "com.mattel.Hoverboard.Boards.*",
                 "com.mattel.Hoverboard.createNimbus.*");
         //System.out.println( _c);
@@ -486,7 +486,7 @@ public class _classTest extends TestCase {
     }
 
     public void testExtends(){
-        _class _c = _class.of("C").extend( new Base(){
+        _class _c = _class.of("C").addExtend(new Base(){
             public int getVal(){
                 return 123;
             }
@@ -502,14 +502,14 @@ public class _classTest extends TestCase {
     public void testFullyQualifiedTypeParamsEtc(){
         _class a = _class.of("A")
                 .typeParameters("<T extends B, C extends List<D>>")
-                .extend("aaaa.Base")
-                .implement("rrrrr.T", "iiii.R")
+                .addExtend("aaaa.Base")
+                .addImplements("rrrrr.T", "iiii.R")
                 .method("aaaa.B blah( bbb.C c){}");
 
         _class b = _class.of("A")
                 .typeParameters("<C extends java.util.List<ddd.D>, T extends bbbb.B>")
-                .extend("Base")
-                .implement("R", "T")
+                .addExtend("Base")
+                .addImplements("R", "T")
                 .method("B blah( C c){}");
 
         assertEquals( a, b);
@@ -530,22 +530,22 @@ public class _classTest extends TestCase {
      */
     public void testExtendsEqualsFullyQualified(){
 
-        _class _a = _class.of("A").extend("aaaa.bbb.C");
-        _class _b = _class.of("A").extend("C");
+        _class _a = _class.of("A").addExtend("aaaa.bbb.C");
+        _class _b = _class.of("A").addExtend("C");
 
         assertEquals( _a.hashCode(), _b.hashCode() );
         assertEquals( _a, _b);
 
-        _a = _class.of("B").extend("aaaa.V").implement("bbbb.C", "cccc.D");
-        _b = _class.of("B").extend("V").implement("D", "C");
+        _a = _class.of("B").addExtend("aaaa.V").addImplements("bbbb.C", "cccc.D");
+        _b = _class.of("B").addExtend("V").addImplements("D", "C");
 
         assertEquals( _a.hashCode(), _b.hashCode() );
         assertEquals( _a, _b);
 
 
         //if fully qualified but NOT equal, verify
-        _a = _class.of("B").extend("aaaa.V");
-        _b = _class.of("B").extend("bbbb.V");
+        _a = _class.of("B").addExtend("aaaa.V");
+        _b = _class.of("B").addExtend("bbbb.V");
         assertNotSame( _a, _b);
 
     }
@@ -742,15 +742,15 @@ public class _classTest extends TestCase {
     public void testMutate(){
         _class _c = _class.of("class C{}");
         _c.setPackage("blah.fromscratch");
-        _c.imports(Map.class,HashMap.class);
-        _c.imports( "aaaa.bbbb.C", "blah.dat.*");
+        _c.addImports(Map.class,HashMap.class);
+        _c.addImports( "aaaa.bbbb.C", "blah.dat.*");
         _c.javadoc("class JAVADOC");
         _c.addAnnos( "@ann", "@ann(k=1,v='y')");
         _c.setPublic();
         _c.setName("Cgg");
         _c.typeParameters("<T extends Impl>");
-        _c.extend( "Base");
-        _c.implement( "A", "B");
+        _c.addExtend( "Base");
+        _c.addImplements( "A", "B");
         _c.initBlock("System.out.println(34);");
         _c.field( "/** field JAVADOC */",
             "@ann2(k=2,v='g')",

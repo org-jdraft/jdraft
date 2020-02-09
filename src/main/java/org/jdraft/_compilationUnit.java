@@ -22,7 +22,7 @@ import java.util.stream.*;
  * @author Eric
  * @param <_C> the code implementation type
  */
-public interface _compilationUnit<_C> extends _java._domain, _java._componentized {
+public interface _compilationUnit<_C> extends _java._domain {
 
     /**
      * Return a copy of the _code
@@ -365,7 +365,7 @@ public interface _compilationUnit<_C> extends _java._domain, _java._componentize
      * @param wildcardStaticImports a list of classes that will WildcardImports
      * @return the T
      */
-    default _C importStatic(Class... wildcardStaticImports) {
+    default _C addImportStatic(Class... wildcardStaticImports) {
         CompilationUnit cu = astCompilationUnit();
         if (cu != null) {
             Arrays.stream(wildcardStaticImports).forEach(i -> {
@@ -383,7 +383,7 @@ public interface _compilationUnit<_C> extends _java._domain, _java._componentize
      * @param staticWildcardImports
      * @return
      */
-    default _C importStatic(String... staticWildcardImports) {
+    default _C addImportStatic(String... staticWildcardImports) {
         CompilationUnit cu = astCompilationUnit();
         if (cu != null) {
             Arrays.stream(staticWildcardImports).forEach(i -> {
@@ -400,8 +400,8 @@ public interface _compilationUnit<_C> extends _java._domain, _java._componentize
      * @param _ts
      * @return
      */
-    default _C imports(_type... _ts) {
-        Arrays.stream(_ts).forEach(_t -> imports(_t.getFullName()));
+    default _C addImports(_type... _ts) {
+        Arrays.stream(_ts).forEach(_t -> addImports(_t.getFullName()));
         return (_C) this;
     }
 
@@ -410,7 +410,7 @@ public interface _compilationUnit<_C> extends _java._domain, _java._componentize
      * @param _is
      * @return 
      */
-    default _C imports(_import..._is){
+    default _C addImports(_import..._is){
         CompilationUnit cu = astCompilationUnit();
         if (cu != null) {
             Arrays.stream(_is).forEach(i -> cu.addImport(i.astId));
@@ -425,8 +425,8 @@ public interface _compilationUnit<_C> extends _java._domain, _java._componentize
      * @param singleClass
      * @return the modified compilationUnit
      */
-    default _C imports(Class singleClass) {
-        return imports(new Class[]{singleClass});
+    default _C addImports(Class singleClass) {
+        return addImports(new Class[]{singleClass});
     }
 
     /**
@@ -435,13 +435,13 @@ public interface _compilationUnit<_C> extends _java._domain, _java._componentize
      * @param classesToImport
      * @return
      */
-    default _C imports(Class... classesToImport) {
+    default _C addImports(Class... classesToImport) {
         CompilationUnit cu = astCompilationUnit();
         if (cu != null) {
             for (int i = 0; i < classesToImport.length; i++) {
                 if (classesToImport[i].isArray()) {
                     //System.out.println("CT " + classesToImport[i].getComponentType() );
-                    imports(classesToImport[i].getComponentType());
+                    addImports(classesToImport[i].getComponentType());
                 } else {
                     //dont import primitives or primitive arrays
                     if (classesToImport[i] == null
@@ -480,7 +480,7 @@ public interface _compilationUnit<_C> extends _java._domain, _java._componentize
      * @param astImportDecls
      * @return
      */
-    default _C imports(ImportDeclaration... astImportDecls) {
+    default _C addImports(ImportDeclaration... astImportDecls) {
         CompilationUnit cu = astCompilationUnit();
         if (cu != null) {
             Arrays.stream(astImportDecls).forEach(c -> cu.addImport(c));
@@ -494,8 +494,8 @@ public interface _compilationUnit<_C> extends _java._domain, _java._componentize
      * @param anImport
      * @return the modified T
      */
-    default _C imports(String anImport) {
-        return imports(new String[]{anImport});
+    default _C addImports(String anImport) {
+        return addImports(new String[]{anImport});
     }
 
     /**
@@ -503,7 +503,7 @@ public interface _compilationUnit<_C> extends _java._domain, _java._componentize
      * @param importStatements a list of String representing discrete import statements
      * @return the modified T
      */
-    default _C imports(String... importStatements) {
+    default _C addImports(String... importStatements) {
         CompilationUnit cu = astCompilationUnit();
         if (cu != null) {
             Arrays.stream(importStatements).forEach(c -> cu.addImport(Ast.importDeclaration(c)));

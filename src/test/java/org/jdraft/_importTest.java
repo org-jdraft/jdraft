@@ -6,7 +6,6 @@ import java.lang.reflect.Method;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /*** THE JUNIT TESTS REQUIRE THIS IMPORT */
@@ -36,7 +35,7 @@ public class _importTest extends TestCase {
 
     public void testMultipleStaticImports(){
         _class _c = _class.of("A")
-                .importStatic("com.mattel.Hoverboard.Boards.*;",
+                .addImportStatic("com.mattel.Hoverboard.Boards.*;",
                 "com.mattel.Hoverboard.createNimbus;",
                 "java.util.Collections.*;");
 
@@ -47,7 +46,7 @@ public class _importTest extends TestCase {
     
     public void testToString(){
         assertEquals("import java.io.IOException;", _import.of(IOException.class).toString().trim());
-        _class _c = _class.of("C").imports(IOException.class, Map.class);
+        _class _c = _class.of("C").addImports(IOException.class, Map.class);
         System.out.println( _c.getImports().toString().trim() );
         assertEquals("import java.io.IOException;"+System.lineSeparator() + "import java.util.Map;", _c.getImports().toString().trim());
         //assertEquals("import java.io.IOException;", _c.getImports().toString().trim());

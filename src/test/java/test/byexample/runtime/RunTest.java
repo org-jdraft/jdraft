@@ -11,7 +11,7 @@ public class RunTest extends TestCase {
     //at runtime, extend an existing class and implement an interface/method
     public void testBuild(){
         //build a new _class that extends an existing class
-        _class _c = _class.of("aaa.Custom").extend(RunTest.ExistingClass.class);
+        _class _c = _class.of("aaa.Custom").addExtend(RunTest.ExistingClass.class);
 
         //modify the source to implement the interface and add the field & method
         _c.impl(new Descriptive(){
