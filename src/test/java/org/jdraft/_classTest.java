@@ -745,7 +745,7 @@ public class _classTest extends TestCase {
         _c.imports(Map.class,HashMap.class);
         _c.imports( "aaaa.bbbb.C", "blah.dat.*");
         _c.javadoc("class JAVADOC");
-        _c.anno( "@ann", "@ann(k=1,v='y')");
+        _c.addAnnos( "@ann", "@ann(k=1,v='y')");
         _c.setPublic();
         _c.setName("Cgg");
         _c.typeParameters("<T extends Impl>");

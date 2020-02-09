@@ -18,6 +18,8 @@ import java.util.*;
 public final class Text {
 
     /**
+     * LITERAL (NOT REGEX) text replacement of alternating key-values for the String contents of a file.
+     *
      * Read in the file from the filePath, then replace they target values with the replacements
      * ie.<PRE>
      * String replaced =
@@ -51,7 +53,7 @@ public final class Text {
         try {
             String source = new String(Files.readAllBytes(_io.in($null.class).getPath()));
             for(int i=0;i<keyValuePairs.length; i+=2){
-                source = source.replaceAll(keyValuePairs[i], keyValuePairs[i+1]);
+                source = source.replaceAll( regexCharsToLiterals( keyValuePairs[i]), regexCharsToLiterals(keyValuePairs[i+1]));
             }
             return source;
         }catch(IOException e){
@@ -60,6 +62,8 @@ public final class Text {
     }
 
     /**
+     * LITERAL (NOT REGEX) text replacement of alternating key-values for the String contents of a file.
+     *
      * Read in the file from the filePath, then replace they target values with the replacements
      * ie.<PRE><CODE>
      * Map<String,String>replaceMap = new HashMap<>();</>
@@ -93,12 +97,58 @@ public final class Text {
             String source = new String(Files.readAllBytes(filePath));
             String[] keys = keyValuePairs.keySet().toArray(new String[0]);
             for(int i=0;i<keys.length; i+=2){
-                source = source.replaceAll(keys[i], keyValuePairs.get(keys[i]));
+                source = source.replaceAll(regexCharsToLiterals( keys[i]), keyValuePairs.get(keys[i]));
             }
             return source;
         }catch(IOException e){
             throw new _ioException("Unable to read source at "+filePath, e);
         }
+    }
+
+    /**
+     * from :
+     * https://www.regular-expressions.info/characters.html
+     * there are 12 characters with special meanings:
+     * the backslash \,
+     * the caret ^,
+     * the dollar sign $,
+     * the period or dot .,
+     * the vertical bar or pipe symbol |,
+     * the question mark ?,
+     * the asterisk or star *,
+     * the plus sign +,
+     * the opening parenthesis (,
+     * the closing parenthesis ),
+     * the opening square bracket [,
+     * and the opening curly brace {,
+     *
+     * These special characters are often called “metacharacters”. Most of them are errors when used alone.
+     *
+     * If you want to use any of these characters as a literal in a regex, you need to escape them with a backslash. If you want to match 1+1=2, the correct regex is 1\+1=2. Otherwise, the plus sign has a special meaning.
+     *
+     * @param original
+     * @return
+     */
+    private static String regexCharsToLiterals( String original ){
+        StringBuilder built = new StringBuilder();
+        for(int i=0;i<original.length(); i++){
+            switch(original.charAt(i)){
+                case '\\' : built.append("\\\\"); break;
+                case '^' : built.append("\\^"); break;
+                case '$' : built.append("\\$"); break;
+                case '.' : built.append("\\."); break;
+                case '|' : built.append("\\|"); break;
+                case '?' : built.append("\\?"); break;
+                case '*' : built.append("\\*"); break;
+                case '+' : built.append("\\+"); break;
+                case '(' : built.append("\\("); break;
+                case ')' : built.append("\\)"); break;
+                case '[' : built.append("\\["); break;
+                case '{' : built.append("\\{"); break;
+                default : built.append( original.charAt(i));
+            }
+        }
+        return built.toString();
     }
 
     private Text(){}

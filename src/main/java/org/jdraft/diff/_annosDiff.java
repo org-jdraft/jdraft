@@ -14,22 +14,22 @@ import org.jdraft.diff._diff.*;
  * @author Eric
  */
 public class _annosDiff
-    implements _differ<_annos, _java._node> {
+    implements _differ<_annos, _java._compound> {
 
     public static final _annosDiff INSTANCE = new _annosDiff();
     
      public _diff diff( _hasAnnos left, _hasAnnos right){
         return diff( 
                 _nodePath.of(),
-                new _diffList( (_java._node)left, (_java._node)right),
-                (_java._node)left,
-                (_java._node)right,
+                new _diffList( (_java._compound)left, (_java._compound)right),
+                (_java._compound)left,
+                (_java._compound)right,
                 left.getAnnos(), 
                 right.getAnnos());
     }
      
     @Override
-    public <_PN extends _java._node> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, _annos left, _annos right) {
+    public <_PN extends _java._compound> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, _annos left, _annos right) {
         NodeList<AnnotationExpr> laes = left.astAnnNode.getAnnotations();
         NodeList<AnnotationExpr> raes = right.astAnnNode.getAnnotations();
         for (int i = 0; i < laes.size(); i++) {
@@ -101,9 +101,9 @@ public class _annosDiff
         public void patchLeftToRight() {
             
             leftParent.removeAnno(left.ast());
-            leftParent.anno(left);
+            leftParent.addAnnos(left);
             rightParent.removeAnno(left.ast());
-            rightParent.anno(left);
+            rightParent.addAnnos(left);
         }
 
         @Override
@@ -150,9 +150,9 @@ public class _annosDiff
         public void patchRightToLeft() {
             //remove it before just so we dont mistakenly add it twice
             leftParent.removeAnno(right.ast());
-            leftParent.anno(right);
+            leftParent.addAnnos(right);
             rightParent.removeAnno(right.ast());
-            rightParent.anno(right);
+            rightParent.addAnnos(right);
         }
 
         @Override

@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.TextBlockLiteralExpr;
 import com.github.javaparser.ast.stmt.WhileStmt;
@@ -94,12 +95,15 @@ public class _textBlock implements _expression._literal<TextBlockLiteralExpr, _t
         return ile;
     }
 
+    /*
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
         comps.put(_java.Component.LITERAL, this.ile.getValue());
         return comps;
     }
+     */
+
 
     public String getText(){
         return this.ile.getValue();

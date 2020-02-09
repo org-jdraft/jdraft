@@ -20,7 +20,7 @@ public class _annotationTest extends TestCase  {
         _annotation _an = _annotation.of()
                 .setName("A")
                 .setPackage("a.io")
-                .anno(Deprecated.class)
+                .addAnnos(Deprecated.class)
                 .setPublic();
 
         //System.out.println(_an);

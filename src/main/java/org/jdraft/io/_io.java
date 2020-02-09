@@ -189,6 +189,15 @@ public class _io{
         return out(sourceRootPath, _code.toArray(new _compilationUnit[0]));
     }
 
+    public static String out(Path path, String fileContents){
+        try {
+            Files.write(path, fileContents.getBytes());
+            return path.toString();
+        }catch(IOException ioe){
+            throw new _ioException("cant write file to path "+path, ioe);
+        }
+    }
+
     /**
      *
      * @param sourceRootPath

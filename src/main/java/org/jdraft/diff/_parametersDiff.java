@@ -11,7 +11,7 @@ import org.jdraft.diff._diff.*;
  * @author Eric
  */
 public class _parametersDiff
-        implements _differ<_parameters, _java._node> {
+        implements _differ<_parameters, _java._compound> {
 
     public static final _parametersDiff INSTANCE = new _parametersDiff();
     
@@ -20,7 +20,7 @@ public class _parametersDiff
     }
 
     @Override
-    public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _parameters left, _parameters right) {
+    public <_PN extends _java._compound> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _parameters left, _parameters right) {
         if (!Objects.equals(left, right)) {
             dt.addDiff(new _changeParameters(path.in(_java.Component.PARAMETERS), (_parameter._hasParameters) _leftParent, (_parameter._hasParameters) _rightParent));
         }

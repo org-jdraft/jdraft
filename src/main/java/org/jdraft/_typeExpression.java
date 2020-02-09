@@ -5,7 +5,7 @@ import com.github.javaparser.ast.expr.TypeExpr;
 import java.util.HashMap;
 import java.util.Map;
 
-public class _typeExpression implements _expression<TypeExpr, _typeExpression> {
+public class _typeExpression implements _expression<TypeExpr, _typeExpression>, _java._simple<TypeExpr, _typeExpression> {
 
     public static _typeExpression of(){
         return new _typeExpression( new TypeExpr());
@@ -45,12 +45,14 @@ public class _typeExpression implements _expression<TypeExpr, _typeExpression> {
         return te;
     }
 
+    /*
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
         comps.put(_java.Component.TYPE, te.getType());
         return comps;
     }
+     */
 
 
     /**

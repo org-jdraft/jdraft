@@ -11,7 +11,9 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class _methodCall implements _expression<MethodCallExpr, _methodCall>, _java._nodeList<Expression, _expression, _methodCall> {
+public class _methodCall implements _expression<MethodCallExpr, _methodCall>,
+        _java._compound<MethodCallExpr, _methodCall>,
+        _java._nodeList<Expression, _expression, _methodCall> {
 
     public static _methodCall of(){
         return new _methodCall( new MethodCallExpr( ));

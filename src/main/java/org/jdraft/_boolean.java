@@ -2,9 +2,6 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class _boolean implements _expression._literal<BooleanLiteralExpr, _boolean> {
 
     public static _boolean of( ){
@@ -48,12 +45,14 @@ public class _boolean implements _expression._literal<BooleanLiteralExpr, _boole
         return ile;
     }
 
+    /*
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
         comps.put(_java.Component.LITERAL, this.ile.getValue());
         return comps;
     }
+     */
 
     public boolean equals(Object other){
         if( other instanceof _boolean){

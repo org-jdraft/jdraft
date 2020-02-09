@@ -16,7 +16,8 @@ import java.util.function.Function;
  *  An expression between ( ).
  *  <br/><code>(1+1)</code>
  */
-public class _enclosedExpression implements _expression<EnclosedExpr, _enclosedExpression> {
+public class _enclosedExpression implements _expression<EnclosedExpr, _enclosedExpression>,
+        _java._simple<EnclosedExpr, _enclosedExpression> {
 
     public static _enclosedExpression of( ){
         return new _enclosedExpression(new EnclosedExpr( ));
@@ -99,12 +100,14 @@ public class _enclosedExpression implements _expression<EnclosedExpr, _enclosedE
         return ile;
     }
 
+    /*
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
         comps.put(_java.Component.INNER, ile.getInner());
         return comps;
     }
+     */
 
     public _expression getInner(){
         return _expression.of(this.ile.getInner());

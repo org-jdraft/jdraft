@@ -69,12 +69,14 @@ public class _long implements _expression._literal<LongLiteralExpr, _long> {
         return this.ile.toString();
     }
 
+    /*
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
         comps.put(_java.Component.LITERAL, this.ile.getValue());
         return comps;
     }
+     */
 
     public boolean equals(Object other){
         if( other instanceof _long){

@@ -759,7 +759,7 @@ public final class _method
             }
             MethodDeclaration md = (MethodDeclaration) obd.get();
             
-            Optional<CompilationUnit> oc = ((_java._node)this).ast().findCompilationUnit();
+            Optional<CompilationUnit> oc = ((_java._compound)this).ast().findCompilationUnit();
             if( oc.isPresent() ){
                 CompilationUnit cu = oc.get();
                 Set<Class> clazzes = _import.inferImportsFrom(anonymousObjectContainingMethod.getClass());    

@@ -1,7 +1,6 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.ast.body.TypeDeclaration;
-import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import junit.framework.TestCase;
 import org.jdraft.Ast;
 import org.jdraft._annotation;
@@ -92,7 +91,7 @@ public class SannotationTest extends TestCase {
         assertFalse($c.matches(_annotation.of("C").javadoc("not compilant")));
 
         $c = $annotation.of($.anno(Deprecated.class));
-        assertTrue( $c.matches(_annotation.of("F").anno(Deprecated.class)));
+        assertTrue( $c.matches(_annotation.of("F").addAnnos(Deprecated.class)));
         assertFalse( $c.matches(_annotation.of("F")));
 
         $c = $annotation.of($.name("AC$afterPrefix$"));

@@ -657,7 +657,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
             }
             return selectFirstIn(((_type) _j).ast(), selectConstraint);
         }
-        return selectFirstIn( ((_java._node)_j).ast(), selectConstraint );
+        return selectFirstIn( ((_java._compound)_j).ast(), selectConstraint );
     }
 
     /**
@@ -730,7 +730,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
             }
             return listSelectedIn(((_type) _j).ast(), selectConstraint);
         }
-        return listSelectedIn( ((_java._node)_j).ast(), selectConstraint);
+        return listSelectedIn( ((_java._compound)_j).ast(), selectConstraint);
     }
 
     /**

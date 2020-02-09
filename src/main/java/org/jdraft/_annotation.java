@@ -87,7 +87,7 @@ public final class _annotation
                 _ae.javadoc( ((FieldDeclaration) f).getJavadocComment().get());
             }
             if( !f.getAnnotations().isEmpty()){
-                _ae.anno( f.getAnnotations());
+                _ae.addAnnos( f.getAnnotations());
             }
             _a.entry(_ae);
         });
@@ -115,21 +115,21 @@ public final class _annotation
     public _annotation retentionPolicyRuntime(){
         this.imports(Retention.class, RetentionPolicy.class);
         this.removeAnnos(Retention.class); //remove if one already exists
-        anno( "Retention(RetentionPolicy.RUNTIME)");
+        addAnnos( "Retention(RetentionPolicy.RUNTIME)");
         return this;
     }
 
     public _annotation retentionPolicyClass(){
         this.imports(Retention.class, RetentionPolicy.class);
         this.removeAnnos(Retention.class);
-        anno( "Retention(RetentionPolicy.CLASS)");
+        addAnnos( "Retention(RetentionPolicy.CLASS)");
         return this;
     }
 
     public _annotation retentionPolicySource(){
         this.imports(Retention.class, RetentionPolicy.class);
         this.removeAnnos(Retention.class);
-        anno( "Retention(RetentionPolicy.SOURCE)");
+        addAnnos( "Retention(RetentionPolicy.SOURCE)");
         return this;
     }
 
@@ -146,7 +146,7 @@ public final class _annotation
         this.imports(Target.class, ElementType.class); 
         if( elementTypes.length == 1 ){
             this.removeAnnos( Target.class);
-            return anno("Target(ElementType."+elementTypes[0].name()+")" );
+            return addAnnos("Target(ElementType."+elementTypes[0].name()+")" );
         }                
         StringBuilder sb = new StringBuilder();
         for(int i=0;i<elementTypes.length; i++){
@@ -155,76 +155,76 @@ public final class _annotation
             }
             sb.append("ElementType.").append(elementTypes[i].name() );
         }
-        return anno("Target({"+sb.toString()+"})");
+        return addAnnos("Target({"+sb.toString()+"})");
     }
     
     public _annotation targetMethod(){
         this.imports( Target.class, ElementType.class );        
         removeAnnos(Target.class);
-        anno("Target(ElementType.METHOD)");
+        addAnnos("Target(ElementType.METHOD)");
         return this;
     }
 
     public _annotation targetParameter(){
         this.imports( Target.class, ElementType.class );
         removeAnnos(Target.class);
-        anno("Target(ElementType.PARAMETER)");
+        addAnnos("Target(ElementType.PARAMETER)");
         return this;
     }
 
     public _annotation targetTypeUse(){
         this.imports( Target.class, ElementType.class );
         removeAnnos(Target.class);
-        anno("Target(ElementType.TYPE_USE)");
+        addAnnos("Target(ElementType.TYPE_USE)");
         return this;
     }
 
     public _annotation targetType(){
         this.imports( Target.class, ElementType.class );
         removeAnnos(Target.class);
-        anno("Target(ElementType.TYPE)");
+        addAnnos("Target(ElementType.TYPE)");
         return this;
     }
 
     public _annotation targetTypeParameter(){
         this.imports( Target.class, ElementType.class );
         removeAnnos(Target.class);
-        anno("Target(ElementType.TYPE_PARAMETER)");
+        addAnnos("Target(ElementType.TYPE_PARAMETER)");
         return this;
     }
 
     public _annotation targetLocalVariable(){
         this.imports( Target.class, ElementType.class );
         removeAnnos(Target.class);
-        anno("Target(ElementType.LOCAL_VARIABLE)");
+        addAnnos("Target(ElementType.LOCAL_VARIABLE)");
         return this;
     }
 
     public _annotation targetAnnotationType(){
         this.imports( Target.class, ElementType.class );
         removeAnnos(Target.class);
-        anno("Target(ElementType.ANNOTATION_TYPE)");
+        addAnnos("Target(ElementType.ANNOTATION_TYPE)");
         return this;
     }
     
     public _annotation targetPackage(){
         this.imports( Target.class, ElementType.class );
         removeAnnos(Target.class);
-        anno("Target(ElementType.PACKAGE)");
+        addAnnos("Target(ElementType.PACKAGE)");
         return this;
     }
 
     public _annotation targetConstructor(){
         this.imports( Target.class, ElementType.class );
         removeAnnos(Target.class);
-        anno("Target(ElementType.CONSTRUCTOR)");
+        addAnnos("Target(ElementType.CONSTRUCTOR)");
         return this;
     }
 
     public _annotation targetField(){
         this.imports( Target.class, ElementType.class );
         removeAnnos(Target.class);
-        anno("Target(ElementType.FIELD)");
+        addAnnos("Target(ElementType.FIELD)");
         return this;
     }
 

@@ -7,7 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class _variable implements _expression<VariableDeclarationExpr, _variable>, _modifiers._hasModifiers<_variable> {
+public class _variable implements _expression<VariableDeclarationExpr, _variable>,
+        _java._compound<VariableDeclarationExpr, _variable>,
+        _modifiers._hasModifiers<_variable> {
 
     public static _variable of(){
         return new _variable(new VariableDeclarationExpr());

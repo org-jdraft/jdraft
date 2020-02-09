@@ -10,7 +10,7 @@ import org.jdraft.diff._diff.*;
 /**
  * Differ for a {@link _java._named}
  */
-public class _namedDiff implements _differ<String, _java._node> {
+public class _namedDiff implements _differ<String, _java._compound> {
 
     public static final _namedDiff INSTANCE = new _namedDiff();
     
@@ -25,7 +25,7 @@ public class _namedDiff implements _differ<String, _java._node> {
     }
 
     @Override
-    public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, String left, String right) {
+    public <_PN extends _java._compound> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, String left, String right) {
         if (!Objects.equals(left, right)) {
             return dt.addDiff(new _changeName(path.in(component), (_java._named) _leftParent, (_java._named) _rightParent));
         }

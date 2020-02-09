@@ -33,7 +33,7 @@ public class GoogleErrorProne_AndroidTest extends TestCase {
         //verify that, if I add the SUPPRESS WARNINGS ANNOTATION to Failure matches they are no longer matches
         _source _suppressed = FAILURES.copy();
         //add the annotation that suppresses the warning
-        $method.of().forEachIn( _suppressed, m -> m.anno( $SUPPRESS_WARNING_ANNO.draft()));
+        $method.of().forEachIn( _suppressed, m -> m.addAnnos( $SUPPRESS_WARNING_ANNO.draft()));
 
         //verify we have 0 matches
         assertEquals(0, $AndroidInjectAfterSuper.count(_suppressed));

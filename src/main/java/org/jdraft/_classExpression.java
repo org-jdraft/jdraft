@@ -9,7 +9,7 @@ import java.util.Map;
  * 
  * <PRE><CODE>String.class</CODE></PRE>
  */
-public class _classExpression implements _expression<ClassExpr, _classExpression> {
+public class _classExpression implements _expression<ClassExpr, _classExpression>, _java._simple<ClassExpr, _classExpression> {
 
     public static _classExpression of(){
         return new _classExpression(new ClassExpr());
@@ -49,12 +49,14 @@ public class _classExpression implements _expression<ClassExpr, _classExpression
         return ile;
     }
 
+    /*
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
         comps.put(_java.Component.TYPE, ile.getType());
         return comps;
     }
+     */
 
     public _typeRef getType(){
         return _typeRef.of(this.ile.getType());

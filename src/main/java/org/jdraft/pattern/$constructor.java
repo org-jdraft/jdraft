@@ -261,7 +261,7 @@ public class $constructor
             _ct.javadoc(theMethod.getJavadocComment().get());
         }
         _ct.setThrows( theMethod.getThrownExceptions() );
-        _ct.anno( theMethod.getAnnotations()); //add annos
+        _ct.addAnnos( theMethod.getAnnotations()); //add annos
         _ct.removeAnnos(_toCtor.class); //remove the _ctor anno if it exists
         _ct.setBody( theMethod.getBody().get() ); //BODY
         return _ct;
@@ -840,7 +840,7 @@ public class $constructor
      * @param _n
      * @return 
      */
-    public _constructor draft(_java._node _n ){
+    public _constructor draft(_java._compound _n ){
         return draft(_n.tokenize() );
     }
 
@@ -1044,7 +1044,7 @@ public class $constructor
                 return null;
             }
         } else{
-            Optional<ConstructorDeclaration> f = ((_java._node)_j).ast().findFirst(
+            Optional<ConstructorDeclaration> f = ((_java._compound)_j).ast().findFirst(
                 ConstructorDeclaration.class, s -> {
                     Select sel = this.select(s);
                     return sel != null && selectConstraint.test(sel);
@@ -1139,7 +1139,7 @@ public class $constructor
             _type _t = (_type) _j; //only possible
             return listSelectedIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listSelectedIn( ((_java._node) _j).ast());
+        return listSelectedIn( ((_java._compound) _j).ast());
     }
     
     /**

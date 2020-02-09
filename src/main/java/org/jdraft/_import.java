@@ -13,7 +13,7 @@ import org.jdraft.text.Text;
  * @see _imports representation of a set of _import s
  * @author Eric
  */
-public class _import implements _java._node<ImportDeclaration, _import> {
+public class _import implements _java._compound<ImportDeclaration, _import> {
 
     /** return a copy of this import */
     @Override

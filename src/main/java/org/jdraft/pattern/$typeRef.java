@@ -292,7 +292,7 @@ public class $typeRef
      * @param _n
      * @return 
      */
-    public _typeRef draft(_java._node _n ){
+    public _typeRef draft(_java._compound _n ){
         return draft(_n.tokenize());
     }
     
@@ -531,7 +531,7 @@ public class $typeRef
             _type _t = (_type) _j; //only possible
             return listSelectedIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listSelectedIn( ((_java._node) _j).ast());
+        return listSelectedIn( ((_java._compound) _j).ast());
     }
 
     /**
@@ -547,7 +547,7 @@ public class $typeRef
             }
             return listSelectedIn( ((_type)_j).ast(), selectConstraint);
         }
-        return listSelectedIn( ((_java._node)_j).ast(), selectConstraint);
+        return listSelectedIn( ((_java._compound)_j).ast(), selectConstraint);
     }
     
     /**

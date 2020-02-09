@@ -1,7 +1,6 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.ast.body.CallableDeclaration;
-import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import junit.framework.TestCase;
 import org.jdraft.*;
 import org.jdraft.macro._toInit;
@@ -130,7 +129,7 @@ public class SclassTest extends TestCase {
         assertFalse($c.matches(_class.of("C").javadoc("not compilant")));
 
         $c = $class.of($.anno(Deprecated.class));
-        assertTrue( $c.matches(_class.of("F").anno(Deprecated.class)));
+        assertTrue( $c.matches(_class.of("F").addAnnos(Deprecated.class)));
         assertFalse( $c.matches(_class.of("F")));
 
         $c = $class.of($.name("AC$afterPrefix$"));

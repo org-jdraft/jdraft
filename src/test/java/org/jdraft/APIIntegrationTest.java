@@ -92,7 +92,7 @@ public class APIIntegrationTest extends TestCase {
         
         //LeftOnly delta
         //add deprecated to _a only
-        _a.anno(Deprecated.class);
+        _a.addAnnos(Deprecated.class);
         _diff _d = _diff.of(_a, _b);        
         assertEquals(1, _d.size());//there is (1) diff
         
@@ -101,7 +101,7 @@ public class APIIntegrationTest extends TestCase {
         assertTrue( _diff.of(_a, _b).isEmpty());
         
         //RightOnly Delta
-        _b.anno("N(2)");
+        _b.addAnnos("N(2)");
         _d = _diff.of(_a, _b);
         assertEquals( 1, _d.size());
         assertTrue( _d.hasRightOnly());

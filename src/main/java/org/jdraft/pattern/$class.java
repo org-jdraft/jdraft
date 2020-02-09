@@ -339,7 +339,7 @@ public class $class
         }
         this.implement.forEach(i -> _c.implement( i.draft(translator, base).toString() ) );
 
-        _c.anno( this.annos.draft(translator, base).ast() );
+        _c.addAnnos( this.annos.draft(translator, base).ast() );
         this.initBlocks.forEach(ib -> _c.initBlock( ib.draft(translator, base)));
         this.methods.forEach(m -> _c.method( m.draft(translator, base)) );
         this.fields.forEach(f-> _c.field(f.draft(translator, base)));

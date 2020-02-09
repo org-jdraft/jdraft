@@ -14,7 +14,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class _catch implements _java._node<CatchClause, _catch>,_body._hasBody<_catch> {
+public class _catch implements _java._compound<CatchClause, _catch>,_body._hasBody<_catch> {
 
     public static _catch of(){
         return new _catch( new CatchClause() );

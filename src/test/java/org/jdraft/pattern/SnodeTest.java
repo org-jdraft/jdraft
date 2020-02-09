@@ -242,7 +242,7 @@ public class SnodeTest extends TestCase {
         Expression scope = Ex.fieldAccessEx("System.out" ).asFieldAccessExpr().getScope();
         Ast.isParent(scope, FieldAccessExpr.class);
 
-        Ast.describe( ((_java._node)$.stmt("System.out.println(1);").firstIn(_c)).ast() );
+        Ast.describe( ((_java._compound)$.stmt("System.out.println(1);").firstIn(_c)).ast() );
 
         assertEquals(6, $typeRef.of(System.class).count(_c));
         $typeRef.of(System.class).forEachIn( _c, s-> System.out.println(s+" parent -> "+ s.ast().getParentNode().get()));

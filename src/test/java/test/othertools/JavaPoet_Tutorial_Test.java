@@ -383,7 +383,7 @@ public class JavaPoet_Tutorial_Test extends TestCase {
             }
         });
         assertFalse( _m.hasAnno(Override.class));
-        _m.anno(_a);
+        _m.addAnnos(_a);
         assertTrue( _m.hasAnno(Override.class));
     }
 
@@ -410,7 +410,7 @@ public class JavaPoet_Tutorial_Test extends TestCase {
         });
 
         _method _m = _method.of("public abstract LogReceipt recordEvent(LogRecord logRecord);")
-                .anno(_a);
+                .addAnnos(_a);
 
         System.out.println( _m);
     }

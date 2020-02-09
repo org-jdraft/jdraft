@@ -57,12 +57,14 @@ public class _string implements _expression._literal<StringLiteralExpr, _string>
         return se;
     }
 
+    /*
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
         comps.put(_java.Component.LITERAL, this.se.getValue());
         return comps;
     }
+     */
 
     public boolean equals(Object other){
         if( other instanceof _string){

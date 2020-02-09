@@ -86,9 +86,9 @@ import org.jdraft.text.Text;
 public interface _java {
 
     /**
-     * Marker interface for ALL models and interfaces related to Java Language constructs
+     * Marker interface for ALL models and interfaces related to Java Language Constructs
      *
-     * @see _node a one-to-one mapping between an AST (Node) and a <CODE>_javaDomain</CODE> ( _method <--> MethodDeclaration )
+     * @see _compound a one-to-one mapping between an AST (Node) and a <CODE>_javaDomain</CODE> ( _method <--> MethodDeclaration )
      * @see _nodeList a one-to 0 or more NodeList instances of AST nodes ( _parameters <--> NodeList<Parameter> )
      */
     interface _domain { }
@@ -102,28 +102,28 @@ public interface _java {
      * @return true if the parent node exists, is of a particular type and complies with the predicate
      */
     static <_J extends _domain> boolean isParent(_domain _j, Class<_J> parentNodeClass, Predicate<_J> parentMatchFn){
-        if( _j instanceof _node ){
+        if( _j instanceof _compound){
             AtomicBoolean ans = new AtomicBoolean(false);
-            Walk.in_java(Node.TreeTraversal.PARENTS, 1, ((_node)_j).ast(), parentNodeClass, parentMatchFn, (t)-> ans.set(true) );
+            Walk.in_java(Node.TreeTraversal.PARENTS, 1, ((_compound)_j).ast(), parentNodeClass, parentMatchFn, (t)-> ans.set(true) );
             return ans.get();
         }
         //need to handle _typeParameters, _parameters, _annos
         if( _j instanceof _typeParameters ){
             _typeParameters _tps = (_typeParameters)_j;
-            _node _n = (_node)_java.of( (Node)_tps.astHolder());
+            _compound _n = (_compound)_java.of( (Node)_tps.astHolder());
             return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
         }
         if( _j instanceof _body){
             _body _tps = (_body)_j;
             Object par = _tps.astParentNode();
             if( par != null ){
-                _node _n = (_node)_java.of( (Node)par );
+                _compound _n = (_compound)_java.of( (Node)par );
                 return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
             }
         }
         if( _j instanceof _parameters){
             _parameters _tps = (_parameters)_j;
-            _node _n = (_node)_java.of( (Node)_tps.astHolder());
+            _compound _n = (_compound)_java.of( (Node)_tps.astHolder());
             return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
         }
         return false;
@@ -177,7 +177,7 @@ public interface _java {
         if( _j instanceof _compilationUnit && ((_compilationUnit) _j).isTopLevel() ){
             Ast.describe( ((_compilationUnit) _j).astCompilationUnit());
         }
-        Ast.describe ( ((_node)_j).ast() );
+        Ast.describe ( ((_astNode)_j).ast() );
     }
 
     /**
@@ -665,8 +665,8 @@ public interface _java {
      * @param labelName
      */
     static void flattenLabel(_domain _j, String labelName){
-        if( _j instanceof _node ){
-            Ast.flattenLabel( ((_node)_j).ast(), labelName);
+        if( _j instanceof _compound){
+            Ast.flattenLabel( ((_compound)_j).ast(), labelName);
             return;
         }
         throw new _jdraftException("cannot flatten a label :"+labelName+" from "+ _j.getClass());
@@ -678,20 +678,12 @@ public interface _java {
      * or sub components (like methods, fields) to understand a thing...
      * Also decomposing things (for diffing, etc.) is useful in analysis
      *
-     * @see _packageInfo
-     * @see _moduleInfo
-     * @see _type
-     * @see _node
-     * @see _declared
-     */
+     * @see _compound
+
     interface _componentized{
 
-        /**
-         * Decompose the entity into key-VALUE pairs where the key is the Component
-         * @return a map of key values
-         */
-        Map<Component, Object> components();
     }
+    */
 
     /**
      * A "concrete" way of identifying/addressing elements and properties that are the components
@@ -854,7 +846,7 @@ public interface _java {
             return null;
         }
 
-        public static <_N extends _node> Component of(Class<_N> nodeClass) {
+        public static <_N extends _compound> Component of(Class<_N> nodeClass) {
             Optional<Component> op = Arrays.stream(Component.values()).filter(p -> p.implementationClass.equals(nodeClass)).findFirst();
             if (op.isPresent()) {
                 return op.get();
@@ -941,7 +933,7 @@ public interface _java {
                 return Ast.listComments( ((_type) _j).ast(), commentTargetClass, commentMatchFn );
             }
         } else{
-            return Ast.listComments(  ((_node) _j).ast(), commentTargetClass, commentMatchFn);
+            return Ast.listComments(  ((_compound) _j).ast(), commentTargetClass, commentMatchFn);
         }
     }
 
@@ -961,7 +953,7 @@ public interface _java {
                 return Ast.listComments( ((_type) _j).ast(), commentMatchFn);
             }
         } else{
-            return Ast.listComments(  ((_node) _j).ast(), commentMatchFn );
+            return Ast.listComments(  ((_compound) _j).ast(), commentMatchFn );
         }
     }
 
@@ -981,7 +973,7 @@ public interface _java {
                 Ast.forComments( ((_type) _j).ast(), commentMatchFn, commentActionFn);
             }
         } else{
-            Ast.forComments(  ((_node) _j).ast(), commentMatchFn, commentActionFn );
+            Ast.forComments(  ((_compound) _j).ast(), commentMatchFn, commentActionFn );
         }
     }
 
@@ -1003,7 +995,7 @@ public interface _java {
                 Ast.forComments( ((_type) _j).ast(),  commentClass, commentMatchFn, commentActionFn);
             }
         } else{
-            Ast.forComments(  ((_node) _j).ast(),  commentClass, commentMatchFn, commentActionFn );
+            Ast.forComments(  ((_compound) _j).ast(),  commentClass, commentMatchFn, commentActionFn );
         }
     }
 
@@ -1021,7 +1013,7 @@ public interface _java {
                 Ast.forComments( ((_type) _j).ast(), commentActionFn);
             }
         } else{
-            Ast.forComments(  ((_node)_j).ast(), commentActionFn );
+            Ast.forComments(  ((_compound)_j).ast(), commentActionFn );
         }
     }
 
@@ -1040,7 +1032,7 @@ public interface _java {
                 return Ast.listComments( ((_type) _j).ast() );
             }
         } else{
-            return Ast.listComments(  ((_node) _j).ast() );
+            return Ast.listComments(  ((_compound) _j).ast() );
         }
     }
 
@@ -1108,7 +1100,7 @@ public interface _java {
         /**
          * The classes below are categorical interfaces that are applied to classes
          */
-        Class<_node> NODE = _node.class;
+        Class<_compound> NODE = _compound.class;
         Class<_declared> MEMBER = _declared.class;
         Class<_named> NAMED = _named.class;
         Class<_namedType> NAMED_TYPE = _namedType.class;
@@ -1138,7 +1130,7 @@ public interface _java {
         /**
          * Map from the _java classes to the Ast Node equivalent
          */
-        public static final Map<Class<? extends _node>, Class<? extends Node>> _JAVA_TO_AST_NODE_CLASSES = new HashMap<>();
+        public static final Map<Class<? extends _compound>, Class<? extends Node>> _JAVA_TO_AST_NODE_CLASSES = new HashMap<>();
 
         static {
             _JAVA_TO_AST_NODE_CLASSES.put(_import.class, ImportDeclaration.class);
@@ -1163,10 +1155,10 @@ public interface _java {
         }
 
         /**
-         * Map from the {@link _node} classes to the Ast
+         * Map from the {@link _compound} classes to the Ast
          * {@link com.github.javaparser.ast.Node} equivalent
          */
-        public static final Map<Class<? extends Node>, Class<? extends _node>> AST_NODE_TO_JAVA_CLASSES = new HashMap<>();
+        public static final Map<Class<? extends Node>, Class<? extends _compound>> AST_NODE_TO_JAVA_CLASSES = new HashMap<>();
 
         static {
             AST_NODE_TO_JAVA_CLASSES.put(ImportDeclaration.class, _import.class); //base
@@ -1213,7 +1205,7 @@ public interface _java {
      * NOTE: each {@link _declared} maps directly to:
      * <UL>
      *     <LI>an AST representation {@link Node}
-     *     <LI></LI>a meta-representation {@link _node}
+     *     <LI></LI>a meta-representation {@link _compound}
      * </UL>
      * <UL>
      * <LI>{@link _field} {@link FieldDeclaration}
@@ -1238,7 +1230,7 @@ public interface _java {
      * @param <N> the AST node type (i.e. {@link MethodDeclaration})
      * @param <_D> the meta-representation declaration type (i.e. {@link _method})
      */
-    interface _declared<N extends Node, _D extends _node & _named & _hasAnnos & _hasJavadoc>
+    interface _declared<N extends Node, _D extends _compound & _named & _hasAnnos & _hasJavadoc>
             extends _member<N, _D>, _named<_D>, _hasAnnos<_D>, _hasJavadoc<_D> {
 
         @Override
@@ -1259,7 +1251,7 @@ public interface _java {
 
     /**
      * A member within the body of a Class (something defined in the  { }) including {@link _initBlock}s.
-     * All _{@link _member}s are {@link _node}s (they are represented by BOTH a meta-representation i.e. {@link _method},
+     * All _{@link _member}s are {@link _compound}s (they are represented by BOTH a meta-representation i.e. {@link _method},
      * and an AST representation {@link MethodDeclaration}.
      *
      * {@link _initBlock} IS a {@link _member}, BUT IS NOT a {@link _declared}, because even though
@@ -1284,8 +1276,8 @@ public interface _java {
      * @see _declared (an EXTENSION of {@link _member}s that are also {@link _named}...(all {@link _member}s are
      * {@link _declared}s, ACCEPT {@link _initBlock} which is ONLY a {@link _member}
      */
-    interface _member <N extends Node, _N extends _node>
-            extends _node<N, _N> {
+    interface _member <N extends Node, _N extends _compound>
+            extends _compound<N, _N> {
 
         /**
          * Returns the parent _member for this _member (if it exists)
@@ -1324,7 +1316,106 @@ public interface _java {
     }
 
     /**
-     * {@link _node} entity that maps directly to an AST {@link Node}
+     * A _domain entity that maps 1-to-1 to an Ast (Syntax) entity
+     *
+     * @param <N> the Ast type
+     * @param <_N> the _domain type
+     */
+    interface _astNode <N extends Node, _N extends _astNode> extends _domain {
+
+        /**
+         * Build and return an (independent) copy of this _node entity
+         * @return an independent mutable copy
+         */
+        _N copy();
+
+        /**
+         * @return the underlying AST Node instance being manipulated
+         * NOTE: the AST node contains physical information (i.e. location in
+         * the file (line numbers) and syntax related parent/child relationships
+         */
+        N ast();
+
+        /**
+         * Pass in the AST Pretty Printer configuration which will determine how the code
+         * is formatted and return the formatted String representing the code.
+         *
+         * @see com.github.javaparser.printer.PrettyPrintVisitor the original visitor for walking and printing nodes in AST
+         * @see PrintNoAnnotations a configurable subclass of PrettyPrintVisitor that will not print ANNOTATIONS
+         * @see PrettyPrinterConfiguration the configurations for spaces, Tabs, for printing
+         * @see Ast#PRINT_NO_ANNOTATIONS_OR_COMMENTS a premade implementation for
+         * @see Ast#PRINT_NO_COMMENTS
+         *
+         * @param codeFormat the details on how the code will be formatted (for this element and all sub ELEMENTS)
+         * @return A String representing the .java code
+         */
+        default String toString(PrettyPrinterConfiguration codeFormat) {
+            return ast().toString(codeFormat);
+        }
+
+        /**
+         * Pass a match function to verify based on a lambda predicate
+         * @param matchFn a function to match against the entity
+         * @return true if the match function is verified, false otherwise
+         */
+        default boolean is(Predicate<_N> matchFn){
+            return matchFn.test((_N)this);
+        }
+
+        /**
+         * is the String representation equal to the _node entity
+         * (i.e. if we parse the string, does it create an AST entity that
+         * is equal to the node?)
+         *
+         * @param stringRep the string representation of the node
+         * (parsed as an AST and compared to this entity to see if equal)
+         * @return true if the Parsed String represents the entity
+         */
+        boolean is(String... stringRep);
+
+        /**
+         * Is the AST node representation equal to the underlying entity
+         * @param astNode the astNode to compare against
+         * @return true if they represent the same _node, false otherwise
+         */
+        default boolean is(N astNode){
+            return Objects.equals(ast(), astNode);
+        }
+    }
+
+    /**
+     * Simple Atomic node of code that cannot be "broken down" into smaller components
+     * (Types that are ALWAYS Leaf nodes on the AST)
+     *
+     * In general it is some Ast component that has 0 or 1 parts associated with it
+     *
+     * @see _nameExpression
+     * @see _typeExpression
+     * @see _arrayDimension
+     * @see _modifier
+     * @see _super
+     * @see _this
+     * @see _expression._literal
+     *     @see _null
+     *     @see _int
+     *     @see _double
+     *     @see _char
+     *     @see _boolean
+     *     @see _long
+     *     @see _string
+     *     @see _textBlock
+     *
+     * @param <N> the AST node type
+     * @param <_N> the _domain type
+     * @see _compound for an ast node type that contains multiple walkable child entities
+     *
+     */
+    interface _simple<N extends Node, _N extends _simple> extends _astNode<N, _N> {
+
+    }
+
+    /**
+     * {@link _compound} entity (having more than one possible child) that maps directly to an AST {@link Node}
      * for example:
      * <UL>
      * <LI>{@link _declared}s</LI>
@@ -1355,51 +1446,13 @@ public interface _java {
      * @param <_N> the jdraft _node type {@link _method}, {@link _field}
      * @param <N> ast node {@link MethodDeclaration}, {@link FieldDeclaration}
      */
-    interface _node<N extends Node, _N extends _node> extends _domain, _componentized {
+    interface _compound<N extends Node, _N extends _compound> extends _astNode<N, _N> {
 
         /**
-         * Build and return an (independent) copy of this _node entity
-         * @return
+         * Decompose the entity into key-VALUE pairs where the key is the Component
+         * @return a map of key values
          */
-        _N copy();
-
-        /**
-         * Pass a match function to verify based on a lambda predicate
-         * @param matchFn a function to match against the entity
-         * @return true if the match function is verified, false otherwise
-         */
-        default boolean is(Predicate<_N> matchFn){
-            return matchFn.test((_N)this);
-        }
-
-        /**
-         * Pass a match function to verify based on a lambda predicate
-         * @param astMatchFn a lambda function to match against the ast
-         * @return true if the match function is verified, false otherwise
-         */
-        default boolean isAst(Predicate<N> astMatchFn){
-            return astMatchFn.test( ast() );
-        }
-
-        /**
-         * is the String representation equal to the _node entity
-         * (i.e. if we parse the string, does it create an AST entity that
-         * is equal to the node?)
-         *
-         * @param stringRep the string representation of the node
-         * (parsed as an AST and compared to this entity to see if equal)
-         * @return true if the Parsed String represents the entity
-         */
-        boolean is(String... stringRep);
-
-        /**
-         * Is the AST node representation equal to the underlying entity
-         * @param astNode the astNode to compare against
-         * @return true if they represent the same _node, false otherwise
-         */
-        default boolean is(N astNode){
-            return Objects.equals(ast(), astNode);
-        }
+        Map<Component, Object> components();
 
         /**
          * Decompose the entity into smaller named tokens
@@ -1413,31 +1466,6 @@ public interface _java {
                 mdd.put(p.name, o);
             });
             return mdd;
-        }
-
-        /**
-         * @return the underlying AST Node instance being manipulated
-         * by the _model._node facade
-         * NOTE: the AST node contains physical information (i.e. location in
-         * the file (line numbers) and syntax related parent/child relationships
-         */
-        N ast();
-
-        /**
-         * Pass in the AST Pretty Printer configuration which will determine how the code
-         * is formatted and return the formatted String representing the code.
-         *
-         * @see com.github.javaparser.printer.PrettyPrintVisitor the original visitor for walking and printing nodes in AST
-         * @see PrintNoAnnotations a configurable subclass of PrettyPrintVisitor that will not print ANNOTATIONS
-         * @see PrettyPrinterConfiguration the configurations for spaces, Tabs, for printing
-         * @see Ast#PRINT_NO_ANNOTATIONS_OR_COMMENTS a premade implementation for
-         * @see Ast#PRINT_NO_COMMENTS
-         *
-         * @param codeFormat the details on how the code will be formatted (for this element and all sub ELEMENTS)
-         * @return A String representing the .java code
-         */
-        default String toString(PrettyPrinterConfiguration codeFormat) {
-            return ast().toString(codeFormat);
         }
     }
 
@@ -1460,15 +1488,12 @@ public interface _java {
      * @see _typeParameters< TypeParameter,_typeParameter>
      * @see _throws< ReferenceType,_typeRef>
      *
-     *
-     * @see _parameters< Parameter,_parameter>
-     *
-     *
      * @param <EL>
      * @param <_EL>
      * @param <_NL>
      */
-    interface _nodeSet<EL extends Node, _EL extends _node, _NL extends _nodeSet> extends _domain{
+    interface _nodeSet<EL extends Node, _EL extends _astNode, _NL extends _nodeSet> extends _domain{
+
         _NL copy();
 
         default boolean isEmpty(){
@@ -1478,7 +1503,6 @@ public interface _java {
         default int size(){
             return listAstElements().size();
         }
-
 
         List<_EL> list();
 
@@ -1495,7 +1519,6 @@ public interface _java {
         default List<_EL> list(Predicate<_EL> matchFn){
             return list().stream().filter(matchFn).collect(Collectors.toList());
         }
-
 
         default List<EL> listAstElements(Predicate<EL> matchFn){
             return listAstElements().stream().filter(matchFn).collect(Collectors.toList());
@@ -1625,7 +1648,7 @@ public interface _java {
      * @see _arrayCreate (the dimensions of the array are in an ordered list)
      * @see _arrayInitialize (the elements located in the array are ordered)
      */
-    interface _nodeList<EL extends Node, _EL extends _node, _NL extends _nodeList> extends _nodeSet<EL, _EL, _NL>, _domain {
+    interface _nodeList<EL extends Node, _EL extends _astNode, _NL extends _nodeList> extends _nodeSet<EL, _EL, _NL>, _domain {
 
         default boolean is(_EL... _els){
             List<_EL> _arr = new ArrayList<>();

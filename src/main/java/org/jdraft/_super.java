@@ -19,7 +19,7 @@ import java.util.Map;
  *
  * @see _constructorCallStmt
  */
-public class _super implements _expression<SuperExpr, _super> {
+public class _super implements _expression<SuperExpr, _super>, _java._simple<SuperExpr,_super> {
 
     public static _super of(){
         return new _super( new SuperExpr());
@@ -59,6 +59,7 @@ public class _super implements _expression<SuperExpr, _super> {
         return se;
     }
 
+    /*
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
@@ -67,6 +68,7 @@ public class _super implements _expression<SuperExpr, _super> {
         }
         return comps;
     }
+     */
 
     public String getName(){
         if(this.se.getTypeName().isPresent()){

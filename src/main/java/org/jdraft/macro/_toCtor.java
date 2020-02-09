@@ -79,7 +79,7 @@ public @interface _toCtor {
                 _ct.setTypeParameters( _m.getTypeParameters() );
             }
             if( _m.hasAnnos() ) {
-                _ct.anno(_m.ast().getAnnotations() );
+                _ct.addAnnos(_m.ast().getAnnotations() );
             }
             _ct.removeAnnos(_toCtor.class);
             _ct.setBody( _m.getBody() );

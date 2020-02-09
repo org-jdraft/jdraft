@@ -14,7 +14,8 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class _binaryExpression implements _expression<BinaryExpr, _binaryExpression> {
+public class _binaryExpression implements _expression<BinaryExpr, _binaryExpression>,
+        _java._compound<BinaryExpr, _binaryExpression> {
 
     public static _binaryExpression of(){
         return new _binaryExpression( new BinaryExpr());

@@ -120,7 +120,7 @@ public class StypeParameterTest extends TestCase {
             int a;
             String b;
 
-            public <A extends Map & _java._node> A m() {
+            public <A extends Map & _java._compound> A m() {
                 return null;
             }
         }

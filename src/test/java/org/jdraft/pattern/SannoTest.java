@@ -5,8 +5,6 @@ import org.jdraft._anno;
 import org.jdraft._class;
 import org.jdraft._type;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 import junit.framework.TestCase;
@@ -157,7 +155,7 @@ public class SannoTest extends TestCase {
         assertEquals( 0, $anno.of().listIn(_c).size());
         
         //add a top level annotation
-        _c.anno(Deprecated.class);
+        _c.addAnnos(Deprecated.class);
         assertEquals( 1, $anno.of().listIn(_c).size());
         
         $anno.of().forEachIn(_c, a-> System.out.println(a.getName()));

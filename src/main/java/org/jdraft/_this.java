@@ -13,7 +13,7 @@ import java.util.Map;
  * <code>this.name</code> is a FieldAccessExpr of field greet, and a ThisExpr as its scope.
  * This ThisExpr has no typeName.
  */
-public class _this implements _expression<ThisExpr, _this> {
+public class _this implements _expression<ThisExpr, _this>, _java._simple<ThisExpr, _this> {
     public static _this of(){
         return new _this(new ThisExpr());
     }
@@ -52,6 +52,7 @@ public class _this implements _expression<ThisExpr, _this> {
         return ile;
     }
 
+    /*
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
@@ -60,6 +61,7 @@ public class _this implements _expression<ThisExpr, _this> {
         }
         return comps;
     }
+     */
 
     public String getName(){
         if(this.ile.getTypeName().isPresent()){

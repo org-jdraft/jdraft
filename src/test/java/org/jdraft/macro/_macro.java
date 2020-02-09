@@ -46,7 +46,7 @@ import java.util.stream.Collectors;
  *
  * @see _implement for an example passing PARAMETERS in the annotation instance to the _macro constructor
  *
- * A _macro is a mutation to be applied to a {@link _java._node}.
+ * A _macro is a mutation to be applied to a {@link _java._compound}.
  * By convention, Macros can be applied directly via a static method, or through
  * A Runtime Annotation and it's corresponding _macro.
  *

@@ -78,7 +78,7 @@ public class SannosTest extends TestCase {
         _class _c = _class.of("C");
         assertNotNull( $as.select(_c) );
         assertNotNull( $as.parse(_c.getAnnos()) );
-        _c.anno("@A");
+        _c.addAnnos("@A");
         assertNotNull( $as.select(_c) );
         assertNotNull( $as.parse(_c.getAnnos()) );
 
@@ -95,6 +95,6 @@ public class SannosTest extends TestCase {
         $as = $annos.of($anno.of(Deprecated.class) );
         
         assertFalse( $as.matches(_class.of("C")));
-        assertTrue( $as.matches(_class.of("C").anno(Deprecated.class)));
+        assertTrue( $as.matches(_class.of("C").addAnnos(Deprecated.class)));
     }
 }

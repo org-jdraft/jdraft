@@ -15,7 +15,7 @@ import java.util.function.Function;
  * The ternary conditional expression.
  * In <code>b==0?x:y</code>, b==0 is the condition, x is thenExpr, and y is elseExpr.
  */
-public class _ternary implements _expression<ConditionalExpr, _ternary> {
+public class _ternary implements _expression<ConditionalExpr, _ternary>, _java._compound<ConditionalExpr, _ternary> {
 
     public static _ternary of(){
         return new _ternary( new ConditionalExpr( ));

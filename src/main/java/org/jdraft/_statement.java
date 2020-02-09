@@ -2,7 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.stmt.*;
 
-public interface _statement<S extends Statement, _S extends _statement> extends _java._node<S, _S> {
+public interface _statement<S extends Statement, _S extends _statement> extends _java._compound<S, _S> {
 
     /**
      * Refine the ast() method to be more strict (only return Statements)

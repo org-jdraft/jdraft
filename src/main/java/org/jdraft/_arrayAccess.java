@@ -15,7 +15,9 @@ import java.util.function.Predicate;
  *
  * @see _arrayDimension
  */
-public class _arrayAccess implements _expression<ArrayAccessExpr, _arrayAccess> {
+public class _arrayAccess
+        implements _expression<ArrayAccessExpr, _arrayAccess>,
+        _java._compound<ArrayAccessExpr, _arrayAccess> {
 
     public static _arrayAccess of(){
         return new _arrayAccess(new ArrayAccessExpr());

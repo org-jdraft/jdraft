@@ -5,7 +5,7 @@ import org.jdraft.text.Text;
 
 import java.util.*;
 
-public enum _modifier implements _java._node<Modifier, _modifier> {
+public enum _modifier implements _java._compound<Modifier, _modifier> {
 
     /** Making the internal AST modifiers more accessible */
     PUBLIC( com.github.javaparser.ast.Modifier.publicModifier(), java.lang.reflect.Modifier.PUBLIC ),

@@ -70,7 +70,7 @@ import com.github.javaparser.utils.Log;
  */
 public interface _type<AST extends TypeDeclaration, _T extends _type>
     extends _javadoc._hasJavadoc<_T>, _anno._hasAnnos<_T>, _modifiers._hasModifiers<_T>,
-        _field._hasFields<_T>, _java._declared<AST, _T>, _compilationUnit<_T>, _java._node<AST, _T> {
+        _field._hasFields<_T>, _java._declared<AST, _T>, _compilationUnit<_T>, _java._compound<AST, _T> {
 
     /**
      * If we are a top level _type add the types as companion types

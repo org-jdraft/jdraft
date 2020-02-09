@@ -360,7 +360,7 @@ public class _annoTest extends TestCase {
         });
 
         _method _m = _method.of("public abstract LogReceipt recordEvent(LogRecord logRecord);")
-                .anno(_a);
+                .addAnnos(_a);
         _a = _m.getAnno(0);
         _a.isValue("Accept", "application/json; charset=utf-8");
         _a.isValue("User-Agent", "Square Cash");

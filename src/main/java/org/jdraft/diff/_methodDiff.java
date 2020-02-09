@@ -6,7 +6,7 @@ import static org.jdraft._method.describeMethodSignature;
 
 import org.jdraft.diff._diff.*;
 
-public class _methodDiff implements _differ<_method, _java._node> {
+public class _methodDiff implements _differ<_method, _java._compound> {
 
     public static final _methodDiff INSTANCE = new _methodDiff();
 
@@ -15,7 +15,7 @@ public class _methodDiff implements _differ<_method, _java._node> {
     }
 
     @Override
-    public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _method left, _method right) {
+    public <_PN extends _java._compound> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _method left, _method right) {
         _nodePath p = path.in(_java.Component.METHOD, describeMethodSignature(left));
 
         _javadocDiff.INSTANCE.diff(p, dt, left, right, left.getJavadoc(), right.getJavadoc());

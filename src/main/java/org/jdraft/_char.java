@@ -48,12 +48,14 @@ public class _char implements _expression._literal<CharLiteralExpr, _char> {
         return ile;
     }
 
+    /*
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
         comps.put(_java.Component.LITERAL, this.ile.getValue());
         return comps;
     }
+     */
 
     public boolean equals(Object other){
         if( other instanceof _char){

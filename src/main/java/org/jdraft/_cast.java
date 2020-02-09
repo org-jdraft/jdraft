@@ -19,7 +19,7 @@ import java.util.function.Function;
  * </CODE></PRE>
  *
  */
-public class _cast implements _expression<CastExpr, _cast> {
+public class _cast implements _expression<CastExpr, _cast>, _java._compound<CastExpr, _cast> {
 
     public static _cast of(){
         return new _cast( new CastExpr());

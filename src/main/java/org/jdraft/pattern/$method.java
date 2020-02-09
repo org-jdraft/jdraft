@@ -1003,7 +1003,7 @@ public class $method
      * @param _n
      * @return 
      */
-    public _method draft(_java._node _n ){
+    public _method draft(_java._compound _n ){
         return draft(_n.tokenize() );
     }
 
@@ -1206,7 +1206,7 @@ public class $method
                 return selectFirstIn(((_type) _j).ast(), selectConstraint);
             }
         }
-        return selectFirstIn(((_java._node) _j).ast(), selectConstraint);
+        return selectFirstIn(((_java._compound) _j).ast(), selectConstraint);
     }
 
     /**

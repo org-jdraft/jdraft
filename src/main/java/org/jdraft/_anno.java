@@ -43,7 +43,7 @@ import com.github.javaparser.ast.type.Type;
  * @author Eric
  */
 public final class _anno
-        implements _expression <AnnotationExpr, _anno>, _java._named<_anno> {
+        implements _expression <AnnotationExpr, _anno>, _java._named<_anno>, _java._compound<AnnotationExpr, _anno> {
 
     public static _anno of( String anno ){        
         return of( new String[]{anno} );
@@ -941,7 +941,8 @@ public final class _anno
             _as.forEach( a -> getAnnos().add(a) );
             return (_HA)this;
         }
-        default _HA anno(List<AnnotationExpr> astAnnoList ){
+
+        default _HA addAnnos(List<AnnotationExpr> astAnnoList ){
             astAnnoList.forEach( a -> getAnnos().add(a) );
             return (_HA)this;
         }
@@ -952,7 +953,7 @@ public final class _anno
          * @param _anns ANNOTATIONS to to
          * @return the annotated entity
          */
-        default _HA anno(_anno... _anns ) {
+        default _HA addAnnos(_anno... _anns ) {
             getAnnos().add(_anns );
             return (_HA)this;
         }
@@ -963,7 +964,7 @@ public final class _anno
          * @param annoClasses
          * @return
          */
-        default _HA anno(Class<? extends Annotation>... annoClasses ) {
+        default _HA addAnnos(Class<? extends Annotation>... annoClasses ) {
             getAnnos().add(annoClasses );
             return (_HA)this;
         }
@@ -974,7 +975,7 @@ public final class _anno
          * @param annotations
          * @return
          */
-        default _HA anno(String... annotations ) {
+        default _HA addAnnos(String... annotations ) {
             getAnnos().add( annotations );
             return (_HA)this;
         }

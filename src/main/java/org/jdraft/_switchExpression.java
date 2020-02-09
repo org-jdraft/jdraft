@@ -35,11 +35,11 @@ import java.util.function.*;
  *     default: return "C"; //this is a SwitchEntry
  * </CODE>
  *
- * _caseGroup a grouping of multiple case statements
- * note: this is a "virtual" thing
+ * @see _caseGroup a grouping of multiple case statements
  *
  */
-public class _switchExpression implements _expression<SwitchExpr, _switchExpression>, _switch {
+public class _switchExpression implements _expression<SwitchExpr, _switchExpression>,
+        _java._compound<SwitchExpr, _switchExpression>, _switch {
 
     public static _switchExpression of(){
         return new _switchExpression(new SwitchExpr());

@@ -6,6 +6,7 @@ import com.github.javaparser.ast.expr.*;
 import java.util.*;
 
 public class _arrayInitialize implements _expression<ArrayInitializerExpr, _arrayInitialize>,
+        //_java._node<ArrayInitializerExpr, _arrayInitialize>,
         _java._nodeList<Expression, _expression, _arrayInitialize> {
 
     public static _arrayInitialize of( ){
@@ -103,12 +104,14 @@ public class _arrayInitialize implements _expression<ArrayInitializerExpr, _arra
         return ile;
     }
 
+    /*
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
         comps.put(_java.Component.VALUES, ile.getValues());
         return comps;
     }
+     */
 
     @Override
     public List<_expression> list(){

@@ -204,7 +204,7 @@ public class $typeParameters
     }
 
     public boolean matches(_typeParameter._hasTypeParameters _htp){
-        return matches( (NodeWithTypeParameters) ((_java._node)_htp).ast() );
+        return matches( (NodeWithTypeParameters) ((_java._compound)_htp).ast() );
     }
 
     public boolean isMatchAny(){
@@ -452,7 +452,7 @@ public class $typeParameters
             }
             return selectFirstIn( ((_type)_j).ast(), selectConstraint);
         }
-        return selectFirstIn( ((_java._node)_j).ast(), selectConstraint);
+        return selectFirstIn( ((_java._compound)_j).ast(), selectConstraint);
     }
 
     /**
@@ -509,7 +509,7 @@ public class $typeParameters
             _type _t = (_type) _j; //only possible
             return listSelectedIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listSelectedIn( ((_java._node) _j).ast());
+        return listSelectedIn( ((_java._compound) _j).ast());
     }
     
     /**
@@ -554,7 +554,7 @@ public class $typeParameters
             }
             return listSelectedIn( ((_type)_n).ast(), selectConstraint);
         }
-        return listSelectedIn( ((_java._node)_n).ast(), selectConstraint);
+        return listSelectedIn( ((_java._compound)_n).ast(), selectConstraint);
     }
   
     /**
@@ -627,7 +627,7 @@ public class $typeParameters
             replaceIn( ((_type) _j).ast(), $i);
             return _j;
         }
-        replaceIn( ((_java._node) _j).ast(), $i);
+        replaceIn( ((_java._compound) _j).ast(), $i);
         return _j;
     }
     

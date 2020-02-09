@@ -2,7 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.*;
 
-public interface _expression<E extends Expression, _E extends _expression> extends _java._node<E, _E> {
+public interface _expression<E extends Expression, _E extends _expression> extends _java._astNode<E, _E> {
 
     E ast();
 
@@ -169,7 +169,8 @@ public interface _expression<E extends Expression, _E extends _expression> exten
      * @see _boolean
      * @see _null
      */
-    interface _literal<NE extends Expression, _NE extends _expression>  extends _expression<NE, _NE>{
+    interface _literal<NE extends Expression, _NE extends _expression & _java._simple>  extends _expression<NE, _NE>,
+            _java._simple<NE, _NE> {
         //get me the string representation of the literal value
         String valueAsString();
     }
