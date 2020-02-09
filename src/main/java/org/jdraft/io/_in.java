@@ -1,6 +1,9 @@
 package org.jdraft.io;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
@@ -80,7 +83,26 @@ public interface _in {
             this( null, sourceId, description, is);
         }
 
-        
+        static String readFile(Path path)
+                throws IOException {
+            byte[] encoded = Files.readAllBytes(path);
+            return new String(encoded);
+        }
+
+        static String readFile(Path path, Charset encoding)
+                throws IOException {
+            byte[] encoded = Files.readAllBytes(path);
+            return new String(encoded, encoding);
+        }
+
+        public String asString() throws IOException {
+            return readFile(path);
+        }
+
+        public String asString(Charset encoding) throws IOException {
+            return readFile(path, encoding);
+        }
+
         @Override
         public String describe() {
             return description;

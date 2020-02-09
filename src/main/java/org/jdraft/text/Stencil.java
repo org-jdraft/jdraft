@@ -2,7 +2,12 @@ package org.jdraft.text;
 
 import com.github.javaparser.ast.stmt.Statement;
 import org.jdraft._jdraftException;
+import org.jdraft.io._ioException;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.regex.MatchResult;
@@ -181,7 +186,20 @@ public final class Stencil implements Template<String>{
             this.textForm.getFixedText() == null ||
             this.textForm.getFixedText().length() == 0;
     }
-    
+
+    /**
+     * Read in the contents of the file at the Path and return the Stencil for it
+     * @param path the path to read the file contents from
+     * @return the Stencil
+     */
+    public static Stencil of( Path path){
+        try {
+            String s = new String(Files.readAllBytes(path));
+            return of( s );
+        }catch(IOException ioe){
+            throw new _ioException("unable to read from path "+path.toString(), ioe);
+        }
+    }
     /**
      *
      * @param code an array of individual lines of text that will be "stencil-ized"
@@ -360,6 +378,8 @@ public final class Stencil implements Template<String>{
         return $( targetAndName, targetAndName );
     }
 
+
+
     /**
      * Hardcode parameterized values
      * (i.e. what was once a parameter, now is static text)
@@ -477,6 +497,27 @@ public final class Stencil implements Template<String>{
         List<Embed> embeds = new ArrayList<>();
         this.embeds.forEach(es->embeds.add(es.copy().hardcode$(translator, kvs)));
         return new Stencil( tbb.compile(), new$Names, embeds ); //, NESTS );
+    }
+
+    public Stencil $( String t1, String $n1, String t2, String $n2) {
+        Stencil t = $(t1,$n1);
+        t = t.$(t2,$n2);
+        return t;
+    }
+
+    public Stencil $( String t1, String $n1, String t2, String $n2, String t3, String $n3) {
+        Stencil t = $(t1,$n1);
+        t = t.$(t2,$n2);
+        t = t.$(t3,$n3);
+        return t;
+    }
+
+    public Stencil $( String t1, String $n1, String t2, String $n2, String t3, String $n3, String t4, String $n4 ) {
+        Stencil t = $(t1,$n1);
+        t = t.$(t2,$n2);
+        t = t.$(t3,$n3);
+        t = t.$(t4,$n4);
+        return t;
     }
 
     /**

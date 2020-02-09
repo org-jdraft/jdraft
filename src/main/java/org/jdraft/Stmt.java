@@ -427,7 +427,30 @@ public enum Stmt {
         }
         if( str.startsWith("/*") || str.startsWith("//") ){
             return blockStmt( str ).getStatement(0);
-        }        
+        }
+        if( (str.startsWith("this") || str.startsWith("super")) && !str.startsWith("this.") ){
+            return StaticJavaParser.parseExplicitConstructorInvocationStmt(str);
+        }
+        if( str.startsWith("{") ){
+            return blockStmt(str);
+        }
+        /*
+        if( str.indexOf("super") >= 0  || str.indexOf("this") >= 0){
+            //the statement could be a statement within a constructor like super() or this()
+            BlockStmt bs = blockStmt(str);
+            //return bs.getStatement(0);
+
+            if( bs.getStatement(0).isBlockStmt()){
+                return bs.getStatement(0);
+            }
+            if( bs.getStatements().size() == 1){
+                return bs.getStatement(0);
+            }
+            return bs;
+
+        }
+         */
+        //System.out.println("THE STRING "+ str );
         return StaticJavaParser.parseStatement( str );
     }
 
@@ -528,6 +551,7 @@ public enum Stmt {
             }
 
             String comb = combined.substring(0, endCommentIndex+2)+startM;
+            //System.out.println( comb );
             return StaticJavaParser.parseBlock( comb );
         }
         if( !combined.startsWith("{") ){
@@ -547,14 +571,22 @@ public enum Stmt {
         }
 
         // recent addition to handle super() within the body of a constructor
-        if( combined.contains("super") ){
-            ConstructorDeclaration bd = (ConstructorDeclaration)StaticJavaParser.parseBodyDeclaration("C()"+ combined);
+        /*
+
+
+         */
+        //
+
+
+        if( combined.contains("super") || combined.contains("this")){
+
+            combined = "C()"+ combined;
+            //System.out.println( ">>>>BBB>>>  "+combined);
+            ConstructorDeclaration bd = (ConstructorDeclaration)StaticJavaParser.parseBodyDeclaration(combined);
             BlockStmt bs = bd.getBody();
             bs.remove();
             return bs;
         }
-        //
-
         return StaticJavaParser.parseBlock( combined );
     }
 
@@ -710,7 +742,7 @@ public enum Stmt {
     /** 
      * i.e. "this(100,2900);", "super('c',123);"
      */
-    public static final Class<ExplicitConstructorInvocationStmt> THIS_OR_SUPER_CALL_STMT
+    public static final Class<ExplicitConstructorInvocationStmt> CONSTRUCTOR_CALL_STMT
             = ExplicitConstructorInvocationStmt.class;
 
     /** 
@@ -719,17 +751,21 @@ public enum Stmt {
      * @param code the java code
      * @return an ExplicitConstructorInvocationStmt based on the code
      */
-    public static ExplicitConstructorInvocationStmt thisOrSuperCallStmt(String... code ) {
+    public static ExplicitConstructorInvocationStmt constructorCallStmt(String... code ) {
         String cd = Text.combine(code);
+        return StaticJavaParser.parseExplicitConstructorInvocationStmt(cd);
+        /*
         if( cd.startsWith("this")|| cd.startsWith("super") ){
             return of( cd ).asExplicitConstructorInvocationStmt();
         }
-        /*Hmm might as well "let it fail" */
+        /*Hmm might as well "let it fail"
         try {
             return of(cd ).asExplicitConstructorInvocationStmt();
         }catch(Exception e){
             throw new _jdraftException("could not parse \""+cd+"\" as "+ExplicitConstructorInvocationStmt.class );
         }
+
+         */
     }
 
     /**
@@ -739,7 +775,7 @@ public enum Stmt {
      * @return an ExplicitConstructorInvocationStmt based on the code
      */
     public static ExplicitConstructorInvocationStmt thisCallStmt(String... code ) {
-        return thisOrSuperCallStmt( code );
+        return constructorCallStmt( code );
     }
 
     /**
@@ -749,7 +785,7 @@ public enum Stmt {
      * @return an ExplicitConstructorInvocationStmt based on the code
      */
     public static ExplicitConstructorInvocationStmt superCallStmt(String... code ) {
-        return thisOrSuperCallStmt( code );
+        return constructorCallStmt( code );
     }
 
     /** i.e. "s += t;" */

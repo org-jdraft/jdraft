@@ -1063,7 +1063,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
         sb.append(" ");
         sb.append(name.nameStencil.draft(translator, baseMap) );
         if( init != null ){
-            Expression expr = init.draft(translator, baseMap);
+            Expression expr = init.draft(translator, baseMap).ast();
             if( expr != null ){
                 sb.append( " = ");
                 sb.append( expr );

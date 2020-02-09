@@ -434,7 +434,12 @@ public final class _throws
             getThrows().astNodeWithThrows.addThrownException((ReferenceType) Ast.typeRef(throwException));
             return (_HT)this;
         }
-        
+
+        default _HT setThrows(_throws _th){
+            getThrows().astNodeWithThrows.setThrownExceptions(_th.listAstElements());
+            return (_HT)this;
+        }
+
         default _HT setThrows(NodeList<ReferenceType> thrws ){
             getThrows().astNodeWithThrows.setThrownExceptions(thrws);
             return (_HT)this;

@@ -463,17 +463,17 @@ public class $switchEntry
             Object ll = keyValues.get("$label" );
             if( ll instanceof $ex){
                 NodeList<Expression> labels = new NodeList<>();
-                labels.add( (($ex) ll).draft(translator, keyValues) );
+                labels.add( (($ex) ll).draft(translator, keyValues).ast() );
                 se.setLabels(labels);                 
             } else{
                 NodeList<Expression> labels = new NodeList<>();
-                labels.add( $ex.of(ll.toString()).draft( translator, keyValues) );
+                labels.add( $ex.of(ll.toString()).draft( translator, keyValues).ast() );
                 se.setLabels(labels);                                 
             }                
         } 
         else if( this.label != null ){
             NodeList<Expression> labels = new NodeList<>();
-            labels.add( this.label.draft(translator, keyValues) );
+            labels.add( this.label.draft(translator, keyValues).ast() );
             se.setLabels(labels); 
         }        
         if( keyValues.get("$statements") != null ){

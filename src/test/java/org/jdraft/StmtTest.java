@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.expr.BinaryExpr;
 import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.comments.JavadocComment;
@@ -206,6 +207,16 @@ public class StmtTest extends TestCase {
         //System.out.println(st);
     }
 
+    public void testSuperCtorBody(){
+        BlockStmt bs = Stmt.blockStmt("{ super(); }");
+        //System.out.println( bs );
+
+        //StaticJavaParser.parseStatement( "{ super(); }" );
+    }
+    public void testBody(){
+        Statement st = Stmt.of("this.name = name;");
+        System.out.println( st );
+    }
     public void testStmtTypesWithLambda(){
         AssertStmt as = Stmt.assertStmt("assert 1==1;");
         as = (AssertStmt) Stmt.of(() -> {
@@ -230,7 +241,7 @@ public class StmtTest extends TestCase {
         Stmt.continueStmt("continue;");
         Stmt.continueStmt("continue outer;");
 
-        Stmt.thisOrSuperCallStmt("this(1);");
+        Stmt.constructorCallStmt("this(1);");
         st = Stmt.of((Integer n) -> {
             do {
                 assert (1 == 1);

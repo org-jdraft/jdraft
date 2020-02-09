@@ -787,7 +787,18 @@ public class $constructor
 
     @Override
     public _constructor draft(Translator translator, Map<String, Object> keyValues) {
-        
+        _constructor _ct = _constructor.of();
+        _ct.setName( this.name.draft(translator, keyValues));
+        _ct.modifiers( this.modifiers.draft(translator, keyValues));
+        _ct.setParameters(this.parameters.draft(translator, keyValues));
+        _ct.setThrows( this.thrown.draft(translator, keyValues));
+        _ct.javadoc(this.javadoc.draft(translator, keyValues));
+        _ct.setTypeParameters(this.typeParameters.draft(translator, keyValues));
+        _ct.setBody(this.body.draft(translator, keyValues));
+        _ct.setAnnos(this.annos.draft(translator, keyValues));
+
+        return _ct;
+        /*
         //the base values (so we dont get Nulls for base values
         Tokens base = Tokens.of(
                 "javadoc", "", 
@@ -819,7 +830,9 @@ public class $constructor
         sb.append( thrown.draft(translator, base));
         sb.append(System.lineSeparator());
         sb.append( body.draft(translator, keyValues));
-        return _constructor.of(sb.toString() );        
+        return _constructor.of(sb.toString() );
+
+         */
     }
     
     /**

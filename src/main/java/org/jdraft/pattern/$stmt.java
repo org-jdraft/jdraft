@@ -493,7 +493,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<ExplicitConstructorInvocationStmt, _constructorCallStmt> thisCallStmt(String... pattern ) {
-        return new $stmt( Stmt.thisOrSuperCallStmt(pattern));
+        return new $stmt( Stmt.constructorCallStmt(pattern));
     }
 
     /**
@@ -512,7 +512,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<ExplicitConstructorInvocationStmt, _constructorCallStmt> thisCallStmt(String pattern, Predicate<ExplicitConstructorInvocationStmt> constraint) {
-        return new $stmt( Stmt.thisOrSuperCallStmt(pattern)).$and(constraint);
+        return new $stmt( Stmt.constructorCallStmt(pattern)).$and(constraint);
     }
 
     /**
@@ -530,7 +530,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return
      */
     public static $stmt<ExplicitConstructorInvocationStmt, _constructorCallStmt> superCallStmt(String... pattern ) {
-        return new $stmt( Stmt.thisOrSuperCallStmt(pattern));
+        return new $stmt( Stmt.constructorCallStmt(pattern));
     }
 
     /**
@@ -549,7 +549,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return
      */
     public static $stmt<ExplicitConstructorInvocationStmt, _constructorCallStmt> superCallStmt(String pattern, Predicate<ExplicitConstructorInvocationStmt> constraint) {
-        return new $stmt( Stmt.thisOrSuperCallStmt(pattern)).$and(constraint);
+        return new $stmt( Stmt.constructorCallStmt(pattern)).$and(constraint);
     }
 
     /** 

@@ -631,7 +631,8 @@ public class _classTest extends TestCase {
 
         //verify that we manufactured a constructor, and it accepts a String (the final field NAME) as the constructor
         assertTrue( _c.getConstructor(0).getParameter(0).isType(String.class) );
-        assertTrue( _c.getConstructor(0).getBody().getStatement(0).equals( Stmt.of("this.name = name;") ) );
+        //assertTrue( _c.getConstructor(0).getBody().getStatement(0).equals( Stmt.of("this.name = name;") ) );
+         assertTrue( _c.getConstructor(0).getBody().getStatement(0).equals( Stmt.of("this.name = name;") ) );
     }
     
     

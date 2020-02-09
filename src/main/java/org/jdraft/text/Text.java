@@ -1,8 +1,13 @@
 package org.jdraft.text;
 
 import org.jdraft._jdraftException;
+import org.jdraft.io._io;
+import org.jdraft.io._ioException;
+import org.jdraft.prototype.$null;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 /**
@@ -11,6 +16,90 @@ import java.util.*;
  * @author Eric
  */
 public final class Text {
+
+    /**
+     * Read in the file from the filePath, then replace they target values with the replacements
+     * ie.<PRE>
+     * String replaced =
+     *         Text.replace(Paths.get("C:\\temp\\bill.xml"),
+     *             //target         replacement
+     *             "Eric DeFazio", "Craig Thurston",
+     *             "$100.00",      "$0.00",
+     *             "$0.00",        "$123.45");
+     * </PRE>
+     * If the original file "C:\\temp\\bill.xml" had the following contents:
+     * <bill>
+     *     <name>Eric DeFazio</name>
+     *     <balance>$100.00</balance>
+     *     <credit>$0.00</credit>
+     * </bill>
+     *
+     * ...the output String returned will be:
+     * <bill>
+     *     <name>Craig Thurston</name>
+     *     <balance>$0.00</balance>
+     *     <credit>$123.45</credit>
+     * </bill>
+     *
+     * @param filePath
+     * @param keyValuePairs
+     * @return
+     */
+    public static String replace(Path filePath, String...keyValuePairs){
+        //this is quick and dirty,
+        //https://github.com/robert-bor/aho-corasick
+        try {
+            String source = new String(Files.readAllBytes(_io.in($null.class).getPath()));
+            for(int i=0;i<keyValuePairs.length; i+=2){
+                source = source.replaceAll(keyValuePairs[i], keyValuePairs[i+1]);
+            }
+            return source;
+        }catch(IOException e){
+            throw new _ioException("Unable to read source at "+filePath, e);
+        }
+    }
+
+    /**
+     * Read in the file from the filePath, then replace they target values with the replacements
+     * ie.<PRE><CODE>
+     * Map<String,String>replaceMap = new HashMap<>();</>
+     * replaceMap.put("Eric DeFazio", "Craig Thurston");
+     * replaceMap.put("$100.00", "$0.00");
+     * replaceMap.put("$0.00", "$123.45");
+     *
+     * String replaced =
+     *         Text.replace(Paths.get("C:\\temp\\bill.xml"), replaceMap);
+     * </CODE></PRE>
+     * If the original file "C:\\temp\\bill.xml" had the following contents:
+     * <bill>
+     *     <name>Eric DeFazio</name>
+     *     <balance>$100.00</balance>
+     *     <credit>$0.00</credit>
+     * </bill>
+     *
+     * ...the output String returned will be:
+     * <bill>
+     *     <name>Craig Thurston</name>
+     *     <balance>$0.00</balance>
+     *     <credit>$123.45</credit>
+     * </bill>
+     *
+     * @param filePath
+     * @param keyValuePairs
+     * @return
+     */
+    public static String replace(Path filePath, Map<String,String> keyValuePairs){
+        try {
+            String source = new String(Files.readAllBytes(filePath));
+            String[] keys = keyValuePairs.keySet().toArray(new String[0]);
+            for(int i=0;i<keys.length; i+=2){
+                source = source.replaceAll(keys[i], keyValuePairs.get(keys[i]));
+            }
+            return source;
+        }catch(IOException e){
+            throw new _ioException("Unable to read source at "+filePath, e);
+        }
+    }
 
     private Text(){}
     

@@ -819,7 +819,7 @@ public class $anno
             if( !key.isMatchAny() ){
                 k = key.draft(translator, keyValues);
             }
-            Expression v = value.draft(translator, keyValues);
+            Expression v = value.draft(translator, keyValues).ast();
             if (k == null || k.length() == 0) {                
                 return v.toString();
             }

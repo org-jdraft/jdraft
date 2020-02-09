@@ -29,7 +29,7 @@ public class _constructorCallStmt
     }
 
     public static _constructorCallStmt of(String...code){
-        return new _constructorCallStmt(Stmt.thisOrSuperCallStmt( code));
+        return new _constructorCallStmt(Stmt.constructorCallStmt( code));
     }
 
     private ExplicitConstructorInvocationStmt astStmt;
@@ -58,7 +58,7 @@ public class _constructorCallStmt
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Stmt.thisOrSuperCallStmt(stringRep));
+            return is( Stmt.constructorCallStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }

@@ -14,6 +14,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import org.jdraft.*;
+import org.jdraft.text.Template;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
@@ -22,7 +23,7 @@ import org.jdraft.text.Translator;
  * Note... at the moment this is NOT a template... should it be??
  */
 public class $class
-        implements $pattern.$java<_class,$class>, $member.$named<$class>, $declared<_class,$class>, has$Annos {
+        implements $pattern.$java<_class,$class>, $member.$named<$class>, $declared<_class,$class>, has$Annos , Template<_class> {
 
     public Predicate<_class> constraint = t->true;
 
@@ -80,6 +81,16 @@ public class $class
         //has$annos.at_$Process( anonymousClass.getClass(), $c);
 
         return $c;
+    }
+
+    /**
+     * creates a $class from the source of a runtime class (assuming the class is in the classpath)
+     * @param clazz
+     * @return
+     */
+    public static $class of( Class clazz){
+        _class _c = _class.of(clazz);
+        return of( _c );
     }
 
     public static $class of( Object anonymousClass ){
@@ -304,6 +315,43 @@ public class $class
     }
 
     @Override
+    public _class draft(Translator translator, Map<String, Object> keyValues) {
+
+        //the base values (so we dont get Nulls for base values
+        Tokens base = Tokens.of();
+        base.putAll(keyValues);
+        _class _c = _class.of(this.name.draft(translator, base));
+        if( !this.packageDecl.isMatchAny() ) {
+            _c.setPackage( this.packageDecl.draft(translator, base) );
+        }
+        if(!this.javadoc.isMatchAny()){
+            _c.javadoc(this.javadoc.draft(translator, base));
+        }
+        _c.modifiers( this.modifiers.draft(translator, base));
+        _c.typeParameters( this.typeParameters.draft(translator, base));
+        this.imports.stream().forEach( i -> _c.imports( i.draft(translator, base)));
+
+        if( !extend.isMatchAny() ) {
+            String e = this.extend.draft(translator, base).toString();
+            if( e != null && e.length() > 0 ) {
+                _c.extend(e);
+            }
+        }
+        this.implement.forEach(i -> _c.implement( i.draft(translator, base).toString() ) );
+
+        _c.anno( this.annos.draft(translator, base).ast() );
+        this.initBlocks.forEach(ib -> _c.initBlock( ib.draft(translator, base)));
+        this.methods.forEach(m -> _c.method( m.draft(translator, base)) );
+        this.fields.forEach(f-> _c.field(f.draft(translator, base)));
+        this.ctors.forEach(c -> {
+            _constructor _ctor = c.draft(translator, base);
+            _c.constructor(_ctor);
+        });
+
+        return _c;
+    }
+
+    @Override
     public $class $(String target, String $paramName) {
 
         this.annos.$(target, $paramName);
@@ -322,6 +370,16 @@ public class $class
         //still need nests
 
         return this;
+    }
+
+    @Override
+    public List<String> list$() {
+        return null;
+    }
+
+    @Override
+    public List<String> list$Normalized() {
+        return null;
     }
 
     @Override

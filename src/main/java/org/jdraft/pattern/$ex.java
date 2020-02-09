@@ -23,7 +23,7 @@ import org.jdraft.text.*;
  * @param <_E> _java._domain {@link _expression} Type (could be {@link _expression} to mean all expressions)
  */
 public class $ex<E extends Expression, _E extends _expression>
-    implements $field.$part, $pattern<_E, $ex<E, _E>>, $var.$part, $enumConstant.$part, $annotationEntry.$part, Template< E>,
+    implements $field.$part, $pattern<_E, $ex<E, _E>>, $var.$part, $enumConstant.$part, $annotationEntry.$part, Template<_E>,
     $body.$part, $method.$part, $constructor.$part {
 
     /**
@@ -32,11 +32,11 @@ public class $ex<E extends Expression, _E extends _expression>
      * @param pattern
      * @return 
      */
-    public static <T extends Expression, _E extends _expression> $ex<T, _E> of(String...pattern ){
+    public static <E extends Expression, _E extends _expression> $ex<E, _E> of(String...pattern ){
         //so.... if I JUST do a pattern, I want to se the expression class
         // to Expression.class
         Expression expr = Ex.of(pattern);
-        return ($ex<T, _E>)new $ex<Expression, _expression>( Expression.class,
+        return ($ex<E, _E>)new $ex<Expression, _expression>( Expression.class,
                 expr.toString(Ast.PRINT_NO_COMMENTS) );
     }
 
@@ -47,8 +47,8 @@ public class $ex<E extends Expression, _E extends _expression>
      * @param constraint
      * @return 
      */
-    public static <T extends Expression, _E extends _expression> $ex<T, _E> of(String pattern, Predicate<_E> constraint ){
-        return new $ex<T, _E>( (T) Ex.of(pattern)).$and(constraint);
+    public static <E extends Expression, _E extends _expression> $ex<E, _E> of(String pattern, Predicate<_E> constraint ){
+        return new $ex<E, _E>( (E) Ex.of(pattern)).$and(constraint);
     }
 
     /**
@@ -57,8 +57,8 @@ public class $ex<E extends Expression, _E extends _expression>
      * @param _e
      * @return
      */
-    public static <T extends Expression, _E extends _expression> $ex<T, _E> of(_E _e ){
-        return ($ex<T, _E>)of(_e.ast() );
+    public static <E extends Expression, _E extends _expression> $ex<E, _E> of(_E _e ){
+        return ($ex<E, _E>)of(_e.ast() );
     }
 
     /**
@@ -67,7 +67,7 @@ public class $ex<E extends Expression, _E extends _expression>
      * @param protoExpr
      * @return 
      */
-    public static <T extends Expression, _E extends _expression> $ex<T, _E> of(T protoExpr ){
+    public static <E extends Expression, _E extends _expression> $ex<E, _E> of(E protoExpr ){
         return new $ex<>(protoExpr );
     }
 
@@ -78,8 +78,8 @@ public class $ex<E extends Expression, _E extends _expression>
      * @param constraint
      * @return 
      */
-    public static <T extends Expression, _E extends _expression> $ex<T, _E> of(T protoExpr, Predicate<_E> constraint ){
-        return new $ex<T, _E>(protoExpr ).$and(constraint);
+    public static <E extends Expression, _E extends _expression> $ex<E, _E> of(E protoExpr, Predicate<_E> constraint ){
+        return new $ex<E, _E>(protoExpr ).$and(constraint);
     }
 
     public static $ex.Or or( Expression... _protos ){
@@ -1672,9 +1672,9 @@ public class $ex<E extends Expression, _E extends _expression>
     }
     
     @Override
-    public E fill(Object...values){
+    public _E fill(Object...values){
         String str = exprStencil.fill(Translator.DEFAULT_TRANSLATOR, values);
-        return (E) Ex.of( str);
+        return (_E)_expression.of((E) Ex.of( str));
     }
 
     @Override
@@ -1711,13 +1711,13 @@ public class $ex<E extends Expression, _E extends _expression>
      * @param _n
      * @return 
      */
-    public E draft(_java._node _n ){
-        return (E)draft(_n.tokenize());
+    public _E draft(_java._node _n ){
+        return (_E)draft(_n.tokenize());
     }
 
     @Override
-    public E draft(Translator t, Map<String,Object> tokens ){
-        return (E) Ex.of(exprStencil.draft( t, tokens ));
+    public _E draft(Translator t, Map<String,Object> tokens ){
+        return (_E)_expression.of( Ex.of(exprStencil.draft( t, tokens )));
     }
 
     public boolean match( Node node ){
@@ -2181,7 +2181,7 @@ public class $ex<E extends Expression, _E extends _expression>
         Walk.in(_j, this.expressionClass, e-> {
             Select sel = select( e );
             if( sel != null ){
-                Expression replaceNode = (Expression) $replaceProto.draft( sel.tokens.asTokens() );
+                Expression replaceNode = (Expression)( (  (_java._node)$replaceProto.draft( sel.tokens.asTokens())).ast());
                 sel.ast().replace( replaceNode );
             }
         });
@@ -2344,7 +2344,7 @@ public class $ex<E extends Expression, _E extends _expression>
         }
 
         /**
-         * Return the underlying $anno that matches the AnnotationExpr or null if none of the match
+         * Return the underlying $expr that matches the Expression or null if none of the match
          * @param ae
          * @return
          */

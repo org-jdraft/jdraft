@@ -25,7 +25,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import java.nio.file.Paths;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
@@ -1891,8 +1890,8 @@ public enum Ast {
      * @param code the java code
      * @return an ExplicitConstructorInvocationStmt based on the code
      */
-    public static ExplicitConstructorInvocationStmt thisOrSuperCallStmt(String... code ) {
-        return Stmt.thisOrSuperCallStmt(  code );
+    public static ExplicitConstructorInvocationStmt constructorCallStmt(String... code ) {
+        return Stmt.constructorCallStmt(  code );
     }
 
     /**
@@ -1902,7 +1901,7 @@ public enum Ast {
      * @return an ExplicitConstructorInvocationStmt based on the code
      */
     public static ExplicitConstructorInvocationStmt thisCallStmt(String... code ) {
-        return Stmt.thisOrSuperCallStmt(  code );
+        return Stmt.constructorCallStmt(  code );
     }
 
     /**
@@ -1912,7 +1911,7 @@ public enum Ast {
      * @return an ExplicitConstructorInvocationStmt based on the code
      */
     public static ExplicitConstructorInvocationStmt superCallStmt(String... code ) {
-        return Stmt.thisOrSuperCallStmt(  code );
+        return Stmt.constructorCallStmt(  code );
     }
 
     /**

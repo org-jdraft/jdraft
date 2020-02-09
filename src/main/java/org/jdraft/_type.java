@@ -807,6 +807,18 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         return null;
     }
 
+    default _T setPackage( PackageDeclaration pd){
+        if( !this.isTopLevel() ){ //this "means" that the class is an inner class
+            // and we should move it OUT into it's own class at this package
+            CompilationUnit cu = new CompilationUnit();
+            cu.setPackageDeclaration(pd);
+            cu.addType( (TypeDeclaration) this.ast() );
+            return (_T) this;
+        }
+        CompilationUnit cu = astCompilationUnit();
+        cu.setPackageDeclaration( pd );
+        return (_T)this;
+    }
     /**
      * Sets the package this TYPE is in
      * @param packageName

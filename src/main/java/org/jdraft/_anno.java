@@ -937,6 +937,10 @@ public final class _anno
             return getAnnos().list( annotationClass );
         }
 
+        default _HA setAnnos(_annos _as){
+            _as.forEach( a -> getAnnos().add(a) );
+            return (_HA)this;
+        }
         default _HA anno(List<AnnotationExpr> astAnnoList ){
             astAnnoList.forEach( a -> getAnnos().add(a) );
             return (_HA)this;

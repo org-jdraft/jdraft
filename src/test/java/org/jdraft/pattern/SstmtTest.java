@@ -1,6 +1,5 @@
 package org.jdraft.pattern;
 
-import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.stmt.AssertStmt;
 import com.github.javaparser.ast.stmt.ExplicitConstructorInvocationStmt;
@@ -135,13 +134,13 @@ public class SstmtTest extends TestCase {
     }
 
     public void testThisOrSuperCallStmt(){
-        ExplicitConstructorInvocationStmt ec = Ast.thisOrSuperCallStmt("super(1);");
+        ExplicitConstructorInvocationStmt ec = Ast.constructorCallStmt("super(1);");
         assertEquals( Ex.of(1), ec.getArgument(0));
         assertFalse( ec.isThis() );
 
         //System.out.println( ec );
         $stmt $s = $stmt.thisCallStmt("this($args$);");
-        assertTrue($s.matches("this(1)"));
+        assertTrue($s.matches("this(1);"));
         assertTrue($s.select("this(1)").is("args", 1));
 
         $s = $stmt.superCallStmt("super($any$);");
@@ -700,7 +699,8 @@ public class SstmtTest extends TestCase {
         assertTrue( $stmt.blockStmt("System.out.println($any$);").matches(Stmt.of("{System.out.println(\"anything\");}")));
         assertTrue( $stmt.breakStmt("break $where$;").matches(Stmt.of("break outer;")));
         assertTrue( $stmt.continueStmt("continue $where$;").matches(Stmt.of("continue outer;")));
-        assertTrue( $stmt.thisCallStmt("this($args$);").matches(Stmt.of("this(1,2,'a');")));
+        assertTrue( $stmt.thisCallStmt("this($args$);")
+                .matches(Stmt.of("this(1,2,'a');")));
         assertTrue( $stmt.doStmt("do{ BODY(); }while($condition$)").$("BODY();", "BODY").matches(Stmt.of("do{ assert(1==1); }while(a<4)")));
         assertTrue( $stmt.expressionStmt("$any$+=1;").matches(Stmt.of("i+=1")));
 

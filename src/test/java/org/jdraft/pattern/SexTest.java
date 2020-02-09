@@ -1,6 +1,7 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.DoubleLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
@@ -447,8 +448,8 @@ public class SexTest extends TestCase {
     }
 
     public void testExprOf(){
-        $ex $e = $ex.of("1 + 2");
-        assertEquals( $e.draft(), Ex.of("1 + 2"));
+        $ex<Expression, _expression> $e = $ex.of("1 + 2");
+        assertEquals( $e.draft().ast(), Ex.of("1 + 2"));
         assertTrue( $e.matches(Ex.of("1+2")));
 
         $e = $ex.of("$a$ + $b$");
