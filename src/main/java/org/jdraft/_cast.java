@@ -31,7 +31,6 @@ public class _cast implements _expression<CastExpr, _cast>, _java._compound<Cast
         return new _cast(Ex.castEx( code));
     }
 
-
     public static <A extends Object> _cast of(Ex.Command c){
         LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);

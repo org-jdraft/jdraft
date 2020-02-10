@@ -67,8 +67,8 @@ public class _javadocDiff implements _differ<_javadoc, _java._compound> {
             if( leftJavadoc != null ){
                 //System.out.println("Setting on "+ left.getClass() );
                 //System.out.println("Setting on "+ right.getClass() );
-                leftParent.javadoc(leftJavadoc.clone());
-                rightParent.javadoc(leftJavadoc.clone());
+                leftParent.setJavadoc(leftJavadoc.clone());
+                rightParent.setJavadoc(leftJavadoc.clone());
                 //System.out.println("LEFT JAVADOC"+left.getJavadoc() );
                 //System.out.println("RIGHT JAVADOC"+right.getJavadoc() );
                 //System.out.println( "ARE THEY EQUAL " + left.getJavadoc().equals( right.getJavadoc() ));
@@ -80,8 +80,8 @@ public class _javadocDiff implements _differ<_javadoc, _java._compound> {
 
         @Override
         public void patchRightToLeft() {
-            leftParent.javadoc(rightJavadoc);
-            rightParent.javadoc(rightJavadoc);
+            leftParent.setJavadoc(rightJavadoc);
+            rightParent.setJavadoc(rightJavadoc);
         }
 
         @Override

@@ -15,54 +15,54 @@ import java.util.function.Function;
  * The ternary conditional expression.
  * In <code>b==0?x:y</code>, b==0 is the condition, x is thenExpr, and y is elseExpr.
  */
-public class _ternary implements _expression<ConditionalExpr, _ternary>, _java._compound<ConditionalExpr, _ternary> {
+public class _conditionalExpression implements _expression<ConditionalExpr, _conditionalExpression>, _java._compound<ConditionalExpr, _conditionalExpression> {
 
-    public static _ternary of(){
-        return new _ternary( new ConditionalExpr( ));
+    public static _conditionalExpression of(){
+        return new _conditionalExpression( new ConditionalExpr( ));
     }
-    public static _ternary of(ConditionalExpr ce){
-        return new _ternary(ce);
+    public static _conditionalExpression of(ConditionalExpr ce){
+        return new _conditionalExpression(ce);
     }
-    public static _ternary of( String...code){
-        return new _ternary(Ex.conditionalEx( code));
+    public static _conditionalExpression of(String...code){
+        return new _conditionalExpression(Ex.conditionalEx( code));
     }
 
 
-    public static <A extends Object> _ternary of(Ex.Command c){
+    public static <A extends Object> _conditionalExpression of(Ex.Command c){
         LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
-    public static <A extends Object> _ternary of(Consumer<A> c){
+    public static <A extends Object> _conditionalExpression of(Consumer<A> c){
         LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
-    public static <A extends Object, B extends Object> _ternary of(BiConsumer<A,B> command ){
+    public static <A extends Object, B extends Object> _conditionalExpression of(BiConsumer<A,B> command ){
         return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _ternary of( Ex.TriConsumer<A,B,C> command ){
+    public static <A extends Object, B extends Object, C extends Object> _conditionalExpression of(Ex.TriConsumer<A,B,C> command ){
         return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _ternary of( Ex.QuadConsumer<A,B,C,D> command ){
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _conditionalExpression of(Ex.QuadConsumer<A,B,C,D> command ){
         return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object> _ternary of( Function<A,B> command ){
+    public static <A extends Object, B extends Object> _conditionalExpression of(Function<A,B> command ){
         return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _ternary of( BiFunction<A,B,C> command ){
+    public static <A extends Object, B extends Object, C extends Object> _conditionalExpression of(BiFunction<A,B,C> command ){
         return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _ternary of( Ex.TriFunction<A,B,C,D> command ){
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _conditionalExpression of(Ex.TriFunction<A,B,C,D> command ){
         return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    private static _ternary from( LambdaExpr le){
+    private static _conditionalExpression from(LambdaExpr le){
         Optional<ConditionalExpr> ows = le.getBody().findFirst(ConditionalExpr.class);
         if( ows.isPresent() ){
             return of(ows.get());
@@ -72,13 +72,13 @@ public class _ternary implements _expression<ConditionalExpr, _ternary>, _java._
     
     public ConditionalExpr ce;
 
-    public _ternary(ConditionalExpr ce){
+    public _conditionalExpression(ConditionalExpr ce){
         this.ce = ce;
     }
 
     @Override
-    public _ternary copy() {
-        return new _ternary(this.ce.clone());
+    public _conditionalExpression copy() {
+        return new _conditionalExpression(this.ce.clone());
     }
 
     @Override
@@ -121,8 +121,8 @@ public class _ternary implements _expression<ConditionalExpr, _ternary>, _java._
     }
 
     public boolean equals(Object other){
-        if( other instanceof _ternary){
-            return ((_ternary)other).ce.equals( this.ce);
+        if( other instanceof _conditionalExpression){
+            return ((_conditionalExpression)other).ce.equals( this.ce);
         }
         return false;
     }

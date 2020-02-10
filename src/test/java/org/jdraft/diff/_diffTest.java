@@ -75,9 +75,9 @@ public class _diffTest extends TestCase {
         _c1.setName("B");
         _c1.addAnnos(Deprecated.class);
         _c1.addExtend("G");
-        _c1.constructor("public C(){System.out.println(1);}");
+        _c1.addConstructor("public C(){System.out.println(1);}");
         _c1.typeParameters("<T extends base>");
-        _c1.javadoc("some javadoc");
+        _c1.setJavadoc("some javadoc");
         _c1.initBlock(()-> System.out.println("Static block"));
         _c1.nest(_interface.of("I") );
         _class _c3 = _c1.copy();
@@ -134,8 +134,8 @@ public class _diffTest extends TestCase {
         _a1.targetType();
         _a1.entry("int a() default 1;");
         _a1.addImports(IOException.class);
-        _a1.field("public static final int ID = 1;");
-        _a1.javadoc("javadoc");
+        _a1.addField("public static final int ID = 1;");
+        _a1.setJavadoc("javadoc");
         _a1.setPackage("dev.diff");
         _a1.setProtected();
         
@@ -154,8 +154,8 @@ public class _diffTest extends TestCase {
         _enum _e1 = _enum.of("E");
         _enum _e2 = _enum.of("E");
         
-        _e1.constant(_a1).constant(_b1);
-        _e2.constant(_b2).constant(_a2);
+        _e1.addConstant(_a1).addConstant(_b1);
+        _e2.addConstant(_b2).addConstant(_a2);
         _nodePath path = new _nodePath();
         _diffList dt = new _diffList(_e1, _e2);
         assertEquals( _e1, _e2);
@@ -163,7 +163,7 @@ public class _diffTest extends TestCase {
         assertTrue( dt.isEmpty() );
         System.out.println( dt );
         
-        _e1.constant("C");
+        _e1.addConstant("C");
         _enumDiff.ENUM_CONSTANTS_DIFF.diff(path, dt, _e1, _e2, _e1.listConstants(), _e2.listConstants());
         
         assertEquals( 1, dt.listLeftOnlys().size() );
@@ -174,7 +174,7 @@ public class _diffTest extends TestCase {
         assertEquals( 1, dt.listRightOnlys().size() );
         
         
-        _e2.constant("C");        
+        _e2.addConstant("C");
         _a1.addArgument(true);        
         dt.diffNodeList.clear();        
         _enumDiff.ENUM_CONSTANTS_DIFF.diff(path, dt, _e2, _e1, _e2.listConstants(), _e1.listConstants());
@@ -190,8 +190,8 @@ public class _diffTest extends TestCase {
         _diffList dt = new _diffList(_a1, _a2);
         _enum _e1 = _enum.of("E");
         _enum _e2 = _enum.of("E");
-        _e1.constant(_a1);
-        _e2.constant(_a2);
+        _e1.addConstant(_a1);
+        _e2.addConstant(_a2);
         
         _java._compound leftRoot = _e1;
         _java._compound rightRoot = _e2;
@@ -200,10 +200,10 @@ public class _diffTest extends TestCase {
         System.out.println( dt );
         
         _a1.method("int m(){ return 1; }");
-        _a1.field("int i=100;");
+        _a1.addField("int i=100;");
         _a1.addArgument(0);
         _a1.addAnnos(Deprecated.class);
-        _a1.javadoc("Javadoc ");
+        _a1.setJavadoc("Javadoc ");
         
         _enumDiff.ENUM_CONSTANT_DIFF.diff(path, dt, leftRoot, rightRoot, _a1, _a2);
         System.out.println( dt );
@@ -229,7 +229,7 @@ public class _diffTest extends TestCase {
         _methodDiff.INSTANCE.diff(new _nodePath(), dt, leftRoot, rightRoot, _m1, _m2);
         
         dt = new _diffList(leftRoot, rightRoot);
-        _m1.javadoc("Hello");
+        _m1.setJavadoc("Hello");
         _methodDiff.INSTANCE.diff(new _nodePath(), dt, leftRoot, rightRoot, _m1, _m2);
         
         dt = new _diffList(leftRoot, rightRoot);

@@ -32,7 +32,7 @@ public class SenumTest extends TestCase {
     }
 
     public void testAnonBody(){
-        _enum _ae = _enum.of("E").constants("A", "B","C", "D", "E");
+        _enum _ae = _enum.of("E").addConstants("A", "B","C", "D", "E");
         assertEquals( 5, _ae.listConstants().size());
 
         _enum _e = _enum.of("E", new Object(){
@@ -113,13 +113,13 @@ public class SenumTest extends TestCase {
         assertFalse( $enum.of($.method(m->m.isStatic())).matches(_enum.of("C").method("void m(){}")));
 
         assertTrue( $enum.of($.constructor(c->c.listStatements().size() >0)).matches(
-                _enum.of("C").constructor("{System.out.println(1);}")) );
+                _enum.of("C").addConstructor("{System.out.println(1);}")) );
 
         assertFalse( $enum.of($.constructor(c->c.listStatements().size() >0)).matches(
-                _enum.of("C").constructor("{}")) );
+                _enum.of("C").addConstructor("{}")) );
 
-        assertTrue($enum.of($field.of(f->f.isStatic())).matches(_enum.of("C").field("static int i=100;")));
-        assertFalse($enum.of($field.of(f->f.isStatic())).matches(_enum.of("C").field("int i=100;")));
+        assertTrue($enum.of($field.of(f->f.isStatic())).matches(_enum.of("C").addField("static int i=100;")));
+        assertFalse($enum.of($field.of(f->f.isStatic())).matches(_enum.of("C").addField("int i=100;")));
 
         assertTrue( $enum.of( $initBlock.of( (_initBlock i)-> i.isStatic())).matches( _enum.of("C").staticBlock("System.out.println(1);") ) );
         assertFalse($enum.of( $initBlock.of( (_initBlock i)-> i.isStatic())).matches( _enum.of("C").initBlock("System.out.println(1);") ) );
@@ -130,11 +130,11 @@ public class SenumTest extends TestCase {
         assertTrue( $enum.of( $import.of(Map.class)).matches(_enum.of("AnyClass").addImports(Map.class)));
         assertFalse( $enum.of( $import.of(Map.class)).matches(_enum.of("AnyClass")));
 
-        _enum _c = _enum.of("C").javadoc("TODO: fix something");
+        _enum _c = _enum.of("C").setJavadoc("TODO: fix something");
         $enum $c = $enum.of($comment.javadocComment(c->c.getContent().contains("TODO")));
         assertTrue($c.matches(_c));
         assertFalse($c.matches(_enum.of("C") ));
-        assertFalse($c.matches(_enum.of("C").javadoc("not compilant")));
+        assertFalse($c.matches(_enum.of("C").setJavadoc("not compilant")));
 
         $c = $enum.of($.anno(Deprecated.class));
         assertTrue( $c.matches(_enum.of("F").addAnnos(Deprecated.class)));
@@ -153,7 +153,7 @@ public class SenumTest extends TestCase {
         $comment $co = $comment.javadocComment(j-> j.getContent().contains("TODO"));
         assertTrue($co.matches(_field.of("/**TODO this thing*/int i=100;") ));
 
-        _enum _c = _enum.of("C").javadoc("TODO: fix something");
+        _enum _c = _enum.of("C").setJavadoc("TODO: fix something");
         //System.out.println( _c.ast().getComment().get() );
         assertTrue($comment.javadocComment(c->c.getContent().contains("TODO")).matches(_c) );
 
@@ -165,7 +165,7 @@ public class SenumTest extends TestCase {
         assertTrue($c.matches(_c) );
 
         assertFalse($enum.of().$javadoc( c->c.getContent().contains("TODO"))
-                .matches(_class.of("C").javadoc("no to d: fix something")));
+                .matches(_class.of("C").setJavadoc("no to d: fix something")));
     }
 
 

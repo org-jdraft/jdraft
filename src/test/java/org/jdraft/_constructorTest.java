@@ -14,7 +14,7 @@ public class _constructorTest extends TestCase {
     public void testBuildFromScratch(){
         _constructor _ct = _constructor.of();
         _ct.setName("C")
-                .setParameters("int i").modifiers("public")
+                .setParameters("int i").setModifiers("public")
                 .addThrows(IOException.class);
         System.out.println(_ct);
     }
@@ -101,8 +101,8 @@ public class _constructorTest extends TestCase {
     public void testHasConstructor(){
         // here I pass in a Method that will be converted into a constructor
         // it should be
-        _class _c = _class.of("C").fields("int x,y;")
-                .constructor(new Object(){
+        _class _c = _class.of("C").addFields("int x,y;")
+                .addConstructor(new Object(){
                     /** note these "placeholder" FIELDS are ignored */
                     int x,y;
 

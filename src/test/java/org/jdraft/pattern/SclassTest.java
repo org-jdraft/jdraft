@@ -102,13 +102,13 @@ public class SclassTest extends TestCase {
         assertFalse( $class.of($.method(m->m.isStatic())).matches(_class.of("C").method("void m(){}")));
 
         assertTrue( $class.of($.constructor(c->c.listStatements().size() >0)).matches(
-                _class.of("C").constructor("{System.out.println(1);}")) );
+                _class.of("C").addConstructor("{System.out.println(1);}")) );
 
         assertFalse( $class.of($.constructor(c->c.listStatements().size() >0)).matches(
-                _class.of("C").constructor("{}")) );
+                _class.of("C").addConstructor("{}")) );
 
-        assertTrue($class.of($field.of(f->f.isStatic())).matches(_class.of("C").field("static int i=100;")));
-        assertFalse($class.of($field.of(f->f.isStatic())).matches(_class.of("C").field("int i=100;")));
+        assertTrue($class.of($field.of(f->f.isStatic())).matches(_class.of("C").addField("static int i=100;")));
+        assertFalse($class.of($field.of(f->f.isStatic())).matches(_class.of("C").addField("int i=100;")));
 
         assertTrue( $class.of( $initBlock.of( (_initBlock i)-> i.isStatic())).matches( _class.of("C").staticBlock("System.out.println(1);") ) );
         assertFalse($class.of( $initBlock.of( (_initBlock i)-> i.isStatic())).matches( _class.of("C").initBlock("System.out.println(1);") ) );
@@ -122,11 +122,11 @@ public class SclassTest extends TestCase {
         assertTrue( $class.of( $import.of(Map.class)).matches(_class.of("AnyClass").addImports(Map.class)));
         assertFalse( $class.of( $import.of(Map.class)).matches(_class.of("AnyClass")));
 
-        _class _c = _class.of("C").javadoc("TODO: fix something");
+        _class _c = _class.of("C").setJavadoc("TODO: fix something");
         $class $c = $class.of($comment.javadocComment(c->c.getContent().contains("TODO")));
         assertTrue($c.matches(_c));
         assertFalse($c.matches(_class.of("C") ));
-        assertFalse($c.matches(_class.of("C").javadoc("not compilant")));
+        assertFalse($c.matches(_class.of("C").setJavadoc("not compilant")));
 
         $c = $class.of($.anno(Deprecated.class));
         assertTrue( $c.matches(_class.of("F").addAnnos(Deprecated.class)));
@@ -145,7 +145,7 @@ public class SclassTest extends TestCase {
         $comment $co = $comment.javadocComment(j-> j.getContent().contains("TODO"));
         assertTrue($co.matches(_field.of("/**TODO this thing*/int i=100;") ));
 
-        _class _c = _class.of("C").javadoc("TODO: fix something");
+        _class _c = _class.of("C").setJavadoc("TODO: fix something");
         //System.out.println( _c.ast().getComment().get() );
         assertTrue($comment.javadocComment(c->c.getContent().contains("TODO")).matches(_c) );
 
@@ -157,7 +157,7 @@ public class SclassTest extends TestCase {
         assertTrue($c.matches(_c) );
 
         assertFalse($class.of().$javadoc( c->c.getContent().contains("TODO"))
-                .matches(_class.of("C").javadoc("no to d: fix something")));
+                .matches(_class.of("C").setJavadoc("no to d: fix something")));
     }
 
 

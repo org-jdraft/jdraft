@@ -144,16 +144,16 @@ public class _interfaceTest extends TestCase {
         _interface _i = _interface.of( "interface ComplexInterface{}" );
         _i.setPackage("test");
         _i.addImports( Serializable.class, MarkerInterface.class, WithDefaultMethods.class, ann2.class);
-        _i.javadoc( "javadocs", "@author Eric", "@param <Y>", "@param <Z>");
+        _i.setJavadoc( "javadocs", "@author Eric", "@param <Y>", "@param <Z>");
         _i.addAnnos( "@ann", "@ann2(k='d')");
         _i.setPublic();
         _i.typeParameters( "<Y, Z extends Base>");
         _i.addExtend( "MarkerInterface<String>").addExtend( "WithDefaultMethods<Serializable>");
-        _i.field( "/** field javadoc */", "@ann @ann2(k='2',v=3)", "static final int VALUE = 120;");
+        _i.addField( "/** field javadoc */", "@ann @ann2(k='2',v=3)", "static final int VALUE = 120;");
         
         _i.method( "@ann @ann2(k='F',v=12345)", "static int getValue(){","return 12345;", "}");
         _method _m = _method.of("<E extends Base> E genMethod(@ann @ann2(k='8',v=12) String s,final int...vals );");
-        _m.javadoc( "the genMethod","@param <E>", "@param s", "@param vals", "@return");
+        _m.setJavadoc( "the genMethod","@param <E>", "@param s", "@param vals", "@return");
         _i.method( _m );
         _i.method( "/**",
                    " * javadoc",

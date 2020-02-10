@@ -592,7 +592,7 @@ public class $ex<E extends Expression, _E extends _expression>
      * @param pattern
      * @return 
      */
-    public static $ex<ConditionalExpr, _ternary> conditionalEx(String... pattern ) {
+    public static $ex<ConditionalExpr, _conditionalExpression> conditionalEx(String... pattern ) {
         return new $ex( Ex.conditionalEx(pattern ) );
     }
 
@@ -602,7 +602,7 @@ public class $ex<E extends Expression, _E extends _expression>
      * @param constraint
      * @return 
      */
-    public static $ex<ConditionalExpr, _ternary> conditionalEx(String pattern, Predicate<_ternary> constraint) {
+    public static $ex<ConditionalExpr, _conditionalExpression> conditionalEx(String pattern, Predicate<_conditionalExpression> constraint) {
         return new $ex( Ex.conditionalEx(pattern ) ).$and(constraint);
     }
     
@@ -611,7 +611,7 @@ public class $ex<E extends Expression, _E extends _expression>
      * @param constraint
      * @return 
      */
-    public static $ex<ConditionalExpr, _ternary> conditionalEx(Predicate<_ternary> constraint) {
+    public static $ex<ConditionalExpr, _conditionalExpression> conditionalEx(Predicate<_conditionalExpression> constraint) {
         return new $ex( Ex.conditionalEx("(a==1) ? 1 : 2" ) )
                 .$(Ex.conditionalEx("(a==1) ? 1 : 2"), "any")
                 .$and(constraint);
@@ -621,7 +621,7 @@ public class $ex<E extends Expression, _E extends _expression>
      * Any conditional i.e. "(a==1) ? 1 : 2" 
      * @return 
      */
-    public static $ex<ConditionalExpr, _ternary> conditionalEx() {
+    public static $ex<ConditionalExpr, _conditionalExpression> conditionalEx() {
         return new $ex( ConditionalExpr.class, "$conditionalExpr$");
     }    
     

@@ -272,13 +272,13 @@ public final class _initBlock
     }
 
     @Override
-    public _initBlock javadoc(JavadocComment astJavadocComment ){
+    public _initBlock setJavadoc(JavadocComment astJavadocComment ){
         this.astInit.setJavadocComment( astJavadocComment );
         return this;
     }
         
     @Override
-    public _initBlock javadoc(String... content ) {
+    public _initBlock setJavadoc(String... content ) {
         if( this.astInit.getJavadocComment().isPresent() ) {
             this.astInit.getJavadocComment().get().setContent( Text.combine( content ) );
             return this;

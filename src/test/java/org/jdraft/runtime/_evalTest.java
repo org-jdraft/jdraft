@@ -58,7 +58,7 @@ public class _evalTest extends TestCase {
     public void testRuntimeEval(){
         //eval using a new _runtime instance to get the value of a field
         _runtime _r = _runtime.of(_class.of("aaa.bb.C")
-                .field("public static int ID= 10234;")
+                .addField("public static int ID= 10234;")
         );
 
         assertEquals(10234, _r.eval(Ex.of("aaa.bb.C.ID"))); //get the value of the field

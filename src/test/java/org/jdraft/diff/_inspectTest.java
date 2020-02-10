@@ -151,21 +151,21 @@ public class _inspectTest extends TestCase {
         _field _f2 =_field.of("int a;");
         
         _class _c1 = _class.of("C");
-        _class _c2 = _class.of("C").field(_f2);
+        _class _c2 = _class.of("C").addField(_f2);
                
         _diff dt = _diff.of(_c1, _c2);
         assertNotNull( dt.firstAt(FIELD, "a") );
         assertTrue(dt.firstAt(FIELD, "a") instanceof _rightOnly); //its added between left and right
         
-        _c1.field(_f1);
+        _c1.addField(_f1);
         dt = _diff.of(_c1, _c2);
         assertTrue( dt.isEmpty() );
         
-        _f1.init(1);
+        _f1.setInit(1);
         dt = _diff.of(_c1, _c2);
         System.out.println( dt );
         assertTrue(dt.at(_nodePath.of(FIELD,"a",INIT)) instanceof _change); //field init is change from left to right
-        _f2.init(1);        
+        _f2.setInit(1);
         _f2.addAnnos("@Ann");
         dt = _diff.of(_c1, _c2);
         assertTrue(dt.firstAt(ANNO) instanceof _rightOnly);
@@ -176,18 +176,18 @@ public class _inspectTest extends TestCase {
         assertTrue(dt.firstAt(MODIFIERS) instanceof _change ); 
         
         _f2.setPrivate();        
-        _f2.javadoc("A javadoc");
+        _f2.setJavadoc("A javadoc");
         dt = _diff.of(_c1, _c2);
         assertTrue(dt.firstAt(JAVADOC) instanceof _change );
         
-        _f1.javadoc("A javadoc");        
-        _f1.type(float.class);
-        _f1.init(1.0f);
+        _f1.setJavadoc("A javadoc");
+        _f1.setType(float.class);
+        _f1.setInit(1.0f);
         dt = _diff.of(_c1, _c2);
         assertTrue(dt.firstAt(TYPE) instanceof _change );
         
-        _f2.type(float.class);
-        _f2.init(1.0f);
+        _f2.setType(float.class);
+        _f2.setInit(1.0f);
         _f2.setName("b");
         dt = _diff.of(_c1, _c2);
         //When we change the name of the field, we are affectively changing the API

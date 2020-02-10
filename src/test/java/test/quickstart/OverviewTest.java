@@ -23,7 +23,7 @@ public class OverviewTest extends TestCase {
         _method _setY = _method.of("public void setY(double y){ this.y = y;}");
 
         //models compose
-        _point.fields(_x, _y)
+        _point.addFields(_x, _y)
                 .methods(_getX, _setX, _getY, _setY);
         System.out.println( _point );
     }

@@ -497,12 +497,11 @@ public final class _modifiers implements _java._nodeSet<Modifier, _modifier, _mo
          */
         _modifiers getModifiers();
 
-
         /**
          * Returns the Effective Modifiers as a bitMask
          * @return an int representing the BitMask of the modifiers
          */
-        default int modifiersAsBitMask(){
+        default int getModifiersAsBitMask(){
             NodeList<Modifier> effective = getEffectiveModifiers();
             int bitMask = 0;
             for(int i=0;i<effective.size();i++){
@@ -516,14 +515,19 @@ public final class _modifiers implements _java._nodeSet<Modifier, _modifier, _mo
          * @param mods
          * @return
          */
-        default _HM modifiers(String... mods) {
+        default _HM setModifiers(String... mods) {
             String ms = Text.combineTrim(mods);
             String[] mms = ms.split(" ");
             getModifiers().set(mms);
             return (_HM)this;
         }
 
-        default _HM modifiers(NodeList<Modifier> mods){
+        /**
+         *
+         * @param mods
+         * @return
+         */
+        default _HM setModifiers(NodeList<Modifier> mods){
             getModifiers().node.setModifiers(mods);
             return (_HM)this;
         }
@@ -601,15 +605,12 @@ public final class _modifiers implements _java._nodeSet<Modifier, _modifier, _mo
          *
          * NOTE: implied modifiers are also important
          *
-         * @param mods
+         * @param _mods
          * @return
          */
-        default _HM modifiers(_modifiers mods) {
-            return replace( mods );
-        }
-
-        default _HM replace(_modifiers _ms) {
-            getModifiers().clear().set( _ms.asKeywords() );
+        default _HM setModifiers(_modifiers _mods) {
+            //return setModifiers( mods );
+            getModifiers().clear().set( _mods.asKeywords() );
             return (_HM)this;
         }
     }

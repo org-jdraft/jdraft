@@ -242,7 +242,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.javadoc(" A Diff Javadoc");
+        _c.setJavadoc(" A Diff Javadoc");
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(JAVADOC).isChange() );        
         dl.patchLeftToRight();        
@@ -284,7 +284,7 @@ public class _diffPatchTest
         
         //--------------FIELD ON CLASS------------------
         _field _f = _field.of("public int aFieldIAdded = 1023;");
-        _c.field(_f.copy());
+        _c.addField(_f.copy());
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(FIELD).isLeftOnly() );        
         assertEquals( dl.firstOn(FIELD).asLeftOnly().left(), _f );        
@@ -308,7 +308,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.getField("aFieldIAdded").init(54321);
+        _c.getField("aFieldIAdded").setInit(54321);
         dl = _diff.of(_c, _c2);
         assertEquals( dl.firstOn(FIELD, "aFieldIAdded").asChange().right(), Ex.of(1023) );
         assertEquals( dl.firstOn(FIELD, "aFieldIAdded").asChange().left(), Ex.of(54321) );
@@ -329,7 +329,7 @@ public class _diffPatchTest
         _c.getField("aFieldIAdded").removeInit();
         _c2.getField("aFieldIAdded").removeInit();
         
-        _c.getField("aFieldIAdded").type(float.class);
+        _c.getField("aFieldIAdded").setType(float.class);
         dl = _diff.of(_c, _c2);
         System.out.println( dl);
         assertEquals( dl.at(FIELD, "aFieldIAdded", TYPE).asChange().left(), _typeRef.of(float.class));
@@ -337,7 +337,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.getField("aFieldIAdded").javadoc("field javadoc");
+        _c.getField("aFieldIAdded").setJavadoc("field javadoc");
         dl = _diff.of(_c, _c2);
         System.out.println( dl);
         assertNotNull( dl.at(FIELD, "aFieldIAdded", JAVADOC) );        
@@ -499,7 +499,7 @@ public class _diffPatchTest
         System.out.println( _c.listNests() );
         assertEquals(1, _c.listNests().size() );
         
-        _c.getDeclared(_enum.class, "E").javadoc("Nested Enum Javadoc");
+        _c.getDeclared(_enum.class, "E").setJavadoc("Nested Enum Javadoc");
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(ENUM).isChange());
         assertTrue( dl.firstOn(JAVADOC).isChange());
@@ -532,7 +532,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();                     
         assertTrue(_diff.of(_c, _c2).isEmpty());
      
-        _c.getDeclared(_enum.class, "E").field("int aa = 11;");
+        _c.getDeclared(_enum.class, "E").addField("int aa = 11;");
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(ENUM).isLeftOnly());
         assertTrue( dl.firstOn(FIELD).isLeftOnly());
@@ -541,7 +541,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();                     
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.getDeclared(_enum.class, "E").constant("D(2)");
+        _c.getDeclared(_enum.class, "E").addConstant("D(2)");
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(ENUM).isLeftOnly());
         assertTrue( dl.firstOn(CONSTANT).isLeftOnly());
@@ -551,7 +551,7 @@ public class _diffPatchTest
         System.out.println(_diff.of(_c, _c2) );
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.getDeclared(_enum.class, "E").constructor("(String s){}");
+        _c.getDeclared(_enum.class, "E").addConstructor("(String s){}");
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(ENUM).isLeftOnly());
         assertTrue( dl.firstOn(CONSTRUCTOR).isLeftOnly());
@@ -612,13 +612,13 @@ public class _diffPatchTest
         dl.patchLeftToRight();
         assertTrue(_diff.of(_i, _i2).isEmpty());
         
-        _i.javadoc("The changed javadoc");
+        _i.setJavadoc("The changed javadoc");
         dl = _diff.of(_i, _i2);
         assertTrue( dl.hasChangeAt(JAVADOC));
         dl.patchLeftToRight();
         assertTrue(_diff.of(_i, _i2).isEmpty());
         
-        _i.field("int someNewField = 1234;");
+        _i.addField("int someNewField = 1234;");
         dl = _diff.of(_i, _i2);
         assertTrue( dl.hasLeftOnlyAt(FIELD));
         assertTrue( dl.hasLeftOnlyAt(FIELD, "someNewField"));
@@ -666,7 +666,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();
         assertTrue(_diff.of(_i, _i2).isEmpty());
         
-        _c.constructor("(){System.out.println(1);}");
+        _c.addConstructor("(){System.out.println(1);}");
         dl = _diff.of(_i, _i2);
         assertTrue( dl.hasLeftOnlyAt(CONSTRUCTOR));        
         assertTrue( dl.hasLeftOnlyAt(CONSTRUCTOR, "C()"));
@@ -699,7 +699,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();
         assertTrue(_diff.of(_i, _i2).isEmpty());
         
-        _c.field("int addedThisField=100;");
+        _c.addField("int addedThisField=100;");
         dl = _diff.of(_i, _i2);
         System.out.println( dl);
         assertTrue( dl.hasLeftOnlyAt(FIELD, "addedThisField"));        

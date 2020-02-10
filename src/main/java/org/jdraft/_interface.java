@@ -208,13 +208,13 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     }
 
     @Override
-    public _interface javadoc(String... content) {
+    public _interface setJavadoc(String... content) {
         ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
         return this;
     }
 
     @Override
-    public _interface javadoc(JavadocComment astJavadocComment) {
+    public _interface setJavadoc(JavadocComment astJavadocComment) {
         ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
         return this;
     }
@@ -294,7 +294,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     }
 
     @Override
-    public _interface field( VariableDeclarator field ) {
+    public _interface addField(VariableDeclarator field ) {
         if(! field.getParentNode().isPresent()){
             throw new _jdraftException("cannot add Var without parent FieldDeclaration");
         }

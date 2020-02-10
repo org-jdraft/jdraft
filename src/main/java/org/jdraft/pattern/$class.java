@@ -325,9 +325,9 @@ public class $class
             _c.setPackage( this.packageDecl.draft(translator, base) );
         }
         if(!this.javadoc.isMatchAny()){
-            _c.javadoc(this.javadoc.draft(translator, base));
+            _c.setJavadoc(this.javadoc.draft(translator, base));
         }
-        _c.modifiers( this.modifiers.draft(translator, base));
+        _c.setModifiers( this.modifiers.draft(translator, base));
         _c.typeParameters( this.typeParameters.draft(translator, base));
         this.imports.stream().forEach( i -> _c.addImports( i.draft(translator, base)));
 
@@ -342,10 +342,10 @@ public class $class
         _c.addAnnos( this.annos.draft(translator, base).ast() );
         this.initBlocks.forEach(ib -> _c.initBlock( ib.draft(translator, base)));
         this.methods.forEach(m -> _c.method( m.draft(translator, base)) );
-        this.fields.forEach(f-> _c.field(f.draft(translator, base)));
+        this.fields.forEach(f-> _c.addField(f.draft(translator, base)));
         this.ctors.forEach(c -> {
             _constructor _ctor = c.draft(translator, base);
-            _c.constructor(_ctor);
+            _c.addConstructor(_ctor);
         });
 
         return _c;

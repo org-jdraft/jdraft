@@ -19,11 +19,11 @@ public class _5_AllModelsTest extends TestCase {
                 "public class C{ int i=0; }");
 
         //using shortcut name, then adding a _field via String
-        assertEquals( _c, _class.of("aaaa.C").field("int i=0;"));
+        assertEquals( _c, _class.of("aaaa.C").addField("int i=0;"));
 
         //using a shortcut name, and adding a _field (instance)
         _field _i = _field.of("int i=0;");
-        assertEquals( _c, _class.of("aaaa.C").field(_i));
+        assertEquals( _c, _class.of("aaaa.C").addField(_i));
 
         //from anonymous object
         assertEquals( _c, _class.of("aaaa.C", new Object(){

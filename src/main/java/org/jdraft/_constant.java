@@ -292,13 +292,13 @@ public class _constant implements _javadoc._hasJavadoc<_constant>,
 
 
     @Override
-    public _constant javadoc(String... content) {
+    public _constant setJavadoc(String... content) {
         ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
         return this;
     }
 
     @Override
-    public _constant javadoc(JavadocComment astJavadocComment) {
+    public _constant setJavadoc(JavadocComment astJavadocComment) {
         ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
         return this;
     }
@@ -322,13 +322,13 @@ public class _constant implements _javadoc._hasJavadoc<_constant>,
         return this;
     }
 
-    public _constant field( FieldDeclaration field ) {
+    public _constant addField(FieldDeclaration field ) {
         this.astConstant.getClassBody().add( field );
         return this;
     }
 
     @Override
-    public _constant field( VariableDeclarator field ) {
+    public _constant addField(VariableDeclarator field ) {
         if(! field.getParentNode().isPresent()){
             throw new _jdraftException("cannot add Var without parent FieldDeclaration "+ field);
         }

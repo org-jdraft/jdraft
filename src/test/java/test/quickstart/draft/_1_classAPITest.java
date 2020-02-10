@@ -18,15 +18,15 @@ public class _1_classAPITest extends TestCase {
     static _class _FROM_STRING_PARTS = _class.of("C").setHeaderComment("Some License Here")
             .setPackage("math.entity")
             .addImports("java.util.UUID", "java.io.Serializable;", "java.beans.Encoder")
-            .javadoc("This is the class", "javadoc")
+            .setJavadoc("This is the class", "javadoc")
             .addAnnos("@Deprecated")
             .setFinal()
             .addExtend("java.beans.Encoder")
             .implement("java.io.Serializable")
             .typeParameters("<T extends Serializable>")
             .staticBlock("System.out.println(\"static block \" + UUID.randomUUID().toString());")
-            .fields("public int i;", "public UUID uuid;")
-            .constructor("public C(int i){ this.i = i;}")
+            .addFields("public int i;", "public UUID uuid;")
+            .addConstructor("public C(int i){ this.i = i;}")
             .method("public UUID getUUID(){ return this.uuid; }")
             .nest( _interface.of("Describable")  //add a nested class (here an interface)
                   .method("String describe();") );
@@ -39,7 +39,7 @@ public class _1_classAPITest extends TestCase {
             //.setPackage("math.entity") //we can set the name as compound to set the package name
             .setHeaderComment("Some License Here")
             .addImports(UUID.class, Serializable.class, Encoder.class)
-            .javadoc("This is the class", "javadoc")
+            .setJavadoc("This is the class", "javadoc")
             .addAnnos(Deprecated.class)
             .setFinal()
             .typeParameters("<T extends Serializable>")
@@ -52,7 +52,7 @@ public class _1_classAPITest extends TestCase {
                 public UUID getUUID(){ return this.uuid; }
             })
             //.fields("public int i;", "public UUID uuid;") //already added in .body()
-            .constructor("public C(int i){ this.i = i;}")
+            .addConstructor("public C(int i){ this.i = i;}")
             //.method("public UUID getUUID(){ return this.uuid; }") //already added in .body()
             .nest( _interface.of("Describable")  //add a nested class (here an interface)
                     .method("String describe();") );

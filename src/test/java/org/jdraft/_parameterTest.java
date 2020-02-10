@@ -16,7 +16,7 @@ public class _parameterTest extends TestCase {
     public void testBuildFromScratch(){
         _parameter _p = _parameter.of();
         System.out.println( _p );
-        _p.type(int.class).setName("x");
+        _p.setType(int.class).setName("x");
         System.out.println( _p );
     }
     public void testFullyQualified(){

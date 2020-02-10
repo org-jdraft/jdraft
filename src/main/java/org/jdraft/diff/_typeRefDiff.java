@@ -42,14 +42,14 @@ public class _typeRefDiff
         
         @Override
         public void patchLeftToRight(){
-            leftParent.type(leftType.copy());
-            rightParent.type(leftType.copy());
+            leftParent.setType(leftType.copy());
+            rightParent.setType(leftType.copy());
         }
         
         @Override
         public void patchRightToLeft(){
-            leftParent.type(rightType.copy());
-            rightParent.type(rightType.copy());
+            leftParent.setType(rightType.copy());
+            rightParent.setType(rightType.copy());
         }
         
         @Override

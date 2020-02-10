@@ -21,7 +21,7 @@ public class AstImpliedModifiersTest extends TestCase {
         assertEquals(_a, _b);
         
         System.out.println( java.lang.reflect.Modifier.toString( a.class.getModifiers() ) );
-        System.out.println( java.lang.reflect.Modifier.toString( _a.modifiersAsBitMask() ) );
+        System.out.println( java.lang.reflect.Modifier.toString( _a.getModifiersAsBitMask() ) );
         //assertEquals( _a.modifiersAsBitMask() | java.lang.reflect.Modifier.INTERFACE, a.class.getModifiers() );        
     }
     
@@ -39,7 +39,7 @@ public class AstImpliedModifiersTest extends TestCase {
         assertEquals(_a, _b);         
         
         System.out.println( java.lang.reflect.Modifier.toString( EE2.class.getModifiers() ) );
-        System.out.println( java.lang.reflect.Modifier.toString( _a.modifiersAsBitMask() ) );
+        System.out.println( java.lang.reflect.Modifier.toString( _a.getModifiersAsBitMask() ) );
         
         //assertEquals( _a.modifiersAsBitMask(), EE.class.getModifiers());
     }
@@ -69,7 +69,7 @@ public class AstImpliedModifiersTest extends TestCase {
         assertEquals(_c1.hashCode(), _c2.hashCode());
         assertEquals(_c1, _c2);         
         
-        assertEquals( _c1.modifiersAsBitMask(), EC.class.getDeclaredConstructors()[0].getModifiers() );
+        assertEquals( _c1.getModifiersAsBitMask(), EC.class.getDeclaredConstructors()[0].getModifiers() );
     }
     
     interface I{ int f = 2; }
@@ -78,8 +78,8 @@ public class AstImpliedModifiersTest extends TestCase {
         _field _f = _interface.of( I.class ).getField("f");
         assertEquals( I.class.getDeclaredField("f").getModifiers(),  
             I2.class.getDeclaredField("f").getModifiers() );   
-        assertEquals( I.class.getDeclaredField("f").getModifiers(), _f.modifiersAsBitMask() );   
-        assertEquals( I2.class.getDeclaredField("f").getModifiers(), _f.modifiersAsBitMask() );   
+        assertEquals( I.class.getDeclaredField("f").getModifiers(), _f.getModifiersAsBitMask() );
+        assertEquals( I2.class.getDeclaredField("f").getModifiers(), _f.getModifiersAsBitMask() );
         
         assertTrue( _f.isStatic() );
         assertTrue( _f.isPublic() );
@@ -107,26 +107,26 @@ public class AstImpliedModifiersTest extends TestCase {
         assertTrue( _f.isFinal() );
         assertEquals( G.class.getDeclaredField("f").getModifiers(), 
                 H.class.getDeclaredField("f").getModifiers() );                        
-        assertEquals( G.class.getDeclaredField("f").getModifiers(), _f.modifiersAsBitMask() );                        
-        assertEquals( H.class.getDeclaredField("f").getModifiers(), _f.modifiersAsBitMask() );                                
+        assertEquals( G.class.getDeclaredField("f").getModifiers(), _f.getModifiersAsBitMask() );
+        assertEquals( H.class.getDeclaredField("f").getModifiers(), _f.getModifiersAsBitMask() );
     }
    
     
     enum E{ ; int f; final int g = 12;}    
     public void testEffectiveModifiersEnumField() throws NoSuchFieldException{                
         _field _f = _enum.of(E.class).getField("f");
-        assertEquals( E.class.getDeclaredField("f").getModifiers(), _f.modifiersAsBitMask() );                        
-        System.out.println( _f.modifiersAsBitMask() );
+        assertEquals( E.class.getDeclaredField("f").getModifiers(), _f.getModifiersAsBitMask() );
+        System.out.println( _f.getModifiersAsBitMask() );
         
         _field _g = _enum.of(E.class).getField("g");
-        assertEquals( E.class.getDeclaredField("g").getModifiers(), _g.modifiersAsBitMask() );                        
-        System.out.println( _g.modifiersAsBitMask() );
+        assertEquals( E.class.getDeclaredField("g").getModifiers(), _g.getModifiersAsBitMask() );
+        System.out.println( _g.getModifiersAsBitMask() );
     }
     
     enum E2{ ; static int f; }    
     public void testEffectiveModifiersEnumField2() throws NoSuchFieldException{                
         _field _f = _enum.of(E2.class).getField("f");
-        assertEquals( E2.class.getDeclaredField("f").getModifiers(), _f.modifiersAsBitMask() );                        
+        assertEquals( E2.class.getDeclaredField("f").getModifiers(), _f.getModifiersAsBitMask() );
     }
     
    
@@ -141,7 +141,7 @@ public class AstImpliedModifiersTest extends TestCase {
         _method _m = _enum.of(EM.class).getMethod("m");
         assertEquals(                 
                 EM.class.getDeclaredMethod("m", new Class[0]).getModifiers(), 
-                _m.modifiersAsBitMask() );                
+                _m.getModifiersAsBitMask() );
         System.out.println("MODS" + 
                 java.lang.reflect.Modifier.toString(EM.class.getDeclaredMethod("m", new Class[0]).getModifiers()) );
     }

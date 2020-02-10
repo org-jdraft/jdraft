@@ -169,14 +169,14 @@ public final class _javadoc
          * @param content the javadoc content
          * @return 
          */
-        _HJ javadoc(String... content );
+        _HJ setJavadoc(String... content );
 
         /**
          * set the javadoc comment with this JavadocComment
          * @param astJavadocComment the
          * @return the modified T
          */
-        _HJ javadoc(JavadocComment astJavadocComment );
+        _HJ setJavadoc(JavadocComment astJavadocComment );
         
         /**
          * Does this component have a Javadoc entry?

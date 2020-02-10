@@ -41,7 +41,7 @@ public interface _expression<E extends Expression, _E extends _expression> exten
     Class<_string> STRING = _string.class;
     Class<_switchExpression> SWITCH_EXPRESSION = _switchExpression.class;
     Class<_typeExpression> TYPE_EXPRESSION = _typeExpression.class;
-    Class<_ternary> TERNARY = _ternary.class;
+    Class<_conditionalExpression> TERNARY = _conditionalExpression.class;
     Class<_unary> UNARY = _unary.class;
     Class<_variable> VARIABLE = _variable.class;
 
@@ -136,7 +136,7 @@ public interface _expression<E extends Expression, _E extends _expression> exten
             return new _super((SuperExpr)e);
         }
         if( e instanceof ConditionalExpr){
-            return new _ternary((ConditionalExpr)e);
+            return new _conditionalExpression((ConditionalExpr)e);
         }
         if( e instanceof SwitchExpr){
             return new _switchExpression( (SwitchExpr)e);

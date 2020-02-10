@@ -1,13 +1,9 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.TextBlockLiteralExpr;
-import com.github.javaparser.ast.stmt.WhileStmt;
 import org.jdraft.text.Text;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiConsumer;
@@ -70,15 +66,15 @@ public class _textBlock implements _expression._literal<TextBlockLiteralExpr, _t
         throw new _jdraftException("No text block literal found in lambda");
     }
 
-    public TextBlockLiteralExpr ile;
+    public TextBlockLiteralExpr tble;
 
-    public _textBlock(TextBlockLiteralExpr ile){
-        this.ile = ile;
+    public _textBlock(TextBlockLiteralExpr tble){
+        this.tble = tble;
     }
 
     @Override
     public _textBlock copy() {
-        return new _textBlock(this.ile.clone());
+        return new _textBlock(this.tble.clone());
     }
 
     @Override
@@ -92,7 +88,7 @@ public class _textBlock implements _expression._literal<TextBlockLiteralExpr, _t
     }
 
     public TextBlockLiteralExpr ast(){
-        return ile;
+        return tble;
     }
 
     /*
@@ -106,11 +102,11 @@ public class _textBlock implements _expression._literal<TextBlockLiteralExpr, _t
 
 
     public String getText(){
-        return this.ile.getValue();
+        return this.tble.getValue();
     }
 
     public String toString(){
-        return this.ile.toString();
+        return this.tble.toString();
     }
 
     public boolean equals(Object other){
@@ -125,11 +121,11 @@ public class _textBlock implements _expression._literal<TextBlockLiteralExpr, _t
     }
 
     public String getValue(){
-        return this.ile.getValue();
+        return this.tble.getValue();
     }
 
     @Override
     public String valueAsString() {
-        return this.ile.getValue();
+        return this.tble.getValue();
     }
 }

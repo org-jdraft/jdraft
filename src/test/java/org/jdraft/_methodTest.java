@@ -684,11 +684,11 @@ public class _methodTest extends TestCase {
     */        
      public void testFromScratch(){
         _method _m = _method.of( "void a();");
-        _m.javadoc(" JAVADOC");
+        _m.setJavadoc(" JAVADOC");
         _m.addAnnos( ann.class );
         _m.addAnnos( "@ann2(key=7,VALUE='r')");
         _m.setPublic().setStatic().setFinal();
-        _m.type("List<String>");
+        _m.setType("List<String>");
         _m.setName("aMethod");
         _m.typeParameters("<E extends element>");
         _m.addParameters("@ann @ann2(key=1, VALUE='v')final int val",

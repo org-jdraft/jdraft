@@ -34,9 +34,9 @@ public class _enumTest extends TestCase {
                     "    return 345;",
                    "}")
                 //you can add a field this way
-                .field("public int F = 1;")
-                .field(_field.of("String nm;")) //or this way
-                .field( Ast.field("float ff = 10.2f") ) //or this way (AST)
+                .addField("public int F = 1;")
+                .addField(_field.of("String nm;")) //or this way
+                .addField( Ast.field("float ff = 10.2f") ) //or this way (AST)
                 .method("public int rr() { return 3; }") //this way
                 .method(_method.of("int g(){ return 12345;}")) //or this way
                 .method(Ast.method("double dd(){ return 3.45d;}")); //or this way
@@ -95,7 +95,7 @@ public class _enumTest extends TestCase {
         _enum _e = _enum.of("E", new Object(){
             public static final int ID=102; 
             public static final String NAME = "Eric";
-        }).constants("A", "B", "C", "D", "E");
+        }).addConstants("A", "B", "C", "D", "E");
            
         _e.forDeclared(_field.class, f-> f.isStatic(), f->System.out.println(f));
         
@@ -103,7 +103,7 @@ public class _enumTest extends TestCase {
     }
     
     public void testConstants(){
-        _enum _e = _enum.of("Suit").constants("Hearts","Clubs","Spades","Diamonds");
+        _enum _e = _enum.of("Suit").addConstants("Hearts","Clubs","Spades","Diamonds");
         assertEquals(4, _e.listConstants().size() );
     }
 
@@ -118,9 +118,9 @@ public class _enumTest extends TestCase {
     public void testEnum(){
         Ast.constantDecl("A(1)");
         _enum _e = _enum.of("E")
-                .constant("A(1)")
-                .field("private int i;")
-                .constructor("private E(int i){ this.i = i;}");
+                .addConstant("A(1)")
+                .addField("private int i;")
+                .addConstructor("private E(int i){ this.i = i;}");
     }
 
     public void testType(){
@@ -270,9 +270,9 @@ public class _enumTest extends TestCase {
     }
     
      public void testConstructor(){
-        _enum _e = _enum.of("E").field("int i;");
+        _enum _e = _enum.of("E").addField("int i;");
 
-        _e.constructor(new Object(){
+        _e.addConstructor(new Object(){
             int i;
 
             public void changeThisToEnumName(int i){

@@ -3,7 +3,6 @@ package org.jdraft;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.InitializerDeclaration;
 import junit.framework.TestCase;
-import org.jdraft.macro._static;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,7 +136,7 @@ public class _initBlockTest extends TestCase {
     public void testC(){
         _initBlock sb = _initBlock.of("System.out.println(1);").setStatic(true);
         assertTrue( sb.is( "System.out.println(1);") );
-        sb.javadoc( "Javadoc" );
+        sb.setJavadoc( "Javadoc" );
         assertFalse( sb.is( "System.out.println(1);") );
         System.out.println( sb );
 

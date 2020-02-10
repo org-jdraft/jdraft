@@ -90,7 +90,7 @@ public final class _parameter
     }
 
     @Override
-    public _parameter type( Type _tr ) {
+    public _parameter setType(Type _tr ) {
         this.astParameter.setType( _tr );
         return this;
     }

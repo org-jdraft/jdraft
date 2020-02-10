@@ -155,7 +155,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
                             if( ((FieldDeclaration)vd.getParentNode().get()).getJavadoc().isPresent() ){
                                 ecd.setJavadocComment( ((FieldDeclaration)vd.getParentNode().get()).getJavadoc().get() );
                             }
-                            _e.constant(ecd); //add the constant
+                            _e.addConstant(ecd); //add the constant
                         }
                     } else{
                         _e.ast().addMember(fd);
@@ -237,13 +237,13 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
     }
 
     @Override
-    public _enum javadoc(String... content) {
+    public _enum setJavadoc(String... content) {
         ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
         return this;
     }
 
     @Override
-    public _enum javadoc(JavadocComment astJavadocComment) {
+    public _enum setJavadoc(JavadocComment astJavadocComment) {
         ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
         return this;
     }
@@ -300,7 +300,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
     }
 
     @Override
-    public _enum constructor( ConstructorDeclaration constructor ) {
+    public _enum addConstructor(ConstructorDeclaration constructor ) {
         constructor.setName(this.getName()); //set the constructor NAME
         constructor.setPrivate(true);
         constructor.setPublic(false);
@@ -309,8 +309,8 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         return this;
     }
 
-    public _enum constants( String...onePerConstant ){
-        Arrays.stream(onePerConstant).forEach( c-> constant(c) );
+    public _enum addConstants(String...onePerConstant ){
+        Arrays.stream(onePerConstant).forEach( c-> addConstant(c) );
         return this;
     }
 
@@ -353,7 +353,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
     }
 
     @Override
-    public _enum field( VariableDeclarator field ) {
+    public _enum addField(VariableDeclarator field ) {
         if(! field.getParentNode().isPresent()){
             throw new _jdraftException("cannot add Var without parent FieldDeclaration");
         }
@@ -369,13 +369,13 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
         return this;
     }
 
-    public _enum constant( _constant _c ){
+    public _enum addConstant(_constant _c ){
         this.astEnum.addEntry( _c.ast() );
         return this;
     }
     
-    public _enum constant ( String...constantDecl ) {
-        return constant( Ast.constantDecl( constantDecl ));
+    public _enum addConstant(String...constantDecl ) {
+        return addConstant( Ast.constantDecl( constantDecl ));
     }
 
     /**
@@ -404,7 +404,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
      * @param anonymousBody
      * @return
      */
-    public _enum constant (String signature, Object anonymousBody ){
+    public _enum addConstant(String signature, Object anonymousBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         ObjectCreationExpr oce = Ex.newEx(ste);
         _constant _ct = _constant.of( Ast.constantDecl(signature));
@@ -421,10 +421,10 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
             //the potentially modified BODY members are added
             _ct.ast().setClassBody(_c.ast().getMembers());
         }
-        return constant(_ct.ast());
+        return addConstant(_ct.ast());
     }
 
-    public _enum constant ( EnumConstantDeclaration constant ) {
+    public _enum addConstant(EnumConstantDeclaration constant ) {
         this.astEnum.addEntry( constant );
         return this;
     }

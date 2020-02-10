@@ -85,7 +85,7 @@ public class _refactorPrintToLog {
             if( _f == null ){ /* we didnt find a matching logger, create & add a new one*/
                 adHocLoggerImports.forEach(i -> _t.addImports(i) ); /* add all Logger imports */
                 _f = adHocLogger.draft("className", _t.getFullName()); /* create a clone/copy for this _field */
-                _t.field( _f ); /* add logger field to the TYPE */
+                _t.addField( _f ); /* add logger field to the TYPE */
             }
             /** add the actual log statement */
             $anySystemOut.replaceIn(_t, $stmts.of( loggerStatementsFormat )

@@ -550,7 +550,7 @@ public class SexTest extends TestCase {
         assertTrue($ex.arrayAccessEx(a -> a.getIndex().ast().isIntegerLiteralExpr() ).matches("a[1]"));
         assertTrue($ex.arrayAccessEx("a[$any$]", a -> a.getIndex().ast().isIntegerLiteralExpr() ).matches("a[1]"));
         assertFalse($ex.arrayAccessEx("a[$any$]", a -> a.getIndex().ast().isIntegerLiteralExpr() ).matches("a[b.count()]"));
-        _class _c = _class.of("C").field("int i=1;");
+        _class _c = _class.of("C").addField("int i=1;");
         
         assertEquals(1, $ex.of(1).listIn(_c ).size());
         

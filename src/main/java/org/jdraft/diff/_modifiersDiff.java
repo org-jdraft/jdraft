@@ -84,14 +84,14 @@ public class _modifiersDiff implements
 
         @Override
         public void patchLeftToRight() {
-            leftParent.modifiers(left);
-            rightParent.modifiers(left);
+            leftParent.setModifiers(left);
+            rightParent.setModifiers(left);
         }
 
         @Override
         public void patchRightToLeft() {
-            leftParent.modifiers(right);
-            rightParent.modifiers(right);
+            leftParent.setModifiers(right);
+            rightParent.setModifiers(right);
         }
 
         @Override

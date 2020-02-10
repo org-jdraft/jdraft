@@ -325,7 +325,7 @@ public class _diffApiTest extends TestCase {
         assertTrue(_diff.of(_a, _b).isEmpty());
         
         //change something on _b (the right)
-        _a.getNest("Inner").getField("g").init(200);
+        _a.getNest("Inner").getField("g").setInit(200);
         
         _diff _d = _diff.of(_a, _b);
         

@@ -278,7 +278,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
                 if( bd instanceof MethodDeclaration ){
                     MethodDeclaration md = (MethodDeclaration)bd;
                     if( md.getNameAsString().equals(_c.getName() ) && md.getType().isVoidType() ){
-                        _c.constructor(_constructor.of(_toCtor.Act.fromMethod(md)));
+                        _c.addConstructor(_constructor.of(_toCtor.Act.fromMethod(md)));
                     } else{
                         _c.ast().addMember( bd );    
                     }
@@ -396,13 +396,13 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     }
 
     @Override
-    public _class javadoc(String... content) {
+    public _class setJavadoc(String... content) {
         ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
         return this;
     }
 
     @Override
-    public _class javadoc(JavadocComment astJavadocComment) {
+    public _class setJavadoc(JavadocComment astJavadocComment) {
         ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
         return this;
     }
@@ -605,7 +605,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     }
 
     @Override
-    public _class field( VariableDeclarator field ) {
+    public _class addField(VariableDeclarator field ) {
         if(! field.getParentNode().isPresent()){
             throw new _jdraftException("cannot add Var without parent FieldDeclaration");
         }
@@ -634,7 +634,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     }
 
     @Override
-    public _class constructor( ConstructorDeclaration constructor ) {
+    public _class addConstructor(ConstructorDeclaration constructor ) {
         constructor.setName(this.getName()); //alwyas set the constructor NAME to be the classes NAME
         this.astClass.addMember( constructor );
         return this;

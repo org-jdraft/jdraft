@@ -99,8 +99,8 @@ public class SinterfaceTest extends TestCase {
         assertFalse( $interface.of($.method(m->m.isStatic())).matches(_interface.of("C").method("void m(){}")));
 
 
-        assertTrue($interface.of($field.of(f->f.isType(int.class))).matches(_interface.of("C").field("int i=100;")));
-        assertFalse($interface.of($field.of(f->f.isType(int.class))).matches(_interface.of("C").field("String s;")));
+        assertTrue($interface.of($field.of(f->f.isType(int.class))).matches(_interface.of("C").addField("int i=100;")));
+        assertFalse($interface.of($field.of(f->f.isType(int.class))).matches(_interface.of("C").addField("String s;")));
 
         assertTrue( $interface.of().$extend(Map.class).matches(_interface.of("AnyClass").addExtend(Map.class)));
         assertFalse( $interface.of().$extend(Map.class).matches(_interface.of("AnyClass")));
@@ -108,11 +108,11 @@ public class SinterfaceTest extends TestCase {
         assertTrue( $interface.of( $import.of(Map.class)).matches(_interface.of("AnyClass").addImports(Map.class)));
         assertFalse( $interface.of( $import.of(Map.class)).matches(_interface.of("AnyClass")));
 
-        _interface _i = _interface.of("C").javadoc("TODO: fix something");
+        _interface _i = _interface.of("C").setJavadoc("TODO: fix something");
         $interface $i = $interface.of($comment.javadocComment(c->c.getContent().contains("TODO")));
         assertTrue($i.matches(_i));
         assertFalse($i.matches(_interface.of("C") ));
-        assertFalse($i.matches(_interface.of("C").javadoc("not compilant")));
+        assertFalse($i.matches(_interface.of("C").setJavadoc("not compilant")));
 
         $i = $interface.of($.anno(Deprecated.class));
         assertTrue( $i.matches(_interface.of("F").addAnnos(Deprecated.class)));
@@ -131,7 +131,7 @@ public class SinterfaceTest extends TestCase {
         $comment $co = $comment.javadocComment(j-> j.getContent().contains("TODO"));
         assertTrue($co.matches(_field.of("/**TODO this thing*/int i=100;") ));
 
-        _interface _i = _interface.of("C").javadoc("TODO: fix something");
+        _interface _i = _interface.of("C").setJavadoc("TODO: fix something");
         //System.out.println( _c.ast().getComment().get() );
         assertTrue($comment.javadocComment(c->c.getContent().contains("TODO")).matches(_i) );
 
@@ -143,7 +143,7 @@ public class SinterfaceTest extends TestCase {
         assertTrue($c.matches(_i) );
 
         assertFalse($interface.of().$javadoc( c->c.getContent().contains("TODO"))
-                .matches(_class.of("C").javadoc("no to d: fix something")));
+                .matches(_class.of("C").setJavadoc("no to d: fix something")));
     }
 
 }

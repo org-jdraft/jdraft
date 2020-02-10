@@ -361,7 +361,7 @@ public class _classTest extends TestCase {
     }
     
     public void testJavadoc(){
-        _class _c = _class.of("C").javadoc("Oh, Hello");
+        _class _c = _class.of("C").setJavadoc("Oh, Hello");
         assertEquals( "Oh, Hello", _c.getJavadoc().getContent());
     }
 
@@ -595,16 +595,16 @@ public class _classTest extends TestCase {
     
     public void testConstructorLambda(){
         //_class _c = _class.of("aaaa.bbbb.C").constructor(()->System.out.println("in constructor"));
-        _class _c = _class.of("aaaa.bbbb.C").constructor(new Object(){ public void m(){ System.out.println("in constructor");} });
+        _class _c = _class.of("aaaa.bbbb.C").addConstructor(new Object(){ public void m(){ System.out.println("in constructor");} });
         //System.out.println( _c );
 
         //_c = _class.of("D").constructor((String s)->System.out.println("in constructor with "+s));
-        _c = _class.of("D").constructor(new Object(){ public void c(String s){System.out.println("in constructor with "+s);} } );
+        _c = _class.of("D").addConstructor(new Object(){ public void c(String s){System.out.println("in constructor with "+s);} } );
         //System.out.println( _c );
 
         //_c = _class.of("D").constructor((final @_annotat String s)->System.out.println("in constructor with "+s));
         //_c = _class.of("D").constructor(new Object(final @_annotat String s)->System.out.println("in constructor with "+s));
-        _c = _class.of("D").constructor(new Object(){ public void c(final @annotat String s){System.out.println("in constructor with "+s);} } );
+        _c = _class.of("D").addConstructor(new Object(){ public void c(final @annotat String s){System.out.println("in constructor with "+s);} } );
         assertTrue( _c.getConstructor(0).getParameter("s").hasAnno(annotat.class));
         //System.out.println( _c );
     }
@@ -744,7 +744,7 @@ public class _classTest extends TestCase {
         _c.setPackage("blah.fromscratch");
         _c.addImports(Map.class,HashMap.class);
         _c.addImports( "aaaa.bbbb.C", "blah.dat.*");
-        _c.javadoc("class JAVADOC");
+        _c.setJavadoc("class JAVADOC");
         _c.addAnnos( "@ann", "@ann(k=1,v='y')");
         _c.setPublic();
         _c.setName("Cgg");
@@ -752,10 +752,10 @@ public class _classTest extends TestCase {
         _c.addExtend( "Base");
         _c.addImplements( "A", "B");
         _c.initBlock("System.out.println(34);");
-        _c.field( "/** field JAVADOC */",
+        _c.addField( "/** field JAVADOC */",
             "@ann2(k=2,v='g')",
             "public static final List<String> l = new ArrayList<>();");
-        _c.constructor( "/** ctor JAVADOC */",
+        _c.addConstructor( "/** ctor JAVADOC */",
             "@ann",
             "@ann2(k=3,v='i')",
             "protected <e extends Element> Cgg( @ann @ann2(k=5)final String s, int...varArgs3 ) throws P, Q, D{",

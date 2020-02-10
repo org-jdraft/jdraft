@@ -15,7 +15,7 @@ import java.util.*;
  * @see _super
  * @see _this
  */
-public class _constructorCallStmt
+public final class _constructorCallStmt
         implements _statement<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
         _java._compound<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
         _java._nodeList<Expression, _expression, _constructorCallStmt> {

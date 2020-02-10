@@ -2,7 +2,6 @@ package org.jdraft;
 
 import org.jdraft.Ex.Command;
 
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import junit.framework.TestCase;
@@ -87,7 +86,7 @@ public class _lambdaTest extends TestCase {
         System.out.println(_l);
 
         _class _c = _class.of("C")
-                .field("public int i;");
+                .addField("public int i;");
         _l = _lambda.of();
         _l = _lambda.of("(a)-> System.out.println(1);")
                 .setParameters("b");

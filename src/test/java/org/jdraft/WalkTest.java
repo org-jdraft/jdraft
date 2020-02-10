@@ -125,7 +125,7 @@ public class WalkTest extends TestCase {
      */
     public void testWalkList(){
         _class _c = _class.of("C")
-            .fields("int x=1;", "int y=2;", "String z;");
+            .addFields("int x=1;", "int y=2;", "String z;");
         
         //these arent TOO interesting, just some simple tests
         //do some stuff with ASTs...
@@ -143,7 +143,7 @@ public class WalkTest extends TestCase {
     
     public void testWalkIn(){
         _class _c = _class.of("C")
-                .fields("int x=1;", "int y=2;", "String z;");
+                .addFields("int x=1;", "int y=2;", "String z;");
 
 
         //_walk.in(_c, _class.class, c-> System.out.println(c));

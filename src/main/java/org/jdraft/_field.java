@@ -274,7 +274,7 @@ public final class _field
     }
 
     @Override
-    public _field javadoc(String... contents) {
+    public _field setJavadoc(String... contents) {
         if( getFieldDeclaration() != null ){
             getFieldDeclaration().setJavadocComment(Text.combine(contents));
         }
@@ -282,7 +282,7 @@ public final class _field
     }
 
     @Override
-    public _field javadoc(JavadocComment astJavadocComment) {
+    public _field setJavadoc(JavadocComment astJavadocComment) {
         if (this.getFieldDeclaration() != null) {
             this.getFieldDeclaration().setJavadocComment(astJavadocComment);
         }
@@ -337,7 +337,7 @@ public final class _field
     }
 
     @Override
-    public _field type(Type t) {
+    public _field setType(Type t) {
         this.astVar.setType(t);
         return this;
     }
@@ -551,58 +551,58 @@ public final class _field
         return this.astVar.getType().isReferenceType();
     }
 
-    public _field init(boolean b) {
+    public _field setInit(boolean b) {
         this.astVar.setInitializer(Ex.of(b));
         return this;
     }
 
-    public _field init(byte b) {
+    public _field setInit(byte b) {
         this.astVar.setInitializer(Ex.of(b));
         return this;
     }
 
-    public _field init(short s) {
+    public _field setInit(short s) {
         this.astVar.setInitializer(Ex.of(s));
         return this;
     }
 
-    public _field init(int i) {
+    public _field setInit(int i) {
         this.astVar.setInitializer(Ex.of(i));
         return this;
     }
 
-    public _field init(char c) {
+    public _field setInit(char c) {
         this.astVar.setInitializer(Ex.of(c));
         return this;
     }
 
-    public _field init(float f) {
+    public _field setInit(float f) {
         this.astVar.setInitializer(Ex.of(f));
         return this;
     }
 
-    public _field init(double d) {
+    public _field setInit(double d) {
         this.astVar.setInitializer(Ex.of(d));
         return this;
     }
 
-    public _field init(long l) {
+    public _field setInit(long l) {
         this.astVar.setInitializer(Ex.of(l));
         return this;
     }
 
-    public _field init(String init) {
+    public _field setInit(String init) {
         this.astVar.setInitializer(init);
         return this;
     }
 
-    public _field init(Supplier supplier) {
+    public _field setInit(Supplier supplier) {
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         LambdaExpr sup = Ex.lambdaEx(ste);
-        return init(sup.getExpressionBody().get());
+        return setInit(sup.getExpressionBody().get());
     }
 
-    public _field init(Expression expr) {
+    public _field setInit(Expression expr) {
         this.astVar.setInitializer(expr);
         return this;
     }
@@ -685,29 +685,29 @@ public final class _field
             return null;
         }
 
-        _HF field(VariableDeclarator field);
+        _HF addField(VariableDeclarator field);
 
-        default _HF field(String... field) {
-            return field(Ast.field(field).getVariable(0));
+        default _HF addField(String... field) {
+            return addField(Ast.field(field).getVariable(0));
         }
 
-        default _HF field(_field _f) {
-            return field(_f.astVar);
+        default _HF addField(_field _f) {
+            return addField(_f.astVar);
         }
 
-        default _HF fields(FieldDeclaration fds) {
-            fds.getVariables().forEach(v -> field(v));
+        default _HF addFields(FieldDeclaration fds) {
+            fds.getVariables().forEach(v -> addField(v));
             return (_HF) this;
         }
 
-        default _HF fields(String... fieldDeclarations) {
+        default _HF addFields(String... fieldDeclarations) {
             List<FieldDeclaration> fs = Ast.fields(fieldDeclarations);
-            fs.forEach(f -> fields(f));
+            fs.forEach(f -> addFields(f));
             return (_HF) this;
         }
 
-        default _HF fields(_field... fs) {
-            Arrays.stream(fs).forEach(f -> field(f));
+        default _HF addFields(_field... fs) {
+            Arrays.stream(fs).forEach(f -> addField(f));
             return (_HF) this;
         }
     }

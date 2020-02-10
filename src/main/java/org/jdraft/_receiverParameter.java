@@ -89,7 +89,7 @@ public final class _receiverParameter
     }
 
     @Override
-    public _receiverParameter type( Type astType ) {
+    public _receiverParameter setType(Type astType ) {
         this.astReceiverParam.setType( astType );
         return this;
     }

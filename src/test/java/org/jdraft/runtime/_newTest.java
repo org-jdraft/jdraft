@@ -17,7 +17,7 @@ public class _newTest extends TestCase {
 
 
         //an enum
-        Class e = _runtime.Class( _enum.of("aaaa.bbbb.E").constants("A", "B", "C") );
+        Class e = _runtime.Class( _enum.of("aaaa.bbbb.E").addConstants("A", "B", "C") );
         assertTrue( e.isEnum() );
         assertEquals( "aaaa.bbbb.E", e.getCanonicalName());
         assertEquals(3, e.getEnumConstants().length);

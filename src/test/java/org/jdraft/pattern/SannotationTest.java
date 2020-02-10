@@ -78,17 +78,17 @@ public class SannotationTest extends TestCase {
         assertFalse($annotation.of($.PRIVATE).matches(_notMatch));
 
 
-        assertTrue($annotation.of($field.of(f->f.hasInit())).matches(_annotation.of("C").field("static int i=100;")));
-        assertFalse($annotation.of($field.of(f->f.isInit())).matches(_annotation.of("C").field("static int i;")));
+        assertTrue($annotation.of($field.of(f->f.hasInit())).matches(_annotation.of("C").addField("static int i=100;")));
+        assertFalse($annotation.of($field.of(f->f.isInit())).matches(_annotation.of("C").addField("static int i;")));
 
         assertTrue( $annotation.of( $import.of(Map.class)).matches(_annotation.of("AnyClass").addImports(Map.class)));
         assertFalse( $annotation.of( $import.of(Map.class)).matches(_annotation.of("AnyClass")));
 
-        _annotation _c = _annotation.of("C").javadoc("TODO: fix something");
+        _annotation _c = _annotation.of("C").setJavadoc("TODO: fix something");
         $annotation $c = $annotation.of($comment.javadocComment(c->c.getContent().contains("TODO")));
         assertTrue($c.matches(_c));
         assertFalse($c.matches(_annotation.of("C") ));
-        assertFalse($c.matches(_annotation.of("C").javadoc("not compilant")));
+        assertFalse($c.matches(_annotation.of("C").setJavadoc("not compilant")));
 
         $c = $annotation.of($.anno(Deprecated.class));
         assertTrue( $c.matches(_annotation.of("F").addAnnos(Deprecated.class)));
@@ -107,7 +107,7 @@ public class SannotationTest extends TestCase {
         $comment $co = $comment.javadocComment(j-> j.getContent().contains("TODO"));
         assertTrue($co.matches(_field.of("/**TODO this thing*/int i=100;") ));
 
-        _annotation _c = _annotation.of("C").javadoc("TODO: fix something");
+        _annotation _c = _annotation.of("C").setJavadoc("TODO: fix something");
         //System.out.println( _c.ast().getComment().get() );
         assertTrue($comment.javadocComment(c->c.getContent().contains("TODO")).matches(_c) );
 
@@ -119,7 +119,7 @@ public class SannotationTest extends TestCase {
         assertTrue($c.matches(_c) );
 
         assertFalse($annotation.of().$javadoc( c->c.getContent().contains("TODO"))
-                .matches(_annotation.of("C").javadoc("no to d: fix something")));
+                .matches(_annotation.of("C").setJavadoc("no to d: fix something")));
     }
 
 

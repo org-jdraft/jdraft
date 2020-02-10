@@ -10,7 +10,6 @@ import com.github.javaparser.ast.stmt.Statement;
 
 import com.github.javaparser.javadoc.Javadoc;
 import com.github.javaparser.javadoc.JavadocBlockTag;
-import com.github.javaparser.javadoc.description.JavadocSnippet;
 import org.jdraft.*;
 import org.jdraft.macro.*;
 
@@ -208,7 +207,7 @@ public class AnonymousShortcutsTest extends TestCase {
             @_toCtor void m(int v){
                 this.a = v;
             }
-        }).constants("A(1)", "B(2)");    
+        }).addConstants("A(1)", "B(2)");
         
         assertTrue( _e.hasImport(Map.class));
         //System.out.println( _e );

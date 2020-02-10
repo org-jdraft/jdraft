@@ -275,7 +275,7 @@ public class JavaPoet_Tutorial_Test extends TestCase {
         });
 
         _class _c = _class.of("HelloWorld")
-                .fields(_a, _r);
+                .addFields(_a, _r);
 
         //testing
         assertTrue( _a.is("private final String android;"));

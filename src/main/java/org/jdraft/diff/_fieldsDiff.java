@@ -117,9 +117,9 @@ public class _fieldsDiff implements _differ<List<_field>, _java._compound> {
         public void patchLeftToRight() {
             //remove it IN CASE so we dont mistakenly add it twice
             leftParent.removeField(left);
-            leftParent.field(left.copy());
+            leftParent.addField(left.copy());
             rightParent.removeField(left);
-            rightParent.field(left.copy());
+            rightParent.addField(left.copy());
         }
 
         @Override
@@ -166,9 +166,9 @@ public class _fieldsDiff implements _differ<List<_field>, _java._compound> {
         public void patchRightToLeft() {
             //remove it before just so we dont mistakenly add it twice
             leftParent.removeField(right);
-            leftParent.field(right.copy());
+            leftParent.addField(right.copy());
             rightParent.removeField(right);
-            rightParent.field(right.copy());
+            rightParent.addField(right.copy());
         }
 
         @Override

@@ -64,14 +64,14 @@ public class _fieldDiff implements _differ<_field, _java._compound> {
 
         @Override
         public void patchLeftToRight() {
-            leftParent.init(leftExpression);
-            rightParent.init(leftExpression);
+            leftParent.setInit(leftExpression);
+            rightParent.setInit(leftExpression);
         }
 
         @Override
         public void patchRightToLeft() {
-            leftParent.init(rightExpression);
-            rightParent.init(rightExpression);
+            leftParent.setInit(rightExpression);
+            rightParent.setInit(rightExpression);
         }
 
         @Override

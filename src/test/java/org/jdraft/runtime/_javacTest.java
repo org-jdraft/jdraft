@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 public class _javacTest extends TestCase {
 
     public void testJ(){
-        _class _c = _toString.Act.to( _class.of("aaaa.bbb.C").field("int x,y,z;"));
+        _class _c = _toString.Act.to( _class.of("aaaa.bbb.C").addField("int x,y,z;"));
         List<_classFile> _cfs = _runtime.compile(_c);
 
         //use

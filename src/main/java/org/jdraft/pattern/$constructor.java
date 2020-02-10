@@ -258,7 +258,7 @@ public class $constructor
             _ct.setPrivate();
         }
         if( theMethod.hasJavaDocComment() ){
-            _ct.javadoc(theMethod.getJavadocComment().get());
+            _ct.setJavadoc(theMethod.getJavadocComment().get());
         }
         _ct.setThrows( theMethod.getThrownExceptions() );
         _ct.addAnnos( theMethod.getAnnotations()); //add annos
@@ -789,10 +789,10 @@ public class $constructor
     public _constructor draft(Translator translator, Map<String, Object> keyValues) {
         _constructor _ct = _constructor.of();
         _ct.setName( this.name.draft(translator, keyValues));
-        _ct.modifiers( this.modifiers.draft(translator, keyValues));
+        _ct.setModifiers( this.modifiers.draft(translator, keyValues));
         _ct.setParameters(this.parameters.draft(translator, keyValues));
         _ct.setThrows( this.thrown.draft(translator, keyValues));
-        _ct.javadoc(this.javadoc.draft(translator, keyValues));
+        _ct.setJavadoc(this.javadoc.draft(translator, keyValues));
         _ct.setTypeParameters(this.typeParameters.draft(translator, keyValues));
         _ct.setBody(this.body.draft(translator, keyValues));
         _ct.setAnnos(this.annos.draft(translator, keyValues));

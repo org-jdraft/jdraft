@@ -84,7 +84,7 @@ public final class _annotation
                 _ae = _entry.of(vd.getType(), vd.getNameAsString());
             }
             if( ((FieldDeclaration) f).getJavadocComment().isPresent()){
-                _ae.javadoc( ((FieldDeclaration) f).getJavadocComment().get());
+                _ae.setJavadoc( ((FieldDeclaration) f).getJavadocComment().get());
             }
             if( !f.getAnnotations().isEmpty()){
                 _ae.addAnnos( f.getAnnotations());
@@ -94,7 +94,7 @@ public final class _annotation
 
         //static fields are static fields on the annotation
         bds.stream().filter( bd-> bd instanceof FieldDeclaration && bd.asFieldDeclaration().isStatic() ).forEach( f-> {
-            ((FieldDeclaration) f).getVariables().forEach( v-> _a.field(v));
+            ((FieldDeclaration) f).getVariables().forEach( v-> _a.addField(v));
         });
         return _a;
     }
@@ -307,13 +307,13 @@ public final class _annotation
     }
 
     @Override
-    public _annotation javadoc(String... content) {
+    public _annotation setJavadoc(String... content) {
         ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
         return this;
     }
 
     @Override
-    public _annotation javadoc(JavadocComment astJavadocComment) {
+    public _annotation setJavadoc(JavadocComment astJavadocComment) {
         ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
         return this;
     }
@@ -531,7 +531,7 @@ public final class _annotation
     }
 
     @Override
-    public _annotation field( VariableDeclarator field ) {
+    public _annotation addField(VariableDeclarator field ) {
         if(! field.getParentNode().isPresent()){
             throw new _jdraftException("cannot add Var without parent FieldDeclaration");
         }
@@ -650,19 +650,19 @@ public final class _annotation
         }
         
         @Override
-        public _entry type(Type t){
+        public _entry setType(Type t){
             this.astAnnMember.setType( t );
             return this;
         }
 
         @Override
-        public _entry javadoc(String... content) {
+        public _entry setJavadoc(String... content) {
             ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
             return this;
         }
 
         @Override
-        public _entry javadoc(JavadocComment astJavadocComment) {
+        public _entry setJavadoc(JavadocComment astJavadocComment) {
             ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
             return this;
         }

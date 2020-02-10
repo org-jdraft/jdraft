@@ -192,7 +192,7 @@ public class EclipseJDTTest extends TestCase {
         //create a _class model
         _class _c = _class.of(EclipseJDTTest.class);
         //make changes
-        _c.field("public static final int ID = 1234567;");
+        _c.addField("public static final int ID = 1234567;");
         //write source to disk
         Path filePath = _io.out("C:\\temp", _c);
 

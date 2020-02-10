@@ -828,9 +828,6 @@ public class _switchStmt implements _statement._controlFlow._branching<SwitchStm
         return setDefault( _l.astLambda);
     }
 
-
-
-
     /**
      * return the _expression wrapper on the Switch Selector
      * @return

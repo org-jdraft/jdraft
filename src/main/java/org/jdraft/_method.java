@@ -188,13 +188,13 @@ public final class _method
      */
 
     @Override
-    public _method javadoc(String... content) {
+    public _method setJavadoc(String... content) {
         ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
         return this;
     }
 
     @Override
-    public _method javadoc(JavadocComment astJavadocComment) {
+    public _method setJavadoc(JavadocComment astJavadocComment) {
         ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
         return this;
     }
@@ -340,7 +340,7 @@ public final class _method
     }
     
     @Override
-    public _method type(Type type) {
+    public _method setType(Type type) {
         this.astMethod.setType(type);
         return this;
     }

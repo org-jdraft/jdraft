@@ -17,7 +17,7 @@ public class _fieldTest extends TestCase {
     public void testBuildFromScratch(){
         _field _f = _field.of();
         System.out.println(_f);
-        _f.setName("A").type(int.class).modifiers("public static final");
+        _f.setName("A").setType(int.class).setModifiers("public static final");
         //_f.name("A").type(int.class).modifiers("static");
         //_f.name("A").type(int.class).modifiers("public", "static");
         System.out.println(_f);
@@ -40,7 +40,7 @@ public class _fieldTest extends TestCase {
     
     public void testFieldInitWithLambda(){
         _field _f = _field.of("private final String s;")
-                .init( ()-> "Lollipop v." + 5.0d );
+                .setInit( ()-> "Lollipop v." + 5.0d );
         System.out.println(_f );
     }
 

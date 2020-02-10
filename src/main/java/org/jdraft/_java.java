@@ -1408,11 +1408,8 @@ public interface _java {
      * @param <N> the AST node type
      * @param <_N> the _domain type
      * @see _compound for an ast node type that contains multiple walkable child entities
-     *
      */
-    interface _simple<N extends Node, _N extends _simple> extends _astNode<N, _N> {
-
-    }
+    interface _simple<N extends Node, _N extends _simple> extends _astNode<N, _N> { }
 
     /**
      * {@link _compound} entity (having more than one possible child) that maps directly to an AST {@link Node}
@@ -1741,15 +1738,15 @@ public interface _java {
          * @param _tr the _typeRef object
          * @return the modified entity after setting the TYPE
          */
-        _NT type(Type _tr);
+        _NT setType(Type _tr);
 
         /**
          * set the TYPE and return
          * @param t
          * @return
          */
-        default _NT type(_typeRef t) {
-            return type(t.ast());
+        default _NT setType(_typeRef t) {
+            return setType(t.ast());
         }
 
         /**
@@ -1757,8 +1754,8 @@ public interface _java {
          * @param typeRef the String representation of the TYPE
          * @return the modified entity after setting the TYPE
          */
-        default _NT type(String typeRef) {
-            return type(typeRef(typeRef));
+        default _NT setType(String typeRef) {
+            return setType(typeRef(typeRef));
         }
 
         /**
@@ -1766,8 +1763,8 @@ public interface _java {
          * @param clazz the class of the TYPE to set
          * @return the modified entity after setting the TYPE
          */
-        default _NT type(Class clazz) {
-            return type(typeRef(clazz.getCanonicalName()));
+        default _NT setType(Class clazz) {
+            return setType(typeRef(clazz.getCanonicalName()));
         }
 
         /**

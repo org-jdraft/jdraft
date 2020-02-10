@@ -561,19 +561,19 @@ public final class $ {
         return $ex.classEx(ce);
     }
 
-    public static $ex<ConditionalExpr, _ternary> conditionalExpr(){
+    public static $ex<ConditionalExpr, _conditionalExpression> conditionalExpr(){
         return $ex.conditionalEx();
     }
 
-    public static $ex<ConditionalExpr, _ternary> conditionalExpr(String ce){
+    public static $ex<ConditionalExpr, _conditionalExpression> conditionalExpr(String ce){
         return $ex.conditionalEx(ce);
     }
 
-    public static $ex<ConditionalExpr, _ternary> conditionalExpr(ConditionalExpr ce){
+    public static $ex<ConditionalExpr, _conditionalExpression> conditionalExpr(ConditionalExpr ce){
         return $ex.of(ce);
     }
 
-    public static $ex<ConditionalExpr, _ternary> conditionalExpr(Predicate<_ternary> ce){
+    public static $ex<ConditionalExpr, _conditionalExpression> conditionalExpr(Predicate<_conditionalExpression> ce){
         return $ex.conditionalEx(ce);
     }
 

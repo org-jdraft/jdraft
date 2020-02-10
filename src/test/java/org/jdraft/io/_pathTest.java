@@ -31,7 +31,7 @@ public class _pathTest extends TestCase {
         _cs.forEach( c-> assertTrue(c.hasImport(Map.class)));
         assertEquals( 5, _cs.size());
 
-        List<_type> _ts = _b.for_types(t-> t.field("public static final int ID=1;"));
+        List<_type> _ts = _b.for_types(t-> t.addField("public static final int ID=1;"));
         _ts.forEach( t-> assertTrue(t.getField("ID")!= null));
         assertEquals( 3, _ts.size());
 

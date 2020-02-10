@@ -74,7 +74,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
             _ct.setPrivate();
         }
         if( theMethod.hasJavaDocComment() ){
-            _ct.javadoc(theMethod.getJavadocComment().get());
+            _ct.setJavadoc(theMethod.getJavadocComment().get());
         }
         //System.out.println( "Setting throws");
         _ct.setThrows( theMethod.getThrownExceptions() );
@@ -222,13 +222,13 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
     }
 
     @Override
-    public _constructor javadoc(String... content) {
+    public _constructor setJavadoc(String... content) {
         ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
         return this;
     }
 
     @Override
-    public _constructor javadoc(JavadocComment astJavadocComment) {
+    public _constructor setJavadoc(JavadocComment astJavadocComment) {
         ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
         return this;
     }
@@ -543,7 +543,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
          * @param anonymousObjectContainingConstructor
          * @return
          */
-        default _HC constructor(Object anonymousObjectContainingConstructor ){
+        default _HC addConstructor(Object anonymousObjectContainingConstructor ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
             ObjectCreationExpr oce = Ex.newEx(ste);
             MethodDeclaration theMethod = (MethodDeclaration)
@@ -570,7 +570,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
             if( theMethod.hasJavaDocComment() ){
                 _ct.ast().setJavadocComment( theMethod.getJavadocComment().get());
             }
-            constructor(_ct);
+            addConstructor(_ct);
             return (_HC)this;
         }
 
@@ -579,15 +579,15 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
          * @param astConstructor
          * @return 
          */
-        _HC constructor(ConstructorDeclaration astConstructor );
+        _HC addConstructor(ConstructorDeclaration astConstructor );
 
         /**
          * Build & Add a constructor from the String representation of the code
          * @param ctor the constructor that was built
          * @return 
          */
-        default _HC constructor(String ctor){
-            return constructor( new String[]{ctor});
+        default _HC addConstructor(String ctor){
+            return addConstructor( new String[]{ctor});
         }
         
         /**
@@ -617,7 +617,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
          * @param constructor
          * @return
          */
-        default _HC constructor(String... constructor ) {
+        default _HC addConstructor(String... constructor ) {
 
             String combined = Text.combine(constructor);
             if( combined.startsWith("(")) {
@@ -627,7 +627,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
                 } else {
                     _ct = _constructor.of("public " + ((_type) this).getName() + combined);
                 }
-                return constructor(_ct);
+                return addConstructor(_ct);
             }
             if( combined.startsWith("{")){ //no arg default public constructor
                 _constructor _ct = null;
@@ -636,10 +636,10 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
                 } else {
                     _ct = _constructor.of("public " + ((_type) this).getName() + "()"+combined);
                 }
-                return constructor(_ct);
+                return addConstructor(_ct);
             }
 
-            return constructor( Ast.constructor( constructor ) );
+            return addConstructor( Ast.constructor( constructor ) );
         }
         
         /**
@@ -647,8 +647,8 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
          * @param _c
          * @return 
          */
-        default _HC constructor(_constructor _c ) {
-            return constructor( _c.ast() );
+        default _HC addConstructor(_constructor _c ) {
+            return addConstructor( _c.ast() );
         }
     }
 

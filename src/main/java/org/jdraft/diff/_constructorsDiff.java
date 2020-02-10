@@ -120,9 +120,9 @@ public class _constructorsDiff implements
         @Override
         public void patchRightToLeft() {
             leftParent.removeConstructor(right);
-            leftParent.constructor(right);
+            leftParent.addConstructor(right);
             rightParent.removeConstructor(right);
-            rightParent.constructor(right);
+            rightParent.addConstructor(right);
         }
 
         @Override
@@ -169,9 +169,9 @@ public class _constructorsDiff implements
         @Override
         public void patchLeftToRight() {
             leftParent.removeConstructor(left);
-            leftParent.constructor(left);
+            leftParent.addConstructor(left);
             rightParent.removeConstructor(left);
-            rightParent.constructor(left);
+            rightParent.addConstructor(left);
         }
 
         @Override
