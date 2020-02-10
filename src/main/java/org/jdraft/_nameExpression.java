@@ -3,11 +3,9 @@ package org.jdraft;
 import com.github.javaparser.ast.expr.NameExpr;
 import org.jdraft.text.Text;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
-public class _nameExpression implements _expression<NameExpr, _nameExpression>, _java._simple<NameExpr, _nameExpression> {
+public class _nameExpression implements _expression<NameExpr, _nameExpression>, _java._uniNode<NameExpr, _nameExpression> {
 
     public static _nameExpression of(){
         return new _nameExpression( new NameExpr( ));

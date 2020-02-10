@@ -510,7 +510,7 @@ public class $annos
             _type _t = (_type)_j; //only possible
             return selectFirstIn(_t.ast(), selectConstraint); //return the TypeDeclaration, not the CompilationUnit            
         }
-        return selectFirstIn(((_java._compound)_j).ast(), selectConstraint);
+        return selectFirstIn(((_java._compoundNode)_j).ast(), selectConstraint);
     }
     
     /**
@@ -610,7 +610,7 @@ public class $annos
             return listSelectedIn(_t.ast(), selectConstraint);
         }
          
-        return listSelectedIn(((_java._compound)_j).ast(), selectConstraint);
+        return listSelectedIn(((_java._compoundNode)_j).ast(), selectConstraint);
     }
 
     @Override
@@ -705,7 +705,7 @@ public class $annos
             forSelectedIn(_t.ast(), selectActionFn);
             return _j;
         }
-        forSelectedIn((_java._compound) _j, t->true, selectActionFn);
+        forSelectedIn((_java._compoundNode) _j, t->true, selectActionFn);
         return _j;
     }
 
@@ -728,7 +728,7 @@ public class $annos
             forSelectedIn(_t.ast(), selectConstraint, selectActionFn);
             return _j;
         }
-        forSelectedIn( ((_java._compound) _j).ast(), selectConstraint, selectActionFn);
+        forSelectedIn( ((_java._compoundNode) _j).ast(), selectConstraint, selectActionFn);
         return _j;
     } 
     

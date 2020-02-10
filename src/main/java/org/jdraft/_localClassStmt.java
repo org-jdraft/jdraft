@@ -1,7 +1,6 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.LambdaExpr;
-import com.github.javaparser.ast.stmt.ForEachStmt;
 import com.github.javaparser.ast.stmt.LocalClassDeclarationStmt;
 
 import java.util.HashMap;
@@ -14,7 +13,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class _localClassStmt implements _statement<LocalClassDeclarationStmt, _localClassStmt>,
-    _java._compound<LocalClassDeclarationStmt, _localClassStmt> {
+        _java._compoundNode<LocalClassDeclarationStmt, _localClassStmt> {
 
     public static _localClassStmt of(){
         return new _localClassStmt( new LocalClassDeclarationStmt( ));

@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 
-public class _assertStmt implements _statement<AssertStmt, _assertStmt>, _java._compound<AssertStmt,_assertStmt> {
+public class _assertStmt implements _statement<AssertStmt, _assertStmt>, _java._compoundNode<AssertStmt,_assertStmt> {
 
     public static _assertStmt of(){
         return new _assertStmt( new AssertStmt( ));

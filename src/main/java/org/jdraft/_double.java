@@ -2,9 +2,6 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.DoubleLiteralExpr;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class _double implements _expression._literal<DoubleLiteralExpr, _double> {
 
     public static _double of(){
@@ -17,15 +14,15 @@ public class _double implements _expression._literal<DoubleLiteralExpr, _double>
         return new _double(Ex.doubleLiteralEx( code));
     }
 
-    public DoubleLiteralExpr ile;
+    public DoubleLiteralExpr de;
 
-    public _double(DoubleLiteralExpr ile){
-        this.ile = ile;
+    public _double(DoubleLiteralExpr de){
+        this.de = de;
     }
 
     @Override
     public _double copy() {
-        return new _double(this.ile.clone());
+        return new _double(this.de.clone());
     }
 
     @Override
@@ -43,8 +40,27 @@ public class _double implements _expression._literal<DoubleLiteralExpr, _double>
         return this.ast( ).equals(astNode);
     }
 
+    public boolean is(double d){
+        return Ex.equivalent(de, d);
+    }
+
     public Double getValue(){
-        return this.ile.asDouble();
+        return this.de.asDouble();
+    }
+
+    public _double set(String value){
+        this.de.setValue(value);
+        return this;
+    }
+
+    public _double set(Double value){
+        this.de.setDouble(value);
+        return this;
+    }
+
+    public _double set(Float value){
+        this.de.setValue(value+"F");
+        return this;
     }
 
     /**
@@ -55,34 +71,25 @@ public class _double implements _expression._literal<DoubleLiteralExpr, _double>
      * @return
      */
     public String valueAsString(){
-        return this.ile.toString();
+        return this.de.toString();
     }
 
     public DoubleLiteralExpr ast(){
-        return ile;
+        return de;
     }
-
-    /*
-    @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put(_java.Component.LITERAL, this.ile.getValue());
-        return comps;
-    }
-     */
 
     public boolean equals(Object other){
         if( other instanceof _double){
-            return ((_double)other).ile.equals( this.ile );
+            return ((_double)other).de.equals( this.de);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ile.hashCode();
+        return 31 * this.de.hashCode();
     }
 
     public String toString(){
-        return this.ile.toString();
+        return this.de.toString();
     }
 }

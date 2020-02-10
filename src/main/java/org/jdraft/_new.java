@@ -9,7 +9,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class _new implements _expression<ObjectCreationExpr, _new>, _java._compound<ObjectCreationExpr, _new> {
+public class _new implements _expression<ObjectCreationExpr, _new>, _java._compoundNode<ObjectCreationExpr, _new> {
 
     public static _new of(){
         return new _new( new ObjectCreationExpr() );

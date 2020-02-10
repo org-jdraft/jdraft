@@ -9,7 +9,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class _fieldAccess implements _expression<FieldAccessExpr, _fieldAccess>, _java._compound<FieldAccessExpr, _fieldAccess> {
+public class _fieldAccess implements _expression<FieldAccessExpr, _fieldAccess>, _java._compoundNode<FieldAccessExpr, _fieldAccess> {
 
     public static _fieldAccess of(){
         return new _fieldAccess(new FieldAccessExpr());

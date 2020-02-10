@@ -19,7 +19,7 @@ import org.jdraft.text.Text;
  */
 public final class _parameter
     implements _java._namedType<_parameter>, _anno._hasAnnos<_parameter>,
-        _modifiers._hasFinal<_parameter>, _java._compound<Parameter, _parameter> {
+        _modifiers._hasFinal<_parameter>, _java._compoundNode<Parameter, _parameter> {
 
     /**
      *

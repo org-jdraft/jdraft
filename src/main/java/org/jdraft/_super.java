@@ -2,9 +2,6 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.SuperExpr;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Usage of the super keyword
  *
@@ -19,7 +16,7 @@ import java.util.Map;
  *
  * @see _constructorCallStmt
  */
-public class _super implements _expression<SuperExpr, _super>, _java._simple<SuperExpr,_super> {
+public class _super implements _expression<SuperExpr, _super>, _java._uniNode<SuperExpr,_super> {
 
     public static _super of(){
         return new _super( new SuperExpr());

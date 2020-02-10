@@ -3,13 +3,11 @@ package org.jdraft;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.stmt.ContinueStmt;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 
 public final class _continueStmt implements _statement._controlFlow._signal<ContinueStmt, _continueStmt>,
-        _java._simple<ContinueStmt, _continueStmt> {
+        _java._uniNode<ContinueStmt, _continueStmt> {
 
     public static _continueStmt of(){
         return new _continueStmt( new ContinueStmt( ));

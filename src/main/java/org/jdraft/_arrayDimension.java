@@ -16,7 +16,7 @@ import java.util.Objects;
  *
  * @see _arrayCreate where we use these _arrayDimensions to declare arrays
  */
-public class _arrayDimension implements _java._simple<ArrayCreationLevel, _arrayDimension> {
+public class _arrayDimension implements _java._uniNode<ArrayCreationLevel, _arrayDimension> {
 
     public static _arrayDimension of(ArrayCreationLevel acl){
         return new _arrayDimension(acl);

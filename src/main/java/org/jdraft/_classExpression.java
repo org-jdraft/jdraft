@@ -7,7 +7,7 @@ import com.github.javaparser.ast.type.Type;
  * 
  * <PRE><CODE>String.class</CODE></PRE>
  */
-public class _classExpression implements _expression<ClassExpr, _classExpression>, _java._simple<ClassExpr, _classExpression> {
+public class _classExpression implements _expression<ClassExpr, _classExpression>, _java._uniNode<ClassExpr, _classExpression> {
 
     public static _classExpression of(){
         return new _classExpression(new ClassExpr());

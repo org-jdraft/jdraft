@@ -33,13 +33,13 @@ public class _nodePath {
                 if( pathAsTokens[i] instanceof _java.Component){
                     _p = _p.in((_java.Component) pathAsTokens[i], (String) pathAsTokens[i + 1]);
                 } else{
-                    _p = _p.in(_java.Component.of( (Class<_java._compound>)pathAsTokens[i]), (String) pathAsTokens[i + 1]);
+                    _p = _p.in(_java.Component.of( (Class<_java._compoundNode>)pathAsTokens[i]), (String) pathAsTokens[i + 1]);
                 }
             } else {
                 if( pathAsTokens[i] instanceof _java.Component){
                     _p = _p.in((_java.Component) pathAsTokens[i]);
                 } else{
-                    _p = _p.in( _java.Component.of( (Class<_java._compound>)pathAsTokens[i]));
+                    _p = _p.in( _java.Component.of( (Class<_java._compoundNode>)pathAsTokens[i]));
                 }
             }
         }
@@ -189,7 +189,7 @@ public class _nodePath {
      * @param id
      * @return
      */
-    public <_N extends _java._compound> boolean is(int index, Class<_N> clazz, String id) {
+    public <_N extends _java._compoundNode> boolean is(int index, Class<_N> clazz, String id) {
         if (index <= this.size() && index >= 0) {
             return this.componentPath.get(index).implementationClass.equals(clazz)
                     && this.idPath.get(index).equals(id);
@@ -215,7 +215,7 @@ public class _nodePath {
      * @param id
      * @return
      */
-    public <_N extends _java._compound> boolean isLeaf(Class<_N> clazz, String id) {
+    public <_N extends _java._compoundNode> boolean isLeaf(Class<_N> clazz, String id) {
         return isLeaf(clazz) && leafId().equals(id);
     }
 
@@ -233,7 +233,7 @@ public class _nodePath {
      * @param clazz
      * @return
      */
-    public <_N extends _java._compound> boolean isLeaf(Class<_N> clazz) {
+    public <_N extends _java._compoundNode> boolean isLeaf(Class<_N> clazz) {
         return leaf().implementationClass.equals(clazz);
     }
 
@@ -296,7 +296,7 @@ public class _nodePath {
      * @param clazz
      * @return
      */
-    public <_N extends _java._compound> boolean has(Class<_N> clazz) {
+    public <_N extends _java._compoundNode> boolean has(Class<_N> clazz) {
         for (int i = 0; i < size(); i++) {
             if (this.componentPath.get(i).implementationClass.equals(clazz)) {
                 return true;
@@ -330,7 +330,7 @@ public class _nodePath {
      * @param id
      * @return
      */
-    public <_N extends _java._compound> boolean has(Class<_N> clazz, String id) {
+    public <_N extends _java._compoundNode> boolean has(Class<_N> clazz, String id) {
         for (int i = 0; i < size(); i++) {
             if (this.componentPath.get(i).implementationClass.equals(clazz)
                     && this.idPath.get(i).equals(id)) {

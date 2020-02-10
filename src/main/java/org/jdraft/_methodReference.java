@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class _methodReference implements _expression<MethodReferenceExpr, _methodReference>,
-        _java._compound<MethodReferenceExpr, _methodReference> {
+        _java._compoundNode<MethodReferenceExpr, _methodReference> {
 
     public static _methodReference of(){
         return new _methodReference( new MethodReferenceExpr());

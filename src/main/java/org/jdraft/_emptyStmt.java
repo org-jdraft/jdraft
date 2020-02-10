@@ -2,14 +2,12 @@ package org.jdraft;
 
 import com.github.javaparser.ast.stmt.EmptyStmt;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 /**
  * just ";" (i.e. "for(int i=0;;;)")
  */
-public class _emptyStmt implements _statement<EmptyStmt, _emptyStmt>, _java._simple<EmptyStmt, _emptyStmt> {
+public class _emptyStmt implements _statement<EmptyStmt, _emptyStmt>, _java._uniNode<EmptyStmt, _emptyStmt> {
 
     public static _emptyStmt of(){
         return new _emptyStmt( new EmptyStmt( ));
@@ -48,14 +46,6 @@ public class _emptyStmt implements _statement<EmptyStmt, _emptyStmt>, _java._sim
     public EmptyStmt ast(){
         return astStmt;
     }
-
-    /*
-    @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        return comps;
-    }
-     */
 
     public String toString(){
         return this.astStmt.toString();

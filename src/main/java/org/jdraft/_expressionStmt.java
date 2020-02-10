@@ -3,8 +3,6 @@ package org.jdraft;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiConsumer;
@@ -14,7 +12,7 @@ import java.util.function.Function;
 
 
 public class _expressionStmt implements _statement<ExpressionStmt, _expressionStmt>,
-        _java._simple<ExpressionStmt, _expressionStmt> {
+        _java._uniNode<ExpressionStmt, _expressionStmt> {
 
     public static _expressionStmt of(){
         return new _expressionStmt( new ExpressionStmt( ));

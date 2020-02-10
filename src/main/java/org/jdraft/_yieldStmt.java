@@ -1,18 +1,15 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.stmt.ForEachStmt;
 import com.github.javaparser.ast.stmt.YieldStmt;
 import org.jdraft.text.Text;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
 
 
 public class _yieldStmt implements _statement._controlFlow._signal<YieldStmt, _yieldStmt>,
-    _java._simple<YieldStmt, _yieldStmt> {
+        _java._uniNode<YieldStmt, _yieldStmt> {
 
     public static _yieldStmt of(){
         return new _yieldStmt( new YieldStmt( ));

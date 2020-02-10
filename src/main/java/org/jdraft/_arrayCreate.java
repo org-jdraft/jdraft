@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate>,
-        _java._compound<ArrayCreationExpr, _arrayCreate>,
+        _java._compoundNode<ArrayCreationExpr, _arrayCreate>,
         _java._nodeList<ArrayCreationLevel, _arrayDimension, _arrayCreate> {
 
     public static _arrayCreate of( ){

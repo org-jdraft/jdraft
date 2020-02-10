@@ -2,10 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.EnclosedExpr;
 import com.github.javaparser.ast.expr.LambdaExpr;
-import com.github.javaparser.ast.stmt.ExpressionStmt;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -17,7 +14,7 @@ import java.util.function.Function;
  *  <br/><code>(1+1)</code>
  */
 public class _enclosedExpression implements _expression<EnclosedExpr, _enclosedExpression>,
-        _java._simple<EnclosedExpr, _enclosedExpression> {
+        _java._uniNode<EnclosedExpr, _enclosedExpression> {
 
     public static _enclosedExpression of( ){
         return new _enclosedExpression(new EnclosedExpr( ));

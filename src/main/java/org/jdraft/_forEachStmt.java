@@ -16,7 +16,7 @@ import java.util.function.Function;
 
 public class _forEachStmt implements _statement._controlFlow._branching<ForEachStmt, _forEachStmt>,
         _statement._controlFlow._loop<ForEachStmt, _forEachStmt>,
-        _java._compound<ForEachStmt, _forEachStmt>,
+        _java._compoundNode<ForEachStmt, _forEachStmt>,
         _body._hasBody<_forEachStmt>{
 
     public static _forEachStmt of(){

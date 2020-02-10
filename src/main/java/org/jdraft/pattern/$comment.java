@@ -362,7 +362,7 @@ public class $comment <C extends Comment>
     }
 
     public <_J extends _java._domain> _J findAndReplace(_J _c, Map<String, String> targetToReplacement){
-        if( _c instanceof _java._compound){
+        if( _c instanceof _java._compoundNode){
             if( _c instanceof _compilationUnit) {
                 if (((_compilationUnit) _c).isTopLevel()) {
                     findAndReplace(((_compilationUnit) _c).astCompilationUnit(), targetToReplacement);
@@ -370,7 +370,7 @@ public class $comment <C extends Comment>
                     findAndReplace(((_compilationUnit) _c).astCompilationUnit(), targetToReplacement);
                 }
             } else {
-                findAndReplace(((_java._compound) _c).ast(), targetToReplacement);
+                findAndReplace(((_java._compoundNode) _c).ast(), targetToReplacement);
             }
         } else if( _c instanceof _body){
             findAndReplace(((_body) _c).ast(), targetToReplacement);

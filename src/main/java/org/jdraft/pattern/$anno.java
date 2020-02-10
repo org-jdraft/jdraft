@@ -595,7 +595,7 @@ public class $anno
             _type _t = (_type)_j; //only possible
             return selectFirstIn(_t.ast(), selectConstraint); //return the TypeDeclaration, not the CompilationUnit            
         }
-        return selectFirstIn(((_java._compound)_j).ast(), selectConstraint);
+        return selectFirstIn(((_java._compoundNode)_j).ast(), selectConstraint);
     }
     
     @Override
@@ -652,7 +652,7 @@ public class $anno
             _type _t = (_type)_j; //only possible
             return listSelectedIn(_t.ast(), selectConstraint); //return the TypeDeclaration, not the CompilationUnit            
         }
-        return listSelectedIn(((_java._compound)_j).ast(), selectConstraint);
+        return listSelectedIn(((_java._compoundNode)_j).ast(), selectConstraint);
     }    
     
     @Override
@@ -719,7 +719,7 @@ public class $anno
             forSelectedIn(_t.ast(), selectActionFn); //return the TypeDeclaration, not the CompilationUnit            
             return _j;
         }
-        forSelectedIn(((_java._compound) _j).ast(), selectActionFn);
+        forSelectedIn(((_java._compoundNode) _j).ast(), selectActionFn);
         return _j;
     }
     
@@ -742,7 +742,7 @@ public class $anno
             forSelectedIn(_t.ast(), selectConstraint, selectActionFn); //return the TypeDeclaration, not the CompilationUnit            
             return _j;
         }
-        forSelectedIn(((_java._compound) _j).ast(), selectActionFn);
+        forSelectedIn(((_java._compoundNode) _j).ast(), selectActionFn);
         return _j;
     }
     

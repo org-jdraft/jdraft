@@ -1,16 +1,13 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.*;
-import com.github.javaparser.ast.stmt.ForEachStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 
 public class _returnStmt implements _statement._controlFlow._signal<ReturnStmt, _returnStmt>,
-    _java._simple<ReturnStmt, _returnStmt> {
+        _java._uniNode<ReturnStmt, _returnStmt> {
 
     public static _returnStmt of(){
         return new _returnStmt( new ReturnStmt( ));

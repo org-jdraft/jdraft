@@ -153,10 +153,11 @@ public class SbodyTest extends TestCase {
     
     public void testAnyConstruct(){
         _body _b = $body.of().draft();
-        System.out.println("BODY " + _b );
-        assertFalse( _b.isImplemented() );
+
+        //assertFalse( _b.isImplemented() );
         
         _b = $body.of().draft("$body", "{System.out.println(1);}");
+        System.out.println("BODY " + _b );
     }
     
     public void testComposeWith$Label(){        

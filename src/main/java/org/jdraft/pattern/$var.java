@@ -671,7 +671,7 @@ public class $var
             }
             return selectFirstIn( ((_type)_j).ast(), selectConstraint);
         }
-        return selectFirstIn( ((_java._compound)_j).ast(), selectConstraint);
+        return selectFirstIn( ((_java._compoundNode)_j).ast(), selectConstraint);
     }
 
     /**
@@ -718,7 +718,7 @@ public class $var
             _type _t = (_type) _j; //only possible
             return listSelectedIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listSelectedIn( ((_java._compound) _j).ast());
+        return listSelectedIn( ((_java._compoundNode) _j).ast());
     }
     
     /**
@@ -762,7 +762,7 @@ public class $var
             }
             return listSelectedIn( ((_type)_n).ast(), selectConstraint);
         }
-        return listSelectedIn( ((_java._compound)_n).ast(), selectConstraint);
+        return listSelectedIn( ((_java._compoundNode)_n).ast(), selectConstraint);
     }
 
     /**

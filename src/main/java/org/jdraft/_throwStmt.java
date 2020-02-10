@@ -2,11 +2,8 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
-import com.github.javaparser.ast.stmt.ForEachStmt;
 import com.github.javaparser.ast.stmt.ThrowStmt;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiConsumer;
@@ -16,7 +13,7 @@ import java.util.function.Function;
 
 
 public class _throwStmt implements _statement._controlFlow._signal<ThrowStmt, _throwStmt>,
-        _java._simple<ThrowStmt, _throwStmt> {
+        _java._uniNode<ThrowStmt, _throwStmt> {
 
     public static _throwStmt of(){
         return new _throwStmt( new ThrowStmt( ));

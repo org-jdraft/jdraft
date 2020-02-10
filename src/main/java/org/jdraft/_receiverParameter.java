@@ -28,7 +28,7 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _receiverParameter
-        implements _java._compound<ReceiverParameter, _receiverParameter>,
+        implements _java._compoundNode<ReceiverParameter, _receiverParameter>,
         _java._namedType<_receiverParameter>, _anno._hasAnnos<_receiverParameter> {
 
     public static _receiverParameter of( String rp ) {
@@ -174,7 +174,7 @@ public final class _receiverParameter
         }
         
         default ReceiverParameter getAstReceiverParameter(){
-            Node n = (Node) ((_java._compound)this).ast();
+            Node n = (Node) ((_java._compoundNode)this).ast();
             if( n instanceof MethodDeclaration ){
                 MethodDeclaration md = (MethodDeclaration)n;
                 if(md.getReceiverParameter().isPresent()){
@@ -191,7 +191,7 @@ public final class _receiverParameter
         
         default _HRP removeReceiverParameter() {
             if( hasReceiverParameter()){
-                Node n = (Node) ((_java._compound)this).ast();
+                Node n = (Node) ((_java._compoundNode)this).ast();
                 if( n instanceof MethodDeclaration ){
                     MethodDeclaration md = (MethodDeclaration)n;
                     md.removeReceiverParameter();
@@ -212,7 +212,7 @@ public final class _receiverParameter
         }
         
         default _HRP receiverParameter(ReceiverParameter rp ) {
-            Node n = (Node) ((_java._compound)this).ast();
+            Node n = (Node) ((_java._compoundNode)this).ast();
             if( n instanceof MethodDeclaration ){
                 MethodDeclaration md = (MethodDeclaration)n;
                 md.setReceiverParameter(rp);

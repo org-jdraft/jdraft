@@ -17,7 +17,7 @@ import java.util.*;
  */
 public final class _constructorCallStmt
         implements _statement<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
-        _java._compound<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
+        _java._compoundNode<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
         _java._nodeList<Expression, _expression, _constructorCallStmt> {
 
     public static _constructorCallStmt of(){

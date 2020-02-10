@@ -9,7 +9,6 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.comments.Comment;
-import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt;
@@ -18,7 +17,6 @@ import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 
 import org.jdraft.macro._remove;
-import org.jdraft.text.Text;
 
 /**
  * The "body" part of methods, constructors, and static blocks (i.e.
@@ -52,15 +50,21 @@ public final class _body implements _java._domain {
      */
     public static _body of( String body ){
         if( body.trim().equals(";")){
-            return of( 
-                _method.of("void __BODYHOLDER();").ast());
+            return of(_method.of("void EMPTY();").ast());
         }
         // "we" need to put the body inside a parent... lets make it a 
         // method
 
-        _method _m = _method.of("void __BODYHOLDER();");
-        _m.add(body);
-        return of(  _m.ast() );
+        //_method _m = _method.of("void __BODYHOLDER();");
+        //the INTENT was to give the body (braces and all)
+        if( body.startsWith("{") && body.endsWith("}")){
+            _constructor _c = _constructor.of("EMPTY()" + body);
+            return of(_c.ast());
+        } else {
+            _constructor _c = _constructor.of("EMPTY(){" + System.lineSeparator() + body + System.lineSeparator() + "}");
+            //_c.add(body);
+            return of(_c.ast());
+        }
     }
 
     public static _body of( Ex.Command ec ){
@@ -127,12 +131,12 @@ public final class _body implements _java._domain {
      * @return 
      */
     public static _body of( String...body ){
-        String bd = Text.combine(body).trim();
-        if( bd.equals(";")){
+        //String bd = Text.combine(body).trim();
+        //if( bd.equals(";")){
             //return of( _constructor.of("C (){}").ast());
-            return of( _method.of("void __BODYHOLDER();").ast());
-        }
-        return of( _constructor.of("C(){}").add(body).ast() );
+        //    return of( _method.of("void __BODYHOLDER();").ast());
+        //}
+        return of( _constructor.of("EMPTY(){}").add(body).ast() );
         //return of( _method.of("void __BODYHOLDER();").add(body).ast() );
     }
     
@@ -153,9 +157,11 @@ public final class _body implements _java._domain {
         }
         //they COULD be
         if( statement instanceof BlockStmt ){
-            return of( _method.of("void __BODYHOLDER();").setBody((BlockStmt)statement).ast());
+            return of( _constructor.of("EMPTY(){}").setBody((BlockStmt)statement).ast());
+            //return of( _method.of("void __BODYHOLDER();").setBody((BlockStmt)statement).ast());
         }
-        return of( _method.of("void __BODYHOLDER();").add(statement).ast());
+        return of( _constructor.of("EMPTY(){}").add(statement).ast());
+        //return of( _method.of("void __BODYHOLDER();").add(statement).ast());
     }
 
     /**

@@ -840,7 +840,7 @@ public class $constructor
      * @param _n
      * @return 
      */
-    public _constructor draft(_java._compound _n ){
+    public _constructor draft(_java._compoundNode _n ){
         return draft(_n.tokenize() );
     }
 
@@ -1044,7 +1044,7 @@ public class $constructor
                 return null;
             }
         } else{
-            Optional<ConstructorDeclaration> f = ((_java._compound)_j).ast().findFirst(
+            Optional<ConstructorDeclaration> f = ((_java._compoundNode)_j).ast().findFirst(
                 ConstructorDeclaration.class, s -> {
                     Select sel = this.select(s);
                     return sel != null && selectConstraint.test(sel);
@@ -1139,7 +1139,7 @@ public class $constructor
             _type _t = (_type) _j; //only possible
             return listSelectedIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listSelectedIn( ((_java._compound) _j).ast());
+        return listSelectedIn( ((_java._compoundNode) _j).ast());
     }
     
     /**

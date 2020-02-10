@@ -3,9 +3,6 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.ThisExpr;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * An occurrence of the "this" keyword. <br/>
  * <code>World.this.greet()</code> is a MethodCallExpr of method name greet,
@@ -13,7 +10,7 @@ import java.util.Map;
  * <code>this.name</code> is a FieldAccessExpr of field greet, and a ThisExpr as its scope.
  * This ThisExpr has no typeName.
  */
-public class _this implements _expression<ThisExpr, _this>, _java._simple<ThisExpr, _this> {
+public class _this implements _expression<ThisExpr, _this>, _java._uniNode<ThisExpr, _this> {
     public static _this of(){
         return new _this(new ThisExpr());
     }

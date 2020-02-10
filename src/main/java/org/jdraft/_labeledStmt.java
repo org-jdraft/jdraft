@@ -1,9 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.LambdaExpr;
-import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.SimpleName;
-import com.github.javaparser.ast.stmt.ForEachStmt;
 import com.github.javaparser.ast.stmt.LabeledStmt;
 
 import java.util.HashMap;
@@ -17,7 +15,7 @@ import java.util.function.Function;
 
 
 public class _labeledStmt implements _statement<LabeledStmt, _labeledStmt>,
-    _java._compound<LabeledStmt, _labeledStmt>{
+        _java._compoundNode<LabeledStmt, _labeledStmt> {
 
     public static _labeledStmt of(){
         return new _labeledStmt( new LabeledStmt( ));

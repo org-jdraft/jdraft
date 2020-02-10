@@ -3,12 +3,10 @@ package org.jdraft;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.stmt.BreakStmt;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 
-public class _breakStmt implements _statement._controlFlow._signal<BreakStmt, _breakStmt>, _java._simple<BreakStmt, _breakStmt> {
+public class _breakStmt implements _statement._controlFlow._signal<BreakStmt, _breakStmt>, _java._uniNode<BreakStmt, _breakStmt> {
 
     public static _breakStmt of(){
         return new _breakStmt( new BreakStmt( ).removeLabel());

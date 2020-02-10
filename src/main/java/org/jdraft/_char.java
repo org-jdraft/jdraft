@@ -42,7 +42,7 @@ public class _char implements _expression._literal<CharLiteralExpr, _char> {
     }
 
     public boolean is(char c){
-        return this.cle.getValue().equals( c+"");
+        return this.cle.asChar() == c;
     }
 
     public CharLiteralExpr ast(){

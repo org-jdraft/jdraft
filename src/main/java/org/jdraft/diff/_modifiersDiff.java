@@ -15,7 +15,7 @@ import org.jdraft.diff._diff.*;
  * @author Eric
  */
 public class _modifiersDiff implements
-        _differ<NodeList<Modifier>, _java._compound> {
+        _differ<NodeList<Modifier>, _java._compoundNode> {
 
     public static final _modifiersDiff INSTANCE = new _modifiersDiff();
     
@@ -25,15 +25,15 @@ public class _modifiersDiff implements
 
     public _diff diff( _hasModifiers leftParent, _hasModifiers rightParent){
         return diff( _nodePath.of(),
-                new _diffList((_java._compound)leftParent, (_java._compound)rightParent),
-                (_java._compound)leftParent,
-                (_java._compound)rightParent,
+                new _diffList((_java._compoundNode)leftParent, (_java._compoundNode)rightParent),
+                (_java._compoundNode)leftParent,
+                (_java._compoundNode)rightParent,
                 leftParent.getEffectiveModifiers(),
                 rightParent.getEffectiveModifiers());
     }
     
     @Override
-    public <_PN extends _java._compound> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, NodeList<Modifier> left, NodeList<Modifier> right) {
+    public <_PN extends _java._compoundNode> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, NodeList<Modifier> left, NodeList<Modifier> right) {
         if (!Objects.equals(left, right)) {
             dt.addDiff(new _changeModifiers(path.in(_java.Component.MODIFIERS), (_modifiers._hasModifiers) _leftParent, (_modifiers._hasModifiers) _rightParent));
         }
