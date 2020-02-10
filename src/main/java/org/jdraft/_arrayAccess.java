@@ -71,15 +71,16 @@ public class _arrayAccess
         System.arraycopy(indexes, 1, left, 0, left.length);
         return of(ae, left);
     }
-    public ArrayAccessExpr astNode;
 
-    public _arrayAccess(ArrayAccessExpr astNode){
-        this.astNode = astNode;
+    public ArrayAccessExpr aae;
+
+    public _arrayAccess(ArrayAccessExpr aae){
+        this.aae = aae;
     }
 
     @Override
     public _arrayAccess copy() {
-        return new _arrayAccess(this.astNode.clone());
+        return new _arrayAccess(this.aae.clone());
     }
 
     @Override
@@ -96,14 +97,14 @@ public class _arrayAccess
     }
 
     public ArrayAccessExpr ast(){
-        return astNode;
+        return aae;
     }
 
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put(_java.Component.INDEX, astNode.getIndex());
-        comps.put(_java.Component.ARRAY_NAME, astNode.getName());
+        comps.put(_java.Component.INDEX, aae.getIndex());
+        comps.put(_java.Component.ARRAY_NAME, aae.getName());
         return comps;
     }
 
@@ -153,25 +154,25 @@ public class _arrayAccess
 
 
     public _expression getName(){
-        return _expression.of(this.astNode.getName());
+        return _expression.of(this.aae.getName());
     }
 
     public _expression getIndex(){
-        return _expression.of(this.astNode.getIndex());
+        return _expression.of(this.aae.getIndex());
     }
 
     public boolean equals(Object other){
         if( other instanceof _arrayAccess){
-            return ((_arrayAccess)other).astNode.equals( this.astNode);
+            return ((_arrayAccess)other).aae.equals( this.aae);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.astNode.hashCode();
+        return 31 * this.aae.hashCode();
     }
 
     public String toString(){
-        return this.astNode.toString();
+        return this.aae.toString();
     }
 }

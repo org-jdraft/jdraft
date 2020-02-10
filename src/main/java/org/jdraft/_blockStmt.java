@@ -67,25 +67,27 @@ public class _blockStmt implements _statement<BlockStmt, _blockStmt>,
         throw new _jdraftException("No block statement found in lambda");
     }
 
-    private BlockStmt astStmt;
+    private BlockStmt bs;
 
     public _blockStmt(BlockStmt rs){
-        this.astStmt = rs;
+        this.bs = rs;
     }
 
     @Override
     public _blockStmt copy() {
-        return new _blockStmt( this.astStmt.clone());
+        return new _blockStmt( this.bs.clone());
     }
 
     @Override
     public List<_statement> list() {
-        return listStatements();
+        List<_statement> _sts  = new ArrayList<>();
+        this.bs.getStatements().forEach(s -> _sts.add( _statement.of(s)));
+        return _sts;
     }
 
     @Override
     public NodeList<Statement> listAstElements() {
-        return this.astStmt.getStatements();
+        return this.bs.getStatements();
     }
 
     @Override
@@ -96,32 +98,25 @@ public class _blockStmt implements _statement<BlockStmt, _blockStmt>,
         return false;
     }
 
+    /*
     public List<_statement> listStatements(){
         List<_statement> _sts  = new ArrayList<>();
-        this.astStmt.getStatements().forEach(s -> _sts.add( _statement.of(s)));
+        this.bs.getStatements().forEach(s -> _sts.add( _statement.of(s)));
         return _sts;
-    }
-
-    @Override
-    public boolean is(BlockStmt astNode) {
-        return this.astStmt.equals( astNode);
-    }
-
-    public BlockStmt ast(){
-        return astStmt;
-    }
-
-    /*
-    @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put(_java.Component.STATEMENTS, astStmt.getStatements() );
-        return comps;
     }
      */
 
+    @Override
+    public boolean is(BlockStmt astNode) {
+        return this.bs.equals( astNode);
+    }
+
+    public BlockStmt ast(){
+        return bs;
+    }
+
     public String toString(){
-        return this.astStmt.toString();
+        return this.bs.toString();
     }
 
     public boolean equals(Object other){

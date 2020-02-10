@@ -95,8 +95,8 @@ public class SinterfaceTest extends TestCase {
         assertFalse($interface.of($.typeParameter("$R$ extends Map")).matches(_interface.of("class B{}")));
 
         //consistency above
-        assertTrue( $interface.of($.method(m->m.isStatic())).matches(_interface.of("C").method("static void m(){}")));
-        assertFalse( $interface.of($.method(m->m.isStatic())).matches(_interface.of("C").method("void m(){}")));
+        assertTrue( $interface.of($.method(m->m.isStatic())).matches(_interface.of("C").addMethod("static void m(){}")));
+        assertFalse( $interface.of($.method(m->m.isStatic())).matches(_interface.of("C").addMethod("void m(){}")));
 
 
         assertTrue($interface.of($field.of(f->f.isType(int.class))).matches(_interface.of("C").addField("int i=100;")));

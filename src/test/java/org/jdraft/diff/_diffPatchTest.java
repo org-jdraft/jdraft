@@ -631,7 +631,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();
         assertTrue(_diff.of(_i, _i2).isEmpty());
         
-        _i.method("void methodM();");
+        _i.addMethod("void methodM();");
         dl = _diff.of(_i, _i2);
         assertTrue( dl.hasLeftOnlyAt(METHOD));
         assertTrue( dl.hasLeftOnlyAt(METHOD, "methodM()"));

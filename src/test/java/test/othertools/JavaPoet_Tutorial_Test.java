@@ -103,9 +103,9 @@ public class JavaPoet_Tutorial_Test extends TestCase {
 
         _class _c = _class.of("HelloWorld").setFinal();
 
-        _c.method($m.draft("name", "slimShady"));
-        _c.method($m.draft("name", "eminem"));
-        _c.method($m.draft("name", "marshallMathers"));
+        _c.addMethod($m.draft("name", "slimShady"));
+        _c.addMethod($m.draft("name", "eminem"));
+        _c.addMethod($m.draft("name", "marshallMathers"));
 
         _c.forMethods(m-> m.setPublic()); //lets make all methods public so we can test them
 
@@ -137,7 +137,7 @@ public class JavaPoet_Tutorial_Test extends TestCase {
     public void testManualImport(){
         _class _c = _class.of("com.example.helloworld.HelloWorld").setFinal();
         // because we added a method with a String, we can't infer the import (Hoverboard)
-        _c.method("Hoverboard tommorrow() { return new Hoverboard(); }");
+        _c.addMethod("Hoverboard tommorrow() { return new Hoverboard(); }");
         // so we can add it manually to the _class _c
         _c.addImports("com.mattel.Hoverboard");
     }
@@ -147,7 +147,7 @@ public class JavaPoet_Tutorial_Test extends TestCase {
         _class _c = _class.of("com.example.helloworld.HelloWorld").setFinal();
 
         // because we added a method with a String, we can't infer the imports (Hoverboard, List)
-        _c.method("List<Hoverboard> beyond() { ",
+        _c.addMethod("List<Hoverboard> beyond() { ",
                 "    List<Hoverboard> result = new ArrayList<>();",
                 "    result.add(new Hoverboard());",
                 "    result.add(new Hoverboard());",
@@ -169,7 +169,7 @@ public class JavaPoet_Tutorial_Test extends TestCase {
                 .addImports("com.mattel.Hoverboard")
                 .addImports(ArrayList.class, List.class);
 
-        _c.method( new Object(){
+        _c.addMethod(new Object(){
             List<Hoverboard> beyond(){
                 List<Hoverboard> result = new ArrayList<>();
                 result.add( createNimbus(2000));

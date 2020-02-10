@@ -115,7 +115,7 @@ public @interface _equals {
                     }
                 });
                 ts.put("BODY", body);
-                _c.method( $equals.draft(ts) );
+                _c.addMethod( $equals.draft(ts) );
             }
             return _t;
         }

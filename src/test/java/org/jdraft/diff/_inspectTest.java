@@ -205,8 +205,8 @@ public class _inspectTest extends TestCase {
     public void testBody(){
         _method _m1 = _method.of( new Object(){ void m(){} } );
         _method _m2 = _method.of( new Object(){ void m(){} } );
-        _class _c1 = _class.of("C").method(_m1);
-        _class _c2 = _class.of("C").method(_m2);
+        _class _c1 = _class.of("C").addMethod(_m1);
+        _class _c2 = _class.of("C").addMethod(_m2);
         assertTrue(_diff.of(_c1, _c2).isEmpty());
         
         _m1.add(Stmt.of(()->System.out.println(1)));
@@ -238,8 +238,8 @@ public class _inspectTest extends TestCase {
     
     
     public void testMethodDiff(){
-        _class _c1 = _class.of("C").method("void m(){}");
-        _class _c2 = _class.of("C").method("void m(){}");
+        _class _c1 = _class.of("C").addMethod("void m(){}");
+        _class _c2 = _class.of("C").addMethod("void m(){}");
         _c2.forMethods(m-> m.addAnnos(Deprecated.class));
         
         //System.out.println( _c2 );

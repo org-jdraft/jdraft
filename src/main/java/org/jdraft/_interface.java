@@ -288,7 +288,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     }
 
     @Override
-    public _interface method( MethodDeclaration method ) {
+    public _interface addMethod(MethodDeclaration method ) {
         astInterface.addMember( method );
         return this;
     }

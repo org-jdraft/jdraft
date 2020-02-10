@@ -29,7 +29,7 @@ public class WhatKindaStuff2 extends TestCase {
         });
 
         //add overloaded method to do distance between another Point
-        _c.method("public double distanceTo(Point point){",
+        _c.addMethod("public double distanceTo(Point point){",
                 "    return distanceTo(point.x, point.y);",
                 "}");
 

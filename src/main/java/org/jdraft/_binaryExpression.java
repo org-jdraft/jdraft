@@ -223,7 +223,7 @@ public class _binaryExpression implements _expression<BinaryExpr, _binaryExpress
         return comps;
     }
 
-    public boolean isLeft(String left){
+    public boolean isLeft(String... left){
         try{
             return isLeft(Ex.of(left));
         }catch(Exception e){
@@ -236,7 +236,7 @@ public class _binaryExpression implements _expression<BinaryExpr, _binaryExpress
     }
 
 
-    public boolean isRight(String right){
+    public boolean isRight(String... right){
         try{
             return isRight(Ex.of(right));
         }catch(Exception e){

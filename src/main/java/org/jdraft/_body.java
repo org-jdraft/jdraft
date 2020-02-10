@@ -88,7 +88,6 @@ public final class _body implements _java._domain {
         return from( le);
     }
 
-
     public static _body of( Function<? extends Object, ? extends Object> f){
         LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from( le);
@@ -1160,64 +1159,6 @@ public final class _body implements _java._domain {
             }
             return ols.get();
         }
-
-        /**
-         * For each Expression in the body, call the exprActionFn lambda
-         * @param exprActionFn lambda to call on all expressions
-         * @return  the T
-
-        default _HB forExprs(Consumer<Expression> exprActionFn ){
-            if( !isImplemented() ){
-                return (_HB)this;
-            }
-            Walk.in((BlockStmt)this.getBody().ast(), Expression.class, exprActionFn );
-            return (_HB)this;
-        }
-        */
-
-        /**
-         * _walk the body in preorder fashion, intercepting all {@link Expression}s
-         * that implement exprClass and calling the exprActionFn
-         * 
-         * @see Walk#in(Node.TreeTraversal, Node, Class, Predicate, Consumer)
-         * @see Walk#in(com.github.javaparser.ast.Node, java.lang.Class, java.util.function.Predicate, java.util.function.Consumer)
-         * 
-         * @param <E> the underlying target Expression class
-         * @param exprClass the target Expression class
-         * @param exprActionFn the "processing" function for matching exprs
-         * @return the modified T
-
-        default <E extends Expression> _HB forExprs(Class<E> exprClass, Consumer<E> exprActionFn ){
-            if( !isImplemented() ){
-                return (_HB)this;
-            }                     
-            Walk.in((BlockStmt)this.getBody().ast(), exprClass, exprActionFn );
-            return (_HB)this;
-        }
-        */
-        
-        /**
-         * _walk the body in preorder fashion, intercepting all {@link Expression}s
-         * that implement exprClass and match the exprMatchFn and processing
-         * all of which with the exprActionFn
-         * 
-         * @see Walk#in(com.github.javaparser.ast.Node.TreeTraversal, com.github.javaparser.ast.Node, java.lang.Class, java.util.function.Predicate, java.util.function.Consumer)
-         * @see Walk#in(com.github.javaparser.ast.Node, java.lang.Class, java.util.function.Predicate, java.util.function.Consumer)
-         * 
-         * @param <E> the underlying target Expression class
-         * @param exprClass the target Expression class
-         * @param exprMatchFn the matching function to choose which exprs to process
-         * @param exprActionFn the "processing" function for matching exprs
-         * @return the modified T
-
-        default <E extends Expression> _HB forExprs(Class<E> exprClass, Predicate<E>exprMatchFn, Consumer<E> exprActionFn ){
-            if( !isImplemented() ){
-                return (_HB)this;
-            }
-            Walk.in((BlockStmt)this.getBody().ast(), exprClass, exprMatchFn, exprActionFn );
-            return (_HB)this;
-        }
-        */
         
         /**
          * _walk the body in preorder fashion, intercepting all Statements that
@@ -1311,50 +1252,5 @@ public final class _body implements _java._domain {
             }
             return null;
         }
-        
-        /**
-         * Find and return the first Statement of the statementClass
-         * (i.e.
-         * <PRE>
-         * BinaryExpr be = _body.firstExpr(BinaryExpr.class);
-         * BinaryExpr be = _body.firstExpr(Expr.BINARY);
-         * </PRE>
-         * @see Ex
-         * 
-         * @param <E>
-         * @param exprClass the specific Statement class 
-         * @return the first matching statement or null if no statements match
-
-        default <E extends Expression> E firstExpr( Class<E> exprClass ){
-            return firstExpr(exprClass, e->true);
-        }
-        */
-
-         /**
-         * Find and return the first Statement of the statementClass that matches 
-         * the stmtMatchFn
-         * (i.e.
-         * <PRE>
-         * IfStmt rs = _body.firstStmt(IfStmt.class, i->i.hasElse() );
-         * IfStmt rs = _body.firstStmt(Stmt.IF, i->i.hasElse() );
-         * </PRE>
-         * @see Stmt 
-         * 
-         * @param <E>
-         * @param exprClass the specific Expression class 
-         * @param exprMatchFn the matching lambda function for the Expression
-         * @return the first matching statement or null if no statements match
-
-        default <E extends Expression> E firstExpr( Class<E> exprClass, Predicate<E> exprMatchFn ){
-            if( !isImplemented() ){
-                return null;
-            }
-            Optional<E> of = getBody().ast().findFirst(exprClass, exprMatchFn);
-            if (of.isPresent()) {
-                return of.get();
-            }
-            return null;
-        }
-        */
     }    
 }

@@ -801,7 +801,8 @@ public interface _java {
         CHECK("check", Expression.class), //assertStmt
         MESSAGE("message", Expression.class), //assertStmt
         LABEL("label", String.class), //breakStmt, labeledStmt
-        THIS_CALL("thisCall", Boolean.class), //thisOrSuperStmt
+        THIS_CALL("thisCall", Boolean.class), //constructorCallStmt
+        SUPER_CALL("superCall", Boolean.class), //constructorCallStmt
         ITERABLE("iterable", Expression.class), //forEachStmt
         VARIABLE("variable", VariableDeclarationExpr.class), //forEachStmt
         INITIALIZATION("initialization", List.class, Expression.class), //forStmt

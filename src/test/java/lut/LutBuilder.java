@@ -67,7 +67,7 @@ public class LutBuilder {
                 $LUT_CASE.fill(StringLiteralTranslate, k, v).toString() ) );
         String code = $SWITCH_STMT.draft("cases", caseStatements );
         _m.setBody(code); //NOTE: if the generated code is not parseable, it'll fail here
-        return _class.of(className).method( _m );
+        return _class.of(className).addMethod( _m );
     }
 
     public static Object runtimeLut( String className, Class lutInterface, Map keyValues){

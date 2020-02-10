@@ -317,7 +317,7 @@ public class _constant implements _javadoc._hasJavadoc<_constant>,
 
 
     @Override
-    public _constant method( MethodDeclaration method ) {
+    public _constant addMethod(MethodDeclaration method ) {
         this.astConstant.getClassBody().add( method );
         return this;
     }

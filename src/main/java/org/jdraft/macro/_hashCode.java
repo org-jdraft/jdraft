@@ -145,7 +145,7 @@ public @interface _hashCode {
                 //construct Statements for all FIELDS into the BODY BlockStmt
                 _c.forFields(HASH_CODE_FIELD_MATCH_FN, f-> body.addStatement(_fieldToStatement.constructStmt(f)));
                 tokens.put("body", body); //the body:{} will be replaced with the code in the BlockStmt
-                _c.method($HASHCODE.draft(tokens));
+                _c.addMethod($HASHCODE.draft(tokens));
             }
             return t;
         }

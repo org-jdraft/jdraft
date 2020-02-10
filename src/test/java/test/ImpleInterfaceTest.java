@@ -22,12 +22,12 @@ public class ImpleInterfaceTest extends TestCase {
 
     static _class _implementManual = _class.of("my.Impl")
             .implement(MyInterface.class) //will implement/ import the class
-            .method("public int getR(){", //manually implement the method
+            .addMethod("public int getR(){", //manually implement the method
                     "   return 120;",
                     "}");
     static _class _implementManualLambda = _class.of("my.Impl")
             .implement(MyInterface.class) //will implement/ import the class
-            .method( new Object(){ public int getR(){ return 120; }} );
+            .addMethod(new Object(){ public int getR(){ return 120; }} );
 
     /** Recommended */
     static _class _implementAnonymousBody = _class.of("my.Impl", new MyInterface(){ //I should Import the interface

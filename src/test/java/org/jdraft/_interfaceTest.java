@@ -151,11 +151,11 @@ public class _interfaceTest extends TestCase {
         _i.addExtend( "MarkerInterface<String>").addExtend( "WithDefaultMethods<Serializable>");
         _i.addField( "/** field javadoc */", "@ann @ann2(k='2',v=3)", "static final int VALUE = 120;");
         
-        _i.method( "@ann @ann2(k='F',v=12345)", "static int getValue(){","return 12345;", "}");
+        _i.addMethod( "@ann @ann2(k='F',v=12345)", "static int getValue(){","return 12345;", "}");
         _method _m = _method.of("<E extends Base> E genMethod(@ann @ann2(k='8',v=12) String s,final int...vals );");
         _m.setJavadoc( "the genMethod","@param <E>", "@param s", "@param vals", "@return");
-        _i.method( _m );
-        _i.method( "/**",
+        _i.addMethod( _m );
+        _i.addMethod( "/**",
                    " * javadoc",
                    " * @return something",
                    " */",

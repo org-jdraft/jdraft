@@ -282,7 +282,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMe
     }
 
     @Override
-    public _enum method( MethodDeclaration method ) {
+    public _enum addMethod(MethodDeclaration method ) {
         astEnum.addMember( method );
         return this;
     }

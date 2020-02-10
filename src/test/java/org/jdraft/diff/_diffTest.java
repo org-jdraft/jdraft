@@ -199,7 +199,7 @@ public class _diffTest extends TestCase {
         _enumDiff.ENUM_CONSTANT_DIFF.diff(path, dt, leftRoot, rightRoot, _a1, _a2);
         System.out.println( dt );
         
-        _a1.method("int m(){ return 1; }");
+        _a1.addMethod("int m(){ return 1; }");
         _a1.addField("int i=100;");
         _a1.addArgument(0);
         _a1.addAnnos(Deprecated.class);

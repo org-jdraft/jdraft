@@ -191,8 +191,7 @@ public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate
         return this;
     }
 
-    public List<_arrayDimension> getArrayDimensions(){
-
+    public List<_arrayDimension> listArrayDimensions(){
         List<_arrayDimension> ads = new ArrayList<>();
         this.astNode.getLevels().forEach(d -> ads.add( _arrayDimension.of(d)));
         return ads;

@@ -46,6 +46,22 @@ public class _breakStmt implements _statement._controlFlow._signal<BreakStmt, _b
         return null;
     }
 
+    public boolean hasLabel(){
+        return this.astStmt.getLabel().isPresent();
+    }
+
+    public boolean isLabel(String label){
+        if( this.astStmt.getLabel().isPresent() ) {
+            return Objects.equals(this.astStmt.getLabel().get().asString(), label);
+        }
+        return label == null;
+    }
+
+    public _breakStmt setLabel(SimpleName sn){
+        this.astStmt.setLabel( sn );
+        return this;
+    }
+
     public _breakStmt setLabel(String label){
         this.astStmt.setLabel( new SimpleName(label));
         return this;
@@ -64,17 +80,6 @@ public class _breakStmt implements _statement._controlFlow._signal<BreakStmt, _b
     public BreakStmt ast(){
         return astStmt;
     }
-
-    /*
-    @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        if( astStmt.getLabel().isPresent()){
-            comps.put(_java.Component.LABEL, astStmt.getLabel().get().asString());
-        }
-        return comps;
-    }
-     */
 
     public String toString(){
         return this.astStmt.toString();

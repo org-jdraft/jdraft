@@ -24,7 +24,7 @@ public class OverviewTest extends TestCase {
 
         //models compose
         _point.addFields(_x, _y)
-                .methods(_getX, _setX, _getY, _setY);
+                .addMethods(_getX, _setX, _getY, _setY);
         System.out.println( _point );
     }
 
@@ -71,7 +71,7 @@ public class OverviewTest extends TestCase {
         //_class _point = _class.of("graph.Point", new @_dto Object(){ @_final double x, y; });
         _class _point = _class.of(Point.class);
         //add a distance method
-        _point.method(new Object(){
+        _point.addMethod(new Object(){
            public double distanceTo( double x, double y ){
                return Math.sqrt((this.y - y) * (this.y - y) + (this.x - x) * (this.x - x));
            }

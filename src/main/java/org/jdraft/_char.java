@@ -2,9 +2,6 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.CharLiteralExpr;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class _char implements _expression._literal<CharLiteralExpr, _char> {
 
     public static _char of(){
@@ -20,15 +17,15 @@ public class _char implements _expression._literal<CharLiteralExpr, _char> {
         return new _char(Ex.charLiteralEx( code));
     }
 
-    public CharLiteralExpr ile;
+    public CharLiteralExpr cle;
 
-    public _char(CharLiteralExpr ile){
-        this.ile = ile;
+    public _char(CharLiteralExpr cle){
+        this.cle = cle;
     }
 
     @Override
     public _char copy() {
-        return new _char(this.ile.clone());
+        return new _char(this.cle.clone());
     }
 
     @Override
@@ -44,40 +41,39 @@ public class _char implements _expression._literal<CharLiteralExpr, _char> {
         return this.ast( ).equals(astNode);
     }
 
-    public CharLiteralExpr ast(){
-        return ile;
+    public boolean is(char c){
+        return this.cle.getValue().equals( c+"");
     }
 
-    /*
-    @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put(_java.Component.LITERAL, this.ile.getValue());
-        return comps;
+    public CharLiteralExpr ast(){
+        return cle;
     }
-     */
 
     public boolean equals(Object other){
         if( other instanceof _char){
-            return ((_char)other).ile.equals( this.ile );
+            return ((_char)other).cle.equals( this.cle);
         }
         return false;
     }
 
+    public _char setValue( char c){
+        this.cle.setValue(c+"");
+        return this;
+    }
+
     public char getValue(){
-        return this.ile.asChar();
+        return this.cle.asChar();
     }
 
     public String valueAsString(){
-        return this.ile.toString();
+        return this.cle.toString();
     }
 
     public int hashCode(){
-        return 31 * this.ile.hashCode();
+        return 31 * this.cle.hashCode();
     }
 
-
     public String toString(){
-        return this.ile.toString();
+        return this.cle.toString();
     }
 }

@@ -248,7 +248,7 @@ public class _typeTest extends TestCase {
     public void testTypeImport(){
         _class _c = _class.of("aaaa.vvvv.G");
         _class _c2 = _class.of("aaaa.xxxx.G")
-            .method( new Object(){ public @_static final void m(){} } );
+            .addMethod(new Object(){ public @_static final void m(){} } );
         
         assertFalse( _c.hasImport(_c2) );
         assertFalse( _c.hasImport(_c2.getFullName()) );

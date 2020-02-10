@@ -94,10 +94,10 @@ public class SpoonAnalysisTests extends TestCase {
         //List<_type> _ts = _batch.of(...path to source directory...).listTypes();
         //but for testing sake
         List<_type> _ts = new ArrayList<_type>();
-        _ts.add( _class.of("qpwc.AClass").method("public void a(){}") );
-        _ts.add( _class.of("qpwc.BClass").method("public void b(){}") );
-        _ts.add( _class.of("publicapi.CClass").method("public void c(){}") );
-        _ts.add( _class.of("qpwc.aaaa.BClass").method("public void XXXXX(){}") );
+        _ts.add( _class.of("qpwc.AClass").addMethod("public void a(){}") );
+        _ts.add( _class.of("qpwc.BClass").addMethod("public void b(){}") );
+        _ts.add( _class.of("publicapi.CClass").addMethod("public void c(){}") );
+        _ts.add( _class.of("qpwc.aaaa.BClass").addMethod("public void XXXXX(){}") );
 
         assertEquals( 3, $publicMethodsInExpectedPackages.count(_ts));
 

@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.CatchClause;
@@ -25,7 +26,6 @@ public class _catch implements _java._compound<CatchClause, _catch>,_body._hasBo
     public static _catch of( String...code){
         return new _catch(Ast.catchClause( code));
     }
-
 
     public static <A extends Object> _catch of(Ex.Command c){
         LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
@@ -71,22 +71,43 @@ public class _catch implements _java._compound<CatchClause, _catch>,_body._hasBo
 
     public CatchClause cc;
 
-
     @Override
     public _catch copy() {
         return new _catch( this.cc.clone() );
     }
+
     public _catch(CatchClause cc){
         this.cc = cc;
     }
 
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Ast.catchClause(stringRep));
-        }catch(Exception e){
-            return false;
-        }
+    public _parameter getParameter(){
+        return _parameter.of(this.cc.getParameter());
+    }
+
+    public _catch setParameter(String... parameter){
+        return setParameter(parameter);
+    }
+
+    public _catch setParameter(Parameter parameter){
+        this.cc.setParameter(parameter);
+        return this;
+    }
+
+    public _catch setParameter(_parameter _p){
+        this.cc.setParameter(_p.ast());
+        return this;
+    }
+
+    public boolean isParameter(String... parameter){
+        return isParameter(parameter);
+    }
+
+    public boolean isParameter(Parameter parameter){
+        return Objects.equals(this.cc.getParameter(), parameter);
+    }
+
+    public boolean isParameter(_parameter _p){
+        return Objects.equals(this.cc.getParameter(), _p.ast());
     }
 
     @Override
@@ -121,6 +142,15 @@ public class _catch implements _java._compound<CatchClause, _catch>,_body._hasBo
             bd.asBlockStmt().addStatement(1+startStatementIndex, statements[i]);
         }
         return this;
+    }
+
+    @Override
+    public boolean is(String... stringRep) {
+        try{
+            return is( Ast.catchClause(stringRep));
+        }catch(Exception e){
+            return false;
+        }
     }
 
     @Override

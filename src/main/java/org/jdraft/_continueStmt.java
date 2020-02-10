@@ -51,6 +51,17 @@ public final class _continueStmt implements _statement._controlFlow._signal<Cont
         return null;
     }
 
+    public boolean hasLabel(){
+        return this.astStmt.getLabel().isPresent();
+    }
+
+    public boolean isLabel(String label){
+        if( this.astStmt.getLabel().isPresent() ) {
+            return Objects.equals(this.astStmt.getLabelAsString().get(), label);
+        }
+        return label == null;
+    }
+
     public _continueStmt setLabel(String label){
         this.astStmt.setLabel( new SimpleName(label));
         return this;

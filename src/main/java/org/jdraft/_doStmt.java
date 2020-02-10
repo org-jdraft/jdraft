@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.DoStmt;
@@ -95,6 +96,33 @@ public class _doStmt implements _statement._controlFlow._loop<DoStmt, _doStmt>,
         return _expression.of(this.astStmt.getCondition());
     }
 
+    public boolean isCondition( String...expr){
+        return isCondition( Ex.of(expr));
+    }
+
+    public boolean isCondition( _expression _e){
+        return isCondition(_e.ast());
+    }
+
+    public boolean isCondition( Expression e){
+        return Objects.equals( this.astStmt.getCondition(), e);
+    }
+
+    public _doStmt setCondition( String...expr){
+        this.astStmt.setCondition(Ex.of(expr));
+        return this;
+    }
+
+    public _doStmt setCondition( Expression e){
+        this.astStmt.setCondition( e );
+        return this;
+    }
+
+    public _doStmt setCondition(_expression e){
+        this.astStmt.setCondition(e.ast());
+        return this;
+    }
+
     public _body getBody(){
         return _body.of( this.astStmt.getBody() );
     }
@@ -102,11 +130,6 @@ public class _doStmt implements _statement._controlFlow._loop<DoStmt, _doStmt>,
     @Override
     public _doStmt setBody(BlockStmt body) {
         this.astStmt.setBody(body);
-        return this;
-    }
-
-    public _doStmt setCondition(_expression e){
-        this.astStmt.setCondition(e.ast());
         return this;
     }
 

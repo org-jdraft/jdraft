@@ -341,7 +341,7 @@ public class $class
 
         _c.addAnnos( this.annos.draft(translator, base).ast() );
         this.initBlocks.forEach(ib -> _c.initBlock( ib.draft(translator, base)));
-        this.methods.forEach(m -> _c.method( m.draft(translator, base)) );
+        this.methods.forEach(m -> _c.addMethod( m.draft(translator, base)) );
         this.fields.forEach(f-> _c.addField(f.draft(translator, base)));
         this.ctors.forEach(c -> {
             _constructor _ctor = c.draft(translator, base);

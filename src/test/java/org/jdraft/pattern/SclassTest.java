@@ -98,8 +98,8 @@ public class SclassTest extends TestCase {
         assertFalse($class.of($.typeParameter("$R$ extends Map")).matches(_class.of("class B{}")));
 
         //consistency above
-        assertTrue( $class.of($.method(m->m.isStatic())).matches(_class.of("C").method("static void m(){}")));
-        assertFalse( $class.of($.method(m->m.isStatic())).matches(_class.of("C").method("void m(){}")));
+        assertTrue( $class.of($.method(m->m.isStatic())).matches(_class.of("C").addMethod("static void m(){}")));
+        assertFalse( $class.of($.method(m->m.isStatic())).matches(_class.of("C").addMethod("void m(){}")));
 
         assertTrue( $class.of($.constructor(c->c.listStatements().size() >0)).matches(
                 _class.of("C").addConstructor("{System.out.println(1);}")) );

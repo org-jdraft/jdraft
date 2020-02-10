@@ -51,11 +51,11 @@ public class JavaParserLucaReplace2Test extends TestCase {
      */
     public void testGenerate_RunMethod_VerifyResult(){
         assertEquals("Hello Eric"+System.lineSeparator(),
-                _proxy.of( _class.of("C").method(generateGreetings(true)))
+                _proxy.of( _class.of("C").addMethod(generateGreetings(true)))
                         .call("greetings", "Eric"));
 
         assertEquals("Good Morning",
-                _proxy.of( _class.of("C").method(generateGreetings(false)))
+                _proxy.of( _class.of("C").addMethod(generateGreetings(false)))
                         .call("greetings", "Eric"));
     }
 }

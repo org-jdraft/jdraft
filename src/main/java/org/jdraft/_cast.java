@@ -1,10 +1,13 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.CastExpr;
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
+import com.github.javaparser.ast.type.Type;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -110,8 +113,32 @@ public class _cast implements _expression<CastExpr, _cast>, _java._compound<Cast
         return comps;
     }
 
+    public boolean isType(String type){
+        return isType(Ast.typeRef(type));
+    }
+
+    public boolean isType( _typeRef _t){
+        return isType(_t.ast());
+    }
+
+    public boolean isType( Type t){
+        return Ast.typesEqual(this.ce.getType(), t);
+    }
+
     public _typeRef getType(){
         return _typeRef.of(this.ce.getType());
+    }
+
+    public boolean isExpression(String exp){
+        return isExpression(Ex.of(exp));
+    }
+
+    public boolean isExpression( _expression _e){
+        return isExpression(_e.ast());
+    }
+
+    public boolean isExpression( Expression e){
+        return Objects.equals( this.ce.getExpression(), e);
     }
 
     public _expression getExpression(){

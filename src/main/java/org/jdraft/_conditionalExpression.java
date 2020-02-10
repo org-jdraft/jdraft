@@ -1,10 +1,12 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.ConditionalExpr;
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -15,7 +17,8 @@ import java.util.function.Function;
  * The ternary conditional expression.
  * In <code>b==0?x:y</code>, b==0 is the condition, x is thenExpr, and y is elseExpr.
  */
-public class _conditionalExpression implements _expression<ConditionalExpr, _conditionalExpression>, _java._compound<ConditionalExpr, _conditionalExpression> {
+public class _conditionalExpression implements _expression<ConditionalExpr,
+        _conditionalExpression>, _java._compound<ConditionalExpr, _conditionalExpression> {
 
     public static _conditionalExpression of(){
         return new _conditionalExpression( new ConditionalExpr( ));
@@ -26,7 +29,6 @@ public class _conditionalExpression implements _expression<ConditionalExpr, _con
     public static _conditionalExpression of(String...code){
         return new _conditionalExpression(Ex.conditionalEx( code));
     }
-
 
     public static <A extends Object> _conditionalExpression of(Ex.Command c){
         LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
@@ -106,6 +108,87 @@ public class _conditionalExpression implements _expression<ConditionalExpr, _con
         comps.put(_java.Component.THEN, ce.getThenExpr());
         comps.put(_java.Component.ELSE, ce.getElseExpr());
         return comps;
+    }
+
+    public boolean isCondition( String...expr){
+        return isCondition( Ex.of(expr));
+    }
+
+    public boolean isCondition( _expression _e){
+        return isCondition(_e.ast());
+    }
+
+    public boolean isCondition( Expression e){
+        return Objects.equals( this.ce.getCondition(), e);
+    }
+
+    public _conditionalExpression setCondition( String...expr){
+        this.ce.setCondition(Ex.of(expr));
+        return this;
+    }
+
+    public _conditionalExpression setCondition( _expression _e){
+        this.ce.setCondition(_e.ast());
+        return this;
+    }
+
+    public _conditionalExpression setCondition( Expression e){
+        this.ce.setCondition( e );
+        return this;
+    }
+
+    public boolean isThen( String...expr){
+        return isThen( Ex.of(expr));
+    }
+
+    public boolean isThen( _expression _e){
+        return isThen(_e.ast());
+    }
+
+    public boolean isThen( Expression e){
+        return Objects.equals( this.ce.getCondition(), e);
+    }
+
+    public _conditionalExpression setThen( String...expr){
+        this.ce.setThenExpr(Ex.of(expr));
+        return this;
+    }
+
+    public _conditionalExpression setThen( _expression _e){
+        this.ce.setThenExpr(_e.ast());
+        return this;
+    }
+
+    public _conditionalExpression setThen( Expression e){
+        this.ce.setThenExpr( e );
+        return this;
+    }
+
+    public _conditionalExpression setElse( _expression _e){
+        this.ce.setElseExpr(_e.ast());
+        return this;
+    }
+
+    public boolean isElse( String...expr){
+        return isElse( Ex.of(expr));
+    }
+
+    public boolean isElse( _expression _e){
+        return isElse(_e.ast());
+    }
+
+    public boolean isElse( Expression e){
+        return Objects.equals( this.ce.getCondition(), e);
+    }
+
+    public _conditionalExpression setElse( Expression e){
+        this.ce.setElseExpr( e );
+        return this;
+    }
+
+    public _conditionalExpression setElse( String...expr){
+        this.ce.setElseExpr(Ex.of(expr));
+        return this;
     }
 
     public _expression getCondition(){

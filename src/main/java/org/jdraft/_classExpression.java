@@ -1,9 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.ClassExpr;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.github.javaparser.ast.type.Type;
 
 /**
  * 
@@ -21,15 +19,15 @@ public class _classExpression implements _expression<ClassExpr, _classExpression
         return new _classExpression(Ex.classEx( code));
     }
 
-    public ClassExpr ile;
+    public ClassExpr ce;
 
-    public _classExpression(ClassExpr ile){
-        this.ile = ile;
+    public _classExpression(ClassExpr ce){
+        this.ce = ce;
     }
 
     @Override
     public _classExpression copy() {
-        return new _classExpression(this.ile.clone());
+        return new _classExpression(this.ce.clone());
     }
 
     @Override
@@ -46,34 +44,37 @@ public class _classExpression implements _expression<ClassExpr, _classExpression
     }
 
     public ClassExpr ast(){
-        return ile;
+        return ce;
     }
 
-    /*
-    @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put(_java.Component.TYPE, ile.getType());
-        return comps;
+    public boolean isType(String type){
+        return isType(Ast.typeRef(type));
     }
-     */
+
+    public boolean isType( _typeRef _t){
+        return isType(_t.ast());
+    }
+
+    public boolean isType( Type t){
+        return Ast.typesEqual(this.ce.getType(), t);
+    }
 
     public _typeRef getType(){
-        return _typeRef.of(this.ile.getType());
+        return _typeRef.of(this.ce.getType());
     }
 
     public boolean equals(Object other){
         if( other instanceof _classExpression){
-            return ((_classExpression)other).ile.equals( this.ile );
+            return ((_classExpression)other).ce.equals( this.ce);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ile.hashCode();
+        return 31 * this.ce.hashCode();
     }
     
     public String toString(){
-        return this.ile.toString();
+        return this.ce.toString();
     }
 }

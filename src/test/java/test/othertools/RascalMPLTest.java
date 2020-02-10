@@ -76,10 +76,10 @@ public class RascalMPLTest extends TestCase {
         _class _c = $publicFieldOnClass.forEachIn(Sample.class, f-> {
             f.setPrivate(); //make the field private
             _method._hasMethods _hms = f.getParentMember();
-            _hms.method( $getMethod.draft("type", f.getType(), "name", f.getName()) );
+            _hms.addMethod( $getMethod.draft("type", f.getType(), "name", f.getName()) );
 
             if( !f.isFinal()){ /* 2) only create the set method for NON-final fields */
-                _hms.method( $setMethod.draft("type", f.getType(), "name", f.getName()) );
+                _hms.addMethod( $setMethod.draft("type", f.getType(), "name", f.getName()) );
             }
         });
         /* 3) extra validation to verify results */

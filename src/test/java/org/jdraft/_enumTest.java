@@ -37,9 +37,9 @@ public class _enumTest extends TestCase {
                 .addField("public int F = 1;")
                 .addField(_field.of("String nm;")) //or this way
                 .addField( Ast.field("float ff = 10.2f") ) //or this way (AST)
-                .method("public int rr() { return 3; }") //this way
-                .method(_method.of("int g(){ return 12345;}")) //or this way
-                .method(Ast.method("double dd(){ return 3.45d;}")); //or this way
+                .addMethod("public int rr() { return 3; }") //this way
+                .addMethod(_method.of("int g(){ return 12345;}")) //or this way
+                .addMethod(Ast.method("double dd(){ return 3.45d;}")); //or this way
 
         System.out.println( _c );
     }

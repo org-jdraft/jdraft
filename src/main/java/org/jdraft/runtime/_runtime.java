@@ -474,7 +474,7 @@ public class _runtime {
         //    MethodReferenceExpr mre = expr.asMethodReferenceExpr();
         //    _class _c = _class.of("adhoc.ExprEval").method( $evalExpr.draft("expr", expr) );
         //}
-        _class _c = _class.of("adhoc.ExprEval").method( $evalExpr.draft("expr", expr) );
+        _class _c = _class.of("adhoc.ExprEval").addMethod( $evalExpr.draft("expr", expr) );
         return proxyOf(_c).call("eval");
     }
 

@@ -504,13 +504,13 @@ public class _classTest extends TestCase {
                 .typeParameters("<T extends B, C extends List<D>>")
                 .addExtend("aaaa.Base")
                 .addImplements("rrrrr.T", "iiii.R")
-                .method("aaaa.B blah( bbb.C c){}");
+                .addMethod("aaaa.B blah( bbb.C c){}");
 
         _class b = _class.of("A")
                 .typeParameters("<C extends java.util.List<ddd.D>, T extends bbbb.B>")
                 .addExtend("Base")
                 .addImplements("R", "T")
-                .method("B blah( C c){}");
+                .addMethod("B blah( C c){}");
 
         assertEquals( a, b);
         assertEquals( a.hashCode(), b.hashCode());
@@ -576,10 +576,10 @@ public class _classTest extends TestCase {
 
     public void testMethodLambda(){
         //_class _c = _class.of("aaaa.V").method("myMethod", ()-> System.out.println("Message"));
-        _class _c = _class.of("aaaa.V").method(new Object(){ void myMethod(String a){ System.out.println("a : "+a); } } );
+        _class _c = _class.of("aaaa.V").addMethod(new Object(){ void myMethod(String a){ System.out.println("a : "+a); } } );
         
         //_c = _class.of("aaaa.V").method("myMethod", (String a)-> System.out.println("a : "+a));
-        _c = _class.of("aaaa.V").method(new Object(){ 
+        _c = _class.of("aaaa.V").addMethod(new Object(){
             void myMethod(String a, Map<Integer,String>mi){ 
                 System.out.println("a : "+a+" "+mi);  
             } 
@@ -761,7 +761,7 @@ public class _classTest extends TestCase {
             "protected <e extends Element> Cgg( @ann @ann2(k=5)final String s, int...varArgs3 ) throws P, Q, D{",
             "     System.out.println(12);",
             "}");
-        _c.method( "/** method JAVADOC */",
+        _c.addMethod( "/** method JAVADOC */",
             "@ann",
             "@ann2(k=8,v='l')",
             "public static <e extends Fuzz> void doIt( @ann @ann2(k=7)final String xx, int...varArgs ) throws G, H, I{",

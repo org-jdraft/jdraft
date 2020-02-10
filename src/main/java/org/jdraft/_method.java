@@ -172,21 +172,6 @@ public final class _method
         return _mm;
     }
 
-    /*
-    public static _method fromSignature(String signature) {
-        String[] toks = signature.split(" ");
-        if (toks.length == 1) {
-            //single token shortcut... make it "public void"
-            signature = "public void " + signature;
-        }
-        if (!signature.contains("(")) {
-            signature = signature + "()";
-        }
-        signature = signature + "{}";
-        return of(signature);
-    }
-     */
-
     @Override
     public _method setJavadoc(String... content) {
         ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
@@ -661,18 +646,18 @@ public final class _method
             return (_HM) this;
         }
 
-        _HM method(MethodDeclaration method);
+        _HM addMethod(MethodDeclaration method);
 
-        default _HM method(String... method) {
-            return method(Ast.method(method));
+        default _HM addMethod(String... method) {
+            return addMethod(Ast.method(method));
         }
 
-        default _HM method(_method _m) {
-            return method(_m.ast());
+        default _HM addMethod(_method _m) {
+            return addMethod(_m.ast());
         }
 
-        default _HM methods(_method... ms) {
-            Arrays.stream(ms).forEach(m -> method(m));
+        default _HM addMethods(_method... ms) {
+            Arrays.stream(ms).forEach(m -> addMethod(m));
             return (_HM) this;
         }
 
@@ -687,7 +672,7 @@ public final class _method
         default _HM main(String... mainMethodBody) {
             _method _m = _method.of("public static void main(String[] args){ }");
             _m.add(mainMethodBody);
-            return method(_m);
+            return addMethod(_m);
         }
 
         /**
@@ -706,7 +691,7 @@ public final class _method
                 _m.add(le.getBody());
             }
             //TODO? should I removeIn / replaceIn the main method if one is already found??
-            return method(_m);
+            return addMethod(_m);
         }
 
         /**
@@ -725,7 +710,7 @@ public final class _method
                 _m.add(le.getBody());
             }
             //TODO? should I removeIn / replaceIn the main method if one is already found??
-            return method(_m);
+            return addMethod(_m);
         }
 
         /**
@@ -733,8 +718,8 @@ public final class _method
          * @param methodDef
          * @return 
          */
-        default _HM method(String methodDef) {
-            return method(new String[]{methodDef});
+        default _HM addMethod(String methodDef) {
+            return addMethod(new String[]{methodDef});
         }
 
         /**
@@ -745,7 +730,7 @@ public final class _method
          * @param anonymousObjectContainingMethod
          * @return 
          */
-        default _HM method(Object anonymousObjectContainingMethod) {
+        default _HM addMethod(Object anonymousObjectContainingMethod) {
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
             ObjectCreationExpr oce = Ex.newEx(ste);
             if (oce == null || !oce.getAnonymousClassBody().isPresent()) {
@@ -772,7 +757,7 @@ public final class _method
                     }
                 });
             }            
-            return method(md);
+            return addMethod(md);
         }
     }
 

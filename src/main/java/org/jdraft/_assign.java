@@ -121,8 +121,28 @@ public class _assign implements _expression<AssignExpr, _assign>, _java._compoun
         return Objects.equals( this.ae.getTarget(), e);
     }
 
+    public _assign setTarget(String...target){
+        this.ae.setTarget(Ex.of(target));
+        return this;
+    }
+
+    public _assign setTarget(_expression _e){
+        this.ae.setTarget(_e.ast());
+        return this;
+    }
+
     public _assign setTarget(Expression e){
         this.ae.setTarget(e);
+        return this;
+    }
+
+    public _assign setValue(String...value){
+        this.ae.setValue(Ex.of(value));
+        return this;
+    }
+
+    public _assign setValue(_expression _e){
+        this.ae.setValue(_e.ast());
         return this;
     }
 

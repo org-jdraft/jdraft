@@ -6,7 +6,6 @@ import com.github.javaparser.ast.expr.*;
 import java.util.*;
 
 public class _arrayInitialize implements _expression<ArrayInitializerExpr, _arrayInitialize>,
-        //_java._node<ArrayInitializerExpr, _arrayInitialize>,
         _java._nodeList<Expression, _expression, _arrayInitialize> {
 
     public static _arrayInitialize of( ){
@@ -71,20 +70,20 @@ public class _arrayInitialize implements _expression<ArrayInitializerExpr, _arra
         return of(aie);
     }
 
-    public ArrayInitializerExpr ile;
+    public ArrayInitializerExpr aie;
 
-    public _arrayInitialize(ArrayInitializerExpr ile){
-        this.ile = ile;
+    public _arrayInitialize(ArrayInitializerExpr aie){
+        this.aie = aie;
     }
 
     @Override
     public _arrayInitialize copy() {
-        return new _arrayInitialize(this.ile.clone());
+        return new _arrayInitialize(this.aie.clone());
     }
 
     @Override
     public NodeList<Expression> listAstElements() {
-        return this.ile.getValues();
+        return this.aie.getValues();
     }
 
     @Override
@@ -95,43 +94,44 @@ public class _arrayInitialize implements _expression<ArrayInitializerExpr, _arra
         return false;
     }
 
+    public _arrayInitialize set(int index, _expression _e){
+        aie.getValues().set(index, _e.ast());
+        return this;
+    }
+
+    public _arrayInitialize set(int index, Expression e){
+        aie.getValues().set(index, e);
+        return this;
+    }
+
     @Override
     public boolean is(ArrayInitializerExpr astNode) {
         return this.ast( ).equals(astNode);
     }
 
     public ArrayInitializerExpr ast(){
-        return ile;
+        return aie;
     }
-
-    /*
-    @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put(_java.Component.VALUES, ile.getValues());
-        return comps;
-    }
-     */
 
     @Override
     public List<_expression> list(){
         List<_expression> vs = new ArrayList<>();
-        this.ile.getValues().forEach(v-> vs.add( _expression.of(v)));
+        this.aie.getValues().forEach(v-> vs.add( _expression.of(v)));
         return vs;
     }
 
     public boolean equals(Object other){
         if( other instanceof _arrayInitialize){
-            return ((_arrayInitialize)other).ile.equals( this.ile );
+            return ((_arrayInitialize)other).aie.equals( this.aie);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ile.hashCode();
+        return 31 * this.aie.hashCode();
     }
 
     public String toString(){
-        return this.ile.toString();
+        return this.aie.toString();
     }
 }

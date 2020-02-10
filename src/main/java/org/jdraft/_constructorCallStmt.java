@@ -108,7 +108,6 @@ public final class _constructorCallStmt
         return this;
     }
 
-
     public List<_expression> listArguments(){
         List<_expression> args = new ArrayList<>();
         this.astStmt.getArguments().forEach(a -> args.add( _expression.of(a)));
@@ -150,6 +149,7 @@ public final class _constructorCallStmt
             comps.put(_java.Component.EXPRESSION, astStmt.getExpression().get());
         }
         comps.put(_java.Component.THIS_CALL, astStmt.isThis());
+        comps.put(_java.Component.SUPER_CALL, !astStmt.isThis());
         comps.put(_java.Component.ARGUMENTS, astStmt.getArguments());
         if( astStmt.getTypeArguments().isPresent()){
             comps.put(_java.Component.TYPE_ARGUMENTS, astStmt.getTypeArguments().get());

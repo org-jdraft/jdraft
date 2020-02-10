@@ -599,7 +599,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     }
 
     @Override
-    public _class method( MethodDeclaration method ) {
+    public _class addMethod(MethodDeclaration method ) {
         astClass.addMember( method );
         return this;
     }

@@ -263,7 +263,7 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
      * @param ctor
      * @return 
      */
-    public boolean hasParametersOf( java.lang.reflect.Constructor ctor ){        
+    public boolean isParameters(java.lang.reflect.Constructor ctor ){
         java.lang.reflect.Type[] genericParameterTypes = ctor.getGenericParameterTypes();
         List<_parameter> pl = this.listParameters();
         int delta = 0;
@@ -317,13 +317,6 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
     public boolean hasBody() {
         return true;
     }
-
-    /*
-    @Override
-    public _modifiers getModifiers() {
-        return _modifiers.of( astCtor );
-    }
-    */
 
     @Override
     public _modifiers getModifiers() {

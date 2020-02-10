@@ -133,9 +133,9 @@ public class _methodsDiff
         @Override
         public void patchLeftToRight() {
             this.leftParent.removeMethod(left); //dont double add
-            this.leftParent.method(left.copy());
+            this.leftParent.addMethod(left.copy());
             this.rightParent.removeMethod(left);
-            this.rightParent.method(left.copy());
+            this.rightParent.addMethod(left.copy());
         }
 
         @Override
@@ -181,10 +181,10 @@ public class _methodsDiff
         @Override
         public void patchRightToLeft() {
             this.leftParent.removeMethod(right);
-            this.leftParent.method(right.copy());
+            this.leftParent.addMethod(right.copy());
 
             this.rightParent.removeMethod(right);
-            this.rightParent.method(right.copy());
+            this.rightParent.addMethod(right.copy());
         }
 
         @Override

@@ -17,15 +17,15 @@ public class _boolean implements _expression._literal<BooleanLiteralExpr, _boole
         return new _boolean(Ex.booleanLiteralEx( code));
     }
 
-    public BooleanLiteralExpr ile;
+    public BooleanLiteralExpr be;
 
-    public _boolean(BooleanLiteralExpr ile){
-        this.ile = ile;
+    public _boolean(BooleanLiteralExpr be){
+        this.be = be;
     }
 
     @Override
     public _boolean copy() {
-        return new _boolean(this.ile.clone());
+        return new _boolean(this.be.clone());
     }
 
     @Override
@@ -36,45 +36,50 @@ public class _boolean implements _expression._literal<BooleanLiteralExpr, _boole
         return false;
     }
 
+    public boolean is(boolean b){
+        return this.ast().getValue() == b;
+    }
+
     @Override
     public boolean is(BooleanLiteralExpr astNode) {
         return this.ast( ).equals(astNode);
     }
 
     public BooleanLiteralExpr ast(){
-        return ile;
+        return be;
     }
-
-    /*
-    @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put(_java.Component.LITERAL, this.ile.getValue());
-        return comps;
-    }
-     */
 
     public boolean equals(Object other){
         if( other instanceof _boolean){
-            return ((_boolean)other).ile.equals( this.ile );
+            return ((_boolean)other).be.equals( this.be);
         }
         return false;
     }
 
+    public _boolean set( BooleanLiteralExpr  b){
+        this.be = b;
+        return this;
+    }
+
+    public _boolean set( boolean b){
+        this.be.setValue(b);
+        return this;
+    }
+
     public boolean getValue(){
-        return this.ile.getValue();
+        return this.be.getValue();
     }
 
     public int hashCode(){
-        return 31 * this.ile.hashCode();
+        return 31 * this.be.hashCode();
     }
 
     public String toString(){
-        return this.ile.toString();
+        return this.be.toString();
     }
 
     @Override
     public String valueAsString() {
-        return ile.getValue()+"";
+        return be.getValue()+"";
     }
 }
