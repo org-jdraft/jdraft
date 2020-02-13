@@ -89,7 +89,7 @@ public class _refactorPrintToLog {
             }
             /** add the actual log statement */
             $anySystemOut.replaceIn(_t, $stmts.of( loggerStatementsFormat )
-                    .hardcode$("name", _f.getName() ) );
+                    .$hardcode("name", _f.getName() ) );
         }
     }
     

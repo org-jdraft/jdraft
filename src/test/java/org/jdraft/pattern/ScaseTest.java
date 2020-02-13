@@ -143,9 +143,9 @@ public class ScaseTest extends TestCase {
                 }
             }
         }
-        assertEquals( 9, $switchEntry.of().count(CC.class));
+        assertEquals( 9, $switchEntry.of().countIn(CC.class));
         
-        assertEquals(2, $.of(1).count(CC.class));
+        assertEquals(2, $.of(1).countIn(CC.class));
         
         
         ArrayList<$switchEntry> $switchEntries = new ArrayList<>();

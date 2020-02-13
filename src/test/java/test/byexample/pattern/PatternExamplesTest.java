@@ -29,10 +29,10 @@ public class PatternExamplesTest extends TestCase {
     static $ex LITERAL =  $.ex(e -> e.ast().isLiteralExpr());   //any literals (ints, floats, Strings, etc.)
     static $ex LITERAL_ = $.literal();                      //any literals (booleans, int, float, String, etc)
 
-    static $ex<IntegerLiteralExpr, _int> INT_LITERAL = $.intLiteral();                   // any int literal
-    static $ex<IntegerLiteralExpr, _int> INT_100 = $.intLiteral(100);           // exact int literal 100
-    static $ex<IntegerLiteralExpr, _int> INT_VAL_PARAM = $.intLiteral("$val$");    // any int literal (parameterized)
-    static $ex<IntegerLiteralExpr, _int> INT_POSITIVE = $.intLiteral(i -> i.getValue() > 0);  // any int literal > 100 (constrained)
+    static $ex<IntegerLiteralExpr, _int, $ex> INT_LITERAL = $.intLiteral();                   // any int literal
+    static $ex<IntegerLiteralExpr, _int, $ex> INT_100 = $.intLiteral(100);           // exact int literal 100
+    static $ex<IntegerLiteralExpr, _int, $ex> INT_VAL_PARAM = $.intLiteral("$val$");    // any int literal (parameterized)
+    static $ex<IntegerLiteralExpr, _int, $ex> INT_POSITIVE = $.intLiteral(i -> i.getValue() > 0);  // any int literal > 100 (constrained)
 
     /*
     $.of();                             // ANY AST Node
@@ -60,9 +60,9 @@ public class PatternExamplesTest extends TestCase {
              }
         }
 
-        assertEquals( 1, $.cast(String.class).count(GTH.class) );
-        assertEquals(2, $ex.instanceOfEx(String.class).count(GTH.class));
-        assertEquals(2, $ex.instanceOfEx($typeRef.of(String.class)).count(GTH.class));
+        assertEquals( 1, $.cast(String.class).countIn(GTH.class) );
+        assertEquals(2, $ex.instanceOfEx(String.class).countIn(GTH.class));
+        assertEquals(2, $ex.instanceOfEx($typeRef.of(String.class)).countIn(GTH.class));
     }
 
     public void testMemberExpressions(){
@@ -111,8 +111,8 @@ public class PatternExamplesTest extends TestCase {
             }
         }
 
-        assertEquals( 2, $.literal().count(G.class) ); //(2) literals {2,"2"} above
-        assertEquals(1, $.of(2).count(G.class)); //there is (1) instance of the int literal {2} above
+        assertEquals( 2, $.literal().countIn(G.class) ); //(2) literals {2,"2"} above
+        assertEquals(1, $.of(2).countIn(G.class)); //there is (1) instance of the int literal {2} above
 
 
         //_java.describe(_class.of(G.class));
@@ -154,7 +154,7 @@ public class PatternExamplesTest extends TestCase {
         }
 
         // find all @Deprecated methods
-        assertEquals( 1, $.method($anno.of(Deprecated.class)).count(AMM.class) );
+        assertEquals( 1, $.method($anno.of(Deprecated.class)).countIn(AMM.class) );
         // find all methods with a TODO javadoc comment
         assertNotNull( $.method($.javadoc(j-> j.getContent().contains("TODO") ) ).firstIn(AMM.class) );
 
@@ -164,7 +164,7 @@ public class PatternExamplesTest extends TestCase {
 
 
         $method $m = $.method( $throws.of(IOException.class) );
-        assertEquals(1, $m.count(AMM.class));
+        assertEquals(1, $m.countIn(AMM.class));
 
         //$protos compose... here we create a $method proto
         $m = $.method(
@@ -179,6 +179,6 @@ public class PatternExamplesTest extends TestCase {
 
         System.out.println( $m.toString() );
 
-        assertEquals(1, $m.count(AMM.class));
+        assertEquals(1, $m.countIn(AMM.class));
     }
 }

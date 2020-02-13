@@ -35,7 +35,7 @@ public class GoogleErrorProneTest extends TestCase {
             }
         }
         //verify we can find such statements in the above
-        assertEquals(1, $returnNull.count(retNull.class));
+        assertEquals(1, $returnNull.countIn(retNull.class));
     }
 
 
@@ -67,7 +67,7 @@ public class GoogleErrorProneTest extends TestCase {
                 return null;
             }
         }
-        assertEquals(1, $returnNull.count(FFF.class));
+        assertEquals(1, $returnNull.countIn(FFF.class));
         //System.out.println( "FOUND " + $returnNull.firstIn(FFF.class) );
 
         assertTrue( $returnNull.firstIn(FFF.class)
@@ -102,7 +102,7 @@ public class GoogleErrorProneTest extends TestCase {
                 _class.of("S").addExtend("Service").addImports("android.app.Service")
         );
         //$androidClasses.printIn(_cc);
-        assertEquals(4, $ANDROID_CLASS.count(_cc));
+        assertEquals(4, $ANDROID_CLASS.countIn(_cc));
     }
 
 
@@ -222,16 +222,16 @@ public class GoogleErrorProneTest extends TestCase {
             "}");
             //we can spot check each of the individual $patterns in isolation
 
-            assertEquals(1, $onCreateMethod.count(_c));
-            assertEquals(1, $onAttachMethod.count(_c));
-            assertEquals(2, $suppress.count(_c));
-            assertEquals(2, $onCreateEx.count(_c));
-            assertEquals(2, $onAttachEx.count(_c));
-            assertEquals(2, $injectEx.count(_c));
+            assertEquals(1, $onCreateMethod.countIn(_c));
+            assertEquals(1, $onAttachMethod.countIn(_c));
+            assertEquals(2, $suppress.countIn(_c));
+            assertEquals(2, $onCreateEx.countIn(_c));
+            assertEquals(2, $onAttachEx.countIn(_c));
+            assertEquals(2, $injectEx.countIn(_c));
 
             //ok, heres where we compose them together (do the first composition)
             //
-            assertEquals(1, $.ex("super.onCreate($any$)").$isParentMember($method.of($name.of("onCreate"), $suppress)).count(_c));
+            assertEquals(1, $.ex("super.onCreate($any$)").$isParentMember($method.of($name.of("onCreate"), $suppress)).countIn(_c));
             /*
             $onCreate = ($ex)$onCreate.$isNotParentMember($method.of($suppress));
             $onCreate = ($ex)$onCreate.$isNotParentMember($method.of($suppress));

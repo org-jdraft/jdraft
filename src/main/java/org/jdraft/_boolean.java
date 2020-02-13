@@ -45,6 +45,14 @@ public class _boolean implements _expression._literal<BooleanLiteralExpr, _boole
         return this.ast( ).equals(astNode);
     }
 
+    public boolean isTrue(){
+        return this.be.getValue();
+    }
+
+    public boolean isFalse(){
+        return !this.be.getValue();
+    }
+
     public BooleanLiteralExpr ast(){
         return be;
     }

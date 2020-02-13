@@ -45,7 +45,7 @@ public class SannoTest extends TestCase {
 
         assertTrue($aor.match(Ast.anno("@Deprecated")));
         assertTrue($aor.match(Ast.anno("@Override")));
-        assertEquals(2, $aor.count(C.class));
+        assertEquals(2, $aor.countIn(C.class));
         assertNotNull($aor.firstIn(C.class));
         assertNotNull($aor.firstIn(C.class, a -> a.isInstance(Override.class)));
         AtomicInteger ai = new AtomicInteger();
@@ -65,10 +65,10 @@ public class SannoTest extends TestCase {
 
         assertNotNull($aor.parse(_anno.of("@Deprecated") ));
         _class _c = $aor.removeIn(C.class); //remove em
-        assertEquals(0, $aor.count(_c)); //verify them some
+        assertEquals(0, $aor.countIn(_c)); //verify them some
 
         _c = $aor.replaceIn(C.class, $anno.of("@A"));
-        assertEquals(2, $anno.of("A").count(_c));
+        assertEquals(2, $anno.of("A").countIn(_c));
 
         assertNotNull($aor.selectFirstIn(C.class));
         assertEquals( 2, $aor.streamIn(C.class).count());
@@ -144,7 +144,7 @@ public class SannoTest extends TestCase {
         //verify I can remove the annotations
         _type _t = $anno.of(Deprecated.class).removeIn(CL.class );
         
-        assertEquals( 0, $anno.of(Deprecated.class).count(_t));
+        assertEquals( 0, $anno.of(Deprecated.class).countIn(_t));
         assertEquals( 0, $anno.of(Deprecated.class).listIn(_t).size());
         
         System.out.println( _t );

@@ -159,8 +159,8 @@ public class $parameters implements Template<_parameters>,
     }
 
     @Override
-    public $parameters hardcode$(Translator translator, Tokens kvs) {
-        $params.forEach(p-> p.hardcode$(translator, kvs));
+    public $parameters $hardcode(Translator translator, Tokens kvs) {
+        $params.forEach(p-> p.$hardcode(translator, kvs));
         return this;
     }
 
@@ -246,8 +246,8 @@ public class $parameters implements Template<_parameters>,
         return null;        
     }
 
-    public $parameters hardcode$(Object...keyValues){
-        this.$params.forEach(p -> p.hardcode$(keyValues));
+    public $parameters $hardcode(Object...keyValues){
+        this.$params.forEach(p -> p.$hardcode(keyValues));
         return this;
     } 
     
@@ -516,8 +516,8 @@ public class $parameters implements Template<_parameters>,
         }
 
         @Override
-        public $parameters hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $parameters $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 

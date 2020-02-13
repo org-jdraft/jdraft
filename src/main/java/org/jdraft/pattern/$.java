@@ -18,6 +18,8 @@ import com.github.javaparser.ast.type.Type;
 
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.*;
 
 import org.jdraft.*;
@@ -315,6 +317,16 @@ public final class $ {
         return $ex.any().$and(e-> e.ast().isLiteralExpr());
     }
 
+    public static $ex literal( String literalValue){
+        return $ex.any().$and(e -> e.ast().isLiteralExpr() && e.is(literalValue));
+    }
+
+    public static $ex literal( String... literalValues){
+        Set<String> vs = new HashSet<>();
+        Arrays.stream(literalValues).forEach(s -> vs.add(s));
+        return $ex.any().$and(e -> e.ast().isLiteralExpr() && vs.contains(e.toString()));
+    }
+
     public static $ex ex(Predicate<_expression> constraint){
         return $ex.any().$and(constraint);
     }
@@ -323,7 +335,7 @@ public final class $ {
         return $ex.of(pattern);
     }
 
-    public static <T extends Expression, _E extends _expression> $ex<T, _E> of(T protoExpr ){
+    public static <T extends Expression, _E extends _expression, $E extends $ex> $ex<T, _E, $E> of(T protoExpr ){
         return $ex.of(protoExpr);
     }
 
@@ -333,15 +345,15 @@ public final class $ {
     }
      */
 
-    public static $ex<StringLiteralExpr, _string> of(String stringLiteral ){
+    public static $ex<StringLiteralExpr, _string, $ex> of(String stringLiteral ){
         return $ex.stringLiteralEx(stringLiteral);
     }
 
-    public static $ex<CharLiteralExpr, _char> of(char c){
+    public static $ex<CharLiteralExpr, _char, $ex> of(char c){
         return $ex.of(c);
     }
 
-    public static $ex<IntegerLiteralExpr, _int> of(int i){
+    public static $ex<IntegerLiteralExpr, _int, $ex> of(int i){
         return $ex.of(i);
     }
 
@@ -350,7 +362,7 @@ public final class $ {
      * @param f
      * @return
      */
-    public static $ex<DoubleLiteralExpr, _double> of(float f){
+    public static $ex<DoubleLiteralExpr, _double, $ex> of(float f){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         Class clazz = null;
         try{
@@ -373,7 +385,7 @@ public final class $ {
         return $ex.doubleLiteralEx( s.get("val").toString() );
     }
 
-    public static $ex<DoubleLiteralExpr, _double> of(double d){
+    public static $ex<DoubleLiteralExpr, _double, $ex> of(double d){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         Class clazz = null;
         try{
@@ -397,47 +409,52 @@ public final class $ {
     }
 
 
-    public static $ex<LongLiteralExpr, _long> of(long l){
+    public static $ex<LongLiteralExpr, _long, $ex> of(long l){
         return $ex.of(l);
     }
 
-    public static $ex<BooleanLiteralExpr, _boolean> of(boolean b){
+    public static $boolean of(boolean b){
+        return $boolean.of(b);
+    }
+    /*
+    public static $ex<BooleanLiteralExpr, _boolean, $ex> of(boolean b){
         return $ex.of(b);
     }
+     */
 
     /**
      * index Expression
      * @return
      */
-    public static $ex<ArrayAccessExpr, _arrayAccess> arrayAccess(){
+    public static $ex<ArrayAccessExpr, _arrayAccess, $ex> arrayAccess(){
         return $ex.arrayAccessEx();
     }
 
-    public static $ex<ArrayAccessExpr, _arrayAccess> arrayAccess(String ae){
+    public static $ex<ArrayAccessExpr, _arrayAccess, $ex> arrayAccess(String ae){
         return $ex.arrayAccessEx(ae);
     }
 
-    public static $ex<ArrayAccessExpr, _arrayAccess> arrayAccess(ArrayAccessExpr aae){
+    public static $ex<ArrayAccessExpr, _arrayAccess, $ex> arrayAccess(ArrayAccessExpr aae){
         return $ex.of(aae);
     }
 
-    public static $ex<ArrayAccessExpr, _arrayAccess> arrayAccess(Predicate<_arrayAccess> aae){
+    public static $ex<ArrayAccessExpr, _arrayAccess, $ex> arrayAccess(Predicate<_arrayAccess> aae){
         return $ex.arrayAccessEx(aae);
     }
 
-    public static $ex<ArrayCreationExpr, _arrayCreate> arrayCreation(){
+    public static $ex<ArrayCreationExpr, _arrayCreate, $ex> arrayCreation(){
         return $ex.arrayCreationEx();
     }
 
-    public static $ex<ArrayCreationExpr, _arrayCreate> arrayCreation(String ac){
+    public static $ex<ArrayCreationExpr, _arrayCreate, $ex> arrayCreation(String ac){
         return $ex.arrayCreationEx(ac);
     }
 
-    public static $ex<ArrayCreationExpr, _arrayCreate> arrayCreation(ArrayCreationExpr ace){
+    public static $ex<ArrayCreationExpr, _arrayCreate, $ex> arrayCreation(ArrayCreationExpr ace){
         return $ex.of(ace);
     }
 
-    public static $ex<ArrayCreationExpr, _arrayCreate> arrayCreation(Predicate<_arrayCreate> ace){
+    public static $ex<ArrayCreationExpr, _arrayCreate, $ex> arrayCreation(Predicate<_arrayCreate> ace){
         return $ex.arrayCreationEx(ace);
     }
 
@@ -445,412 +462,448 @@ public final class $ {
      * new int[][]{{1, 1}, {2, 2}};
      * @return
      */
-    public static $ex<ArrayInitializerExpr, _arrayInitialize> arrayInit(){
+    public static $ex<ArrayInitializerExpr, _arrayInitialize, $ex> arrayInit(){
         return $ex.arrayInitEx();
     }
 
-    public static $ex<ArrayInitializerExpr, _arrayInitialize> arrayInit(String ae){
+    public static $ex<ArrayInitializerExpr, _arrayInitialize, $ex> arrayInit(String ae){
         return $ex.arrayInitEx(ae);
     }
 
-    public static $ex<ArrayInitializerExpr, _arrayInitialize> arrayInit(ArrayInitializerExpr aei){
+    public static $ex<ArrayInitializerExpr, _arrayInitialize, $ex> arrayInit(ArrayInitializerExpr aei){
         return $ex.of(aei);
     }
 
-    public static $ex<ArrayInitializerExpr, _arrayInitialize> arrayInit(Predicate<_arrayInitialize> aei){
+    public static $ex<ArrayInitializerExpr, _arrayInitialize, $ex> arrayInit(Predicate<_arrayInitialize> aei){
         return $ex.arrayInitEx(aei);
     }
 
-    public static $ex<AssignExpr, _assign> assign(){
+    public static $ex<AssignExpr, _assign, $ex> assign(){
         return $ex.assignEx();
     }
 
-    public static $ex<AssignExpr, _assign> assign(String a){
+    public static $ex<AssignExpr, _assign, $ex> assign(String a){
         return $ex.assignEx(a);
     }
 
-    public static $ex<AssignExpr, _assign> assign(AssignExpr ae){
+    public static $ex<AssignExpr, _assign, $ex> assign(AssignExpr ae){
         return $ex.of(ae);
     }
 
-    public static $ex<AssignExpr, _assign> assign(Predicate<_assign> ae){
+    public static $ex<AssignExpr, _assign, $ex> assign(Predicate<_assign> ae){
         return $ex.assignEx(ae);
     }
 
-    public static $ex<BinaryExpr, _binaryExpression> binaryExpr(){
+    public static $ex<BinaryExpr, _binaryExpression, $ex> binaryExpr(){
         return $ex.binaryEx();
     }
 
-    public static $ex<BinaryExpr,_binaryExpression> binaryExpr(String be){
+    public static $ex<BinaryExpr,_binaryExpression, $ex> binaryExpr(String be){
         return $ex.binaryEx(be);
     }
 
-    public static $ex<BinaryExpr,_binaryExpression> binaryExpr(BinaryExpr be){
+    public static $ex<BinaryExpr,_binaryExpression, $ex> binaryExpr(BinaryExpr be){
         return $ex.of(be);
     }
 
-    public static $ex<BinaryExpr, _binaryExpression> binaryExpr(BinaryExpr.Operator bo){
+    public static $ex<BinaryExpr, _binaryExpression, $ex> binaryExpr(BinaryExpr.Operator bo){
         return $ex.binaryEx(be-> be.getOperator() == bo);
     }
 
-    public static $ex<BinaryExpr, _binaryExpression> binaryExpr(BinaryExpr.Operator... ops){
+    public static $ex<BinaryExpr, _binaryExpression, $ex> binaryExpr(BinaryExpr.Operator... ops){
         return $ex.binaryEx(b-> Arrays.stream(ops).anyMatch(o->b.getOperator() == o));
     }
 
-    public static $ex<BinaryExpr, _binaryExpression> binaryExpr(Predicate<_binaryExpression> be){
+    public static $ex<BinaryExpr, _binaryExpression, $ex> binaryExpr(Predicate<_binaryExpression> be){
         return $ex.binaryEx(be);
     }
 
-    public static $ex<BooleanLiteralExpr, _boolean> booleanLiteral(){
+    public static $ex<BooleanLiteralExpr, _boolean, $ex> booleanLiteral(){
         return $ex.booleanLiteralEx();
     }
 
-    public static $ex<BooleanLiteralExpr, _boolean> booleanLiteral(boolean bool){
+    public static $ex<BooleanLiteralExpr, _boolean, $ex> booleanLiteral(boolean bool){
         return $ex.booleanLiteralEx(bool);
     }
 
-    public static $ex<BooleanLiteralExpr, _boolean> booleanLiteral(Predicate<_boolean> bl){
+    public static $ex<BooleanLiteralExpr, _boolean, $ex> booleanLiteral(Predicate<_boolean> bl){
         return $ex.booleanLiteralEx(bl);
     }
 
-    public static $ex<CastExpr, _cast> cast(Class castClazz){
+    public static $ex<CastExpr, _cast, $ex> cast(Class castClazz){
         return $ex.castEx("($type$)$expr$").$and(c-> Ast.typesEqual(c.ast().getType(), Ast.typeRef(castClazz) ) );
     }
 
-    public static $ex<CastExpr, _cast> cast(){
+    public static $ex<CastExpr, _cast, $ex> cast(){
         return $ex.castEx();
     }
 
-    public static $ex<CastExpr, _cast> cast(String ce){
+    public static $ex<CastExpr, _cast, $ex> cast(String ce){
         return $ex.castEx(ce);
     }
 
-    public static $ex<CastExpr, _cast> cast(CastExpr ce){
+    public static $ex<CastExpr, _cast, $ex> cast(CastExpr ce){
         return $ex.of(ce);
     }
 
-    public static $ex<CastExpr, _cast> cast(Predicate<_cast> ce){
+    public static $ex<CastExpr, _cast, $ex> cast(Predicate<_cast> ce){
         return $ex.castEx(ce);
     }
 
-    public static $ex<CharLiteralExpr, _char> charLiteral(){
+    public static $ex<CharLiteralExpr, _char, $ex> charLiteral(){
         return $ex.charLiteralEx();
     }
 
-    public static $ex<CharLiteralExpr, _char> charLiteral(char c){
+    public static $ex<CharLiteralExpr, _char, $ex> charLiteral(char c){
         return $ex.charLiteralEx(c);
     }
 
-    public static $ex<CharLiteralExpr, _char> charLiteral(Predicate<_char> pc){
+    public static $ex<CharLiteralExpr, _char, $ex> charLiteral(char... cs){
+        return $ex.charLiteralEx(cs);
+    }
+
+    public static $ex<CharLiteralExpr, _char, $ex> charLiteral(Predicate<_char> pc){
         return $ex.charLiteralEx(pc);
     }
 
-    public static $ex<ClassExpr, _classExpression> classExpr(){
+    public static $ex<ClassExpr, _classExpression, $ex> classExpr(){
         return $ex.classEx();
     }
 
-    public static $ex<ClassExpr, _classExpression> classExpr(String ce){
+    public static $ex<ClassExpr, _classExpression, $ex> classExpr(String ce){
         return $ex.classEx(ce);
     }
 
-    public static $ex<ClassExpr, _classExpression> classExpr(ClassExpr ce){
+    public static $ex<ClassExpr, _classExpression, $ex> classExpr(ClassExpr ce){
         return $ex.of(ce);
     }
 
-    public static $ex<ClassExpr, _classExpression> classExpr(Predicate<_classExpression> ce){
+    public static $ex<ClassExpr, _classExpression, $ex> classExpr(Predicate<_classExpression> ce){
         return $ex.classEx(ce);
     }
 
-    public static $ex<ConditionalExpr, _conditionalExpression> conditionalExpr(){
+    public static $ex<ConditionalExpr, _conditionalExpression, $ex> conditionalExpr(){
         return $ex.conditionalEx();
     }
 
-    public static $ex<ConditionalExpr, _conditionalExpression> conditionalExpr(String ce){
+    public static $ex<ConditionalExpr, _conditionalExpression, $ex> conditionalExpr(String ce){
         return $ex.conditionalEx(ce);
     }
 
-    public static $ex<ConditionalExpr, _conditionalExpression> conditionalExpr(ConditionalExpr ce){
+    public static $ex<ConditionalExpr, _conditionalExpression, $ex> conditionalExpr(ConditionalExpr ce){
         return $ex.of(ce);
     }
 
-    public static $ex<ConditionalExpr, _conditionalExpression> conditionalExpr(Predicate<_conditionalExpression> ce){
+    public static $ex<ConditionalExpr, _conditionalExpression, $ex> conditionalExpr(Predicate<_conditionalExpression> ce){
         return $ex.conditionalEx(ce);
     }
 
-    public static $ex<DoubleLiteralExpr, _double> doubleLiteral(){
+    public static $ex<DoubleLiteralExpr, _double, $ex> doubleLiteral(){
         return $ex.doubleLiteralEx();
     }
 
-    public static $ex<DoubleLiteralExpr, _double> doubleLiteral(Predicate<_double> dl){
+    public static $ex<DoubleLiteralExpr, _double, $ex> doubleLiteral(Predicate<_double> dl){
         return $ex.doubleLiteralEx(dl);
     }
 
-    public static $ex<DoubleLiteralExpr, _double> doubleLiteral(String pattern){
+    public static $ex<DoubleLiteralExpr, _double, $ex> doubleLiteral(String pattern){
         return $ex.doubleLiteralEx(pattern);
     }
 
-    public static $ex<DoubleLiteralExpr, _double> doubleLiteral(double dbl){
+    public static $ex<DoubleLiteralExpr, _double, $ex> doubleLiteral(double dbl){
         return $ex.doubleLiteralEx(dbl);
     }
 
-    public static $ex<EnclosedExpr, _enclosedExpression> enclosedExpr(){
+    public static $ex<DoubleLiteralExpr, _double, $ex> doubleLiteral(double...doubles){
+        return $ex.doubleLiteralEx(doubles);
+    }
+
+    public static $ex<DoubleLiteralExpr, _double, $ex> doubleLiteral(float...floats){
+        return $ex.doubleLiteralEx(floats);
+    }
+
+    public static $ex<EnclosedExpr, _enclosedExpression, $ex> enclosedExpr(){
         return $ex.enclosedEx();
     }
 
-    public static $ex<EnclosedExpr, _enclosedExpression> enclosedExpr(String ee){
+    public static $ex<EnclosedExpr, _enclosedExpression, $ex> enclosedExpr(String ee){
         return $ex.enclosedEx(ee);
     }
 
-    public static $ex<EnclosedExpr, _enclosedExpression> enclosedExpr(EnclosedExpr ee){
+    public static $ex<EnclosedExpr, _enclosedExpression, $ex> enclosedExpr(EnclosedExpr ee){
         return $ex.of(ee);
     }
 
-    public static $ex<EnclosedExpr, _enclosedExpression> enclosedExpr(Predicate<_enclosedExpression> ee){
+    public static $ex<EnclosedExpr, _enclosedExpression, $ex> enclosedExpr(Predicate<_enclosedExpression> ee){
         return $ex.enclosedEx(ee);
     }
 
-    public static $ex<FieldAccessExpr, _fieldAccess> fieldAccessExpr(){
+    public static $ex<FieldAccessExpr, _fieldAccess, $ex> fieldAccessExpr(){
         return $ex.fieldAccessEx();
     }
 
-    public static $ex<FieldAccessExpr, _fieldAccess> fieldAccessExpr(String fae){
+    public static $ex<FieldAccessExpr, _fieldAccess, $ex> fieldAccessExpr(String fae){
         return $ex.fieldAccessEx(fae);
     }
 
-    public static $ex<FieldAccessExpr, _fieldAccess> fieldAccessExpr(FieldAccessExpr fae){
+    public static $ex<FieldAccessExpr, _fieldAccess, $ex> fieldAccessExpr(FieldAccessExpr fae){
         return $ex.of(fae);
     }
 
-    public static $ex<FieldAccessExpr, _fieldAccess> fieldAccessExpr(Predicate<_fieldAccess> fae){
+    public static $ex<FieldAccessExpr, _fieldAccess, $ex> fieldAccessExpr(Predicate<_fieldAccess> fae){
         return $ex.fieldAccessEx(fae);
     }
 
-    public static $ex<InstanceOfExpr, _instanceOf> instanceOf(){
+    public static $ex<InstanceOfExpr, _instanceOf, $ex> instanceOf(){
         return $ex.instanceOfEx();
     }
 
-    public static $ex<InstanceOfExpr, _instanceOf> instanceOf(String io){
+    public static $ex<InstanceOfExpr, _instanceOf, $ex> instanceOf(String io){
         return $ex.instanceOfEx(io);
     }
 
-    public static $ex<InstanceOfExpr, _instanceOf> instanceOf(Class instanceOfClass){
+    public static $ex<InstanceOfExpr, _instanceOf, $ex> instanceOf(Class instanceOfClass){
         return $ex.instanceOfEx(instanceOfClass);
     }
 
-    public static $ex<InstanceOfExpr, _instanceOf> instanceOf(InstanceOfExpr io){
+    public static $ex<InstanceOfExpr, _instanceOf, $ex> instanceOf(InstanceOfExpr io){
         return $ex.of(io);
     }
 
-    public static $ex<InstanceOfExpr, _instanceOf> instanceOf(Predicate<_instanceOf> io){
+    public static $ex<InstanceOfExpr, _instanceOf, $ex> instanceOf(Predicate<_instanceOf> io){
         return $ex.instanceOfEx(io);
     }
 
-    public static $ex<IntegerLiteralExpr, _int> intLiteral(){
+    public static $ex<IntegerLiteralExpr, _int, $ex> intLiteral(){
         return $ex.intLiteralEx();
     }
 
-    public static $ex<IntegerLiteralExpr, _int> intLiteral(String pattern){
+    public static $ex<IntegerLiteralExpr, _int, $ex> intLiteral(int...ints){
+        return $ex.intLiteralEx(ints);
+    }
+
+    public static $ex<IntegerLiteralExpr, _int, $ex> intLiteral(String pattern){
         return $ex.intLiteralEx(pattern);
     }
 
-    public static $ex<IntegerLiteralExpr, _int> intLiteral(Predicate<_int> il){
+    public static $ex<IntegerLiteralExpr, _int, $ex> intLiteral(Predicate<_int> il){
         return $ex.intLiteralEx(il);
     }
 
-    public static $ex<IntegerLiteralExpr, _int> intLiteral(int val){
+    public static $ex<IntegerLiteralExpr, _int, $ex> intLiteral(int val){
         return $ex.intLiteralEx(val);
     }
 
-    public static $ex<LambdaExpr, _lambda> lambda(){
+    public static $ex<LambdaExpr, _lambda, $ex> lambda(){
         return $ex.lambdaEx();
     }
 
-    public static $ex<LambdaExpr, _lambda> lambda(String lm){
+    public static $ex<LambdaExpr, _lambda, $ex> lambda(String lm){
         return $ex.lambdaEx(lm);
     }
 
-    public static $ex<LambdaExpr, _lambda> lambda(LambdaExpr le){
+    public static $ex<LambdaExpr, _lambda, $ex> lambda(LambdaExpr le){
         return $ex.of(le);
     }
 
-    public static $ex<LambdaExpr, _lambda> lambda(Predicate<_lambda> le){
+    public static $ex<LambdaExpr, _lambda, $ex> lambda(Predicate<_lambda> le){
         return $ex.lambdaEx(le);
     }
 
-    public static $ex<LongLiteralExpr, _long> longLiteral(){
+    public static $ex<LongLiteralExpr, _long, $ex> longLiteral(){
         return $ex.longLiteralEx();
     }
 
-    public static $ex<LongLiteralExpr, _long> longLiteral(long lit){
+    public static $ex<LongLiteralExpr, _long, $ex> longLiteral(long lit){
         return $ex.longLiteralEx(lit);
     }
 
-    public static $ex<LongLiteralExpr, _long> longLiteral(Predicate<_long> lle){
+    public static $ex<LongLiteralExpr, _long, $ex> longLiteral(Predicate<_long> lle){
         return $ex.longLiteralEx(lle);
     }
 
-    public static $ex<MethodCallExpr, _methodCall> methodCall(){
+    public static $ex<MethodCallExpr, _methodCall, $ex> methodCall(){
         return $ex.methodCallEx();
     }
 
-    public static $ex<MethodCallExpr, _methodCall> methodCall(String mc){
+    public static $ex<MethodCallExpr, _methodCall, $ex> methodCall(String mc){
         return $ex.methodCallEx(mc);
     }
 
-    public static $ex<MethodCallExpr, _methodCall> methodCall(MethodCallExpr mce){
+    public static $ex<MethodCallExpr, _methodCall, $ex> methodCall(MethodCallExpr mce){
         return $ex.of(mce);
     }
 
-    public static $ex<MethodCallExpr, _methodCall> methodCall(Predicate<_methodCall> mce){
+    public static $ex<MethodCallExpr, _methodCall, $ex> methodCall(Predicate<_methodCall> mce){
         return $ex.methodCallEx(mce);
     }
 
-    public static $ex<MethodReferenceExpr, _methodReference> methodReference(){
+    public static $ex<MethodReferenceExpr, _methodReference, $ex> methodReference(){
         return $ex.methodReferenceEx();
     }
 
-    public static $ex<MethodReferenceExpr, _methodReference> methodReference(String mr){
+    public static $ex<MethodReferenceExpr, _methodReference, $ex> methodReference(String mr){
         return $ex.methodReferenceEx(mr);
     }
 
-    public static $ex<MethodReferenceExpr, _methodReference> methodReference(MethodReferenceExpr mre){
+    public static $ex<MethodReferenceExpr, _methodReference, $ex> methodReference(MethodReferenceExpr mre){
         return $ex.of(mre);
     }
 
-    public static $ex<MethodReferenceExpr, _methodReference> methodReference(Predicate<_methodReference> mre){
+    public static $ex<MethodReferenceExpr, _methodReference, $ex> methodReference(Predicate<_methodReference> mre){
         return $ex.methodReferenceEx(mre);
     }
 
-    public static $ex<NameExpr, _nameExpression> nameExpr(){
+    public static $ex<NameExpr, _nameExpression, $ex> nameExpr(){
         return $ex.nameEx();
     }
 
-    public static $ex<NameExpr, _nameExpression> nameExpr(String name){
+    public static $ex<NameExpr, _nameExpression, $ex> nameExpr(String name){
         return $ex.nameEx(name);
     }
 
-    public static $ex<NameExpr, _nameExpression> nameExpr(NameExpr ne){
+    public static $ex<NameExpr, _nameExpression, $ex> nameExpr(NameExpr ne){
         return $ex.of(ne);
     }
 
-    public static $ex<NameExpr, _nameExpression> nameExpr(Predicate<_nameExpression> ne){
+    public static $ex<NameExpr, _nameExpression, $ex> nameExpr(Predicate<_nameExpression> ne){
         return $ex.nameEx(ne);
     }
 
-    public static $ex<NullLiteralExpr, _null> nullExpr(){
+    public static $ex<NullLiteralExpr, _null, $ex> nullExpr(){
         return $ex.nullEx();
     }
 
-    public static $ex<NullLiteralExpr, _null> nullExpr(NullLiteralExpr nle){
+    public static $ex<NullLiteralExpr, _null, $ex> nullExpr(NullLiteralExpr nle){
         return $ex.of(nle);
     }
 
-    public static $ex<NullLiteralExpr, _null> nullExpr(Predicate<_null> nle){
+    public static $ex<NullLiteralExpr, _null, $ex> nullExpr(Predicate<_null> nle){
         return $ex.nullEx(nle);
     }
 
-    public static $ex<ObjectCreationExpr, _new> objectCreation(){
+    public static $ex<ObjectCreationExpr, _new, $ex> objectCreation(){
         return $ex.objectCreationEx();
     }
 
-    public static $ex<ObjectCreationExpr, _new> objectCreation(String oc){
+    public static $ex<ObjectCreationExpr, _new, $ex> objectCreation(String oc){
         return $ex.objectCreationEx(oc);
     }
 
-    public static $ex<ObjectCreationExpr, _new> objectCreation(ObjectCreationExpr oce){
+    public static $ex<ObjectCreationExpr, _new, $ex> objectCreation(ObjectCreationExpr oce){
         return $ex.of(oce);
     }
 
-    public static $ex<ObjectCreationExpr, _new> objectCreation(Predicate<_new> oce){
+    public static $ex<ObjectCreationExpr, _new, $ex> objectCreation(Predicate<_new> oce){
         return $ex.objectCreationEx(oce);
     }
 
-    public static $ex<StringLiteralExpr, _string> stringLiteral(){
+    public static $ex<StringLiteralExpr, _string, $ex> stringLiteral(){
         return $ex.stringLiteralEx();
     }
 
-    public static $ex<StringLiteralExpr, _string> stringLiteral(String lit){
+    public static $ex<StringLiteralExpr, _string, $ex> stringLiteral(String lit){
         return $ex.stringLiteralEx(lit);
     }
 
-    public static $ex<StringLiteralExpr, _string> stringLiteral(StringLiteralExpr sl){
+    /*
+    public static $ex<StringLiteralExpr, _string> stringLiteral(String... lits){
+        return $ex.stringLiteralEx(lits);
+    }
+
+     */
+
+    /**
+     * "Yes", "No", "Maybe So"
+     * @param ss
+     * @return
+     */
+    public static $ex<StringLiteralExpr, _string, $ex> stringLiteralEx(String... ss ) {
+        Set<String> sd = new HashSet<>();
+        for(int i=0;i<ss.length; i++){
+            sd.add( ss[i]);
+        }
+        return new $ex( Ex.stringLiteralEx( ) ).$and(d-> sd.contains(d));
+    }
+
+    public static $ex<StringLiteralExpr, _string, $ex> stringLiteral(StringLiteralExpr sl){
         return $ex.of(sl);
     }
 
-    public static $ex<StringLiteralExpr, _string> stringLiteral(Predicate<_string> sl){
+    public static $ex<StringLiteralExpr, _string, $ex> stringLiteral(Predicate<_string> sl){
         return $ex.stringLiteralEx(sl);
     }
 
-    public static $ex<SuperExpr, _super> superExpr(){
+    public static $ex<SuperExpr, _super, $ex> superExpr(){
         return $ex.superEx();
     }
 
-    public static $ex<SuperExpr, _super> superExpr(String se){
+    public static $ex<SuperExpr, _super, $ex> superExpr(String se){
         return $ex.superEx(se);
     }
 
-    public static $ex<SuperExpr, _super> superExpr(SuperExpr se){
+    public static $ex<SuperExpr, _super, $ex> superExpr(SuperExpr se){
         return $ex.superEx(se);
     }
 
-    public static $ex<SuperExpr, _super> superExpr(Predicate<_super> se){
+    public static $ex<SuperExpr, _super, $ex> superExpr(Predicate<_super> se){
         return $ex.superEx(se);
     }
 
-    public static $ex<ThisExpr, _this> thisExpr(){
+    public static $ex<ThisExpr, _this, $ex> thisExpr(){
         return $ex.thisEx();
     }
 
-    public static $ex<ThisExpr, _this> thisExpr(String se){
+    public static $ex<ThisExpr, _this, $ex> thisExpr(String se){
         return $ex.thisEx(se);
     }
 
-    public static $ex<ThisExpr, _this> thisExpr(ThisExpr te){
+    public static $ex<ThisExpr, _this, $ex> thisExpr(ThisExpr te){
         return $ex.thisEx(te);
     }
 
-    public static $ex<ThisExpr, _this> thisExpr(Predicate<_this> te){
+    public static $ex<ThisExpr, _this, $ex> thisExpr(Predicate<_this> te){
         return $ex.thisEx(te);
     }
 
-    public static $ex<UnaryExpr, _unary> unary(){
+    public static $ex<UnaryExpr, _unary, $ex> unary(){
         return $ex.unaryEx();
     }
 
-    public static $ex<UnaryExpr, _unary> unary(String ue){
+    public static $ex<UnaryExpr, _unary, $ex> unary(String ue){
         return $ex.unaryEx(ue);
     }
 
-    public static $ex<UnaryExpr, _unary> unary(UnaryExpr ue){
+    public static $ex<UnaryExpr, _unary, $ex> unary(UnaryExpr ue){
         return $ex.of(ue);
     }
 
     //a unary with any of these operators
-    public static $ex<UnaryExpr, _unary> unary(UnaryExpr.Operator... ops){
+    public static $ex<UnaryExpr, _unary, $ex> unary(UnaryExpr.Operator... ops){
         return $ex.unaryEx(u-> Arrays.stream(ops).anyMatch(o->u.getOperator() == o));
     }
 
-    public static $ex<UnaryExpr, _unary> unary(UnaryExpr.Operator op){
+    public static $ex<UnaryExpr, _unary, $ex> unary(UnaryExpr.Operator op){
         return $ex.unaryEx(u-> u.getOperator() == op);
     }
 
-    public static $ex<UnaryExpr, _unary> unary(Predicate<_unary> ue){
+    public static $ex<UnaryExpr, _unary, $ex> unary(Predicate<_unary> ue){
         return $ex.unaryEx();
     }
 
-    public static $ex<VariableDeclarationExpr,_variable> varLocal(){
+    public static $ex<VariableDeclarationExpr,_variable, $ex> varLocal(){
         return $ex.varLocalEx();
     }
 
-    public static $ex<VariableDeclarationExpr, _variable> varLocal(String ve){
+    public static $ex<VariableDeclarationExpr, _variable, $ex> varLocal(String ve){
         return $ex.varLocalEx(ve);
     }
 
-    public static $ex<VariableDeclarationExpr, _variable> varLocal(VariableDeclarationExpr vde){
+    public static $ex<VariableDeclarationExpr, _variable, $ex> varLocal(VariableDeclarationExpr vde){
         return $ex.of(vde);
     }
 
-    public static $ex<VariableDeclarationExpr, _variable> varLocal(Predicate<_variable> vde){
+    public static $ex<VariableDeclarationExpr, _variable, $ex> varLocal(Predicate<_variable> vde){
         return $ex.varLocalEx(vde);
     }
 

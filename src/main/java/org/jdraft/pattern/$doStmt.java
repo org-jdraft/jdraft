@@ -2,8 +2,12 @@ package org.jdraft.pattern;
 
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.DoStmt;
+import com.github.javaparser.ast.stmt.Statement;
 import org.jdraft.*;
+import org.jdraft.text.Tokens;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.*;
 
@@ -86,10 +90,78 @@ public class $doStmt extends $stmt<DoStmt, _doStmt> {
         try{
             return this.astMatch.test(null)
                     && this.statementClass == DoStmt.class
-                    && this.stmtStencil.isMatchAny();
+                    && this.stmtStencil.isMatchAny()
+                    && this.partMap().values().stream().allMatch( p -> p.isMatchAny());
         }catch(Exception e){
             return false;
         }
+    }
+
+    public Select<DoStmt, _doStmt> select(_statement _s){
+        System.out.println( "IN SELECT "+ _s);
+        if( _s == null ){
+            return null;
+        }
+        if( !statementClass.isAssignableFrom(_s.ast().getClass())){
+            return null;
+        }
+        DoStmt s = (DoStmt)_s.ast();
+        if( ! astMatch.test((_doStmt)_statement.of(s))){
+            return null;
+        }
+        if( this.stmtStencil != null ) {
+            Tokens st = this.stmtStencil.parse(_s.ast().toString(NO_COMMENTS));
+            if (st == null) {
+                return null;
+            }
+            $ex.Select sel = this.condition.select( ((_doStmt)_s).getCondition());
+            if( sel == null ){
+                return null;
+            }
+            st.putAll(sel.tokens);
+
+            $stmt.Select ss = this.body.select( ((_doStmt)_s).getBody().ast());
+            if( ss == null ){
+                return null;
+            }
+            st.putAll(ss.tokens);
+
+            return new Select( _s.ast(), $tokens.of(st) );
+        }
+
+        Tokens st = this.stmtStencil.parse(_s.ast().toString(NO_COMMENTS));
+        return new Select( _s.ast(), $tokens.of(st) );
+    }
+
+    /**
+     *
+     * @param astStmt
+     * @return
+     */
+    public Select<DoStmt, _doStmt> select(Statement astStmt ){
+        if( astStmt == null ){
+            return null;
+        }
+        if( !statementClass.isAssignableFrom(astStmt.getClass())){
+            return null;
+        }
+        DoStmt s = (DoStmt)astStmt;
+        if( ! astMatch.test((_doStmt)_statement.of(s))){
+            return null;
+        }
+        Tokens st = this.stmtStencil.parse(astStmt.toString(NO_COMMENTS));
+        if( st == null ){
+            return null;
+        }
+        return new Select( astStmt, $tokens.of(st) );
+    }
+
+
+    public Map<String, $pattern> partMap(){
+        Map<String, $pattern> partMap = new HashMap<>();
+        partMap.put("condition", condition);
+        partMap.put("body", body);
+        return partMap;
     }
 
     public $ex condition = $ex.any();
@@ -109,10 +181,12 @@ public class $doStmt extends $stmt<DoStmt, _doStmt> {
         this.condition.constraint = this.condition.constraint.and($condition);
         return this;
     }
+
     public $doStmt $condition($ex $condition){
         this.condition = $condition;
         return this;
     }
+
     public $doStmt $condition(_expression _e){
         this.condition = $ex.of(_e.ast());
         return this;

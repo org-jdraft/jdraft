@@ -49,7 +49,7 @@ public class SparametersTest extends TestCase {
             void b(int a){}
             void c(int...f){}
         }
-        assertEquals(1, $parameters.none().count(M.class));
+        assertEquals(1, $parameters.none().countIn(M.class));
     }
     
     public void testParametersAny(){

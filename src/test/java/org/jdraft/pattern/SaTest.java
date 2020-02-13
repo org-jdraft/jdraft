@@ -84,7 +84,7 @@ public class SaTest extends TestCase {
             void m(){}
         }
         
-        assertEquals( 2, $anno.of().count(T.class));
+        assertEquals( 2, $anno.of().countIn(T.class));
     }
     
     public void testOutOfOrderKeyValues(){

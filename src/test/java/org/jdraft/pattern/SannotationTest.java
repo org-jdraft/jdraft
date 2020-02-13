@@ -154,20 +154,20 @@ public class SannotationTest extends TestCase {
 
 
         //verify I can find the static modifier (value has a static IMPLIED MODIFIER)
-        assertEquals(2, $.STATIC.count(_c));
+        assertEquals(2, $.STATIC.countIn(_c));
 
         //verify I can match a class that HAS a Synchronized modifier beneath
         assertTrue( $annotation.of().$hasDescendant($.field($.STATIC)).matches(_c) );
 
         //verify I can find an instance of a CallableDeclaration that contains a descendant with the synchronized modifier
-        assertEquals(1, $.of(TypeDeclaration.class).count(_c));
-        assertEquals(1, $.of(TypeDeclaration.class).$hasDescendant($.field($.STATIC)).count(_c));
+        assertEquals(1, $.of(TypeDeclaration.class).countIn(_c));
+        assertEquals(1, $.of(TypeDeclaration.class).$hasDescendant($.field($.STATIC)).countIn(_c));
 
         _int ile = $.of(200).firstIn(_c);
         assertNotNull(ile);
 
         //verify that I can find a literal expression 102 that has a synchronized ancestor node
-        assertEquals(1, $.of(200).$hasAncestor( $.of().$hasDescendant($.STATIC)).count(_c));
+        assertEquals(1, $.of(200).$hasAncestor( $.of().$hasDescendant($.STATIC)).countIn(_c));
 
         //I mean at this point, I'm just trying to break something
     }

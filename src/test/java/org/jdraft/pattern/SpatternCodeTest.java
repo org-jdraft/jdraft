@@ -31,11 +31,11 @@ public class SpatternCodeTest extends TestCase {
                 "    { System.out.println(4); }",  //8
                 "    { System.out.println(5); }",  //9
                 "}");//10
-        assertEquals( 2, $.intLiteral().$isParentMember($field.of()).count(_c)); //0,1
-        assertEquals(4, $.intLiteral().$isNotParentMember($field.of()).count(_c)); //2,3,4,5
+        assertEquals( 2, $.intLiteral().$isParentMember($field.of()).countIn(_c)); //0,1
+        assertEquals(4, $.intLiteral().$isNotParentMember($field.of()).countIn(_c)); //2,3,4,5
 
-        assertEquals( 1, $.intLiteral(1).$isParentMember($field.of()).count(_c));
-        assertEquals( 0, $.intLiteral(1).$isNotParentMember($field.of()).count(_c));
+        assertEquals( 1, $.intLiteral(1).$isParentMember($field.of()).countIn(_c));
+        assertEquals( 0, $.intLiteral(1).$isNotParentMember($field.of()).countIn(_c));
 
     }
     public void testIsParentMember(){
@@ -51,7 +51,7 @@ public class SpatternCodeTest extends TestCase {
                 "    { System.out.println(5); }",  //9
                 "}");//10
 
-        assertEquals( $field.of().count(_c), 2);
+        assertEquals( $field.of().countIn(_c), 2);
 
 
         $member[] members = new $member[]{$field.of()};
@@ -66,7 +66,7 @@ public class SpatternCodeTest extends TestCase {
         assertTrue( Ast.isParentMember(e.ast(), nn-> Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent()) );
 
         //there are (2) int literals (0, 2) which have parents associated with fields ("int i = 0", "int x = 2")
-        assertEquals(2, $.intLiteral().$isParentMember($field.of()).count(_c)); //i,x
+        assertEquals(2, $.intLiteral().$isParentMember($field.of()).countIn(_c)); //i,x
         //System.out.println( "Is parent ");
         //$.intLiteral().$isParentMember($field.of()).printIn(_c);
 
@@ -74,7 +74,7 @@ public class SpatternCodeTest extends TestCase {
         //System.out.println( "Is Not parent ");
         //$.intLiteral().$isNotParentMember($field.of()).printIn(_c);
 
-        assertEquals(4, $.intLiteral().$isNotParentMember($field.of()).count(_c));
+        assertEquals(4, $.intLiteral().$isNotParentMember($field.of()).countIn(_c));
     }
 
     public void testIsInRange(){
@@ -89,27 +89,27 @@ public class SpatternCodeTest extends TestCase {
                 "    { System.out.println(1); }",  //8
                 "    { System.out.println(2); }",  //9
                 "}");//10
-        assertEquals( 2, $constructor.of().count(_c) );
-        assertEquals( 2, $constructor.of().$isInRange(0,0, 10,100).count(_c) );
-        assertEquals( 2, $constructor.of().$isInRange(0, 10).count(_c) );
+        assertEquals( 2, $constructor.of().countIn(_c) );
+        assertEquals( 2, $constructor.of().$isInRange(0,0, 10,100).countIn(_c) );
+        assertEquals( 2, $constructor.of().$isInRange(0, 10).countIn(_c) );
 
         //verify (2) fields on lines 2 and 3 (2, 3)
-        assertEquals(2, $field.of().count(_c) );
+        assertEquals(2, $field.of().countIn(_c) );
         //1 field on line 2
-        assertEquals(1, $field.of().$atLine(2).count(_c) );
+        assertEquals(1, $field.of().$atLine(2).countIn(_c) );
         //1 field on line 3
-        assertEquals(1, $field.of().$atLine(3).count(_c) );
+        assertEquals(1, $field.of().$atLine(3).countIn(_c) );
         //field on line 2
         $field $f = $.field().$isInRange(2,0, 2,100);
-        assertEquals(1, $f.count(_c));
+        assertEquals(1, $f.countIn(_c));
 
         //exact (2, 4) - (2-21)
         $f = $.field().$isInRange(2,4, 2,21);
-        assertEquals(1, $f.count(_c));
+        assertEquals(1, $f.countIn(_c));
 
         //on single line
         $f = $.field().$isInRange(2,2);
-        assertEquals(1, $f.count(_c));assertEquals(1, $f.count(_c));
+        assertEquals(1, $f.countIn(_c));assertEquals(1, $f.countIn(_c));
 
     }
 
@@ -136,12 +136,12 @@ public class SpatternCodeTest extends TestCase {
         Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
         _java.describe( $typeParameter.of().firstIn(_c) );
         Log.setAdapter(new Log.SilentAdapter());
-        assertEquals( 2, $typeRef.of(Map.class).count(_c) );
-        assertEquals( 1, $typeRef.of(Map.class).$hasAncestor($typeParameter.of()).count(_c) ); //a map used in a TypeParameter
+        assertEquals( 2, $typeRef.of(Map.class).countIn(_c) );
+        assertEquals( 1, $typeRef.of(Map.class).$hasAncestor($typeParameter.of()).countIn(_c) ); //a map used in a TypeParameter
         //assertEquals( 1, $typeRef.of().$hasParent($typeParameter.class).count(_c) );
         //assertEquals( 1, $typeRef.of("Map").$hasParent($typeParameter.class).count(_c) );
-        assertEquals( 1, $method.of().$hasDescendant($typeRef.of(int.class)).count(_c)); //a method that uses an int
-        assertEquals( 0, $method.of().$hasDescendant($typeRef.of(float.class)).count(_c)); //a method that uses an int
+        assertEquals( 1, $method.of().$hasDescendant($typeRef.of(int.class)).countIn(_c)); //a method that uses an int
+        assertEquals( 0, $method.of().$hasDescendant($typeRef.of(float.class)).countIn(_c)); //a method that uses an int
 
         $method $m = $.method( new Object(){
             int $name$;
@@ -151,7 +151,7 @@ public class SpatternCodeTest extends TestCase {
         });
 
         $m.$hasAncestor($.of(ClassOrInterfaceDeclaration.class));
-        assertEquals(1, $m.count(_c));
+        assertEquals(1, $m.countIn(_c));
 
         $m = $.method( new Object(){
             int $name$;
@@ -160,15 +160,15 @@ public class SpatternCodeTest extends TestCase {
             }
         });
         $m.$hasAncestor($.of(EnumDeclaration.class));
-        assertEquals(0, $m.count(_c));
+        assertEquals(0, $m.countIn(_c));
 
         $node $n = $node.of( ClassOrInterfaceDeclaration.class).$hasDescendant( $method.of().$type(int.class) );
 
-        assertEquals(1, $n.count( C.class ));
+        assertEquals(1, $n.countIn( C.class ));
 
         $n = $node.of( ClassOrInterfaceDeclaration.class).$hasDescendant( $field.of( $modifiers.of("private")));
 
-        assertEquals(0, $n.count( C.class ));
+        assertEquals(0, $n.countIn( C.class ));
 
 
 

@@ -64,16 +64,16 @@ public class IntelliJPSIExample extends TestCase {
 
         _class _c = _class.of(someEx.class);
         //verify that there are (3) occurrences of X == Y in someEx
-        assertEquals( 3, $binEqEq.count(_c));
+        assertEquals( 3, $binEqEq.countIn(_c));
 
         //refactor to convert (all (3)) "x == y" instances to "x.equals(y)"
         $binEqEq.replaceIn(_c, $methodEq);
 
         //verify there are (0) occurrences of x == y in someEx
-        assertEquals( 0, $binEqEq.count(_c));
+        assertEquals( 0, $binEqEq.countIn(_c));
 
         //verify there are (3) occurrences of x.equals(y) in _c
-        assertEquals( 3, $methodEq.count(_c));
+        assertEquals( 3, $methodEq.countIn(_c));
     }
 
     /**

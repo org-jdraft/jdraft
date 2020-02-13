@@ -125,9 +125,9 @@ public class StypeParameterTest extends TestCase {
             }
         }
 
-        assertEquals( 2, $typeParameter.of().count(F.class)); //A, I
-        assertEquals( 1, $typeParameter.of().$name( $name.of("A")).count(F.class)); //A
-        assertEquals( 1, $typeParameter.of().$name( $name.of("I")).count(F.class)); //A
+        assertEquals( 2, $typeParameter.of().countIn(F.class)); //A, I
+        assertEquals( 1, $typeParameter.of().$name( $name.of("A")).countIn(F.class)); //A
+        assertEquals( 1, $typeParameter.of().$name( $name.of("I")).countIn(F.class)); //A
 
         //_class _c = _class.of(F.class);
 
@@ -193,10 +193,10 @@ public class StypeParameterTest extends TestCase {
     public void testLambda(){
         class C<A, B extends Serializable, C extends Map & Serializable>{
         }
-        assertEquals(1, $typeParameter.of(tp-> tp.getTypeBound().isEmpty()).count(C.class));
-        assertEquals(2, $typeParameter.of(tp-> tp.getTypeBound().isNonEmpty()).count(C.class));
-        assertEquals(1, $typeParameter.of(tp-> tp.getTypeBound().size() == 1).count(C.class));
-        assertEquals(1, $typeParameter.of(tp-> tp.getTypeBound().size() == 2).count(C.class));
+        assertEquals(1, $typeParameter.of(tp-> tp.getTypeBound().isEmpty()).countIn(C.class));
+        assertEquals(2, $typeParameter.of(tp-> tp.getTypeBound().isNonEmpty()).countIn(C.class));
+        assertEquals(1, $typeParameter.of(tp-> tp.getTypeBound().size() == 1).countIn(C.class));
+        assertEquals(1, $typeParameter.of(tp-> tp.getTypeBound().size() == 2).countIn(C.class));
         
     }
     

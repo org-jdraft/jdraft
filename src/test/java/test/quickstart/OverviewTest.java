@@ -50,7 +50,7 @@ public class OverviewTest extends TestCase {
                 }
                 //count all nodes of (any of these types) found within a method (and add 1)
                 return $node.of( DoStmt.class, WhileStmt.class, IfStmt.class, ForStmt.class,
-                        ForEachStmt.class, SwitchStmt.class, SwitchEntry.class, CatchClause.class).count(_m) +1;
+                        ForEachStmt.class, SwitchStmt.class, SwitchEntry.class, CatchClause.class).countIn(_m) +1;
             }
         }
 

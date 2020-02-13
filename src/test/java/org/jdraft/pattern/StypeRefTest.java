@@ -22,7 +22,7 @@ public class StypeRefTest extends TestCase {
             }
         }
         _class _c = _class.of(G.class);
-        assertEquals(1, $.methodCall("Thread.currentThread()").count(_c));
+        assertEquals(1, $.methodCall("Thread.currentThread()").countIn(_c));
         //assertEquals(1, $.methodCall("Thread.currentThread()").count(_c));
     }
 
@@ -43,10 +43,10 @@ public class StypeRefTest extends TestCase {
 
         //verify that we check WITHIN a Union Type
         $typeRef $t = $typeRef.of(URISyntaxException.class);
-        assertEquals(2, $t.count(C.class));
+        assertEquals(2, $t.countIn(C.class));
 
         $typeRef $i = $typeRef.of(IOException.class);
-        assertEquals(2, $t.count(C.class));
+        assertEquals(2, $t.countIn(C.class));
 
         /*
         //again we can query to the harts content
@@ -134,7 +134,7 @@ public class StypeRefTest extends TestCase {
         $typeRef $tr = $typeRef.of( "Map<$A$, $B$>" );
 
         assertTrue($tr.match(Ast.typeRef("Map<Integer, Integer>") ));
-        $tr.hardcode$("A", "String");
+        $tr.$hardcode("A", "String");
         assertTrue($tr.match(Ast.typeRef("Map<String, Integer>") ));
         assertTrue($tr.match(Ast.typeRef("Map<java.lang.String, Integer>") ));
         assertFalse($tr.match(Ast.typeRef("Map<Integer, Integer>") ));

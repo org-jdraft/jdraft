@@ -35,7 +35,7 @@ public class SannosTest extends TestCase {
             int g;
         }
         //s and g
-        assertEquals(6, $annos.none().count(DF.class));
+        assertEquals(6, $annos.none().countIn(DF.class));
     }
     
     public void testComposeAny(){
@@ -64,8 +64,8 @@ public class SannosTest extends TestCase {
             int x;
             public void m(){}
         }        
-        assertEquals(5, $annos.none().count(C.class) );
-        assertEquals(5, $annos.of( ans-> ans.isEmpty() ).count(C.class));
+        assertEquals(5, $annos.none().countIn(C.class) );
+        assertEquals(5, $annos.of( ans-> ans.isEmpty() ).countIn(C.class));
         
         
         //System.out.println( $annos.any().listIn(D.class) );

@@ -582,10 +582,10 @@ public class $var
      * @param kvs
      * @return 
      */
-    public $var hardcode$( Translator translator, Tokens kvs ) {
+    public $var $hardcode(Translator translator, Tokens kvs ) {
         this.name = this.name.hardcode$(translator, kvs);
-        this.type = this.type.hardcode$(translator, kvs);
-        this.init = this.init.hardcode$(translator, kvs);        
+        this.type = this.type.$hardcode(translator, kvs);
+        this.init = this.init.$hardcode(translator, kvs);
         return this;
     }
 
@@ -965,8 +965,8 @@ public class $var
         }
 
         @Override
-        public $var hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $var $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 

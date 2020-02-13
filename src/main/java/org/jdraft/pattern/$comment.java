@@ -231,7 +231,7 @@ public class $comment <C extends Comment>
      * @param kvs
      * @return 
      */
-    public $comment<C> hardcode$(Translator translator, Tokens kvs ) {
+    public $comment<C> $hardcode(Translator translator, Tokens kvs ) {
         this.contentsStencil = this.contentsStencil.hardcode$(translator, kvs);
         return this;
     }
@@ -809,8 +809,8 @@ public class $comment <C extends Comment>
         }
 
         @Override
-        public $comment hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $comment $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 

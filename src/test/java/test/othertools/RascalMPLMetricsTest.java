@@ -3,8 +3,6 @@ package test.othertools;
 import com.github.javaparser.ast.stmt.*;
 import junit.framework.TestCase;
 import org.jdraft._method;
-import org.jdraft.io._path;
-import org.jdraft.pattern.$method;
 import org.jdraft.pattern.$node;
 
 import java.util.*;
@@ -47,7 +45,7 @@ public class RascalMPLMetricsTest extends TestCase {
             }
             //count all nodes of (any of these types) type found within a method (and add 1)
             return $node.of( DoStmt.class, WhileStmt.class, IfStmt.class, ForStmt.class,
-                    ForEachStmt.class, SwitchStmt.class, SwitchEntry.class, CatchClause.class).count(_m) +1;
+                    ForEachStmt.class, SwitchStmt.class, SwitchEntry.class, CatchClause.class).countIn(_m) +1;
         }
     }
 

@@ -681,9 +681,9 @@ public class $body implements Template<_body>,
      * @param kvs
      * @return 
      */
-    public $body hardcode$(Translator translator, Tokens kvs ) {
+    public $body $hardcode(Translator translator, Tokens kvs ) {
         if( this.isImplemented ){
-            this.bodyStmts.hardcode$(translator, kvs);
+            this.bodyStmts.$hardcode(translator, kvs);
         }
         return this;
     }
@@ -937,8 +937,8 @@ public class $body implements Template<_body>,
         }
 
         @Override
-        public $body hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $body $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 

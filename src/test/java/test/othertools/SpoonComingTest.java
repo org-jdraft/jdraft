@@ -28,16 +28,16 @@ public class SpoonComingTest extends TestCase {
             }
         }
         //if I wanted to look for the returnStmts themselves
-        assertEquals(2, $.returnStmt().count(Ex.class));
+        assertEquals(2, $.returnStmt().countIn(Ex.class));
 
         //returnStmts that are direct children of ifStmts
-        assertEquals(0, $.returnStmt().$isParent($.ifStmt()).count(Ex.class));
+        assertEquals(0, $.returnStmt().$isParent($.ifStmt()).countIn(Ex.class));
         //they aren NOT
 
         //verify, without "depth" we can find the if statement (in this case, (1) IfStmt has (2) returns
-        assertEquals( 1, $.ifStmt().$hasDescendant($.returnStmt()).count(Ex.class) );
+        assertEquals( 1, $.ifStmt().$hasDescendant($.returnStmt()).countIn(Ex.class) );
         //if I set depth to (1)
-        assertEquals(0, $ifReturn.count(Ex.class));
+        assertEquals(0, $ifReturn.countIn(Ex.class));
     }
 
     /**
@@ -68,7 +68,7 @@ public class SpoonComingTest extends TestCase {
         }
         Ast.describe( $.ifStmt().firstIn(Ex.class).ast() );
 
-        assertEquals(1, $ifReturn.count(Ex.class));
+        assertEquals(1, $ifReturn.countIn(Ex.class));
     }
 
     /**
@@ -87,6 +87,6 @@ public class SpoonComingTest extends TestCase {
                 }
             }
         }
-        assertEquals(1, $ifReturn.count(Ex.class));
+        assertEquals(1, $ifReturn.countIn(Ex.class));
     }
 }

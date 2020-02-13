@@ -1212,7 +1212,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param kvs
      * @return 
      */
-    public $stmt hardcode$( Translator translator, Tokens kvs ) {
+    public $stmt $hardcode(Translator translator, Tokens kvs ) {
         this.stmtStencil = this.stmtStencil.hardcode$(translator, kvs);
         return this;
     }
@@ -1971,8 +1971,8 @@ public class $stmt<S extends Statement, _S extends _statement>
         }
 
         @Override
-        public $stmt hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $stmt $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 

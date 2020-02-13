@@ -145,12 +145,12 @@ public class $annotationEntry
     }
 
     @Override
-    public $annotationEntry hardcode$(Translator translator, Tokens kvs) {
-        this.javadoc.hardcode$(translator, kvs);
+    public $annotationEntry $hardcode(Translator translator, Tokens kvs) {
+        this.javadoc.$hardcode(translator, kvs);
         this.name = this.name.hardcode$(translator, kvs);
-        this.type.hardcode$(translator, kvs);
+        this.type.$hardcode(translator, kvs);
         if( this.defaultValue != null ) {
-            this.defaultValue.hardcode$(translator, kvs);
+            this.defaultValue.$hardcode(translator, kvs);
         }
         return this;
     }
@@ -396,8 +396,8 @@ public class $annotationEntry
         }
 
         @Override
-        public $annotationEntry hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $annotationEntry $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 

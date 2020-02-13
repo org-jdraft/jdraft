@@ -452,7 +452,7 @@ public class $constructor
         for(int i=0;i<parts.length;i++){
             if( parts[i] instanceof $anno ){
                 final $anno $fa = (($anno)parts[i]);
-                Predicate<_constructor> pf = f-> $fa.count(f) > 0;
+                Predicate<_constructor> pf = f-> $fa.countIn(f) > 0;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $modifiers ){
@@ -467,7 +467,7 @@ public class $constructor
             }
             else if( parts[i] instanceof $parameter ){
                 final $parameter $fa = (($parameter)parts[i]);
-                Predicate<_constructor> pf = f-> $fa.count(f) > 0;
+                Predicate<_constructor> pf = f-> $fa.countIn(f) > 0;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $typeParameters ){
@@ -477,7 +477,7 @@ public class $constructor
             }
             else if( parts[i] instanceof $typeParameter ){
                 final $typeParameter $fa = (($typeParameter)parts[i]);
-                Predicate<_constructor> pf = f-> $fa.count(f) > 0;
+                Predicate<_constructor> pf = f-> $fa.countIn(f) > 0;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $name){
@@ -892,14 +892,14 @@ public class $constructor
      * @param kvs
      * @return 
      */
-    public $constructor hardcode$( Translator translator, Tokens kvs ) {
-        javadoc = javadoc.hardcode$(translator, kvs);
-        annos = annos.hardcode$(translator, kvs);
-        typeParameters = typeParameters.hardcode$(translator, kvs);
+    public $constructor $hardcode(Translator translator, Tokens kvs ) {
+        javadoc = javadoc.$hardcode(translator, kvs);
+        annos = annos.$hardcode(translator, kvs);
+        typeParameters = typeParameters.$hardcode(translator, kvs);
         name.nameStencil = name.nameStencil.hardcode$(translator, kvs);
-        parameters = parameters.hardcode$(translator, kvs);
-        thrown = thrown.hardcode$(translator, kvs);
-        body = body.hardcode$(translator, kvs );
+        parameters = parameters.$hardcode(translator, kvs);
+        thrown = thrown.$hardcode(translator, kvs);
+        body = body.$hardcode(translator, kvs );
         
         return this;
     }
@@ -1359,8 +1359,8 @@ public class $constructor
         }
 
         @Override
-        public $constructor hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $constructor $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 

@@ -234,8 +234,8 @@ public class $initBlock implements //$pattern<_initBlock, $initBlock>,
     }
 
     @Override
-    public $initBlock hardcode$(Translator translator, Tokens kvs) {
-        this.body = this.body.hardcode$(translator, kvs);
+    public $initBlock $hardcode(Translator translator, Tokens kvs) {
+        this.body = this.body.$hardcode(translator, kvs);
         return this;
     }
 
@@ -461,8 +461,8 @@ public class $initBlock implements //$pattern<_initBlock, $initBlock>,
         }
 
         @Override
-        public $initBlock hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $initBlock $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 

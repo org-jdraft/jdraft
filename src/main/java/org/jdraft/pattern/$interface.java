@@ -248,18 +248,18 @@ public class $interface
     }
 
     @Override
-    public $interface hardcode$(Translator translator, Tokens kvs) {
+    public $interface $hardcode(Translator translator, Tokens kvs) {
 
-        this.annos.hardcode$(translator, kvs);
-        this.fields.forEach(f-> f.hardcode$(translator, kvs));
-        this.imports.forEach( i-> i.hardcode$(translator, kvs));
-        this.javadoc.hardcode$(translator, kvs);
-        this.methods.forEach(m-> m.hardcode$(translator, kvs));
-        this.modifiers.hardcode$(translator, kvs);
+        this.annos.$hardcode(translator, kvs);
+        this.fields.forEach(f-> f.$hardcode(translator, kvs));
+        this.imports.forEach( i-> i.$hardcode(translator, kvs));
+        this.javadoc.$hardcode(translator, kvs);
+        this.methods.forEach(m-> m.$hardcode(translator, kvs));
+        this.modifiers.$hardcode(translator, kvs);
         this.name = this.name.hardcode$(translator, kvs);
-        this.packageDecl = this.packageDecl.hardcode$(translator, kvs);
-        this.typeParameters = this.typeParameters.hardcode$(translator, kvs);
-        this.extend.forEach( i-> i.hardcode$(translator, kvs));
+        this.packageDecl = this.packageDecl.$hardcode(translator, kvs);
+        this.typeParameters = this.typeParameters.$hardcode(translator, kvs);
+        this.extend.forEach( i-> i.$hardcode(translator, kvs));
         //still need nests
 
         return this;
@@ -756,8 +756,8 @@ public class $interface
         }
 
         @Override
-        public $interface hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $interface $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 

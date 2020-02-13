@@ -55,7 +55,7 @@ public class PatternQueryTest extends TestCase {
         assertEquals(Stencil.of("A$nm$"),$cl.name.nameStencil);
 
         //AND it is also modifyable (hardcode "class" for "nm" parameter
-        $cl.hardcode$("nm", "class");
+        $cl.$hardcode("nm", "class");
 
         assertEquals(Stencil.of("Aclass"),$cl.name.nameStencil);
 

@@ -56,9 +56,9 @@ public class _compilationUnitPatternTest extends TestCase {
         }
         $ex.intLiteralEx(1).forEachIn(C.class, e-> System.out.println( e.ast().getParentNodeForChildren().getClass() ) );
 
-        assertEquals( 3, $ex.of(1).count(C.class));
-        assertEquals( 2, $ex.of(1).$isParentNot( $ex.binaryEx() ).count(C.class));
-        assertEquals( 1, $ex.of(1).$isParentNot( $ex.binaryEx(), $ex.enclosedEx() ).count(C.class));
+        assertEquals( 3, $ex.of(1).countIn(C.class));
+        assertEquals( 2, $ex.of(1).$isParentNot( $ex.binaryEx() ).countIn(C.class));
+        assertEquals( 1, $ex.of(1).$isParentNot( $ex.binaryEx(), $ex.enclosedEx() ).countIn(C.class));
     }
 
     /**
@@ -97,7 +97,7 @@ public class _compilationUnitPatternTest extends TestCase {
                 //.$hasAncestor($.of(VariableDeclarator.class));
 
         //3) find
-        $ex<MethodCallExpr, _methodCall> $mce = $.methodCall("$prefix$foo($any$)");
+        $ex<MethodCallExpr, _methodCall, $ex> $mce = $.methodCall("$prefix$foo($any$)");
 
         //$varAssignment.hardcode$($args);
 
@@ -109,30 +109,30 @@ public class _compilationUnitPatternTest extends TestCase {
         //how many times can we find the var
         //System.out.println( $var.of( args.get("param").toString() ).count(F.class) );
         //now I want to find
-        $method.of("void hey($type$ $name$){}").hardcode$("name", "eric");
+        $method.of("void hey($type$ $name$){}").$hardcode("name", "eric");
 
-        assertTrue( $varAssignment.hardcode$(args).count(F.class) > 0);
+        assertTrue( $varAssignment.$hardcode(args).countIn(F.class) > 0);
 
 
-        assertEquals( 1, $.stmt( "int $param$ = $obj$.getType();" ).count(F.class));
+        assertEquals( 1, $.stmt( "int $param$ = $obj$.getType();" ).countIn(F.class));
 
-        assertEquals(1, $.methodCall("$var$.getType()").count(F.class));
+        assertEquals(1, $.methodCall("$var$.getType()").countIn(F.class));
 
-        assertEquals( 1, $.methodCall( "foo($any$)" ).count(F.class));
+        assertEquals( 1, $.methodCall( "foo($any$)" ).countIn(F.class));
 
     }
 
     public void testPkgInfo(){
         _compilationUnit _pi = _packageInfo.of("package aaaa.ffff.gggg;", "import java.util.*;", "import java.net.URL;");
-        assertEquals(1, $import.of(URL.class).count(_pi));
-        assertEquals(1, $import.of("java.util.*").count(_pi));
-        assertEquals(2, $import.of().count(_pi));
+        assertEquals(1, $import.of(URL.class).countIn(_pi));
+        assertEquals(1, $import.of("java.util.*").countIn(_pi));
+        assertEquals(2, $import.of().countIn(_pi));
     }
     
     public void testModuleInfo(){
         _compilationUnit _pi = _moduleInfo.of("import java.util.*;", "import java.net.URL;", "module aaaa.ffff.gggg{}" );
-        assertEquals(1, $import.of(URL.class).count(_pi));
-        assertEquals(2, $import.of().count(_pi));
+        assertEquals(1, $import.of(URL.class).countIn(_pi));
+        assertEquals(2, $import.of().countIn(_pi));
     }
 
     public void testBodyNot(){

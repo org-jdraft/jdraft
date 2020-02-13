@@ -42,7 +42,7 @@ public class GoogleErrorProneAndroidInjectBeforeSuper_PartsTest extends TestCase
                 _class.of("F2").addExtend("Fragment").addImports("android.support.v4.app.Fragment"),
                 _class.of("S").addExtend("Service").addImports("android.app.Service")
         );
-        assertEquals(4, $ANDROID_CLASS.count(_cc));
+        assertEquals(4, $ANDROID_CLASS.countIn(_cc));
     }
 
     /** $pattern match for the Suppress Warnings annotation */
@@ -141,14 +141,14 @@ public class GoogleErrorProneAndroidInjectBeforeSuper_PartsTest extends TestCase
 
 
     public void testFindExs(){
-        assertEquals(4, $injectEx.count(FAILURES) );
-        assertEquals(2, $onAttachEx.count(FAILURES) );
-        assertEquals(2, $onCreateEx.count(FAILURES) );
+        assertEquals(4, $injectEx.countIn(FAILURES) );
+        assertEquals(2, $onAttachEx.countIn(FAILURES) );
+        assertEquals(2, $onCreateEx.countIn(FAILURES) );
 
         //now check for instances where $injectEx comes AFTER (in the body)
         $ex $injectAfterSuper = $ex.of("AndroidInjection.inject(this)").$isAfter($onCreateEx, $onAttachEx);
 
-        assertEquals(4, $injectAfterSuper.count(FAILURES));
+        assertEquals(4, $injectAfterSuper.countIn(FAILURES));
 
         //$ex onAttachBeforeInject = $onAttachEx.$before( $injectEx );
         //$ex onCreateBeforeInject = $onCreateEx.$before( $injectEx );
@@ -167,7 +167,7 @@ public class GoogleErrorProneAndroidInjectBeforeSuper_PartsTest extends TestCase
                            $.ex("super.onAttach($any$)"))) )
              .$not($SUPPRESS_WARNING_ANNO)
              .$isParentMember($ANDROID_CLASS);
-        assertEquals(4, $onCreateAttach.count(FAILURES));
+        assertEquals(4, $onCreateAttach.countIn(FAILURES));
 
         //simplified(less strict/detailed version)
         $method $AndroidInjectAfterSuper = $method.of($name.or("onCreate","onAttach"),
@@ -176,21 +176,21 @@ public class GoogleErrorProneAndroidInjectBeforeSuper_PartsTest extends TestCase
                                 $.ex("super.onAttach($any$)")))
                 .$not($SUPPRESS_WARNING_ANNO);
 
-        assertEquals(4, $AndroidInjectAfterSuper.count(FAILURES) );
+        assertEquals(4, $AndroidInjectAfterSuper.countIn(FAILURES) );
 
         // lets copy of the .java source, adding the @Suppress... annotations to each method
         // then retesting and verifying there are no matches
         _source SUPPRESS_ANNO = FAILURES.copy();
         SUPPRESS_ANNO.for_types(_t -> _t.forMembers(_method.class, _m -> ((_method)_m).addAnnos($SUPPRESS_WARNING_ANNO.draft())) );
         //assertEquals(4, $SUPPRESS_WARNING_ANNO.count(SUPPRESS_ANNO));
-        assertEquals(4, $method.of($SUPPRESS_WARNING_ANNO).count(SUPPRESS_ANNO)); //all (4) methods have the suppress anno
+        assertEquals(4, $method.of($SUPPRESS_WARNING_ANNO).countIn(SUPPRESS_ANNO)); //all (4) methods have the suppress anno
         System.out.println( SUPPRESS_ANNO.list_code() );
-        assertEquals(0, $method.of().$not($SUPPRESS_WARNING_ANNO).count(SUPPRESS_ANNO) );
+        assertEquals(0, $method.of().$not($SUPPRESS_WARNING_ANNO).countIn(SUPPRESS_ANNO) );
 
         $method.of().$not($SUPPRESS_WARNING_ANNO).printIn(SUPPRESS_ANNO);
 
         //verify there are 0 matches if the methods have the @SuppressWarnings(...) annotation
-        assertEquals( 0, $onCreateAttach.count(SUPPRESS_ANNO));
+        assertEquals( 0, $onCreateAttach.countIn(SUPPRESS_ANNO));
 
     }
 

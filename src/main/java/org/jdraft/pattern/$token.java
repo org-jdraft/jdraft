@@ -56,8 +56,8 @@ public class $token implements $pattern<Node, $token> {
     }
 
     @Override
-    public $token hardcode$(Translator translator, Tokens kvs) {
-        $n.hardcode$(translator, kvs);
+    public $token $hardcode(Translator translator, Tokens kvs) {
+        $n.$hardcode(translator, kvs);
         return this;
     }
 

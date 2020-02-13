@@ -4,7 +4,6 @@ import com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt;
 import junit.framework.TestCase;
 import org.jdraft.Stmt;
 import org.jdraft._class;
-import org.jdraft.io._archive;
 import org.jdraft.io._source;
 import org.jdraft.io._path;
 import org.jdraft.macro._dto;
@@ -58,7 +57,7 @@ public class WhatKindaStuff extends TestCase {
 
         System.out.println( src );
 
-        _class.of(A.class).forMethods( m -> $.of( NodeWithBlockStmt.class ).count(m) );
+        _class.of(A.class).forMethods( m -> $.of( NodeWithBlockStmt.class ).countIn(m) );
 
         //print all TODO comments found in source jar file
         //$.comment("TODO").printIn( _archive.of("C:\\spring-core-5.1.9.RELEASE-sources.jar") );
@@ -95,11 +94,11 @@ public class WhatKindaStuff extends TestCase {
         //a pattern representing System.out.println()
         $stmt $println = $stmt.of("System.out.println($any$);");
         //verify we can find (2) printlns
-        assertEquals(2, $println.count(_c));
+        assertEquals(2, $println.countIn(_c));
 
         //comment out all println statements in the class and return the _class
         _c = (_class)$println.commentOut(C.class);
-        assertEquals( 0, $println.count(_c));
+        assertEquals( 0, $println.countIn(_c));
 
         //assertEquals( 2, $stmt.emptyStmt().count(_c));
         //assertEquals( 1, _c.getMethod("m").listStatements().size() );

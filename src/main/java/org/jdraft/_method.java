@@ -286,6 +286,37 @@ public final class _method
         return true;
     }
 
+    enum Token {
+        JAVADOC(1, "javadoc", (_method a)-> a.getJavadoc()),
+        ANNOS(2,"annos", (_method a)-> a.getAnnos() ),
+        MODIFIERS(3,"modifiers", (_method a)-> a.getEffectiveModifiers()),
+        TYPE_PARAMETERS(4,"typeParameters", (_method a)-> a.getTypeParameters()),
+        TYPE(5,"type", (_method a)-> a.getType()),
+        NAME(6, "name", (_method a)-> a.getName()),
+        RECEIVER_PARAMETER(7, "receiverParameter", (_method a)-> a.getReceiverParameter()),
+        PARAMETERS(8, "parameters", (_method a)-> a.getParameters()),
+        THROWS(9, "throws", (_method a)-> a.getThrows()),
+        BODY(10, "body", (_method a)-> a.getBody());
+
+        private final int lexicalOrder;
+        private final String name;
+        private final Function<_method, Object> resolver;
+
+        Token(int lexicalOrder, String name, Function<_method, Object> resolver ){
+            this.lexicalOrder = lexicalOrder;
+            this.name = name;
+            this.resolver = resolver;
+        }
+    }
+
+    public static final Token[] TOKENS = Token.values();
+
+    public Map<Token, Object> tokenMap(){
+        Map<Token, Object>tokensMap = new HashMap<>();
+        Arrays.stream(TOKENS).forEach( t -> tokensMap.put(t, t.resolver.apply(this)));
+        return tokensMap;
+    }
+
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> parts = new HashMap<>();

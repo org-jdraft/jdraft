@@ -91,7 +91,7 @@ public class WhatKindaStuff2 extends TestCase {
         $comment.of("TODO").printIn( _a );
 
         //print the number of main methods in the archive
-        System.out.println( $method.of("public static void main(String[] $name$){}").count(_a));
+        System.out.println( $method.of("public static void main(String[] $name$){}").countIn(_a));
 
     }
 

@@ -126,7 +126,7 @@ public class LogicPositivizerDetailTest extends TestCase {
             }
         }
         assertNotNull( $sourceIf.firstIn(F.class));    // match and return the first matching node
-        assertEquals(1, $sourceIf.count(F.class) ); //count all matches in a Class
+        assertEquals(1, $sourceIf.countIn(F.class) ); //count all matches in a Class
         assertEquals(1, $sourceIf.listIn(F.class).size()); //list all of the matching nodes in some Class
 
 

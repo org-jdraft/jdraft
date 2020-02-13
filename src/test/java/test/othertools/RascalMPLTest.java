@@ -31,7 +31,7 @@ public class RascalMPLTest extends TestCase {
         }
         /* to run this on the entire source directory replace LE.class with: _batch.of("C:\\jdraft\\project\\jdraft")); */
         /* to run this on the .jar file with source replace LE.class with: _archive.of("C:\\temp\\MyProject-src.jar")); */
-        assertEquals(2, $f.count( LE.class ));
+        assertEquals(2, $f.countIn( LE.class ));
         // instead of just counting we can print each field to System out as we encounter
         $f.printIn( LE.class );
 
@@ -41,7 +41,7 @@ public class RascalMPLTest extends TestCase {
 
         // here we check for public fields on an interface... note although i, j are NOT explicitly public
         // they ARE IMPLICITLY PUBLIC because fields with initializers on imterfaces are public by default
-        assertEquals( 2, $f.count(I.class));
+        assertEquals( 2, $f.countIn(I.class));
     }
 
     /**
@@ -83,12 +83,12 @@ public class RascalMPLTest extends TestCase {
             }
         });
         /* 3) extra validation to verify results */
-        assertEquals(2, $getMethod.count(_c) ); //verify (2) get methods in the result
-        assertEquals(2, $setMethod.count(_c) ); //verify (2) set methods in the result
-        assertEquals( 2, $field.of($.PRIVATE).count(_c)); //verify (2) private fields in the result
+        assertEquals(2, $getMethod.countIn(_c) ); //verify (2) get methods in the result
+        assertEquals(2, $setMethod.countIn(_c) ); //verify (2) set methods in the result
+        assertEquals( 2, $field.of($.PRIVATE).countIn(_c)); //verify (2) private fields in the result
         $publicFieldOnClass.printIn( _c );
         System.out.println( $publicFieldOnClass );
-        assertEquals( 0, $publicFieldOnClass.count(_c)); //verify (0) public fields in the result
+        assertEquals( 0, $publicFieldOnClass.countIn(_c)); //verify (0) public fields in the result
         System.out.println( _c );
     }
 

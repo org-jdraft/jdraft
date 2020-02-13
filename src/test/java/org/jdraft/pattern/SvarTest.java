@@ -96,7 +96,7 @@ public class SvarTest extends TestCase {
             .$(Stmt.of("any();"), "body");
         
         //ok this will verify, we can find (2) separate forEach statements
-        assertEquals(2, $s.count(_c)); //we dont need it, we're just verifying we can find it
+        assertEquals(2, $s.countIn(_c)); //we dont need it, we're just verifying we can find it
         
         AtomicInteger count = new AtomicInteger(0);
         $s.forSelectedIn(_c, 

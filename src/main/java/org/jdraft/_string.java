@@ -4,6 +4,7 @@ import com.github.javaparser.ast.expr.StringLiteralExpr;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 
 public class _string implements _expression._literal<StringLiteralExpr, _string> {
 
@@ -45,9 +46,14 @@ public class _string implements _expression._literal<StringLiteralExpr, _string>
         return this.ast( ).equals(astNode);
     }
 
-    public String getValue(){
-        return this.se.getValue();
+
+    public boolean isValue( Predicate<String> stringMatchFn ){
+        return stringMatchFn.test(this.se.asString());
     }
+
+    //public String getValue(){
+    //    return this.se.getValue();
+    //}
 
     public String valueAsString(){
         return this.se.asString();

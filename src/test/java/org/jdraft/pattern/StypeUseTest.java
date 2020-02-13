@@ -53,7 +53,7 @@ public class StypeUseTest extends TestCase {
                 $node.of(Type.class)
                         .$and(t-> !Ast.isParent(t, p-> p instanceof ClassOrInterfaceType) )
                         .$and(t-> ! (t instanceof TypeParameter))
-                        .$and(t-> $typeParameter.of().$name(t.toString()).count( Ast.root( t ) ) == 0);
+                        .$and(t-> $typeParameter.of().$name(t.toString()).countIn( Ast.root( t ) ) == 0);
 
         $node.of().$isParent( $import.of() ).forEachIn( F.class, n-> System.out.println(n +" "+ n.getClass()) );
         _class _c = _class.of(F.class).addImports(Map.class, UUID.class);

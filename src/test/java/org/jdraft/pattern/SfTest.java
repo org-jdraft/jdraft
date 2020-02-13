@@ -39,7 +39,7 @@ public class SfTest extends TestCase {
         Ast.varDecl("int c");
         assertEquals( Ex.varLocalEx("String c"), $.varLocal().firstIn(D.class).ast() ); //int c
 
-        assertEquals(2, $.var().count(D.class));
+        assertEquals(2, $.var().countIn(D.class));
         //assertEquals(5, $typeUse.of().listIn(_class.of(D.class).astCompilationUnit()));
         System.out.println( $typeUse.of().listIn(_class.of(D.class).astCompilationUnit()));
     }

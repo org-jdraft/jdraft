@@ -47,7 +47,6 @@ import org.jdraft.text.Translator;
  */
 public interface $pattern<P, $P extends $pattern>{
 
-
     /**
      * Will this prototype match ANY instance of the type (or null)?
      * <PRE>
@@ -87,6 +86,23 @@ public interface $pattern<P, $P extends $pattern>{
      */
     default $P $(String target1, String $paramName1, String target2, String $paramName2, String target3, String $paramName3){
         return ($P)$(target1,$paramName1).$(target2, $paramName2).$(target3, $paramName3);
+    }
+
+    /**
+     * Parameterizes (4) targets and parameters
+     *
+     * @param t1
+     * @param $p1
+     * @param t2
+     * @param $p2
+     * @param t3
+     * @param $p3
+     * @param t4
+     * @param $p4
+     * @return
+     */
+    default $P $(String t1, String $p1, String t2, String $p2, String t3, String $p3, String t4, String $p4){
+        return ($P)$(t1,$p1).$(t2, $p2).$(t3, $p3).$(t4, $p4);
     }
 
     /**
@@ -225,8 +241,8 @@ public interface $pattern<P, $P extends $pattern>{
      * @param map
      * @return
      */
-    default $P hardcode$( Map map ){
-        return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of(map) );
+    default $P $hardcode(Map map ){
+        return $hardcode( Translator.DEFAULT_TRANSLATOR, Tokens.of(map) );
     }
 
     /**
@@ -236,8 +252,8 @@ public interface $pattern<P, $P extends $pattern>{
      * @param kvs the key parameter NAME and String VALUE to assign to the
      * @return the modified Stencil
      */
-    default $P hardcode$( Tokens kvs ) {
-        return hardcode$( Translator.DEFAULT_TRANSLATOR, kvs );
+    default $P $hardcode(Tokens kvs ) {
+        return $hardcode( Translator.DEFAULT_TRANSLATOR, kvs );
     }
 
     /**
@@ -247,8 +263,8 @@ public interface $pattern<P, $P extends $pattern>{
      * @param keyValues the key parameter NAME and String VALUE to assign to the
      * @return the modified Stencil
      */
-    default $P hardcode$( Object... keyValues ) {
-        return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of( keyValues ) );
+    default $P $hardcode(Object... keyValues ) {
+        return $hardcode( Translator.DEFAULT_TRANSLATOR, Tokens.of( keyValues ) );
     }
 
     /**
@@ -259,8 +275,8 @@ public interface $pattern<P, $P extends $pattern>{
      * @param keyValues the key parameter NAME and String VALUE to assign to the
      * @return the modified Stencil
      */
-    default $P hardcode$( Translator translator, Object... keyValues ) {
-        return hardcode$( translator, Tokens.of( keyValues ) );
+    default $P $hardcode(Translator translator, Object... keyValues ) {
+        return $hardcode( translator, Tokens.of( keyValues ) );
     }
 
     /**
@@ -271,7 +287,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param kvs
      * @return
      */
-    $P hardcode$( Translator translator, Tokens kvs );
+    $P $hardcode(Translator translator, Tokens kvs );
 
     /**
      * Adds a constraint to test that the PARENT does NOT MATCH ANY of the prototypes provided
@@ -489,7 +505,7 @@ public interface $pattern<P, $P extends $pattern>{
                 return ((_body)n).ast().stream($.PARENTS).limit(levels).anyMatch( c-> Arrays.stream($ps).anyMatch($p ->$p.match(c)));
             } else{
                 //NEED TO MANUALLY IMPLEMENT FOR:
-                // $parameters, $annos, $snip, $throws, $typeParameters
+                // $parameters, $annos, $throws, $typeParameters
                 // if( n instanceof List ){
                 //    List l = (List)n;
                 //    l.forEach();
@@ -1650,8 +1666,8 @@ public interface $pattern<P, $P extends $pattern>{
      * @param clazz
      * @return
      */
-    default int count( Class clazz ){
-        return count( (_type)_java.type(clazz));
+    default int countIn(Class clazz ){
+        return countIn( (_type)_java.type(clazz));
     }
 
     /**
@@ -1659,9 +1675,9 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _codeProvider the collection to search through
      * @return
      */
-    default int count( _compilationUnit._provider _codeProvider){
+    default int countIn(_compilationUnit._provider _codeProvider){
         AtomicInteger ai = new AtomicInteger();
-        _codeProvider.for_code(c-> ai.addAndGet(count(c)));
+        _codeProvider.for_code(c-> ai.addAndGet(countIn(c)));
         return ai.get();
     }
 
@@ -1671,9 +1687,9 @@ public interface $pattern<P, $P extends $pattern>{
      * @param <_C>
      * @return
      */
-    default <_C extends _compilationUnit> int count(Collection<_C> cs){
+    default <_C extends _compilationUnit> int countIn(Collection<_C> cs){
         AtomicInteger ai = new AtomicInteger();
-        cs.forEach( c -> ai.addAndGet( count(c)));
+        cs.forEach( c -> ai.addAndGet( countIn(c)));
         return ai.get();
     }
 
@@ -1682,10 +1698,10 @@ public interface $pattern<P, $P extends $pattern>{
      * @param classes
      * @return
      */
-    default int count( Class... classes ){
+    default int countIn(Class... classes ){
         int count = 0;
         for(int i=0;i<classes.length;i++) {
-            count +=count((_type) _java.type(classes[i]));
+            count += countIn((_type) _java.type(classes[i]));
         }
         return count;
     }
@@ -1696,10 +1712,10 @@ public interface $pattern<P, $P extends $pattern>{
      * @param <N> the underlying Node type
      * @return the count of instances found
      */
-    default <N extends Node> int count( N... astNodes ){
+    default <N extends Node> int countIn(N... astNodes ){
         int count = 0;
         for(int i=0;i<astNodes.length;i++) {
-            count +=count(astNodes[i]);
+            count += countIn(astNodes[i]);
         }
         return count;
     }
@@ -1710,7 +1726,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param astNode
      * @return
      */
-    default <N extends Node> int count( N astNode ){
+    default <N extends Node> int countIn(N astNode ){
         AtomicInteger ai = new AtomicInteger(0);
         forEachIn( astNode, e -> ai.incrementAndGet() );
         return ai.get();
@@ -1722,7 +1738,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _j
      * @return
      */
-    default <_J extends _java._domain> int count(_J _j ){
+    default <_J extends _java._domain> int countIn(_J _j ){
         AtomicInteger ai = new AtomicInteger(0);
         forEachIn(_j, e -> ai.incrementAndGet() );
         return ai.get();

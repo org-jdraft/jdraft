@@ -30,7 +30,7 @@ public class ScommentTest extends TestCase {
         _class _c = $comment.of().findAndReplace(Local.class,"aeiou", "i before e accept after c");
 
         //verify we made (4) changes above
-        assertEquals(4, $comment.of("i before e accept after c").count(_c) );
+        assertEquals(4, $comment.of("i before e accept after c").countIn(_c) );
     }
 
     public void testStmtComment(){
@@ -78,7 +78,7 @@ public class ScommentTest extends TestCase {
                 /* block FIXME */
             }
         }
-        assertEquals( 2, $todo.count(F.class));
+        assertEquals( 2, $todo.countIn(F.class));
 
         $comment $c = $comment.of("TODO");
         assertTrue($c.matches( "// TODO FIXME"));
@@ -151,10 +151,10 @@ public class ScommentTest extends TestCase {
         _class _c = _class.of(C.class);
         System.out.println( _c );
 
-        assertEquals(3, $comment.of("TODO").count(C.class));
-        assertEquals(1, $comment.of("/** TODO */").count(C.class));
-        assertEquals(1, $comment.of("/* TODO */").count(C.class));
-        assertEquals(1, $comment.of("// TODO").count(C.class));
+        assertEquals(3, $comment.of("TODO").countIn(C.class));
+        assertEquals(1, $comment.of("/** TODO */").countIn(C.class));
+        assertEquals(1, $comment.of("/* TODO */").countIn(C.class));
+        assertEquals(1, $comment.of("// TODO").countIn(C.class));
     }
     public void testCompose(){
         assertEquals( Ast.lineComment("//Hello ").getContent().trim(), 
@@ -206,7 +206,7 @@ public class ScommentTest extends TestCase {
                assert(1==1);
             }            
         }
-        assertEquals(4, $comment.of().count(C.class));
+        assertEquals(4, $comment.of().countIn(C.class));
         
         
         //as expected the orphaned comment comes first...

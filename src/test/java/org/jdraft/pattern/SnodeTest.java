@@ -149,7 +149,7 @@ public class SnodeTest extends TestCase {
         }
         //assertEquals( 3, $node.of("$name$", SimpleName.class).count(C.class));
         assertEquals( 5, $node.of("$name$", SimpleName.class).listIn(C.class).size()); //C, f, b, a, b
-        assertEquals( 1, $node.of("$name$", SimpleName.class).hardcode$("name", "a").listIn(C.class).size());
+        assertEquals( 1, $node.of("$name$", SimpleName.class).$hardcode("name", "a").listIn(C.class).size());
     }
 
 
@@ -169,12 +169,12 @@ public class SnodeTest extends TestCase {
             }
         }
         //here we find Collections::sort
-        assertEquals(1, $typeRef.of(Collections.class).count(D.class)); //there are no instances of the Collections class appearing above
+        assertEquals(1, $typeRef.of(Collections.class).countIn(D.class)); //there are no instances of the Collections class appearing above
 
         //...but we ARE using Collections, to access a specific variable (Collections.EMPTY_LIST)
         // and to call a static method Collections.sort(...)
-        assertEquals( 1, $.of("Collections", NameExpr.class).$isParent( $.methodCall("Collections.$call$($any$)") ).count(D.class));
-        assertEquals( 1, $.of("Collections", NameExpr.class).$isParent( $.fieldAccessExpr("Collections.$field$") ).count(D.class));
+        assertEquals( 1, $.of("Collections", NameExpr.class).$isParent( $.methodCall("Collections.$call$($any$)") ).countIn(D.class));
+        assertEquals( 1, $.of("Collections", NameExpr.class).$isParent( $.fieldAccessExpr("Collections.$field$") ).countIn(D.class));
         //assertEquals(1, $typeRef.of(Collections.class).count(D.class));
     }
     public void testMethodCall(){
@@ -190,8 +190,8 @@ public class SnodeTest extends TestCase {
         }
         //assertEquals( 1, $.typeRef(System.class).count(C.class));
         //$.methodCall().forEachIn(C.class, Ast::describe);
-        assertEquals(1, $.typeRef("System").count(C.class)); //there is (1) reference to System (return type)
-        assertEquals( 1, $.of("System", SimpleName.class).$hasAncestor( $.fieldAccessExpr() ).count(C.class));
+        assertEquals(1, $.typeRef("System").countIn(C.class)); //there is (1) reference to System (return type)
+        assertEquals( 1, $.of("System", SimpleName.class).$hasAncestor( $.fieldAccessExpr() ).countIn(C.class));
         //assertEquals( 1, $.of("System", SimpleName.class).$hasAncestor( $.methodReference() ).count(C.class));
     }
 
@@ -244,16 +244,16 @@ public class SnodeTest extends TestCase {
 
         Ast.describe( ((_java._astNode)$.stmt("System.out.println(1);").firstIn(_c)).ast() );
 
-        assertEquals(6, $typeRef.of(System.class).count(_c));
+        assertEquals(6, $typeRef.of(System.class).countIn(_c));
         $typeRef.of(System.class).forEachIn( _c, s-> System.out.println(s+" parent -> "+ s.ast().getParentNode().get()));
 
-        assertEquals( 1, $.of("System", SimpleName.class).$hasAncestor( $.methodReference() ).count(_c));
+        assertEquals( 1, $.of("System", SimpleName.class).$hasAncestor( $.methodReference() ).countIn(_c));
 
         $.of(SimpleName.class).$hasAncestor( $.fieldAccessExpr() );
         //screw it, we should be able to manually look for things
         //assertEquals(1, $.of(  ).count(_c)); //OK
         System.out.println( _c );
-        assertEquals( 2, $var.of(System.class).count(_c) );
+        assertEquals( 2, $var.of(System.class).countIn(_c) );
         //assertEquals( 1, $import.of(System.class).count(_c));
 
         //assertTrue( Ast.typesEqual(Ast.typeRef("System"), Ast.typeRef(System.class)) );
@@ -275,7 +275,7 @@ public class SnodeTest extends TestCase {
         System.out.println( _c );
         //$typeRef $tr = $typeRef.of(System.class);
         $typeRef $tr = $typeRef.of("System");
-        System.out.println( $tr.count(_c) );
+        System.out.println( $tr.countIn(_c) );
     }
 
     public void testTypeUse(){

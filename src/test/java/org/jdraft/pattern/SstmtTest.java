@@ -41,7 +41,7 @@ public class SstmtTest extends TestCase {
             }
         }
 
-        assertEquals(1, $stmt.$COMMENTED_STATEMENT.count(C.class));
+        assertEquals(1, $stmt.$COMMENTED_STATEMENT.countIn(C.class));
 
         $stmt $println = $stmt.of(($any$)->System.out.println($any$));
 
@@ -77,7 +77,7 @@ public class SstmtTest extends TestCase {
             }
         }
 
-        assertEquals(1, $stmt.$COMMENTED_STATEMENT.count(C.class));
+        assertEquals(1, $stmt.$COMMENTED_STATEMENT.countIn(C.class));
 
         $stmt $println = $stmt.of(($any$)->System.out.println($any$));
 
@@ -365,7 +365,7 @@ public class SstmtTest extends TestCase {
                 }                
             }
         }
-        assertEquals(1, s.count(C.class));
+        assertEquals(1, s.countIn(C.class));
     }
     
     public void testStmtAnyMatchesEmptyOrLongBlocks(){

@@ -382,8 +382,8 @@ public class $typeParameters
      * @param kvs
      * @return 
      */
-    public $typeParameters hardcode$( Translator translator, Tokens kvs ) {
-        this.typeParams.forEach(t -> t.hardcode$(translator, kvs) );
+    public $typeParameters $hardcode(Translator translator, Tokens kvs ) {
+        this.typeParams.forEach(t -> t.$hardcode(translator, kvs) );
         return this;
     }
 
@@ -761,8 +761,8 @@ public class $typeParameters
         }
 
         @Override
-        public $typeParameters hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $typeParameters $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 

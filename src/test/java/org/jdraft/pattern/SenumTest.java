@@ -177,19 +177,19 @@ public class SenumTest extends TestCase {
            }
         });
         //verify I can find the synchronized modifier
-        assertEquals(1, $.SYNCHRONIZED.count(_c));
+        assertEquals(1, $.SYNCHRONIZED.countIn(_c));
 
         //verify I can match a class that HAS a Synchronized modifier beneath
         assertTrue( $enum.of().$hasDescendant($.SYNCHRONIZED).matches(_c) );
 
         //verify I can find an instance of a CallableDeclaration that contains a descendant with the synchronized modifier
-        assertEquals(1, $.of(CallableDeclaration.class).$hasDescendant($.SYNCHRONIZED).count(_c));
+        assertEquals(1, $.of(CallableDeclaration.class).$hasDescendant($.SYNCHRONIZED).countIn(_c));
 
         _int ile = $.of(102).firstIn(_c);
         assertNotNull(ile);
 
         //verify that I can find a literal expression 102 that has a synchronized ancestor node
-        assertEquals(1, $.of(102).$hasAncestor( $.of().$hasDescendant($.SYNCHRONIZED)).count(_c));
+        assertEquals(1, $.of(102).$hasAncestor( $.of().$hasDescendant($.SYNCHRONIZED)).countIn(_c));
 
         //I mean at this point, I'm just trying to break something
     }

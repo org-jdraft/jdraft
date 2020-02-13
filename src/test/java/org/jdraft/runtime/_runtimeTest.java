@@ -114,7 +114,7 @@ public class _runtimeTest extends TestCase {
                      return _m;
                  }
                  //go through each return statement and preface it
-                 if( $.returnStmt().count(_m) > 0 ) {
+                 if( $.returnStmt().countIn(_m) > 0 ) {
                      $.returnStmt().forSelectedIn(_m, sel-> {
                            //replace it with a labeled statement... then flatten
                            LabeledStmt ls = Stmt.labeledStmt(

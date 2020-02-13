@@ -139,9 +139,9 @@ public class $catch implements $pattern<_catch, $catch>, $body.$part, $method.$p
     }
 
     @Override
-    public $catch hardcode$(Translator translator, Tokens kvs) {
-        this.$bd = this.$bd.hardcode$(translator, kvs);
-        this.$param = this.$param.hardcode$(translator, kvs);
+    public $catch $hardcode(Translator translator, Tokens kvs) {
+        this.$bd = this.$bd.$hardcode(translator, kvs);
+        this.$param = this.$param.$hardcode(translator, kvs);
         return this;
     }
 
@@ -508,8 +508,8 @@ public class $catch implements $pattern<_catch, $catch>, $body.$part, $method.$p
         }
 
         @Override
-        public $catch hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $catch $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 

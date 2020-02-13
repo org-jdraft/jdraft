@@ -161,7 +161,7 @@ public class PatternBuildTest extends TestCase {
 
         }
         //count the number of public non-static/non-final methods in the
-        assertEquals(1, $method.of( $modifiers.of($.PUBLIC).$not($.STATIC,$.FINAL)).count(GG.class) );
-        assertEquals(1, $method.of( $modifiers.of($.PRIVATE, $.STATIC, $.FINAL)).count(SC.class) );
+        assertEquals(1, $method.of( $modifiers.of($.PUBLIC).$not($.STATIC,$.FINAL)).countIn(GG.class) );
+        assertEquals(1, $method.of( $modifiers.of($.PRIVATE, $.STATIC, $.FINAL)).countIn(SC.class) );
     }
 }

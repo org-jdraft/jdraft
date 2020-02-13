@@ -239,8 +239,8 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
      * @param kvs
      * @return 
      */
-    public $stmts hardcode$(Translator translator, Tokens kvs ) {
-        this.$sts.forEach( $s -> $s.hardcode$(translator, kvs));
+    public $stmts $hardcode(Translator translator, Tokens kvs ) {
+        this.$sts.forEach( $s -> $s.$hardcode(translator, kvs));
         return this;
     }
     
@@ -719,8 +719,8 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
         }
 
         @Override
-        public $stmts hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $stmts $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 

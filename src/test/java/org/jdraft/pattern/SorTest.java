@@ -46,8 +46,8 @@ public class SorTest extends TestCase {
                 _class.of("S").addExtend("Service").addImports("android.app.Service")
         );
         //$androidClasses.printIn(_cc);
-        assertEquals(4, $ANDROID_CLASS.count(_cc));
-        assertEquals(4, $C.count(_cc));
+        assertEquals(4, $ANDROID_CLASS.countIn(_cc));
+        assertEquals(4, $C.countIn(_cc));
 
         _cc = _source.of(
                 _class.of("A").addExtend("android.app.Activity"),
@@ -56,8 +56,8 @@ public class SorTest extends TestCase {
                 _class.of("S").addExtend("android.app.Service")
         );
 
-        assertEquals(4, $ANDROID_CLASS.count(_cc));
-        assertEquals(4, $C.count(_cc));
+        assertEquals(4, $ANDROID_CLASS.countIn(_cc));
+        assertEquals(4, $C.countIn(_cc));
     }
 
     //todo fix isExtends

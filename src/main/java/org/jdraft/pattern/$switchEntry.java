@@ -509,10 +509,10 @@ public class $switchEntry
     }
 
     @Override
-    public $switchEntry hardcode$(Translator translator, Tokens kvs) {
-        this.label = this.label.hardcode$(translator, kvs);
+    public $switchEntry $hardcode(Translator translator, Tokens kvs) {
+        this.label = this.label.$hardcode(translator, kvs);
         List<$stmt> sts = new ArrayList<>();
-        this.statements.forEach(st -> sts.add( st.hardcode$(translator, kvs)));
+        this.statements.forEach(st -> sts.add( st.$hardcode(translator, kvs)));
         this.statements = sts;
         return this;
     }
@@ -591,8 +591,8 @@ public class $switchEntry
         }
 
         @Override
-        public $switchEntry hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $switchEntry $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 

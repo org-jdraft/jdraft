@@ -247,12 +247,12 @@ public class $anno
     }
 
     @Override
-    public $anno hardcode$(Translator translator, Tokens kvs) {
+    public $anno $hardcode(Translator translator, Tokens kvs) {
         this.name = this.name.hardcode$(translator,kvs);
 
         //this.label = this.label.hardcode$(translator, kvs);
         List<$memberValue> sts = new ArrayList<>();
-        this.$mvs.forEach(st -> sts.add( st.hardcode$(translator, kvs)));
+        this.$mvs.forEach(st -> sts.add( st.$hardcode(translator, kvs)));
 
         return this;
     }
@@ -857,11 +857,11 @@ public class $anno
             }
         }
 
-        public $memberValue hardcode$( Translator translator, Tokens tokens){
+        public $memberValue $hardcode(Translator translator, Tokens tokens){
             if( this.key != null ) {
                 this.key = this.key.hardcode$(translator, tokens);
             }
-            this.value = this.value.hardcode$(translator, tokens);
+            this.value = this.value.$hardcode(translator, tokens);
             return this;
         }
 
@@ -1155,8 +1155,8 @@ public class $anno
          }
 
         @Override
-        public $anno hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $anno $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 

@@ -67,7 +67,7 @@ public class SimportTest extends TestCase {
         assertTrue( $i.matches("java.util.*"));
         
         _c = _class.of("F").addImports("java.util.*;");
-        assertEquals(1, $import.of("java.util$any$;").count(_c ));
+        assertEquals(1, $import.of("java.util$any$;").countIn(_c ));
         
         $import.of("java.util$any$;").replaceIn(_c, "import java.net$any$;");
         assertTrue( _c.hasImport("java.net.*;"));       
@@ -252,7 +252,7 @@ public class SimportTest extends TestCase {
 
         assertNotNull( $import.of("java.util.Map").select(new ImportDeclaration("java.util.Map", true, true)) );
 
-        assertTrue( $import.of(Map.class).count(_cs) == 1);
+        assertTrue( $import.of(Map.class).countIn(_cs) == 1);
         System.out.println( _cs );
 
 

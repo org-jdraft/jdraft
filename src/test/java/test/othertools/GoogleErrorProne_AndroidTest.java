@@ -28,7 +28,7 @@ public class GoogleErrorProne_AndroidTest extends TestCase {
                 .$not($SUPPRESS_WARNING_ANNO);
 
         //verify that there are (4) failures found
-        assertEquals(4, $AndroidInjectAfterSuper.count(FAILURES));
+        assertEquals(4, $AndroidInjectAfterSuper.countIn(FAILURES));
 
         //verify that, if I add the SUPPRESS WARNINGS ANNOTATION to Failure matches they are no longer matches
         _source _suppressed = FAILURES.copy();
@@ -36,7 +36,7 @@ public class GoogleErrorProne_AndroidTest extends TestCase {
         $method.of().forEachIn( _suppressed, m -> m.addAnnos( $SUPPRESS_WARNING_ANNO.draft()));
 
         //verify we have 0 matches
-        assertEquals(0, $AndroidInjectAfterSuper.count(_suppressed));
+        assertEquals(0, $AndroidInjectAfterSuper.countIn(_suppressed));
     }
 
     /**************BELOW ARE EXAMPLES TO TEST ***************************/

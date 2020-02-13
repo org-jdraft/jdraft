@@ -377,8 +377,8 @@ public class $throws
      * @param kvs
      * @return 
      */
-    public $throws hardcode$( Translator translator, Tokens kvs ) {
-        this.throws$ids.forEach(t -> t.hardcode$(translator, kvs) );
+    public $throws $hardcode(Translator translator, Tokens kvs ) {
+        this.throws$ids.forEach(t -> t.$hardcode(translator, kvs) );
         return this;
     }
 
@@ -770,8 +770,8 @@ public class $throws
         }
 
         @Override
-        public $throws hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $throws $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 

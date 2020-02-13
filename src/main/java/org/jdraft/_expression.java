@@ -7,7 +7,7 @@ public interface _expression<E extends Expression, _E extends _expression> exten
     E ast();
 
     // computation
-    //   methodCall, binaryExpression, unary, ternary, enclosedExpression, switchExpr
+    //   methodCall, binaryExpression, unary, conditionalExpression, enclosedExpression, switchExpr
 
     // declaration
     //   variable, localClass, arrayInitialize, lambda, new
@@ -15,9 +15,6 @@ public interface _expression<E extends Expression, _E extends _expression> exten
     // reference
     //   anno, arrayAccess, classExpression, fieldAccess, methodReference, nameExpression, super, typeExpression, cast
     //
-
-    // literal
-    //  String, double, int, char, null, long
     Class<_anno> ANNO = _anno.class;
     Class<_arrayAccess> ARRAY_ACCESS = _arrayAccess.class;
     Class<_assign> ASSIGN = _assign.class;
@@ -27,6 +24,7 @@ public interface _expression<E extends Expression, _E extends _expression> exten
     Class<_cast> CAST = _cast.class;
     Class<_char> CHAR = _char.class;
     Class<_classExpression> CLASS_EXPRESSION = _classExpression.class;
+    Class<_conditionalExpression> CONDITIONAL_EXPRESSION = _conditionalExpression.class;
     Class<_enclosedExpression> ENCLOSED_EXPRESSION = _enclosedExpression.class;
     Class<_fieldAccess> FIELD_ACCESS = _fieldAccess.class;
     Class<_int> INT = _int.class;
@@ -41,14 +39,13 @@ public interface _expression<E extends Expression, _E extends _expression> exten
     Class<_string> STRING = _string.class;
     Class<_switchExpression> SWITCH_EXPRESSION = _switchExpression.class;
     Class<_typeExpression> TYPE_EXPRESSION = _typeExpression.class;
-    Class<_conditionalExpression> TERNARY = _conditionalExpression.class;
     Class<_unary> UNARY = _unary.class;
     Class<_variable> VARIABLE = _variable.class;
 
     Class<? super _expression>[] ALL = new Class[]{ ANNO, ARRAY_ACCESS, ASSIGN, ARRAY_INITIALIZE,
-        BINARY_EXPRESSION, BOOLEAN, CAST, CHAR, CLASS_EXPRESSION, ENCLOSED_EXPRESSION, FIELD_ACCESS,
-        INT, LONG, LAMBDA, METHOD_CALL, METHOD_REFERENCE, NAME_EXPRESSION, NEW, NULL, SUPER, STRING,
-        SWITCH_EXPRESSION, TYPE_EXPRESSION, TERNARY, UNARY, VARIABLE};
+        BINARY_EXPRESSION, BOOLEAN, CAST, CHAR, CLASS_EXPRESSION, CONDITIONAL_EXPRESSION, ENCLOSED_EXPRESSION,
+        FIELD_ACCESS, INT, LONG, LAMBDA, METHOD_CALL, METHOD_REFERENCE, NAME_EXPRESSION, NEW, NULL, SUPER, STRING,
+        SWITCH_EXPRESSION, TYPE_EXPRESSION, UNARY, VARIABLE};
 
     static _expression of(String...code){
         return of( Ex.of(code));

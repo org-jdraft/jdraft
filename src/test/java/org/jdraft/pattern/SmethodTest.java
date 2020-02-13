@@ -138,7 +138,7 @@ public class SmethodTest extends TestCase {
                 return this.f;
             }
         }
-        assertEquals( 2, $m.count(EX.class) );
+        assertEquals( 2, $m.countIn(EX.class) );
     }
 
     public void testModifiers(){
@@ -149,7 +149,7 @@ public class SmethodTest extends TestCase {
                 System.out.println( "hello");
             }
         }
-        assertEquals(1, $m.count(F.class));
+        assertEquals(1, $m.countIn(F.class));
     }
 
     private $method $computeRange = $method.of(new Object(){
@@ -409,9 +409,9 @@ public class SmethodTest extends TestCase {
         
         $set.listSelectedIn(_c).get(0).is("type", int.class);
         // call replace with a setFluent prototype
-        assertEquals(2, $set.count(_c));
+        assertEquals(2, $set.countIn(_c));
         //System.out.println( $setFleunt.hardcode$("className", "Loc").type );
-        $set.replaceIn(_c, $setFleunt.hardcode$("className", "Loc") );
+        $set.replaceIn(_c, $setFleunt.$hardcode("className", "Loc") );
 
 
         //verify there are no simple sets left 

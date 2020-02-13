@@ -170,9 +170,9 @@ public class _typeTest extends TestCase {
         assertEquals( PackagePrivateMultiClass.class.getCanonicalName(), _t.getFullName());
         
         //verify that I can find the 
-        assertEquals( 5, $var.of("int a").count(_t));
-        assertEquals( 5, $var.of("int a = 100").count(_t));        
-        assertEquals( 5, $var.of("int a = 100").count(_t.astCompilationUnit()));        
+        assertEquals( 5, $var.of("int a").countIn(_t));
+        assertEquals( 5, $var.of("int a = 100").countIn(_t));
+        assertEquals( 5, $var.of("int a = 100").countIn(_t.astCompilationUnit()));
         
     }
     

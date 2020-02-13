@@ -3,6 +3,7 @@ package org.jdraft;
 import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import com.github.javaparser.ast.Node;
@@ -516,7 +517,41 @@ public final class _anno
         }
         return null;
     }
-    
+
+    public enum Part {
+        NAME(1, "name", (_anno a)-> a.getName() ),
+        KEY_VALUES(2, "keyValues", (_anno a)-> a.getKeyValuesMap());
+
+        private final String name;
+        private final int index;
+        private final Function<_anno, Object> resolver;
+
+        Part(int index, String name, Function<_anno, Object> resolver ){
+            this.index = index;
+            this.name = name;
+            this.resolver = resolver;
+        }
+    }
+
+    public static final Part[] PARTS = Part.values();
+
+    public Map<Part, Object> partsMap(){
+        Map<Part,Object> m = new HashMap<>();
+        Arrays.stream(PARTS).forEach(t -> m.put(t, t.resolver.apply(this)));
+        return m;
+        /*
+        m.put(Token.NAME, this.getName() );
+        if( this.astAnno instanceof NormalAnnotationExpr ){
+            NormalAnnotationExpr nae = (NormalAnnotationExpr)this.astAnno;
+            m.put(Token.KEY_VALUES, nae.getPairs() );
+        } else if( this.astAnno instanceof SingleMemberAnnotationExpr){
+            SingleMemberAnnotationExpr se = (SingleMemberAnnotationExpr)this.astAnno;
+            m.put(Token.KEY_VALUES, new MemberValuePair("value", se.getMemberValue() ) );
+        }
+        return m;
+         */
+    }
+
     @Override
     public Map<_java.Component,Object> components(){
         Map<_java.Component,Object> m = new HashMap<>();

@@ -263,7 +263,7 @@ public class $modifiers
     }
 
     @Override
-    public $modifiers hardcode$(Translator translator, Tokens kvs) {
+    public $modifiers $hardcode(Translator translator, Tokens kvs) {
         //hmm... just return i guess
         return this;
     }
@@ -570,8 +570,8 @@ public class $modifiers
         }
 
         @Override
-        public $modifiers hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $modifiers $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 

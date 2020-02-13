@@ -1,6 +1,9 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.CharLiteralExpr;
+import org.jdraft.text.Text;
+
+import java.util.function.Predicate;
 
 public class _char implements _expression._literal<CharLiteralExpr, _char> {
 
@@ -13,9 +16,9 @@ public class _char implements _expression._literal<CharLiteralExpr, _char> {
     public static _char of(char c){
         return new _char(new CharLiteralExpr(c));
     }
-    public static _char of( String...code){
-        return new _char(Ex.charLiteralEx( code));
-    }
+    //public static _char of( String...code){
+    //    return new _char(Ex.charLiteralEx( code));
+    //}
 
     public CharLiteralExpr cle;
 
@@ -31,7 +34,7 @@ public class _char implements _expression._literal<CharLiteralExpr, _char> {
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Ex.charLiteralEx(stringRep));
+            return is( Ex.charLiteralEx(Text.combine(stringRep)));
         } catch(Exception e){ }
         return false;
     }
@@ -59,6 +62,10 @@ public class _char implements _expression._literal<CharLiteralExpr, _char> {
     public _char setValue( char c){
         this.cle.setValue(c+"");
         return this;
+    }
+
+    public boolean isValue( Predicate<Character> characterMatchFn ){
+        return characterMatchFn.test(this.cle.asChar());
     }
 
     public char getValue(){

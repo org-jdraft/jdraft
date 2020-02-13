@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.lang.annotation.*;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -477,6 +478,42 @@ public final class _annotation
     public _annotation removeEntries(Predicate<_entry> _pe ){
         listElements(_pe).forEach( e -> removeEntry(e));
         return this;
+    }
+
+    public enum Part {
+        HEADER_COMMENT(1, "headerComment", (a)->a.getHeaderComment() ),
+        PACKAGE(2, "package", (a)->a.getPackage() ),
+        IMPORTS(3, "imports", (a)->a.listImports() ),
+        JAVADOC(4, "javadoc", (a)->a.getJavadoc() ),
+        ANNOS(5, "annos", (a)->a.listAnnos() ),
+        MODIFIERS(6, "modifiers", (a)->a.getModifiers() ),
+        NAME(7, "name", (a)->a.getName() ),
+        ELEMENTS(8, "elements", (a)->a.listElements() ),
+        FIELDS(9, "fields", (a)->a.listFields() ),
+        NESTS(10, "nests", (a)->a.listNests() ),
+        COMPANION_TYPES(11, "companionTypes", (a)->a.listCompanionTypes() );
+
+        private final String name;
+        private final int index;
+        private final Function<_annotation, Object> resolver;
+
+        Part(int index, String name, Function<_annotation, Object> resolver ){
+            this.index = index;
+            this.name = name;
+            this.resolver = resolver;
+        }
+
+        public String getName(){
+            return name;
+        }
+    }
+
+    public static final Part[] PARTS = Part.values();
+
+    public Map<Part, Object> partsMap() {
+        Map<Part, Object> m = new HashMap<>();
+        Arrays.stream(PARTS).forEach(t -> m.put(t, t.resolver.apply(this)));
+        return m;
     }
 
     @Override

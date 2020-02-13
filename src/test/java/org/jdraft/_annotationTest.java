@@ -16,6 +16,15 @@ import test.subpkg.ann2;
  */
 public class _annotationTest extends TestCase  {
 
+    public void testParts(){
+        _annotation _a = _annotation.of("A");
+        System.out.println( _a.partsMap());
+
+        _a.setPrivate().setPackage("aaaa.bbbb").targetTypeUse();
+
+        System.out.println( _a.partsMap());
+    }
+
     public void testFromScratch(){
         _annotation _an = _annotation.of()
                 .setName("A")

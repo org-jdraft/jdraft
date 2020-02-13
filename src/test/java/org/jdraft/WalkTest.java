@@ -75,7 +75,7 @@ public class WalkTest extends TestCase {
         lts.add(_c);
         System.out.println(_io.describe());
         Log.setAdapter(new Log.SilentAdapter());
-        assertEquals( Walk.list(lts, _method.class ).size(), $.method().count(lts));
+        assertEquals( Walk.list(lts, _method.class ).size(), $.method().countIn(lts));
         assertNull( Walk.first(lts, _field.class, f-> f.isFinal()));
         assertNull( Walk.first(lts, _method.class, _method.IS_MAIN)); //find the first main method
 
@@ -84,9 +84,9 @@ public class WalkTest extends TestCase {
         //_walk.in(lts, _method.class, m-> System.out.println( m) );
         //_walk.in(lts, _field.class, f-> System.out.println( f ));
 
-        assertEquals( Walk.list(lts, _field.class).size(), $.field().count(lts) );
-        assertEquals( Walk.list(lts, _method.class).size(), $.method().count(lts) );
-        assertEquals( Walk.list(lts, _constructor.class).size(), $.constructor().count(lts) );
+        assertEquals( Walk.list(lts, _field.class).size(), $.field().countIn(lts) );
+        assertEquals( Walk.list(lts, _method.class).size(), $.method().countIn(lts) );
+        assertEquals( Walk.list(lts, _constructor.class).size(), $.constructor().countIn(lts) );
 
         System.out.println( "C IS "+ _c );
         //verify we can find the equals method

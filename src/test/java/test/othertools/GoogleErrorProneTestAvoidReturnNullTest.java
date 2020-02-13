@@ -28,7 +28,7 @@ public class GoogleErrorProneTestAvoidReturnNullTest extends TestCase {
         }
 
         //verify we find one
-        assertEquals(1, $m.count(F.class));
+        assertEquals(1, $m.countIn(F.class));
         assertTrue( $m.firstIn(F.class).getName().equals("m")); //verify it is matching against method m
     }
 }

@@ -174,7 +174,7 @@ public class $typeParameter
         for(int i=0;i<parts.length;i++){
             if( parts[i] instanceof $anno ){
                 final $anno $fa = (($anno)parts[i]);
-                Predicate<_typeParameter> pf = f-> $fa.count(f) > 0;
+                Predicate<_typeParameter> pf = f-> $fa.countIn(f) > 0;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $name){
@@ -304,10 +304,10 @@ public class $typeParameter
         return found.stream().distinct().collect(Collectors.toList());
     }
     
-    public $typeParameter hardcode$( Translator trans, Tokens hardcodedKeyValues ) {
-        this.anns.hardcode$(trans, hardcodedKeyValues);
+    public $typeParameter $hardcode(Translator trans, Tokens hardcodedKeyValues ) {
+        this.anns.$hardcode(trans, hardcodedKeyValues);
         this.name.hardcode$(trans, hardcodedKeyValues);
-        this.$typeBound.forEach(tb -> tb.hardcode$(trans, hardcodedKeyValues));
+        this.$typeBound.forEach(tb -> tb.$hardcode(trans, hardcodedKeyValues));
         return this;
     }
 
@@ -544,8 +544,8 @@ public class $typeParameter
         }
 
         @Override
-        public $typeParameter.Or hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $typeParameter.Or $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 

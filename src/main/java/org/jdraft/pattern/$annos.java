@@ -288,8 +288,8 @@ public class $annos
      *
      * @return
      */
-    public $annos hardcode$( Translator tr, Tokens ts ) {
-        $annosList.forEach(a -> a.hardcode$(tr, ts));
+    public $annos $hardcode(Translator tr, Tokens ts ) {
+        $annosList.forEach(a -> a.$hardcode(tr, ts));
         return this;
     }
     
@@ -789,8 +789,8 @@ public class $annos
         }
 
         @Override
-        public $annos hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $annos $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 

@@ -335,7 +335,7 @@ public class $import
      * @param kvs
      * @return 
      */
-    public $import hardcode$( Translator translator, Tokens kvs ) {
+    public $import $hardcode(Translator translator, Tokens kvs ) {
         this.importStencil = this.importStencil.hardcode$(translator,kvs);
         return this;
     }
@@ -773,8 +773,8 @@ public class $import
         }
 
         @Override
-        public $import hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $import $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 

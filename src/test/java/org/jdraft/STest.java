@@ -44,22 +44,22 @@ public class STest extends TestCase {
                 System.out.println( 3.14f );
             }
         }
-        assertEquals(1, $.of(true).count(MyClass.class));
-        assertEquals(1, $.of(0).count(MyClass.class));
-        assertEquals(1, $.of("HELLO").count(MyClass.class));
-        assertEquals(1, $.assertStmt().count(MyClass.class));
-        assertEquals(1, $.doubleLiteral().count(MyClass.class));
+        assertEquals(1, $.of(true).countIn(MyClass.class));
+        assertEquals(1, $.of(0).countIn(MyClass.class));
+        assertEquals(1, $.of("HELLO").countIn(MyClass.class));
+        assertEquals(1, $.assertStmt().countIn(MyClass.class));
+        assertEquals(1, $.doubleLiteral().countIn(MyClass.class));
         
-        assertEquals(1, $.doubleLiteral("3.14f").count(MyClass.class));
-        assertEquals(1, $.doubleLiteral("3.14").count(MyClass.class));
+        assertEquals(1, $.doubleLiteral("3.14f").countIn(MyClass.class));
+        assertEquals(1, $.doubleLiteral("3.14").countIn(MyClass.class));
         
         
-        assertEquals(1, $.field().count(MyClass.class));
+        assertEquals(1, $.field().countIn(MyClass.class));
         //assertEquals(1, $.fieldAccessExpr().count(MyClass.class));
-        assertEquals(1, $.varLocal().count(MyClass.class));
-        assertEquals(1, $.arrayCreation().count(MyClass.class));
+        assertEquals(1, $.varLocal().countIn(MyClass.class));
+        assertEquals(1, $.arrayCreation().countIn(MyClass.class));
         
-        assertEquals(1, $.assertStmt().count(MyClass.class));
+        assertEquals(1, $.assertStmt().countIn(MyClass.class));
         
     }
 }

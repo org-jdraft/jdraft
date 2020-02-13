@@ -736,10 +736,15 @@ public enum Ex {
         return new CharLiteralExpr(c);
     }
 
-    /** 'c' */
+    public static CharLiteralExpr charLiteralEx(String s) {
+        return new CharLiteralExpr(s);
+    }
+
+    /** 'c'
     public static CharLiteralExpr charLiteralEx(String... code ) {
         return of( code ).asCharLiteralExpr();
     }
+     */
 
     /** String.class */
     public static final Class<ClassExpr> CLASS = ClassExpr.class;

@@ -172,10 +172,10 @@ public class SclassTest extends TestCase {
             });
 
         //ensure I can use a $class to match against a local Class (here a class named "G")
-        assertEquals(1, $class.of( $.name("G") ).count(_c));
+        assertEquals(1, $class.of( $.name("G") ).countIn(_c));
 
         //find a nested type named "G" that has a parent named "HHH"
-        assertEquals(1, $class.of( $.name("G") ).$hasAncestor($class.of($.name("HHH"))).count(_c));
+        assertEquals(1, $class.of( $.name("G") ).$hasAncestor($class.of($.name("HHH"))).countIn(_c));
     }
 
     public void testHasDescendant(){
@@ -185,19 +185,19 @@ public class SclassTest extends TestCase {
            }
         });
         //verify I can find the synchronized modifier
-        assertEquals(1, $.SYNCHRONIZED.count(_c));
+        assertEquals(1, $.SYNCHRONIZED.countIn(_c));
 
         //verify I can match a class that HAS a Synchronized modifier beneath
         assertTrue( $class.of().$hasDescendant($.SYNCHRONIZED).matches(_c) );
 
         //verify I can find an instance of a CallableDeclaration that contains a descendant with the synchronized modifier
-        assertEquals(1, $.of(CallableDeclaration.class).$hasDescendant($.SYNCHRONIZED).count(_c));
+        assertEquals(1, $.of(CallableDeclaration.class).$hasDescendant($.SYNCHRONIZED).countIn(_c));
 
         _int ile = $.of(102).firstIn(_c);
         assertNotNull(ile);
 
         //verify that I can find a literal expression 102 that has a synchronized ancestor node
-        assertEquals(1, $.of(102).$hasAncestor( $.of().$hasDescendant($.SYNCHRONIZED)).count(_c));
+        assertEquals(1, $.of(102).$hasAncestor( $.of().$hasDescendant($.SYNCHRONIZED)).countIn(_c));
 
         //I mean at this point, I'm just trying to break something
     }

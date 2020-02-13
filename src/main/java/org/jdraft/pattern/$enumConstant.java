@@ -229,12 +229,12 @@ public class $enumConstant
     }
 
     @Override
-    public $enumConstant hardcode$(Translator translator, Tokens kvs) {
-        this.annos.hardcode$(translator, kvs);
-        this.fields.forEach(f-> f.hardcode$(translator, kvs));
-        this.javadoc.hardcode$(translator, kvs);
-        this.methods.forEach(m-> m.hardcode$(translator, kvs));
-        this.args.forEach( a-> a.hardcode$(translator,kvs));
+    public $enumConstant $hardcode(Translator translator, Tokens kvs) {
+        this.annos.$hardcode(translator, kvs);
+        this.fields.forEach(f-> f.$hardcode(translator, kvs));
+        this.javadoc.$hardcode(translator, kvs);
+        this.methods.forEach(m-> m.$hardcode(translator, kvs));
+        this.args.forEach( a-> a.$hardcode(translator,kvs));
         this.name = this.name.hardcode$(translator, kvs);
 
         return this;
@@ -313,7 +313,7 @@ public class $enumConstant
         for(int i=0;i<parts.length;i++){
             if( parts[i] instanceof $anno ){
                 final $anno $fa = (($anno)parts[i]);
-                Predicate<_constant> pf = f-> $fa.count(f) > 0;
+                Predicate<_constant> pf = f-> $fa.countIn(f) > 0;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $name){
@@ -521,8 +521,8 @@ public class $enumConstant
         }
 
         @Override
-        public $enumConstant hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $enumConstant $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 

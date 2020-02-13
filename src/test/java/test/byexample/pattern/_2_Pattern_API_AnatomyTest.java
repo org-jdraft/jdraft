@@ -78,7 +78,7 @@ public class _2_Pattern_API_AnatomyTest extends TestCase {
             }
         }
 
-        assertEquals( 2, $getMethod.count(Get.class));
+        assertEquals( 2, $getMethod.countIn(Get.class));
 
     }
 
@@ -87,10 +87,10 @@ public class _2_Pattern_API_AnatomyTest extends TestCase {
         $field $serialVersionUid = $field.of("static long serialVersionUID;").$and(f-> f.hasInit());
 
         //classes that implement Serializable AND have a serialVersionUnid
-        $class $hasSVUID = $class.of().$implement(Serializable.class).$and( c-> $serialVersionUid.count(c) >= 1);
+        $class $hasSVUID = $class.of().$implement(Serializable.class).$and( c-> $serialVersionUid.countIn(c) >= 1);
 
         //this represents a class that IMPLEMENTS serializable and DOES NOT have a SerialVersionUid field
-        $class $missingSVUID = $class.of().$implement(Serializable.class).$and( c-> $serialVersionUid.count(c) ==0);
+        $class $missingSVUID = $class.of().$implement(Serializable.class).$and( c-> $serialVersionUid.countIn(c) ==0);
 
         class hasSVUID implements Serializable{
             public static final long serialVersionUID = 12345L;
@@ -98,8 +98,8 @@ public class _2_Pattern_API_AnatomyTest extends TestCase {
         class noSVUID implements Serializable{
 
         }
-        assertEquals(1, $serialVersionUid.count(hasSVUID.class));
-        assertEquals(0, $serialVersionUid.count(noSVUID.class));
+        assertEquals(1, $serialVersionUid.countIn(hasSVUID.class));
+        assertEquals(0, $serialVersionUid.countIn(noSVUID.class));
 
         assertTrue( $hasSVUID.matches(hasSVUID.class));
 
@@ -134,9 +134,9 @@ public class _2_Pattern_API_AnatomyTest extends TestCase {
         }
         //the problem with the pattern is ... it is related to the syntax (assumes we use braces)
         //rather than the semantics (what we want is syntactically not ...
-        assertEquals(1, $ifBracesPattern.count(exampleClass.class) );
+        assertEquals(1, $ifBracesPattern.countIn(exampleClass.class) );
 
-        assertEquals(2, $ifConstraint.count(exampleClass.class) );
+        assertEquals(2, $ifConstraint.countIn(exampleClass.class) );
 
         //if we wanted to select BOTH the braces version AND the no-braces version
         List<Select> sel = $.of( $stmt.of("if($cond$){ thenDo(); }"), $stmt.of("if($cond$) thenDo();") ).listSelectedIn(exampleClass.class);

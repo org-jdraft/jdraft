@@ -30,6 +30,18 @@ import junit.framework.TestCase;
  */
 public class _annoTest extends TestCase {
 
+    public void testParts(){
+        _anno _a = _anno.of("A");
+        System.out.println( _a.partsMap() );
+
+        _a.addAttr("A", 'c');
+        System.out.println( _a.partsMap() );
+
+        _a.addAttr("B", 4);
+        System.out.println( _a.partsMap() );
+
+    }
+
     public void testAnn(){
         _anno _a = _anno.of()
                 .setName("n")
@@ -153,23 +165,23 @@ public class _annoTest extends TestCase {
         //Statement st = Stmt.of( () -> {Integer i = new @Test Integer(100);} );
         Statement st = Stmt.of( "Integer i = new @Test Integer(100);");
         System.out.println( st );
-        assertEquals(1, $anno.of(Test.class).count(st));//verify we can find the anno        
+        assertEquals(1, $anno.of(Test.class).countIn(st));//verify we can find the anno
     }
     
     public void testCastAnno(){
         Statement st = Stmt.of( () -> {Integer i = (@Test Integer)100;} );
-        assertEquals(1, $anno.of(Test.class).count(st));//verify we can find the anno        
+        assertEquals(1, $anno.of(Test.class).countIn(st));//verify we can find the anno
     }
     
     public void testInstanceOfAnno(){        
         Integer i = 0;        
         Statement st = Stmt.of( () ->{boolean b = i instanceof @Test Number;});
-        assertEquals(1, $anno.of(Test.class).count(st));//verify we can find the anno                
+        assertEquals(1, $anno.of(Test.class).countIn(st));//verify we can find the anno
     }
     
     public void testVar(){
         Statement st = Stmt.of( () ->{ @Test boolean b = false;});
-        assertEquals(1, $anno.of(Test.class).count(st));//verify we can find the anno          
+        assertEquals(1, $anno.of(Test.class).countIn(st));//verify we can find the anno
     }
     
     public void testThrowAnno(){
@@ -178,7 +190,7 @@ public class _annoTest extends TestCase {
         }
         _class _c = _class.of( TTTT.class );
         
-        assertEquals(1, $anno.of(Test.class).count( _c.getMethod("m").getThrows().get(0) ));        
+        assertEquals(1, $anno.of(Test.class).countIn( _c.getMethod("m").getThrows().get(0) ));
     }
     
     public class NestedClass{}
@@ -187,14 +199,14 @@ public class _annoTest extends TestCase {
         NestedClass nc = new _annoTest. @Test NestedClass();
         Statement st = Stmt.of("NestedClass nc = new _annoTest. @Test NestedClass();");
         System.out.println( st );
-        assertEquals(1, $anno.of(Test.class).count( st ));        
+        assertEquals(1, $anno.of(Test.class).countIn( st ));
     }
     
     public void testExtendsAnno(){        
         class B{}        
         class C extends @Test B{ }
         
-        assertEquals(1, $anno.of(Test.class).count( C.class));
+        assertEquals(1, $anno.of(Test.class).countIn( C.class));
         
     }
     
@@ -202,7 +214,7 @@ public class _annoTest extends TestCase {
     public void testImplementsAnno(){
         class P implements @Test III{}
         
-        assertEquals(1, $anno.of(Test.class).count( P.class));
+        assertEquals(1, $anno.of(Test.class).countIn( P.class));
     }
     
     public void testIntersectionType(){
@@ -210,7 +222,7 @@ public class _annoTest extends TestCase {
             public <E extends @Test Serializable & @Test III> void foo() {  }        
         }
         _class _c = _class.of(DDDDL.class);
-        assertEquals( 2, $anno.of(Test.class).count( _c.getMethod("foo") ));
+        assertEquals( 2, $anno.of(Test.class).countIn( _c.getMethod("foo") ));
         System.out.println( _c );
     }
     
@@ -219,7 +231,7 @@ public class _annoTest extends TestCase {
     
     public void testT(){
         Statement st = Stmt.of("new  @Test  MyObject();");
-        assertEquals( 1, $anno.of(Test.class).count( st ));
+        assertEquals( 1, $anno.of(Test.class).countIn( st ));
         System.out.println( st );
     }
     
@@ -252,7 +264,7 @@ public class _annoTest extends TestCase {
         System.out.println( _c );
        
         //this SHOULD be 8 if we can fix the issue in JavaParser with ObjectCreationExpr
-        assertEquals( 8, $anno.of("@Test").count(C.class));
+        assertEquals( 8, $anno.of("@Test").countIn(C.class));
         
         $anno $aa = $anno.of(Test.class);
             //.constraint( a->a.ast().getParentNode().isPresent() 

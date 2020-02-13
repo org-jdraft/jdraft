@@ -2,11 +2,16 @@ package org.jdraft.pattern;
 
 import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 import org.jdraft._boolean;
+import org.jdraft.text.Tokens;
+import org.jdraft.text.Translator;
+
+import java.util.Map;
+import java.util.function.Predicate;
 
 /**
  * boolean literal pattern within code
  */
-public class $boolean extends $ex<BooleanLiteralExpr, _boolean> {
+public class $boolean extends $ex<BooleanLiteralExpr, _boolean, $boolean> {
 
     //match ANY boolean literal (any literal true or false)
     public static $boolean of(){
@@ -25,21 +30,46 @@ public class $boolean extends $ex<BooleanLiteralExpr, _boolean> {
         return new $boolean(b);
     }
 
+    public static $ex<BooleanLiteralExpr, _boolean, $ex> or( $boolean... $bs){
+        return $ex.or($bs);
+    }
+
     public static $boolean of(_boolean _b){
         $boolean $ds = of(_b.getValue());
         return $ds;
     }
 
+    public static $boolean off(Predicate<_boolean> booleanMatchFn){
+        return of().$and(booleanMatchFn);
+    }
+
     public $boolean (){
-        super(BooleanLiteralExpr.class, "$bool$");
+        super(BooleanLiteralExpr.class, null);
     }
 
     public $boolean (boolean b){
         super(BooleanLiteralExpr.class, ""+b);
     }
 
-    public String toString(){
+    public boolean matches( boolean b){
+        return select(_boolean.of(b)) != null;
+    }
 
+    public boolean matches(_boolean _b){
+        return select(_b) != null;
+    }
+
+    /**
+     * construct and return a new T given the tokens
+     *
+     * @param keyValues alternating key, and values
+     * @return
+     */
+    public _boolean draft(Translator translator, Map<String,Object> keyValues ){
+        return super.draft(Translator.DEFAULT_TRANSLATOR, Tokens.of(keyValues));
+    }
+
+    public String toString(){
         return "$boolean{"+System.lineSeparator()
                 +"    "+this.exprStencil.toString()+System.lineSeparator()+
                 "}";

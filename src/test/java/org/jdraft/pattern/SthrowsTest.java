@@ -31,8 +31,8 @@ public class SthrowsTest extends TestCase {
             void f() throws URISyntaxException{} //YES
             void g() throws RuntimeException{} //YES            
         }
-        assertEquals(6, $throws.of().count(TTTT.class));
-        assertEquals(2, $throws.none().count(TTTT.class));
+        assertEquals(6, $throws.of().countIn(TTTT.class));
+        assertEquals(2, $throws.none().countIn(TTTT.class));
         
     }
     
@@ -55,9 +55,9 @@ public class SthrowsTest extends TestCase {
             void f() throws URISyntaxException{} //YES
             void g() throws RuntimeException{} //YES            
         }
-        assertEquals( 4, $ts.count(B.class));
-        assertEquals( 2, $throws.of(IOException.class).count(B.class) );
-        assertEquals( 2, $throws.of("IOException").count(B.class) );
+        assertEquals( 4, $ts.countIn(B.class));
+        assertEquals( 2, $throws.of(IOException.class).countIn(B.class) );
+        assertEquals( 2, $throws.of("IOException").countIn(B.class) );
         
         $ts = $throws.of(IOException.class);
         
@@ -68,7 +68,7 @@ public class SthrowsTest extends TestCase {
             void g() throws RuntimeException{} //no
             
         }        
-        assertEquals(2, $ts.count(C.class));
+        assertEquals(2, $ts.countIn(C.class));
         
         $ts = $throws.of( URISyntaxException.class, IOException.class);
         class D{
@@ -77,7 +77,7 @@ public class SthrowsTest extends TestCase {
             void g() throws URISyntaxException, IOException{} //YES
             void y() throws java.io.IOException, java.net.URISyntaxException{} //YES
         }
-        assertEquals(2, $ts.count( D.class));
+        assertEquals(2, $ts.countIn( D.class));
         
         //with ONLY constraint
         $ts = $throws.of( ts-> ts.size() == 0 );
@@ -87,7 +87,7 @@ public class SthrowsTest extends TestCase {
             void g(){} //YES
             void y(){} //YES
         }
-        assertEquals( 2, $ts.count(E.class));        
+        assertEquals( 2, $ts.countIn(E.class));
     }
     
 }

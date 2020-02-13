@@ -223,7 +223,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
         for(int i=0;i<parts.length;i++){
             if( parts[i] instanceof $anno ){
                 final $anno $fa = (($anno)parts[i]);
-                Predicate<_parameter> pf = f-> $fa.count(f) > 0;
+                Predicate<_parameter> pf = f-> $fa.countIn(f) > 0;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $name){
@@ -400,10 +400,10 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
         return sb.toString();        
     }
     
-    public $parameter hardcode$(Object...keyValues){
+    public $parameter $hardcode(Object...keyValues){
         this.name.hardcode$(Translator.DEFAULT_TRANSLATOR, keyValues);
-        this.annos.hardcode$(Translator.DEFAULT_TRANSLATOR, keyValues);
-        this.type.hardcode$(Translator.DEFAULT_TRANSLATOR, keyValues);
+        this.annos.$hardcode(Translator.DEFAULT_TRANSLATOR, keyValues);
+        this.type.$hardcode(Translator.DEFAULT_TRANSLATOR, keyValues);
         return this;
     }
     
@@ -540,9 +540,9 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
     }
 
     @Override
-    public $parameter hardcode$(Translator translator, Tokens kvs) {
-        this.annos = this.annos.hardcode$(translator, kvs);
-        this.type = this.type.hardcode$(translator, kvs);
+    public $parameter $hardcode(Translator translator, Tokens kvs) {
+        this.annos = this.annos.$hardcode(translator, kvs);
+        this.type = this.type.$hardcode(translator, kvs);
         this.name = this.name.hardcode$(translator, kvs);
         return this;
     }
@@ -855,8 +855,8 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
         }
 
         @Override
-        public $parameter hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $parameter $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 

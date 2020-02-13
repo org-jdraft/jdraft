@@ -134,7 +134,7 @@ public class $node implements $pattern<Node, $node>, $body.$part, $method.$part,
      * @param kvs
      * @return
      */
-    public $node hardcode$(Translator translator, Tokens kvs ) {
+    public $node $hardcode(Translator translator, Tokens kvs ) {
         this.nodeStencil = this.nodeStencil.hardcode$(translator, kvs);
         return this;
     }
@@ -631,8 +631,8 @@ public class $node implements $pattern<Node, $node>, $body.$part, $method.$part,
         }
 
         @Override
-        public $node hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $node $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 

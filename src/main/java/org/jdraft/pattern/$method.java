@@ -450,7 +450,7 @@ public class $method
         for(int i=0;i<parts.length;i++){
             if( parts[i] instanceof $anno ){
                 final $anno $fa = (($anno)parts[i]);
-                Predicate<_method> pf = f-> $fa.count(f) > 0;
+                Predicate<_method> pf = f-> $fa.countIn(f) > 0;
                 $and( pf  );
             }
             else if( parts[i] instanceof $modifiers ){
@@ -465,7 +465,7 @@ public class $method
             }
             else if( parts[i] instanceof $parameter ){
                 final $parameter $fa = (($parameter)parts[i]);
-                Predicate<_method> pf = f-> $fa.count(f) > 0;
+                Predicate<_method> pf = f-> $fa.countIn(f) > 0;
                 $and( pf  );
             }
             else if( parts[i] instanceof $typeParameters ){
@@ -475,7 +475,7 @@ public class $method
             }
             else if( parts[i] instanceof $typeParameter ){
                 final $typeParameter $fa = (($typeParameter)parts[i]);
-                Predicate<_method> pf = f-> $fa.count(f) > 0;
+                Predicate<_method> pf = f-> $fa.countIn(f) > 0;
                 $and( pf  );
             }
             else if( parts[i] instanceof $typeRef){
@@ -561,7 +561,7 @@ public class $method
             }
             else if( parts[i] instanceof $parameter ){
                 final $parameter $fa = (($parameter)parts[i]);
-                Predicate<_method> pf = f-> $fa.count(f) > 0;
+                Predicate<_method> pf = f-> $fa.countIn(f) > 0;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $typeParameters ){
@@ -571,7 +571,7 @@ public class $method
             }
             else if( parts[i] instanceof $typeParameter ){
                 final $typeParameter $fa = (($typeParameter)parts[i]);
-                Predicate<_method> pf = f-> $fa.count(f) > 0;
+                Predicate<_method> pf = f-> $fa.countIn(f) > 0;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $typeRef){
@@ -1066,15 +1066,15 @@ public class $method
      * @param kvs
      * @return 
      */
-    public $method hardcode$( Translator translator, Tokens kvs ) {
-        javadoc = javadoc.hardcode$(translator, kvs);
-        annos = annos.hardcode$(translator, kvs);
-        typeParameters = typeParameters.hardcode$(translator, kvs);
-        type = type.hardcode$(translator, kvs);
+    public $method $hardcode(Translator translator, Tokens kvs ) {
+        javadoc = javadoc.$hardcode(translator, kvs);
+        annos = annos.$hardcode(translator, kvs);
+        typeParameters = typeParameters.$hardcode(translator, kvs);
+        type = type.$hardcode(translator, kvs);
         name.nameStencil = name.nameStencil.hardcode$(translator, kvs);
-        parameters = parameters.hardcode$(translator, kvs);
-        thrown = thrown.hardcode$(translator, kvs);
-        body = body.hardcode$(translator, kvs);
+        parameters = parameters.$hardcode(translator, kvs);
+        thrown = thrown.$hardcode(translator, kvs);
+        body = body.$hardcode(translator, kvs);
         
         return this;
     }
@@ -1496,8 +1496,8 @@ public class $method
         }
 
         @Override
-        public $method hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $method $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 

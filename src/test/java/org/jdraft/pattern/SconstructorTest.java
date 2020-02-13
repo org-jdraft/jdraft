@@ -113,20 +113,20 @@ public class SconstructorTest extends TestCase {
             public TT(){}
         }
         
-        assertEquals( 1, $ct.count(TT.class));
+        assertEquals( 1, $ct.countIn(TT.class));
         
         $ct = $constructor.of(new Object(){
             @Deprecated
             @_toCtor private void TT(int name) throws IOException{}
         });
         
-        assertEquals( 1, $ct.count(TT.class));
+        assertEquals( 1, $ct.countIn(TT.class));
         
         //here lets build peice by peice
         $ct = $constructor.of();
-        assertEquals( 2, $ct.count(TT.class));
+        assertEquals( 2, $ct.countIn(TT.class));
         $ct.$anno(Deprecated.class);
-        assertEquals( 1, $ct.count(TT.class));
+        assertEquals( 1, $ct.countIn(TT.class));
         
     }
     
@@ -139,14 +139,14 @@ public class SconstructorTest extends TestCase {
             int i;
             private FF(int i) throws IOException{ this.i = i; }                        
         }
-        assertEquals( 1, $ct.count(FF.class));
+        assertEquals( 1, $ct.countIn(FF.class));
         
         //verify that if it's inconsistent, doesnt match        
         class GG{
             int i;
             private GG(int notMatch) throws IOException{ this.i = notMatch; }                        
         }
-        assertEquals( 0, $ct.count(GG.class));
+        assertEquals( 0, $ct.countIn(GG.class));
     }
     
     public void testConsistentManyProto(){
@@ -163,7 +163,7 @@ public class SconstructorTest extends TestCase {
             @Deprecated
             private RR(int i) throws IOException{ this.i = i; }                        
         }        
-        assertEquals( 1, $ct.count(RR.class));
+        assertEquals( 1, $ct.countIn(RR.class));
     }
     
     public void testConstruct(){
@@ -173,7 +173,7 @@ public class SconstructorTest extends TestCase {
             c(int i){} //count this one
             c(String s){ assert(true); } //dont count
         }
-        assertEquals(2, $ct.count(c.class));
+        assertEquals(2, $ct.countIn(c.class));
         
         
         $ct = $constructor.of( $anno.of(Deprecated.class) );
@@ -189,7 +189,7 @@ public class SconstructorTest extends TestCase {
                 //this shouldnt count, because it's a method not a constructor
             }
         }
-        assertEquals(2, $ct.count(d.class));
+        assertEquals(2, $ct.countIn(d.class));
         
         $ct = $constructor.of( $anno.of(Deprecated.class), $body.of("{}") );
         class e{
@@ -204,7 +204,7 @@ public class SconstructorTest extends TestCase {
                 //this shouldnt count, because it's a method not a constructor
             }
         }
-        assertEquals( 2, $ct.count(e.class));        
+        assertEquals( 2, $ct.countIn(e.class));
         
         $ct = $constructor.of( $throws.of(IOException.class) );
         class F{
@@ -213,7 +213,7 @@ public class SconstructorTest extends TestCase {
             F( String s) throws URISyntaxException{} //NO            
             void F(){} //NO
         }
-        assertEquals( 2, $ct.count(F.class));        
+        assertEquals( 2, $ct.countIn(F.class));
     }
     
     public void testCT(){
@@ -227,7 +227,7 @@ public class SconstructorTest extends TestCase {
             aaaa(){}
         }
         
-        assertEquals(1, $c.count(aaaa.class));
+        assertEquals(1, $c.countIn(aaaa.class));
         
     }
     

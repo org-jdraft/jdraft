@@ -36,15 +36,15 @@ public class LambdaSimplifyTest extends TestCase {
         }
         _class _c = _class.of( EX.class);
         //verify I can find the pattern in the code
-        assertEquals(1, $filterFindFirstIsPresent.count(_c));
+        assertEquals(1, $filterFindFirstIsPresent.countIn(_c));
 
         //refactor using replace with the $anyMatch pattern
         _c = (_class)$filterFindFirstIsPresent.replaceIn(_c, $anyMatch);
 
         //after refactoring, make sure the pattern doesn't occur
-        assertEquals( 0,  $filterFindFirstIsPresent.count(_c));
+        assertEquals( 0,  $filterFindFirstIsPresent.countIn(_c));
 
         //make sure the new $anyMatch pattern occurs in the refactored code
-        assertEquals( 1,  $anyMatch.count(_c));
+        assertEquals( 1,  $anyMatch.countIn(_c));
     }
 }

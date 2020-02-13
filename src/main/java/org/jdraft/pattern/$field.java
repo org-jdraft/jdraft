@@ -562,13 +562,13 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
     }
 
     @Override
-    public $field hardcode$(Translator translator, Tokens kvs) {
-        this.init = this.init.hardcode$(translator, kvs);
-        this.annos = this.annos.hardcode$(translator, kvs);
-        this.type = this.type.hardcode$(translator, kvs);
-        this.javadoc = this.javadoc.hardcode$(translator, kvs);
+    public $field $hardcode(Translator translator, Tokens kvs) {
+        this.init = this.init.$hardcode(translator, kvs);
+        this.annos = this.annos.$hardcode(translator, kvs);
+        this.type = this.type.$hardcode(translator, kvs);
+        this.javadoc = this.javadoc.$hardcode(translator, kvs);
         this.name = this.name.hardcode$(translator, kvs);
-        this.modifiers = this.modifiers.hardcode$(translator, kvs);
+        this.modifiers = this.modifiers.$hardcode(translator, kvs);
         return this;
     }
 
@@ -1172,8 +1172,8 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
         }
 
         @Override
-        public $field hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $field $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 

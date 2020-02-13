@@ -450,16 +450,16 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
     }
 
     @Override
-    public $type hardcode$(Translator translator, Tokens kvs) {
-        this.members.forEach(p -> (($pattern) p).hardcode$(translator, kvs));
-        this.annos.hardcode$(translator, kvs);
-        this.extend.forEach(p -> (($pattern) p).hardcode$(translator, kvs));
-        this.implement.forEach(p -> (($pattern) p).hardcode$(translator, kvs));
-        this.imports.forEach(p -> (($pattern) p).hardcode$(translator, kvs));
-        this.modifiers.hardcode$(translator, kvs);
+    public $type $hardcode(Translator translator, Tokens kvs) {
+        this.members.forEach(p -> (($pattern) p).$hardcode(translator, kvs));
+        this.annos.$hardcode(translator, kvs);
+        this.extend.forEach(p -> (($pattern) p).$hardcode(translator, kvs));
+        this.implement.forEach(p -> (($pattern) p).$hardcode(translator, kvs));
+        this.imports.forEach(p -> (($pattern) p).$hardcode(translator, kvs));
+        this.modifiers.$hardcode(translator, kvs);
         this.name = this.name.hardcode$(translator, kvs);
-        this.packageDecl.hardcode$(translator, kvs);
-        this.typeParameters.hardcode$(translator, kvs);
+        this.packageDecl.$hardcode(translator, kvs);
+        this.typeParameters.$hardcode(translator, kvs);
         return this;
     }
 

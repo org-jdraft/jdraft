@@ -137,7 +137,7 @@ public class SbodyTest extends TestCase {
     public void testBodyNotImpl(){
         System.out.println( $body.notImplemented().listIn(FFF.class) );
 
-        assertEquals(2, $body.notImplemented().count(FFF.class));
+        assertEquals(2, $body.notImplemented().countIn(FFF.class));
     }
     
     public void testMatchEmptyBody(){

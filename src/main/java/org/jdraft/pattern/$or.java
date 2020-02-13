@@ -74,7 +74,7 @@ public final class $or<$p extends $pattern>
      * @param kvs
      * @return
      */
-    public $or hardcode$(Translator translator, Tokens kvs ) {
+    public $or $hardcode(Translator translator, Tokens kvs ) {
         throw new $pattern.$exception("cannot modify $or");
     }
 

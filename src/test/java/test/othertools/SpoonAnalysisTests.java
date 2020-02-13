@@ -34,7 +34,7 @@ public class SpoonAnalysisTests extends TestCase {
                 }
             }
         }
-        assertEquals(1, $empty.count(C.class));
+        assertEquals(1, $empty.countIn(C.class));
     }
 
     public void testFindUndocumentedElements(){
@@ -50,7 +50,7 @@ public class SpoonAnalysisTests extends TestCase {
 
             }
         }
-        assertEquals(4, $memberWithNoJavadoc.count(EX.class));
+        assertEquals(4, $memberWithNoJavadoc.countIn(EX.class));
     }
 
     public void testFindEmptyMethodBodies(){
@@ -68,7 +68,7 @@ public class SpoonAnalysisTests extends TestCase {
         }
         _class _c = _class.of(MEB.class);
         System.out.println( _c);
-        assertEquals(3, $implementedMethodsWithNoBody.count(_c) );
+        assertEquals(3, $implementedMethodsWithNoBody.countIn(_c) );
     }
 
     /**
@@ -99,7 +99,7 @@ public class SpoonAnalysisTests extends TestCase {
         _ts.add( _class.of("publicapi.CClass").addMethod("public void c(){}") );
         _ts.add( _class.of("qpwc.aaaa.BClass").addMethod("public void XXXXX(){}") );
 
-        assertEquals( 3, $publicMethodsInExpectedPackages.count(_ts));
+        assertEquals( 3, $publicMethodsInExpectedPackages.countIn(_ts));
 
     }
 }

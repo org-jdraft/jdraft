@@ -219,7 +219,7 @@ public class $typeRef
      * @param kvs
      * @return 
      */
-    public $typeRef hardcode$(Translator translator, Tokens kvs ) {
+    public $typeRef $hardcode(Translator translator, Tokens kvs ) {
         Stencil st = typePattern();
         //System.out.println("FIRST "+st +" "+kvs);
         st = st.hardcode$(translator, kvs);
@@ -761,8 +761,8 @@ public class $typeRef
         }
 
         @Override
-        public $typeRef hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $typeRef $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 

@@ -103,9 +103,9 @@ public class $package implements $pattern<PackageDeclaration, $package>, Templat
     }
 
     @Override
-    public $package hardcode$(Translator translator, Tokens kvs) {
+    public $package $hardcode(Translator translator, Tokens kvs) {
         this.name = this.name.hardcode$(translator, kvs);
-        this.annos = this.annos.hardcode$(translator, kvs);
+        this.annos = this.annos.$hardcode(translator, kvs);
         return this;
     }
 
@@ -310,8 +310,8 @@ public class $package implements $pattern<PackageDeclaration, $package>, Templat
         }
 
         @Override
-        public $package hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
+        public $package $hardcode(Translator translator, Tokens kvs) {
+            ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
 
