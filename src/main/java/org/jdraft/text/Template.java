@@ -1,13 +1,7 @@
 package org.jdraft.text;
 
 import org.jdraft._jdraftException;
-import org.jdraft.io._io;
-import org.jdraft.io._ioException;
-import org.jdraft.prototype.$null;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 
 /**

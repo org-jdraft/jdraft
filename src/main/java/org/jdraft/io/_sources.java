@@ -19,15 +19,15 @@ import java.util.stream.Collectors;
  *
  * @see _compilationUnit._provider
  */
-public class _source<_C extends _compilationUnit> implements _compilationUnit._provider {
+public class _sources<_C extends _compilationUnit> implements _compilationUnit._provider {
 
-    public static _source of(_compilationUnit._provider..._providers ){
+    public static _sources of(_compilationUnit._provider..._providers ){
         List<_compilationUnit> all = new ArrayList<>();
         Arrays.stream(_providers).forEach(_p -> all.addAll(_p.list_code()));
         return of(all);
     }
 
-    public static _source of(_compilationUnit._provider _p ){
+    public static _sources of(_compilationUnit._provider _p ){
         return of(_p.list_code());
     }
 
@@ -36,7 +36,7 @@ public class _source<_C extends _compilationUnit> implements _compilationUnit._p
      * @param pathNames
      * @return
      */
-    public static _source of(String... pathNames ){
+    public static _sources of(String... pathNames ){
         Path[] paths = new Path[pathNames.length];
         for(int i=0;i<pathNames.length;i++){
             paths[i] = Paths.get(pathNames[i]);
@@ -50,7 +50,7 @@ public class _source<_C extends _compilationUnit> implements _compilationUnit._p
      * @param paths the paths to include in the code cache
      * @return
      */
-    public static _source of(Path... paths ){
+    public static _sources of(Path... paths ){
         _compilationUnit._provider[] _ps = new _compilationUnit._provider[paths.length];
 
         for(int i=0;i<paths.length;i++){
@@ -58,7 +58,7 @@ public class _source<_C extends _compilationUnit> implements _compilationUnit._p
             if( paths[i].toString().endsWith(".jar") ||  paths[i].toString().endsWith(".zip") ){
                 _ps[i] = _archive.of(paths[i]);
             } else if( paths[i].toString().endsWith(".java") ){
-                _ps[i] = _source.of(_java.code( paths[i]  ) ); //add a cache with a single .java file
+                _ps[i] = _sources.of(_java.code( paths[i]  ) ); //add a cache with a single .java file
             } else{
                 _ps[i] = _path.of(paths[i]); //Paths.get(pathNames[i]);
             }
@@ -66,17 +66,24 @@ public class _source<_C extends _compilationUnit> implements _compilationUnit._p
         return of (_ps);
     }
 
-    public static <_C extends _compilationUnit> _source of(_C... _codeToCache){
+
+    public static <_C extends _compilationUnit> _sources of(Class<?>... clazzes){
+        List<_C> cus = new ArrayList<>();
+        Arrays.stream(clazzes).forEach(c -> _java.type(c));
+        return new _sources( cus );
+    }
+
+    public static <_C extends _compilationUnit> _sources of(_C... _codeToCache){
         return of(Arrays.stream(_codeToCache).collect(Collectors.toList()));
     }
 
-    public static <_C extends _compilationUnit> _source of(List<_C> _codeToCache){
-        return new _source( _codeToCache );
+    public static <_C extends _compilationUnit> _sources of(List<_C> _codeToCache){
+        return new _sources( _codeToCache );
     }
 
     List<_C> codeList;
 
-    public _source(List<_C> _codeToCache ){
+    public _sources(List<_C> _codeToCache ){
         this.codeList = _codeToCache;
     }
 
@@ -152,22 +159,22 @@ public class _source<_C extends _compilationUnit> implements _compilationUnit._p
      * @param clazz
      * @return
      */
-    public _source add(Class...clazz ){
+    public _sources add(Class...clazz ){
         Arrays.stream(clazz).forEach( c-> codeList.add( _java.type(c) ) );
         return this;
     }
 
-    public _source add(_C ..._cd ){
+    public _sources add(_C ..._cd ){
         Arrays.stream(_cd).forEach( cc-> { codeList.add( cc ); } );
         return this;
     }
 
-    public _source add(CompilationUnit... asts){
+    public _sources add(CompilationUnit... asts){
         Arrays.stream(asts).forEach( cc-> { codeList.add( (_C)_java.type(cc )); } );
         return this;
     }
 
-    public _source add(_compilationUnit._provider..._providers){
+    public _sources add(_compilationUnit._provider..._providers){
         Arrays.stream(_providers).forEach(_p -> this.codeList.addAll( (List<_C>) _p.list_code()));
         return this;
     }
@@ -176,9 +183,17 @@ public class _source<_C extends _compilationUnit> implements _compilationUnit._p
      * Build & return a copy of the _code
      * @return
      */
-    public _source<_C> copy(){
+    public _sources<_C> copy(){
         List<_C>copyList = new ArrayList<>();
         this.codeList.forEach(c -> copyList.add( (_C)c.copy() ) );
-        return new _source<_C>(copyList);
+        return new _sources<_C>(copyList);
+    }
+
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("_sources{").append(System.lineSeparator());
+        this.codeList.forEach(c -> sb.append("    ").append(c.getFullName() ) );
+        sb.append("}");
+        return sb.toString();
     }
 }

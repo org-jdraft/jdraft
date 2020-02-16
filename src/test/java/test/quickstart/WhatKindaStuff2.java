@@ -3,7 +3,7 @@ package test.quickstart;
 import junit.framework.TestCase;
 import org.jdraft._class;
 import org.jdraft.io._archive;
-import org.jdraft.io._source;
+import org.jdraft.io._sources;
 import org.jdraft.io._io;
 import org.jdraft.io._path;
 import org.jdraft.macro.*;
@@ -67,8 +67,8 @@ public class WhatKindaStuff2 extends TestCase {
 
     public void lotsOfCode(){
         _archive _guava = _archive.of("C:\\guava-src.jar");
-        _source _source = org.jdraft.io._source.of(_path.of("C:\\jdraft\\project\\jdraft\\src\\main\\java"));
-        org.jdraft.io._source _tests = org.jdraft.io._source.of(_path.of("C:\\jdraft\\project\\jdraft\\src\\test\\java"));
+        _sources _source = _sources.of(_path.of("C:\\jdraft\\project\\jdraft\\src\\main\\java"));
+        _sources _tests = _sources.of(_path.of("C:\\jdraft\\project\\jdraft\\src\\test\\java"));
 
         //query
         //print all TODO tags in the source

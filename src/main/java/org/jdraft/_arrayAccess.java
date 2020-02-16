@@ -153,6 +153,35 @@ public class _arrayAccess
     }
 
 
+    public _arrayAccess setIndex(String index){
+        return setIndex( Ex.of(index));
+    }
+
+    public _arrayAccess setIndex(Expression e){
+        this.aae.setIndex(e);
+        return this;
+    }
+
+    public _arrayAccess setIndex(_expression _e){
+        this.aae.setIndex(_e.ast());
+        return this;
+    }
+
+
+    public _arrayAccess setName(String name){
+        return setName( Ex.of(name));
+    }
+
+    public _arrayAccess setName(Expression e){
+        this.aae.setIndex(e);
+        return this;
+    }
+
+    public _arrayAccess setName(_expression _e){
+        this.aae.setName(_e.ast());
+        return this;
+    }
+
     public _expression getName(){
         return _expression.of(this.aae.getName());
     }

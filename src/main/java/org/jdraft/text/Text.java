@@ -3,7 +3,7 @@ package org.jdraft.text;
 import org.jdraft._jdraftException;
 import org.jdraft.io._io;
 import org.jdraft.io._ioException;
-import org.jdraft.prototype.$null;
+import org.jdraft.prototype2.$null;
 
 import java.io.*;
 import java.nio.file.Files;

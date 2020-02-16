@@ -4,6 +4,7 @@ import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 
 public class _int implements _expression._literal<IntegerLiteralExpr, _int> {
 
@@ -45,6 +46,52 @@ public class _int implements _expression._literal<IntegerLiteralExpr, _int> {
     public boolean is(IntegerLiteralExpr astNode) {
         return this.ast( ).equals(astNode);
     }
+
+    public boolean is(Predicate<_int> matchFn){
+        return matchFn.test(this);
+    }
+
+    public boolean is(int value){
+        return this.ile.asInt() == value;
+    }
+
+    /**
+     * int i = 1_000_000;
+     * @return
+     */
+    public boolean has_Separators(){
+        return this.ile.getValue().contains("_");
+    }
+
+    /**
+     * int i = 0b101;
+     * int x = 0B101;
+     * @return
+     */
+    public boolean isBinaryFormat(){
+        return this.ile.getValue().startsWith("0b") || this.ile.getValue().startsWith("0B");
+    }
+
+    /**
+     *
+     * int j = 0x101;
+     * int k = 0X101;
+     * @return
+     */
+    public boolean isHexFormat(){
+        return this.ile.getValue().startsWith("0x") || this.ile.getValue().startsWith("0X");
+    }
+
+    /**
+     * int k = 01234567;
+     */
+    public boolean isOctalFormat(){
+        return  this.ile.getValue().length() > 0
+                && this.ile.getValue().startsWith("0")
+                && ! isHexFormat()
+                && ! isBinaryFormat();
+    }
+
 
     public IntegerLiteralExpr ast(){
         return ile;

@@ -20,7 +20,7 @@ import java.util.List;
 public class _ioTest extends TestCase {
 
     public void testWriteCodeProvider(){
-        _source _cc = _source.of(_class.of("BasePackage"), _class.of("aaaa.bbbb.SubPackage") );
+        _sources _cc = _sources.of(_class.of("BasePackage"), _class.of("aaaa.bbbb.SubPackage") );
         List<Path> paths = _io.out("C:\\temp", _cc);
         assertEquals( 2, paths.size());
         assertTrue(paths.contains(Paths.get("C:\\temp\\BasePackage.java")));

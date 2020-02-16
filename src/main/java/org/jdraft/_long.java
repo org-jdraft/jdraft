@@ -42,9 +42,50 @@ public class _long implements _expression._literal<LongLiteralExpr, _long> {
         return false;
     }
 
+    public boolean is(long value){
+        return this.ile.asLong() == value;
+    }
+
     @Override
     public boolean is(LongLiteralExpr astNode) {
         return this.ast( ).equals(astNode);
+    }
+
+    /**
+     * int i = 1_000_000;
+     * @return
+     */
+    public boolean has_Separators(){
+        return this.ile.getValue().contains("_");
+    }
+
+    /**
+     * int i = 0b101;
+     * int x = 0B101;
+     * @return
+     */
+    public boolean isBinaryFormat(){
+        return this.ile.getValue().startsWith("0b") || this.ile.getValue().startsWith("0B");
+    }
+
+    /**
+     *
+     * int j = 0x101;
+     * int k = 0X101;
+     * @return
+     */
+    public boolean isHexFormat(){
+        return this.ile.getValue().startsWith("0x") || this.ile.getValue().startsWith("0X");
+    }
+
+    /**
+     * int k = 01234567;
+     */
+    public boolean isOctalFormat(){
+        return  this.ile.getValue().length() > 0
+                && this.ile.getValue().startsWith("0")
+                && ! isHexFormat()
+                && ! isBinaryFormat();
     }
 
     public LongLiteralExpr ast(){
