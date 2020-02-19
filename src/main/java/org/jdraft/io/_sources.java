@@ -69,7 +69,7 @@ public class _sources<_C extends _compilationUnit> implements _compilationUnit._
 
     public static <_C extends _compilationUnit> _sources of(Class<?>... clazzes){
         List<_C> cus = new ArrayList<>();
-        Arrays.stream(clazzes).forEach(c -> _java.type(c));
+        Arrays.stream(clazzes).forEach(c -> cus.add(_java.type(c)));
         return new _sources( cus );
     }
 
@@ -192,7 +192,8 @@ public class _sources<_C extends _compilationUnit> implements _compilationUnit._
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("_sources{").append(System.lineSeparator());
-        this.codeList.forEach(c -> sb.append("    ").append(c.getFullName() ) );
+        this.codeList.forEach(c -> sb.append("    ").append(c.getFullName() ).append(System.lineSeparator()) );
+        //sb.append(System.lineSeparator());
         sb.append("}");
         return sb.toString();
     }

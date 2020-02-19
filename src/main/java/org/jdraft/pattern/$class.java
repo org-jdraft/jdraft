@@ -23,7 +23,7 @@ import org.jdraft.text.Translator;
  * Note... at the moment this is NOT a template... should it be??
  */
 public class $class
-        implements $pattern.$java<_class,$class>, $member.$named<$class>, $declared<_class,$class>, has$Annos , Template<_class> {
+        implements $pattern.$java<_class,$class>, $member.$named<$class>, $declared<_class,$class>, has$Annos, Template<_class> {
 
     public Predicate<_class> constraint = t->true;
 
@@ -45,6 +45,7 @@ public class $class
     public List<$typeRef> implement = new ArrayList<>();
 
     //nested types???
+    public List<$type> nests = new ArrayList<>();
 
     /** marker interface for member entities that are part of the class */
     public interface $part{ }
@@ -107,6 +108,34 @@ public class $class
             $c.$package( _c.getPackage() );
             $c.$imports( _c.getImports() );
         }
+
+        /** this section is about parameterizing class level @_$ annotations in the source code */
+        parameterize$Annos : {
+            //list global annos
+            List<_anno> _ps = _c.listAnnos("_$");
+            if (_ps != null) {
+                _class _cl = _c.copy();// create a mutable clone
+                _cl.removeAnnos(a -> a.getName().equals("_$")); //remove the @_$ annotations from the clone
+
+                //create me the full source as a String (after removing the annos)
+                String sourceString = _cl.toString();
+
+                for (int i = 0; i < _ps.size(); i++) {
+                    _anno _a = _ps.get(i);
+                    _arrayInitialize _ai = _arrayInitialize.of(_a.getValue("value").asArrayInitializerExpr());
+                    //keyValues
+                    List<String> ls = new ArrayList<>();
+                    _ai.forEach(a -> ls.add(a.ast().asStringLiteralExpr().getValue()));
+
+                    //now I have keyValue Strings in the list ls, parameterize the sourceString
+                    sourceString = Text.replace(sourceString, ls.toArray(new String[0]));
+                }
+
+                System.out.println( sourceString );
+                _c = _class.of( sourceString );
+            }
+        }
+        /** end of parameterizing @_$ class level annotations in the source code */
 
         $c.$javadoc(_c.getJavadoc());
         _c.forAnnos(a-> $c.annos.add($anno.of(a)));
@@ -348,6 +377,13 @@ public class $class
             _c.addConstructor(_ctor);
         });
 
+        /* TODO type?
+        this.nests.forEach(n -> {
+            _type _t = n.draft(translator, base);
+            _c.nest(_t);
+        });
+        */
+
         return _c;
     }
 
@@ -368,7 +404,7 @@ public class $class
         this.extend.$(target, $paramName);
         this.implement.forEach( i-> i.$(target, $paramName));
         //still need nests
-
+        this.nests.forEach(n -> n.$(target, $paramName));
         return this;
     }
 
@@ -399,6 +435,7 @@ public class $class
         this.extend.$hardcode(translator, kvs);
         this.implement.forEach( i-> i.$hardcode(translator, kvs));
         //still need nests
+        this.nests.forEach(n -> n.$hardcode(translator, kvs));
 
         return this;
     }
@@ -421,7 +458,8 @@ public class $class
 
                  //extends, implements
                  this.extend.isMatchAny() &&
-                 this.implement.isEmpty();
+                 this.implement.isEmpty() &&
+                 this.nests.isEmpty();
             //NESTS
         } catch(Exception e){
             return false;
@@ -528,6 +566,7 @@ public class $class
         tokens = $tokens.to( tokens, ()-> $type.selectMethods(this.methods, instance ) );
 
         //nests
+        tokens = $tokens.to( tokens, ()-> $type.selectNests(this.nests, instance ) );
         if( tokens != null ){
             return new Select(instance, tokens);
         }
@@ -586,7 +625,9 @@ public class $class
         if(! this.methods.isEmpty()){
             this.methods.forEach(m -> sb.append(Text.indent(m.toString()) ));
         }
-        //nests
+        if(! this.nests.isEmpty()){
+            this.nests.forEach(n -> sb.append(Text.indent(n.toString()) ));
+        }
         sb.append("}");
         return sb.toString();
     }
@@ -717,6 +758,11 @@ public class $class
     public $class $annos( $anno... $a){
         this.annos.add($a);
         return this;
+    }
+
+    public $class $nests( $type... $nt ){
+         Arrays.stream($nt).forEach( t -> this.nests.add(t) );
+         return this;
     }
 
     public $class $methods( $method...$ms ){

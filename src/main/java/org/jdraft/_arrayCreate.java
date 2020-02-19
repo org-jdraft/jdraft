@@ -13,6 +13,12 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ *  <code>new int[5][4][][]</code> or <code>new int[][]{{1},{2,3}}</code>.
+ *
+ *  <br/>"int" is the element type.
+ *  <br/>All the brackets are stored in the levels field, from left to right.
+ */
 public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate>,
         _java._compoundNode<ArrayCreationExpr, _arrayCreate>,
         _java._nodeList<ArrayCreationLevel, _arrayDimension, _arrayCreate> {

@@ -52,13 +52,21 @@ public final class Text {
         //https://github.com/robert-bor/aho-corasick
         try {
             String source = new String(Files.readAllBytes(_io.in($null.class).getPath()));
-            for(int i=0;i<keyValuePairs.length; i+=2){
-                source = source.replaceAll( regexCharsToLiterals( keyValuePairs[i]), regexCharsToLiterals(keyValuePairs[i+1]));
-            }
-            return source;
+            return replace( source, keyValuePairs);
+            //for(int i=0;i<keyValuePairs.length; i+=2){
+            //    source = source.replaceAll( regexCharsToLiterals( keyValuePairs[i]), regexCharsToLiterals(keyValuePairs[i+1]));
+            //}
+            //return source;
         }catch(IOException e){
             throw new _ioException("Unable to read source at "+filePath, e);
         }
+    }
+
+    public static String replace(String source, String...keyValuePairs){
+        for(int i=0;i<keyValuePairs.length; i+=2){
+            source = source.replaceAll( regexCharsToLiterals( keyValuePairs[i]), regexCharsToLiterals(keyValuePairs[i+1]));
+        }
+        return source;
     }
 
     /**

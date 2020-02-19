@@ -56,7 +56,7 @@ public interface _expression<E extends Expression, _E extends _expression> exten
      * @param e
      * @return
      */
-    static _expression of( Expression e){
+    static <E extends Expression> _expression of( E e){
 
         if( e instanceof LiteralExpr ){
             if( e instanceof IntegerLiteralExpr ){
@@ -76,6 +76,9 @@ public interface _expression<E extends Expression, _E extends _expression> exten
             }
             if( e instanceof StringLiteralExpr){
                 return new _string( (StringLiteralExpr)e );
+            }
+            if( e instanceof TextBlockLiteralExpr){
+                return new _textBlock( (TextBlockLiteralExpr)e );
             }
         }
         if( e instanceof AnnotationExpr ){
@@ -138,9 +141,6 @@ public interface _expression<E extends Expression, _E extends _expression> exten
         if( e instanceof SwitchExpr){
             return new _switchExpression( (SwitchExpr)e);
         }
-        if( e instanceof TextBlockLiteralExpr){
-            return new _textBlock((TextBlockLiteralExpr)e);
-        }
         if( e instanceof ThisExpr){
             return new _this( (ThisExpr)e);
         }
@@ -165,6 +165,7 @@ public interface _expression<E extends Expression, _E extends _expression> exten
      * @see _char
      * @see _boolean
      * @see _null
+     * @see _textBlock
      */
     interface _literal<NE extends Expression, _NE extends _expression & _java._uniNode>  extends _expression<NE, _NE>,
             _java._uniNode<NE, _NE> {

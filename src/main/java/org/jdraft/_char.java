@@ -16,9 +16,9 @@ public class _char implements _expression._literal<CharLiteralExpr, _char> {
     public static _char of(char c){
         return new _char(new CharLiteralExpr(c));
     }
-    //public static _char of( String...code){
-    //    return new _char(Ex.charLiteralEx( code));
-    //}
+    public static _char of( String...code){
+        return new _char(Ex.charLiteralEx(Text.combine(code)));
+    }
 
     public CharLiteralExpr cle;
 

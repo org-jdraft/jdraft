@@ -96,6 +96,11 @@ public class _long implements _expression._literal<LongLiteralExpr, _long> {
         return this.ile.asLong();
     }
 
+    public _long setValue( long value){
+        this.ile.setLong(value);
+        return this;
+    }
+
     /**
      * Important that there are multiple representations for the same int value
      *

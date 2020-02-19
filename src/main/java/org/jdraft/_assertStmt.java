@@ -13,7 +13,11 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-
+/**
+ * assert true;    //check only
+ * assert( true );
+ * assert i==3 : "unexpected Expected this"; //check with optional message
+ */
 public class _assertStmt implements _statement<AssertStmt, _assertStmt>, _java._compoundNode<AssertStmt,_assertStmt> {
 
     public static _assertStmt of(){

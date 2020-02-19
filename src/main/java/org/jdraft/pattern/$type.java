@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import org.jdraft.*;
+import org.jdraft.text.Template;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
@@ -784,6 +785,31 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         return all;
     }
 
+
+    public static $pattern.$tokens selectNests(List<$type> $protoTypes, _type _t){
+        Map<$type, List<$type.Select>> selectMap = new HashMap<>();
+
+        for (int i = 0; i < $protoTypes.size(); i++) {
+            final $type t = $protoTypes.get(i);
+            List<$type.Select> matches = new ArrayList<>();
+            _t.listNests().forEach(m -> {
+                $type.Select sel = t.select((_type) m);
+                if (sel != null) {
+                    matches.add(sel);
+                    //System.out.println( "FOUND "+ sel+" "+ matches);
+                }
+            });
+            if (matches.isEmpty()) {
+                return null; //couldnt match a $method to ANY constructors
+            } else {
+                selectMap.put(t, matches); //associated the matches with
+            }
+        }
+        //Now create a map with ALL tokens
+        $pattern.$tokens all = $pattern.$tokens.of();
+        selectMap.values().forEach(ls -> ls.forEach(s -> all.putAll(s.tokens())));
+        return all;
+    }
 
     public static $pattern.$tokens selectMethods(List<$method> $protoMethods, _method._hasMethods _hcs) {
         Map<$method, List<$method.Select>> selectMap = new HashMap<>();

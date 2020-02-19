@@ -2,6 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.ClassExpr;
 import com.github.javaparser.ast.type.Type;
+import org.jdraft.text.Text;
 
 /**
  * 
@@ -61,6 +62,20 @@ public class _classExpression implements _expression<ClassExpr, _classExpression
 
     public _typeRef getType(){
         return _typeRef.of(this.ce.getType());
+    }
+
+    public _classExpression setType(Type t){
+        this.ce.setType(t);
+        return this;
+    }
+
+    public _classExpression setType(_typeRef _t){
+        this.ce.setType(_t.ast());
+        return this;
+    }
+
+    public _classExpression setType(String...type ){
+        return setType( _typeRef.of(Text.combine(type)));
     }
 
     public boolean equals(Object other){

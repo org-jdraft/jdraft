@@ -14,6 +14,10 @@ public class _double implements _expression._literal<DoubleLiteralExpr, _double>
         return new _double(Ex.doubleLiteralEx( code));
     }
 
+    public static _double of( double d){
+        return new _double(Ex.doubleLiteralEx( d));
+    }
+
     public DoubleLiteralExpr de;
 
     public _double(DoubleLiteralExpr de){

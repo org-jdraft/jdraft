@@ -17,8 +17,8 @@ import java.util.function.Function;
 /**
  *
  * <PRE><CODE>
- * (String)getCharSeq();
- * (List<String>)
+ * (String)getCharSeq() //"String" as type; "getCharSeq();" is expression
+ * (List<String>)a      //List<String> as type; "a" as expression
  * </CODE></PRE>
  *
  */

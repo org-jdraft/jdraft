@@ -12,6 +12,7 @@ public class _null implements _expression._literal<NullLiteralExpr, _null> {
     public static _null of(){
         return new _null(new NullLiteralExpr());
     }
+
     public static _null of(NullLiteralExpr nl){
         return new _null(nl);
     }

@@ -5,6 +5,12 @@ import com.github.javaparser.ast.expr.*;
 
 import java.util.*;
 
+/**
+ * The initialization of an array. In the following sample, the outer { } is an ArrayInitializerExpr.
+ * It has two expressions inside: two ArrayInitializerExprs.
+ * These have two expressions each, one has 1 and 1, the other two and two.
+ * <br/><code>new int[][]{{1, 1}, {2, 2}};</code>
+ */
 public class _arrayInitialize implements _expression<ArrayInitializerExpr, _arrayInitialize>,
         _java._nodeList<Expression, _expression, _arrayInitialize> {
 

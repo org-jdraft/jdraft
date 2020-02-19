@@ -560,6 +560,9 @@ public enum Ex {
         if( str.equals("super") ){
             return new SuperExpr();
         }
+        if( str.startsWith("@")){
+            return StaticJavaParser.parseAnnotation( str );
+        }
         String comment = null;
         int endComment = str.indexOf("*/");
         if( str.startsWith("/*") && endComment > 0 ) {
@@ -582,6 +585,7 @@ public enum Ex {
             aie.removeForced();
             return aie;
         }
+
         try{
             Expression e = StaticJavaParser.parseExpression( str );
             if( comment != null ){

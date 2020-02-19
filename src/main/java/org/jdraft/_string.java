@@ -51,9 +51,9 @@ public class _string implements _expression._literal<StringLiteralExpr, _string>
         return stringMatchFn.test(this.se.asString());
     }
 
-    //public String getValue(){
-    //    return this.se.getValue();
-    //}
+    public String getValue(){
+        return this.se.getValue();
+    }
 
     public String valueAsString(){
         return this.se.asString();

@@ -124,6 +124,11 @@ public class _int implements _expression._literal<IntegerLiteralExpr, _int> {
     }
      */
 
+    public _int setValue( int value){
+        this.ile.setInt(value);
+        return this;
+    }
+
     public boolean equals(Object other){
         if( other instanceof _int){
             return ((_int)other).ile.equals( this.ile );
