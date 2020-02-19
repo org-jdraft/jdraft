@@ -164,6 +164,27 @@ public final class _typeRef<T extends Type>
         return astType.isUnknownType();
     }
 
+    public boolean isTypeParameter(){
+        return this.astType.isTypeParameter();
+    }
+
+    public boolean isUsingDiamondOperator(){
+        return astType.isClassOrInterfaceType()
+                && astType.asClassOrInterfaceType().isUsingDiamondOperator();
+    }
+
+    public boolean isReferenceType(){
+
+        return astType.isReferenceType();
+    }
+    public boolean isClassOrInterfaceType(){
+        return astType.isClassOrInterfaceType();
+    }
+
+    public boolean isBoxedType(){
+        return astType.isClassOrInterfaceType() && astType.asClassOrInterfaceType().isBoxedType();
+    }
+
     public boolean isPrimitive() {
         return astType.isPrimitiveType();
     }
