@@ -27,9 +27,9 @@ public class _enumTest extends TestCase {
         //TODO i need a .body(String...) method that will represent the body
         // of the constant
         _c.setName("One")
-                .arguments("1, new HashMap()")
+                .setArguments("1, new HashMap()")
                 .addArgument(1)
-                .body("public int G = 234;",
+                .setBody("public int G = 234;",
                      "public int rrrr(){",
                     "    return 345;",
                    "}")
