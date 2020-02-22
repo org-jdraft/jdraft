@@ -108,6 +108,7 @@ public class IntelliJPSIExample extends TestCase {
         //first navigate to a part of the code (find the int literal 54)
         IntegerLiteralExpr ile = $.intLiteral(54).firstIn(K.class).ast();
 
+
         MethodDeclaration md = //walk parents of the literal node to get to the containing method
                 (MethodDeclaration)ile.stream($.PARENTS).filter(n-> n instanceof MethodDeclaration ).findFirst().get();
         //verify we found the method;

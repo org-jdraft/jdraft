@@ -231,7 +231,9 @@ public class GoogleErrorProneTest extends TestCase {
 
             //ok, heres where we compose them together (do the first composition)
             //
-            assertEquals(1, $.ex("super.onCreate($any$)").$isParentMember($method.of($name.of("onCreate"), $suppress)).countIn(_c));
+            assertEquals(1, $.ex("super.onCreate($any$)")
+                    .$isParentMember($method.of("onCreate", $suppress)).countIn(_c));
+                    //.$isParentMember($method.of($name.of("onCreate"), $suppress)).countIn(_c));
             /*
             $onCreate = ($ex)$onCreate.$isNotParentMember($method.of($suppress));
             $onCreate = ($ex)$onCreate.$isNotParentMember($method.of($suppress));
