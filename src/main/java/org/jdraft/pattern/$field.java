@@ -170,7 +170,12 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
         if( _f.hasAnnos() ){
             $inst.annos = $annos.of(_f.getAnnos());
         }
-        $inst.modifiers = $modifiers.of(_f);        
+        if( _f.getModifiers().size() > 0 ){
+            $inst.modifiers = $modifiers.of(_f);
+        } else{
+            $inst.modifiers = $modifiers.of();
+        }
+
         $inst.type = $typeRef.of(_f.getType());
         $inst.name = $name.of( _f.getName() );
         if( _f.hasInit() ){
@@ -657,7 +662,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
             }
             return selectFirstIn(((_type) _j).ast(), selectConstraint);
         }
-        return selectFirstIn( ((_java._compoundNode)_j).ast(), selectConstraint );
+        return selectFirstIn( ((_java._multiPart)_j).ast(), selectConstraint );
     }
 
     /**
@@ -730,7 +735,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
             }
             return listSelectedIn(((_type) _j).ast(), selectConstraint);
         }
-        return listSelectedIn( ((_java._compoundNode)_j).ast(), selectConstraint);
+        return listSelectedIn( ((_java._multiPart)_j).ast(), selectConstraint);
     }
 
     /**

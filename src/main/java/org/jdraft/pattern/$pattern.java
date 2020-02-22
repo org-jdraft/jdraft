@@ -40,7 +40,7 @@ import org.jdraft.text.Translator;
  * $pattern objects define a mechanism to walk the AST and query/modify Java code
  * matching against grammar entries via the _node model 
  *
- * @param <P> the type of node being queried for {@link _java._compoundNode}
+ * @param <P> the type of node being queried for {@link _java._multiPart}
  * @param <$P> the pattern type
  * {@link com.github.javaparser.ast.Node} or 
  * {@link _java._astNode})

@@ -1160,7 +1160,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param _n
      * @return 
      */
-    public _S draft(_java._compoundNode _n ){
+    public _S draft(_java._multiPart _n ){
         Map<String,Object> decons = _n.tokenize();
         return (_S) draft( decons );
     }
@@ -1304,7 +1304,7 @@ public class $stmt<S extends Statement, _S extends _statement>
         if( _j instanceof _body ){
             return selectFirstIn( ((_body)_j).ast() );
         }
-        return selectFirstIn( ((_java._compoundNode) _j).ast() );
+        return selectFirstIn( ((_java._multiPart) _j).ast() );
     }
      
 
@@ -1335,7 +1335,7 @@ public class $stmt<S extends Statement, _S extends _statement>
             }
             return selectFirstIn( ((_type)_n).ast(), selectConstraint);
         }
-        return selectFirstIn( ((_java._compoundNode)_n).ast(), selectConstraint );
+        return selectFirstIn( ((_java._multiPart)_n).ast(), selectConstraint );
     }
 
     /**
@@ -1732,7 +1732,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param <_N> the node type
      * @return the modified node
      */
-    public <_N extends _java._compoundNode> _N unComment(_N _n){
+    public <_N extends _java._multiPart> _N unComment(_N _n){
         unComment( _n.ast() );
         return _n;
     }
@@ -1808,8 +1808,8 @@ public class $stmt<S extends Statement, _S extends _statement>
                 //System.out.println("PAR AFTER Remove "+ par );
             }
         });
-        if( _j instanceof _java._compoundNode){
-            Ast.flattenLabel( ((_java._compoundNode) _j).ast(), "$replacement$");
+        if( _j instanceof _java._multiPart){
+            Ast.flattenLabel( ((_java._multiPart) _j).ast(), "$replacement$");
         }
         return (_J) _j;
     }

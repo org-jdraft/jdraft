@@ -761,7 +761,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
             }
             return firstIn( ((_type) _j).ast() );
         }
-        return firstIn( ((_java._compoundNode) _j).ast() );
+        return firstIn( ((_java._multiPart) _j).ast() );
     }
     
     /**
@@ -820,7 +820,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
             }
             return selectFirstIn( ((_type)_j).ast(), selectConstraint);
         }
-        return selectFirstIn( ((_java._compoundNode)_j).ast(), selectConstraint);
+        return selectFirstIn( ((_java._multiPart)_j).ast(), selectConstraint);
     }
     
     /**

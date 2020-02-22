@@ -409,7 +409,7 @@ public class $import
                 return selectFirstIn(((_type) _j).ast(), selectConstraint);
             }
         }
-        return selectFirstIn(((_java._compoundNode) _j).ast(), selectConstraint);
+        return selectFirstIn(((_java._multiPart) _j).ast(), selectConstraint);
     }
 
     /**
@@ -489,7 +489,7 @@ public class $import
                 return listSelectedIn(((_type) _j).ast(), selectConstraint);
             }
         }
-        return listSelectedIn(((_java._compoundNode) _j).ast(), selectConstraint);
+        return listSelectedIn(((_java._multiPart) _j).ast(), selectConstraint);
     }
     
     /**
@@ -519,7 +519,7 @@ public class $import
                 return _j;
             }
         }
-        replaceIn(((_java._compoundNode) _j).ast(), importClass);
+        replaceIn(((_java._multiPart) _j).ast(), importClass);
         return _j;
     }
     
@@ -550,7 +550,7 @@ public class $import
                 return _j;
             }
         }
-        replaceIn(((_java._compoundNode) _j).ast(), $import.of(importDecl));
+        replaceIn(((_java._multiPart) _j).ast(), $import.of(importDecl));
         return _j;
     }
     
@@ -581,7 +581,7 @@ public class $import
                 return _j;
             }
         }
-        replaceIn(((_java._compoundNode) _j).ast(), $import.of(_i));
+        replaceIn(((_java._multiPart) _j).ast(), $import.of(_i));
         return _j;
     }
     
@@ -614,7 +614,7 @@ public class $import
                 return _j;
             }
         }
-        replaceIn(((_java._compoundNode) _j).ast(), $i);
+        replaceIn(((_java._multiPart) _j).ast(), $i);
         return _j;
     }
     

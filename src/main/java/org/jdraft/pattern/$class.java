@@ -14,6 +14,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import org.jdraft.*;
+import org.jdraft.prototype._$;
 import org.jdraft.text.Template;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
@@ -111,29 +112,10 @@ public class $class
 
         /** this section is about parameterizing class level @_$ annotations in the source code */
         parameterize$Annos : {
-            //list global annos
-            List<_anno> _ps = _c.listAnnos("_$");
-            if (_ps != null) {
-                _class _cl = _c.copy();// create a mutable clone
-                _cl.removeAnnos(a -> a.getName().equals("_$")); //remove the @_$ annotations from the clone
+            //String parameterized = _$.Parameterize.toString(_c);
+            //_c = _class.of( parameterized );
+            _c = _$.Parameterize.update(_c);
 
-                //create me the full source as a String (after removing the annos)
-                String sourceString = _cl.toString();
-
-                for (int i = 0; i < _ps.size(); i++) {
-                    _anno _a = _ps.get(i);
-                    _arrayInitialize _ai = _arrayInitialize.of(_a.getValue("value").asArrayInitializerExpr());
-                    //keyValues
-                    List<String> ls = new ArrayList<>();
-                    _ai.forEach(a -> ls.add(a.ast().asStringLiteralExpr().getValue()));
-
-                    //now I have keyValue Strings in the list ls, parameterize the sourceString
-                    sourceString = Text.replace(sourceString, ls.toArray(new String[0]));
-                }
-
-                System.out.println( sourceString );
-                _c = _class.of( sourceString );
-            }
         }
         /** end of parameterizing @_$ class level annotations in the source code */
 
@@ -150,9 +132,20 @@ public class $class
         _c.forInitBlocks(ib -> $c.initBlocks.add($initBlock.of(ib.ast())));
 
 
+        _c.forConstructors(ct -> $c.ctors.add($constructor.of(_$.Parameterize.update(ct))));
+        _c.forFields(f-> $c.fields.add($field.of(_$.Parameterize.update(f))));
+        _c.forMethods(m -> $c.$methods($method.of(_$.Parameterize.update(m))));
+
+        //hmm this loses the order of things
+        //_c.forConstructors(ct -> $c.ctors.add($constructor.of(_$.Parameterize.toString(ct))));
+        //_c.forFields(f-> $c.fields.add($field.of(_$.Parameterize.toString(f))));
+        //_c.forMethods(m -> $c.$methods($method.of(_$.Parameterize.toString(m))));
+        /*
         _c.forConstructors(ct -> $c.ctors.add($constructor.of(ct)));
         _c.forFields(f-> $c.fields.add($field.of(f)));
         _c.forMethods(m -> $c.$methods($method.of(m)));
+        */
+
         _c.forNests( n -> {
             if( n instanceof _class) {
                 $c.$hasChild( $class.of((_class)n) );
@@ -810,6 +803,7 @@ public class $class
         if(candidate instanceof ClassOrInterfaceDeclaration && !((ClassOrInterfaceDeclaration) candidate).asClassOrInterfaceDeclaration().isInterface()){
             return select( _class.of((ClassOrInterfaceDeclaration)candidate)) != null;
         }
+
         /*
         if( candidate instanceof CompilationUnit){
             //check if it's only got one class
