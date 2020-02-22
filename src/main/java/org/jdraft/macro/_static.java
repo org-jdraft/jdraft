@@ -26,7 +26,7 @@ public @interface _static  {
 
         @Override
         public String toString(){
-            return "macro[static]";
+            return "macro[_static]";
         }
 
         @Override
@@ -34,7 +34,7 @@ public @interface _static  {
             to(node);
         }
 
-        public static <_N extends _java._compoundNode> _N to (_N _n){
+        public static <_N extends _java._multiPart> _N to (_N _n){
             to( _n.ast());
             return _n;
         }

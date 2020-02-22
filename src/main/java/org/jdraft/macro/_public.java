@@ -64,7 +64,7 @@ public @interface _public {
             to(node);
         }
 
-        public static <_N extends _java._compoundNode> _N to(_N _n){
+        public static <_N extends _java._multiPart> _N to(_N _n){
             to(_n.ast());
             return _n;
         }
@@ -86,7 +86,7 @@ public @interface _public {
 
         @Override
         public String toString(){
-            return "macro[public]";
+            return "macro[_public]";
         }
     }
 }
