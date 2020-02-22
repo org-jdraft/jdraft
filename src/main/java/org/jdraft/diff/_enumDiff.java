@@ -14,7 +14,7 @@ import org.jdraft.diff._diff.*;
  *
  * @author Eric
  */
-public class _enumDiff implements _differ<_enum, _java._compoundNode> {
+public class _enumDiff implements _differ<_enum, _java._multiPart> {
 
     public static final _enumDiff INSTANCE = new _enumDiff();
     
@@ -23,7 +23,7 @@ public class _enumDiff implements _differ<_enum, _java._compoundNode> {
     }
 
     @Override
-    public <_PN extends _java._compoundNode> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _enum left, _enum right) {
+    public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _enum left, _enum right) {
         _packageNameDiff.INSTANCE.diff(path, dt, left, right, left.getPackage(), right.getPackage());
         _importsDiff.INSTANCE.diff(path, dt, left, right, left, right);
         _annosDiff.INSTANCE.diff(path, dt, left, right, left.getAnnos(), right.getAnnos());
@@ -46,7 +46,7 @@ public class _enumDiff implements _differ<_enum, _java._compoundNode> {
     public static _enumConstantDiff ENUM_CONSTANT_DIFF = new _enumConstantDiff();
 
     public static class _enumConstantDiff
-            implements _differ<_constant, _java._compoundNode> {
+            implements _differ<_constant, _java._multiPart> {
 
         public boolean equivalent(_constant left,_constant right) {
             return Objects.equals(left, right);
@@ -60,7 +60,7 @@ public class _enumDiff implements _differ<_enum, _java._compoundNode> {
         }
         
         @Override
-        public <_PN extends _java._compoundNode> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _constant left, _constant right) {
+        public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _constant left, _constant right) {
 
             _nodePath _p = path.in(CONSTANT, left.getName());
 
@@ -77,7 +77,7 @@ public class _enumDiff implements _differ<_enum, _java._compoundNode> {
     public static _enumConstantsDiff ENUM_CONSTANTS_DIFF = new _enumConstantsDiff();
 
     public static class _enumConstantsDiff
-            implements _differ<List<_constant>, _java._compoundNode> {
+            implements _differ<List<_constant>, _java._multiPart> {
 
         public boolean equivalent(List<_constant> left, List<_constant> right) {
             Set<_constant> ls = new HashSet<>();
@@ -97,7 +97,7 @@ public class _enumDiff implements _differ<_enum, _java._compoundNode> {
         }
 
         @Override
-        public <_PN extends _java._compoundNode> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<_constant> left, List<_constant> right) {
+        public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<_constant> left, List<_constant> right) {
             Set<_constant> ls = new HashSet<>();
             Set<_constant> rs = new HashSet<>();
             Set<_constant> both = new HashSet<>();
@@ -237,14 +237,14 @@ public class _enumDiff implements _differ<_enum, _java._compoundNode> {
 
     public static final ArgsInspect ARGUMENTS_DIFF = new ArgsInspect();
 
-    public static class ArgsInspect implements _differ<List<Expression>, _java._compoundNode> {
+    public static class ArgsInspect implements _differ<List<Expression>, _java._multiPart> {
 
         public boolean equivalent(List<Expression> left, List<Expression> right) {
             return Objects.equals(left, right);
         }
 
         @Override
-        public <_PN extends _java._compoundNode> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<Expression> left, List<Expression> right) {
+        public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<Expression> left, List<Expression> right) {
             if (!Objects.equals(left, right)) {
                 dt.addDiff(new _changeArguments(path.in(ARGUMENTS), (_constant) _leftParent, (_constant) _rightParent));
             }

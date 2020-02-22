@@ -233,10 +233,10 @@ public interface _diff {
     List<_diffNode> list();
 
     /** gets the left root node of the diff (could be null for localized diffs) */
-    _java._compoundNode leftRoot();
+    _java._multiPart leftRoot();
 
     /** gets the right root node of the diff (could be null for localized diffs) */
-    _java._compoundNode rightRoot();
+    _java._multiPart rightRoot();
 
     /**
      * @return number of diffs
@@ -273,11 +273,11 @@ public interface _diff {
         return first(d -> d.path().equals(_p));
     }
     
-    default _diffNode on(Class<? extends _java._compoundNode> clazz){
+    default _diffNode on(Class<? extends _java._multiPart> clazz){
         return first( d-> d.on(clazz));
     }
     
-    default _diffNode on(Class<? extends _java._compoundNode> clazz, String id){
+    default _diffNode on(Class<? extends _java._multiPart> clazz, String id){
         return first( d-> d.on(clazz, id));
     }
     
@@ -293,11 +293,11 @@ public interface _diff {
         return first(d -> d.isLeftOnly() && d.path().equals(_p));
     }
     
-    default <_N extends _java._compoundNode> _diffNode leftOnlyAt(Class<_N> nodeClass){
+    default <_N extends _java._multiPart> _diffNode leftOnlyAt(Class<_N> nodeClass){
         return first(d -> d.isLeftOnly() && d.at(Component.of(nodeClass)));
     }
     
-    default <_N extends _java._compoundNode> _diffNode leftOnlyAt(Class<_N> nodeClass, String id){
+    default <_N extends _java._multiPart> _diffNode leftOnlyAt(Class<_N> nodeClass, String id){
         return first(d -> d.isLeftOnly() && d.at(Component.of(nodeClass), id));
     }
     
@@ -313,7 +313,7 @@ public interface _diff {
         return first(d -> d.isLeftOnly() && d.at(component, id));
     }
     
-    default <_N extends _java._compoundNode> _diffNode leftOnlyOn(Class<_N> nodeClass){
+    default <_N extends _java._multiPart> _diffNode leftOnlyOn(Class<_N> nodeClass){
         return first( d-> d.isLeftOnly() && d.on( Component.of(nodeClass) ) );
     }
     
@@ -321,7 +321,7 @@ public interface _diff {
         return first( d-> d.isLeftOnly() && d.on( id ) );
     }
     
-    default <_N extends _java._compoundNode>_diffNode leftOnlyOn(Class<_N> nodeClass, String id){
+    default <_N extends _java._multiPart>_diffNode leftOnlyOn(Class<_N> nodeClass, String id){
         return first( d-> d.isLeftOnly() && d.on( Component.of(nodeClass), id ) );
     }
     
@@ -337,11 +337,11 @@ public interface _diff {
         return first(d -> d.isRightOnly() && d.path().equals(_p));
     }
     
-    default <_N extends _java._compoundNode> _diffNode rightOnlyAt(Class<_N> nodeClass){
+    default <_N extends _java._multiPart> _diffNode rightOnlyAt(Class<_N> nodeClass){
         return first(d -> d.isRightOnly() && d.at(Component.of(nodeClass)));
     }
     
-    default <_N extends _java._compoundNode> _diffNode rightOnlyAt(Class<_N> nodeClass, String id){
+    default <_N extends _java._multiPart> _diffNode rightOnlyAt(Class<_N> nodeClass, String id){
         return first(d -> d.isRightOnly() && d.at(Component.of(nodeClass), id));
     }
     
@@ -357,7 +357,7 @@ public interface _diff {
         return first(d -> d.isRightOnly() && d.at(component, id));
     }
     
-    default <_N extends _java._compoundNode> _diffNode rightOnlyOn(Class<_N> nodeClass){
+    default <_N extends _java._multiPart> _diffNode rightOnlyOn(Class<_N> nodeClass){
         return first( d-> d.isRightOnly() && d.on( Component.of(nodeClass) ) );
     }
 
@@ -365,7 +365,7 @@ public interface _diff {
         return first( d-> d.isRightOnly() && d.on( id ) );
     }
     
-    default <_N extends _java._compoundNode>_diffNode rightOnlyOn(Class<_N> nodeClass, String id){
+    default <_N extends _java._multiPart>_diffNode rightOnlyOn(Class<_N> nodeClass, String id){
         return first( d-> d.isRightOnly() && d.on( Component.of(nodeClass), id ) );
     }
     
@@ -388,7 +388,7 @@ public interface _diff {
         return first(d -> d.isChange() && d.path().equals(_p));
     }
     
-    default <_N extends _java._compoundNode> _diffNode changeAt(Class<_N> nodeClass){
+    default <_N extends _java._multiPart> _diffNode changeAt(Class<_N> nodeClass){
         return first(d -> d.isChange() && d.at(Component.of(nodeClass)));
     }
 
@@ -396,7 +396,7 @@ public interface _diff {
         return first(d -> d.isChange() && d.at(id));
     }
     
-    default <_N extends _java._compoundNode> _diffNode changeAt(Class<_N> nodeClass, String id){
+    default <_N extends _java._multiPart> _diffNode changeAt(Class<_N> nodeClass, String id){
         return first(d -> d.isChange() && d.at(Component.of(nodeClass), id));
     }
     
@@ -408,7 +408,7 @@ public interface _diff {
         return first(d -> d.isChange() && d.at(component, id));
     }
     
-    default <_N extends _java._compoundNode> _diffNode changeOn(Class<_N> nodeClass){
+    default <_N extends _java._multiPart> _diffNode changeOn(Class<_N> nodeClass){
         return first( d-> d.isChange() && d.on( Component.of(nodeClass) ) );
     }
     
@@ -416,7 +416,7 @@ public interface _diff {
         return first( d-> d.isChange() && d.on( id ) );
     }
     
-    default <_N extends _java._compoundNode>_diffNode changeOn(Class<_N> nodeClass, String id){
+    default <_N extends _java._multiPart>_diffNode changeOn(Class<_N> nodeClass, String id){
         return first( d-> d.isChange() && d.on( Component.of(nodeClass), id ) );
     }
     
@@ -446,7 +446,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._compoundNode> _diffNode editAt(Class<_N> nodeClass){
+    default <_N extends _java._multiPart> _diffNode editAt(Class<_N> nodeClass){
         return first(d -> d.isEdit() && d.at(Component.of(nodeClass)));
     }
 
@@ -466,7 +466,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._compoundNode> _diffNode editAt(Class<_N> nodeClass, String id){
+    default <_N extends _java._multiPart> _diffNode editAt(Class<_N> nodeClass, String id){
         return first(d -> d.isEdit() && d.at(Component.of(nodeClass), id));
     }
 
@@ -495,7 +495,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._compoundNode> _diffNode editOn(Class<_N> nodeClass){
+    default <_N extends _java._multiPart> _diffNode editOn(Class<_N> nodeClass){
         return first( d-> d.isEdit() && d.on( Component.of(nodeClass) ) );
     }
 
@@ -506,7 +506,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._compoundNode>_diffNode editOn(Class<_N> nodeClass, String id){
+    default <_N extends _java._multiPart>_diffNode editOn(Class<_N> nodeClass, String id){
         return first( d-> d.isEdit() && d.on( Component.of(nodeClass), id ) );
     }
 
@@ -573,7 +573,7 @@ public interface _diff {
      * @param c
      * @return 
      */
-    default <_N extends _java._compoundNode> boolean isAt(Class<_N> c ){
+    default <_N extends _java._multiPart> boolean isAt(Class<_N> c ){
         return isAt( Component.of(c) );
     }    
     
@@ -598,7 +598,7 @@ public interface _diff {
      * @param id the identifier for the node
      * @return true if a Diff was found at this Node, false otherwise
      */
-    default <_N extends _java._compoundNode> boolean isAt(Class<_N>node, String id) {
+    default <_N extends _java._multiPart> boolean isAt(Class<_N>node, String id) {
         return isAt(Component.of(node),id);
     }
     
@@ -618,7 +618,7 @@ public interface _diff {
      * @param c
      * @return 
      */
-    default <_N extends _java._compoundNode> boolean isOn(Class<_N> c ){
+    default <_N extends _java._multiPart> boolean isOn(Class<_N> c ){
         return isOn( Component.of(c) );
     }    
 
@@ -654,7 +654,7 @@ public interface _diff {
      * @param id the identifier for the node
      * @return true if a Diff was found at this Node, false otherwise
      */
-    default <_N extends _java._compoundNode> boolean isOn(Class<_N>node, String id) {
+    default <_N extends _java._multiPart> boolean isOn(Class<_N>node, String id) {
         return isOn(Component.of(node),id);
     }
     
@@ -728,7 +728,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._compoundNode> boolean hasRightOnlyAt(Class<_N> memClass) {
+    default <_N extends _java._multiPart> boolean hasRightOnlyAt(Class<_N> memClass) {
         return hasRightOnlyAt( Component.of(memClass) ); 
     }
 
@@ -747,7 +747,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._compoundNode> boolean hasLeftOnlyAt(Class<_N> memClass) {
+    default <_N extends _java._multiPart> boolean hasLeftOnlyAt(Class<_N> memClass) {
         return hasLeftOnlyAt( Component.of(memClass) ); 
     }
 
@@ -766,7 +766,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._compoundNode> boolean hasChangeAt(Class<_N> memClass) {
+    default <_N extends _java._multiPart> boolean hasChangeAt(Class<_N> memClass) {
         return hasChangeAt( Component.of(memClass) ); 
     }
 
@@ -785,7 +785,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._compoundNode> boolean hasEditAt(Class<_N> memClass) {
+    default <_N extends _java._multiPart> boolean hasEditAt(Class<_N> memClass) {
         return hasEditAt( Component.of(memClass) ); 
     }
 
@@ -806,7 +806,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._compoundNode> boolean hasRightOnlyAt(Class<_N> memClass, String id) {
+    default <_N extends _java._multiPart> boolean hasRightOnlyAt(Class<_N> memClass, String id) {
         return hasRightOnlyAt( Component.of(memClass) ,id); 
     }
 
@@ -827,7 +827,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._compoundNode> boolean hasLeftOnlyAt(Class<_N> memClass, String id) {
+    default <_N extends _java._multiPart> boolean hasLeftOnlyAt(Class<_N> memClass, String id) {
         return hasLeftOnlyAt( Component.of(memClass) ,id); 
     }
 
@@ -848,7 +848,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._compoundNode> boolean hasChangeAt(Class<_N> memClass, String id) {
+    default <_N extends _java._multiPart> boolean hasChangeAt(Class<_N> memClass, String id) {
         return hasChangeAt( Component.of(memClass) ,id); 
     }
 
@@ -869,7 +869,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._compoundNode> boolean hasEditAt(Class<_N> memClass, String id) {
+    default <_N extends _java._multiPart> boolean hasEditAt(Class<_N> memClass, String id) {
         return hasRightOnlyAt( Component.of(memClass) ,id); 
     }
 
@@ -888,7 +888,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._compoundNode> boolean hasRightOnlyOn(Class<_N> memClass) {
+    default <_N extends _java._multiPart> boolean hasRightOnlyOn(Class<_N> memClass) {
         return hasRightOnlyOn( Component.of(memClass)); 
     }
 
@@ -907,7 +907,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._compoundNode> boolean hasLeftOnlyOn(Class<_N> memClass) {
+    default <_N extends _java._multiPart> boolean hasLeftOnlyOn(Class<_N> memClass) {
         return hasLeftOnlyOn( Component.of(memClass)); 
     }
 
@@ -926,7 +926,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._compoundNode> boolean hasChangeOn(Class<_N> memClass) {
+    default <_N extends _java._multiPart> boolean hasChangeOn(Class<_N> memClass) {
         return hasChangeOn( Component.of(memClass)); 
     }
 
@@ -945,7 +945,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._compoundNode> boolean hasEditOn(Class<_N> memClass) {
+    default <_N extends _java._multiPart> boolean hasEditOn(Class<_N> memClass) {
         return hasEditOn( Component.of(memClass)); 
     }
 
@@ -966,7 +966,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._compoundNode> boolean hasRightOnlyOn(Class<_N> memClass, String id) {
+    default <_N extends _java._multiPart> boolean hasRightOnlyOn(Class<_N> memClass, String id) {
         return hasRightOnlyOn( Component.of(memClass), id); 
     }
 
@@ -987,7 +987,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._compoundNode> boolean hasLeftOnlyOn(Class<_N> memClass, String id) {
+    default <_N extends _java._multiPart> boolean hasLeftOnlyOn(Class<_N> memClass, String id) {
         return hasLeftOnlyOn( Component.of(memClass), id); 
     }
 
@@ -1008,7 +1008,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._compoundNode> boolean hasChangeOn(Class<_N> memClass, String id) {
+    default <_N extends _java._multiPart> boolean hasChangeOn(Class<_N> memClass, String id) {
         return hasChangeOn( Component.of(memClass), id); 
     }
 
@@ -1029,7 +1029,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._compoundNode> boolean hasEditOn(Class<_N> memClass, String id) {
+    default <_N extends _java._multiPart> boolean hasEditOn(Class<_N> memClass, String id) {
         return hasEditOn( Component.of(memClass), id); 
     }
 
@@ -1317,7 +1317,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._compoundNode> _diffNode firstOn(Class<_N> nodeClass) {
+    default <_N extends _java._multiPart> _diffNode firstOn(Class<_N> nodeClass) {
         return firstOn( Component.of(nodeClass));
     }
     
@@ -1344,7 +1344,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._compoundNode> _diffNode firstOn(Class<_N> nodeClass, String id) {
+    default <_N extends _java._multiPart> _diffNode firstOn(Class<_N> nodeClass, String id) {
         return firstOn( Component.of(nodeClass), id);
     }
     
@@ -1371,7 +1371,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._compoundNode> _diffNode firstAt(Class<_N> nodeClass) {
+    default <_N extends _java._multiPart> _diffNode firstAt(Class<_N> nodeClass) {
         return firstAt( Component.of(nodeClass));
     }
 
@@ -1412,7 +1412,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._compoundNode> _diffNode firstAt(Class<_N> nodeClass, String id) {
+    default <_N extends _java._multiPart> _diffNode firstAt(Class<_N> nodeClass, String id) {
         return firstAt( Component.of(nodeClass), id);
     }
     
@@ -1490,7 +1490,7 @@ public interface _diff {
      * @param nodeClass
      * @return
      */
-    default <_N extends _java._compoundNode> List<_diffNode> listAt(Class<_N> nodeClass) {
+    default <_N extends _java._multiPart> List<_diffNode> listAt(Class<_N> nodeClass) {
         return listAt( Component.of(nodeClass) );
     }
     
@@ -1503,7 +1503,7 @@ public interface _diff {
      * @param id
      * @return
      */
-    default <_N extends _java._compoundNode> List<_diffNode> listAt(Class<_N> nodeClass, String id) {
+    default <_N extends _java._multiPart> List<_diffNode> listAt(Class<_N> nodeClass, String id) {
         return listAt( Component.of(nodeClass), id);
     }
     
@@ -1537,7 +1537,7 @@ public interface _diff {
      * @param nodeClass
      * @return
      */
-    default <_N extends _java._compoundNode> List<_diffNode> listOn(Class<_N> nodeClass) {
+    default <_N extends _java._multiPart> List<_diffNode> listOn(Class<_N> nodeClass) {
         return listOn( Component.of(nodeClass) );
     }
 
@@ -1562,7 +1562,7 @@ public interface _diff {
      * @param id
      * @return
      */
-    default <_N extends _java._compoundNode> List<_diffNode> listOn(Class<_N> nodeClass, String id) {
+    default <_N extends _java._multiPart> List<_diffNode> listOn(Class<_N> nodeClass, String id) {
         return listOn(Component.of(nodeClass), id);
     }
 
@@ -1602,7 +1602,7 @@ public interface _diff {
      * collection of diff _nodes that represent the deep differences between two
      * domain objects (two _class es, _methods, _fields)
      */
-    class _diffList<_RN extends _java._compoundNode>
+    class _diffList<_RN extends _java._multiPart>
             implements _diff, _diff._build {
 
         /**
@@ -1674,7 +1674,7 @@ public interface _diff {
      * @param <T> the diff node type
      * @param <_RN> the root node type
      */
-    interface _differ<T, _RN extends _java._compoundNode> {
+    interface _differ<T, _RN extends _java._multiPart> {
 
         /**
          *
@@ -1688,8 +1688,8 @@ public interface _diff {
             //we dont know if
             _diffList md = null;
 
-            if( left instanceof _java._compoundNode && right instanceof _java._compoundNode) {
-                md = new _diffList((_java._compoundNode)left, (_java._compoundNode) right);
+            if( left instanceof _java._multiPart && right instanceof _java._multiPart) {
+                md = new _diffList((_java._multiPart)left, (_java._multiPart) right);
             } else{
                 md = new _diffList(null, null);
             }
@@ -1720,7 +1720,7 @@ public interface _diff {
          * @param right the right node/element/property
          * @return the diffList with all diffs between the left and right nodes
          */
-        <_PN extends _java._compoundNode> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, T left, T right);
+        <_PN extends _java._multiPart> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, T left, T right);
     }
 
 }

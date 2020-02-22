@@ -14,22 +14,22 @@ import org.jdraft.diff._diff.*;
  * @author Eric
  */
 public class _annosDiff
-    implements _differ<_annos, _java._compoundNode> {
+    implements _differ<_annos, _java._multiPart> {
 
     public static final _annosDiff INSTANCE = new _annosDiff();
     
      public _diff diff( _hasAnnos left, _hasAnnos right){
         return diff( 
                 _nodePath.of(),
-                new _diffList( (_java._compoundNode)left, (_java._compoundNode)right),
-                (_java._compoundNode)left,
-                (_java._compoundNode)right,
+                new _diffList( (_java._multiPart)left, (_java._multiPart)right),
+                (_java._multiPart)left,
+                (_java._multiPart)right,
                 left.getAnnos(), 
                 right.getAnnos());
     }
      
     @Override
-    public <_PN extends _java._compoundNode> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, _annos left, _annos right) {
+    public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, _annos left, _annos right) {
         NodeList<AnnotationExpr> laes = left.astAnnNode.getAnnotations();
         NodeList<AnnotationExpr> raes = right.astAnnNode.getAnnotations();
         for (int i = 0; i < laes.size(); i++) {

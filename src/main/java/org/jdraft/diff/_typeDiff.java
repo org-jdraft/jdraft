@@ -8,7 +8,7 @@ import org.jdraft.diff._diff.*;
  *
  * @author Eric
  */
-public class _typeDiff implements _differ<_type, _java._compoundNode> {
+public class _typeDiff implements _differ<_type, _java._multiPart> {
 
     public static final _typeDiff INSTANCE = new _typeDiff();
 
@@ -28,7 +28,7 @@ public class _typeDiff implements _differ<_type, _java._compoundNode> {
      */
 
     @Override
-    public <_PN extends _java._compoundNode> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _type left, _type right) {
+    public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _type left, _type right) {
         if (left instanceof _class) {
             return _classDiff.INSTANCE.diff(path.in(_java.Component.CLASS, left.getName()), dt, _leftParent, _rightParent, (_class) left, (_class) right);
         }

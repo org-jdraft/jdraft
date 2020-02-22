@@ -9,7 +9,7 @@ import org.jdraft._java.Component;
 import org.jdraft.diff._diff.*;
 
 public class _constructorsDiff implements
-        _differ<List<_constructor>, _java._compoundNode> {
+        _differ<List<_constructor>, _java._multiPart> {
 
     public static final _constructorsDiff INSTANCE = new _constructorsDiff();
     
@@ -39,11 +39,11 @@ public class _constructorsDiff implements
 
     public _diff diff(_hasConstructors left, _hasConstructors right) {
         return diff( _nodePath.of(),
-            new _diffList((_java._compoundNode)left, (_java._compoundNode)right), (_type)left, (_type)right, left.listConstructors(), right.listConstructors());
+            new _diffList((_java._multiPart)left, (_java._multiPart)right), (_type)left, (_type)right, left.listConstructors(), right.listConstructors());
     }
     
     @Override
-    public <_PN extends _java._compoundNode> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<_constructor> left, List<_constructor> right) {
+    public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<_constructor> left, List<_constructor> right) {
         Set<_constructor> ls = new HashSet<>();
         Set<_constructor> rs = new HashSet<>();
         Set<_constructor> both = new HashSet<>();

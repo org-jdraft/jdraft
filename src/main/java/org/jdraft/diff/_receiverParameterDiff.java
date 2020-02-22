@@ -9,21 +9,21 @@ import org.jdraft._receiverParameter._hasReceiverParameter;
 import org.jdraft.diff._diff.*;
 
 public class _receiverParameterDiff
-        implements  _differ<_receiverParameter, _java._compoundNode> {
+        implements  _differ<_receiverParameter, _java._multiPart> {
 
     public static final _receiverParameterDiff INSTANCE = new _receiverParameterDiff();
     
     public _diff diff( _hasReceiverParameter left, _hasReceiverParameter right){
         return diff( _nodePath.of(),
-                new _diffList( (_java._compoundNode)left, (_java._compoundNode)right),
-                (_java._compoundNode)left,
-                (_java._compoundNode)right,
+                new _diffList( (_java._multiPart)left, (_java._multiPart)right),
+                (_java._multiPart)left,
+                (_java._multiPart)right,
                 left.getReceiverParameter(), 
                 right.getReceiverParameter());
     }
     
     @Override
-    public <_PN extends _java._compoundNode> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _receiverParameter left, _receiverParameter right) {
+    public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _receiverParameter left, _receiverParameter right) {
         if (!Objects.equals(left, right)) {
             dt.addDiff(new change_receiverParameter(path.in(_java.Component.RECEIVER_PARAMETER), (_receiverParameter._hasReceiverParameter) _leftParent, (_receiverParameter._hasReceiverParameter) _rightParent));
         }
