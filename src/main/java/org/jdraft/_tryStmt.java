@@ -10,8 +10,8 @@ import java.util.function.*;
 import java.util.stream.Collectors;
 
 public class _tryStmt implements _statement._controlFlow._branching<TryStmt, _tryStmt>,
-        _java._compoundNode<TryStmt, _tryStmt>,
-        _java._nodeList<CatchClause, _catch, _tryStmt>,
+        _java._multiPart<TryStmt, _tryStmt>,
+        _java._list<CatchClause, _catch, _tryStmt>,
         _body._hasBody<_tryStmt>{
 
     public static _tryStmt of(){

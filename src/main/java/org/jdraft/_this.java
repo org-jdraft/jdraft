@@ -10,7 +10,7 @@ import com.github.javaparser.ast.expr.ThisExpr;
  * <code>this.name</code> is a FieldAccessExpr of field greet, and a ThisExpr as its scope.
  * This ThisExpr has no typeName.
  */
-public class _this implements _expression<ThisExpr, _this>, _java._uniNode<ThisExpr, _this> {
+public class _this implements _expression<ThisExpr, _this>, _java._uniPart<ThisExpr, _this> {
     public static _this of(){
         return new _this(new ThisExpr());
     }

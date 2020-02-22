@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class _blockStmt implements _statement<BlockStmt, _blockStmt>,
-        _java._nodeList<Statement, _statement, _blockStmt> {
+        _java._list<Statement, _statement, _blockStmt> {
 
     public static _blockStmt of(){
         return new _blockStmt( new BlockStmt( ));
@@ -97,14 +97,6 @@ public class _blockStmt implements _statement<BlockStmt, _blockStmt>,
         } catch(Exception e){ }
         return false;
     }
-
-    /*
-    public List<_statement> listStatements(){
-        List<_statement> _sts  = new ArrayList<>();
-        this.bs.getStatements().forEach(s -> _sts.add( _statement.of(s)));
-        return _sts;
-    }
-     */
 
     @Override
     public boolean is(BlockStmt astNode) {

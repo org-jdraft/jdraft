@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class _forStmt implements _statement._controlFlow._loop<ForStmt, _forStmt>,
-        _java._compoundNode<ForStmt, _forStmt>,
+        _java._multiPart<ForStmt, _forStmt>,
         _statement._controlFlow._branching<ForStmt,_forStmt>, _body._hasBody<_forStmt> {
 
     public static _forStmt of(){
@@ -85,19 +85,31 @@ public class _forStmt implements _statement._controlFlow._loop<ForStmt, _forStmt
         } catch(Exception e){ }
         return false;
     }
-    //forInitializations
-    //forUpdates
-    //addInitialization
-    //addUpdate
 
-    //addStatements
-    //addStatements Lambda
+    public _forStmt forInitializations(Consumer<_expression> consumer){
+        listInitializations().forEach(consumer);
+        return this;
+    }
 
+    public _forStmt forUpdates(Consumer<_expression> consumer){
+        listUpdates().forEach(consumer);
+        return this;
+    }
 
     public List<_expression> listInitializations(){
         List<_expression>init = new ArrayList<>();
         this.astStmt.getInitialization().forEach(i -> init.add(_expression.of(i)));
         return init;
+    }
+
+    public _forStmt addInitializations( _expression... _es){
+        Arrays.stream(_es).forEach(_e -> this.astStmt.getInitialization().add(_e.ast()));
+        return this;
+    }
+
+    public _forStmt addUpdates( _expression... _es){
+        Arrays.stream(_es).forEach(_e -> this.astStmt.getUpdate().add(_e.ast()));
+        return this;
     }
 
     public List<_expression> listUpdates(){
@@ -123,8 +135,18 @@ public class _forStmt implements _statement._controlFlow._loop<ForStmt, _forStmt
         return this;
     }
 
+    public _forStmt setCompare(String...str){
+        this.astStmt.setCompare(Ex.of(str));
+        return this;
+    }
+
     public _forStmt setCompare(_expression e){
         this.astStmt.setCompare(e.ast());
+        return this;
+    }
+
+    public _forStmt setCompare(Expression e){
+        this.astStmt.setCompare(e);
         return this;
     }
 

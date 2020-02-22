@@ -11,7 +11,7 @@ import org.jdraft.text.Text;
  *
  */
 public class _packageInfo
-        implements _compilationUnit<_packageInfo>, _anno._hasAnnos<_packageInfo>, _java._compoundNode<CompilationUnit, _packageInfo> {
+        implements _compilationUnit<_packageInfo>, _anno._hasAnnos<_packageInfo>, _java._multiPart<CompilationUnit, _packageInfo> {
 
     public static _packageInfo of(String... pkgInfo) {
         return new _packageInfo(StaticJavaParser.parse(Text.combine(pkgInfo)));

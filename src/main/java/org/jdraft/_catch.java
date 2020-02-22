@@ -15,7 +15,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class _catch implements _java._compoundNode<CatchClause, _catch>,_body._hasBody<_catch> {
+public class _catch implements _java._multiPart<CatchClause, _catch>,_body._hasBody<_catch> {
 
     public static _catch of(){
         return new _catch( new CatchClause() );
@@ -85,7 +85,7 @@ public class _catch implements _java._compoundNode<CatchClause, _catch>,_body._h
     }
 
     public _catch setParameter(String... parameter){
-        return setParameter(parameter);
+        return setParameter(Ast.parameter( parameter) );
     }
 
     public _catch setParameter(Parameter parameter){

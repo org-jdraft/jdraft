@@ -17,8 +17,8 @@ import java.util.*;
  */
 public final class _constructorCallStmt
         implements _statement<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
-        _java._compoundNode<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
-        _java._nodeList<Expression, _expression, _constructorCallStmt> {
+        _java._multiPart<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
+        _java._list<Expression, _expression, _constructorCallStmt> {
 
     public static _constructorCallStmt of(){
         return new _constructorCallStmt( new ExplicitConstructorInvocationStmt( ));
@@ -80,20 +80,52 @@ public final class _constructorCallStmt
         return tas;
     }
 
+    public boolean hasTypeArguments(){
+        return this.astStmt.getTypeArguments().isPresent();
+    }
+
+    public boolean isTypeArguments(_typeRef..._typeArguments){
+        List<_typeRef> tas = listTypeArguments();
+        if( _typeArguments.length != tas.size()){
+            return false;
+        }
+        for(int i=0;i<tas.size();i++){
+            if( !tas.get(i).equals( _typeArguments[i])){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * is a constructor call with this(...);
+     * @return
+     */
     public boolean isThis(){
         return this.astStmt.isThis();
     }
 
+    /**
+     * is a constructor call with super(...)
+     * @return
+     */
     public boolean isSuper(){
         return !this.astStmt.isThis();
     }
 
     /**
-     * Is using the Diamond operator/ Type Arguments <>
+     * Is using the Diamond operator / Type Arguments <>
      * @return
      */
     public boolean isUsingDiamondOperator(){
         return this.astStmt.isUsingDiamondOperator();
+    }
+
+    public boolean isExpression( _expression _e){
+        if( this.astStmt.getExpression().isPresent() ){
+            return Objects.equals( this.astStmt.getExpression().get(), _e.ast());
+        }
+        return _e == null;
     }
 
     public _expression getExpression(){
@@ -112,6 +144,19 @@ public final class _constructorCallStmt
         List<_expression> args = new ArrayList<>();
         this.astStmt.getArguments().forEach(a -> args.add( _expression.of(a)));
         return args;
+    }
+
+    public boolean isArguments( _expression..._exs){
+        List<_expression> tes = list();
+        if( _exs.length == tes.size()){
+            for(int i=0;i<tes.size();i++){
+                if( !tes.get(i).equals( _exs[i])){
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     public _constructorCallStmt setArguments(_expression... _es ){
@@ -141,6 +186,10 @@ public final class _constructorCallStmt
         return this;
     }
 
+    public boolean hasArguments(){
+        return this.astStmt.getArguments().size() > 0;
+    }
+
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
@@ -148,6 +197,7 @@ public final class _constructorCallStmt
         if(astStmt.getExpression().isPresent()) {
             comps.put(_java.Component.EXPRESSION, astStmt.getExpression().get());
         }
+
         comps.put(_java.Component.THIS_CALL, astStmt.isThis());
         comps.put(_java.Component.SUPER_CALL, !astStmt.isThis());
         comps.put(_java.Component.ARGUMENTS, astStmt.getArguments());

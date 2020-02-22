@@ -88,8 +88,8 @@ public interface _java {
     /**
      * Marker interface for ALL models and interfaces related to Java Language Constructs
      *
-     * @see _compoundNode a one-to-one mapping between an AST (Node) and a <CODE>_javaDomain</CODE> ( _method <--> MethodDeclaration )
-     * @see _nodeList a one-to 0 or more NodeList instances of AST nodes ( _parameters <--> NodeList<Parameter> )
+     * @see _multiPart a one-to-one mapping between an AST (Node) and a <CODE>_javaDomain</CODE> ( _method <--> MethodDeclaration )
+     * @see _list a one-to 0 or more NodeList instances of AST nodes ( _parameters <--> NodeList<Parameter> )
      */
     interface _domain { }
 
@@ -102,28 +102,28 @@ public interface _java {
      * @return true if the parent node exists, is of a particular type and complies with the predicate
      */
     static <_J extends _domain> boolean isParent(_domain _j, Class<_J> parentNodeClass, Predicate<_J> parentMatchFn){
-        if( _j instanceof _compoundNode){
+        if( _j instanceof _multiPart){
             AtomicBoolean ans = new AtomicBoolean(false);
-            Walk.in_java(Node.TreeTraversal.PARENTS, 1, ((_compoundNode)_j).ast(), parentNodeClass, parentMatchFn, (t)-> ans.set(true) );
+            Walk.in_java(Node.TreeTraversal.PARENTS, 1, ((_multiPart)_j).ast(), parentNodeClass, parentMatchFn, (t)-> ans.set(true) );
             return ans.get();
         }
         //need to handle _typeParameters, _parameters, _annos
         if( _j instanceof _typeParameters ){
             _typeParameters _tps = (_typeParameters)_j;
-            _compoundNode _n = (_compoundNode)_java.of( (Node)_tps.astHolder());
+            _multiPart _n = (_multiPart)_java.of( (Node)_tps.astHolder());
             return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
         }
         if( _j instanceof _body){
             _body _tps = (_body)_j;
             Object par = _tps.astParentNode();
             if( par != null ){
-                _compoundNode _n = (_compoundNode)_java.of( (Node)par );
+                _multiPart _n = (_multiPart)_java.of( (Node)par );
                 return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
             }
         }
         if( _j instanceof _parameters){
             _parameters _tps = (_parameters)_j;
-            _compoundNode _n = (_compoundNode)_java.of( (Node)_tps.astHolder());
+            _multiPart _n = (_multiPart)_java.of( (Node)_tps.astHolder());
             return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
         }
         return false;
@@ -177,7 +177,9 @@ public interface _java {
         if( _j instanceof _compilationUnit && ((_compilationUnit) _j).isTopLevel() ){
             Ast.describe( ((_compilationUnit) _j).astCompilationUnit());
         }
-        Ast.describe ( ((_astNode)_j).ast() );
+        else { //if( _j instanceof _java._astNode){
+            Ast.describe ( ((_astNode)_j).ast() );
+        }
     }
 
     /**
@@ -665,8 +667,8 @@ public interface _java {
      * @param labelName
      */
     static void flattenLabel(_domain _j, String labelName){
-        if( _j instanceof _compoundNode){
-            Ast.flattenLabel( ((_compoundNode)_j).ast(), labelName);
+        if( _j instanceof _multiPart){
+            Ast.flattenLabel( ((_multiPart)_j).ast(), labelName);
             return;
         }
         throw new _jdraftException("cannot flatten a label :"+labelName+" from "+ _j.getClass());
@@ -678,7 +680,7 @@ public interface _java {
      * or sub components (like methods, fields) to understand a thing...
      * Also decomposing things (for diffing, etc.) is useful in analysis
      *
-     * @see _compoundNode
+     * @see _multiPart
 
     interface _componentized{
 
@@ -811,6 +813,7 @@ public interface _java {
         STATEMENT("statement", Statement.class), //labeledStatment
         ARRAY_DIMENSIONS("arrayDimensions", List.class, ArrayCreationLevel.class), //arrayCreate
         ARRAY_DIMENSION("arrayDimension", Expression.class),
+        ENCLOSED_PARAMETERS( "enclosedParameters", Boolean.class),
         LITERAL("literal", Object.class); //typeRef, textBlock
 
 
@@ -847,7 +850,7 @@ public interface _java {
             return null;
         }
 
-        public static <_N extends _compoundNode> Component of(Class<_N> nodeClass) {
+        public static <_N extends _multiPart> Component of(Class<_N> nodeClass) {
             Optional<Component> op = Arrays.stream(Component.values()).filter(p -> p.implementationClass.equals(nodeClass)).findFirst();
             if (op.isPresent()) {
                 return op.get();
@@ -934,7 +937,7 @@ public interface _java {
                 return Ast.listComments( ((_type) _j).ast(), commentTargetClass, commentMatchFn );
             }
         } else{
-            return Ast.listComments(  ((_compoundNode) _j).ast(), commentTargetClass, commentMatchFn);
+            return Ast.listComments(  ((_multiPart) _j).ast(), commentTargetClass, commentMatchFn);
         }
     }
 
@@ -954,7 +957,7 @@ public interface _java {
                 return Ast.listComments( ((_type) _j).ast(), commentMatchFn);
             }
         } else{
-            return Ast.listComments(  ((_compoundNode) _j).ast(), commentMatchFn );
+            return Ast.listComments(  ((_multiPart) _j).ast(), commentMatchFn );
         }
     }
 
@@ -974,7 +977,7 @@ public interface _java {
                 Ast.forComments( ((_type) _j).ast(), commentMatchFn, commentActionFn);
             }
         } else{
-            Ast.forComments(  ((_compoundNode) _j).ast(), commentMatchFn, commentActionFn );
+            Ast.forComments(  ((_multiPart) _j).ast(), commentMatchFn, commentActionFn );
         }
     }
 
@@ -996,7 +999,7 @@ public interface _java {
                 Ast.forComments( ((_type) _j).ast(),  commentClass, commentMatchFn, commentActionFn);
             }
         } else{
-            Ast.forComments(  ((_compoundNode) _j).ast(),  commentClass, commentMatchFn, commentActionFn );
+            Ast.forComments(  ((_multiPart) _j).ast(),  commentClass, commentMatchFn, commentActionFn );
         }
     }
 
@@ -1014,7 +1017,7 @@ public interface _java {
                 Ast.forComments( ((_type) _j).ast(), commentActionFn);
             }
         } else{
-            Ast.forComments(  ((_compoundNode)_j).ast(), commentActionFn );
+            Ast.forComments(  ((_multiPart)_j).ast(), commentActionFn );
         }
     }
 
@@ -1033,7 +1036,7 @@ public interface _java {
                 return Ast.listComments( ((_type) _j).ast() );
             }
         } else{
-            return Ast.listComments(  ((_compoundNode) _j).ast() );
+            return Ast.listComments(  ((_multiPart) _j).ast() );
         }
     }
 
@@ -1101,7 +1104,7 @@ public interface _java {
         /**
          * The classes below are categorical interfaces that are applied to classes
          */
-        Class<_compoundNode> NODE = _compoundNode.class;
+        Class<_multiPart> NODE = _multiPart.class;
         Class<_declared> MEMBER = _declared.class;
         Class<_named> NAMED = _named.class;
         Class<_namedType> NAMED_TYPE = _namedType.class;
@@ -1131,7 +1134,7 @@ public interface _java {
         /**
          * Map from the _java classes to the Ast Node equivalent
          */
-        public static final Map<Class<? extends _compoundNode>, Class<? extends Node>> _JAVA_TO_AST_NODE_CLASSES = new HashMap<>();
+        public static final Map<Class<? extends _multiPart>, Class<? extends Node>> _JAVA_TO_AST_NODE_CLASSES = new HashMap<>();
 
         static {
             _JAVA_TO_AST_NODE_CLASSES.put(_import.class, ImportDeclaration.class);
@@ -1156,10 +1159,10 @@ public interface _java {
         }
 
         /**
-         * Map from the {@link _compoundNode} classes to the Ast
+         * Map from the {@link _multiPart} classes to the Ast
          * {@link com.github.javaparser.ast.Node} equivalent
          */
-        public static final Map<Class<? extends Node>, Class<? extends _compoundNode>> AST_NODE_TO_JAVA_CLASSES = new HashMap<>();
+        public static final Map<Class<? extends Node>, Class<? extends _multiPart>> AST_NODE_TO_JAVA_CLASSES = new HashMap<>();
 
         static {
             AST_NODE_TO_JAVA_CLASSES.put(ImportDeclaration.class, _import.class); //base
@@ -1206,7 +1209,7 @@ public interface _java {
      * NOTE: each {@link _declared} maps directly to:
      * <UL>
      *     <LI>an AST representation {@link Node}
-     *     <LI></LI>a meta-representation {@link _compoundNode}
+     *     <LI></LI>a meta-representation {@link _multiPart}
      * </UL>
      * <UL>
      * <LI>{@link _field} {@link FieldDeclaration}
@@ -1231,7 +1234,7 @@ public interface _java {
      * @param <N> the AST node type (i.e. {@link MethodDeclaration})
      * @param <_D> the meta-representation declaration type (i.e. {@link _method})
      */
-    interface _declared<N extends Node, _D extends _compoundNode & _named & _hasAnnos & _hasJavadoc>
+    interface _declared<N extends Node, _D extends _multiPart & _named & _hasAnnos & _hasJavadoc>
             extends _member<N, _D>, _named<_D>, _hasAnnos<_D>, _hasJavadoc<_D> {
 
         @Override
@@ -1252,7 +1255,7 @@ public interface _java {
 
     /**
      * A member within the body of a Class (something defined in the  { }) including {@link _initBlock}s.
-     * All _{@link _member}s are {@link _compoundNode}s (they are represented by BOTH a meta-representation i.e. {@link _method},
+     * All _{@link _member}s are {@link _multiPart}s (they are represented by BOTH a meta-representation i.e. {@link _method},
      * and an AST representation {@link MethodDeclaration}.
      *
      * {@link _initBlock} IS a {@link _member}, BUT IS NOT a {@link _declared}, because even though
@@ -1277,8 +1280,8 @@ public interface _java {
      * @see _declared (an EXTENSION of {@link _member}s that are also {@link _named}...(all {@link _member}s are
      * {@link _declared}s, ACCEPT {@link _initBlock} which is ONLY a {@link _member}
      */
-    interface _member <N extends Node, _N extends _compoundNode>
-            extends _compoundNode<N, _N> {
+    interface _member <N extends Node, _N extends _multiPart>
+            extends _multiPart<N, _N> {
 
         /**
          * Returns the parent _member for this _member (if it exists)
@@ -1412,12 +1415,12 @@ public interface _java {
      *
      * @param <N> the AST node type
      * @param <_N> the _domain type
-     * @see _compoundNode for an ast node type that contains multiple walkable child entities
+     * @see _multiPart for an ast node type that contains multiple walkable child entities
      */
-    interface _uniNode<N extends Node, _N extends _uniNode> extends _astNode<N, _N> { }
+    interface _uniPart<N extends Node, _N extends _uniPart> extends _astNode<N, _N> { }
 
     /**
-     * {@link _compoundNode} entity (having more than one possible child) that maps directly to an AST {@link Node}
+     * {@link _multiPart} entity (having more than one possible child) that maps directly to an AST {@link Node}
      * for example:
      * <UL>
      * <LI>{@link _declared}s</LI>
@@ -1448,7 +1451,7 @@ public interface _java {
      * @param <_N> the jdraft _node type {@link _method}, {@link _field}
      * @param <N> ast node {@link MethodDeclaration}, {@link FieldDeclaration}
      */
-    interface _compoundNode<N extends Node, _N extends _compoundNode> extends _astNode<N, _N> {
+    interface _multiPart<N extends Node, _N extends _multiPart> extends _astNode<N, _N> {
 
         /**
          * Decompose the entity into key-VALUE pairs where the key is the Component
@@ -1494,7 +1497,7 @@ public interface _java {
      * @param <_EL>
      * @param <_NL>
      */
-    interface _nodeSet<EL extends Node, _EL extends _astNode, _NL extends _nodeSet> extends _domain{
+    interface _set<EL extends Node, _EL extends _astNode, _NL extends _set> extends _domain{
 
         _NL copy();
 
@@ -1650,7 +1653,7 @@ public interface _java {
      * @see _arrayCreate (the dimensions of the array are in an ordered list)
      * @see _arrayInitialize (the elements located in the array are ordered)
      */
-    interface _nodeList<EL extends Node, _EL extends _astNode, _NL extends _nodeList> extends _nodeSet<EL, _EL, _NL>, _domain {
+    interface _list<EL extends Node, _EL extends _astNode, _NL extends _list> extends _set<EL, _EL, _NL>, _domain {
 
         default boolean is(_EL... _els){
             List<_EL> _arr = new ArrayList<>();
@@ -1658,7 +1661,6 @@ public interface _java {
             return is(_arr);
         }
 
-        //dont I need to put these into sets
         default boolean is(List<_EL> _els){
             if( this.size() != _els.size() ){
                 return false;
@@ -1670,6 +1672,10 @@ public interface _java {
                 }
             }
             return true;
+        }
+
+        default boolean isAt( int index, EL element){
+            return get(index).equals(element);
         }
     }
 
@@ -1710,6 +1716,11 @@ public interface _java {
         default boolean isNamed(String name) {
             return Objects.equals(getName(), name);
         }
+
+        default  boolean isName(Predicate<String> matchFn){
+            return matchFn.test(getName());
+        }
+
     }
 
     /**

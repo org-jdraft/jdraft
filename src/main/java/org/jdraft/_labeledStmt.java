@@ -3,19 +3,16 @@ package org.jdraft;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.stmt.LabeledStmt;
+import com.github.javaparser.ast.stmt.Statement;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
-
+import java.util.function.*;
 
 public class _labeledStmt implements _statement<LabeledStmt, _labeledStmt>,
-        _java._compoundNode<LabeledStmt, _labeledStmt> {
+        _java._multiPart<LabeledStmt, _labeledStmt> {
 
     public static _labeledStmt of(){
         return new _labeledStmt( new LabeledStmt( ));
@@ -69,7 +66,6 @@ public class _labeledStmt implements _statement<LabeledStmt, _labeledStmt>,
         throw new _jdraftException("No method call expression found in lambda");
     }
 
-
     private LabeledStmt astStmt;
 
     public _labeledStmt(LabeledStmt rs){
@@ -89,6 +85,14 @@ public class _labeledStmt implements _statement<LabeledStmt, _labeledStmt>,
         return false;
     }
 
+    public boolean isLabel(String label){
+        return Objects.equals( this.astStmt.getLabel().asString(), label);
+    }
+
+    public boolean isLabel( Predicate<String> matchFn){
+        return matchFn.test(this.astStmt.getLabel().asString());
+    }
+
     public String getLabel(){
         return this.astStmt.getLabel().asString();
     }
@@ -102,9 +106,31 @@ public class _labeledStmt implements _statement<LabeledStmt, _labeledStmt>,
         return _statement.of(astStmt.getStatement());
     }
 
+
+    public _labeledStmt setStatement(String...st){
+        return setStatement( Stmt.of(st) );
+    }
+
     public _labeledStmt setStatement(_statement _st){
         this.astStmt.setStatement(_st.ast());
         return this;
+    }
+
+    public _labeledStmt setStatement(Statement st){
+        this.astStmt.setStatement(st);
+        return this;
+    }
+
+    public boolean isStatement(Predicate<Statement> matchFn ){
+        return matchFn.test(this.astStmt.getStatement());
+    }
+
+    public boolean isStatement( Statement st){
+        return Objects.equals( this.astStmt.getStatement(), st);
+    }
+
+    public boolean isStatement( _statement st){
+        return Objects.equals( this.astStmt.getStatement(), st.ast());
     }
 
     @Override

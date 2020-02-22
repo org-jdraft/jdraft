@@ -19,7 +19,7 @@ import org.jdraft.text.Text;
  */
 public final class _parameter
     implements _java._namedType<_parameter>, _anno._hasAnnos<_parameter>,
-        _modifiers._hasFinal<_parameter>, _java._compoundNode<Parameter, _parameter> {
+        _modifiers._hasFinal<_parameter>, _java._multiPart<Parameter, _parameter> {
 
     /**
      *
@@ -376,7 +376,41 @@ public final class _parameter
             Arrays.stream(astPs).forEach(p -> nl.add(p));
             return setParameters(nl);
         }
-               
+
+        default boolean isParameter(int index, _parameter _p){
+            return Objects.equals( getParameter(index), _p);
+        }
+
+        default boolean isParameters(Predicate<List<_parameter>> matchFn){
+            return matchFn.test(listParameters());
+        }
+
+        default boolean isParameters(Parameter...ps){
+            List<_parameter> _tps = listParameters();
+            if( _tps.size() == ps.length ){
+                for(int i=0;i<ps.length; i++){
+                    if( !Objects.equals( _parameter.of(ps[i]), _tps.get(i))){
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+
+        default boolean isParameters(_parameter..._ps){
+            List<_parameter> _tps = listParameters();
+            if( _tps.size() == _ps.length ){
+                for(int i=0;i<_ps.length; i++){
+                    if( !Objects.equals( _ps[i], _tps.get(i))){
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+
         default boolean isVarArg() {
             return getParameters().isVarArg();
         }

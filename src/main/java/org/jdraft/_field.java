@@ -138,8 +138,6 @@ public final class _field
         try {
             return of(fieldDeclaration).equals(this);
         } catch (Exception e) {
-            //System.err.println("AN EXCEPTION " + e);
-            //System.out.println( Text.combine(fieldDeclaration)+" not a valid field ");
             return false;
         }
     }
@@ -297,6 +295,7 @@ public final class _field
         return null;
     }
 
+
     @Override
     public _field removeJavadoc() {
         if( getFieldDeclaration() != null ){
@@ -349,7 +348,11 @@ public final class _field
 
     @Override
     public _modifiers getModifiers() {
-        return _modifiers.of(getFieldDeclaration());
+        FieldDeclaration fd = getFieldDeclaration();
+        if( fd == null ){
+            return _modifiers.of();
+        }
+        return _modifiers.of(fd);
     }
 
     @Override

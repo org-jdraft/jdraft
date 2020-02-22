@@ -39,7 +39,7 @@ import java.util.function.*;
  *
  */
 public class _switchExpression implements _expression<SwitchExpr, _switchExpression>,
-        _java._compoundNode<SwitchExpr, _switchExpression>, _switch {
+        _java._multiPart<SwitchExpr, _switchExpression>, _switch {
 
     public static _switchExpression of(){
         return new _switchExpression(new SwitchExpr());

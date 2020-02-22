@@ -6,7 +6,7 @@ import com.github.javaparser.ast.stmt.BreakStmt;
 import java.util.Objects;
 
 
-public class _breakStmt implements _statement._controlFlow._signal<BreakStmt, _breakStmt>, _java._uniNode<BreakStmt, _breakStmt> {
+public class _breakStmt implements _statement._controlFlow._signal<BreakStmt, _breakStmt>, _java._uniPart<BreakStmt, _breakStmt> {
 
     public static _breakStmt of(){
         return new _breakStmt( new BreakStmt( ).removeLabel());

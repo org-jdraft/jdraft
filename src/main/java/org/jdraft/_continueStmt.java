@@ -5,9 +5,8 @@ import com.github.javaparser.ast.stmt.ContinueStmt;
 
 import java.util.Objects;
 
-
 public final class _continueStmt implements _statement._controlFlow._signal<ContinueStmt, _continueStmt>,
-        _java._uniNode<ContinueStmt, _continueStmt> {
+        _java._uniPart<ContinueStmt, _continueStmt> {
 
     public static _continueStmt of(){
         return new _continueStmt( new ContinueStmt( ));
@@ -53,11 +52,23 @@ public final class _continueStmt implements _statement._controlFlow._signal<Cont
         return this.astStmt.getLabel().isPresent();
     }
 
+    public boolean isLabel(SimpleName label){
+        if( this.astStmt.getLabel().isPresent() ) {
+            return Objects.equals(this.astStmt.getLabel().get(), label);
+        }
+        return label == null;
+    }
+
     public boolean isLabel(String label){
         if( this.astStmt.getLabel().isPresent() ) {
             return Objects.equals(this.astStmt.getLabelAsString().get(), label);
         }
         return label == null;
+    }
+
+    public _continueStmt setLabel(SimpleName label){
+        this.astStmt.setLabel( label);
+        return this;
     }
 
     public _continueStmt setLabel(String label){
@@ -70,25 +81,9 @@ public final class _continueStmt implements _statement._controlFlow._signal<Cont
         return this;
     }
 
-    @Override
-    public boolean is(ContinueStmt astNode) {
-        return this.astStmt.equals( astNode);
-    }
-
     public ContinueStmt ast(){
         return astStmt;
     }
-
-    /*
-    @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        if( astStmt.getLabel().isPresent()){
-            comps.put(_java.Component.LABEL, astStmt.getLabel().get().asString());
-        }
-        return comps;
-    }
-     */
 
     public String toString(){
         return this.astStmt.toString();

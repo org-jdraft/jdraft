@@ -2,7 +2,21 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.*;
 
+import java.util.Objects;
+
 public interface _expression<E extends Expression, _E extends _expression> extends _java._astNode<E, _E> {
+
+    default boolean is(String... stringRep) {
+        try{
+            Expression e = Ex.of(stringRep);
+            return Objects.equals( e, ast());
+        } catch(Exception e){ }
+        return false;
+    }
+
+    default boolean is(Expression e){
+        return Objects.equals( e, ast());
+    }
 
     E ast();
 
@@ -167,8 +181,8 @@ public interface _expression<E extends Expression, _E extends _expression> exten
      * @see _null
      * @see _textBlock
      */
-    interface _literal<NE extends Expression, _NE extends _expression & _java._uniNode>  extends _expression<NE, _NE>,
-            _java._uniNode<NE, _NE> {
+    interface _literal<NE extends Expression, _NE extends _expression & _java._uniPart>  extends _expression<NE, _NE>,
+            _java._uniPart<NE, _NE> {
 
         //get me the string representation of the literal value
         String valueAsString();

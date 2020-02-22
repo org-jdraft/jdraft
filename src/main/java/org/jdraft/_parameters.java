@@ -1,7 +1,6 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
@@ -22,7 +21,7 @@ import java.util.function.Consumer;
  * @author Eric
  */
 public final class _parameters
-        implements _java._nodeList<Parameter, _parameter, _parameters> {
+        implements _java._list<Parameter, _parameter, _parameters> {
 
     public static <T extends Object> _parameters of( Consumer<T> c){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
@@ -58,8 +57,9 @@ public final class _parameters
     }
 
     public static _parameters of(){
-        return of(  Ast.method( "void $$();" ));
+        return of(  Ex.lambdaEx("()->true") ); //Ast.method( "void $$();" ));
     }
+
     /**
      *
      * @param strs
@@ -81,7 +81,7 @@ public final class _parameters
         if( ps.endsWith(")")){
             ps = ps.substring(0, ps.length() -1);
         }
-        return of( Ast.method( "void $$(" + ps + ");" ) );
+        return of( Ex.lambdaEx( "(" + ps + ") -> true" ) );
     }
 
     /**
@@ -182,9 +182,9 @@ public final class _parameters
      */
     public _parameters copy(){
         NodeList<Parameter> ps = new NodeList<>();
-        MethodDeclaration md = Ast.method("void a(){}");
-        ast().forEach( p-> md.addParameter(p) );
-        return _parameters.of( md );
+        LambdaExpr le = Ex.lambdaEx("()->true");
+        ast().forEach( p-> le.addParameter(p) );
+        return _parameters.of( le );
     }
 
     /**

@@ -1,8 +1,9 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.TypeExpr;
+import com.github.javaparser.ast.type.Type;
 
-public class _typeExpression implements _expression<TypeExpr, _typeExpression>, _java._uniNode<TypeExpr, _typeExpression> {
+public class _typeExpression implements _expression<TypeExpr, _typeExpression>, _java._uniPart<TypeExpr, _typeExpression> {
 
     public static _typeExpression of(){
         return new _typeExpression( new TypeExpr());
@@ -42,22 +43,33 @@ public class _typeExpression implements _expression<TypeExpr, _typeExpression>, 
         return te;
     }
 
-    /*
-    @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put(_java.Component.TYPE, te.getType());
-        return comps;
-    }
-     */
-
-
     /**
      * Returns a list of Type arguments if there are any or an empty list if there are none
      * @return
      */
     public _typeRef getType(){
         return _typeRef.of(this.te.getType());
+    }
+
+    /** these COULD be generated */
+    public _typeExpression setType( _typeRef _tr){
+        this.te.setType(_tr.ast());
+        return this;
+    }
+
+    public _typeExpression setType( Type type){
+        this.te.setType(type);
+        return this;
+    }
+
+    public _typeExpression setType(Class clazz){
+        this.te.setType(clazz);
+        return this;
+    }
+
+    public _typeExpression setType(String typeRef){
+        this.te.setType(Ast.typeRef(typeRef));
+        return this;
     }
 
     public boolean equals(Object other){

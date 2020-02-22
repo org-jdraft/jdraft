@@ -12,7 +12,7 @@ import java.util.*;
  * <br/><code>new int[][]{{1, 1}, {2, 2}};</code>
  */
 public class _arrayInitialize implements _expression<ArrayInitializerExpr, _arrayInitialize>,
-        _java._nodeList<Expression, _expression, _arrayInitialize> {
+        _java._list<Expression, _expression, _arrayInitialize> {
 
     public static _arrayInitialize of( ){
         return new _arrayInitialize(new ArrayInitializerExpr());
@@ -92,14 +92,6 @@ public class _arrayInitialize implements _expression<ArrayInitializerExpr, _arra
         return this.aie.getValues();
     }
 
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Ex.arrayInitializerEx(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
-
     public _arrayInitialize set(int index, _expression _e){
         aie.getValues().set(index, _e.ast());
         return this;
@@ -108,11 +100,6 @@ public class _arrayInitialize implements _expression<ArrayInitializerExpr, _arra
     public _arrayInitialize set(int index, Expression e){
         aie.getValues().set(index, e);
         return this;
-    }
-
-    @Override
-    public boolean is(ArrayInitializerExpr astNode) {
-        return this.ast( ).equals(astNode);
     }
 
     public ArrayInitializerExpr ast(){

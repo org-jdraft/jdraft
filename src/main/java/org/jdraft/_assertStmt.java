@@ -15,10 +15,10 @@ import java.util.function.Function;
 
 /**
  * assert true;    //check only
- * assert( true );
+ * assert( true ); //check only
  * assert i==3 : "unexpected Expected this"; //check with optional message
  */
-public class _assertStmt implements _statement<AssertStmt, _assertStmt>, _java._compoundNode<AssertStmt,_assertStmt> {
+public class _assertStmt implements _statement<AssertStmt, _assertStmt>, _java._multiPart<AssertStmt,_assertStmt> {
 
     public static _assertStmt of(){
         return new _assertStmt( new AssertStmt( ));
@@ -33,9 +33,16 @@ public class _assertStmt implements _statement<AssertStmt, _assertStmt>, _java._
     public static _assertStmt of(Expression check){
         return of( new AssertStmt().setCheck(check));
     }
+    public static _assertStmt of(_expression check){
+        return of( new AssertStmt().setCheck(check.ast()));
+    }
 
     public static _assertStmt of(Expression check, String message){
-        return of( new AssertStmt().setCheck(check).setMessage(Ex.of(message)));
+        return of( new AssertStmt().setCheck(check).setMessage(Ex.stringLiteralEx(message)));
+    }
+
+    public static _assertStmt of(_expression check, String message){
+        return of( new AssertStmt().setCheck(check.ast()).setMessage(Ex.stringLiteralEx(message)));
     }
 
     public static _assertStmt of(Expression check, Expression message){
@@ -114,6 +121,10 @@ public class _assertStmt implements _statement<AssertStmt, _assertStmt>, _java._
         return Objects.equals( this.astStmt.getCheck(), check);
     }
 
+    public boolean isCheck(_expression _e){
+        return isCheck(_e.ast());
+    }
+
     public boolean hasMessage(){
         return this.astStmt.getMessage().isPresent();
     }
@@ -133,6 +144,13 @@ public class _assertStmt implements _statement<AssertStmt, _assertStmt>, _java._
         return message == null;
     }
 
+    public boolean isMessage(_expression message){
+        if( this.hasMessage()){
+            return Objects.equals(astStmt.getMessage().get(), message.ast());
+        }
+        return message == null;
+    }
+
     @Override
     public boolean is(AssertStmt astNode) {
         return this.astStmt.equals( astNode);
@@ -143,7 +161,7 @@ public class _assertStmt implements _statement<AssertStmt, _assertStmt>, _java._
     }
 
     public _assertStmt setMessage(String message){
-        this.astStmt.setMessage(Ex.of(message));
+        this.astStmt.setMessage(Ex.stringLiteralEx(message));
         return this;
     }
 
@@ -166,6 +184,16 @@ public class _assertStmt implements _statement<AssertStmt, _assertStmt>, _java._
 
     public _assertStmt setCheck(Expression e){
         this.astStmt.setCheck(e);
+        return this;
+    }
+
+    public _assertStmt setCheck(_expression _e){
+        this.astStmt.setCheck(_e.ast());
+        return this;
+    }
+
+    public _assertStmt setCheck(String... str){
+        this.astStmt.setCheck( Ex.of(str));
         return this;
     }
 

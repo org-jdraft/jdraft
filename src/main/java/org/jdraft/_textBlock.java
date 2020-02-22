@@ -6,10 +6,7 @@ import org.jdraft.text.Text;
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.function.*;
 
 public class _textBlock implements _expression._literal<TextBlockLiteralExpr, _textBlock> {
 
@@ -90,16 +87,6 @@ public class _textBlock implements _expression._literal<TextBlockLiteralExpr, _t
     public TextBlockLiteralExpr ast(){
         return tble;
     }
-
-    /*
-    @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put(_java.Component.LITERAL, this.ile.getValue());
-        return comps;
-    }
-     */
-
 
     public String getText(){
         return this.tble.getValue();

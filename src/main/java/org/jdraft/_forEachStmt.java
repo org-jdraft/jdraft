@@ -1,6 +1,8 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
+import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ForEachStmt;
 import com.github.javaparser.ast.stmt.Statement;
@@ -16,7 +18,7 @@ import java.util.function.Function;
 
 public class _forEachStmt implements _statement._controlFlow._branching<ForEachStmt, _forEachStmt>,
         _statement._controlFlow._loop<ForEachStmt, _forEachStmt>,
-        _java._compoundNode<ForEachStmt, _forEachStmt>,
+        _java._multiPart<ForEachStmt, _forEachStmt>,
         _body._hasBody<_forEachStmt>{
 
     public static _forEachStmt of(){
@@ -90,8 +92,43 @@ public class _forEachStmt implements _statement._controlFlow._branching<ForEachS
         return false;
     }
 
+    public boolean isIterable(String...expression){
+        try {
+            return Objects.equals(this.astStmt.getIterable(), Ex.of(expression));
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
+
+    public boolean isIterable(Expression e){
+        return Objects.equals( this.astStmt.getIterable(), e);
+    }
+
+    public boolean isIterable(_expression _e){
+        return Objects.equals( this.astStmt.getIterable(), _e.ast());
+    }
+
     public _expression getIterable(){
         return _expression.of(this.astStmt.getIterable());
+    }
+
+
+    public boolean isVariable(String...expression){
+        try {
+            return Objects.equals(this.astStmt.getVariable(), Ast.varLocalEx(expression));
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
+
+    public boolean isVariable(VariableDeclarationExpr ve){
+        return Objects.equals( this.astStmt.getVariable(), ve);
+    }
+
+    public boolean isVariable(_variable _v){
+        return Objects.equals( this.astStmt.getVariable(), _v.ast());
     }
 
     public _variable getVariable(){
@@ -108,13 +145,33 @@ public class _forEachStmt implements _statement._controlFlow._branching<ForEachS
         return this;
     }
 
+    public _forEachStmt setIterable(String...str){
+        this.astStmt.setIterable(Ex.of(str));
+        return this;
+    }
+
+    public _forEachStmt setIterable(Expression e){
+        this.astStmt.setIterable(e);
+        return this;
+    }
+
     public _forEachStmt setIterable(_expression e){
         this.astStmt.setIterable(e.ast());
         return this;
     }
 
+    public _forEachStmt setVariable(String... var){
+        this.astStmt.setVariable(Ast.varLocalEx(var));
+        return this;
+    }
+
     public _forEachStmt setVariable( _variable _v){
         this.astStmt.setVariable(_v.varDeclEx);
+        return this;
+    }
+
+    public _forEachStmt setVariable(VariableDeclarationExpr v){
+        this.astStmt.setVariable(v);
         return this;
     }
 

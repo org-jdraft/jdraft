@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 
 
 public class _synchronizedStmt implements _statement<SynchronizedStmt, _synchronizedStmt>, _body._hasBody<_synchronizedStmt>,
-        _java._compoundNode<SynchronizedStmt, _synchronizedStmt> {
+        _java._multiPart<SynchronizedStmt, _synchronizedStmt> {
 
     public static _synchronizedStmt of(){
         return new _synchronizedStmt( new SynchronizedStmt( ));

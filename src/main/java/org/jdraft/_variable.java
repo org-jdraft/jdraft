@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class _variable implements _expression<VariableDeclarationExpr, _variable>,
-        _java._compoundNode<VariableDeclarationExpr, _variable>,
+        _java._multiPart<VariableDeclarationExpr, _variable>,
         _modifiers._hasModifiers<_variable> {
 
     public static _variable of(){

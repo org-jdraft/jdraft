@@ -120,9 +120,6 @@ public final class _body implements _java._domain {
             nl.add(le.getBody());
             return of(new BlockStmt(nl));
         }
-        //if( le.getExpressionBody().isPresent() ){
-        //            return of( new ReturnStmt(le.getExpressionBody().get()));
-        //        }
     }
 
     /**

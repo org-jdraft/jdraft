@@ -32,7 +32,6 @@ public final class _constructor implements _anno._hasAnnos<_constructor>,
     _parameter._hasParameters<_constructor>, _typeParameter._hasTypeParameters<_constructor>,
     _receiverParameter._hasReceiverParameter<_constructor>, _java._declared<ConstructorDeclaration, _constructor> {
 
-
     public static _constructor of( String signature ){
         return of( new String[]{signature});
     }

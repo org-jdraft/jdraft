@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.LambdaExpr;
 
@@ -9,7 +10,8 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class _fieldAccess implements _expression<FieldAccessExpr, _fieldAccess>, _java._compoundNode<FieldAccessExpr, _fieldAccess> {
+public class _fieldAccess implements _expression<FieldAccessExpr, _fieldAccess>, _java._multiPart<FieldAccessExpr, _fieldAccess>,
+        _java._named<_fieldAccess> {
 
     public static _fieldAccess of(){
         return new _fieldAccess(new FieldAccessExpr());
@@ -64,15 +66,15 @@ public class _fieldAccess implements _expression<FieldAccessExpr, _fieldAccess>,
         throw new _jdraftException("No field access expression found in lambda");
     }
 
-    public FieldAccessExpr ile;
+    public FieldAccessExpr fe;
 
-    public _fieldAccess(FieldAccessExpr ile){
-        this.ile = ile;
+    public _fieldAccess(FieldAccessExpr fe){
+        this.fe = fe;
     }
 
     @Override
     public _fieldAccess copy() {
-        return new _fieldAccess(this.ile.clone());
+        return new _fieldAccess(this.fe.clone());
     }
 
     @Override
@@ -89,23 +91,44 @@ public class _fieldAccess implements _expression<FieldAccessExpr, _fieldAccess>,
     }
 
     public FieldAccessExpr ast(){
-        return ile;
+        return fe;
     }
 
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put(_java.Component.SCOPE, ile.getScope());
-        if( ile.getTypeArguments().isPresent()) {
-            comps.put(_java.Component.TYPE_ARGUMENTS, ile.getTypeArguments().get());
+        comps.put(_java.Component.SCOPE, fe.getScope());
+        if( fe.getTypeArguments().isPresent()) {
+            comps.put(_java.Component.TYPE_ARGUMENTS, fe.getTypeArguments().get());
         }
-        comps.put(_java.Component.NAME, ile.getNameAsString());
+        comps.put(_java.Component.NAME, fe.getNameAsString());
         return comps;
     }
 
-    public _expression getScope(){
-        return _expression.of(this.ile.getScope());
+    public _fieldAccess setName( String name){
+        this.fe.setName(name);
+        return this;
     }
+
+    public _fieldAccess setScope( String scope ){
+        this.fe.setScope(Ex.of(scope));
+        return this;
+    }
+
+    public _fieldAccess setScope( _expression _e){
+        this.fe.setScope(_e.ast());
+        return this;
+    }
+
+    public _fieldAccess setScope( Expression e){
+        this.fe.setScope(e);
+        return this;
+    }
+
+    public _expression getScope(){
+        return _expression.of(this.fe.getScope());
+    }
+
 
     /**
      * Returns the List of Type Arguments or an empty list if there are no type arguments
@@ -116,29 +139,29 @@ public class _fieldAccess implements _expression<FieldAccessExpr, _fieldAccess>,
      */
     public List<_typeRef> getTypeArguments(){
 
-        if( this.ile.getTypeArguments().isPresent() ){
+        if( this.fe.getTypeArguments().isPresent() ){
             List<_typeRef> tas = new ArrayList<>();
-            this.ile.getTypeArguments().get().forEach( ta-> tas.add(_typeRef.of(ta)));
+            this.fe.getTypeArguments().get().forEach(ta-> tas.add(_typeRef.of(ta)));
         }
         return null;
     }
 
     public String getName(){
-        return ile.getNameAsString();
+        return fe.getNameAsString();
     }
 
     public boolean equals(Object other){
         if( other instanceof _fieldAccess){
-            return ((_fieldAccess)other).ile.equals( this.ile );
+            return ((_fieldAccess)other).fe.equals( this.fe);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ile.hashCode();
+        return 31 * this.fe.hashCode();
     }
     
     public String toString(){
-        return this.ile.toString();
+        return this.fe.toString();
     }
 }

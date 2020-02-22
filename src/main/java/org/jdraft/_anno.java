@@ -44,7 +44,7 @@ import com.github.javaparser.ast.type.Type;
  * @author Eric
  */
 public final class _anno
-        implements _expression <AnnotationExpr, _anno>, _java._named<_anno>, _java._compoundNode<AnnotationExpr, _anno> {
+        implements _expression <AnnotationExpr, _anno>, _java._named<_anno>, _java._multiPart<AnnotationExpr, _anno> {
 
     public static _anno of( String anno ){        
         return of( new String[]{anno} );
@@ -492,16 +492,6 @@ public final class _anno
         }
     }
 
-    @Override
-    public boolean is( String... str ) {
-        try {
-            return is( Ast.anno( str ) );
-        }
-        catch( Exception e ) {
-        }
-        return false;
-    }
-
     public Object get(_java.Component component){
         if( component == _java.Component.NAME ){
             return this.getName();
@@ -870,7 +860,6 @@ public final class _anno
             return getAnnos().get( index );
         }
 
-
         /**
          * apply a function to all annos
          * @param _annoActionFn
@@ -923,6 +912,16 @@ public final class _anno
                 return getAnnos().get(annoName.substring(1));
             }
             return getAnnos().get( annoName );
+        }
+
+        default boolean isAnnos(_anno... _as){
+            _annos _tas = getAnnos();
+            return Objects.equals(_tas, _annos.of(_as));
+        }
+
+        default boolean isAnnos(_annos _as){
+            _annos _tas = getAnnos();
+            return Objects.equals(_tas, _as);
         }
 
         /**

@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.function.*;
 
 public class _whileStmt implements _statement._controlFlow._branching<WhileStmt, _whileStmt>,
-        _java._compoundNode<WhileStmt, _whileStmt>,
+        _java._multiPart<WhileStmt, _whileStmt>,
         _statement._controlFlow._loop<WhileStmt, _whileStmt>, _body._hasBody<_whileStmt>{
 
     public static _whileStmt of(){

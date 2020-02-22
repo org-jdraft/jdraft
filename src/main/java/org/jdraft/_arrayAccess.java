@@ -17,7 +17,7 @@ import java.util.function.Predicate;
  */
 public class _arrayAccess
         implements _expression<ArrayAccessExpr, _arrayAccess>,
-        _java._compoundNode<ArrayAccessExpr, _arrayAccess> {
+        _java._multiPart<ArrayAccessExpr, _arrayAccess> {
 
     public static _arrayAccess of(){
         return new _arrayAccess(new ArrayAccessExpr());
@@ -81,19 +81,6 @@ public class _arrayAccess
     @Override
     public _arrayAccess copy() {
         return new _arrayAccess(this.aae.clone());
-    }
-
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Ex.arrayAccessEx(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
-
-    @Override
-    public boolean is(ArrayAccessExpr astNode) {
-        return this.ast( ).equals(astNode);
     }
 
     public ArrayAccessExpr ast(){

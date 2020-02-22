@@ -16,7 +16,7 @@ import java.util.Objects;
  *
  * @see _arrayCreate where we use these _arrayDimensions to declare arrays
  */
-public class _arrayDimension implements _java._uniNode<ArrayCreationLevel, _arrayDimension> {
+public class _arrayDimension implements _java._uniPart<ArrayCreationLevel, _arrayDimension> {
 
     public static _arrayDimension of(ArrayCreationLevel acl){
         return new _arrayDimension(acl);
@@ -54,6 +54,12 @@ public class _arrayDimension implements _java._uniNode<ArrayCreationLevel, _arra
         }
     }
 
+    public _expression getExpression(){
+        if( this.astNode.getDimension() != null ) {
+            return _expression.of(this.astNode.getDimension().get());
+        }
+        return null;
+    }
     public _arrayDimension setExpression(String... dimension){
         this.astNode.setDimension(Ex.of(dimension));
         return this;

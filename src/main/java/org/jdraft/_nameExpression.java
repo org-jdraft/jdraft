@@ -5,7 +5,8 @@ import org.jdraft.text.Text;
 
 import java.util.Objects;
 
-public class _nameExpression implements _expression<NameExpr, _nameExpression>, _java._uniNode<NameExpr, _nameExpression> {
+public class _nameExpression
+        implements _expression<NameExpr, _nameExpression>, _java._uniPart<NameExpr, _nameExpression> {
 
     public static _nameExpression of(){
         return new _nameExpression( new NameExpr( ));
@@ -42,15 +43,6 @@ public class _nameExpression implements _expression<NameExpr, _nameExpression>, 
         return ne;
     }
 
-    /*
-    @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put(_java.Component.NAME, this.ne.getNameAsString());
-        return comps;
-    }
-     */
-
     public String getName(){
         return this.ne.getNameAsString();
     }
@@ -59,6 +51,10 @@ public class _nameExpression implements _expression<NameExpr, _nameExpression>, 
         return this.ne.toString();
     }
 
+    public _nameExpression setName( String name){
+        this.ne.setName(name);
+        return this;
+    }
 
     public boolean equals(Object other){
         if( other instanceof _nameExpression ){

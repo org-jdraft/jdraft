@@ -64,6 +64,11 @@ public class _boolean implements _expression._literal<BooleanLiteralExpr, _boole
         return false;
     }
 
+    public _boolean set(String...value){
+        this.set(Ex.booleanLiteralEx(value));
+        return this;
+    }
+
     public _boolean set( BooleanLiteralExpr  b){
         this.be = b;
         return this;

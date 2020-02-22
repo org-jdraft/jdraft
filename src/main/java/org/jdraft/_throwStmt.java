@@ -13,7 +13,7 @@ import java.util.function.Function;
 
 
 public class _throwStmt implements _statement._controlFlow._signal<ThrowStmt, _throwStmt>,
-        _java._uniNode<ThrowStmt, _throwStmt> {
+        _java._uniPart<ThrowStmt, _throwStmt> {
 
     public static _throwStmt of(){
         return new _throwStmt( new ThrowStmt( ));

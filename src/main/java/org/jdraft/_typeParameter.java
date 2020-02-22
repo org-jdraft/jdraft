@@ -16,7 +16,7 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _typeParameter
-        implements _java._compoundNode<TypeParameter, _typeParameter>,
+        implements _java._multiPart<TypeParameter, _typeParameter>,
         _java._named<_typeParameter>, _anno._hasAnnos<_typeParameter> {
 
     public static _typeParameter of() {

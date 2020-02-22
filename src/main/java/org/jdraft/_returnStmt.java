@@ -7,7 +7,7 @@ import java.util.Objects;
 
 
 public class _returnStmt implements _statement._controlFlow._signal<ReturnStmt, _returnStmt>,
-        _java._uniNode<ReturnStmt, _returnStmt> {
+        _java._uniPart<ReturnStmt, _returnStmt> {
 
     public static _returnStmt of(){
         return new _returnStmt( new ReturnStmt( ));
@@ -113,17 +113,6 @@ public class _returnStmt implements _statement._controlFlow._signal<ReturnStmt, 
         }
         return null;
     }
-
-    /*
-    @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        if( rs.getExpression().isPresent()){
-            comps.put(_java.Component.EXPRESSION, rs.getExpression().get());
-        }
-        return comps;
-    }
-     */
 
     public String toString(){
         return this.rs.toString();

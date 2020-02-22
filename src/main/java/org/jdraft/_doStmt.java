@@ -17,7 +17,7 @@ import java.util.function.Function;
 
 public class _doStmt implements _statement._controlFlow._loop<DoStmt, _doStmt>,
         _statement._controlFlow._branching<DoStmt, _doStmt>,
-        _java._compoundNode<DoStmt, _doStmt>,
+        _java._multiPart<DoStmt, _doStmt>,
         _body._hasBody<_doStmt> {
 
     public static _doStmt of(){
@@ -162,11 +162,6 @@ public class _doStmt implements _statement._controlFlow._loop<DoStmt, _doStmt>,
             bd.asBlockStmt().addStatement(1+startStatementIndex, statements[i]);
         }
         return this;
-    }
-
-    @Override
-    public boolean is(DoStmt astNode) {
-        return this.astStmt.equals( astNode);
     }
 
     public DoStmt ast(){

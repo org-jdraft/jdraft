@@ -8,7 +8,7 @@ import org.jdraft.text.Text;
  * 
  * <PRE><CODE>String.class</CODE></PRE>
  */
-public class _classExpression implements _expression<ClassExpr, _classExpression>, _java._uniNode<ClassExpr, _classExpression> {
+public class _classExpression implements _expression<ClassExpr, _classExpression>, _java._uniPart<ClassExpr, _classExpression> {
 
     public static _classExpression of(){
         return new _classExpression(new ClassExpr());
@@ -37,11 +37,6 @@ public class _classExpression implements _expression<ClassExpr, _classExpression
             return is( Ex.classEx(stringRep));
         } catch(Exception e){ }
         return false;
-    }
-
-    @Override
-    public boolean is(ClassExpr astNode) {
-        return this.ast( ).equals(astNode);
     }
 
     public ClassExpr ast(){

@@ -21,7 +21,7 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _throws
-        implements _java._nodeSet<ReferenceType, _typeRef, _throws> {
+        implements _java._set<ReferenceType, _typeRef, _throws> {
 
     /**
      *

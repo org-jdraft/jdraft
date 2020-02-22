@@ -16,7 +16,7 @@ import com.github.javaparser.ast.expr.SuperExpr;
  *
  * @see _constructorCallStmt
  */
-public class _super implements _expression<SuperExpr, _super>, _java._uniNode<SuperExpr,_super> {
+public class _super implements _expression<SuperExpr, _super>, _java._uniPart<SuperExpr,_super> {
 
     public static _super of(){
         return new _super( new SuperExpr());

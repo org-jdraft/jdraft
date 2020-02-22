@@ -18,7 +18,7 @@ import java.util.function.Function;
  * In <code>b==0?x:y</code>, b==0 is the condition, x is thenExpr, and y is elseExpr.
  */
 public class _conditionalExpression implements _expression<ConditionalExpr,
-        _conditionalExpression>, _java._compoundNode<ConditionalExpr, _conditionalExpression> {
+        _conditionalExpression>, _java._multiPart<ConditionalExpr, _conditionalExpression> {
 
     public static _conditionalExpression of(){
         return new _conditionalExpression( new ConditionalExpr( ));

@@ -20,8 +20,8 @@ import java.util.function.Function;
  *  <br/>All the brackets are stored in the levels field, from left to right.
  */
 public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate>,
-        _java._compoundNode<ArrayCreationExpr, _arrayCreate>,
-        _java._nodeList<ArrayCreationLevel, _arrayDimension, _arrayCreate> {
+        _java._multiPart<ArrayCreationExpr, _arrayCreate>,
+        _java._list<ArrayCreationLevel, _arrayDimension, _arrayCreate> {
 
     public static _arrayCreate of( ){
         return new _arrayCreate(new ArrayCreationExpr());
@@ -107,12 +107,6 @@ public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate
         return false;
     }
 
-    @Override
-    public boolean is(ArrayCreationExpr astNode) {
-        return this.ast( ).equals(astNode);
-    }
-
-
     public ArrayCreationExpr ast(){
         return astNode;
     }
@@ -127,6 +121,11 @@ public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate
         comps.put(_java.Component.ARRAY_DIMENSIONS, astNode.getLevels());
         comps.put(_java.Component.TYPE, astNode.getElementType());
         return comps;
+    }
+
+    public _arrayCreate setInit(String...init){
+        this.astNode.setInitializer(Ex.arrayInitializerEx(init));
+        return this;
     }
 
     public _arrayCreate setInit(_arrayInitialize ae){
@@ -169,6 +168,12 @@ public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate
             return Objects.equals(this.astNode.getInitializer().get(), aie);
         }
         return aie == null;
+    }
+    public boolean isInit(_arrayInitialize _ai){
+        if( this.astNode.getInitializer().isPresent()) {
+            return Objects.equals(this.astNode.getInitializer().get(), _ai.ast());
+        }
+        return _ai == null;
     }
 
     public _expression getInit(){

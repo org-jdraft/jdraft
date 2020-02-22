@@ -4,16 +4,15 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.ast.type.Type;
 
 import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.function.*;
+import java.util.stream.Collectors;
 
 public class _methodCall implements _expression<MethodCallExpr, _methodCall>,
-        _java._compoundNode<MethodCallExpr, _methodCall>,
-        _java._nodeList<Expression, _expression, _methodCall> {
+        _java._multiPart<MethodCallExpr, _methodCall>,
+        _java._list<Expression, _expression, _methodCall> {
 
     public static _methodCall of(){
         return new _methodCall( new MethodCallExpr( ));
@@ -122,6 +121,49 @@ public class _methodCall implements _expression<MethodCallExpr, _methodCall>,
         return comps;
     }
 
+    public boolean hasScope(){
+        return this.mce.getScope().isPresent();
+    }
+
+    public boolean isScope(String...expr){
+        if( this.mce.getScope().isPresent()){
+            return Objects.equals( mce.getScope().get(), Ex.of(expr));
+        }
+        return false;
+    }
+
+    public boolean isScope(Expression e){
+        if( this.mce.getScope().isPresent()){
+            return Objects.equals( mce.getScope().get(), e);
+        }
+        return e == null;
+    }
+
+    public boolean isScope(_expression _e){
+        if( this.mce.getScope().isPresent()){
+            return Objects.equals( mce.getScope().get(), _e.ast());
+        }
+        return _e == null;
+    }
+
+    public _methodCall removeScope(){
+        this.mce.removeScope();
+        return this;
+    }
+
+    public _methodCall setScope( _expression _e){
+        return setScope(_e.ast());
+    }
+
+    public _methodCall setScope( Expression e){
+        this.mce.setScope(e);
+        return this;
+    }
+
+    public _methodCall setScope(String... scope){
+        return setScope( Ex.of(scope));
+    }
+
     public _expression getScope(){
         if( mce.getScope().isPresent()){
             return _expression.of(this.mce.getScope().get());
@@ -137,6 +179,68 @@ public class _methodCall implements _expression<MethodCallExpr, _methodCall>,
         List<_expression> args = new ArrayList<>();
         this.mce.getArguments().forEach(a -> args.add(_expression.of(a)));
         return args;
+    }
+
+
+    public _methodCall setTypeArguments( Type...ts){
+        mce.setTypeArguments(ts);
+        return this;
+    }
+
+    public _methodCall setTypeArguments( _typeRef...tr){
+        NodeList<Type> tas = new NodeList<>();
+        Arrays.stream(tr).forEach( t -> tas.add(t.ast()));
+        mce.setTypeArguments(tas);
+        return this;
+    }
+
+    /**
+     * Returns a list of Type arguments if there are any or an empty list if there are none
+     * @return
+     */
+    public List<_typeRef> listTypeArguments(){
+        if( mce.getTypeArguments().isPresent() ){
+            List<_typeRef> tas = new ArrayList<>();
+            mce.getTypeArguments().get().forEach(t -> tas.add(_typeRef.of(t)));
+            return tas;
+        }
+        return new ArrayList<>();
+    }
+
+    public _typeRef getTypeArgument( int index ){
+        if( this.mce.getTypeArguments().isPresent()){
+            return _typeRef.of( this.mce.getTypeArguments().get().get(index) );
+        }
+        throw new _jdraftException("No type arguments");
+    }
+
+
+    /**
+     * Returns a list of Type arguments based on the predicate
+     * if there are any or an empty list if there are none
+     * @return
+     */
+    public List<_typeRef> listTypeArguments(Predicate<_typeRef> matchFn){
+        if( mce.getTypeArguments().isPresent() ){
+            List<_typeRef> tas = new ArrayList<>();
+            mce.getTypeArguments().get().forEach(t -> tas.add(_typeRef.of(t)));
+            return tas.stream().filter(matchFn).collect(Collectors.toList());
+        }
+        return new ArrayList<>();
+    }
+
+    public _methodCall forTypeArguments(Consumer<_typeRef> typeArgFn){
+        if( this.mce.getTypeArguments().isPresent()){
+            this.mce.getTypeArguments().get().stream().map( a-> _typeRef.of(a)).forEach(e-> typeArgFn.accept(e) );
+        }
+        return this;
+    }
+
+    public _methodCall forTypeArguments(Predicate<_typeRef> matchFn, Consumer<_typeRef> typeArgFn){
+        if( this.mce.getTypeArguments().isPresent()){
+            this.mce.getTypeArguments().get().stream().map( a-> _typeRef.of(a)).filter(matchFn).forEach(e-> typeArgFn.accept(e) );
+        }
+        return this;
     }
 
     /**

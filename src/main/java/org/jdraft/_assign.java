@@ -13,7 +13,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class _assign implements _expression<AssignExpr, _assign>, _java._compoundNode<AssignExpr, _assign> {
+public class _assign implements _expression<AssignExpr, _assign>, _java._multiPart<AssignExpr, _assign> {
 
     public static _assign of(){
         return new _assign( new AssignExpr());
@@ -108,17 +108,21 @@ public class _assign implements _expression<AssignExpr, _assign>, _java._compoun
     public boolean isValue(String str){
         return Objects.equals( this.ae.getValue(), Ex.of(str));
     }
+    public boolean isValue(Expression e){
+        return Objects.equals( this.ae.getValue(), e);
+    }
+    public boolean isValue(_expression e){
+        return Objects.equals( this.ae.getValue(), e.ast());
+    }
 
     public boolean isTarget(String str){
         return Objects.equals( this.ae.getTarget(), Ex.of(str));
     }
-
-    public boolean isValue(Expression e){
-        return Objects.equals( this.ae.getValue(), e);
-    }
-
     public boolean isTarget(Expression e){
         return Objects.equals( this.ae.getTarget(), e);
+    }
+    public boolean isTarget(_expression e){
+        return Objects.equals( this.ae.getTarget(), e.ast());
     }
 
     public _assign setTarget(String...target){

@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.EnclosedExpr;
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 
 import java.util.Optional;
@@ -14,7 +15,7 @@ import java.util.function.Function;
  *  <br/><code>(1+1)</code>
  */
 public class _enclosedExpression implements _expression<EnclosedExpr, _enclosedExpression>,
-        _java._uniNode<EnclosedExpr, _enclosedExpression> {
+        _java._uniPart<EnclosedExpr, _enclosedExpression> {
 
     public static _enclosedExpression of( ){
         return new _enclosedExpression(new EnclosedExpr( ));
@@ -69,15 +70,15 @@ public class _enclosedExpression implements _expression<EnclosedExpr, _enclosedE
         throw new _jdraftException("No enclosed expression found in lambda");
     }
 
-    public EnclosedExpr ile;
+    public EnclosedExpr ee;
 
-    public _enclosedExpression(EnclosedExpr ile){
-        this.ile = ile;
+    public _enclosedExpression(EnclosedExpr ee){
+        this.ee = ee;
     }
 
     @Override
     public _enclosedExpression copy() {
-        return new _enclosedExpression(this.ile.clone());
+        return new _enclosedExpression(this.ee.clone());
     }
 
     @Override
@@ -93,35 +94,45 @@ public class _enclosedExpression implements _expression<EnclosedExpr, _enclosedE
         return this.ast( ).equals(astNode);
     }
 
-    public EnclosedExpr ast(){
-        return ile;
+    public _enclosedExpression setExpression(String...ex){
+        this.ee.setInner(Ex.of(ex));
+        return this;
     }
 
-    /*
-    @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put(_java.Component.INNER, ile.getInner());
-        return comps;
+    public _enclosedExpression setExpression( _expression _e){
+        this.ee.setInner(_e.ast());
+        return this;
     }
-     */
+
+    public _enclosedExpression setExpression( Expression e){
+        this.ee.setInner(e);
+        return this;
+    }
+
+    public _expression getExpression(){
+        return _expression.of(this.ee.getInner());
+    }
+
+    public EnclosedExpr ast(){
+        return ee;
+    }
 
     public _expression getInner(){
-        return _expression.of(this.ile.getInner());
+        return _expression.of(this.ee.getInner());
     }
 
     public boolean equals(Object other){
         if( other instanceof _enclosedExpression){
-            return ((_enclosedExpression)other).ile.equals( this.ile );
+            return ((_enclosedExpression)other).ee.equals( this.ee);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ile.hashCode();
+        return 31 * this.ee.hashCode();
     }
     
     public String toString(){
-        return this.ile.toString();
+        return this.ee.toString();
     }
 }

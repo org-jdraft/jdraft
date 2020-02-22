@@ -1,7 +1,6 @@
 package org.jdraft;
 
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.*;
 
 import com.github.javaparser.ast.expr.LambdaExpr;
@@ -18,7 +17,9 @@ import org.jdraft._parameter._hasParameters;
  * @author Eric
  */
 public class _lambda 
-    implements _expression<LambdaExpr, _lambda>, _java._compoundNode<LambdaExpr, _lambda>, _hasParameters<_lambda> {
+    implements _expression<LambdaExpr, _lambda>,
+        _java._multiPart<LambdaExpr, _lambda>,
+        _hasParameters<_lambda> {
 
     /**
      * create a _lamba based on the code (as String)
@@ -307,7 +308,6 @@ public class _lambda
         return this;
     }
 
-
     /**
      * Sets the parameters by taking in a String
      * @param parameters the String representation of the parameters
@@ -356,6 +356,10 @@ public class _lambda
 
     @Override
     public Map<_java.Component, Object> components() {
+        Map<_java.Component, Object> map = new HashMap<>();
+        map.put(_java.Component.BODY, _body.of(this.astLambda));
+        map.put(_java.Component.ENCLOSED_PARAMETERS, this.astLambda.isEnclosingParameters());
+        map.put(_java.Component.PARAMETERS, _parameters.of(this.astLambda.getParameters()));
         return null;
     }
 }

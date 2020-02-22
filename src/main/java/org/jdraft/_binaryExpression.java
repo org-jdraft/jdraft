@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class _binaryExpression implements _expression<BinaryExpr, _binaryExpression>,
-        _java._compoundNode<BinaryExpr, _binaryExpression> {
+        _java._multiPart<BinaryExpr, _binaryExpression> {
 
     public static _binaryExpression of(){
         return new _binaryExpression( new BinaryExpr());
@@ -235,6 +235,9 @@ public class _binaryExpression implements _expression<BinaryExpr, _binaryExpress
         return this.getLeft().equals(e);
     }
 
+    public boolean isLeft(_expression e){
+        return this.getLeft().equals(e.ast());
+    }
 
     public boolean isRight(String... right){
         try{
@@ -248,12 +251,74 @@ public class _binaryExpression implements _expression<BinaryExpr, _binaryExpress
         return this.getRight().equals(e);
     }
 
+    public boolean isRight(_expression e){
+        return this.getRight().equals(e.ast());
+    }
+
     public boolean isOperator( BinaryExpr.Operator op){
         return Objects.equals( this.getOperator(), op);
     }
 
     public boolean isOperator( String operator ){
         return Objects.equals( this.getOperator(), UnaryExpr.Operator.valueOf(operator));
+    }
+
+    public boolean  isOr(){
+        return isOperator(BinaryExpr.Operator.OR);
+    }
+    public boolean isAnd(){
+        return isOperator(BinaryExpr.Operator.AND);
+    }
+    public boolean isBitwiseOr(){
+        return isOperator(BinaryExpr.Operator.BINARY_OR);
+    }
+    public boolean isBitwiseAnd(){
+        return isOperator(BinaryExpr.Operator.BINARY_AND);
+    }
+    public boolean isXor(){
+        return isOperator(BinaryExpr.Operator.XOR);
+    }
+    public boolean isEqual(){
+        return isOperator(BinaryExpr.Operator.EQUALS);
+    }
+    public boolean isNotEqual(){
+        return isOperator(BinaryExpr.Operator.NOT_EQUALS);
+    }
+    public boolean isLessThan(){
+        return isOperator(BinaryExpr.Operator.LESS);
+    }
+    public boolean isGreaterThan(){
+        return isOperator(BinaryExpr.Operator.GREATER);
+    }
+    public boolean isLessThanOrEqualTo(){
+        return isOperator(BinaryExpr.Operator.LESS_EQUALS);
+    }
+    public boolean isGreaterThanOrEqualTo(){
+        return isOperator( BinaryExpr.Operator.GREATER_EQUALS);
+    }
+    public boolean isLeftShift(){
+        return isOperator( BinaryExpr.Operator.LEFT_SHIFT);
+    }
+    public boolean isRightShiftSigned(){
+        return isOperator( BinaryExpr.Operator.SIGNED_RIGHT_SHIFT);
+    }
+    public boolean isRightShiftUnsigned(){
+        return isOperator( BinaryExpr.Operator.UNSIGNED_RIGHT_SHIFT);
+    }
+    public boolean isPlus(){
+        return isOperator(BinaryExpr.Operator.PLUS);
+    }
+    public boolean isMinus(){
+        return isOperator(BinaryExpr.Operator.MINUS);
+    }
+    public boolean isMultiply(){
+        return isOperator(BinaryExpr.Operator.MULTIPLY);
+    }
+    public boolean isDivide(){
+        return isOperator(BinaryExpr.Operator.DIVIDE);
+    }
+    public boolean isRemainder(){
+        return isOperator(BinaryExpr.Operator.REMAINDER);
     }
 
     public _expression getLeft(){
@@ -276,6 +341,64 @@ public class _binaryExpression implements _expression<BinaryExpr, _binaryExpress
         return setOperator(o);
     }
 
+    public _binaryExpression setOr(){
+        return setOperator(BinaryExpr.Operator.OR);
+    }
+    public _binaryExpression setAnd(){
+        return setOperator(BinaryExpr.Operator.AND);
+    }
+    public _binaryExpression setBitwiseOr(){
+        return setOperator(BinaryExpr.Operator.BINARY_OR);
+    }
+    public _binaryExpression setBitwiseAnd(){
+        return setOperator(BinaryExpr.Operator.BINARY_AND);
+    }
+    public _binaryExpression setXor(){
+        return setOperator(BinaryExpr.Operator.XOR);
+    }
+    public _binaryExpression setEqual(){
+        return setOperator(BinaryExpr.Operator.EQUALS);
+    }
+    public _binaryExpression setNotEqual(){
+        return setOperator(BinaryExpr.Operator.NOT_EQUALS);
+    }
+    public _binaryExpression setLessThan(){
+        return setOperator(BinaryExpr.Operator.LESS);
+    }
+    public _binaryExpression setGreaterThan(){
+        return setOperator(BinaryExpr.Operator.GREATER);
+    }
+    public _binaryExpression setLessThanOrEqualTo(){
+        return setOperator(BinaryExpr.Operator.LESS_EQUALS);
+    }
+    public _binaryExpression setGreaterThanOrEqualTo(){
+        return setOperator( BinaryExpr.Operator.GREATER_EQUALS);
+    }
+    public _binaryExpression setLeftShift(){
+        return setOperator( BinaryExpr.Operator.LEFT_SHIFT);
+    }
+    public _binaryExpression setRightShiftSigned(){
+        return setOperator( BinaryExpr.Operator.SIGNED_RIGHT_SHIFT);
+    }
+    public _binaryExpression setRightShiftUnsigned(){
+        return setOperator( BinaryExpr.Operator.UNSIGNED_RIGHT_SHIFT);
+    }
+    public _binaryExpression setPlus(){
+        return setOperator(BinaryExpr.Operator.PLUS);
+    }
+    public _binaryExpression setMinus(){
+        return setOperator(BinaryExpr.Operator.MINUS);
+    }
+    public _binaryExpression setMultiply(){
+        return setOperator(BinaryExpr.Operator.MULTIPLY);
+    }
+    public _binaryExpression setDivide(){
+        return setOperator(BinaryExpr.Operator.DIVIDE);
+    }
+    public _binaryExpression setRemainder(){
+        return setOperator(BinaryExpr.Operator.REMAINDER);
+    }
+
     public _binaryExpression setLeft(Expression e){
         this.astBe.setLeft(e);
         return this;
@@ -285,7 +408,7 @@ public class _binaryExpression implements _expression<BinaryExpr, _binaryExpress
         return setLeft( _e.ast());
     }
 
-    public _binaryExpression setLeft(String code){
+    public _binaryExpression setLeft(String... code){
         return setLeft( Ex.of(code));
     }
 
@@ -298,7 +421,7 @@ public class _binaryExpression implements _expression<BinaryExpr, _binaryExpress
         return setRight( _e.ast());
     }
 
-    public _binaryExpression setRight(String code){
+    public _binaryExpression setRight(String... code){
         return setRight( Ex.of(code));
     }
 

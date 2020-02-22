@@ -136,7 +136,7 @@ public class _constant implements _javadoc._hasJavadoc<_constant>,
      * @param arguments
      * @return
      */
-    public _constant arguments(String ...arguments){
+    public _constant setArguments(String ...arguments){
         String args = Text.combine(arguments);
         if( args.startsWith("(") && args.endsWith(")") ){
             args = args.substring(1, args.length() -1);
@@ -147,7 +147,7 @@ public class _constant implements _javadoc._hasJavadoc<_constant>,
         return this;
     }
 
-    public _constant body(String...bodyCode){
+    public _constant setBody(String...bodyCode){
         EnumDeclaration ed = Ast.enumDecl("enum E{ A{"+Text.combine(bodyCode)+" }; }");
         ed.getEntry(0).getClassBody().forEach(bd -> this.add(bd));
         return this;

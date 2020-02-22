@@ -27,7 +27,7 @@ import java.util.function.*;
  *
  */
 public class _switchStmt implements _statement._controlFlow._branching<SwitchStmt, _switchStmt>,
-        _java._compoundNode<SwitchStmt, _switchStmt>, _switch {
+        _java._multiPart<SwitchStmt, _switchStmt>, _switch {
 
     public static _switchStmt ofSelector(String selectorExpression){
         return ofSelector(Ex.of(selectorExpression));

@@ -15,7 +15,7 @@ import org.jdraft.text.Text;
  * @param <T> the Type implementation (i.e. ReferenceType)
  */
 public final class _typeRef<T extends Type>
-        implements _java._compoundNode<Type, _typeRef>, _anno._hasAnnos<_typeRef> {
+        implements _java._multiPart<Type, _typeRef>, _anno._hasAnnos<_typeRef> {
 
     /** Void type used in */
     public static _typeRef VOID = of( new VoidType() );

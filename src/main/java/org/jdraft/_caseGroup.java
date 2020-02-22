@@ -17,10 +17,10 @@ import java.util.function.*;
  *          case 1: case 2: case 3: case 4: case 5: //_caseGroup(1)
  *              System.out.println("Week Day !");
  *          break;
- *          case 6: case 7: //_caseGroup(2)
+ *          case 6: case 7:                        //_caseGroup(2)
  *              System.out.println("Week End !");
  *          break;
- *          default: //_caseGroup(3)
+ *          default:                              //_caseGroup(3)
  *              throw new RuntimeException("bad day");
  *     }
  * </CODE>

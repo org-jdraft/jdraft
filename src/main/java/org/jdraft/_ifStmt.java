@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.IfStmt;
@@ -9,14 +10,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.function.*;
 
 
 public class _ifStmt implements _statement._controlFlow._branching<IfStmt, _ifStmt>, _body._hasBody<_ifStmt>,
-        _java._compoundNode<IfStmt, _ifStmt> {
+        _java._multiPart<IfStmt, _ifStmt> {
 
     public static _ifStmt of(){
         return new _ifStmt( new IfStmt( ));
@@ -72,7 +70,6 @@ public class _ifStmt implements _statement._controlFlow._branching<IfStmt, _ifSt
         throw new _jdraftException("No if statement found in lambda");
     }
 
-
     private IfStmt astStmt;
 
     public _ifStmt(IfStmt rs){
@@ -107,8 +104,28 @@ public class _ifStmt implements _statement._controlFlow._branching<IfStmt, _ifSt
         return null;
     }
 
+    public _ifStmt setCondition(String...es){
+        this.astStmt.setCondition(Ex.of(es));
+        return this;
+    }
+
+    public _ifStmt setCondition(Expression e){
+        this.astStmt.setCondition(e);
+        return this;
+    }
+
     public _ifStmt setCondition(_expression e){
         this.astStmt.setCondition(e.ast());
+        return this;
+    }
+
+    public _ifStmt setThen(String...sts){
+        this.astStmt.setThenStmt(Stmt.of(sts));
+        return this;
+    }
+
+    public _ifStmt setThen(Statement st){
+        this.astStmt.setThenStmt(st);
         return this;
     }
 
@@ -122,6 +139,16 @@ public class _ifStmt implements _statement._controlFlow._branching<IfStmt, _ifSt
         return this;
     }
 
+    public _ifStmt setElse(String...stmt){
+        this.astStmt.setElseStmt(Stmt.of(stmt));
+        return this;
+    }
+
+    public _ifStmt setElse(Statement st){
+        this.astStmt.setElseStmt(st);
+        return this;
+    }
+
     public _ifStmt setElse(_statement _st){
         this.astStmt.setElseStmt(_st.ast());
         return this;
@@ -130,6 +157,20 @@ public class _ifStmt implements _statement._controlFlow._branching<IfStmt, _ifSt
     public _ifStmt setElse(_body _bd){
         this.astStmt.setElseStmt(_bd.ast());
         return this;
+    }
+
+    public boolean isCondition( Predicate<_expression> pe){
+        return pe.test(getCondition());
+    }
+
+    public boolean isCondition( Expression e){
+        return Objects.equals( this.astStmt.getCondition(), e);
+    }
+    public boolean isCondition( _expression _e){
+        return Objects.equals( this.astStmt.getCondition(), _e.ast());
+    }
+    public boolean isCondition( String...expr){
+        return Objects.equals( this.astStmt.getCondition(), Ex.of(expr));
     }
 
     @Override

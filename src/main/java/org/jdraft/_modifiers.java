@@ -15,7 +15,7 @@ import java.util.*;
  *
  * @author Eric
  */
-public final class _modifiers implements _java._nodeSet<Modifier, _modifier, _modifiers> {
+public final class _modifiers implements _java._set<Modifier, _modifier, _modifiers> {
 
     /** Making the internal AST modifiers more accessible */
     public static final Modifier PUBLIC = Modifier.publicModifier();
@@ -491,6 +491,22 @@ public final class _modifiers implements _java._nodeSet<Modifier, _modifier, _mo
     public interface _hasModifiers<_HM extends _hasModifiers>
         extends _java._domain {
 
+        default boolean isExplicitModifiers( int bitMask){
+            return getModifiersAsBitMask() == bitMask;
+        }
+
+        default boolean isExplicitModifiers( _modifiers _ms){
+            return getModifiersAsBitMask() == _ms.asInt();
+        }
+
+        default boolean isEffectiveModifiers( _modifiers _ms){
+            return _modifiers.of(getEffectiveModifiers()).asInt() == _ms.asInt();
+        }
+
+        default boolean isEffectiveModifiers( int bitMask){
+            return _modifiers.of(getEffectiveModifiers()).asInt() == bitMask;
+        }
+
         /**
          * gets the explicitly set modifiers for the node
          * @return the explicitly set modifiers
@@ -643,7 +659,7 @@ public final class _modifiers implements _java._nodeSet<Modifier, _modifier, _mo
         }
 
         default _HS setStatic(boolean toSet){
-            _java._compoundNode n = (_java._compoundNode)this;
+            _java._multiPart n = (_java._multiPart)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.STATIC, toSet);
             return (_HS)this;
@@ -665,7 +681,7 @@ public final class _modifiers implements _java._nodeSet<Modifier, _modifier, _mo
         }
 
         default _HS setSynchronized(boolean toSet){
-            _java._compoundNode n = (_java._compoundNode)this;
+            _java._multiPart n = (_java._multiPart)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.SYNCHRONIZED, toSet);
             return (_HS)this;
@@ -685,7 +701,7 @@ public final class _modifiers implements _java._nodeSet<Modifier, _modifier, _mo
         }
 
         default _HA setAbstract(boolean toSet){
-            _java._compoundNode n = (_java._compoundNode)this;
+            _java._multiPart n = (_java._multiPart)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.ABSTRACT, toSet);
             return (_HA)this;
@@ -707,7 +723,7 @@ public final class _modifiers implements _java._nodeSet<Modifier, _modifier, _mo
         }
 
         default _HV setVolatile(boolean toSet){
-           _java._compoundNode n = (_java._compoundNode)this;
+           _java._multiPart n = (_java._multiPart)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.VOLATILE, toSet);
             return (_HV)this;
@@ -729,7 +745,7 @@ public final class _modifiers implements _java._nodeSet<Modifier, _modifier, _mo
         }
 
         default _HN setNative(boolean toSet){
-            _java._compoundNode n = (_java._compoundNode)this;
+            _java._multiPart n = (_java._multiPart)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.NATIVE, toSet);
             return (_HN)this;
@@ -751,7 +767,7 @@ public final class _modifiers implements _java._nodeSet<Modifier, _modifier, _mo
         }
 
         default _HT setTransient(boolean toSet){
-            _java._compoundNode n = (_java._compoundNode)this;
+            _java._multiPart n = (_java._multiPart)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.TRANSIENT, toSet);
             return (_HT)this;
@@ -773,7 +789,7 @@ public final class _modifiers implements _java._nodeSet<Modifier, _modifier, _mo
         }
 
         default _HS setStrictFp(boolean toSet){
-            _java._compoundNode n = (_java._compoundNode)this;
+            _java._multiPart n = (_java._multiPart)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.STRICTFP, toSet);
             return (_HS)this;

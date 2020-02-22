@@ -42,15 +42,6 @@ public class _int implements _expression._literal<IntegerLiteralExpr, _int> {
         return false;
     }
 
-    @Override
-    public boolean is(IntegerLiteralExpr astNode) {
-        return this.ast( ).equals(astNode);
-    }
-
-    public boolean is(Predicate<_int> matchFn){
-        return matchFn.test(this);
-    }
-
     public boolean is(int value){
         return this.ile.asInt() == value;
     }

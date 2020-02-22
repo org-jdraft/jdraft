@@ -1,7 +1,9 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.InstanceOfExpr;
 import com.github.javaparser.ast.expr.LambdaExpr;
+import com.github.javaparser.ast.type.ReferenceType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +13,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class _instanceOf implements _expression<InstanceOfExpr, _instanceOf>, _java._compoundNode<InstanceOfExpr, _instanceOf> {
+public class _instanceOf implements _expression<InstanceOfExpr, _instanceOf>, _java._multiPart<InstanceOfExpr, _instanceOf> {
 
     public static _instanceOf of(){
         return new _instanceOf(new InstanceOfExpr( ));
@@ -108,6 +110,41 @@ public class _instanceOf implements _expression<InstanceOfExpr, _instanceOf>, _j
 
     public _typeRef getType(){
         return _typeRef.of(this.ioe.getType());
+    }
+
+    public _instanceOf setType(Class clazz){
+        this.ioe.setType(clazz);
+        return this;
+    }
+
+    public _instanceOf setType(String type){
+        this.ioe.setType(type);
+        return this;
+    }
+
+    public _instanceOf setType(ReferenceType t){
+        this.ioe.setType(t);
+        return this;
+    }
+
+    public _instanceOf setType(_typeRef _t){
+        this.ioe.setType((ReferenceType)_t.ast());
+        return this;
+    }
+
+    public _instanceOf setExpression( _expression _e){
+        this.ioe.setExpression(_e.ast());
+        return this;
+    }
+
+    public _instanceOf setExpression( Expression e){
+        this.ioe.setExpression(e );
+        return this;
+    }
+
+    public _instanceOf setExpression( String...expr){
+        this.ioe.setExpression(Ex.of(expr) );
+        return this;
     }
 
     public boolean equals(Object other){

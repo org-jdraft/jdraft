@@ -1,10 +1,9 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.LocalClassDeclarationStmt;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiConsumer;
@@ -13,7 +12,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class _localClassStmt implements _statement<LocalClassDeclarationStmt, _localClassStmt>,
-        _java._compoundNode<LocalClassDeclarationStmt, _localClassStmt> {
+        _java._uniPart<LocalClassDeclarationStmt, _localClassStmt> {
 
     public static _localClassStmt of(){
         return new _localClassStmt( new LocalClassDeclarationStmt( ));
@@ -95,6 +94,19 @@ public class _localClassStmt implements _statement<LocalClassDeclarationStmt, _l
         return this;
     }
 
+    public _localClassStmt setClass(ClassOrInterfaceDeclaration cd){
+        this.astStmt.setClassDeclaration(cd);
+        return this;
+    }
+
+    public boolean isClass( ClassOrInterfaceDeclaration coid ){
+        return Objects.equals( _class.of(coid), _class.of(this.astStmt.getClassDeclaration()));
+    }
+
+    public boolean isClass( _class _c ){
+        return Objects.equals( _c, _class.of(this.astStmt.getClassDeclaration()));
+    }
+
     @Override
     public boolean is(LocalClassDeclarationStmt astNode) {
         return this.astStmt.equals( astNode);
@@ -102,15 +114,6 @@ public class _localClassStmt implements _statement<LocalClassDeclarationStmt, _l
 
     public LocalClassDeclarationStmt ast(){
         return astStmt;
-    }
-
-    @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        astStmt.getClassDeclaration();
-
-        comps.put( _java.Component.CLASS, get_class());
-        return comps;
     }
 
     public String toString(){

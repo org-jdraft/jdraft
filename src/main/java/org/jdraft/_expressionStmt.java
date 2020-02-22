@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 
@@ -12,7 +13,7 @@ import java.util.function.Function;
 
 
 public class _expressionStmt implements _statement<ExpressionStmt, _expressionStmt>,
-        _java._uniNode<ExpressionStmt, _expressionStmt> {
+        _java._uniPart<ExpressionStmt, _expressionStmt> {
 
     public static _expressionStmt of(){
         return new _expressionStmt( new ExpressionStmt( ));
@@ -67,10 +68,7 @@ public class _expressionStmt implements _statement<ExpressionStmt, _expressionSt
         throw new _jdraftException("No expression statement found in lambda");
     }
 
-
     private ExpressionStmt astStmt;
-
-
 
     public _expressionStmt(ExpressionStmt rs){
         this.astStmt = rs;
@@ -93,27 +91,36 @@ public class _expressionStmt implements _statement<ExpressionStmt, _expressionSt
         return _expression.of( this.astStmt.getExpression());
     }
 
+    public boolean isExpression(String...expr){
+        return Objects.equals( this.astStmt.getExpression(), Ex.of(expr));
+    }
+
+    public boolean isExpression(Expression e){
+        return Objects.equals( this.astStmt.getExpression(), e);
+    }
+
+    public boolean isExpression(_expression _e){
+        return Objects.equals( _expression.of(this.astStmt.getExpression()), _e);
+    }
+
+    public _expressionStmt setExpression(String...expr){
+        this.astStmt.setExpression(Ex.of(expr));
+        return this;
+    }
+
+    public _expressionStmt setExpression(Expression e){
+        this.astStmt.setExpression(e);
+        return this;
+    }
+
     public _expressionStmt setExpression(_expression _e){
         this.astStmt.setExpression(_e.ast());
         return this;
-    }
-    @Override
-    public boolean is(ExpressionStmt astNode) {
-        return this.astStmt.equals( astNode);
     }
 
     public ExpressionStmt ast(){
         return astStmt;
     }
-
-    /*
-    @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put( _java.Component.EXPRESSION, astStmt.getExpression());
-        return comps;
-    }
-     */
 
     public String toString(){
         return this.astStmt.toString();
