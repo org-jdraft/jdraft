@@ -18,7 +18,7 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _parameter
-    implements _java._namedType<_parameter>, _anno._withAnnos<_parameter>,
+    implements _java._withNameType<Parameter, _parameter>, _anno._withAnnos<_parameter>,
         _modifiers._withFinal<_parameter>, _java._multiPart<Parameter, _parameter> {
 
     /**

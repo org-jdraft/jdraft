@@ -13,7 +13,7 @@ import java.util.function.Function;
 
 
 public class _expressionStmt implements _statement<ExpressionStmt, _expressionStmt>,
-        _java._uniPart<ExpressionStmt, _expressionStmt> {
+        _java._uniPart<ExpressionStmt, _expressionStmt>, _java._withExpression<ExpressionStmt, _expressionStmt> {
 
     public static _expressionStmt of(){
         return new _expressionStmt( new ExpressionStmt( ));
@@ -87,6 +87,7 @@ public class _expressionStmt implements _statement<ExpressionStmt, _expressionSt
         return false;
     }
 
+    /*
     public _expression getExpression(){
         return _expression.of( this.astStmt.getExpression());
     }
@@ -117,6 +118,7 @@ public class _expressionStmt implements _statement<ExpressionStmt, _expressionSt
         this.astStmt.setExpression(_e.ast());
         return this;
     }
+    */
 
     public ExpressionStmt ast(){
         return astStmt;

@@ -238,9 +238,6 @@ public class _switchStmt implements _statement._controlFlow._branching<SwitchStm
         return this.switchStmt.getEntries().stream().anyMatch(se-> se.getLabels().size() > 1);
     }
 
-
-
-
     public _switchStmt mapCode( char c, Ex.Command lambdaContainer){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
         return mapCode(c, _l.astLambda);
@@ -294,8 +291,6 @@ public class _switchStmt implements _statement._controlFlow._branching<SwitchStm
         }
         return mapCode(c, le.getBody());
     }
-
-
 
     public _switchStmt mapCode( String s, Ex.Command lambdaContainer){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
@@ -397,8 +392,6 @@ public class _switchStmt implements _statement._controlFlow._branching<SwitchStm
         return mapCode(i, _l.astLambda);
     }
 
-
-
     public _switchStmt mapCode(int i, LambdaExpr le ){
         if( le.getBody().isBlockStmt() ){
             if( le.getBody().asBlockStmt().getStatements().size() == 1 ){
@@ -407,10 +400,6 @@ public class _switchStmt implements _statement._controlFlow._branching<SwitchStm
         }
         return mapCode(i, le.getBody());
     }
-
-
-
-
 
     public <EN extends Enum> _switchStmt mapCode( EN e, Ex.Command lambdaContainer){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
@@ -535,7 +524,6 @@ public class _switchStmt implements _statement._controlFlow._branching<SwitchStm
     public _switchStmt mapCode(char c, Statement... st){
         return mapCode(new CharLiteralExpr( c), st);
     }
-
 
     public _switchStmt mapCode(String s, Statement... st){
         return mapCode(new StringLiteralExpr(s), st);
@@ -713,6 +701,17 @@ public class _switchStmt implements _statement._controlFlow._branching<SwitchStm
         return mapCode(_nameExpression.of(e.name()).ast(), _returnStmt.of(ee).ast());
     }
 
+    public boolean isSwitchSelector(String... selector){
+        return Objects.equals( this.switchStmt.getSelector(), Ex.of(selector));
+    }
+
+    public boolean isSwitchSelector(_expression e){
+        return Objects.equals( this.switchStmt.getSelector(), e.ast());
+    }
+
+    public boolean isSwitchSelector(Expression e){
+        return Objects.equals( this.switchStmt.getSelector(), e);
+    }
 
     /**
      * sets the selector for the switch (i.e. the selector is the content within the() i.e. "switch(selector)"
@@ -917,7 +916,6 @@ public class _switchStmt implements _statement._controlFlow._branching<SwitchStm
         }
         throw new _jdraftException("unable to set default with "+ System.lineSeparator()+Text.combine(code));
     }
-
 
     /**
      *

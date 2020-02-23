@@ -22,7 +22,8 @@ import java.util.function.Function;
  * </CODE></PRE>
  *
  */
-public class _cast implements _expression<CastExpr, _cast>, _java._multiPart<CastExpr, _cast> {
+public class _cast implements _expression<CastExpr, _cast>, _java._multiPart<CastExpr, _cast>,
+        _java._withType<CastExpr, _cast>, _java._withExpression<CastExpr, _cast> {
 
     public static _cast of(){
         return new _cast( new CastExpr());
@@ -113,6 +114,7 @@ public class _cast implements _expression<CastExpr, _cast>, _java._multiPart<Cas
         return comps;
     }
 
+    /*
     public boolean isType( Class clazz){
         return isType( _typeRef.of(clazz) );
     }
@@ -165,7 +167,7 @@ public class _cast implements _expression<CastExpr, _cast>, _java._multiPart<Cas
         this.ce.setType(clazz);
         return this;
     }
-
+    */
     public boolean equals(Object other){
         if( other instanceof _cast){
             return ((_cast)other).ce.equals( this.ce);

@@ -9,7 +9,8 @@ import java.util.function.Predicate;
 
 
 public class _yieldStmt implements _statement._controlFlow._signal<YieldStmt, _yieldStmt>,
-        _java._uniPart<YieldStmt, _yieldStmt> {
+        _java._uniPart<YieldStmt, _yieldStmt>,
+        _java._withExpression<YieldStmt, _yieldStmt>{
 
     public static _yieldStmt of(){
         return new _yieldStmt( new YieldStmt( ));
@@ -54,6 +55,7 @@ public class _yieldStmt implements _statement._controlFlow._signal<YieldStmt, _y
         return yieldStmt;
     }
 
+    /*
     public boolean isExpression(String...expression){
         try{
             return isExpression(Ex.of(expression));
@@ -90,6 +92,7 @@ public class _yieldStmt implements _statement._controlFlow._signal<YieldStmt, _y
     public _expression getExpression(){
         return _expression.of(yieldStmt.getExpression());
     }
+     */
 
     public boolean equals(Object other){
         if( other instanceof _yieldStmt ){

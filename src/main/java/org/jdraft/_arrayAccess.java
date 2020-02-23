@@ -95,7 +95,7 @@ public class _arrayAccess
         return comps;
     }
 
-    public boolean isName(String name){
+    public boolean isNamed(String name){
         try{
             return Objects.equals( _expression.of(name), this.getName());
         }catch(Exception e){
@@ -103,15 +103,15 @@ public class _arrayAccess
         }
     }
 
-    public boolean isName(Expression e){
+    public boolean isNamed(Expression e){
         return Objects.equals( _expression.of(e), this.getName());
     }
 
-    public boolean isName(_expression _e){
+    public boolean isNamed(_expression _e){
         return Objects.equals( _e, this.getName());
     }
 
-    public boolean isName(Predicate<_expression> namePredicate){
+    public boolean isNamed(Predicate<_expression> namePredicate){
         return namePredicate.test(this.getName());
     }
 
@@ -160,7 +160,7 @@ public class _arrayAccess
     }
 
     public _arrayAccess setName(Expression e){
-        this.aae.setIndex(e);
+        this.aae.setName(e);
         return this;
     }
 

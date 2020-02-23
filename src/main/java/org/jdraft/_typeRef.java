@@ -379,6 +379,7 @@ public final class _typeRef<T extends Type>
     @Override
     public Map<_java.Component, Object> components( ) {
         Map<_java.Component, Object> parts = new HashMap<>();
+
         parts.put( _java.Component.AST_TYPE, this.astType);
         parts.put( _java.Component.ARRAY_LEVEL, this.astType.getArrayLevel());
         parts.put( _java.Component.ELEMENT_TYPE, this.astType.getElementType());

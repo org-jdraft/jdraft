@@ -147,7 +147,10 @@ public class _tryStmt implements _statement._controlFlow._branching<TryStmt, _tr
         return this;
     }
 
-
+    /**
+     *
+     * @return
+     */
     public boolean hasWithResources(){
         return ! this.ast().getResources().isEmpty();
     }
@@ -197,7 +200,6 @@ public class _tryStmt implements _statement._controlFlow._branching<TryStmt, _tr
         return exs.stream().filter(matchFn).collect(Collectors.toList());
     }
 
-
     public boolean hasCatch(){
         return ! this.ast().getCatchClauses().isEmpty();
     }
@@ -219,6 +221,10 @@ public class _tryStmt implements _statement._controlFlow._branching<TryStmt, _tr
     public _tryStmt addCatch(String...catchClause){
         CatchClause cc = Ast.catchClause(catchClause);
         return add(cc);
+    }
+
+    public boolean hasFinally(){
+        return this.ast().getFinallyBlock().isPresent();
     }
 
     //does this try statement have a finally body that is NON-EMPTY

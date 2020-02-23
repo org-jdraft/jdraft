@@ -164,6 +164,18 @@ public class _switchExpression implements _expression<SwitchExpr, _switchExpress
         return cgs;
     }
 
+    public boolean isSwitchSelector(String... selector){
+        return Objects.equals( this.switchExpr.getSelector(), Ex.of(selector));
+    }
+
+    public boolean isSwitchSelector(_expression e){
+        return Objects.equals( this.switchExpr.getSelector(), e.ast());
+    }
+
+    public boolean isSwitchSelector(Expression e){
+        return Objects.equals( this.switchExpr.getSelector(), e);
+    }
+
     /**
      *
      * @param _e

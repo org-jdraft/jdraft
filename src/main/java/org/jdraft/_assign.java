@@ -15,55 +15,56 @@ import java.util.function.Function;
 
 public class _assign implements _expression<AssignExpr, _assign>, _java._multiPart<AssignExpr, _assign> {
 
-    public static _assign of(){
-        return new _assign( new AssignExpr());
+    public static _assign of() {
+        return new _assign(new AssignExpr());
     }
-    public static _assign of( AssignExpr ae){
+
+    public static _assign of(AssignExpr ae) {
         return new _assign(ae);
     }
 
-    public static _assign of( String...code){
-        return new _assign(Ex.assignEx( code));
+    public static _assign of(String... code) {
+        return new _assign(Ex.assignEx(code));
     }
 
 
-    public static <A extends Object> _assign of(Ex.Command c){
-        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _assign of(Ex.Command c) {
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
-    public static <A extends Object> _assign of(Consumer<A> c){
-        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _assign of(Consumer<A> c) {
+        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
-    public static <A extends Object, B extends Object> _assign of(BiConsumer<A,B> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object> _assign of(BiConsumer<A, B> command) {
+        return from(Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _assign of( Ex.TriConsumer<A,B,C> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _assign of(Ex.TriConsumer<A, B, C> command) {
+        return from(Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assign of( Ex.QuadConsumer<A,B,C,D> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assign of(Ex.QuadConsumer<A, B, C, D> command) {
+        return from(Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object> _assign of( Function<A,B> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object> _assign of(Function<A, B> command) {
+        return from(Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _assign of( BiFunction<A,B,C> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _assign of(BiFunction<A, B, C> command) {
+        return from(Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assign of( Ex.TriFunction<A,B,C,D> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assign of(Ex.TriFunction<A, B, C, D> command) {
+        return from(Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]));
     }
 
-    private static _assign from( LambdaExpr le){
+    private static _assign from(LambdaExpr le) {
         Optional<AssignExpr> ows = le.getBody().findFirst(AssignExpr.class);
-        if( ows.isPresent() ){
+        if (ows.isPresent()) {
             return of(ows.get());
         }
         throw new _jdraftException("No assignment expression found in lambda");
@@ -71,7 +72,7 @@ public class _assign implements _expression<AssignExpr, _assign>, _java._multiPa
 
     public AssignExpr ae;
 
-    public _assign(AssignExpr ae){
+    public _assign(AssignExpr ae) {
         this.ae = ae;
     }
 
@@ -82,18 +83,19 @@ public class _assign implements _expression<AssignExpr, _assign>, _java._multiPa
 
     @Override
     public boolean is(String... stringRep) {
-        try{
-            return is( Ex.assignEx(stringRep));
-        } catch(Exception e){ }
+        try {
+            return is(Ex.assignEx(stringRep));
+        } catch (Exception e) {
+        }
         return false;
     }
 
     @Override
     public boolean is(AssignExpr astNode) {
-        return this.ast( ).equals(astNode);
+        return this.ast().equals(astNode);
     }
 
-    public AssignExpr ast(){
+    public AssignExpr ast() {
         return ae;
     }
 
@@ -101,8 +103,216 @@ public class _assign implements _expression<AssignExpr, _assign>, _java._multiPa
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> comps = new HashMap<>();
         comps.put(_java.Component.TARGET, ae.getTarget());
+        comps.put(_java.Component.ASSIGN_OPERATOR, ae.getOperator());
         comps.put(_java.Component.VALUE, ae.getValue());
         return comps;
+    }
+    public boolean isOperator(AssignExpr.Operator ao) {
+        return Objects.equals(this.ast().getOperator(), ao);
+    }
+
+    /**
+     * "="
+     */
+    public boolean isAssignOperation() {
+        return isOperator(AssignExpr.Operator.ASSIGN);
+    }
+
+    /**
+     * "+="
+     *
+     * @return
+     */
+    public boolean isIncrementAssignOperation() {
+        return isOperator(AssignExpr.Operator.PLUS);
+    }
+
+    /**
+     * "-="
+     * @return
+     */
+    public boolean isDecrementAssignOperation() {
+        return isOperator(AssignExpr.Operator.MINUS);
+    }
+    /**
+     *  "*="
+     */
+    public boolean isMultiplyAssignOperation() {
+        return isOperator(AssignExpr.Operator.MULTIPLY);
+    }
+
+    /**
+     * /=
+     * @return
+     */
+    public boolean isDivideAssignOperation() {
+        return isOperator(AssignExpr.Operator.DIVIDE);
+    }
+
+    /**
+     * &=
+     *
+     * @return
+     */
+    public boolean isBinaryAndAssignOperation() {
+        return isOperator(AssignExpr.Operator.BINARY_AND);
+    }
+
+    /**
+     * "|="
+     * @return
+     */
+    public boolean isBinaryOrAssignOperation() {
+        return isOperator(AssignExpr.Operator.BINARY_OR);
+    }
+
+    /**
+     * "^="
+     * @return
+     */
+    public boolean isBinaryXorAssignOperation() {
+        return isOperator(AssignExpr.Operator.XOR);
+    }
+
+    /**
+     * "%="
+     * @return
+     */
+    public boolean isRemainderAssignOperation() {
+        return isOperator(AssignExpr.Operator.REMAINDER);
+    }
+
+    /**
+     * "<<="
+     * @return
+     */
+    public boolean isBinaryLeftShiftAssignOperation() {
+        return isOperator(AssignExpr.Operator.LEFT_SHIFT);
+    }
+
+    /**
+     * ">>="
+     * @return
+     */
+    public boolean isBinarySignedRightShiftAssignOperation() {
+        return isOperator(AssignExpr.Operator.SIGNED_RIGHT_SHIFT);
+    }
+
+    /**
+     * ">>>="
+     * @return
+     */
+    public boolean isBinaryUnsignedRightShiftAssignOperation() {
+        return isOperator(AssignExpr.Operator.UNSIGNED_RIGHT_SHIFT);
+    }
+
+    /**
+     * "="
+     */
+    public _assign setAssignOperation() {
+        return setOperator(AssignExpr.Operator.ASSIGN);
+    }
+
+    /**
+     * "+="
+     *
+     * @return
+     */
+    public _assign setIncrementAssignOperation() {
+        return setOperator(AssignExpr.Operator.PLUS);
+    }
+
+    /**
+     * "-="
+     * @return
+     */
+    public _assign setDecrementAssignOperation() {
+        return setOperator(AssignExpr.Operator.MINUS);
+    }
+    /**
+     *  "*="
+     */
+    public _assign setMultiplyAssignOperation() {
+        return setOperator(AssignExpr.Operator.MULTIPLY);
+    }
+
+    /**
+     * /=
+     * @return
+     */
+    public _assign setDivideAssignOperation() {
+        return setOperator(AssignExpr.Operator.DIVIDE);
+    }
+
+    /**
+     * &=
+     *
+     * @return
+     */
+    public _assign setBinaryAndAssignOperation() {
+        return setOperator(AssignExpr.Operator.BINARY_AND);
+    }
+
+    /**
+     * "|="
+     * @return
+     */
+    public _assign setBinaryOrAssignOperation() {
+        return setOperator(AssignExpr.Operator.BINARY_OR);
+    }
+
+    /**
+     * "^="
+     * @return
+     */
+    public _assign setBinaryXorAssignOperation() {
+        return setOperator(AssignExpr.Operator.XOR);
+    }
+
+    /**
+     * "%="
+     * @return
+     */
+    public _assign setRemainderAssignOperation() {
+        return setOperator(AssignExpr.Operator.REMAINDER);
+    }
+
+    /**
+     * "<<="
+     * @return
+     */
+    public _assign setBinaryLeftShiftAssignOperation() {
+        return setOperator(AssignExpr.Operator.LEFT_SHIFT);
+    }
+
+    /**
+     * ">>="
+     * @return
+     */
+    public _assign setBinarySignedRightShiftAssignOperation() {
+        return setOperator(AssignExpr.Operator.SIGNED_RIGHT_SHIFT);
+    }
+
+    /**
+     * ">>>="
+     * @return
+     */
+    public _assign setBinaryUnsignedRightShiftAssignOperation() {
+        return setOperator(AssignExpr.Operator.UNSIGNED_RIGHT_SHIFT);
+    }
+
+
+
+
+
+    public _assign setOperator( String op ){
+        setOperator( AssignExpr.Operator.valueOf(op));
+        return this;
+    }
+
+    public _assign setOperator( AssignExpr.Operator op ){
+        this.ae.setOperator(op);
+        return this;
     }
 
     public boolean isValue(String str){

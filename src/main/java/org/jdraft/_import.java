@@ -13,7 +13,8 @@ import org.jdraft.text.Text;
  * @see _imports representation of a set of _import s
  * @author Eric
  */
-public class _import implements _java._multiPart<ImportDeclaration, _import> {
+public class _import implements _java._multiPart<ImportDeclaration, _import>,
+        _java._withName<_import> {
 
     /** return a copy of this import */
     @Override
@@ -138,6 +139,11 @@ public class _import implements _java._multiPart<ImportDeclaration, _import> {
     /** @return the name (everything after "import" and before the optional ".*") */
     public String getName() {
         return this.astId.getNameAsString();
+    }
+
+    public _import setName(String name){
+        this.astId.setName(name);
+        return this;
     }
 
     /**

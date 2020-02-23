@@ -31,7 +31,7 @@ import org.jdraft._modifiers.*;
 import org.jdraft._constructor._withConstructors;
 import org.jdraft._javadoc._withJavadoc;
 import org.jdraft._method._withMethods;
-import org.jdraft._receiverParameter._hasReceiverParameter;
+import org.jdraft._receiverParameter._withReceiverParameter;
 import org.jdraft._initBlock._withInitBlocks;
 import org.jdraft._throws._withThrows;
 import org.jdraft._type._withExtends;
@@ -814,7 +814,8 @@ public interface _java {
         ARRAY_DIMENSIONS("arrayDimensions", List.class, ArrayCreationLevel.class), //arrayCreate
         ARRAY_DIMENSION("arrayDimension", Expression.class),
         ENCLOSED_PARAMETERS( "enclosedParameters", Boolean.class),
-        LITERAL("literal", Object.class); //typeRef, textBlock
+        LITERAL("literal", Object.class), //typeRef, textBlock
+        ASSIGN_OPERATOR("assignOperator", AssignExpr.Operator.class);
 
 
         public final String name;
@@ -1106,8 +1107,8 @@ public interface _java {
          */
         Class<_multiPart> NODE = _multiPart.class;
         Class<_declaredBodyPart> MEMBER = _declaredBodyPart.class;
-        Class<_named> NAMED = _named.class;
-        Class<_namedType> NAMED_TYPE = _namedType.class;
+        Class<_withName> NAMED = _withName.class;
+        Class<_withNameType> NAMED_TYPE = _withNameType.class;
 
         Class<_withThrows> HAS_THROWS = _withThrows.class;
         Class<_hasBody> HAS_BODY = _hasBody.class;
@@ -1117,7 +1118,7 @@ public interface _java {
         Class<_withMethods> HAS_METHODS = _withMethods.class;
         Class<_withModifiers> HAS_MODIFIERS = _withModifiers.class;
         Class<_parameter._hasParameters> HAS_PARAMETERS = _parameter._hasParameters.class;
-        Class<_hasReceiverParameter> HAS_RECEIVER_PARAMETER = _hasReceiverParameter.class;
+        Class<_withReceiverParameter> HAS_RECEIVER_PARAMETER = _withReceiverParameter.class;
         Class<_withInitBlocks> HAS_STATIC_BLOCKS = _withInitBlocks.class;
         Class<_withExtends> HAS_EXTENDS = _withExtends.class;
         Class<_withImplements> HAS_IMPLEMENTS = _withImplements.class;
@@ -1228,14 +1229,14 @@ public interface _java {
      * <LI>{@link _initBlock} {@link InitializerDeclaration}
      * is a {@link _memberBodyPart} but is NOT {@link _declaredBodyPart} (primarily because it is not
      * callable/referenceable/accessible outside of the Class where it is defined and does
-     * not satisfy the {@link _named} {@link _withAnnos} or {@link _withJavadoc} interfaces
+     * not satisfy the {@link _withName} {@link _withAnnos} or {@link _withJavadoc} interfaces
      * (Not available via reflection at runtime)
      *
      * @param <N> the AST node type (i.e. {@link MethodDeclaration})
      * @param <_D> the meta-representation declaration type (i.e. {@link _method})
      */
-    interface _declaredBodyPart<N extends Node, _D extends _multiPart & _named & _withAnnos & _withJavadoc>
-            extends _memberBodyPart<N, _D>, _named<_D>, _withAnnos<_D>, _withJavadoc<_D> {
+    interface _declaredBodyPart<N extends Node, _D extends _multiPart & _withName & _withAnnos & _withJavadoc>
+            extends _memberBodyPart<N, _D>, _withName<_D>, _withAnnos<_D>, _withJavadoc<_D> {
 
         @Override
         default _javadoc getJavadoc() {
@@ -1277,7 +1278,7 @@ public interface _java {
      *
      * @param <N> the Ast Node instance type
      * @param <_N> the _draft instance type
-     * @see _declaredBodyPart (an EXTENSION of {@link _memberBodyPart}s that are also {@link _named}...(all {@link _memberBodyPart}s are
+     * @see _declaredBodyPart (an EXTENSION of {@link _memberBodyPart}s that are also {@link _withName}...(all {@link _memberBodyPart}s are
      * {@link _declaredBodyPart}s, ACCEPT {@link _initBlock} which is ONLY a {@link _memberBodyPart}
      */
     interface _memberBodyPart<N extends Node, _N extends _multiPart>
@@ -1696,7 +1697,7 @@ public interface _java {
      * @author Eric
      * @param <_N>
      */
-    interface _named<_N extends _named> extends _domain {
+    interface _withName<_N extends _withName> extends _domain {
 
         /**
          * @param name set the name on the entity and return the modified entity
@@ -1741,12 +1742,18 @@ public interface _java {
      * </UL>
      * @param <_NT> the specialized entity that is a named TYPE
      */
-    interface _namedType<_NT extends _namedType> extends _named<_NT> {
+    interface _withNameType<N extends Node, _NT extends _withNameType> extends _withName<_NT>, _withType<N,_NT>  {
+
+    }
+
+    interface _withType<N extends Node, _WT extends _astNode> extends _astNode<N, _WT> {
 
         /**
          * @return they type
          */
-        _typeRef getType();
+        default _typeRef getType(){
+            return _typeRef.of(((NodeWithType)ast()).getType());
+        }
 
         /**
          * Gets the element type of the type (i.e. if the type is an Array type)
@@ -1758,18 +1765,25 @@ public interface _java {
 
         /**
          * Set the TYPE and return the modified entity
-         * @param _tr the _typeRef object
+         * @param t the _typeRef object
          * @return the modified entity after setting the TYPE
          */
-        _NT setType(Type _tr);
+        default _WT setType(Type t){
+            ((NodeWithType)ast()).setType(t);
+            return (_WT)this;
+        }
+
+        default boolean isArrayType(){
+            return getType().isArrayType();
+        }
 
         /**
          * set the TYPE and return
-         * @param t
+         * @param _tr
          * @return
          */
-        default _NT setType(_typeRef t) {
-            return setType(t.ast());
+        default _WT setType(_typeRef _tr) {
+            return setType(_tr.ast());
         }
 
         /**
@@ -1777,7 +1791,7 @@ public interface _java {
          * @param typeRef the String representation of the TYPE
          * @return the modified entity after setting the TYPE
          */
-        default _NT setType(String typeRef) {
+        default _WT setType(String typeRef) {
             return setType(typeRef(typeRef));
         }
 
@@ -1786,7 +1800,7 @@ public interface _java {
          * @param clazz the class of the TYPE to set
          * @return the modified entity after setting the TYPE
          */
-        default _NT setType(Class clazz) {
+        default _WT setType(Class clazz) {
             return setType(typeRef(clazz.getCanonicalName()));
         }
 
@@ -2132,6 +2146,86 @@ public interface _java {
                     .map( a-> _expression.of( (Expression)a))
                     .filter(expressionMatchFn).forEach(e->  argFn.accept( (_expression)e) );
             return (_TA)this;
+        }
+    }
+
+    interface _withCondition <N extends Node, _WE extends _astNode> extends _astNode<N, _WE> {
+
+        default boolean isCondition(String...expression){
+            try{
+                return isCondition(Ex.of(expression));
+            }catch(Exception e){
+                return false;
+            }
+        }
+
+        default boolean isCondition(_expression _ex){
+            return Objects.equals( this.getCondition(), _ex);
+        }
+
+        default boolean isCondition(Expression ex){
+            return Objects.equals( this.getCondition().ast(), ex);
+        }
+
+        default boolean isCondition(Predicate<_expression> matchFn){
+            return matchFn.test(getCondition());
+        }
+
+        default _WE setCondition(String...expression){
+            return setCondition(Ex.of(expression));
+        }
+
+        default _WE setCondition(_expression e){
+            return setCondition(e.ast());
+        }
+
+        default _WE setCondition(Expression e){
+            ((NodeWithExpression)ast()).setExpression(e);
+            return (_WE)this;
+        }
+
+        default _expression getCondition(){
+            return _expression.of(((NodeWithExpression)ast()).getExpression());
+        }
+    }
+
+    interface _withExpression <N extends Node, _WE extends _astNode> extends _astNode<N, _WE> {
+
+        default boolean isExpression(String...expression){
+            try{
+                return isExpression(Ex.of(expression));
+            }catch(Exception e){
+                return false;
+            }
+        }
+
+        default boolean isExpression(_expression _ex){
+            return Objects.equals( this.getExpression(), _ex);
+        }
+
+        default boolean isExpression(Expression ex){
+            return Objects.equals( this.getExpression().ast(), ex);
+        }
+
+        default boolean isExpression(Predicate<_expression> matchFn){
+            return matchFn.test(getExpression());
+        }
+
+        default _WE setExpression(String...expression){
+            return setExpression(Ex.of(expression));
+        }
+
+        default _WE setExpression(_expression e){
+            return setExpression(e.ast());
+        }
+
+        default _WE setExpression(Expression e){
+            ((NodeWithExpression)ast()).setExpression(e);
+            return (_WE)this;
+        }
+
+        default _expression getExpression(){
+            return _expression.of(((NodeWithExpression)ast()).getExpression());
         }
     }
 

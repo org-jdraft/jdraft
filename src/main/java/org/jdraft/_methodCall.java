@@ -7,7 +7,7 @@ import java.util.*;
 import java.util.function.*;
 
 public class _methodCall implements _expression<MethodCallExpr, _methodCall>,
-        _java._named<_methodCall>,
+        _java._withName<_methodCall>,
         _java._multiPart<MethodCallExpr, _methodCall>,
         _java._withScope<MethodCallExpr, _methodCall>,
         _java._withArguments<MethodCallExpr, _methodCall>,

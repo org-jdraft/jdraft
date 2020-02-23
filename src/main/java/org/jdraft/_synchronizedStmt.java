@@ -12,8 +12,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 
-public class _synchronizedStmt implements _statement<SynchronizedStmt, _synchronizedStmt>, _body._hasBody<_synchronizedStmt>,
-        _java._multiPart<SynchronizedStmt, _synchronizedStmt> {
+public class _synchronizedStmt implements _statement<SynchronizedStmt, _synchronizedStmt>,
+        _body._hasBody<_synchronizedStmt>,
+        _java._multiPart<SynchronizedStmt, _synchronizedStmt>,
+        _java._withExpression<SynchronizedStmt, _synchronizedStmt> {
 
     public static _synchronizedStmt of(){
         return new _synchronizedStmt( new SynchronizedStmt( ));
@@ -50,6 +52,7 @@ public class _synchronizedStmt implements _statement<SynchronizedStmt, _synchron
         return false;
     }
 
+    /*
     public _expression getExpression(){
         return _expression.of(this.astStmt.getExpression());
     }
@@ -58,6 +61,7 @@ public class _synchronizedStmt implements _statement<SynchronizedStmt, _synchron
         this.astStmt.setExpression( _e.ast());
         return this;
     }
+    */
 
     public _body getBody(){
         return _body.of( (NodeWithBlockStmt)astStmt);

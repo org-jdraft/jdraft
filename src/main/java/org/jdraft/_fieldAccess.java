@@ -11,7 +11,7 @@ import java.util.function.Function;
 
 public class _fieldAccess implements _expression<FieldAccessExpr, _fieldAccess>,
         _java._multiPart<FieldAccessExpr, _fieldAccess>,
-        _java._named<_fieldAccess>,
+        _java._withName<_fieldAccess>,
         _java._withTypeArguments<FieldAccessExpr, _fieldAccess>,
         _java._withScope<FieldAccessExpr, _fieldAccess> {
 

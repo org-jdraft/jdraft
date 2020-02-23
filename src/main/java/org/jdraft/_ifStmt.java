@@ -14,6 +14,7 @@ import java.util.function.*;
 
 
 public class _ifStmt implements _statement._controlFlow._branching<IfStmt, _ifStmt>, _body._hasBody<_ifStmt>,
+        _java._withCondition<IfStmt, _ifStmt>,
         _java._multiPart<IfStmt, _ifStmt> {
 
     public static _ifStmt of(){
@@ -89,9 +90,11 @@ public class _ifStmt implements _statement._controlFlow._branching<IfStmt, _ifSt
         return false;
     }
 
+    /*
     public _expression getCondition(){
         return _expression.of(this.astStmt.getCondition());
     }
+     */
 
     public _statement getThen(){
         return _statement.of( this.astStmt.getThenStmt() );
@@ -104,6 +107,7 @@ public class _ifStmt implements _statement._controlFlow._branching<IfStmt, _ifSt
         return null;
     }
 
+    /*
     public _ifStmt setCondition(String...es){
         this.astStmt.setCondition(Ex.of(es));
         return this;
@@ -118,6 +122,7 @@ public class _ifStmt implements _statement._controlFlow._branching<IfStmt, _ifSt
         this.astStmt.setCondition(e.ast());
         return this;
     }
+     */
 
     public _ifStmt setThen(String...sts){
         this.astStmt.setThenStmt(Stmt.of(sts));
@@ -159,6 +164,7 @@ public class _ifStmt implements _statement._controlFlow._branching<IfStmt, _ifSt
         return this;
     }
 
+    /*
     public boolean isCondition( Predicate<_expression> pe){
         return pe.test(getCondition());
     }
@@ -172,6 +178,8 @@ public class _ifStmt implements _statement._controlFlow._branching<IfStmt, _ifSt
     public boolean isCondition( String...expr){
         return Objects.equals( this.astStmt.getCondition(), Ex.of(expr));
     }
+
+     */
 
     @Override
     public boolean is(IfStmt astNode) {

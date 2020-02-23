@@ -1,6 +1,5 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.ThrowStmt;
 
@@ -11,9 +10,8 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-
 public class _throwStmt implements _statement._controlFlow._signal<ThrowStmt, _throwStmt>,
-        _java._uniPart<ThrowStmt, _throwStmt> {
+        _java._uniPart<ThrowStmt, _throwStmt>, _java._withExpression<ThrowStmt, _throwStmt> {
 
     public static _throwStmt of(){
         return new _throwStmt( new ThrowStmt( ));
@@ -86,6 +84,7 @@ public class _throwStmt implements _statement._controlFlow._signal<ThrowStmt, _t
         return false;
     }
 
+    /*
     public _expression getExpression(){
         return _expression.of(astStmt.getExpression());
     }
@@ -104,6 +103,7 @@ public class _throwStmt implements _statement._controlFlow._signal<ThrowStmt, _t
     public boolean is(ThrowStmt astNode) {
         return this.astStmt.equals( astNode);
     }
+     */
 
     public ThrowStmt ast(){
         return astStmt;

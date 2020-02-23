@@ -15,7 +15,8 @@ import java.util.function.Function;
  *  <br/><code>(1+1)</code>
  */
 public class _enclosedExpression implements _expression<EnclosedExpr, _enclosedExpression>,
-        _java._uniPart<EnclosedExpr, _enclosedExpression> {
+        _java._uniPart<EnclosedExpr, _enclosedExpression>,
+        _java._withExpression<EnclosedExpr, _enclosedExpression>{
 
     public static _enclosedExpression of( ){
         return new _enclosedExpression(new EnclosedExpr( ));
@@ -94,6 +95,7 @@ public class _enclosedExpression implements _expression<EnclosedExpr, _enclosedE
         return this.ast( ).equals(astNode);
     }
 
+    //I had to override these because its called "inner" not expression
     public _enclosedExpression setExpression(String...ex){
         this.ee.setInner(Ex.of(ex));
         return this;

@@ -4,7 +4,7 @@ import java.util.Objects;
 
 import com.github.javaparser.ast.body.ReceiverParameter;
 import org.jdraft.*;
-import org.jdraft._receiverParameter._hasReceiverParameter;
+import org.jdraft._receiverParameter._withReceiverParameter;
 
 import org.jdraft.diff._diff.*;
 
@@ -13,7 +13,7 @@ public class _receiverParameterDiff
 
     public static final _receiverParameterDiff INSTANCE = new _receiverParameterDiff();
     
-    public _diff diff( _hasReceiverParameter left, _hasReceiverParameter right){
+    public _diff diff(_withReceiverParameter left, _withReceiverParameter right){
         return diff( _nodePath.of(),
                 new _diffList( (_java._multiPart)left, (_java._multiPart)right),
                 (_java._multiPart)left,
@@ -25,21 +25,21 @@ public class _receiverParameterDiff
     @Override
     public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _receiverParameter left, _receiverParameter right) {
         if (!Objects.equals(left, right)) {
-            dt.addDiff(new change_receiverParameter(path.in(_java.Component.RECEIVER_PARAMETER), (_receiverParameter._hasReceiverParameter) _leftParent, (_receiverParameter._hasReceiverParameter) _rightParent));
+            dt.addDiff(new change_receiverParameter(path.in(_java.Component.RECEIVER_PARAMETER), (_withReceiverParameter) _leftParent, (_withReceiverParameter) _rightParent));
         }
         return (_diff) dt;
     }
 
     public static class change_receiverParameter 
-            implements _diffNode<_receiverParameter._hasReceiverParameter>, _diffNode._change<ReceiverParameter> {
+            implements _diffNode<_withReceiverParameter>, _diffNode._change<ReceiverParameter> {
 
         public _nodePath path;
-        public _receiverParameter._hasReceiverParameter leftParent;
-        public _receiverParameter._hasReceiverParameter rightParent;
+        public _withReceiverParameter leftParent;
+        public _withReceiverParameter rightParent;
         public ReceiverParameter left;
         public ReceiverParameter right;
 
-        public change_receiverParameter(_nodePath path, _receiverParameter._hasReceiverParameter leftParent, _receiverParameter._hasReceiverParameter rightParent) {
+        public change_receiverParameter(_nodePath path, _withReceiverParameter leftParent, _withReceiverParameter rightParent) {
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -52,12 +52,12 @@ public class _receiverParameterDiff
         }
 
         @Override
-        public _receiverParameter._hasReceiverParameter leftParent() {
+        public _withReceiverParameter leftParent() {
             return leftParent;
         }
 
         @Override
-        public _receiverParameter._hasReceiverParameter rightParent() {
+        public _withReceiverParameter rightParent() {
             return rightParent;
         }
 

@@ -14,7 +14,8 @@ import java.util.function.Predicate;
  * ("x++") with postfix operator
  *
  */
-public class _unary implements _expression<UnaryExpr, _unary>, _java._multiPart<UnaryExpr, _unary> {
+public class _unary implements _expression<UnaryExpr, _unary>, _java._multiPart<UnaryExpr, _unary>,
+        _java._withExpression<UnaryExpr, _unary> {
 
     public static _unary of(){
         return new _unary(new UnaryExpr());
@@ -63,6 +64,7 @@ public class _unary implements _expression<UnaryExpr, _unary>, _java._multiPart<
         return comps;
     }
 
+    /*
     public boolean isExpression(String...expression){
         try{
             return isExpression(Ex.of(expression));
@@ -99,6 +101,7 @@ public class _unary implements _expression<UnaryExpr, _unary>, _java._multiPart<
     public _expression getExpression(){
         return _expression.of(this.unaryEx.getExpression());
     }
+    */
 
     public boolean isOperator(Predicate<UnaryExpr.Operator> uo){
         return uo.test(this.unaryEx.getOperator());

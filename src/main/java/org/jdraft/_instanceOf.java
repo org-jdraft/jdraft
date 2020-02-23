@@ -13,7 +13,10 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class _instanceOf implements _expression<InstanceOfExpr, _instanceOf>, _java._multiPart<InstanceOfExpr, _instanceOf> {
+public class _instanceOf implements _expression<InstanceOfExpr, _instanceOf>,
+        _java._multiPart<InstanceOfExpr, _instanceOf>,
+        _java._withType<InstanceOfExpr, _instanceOf>,
+        _java._withExpression<InstanceOfExpr, _instanceOf>{
 
     public static _instanceOf of(){
         return new _instanceOf(new InstanceOfExpr( ));

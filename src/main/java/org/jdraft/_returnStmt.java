@@ -60,7 +60,6 @@ public class _returnStmt implements _statement._controlFlow._signal<ReturnStmt, 
         return new _returnStmt( new ReturnStmt( new NameExpr(name)));
     }
 
-
     public static _returnStmt of( String...code){
         return new _returnStmt(Stmt.returnStmt( code));
     }
@@ -84,10 +83,12 @@ public class _returnStmt implements _statement._controlFlow._signal<ReturnStmt, 
         return false;
     }
 
+    /*
     @Override
     public boolean is(ReturnStmt astNode) {
         return this.rs.equals( astNode);
     }
+     */
 
     public ReturnStmt ast(){
         return rs;

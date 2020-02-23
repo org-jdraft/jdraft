@@ -117,6 +117,7 @@ public class _assertStmt implements _statement<AssertStmt, _assertStmt>, _java._
             return false;
         }
     }
+
     public boolean isCheck(Expression check){
         return Objects.equals( this.astStmt.getCheck(), check);
     }

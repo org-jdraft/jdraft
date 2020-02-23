@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
  */
 public class _new implements _expression<ObjectCreationExpr, _new>,
         _java._multiPart<ObjectCreationExpr, _new>,
+        _java._withType<ObjectCreationExpr, _new>,
         _java._withScope<ObjectCreationExpr, _new>,
         _java._withArguments<ObjectCreationExpr, _new>,
         _java._withTypeArguments<ObjectCreationExpr, _new> {
@@ -35,7 +36,6 @@ public class _new implements _expression<ObjectCreationExpr, _new>,
     public static _new of( String...code){
         return new _new(Ex.objectCreationEx(code));
     }
-
 
     public static <A extends Object> _new of(Ex.Command c){
         LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
@@ -102,6 +102,7 @@ public class _new implements _expression<ObjectCreationExpr, _new>,
         return oce;
     }
 
+    /*
     public _new setType(_typeRef _t){
         this.oce.setType((ClassOrInterfaceType)_t.ast());
         return this;
@@ -137,6 +138,7 @@ public class _new implements _expression<ObjectCreationExpr, _new>,
     public boolean isType(String type){
         return Ast.typesEqual( this.oce.getType(), Ast.typeRef(type) );
     }
+    */
 
     @Override
     public Map<_java.Component, Object> components() {

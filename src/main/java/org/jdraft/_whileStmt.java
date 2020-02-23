@@ -1,6 +1,5 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
@@ -11,7 +10,9 @@ import java.util.function.*;
 
 public class _whileStmt implements _statement._controlFlow._branching<WhileStmt, _whileStmt>,
         _java._multiPart<WhileStmt, _whileStmt>,
-        _statement._controlFlow._loop<WhileStmt, _whileStmt>, _body._hasBody<_whileStmt>{
+        _statement._controlFlow._loop<WhileStmt, _whileStmt>,
+        _java._withCondition<WhileStmt, _whileStmt>,
+        _body._hasBody<_whileStmt>{
 
     public static _whileStmt of(){
         return new _whileStmt( new WhileStmt( ));
@@ -84,6 +85,7 @@ public class _whileStmt implements _statement._controlFlow._branching<WhileStmt,
         return false;
     }
 
+    /*
     public boolean isCondition(String...expression){
         try{
             return isCondition(Ex.of(expression));
@@ -121,6 +123,7 @@ public class _whileStmt implements _statement._controlFlow._branching<WhileStmt,
     public _expression getCondition(){
         return _expression.of(this.whileStmt.getCondition());
     }
+    */
 
     public _body getBody(){
         return _body.of( this.whileStmt.getBody() );
@@ -178,7 +181,6 @@ public class _whileStmt implements _statement._controlFlow._branching<WhileStmt,
         comps.put(_java.Component.BODY, whileStmt.getBody());
         return comps;
     }
-
 
     public boolean equals(Object other){
         if( other instanceof _whileStmt ){

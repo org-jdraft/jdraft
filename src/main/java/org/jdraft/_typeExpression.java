@@ -1,9 +1,11 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.TypeExpr;
-import com.github.javaparser.ast.type.Type;
 
-public class _typeExpression implements _expression<TypeExpr, _typeExpression>, _java._uniPart<TypeExpr, _typeExpression> {
+public class _typeExpression
+        implements _expression<TypeExpr, _typeExpression>,
+        _java._uniPart<TypeExpr, _typeExpression>,
+        _java._withType<TypeExpr, _typeExpression> {
 
     public static _typeExpression of(){
         return new _typeExpression( new TypeExpr());
@@ -26,6 +28,7 @@ public class _typeExpression implements _expression<TypeExpr, _typeExpression>, 
         return new _typeExpression(this.te.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -33,11 +36,14 @@ public class _typeExpression implements _expression<TypeExpr, _typeExpression>, 
         } catch(Exception e){ }
         return false;
     }
+     */
 
+    /*
     @Override
     public boolean is(TypeExpr astNode) {
         return this.ast( ).equals(astNode);
     }
+     */
 
     public TypeExpr ast(){
         return te;
@@ -51,17 +57,20 @@ public class _typeExpression implements _expression<TypeExpr, _typeExpression>, 
         return _typeRef.of(this.te.getType());
     }
 
-    /** these COULD be generated */
+    /** these COULD be generated
     public _typeExpression setType( _typeRef _tr){
         this.te.setType(_tr.ast());
         return this;
-    }
+    }*/
 
+    /*
     public _typeExpression setType( Type type){
         this.te.setType(type);
         return this;
     }
+     */
 
+    /*
     public _typeExpression setType(Class clazz){
         this.te.setType(clazz);
         return this;
@@ -71,6 +80,7 @@ public class _typeExpression implements _expression<TypeExpr, _typeExpression>, 
         this.te.setType(Ast.typeRef(typeRef));
         return this;
     }
+     */
 
     public boolean equals(Object other){
         if( other instanceof _typeExpression){

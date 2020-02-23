@@ -29,7 +29,7 @@ import org.jdraft.text.Text;
  */
 public final class _receiverParameter
         implements _java._multiPart<ReceiverParameter, _receiverParameter>,
-        _java._namedType<_receiverParameter>, _anno._withAnnos<_receiverParameter> {
+        _java._withNameType<ReceiverParameter, _receiverParameter>, _anno._withAnnos<_receiverParameter> {
 
     public static _receiverParameter of( String rp ) {
         return of( Ast.receiverParameter( rp ) );
@@ -156,9 +156,9 @@ public final class _receiverParameter
      * (A rarely used feature in Java METHODS and CONSTRUCTORS
      *
      * @author Eric
-     * @param <_HRP>
+     * @param <_WRP>
      */
-    public interface _hasReceiverParameter<_HRP extends _hasReceiverParameter>
+    public interface _withReceiverParameter<_WRP extends _withReceiverParameter>
             extends _java._domain {
 
         default boolean hasReceiverParameter() {      
@@ -189,7 +189,7 @@ public final class _receiverParameter
             return null;
         }
         
-        default _HRP removeReceiverParameter() {
+        default _WRP removeReceiverParameter() {
             if( hasReceiverParameter()){
                 Node n = (Node) ((_java._multiPart)this).ast();
                 if( n instanceof MethodDeclaration ){
@@ -200,18 +200,18 @@ public final class _receiverParameter
                     cd.removeReceiverParameter();
                 }
             }            
-            return (_HRP)this;
+            return (_WRP)this;
         }
 
-        default _HRP receiverParameter(String receiverParameter ) {
+        default _WRP receiverParameter(String receiverParameter ) {
             return receiverParameter( Ast.receiverParameter( receiverParameter ) );
         }
 
-        default _HRP receiverParameter(_receiverParameter _rp ) {
+        default _WRP receiverParameter(_receiverParameter _rp ) {
             return receiverParameter( _rp.ast() );
         }
         
-        default _HRP receiverParameter(ReceiverParameter rp ) {
+        default _WRP receiverParameter(ReceiverParameter rp ) {
             Node n = (Node) ((_java._multiPart)this).ast();
             if( n instanceof MethodDeclaration ){
                 MethodDeclaration md = (MethodDeclaration)n;
@@ -220,7 +220,7 @@ public final class _receiverParameter
                 ConstructorDeclaration cd = (ConstructorDeclaration)n;
                 cd.setReceiverParameter(rp);
             }
-            return (_HRP) this;
+            return (_WRP) this;
         }    
     }    
 }

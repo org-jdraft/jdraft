@@ -18,6 +18,7 @@ import java.util.function.Function;
 public class _doStmt implements _statement._controlFlow._loop<DoStmt, _doStmt>,
         _statement._controlFlow._branching<DoStmt, _doStmt>,
         _java._multiPart<DoStmt, _doStmt>,
+        _java._withCondition<DoStmt,_doStmt>,
         _body._hasBody<_doStmt> {
 
     public static _doStmt of(){
@@ -91,6 +92,7 @@ public class _doStmt implements _statement._controlFlow._loop<DoStmt, _doStmt>,
         return false;
     }
 
+    /*
     public _expression getCondition(){
         return _expression.of(this.astStmt.getCondition());
     }
@@ -121,6 +123,7 @@ public class _doStmt implements _statement._controlFlow._loop<DoStmt, _doStmt>,
         this.astStmt.setCondition(e.ast());
         return this;
     }
+     */
 
     public _body getBody(){
         return _body.of( this.astStmt.getBody() );

@@ -1831,16 +1831,16 @@ public enum Walk {
                     });
             return astRootNode;
         }
-        else if( _javaClass == _receiverParameter._hasReceiverParameter.class ) {
+        else if( _javaClass == _receiverParameter._withReceiverParameter.class ) {
             in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof MethodDeclaration || n instanceof ConstructorDeclaration,
                     n-> {
-                        _receiverParameter._hasReceiverParameter hm = (_receiverParameter._hasReceiverParameter)_java.of( n );
+                        _receiverParameter._withReceiverParameter hm = (_receiverParameter._withReceiverParameter)_java.of( n );
 
-                        if( ((Predicate<_receiverParameter._hasReceiverParameter>)_javaMatchFn).test( hm) ){
-                            ((Consumer<_receiverParameter._hasReceiverParameter>)_javaAction).accept( hm );
+                        if( ((Predicate<_receiverParameter._withReceiverParameter>)_javaMatchFn).test( hm) ){
+                            ((Consumer<_receiverParameter._withReceiverParameter>)_javaAction).accept( hm );
                         }
                     });
             return astRootNode;
