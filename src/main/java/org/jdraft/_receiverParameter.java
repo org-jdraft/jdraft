@@ -29,7 +29,7 @@ import org.jdraft.text.Text;
  */
 public final class _receiverParameter
         implements _java._multiPart<ReceiverParameter, _receiverParameter>,
-        _java._namedType<_receiverParameter>, _anno._hasAnnos<_receiverParameter> {
+        _java._namedType<_receiverParameter>, _anno._withAnnos<_receiverParameter> {
 
     public static _receiverParameter of( String rp ) {
         return of( Ast.receiverParameter( rp ) );

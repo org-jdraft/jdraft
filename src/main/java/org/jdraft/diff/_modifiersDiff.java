@@ -6,7 +6,7 @@ import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.NodeList;
 
 import org.jdraft.*;
-import org.jdraft._modifiers._hasModifiers;
+import org.jdraft._modifiers._withModifiers;
 
 import org.jdraft.diff._diff.*;
 
@@ -23,7 +23,7 @@ public class _modifiersDiff implements
         return Objects.equals(left, right);
     }
 
-    public _diff diff( _hasModifiers leftParent, _hasModifiers rightParent){
+    public _diff diff(_withModifiers leftParent, _withModifiers rightParent){
         return diff( _nodePath.of(),
                 new _diffList((_java._multiPart)leftParent, (_java._multiPart)rightParent),
                 (_java._multiPart)leftParent,
@@ -35,21 +35,21 @@ public class _modifiersDiff implements
     @Override
     public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, NodeList<Modifier> left, NodeList<Modifier> right) {
         if (!Objects.equals(left, right)) {
-            dt.addDiff(new _changeModifiers(path.in(_java.Component.MODIFIERS), (_modifiers._hasModifiers) _leftParent, (_modifiers._hasModifiers) _rightParent));
+            dt.addDiff(new _changeModifiers(path.in(_java.Component.MODIFIERS), (_withModifiers) _leftParent, (_withModifiers) _rightParent));
         }
         return dt;
     }
 
     public static class _changeModifiers
-            implements _diffNode<_modifiers._hasModifiers>, _diffNode._change<NodeList<Modifier>> {
+            implements _diffNode<_withModifiers>, _diffNode._change<NodeList<Modifier>> {
 
         public _nodePath path;
-        public _modifiers._hasModifiers leftParent;
-        public _modifiers._hasModifiers rightParent;
+        public _withModifiers leftParent;
+        public _withModifiers rightParent;
         public NodeList<Modifier> left;
         public NodeList<Modifier> right;
 
-        public _changeModifiers(_nodePath path, _modifiers._hasModifiers leftParent, _modifiers._hasModifiers rightParent) {
+        public _changeModifiers(_nodePath path, _withModifiers leftParent, _withModifiers rightParent) {
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -58,12 +58,12 @@ public class _modifiersDiff implements
         }
 
         @Override
-        public _modifiers._hasModifiers leftParent() {
+        public _withModifiers leftParent() {
             return leftParent;
         }
 
         @Override
-        public _modifiers._hasModifiers rightParent() {
+        public _withModifiers rightParent() {
             return rightParent;
         }
 

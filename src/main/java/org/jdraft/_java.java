@@ -23,19 +23,19 @@ import com.github.javaparser.printer.PrettyPrinterConfiguration;
 
 import static org.jdraft.Ast.*;
 
-import org.jdraft._anno._hasAnnos;
+import org.jdraft._anno._withAnnos;
 import org.jdraft._annotation._entry;
 import org.jdraft._body._hasBody;
 
 import org.jdraft._modifiers.*;
-import org.jdraft._constructor._hasConstructors;
-import org.jdraft._javadoc._hasJavadoc;
-import org.jdraft._method._hasMethods;
+import org.jdraft._constructor._withConstructors;
+import org.jdraft._javadoc._withJavadoc;
+import org.jdraft._method._withMethods;
 import org.jdraft._receiverParameter._hasReceiverParameter;
-import org.jdraft._initBlock._hasInitBlocks;
-import org.jdraft._throws._hasThrows;
-import org.jdraft._type._hasExtends;
-import org.jdraft._type._hasImplements;
+import org.jdraft._initBlock._withInitBlocks;
+import org.jdraft._throws._withThrows;
+import org.jdraft._type._withExtends;
+import org.jdraft._type._withImplements;
 import org.jdraft.io._in;
 import org.jdraft.io._io;
 import org.jdraft.macro.macro;
@@ -1105,31 +1105,31 @@ public interface _java {
          * The classes below are categorical interfaces that are applied to classes
          */
         Class<_multiPart> NODE = _multiPart.class;
-        Class<_declared> MEMBER = _declared.class;
+        Class<_declaredBodyPart> MEMBER = _declaredBodyPart.class;
         Class<_named> NAMED = _named.class;
         Class<_namedType> NAMED_TYPE = _namedType.class;
 
-        Class<_hasThrows> HAS_THROWS = _hasThrows.class;
+        Class<_withThrows> HAS_THROWS = _withThrows.class;
         Class<_hasBody> HAS_BODY = _hasBody.class;
-        Class<_hasAnnos> HAS_ANNOS = _hasAnnos.class;
-        Class<_hasConstructors> HAS_CONSTRUCTORS = _hasConstructors.class;
-        Class<_hasJavadoc> HAS_JAVADOC = _hasJavadoc.class;
-        Class<_hasMethods> HAS_METHODS = _hasMethods.class;
-        Class<_hasModifiers> HAS_MODIFIERS = _hasModifiers.class;
+        Class<_withAnnos> HAS_ANNOS = _withAnnos.class;
+        Class<_withConstructors> HAS_CONSTRUCTORS = _withConstructors.class;
+        Class<_withJavadoc> HAS_JAVADOC = _withJavadoc.class;
+        Class<_withMethods> HAS_METHODS = _withMethods.class;
+        Class<_withModifiers> HAS_MODIFIERS = _withModifiers.class;
         Class<_parameter._hasParameters> HAS_PARAMETERS = _parameter._hasParameters.class;
         Class<_hasReceiverParameter> HAS_RECEIVER_PARAMETER = _hasReceiverParameter.class;
-        Class<_hasInitBlocks> HAS_STATIC_BLOCKS = _hasInitBlocks.class;
-        Class<_hasExtends> HAS_EXTENDS = _hasExtends.class;
-        Class<_hasImplements> HAS_IMPLEMENTS = _hasImplements.class;
+        Class<_withInitBlocks> HAS_STATIC_BLOCKS = _withInitBlocks.class;
+        Class<_withExtends> HAS_EXTENDS = _withExtends.class;
+        Class<_withImplements> HAS_IMPLEMENTS = _withImplements.class;
 
-        Class<_hasFinal> HAS_FINAL = _hasFinal.class;
-        Class<_hasAbstract> HAS_ABSTRACT = _hasAbstract.class;
-        Class<_hasNative> HAS_NATIVE = _hasNative.class;
-        Class<_hasStatic> HAS_STATIC = _hasStatic.class;
-        Class<_hasStrictFp> HAS_STRICTFP = _hasStrictFp.class;
-        Class<_hasSynchronized> HAS_SYNCHRONIZED = _hasSynchronized.class;
-        Class<_hasTransient> HAS_TRANSIENT = _hasTransient.class;
-        Class<_hasVolatile> HAS_VOLATILE = _hasVolatile.class;
+        Class<_withFinal> HAS_FINAL = _withFinal.class;
+        Class<_withAbstract> HAS_ABSTRACT = _withAbstract.class;
+        Class<_withNative> HAS_NATIVE = _withNative.class;
+        Class<_withStatic> HAS_STATIC = _withStatic.class;
+        Class<_withStrictFp> HAS_STRICTFP = _withStrictFp.class;
+        Class<_withSynchronized> HAS_SYNCHRONIZED = _withSynchronized.class;
+        Class<_withTransient> HAS_TRANSIENT = _withTransient.class;
+        Class<_withVolatile> HAS_VOLATILE = _withVolatile.class;
 
         /**
          * Map from the _java classes to the Ast Node equivalent
@@ -1204,9 +1204,9 @@ public interface _java {
     }
 
     /**
-     * A {@link _member} defined within a {@link _type} (that is callable/referenceable/reachable) from the outside
+     * A {@link _memberBodyPart} defined within a {@link _type} (that is callable/referenceable/reachable) from the outside
      * it can be associated with a larger entity or context)
-     * NOTE: each {@link _declared} maps directly to:
+     * NOTE: each {@link _declaredBodyPart} maps directly to:
      * <UL>
      *     <LI>an AST representation {@link Node}
      *     <LI></LI>a meta-representation {@link _multiPart}
@@ -1226,16 +1226,16 @@ public interface _java {
      *
      * NOTE:
      * <LI>{@link _initBlock} {@link InitializerDeclaration}
-     * is a {@link _member} but is NOT {@link _declared} (primarily because it is not
+     * is a {@link _memberBodyPart} but is NOT {@link _declaredBodyPart} (primarily because it is not
      * callable/referenceable/accessible outside of the Class where it is defined and does
-     * not satisfy the {@link _named} {@link _hasAnnos} or {@link _hasJavadoc} interfaces
+     * not satisfy the {@link _named} {@link _withAnnos} or {@link _withJavadoc} interfaces
      * (Not available via reflection at runtime)
      *
      * @param <N> the AST node type (i.e. {@link MethodDeclaration})
      * @param <_D> the meta-representation declaration type (i.e. {@link _method})
      */
-    interface _declared<N extends Node, _D extends _multiPart & _named & _hasAnnos & _hasJavadoc>
-            extends _member<N, _D>, _named<_D>, _hasAnnos<_D>, _hasJavadoc<_D> {
+    interface _declaredBodyPart<N extends Node, _D extends _multiPart & _named & _withAnnos & _withJavadoc>
+            extends _memberBodyPart<N, _D>, _named<_D>, _withAnnos<_D>, _withJavadoc<_D> {
 
         @Override
         default _javadoc getJavadoc() {
@@ -1255,10 +1255,10 @@ public interface _java {
 
     /**
      * A member within the body of a Class (something defined in the  { }) including {@link _initBlock}s.
-     * All _{@link _member}s are {@link _multiPart}s (they are represented by BOTH a meta-representation i.e. {@link _method},
+     * All _{@link _memberBodyPart}s are {@link _multiPart}s (they are represented by BOTH a meta-representation i.e. {@link _method},
      * and an AST representation {@link MethodDeclaration}.
      *
-     * {@link _initBlock} IS a {@link _member}, BUT IS NOT a {@link _declared}, because even though
+     * {@link _initBlock} IS a {@link _memberBodyPart}, BUT IS NOT a {@link _declaredBodyPart}, because even though
      * {@link _initBlock} is defined within the context of a Class, it is not named/reachable/callable or "declared"
      * and referenced outside of the class where it is defined.
      * <UL>
@@ -1277,10 +1277,10 @@ public interface _java {
      *
      * @param <N> the Ast Node instance type
      * @param <_N> the _draft instance type
-     * @see _declared (an EXTENSION of {@link _member}s that are also {@link _named}...(all {@link _member}s are
-     * {@link _declared}s, ACCEPT {@link _initBlock} which is ONLY a {@link _member}
+     * @see _declaredBodyPart (an EXTENSION of {@link _memberBodyPart}s that are also {@link _named}...(all {@link _memberBodyPart}s are
+     * {@link _declaredBodyPart}s, ACCEPT {@link _initBlock} which is ONLY a {@link _memberBodyPart}
      */
-    interface _member <N extends Node, _N extends _multiPart>
+    interface _memberBodyPart<N extends Node, _N extends _multiPart>
             extends _multiPart<N, _N> {
 
         /**
@@ -1297,7 +1297,7 @@ public interface _java {
          * @param <_M>
          * @return
          */
-        default <_M extends _member> _M getParentMember(){
+        default <_M extends _memberBodyPart> _M getParentMember(){
             if(this instanceof _field){
                 _field _f = (_field)this;
                 FieldDeclaration fd = _f.getFieldDeclaration();
@@ -1423,7 +1423,7 @@ public interface _java {
      * {@link _multiPart} entity (having more than one possible child) that maps directly to an AST {@link Node}
      * for example:
      * <UL>
-     * <LI>{@link _declared}s</LI>
+     * <LI>{@link _declaredBodyPart}s</LI>
      * <UL>
      *     <LI>{@link _type} {@link TypeDeclaration}</LI>
      *     <LI>{@link _annotation} {@link AnnotationDeclaration}
@@ -1436,7 +1436,7 @@ public interface _java {
      *     <LI>{@link _constructor} {@link ConstructorDeclaration}</LI>
      *     <LI>{@link _field} {@link FieldDeclaration}</LI>
      * </UL>
-     * <LI>{@link _member}s</LI>
+     * <LI>{@link _memberBodyPart}s</LI>
      * <UL>
      *         <LI>{@link _initBlock} {@link InitializerDeclaration}</LI>
      * </UL>
@@ -1691,6 +1691,8 @@ public interface _java {
      * {@link _typeRef}
      * {@link _typeParameter}
      *
+     * {@link _methodCall}
+     *
      * @author Eric
      * @param <_N>
      */
@@ -1717,7 +1719,12 @@ public interface _java {
             return Objects.equals(getName(), name);
         }
 
-        default  boolean isName(Predicate<String> matchFn){
+        /**
+         * determine if the name matches the Predicate
+         * @param matchFn
+         * @return
+         */
+        default  boolean isNamed(Predicate<String> matchFn){
             return matchFn.test(getName());
         }
 
@@ -1842,6 +1849,519 @@ public interface _java {
             } catch (Exception e) {
             }
             return false;
+        }
+    }
+
+    interface _withScope<N extends Node, _TA extends _astNode> extends _astNode<N, _TA> {
+
+        default boolean hasScope(){
+            return ((NodeWithOptionalScope)ast()).getScope().isPresent();
+        }
+
+        default boolean isScope(String...expr){
+            if( ((NodeWithOptionalScope)ast()).getScope().isPresent()){
+                return Objects.equals( ((NodeWithOptionalScope)ast()).getScope().get(), Ex.of(expr));
+            }
+            return false;
+        }
+
+        default boolean isScope(Expression e){
+            if( ((NodeWithOptionalScope)ast()).getScope().isPresent()){
+                return Objects.equals( ((NodeWithOptionalScope)ast()).getScope().get(), e);
+            }
+            return e == null;
+        }
+
+        default boolean isScope(_expression _e){
+            if( ((NodeWithOptionalScope)ast()).getScope().isPresent()){
+                return Objects.equals( ((NodeWithOptionalScope)ast()).getScope().get(), _e.ast());
+            }
+            return _e == null;
+        }
+
+        default _TA removeScope(){
+            ((NodeWithOptionalScope)ast()).removeScope();
+            return (_TA)this;
+        }
+
+        default _TA setScope( String scope ){
+            ((NodeWithOptionalScope)ast()).setScope(Ex.of(scope));
+            return (_TA)this;
+        }
+
+        default _TA setScope( _expression _e){
+            ((NodeWithOptionalScope)ast()).setScope(_e.ast());
+            return (_TA)this;
+        }
+
+        default _TA setScope( Expression e){
+            ((NodeWithOptionalScope)ast()).setScope(e);
+            return (_TA)this;
+        }
+
+        default _TA setScope(String... scope){
+            return setScope( Ex.of(scope));
+        }
+
+        default _expression getScope(){
+            if( ((NodeWithOptionalScope)ast()).getScope().isPresent()){
+                return _expression.of( (Expression)
+                        ((NodeWithOptionalScope)ast()).getScope().get());
+            }
+            return null;
+        }
+    }
+
+    interface _withArguments<N extends Node, _TA extends _astNode> extends _astNode<N, _TA> {
+
+        default _expression getArgument( int index){
+            return _expression.of( ((NodeWithArguments)ast()).getArgument(index) );
+        }
+
+        default _TA removeArgument( int index ){
+            ((NodeWithArguments)ast()).getArguments().remove(index);
+            return (_TA)this;
+        }
+
+        default _TA setArgument(int index, _expression _e){
+            ((NodeWithArguments)ast()).getArguments().set(index, _e.ast());
+            return (_TA)this;
+        }
+
+        default _TA setArgument(int index, Expression e){
+            ((NodeWithArguments)ast()).getArguments().set(index, e);
+            return (_TA)this;
+        }
+
+        default _TA setArgument( int index, boolean b){
+            return setArgument(index, Ex.of(b));
+        }
+
+        default _TA setArgument( int index, int i){
+            return setArgument(index, Ex.of(i));
+        }
+
+        default _TA setArgument( int index, char c){
+            return setArgument(index, Ex.of(c));
+        }
+
+        default _TA setArgument( int index, float f){
+            return setArgument(index, Ex.of(f));
+        }
+
+        default _TA setArgument( int index, long l){
+            return setArgument(index, Ex.of(l));
+        }
+
+        default _TA setArgument(int index, double d){
+            return setArgument(index, Ex.of(d));
+        }
+
+        default _TA setArguments(_expression ... _es){
+            NodeList<Expression> nle = new NodeList<>();
+            Arrays.stream(_es).forEach(n -> nle.add(n.ast()));
+            ((NodeWithArguments)ast()).setArguments(nle);
+            return (_TA)this;
+        }
+
+        default _TA setArguments(Expression ... es){
+            NodeList<Expression> nle = new NodeList<>();
+            Arrays.stream(es).forEach(n -> nle.add(n));
+            ((NodeWithArguments)ast()).setArguments(nle);
+            return (_TA)this;
+        }
+
+        default boolean hasArguments(){
+            return ((NodeWithArguments)ast()).getArguments().size() > 0 ;
+        }
+
+        default int countArguments(){
+            return ((NodeWithArguments)ast()).getArguments().size();
+        }
+
+        default int countArguments( Predicate<_expression> matchFn){
+            return listArguments(matchFn).size();
+        }
+
+        default List<_expression> listArguments(){
+            List<_expression> args = new ArrayList<>();
+            ((NodeWithArguments)ast()).getArguments().forEach(a -> args.add(_expression.of( (Expression)a)));
+            return args;
+        }
+
+        default List<_expression> listArguments(Predicate<_expression> matchFn){
+            return listArguments().stream().filter(matchFn).collect(Collectors.toList());
+        }
+
+        default boolean isArguments(String...es){
+            _expression[] _es = new _expression[es.length];
+            for(int i=0;i<es.length;i++){
+                _es[i] = _expression.of(es[i]);
+            }
+            return isArguments(_es);
+        }
+
+        default boolean isArguments(Expression...es){
+            _expression[] _es = new _expression[es.length];
+            for(int i=0;i<es.length;i++){
+                _es[i] = _expression.of(es[i]);
+            }
+            return isArguments(_es);
+        }
+
+        default boolean isArguments(_expression..._es){
+            List<_expression> _tes = listArguments();
+            if(_es.length == _tes.size()){
+                for(int i=0;i<_es.length;i++){
+                    if( ! Objects.equals( _es[i], _tes.get(i) ) ){
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+
+        default boolean isArguments( Predicate<List<_expression>> matchFn){
+            return matchFn.test( listArguments() );
+        }
+
+        default boolean isArgument( int index, String exprString){
+            try {
+                return Objects.equals(getArgument(index).ast(), Ex.of(exprString));
+            }catch(Exception e){
+                return false;
+            }
+        }
+
+        default boolean isArgument( int index, Expression e){
+            try {
+                return Objects.equals(getArgument(index).ast(), e);
+            }catch(Exception ex){
+                return false;
+            }
+        }
+
+        default boolean isArgument( int index, _expression _e){
+            try {
+                return Objects.equals(getArgument(index), _e);
+            }catch(Exception e){
+                return false;
+            }
+        }
+
+        default _TA addArgument( int i){
+            return addArgument( Ex.of(i) );
+        }
+
+        default _TA addArgument( boolean b){
+            return addArgument( Ex.of(b) );
+        }
+
+        default _TA addArgument( float f){
+            return addArgument( Ex.of(f) );
+        }
+
+        default _TA addArgument( long l){
+            return addArgument( Ex.of(l) );
+        }
+
+        default _TA addArgument( double d){
+            return addArgument( Ex.of(d) );
+        }
+
+        default _TA addArgument( char c){
+            return addArgument( Ex.of(c) );
+        }
+
+        default _TA addArgument( Expression e ){
+            return addArguments( e );
+        }
+
+        default _TA addArguments(String...es){
+            Arrays.stream(es).forEach(e -> ((NodeWithArguments)ast()).addArgument(e));
+            return (_TA)this;
+        }
+
+        default _TA addArguments(Expression...es){
+            Arrays.stream(es).forEach(e -> ((NodeWithArguments)ast()).addArgument(e));
+            return (_TA)this;
+        }
+
+        default _TA addArguments(_expression..._es){
+            Arrays.stream(_es).forEach(_e -> ((NodeWithArguments)ast()).addArgument(_e.ast()));
+            return (_TA)this;
+        }
+
+        default _TA removeArguments(){
+            ((NodeWithArguments)ast()).getArguments().removeIf( t->true);
+            return (_TA)this;
+        }
+
+        default _TA removeArguments(int index){
+            ((NodeWithArguments)ast()).getArguments().remove(index);
+            return (_TA)this;
+        }
+        default _TA removeArguments(Predicate<_expression> matchFn ){
+            ((NodeWithArguments)ast()).getArguments().removeIf(matchFn);
+            return (_TA)this;
+        }
+
+        default _TA removeArguments(_expression...es ){
+            for(int i=0;i<es.length;i++){
+                ((NodeWithArguments)ast()).getArguments().remove(es[i].ast());
+            }
+            return (_TA)this;
+        }
+
+        default _TA removeArguments(Expression...es ){
+            for(int i=0;i<es.length;i++){
+                ((NodeWithArguments)ast()).getArguments().remove(es[i]);
+            }
+            return (_TA)this;
+        }
+
+        default _TA forArguments(Consumer<_expression> argFn){
+            ((NodeWithArguments)ast()).getArguments().stream().map( a-> _expression.of( (Expression)a))
+                    .forEach(e->  argFn.accept( (_expression)e) );
+            return (_TA)this;
+        }
+
+        default _TA forArguments(Predicate<_expression> expressionMatchFn, Consumer<_expression> argFn){
+            ((NodeWithArguments)ast()).getArguments().stream()
+                    .map( a-> _expression.of( (Expression)a))
+                    .filter(expressionMatchFn).forEach(e->  argFn.accept( (_expression)e) );
+            return (_TA)this;
+        }
+    }
+
+    /**
+     *
+     * @param <N>
+     * @param <_TA>
+     */
+    interface _withTypeArguments<N extends Node, _TA extends _astNode> extends _astNode<N, _TA> {
+
+        default boolean hasTypeArguments(){
+            return ((NodeWithTypeArguments)ast()).getTypeArguments().isPresent();
+        }
+
+        /**
+         * are we using the diamond operator &lt;>
+         * @return
+         */
+        default boolean isUsingDiamondOperator(){
+            return ((NodeWithTypeArguments)ast()).isUsingDiamondOperator();
+        }
+
+        /**
+         * Set the TypeArguments to be using the Diamond Operator
+         * @return
+         */
+        default _TA setUseDiamondOperator(){
+            ((NodeWithTypeArguments)ast()).setDiamondOperator();
+            return (_TA)this;
+        }
+
+        default int typeArgumentCount(){
+            if( hasTypeArguments() ){
+                NodeList<Type> nlt =(NodeList<Type>) ((NodeWithTypeArguments)ast()).getTypeArguments().get();
+                return nlt.size();
+            }
+            return ((NodeWithArguments)ast()).getArguments().size();
+        }
+
+        default _TA setTypeArguments( Type...ts ){
+            ((NodeWithTypeArguments)ast()).setTypeArguments(ts);
+            return (_TA)this;
+        }
+
+        default _TA setTypeArguments( _typeRef...tr){
+            NodeList<Type> tas = new NodeList<>();
+            Arrays.stream(tr).forEach( t -> tas.add(t.ast()));
+            ((NodeWithTypeArguments)ast()).setTypeArguments(tas);
+            return (_TA)this;
+        }
+
+        default List<_typeRef> listTypeArguments(){
+            NodeWithTypeArguments nwta = (NodeWithTypeArguments)ast();
+            if( nwta.getTypeArguments().isPresent() ){
+                NodeList<Type> nlt = (NodeList<Type>)nwta.getTypeArguments().get();
+                return nlt.stream().map(n -> _typeRef.of(n)).collect(Collectors.toList());
+            }
+            return Collections.EMPTY_LIST;
+        }
+
+        default _typeRef getTypeArgument( int index ){
+            NodeWithTypeArguments nwta = (NodeWithTypeArguments)ast();
+            if( nwta.getTypeArguments().isPresent() ) {
+                NodeList<Type> nlt = (NodeList<Type>) nwta.getTypeArguments().get();
+                Type t = nlt.get(index);
+                return _typeRef.of(t);
+            }
+            throw new _jdraftException("No type arguments");
+        }
+
+        /**
+         * Returns a list of Type arguments based on the predicate
+         * if there are any or an empty list if there are none
+         * @return
+         */
+        default List<_typeRef> listTypeArguments(Predicate<_typeRef> matchFn){
+            return listTypeArguments().stream().filter(matchFn).collect(Collectors.toList());
+        }
+
+        default _TA forTypeArguments(Consumer<_typeRef> typeArgFn){
+            listTypeArguments().stream().forEach(typeArgFn);
+            return (_TA)this;
+        }
+
+        default _TA forTypeArguments(Predicate<_typeRef> matchFn, Consumer<_typeRef> typeArgFn){
+            listTypeArguments().stream().filter(matchFn).forEach(typeArgFn);
+            return (_TA)this;
+        }
+
+        /**
+         * Remove ALL type Arguments
+         * @return
+         */
+        default _TA removeTypeArguments(){
+            NodeWithTypeArguments nwta = (NodeWithTypeArguments)ast();
+            nwta.removeTypeArguments();
+            return (_TA)this;
+        }
+
+        default _TA removeTypeArguments( String...tas ){
+            Type[] ts = new Type[tas.length];
+            for(int i=0;i<tas.length;i++){
+                ts[i] = Ast.typeRef(tas[i]);
+            }
+            return removeTypeArguments(ts);
+        }
+
+        /**
+         * removes these specific type arguments if they are found in the TypeArgs
+         * @param tas
+         * @return
+         */
+        default _TA removeTypeArguments( Type...tas ){
+            NodeWithTypeArguments nwta = (NodeWithTypeArguments)ast();
+            NodeList<Type> nt = null;
+
+            if( nwta.getTypeArguments().isPresent() ){
+                nt =(NodeList<Type>) nwta.getTypeArguments().get();
+                for(int i=0;i<tas.length;i++){
+                    nt.remove(tas[i]);
+                }
+            }
+            return (_TA) this;
+        }
+
+        /**
+         * removes these specific type arguments if they are found in the TypeArgs
+         * @param tas
+         * @return
+         */
+        default _TA removeTypeArguments( _typeRef...tas ){
+            NodeWithTypeArguments nwta = (NodeWithTypeArguments)ast();
+            NodeList<Type> nt = null;
+
+            if( nwta.getTypeArguments().isPresent() ){
+                nt =(NodeList<Type>) nwta.getTypeArguments().get();
+                for(int i=0;i<tas.length;i++){
+                    nt.remove(tas[i].ast());
+                }
+            }
+            return (_TA) this;
+        }
+
+        /**
+         * removes these specific type arguments if they are found in the TypeArgs
+         * @param matchFn
+         * @return
+         */
+        default _TA removeTypeArguments( Predicate<_typeRef> matchFn ){
+            NodeWithTypeArguments nwta = (NodeWithTypeArguments)ast();
+            NodeList<Type> nt = null;
+
+
+            if( nwta.getTypeArguments().isPresent() ){
+                nt =(NodeList<Type>) nwta.getTypeArguments().get();
+                List<Type> toRemove =
+                        nt.stream().filter(ta -> matchFn.test( _typeRef.of(ta))).collect(Collectors.toList());
+                return removeTypeArguments(toRemove.toArray(new Type[0]));
+            }
+            return (_TA) this;
+        }
+
+
+
+        default _TA setTypeArgument(int index, Type t ){
+            NodeWithTypeArguments nwta = (NodeWithTypeArguments)ast();
+            NodeList<Type> nt = null;
+
+            if( nwta.getTypeArguments().isPresent() ){
+                NodeList<Type> nta = (NodeList<Type>) nwta.getTypeArguments().get();
+                nta.set(index, t);
+            }
+            return (_TA)this;
+        }
+
+        default _TA setTypeArgument(int index, _typeRef _t ){
+            return setTypeArgument(index, _t.ast());
+        }
+
+        default _TA setTypeArgument(int index, String type){
+            return setTypeArgument(index, Ast.typeRef(type));
+        }
+
+        default boolean isTypeArguments(_typeRef..._typeArguments){
+            List<_typeRef> tas = listTypeArguments();
+            if( _typeArguments.length != tas.size()){
+                return false;
+            }
+            for(int i=0;i<tas.size();i++){
+                if( !tas.get(i).equals( _typeArguments[i])){
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        default _TA addTypeArguments(String...ts){
+            Type[] tys = new Type[ts.length];
+            for(int i=0;i<ts.length;i++){
+                tys[i] = Ast.typeRef(ts[i]);
+            }
+            return addTypeArguments(tys);
+        }
+
+        default _TA addTypeArguments(Class...cs){
+            Type[] ts = new Type[cs.length];
+            for(int i=0;i<cs.length;i++){
+                ts[i] = Ast.typeRef(cs[i]);
+            }
+            return addTypeArguments(ts);
+        }
+
+        default _TA addTypeArguments(Type...ts){
+            NodeWithTypeArguments nwta = (NodeWithTypeArguments)ast();
+            NodeList<Type> nt = null;
+            if( nwta.getTypeArguments().isPresent() ){
+                nt =(NodeList<Type>) nwta.getTypeArguments().get();
+            } else{
+                nt = new NodeList<Type>();
+                nwta.setTypeArguments(nt);
+            }
+            for(int i=0;i<ts.length;i++){
+                nt.add( ts[i]);
+            }
+            return (_TA)this;
+        }
+
+        default _TA addTypeArguments(_typeRef..._es){
+            List<Type> lt = Arrays.stream(_es).map(_e -> _e.ast()).collect(Collectors.toList());
+            return addTypeArguments( lt.toArray(new Type[0]));
         }
     }
 }

@@ -488,7 +488,7 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
      * @author Eric
      * @param <_HM> the target TYPE
      */
-    public interface _hasModifiers<_HM extends _hasModifiers>
+    public interface _withModifiers<_HM extends _withModifiers>
         extends _java._domain {
 
         default boolean isExplicitModifiers( int bitMask){
@@ -633,78 +633,78 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
 
     /**
      * entity with possible final modifier
-     * @param <_HF>
+     * @param <_WF>
      */
-    public interface _hasFinal<_HF extends _hasFinal> {
+    public interface _withFinal<_WF extends _withFinal> {
 
         boolean isFinal();
 
-        default _HF setFinal(){
+        default _WF setFinal(){
             return setFinal(true);
         }
 
-        _HF setFinal(boolean toSet);
+        _WF setFinal(boolean toSet);
     }
 
     /**
      * Entity with possible static modifier
-     * @param <_HS>
+     * @param <_WS>
      */
-    public interface _hasStatic<_HS extends _hasStatic>  extends _hasModifiers<_HS> {
+    public interface _withStatic<_WS extends _withStatic>  extends _withModifiers<_WS> {
 
         boolean isStatic();
 
-        default _HS setStatic(){
+        default _WS setStatic(){
             return setStatic(true);
         }
 
-        default _HS setStatic(boolean toSet){
+        default _WS setStatic(boolean toSet){
             _java._multiPart n = (_java._multiPart)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.STATIC, toSet);
-            return (_HS)this;
+            return (_WS)this;
         }
     }
 
     /**
      * Entity with possible synchronized modifier
-     * @param <_HS>
+     * @param <_WS>
      */
-    public interface _hasSynchronized<_HS extends _hasSynchronized> extends _hasModifiers<_HS> {
+    public interface _withSynchronized<_WS extends _withSynchronized> extends _withModifiers<_WS> {
 
         default boolean isSynchronized(){
             return getModifiers().node.hasModifier(Modifier.Keyword.SYNCHRONIZED );
         }
 
-        default _HS setSynchronized(){
+        default _WS setSynchronized(){
             return setSynchronized(true);
         }
 
-        default _HS setSynchronized(boolean toSet){
+        default _WS setSynchronized(boolean toSet){
             _java._multiPart n = (_java._multiPart)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.SYNCHRONIZED, toSet);
-            return (_HS)this;
+            return (_WS)this;
         }
     }
 
     /**
      * Entity with possible abstract modifier
-     * @param <_HA>
+     * @param <_WA>
      */
-    public interface _hasAbstract<_HA extends _hasAbstract> extends _hasModifiers<_HA> {
+    public interface _withAbstract<_WA extends _withAbstract> extends _withModifiers<_WA> {
 
         boolean isAbstract();
 
-        default _HA setAbstract(){
+        default _WA setAbstract(){
             return setAbstract(true);
         }
 
-        default _HA setAbstract(boolean toSet){
+        default _WA setAbstract(boolean toSet){
             _java._multiPart n = (_java._multiPart)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.ABSTRACT, toSet);
-            return (_HA)this;
+            return (_WA)this;
         }
     }
 
@@ -712,7 +712,7 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
      * Entity with possible volatile modifier
      * @param <_HV>
      */
-    public interface _hasVolatile<_HV extends _hasVolatile> extends _hasModifiers<_HV> {
+    public interface _withVolatile<_HV extends _withVolatile> extends _withModifiers<_HV> {
 
         default boolean isVolatile(){
             return getModifiers().node.hasModifier(Modifier.Keyword.VOLATILE );
@@ -734,7 +734,7 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
      * Entity with possible native modifier
      * @param <_HN>
      */
-    public interface _hasNative<_HN extends _hasNative>  extends _hasModifiers<_HN> {
+    public interface _withNative<_HN extends _withNative>  extends _withModifiers<_HN> {
 
         default boolean isNative(){
             return getModifiers().node.hasModifier(Modifier.Keyword.NATIVE );
@@ -756,7 +756,7 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
      * Entity with possible transient modifier
      * @param <_HT>
      */
-    public interface _hasTransient<_HT extends _hasTransient>  extends _hasModifiers<_HT> {
+    public interface _withTransient<_HT extends _withTransient>  extends _withModifiers<_HT> {
 
         default boolean isTransient(){
             return getModifiers().node.hasModifier(Modifier.Keyword.TRANSIENT );
@@ -778,7 +778,7 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
      * Entity with possible strictFp modifier
      * @param <_HS>
      */
-    public interface _hasStrictFp<_HS extends _hasStrictFp>  extends _hasModifiers<_HS> {
+    public interface _withStrictFp<_HS extends _withStrictFp>  extends _withModifiers<_HS> {
 
         default boolean isStrictFp(){
             return getModifiers().node.hasModifier(Modifier.Keyword.STRICTFP );

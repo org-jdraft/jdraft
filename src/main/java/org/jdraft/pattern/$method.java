@@ -107,7 +107,7 @@ public class $method
      * @return 
      */
     public static $method of( Class clazz, String name ){
-        _method._hasMethods  _hm = (_method._hasMethods)_java.type(clazz);
+        _method._withMethods _hm = (_method._withMethods)_java.type(clazz);
         return of( _hm.getMethod(name) );
     }       
     

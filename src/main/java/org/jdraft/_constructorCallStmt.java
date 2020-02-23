@@ -1,9 +1,6 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.ExplicitConstructorInvocationStmt;
-import com.github.javaparser.ast.type.Type;
 
 import java.util.*;
 
@@ -18,7 +15,8 @@ import java.util.*;
 public final class _constructorCallStmt
         implements _statement<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
         _java._multiPart<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
-        _java._list<Expression, _expression, _constructorCallStmt> {
+        _java._withTypeArguments<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
+        _java._withArguments<ExplicitConstructorInvocationStmt, _constructorCallStmt> {
 
     public static _constructorCallStmt of(){
         return new _constructorCallStmt( new ExplicitConstructorInvocationStmt( ));
@@ -43,6 +41,7 @@ public final class _constructorCallStmt
         return new _constructorCallStmt( this.astStmt.clone());
     }
 
+    /*
     @Override
     public List<_expression> list() {
         List<_expression> _la = new ArrayList<>();
@@ -50,10 +49,14 @@ public final class _constructorCallStmt
         return _la;
     }
 
+     */
+
+    /*
     @Override
     public NodeList<Expression> listAstElements() {
         return this.astStmt.getArguments();
     }
+     */
 
     @Override
     public boolean is(String... stringRep) {
@@ -63,15 +66,18 @@ public final class _constructorCallStmt
         return false;
     }
 
+    /*
     @Override
     public boolean is(ExplicitConstructorInvocationStmt astNode) {
         return this.astStmt.equals( astNode);
     }
+     */
 
     public ExplicitConstructorInvocationStmt ast(){
         return astStmt;
     }
 
+    /*
     public List<_typeRef> listTypeArguments(){
         List<_typeRef> tas = new ArrayList<>();
         if( this.astStmt.getTypeArguments().isPresent()){
@@ -80,22 +86,12 @@ public final class _constructorCallStmt
         return tas;
     }
 
+
+
     public boolean hasTypeArguments(){
         return this.astStmt.getTypeArguments().isPresent();
     }
-
-    public boolean isTypeArguments(_typeRef..._typeArguments){
-        List<_typeRef> tas = listTypeArguments();
-        if( _typeArguments.length != tas.size()){
-            return false;
-        }
-        for(int i=0;i<tas.size();i++){
-            if( !tas.get(i).equals( _typeArguments[i])){
-                return false;
-            }
-        }
-        return true;
-    }
+    */
 
     /**
      * is a constructor call with this(...);
@@ -140,11 +136,13 @@ public final class _constructorCallStmt
         return this;
     }
 
+    /*
     public List<_expression> listArguments(){
         List<_expression> args = new ArrayList<>();
         this.astStmt.getArguments().forEach(a -> args.add( _expression.of(a)));
         return args;
     }
+
 
     public boolean isArguments( _expression..._exs){
         List<_expression> tes = list();
@@ -170,25 +168,14 @@ public final class _constructorCallStmt
         this.astStmt.setArgument(index, _e.ast());
         return this;
     }
+    */
 
-    public _constructorCallStmt setTypeArgument(int index, _typeRef _t ){
-        if( this.astStmt.getTypeArguments().isPresent()){
-            this.astStmt.getTypeArguments().get().set(index, _t.ast());
-        } else{
-            if( index == 0 ){
-                NodeList<Type> nle = new NodeList<>();
-                nle.add(_t.ast());
-                this.astStmt.setTypeArguments();
-            } else{
-                throw new _jdraftException("invalid typeArgs index: "+index);
-            }
-        }
-        return this;
-    }
 
+    /*
     public boolean hasArguments(){
         return this.astStmt.getArguments().size() > 0;
     }
+     */
 
     @Override
     public Map<_java.Component, Object> components() {

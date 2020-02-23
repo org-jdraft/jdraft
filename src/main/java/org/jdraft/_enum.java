@@ -30,9 +30,9 @@ import java.util.stream.Collectors;
  *
  * @author Eric
  */
-public final class _enum implements _type<EnumDeclaration, _enum>,_method._hasMethods<_enum>,
-        _constructor._hasConstructors<_enum, EnumDeclaration>, _initBlock._hasInitBlocks<_enum>,
-        _type._hasImplements<_enum>{
+public final class _enum implements _type<EnumDeclaration, _enum>, _method._withMethods<_enum>,
+        _constructor._withConstructors<_enum, EnumDeclaration>, _initBlock._withInitBlocks<_enum>,
+        _type._withImplements<_enum> {
 
     public static _enum of( Class<? extends Enum> clazz ){
         Node n = Ast.typeDecl( clazz );

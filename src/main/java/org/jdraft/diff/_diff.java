@@ -6,18 +6,18 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
-import org.jdraft._anno._hasAnnos;
+import org.jdraft._anno._withAnnos;
 import org.jdraft._body._hasBody;
-import org.jdraft._constructor._hasConstructors;
-import org.jdraft._field._hasFields;
+import org.jdraft._constructor._withConstructors;
+import org.jdraft._field._withFields;
 import org.jdraft._java.Component;
-import org.jdraft._javadoc._hasJavadoc;
-import org.jdraft._method._hasMethods;
-import org.jdraft._modifiers._hasModifiers;
+import org.jdraft._javadoc._withJavadoc;
+import org.jdraft._method._withMethods;
+import org.jdraft._modifiers._withModifiers;
 import org.jdraft._receiverParameter._hasReceiverParameter;
-import org.jdraft._throws._hasThrows;
-import org.jdraft._typeParameter._hasTypeParameters;
-import org.jdraft._initBlock._hasInitBlocks;
+import org.jdraft._throws._withThrows;
+import org.jdraft._typeParameter._withTypeParameters;
+import org.jdraft._initBlock._withInitBlocks;
 
 import org.jdraft.diff._diffNode._edit;
 
@@ -167,27 +167,27 @@ public interface _diff {
 
     //so if a _hasConstructor has a no arg construstor with no body, it should be 
     // NOT a diff (I should post-process remove a diff
-    static _diff constructorsOf(_hasConstructors left, _hasConstructors right) {
+    static _diff constructorsOf(_withConstructors left, _withConstructors right) {
         return _constructorsDiff.INSTANCE.diff(left, right);
     }
 
-    static _diff throwsOf(_hasThrows left, _hasThrows right) {
+    static _diff throwsOf(_withThrows left, _withThrows right) {
         return _throwsDiff.INSTANCE.diff(left, right);
     }
 
-    static _diff fieldsOf(_hasFields left, _hasFields right) {
+    static _diff fieldsOf(_withFields left, _withFields right) {
         return _fieldsDiff.INSTANCE.diff(left, right);
     }
 
-    static _diff methodsOf(_hasMethods left, _hasMethods right) {
+    static _diff methodsOf(_withMethods left, _withMethods right) {
         return _methodsDiff.INSTANCE.diff(left, right);
     }
 
-    static _diff annosOf(_hasAnnos left, _hasAnnos right) {
+    static _diff annosOf(_withAnnos left, _withAnnos right) {
         return _annosDiff.INSTANCE.diff(left, right);
     }
 
-    static _diff javadocOf(_hasJavadoc left, _hasJavadoc right) {
+    static _diff javadocOf(_withJavadoc left, _withJavadoc right) {
         return _javadocDiff.INSTANCE.diff(left, right);
     }
 
@@ -195,7 +195,7 @@ public interface _diff {
         return _bodyDiff.INSTANCE.diff(left, right);
     }
 
-    static _diff modifiersOf(_hasModifiers left, _hasModifiers right) {
+    static _diff modifiersOf(_withModifiers left, _withModifiers right) {
         return _modifiersDiff.INSTANCE.diff(left, right);
     }
 
@@ -207,11 +207,11 @@ public interface _diff {
         return _packageNameDiff.INSTANCE.diff(left, right);
     }
 
-    static _diff typeParametersOf(_hasTypeParameters left, _hasTypeParameters right) {
+    static _diff typeParametersOf(_withTypeParameters left, _withTypeParameters right) {
         return _typeParametersDiff.INSTANCE.diff(left, right);
     }
 
-    static _diff staticBlocksOf(_hasInitBlocks left, _hasInitBlocks right) {
+    static _diff staticBlocksOf(_withInitBlocks left, _withInitBlocks right) {
         return _initBlocksDiff.INSTANCE.diff(left, right);
     }
 

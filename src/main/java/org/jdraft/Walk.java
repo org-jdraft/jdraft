@@ -1431,7 +1431,7 @@ public enum Walk {
      * ({@link _field}, {@link _method}, {@link _constant}...)
      *
      * <LI>Logical interfaces
-     * ({@link _javadoc._hasJavadoc}, {@link _method._hasMethods}, {@link _anno._hasAnnos}, ...)
+     * ({@link _javadoc._withJavadoc}, {@link _method._withMethods}, {@link _anno._withAnnos}, ...)
      * </UL>
      *
      * @param <T> the target Class TYPE ..we need this BECAUSE Node classes/interfaces dont have a common ancestor
@@ -1489,7 +1489,7 @@ public enum Walk {
      * (i.e. _field, _class, _parameter) to test against predicates
      *
      * NOTE: this ALSO works with {@link _java} interfaces like
-     * {@link _java}, {@link _method._hasMethods}
+     * {@link _java}, {@link _method._withMethods}
      * {@link _parameter._hasParameters} etc.
      *
      * @param tt the traversal TYPE
@@ -1514,7 +1514,7 @@ public enum Walk {
      * (i.e. _field, _class, _parameter) to test against predicates
      *
      * NOTE: this ALSO works with {@link _java} interfaces like
-     * {@link _java}, {@link _method._hasMethods}
+     * {@link _java}, {@link _method._withMethods}
      * {@link _parameter._hasParameters} etc.
      *
      * @param tt the traversal TYPE
@@ -1656,16 +1656,16 @@ public enum Walk {
                     } );
             return astRootNode;
         }
-        else if( _javaClass == _java._declared.class ) {
+        else if( _javaClass == _java._declaredBodyPart.class ) {
             in(tt, levels,
                     astRootNode,
                     BodyDeclaration.class,
                     t-> !t.isInitializerDeclaration(), //static Blocks are not members
                     n-> {
-                        _java._declared _n = (_java._declared)_java.of(n);
+                        _java._declaredBodyPart _n = (_java._declaredBodyPart)_java.of(n);
 
-                        if( ((Predicate<_java._declared>)_javaMatchFn).test( _n) ){
-                            ((Consumer<_java._declared>)_javaAction).accept( _n);
+                        if( ((Predicate<_java._declaredBodyPart>)_javaMatchFn).test( _n) ){
+                            ((Consumer<_java._declaredBodyPart>)_javaAction).accept( _n);
                         }
                     });
             return astRootNode;
@@ -1716,7 +1716,7 @@ public enum Walk {
                     });
             return astRootNode;
         }
-        else if( _javaClass == _anno._hasAnnos.class ) {
+        else if( _javaClass == _anno._withAnnos.class ) {
             in(tt, levels,
                     astRootNode,
                     Node.class,
@@ -1725,79 +1725,79 @@ public enum Walk {
                     // do so with the AST BODY
                     n -> n instanceof BodyDeclaration || n instanceof Parameter || n instanceof ReceiverParameter,
                     n ->{
-                        _anno._hasAnnos ha = (_anno._hasAnnos)_java.of( n );
-                        if( ((Predicate<_anno._hasAnnos>)_javaMatchFn).test( ha ) ){
-                            ((Consumer<_anno._hasAnnos>)_javaAction).accept(ha);
+                        _anno._withAnnos ha = (_anno._withAnnos)_java.of( n );
+                        if( ((Predicate<_anno._withAnnos>)_javaMatchFn).test( ha ) ){
+                            ((Consumer<_anno._withAnnos>)_javaAction).accept(ha);
                         }
                     });
             return astRootNode;
         }
-        else if( _javaClass == _constructor._hasConstructors.class ) {
+        else if( _javaClass == _constructor._withConstructors.class ) {
             in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof EnumDeclaration || (n instanceof ClassOrInterfaceDeclaration && !((ClassOrInterfaceDeclaration)n).isInterface()),
                     n-> {
-                        _constructor._hasConstructors hc = (_constructor._hasConstructors)_java.of( n );
+                        _constructor._withConstructors hc = (_constructor._withConstructors)_java.of( n );
 
-                        if( ((Predicate<_constructor._hasConstructors>)_javaMatchFn).test( hc) ){
-                            ((Consumer<_constructor._hasConstructors>)_javaAction).accept( hc );
+                        if( ((Predicate<_constructor._withConstructors>)_javaMatchFn).test( hc) ){
+                            ((Consumer<_constructor._withConstructors>)_javaAction).accept( hc );
                         }
                     });
             return astRootNode;
         }
-        else if( _javaClass == _field._hasFields.class ) {
+        else if( _javaClass == _field._withFields.class ) {
             in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof TypeDeclaration || n instanceof EnumConstantDeclaration,
                     n-> {
-                        _field._hasFields hf = (_field._hasFields)_java.of( n );
+                        _field._withFields hf = (_field._withFields)_java.of( n );
 
-                        if( ((Predicate<_field._hasFields>)_javaMatchFn).test( hf) ){
-                            ((Consumer<_field._hasFields>)_javaAction).accept( hf );
+                        if( ((Predicate<_field._withFields>)_javaMatchFn).test( hf) ){
+                            ((Consumer<_field._withFields>)_javaAction).accept( hf );
                         }
                     });
             return astRootNode;
         }
-        else if( _javaClass == _javadoc._hasJavadoc.class ) {
+        else if( _javaClass == _javadoc._withJavadoc.class ) {
             in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof NodeWithJavadoc,
                     n-> {
-                        _javadoc._hasJavadoc hf = (_javadoc._hasJavadoc)_java.of( n );
+                        _javadoc._withJavadoc hf = (_javadoc._withJavadoc)_java.of( n );
 
-                        if( ((Predicate<_javadoc._hasJavadoc>)_javaMatchFn).test( hf) ){
-                            ((Consumer<_javadoc._hasJavadoc>)_javaAction).accept( hf );
+                        if( ((Predicate<_javadoc._withJavadoc>)_javaMatchFn).test( hf) ){
+                            ((Consumer<_javadoc._withJavadoc>)_javaAction).accept( hf );
                         }
                     });
             return astRootNode;
         }
-        else if( _javaClass == _method._hasMethods.class ) {
+        else if( _javaClass == _method._withMethods.class ) {
             in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof EnumConstantDeclaration || n instanceof ClassOrInterfaceDeclaration || n instanceof EnumDeclaration,
                     n-> {
-                        _method._hasMethods hm = (_method._hasMethods)_java.of( n );
+                        _method._withMethods hm = (_method._withMethods)_java.of( n );
 
-                        if( ((Predicate<_method._hasMethods>)_javaMatchFn).test( hm) ){
-                            ((Consumer<_method._hasMethods>)_javaAction).accept( hm );
+                        if( ((Predicate<_method._withMethods>)_javaMatchFn).test( hm) ){
+                            ((Consumer<_method._withMethods>)_javaAction).accept( hm );
                         }
                     });
             return astRootNode;
         }
-        else if( _javaClass == _modifiers._hasModifiers.class ) {
+        else if( _javaClass == _modifiers._withModifiers.class ) {
             in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof NodeWithModifiers,
                     n-> {
-                        _modifiers._hasModifiers  hm = (_modifiers._hasModifiers)_java.of( n );
+                        _modifiers._withModifiers hm = (_modifiers._withModifiers)_java.of( n );
 
-                        if( ((Predicate<_modifiers._hasModifiers>)_javaMatchFn).test( hm) ){
-                            ((Consumer<_modifiers._hasModifiers>)_javaAction).accept( hm );
+                        if( ((Predicate<_modifiers._withModifiers>)_javaMatchFn).test( hm) ){
+                            ((Consumer<_modifiers._withModifiers>)_javaAction).accept( hm );
                         }
                     });
             return astRootNode;
@@ -1845,13 +1845,13 @@ public enum Walk {
                     });
             return astRootNode;
         }
-        else if( _javaClass == _initBlock._hasInitBlocks.class ) {
+        else if( _javaClass == _initBlock._withInitBlocks.class ) {
             in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof ClassOrInterfaceDeclaration || n instanceof EnumDeclaration,
                     n-> {
-                        _initBlock._hasInitBlocks hsb = null;
+                        _initBlock._withInitBlocks hsb = null;
                         if( n instanceof ClassOrInterfaceDeclaration){
                             ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)n;
                             if( !coid.isInterface() ) {
@@ -1860,36 +1860,36 @@ public enum Walk {
                         } else {
                             hsb = _enum.of( (EnumDeclaration)n);
                         }
-                        if( hsb != null && ((Predicate<_initBlock._hasInitBlocks>)_javaMatchFn).test( hsb) ){
-                            ((Consumer<_initBlock._hasInitBlocks>)_javaAction).accept( hsb );
+                        if( hsb != null && ((Predicate<_initBlock._withInitBlocks>)_javaMatchFn).test( hsb) ){
+                            ((Consumer<_initBlock._withInitBlocks>)_javaAction).accept( hsb );
                         }
                     });
             return astRootNode;
         }
-        else if( _javaClass == _throws._hasThrows.class ) {
+        else if( _javaClass == _throws._withThrows.class ) {
             in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof NodeWithThrownExceptions,
                     n-> {
-                        _throws._hasThrows ht = (_throws._hasThrows)_java.of(n);
+                        _throws._withThrows ht = (_throws._withThrows)_java.of(n);
 
-                        if( ((Predicate<_throws._hasThrows>)_javaMatchFn).test( ht) ){
-                            ((Consumer<_throws._hasThrows>)_javaAction).accept( ht );
+                        if( ((Predicate<_throws._withThrows>)_javaMatchFn).test( ht) ){
+                            ((Consumer<_throws._withThrows>)_javaAction).accept( ht );
                         }
                     });
             return astRootNode;
         }
-        else if( _javaClass == _typeParameter._hasTypeParameters.class ) {
+        else if( _javaClass == _typeParameter._withTypeParameters.class ) {
             in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof NodeWithTypeParameters,
                     n-> {
-                        _typeParameter._hasTypeParameters ht = (_typeParameter._hasTypeParameters)_java.of(n);
+                        _typeParameter._withTypeParameters ht = (_typeParameter._withTypeParameters)_java.of(n);
 
-                        if( ((Predicate<_typeParameter._hasTypeParameters>)_javaMatchFn).test( ht) ){
-                            ((Consumer<_typeParameter._hasTypeParameters>)_javaAction).accept( ht );
+                        if( ((Predicate<_typeParameter._withTypeParameters>)_javaMatchFn).test( ht) ){
+                            ((Consumer<_typeParameter._withTypeParameters>)_javaAction).accept( ht );
                         }
                     });
             return astRootNode;

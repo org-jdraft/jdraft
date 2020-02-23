@@ -218,8 +218,8 @@ public class _enumTest extends TestCase {
         assertTrue(_c.hasFields());
         assertTrue(_c.hasArguments());
         assertEquals( 2, _c.listArguments().size());
-        assertEquals( Ex.intLiteralEx( "1"), _c.getArgument(0));
-        assertEquals( Ex.stringLiteralEx("String"), _c.getArgument(1));
+        assertEquals( _int.of(1), _c.getArgument(0));
+        assertEquals( _string.of("String"), _c.getArgument(1));
         assertTrue( _c.getAnnos().is("@ann", "@ann2(k='o')"));
         _field _f = _c.getField( "num");
         assertNotNull( _f);
@@ -234,8 +234,8 @@ public class _enumTest extends TestCase {
         
         _constant _cc = _e.getConstant("C");
         assertEquals(2, _cc.listArguments().size() );
-        assertEquals(Ex.of(2), _cc.getArgument(0));
-        assertEquals(Ex.stringLiteralEx("Blah"), _cc.getArgument(1));
+        assertEquals(_int.of(2), _cc.getArgument(0));
+        assertEquals(_string.of("Blah"), _cc.getArgument(1));
         
         assertTrue( _e.hasInitBlocks() );
         assertTrue( _e.getInitBlock(0).is("System.out.println(12231);"));

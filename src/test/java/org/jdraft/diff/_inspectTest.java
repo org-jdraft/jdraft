@@ -141,7 +141,7 @@ public class _inspectTest extends TestCase {
         });
         
         //move ALL members from _v2 to _v1
-        _v1.add(_v2.listDeclared().toArray(new _java._declared[0]));
+        _v1.add(_v2.listDeclared().toArray(new _java._declaredBodyPart[0]));
         assertEquals( _v1, _v2);        
     }
     

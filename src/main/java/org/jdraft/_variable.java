@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class _variable implements _expression<VariableDeclarationExpr, _variable>,
         _java._multiPart<VariableDeclarationExpr, _variable>,
-        _modifiers._hasModifiers<_variable> {
+        _modifiers._withModifiers<_variable> {
 
     public static _variable of(){
         return new _variable(new VariableDeclarationExpr());

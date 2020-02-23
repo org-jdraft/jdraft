@@ -8,7 +8,6 @@ import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
 import org.jdraft.text.Text;
 
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -22,9 +21,12 @@ import java.util.stream.Collectors;
  * }
  * </PRE>
  */
-public class _constant implements _javadoc._hasJavadoc<_constant>,
-        _anno._hasAnnos<_constant>,_method._hasMethods<_constant>, _field._hasFields<_constant>,
-        _java._declared<EnumConstantDeclaration, _constant> {
+public class _constant implements _java._declaredBodyPart<EnumConstantDeclaration, _constant>,
+        _javadoc._withJavadoc<_constant>,
+        _anno._withAnnos<_constant>,
+        _method._withMethods<_constant>,
+        _field._withFields<_constant>,
+        _java._withArguments<EnumConstantDeclaration, _constant>{
 
     public static _constant of(){
         return of( new EnumConstantDeclaration());
@@ -158,7 +160,7 @@ public class _constant implements _javadoc._hasJavadoc<_constant>,
      * @param _ds any declared (_method, _field) to the constant classBody
      * @return the modified _constant
      */
-    public _constant add( _java._declared... _ds ){
+    public _constant add( _java._declaredBodyPart... _ds ){
         Arrays.stream(_ds).forEach(_d -> this.astConstant.getClassBody().add( (BodyDeclaration)_d.ast()) );
         return this;
     }
@@ -206,15 +208,13 @@ public class _constant implements _javadoc._hasJavadoc<_constant>,
         return this;
     }
 
-    public _constant clearArguments(){
-        this.astConstant.getArguments().clear();
-        return this;
-    }
 
+    /*
     public _constant setArgument( int index, Expression e){
         this.astConstant.getArguments().set( index, e );
         return this;
     }
+     */
 
     public _constant setArguments( NodeList<Expression> arguments ){
         this.astConstant.setArguments(arguments);
@@ -228,54 +228,40 @@ public class _constant implements _javadoc._hasJavadoc<_constant>,
         return this;
     }
 
-    public _constant setArgument( int index, boolean b){
-        return setArgument(index, Ex.of(b));
-    }
-
-    public _constant setArgument( int index, int i){
-        return setArgument(index, Ex.of(i));
-    }
-
-    public _constant setArgument( int index, char c){
-        return setArgument(index, Ex.of(c));
-    }
-
-    public _constant setArgument( int index, float f){
-        return setArgument(index, Ex.of(f));
-    }
-
-    public _constant setArgument( int index, long l){
-        return setArgument(index, Ex.of(l));
-    }
-
-    public _constant setArgument(int index, double d){
-        return setArgument(index, Ex.of(d));
-    }
-
+    /*
     public _constant forArguments( Consumer<Expression> expressionAction ){
         this.listArguments().forEach(expressionAction);
         return this;
     }
 
+     */
+
+    /*
     public _constant forArguments(Predicate<Expression> expressionMatchFn, Consumer<Expression> expressionAction ){
         this.listArguments(expressionMatchFn).forEach(expressionAction);
         return this;
     }
+     */
 
+    /*
     public _constant removeArgument( int index ){
         this.astConstant.getArguments().remove(index);
         return this;
     }
-
+    */
+    /*
     public _constant removeArguments( Predicate<Expression> argumentMatchFn ){
         listArguments(argumentMatchFn).forEach(e -> e.removeForced() );
         return this;
     }
-
+    */
+    /*
     public List<Expression> listArguments(){
         return this.astConstant.getArguments();
     }
+     */
 
+    /*
     public List<Expression>listArguments(Predicate<Expression> expressionMatchFn){
         return this.astConstant.getArguments().stream().filter( expressionMatchFn ).collect(Collectors.toList() );
     }
@@ -284,6 +270,7 @@ public class _constant implements _javadoc._hasJavadoc<_constant>,
     public Expression getArgument( int index ){
         return listArguments().get( index );
     }
+    */
 
     @Override
     public _annos getAnnos() {

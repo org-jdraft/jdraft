@@ -5,7 +5,7 @@ import java.util.Objects;
 import com.github.javaparser.ast.comments.JavadocComment;
 
 import org.jdraft.*;
-import org.jdraft._javadoc._hasJavadoc;
+import org.jdraft._javadoc._withJavadoc;
 
 import org.jdraft.diff._diff.*;
 
@@ -20,7 +20,7 @@ public class _javadocDiff implements _differ<_javadoc, _java._multiPart> {
         return Objects.equals(left, right);
     }
 
-    public _diff diff( _hasJavadoc leftParent, _hasJavadoc rightParent){
+    public _diff diff(_withJavadoc leftParent, _withJavadoc rightParent){
         return diff( _nodePath.of(),
             new _diffList((_java._multiPart)leftParent, (_java._multiPart)rightParent),
             (_java._multiPart)leftParent,
@@ -32,7 +32,7 @@ public class _javadocDiff implements _differ<_javadoc, _java._multiPart> {
     @Override
     public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _javadoc left, _javadoc right) {
         if (!equivalent(left, right)) {
-            dt.addDiff(new _changeJavadoc(path.in(_java.Component.JAVADOC), (_javadoc._hasJavadoc) _leftParent, (_javadoc._hasJavadoc) _rightParent));
+            dt.addDiff(new _changeJavadoc(path.in(_java.Component.JAVADOC), (_withJavadoc) _leftParent, (_withJavadoc) _rightParent));
         }
         return dt;
     }
@@ -45,12 +45,12 @@ public class _javadocDiff implements _differ<_javadoc, _java._multiPart> {
             implements _diffNode, _diffNode._change<JavadocComment> {
 
         public _nodePath path;
-        public _javadoc._hasJavadoc leftParent;
-        public _javadoc._hasJavadoc rightParent;
+        public _withJavadoc leftParent;
+        public _withJavadoc rightParent;
         public JavadocComment leftJavadoc;
         public JavadocComment rightJavadoc;
 
-        public _changeJavadoc(_nodePath _p, _javadoc._hasJavadoc leftParent, _javadoc._hasJavadoc rightParent) {
+        public _changeJavadoc(_nodePath _p, _withJavadoc leftParent, _withJavadoc rightParent) {
             this.path = _p;
             this.leftParent = leftParent;
             if (leftParent.hasJavadoc()) {
@@ -73,8 +73,8 @@ public class _javadocDiff implements _differ<_javadoc, _java._multiPart> {
                 //System.out.println("RIGHT JAVADOC"+right.getJavadoc() );
                 //System.out.println( "ARE THEY EQUAL " + left.getJavadoc().equals( right.getJavadoc() ));
             } else{
-                ((_java._declared)leftParent).removeJavadoc();
-                ((_java._declared)rightParent).removeJavadoc();
+                ((_java._declaredBodyPart)leftParent).removeJavadoc();
+                ((_java._declaredBodyPart)rightParent).removeJavadoc();
             }
         }
 

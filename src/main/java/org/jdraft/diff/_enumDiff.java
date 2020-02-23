@@ -237,14 +237,16 @@ public class _enumDiff implements _differ<_enum, _java._multiPart> {
 
     public static final ArgsInspect ARGUMENTS_DIFF = new ArgsInspect();
 
-    public static class ArgsInspect implements _differ<List<Expression>, _java._multiPart> {
+    //public static class ArgsInspect implements _differ<List<Expression>, _java._multiPart> {
+    public static class ArgsInspect implements _differ<List<_expression>, _java._multiPart> {
 
         public boolean equivalent(List<Expression> left, List<Expression> right) {
             return Objects.equals(left, right);
         }
 
         @Override
-        public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<Expression> left, List<Expression> right) {
+        //public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<Expression> left, List<Expression> right) {
+        public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<_expression> left, List<_expression> right) {
             if (!Objects.equals(left, right)) {
                 dt.addDiff(new _changeArguments(path.in(ARGUMENTS), (_constant) _leftParent, (_constant) _rightParent));
             }

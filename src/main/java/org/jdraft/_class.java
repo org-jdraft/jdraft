@@ -29,11 +29,11 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
-        _method._hasMethods<_class>, _constructor._hasConstructors<_class, ClassOrInterfaceDeclaration>,
-        _typeParameter._hasTypeParameters<_class>, _initBlock._hasInitBlocks<_class>,
-        _modifiers._hasAbstract<_class>, _modifiers._hasFinal<_class>,
-        _modifiers._hasStatic<_class>,_type._hasImplements<_class>,
-        _type._hasExtends<_class> {
+        _method._withMethods<_class>, _constructor._withConstructors<_class, ClassOrInterfaceDeclaration>,
+        _typeParameter._withTypeParameters<_class>, _initBlock._withInitBlocks<_class>,
+        _modifiers._withAbstract<_class>, _modifiers._withFinal<_class>,
+        _modifiers._withStatic<_class>, _type._withImplements<_class>,
+        _type._withExtends<_class> {
 
     /**
      * Build a _class from the source of the Class, while applying any

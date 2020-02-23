@@ -3,7 +3,7 @@ package org.jdraft.diff;
 import java.util.*;
 
 import org.jdraft.*;
-import org.jdraft._field._hasFields;
+import org.jdraft._field._withFields;
 import org.jdraft._java.Component;
 
 import org.jdraft.diff._diff.*;
@@ -33,7 +33,7 @@ public class _fieldsDiff implements _differ<List<_field>, _java._multiPart> {
         return null;
     }
 
-    public _diff diff( _hasFields left, _hasFields right){
+    public _diff diff(_withFields left, _withFields right){
         return diff( _nodePath.of(), new _diffList((_java._multiPart)left, (_java._multiPart)right), (_java._multiPart)left, (_java._multiPart)right, left.listFields(), right.listFields());
     }
     
@@ -59,12 +59,12 @@ public class _fieldsDiff implements _differ<List<_field>, _java._multiPart> {
                 _fieldDiff.INSTANCE.diff(path, dt, _leftParent, _rightParent, f, match);
                 rf.remove(match);
             } else {
-                dt.addDiff(new _leftOnly_field(p, (_field._hasFields) _leftParent, (_field._hasFields) _rightParent, f.copy()));
+                dt.addDiff(new _leftOnly_field(p, (_withFields) _leftParent, (_withFields) _rightParent, f.copy()));
             }
         });
         rf.forEach(f -> {
             _nodePath p = path.in(Component.FIELD, f.getName());
-            dt.addDiff(new _rightOnly_field(p, (_field._hasFields) _leftParent, (_field._hasFields) _rightParent, f.copy()));
+            dt.addDiff(new _rightOnly_field(p, (_withFields) _leftParent, (_withFields) _rightParent, f.copy()));
         });
 
         return (_diff) dt;
@@ -72,14 +72,14 @@ public class _fieldsDiff implements _differ<List<_field>, _java._multiPart> {
     
     
     public static class _leftOnly_field
-        implements _diffNode<_field._hasFields>, _diffNode._leftOnly<_field> {
+        implements _diffNode<_withFields>, _diffNode._leftOnly<_field> {
 
         public _nodePath path;
-        public _field._hasFields leftParent;
-        public _field._hasFields rightParent;
+        public _withFields leftParent;
+        public _withFields rightParent;
         public _field left;
 
-        public _leftOnly_field(_nodePath p, _field._hasFields leftParent, _field._hasFields rightParent, _field left) {
+        public _leftOnly_field(_nodePath p, _withFields leftParent, _withFields rightParent, _field left) {
             this.path = p;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -87,12 +87,12 @@ public class _fieldsDiff implements _differ<List<_field>, _java._multiPart> {
         }
 
         @Override
-        public _field._hasFields leftParent() {
+        public _withFields leftParent() {
             return leftParent;
         }
 
         @Override
-        public _field._hasFields rightParent() {
+        public _withFields rightParent() {
             return rightParent;
         }
 
@@ -128,14 +128,14 @@ public class _fieldsDiff implements _differ<List<_field>, _java._multiPart> {
         }
     }
 
-    public static class _rightOnly_field implements _diffNode<_field._hasFields>, _diffNode._rightOnly<_field> {
+    public static class _rightOnly_field implements _diffNode<_withFields>, _diffNode._rightOnly<_field> {
 
         public _nodePath path;
-        public _field._hasFields leftParent;
-        public _field._hasFields rightParent;
+        public _withFields leftParent;
+        public _withFields rightParent;
         public _field right;
 
-        public _rightOnly_field(_nodePath p, _field._hasFields leftParent, _field._hasFields rightParent, _field right) {
+        public _rightOnly_field(_nodePath p, _withFields leftParent, _withFields rightParent, _field right) {
             this.path = p;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -143,12 +143,12 @@ public class _fieldsDiff implements _differ<List<_field>, _java._multiPart> {
         }
 
         @Override
-        public _field._hasFields leftParent() {
+        public _withFields leftParent() {
             return leftParent;
         }
 
         @Override
-        public _field._hasFields rightParent() {
+        public _withFields rightParent() {
             return rightParent;
         }
 

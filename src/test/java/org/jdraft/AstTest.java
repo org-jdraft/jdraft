@@ -990,13 +990,13 @@ public class AstTest extends TestCase {
 
         System.out.println(
                Walk.list( _class.of(L.class),
-                    _javadoc._hasJavadoc.class,
+                    _javadoc._withJavadoc.class,
                     jd -> jd.hasJavadoc() && jd.getJavadoc().getContent().startsWith("TODO")));
 
         //List all entities that have TODO tags within the Javadocs
         System.out.println(
                 Walk.list(_class.of(L.class),
-                _javadoc._hasJavadoc.class,
+                _javadoc._withJavadoc.class,
                 jd -> jd.hasJavadoc() && jd.getJavadoc().getContent().startsWith("TODO") ) );
 
         //find any TODO tags within the code

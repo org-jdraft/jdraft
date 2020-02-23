@@ -1366,8 +1366,19 @@ public enum Ex {
         return newEx(ste, _io.IN_DEFAULT);
     }
 
+    public static ObjectCreationExpr objectCreationEx(Class clazz) {
+        return objectCreationEx("new "+clazz.getCanonicalName()+"()");
+    }
+
     public static ObjectCreationExpr objectCreationEx(String... code ) {
-        return of( code ).asObjectCreationExpr();
+        String str = Text.combine(code);
+        if( !str.startsWith("new") ){
+            str = "new "+str;
+        }
+        if(! ( str.endsWith(")") || str.endsWith("}")) ){
+            str = str+"()";
+        }
+        return of( str ).asObjectCreationExpr();
     }
     
     /**

@@ -47,7 +47,7 @@ public @interface _final {
                 //_macro.removeAnnotation(fd, _final.class);
             } else{
                 try{
-                    ((_modifiers._hasModifiers) _java.of(node)).getModifiers().setFinal();
+                    ((_modifiers._withModifiers) _java.of(node)).getModifiers().setFinal();
                 } catch(Exception e){
                     Log.error("Failed setting final modifier on %s", ()->node);
                 }

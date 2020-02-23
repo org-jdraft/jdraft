@@ -11,7 +11,6 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import org.jdraft.*;
-import org.jdraft.text.Template;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
@@ -157,8 +156,8 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
             else if(parts[i] instanceof $method ){
                 final $method $fj = (($method)parts[i]);
                 Predicate<_type> aFn = a-> {
-                    if( a instanceof _method._hasMethods){
-                        return ((_method._hasMethods)a).getMethod(e->$fj.match((_method)e)) != null; //found one
+                    if( a instanceof _method._withMethods){
+                        return ((_method._withMethods)a).getMethod(e->$fj.match((_method)e)) != null; //found one
                     }
                     return false;
                 };
@@ -167,8 +166,8 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
             else if(parts[i] instanceof $constructor ){
                 final $constructor $fj = (($constructor)parts[i]);
                 Predicate<_type> aFn = a->{
-                    if( a instanceof _constructor._hasConstructors){
-                        return ((_constructor._hasConstructors)a).getConstructor(e->$fj.match((_constructor)e)) != null; //found one
+                    if( a instanceof _constructor._withConstructors){
+                        return ((_constructor._withConstructors)a).getConstructor(e->$fj.match((_constructor)e)) != null; //found one
                     }
                     return false;
                 };
@@ -177,8 +176,8 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
             else if(parts[i] instanceof $initBlock){
                 final $initBlock $fj = (($initBlock)parts[i]);
                 Predicate<_type> aFn = a-> {
-                    if( a instanceof _initBlock._hasInitBlocks) {
-                        return ((_initBlock._hasInitBlocks)a).getInitBlock(e -> $fj.match((_initBlock)e)) != null; //found one
+                    if( a instanceof _initBlock._withInitBlocks) {
+                        return ((_initBlock._withInitBlocks)a).getInitBlock(e -> $fj.match((_initBlock)e)) != null; //found one
                     }
                     return false;
                 };
@@ -253,8 +252,8 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
             else if(parts[i] instanceof $method ){
                 final $method $fj = (($method)parts[i]);
                 Predicate<_type> aFn = a-> {
-                    if( a instanceof _method._hasMethods){
-                        return ((_method._hasMethods)a).getMethod(e->$fj.match((_method)e)) != null; //found one
+                    if( a instanceof _method._withMethods){
+                        return ((_method._withMethods)a).getMethod(e->$fj.match((_method)e)) != null; //found one
                     }
                     return false;
                 };
@@ -263,8 +262,8 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
             else if(parts[i] instanceof $constructor ){
                 final $constructor $fj = (($constructor)parts[i]);
                 Predicate<_type> aFn = a->{
-                    if( a instanceof _constructor._hasConstructors){
-                        return ((_constructor._hasConstructors)a).getConstructor(e->$fj.match((_constructor)e)) != null; //found one
+                    if( a instanceof _constructor._withConstructors){
+                        return ((_constructor._withConstructors)a).getConstructor(e->$fj.match((_constructor)e)) != null; //found one
                     }
                     return false;
                 };
@@ -273,8 +272,8 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
             else if(parts[i] instanceof $initBlock){
                 final $initBlock $fj = (($initBlock)parts[i]);
                 Predicate<_type> aFn = a-> {
-                    if( a instanceof _initBlock._hasInitBlocks) {
-                        return ((_initBlock._hasInitBlocks)a).getInitBlock(e -> $fj.match((_initBlock)e)) != null; //found one
+                    if( a instanceof _initBlock._withInitBlocks) {
+                        return ((_initBlock._withInitBlocks)a).getInitBlock(e -> $fj.match((_initBlock)e)) != null; //found one
                     }
                     return false;
                 };
@@ -539,22 +538,22 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         tokens = $tokens.to(tokens, () -> this.modifiers.parse(instance));
         tokens = $tokens.to(tokens, () -> this.name.parse(instance.getName()));
 
-        if (instance instanceof _typeParameter._hasTypeParameters) {
-            tokens = $tokens.to(tokens, () -> this.typeParameters.parse(((_typeParameter._hasTypeParameters) instance).getTypeParameters()));
+        if (instance instanceof _typeParameter._withTypeParameters) {
+            tokens = $tokens.to(tokens, () -> this.typeParameters.parse(((_typeParameter._withTypeParameters) instance).getTypeParameters()));
         } else {
             if (!this.typeParameters.isMatchAny()) {
                 return null;
             }
         }
-        if (instance instanceof _type._hasExtends) {
-            tokens = $tokens.to(tokens, () -> $type.selectExtends(this.extend, (_type._hasExtends) instance));
+        if (instance instanceof _type._withExtends) {
+            tokens = $tokens.to(tokens, () -> $type.selectExtends(this.extend, (_type._withExtends) instance));
         } else {
             if (!this.extend.isEmpty()) {
                 return null;
             }
         }
-        if (instance instanceof _type._hasImplements) {
-            tokens = $tokens.to(tokens, () -> $type.selectImplements(this.implement, (_type._hasImplements) instance));
+        if (instance instanceof _type._withImplements) {
+            tokens = $tokens.to(tokens, () -> $type.selectImplements(this.implement, (_type._withImplements) instance));
         } else {
             if (!this.implement.isEmpty()) {
                 return null;
@@ -562,12 +561,12 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         }
         List<$field> $fs = new ArrayList<>();
         this.members.stream().filter(f -> f instanceof $field).forEach(f -> $fs.add(($field) f));
-        tokens = $tokens.to(tokens, () -> $type.selectFields($fs, (_field._hasFields) instance));
+        tokens = $tokens.to(tokens, () -> $type.selectFields($fs, (_field._withFields) instance));
 
         List<$initBlock> $ibs = new ArrayList<>();
         this.members.stream().filter(f -> f instanceof $initBlock).forEach(f -> $ibs.add(($initBlock) f));
-        if (instance instanceof _initBlock._hasInitBlocks) {
-            tokens = $tokens.to(tokens, () -> $type.selectInitBlocks($ibs, (_initBlock._hasInitBlocks) instance));
+        if (instance instanceof _initBlock._withInitBlocks) {
+            tokens = $tokens.to(tokens, () -> $type.selectInitBlocks($ibs, (_initBlock._withInitBlocks) instance));
         } else {
             if (!$ibs.isEmpty()) {
                 return null;
@@ -576,8 +575,8 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
 
         List<$constructor> $cts = new ArrayList<>();
         this.members.stream().filter(f -> f instanceof $constructor).forEach(f -> $cts.add(($constructor) f));
-        if (instance instanceof _constructor._hasConstructors) {
-            tokens = $tokens.to(tokens, () -> $type.selectConstructors($cts, (_constructor._hasConstructors) instance));
+        if (instance instanceof _constructor._withConstructors) {
+            tokens = $tokens.to(tokens, () -> $type.selectConstructors($cts, (_constructor._withConstructors) instance));
         } else {
             if (!$cts.isEmpty()) {
                 return null;
@@ -586,8 +585,8 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
 
         List<$method> $ms = new ArrayList<>();
         this.members.stream().filter(f -> f instanceof $method).forEach(f -> $ms.add(($method) f));
-        if (instance instanceof _method._hasMethods) {
-            tokens = $tokens.to(tokens, () -> $type.selectMethods($ms, (_method._hasMethods) instance));
+        if (instance instanceof _method._withMethods) {
+            tokens = $tokens.to(tokens, () -> $type.selectMethods($ms, (_method._withMethods) instance));
         } else {
             if (!$ms.isEmpty()) {
                 return null;
@@ -695,7 +694,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
     }
 
     /* These are methods shared/used by all $type implementations */
-    public static $pattern.$tokens selectImplements(List<$typeRef> $protoTypes, _type._hasImplements _hi) {
+    public static $pattern.$tokens selectImplements(List<$typeRef> $protoTypes, _type._withImplements _hi) {
         Map<$typeRef, List<$typeRef.Select>> selectMap = new HashMap<>();
 
         for (int i = 0; i < $protoTypes.size(); i++) {
@@ -721,7 +720,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         return all;
     }
 
-    public static $pattern.$tokens selectExtends($typeRef $protoType, _type._hasExtends _he) {
+    public static $pattern.$tokens selectExtends($typeRef $protoType, _type._withExtends _he) {
         if (!_he.hasExtends() && $protoType.isMatchAny()) {
             return $pattern.$tokens.of();
         }
@@ -730,7 +729,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         return selectExtends(lt, _he);
     }
 
-    public static $pattern.$tokens selectExtends(List<$typeRef> $protoTypes, _type._hasExtends _he) {
+    public static $pattern.$tokens selectExtends(List<$typeRef> $protoTypes, _type._withExtends _he) {
 
         Map<$typeRef, List<$typeRef.Select>> selectMap = new HashMap<>();
 
@@ -758,7 +757,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         return all;
     }
 
-    public static $pattern.$tokens selectConstructors(List<$constructor> $protoCtors, _constructor._hasConstructors _hcs) {
+    public static $pattern.$tokens selectConstructors(List<$constructor> $protoCtors, _constructor._withConstructors _hcs) {
         Map<$constructor, List<$constructor.Select>> selectMap = new HashMap<>();
 
         for (int i = 0; i < $protoCtors.size(); i++) {
@@ -811,7 +810,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         return all;
     }
 
-    public static $pattern.$tokens selectMethods(List<$method> $protoMethods, _method._hasMethods _hcs) {
+    public static $pattern.$tokens selectMethods(List<$method> $protoMethods, _method._withMethods _hcs) {
         Map<$method, List<$method.Select>> selectMap = new HashMap<>();
 
         for (int i = 0; i < $protoMethods.size(); i++) {
@@ -839,7 +838,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         return all;
     }
 
-    public static $pattern.$tokens selectFields(List<$field> $protoFields, _field._hasFields _hcs) {
+    public static $pattern.$tokens selectFields(List<$field> $protoFields, _field._withFields _hcs) {
         Map<$field, List<$field.Select>> selectMap = new HashMap<>();
 
         for (int i = 0; i < $protoFields.size(); i++) {
@@ -866,7 +865,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
     }
 
 
-    public static $pattern.$tokens selectInitBlocks(List<$initBlock> $protoInitBlocks, _initBlock._hasInitBlocks _hcs) {
+    public static $pattern.$tokens selectInitBlocks(List<$initBlock> $protoInitBlocks, _initBlock._withInitBlocks _hcs) {
         Map<$initBlock, List<$initBlock.Select>> selectMap = new HashMap<>();
 
         for (int i = 0; i < $protoInitBlocks.size(); i++) {

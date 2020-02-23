@@ -1,23 +1,23 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MethodReferenceExpr;
-import com.github.javaparser.ast.type.Type;
 
 import java.util.*;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class _methodReference implements _expression<MethodReferenceExpr, _methodReference>,
-        _java._multiPart<MethodReferenceExpr, _methodReference> {
+        _java._multiPart<MethodReferenceExpr, _methodReference>,
+        _java._withScope<MethodReferenceExpr, _methodReference>,
+        _java._withTypeArguments<MethodReferenceExpr, _methodReference> {
 
     public static _methodReference of(){
         return new _methodReference( new MethodReferenceExpr());
     }
+
     public static _methodReference of(MethodReferenceExpr mre){
         return new _methodReference(mre);
     }
+
     public static _methodReference of( String...code){
         return new _methodReference(Ex.methodReferenceEx( code));
     }
@@ -33,6 +33,7 @@ public class _methodReference implements _expression<MethodReferenceExpr, _metho
         return new _methodReference(this.mre.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -41,10 +42,12 @@ public class _methodReference implements _expression<MethodReferenceExpr, _metho
         return false;
     }
 
+
     @Override
     public boolean is(MethodReferenceExpr astNode) {
         return this.ast( ).equals(astNode);
     }
+     */
 
     public MethodReferenceExpr ast(){
         return mre;
@@ -62,6 +65,7 @@ public class _methodReference implements _expression<MethodReferenceExpr, _metho
         return comps;
     }
 
+    /*
     public boolean isScope(String...scope){
         return Objects.equals( _expression.of(scope), getScope());
     }
@@ -91,7 +95,8 @@ public class _methodReference implements _expression<MethodReferenceExpr, _metho
     public _expression getScope(){
         return _expression.of(this.mre.getScope());
     }
-
+    */
+    /*
     public List<_typeRef> listTypeArgs(){
         if(this.mre.getTypeArguments().isPresent()){
             return this.mre.getTypeArguments().get().stream().map( ta-> _typeRef.of(ta) ).collect(Collectors.toList());
@@ -112,6 +117,7 @@ public class _methodReference implements _expression<MethodReferenceExpr, _metho
         this.mre.setTypeArguments(tas);
         return this;
     }
+    */
 
     public boolean isIdentifier( String id){
         return Objects.equals( this.mre.getIdentifier(), id);
@@ -133,7 +139,7 @@ public class _methodReference implements _expression<MethodReferenceExpr, _metho
     /**
      * Returns a list of Type arguments if there are any or an empty list if there are none
      * @return
-     */
+
     public List<_typeRef> getTypeArguments(){
         if( mre.getTypeArguments().isPresent() ){
             List<_typeRef> tas = new ArrayList<>();
@@ -142,6 +148,7 @@ public class _methodReference implements _expression<MethodReferenceExpr, _metho
         }
         return new ArrayList<>();
     }
+    */
 
     public boolean equals(Object other){
         if( other instanceof _methodReference){

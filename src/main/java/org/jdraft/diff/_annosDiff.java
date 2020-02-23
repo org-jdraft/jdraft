@@ -4,12 +4,12 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 
 import org.jdraft.*;
-import org.jdraft._anno._hasAnnos;
+import org.jdraft._anno._withAnnos;
 import org.jdraft._java.Component;
 import org.jdraft.diff._diff.*;
 
 /**
- * Diff for: {@link org.jdraft._anno} {@link org.jdraft._annos} and {@link org.jdraft._anno._hasAnnos}
+ * Diff for: {@link org.jdraft._anno} {@link org.jdraft._annos} and {@link _withAnnos}
  *
  * @author Eric
  */
@@ -18,7 +18,7 @@ public class _annosDiff
 
     public static final _annosDiff INSTANCE = new _annosDiff();
     
-     public _diff diff( _hasAnnos left, _hasAnnos right){
+     public _diff diff(_withAnnos left, _withAnnos right){
         return diff( 
                 _nodePath.of(),
                 new _diffList( (_java._multiPart)left, (_java._multiPart)right),
@@ -40,7 +40,7 @@ public class _annosDiff
             //if (!raes.stream().filter(a -> Ast.annotationEqual(e, (AnnotationExpr) a)).findFirst().isPresent()) {
                 
                 ds.addDiff(new _leftOnly_anno( //in LEFT not in RIGHT means REMOVE
-                        path.in(Component.ANNO, e.getNameAsString()), (_anno._hasAnnos) _leftParent, (_anno._hasAnnos) _rightParent, _anno.of(e)));
+                        path.in(Component.ANNO, e.getNameAsString()), (_withAnnos) _leftParent, (_withAnnos) _rightParent, _anno.of(e)));
             }
         }
         for (int i = 0; i < raes.size(); i++) {
@@ -50,21 +50,21 @@ public class _annosDiff
             if (!laes.stream().filter(a -> Ex.equivalent(e, (AnnotationExpr) a)).findFirst().isPresent()) {
             //if (!laes.stream().filter(a -> Ast.annotationEqual(e, (AnnotationExpr) a)).findFirst().isPresent()) {
                 ds.addDiff(new _rightOnly_anno( //in LEFT not in RIGHT means REMOVE
-                        path.in(Component.ANNO, e.getNameAsString()), (_anno._hasAnnos) _leftParent, (_anno._hasAnnos) _rightParent, _anno.of(e)));
+                        path.in(Component.ANNO, e.getNameAsString()), (_withAnnos) _leftParent, (_withAnnos) _rightParent, _anno.of(e)));
             }
         }
         return ds;
     }
 
     public static class _leftOnly_anno
-            implements _diffNode<_anno._hasAnnos>, _diffNode._leftOnly<_anno> {
+            implements _diffNode<_withAnnos>, _diffNode._leftOnly<_anno> {
 
         public _nodePath path;
-        public _anno._hasAnnos leftParent;
-        public _anno._hasAnnos rightParent;
+        public _withAnnos leftParent;
+        public _withAnnos rightParent;
         public _anno left;
 
-        public _leftOnly_anno(_nodePath p, _anno._hasAnnos left, _anno._hasAnnos right, _anno toRemove) {
+        public _leftOnly_anno(_nodePath p, _withAnnos left, _withAnnos right, _anno toRemove) {
             this.path = p;
             this.leftParent = left;
             this.rightParent = right;
@@ -72,12 +72,12 @@ public class _annosDiff
         }
 
         @Override
-        public _anno._hasAnnos leftParent() {
+        public _withAnnos leftParent() {
             return leftParent;
         }
 
         @Override
-        public _anno._hasAnnos rightParent() {
+        public _withAnnos rightParent() {
             return rightParent;
         }
 
@@ -112,14 +112,14 @@ public class _annosDiff
         }
     }
 
-    public static class _rightOnly_anno implements _diffNode<_anno._hasAnnos>, _diffNode._rightOnly<_anno> {
+    public static class _rightOnly_anno implements _diffNode<_withAnnos>, _diffNode._rightOnly<_anno> {
 
         public _nodePath path;
-        public _anno._hasAnnos leftParent;
-        public _anno._hasAnnos rightParent;
+        public _withAnnos leftParent;
+        public _withAnnos rightParent;
         public _anno right;
 
-        public _rightOnly_anno(_nodePath p, _anno._hasAnnos leftParent, _anno._hasAnnos rightParent, _anno right) {
+        public _rightOnly_anno(_nodePath p, _withAnnos leftParent, _withAnnos rightParent, _anno right) {
             this.path = p;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -127,12 +127,12 @@ public class _annosDiff
         }
 
         @Override
-        public _anno._hasAnnos leftParent() {
+        public _withAnnos leftParent() {
             return leftParent;
         }
 
         @Override
-        public _anno._hasAnnos rightParent() {
+        public _withAnnos rightParent() {
             return rightParent;
         }
 

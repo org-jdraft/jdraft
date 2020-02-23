@@ -184,8 +184,8 @@ public class $typeParameters
     }
 
     public boolean match( _java _j ){
-        if( _j instanceof _typeParameter._hasTypeParameters  ){
-            return matches( (_typeParameter._hasTypeParameters)_j);
+        if( _j instanceof _typeParameter._withTypeParameters){
+            return matches( (_typeParameter._withTypeParameters)_j);
         }
         return false;
     }
@@ -203,7 +203,7 @@ public class $typeParameters
         return matches(_typeParameters.of(dummy));
     }
 
-    public boolean matches(_typeParameter._hasTypeParameters _htp){
+    public boolean matches(_typeParameter._withTypeParameters _htp){
         return matches( (NodeWithTypeParameters) ((_java._multiPart)_htp).ast() );
     }
 

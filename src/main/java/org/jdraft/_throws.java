@@ -405,9 +405,9 @@ public final class _throws
      * {@link _constructor}
      *
      * @author Eric
-     * @param <_HT> the hasThrows container {@link _method} {@link _constructor}
+     * @param <_WT> the _withThrows container {@link _method} {@link _constructor}
      */
-    public interface _hasThrows<_HT extends _hasThrows> extends _java._domain {
+    public interface _withThrows<_WT extends _withThrows> extends _java._domain {
 
         _throws getThrows();
 
@@ -415,34 +415,34 @@ public final class _throws
             return !getThrows().isEmpty();
         }
         
-        default _HT addThrows(String... throwExceptions) {
+        default _WT addThrows(String... throwExceptions) {
             Arrays.stream(throwExceptions).forEach(t -> addThrows(t));
-            return (_HT)this;
+            return (_WT)this;
         }
         
-        default _HT addThrows(String throwException) {
+        default _WT addThrows(String throwException) {
             getThrows().astNodeWithThrows.addThrownException((ReferenceType) Ast.typeRef(throwException));
-            return (_HT)this;
+            return (_WT)this;
         }    
 
-        default _HT addThrows(Class<? extends Throwable>... throwExceptions) {
+        default _WT addThrows(Class<? extends Throwable>... throwExceptions) {
             Arrays.stream(throwExceptions).forEach(t -> addThrows(t));
-            return (_HT)this;
+            return (_WT)this;
         }
     
-        default _HT addThrows(Class<? extends Throwable> throwException) {
+        default _WT addThrows(Class<? extends Throwable> throwException) {
             getThrows().astNodeWithThrows.addThrownException((ReferenceType) Ast.typeRef(throwException));
-            return (_HT)this;
+            return (_WT)this;
         }
 
-        default _HT setThrows(_throws _th){
+        default _WT setThrows(_throws _th){
             getThrows().astNodeWithThrows.setThrownExceptions(_th.listAstElements());
-            return (_HT)this;
+            return (_WT)this;
         }
 
-        default _HT setThrows(NodeList<ReferenceType> thrws ){
+        default _WT setThrows(NodeList<ReferenceType> thrws ){
             getThrows().astNodeWithThrows.setThrownExceptions(thrws);
-            return (_HT)this;
+            return (_WT)this;
         }
     
         default boolean hasThrow(Class<? extends Throwable> clazz) {
@@ -458,15 +458,15 @@ public final class _throws
             return this.getThrows().has(rt);
         }
         
-        default _HT removeThrow(Class<? extends Throwable> thrownClass ){
+        default _WT removeThrow(Class<? extends Throwable> thrownClass ){
             getThrows().listAstElements( t -> t.asString().equals( thrownClass.getCanonicalName()) ||
                     t.asString().equals( thrownClass.getSimpleName()) ).forEach( t -> t.remove() );
-            return (_HT)this;
+            return (_WT)this;
         }
         
-        default _HT removeThrow(Predicate<ReferenceType> throwPredicate ){
+        default _WT removeThrow(Predicate<ReferenceType> throwPredicate ){
             getThrows().astNodeWithThrows.getThrownExceptions().removeIf(throwPredicate);
-            return (_HT)this;
+            return (_WT)this;
         }
     }
 }

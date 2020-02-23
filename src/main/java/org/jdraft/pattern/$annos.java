@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 import org.jdraft.*;
 import org.jdraft._annos;
-import org.jdraft._anno._hasAnnos;
+import org.jdraft._anno._withAnnos;
 import org.jdraft.text.Template;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
@@ -58,7 +58,7 @@ public class $annos
      * @param _ha
      * @return 
      */
-    public static $annos of( _anno._hasAnnos _ha){
+    public static $annos of( _withAnnos _ha){
         return new $annos( _ha.getAnnos() ); 
     }
     
@@ -96,7 +96,7 @@ public class $annos
     }
 
 
-    public static $annos.Or or( _anno._hasAnnos... _protos ){
+    public static $annos.Or or( _withAnnos... _protos ){
         $annos[] arr = new $annos[_protos.length];
         for(int i=0;i<_protos.length;i++){
             arr[i] = $annos.of( _protos[i]);
@@ -118,7 +118,7 @@ public class $annos
      * @param _ha
      * @return
      */
-    public static $annos as( _anno._hasAnnos _ha){
+    public static $annos as( _withAnnos _ha){
         return as( _ha.getAnnos() );
     }
 
@@ -348,7 +348,7 @@ public class $annos
         return select(_as)!= null;
     }
     
-    public boolean matches( _hasAnnos _ha) {
+    public boolean matches( _withAnnos _ha) {
         return select(_ha)!= null;
     }
     
@@ -356,7 +356,7 @@ public class $annos
         return select(_annos.of(astAnnoNode) );
     }
 
-    public Tokens parse( _hasAnnos _ha ){
+    public Tokens parse( _withAnnos _ha ){
         return parse(_ha.getAnnos());
     }
 
@@ -411,7 +411,7 @@ public class $annos
      * @param _annotated
      * @return
      */
-    public Select select( _hasAnnos _annotated ){
+    public Select select( _withAnnos _annotated ){
         return select( _annotated.getAnnos() );        
     }
 
@@ -423,8 +423,8 @@ public class $annos
     }
 
     public boolean match( _java _j){
-        if( _j instanceof _anno._hasAnnos){
-            return matches( (_hasAnnos)_j);
+        if( _j instanceof _withAnnos){
+            return matches( (_withAnnos)_j);
         }
         return false;
     }

@@ -23,8 +23,8 @@ import java.util.function.Predicate;
  * ({@link ClassOrInterfaceDeclaration}) for logical manipulation.
  */
 public final class _interface implements _type<ClassOrInterfaceDeclaration, _interface>,
-        _method._hasMethods<_interface>, _typeParameter._hasTypeParameters<_interface>,
-        _type._hasExtends<_interface>{
+        _method._withMethods<_interface>, _typeParameter._withTypeParameters<_interface>,
+        _type._withExtends<_interface> {
 
     public static _interface of( Class clazz ){
         Node n = Ast.typeDecl( clazz );

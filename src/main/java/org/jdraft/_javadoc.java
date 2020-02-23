@@ -156,9 +156,9 @@ public final class _javadoc
      * Model entity that optionally has a Javadoc Comment attributed to it
      *
      * @author Eric
-     * @param <_HJ>
+     * @param <_WJ>
      */
-    public interface _hasJavadoc<_HJ extends _hasJavadoc>
+    public interface _withJavadoc<_WJ extends _withJavadoc>
             extends _java._domain {
 
         /** @return the JAVADOC for this element (or returns null) */
@@ -169,14 +169,14 @@ public final class _javadoc
          * @param content the javadoc content
          * @return 
          */
-        _HJ setJavadoc(String... content );
+        _WJ setJavadoc(String... content );
 
         /**
          * set the javadoc comment with this JavadocComment
          * @param astJavadocComment the
          * @return the modified T
          */
-        _HJ setJavadoc(JavadocComment astJavadocComment );
+        _WJ setJavadoc(JavadocComment astJavadocComment );
         
         /**
          * Does this component have a Javadoc entry?

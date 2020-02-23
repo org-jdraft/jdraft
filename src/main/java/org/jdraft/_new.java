@@ -1,21 +1,33 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.BodyDeclaration;
-import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import com.github.javaparser.ast.type.Type;
 
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
-public class _new implements _expression<ObjectCreationExpr, _new>, _java._multiPart<ObjectCreationExpr, _new> {
+/**
+ *
+ */
+public class _new implements _expression<ObjectCreationExpr, _new>,
+        _java._multiPart<ObjectCreationExpr, _new>,
+        _java._withScope<ObjectCreationExpr, _new>,
+        _java._withArguments<ObjectCreationExpr, _new>,
+        _java._withTypeArguments<ObjectCreationExpr, _new> {
 
     public static _new of(){
         return new _new( new ObjectCreationExpr() );
+    }
+    public static _new of( Class clazz){
+        if( clazz.isPrimitive() ){
+            throw new _jdraftException("cannot create a new primitive type of "+ clazz);
+        }
+        ObjectCreationExpr oce = new ObjectCreationExpr();
+        oce.setType(clazz);
+        return new _new ( oce);
     }
     public static _new of(ObjectCreationExpr oce){
         return new _new( oce );
@@ -90,7 +102,6 @@ public class _new implements _expression<ObjectCreationExpr, _new>, _java._multi
         return oce;
     }
 
-
     public _new setType(_typeRef _t){
         this.oce.setType((ClassOrInterfaceType)_t.ast());
         return this;
@@ -147,6 +158,7 @@ public class _new implements _expression<ObjectCreationExpr, _new>, _java._multi
         return comps;
     }
 
+    /*
     public boolean hasScope(){
         return this.oce.getScope().isPresent();
     }
@@ -196,7 +208,9 @@ public class _new implements _expression<ObjectCreationExpr, _new>, _java._multi
         }
         return null;
     }
+    */
 
+    /*
     public _expression getArgument( int index){
         return _expression.of( this.oce.getArgument(index) );
     }
@@ -245,66 +259,7 @@ public class _new implements _expression<ObjectCreationExpr, _new>, _java._multi
                 .filter(expressionMatchFn).forEach(e->  argFn.accept(e) );
         return this;
     }
-
-    public _new setTypeArguments( Type...ts){
-        oce.setTypeArguments(ts);
-        return this;
-    }
-
-    public _new setTypeArguments( _typeRef...tr){
-        NodeList<Type> tas = new NodeList<>();
-        Arrays.stream(tr).forEach( t -> tas.add(t.ast()));
-        oce.setTypeArguments(tas);
-        return this;
-    }
-
-    /**
-     * Returns a list of Type arguments if there are any or an empty list if there are none
-     * @return
-     */
-    public List<_typeRef> listTypeArguments(){
-        if( oce.getTypeArguments().isPresent() ){
-            List<_typeRef> tas = new ArrayList<>();
-            oce.getTypeArguments().get().forEach(t -> tas.add(_typeRef.of(t)));
-            return tas;
-        }
-        return new ArrayList<>();
-    }
-
-    public _typeRef getTypeArgument( int index ){
-        if( this.oce.getTypeArguments().isPresent()){
-            return _typeRef.of( this.oce.getTypeArguments().get().get(index) );
-        }
-        throw new _jdraftException("No type arguments");
-    }
-
-    /**
-     * Returns a list of Type arguments based on the predicate
-     * if there are any or an empty list if there are none
-     * @return
-     */
-    public List<_typeRef> listTypeArguments(Predicate<_typeRef> matchFn){
-        if( oce.getTypeArguments().isPresent() ){
-            List<_typeRef> tas = new ArrayList<>();
-            oce.getTypeArguments().get().forEach(t -> tas.add(_typeRef.of(t)));
-            return tas.stream().filter(matchFn).collect(Collectors.toList());
-        }
-        return new ArrayList<>();
-    }
-
-    public _new forTypeArguments(Consumer<_typeRef> typeArgFn){
-        if( this.oce.getTypeArguments().isPresent()){
-            this.oce.getTypeArguments().get().stream().map( a-> _typeRef.of(a)).forEach(e-> typeArgFn.accept(e) );
-        }
-        return this;
-    }
-
-    public _new forTypeArguments(Predicate<_typeRef> matchFn, Consumer<_typeRef> typeArgFn){
-        if( this.oce.getTypeArguments().isPresent()){
-            this.oce.getTypeArguments().get().stream().map( a-> _typeRef.of(a)).filter(matchFn).forEach(e-> typeArgFn.accept(e) );
-        }
-        return this;
-    }
+    */
 
     /**
      * Returns a list of declared entities defined in the anonymous body
@@ -317,20 +272,25 @@ public class _new implements _expression<ObjectCreationExpr, _new>, _java._multi
      * </PRE>
      * @return
      */
-    public List<_java._declared> listAnonymousBodyDeclarations(){
-        List<_java._declared> ds =  new ArrayList<>();
+    public List<_java._declaredBodyPart> listAnonymousDeclarations(){
+        List<_java._declaredBodyPart> ds =  new ArrayList<>();
         if( this.oce.getAnonymousClassBody().isPresent()){
-            oce.getAnonymousClassBody().get().forEach(b -> ds.add((_java._declared)_java.of(b)));
+            oce.getAnonymousClassBody().get().forEach(b -> ds.add((_java._declaredBodyPart)_java.of(b)));
         }
         return ds;
     }
+
+    public List<_java._declaredBodyPart> listAnonymousDeclarations(Predicate<_java._declaredBodyPart> _matchFn){
+        return listAnonymousDeclarations().stream().filter(_matchFn).collect(Collectors.toList());
+    }
+
 
     /**
      *
      * @param _dec
      * @return
      */
-    public _new addAnonymousBodyDeclarations( _java._declared ... _dec ){
+    public _new addAnonymousBodyDeclarations( _java._declaredBodyPart... _dec ){
         Arrays.stream(_dec).forEach( d -> this.oce.addAnonymousClassBody( (BodyDeclaration)d.ast() ) );
         return this;
     }
@@ -354,9 +314,9 @@ public class _new implements _expression<ObjectCreationExpr, _new>, _java._multi
      * @param memberFn
      * @return
      */
-    public _new forAnonymousBodyDeclarations(Consumer<_java._declared> memberFn){
+    public _new forAnonymousBodyDeclarations(Consumer<_java._declaredBodyPart> memberFn){
         if( this.oce.getAnonymousClassBody().isPresent() ){
-            this.oce.getAnonymousClassBody().get().stream().map(m -> (_java._declared)_java.of(m)).forEach(m -> memberFn.accept(m));
+            this.oce.getAnonymousClassBody().get().stream().map(m -> (_java._declaredBodyPart)_java.of(m)).forEach(m -> memberFn.accept(m));
         }
         return this;
     }
@@ -372,9 +332,9 @@ public class _new implements _expression<ObjectCreationExpr, _new>, _java._multi
      * @param memberFn
      * @return
      */
-    public _new forAnonymousBodyDeclarations(Predicate<_java._declared> memberMatchFn,  Consumer<_java._declared> memberFn){
+    public _new forAnonymousBodyDeclarations(Predicate<_java._declaredBodyPart> memberMatchFn, Consumer<_java._declaredBodyPart> memberFn){
         if( this.oce.getAnonymousClassBody().isPresent() ){
-            this.oce.getAnonymousClassBody().get().stream().map(m -> (_java._declared)_java.of(m))
+            this.oce.getAnonymousClassBody().get().stream().map(m -> (_java._declaredBodyPart)_java.of(m))
                     .filter(memberMatchFn).forEach(m -> memberFn.accept(m));
         }
         return this;

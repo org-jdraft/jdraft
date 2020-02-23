@@ -1,18 +1,17 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
-import com.github.javaparser.ast.type.Type;
 
 import java.util.*;
 import java.util.function.*;
-import java.util.stream.Collectors;
 
 public class _methodCall implements _expression<MethodCallExpr, _methodCall>,
+        _java._named<_methodCall>,
         _java._multiPart<MethodCallExpr, _methodCall>,
-        _java._list<Expression, _expression, _methodCall> {
+        _java._withScope<MethodCallExpr, _methodCall>,
+        _java._withArguments<MethodCallExpr, _methodCall>,
+        _java._withTypeArguments<MethodCallExpr, _methodCall> {
 
     public static _methodCall of(){
         return new _methodCall( new MethodCallExpr( ));
@@ -77,18 +76,12 @@ public class _methodCall implements _expression<MethodCallExpr, _methodCall>,
         return new _methodCall(this.mce.clone());
     }
 
-    @Override
-    public List<_expression> list() {
-        List<_expression>_exs = new ArrayList<>();
-        listAstElements().forEach(e -> _exs.add(_expression.of(e)));
-        return _exs;
+    public _methodCall setName(String methodName){
+        this.mce.setName(methodName);
+        return this;
     }
 
-    @Override
-    public NodeList<Expression> listAstElements() {
-        return this.mce.getArguments();
-    }
-
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -96,11 +89,14 @@ public class _methodCall implements _expression<MethodCallExpr, _methodCall>,
         } catch(Exception e){ }
         return false;
     }
+     */
 
+    /*
     @Override
     public boolean is(MethodCallExpr astNode) {
         return this.ast( ).equals(astNode);
     }
+     */
 
     public MethodCallExpr ast(){
         return mce;
@@ -121,6 +117,7 @@ public class _methodCall implements _expression<MethodCallExpr, _methodCall>,
         return comps;
     }
 
+    /*
     public boolean hasScope(){
         return this.mce.getScope().isPresent();
     }
@@ -163,25 +160,30 @@ public class _methodCall implements _expression<MethodCallExpr, _methodCall>,
     public _methodCall setScope(String... scope){
         return setScope( Ex.of(scope));
     }
-
+    */
+    /*
     public _expression getScope(){
         if( mce.getScope().isPresent()){
             return _expression.of(this.mce.getScope().get());
         }
         return null;
     }
+     */
 
     public String getName(){
         return this.mce.getNameAsString();
     }
 
+    /*
     public List<_expression> getArguments(){
         List<_expression> args = new ArrayList<>();
         this.mce.getArguments().forEach(a -> args.add(_expression.of(a)));
         return args;
     }
 
+     */
 
+    /*
     public _methodCall setTypeArguments( Type...ts){
         mce.setTypeArguments(ts);
         return this;
@@ -193,11 +195,11 @@ public class _methodCall implements _expression<MethodCallExpr, _methodCall>,
         mce.setTypeArguments(tas);
         return this;
     }
-
+    */
     /**
      * Returns a list of Type arguments if there are any or an empty list if there are none
      * @return
-     */
+
     public List<_typeRef> listTypeArguments(){
         if( mce.getTypeArguments().isPresent() ){
             List<_typeRef> tas = new ArrayList<>();
@@ -206,6 +208,12 @@ public class _methodCall implements _expression<MethodCallExpr, _methodCall>,
         }
         return new ArrayList<>();
     }
+    */
+
+    /**
+     *
+     * @param index
+     * @return
 
     public _typeRef getTypeArgument( int index ){
         if( this.mce.getTypeArguments().isPresent()){
@@ -213,13 +221,13 @@ public class _methodCall implements _expression<MethodCallExpr, _methodCall>,
         }
         throw new _jdraftException("No type arguments");
     }
-
+    */
 
     /**
      * Returns a list of Type arguments based on the predicate
      * if there are any or an empty list if there are none
      * @return
-     */
+
     public List<_typeRef> listTypeArguments(Predicate<_typeRef> matchFn){
         if( mce.getTypeArguments().isPresent() ){
             List<_typeRef> tas = new ArrayList<>();
@@ -228,25 +236,29 @@ public class _methodCall implements _expression<MethodCallExpr, _methodCall>,
         }
         return new ArrayList<>();
     }
+    */
 
+    /*
     public _methodCall forTypeArguments(Consumer<_typeRef> typeArgFn){
         if( this.mce.getTypeArguments().isPresent()){
             this.mce.getTypeArguments().get().stream().map( a-> _typeRef.of(a)).forEach(e-> typeArgFn.accept(e) );
         }
         return this;
     }
+    */
 
+    /*
     public _methodCall forTypeArguments(Predicate<_typeRef> matchFn, Consumer<_typeRef> typeArgFn){
         if( this.mce.getTypeArguments().isPresent()){
             this.mce.getTypeArguments().get().stream().map( a-> _typeRef.of(a)).filter(matchFn).forEach(e-> typeArgFn.accept(e) );
         }
         return this;
     }
-
+    */
     /**
      * Returns a list of Type arguments if there are any or an empty list if there are none
      * @return
-     */
+
     public List<_typeRef> getTypeArguments(){
         if( mce.getTypeArguments().isPresent() ){
             List<_typeRef> tas = new ArrayList<>();
@@ -255,6 +267,7 @@ public class _methodCall implements _expression<MethodCallExpr, _methodCall>,
         }
         return new ArrayList<>();
     }
+    */
 
     public boolean equals(Object other){
         if( other instanceof _methodCall){

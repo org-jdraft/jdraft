@@ -31,8 +31,8 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _initBlock
-        implements _body._hasBody<_initBlock>, _javadoc._hasJavadoc<_initBlock>,
-        _java._member<InitializerDeclaration, _initBlock> {
+        implements _body._hasBody<_initBlock>, _javadoc._withJavadoc<_initBlock>,
+        _java._memberBodyPart<InitializerDeclaration, _initBlock> {
 
     /**
      *
@@ -301,9 +301,9 @@ public final class _initBlock
     /**
      * {@_type}s that may contain one or more static initializer blocks
      * @author Eric
-     * @param <_HIB>
+     * @param <_WIB>
      */
-    public interface _hasInitBlocks<_HIB extends _hasInitBlocks & _type>
+    public interface _withInitBlocks<_WIB extends _withInitBlocks & _type>
             extends _java._domain {
 
         /** 
@@ -367,9 +367,9 @@ public final class _initBlock
          * @param _staticBlockAction action to take on static blocks
          * @return the modified T
          */
-        default _HIB forInitBlocks(Consumer<_initBlock> _staticBlockAction ){
+        default _WIB forInitBlocks(Consumer<_initBlock> _staticBlockAction ){
             listInitBlocks().forEach(_staticBlockAction );
-            return (_HIB)this;
+            return (_WIB)this;
         }
 
         /**
@@ -378,9 +378,9 @@ public final class _initBlock
          * @param _staticBlockAction the action to take on matching _staticBlocks
          * @return the modified T
          */
-        default _HIB forInitBlocks(Predicate<_initBlock> _staticBlockMatchFn, Consumer<_initBlock> _staticBlockAction ){
+        default _WIB forInitBlocks(Predicate<_initBlock> _staticBlockMatchFn, Consumer<_initBlock> _staticBlockAction ){
             listInitBlocks(_staticBlockMatchFn).forEach(_staticBlockAction );
-            return (_HIB)this;
+            return (_WIB)this;
         }
 
         /**
@@ -388,7 +388,7 @@ public final class _initBlock
          * @param command
          * @return
          */
-        default _HIB staticBlock(Ex.Command command ){
+        default _WIB staticBlock(Ex.Command command ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
             return staticBlock( Stmt.blockStmt(ste));
         }
@@ -399,7 +399,7 @@ public final class _initBlock
          * @param <A> the command type
          * @return the modified T
          */
-        default <A extends Object> _HIB staticBlock(Consumer<A> command ){
+        default <A extends Object> _WIB staticBlock(Consumer<A> command ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
             return staticBlock( Stmt.blockStmt(ste));
         }
@@ -411,7 +411,7 @@ public final class _initBlock
          * @param <B>
          * @return the modified T
          */
-        default <A extends Object, B extends Object> _HIB staticBlock(BiConsumer<A, B> command ){
+        default <A extends Object, B extends Object> _WIB staticBlock(BiConsumer<A, B> command ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
             return staticBlock( Stmt.blockStmt(ste));
         }
@@ -424,7 +424,7 @@ public final class _initBlock
          * @param command the lambda command body (to get the source of the Static Block)
          * @return the modified T
          */
-        default <A extends Object, B extends Object, C extends Object> _HIB staticBlock(Ex.TriConsumer<A, B, C> command ){
+        default <A extends Object, B extends Object, C extends Object> _WIB staticBlock(Ex.TriConsumer<A, B, C> command ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
             return staticBlock( Stmt.blockStmt(ste));
         }
@@ -438,7 +438,7 @@ public final class _initBlock
          * @param command the lambda command body (to get the source of the Static Block)
          * @return the modified T
          */
-        default <A extends Object, B extends Object, C extends Object, D extends Object> _HIB staticBlock(Ex.QuadConsumer<A, B, C, D> command ){
+        default <A extends Object, B extends Object, C extends Object, D extends Object> _WIB staticBlock(Ex.QuadConsumer<A, B, C, D> command ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
             return staticBlock( Stmt.blockStmt(ste));
         }
@@ -448,10 +448,10 @@ public final class _initBlock
          * @param block the blockStmt
          * @return the modified block container
          */
-        default _HIB staticBlock(BlockStmt block){
+        default _WIB staticBlock(BlockStmt block){
             BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addStaticInitializer();
             bs.setStatements( block.getStatements());
-            return (_HIB)this;
+            return (_WIB)this;
         }
 
         /**
@@ -459,7 +459,7 @@ public final class _initBlock
          * @param anonymousObjectWithInitBlock
          * @return
          */
-        default _HIB staticBlock(Object anonymousObjectWithInitBlock){
+        default _WIB staticBlock(Object anonymousObjectWithInitBlock){
             ObjectCreationExpr oce = Ex.newEx( Thread.currentThread().getStackTrace()[2] );
             InitializerDeclaration id =
                     (InitializerDeclaration)oce.getAnonymousClassBody().get().stream().filter(t-> t instanceof InitializerDeclaration).findFirst().get();
@@ -472,7 +472,7 @@ public final class _initBlock
          * @param content
          * @return
          */
-        default _HIB staticBlock(String  content){
+        default _WIB staticBlock(String  content){
             return staticBlock(new String[]{content});
         }
 
@@ -481,12 +481,12 @@ public final class _initBlock
          * @param content
          * @return
          */
-        default _HIB staticBlock(String... content){
+        default _WIB staticBlock(String... content){
             //reserve the static initializer on the _type
             BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addStaticInitializer();
 
             bs.setStatements( Ast.blockStmt( content ).getStatements());
-            return (_HIB)this;
+            return (_WIB)this;
         }
 
         /**
@@ -494,10 +494,10 @@ public final class _initBlock
          * @param sb
          * @return
          */
-        default _HIB staticBlock(_initBlock sb){
+        default _WIB staticBlock(_initBlock sb){
             BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addStaticInitializer();
             bs.setStatements(sb.astInit.getBody().getStatements());
-            return (_HIB)this;
+            return (_WIB)this;
         }
 
         /**
@@ -505,7 +505,7 @@ public final class _initBlock
          * @param command
          * @return
          */
-        default _HIB initBlock(Ex.Command command ){
+        default _WIB initBlock(Ex.Command command ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
             return initBlock( Stmt.blockStmt(ste));
         }
@@ -516,7 +516,7 @@ public final class _initBlock
          * @param <A> the command type
          * @return the modified T
          */
-        default <A extends Object> _HIB initBlock(Consumer<A> command ){
+        default <A extends Object> _WIB initBlock(Consumer<A> command ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
             return initBlock( Stmt.blockStmt(ste));
         }
@@ -528,7 +528,7 @@ public final class _initBlock
          * @param <B>
          * @return the modified T
          */
-        default <A extends Object, B extends Object> _HIB initBlock(BiConsumer<A, B> command ){
+        default <A extends Object, B extends Object> _WIB initBlock(BiConsumer<A, B> command ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
             return initBlock( Stmt.blockStmt(ste));
         }
@@ -541,7 +541,7 @@ public final class _initBlock
          * @param command the lambda command body (to get the source of the Static Block)         
          * @return the modified T
          */
-        default <A extends Object, B extends Object, C extends Object> _HIB initBlock(Ex.TriConsumer<A, B, C> command ){
+        default <A extends Object, B extends Object, C extends Object> _WIB initBlock(Ex.TriConsumer<A, B, C> command ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
             return initBlock( Stmt.blockStmt(ste));
         }
@@ -555,7 +555,7 @@ public final class _initBlock
          * @param command the lambda command body (to get the source of the Static Block)         
          * @return the modified T
          */
-        default <A extends Object, B extends Object, C extends Object, D extends Object> _HIB initBlock(Ex.QuadConsumer<A, B, C, D> command ){
+        default <A extends Object, B extends Object, C extends Object, D extends Object> _WIB initBlock(Ex.QuadConsumer<A, B, C, D> command ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
             return initBlock( Stmt.blockStmt(ste));
         }
@@ -565,10 +565,10 @@ public final class _initBlock
          * @param block
          * @return
          */
-        default _HIB initBlock(BlockStmt block){
+        default _WIB initBlock(BlockStmt block){
             BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addInitializer();
             bs.setStatements( block.getStatements());
-            return (_HIB)this;
+            return (_WIB)this;
         }
 
         /**
@@ -576,7 +576,7 @@ public final class _initBlock
          * @param anonymousObjectWithInitBlock
          * @return
          */
-        default _HIB initBlock(Object anonymousObjectWithInitBlock){
+        default _WIB initBlock(Object anonymousObjectWithInitBlock){
             ObjectCreationExpr oce = Ex.newEx( Thread.currentThread().getStackTrace()[2] );
             InitializerDeclaration id =
                     (InitializerDeclaration)oce.getAnonymousClassBody().get().stream().filter(t-> t instanceof InitializerDeclaration).findFirst().get();
@@ -591,7 +591,7 @@ public final class _initBlock
          * @param content
          * @return
          */
-        default _HIB initBlock(String  content){
+        default _WIB initBlock(String  content){
             return initBlock(new String[]{content});
         }
 
@@ -600,12 +600,12 @@ public final class _initBlock
          * @param content
          * @return
          */
-        default _HIB initBlock(String... content){
+        default _WIB initBlock(String... content){
             //reserve the static initializer on the _type
             BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addInitializer();
 
             bs.setStatements( Ast.blockStmt( content ).getStatements());
-            return (_HIB)this;
+            return (_WIB)this;
         }
 
         /**
@@ -613,7 +613,7 @@ public final class _initBlock
          * @param sb
          * @return
          */
-        default _HIB initBlock(_initBlock sb){
+        default _WIB initBlock(_initBlock sb){
             BlockStmt bs = null;
             if( sb.isStatic() ) {
                 bs = ((TypeDeclaration) ((_type) this).ast()).addStaticInitializer();
@@ -621,7 +621,7 @@ public final class _initBlock
                 bs = ((TypeDeclaration) ((_type) this).ast()).addInitializer();
             }
             bs.setStatements(sb.astInit.getBody().getStatements());
-            return (_HIB)this;
+            return (_WIB)this;
         }
 
         /**
@@ -637,10 +637,10 @@ public final class _initBlock
          * @param _sb the staticBlock
          * @return the modified T
          */
-        default _HIB removeInitBlock(_initBlock _sb ){
+        default _WIB removeInitBlock(_initBlock _sb ){
             this.listInitBlocks(sb -> sb.equals(_sb))
                 .forEach(s -> s.ast().removeForced() );        
-            return (_HIB)this;
+            return (_WIB)this;
         }
 
         /** 
@@ -648,7 +648,7 @@ public final class _initBlock
          * @param astInitializerDeclaration
          * @return the modified T
          */
-        default _HIB removeInitBlock(InitializerDeclaration astInitializerDeclaration ){
+        default _WIB removeInitBlock(InitializerDeclaration astInitializerDeclaration ){
             return removeInitBlock( _initBlock.of(astInitializerDeclaration));
         }        
     }    

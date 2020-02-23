@@ -1,6 +1,5 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.LambdaExpr;
 
@@ -10,8 +9,11 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class _fieldAccess implements _expression<FieldAccessExpr, _fieldAccess>, _java._multiPart<FieldAccessExpr, _fieldAccess>,
-        _java._named<_fieldAccess> {
+public class _fieldAccess implements _expression<FieldAccessExpr, _fieldAccess>,
+        _java._multiPart<FieldAccessExpr, _fieldAccess>,
+        _java._named<_fieldAccess>,
+        _java._withTypeArguments<FieldAccessExpr, _fieldAccess>,
+        _java._withScope<FieldAccessExpr, _fieldAccess> {
 
     public static _fieldAccess of(){
         return new _fieldAccess(new FieldAccessExpr());
@@ -77,6 +79,7 @@ public class _fieldAccess implements _expression<FieldAccessExpr, _fieldAccess>,
         return new _fieldAccess(this.fe.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -85,10 +88,14 @@ public class _fieldAccess implements _expression<FieldAccessExpr, _fieldAccess>,
         return false;
     }
 
+
+
     @Override
     public boolean is(FieldAccessExpr astNode) {
         return this.ast( ).equals(astNode);
     }
+
+     */
 
     public FieldAccessExpr ast(){
         return fe;
@@ -110,10 +117,12 @@ public class _fieldAccess implements _expression<FieldAccessExpr, _fieldAccess>,
         return this;
     }
 
+    /*
     public _fieldAccess setScope( String scope ){
         this.fe.setScope(Ex.of(scope));
         return this;
     }
+
 
     public _fieldAccess setScope( _expression _e){
         this.fe.setScope(_e.ast());
@@ -128,7 +137,7 @@ public class _fieldAccess implements _expression<FieldAccessExpr, _fieldAccess>,
     public _expression getScope(){
         return _expression.of(this.fe.getScope());
     }
-
+    */
 
     /**
      * Returns the List of Type Arguments or an empty list if there are no type arguments
@@ -136,7 +145,7 @@ public class _fieldAccess implements _expression<FieldAccessExpr, _fieldAccess>,
      * 1) null if there are NO typeArguments
      * 2) an empty list if the &lt;> (Diamond operator) is being used
      * 3) a populated list if there are type arguments
-     */
+
     public List<_typeRef> getTypeArguments(){
 
         if( this.fe.getTypeArguments().isPresent() ){
@@ -145,6 +154,7 @@ public class _fieldAccess implements _expression<FieldAccessExpr, _fieldAccess>,
         }
         return null;
     }
+    */
 
     public String getName(){
         return fe.getNameAsString();

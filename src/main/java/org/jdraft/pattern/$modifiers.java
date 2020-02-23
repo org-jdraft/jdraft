@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
-import org.jdraft._modifiers._hasModifiers;
+import org.jdraft._modifiers._withModifiers;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
@@ -60,7 +60,7 @@ public class $modifiers
         return of().$and(constraint);
     }
     
-    public static $modifiers of( _hasModifiers _hm ){
+    public static $modifiers of( _withModifiers _hm ){
         return $modifiers.of( _hm.getModifiers() );
     }
     
@@ -149,7 +149,7 @@ public class $modifiers
         return $ms;
     }
 
-    public static $modifiers as(_hasModifiers _hm){
+    public static $modifiers as(_withModifiers _hm){
         return as(_hm.getModifiers());
     }
 
@@ -484,13 +484,13 @@ public class $modifiers
         if (_j instanceof _modifiers) {
             return matches( (_modifiers)_j);
         }
-        if( _j instanceof _modifiers._hasModifiers) {
-            return matches( (_modifiers._hasModifiers)_j);
+        if( _j instanceof _withModifiers) {
+            return matches( (_withModifiers)_j);
         }
         return false;
     }
 
-    public boolean matches( _hasModifiers _hm){
+    public boolean matches( _withModifiers _hm){
         return select(_hm) != null;
     }
 
@@ -498,7 +498,7 @@ public class $modifiers
         return select( nwm ) != null;
     }
 
-    public $tokens parse(_modifiers._hasModifiers _ms){
+    public $tokens parse(_withModifiers _ms){
         if( select(_ms) != null){
             return $tokens.of();
         }
@@ -512,7 +512,7 @@ public class $modifiers
         return null;
     }
 
-    public Select select(_hasModifiers _hm ){
+    public Select select(_withModifiers _hm ){
         return select(_hm.getModifiers());
     }
     

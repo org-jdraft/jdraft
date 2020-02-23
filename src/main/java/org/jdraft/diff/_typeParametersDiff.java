@@ -5,7 +5,7 @@ import com.github.javaparser.ast.nodeTypes.NodeWithTypeParameters;
 import com.github.javaparser.ast.type.TypeParameter;
 
 import org.jdraft.*;
-import org.jdraft._typeParameter._hasTypeParameters;
+import org.jdraft._typeParameter._withTypeParameters;
 import org.jdraft.diff._diff.*;
 
 /**
@@ -21,7 +21,7 @@ public class _typeParametersDiff
         return Ast.typesEqual(left, right);
     }
 
-    public _diff diff( _hasTypeParameters leftParent, _hasTypeParameters rightParent){
+    public _diff diff(_withTypeParameters leftParent, _withTypeParameters rightParent){
         return diff( _nodePath.of(),
                 new _diffList( (_java._multiPart)leftParent, (_java._multiPart)rightParent),
                 (_java._multiPart)leftParent,
@@ -36,21 +36,21 @@ public class _typeParametersDiff
         if (!Ast.typesEqual( ((NodeWithTypeParameters)left.astHolder()).getTypeParameters(), 
                 ((NodeWithTypeParameters)right.astHolder()).getTypeParameters())) {
             dt.addDiff(new _change_typeParameters(path.in(_java.Component.TYPE_PARAMETERS), 
-                    (_typeParameter._hasTypeParameters) _leftParent, (_typeParameter._hasTypeParameters) _rightParent));
+                    (_withTypeParameters) _leftParent, (_withTypeParameters) _rightParent));
         }
         return dt;
     }
 
     public static class _change_typeParameters
-            implements _diffNode<_typeParameter._hasTypeParameters>, _diffNode._change<NodeList<TypeParameter>> {
+            implements _diffNode<_withTypeParameters>, _diffNode._change<NodeList<TypeParameter>> {
 
         public _nodePath path;
-        public _typeParameter._hasTypeParameters leftParent;
-        public _typeParameter._hasTypeParameters rightParent;
+        public _withTypeParameters leftParent;
+        public _withTypeParameters rightParent;
         public NodeList<TypeParameter> left;
         public NodeList<TypeParameter> right;
 
-        public _change_typeParameters(_nodePath path, _typeParameter._hasTypeParameters leftParent, _typeParameter._hasTypeParameters rightParent) {
+        public _change_typeParameters(_nodePath path, _withTypeParameters leftParent, _withTypeParameters rightParent) {
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -62,12 +62,12 @@ public class _typeParametersDiff
         }
 
         @Override
-        public _typeParameter._hasTypeParameters leftParent() {
+        public _withTypeParameters leftParent() {
             return leftParent;
         }
 
         @Override
-        public _typeParameter._hasTypeParameters rightParent() {
+        public _withTypeParameters rightParent() {
             return rightParent;
         }
 

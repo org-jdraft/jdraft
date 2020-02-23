@@ -41,7 +41,7 @@ public class _methodsDiff
         return null;
     }
 
-     public _diff diff( _method._hasMethods leftParent, _method._hasMethods rightParent){
+     public _diff diff(_method._withMethods leftParent, _method._withMethods rightParent){
         return diff( 
                 _nodePath.of(),
                 new _diffList( (_java._multiPart)leftParent, (_java._multiPart)rightParent),
@@ -79,25 +79,25 @@ public class _methodsDiff
             } else {
                 dt.addDiff(new _leftOnly_method(
                         path.in(_java.Component.METHOD, describeMethodSignature(m)),
-                        (_method._hasMethods) _leftParent, (_method._hasMethods) _rightParent, m));
+                        (_method._withMethods) _leftParent, (_method._withMethods) _rightParent, m));
             }
         });
         rs.forEach(m -> {
             dt.addDiff(new _rightOnly_method(
                     path.in(_java.Component.METHOD, describeMethodSignature(m)),
-                    (_method._hasMethods) _leftParent, (_method._hasMethods) _rightParent, m));
+                    (_method._withMethods) _leftParent, (_method._withMethods) _rightParent, m));
         });
         return dt;
     }
 
-    public static class _leftOnly_method implements _diffNode<_method._hasMethods>, _diffNode._leftOnly<_method> {
+    public static class _leftOnly_method implements _diffNode<_method._withMethods>, _diffNode._leftOnly<_method> {
 
         public _nodePath path;
-        public _method._hasMethods rightParent;
-        public _method._hasMethods leftParent;
+        public _method._withMethods rightParent;
+        public _method._withMethods leftParent;
         public _method left;
 
-        public _leftOnly_method(_nodePath path, _method._hasMethods leftParent, _method._hasMethods rightParent, _method left) {
+        public _leftOnly_method(_nodePath path, _method._withMethods leftParent, _method._withMethods rightParent, _method left) {
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -105,12 +105,12 @@ public class _methodsDiff
         }
 
         @Override
-        public _method._hasMethods leftParent() {
+        public _method._withMethods leftParent() {
             return leftParent;
         }
 
         @Override
-        public _method._hasMethods rightParent() {
+        public _method._withMethods rightParent() {
             return rightParent;
         }
 
@@ -144,14 +144,14 @@ public class _methodsDiff
         }
     }
 
-    public static class _rightOnly_method implements _diffNode<_method._hasMethods>, _diffNode._rightOnly<_method> {
+    public static class _rightOnly_method implements _diffNode<_method._withMethods>, _diffNode._rightOnly<_method> {
 
         public _nodePath path;
-        public _method._hasMethods rightParent;
-        public _method._hasMethods leftParent;
+        public _method._withMethods rightParent;
+        public _method._withMethods leftParent;
         public _method right;
 
-        public _rightOnly_method(_nodePath path, _method._hasMethods leftParent, _method._hasMethods rightParent, _method right) {
+        public _rightOnly_method(_nodePath path, _method._withMethods leftParent, _method._withMethods rightParent, _method right) {
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -159,12 +159,12 @@ public class _methodsDiff
         }
 
         @Override
-        public _method._hasMethods leftParent() {
+        public _method._withMethods leftParent() {
             return leftParent;
         }
 
         @Override
-        public _method._hasMethods rightParent() {
+        public _method._withMethods rightParent() {
             return rightParent;
         }
 

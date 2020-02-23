@@ -54,7 +54,7 @@ import java.util.stream.Collectors;
  *
  * @param <M> the TYPE to apply the
  */
-public interface _macro<M extends _anno._hasAnnos>
+public interface _macro<M extends _anno._withAnnos>
         extends Function<M,M> {
 
     /**
@@ -107,7 +107,7 @@ public interface _macro<M extends _anno._hasAnnos>
      * @param <T> the underlying TYPE of the model (some _anno._hasAnnos)
      * @return the modified _model (with all {@link _macro}s applied)
      */
-    static <T extends _anno._hasAnnos> T applyAllAnnotationMacros(T _model, AnnotatedElement ae ) {
+    static <T extends _anno._withAnnos> T applyAllAnnotationMacros(T _model, AnnotatedElement ae ) {
         //Arrays.stream(ae.getAnnotations()).forEach( a-> System.out.println( a ) );
         //System.out.println( "Applying macros to "+ae.getAnnotations());
         Annotation[] anns = ae.getAnnotations();
@@ -226,12 +226,12 @@ public interface _macro<M extends _anno._hasAnnos>
             }
         });
         //We process CONSTRUCTORS 
-        if (_t instanceof _constructor._hasConstructors) {
-            ((_constructor._hasConstructors) _t).forConstructors(_c -> to(clazz, (_constructor)_c));
+        if (_t instanceof _constructor._withConstructors) {
+            ((_constructor._withConstructors) _t).forConstructors(_c -> to(clazz, (_constructor)_c));
         }
         //Process methods
-        if (_t instanceof _method._hasMethods) {
-            ((_method._hasMethods) _t).forMethods(_m -> {
+        if (_t instanceof _method._withMethods) {
+            ((_method._withMethods) _t).forMethods(_m -> {
                 _method _mm = ((_method) _m);
 
                 to( clazz, _mm);

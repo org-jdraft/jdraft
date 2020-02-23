@@ -299,7 +299,7 @@ public class $comment <C extends Comment>
         return matches( com );
     }
 
-    public boolean matches( _javadoc._hasJavadoc _j){
+    public boolean matches( _javadoc._withJavadoc _j){
         if( !_j.hasJavadoc() ){
              return this.isMatchAny();
         }
@@ -463,7 +463,7 @@ public class $comment <C extends Comment>
         }
     }
 
-    public $tokens parse(_javadoc._hasJavadoc hj){
+    public $tokens parse(_javadoc._withJavadoc hj){
         //System.out.println( "1>>>>>>>>>>>>> parsin "+hj);
         //System.out.println( "1>>>>>>>>>>>>> parsin "+this.commentClasses);
         _javadoc _jd = hj.getJavadoc();

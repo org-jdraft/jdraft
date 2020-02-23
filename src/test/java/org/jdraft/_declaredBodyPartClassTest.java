@@ -16,7 +16,7 @@ import junit.framework.TestCase;
 
 import java.util.*;
 
-public class _declaredClassTest extends TestCase {
+public class _declaredBodyPartClassTest extends TestCase {
 
     public void testJ(){
         CompilationUnit cu = StaticJavaParser.parse(

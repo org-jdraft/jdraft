@@ -15,7 +15,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * In-memory "folder" containing mutable java source {@link _compilationUnit} entities (as apposed to Strings)
+ * In-memory representations of multiple java source {@link _compilationUnit} entities
+ * (as apposed to Strings)
  *
  * @see _compilationUnit._provider
  */
@@ -65,7 +66,6 @@ public class _sources<_C extends _compilationUnit> implements _compilationUnit._
         }
         return of (_ps);
     }
-
 
     public static <_C extends _compilationUnit> _sources of(Class<?>... clazzes){
         List<_C> cus = new ArrayList<>();
@@ -193,7 +193,6 @@ public class _sources<_C extends _compilationUnit> implements _compilationUnit._
         StringBuilder sb = new StringBuilder();
         sb.append("_sources{").append(System.lineSeparator());
         this.codeList.forEach(c -> sb.append("    ").append(c.getFullName() ).append(System.lineSeparator()) );
-        //sb.append(System.lineSeparator());
         sb.append("}");
         return sb.toString();
     }

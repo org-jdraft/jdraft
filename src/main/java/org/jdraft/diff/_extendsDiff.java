@@ -7,7 +7,7 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.jdraft.*;
 import static org.jdraft.Ast.typesEqual;
 import org.jdraft._java.Component;
-import org.jdraft._type._hasExtends;
+import org.jdraft._type._withExtends;
 
 import org.jdraft.diff._diff._build;
 
@@ -31,11 +31,11 @@ public class _extendsDiff implements
         List<ClassOrInterfaceType> lts = new ArrayList<>();
         List<ClassOrInterfaceType> rts = new ArrayList<>();
         
-        if( left instanceof _hasExtends){
-            lts = ((_hasExtends)left).listExtends();
+        if( left instanceof _type._withExtends){
+            lts = ((_withExtends)left).listExtends();
         }
-        if( right instanceof _hasExtends){
-            rts = ((_hasExtends)right).listExtends();
+        if( right instanceof _type._withExtends){
+            rts = ((_withExtends)right).listExtends();
         }
         return diff( lts, rts);
     }
@@ -85,16 +85,16 @@ public class _extendsDiff implements
 
         @Override
         public void patchLeftToRight() {
-            ((_type._hasExtends) leftParent).removeExtends(right);
-            ((_type._hasExtends) rightParent).removeExtends(right);
+            ((_withExtends) leftParent).removeExtends(right);
+            ((_withExtends) rightParent).removeExtends(right);
         }
 
         @Override
         public void patchRightToLeft() {
-            ((_type._hasExtends) leftParent).removeExtends(right);
-            ((_type._hasExtends) leftParent).addExtend(right);
-            ((_type._hasExtends) rightParent).removeExtends(right);
-            ((_type._hasExtends) rightParent).addExtend(right);
+            ((_withExtends) leftParent).removeExtends(right);
+            ((_withExtends) leftParent).addExtend(right);
+            ((_withExtends) rightParent).removeExtends(right);
+            ((_withExtends) rightParent).addExtend(right);
         }
 
         @Override
@@ -140,16 +140,16 @@ public class _extendsDiff implements
 
         @Override
         public void patchLeftToRight() {
-            ((_type._hasExtends) leftParent).removeExtends(left);
-            ((_type._hasExtends) leftParent).addExtend(left);
-            ((_type._hasExtends) rightParent).removeExtends(left);
-            ((_type._hasExtends) rightParent).addExtend(left);
+            ((_withExtends) leftParent).removeExtends(left);
+            ((_withExtends) leftParent).addExtend(left);
+            ((_withExtends) rightParent).removeExtends(left);
+            ((_withExtends) rightParent).addExtend(left);
         }
 
         @Override
         public void patchRightToLeft() {
-            ((_type._hasExtends) leftParent).removeExtends(left);
-            ((_type._hasExtends) rightParent).removeExtends(left);
+            ((_withExtends) leftParent).removeExtends(left);
+            ((_withExtends) rightParent).removeExtends(left);
         }
 
         @Override

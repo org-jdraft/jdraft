@@ -29,13 +29,13 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _method
-        implements _javadoc._hasJavadoc<_method>, _anno._hasAnnos<_method>,
-        _java._namedType<_method>, _body._hasBody<_method>, _throws._hasThrows<_method>,
-        _modifiers._hasModifiers<_method>, _parameter._hasParameters<_method>,
-        _typeParameter._hasTypeParameters<_method>, _receiverParameter._hasReceiverParameter<_method>,
-        _modifiers._hasStatic<_method>, _modifiers._hasNative<_method>, _modifiers._hasFinal<_method>,
-        _modifiers._hasAbstract<_method>, _modifiers._hasSynchronized<_method>,
-        _modifiers._hasStrictFp<_method>, _java._declared<MethodDeclaration, _method> {
+        implements _javadoc._withJavadoc<_method>, _anno._withAnnos<_method>,
+        _java._namedType<_method>, _body._hasBody<_method>, _throws._withThrows<_method>,
+        _modifiers._withModifiers<_method>, _parameter._hasParameters<_method>,
+        _typeParameter._withTypeParameters<_method>, _receiverParameter._hasReceiverParameter<_method>,
+        _modifiers._withStatic<_method>, _modifiers._withNative<_method>, _modifiers._withFinal<_method>,
+        _modifiers._withAbstract<_method>, _modifiers._withSynchronized<_method>,
+        _modifiers._withStrictFp<_method>, _java._declaredBodyPart<MethodDeclaration, _method> {
 
     public static _method of(String methodDecl) {
         return of(new String[]{methodDecl});
@@ -619,9 +619,9 @@ public final class _method
     /**
      *
      * @author Eric
-     * @param <_HM>
+     * @param <_WM>
      */
-    public interface _hasMethods<_HM extends _hasMethods>
+    public interface _withMethods<_WM extends _withMethods>
             extends _java._domain {
 
         List<_method> listMethods();
@@ -652,44 +652,44 @@ public final class _method
 
         List<_method> listMethods(Predicate<_method> _methodMatchFn);
 
-        default _HM forMethods(Consumer<_method> methodConsumer) {
+        default _WM forMethods(Consumer<_method> methodConsumer) {
             return forMethods(m -> true, methodConsumer);
         }
 
-        default _HM forMethods(Predicate<_method> methodMatchFn,
+        default _WM forMethods(Predicate<_method> methodMatchFn,
                                Consumer<_method> methodConsumer) {
             listMethods(methodMatchFn).forEach(methodConsumer);
-            return (_HM) this;
+            return (_WM) this;
         }
 
-        default _HM removeMethod(_method _m) {
+        default _WM removeMethod(_method _m) {
             this.forMethods(m -> m.equals(_m), m-> m.astMethod.removeForced() );
             return removeMethod( _m.astMethod );
         }
 
-        default _HM removeMethod(MethodDeclaration astM) {
+        default _WM removeMethod(MethodDeclaration astM) {
             this.forMethods(m -> m.equals(_method.of(astM)), m-> m.astMethod.removeForced() );
-            return (_HM) this;
+            return (_WM) this;
         }
 
-        default _HM removeMethods(Predicate<_method> methodPredicate) {
+        default _WM removeMethods(Predicate<_method> methodPredicate) {
             listMethods(methodPredicate).forEach(_m -> removeMethod(_m));
-            return (_HM) this;
+            return (_WM) this;
         }
 
-        _HM addMethod(MethodDeclaration method);
+        _WM addMethod(MethodDeclaration method);
 
-        default _HM addMethod(String... method) {
+        default _WM addMethod(String... method) {
             return addMethod(Ast.method(method));
         }
 
-        default _HM addMethod(_method _m) {
+        default _WM addMethod(_method _m) {
             return addMethod(_m.ast());
         }
 
-        default _HM addMethods(_method... ms) {
+        default _WM addMethods(_method... ms) {
             Arrays.stream(ms).forEach(m -> addMethod(m));
-            return (_HM) this;
+            return (_WM) this;
         }
 
         /**
@@ -700,7 +700,7 @@ public final class _method
          * @param mainMethodBody the BODY of the main method
          * @return the modified T
          */
-        default _HM main(String... mainMethodBody) {
+        default _WM main(String... mainMethodBody) {
             _method _m = _method.of("public static void main(String[] args){ }");
             _m.add(mainMethodBody);
             return addMethod(_m);
@@ -713,7 +713,7 @@ public final class _method
          * @param body
          * @return
          */
-        default _HM main(Ex.Command body) {
+        default _WM main(Ex.Command body) {
             LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
             _method _m = _method.of("public static void main(String[] args){ }");
             if (le.getBody().isBlockStmt()) {
@@ -732,7 +732,7 @@ public final class _method
          * @param body
          * @return
          */
-        default _HM main(Consumer<String[]> body) {
+        default _WM main(Consumer<String[]> body) {
             LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
             _method _m = _method.of("public static void main(String[] args){ }");
             if (le.getBody().isBlockStmt()) {
@@ -749,7 +749,7 @@ public final class _method
          * @param methodDef
          * @return 
          */
-        default _HM addMethod(String methodDef) {
+        default _WM addMethod(String methodDef) {
             return addMethod(new String[]{methodDef});
         }
 
@@ -761,7 +761,7 @@ public final class _method
          * @param anonymousObjectContainingMethod
          * @return 
          */
-        default _HM addMethod(Object anonymousObjectContainingMethod) {
+        default _WM addMethod(Object anonymousObjectContainingMethod) {
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
             ObjectCreationExpr oce = Ex.newEx(ste);
             if (oce == null || !oce.getAnonymousClassBody().isPresent()) {

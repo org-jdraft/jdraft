@@ -3,7 +3,7 @@ package org.jdraft.diff;
 import java.util.*;
 
 import org.jdraft.*;
-import org.jdraft._initBlock._hasInitBlocks;
+import org.jdraft._initBlock._withInitBlocks;
 
 import org.jdraft.diff._diff.*;
 
@@ -21,7 +21,7 @@ public class _initBlocksDiff
         return Objects.equals(ls, rs);
     }
 
-    public _diff diff(_hasInitBlocks left, _hasInitBlocks right){
+    public _diff diff(_withInitBlocks left, _withInitBlocks right){
         return diff( _nodePath.of(), new _diffList( (_java._multiPart)left, (_java._multiPart)right), (_java._multiPart)left, (_java._multiPart)right, left.listInitBlocks(), right.listInitBlocks());
     }
     
@@ -41,22 +41,22 @@ public class _initBlocksDiff
 
         ls.forEach(s -> dt.addDiff(new _leftOnly_initBlock(
                 path.in(_java.Component.INIT_BLOCK),
-                (_hasInitBlocks) _leftParent, (_hasInitBlocks) _rightParent, s)));
+                (_withInitBlocks) _leftParent, (_withInitBlocks) _rightParent, s)));
         rs.forEach(s -> dt.addDiff(new _rightOnly_initBlock(
                 path.in(_java.Component.INIT_BLOCK),
-                (_hasInitBlocks) _leftParent, (_hasInitBlocks) _rightParent, s)));
+                (_withInitBlocks) _leftParent, (_withInitBlocks) _rightParent, s)));
         return dt;
     }
 
-    public static class _rightOnly_initBlock implements _diffNode<_hasInitBlocks>, _diffNode._rightOnly<_initBlock> {
+    public static class _rightOnly_initBlock implements _diffNode<_withInitBlocks>, _diffNode._rightOnly<_initBlock> {
 
         public _nodePath path;
-        public _hasInitBlocks leftParent;
-        public _hasInitBlocks rightParent;
+        public _withInitBlocks leftParent;
+        public _withInitBlocks rightParent;
         public _initBlock right;
         //TODO? leftMemberIndex, rightMemberIndex so I add the static Block in the right place???
 
-        public _rightOnly_initBlock(_nodePath path, _hasInitBlocks leftParent, _hasInitBlocks rightParent, _initBlock right) {
+        public _rightOnly_initBlock(_nodePath path, _withInitBlocks leftParent, _withInitBlocks rightParent, _initBlock right) {
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -64,12 +64,12 @@ public class _initBlocksDiff
         }
 
         @Override
-        public _hasInitBlocks leftParent() {
+        public _withInitBlocks leftParent() {
             return leftParent;
         }
 
         @Override
-        public _hasInitBlocks rightParent() {
+        public _withInitBlocks rightParent() {
             return rightParent;
         }
 
@@ -104,14 +104,14 @@ public class _initBlocksDiff
         }
     }
 
-    public static class _leftOnly_initBlock implements _diffNode<_hasInitBlocks>, _diffNode._leftOnly<_initBlock> {
+    public static class _leftOnly_initBlock implements _diffNode<_withInitBlocks>, _diffNode._leftOnly<_initBlock> {
 
         public _nodePath path;
-        public _hasInitBlocks leftParent;
-        public _hasInitBlocks rightParent;
+        public _withInitBlocks leftParent;
+        public _withInitBlocks rightParent;
         public _initBlock left;
 
-        public _leftOnly_initBlock(_nodePath path, _hasInitBlocks leftParent, _hasInitBlocks rightParent, _initBlock left) {
+        public _leftOnly_initBlock(_nodePath path, _withInitBlocks leftParent, _withInitBlocks rightParent, _initBlock left) {
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -119,12 +119,12 @@ public class _initBlocksDiff
         }
 
         @Override
-        public _hasInitBlocks leftParent() {
+        public _withInitBlocks leftParent() {
             return leftParent;
         }
 
         @Override
-        public _hasInitBlocks rightParent() {
+        public _withInitBlocks rightParent() {
             return rightParent;
         }
 

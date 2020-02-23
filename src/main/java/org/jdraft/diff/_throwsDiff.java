@@ -6,7 +6,7 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.type.ReferenceType;
 
 import org.jdraft.*;
-import org.jdraft._throws._hasThrows;
+import org.jdraft._throws._withThrows;
 
 import org.jdraft.diff._diff.*;
 
@@ -22,28 +22,28 @@ public class _throwsDiff implements _differ<_throws, _java._multiPart> {
         return Ast.typesEqual(left, right);
     }
 
-    public _diff diff( _hasThrows leftParent, _hasThrows rightParent){
+    public _diff diff(_withThrows leftParent, _withThrows rightParent){
         return diff( _nodePath.of(), new _diffList((_java._multiPart)leftParent, (_java._multiPart)rightParent), (_java._multiPart)leftParent, (_java._multiPart)rightParent, leftParent.getThrows(), rightParent.getThrows());
     }
     
     @Override
     public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _throws left, _throws right) {
         if (!Objects.equals(left, right)) {
-            dt.addDiff(new _change_throws(path.in(_java.Component.THROWS), (_throws._hasThrows) _leftParent, (_throws._hasThrows) _rightParent));
+            dt.addDiff(new _change_throws(path.in(_java.Component.THROWS), (_withThrows) _leftParent, (_withThrows) _rightParent));
         }
         return dt;
     }
 
     public static class _change_throws
-            implements _diffNode<_throws._hasThrows>, _diffNode._change<List<ReferenceType>> {
+            implements _diffNode<_withThrows>, _diffNode._change<List<ReferenceType>> {
 
         public _nodePath path;
-        public _throws._hasThrows leftParent;
-        public _throws._hasThrows rightParent;
+        public _withThrows leftParent;
+        public _withThrows rightParent;
         public NodeList<ReferenceType> left;
         public NodeList<ReferenceType> right;
 
-        public _change_throws(_nodePath p, _throws._hasThrows leftParent, _throws._hasThrows rightParent) {
+        public _change_throws(_nodePath p, _withThrows leftParent, _withThrows rightParent) {
             this.path = p;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -56,12 +56,12 @@ public class _throwsDiff implements _differ<_throws, _java._multiPart> {
         }
 
         @Override
-        public _throws._hasThrows leftParent() {
+        public _withThrows leftParent() {
             return leftParent;
         }
 
         @Override
-        public _throws._hasThrows rightParent() {
+        public _withThrows rightParent() {
             return rightParent;
         }
 

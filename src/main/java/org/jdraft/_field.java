@@ -32,9 +32,9 @@ import java.util.stream.Collectors;
  * @author Eric
  */
 public final class _field
-        implements _javadoc._hasJavadoc<_field>, _anno._hasAnnos<_field>, _modifiers._hasModifiers<_field>, //_modifiers._hasModifiers<_field>,
-        _modifiers._hasFinal<_field>, _modifiers._hasStatic<_field>, _modifiers._hasTransient<_field>, _modifiers._hasVolatile<_field>,
-        _java._namedType<_field>, _java._declared<VariableDeclarator, _field> {
+        implements _javadoc._withJavadoc<_field>, _anno._withAnnos<_field>, _modifiers._withModifiers<_field>, //_modifiers._hasModifiers<_field>,
+        _modifiers._withFinal<_field>, _modifiers._withStatic<_field>, _modifiers._withTransient<_field>, _modifiers._withVolatile<_field>,
+        _java._namedType<_field>, _java._declaredBodyPart<VariableDeclarator, _field> {
 
     private final VariableDeclarator astVar;
 
@@ -614,9 +614,9 @@ public final class _field
      * Components that have fields (_class, _interface, _enum, _annotation, _enum._constant)
      * 
      * @author Eric
-     * @param <_HF>
+     * @param <_WF>
      */
-    public interface _hasFields<_HF extends _hasFields>
+    public interface _withFields<_WF extends _withFields>
             extends _java._domain {
 
         List<_field> listFields();
@@ -629,17 +629,17 @@ public final class _field
             return listFields().stream().filter(_fieldMatchFn).collect(Collectors.toList());
         }
 
-        default _HF forFields(Consumer<_field> fieldConsumer) {
+        default _WF forFields(Consumer<_field> fieldConsumer) {
             return forFields(f -> true, fieldConsumer);
         }
 
-        default _HF forFields(Predicate<_field> fieldMatchFn,
+        default _WF forFields(Predicate<_field> fieldMatchFn,
                               Consumer<_field> fieldConsumer) {
             listFields(fieldMatchFn).forEach(fieldConsumer);
-            return (_HF) this;
+            return (_WF) this;
         }
 
-        default _HF removeField(String fieldName){
+        default _WF removeField(String fieldName){
             this.listFields(f-> f.getName().equals(fieldName)).forEach(f-> {
                 if(f.getFieldDeclaration().getVariables().size() == 1){
                     f.getFieldDeclaration().removeForced();
@@ -647,10 +647,10 @@ public final class _field
                     f.astVar.removeForced();
                 }            
                 });
-            return (_HF)this;
+            return (_WF)this;
         }
 
-        default _HF removeField(_field _f){
+        default _WF removeField(_field _f){
             this.listFields(f-> f.equals(_f)).forEach(f-> {
                 if(f.getFieldDeclaration().getVariables().size() == 1){
                     f.getFieldDeclaration().removeForced();
@@ -658,10 +658,10 @@ public final class _field
                     f.astVar.removeForced();
                 }            
                 });
-            return (_HF)this;
+            return (_WF)this;
         }
 
-        default _HF removeFields(Predicate<_field> fieldPredicate){
+        default _WF removeFields(Predicate<_field> fieldPredicate){
             this.listFields(fieldPredicate).forEach(f-> {
                 if(f.getFieldDeclaration().getVariables().size() == 1){
                     f.getFieldDeclaration().removeForced();
@@ -669,7 +669,7 @@ public final class _field
                     f.astVar.removeForced();
                 }            
                 });
-            return (_HF)this;
+            return (_WF)this;
         }
 
         default _field getField(String name) {
@@ -688,30 +688,30 @@ public final class _field
             return null;
         }
 
-        _HF addField(VariableDeclarator field);
+        _WF addField(VariableDeclarator field);
 
-        default _HF addField(String... field) {
+        default _WF addField(String... field) {
             return addField(Ast.field(field).getVariable(0));
         }
 
-        default _HF addField(_field _f) {
+        default _WF addField(_field _f) {
             return addField(_f.astVar);
         }
 
-        default _HF addFields(FieldDeclaration fds) {
+        default _WF addFields(FieldDeclaration fds) {
             fds.getVariables().forEach(v -> addField(v));
-            return (_HF) this;
+            return (_WF) this;
         }
 
-        default _HF addFields(String... fieldDeclarations) {
+        default _WF addFields(String... fieldDeclarations) {
             List<FieldDeclaration> fs = Ast.fields(fieldDeclarations);
             fs.forEach(f -> addFields(f));
-            return (_HF) this;
+            return (_WF) this;
         }
 
-        default _HF addFields(_field... fs) {
+        default _WF addFields(_field... fs) {
             Arrays.stream(fs).forEach(f -> addField(f));
-            return (_HF) this;
+            return (_WF) this;
         }
     }
 }

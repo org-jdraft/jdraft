@@ -508,9 +508,9 @@ public class _runtime {
             //System.out.println("Its an name "+ expr );
             List<_type> _ts = this.fileManager.classLoader.list_types(_c ->{
                 //System.out.println( "checking "+_c.getFullName() );
-                if(_c instanceof _field._hasFields ){
+                if(_c instanceof _field._withFields){
 
-                    return ((_field._hasFields)_c).getField( (f)-> ((_field)f).getName().equals(expr.toString())
+                    return ((_field._withFields)_c).getField( (f)-> ((_field)f).getName().equals(expr.toString())
                             && ((_field)f).isPublic() && ((_field)f).isStatic() ) != null;
                 }
                 return false;

@@ -6,7 +6,7 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.jdraft.*;
 import static org.jdraft.Ast.typesEqual;
 import org.jdraft._java.Component;
-import org.jdraft._type._hasImplements;
+import org.jdraft._type._withImplements;
 
 import org.jdraft.diff._diff.*;
 
@@ -26,11 +26,11 @@ public class _implementsDiff implements
     public _diff diff(_type _t1, _type _t2){
         List<ClassOrInterfaceType> impls1 = new ArrayList<>();
         List<ClassOrInterfaceType> impls2 = new ArrayList<>();
-        if( _t1 instanceof _hasImplements ){
-            impls1 = ((_hasImplements)_t1).listImplements();
+        if( _t1 instanceof _type._withImplements){
+            impls1 = ((_withImplements)_t1).listImplements();
         }
-        if( _t1 instanceof _hasImplements ){
-            impls2 = ((_hasImplements)_t2).listImplements();
+        if( _t1 instanceof _type._withImplements){
+            impls2 = ((_withImplements)_t2).listImplements();
         }
         return diff( impls1, impls2);
     }
@@ -86,16 +86,16 @@ public class _implementsDiff implements
 
         @Override
         public void patchLeftToRight() {
-            ((_type._hasImplements) leftParent).removeImplements(right);
-            ((_type._hasImplements) rightParent).removeImplements(right);
+            ((_withImplements) leftParent).removeImplements(right);
+            ((_withImplements) rightParent).removeImplements(right);
         }
 
         @Override
         public void patchRightToLeft() {
-            ((_type._hasImplements) leftParent).removeImplements(right);
-            ((_type._hasImplements) leftParent).addImplements(right);
-            ((_type._hasImplements) rightParent).removeImplements(right);
-            ((_type._hasImplements) rightParent).addImplements(right);
+            ((_withImplements) leftParent).removeImplements(right);
+            ((_withImplements) leftParent).addImplements(right);
+            ((_withImplements) rightParent).removeImplements(right);
+            ((_withImplements) rightParent).addImplements(right);
         }
 
         @Override
@@ -141,16 +141,16 @@ public class _implementsDiff implements
 
         @Override
         public void patchLeftToRight() {
-            ((_type._hasImplements) leftParent).removeImplements(left);
-            ((_type._hasImplements) leftParent).addImplements(left);
-            ((_type._hasImplements) rightParent).removeImplements(left);
-            ((_type._hasImplements) rightParent).addImplements(left);
+            ((_withImplements) leftParent).removeImplements(left);
+            ((_withImplements) leftParent).addImplements(left);
+            ((_withImplements) rightParent).removeImplements(left);
+            ((_withImplements) rightParent).addImplements(left);
         }
 
         @Override
         public void patchRightToLeft() {
-            ((_type._hasImplements) leftParent).removeImplements(left);
-            ((_type._hasImplements) rightParent).removeImplements(left);
+            ((_withImplements) leftParent).removeImplements(left);
+            ((_withImplements) rightParent).removeImplements(left);
         }
 
         @Override
