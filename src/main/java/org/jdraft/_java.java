@@ -174,8 +174,8 @@ public interface _java {
      * @param _j
      */
     static void describe( _domain _j ){
-        if( _j instanceof _compilationUnit && ((_compilationUnit) _j).isTopLevel() ){
-            Ast.describe( ((_compilationUnit) _j).astCompilationUnit());
+        if( _j instanceof _codeUnit && ((_codeUnit) _j).isTopLevel() ){
+            Ast.describe( ((_codeUnit) _j).astCompilationUnit());
         }
         else { //if( _j instanceof _java._astNode){
             Ast.describe ( ((_astNode)_j).ast() );
@@ -196,7 +196,7 @@ public interface _java {
      * @return
      */
     static <T extends _type> T type(InputStream is) {
-        _compilationUnit _c = _java.code(is);
+        _codeUnit _c = _java.code(is);
         if (_c instanceof _type) {
             return (T) _c;
         }
@@ -209,7 +209,7 @@ public interface _java {
      * @return
      */
     static <T extends _type> T type(Path path) {
-        _compilationUnit _c = _java.code(path);
+        _codeUnit _c = _java.code(path);
         if (_c instanceof _type) {
             return (T) _c;
         }
@@ -380,7 +380,7 @@ public interface _java {
      * @param javaSourceFilePath the path to the local Java source code
      * @return the _code instance
      */
-    static _compilationUnit code(Path javaSourceFilePath) throws _jdraftException {
+    static _codeUnit code(Path javaSourceFilePath) throws _jdraftException {
         return code(Ast.of(javaSourceFilePath));
     }
 
@@ -391,7 +391,7 @@ public interface _java {
      * @param javaSourceInputStream
      * @return
      */
-    static _compilationUnit code(InputStream javaSourceInputStream) throws _jdraftException {
+    static _codeUnit code(InputStream javaSourceInputStream) throws _jdraftException {
         return code(Ast.of(javaSourceInputStream));
     }
 
@@ -403,7 +403,7 @@ public interface _java {
      * @return
      * @throws _jdraftException
      */
-    static _compilationUnit code(File javaSourceFile) throws _jdraftException {
+    static _codeUnit code(File javaSourceFile) throws _jdraftException {
         return code(Ast.of(javaSourceFile));
     }
 
@@ -414,7 +414,7 @@ public interface _java {
      * @param javaSourceReader reader containing .java source code
      * @return the _code model instance representing the source
      */
-    static _compilationUnit code(Reader javaSourceReader) throws _jdraftException {
+    static _codeUnit code(Reader javaSourceReader) throws _jdraftException {
         return code(Ast.of(javaSourceReader));
     }
 
@@ -425,7 +425,7 @@ public interface _java {
      * @param astRoot the AST
      * @return a _code wrapper implementation that wraps the AST
      */
-    static _compilationUnit code(CompilationUnit astRoot) {
+    static _codeUnit code(CompilationUnit astRoot) {
         if (astRoot.getModule().isPresent()) {
             return _moduleInfo.of(astRoot);
         }
@@ -930,9 +930,9 @@ public interface _java {
     static <C extends Comment, _J extends _domain> List<C> listComments(
             _J _j, Class<C> commentTargetClass, Predicate<C> commentMatchFn){
 
-        if( _j instanceof _compilationUnit){
-            if( ((_compilationUnit) _j).isTopLevel() ){
-                return Ast.listComments( ((_compilationUnit) _j).astCompilationUnit(), commentTargetClass, commentMatchFn );
+        if( _j instanceof _codeUnit){
+            if( ((_codeUnit) _j).isTopLevel() ){
+                return Ast.listComments( ((_codeUnit) _j).astCompilationUnit(), commentTargetClass, commentMatchFn );
             }
             else{
                 return Ast.listComments( ((_type) _j).ast(), commentTargetClass, commentMatchFn );
@@ -950,9 +950,9 @@ public interface _java {
      * @return
      */
     static <_J extends _domain> List<Comment> listComments(_J _j, Predicate<Comment> commentMatchFn){
-        if( _j instanceof _compilationUnit){
-            if( ((_compilationUnit) _j).isTopLevel() ){
-                return Ast.listComments( ((_compilationUnit) _j).astCompilationUnit(), commentMatchFn );
+        if( _j instanceof _codeUnit){
+            if( ((_codeUnit) _j).isTopLevel() ){
+                return Ast.listComments( ((_codeUnit) _j).astCompilationUnit(), commentMatchFn );
             }
             else{
                 return Ast.listComments( ((_type) _j).ast(), commentMatchFn);
@@ -970,9 +970,9 @@ public interface _java {
      * @param commentActionFn
      */
     static <_J extends _domain> void forComments(_J _j, Predicate<Comment> commentMatchFn, Consumer<Comment> commentActionFn ){
-        if( _j instanceof _compilationUnit){
-            if( ((_compilationUnit) _j).isTopLevel() ){
-                Ast.forComments( ((_compilationUnit) _j).astCompilationUnit(), commentMatchFn, commentActionFn);
+        if( _j instanceof _codeUnit){
+            if( ((_codeUnit) _j).isTopLevel() ){
+                Ast.forComments( ((_codeUnit) _j).astCompilationUnit(), commentMatchFn, commentActionFn);
             }
             else{
                 Ast.forComments( ((_type) _j).ast(), commentMatchFn, commentActionFn);
@@ -992,9 +992,9 @@ public interface _java {
      * @param commentActionFn
      */
     static <C extends Comment, _J extends _domain> void forComments(_J _j, Class<C> commentClass, Predicate<C> commentMatchFn, Consumer<C> commentActionFn ){
-        if( _j instanceof _compilationUnit){
-            if( ((_compilationUnit) _j).isTopLevel() ){
-                Ast.forComments( ((_compilationUnit) _j).astCompilationUnit(), commentClass, commentMatchFn, commentActionFn);
+        if( _j instanceof _codeUnit){
+            if( ((_codeUnit) _j).isTopLevel() ){
+                Ast.forComments( ((_codeUnit) _j).astCompilationUnit(), commentClass, commentMatchFn, commentActionFn);
             }
             else{
                 Ast.forComments( ((_type) _j).ast(),  commentClass, commentMatchFn, commentActionFn);
@@ -1010,9 +1010,9 @@ public interface _java {
      * @param commentActionFn
      */
     static void forComments(_domain _j, Consumer<Comment> commentActionFn){
-        if( _j instanceof _compilationUnit){
-            if( ((_compilationUnit) _j).isTopLevel() ){
-                Ast.forComments( ((_compilationUnit) _j).astCompilationUnit(), commentActionFn);
+        if( _j instanceof _codeUnit){
+            if( ((_codeUnit) _j).isTopLevel() ){
+                Ast.forComments( ((_codeUnit) _j).astCompilationUnit(), commentActionFn);
             }
             else{
                 Ast.forComments( ((_type) _j).ast(), commentActionFn);
@@ -1029,9 +1029,9 @@ public interface _java {
      * @return
      */
     static <_J extends _domain> List<Comment> listComments(_J _j){
-        if( _j instanceof _compilationUnit){
-            if( ((_compilationUnit) _j).isTopLevel() ){
-                return Ast.listComments( ((_compilationUnit) _j).astCompilationUnit() );
+        if( _j instanceof _codeUnit){
+            if( ((_codeUnit) _j).isTopLevel() ){
+                return Ast.listComments( ((_codeUnit) _j).astCompilationUnit() );
             }
             else{
                 return Ast.listComments( ((_type) _j).ast() );
@@ -1061,7 +1061,7 @@ public interface _java {
                 id-> id.getBody().add(Stmt.of("System.out.println(1);"));
             _walk.list( _m, Ast.RETURN_STMT );
           */
-        Class<_compilationUnit> CODE = _compilationUnit.class;
+        Class<_codeUnit> CODE = _codeUnit.class;
 
         Class<_packageInfo> PACKAGE_INFO = _packageInfo.class;
         Class<_moduleInfo> MODULE_INFO = _moduleInfo.class;

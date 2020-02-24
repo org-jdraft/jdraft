@@ -1019,9 +1019,9 @@ public class $constructor
      * @return  the first _constructor that matches (or null if none found)
      */
     public Select selectFirstIn(_java._domain _j, Predicate<Select> selectConstraint){
-        if( _j instanceof _compilationUnit){
-            if( ((_compilationUnit) _j).isTopLevel()){
-                Optional<ConstructorDeclaration> f = (((_compilationUnit) _j).astCompilationUnit().findFirst(
+        if( _j instanceof _codeUnit){
+            if( ((_codeUnit) _j).isTopLevel()){
+                Optional<ConstructorDeclaration> f = (((_codeUnit) _j).astCompilationUnit().findFirst(
                     ConstructorDeclaration.class, s -> {
                         Select sel = this.select(s);
                         return sel != null && selectConstraint.test(sel);
@@ -1131,8 +1131,8 @@ public class $constructor
     
     @Override
     public List<Select> listSelectedIn(_java._domain _j){
-        if( _j instanceof _compilationUnit){
-            _compilationUnit _c = (_compilationUnit) _j;
+        if( _j instanceof _codeUnit){
+            _codeUnit _c = (_codeUnit) _j;
             if( _c.isTopLevel() ){
                 return listSelectedIn(_c.astCompilationUnit());
             }

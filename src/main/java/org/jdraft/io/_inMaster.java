@@ -25,9 +25,8 @@ public final class _inMaster implements _in._resolver {
     private _inMaster(){
     }
 
-    private _inMaster( _io._inConfig ic ){
-
-    }
+    //private _inMaster( _io._inConfig ic ){
+    //}
 
     /** ThreadLocalResolver, we check this for a resolver EACH TIME*/
     private static final ThreadLocal<_in._resolver> THREAD_LOCAL_RESOLVER =

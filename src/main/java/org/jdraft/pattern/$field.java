@@ -656,9 +656,9 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
      * @return  the first _field that matches (or null if none found)
      */
     public Select selectFirstIn(_java._domain _j, Predicate<Select> selectConstraint){
-         if( _j instanceof _compilationUnit){
-            if( ((_compilationUnit) _j).isTopLevel()){
-                return selectFirstIn(((_compilationUnit) _j).astCompilationUnit(), selectConstraint);
+         if( _j instanceof _codeUnit){
+            if( ((_codeUnit) _j).isTopLevel()){
+                return selectFirstIn(((_codeUnit) _j).astCompilationUnit(), selectConstraint);
             }
             return selectFirstIn(((_type) _j).ast(), selectConstraint);
         }
@@ -729,9 +729,9 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
      * @return 
      */
     public List<Select> listSelectedIn(_java._domain _j, Predicate<Select> selectConstraint){
-         if( _j instanceof _compilationUnit){
-            if( ((_compilationUnit) _j).isTopLevel()){
-                return listSelectedIn(((_compilationUnit) _j).astCompilationUnit(), selectConstraint);
+         if( _j instanceof _codeUnit){
+            if( ((_codeUnit) _j).isTopLevel()){
+                return listSelectedIn(((_codeUnit) _j).astCompilationUnit(), selectConstraint);
             }
             return listSelectedIn(((_type) _j).ast(), selectConstraint);
         }

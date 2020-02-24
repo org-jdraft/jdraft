@@ -345,7 +345,7 @@ public class $comment <C extends Comment>
         return findAndReplace( (_T)_java.type(clazz), targetToReplacement);
     }
 
-    public <_CP extends _compilationUnit._provider> _CP findAndReplace(_CP _cp, String target, String replacement){
+    public <_CP extends _codeUnit._provider> _CP findAndReplace(_CP _cp, String target, String replacement){
         Map<String,String> targetToReplacement = new HashMap<>();
         targetToReplacement.put(target, replacement);
         _cp.for_code( _c -> findAndReplace(_c, targetToReplacement));
@@ -356,18 +356,18 @@ public class $comment <C extends Comment>
         return findAndReplace( (_T)_java.type(clazz), targetToReplacement);
     }
 
-    public <_CP extends _compilationUnit._provider> _CP findAndReplace(_CP _cp, Map<String, String> targetToReplacement){
+    public <_CP extends _codeUnit._provider> _CP findAndReplace(_CP _cp, Map<String, String> targetToReplacement){
         _cp.for_code( _c -> findAndReplace(_c, targetToReplacement));
         return _cp;
     }
 
     public <_J extends _java._domain> _J findAndReplace(_J _c, Map<String, String> targetToReplacement){
         if( _c instanceof _java._multiPart){
-            if( _c instanceof _compilationUnit) {
-                if (((_compilationUnit) _c).isTopLevel()) {
-                    findAndReplace(((_compilationUnit) _c).astCompilationUnit(), targetToReplacement);
+            if( _c instanceof _codeUnit) {
+                if (((_codeUnit) _c).isTopLevel()) {
+                    findAndReplace(((_codeUnit) _c).astCompilationUnit(), targetToReplacement);
                 } else {
-                    findAndReplace(((_compilationUnit) _c).astCompilationUnit(), targetToReplacement);
+                    findAndReplace(((_codeUnit) _c).astCompilationUnit(), targetToReplacement);
                 }
             } else {
                 findAndReplace(((_java._multiPart) _c).ast(), targetToReplacement);

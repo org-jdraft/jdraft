@@ -169,9 +169,9 @@ public final class $typeUse {
     }
     
     public <_J extends _java._domain> _J replaceIn(_J _j, Class replacement) {
-        if( _j instanceof _compilationUnit){
-            if( ((_compilationUnit) _j).isTopLevel()){
-                replaceIn( ((_compilationUnit) _j).astCompilationUnit(), replacement);
+        if( _j instanceof _codeUnit){
+            if( ((_codeUnit) _j).isTopLevel()){
+                replaceIn( ((_codeUnit) _j).astCompilationUnit(), replacement);
                 return _j;
             }
             replaceIn( ((_type) _j).ast(), replacement);
@@ -225,9 +225,9 @@ public final class $typeUse {
     }
     
     public <_J extends _java._domain> _J replaceIn(_J _j, String replacement) {
-        if( _j instanceof _compilationUnit){
-            if( ((_compilationUnit) _j).isTopLevel()){
-                replaceIn( ((_compilationUnit) _j).astCompilationUnit(), replacement);
+        if( _j instanceof _codeUnit){
+            if( ((_codeUnit) _j).isTopLevel()){
+                replaceIn( ((_codeUnit) _j).astCompilationUnit(), replacement);
                 return _j;
             }
             replaceIn( ((_type) _j).ast(), replacement);
@@ -245,9 +245,9 @@ public final class $typeUse {
     }
 
     public <_J extends _java._domain> _J replaceIn(_J _j, Node replacement) {
-        if( _j instanceof _compilationUnit){
-            if( ((_compilationUnit) _j).isTopLevel()){
-                replaceIn( ((_compilationUnit) _j).astCompilationUnit(), replacement);
+        if( _j instanceof _codeUnit){
+            if( ((_codeUnit) _j).isTopLevel()){
+                replaceIn( ((_codeUnit) _j).astCompilationUnit(), replacement);
                 return _j;
             }
             replaceIn( ((_type) _j).ast(), replacement);
@@ -266,9 +266,9 @@ public final class $typeUse {
     }
     
     public <_N extends _java._multiPart> _N removeIn(_N _n ) {
-        if( _n instanceof _compilationUnit){
-            if( ((_compilationUnit) _n).isTopLevel()){
-                removeIn( ((_compilationUnit) _n).astCompilationUnit() );
+        if( _n instanceof _codeUnit){
+            if( ((_codeUnit) _n).isTopLevel()){
+                removeIn( ((_codeUnit) _n).astCompilationUnit() );
                 return _n;
             }
             removeIn( ((_type)_n).ast() );

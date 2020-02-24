@@ -795,7 +795,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _codeProvider
      * @return
      */
-    default boolean isIn( _compilationUnit._provider _codeProvider ){
+    default boolean isIn( _codeUnit._provider _codeProvider ){
         return firstIn(_codeProvider, t->true) != null;
     }
 
@@ -834,7 +834,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param matchFn
      * @return
      */
-    default boolean isIn(_compilationUnit._provider _codeProvider, Predicate<P> matchFn){
+    default boolean isIn(_codeUnit._provider _codeProvider, Predicate<P> matchFn){
         return firstIn(_codeProvider, matchFn) != null;
     }
 
@@ -882,7 +882,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _codeProvider
      * @return
      */
-    default P firstIn( _compilationUnit._provider _codeProvider ){
+    default P firstIn( _codeUnit._provider _codeProvider ){
        return firstIn(_codeProvider, t->true);
     }
 
@@ -973,9 +973,9 @@ public interface $pattern<P, $P extends $pattern>{
      * @param matchFn
      * @return
      */
-    default P firstIn(_compilationUnit._provider _codeProvider, Predicate<P> matchFn){
+    default P firstIn(_codeUnit._provider _codeProvider, Predicate<P> matchFn){
         P found = null;
-        List<_compilationUnit> _lc = _codeProvider.list_code();
+        List<_codeUnit> _lc = _codeProvider.list_code();
         for(int i=0;i<_lc.size();i++){
             found = firstIn(_lc.get(i));
             if( found != null && matchFn.test(found)){
@@ -991,8 +991,8 @@ public interface $pattern<P, $P extends $pattern>{
      * @return  the first matching instance or null if none is found
      */
     default <_J extends _java._domain> P firstIn(_J _j){
-        if( _j instanceof _compilationUnit){
-            _compilationUnit _c = (_compilationUnit)_j;
+        if( _j instanceof _codeUnit){
+            _codeUnit _c = (_codeUnit)_j;
             if( _c.isTopLevel() ){
                 return firstIn(_c.astCompilationUnit());
             }
@@ -1013,8 +1013,8 @@ public interface $pattern<P, $P extends $pattern>{
      * @return 
      */
     default P firstIn(_java._domain _j, Predicate<P> nodeMatchFn){
-        if( _j instanceof _compilationUnit){
-            _compilationUnit _c = (_compilationUnit)_j;
+        if( _j instanceof _codeUnit){
+            _codeUnit _c = (_codeUnit)_j;
             if( _c.isTopLevel() ){
                 return firstIn(_c.astCompilationUnit(), nodeMatchFn);
             }
@@ -1087,8 +1087,8 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _codeProvider
      * @return
      */
-    default <S extends selected> S selectFirstIn(_compilationUnit._provider _codeProvider ){
-        List<_compilationUnit> _cs = _codeProvider.list_code();
+    default <S extends selected> S selectFirstIn(_codeUnit._provider _codeProvider ){
+        List<_codeUnit> _cs = _codeProvider.list_code();
         for(int i=0;i<_cs.size(); i++){
             S s = selectFirstIn( _cs.get(i) );
             if( s != null ){
@@ -1138,8 +1138,8 @@ public interface $pattern<P, $P extends $pattern>{
      * @return 
      */
     default <S extends selected> S selectFirstIn( _java._domain _j ){
-        if( _j instanceof _compilationUnit){
-            _compilationUnit _c = (_compilationUnit)_j;
+        if( _j instanceof _codeUnit){
+            _codeUnit _c = (_codeUnit)_j;
             if( _c.isTopLevel() ){
                 return selectFirstIn(_c.astCompilationUnit());
             }
@@ -1215,13 +1215,13 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _codeProvider the provider of _code instances
      * @return a List of P that match the query
      */
-    default List<P> listIn( _compilationUnit._provider _codeProvider ){
+    default List<P> listIn( _codeUnit._provider _codeProvider ){
         List<P> found = new ArrayList<>();
         _codeProvider.for_code(c -> found.addAll( listIn(c)));
         return found;
     }
 
-    default Stream<P> streamIn( _compilationUnit._provider _codeProvider ){
+    default Stream<P> streamIn( _codeUnit._provider _codeProvider ){
         return listIn(_codeProvider).stream();
     }
 
@@ -1275,7 +1275,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param <_J> the underlying _code type (_code, _type, _packageInfo, etc.)
      * @return list of matching P for the query
      */
-    default <_J extends _java._domain> List<P> listIn(_compilationUnit._provider _codeProvider, Predicate<P> nodeMatchFn){
+    default <_J extends _java._domain> List<P> listIn(_codeUnit._provider _codeProvider, Predicate<P> nodeMatchFn){
         List<P> found = new ArrayList<>();
         _codeProvider.for_code(c -> found.addAll( listIn(c, nodeMatchFn) ));
         return found;
@@ -1288,7 +1288,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param <_J>
      * @return
      */
-    default <_J extends _java._domain> Stream<P> streamIn(_compilationUnit._provider _codeProvider, Predicate<P> nodeMatchFn){
+    default <_J extends _java._domain> Stream<P> streamIn(_codeUnit._provider _codeProvider, Predicate<P> nodeMatchFn){
         return listIn(_codeProvider, nodeMatchFn).stream();
     }
 
@@ -1345,8 +1345,8 @@ public interface $pattern<P, $P extends $pattern>{
      * @return a List of Q that match the query
      */
     default List<P> listIn(_java._domain _j) {
-        if( _j instanceof _compilationUnit){
-            _compilationUnit _c = (_compilationUnit)_j;
+        if( _j instanceof _codeUnit){
+            _codeUnit _c = (_codeUnit)_j;
             if( _c.isTopLevel() ){
                 return listIn(_c.astCompilationUnit());
             }
@@ -1374,8 +1374,8 @@ public interface $pattern<P, $P extends $pattern>{
      * @return 
      */
     default List<P> listIn(_java._domain _j, Predicate<P>nodeMatchFn){
-        if( _j instanceof _compilationUnit){
-            _compilationUnit _c = (_compilationUnit)_j;
+        if( _j instanceof _codeUnit){
+            _codeUnit _c = (_codeUnit)_j;
             if( _c.isTopLevel() ){
                 return listIn(_c.astCompilationUnit(), nodeMatchFn);
             }
@@ -1469,7 +1469,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param <S>
      * @return
      */
-    default <S extends selected> List<S> listSelectedIn(_compilationUnit._provider _codeProvider){
+    default <S extends selected> List<S> listSelectedIn(_codeUnit._provider _codeProvider){
         List<S> sel = new ArrayList<>();
         _codeProvider.for_code(_j -> sel.addAll( listSelectedIn( _j )) );
         return sel;
@@ -1497,8 +1497,8 @@ public interface $pattern<P, $P extends $pattern>{
      * @return a list of the selected
      */
     default <S extends selected> List<S> listSelectedIn(_java._domain _j){
-        if( _j instanceof _compilationUnit){
-            _compilationUnit _c = (_compilationUnit)_j;
+        if( _j instanceof _codeUnit){
+            _codeUnit _c = (_codeUnit)_j;
             if( _c.isTopLevel() ){
                 return listSelectedIn(_c.astCompilationUnit());
             }
@@ -1555,8 +1555,8 @@ public interface $pattern<P, $P extends $pattern>{
      * @param nodeActionFn
      * @return
      */
-    default List<_compilationUnit> forEachIn(_compilationUnit._provider _codeProvider, Consumer<P> nodeActionFn ){
-        List<_compilationUnit> ts = new ArrayList<>();
+    default List<_codeUnit> forEachIn(_codeUnit._provider _codeProvider, Consumer<P> nodeActionFn ){
+        List<_codeUnit> ts = new ArrayList<>();
         _codeProvider.for_code( j-> ts.add( forEachIn( j, nodeActionFn) ) );
         return ts;
     }
@@ -1611,8 +1611,8 @@ public interface $pattern<P, $P extends $pattern>{
      * @return the modified astRootNode
      */
     default <_J extends _java._domain> _J forEachIn(_J _j, Predicate<P> nodeMatchFn, Consumer<P> nodeActionFn){
-        if( _j instanceof _compilationUnit){
-            _compilationUnit _c = (_compilationUnit) _j;
+        if( _j instanceof _codeUnit){
+            _codeUnit _c = (_codeUnit) _j;
             if( _c.isTopLevel() ){
                 forEachIn(_c.astCompilationUnit(), nodeMatchFn, nodeActionFn);
                 return _j;
@@ -1675,7 +1675,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _codeProvider the collection to search through
      * @return
      */
-    default int countIn(_compilationUnit._provider _codeProvider){
+    default int countIn(_codeUnit._provider _codeProvider){
         AtomicInteger ai = new AtomicInteger();
         _codeProvider.for_code(c-> ai.addAndGet(countIn(c)));
         return ai.get();
@@ -1687,7 +1687,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param <_C>
      * @return
      */
-    default <_C extends _compilationUnit> int countIn(Collection<_C> cs){
+    default <_C extends _codeUnit> int countIn(Collection<_C> cs){
         AtomicInteger ai = new AtomicInteger();
         cs.forEach( c -> ai.addAndGet( countIn(c)));
         return ai.get();
@@ -1758,7 +1758,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _codeProvider the collection to search through
      * @return
      */
-    default void printIn( _compilationUnit._provider _codeProvider){
+    default void printIn( _codeUnit._provider _codeProvider){
         _codeProvider.for_code(c-> printIn(c));
     }
 
@@ -1768,7 +1768,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param <_C>
      * @return
      */
-    default <_C extends _compilationUnit> void printIn(Collection<_C> cs){
+    default <_C extends _codeUnit> void printIn(Collection<_C> cs){
         cs.forEach( c -> printIn(c));
     }
 
@@ -1820,7 +1820,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _cp
      * @return
      */
-    default List<_compilationUnit> removeIn(_compilationUnit._provider _cp ){
+    default List<_codeUnit> removeIn(_codeUnit._provider _cp ){
         return _cp.for_code(c-> removeIn(c) );
     }
 
@@ -1851,7 +1851,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _cp
      * @return
      */
-    default List<_compilationUnit> removeIn(_compilationUnit._provider _cp, Predicate<P>nodeMatchFn){
+    default List<_codeUnit> removeIn(_codeUnit._provider _cp, Predicate<P>nodeMatchFn){
         return _cp.for_code(c-> removeIn(c, nodeMatchFn) );
     }
 
@@ -1893,8 +1893,8 @@ public interface $pattern<P, $P extends $pattern>{
      * @return the modified model node
      */
     default <_J extends _java._domain> _J removeIn(_J _j, Predicate<P> nodeMatchFn){
-        if( _j instanceof _compilationUnit){
-            _compilationUnit _c = (_compilationUnit) _j;
+        if( _j instanceof _codeUnit){
+            _codeUnit _c = (_codeUnit) _j;
             if( _c.isTopLevel() ){
                 removeIn(_c.astCompilationUnit(), nodeMatchFn);
                 return _j;
@@ -1980,7 +1980,7 @@ public interface $pattern<P, $P extends $pattern>{
             return (_CT)replaceIn((_type)_java.type(clazz), $protoReplace);
         }
 
-        default List<_compilationUnit> replaceIn(_compilationUnit._provider _codeProvider, $P $protoReplace ){
+        default List<_codeUnit> replaceIn(_codeUnit._provider _codeProvider, $P $protoReplace ){
             return _codeProvider.for_code( c -> replaceIn(c, $protoReplace));
         }
 

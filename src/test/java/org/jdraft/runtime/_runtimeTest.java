@@ -199,11 +199,11 @@ public class _runtimeTest extends TestCase {
 
         System.out.println( _c );
         //compile, load, and create a new instance of _c with 100 arg
-        _proxy<Serializable, _compilationUnit> p = _runtime.of(_c).proxy(_c, 100);
+        _proxy<Serializable, _codeUnit> p = _runtime.of(_c).proxy(_c, 100);
         assertEquals(100, p.get("a"));
         
         
-        _proxy<Serializable, _compilationUnit> p2 = p.of(100); //build me another proxy/instance w 100
+        _proxy<Serializable, _codeUnit> p2 = p.of(100); //build me another proxy/instance w 100
         assertEquals(p, p2); //verify equals works
         assertEquals( p.hashCode(), p2.hashCode()); //verify hashCode works
         assertEquals( p.toString(), p2.toString()); //verify toString works
@@ -221,7 +221,7 @@ public class _runtimeTest extends TestCase {
         assertEquals(300, p.call("threeX", 100)); //call instance method
         
         //we can get the codeModel
-        _compilationUnit _cd = p.get_class();
+        _codeUnit _cd = p.get_class();
         assertEquals( _c, _cd); //make sure the models are the same             
     }
     
@@ -427,7 +427,7 @@ public class _runtimeTest extends TestCase {
             adhoc.getFileManager().classLoader.classNameTo_javaFile.get("aaaa.FF");
         assertNotNull(cmf);
         //CompilationUnit cu = cmf.getCodeModel();
-        _compilationUnit _c = cmf.codeModel;
+        _codeUnit _c = cmf.codeModel;
         assertNotNull(_c);
         
         //this is how you can get it

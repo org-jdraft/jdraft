@@ -665,9 +665,9 @@ public class $var
      * @return  the first VaribleDeclarator that matches (or null if none found)
      */
     public Select selectFirstIn(_java._domain _j, Predicate<Select> selectConstraint ){
-        if( _j instanceof _compilationUnit){
-            if( ((_compilationUnit) _j).isTopLevel()){
-                return selectFirstIn( ((_compilationUnit) _j).astCompilationUnit(), selectConstraint);
+        if( _j instanceof _codeUnit){
+            if( ((_codeUnit) _j).isTopLevel()){
+                return selectFirstIn( ((_codeUnit) _j).astCompilationUnit(), selectConstraint);
             }
             return selectFirstIn( ((_type)_j).ast(), selectConstraint);
         }
@@ -710,8 +710,8 @@ public class $var
 
     @Override
     public List<Select> listSelectedIn(_java._domain _j){
-        if( _j instanceof _compilationUnit){
-            _compilationUnit _c = (_compilationUnit) _j;
+        if( _j instanceof _codeUnit){
+            _codeUnit _c = (_codeUnit) _j;
             if( _c.isTopLevel() ){
                 return listSelectedIn(_c.astCompilationUnit());
             }
@@ -756,9 +756,9 @@ public class $var
      */
     public List<Select> listSelectedIn(_java._domain _n, Predicate<Select> selectConstraint){
         List<Select>sts = new ArrayList<>();
-        if( _n instanceof _compilationUnit){
-            if( ((_compilationUnit) _n).isTopLevel()){
-                return listSelectedIn( ((_compilationUnit) _n).astCompilationUnit(), selectConstraint);
+        if( _n instanceof _codeUnit){
+            if( ((_codeUnit) _n).isTopLevel()){
+                return listSelectedIn( ((_codeUnit) _n).astCompilationUnit(), selectConstraint);
             }
             return listSelectedIn( ((_type)_n).ast(), selectConstraint);
         }

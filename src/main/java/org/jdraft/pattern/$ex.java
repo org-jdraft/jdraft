@@ -2045,8 +2045,8 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      */
     @Override
     public Select<E,_E> selectFirstIn(_java._domain _j){
-        if( _j instanceof _compilationUnit){
-            _compilationUnit _c = (_compilationUnit) _j;
+        if( _j instanceof _codeUnit){
+            _codeUnit _c = (_codeUnit) _j;
             if( _c.isTopLevel() ){
                 return selectFirstIn(_c.astCompilationUnit());
             }
@@ -2087,9 +2087,9 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return  the first Expression that matches (or null if none found)
      */
     public Select<E, _E> selectFirstIn(_java._domain _j, Predicate<Select<E, _E>> selectConstraint){
-        if( _j instanceof _compilationUnit){
-            if( ((_compilationUnit) _j).isTopLevel()){
-                return selectFirstIn(((_compilationUnit) _j).astCompilationUnit(), selectConstraint);
+        if( _j instanceof _codeUnit){
+            if( ((_codeUnit) _j).isTopLevel()){
+                return selectFirstIn(((_codeUnit) _j).astCompilationUnit(), selectConstraint);
             } else{
                 return selectFirstIn(((_type) _j).ast(), selectConstraint);
             }
@@ -2116,9 +2116,9 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
 
     @Override
     public List<_E> listIn(_java._domain _j){
-        if( _j instanceof _compilationUnit){
-            if( ((_compilationUnit) _j).isTopLevel()){
-                return listIn(((_compilationUnit) _j).astCompilationUnit());
+        if( _j instanceof _codeUnit){
+            if( ((_codeUnit) _j).isTopLevel()){
+                return listIn(((_codeUnit) _j).astCompilationUnit());
             }
                 return listIn(((_type) _j).ast());
         }

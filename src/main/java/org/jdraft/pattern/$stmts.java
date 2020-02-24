@@ -469,8 +469,8 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
     
     @Override
     public List<Select> listSelectedIn(_java._domain _j){
-        if( _j instanceof _compilationUnit){
-            _compilationUnit _c = (_compilationUnit) _j;
+        if( _j instanceof _codeUnit){
+            _codeUnit _c = (_codeUnit) _j;
             if( _c.isTopLevel() ){
                 return listSelectedIn(_c.astCompilationUnit());
             }

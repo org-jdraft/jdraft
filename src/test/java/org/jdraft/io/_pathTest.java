@@ -27,7 +27,7 @@ public class _pathTest extends TestCase {
         assertEquals(5, _b.list(_path.JAVA_FILES_ONLY).size()); //excludes "textFile.txt
         assertEquals(3, _b.list(_path.JAVA_TYPES_ONLY).size()); //excludes "package-info.java" "module-info.java"
 
-        List<_compilationUnit> _cs = _b.for_code(_c -> _c.addImports(Map.class)); //add an import to all
+        List<_codeUnit> _cs = _b.for_code(_c -> _c.addImports(Map.class)); //add an import to all
         _cs.forEach( c-> assertTrue(c.hasImport(Map.class)));
         assertEquals( 5, _cs.size());
 

@@ -15,20 +15,22 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * In-memory representations of multiple java source {@link _compilationUnit} entities
+ * In-memory representations of multiple java source {@link _codeUnit} entities
  * (as apposed to Strings)
  *
- * @see _compilationUnit._provider
+ * @see _codeUnit._provider
+ * @see _archive to read the .java sources from a jar or zip file (i.e. "spring-2.1.1-sources.jar")
+ * @see _path to read the .java sources from a directory (i.e. "Myproject/src/main/java")
  */
-public class _sources<_C extends _compilationUnit> implements _compilationUnit._provider {
+public class _sources<_C extends _codeUnit> implements _codeUnit._provider {
 
-    public static _sources of(_compilationUnit._provider..._providers ){
-        List<_compilationUnit> all = new ArrayList<>();
+    public static _sources of(_codeUnit._provider..._providers ){
+        List<_codeUnit> all = new ArrayList<>();
         Arrays.stream(_providers).forEach(_p -> all.addAll(_p.list_code()));
         return of(all);
     }
 
-    public static _sources of(_compilationUnit._provider _p ){
+    public static _sources of(_codeUnit._provider _p ){
         return of(_p.list_code());
     }
 
@@ -52,7 +54,7 @@ public class _sources<_C extends _compilationUnit> implements _compilationUnit._
      * @return
      */
     public static _sources of(Path... paths ){
-        _compilationUnit._provider[] _ps = new _compilationUnit._provider[paths.length];
+        _codeUnit._provider[] _ps = new _codeUnit._provider[paths.length];
 
         for(int i=0;i<paths.length;i++){
             //what if it's a .zip or .jar
@@ -67,17 +69,17 @@ public class _sources<_C extends _compilationUnit> implements _compilationUnit._
         return of (_ps);
     }
 
-    public static <_C extends _compilationUnit> _sources of(Class<?>... clazzes){
+    public static <_C extends _codeUnit> _sources of(Class<?>... clazzes){
         List<_C> cus = new ArrayList<>();
         Arrays.stream(clazzes).forEach(c -> cus.add(_java.type(c)));
         return new _sources( cus );
     }
 
-    public static <_C extends _compilationUnit> _sources of(_C... _codeToCache){
+    public static <_C extends _codeUnit> _sources of(_C... _codeToCache){
         return of(Arrays.stream(_codeToCache).collect(Collectors.toList()));
     }
 
-    public static <_C extends _compilationUnit> _sources of(List<_C> _codeToCache){
+    public static <_C extends _codeUnit> _sources of(List<_C> _codeToCache){
         return new _sources( _codeToCache );
     }
 
@@ -95,7 +97,7 @@ public class _sources<_C extends _compilationUnit> implements _compilationUnit._
      * @param <_CC> the code class runtime type
      * @return the first matching or null
      */
-    public <_CC extends _compilationUnit> _CC first(Class<_CC> codeClass, Predicate<_CC> _codeMatchFn) {
+    public <_CC extends _codeUnit> _CC first(Class<_CC> codeClass, Predicate<_CC> _codeMatchFn) {
         return first(codeClass, _codeMatchFn, c -> Function.identity() );
     }
 
@@ -107,7 +109,7 @@ public class _sources<_C extends _compilationUnit> implements _compilationUnit._
      * @param <_CC> the code class runtime type
      * @return the updated instance that was modified by the _codeActionFn
      */
-    public <_CC extends _compilationUnit> _CC first(Class<_CC> codeClass, Predicate<_CC> _codeMatchFn, Consumer<_CC> _codeActionFn) {
+    public <_CC extends _codeUnit> _CC first(Class<_CC> codeClass, Predicate<_CC> _codeMatchFn, Consumer<_CC> _codeActionFn) {
         Optional<_CC> oc = (Optional<_CC>)this.codeList.stream().filter(c -> {
             if(codeClass.isAssignableFrom(c.getClass())){
                 return _codeMatchFn.test( (_CC)c );
@@ -122,7 +124,7 @@ public class _sources<_C extends _compilationUnit> implements _compilationUnit._
         return null;
     }
 
-    public <_C extends _compilationUnit> _C get(Class<_C> _codeClass, Predicate<_C>_codeMatchFn){
+    public <_C extends _codeUnit> _C get(Class<_C> _codeClass, Predicate<_C>_codeMatchFn){
         return first(_codeClass, _codeMatchFn);
     }
 
@@ -143,7 +145,7 @@ public class _sources<_C extends _compilationUnit> implements _compilationUnit._
     }
 
     @Override
-    public <_C extends _compilationUnit> List<_C> for_code(Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn) {
+    public <_C extends _codeUnit> List<_C> for_code(Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn) {
         List<_C> acted = new ArrayList<>();
         codeList.forEach( c -> {
             if(codeClass.isAssignableFrom( c.getClass() ) && _codeMatchFn.test( (_C)c) ){
@@ -174,7 +176,7 @@ public class _sources<_C extends _compilationUnit> implements _compilationUnit._
         return this;
     }
 
-    public _sources add(_compilationUnit._provider..._providers){
+    public _sources add(_codeUnit._provider..._providers){
         Arrays.stream(_providers).forEach(_p -> this.codeList.addAll( (List<_C>) _p.list_code()));
         return this;
     }

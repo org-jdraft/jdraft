@@ -755,9 +755,9 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      */
     @Override
     public _parameter firstIn( _java._domain _j){
-        if( _j instanceof _compilationUnit){
-            if( ((_compilationUnit) _j).isTopLevel()){
-                return firstIn( ((_compilationUnit) _j).astCompilationUnit() );
+        if( _j instanceof _codeUnit){
+            if( ((_codeUnit) _j).isTopLevel()){
+                return firstIn( ((_codeUnit) _j).astCompilationUnit() );
             }
             return firstIn( ((_type) _j).ast() );
         }
@@ -814,9 +814,9 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      */
     public Select selectFirstIn(_java._domain _j, Predicate<Select>selectConstraint ){
 
-        if( _j instanceof _compilationUnit){
-            if( ((_compilationUnit) _j).isTopLevel()){
-                return selectFirstIn( ((_compilationUnit) _j).astCompilationUnit(), selectConstraint );
+        if( _j instanceof _codeUnit){
+            if( ((_codeUnit) _j).isTopLevel()){
+                return selectFirstIn( ((_codeUnit) _j).astCompilationUnit(), selectConstraint );
             }
             return selectFirstIn( ((_type)_j).ast(), selectConstraint);
         }

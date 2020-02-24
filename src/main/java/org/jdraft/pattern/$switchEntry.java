@@ -263,8 +263,8 @@ public class $switchEntry
      * @return 
      */
     public Select selectFirstIn(_java._domain _j, Predicate<Select>selectConstraint ){
-        if( _j instanceof _compilationUnit){
-            _compilationUnit _c = (_compilationUnit)_j;
+        if( _j instanceof _codeUnit){
+            _codeUnit _c = (_codeUnit)_j;
             if( _c.isTopLevel() ){
                 return selectFirstIn(_c.astCompilationUnit(), selectConstraint);
             }
@@ -307,8 +307,8 @@ public class $switchEntry
      * @return 
      */
     public <_J extends _java._domain> List<Select> listSelectedIn(_J _j, Predicate<Select> selectConstraint) {
-        if( _j instanceof _compilationUnit){
-            _compilationUnit _c = (_compilationUnit) _j;
+        if( _j instanceof _codeUnit){
+            _codeUnit _c = (_codeUnit) _j;
             if( _c.isTopLevel() ){
                 return listSelectedIn(_c.astCompilationUnit(), selectConstraint);
             }
@@ -375,8 +375,8 @@ public class $switchEntry
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Consumer<Select> selectActionFn) {
-        if( _j instanceof _compilationUnit){
-            _compilationUnit _c = (_compilationUnit) _j;
+        if( _j instanceof _codeUnit){
+            _codeUnit _c = (_codeUnit) _j;
             if( _c.isTopLevel() ){
                 forSelectedIn(_c.astCompilationUnit(), selectActionFn);
                 return _j;
@@ -398,8 +398,8 @@ public class $switchEntry
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Predicate<Select> selectMatchFn, Consumer<Select> selectActionFn) {
-        if( _j instanceof _compilationUnit){
-            _compilationUnit _c = (_compilationUnit) _j;
+        if( _j instanceof _codeUnit){
+            _codeUnit _c = (_codeUnit) _j;
             if( _c.isTopLevel() ){
                 forSelectedIn(_c.astCompilationUnit(), selectMatchFn, selectActionFn);
                 return _j;

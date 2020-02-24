@@ -1293,8 +1293,8 @@ public class $stmt<S extends Statement, _S extends _statement>
      */
     @Override
     public Select<S, _S> selectFirstIn(_java._domain _j){
-        if( _j instanceof _compilationUnit){
-            _compilationUnit _c = (_compilationUnit) _j;
+        if( _j instanceof _codeUnit){
+            _codeUnit _c = (_codeUnit) _j;
             if( _c.isTopLevel() ){
                 return selectFirstIn(_c.astCompilationUnit());
             }
@@ -1329,9 +1329,9 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public Select<S, _S> selectFirstIn(_java._domain _n, Predicate<Select<S, _S>> selectConstraint ){
-        if( _n instanceof _compilationUnit){
-            if( ((_compilationUnit) _n).isTopLevel()){
-                return selectFirstIn( ((_compilationUnit) _n).astCompilationUnit(), selectConstraint );
+        if( _n instanceof _codeUnit){
+            if( ((_codeUnit) _n).isTopLevel()){
+                return selectFirstIn( ((_codeUnit) _n).astCompilationUnit(), selectConstraint );
             }
             return selectFirstIn( ((_type)_n).ast(), selectConstraint);
         }
@@ -1648,11 +1648,11 @@ public class $stmt<S extends Statement, _S extends _statement>
         return (_CT)commentOut( _class.of(clazz), REPLACE_WITH_EMPTY_STMT_COMMENT);
     }
 
-    public _sources commentOut(_compilationUnit._provider _codeProvider){
+    public _sources commentOut(_codeUnit._provider _codeProvider){
         return commentOut(_codeProvider, REPLACE_WITH_EMPTY_STMT_COMMENT);
     }
 
-    public _sources commentOut(_compilationUnit._provider _codeProvider, Consumer<_statement> commenter){
+    public _sources commentOut(_codeUnit._provider _codeProvider, Consumer<_statement> commenter){
         _sources cc = _sources.of(_codeProvider);
         forEachIn(cc, n-> commenter.accept(n));
         return cc;

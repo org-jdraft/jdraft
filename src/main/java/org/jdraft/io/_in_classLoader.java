@@ -68,7 +68,7 @@ public final class _in_classLoader implements _in._resolver {
                 InputStream is = cl.getResourceAsStream(fileName);
                 if( is != null ){
                     iss.add(is);
-                    System.out.println( "FOUND CLASSLOADER "+ cl +" "+cl.getClass());
+                    //System.out.println( "FOUND CLASSLOADER "+ cl +" "+cl.getClass());
                     return true;
                 }
                 return false;
@@ -82,9 +82,9 @@ public final class _in_classLoader implements _in._resolver {
         //URL url = runtimeClass.getResource( fileName );
 
         if( ocl.isPresent() ){
-            System.out.println( "Found OCL ");
+            //System.out.println( "Found OCL ");
             URL url = ocl.get().getResource( fileName );
-            System.out.println( "URL "+ url);
+            //System.out.println( "URL "+ url);
             
             return _in._source.of(
                     Paths.get(fileName),

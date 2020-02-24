@@ -1,7 +1,7 @@
 package org.jdraft.io;
 
 import org.jdraft.text.Text;
-import org.jdraft._compilationUnit;
+import org.jdraft._codeUnit;
 import org.jdraft._type;
 
 import java.io.File;
@@ -74,8 +74,8 @@ public class _io{
      * @param _c a single _code to write to file
      * @return the Path written to
      */
-    public static<_C extends _compilationUnit> Path out(_C _c ){
-        return out( new _compilationUnit[]{_c} ).get(0);
+    public static<_C extends _codeUnit> Path out(_C _c ){
+        return out( new _codeUnit[]{_c} ).get(0);
     }
     
     /**
@@ -88,8 +88,8 @@ public class _io{
      * @param _c a single _code to write to .java file
      * @return the Path written to
      */
-    public static<_C extends _compilationUnit> Path out(Path sourceRootPath, _C _c ){
-        return out( sourceRootPath, new _compilationUnit[]{_c} ).get(0);
+    public static<_C extends _codeUnit> Path out(Path sourceRootPath, _C _c ){
+        return out( sourceRootPath, new _codeUnit[]{_c} ).get(0);
     }
     
     /**
@@ -110,7 +110,7 @@ public class _io{
      * @param _c 
      * @return a list of Paths to the files written
      */
-    public static<_C extends _compilationUnit> List<Path> out(_C... _c ){
+    public static<_C extends _codeUnit> List<Path> out(_C... _c ){
         String outJavaDir = getOutJavaDir();
         return out( Paths.get(outJavaDir ), _c);        
     }
@@ -120,7 +120,7 @@ public class _io{
      * @param _cp the provided code to be written
      * @return the List
      */
-    public static List<Path> out(_compilationUnit._provider _cp){
+    public static List<Path> out(_codeUnit._provider _cp){
         return out( _io.getOutJavaDir(), _cp);
     }
 
@@ -130,7 +130,7 @@ public class _io{
      * @param _cp
      * @return
      */
-    public static List<Path> out( String rootPath, _compilationUnit._provider _cp ){
+    public static List<Path> out( String rootPath, _codeUnit._provider _cp ){
         return out(Paths.get(rootPath), _cp);
     }
 
@@ -140,7 +140,7 @@ public class _io{
      * @param _cp
      * @return
      */
-    public static List<Path> out( Path rootPath, _compilationUnit._provider _cp){
+    public static List<Path> out( Path rootPath, _codeUnit._provider _cp){
         List<Path> writtenFiles = new ArrayList<>();
         _cp.for_code( c -> {
             String fileName = c.getFullName().replace(".", "/")+".java";
@@ -164,7 +164,7 @@ public class _io{
      * @param <_C>
      * @return
      */
-    public static<_C extends _compilationUnit> Path out(String sourceRootPath, _C _c){
+    public static<_C extends _codeUnit> Path out(String sourceRootPath, _C _c){
         return out(Paths.get(sourceRootPath), _c);
     }
 
@@ -174,7 +174,7 @@ public class _io{
      * @param _c
      * @return
      */
-    public static<_C extends _compilationUnit> List<Path> out(String sourceRootPath, _C..._c){
+    public static<_C extends _codeUnit> List<Path> out(String sourceRootPath, _C..._c){
         return out(Paths.get(sourceRootPath), _c);
     }
 
@@ -185,8 +185,8 @@ public class _io{
      * @param <_C>
      * @return
      */
-    public static<_C extends _compilationUnit> List<Path> out(String sourceRootPath, List<_C> _code){
-        return out(sourceRootPath, _code.toArray(new _compilationUnit[0]));
+    public static<_C extends _codeUnit> List<Path> out(String sourceRootPath, List<_C> _code){
+        return out(sourceRootPath, _code.toArray(new _codeUnit[0]));
     }
 
     public static String out(Path path, String fileContents){
@@ -205,8 +205,8 @@ public class _io{
      * @param <_C>
      * @return
      */
-    public static<_C extends _compilationUnit> List<Path> out(Path sourceRootPath, List<_C> _code){
-         return out(sourceRootPath, _code.toArray(new _compilationUnit[0]));
+    public static<_C extends _codeUnit> List<Path> out(Path sourceRootPath, List<_C> _code){
+         return out(sourceRootPath, _code.toArray(new _codeUnit[0]));
     }
 
     /**
@@ -231,7 +231,7 @@ public class _io{
      * @param _c the _code entity (_type, _packageInfo, _moduleInfo) to be written
      * @return a list of Paths to the files written
      */
-    public static<_C extends _compilationUnit>  List<Path> out(Path sourceRootPath, _C..._c){
+    public static<_C extends _codeUnit>  List<Path> out(Path sourceRootPath, _C..._c){
         List<Path> writtenFiles = new ArrayList<>();
         Arrays.stream(_c).forEach(c -> {
             String fileName = c.getFullName().replace(".", "/")+".java";

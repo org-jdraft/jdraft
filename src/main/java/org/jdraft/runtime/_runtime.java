@@ -29,7 +29,7 @@ import org.jdraft.pattern.*;
  * Simple API to adapt all of the functionality in the
  * statically, so you don't have to always use:
  * 
- * Compiles and Loads BOTH draft based {@link _compilationUnit} entities:
+ * Compiles and Loads BOTH draft based {@link _codeUnit} entities:
  * <UL>
  *    <LI>{@link org.jdraft._type}
  *    <UL>
@@ -53,7 +53,7 @@ public class _runtime {
      */
     public static final JavaCompiler JAVAC = ToolProvider.getSystemJavaCompiler();
     
-    public static _javaFile file(_compilationUnit code) {
+    public static _javaFile file(_codeUnit code) {
         return new _javaFile(code);
     }    
         
@@ -96,7 +96,7 @@ public class _runtime {
      * @param codeArray the draft _code instances (i.e. {@link org.jdraft._class}, {@link org.jdraft._interface})
      * @return map of the className to the bytecode
      */
-    public static List<_classFile> compile(_compilationUnit...codeArray){
+    public static List<_classFile> compile(_codeUnit...codeArray){
         List<JavaFileObject> fs = new ArrayList<>();
         Arrays.stream(codeArray).forEach( f -> fs.add( _javaFile.of(f)));
         return compile(fs);
@@ -107,7 +107,7 @@ public class _runtime {
      * @param codeList
      * @return
      */
-    public static <_C extends _compilationUnit> List<_classFile> compile(List<_C> codeList){
+    public static <_C extends _codeUnit> List<_classFile> compile(List<_C> codeList){
         List<JavaFileObject> fs = new ArrayList<>();
         codeList.forEach( f -> fs.add( _javaFile.of(f)));
         return compile(fs);
@@ -128,7 +128,7 @@ public class _runtime {
      * @param codeArray
      * @return 
      */
-    public static List<_classFile> compile(List<String>compilerOptions, _compilationUnit...codeArray){
+    public static List<_classFile> compile(List<String>compilerOptions, _codeUnit...codeArray){
          List<JavaFileObject> fs = new ArrayList<>();
         Arrays.stream(codeArray).forEach( f -> fs.add( _javaFile.of(f)));
         return compile(compilerOptions, true, fs);
@@ -203,7 +203,7 @@ public class _runtime {
      * @return
      * @see <A HREF="https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javac.html#options">javac options</A>
      */
-    public static List<_classFile> compile(List<String>compilerOptions, boolean ignoreWarnings, _compilationUnit...code){
+    public static List<_classFile> compile(List<String>compilerOptions, boolean ignoreWarnings, _codeUnit...code){
         List<JavaFileObject> fs = new ArrayList<>();
         Arrays.stream(code).forEach( f -> fs.add( _javaFile.of(f)));
         return compile(compilerOptions, ignoreWarnings, fs);
@@ -687,13 +687,13 @@ public class _runtime {
      * @param codeArray
      * @return 
      */
-    public static _runtime of(_compilationUnit...codeArray){
+    public static _runtime of(_codeUnit...codeArray){
         List<JavaFileObject> sfs = new ArrayList<>();
         Arrays.stream(codeArray).forEach(c-> sfs.add( _javaFile.of(c)));
         return _runtime.of(Collections.EMPTY_LIST, true, sfs);
     }
 
-    public static <_C extends _compilationUnit> _runtime of(_C code ){
+    public static <_C extends _codeUnit> _runtime of(_C code ){
         return of( Stream.of(code).collect(Collectors.toList()));
     }
 
@@ -703,7 +703,7 @@ public class _runtime {
      * @param <C>
      * @return
      */
-    public static <_C extends _compilationUnit> _runtime of(List<_C> codeList ){
+    public static <_C extends _codeUnit> _runtime of(List<_C> codeList ){
         List<JavaFileObject> sfs = new ArrayList<>();
         codeList.forEach(c-> sfs.add( _javaFile.of(c)));
         return _runtime.of(Collections.EMPTY_LIST, true, sfs);
@@ -724,7 +724,7 @@ public class _runtime {
      * @param code
      * @return 
      */
-    public static _runtime of(List<String>compilerOptions, _compilationUnit...code){
+    public static _runtime of(List<String>compilerOptions, _codeUnit...code){
         List<JavaFileObject> sfs = new ArrayList<>();
         Arrays.stream(code).forEach(c-> sfs.add( _javaFile.of(c)));  
         return _runtime.of(compilerOptions, true, sfs);
@@ -737,7 +737,7 @@ public class _runtime {
      * @param code
      * @return 
      */
-    public static _runtime of(List<String>compilerOptions, boolean ignoreWarnings, _compilationUnit...code){
+    public static _runtime of(List<String>compilerOptions, boolean ignoreWarnings, _codeUnit...code){
         List<JavaFileObject> sfs = new ArrayList<>();
         Arrays.stream(code).forEach(c-> sfs.add( _javaFile.of(c)));  
         return _runtime.of(compilerOptions, ignoreWarnings, sfs);
@@ -920,7 +920,7 @@ public class _runtime {
      * @param fullyQualifiedClassName
      * @return 
      */
-    public _compilationUnit get_code(String fullyQualifiedClassName ){
+    public _codeUnit get_code(String fullyQualifiedClassName ){
         return this.fileManager.classLoader.get_code(fullyQualifiedClassName);
     }
     
@@ -929,7 +929,7 @@ public class _runtime {
      * @param clazz
      * @return 
      */
-    public _compilationUnit get_code(Class clazz ){
+    public _codeUnit get_code(Class clazz ){
         return this.fileManager.classLoader.get_code(clazz);
     }
 
@@ -964,7 +964,7 @@ public class _runtime {
      * and call it (with no arguments)
      */
     public void main(){
-        Optional<_compilationUnit> oc =
+        Optional<_codeUnit> oc =
             this.fileManager.classLoader.list_code().stream()
                 .filter( _c-> _c instanceof _type && ((_type)_c).getDeclared(_method.class, m-> ((_method)m).isMain()) !=null )
                     .findFirst();
@@ -1041,7 +1041,7 @@ public class _runtime {
      * @param ctorArgs
      * @return
      */
-    public _proxy proxy(_compilationUnit code, Object... ctorArgs) {
+    public _proxy proxy(_codeUnit code, Object... ctorArgs) {
         if( code instanceof _class){
             Class clazz = this.getClass(((_class) code).getFullName());
             return new _proxy( instance( clazz, ctorArgs ));

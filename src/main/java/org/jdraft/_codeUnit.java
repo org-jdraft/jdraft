@@ -20,15 +20,15 @@ import java.util.stream.*;
  * {@link _packageInfo}, {@link _moduleInfo}
  *
  * @author Eric
- * @param <_C> the code implementation type
+ * @param <_CU> the code implementation type
  */
-public interface _compilationUnit<_C> extends _java._domain {
+public interface _codeUnit<_CU> extends _java._domain {
 
     /**
      * Return a copy of the _code
      * @return
      */
-    _compilationUnit<_C> copy();
+    _codeUnit<_CU> copy();
 
     /**
      * Resolve the Compilation Unit that contains this _type,
@@ -92,9 +92,9 @@ public interface _compilationUnit<_C> extends _java._domain {
      * @param packageName
      * @return
      */
-    default _C setPackage(String packageName){
+    default _CU setPackage(String packageName){
         this.astCompilationUnit().setPackageDeclaration(packageName);
-        return (_C)this;
+        return (_CU)this;
     }
 
     /**
@@ -122,9 +122,9 @@ public interface _compilationUnit<_C> extends _java._domain {
      * @param astBlockComment the comment (i.e. the copyright)
      * @return the modified T
      */
-    default _C setHeaderComment(BlockComment astBlockComment) {
+    default _CU setHeaderComment(BlockComment astBlockComment) {
         astCompilationUnit().setComment(astBlockComment);
-        return (_C) this;
+        return (_CU) this;
     }
 
     /**
@@ -133,7 +133,7 @@ public interface _compilationUnit<_C> extends _java._domain {
      * @param commentLines the lines in the header comment
      * @return the modified T
      */
-    default _C setHeaderComment(String... commentLines) {
+    default _CU setHeaderComment(String... commentLines) {
         return setHeaderComment(Ast.blockComment(commentLines));
     }
 
@@ -155,8 +155,8 @@ public interface _compilationUnit<_C> extends _java._domain {
      * @param index
      * @return
      */
-    default ImportDeclaration getImport(int index ){
-        return this.astCompilationUnit().getImport(index);
+    default _import getImport(int index ){
+        return _import.of(this.astCompilationUnit().getImport(index));
     }
 
     /**
@@ -164,12 +164,12 @@ public interface _compilationUnit<_C> extends _java._domain {
      * @param _importMatchFn
      * @return
      */
-    default ImportDeclaration getImport(Predicate<_import> _importMatchFn){
+    default _import getImport(Predicate<_import> _importMatchFn){
         List<_import> _is = this.listImports(_importMatchFn);
         if( _is.isEmpty()){
             return null;
         }
-        return _is.get(0).ast();
+        return _is.get(0);
     }
 
     /**
@@ -178,9 +178,9 @@ public interface _compilationUnit<_C> extends _java._domain {
      * @param _importMatchFn filter for deciding which imports to removeIn
      * @return the modified TYPE
      */
-    default _C removeImports(Predicate<_import> _importMatchFn) {
+    default _CU removeImports(Predicate<_import> _importMatchFn) {
         getImports().remove(_importMatchFn);
-        return (_C) this;
+        return (_CU) this;
     }
 
     /**
@@ -189,9 +189,9 @@ public interface _compilationUnit<_C> extends _java._domain {
      * @param clazzes
      * @return
      */
-    default _C removeImports(Class... clazzes) {
+    default _CU removeImports(Class... clazzes) {
         _imports.of(astCompilationUnit()).remove(clazzes);
-        return (_C) this;
+        return (_CU) this;
     }
 
     /**
@@ -199,9 +199,9 @@ public interface _compilationUnit<_C> extends _java._domain {
      * @param toRemove
      * @return
      */
-    default _C removeImports(_import... toRemove) {
+    default _CU removeImports(_import... toRemove) {
         _imports.of(astCompilationUnit()).remove(toRemove);
-        return (_C) this;
+        return (_CU) this;
     }
 
     /**
@@ -209,9 +209,9 @@ public interface _compilationUnit<_C> extends _java._domain {
      * @param _typesToRemove
      * @return
      */
-    default _C removeImports(_type... _typesToRemove) {
+    default _CU removeImports(_type... _typesToRemove) {
         getImports().remove(_typesToRemove);
-        return (_C) this;
+        return (_CU) this;
     }
 
     /**
@@ -219,14 +219,14 @@ public interface _compilationUnit<_C> extends _java._domain {
      * @param toRemove the ImportDeclarations to removeIn
      * @return the modified _type
      */
-    default _C removeImports(ImportDeclaration... toRemove) {
+    default _CU removeImports(ImportDeclaration... toRemove) {
         CompilationUnit cu = astCompilationUnit();
         if (cu != null) {
             for (int i = 0; i < toRemove.length; i++) {
                 cu.getImports().remove(toRemove[i]);
             }
         }
-        return (_C) this;
+        return (_CU) this;
     }
 
     /**
@@ -234,14 +234,14 @@ public interface _compilationUnit<_C> extends _java._domain {
      * @param toRemove
      * @return
      */
-    default _C removeImports(List<ImportDeclaration> toRemove) {
+    default _CU removeImports(List<ImportDeclaration> toRemove) {
         CompilationUnit cu = astCompilationUnit();
         if (cu != null) {
             for (int i = 0; i < toRemove.size(); i++) {
                 cu.getImports().remove(toRemove.get(i));
             }
         }
-        return (_C) this;
+        return (_CU) this;
     }
 
     /**
@@ -251,9 +251,9 @@ public interface _compilationUnit<_C> extends _java._domain {
      * @param _importActionFn function to apply to the imports
      * @return the T
      */
-    default _C forImports(Consumer<_import> _importActionFn) {
+    default _CU forImports(Consumer<_import> _importActionFn) {
         getImports().forEach(_importActionFn);
-        return (_C) this;
+        return (_CU) this;
     }
 
     /**
@@ -264,9 +264,9 @@ public interface _compilationUnit<_C> extends _java._domain {
      * @param _importActionFn function to apply to the imports
      * @return the _C
      */
-    default _C forImports(Predicate<_import> _importMatchFn, Consumer<_import> _importActionFn) {
+    default _CU forImports(Predicate<_import> _importMatchFn, Consumer<_import> _importActionFn) {
         getImports().forEach(_importMatchFn, _importActionFn);
-        return (_C) this;
+        return (_CU) this;
     }
 
     /**
@@ -365,7 +365,7 @@ public interface _compilationUnit<_C> extends _java._domain {
      * @param wildcardStaticImports a list of classes that will WildcardImports
      * @return the T
      */
-    default _C addImportStatic(Class... wildcardStaticImports) {
+    default _CU addImportStatic(Class... wildcardStaticImports) {
         CompilationUnit cu = astCompilationUnit();
         if (cu != null) {
             Arrays.stream(wildcardStaticImports).forEach(i -> {
@@ -375,7 +375,7 @@ public interface _compilationUnit<_C> extends _java._domain {
                 cu.addImport(id);
             });
         }
-        return (_C) this;
+        return (_CU) this;
     }
 
     /**
@@ -383,7 +383,7 @@ public interface _compilationUnit<_C> extends _java._domain {
      * @param staticWildcardImports
      * @return
      */
-    default _C addImportStatic(String... staticWildcardImports) {
+    default _CU addImportStatic(String... staticWildcardImports) {
         CompilationUnit cu = astCompilationUnit();
         if (cu != null) {
             Arrays.stream(staticWildcardImports).forEach(i -> {
@@ -392,7 +392,7 @@ public interface _compilationUnit<_C> extends _java._domain {
                 cu.addImport(id);
             });
         }
-        return (_C) this;
+        return (_CU) this;
     }
 
     /**
@@ -400,9 +400,9 @@ public interface _compilationUnit<_C> extends _java._domain {
      * @param _ts
      * @return
      */
-    default _C addImports(_type... _ts) {
+    default _CU addImports(_type... _ts) {
         Arrays.stream(_ts).forEach(_t -> addImports(_t.getFullName()));
-        return (_C) this;
+        return (_CU) this;
     }
 
     /**
@@ -410,13 +410,13 @@ public interface _compilationUnit<_C> extends _java._domain {
      * @param _is
      * @return 
      */
-    default _C addImports(_import..._is){
+    default _CU addImports(_import..._is){
         CompilationUnit cu = astCompilationUnit();
         if (cu != null) {
             Arrays.stream(_is).forEach(i -> cu.addImport(i.astId));
-            return (_C) this;
+            return (_CU) this;
         }
-        return (_C) this;
+        return (_CU) this;
     }
     
     /**
@@ -425,7 +425,7 @@ public interface _compilationUnit<_C> extends _java._domain {
      * @param singleClass
      * @return the modified compilationUnit
      */
-    default _C addImports(Class singleClass) {
+    default _CU addImports(Class singleClass) {
         return addImports(new Class[]{singleClass});
     }
 
@@ -435,7 +435,7 @@ public interface _compilationUnit<_C> extends _java._domain {
      * @param classesToImport
      * @return
      */
-    default _C addImports(Class... classesToImport) {
+    default _CU addImports(Class... classesToImport) {
         CompilationUnit cu = astCompilationUnit();
         if (cu != null) {
             for (int i = 0; i < classesToImport.length; i++) {
@@ -469,7 +469,7 @@ public interface _compilationUnit<_C> extends _java._domain {
                     }
                 }                
             }            
-            return (_C) this;
+            return (_CU) this;
         }
         throw new _jdraftException("No AST CompilationUnit to add imports");
     }
@@ -480,11 +480,11 @@ public interface _compilationUnit<_C> extends _java._domain {
      * @param astImportDecls
      * @return
      */
-    default _C addImports(ImportDeclaration... astImportDecls) {
+    default _CU addImports(ImportDeclaration... astImportDecls) {
         CompilationUnit cu = astCompilationUnit();
         if (cu != null) {
             Arrays.stream(astImportDecls).forEach(c -> cu.addImport(c));
-            return (_C) this;
+            return (_CU) this;
         }
         throw new _jdraftException("No AST CompilationUnit of class to add imports");
     }
@@ -494,7 +494,7 @@ public interface _compilationUnit<_C> extends _java._domain {
      * @param anImport
      * @return the modified T
      */
-    default _C addImports(String anImport) {
+    default _CU addImports(String anImport) {
         return addImports(new String[]{anImport});
     }
 
@@ -503,11 +503,11 @@ public interface _compilationUnit<_C> extends _java._domain {
      * @param importStatements a list of String representing discrete import statements
      * @return the modified T
      */
-    default _C addImports(String... importStatements) {
+    default _CU addImports(String... importStatements) {
         CompilationUnit cu = astCompilationUnit();
         if (cu != null) {
             Arrays.stream(importStatements).forEach(c -> cu.addImport(Ast.importDeclaration(c)));
-            return (_C) this;
+            return (_CU) this;
         }
         throw new _jdraftException("No AST CompilationUnit of to add imports");
     }
@@ -521,9 +521,15 @@ public interface _compilationUnit<_C> extends _java._domain {
     interface _provider extends _java._domain {
 
         /*
-        <_CC extends _code> _CC first(Class<_CC> codeClass, Predicate<_CC> _codeMatchFn);
+
         <_CC extends _code> _CC first(Class<_CC> codeClass, Predicate<_CC> _codeMatchFn, Consumer<_CC> _codeActionFn);
         */
+
+        /*
+        default <_CC extends _codeUnit> _CC first(Class<_CC> codeClass, Predicate<_CC> _codeMatchFn){
+            stream_code(codeClass, _codeMatchFn).limit(1).;
+        }
+         */
 
         /**
          *
@@ -533,7 +539,7 @@ public interface _compilationUnit<_C> extends _java._domain {
          * @param <_C>
          * @return
          */
-        <_C extends _compilationUnit> List<_C> for_code(Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn);
+        <_C extends _codeUnit> List<_C> for_code(Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn);
 
         /**
          *
@@ -542,7 +548,7 @@ public interface _compilationUnit<_C> extends _java._domain {
          * @param <_C>
          * @return
          */
-        default <_C extends _compilationUnit> List<_C> for_code(Class<_C> codeClass, Consumer<_C> _codeActionFn){
+        default <_C extends _codeUnit> List<_C> for_code(Class<_C> codeClass, Consumer<_C> _codeActionFn){
             return for_code( codeClass, c->true, _codeActionFn);
         }
 
@@ -554,8 +560,8 @@ public interface _compilationUnit<_C> extends _java._domain {
          * @param _codeActionFn
          * @return
          */
-        default List<_compilationUnit> for_code(Predicate<_compilationUnit> _codeMatchFn, Consumer<_compilationUnit> _codeActionFn){
-            return for_code(_compilationUnit.class, _codeMatchFn, _codeActionFn);
+        default List<_codeUnit> for_code(Predicate<_codeUnit> _codeMatchFn, Consumer<_codeUnit> _codeActionFn){
+            return for_code(_codeUnit.class, _codeMatchFn, _codeActionFn);
         }
 
         /**
@@ -566,16 +572,44 @@ public interface _compilationUnit<_C> extends _java._domain {
          * @param _codeActionFn
          * @return
          */
-        default List<_compilationUnit> for_code(Consumer<_compilationUnit> _codeActionFn ){
-            return for_code(_compilationUnit.class, c->true, _codeActionFn);
+        default List<_codeUnit> for_code(Consumer<_codeUnit> _codeActionFn ){
+            return for_code(_codeUnit.class, c->true, _codeActionFn);
         }
 
         /**
          *
          * @return
          */
-        default List<_compilationUnit> list_code(){
-            List<_compilationUnit> found = new ArrayList<>();
+        default Stream<_codeUnit> stream_code(){
+            return list_code().stream();
+        }
+
+        /**
+         *
+         * @param _matchFn
+         * @return
+         */
+        default Stream<_codeUnit> stream_code(Predicate<_codeUnit> _matchFn){
+            return list_code(_codeUnit.class, _matchFn).stream();
+        }
+
+        /**
+         *
+         * @param _codeUnitClass
+         * @param _matchFn
+         * @param <_C>
+         * @return
+         */
+        default  <_C extends _codeUnit> Stream<_C> stream_code(Class<_C> _codeUnitClass, Predicate<_C> _matchFn){
+            return list_code(_codeUnitClass, _matchFn).stream();
+        }
+
+        /**
+         *
+         * @return
+         */
+        default List<_codeUnit> list_code(){
+            List<_codeUnit> found = new ArrayList<>();
             for_code(t-> found.add(t));
             return found;
         }
@@ -584,7 +618,7 @@ public interface _compilationUnit<_C> extends _java._domain {
          *
          * @return
          */
-        default  <_C extends _compilationUnit> List<_C> list_code(Class<_C> _codeClass){
+        default  <_C extends _codeUnit> List<_C> list_code(Class<_C> _codeClass){
             List<_C> found = new ArrayList<>();
             for_code(_codeClass, t-> found.add(t));
             return found;
@@ -594,7 +628,7 @@ public interface _compilationUnit<_C> extends _java._domain {
          *
          * @return
          */
-        default <_C extends _compilationUnit> List<_C> list_code(Class<_C> _codeClass, Predicate<_C>_codeMatchFn){
+        default <_C extends _codeUnit> List<_C> list_code(Class<_C> _codeClass, Predicate<_C>_codeMatchFn){
             List<_C> found = new ArrayList<>();
             for_code(_codeClass, _codeMatchFn, t-> found.add(t));
             return found;

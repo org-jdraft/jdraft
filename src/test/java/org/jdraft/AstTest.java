@@ -394,7 +394,7 @@ public class AstTest extends TestCase {
         Ast.organizeImports(  _c.astCompilationUnit() );
         assertTrue(_c.getImports().isEmpty());
         _c.addImports("gggg.G");
-        assertEquals( Ast.importDeclaration("gggg.G"), _c.getImport(0));
+        assertEquals( _import.of("gggg.G"), _c.getImport(0));
         Ast.organizeImports(  _c.astCompilationUnit() );
 
 
