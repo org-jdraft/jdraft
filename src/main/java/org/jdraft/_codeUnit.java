@@ -520,17 +520,6 @@ public interface _codeUnit<_CU> extends _java._domain {
      */
     interface _provider extends _java._domain {
 
-        /*
-
-        <_CC extends _code> _CC first(Class<_CC> codeClass, Predicate<_CC> _codeMatchFn, Consumer<_CC> _codeActionFn);
-        */
-
-        /*
-        default <_CC extends _codeUnit> _CC first(Class<_CC> codeClass, Predicate<_CC> _codeMatchFn){
-            stream_code(codeClass, _codeMatchFn).limit(1).;
-        }
-         */
-
         /**
          *
          * @param codeClass

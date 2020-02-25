@@ -3,10 +3,7 @@ package org.jdraft;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.expr.AnnotationExpr;
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.ObjectCreationExpr;
-import com.github.javaparser.ast.expr.VariableDeclarationExpr;
+import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.Statement;
@@ -30,14 +27,52 @@ import junit.framework.TestCase;
  */
 public class _annoTest extends TestCase {
 
+    public void testMemberValuePair(){
+        MemberValuePair mvp = new MemberValuePair();
+        //System.out.println( mvp.getNameAsString() );
+        //System.out.println( mvp.getValue() );
+
+        _anno._memberValue _mv = _anno._memberValue.of("value");
+        assertTrue( _mv.isValueOnly() );
+        assertEquals("value", _mv.getName());
+        assertEquals("value", _mv.getValue().toString());
+        //System.out.println( _mv );
+
+        assertTrue( _mv.isNamed("value") );
+        assertTrue( _mv.isValue("value") );
+
+        //key & value
+        _mv = _anno._memberValue.of("value=3");
+        assertTrue( _mv.isNamed("value") );
+        assertTrue( _mv.isValue("3") );
+        assertTrue( _mv.isValue(3) );
+
+        _mv = _anno._memberValue.of("value='c'");
+        assertTrue( _mv.isValue("'c'") );
+        assertTrue( _mv.isValue('c') );
+    }
+
+    public void testHasMemberValuePair(){
+
+        _anno _a = _anno.of("@A(k=1,v=2)");
+
+        assertTrue( _a.hasMemberValue("k",1));
+        assertTrue( _a.hasMemberValue("v",2));
+        System.out.println( "HASH1"+_a.listMemberValues().get(0).hashCode() );
+        System.out.println( "HASH1"+_a.listMemberValues().get(1).hashCode() );
+        //assertTrue( _a.isMemberValues("k=1,v=2"));
+        assertTrue( _a.isMemberValues("v=2,k=1"));
+        assertEquals(2, _a.listMemberValues().size());
+    }
+
     public void testParts(){
         _anno _a = _anno.of("A");
         System.out.println( _a.partsMap() );
 
-        _a.addAttr("A", 'c');
+        _a.addMemberValue("A", 'c');
         System.out.println( _a.partsMap() );
 
-        _a.addAttr("B", 4);
+        _a.addMemberValue("B", 4);
         System.out.println( _a.partsMap() );
 
     }
@@ -45,7 +80,7 @@ public class _annoTest extends TestCase {
     public void testAnn(){
         _anno _a = _anno.of()
                 .setName("n")
-                .addAttr("i", 100);
+                .addMemberValue("i", 100);
 
         System.out.println(_a);
     }
@@ -325,7 +360,7 @@ public class _annoTest extends TestCase {
         assertTrue( _b.hasValue(Ex.of(1)) );
         assertTrue( _b.hasValue(1) );
         
-        assertTrue( _b.hasAttr("x=1") );
+        assertTrue( _b.hasMemberValue("x=1") );
         //assertTrue( _b.hasAttr("x", 1) );
         
         
@@ -435,11 +470,11 @@ public class _annoTest extends TestCase {
         assertEquals( _a.getValue( 0 ), Ex.of(100) );
 
         //to a Normal Annotation
-        _a.addAttr( "k", 200 );
+        _a.addMemberValue( "k", 200 );
         assertEquals( _a.getValue( 0 ), Ex.of(200) );
         assertEquals( _a.getValue( "k" ), Ex.of(200) );
 
-        _a.addAttr( "v", 300 );
+        _a.addMemberValue( "v", 300 );
         assertEquals( _a.getValue( 1 ), Ex.of(300) );
         assertEquals( _a.getValue( "v" ), Ex.of(300) );
 
@@ -461,7 +496,7 @@ public class _annoTest extends TestCase {
         //the underlying field has to change the implementation from
         FieldDeclaration fd = Ast.field( "@a(1) public int i=100;");
         _anno _a = new _anno(fd.getAnnotation( 0 ));
-        _a.addAttr( "Key", 1000 );
+        _a.addMemberValue( "Key", 1000 );
 
         assertTrue( _a.is("@a(Key=1000)"));
 
@@ -471,7 +506,7 @@ public class _annoTest extends TestCase {
         AnnotationExpr ae = fd.getAnnotation(0).clone();
         System.out.println( ae.getParentNode().isPresent() );
         _anno _aNoParent = new _anno(ae);
-        _aNoParent.addAttr( "Key", 9999 );
+        _aNoParent.addMemberValue( "Key", 9999 );
         assertTrue( _aNoParent.is("@a(Key=9999)") );
         //System.out.println( _aNoParent );
     }

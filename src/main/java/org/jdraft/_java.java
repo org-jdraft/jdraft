@@ -1818,7 +1818,7 @@ public interface _java {
          * @return true if the TYPE is the same
          */
         default boolean isType(Type type) {
-            return getType().ast().equals(type);
+            return Ast.typesEqual( getType().ast(), type);
         }
 
         /**
@@ -1874,21 +1874,21 @@ public interface _java {
 
         default boolean isScope(String...expr){
             if( ((NodeWithOptionalScope)ast()).getScope().isPresent()){
-                return Objects.equals( ((NodeWithOptionalScope)ast()).getScope().get(), Ex.of(expr));
+                return Ex.equivalent( (Expression)((NodeWithOptionalScope)ast()).getScope().get(), Ex.of(expr));
             }
             return false;
         }
 
         default boolean isScope(Expression e){
             if( ((NodeWithOptionalScope)ast()).getScope().isPresent()){
-                return Objects.equals( ((NodeWithOptionalScope)ast()).getScope().get(), e);
+                return Ex.equivalent( (Expression) ((NodeWithOptionalScope)ast()).getScope().get(), e);
             }
             return e == null;
         }
 
         default boolean isScope(_expression _e){
             if( ((NodeWithOptionalScope)ast()).getScope().isPresent()){
-                return Objects.equals( ((NodeWithOptionalScope)ast()).getScope().get(), _e.ast());
+                return Ex.equivalent( (Expression) ((NodeWithOptionalScope)ast()).getScope().get(), _e.ast());
             }
             return _e == null;
         }
@@ -2027,7 +2027,7 @@ public interface _java {
             List<_expression> _tes = listArguments();
             if(_es.length == _tes.size()){
                 for(int i=0;i<_es.length;i++){
-                    if( ! Objects.equals( _es[i], _tes.get(i) ) ){
+                    if( ! Ex.equivalent(  _es[i].ast(), _tes.get(i).ast() ) ){
                         return false;
                     }
                 }
@@ -2040,9 +2040,33 @@ public interface _java {
             return matchFn.test( listArguments() );
         }
 
+        default boolean isArgument( int index, boolean b){
+            return isArgument(index, Ex.of(b));
+        }
+
+        default boolean isArgument( int index, int i){
+            return isArgument(index, Ex.of(i));
+        }
+
+        default boolean isArgument( int index, char c){
+            return isArgument(index, Ex.of(c));
+        }
+
+        default boolean isArgument( int index, float f){
+            return isArgument(index, Ex.of(f));
+        }
+
+        default boolean isArgument( int index, long l){
+            return isArgument(index, Ex.of(l));
+        }
+
+        default boolean isArgument(int index, double d){
+            return isArgument(index, Ex.of(d));
+        }
+
         default boolean isArgument( int index, String exprString){
             try {
-                return Objects.equals(getArgument(index).ast(), Ex.of(exprString));
+                return Ex.equivalent( getArgument(index).ast(), Ex.of(exprString));
             }catch(Exception e){
                 return false;
             }
@@ -2050,7 +2074,7 @@ public interface _java {
 
         default boolean isArgument( int index, Expression e){
             try {
-                return Objects.equals(getArgument(index).ast(), e);
+                return Ex.equivalent( getArgument(index).ast(), e);
             }catch(Exception ex){
                 return false;
             }
@@ -2058,11 +2082,12 @@ public interface _java {
 
         default boolean isArgument( int index, _expression _e){
             try {
-                return Objects.equals(getArgument(index), _e);
+                return Ex.equivalent( getArgument(index).ast(), _e.ast());
             }catch(Exception e){
                 return false;
             }
         }
+
 
         default _TA addArgument( int i){
             return addArgument( Ex.of(i) );
@@ -2160,11 +2185,11 @@ public interface _java {
         }
 
         default boolean isCondition(_expression _ex){
-            return Objects.equals( this.getCondition(), _ex);
+            return Ex.equivalent(  this.getCondition().ast(), _ex.ast());
         }
 
         default boolean isCondition(Expression ex){
-            return Objects.equals( this.getCondition().ast(), ex);
+            return Ex.equivalent( this.getCondition().ast(), ex);
         }
 
         default boolean isCondition(Predicate<_expression> matchFn){
@@ -2200,15 +2225,39 @@ public interface _java {
         }
 
         default boolean isExpression(_expression _ex){
-            return Objects.equals( this.getExpression(), _ex);
+            return Ex.equivalent( this.getExpression().ast(), _ex.ast());
         }
 
         default boolean isExpression(Expression ex){
-            return Objects.equals( this.getExpression().ast(), ex);
+            return Ex.equivalent( this.getExpression().ast(), ex);
         }
 
         default boolean isExpression(Predicate<_expression> matchFn){
             return matchFn.test(getExpression());
+        }
+
+        default boolean isExpression( int i){
+            return isExpression( Ex.of(i) );
+        }
+
+        default boolean isExpression( boolean b){
+            return isExpression( Ex.of(b) );
+        }
+
+        default boolean isExpression( float f){
+            return isExpression( Ex.of(f) );
+        }
+
+        default boolean isExpression( long l){
+            return isExpression( Ex.of(l) );
+        }
+
+        default boolean isExpression( double d){
+            return isExpression( Ex.of(d) );
+        }
+
+        default boolean isExpression( char c){
+            return isExpression( Ex.of(c) );
         }
 
         default _WE setExpression(String...expression){
@@ -2315,6 +2364,12 @@ public interface _java {
             return (_TA)this;
         }
 
+        default _TA removeTypeArgument(int index){
+            NodeWithTypeArguments nwta = (NodeWithTypeArguments)ast();
+            NodeList<Type> nt = (NodeList<Type>)nwta.getTypeArguments().get();
+            nt.remove(index);
+            return (_TA)this;
+        }
         /**
          * Remove ALL type Arguments
          * @return
@@ -2387,8 +2442,6 @@ public interface _java {
             }
             return (_TA) this;
         }
-
-
 
         default _TA setTypeArgument(int index, Type t ){
             NodeWithTypeArguments nwta = (NodeWithTypeArguments)ast();
