@@ -799,7 +799,7 @@ public interface _java {
         IDENTIFIER("identifier", String.class),  //methodReference
         ANONYMOUS_CLASS_BODY("anonymousClassBody", List.class, BodyDeclaration.class),//_new
         TYPE_NAME("typeName", String.class), //_super superExpr
-        VARIABLES("variables", List.class, VariableDeclarator.class),
+        VARIABLES("variables", List.class, _variable.class), //VariableDeclarator.class),
         CHECK("check", Expression.class), //assertStmt
         MESSAGE("message", Expression.class), //assertStmt
         LABEL("label", String.class), //breakStmt, labeledStmt
@@ -1734,11 +1734,12 @@ public interface _java {
     /**
      * Entity with TYPE/NAME pair
      * <UL>
-     *     <LI>{@link _field},
-     *     <LI>{@link _parameter},
-     *     <LI>{@link _method},
-     *     <LI>{@link _entry},
+     *     <LI>{@link _field}
+     *     <LI>{@link _parameter}
+     *     <LI>{@link _method}
+     *     <LI>{@link _entry}
      *     <LI>{@link _receiverParameter}
+     *     <LI>{@link _variable}
      * </UL>
      * @param <_NT> the specialized entity that is a named TYPE
      */

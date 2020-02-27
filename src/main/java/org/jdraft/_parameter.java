@@ -116,13 +116,12 @@ public final class _parameter
 
     @Override
     public boolean isType( String type ) {
-        Type t = Ast.typeRef( type );
-        return this.astParameter.getType().equals( t );
+        return Ast.typesEqual(this.astParameter.getType(), Ast.typeRef( type ));
     }
 
     @Override
     public boolean isType( Type type ) {
-        return this.astParameter.getType().equals( type );
+        return Ast.typesEqual(this.astParameter.getType(), type);
     }
 
     @Override

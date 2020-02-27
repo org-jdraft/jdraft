@@ -10,10 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.function.*;
 
 public class _catch implements _java._multiPart<CatchClause, _catch>,_body._hasBody<_catch> {
 
@@ -82,6 +79,10 @@ public class _catch implements _java._multiPart<CatchClause, _catch>,_body._hasB
 
     public _parameter getParameter(){
         return _parameter.of(this.cc.getParameter());
+    }
+
+    public boolean isParameter( Predicate<_parameter> matchFn){
+        return matchFn.test(this.getParameter());
     }
 
     public _catch setParameter(String... parameter){

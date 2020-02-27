@@ -1,83 +1,69 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
-public class _variable implements _expression<VariableDeclarationExpr, _variable>,
-        _java._multiPart<VariableDeclarationExpr, _variable>,
-        _modifiers._withModifiers<_variable> {
+public class _variable implements _java._astNode<VariableDeclarator, _variable>,
+        _java._withNameType<VariableDeclarator, _variable> {
 
-    public static _variable of(){
-        return new _variable(new VariableDeclarationExpr());
-    }
-    public static _variable of(VariableDeclarationExpr ve){
-        return new _variable(ve);
-    }
-    public static _variable of( String...code){
-        return new _variable(Ex.varLocalEx(code));
+    public static _variable of( String...var){
+        return new _variable( Ast.varDecl(var) );
     }
 
-    public VariableDeclarationExpr varDeclEx;
+    public static _variable of( VariableDeclarator vd ){
+        return new _variable( vd );
+    }
 
-    public _variable(VariableDeclarationExpr varDeclEx){
-        this.varDeclEx = varDeclEx;
+    public VariableDeclarator vd;
+
+    public _variable(VariableDeclarator vd){
+        this.vd = vd;
+    }
+
+    public _typeRef getType(){
+        return _typeRef.of(this.vd.getType());
     }
 
     @Override
     public _variable copy() {
-        return new _variable(this.varDeclEx.clone());
+        return of( vd.clone());
     }
 
     @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Ex.varLocalEx(stringRep));
-        } catch(Exception e){ }
-        return false;
+    public VariableDeclarator ast() {
+        return vd;
     }
 
-    @Override
-    public boolean is(VariableDeclarationExpr astNode) {
-        return this.ast( ).equals(astNode);
-    }
-
-    public VariableDeclarationExpr ast(){
-        return varDeclEx;
-    }
-
-    @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-
-        comps.put( _java.Component.MODIFIERS, varDeclEx.getModifiers());
-        comps.put( _java.Component.VARIABLES, varDeclEx.getVariables());
-        return comps;
-    }
-
-    public _modifiers getModifiers(){
-        return _modifiers.of(this.varDeclEx);
-    }
-
-    public List<VariableDeclarator> listVariables(){
-        return this.varDeclEx.getVariables();
-    }
-
-    public boolean equals(Object other){
-        if( other instanceof _variable){
-            return ((_variable)other).varDeclEx.equals( this.varDeclEx);
+    public boolean equals(Object o){
+        if( o instanceof _variable){
+            _variable _v = (_variable)o;
+            return Objects.equals( this.vd, _v.ast());
         }
         return false;
     }
 
-    public int hashCode(){
-        return 31 * this.varDeclEx.hashCode();
+    public int hashCode( ){
+        return this.vd.hashCode() * 31;
     }
-    
+
+    @Override
+    public boolean is(String... stringRep) {
+        return of( Ast.varDecl(stringRep)).equals(this);
+    }
+
+    @Override
+    public _variable setName(String name) {
+        this.vd.setName(name);
+        return this;
+    }
+
     public String toString(){
-        return this.varDeclEx.toString();
+        return this.vd.toString();
+    }
+
+    @Override
+    public String getName() {
+        return this.vd.getNameAsString();
     }
 }

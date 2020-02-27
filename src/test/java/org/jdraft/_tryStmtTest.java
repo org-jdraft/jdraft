@@ -2,20 +2,69 @@ package org.jdraft;
 
 import junit.framework.TestCase;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class _tryStmtTest extends TestCase {
 
-    //
+
+    public void testGetCatchWithUnionType(){
+
+        _tryStmt _ts = _tryStmt.of( ()->{
+            try {
+                if( true) {
+                    throw new IOException();
+                }
+                throw new URISyntaxException("A", "B", 1);
+            } catch (IOException | URISyntaxException fnfe) {
+                System.out.println("Union Type Block");
+            }
+         });
+        _catch _c = _ts.getCatch(IOException.class);
+        assertNotNull(_c);
+        _c = _ts.getCatch(URISyntaxException.class);
+        assertNotNull(_c);
+
+        //we can check if it catches a Class, a Type, or a String
+        assertTrue( _ts.catches(IOException.class));
+        assertTrue( _ts.catches(URISyntaxException.class));
+        assertTrue( _ts.catches( Ast.typeRef(IOException.class)) );
+        assertTrue( _ts.catches( _typeRef.of(IOException.class)) );
+
+        assertTrue( _ts.catches(IOException.class.getSimpleName()));
+        assertTrue( _ts.catches(IOException.class.getCanonicalName()));
+
+        assertTrue( _ts.catches(URISyntaxException.class.getSimpleName()));
+        assertTrue( _ts.catches(URISyntaxException.class.getCanonicalName()));
+
+        System.out.println( _c);
+    }
+
     public void testBuildFromEmpty() throws FileNotFoundException {
         _tryStmt _ts = _tryStmt.of();
         _ts.addWithResources("FileInputStream f = new FileInputStream(\"C:\\temp\");");
         System.out.println( _ts);
         _ts.addCatch("catch(IOException e){ e.printStackTrace();}");
         System.out.println( _ts);
-        _ts.setBody(_body.of( ()->{System.out.println(1);}));
+        _ts.setTryBody(_body.of( ()->{System.out.println(1);}));
         System.out.println( _ts);
         _ts.setFinallyBody(_body.of( ()->{System.out.println("finally"); return 3;}));
+
+        _ts.addTry("System.out.println(1);");
+        _ts.addTry( ()-> System.out.println("Hello in Lambda"));
+        _ts.addFinally("System.out.println(\"fin\");");
+
+        System.out.println( _ts );
+
+        System.out.println( _ts.listCatches().stream().filter( _c-> _c.getParameter().isType(IOException.class)).findFirst().get() );
+
+        //gets the catch block for IOException & adds code
+        _ts.getCatch(IOException.class).add(()->System.out.println("Badness"));
+        System.out.println( _ts);
+
         /*
         try (FileInputStream f = new FileInputStream("C:\temp")) {
         } catch (IOException e) {
@@ -43,10 +92,9 @@ public class _tryStmtTest extends TestCase {
         //List<_expression> resources = ;
         assertTrue( _ts.listWithResources().isEmpty());
         assertFalse( _ts.hasWithResources() );
-        assertFalse( _ts.hasBody() );
         assertFalse( _ts.hasCatch() );
         assertFalse( _ts.hasFinallyBody() );
-        assertTrue(_ts.getBody().isEmpty());
+        assertTrue(_ts.getTryBody().isEmpty());
         //assertTrue(_ts.getFinallyBody().isEmpty());
         assertNull(_ts.getFinallyBody());
         assertTrue(_ts.listCatches().isEmpty());
@@ -101,6 +149,41 @@ public class _tryStmtTest extends TestCase {
         _ts.ast().setTryBlock( Stmt.blockStmt(()->{
             System.out.println(1);
         }));
+    }
+
+    public void testWithResourcesUnionTypeAndFinallyBlock(){
+        _tryStmt _ts = _tryStmt.of( ()->{
+            //withResources
+            try( FileInputStream f = new FileInputStream("C:\\temp") ){
+               if( true ){
+                   throw new URISyntaxException("A", "2");
+               }
+            }catch(URISyntaxException | IOException fnfe){
+
+            } catch(Exception e){
+
+            }
+            finally{
+                System.out.println( "in Finally");
+            }
+        });
+        assertTrue( _ts.hasWithResources());
+        assertTrue( _ts.hasWithResources(r-> r instanceof _new) ); //has withResources that is a new
+        //assertTrue( _ts.hasWithResource(r-> FileInputStream.class) ); //has withResources that is a new
+
+        assertTrue( _ts.hasCatch() );
+        assertTrue( _ts.catches(URISyntaxException.class) );
+        assertTrue( _ts.catches(IOException.class) );
+        assertTrue( _ts.catches(Exception.class) );
+        assertTrue( _ts.hasCatch(c-> c.isParameter(p-> p.isNamed("e")))); //has a catch clause with an e parameter
+        assertTrue( _ts.hasCatch(c-> c.isParameter(p-> p.isType(Exception.class)))); //has a catch clause with an Exception type parameter
+
+        assertNotNull(_ts.getCatch(IOException.class));
+        assertNotNull(_ts.getCatch(URISyntaxException.class));
+        assertNotNull(_ts.getCatch(Exception.class));
+
+        assertTrue( _ts.hasFinally());
+        assertTrue( _ts.hasFinallyBody());
     }
 
     public void testParseExistingCode(){

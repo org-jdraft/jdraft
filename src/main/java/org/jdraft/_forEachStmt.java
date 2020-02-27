@@ -127,12 +127,12 @@ public class _forEachStmt implements _statement._controlFlow._branching<ForEachS
         return Objects.equals( this.astStmt.getVariable(), ve);
     }
 
-    public boolean isVariable(_variable _v){
+    public boolean isVariable(_variables _v){
         return Objects.equals( this.astStmt.getVariable(), _v.ast());
     }
 
-    public _variable getVariable(){
-        return new _variable(this.astStmt.getVariable());
+    public _variables getVariable(){
+        return new _variables(this.astStmt.getVariable());
     }
 
     public _body getBody(){
@@ -165,7 +165,7 @@ public class _forEachStmt implements _statement._controlFlow._branching<ForEachS
         return this;
     }
 
-    public _forEachStmt setVariable( _variable _v){
+    public _forEachStmt setVariable( _variables _v){
         this.astStmt.setVariable(_v.varDeclEx);
         return this;
     }

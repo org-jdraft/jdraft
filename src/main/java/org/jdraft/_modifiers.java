@@ -485,6 +485,20 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
 
     /**
      *
+     * @see _variables
+     *
+     * @see _type
+     *     @see _class
+     *     @see _enum
+     *     @see _interface
+     *     @see _annotation
+     *
+     *
+     * @see
+     * @see _method
+     * @see _field
+     *
+     *
      * @author Eric
      * @param <_HM> the target TYPE
      */

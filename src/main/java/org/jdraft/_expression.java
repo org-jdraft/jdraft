@@ -54,7 +54,7 @@ public interface _expression<E extends Expression, _E extends _expression> exten
     Class<_switchExpression> SWITCH_EXPRESSION = _switchExpression.class;
     Class<_typeExpression> TYPE_EXPRESSION = _typeExpression.class;
     Class<_unary> UNARY = _unary.class;
-    Class<_variable> VARIABLE = _variable.class;
+    Class<_variables> VARIABLE = _variables.class;
 
     Class<? super _expression>[] ALL = new Class[]{ ANNO, ARRAY_ACCESS, ASSIGN, ARRAY_INITIALIZE,
         BINARY_EXPRESSION, BOOLEAN, CAST, CHAR, CLASS_EXPRESSION, CONDITIONAL_EXPRESSION, ENCLOSED_EXPRESSION,
@@ -165,7 +165,7 @@ public interface _expression<E extends Expression, _E extends _expression> exten
             return new _unary( (UnaryExpr)e);
         }
         if( e instanceof VariableDeclarationExpr){
-            return new _variable( (VariableDeclarationExpr)e);
+            return new _variables( (VariableDeclarationExpr)e);
         }
         throw new _jdraftException("Unsupported Expression Class "+ e.getClass()+" of "+ e);
     }

@@ -1604,7 +1604,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @param pattern
      * @return  
      */
-    public static $ex<VariableDeclarationExpr, _variable, $ex> varLocalEx(String... pattern ) {
+    public static $ex<VariableDeclarationExpr, _variables, $ex> varLocalEx(String... pattern ) {
         return new $ex( Ex.varLocalEx(pattern ) );
     }
 
@@ -1613,7 +1613,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @param constraint 
      * @return  
      */
-    public static $ex<VariableDeclarationExpr, _variable, $ex> varLocalEx(Predicate<_variable> constraint) {
+    public static $ex<VariableDeclarationExpr, _variables, $ex> varLocalEx(Predicate<_variables> constraint) {
         return new $ex( Ex.varLocalEx( "int i=1") ).$(Ex.of("int i=1"), "any").$and(constraint);
     }
     
@@ -1623,7 +1623,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @param constraint 
      * @return  
      */
-    public static $ex<VariableDeclarationExpr, _variable, $ex> varLocalEx(String pattern, Predicate<_variable> constraint) {
+    public static $ex<VariableDeclarationExpr, _variables, $ex> varLocalEx(String pattern, Predicate<_variables> constraint) {
         return new $ex( Ex.varLocalEx(pattern ) ).$and(constraint);
     }
     
@@ -1631,7 +1631,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * "int i = 1"
      * @return  
      */
-    public static $ex<VariableDeclarationExpr, _variable, $ex> varLocalEx( ) {
+    public static $ex<VariableDeclarationExpr, _variables, $ex> varLocalEx( ) {
         return new $ex( VariableDeclarationExpr.class, "$varDecl$");
     }
 

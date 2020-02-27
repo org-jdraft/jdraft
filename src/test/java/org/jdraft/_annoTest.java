@@ -58,11 +58,17 @@ public class _annoTest extends TestCase {
 
         assertTrue( _a.hasMemberValue("k",1));
         assertTrue( _a.hasMemberValue("v",2));
-        System.out.println( "HASH1"+_a.listMemberValues().get(0).hashCode() );
-        System.out.println( "HASH1"+_a.listMemberValues().get(1).hashCode() );
+
+        assertTrue( _a.hasMemberValue( (m,v)-> m.equals("k") && _int.of(1).equals(v)));
+        //System.out.println( "HASH1"+_a.listMemberValues().get(0).hashCode() );
+        //System.out.println( "HASH1"+_a.listMemberValues().get(1).hashCode() );
         //assertTrue( _a.isMemberValues("k=1,v=2"));
         assertTrue( _a.isMemberValues("v=2,k=1"));
         assertEquals(2, _a.listMemberValues().size());
+
+        assertTrue(_a.hasKeys("k", "v"));
+        assertTrue( _a.hasValue(1));
+        assertTrue( _a.hasValue(2));
     }
 
     public void testParts(){

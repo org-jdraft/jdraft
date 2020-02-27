@@ -2,6 +2,7 @@ package org.jdraft;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
+import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -162,6 +163,8 @@ public final class _anno
         return str.equals( clazz.getCanonicalName() ) || str.equals( clazz.getSimpleName() );
     }
 
+
+
     /**
      * Does this anno have a specific member value
      * @param memberValueMatchFn
@@ -170,6 +173,16 @@ public final class _anno
     public boolean hasMemberValue(Predicate<_memberValue> memberValueMatchFn){
         return listMemberValues().stream().anyMatch(memberValueMatchFn);
     }
+
+    /**
+     * Does this anno have a specific member value
+     * @param memberValueMatchFn
+     * @return
+     */
+    public boolean hasMemberValue(BiPredicate<String, _expression> memberValueMatchFn){
+        return listMemberValues().stream().anyMatch(m -> memberValueMatchFn.test( m.getName(), m.getValue()));
+    }
+
 
     /**
      *
