@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.function.*;
 
@@ -14,6 +15,7 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.jdraft._java.*;
 import com.github.javaparser.utils.Log;
 import org.jdraft.io._in;
+import org.jdraft.io._io;
 import org.jdraft.macro._toCtor;
 import org.jdraft.macro.macro;
 import org.jdraft.text.Text;
@@ -73,6 +75,10 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             throw new _jdraftException("cannot create _class from enum "+ clazz);
         }
         throw new _jdraftException("Abstract or synthetic classes are not supported"+ clazz);
+    }
+
+    public static _class of( Path p){
+        return of(_io.inFile(p));
     }
 
     /**

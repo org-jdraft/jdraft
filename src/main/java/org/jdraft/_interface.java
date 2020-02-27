@@ -8,10 +8,12 @@ import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
 import com.github.javaparser.ast.type.*;
 import org.jdraft.io._in;
+import org.jdraft.io._io;
 import org.jdraft.macro.macro;
 import org.jdraft.text.Text;
 
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -25,6 +27,10 @@ import java.util.function.Predicate;
 public final class _interface implements _type<ClassOrInterfaceDeclaration, _interface>,
         _method._withMethods<_interface>, _typeParameter._withTypeParameters<_interface>,
         _type._withExtends<_interface> {
+
+    public static _interface of( Path p){
+        return of(_io.inFile(p));
+    }
 
     public static _interface of( Class clazz ){
         Node n = Ast.typeDecl( clazz );

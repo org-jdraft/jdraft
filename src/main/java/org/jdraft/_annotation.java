@@ -2,6 +2,7 @@ package org.jdraft;
 
 import java.io.InputStream;
 import java.lang.annotation.*;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -19,6 +20,7 @@ import com.github.javaparser.ast.type.Type;
 
 import com.github.javaparser.utils.Log;
 import org.jdraft.io._in;
+import org.jdraft.io._io;
 import org.jdraft.macro.macro;
 import org.jdraft.text.Text;
 
@@ -32,6 +34,10 @@ import org.jdraft.text.Text;
  */
 public final class _annotation
         implements _type<AnnotationDeclaration, _annotation> {
+
+    public static _annotation of( Path p){
+        return of(_io.inFile(p));
+    }
 
     public static _annotation of( Class<? extends Annotation> clazz ){
         TypeDeclaration n = Ast.typeDecl( clazz );

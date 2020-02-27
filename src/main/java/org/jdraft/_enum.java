@@ -9,10 +9,12 @@ import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.jdraft.io._in;
+import org.jdraft.io._io;
 import org.jdraft.macro.macro;
 import org.jdraft.text.Text;
 
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
@@ -33,6 +35,10 @@ import java.util.stream.Collectors;
 public final class _enum implements _type<EnumDeclaration, _enum>, _method._withMethods<_enum>,
         _constructor._withConstructors<_enum, EnumDeclaration>, _initBlock._withInitBlocks<_enum>,
         _type._withImplements<_enum> {
+
+    public static _enum of( Path p){
+        return of(_io.inFile(p));
+    }
 
     public static _enum of( Class<? extends Enum> clazz ){
         Node n = Ast.typeDecl( clazz );
