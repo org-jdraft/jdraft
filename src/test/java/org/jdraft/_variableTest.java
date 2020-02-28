@@ -1,10 +1,20 @@
 package org.jdraft;
 
 import junit.framework.TestCase;
+import org.jdraft.pattern.$;
 
 public class _variableTest extends TestCase {
 
     public void testF(){
+        class C{
+            public final int a=12;
+            public String h, j;
+        }
+        $.variables();
+        assertEquals( 3, $.variable().countIn(C.class));
+    }
+
+    public void testAPI(){
         _variable _v = _variable.of("int i");
         assertTrue(_v.isNamed("i"));
         assertTrue(_v.isType(int.class));
@@ -22,7 +32,6 @@ public class _variableTest extends TestCase {
 
         _v.setName("newName");
         assertEquals("newName", _v.getName());
-
     }
 
 }

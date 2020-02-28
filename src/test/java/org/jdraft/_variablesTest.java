@@ -2,9 +2,29 @@ package org.jdraft;
 
 import junit.framework.TestCase;
 
-import java.lang.reflect.Modifier;
-
 public class _variablesTest extends TestCase {
+
+    public void testVs(){
+        _variables _vs = _variables.of("@A @B(1) @C(k=2) int x, y=-2, z = 100");
+        assertEquals(3, _vs.size());
+        assertEquals(3, _vs.list().size());
+        assertEquals(2, _vs.list(v-> v.hasInit()).size());
+        assertTrue( _vs.hasAnno("A"));
+        assertTrue( _vs.hasAnno("B"));
+        assertTrue( _vs.hasAnno("C"));
+
+
+        assertNotNull(_vs.getAnno("A"));
+        assertNotNull(_vs.getAnno("B"));
+        assertNotNull(_vs.getAnno("C"));
+
+        assertNotNull(_vs.getAnno(a-> a.hasMemberValue("value", 1)));
+        assertNotNull(_vs.getAnno(a-> a.hasMemberValue("k", 2)));
+
+        assertEquals(3, _vs.listAnnos().size());
+
+        assertEquals(1, _vs.list(_v-> _v.isInit(100)).size());
+    }
 
     public void testVariablesAPI(){
         _variables _vs = _variables.of("int i");

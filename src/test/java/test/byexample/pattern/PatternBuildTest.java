@@ -116,7 +116,7 @@ public class PatternBuildTest extends TestCase {
 
         //$.staticBlock();
         $.field();
-        $.var();
+        $.variable();
         $var.of();
 
         // $at(line, column)

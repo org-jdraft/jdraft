@@ -25,21 +25,21 @@ public class SfTest extends TestCase {
             }
         }
 
-        System.out.println( $.var().listIn(D.class) ); //[a, c]
+        System.out.println( $.variable().listIn(D.class) ); //[a, c]
         System.out.println( $.field().listIn(D.class) );  //[int a;]
-        System.out.println( $.varLocal().listIn(D.class) );  //[String c]
+        System.out.println( $.variables().listIn(D.class) );  //[String c]
         System.out.println( $.parameter().listIn(D.class) ); //[int b]
 
-        System.out.println( $.var().$type(int.class).listIn(D.class)); //[a]
+        System.out.println( $.variable().$type(int.class).listIn(D.class)); //[a]
 
         //expect int, void, int, int
         //System.out.println( $.typeRef().listIn(D.class) );
 
         //_class _c = _class.of(D.class);
         Ast.varDecl("int c");
-        assertEquals( Ex.varLocalEx("String c"), $.varLocal().firstIn(D.class).ast() ); //int c
+        assertEquals( Ex.varLocalEx("String c"), $.variables().firstIn(D.class).ast() ); //int c
 
-        assertEquals(2, $.var().countIn(D.class));
+        assertEquals(2, $.variable().countIn(D.class));
         //assertEquals(5, $typeUse.of().listIn(_class.of(D.class).astCompilationUnit()));
         System.out.println( $typeUse.of().listIn(_class.of(D.class).astCompilationUnit()));
     }

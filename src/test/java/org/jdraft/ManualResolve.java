@@ -58,7 +58,7 @@ public class ManualResolve extends TestCase {
                 //look for a parameter
                 mce.walk(Node.TreeTraversal.PARENTS, p->{
                     System.out.println("AT "+ p.getClass() );
-                    $var $vd = $.var(v-> v.getNameAsString().equals(mce.getScope().get().toString()));
+                    $var $vd = $.variable(v-> v.getNameAsString().equals(mce.getScope().get().toString()));
                     List<VariableDeclarator> vds = $vd.listIn(p);
                     if( !vds.isEmpty() ){
                         System.out.println( "Found "+ vds );

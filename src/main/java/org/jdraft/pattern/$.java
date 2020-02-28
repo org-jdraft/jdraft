@@ -891,19 +891,19 @@ public final class $ {
         return $ex.unaryEx();
     }
 
-    public static $ex<VariableDeclarationExpr, _variables, $ex> varLocal(){
+    public static $ex<VariableDeclarationExpr, _variables, $ex> variables(){
         return $ex.varLocalEx();
     }
 
-    public static $ex<VariableDeclarationExpr, _variables, $ex> varLocal(String ve){
+    public static $ex<VariableDeclarationExpr, _variables, $ex> variables(String ve){
         return $ex.varLocalEx(ve);
     }
 
-    public static $ex<VariableDeclarationExpr, _variables, $ex> varLocal(VariableDeclarationExpr vde){
+    public static $ex<VariableDeclarationExpr, _variables, $ex> variables(VariableDeclarationExpr vde){
         return $ex.of(vde);
     }
 
-    public static $ex<VariableDeclarationExpr, _variables, $ex> varLocal(Predicate<_variables> vde){
+    public static $ex<VariableDeclarationExpr, _variables, $ex> variables(Predicate<_variables> vde){
         return $ex.varLocalEx(vde);
     }
 
@@ -2314,19 +2314,19 @@ public final class $ {
         return $typeRef.of().$and(tr);
     }
 
-    public static $var var(){
+    public static $var variable(){
         return $var.of();
     }
 
-    public static $var var(String var){
+    public static $var variable(String var){
         return $var.of(var);
     }
 
-    public static $var var(VariableDeclarator var){
+    public static $var variable(VariableDeclarator var){
         return $var.of(var);
     }
     
-    public static $var var(Predicate<VariableDeclarator> vd){
+    public static $var variable(Predicate<VariableDeclarator> vd){
         return $var.of().$and(vd);
     }
 }
