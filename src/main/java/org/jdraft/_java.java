@@ -1341,6 +1341,34 @@ public interface _java {
          */
         N ast();
 
+
+        /**
+         * Replace this ast node (wherever it resides in the Ast TREE) with the ASt node
+         * and return the replacement Ast node instance
+         * @param n the ast nod to replace this node in the tree
+         * @param <N> the type of Ast node to replace with
+         * @return the replacement node
+         */
+        default <N extends Node> N replace(N n){
+            boolean rep = this.ast().replace(n);
+            if( rep ) {
+                return n;
+            }
+            throw new _jdraftException("unable to replace "+ this+" with "+ n);
+        }
+
+        /**
+         * Replace this ast node (wherever it resides in the Ast TREE) with the ASt node
+         * and return the replacement Ast node instance
+         * @param _n the astNode to replace this node in the tree
+         * @param <_N> the type of _astNode node to replace with
+         * @return the replacement _astNode implementation
+         */
+        default <_N extends _astNode> _N replace(_N _n){
+            replace(_n.ast());
+            return _n;
+        }
+
         /**
          * Pass in the AST Pretty Printer configuration which will determine how the code
          * is formatted and return the formatted String representing the code.

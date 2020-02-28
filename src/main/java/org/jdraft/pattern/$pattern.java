@@ -1815,6 +1815,14 @@ public interface $pattern<P, $P extends $pattern>{
         forEachIn(_j, e -> System.out.println( e ) );
     }
 
+    default void describeIn(Node astNode) {
+        forEachIn(astNode, e-> _java.describe((_java._domain)e));
+    }
+
+    default void describeIn(Class<?> clazz) {
+        forEachIn(Ast.of(clazz), e-> {_java.describe( (_java._domain) e); System.out.println();});
+    }
+
     /**
      *
      * @param _cp

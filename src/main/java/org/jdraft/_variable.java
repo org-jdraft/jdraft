@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
@@ -43,6 +44,30 @@ public class _variable implements _java._astNode<VariableDeclarator, _variable>,
             return Objects.equals( this.vd, _v.ast());
         }
         return false;
+    }
+
+    /**
+     * Is the variable defined as part of a member field (i.e. on a type)
+     * @return true if this variable is a child of a Field
+     */
+    public boolean isField(){
+        if( this.vd.getParentNode().isPresent()){
+            if( this.vd.getParentNode().get() instanceof VariableDeclarationExpr ){
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isLocal(){
+        if( this.vd.getParentNode().isPresent()){
+            if( this.vd.getParentNode().get() instanceof VariableDeclarationExpr ){
+                return true;
+            }
+            return false;
+        }
+        return false; //no parent so we dont know if it's a field or a local var
     }
 
     public boolean isFinal(){

@@ -3,7 +3,6 @@ package org.jdraft;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
-import com.github.javaparser.ast.type.Type;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,33 +18,33 @@ import java.util.stream.Collectors;
  * int i=0, j=1;
  * int i, j[], k;
  */
-public class _variables implements _expression<VariableDeclarationExpr, _variables>,
-        _java._multiPart<VariableDeclarationExpr, _variables>,
-        _java._set<VariableDeclarator, _variable, _variables>,
-        _anno._withAnnos<_variables>,
-        _modifiers._withFinal<_variables>{
+public class _localVariables implements _expression<VariableDeclarationExpr, _localVariables>,
+        _java._multiPart<VariableDeclarationExpr, _localVariables>,
+        _java._set<VariableDeclarator, _variable, _localVariables>,
+        _anno._withAnnos<_localVariables>,
+        _modifiers._withFinal<_localVariables>{
 
-    public static _variables of(){
-        return new _variables(new VariableDeclarationExpr());
+    public static _localVariables of(){
+        return new _localVariables(new VariableDeclarationExpr());
     }
 
-    public static _variables of(VariableDeclarationExpr ve){
-        return new _variables(ve);
+    public static _localVariables of(VariableDeclarationExpr ve){
+        return new _localVariables(ve);
     }
 
-    public static _variables of(String...code){
-        return new _variables(Ex.varLocalEx(code));
+    public static _localVariables of(String...code){
+        return new _localVariables(Ex.varLocalEx(code));
     }
 
     public VariableDeclarationExpr varDeclEx;
 
-    public _variables(VariableDeclarationExpr varDeclEx){
+    public _localVariables(VariableDeclarationExpr varDeclEx){
         this.varDeclEx = varDeclEx;
     }
 
     @Override
-    public _variables copy() {
-        return new _variables(this.varDeclEx.clone());
+    public _localVariables copy() {
+        return new _localVariables(this.varDeclEx.clone());
     }
 
     @Override
@@ -70,12 +69,12 @@ public class _variables implements _expression<VariableDeclarationExpr, _variabl
         return this.varDeclEx.isFinal();
     }
 
-    public _variables setFinal(boolean fin){
+    public _localVariables setFinal(boolean fin){
         this.varDeclEx.setFinal(fin);
         return this;
     }
 
-    public _variables setFinal(){
+    public _localVariables setFinal(){
         this.varDeclEx.setFinal(true);
         return this;
     }
@@ -127,8 +126,8 @@ public class _variables implements _expression<VariableDeclarationExpr, _variabl
     }
 
     public boolean equals(Object other){
-        if( other instanceof _variables){
-            return ((_variables)other).varDeclEx.equals( this.varDeclEx);
+        if( other instanceof _localVariables){
+            return ((_localVariables)other).varDeclEx.equals( this.varDeclEx);
         }
         return false;
     }

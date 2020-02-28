@@ -90,7 +90,7 @@ public class IntelliJPSIExample extends TestCase {
             }
         }
         //print the cursor locations of all of the local vars
-        $.variables().forEachIn(L.class, v-> System.out.println("Found a variable at offset " + v.ast().getRange().get().begin) );
+        $.localVariables().forEachIn(L.class, v-> System.out.println("Found a variable at offset " + v.ast().getRange().get().begin) );
     }
 
     /**

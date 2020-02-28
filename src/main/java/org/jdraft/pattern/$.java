@@ -891,19 +891,24 @@ public final class $ {
         return $ex.unaryEx();
     }
 
-    public static $ex<VariableDeclarationExpr, _variables, $ex> variables(){
+    /**
+     * A Declaration site for local variable(s) within a code body
+     * int i
+     * @return
+     */
+    public static $ex<VariableDeclarationExpr, _localVariables, $ex> localVariables(){
         return $ex.varLocalEx();
     }
 
-    public static $ex<VariableDeclarationExpr, _variables, $ex> variables(String ve){
+    public static $ex<VariableDeclarationExpr, _localVariables, $ex> localVariables(String ve){
         return $ex.varLocalEx(ve);
     }
 
-    public static $ex<VariableDeclarationExpr, _variables, $ex> variables(VariableDeclarationExpr vde){
+    public static $ex<VariableDeclarationExpr, _localVariables, $ex> localVariables(VariableDeclarationExpr vde){
         return $ex.of(vde);
     }
 
-    public static $ex<VariableDeclarationExpr, _variables, $ex> variables(Predicate<_variables> vde){
+    public static $ex<VariableDeclarationExpr, _localVariables, $ex> localVariables(Predicate<_localVariables> vde){
         return $ex.varLocalEx(vde);
     }
 

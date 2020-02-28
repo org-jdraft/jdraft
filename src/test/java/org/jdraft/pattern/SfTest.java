@@ -27,7 +27,7 @@ public class SfTest extends TestCase {
 
         System.out.println( $.variable().listIn(D.class) ); //[a, c]
         System.out.println( $.field().listIn(D.class) );  //[int a;]
-        System.out.println( $.variables().listIn(D.class) );  //[String c]
+        System.out.println( $.localVariables().listIn(D.class) );  //[String c]
         System.out.println( $.parameter().listIn(D.class) ); //[int b]
 
         System.out.println( $.variable().$type(int.class).listIn(D.class)); //[a]
@@ -37,7 +37,7 @@ public class SfTest extends TestCase {
 
         //_class _c = _class.of(D.class);
         Ast.varDecl("int c");
-        assertEquals( Ex.varLocalEx("String c"), $.variables().firstIn(D.class).ast() ); //int c
+        assertEquals( Ex.varLocalEx("String c"), $.localVariables().firstIn(D.class).ast() ); //int c
 
         assertEquals(2, $.variable().countIn(D.class));
         //assertEquals(5, $typeUse.of().listIn(_class.of(D.class).astCompilationUnit()));

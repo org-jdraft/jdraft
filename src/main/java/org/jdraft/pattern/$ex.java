@@ -1604,7 +1604,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @param pattern
      * @return  
      */
-    public static $ex<VariableDeclarationExpr, _variables, $ex> varLocalEx(String... pattern ) {
+    public static $ex<VariableDeclarationExpr, _localVariables, $ex> varLocalEx(String... pattern ) {
         return new $ex( Ex.varLocalEx(pattern ) );
     }
 
@@ -1613,7 +1613,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @param constraint 
      * @return  
      */
-    public static $ex<VariableDeclarationExpr, _variables, $ex> varLocalEx(Predicate<_variables> constraint) {
+    public static $ex<VariableDeclarationExpr, _localVariables, $ex> varLocalEx(Predicate<_localVariables> constraint) {
         return new $ex( Ex.varLocalEx( "int i=1") ).$(Ex.of("int i=1"), "any").$and(constraint);
     }
     
@@ -1623,7 +1623,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @param constraint 
      * @return  
      */
-    public static $ex<VariableDeclarationExpr, _variables, $ex> varLocalEx(String pattern, Predicate<_variables> constraint) {
+    public static $ex<VariableDeclarationExpr, _localVariables, $ex> varLocalEx(String pattern, Predicate<_localVariables> constraint) {
         return new $ex( Ex.varLocalEx(pattern ) ).$and(constraint);
     }
     
@@ -1631,7 +1631,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * "int i = 1"
      * @return  
      */
-    public static $ex<VariableDeclarationExpr, _variables, $ex> varLocalEx( ) {
+    public static $ex<VariableDeclarationExpr, _localVariables, $ex> varLocalEx( ) {
         return new $ex( VariableDeclarationExpr.class, "$varDecl$");
     }
 
@@ -2143,11 +2143,14 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
     
     @Override
     public <N extends Node> N forEachIn(N astNode, Predicate<_E>exprMatchFn, Consumer<_E> expressionActionFn){
-        astNode.walk(this.astExpressionClass, e-> {
-            //$args tokens = deconstruct( e );
-            Select sel = select(e);
-            if( sel != null && exprMatchFn.test((_E)sel._ex)) {
-                expressionActionFn.accept( (_E)_expression.of(e));
+        //NOTE: changed to postorder because we want to replace the leaf nodes FIRST
+        // (i.e. for situations where we have nested/child expressions that match)
+        astNode.walk(Node.TreeTraversal.POSTORDER, e->{
+            if( this.astExpressionClass.isAssignableFrom(e.getClass())){
+                Select sel = select( (E)e);
+                if( sel != null && exprMatchFn.test((_E)sel._ex)) {
+                    expressionActionFn.accept( (_E)_expression.of( (E)e));
+                }
             }
         });
         return astNode;

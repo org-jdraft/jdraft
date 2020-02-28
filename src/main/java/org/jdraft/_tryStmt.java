@@ -6,12 +6,9 @@ import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.Type;
 
-import javax.lang.model.type.ReferenceType;
-import java.io.IOException;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class _tryStmt implements _statement._controlFlow._branching<TryStmt, _tryStmt>,
         _java._multiPart<TryStmt, _tryStmt>{
@@ -264,7 +261,7 @@ public class _tryStmt implements _statement._controlFlow._branching<TryStmt, _tr
 
     public boolean hasWithResourceType( Class clazz ){
         return hasWithResources(_new.class, _n-> _n.isType(clazz))
-                || hasWithResources(_variables.class, _v->_v.listVariables( v-> v.isType(clazz)).size() > 0 );
+                || hasWithResources(_localVariables.class, _v->_v.listVariables(v-> v.isType(clazz)).size() > 0 );
     }
 
     public <_E extends _expression> boolean hasWithResources(Class<_E> exprClass, Predicate<_E> matchFn){

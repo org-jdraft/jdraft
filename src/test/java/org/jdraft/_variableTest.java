@@ -5,13 +5,40 @@ import org.jdraft.pattern.$;
 
 public class _variableTest extends TestCase {
 
+    public void testFieldOrLocal(){
+        _variable _v = _variable.of("int i");
+        assertFalse(_v.isLocal() );
+        assertFalse(_v.isField() );
+
+        _localVariables _lvs = _localVariables.of("int i, j");
+        assertTrue( _lvs.get(0).isLocal());
+        assertTrue( _lvs.get(1).isLocal());
+
+        assertFalse( _lvs.get(0).isField());
+        assertFalse( _lvs.get(1).isField());
+
+        _v = _variable.of(_field.of( "int j" ).ast());
+        assertTrue( _v.isField() );
+        assertFalse( _v.isLocal());
+    }
+
+    //ensure variables
     public void testF(){
         class C{
             public final int a=12;
             public String h, j;
+            public void method(int k){
+                int j,i;
+            }
         }
-        $.variables();
-        assertEquals( 3, $.variable().countIn(C.class));
+
+        //$.variables();
+        assertEquals( 1, $.parameter().countIn(C.class));
+        assertEquals( 3, $.field().countIn(C.class));
+        assertEquals( 1, $.localVariables().countIn(C.class));
+        assertEquals( 5, $.variable().countIn(C.class));
+
+        assertEquals( 3, $.variable(v-> v.getType().isPrimitiveType()).countIn(C.class));
     }
 
     public void testAPI(){
@@ -20,6 +47,9 @@ public class _variableTest extends TestCase {
         assertTrue(_v.isType(int.class));
         assertFalse( _v.hasInit());
         assertFalse( _v.isFinal());
+
+        assertFalse( _v.isField());
+        assertFalse( _v.isLocal());
 
         //now init
         _v.setInit(1);

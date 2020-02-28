@@ -2,10 +2,10 @@ package org.jdraft;
 
 import junit.framework.TestCase;
 
-public class _variablesTest extends TestCase {
+public class _localVariablesTest extends TestCase {
 
     public void testVs(){
-        _variables _vs = _variables.of("@A @B(1) @C(k=2) int x, y=-2, z = 100");
+        _localVariables _vs = _localVariables.of("@A @B(1) @C(k=2) int x, y=-2, z = 100");
         assertEquals(3, _vs.size());
         assertEquals(3, _vs.list().size());
         assertEquals(2, _vs.list(v-> v.hasInit()).size());
@@ -27,7 +27,7 @@ public class _variablesTest extends TestCase {
     }
 
     public void testVariablesAPI(){
-        _variables _vs = _variables.of("int i");
+        _localVariables _vs = _localVariables.of("int i");
         assertEquals(1, _vs.size());
         assertEquals( _variable.of("int i"), _vs.get(0) );
 
@@ -53,13 +53,13 @@ public class _variablesTest extends TestCase {
     }
 
     public void testMods(){
-        _variables _vs = _variables.of( "@A final int i, j");
+        _localVariables _vs = _localVariables.of( "@A final int i, j");
         assertTrue(_vs.isFinal());
         assertEquals(2, _vs.size());
     }
 
     public void testAnno(){
-        _variables _vs = _variables.of( "@A final int i");
+        _localVariables _vs = _localVariables.of( "@A final int i");
         assertTrue( _vs.hasAnnos() );
         assertTrue( _vs.hasAnno("A"));
         assertTrue( _vs.hasAnno(a->a.isNamed("A")));
