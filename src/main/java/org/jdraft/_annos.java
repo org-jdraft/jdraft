@@ -293,4 +293,266 @@ public class _annos
         this.astAnnNode.getAnnotations().forEach( a -> fd.addAnnotation( ((AnnotationExpr)a).clone() ) );
         return new _annos( fd );
     }
+
+    /**
+     * _model of an entity that may be annotated with multiple Annotations
+     * this includes:
+     * <UL>
+     * {@link _type}
+     * {@link _field}
+     * {@link _method}
+     * {@link _constructor}
+     * {@link _parameter}
+     * {@link _annotation._entry}
+     * {@link _constant}
+     * </UL>
+     *
+     * @author Eric
+     *
+     * @param <_WA> the container type (that has Annos)
+     */
+    public interface _withAnnos<_WA extends _withAnnos>
+        extends _java._domain {
+
+        /**
+         * @return the annos
+         */
+        _annos getAnnos();
+
+        /**
+         * gets the anno at the index
+         * @param index
+         * @return
+         */
+        default _anno getAnno(int index) {
+            return getAnnos().get( index );
+        }
+
+        /**
+         * apply a function to all annos
+         * @param _annoActionFn
+         * @return the modified T
+         */
+        default _WA forAnnos(Consumer<_anno> _annoActionFn){
+            getAnnos().forEach(_annoActionFn);
+            return (_WA) this;
+        }
+
+        /**
+         * Selectively apply a function to annos
+         * @param _annoMatchFn
+         * @param _annoActionFn
+         * @return
+         */
+        default _WA forAnnos(Predicate<_anno> _annoMatchFn, Consumer<_anno> _annoActionFn){
+            getAnnos().forEach(_annoMatchFn, _annoActionFn);
+            return (_WA) this;
+        }
+
+        /**
+         * Gets the FIRST annotation that matches the _annoMatchFn predicate
+         *
+         * @param _annoMatchFn
+         * @return the first matching {@link _anno}, or null if none query
+         */
+        default _anno getAnno(Predicate<_anno> _annoMatchFn) {
+            return getAnnos().get( _annoMatchFn );
+        }
+
+        /**
+         * Gets the FIRST _anno that matches the annotationClass
+         *
+         * @param annotationClass the annotationClass
+         * @return the first annotation that is of the annotationClass or null
+         */
+        default _anno getAnno(Class<? extends Annotation> annotationClass) {
+            return getAnnos().get( annotationClass );
+        }
+
+        /**
+         * Gets the FIRST _anno that matches the annoName
+         *
+         * @param annoName the NAME of the anno
+         * @return the first _anno that has the NAME, or null
+         */
+        default _anno getAnno(String annoName) {
+            if( annoName.startsWith("@")){
+                return getAnnos().get(annoName.substring(1));
+            }
+            return getAnnos().get( annoName );
+        }
+
+        default boolean isAnnos(_anno... _as){
+            _annos _tas = getAnnos();
+            return Objects.equals(_tas, of(_as));
+        }
+
+        default boolean isAnnos(_annos _as){
+            _annos _tas = getAnnos();
+            return Objects.equals(_tas, _as);
+        }
+
+        /**
+         *
+         * @param annotationClass
+         * @return
+         */
+        default boolean hasAnno(Class<? extends Annotation> annotationClass) {
+            return getAnno( annotationClass ) != null;
+        }
+
+        /**
+         * Do we have an anno that has this name?
+         * @param name the name of the anno
+         * @return
+         */
+        default boolean hasAnno(String name) {
+            return getAnno( name ) != null;
+        }
+
+        default boolean hasAnno(Predicate<_anno> _annoMatchFn) {
+            return getAnno( _annoMatchFn ) != null;
+        }
+
+        default List<_anno> listAnnos() {
+            return getAnnos().list();
+        }
+
+        default List<_anno> listAnnos(Predicate<_anno> _annMatchFn) {
+            return getAnnos().list( _annMatchFn );
+        }
+
+        default List<_anno> listAnnos(String annoName) {
+            return getAnnos().list( annoName );
+        }
+
+        default List<_anno> listAnnos(Class<? extends Annotation> annotationClass) {
+            return getAnnos().list( annotationClass );
+        }
+
+        /**
+         * replace the annotations with the _annos provided
+         * @param _as
+         * @return
+
+        default _HA replace(_annos _as ) {
+        this.getAnnos().clear().add( _as.list().toArray( new _anno[ 0 ] ) );
+        return (_HA)this;
+        }
+         */
+
+        default _WA setAnnos(_annos _as){
+            _as.forEach( a -> getAnnos().add(a) );
+            return (_WA)this;
+        }
+
+        default _WA addAnnos(List<AnnotationExpr> astAnnoList){
+            astAnnoList.forEach( a -> getAnnos().add(a) );
+            return (_WA)this;
+        }
+
+        /**
+         * annotate with the ANNOTATIONS and return the _annotated
+         *
+         * @param _anns ANNOTATIONS to to
+         * @return the annotated entity
+         */
+        default _WA addAnnos(_anno... _anns) {
+            getAnnos().add(_anns );
+            return (_WA)this;
+        }
+
+        /**
+         * annotate with the ANNOTATIONS and return the model
+         *
+         * @param annoClasses
+         * @return
+         */
+        default _WA addAnnos(Class<? extends Annotation>... annoClasses) {
+            getAnnos().add(annoClasses );
+            return (_WA)this;
+        }
+
+        /**
+         * accept one or more ANNOTATIONS
+         *
+         * @param annotations
+         * @return
+         */
+        default _WA addAnnos(String... annotations) {
+            getAnnos().add( annotations );
+            return (_WA)this;
+        }
+
+        /**
+         * remove the annotation and return the modified T
+         * @param astAnn the annotation
+         * @return
+         */
+        default _WA removeAnno(AnnotationExpr astAnn){
+            getAnnos().remove(astAnn);
+            return (_WA)this;
+        }
+
+        /**
+         * remove the annotation and return the modified T
+         * @param _a
+         * @return the modified T
+         */
+        default _WA removeAnno(_anno _a){
+            return removeAnno( _a.ast() );
+        }
+
+        /**
+         * removeAll all _anno that accept the _annoMatchFn
+         *
+         * @param _annoMatchFn
+         * @return
+         */
+        default _WA removeAnnos(Predicate<_anno> _annoMatchFn) {
+            getAnnos().remove( _annoMatchFn );
+            return (_WA)this;
+        }
+
+        /**
+         *
+         * @return
+         */
+        default boolean hasAnnos() {
+            return !getAnnos().isEmpty();
+        }
+
+        /**
+         * removeIn all ANNOTATIONS that are of the annotationClass
+         *
+         * @param annotationClass
+         * @return
+         */
+        default _WA removeAnnos(Class<? extends Annotation> annotationClass) {
+            getAnnos().remove( annotationClass );
+            return (_WA)this;
+        }
+
+        /**
+         * removeAll all ANNOTATIONS that have the annoName
+         *
+         * @param annoNames
+         * @return
+         */
+        default _WA removeAnnos(String... annoNames) {
+            getAnnos().remove( annoNames );
+            return (_WA)this;
+        }
+
+        /**
+         * removeIn all ANNOTATIONS
+         *
+         * @param _annosToRemove
+         * @return
+         */
+        default _WA removeAnnos(List<_anno> _annosToRemove) {
+            getAnnos().remove(_annosToRemove.toArray( new _anno[ 0 ] ) );
+            return (_WA)this;
+        }
+    }
 }
