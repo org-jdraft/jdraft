@@ -15,7 +15,7 @@ import java.util.function.Function;
 
 public class _instanceOf implements _expression<InstanceOfExpr, _instanceOf>,
         _java._multiPart<InstanceOfExpr, _instanceOf>,
-        _java._withType<InstanceOfExpr, _instanceOf>,
+        _java._withTypeRef<InstanceOfExpr, _instanceOf>,
         _java._withExpression<InstanceOfExpr, _instanceOf>{
 
     public static _instanceOf of(){
@@ -111,26 +111,26 @@ public class _instanceOf implements _expression<InstanceOfExpr, _instanceOf>,
         return _expression.of(this.ioe.getExpression());
     }
 
-    public _typeRef getType(){
+    public _typeRef getTypeRef(){
         return _typeRef.of(this.ioe.getType());
     }
 
-    public _instanceOf setType(Class clazz){
+    public _instanceOf setTypeRef(Class clazz){
         this.ioe.setType(clazz);
         return this;
     }
 
-    public _instanceOf setType(String type){
+    public _instanceOf setTypeRef(String type){
         this.ioe.setType(type);
         return this;
     }
 
-    public _instanceOf setType(ReferenceType t){
+    public _instanceOf setTypeRef(ReferenceType t){
         this.ioe.setType(t);
         return this;
     }
 
-    public _instanceOf setType(_typeRef _t){
+    public _instanceOf setTypeRef(_typeRef _t){
         this.ioe.setType((ReferenceType)_t.ast());
         return this;
     }

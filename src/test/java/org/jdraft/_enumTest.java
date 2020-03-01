@@ -229,7 +229,7 @@ public class _enumTest extends TestCase {
         _method _m = _c.getMethod("getNum");
         assertTrue( _m.hasJavadoc() );
         _m.getModifiers().is( "public final");
-        assertTrue( _m.isType( int.class));
+        assertTrue( _m.isTypeRef( int.class));
         assertTrue( _m.getBody().is("return 12345;") );
         
         _constant _cc = _e.getConstant("C");

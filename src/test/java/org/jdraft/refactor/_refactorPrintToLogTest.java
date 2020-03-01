@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 public class _refactorPrintToLogTest extends TestCase {
 
     static _refactorPrintToLog LOGWARN = new _refactorPrintToLog(
-            (_field f)->f.isStatic() && f.isType(Logger.class),
+            (_field f)->f.isStatic() && f.isTypeRef(Logger.class),
             new ImportDeclaration[] { Ast.importDeclaration( Logger.class ),Ast.importDeclaration( Level.class )},
             $field.of("public static final Logger LOG = Logger.getLogger($className$.class.getCanonicalName());"),
             "$name$.warning($any$ + \"\");" );
@@ -54,7 +54,7 @@ public class _refactorPrintToLogTest extends TestCase {
         _class _c = _class.of( C.class );
 
         _refactorPrintToLog lr = new _refactorPrintToLog(
-                (_field f)->f.isStatic() && f.isType(Logger.class),
+                (_field f)->f.isStatic() && f.isTypeRef(Logger.class),
                 new ImportDeclaration[] { Ast.importDeclaration( Logger.class ),Ast.importDeclaration( Level.class )},
                 $field.of("public static final Logger LOG = Logger.getLogger($className$.class.getCanonicalName());"),
                 "$name$.warning($any$ + \"\");" );

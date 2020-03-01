@@ -98,7 +98,7 @@ public class _refactorPrintToLog {
      * with java.util.Logger Log.fine()...statements of the macro
      */
     public static _refactorPrintToLog JavaLoggerFine = new _refactorPrintToLog(
-            (_field f)->f.isStatic() && f.isType(Logger.class),
+            (_field f)->f.isStatic() && f.isTypeRef(Logger.class),
             new ImportDeclaration[] { Ast.importDeclaration( Logger.class ),Ast.importDeclaration( Level.class )},
             $field.of("public static final Logger LOG = Logger.getLogger($className$.class.getCanonicalName());"),
         "if($name$.isLoggable(Level.FINER)){ $name$.fine($any$ + \"\"); }" );

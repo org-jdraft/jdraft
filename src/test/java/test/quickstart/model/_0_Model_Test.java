@@ -21,14 +21,14 @@ public class _0_Model_Test extends TestCase {
 
         // jdraft makes reading code properties easy
         assertEquals( "m", _m.getName() );
-        assertTrue( _m.isType(int.class) );
+        assertTrue( _m.isTypeRef(int.class) );
         assertFalse( _m.hasThrows() );
 
         // jdraft models can be nested inside other jdraft models
         _modifiers _ms = _m.getModifiers();
         assertTrue( _ms.isPublic() );
 
-        _typeRef _t = _m.getType();
+        _typeRef _t = _m.getTypeRef();
         assertTrue(_t.is(int.class));
 
         _parameters _ps = _m.getParameters();

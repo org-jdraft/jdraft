@@ -476,7 +476,7 @@ public class _classTest extends TestCase {
         });
         System.out.println( _c );
 
-        _c.forFields( f-> f.isType(int.class), f-> System.out.println(f) );
+        _c.forFields( f-> f.isTypeRef(int.class), f-> System.out.println(f) );
     }
     
     
@@ -615,22 +615,22 @@ public class _classTest extends TestCase {
         assertTrue( _c.isTopLevel() );
         assertTrue( _c.getPackage().equals("aaaa.bbbb") );
         assertTrue( _c.getField("a").isPublic() );
-        assertTrue( _c.getField("a").isType(int.class) );
+        assertTrue( _c.getField("a").isTypeRef(int.class) );
         assertTrue( _c.getField("b").isPublic() );
-        assertTrue( _c.getField("b").isType(int.class) );
+        assertTrue( _c.getField("b").isTypeRef(int.class) );
 
         //verify we have a static main() method
         assertTrue( _c.getMethod("main").isStatic() );
         assertTrue( _c.getMethod("main").isVoid() );
-        assertTrue( _c.getMethod("main").getParameter(0).isType(String[].class) );
+        assertTrue( _c.getMethod("main").getParameter(0).isTypeRef(String[].class) );
         //verify we created the getters
-        assertTrue( _c.getMethod("getA" ).isType(int.class) );
-        assertTrue( _c.getMethod("getB" ).isType(int.class) );
-        assertTrue( _c.getMethod("getC" ).isType(int.class) );
-        assertTrue( _c.getMethod("getName" ).isType(String.class) );
+        assertTrue( _c.getMethod("getA" ).isTypeRef(int.class) );
+        assertTrue( _c.getMethod("getB" ).isTypeRef(int.class) );
+        assertTrue( _c.getMethod("getC" ).isTypeRef(int.class) );
+        assertTrue( _c.getMethod("getName" ).isTypeRef(String.class) );
 
         //verify that we manufactured a constructor, and it accepts a String (the final field NAME) as the constructor
-        assertTrue( _c.getConstructor(0).getParameter(0).isType(String.class) );
+        assertTrue( _c.getConstructor(0).getParameter(0).isTypeRef(String.class) );
         //assertTrue( _c.getConstructor(0).getBody().getStatement(0).equals( Stmt.of("this.name = name;") ) );
          assertTrue( _c.getConstructor(0).getBody().getStatement(0).equals( Stmt.of("this.name = name;") ) );
     }
@@ -694,7 +694,7 @@ public class _classTest extends TestCase {
         //System.out.println( _m );
         
         assertTrue( _c.getMethod( "getpid").isNative());
-        assertTrue( _c.getMethod( "getpid").isType( int.class));
+        assertTrue( _c.getMethod( "getpid").isTypeRef( int.class));
         
     }
     
@@ -829,7 +829,7 @@ public class _classTest extends TestCase {
         assertTrue( _m.getModifiers().is("public static"));
         assertTrue(_m.hasTypeParameters());
         assertTrue(_m.getTypeParameters().is("<e extends Fuzz>"));
-        assertTrue( _m.isType( "void"));
+        assertTrue( _m.isTypeRef( "void"));
         assertTrue( _m.isVoid());
         assertEquals("doIt", _m.getName());
         assertTrue( _m.hasParameters());
@@ -862,7 +862,7 @@ public class _classTest extends TestCase {
         assertTrue( _p.hasAnnos());
         assertEquals( 2, _p.listAnnos().size());
         assertTrue( _p.isFinal());
-        assertTrue( _p.isType( String.class));
+        assertTrue( _p.isTypeRef( String.class));
         assertEquals("s", _p.getName());
         assertFalse( _p.isVarArg() );
         _p = _ct.getParameter( 1 );
@@ -870,7 +870,7 @@ public class _classTest extends TestCase {
         assertFalse( _p.hasAnnos());
         assertEquals( 0, _p.listAnnos().size());
         assertFalse( _p.isFinal());
-        assertTrue( _p.isType( int.class));
+        assertTrue( _p.isTypeRef( int.class));
         assertEquals("varArgs3", _p.getName());
         assertTrue( _p.isVarArg() );
         assertTrue( _ct.isVarArg());
@@ -884,7 +884,7 @@ public class _classTest extends TestCase {
         assertTrue( _f.hasAnnos() );
         assertTrue( _f.getAnnos().is("@ann","@ann2(k=2,v='g')") );
         assertTrue( _f.getModifiers().is( "public static final"));
-        assertTrue( _f.isType( "List<String>"));
+        assertTrue( _f.isTypeRef( "List<String>"));
         assertTrue( _f.getName().equals( "l"));
         assertTrue( _f.isInit(Ex.of("new ArrayList<>()")));
         //System.out.println( _c.listFields());

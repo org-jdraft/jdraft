@@ -157,7 +157,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
             $as = $annos.as(_p); //set the EXACT annos
         }
         $name $nm = $name.of( _p.getName() );
-        $typeRef $tr = $typeRef.as(_p.getType());
+        $typeRef $tr = $typeRef.as(_p.getTypeRef());
         $parameter $p = of( $as, $nm, $tr );
         if( _p.isFinal() ){
             $p.isFinal = true;
@@ -233,7 +233,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
             }
             else if( parts[i] instanceof $typeRef){
                 final $typeRef $fj = (($typeRef)parts[i]);
-                Predicate<_parameter> pf = f-> $fj.matches(f.getType());
+                Predicate<_parameter> pf = f-> $fj.matches(f.getTypeRef());
                 $and( pf.negate() );
             }
         }
@@ -275,7 +275,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
             this.isVarArg = true;
         }
         this.name.nameStencil = Stencil.of(_p.getName() );
-        this.type = $typeRef.of(_p.getType());     
+        this.type = $typeRef.of(_p.getTypeRef());
         this.annos = $annos.of( _p.getAnnos() );        
     }
     
@@ -514,7 +514,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
         }
         Tokens all = ans.tokens.asTokens();
         
-        $typeRef.Select sel = type.select(_p.getType());
+        $typeRef.Select sel = type.select(_p.getTypeRef());
         
         if( sel != null ){            
             if( !all.isConsistent( sel.tokens.asTokens() ) ){
@@ -937,7 +937,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
         }
         
         public boolean isType( Class typeClass ){
-            return _param.isType(typeClass);            
+            return _param.isTypeRef(typeClass);
         }
         
         public boolean isFinal(){
@@ -962,7 +962,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
          * @return 
          */
         public boolean isUnknownType(){
-            return this._param.getType().isUnknownType();
+            return this._param.getTypeRef().isUnknownType();
         }
         
         @Override

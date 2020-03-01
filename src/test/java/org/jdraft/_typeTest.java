@@ -304,6 +304,6 @@ public class _typeTest extends TestCase {
         _type _t = _class.of("C").addField("int x");
 
         //Not sure WHY I have to do this (_field)cast
-        _t.forFields( f-> ((_field)f).isType(int.class) );
+        _t.forFields( f-> ((_field)f).isTypeRef(int.class) );
     }
 }

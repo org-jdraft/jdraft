@@ -66,14 +66,14 @@ public class GoogleAutoValue_VariantTest extends TestCase {
 
             @Override
             public void accept(TypeDeclaration typeDeclaration) {
-                $setterFields.forEachIn(typeDeclaration, f-> typeDeclaration.addMember( $setNoPrefix.fill(f.getName(), f.getType()).ast() ) );
+                $setterFields.forEachIn(typeDeclaration, f-> typeDeclaration.addMember( $setNoPrefix.fill(f.getName(), f.getTypeRef()).ast() ) );
                 //act( _java.type(typeDeclaration));
 
             }
 
             public static void act( _type _t ){
                 //if( _t instanceof ){
-                $.field($.NOT_STATIC, $.NOT_FINAL).forEachIn(_t, f-> _t.add( $setNoPrefix.fill(f.getName(), f.getType())));
+                $.field($.NOT_STATIC, $.NOT_FINAL).forEachIn(_t, f-> _t.add( $setNoPrefix.fill(f.getName(), f.getTypeRef())));
 
                 //_t.listFields( (f) -> !((_field)f).isFinal() && !((_field)f).isStatic());
                 //typeDeclaration.getFields().stream().filter(f-> !f.)

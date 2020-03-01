@@ -2,7 +2,6 @@ package org.jdraft;
 
 import junit.framework.TestCase;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -59,7 +58,7 @@ public class _tryStmtTest extends TestCase {
 
         System.out.println( _ts );
 
-        System.out.println( _ts.listCatches().stream().filter( _c-> _c.getParameter().isType(IOException.class)).findFirst().get() );
+        System.out.println( _ts.listCatches().stream().filter( _c-> _c.getParameter().isTypeRef(IOException.class)).findFirst().get() );
 
         //gets the catch block for IOException & adds code
         _ts.getCatch(IOException.class).add(()->System.out.println("Badness"));
@@ -176,7 +175,7 @@ public class _tryStmtTest extends TestCase {
         assertTrue( _ts.catches(IOException.class) );
         assertTrue( _ts.catches(Exception.class) );
         assertTrue( _ts.hasCatch(c-> c.isParameter(p-> p.isNamed("e")))); //has a catch clause with an e parameter
-        assertTrue( _ts.hasCatch(c-> c.isParameter(p-> p.isType(Exception.class)))); //has a catch clause with an Exception type parameter
+        assertTrue( _ts.hasCatch(c-> c.isParameter(p-> p.isTypeRef(Exception.class)))); //has a catch clause with an Exception type parameter
 
         assertNotNull(_ts.getCatch(IOException.class));
         assertNotNull(_ts.getCatch(URISyntaxException.class));

@@ -29,7 +29,7 @@ import org.jdraft.text.Text;
  */
 public final class _receiverParameter
         implements _java._multiPart<ReceiverParameter, _receiverParameter>,
-        _java._withNameType<ReceiverParameter, _receiverParameter>, _annos._withAnnos<_receiverParameter> {
+        _java._withNameTypeRef<ReceiverParameter, _receiverParameter>, _annos._withAnnos<_receiverParameter> {
 
     public static _receiverParameter of( String rp ) {
         return of( Ast.receiverParameter( rp ) );
@@ -84,12 +84,12 @@ public final class _receiverParameter
     }
 
     @Override
-    public _typeRef getType() {
+    public _typeRef getTypeRef() {
         return _typeRef.of( this.astReceiverParam.getType() );
     }
 
     @Override
-    public _receiverParameter setType(Type astType ) {
+    public _receiverParameter setTypeRef(Type astType ) {
         this.astReceiverParam.setType( astType );
         return this;
     }
@@ -135,7 +135,7 @@ public final class _receiverParameter
     public Map<_java.Component, Object> components( ) {
         Map<_java.Component, Object> parts = new HashMap<>();
         parts.put( _java.Component.ANNOS, getAnnos() );
-        parts.put( _java.Component.TYPE, getType() );
+        parts.put( _java.Component.TYPE, getTypeRef() );
         parts.put( _java.Component.NAME, getName() );
         return parts;
     }

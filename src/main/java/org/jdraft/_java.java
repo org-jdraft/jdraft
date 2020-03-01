@@ -135,10 +135,10 @@ public interface _java {
      * @param _j the _java entity to check
      * @param type the target type
      * @param matchFn matching lambda function
-     * @param <T> the match type
+     * @param <A> the match type
      * @return true if
      */
-    static <T> boolean hasAncestor(_domain _j, Class<T> type, Predicate<T> matchFn){
+    static <A> boolean hasAncestor(_domain _j, Class<A> type, Predicate<A> matchFn){
         return Walk.first(Node.TreeTraversal.PARENTS, _j, type, matchFn) != null;
     }
 
@@ -149,10 +149,10 @@ public interface _java {
      * @param _j the _java entity to check
      * @param type the target type
      * @param matchFn matching lambda function
-     * @param <T> the match type
+     * @param <D> the match type
      * @return
      */
-    static <T> boolean hasDescendant(_domain _j, Class<T> type, Predicate<T> matchFn) {
+    static <D> boolean hasDescendant(_domain _j, Class<D> type, Predicate<D> matchFn) {
         return Walk.first(Node.TreeTraversal.POSTORDER,_j, type, matchFn) != null;
     }
 
@@ -162,10 +162,10 @@ public interface _java {
      * @param _j the _java entity to check
      * @param type the target type
      * @param matchFn matching lambda function
-     * @param <T> the match type
+     * @param <C> the match type
      * @return
      */
-    static <T> boolean hasChild(_domain _j, Class<T> type, Predicate<T> matchFn) {
+    static <C> boolean hasChild(_domain _j, Class<C> type, Predicate<C> matchFn) {
         return Walk.first(Node.TreeTraversal.DIRECT_CHILDREN,_j, type, matchFn) != null;
     }
 
@@ -195,10 +195,10 @@ public interface _java {
      * @param is
      * @return
      */
-    static <T extends _type> T type(InputStream is) {
+    static <_T extends _type> _T type(InputStream is) {
         _codeUnit _c = _java.code(is);
         if (_c instanceof _type) {
-            return (T) _c;
+            return (_T) _c;
         }
         throw new _jdraftException("_code in inputStream " + is + " does not represent a _type");
     }
@@ -208,10 +208,10 @@ public interface _java {
      * @param path
      * @return
      */
-    static <T extends _type> T type(Path path) {
+    static <_T extends _type> _T type(Path path) {
         _codeUnit _c = _java.code(path);
         if (_c instanceof _type) {
-            return (T) _c;
+            return (_T) _c;
         }
         throw new _jdraftException("_code at " + path + " does not represent a _type");
     }
@@ -223,7 +223,7 @@ public interface _java {
      * @return the _type
      * {@link _class} {@link _enum} {@link _interface}, {@link _annotation}
      */
-    static <T extends _type> T type(String... code) {
+    static <_T extends _type> _T type(String... code) {
         return type(Ast.typeDecl(code));
     }
 
@@ -234,7 +234,7 @@ public interface _java {
      * @param astRoot the root AST node containing the top level TYPE
      * @return the _model _type
      */
-    static <T extends _type> T type(CompilationUnit astRoot) {
+    static <_T extends _type> _T type(CompilationUnit astRoot) {
         //if only 1 type, it's the top type
         if (astRoot.getTypes().size() == 1) {
             return type(astRoot, astRoot.getType(0));
@@ -288,7 +288,7 @@ public interface _java {
      * @param td
      * @return
      */
-    static <T extends _type> T type(TypeDeclaration td) {
+    static <_T extends _type> _T type(TypeDeclaration td) {
 
         /*** MED
         if (td.isTopLevelType()) {
@@ -298,14 +298,14 @@ public interface _java {
         if (td instanceof ClassOrInterfaceDeclaration) {
             ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration) td;
             if (coid.isInterface()) {
-                return (T)_interface.of(coid);
+                return (_T)_interface.of(coid);
             }
-            return (T)_class.of(coid);
+            return (_T)_class.of(coid);
         }
         if (td instanceof EnumDeclaration) {
-            return (T)_enum.of((EnumDeclaration) td);
+            return (_T)_enum.of((EnumDeclaration) td);
         }
-        return (T)_annotation.of((AnnotationDeclaration) td);
+        return (_T)_annotation.of((AnnotationDeclaration) td);
     }
 
     /**
@@ -317,18 +317,18 @@ public interface _java {
      * @return the appropriate _model _type (_class, _enum, _interface,
      * _annotation)
      */
-    static <T extends _type> T type(CompilationUnit astRoot, TypeDeclaration td) {
+    static <_T extends _type> _T type(CompilationUnit astRoot, TypeDeclaration td) {
         if (td instanceof ClassOrInterfaceDeclaration) {
             ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration) td;
             if (coid.isInterface()) {
-                return (T)_interface.of(coid);
+                return (_T)_interface.of(coid);
             }
-            return (T)_class.of(coid);
+            return (_T)_class.of(coid);
         }
         if (td instanceof EnumDeclaration) {
-            return (T)_enum.of((EnumDeclaration) td);
+            return (_T)_enum.of((EnumDeclaration) td);
         }
-        return (T)_annotation.of((AnnotationDeclaration) td);
+        return (_T)_annotation.of((AnnotationDeclaration) td);
     }
 
     /**
@@ -369,7 +369,7 @@ public interface _java {
      * @param clazz the class
      * @return
      */
-    static <T extends _type> T type(Class clazz) {
+    static <_T extends _type> _T type(Class clazz) {
         return type(clazz, _io.IN_DEFAULT);
     }
 
@@ -673,19 +673,6 @@ public interface _java {
         }
         throw new _jdraftException("cannot flatten a label :"+labelName+" from "+ _j.getClass());
     }
-
-    /**
-     * Breaking down a larger thing into constituent things
-     * often we need to look at properties (like name, modifiers)
-     * or sub components (like methods, fields) to understand a thing...
-     * Also decomposing things (for diffing, etc.) is useful in analysis
-     *
-     * @see _multiPart
-
-    interface _componentized{
-
-    }
-    */
 
     /**
      * A "concrete" way of identifying/addressing elements and properties that are the components
@@ -1108,7 +1095,7 @@ public interface _java {
         Class<_multiPart> NODE = _multiPart.class;
         Class<_declaredBodyPart> MEMBER = _declaredBodyPart.class;
         Class<_withName> NAMED = _withName.class;
-        Class<_withNameType> NAMED_TYPE = _withNameType.class;
+        Class<_withNameTypeRef> NAMED_TYPE = _withNameTypeRef.class;
 
         Class<_withThrows> HAS_THROWS = _withThrows.class;
         Class<_hasBody> HAS_BODY = _hasBody.class;
@@ -1321,7 +1308,7 @@ public interface _java {
     }
 
     /**
-     * A _domain entity that maps 1-to-1 to an Ast (Syntax) entity
+     * A _domain entity that maps 1-to-1 to an Ast (Syntax) entity in JavaParser
      *
      * @param <N> the Ast type
      * @param <_N> the _domain type
@@ -1443,10 +1430,10 @@ public interface _java {
      * @see _classExpression
      *
      * @param <N> the AST node type
-     * @param <_N> the _domain type
+     * @param <_UP> the _domain type
      * @see _multiPart for an ast node type that contains multiple walkable child entities
      */
-    interface _uniPart<N extends Node, _N extends _uniPart> extends _astNode<N, _N> { }
+    interface _uniPart<N extends Node, _UP extends _uniPart> extends _astNode<N, _UP> { }
 
     /**
      * {@link _multiPart} entity (having more than one possible child) that maps directly to an AST {@link Node}
@@ -1477,10 +1464,10 @@ public interface _java {
      * <LI>{@link _typeRef} {@link Type}</LI>
      * </UL>
      * @see _java for mappings
-     * @param <_N> the jdraft _node type {@link _method}, {@link _field}
+     * @param <_MP> the jdraft _node type {@link _method}, {@link _field}
      * @param <N> ast node {@link MethodDeclaration}, {@link FieldDeclaration}
      */
-    interface _multiPart<N extends Node, _N extends _multiPart> extends _astNode<N, _N> {
+    interface _multiPart<N extends Node, _MP extends _multiPart> extends _astNode<N, _MP> {
 
         /**
          * Decompose the entity into key-VALUE pairs where the key is the Component
@@ -1524,11 +1511,11 @@ public interface _java {
      *
      * @param <EL>
      * @param <_EL>
-     * @param <_NL>
+     * @param <_S>
      */
-    interface _set<EL extends Node, _EL extends _astNode, _NL extends _set> extends _domain{
+    interface _set<EL extends Node, _EL extends _astNode, _S extends _set> extends _domain{
 
-        _NL copy();
+        _S copy();
 
         default boolean isEmpty(){
             return size() == 0;
@@ -1633,43 +1620,43 @@ public interface _java {
             return !listAstElements( el-> el.equals(target)).isEmpty();
         }
 
-        default _NL add(EL... astElements) {
+        default _S add(EL... astElements) {
             for( EL el : astElements ) {
                 this.listAstElements().add(el);
             }
-            return (_NL)this;
+            return (_S)this;
         }
 
-        default _NL add(_EL... elements) {
+        default _S add(_EL... elements) {
             for( _EL el : elements ) {
                 this.listAstElements().add( (EL)el.ast());
             }
-            return (_NL)this;
+            return (_S)this;
         }
 
-        default _NL remove(_EL... _els) {
+        default _S remove(_EL... _els) {
             Arrays.stream( _els ).forEach(e -> this.listAstElements().remove( e.ast() ) );
-            return (_NL)this;
+            return (_S)this;
         }
 
-        default _NL remove(EL... els) {
+        default _S remove(EL... els) {
             Arrays.stream(els ).forEach( e -> this.listAstElements().remove( e ) );
-            return (_NL)this;
+            return (_S)this;
         }
 
-        default _NL remove(Predicate<_EL> _matchFn) {
+        default _S remove(Predicate<_EL> _matchFn) {
             this.list(_matchFn).stream().forEach( e-> remove(e) );
-            return (_NL)this;
+            return (_S)this;
         }
 
-        default _NL forEach(Predicate<_EL> matchFn, Consumer<_EL> consumer){
+        default _S forEach(Predicate<_EL> matchFn, Consumer<_EL> consumer){
             list(matchFn).forEach(consumer);
-            return (_NL)this;
+            return (_S)this;
         }
 
-        default _NL forEach(Consumer<_EL> consumer){
+        default _S forEach(Consumer<_EL> consumer){
             list().forEach(consumer);
-            return (_NL)this;
+            return (_S)this;
         }
     }
 
@@ -1723,15 +1710,15 @@ public interface _java {
      * {@link _methodCall}
      *
      * @author Eric
-     * @param <_N>
+     * @param <_WN>
      */
-    interface _withName<_N extends _withName> extends _domain {
+    interface _withName<_WN extends _withName> extends _domain {
 
         /**
          * @param name set the name on the entity and return the modified entity
          * @return the modified entity
          */
-        _N setName(String name);
+        _WN setName(String name);
 
         /**
          * gets the name of the entity
@@ -1765,22 +1752,22 @@ public interface _java {
      *     <LI>{@link _field}
      *     <LI>{@link _parameter}
      *     <LI>{@link _method}
-     *     <LI>{@link _entry}
+     *     <LI>{@link _annotation._entry}
      *     <LI>{@link _receiverParameter}
      *     <LI>{@link _variable}
      * </UL>
      * @param <_NT> the specialized entity that is a named TYPE
      */
-    interface _withNameType<N extends Node, _NT extends _withNameType> extends _withName<_NT>, _withType<N,_NT>  {
+    interface _withNameTypeRef<N extends Node, _NT extends _withNameTypeRef> extends _withName<_NT>, _withTypeRef<N,_NT> {
 
     }
 
-    interface _withType<N extends Node, _WT extends _astNode> extends _astNode<N, _WT> {
+    interface _withTypeRef<N extends Node, _WT extends _astNode> extends _astNode<N, _WT> {
 
         /**
          * @return they type
          */
-        default _typeRef getType(){
+        default _typeRef getTypeRef(){
             return _typeRef.of(((NodeWithType)ast()).getType());
         }
 
@@ -1789,7 +1776,7 @@ public interface _java {
          * @return the array element type
          */
         default _typeRef getElementType() {
-            return _typeRef.of(getType().ast().getElementType());
+            return _typeRef.of(getTypeRef().ast().getElementType());
         }
 
         /**
@@ -1797,13 +1784,13 @@ public interface _java {
          * @param t the _typeRef object
          * @return the modified entity after setting the TYPE
          */
-        default _WT setType(Type t){
+        default _WT setTypeRef(Type t){
             ((NodeWithType)ast()).setType(t);
             return (_WT)this;
         }
 
         default boolean isArrayType(){
-            return getType().isArrayType();
+            return getTypeRef().isArrayType();
         }
 
         /**
@@ -1811,8 +1798,8 @@ public interface _java {
          * @param _tr
          * @return
          */
-        default _WT setType(_typeRef _tr) {
-            return setType(_tr.ast());
+        default _WT setTypeRef(_typeRef _tr) {
+            return setTypeRef(_tr.ast());
         }
 
         /**
@@ -1820,8 +1807,8 @@ public interface _java {
          * @param typeRef the String representation of the TYPE
          * @return the modified entity after setting the TYPE
          */
-        default _WT setType(String typeRef) {
-            return setType(typeRef(typeRef));
+        default _WT setTypeRef(String typeRef) {
+            return setTypeRef(typeRef(typeRef));
         }
 
         /**
@@ -1829,8 +1816,8 @@ public interface _java {
          * @param clazz the class of the TYPE to set
          * @return the modified entity after setting the TYPE
          */
-        default _WT setType(Class clazz) {
-            return setType(typeRef(clazz.getCanonicalName()));
+        default _WT setTypeRef(Class clazz) {
+            return setTypeRef(typeRef(clazz.getCanonicalName()));
         }
 
         /**
@@ -1838,7 +1825,7 @@ public interface _java {
          * @return true if void
          */
         default boolean isVoid() {
-            return getType().ast().isVoidType();
+            return getTypeRef().ast().isVoidType();
         }
 
         /**
@@ -1846,8 +1833,8 @@ public interface _java {
          * @param type the _typeRef representation of the TYPE
          * @return true if the TYPE is the same
          */
-        default boolean isType(Type type) {
-            return Ast.typesEqual( getType().ast(), type);
+        default boolean isTypeRef(Type type) {
+            return Ast.typesEqual( getTypeRef().ast(), type);
         }
 
         /**
@@ -1855,8 +1842,8 @@ public interface _java {
          * @param type the _typeRef representation of the TYPE
          * @return true if the TYPE is the same
          */
-        default boolean isType(_typeRef type) {
-            return getType().equals(type);
+        default boolean isTypeRef(_typeRef type) {
+            return getTypeRef().equals(type);
         }
 
         /**
@@ -1864,9 +1851,9 @@ public interface _java {
          * @param clazz the Class representation of the TYPE
          * @return true if the TYPE is the same
          */
-        default boolean isType(Class clazz) {
+        default boolean isTypeRef(Class clazz) {
             try {
-                return isType(clazz.getCanonicalName()) || isType(clazz.getSimpleName());
+                return isTypeRef(clazz.getCanonicalName()) || isTypeRef(clazz.getSimpleName());
             } catch (Exception e) {
             }
             return false;
@@ -1877,8 +1864,8 @@ public interface _java {
          * @param typeMatchFn lambda matcher function
          * @return true if the type
          */
-        default boolean isType(Predicate<_typeRef> typeMatchFn) {
-            return typeMatchFn.test(getType());
+        default boolean isTypeRef(Predicate<_typeRef> typeMatchFn) {
+            return typeMatchFn.test(getTypeRef());
         }
 
         /**
@@ -1886,16 +1873,16 @@ public interface _java {
          * @param type the String representation of the TYPE
          * @return true if the TYPE is the same
          */
-        default boolean isType(String type) {
+        default boolean isTypeRef(String type) {
             try {
-                return isType(typeRef(type));
+                return isTypeRef(typeRef(type));
             } catch (Exception e) {
             }
             return false;
         }
     }
 
-    interface _withScope<N extends Node, _TA extends _astNode> extends _astNode<N, _TA> {
+    interface _withScope<N extends Node, _WS extends _astNode> extends _astNode<N, _WS> {
 
         default boolean hasScope(){
             return ((NodeWithOptionalScope)ast()).getScope().isPresent();
@@ -1922,27 +1909,27 @@ public interface _java {
             return _e == null;
         }
 
-        default _TA removeScope(){
+        default _WS removeScope(){
             ((NodeWithOptionalScope)ast()).removeScope();
-            return (_TA)this;
+            return (_WS)this;
         }
 
-        default _TA setScope( String scope ){
+        default _WS setScope(String scope ){
             ((NodeWithOptionalScope)ast()).setScope(Ex.of(scope));
-            return (_TA)this;
+            return (_WS)this;
         }
 
-        default _TA setScope( _expression _e){
+        default _WS setScope(_expression _e){
             ((NodeWithOptionalScope)ast()).setScope(_e.ast());
-            return (_TA)this;
+            return (_WS)this;
         }
 
-        default _TA setScope( Expression e){
+        default _WS setScope(Expression e){
             ((NodeWithOptionalScope)ast()).setScope(e);
-            return (_TA)this;
+            return (_WS)this;
         }
 
-        default _TA setScope(String... scope){
+        default _WS setScope(String... scope){
             return setScope( Ex.of(scope));
         }
 

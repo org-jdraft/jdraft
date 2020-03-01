@@ -18,7 +18,7 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _parameter
-    implements _java._withNameType<Parameter, _parameter>, _annos._withAnnos<_parameter>,
+    implements _java._withNameTypeRef<Parameter, _parameter>, _annos._withAnnos<_parameter>,
         _modifiers._withFinal<_parameter>, _java._multiPart<Parameter, _parameter> {
 
     /**
@@ -85,12 +85,12 @@ public final class _parameter
     }
 
     @Override
-    public _typeRef getType() {
+    public _typeRef getTypeRef() {
         return _typeRef.of( this.astParameter.getType() );
     }
 
     @Override
-    public _parameter setType(Type _tr ) {
+    public _parameter setTypeRef(Type _tr ) {
         this.astParameter.setType( _tr );
         return this;
     }
@@ -115,12 +115,12 @@ public final class _parameter
     }
 
     @Override
-    public boolean isType( String type ) {
+    public boolean isTypeRef(String type ) {
         return Ast.typesEqual(this.astParameter.getType(), Ast.typeRef( type ));
     }
 
     @Override
-    public boolean isType( Type type ) {
+    public boolean isTypeRef(Type type ) {
         return Ast.typesEqual(this.astParameter.getType(), type);
     }
 
@@ -243,7 +243,7 @@ public final class _parameter
         Map<_java.Component, Object> parts = new HashMap<>();
         parts.put( _java.Component.FINAL, isFinal() );
         parts.put( _java.Component.ANNOS, getAnnos() );
-        parts.put( _java.Component.TYPE, getType() );
+        parts.put( _java.Component.TYPE, getTypeRef() );
         parts.put( _java.Component.NAME, getName() );
         parts.put( _java.Component.VAR_ARG, isVarArg() );
         return parts;

@@ -33,8 +33,8 @@ public class _setFluentTest extends TestCase {
         _class _c = _class.of(G.class);
         System.out.println( _c );
         assertTrue( _c.listAnnos(_setFluent.class).isEmpty());
-        assertTrue( _c.getMethod("setA").isType(G.class));
-        assertTrue( _c.getMethod("setA").getParameter(0).isType(int.class));
+        assertTrue( _c.getMethod("setA").isTypeRef(G.class));
+        assertTrue( _c.getMethod("setA").getParameter(0).isTypeRef(int.class));
     }
 
     public void testSetMulti(){
@@ -47,12 +47,12 @@ public class _setFluentTest extends TestCase {
 
         _class _c = _class.of(G.class);
         assertTrue( _c.listAnnos(_setFluent.class).isEmpty());
-        assertTrue( _c.getMethod("setA").isType(G.class));
-        assertTrue( _c.getMethod("setA").getParameter(0).isType(int.class));
-        assertTrue( _c.getMethod("setB").isType(G.class));
-        assertTrue( _c.getMethod("setB").getParameter(0).isType(int.class));
-        assertTrue( _c.getMethod("setC").isType(G.class));
-        assertTrue( _c.getMethod("setC").getParameter(0).isType(int.class));
+        assertTrue( _c.getMethod("setA").isTypeRef(G.class));
+        assertTrue( _c.getMethod("setA").getParameter(0).isTypeRef(int.class));
+        assertTrue( _c.getMethod("setB").isTypeRef(G.class));
+        assertTrue( _c.getMethod("setB").getParameter(0).isTypeRef(int.class));
+        assertTrue( _c.getMethod("setC").isTypeRef(G.class));
+        assertTrue( _c.getMethod("setC").getParameter(0).isTypeRef(int.class));
         assertNull( _c.getMethod("setName")); //make sure there is no setName method (final field)
     }
 

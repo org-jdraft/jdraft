@@ -23,6 +23,6 @@ public class _getTest extends TestCase {
         }
         _class _c = _class.of( DD.class);
         assertFalse( _c.hasAnno(_get.class)); //verify we removed the annotation
-        assertTrue( _c.getMethod("getX").isType(int.class));
+        assertTrue( _c.getMethod("getX").isTypeRef(int.class));
     }
 }

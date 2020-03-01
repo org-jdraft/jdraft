@@ -53,7 +53,7 @@ public @interface _setFluent {
             _fs = _fs.stream().filter(SET_REQUIRED ).collect(Collectors.toList());
             _fs.forEach(f ->
                     typeDeclaration.addMember(
-                            $SET_FLUENT.draft("className", typeDeclaration.getNameAsString(), "name", f.getName(), "type", f.getType()).ast()));
+                            $SET_FLUENT.draft("className", typeDeclaration.getNameAsString(), "name", f.getName(), "type", f.getTypeRef()).ast()));
             return typeDeclaration;
         }
 

@@ -81,7 +81,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
             $inst.annos = $annos.none();
         }
         $inst.modifiers = $modifiers.as(_f);
-        $inst.type = $typeRef.as(_f.getType());
+        $inst.type = $typeRef.as(_f.getTypeRef());
         $inst.name = $name.as( _f.getName() );
         if( _f.hasInit() ){
             $inst.init = $ex.of(_f.getInit() );
@@ -176,7 +176,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
             $inst.modifiers = $modifiers.of();
         }
 
-        $inst.type = $typeRef.of(_f.getType());
+        $inst.type = $typeRef.of(_f.getTypeRef());
         $inst.name = $name.of( _f.getName() );
         if( _f.hasInit() ){
             $inst.init = $ex.of(_f.getInit() );
@@ -282,7 +282,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
             }
             else if( parts[i] instanceof $typeRef){
                 final $typeRef $ft = (($typeRef)parts[i]);
-                Predicate<_field> pf = f-> $ft.matches(f.getType());
+                Predicate<_field> pf = f-> $ft.matches(f.getTypeRef());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $name){
@@ -948,7 +948,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
                 all = javadoc.parseTo(null, all);
             }            
             all = annos.parseTo(_f.getAnnos(), all);
-            all = type.parseTo(_f.getType(), all);
+            all = type.parseTo(_f.getTypeRef(), all);
             all = name.parseTo(_f.getName(), all);
             if( init == null ){
                 //if we dont care what the init is or is not
@@ -1329,19 +1329,19 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
         }
         
         public boolean isType( Class expectedType){
-            return _f.isType(expectedType);
+            return _f.isTypeRef(expectedType);
         }
         
         public boolean isType( String expectedType){
-            return _f.isType(expectedType);
+            return _f.isTypeRef(expectedType);
         }
         
         public boolean isType( _typeRef expectedType){
-            return _f.isType(expectedType);
+            return _f.isTypeRef(expectedType);
         }
         
         public boolean isType( Type expectedType){
-            return _f.isType(expectedType);
+            return _f.isTypeRef(expectedType);
         }
         
         @Override

@@ -181,12 +181,12 @@ public class _inspectTest extends TestCase {
         assertTrue(dt.firstAt(JAVADOC) instanceof _change );
         
         _f1.setJavadoc("A javadoc");
-        _f1.setType(float.class);
+        _f1.setTypeRef(float.class);
         _f1.setInit(1.0f);
         dt = _diff.of(_c1, _c2);
         assertTrue(dt.firstAt(TYPE) instanceof _change );
         
-        _f2.setType(float.class);
+        _f2.setTypeRef(float.class);
         _f2.setInit(1.0f);
         _f2.setName("b");
         dt = _diff.of(_c1, _c2);

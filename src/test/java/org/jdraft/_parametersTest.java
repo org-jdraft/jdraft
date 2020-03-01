@@ -2,7 +2,6 @@ package org.jdraft;
 
 import junit.framework.TestCase;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +43,7 @@ public class _parametersTest extends TestCase {
 
     public void testRemove(){
         _parameters _ps = _parameters.of( "int a", "String name", "Map m");
-        _ps.remove( p-> p.isType(int.class));
+        _ps.remove( p-> p.isTypeRef(int.class));
 
         System.out.println( _ps );
     }
@@ -126,7 +125,7 @@ public class _parametersTest extends TestCase {
 
     public void testConstruct() {
         _parameter _pa = _parameter.of( "String NAME" );
-        assertEquals( "String", _pa.getType().toString() );
+        assertEquals( "String", _pa.getTypeRef().toString() );
         assertEquals( "NAME", _pa.getName().toString() );
 
         //_p = _param.of( String.class, "NAME" );
@@ -134,13 +133,13 @@ public class _parametersTest extends TestCase {
         //assertEquals( "NAME", _param.getName() );
         _pa = _parameter.of( "@ann String NAME" );
         assertEquals( "@ann", _pa.getAnnos().toString().trim() );
-        assertEquals( "String", _pa.getType().toString() );
+        assertEquals( "String", _pa.getTypeRef().toString() );
         assertEquals( "NAME", _pa.getName().toString() );
 
         _pa = _parameter.of( "@ann1 @ann2 String NAME" );
         assertEquals( "@ann1", _pa.getAnnos().get( 0 ).toString() );
         assertEquals( "@ann2", _pa.getAnnos().get( 1 ).toString() );
-        assertEquals( "String", _pa.getType().toString() );
+        assertEquals( "String", _pa.getTypeRef().toString() );
         assertEquals( "NAME", _pa.getName().toString() );
 
         /*
@@ -158,14 +157,14 @@ public class _parametersTest extends TestCase {
         _pa = _parameter.of( "final String NAME" );
         assertEquals( "", _pa.getAnnos().toString() );
         assertEquals( true, _pa.isFinal() );
-        assertEquals( "String", _pa.getType().toString() );
+        assertEquals( "String", _pa.getTypeRef().toString() );
         assertEquals( "NAME", _pa.getName().toString() );
 
         _pa = _parameter.of( "final String... NAME" );
         assertEquals( "", _pa.getAnnos().toString() );
         assertEquals( true, _pa.isFinal() );
         assertEquals( true, _pa.isVarArg() );
-        assertEquals( "String", _pa.getType().toString() );
+        assertEquals( "String", _pa.getTypeRef().toString() );
         assertEquals( "NAME", _pa.getName().toString() );
 
         _pa = _parameter.of( "@ann1 @ann2 final Map<Integer,String>... countToName" );
@@ -173,7 +172,7 @@ public class _parametersTest extends TestCase {
         assertEquals( "@ann2", _pa.getAnnos().get( 1 ).toString() );
         assertEquals( true, _pa.isFinal() );
         assertEquals( true, _pa.isVarArg() );
-        assertEquals( "Map<Integer, String>", _pa.getType().toString() );
+        assertEquals( "Map<Integer, String>", _pa.getTypeRef().toString() );
         assertTrue( _pa.isVarArg() );
         assertEquals( "countToName", _pa.getName().toString() );
 
@@ -189,7 +188,7 @@ public class _parametersTest extends TestCase {
         assertNotNull( _ps.get( 0 ).getAnnos().get("ann"));
         assertTrue( _ps.get( 0 ).isFinal() );
         assertEquals(
-                _ps.get(0).getType(),
+                _ps.get(0).getTypeRef(),
                 _typeRef.of("Map<? extends Integer, String>" ) );
         assertFalse( _ps.get(0).isVarArg() );
         assertTrue( _ps.get(1).isVarArg() );

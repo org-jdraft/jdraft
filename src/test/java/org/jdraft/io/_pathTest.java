@@ -38,7 +38,7 @@ public class _pathTest extends TestCase {
         //look through
         List<_class>_c2 = _b.for_code(_class.class, c-> c.isInPackage("aaaa"), c-> c.addMethod("public int ff(){ return 123; }"));
         assertEquals(1, _c2.size());
-        assertTrue( _c2.get(0).getMethod("ff").isType(int.class));
+        assertTrue( _c2.get(0).getMethod("ff").isTypeRef(int.class));
     }
 
 

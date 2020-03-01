@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 public final class _field
         implements _javadoc._withJavadoc<_field>, _annos._withAnnos<_field>, _modifiers._withModifiers<_field>, //_modifiers._hasModifiers<_field>,
         _modifiers._withFinal<_field>, _modifiers._withStatic<_field>, _modifiers._withTransient<_field>, _modifiers._withVolatile<_field>,
-        _java._withNameType<VariableDeclarator, _field>, _java._declaredBodyPart<VariableDeclarator, _field> {
+        _java._withNameTypeRef<VariableDeclarator, _field>, _java._declaredBodyPart<VariableDeclarator, _field> {
 
     private final VariableDeclarator astVar;
 
@@ -318,7 +318,7 @@ public final class _field
             sb.append(mods);
             sb.append(" ");
         }
-        sb.append(this.getType());
+        sb.append(this.getTypeRef());
         sb.append(" ");
         sb.append(this.getName());
         if (this.hasInit()) {
@@ -336,13 +336,13 @@ public final class _field
     }
 
     @Override
-    public _field setType(Type t) {
+    public _field setTypeRef(Type t) {
         this.astVar.setType(t);
         return this;
     }
 
     @Override
-    public _typeRef getType() {
+    public _typeRef getTypeRef() {
         return _typeRef.of(astVar.getType());
     }
 
@@ -403,7 +403,7 @@ public final class _field
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> parts = new HashMap<>();
         parts.put(_java.Component.NAME, getName());
-        parts.put(_java.Component.TYPE, getType());
+        parts.put(_java.Component.TYPE, getTypeRef());
         parts.put(_java.Component.MODIFIERS, getModifiers());
         parts.put(_java.Component.JAVADOC, getJavadoc());
         parts.put(_java.Component.ANNOS, getAnnos());

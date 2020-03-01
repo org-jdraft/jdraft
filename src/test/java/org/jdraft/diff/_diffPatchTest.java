@@ -329,7 +329,7 @@ public class _diffPatchTest
         _c.getField("aFieldIAdded").removeInit();
         _c2.getField("aFieldIAdded").removeInit();
         
-        _c.getField("aFieldIAdded").setType(float.class);
+        _c.getField("aFieldIAdded").setTypeRef(float.class);
         dl = _diff.of(_c, _c2);
         System.out.println( dl);
         assertEquals( dl.at(FIELD, "aFieldIAdded", TYPE).asChange().left(), _typeRef.of(float.class));

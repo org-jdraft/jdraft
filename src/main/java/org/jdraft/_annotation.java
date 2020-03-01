@@ -634,7 +634,7 @@ public final class _annotation
      * (it is also a _member) and maps to an AnnotationMemberDeclaration
      */
     public static class _entry implements _javadoc._withJavadoc<_entry>,
-            _annos._withAnnos<_entry>, _java._withNameType<AnnotationMemberDeclaration,_entry>,
+            _annos._withAnnos<_entry>, _java._withNameTypeRef<AnnotationMemberDeclaration,_entry>,
             _java._declaredBodyPart<AnnotationMemberDeclaration, _entry> {
 
         public static _entry of(AnnotationMemberDeclaration astEntry){
@@ -693,7 +693,7 @@ public final class _annotation
         }
         
         @Override
-        public _entry setType(Type t){
+        public _entry setTypeRef(Type t){
             this.astAnnMember.setType( t );
             return this;
         }
@@ -716,7 +716,7 @@ public final class _annotation
         }
 
         @Override
-        public _typeRef getType(){
+        public _typeRef getTypeRef(){
             return _typeRef.of(this.astAnnMember.getType());
         }
 
@@ -829,7 +829,7 @@ public final class _annotation
             parts.put( _java.Component.ANNOS, this.listAnnos() );
             parts.put( _java.Component.JAVADOC, this.getJavadoc() );
             parts.put( _java.Component.NAME, this.getName() );
-            parts.put( _java.Component.TYPE, this.getType() );
+            parts.put( _java.Component.TYPE, this.getTypeRef() );
             parts.put( _java.Component.DEFAULT, this.getDefaultValue() );
             return parts;
         }

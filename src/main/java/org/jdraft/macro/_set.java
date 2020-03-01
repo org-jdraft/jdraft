@@ -46,7 +46,7 @@ public @interface _set {
 
             _fs.forEach(f ->
                     typeDeclaration.addMember(
-                            $SET.draft("name", f.getName(), "type", f.getType()).ast()));
+                            $SET.draft("name", f.getName(), "type", f.getTypeRef()).ast()));
             return typeDeclaration;
         }
 

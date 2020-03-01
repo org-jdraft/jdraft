@@ -1,13 +1,10 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.CastExpr;
-import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
-import com.github.javaparser.ast.type.Type;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -23,7 +20,7 @@ import java.util.function.Function;
  *
  */
 public class _cast implements _expression<CastExpr, _cast>, _java._multiPart<CastExpr, _cast>,
-        _java._withType<CastExpr, _cast>, _java._withExpression<CastExpr, _cast> {
+        _java._withTypeRef<CastExpr, _cast>, _java._withExpression<CastExpr, _cast> {
 
     public static _cast of(){
         return new _cast( new CastExpr());

@@ -31,7 +31,7 @@ public class _autoConstructorTest extends TestCase {
 
     public void testCtorSingleArg(){
         _class _c = _class.of(S.class);
-        assertTrue( _c.getConstructor(0).getParameter(0).isType(int.class));
+        assertTrue( _c.getConstructor(0).getParameter(0).isTypeRef(int.class));
     }
 
     @_autoConstructor

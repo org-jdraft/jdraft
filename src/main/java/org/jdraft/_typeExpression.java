@@ -5,7 +5,7 @@ import com.github.javaparser.ast.expr.TypeExpr;
 public class _typeExpression
         implements _expression<TypeExpr, _typeExpression>,
         _java._uniPart<TypeExpr, _typeExpression>,
-        _java._withType<TypeExpr, _typeExpression> {
+        _java._withTypeRef<TypeExpr, _typeExpression> {
 
     public static _typeExpression of(){
         return new _typeExpression( new TypeExpr());
@@ -53,7 +53,7 @@ public class _typeExpression
      * Returns a list of Type arguments if there are any or an empty list if there are none
      * @return
      */
-    public _typeRef getType(){
+    public _typeRef getTypeRef(){
         return _typeRef.of(this.te.getType());
     }
 

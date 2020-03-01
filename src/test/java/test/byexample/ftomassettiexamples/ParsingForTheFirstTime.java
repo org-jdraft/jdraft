@@ -1,6 +1,5 @@
 package test.byexample.ftomassettiexamples;
 
-import com.github.javaparser.ast.CompilationUnit;
 import org.jdraft.*;
 
 import java.util.stream.Collectors;
@@ -26,7 +25,7 @@ public class ParsingForTheFirstTime {
         System.out.println(String.format("Method declaration: modifiers=%s, name=%s, parameters=%s, returnType=%s",
                 _m.getModifiers(), _m.getName(),
                 _m.getParameters().list().stream().map(p -> p.getName()).collect(Collectors.toList()),
-                _m.getType()));
+                _m.getTypeRef()));
 
         System.out.println(String.format("Class declaration: name=%s, nMembers=%s",
                 _c.getName(), _c.listMembers().size()));

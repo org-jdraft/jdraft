@@ -447,7 +447,7 @@ public class SmethodTest extends TestCase {
         System.out.println( strs );
         assertNotNull( $setFleunt.select(strs) );
         
-        System.out.println( "METHOD TYPE " + _c.getMethod("setX").getType() );
+        System.out.println( "METHOD TYPE " + _c.getMethod("setX").getTypeRef() );
         
         assertNotNull( $setFleunt.select(_c.getMethod("setX") ) );
         assertNotNull( $setFleunt.firstIn(_c));

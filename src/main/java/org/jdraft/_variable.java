@@ -1,6 +1,5 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
@@ -8,7 +7,7 @@ import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import java.util.Objects;
 
 public class _variable implements _java._astNode<VariableDeclarator, _variable>,
-        _java._withNameType<VariableDeclarator, _variable> {
+        _java._withNameTypeRef<VariableDeclarator, _variable> {
 
     public static _variable of( String...var){
         return new _variable( Ast.varDecl(var) );
@@ -24,7 +23,7 @@ public class _variable implements _java._astNode<VariableDeclarator, _variable>,
         this.vd = vd;
     }
 
-    public _typeRef getType(){
+    public _typeRef getTypeRef(){
         return _typeRef.of(this.vd.getType());
     }
 

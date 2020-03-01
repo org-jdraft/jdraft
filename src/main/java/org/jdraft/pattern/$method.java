@@ -211,7 +211,7 @@ public class $method
             $m.annos = $annos.none();
         }
         $m.modifiers = $modifiers.as(_m );
-        $m.type = $typeRef.as(_m.getType());
+        $m.type = $typeRef.as(_m.getTypeRef());
         if( !_m.hasTypeParameters() ){
             final _typeParameters etps = _m.getTypeParameters();
             $m.typeParameters = $typeParameters.as(etps);
@@ -373,7 +373,7 @@ public class $method
             annos = $annos.of(_m.getAnnos() );
         }
         modifiers = $modifiers.of(_m);
-        type = $typeRef.of(_m.getType() );
+        type = $typeRef.of(_m.getTypeRef() );
         if( !_m.hasTypeParameters() ){
             final _typeParameters etps = _m.getTypeParameters();
             typeParameters = $typeParameters.of( etps );           
@@ -480,7 +480,7 @@ public class $method
             }
             else if( parts[i] instanceof $typeRef){
                 final $typeRef $ft = (($typeRef)parts[i]);
-                Predicate<_method> pf = f-> $ft.matches(f.getType());
+                Predicate<_method> pf = f-> $ft.matches(f.getTypeRef());
                 $and( pf );
             }
             else if( parts[i] instanceof $name){
@@ -576,7 +576,7 @@ public class $method
             }
             else if( parts[i] instanceof $typeRef){
                 final $typeRef $ft = (($typeRef)parts[i]);
-                Predicate<_method> pf = f-> $ft.matches(f.getType());
+                Predicate<_method> pf = f-> $ft.matches(f.getTypeRef());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $name){
@@ -1040,7 +1040,7 @@ public class $method
         }
         all = annos.parseTo(_m.getAnnos(), all);
         all = typeParameters.parseTo(_m.getTypeParameters(), all);
-        all = type.parseTo(_m.getType(), all);
+        all = type.parseTo(_m.getTypeRef(), all);
         all = name.parseTo(_m.getName(), all);
         all = parameters.parseTo(_m.getParameters(), all);
         all = thrown.parseTo(_m.getThrows(), all);
@@ -1607,19 +1607,19 @@ public class $method
         }
         
         public boolean isType( Class type ){
-            return _m.isType(type);
+            return _m.isTypeRef(type);
         }
         
         public boolean isType( String type ){
-            return _m.isType(type);
+            return _m.isTypeRef(type);
         }
         
         public boolean isType( Type type ){
-            return _m.isType(type);
+            return _m.isTypeRef(type);
         }
         
         public boolean isType( _typeRef _tr ){
-            return _m.isType(_tr);
+            return _m.isTypeRef(_tr);
         }
         
         public boolean isVarArg(){

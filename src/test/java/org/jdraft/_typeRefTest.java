@@ -190,7 +190,7 @@ public class _typeRefTest extends TestCase {
       _typeParameters _args = _c.getMethod( "intersection" ).getTypeParameters();
       //Type t = mds.getAt( 0 ).getType();
       //System.out.println( _typeParams );
-      _typeRef wc = _c.getMethod("wildcard").getType();
+      _typeRef wc = _c.getMethod("wildcard").getTypeRef();
       //assertTrue( wc.is( "List<? extends GenericTypes>") );
       //NodeList<Type> args = wc.getTypeArgs();
       //assertEquals( "List", wc.getRootTypeName() );

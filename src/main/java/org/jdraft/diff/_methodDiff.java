@@ -20,7 +20,7 @@ public class _methodDiff implements _differ<_method, _java._multiPart> {
 
         _javadocDiff.INSTANCE.diff(p, dt, left, right, left.getJavadoc(), right.getJavadoc());
         _annosDiff.INSTANCE.diff(p, dt, left, right, left.getAnnos(), right.getAnnos());
-        _typeRefDiff.INSTANCE.diff(p, dt, left, right, left.getType(), right.getType());
+        _typeRefDiff.INSTANCE.diff(p, dt, left, right, left.getTypeRef(), right.getTypeRef());
         _modifiersDiff.INSTANCE.diff(p, dt, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());
         _namedDiff.INSTANCE.diff(p, dt, left, right, left.getName(), right.getName());
         _typeParametersDiff.INSTANCE.diff(p, dt, left, right, left.getTypeParameters(), right.getTypeParameters());

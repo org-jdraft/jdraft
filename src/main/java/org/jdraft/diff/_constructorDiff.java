@@ -23,7 +23,7 @@ public class _constructorDiff implements _differ<_constructor, _java._multiPart>
             if (i > 0) {
                 sb.append(", ");
             }
-            sb.append(_pts.get(i).getType());
+            sb.append(_pts.get(i).getTypeRef());
             if (_pts.get(i).isVarArg()) {
                 sb.append("...");
             }

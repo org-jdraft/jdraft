@@ -1,6 +1,5 @@
 package org.jdraft;
 
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.expr.BinaryExpr;
 import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.comments.JavadocComment;
@@ -182,7 +181,7 @@ public class StmtTest extends TestCase {
 
         //what about a list of
         Predicate<_field> pf = (f)-> f.isPublic();
-        Predicate<_field> ff = (f)-> f.isType(int.class);
+        Predicate<_field> ff = (f)-> f.isTypeRef(int.class);
     }
 
     public void testAllStmtsLambdaWithComments() {

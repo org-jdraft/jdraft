@@ -26,7 +26,7 @@ public class _fieldDiff implements _differ<_field, _java._multiPart> {
         _nodePath p = path.in(Component.FIELD, left != null ? left.getName() : right.getName());
 
         _namedDiff.INSTANCE.diff(p, dt, left, right, left.getName(), right.getName());
-        _typeRefDiff.INSTANCE.diff(p, dt, left, right, left.getType(), right.getType());
+        _typeRefDiff.INSTANCE.diff(p, dt, left, right, left.getTypeRef(), right.getTypeRef());
         _modifiersDiff.INSTANCE.diff(p, dt, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());
         _javadocDiff.INSTANCE.diff(p, dt, left, right, left.getJavadoc(), right.getJavadoc());
         _annosDiff.INSTANCE.diff(p, dt, left, right, left.getAnnos(), right.getAnnos());

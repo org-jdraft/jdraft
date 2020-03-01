@@ -260,8 +260,8 @@ public class _tryStmt implements _statement._controlFlow._branching<TryStmt, _tr
 
 
     public boolean hasWithResourceType( Class clazz ){
-        return hasWithResources(_new.class, _n-> _n.isType(clazz))
-                || hasWithResources(_localVariables.class, _v->_v.listVariables(v-> v.isType(clazz)).size() > 0 );
+        return hasWithResources(_new.class, _n-> _n.isTypeRef(clazz))
+                || hasWithResources(_localVariables.class, _v->_v.listVariables(v-> v.isTypeRef(clazz)).size() > 0 );
     }
 
     public <_E extends _expression> boolean hasWithResources(Class<_E> exprClass, Predicate<_E> matchFn){
@@ -351,9 +351,9 @@ public class _tryStmt implements _statement._controlFlow._branching<TryStmt, _tr
 
     public _catch getCatch( Type astType ){
         Optional<_catch> _oc = listCatches().stream().filter( _c->
-            _c.getParameter().isType(astType)
-            ||  _c.getParameter().getType().isUnionType() &&
-                    _c.getParameter().getType().ast().asUnionType().getElements().stream().anyMatch( rt-> Ast.typesEqual(rt, astType))
+            _c.getParameter().isTypeRef(astType)
+            ||  _c.getParameter().getTypeRef().isUnionType() &&
+                    _c.getParameter().getTypeRef().ast().asUnionType().getElements().stream().anyMatch(rt-> Ast.typesEqual(rt, astType))
         ).findFirst();
         if( _oc.isPresent() ){
             return _oc.get();
@@ -373,9 +373,9 @@ public class _tryStmt implements _statement._controlFlow._branching<TryStmt, _tr
         com.github.javaparser.ast.type.ReferenceType astType2 = Ast.typeRef(type.getSimpleName()).asReferenceType();
 
         //_c-> _c.getParameter().isType(IOException.class)).findFirst().get()
-        Optional<_catch> _oc = listCatches().stream().filter( _c-> _c.getParameter().isType(type)
-                || _c.getParameter().getType().isUnionType() && _c.getParameter().getType().ast().asUnionType().getElements().contains(astType)
-                || _c.getParameter().getType().isUnionType() && _c.getParameter().getType().ast().asUnionType().getElements().contains(astType2))
+        Optional<_catch> _oc = listCatches().stream().filter( _c-> _c.getParameter().isTypeRef(type)
+                || _c.getParameter().getTypeRef().isUnionType() && _c.getParameter().getTypeRef().ast().asUnionType().getElements().contains(astType)
+                || _c.getParameter().getTypeRef().isUnionType() && _c.getParameter().getTypeRef().ast().asUnionType().getElements().contains(astType2))
                 .findFirst();
         if( _oc.isPresent() ){
             return _oc.get();

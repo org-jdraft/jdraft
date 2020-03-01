@@ -83,23 +83,23 @@ public @interface _hashCode {
          public static $stmt $simplePrimitive = $stmt.of("hash = hash * prime + $name$;");
 
          public static Statement constructStmt(_field _f){
-             if( _f.getType().isArrayType() ){
-                 if( _f.getType().getElementType().isPrimitiveType()){
+             if( _f.getTypeRef().isArrayType() ){
+                 if( _f.getTypeRef().getElementType().isPrimitiveType()){
                      return $arrayOfPrimitives.draft(_f).ast();
                  }
                  return $arrayOfObject.draft(_f).ast();
              }
-             if( _f.getType().isPrimitive()){
-                 if( _f.isType(boolean.class)){
+             if( _f.getTypeRef().isPrimitive()){
+                 if( _f.isTypeRef(boolean.class)){
                      return $boolean.draft(_f).ast();
                  }
-                 if( _f.isType(double.class)){
+                 if( _f.isTypeRef(double.class)){
                      return $double.draft(_f).ast();
                  }
-                 if( _f.isType(float.class)){
+                 if( _f.isTypeRef(float.class)){
                      return $float.draft(_f).ast();
                  }
-                 if( _f.isType(long.class)){
+                 if( _f.isTypeRef(long.class)){
                      return $long.draft(_f).ast();
                  }
                  return $simplePrimitive.draft(_f).ast();

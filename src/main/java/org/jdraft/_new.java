@@ -3,7 +3,6 @@ package org.jdraft;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
 import java.util.*;
 import java.util.function.*;
@@ -14,7 +13,7 @@ import java.util.stream.Collectors;
  */
 public class _new implements _expression<ObjectCreationExpr, _new>,
         _java._multiPart<ObjectCreationExpr, _new>,
-        _java._withType<ObjectCreationExpr, _new>,
+        _java._withTypeRef<ObjectCreationExpr, _new>,
         _java._withScope<ObjectCreationExpr, _new>,
         _java._withArguments<ObjectCreationExpr, _new>,
         _java._withTypeArguments<ObjectCreationExpr, _new> {

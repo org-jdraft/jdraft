@@ -15,8 +15,8 @@ public class macroTest extends TestCase {
         _class _c = _class.of("aaaa.B", new Object(){
             int x, y;
         });
-        assertTrue(_c.getField("x").isType(int.class));
-        assertTrue(_c.getField("y").isType(int.class));
+        assertTrue(_c.getField("x").isTypeRef(int.class));
+        assertTrue(_c.getField("y").isTypeRef(int.class));
     }
 
     /* Style 1: Roll your own Field Consumer Lambda on the Annotation */

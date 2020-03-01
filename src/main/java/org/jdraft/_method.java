@@ -30,7 +30,7 @@ import org.jdraft.text.Text;
  */
 public final class _method
         implements _javadoc._withJavadoc<_method>, _annos._withAnnos<_method>,
-        _java._withNameType<MethodDeclaration, _method>, _body._hasBody<_method>, _throws._withThrows<_method>,
+        _java._withNameTypeRef<MethodDeclaration, _method>, _body._hasBody<_method>, _throws._withThrows<_method>,
         _modifiers._withModifiers<_method>, _parameter._hasParameters<_method>,
         _typeParameters._withTypeParameters<_method>, _receiverParameter._withReceiverParameter<_method>,
         _modifiers._withStatic<_method>, _modifiers._withNative<_method>, _modifiers._withFinal<_method>,
@@ -233,7 +233,7 @@ public final class _method
      */
     public static final Predicate<_method> IS_MAIN = m-> 
         m.isPublic() && m.isStatic() && m.getName().equals("main") && m.isVoid()
-        && m.getParameters().size() == 1 && m.getParameter(0).isType(String[].class);
+        && m.getParameters().size() == 1 && m.getParameter(0).isTypeRef(String[].class);
 
     @Override
     public boolean equals(Object obj) {
@@ -291,7 +291,7 @@ public final class _method
         ANNOS(2,"annos", (_method a)-> a.getAnnos() ),
         MODIFIERS(3,"modifiers", (_method a)-> a.getEffectiveModifiers()),
         TYPE_PARAMETERS(4,"typeParameters", (_method a)-> a.getTypeParameters()),
-        TYPE(5,"type", (_method a)-> a.getType()),
+        TYPE(5,"type", (_method a)-> a.getTypeRef()),
         NAME(6, "name", (_method a)-> a.getName()),
         RECEIVER_PARAMETER(7, "receiverParameter", (_method a)-> a.getReceiverParameter()),
         PARAMETERS(8, "parameters", (_method a)-> a.getParameters()),
@@ -322,7 +322,7 @@ public final class _method
         Map<_java.Component, Object> parts = new HashMap<>();
         parts.put(_java.Component.ANNOS, getAnnos());
         parts.put(_java.Component.BODY, getBody());
-        parts.put(_java.Component.TYPE, getType());
+        parts.put(_java.Component.TYPE, getTypeRef());
         parts.put(_java.Component.PARAMETERS, getParameters());
         parts.put(_java.Component.MODIFIERS, getEffectiveModifiers());
         parts.put(_java.Component.JAVADOC, getJavadoc());
@@ -356,13 +356,13 @@ public final class _method
     }
     
     @Override
-    public _method setType(Type type) {
+    public _method setTypeRef(Type type) {
         this.astMethod.setType(type);
         return this;
     }
 
     @Override
-    public _typeRef getType() {
+    public _typeRef getTypeRef() {
         return _typeRef.of(this.astMethod.getType());
     }
 
@@ -394,10 +394,10 @@ public final class _method
         }
         for (int i = 0; i < genericParameterTypes.length; i++) {
             _typeRef _t = _typeRef.of(genericParameterTypes[i]);
-            if (!pl.get(i).isType(_t)) {
+            if (!pl.get(i).isTypeRef(_t)) {
                 if (m.isVarArgs()
                     && //if last parameter and varargs
-                    Ast.typesEqual(pl.get(i).getType().getElementType(),
+                    Ast.typesEqual(pl.get(i).getTypeRef().getElementType(),
                         _t.getElementType())) {
                 } else {
                     return false;
@@ -422,7 +422,7 @@ public final class _method
             //System.out.println("GEN TYPE NANME "+m.getGenericReturnType().getTypeName() );
             //System.out.println("GEN"+m.getGenericReturnType(). );
 
-            return _m.getType().is(m.getGenericReturnType());
+            return _m.getTypeRef().is(m.getGenericReturnType());
         }
         return false;
     }
@@ -800,7 +800,7 @@ public final class _method
             if (i > 0) {
                 sb.append(", ");
             }
-            sb.append(_m.getParameter(i).getType());
+            sb.append(_m.getParameter(i).getTypeRef());
             if (_m.getParameter(i).isVarArg()) {
                 sb.append("...");
             }
