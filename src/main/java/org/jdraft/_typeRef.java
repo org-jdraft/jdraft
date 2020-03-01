@@ -1,12 +1,17 @@
 package org.jdraft;
 
 import java.util.*;
+import java.util.function.Predicate;
 
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.AnnotationExpr;
+import com.github.javaparser.ast.nodeTypes.NodeWithType;
 import com.github.javaparser.ast.type.*;
 
 import org.jdraft.text.Text;
+
+import static org.jdraft.Ast.typeRef;
 
 /**
  * Model of a Java TYPE Declaration (i.e. String, int, List<Boolean>)
@@ -423,6 +428,126 @@ public final class _typeRef<T extends Type>
      */
     public String normalized(){
         return Normalizer.of( this.astType.toString() );        
+    }
+
+    public static interface _withTypeRef<N extends Node, _WT extends _java._astNode> extends _java._astNode<N, _WT> {
+
+        /**
+         * @return they type
+         */
+        default _typeRef getTypeRef(){
+            return of(((NodeWithType)ast()).getType());
+        }
+
+        /**
+         * Gets the element type of the type (i.e. if the type is an Array type)
+         * @return the array element type
+         */
+        default _typeRef getElementType() {
+            return of(getTypeRef().ast().getElementType());
+        }
+
+        /**
+         * Set the TYPE and return the modified entity
+         * @param t the _typeRef object
+         * @return the modified entity after setting the TYPE
+         */
+        default _WT setTypeRef(Type t){
+            ((NodeWithType)ast()).setType(t);
+            return (_WT)this;
+        }
+
+        default boolean isArrayType(){
+            return getTypeRef().isArrayType();
+        }
+
+        /**
+         * set the TYPE and return
+         * @param _tr
+         * @return
+         */
+        default _WT setTypeRef(_typeRef _tr) {
+            return setTypeRef(_tr.ast());
+        }
+
+        /**
+         * Set the TYPE and return the modified entity
+         * @param typeRef the String representation of the TYPE
+         * @return the modified entity after setting the TYPE
+         */
+        default _WT setTypeRef(String typeRef) {
+            return setTypeRef(typeRef(typeRef));
+        }
+
+        /**
+         * Set the TYPE and return the modified entity
+         * @param clazz the class of the TYPE to set
+         * @return the modified entity after setting the TYPE
+         */
+        default _WT setTypeRef(Class clazz) {
+            return setTypeRef(typeRef(clazz.getCanonicalName()));
+        }
+
+        /**
+         * is the type void
+         * @return true if void
+         */
+        default boolean isVoid() {
+            return getTypeRef().ast().isVoidType();
+        }
+
+        /**
+         * Is the TYPE of this entity the same as represented where the _typeRef TYPE
+         * @param type the _typeRef representation of the TYPE
+         * @return true if the TYPE is the same
+         */
+        default boolean isTypeRef(Type type) {
+            return Ast.typesEqual( getTypeRef().ast(), type);
+        }
+
+        /**
+         * Is the TYPE of this entity the same as represented where the _typeRef TYPE
+         * @param type the _typeRef representation of the TYPE
+         * @return true if the TYPE is the same
+         */
+        default boolean isTypeRef(_typeRef type) {
+            return getTypeRef().equals(type);
+        }
+
+        /**
+         * Is the TYPE of this entity the same as represented where the _typeRef TYPE
+         * @param clazz the Class representation of the TYPE
+         * @return true if the TYPE is the same
+         */
+        default boolean isTypeRef(Class clazz) {
+            try {
+                return isTypeRef(clazz.getCanonicalName()) || isTypeRef(clazz.getSimpleName());
+            } catch (Exception e) {
+            }
+            return false;
+        }
+
+        /**
+         * Does the type of this named typed comply with the lambda
+         * @param typeMatchFn lambda matcher function
+         * @return true if the type
+         */
+        default boolean isTypeRef(Predicate<_typeRef> typeMatchFn) {
+            return typeMatchFn.test(getTypeRef());
+        }
+
+        /**
+         * Is the TYPE of this entity the same as represented where the String TYPE
+         * @param type the String representation of the TYPE
+         * @return true if the TYPE is the same
+         */
+        default boolean isTypeRef(String type) {
+            try {
+                return isTypeRef(typeRef(type));
+            } catch (Exception e) {
+            }
+            return false;
+        }
     }
 
     /**

@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  */
 public class _new implements _expression<ObjectCreationExpr, _new>,
         _java._multiPart<ObjectCreationExpr, _new>,
-        _java._withTypeRef<ObjectCreationExpr, _new>,
+        _typeRef._withTypeRef<ObjectCreationExpr, _new>,
         _java._withScope<ObjectCreationExpr, _new>,
         _java._withArguments<ObjectCreationExpr, _new>,
         _java._withTypeArguments<ObjectCreationExpr, _new> {

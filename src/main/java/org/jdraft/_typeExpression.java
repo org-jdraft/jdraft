@@ -5,7 +5,7 @@ import com.github.javaparser.ast.expr.TypeExpr;
 public class _typeExpression
         implements _expression<TypeExpr, _typeExpression>,
         _java._uniPart<TypeExpr, _typeExpression>,
-        _java._withTypeRef<TypeExpr, _typeExpression> {
+        _typeRef._withTypeRef<TypeExpr, _typeExpression> {
 
     public static _typeExpression of(){
         return new _typeExpression( new TypeExpr());
