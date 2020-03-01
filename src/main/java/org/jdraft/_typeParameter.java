@@ -17,7 +17,7 @@ import org.jdraft.text.Text;
  */
 public final class _typeParameter
         implements _java._multiPart<TypeParameter, _typeParameter>,
-        _java._withName<_typeParameter>, _anno._withAnnos<_typeParameter> {
+        _java._withName<_typeParameter>, _annos._withAnnos<_typeParameter> {
 
     public static _typeParameter of() {
         return of( new TypeParameter());
@@ -216,84 +216,4 @@ public final class _typeParameter
         return _annos.of( this.typeParameter);
     }
 
-    /**
-     *
-     * @author Eric
-     * @param <_WTP>
-     */
-    public interface _withTypeParameters<_WTP extends _withTypeParameters>
-        extends _java._domain {
-        
-        default _typeParameters getTypeParameters(){
-            _java._declaredBodyPart _m = (_java._declaredBodyPart) this;
-            return _typeParameters.of( (NodeWithTypeParameters)_m.ast() );
-        }
-
-        default _typeParameter getTypeParameter(Predicate<_typeParameter> _typeParameterMatchFn){
-            List<_typeParameter> tps = getTypeParameters().list(_typeParameterMatchFn);
-            if( tps.isEmpty() ){
-                return null;
-            }
-            return tps.get(0);
-        }
-
-        /* return a list of AST typeParameters */
-        default NodeList<TypeParameter> listAstTypeParameters() {
-            _java._declaredBodyPart _m = (_java._declaredBodyPart) this;
-            return ((NodeWithTypeParameters)_m.ast()).getTypeParameters();
-        }
-        
-        /**
-         * parse the string as TypeParameters and set the typeParameters
-         * @param typeParameters string of typeParameters
-         * @return the modified T
-         */
-        default _WTP typeParameters(String typeParameters ){
-            _typeParameters _tps = _typeParameters.of(typeParameters);
-            return typeParameters( _tps) ; //((NodeWithTypeParameters)_m.ast()).getTypeParameters();
-        }
-
-        /**
-         * @param typeParameters Strings that represent individual TypeParameters
-         * @return the modified T
-         */
-        default _WTP typeParameters(String... typeParameters ){
-            _typeParameters _tps = _typeParameters.of(typeParameters);
-            return typeParameters( _tps) ; //((NodeWithTypeParameters)_m.ast()).getTypeParameters();
-        }
-
-        default _WTP typeParameters(_typeParameters _tps ){
-            _java._declaredBodyPart _m = (_java._declaredBodyPart) this;
-            ((NodeWithTypeParameters)_m.ast()).setTypeParameters(_tps.ast());            
-            return (_WTP)this;
-        }
-
-        default _WTP typeParameters(NodeList<TypeParameter> astTypeParams ){
-            _java._declaredBodyPart _m = (_java._declaredBodyPart) this;
-            ((NodeWithTypeParameters)_m.ast()).setTypeParameters(astTypeParams);            
-            return (_WTP)this;
-        }
-
-        default _WTP removeTypeParameter(TypeParameter tp ){
-            _java._declaredBodyPart _m = (_java._declaredBodyPart) this;
-            ((NodeWithTypeParameters)_m.ast()).getTypeParameters().remove(tp);   
-            return (_WTP)this;
-        }
-        
-        /**
-         * remove all typeParameters from the entity
-         * @return 
-         */
-        default _WTP removeTypeParameters(){
-            _java._declaredBodyPart _m = (_java._declaredBodyPart) this;
-            ((NodeWithTypeParameters)_m.ast()).getTypeParameters().clear();   
-            return (_WTP)this;
-        }
-
-        /** does this have non empty type parameters */
-        default boolean hasTypeParameters(){
-            _java._declaredBodyPart _m = (_java._declaredBodyPart) this;
-            return ((NodeWithTypeParameters)_m.ast()).getTypeParameters().isNonEmpty();
-        }
-    }    
 }
