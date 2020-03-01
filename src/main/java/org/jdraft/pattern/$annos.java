@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 import org.jdraft.*;
 import org.jdraft._annos;
-import org.jdraft._anno._withAnnos;
+import org.jdraft._annos._withAnnos;
 import org.jdraft.text.Template;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;

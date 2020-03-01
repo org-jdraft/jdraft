@@ -248,9 +248,9 @@ public class WalkTest extends TestCase {
 
 
         //PRE ORDER processes ROOT NODES FIRST (then leaves)
-        List<_anno._withAnnos> a = new ArrayList<>();
+        List<_annos._withAnnos> a = new ArrayList<>();
         //_java.walk(Node.TreeTraversal.PREORDER, ast, _anno._hasAnnos.class, n-> n.hasAnno(ann.class), n-> a.add(n));
-        Walk.preOrder(ast, _anno._withAnnos.class, n-> n.hasAnno(ann.class), n-> a.add(n));
+        Walk.preOrder(ast, _annos._withAnnos.class, n-> n.hasAnno(ann.class), n-> a.add(n));
         assertEquals( 5, a.size());
         assertTrue( a.get(0).getAnnos().is("@ann(\"class\")") );
         assertTrue( a.get(1).getAnnos().is("@ann(\"field\")") );
@@ -260,7 +260,7 @@ public class WalkTest extends TestCase {
         a.clear();
 
         //for POST ORDER THE LEAF NODES ARE PROCESSED FIRST
-        Walk.postOrder(ast, _anno._withAnnos.class, n-> n.hasAnno(ann.class), n-> a.add(n));
+        Walk.postOrder(ast, _annos._withAnnos.class, n-> n.hasAnno(ann.class), n-> a.add(n));
         //_java.walk(Node.TreeTraversal.POSTORDER, ast, _anno._hasAnnos.class, n-> n.hasAnno(ann.class), n-> a.add(n));
 
         assertEquals( 5, a.size());

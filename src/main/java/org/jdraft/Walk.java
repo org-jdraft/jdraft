@@ -1431,7 +1431,7 @@ public enum Walk {
      * ({@link _field}, {@link _method}, {@link _constant}...)
      *
      * <LI>Logical interfaces
-     * ({@link _javadoc._withJavadoc}, {@link _method._withMethods}, {@link _anno._withAnnos}, ...)
+     * ({@link _javadoc._withJavadoc}, {@link _method._withMethods}, {@link _annos._withAnnos}, ...)
      * </UL>
      *
      * @param <T> the target Class TYPE ..we need this BECAUSE Node classes/interfaces dont have a common ancestor
@@ -1716,7 +1716,7 @@ public enum Walk {
                     });
             return astRootNode;
         }
-        else if( _javaClass == _anno._withAnnos.class ) {
+        else if( _javaClass == _annos._withAnnos.class ) {
             in(tt, levels,
                     astRootNode,
                     Node.class,
@@ -1725,9 +1725,9 @@ public enum Walk {
                     // do so with the AST BODY
                     n -> n instanceof BodyDeclaration || n instanceof Parameter || n instanceof ReceiverParameter,
                     n ->{
-                        _anno._withAnnos ha = (_anno._withAnnos)_java.of( n );
-                        if( ((Predicate<_anno._withAnnos>)_javaMatchFn).test( ha ) ){
-                            ((Consumer<_anno._withAnnos>)_javaAction).accept(ha);
+                        _annos._withAnnos ha = (_annos._withAnnos)_java.of( n );
+                        if( ((Predicate<_annos._withAnnos>)_javaMatchFn).test( ha ) ){
+                            ((Consumer<_annos._withAnnos>)_javaAction).accept(ha);
                         }
                     });
             return astRootNode;
@@ -1880,16 +1880,16 @@ public enum Walk {
                     });
             return astRootNode;
         }
-        else if( _javaClass == _typeParameter._withTypeParameters.class ) {
+        else if( _javaClass == _typeParameters._withTypeParameters.class ) {
             in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof NodeWithTypeParameters,
                     n-> {
-                        _typeParameter._withTypeParameters ht = (_typeParameter._withTypeParameters)_java.of(n);
+                        _typeParameters._withTypeParameters ht = (_typeParameters._withTypeParameters)_java.of(n);
 
-                        if( ((Predicate<_typeParameter._withTypeParameters>)_javaMatchFn).test( ht) ){
-                            ((Consumer<_typeParameter._withTypeParameters>)_javaAction).accept( ht );
+                        if( ((Predicate<_typeParameters._withTypeParameters>)_javaMatchFn).test( ht) ){
+                            ((Consumer<_typeParameters._withTypeParameters>)_javaAction).accept( ht );
                         }
                     });
             return astRootNode;

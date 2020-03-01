@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class _localVariables implements _expression<VariableDeclarationExpr, _localVariables>,
         _java._multiPart<VariableDeclarationExpr, _localVariables>,
         _java._set<VariableDeclarator, _variable, _localVariables>,
-        _anno._withAnnos<_localVariables>,
+        _annos._withAnnos<_localVariables>,
         _modifiers._withFinal<_localVariables>{
 
     public static _localVariables of(){

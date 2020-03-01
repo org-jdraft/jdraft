@@ -23,7 +23,7 @@ import com.github.javaparser.printer.PrettyPrinterConfiguration;
 
 import static org.jdraft.Ast.*;
 
-import org.jdraft._anno._withAnnos;
+import org.jdraft._annos._withAnnos;
 import org.jdraft._annotation._entry;
 import org.jdraft._body._hasBody;
 

@@ -4,7 +4,7 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 
 import org.jdraft.*;
-import org.jdraft._anno._withAnnos;
+import org.jdraft._annos._withAnnos;
 import org.jdraft._java.Component;
 import org.jdraft.diff._diff.*;
 

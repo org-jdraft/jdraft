@@ -7,8 +7,8 @@ import java.util.*;
 import java.util.function.*;
 
 public class _methodCall implements _expression<MethodCallExpr, _methodCall>,
-        _java._withName<_methodCall>,
         _java._multiPart<MethodCallExpr, _methodCall>,
+        _java._withName<_methodCall>,
         _java._withScope<MethodCallExpr, _methodCall>,
         _java._withArguments<MethodCallExpr, _methodCall>,
         _java._withTypeArguments<MethodCallExpr, _methodCall> {
@@ -80,23 +80,6 @@ public class _methodCall implements _expression<MethodCallExpr, _methodCall>,
         this.mce.setName(methodName);
         return this;
     }
-
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Ex.methodCallEx(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
-     */
-
-    /*
-    @Override
-    public boolean is(MethodCallExpr astNode) {
-        return this.ast( ).equals(astNode);
-    }
-     */
 
     public MethodCallExpr ast(){
         return mce;

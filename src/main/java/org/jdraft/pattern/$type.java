@@ -538,8 +538,8 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         tokens = $tokens.to(tokens, () -> this.modifiers.parse(instance));
         tokens = $tokens.to(tokens, () -> this.name.parse(instance.getName()));
 
-        if (instance instanceof _typeParameter._withTypeParameters) {
-            tokens = $tokens.to(tokens, () -> this.typeParameters.parse(((_typeParameter._withTypeParameters) instance).getTypeParameters()));
+        if (instance instanceof _typeParameters._withTypeParameters) {
+            tokens = $tokens.to(tokens, () -> this.typeParameters.parse(((_typeParameters._withTypeParameters) instance).getTypeParameters()));
         } else {
             if (!this.typeParameters.isMatchAny()) {
                 return null;

@@ -69,7 +69,7 @@ import com.github.javaparser.utils.Log;
  *            & NodeWithAnnotations
  */
 public interface _type<AST extends TypeDeclaration, _T extends _type>
-    extends _javadoc._withJavadoc<_T>, _anno._withAnnos<_T>, _modifiers._withModifiers<_T>,
+    extends _javadoc._withJavadoc<_T>, _annos._withAnnos<_T>, _modifiers._withModifiers<_T>,
         _field._withFields<_T>, _java._declaredBodyPart<AST, _T>, _codeUnit<_T>, _java._multiPart<AST, _T> {
 
     /**
@@ -510,6 +510,17 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         return (_T)this;
     }
 
+    default _T removeMembers( _java._memberBodyPart... _members){
+        Arrays.stream(_members).forEach( _m -> this.ast().remove(_m.ast()));
+        return (_T)this;
+    }
+
+    default List<_java._memberBodyPart> removeMembers(Predicate<_java._memberBodyPart> _memberMatchFn){
+        List<_java._memberBodyPart> mbp = listMembers(_java._memberBodyPart.class, _memberMatchFn);
+        mbp.forEach(m -> removeMembers(m) );
+        return mbp;
+    }
+
     /**
      * remove all members ({@link _initBlock}s, {@link _field}s, {@link _method}s, {@link _constructor}s,{@link _constant}s,
      * {@link _annotation._entry}s, and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
@@ -521,6 +532,12 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      */
     default <_M extends _java._memberBodyPart> List<_M> removeMembers(Class<_M> memberClass, Predicate<_M> _memberMatchFn){
         List<_M> ms = listMembers( memberClass, _memberMatchFn);
+        ms.forEach( m -> this.ast().remove(m.ast()) );
+        return ms;
+    }
+
+    default List<_java._declaredBodyPart> removeDeclared(Predicate<_java._declaredBodyPart> _declaredMatchFn){
+        List<_java._declaredBodyPart> ms = listDeclared( (Predicate<_java._declaredBodyPart>)_declaredMatchFn);
         ms.forEach( m -> this.ast().remove(m.ast()) );
         return ms;
     }

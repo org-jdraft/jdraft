@@ -32,7 +32,7 @@ import org.jdraft.text.Text;
  */
 public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         _method._withMethods<_class>, _constructor._withConstructors<_class, ClassOrInterfaceDeclaration>,
-        _typeParameter._withTypeParameters<_class>, _initBlock._withInitBlocks<_class>,
+        _typeParameters._withTypeParameters<_class>, _initBlock._withInitBlocks<_class>,
         _modifiers._withAbstract<_class>, _modifiers._withFinal<_class>,
         _modifiers._withStatic<_class>, _type._withImplements<_class>,
         _type._withExtends<_class> {

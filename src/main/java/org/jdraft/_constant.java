@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  */
 public class _constant implements _java._declaredBodyPart<EnumConstantDeclaration, _constant>,
         _javadoc._withJavadoc<_constant>,
-        _anno._withAnnos<_constant>,
+        _annos._withAnnos<_constant>,
         _method._withMethods<_constant>,
         _field._withFields<_constant>,
         _java._withArguments<EnumConstantDeclaration, _constant>{

@@ -54,7 +54,7 @@ import java.util.stream.Collectors;
  *
  * @param <M> the TYPE to apply the
  */
-public interface _macro<M extends _anno._withAnnos>
+public interface _macro<M extends _annos._withAnnos>
         extends Function<M,M> {
 
     /**
@@ -107,7 +107,7 @@ public interface _macro<M extends _anno._withAnnos>
      * @param <T> the underlying TYPE of the model (some _anno._hasAnnos)
      * @return the modified _model (with all {@link _macro}s applied)
      */
-    static <T extends _anno._withAnnos> T applyAllAnnotationMacros(T _model, AnnotatedElement ae ) {
+    static <T extends _annos._withAnnos> T applyAllAnnotationMacros(T _model, AnnotatedElement ae ) {
         //Arrays.stream(ae.getAnnotations()).forEach( a-> System.out.println( a ) );
         //System.out.println( "Applying macros to "+ae.getAnnotations());
         Annotation[] anns = ae.getAnnotations();

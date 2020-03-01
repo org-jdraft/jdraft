@@ -26,10 +26,10 @@ import org.jdraft.text.Text;
  *
  * @author Eric
  */
-public final class _constructor implements _anno._withAnnos<_constructor>,
+public final class _constructor implements _annos._withAnnos<_constructor>,
         _javadoc._withJavadoc<_constructor>, _throws._withThrows<_constructor>,
     _body._hasBody<_constructor>, _modifiers._withModifiers<_constructor>, //_modifiers._hasModifiers<_constructor>,
-    _parameter._hasParameters<_constructor>, _typeParameter._withTypeParameters<_constructor>,
+    _parameter._hasParameters<_constructor>, _typeParameters._withTypeParameters<_constructor>,
         _receiverParameter._withReceiverParameter<_constructor>, _java._declaredBodyPart<ConstructorDeclaration, _constructor> {
 
     public static _constructor of( String signature ){

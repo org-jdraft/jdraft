@@ -29,10 +29,10 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _method
-        implements _javadoc._withJavadoc<_method>, _anno._withAnnos<_method>,
+        implements _javadoc._withJavadoc<_method>, _annos._withAnnos<_method>,
         _java._withNameType<MethodDeclaration, _method>, _body._hasBody<_method>, _throws._withThrows<_method>,
         _modifiers._withModifiers<_method>, _parameter._hasParameters<_method>,
-        _typeParameter._withTypeParameters<_method>, _receiverParameter._withReceiverParameter<_method>,
+        _typeParameters._withTypeParameters<_method>, _receiverParameter._withReceiverParameter<_method>,
         _modifiers._withStatic<_method>, _modifiers._withNative<_method>, _modifiers._withFinal<_method>,
         _modifiers._withAbstract<_method>, _modifiers._withSynchronized<_method>,
         _modifiers._withStrictFp<_method>, _java._declaredBodyPart<MethodDeclaration, _method> {

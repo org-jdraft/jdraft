@@ -5,7 +5,7 @@ import com.github.javaparser.ast.nodeTypes.NodeWithTypeParameters;
 import com.github.javaparser.ast.type.TypeParameter;
 
 import org.jdraft.*;
-import org.jdraft._typeParameter._withTypeParameters;
+import org.jdraft._typeParameters._withTypeParameters;
 import org.jdraft.diff._diff.*;
 
 /**

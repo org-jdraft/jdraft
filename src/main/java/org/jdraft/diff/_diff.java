@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
-import org.jdraft._anno._withAnnos;
+import org.jdraft._annos._withAnnos;
 import org.jdraft._body._hasBody;
 import org.jdraft._constructor._withConstructors;
 import org.jdraft._field._withFields;
@@ -16,7 +16,7 @@ import org.jdraft._method._withMethods;
 import org.jdraft._modifiers._withModifiers;
 import org.jdraft._receiverParameter._withReceiverParameter;
 import org.jdraft._throws._withThrows;
-import org.jdraft._typeParameter._withTypeParameters;
+import org.jdraft._typeParameters._withTypeParameters;
 import org.jdraft._initBlock._withInitBlocks;
 
 import org.jdraft.diff._diffNode._edit;
