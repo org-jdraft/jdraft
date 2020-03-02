@@ -101,6 +101,14 @@ public class _new implements _expression<ObjectCreationExpr, _new>,
         return oce;
     }
 
+    /**
+     * is this a new
+     * @return
+     */
+    public boolean isAnonymous(){
+        return this.oce.getAnonymousClassBody().isPresent();
+    }
+
     /*
     public _new setType(_typeRef _t){
         this.oce.setType((ClassOrInterfaceType)_t.ast());

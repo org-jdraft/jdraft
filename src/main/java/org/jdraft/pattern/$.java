@@ -783,11 +783,11 @@ public final class $ {
     }
 
     public static $ex<ObjectCreationExpr, _new, $ex> objectCreation(){
-        return $ex.objectCreationEx();
+        return $ex.newEx();
     }
 
     public static $ex<ObjectCreationExpr, _new, $ex> objectCreation(String oc){
-        return $ex.objectCreationEx(oc);
+        return $ex.newEx(oc);
     }
 
     public static $ex<ObjectCreationExpr, _new, $ex> objectCreation(ObjectCreationExpr oce){
@@ -795,7 +795,7 @@ public final class $ {
     }
 
     public static $ex<ObjectCreationExpr, _new, $ex> objectCreation(Predicate<_new> oce){
-        return $ex.objectCreationEx(oce);
+        return $ex.newEx(oce);
     }
 
     public static $ex<StringLiteralExpr, _string, $ex> stringLiteral(){

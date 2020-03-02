@@ -36,6 +36,11 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
     public $modifiers modifiers = $modifiers.of();
     public $name name = $name.of("$typeName$"); //name required
 
+    public static $type of( Predicate<_type> matchFn){
+        $type $t = of().$and(matchFn);
+        return $t;
+    }
+
     public static $type of( String name, $type.$part...parts ){
         $type $t = of( parts );
         if( name.contains("." ) ){

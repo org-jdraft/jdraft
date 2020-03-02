@@ -112,7 +112,7 @@ public class TypeUseAnnotationsTest
         _class _c = _class.of( TC.class );
         System.out.println( _c );
         
-        $ex.objectCreationEx().firstIn(_c);
+        $ex.newEx().firstIn(_c);
         
         _typeParameter _tp = _c.getTypeParameters().getAt(0);
         assertEquals( _anno.of(TypeAnno.class), _tp.getAnno(0) );

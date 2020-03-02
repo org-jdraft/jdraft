@@ -322,7 +322,7 @@ public class _annoTest extends TestCase {
         
         System.out.println( $ex.listIn(C.class) );
         
-        org.jdraft.pattern.$ex $e = org.jdraft.pattern.$ex.objectCreationEx().$and(o-> o.ast().findFirst(AnnotationExpr.class).isPresent());
+        org.jdraft.pattern.$ex $e = org.jdraft.pattern.$ex.newEx().$and(o-> o.ast().findFirst(AnnotationExpr.class).isPresent());
         
         System.out.println( $e.listIn(C.class) );
         

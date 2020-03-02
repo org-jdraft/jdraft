@@ -484,8 +484,8 @@ public class SexTest extends TestCase {
         assertTrue($ex.methodReferenceEx("$target$::$methodName$").matches("String::toString"));
         assertTrue($ex.nullEx().matches("null"));
         assertTrue($ex.nameEx("eric").matches("eric"));
-        assertTrue($ex.objectCreationEx("new $Object$()").matches("new String()"));
-        assertTrue($ex.objectCreationEx("new $Object$($params$)").matches("new Date(101010)"));
+        assertTrue($ex.newEx("new $Object$()").matches("new String()"));
+        assertTrue($ex.newEx("new $Object$($params$)").matches("new Date(101010)"));
         assertTrue($ex.stringLiteralEx("Hello $name$").matches("\"Hello Eric\""));
         assertTrue($ex.superEx().matches("super"));
         assertTrue( $ex.thisEx().matches("this"));

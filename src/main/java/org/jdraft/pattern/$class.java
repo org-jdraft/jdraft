@@ -95,6 +95,13 @@ public class $class
         return of( _c );
     }
 
+    public static $class of( String cl ){
+        return of( new String[]{cl} );
+    }
+    public static $class of(String...cl ){
+        return of( _class.of( cl) );
+    }
+
     public static $class of( Object anonymousClass ){
         return of( "$className$", anonymousClass, Thread.currentThread().getStackTrace()[2]);
     }

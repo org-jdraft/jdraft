@@ -1336,7 +1336,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @param pattern
      * @return 
      */
-    public static $ex<ObjectCreationExpr, _new, $ex> objectCreationEx(String... pattern ) {
+    public static $ex<ObjectCreationExpr, _new, $ex> newEx(String... pattern ) {
         return new $ex( Ex.newEx(pattern ) );
     }
     
@@ -1345,7 +1345,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @param constraint
      * @return 
      */
-    public static $ex<ObjectCreationExpr, _new, $ex> objectCreationEx(Predicate<_new>constraint ) {
+    public static $ex<ObjectCreationExpr, _new, $ex> newEx(Predicate<_new>constraint ) {
         return new $ex( Ex.newEx( "new a()" ) ).$("new a()", "any").$and(constraint);
     }
     
@@ -1355,7 +1355,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @param constraint
      * @return 
      */
-    public static $ex<ObjectCreationExpr, _new, $ex> objectCreationEx(String pattern, Predicate<_new>constraint ) {
+    public static $ex<ObjectCreationExpr, _new, $ex> newEx(String pattern, Predicate<_new>constraint ) {
         return new $ex( Ex.newEx(pattern ) ).$and(constraint);
     }
 
@@ -1363,7 +1363,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * "new Date()"
      * @return 
      */
-    public static $ex<ObjectCreationExpr, _new, $ex> objectCreationEx() {
+    public static $ex<ObjectCreationExpr, _new, $ex> newEx() {
         return new $ex( ObjectCreationExpr.class, "$objectCreationExpr$");
     }
 

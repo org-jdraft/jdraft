@@ -444,6 +444,13 @@ public final class _field
         return this.getFieldDeclaration() != null && this.getFieldDeclaration().isProtected();
     }
 
+    public boolean isPackagePrivate(){
+        return this.getFieldDeclaration() != null &&
+                !this.getFieldDeclaration().isPrivate() &&
+                !this.getFieldDeclaration().isPublic() &&
+                !this.getFieldDeclaration().isProtected();
+    }
+
     public boolean isPrivate() {
         return this.getFieldDeclaration() != null && this.getFieldDeclaration().isPrivate();
     }
