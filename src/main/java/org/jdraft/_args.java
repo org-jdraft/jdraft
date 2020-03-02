@@ -100,6 +100,30 @@ public class _args
         return Ex.equivalent( getAt(index).ast(), e);
     }
 
+    public _args setAt(int index, int i){
+        return setAt(index, _int.of(i) );
+    }
+
+    public _args setAt(int index, char c){
+        return setAt(index, _char.of(c) );
+    }
+
+    public _args setAt(int index, boolean b){
+        return setAt(index,_boolean.of(b) );
+    }
+
+    public _args setAt(int index, long l){
+        return setAt(index,_long.of(l) );
+    }
+
+    public _args setAt(int index, float f){
+        return setAt(index,_double.of(f) );
+    }
+
+    public _args setAt(int index, double d){
+        return setAt(index,_double.of(d) );
+    }
+
     @Override
     public _args copy() {
         Node n = (Node)nwa;

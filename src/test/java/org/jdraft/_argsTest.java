@@ -28,7 +28,9 @@ public class _argsTest extends TestCase {
         assertTrue(_as.allMatch(e-> e instanceof _expression._literal));
         assertFalse(_as.anyMatch(e-> e instanceof _expression._literal));
 
+
         _as.add(1);
         assertEquals(0, _as.indexOf(_int.of(1)));
+        _as.setAt(0, 2);
     }
 }
