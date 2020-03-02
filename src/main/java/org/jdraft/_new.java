@@ -15,8 +15,8 @@ public class _new implements _expression<ObjectCreationExpr, _new>,
         _java._multiPart<ObjectCreationExpr, _new>,
         _typeRef._withTypeRef<ObjectCreationExpr, _new>,
         _java._withScope<ObjectCreationExpr, _new>,
-        _java._withArguments<ObjectCreationExpr, _new>,
-        _java._withTypeArguments<ObjectCreationExpr, _new> {
+        _args._withArguments<ObjectCreationExpr, _new>,
+        _typeArguments._withTypeArguments<ObjectCreationExpr, _new> {
 
     public static _new of(){
         return new _new( new ObjectCreationExpr() );
@@ -33,7 +33,7 @@ public class _new implements _expression<ObjectCreationExpr, _new>,
         return new _new( oce );
     }
     public static _new of( String...code){
-        return new _new(Ex.objectCreationEx(code));
+        return new _new(Ex.newEx(code));
     }
 
     public static <A extends Object> _new of(Ex.Command c){
@@ -92,7 +92,7 @@ public class _new implements _expression<ObjectCreationExpr, _new>,
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Ex.objectCreationEx(stringRep));
+            return is( Ex.newEx(stringRep));
         } catch(Exception e){ }
         return false;
     }

@@ -10,6 +10,17 @@ public class _argsTest extends TestCase {
         assertTrue(_as.isEmpty());
         assertTrue(_as.allMatch( e-> e.is(Ex.of(1))));
         assertFalse(_as.anyMatch( e-> e.is(Ex.of(1))));
+        assertEquals( -1, _as.indexOf(_int.of(1)));
+        assertNull( _as.get(_e -> _e instanceof _expression._literal ));
+        _as.forEach(e-> fail() ); //there are none so we shouldnt fail
+        assertFalse(_as.has(_int.of(2)));
+
+        try{
+            _as.getAt(1); //fails?
+            fail("expected failure");
+        }catch(IndexOutOfBoundsException iobe){
+            //expected
+        }
 
         _as.add("1");
         assertFalse(_as.isEmpty());
@@ -28,9 +39,19 @@ public class _argsTest extends TestCase {
         assertTrue(_as.allMatch(e-> e instanceof _expression._literal));
         assertFalse(_as.anyMatch(e-> e instanceof _expression._literal));
 
-
         _as.add(1);
         assertEquals(0, _as.indexOf(_int.of(1)));
-        _as.setAt(0, 2);
+        _as.setAt(0, 2); //change 1 to 2
+        assertEquals(0, _as.indexOf(_int.of(2)));
+    }
+
+    public void testConstImpl(){
+        _constant _c = _constant.of("A");
+        _args _as = _c.getArgs();
+        assertTrue(_as.isEmpty());
+        _c.setArguments(_args.of("1,2,3, 'c', \"String\""));
+        assertEquals( 5, _as.size());
+
+        _c.forArguments( a-> System.out.println( a) );
     }
 }

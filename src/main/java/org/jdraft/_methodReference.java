@@ -8,7 +8,7 @@ import java.util.function.Predicate;
 public class _methodReference implements _expression<MethodReferenceExpr, _methodReference>,
         _java._multiPart<MethodReferenceExpr, _methodReference>,
         _java._withScope<MethodReferenceExpr, _methodReference>,
-        _java._withTypeArguments<MethodReferenceExpr, _methodReference> {
+        _typeArguments._withTypeArguments<MethodReferenceExpr, _methodReference> {
 
     public static _methodReference of(){
         return new _methodReference( new MethodReferenceExpr());

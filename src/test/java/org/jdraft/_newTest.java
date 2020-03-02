@@ -40,6 +40,7 @@ public class _newTest extends TestCase {
         _new.of(Integer.class);
 
         _n = _new.of("new List()");
+
         _n.setUseDiamondOperator();
         //System.out.println("DIAMOND" +  _n );
         assertTrue( _n.isUsingDiamondOperator());

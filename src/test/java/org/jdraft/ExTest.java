@@ -113,8 +113,8 @@ public class ExTest extends TestCase {
     }
     
     public void testObjectCreation(){
-        ObjectCreationExpr oce = Ex.objectCreationEx( ()-> new HashMap() );
-        assertEquals( oce, Ex.objectCreationEx("new HashMap()"));
+        ObjectCreationExpr oce = Ex.newEx( ()-> new HashMap() );
+        assertEquals( oce, Ex.newEx("new HashMap()"));
         
         assertEquals( Ex.of("List.of(1,2)"), Ex.methodCallEx("List.of(1,2);"));
     }

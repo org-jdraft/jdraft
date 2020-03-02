@@ -17,7 +17,6 @@ import java.util.Optional;
  * but rather from the serialized version of the {@link _type}), we can return
  * the cached version of the _type
  *
- *
  * <PRE>
  * //we can MANUALLY lookup the _type by getting it from the _classLoader
  * //create a new Project with a _type (compile/load)
@@ -32,7 +31,7 @@ import java.util.Optional;
  * _type _t = _cl.get_type(clazz);
  *
  *
- * //in( this will chekc clazz's _classLoader, which contains a reference
+ * //in( this will check clazz's _classLoader, which contains a reference
  * // to _type "aaaa.bbbb.cc.D"
  *
  * _in _javaSrc = _in_classLoader.in( clazz );

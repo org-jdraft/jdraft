@@ -6,7 +6,6 @@ import java.nio.file.Path;
 import java.text.NumberFormat;
 import java.util.*;
 import java.util.function.*;
-import java.util.stream.Collectors;
 
 import com.github.javaparser.*;
 import com.github.javaparser.ast.ArrayCreationLevel;
@@ -358,6 +357,10 @@ public enum Ex {
         }
 
         throw new _ioException("unable to find in lambda at (" + ste.getFileName() + ":" + ste.getLineNumber() + ")"+System.lineSeparator()+ _io.describe());
+    }
+
+    public static ObjectCreationExpr newEx(String ex ){
+        return newEx(new String[]{ex});
     }
 
     /**
@@ -1366,11 +1369,11 @@ public enum Ex {
         return newEx(ste, _io.IN_DEFAULT);
     }
 
-    public static ObjectCreationExpr objectCreationEx(Class clazz) {
-        return objectCreationEx("new "+clazz.getCanonicalName()+"()");
+    public static ObjectCreationExpr newEx(Class clazz) {
+        return Ex.newEx("new "+clazz.getCanonicalName()+"()");
     }
 
-    public static ObjectCreationExpr objectCreationEx(String... code ) {
+    public static ObjectCreationExpr newEx(String... code ) {
         String str = Text.combine(code);
         if( !str.startsWith("new") ){
             str = "new "+str;
@@ -1392,7 +1395,7 @@ public enum Ex {
      * @param lambdaThatCreatesObject a supplier lambda expression that must contain a "new"
      * @return the AST ObjectCreation Expression representing the new
      */
-    public static ObjectCreationExpr objectCreationEx(Supplier<? extends Object> lambdaThatCreatesObject ) {
+    public static ObjectCreationExpr newEx(Supplier<? extends Object> lambdaThatCreatesObject ) {
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         LambdaExpr le = lambdaEx(ste);
         return le.getBody().findFirst(ObjectCreationExpr.class).get();        
