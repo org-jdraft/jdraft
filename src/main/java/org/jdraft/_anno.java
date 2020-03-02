@@ -986,7 +986,7 @@ public final class _anno
      * NOTE: we also model the inferred/ hidden name (as "value") if it is not present
      * @A("val") ... (the key is inferred to be "value" and the value is the String "val")
      */
-    public static class _memberValue implements _java._astNode<MemberValuePair, _memberValue>,
+    public static class _memberValue implements _java._node<MemberValuePair, _memberValue>,
             _java._withName<_memberValue>{
 
         public static _memberValue of( MemberValuePair mvp){

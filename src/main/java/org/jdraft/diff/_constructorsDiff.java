@@ -17,7 +17,7 @@ public class _constructorsDiff implements
         _parameters _pts = ct.getParameters();
         _typeRef[] _trs = new _typeRef[_pts.size()];
         for (int i = 0; i < _pts.size(); i++) {
-            _trs[i] = _pts.get(i).getTypeRef();
+            _trs[i] = _pts.getAt(i).getTypeRef();
         }
         Optional<_constructor> oc
             = lcs.stream().filter(

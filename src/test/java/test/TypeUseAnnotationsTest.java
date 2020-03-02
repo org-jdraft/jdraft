@@ -114,7 +114,7 @@ public class TypeUseAnnotationsTest
         
         $ex.objectCreationEx().firstIn(_c);
         
-        _typeParameter _tp = _c.getTypeParameters().get(0);
+        _typeParameter _tp = _c.getTypeParameters().getAt(0);
         assertEquals( _anno.of(TypeAnno.class), _tp.getAnno(0) );
         assertEquals( _anno.of(TA2.class), _tp.getAnno(1) );
         

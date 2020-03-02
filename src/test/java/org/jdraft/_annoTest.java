@@ -231,7 +231,7 @@ public class _annoTest extends TestCase {
         }
         _class _c = _class.of( TTTT.class );
         
-        assertEquals(1, $anno.of(Test.class).countIn( _c.getMethod("m").getThrows().get(0) ));
+        assertEquals(1, $anno.of(Test.class).countIn( _c.getMethod("m").getThrows().getAt(0) ));
     }
     
     public class NestedClass{}

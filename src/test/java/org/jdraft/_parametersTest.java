@@ -50,18 +50,18 @@ public class _parametersTest extends TestCase {
     public void testP(){
         _parameters _ps = _parameters.of("int a, String b");
         assertEquals( 2, _ps.size() );
-        assertEquals( _parameter.of( "int a" ), _ps.get( 0 ) );
-        assertEquals( _parameter.of( "String b" ), _ps.get( 1 ) );
+        assertEquals( _parameter.of( "int a" ), _ps.getAt( 0 ) );
+        assertEquals( _parameter.of( "String b" ), _ps.getAt( 1 ) );
         assertTrue( _ps.is("int  a", "String  b" ));
     }
     
     public void testFullThing(){
         _parameters _ps = _parameters.of( "final List<String,Integer>vals, @ann(key=1,VALUE=2) @ann2(key2=1,value2=1)Object...vargs");
         assertEquals(2, _ps.size());
-        assertEquals( _parameter.of("final List<String,Integer>vals"), _ps.get( 0));
+        assertEquals( _parameter.of("final List<String,Integer>vals"), _ps.getAt( 0));
         //verify that with annotation ELEMENTS out of order, and ANNOTATIONS out of order, I can STILL
         // understand that the two are equivalent
-        assertEquals( _parameter.of("@ann2(value2=1,key2=1) @ann(VALUE=2,key=1)Object... vargs"), _ps.get( 1));
+        assertEquals( _parameter.of("@ann2(value2=1,key2=1) @ann(VALUE=2,key=1)Object... vargs"), _ps.getAt( 1));
     }
 
 
@@ -137,8 +137,8 @@ public class _parametersTest extends TestCase {
         assertEquals( "NAME", _pa.getName().toString() );
 
         _pa = _parameter.of( "@ann1 @ann2 String NAME" );
-        assertEquals( "@ann1", _pa.getAnnos().get( 0 ).toString() );
-        assertEquals( "@ann2", _pa.getAnnos().get( 1 ).toString() );
+        assertEquals( "@ann1", _pa.getAnnos().getAt( 0 ).toString() );
+        assertEquals( "@ann2", _pa.getAnnos().getAt( 1 ).toString() );
         assertEquals( "String", _pa.getTypeRef().toString() );
         assertEquals( "NAME", _pa.getName().toString() );
 
@@ -168,8 +168,8 @@ public class _parametersTest extends TestCase {
         assertEquals( "NAME", _pa.getName().toString() );
 
         _pa = _parameter.of( "@ann1 @ann2 final Map<Integer,String>... countToName" );
-        assertEquals( "@ann1", _pa.getAnnos().get( 0 ).toString() );
-        assertEquals( "@ann2", _pa.getAnnos().get( 1 ).toString() );
+        assertEquals( "@ann1", _pa.getAnnos().getAt( 0 ).toString() );
+        assertEquals( "@ann2", _pa.getAnnos().getAt( 1 ).toString() );
         assertEquals( true, _pa.isFinal() );
         assertEquals( true, _pa.isVarArg() );
         assertEquals( "Map<Integer, String>", _pa.getTypeRef().toString() );
@@ -185,13 +185,13 @@ public class _parametersTest extends TestCase {
         _parameters _ps =
                 _parameters.of( "@ann final Map<? extends Integer, String>compose, String... names" );
         assertEquals( _ps.size(), 2);
-        assertNotNull( _ps.get( 0 ).getAnnos().get("ann"));
-        assertTrue( _ps.get( 0 ).isFinal() );
+        assertNotNull( _ps.getAt( 0 ).getAnnos().get("ann"));
+        assertTrue( _ps.getAt( 0 ).isFinal() );
         assertEquals(
-                _ps.get(0).getTypeRef(),
+                _ps.getAt(0).getTypeRef(),
                 _typeRef.of("Map<? extends Integer, String>" ) );
-        assertFalse( _ps.get(0).isVarArg() );
-        assertTrue( _ps.get(1).isVarArg() );
+        assertFalse( _ps.getAt(0).isVarArg() );
+        assertTrue( _ps.getAt(1).isVarArg() );
 
     }
 }

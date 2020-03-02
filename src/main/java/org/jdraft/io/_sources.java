@@ -61,7 +61,7 @@ public class _sources<_C extends _codeUnit> implements _codeUnit._provider {
             if( paths[i].toString().endsWith(".jar") ||  paths[i].toString().endsWith(".zip") ){
                 _ps[i] = _archive.of(paths[i]);
             } else if( paths[i].toString().endsWith(".java") ){
-                _ps[i] = _sources.of(_java.code( paths[i]  ) ); //add a cache with a single .java file
+                _ps[i] = _sources.of(_java.codeUnit( paths[i]  ) ); //add a cache with a single .java file
             } else{
                 _ps[i] = _path.of(paths[i]); //Paths.get(pathNames[i]);
             }

@@ -29,7 +29,7 @@ public class _localVariablesTest extends TestCase {
     public void testVariablesAPI(){
         _localVariables _vs = _localVariables.of("int i");
         assertEquals(1, _vs.size());
-        assertEquals( _variable.of("int i"), _vs.get(0) );
+        assertEquals( _variable.of("int i"), _vs.getAt(0) );
 
         assertEquals(1, _vs.listVariables(v-> v.isTypeRef(int.class)).size());
         assertEquals(0, _vs.listVariables(v-> v.isTypeRef(String.class)).size());
@@ -39,12 +39,12 @@ public class _localVariablesTest extends TestCase {
 
         assertFalse(_vs.isFinal());
         assertEquals( 1, _vs.size());
-        assertEquals( _variable.of("int i"), _vs.get(0));
+        assertEquals( _variable.of("int i"), _vs.getAt(0));
 
         _vs.forEach(v -> System.out.println( v) );
         _vs.forEach(v-> v.isNamed("i"), v-> System.out.println(1));
         try{
-            _vs.get(2);
+            _vs.getAt(2);
             fail("expected exception ");
         }catch(Exception e){
             //expected

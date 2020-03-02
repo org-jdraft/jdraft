@@ -3,7 +3,6 @@ package org.jdraft;
 import java.util.*;
 import java.io.*;
 import java.nio.file.Path;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -94,109 +93,12 @@ public interface _java {
     interface _domain { }
 
     /**
-     * Shortcut for checking if an ast has a parent of a particular class that complies with a particular Predicate
-     * @param _j the _java entity
-     * @param parentNodeClass the node class expected of the parent node
-     * @param parentMatchFn predicate for matching the parent
-     * @param <_J> the expected _java node type
-     * @return true if the parent node exists, is of a particular type and complies with the predicate
-     */
-    static <_J extends _domain> boolean isParent(_domain _j, Class<_J> parentNodeClass, Predicate<_J> parentMatchFn){
-        if( _j instanceof _multiPart){
-            AtomicBoolean ans = new AtomicBoolean(false);
-            Walk.in_java(Node.TreeTraversal.PARENTS, 1, ((_multiPart)_j).ast(), parentNodeClass, parentMatchFn, (t)-> ans.set(true) );
-            return ans.get();
-        }
-        //need to handle _typeParameters, _parameters, _annos
-        if( _j instanceof _typeParameters ){
-            _typeParameters _tps = (_typeParameters)_j;
-            _multiPart _n = (_multiPart)_java.of( (Node)_tps.astHolder());
-            return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
-        }
-        if( _j instanceof _body){
-            _body _tps = (_body)_j;
-            Object par = _tps.astParentNode();
-            if( par != null ){
-                _multiPart _n = (_multiPart)_java.of( (Node)par );
-                return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
-            }
-        }
-        if( _j instanceof _parameters){
-            _parameters _tps = (_parameters)_j;
-            _multiPart _n = (_multiPart)_java.of( (Node)_tps.astHolder());
-            return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
-        }
-        return false;
-    }
-
-    /**
-     * Check to see if this java entity has an Ancestor(parents, grandparents...) that
-     * matches the type and matchFn
-     * @param _j the _java entity to check
-     * @param type the target type
-     * @param matchFn matching lambda function
-     * @param <A> the match type
-     * @return true if
-     */
-    static <A> boolean hasAncestor(_domain _j, Class<A> type, Predicate<A> matchFn){
-        return Walk.first(Node.TreeTraversal.PARENTS, _j, type, matchFn) != null;
-    }
-
-    /**
-     * Check to see if this java entity has an Descendant(child, grandchild...) that
-     * matches the type and matchFn
-     *
-     * @param _j the _java entity to check
-     * @param type the target type
-     * @param matchFn matching lambda function
-     * @param <D> the match type
-     * @return
-     */
-    static <D> boolean hasDescendant(_domain _j, Class<D> type, Predicate<D> matchFn) {
-        return Walk.first(Node.TreeTraversal.POSTORDER,_j, type, matchFn) != null;
-    }
-
-    /**
-     * Check to see if this java entity has a Child that matches the type and matchFn
-     *
-     * @param _j the _java entity to check
-     * @param type the target type
-     * @param matchFn matching lambda function
-     * @param <C> the match type
-     * @return
-     */
-    static <C> boolean hasChild(_domain _j, Class<C> type, Predicate<C> matchFn) {
-        return Walk.first(Node.TreeTraversal.DIRECT_CHILDREN,_j, type, matchFn) != null;
-    }
-
-    /**
-     *
-     * @param _j
-     */
-    static void describe( _domain _j ){
-        if( _j instanceof _codeUnit && ((_codeUnit) _j).isTopLevel() ){
-            Ast.describe( ((_codeUnit) _j).astCompilationUnit());
-        }
-        else { //if( _j instanceof _java._astNode){
-            Ast.describe ( ((_astNode)_j).ast() );
-        }
-    }
-
-    /**
-     * Describes the Ast node (i.e. the class and content)
-     * @param astNode
-     */
-    static void describe( Node astNode ){
-        Ast.describe(astNode);
-    }
-
-    /**
      * Read in a .java file from the InputStream and return the _type(_class, _enum, _interface, _annotation)
      * @param is
      * @return
      */
     static <_T extends _type> _T type(InputStream is) {
-        _codeUnit _c = _java.code(is);
+        _codeUnit _c = _java.codeUnit(is);
         if (_c instanceof _type) {
             return (_T) _c;
         }
@@ -209,7 +111,7 @@ public interface _java {
      * @return
      */
     static <_T extends _type> _T type(Path path) {
-        _codeUnit _c = _java.code(path);
+        _codeUnit _c = _java.codeUnit(path);
         if (_c instanceof _type) {
             return (_T) _c;
         }
@@ -380,8 +282,8 @@ public interface _java {
      * @param javaSourceFilePath the path to the local Java source code
      * @return the _code instance
      */
-    static _codeUnit code(Path javaSourceFilePath) throws _jdraftException {
-        return code(Ast.of(javaSourceFilePath));
+    static _codeUnit codeUnit(Path javaSourceFilePath) throws _jdraftException {
+        return codeUnit(Ast.of(javaSourceFilePath));
     }
 
     /**
@@ -391,8 +293,8 @@ public interface _java {
      * @param javaSourceInputStream
      * @return
      */
-    static _codeUnit code(InputStream javaSourceInputStream) throws _jdraftException {
-        return code(Ast.of(javaSourceInputStream));
+    static _codeUnit codeUnit(InputStream javaSourceInputStream) throws _jdraftException {
+        return codeUnit(Ast.of(javaSourceInputStream));
     }
 
     /**
@@ -403,8 +305,8 @@ public interface _java {
      * @return
      * @throws _jdraftException
      */
-    static _codeUnit code(File javaSourceFile) throws _jdraftException {
-        return code(Ast.of(javaSourceFile));
+    static _codeUnit codeUnit(File javaSourceFile) throws _jdraftException {
+        return codeUnit(Ast.of(javaSourceFile));
     }
 
     /**
@@ -414,8 +316,8 @@ public interface _java {
      * @param javaSourceReader reader containing .java source code
      * @return the _code model instance representing the source
      */
-    static _codeUnit code(Reader javaSourceReader) throws _jdraftException {
-        return code(Ast.of(javaSourceReader));
+    static _codeUnit codeUnit(Reader javaSourceReader) throws _jdraftException {
+        return codeUnit(Ast.of(javaSourceReader));
     }
 
     /**
@@ -425,7 +327,7 @@ public interface _java {
      * @param astRoot the AST
      * @return a _code wrapper implementation that wraps the AST
      */
-    static _codeUnit code(CompilationUnit astRoot) {
+    static _codeUnit codeUnit(CompilationUnit astRoot) {
         if (astRoot.getModule().isPresent()) {
             return _moduleInfo.of(astRoot);
         }
@@ -532,6 +434,12 @@ public interface _java {
      * @return the _model entity
      */
     static _domain of(Node astNode) {
+        if( astNode instanceof Expression ){
+            return _expression.of( (Expression)astNode);
+        }
+        if( astNode instanceof Statement ){
+            return _statement.of( (Statement)astNode);
+        }
         if (astNode instanceof ImportDeclaration ){
             return _import.of((ImportDeclaration) astNode);
         }
@@ -616,7 +524,7 @@ public interface _java {
             return _typeRef.of((Type) astNode);
         }
         if (astNode instanceof CompilationUnit) {
-            return code((CompilationUnit) astNode);
+            return codeUnit((CompilationUnit) astNode);
         }
         throw new _jdraftException("Unable to create _java entity from " + astNode);
     }
@@ -863,168 +771,6 @@ public interface _java {
                 return Component.ENUM;
             }
             return Component.ANNOTATION;
-        }
-    }
-
-    // ------------------ COMMENTS --------------------------
-
-    /**
-     * list all comments within this astRootNode (including the comment applied
-     * to the astRootNode if the AstRootNode is an instance of {@link NodeWithJavadoc}
-     *
-     * @param astRootNode the root node to look through
-     * @return a list of all comments on or underneath the node
-     */
-    static List<Comment> listComments(Node astRootNode) {
-        return Ast.listComments(astRootNode);
-    }
-
-    /**
-     * @param <C>                the comment class
-     * @param astRootNode        the root node to start the search
-     * @param commentTargetClass the TYPE of comment ({@link Comment},
-     *                           {@link LineComment}, {@link JavadocComment}, {@link BlockComment})
-     * @param commentMatchFn     predicate for selecting comments
-     * @return a list of matching comments
-     */
-    static <C extends Comment> List<C> listComments(
-            Node astRootNode, Class<C> commentTargetClass, Predicate<C> commentMatchFn) {
-        return Ast.listComments(astRootNode, commentTargetClass, commentMatchFn);
-    }
-
-    /**
-     * list all comments within this astRootNode that match the predicate
-     * (including the comment applied to the astRootNode if the AstRootNode is
-     * an instance of {@link NodeWithJavadoc})
-     *
-     * @param astRootNode    the root node to look through
-     * @param commentMatchFn matching function for comments
-     * @return a list of all comments on or underneath the node
-     */
-    static List<Comment> listComments(Node astRootNode, Predicate<Comment> commentMatchFn) {
-        return Ast.listComments(astRootNode, commentMatchFn);
-    }
-
-    /**
-     *
-     * @param <C>
-     * @param <_J>
-     * @param _j
-     * @param commentTargetClass
-     * @param commentMatchFn
-     * @return
-     */
-    static <C extends Comment, _J extends _domain> List<C> listComments(
-            _J _j, Class<C> commentTargetClass, Predicate<C> commentMatchFn){
-
-        if( _j instanceof _codeUnit){
-            if( ((_codeUnit) _j).isTopLevel() ){
-                return Ast.listComments( ((_codeUnit) _j).astCompilationUnit(), commentTargetClass, commentMatchFn );
-            }
-            else{
-                return Ast.listComments( ((_type) _j).ast(), commentTargetClass, commentMatchFn );
-            }
-        } else{
-            return Ast.listComments(  ((_multiPart) _j).ast(), commentTargetClass, commentMatchFn);
-        }
-    }
-
-    /**
-     *
-     * @param <_J>
-     * @param _j
-     * @param commentMatchFn
-     * @return
-     */
-    static <_J extends _domain> List<Comment> listComments(_J _j, Predicate<Comment> commentMatchFn){
-        if( _j instanceof _codeUnit){
-            if( ((_codeUnit) _j).isTopLevel() ){
-                return Ast.listComments( ((_codeUnit) _j).astCompilationUnit(), commentMatchFn );
-            }
-            else{
-                return Ast.listComments( ((_type) _j).ast(), commentMatchFn);
-            }
-        } else{
-            return Ast.listComments(  ((_multiPart) _j).ast(), commentMatchFn );
-        }
-    }
-
-    /**
-     *
-     * @param <_J>
-     * @param _j
-     * @param commentMatchFn
-     * @param commentActionFn
-     */
-    static <_J extends _domain> void forComments(_J _j, Predicate<Comment> commentMatchFn, Consumer<Comment> commentActionFn ){
-        if( _j instanceof _codeUnit){
-            if( ((_codeUnit) _j).isTopLevel() ){
-                Ast.forComments( ((_codeUnit) _j).astCompilationUnit(), commentMatchFn, commentActionFn);
-            }
-            else{
-                Ast.forComments( ((_type) _j).ast(), commentMatchFn, commentActionFn);
-            }
-        } else{
-            Ast.forComments(  ((_multiPart) _j).ast(), commentMatchFn, commentActionFn );
-        }
-    }
-
-    /**
-     *
-     * @param <C>
-     * @param <_J>
-     * @param _j
-     * @param commentClass
-     * @param commentMatchFn
-     * @param commentActionFn
-     */
-    static <C extends Comment, _J extends _domain> void forComments(_J _j, Class<C> commentClass, Predicate<C> commentMatchFn, Consumer<C> commentActionFn ){
-        if( _j instanceof _codeUnit){
-            if( ((_codeUnit) _j).isTopLevel() ){
-                Ast.forComments( ((_codeUnit) _j).astCompilationUnit(), commentClass, commentMatchFn, commentActionFn);
-            }
-            else{
-                Ast.forComments( ((_type) _j).ast(),  commentClass, commentMatchFn, commentActionFn);
-            }
-        } else{
-            Ast.forComments(  ((_multiPart) _j).ast(),  commentClass, commentMatchFn, commentActionFn );
-        }
-    }
-
-    /**
-     *
-     * @param _j
-     * @param commentActionFn
-     */
-    static void forComments(_domain _j, Consumer<Comment> commentActionFn){
-        if( _j instanceof _codeUnit){
-            if( ((_codeUnit) _j).isTopLevel() ){
-                Ast.forComments( ((_codeUnit) _j).astCompilationUnit(), commentActionFn);
-            }
-            else{
-                Ast.forComments( ((_type) _j).ast(), commentActionFn);
-            }
-        } else{
-            Ast.forComments(  ((_multiPart)_j).ast(), commentActionFn );
-        }
-    }
-
-    /**
-     *
-     * @param <_J>
-     * @param _j
-     * @return
-     */
-    static <_J extends _domain> List<Comment> listComments(_J _j){
-        if( _j instanceof _codeUnit){
-            if( ((_codeUnit) _j).isTopLevel() ){
-                return Ast.listComments( ((_codeUnit) _j).astCompilationUnit() );
-            }
-            else{
-                return Ast.listComments( ((_type) _j).ast() );
-            }
-        } else{
-            return Ast.listComments(  ((_multiPart) _j).ast() );
         }
     }
 
@@ -1313,7 +1059,7 @@ public interface _java {
      * @param <N> the Ast type
      * @param <_N> the _domain type
      */
-    interface _astNode <N extends Node, _N extends _astNode> extends _domain {
+    interface _node<N extends Node, _N extends _node> extends _domain {
 
         /**
          * Build and return an (independent) copy of this _node entity
@@ -1327,7 +1073,6 @@ public interface _java {
          * the file (line numbers) and syntax related parent/child relationships
          */
         N ast();
-
 
         /**
          * Replace this ast node (wherever it resides in the Ast TREE) with the ASt node
@@ -1351,7 +1096,7 @@ public interface _java {
          * @param <_N> the type of _astNode node to replace with
          * @return the replacement _astNode implementation
          */
-        default <_N extends _astNode> _N replace(_N _n){
+        default <_N extends _node> _N replace(_N _n){
             replace(_n.ast());
             return _n;
         }
@@ -1433,7 +1178,7 @@ public interface _java {
      * @param <_UP> the _domain type
      * @see _multiPart for an ast node type that contains multiple walkable child entities
      */
-    interface _uniPart<N extends Node, _UP extends _uniPart> extends _astNode<N, _UP> { }
+    interface _uniPart<N extends Node, _UP extends _uniPart> extends _node<N, _UP> { }
 
     /**
      * {@link _multiPart} entity (having more than one possible child) that maps directly to an AST {@link Node}
@@ -1467,7 +1212,7 @@ public interface _java {
      * @param <_MP> the jdraft _node type {@link _method}, {@link _field}
      * @param <N> ast node {@link MethodDeclaration}, {@link FieldDeclaration}
      */
-    interface _multiPart<N extends Node, _MP extends _multiPart> extends _astNode<N, _MP> {
+    interface _multiPart<N extends Node, _MP extends _multiPart> extends _node<N, _MP> {
 
         /**
          * Decompose the entity into key-VALUE pairs where the key is the Component
@@ -1513,7 +1258,7 @@ public interface _java {
      * @param <_EL>
      * @param <_S>
      */
-    interface _set<EL extends Node, _EL extends _astNode, _S extends _set> extends _domain{
+    interface _set<EL extends Node, _EL extends _node, _S extends _set> extends _domain{
 
         _S copy();
 
@@ -1592,13 +1337,13 @@ public interface _java {
             return _els.get(0);
         }
 
-        default _EL get(int index){
+        default _EL getAt(int index){
             return this.list().get(index);
         }
 
-        default EL getAst(int index){
-            return this.listAstElements().get(index);
-        }
+        //default EL getAst(int index){
+        //   return this.listAstElements().get(index);
+        //}
 
         default int indexOf(_EL target){
             return list().indexOf(target);
@@ -1669,7 +1414,7 @@ public interface _java {
      * @see _arrayCreate (the dimensions of the array are in an ordered list)
      * @see _arrayInitialize (the elements located in the array are ordered)
      */
-    interface _list<EL extends Node, _EL extends _astNode, _NL extends _list> extends _set<EL, _EL, _NL>, _domain {
+    interface _list<EL extends Node, _EL extends _node, _L extends _list> extends _set<EL, _EL, _L>, _domain {
 
         default boolean is(_EL... _els){
             List<_EL> _arr = new ArrayList<>();
@@ -1690,8 +1435,24 @@ public interface _java {
             return true;
         }
 
-        default boolean isAt( int index, EL element){
-            return get(index).equals(element);
+        /** remove the argument at this index */
+        default _L removeAt(int index){
+            this.listAstElements().remove(index);
+            return (_L)this;
+        }
+
+        default _L setAt( int index, EL element){
+            this.listAstElements().set(index, element);
+            return (_L)this;
+        }
+
+        default _L setAt( int index, _EL _element){
+            this.listAstElements().set(index, (EL)_element.ast());
+            return (_L)this;
+        }
+
+        default boolean isAt( int index, _EL _element){
+            return getAt(index).equals(_element);
         }
     }
 
@@ -1762,7 +1523,7 @@ public interface _java {
 
     }
 
-    interface _withScope<N extends Node, _WS extends _astNode> extends _astNode<N, _WS> {
+    interface _withScope<N extends Node, _WS extends _node> extends _node<N, _WS> {
 
         default boolean hasScope(){
             return ((NodeWithOptionalScope)ast()).getScope().isPresent();
@@ -1822,63 +1583,63 @@ public interface _java {
         }
     }
 
-    interface _withArguments<N extends Node, _TA extends _astNode> extends _astNode<N, _TA> {
+    interface _withArguments<N extends Node, _WA extends _node> extends _node<N, _WA> {
 
         default _expression getArgument( int index){
             return _expression.of( ((NodeWithArguments)ast()).getArgument(index) );
         }
 
-        default _TA removeArgument( int index ){
+        default _WA removeArgument(int index ){
             ((NodeWithArguments)ast()).getArguments().remove(index);
-            return (_TA)this;
+            return (_WA)this;
         }
 
-        default _TA setArgument(int index, _expression _e){
+        default _WA setArgument(int index, _expression _e){
             ((NodeWithArguments)ast()).getArguments().set(index, _e.ast());
-            return (_TA)this;
+            return (_WA)this;
         }
 
-        default _TA setArgument(int index, Expression e){
+        default _WA setArgument(int index, Expression e){
             ((NodeWithArguments)ast()).getArguments().set(index, e);
-            return (_TA)this;
+            return (_WA)this;
         }
 
-        default _TA setArgument( int index, boolean b){
+        default _WA setArgument(int index, boolean b){
             return setArgument(index, Ex.of(b));
         }
 
-        default _TA setArgument( int index, int i){
+        default _WA setArgument(int index, int i){
             return setArgument(index, Ex.of(i));
         }
 
-        default _TA setArgument( int index, char c){
+        default _WA setArgument(int index, char c){
             return setArgument(index, Ex.of(c));
         }
 
-        default _TA setArgument( int index, float f){
+        default _WA setArgument(int index, float f){
             return setArgument(index, Ex.of(f));
         }
 
-        default _TA setArgument( int index, long l){
+        default _WA setArgument(int index, long l){
             return setArgument(index, Ex.of(l));
         }
 
-        default _TA setArgument(int index, double d){
+        default _WA setArgument(int index, double d){
             return setArgument(index, Ex.of(d));
         }
 
-        default _TA setArguments(_expression ... _es){
+        default _WA setArguments(_expression ... _es){
             NodeList<Expression> nle = new NodeList<>();
             Arrays.stream(_es).forEach(n -> nle.add(n.ast()));
             ((NodeWithArguments)ast()).setArguments(nle);
-            return (_TA)this;
+            return (_WA)this;
         }
 
-        default _TA setArguments(Expression ... es){
+        default _WA setArguments(Expression ... es){
             NodeList<Expression> nle = new NodeList<>();
             Arrays.stream(es).forEach(n -> nle.add(n));
             ((NodeWithArguments)ast()).setArguments(nle);
-            return (_TA)this;
+            return (_WA)this;
         }
 
         default boolean hasArguments(){
@@ -1985,92 +1746,92 @@ public interface _java {
         }
 
 
-        default _TA addArgument( int i){
+        default _WA addArgument(int i){
             return addArgument( Ex.of(i) );
         }
 
-        default _TA addArgument( boolean b){
+        default _WA addArgument(boolean b){
             return addArgument( Ex.of(b) );
         }
 
-        default _TA addArgument( float f){
+        default _WA addArgument(float f){
             return addArgument( Ex.of(f) );
         }
 
-        default _TA addArgument( long l){
+        default _WA addArgument(long l){
             return addArgument( Ex.of(l) );
         }
 
-        default _TA addArgument( double d){
+        default _WA addArgument(double d){
             return addArgument( Ex.of(d) );
         }
 
-        default _TA addArgument( char c){
+        default _WA addArgument(char c){
             return addArgument( Ex.of(c) );
         }
 
-        default _TA addArgument( Expression e ){
+        default _WA addArgument(Expression e ){
             return addArguments( e );
         }
 
-        default _TA addArguments(String...es){
+        default _WA addArguments(String...es){
             Arrays.stream(es).forEach(e -> ((NodeWithArguments)ast()).addArgument(e));
-            return (_TA)this;
+            return (_WA)this;
         }
 
-        default _TA addArguments(Expression...es){
+        default _WA addArguments(Expression...es){
             Arrays.stream(es).forEach(e -> ((NodeWithArguments)ast()).addArgument(e));
-            return (_TA)this;
+            return (_WA)this;
         }
 
-        default _TA addArguments(_expression..._es){
+        default _WA addArguments(_expression..._es){
             Arrays.stream(_es).forEach(_e -> ((NodeWithArguments)ast()).addArgument(_e.ast()));
-            return (_TA)this;
+            return (_WA)this;
         }
 
-        default _TA removeArguments(){
+        default _WA removeArguments(){
             ((NodeWithArguments)ast()).getArguments().removeIf( t->true);
-            return (_TA)this;
+            return (_WA)this;
         }
 
-        default _TA removeArguments(int index){
+        default _WA removeArguments(int index){
             ((NodeWithArguments)ast()).getArguments().remove(index);
-            return (_TA)this;
+            return (_WA)this;
         }
-        default _TA removeArguments(Predicate<_expression> matchFn ){
+        default _WA removeArguments(Predicate<_expression> matchFn ){
             ((NodeWithArguments)ast()).getArguments().removeIf(matchFn);
-            return (_TA)this;
+            return (_WA)this;
         }
 
-        default _TA removeArguments(_expression...es ){
+        default _WA removeArguments(_expression...es ){
             for(int i=0;i<es.length;i++){
                 ((NodeWithArguments)ast()).getArguments().remove(es[i].ast());
             }
-            return (_TA)this;
+            return (_WA)this;
         }
 
-        default _TA removeArguments(Expression...es ){
+        default _WA removeArguments(Expression...es ){
             for(int i=0;i<es.length;i++){
                 ((NodeWithArguments)ast()).getArguments().remove(es[i]);
             }
-            return (_TA)this;
+            return (_WA)this;
         }
 
-        default _TA forArguments(Consumer<_expression> argFn){
+        default _WA forArguments(Consumer<_expression> argFn){
             ((NodeWithArguments)ast()).getArguments().stream().map( a-> _expression.of( (Expression)a))
                     .forEach(e->  argFn.accept( (_expression)e) );
-            return (_TA)this;
+            return (_WA)this;
         }
 
-        default _TA forArguments(Predicate<_expression> expressionMatchFn, Consumer<_expression> argFn){
+        default _WA forArguments(Predicate<_expression> expressionMatchFn, Consumer<_expression> argFn){
             ((NodeWithArguments)ast()).getArguments().stream()
                     .map( a-> _expression.of( (Expression)a))
                     .filter(expressionMatchFn).forEach(e->  argFn.accept( (_expression)e) );
-            return (_TA)this;
+            return (_WA)this;
         }
     }
 
-    interface _withCondition <N extends Node, _WE extends _astNode> extends _astNode<N, _WE> {
+    interface _withCondition <N extends Node, _WC extends _node> extends _node<N, _WC> {
 
         default boolean isCondition(String...expression){
             try{
@@ -2092,17 +1853,17 @@ public interface _java {
             return matchFn.test(getCondition());
         }
 
-        default _WE setCondition(String...expression){
+        default _WC setCondition(String...expression){
             return setCondition(Ex.of(expression));
         }
 
-        default _WE setCondition(_expression e){
+        default _WC setCondition(_expression e){
             return setCondition(e.ast());
         }
 
-        default _WE setCondition(Expression e){
+        default _WC setCondition(Expression e){
             ((NodeWithExpression)ast()).setExpression(e);
-            return (_WE)this;
+            return (_WC)this;
         }
 
         default _expression getCondition(){
@@ -2110,7 +1871,7 @@ public interface _java {
         }
     }
 
-    interface _withExpression <N extends Node, _WE extends _astNode> extends _astNode<N, _WE> {
+    interface _withExpression <N extends Node, _WE extends _node> extends _node<N, _WE> {
 
         default boolean isExpression(String...expression){
             try{
@@ -2177,9 +1938,9 @@ public interface _java {
     /**
      *
      * @param <N>
-     * @param <_TA>
+     * @param <_WTA>
      */
-    interface _withTypeArguments<N extends Node, _TA extends _astNode> extends _astNode<N, _TA> {
+    interface _withTypeArguments<N extends Node, _WTA extends _node> extends _node<N, _WTA> {
 
         default boolean hasTypeArguments(){
             return ((NodeWithTypeArguments)ast()).getTypeArguments().isPresent();
@@ -2197,9 +1958,9 @@ public interface _java {
          * Set the TypeArguments to be using the Diamond Operator
          * @return
          */
-        default _TA setUseDiamondOperator(){
+        default _WTA setUseDiamondOperator(){
             ((NodeWithTypeArguments)ast()).setDiamondOperator();
-            return (_TA)this;
+            return (_WTA)this;
         }
 
         default int typeArgumentCount(){
@@ -2210,16 +1971,16 @@ public interface _java {
             return ((NodeWithArguments)ast()).getArguments().size();
         }
 
-        default _TA setTypeArguments( Type...ts ){
+        default _WTA setTypeArguments(Type...ts ){
             ((NodeWithTypeArguments)ast()).setTypeArguments(ts);
-            return (_TA)this;
+            return (_WTA)this;
         }
 
-        default _TA setTypeArguments( _typeRef...tr){
+        default _WTA setTypeArguments(_typeRef...tr){
             NodeList<Type> tas = new NodeList<>();
             Arrays.stream(tr).forEach( t -> tas.add(t.ast()));
             ((NodeWithTypeArguments)ast()).setTypeArguments(tas);
-            return (_TA)this;
+            return (_WTA)this;
         }
 
         default List<_typeRef> listTypeArguments(){
@@ -2250,33 +2011,33 @@ public interface _java {
             return listTypeArguments().stream().filter(matchFn).collect(Collectors.toList());
         }
 
-        default _TA forTypeArguments(Consumer<_typeRef> typeArgFn){
+        default _WTA forTypeArguments(Consumer<_typeRef> typeArgFn){
             listTypeArguments().stream().forEach(typeArgFn);
-            return (_TA)this;
+            return (_WTA)this;
         }
 
-        default _TA forTypeArguments(Predicate<_typeRef> matchFn, Consumer<_typeRef> typeArgFn){
+        default _WTA forTypeArguments(Predicate<_typeRef> matchFn, Consumer<_typeRef> typeArgFn){
             listTypeArguments().stream().filter(matchFn).forEach(typeArgFn);
-            return (_TA)this;
+            return (_WTA)this;
         }
 
-        default _TA removeTypeArgument(int index){
+        default _WTA removeTypeArgument(int index){
             NodeWithTypeArguments nwta = (NodeWithTypeArguments)ast();
             NodeList<Type> nt = (NodeList<Type>)nwta.getTypeArguments().get();
             nt.remove(index);
-            return (_TA)this;
+            return (_WTA)this;
         }
         /**
          * Remove ALL type Arguments
          * @return
          */
-        default _TA removeTypeArguments(){
+        default _WTA removeTypeArguments(){
             NodeWithTypeArguments nwta = (NodeWithTypeArguments)ast();
             nwta.removeTypeArguments();
-            return (_TA)this;
+            return (_WTA)this;
         }
 
-        default _TA removeTypeArguments( String...tas ){
+        default _WTA removeTypeArguments(String...tas ){
             Type[] ts = new Type[tas.length];
             for(int i=0;i<tas.length;i++){
                 ts[i] = Ast.typeRef(tas[i]);
@@ -2289,7 +2050,7 @@ public interface _java {
          * @param tas
          * @return
          */
-        default _TA removeTypeArguments( Type...tas ){
+        default _WTA removeTypeArguments(Type...tas ){
             NodeWithTypeArguments nwta = (NodeWithTypeArguments)ast();
             NodeList<Type> nt = null;
 
@@ -2299,7 +2060,7 @@ public interface _java {
                     nt.remove(tas[i]);
                 }
             }
-            return (_TA) this;
+            return (_WTA) this;
         }
 
         /**
@@ -2307,7 +2068,7 @@ public interface _java {
          * @param tas
          * @return
          */
-        default _TA removeTypeArguments( _typeRef...tas ){
+        default _WTA removeTypeArguments(_typeRef...tas ){
             NodeWithTypeArguments nwta = (NodeWithTypeArguments)ast();
             NodeList<Type> nt = null;
 
@@ -2317,7 +2078,7 @@ public interface _java {
                     nt.remove(tas[i].ast());
                 }
             }
-            return (_TA) this;
+            return (_WTA) this;
         }
 
         /**
@@ -2325,7 +2086,7 @@ public interface _java {
          * @param matchFn
          * @return
          */
-        default _TA removeTypeArguments( Predicate<_typeRef> matchFn ){
+        default _WTA removeTypeArguments(Predicate<_typeRef> matchFn ){
             NodeWithTypeArguments nwta = (NodeWithTypeArguments)ast();
             NodeList<Type> nt = null;
 
@@ -2336,10 +2097,10 @@ public interface _java {
                         nt.stream().filter(ta -> matchFn.test( _typeRef.of(ta))).collect(Collectors.toList());
                 return removeTypeArguments(toRemove.toArray(new Type[0]));
             }
-            return (_TA) this;
+            return (_WTA) this;
         }
 
-        default _TA setTypeArgument(int index, Type t ){
+        default _WTA setTypeArgument(int index, Type t ){
             NodeWithTypeArguments nwta = (NodeWithTypeArguments)ast();
             NodeList<Type> nt = null;
 
@@ -2347,14 +2108,14 @@ public interface _java {
                 NodeList<Type> nta = (NodeList<Type>) nwta.getTypeArguments().get();
                 nta.set(index, t);
             }
-            return (_TA)this;
+            return (_WTA)this;
         }
 
-        default _TA setTypeArgument(int index, _typeRef _t ){
+        default _WTA setTypeArgument(int index, _typeRef _t ){
             return setTypeArgument(index, _t.ast());
         }
 
-        default _TA setTypeArgument(int index, String type){
+        default _WTA setTypeArgument(int index, String type){
             return setTypeArgument(index, Ast.typeRef(type));
         }
 
@@ -2371,7 +2132,7 @@ public interface _java {
             return true;
         }
 
-        default _TA addTypeArguments(String...ts){
+        default _WTA addTypeArguments(String...ts){
             Type[] tys = new Type[ts.length];
             for(int i=0;i<ts.length;i++){
                 tys[i] = Ast.typeRef(ts[i]);
@@ -2379,7 +2140,7 @@ public interface _java {
             return addTypeArguments(tys);
         }
 
-        default _TA addTypeArguments(Class...cs){
+        default _WTA addTypeArguments(Class...cs){
             Type[] ts = new Type[cs.length];
             for(int i=0;i<cs.length;i++){
                 ts[i] = Ast.typeRef(cs[i]);
@@ -2387,7 +2148,7 @@ public interface _java {
             return addTypeArguments(ts);
         }
 
-        default _TA addTypeArguments(Type...ts){
+        default _WTA addTypeArguments(Type...ts){
             NodeWithTypeArguments nwta = (NodeWithTypeArguments)ast();
             NodeList<Type> nt = null;
             if( nwta.getTypeArguments().isPresent() ){
@@ -2399,10 +2160,10 @@ public interface _java {
             for(int i=0;i<ts.length;i++){
                 nt.add( ts[i]);
             }
-            return (_TA)this;
+            return (_WTA)this;
         }
 
-        default _TA addTypeArguments(_typeRef..._es){
+        default _WTA addTypeArguments(_typeRef..._es){
             List<Type> lt = Arrays.stream(_es).map(_e -> _e.ast()).collect(Collectors.toList());
             return addTypeArguments( lt.toArray(new Type[0]));
         }

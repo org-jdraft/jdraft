@@ -108,7 +108,7 @@ public class _localVariables implements _expression<VariableDeclarationExpr, _lo
         return listVariables().stream().filter(matchFn).collect(Collectors.toList());
     }
 
-    public _variable get(int index){
+    public _variable getAt(int index){
         return _variable.of(this.varDeclEx.getVariable(index));
     }
 

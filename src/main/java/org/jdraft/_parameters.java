@@ -95,7 +95,7 @@ public final class _parameters
 
     public boolean isVarArg() {
         if( !isEmpty() ) {
-            return get( size() - 1 ).isVarArg();
+            return getAt( size() - 1 ).isVarArg();
         }
         return false;
     }

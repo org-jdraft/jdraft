@@ -599,7 +599,7 @@ public class $comment <C extends Comment>
      * @return
      */
     public <_J extends _java> _J forSelectedIn(_java._domain _j, Consumer<Select> selectActionFn) {
-        _java.forComments(_j, c->{
+        _comment.forComments(_j, c->{
             Select s = select(c);
             if( s != null ){
                 selectActionFn.accept(s);
@@ -620,7 +620,7 @@ public class $comment <C extends Comment>
     }
     
     public <_J extends _java._domain> _J forSelectedIn(_java._domain _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
-        _java.forComments(_j, c->{
+        _comment.forComments(_j, c->{
             Select s = select(c);
             if( s != null && selectConstraint.test(s)){
                 selectActionFn.accept(s);

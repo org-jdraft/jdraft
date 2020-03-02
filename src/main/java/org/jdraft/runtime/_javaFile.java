@@ -76,7 +76,7 @@ public class _javaFile<C extends _codeUnit>
      * @return 
      */
     public static _javaFile of( Path javaSourceFilePath ){
-        _codeUnit _c = _java.code(javaSourceFilePath);
+        _codeUnit _c = _java.codeUnit(javaSourceFilePath);
         _javaFile _cf = of( _c );
         String fullName = _c.getFullName();
         
@@ -100,7 +100,7 @@ public class _javaFile<C extends _codeUnit>
      * @return a codeFile
      */
     public static _javaFile of( Path sourceRoot, Path javaSourceFilePath ){
-        _codeUnit _c = _java.code(javaSourceFilePath);
+        _codeUnit _c = _java.codeUnit(javaSourceFilePath);
         _javaFile _cf = of( _c );
         _cf.setSourcePath(sourceRoot);
         return _cf;
@@ -141,7 +141,7 @@ public class _javaFile<C extends _codeUnit>
      * @param ast
      */
     public _javaFile(CompilationUnit ast) {
-        this((C) _java.code(ast) );
+        this((C) _java.codeUnit(ast) );
     }
 
     public void setSourcePath(Path sourcePath){

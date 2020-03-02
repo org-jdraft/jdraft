@@ -1686,7 +1686,7 @@ public final class $ {
     }
 
     public static boolean hasAncestor(_java._domain _j, $pattern $p ){
-        return _java.hasAncestor( _j, Node.class, a-> $p.match(a) );
+        return Walk.hasAncestor( _j, Node.class, a-> $p.match(a) );
     }
 
     /** True if the node has an ancestor */
@@ -1695,7 +1695,7 @@ public final class $ {
     }
 
     public static boolean hasDescendant(_java._domain _j, $pattern $p ){
-        return _java.hasDescendant( _j, Node.class, a-> $p.match(a) );
+        return Walk.hasDescendant( _j, Node.class, a-> $p.match(a) );
     }
 
     /**

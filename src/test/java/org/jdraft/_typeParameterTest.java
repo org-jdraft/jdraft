@@ -42,7 +42,7 @@ public class _typeParameterTest extends TestCase {
     }
     public void testTypeParameterT(){
         _typeParameters _tps = _typeParameters.of("B extends R & J");
-        System.out.println( _tps.get(0).getTypeBound() );
+        System.out.println( _tps.getAt(0).getTypeBound() );
         
         System.out.println( _tps );
         
@@ -59,10 +59,10 @@ public class _typeParameterTest extends TestCase {
         System.out.println( _typeParameters.of("A,B extends R & J") );        
         //System.out.println( _typeParameters.of("A,B super R") );        
         _typeParameters _tp = _typeParameters.of("A, B extends R");        
-        TypeParameter A = _tp.get(0).ast();
+        TypeParameter A = _tp.getAt(0).ast();
         System.out.println( A.getName() );
         System.out.println( "TYPE BOUND" + A.getTypeBound() );
-        TypeParameter B = _tp.get(1).ast();
+        TypeParameter B = _tp.getAt(1).ast();
         System.out.println( B.getName() );
         System.out.println( "TYPE BOUND" + B.getTypeBound() );
         

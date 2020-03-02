@@ -549,7 +549,7 @@ public class _methodTest extends TestCase {
         assertTrue( _m.getModifiers().isPublic() );
         assertEquals( "getM", _m.getName() );
 
-        _parameter _pa = _m.getParameters().get( 0 );
+        _parameter _pa = _m.getParameters().getAt( 0 );
         assertEquals( _pa.getTypeRef().toString(), "int" );
         assertEquals( _pa.getName().toString(), "a" );
     }
@@ -629,8 +629,8 @@ public class _methodTest extends TestCase {
         assertTrue(_m.hasAnno( "ann"));
         assertTrue(_m.hasAnno( ann.class));
         assertTrue(_m.hasAnno( ann2.class));
-        assertTrue(_m.getAnnos().get( 0 ).is( "@ann") );
-        assertTrue(_m.getAnnos().get( 1 ).is( "@ann2(key=7,VALUE='r')") );
+        assertTrue(_m.getAnnos().getAt( 0 ).is( "@ann") );
+        assertTrue(_m.getAnnos().getAt( 1 ).is( "@ann2(key=7,VALUE='r')") );
         
         assertTrue( _m.getModifiers().is("public static final"));
         assertTrue( _m.getModifiers().isPublic());

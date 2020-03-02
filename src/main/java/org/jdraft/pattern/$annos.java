@@ -139,7 +139,7 @@ public class $annos
         $annos $as = new $annos();
         if( _anns != null ){
             for(int i=0;i<_anns.size();i++){
-                $anno a = $anno.as(_anns.get(i) );
+                $anno a = $anno.as(_anns.getAt(i) );
                 $as.$annosList.add(a);
             }
         }
@@ -163,7 +163,7 @@ public class $annos
     public $annos( _annos _anns){
         if( _anns != null ){
             for(int i=0;i<_anns.size();i++){
-                $anno a = $anno.of(_anns.get(i) );
+                $anno a = $anno.of(_anns.getAt(i) );
                 $annosList.add(a);
             }    
         }        

@@ -430,7 +430,7 @@ public final class _typeRef<T extends Type>
         return Normalizer.of( this.astType.toString() );        
     }
 
-    public static interface _withTypeRef<N extends Node, _WT extends _java._astNode> extends _java._astNode<N, _WT> {
+    public static interface _withTypeRef<N extends Node, _WT extends _java._node> extends _java._node<N, _WT> {
 
         /**
          * @return they type

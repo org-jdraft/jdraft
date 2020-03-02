@@ -87,9 +87,9 @@ public class _annosTest extends TestCase {
     public void testChildParent(){
         FieldDeclaration fd = Ast.field( "@a(1) public int i=100;");
         _annos _as = new _annos( fd );
-        _as.get( 0 ).addMemberValue( "Key", 1000 );
+        _as.getAt( 0 ).addMemberValue( "Key", 1000 );
 
-        assertTrue( _as.get(0).is("@a(Key=1000)"));
+        assertTrue( _as.getAt(0).is("@a(Key=1000)"));
 
         //parent child
         fd = Ast.field( "@a(1) public int i=100;");

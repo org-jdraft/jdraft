@@ -160,7 +160,7 @@ public class PatternExamplesTest extends TestCase {
 
         // find all methods that contain any comment (line comment, block comment, javadoc comment)
         // with my "@MED" signature
-        assertNotNull( $method.of(m -> !_java.listComments(m, c-> c.getContent().contains("@MED")).isEmpty()).firstIn(AMM.class) );
+        assertNotNull( $method.of(m -> !_comment.listComments(m, c-> c.getContent().contains("@MED")).isEmpty()).firstIn(AMM.class) );
 
 
         $method $m = $.method( $throws.of(IOException.class) );

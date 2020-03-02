@@ -134,7 +134,7 @@ public class SpatternCodeTest extends TestCase {
 
         System.out.println( $typeParameter.of().firstIn(_c) );
         Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
-        _java.describe( $typeParameter.of().firstIn(_c) );
+        Walk.describe( $typeParameter.of().firstIn(_c) );
         Log.setAdapter(new Log.SilentAdapter());
         assertEquals( 2, $typeRef.of(Map.class).countIn(_c) );
         assertEquals( 1, $typeRef.of(Map.class).$hasAncestor($typeParameter.of()).countIn(_c) ); //a map used in a TypeParameter
@@ -191,9 +191,9 @@ public class SpatternCodeTest extends TestCase {
             "    requires bbbb;" + System.lineSeparator()+
             "    requires static cccc;" + System.lineSeparator()+
             "}"); 
-        _codeUnit _c = (_codeUnit)_java.code(classAst);
-        _codeUnit _pI = (_codeUnit)_java.code(packageInfoAst);
-        _codeUnit _mI = (_codeUnit)_java.code(modAst);
+        _codeUnit _c = (_codeUnit)_java.codeUnit(classAst);
+        _codeUnit _pI = (_codeUnit)_java.codeUnit(packageInfoAst);
+        _codeUnit _mI = (_codeUnit)_java.codeUnit(modAst);
         
         
         assertTrue( _c instanceof _type);

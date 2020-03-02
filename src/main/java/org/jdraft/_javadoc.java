@@ -17,7 +17,7 @@ import org.jdraft.text.Tokens;
  * @author Eric
  */
 public final class _javadoc
-    implements _java._domain {
+    implements _java._node<JavadocComment, _javadoc> {
 
     public static _javadoc of( NodeWithJavadoc jdnode ) {
         return new _javadoc( jdnode );
@@ -79,11 +79,22 @@ public final class _javadoc
         return !astJavadocedNode.hasJavaDocComment();
     }
 
+    @Override
+    public _javadoc copy() {
+        Node n = (Node)this.astJavadocedNode;
+        return of( (NodeWithJavadoc)n.clone() );
+    }
+
     public JavadocComment ast() {
         if( this.astJavadocedNode.getJavadocComment().isPresent() ) {
             return (JavadocComment)this.astJavadocedNode.getJavadocComment().get();
         }
         return null;
+    }
+
+    @Override
+    public boolean is(String... stringRep) {
+        return getContent().equals( Ast.javadocComment(stringRep).getContent() );
     }
 
     public String getContent() {

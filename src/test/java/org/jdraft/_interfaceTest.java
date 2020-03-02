@@ -111,7 +111,7 @@ public class _interfaceTest extends TestCase {
 
         assertEquals( _i1, _i2);
 
-        _typeParameter tp = _i1.getTypeParameters().get(0);
+        _typeParameter tp = _i1.getTypeParameters().getAt(0);
         //System.out.println( tp.getTypeBound() );
 
         //_walk.directChildren( tp, Node.class, ni -> System.out.println( ni+" " +ni.getClass() ) );

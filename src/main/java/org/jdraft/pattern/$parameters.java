@@ -79,7 +79,7 @@ public class $parameters implements Template<_parameters>,
         }
         $parameter[] $ps = new $parameter[_ps.size()];
         for(int i=0;i<_ps.size(); i++){
-            $ps[i] = $parameter.as(_ps.get(i) );
+            $ps[i] = $parameter.as(_ps.getAt(i) );
         }
         $parameters $psa = of($ps);
         return $psa.$and( _pls -> _pls.size() == _ps.size() );
@@ -217,7 +217,7 @@ public class $parameters implements Template<_parameters>,
             }
             Tokens ts = new Tokens();
             for(int i=0;i<_ps.size(); i++ ){
-                $parameter.Select sel = this.$params.get(i).select( _ps.get(i) );
+                $parameter.Select sel = this.$params.get(i).select( _ps.getAt(i) );
                 if( sel != null ) { //&& ts.isConsistent(sel.tokens.asTokens()) ){
                     ts.putAll( sel.tokens.asTokens() );
                 } else{
