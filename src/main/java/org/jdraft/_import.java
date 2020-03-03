@@ -3,6 +3,8 @@ package org.jdraft;
 import com.github.javaparser.ast.ImportDeclaration;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.function.Predicate;
+
 import org.jdraft.macro._remove;
 import org.jdraft.text.Text;
 
@@ -21,7 +23,7 @@ public class _import implements _java._multiPart<ImportDeclaration, _import>,
     public _import copy(){
         return of( this.astId.toString());
     }
-    
+
     /**
      * create a new _import over the ImportDeclaration
      * @param astId the ast ImportDeclaration

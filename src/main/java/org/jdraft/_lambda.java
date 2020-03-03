@@ -9,7 +9,7 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.EmptyStmt;
 import com.github.javaparser.ast.stmt.Statement;
 
-import org.jdraft._parameter._hasParameters;
+import org.jdraft._parameters._withParameters;
 
 /**
  * Representation of the source of a Java lambda expression
@@ -19,7 +19,7 @@ import org.jdraft._parameter._hasParameters;
 public class _lambda 
     implements _expression<LambdaExpr, _lambda>,
         _java._multiPart<LambdaExpr, _lambda>,
-        _hasParameters<_lambda> {
+        _withParameters<_lambda> {
 
     /**
      * create a _lamba based on the code (as String)

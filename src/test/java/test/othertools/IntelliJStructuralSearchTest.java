@@ -1,14 +1,15 @@
 package test.othertools;
 
 import junit.framework.TestCase;
-import org.jdraft._constructor;
-import org.jdraft._javadoc;
-import org.jdraft._method;
+import org.jdraft.*;
+import org.jdraft.io._archive;
 import org.jdraft.io._path;
 import org.jdraft.io._sources;
 import org.jdraft.pattern.*;
+import org.jdraft.runtime._typeTree;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Looking at the integrated IntelliJ Structured Source Query
@@ -23,6 +24,42 @@ import java.io.Serializable;
 public class IntelliJStructuralSearchTest extends TestCase {
 
     static _sources _SOURCE = _sources.of( _path.of("C:\\jdraft\\project\\jdraft\\src\\main\\java\\org\\jdraft\\diff") );
+
+    public void testJavadocPatterns(){
+        //Comments
+        _( $comment.of() );
+
+        /*
+        //_field _f = _field.of("/** @deprecatedint i;"); */
+        //System.out.println( _f);
+        //assertEquals(1, $comment.javadocComment("@deprecated").countIn(_f));
+        //TODO look for SPECIFIC javadoc tags
+        //_( $.javadoc().$withTagName("deprecated") );
+
+        //Javadoc annotated class
+        //_( $class.of( $.javadoc(j -> j."@$tag$ $tagValue$")) );
+/*
+        _javadoc.of();
+        //Javadoc annotated fields
+        $field.of( $javadoc.of().with("@$tag$ $tagValue$"))
+
+        Javadoc annotated methods
+        $method.of( $javadoc.of().with("@$tag$ $tagValue$"))
+
+        Javadoc annotated constructor
+        $constructor.of( $javadoc.of().with("@$tag$ $tagValue$"))
+
+        Javadoc tags
+        $javadoc.of().with(
+
+                Not annotated method
+                $method.of(m-> !m.hasAnnos())
+
+                XDoclet tag
+                $.javadoc().withTag("@see"))
+        $.javadoc().withTag("@ejb.$type$"))
+*/
+    }
 
     /**
      * Emulate 90% of the existing templates that exist in IntelliJ
@@ -132,255 +169,251 @@ public class IntelliJStructuralSearchTest extends TestCase {
         //Annotated Methods
         _( $method.of( m->m.hasAnnos() ) );
 
-        //Annotation Declarations
+        //Annotation Type Declarations
         _( $annotation.of() );
 
         //Annotation
         _( $anno.of() );
 
-        //Comments
-        _( $comment.of() );
+        //Expressions
 
-        //TODO look for SPECIFIC javadoc tags
-        //_( $.javadoc().$withTagName("deprecated") );
+        //all expressions of some type
+        _( $ex.of(_lambda.class) );
 
-        //Javadoc annotated class
-        //_( $class.of( $.javadoc(j -> j."@$tag$ $tagValue$")) );
-/*
-        _javadoc.of();
-        //Javadoc annotated fields
-        $field.of( $javadoc.of().with("@$tag$ $tagValue$"))
+        //all lambdas
+        _( $.lambda() );
 
-        Javadoc annotated methods
-        $method.of( $javadoc.of().with("@$tag$ $tagValue$"))
 
-        Javadoc annotated constructor
-        $constructor.of( $javadoc.of().with("@$tag$ $tagValue$"))
+        //Array access
+        _( $.arrayAccess() );
 
-        Javadoc tags
-        $javadoc.of().with(
+        //Assignments
+        _( $.assign() );
 
-                Not annotated method
-                $method.of(m-> !m.hasAnnos())
+        //Casts
+        _( $.cast() );
 
-                XDoclet tag
-                $.javadoc().withTag("@see"))
-        $.javadoc().withTag("@ejb.$type$"))
+        //Field Selections / Field Access
+        _( $.fieldAccessExpr() );
 
-//Expressions
+        //$.fieldAccessExpr().name("url$Name$")
 
-        all expressions of some type
-        $ex.of($ex.LAMBDA)
+         //instanceof
+        _( $.instanceOf() );
 
-        Array access
-        $.arrayAccess()
+        // method Calls
+        _( $.methodCall() );
 
-        Assignments
-        $.assign();
+        //method calls to deprecated methods
+        //you got me here
+        //how about FIRST we find all deprecated methods
+        //$method $deprecatedMethods = $.method().$anno(Deprecated.class);
 
-        Casts
-        $.cast()
-
-        Field Selections / Field Access
-        $.fieldAccess()
-        $.fieldAccess().name("url$Name$")
-
-                instanceof
-                $.instanceOf()
-
-        lambdas
-        $.lambda()
-
-        method Calls
-        $.methodCall()
-
-        method calls to deprecated methods
-//you got me here
-//how about FIRST we find all deprecated methods
-        $method $deprecatedMethods = $.method().hasAnno(Deprecated.class);
-
-        find all static direct access, find all
+        //find all static direct access, find all
 //$.methodCall(mc->getName
 
-        method references
-        $.methodReference()
+        //method references
+        _( $.methodReference() );
 
-        new expressions
-        $new.of()
+        //new expressions
+        _( $.newExpr() );
 
 //simple method invocation with constant
-        $methodCall.of( $args.of(as-> as.size() == 1
-                        && as.isArgument(0, a->a.isLiteral() )
+        //method calls that use a single parameter literal
+        _( $.methodCall( m -> m.countArguments()  == 1
+                        && m.getArgs().isAt(0, a -> a.isLiteral() ) ) );
 
-                String concatenation with many operands
-//TODO
-                $binaryExpression $stringConcat =
-                        $binaryExpression.ofPlus()
-                                .$or( b-> b.getLeft()
-                                        $.statement(s-> $binary)
+        //String concatenation with many operands
+        _( $.binaryExpr( b-> b.isPlus() &&
+                b.isLeft( _string.class ) || b.isRight( _string.class )) );
 
-                                        String literals
-                                        $.string()
+        //String literals
+        _( $.stringLiteral() );
 
-                                        DiamondOperators
-                                        $.hasDiamondOperator()
-                                        $.typeParameters(t.isDiamondOperator());
+        //DiamondOperators
+        //$.methodCall(m-> m.isUsingDiamondOperator());
+        //$.constructorCallStmt( c -> c.isUsingDiamondOperator() );
+        //$.newExpr(n-> n.isUsingDiamondOperator());
 
-        Generic Cast
-        $.cast( c-> c.getType().isGeneric())
+        //Diamond Operators
+        _( $.or( $.methodCall(m-> m.isUsingDiamondOperator()),
+                $.constructorCallStmt( c -> c.isUsingDiamondOperator() ),
+                $.newExpr(n-> n.isUsingDiamondOperator()) ) );
+        //$.thisCallStmt( t-> t.isUsingDi)
+        //_( $.hasDiamondOperator()
+        //$.typeParameters(t.isDiamondOperator());
 
-        Generic Classes
-        $class.of(c-> c.hasTypeParameters())
-        $class.of(c->c.isGeneric())
-        $class.of().$isGeneric()
+        //Generic Cast
+        _( $.cast( c-> c.getTypeRef().isGenericType() ) );
 
-        Generic Constructors
+        //Generic Classes
+        _( $class.of(c-> c.hasTypeParameters()) );
+        //$class.of(c->c.isGeneric())
+        //$class.of().$isGeneric()
+
+        //Generic Constructors
         $constructor.of(c-> c.hasTypeParameters());
-        $constructor.of(c-> c.isGeneric());
-        $constructor.of().$isGeneric()
-//is not generic
-        $constructor.of().$isGeneric(false);
+        //is not generic
+        $constructor.of(c-> !c.hasTypeParameters());
 
 
-        Generic Methods
+        //Generic Methods
         $method.of(m-> m.hasTypeParameters());
-        $method.of(m-> m.isGeneric());
-        $method.of().$isGeneric()
-//not generic
-        $method.of().$isGeneric(false);
-
-//??
-        $.genericType()
-        $.genericClass()
-        $.genericInterface()
-        $.genericEnum()
-
-        $.genericTypeRef()
-        $.genericMethod()
-        $.genericConsttructor()
-        $.genericField();
-
-??isDiamondOperator()
-
-        Method returns bounded wildcard
-//TODO
-        $type().isWildcard() //<?
-        $typeParameter.of().isWildcard()
+        //not generic
+        $method.of(m-> !m.hasTypeParameters());
 
 
-        $method.of().$return($typeRef.of($typeParameter.of().isWildCard());
-        Type<? extends $bound$>
+        //Method returns bounded wildcard
+        //TODO
+        //$type().isWildcard() //<?
+        //$typeParameter.of().isWildcard()
 
-        type var substitutions in instanceof with generic types
-                instanceof with generic type
-        $instanceOf.of().$typeRef(t-> t.isGeneric())
+        //TODO check/fix this
+        //$method.of(m -> m.isTypeRef(t-> t.isGenericType() && t.getTypeArguments()getGt.isWildcard()));
+        //Type<? extends $bound$>
 
-        typed symbol
-        $typeRef.of(t-> t.ieGeneric)
+        //type var substitutions in instanceof with generic types
+        //instanceof with generic type
+        $.instanceOf(i-> i.isTypeRef(t-> t.isGenericType()));
 
-        variables with generic types
-        $variable.of( $typeRef.of(t->t.isGeneric()))
+        //typed symbol
+        $typeRef.of(t-> t.isGenericType());
+
+        //variables with generic types
+        //wont work with existing pattern impl, wait for prototype
+        //$.variable().$
+        //$.variable( $typeRef.of(t->t.isGeneric()))
+
+        //all literals
+        //
+        _( $.literal() );
+
+        //all primitives
+        _( $typeRef.of( t-> t.isPrimitive() ) );
+        //$typeRef $primitive = $typeRef.or(int.class, boolean.class, long.class, double.class, float.class, char.class, short.class, byte.class);
+
+        // boxed (primitive) types
+        _( $typeRef.or(Integer.class, Boolean.class, Long.class, Double.class,  Float.class, Character.class, Short.class, Byte.class) );
 
 
-        boxed expressions?
+        //literals (accept null, string)
+        _( $.literal().$not(_string.class, _null.class) );
 
-        boxing in declarations
-        $typeRef $boxed =
-                $typeRef.or(Object.class, Integer.class, Boolean.class, Double.class, Long.class, Character.class, Short.class, Byte.class);
 
-        $typeRef $primitive = $typeRef.or(int.class, boolean.class, long.class, char.class, short.class, byte.class);
+        //$.variable( v-> v. ).$typeRef($primitive).$init($LITERALS)
 
-        $expression $LITERALS = $literal.of().$not(_string.class, _null.class);
+        //boxing in method calls
+        //????
 
-        $variable.of().$typeRef($primitive).$init($LITERALS)
-
-        boxing in method calls
-????
-
-        fields variables with a given name
+        //fields variables with a given name
 //i.e. a name that starts with url
-        $var.of().$name("url$Any$")
+        _( $var.of().$name("url$Any$") );
 
-        break to label
-        $.breakStmt(b-> b.hasLabel())
+        //break to label
+        _( $.breakStmt(b-> b.hasLabel()) );
 
-        methods and constructors with final
-        $.member( _method, _constructor).$modifiers($.FINAL);
+        //final methods and constructors
+        _( $.or( $method.of($.FINAL), $constructor.of($.FINAL)) );
 
-        switch statements with few branches
-        $.switchStmt(s-> s.listEntries().size() <= 4)
+        //switch statements with few branches
+        _( $.switchStmt(s -> s.countSwitchEntries() <= 4) );
 
-        try statements with resources and catch blocks
-        $.tryStmt(t-> t.hasResources() && t.hasCatchBlocks() )
+        //try statements with resources and 1 or more catch blocks
+        _( $.tryStmt(t-> t.hasWithResources() && t.hasCatch() ) );
 
-        unboxed expressions
-        $varEx.of( $.PRIMITIVE_TYPE ).$init( $.WRAPPER_TYPE )
-
+        //unboxed expressions
+        //_( $varEx.of( $.PRIMITIVE_TYPE ).$init( $.WRAPPER_TYPE ) )
+        /* TODO I NEED TO FIX pattern var
+        _( $.variable( v-> v.get$.typeRef(t->t.isPrimitive() ).$init( $.WRAPPER_TYPE ) )
         unboxed method calls
                 ???
 
         usage of derived type in cast
-???
+???     */
 
-        Ejb interface
-        $interface.of(i-> i.hasMethods()).$extends(EJBObject.class)
+        //Ejb interface
+        _( $interface.of(i-> i.hasMethods()).$extend("EJBObject") );
 
-        EJB class
-        $class.of().$implement(EntityBean.class)
+        //EJB class
+        _( $class.of().$implements("EntityBean") );
 
-        Servlet
-        $class.of().$extends(HttpServlet.class)
+        //Servlet
+        _( $class.of().$extends( "HttpServlet") );
 
-        SessionEjb
-        $class.of().$extends(SessionBean.class)
+        //SessionEjb
+        _( $class.of().$extends("SessionBean") );
 
-        Struts Action
-        $class.of().$extends(Action.class)
+        //Struts Action
+        _( $class.of().$extends("Action") );
 
-        BeanInfo Class
-        $class.of().$implements(BeanInfo.class)
+        //BeanInfo Class
+        _( $class.of().$implements("BeanInfo") );
 
-        Cloneable class
-//find all cloneable classes
-        $class $class.of().$implements(Cloneable.class )
-        $class.of().$extends( $type.of(
+        //Cloneable class
+        //find all cloneable classes
+        _( $class.of().$implements(Cloneable.class ) );
 
-                TestCases classes
-                $class.of().$extends(TestCase.class)
+        //all direct testcases
+        _( $class.of().$extends( TestCase.class ) );
 
-                find all implementers
-                Serializable Classes
+        //I could search for n levels deep
+        //this is another tool (outside of pattern)
+        //_typeTree _tt = _typeTree.of(_archive.of("C:\\temp\\mycode.jar"));
+        //List<_typeTree._typeNode> _tn = _tt.listAllDescendants(TestCase.class);
+        //_tn.get(0).fullyQualifiedClassName;
+
+         //find DIRECT implementers
+         $class.of().$implements(Serializable.class);
+
+         //find ALL implementers
+         //_typeTree _tt = _typeTree.of(_archive.of("C:\\temp\\mycode.jar"));
+         //List<_typeTree._typeNode> _tn = _tt.listAllDescendants(TestCase.class);
+         //_tn.get(0).fullyQualifiedClassName;
+
 //recursive find all
 //extends implement
 
-                $class.of().$implements(Serializable.class)
 
 //anyMatch (in nodeList)
 //allMatch (in nodeList)
 
 //singletons
-                $class.of(c-> c.hasConstructors()
-                        && c->c.hasConstructor(ct-> ct.isFinal()))
+        //methods
+        //constructors
+        //anyMatch
+        //allMatch
+        //_class _c = _class.of("C");
+        //$class.of(  _c.listConstructors().stream().allMatch(c-> c.isFinal() ) );
+        _( $class.of( c-> c.allConstructors( ct-> ct.isFinal()) ) );
+        _( $class.of( c-> c.allMethods( m-> m.isFinal()) ) );
+        _( $class.of( c-> c.allFields( f-> f.isFinal()) ) );
+        _( $class.of( c-> c.allInitBlocks( i-> i.isStatic() ) ) );
+        _( $class.of( c-> c.allTypeParameters( tp-> !tp.hasTypeBound() ) ) );
+        _( $class.of( c-> c.allAnnos( a-> !a.isNamed("todo") ) ) );
 
-                assertStatement without descriptions
-                $.assertStmt(a-> !a.hasMessage())
+        //Singletons
+        // OR classes that HAVE defined constructors that are ALL private
+        _( $class.of(c-> c.hasConstructors()
+                && c.allConstructors(ct-> ct.isPrivate())) );
 
-                forEachLoops
-                $.forEach()
+        //assertStatement without descriptions/messages
+        _( $.assertStmt(a-> !a.hasMessage()) );
 
-                ifs
-                $if.of()
+        //forEachLoops
+        _( $.forEachStmt() );
 
-                logging without if
-        $methodCall.of("LOG.debug($args$)") ??
+        //ifs
+        _( $.ifStmt() );
 
-        switch
-        $switchStmt.of()
+        //logging without if
+        //$.methodCall("$LOG$.debug($args$)").$isParentNot($.ifStmt("if( $LOG$.isDebugEnabled())")) ??
 
-        try
-        $tryStmt.of();
+        //switch statement
+        _($.switchStmt());
+        _($.switchExpr());
 
- */
+        //try
+        _( $.tryStmt() );
     }
 
     public void _($pattern $p){

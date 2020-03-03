@@ -182,6 +182,15 @@ public class _args
             return of( (NodeWithArguments)ast());
         }
 
+        /**
+         * Check if all individual arg ({@link _expression}s) match the function
+         * @param matchFn
+         * @return
+         */
+        default boolean allArguments( Predicate<_expression> matchFn){
+            return listArguments().stream().allMatch(matchFn);
+        }
+
         default _expression getArgument(int index){
             return _expression.of( ((NodeWithArguments)ast()).getArgument(index) );
         }

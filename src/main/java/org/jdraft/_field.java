@@ -628,6 +628,15 @@ public final class _field
 
         List<_field> listFields();
 
+        /**
+         * Check if all individual arg ({@link _field}s) match the function
+         * @param matchFn
+         * @return
+         */
+        default boolean allFields( Predicate<_field> matchFn){
+            return listFields().stream().allMatch(matchFn);
+        }
+
         default boolean hasFields() {
             return !listFields().isEmpty();
         }

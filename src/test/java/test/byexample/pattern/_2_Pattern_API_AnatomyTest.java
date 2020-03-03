@@ -87,10 +87,10 @@ public class _2_Pattern_API_AnatomyTest extends TestCase {
         $field $serialVersionUid = $field.of("static long serialVersionUID;").$and(f-> f.hasInit());
 
         //classes that implement Serializable AND have a serialVersionUnid
-        $class $hasSVUID = $class.of().$implement(Serializable.class).$and( c-> $serialVersionUid.countIn(c) >= 1);
+        $class $hasSVUID = $class.of().$implements(Serializable.class).$and(c-> $serialVersionUid.countIn(c) >= 1);
 
         //this represents a class that IMPLEMENTS serializable and DOES NOT have a SerialVersionUid field
-        $class $missingSVUID = $class.of().$implement(Serializable.class).$and( c-> $serialVersionUid.countIn(c) ==0);
+        $class $missingSVUID = $class.of().$implements(Serializable.class).$and(c-> $serialVersionUid.countIn(c) ==0);
 
         class hasSVUID implements Serializable{
             public static final long serialVersionUID = 12345L;

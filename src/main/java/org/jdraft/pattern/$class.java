@@ -134,7 +134,7 @@ public class $class
         if( _c.getExtends() != null) {
             $c.extend = $typeRef.of(_c.getExtends());
         }
-        _c.listImplements().forEach(i -> $c.$implement(i));
+        _c.listImplements().forEach(i -> $c.$implements(i));
 
         _c.forInitBlocks(ib -> $c.initBlocks.add($initBlock.of(ib.ast())));
 
@@ -672,22 +672,22 @@ public class $class
         return this;
     }
 
-    public $class $implement( ClassOrInterfaceType... coits ){
+    public $class $implements(ClassOrInterfaceType... coits ){
         Arrays.stream(coits).forEach(c -> this.implement.add( $typeRef.of(c)));
         return this;
     }
 
-    public $class $implement( Class... clazz){
+    public $class $implements(Class... clazz){
          Arrays.stream(clazz).forEach(c -> this.implement.add( $typeRef.of(c)));
          return this;
     }
 
-    public $class $implement( String...types){
+    public $class $implements(String...types){
         Arrays.stream(types).forEach(c -> this.implement.add( $typeRef.of(c)));
         return this;
     }
 
-    public $class $implement( $typeRef...impl){
+    public $class $implements($typeRef...impl){
         Arrays.stream(impl).forEach(i -> this.implement.add(i));
         return this;
     }

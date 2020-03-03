@@ -116,8 +116,8 @@ public class SclassTest extends TestCase {
         assertTrue( $class.of().$extends(Map.class).matches(_class.of("AnyClass").addExtend(Map.class)));
         assertFalse( $class.of().$extends(Map.class).matches(_class.of("AnyClass")));
 
-        assertTrue( $class.of().$implement(Serializable.class).matches(_class.of("AnyClass").implement(Serializable.class)));
-        assertFalse( $class.of().$implement(Serializable.class).matches(_class.of("AnyClass")));
+        assertTrue( $class.of().$implements(Serializable.class).matches(_class.of("AnyClass").implement(Serializable.class)));
+        assertFalse( $class.of().$implements(Serializable.class).matches(_class.of("AnyClass")));
 
         assertTrue( $class.of( $import.of(Map.class)).matches(_class.of("AnyClass").addImports(Map.class)));
         assertFalse( $class.of( $import.of(Map.class)).matches(_class.of("AnyClass")));

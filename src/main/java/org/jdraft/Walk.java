@@ -1491,7 +1491,7 @@ public enum Walk {
      *
      * NOTE: this ALSO works with {@link _java} interfaces like
      * {@link _java}, {@link _method._withMethods}
-     * {@link _parameter._hasParameters} etc.
+     * {@link _parameters._withParameters} etc.
      *
      * @param tt the traversal TYPE
      * @param astRootNode the root AST node
@@ -1516,7 +1516,7 @@ public enum Walk {
      *
      * NOTE: this ALSO works with {@link _java} interfaces like
      * {@link _java}, {@link _method._withMethods}
-     * {@link _parameter._hasParameters} etc.
+     * {@link _parameters._withParameters} etc.
      *
      * @param tt the traversal TYPE
      * @param levels the number of levels (walking up (through parents) or down (through children)) to limit the walk
@@ -1803,16 +1803,16 @@ public enum Walk {
                     });
             return astRootNode;
         }
-        else if( _javaClass == _parameter._hasParameters.class ) {
+        else if( _javaClass == _parameters._withParameters.class ) {
             in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof NodeWithParameters,
                     n-> {
-                        _parameter._hasParameters  hm = (_parameter._hasParameters)_java.of( n );
+                        _parameters._withParameters hm = (_parameters._withParameters)_java.of( n );
 
-                        if( ((Predicate<_parameter._hasParameters>)_javaMatchFn).test( hm) ){
-                            ((Consumer<_parameter._hasParameters>)_javaAction).accept( hm );
+                        if( ((Predicate<_parameters._withParameters>)_javaMatchFn).test( hm) ){
+                            ((Consumer<_parameters._withParameters>)_javaAction).accept( hm );
                         }
                     });
             return astRootNode;
@@ -1824,7 +1824,7 @@ public enum Walk {
                     n-> n instanceof NodeWithParameters,
                     n-> {
                         //need a lambda...
-                        _parameter._hasParameters hp = (_parameter._hasParameters)_java.of( n );
+                        _parameters._withParameters hp = (_parameters._withParameters)_java.of( n );
                             
                         if( ((Predicate<_parameters>)_javaMatchFn).test( hp.getParameters() ) ){
                             ((Consumer<_parameters>)_javaAction).accept( hp.getParameters() );

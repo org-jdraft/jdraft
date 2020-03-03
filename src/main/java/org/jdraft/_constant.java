@@ -174,6 +174,7 @@ public class _constant implements _java._declaredBodyPart<EnumConstantDeclaratio
         return this;
     }
 
+    /*
     public _constant addArgument( int i){
         return addArgument( Ex.of(i) );
     }
@@ -197,6 +198,7 @@ public class _constant implements _java._declaredBodyPart<EnumConstantDeclaratio
     public _constant addArgument( char c){
         return addArgument( Ex.of(c) );
     }
+    */
 
     public _constant addArgument( Expression e ){
         this.astConstant.addArgument( e );

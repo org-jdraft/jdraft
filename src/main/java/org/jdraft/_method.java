@@ -31,7 +31,7 @@ import org.jdraft.text.Text;
 public final class _method
         implements _javadoc._withJavadoc<_method>, _annos._withAnnos<_method>,
         _java._withNameTypeRef<MethodDeclaration, _method>, _body._hasBody<_method>, _throws._withThrows<_method>,
-        _modifiers._withModifiers<_method>, _parameter._hasParameters<_method>,
+        _modifiers._withModifiers<_method>, _parameters._withParameters<_method>,
         _typeParameters._withTypeParameters<_method>, _receiverParameter._withReceiverParameter<_method>,
         _modifiers._withStatic<_method>, _modifiers._withNative<_method>, _modifiers._withFinal<_method>,
         _modifiers._withAbstract<_method>, _modifiers._withSynchronized<_method>,
@@ -628,6 +628,15 @@ public final class _method
 
         default boolean hasMethods() {
             return !listMethods().isEmpty();
+        }
+
+        /**
+         * Check if all individual arg ({@link _method}s) match the function
+         * @param matchFn
+         * @return
+         */
+        default boolean allMethods( Predicate<_method> matchFn){
+            return listMethods().stream().allMatch(matchFn);
         }
 
         default _method getMethod(String name) {

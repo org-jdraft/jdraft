@@ -9,10 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.function.*;
 
 public class _binaryExpression implements _expression<BinaryExpr, _binaryExpression>,
         _java._multiPart<BinaryExpr, _binaryExpression> {
@@ -223,6 +220,11 @@ public class _binaryExpression implements _expression<BinaryExpr, _binaryExpress
         return comps;
     }
 
+
+    public boolean isLeft( Predicate<_expression> matchFn){
+        return matchFn.test(getLeft());
+    }
+
     public boolean isLeft(String... left){
         try{
             return isLeft(Ex.of(left));
@@ -235,8 +237,16 @@ public class _binaryExpression implements _expression<BinaryExpr, _binaryExpress
         return this.getLeft().equals(e);
     }
 
+    public <_E extends _expression> boolean isLeft(Class<_E> _e){
+          return _e.isAssignableFrom( getLeft().getClass());
+    }
+
     public boolean isLeft(_expression e){
         return this.getLeft().equals(e.ast());
+    }
+
+    public boolean isRight( Predicate<_expression> matchFn){
+        return matchFn.test(getRight());
     }
 
     public boolean isRight(String... right){
@@ -253,6 +263,10 @@ public class _binaryExpression implements _expression<BinaryExpr, _binaryExpress
 
     public boolean isRight(_expression e){
         return this.getRight().equals(e.ast());
+    }
+
+    public <_E extends _expression> boolean isRight(Class<_E> _e){
+        return _e.isAssignableFrom( getRight().getClass());
     }
 
     public boolean isOperator( BinaryExpr.Operator op){

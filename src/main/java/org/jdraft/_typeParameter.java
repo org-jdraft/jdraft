@@ -54,6 +54,14 @@ public final class _typeParameter
     }
 
     /**
+     * does this type parameter have a type bound?
+     * @return
+     */
+    public boolean hasTypeBound(){
+        return this.typeParameter.getTypeBound().isNonEmpty();
+    }
+
+    /**
      * sets the extends type bound, i.e.
      * "A extends Base & Pair<A,B>"
      *

@@ -183,13 +183,13 @@ public class $parameters implements Template<_parameters>,
         return select(_ps) != null;
     }
 
-    public boolean matches( _parameter._hasParameters _ps ){
+    public boolean matches( _parameters._withParameters _ps ){
         return select( _ps.getParameters() ) != null;
     }
 
     public boolean match( _java _j) {
-        if (_j instanceof _parameter._hasParameters) {
-            return matches((_parameter._hasParameters) _j);
+        if (_j instanceof _parameters._withParameters) {
+            return matches((_parameters._withParameters) _j);
         }
         return false;
     }
@@ -202,7 +202,7 @@ public class $parameters implements Template<_parameters>,
         return select(_parameters.of( parameters));
     }
 
-    public Select select( _parameter._hasParameters _hp){
+    public Select select( _parameters._withParameters _hp){
         return select(_hp.getParameters());
     }
 

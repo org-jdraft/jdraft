@@ -112,10 +112,11 @@ public final class _constructorCallStmt
     /**
      * Is using the Diamond operator / Type Arguments <>
      * @return
-     */
+
     public boolean isUsingDiamondOperator(){
         return this.astStmt.isUsingDiamondOperator();
     }
+    */
 
     public boolean isExpression( _expression _e){
         if( this.astStmt.getExpression().isPresent() ){

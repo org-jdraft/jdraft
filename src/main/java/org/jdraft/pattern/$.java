@@ -598,6 +598,8 @@ public final class $ {
         return $ex.conditionalEx(ce);
     }
 
+
+
     public static $ex<DoubleLiteralExpr, _double, $ex> doubleLiteral(){
         return $ex.doubleLiteralEx();
     }
@@ -782,19 +784,19 @@ public final class $ {
         return $ex.nullEx(nle);
     }
 
-    public static $ex<ObjectCreationExpr, _new, $ex> objectCreation(){
+    public static $ex<ObjectCreationExpr, _new, $ex> newExpr(){
         return $ex.newEx();
     }
 
-    public static $ex<ObjectCreationExpr, _new, $ex> objectCreation(String oc){
+    public static $ex<ObjectCreationExpr, _new, $ex> newExpr(String oc){
         return $ex.newEx(oc);
     }
 
-    public static $ex<ObjectCreationExpr, _new, $ex> objectCreation(ObjectCreationExpr oce){
+    public static $ex<ObjectCreationExpr, _new, $ex> newExpr(ObjectCreationExpr oce){
         return $ex.of(oce);
     }
 
-    public static $ex<ObjectCreationExpr, _new, $ex> objectCreation(Predicate<_new> oce){
+    public static $ex<ObjectCreationExpr, _new, $ex> newExpr(Predicate<_new> oce){
         return $ex.newEx(oce);
     }
 
@@ -849,6 +851,27 @@ public final class $ {
     public static $ex<SuperExpr, _super, $ex> superExpr(Predicate<_super> se){
         return $ex.superEx(se);
     }
+
+    public static $ex<SwitchExpr, _switchExpression, $ex> switchExpr(){
+        return $ex.switchEx();
+    }
+
+    public static $ex<SwitchExpr, _switchExpression, $ex> switchExpr(String se){
+        return $ex.switchEx(se);
+    }
+
+    public static $ex<SwitchExpr, _switchExpression, $ex> switchExpr(SwitchExpr se){
+        return $ex.switchEx(se);
+    }
+
+    public static $ex<SwitchExpr, _switchExpression, $ex> switchExpr(_switchExpression se){
+        return $ex.switchEx(se );
+    }
+
+    public static $ex<SwitchExpr, _switchExpression, $ex> switchExpr(Predicate<_switchExpression> se){
+        return $ex.switchEx(se);
+    }
+
 
     public static $ex<ThisExpr, _this, $ex> thisExpr(){
         return $ex.thisEx();
@@ -961,6 +984,10 @@ public final class $ {
         return $stmt.assertStmt();
     }
 
+    public static $stmt<AssertStmt, _assertStmt> assertStmt(Predicate<_assertStmt> matchFn){
+        return assertStmt().$and(matchFn);
+    }
+
     public static $stmt<AssertStmt, _assertStmt> assertStmt(String...as){
         return $stmt.assertStmt(as);
     }
@@ -1047,12 +1074,32 @@ public final class $ {
         return $stmt.breakStmt();
     }
 
+    public static $stmt<BreakStmt, _breakStmt> breakStmt(Predicate<_breakStmt> matchFn){
+        return $stmt.breakStmt(matchFn);
+    }
+
     public static $stmt<BreakStmt, _breakStmt> breakStmt(String...breakStmt){
         return $stmt.breakStmt(breakStmt);
     }
 
     public static $stmt<BreakStmt, _breakStmt> breakStmt(BreakStmt bs){
         return $stmt.of(bs);
+    }
+
+    public static $stmt<ExplicitConstructorInvocationStmt, _constructorCallStmt> constructorCallStmt(){
+        return $stmt.constructorCallStmt();
+    }
+
+    public static $stmt<ExplicitConstructorInvocationStmt, _constructorCallStmt> constructorCallStmt(String... se){
+        return $stmt.constructorCallStmt(se);
+    }
+
+    public static $stmt<ExplicitConstructorInvocationStmt, _constructorCallStmt> constructorCallStmt(ExplicitConstructorInvocationStmt te){
+        return $stmt.constructorCallStmt(te);
+    }
+
+    public static $stmt<ExplicitConstructorInvocationStmt, _constructorCallStmt> constructorCallStmt(Predicate<_constructorCallStmt> te){
+        return $stmt.constructorCallStmt().$and(te);
     }
 
     /**
@@ -1461,6 +1508,10 @@ public final class $ {
         return $stmt.switchStmt();
     }
 
+    public static $stmt<SwitchStmt, _switchStmt> switchStmt( Predicate<_switchStmt> matchFn){
+        return $stmt.switchStmt().$and(matchFn);
+    }
+
     public static $stmt<SwitchStmt, _switchStmt> switchStmt(String ... ss){
         return $stmt.switchStmt(ss);
     }
@@ -1587,6 +1638,10 @@ public final class $ {
 
     public static $stmt<TryStmt, _tryStmt> tryStmt(){
         return $stmt.tryStmt();
+    }
+
+    public static $stmt<TryStmt, _tryStmt> tryStmt(Predicate<_tryStmt> matchFn){
+        return $stmt.tryStmt().$and(matchFn);
     }
 
     public static $stmt<TryStmt, _tryStmt> tryStmt(String...tryStmt){

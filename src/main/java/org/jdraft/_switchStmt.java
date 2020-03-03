@@ -7,6 +7,7 @@ import org.jdraft.text.Text;
 
 import java.util.*;
 import java.util.function.*;
+import java.util.stream.Collectors;
 
 /**
  * The selector
@@ -27,7 +28,7 @@ import java.util.function.*;
  *
  */
 public class _switchStmt implements _statement._controlFlow._branching<SwitchStmt, _switchStmt>,
-        _java._multiPart<SwitchStmt, _switchStmt>, _switch {
+        _java._multiPart<SwitchStmt, _switchStmt>, _switch<_switchStmt> {
 
     public static _switchStmt ofSelector(String selectorExpression){
         return ofSelector(Ex.of(selectorExpression));
@@ -216,6 +217,10 @@ public class _switchStmt implements _statement._controlFlow._branching<SwitchStm
             }
         }
         return cgs;
+    }
+
+    public List<_caseGroup> listCaseGroups( Predicate<_caseGroup> matchFn){
+        return listCaseGroups().stream().filter(matchFn).collect(Collectors.toList());
     }
 
     /**
@@ -927,6 +932,7 @@ public class _switchStmt implements _statement._controlFlow._branching<SwitchStm
         return _ses;
     }
 
+
     /**
      *
      * @return
@@ -941,6 +947,7 @@ public class _switchStmt implements _statement._controlFlow._branching<SwitchStm
         });
         return _ses;
     }
+
 
     /**
      * Sets the switch entries based on the SwitchEntries

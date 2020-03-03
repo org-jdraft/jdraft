@@ -384,6 +384,15 @@ public final class _initBlock
         }
 
         /**
+         * Check if all individual arg ({@link _initBlock}s) match the function
+         * @param matchFn
+         * @return
+         */
+        default boolean allInitBlocks( Predicate<_initBlock> matchFn){
+            return listInitBlocks().stream().allMatch(matchFn);
+        }
+
+        /**
          * adds a Static block based on the body of the lambda
          * @param command
          * @return

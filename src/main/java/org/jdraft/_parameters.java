@@ -1,16 +1,15 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * Parameter is the AST node TYPE (the syntax and storage TYPE in the AST)
@@ -342,5 +341,180 @@ public final class _parameters
 
     public NodeWithParameters astHolder() {
         return this.astNodeWithParams;
+    }
+
+    /**
+     *
+     * @author Eric
+     * @param <_WP>
+     */
+    public interface _withParameters<_WP extends _withParameters>
+        extends _java._domain {
+
+        _parameters getParameters();
+
+        /**
+         * Return the Ast Node that has the parameters (i.e. {@link MethodDeclaration},
+         * {@link com.github.javaparser.ast.body.ConstructorDeclaration})
+         * @return the NodeWithParameters instance
+         */
+        NodeWithParameters ast();
+
+        /**
+         * Check if all individual arg ({@link _parameter}s) match the function
+         * @param matchFn
+         * @return
+         */
+        default boolean allParameters( Predicate<_parameter> matchFn){
+            return listParameters().stream().allMatch(matchFn);
+        }
+
+        default _parameter getParameter(int index){
+            return _parameter.of( ast().getParameter( index ) );
+        }
+
+        default _parameter getParameter(Class type) {
+            Optional<Parameter> op = ast().getParameterByType(type);
+            if (op.isPresent()) {
+                return _parameter.of(op.get());
+            }
+            return null;
+        }
+
+        default _parameter getParameter(_typeRef _type) {
+            Optional<Parameter> op = ast().getParameterByType(_type.toString());
+            if (op.isPresent()) {
+                return _parameter.of(op.get());
+            }
+            return null;
+        }
+
+        default _parameter getParameter(String parameterName) {
+            Optional<Parameter> op = this.ast().getParameterByName(parameterName);
+            if (op.isPresent()) {
+                return _parameter.of(op.get());
+            }
+            return null;
+        }
+
+        default boolean hasParameters() {
+            return !ast().getParameters().isEmpty();
+        }
+
+        default List<_parameter> listParameters() {
+            return getParameters().list();
+        }
+
+        default List<_parameter> listParameters(
+                Predicate<_parameter> paramMatchFn) {
+            return getParameters().list( paramMatchFn );
+        }
+
+        default _WP forParameters(Consumer<_parameter> paramActionFn) {
+            listParameters().forEach( paramActionFn );
+            return (_WP)this;
+        }
+
+        default _WP forParameters(Predicate<_parameter> paramMatchFn,
+                                  Consumer<_parameter> paramActionFn) {
+            listParameters( paramMatchFn ).forEach( paramActionFn );
+            return (_WP)this;
+        }
+
+        default _WP addParameters(String... parameters) {
+            Arrays.stream( parameters ).forEach(p -> addParameter( p ) );
+            return (_WP)this;
+        }
+
+        default _WP addParameter(_typeRef type, String name) {
+            return addParameter( new Parameter( type.ast(), name ) );
+        }
+
+        default _WP addParameter(String parameter) {
+            addParameter( Ast.parameter( parameter ) );
+            return (_WP)this;
+        }
+
+        default _WP addParameters(_parameter... parameters) {
+            Arrays.stream( parameters ).forEach( p -> addParameter( p ) );
+            return (_WP)this;
+        }
+
+        default _WP addParameter(_parameter parameter) {
+            addParameter( parameter.ast() );
+            return (_WP)this;
+        }
+
+        default _WP addParameter(Parameter p){
+            ast().addParameter(p);
+            return (_WP)this;
+        }
+
+        default _WP addParameters(Parameter... ps){
+            Arrays.stream(ps).forEach( p -> addParameter(p));
+            return (_WP)this;
+        }
+
+        default _WP setParameters(NodeList<Parameter> astPs){
+            ast().setParameters(astPs);
+            return (_WP)this;
+        }
+
+        default _WP setParameters(_parameters _ps){
+            return (_WP)setParameters( _ps.ast() );
+        }
+
+        /**
+         * Sets the parameters by taking in a String
+         * @param parameters the String representation of the parameters
+         * @return the _hasParameters entity
+         */
+        default _WP setParameters(String... parameters){
+            return setParameters( Ast.parameters(parameters) );
+        }
+
+        default _WP setParameters(Parameter... astPs){
+            NodeList<Parameter>nl = new NodeList<>();
+            Arrays.stream(astPs).forEach(p -> nl.add(p));
+            return setParameters(nl);
+        }
+
+        default boolean isParameter(int index, _parameter _p){
+            return Objects.equals( getParameter(index), _p);
+        }
+
+        default boolean isParameters(Predicate<List<_parameter>> matchFn){
+            return matchFn.test(listParameters());
+        }
+
+        default boolean isParameters(Parameter... ps){
+            List<_parameter> _tps = listParameters();
+            if( _tps.size() == ps.length ){
+                for(int i=0;i<ps.length; i++){
+                    if( !Objects.equals( _parameter.of(ps[i]), _tps.get(i))){
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+
+        default boolean isParameters(_parameter... _ps){
+            List<_parameter> _tps = listParameters();
+            if( _tps.size() == _ps.length ){
+                for(int i=0;i<_ps.length; i++){
+                    if( !Objects.equals( _ps[i], _tps.get(i))){
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+
+        default boolean isVarArg() {
+            return getParameters().isVarArg();
+        }
     }
 }

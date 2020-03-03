@@ -320,6 +320,15 @@ public class _annos
         _annos getAnnos();
 
         /**
+         * Check if all individual annos match the function
+         * @param matchFn
+         * @return
+         */
+        default boolean allAnnos( Predicate<_anno> matchFn){
+            return listAnnos().stream().allMatch(matchFn);
+        }
+
+        /**
          * gets the anno at the index
          * @param index
          * @return

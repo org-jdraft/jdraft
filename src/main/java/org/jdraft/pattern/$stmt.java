@@ -396,6 +396,15 @@ public class $stmt<S extends Statement, _S extends _statement>
 
     /**
      * i.e."break;" or "break outer;"
+     * @param constraint
+     * @return the breakStmt
+     */
+    public static $stmt<BreakStmt, _breakStmt> breakStmt(Predicate<_breakStmt> constraint) {
+        return breakStmt().$and(constraint);
+    }
+
+    /**
+     * i.e."break;" or "break outer;"
      * @param pattern String representing the break of
      * @param constraint
      * @return the breakStmt
@@ -477,7 +486,24 @@ public class $stmt<S extends Statement, _S extends _statement>
         return new $stmt( new EmptyStmt() );
     }
     
-    
+
+    public static $stmt<ExplicitConstructorInvocationStmt, _constructorCallStmt> constructorCallStmt(){
+        return new $stmt( ExplicitConstructorInvocationStmt.class, "$constructorCallStmt$" );
+    }
+
+    public static $stmt<ExplicitConstructorInvocationStmt, _constructorCallStmt> constructorCallStmt(String... pattern ) {
+        return new $stmt( Stmt.of(pattern));
+    }
+
+    /**
+     * i.e."this(100,2900);"
+     * @param cts
+     * @return
+     */
+    public static $stmt<ExplicitConstructorInvocationStmt, _constructorCallStmt> constructorCallStmt(ExplicitConstructorInvocationStmt cts) {
+        return new $stmt( cts );
+    }
+
     /**
      *
      * Returns a pattern that matches ANY thisOrSuperCallStmt

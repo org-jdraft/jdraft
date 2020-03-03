@@ -287,6 +287,15 @@ public class _typeArguments
             return matchFn.test( getTypeArguments() );
         }
 
+        /**
+         * Check if all individual ({@link _typeRef}s) match the function
+         * @param matchFn
+         * @return
+         */
+        default boolean allTypeArguments( Predicate<_typeRef> matchFn){
+            return listTypeArguments().stream().allMatch(matchFn);
+        }
+
         default boolean isUsingDiamondOperator(){
             return this.getTypeArguments().isUsingDiamondOperator();
         }

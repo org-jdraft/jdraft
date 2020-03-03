@@ -850,7 +850,7 @@ public interface _java {
         Class<_withJavadoc> HAS_JAVADOC = _withJavadoc.class;
         Class<_withMethods> HAS_METHODS = _withMethods.class;
         Class<_withModifiers> HAS_MODIFIERS = _withModifiers.class;
-        Class<_parameter._hasParameters> HAS_PARAMETERS = _parameter._hasParameters.class;
+        Class<_parameters._withParameters> HAS_PARAMETERS = _parameters._withParameters.class;
         Class<_withReceiverParameter> HAS_RECEIVER_PARAMETER = _withReceiverParameter.class;
         Class<_withInitBlocks> HAS_STATIC_BLOCKS = _withInitBlocks.class;
         Class<_withExtends> HAS_EXTENDS = _withExtends.class;
@@ -1453,6 +1453,10 @@ public interface _java {
 
         default boolean isAt( int index, _EL _element){
             return getAt(index).equals(_element);
+        }
+
+        default boolean isAt( int index, Predicate<_EL> matchFn) {
+            return matchFn.test( getAt(index));
         }
     }
 

@@ -26,6 +26,9 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
     implements $field.$part, $pattern<_E, $E>, $var.$part, $enumConstant.$part, $annotationEntry.$part, Template<_E>,
     $body.$part, $method.$part, $constructor.$part {
 
+    public static <E extends Expression, _E extends _expression, $E extends $ex> $ex<E, _E, $E> of(){
+        return new $ex();
+    }
     /**
      * 
      * @param <E>
@@ -38,6 +41,16 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
         Expression expr = Ex.of(pattern);
         return ($ex<E, _E, $E>)new $ex<Expression, _expression, $ex>( Expression.class,
                 expr.toString(Ast.PRINT_NO_COMMENTS) );
+    }
+
+    public static <E extends Expression, _E extends _expression, $E extends $ex> $ex<E,_E,$E> of(Class expressionClass){
+        if( Expression.class.isAssignableFrom( expressionClass ) ){
+            return $ex.of().$and( e-> expressionClass.isAssignableFrom(e.ast().getClass()));
+        }
+        else if( _expression.class.isAssignableFrom(expressionClass)){
+            return $ex.of().$and( e-> expressionClass.isAssignableFrom(e.getClass()));
+        }
+        throw new $pattern.$exception("class " + expressionClass + " is not Expression or _expression type");
     }
 
     /**
@@ -1473,6 +1486,163 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
     }
 
     /**
+     * doMethod(t)
+     * @param pattern
+     * @return
+     */
+    public static $ex<SwitchExpr, _switchExpression, $ex> switchEx(String... pattern ) {
+        return new $ex( Ex.switchEx(pattern ) );
+    }
+
+    /**
+     * @param se
+     * @return
+     */
+    public static $ex<SwitchExpr, _switchExpression, $ex> switchEx(SwitchExpr se) {
+        return new $ex( se );
+    }
+
+    /**
+     * @param se
+     * @return
+     */
+    public static $ex<SwitchExpr, _switchExpression, $ex> switchEx(_switchExpression se) {
+        return new $ex( se.ast() );
+    }
+
+    /**
+     *
+     * @param pattern
+     * @param constraint
+     * @return
+     */
+    public static $ex<SwitchExpr, _switchExpression, $ex> switchEx(String pattern, Predicate<_switchExpression> constraint ) {
+        return switchEx( ).$and(constraint);
+    }
+
+    /**
+     *
+     * @param constraint
+     * @return
+     */
+    public static $ex<SwitchExpr, _switchExpression, $ex> switchEx(Predicate<_switchExpression> constraint ) {
+        return new $ex( Ex.switchEx()).$and(constraint);
+    }
+
+    /**
+     * Builds & returns a MethodCallExpr based on the FIRST method call inside
+     * the body of the lambda passed in
+     *
+     * (SOURCE PASSING)
+     *
+     * @param lambdaWithMethodCallInSource a lambda expression containing the
+     * source with a METHOD CALL that will be converted into a MethodCallExpr
+     * Ast node
+     * @return the MethodCallExpr Ast Node representing the first method call
+     * in the lambda body
+     */
+    public static SwitchExpr switchExpression(Ex.Command lambdaWithMethodCallInSource ){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        LambdaExpr astLambda = Ex.lambdaEx(ste);
+        return astLambda.getBody().findFirst(SwitchExpr.class).get();
+    }
+
+    /**
+     * Builds & returns a MethodCallExpr based on the FIRST method call inside
+     * the body of the lambda passed in
+     *
+     * (SOURCE PASSING)
+     *
+     * @param lambdaWithMethodCallInSource a lambda expression containing the
+     * source with a METHOD CALL that will be converted into a MethodCallExpr
+     * Ast node
+     * @return the MethodCallExpr Ast Node representing the first method call
+     * in the lambda body
+     */
+    public static $ex<SwitchExpr, _switchExpression, $ex> switchEx(Consumer<? extends Object> lambdaWithMethodCallInSource ){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        LambdaExpr astLambda = Ex.lambdaEx(ste);
+        return $ex.of(astLambda.getBody().findFirst(SwitchExpr.class).get());
+    }
+
+    /**
+     * Builds & returns a MethodCallExpr based on the FIRST method call inside
+     * the body of the lambda passed in
+     *
+     * (SOURCE PASSING)
+     *
+     * @param lambdaWithMethodCallInSource a lambda expression containing the
+     * source with a METHOD CALL that will be converted into a MethodCallExpr
+     * Ast node
+     * @return the MethodCallExpr Ast Node representing the first method call
+     * in the lambda body
+     */
+    public static $ex<SwitchExpr, _switchExpression, $ex> switchEx(BiConsumer<? extends Object,? extends Object> lambdaWithMethodCallInSource ){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        LambdaExpr astLambda = Ex.lambdaEx(ste);
+        return $ex.of(astLambda.getBody().findFirst(SwitchExpr.class).get());
+    }
+
+    /**
+     * Builds & returns a MethodCallExpr based on the FIRST method call inside
+     * the body of the lambda passed in
+     *
+     * (SOURCE PASSING)
+     *
+     * @param lambdaWithMethodCallInSource a lambda expression containing the
+     * source with a METHOD CALL that will be converted into a MethodCallExpr
+     * Ast node
+     * @return the MethodCallExpr Ast Node representing the first method call
+     * in the lambda body
+     */
+    public static $ex<SwitchExpr, _switchExpression, $ex> switchEx(Ex.TriConsumer<? extends Object,? extends Object, ? extends Object> lambdaWithMethodCallInSource ){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        LambdaExpr astLambda = Ex.lambdaEx(ste);
+        return $ex.of(astLambda.getBody().findFirst(SwitchExpr.class).get());
+    }
+
+    /**
+     * Builds & returns a MethodCallExpr based on the FIRST method call inside
+     * the body of the lambda passed in
+     *
+     * (SOURCE PASSING)
+     *
+     * @param lambdaWithMethodCallInSource a lambda expression containing the
+     * source with a METHOD CALL that will be converted into a MethodCallExpr
+     * Ast node
+     * @return the MethodCallExpr Ast Node representing the first method call
+     * in the lambda body
+     */
+    public static $ex<SwitchExpr, _switchExpression, $ex> switchEx(Ex.QuadConsumer<? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCallInSource ){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        LambdaExpr astLambda = Ex.lambdaEx(ste);
+        return $ex.of(astLambda.getBody().findFirst(SwitchExpr.class).get());
+    }
+
+    /**
+     * ANY method call
+     * @return
+     */
+    public static $ex<SwitchExpr, _switchExpression, $ex> switchEx( ) {
+        return new $ex( SwitchExpr.class, "$switchEx$");
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
      * ANY this expression
      * @return 
      */
@@ -1715,7 +1885,16 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
         this.astExpressionClass = (Class<E>)astExpressionProto.getClass();
         this.exprStencil = Stencil.of(astExpressionProto.toString() );
     }
-   
+
+    private $ex(){
+        this.astExpressionClass = (Class<E>)Expression.class;
+        this.exprStencil = null;
+    }
+
+    private $ex(Class<E> exprClass){
+        this(exprClass, null);
+    }
+
     /**
      * 
      * @param astExpressionClass
@@ -1739,6 +1918,27 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
     public $E $and(Predicate<_E>constraint ){
         this.constraint = this.constraint.and(constraint);
         return ($E)this;
+    }
+
+    /**
+     * Useful for omitting a group of classes, or interfaces
+     *
+     * <PRE>
+     *     //we can omit specific classes
+     *     $.literal().$not(_string.class, _null.class)
+     *
+     *     //note: we can use interfaces to omit categories of classes
+     *     $ex.of().$not(_literal.class); //all expressions that ARE NOT literal
+     *     $ex.of().$not(_withTypeArguments.class); //all expressions that ARE NOT capabile of having typeArguments
+     *  </PRE>
+     * @param expressionClass
+     * @return
+     */
+    public $E $not( Class...expressionClass ){
+        Set<Class> exprSet = new HashSet<>();
+        Arrays.stream(expressionClass).forEach(e-> exprSet.add(e));
+        Predicate<_E> pe = (_e)-> exprSet.stream().anyMatch( c -> c.isAssignableFrom(_e.getClass()));
+        return $and( pe.negate() );
     }
     
     @Override

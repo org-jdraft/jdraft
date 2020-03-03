@@ -155,6 +155,15 @@ public final class _typeParameters
     public interface _withTypeParameters<_WTP extends _withTypeParameters>
         extends _java._domain {
 
+        /**
+         * Check if all individual ({@link _typeParameter}s) match the function
+         * @param matchFn
+         * @return
+         */
+        default boolean allTypeParameters( Predicate<_typeParameter> matchFn){
+            return getTypeParameters().list().stream().allMatch(matchFn);
+        }
+
         default _typeParameters getTypeParameters(){
             _java._declaredBodyPart _m = (_java._declaredBodyPart) this;
             return of( (NodeWithTypeParameters)_m.ast() );

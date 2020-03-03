@@ -22,21 +22,21 @@ public class _parametersDiff
     @Override
     public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _parameters left, _parameters right) {
         if (!Objects.equals(left, right)) {
-            dt.addDiff(new _changeParameters(path.in(_java.Component.PARAMETERS), (_parameter._hasParameters) _leftParent, (_parameter._hasParameters) _rightParent));
+            dt.addDiff(new _changeParameters(path.in(_java.Component.PARAMETERS), (_parameters._withParameters) _leftParent, (_parameters._withParameters) _rightParent));
         }
         return dt;
     }
 
     public static class _changeParameters
-            implements _diffNode<_parameter._hasParameters>, _diffNode._change<_parameters> {
+            implements _diffNode<_parameters._withParameters>, _diffNode._change<_parameters> {
 
         public _nodePath path;
-        public _parameter._hasParameters leftParent;
-        public _parameter._hasParameters rightParent;
+        public _parameters._withParameters leftParent;
+        public _parameters._withParameters rightParent;
         public _parameters left;
         public _parameters right;
 
-        public _changeParameters(_nodePath path, _parameter._hasParameters leftParent, _parameter._hasParameters rightParent) {
+        public _changeParameters(_nodePath path, _parameters._withParameters leftParent, _parameters._withParameters rightParent) {
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -45,12 +45,12 @@ public class _parametersDiff
         }
 
         @Override
-        public _parameter._hasParameters leftParent() {
+        public _parameters._withParameters leftParent() {
             return leftParent;
         }
 
         @Override
-        public _parameter._hasParameters rightParent() {
+        public _parameters._withParameters rightParent() {
             return rightParent;
         }
 

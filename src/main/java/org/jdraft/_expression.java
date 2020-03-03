@@ -18,6 +18,10 @@ public interface _expression<E extends Expression, _E extends _expression> exten
         return Objects.equals( e, ast());
     }
 
+    default boolean isLiteral(){
+        return this instanceof _literal;
+    }
+
     E ast();
 
     // computation

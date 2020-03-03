@@ -9,6 +9,7 @@ import org.jdraft.text.Text;
 
 import java.util.*;
 import java.util.function.*;
+import java.util.stream.Collectors;
 
 /**
  * A Java 12+ switch expression
@@ -39,7 +40,7 @@ import java.util.function.*;
  *
  */
 public class _switchExpression implements _expression<SwitchExpr, _switchExpression>,
-        _java._multiPart<SwitchExpr, _switchExpression>, _switch {
+        _java._multiPart<SwitchExpr, _switchExpression>, _switch<_switchExpression> {
 
     public static _switchExpression of(){
         return new _switchExpression(new SwitchExpr());
@@ -162,6 +163,34 @@ public class _switchExpression implements _expression<SwitchExpr, _switchExpress
             }
         }
         return cgs;
+    }
+
+    /**
+     *
+     * @param matchFn
+     * @return
+     */
+    public List<_caseGroup> listCaseGroups( Predicate<_caseGroup> matchFn){
+        return listCaseGroups().stream().filter(matchFn).collect(Collectors.toList());
+    }
+
+    /**
+     * check if the current state of the SwitchStatement HAS at least ONE multiLabel switchEntry
+     * (if so, it's safe to assume this is a multi-label switch)
+     *
+     * can we specify multiple case labels for each switch? (a Java 12 + language feature)
+     * i.e.
+     *
+     * case 1, 2, 3, 4, 5 -> "weekend"; //multiLabelSwitch = TRUE
+     *
+     * OR must we provide a new case for each case expression?
+     *
+     * case 1: case 2: case 3: case 4: case 5: return "weekend"; //multiLabelSwitch = FALSE
+     *
+     * @return
+     */
+    public boolean hasMultiLabelSwitchEntry(){
+        return this.switchExpr.getEntries().stream().anyMatch(se-> se.getLabels().size() > 1);
     }
 
     public boolean isSwitchSelector(String... selector){

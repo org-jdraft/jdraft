@@ -29,7 +29,7 @@ import org.jdraft.text.Text;
 public final class _constructor implements _annos._withAnnos<_constructor>,
         _javadoc._withJavadoc<_constructor>, _throws._withThrows<_constructor>,
     _body._hasBody<_constructor>, _modifiers._withModifiers<_constructor>, //_modifiers._hasModifiers<_constructor>,
-    _parameter._hasParameters<_constructor>, _typeParameters._withTypeParameters<_constructor>,
+        _parameters._withParameters<_constructor>, _typeParameters._withTypeParameters<_constructor>,
         _receiverParameter._withReceiverParameter<_constructor>, _java._declaredBodyPart<ConstructorDeclaration, _constructor> {
 
     public static _constructor of( String signature ){
@@ -443,6 +443,15 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
          * @return 
          */
         _constructor getConstructor( int index );
+
+        /**
+         * Check if all individual arg ({@link _constructor}s) match the function
+         * @param matchFn
+         * @return
+         */
+        default boolean allConstructors( Predicate<_constructor> matchFn){
+            return listConstructors().stream().allMatch(matchFn);
+        }
 
         /**
          * gets the FIRST constructor that matches the _ctorMatchFn (or returns null)

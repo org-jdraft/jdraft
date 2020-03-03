@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import com.github.javaparser.ast.NodeList;
@@ -101,21 +102,9 @@ public final class _throws
         return astNodeWithThrows.isThrown( name );
     }
 
-    /*
-    public boolean has(_typeRef _type){
-        return has(_type.ast());
-    }
-     */
-
     public boolean has( Type rt ) {
         return astNodeWithThrows.isThrown(rt.asString());
     }
-
-    /*
-    public boolean has( ReferenceType rt ) {
-        return astNodeWithThrows.isThrown( rt.asString() );
-    }
-     */
 
     /** verify this throws contains all of the ReferenceTypes in rt */
     public boolean hasAll( List<ReferenceType> rt ){
@@ -158,44 +147,6 @@ public final class _throws
 
     /**
      *
-     * @param elementAction
-
-    public void forEach( Consumer<ReferenceType> elementAction ) {
-        this.astNodeWithThrows.getThrownExceptions().forEach( elementAction );
-    }
-    */
-
-    /**
-     *
-     * @param matchFn
-     * @param elementAction
-
-    public void forEach( Predicate<ReferenceType> matchFn,
-                         Consumer<ReferenceType> elementAction ) {
-        this.astNodeWithThrows.getThrownExceptions().stream().filter( matchFn ).forEach( elementAction );
-    }
-    */
-
-    /**
-     *
-     * @return
-
-    public List<ReferenceType> list() {
-        return this.astNodeWithThrows.getThrownExceptions();
-    }
-    */
-    /**
-     *
-     * @param matchFn
-     * @return
-
-    public List<ReferenceType> list(Predicate<ReferenceType> matchFn ) {
-        return (List<ReferenceType>)this.astNodeWithThrows.getThrownExceptions().stream().filter( matchFn ).collect( Collectors.toList() );
-    }
-    */
-
-    /**
-     *
      * @param throwTypes
      * @return
      */
@@ -226,39 +177,6 @@ public final class _throws
 
     /**
      *
-     * @param elements
-     * @return
-
-    public _throws add( ReferenceType... elements ) {
-        Arrays.stream( elements ).forEach( t -> this.astNodeWithThrows.getThrownExceptions().add( t ) );
-        return this;
-    }
-    */
-
-    /**
-     *
-     * @param elements
-     * @return
-
-    public _throws remove( ReferenceType... elements ) {
-        Arrays.stream( elements ).forEach( t -> this.astNodeWithThrows.getThrownExceptions().remove( t ) );
-        return this;
-    }
-    */
-
-    /**
-     *
-     * @param matchFn
-     * @return
-
-    public _throws remove( Predicate<ReferenceType> matchFn ) {
-        list( matchFn ).forEach( t -> this.astNodeWithThrows.getThrownExceptions().remove( t ) );
-        return this;
-    }
-    */
-
-    /**
-     *
      * @return
      */
     public _throws clear() {
@@ -266,28 +184,10 @@ public final class _throws
         return this;
     }
 
-    /**
-     *
-     * @return
-
-    public int size() {
-        return this.astNodeWithThrows.getThrownExceptions().size();
-    }
-    */
-
     @Override
     public _throws copy() {
         return _throws.of(this.astNodeWithThrows);
     }
-
-    /**
-     *
-     * @return
-
-    public boolean isEmpty() {
-        return this.astNodeWithThrows.getThrownExceptions().isEmpty();
-    }
-     */
 
     @Override
     public List<_typeRef> list() {
@@ -300,15 +200,6 @@ public final class _throws
     public NodeList<ReferenceType> listAstElements() {
         return this.astNodeWithThrows.getThrownExceptions();
     }
-
-    /**
-     *
-     * @return
-
-    public int indexOf( ReferenceType node ) {
-        return this.astNodeWithThrows.getThrownExceptions().indexOf( node );
-    }
-     */
 
     @Override
     public boolean equals( Object obj ) {
@@ -359,16 +250,6 @@ public final class _throws
     public NodeWithThrownExceptions astHolder() {
         return this.astNodeWithThrows;
     }
-
-    /**
-     *
-     * @param index
-     * @return
-
-    public ReferenceType get(int index){
-        return this.astNodeWithThrows.getThrownException(index);       
-    }
-    */
 
     /**
      *
@@ -457,7 +338,17 @@ public final class _throws
         default boolean hasThrow(ReferenceType rt) {
             return this.getThrows().has(rt);
         }
-        
+
+        default _WT forThrows(Consumer<_typeRef> cm){
+            this.getThrows().list().forEach(cm);
+            return (_WT)this;
+        }
+
+        default _WT forThrows(Predicate<_typeRef> pc, Consumer<_typeRef> cm){
+            this.getThrows().list(pc).forEach(cm);
+            return (_WT)this;
+        }
+
         default _WT removeThrow(Class<? extends Throwable> thrownClass ){
             getThrows().listAstElements( t -> t.asString().equals( thrownClass.getCanonicalName()) ||
                     t.asString().equals( thrownClass.getSimpleName()) ).forEach( t -> t.remove() );
