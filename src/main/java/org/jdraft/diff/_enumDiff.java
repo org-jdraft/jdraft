@@ -37,7 +37,7 @@ public class _enumDiff implements _differ<_enum, _java._multiPart> {
         _methodsDiff.INSTANCE.diff(path, dt, left, right, left.listMethods(), right.listMethods());
         _fieldsDiff.INSTANCE.diff(path, dt, left, right, left.listFields(), right.listFields());
         ENUM_CONSTANTS_DIFF.diff(path, dt, left, right, left.listConstants(), right.listConstants());
-        _nestsDiff.INSTANCE.diff(path, dt, left, right, left.listNests(), right.listNests()); //.INSPECT_NESTS.diff(path, dt, leftRoot, rightRoot, left.listNests(), right.listNests());
+        _innerTypesDiff.INSTANCE.diff(path, dt, left, right, left.listInnerTypes(), right.listInnerTypes()); //.INSPECT_NESTS.diff(path, dt, leftRoot, rightRoot, left.listNests(), right.listNests());
 
         _companionTypeDiff.INSTANCE.diff(path, dt, left, right, left.listCompanionTypes(), right.listCompanionTypes()); //.INSPECT_NESTS.diff(path, dt, leftRoot, rightRoot, left.listNests(), right.listNests());
         return (_diff) dt;

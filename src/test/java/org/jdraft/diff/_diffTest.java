@@ -79,7 +79,7 @@ public class _diffTest extends TestCase {
         _c1.typeParameters("<T extends base>");
         _c1.setJavadoc("some javadoc");
         _c1.initBlock(()-> System.out.println("Static block"));
-        _c1.nest(_interface.of("I") );
+        _c1.addInner(_interface.of("I") );
         _class _c3 = _c1.copy();
         //System.out.println( _c1 );
         

@@ -25,7 +25,7 @@ public class _classDiff implements _differ<_class, _java._multiPart> {
         _constructorsDiff.INSTANCE.diff(path, ds, left, right, left.listConstructors(), right.listConstructors());
         _methodsDiff.INSTANCE.diff(path, ds, left, right, left.listMethods(), right.listMethods());
         _fieldsDiff.INSTANCE.diff(path, ds, left, right, left.listFields(), right.listFields());
-        _nestsDiff.INSTANCE.diff(path, ds, left, right, left.listNests(), right.listNests());
+        _innerTypesDiff.INSTANCE.diff(path, ds, left, right, left.listInnerTypes(), right.listInnerTypes());
 
         _companionTypeDiff.INSTANCE.diff(path, ds, left, right, left.listCompanionTypes(), right.listCompanionTypes());
 

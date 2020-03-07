@@ -19,7 +19,7 @@ import java.util.function.Predicate;
  *
  * @author Eric
  */
-public class $null implements $proto<NullLiteralExpr, _null, $null>,
+public class $null implements $prototype.$node<NullLiteralExpr, _null, $null>,
         $selector.$node<_null, $null>,
         $expr<NullLiteralExpr, _null, $null> {
 

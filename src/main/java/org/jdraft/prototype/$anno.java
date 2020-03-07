@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  */
 public class $anno
     implements Template<_anno>,
-        $proto<AnnotationExpr, _anno, $anno>,
+        $prototype.$node<AnnotationExpr, _anno, $anno>,
         $selector.$node<_anno, $anno>,
         $constructor.$part, $method.$part,
         $field.$part, $typeParameter.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part,

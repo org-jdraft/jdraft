@@ -10,7 +10,7 @@ public class _methodCall implements _expression<MethodCallExpr, _methodCall>,
         _java._multiPart<MethodCallExpr, _methodCall>,
         _java._withName<_methodCall>,
         _java._withScope<MethodCallExpr, _methodCall>,
-        _args._withArguments<MethodCallExpr, _methodCall>,
+        _arguments._withArguments<MethodCallExpr, _methodCall>,
         _typeArguments._withTypeArguments<MethodCallExpr, _methodCall> {
 
     public static _methodCall of(){

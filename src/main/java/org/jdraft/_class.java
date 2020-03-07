@@ -789,11 +789,11 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
 
         Set<_type> tn = new HashSet<>();
         Set<_type> on = new HashSet<>();
-        tn.addAll( this.listNests());
-        on.addAll( other.listNests());
+        tn.addAll( this.listInnerTypes());
+        on.addAll( other.listInnerTypes());
 
         if( !Objects.equals( tn, on ) ) {
-            Log.trace("Expected nested types %s got: %s", ()->tn, ()->on);
+            Log.trace("Expected inner types %s got: %s", ()->tn, ()->on);
             return false;
         }
 
@@ -825,7 +825,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         parts.put( Component.CONSTRUCTORS, this.listConstructors() );
         parts.put( Component.METHODS, this.listMethods() );
         parts.put( Component.FIELDS, this.listFields() );
-        parts.put( Component.NESTS, this.listNests() );
+        parts.put( Component.INNER_TYPES, this.listInnerTypes() );
         parts.put( Component.COMPANION_TYPES, this.listCompanionTypes() );
         return parts;
     }
@@ -841,7 +841,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         Set<_constructor> tc = new HashSet<>();
         tc.addAll( this.listConstructors());
         Set<_type> tn = new HashSet<>();
-        tn.addAll( this.listNests());
+        tn.addAll( this.listInnerTypes());
 
         Set<_type> ct = new HashSet<>();
         ct.addAll( this.listCompanionTypes());

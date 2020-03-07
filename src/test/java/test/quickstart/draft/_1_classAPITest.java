@@ -28,7 +28,7 @@ public class _1_classAPITest extends TestCase {
             .addFields("public int i;", "public UUID uuid;")
             .addConstructor("public C(int i){ this.i = i;}")
             .addMethod("public UUID getUUID(){ return this.uuid; }")
-            .nest( _interface.of("Describable")  //add a nested class (here an interface)
+            .addInner( _interface.of("Describable")  //add a nested class (here an interface)
                   .addMethod("String describe();") );
 
     /** We can build a _class from a single String */
@@ -54,7 +54,7 @@ public class _1_classAPITest extends TestCase {
             //.fields("public int i;", "public UUID uuid;") //already added in .body()
             .addConstructor("public C(int i){ this.i = i;}")
             //.method("public UUID getUUID(){ return this.uuid; }") //already added in .body()
-            .nest( _interface.of("Describable")  //add a nested class (here an interface)
+            .addInner( _interface.of("Describable")  //add a nested class (here an interface)
                     .addMethod("String describe();") );
 
     /**
@@ -131,7 +131,7 @@ public class _1_classAPITest extends TestCase {
         assertTrue(_FROM_STRING_PARTS.getField("uuid").is("public UUID uuid"));
         assertTrue(_FROM_STRING_PARTS.getConstructor(0).is("public C(int i){ this.i = i; }"));
         assertTrue(_FROM_STRING_PARTS.getMethod("getUUID").is("public UUID getUUID(){ return this.uuid; }"));
-        assertTrue(_FROM_STRING_PARTS.getNest("Describable") instanceof _interface);
+        assertTrue(_FROM_STRING_PARTS.getInnerType("Describable") instanceof _interface);
     }
 
     public void test_iterate_for(){
@@ -146,7 +146,7 @@ public class _1_classAPITest extends TestCase {
         _FROM_STRING_PARTS.forFields(f-> System.out.println(f));
         _FROM_STRING_PARTS.forMethods(m-> System.out.println(m));
         //nests
-        _FROM_STRING_PARTS.forNests(n -> System.out.println(n));
+        _FROM_STRING_PARTS.forInnerTypes(n -> System.out.println(n));
 
         //iterate over all members / declared
         _FROM_STRING_PARTS.forMembers(m-> System.out.println(m)); //members are all _class entities (including init/staticBlocks)
@@ -162,6 +162,6 @@ public class _1_classAPITest extends TestCase {
         _FROM_STRING_PARTS.forFields(f-> f.isPublic(), f-> System.out.println(f));
         _FROM_STRING_PARTS.forMethods(m-> m.isTypeRef(UUID.class), m-> System.out.println(m));
         //nests
-        _FROM_STRING_PARTS.forNests(n-> n instanceof _interface, n-> System.out.println(n));
+        _FROM_STRING_PARTS.forInnerTypes(n-> n instanceof _interface, n-> System.out.println(n));
     }
 }

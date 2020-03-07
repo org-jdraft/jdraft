@@ -329,7 +329,7 @@ public class macroUseTest extends TestCase {
         assertEquals( 0, _c.listFields().size() );
         assertEquals( 0, _c.listMethods().size() );
         assertEquals( 0, _c.listConstructors().size() );
-        assertEquals( 0, _c.listNests().size() );
+        assertEquals( 0, _c.listInnerTypes().size() );
     }
 
     /*

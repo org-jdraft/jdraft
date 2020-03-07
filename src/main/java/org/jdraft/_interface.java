@@ -388,8 +388,8 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         }
         Set<_type> tn = new HashSet<>();
         Set<_type> on = new HashSet<>();
-        tn.addAll( this.listNests() );
-        on.addAll( other.listNests() );
+        tn.addAll( this.listInnerTypes() );
+        on.addAll( other.listInnerTypes() );
         if( !Objects.equals( tn, on)){
             return false;
         }
@@ -420,8 +420,8 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         Set<Integer> te = new HashSet<>();
         this.listExtends().forEach(e-> te.add( Ast.typeHash(e)));
 
-        Set<_type> nests = new HashSet<>();
-        nests.addAll(  this.listNests() );
+        Set<_type> inners = new HashSet<>();
+        inners.addAll(  this.listInnerTypes() );
 
         Set<_type> companionTypes = new HashSet<>();
         companionTypes.addAll(listCompanionTypes());
@@ -432,7 +432,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
             tm, tf,
             Ast.importsHash(astInterface),
             Ast.typesHashCode(astInterface.getExtendedTypes()),
-            nests,
+            inners,
             companionTypes);
 
         return hash;
@@ -453,7 +453,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         parts.put( _java.Component.TYPE_PARAMETERS, this.getTypeParameters() );
         parts.put( _java.Component.FIELDS, this.listFields() );
         parts.put( _java.Component.METHODS, this.listMethods() );
-        parts.put( _java.Component.NESTS, this.listNests() );
+        parts.put( _java.Component.INNER_TYPES, this.listInnerTypes() );
         parts.put( _java.Component.COMPANION_TYPES, this.listCompanionTypes() );
         return parts;
     }

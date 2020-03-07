@@ -54,7 +54,7 @@ import org.jdraft.text.Text;
  * <P>To put it another way, _java models that DO HAVE STATE STORED IN THE UNDERLYING AST,
  * but that state is (so each entity has a pointer to an AST Node that can be operated on)
  *
- * The purpose of these nested interfaces is to define the relationship between
+ * The purpose of these inner interfaces is to define the relationship between
  * the AST Node(s) and the Logical entities... and trying to provide consistency
  * for how the logical API presents operations for adding, removing, and
  * replacing the underlying AST Nodes.
@@ -633,8 +633,8 @@ public interface _java {
         ELEMENT("element", _entry.class), //annotation
         FIELDS("fields", List.class, _field.class),
         FIELD("field", _field.class),
-        NESTS("nests", List.class, _type.class),
-        NEST("nest", _type.class),
+        INNER_TYPES("innerType", List.class, _type.class),
+        INNER_TYPE("innerType", _type.class),
 
         COMPANION_TYPES( "companionTypes", List.class, _type.class),
         COMPANION_TYPE( "companionType", _type.class),
@@ -1452,10 +1452,29 @@ public interface _java {
         }
 
         default boolean isAt( int index, _EL _element){
+            if( index >= this.size()){
+                return false;
+            }
             return getAt(index).equals(_element);
         }
 
+        /**
+         * does the argument at this index match any of the classes provided?
+         * @param index the argument index
+         * @param classes the _expression classes for matching the argument
+         * @return true if the argument matches any of these classes, false otherwise
+         */
+        default boolean isAt( int index, Class<? extends _expression>...classes) {
+            if( index >= this.size()){
+                return false;
+            }
+            return Arrays.stream(classes).anyMatch( c-> c.isAssignableFrom( getAt(index).getClass() ));
+        }
+
         default boolean isAt( int index, Predicate<_EL> matchFn) {
+            if( index >= this.size()){
+                return false;
+            }
             return matchFn.test( getAt(index));
         }
     }

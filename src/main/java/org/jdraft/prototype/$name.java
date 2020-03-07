@@ -121,7 +121,6 @@ public class $name implements $selector<String, $name>, Template<String>, $metho
         return Collections.emptyList();
     }
 
-
     /**
      * An Or entity that can match against any of the $name instances
      */

@@ -145,31 +145,31 @@ public class _annotationTest extends TestCase  {
         assertEquals( Ex.nameEx("V"),_p.getDefaultValue());
         assertEquals( "ComplexAnnotationType", _an.getName());
 
-        assertEquals( 4, _an.listNests().size());
-        assertEquals( 1, _an.listNests(t-> t instanceof _class).size());
-        assertEquals( 1, _an.listNests(t-> t instanceof _interface).size());
-        assertEquals( 1, _an.listNests(t-> t instanceof _enum).size());
-        assertEquals( 1, _an.listNests(t-> t instanceof _annotation).size());
+        assertEquals( 4, _an.listInnerTypes().size());
+        assertEquals( 1, _an.listInnerTypes(t-> t instanceof _class).size());
+        assertEquals( 1, _an.listInnerTypes(t-> t instanceof _interface).size());
+        assertEquals( 1, _an.listInnerTypes(t-> t instanceof _enum).size());
+        assertEquals( 1, _an.listInnerTypes(t-> t instanceof _annotation).size());
 
 
         //verify we can find the field in each nested TYPE
-        assertEquals( Ex.intLiteralEx(123), _an.listNests(t-> t instanceof _class).get(0).getField("f").getInit() );
-        assertEquals( Ex.intLiteralEx(123), _an.listNests(t-> t instanceof _enum).get(0).getField("f").getInit() );
-        assertEquals( Ex.intLiteralEx(123), _an.listNests(t-> t instanceof _interface).get(0).getField("f").getInit() );
-        assertEquals( Ex.intLiteralEx(123), _an.listNests(t-> t instanceof _annotation).get(0).getField("f").getInit() );
+        assertEquals( Ex.intLiteralEx(123), _an.listInnerTypes(t-> t instanceof _class).get(0).getField("f").getInit() );
+        assertEquals( Ex.intLiteralEx(123), _an.listInnerTypes(t-> t instanceof _enum).get(0).getField("f").getInit() );
+        assertEquals( Ex.intLiteralEx(123), _an.listInnerTypes(t-> t instanceof _interface).get(0).getField("f").getInit() );
+        assertEquals( Ex.intLiteralEx(123), _an.listInnerTypes(t-> t instanceof _annotation).get(0).getField("f").getInit() );
 
 
         //add NESTS
-        _an.nest( _class.of("class NC{}") );
-        _an.nest( _enum.of("enum NE{;}") );
-        _an.nest( _interface.of("interface NI{}") );
-        _an.nest( _annotation.of("@interface NA{}") );
+        _an.addInner( _class.of("class NC{}") );
+        _an.addInner( _enum.of("enum NE{;}") );
+        _an.addInner( _interface.of("interface NI{}") );
+        _an.addInner( _annotation.of("@interface NA{}") );
 
         //verify they have been added
-        assertEquals( 1, _an.listNests(t-> t instanceof _class && t.getName().equals("NC")).size());
-        assertEquals( 1, _an.listNests(t-> t instanceof _interface && t.getName().equals("NI")).size());
-        assertEquals( 1, _an.listNests(t-> t instanceof _enum && t.getName().equals("NE")).size());
-        assertEquals( 1, _an.listNests(t-> t instanceof _annotation && t.getName().equals("NA")).size());
+        assertEquals( 1, _an.listInnerTypes(t-> t instanceof _class && t.getName().equals("NC")).size());
+        assertEquals( 1, _an.listInnerTypes(t-> t instanceof _interface && t.getName().equals("NI")).size());
+        assertEquals( 1, _an.listInnerTypes(t-> t instanceof _enum && t.getName().equals("NE")).size());
+        assertEquals( 1, _an.listInnerTypes(t-> t instanceof _annotation && t.getName().equals("NA")).size());
 
         System.out.println( _an );
 

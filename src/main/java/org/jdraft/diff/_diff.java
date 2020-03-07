@@ -200,7 +200,7 @@ public interface _diff {
     }
 
     static _diff nestsOf(_type left, _type right) {
-        return _nestsDiff.INSTANCE.diff(left, right);
+        return _innerTypesDiff.INSTANCE.diff(left, right);
     }
 
     static _diff packageNameOf(_type left, _type right) {

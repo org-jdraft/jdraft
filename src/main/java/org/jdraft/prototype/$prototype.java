@@ -1,5 +1,9 @@
 package org.jdraft.prototype;
 
+import com.github.javaparser.ast.Node;
+import org.jdraft.*;
+import org.jdraft.text.Template;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -9,22 +13,17 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import org.jdraft.*;
-import org.jdraft.text.Template;
-
-import com.github.javaparser.ast.Node;
-
-public interface $proto<P extends Node, _P extends _java._node, $P extends $proto<P,_P,$P>>
+/**
+ * P is the underlying syntactic thing
+ * _P is the wrapper
+ * @param <P>
+ * @param <_P>
+ * @param <$P>
+ */
+public interface $prototype<P, _P, $P>
         extends $selector<_P,$P>, Template<_P> {
 
     Select<_P> select(Node n);
-
-    /**
-     * ==============================================================================================
-     * The following methods are "ACTIONS" or will perform WALKING queries/manipulations performed
-     * IN/ON syntax structures (AST or _java._astNode's)
-     * ==============================================================================================
-     */
 
     /** */
     default _P firstIn(Class<?> clazz) {
@@ -52,14 +51,14 @@ public interface $proto<P extends Node, _P extends _java._node, $P extends $prot
      * @return  the first Expression that matches (or null if none found)
      */
     default _P firstIn(Node astNode, Predicate<_P> matchFn) {
-        Select<_P> sel = selectFirstIn(astNode, (s)-> matchFn.test(s._sel));
+        Select<_P> sel = selectFirstIn(astNode, (s)-> matchFn.test(s.get()));
         if( sel != null ) {
-            return sel._sel;
+            return sel.selection;
         }
         return null;
     }
 
-    default Select<_P> selectFirstIn(_java._domain _j ) {
+    default Select<_P> selectFirstIn(_java._domain _j) {
         return selectFirstIn(_j, t->true);
     }
 
@@ -85,21 +84,8 @@ public interface $proto<P extends Node, _P extends _java._node, $P extends $prot
         return selectFirstIn(astNode, t-> true);
     }
 
-    /**
-     * @param astNode
-     * @return
-     */
-    default Select<_P> selectFirstIn(Node astNode, Predicate<Select<_P>> matchFn) {
-        Optional<Node> node = astNode.stream().filter(s->{
-            Select<_P> sel = select(s);
-            return sel != null && matchFn.test(sel);
-        }).findFirst();
+    Select<_P> selectFirstIn(Node astNode, Predicate<Select<_P>>predicate);
 
-        if( node.isPresent() ) { //double checking (i.e. perf hit could I remove this?)
-            return select(node.get());
-        }
-        return null;
-    }
 
     default int countIn(Class<?> clazz) {
         return countIn(Ast.of(clazz));
@@ -149,8 +135,8 @@ public interface $proto<P extends Node, _P extends _java._node, $P extends $prot
     default <N extends Node> N forEachIn(N astNode, Predicate<_P> matchFn, Consumer<_P> actionFn){
         astNode.stream().forEach(n ->{
             Select<_P> sel = select(n);
-            if( sel != null && matchFn.test(sel._sel)) {
-                actionFn.accept(sel._sel);
+            if( sel != null && matchFn.test(sel.selection)) {
+                actionFn.accept(sel.selection);
             }
         });
         return astNode;
@@ -263,7 +249,6 @@ public interface $proto<P extends Node, _P extends _java._node, $P extends $prot
         forEachIn(astNode, e-> System.out.println(e));
     }
 
-
     default Stream<_P> streamIn(_java._node<?, ?> _j){
         return listIn(_j).stream();
     }
@@ -288,118 +273,157 @@ public interface $proto<P extends Node, _P extends _java._node, $P extends $prot
         return listIn(astNode, matchFn).stream();
     }
 
-    default <_CT extends _type<?,?>> _CT removeIn(Class<?> clazz) {
-        _CT _ct = _java.type(clazz);
-        removeIn(_ct );
-        return _ct;
-    }
+    /**
+     * a prototype that represents a Node within the AST
+     * will have this functionality
+     * we can remove and replace nodes in the (overall) AST
+     *
+     * @param <P>
+     * @param <_P>
+     * @param <$P>
+     */
+    interface $node<P extends Node, _P extends _java._node, $P extends $node<P,_P,$P>>
+            extends $prototype<P, _P, $P>{ //$selector<_P,$P>, Template<_P> {
 
-    default <_CT extends _type<?,?>> _CT removeIn(Class<?> clazz, Predicate<_P> _matchFn) {
-        _CT _ct = _java.type(clazz);
-        removeIn(_ct, _matchFn);
-        return _ct;
-    }
+        /** does this individual Ast node match the prototype? */
+        Select<_P> select(Node n);
 
-    default <_J extends _java._node<?,?>> _J removeIn(_J _j) {
-        forEachIn(_j.ast(), p->true, n-> n.ast().removeForced());
-        return _j;
-    }
+        /**
+         * ==============================================================================================
+         * The following methods are "ACTIONS" or will perform WALKING queries/manipulations performed
+         * IN/ON syntax structures (AST or _java._astNode's)
+         * THESE actions assume the prototype "Target" is mapped to a single Ast Node
+         * (so it can be removed or replaced with another Node
+         * ==============================================================================================
+         */
+        default <_CT extends _type<?,?>> _CT removeIn(Class<?> clazz) {
+            _CT _ct = _java.type(clazz);
+            removeIn(_ct );
+            return _ct;
+        }
 
-    default <_J extends _java._node<?,?>> _J removeIn(_J _j, Predicate<_P> _matchFn) {
-        forEachIn(_j.ast(), _matchFn, n-> n.ast().removeForced());
-        return _j;
-    }
+        default <_J extends _java._node<?,?>> _J removeIn(_J _j) {
+            forEachIn(_j.ast(), p->true, n-> n.ast().removeForced());
+            return _j;
+        }
 
-    default <N extends Node> N removeIn(N astNode) {
-        return forEachIn(astNode, p->true, n-> n.ast().removeForced());
-    }
+        default <_CT extends _type<?,?>> _CT removeIn(Class<?> clazz, Predicate<_P> _matchFn) {
+            _CT _ct = _java.type(clazz);
+            removeIn(_ct, _matchFn);
+            return _ct;
+        }
 
-    default <N extends Node> N removeIn(N astNode, Predicate<_P> matchFn) {
-        forEachIn(astNode, matchFn, n-> n.ast().removeForced());
-        return astNode;
-    }
+        default <_J extends _java._node<?,?>> _J removeIn(_J _j, Predicate<_P> _matchFn) {
+            forEachIn(_j.ast(), _matchFn, n-> n.ast().removeForced());
+            return _j;
+        }
 
-    default <_CT extends _type<?,?>, _N extends _java._node<?, ?>> _CT replaceSelectedIn(Class<?> clazz, Template<_N> replaceNode) {
-        _CT _ct = _java.type(clazz);
-        replaceSelectedIn(_ct.ast(), t->true, replaceNode);
-        return _ct;
-    }
 
-    default <_CT extends _type<?,?>> _CT replaceIn(Class<?> clazz, Node replaceNode) {
-        return forEachIn(clazz, p-> p.ast().replace(replaceNode.clone()));
-    }
+        default <N extends Node> N removeIn(N astNode) {
+            return forEachIn(astNode, p->true, n-> n.ast().removeForced());
+        }
 
-    default <_J extends _java._node,  _N extends _java._node<?, ?>> _J replaceIn(_J _j, Template<_N> _t) {
-        replaceSelectedIn(_j.ast(), t->true, _t);
-        return _j;
-    }
+        default <N extends Node> N removeIn(N astNode, Predicate<_P> matchFn) {
+            forEachIn(astNode, matchFn, n-> n.ast().removeForced());
+            return astNode;
+        }
 
-    default <_CT extends _type<?,?>, _N extends _java._node<?, ?>> _CT replaceIn(Class<?> clazz, Template<_N> _t) {
-        _CT _ct = _java.type(clazz);
-        replaceSelectedIn(_ct.ast(), t->true, _t);
-        return _ct;
-    }
+        default <_CT extends _type<?,?>, _N extends _java._node<?, ?>> _CT replaceSelectedIn(Class<?> clazz, Template<_N> replaceNode) {
+            _CT _ct = _java.type(clazz);
+            replaceSelectedIn(_ct.ast(), t->true, replaceNode);
+            return _ct;
+        }
 
-    default <_CT extends _type<?,?>> _CT replaceIn(Class<?> clazz, _java._node<?, ?> _replace) {
-        return forEachIn(clazz, p-> p.ast().replace(_replace.ast().clone()));
-    }
+        default <_CT extends _type<?,?>> _CT replaceIn(Class<?> clazz, Node replaceNode) {
+            return forEachIn(clazz, p-> p.ast().replace(replaceNode.clone()));
+        }
 
-    default <N extends Node, _N extends _java._node> N replaceIn(N node, Template<_N> template) {
-        return replaceSelectedIn(node, template);
-    }
+        default <_J extends _java._node,  _N extends _java._node<?, ?>> _J replaceIn(_J _j, Template<_N> _t) {
+            replaceSelectedIn(_j.ast(), t->true, _t);
+            return _j;
+        }
 
-    default <N extends Node> N replaceIn(N node, P replaceNode) {
-        return forEachIn(node, p-> p.ast().replace(replaceNode.clone()));
-    }
+        default <_CT extends _type<?,?>, _N extends _java._node<?, ?>> _CT replaceIn(Class<?> clazz, Template<_N> _t) {
+            _CT _ct = _java.type(clazz);
+            replaceSelectedIn(_ct.ast(), t->true, _t);
+            return _ct;
+        }
 
-    default <N extends Node, _CT extends _type<?,?>> N replaceIn(N node, _P _replace) {
-        return forEachIn(node, p-> p.ast().replace(_replace.ast().clone()));
-    }
+        default <_CT extends _type<?,?>> _CT replaceIn(Class<?> clazz, _java._node<?, ?> _replace) {
+            return forEachIn(clazz, p-> p.ast().replace(_replace.ast().clone()));
+        }
 
-    default <_CT extends _type<?,?>> _CT replaceSelectedIn(Class<?> clazz, Function<Select<_P>, Node> replaceDeriver) {
-        _CT _ct = _java.type(clazz);
-        return replaceSelectedIn(_ct, replaceDeriver);
-    }
+        default <N extends Node, _N extends _java._node> N replaceIn(N node, Template<_N> template) {
+            return replaceSelectedIn(node, template);
+        }
 
-    default <_J extends _java._node<?,?>> _J replaceSelectedIn(_J _j, Function<Select<_P>, Node> replaceDeriver) {
-        replaceSelectedIn(_j.ast(), p->true, replaceDeriver);
-        return _j;
-    }
+        default <N extends Node> N replaceIn(N node, P replaceNode) {
+            return forEachIn(node, p-> p.ast().replace(replaceNode.clone()));
+        }
 
-    default <_J extends _java._node<?,?>> _J replaceSelectedIn(_J _j, Predicate<Select<_P>> selectMatchFn, Function<Select<_P>, Node> replaceDeriver) {
-        replaceSelectedIn(_j.ast(), selectMatchFn, replaceDeriver);
-        return _j;
-    }
+        default <N extends Node, _CT extends _type<?,?>> N replaceIn(N node, _P _replace) {
+            return forEachIn(node, p-> p.ast().replace(_replace.ast().clone()));
+        }
 
-    default <N extends Node> N replaceSelectedIn(N astNode, Function<Select<_P>, Node> replaceDeriver) {
-        return replaceSelectedIn(astNode, p->true, replaceDeriver);
-    }
+        default <_CT extends _type<?,?>> _CT replaceSelectedIn(Class<?> clazz, Function<Select<_P>, Node> replaceDeriver) {
+            _CT _ct = _java.type(clazz);
+            return replaceSelectedIn(_ct, replaceDeriver);
+        }
 
-    default <N extends Node, _N extends _java._node<?, ?>> N replaceSelectedIn(N astNode, Template<_N> nodeTemplate) {
-        return replaceSelectedIn(astNode, t->true, nodeTemplate);
-    }
+        /**
+         * @param astNode
+         * @return
+         */
+        default Select<_P> selectFirstIn(Node astNode, Predicate<Select<_P>> matchFn) {
+            Optional<Node> node = astNode.stream().filter(s -> {
+                Select<_P> sel = select(s);
+                return sel != null && matchFn.test(sel);
+            }).findFirst();
 
-    default <N extends Node, _N extends _java._node<?, ?>> N replaceSelectedIn(N astNode, Predicate<Select<_P>> selectMatchFn, Template<_N> nodeTemplate) {
-        forSelectedIn(astNode, selectMatchFn, s->{
-            s._sel.ast().replace( nodeTemplate.draft(s.tokens).ast() );
-        });
-        return astNode;
-    }
+            if (node.isPresent()) { //double checking (i.e. perf hit could I remove this?)
+                return select(node.get());
+            }
+            return null;
+        }
 
-    default <N extends Node> N replaceSelectedIn(N astNode, Predicate<Select<_P>> selectMatchFn, Function<Select<_P>, Node> replaceDeriver) {
-        forSelectedIn(astNode, selectMatchFn, s->{
-            s._sel.ast().replace( replaceDeriver.apply(s ) );
-        });
-        return astNode;
-    }
+        default <N extends Node, _N extends _java._node<?, ?>> N replaceSelectedIn(N astNode, Predicate<Select<_P>> selectMatchFn, Template<_N> nodeTemplate) {
+            forSelectedIn(astNode, selectMatchFn, s->{
+                s.selection.ast().replace( nodeTemplate.draft(s.tokens).ast() );
+            });
+            return astNode;
+        }
 
-    default void describeIn(Node astNode) {
-        forEachIn(astNode, e-> Walk.describe(e));
-    }
+        default <N extends Node> N replaceSelectedIn(N astNode, Predicate<Select<_P>> selectMatchFn, Function<Select<_P>, Node> replaceDeriver) {
+            forSelectedIn(astNode, selectMatchFn, s->{
+                s.selection.ast().replace( replaceDeriver.apply(s ) );
+            });
+            return astNode;
+        }
 
-    default void describeIn(Class<?> clazz) {
-        forEachIn(Ast.of(clazz), e-> Walk.describe(e));
-    }
+        default void describeIn(Node astNode) {
+            forEachIn(astNode, e-> Walk.describe(e));
+        }
 
+        default void describeIn(Class<?> clazz) {
+            forEachIn(Ast.of(clazz), e-> Walk.describe(e));
+        }
+
+        default <_J extends _java._node<?,?>> _J replaceSelectedIn(_J _j, Function<Select<_P>, Node> replaceDeriver) {
+            replaceSelectedIn(_j.ast(), p->true, replaceDeriver);
+            return _j;
+        }
+
+        default <_J extends _java._node<?,?>> _J replaceSelectedIn(_J _j, Predicate<Select<_P>> selectMatchFn, Function<Select<_P>, Node> replaceDeriver) {
+            replaceSelectedIn(_j.ast(), selectMatchFn, replaceDeriver);
+            return _j;
+        }
+
+        default <N extends Node> N replaceSelectedIn(N astNode, Function<Select<_P>, Node> replaceDeriver) {
+            return replaceSelectedIn(astNode, p->true, replaceDeriver);
+        }
+
+        default <N extends Node, _N extends _java._node<?, ?>> N replaceSelectedIn(N astNode, Template<_N> nodeTemplate) {
+            return replaceSelectedIn(astNode, t->true, nodeTemplate);
+        }
+    }
 }
-

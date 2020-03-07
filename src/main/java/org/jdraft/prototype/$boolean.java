@@ -21,7 +21,7 @@ import java.util.function.Predicate;
  *
  * @author Eric
  */
-public class $boolean implements $proto<BooleanLiteralExpr, _boolean, $boolean>,
+public class $boolean implements $prototype.$node<BooleanLiteralExpr, _boolean, $boolean>,
         $selector.$node<_boolean, $boolean>,
         $expr<BooleanLiteralExpr, _boolean, $boolean> {
 

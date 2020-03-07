@@ -100,7 +100,7 @@ public class _diffApiTest extends TestCase {
         assertTrue(_diff.of(_a, _b).isEmpty());
         
         //change something on the left (_a) add annotation to field g
-        _a.getNest("Inner").getField("g").addAnnos(Deprecated.class);
+        _a.getInnerType("Inner").getField("g").addAnnos(Deprecated.class);
         
         _diff _d = _diff.of(_a,_b);
         //How many changes?
@@ -120,8 +120,8 @@ public class _diffApiTest extends TestCase {
         assertTrue( _d.isDiffOf(_anno.of(Deprecated.class)));//the diff Object is the Deprecated _anno
         
         //you wont use this much, but it's available (pass in the FULL PATH to where the diff occurs)
-        assertEquals(_dn, _d.at(Component.NEST, "", _class.class, "Inner", _field.class, "g", _anno.class, "Deprecated"));
-        assertEquals(_dn, _d.at(_nodePath.of(Component.NEST, "", _class.class, "Inner", _field.class, "g", _anno.class, "Deprecated")));
+        assertEquals(_dn, _d.at(Component.INNER_TYPE, "", _class.class, "Inner", _field.class, "g", _anno.class, "Deprecated"));
+        assertEquals(_dn, _d.at(_nodePath.of(Component.INNER_TYPE, "", _class.class, "Inner", _field.class, "g", _anno.class, "Deprecated")));
         
         //Where does the change occur
         // At = on what "leaf node" in the AST
@@ -160,7 +160,7 @@ public class _diffApiTest extends TestCase {
         assertTrue(_d.isOn(_anno.class, "Deprecated"));
         
         //On checks the input to each node in the path graph to the _diffNode
-        assertTrue(_d.isOn(Component.NEST));
+        assertTrue(_d.isOn(Component.INNER_TYPE));
         assertTrue(_d.isOn(Component.CLASS, "Inner"));
         assertTrue(_d.isOn("g"));
         assertTrue(_d.isOn(_field.class, "g"));
@@ -187,8 +187,8 @@ public class _diffApiTest extends TestCase {
         _dn.patchLeftToRight();
         
         assertEquals(_a, _b);
-        assertTrue(_a.getNest("Inner").getField("g").hasAnno(Deprecated.class));
-        assertTrue(_b.getNest("Inner").getField("g").hasAnno(Deprecated.class));
+        assertTrue(_a.getInnerType("Inner").getField("g").hasAnno(Deprecated.class));
+        assertTrue(_b.getInnerType("Inner").getField("g").hasAnno(Deprecated.class));
     }
     
     
@@ -215,7 +215,7 @@ public class _diffApiTest extends TestCase {
         assertTrue(_diff.of(_b, _a).isEmpty());
         
         //change something on the left (_a) add annotation to field g
-        _a.getNest("Inner").getField("g").addAnnos(Deprecated.class);
+        _a.getInnerType("Inner").getField("g").addAnnos(Deprecated.class);
         
         _diff _d = _diff.of(_b,_a);
         
@@ -227,8 +227,8 @@ public class _diffApiTest extends TestCase {
         assertTrue( _d.isDiffOf(_anno.of(Deprecated.class)));//the diff Object is the Deprecated _anno
         
         //you wont use this much, but it's available (pass in the FULL PATH to where the diff occurs)
-        assertEquals(_dn, _d.at(Component.NEST, "", _class.class, "Inner", _field.class, "g", _anno.class, "Deprecated"));
-        assertEquals(_dn, _d.at(_nodePath.of(Component.NEST, "", _class.class, "Inner", _field.class, "g", _anno.class, "Deprecated")));
+        assertEquals(_dn, _d.at(Component.INNER_TYPE, "", _class.class, "Inner", _field.class, "g", _anno.class, "Deprecated"));
+        assertEquals(_dn, _d.at(_nodePath.of(Component.INNER_TYPE, "", _class.class, "Inner", _field.class, "g", _anno.class, "Deprecated")));
         
         //Where does the change occur
         // At = on what "leaf node" in the AST
@@ -267,7 +267,7 @@ public class _diffApiTest extends TestCase {
         assertTrue(_d.isOn(_anno.class, "Deprecated"));
         
         //On checks the input to each node in the path graph to the _diffNode
-        assertTrue(_d.isOn(Component.NEST));
+        assertTrue(_d.isOn(Component.INNER_TYPE));
         assertTrue(_d.isOn(Component.CLASS, "Inner"));
         assertTrue(_d.isOn("g"));
         assertTrue(_d.isOn(_field.class, "g"));
@@ -294,8 +294,8 @@ public class _diffApiTest extends TestCase {
         //this will add the Deprecated Anno
         _dn.patchRightToLeft();
         assertEquals(_a, _b);
-        assertTrue( _a.getNest("Inner").getField("g").hasAnno(Deprecated.class) );
-        assertTrue( _b.getNest("Inner").getField("g").hasAnno(Deprecated.class) );
+        assertTrue( _a.getInnerType("Inner").getField("g").hasAnno(Deprecated.class) );
+        assertTrue( _b.getInnerType("Inner").getField("g").hasAnno(Deprecated.class) );
     }
     
     
@@ -325,7 +325,7 @@ public class _diffApiTest extends TestCase {
         assertTrue(_diff.of(_a, _b).isEmpty());
         
         //change something on _b (the right)
-        _a.getNest("Inner").getField("g").setInit(200);
+        _a.getInnerType("Inner").getField("g").setInit(200);
         
         _diff _d = _diff.of(_a, _b);
         
@@ -356,8 +356,8 @@ public class _diffApiTest extends TestCase {
         // _a and _b are both equal
         assertTrue( _diff.of(_a, _b).isEmpty());
         //AND verify they are now BOTH 200
-        assertEquals( _a.getNest("Inner").getField("g").getInit(), Ex.of(200));
-        assertEquals( _b.getNest("Inner").getField("g").getInit(), Ex.of(200));
+        assertEquals( _a.getInnerType("Inner").getField("g").getInit(), Ex.of(200));
+        assertEquals( _b.getInnerType("Inner").getField("g").getInit(), Ex.of(200));
         //assertEquals( _a.getNest("Inner").getField("g"), _a.getNest("Inner").getField("g"));        
     }
     
@@ -397,7 +397,7 @@ public class _diffApiTest extends TestCase {
         assertEquals(_a, _b);
         assertTrue( _diff.of(_a,_b).isEmpty());
         
-        _method m = (_method)_a.getNest("Inner").getDeclared( _method.class );
+        _method m = (_method)_a.getInnerType("Inner").getDeclared( _method.class );
         
         //add a new Statement at the beginning of the method
         m.add(0, Stmt.of(()->{ System.out.println("started");}) );

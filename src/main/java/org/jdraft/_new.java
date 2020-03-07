@@ -15,7 +15,7 @@ public class _new implements _expression<ObjectCreationExpr, _new>,
         _java._multiPart<ObjectCreationExpr, _new>,
         _typeRef._withTypeRef<ObjectCreationExpr, _new>,
         _java._withScope<ObjectCreationExpr, _new>,
-        _args._withArguments<ObjectCreationExpr, _new>,
+        _arguments._withArguments<ObjectCreationExpr, _new>,
         _typeArguments._withTypeArguments<ObjectCreationExpr, _new> {
 
     public static _new of(){

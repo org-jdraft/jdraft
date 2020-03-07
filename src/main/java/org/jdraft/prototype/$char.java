@@ -21,7 +21,7 @@ import java.util.function.Predicate;
  *
  * @author Eric
  */
-public class $char implements $proto<CharLiteralExpr, _char, $char>,
+public class $char implements $prototype.$node<CharLiteralExpr, _char, $char>,
         $selector.$node<_char, $char>,
         $expr<CharLiteralExpr, _char, $char> {
 

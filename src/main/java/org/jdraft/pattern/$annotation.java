@@ -103,7 +103,7 @@ public class $annotation
         _a.forEntries(e -> $c.$elements($annotationEntry.of(e)));
         _a.forFields(f-> $c.fields.add($field.of(f)));
 
-        _a.forNests( n -> {
+        _a.forInnerTypes(n -> {
             if( n instanceof _class) {
                 $c.$hasChild( $class.of((_class)n) );
             }

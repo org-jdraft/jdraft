@@ -128,9 +128,9 @@ public class _diffPatchTest
     public void testDiffPackageChange(){
         //verify a complex class copied has no diff
         _class _c = _class.of(ComplexClass.class);
-        assertEquals(1, _c.listNests().size() );
+        assertEquals(1, _c.listInnerTypes().size() );
         _class _c2 = _c.copy();
-        assertEquals(1, _c2.listNests().size() );
+        assertEquals(1, _c2.listInnerTypes().size() );
         System.out.println("C2 "+ _c2 );
         assertTrue(_diff.of(_c, _c2).isEmpty() ) ;
         
@@ -138,21 +138,21 @@ public class _diffPatchTest
         //start to diff components and verify we can 
        
         _c.setPackage("blaasss");
-        assertEquals("NESTST  1 ", 1, _c.listNests().size() );
+        assertEquals("NESTST  1 ", 1, _c.listInnerTypes().size() );
         
         dl = _diff.of(_c, _c2);
         System.out.println( dl );
-        assertEquals("NESTST  1.1 ", 1, _c.listNests().size() );
+        assertEquals("NESTST  1.1 ", 1, _c.listInnerTypes().size() );
         assertTrue( dl.firstOn(PACKAGE).isChange() );
         dl.patchLeftToRight();        
         
         System.out.println( _c );
         
         
-        assertEquals("NESTST  1.5 ", 1, _c.listNests().size() );
+        assertEquals("NESTST  1.5 ", 1, _c.listInnerTypes().size() );
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        assertEquals("NESTST  2 ", 1, _c.listNests().size() );
+        assertEquals("NESTST  2 ", 1, _c.listInnerTypes().size() );
         
     }
 
@@ -190,9 +190,9 @@ public class _diffPatchTest
     public void testDiffAndPatchComplexTypes(){
         //verify a complex class copied has no diff
         _class _c = _class.of(ComplexClass.class);
-        assertEquals(1, _c.listNests().size() );
+        assertEquals(1, _c.listInnerTypes().size() );
         _class _c2 = _c.copy();
-        assertEquals(1, _c2.listNests().size() );
+        assertEquals(1, _c2.listInnerTypes().size() );
 
         System.out.println("C2 "+ _c2 );
 
@@ -227,7 +227,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());
                
-        assertEquals("NESTST  5 ", 1, _c.listNests().size() );
+        assertEquals("NESTST  5 ", 1, _c.listInnerTypes().size() );
         
         _c.addAnnos("@AAAAA");
         System.out.println(_diff.of(_c, _c2));
@@ -280,7 +280,7 @@ public class _diffPatchTest
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
         
-        assertEquals("NESTST   ", 1, _c.listNests().size() );
+        assertEquals("NESTST   ", 1, _c.listInnerTypes().size() );
         
         //--------------FIELD ON CLASS------------------
         _field _f = _field.of("public int aFieldIAdded = 1023;");
@@ -489,15 +489,15 @@ public class _diffPatchTest
         dl.patchLeftToRight();                
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        System.out.println("SIZE" +  _c.listNests().size() );
-        assertEquals(1, _c.listNests().size());
-        System.out.println("SIZE" +  _c2.listNests().size() );
-        assertEquals(1, _c2.listNests().size());
+        System.out.println("SIZE" +  _c.listInnerTypes().size() );
+        assertEquals(1, _c.listInnerTypes().size());
+        System.out.println("SIZE" +  _c2.listInnerTypes().size() );
+        assertEquals(1, _c2.listInnerTypes().size());
         
         
         //------------------------NESTED ENUM
-        System.out.println( _c.listNests() );
-        assertEquals(1, _c.listNests().size() );
+        System.out.println( _c.listInnerTypes() );
+        assertEquals(1, _c.listInnerTypes().size() );
         
         _c.getDeclared(_enum.class, "E").setJavadoc("Nested Enum Javadoc");
         dl = _diff.of(_c, _c2);

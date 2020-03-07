@@ -527,8 +527,8 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
 
         Set<_type> tn = new HashSet<>();
         Set<_type> on = new HashSet<>();
-        tn.addAll( this.listNests() );
-        on.addAll( other.listNests() );
+        tn.addAll( this.listInnerTypes() );
+        on.addAll( other.listInnerTypes() );
 
         if( !Objects.equals( tn, on ) ) {
             return false;
@@ -601,7 +601,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         parts.put( _java.Component.CONSTRUCTORS, this.listConstructors() );
         parts.put( _java.Component.METHODS, this.listMethods() );
         parts.put( _java.Component.FIELDS, this.listFields() );
-        parts.put( _java.Component.NESTS, this.listNests() );
+        parts.put( _java.Component.INNER_TYPES, this.listInnerTypes() );
         parts.put( _java.Component.COMPANION_TYPES, this.listCompanionTypes());
         return parts;
     }
@@ -622,7 +622,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         tm.addAll( this.listMethods() );
 
         Set<_type> tn = new HashSet<>();
-        tn.addAll( this.listNests() );
+        tn.addAll( this.listInnerTypes() );
 
         Set<_type> ct = new HashSet<>();
         ct.addAll( this.listCompanionTypes());

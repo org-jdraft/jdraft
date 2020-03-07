@@ -115,7 +115,7 @@ public class $enum
         _e.forConstructors(ct -> $e.ctors.add($constructor.of(ct)));
         _e.forFields(f-> $e.fields.add($field.of(f)));
         _e.forMethods(m -> $e.$methods($method.of(m)));
-        _e.forNests( n -> {
+        _e.forInnerTypes(n -> {
             if( n instanceof _class) {
                 $e.$hasChild( $class.of((_class)n) );
             }

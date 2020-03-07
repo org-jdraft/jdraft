@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
-public class $classExpression implements $proto<ClassExpr, _classExpression, $classExpression>,
+public class $classExpression implements $prototype.$node<ClassExpr, _classExpression, $classExpression>,
         $selector.$node<_classExpression, $classExpression>,
         $expr<ClassExpr, _classExpression, $classExpression>, Template<_classExpression> {
 

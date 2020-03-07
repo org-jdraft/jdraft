@@ -123,7 +123,7 @@ public class $interface
         _c.listExtends().forEach(i -> $c.$extend(i));
         _c.forFields(f-> $c.fields.add($field.of(f)));
         _c.forMethods(m -> $c.$methods($method.of(m)));
-        _c.forNests( n -> {
+        _c.forInnerTypes(n -> {
             if( n instanceof _class) {
                 $c.$hasChild( $class.of((_class)n) );
             }

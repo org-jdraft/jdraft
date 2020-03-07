@@ -16,7 +16,7 @@ public final class _constructorCallStmt
         implements _statement<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
         _java._multiPart<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
         _typeArguments._withTypeArguments<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
-        _args._withArguments<ExplicitConstructorInvocationStmt, _constructorCallStmt> {
+        _arguments._withArguments<ExplicitConstructorInvocationStmt, _constructorCallStmt> {
 
     public static _constructorCallStmt of(){
         return new _constructorCallStmt( new ExplicitConstructorInvocationStmt( ));

@@ -128,15 +128,15 @@ public class _companionTypeDiff implements _differ<List<_type>, _java._multiPart
         @Override
         public void patchLeftToRight() {
             leftParent.removeCompanionType(right);
-            rightParent.removeNest(right);
+            rightParent.removeInnerType(right);
         }
 
         @Override
         public void patchRightToLeft() {
-            leftParent.removeNest(right);
-            leftParent.nest(right);
-            rightParent.removeNest(right);
-            rightParent.nest(right);
+            leftParent.removeInnerType(right);
+            leftParent.addInner(right);
+            rightParent.removeInnerType(right);
+            rightParent.addInner(right);
         }
 
         @Override
@@ -182,16 +182,16 @@ public class _companionTypeDiff implements _differ<List<_type>, _java._multiPart
 
         @Override
         public void patchLeftToRight() {
-            leftParent.removeNest(left);
-            leftParent.nest(left);
-            rightParent.removeNest(left);
-            rightParent.nest(left);
+            leftParent.removeInnerType(left);
+            leftParent.addInner(left);
+            rightParent.removeInnerType(left);
+            rightParent.addInner(left);
         }
 
         @Override
         public void patchRightToLeft() {
-            leftParent.removeNest(left);
-            rightParent.removeNest(left);
+            leftParent.removeInnerType(left);
+            rightParent.removeInnerType(left);
         }
 
         @Override

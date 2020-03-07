@@ -21,7 +21,7 @@ import java.util.function.Predicate;
  *
  * @author Eric
  */
-public class $long implements $proto<LongLiteralExpr, _long, $long>,
+public class $long implements $prototype.$node<LongLiteralExpr, _long, $long>,
         $selector.$node<_long, $long>,
         $expr<LongLiteralExpr, _long, $long> {
 

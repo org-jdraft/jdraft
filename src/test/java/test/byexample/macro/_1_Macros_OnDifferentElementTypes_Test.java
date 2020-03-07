@@ -32,7 +32,7 @@ public class _1_Macros_OnDifferentElementTypes_Test extends TestCase {
         class T{
             @_static class N{}
         }
-        assertTrue( _class.of(T.class).getNest("N").isStatic());
+        assertTrue( _class.of(T.class).getInnerType("N").isStatic());
     }
 
     public void testOnField(){

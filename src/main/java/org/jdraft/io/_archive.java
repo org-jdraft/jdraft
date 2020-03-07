@@ -7,6 +7,7 @@ import java.net.URI;
 import java.nio.file.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -87,11 +88,13 @@ public class _archive implements _codeUnit._provider{
                                 count.incrementAndGet();
                             });
                         } catch (IOException e) {
-                            //e.printStackTrace();
+                            System.out.println( "Here " + e );
+                            e.printStackTrace();
                             ioes.add(e);
                         }
                     });
-        } finally{
+        }
+        finally{
             try {
                 fs.close();
             } catch(IOException ioe){
@@ -117,6 +120,17 @@ public class _archive implements _codeUnit._provider{
 
     public static final Predicate<Path> MODULE_INFO_FILES = p ->
             p.endsWith("module-info.java");
+
+    public void forEachFileAsBytes( BiConsumer<Path, byte[]> fileByteArrayConsumer){
+        forEach(this.pathMatchFn, p-> {
+            try {
+                byte[] fileBytes = Files.readAllBytes(p);
+                fileByteArrayConsumer.accept(p, fileBytes);
+            }catch (Exception ioe){
+                throw new _jdraftException("failure reading "+ p );
+            }
+        });
+    }
 
     @Override
     public <_C extends _codeUnit> List<_C> for_code(Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn) {

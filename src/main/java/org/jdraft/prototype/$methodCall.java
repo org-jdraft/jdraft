@@ -17,7 +17,7 @@ import org.jdraft.text.Translator;
 /**
  *
  */
-public class $methodCall implements $proto<MethodCallExpr, _methodCall, $methodCall>,
+public class $methodCall implements $prototype.$node<MethodCallExpr, _methodCall, $methodCall>,
         $selector.$node<_methodCall, $methodCall>,
         $expr<MethodCallExpr, _methodCall, $methodCall> {
 
@@ -45,7 +45,9 @@ public class $methodCall implements $proto<MethodCallExpr, _methodCall, $methodC
             if( parts[i] instanceof $expr){
                 $mc.scope = ($expr)parts[i];
             }
-            //todo arguments
+            if( parts[i] instanceof $arguments){
+                $mc.arguments = ($arguments)parts[i];
+            }
             //todo typearguments
         }
         return $mc;
@@ -94,7 +96,7 @@ public class $methodCall implements $proto<MethodCallExpr, _methodCall, $methodC
 
     //the parts of the method call
     public $name name = $name.of();
-    //todo arguments (order matters)
+    public $arguments arguments = $arguments.of();
     //todo typeParameters (order doesnt matter)
     public $expr scope = $e.of();
 
@@ -106,13 +108,15 @@ public class $methodCall implements $proto<MethodCallExpr, _methodCall, $methodC
         if( _mc.hasScope()){
             scope = $e.of(_mc.getScope());
         }
-        //todo arguments
+        if( _mc.hasArguments() ){
+            arguments = $arguments.of(_mc.getArguments());
+        }
         //todo typeParameters
     }
 
     public boolean isMatchAny(){
-        if( this.name.isMatchAny() && this.scope.isMatchAny() ){
-            //TODO arguments, typeArguments
+        if( this.name.isMatchAny() && this.scope.isMatchAny() && arguments.isMatchAny()){
+            //TODO typeArguments
             try {
                 return this.predicate.test(null);
             } catch(Exception e){ }
@@ -167,6 +171,9 @@ public class $methodCall implements $proto<MethodCallExpr, _methodCall, $methodC
         if( !_mc.hasScope() && !this.scope.isMatchAny()){
             return null;
         }
+        if( ! this.predicate.test(_mc)){
+            return null;
+        }
         Select s = this.scope.select( _mc.getScope() );
         if( s == null ){
             return null;
@@ -177,8 +184,12 @@ public class $methodCall implements $proto<MethodCallExpr, _methodCall, $methodC
             return null;
         }
         ts.putAll(s.tokens);
+        s = this.arguments.select(_mc.getArguments() );
+        if( s == null || !ts.isConsistent(s.tokens)){
+            return null;
+        }
+        ts.putAll(s.tokens);
         //todo typeargs
-        //todo arguments
         return new Selected(_mc, ts);
     }
 
@@ -188,7 +199,7 @@ public class $methodCall implements $proto<MethodCallExpr, _methodCall, $methodC
         if( !this.scope.isMatchAny() ){
             _mc.setScope( (_expression)this.scope.draft(tr, keyValues));
         }
-        //todo arguments
+        _mc.setArguments( this.arguments.draft(tr, keyValues));
         //todo typearguments
         return _mc;
     }
@@ -197,7 +208,7 @@ public class $methodCall implements $proto<MethodCallExpr, _methodCall, $methodC
     public $methodCall $(String target, String $Name) {
         this.name.$(target, $Name);
         this.scope.$(target, $Name);
-        //todo arguments
+        this.arguments.$(target, $Name);
         //todo typearguments
         return this;
     }
@@ -208,7 +219,7 @@ public class $methodCall implements $proto<MethodCallExpr, _methodCall, $methodC
         ps.addAll( this.scope.list$());
         //todo typeArguments
         ps.addAll( this.name.list$());
-        //todo arguments
+        ps.addAll(this.arguments.list$());
         return ps;
     }
 
@@ -218,13 +229,48 @@ public class $methodCall implements $proto<MethodCallExpr, _methodCall, $methodC
         ps.addAll( this.scope.list$Normalized());
         //todo typeArguments
         ps.addAll( this.name.list$Normalized());
-        //todo arguments
+        ps.addAll( this.arguments.list$Normalized());
         return ps.stream().distinct().collect(Collectors.toList());
+    }
+
+    //$withArguments
+    public $arguments get$arguments(){
+        return this.arguments;
+    }
+
+    public $methodCall $arguments(){
+        this.arguments = $arguments.of();
+        return this;
+    }
+
+    public $methodCall $arguments(Predicate<_arguments> predicate){
+        this.arguments.$and(predicate);
+        return this;
+    }
+
+    public $methodCall $arguments($arguments $as){
+        this.arguments = $as;
+        return this;
+    }
+
+    public $methodCall $arguments($expr...args){
+        this.arguments = $arguments.of(args);
+        return this;
+    }
+
+    public $methodCall $arguments(_expression...args){
+        this.arguments = $arguments.of(args);
+        return this;
     }
 
     //$withName
     public $name get$name(){
         return this.name;
+    }
+
+    public $methodCall $name(){
+        this.name = $name.of();
+        return this;
     }
 
     public $methodCall $name(Predicate<String> matchFn){
@@ -245,6 +291,11 @@ public class $methodCall implements $proto<MethodCallExpr, _methodCall, $methodC
     //$withScope interface
     public $expr get$scope(){
         return this.scope;
+    }
+
+    public $methodCall $scope( ){
+        this.scope = $e.of();
+        return this;
     }
 
     public $methodCall $scope( $expr $e ){

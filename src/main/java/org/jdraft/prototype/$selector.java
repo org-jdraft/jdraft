@@ -1,6 +1,7 @@
 package org.jdraft.prototype;
 
 import com.github.javaparser.ast.Node;
+import org.jdraft._java;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 
@@ -14,6 +15,8 @@ import java.util.function.Predicate;
 public interface $selector<_S, $S> {
 
     Predicate<_S> getPredicate();
+
+    //Select<_S> select(_java._node _jn);
 
     /**
      * Return a Select if the candidate matches
@@ -72,6 +75,14 @@ public interface $selector<_S, $S> {
 
         Select<_N> select(Node n);
 
+        default Select<_N> select(_java._node _jn ){
+            try{
+                return select( (_N) _jn );
+            }catch(Exception e){
+                return null;
+            }
+        }
+
         default boolean matches(String...code){
            return select(code) != null;
         }
@@ -90,26 +101,26 @@ public interface $selector<_S, $S> {
      * (including relevant "Tokens" extracted when selecting"
      * @param <S> the selected instance type
      */
-    class Select<S> {
+    public class Select<S> {
 
-        public S _sel;
+        public S selection;
         public Tokens tokens;
 
-        public Select(S _sel, Tokens tokens) {
-            this._sel = _sel;
+        public Select(S selection, Tokens tokens) {
+            this.selection = selection;
             this.tokens = tokens;
         }
 
         @Override
         public String toString() {
             return this.getClass().getCanonicalName().replace("org.jdraft.protptype", "")+"{" + System.lineSeparator()
-                    + Text.indent(_sel.toString()) + System.lineSeparator() +
+                    + Text.indent(selection.toString()) + System.lineSeparator() +
                     Text.indent("Tokens : " + tokens) + System.lineSeparator()
                     + "}";
         }
 
         public S get() {
-            return this._sel;
+            return this.selection;
         }
 
     }

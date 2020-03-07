@@ -21,116 +21,166 @@ import java.util.stream.Collectors;
  * {@link _new}
  * order matters
  *
+ * @see org.jdraft.prototype.$arguments for a prototype version
  */
-public class _args
-        implements _java._list<Expression, _expression, _args> {
+public class _arguments
+        implements _java._list<Expression, _expression, _arguments> {
 
-    public static _args of(){
+    public static _arguments of(){
         return of( Ex.methodCallEx("empty()"));
     }
 
-    public static _args of(String...args){
-        return of( Ex.methodCallEx("empty("+ Text.combine(args)+")"));
+    public static _arguments of(_expression... _exs){
+        return of().add(_exs);
     }
 
-    public static _args of(NodeWithArguments nwa){
-         return new _args(nwa);
+    public static _arguments of(String...args){
+        if( args.length == 1){ //they might have already added the ()'s
+            String code = args[0].trim();
+            if(code.startsWith("(") && code.endsWith(")")){
+                code = code.substring(1, code.length() - 1).trim();
+                if( code.length() ==0 ){
+                    return of();
+                }
+                return of( Ex.methodCallEx("empty("+ code+")"));
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        if( !args[0].startsWith("(")) {
+            sb.append("(");
+        }
+        for(int i=0;i<args.length;i++){
+            if( i > 0){
+                sb.append(", ");
+            }
+            sb.append(args[i]);
+        }
+        sb.append(")");
+        return of( Ex.methodCallEx("empty"+ sb.toString()));
+    }
+
+    public static _arguments of(NodeWithArguments nwa){
+         return new _arguments(nwa);
     }
 
     public NodeWithArguments nwa;
 
-    public _args(NodeWithArguments nwa){
+    public _arguments(NodeWithArguments nwa){
         this.nwa = nwa;
     }
 
-    public _args add( int i){
+    public _arguments add(int i){
         return add( _int.of(i) );
     }
 
-    public _args add( char c){
+    public _arguments add(char c){
         return add( _char.of(c) );
     }
 
-    public _args add( boolean b){
+    public _arguments add(boolean b){
         return add( _boolean.of(b) );
     }
 
-    public _args add( long l){
+    public _arguments add(long l){
         return add( _long.of(l) );
     }
 
-    public _args add( float f){
+    public _arguments add(float f){
         return add( _double.of(f) );
     }
 
-    public _args add( double d){
+    public _arguments add(double d){
         return add( _double.of(d) );
     }
 
-    public _args add(String...args){
+    public _arguments add(String...args){
         return add(Arrays.stream(args).map(a -> _expression.of(a) ).collect(Collectors.toList()).toArray(new _expression[0]));
     }
 
     public boolean isAt(int index, int i){
+        if( index >= this.size()){
+            return false;
+        }
         return isAt(index, _int.of(i) );
     }
 
     public boolean isAt(int index, char c){
+        if( index >= this.size()){
+            return false;
+        }
         return isAt(index, _char.of(c) );
     }
 
     public boolean isAt(int index, boolean b){
+        if( index >= this.size()){
+            return false;
+        }
         return isAt(index,_boolean.of(b) );
     }
 
     public boolean isAt(int index, long l){
+        if( index >= this.size()){
+            return false;
+        }
         return isAt(index,_long.of(l) );
     }
 
     public boolean isAt(int index, float f){
+        if( index >= this.size()){
+            return false;
+        }
         return isAt(index,_double.of(f) );
     }
 
     public boolean isAt(int index, double d){
+        if( index >= this.size()){
+            return false;
+        }
         return isAt(index,_double.of(d) );
     }
 
     public boolean isAt(int index, String expression){
+        if( index >= this.size()){
+            return false;
+        }
         return isAt(index, Ex.of(expression));
     }
 
     public boolean isAt(int index, Expression e){
+        if( index >= this.size()){
+            return false;
+        }
         return Ex.equivalent( getAt(index).ast(), e);
     }
 
-    public _args setAt(int index, int i){
+    public _arguments setAt(int index, int i){
         return setAt(index, _int.of(i) );
     }
 
-    public _args setAt(int index, char c){
+    public _arguments setAt(int index, char c){
         return setAt(index, _char.of(c) );
     }
 
-    public _args setAt(int index, boolean b){
+    public _arguments setAt(int index, boolean b){
         return setAt(index,_boolean.of(b) );
     }
 
-    public _args setAt(int index, long l){
+    public _arguments setAt(int index, long l){
         return setAt(index,_long.of(l) );
     }
 
-    public _args setAt(int index, float f){
+    public _arguments setAt(int index, float f){
         return setAt(index,_double.of(f) );
     }
 
-    public _args setAt(int index, double d){
+    public _arguments setAt(int index, double d){
         return setAt(index,_double.of(d) );
     }
 
     @Override
-    public _args copy() {
+    public _arguments copy() {
         Node n = (Node)nwa;
-        return new _args( (NodeWithArguments) (n.clone()) );
+        return new _arguments( (NodeWithArguments) (n.clone()) );
     }
 
     @Override
@@ -148,8 +198,8 @@ public class _args
     }
 
     public boolean equals( Object o){
-        if( o instanceof _args){
-            _args _as = (_args) o;
+        if( o instanceof _arguments){
+            _arguments _as = (_arguments) o;
             if( this.nwa.getArguments().size() == _as.size()){
                 for(int i=0;i<this.nwa.getArguments().size(); i++){
                     Expression e = this.nwa.getArgument(i);
@@ -161,6 +211,21 @@ public class _args
             }
         }
         return false;
+    }
+
+    public String toString(){
+        //return this.nwa.getArguments().toString();
+        StringBuilder sb = new StringBuilder();
+        sb.append("(");
+        for(int i=0;i<this.nwa.getArguments().size();i++){
+
+            if( i > 0){
+                sb.append(", ");
+            }
+            sb.append(nwa.getArgument(i));
+        }
+        sb.append(")");
+        return sb.toString();
     }
 
     /**
@@ -175,10 +240,10 @@ public class _args
     public interface _withArguments<N extends Node, _WA extends _java._node> extends _java._node<N, _WA> {
 
         /**
-         * Creates and returns an {@link _args} to model the whole arguments list
+         * Creates and returns an {@link _arguments} to model the whole arguments list
          * @return an _args modelling 0...n arguments in the arguments list)
          */
-        default _args getArgs(){
+        default _arguments getArguments(){
             return of( (NodeWithArguments)ast());
         }
 
@@ -234,7 +299,7 @@ public class _args
             return setArgument(index, Ex.of(d));
         }
 
-        default _WA setArguments(_args _as){
+        default _WA setArguments(_arguments _as){
             ((NodeWithArguments)ast()).setArguments(_as.listAstElements());
             return (_WA)this;
         }

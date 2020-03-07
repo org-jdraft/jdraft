@@ -165,7 +165,7 @@ public class _interfaceTest extends TestCase {
                    " return null;",
                    "}");
 
-        _interface.of(ComplexInterface.class).listNests().forEach( e -> _i.nest(e));
+        _interface.of(ComplexInterface.class).listInnerTypes().forEach(e -> _i.addInner(e));
 
         /*
         System.out.println( _i.getMethod( "doIt" ));

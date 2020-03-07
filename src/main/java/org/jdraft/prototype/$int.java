@@ -21,7 +21,7 @@ import java.util.function.Predicate;
  *
  * @author Eric
  */
-public class $int implements $proto<IntegerLiteralExpr, _int, $int>,
+public class $int implements $prototype.$node<IntegerLiteralExpr, _int, $int>,
         $selector.$node<_int, $int>,
         $expr<IntegerLiteralExpr, _int, $int> {
 

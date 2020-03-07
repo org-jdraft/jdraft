@@ -24,7 +24,7 @@ public class _interfaceDiff
         _modifiersDiff.INSTANCE.diff(path, dt, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());
         _methodsDiff.INSTANCE.diff(path, dt, left, right, left.listMethods(), right.listMethods());
         _fieldsDiff.INSTANCE.diff(path, dt, left, right, left.listFields(), right.listFields());
-        _nestsDiff.INSTANCE.diff(path, dt, left, right, left.listNests(), right.listNests());
+        _innerTypesDiff.INSTANCE.diff(path, dt, left, right, left.listInnerTypes(), right.listInnerTypes());
 
         _companionTypeDiff.INSTANCE.diff(path, dt, left, right, left.listCompanionTypes(), right.listCompanionTypes());
         return dt;

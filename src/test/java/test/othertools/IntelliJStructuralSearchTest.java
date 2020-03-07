@@ -2,14 +2,11 @@ package test.othertools;
 
 import junit.framework.TestCase;
 import org.jdraft.*;
-import org.jdraft.io._archive;
 import org.jdraft.io._path;
 import org.jdraft.io._sources;
 import org.jdraft.pattern.*;
-import org.jdraft.runtime._typeTree;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Looking at the integrated IntelliJ Structured Source Query
@@ -221,7 +218,7 @@ public class IntelliJStructuralSearchTest extends TestCase {
 //simple method invocation with constant
         //method calls that use a single parameter literal
         _( $.methodCall( m -> m.countArguments()  == 1
-                        && m.getArgs().isAt(0, a -> a.isLiteral() ) ) );
+                        && m.getArguments().isAt(0, a -> a.isLiteral() ) ) );
 
         //String concatenation with many operands
         _( $.binaryExpr( b-> b.isPlus() &&

@@ -796,7 +796,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         for (int i = 0; i < $protoTypes.size(); i++) {
             final $type t = $protoTypes.get(i);
             List<$type.Select> matches = new ArrayList<>();
-            _t.listNests().forEach(m -> {
+            _t.listInnerTypes().forEach(m -> {
                 $type.Select sel = t.select((_type) m);
                 if (sel != null) {
                     matches.add(sel);

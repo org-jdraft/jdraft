@@ -153,7 +153,7 @@ public class $class
         _c.forMethods(m -> $c.$methods($method.of(m)));
         */
 
-        _c.forNests( n -> {
+        _c.forInnerTypes(n -> {
             if( n instanceof _class) {
                 $c.$hasChild( $class.of((_class)n) );
             }

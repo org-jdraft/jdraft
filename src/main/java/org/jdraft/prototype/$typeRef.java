@@ -19,7 +19,7 @@ import java.util.function.Predicate;
  */
 public class $typeRef
     implements Template<_typeRef>,
-        $proto<Type, _typeRef, $typeRef>,
+        $prototype.$node<Type, _typeRef, $typeRef>,
         $selector.$node<_typeRef, $typeRef>,
         $method.$part,
         $field.$part,
@@ -457,7 +457,7 @@ public class $typeRef
                 if( sel == null){
                     return null;
                 }
-                sel._sel = _tr;
+                sel.selection = _tr;
                 sel.tokens.putAll(ats);
                 return sel;
             }
@@ -506,7 +506,7 @@ public class $typeRef
     public _typeRef firstIn(Node astStartNode, Predicate<_typeRef> _typeRefActionFn){
         Optional<Type> f = astStartNode.findFirst(Type.class, s ->{
             Selected sel = select(s);
-            return sel != null && _typeRefActionFn.test(sel._sel);
+            return sel != null && _typeRefActionFn.test(sel.selection);
             });
         if( f.isPresent()){
             return _typeRef.of(f.get());
@@ -781,8 +781,8 @@ public class $typeRef
     public <N extends Node> N forEachIn(N astNode, Predicate<_typeRef>typeRefMatchFn, Consumer<_typeRef> typeRefActionFn){
         astNode.walk(Type.class, t-> {
             Select<_typeRef> select = select(t);
-            if( select != null && typeRefMatchFn.test(select._sel )){
-                typeRefActionFn.accept( select._sel );
+            if( select != null && typeRefMatchFn.test(select.selection)){
+                typeRefActionFn.accept( select.selection);
             }
         });
         return astNode;

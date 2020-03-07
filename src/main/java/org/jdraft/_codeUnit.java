@@ -719,6 +719,15 @@ public interface _codeUnit<_CU> extends _java._domain {
             return list_code(_typeClass, t->true);
         }
 
+
+        /**
+         *
+         * @return
+         */
+        default List<_type> list_types(Predicate<_type> _typeMatchFn){
+            return list_code(_type.class, _typeMatchFn);
+        }
+
         /**
          *
          * @return

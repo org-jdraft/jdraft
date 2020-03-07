@@ -21,7 +21,7 @@ import java.util.function.Predicate;
  *
  * @author Eric
  */
-public class $string implements $proto<StringLiteralExpr, _string, $string>,
+public class $string implements $prototype.$node<StringLiteralExpr, _string, $string>,
         $selector.$node<_string, $string>,
         $expr<StringLiteralExpr, _string, $string> {
 

@@ -17,7 +17,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class $arrayAccess
-        implements $proto<ArrayAccessExpr, _arrayAccess, $arrayAccess>,
+        implements $prototype.$node<ArrayAccessExpr, _arrayAccess, $arrayAccess>,
         $selector.$node<_arrayAccess, $arrayAccess>,
         $expr<ArrayAccessExpr, _arrayAccess, $arrayAccess>,
         Template<_arrayAccess> {

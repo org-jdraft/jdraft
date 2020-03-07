@@ -5,13 +5,13 @@ import org.jdraft.*;
 import org.jdraft.diff._diff.*;
 
 /**
- * Differ for nested {@link _type}s
+ * Differ for inner {@link _type}s
  *
  * @author Eric
  */
-public class _nestsDiff implements _differ<List<_type>, _java._multiPart> {
+public class _innerTypesDiff implements _differ<List<_type>, _java._multiPart> {
 
-    public static _nestsDiff INSTANCE = new _nestsDiff();
+    public static _innerTypesDiff INSTANCE = new _innerTypesDiff();
     
     public boolean equivalent(List<_type> left, List<_type> right) {
         Set<_type> ls = new HashSet<>();
@@ -35,8 +35,8 @@ public class _nestsDiff implements _differ<List<_type>, _java._multiPart> {
                 new _diffList(left, right),
                 left, 
                 right, 
-                left.listNests(), 
-                right.listNests());
+                left.listInnerTypes(),
+                right.listInnerTypes());
     }
 
     @Override
@@ -58,21 +58,21 @@ public class _nestsDiff implements _differ<List<_type>, _java._multiPart> {
             
             if (cc != null) {
                 //System.out.println( ">>>>>>>>>>>>>>>>>> FOUND MATCH "+ f);
-                _typeDiff.INSTANCE.diff(path.in(_java.Component.NEST), dt, _leftParent, _rightParent, f, cc);
+                _typeDiff.INSTANCE.diff(path.in(_java.Component.INNER_TYPE), dt, _leftParent, _rightParent, f, cc);
                 rs.remove(cc);
             } else {
                 //System.out.println( "<<<<<<<<<<<<< NOT FOUND MATCH "+ cc);
                 if (f instanceof _class) {
-                    dt.addDiff(new _leftOnly_nest(path.in(_java.Component.NEST).in(_java.Component.CLASS, f.getName()),
+                    dt.addDiff(new _leftOnly_nest(path.in(_java.Component.INNER_TYPE).in(_java.Component.CLASS, f.getName()),
                             (_type) _leftParent, (_type) _rightParent, f));
                 } else if (f instanceof _interface) {
-                    dt.addDiff(new _leftOnly_nest(path.in(_java.Component.NEST).in(_java.Component.INTERFACE, f.getName()),
+                    dt.addDiff(new _leftOnly_nest(path.in(_java.Component.INNER_TYPE).in(_java.Component.INTERFACE, f.getName()),
                             (_type) _leftParent, (_type) _rightParent, f));
                 } else if (f instanceof _enum) {
-                    dt.addDiff(new _leftOnly_nest(path.in(_java.Component.NEST).in(_java.Component.ENUM, f.getName()),
+                    dt.addDiff(new _leftOnly_nest(path.in(_java.Component.INNER_TYPE).in(_java.Component.ENUM, f.getName()),
                             (_type) _leftParent, (_type) _rightParent, f));
                 } else {
-                    dt.addDiff(new _leftOnly_nest(path.in(_java.Component.NEST).in(_java.Component.ANNOTATION, f.getName()),
+                    dt.addDiff(new _leftOnly_nest(path.in(_java.Component.INNER_TYPE).in(_java.Component.ANNOTATION, f.getName()),
                             (_type) _leftParent, (_type) _rightParent, f));
                 }
             }
@@ -80,16 +80,16 @@ public class _nestsDiff implements _differ<List<_type>, _java._multiPart> {
 
         rs.forEach(f -> {
             if (f instanceof _class) {
-                dt.addDiff(new _rightOnly_nest(path.in(_java.Component.NEST).in(_java.Component.CLASS, f.getName()),
+                dt.addDiff(new _rightOnly_nest(path.in(_java.Component.INNER_TYPE).in(_java.Component.CLASS, f.getName()),
                         (_type) _leftParent, (_type) _rightParent, f));
             } else if (f instanceof _interface) {
-                dt.addDiff(new _rightOnly_nest(path.in(_java.Component.NEST).in(_java.Component.INTERFACE, f.getName()),
+                dt.addDiff(new _rightOnly_nest(path.in(_java.Component.INNER_TYPE).in(_java.Component.INTERFACE, f.getName()),
                         (_type) _leftParent, (_type) _rightParent, f));
             } else if (f instanceof _enum) {
-                dt.addDiff(new _rightOnly_nest(path.in(_java.Component.NEST).in(_java.Component.ENUM, f.getName()),
+                dt.addDiff(new _rightOnly_nest(path.in(_java.Component.INNER_TYPE).in(_java.Component.ENUM, f.getName()),
                         (_type) _leftParent, (_type) _rightParent, f));
             } else {
-                dt.addDiff(new _rightOnly_nest(path.in(_java.Component.NEST).in(_java.Component.ANNOTATION, f.getName()),
+                dt.addDiff(new _rightOnly_nest(path.in(_java.Component.INNER_TYPE).in(_java.Component.ANNOTATION, f.getName()),
                         (_type) _leftParent, (_type) _rightParent, f));
             }
         });
@@ -123,16 +123,16 @@ public class _nestsDiff implements _differ<List<_type>, _java._multiPart> {
 
         @Override
         public void patchLeftToRight() {
-            leftParent.removeNest(right);
-            rightParent.removeNest(right);
+            leftParent.removeInnerType(right);
+            rightParent.removeInnerType(right);
         }
 
         @Override
         public void patchRightToLeft() {
-            leftParent.removeNest(right);
-            leftParent.nest(right);
-            rightParent.removeNest(right);
-            rightParent.nest(right);
+            leftParent.removeInnerType(right);
+            leftParent.addInner(right);
+            rightParent.removeInnerType(right);
+            rightParent.addInner(right);
         }
 
         @Override
@@ -178,16 +178,16 @@ public class _nestsDiff implements _differ<List<_type>, _java._multiPart> {
 
         @Override
         public void patchLeftToRight() {
-            leftParent.removeNest(left);
-            leftParent.nest(left);
-            rightParent.removeNest(left);
-            rightParent.nest(left);
+            leftParent.removeInnerType(left);
+            leftParent.addInner(left);
+            rightParent.removeInnerType(left);
+            rightParent.addInner(left);
         }
 
         @Override
         public void patchRightToLeft() {
-            leftParent.removeNest(left);
-            rightParent.removeNest(left);
+            leftParent.removeInnerType(left);
+            rightParent.removeInnerType(left);
         }
 
         @Override

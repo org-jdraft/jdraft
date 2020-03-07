@@ -357,7 +357,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * Adds {@link _initBlock}s ({@link _field}s, {@link _method}s, {@link _constructor}s,{@link _constant}s,
-     * {@link _annotation._entry}s), and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
+     * {@link _annotation._entry}s), and inner {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
      * {@link _annotation}s) to the BODY of the {@link _type} and return the modified {@link _type}
      * @param members the members to be added
      * @return the modified _type
@@ -375,7 +375,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * List the {@link _java._memberBodyPart}s: ({@link _initBlock}s, {@link _field}s, {@link _method}s, {@link _constructor}s,
-     * {@link _constant}s, {@link _annotation._entry}s) , and nested {@link _type}s, {@link _enum}s,
+     * {@link _constant}s, {@link _annotation._entry}s) , and inner{@link _type}s, {@link _enum}s,
      * {@link _class}es, {@link _interface}s, {@link _annotation}s) on the _type
      * @return a List of {@link _java._declaredBodyPart}s on the type
      */
@@ -396,7 +396,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * List the {@link _java._memberBodyPart}s of the memberClass: ({@link _initBlock}s, {@link _field}s, {@link _method}s,
-     * {@link _constructor}s,{@link _constant}s, {@link _annotation._entry}s) , and nested {@link _type}s,
+     * {@link _constructor}s,{@link _constant}s, {@link _annotation._entry}s) , and inner {@link _type}s,
      * {@link _enum}s, {@link _class}es, {@link _interface}s, {@link _annotation}s) on the _type
      * @param memberClass
      * @param <_M>
@@ -416,7 +416,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * List the {@link _java._memberBodyPart}s of the memberClass: ({@link _initBlock}s, {@link _field}s, {@link _method}s,
-     * {@link _constructor}s,{@link _constant}s, {@link _annotation._entry}s) , and nested {@link _type}s,
+     * {@link _constructor}s,{@link _constant}s, {@link _annotation._entry}s) , and inner {@link _type}s,
      * {@link _enum}s, {@link _class}es, {@link _interface}s, {@link _annotation}s) on the _type
      * @param memberClass
      * @param <_M>
@@ -523,7 +523,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * remove all members ({@link _initBlock}s, {@link _field}s, {@link _method}s, {@link _constructor}s,{@link _constant}s,
-     * {@link _annotation._entry}s, and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
+     * {@link _annotation._entry}s, and inner {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
      * {@link _annotation}s) on the _type that are of the declarationClass and match the _declarationMatchFn
      * @param <_M> the _member type (i.e. _initBlock.class, _method.class, _field.class, _constructor.class, _initBlock.class)
      * @param memberClass the Class (i.e. _initBlock.class, _method.class, _field.class, _constructor.class, _initBlock.class)
@@ -579,7 +579,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     /**
      * Iterate & apply the action function to all {@link _java._declaredBodyPart}s ({@link _field}s,
      * {@link _method}s, {@link _constructor}s,{@link _constant}s, {@link _annotation._entry}s),
-     * and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s, {@link _annotation}s)
+     * and inner {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s, {@link _annotation}s)
      * that satisfy the _declarationMatchFn
      * @param _declarationMatchFn function for selecting which _declarations to apply the _declarationActionFn
      * @param _declarationAction the action to apply to all selected _declarations that satisfy the _declarationMatchFn
@@ -592,7 +592,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * List the {@link _java._declaredBodyPart}s ({@link _field}s, {@link _method}s, {@link _constructor}s,{@link _constant}s,
-     * {@link _annotation._entry}s), and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
+     * {@link _annotation._entry}s), and inner {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
      * {@link _annotation}s) on the _type
      * @return a List of {@link _java._declaredBodyPart}s on the _type
      */
@@ -602,7 +602,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * List all _declarations ({@link _field}s, {@link _method}s, {@link _constructor}s,{@link _constant}s,
-     * {@link _annotation._entry}s) , and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
+     * {@link _annotation._entry}s) , and inner {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
      * {@link _annotation}s) on the _type matching the _declarationMatchFn
      * @param _declarationMatchFn
      * @return a list of _declarations
@@ -613,7 +613,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     
     /**
      * list all _declared ({@link _field}s, {@link _method}s, {@link _constructor}s,{@link _constant}s,
-     * {@link _annotation._entry}s), and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
+     * {@link _annotation._entry}s), and inner {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
      * {@link _annotation}s) oon the _type that are of the declarationClass
      * @param <_D> the _declaration type (i.e. _method.class, _field.class, _staticBlock.class)
      * @param declarationClass the Class (i.e. _method.class, _field.class, _staticBlock.class)
@@ -625,7 +625,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     
     /**
      * list all _declarations ({@link _field}s, {@link _method}s, {@link _constructor}s,{@link _constant}s,
-     * {@link _annotation._entry}s, and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
+     * {@link _annotation._entry}s, and inner {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
      * {@link _annotation}s) on the _type that are of the declarationClass
      * @param <_D> the _declaration type (i.e. _method.class, _field.class, _constructor.class)
      * @param declarationClass the Class (i.e. _method.class, _field.class, _constructor.class)
@@ -681,7 +681,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     /**
      * finds the first declaration {@link _java._declaredBodyPart}s of Class: ({@link _field}s,
      * {@link _method}s, {@link _constructor}s,{@link _constant}s, {@link _annotation._entry}s) ,
-     * and nested {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s, {@link _annotation}s)
+     * and inner {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s, {@link _annotation}s)
      *  with the name and returns it
      *
      * @param name
@@ -737,8 +737,8 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     }
 
     /**
-     * Builds the full NAME for the TYPE based on it's nest position within a class
-     * (and its package)
+     * Builds the full NAME for the TYPE based on it's position within a class
+     * (i.e. if its a inner type) and its package)
      *
      * @return the full NAME of the TYPE (separated by '.'s)
      */
@@ -758,7 +758,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     }
     
     /**
-     * Builds the full NAME for the TYPE based on it's nest position within a class
+     * Builds the full NAME for the TYPE based on it's  position within a class
      * (and its package)
      *
      * @param astType
@@ -1303,7 +1303,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     }
 
     /**
-     * returns a _type or a nested _type if
+     * returns a _type or a inner _type if
      * the NAME provided matches i.e.
      *
      * _class _c = _class.of("MyClass").PACKAGE_NAME("com.mypkg");
@@ -1322,8 +1322,8 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * assertEquals( _c.getNest("MyNest"), _c.getType("MyTopClass$MyNest"));
      *
      * @param name the NAME (the simple NAME, canonical NAME, or fully qualified NAME
-     * (with '.' or '$' notation for nested _type)
-     * @return this _type a nested _type or null if not found
+     * (with '.' or '$' annotation for inner _type)
+     * @return this _type a inner _type or null if not found
      */
     default _type getType(String name ){
         String fn = this.getFullName();
@@ -1333,26 +1333,26 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
                 return this;
             }
             if( left.startsWith( "." ) ){
-                return this.getNest( left.substring( 1 ) );
+                return this.getInnerType( left.substring( 1 ) );
             }
             if( left.startsWith( "$") ){
-                return this.getNest( left.substring( 1 ) );
+                return this.getInnerType( left.substring( 1 ) );
             }
         }
         if( name.length() > 0 && name.startsWith(this.getName()) ){
-            //maybe I want a nested
+            //maybe I want an inner
             String left = name.substring( this.getName().length() );
             if( left.length() == 0 ){
                 return this;
             }
             if( left.startsWith( "." ) ){
-                return this.getNest( left.substring( 1 ) );
+                return this.getInnerType( left.substring( 1 ) );
             }
             if( left.startsWith( "$") ){
-                return this.getNest( left.substring( 1 ) );
+                return this.getInnerType( left.substring( 1 ) );
             }
         }
-        return this.getNest( name );
+        return this.getInnerType( name );
     }
 
     /**
@@ -1367,11 +1367,11 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     }
 
     /**
-     * Ass a nested class to this _type
+     * Add a inner type to this _type
      * @param type the TYPE to add
      * @return
      */
-    default _T nest(_type type ){
+    default _T addInner(_type type ){
         ((TypeDeclaration)this.ast()).addMember( (TypeDeclaration)type.ast() );
         return (_T)this;
     }
@@ -1387,13 +1387,13 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     }
 
     /**
-     * apply a function to matching nested types of this TYPE
+     * apply a function to matching inner types of this TYPE
      * @param _typeMatchFn
      * @param _typeActionFn
      * @return the modified _type
      */
-    default _T forNests(Predicate<_type> _typeMatchFn, Consumer<_type> _typeActionFn ){
-        listNests(_typeMatchFn).forEach( _typeActionFn );
+    default _T forInnerTypes(Predicate<_type> _typeMatchFn, Consumer<_type> _typeActionFn ){
+        listInnerTypes(_typeMatchFn).forEach( _typeActionFn );
         return (_T)this;
     }
 
@@ -1402,18 +1402,18 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @param _typeActionFn
      * @return the modified _type
      */
-    default _T forNests(Consumer<_type> _typeActionFn ){
-        listNests().forEach( _typeActionFn );
+    default _T forInnerTypes(Consumer<_type> _typeActionFn ){
+        listInnerTypes().forEach( _typeActionFn );
         return (_T)this;
     }
 
     /**
-     * Gets the nested TYPE with the NAME
+     * Gets the inner TYPE with the NAME
      * @param name
-     * @return the nested TYPE with the NAME or null if not found
+     * @return the inner TYPE with the NAME or null if not found
      */
-    default _type getNest( String name ){
-        List<_type> ts = listNests( t-> t.getName().equals(name));
+    default _type getInnerType(String name ){
+        List<_type> ts = listInnerTypes(t-> t.getName().equals(name));
         if( ts.size() == 1 ){
             return ts.get(0);
         }
@@ -1422,30 +1422,30 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * 
-     * @param nestToRemove
+     * @param innerTypeToRemove
      * @return 
      */
-    default <_NT extends _type> _T removeNest(_NT nestToRemove ){
-        listNests( t-> t.equals(nestToRemove) ).forEach( n -> n.ast().removeForced() );
+    default <_IT extends _type> _T removeInnerType(_IT innerTypeToRemove ){
+        listInnerTypes(t-> t.equals(innerTypeToRemove) ).forEach(n -> n.ast().removeForced() );
         return (_T) this;
     }
     
     /**
      * 
-     * @param nestToRemove
+     * @param innerTypeToRemove
      * @return 
      */
-    default <_NT extends _type> _T removeNest(TypeDeclaration nestToRemove ){
-        return removeNest( (_type)_java.type(nestToRemove ) );
+    default <_IT extends _type> _T removeInnerType(TypeDeclaration innerTypeToRemove ){
+        return removeInnerType( (_type)_java.type(innerTypeToRemove ) );
     }
     
     /**
-     * list all nested types that match this _typeMatchFn
+     * list all inner types that match this _typeMatchFn
      * @param typeMatchFn function to
-     * @return matching nested types or empty list if none found
+     * @return matching inner types or empty list if none found
      */
-    default List<_type> listNests( Predicate<? super _type> typeMatchFn ){
-        return listNests().stream().filter( typeMatchFn ).collect(Collectors.toList());
+    default List<_type> listInnerTypes(Predicate<? super _type> typeMatchFn ){
+        return listInnerTypes().stream().filter( typeMatchFn ).collect(Collectors.toList());
     }
 
     /**
@@ -1455,43 +1455,43 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @param <_NT>
      * @return
      */
-    default <_NT extends _type> List<_NT> listNests(Class<_NT> _typeClass, Predicate<_NT> _typeMatchFn){
-        return (List<_NT>)listNests().stream()
+    default <_NT extends _type> List<_NT> listInnerTypes(Class<_NT> _typeClass, Predicate<_NT> _typeMatchFn){
+        return (List<_NT>) listInnerTypes().stream()
                 .filter(_t -> _typeClass.isAssignableFrom(_t.getClass()) && _typeMatchFn.test((_NT)_t) )
                 .collect(Collectors.toList());
     }
 
     /**
-     * list all nested children underneath this logical _type
+     * list all inner children underneath this logical _type
      * (1-level, DIRECT CHILDREN, and NOT grand children or great grand children)
      * for a more comprehensive gathering of all types, call:
      *
-     * @return the direct children (nested {@link _type}s) of this {@link _type}
+     * @return the direct children (inner {@link _type}s) of this {@link _type}
      */
-    default List<_type> listNests(){
+    default List<_type> listInnerTypes(){
         NodeList<BodyDeclaration<?>> bds = ast().getMembers();
         List<BodyDeclaration> ts =
                 bds.stream().filter( n-> n instanceof TypeDeclaration )
                     .collect(Collectors.toList());
 
-        List<_type> nests = new ArrayList<>();
+        List<_type> inners = new ArrayList<>();
         ts.forEach( t-> {
             if( t instanceof ClassOrInterfaceDeclaration ){
                 ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)t;
                 if( coid.isInterface() ){
-                    nests.add( _interface.of( coid ));
+                    inners.add( _interface.of( coid ));
                 } else{
-                    nests.add( _class.of( coid ));
+                    inners.add( _class.of( coid ));
                 }
             }
             else if ( t instanceof EnumDeclaration ){
-                nests.add( _enum.of( (EnumDeclaration)t));
+                inners.add( _enum.of( (EnumDeclaration)t));
             }
             else{
-                nests.add( _annotation.of( (AnnotationDeclaration)t));
+                inners.add( _annotation.of( (AnnotationDeclaration)t));
             }
         });
-        return nests;
+        return inners;
     }
 
     /**

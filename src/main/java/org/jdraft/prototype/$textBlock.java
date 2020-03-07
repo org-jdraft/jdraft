@@ -21,7 +21,7 @@ import java.util.function.Predicate;
  *
  * @author Eric
  */
-public class $textBlock implements $proto<TextBlockLiteralExpr, _textBlock, $textBlock>,
+public class $textBlock implements $prototype.$node<TextBlockLiteralExpr, _textBlock, $textBlock>,
         $selector.$node<_textBlock, $textBlock>,
         $expr<TextBlockLiteralExpr, _textBlock, $textBlock> {
 

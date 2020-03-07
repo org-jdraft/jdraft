@@ -20,7 +20,7 @@ public class _removeTest extends TestCase {
         assertEquals(0, _c.listMethods().size());
         assertEquals(0, _c.listFields().size());
         assertEquals(0, _c.listConstructors().size());
-        assertEquals(0, _c.listNests().size());
+        assertEquals(0, _c.listInnerTypes().size());
     }
 
     /** Yeah, annotation macros dont work on types... (like below) sorry */

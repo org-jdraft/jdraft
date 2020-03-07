@@ -440,8 +440,8 @@ public final class _annotation
 
         Set<_type> tn = new HashSet<>();
         Set<_type> on = new HashSet<>();
-        tn.addAll( this.listNests() );
-        on.addAll( other.listNests() );
+        tn.addAll( this.listInnerTypes() );
+        on.addAll( other.listInnerTypes() );
 
         if( !Objects.equals( tn, on)){
             return false;
@@ -496,7 +496,7 @@ public final class _annotation
         NAME(7, "name", (a)->a.getName() ),
         ELEMENTS(8, "elements", (a)->a.listElements() ),
         FIELDS(9, "fields", (a)->a.listFields() ),
-        NESTS(10, "nests", (a)->a.listNests() ),
+        NESTS(10, "inner", (a)->a.listInnerTypes() ),
         COMPANION_TYPES(11, "companionTypes", (a)->a.listCompanionTypes() );
 
         private final String name;
@@ -534,7 +534,7 @@ public final class _annotation
         parts.put( _java.Component.MODIFIERS, this.getModifiers() );
         parts.put( _java.Component.ELEMENTS, this.listElements() );
         parts.put( _java.Component.FIELDS, this.listFields() );
-        parts.put( _java.Component.NESTS, this.listNests() );
+        parts.put( _java.Component.INNER_TYPES, this.listInnerTypes() );
         parts.put( _java.Component.COMPANION_TYPES, this.listCompanionTypes() );
         return parts;
     }
@@ -562,9 +562,9 @@ public final class _annotation
         elements.addAll(this.listElements() );
         hash = 13 * hash + Objects.hashCode( elements );
 
-        Set<_type> nests = new HashSet<>();
-        nests.addAll(  this.listNests() );
-        hash = 13 * hash + Objects.hashCode( nests );
+        Set<_type> inners = new HashSet<>();
+        inners.addAll(  this.listInnerTypes() );
+        hash = 13 * hash + Objects.hashCode( inners );
 
         Set<_type> companionTypes = new HashSet<>();
         companionTypes.addAll(  this.listCompanionTypes() );

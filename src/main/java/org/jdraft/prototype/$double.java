@@ -21,7 +21,7 @@ import java.util.function.Predicate;
  *
  * @author Eric
  */
-public class $double implements $proto<DoubleLiteralExpr, _double, $double>,
+public class $double implements $prototype.$node<DoubleLiteralExpr, _double, $double>,
         $selector.$node<_double, $double>,
         $expr<DoubleLiteralExpr, _double, $double> {
 

@@ -26,7 +26,7 @@ import com.github.javaparser.ast.expr.Expression;
  * (Can match against 
  */
 public class $e 
-	implements $proto<Expression,_expression, $e>,
+	implements $prototype.$node<Expression,_expression, $e>,
 		$selector.$node<_expression, $e>,
 		$expr<Expression, _expression, $e>{
 	

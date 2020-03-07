@@ -263,7 +263,7 @@ public interface _macro<M extends _annos._withAnnos>
         List<Class> nestedClasses = Arrays.stream(declaredClazzes).collect(Collectors.toList());
 
         //process nested classes
-        _t.forNests(_nt -> {
+        _t.forInnerTypes(_nt -> {
             //System.out.println( "IN NESTED CLASS ");
             Optional<Class> foundClass = nestedClasses.stream().filter(c -> c.getSimpleName().equals(((_type) _nt).getName())).findFirst();
             if (!foundClass.isPresent()) {

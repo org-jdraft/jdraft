@@ -282,19 +282,19 @@ public class _typeTest extends TestCase {
     
     public void testImportsFromOther_type(){
         _class _c = _class.of("aaaa.vvvv.C")
-                .nest( _class.of("F", new Object(){
+                .addInner( _class.of("F", new Object(){
                     int x, y; }
                     )
                 );
 
         _class _d = _class.of( "ffff.gggg.H")
-                .addImports(_c, _c.getNest("F") );
+                .addImports(_c, _c.getInnerType("F") );
 
         //verify I can import another _type that hasnt been drafted yet
         assertTrue( _d.hasImport(_c) );
 
         //verify I can import a nested type that hasnt been drafted yet
-        assertTrue( _d.hasImport(_c.getNest("F")) );
+        assertTrue( _d.hasImport(_c.getInnerType("F")) );
         //_javac.of( _c, _d); //verify they both compile
 
         System.out.println(_d );

@@ -20,7 +20,7 @@ public class _annotationDiff implements _differ<_annotation, _java._multiPart> {
         _modifiersDiff.INSTANCE.diff(path, ds, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());
         _fieldsDiff.INSTANCE.diff(path, ds, left, right, left.listFields(), right.listFields());
         ANNOTATION_ELEMENTS_DIFF.diff(path, ds, left, right, left.listElements(), right.listElements());
-        _nestsDiff.INSTANCE.diff(path, ds, left, right, left.listNests(), right.listNests());
+        _innerTypesDiff.INSTANCE.diff(path, ds, left, right, left.listInnerTypes(), right.listInnerTypes());
 
         _companionTypeDiff.INSTANCE.diff(path, ds, left, right, left.listCompanionTypes(), right.listCompanionTypes());
         return ds;

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
-public class $enclosedExpression implements $proto<EnclosedExpr, _enclosedExpression, $enclosedExpression>,
+public class $enclosedExpression implements $prototype.$node<EnclosedExpr, _enclosedExpression, $enclosedExpression>,
         $selector.$node<_enclosedExpression, $enclosedExpression>,
         $expr<EnclosedExpr, _enclosedExpression, $enclosedExpression>, Template<_enclosedExpression> {
 

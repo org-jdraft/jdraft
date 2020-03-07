@@ -1,19 +1,26 @@
 package test.othertools;
 
+import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.comments.Comment;
 import junit.framework.TestCase;
 import org.jdraft.*;
+import org.jdraft.io._archive;
 import org.jdraft.io._sources;
 import org.jdraft.io._io;
 import org.jdraft.macro._static;
 import org.jdraft.pattern.$;
+import org.jdraft.pattern.$comment;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -23,8 +30,92 @@ import java.util.stream.Collectors;
 public class EclipseJDTTest extends TestCase {
 
     //read in/parse and cache some source code from a .jar file
-    public static _sources _cc = _sources.of("C:\\Users\\Eric\\Downloads\\spring-core-5.1.9.RELEASE-sources.jar");
+    //public static _sources _cc = _sources.of("C:\\Users\\Eric\\Downloads\\spring-core-5.1.9.RELEASE-sources.jar");
             //_archive.of("C:\\Users\\Eric\\Downloads\\spring-core-5.1.9.RELEASE-sources.jar"));
+
+    public static _archive _cc = //_sources.of("C:\\Users\\Eric\\Downloads\\spring-core-5.1.9.RELEASE-sources.jar");
+        _archive.of("C:\\Users\\Eric\\Downloads\\spring-core-5.1.9.RELEASE-sources.jar");
+
+    public void testFile() throws FileNotFoundException {
+        StaticJavaParser.parse( new FileInputStream("C:\\temp\\AnnotationUtils.java") );
+    }
+
+    public void testAnn(){
+        /**
+         * @@since 5.0.5
+         */
+         class F{}
+         _class _c = _class.of(F.class);
+    }
+
+    public void testE(){
+        /**
+         * or if it should be looked up via @{@link java.lang.annotation.Repeatable}
+         */
+         class F{
+
+         }
+         _class _c = _class.of(F.class);
+         System.out.println( _c );
+    }
+    public void testR(){
+        _cc.forEachFileAsBytes( (p, bs)-> {
+            try{
+                String s = new String(bs);
+
+                Path pp = p;
+                if( !p.toString().endsWith(".html") ) {
+                    if( !p.toString().endsWith("package-info.java") && !p.toString().endsWith(".kt")) {
+                        //
+                        System.out.println( ">START "+ p.toString());
+                        try {
+                            _type _t = _java.type(s);
+                            System.out.println( "<DONE "+ p.toString());
+                        }catch(Exception ee){
+                            System.out.println( "EXCEPTION IN "+pp);
+                        }
+                    }
+                }
+            } catch(Exception e){
+                System.out.println( "error on "+ p);
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public void testReadJavadocWithString(){
+
+        _cc.forEachFileAsBytes( (p, bs)-> {
+            try{
+                String s = new String(bs);
+
+
+                Path pp = p;
+                if( !p.toString().endsWith(".html") ) {
+                    if( !p.toString().endsWith("package-info.java") && !p.toString().endsWith(".kt")) {
+                        System.out.println( "parsin "+ p.toString());
+                        try {
+                            _type _t = _java.type(s);
+                        }catch(Exception ee){
+                            System.out.println( "EXCEPTION IN "+pp);
+                        }
+                    }
+                }
+            } catch(Exception e){
+               System.out.println( "error on "+ p);
+               e.printStackTrace();
+            }
+        });
+        /*
+        _cc.for_code( c-> System.out.println( c.getFullName()));
+
+        $comment $c = $comment.of((Predicate<Comment>) c -> ((Comment)c).getContent().contains("JAVADOC"));
+        _cc.for_code( t-> $c.printIn(t) );
+        //List<_type> _ts = _cc.list_types(t-> $c.printIn(t) );
+        //_ts.forEach(t-> System.out.println( t.getFullName()));
+
+         */
+    }
 
     public void testReadAllPackagesAndMethods(){
 
@@ -206,11 +297,14 @@ public class EclipseJDTTest extends TestCase {
     public void testGettingElementAtACertainLineNumber(){
         //_type _t = _java.type(EclipseJDTTest.class);
         //here we can get the most specific node (it should be a Node)
+        /* removed temporarily causing issues
         Node n = At.at(EclipseJDTTest.class, 193, 10);
         System.out.println( n );// "Node"
 
         //here we can get a "member" (method, constructor, field) containing this location
-        MethodDeclaration astMd = At.memberAt(EclipseJDTTest.class, 208, 10);
+        MethodDeclaration astMd = At.memberAt(EclipseJDTTest.class, 297, 10);
         assertEquals( "testGettingElementAtACertainLineNumber", astMd.getNameAsString() );
+
+         */
     }
 }
