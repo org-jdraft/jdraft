@@ -1,9 +1,7 @@
 package org.jdraft.prototype;
 
 import junit.framework.TestCase;
-import org.jdraft._arguments;
-import org.jdraft._binaryExpression;
-import org.jdraft._int;
+import org.jdraft.*;
 
 public class $argumentsTest extends TestCase {
 
@@ -86,16 +84,22 @@ public class $argumentsTest extends TestCase {
         assertEquals( 1, $arguments.of( a-> a.isAt(0, _binaryExpression.class)).countIn(E.class) );
     }
 
+    public void testToString(){
+        $arguments $as = $arguments.of("1, 'c'");
+        System.out.println( $as );
+    }
+
     public void testOr(){
-        $arguments $anyInt = $arguments.of($int.of());
+        $arguments $anyInt = $arguments.of($int.of()); //.$and( a-> ((_arguments)a).isEmpty());
         $arguments $i = $arguments.of("i");
 
         assertNull($i.select("3.12f"));
         assertNull($anyInt.select("3.12f"));
 
         //match single arguments that are the variable i or (any int literal)
-        $arguments.Or aor = $arguments.or( $arguments.of("i"), $arguments.of($int.of()) );
-        
+        $arguments aor = $arguments.or( $arguments.of("i"), $arguments.of($int.of()) );
+
+
         assertNull(aor.select( _arguments.of("3.12f") ));
 
         assertTrue(aor.matches(_arguments.of("i")));
@@ -104,5 +108,31 @@ public class $argumentsTest extends TestCase {
 
         assertFalse( aor.matches(_arguments.of("3.12f")));
         assertFalse( aor.matches(_arguments.of("i,1")));
+
+        $arguments $allLiterals =
+                $arguments.of(a-> !a.isEmpty()).$all( _expression._literal.class); //of( a-> a.allMatch(e->e instanceof _expression._literal));
+        assertTrue( $allLiterals.matches("(1, 'c', \"String\", true, 1.23f, 3.45d, null)"));
+
+        $arguments $allMethodCalls =
+                $arguments.of(a-> !a.isEmpty()).$all( _methodCall.class );
+
+        //matches all one or more argument argument lists that are either ALL literals or ALL methodCalls
+        $arguments $or = $arguments.or($allLiterals, $allMethodCalls);
+
+        assertFalse($or.matches( "()" )); //no arguments no match (must have at least 1 arg)
+        assertTrue($or.matches( "(1)" )); //matches literal
+        assertTrue($or.matches( "('v')" )); //matches literal
+        assertTrue($or.matches( "(call())" )); //matches methodCall
+        assertTrue($or.matches( "(1,2,3,4,5,6,'a','b',null)" )); //matches all literal
+        assertTrue($or.matches( "(call(),call())" )); //matches all methodcalls
+
+        assertFalse($or.matches( "(1,2,3,4,5,6,'a','b',null, call())" )); //NOT all literal or all methodCall
+
+        System.out.println( $or );
+
+        class GG{
+            void a(){} //no match
+
+        }
     }
 }

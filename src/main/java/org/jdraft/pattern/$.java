@@ -62,6 +62,8 @@ public final class $ {
     public static Node.TreeTraversal BREADTH_FIRST = Node.TreeTraversal.BREADTHFIRST;
     public static Node.TreeTraversal DIRECT_CHILDREN = Node.TreeTraversal.DIRECT_CHILDREN;
 
+    public static Class<_expression._literal> LITERAL = _expression._literal.class;
+
     public static $modifiers PUBLIC = $modifiers.of("public");
     public static $modifiers PRIVATE = $modifiers.of("private");
     public static $modifiers PROTECTED = $modifiers.of("protected");

@@ -129,6 +129,13 @@ public class $e
 		return null;
 	}
 
+	public String toString(){
+		if( this.stencil == null ){
+			return "$e{}";
+		}
+		return "$e{"+ this.stencil +"}";
+	}
+
 	@Override
 	public Selected select(String code) {
 		

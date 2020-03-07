@@ -1,12 +1,12 @@
 package org.jdraft.prototype;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.nodeTypes.NodeWithArguments;
 import org.jdraft._arguments;
 import org.jdraft._expression;
 import org.jdraft._jdraftException;
+import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
@@ -72,6 +72,28 @@ public class $arguments<N extends Node & NodeWithArguments>
         }
     }
 
+    /**
+     * test that all arguments match the predicate
+     * @param _ex
+     * @return
+     */
+    public $arguments $all( Predicate<_expression> _ex ){
+        return $and( p-> p.allMatch(_ex) );
+    }
+
+    /**
+     * test that all arguments are of some set of _expression types
+     * @param ecs
+     * @return
+     */
+    public $arguments $all( Class<? extends _expression>...ecs){
+        return $and( es->es.allMatch(e-> Arrays.stream(ecs).anyMatch( ec-> ec.isAssignableFrom(e.getClass()))));
+    }
+
+    public boolean matches(_arguments _args){
+        return select(_args) != null;
+    }
+
     public boolean matches(String args){
         return select(args) != null;
     }
@@ -131,7 +153,6 @@ public class $arguments<N extends Node & NodeWithArguments>
     @Override
     public Select<_arguments> select(_arguments candidate) {
         if( isMatchAny()){
-
             return new Select(candidate, new Tokens());
         }
         if( this.predicate.test(candidate)){
@@ -172,6 +193,25 @@ public class $arguments<N extends Node & NodeWithArguments>
         return this;
     }
 
+    public String toString(){
+        if( this.isMatchAny() ){
+            return "$arguments( $ANY$ )";
+        }
+        if( this.argumentList.isEmpty() ){
+            return "$arguments() {#"+this.hashCode()+"}";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append( "$arguments(").append(System.lineSeparator());
+        for(int i=0;i<this.argumentList.size();i++){
+            //if( i > 0 ){
+            //    sb.append(System.lineSeparator());
+            //}
+            sb.append( Text.indent( this.argumentList.get(i).toString()) );
+        }
+        sb.append(")");
+        return sb.toString();
+    }
+
     @Override
     public _arguments draft(Translator translator, Map<String, Object> keyValues) {
         _arguments _as = _arguments.of();
@@ -206,8 +246,9 @@ public class $arguments<N extends Node & NodeWithArguments>
 
     /**
      * An Or entity that can match against any of some number of instances
+     * NOTE: this can be used as a selector but NOT as a Template
      */
-    public static class Or implements $selector<_arguments, Or>, $methodCall.$part{
+    public static class Or extends $arguments { //implements $selector<_arguments, Or>, $methodCall.$part{
 
         public Predicate<_arguments> predicate = p-> true;
 
@@ -225,6 +266,50 @@ public class $arguments<N extends Node & NodeWithArguments>
             return this.predicate;
         }
 
+        public boolean matches(String args){
+            return select(args) != null;
+        }
+
+        public boolean matches(String... args){
+            return select(args) != null;
+        }
+
+        public boolean matches(NodeWithArguments nwa){
+            return select(nwa) != null;
+        }
+
+        public boolean matches(_expression..._exprs){
+            return select(_exprs) != null;
+        }
+
+        public boolean matches(Expression...exprs){
+            return select(exprs) != null;
+        }
+
+        public Select<_arguments> select(String args){
+            return select( _arguments.of(args) );
+        }
+
+        public Select<_arguments> select(String...args){
+            return select( _arguments.of(args) );
+        }
+
+        public Select<_arguments> select(NodeWithArguments nwas){
+            return select( _arguments.of(nwas) );
+        }
+
+        public Select<_arguments> select(_expression..._exprs){
+            return select( _arguments.of(_exprs) );
+        }
+
+        public Select<_arguments> select(Expression...exprs){
+            return select( _arguments.of(exprs) );
+        }
+
+        public boolean matches(_arguments candidate){
+            return select(candidate) != null;
+        }
+
         @Override
         public Select<_arguments> select(_arguments candidate) {
             if( predicate.test(candidate) ) {
@@ -236,10 +321,22 @@ public class $arguments<N extends Node & NodeWithArguments>
             return null;
         }
 
-        @Override
-        public Or $and(Predicate<_arguments> matchFn) {
-            this.predicate = this.predicate.and(matchFn);
-            return null;
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append( "$arguments.Or{").append(System.lineSeparator());
+            for(int i=0;i<this.$arguments.size();i++){
+                sb.append( Text.indent( this.$arguments.get(i).toString()) );
+            }
+            sb.append("}");
+            return sb.toString();
         }
+
+        /*
+        @Override
+        public $arguments $and(Predicate<_arguments> matchFn) {
+            this.predicate = this.predicate.and(matchFn);
+            return this;
+        }
+         */
     }
 }

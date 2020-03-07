@@ -3,6 +3,8 @@ package org.jdraft.prototype;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.nodeTypes.NodeWithArguments;
+import org.jdraft._arguments;
 import org.jdraft._boolean;
 import org.jdraft._expression;
 import org.jdraft._java._domain;
@@ -11,9 +13,7 @@ import org.jdraft.text.Stencil;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 
 /**
@@ -53,6 +53,9 @@ public class $boolean implements $prototype.$node<BooleanLiteralExpr, _boolean, 
         return new $boolean().$and(_matchFn);
     }
 
+    public static $boolean or($boolean...$bs){
+        return new $boolean.Or($bs);
+    }
     public Predicate<_boolean> getPredicate(){
         return this.predicate;
     }
@@ -230,6 +233,93 @@ public class $boolean implements $prototype.$node<BooleanLiteralExpr, _boolean, 
 
         public Selected(_boolean _node, Tokens tokens) {
             super(_node, tokens);
+        }
+    }
+
+    /**
+     * An Or entity that can match against any of some number of instances
+     * NOTE: this can be used as a selector but NOT as a Template
+     */
+    public static class Or extends $boolean {
+
+        public Predicate<_boolean> predicate = p-> true;
+
+        public List<$boolean> $boolean = new ArrayList<>();
+
+        private Or($boolean...nms){
+            Arrays.stream(nms).forEach(n-> $boolean.add(n));
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        public Predicate<_boolean> getPredicate(){
+            return this.predicate;
+        }
+
+        public boolean matches(String args){
+            return select(args) != null;
+        }
+
+        public boolean matches(String... args){
+            return select(args) != null;
+        }
+
+        public boolean matches(_expression _exprs){
+            if( _exprs instanceof _boolean ) {
+                return select( (_boolean)_exprs) != null;
+            }
+            return false;
+        }
+
+        public boolean matches(Expression exprs){
+            return select(exprs) != null;
+        }
+
+        public $boolean.Selected select(String args){
+            try {
+                return select(_boolean.of(args));
+            }catch(Exception e){
+                return null;
+            }
+        }
+
+        public  $boolean.Selected select(String...args){
+            try {
+                return select(_boolean.of(args));
+            }catch(Exception e){
+                return null;
+            }
+        }
+
+        public  $boolean.Selected select(_expression _expr){
+            if( _expr instanceof _boolean ) {
+                return select( (_boolean) _expr);
+            }
+            return null;
+        }
+
+        public  $boolean.Selected select(Expression expr){
+            if( expr instanceof BooleanLiteralExpr) {
+                return select(_boolean.of( (BooleanLiteralExpr)expr));
+            }
+            return null;
+        }
+
+        public boolean matches(_boolean candidate){
+            return select(candidate) != null;
+        }
+
+        @Override
+        public $boolean.Selected select(_boolean candidate) {
+            if( predicate.test(candidate) ) {
+                Optional<$boolean> on = $boolean.stream().filter(n -> n.matches(candidate)).findFirst();
+                if (on.isPresent()) {
+                    return on.get().select(candidate);
+                }
+            }
+            return null;
         }
     }
 }

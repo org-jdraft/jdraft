@@ -30,6 +30,10 @@ public class _arguments
         return of( Ex.methodCallEx("empty()"));
     }
 
+    public static _arguments of(Expression... exs){
+        return of().add(exs);
+    }
+
     public static _arguments of(_expression... _exs){
         return of().add(_exs);
     }
