@@ -1,4 +1,4 @@
-package org.jdraft.prototype;
+package org.jdraft.bot;
 
 import org.jdraft.*;
 import org.jdraft.text.Text;

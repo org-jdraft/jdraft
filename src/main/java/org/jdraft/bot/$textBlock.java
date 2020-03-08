@@ -1,12 +1,12 @@
-package org.jdraft.prototype;
+package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
-import org.jdraft._char;
+import com.github.javaparser.ast.expr.TextBlockLiteralExpr;
 import org.jdraft._expression;
 import org.jdraft._java._domain;
 import org.jdraft._jdraftException;
+import org.jdraft._textBlock;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
@@ -17,59 +17,64 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 /**
- * syntax prototype for the model of the char types
+ * syntax prototype for the model of the String types
  *
  * @author Eric
  */
-public class $char implements $prototype.$node<CharLiteralExpr, _char, $char>,
-        $selector.$node<_char, $char>,
-        $expr<CharLiteralExpr, _char, $char> {
+public class $textBlock implements $bot.$node<TextBlockLiteralExpr, _textBlock, $textBlock>,
+        $selector.$node<_textBlock, $textBlock>,
+        $expr<TextBlockLiteralExpr, _textBlock, $textBlock> {
 
-    public static $char of() {
-        return new $char();
+    public static $textBlock of() {
+        return new $textBlock();
     }
 
-    public static $char of(_char _i) {
-        return new $char(_i);
+    public static $textBlock of(_textBlock _i) {
+        return new $textBlock(_i);
     }
 
-    public static $char of(CharLiteralExpr ile) {
-        return new $char(_char.of(ile));
+    public static $textBlock of(TextBlockLiteralExpr ile) {
+        return new $textBlock(_textBlock.of(ile));
     }
 
-    public static $char of(Stencil stencil) {
-        return new $char(stencil);
+    public static $textBlock of(Stencil stencil) {
+        return new $textBlock(stencil);
     }
 
-    public static $char of(String... code) {
-        return of(_char.of(code));
+    public static $textBlock of(String... code) {
+        return of(_textBlock.of(code));
     }
 
-    public static $char of(char i) {
-        return new $char(_char.of(i)).$and(_i -> _i.getValue() == i);
+    public static $textBlock of(String i) {
+        return new $textBlock(_textBlock.of(i)).$and(_i -> _i.getValue() == i);
     }
 
-    public static $char of(Predicate<_char> _matchFn) {
-        return new $char().$and(_matchFn);
+    public static $textBlock of(Predicate<_textBlock> _matchFn) {
+        return new $textBlock().$and(_matchFn);
     }
 
-    public Predicate<_char> getPredicate(){
+    public Predicate<_textBlock> getPredicate(){
         return this.predicate;
     }
 
-    public $char $and(Predicate<_char> _matchFn) {
+    public $textBlock setPredicate( Predicate<_textBlock> predicate){
+        this.predicate = predicate;
+        return this;
+    }
+
+    public $textBlock $and(Predicate<_textBlock> _matchFn) {
         this.predicate = this.predicate.and(_matchFn);
         return this;
     }
 
-    public $char $not(Predicate<_char> _matchFn) {
+    public $textBlock $not(Predicate<_textBlock> _matchFn) {
         this.predicate = this.predicate.and(_matchFn.negate());
         return this;
     }
 
     public Selected select(String code) {
         try {
-            return select(_char.of(code));
+            return select(_textBlock.of(code));
         } catch (Exception e) {
             return null;
         }
@@ -77,41 +82,41 @@ public class $char implements $prototype.$node<CharLiteralExpr, _char, $char>,
 
     public Selected select(String... code) {
         try {
-            return select(_char.of(code));
+            return select(_textBlock.of(code));
         } catch (Exception e) {
             return null;
         }
     }
 
     public Selected select(Node n) {
-        if (n instanceof CharLiteralExpr) {
-            return select(_char.of((CharLiteralExpr) n));
+        if (n instanceof TextBlockLiteralExpr) {
+            return select(_textBlock.of((TextBlockLiteralExpr) n));
         }
         return null;
     }
 
     public Selected select(Expression e) {
-        if (e instanceof CharLiteralExpr) {
-            return select(_char.of((CharLiteralExpr) e));
+        if (e instanceof TextBlockLiteralExpr) {
+            return select(_textBlock.of((TextBlockLiteralExpr) e));
         }
         return null;
     }
 
     public Selected select(_domain _n) {
-        if (_n instanceof _char) {
-            return select((_char) _n);
+        if (_n instanceof _textBlock) {
+            return select((_textBlock) _n);
         }
         return null;
     }
 
     public Selected select(_expression<?, ?> _e) {
-        if (_e instanceof _char) {
-            return select((_char) _e);
+        if (_e instanceof _textBlock) {
+            return select((_textBlock) _e);
         }
         return null;
     }
 
-    public Selected select(_char _i) {
+    public Selected select(_textBlock _i) {
         if (predicate.test(_i)) {
             if (stencil == null) {
                 return new Selected(_i, new Tokens());
@@ -125,16 +130,16 @@ public class $char implements $prototype.$node<CharLiteralExpr, _char, $char>,
         return null;
     }
 
-    public boolean matches(char i) {
-        return select(_char.of(i)) != null;
+    public boolean matches(String i) {
+        return select(_textBlock.of(i)) != null;
     }
 
-    public _char instance(String... str) {
-        return _char.of(str);
+    public _textBlock instance(String... str) {
+        return _textBlock.of(str);
     }
 
     @Override
-    public _char draft(Translator translator, Map<String, Object> keyValues) {
+    public _textBlock draft(Translator translator, Map<String, Object> keyValues) {
         if (this.stencil == null) {
             String overrideName = this.getClass().getSimpleName();
             Object override = keyValues.get(overrideName);
@@ -150,7 +155,7 @@ public class $char implements $prototype.$node<CharLiteralExpr, _char, $char>,
                 stencil = Stencil.of(override.toString());
             }
             String drafted = stencil.draft(translator, keyValues);
-            _char _i = instance(drafted);
+            _textBlock _i = instance(drafted);
             if (this.predicate.test(_i)) {
                 return _i;
             }
@@ -158,7 +163,7 @@ public class $char implements $prototype.$node<CharLiteralExpr, _char, $char>,
         }
         String draftedCode = stencil.draft(translator, keyValues);
         if (draftedCode != null) {
-            _char instance = instance(draftedCode);
+            _textBlock instance = instance(draftedCode);
             if (predicate.test(instance)) {
                 return instance;
             }
@@ -167,7 +172,7 @@ public class $char implements $prototype.$node<CharLiteralExpr, _char, $char>,
     }
 
     @Override
-    public $char $(String target, String $Name) {
+    public $textBlock $(String target, String $Name) {
         if (this.stencil != null) {
             this.stencil = this.stencil.$(target, $Name);
         }
@@ -203,32 +208,32 @@ public class $char implements $prototype.$node<CharLiteralExpr, _char, $char>,
 
     public String toString() {
         if (this.stencil != null) {
-            return "$char{" + System.lineSeparator() + "    " + this.stencil.toString() + System.lineSeparator() + "}";
+            return "$String{" + System.lineSeparator() + "    " + this.stencil.toString() + System.lineSeparator() + "}";
         }
-        return "$char{" + this.predicate + "}";
+        return "$String{" + this.predicate + "}";
     }
 
-    public Predicate<_char> predicate = d -> true;
+    public Predicate<_textBlock> predicate = d -> true;
 
     public Stencil stencil = null;
 
-    public $char() {
+    public $textBlock() {
     }
 
-    public $char(_char _i) {
+    public $textBlock(_textBlock _i) {
         this.stencil = Stencil.of(_i.toString());
     }
 
-    private $char(Stencil stencil) {
+    private $textBlock(Stencil stencil) {
         this.stencil = stencil;
     }
 
     /**
      * This makes it easier to NOT have to do silly things with generics on the outside
      */
-    public static class Selected extends Select<_char> {
+    public static class Selected extends Select<_textBlock> {
 
-        public Selected(_char _node, Tokens tokens) {
+        public Selected(_textBlock _node, Tokens tokens) {
             super(_node, tokens);
         }
     }

@@ -1,9 +1,9 @@
-package org.jdraft.prototype;
+package org.jdraft.bot;
 
+import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import junit.framework.TestCase;
-import org.jdraft.Ex;
-import org.jdraft._methodCall;
-import org.jdraft._string;
+import org.jdraft.*;
 
 public class $methodCallTest extends TestCase {
 
@@ -12,18 +12,21 @@ public class $methodCallTest extends TestCase {
         assertNotNull($methodCall.of().get$name());
         assertNotNull($methodCall.of().get$scope());
         assertNotNull($methodCall.of().get$arguments());
+        assertNotNull($methodCall.of().get$typeArguments());
     }
 
     public void testPredicate(){
         assertTrue( $methodCall.of(m-> !m.hasArguments()).matches("m()") );
         assertFalse( $methodCall.of(m-> !m.hasArguments()).matches("m(1)") );
+
+        assertTrue( $methodCall.of(m-> !m.hasTypeArguments()).matches("m()") );
+        assertFalse( $methodCall.of(m-> !m.hasTypeArguments()).matches("<T> m(1)") );
     }
 
-    public void testT(){
+    public void testStencilAny(){
         //assertTrue($methodCall.of("System.out.println($any$)").matches( "System.out.println()"));
         assertTrue($methodCall.of("System.out.println($any$)").matches( "System.out.println(1)"));
         assertTrue($methodCall.of("System.out.println($any$)").matches( "System.out.println(1,2)"));
-
     }
     public void testName(){
 
@@ -38,11 +41,16 @@ public class $methodCallTest extends TestCase {
     }
 
     public void testArguments(){
-
         $methodCall $mc = $methodCall.of($arguments.of(a->a.isEmpty()));
         assertTrue($mc.matches("System.out.println();"));
         assertFalse($mc.matches("System.out.println(1);"));
+    }
 
+    public void testTypeArguments(){
+        $methodCall $mc = $methodCall.of($typeArguments.of(a->!a.isEmpty()));
+        assertTrue( $mc.matches(" Collection.<T>call()") );
+        assertFalse( $mc.matches("Collection.call()") );
+        assertFalse( $mc.matches("call()") );
     }
 
     public String mc(){

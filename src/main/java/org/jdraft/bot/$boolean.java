@@ -1,10 +1,8 @@
-package org.jdraft.prototype;
+package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.nodeTypes.NodeWithArguments;
-import org.jdraft._arguments;
 import org.jdraft._boolean;
 import org.jdraft._expression;
 import org.jdraft._java._domain;
@@ -21,7 +19,7 @@ import java.util.function.Predicate;
  *
  * @author Eric
  */
-public class $boolean implements $prototype.$node<BooleanLiteralExpr, _boolean, $boolean>,
+public class $boolean implements $bot.$node<BooleanLiteralExpr, _boolean, $boolean>,
         $selector.$node<_boolean, $boolean>,
         $expr<BooleanLiteralExpr, _boolean, $boolean> {
 
@@ -58,6 +56,11 @@ public class $boolean implements $prototype.$node<BooleanLiteralExpr, _boolean, 
     }
     public Predicate<_boolean> getPredicate(){
         return this.predicate;
+    }
+
+    public $boolean setPredicate( Predicate<_boolean> predicate){
+        this.predicate = predicate;
+        return this;
     }
 
     public $boolean $and(Predicate<_boolean> _matchFn) {

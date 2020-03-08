@@ -1,4 +1,4 @@
-package org.jdraft.prototype;
+package org.jdraft.bot;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,7 +26,7 @@ import com.github.javaparser.ast.expr.Expression;
  * (Can match against 
  */
 public class $e 
-	implements $prototype.$node<Expression,_expression, $e>,
+	implements $bot.$node<Expression,_expression, $e>,
 		$selector.$node<_expression, $e>,
 		$expr<Expression, _expression, $e>{
 	
@@ -76,6 +76,11 @@ public class $e
 
 	public Predicate<_expression> getPredicate(){
 		return this.predicate;
+	}
+
+	public $e setPredicate( Predicate<_expression> predicate){
+		this.predicate = predicate;
+		return this;
 	}
 
 	public Stencil stencil = null;

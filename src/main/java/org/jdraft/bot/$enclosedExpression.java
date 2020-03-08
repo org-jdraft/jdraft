@@ -1,4 +1,4 @@
-package org.jdraft.prototype;
+package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.EnclosedExpr;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
-public class $enclosedExpression implements $prototype.$node<EnclosedExpr, _enclosedExpression, $enclosedExpression>,
+public class $enclosedExpression implements $bot.$node<EnclosedExpr, _enclosedExpression, $enclosedExpression>,
         $selector.$node<_enclosedExpression, $enclosedExpression>,
         $expr<EnclosedExpr, _enclosedExpression, $enclosedExpression>, Template<_enclosedExpression> {
 
@@ -37,6 +37,11 @@ public class $enclosedExpression implements $prototype.$node<EnclosedExpr, _encl
 
     public Predicate<_enclosedExpression> getPredicate(){
         return this.predicate;
+    }
+
+    public $enclosedExpression setPredicate( Predicate<_enclosedExpression> predicate){
+        this.predicate = predicate;
+        return this;
     }
 
     public boolean isMatchAny() {

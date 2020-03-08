@@ -1,12 +1,12 @@
-package org.jdraft.prototype;
+package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.expr.DoubleLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.StringLiteralExpr;
+import org.jdraft._double;
 import org.jdraft._expression;
 import org.jdraft._java._domain;
 import org.jdraft._jdraftException;
-import org.jdraft._string;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
@@ -17,59 +17,64 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 /**
- * syntax prototype for the model of the String types
+ * syntax prototype for the model of the double types
  *
  * @author Eric
  */
-public class $string implements $prototype.$node<StringLiteralExpr, _string, $string>,
-        $selector.$node<_string, $string>,
-        $expr<StringLiteralExpr, _string, $string> {
+public class $double implements $bot.$node<DoubleLiteralExpr, _double, $double>,
+        $selector.$node<_double, $double>,
+        $expr<DoubleLiteralExpr, _double, $double> {
 
-    public static $string of() {
-        return new $string();
+    public static $double of() {
+        return new $double();
     }
 
-    public static $string of(_string _i) {
-        return new $string(_i);
+    public static $double of(_double _i) {
+        return new $double(_i);
     }
 
-    public static $string of(StringLiteralExpr ile) {
-        return new $string(_string.of(ile));
+    public static $double of(DoubleLiteralExpr ile) {
+        return new $double(_double.of(ile));
     }
 
-    public static $string of(Stencil stencil) {
-        return new $string(stencil);
+    public static $double of(Stencil stencil) {
+        return new $double(stencil);
     }
 
-    public static $string of(String... code) {
-        return of(_string.of(code));
+    public static $double of(String... code) {
+        return of(_double.of(code));
     }
 
-    public static $string of(String i) {
-        return new $string(_string.of(i)).$and(_i -> _i.getValue() == i);
+    public static $double of(double i) {
+        return new $double(_double.of(i)).$and(_i -> _i.getValue() == i);
     }
 
-    public static $string of(Predicate<_string> _matchFn) {
-        return new $string().$and(_matchFn);
+    public static $double of(Predicate<_double> _matchFn) {
+        return new $double().$and(_matchFn);
     }
 
-    public Predicate<_string> getPredicate(){
+    public Predicate<_double> getPredicate(){
         return this.predicate;
     }
 
-    public $string $and(Predicate<_string> _matchFn) {
+    public $double setPredicate( Predicate<_double> predicate){
+        this.predicate = predicate;
+        return this;
+    }
+
+    public $double $and(Predicate<_double> _matchFn) {
         this.predicate = this.predicate.and(_matchFn);
         return this;
     }
 
-    public $string $not(Predicate<_string> _matchFn) {
+    public $double $not(Predicate<_double> _matchFn) {
         this.predicate = this.predicate.and(_matchFn.negate());
         return this;
     }
 
     public Selected select(String code) {
         try {
-            return select(_string.of(code));
+            return select(_double.of(code));
         } catch (Exception e) {
             return null;
         }
@@ -77,41 +82,41 @@ public class $string implements $prototype.$node<StringLiteralExpr, _string, $st
 
     public Selected select(String... code) {
         try {
-            return select(_string.of(code));
+            return select(_double.of(code));
         } catch (Exception e) {
             return null;
         }
     }
 
     public Selected select(Node n) {
-        if (n instanceof StringLiteralExpr) {
-            return select(_string.of((StringLiteralExpr) n));
+        if (n instanceof DoubleLiteralExpr) {
+            return select(_double.of((DoubleLiteralExpr) n));
         }
         return null;
     }
 
     public Selected select(Expression e) {
-        if (e instanceof StringLiteralExpr) {
-            return select(_string.of((StringLiteralExpr) e));
+        if (e instanceof DoubleLiteralExpr) {
+            return select(_double.of((DoubleLiteralExpr) e));
         }
         return null;
     }
 
     public Selected select(_domain _n) {
-        if (_n instanceof _string) {
-            return select((_string) _n);
+        if (_n instanceof _double) {
+            return select((_double) _n);
         }
         return null;
     }
 
     public Selected select(_expression<?, ?> _e) {
-        if (_e instanceof _string) {
-            return select((_string) _e);
+        if (_e instanceof _double) {
+            return select((_double) _e);
         }
         return null;
     }
 
-    public Selected select(_string _i) {
+    public Selected select(_double _i) {
         if (predicate.test(_i)) {
             if (stencil == null) {
                 return new Selected(_i, new Tokens());
@@ -125,16 +130,16 @@ public class $string implements $prototype.$node<StringLiteralExpr, _string, $st
         return null;
     }
 
-    public boolean matches(String i) {
-        return select(_string.of(i)) != null;
+    public boolean matches(double i) {
+        return select(_double.of(i)) != null;
     }
 
-    public _string instance(String... str) {
-        return _string.of(str);
+    public _double instance(String... str) {
+        return _double.of(str);
     }
 
     @Override
-    public _string draft(Translator translator, Map<String, Object> keyValues) {
+    public _double draft(Translator translator, Map<String, Object> keyValues) {
         if (this.stencil == null) {
             String overrideName = this.getClass().getSimpleName();
             Object override = keyValues.get(overrideName);
@@ -150,7 +155,7 @@ public class $string implements $prototype.$node<StringLiteralExpr, _string, $st
                 stencil = Stencil.of(override.toString());
             }
             String drafted = stencil.draft(translator, keyValues);
-            _string _i = instance(drafted);
+            _double _i = instance(drafted);
             if (this.predicate.test(_i)) {
                 return _i;
             }
@@ -158,7 +163,7 @@ public class $string implements $prototype.$node<StringLiteralExpr, _string, $st
         }
         String draftedCode = stencil.draft(translator, keyValues);
         if (draftedCode != null) {
-            _string instance = instance(draftedCode);
+            _double instance = instance(draftedCode);
             if (predicate.test(instance)) {
                 return instance;
             }
@@ -167,7 +172,7 @@ public class $string implements $prototype.$node<StringLiteralExpr, _string, $st
     }
 
     @Override
-    public $string $(String target, String $Name) {
+    public $double $(String target, String $Name) {
         if (this.stencil != null) {
             this.stencil = this.stencil.$(target, $Name);
         }
@@ -203,32 +208,32 @@ public class $string implements $prototype.$node<StringLiteralExpr, _string, $st
 
     public String toString() {
         if (this.stencil != null) {
-            return "$String{" + System.lineSeparator() + "    " + this.stencil.toString() + System.lineSeparator() + "}";
+            return "$double{" + System.lineSeparator() + "    " + this.stencil.toString() + System.lineSeparator() + "}";
         }
-        return "$String{" + this.predicate + "}";
+        return "$double{" + this.predicate + "}";
     }
 
-    public Predicate<_string> predicate = d -> true;
+    public Predicate<_double> predicate = d -> true;
 
     public Stencil stencil = null;
 
-    public $string() {
+    public $double() {
     }
 
-    public $string(_string _i) {
+    public $double(_double _i) {
         this.stencil = Stencil.of(_i.toString());
     }
 
-    private $string(Stencil stencil) {
+    private $double(Stencil stencil) {
         this.stencil = stencil;
     }
 
     /**
      * This makes it easier to NOT have to do silly things with generics on the outside
      */
-    public static class Selected extends Select<_string> {
+    public static class Selected extends Select<_double> {
 
-        public Selected(_string _node, Tokens tokens) {
+        public Selected(_double _node, Tokens tokens) {
             super(_node, tokens);
         }
     }

@@ -1,4 +1,4 @@
-package org.jdraft.prototype;
+package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.ArrayAccessExpr;
@@ -17,7 +17,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class $arrayAccess
-        implements $prototype.$node<ArrayAccessExpr, _arrayAccess, $arrayAccess>,
+        implements $bot.$node<ArrayAccessExpr, _arrayAccess, $arrayAccess>,
         $selector.$node<_arrayAccess, $arrayAccess>,
         $expr<ArrayAccessExpr, _arrayAccess, $arrayAccess>,
         Template<_arrayAccess> {
@@ -63,6 +63,10 @@ public class $arrayAccess
         return this.predicate;
     }
 
+    public $arrayAccess setPredicate( Predicate<_arrayAccess> predicate){
+        this.predicate = predicate;
+        return this;
+    }
 
     public boolean isMatchAny(){
         if(this.name.isMatchAny() && this.index.isMatchAny() ){

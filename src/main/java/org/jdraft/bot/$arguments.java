@@ -1,4 +1,4 @@
-package org.jdraft.prototype;
+package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
@@ -15,7 +15,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class $arguments<N extends Node & NodeWithArguments>
-        implements $prototype<N, _arguments, $arguments>, $methodCall.$part {
+        implements $bot<N, _arguments, $arguments>, $methodCall.$part {
 
     public static $arguments of(){
         return new $arguments();
@@ -72,6 +72,11 @@ public class $arguments<N extends Node & NodeWithArguments>
         }
     }
 
+    public $arguments setPredicate( Predicate<_arguments> predicate){
+        this.predicate = predicate;
+        return this;
+    }
+
     /**
      * test that all arguments match the predicate
      * @param _ex
@@ -102,8 +107,16 @@ public class $arguments<N extends Node & NodeWithArguments>
         return select(args) != null;
     }
 
+    public boolean matches(Expression...exs){
+        return select(exs) != null;
+    }
+
     public boolean matches(_expression..._exs){
         return select(_exs) != null;
+    }
+
+    public Select<_arguments> select(Expression...exs){
+        return select(_arguments.of(exs));
     }
 
     public Select<_arguments> select(_expression...exs){
@@ -189,6 +202,7 @@ public class $arguments<N extends Node & NodeWithArguments>
 
     @Override
     public $arguments $and(Predicate<_arguments> matchFn) {
+        setPredicate( getPredicate().and(matchFn));
         this.predicate = this.predicate.and(matchFn);
         return this;
     }
@@ -310,15 +324,50 @@ public class $arguments<N extends Node & NodeWithArguments>
             return select(candidate) != null;
         }
 
-        @Override
-        public Select<_arguments> select(_arguments candidate) {
-            if( predicate.test(candidate) ) {
-                Optional<$arguments> on = $arguments.stream().filter(n -> n.matches(candidate)).findFirst();
-                if (on.isPresent()) {
-                    return on.get().select(candidate);
+        /**
+         * Unique to OR implementations
+         * @param nwa
+         * @return
+         */
+        public $arguments whichMatch(NodeWithArguments nwa){
+            return whichMatch(_arguments.of(nwa));
+        }
+
+        /**
+         * Return the underlying $arguments that matches the _arguments
+         * (or null if none of the $arguments match the candidate _arguments)
+         * @param ae
+         * @return
+         */
+        public $arguments whichMatch(_arguments ae){
+            if( !this.predicate.test(ae ) ){
+                return null;
+            }
+            Optional<$arguments> orsel  = this.$arguments.stream().filter($p-> $p.matches(ae) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
+
+        public Tokens parse(_arguments _a){
+            $arguments $a = whichMatch(_a);
+            if( $a != null) {
+                Select s = $a.select(_a);
+                if( s != null ){
+                    return s.tokens;
                 }
             }
             return null;
+        }
+
+        @Override
+        public Select<_arguments> select(_arguments candidate) {
+            $arguments $as = whichMatch(candidate);
+            if( $as == null ){
+                return null;
+            }
+            return $as.select(candidate);
         }
 
         public String toString(){
@@ -335,7 +384,7 @@ public class $arguments<N extends Node & NodeWithArguments>
         @Override
         public $arguments $and(Predicate<_arguments> matchFn) {
             this.predicate = this.predicate.and(matchFn);
-            return this;
+            return ($arguments)this;
         }
          */
     }

@@ -4,6 +4,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithTypeArguments;
+import com.github.javaparser.ast.type.ReferenceType;
 import com.github.javaparser.ast.type.Type;
 
 import java.util.Arrays;
@@ -26,6 +27,14 @@ public class _typeArguments
 
     public static _typeArguments of(){
         return of( Ex.newEx("new empty()"));
+    }
+
+    public static _typeArguments of( _typeRef...rt){
+        return of().add(rt);
+    }
+
+    public static _typeArguments of( Type...rt){
+        return of().add(rt);
     }
 
     public static _typeArguments of(String...args){
@@ -222,6 +231,15 @@ public class _typeArguments
          */
         default _typeArguments getTypeArguments(){
             return of( (NodeWithTypeArguments)ast());
+        }
+
+        default _WTA setTypeArguments( _typeArguments _tas){
+            if( _tas.hasTypeArgs() ) {
+                ((NodeWithTypeArguments) ast()).setTypeArguments(_tas.listAstElements());
+            } else{
+                ((NodeWithTypeArguments) ast()).removeTypeArguments();
+            }
+            return (_WTA)this;
         }
 
         default _typeRef getTypeArgument(int index){

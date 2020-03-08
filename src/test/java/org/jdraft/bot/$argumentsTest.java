@@ -1,4 +1,4 @@
-package org.jdraft.prototype;
+package org.jdraft.bot;
 
 import junit.framework.TestCase;
 import org.jdraft.*;
@@ -32,6 +32,8 @@ public class $argumentsTest extends TestCase {
         assertTrue($arguments.of("$args$").matches("(i)"));
         assertTrue($arguments.of("$args$").matches("(i)"));
         assertTrue($arguments.of("$args$").matches("(i, 'c')"));
+        assertTrue($arguments.of("$args$").matches("(i, 'c', (short)22)"));
+        assertTrue($arguments.of("$args$").matches("(i, 'c', (byte)3)"));
 
         assertEquals(_arguments.of("i, 1"),
                 $arguments.of("$args$").select("(i, 1)").selection);

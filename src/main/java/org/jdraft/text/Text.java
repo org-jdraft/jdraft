@@ -1,9 +1,7 @@
 package org.jdraft.text;
 
 import org.jdraft._jdraftException;
-import org.jdraft.io._io;
 import org.jdraft.io._ioException;
-import org.jdraft.prototype2.$null;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -51,7 +49,7 @@ public final class Text {
         //this is quick and dirty,
         //https://github.com/robert-bor/aho-corasick
         try {
-            String source = new String(Files.readAllBytes(_io.in($null.class).getPath()));
+            String source = new String(Files.readAllBytes(filePath)); ///_io.in($null.class).getPath()));
             return replace( source, keyValuePairs);
             //for(int i=0;i<keyValuePairs.length; i+=2){
             //    source = source.replaceAll( regexCharsToLiterals( keyValuePairs[i]), regexCharsToLiterals(keyValuePairs[i+1]));

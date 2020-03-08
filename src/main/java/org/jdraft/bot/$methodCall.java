@@ -1,4 +1,4 @@
-package org.jdraft.prototype;
+package org.jdraft.bot;
 
 import org.jdraft.*;
 import com.github.javaparser.ast.expr.MethodCallExpr;
@@ -17,7 +17,7 @@ import org.jdraft.text.Translator;
 /**
  *
  */
-public class $methodCall implements $prototype.$node<MethodCallExpr, _methodCall, $methodCall>,
+public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $methodCall>,
         $selector.$node<_methodCall, $methodCall>,
         $expr<MethodCallExpr, _methodCall, $methodCall> {
 
@@ -48,7 +48,9 @@ public class $methodCall implements $prototype.$node<MethodCallExpr, _methodCall
             if( parts[i] instanceof $arguments){
                 $mc.arguments = ($arguments)parts[i];
             }
-            //todo typearguments
+            if( parts[i] instanceof $typeArguments){
+                $mc.typeArguments = ($typeArguments)parts[i];
+            }
         }
         return $mc;
     }
@@ -78,26 +80,14 @@ public class $methodCall implements $prototype.$node<MethodCallExpr, _methodCall
         return new $methodCall().$and(_matchFn);
     }
 
-    public Predicate<_methodCall> getPredicate(){
-        return this.predicate;
-    }
 
-    public $methodCall $and(Predicate<_methodCall> _matchFn) {
-        this.predicate = this.predicate.and(_matchFn);
-        return this;
-    }
-
-    public $methodCall $not(Predicate<_methodCall> _matchFn) {
-        this.predicate = this.predicate.and(_matchFn.negate());
-        return this;
-    }
 
     public Predicate<_methodCall> predicate = d -> true;
 
     //the parts of the method call
     public $name name = $name.of();
     public $arguments arguments = $arguments.of();
-    //todo typeParameters (order doesnt matter)
+    public $typeArguments typeArguments = $typeArguments.of();
     public $expr scope = $e.of();
 
     public $methodCall() {
@@ -111,18 +101,39 @@ public class $methodCall implements $prototype.$node<MethodCallExpr, _methodCall
         if( _mc.hasArguments() ){
             arguments = $arguments.of(_mc.getArguments());
         }
-        //todo typeParameters
+        if( _mc.hasTypeArguments() ){
+            typeArguments = $typeArguments.of( _mc.getTypeArguments() );
+        }
+    }
+
+    public Predicate<_methodCall> getPredicate(){
+        return this.predicate;
+    }
+
+    public $methodCall setPredicate( Predicate<_methodCall> predicate){
+        this.predicate = predicate;
+        return this;
+    }
+
+    public $methodCall $and(Predicate<_methodCall> _matchFn) {
+        this.predicate = this.predicate.and(_matchFn);
+        return this;
+    }
+
+    public $methodCall $not(Predicate<_methodCall> _matchFn) {
+        this.predicate = this.predicate.and(_matchFn.negate());
+        return this;
     }
 
     public boolean isMatchAny(){
-        if( this.name.isMatchAny() && this.scope.isMatchAny() && arguments.isMatchAny()){
-            //TODO typeArguments
+        if( this.name.isMatchAny() && this.scope.isMatchAny() && arguments.isMatchAny() && typeArguments.isMatchAny()){
             try {
                 return this.predicate.test(null);
             } catch(Exception e){ }
         }
         return false;
     }
+
     public Selected select(String code) {
         try {
             return select(_methodCall.of(code));
@@ -179,17 +190,24 @@ public class $methodCall implements $prototype.$node<MethodCallExpr, _methodCall
             return null;
         }
         Tokens ts = s.tokens;
+
         s = this.name.select(_mc.getName());
         if( s == null || !ts.isConsistent(s.tokens)){
             return null;
         }
         ts.putAll(s.tokens);
+
         s = this.arguments.select(_mc.getArguments() );
         if( s == null || !ts.isConsistent(s.tokens)){
             return null;
         }
         ts.putAll(s.tokens);
-        //todo typeargs
+
+        s = this.typeArguments.select(_mc.getTypeArguments() );
+        if( s == null || !ts.isConsistent(s.tokens)){
+            return null;
+        }
+        ts.putAll(s.tokens);
         return new Selected(_mc, ts);
     }
 
@@ -200,7 +218,16 @@ public class $methodCall implements $prototype.$node<MethodCallExpr, _methodCall
             _mc.setScope( (_expression)this.scope.draft(tr, keyValues));
         }
         _mc.setArguments( this.arguments.draft(tr, keyValues));
-        //todo typearguments
+        try{
+            _mc.setTypeArguments( this.typeArguments.draft(tr, keyValues));
+        } catch(Exception e){
+            if( !typeArguments.isMatchAny() ){
+                throw new _jdraftException("Unable to set type arguments ", e);
+            }
+        }
+        if( !this.predicate.test(_mc) ){
+            throw new _jdraftException("Drafted _methodCall failed bot predicate");
+        }
         return _mc;
     }
 
@@ -209,7 +236,7 @@ public class $methodCall implements $prototype.$node<MethodCallExpr, _methodCall
         this.name.$(target, $Name);
         this.scope.$(target, $Name);
         this.arguments.$(target, $Name);
-        //todo typearguments
+        this.typeArguments.$(target, $Name);
         return this;
     }
 
@@ -217,7 +244,7 @@ public class $methodCall implements $prototype.$node<MethodCallExpr, _methodCall
     public List<String> list$() {
         List<String> ps = new ArrayList<>();
         ps.addAll( this.scope.list$());
-        //todo typeArguments
+        ps.addAll( this.typeArguments.list$());
         ps.addAll( this.name.list$());
         ps.addAll(this.arguments.list$());
         return ps;
@@ -227,10 +254,50 @@ public class $methodCall implements $prototype.$node<MethodCallExpr, _methodCall
     public List<String> list$Normalized() {
         List<String> ps = new ArrayList<>();
         ps.addAll( this.scope.list$Normalized());
-        //todo typeArguments
+        ps.addAll( this.typeArguments.list$Normalized());
         ps.addAll( this.name.list$Normalized());
         ps.addAll( this.arguments.list$Normalized());
         return ps.stream().distinct().collect(Collectors.toList());
+    }
+
+    //$withTypeArguments
+    public $typeArguments get$typeArguments(){
+        return this.typeArguments;
+    }
+
+    public $methodCall $typeArguments(){
+        this.typeArguments = $typeArguments.of();
+        return this;
+    }
+
+    public $methodCall $typeArguments(Predicate<_typeArguments> predicate){
+        this.typeArguments.$and(predicate);
+        return this;
+    }
+
+    public $methodCall $typeArguments($typeArguments $as){
+        this.typeArguments = $as;
+        return this;
+    }
+
+    public $methodCall $typeArguments(String ts){
+        this.typeArguments = $typeArguments.of(ts);
+        return this;
+    }
+
+    public $methodCall $typeArguments(String... ts){
+        this.typeArguments = $typeArguments.of(ts);
+        return this;
+    }
+
+    public $methodCall $typeArguments($typeRef...tas){
+        this.typeArguments = $typeArguments.of(tas);
+        return this;
+    }
+
+    public $methodCall $typeArguments(_typeRef...args){
+        this.typeArguments = $typeArguments.of(args);
+        return this;
     }
 
     //$withArguments
@@ -245,6 +312,16 @@ public class $methodCall implements $prototype.$node<MethodCallExpr, _methodCall
 
     public $methodCall $arguments(Predicate<_arguments> predicate){
         this.arguments.$and(predicate);
+        return this;
+    }
+
+    public $methodCall $arguments(String args){
+        this.arguments = $arguments.of(args);
+        return this;
+    }
+
+    public $methodCall $arguments(String...args){
+        this.arguments = $arguments.of(args);
         return this;
     }
 

@@ -1,4 +1,4 @@
-package org.jdraft.prototype;
+package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  */
 public class $anno
     implements Template<_anno>,
-        $prototype.$node<AnnotationExpr, _anno, $anno>,
+        $bot.$node<AnnotationExpr, _anno, $anno>,
         $selector.$node<_anno, $anno>,
         $constructor.$part, $method.$part,
         $field.$part, $typeParameter.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part,
@@ -166,6 +166,11 @@ public class $anno
             SingleMemberAnnotationExpr sa = (SingleMemberAnnotationExpr) astAnn;
             $mvs.add($memberValue.of(sa.getMemberValue()));
         }
+    }
+
+    public $anno setPredicate( Predicate<_anno> predicate){
+        this.predicate = predicate;
+        return this;
     }
 
     public Predicate<_anno> getPredicate(){

@@ -1197,6 +1197,14 @@ public enum Ex {
      * @return
      */
     public static MethodCallExpr methodCallEx(String... code ) {
+        String str = Text.combine(code);
+        if( str.startsWith("<")){ //
+            String s = "Object t = "+ str +";";
+            //Box <String> box = new Box <String> ("Jack");
+            System.out.println( s );
+            VariableDeclarationExpr vde =  Ex.varLocalEx(s);
+            return (MethodCallExpr) vde.getVariable(0).getInitializer().get();
+        }
         return of( code ).asMethodCallExpr();
     }
 

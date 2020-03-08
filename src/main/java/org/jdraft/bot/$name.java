@@ -1,4 +1,4 @@
-package org.jdraft.prototype;
+package org.jdraft.bot;
 
 import org.jdraft._jdraftException;
 import org.jdraft.text.Stencil;
@@ -45,6 +45,11 @@ public class $name implements $selector<String, $name>, Template<String>, $metho
 
     public Predicate<String> getPredicate(){
         return this.predicate;
+    }
+
+    public $name setPredicate( Predicate<String> predicate){
+        this.predicate = predicate;
+        return this;
     }
 
     @Override
@@ -124,7 +129,7 @@ public class $name implements $selector<String, $name>, Template<String>, $metho
     /**
      * An Or entity that can match against any of the $name instances
      */
-    public static class Or implements $selector<String, $name>, $methodCall.$part{
+    public static class Or extends $name { //implements $selector<String, $name>, $methodCall.$part{
 
         public Predicate<String> predicate = p-> true;
 
@@ -140,6 +145,11 @@ public class $name implements $selector<String, $name>, Template<String>, $metho
 
         public Predicate<String> getPredicate(){
             return this.predicate;
+        }
+
+        public $name setPredicate( Predicate<String> predicate){
+            this.predicate = predicate;
+            return this;
         }
 
         @Override

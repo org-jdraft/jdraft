@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import org.jdraft.*;
-import org.jdraft.prototype._$;
+import org.jdraft.bot._$;
 import org.jdraft.text.Template;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;

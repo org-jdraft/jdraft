@@ -1,4 +1,4 @@
-package org.jdraft.prototype;
+package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
 import org.jdraft.*;
@@ -14,24 +14,26 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
- * P is the underlying syntactic thing
- * _P is the wrapper
- * @param <P>
- * @param <_P>
- * @param <$P>
+ * B is the underlying syntactic representation
+ * _B is the _java.domain wrapper of the syntatic thing
+ * $B the bot type
+ *
+ * @param <B> the underlying syntax type
+ * @param <_B> the _java.domain type
+ * @param <$B> the $bot type
  */
-public interface $prototype<P, _P, $P>
-        extends $selector<_P,$P>, Template<_P> {
+public interface $bot<B, _B, $B>
+        extends $selector<_B, $B>, Template<_B> {
 
-    Select<_P> select(Node n);
+    Select<_B> select(Node n);
 
     /** */
-    default _P firstIn(Class<?> clazz) {
+    default _B firstIn(Class<?> clazz) {
         return firstIn(clazz, p->true);
     }
 
     /** */
-    default _P firstIn(Class<?> clazz, Predicate<_P> matchFn) {
+    default _B firstIn(Class<?> clazz, Predicate<_B> matchFn) {
         return firstIn( Ast.of(clazz), matchFn);
     }
 
@@ -40,7 +42,7 @@ public interface $prototype<P, _P, $P>
      * @param astNode
      * @return
      */
-    default _P firstIn(Node astNode) {
+    default _B firstIn(Node astNode) {
         return firstIn(astNode, p->true);
     }
 
@@ -50,28 +52,28 @@ public interface $prototype<P, _P, $P>
      * @param matchFn
      * @return  the first Expression that matches (or null if none found)
      */
-    default _P firstIn(Node astNode, Predicate<_P> matchFn) {
-        Select<_P> sel = selectFirstIn(astNode, (s)-> matchFn.test(s.get()));
+    default _B firstIn(Node astNode, Predicate<_B> matchFn) {
+        Select<_B> sel = selectFirstIn(astNode, (s)-> matchFn.test(s.get()));
         if( sel != null ) {
             return sel.selection;
         }
         return null;
     }
 
-    default Select<_P> selectFirstIn(_java._domain _j) {
+    default Select<_B> selectFirstIn(_java._domain _j) {
         return selectFirstIn(_j, t->true);
     }
 
-    default Select<_P> selectFirstIn(_java._domain _j, Predicate<Select<_P>> matchFn) {
+    default Select<_B> selectFirstIn(_java._domain _j, Predicate<Select<_B>> matchFn) {
         return selectFirstIn(_j, matchFn);
     }
 
     /** */
-    default Select<_P> selectFirstIn(Class<?> clazz) {
+    default Select<_B> selectFirstIn(Class<?> clazz) {
         return selectFirstIn(clazz, p->true);
     }
 
-    default Select<_P> selectFirstIn(Class<?> clazz, Predicate<Select<_P>> matchFn) {
+    default Select<_B> selectFirstIn(Class<?> clazz, Predicate<Select<_B>> matchFn) {
         return selectFirstIn( Ast.of(clazz), matchFn);
     }
 
@@ -80,18 +82,18 @@ public interface $prototype<P, _P, $P>
      * @param astNode the node to look through
      * @return  the first Expression that matches (or null if none found)
      */
-    default Select<_P> selectFirstIn(Node astNode) {
+    default Select<_B> selectFirstIn(Node astNode) {
         return selectFirstIn(astNode, t-> true);
     }
 
-    Select<_P> selectFirstIn(Node astNode, Predicate<Select<_P>>predicate);
+    Select<_B> selectFirstIn(Node astNode, Predicate<Select<_B>>predicate);
 
 
     default int countIn(Class<?> clazz) {
         return countIn(Ast.of(clazz));
     }
 
-    default int countIn(Class<?> clazz, Predicate<_P> _matchFn) {
+    default int countIn(Class<?> clazz, Predicate<_B> _matchFn) {
         return countIn(Ast.of(clazz), _matchFn);
     }
 
@@ -99,7 +101,7 @@ public interface $prototype<P, _P, $P>
         return countIn(_j.ast());
     }
 
-    default int countIn(_java._node<?, ?> _j, Predicate<_P> _matchFn) {
+    default int countIn(_java._node<?, ?> _j, Predicate<_B> _matchFn) {
         return countIn(_j.ast(), _matchFn);
     }
 
@@ -107,34 +109,34 @@ public interface $prototype<P, _P, $P>
         return countIn(n, p->true);
     }
 
-    default int countIn(Node n, Predicate<_P> _matchFn) {
+    default int countIn(Node n, Predicate<_B> _matchFn) {
         AtomicInteger ai = new AtomicInteger();
         forEachIn(n, _matchFn, e-> ai.incrementAndGet() );
         return ai.get();
     }
 
-    default <_CT extends _type<?,?>> _CT forEachIn(Class<?> clazz, Consumer<_P> actionFn){
+    default <_CT extends _type<?,?>> _CT forEachIn(Class<?> clazz, Consumer<_B> actionFn){
         return forEachIn(clazz, p->true, actionFn);
     }
 
-    default <_CT extends _type<?,?>> _CT forEachIn(Class<?> clazz, Predicate<_P> matchFn, Consumer<_P> actionFn){
+    default <_CT extends _type<?,?>> _CT forEachIn(Class<?> clazz, Predicate<_B> matchFn, Consumer<_B> actionFn){
         _CT _t = _java.type(clazz);
         forEachIn( _t, matchFn, actionFn);
         return _t;
     }
 
-    default <_J extends _java._node<?,?>> _J forEachIn(_J _j, Predicate<_P> matchFn, Consumer<_P> actionFn){
+    default <_J extends _java._node<?,?>> _J forEachIn(_J _j, Predicate<_B> matchFn, Consumer<_B> actionFn){
         forEachIn(_j.ast(), matchFn, actionFn);
         return _j;
     }
 
-    default <N extends Node> N forEachIn(N astNode, Consumer<_P> actionFn){
+    default <N extends Node> N forEachIn(N astNode, Consumer<_B> actionFn){
         return forEachIn(astNode, t->true, actionFn);
     }
 
-    default <N extends Node> N forEachIn(N astNode, Predicate<_P> matchFn, Consumer<_P> actionFn){
+    default <N extends Node> N forEachIn(N astNode, Predicate<_B> matchFn, Consumer<_B> actionFn){
         astNode.stream().forEach(n ->{
-            Select<_P> sel = select(n);
+            Select<_B> sel = select(n);
             if( sel != null && matchFn.test(sel.selection)) {
                 actionFn.accept(sel.selection);
             }
@@ -142,21 +144,21 @@ public interface $prototype<P, _P, $P>
         return astNode;
     }
 
-    default <_CT extends _type<?,?>> _CT forSelectedIn(Class<?> clazz, Consumer<Select<_P>> selectActionFn){
+    default <_CT extends _type<?,?>> _CT forSelectedIn(Class<?> clazz, Consumer<Select<_B>> selectActionFn){
         return forSelectedIn(clazz, p->true, selectActionFn);
     }
 
-    default <_CT extends _type<?,?>> _CT forSelectedIn(Class<?> clazz, Predicate<Select<_P>> matchFn, Consumer<Select<_P>> selectActionFn){
+    default <_CT extends _type<?,?>> _CT forSelectedIn(Class<?> clazz, Predicate<Select<_B>> matchFn, Consumer<Select<_B>> selectActionFn){
         _CT _t = _java.type(clazz);
         forSelectedIn( _t, matchFn, selectActionFn);
         return _t;
     }
 
-    default <_J extends _java._node<?,?>> _J forSelectedIn(_J _j, Consumer<Select<_P>> selectActionFn){
+    default <_J extends _java._node<?,?>> _J forSelectedIn(_J _j, Consumer<Select<_B>> selectActionFn){
         return forSelectedIn(_j, t->true, selectActionFn);
     }
 
-    default <_J extends _java._node<?,?>> _J forSelectedIn(_J _j, Predicate<Select<_P>> matchFn, Consumer<Select<_P>> selectActionFn){
+    default <_J extends _java._node<?,?>> _J forSelectedIn(_J _j, Predicate<Select<_B>> matchFn, Consumer<Select<_B>> selectActionFn){
         if( _j instanceof _codeUnit){
             _codeUnit _c = (_codeUnit) _j;
             if( _c.isTopLevel() ){
@@ -178,13 +180,13 @@ public interface $prototype<P, _P, $P>
      * @param selectActionFn
      * @return
      */
-    default <N extends Node> N forSelectedIn(N astNode, Consumer<Select<_P>> selectActionFn) {
+    default <N extends Node> N forSelectedIn(N astNode, Consumer<Select<_B>> selectActionFn) {
         return forSelectedIn(astNode, t->true, selectActionFn);
     }
 
-    default <N extends Node> N forSelectedIn(N astNode, Predicate<Select<_P>> matchFn, Consumer<Select<_P>> selectActionFn){
+    default <N extends Node> N forSelectedIn(N astNode, Predicate<Select<_B>> matchFn, Consumer<Select<_B>> selectActionFn){
         astNode.stream().forEach(n ->{
-            Select<_P> sel = select(n);
+            Select<_B> sel = select(n);
             if( sel != null && matchFn.test(sel)) {
                 selectActionFn.accept(sel);
             }
@@ -192,48 +194,48 @@ public interface $prototype<P, _P, $P>
         return astNode;
     }
 
-    default List<_P> listIn(Class<?> clazz){
+    default List<_B> listIn(Class<?> clazz){
         return listIn(Ast.of( clazz ));
     }
 
-    default List<_P> listIn(Class<?> clazz, Predicate<_P> _matchFn){
+    default List<_B> listIn(Class<?> clazz, Predicate<_B> _matchFn){
         return listIn(Ast.of( clazz ), _matchFn);
     }
 
-    default List<_P> listIn(_java._node<?, ?> _j){
+    default List<_B> listIn(_java._node<?, ?> _j){
         return listIn(_j.ast());
     }
 
-    default List<_P> listIn(_java._node<?, ?> _j, Predicate<_P> _matchFn){
+    default List<_B> listIn(_java._node<?, ?> _j, Predicate<_B> _matchFn){
         return listIn(_j.ast(), _matchFn);
     }
 
-    default List<_P> listIn(Node astNode){
+    default List<_B> listIn(Node astNode){
         return listIn(astNode, p->true);
     }
 
-    default List<_P> listIn(Node astNode, Predicate<_P> _matchFn) {
-        List<_P> list = new ArrayList<>();
+    default List<_B> listIn(Node astNode, Predicate<_B> _matchFn) {
+        List<_B> list = new ArrayList<>();
         forEachIn(astNode, _matchFn, c-> list.add(c));
         return list;
     }
 
-    default List<Select<_P>> listSelectedIn(Class<?> clazz) {
+    default List<Select<_B>> listSelectedIn(Class<?> clazz) {
         return listSelectedIn(Ast.of(clazz));
     }
 
-    default List<Select<_P>> listSelectedIn(Class<?> clazz, Predicate<Select<_P>> _selectMatchFn) {
+    default List<Select<_B>> listSelectedIn(Class<?> clazz, Predicate<Select<_B>> _selectMatchFn) {
         return listSelectedIn(Ast.of(clazz), _selectMatchFn);
     }
 
-    default List<Select<_P>> listSelectedIn(Node astNode) {
+    default List<Select<_B>> listSelectedIn(Node astNode) {
         return listSelectedIn(astNode, p->true);
     }
 
-    default List<Select<_P>> listSelectedIn(Node astNode, Predicate<Select<_P>> _selectMatchFn) {
-        List<Select<_P>> list = new ArrayList<>();
+    default List<Select<_B>> listSelectedIn(Node astNode, Predicate<Select<_B>> _selectMatchFn) {
+        List<Select<_B>> list = new ArrayList<>();
         astNode.walk(Node.class, e -> {
-            Select<_P> s = select(e);
+            Select<_B> s = select(e);
             if (s != null && _selectMatchFn.test(s)) {
                 list.add(s);
             }
@@ -249,41 +251,40 @@ public interface $prototype<P, _P, $P>
         forEachIn(astNode, e-> System.out.println(e));
     }
 
-    default Stream<_P> streamIn(_java._node<?, ?> _j){
+    default Stream<_B> streamIn(_java._node<?, ?> _j){
         return listIn(_j).stream();
     }
 
-    default Stream<_P> streamIn(_java._node<?, ?> _j, Predicate<_P> matchFn){
+    default Stream<_B> streamIn(_java._node<?, ?> _j, Predicate<_B> matchFn){
         return listIn(_j, matchFn).stream();
     }
 
-    default Stream<_P> streamIn(Class<?> clazz){
+    default Stream<_B> streamIn(Class<?> clazz){
         return listIn(clazz).stream();
     }
 
-    default Stream<_P> streamIn(Class<?> clazz, Predicate<_P> matchFn){
+    default Stream<_B> streamIn(Class<?> clazz, Predicate<_B> matchFn){
         return listIn(clazz, matchFn).stream();
     }
 
-    default Stream<_P> streamIn(Node astNode){
+    default Stream<_B> streamIn(Node astNode){
         return listIn(astNode).stream();
     }
 
-    default Stream<_P> streamIn(Node astNode, Predicate<_P> matchFn){
+    default Stream<_B> streamIn(Node astNode, Predicate<_B> matchFn){
         return listIn(astNode, matchFn).stream();
     }
 
     /**
-     * a prototype that represents a Node within the AST
-     * will have this functionality
-     * we can remove and replace nodes in the (overall) AST
+     * a bot that operates on a {@link Node} implementation within the AST
+     * can remove and replace nodes in the (overall) AST in addition to selecting nodes within the AST
      *
      * @param <P>
      * @param <_P>
      * @param <$P>
      */
     interface $node<P extends Node, _P extends _java._node, $P extends $node<P,_P,$P>>
-            extends $prototype<P, _P, $P>{ //$selector<_P,$P>, Template<_P> {
+            extends $bot<P, _P, $P> {
 
         /** does this individual Ast node match the prototype? */
         Select<_P> select(Node n);

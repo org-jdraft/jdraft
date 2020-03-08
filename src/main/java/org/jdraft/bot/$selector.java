@@ -1,4 +1,4 @@
-package org.jdraft.prototype;
+package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
 import org.jdraft._java;
@@ -15,6 +15,8 @@ import java.util.function.Predicate;
 public interface $selector<_S, $S> {
 
     Predicate<_S> getPredicate();
+
+    $S setPredicate( Predicate<_S> predicate);
 
     //Select<_S> select(_java._node _jn);
 
@@ -46,7 +48,10 @@ public interface $selector<_S, $S> {
      * @param matchFn a new functional matching constraint to the prototype
      * @return the modified prototype
      */
-    $S $and(Predicate<_S> matchFn);
+    default $S $and(Predicate<_S> matchFn){
+        setPredicate( getPredicate().and(matchFn));
+        return ($S)this;
+    }
 
     /**
      * --Constraint updater -- (i.e. updates constraints on the prototype and returns the modified prototype)

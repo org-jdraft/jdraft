@@ -1,10 +1,12 @@
-package org.jdraft.prototype;
+package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.NullLiteralExpr;
-import org.jdraft.*;
+import com.github.javaparser.ast.expr.LongLiteralExpr;
+import org.jdraft._expression;
 import org.jdraft._java._domain;
+import org.jdraft._jdraftException;
+import org.jdraft._long;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
@@ -15,55 +17,64 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 /**
- * syntax prototype for the model of the int types
+ * syntax prototype for the model of the long types
  *
  * @author Eric
  */
-public class $null implements $prototype.$node<NullLiteralExpr, _null, $null>,
-        $selector.$node<_null, $null>,
-        $expr<NullLiteralExpr, _null, $null> {
+public class $long implements $bot.$node<LongLiteralExpr, _long, $long>,
+        $selector.$node<_long, $long>,
+        $expr<LongLiteralExpr, _long, $long> {
 
-    public static $null of() {
-        return new $null();
+    public static $long of() {
+        return new $long();
     }
 
-    public static $null of(_null _i) {
-        return new $null(_i);
+    public static $long of(_long _i) {
+        return new $long(_i);
     }
 
-    public static $null of(NullLiteralExpr ile) {
-        return new $null(_null.of(ile));
+    public static $long of(LongLiteralExpr ile) {
+        return new $long(_long.of(ile));
     }
 
-    public static $null of(Stencil stencil) {
-        return new $null(stencil);
+    public static $long of(Stencil stencil) {
+        return new $long(stencil);
     }
 
-    public static $null of(String... code) {
-        return of(_null.of(code));
+    public static $long of(String... code) {
+        return of(_long.of(code));
     }
 
-    public static $null of(Predicate<_null> _matchFn) {
-        return new $null().$and(_matchFn);
+    public static $long of(long i) {
+        return new $long(_long.of(i)).$and(_i -> _i.getValue() == i);
     }
 
-    public Predicate<_null> getPredicate(){
+    public static $long of(Predicate<_long> _matchFn) {
+        return new $long().$and(_matchFn);
+    }
+
+    public Predicate<_long> getPredicate(){
         return this.predicate;
     }
 
-    public $null $and(Predicate<_null> _matchFn) {
+    public $long setPredicate( Predicate<_long> predicate){
+        this.predicate = predicate;
+        return this;
+    }
+
+    public $long $and(Predicate<_long> _matchFn) {
         this.predicate = this.predicate.and(_matchFn);
         return this;
     }
 
-    public $null $not(Predicate<_null> _matchFn) {
+    public $long $not(Predicate<_long> _matchFn) {
         this.predicate = this.predicate.and(_matchFn.negate());
         return this;
     }
 
     public Selected select(String code) {
         try {
-            return select(_null.of(code));
+            return select(_long.of(code));
         } catch (Exception e) {
             return null;
         }
@@ -71,41 +82,41 @@ public class $null implements $prototype.$node<NullLiteralExpr, _null, $null>,
 
     public Selected select(String... code) {
         try {
-            return select(_null.of(code));
+            return select(_long.of(code));
         } catch (Exception e) {
             return null;
         }
     }
 
     public Selected select(Node n) {
-        if (n instanceof NullLiteralExpr) {
-            return select(_null.of((NullLiteralExpr) n));
+        if (n instanceof LongLiteralExpr) {
+            return select(_long.of((LongLiteralExpr) n));
         }
         return null;
     }
 
     public Selected select(Expression e) {
-        if (e instanceof NullLiteralExpr) {
-            return select(_null.of((NullLiteralExpr) e));
+        if (e instanceof LongLiteralExpr) {
+            return select(_long.of((LongLiteralExpr) e));
         }
         return null;
     }
 
     public Selected select(_domain _n) {
-        if (_n instanceof _null) {
-            return select((_null) _n);
+        if (_n instanceof _long) {
+            return select((_long) _n);
         }
         return null;
     }
 
     public Selected select(_expression<?, ?> _e) {
-        if (_e instanceof _null) {
-            return select((_null) _e);
+        if (_e instanceof _long) {
+            return select((_long) _e);
         }
         return null;
     }
 
-    public Selected select(_null _i) {
+    public Selected select(_long _i) {
         if (predicate.test(_i)) {
             if (stencil == null) {
                 return new Selected(_i, new Tokens());
@@ -119,16 +130,16 @@ public class $null implements $prototype.$node<NullLiteralExpr, _null, $null>,
         return null;
     }
 
-    public boolean matches(int i) {
-        return select(_int.of(i)) != null;
+    public boolean matches(long i) {
+        return select(_long.of(i)) != null;
     }
 
-    public _null instance(String... str) {
-        return _null.of(str);
+    public _long instance(String... str) {
+        return _long.of(str);
     }
 
     @Override
-    public _null draft(Translator translator, Map<String, Object> keyValues) {
+    public _long draft(Translator translator, Map<String, Object> keyValues) {
         if (this.stencil == null) {
             String overrideName = this.getClass().getSimpleName();
             Object override = keyValues.get(overrideName);
@@ -144,7 +155,7 @@ public class $null implements $prototype.$node<NullLiteralExpr, _null, $null>,
                 stencil = Stencil.of(override.toString());
             }
             String drafted = stencil.draft(translator, keyValues);
-            _null _i = instance(drafted);
+            _long _i = instance(drafted);
             if (this.predicate.test(_i)) {
                 return _i;
             }
@@ -152,7 +163,7 @@ public class $null implements $prototype.$node<NullLiteralExpr, _null, $null>,
         }
         String draftedCode = stencil.draft(translator, keyValues);
         if (draftedCode != null) {
-            _null instance = instance(draftedCode);
+            _long instance = instance(draftedCode);
             if (predicate.test(instance)) {
                 return instance;
             }
@@ -161,7 +172,7 @@ public class $null implements $prototype.$node<NullLiteralExpr, _null, $null>,
     }
 
     @Override
-    public $null $(String target, String $Name) {
+    public $long $(String target, String $Name) {
         if (this.stencil != null) {
             this.stencil = this.stencil.$(target, $Name);
         }
@@ -197,32 +208,32 @@ public class $null implements $prototype.$node<NullLiteralExpr, _null, $null>,
 
     public String toString() {
         if (this.stencil != null) {
-            return "$null{" + System.lineSeparator() + "    " + this.stencil.toString() + System.lineSeparator() + "}";
+            return "$long{" + System.lineSeparator() + "    " + this.stencil.toString() + System.lineSeparator() + "}";
         }
-        return "$null{" + this.predicate + "}";
+        return "$long{" + this.predicate + "}";
     }
 
-    public Predicate<_null> predicate = d -> true;
+    public Predicate<_long> predicate = d -> true;
 
     public Stencil stencil = null;
 
-    public $null() {
+    public $long() {
     }
 
-    public $null(_null _i) {
+    public $long(_long _i) {
         this.stencil = Stencil.of(_i.toString());
     }
 
-    private $null(Stencil stencil) {
+    private $long(Stencil stencil) {
         this.stencil = stencil;
     }
 
     /**
      * This makes it easier to NOT have to do silly things with generics on the outside
      */
-    public static class Selected extends Select<_null> {
+    public static class Selected extends Select<_long> {
 
-        public Selected(_null _node, Tokens tokens) {
+        public Selected(_long _node, Tokens tokens) {
             super(_node, tokens);
         }
     }

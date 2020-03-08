@@ -1,4 +1,4 @@
-package org.jdraft.prototype;
+package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.ClassExpr;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
-public class $classExpression implements $prototype.$node<ClassExpr, _classExpression, $classExpression>,
+public class $classExpression implements $bot.$node<ClassExpr, _classExpression, $classExpression>,
         $selector.$node<_classExpression, $classExpression>,
         $expr<ClassExpr, _classExpression, $classExpression>, Template<_classExpression> {
 
@@ -41,6 +41,11 @@ public class $classExpression implements $prototype.$node<ClassExpr, _classExpre
 
     public Predicate<_classExpression> getPredicate(){
         return this.predicate;
+    }
+
+    public $classExpression setPredicate( Predicate<_classExpression> predicate){
+        this.predicate = predicate;
+        return this;
     }
 
     public boolean isMatchAny() {

@@ -33,6 +33,15 @@ import java.util.*;
 public class _javaTest extends TestCase {
 
 
+    public void testNumberTypes(){
+        class F {
+            short s = 123;
+            byte b = 16;
+            float f = 1.23F;
+        }
+        Ast.describe( _class.of( F.class ).ast());
+
+    }
     public void testBuildEnum(){
         _enum _e = _java.type("enum E{}");
     }

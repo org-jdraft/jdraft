@@ -1,4 +1,4 @@
-package org.jdraft.prototype;
+package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
@@ -19,7 +19,7 @@ import java.util.function.Predicate;
  */
 public class $typeRef
     implements Template<_typeRef>,
-        $prototype.$node<Type, _typeRef, $typeRef>,
+        $bot.$node<Type, _typeRef, $typeRef>,
         $selector.$node<_typeRef, $typeRef>,
         $method.$part,
         $field.$part,
@@ -182,8 +182,13 @@ public class $typeRef
         return this.predicate;
     }
 
+    public $typeRef setPredicate( Predicate<_typeRef> predicate){
+        this.predicate = predicate;
+        return this;
+    }
+
     /**
-     * Will this typeDecl match ALL typeDecl's
+     * Will this typeRef match ALL typeRef's
      * @return
      */
     public boolean isMatchAny(){

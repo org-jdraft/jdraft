@@ -4,7 +4,6 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.nodeTypes.NodeWithArguments;
-import org.jdraft.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,7 +20,7 @@ import java.util.stream.Collectors;
  * {@link _new}
  * order matters
  *
- * @see org.jdraft.prototype.$arguments for a prototype version
+ * @see org.jdraft.bot.$arguments for a prototype version
  */
 public class _arguments
         implements _java._list<Expression, _expression, _arguments> {
