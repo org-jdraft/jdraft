@@ -1,6 +1,6 @@
 package test.othertools;
 
-import junit.framework.TestCase;
+import static junit.framework.TestCase.*;
 import org.jdraft.*;
 import org.jdraft.io._path;
 import org.jdraft.io._sources;
@@ -18,7 +18,7 @@ import java.io.Serializable;
  *
  *
  */
-public class IntelliJStructuralSearchTest extends TestCase {
+public class IntelliJStructuralSearchTest{
 
     static _sources _SOURCE = _sources.of( _path.of("C:\\jdraft\\project\\jdraft\\src\\main\\java\\org\\jdraft\\diff") );
 
@@ -351,7 +351,7 @@ public class IntelliJStructuralSearchTest extends TestCase {
         _( $class.of().$implements(Cloneable.class ) );
 
         //all direct testcases
-        _( $class.of().$extends( TestCase.class ) );
+        _( $class.of().$extends( junit.framework.TestCase.class ) );
 
         //I could search for n levels deep
         //this is another tool (outside of pattern)
