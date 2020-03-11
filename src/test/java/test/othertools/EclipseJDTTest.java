@@ -5,7 +5,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.comments.Comment;
-import junit.framework.TestCase;
+import static junit.framework.TestCase.*;
 import org.jdraft.*;
 import org.jdraft.io._archive;
 import org.jdraft.io._sources;
@@ -27,7 +27,8 @@ import java.util.stream.Collectors;
  * Eclipse JDT core
  * https://www.vogella.com/tutorials/EclipseJDT/article.html#example-accessing-your-java-projects-with-the-jdt-java-model
  */
-public class EclipseJDTTest extends TestCase {
+
+public class EclipseJDTTest{
 
     //read in/parse and cache some source code from a .jar file
     //public static _sources _cc = _sources.of("C:\\Users\\Eric\\Downloads\\spring-core-5.1.9.RELEASE-sources.jar");
