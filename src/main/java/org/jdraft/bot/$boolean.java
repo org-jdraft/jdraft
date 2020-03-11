@@ -21,7 +21,7 @@ import java.util.function.Predicate;
  */
 public class $boolean implements $bot.$node<BooleanLiteralExpr, _boolean, $boolean>,
         $selector.$node<_boolean, $boolean>,
-        $expr<BooleanLiteralExpr, _boolean, $boolean> {
+        $expression<BooleanLiteralExpr, _boolean, $boolean> {
 
     public static $boolean of() {
         return new $boolean();
@@ -181,17 +181,17 @@ public class $boolean implements $bot.$node<BooleanLiteralExpr, _boolean, $boole
     }
 
     @Override
-    public List<String> list$() {
+    public List<String> $list() {
         if (this.stencil != null) {
-            return this.stencil.list$();
+            return this.stencil.$list();
         }
         return new ArrayList<>();
     }
 
     @Override
-    public List<String> list$Normalized() {
+    public List<String> $listNormalized() {
         if (this.stencil != null) {
-            return this.stencil.list$Normalized();
+            return this.stencil.$listNormalized();
         }
         return new ArrayList<>();
     }

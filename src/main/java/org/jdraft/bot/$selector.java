@@ -29,6 +29,8 @@ public interface $selector<_S, $S> {
      */
     Select<_S> select(_S candidate);
 
+    boolean matches(String candidate);
+
     default boolean matches(_S candidate){
         return select(candidate) != null;
     }

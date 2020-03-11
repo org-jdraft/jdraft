@@ -366,13 +366,13 @@ public class $typeRef
     }
 
     @Override
-    public List<String> list$(){
-        return this.typePattern().list$();
+    public List<String> $list(){
+        return this.typePattern().$list();
     }
 
     @Override
-    public List<String> list$Normalized(){
-        return this.typePattern().list$Normalized();
+    public List<String> $listNormalized(){
+        return this.typePattern().$listNormalized();
     }
 
     public Selected select( Node n){

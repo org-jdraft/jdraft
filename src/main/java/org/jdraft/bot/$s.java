@@ -1,100 +1,93 @@
 package org.jdraft.bot;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Predicate;
-
-import com.github.javaparser.ast.expr.*;
-import org.jdraft._jdraftException;
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.stmt.Statement;
+import org.jdraft.*;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
-import org.jdraft.Ex;
-import org.jdraft._expression;
 
-import com.github.javaparser.ast.Node;
+import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * Prototype for "ANY" expression implementation
  * (Can match against any expression... nice for when you know the stencil/pattern
  * but you dont know the exact Node type
  */
-public class $e 
-	implements $bot.$node<Expression,_expression, $e>,
-		$selector.$node<_expression, $e>,
-		$expression<Expression, _expression, $e> {
+public class $s
+	implements $bot.$node<Statement, _statement, $s>,
+		$selector.$node<_statement, $s>,
+		$statement<Statement, _statement, $s> {
 
-	public static $e of(Stencil stencil ) {
-		return new $e(stencil);
+	public static $s of(Stencil stencil ) {
+		return new $s(stencil);
 	}
 
-	public static $e of(String code) {
-		return new $e( code);
+	public static $s of(String code) {
+		return new $s( code);
 	}
 
-	public static $e of(String... code) {
-		return new $e( code);
+	public static $s of(String... code) {
+		return new $s( code);
 	}
 
-	public static $e of(Predicate<_expression> _matchFn) {
-		return new $e(  ).$and(_matchFn);
+	public static $s of(Predicate<_statement> _matchFn) {
+		return new $s(  ).$and(_matchFn);
 	}
 
-	public static $e of(String stencil, Class<? extends _expression> expressionClasses) {
-		return of(stencil, new Class[]{ expressionClasses} );
+	public static $s of(String stencil, Class<? extends _statement> sClasses) {
+		return of(stencil, new Class[]{ sClasses} );
 	}
 
-	/**
-	 * Build an $expression bot matching and expression with this stencil that implements any of the provided
+    /**
+     * Build an $expression bot matching and expression with this stencil that implements any of the provided
 	 * expressionClasses
 	 * @param stencil
-	 * @param expressionClasses
-	 * @return
-	 */
-	public static $e of(String stencil, Class<? extends _expression>...expressionClasses) {
-		$e ee = new $e();
+     * @param sClasses
+     * @return
+     */
+	public static $s of(String stencil, Class<? extends _statement>...sClasses) {
+		$s ee = new $s();
 		ee.stencil = Stencil.of(stencil);
-		ee.$and(expressionClasses);
+		ee.$and(sClasses);
 		return ee;
 	}
 
-	public $e $and( Class<? extends _expression>...expressionClasses) {
-		Set<Class<? extends _expression>> exprClasses = new HashSet<>();
-		Arrays.stream(expressionClasses).forEach(c -> exprClasses.add(c));
-		Predicate<_expression> pe = (_e)->
-				exprClasses.stream().anyMatch(c -> c.isAssignableFrom( _e.getClass() ));
+	public $s $and(Class<? extends _statement>...sClasses) {
+		Set<Class<? extends _statement>> _stmtClasses = new HashSet<>();
+		Arrays.stream(sClasses).forEach(c -> _stmtClasses.add(c));
+		Predicate<_statement> pe = (_e)->
+				_stmtClasses.stream().anyMatch(c -> c.isAssignableFrom( _e.getClass() ));
 		return $and( pe );
 	}
 
 	/**
-	 * Matches ANY expression that is an instance of any of the expression classes
+	 * Matches ANY expression that is an instance of any of the statement classes
 	 */
-	public static $e of(Class<? extends _expression>...expressionClasses) {
-		return new $e().$and(expressionClasses);
+	public static $s of(Class<? extends _statement>...sClasses) {
+		return new $s().$and(sClasses);
 	}
 
-	public static $e not(Predicate<_expression> _matchFn) {
-		return new $e().$not(_matchFn);
+	public static $s not(Predicate<_statement> _matchFn) {
+		return new $s().$not(_matchFn);
 	}
 
-	public Predicate<_expression> getPredicate(){
+	public Predicate<_statement> getPredicate(){
 		return this.predicate;
 	}
 
-	public $e setPredicate( Predicate<_expression> predicate){
+	public $s setPredicate(Predicate<_statement> predicate){
 		this.predicate = predicate;
 		return this;
 	}
 
 	public Stencil stencil = null;
-	
-	public Predicate<_expression> predicate = p->true;
-	
-	public $e() {
+
+	public Predicate<_statement> predicate = p->true;
+
+	public $s() {
 	}
 	/*
 	public $e(Expression e) {
@@ -108,15 +101,15 @@ public class $e
 	}
 	 */
 
-	public $e(Stencil st) {
-		this.stencil = st;			
+	public $s(Stencil st) {
+		this.stencil = st;
 	}
-	
-	public $e(String...ex) {
+
+	public $s(String...ex) {
 		this.stencil = Stencil.of((Object[])ex);
 	}
 
-	public boolean matches(Expression e){
+	public boolean matches(Statement e){
 		return select(e) != null;
 	}
 
@@ -136,8 +129,8 @@ public class $e
 			}
 			return null;
 		}
-		if( n instanceof Expression ) {
-			_expression _e = _expression.of( (Expression)n);
+		if( n instanceof Statement ) {
+			_statement _e = _statement.of( (Statement)n);
 			if( this.predicate.test(_e )) {
 				//if( this.expressionClassSet.con)
 				if(this.stencil == null ) {
@@ -156,15 +149,15 @@ public class $e
 
 	public String toString(){
 		if( this.stencil == null ){
-			return "$e{}";
+			return "$s{}";
 		}
-		return "$e{"+ this.stencil +"}";
+		return "$s{"+ this.stencil +"}";
 	}
 
 	@Override
 	public Selected select(String code) {
 		try {
-			Expression e = Ex.of(code);
+			Statement e = Stmt.of(code);
 			return select(e);
 		}catch(Exception e) {
 			return null;
@@ -174,7 +167,7 @@ public class $e
 	@Override
 	public Selected select(String... code) {
 		try {
-			Expression e = Ex.of(code);
+			Statement e = Stmt.of(code);
 			return select(e);
 		}catch(Exception e) {
 			return null;
@@ -183,7 +176,7 @@ public class $e
 	}
 
 	@Override
-	public Selected select(_expression candidate) {
+	public Selected select(_statement candidate) {
 		if( candidate == null) {
 			if( isMatchAny() ) {
 				return new Selected( null, new Tokens());
@@ -202,19 +195,19 @@ public class $e
 		return false;
 	}
 	
-	public $e $and(Predicate<_expression> matchFn) {
+	public $s $and(Predicate<_statement> matchFn) {
 		this.predicate = this.predicate.and(matchFn);
 		return this;
 	}
 
 	@Override
-	public $e $not(Predicate<_expression> matchFn) {
+	public $s $not(Predicate<_statement> matchFn) {
 		this.predicate = this.predicate.and(matchFn.negate());
 		return this;
 	}
 
 	@Override
-	public _expression draft(Translator translator, Map<String, Object> keyValues) {
+	public _statement draft(Translator translator, Map<String, Object> keyValues) {
 		 if (this.stencil == null) {
              // I might NOT set the
              String overrideName = this.getClass().getSimpleName();
@@ -231,8 +224,8 @@ public class $e
                  stencil = Stencil.of(override.toString());
              }
              String drafted = stencil.draft(translator, keyValues);
-             
-             _expression _e = _expression.of(drafted);
+
+			 _statement _e = _statement.of(drafted);
              if( predicate.test(_e)) {
             	 return _e;
              }
@@ -244,7 +237,7 @@ public class $e
          if (draftedCode != null) {
              // if the drafted code is built
              // create an instance of the object based on the drafted code
-             _expression _e = _expression.of(draftedCode);
+			 _statement _e = _statement.of(draftedCode);
              if (predicate.test(_e)) {
                  // run all the
                  return _e;
@@ -254,7 +247,7 @@ public class $e
 	}
 
 	@Override
-	public $e $(String target, String $Name) {
+	public $s $(String target, String $Name) {
 		if( this.stencil != null ) {
 			this.stencil = this.stencil.$(target, $Name);
 		}
@@ -280,8 +273,8 @@ public class $e
 	/**
 	 * This makes it easier to NOT have to do silly things with generics on the outside
 	 */
-	public static class Selected <_E extends _expression> extends Select<_E> {
-		public Selected(_E _node, Tokens tokens) {
+	public static class Selected <_S extends _statement> extends Select<_S> {
+		public Selected(_S _node, Tokens tokens) {
 			super(_node, tokens);
 		}		
 	}	

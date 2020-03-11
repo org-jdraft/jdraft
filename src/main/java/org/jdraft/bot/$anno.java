@@ -36,15 +36,6 @@ public class $anno
         return AnnotationExpr.class;
     }
 
-    /**
-     * Returns the _java node implementation type
-     * @return
-
-    public Class<_anno> _modelType(){
-        return _anno.class;
-    }
-    */
-
     public static $anno of(){
         return new $anno( $id.of() );
     }
@@ -149,8 +140,7 @@ public class $anno
     }
 
     //internal (or) constructor
-    protected $anno(){
-    }
+    protected $anno(){ }
 
     /**
      *
@@ -282,6 +272,7 @@ public class $anno
         this.predicate = this.predicate.and(constraint);
         return this;
     }
+
     public $anno $not( Predicate<_anno> constraint) {
         return $and( constraint.negate());
     }
@@ -473,23 +464,23 @@ public class $anno
     }
 
     @Override
-    public List<String> list$() {
+    public List<String> $list() {
         List<String> params = new ArrayList<>();
         params.addAll( this.name.list$() );
         this.$mvs.forEach(m -> {
-            params.addAll( m.key.idStencil.list$() );
-            params.addAll( m.value.list$() );
+            params.addAll( m.key.idStencil.$list() );
+            params.addAll( m.value.$list() );
         });
         return params;
     }
 
     @Override
-    public List<String> list$Normalized() {
+    public List<String> $listNormalized() {
         List<String> params = new ArrayList<>();
         params.addAll( this.name.list$() );
         this.$mvs.forEach(m -> {
-            params.addAll( m.key.idStencil.list$Normalized() );
-            params.addAll( m.value.list$Normalized() );
+            params.addAll( m.key.idStencil.$listNormalized() );
+            params.addAll( m.value.$listNormalized() );
         });
         return params.stream().distinct().collect(Collectors.toList() );
     }
@@ -987,13 +978,13 @@ public class $anno
          }
 
          @Override
-         public List<String> list$(){
-             return ors.stream().map( $a ->$a.list$() ).flatMap(Collection::stream).collect(Collectors.toList());
+         public List<String> $list(){
+             return ors.stream().map( $a ->$a.$list() ).flatMap(Collection::stream).collect(Collectors.toList());
          }
 
          @Override
-         public List<String> list$Normalized(){
-             return ors.stream().map( $a ->$a.list$Normalized() ).flatMap(Collection::stream).distinct().collect(Collectors.toList());
+         public List<String> $listNormalized(){
+             return ors.stream().map( $a ->$a.$listNormalized() ).flatMap(Collection::stream).distinct().collect(Collectors.toList());
          }
 
          @Override

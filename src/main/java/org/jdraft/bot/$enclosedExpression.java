@@ -13,7 +13,7 @@ import java.util.function.Predicate;
 
 public class $enclosedExpression implements $bot.$node<EnclosedExpr, _enclosedExpression, $enclosedExpression>,
         $selector.$node<_enclosedExpression, $enclosedExpression>,
-        $expr<EnclosedExpr, _enclosedExpression, $enclosedExpression>, Template<_enclosedExpression> {
+        $expression<EnclosedExpr, _enclosedExpression, $enclosedExpression>, Template<_enclosedExpression> {
 
     public static $enclosedExpression of() {
         return new $enclosedExpression();
@@ -111,26 +111,26 @@ public class $enclosedExpression implements $bot.$node<EnclosedExpr, _enclosedEx
         return this;
     }
 
-    public List<String> list$() {
-        return this.expression.list$();
+    public List<String> $list() {
+        return this.expression.$list();
     }
 
-    public List<String> list$Normalized() {
-        return this.expression.list$Normalized();
+    public List<String> $listNormalized() {
+        return this.expression.$listNormalized();
     }
 
-    public $enclosedExpression $type($expr $t) {
+    public $enclosedExpression $type($expression $t) {
         this.expression = $t;
         return this;
     }
 
     public $enclosedExpression $type(_expression _e) {
-        this.expression = $e.of(_e);
+        this.expression = $expression.of(_e);
         return this;
     }
 
     public $enclosedExpression $type(String... astE) {
-        this.expression = $e.of(Text.combine(astE));
+        this.expression = $expression.of(Text.combine(astE));
         return this;
     }
 
@@ -151,17 +151,17 @@ public class $enclosedExpression implements $bot.$node<EnclosedExpr, _enclosedEx
 
     Predicate<_enclosedExpression> predicate = (a) -> true;
 
-    $expr expression = $e.of();
+    $expression expression = $expression.of();
 
     public $enclosedExpression() {
     }
 
     public $enclosedExpression(EnclosedExpr e) {
-        this.expression = $e.of(e.getInner());
+        this.expression = $expression.of(e.getInner());
     }
 
     public $enclosedExpression(_enclosedExpression _e) {
-        this.expression = $e.of(_e.getExpression());
+        this.expression = $expression.of(_e.getExpression());
     }
 
     public $enclosedExpression(Predicate<_enclosedExpression> predicate) {

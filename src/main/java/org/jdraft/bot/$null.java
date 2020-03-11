@@ -21,7 +21,7 @@ import java.util.function.Predicate;
  */
 public class $null implements $bot.$node<NullLiteralExpr, _null, $null>,
         $selector.$node<_null, $null>,
-        $expr<NullLiteralExpr, _null, $null> {
+        $expression<NullLiteralExpr, _null, $null> {
 
     public static $null of() {
         return new $null();
@@ -174,17 +174,17 @@ public class $null implements $bot.$node<NullLiteralExpr, _null, $null>,
     }
 
     @Override
-    public List<String> list$() {
+    public List<String> $list() {
         if (this.stencil != null) {
-            return this.stencil.list$();
+            return this.stencil.$list();
         }
         return new ArrayList<>();
     }
 
     @Override
-    public List<String> list$Normalized() {
+    public List<String> $listNormalized() {
         if (this.stencil != null) {
-            return this.stencil.list$Normalized();
+            return this.stencil.$listNormalized();
         }
         return new ArrayList<>();
     }

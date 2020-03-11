@@ -17,7 +17,7 @@ import java.util.function.Predicate;
 
 public class $classExpression implements $bot.$node<ClassExpr, _classExpression, $classExpression>,
         $selector.$node<_classExpression, $classExpression>,
-        $expr<ClassExpr, _classExpression, $classExpression>, Template<_classExpression> {
+        $expression<ClassExpr, _classExpression, $classExpression>, Template<_classExpression> {
 
     public static $classExpression of() {
         return new $classExpression();
@@ -115,12 +115,12 @@ public class $classExpression implements $bot.$node<ClassExpr, _classExpression,
         return this;
     }
 
-    public List<String> list$() {
-        return this.type.list$();
+    public List<String> $list() {
+        return this.type.$list();
     }
 
-    public List<String> list$Normalized() {
-        return this.type.list$Normalized();
+    public List<String> $listNormalized() {
+        return this.type.$listNormalized();
     }
 
     public $classExpression $type($typeRef $t) {

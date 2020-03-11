@@ -23,7 +23,7 @@ import java.util.function.Predicate;
  */
 public class $textBlock implements $bot.$node<TextBlockLiteralExpr, _textBlock, $textBlock>,
         $selector.$node<_textBlock, $textBlock>,
-        $expr<TextBlockLiteralExpr, _textBlock, $textBlock> {
+        $expression<TextBlockLiteralExpr, _textBlock, $textBlock> {
 
     public static $textBlock of() {
         return new $textBlock();
@@ -180,17 +180,17 @@ public class $textBlock implements $bot.$node<TextBlockLiteralExpr, _textBlock, 
     }
 
     @Override
-    public List<String> list$() {
+    public List<String> $list() {
         if (this.stencil != null) {
-            return this.stencil.list$();
+            return this.stencil.$list();
         }
         return new ArrayList<>();
     }
 
     @Override
-    public List<String> list$Normalized() {
+    public List<String> $listNormalized() {
         if (this.stencil != null) {
-            return this.stencil.list$Normalized();
+            return this.stencil.$listNormalized();
         }
         return new ArrayList<>();
     }

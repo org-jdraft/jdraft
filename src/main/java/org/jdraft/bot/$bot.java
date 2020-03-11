@@ -3,14 +3,17 @@ package org.jdraft.bot;
 import com.github.javaparser.ast.Node;
 import org.jdraft.*;
 import org.jdraft.text.Template;
+import org.jdraft.text.Tokens;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -273,6 +276,116 @@ public interface $bot<B, _B, $B>
 
     default Stream<_B> streamIn(Node astNode, Predicate<_B> matchFn){
         return listIn(astNode, matchFn).stream();
+    }
+
+    /**
+     * This is HOW the Larger level $bots (i.e. {@link $methodCall}) organize and assign the embedded bots
+     * ({@link $methodCall#scope}, {@link $methodCall#name}, {@link $methodCall#arguments}, {@link $methodCall#typeArguments}
+     * Assigns a bot to a specific syntactical entity:
+     * (for example we might have a $name bot instance and we want to assign it to
+     * the name of a $method bot... it will take in the _method, and it will know how to select
+     * the name of a particular method.
+     *
+     * internally stores
+     * A function for extracting the target entity from the candidate (i.e. (_meth)-> _meth.getName() )
+     * applying a specific bot to it (i.e.
+     * 1) extracting a child entity from it's parent
+     * 2) using a specific bot to test
+     */
+    class $botSelect<_JP extends _java._domain, _JC> implements BiFunction<_JP, Tokens, Tokens> {
+
+        /** extract the (_JC) child entity from the (_JP)parent (so the bot can operate on the _JC entity)*/
+        public Function<_JP,_JC> extract;
+
+        /** the bot that will select from the _JC child entity*/
+        public $bot<?, _JC, ?> bot;
+
+        public $botSelect( Function<_JP, _JC> extract, $bot<?,_JC,?> bot){
+            this.extract = extract;
+            this.bot = bot;
+        }
+
+        public $botSelect setBot($bot<?, _JC, ?> bot ){
+            this.bot = bot;
+            return this;
+        }
+
+        /**
+         * given a candidate Parent object, and Tokens,
+         * 1) assuming the seriesTokens are not null
+         * 2) extract the child _JC from the parent _JP
+         * 3) try to select with the bot with _JC as input
+         *
+         * @param j
+         * @param seriesTokens
+         * @return
+         */
+        @Override
+        public Tokens apply(_JP j, Tokens seriesTokens) {
+            if( seriesTokens == null ){
+                return null; //if tokens was null, it means the bot before in the series failed, so dont waste time testing
+            }
+            _JC _jc = extract.apply(j); //extract the _JC child entity from the _JP parent
+            Select<_JC> sel = bot.select(_jc); //
+            if( sel == null ){
+                return null;
+            }
+            if( seriesTokens.isConsistent(sel.tokens)){ //verify consistency, (no two tokens with the same name have a different value
+                seriesTokens.putAll(sel.tokens); //if they are consistent, add/merge the tokens
+                return seriesTokens; //return the updated tokens including the selected tokens from the bot
+            }
+            return null;
+        }
+    }
+
+    /**
+     * a bot that can interact with a composite syntax with other (nested) bots for it's individual parts
+     * for instance, a $methodCall is a bot that represents a method call, it has (4) internal part-bots
+     * <UL>
+     *     <LI>{@link $methodCall#scope}</LI>
+     *     <LI>{@link $methodCall#typeArguments}</LI>
+     *     <LI>{@link $methodCall#name}</LI>
+     *     <LI>{@link $methodCall#arguments}</LI>
+     * </UL>
+     *  when we test to see if any given {@link _methodCall} is a match, we ask each part-Bot to inspect each part
+     *  and see if they match, if they DO, then we know the {@link _methodCall} matches
+     * (NanoMachines Son) sorry had to
+     */
+    interface $multiBot<MB, _MB, $MB extends Template<_MB>> extends $bot<MB, _MB, $MB>, $selector<_MB, $MB>, Template<_MB>{
+
+        /**
+         * lists all the embedded bots that can help inspect or mutate the direct parts
+         * of the main (parent) bot
+         * the $ prefix is because we are not commanding the bot to do anything
+         * but rather operating on the bot itslef
+         */
+        List<$bot> $listBots();
+
+        default boolean isMatchAny(){
+            if($listBots().stream().allMatch($b-> $b.isMatchAny()) ){
+                try{
+                    return getPredicate().test(null);
+                }catch(Exception e){ }
+            }
+            return false;
+        }
+
+        default $MB $(String target, String $name){
+            $listBots().forEach(b -> b.$(target, $name));
+            return ($MB)this;
+        }
+
+        default List<String> $list(){
+            List<String> strs = new ArrayList<>();
+            $listBots().forEach(b -> strs.addAll( b.$list() ));
+            return strs;
+        }
+
+        default List<String> $listNormalized(){
+            List<String> strs = new ArrayList<>();
+            $listBots().forEach(b -> strs.addAll( b.$list() ));
+            return strs.stream().distinct().collect(Collectors.toList());
+        }
     }
 
     /**

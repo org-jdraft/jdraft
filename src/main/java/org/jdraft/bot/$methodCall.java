@@ -15,11 +15,12 @@ import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
 /**
- *
+ * Bot for inspecting and mutating {@link _methodCall}s / {@link MethodCallExpr}s
  */
 public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $methodCall>,
+        $bot.$multiBot<MethodCallExpr, _methodCall, $methodCall>,
         $selector.$node<_methodCall, $methodCall>,
-        $expr<MethodCallExpr, _methodCall, $methodCall> {
+        $expression<MethodCallExpr, _methodCall, $methodCall> {
 
     public interface $part{}
 
@@ -35,24 +36,6 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
     public static $methodCall of( $part...parts){
         $methodCall $mc = of();
         return addParts($mc, parts);
-    }
-
-    private static $methodCall addParts( $methodCall $mc, $part...parts ){
-        for(int i=0;i<parts.length;i++){
-            if( parts[i] instanceof $name){
-                $mc.name = ($name)parts[i];
-            }
-            if( parts[i] instanceof $expr){
-                $mc.scope = ($expr)parts[i];
-            }
-            if( parts[i] instanceof $arguments){
-                $mc.arguments = ($arguments)parts[i];
-            }
-            if( parts[i] instanceof $typeArguments){
-                $mc.typeArguments = ($typeArguments)parts[i];
-            }
-        }
-        return $mc;
     }
 
     public static $methodCall of() {
@@ -80,23 +63,46 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
         return new $methodCall().$and(_matchFn);
     }
 
+    private static $methodCall addParts( $methodCall $mc, $part...parts ){
+        for(int i=0;i<parts.length;i++){
+            if( parts[i] instanceof $name){
+                $mc.name = ($name)parts[i];
+            }
+            if( parts[i] instanceof $expression){
+                $mc.scope = ($expression)parts[i];
+            }
+            if( parts[i] instanceof $arguments){
+                $mc.arguments = ($arguments)parts[i];
+            }
+            if( parts[i] instanceof $typeArguments){
+                $mc.typeArguments = ($typeArguments)parts[i];
+            }
+        }
+        return $mc;
+    }
 
+    public List<$bot> $listBots(){
+        List<$bot> bots = new ArrayList();
+        bots.add( this.scope );
+        bots.add( this.typeArguments );
+        bots.add( this.name );
+        bots.add( this.arguments );
+        return bots;
+    }
 
     public Predicate<_methodCall> predicate = d -> true;
 
-    //the parts of the method call
+    public $expression scope = $expression.of();
+    public $typeArguments typeArguments = $typeArguments.of();
     public $name name = $name.of();
     public $arguments arguments = $arguments.of();
-    public $typeArguments typeArguments = $typeArguments.of();
-    public $expr scope = $e.of();
 
-    public $methodCall() {
-    }
+    public $methodCall() { }
 
     public $methodCall(_methodCall _mc){
         name = $name.of(_mc.getName());
         if( _mc.hasScope()){
-            scope = $e.of(_mc.getScope());
+            scope = $expression.of(_mc.getScope());
         }
         if( _mc.hasArguments() ){
             arguments = $arguments.of(_mc.getArguments());
@@ -115,6 +121,7 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
         return this;
     }
 
+    /*
     public $methodCall $and(Predicate<_methodCall> _matchFn) {
         this.predicate = this.predicate.and(_matchFn);
         return this;
@@ -124,6 +131,7 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
         this.predicate = this.predicate.and(_matchFn.negate());
         return this;
     }
+     */
 
     public boolean isMatchAny(){
         if( this.name.isMatchAny() && this.scope.isMatchAny() && arguments.isMatchAny() && typeArguments.isMatchAny()){
@@ -134,6 +142,7 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
         return false;
     }
 
+    /*
     public Selected select(String code) {
         try {
             return select(_methodCall.of(code));
@@ -141,6 +150,7 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
             return null;
         }
     }
+     */
 
     public Selected select(String... code) {
         try {
@@ -213,7 +223,7 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
 
     public _methodCall draft(Translator tr, Map<String,Object> keyValues){
         _methodCall _mc = _methodCall.of();
-        _mc.setName(this.name.draft(tr, keyValues));
+        _mc.setName(this.name.draft(tr, keyValues).name.toString());
         if( !this.scope.isMatchAny() ){
             _mc.setScope( (_expression)this.scope.draft(tr, keyValues));
         }
@@ -241,22 +251,22 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
     }
 
     @Override
-    public List<String> list$() {
+    public List<String> $list() {
         List<String> ps = new ArrayList<>();
-        ps.addAll( this.scope.list$());
-        ps.addAll( this.typeArguments.list$());
-        ps.addAll( this.name.list$());
-        ps.addAll(this.arguments.list$());
+        ps.addAll( this.scope.$list());
+        ps.addAll( this.typeArguments.$list());
+        ps.addAll( this.name.$list());
+        ps.addAll(this.arguments.$list());
         return ps;
     }
 
     @Override
-    public List<String> list$Normalized() {
+    public List<String> $listNormalized() {
         List<String> ps = new ArrayList<>();
-        ps.addAll( this.scope.list$Normalized());
-        ps.addAll( this.typeArguments.list$Normalized());
-        ps.addAll( this.name.list$Normalized());
-        ps.addAll( this.arguments.list$Normalized());
+        ps.addAll( this.scope.$listNormalized());
+        ps.addAll( this.typeArguments.$listNormalized());
+        ps.addAll( this.name.$listNormalized());
+        ps.addAll( this.arguments.$listNormalized());
         return ps.stream().distinct().collect(Collectors.toList());
     }
 
@@ -330,7 +340,7 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
         return this;
     }
 
-    public $methodCall $arguments($expr...args){
+    public $methodCall $arguments($expression...args){
         this.arguments = $arguments.of(args);
         return this;
     }
@@ -351,7 +361,7 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
     }
 
     public $methodCall $name(Predicate<String> matchFn){
-        this.name.$and(matchFn);
+        this.name.$and(n -> matchFn.test( n.toString()) );
         return this;
     }
 
@@ -366,16 +376,16 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
     }
 
     //$withScope interface
-    public $expr get$scope(){
+    public $expression get$scope(){
         return this.scope;
     }
 
     public $methodCall $scope( ){
-        this.scope = $e.of();
+        this.scope = $expression.of();
         return this;
     }
 
-    public $methodCall $scope( $expr $e ){
+    public $methodCall $scope( $expression $e ){
         this.scope = $e;
         return this;
     }
@@ -386,22 +396,22 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
     }
 
     public $methodCall $scope(Class<? extends _expression>...expressionClasses){
-        this.scope = $e.of(expressionClasses);
+        this.scope = $expression.of(expressionClasses);
         return this;
     }
 
     public $methodCall $scope(String expression){
-        this.scope = $e.of(expression);
+        this.scope = $expression.of(expression);
         return this;
     }
 
     public $methodCall $scope(Expression e){
-        this.scope = $e.of(e);
+        this.scope = $expression.of(e);
         return this;
     }
 
     public $methodCall $scope(_expression _e){
-        this.scope = $e.of(_e);
+        this.scope = $expression.of(_e);
         return this;
     }
 

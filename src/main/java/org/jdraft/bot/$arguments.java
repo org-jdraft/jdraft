@@ -3,9 +3,7 @@ package org.jdraft.bot;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.nodeTypes.NodeWithArguments;
-import org.jdraft._arguments;
-import org.jdraft._expression;
-import org.jdraft._jdraftException;
+import org.jdraft.*;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
@@ -14,6 +12,16 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+/**
+ * bot to deal with Argument Lists used in:
+ * {@link _methodCall}
+ * {@link _constant}
+ * {@link _constructorCallStmt}
+ * {@link _new}
+ * order matters
+ *
+ * @param <N>
+ */
 public class $arguments<N extends Node & NodeWithArguments>
         implements $bot<N, _arguments, $arguments>, $methodCall.$part {
 
@@ -33,7 +41,7 @@ public class $arguments<N extends Node & NodeWithArguments>
         return of( _arguments.of(args));
     }
 
-    public static $arguments of( $expr ...$es){
+    public static $arguments of( $expression...$es){
         return new $arguments($es);
     }
 
@@ -45,7 +53,7 @@ public class $arguments<N extends Node & NodeWithArguments>
         return new $arguments.Or($as);
     }
 
-    public List<$expr> argumentList = new ArrayList<>();
+    public List<$expression> argumentList = new ArrayList<>();
     public Predicate<_arguments> predicate = p->true;
 
     public $arguments(){ }
@@ -56,17 +64,17 @@ public class $arguments<N extends Node & NodeWithArguments>
 
     public $arguments(_arguments args){
         for(int i=0;i<args.size(); i++){
-            argumentList.add( $e.of(args.getAt(i)));
+            argumentList.add( $expression.of(args.getAt(i)));
         }
     }
 
     public $arguments(_expression..._exs){
         for(int i=0;i<_exs.length; i++){
-            argumentList.add( $e.of(_exs[i]));
+            argumentList.add( $expression.of(_exs[i]));
         }
     }
 
-    public $arguments($expr...$exs){
+    public $arguments($expression...$exs){
         for(int i=0;i<$exs.length; i++){
             argumentList.add( $exs[i]);
         }
@@ -245,16 +253,16 @@ public class $arguments<N extends Node & NodeWithArguments>
     }
 
     @Override
-    public List<String> list$() {
+    public List<String> $list() {
         List<String> sts = new ArrayList<>();
-        this.argumentList.forEach(a -> sts.addAll( a.list$()));
+        this.argumentList.forEach(a -> sts.addAll( a.$list()));
         return sts;
     }
 
     @Override
-    public List<String> list$Normalized() {
+    public List<String> $listNormalized() {
         List<String> sts = new ArrayList<>();
-        this.argumentList.forEach(a -> sts.addAll( a.list$Normalized()));
+        this.argumentList.forEach(a -> sts.addAll( a.$listNormalized()));
         return sts.stream().distinct().collect(Collectors.toList());
     }
 

@@ -233,16 +233,16 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
     }
 
     @Override
-    public List<String> list$() {
+    public List<String> $list() {
         List<String> sts = new ArrayList<>();
-        this.list.forEach(a -> sts.addAll( a.list$()));
+        this.list.forEach(a -> sts.addAll( a.$list()));
         return sts;
     }
 
     @Override
-    public List<String> list$Normalized() {
+    public List<String> $listNormalized() {
         List<String> sts = new ArrayList<>();
-        this.list.forEach(a -> sts.addAll( a.list$Normalized()));
+        this.list.forEach(a -> sts.addAll( a.$listNormalized()));
         return sts.stream().distinct().collect(Collectors.toList());
     }
 
