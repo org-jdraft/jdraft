@@ -24,6 +24,10 @@ import java.util.stream.Collectors;
  */
 public class _sources<_C extends _codeUnit> implements _codeUnit._provider {
 
+    public static _sources of(){
+        return new _sources(new ArrayList<_codeUnit>());
+    }
+
     public static _sources of(_codeUnit._provider..._providers ){
         List<_codeUnit> all = new ArrayList<>();
         Arrays.stream(_providers).forEach(_p -> all.addAll(_p.list_code()));
@@ -79,11 +83,19 @@ public class _sources<_C extends _codeUnit> implements _codeUnit._provider {
         return of(Arrays.stream(_codeToCache).collect(Collectors.toList()));
     }
 
+    public static _sources of(CompilationUnit... asts) {
+        return of(Arrays.stream(asts).map(ast->_java.codeUnit(ast)).collect(Collectors.toList()));
+    }
+
     public static <_C extends _codeUnit> _sources of(List<_C> _codeToCache){
         return new _sources( _codeToCache );
     }
 
-    List<_C> codeList;
+    public int size(){
+        return codeList.size();
+    }
+
+    public List<_C> codeList;
 
     public _sources(List<_C> _codeToCache ){
         this.codeList = _codeToCache;
@@ -178,6 +190,22 @@ public class _sources<_C extends _codeUnit> implements _codeUnit._provider {
 
     public _sources add(_codeUnit._provider..._providers){
         Arrays.stream(_providers).forEach(_p -> this.codeList.addAll( (List<_C>) _p.list_code()));
+        return this;
+    }
+
+    /**
+     * Removes
+     * @param fullyQualifiedClassNames
+     * @return
+     */
+    public _sources remove( String...fullyQualifiedClassNames){
+        Arrays.stream(fullyQualifiedClassNames).forEach( cn ->
+            this.codeList.removeIf( t-> t.getFullName().equals(cn)) );
+        return this;
+    }
+
+    public _sources remove( Predicate<_codeUnit> _matchFn){
+        this.codeList.removeIf(_matchFn);
         return this;
     }
 
