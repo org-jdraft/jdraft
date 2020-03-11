@@ -1511,6 +1511,12 @@ public interface _java {
         String getName();
 
         /**
+         * returns the name node (a {@link SimpleName} or a {@link Name})
+         * @return
+         */
+        Node getNameNode();
+
+        /**
          *
          * @param name
          * @return

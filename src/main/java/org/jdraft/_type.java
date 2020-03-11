@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
+import com.github.javaparser.ast.expr.ObjectCreationExpr;
+import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.nodeTypes.*;
 import com.github.javaparser.ast.stmt.LocalClassDeclarationStmt;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
@@ -373,6 +375,29 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         return (_T)this;
     }
 
+    default List<_java._memberBodyPart> listMembers( Predicate<_java._memberBodyPart> _matchFn){
+        List<_java._memberBodyPart> _ms = new ArrayList<>();
+        NodeList<BodyDeclaration<?>> bds = ast().getMembers();
+
+        bds.forEach(b -> {
+            if( b instanceof FieldDeclaration ){
+                FieldDeclaration fd = (FieldDeclaration)b;
+                fd.getVariables().forEach( v-> {
+                    _field _f = _field.of(v);
+                    if( _matchFn.test(_f)) {
+                        _ms.add(_f);
+                    }
+                });
+            } else {
+                _java._memberBodyPart _mbp = (_java._memberBodyPart) _java.of(b);
+                if( _matchFn.test(_mbp)) {
+                    _ms.add(_mbp);
+                }
+            }
+        } );
+        return _ms;
+    }
+
     /**
      * List the {@link _java._memberBodyPart}s: ({@link _initBlock}s, {@link _field}s, {@link _method}s, {@link _constructor}s,
      * {@link _constant}s, {@link _annotation._entry}s) , and inner{@link _type}s, {@link _enum}s,
@@ -482,6 +507,12 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      */
     default _T forMembers(Consumer<_java._memberBodyPart> _memberActionFn){
         listMembers().forEach(_memberActionFn);
+        return (_T)this;
+    }
+
+
+    default _T forMembers(Predicate<_java._memberBodyPart> mb, Consumer<_java._memberBodyPart> _memberAction){
+        listMembers(mb).forEach(_memberAction);
         return (_T)this;
     }
 
@@ -784,7 +815,29 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         if( n instanceof LocalClassDeclarationStmt ){
           LocalClassDeclarationStmt lc = (LocalClassDeclarationStmt) n;
           return lc.getClassDeclaration().getNameAsString();
-        } else {
+        }
+        if( n instanceof ObjectCreationExpr){ //anonymous class
+            ObjectCreationExpr oce = (ObjectCreationExpr) n;
+            String designator = "";
+            if( oce.findCompilationUnit().isPresent()){
+                CompilationUnit cu = oce.findCompilationUnit().get();
+                if(cu.getPrimaryTypeName().isPresent()){
+                    designator = cu.getPrimaryTypeName().get();
+                }
+            }
+            Optional<Node> on = oce.stream(Node.TreeTraversal.PARENTS).filter(node -> node instanceof CallableDeclaration).findFirst();
+            if( on.isPresent() ){
+                designator = designator +"_"+((CallableDeclaration)on.get()).getNameAsString();
+            }
+            if(oce.getRange().isPresent()){
+                int line = oce.getRange().get().begin.line;
+                int column = oce.getRange().get().begin.column;
+                designator = designator +"_"+line+"_"+column;
+            }
+            return "anonymous_"+designator;
+        }
+        else {
+
             NodeWithName nwn = (NodeWithName) n;
             name = nwn.getNameAsString() + "." + name;
             if (n.getParentNode().isPresent()) {
@@ -1006,6 +1059,8 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         }
         return (_T)this;
     }
+
+    default SimpleName getNameNode() { return ast().getName(); }
 
     @Override
     default String getName(){
@@ -1550,6 +1605,36 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
          * @return
          */
         _HI removeImplements(ClassOrInterfaceType coit );
+
+        /**
+         * If you pass in a fully qualified name, this will remove ONLY this name i.e. "aaaa.bbbb.C"
+         * if you pass in a simple name "C" this will remove ALL that match this
+         * @param toRemove
+         * @return
+         */
+        default _HI removeImplements(String toRemove){
+            NodeWithImplements nwi = ((NodeWithImplements)((_type)this).ast());
+            if( toRemove.contains(".") ) { //they passed in a fully qualified name, so remove exact match
+                nwi.getImplementedTypes().removeIf(i -> ((ClassOrInterfaceType) i).getNameAsString().equals(toRemove));
+            } else{
+                nwi.getImplementedTypes().removeIf(i -> {
+                    String lastName = ((ClassOrInterfaceType) i).getNameAsString();
+                    int dotIndex = lastName.lastIndexOf('.');
+                    if( dotIndex > 0 ){
+                        lastName = lastName.substring(dotIndex + 1);
+                    }
+                    return Objects.equals( lastName, toRemove);
+                });
+            }
+            return (_HI)this;
+        }
+
+        default _HI removeImplements(_interface _i){
+            removeImplements(_i.getSimpleName());
+            removeImplements(_i.getFullName());
+            //Arrays.stream( toImplement ).forEach(i -> nwi.addImplementedType( i ) );
+            return (_HI)this;
+        }
     }
 
     /**

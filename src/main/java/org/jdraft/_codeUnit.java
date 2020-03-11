@@ -206,11 +206,11 @@ public interface _codeUnit<_CU> extends _java._domain {
 
     /**
      *
-     * @param _typesToRemove
+     * @param _importTypesToRemove
      * @return
      */
-    default _CU removeImports(_type... _typesToRemove) {
-        getImports().remove(_typesToRemove);
+    default _CU removeImports(_type... _importTypesToRemove) {
+        getImports().remove(_importTypesToRemove);
         return (_CU) this;
     }
 

@@ -4,9 +4,11 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
 import com.github.javaparser.ast.type.Type;
 
@@ -77,7 +79,9 @@ public final class _parameter
     public _parameter copy(){
         return of( this.astParameter.toString());
     }
-    
+
+    public SimpleName getNameNode() { return this.astParameter.getName(); }
+
     @Override
     public _parameter setName(String name ) {
         this.astParameter.setName( name );

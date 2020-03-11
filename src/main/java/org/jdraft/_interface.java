@@ -424,7 +424,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         inners.addAll(  this.listInnerTypes() );
 
         Set<_type> companionTypes = new HashSet<>();
-        companionTypes.addAll(listCompanionTypes());
+        //companionTypes.addAll(listCompanionTypes());
 
         hash = 53 * Objects.hash( this.getPackage(), 
             Ex.hashAnnos(astInterface),

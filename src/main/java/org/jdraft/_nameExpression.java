@@ -1,12 +1,15 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.NameExpr;
+import com.github.javaparser.ast.expr.SimpleName;
 import org.jdraft.text.Text;
 
 import java.util.Objects;
 
 public class _nameExpression
-        implements _expression<NameExpr, _nameExpression>, _java._uniPart<NameExpr, _nameExpression>, _java._withName<_nameExpression> {
+        implements _expression<NameExpr, _nameExpression>,
+        _java._uniPart<NameExpr, _nameExpression>,
+        _java._withName<_nameExpression> {
 
     public static _nameExpression of(){
         return new _nameExpression( new NameExpr( ));
@@ -42,6 +45,8 @@ public class _nameExpression
     public NameExpr ast(){
         return ne;
     }
+
+    public SimpleName getNameNode(){ return this.ne.getName(); }
 
     public String getName(){
         return this.ne.getNameAsString();

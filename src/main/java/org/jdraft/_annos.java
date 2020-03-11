@@ -75,6 +75,7 @@ public class _annos
         return new _annos( astTypeParam );
     }
 
+
     public static <T extends Type> _annos of(T t ){
         return new _annos( new _anno.Type_annoPatch(t) );
     }

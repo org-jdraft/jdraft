@@ -1,6 +1,5 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 
@@ -86,39 +85,6 @@ public class _expressionStmt implements _statement<ExpressionStmt, _expressionSt
         } catch(Exception e){ }
         return false;
     }
-
-    /*
-    public _expression getExpression(){
-        return _expression.of( this.astStmt.getExpression());
-    }
-
-    public boolean isExpression(String...expr){
-        return Objects.equals( this.astStmt.getExpression(), Ex.of(expr));
-    }
-
-    public boolean isExpression(Expression e){
-        return Objects.equals( this.astStmt.getExpression(), e);
-    }
-
-    public boolean isExpression(_expression _e){
-        return Objects.equals( _expression.of(this.astStmt.getExpression()), _e);
-    }
-
-    public _expressionStmt setExpression(String...expr){
-        this.astStmt.setExpression(Ex.of(expr));
-        return this;
-    }
-
-    public _expressionStmt setExpression(Expression e){
-        this.astStmt.setExpression(e);
-        return this;
-    }
-
-    public _expressionStmt setExpression(_expression _e){
-        this.astStmt.setExpression(_e.ast());
-        return this;
-    }
-    */
 
     public ExpressionStmt ast(){
         return astStmt;

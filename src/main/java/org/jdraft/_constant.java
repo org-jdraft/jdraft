@@ -1,9 +1,11 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
 import org.jdraft.text.Text;
 
@@ -348,6 +350,8 @@ public class _constant implements _java._declaredBodyPart<EnumConstantDeclaratio
                 });
         return ms;
     }
+
+    public SimpleName getNameNode() { return this.astConstant.getName(); }
 
     @Override
     public String getName(){

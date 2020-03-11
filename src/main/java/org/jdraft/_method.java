@@ -10,6 +10,7 @@ import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
+import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.*;
@@ -457,6 +458,8 @@ public final class _method
     public _annos getAnnos() {
         return _annos.of(astMethod);
     }
+
+    public SimpleName getNameNode() { return this.astMethod.getName(); }
 
     @Override
     public String getName() {

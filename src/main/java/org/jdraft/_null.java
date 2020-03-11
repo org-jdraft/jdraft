@@ -48,14 +48,6 @@ public class _null implements _expression._literal<NullLiteralExpr, _null> {
         return nle;
     }
 
-    /*
-    @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        return comps;
-    }
-     */
-
     public String toString(){
         return this.nle.toString();
     }

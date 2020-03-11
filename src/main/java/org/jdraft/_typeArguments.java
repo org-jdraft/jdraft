@@ -43,14 +43,10 @@ public class _typeArguments
             if( a.startsWith("<") && a.endsWith(">")){
                 a = a.substring(1, a.length()-1).trim();
                 if( a.length() == 0 ) {
-                    //System.out.println("NEW EMPTY WITH DIAMOND");
                     ObjectCreationExpr oce = Ex.newEx("new <> empty()");
-                    //
-                    // System.out.println(oce.isUsingDiamondOperator());
                     return of(oce);
                 }
                 ObjectCreationExpr oce = Ex.newEx("new <"+ a + "> empty()");
-                //System.out.println( "NNN" + oce);
                 return of( oce);
             }
             if( a.startsWith("<") ){
@@ -279,7 +275,6 @@ public class _typeArguments
             return lts.stream().filter(matchFn).collect(Collectors.toList());
         }
 
-
         default boolean isTypeArguments(Type... es){
             _typeRef[] _es = new _typeRef[es.length];
             for(int i=0;i<es.length;i++){
@@ -363,7 +358,6 @@ public class _typeArguments
             _ta.remove(matchFn);
             return (_WTA)this;
         }
-
 
         default _WTA removeTypeArguments(_typeRef... es){
             _typeArguments _ta = getTypeArguments();

@@ -1,6 +1,5 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.UnaryExpr;
 
 import java.util.HashMap;
@@ -63,45 +62,6 @@ public class _unary implements _expression<UnaryExpr, _unary>, _java._multiPart<
         comps.put(_java.Component.EXPRESSION, unaryEx.getExpression());
         return comps;
     }
-
-    /*
-    public boolean isExpression(String...expression){
-        try{
-            return isExpression(Ex.of(expression));
-        }catch(Exception e){
-            return false;
-        }
-    }
-
-    public boolean isExpression(_expression _ex){
-        return Objects.equals( this.getExpression(), _ex.ast());
-    }
-
-    public boolean isExpression(Expression ex){
-        return Objects.equals( this.getExpression(), ex);
-    }
-
-    public boolean isExpression(Predicate<_expression> matchFn){
-        return matchFn.test(getExpression());
-    }
-
-    public _unary setExpression(String...expression){
-        return setExpression(Ex.of(expression));
-    }
-
-    public _unary setExpression(_expression e){
-        return setExpression(e.ast());
-    }
-
-    public _unary setExpression(Expression e){
-        this.unaryEx.setExpression(e);
-        return this;
-    }
-
-    public _expression getExpression(){
-        return _expression.of(this.unaryEx.getExpression());
-    }
-    */
 
     public boolean isOperator(Predicate<UnaryExpr.Operator> uo){
         return uo.test(this.unaryEx.getOperator());

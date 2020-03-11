@@ -108,6 +108,10 @@ public class _returnStmt implements _statement._controlFlow._signal<ReturnStmt, 
         return this;
     }
 
+    public boolean hasExpression(){
+        return this.rs.getExpression().isPresent();
+    }
+
     public Expression getExpression(){
         if(this.rs.getExpression().isPresent()){
             return rs.getExpression().get();

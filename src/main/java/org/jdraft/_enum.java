@@ -625,7 +625,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         tn.addAll( this.listInnerTypes() );
 
         Set<_type> ct = new HashSet<>();
-        ct.addAll( this.listCompanionTypes());
+        //ct.addAll( this.listCompanionTypes());
 
         Set<_initBlock> sbs = new HashSet<>();
         sbs.addAll( this.listInitBlocks() );

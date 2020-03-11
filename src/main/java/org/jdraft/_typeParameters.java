@@ -138,7 +138,6 @@ public final class _typeParameters
             }
             sb.append(">");
             return sb.toString();
-            //return this.astNodeWithTypeParams.getTypeParameters().toString();
         }
         return "";
     }

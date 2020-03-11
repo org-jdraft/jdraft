@@ -1,7 +1,9 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.ast.expr.SimpleName;
 
 import java.util.*;
 import java.util.function.*;
@@ -100,6 +102,8 @@ public class _methodCall implements _expression<MethodCallExpr, _methodCall>,
         comps.put(_java.Component.ARGUMENTS, mce.getArguments());
         return comps;
     }
+
+    public SimpleName getNameNode() { return this.mce.getName(); }
 
     public String getName(){
         return this.mce.getNameAsString();

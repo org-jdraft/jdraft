@@ -627,7 +627,11 @@ public enum Ex {
      * @return
      */
     public static ArrayAccessExpr arrayAccessEx(String... code ) {
-        return of( code ).asArrayAccessExpr();
+        String cd = Text.combine(code);
+        Expression ee = of(cd);
+        //System.out.println("GOT EXPRESSION"+ee+" "+ee.getClass() );
+        //ArrayAccessExpr aae = new ArrayAccessExpr(Text.combine(code));
+        return ee.asArrayAccessExpr();
     }
 
     /**
@@ -1201,7 +1205,7 @@ public enum Ex {
         if( str.startsWith("<")){ //
             String s = "Object t = "+ str +";";
             //Box <String> box = new Box <String> ("Jack");
-            System.out.println( s );
+            //System.out.println( s );
             VariableDeclarationExpr vde =  Ex.varLocalEx(s);
             return (MethodCallExpr) vde.getVariable(0).getInitializer().get();
         }
@@ -2014,7 +2018,10 @@ public enum Ex {
             return Integer.parseInt(str.substring(2).replace("_", ""), 2);
         }        
         try{
-            return NF.parse(str.replace("_", "").replace("F", "f").replace("D", "d"));
+            return NumberFormat.getInstance().parse(
+                    str.replace("_", "")
+                            .replace("F", "f")
+                            .replace("D", "d"));
         }catch( Exception e){
             throw new RuntimeException(""+e);
         }

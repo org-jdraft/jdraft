@@ -49,17 +49,6 @@ public class _this implements _expression<ThisExpr, _this>, _java._uniPart<ThisE
         return ile;
     }
 
-    /*
-    @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        if(this.ile.getTypeName().isPresent()){
-            comps.put(_java.Component.NAME, ile.getTypeName().get().asString());
-        }
-        return comps;
-    }
-     */
-
     public String getName(){
         if(this.ile.getTypeName().isPresent()){
             return ile.getTypeName().get().asString();

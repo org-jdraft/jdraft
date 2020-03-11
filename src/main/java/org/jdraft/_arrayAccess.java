@@ -10,7 +10,8 @@ import java.util.Objects;
 import java.util.function.Predicate;
 
 /**
- * Array brackets [] being used to get a value from an array.
+ * a reference to specific array dimension
+ * Where Array brackets [] being used to get a value from an array.
  * In <br/><code>getNames()[15*15]</code> the name expression is getNames() and the index expression is 15*15.
  *
  * @see _arrayDimension
@@ -22,6 +23,7 @@ public class _arrayAccess
     public static _arrayAccess of(){
         return new _arrayAccess(new ArrayAccessExpr());
     }
+
     public static _arrayAccess of( ArrayAccessExpr ae ){
         return new _arrayAccess(ae);
     }
@@ -139,7 +141,6 @@ public class _arrayAccess
         return Objects.equals( _e, this.getName());
     }
 
-
     public _arrayAccess setIndex(String index){
         return setIndex( Ex.of(index));
     }
@@ -154,7 +155,6 @@ public class _arrayAccess
         return this;
     }
 
-
     public _arrayAccess setName(String name){
         return setName( Ex.of(name));
     }
@@ -168,6 +168,8 @@ public class _arrayAccess
         this.aae.setName(_e.ast());
         return this;
     }
+
+    public Expression getNameNode() { return this.aae.getName(); }
 
     public _expression getName(){
         return _expression.of(this.aae.getName());

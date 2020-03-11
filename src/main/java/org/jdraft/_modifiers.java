@@ -238,6 +238,11 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
         return this;
     }
 
+    public _modifiers setDefault( boolean b){
+        this.node.setModifier(Modifier.Keyword.DEFAULT, b );
+        return this;
+    }
+
     /**
      *
      * @return

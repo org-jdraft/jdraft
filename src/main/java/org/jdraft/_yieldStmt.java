@@ -55,45 +55,6 @@ public class _yieldStmt implements _statement._controlFlow._signal<YieldStmt, _y
         return yieldStmt;
     }
 
-    /*
-    public boolean isExpression(String...expression){
-        try{
-            return isExpression(Ex.of(expression));
-        }catch(Exception e){
-            return false;
-        }
-    }
-
-    public boolean isExpression(_expression _ex){
-        return Objects.equals( this.getExpression(), _ex.ast());
-    }
-
-    public boolean isExpression(Expression ex){
-        return Objects.equals( this.getExpression(), ex);
-    }
-
-    public boolean isExpression(Predicate<_expression> matchFn){
-        return matchFn.test(getExpression());
-    }
-
-    public _yieldStmt setExpression(String...expression){
-        return setExpression(Ex.of(expression));
-    }
-
-    public _yieldStmt setExpression(_expression e){
-        return setExpression(e.ast());
-    }
-
-    public _yieldStmt setExpression(Expression e){
-        this.yieldStmt.setExpression(e);
-        return this;
-    }
-
-    public _expression getExpression(){
-        return _expression.of(yieldStmt.getExpression());
-    }
-     */
-
     public boolean equals(Object other){
         if( other instanceof _yieldStmt ){
             return Objects.equals( ((_yieldStmt)other).ast(), this.ast() );

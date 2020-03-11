@@ -100,6 +100,8 @@ public final class _anno
         return this.astAnno.getNameAsString();
     }
 
+    public Name getNameNode(){ return this.astAnno.getName(); }
+
     @Override
     public _anno setName(String name ){
         this.astAnno.setName(name);
@@ -1034,6 +1036,8 @@ public final class _anno
         public String getName(){
             return this.mvp.getNameAsString();
         }
+
+        public Node getNameNode() { return this.mvp.getName(); }
 
         public _memberValue setName(String name){
             this.mvp.setName(name);

@@ -84,39 +84,9 @@ public class _throwStmt implements _statement._controlFlow._signal<ThrowStmt, _t
         return false;
     }
 
-    /*
-    public _expression getExpression(){
-        return _expression.of(astStmt.getExpression());
-    }
-
-    public _throwStmt setExpression(Expression e){
-        this.astStmt.setExpression(e);
-        return this;
-    }
-
-    public _throwStmt setExpression(_expression _e){
-        this.astStmt.setExpression(_e.ast());
-        return this;
-    }
-
-    @Override
-    public boolean is(ThrowStmt astNode) {
-        return this.astStmt.equals( astNode);
-    }
-     */
-
     public ThrowStmt ast(){
         return astStmt;
     }
-
-    /*
-    @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put(_java.Component.EXPRESSION, astStmt.getExpression());
-        return comps;
-    }
-     */
 
     public String toString(){
         return this.astStmt.toString();

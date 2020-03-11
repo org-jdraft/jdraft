@@ -33,22 +33,6 @@ public class _methodReference implements _expression<MethodReferenceExpr, _metho
         return new _methodReference(this.mre.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Ex.methodReferenceEx(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
-
-
-    @Override
-    public boolean is(MethodReferenceExpr astNode) {
-        return this.ast( ).equals(astNode);
-    }
-     */
-
     public MethodReferenceExpr ast(){
         return mre;
     }
@@ -64,60 +48,6 @@ public class _methodReference implements _expression<MethodReferenceExpr, _metho
         comps.put(_java.Component.IDENTIFIER, mre.getId());
         return comps;
     }
-
-    /*
-    public boolean isScope(String...scope){
-        return Objects.equals( _expression.of(scope), getScope());
-    }
-
-    public boolean isScope( _expression _e ){
-        return Objects.equals( _e, getScope());
-    }
-
-    public boolean isScope( Expression e ){
-        return Objects.equals( _expression.of(e), getScope());
-    }
-    public _methodReference setScope(String...scope){
-        this.mre.setScope(Ex.of(scope));
-        return this;
-    }
-
-    public _methodReference setScope( _expression _e ){
-        this.mre.setScope(_e.ast());
-        return this;
-    }
-
-    public _methodReference setScope( Expression e ){
-        this.mre.setScope(e);
-        return this;
-    }
-
-    public _expression getScope(){
-        return _expression.of(this.mre.getScope());
-    }
-    */
-    /*
-    public List<_typeRef> listTypeArgs(){
-        if(this.mre.getTypeArguments().isPresent()){
-            return this.mre.getTypeArguments().get().stream().map( ta-> _typeRef.of(ta) ).collect(Collectors.toList());
-        }
-        return Collections.EMPTY_LIST;
-    }
-
-    public _methodReference setTypeArgs( _typeRef..._tas){
-        NodeList<Type> tas = new NodeList<>();
-        Arrays.stream(_tas).forEach(t-> tas.add( t.ast()));
-        this.mre.setTypeArguments(tas);
-        return this;
-    }
-
-    public _methodReference setTypeArgs( Type..._tas){
-        NodeList<Type> tas = new NodeList<>();
-        Arrays.stream(_tas).forEach(t-> tas.add( t));
-        this.mre.setTypeArguments(tas);
-        return this;
-    }
-    */
 
     public boolean isIdentifier( String id){
         return Objects.equals( this.mre.getIdentifier(), id);
@@ -135,20 +65,6 @@ public class _methodReference implements _expression<MethodReferenceExpr, _metho
     public String getIdentifier(){
         return this.mre.getIdentifier();
     }
-
-    /**
-     * Returns a list of Type arguments if there are any or an empty list if there are none
-     * @return
-
-    public List<_typeRef> getTypeArguments(){
-        if( mre.getTypeArguments().isPresent() ){
-            List<_typeRef> tas = new ArrayList<>();
-            mre.getTypeArguments().get().forEach(t -> tas.add(_typeRef.of(t)));
-            return tas;
-        }
-        return new ArrayList<>();
-    }
-    */
 
     public boolean equals(Object other){
         if( other instanceof _methodReference){

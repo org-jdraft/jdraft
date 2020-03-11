@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.*;
+import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.type.Type;
 import org.jdraft.text.Text;
 
@@ -77,6 +78,8 @@ public final class _receiverParameter
         this.astReceiverParam.setName( name );
         return this;
     }
+
+    public Name getNameNode() { return this.astReceiverParam.getName(); }
 
     @Override
     public String getName() {

@@ -5,6 +5,8 @@ import java.util.function.Predicate;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.expr.Name;
+import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.nodeTypes.NodeWithTypeParameters;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.TypeParameter;
@@ -213,6 +215,8 @@ public final class _typeParameter
         this.typeParameter.setName(name);
         return this;
     }
+
+    public SimpleName getNameNode(){ return this.typeParameter.getName(); }
 
     @Override
     public String getName() {

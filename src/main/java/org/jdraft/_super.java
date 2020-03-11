@@ -56,17 +56,6 @@ public class _super implements _expression<SuperExpr, _super>, _java._uniPart<Su
         return se;
     }
 
-    /*
-    @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        if(this.se.getTypeName().isPresent()){
-            comps.put(_java.Component.NAME, se.getTypeName().get().asString());
-        }
-        return comps;
-    }
-     */
-
     public String getName(){
         if(this.se.getTypeName().isPresent()){
             return se.getTypeName().get().asString();

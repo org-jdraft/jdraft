@@ -680,7 +680,9 @@ public final class _annotation
         public boolean is(AnnotationMemberDeclaration amd ){
             return _entry.of(amd).equals(this);
         }
-        
+
+        public Node getNameNode() { return this.astAnnMember.getName(); }
+
         @Override
         public _entry setName(String name){
             this.astAnnMember.setName( name );

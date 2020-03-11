@@ -258,6 +258,8 @@ public final class _field
         return _annos.of();
     }
 
+    public SimpleName getNameNode() { return this.astVar.getName(); }
+
     @Override
     public String getName() {
         return astVar.getNameAsString();

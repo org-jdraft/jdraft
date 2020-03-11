@@ -2,6 +2,8 @@ package org.jdraft;
 
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.Name;
+import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 
 import java.util.Objects;
@@ -193,6 +195,8 @@ public class _variable implements _java._node<VariableDeclarator, _variable>,
     public String toString(){
         return this.vd.toString();
     }
+
+    public SimpleName getNameNode(){ return this.vd.getName(); }
 
     @Override
     public String getName() {

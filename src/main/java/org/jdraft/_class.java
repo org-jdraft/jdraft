@@ -12,6 +12,7 @@ import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
+import com.github.javaparser.ast.type.Type;
 import org.jdraft._java.*;
 import com.github.javaparser.utils.Log;
 import org.jdraft.io._in;
@@ -843,9 +844,23 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         Set<_type> tn = new HashSet<>();
         tn.addAll( this.listInnerTypes());
 
-        Set<_type> ct = new HashSet<>();
-        ct.addAll( this.listCompanionTypes());
+        //Set<_type> ct = new HashSet<>();
 
+        Set<Integer> cths = new HashSet<>();
+        /***** TODO THIS IS BROKEN AND COMPANION TYPES SUCK
+
+        List<_type> cts = this.listCompanionTypes();
+        if( cts.size() > 0 ){
+            System.out.println( "FOUND "+cts.size()+" COMPANION TYPES IN "+ this.getFullName());
+            for(int i=0;i<cts.size();i++){
+                //OHHHHHH THIS SUCKS
+                TypeDeclaration t = (TypeDeclaration)cts.get(i).ast().clone();
+                t.remove();
+                cths.add( _java.type(t).hashCode() );
+            }
+        }
+        //ct.addAll( cts );
+        */
         Set<_initBlock> sbs = new HashSet<>();
         sbs.addAll( this.listInitBlocks());
 
@@ -854,7 +869,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
                 this.getTypeParameters(), Ast.typeHash(this.getExtends()),
                 sbs, Ast.typesHashCode( ast().getImplementedTypes() ),
                 Ex.hashAnnos(astClass),
-                tf, tm, tc, tn, ct);
+                tf, tm, tc, tn, cths);
 
         return hash;
     }    

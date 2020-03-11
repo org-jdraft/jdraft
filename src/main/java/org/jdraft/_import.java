@@ -5,6 +5,8 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Predicate;
 
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.expr.Name;
 import org.jdraft.macro._remove;
 import org.jdraft.text.Text;
 
@@ -137,6 +139,8 @@ public class _import implements _java._multiPart<ImportDeclaration, _import>,
     public boolean isStatic() {
         return this.astId.isStatic();
     }
+
+    public Name getNameNode() { return this.astId.getName(); }
 
     /** @return the name (everything after "import" and before the optional ".*") */
     public String getName() {

@@ -1,6 +1,5 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.IfStmt;
@@ -90,12 +89,6 @@ public class _ifStmt implements _statement._controlFlow._branching<IfStmt, _ifSt
         return false;
     }
 
-    /*
-    public _expression getCondition(){
-        return _expression.of(this.astStmt.getCondition());
-    }
-     */
-
     public _statement getThen(){
         return _statement.of( this.astStmt.getThenStmt() );
     }
@@ -106,23 +99,6 @@ public class _ifStmt implements _statement._controlFlow._branching<IfStmt, _ifSt
         }
         return null;
     }
-
-    /*
-    public _ifStmt setCondition(String...es){
-        this.astStmt.setCondition(Ex.of(es));
-        return this;
-    }
-
-    public _ifStmt setCondition(Expression e){
-        this.astStmt.setCondition(e);
-        return this;
-    }
-
-    public _ifStmt setCondition(_expression e){
-        this.astStmt.setCondition(e.ast());
-        return this;
-    }
-     */
 
     public _ifStmt setThen(String...sts){
         this.astStmt.setThenStmt(Stmt.of(sts));
@@ -163,23 +139,6 @@ public class _ifStmt implements _statement._controlFlow._branching<IfStmt, _ifSt
         this.astStmt.setElseStmt(_bd.ast());
         return this;
     }
-
-    /*
-    public boolean isCondition( Predicate<_expression> pe){
-        return pe.test(getCondition());
-    }
-
-    public boolean isCondition( Expression e){
-        return Objects.equals( this.astStmt.getCondition(), e);
-    }
-    public boolean isCondition( _expression _e){
-        return Objects.equals( this.astStmt.getCondition(), _e.ast());
-    }
-    public boolean isCondition( String...expr){
-        return Objects.equals( this.astStmt.getCondition(), Ex.of(expr));
-    }
-
-     */
 
     @Override
     public boolean is(IfStmt astNode) {

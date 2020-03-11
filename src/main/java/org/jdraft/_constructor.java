@@ -1,11 +1,13 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.Modifier;
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 //import com.github.javaparser.ast.nodeTypes.NodeWithConstructors;
+import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
@@ -326,6 +328,8 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
     public _annos getAnnos() {
         return _annos.of( astCtor );
     }
+
+    public SimpleName getNameNode() { return this.astCtor.getName(); }
 
     @Override
     public String getName() {

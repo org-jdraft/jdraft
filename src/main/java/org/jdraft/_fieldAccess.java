@@ -1,7 +1,9 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.LambdaExpr;
+import com.github.javaparser.ast.expr.SimpleName;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -79,24 +81,6 @@ public class _fieldAccess implements _expression<FieldAccessExpr, _fieldAccess>,
         return new _fieldAccess(this.fe.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Ex.fieldAccessEx(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
-
-
-
-    @Override
-    public boolean is(FieldAccessExpr astNode) {
-        return this.ast( ).equals(astNode);
-    }
-
-     */
-
     public FieldAccessExpr ast(){
         return fe;
     }
@@ -112,32 +96,12 @@ public class _fieldAccess implements _expression<FieldAccessExpr, _fieldAccess>,
         return comps;
     }
 
+    public SimpleName getNameNode() { return this.fe.getName(); }
+
     public _fieldAccess setName( String name){
         this.fe.setName(name);
         return this;
     }
-
-    /*
-    public _fieldAccess setScope( String scope ){
-        this.fe.setScope(Ex.of(scope));
-        return this;
-    }
-
-
-    public _fieldAccess setScope( _expression _e){
-        this.fe.setScope(_e.ast());
-        return this;
-    }
-
-    public _fieldAccess setScope( Expression e){
-        this.fe.setScope(e);
-        return this;
-    }
-
-    public _expression getScope(){
-        return _expression.of(this.fe.getScope());
-    }
-    */
 
     /**
      * Returns the List of Type Arguments or an empty list if there are no type arguments

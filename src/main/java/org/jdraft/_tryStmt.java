@@ -240,14 +240,10 @@ public class _tryStmt implements _statement._controlFlow._branching<TryStmt, _tr
         return this;
     }
 
-
-
     public _tryStmt clearTryBody() {
         this.tryStmt.setTryBlock(new BlockStmt());
         return this;
     }
-
-
 
     /**
      *
@@ -256,8 +252,6 @@ public class _tryStmt implements _statement._controlFlow._branching<TryStmt, _tr
     public boolean hasWithResources(){
         return ! this.ast().getResources().isEmpty();
     }
-
-
 
     public boolean hasWithResourceType( Class clazz ){
         return hasWithResources(_new.class, _n-> _n.isTypeRef(clazz))
@@ -272,8 +266,6 @@ public class _tryStmt implements _statement._controlFlow._branching<TryStmt, _tr
             return false;
         }).size() > 0;
     }
-
-
 
     public boolean hasWithResources(Predicate<_expression> matchFn){
         return listWithResources(matchFn) != null;

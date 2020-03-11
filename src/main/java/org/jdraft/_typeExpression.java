@@ -28,23 +28,6 @@ public class _typeExpression
         return new _typeExpression(this.te.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Ex.typeEx(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
-     */
-
-    /*
-    @Override
-    public boolean is(TypeExpr astNode) {
-        return this.ast( ).equals(astNode);
-    }
-     */
-
     public TypeExpr ast(){
         return te;
     }
@@ -56,31 +39,6 @@ public class _typeExpression
     public _typeRef getTypeRef(){
         return _typeRef.of(this.te.getType());
     }
-
-    /** these COULD be generated
-    public _typeExpression setType( _typeRef _tr){
-        this.te.setType(_tr.ast());
-        return this;
-    }*/
-
-    /*
-    public _typeExpression setType( Type type){
-        this.te.setType(type);
-        return this;
-    }
-     */
-
-    /*
-    public _typeExpression setType(Class clazz){
-        this.te.setType(clazz);
-        return this;
-    }
-
-    public _typeExpression setType(String typeRef){
-        this.te.setType(Ast.typeRef(typeRef));
-        return this;
-    }
-     */
 
     public boolean equals(Object other){
         if( other instanceof _typeExpression){
