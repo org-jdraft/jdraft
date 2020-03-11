@@ -15,7 +15,7 @@ import java.lang.annotation.*;
  */
 @Retention( RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.TYPE_USE})
-public @interface _name{
+public @interface _rename {
     String value();
 
     /**
@@ -24,16 +24,16 @@ public @interface _name{
      *
      * ..same thing if I have the name as a return type...or a static instance field
      */
-    class Act extends macro<_name, Node>{
+    class Act extends macro<_rename, Node>{
 
         String name;
 
         public Act(String name){
-            super(_name.class);
+            super(_rename.class);
             this.name = name;
         }
 
-        public Act( _name _n ){
+        public Act( _rename _n ){
             super(_n);
             this.name = _n.value();
         }
