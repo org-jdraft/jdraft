@@ -67,7 +67,7 @@ public interface Template<T> {
     /**
      * fill in the values of the Template sequentially
      * (i.e. the first VALUE of values) is mapped to the first $parameter (i.e.
-     * the first VALUE in {@link #list$Normalized()} )
+     * the first VALUE in {@link #$listNormalized()} )
      * <PRE>
      *     Template<String> st = Stencil.of("1 $1$ 2 $2$ 3 $3$");
      *     //fill the parameters inline (no keyvalue pairs)
@@ -91,7 +91,7 @@ public interface Template<T> {
     /**
      * fill in the values of the Template sequentially
      * (i.e. the first VALUE of values) is mapped to the first $parameter (i.e.
-     * in {@link #list$Normalized()} ) example:
+     * in {@link #$listNormalized()} ) example:
      * <PRE>
      *     Template<String> st = Stencil.of("1 $1$ 2 $2$ 3 $3$");
      *     //fill the parameters inline (no keyvalue pairs)
@@ -111,7 +111,7 @@ public interface Template<T> {
      * @return the constructed T (i.e. _method, _field, _ctor)
      */
     default T fill( Translator translator, Object... values ){
-        List<String> keys = list$Normalized();
+        List<String> keys = $listNormalized();
 
         if( values.length < keys.size() ){
             throw new _jdraftException("not enough values("+values.length+") to fill ("+keys.size()+") variables "+ keys);
@@ -159,7 +159,7 @@ public interface Template<T> {
      * "template"
      * NOTE: (MAY contain duplicates and Capitalization variants)
      */
-    List<String> list$();
+    List<String> $list();
 
     /**
      *
@@ -167,5 +167,5 @@ public interface Template<T> {
      * populated
      * NOTE: (No duplicates and caps variants)
      */
-    List<String> list$Normalized();
+    List<String> $listNormalized();
 }

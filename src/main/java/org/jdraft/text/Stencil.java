@@ -5,7 +5,6 @@ import org.jdraft._jdraftException;
 import org.jdraft.io._ioException;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -85,7 +84,7 @@ public final class Stencil implements Template<String>{
      * @return a list of "Normalized" $ names (i.e. "Name" is converted to "name")
      */
     @Override
-    public List<String> list$Normalized() {
+    public List<String> $listNormalized() {
         return this.$NamesNormalized;
     }
 
@@ -131,7 +130,7 @@ public final class Stencil implements Template<String>{
      * @return a list of all (NON-NORMALIZED i.e. $name =/= $Name) $ parameter names
      */
     @Override
-    public List<String> list$() {
+    public List<String> $list() {
         return this.$Names;
     }
 
