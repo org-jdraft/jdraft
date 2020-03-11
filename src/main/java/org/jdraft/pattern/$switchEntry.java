@@ -518,22 +518,22 @@ public class $switchEntry
     }
 
     @Override
-    public List<String> list$() {
+    public List<String> $list() {
         List<String> all = new ArrayList<>();
         if( this.label != null ){
-            all.addAll( this.label.list$() );
+            all.addAll( this.label.$list() );
         }
-        this.statements.forEach(s -> all.addAll(s.list$()));
+        this.statements.forEach(s -> all.addAll(s.$list()));
         return all;
     }
 
     @Override
-    public List<String> list$Normalized() {
+    public List<String> $listNormalized() {
         List<String> allN = new ArrayList<>();
         if( this.label != null ){
-            allN.addAll( this.label.list$Normalized() );
+            allN.addAll( this.label.$listNormalized() );
         }
-        this.statements.forEach(s -> allN.addAll(s.list$Normalized()));
+        this.statements.forEach(s -> allN.addAll(s.$listNormalized()));
         return allN.stream().distinct().collect(Collectors.toList());
     }
 

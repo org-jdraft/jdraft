@@ -635,39 +635,39 @@ public class $method
     }
 
     @Override
-    public List<String> list$Normalized(){
+    public List<String> $listNormalized(){
         List<String>normalized$ = new ArrayList<>();
-        if( javadoc.contentsStencil.isMatchAny() && javadoc.contentsStencil.list$().contains("javadoc")){
+        if( javadoc.contentsStencil.isMatchAny() && javadoc.contentsStencil.$list().contains("javadoc")){
             //Javadoc is OPTIONAL (it's only 
         } else{
             //all$.addAll( javadoc.list$() );
-            normalized$.addAll( javadoc.list$Normalized() );
+            normalized$.addAll( javadoc.$listNormalized() );
         }        
-        normalized$.addAll( annos.list$Normalized() );
-        normalized$.addAll( typeParameters.list$Normalized() );
-        normalized$.addAll( type.list$Normalized() );        
-        normalized$.addAll( name.nameStencil.list$Normalized() );
-        normalized$.addAll( parameters.list$Normalized() );
-        normalized$.addAll( thrown.list$Normalized() );
-        normalized$.addAll( body.list$Normalized() );
+        normalized$.addAll( annos.$listNormalized() );
+        normalized$.addAll( typeParameters.$listNormalized() );
+        normalized$.addAll( type.$listNormalized() );
+        normalized$.addAll( name.nameStencil.$listNormalized() );
+        normalized$.addAll( parameters.$listNormalized() );
+        normalized$.addAll( thrown.$listNormalized() );
+        normalized$.addAll( body.$listNormalized() );
         return normalized$.stream().distinct().collect(Collectors.toList());        
     }
 
     @Override
-    public List<String> list$(){
+    public List<String> $list(){
         List<String>all$ = new ArrayList<>();
-        if( javadoc.contentsStencil.isMatchAny() && javadoc.contentsStencil.list$().contains("javadoc")){
+        if( javadoc.contentsStencil.isMatchAny() && javadoc.contentsStencil.$list().contains("javadoc")){
             //Javadoc is OPTIONAL (it's only 
         } else{
-            all$.addAll( javadoc.list$() );
+            all$.addAll( javadoc.$list() );
         }
-        all$.addAll( annos.list$() );
-        all$.addAll( typeParameters.list$() );
-        all$.addAll( type.list$() );        
-        all$.addAll( name.nameStencil.list$() );
-        all$.addAll( parameters.list$() );
-        all$.addAll( thrown.list$() );
-        all$.addAll( body.list$() );           
+        all$.addAll( annos.$list() );
+        all$.addAll( typeParameters.$list() );
+        all$.addAll( type.$list() );
+        all$.addAll( name.nameStencil.$list() );
+        all$.addAll( parameters.$list() );
+        all$.addAll( thrown.$list() );
+        all$.addAll( body.$list() );
         return all$;
     }
     
@@ -934,7 +934,7 @@ public class $method
     
     @Override
     public _method fill(Translator translator, Object... values) {
-        List<String> nom = this.list$Normalized();
+        List<String> nom = this.$listNormalized();
         nom.remove( "javadoc");
         nom.remove( "annos");
         nom.remove( "modifiers");

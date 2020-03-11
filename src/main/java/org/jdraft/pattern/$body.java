@@ -330,17 +330,17 @@ public class $body implements Template<_body>,
     }
     
     @Override
-    public List<String> list$(){
+    public List<String> $list(){
         if(this.isImplemented){
-            return this.bodyStmts.list$();
+            return this.bodyStmts.$list();
         }
         return Collections.EMPTY_LIST;
     }
 
     @Override
-    public List<String> list$Normalized(){
+    public List<String> $listNormalized(){
         if( isImplemented ){
-            return this.bodyStmts.list$Normalized();
+            return this.bodyStmts.$listNormalized();
         }
         return Collections.EMPTY_LIST;
     }

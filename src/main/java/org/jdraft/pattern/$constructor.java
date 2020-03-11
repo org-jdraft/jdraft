@@ -530,29 +530,29 @@ public class $constructor
     }
 
     @Override
-    public List<String> list$Normalized(){
+    public List<String> $listNormalized(){
         List<String>normalized$ = new ArrayList<>();
-        normalized$.addAll( javadoc.list$Normalized() );
-        normalized$.addAll( annos.list$Normalized() );
-        normalized$.addAll( typeParameters.list$Normalized() );
+        normalized$.addAll( javadoc.$listNormalized() );
+        normalized$.addAll( annos.$listNormalized() );
+        normalized$.addAll( typeParameters.$listNormalized() );
         normalized$.addAll( name.list$Normalized() );
-        normalized$.addAll( parameters.list$Normalized() );
+        normalized$.addAll( parameters.$listNormalized() );
         
-        normalized$.addAll( thrown.list$Normalized() );
-        normalized$.addAll( body.list$Normalized());
+        normalized$.addAll( thrown.$listNormalized() );
+        normalized$.addAll( body.$listNormalized());
         return normalized$.stream().distinct().collect(Collectors.toList());        
     }
 
     @Override
-    public List<String> list$(){
+    public List<String> $list(){
         List<String>all$ = new ArrayList<>();
-        all$.addAll( javadoc.list$() );
-        all$.addAll( annos.list$() );
-        all$.addAll( typeParameters.list$() );
+        all$.addAll( javadoc.$list() );
+        all$.addAll( annos.$list() );
+        all$.addAll( typeParameters.$list() );
         all$.addAll( name.list$() );
-        all$.addAll( parameters.list$() );
-        all$.addAll( thrown.list$() );
-        all$.addAll( body.list$() );        
+        all$.addAll( parameters.$list() );
+        all$.addAll( thrown.$list() );
+        all$.addAll( body.$list() );
         return all$;
     }
 
@@ -752,7 +752,7 @@ public class $constructor
     
     @Override
     public _constructor fill(Translator translator, Object... values) {
-        List<String> nom = this.list$Normalized();
+        List<String> nom = this.$listNormalized();
         nom.remove( "javadoc");
         nom.remove( "annos");
         nom.remove( "modifiers");

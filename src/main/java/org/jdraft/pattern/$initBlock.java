@@ -433,16 +433,16 @@ public class $initBlock implements //$pattern<_initBlock, $initBlock>,
     }
 
     @Override
-    public List<String> list$() {
-        List<String> strs = this.body.list$();
-        strs.addAll( this.body.list$());
+    public List<String> $list() {
+        List<String> strs = this.body.$list();
+        strs.addAll( this.body.$list());
         return strs;
     }
 
     @Override
-    public List<String> list$Normalized() {
-        List<String> strs = this.body.list$Normalized();
-        strs.addAll( this.body.list$Normalized() );
+    public List<String> $listNormalized() {
+        List<String> strs = this.body.$listNormalized();
+        strs.addAll( this.body.$listNormalized() );
         return strs.stream().distinct().collect(Collectors.toList());
     }
 

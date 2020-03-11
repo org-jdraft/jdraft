@@ -341,13 +341,13 @@ public class $import
     }
 
     @Override
-    public List<String> list$() {
-        return this.importStencil.list$();
+    public List<String> $list() {
+        return this.importStencil.$list();
     }
 
     @Override
-    public List<String> list$Normalized() {
-        return this.importStencil.list$Normalized();
+    public List<String> $listNormalized() {
+        return this.importStencil.$listNormalized();
     }
 
     public boolean match( Node node ) {

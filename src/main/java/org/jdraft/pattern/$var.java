@@ -550,13 +550,13 @@ public class $var
     
     @Override
     public VariableDeclarator fill(Translator translator, Object... values) {
-        List<String> vars = this.type.list$Normalized();
+        List<String> vars = this.type.$listNormalized();
         vars.addAll(this.name.list$Normalized());
         vars =  vars.stream().distinct().collect(Collectors.toList());
         
         List<String> allVars = new ArrayList<>();
         allVars.addAll( vars );
-        allVars.addAll( this.init.list$Normalized() );
+        allVars.addAll( this.init.$listNormalized() );
         allVars = allVars.stream().distinct().collect(Collectors.toList());
         
         if( values.length == allVars.size() ){
@@ -590,18 +590,18 @@ public class $var
     }
 
     @Override
-    public List<String> list$() {
-        List<String> $names = this.type.list$();
+    public List<String> $list() {
+        List<String> $names = this.type.$list();
         $names.addAll( this.name.list$());
-        $names.addAll( this.init.list$());
+        $names.addAll( this.init.$list());
         return $names;        
     }
 
     @Override
-    public List<String> list$Normalized() {
-        List<String> $names = this.type.list$Normalized();
+    public List<String> $listNormalized() {
+        List<String> $names = this.type.$listNormalized();
         $names.addAll( this.name.list$Normalized());
-        $names.addAll( this.init.list$Normalized());
+        $names.addAll( this.init.$listNormalized());
         
         return $names.stream().distinct().collect(Collectors.toList());        
     }

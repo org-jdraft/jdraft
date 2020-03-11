@@ -206,10 +206,10 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
     }
 
     @Override
-    public List<String> list$Normalized(){
+    public List<String> $listNormalized(){
         List<String>normalized$ = new ArrayList<>();
         $sts.forEach(s -> {
-            List<String> ls = s.list$Normalized();
+            List<String> ls = s.$listNormalized();
             ls.forEach( l-> {
                 if (!normalized$.contains(l)) {
                     normalized$.add(l);
@@ -220,10 +220,10 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
     }
 
     @Override
-    public List<String> list$(){
+    public List<String> $list(){
         List<String>$s = new ArrayList<>();
         $sts.forEach(s -> {
-            List<String> ls = s.list$();
+            List<String> ls = s.$list();
             ls.forEach( l-> {
                 if (!$s.contains(l)) {
                     $s.add(l);

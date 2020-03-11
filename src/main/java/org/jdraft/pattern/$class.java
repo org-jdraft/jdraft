@@ -409,12 +409,12 @@ public class $class
     }
 
     @Override
-    public List<String> list$() {
+    public List<String> $list() {
         return null;
     }
 
     @Override
-    public List<String> list$Normalized() {
+    public List<String> $listNormalized() {
         return null;
     }
 

@@ -90,11 +90,11 @@ public final class $id {
     }
     
     public List<String> list$() {
-        return this.idStencil.list$();
+        return this.idStencil.$list();
     }
 
     public List<String> list$Normalized() {
-        return this.idStencil.list$Normalized();
+        return this.idStencil.$listNormalized();
     }
 
     public String draft(Translator t, Map<String, Object> keyValues) {
@@ -111,7 +111,7 @@ public final class $id {
         if (id == null) {
             /** Null is allowed IF and ONLY If the Stencil $form isMatchAll */
             if (idStencil.isMatchAny()) {
-                return Tokens.of(idStencil.list$().get(0), "");
+                return Tokens.of(idStencil.$list().get(0), "");
             }
             return null;
         }

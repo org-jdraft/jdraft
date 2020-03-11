@@ -1153,7 +1153,7 @@ public class $stmt<S extends Statement, _S extends _statement>
     @Override
     public _S fill(Translator t, Object...values){
 
-        List<String> keys = list$Normalized();
+        List<String> keys = $listNormalized();
         if( values.length < keys.size() ){
             throw new _jdraftException("not enough values("+values.length+") to fill ("+keys.size()+") variables "+ keys);
         }
@@ -1223,13 +1223,13 @@ public class $stmt<S extends Statement, _S extends _statement>
     }
 
     @Override
-    public List<String> list$(){        
-        return this.stmtStencil.list$();
+    public List<String> $list(){
+        return this.stmtStencil.$list();
     }
 
     @Override
-    public List<String> list$Normalized(){
-        return this.stmtStencil.list$Normalized();
+    public List<String> $listNormalized(){
+        return this.stmtStencil.$listNormalized();
     }
 
     /**

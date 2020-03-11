@@ -192,7 +192,7 @@ public class $node implements $pattern<Node, $node>, $body.$part, $method.$part,
      * @return 
      */
     public List<String> list$() {
-        return this.nodeStencil.list$();
+        return this.nodeStencil.$list();
     }
 
     /**
@@ -200,7 +200,7 @@ public class $node implements $pattern<Node, $node>, $body.$part, $method.$part,
      * @return 
      */
     public List<String> list$Normalized() {
-        return this.nodeStencil.list$Normalized();
+        return this.nodeStencil.$listNormalized();
     }
 
     /**

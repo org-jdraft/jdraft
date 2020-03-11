@@ -1102,31 +1102,31 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
     }
 
     @Override
-    public List<String> list$() {
+    public List<String> $list() {
         List<String> vars = new ArrayList<>();
         if( !javadoc.isMatchAny() ) {
-            vars.addAll(javadoc.list$());
+            vars.addAll(javadoc.$list());
         }
-        vars.addAll( annos.list$() );
-        vars.addAll( type.list$() );
+        vars.addAll( annos.$list() );
+        vars.addAll( type.$list() );
         vars.addAll( name.list$() );
         if( init != null ){
-            vars.addAll( init.list$() );
+            vars.addAll( init.$list() );
         }        
         return vars;
     }
 
     @Override
-    public List<String> list$Normalized() {
+    public List<String> $listNormalized() {
         List<String> vars = new ArrayList<>();
         if( !javadoc.isMatchAny()) {
-            vars.addAll(javadoc.list$Normalized());
+            vars.addAll(javadoc.$listNormalized());
         }
-        vars.addAll( annos.list$Normalized() );
-        vars.addAll( type.list$Normalized() );
+        vars.addAll( annos.$listNormalized() );
+        vars.addAll( type.$listNormalized() );
         vars.addAll( name.list$Normalized() );
         if( init != null ){
-            vars.addAll( init.list$Normalized() );
+            vars.addAll( init.$listNormalized() );
         }
         return vars.stream().distinct().collect(Collectors.toList());
     }

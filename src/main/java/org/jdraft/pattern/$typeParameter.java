@@ -287,20 +287,20 @@ public class $typeParameter
     }
 
     @Override
-    public List<String> list$() {
+    public List<String> $list() {
         List<String> found = new ArrayList<>();
-        found.addAll(this.anns.list$());
+        found.addAll(this.anns.$list());
         found.addAll(this.name.list$());
-        this.$typeBound.forEach( tb -> found.addAll(tb.list$()));
+        this.$typeBound.forEach( tb -> found.addAll(tb.$list()));
         return found;
     }
 
     @Override
-    public List<String> list$Normalized() {
+    public List<String> $listNormalized() {
         List<String> found = new ArrayList<>();
-        found.addAll(this.anns.list$Normalized());
+        found.addAll(this.anns.$listNormalized());
         found.addAll(this.name.list$Normalized());
-        this.$typeBound.forEach( tb -> found.addAll(tb.list$Normalized()));
+        this.$typeBound.forEach( tb -> found.addAll(tb.$listNormalized()));
         return found.stream().distinct().collect(Collectors.toList());
     }
     

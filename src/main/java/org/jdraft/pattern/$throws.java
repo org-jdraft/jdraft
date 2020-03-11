@@ -383,16 +383,16 @@ public class $throws
     }
 
     @Override
-    public List<String> list$() {
+    public List<String> $list() {
         List<String> $names = new ArrayList<>();
-        this.throws$ids.forEach(t -> $names.addAll( t.list$() ) );
+        this.throws$ids.forEach(t -> $names.addAll( t.$list() ) );
         return $names;
     }
 
     @Override
-    public List<String> list$Normalized() {
+    public List<String> $listNormalized() {
         List<String> $namesNormalized = new ArrayList<>();
-        this.throws$ids.forEach(t -> $namesNormalized.addAll( t.list$Normalized() ) );
+        this.throws$ids.forEach(t -> $namesNormalized.addAll( t.$listNormalized() ) );
         return $namesNormalized.stream().distinct().collect(Collectors.toList());
     }
 

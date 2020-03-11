@@ -266,16 +266,16 @@ public class $parameters implements Template<_parameters>,
     }
     
     @Override
-    public List<String> list$() {
+    public List<String> $list() {
         List<String> $s = new ArrayList<>();
-        $params.forEach(p-> $s.addAll( p.list$() ) );
+        $params.forEach(p-> $s.addAll( p.$list() ) );
         return $s;
     }
 
     @Override
-    public List<String> list$Normalized() {
+    public List<String> $listNormalized() {
         List<String> $s = new ArrayList<>();
-        $params.forEach(p-> $s.addAll( p.list$Normalized() ) );
+        $params.forEach(p-> $s.addAll( p.$listNormalized() ) );
         return $s.stream().distinct().collect(Collectors.toList());
     }
 

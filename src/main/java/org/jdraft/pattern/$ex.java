@@ -2044,13 +2044,13 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
         }
     }
     @Override
-    public List<String> list$(){
-        return this.exprStencil.list$();
+    public List<String> $list(){
+        return this.exprStencil.$list();
     }
 
     @Override
-    public List<String> list$Normalized(){
-        return this.exprStencil.list$Normalized();
+    public List<String> $listNormalized(){
+        return this.exprStencil.$listNormalized();
     }
 
     /**

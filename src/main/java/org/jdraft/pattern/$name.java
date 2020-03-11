@@ -122,11 +122,11 @@ public class $name implements $constructor.$part, $method.$part, $field.$part,
     }
     
     public List<String> list$() {
-        return this.nameStencil.list$();
+        return this.nameStencil.$list();
     }
 
     public List<String> list$Normalized() {
-        return this.nameStencil.list$Normalized();
+        return this.nameStencil.$listNormalized();
     }
 
     public String draft(Translator t, Map<String, Object> keyValues) {
@@ -141,7 +141,7 @@ public class $name implements $constructor.$part, $method.$part, $field.$part,
         if (name == null) {
             /** Null is allowed IF and ONLY If the Stencil $form isMatchAny */
             if (nameStencil.isMatchAny()) {
-                return Tokens.of(nameStencil.list$().get(0), "");
+                return Tokens.of(nameStencil.$list().get(0), "");
             }
             return null;
         }

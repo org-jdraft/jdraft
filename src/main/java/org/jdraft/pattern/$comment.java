@@ -748,13 +748,13 @@ public class $comment <C extends Comment>
     }
 
     @Override
-    public List<String> list$() {
-        return this.contentsStencil.list$();
+    public List<String> $list() {
+        return this.contentsStencil.$list();
     }
 
     @Override
-    public List<String> list$Normalized() {
-        return this.contentsStencil.list$Normalized();
+    public List<String> $listNormalized() {
+        return this.contentsStencil.$listNormalized();
     }
 
     public boolean match( Node n){

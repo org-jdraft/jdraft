@@ -548,19 +548,19 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
     }
 
     @Override
-    public List<String> list$() {
+    public List<String> $list() {
         List<String> all = new ArrayList<>();
-        all.addAll( this.annos.list$());
-        all.addAll( this.type.list$() );
+        all.addAll( this.annos.$list());
+        all.addAll( this.type.$list() );
         all.addAll( this.name.list$() );
         return all;
     }
 
     @Override
-    public List<String> list$Normalized() {
+    public List<String> $listNormalized() {
         List<String> all = new ArrayList<>();
-        all.addAll( this.annos.list$Normalized());
-        all.addAll( this.type.list$Normalized() );
+        all.addAll( this.annos.$listNormalized());
+        all.addAll( this.type.$listNormalized() );
         all.addAll( this.name.list$Normalized() );
         return all.stream().distinct().collect(Collectors.toList());
     }

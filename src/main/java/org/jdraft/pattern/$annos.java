@@ -294,16 +294,16 @@ public class $annos
     }
     
     @Override
-    public List<String> list$() {
+    public List<String> $list() {
         List<String>found = new ArrayList<>();
-        $annosList.forEach(a -> found.addAll(a.list$()) );
+        $annosList.forEach(a -> found.addAll(a.$list()) );
         return found;
     }
 
     @Override
-    public List<String> list$Normalized() {
+    public List<String> $listNormalized() {
         List<String>found = new ArrayList<>();
-        $annosList.forEach(a -> found.addAll(a.list$Normalized()) );        
+        $annosList.forEach(a -> found.addAll(a.$listNormalized()) );
         return found.stream().distinct().collect(Collectors.toList());
     }
 
@@ -759,13 +759,13 @@ public class $annos
         }
 
         @Override
-        public List<String> list$(){
-            return ors.stream().map( $a ->$a.list$() ).flatMap(Collection::stream).collect(Collectors.toList());
+        public List<String> $list(){
+            return ors.stream().map( $a ->$a.$list() ).flatMap(Collection::stream).collect(Collectors.toList());
         }
 
         @Override
-        public List<String> list$Normalized(){
-            return ors.stream().map( $a ->$a.list$Normalized() ).flatMap(Collection::stream).distinct().collect(Collectors.toList());
+        public List<String> $listNormalized(){
+            return ors.stream().map( $a ->$a.$listNormalized() ).flatMap(Collection::stream).distinct().collect(Collectors.toList());
         }
 
         @Override

@@ -283,16 +283,16 @@ public class $package implements $pattern<PackageDeclaration, $package>, Templat
     }
 
     @Override
-    public List<String> list$() {
-        List<String> strs = this.annos.list$();
-        strs.addAll( this.name.list$());
+    public List<String> $list() {
+        List<String> strs = this.annos.$list();
+        strs.addAll( this.name.$list());
         return strs;
     }
 
     @Override
-    public List<String> list$Normalized() {
-        List<String> strs = this.annos.list$Normalized();
-        strs.addAll( this.name.list$Normalized() );
+    public List<String> $listNormalized() {
+        List<String> strs = this.annos.$listNormalized();
+        strs.addAll( this.name.$listNormalized() );
         return strs.stream().distinct().collect(Collectors.toList());
     }
 
