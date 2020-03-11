@@ -576,6 +576,11 @@ public class _typeTree {
             if( name.equals("DefaultNamingPolicy")){
                 return new _typeNode("net.sf.cglib.core.DefaultNamingPolicy");
             }
+            /* this exists because we screwed up and didnt do an initial population pass
+            if( name.equals("_provider")){
+                return new _typeNode(_codeUnit._provider.class.getCanonicalName());
+            }
+             */
             throw new _runtimeException("type not found: " + name);
         }
     }
