@@ -35,7 +35,7 @@ public class $methodCallTest extends TestCase {
         assertTrue( $mc.matches(Ex.methodCallEx(()-> "eric".split("a"))) );
         assertFalse( $mc.matches(Ex.methodCallEx(()-> System.out.println("a"))) );
 
-        $mc = $methodCall.of("split").$scope($e.of("\"eric\""));
+        $mc = $methodCall.of("split").$scope($expression.of("\"eric\""));
         assertTrue( $mc.matches(Ex.methodCallEx(()-> "eric".split("a"))) );
         assertFalse( $mc.matches(Ex.methodCallEx(()-> System.out.println("a"))) );
     }

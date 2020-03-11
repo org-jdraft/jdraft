@@ -170,9 +170,9 @@ public class SmethodTest extends TestCase {
         //System.out.println( $computeRange.body.list$Normalized() );
         //System.out.println( "STENCIL " + $computeRange.body.bodyStmts.stmtPattern.list$Normalized() );
         //System.out.println( $computeRange.list$() );
-        assertEquals( 4, $computeRange.list$().size());
+        assertEquals( 4, $computeRange.$list().size());
         //System.out.println( $computeRange.list$Normalized() );
-        assertEquals( 4, $computeRange.list$Normalized().size());
+        assertEquals( 4, $computeRange.$listNormalized().size());
         //System.out.println($computeRange.fill("multiply10to20",10,20,"*"));
     }
     

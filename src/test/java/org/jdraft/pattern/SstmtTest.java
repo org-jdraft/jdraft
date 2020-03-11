@@ -26,12 +26,12 @@ public class SstmtTest extends TestCase {
     public void testReturnEmbedAndParameters(){
         $stmt $s = $stmt.of(
                 Stmt.of((Object $any$)-> {$label: System.out.println(0);} ) );
-        assertTrue( $s.list$().contains("label"));
+        assertTrue( $s.$list().contains("label"));
 
 
         $s = $stmt.of(
                 Stmt.of((Object $any$)-> {$label: System.out.println($any$);} ) );
-        List<String> $names = $s.list$();
+        List<String> $names = $s.$list();
         System.out.println($names);
     }
     public void testUnCommentEmptyStmt(){

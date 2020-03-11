@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
  */
 public class _refactorPrintToLog {
     /** find these statements to be replaced */
-
     static $stmt $anySystemOut = $stmt.of("System.out.println($any$);");
 
     /** this is the format of the (one or more) Logger Statement(s) used in place of the System out */
@@ -60,7 +59,7 @@ public class _refactorPrintToLog {
                                String loggerStatementsFormat){
 
         Stencil st = Stencil.of(loggerStatementsFormat);
-        List<String> vars = st.list$();
+        List<String> vars = st.$list();
         if( !vars.contains("name")){
             throw new _jdraftException("MISSING $var: \"name\" in : "+ loggerStatementsFormat +System.lineSeparator() +
                     "... used for representing the field NAME of the Logger");
@@ -69,7 +68,7 @@ public class _refactorPrintToLog {
             throw new _jdraftException("MISSING $var: \"any\" in : "+ loggerStatementsFormat +System.lineSeparator() +
                     "... used for representing the content to be logged");
         }
-        if( !adHocLogger.list$().contains("className")){
+        if( !adHocLogger.$list().contains("className")){
             throw new _jdraftException("MISSING $var: \"className\" in : "+ adHocLogger +System.lineSeparator() +
                     "... used for generating the logger for the class");
         }

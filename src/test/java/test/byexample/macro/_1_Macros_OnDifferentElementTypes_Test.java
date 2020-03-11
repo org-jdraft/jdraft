@@ -72,7 +72,7 @@ public class _1_Macros_OnDifferentElementTypes_Test extends TestCase {
         class P{
             // on constructor parameters
             // you can have 0,1, or more on EACH parameter
-            P(@_final @_name("n") String s){ }
+            P(@_final @_rename("n") String s){ }
 
             // on method parameters
             void m( @_final String name, @_final int y){

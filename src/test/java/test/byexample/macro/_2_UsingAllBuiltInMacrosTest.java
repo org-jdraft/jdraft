@@ -140,10 +140,10 @@ public class _2_UsingAllBuiltInMacrosTest extends TestCase {
         _annotation _ac = _annotation.of("aaa.AI", new @_imports(UUID.class) Object(){});
 
         //name works on type
-        @_name("Rename")class N{
+        @_rename("Rename")class N{
             //name works on field
-            @_name("x") int i = 100;
-            @_name("method") void m(){}
+            @_rename("x") int i = 100;
+            @_rename("method") void m(){}
         }
         assertEquals( "Rename", _class.of(N.class).getName());
 

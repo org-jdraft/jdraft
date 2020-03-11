@@ -62,9 +62,9 @@ public class $argumentsTest extends TestCase {
 
         $arguments $oneExpr = $arguments.of( a->a.size() ==1 );
         assertEquals(1, $oneExpr.countIn(C.class));
-        $arguments $twoExprs = $arguments.of( $e.of(), $e.of() );
+        $arguments $twoExprs = $arguments.of( $expression.of(), $expression.of() );
         assertEquals(1, $twoExprs.countIn(C.class));
-        $arguments $strAny = $arguments.of( $string.of(), $e.of() );
+        $arguments $strAny = $arguments.of( $string.of(), $expression.of() );
         assertEquals(1, $strAny.countIn(C.class));
 
     }

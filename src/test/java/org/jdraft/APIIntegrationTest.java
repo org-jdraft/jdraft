@@ -78,7 +78,7 @@ public class APIIntegrationTest extends TestCase {
         class FF{
             int x,y;
         }
-        @_name("FF") @_dto
+        @_rename("FF") @_dto
         class EE{
             int x,y;
         }

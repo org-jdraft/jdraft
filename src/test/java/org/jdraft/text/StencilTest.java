@@ -57,11 +57,11 @@ public class StencilTest
 
         Stencil em = Stencil.of( "$$a:some text :$$");
         em = Stencil.of( "$$a:some text :a$$");
-        assertTrue( em.list$().contains("a") );
+        assertTrue( em.$list().contains("a") );
         em = Stencil.of( "$$a:some text :a$$");
-        assertTrue( em.list$().contains("a") );
+        assertTrue( em.$list().contains("a") );
         em = Stencil.of( "$$a:some text :a[,;]$$");
-        assertTrue( em.list$().contains("a") );
+        assertTrue( em.$list().contains("a") );
         assertEquals("$$a:some text :a[,;]$$",em.toString() );
         List<Stencil.Embed> ses = em.listEmbeds();
         assertEquals( 1, ses.size());

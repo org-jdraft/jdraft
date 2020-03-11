@@ -38,7 +38,7 @@ public class _diffApiTest extends TestCase {
         class FF{
             int x,y;
         }
-        @_name("FF") @_dto
+        @_rename("FF") @_dto
         class EE{
             int x,y;
         }
@@ -87,7 +87,7 @@ public class _diffApiTest extends TestCase {
             }
         }
         
-        @_name("A")
+        @_rename("A")
         class B{
             class Inner{
                 int g = 100;
@@ -201,8 +201,8 @@ public class _diffApiTest extends TestCase {
                 int g = 100;
             }
         }
-        
-        @_name("A")
+
+        @_rename("A")
         class B{
             class Inner{
                 int g = 100;
@@ -311,8 +311,8 @@ public class _diffApiTest extends TestCase {
                 int g = 100;
             }
         }
-        
-        @_name("A")
+
+        @_rename("A")
         class B{
             class Inner{
                 int g = 100;
@@ -382,7 +382,7 @@ public class _diffApiTest extends TestCase {
                 }
             }
         }
-        @_name("E")
+        @_rename("E")
         class F{
             class Inner{
                 public void m(){

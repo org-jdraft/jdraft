@@ -269,8 +269,8 @@ public class _inspectTest extends TestCase {
             void m(){}
             C(){}
         }
-        
-        @_name("C")
+
+        @_rename("C")
         class D{
             int a;
             void m(){}
@@ -312,8 +312,8 @@ public class _inspectTest extends TestCase {
                System.out.println(1);
                System.out.println(2);
             } 
-        } 
-        @_name("C")
+        }
+        @_rename("C")
         class D{
             public void m(){
                System.out.println(2);

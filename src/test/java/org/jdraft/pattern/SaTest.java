@@ -353,7 +353,7 @@ public class SaTest extends TestCase {
         assertTrue( a.select(_anno.of("@name(prefix=\"1\")") ).is("any", Ex.stringLiteralEx("1")) );
 
         assertTrue( a.select(_anno.of("@name(prefix=\"ABCD\")")).is("any", "ABCD"));
-        assertTrue( a.list$().contains("any"));
+        assertTrue( a.$list().contains("any"));
 
 
         @name(prefix="Mr.")

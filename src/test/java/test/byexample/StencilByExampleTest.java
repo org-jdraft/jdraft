@@ -83,7 +83,7 @@ public class StencilByExampleTest extends TestCase {
          // it's a matchAny stencil
          assertTrue(any.isMatchAny());
          assertFalse(any.isFixedText()); //matchAny is effectively the opposite of a "FixedText" Stencil
-         assertEquals( "matchAnything", any.list$().get(0));
+         assertEquals( "matchAnything", any.$list().get(0));
 
         //when the entire stencil is a parameter, it will match ANY string of text
         assertTrue(any.matches("Any text will match YOLO!@@##"));
@@ -110,7 +110,7 @@ public class StencilByExampleTest extends TestCase {
         assertFalse(ifThen.isFixedText());
 
         //we can get all of the parameterized names from the stencil with list$()
-        List<String> $params = ifThen.list$();
+        List<String> $params = ifThen.$list();
         assertTrue( $params.contains("cond") );
         assertTrue( $params.contains("then") );
 
@@ -200,14 +200,14 @@ public class StencilByExampleTest extends TestCase {
      */
     public void testFillDraftCapitalization(){
         Stencil cap = Stencil.of( "$name$ $Name$ $NAME$");
-        List<String> $params = cap.list$();
+        List<String> $params = cap.$list();
         assertEquals(3, $params.size());
         assertEquals("name", $params.get(0));
         assertEquals("Name", $params.get(1));
         assertEquals("NAME", $params.get(2));
 
         //we can find the number of required/distinct params by calling list$Normalized();
-        List<String>$normalized = cap.list$Normalized();
+        List<String>$normalized = cap.$listNormalized();
         assertEquals(1, $normalized.size()); //only (1) distinct $param "name"
         assertEquals("name", $normalized.get(0));
 
@@ -243,13 +243,13 @@ public class StencilByExampleTest extends TestCase {
     public void testPost$Parameterize(){
         //heres a simple stencil with a single $parameter
         Stencil ifCond = Stencil.of("if($cond$){ then(); }");
-        assertEquals(1,  ifCond.list$().size()); //{"cond"}
+        assertEquals(1,  ifCond.$list().size()); //{"cond"}
         assertEquals( "if(x==10){ then(); }", ifCond.draft("cond", "x==10") );
 
         //if we have a Stencil and we want to ADD A PARAMETER WHERE FIXED TEXT IS, we use $(...)
         //                        target text, $param name
         Stencil ifThen = ifCond.$(" then(); ", "then");
-        assertEquals( 2, ifThen.list$().size()); // {cond, then}
+        assertEquals( 2, ifThen.$list().size()); // {cond, then}
         assertEquals( "if(x==10){out.print(10);}", ifThen.draft("cond", "x==10", "then", "out.print(10);") );
 
         //here is an example of a fixed method (no $parameters)
@@ -274,8 +274,8 @@ public class StencilByExampleTest extends TestCase {
         //}
 
         //there should be (5) blanks to be filled with the (3) parameters
-        assertEquals( 5, setMethod.list$().size()); //{"Name", "type", "name", "name", "name"}
-        assertEquals( 2, setMethod.list$Normalized().size()); //{"name", "type"}
+        assertEquals( 5, setMethod.$list().size()); //{"Name", "type", "name", "name", "name"}
+        assertEquals( 2, setMethod.$listNormalized().size()); //{"name", "type"}
 
         assertEquals(
                 Text.combine("public void setLength(int length){",

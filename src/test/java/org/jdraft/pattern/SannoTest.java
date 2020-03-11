@@ -14,11 +14,11 @@ public class SannoTest extends TestCase {
 
     public void testOrList(){
         $anno $aor = $anno.or( $anno.of("A($e1$)"), $anno.of("B($e2$)") );
-        assertTrue( $aor.list$().contains("e1"));
-        assertTrue( $aor.list$().contains("e2"));
+        assertTrue( $aor.$list().contains("e1"));
+        assertTrue( $aor.$list().contains("e2"));
 
-        assertTrue( $aor.list$Normalized().contains("e1"));
-        assertTrue( $aor.list$Normalized().contains("e2"));
+        assertTrue( $aor.$listNormalized().contains("e1"));
+        assertTrue( $aor.$listNormalized().contains("e2"));
     }
 
     public void testOr(){
@@ -310,7 +310,7 @@ public class SannoTest extends TestCase {
         assertTrue( $a.select(_anno.of("@name(prefix=\"1\")") ).is("any", "1") );
 
         assertTrue( $a.select(_anno.of("@name(prefix=\"ABCD\")")).is("any", "ABCD"));
-        assertTrue( $a.list$().contains("any"));
+        assertTrue( $a.$list().contains("any"));
 
 
         @name(prefix="Mr.")
