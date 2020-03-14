@@ -366,7 +366,7 @@ public class $class
                 _c.addExtend(e);
             }
         }
-        this.implement.forEach(i -> _c.implement( i.draft(translator, base).toString() ) );
+        this.implement.forEach(i -> _c.addImplement( i.draft(translator, base).toString() ) );
 
         _c.addAnnos( this.annos.draft(translator, base).ast() );
         this.initBlocks.forEach(ib -> _c.initBlock( ib.draft(translator, base)));

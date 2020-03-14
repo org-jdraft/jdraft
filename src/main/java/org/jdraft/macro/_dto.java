@@ -54,7 +54,7 @@ public @interface _dto {
             _class _c = _class.of(signature);
             oce.getAnonymousClassBody().get().forEach(b -> _c.ast().addMember(b));
             Arrays.stream(body.getClass().getInterfaces()).forEach(e -> {
-                _c.implement(e);
+                _c.addImplement(e);
                 _c.addImports(e);
             });
             if (body.getClass().getSuperclass() != null) {

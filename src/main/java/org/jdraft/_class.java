@@ -12,7 +12,6 @@ import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
-import com.github.javaparser.ast.type.Type;
 import org.jdraft._java.*;
 import com.github.javaparser.utils.Log;
 import org.jdraft.io._in;
@@ -264,7 +263,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         if(theClass.getInterfaces().length > 0){
             for(int i=0; i< theClass.getInterfaces().length; i++){
                 _c.addImports(theClass.getInterfaces()[i]);
-                _c.implement(theClass.getInterfaces()[i]);
+                _c.addImplement(theClass.getInterfaces()[i]);
             }
         }
         //extends to extend
@@ -357,11 +356,11 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * @param classToImplement 
      * @return  
      */
-    public _class implement ( String classToImplement ){
+    public _class addImplement(String classToImplement ){
         return addImplements( new String[]{classToImplement});
     }
 
-    public _class implement (_interface _i) {
+    public _class addImplement(_interface _i) {
         addImports(_i);
         return addImplements(new _interface[]{_i});
     }
@@ -397,7 +396,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * @param clazz the class to implement
      * @return the modified _class
      */
-    public _class implement( Class clazz ){
+    public _class addImplement(Class clazz ){
         addImports(clazz);
         return addImplements( new Class[]{clazz} );
     }
@@ -479,7 +478,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * into the _class
      * @return the modified _class
      */
-    public _class body(Object anonymousClassBody ){
+    public _class addBodyMembers(Object anonymousClassBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         ObjectCreationExpr oce = Ex.newEx(ste);
 
@@ -508,7 +507,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         _import.inferImportsFrom(anonymousClassBody).forEach( i -> addImports(i) );
         
         Class[] ints = anonymousClassBody.getClass().getInterfaces();
-        Arrays.stream(ints).forEach( i -> implement(i) );
+        Arrays.stream(ints).forEach( i -> addImplement(i) );
         
         if( anonymousClassBody.getClass().getSuperclass() != null && anonymousClassBody.getClass().getSuperclass() != Object.class ){
             this.addExtend( anonymousClassBody.getClass().getSuperclass() );

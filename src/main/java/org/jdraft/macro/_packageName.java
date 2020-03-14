@@ -5,7 +5,6 @@ import com.github.javaparser.ast.body.TypeDeclaration;
 import org.jdraft._type;
 
 import java.lang.annotation.*;
-import java.util.function.Consumer;
 
 /**
  * Annotation/Macro to set the package of a {@link _type} (and optionally create a top-level type
@@ -15,20 +14,20 @@ import java.util.function.Consumer;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.TYPE_USE})
-public @interface _package {
+public @interface _packageName {
 
     String value() default "";
 
-    class Act extends macro<_package, TypeDeclaration> {
+    class Act extends macro<_packageName, TypeDeclaration> {
 
         String packageName = "";
 
         public Act(String packageName ){
-            super(_package.class);
+            super(_packageName.class);
             this.packageName = packageName;
         }
 
-        public Act( _package p){
+        public Act( _packageName p){
             super(p);
             this.packageName = p.value();
         }

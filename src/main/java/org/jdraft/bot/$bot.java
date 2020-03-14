@@ -68,6 +68,11 @@ public interface $bot<B, _B, $B>
     }
 
     default Select<_B> selectFirstIn(_java._domain _j, Predicate<Select<_B>> matchFn) {
+        if( _j instanceof _codeUnit){
+            if( ((_codeUnit) _j).isTopLevel()){
+                selectFirstIn(_j, matchFn);
+            }
+        }
         return selectFirstIn(_j, matchFn);
     }
 
@@ -93,18 +98,31 @@ public interface $bot<B, _B, $B>
 
 
     default int countIn(Class<?> clazz) {
-        return countIn(Ast.of(clazz));
+        _type _t = _java.type(clazz);
+        return countIn(_t);
     }
 
     default int countIn(Class<?> clazz, Predicate<_B> _matchFn) {
-        return countIn(Ast.of(clazz), _matchFn);
+        return countIn((_type)_java.type(clazz), _matchFn);
     }
 
     default int countIn(_java._node<?, ?> _j) {
+        if( _j instanceof _type){
+            _type _t = (_type)_j;
+            if( _t.isTopLevel() ){
+                return countIn(_t.astCompilationUnit());
+            }
+        }
         return countIn(_j.ast());
     }
 
     default int countIn(_java._node<?, ?> _j, Predicate<_B> _matchFn) {
+        if( _j instanceof _type){
+            _type _t = (_type)_j;
+            if( _t.isTopLevel() ){
+                return countIn(_t.astCompilationUnit(), _matchFn);
+            }
+        }
         return countIn(_j.ast(), _matchFn);
     }
 
@@ -128,7 +146,20 @@ public interface $bot<B, _B, $B>
         return _t;
     }
 
+    default <_J extends _java._node<?,?>> _J forEachIn(_J _j, Consumer<_B> actionFn){
+        if( _j instanceof _type && ((_type)_j).isTopLevel()){
+            forEachIn(((_type) _j).astCompilationUnit(), t->true, actionFn);
+            return _j;
+        }
+        forEachIn(_j.ast(), t->true, actionFn);
+        return _j;
+    }
+
     default <_J extends _java._node<?,?>> _J forEachIn(_J _j, Predicate<_B> matchFn, Consumer<_B> actionFn){
+        if( _j instanceof _type && ((_type)_j).isTopLevel()){
+            forEachIn(((_type) _j).astCompilationUnit(), matchFn, actionFn);
+            return _j;
+        }
         forEachIn(_j.ast(), matchFn, actionFn);
         return _j;
     }
@@ -206,10 +237,18 @@ public interface $bot<B, _B, $B>
     }
 
     default List<_B> listIn(_java._node<?, ?> _j){
-        return listIn(_j.ast());
+        return listIn(_j, t->true);
     }
 
     default List<_B> listIn(_java._node<?, ?> _j, Predicate<_B> _matchFn){
+        if( _j instanceof _codeUnit){
+            _codeUnit _c = (_codeUnit) _j;
+            if( _c.isTopLevel() ){
+                return listIn(_c.astCompilationUnit(), _matchFn);
+            }
+            _type _t = (_type) _j; //only possible
+            return listIn (_t.ast(), _matchFn);
+        }
         return listIn(_j.ast(), _matchFn);
     }
 
@@ -276,66 +315,6 @@ public interface $bot<B, _B, $B>
 
     default Stream<_B> streamIn(Node astNode, Predicate<_B> matchFn){
         return listIn(astNode, matchFn).stream();
-    }
-
-    /**
-     * This is HOW the Larger level $bots (i.e. {@link $methodCall}) organize and assign the embedded bots
-     * ({@link $methodCall#scope}, {@link $methodCall#name}, {@link $methodCall#arguments}, {@link $methodCall#typeArguments}
-     * Assigns a bot to a specific syntactical entity:
-     * (for example we might have a $name bot instance and we want to assign it to
-     * the name of a $method bot... it will take in the _method, and it will know how to select
-     * the name of a particular method.
-     *
-     * internally stores
-     * A function for extracting the target entity from the candidate (i.e. (_meth)-> _meth.getName() )
-     * applying a specific bot to it (i.e.
-     * 1) extracting a child entity from it's parent
-     * 2) using a specific bot to test
-     */
-    class $botSelect<_JP extends _java._domain, _JC> implements BiFunction<_JP, Tokens, Tokens> {
-
-        /** extract the (_JC) child entity from the (_JP)parent (so the bot can operate on the _JC entity)*/
-        public Function<_JP,_JC> extract;
-
-        /** the bot that will select from the _JC child entity*/
-        public $bot<?, _JC, ?> bot;
-
-        public $botSelect( Function<_JP, _JC> extract, $bot<?,_JC,?> bot){
-            this.extract = extract;
-            this.bot = bot;
-        }
-
-        public $botSelect setBot($bot<?, _JC, ?> bot ){
-            this.bot = bot;
-            return this;
-        }
-
-        /**
-         * given a candidate Parent object, and Tokens,
-         * 1) assuming the seriesTokens are not null
-         * 2) extract the child _JC from the parent _JP
-         * 3) try to select with the bot with _JC as input
-         *
-         * @param j
-         * @param seriesTokens
-         * @return
-         */
-        @Override
-        public Tokens apply(_JP j, Tokens seriesTokens) {
-            if( seriesTokens == null ){
-                return null; //if tokens was null, it means the bot before in the series failed, so dont waste time testing
-            }
-            _JC _jc = extract.apply(j); //extract the _JC child entity from the _JP parent
-            Select<_JC> sel = bot.select(_jc); //
-            if( sel == null ){
-                return null;
-            }
-            if( seriesTokens.isConsistent(sel.tokens)){ //verify consistency, (no two tokens with the same name have a different value
-                seriesTokens.putAll(sel.tokens); //if they are consistent, add/merge the tokens
-                return seriesTokens; //return the updated tokens including the selected tokens from the bot
-            }
-            return null;
-        }
     }
 
     /**
@@ -417,6 +396,12 @@ public interface $bot<B, _B, $B>
         }
 
         default <_J extends _java._node<?,?>> _J removeIn(_J _j) {
+            if( _j instanceof _codeUnit){
+                if( ((_codeUnit) _j).isTopLevel()){
+                    forEachIn(((_codeUnit) _j).astCompilationUnit(), p->true, n-> n.ast().removeForced());
+                    return _j;
+                }
+            }
             forEachIn(_j.ast(), p->true, n-> n.ast().removeForced());
             return _j;
         }
@@ -428,8 +413,19 @@ public interface $bot<B, _B, $B>
         }
 
         default <_J extends _java._node<?,?>> _J removeIn(_J _j, Predicate<_P> _matchFn) {
-            forEachIn(_j.ast(), _matchFn, n-> n.ast().removeForced());
+            if( _j instanceof _codeUnit){
+                _codeUnit _c = (_codeUnit) _j;
+                if( _c.isTopLevel() ){
+                    forEachIn(_c.astCompilationUnit(), _matchFn, n-> n.ast().removeForced());
+                    return _j;
+                }
+                _type _t = (_type) _j; //only possible
+                forEachIn(_t.ast(), _matchFn, n-> n.ast().removeForced()); //return the TypeDeclaration, not the CompilationUnit
+                return _j;
+            }
+            forEachIn(((_java._node) _j).ast(), _matchFn,  n-> n.ast().removeForced());
             return _j;
+
         }
 
 
@@ -444,7 +440,7 @@ public interface $bot<B, _B, $B>
 
         default <_CT extends _type<?,?>, _N extends _java._node<?, ?>> _CT replaceSelectedIn(Class<?> clazz, Template<_N> replaceNode) {
             _CT _ct = _java.type(clazz);
-            replaceSelectedIn(_ct.ast(), t->true, replaceNode);
+            replaceSelectedIn(_ct.astCompilationUnit(), t->true, replaceNode);
             return _ct;
         }
 
@@ -453,13 +449,19 @@ public interface $bot<B, _B, $B>
         }
 
         default <_J extends _java._node,  _N extends _java._node<?, ?>> _J replaceIn(_J _j, Template<_N> _t) {
+            if( _j instanceof _codeUnit){
+                if( ((_codeUnit) _j).isTopLevel() ) {
+                    replaceSelectedIn(((_codeUnit) _j).astCompilationUnit(), t -> true, _t);
+                    return _j;
+                }
+            }
             replaceSelectedIn(_j.ast(), t->true, _t);
             return _j;
         }
 
         default <_CT extends _type<?,?>, _N extends _java._node<?, ?>> _CT replaceIn(Class<?> clazz, Template<_N> _t) {
             _CT _ct = _java.type(clazz);
-            replaceSelectedIn(_ct.ast(), t->true, _t);
+            replaceSelectedIn(_ct.astCompilationUnit(), t->true, _t);
             return _ct;
         }
 
@@ -523,13 +525,28 @@ public interface $bot<B, _B, $B>
         }
 
         default <_J extends _java._node<?,?>> _J replaceSelectedIn(_J _j, Function<Select<_P>, Node> replaceDeriver) {
+            if(_j instanceof _codeUnit){
+                if( ((_codeUnit)_j).isTopLevel() ){
+                    replaceSelectedIn(((_codeUnit) _j).astCompilationUnit(), p->true, replaceDeriver);
+                    return _j;
+                }
+            }
             replaceSelectedIn(_j.ast(), p->true, replaceDeriver);
             return _j;
         }
 
         default <_J extends _java._node<?,?>> _J replaceSelectedIn(_J _j, Predicate<Select<_P>> selectMatchFn, Function<Select<_P>, Node> replaceDeriver) {
+            if(_j instanceof _codeUnit){
+                if( ((_codeUnit)_j).isTopLevel() ){
+                    replaceSelectedIn(((_codeUnit) _j).astCompilationUnit(), selectMatchFn, replaceDeriver);
+                    return _j;
+                }
+            }
             replaceSelectedIn(_j.ast(), selectMatchFn, replaceDeriver);
             return _j;
+
+            //replaceSelectedIn(_j.ast(), selectMatchFn, replaceDeriver);
+            //return _j;
         }
 
         default <N extends Node> N replaceSelectedIn(N astNode, Function<Select<_P>, Node> replaceDeriver) {
