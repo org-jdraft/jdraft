@@ -5,9 +5,8 @@ import javax.swing.ImageIcon;
 
 //import com.sun.javadoc.SourcePosition;
 import org.jdraft._class;
-import org.jdraft.macro._package;
+import org.jdraft.macro._packageName;
 import org.jdraft.macro._public;
-import org.jdraft.macro._remove;
 import org.jdraft.macro._static;
 
 //import com.sun.tools.javac.util.BasicDiagnosticFormatter.BasicConfiguration.SourcePosition;
@@ -50,7 +49,7 @@ public class ManifoldTest extends TestCase {
      .rawText("}"))));
      */
     public void testImageCodeGen() {
-        @_package("manifold.imagecodegen")
+        @_packageName("manifold.imagecodegen")
         @_public class Sample extends ImageIcon{
 
             @_static Sample INSTANCE;

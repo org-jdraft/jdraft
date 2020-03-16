@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 import org.jdraft._class;
 import org.jdraft._field;
 import org.jdraft._method;
-import org.jdraft.macro._package;
+import org.jdraft.macro._packageName;
 import org.jdraft.macro._remove;
 
 public class _5_AllModelsTest extends TestCase {
@@ -31,7 +31,7 @@ public class _5_AllModelsTest extends TestCase {
         }));
 
         //local class
-        @_package("aaaa") class C{
+        @_packageName("aaaa") class C{
             int i=0;
         }
         assertEquals( _c, _class.of(C.class) );

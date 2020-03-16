@@ -1239,7 +1239,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public $stmt $hardcode(Translator translator, Tokens kvs ) {
-        this.stmtStencil = this.stmtStencil.hardcode$(translator, kvs);
+        this.stmtStencil = this.stmtStencil.$hardcode(translator, kvs);
         return this;
     }
 

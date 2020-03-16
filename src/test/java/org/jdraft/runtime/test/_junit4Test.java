@@ -1,17 +1,11 @@
 package org.jdraft.runtime.test;
 
-import com.github.javaparser.ast.stmt.CatchClause;
-import com.github.javaparser.ast.stmt.WhileStmt;
 import junit.framework.TestCase;
 import org.jdraft._class;
 import org.jdraft.macro._extend;
-import org.jdraft.macro._non_static;
-import org.jdraft.macro._package;
+import org.jdraft.macro._packageName;
 import org.jdraft.runtime._runtime;
-import org.jdraft.runtime._runtimeException;
 import org.junit.runner.Result;
-import org.junit.runner.notification.Failure;
-import org.junit.runner.notification.RunListener;
 
 import java.io.IOException;
 
@@ -63,14 +57,14 @@ public class _junit4Test extends TestCase {
             System.out.println (_class.of(FailAssumption.class));
             System.out.println (_class.of(FailException.class));
         }
-        @_package("test")
+        @_packageName("test")
         @_extend(TestCase.class)
         public class FailAssumption {
             public void testAssumption() {
                 assertTrue(1 == 2);
             }
         }
-        @_package("test")
+        @_packageName("test")
         @_extend(TestCase.class)
         public class FailException  {
             public void testThrowException() throws IOException {

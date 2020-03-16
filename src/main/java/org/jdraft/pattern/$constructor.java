@@ -896,7 +896,7 @@ public class $constructor
         javadoc = javadoc.$hardcode(translator, kvs);
         annos = annos.$hardcode(translator, kvs);
         typeParameters = typeParameters.$hardcode(translator, kvs);
-        name.nameStencil = name.nameStencil.hardcode$(translator, kvs);
+        name.nameStencil = name.nameStencil.$hardcode(translator, kvs);
         parameters = parameters.$hardcode(translator, kvs);
         thrown = thrown.$hardcode(translator, kvs);
         body = body.$hardcode(translator, kvs );

@@ -53,6 +53,12 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
         throw new $pattern.$exception("class " + expressionClass + " is not Expression or _expression type");
     }
 
+    public static <E extends Expression, _E extends _expression, $E extends $ex> $ex<E,_E,$E> of(Class expressionClass, String...ex){
+        $ex $e = $ex.of(expressionClass);
+        $e.exprStencil = Stencil.of(ex);
+        return $e;
+    }
+
     /**
      * 
      * @param <E>
@@ -1972,7 +1978,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      */
     @Override
     public $E $hardcode(Translator translator, Tokens tokens) {
-        this.exprStencil = this.exprStencil.hardcode$(translator, tokens);
+        this.exprStencil = this.exprStencil.$hardcode(translator, tokens);
         return ($E)this;
     }
 

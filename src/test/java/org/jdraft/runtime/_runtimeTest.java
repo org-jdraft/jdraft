@@ -32,7 +32,7 @@ public class _runtimeTest extends TestCase {
 
         /* <code>int i=1;</code> */
 
-        @_package("aaaa.bbbb") @_dto @_public class C implements Serializable{
+        @_packageName("aaaa.bbbb") @_dto @_public class C implements Serializable{
             double x,y;
         }
         Serializable i = (Serializable)_runtime.instanceOf(_class.of(C.class));
@@ -41,7 +41,7 @@ public class _runtimeTest extends TestCase {
         System.out.println( i.toString() );
 
 
-        @_package("aaaa.bbbb") @_dto @_public class D implements Serializable{
+        @_packageName("aaaa.bbbb") @_dto @_public class D implements Serializable{
             @_final double x,y;
         }
 

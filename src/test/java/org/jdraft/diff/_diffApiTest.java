@@ -25,9 +25,27 @@ public class _diffApiTest extends TestCase {
         //take the left value and patch it right (set B.b on class B to be 100, the value from A.b)
         _d.firstOn(_field.class, "b").patchLeftToRight();
 
-        _class rr = (_class)_d.list().get(0).rightParent();
-
+        //_class rr = (_class)_d.list().get(0).rightParent();
     }
+
+    public void testDiffClassParts(){
+        /**** This is just setting up to classes to diff ****/
+        class A { int a; int b=100;              void m(){} A(){} }
+
+        @_rename("A")
+        class B { int a; int b=200; String name; }
+        /****************************************************/
+
+        _class _a = _class.of(A.class);
+        _class _b = _class.of(B.class);
+        _diff _d = _diff.of( _a, _b );
+        System.out.println( _d ); //we can print out the diff
+
+        _d.patchLeftToRight(); //we can patch the changes from left to right
+        assertEquals(_a, _b);
+    }
+
+
 
     /**
      * Left only diff means there is an entity that is on the left 

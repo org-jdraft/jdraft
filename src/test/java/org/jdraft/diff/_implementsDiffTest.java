@@ -22,15 +22,15 @@ public class _implementsDiffTest extends TestCase {
     }
     
     public void testFullyQualified(){
-        _class _a1 = _class.of("A").implement("aaaa.bbbb.B");
-        _class _a2 = _class.of("A").implement("aaaa.bbbb.B");
+        _class _a1 = _class.of("A").addImplement("aaaa.bbbb.B");
+        _class _a2 = _class.of("A").addImplement("aaaa.bbbb.B");
         
         assertTrue( _implementsDiff.INSTANCE.diff( _a1, _a2).isEmpty() );
     }
     
     public void testFullyQualifiedvNot(){
-        _class _a1 = _class.of("A").implement("aaaa.bbbb.B");
-        _class _a2 = _class.of("A").implement("B");
+        _class _a1 = _class.of("A").addImplement("aaaa.bbbb.B");
+        _class _a2 = _class.of("A").addImplement("B");
         
         assertTrue( _implementsDiff.INSTANCE.diff( _a1, _a2).isEmpty() );
     }

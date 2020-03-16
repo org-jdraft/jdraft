@@ -78,7 +78,7 @@ public class LutBuilder {
 
     public static Object runtimeLut( String className, Method lutMethod, Map keyValues){
         _class _c = buildLutClass(className, lutMethod.getParameterTypes()[0],lutMethod.getReturnType(),keyValues);
-        _c.implement(lutMethod.getDeclaringClass()); //
+        _c.addImplement(lutMethod.getDeclaringClass()); //
         //System.out.println( _c ); //we could print out the source code here
         return _runtime.instanceOf(_c);
     }

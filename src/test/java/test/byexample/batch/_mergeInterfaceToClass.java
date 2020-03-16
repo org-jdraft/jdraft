@@ -2,7 +2,7 @@ package test.byexample.batch;
 
 import junit.framework.TestCase;
 import org.jdraft.*;
-import org.jdraft.macro._package;
+import org.jdraft.macro._packageName;
 import org.jdraft.macro._public;
 import org.jdraft.runtime._runtime;
 
@@ -11,14 +11,14 @@ import java.util.UUID;
 
 public class _mergeInterfaceToClass extends TestCase {
 
-    @_package("aaaa.bbbb")
+    @_packageName("aaaa.bbbb")
     public class OnlyOne{
         public void alreadyImplemented(){
             System.out.println("keep this one");
         }
     }
 
-    @_package("aaaa.bbbb")
+    @_packageName("aaaa.bbbb")
     @_public interface I{
 
         /** Javadoc*/
@@ -50,7 +50,7 @@ public class _mergeInterfaceToClass extends TestCase {
      */
     public void setUp(){
         _i = _interface.of(I.class).addImports(UUID.class);
-        _onlyOne = _class.of(OnlyOne.class).implement(_i);
+        _onlyOne = _class.of(OnlyOne.class).addImplement(_i);
 
         //remove the import for I
         _onlyOne.removeImports(_i);
@@ -109,5 +109,9 @@ public class _mergeInterfaceToClass extends TestCase {
 
         //for good measure, see if we can compile and load an instance
         _runtime.compile(_merged);
+    }
+
+    public void testMerge(){
+
     }
 }

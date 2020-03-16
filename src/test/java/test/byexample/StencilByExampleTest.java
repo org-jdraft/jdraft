@@ -232,7 +232,7 @@ public class StencilByExampleTest extends TestCase {
      *
      * The below methods will return new Variants of Stencils with modifications
      * @see Stencil#$(String, String)
-     * @see Stencil#hardcode$(Object...)
+     * @see Stencil#$hardcode(Object...)
      * @see Stencil#rename$(String, String)
      *
      * Here is an example of using the $() (parameterize) method
@@ -296,10 +296,10 @@ public class StencilByExampleTest extends TestCase {
     }
     /**
      *
-     * @see Stencil#hardcode$(Translator, Tokens)
-     * @see Stencil#hardcode$(Tokens)
-     * @see Stencil#hardcode$(Object...)
-     * @see Stencil#hardcode$(Translator, Object...)
+     * @see Stencil#$hardcode(Translator, Tokens)
+     * @see Stencil#$hardcode(Tokens)
+     * @see Stencil#$hardcode(Object...)
+     * @see Stencil#$hardcode(Translator, Object...)
      */
     public void testHardcodePostProcess(){
 
@@ -308,7 +308,7 @@ public class StencilByExampleTest extends TestCase {
                 ifThenElse.draft("cond", "a==4", "then", "out.print(4);", "else", "else{out.print(\"not 4\");}"));
 
         //hardcode$ will Return a NEW stencil with the $else$ parameter hardcoded at "" (empty)
-        Stencil ifThen = ifThenElse.hardcode$("else", "");
+        Stencil ifThen = ifThenElse.$hardcode("else", "");
 
         //now we can create the if then (w/o ANY else statement)
         assertEquals( "if(a==4){out.print(4);}", ifThen.draft("cond", "a==4", "then", "out.print(4);"));

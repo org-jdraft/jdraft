@@ -73,7 +73,7 @@ public class StencilTest
 
     public void testHardcode$(){
         Stencil s = Stencil.of("$a$");
-        s = s.hardcode$("a", "A");
+        s = s.$hardcode("a", "A");
         System.out.println(s );
     }
     public void testStNoTrim(){
@@ -241,7 +241,7 @@ public class StencilTest
 
     public void testAssign$() {
         Stencil st = Stencil.of( "SELECT $select$ FROM $from$ WHERE $where$" );
-        Stencil st2 = st.hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of("from", "PERSON"));
+        Stencil st2 = st.$hardcode( Translator.DEFAULT_TRANSLATOR, Tokens.of("from", "PERSON"));
         assertEquals( st2, Stencil.of( "SELECT $select$ FROM PERSON WHERE $where$") );
 
     }

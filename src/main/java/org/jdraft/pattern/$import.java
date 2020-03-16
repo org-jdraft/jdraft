@@ -336,7 +336,7 @@ public class $import
      * @return 
      */
     public $import $hardcode(Translator translator, Tokens kvs ) {
-        this.importStencil = this.importStencil.hardcode$(translator,kvs);
+        this.importStencil = this.importStencil.$hardcode(translator,kvs);
         return this;
     }
 

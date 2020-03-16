@@ -19,7 +19,7 @@ public class _1_Macros_OnDifferentElementTypes_Test extends TestCase {
     }
 
     public void testOnTypeUse_AnonymousClass(){
-        @_package("aaaa") @_dto class C{
+        @_packageName("aaaa") @_dto class C{
             int x,y;
         }
         _class _c = _class.of(C.class);

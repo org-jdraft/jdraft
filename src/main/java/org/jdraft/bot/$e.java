@@ -28,6 +28,10 @@ public class $e
 		$selector.$node<_expression, $e>,
 		$expression<Expression, _expression, $e> {
 
+	public static $e of(){
+		return new $e();
+	}
+
 	public static $e of(Stencil stencil ) {
 		return new $e(stencil);
 	}
@@ -96,6 +100,13 @@ public class $e
 	
 	public $e() {
 	}
+
+	public $e copy(){
+		$e copy = of( this.predicate.and(t->true));
+		copy.stencil = this.stencil.copy();
+		return copy;
+	}
+
 	/*
 	public $e(Expression e) {
 		this.stencil = Stencil.of(e.toString());
@@ -204,6 +215,13 @@ public class $e
 	
 	public $e $and(Predicate<_expression> matchFn) {
 		this.predicate = this.predicate.and(matchFn);
+		return this;
+	}
+
+	public $e $hardcode(Translator tr, Tokens ts){
+		if( this.stencil != null ){
+			this.stencil.$hardcode(tr, ts);
+		}
 		return this;
 	}
 

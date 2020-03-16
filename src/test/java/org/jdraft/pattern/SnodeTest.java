@@ -465,7 +465,7 @@ public class SnodeTest extends TestCase {
             
             //@$nodeTest.Ann
             public <B extends Base> void gg( B in ) {}                        
-        }).implement(Inter.class)
+        }).addImplement(Inter.class)
                 .addExtend(Base.class);
          
         //the first thing is to replace fully qualified references

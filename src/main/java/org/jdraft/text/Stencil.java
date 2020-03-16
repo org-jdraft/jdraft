@@ -88,6 +88,7 @@ public final class Stencil implements Template<String>{
         return this.$NamesNormalized;
     }
 
+
     public Stencil(TextForm textForm, List<String> $names, List<Embed> embeds) {
         this.textForm = textForm;
         this.$Names = $names;
@@ -99,6 +100,10 @@ public final class Stencil implements Template<String>{
             }
         }
         this.embeds = embeds;
+    }
+
+    public Stencil copy(){
+        return Stencil.of( this );
     }
 
     /**
@@ -397,8 +402,8 @@ public final class Stencil implements Template<String>{
      * @param kvs the key parameter NAME and String VALUE to assign to the
      * @return a ** NEW ** Stencil instance
      */
-    public Stencil hardcode$( Tokens kvs ) {
-        return hardcode$( Translator.DEFAULT_TRANSLATOR, kvs );
+    public Stencil $hardcode(Tokens kvs ) {
+        return $hardcode( Translator.DEFAULT_TRANSLATOR, kvs );
     }
 
     /**
@@ -419,8 +424,8 @@ public final class Stencil implements Template<String>{
      * @param keyValues the key parameter NAME and String VALUE to assign to the
      * @return a ** NEW ** Stencil instance
      */
-    public Stencil hardcode$( Object... keyValues ) {
-        return hardcode$( Translator.DEFAULT_TRANSLATOR, Tokens.of( keyValues ) );
+    public Stencil $hardcode(Object... keyValues ) {
+        return $hardcode( Translator.DEFAULT_TRANSLATOR, Tokens.of( keyValues ) );
     }
 
     /**
@@ -442,8 +447,8 @@ public final class Stencil implements Template<String>{
      * @param keyValues the key parameter NAME and String VALUE to assign to the
      * @return a ** NEW ** Stencil instance
      */
-    public Stencil hardcode$( Translator translator, Object... keyValues ) {
-        return hardcode$( translator, Tokens.of( keyValues ) );
+    public Stencil $hardcode(Translator translator, Object... keyValues ) {
+        return $hardcode( translator, Tokens.of( keyValues ) );
     }
 
     /**
@@ -466,7 +471,7 @@ public final class Stencil implements Template<String>{
      * @param kvs tokens to assign
      * @return the *NEW* Stencil instance
      */
-    public Stencil hardcode$( Translator translator, Tokens kvs ) {
+    public Stencil $hardcode(Translator translator, Tokens kvs ) {
         if( this.$Names.isEmpty() ) {
            return of(this);
         }
@@ -972,7 +977,7 @@ public final class Stencil implements Template<String>{
                 Stencil newStencil = Stencil.of( translator.translate(stencilValue));
                 this.stencil = newStencil;
             }
-            this.stencil = this.stencil.hardcode$(translator, keyValues);
+            this.stencil = this.stencil.$hardcode(translator, keyValues);
             return this;
         }
 
@@ -1196,11 +1201,6 @@ public final class Stencil implements Template<String>{
             }
             return new Stencil( bb.compile(), parameters, embedded );
         }
-
-
-
-
-
 
         private static boolean isValidParameter( String tok ) {
             if( tok.length() > 2 //"$$" is NOT a valid token

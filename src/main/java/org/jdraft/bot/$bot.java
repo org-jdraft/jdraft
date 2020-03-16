@@ -28,6 +28,12 @@ import java.util.stream.Stream;
 public interface $bot<B, _B, $B>
         extends $selector<_B, $B>, Template<_B> {
 
+    /**
+     * Build a new bot instance that is another mutable copy of this
+     * @return
+     */
+    //$B copy();
+
     Select<_B> select(Node n);
 
     /** */

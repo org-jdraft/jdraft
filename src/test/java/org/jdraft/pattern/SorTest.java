@@ -62,7 +62,7 @@ public class SorTest extends TestCase {
 
     //todo fix isExtends
     public void testIsImplements(){
-        _class _c = _class.of("C").addImports("a.b.c.Map;").implement("Map");
+        _class _c = _class.of("C").addImports("a.b.c.Map;").addImplement("Map");
         assertFalse( _c.hasImport(Map.class));
         assertFalse(_c.isImplements(Map.class));
 

@@ -5,62 +5,102 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.*;
+import com.github.javaparser.ast.nodeTypes.NodeWithName;
+import com.github.javaparser.ast.nodeTypes.NodeWithOptionalScope;
+import com.github.javaparser.ast.nodeTypes.NodeWithSimpleName;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.jdraft.text.Text;
 
+import java.util.Objects;
+
 /**
- * a name (in _draft parlance)
- * tries to unify the many different "ways" names (or identifiers) are modelled
- * and represented in JavaParser..
- *
- * for example, there are typically (3) distinct Node types that are covered under this umbrella
- * <UL>
- *     <LI>{@link Name}</LI>
- *     <LI>{@link SimpleName}</LI>
- *     <LI>{@link MethodReferenceExpr}</LI>
- * </UL>
+ * Unify things that can use fully qualified names
+ * i.e. method calls
+ * "java.lang.System.out.println()" or "System.out.println()" method Calls
+ * field accesses
+ * "System.out" or "Integer.MAX_VALUE"
+ * type
  *
  */
-public class _name implements _java._uniPart<Node, _name> {
+public class _qualifiedName implements _java._uniPart<Node, _qualifiedName> {
 
-    public static _name of( Node n){
-        if( n instanceof Name ){
+    public String getNameString(){
+        String firstPart = "";
+        if( this.name instanceof NodeWithOptionalScope ){
+            NodeWithOptionalScope nwos = (NodeWithOptionalScope)this.name;
+            if( nwos.getScope().isPresent() && nwos.getScope().get() instanceof NameExpr){
+                firstPart = nwos.getScope().get().toString();
+            } else{
+                firstPart = "";
+            }
+        }
+        if( this.name instanceof NodeWithName ){
+            NodeWithName nwn = (NodeWithName)this.name;
+            if( firstPart.length() > 0 ){
+                return firstPart + "." + nwn.getNameAsString();
+            }
+            return nwn.getNameAsString();
+        }
+        if( this.name instanceof NodeWithSimpleName){
+            NodeWithSimpleName nwn = (NodeWithSimpleName)this.name;
+            if( firstPart.length() > 0 ){
+                return firstPart + "." + nwn.getNameAsString();
+            }
+            return nwn.getNameAsString();
+        }
+        throw new _jdraftException("Can't handle node "+this.name.getClass()+" of:"+System.lineSeparator() + this.name);
+    }
+    //nodeWithScope + nodeWithSimpleName
+
+    public static _qualifiedName of( Node n){
+        //java.lang.System.out.println()
+        //System.err;
+        //Integer.MAX_VALUE;
+        if( n instanceof Name){ //could be the scope of a method
             return of( (Name)n);
         }
-        if( n instanceof SimpleName){
-            return of( (SimpleName)n );
-        }
-        if( n instanceof MethodReferenceExpr){
-            return of( (MethodReferenceExpr) n );
-        }
         if( n instanceof ClassOrInterfaceType){
-            return of( (ClassOrInterfaceType) n);
+            return of( (ClassOrInterfaceType)n );
+        }
+        if( n instanceof PackageDeclaration){
+            return of( (PackageDeclaration) n );
+        }
+        if( n instanceof MethodCallExpr){
+            return of( (MethodCallExpr) n);
+        }
+        if( n instanceof FieldAccessExpr ){
+            return of( (FieldAccessExpr)n);
         }
         throw new _jdraftException("cannot create _name of Node type "+ n.getClass());
     }
 
-    public static _name of( ClassOrInterfaceType coit){
-        return new _name(coit);
+    public static _qualifiedName of( MethodCallExpr mce){
+        return new _qualifiedName(mce);
     }
 
-    public static _name of( Name name){
-        return new _name(name);
+    public static _qualifiedName of( FieldAccessExpr fae){
+        return new _qualifiedName(fae);
     }
 
-    public static _name of( SimpleName simpleName){
-        return new _name(simpleName);
+    public static _qualifiedName of( ClassOrInterfaceType coit){
+        return new _qualifiedName(coit);
     }
 
-    public static _name of( MethodReferenceExpr simpleName){
-        return new _name(simpleName);
+    public static _qualifiedName of( PackageDeclaration pd){
+        return new _qualifiedName(pd);
     }
 
-    public static _name of(String...name){
+    public static _qualifiedName of( Name name){
+        return new _qualifiedName(name);
+    }
+
+    public static _qualifiedName of( MethodReferenceExpr simpleName){
+        return new _qualifiedName(simpleName);
+    }
+
+    public static _qualifiedName of(String...name){
         String str = Text.combine(name);
-        if( !str.contains(".") && !str.contains("::") ){
-            //MUST be a name
-            return of( new SimpleName(str) );
-        }
+
         if( str.contains("::")){
             return of( Ex.methodReferenceEx(str));
         }
@@ -69,7 +109,7 @@ public class _name implements _java._uniPart<Node, _name> {
         //return new _name( new SimpleName( Text.combine(name)) );
     }
 
-    public _name(Node sn){
+    public _qualifiedName(Node sn){
         this.name = sn;
     }
 
@@ -77,8 +117,8 @@ public class _name implements _java._uniPart<Node, _name> {
     public Node name;
 
     @Override
-    public _name copy() {
-        return _name.of( name.clone());
+    public _qualifiedName copy() {
+        return _qualifiedName.of( name.clone());
     }
 
     @Override
@@ -88,7 +128,7 @@ public class _name implements _java._uniPart<Node, _name> {
 
     @Override
     public boolean is(String... stringRep) {
-        return of( Text.combine(stringRep) ).equals(this);
+        return Objects.equals( Text.combine(stringRep), getNameString());
     }
 
     public boolean isAnnoName(){
@@ -108,14 +148,14 @@ public class _name implements _java._uniPart<Node, _name> {
         return name.getParentNode().isPresent()
                 &&
                 (name.getParentNode().get() instanceof MethodDeclaration
-                || name.getParentNode().get() instanceof MethodCallExpr);
+                        || name.getParentNode().get() instanceof MethodCallExpr);
     }
 
     public boolean isConstructorName(){
         return name.getParentNode().isPresent()
                 &&
                 (name.getParentNode().get() instanceof ConstructorDeclaration
-                  || name.getParentNode().get() instanceof ObjectCreationExpr); //new
+                        || name.getParentNode().get() instanceof ObjectCreationExpr); //new
     }
 
     /** Is this "name" type one that is being used in the context of a variable name? */

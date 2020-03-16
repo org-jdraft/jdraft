@@ -76,7 +76,7 @@ public class _diffPatchTest
         assertTrue(_diff.constructorsOf(_c1,_c2).isEmpty() );
         assertTrue(_diff.annosOf(_c1,_c2).isEmpty() );
         
-        _c2.body(new Object(){
+        _c2.addBodyMembers(new Object(){
             
             int f = 10;
             
@@ -254,13 +254,13 @@ public class _diffPatchTest
         _dl.patchLeftToRight();
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.implement(Serializable.class);
+        _c.addImplement(Serializable.class);
         _dl = _diff.of(_c, _c2);
         assertTrue( _dl.firstAt(IMPLEMENTS).isLeftOnly()); //verify that an implement was removed between c -> c2        
         _dl.patchLeftToRight(); //ok, push the change to both left and right
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.implement("SomeDiffInterface");
+        _c.addImplement("SomeDiffInterface");
         dl = _diff.of(_c, _c2);
         assertNotNull( dl.firstOn(IMPLEMENTS) );        
         dl.patchLeftToRight();        
@@ -679,7 +679,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();
         assertTrue(_diff.of(_i, _i2).isEmpty());
         
-        _c.implement("Impled");
+        _c.addImplement("Impled");
         dl = _diff.of(_i, _i2);
         assertTrue( dl.hasLeftOnlyAt(IMPLEMENTS));        
         dl.patchLeftToRight();

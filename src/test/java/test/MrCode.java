@@ -3,7 +3,7 @@ package test;
 import org.jdraft._class;
 import org.jdraft.io._sources;
 import org.jdraft.io._io;
-import org.jdraft.macro._package;
+import org.jdraft.macro._packageName;
 import org.jdraft.macro._public;
 import org.jdraft.pattern.$;
 import org.jdraft.pattern.$token;
@@ -65,7 +65,7 @@ public class MrCode {
          *
          *  @author Eric
          */
-        @_package("org.mrcode")
+        @_packageName("org.mrcode")
         @_public class MrCodeException extends RuntimeException {
 
             private static final long serialVersionUID = 8632925250693789277L;

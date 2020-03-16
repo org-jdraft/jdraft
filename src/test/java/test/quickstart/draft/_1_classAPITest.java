@@ -6,7 +6,7 @@ import org.jdraft._interface;
 import org.jdraft.diff._diff;
 import org.jdraft.macro._imports;
 import org.jdraft.macro._non_static;
-import org.jdraft.macro._package;
+import org.jdraft.macro._packageName;
 
 import java.beans.Encoder;
 import java.io.Serializable;
@@ -22,7 +22,7 @@ public class _1_classAPITest extends TestCase {
             .addAnnos("@Deprecated")
             .setFinal()
             .addExtend("java.beans.Encoder")
-            .implement("java.io.Serializable")
+            .addImplement("java.io.Serializable")
             .typeParameters("<T extends Serializable>")
             .staticBlock("System.out.println(\"static block \" + UUID.randomUUID().toString());")
             .addFields("public int i;", "public UUID uuid;")
@@ -44,9 +44,9 @@ public class _1_classAPITest extends TestCase {
             .setFinal()
             .typeParameters("<T extends Serializable>")
             .addExtend(java.beans.Encoder.class)
-            .implement(Serializable.class)
+            .addImplement(Serializable.class)
             .staticBlock(()->System.out.println("static block " + UUID.randomUUID().toString()))
-            .body( new Object(){
+            .addBodyMembers(new Object(){
                 public int i;
                 public UUID uuid;
                 public UUID getUUID(){ return this.uuid; }
@@ -62,7 +62,7 @@ public class _1_classAPITest extends TestCase {
      * javadoc
      */
     @Deprecated
-    @_package("math.entity")
+    @_packageName("math.entity")
     @_imports({Serializable.class, Encoder.class, UUID.class})
     public @_non_static static final class C<T extends Serializable> extends Encoder implements Serializable{
         static{ System.out.println("static block " + UUID.randomUUID().toString()); }

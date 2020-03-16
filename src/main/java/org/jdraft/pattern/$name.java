@@ -112,12 +112,12 @@ public class $name implements $constructor.$part, $method.$part, $field.$part,
     }
 
     public $name hardcode$(Translator tr, Tokens tokens){
-        this.nameStencil = this.nameStencil.hardcode$(tr, tokens);
+        this.nameStencil = this.nameStencil.$hardcode(tr, tokens);
         return this;
     }
 
     public $name hardcode$(Translator tr, Object...keyValues){
-        this.nameStencil = this.nameStencil.hardcode$(tr, keyValues);
+        this.nameStencil = this.nameStencil.$hardcode(tr, keyValues);
         return this;
     }
     

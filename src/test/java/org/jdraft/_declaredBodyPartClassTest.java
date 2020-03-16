@@ -10,7 +10,7 @@ import org.jdraft.macro._imports;
 import org.jdraft.macro._non_static;
 import org.jdraft.macro._protected;
 import org.jdraft.macro._final;
-import org.jdraft.macro._package;
+import org.jdraft.macro._packageName;
 import org.jdraft.macro._public;
 import junit.framework.TestCase;
 
@@ -27,7 +27,7 @@ public class _declaredBodyPartClassTest extends TestCase {
                  "}");
     }
 
-    @_package("som.pkg")
+    @_packageName("som.pkg")
     @_imports({Map.class, List.class, Set.class, HashSet.class})
     @_non_static @_public @_final
     private static class Baseline{
@@ -49,7 +49,7 @@ public class _declaredBodyPartClassTest extends TestCase {
 
         _class _c = _class.of(Baseline.class);
 
-        @_public @_package("som.pkg") @_final @_imports({Map.class, List.class, Set.class, HashSet.class})
+        @_public @_packageName("som.pkg") @_final @_imports({Map.class, List.class, Set.class, HashSet.class})
         class Baseline{
             volatile public int a;
             protected @_static final int g() { return 102; }

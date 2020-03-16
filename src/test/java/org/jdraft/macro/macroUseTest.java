@@ -21,7 +21,7 @@ import java.util.function.Function;
 public class macroUseTest extends TestCase {
 
     public void testAnonymousObjectWithMacroAnnotation(){
-        @_package("demo") @_dto class Point2D{
+        @_packageName("demo") @_dto class Point2D{
             @_final int x, y;
             public UUID uuid;
         }
@@ -258,7 +258,7 @@ public class macroUseTest extends TestCase {
     }
 
     public void testPackage(){
-        @_package("aaaa.bbbb.cccc")
+        @_packageName("aaaa.bbbb.cccc")
         class C{
 
         }

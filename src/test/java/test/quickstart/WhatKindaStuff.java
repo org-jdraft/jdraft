@@ -7,7 +7,7 @@ import org.jdraft._class;
 import org.jdraft.io._sources;
 import org.jdraft.io._path;
 import org.jdraft.macro._dto;
-import org.jdraft.macro._package;
+import org.jdraft.macro._packageName;
 import org.jdraft.pattern.*;
 import org.jdraft.runtime._runtime;
 
@@ -33,7 +33,7 @@ public class WhatKindaStuff extends TestCase {
         String aSrc = _class.of(A.class).forConstructors(m ->m.forParameters(p-> p.setFinal())).toString();
         System.out.println(aSrc);
 
-        @_dto @_package("graph") class Point{
+        @_dto @_packageName("graph") class Point{
             double x, y;
         }
 

@@ -9,7 +9,7 @@ import org.jdraft.macro._remove;
 import org.jdraft.macro._static;
 import org.jdraft.macro._autoConstructor;
 import org.jdraft.macro._promote;
-import org.jdraft.macro._package;
+import org.jdraft.macro._packageName;
 import org.jdraft.macro._extend;
 import org.jdraft.macro._final;
 import org.jdraft.macro._implement;
@@ -215,7 +215,7 @@ public class _javaTest extends TestCase {
     
     public void testF( ) {
 
-        @_package("aaaa.bbbb")
+        @_packageName("aaaa.bbbb")
         @_final
         @_implement(Serializable.class)
         @_extend(BaseClass.class)
@@ -236,12 +236,12 @@ public class _javaTest extends TestCase {
         _class _c2 = _class.of( Ast.typeDecl(C.class) );
 
         System.out.println( _c2);
-        assertTrue( _c2.hasAnno(_package.class));
+        assertTrue( _c2.hasAnno(_packageName.class));
         assertTrue( _c2.hasAnno(_final.class));
         
         System.out.println( _c );
         //I Process the annotations
-        assertFalse( _c.hasAnno(_package.class));
+        assertFalse( _c.hasAnno(_packageName.class));
         assertFalse( _c.hasAnno(_final.class));
         //assertTrue( _c.getAnnos().contains(_static.class));
 

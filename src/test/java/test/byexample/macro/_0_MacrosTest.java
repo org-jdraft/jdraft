@@ -111,7 +111,7 @@ public class _0_MacrosTest extends TestCase {
         //here we construct a new _class model, and pass in the @_get annotation on the
         //anonymous class (containing the code body)... this will ensure the getX() and getY()
         // methods are synthesized (as it appears in _expected)
-        @_package("aaaa.bbbb") @_get class C{
+        @_packageName("aaaa.bbbb") @_get class C{
             int x,y;
         }
         _class _c = _class.of(C.class);

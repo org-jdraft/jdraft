@@ -44,7 +44,7 @@ public class RuntimeCompileLoadAndEvalTest extends TestCase {
 
     /** _proxy instances simplify creating & using dynamic instances at _runtime */
     public void testRuntime_proxy() {
-        @_package("graph")
+        @_packageName("graph")
         @_dto class Point {
             double x =0.0d, y = 0.0d;
             public double slope() { return y / x; }

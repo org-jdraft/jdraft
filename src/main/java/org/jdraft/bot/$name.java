@@ -64,6 +64,14 @@ public class $name implements $bot<Node, _name, $name>,
                 stencil.getTextForm().getFixedText().indexOf('.') >= 0;
     }
 
+    /** build another mutable copy of this bot */
+    public $name copy(){
+        $name copy = of( this.predicate.and(t->true));
+        if(this.stencil != null ){
+            copy.stencil = Stencil.of( this.stencil );
+        }
+        return copy;
+    }
 
     public Predicate<_name> getPredicate(){
         return this.predicate;
@@ -219,37 +227,37 @@ public class $name implements $bot<Node, _name, $name>,
      * @return
      */
     private boolean useCheck( _name candidate ){
-        if( candidate.isAnnoMemberValueName() && ! matchAnnoMemberValueNames){
+        if( ! matchAnnoMemberValueNames && candidate.isAnnoMemberValueName() ){
             return false;
         }
-        if( candidate.isAnnoName() && ! matchAnnoNames){
+        if( ! matchAnnoNames && candidate.isAnnoName()){
             return false;
         }
-        if( candidate.isConstructorName() && !matchConstructorNames){
+        if( !matchConstructorNames && candidate.isConstructorName() ){
             return false;
         }
-        if( candidate.isImportName() && ! matchImports){
+        if( ! matchImports && candidate.isImportName() ){
             return false;
         }
-        if( candidate.isMethodName() && ! matchMethodNames){
+        if( ! matchMethodNames && candidate.isMethodName()){
             return false;
         }
-        if( candidate.isPackageName() && !matchPackageNames){
+        if( !matchPackageNames && candidate.isPackageName()){
             return false;
         }
-        if( candidate.isParameterName() && !matchParameterNames){
+        if( !matchParameterNames && candidate.isParameterName() ){
             return false;
         }
-        if( candidate.isVariableName() && ! matchVariableNames){
+        if( !matchVariableNames && candidate.isVariableName()){
             return false;
         }
-        if( candidate.isMethodReference() && ! matchMethodReferences){
+        if( ! matchMethodReferences && candidate.isMethodReference() ){
             return false;
         }
-        if( candidate.isTypeDeclarationName() && !matchTypeDeclarationNames){
+        if( !matchTypeDeclarationNames && candidate.isTypeDeclarationName()){
             return false;
         }
-        if( candidate.isTypeRefName() && ! matchTypeRefNames){
+        if( ! matchTypeRefNames && candidate.isTypeRefName() ){
             return false;
         }
         return true;
@@ -260,11 +268,12 @@ public class $name implements $bot<Node, _name, $name>,
             return new Selected(candidate, new Tokens());
         }
         if( this.stencil == null ){
-            if( this.predicate.test(candidate) ){
+            if( useCheck(candidate) && this.predicate.test(candidate) ){
                 return new Selected(candidate, new Tokens());
             }
+            return null;
         }
-        if( this.predicate.test(candidate) ){
+        if( useCheck(candidate) && this.predicate.test(candidate) ){
 
             String str = candidate.toString();
             //System.out.println("TRYING TO MATCH " +str);
@@ -346,6 +355,13 @@ public class $name implements $bot<Node, _name, $name>,
             return this.stencil.$listNormalized();
         }
         return Collections.emptyList();
+    }
+
+    public $name $hardcode(Translator translator, Tokens kvs) {
+        if( this.stencil != null ){
+            this.stencil.$hardcode(translator, kvs);
+        }
+        return this;
     }
 
     /**

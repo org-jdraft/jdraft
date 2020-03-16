@@ -232,7 +232,7 @@ public class $comment <C extends Comment>
      * @return 
      */
     public $comment<C> $hardcode(Translator translator, Tokens kvs ) {
-        this.contentsStencil = this.contentsStencil.hardcode$(translator, kvs);
+        this.contentsStencil = this.contentsStencil.$hardcode(translator, kvs);
         return this;
     }
 

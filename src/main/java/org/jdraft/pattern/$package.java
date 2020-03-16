@@ -104,7 +104,7 @@ public class $package implements $pattern<PackageDeclaration, $package>, Templat
 
     @Override
     public $package $hardcode(Translator translator, Tokens kvs) {
-        this.name = this.name.hardcode$(translator, kvs);
+        this.name = this.name.$hardcode(translator, kvs);
         this.annos = this.annos.$hardcode(translator, kvs);
         return this;
     }

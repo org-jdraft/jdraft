@@ -4,7 +4,7 @@ import org.jdraft._class;
 import org.jdraft._enum;
 import org.jdraft.macro._dto;
 import junit.framework.TestCase;
-import org.jdraft.macro._package;
+import org.jdraft.macro._packageName;
 
 public class _newTest extends TestCase {
 
@@ -25,7 +25,7 @@ public class _newTest extends TestCase {
 
 
     public void testInstance() throws NoSuchMethodException {
-        @_dto @_package("aaaa") class VV{
+        @_dto @_packageName("aaaa") class VV{
             int x,y,z;
         }
         Object o = _runtime.instanceOf(_class.of(VV.class));
@@ -49,7 +49,7 @@ public class _newTest extends TestCase {
     }
 
     public void testRuntimeProxyInstance(){
-        @_package("aaaa") @_dto class VV{
+        @_packageName("aaaa") @_dto class VV{
             int x, y, z;
             public int sum(){
                 return  x + y + z;

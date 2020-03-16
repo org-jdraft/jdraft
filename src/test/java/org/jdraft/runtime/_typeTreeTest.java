@@ -4,7 +4,7 @@ import com.github.javaparser.ast.type.Type;
 import junit.framework.TestCase;
 import org.jdraft.*;
 import org.jdraft.macro._imports;
-import org.jdraft.macro._package;
+import org.jdraft.macro._packageName;
 
 import java.io.Serializable;
 
@@ -85,17 +85,17 @@ public class _typeTreeTest extends TestCase {
     }
     */
 
-    @_package("aaaa.bbbb")
+    @_packageName("aaaa.bbbb")
     @_imports(Serializable.class)
     interface I1 extends Serializable{}
 
-    @_package("bbbb.aaaa")
+    @_packageName("bbbb.aaaa")
     interface I2{ }
 
-    @_package("bbbb.aaaa")
+    @_packageName("bbbb.aaaa")
     class C1{}
 
-    @_package("aaaa.bbbb")
+    @_packageName("aaaa.bbbb")
     class C2{}
 
     public void testDescendants(){
@@ -104,8 +104,8 @@ public class _typeTreeTest extends TestCase {
         _class _c1 = _class.of(C1.class);
         _class _c2 = _class.of(C2.class);
 
-        _c1.implement(_i1);
-        _c2.implement(_i2);
+        _c1.addImplement(_i1);
+        _c2.addImplement(_i2);
 
         _typeTree _tt = _typeTree.of(_i1, _i2, _c1, _c2);
 
@@ -114,7 +114,7 @@ public class _typeTreeTest extends TestCase {
         //walks DOWN the
         assertEquals(2, _tt.listAllDescendants(Serializable.class).size());
 
-        _c2.implement(Serializable.class);
+        _c2.addImplement(Serializable.class);
         _tt = _typeTree.of(_i1, _i2, _c1, _c2);
         //System.out.println( _tt );
         assertEquals(3, _tt.listAllDescendants(Serializable.class).size());
@@ -190,7 +190,7 @@ public class _typeTreeTest extends TestCase {
         _typeTree _tt = _typeTree.of(
                 _interface.of("I").addExtend(Serializable.class),
                 _enum.of("E").addImplements(Serializable.class),
-                _class.of("C").implement("I"));
+                _class.of("C").addImplement("I"));
         assertEquals(2, _tt.listDirectChildren(Serializable.class).size());
         assertEquals(3, _tt.listAllDescendants(Serializable.class).size());
 
@@ -216,7 +216,7 @@ public class _typeTreeTest extends TestCase {
         assertEquals( 0, _tt.listDirectChildren("CC").size());
         assertEquals( 0, _tt.listDirectChildren(_c).size());
 
-        _tt = _typeTree.of( _c, _class.of("ffff.gggg.HH").implement("CC<String>").addImports(_c));
+        _tt = _typeTree.of( _c, _class.of("ffff.gggg.HH").addImplement("CC<String>").addImports(_c));
 
         assertEquals( 1, _tt.listDirectChildren("aaaa.bbbb.CC").size());
         assertEquals( 1, _tt.listDirectChildren("CC").size());
@@ -224,22 +224,22 @@ public class _typeTreeTest extends TestCase {
     }
 
     public void testImplements(){
-        _typeTree _tt = _typeTree.of(_class.of("A").implement(Serializable.class));
+        _typeTree _tt = _typeTree.of(_class.of("A").addImplement(Serializable.class));
         //System.out.println( _tt );
         assertEquals( 1, _tt.listDirectChildren(Serializable.class).size());
 
-        _tt = _typeTree.of( _class.of("A").implement(Serializable.class), _class.of("B").implement(Serializable.class));
+        _tt = _typeTree.of( _class.of("A").addImplement(Serializable.class), _class.of("B").addImplement(Serializable.class));
         assertEquals( 2, _tt.listDirectChildren(Serializable.class).size());
     }
 
     public void testMultiImpl(){
-        _typeTree _tt = _typeTree.of(_interface.of("A"), _class.of("B").implement(Serializable.class).implement("A"));
+        _typeTree _tt = _typeTree.of(_interface.of("A"), _class.of("B").addImplement(Serializable.class).addImplement("A"));
         assertEquals( 1, _tt.listDirectChildren(Serializable.class).size());
         assertEquals( 1, _tt.listDirectChildren("A").size());
     }
 
     public void testImplExt(){
-        _typeTree _tt = _typeTree.of(_class.of("A").addExtend(TestCase.class).implement(Serializable.class));
+        _typeTree _tt = _typeTree.of(_class.of("A").addExtend(TestCase.class).addImplement(Serializable.class));
         assertEquals( 1, _tt.listDirectChildren(Serializable.class).size());
         assertEquals( 1, _tt.listDirectChildren(TestCase.class).size());
         assertEquals( 0, _tt.listDirectChildren("A").size());

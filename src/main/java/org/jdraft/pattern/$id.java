@@ -80,12 +80,12 @@ public final class $id {
     }
 
     public $id hardcode$(Translator tr, Tokens tokens){
-        this.idStencil = this.idStencil.hardcode$(tr, tokens);
+        this.idStencil = this.idStencil.$hardcode(tr, tokens);
         return this;
     }
 
     public $id hardcode$( Translator tr, Object...keyValues){
-        this.idStencil = this.idStencil.hardcode$(tr, keyValues);
+        this.idStencil = this.idStencil.$hardcode(tr, keyValues);
         return this;
     }
     

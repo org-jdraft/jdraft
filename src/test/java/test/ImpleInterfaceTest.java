@@ -21,12 +21,12 @@ public class ImpleInterfaceTest extends TestCase {
     }
 
     static _class _implementManual = _class.of("my.Impl")
-            .implement(MyInterface.class) //will implement/ import the class
+            .addImplement(MyInterface.class) //will implement/ import the class
             .addMethod("public int getR(){", //manually implement the method
                     "   return 120;",
                     "}");
     static _class _implementManualLambda = _class.of("my.Impl")
-            .implement(MyInterface.class) //will implement/ import the class
+            .addImplement(MyInterface.class) //will implement/ import the class
             .addMethod(new Object(){ public int getR(){ return 120; }} );
 
     /** Recommended */

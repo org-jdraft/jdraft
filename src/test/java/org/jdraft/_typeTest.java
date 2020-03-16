@@ -160,7 +160,7 @@ public class _typeTest extends TestCase {
         
         //_cs = _t.listPackagePrivateTypes(_class.class, (_class c)-> ((_class)c).listMembers().isEmpty() );
         
-        _t.forCompanionTypes(_class.class, c-> ((_class)c).implement(Serializable.class));
+        _t.forCompanionTypes(_class.class, c-> ((_class)c).addImplement(Serializable.class));
         
         List<TypeDeclaration<?>> astTypes = _t.astCompilationUnit().getTypes();        
         assertNotNull(_t.astCompilationUnit().getPrimaryType().get() );

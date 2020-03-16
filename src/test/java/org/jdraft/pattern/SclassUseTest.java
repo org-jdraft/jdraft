@@ -178,7 +178,7 @@ public class SclassUseTest extends TestCase {
 
             public <B extends Base> void gg(B in) {
             }
-        }).implement(Inter.class)
+        }).addImplement(Inter.class)
                 .addExtend(Base.class);
         
         //System.out.println( $classUse.any().listSelectedIn(_c).size() );

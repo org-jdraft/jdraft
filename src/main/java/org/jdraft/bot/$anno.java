@@ -37,10 +37,10 @@ public class $anno
     }
 
     public static $anno of(){
-        return new $anno( $id.of() );
+        return new $anno( $name.of() );
     }
     
-    public static $anno of($id name, $memberValue...memberValues ){
+    public static $anno of($name name, $memberValue...memberValues ){
         return new $anno(name, memberValues);
     }
     
@@ -124,17 +124,22 @@ public class $anno
     Predicate<_anno> predicate = a -> true;
 
     /** the id / name of the annotation */
-    $id name;
+    $name name;
 
     /** the member values of the annotation */
     List<$memberValue> $mvs = new ArrayList<>();
 
+    public $anno copy(){
+        return of( this.predicate.and(t->true) )
+                .$name( this.name.copy() )
+                .$memberValues(this.$mvs.stream().map(mv-> mv.copy()).collect(Collectors.toList()) );
+    }
     /**
      *
      * @param name
      * @param mvs
      */
-    private $anno($id name, $memberValue...mvs ){
+    private $anno($name name, $memberValue...mvs ){
        this.name = name;
        Arrays.stream(mvs).forEach( mv -> this.$mvs.add(mv));
     }
@@ -147,7 +152,7 @@ public class $anno
      * @param proto
      */
     public $anno(_anno proto) {
-        this.name = $id.of(proto.getName());
+        this.name = $name.of(proto.getName());
         AnnotationExpr astAnn = proto.ast();
         if (astAnn instanceof NormalAnnotationExpr) {
             NormalAnnotationExpr na = (NormalAnnotationExpr) astAnn;
@@ -172,7 +177,7 @@ public class $anno
      * @return
      */
     public $anno $name(){
-        this.name = $id.of();
+        this.name = $name.of();
         return this;
     }
 
@@ -181,7 +186,7 @@ public class $anno
      * @param name
      * @return
      */
-    public $anno $name($id name){
+    public $anno $name($name name){
         this.name = name;
         return this;
     }
@@ -192,7 +197,7 @@ public class $anno
      * @return
      */
     public $anno $name(String name){
-        this.name = $id.of(name);
+        this.name = $name.of(name);
         return this;
     }
 
@@ -207,6 +212,11 @@ public class $anno
      */
     public $anno $markerAnnotation(){
         return $and(_a -> _a.isMarker() );
+    }
+
+    public $anno $memberValues(List<$memberValue> mvs){
+        this.$mvs.addAll(mvs);
+        return this;
     }
 
     /**
@@ -246,13 +256,15 @@ public class $anno
         return this;
     }
 
+    /*
     public $anno hardcode$(Translator translator, Tokens kvs) {
-        this.name = this.name.hardcode$(translator,kvs);
+        this.name = this.name.$hardcode(translator,kvs);
 
         List<$memberValue> sts = new ArrayList<>();
         this.$mvs.forEach(st -> sts.add( st.$hardcode(translator, kvs)));
         return this;
     }
+     */
 
     /**
      *
@@ -282,11 +294,13 @@ public class $anno
             return null;
         }
 
-        Tokens ts = name.parse(_a.getName());
-        if( ts == null ){
+        $selector.Select ss = name.select(_a.getNameNode());
+        if( ss == null ){
             //System.out.println( "Parse null for name "+name+" for \""+_a.getName()+"\"");
             return null;
         }
+        Tokens ts = ss.tokens; //name.parse(_a.getName());
+
         if ($mvs.isEmpty() ) {
             //System.out.println( "Returning "+ts+" for name \""+_a.getName()+"\"");
             return ts;
@@ -340,19 +354,19 @@ public class $anno
             }
             if ($mvs.size() <= astNa.getPairs().size()) {
                 //System.out.println( "Checking pairs"+astNa.getPairs());
-                List<MemberValuePair> mvpsC = new ArrayList<>();
-                mvpsC.addAll(astNa.getPairs());
+                List<_anno._memberValue> mvpsC = new ArrayList<>();
+                astNa.getPairs().forEach(m -> mvpsC.add(_anno._memberValue.of(m)));
                 for (int i = 0; i < $mvs.size(); i++) {
                     $memberValue.Select sel = $mvs.get(i).selectFirst(mvpsC);
                     if (sel == null) {
                         return null;
                     } else {
-                        mvpsC.remove(sel.astMvp); //whenever I find a match, I remove the matcher
-                        if( !ts.isConsistent(sel.tokens.asTokens())){
+                        mvpsC.remove(sel.selection); //whenever I find a match, I remove the matcher
+                        if( !ts.isConsistent(sel.tokens)){
                             return null;
                         }
                         //System.out.println( "    Adding Tokens "+ ts );
-                        ts.putAll(sel.tokens.asTokens());
+                        ts.putAll(sel.tokens);
                         //System.out.println( "    Added Tokens "+ ts );
                     }
                 }
@@ -420,7 +434,7 @@ public class $anno
     @Override
     public $anno $(String target, String $paramName) {
         name.$(target, $paramName);
-        $mvs.forEach(mv -> mv.key.idStencil = mv.key.idStencil.$(target, $paramName));
+        $mvs.forEach(mv -> mv.key.stencil = mv.key.stencil.$(target, $paramName));
         return this;
     }
 
@@ -466,9 +480,9 @@ public class $anno
     @Override
     public List<String> $list() {
         List<String> params = new ArrayList<>();
-        params.addAll( this.name.list$() );
+        params.addAll( this.name.$list() );
         this.$mvs.forEach(m -> {
-            params.addAll( m.key.idStencil.$list() );
+            params.addAll( m.key.$list() );
             params.addAll( m.value.$list() );
         });
         return params;
@@ -477,9 +491,9 @@ public class $anno
     @Override
     public List<String> $listNormalized() {
         List<String> params = new ArrayList<>();
-        params.addAll( this.name.list$() );
+        params.addAll( this.name.$listNormalized() );
         this.$mvs.forEach(m -> {
-            params.addAll( m.key.idStencil.$listNormalized() );
+            params.addAll( m.key.stencil.$listNormalized() );
             params.addAll( m.value.$listNormalized() );
         });
         return params.stream().distinct().collect(Collectors.toList() );
@@ -636,7 +650,7 @@ public class $anno
         }
         StringBuilder sb = new StringBuilder();
         sb.append("@");
-        sb.append(this.name.idStencil);
+        sb.append(this.name.stencil);
         if( this.$mvs.isEmpty() ){
             return "$anno{ "+sb.toString()+" }";
         }
@@ -656,13 +670,22 @@ public class $anno
      * prototype for member values (i.e. the key values inside the annotation)
      * i.e. @A(key="value")
      */
-    public static class $memberValue implements $pattern<MemberValuePair, $memberValue> {
+    public static class $memberValue implements $bot<MemberValuePair, _anno._memberValue, $memberValue> {
 
-        public $id key = $id.of();
+        public $name key = $name.of();
 
-        public $ex value = new $ex(Expression.class, "$value$");
+        public $expression value = $e.of(); //new $ex(Expression.class, "$value$");
 
-        public Predicate<MemberValuePair> constraint = t -> true;
+        public Predicate<_anno._memberValue> constraint = t -> true;
+
+        public static $memberValue of(_anno._memberValue _mv){
+            return new $memberValue( _mv.getName(), _mv.getValue().ast());
+        }
+
+        public static $memberValue of(Predicate<_anno._memberValue> matchFn){
+            $memberValue $mv = new $memberValue( );
+            return $mv.$and(matchFn);
+        }
 
         public static $memberValue of(Expression value) {
             return new $memberValue("$_$", value);
@@ -672,12 +695,35 @@ public class $anno
             return new $memberValue(key, value);
         }
 
+        public static $memberValue of(String key, Expression exp) {
+            return new $memberValue(key, exp);
+        }
+
+        public static $memberValue of() {
+            return new $memberValue("$key$", "$value$");
+        }
+
+        public $memberValue copy(){
+            $memberValue $mv = of();
+            $mv.key = key.copy();
+            $mv.value = (($e)value).copy();
+            return $mv;
+        }
+
+        @Override
+        public Select<_anno._memberValue> select(Node n) {
+            if( n instanceof MemberValuePair ){
+                return select( (MemberValuePair)n);
+            }
+            return null;
+        }
+
         public String compose(Translator translator, Map<String, Object> keyValues) {
             String k = null;
             if( !key.isMatchAny() ){
-                k = key.draft(translator, keyValues);
+                k = key.draft(translator, keyValues).toString();
             }
-            Expression v = value.draft(translator, keyValues).ast();
+            Expression v = ((_expression)value.draft(translator, keyValues)).ast();
             if (k == null || k.length() == 0) {
                 return v.toString();
             }
@@ -690,42 +736,46 @@ public class $anno
             return   k && v;
         }
 
-        public static $memberValue of(String key, Expression exp) {
-            return new $memberValue(key, exp);
-        }
 
-        public static $memberValue of() {
-            return new $memberValue("$key$", "$value$");
-        }
         //public static $memberValue any() {
         //    return new $memberValue("$key$", "$value$");
        // }
+
+        private $memberValue(){
+        }
 
         public $memberValue(String name, String value) {
             this(name, Ex.of(value));
         }
 
         public $memberValue(String name, Expression value) {
-            this.key.idStencil = Stencil.of(name);
+            this.key.stencil = Stencil.of(name);
             Stencil st = Stencil.of(value.toString());
             if( st.isMatchAny() ){
-                this.value = new $ex(Expression.class, value.toString() );
+                this.value = $e.of(st);
             } else {
-                this.value = $ex.of(value);
+                this.value = $expression.of(value);
             }
         }
 
+        /*
         public $memberValue $hardcode(Translator translator, Tokens tokens){
             if( this.key != null ) {
-                this.key = this.key.hardcode$(translator, tokens);
+                this.key = this.key.$hardcode(translator, tokens);
             }
-            this.value = this.value.$hardcode(translator, tokens);
+            this.value.$hardcode(translator, tokens);
+            return this;
+        }
+         */
+
+        public $memberValue $and(Predicate<_anno._memberValue> mvpMatchFn){
+            this.constraint = this.constraint.and(mvpMatchFn);
             return this;
         }
 
-        public $memberValue $and(Predicate<MemberValuePair> mvpMatchFn){
-            this.constraint = this.constraint.and(mvpMatchFn);
-            return this;
+        @Override
+        public _anno._memberValue draft(Translator translator, Map<String, Object> keyValues) {
+            return null;
         }
 
         /**
@@ -735,9 +785,19 @@ public class $anno
          * @return
          */
         public $memberValue $(String target, String $paramName) {
-            this.key.idStencil = this.key.idStencil.$(target, $paramName);
-            this.value = this.value.$(target, $paramName);
+            this.key.stencil = this.key.stencil.$(target, $paramName);
+            this.value.$(target, $paramName);
             return this;
+        }
+
+        @Override
+        public List<String> $list() {
+            return null;
+        }
+
+        @Override
+        public List<String> $listNormalized() {
+            return null;
         }
 
         /**
@@ -745,7 +805,7 @@ public class $anno
          * @param pairs
          * @return
          */
-        public Select selectFirst( List<MemberValuePair> pairs ){
+        public Select selectFirst( List<_anno._memberValue> pairs ){
             for(int i=0;i<pairs.size();i++){
                 Select sel = select(pairs.get(i) );
                 if( sel != null ){
@@ -755,6 +815,21 @@ public class $anno
             return null;
         }
 
+        /**
+         *
+         * @return
+
+        public Select selectFirst( List<MemberValuePair> pairs ){
+            for(int i=0;i<pairs.size();i++){
+                Select sel = select(pairs.get(i) );
+                if( sel != null ){
+                    return sel;
+                }
+            }
+            return null;
+        }
+        */
+
         public boolean match( Node node ){
             if( node instanceof MemberValuePair ){
                 return matches( (MemberValuePair) node);
@@ -763,8 +838,12 @@ public class $anno
         }
 
         @Override
-        public MemberValuePair firstIn(Node astNode, Predicate<MemberValuePair> nodeMatchFn) {
-            return Walk.first(astNode, MemberValuePair.class, m -> matches(m) && nodeMatchFn.test(m));
+        public _anno._memberValue firstIn(Node astNode, Predicate<_anno._memberValue> nodeMatchFn) {
+            Node mvp = Walk.first(astNode, MemberValuePair.class, m -> select(_anno._memberValue.of(m) ) != null);
+            if( mvp != null ){
+                return _anno._memberValue.of( (MemberValuePair)mvp);
+            }
+            return null;
         }
 
         @Override
@@ -777,22 +856,27 @@ public class $anno
         }
 
         @Override
-        public List<Select> listSelectedIn(Node astNode) {
-            List<Select> sel = new ArrayList<>();
+        public Select<_anno._memberValue> selectFirstIn(Node astNode, Predicate<Select<_anno._memberValue>> predicate) {
+            return null;
+        }
+
+        @Override
+        public List<Select<_anno._memberValue>> listSelectedIn(Node astNode) {
+            List<Select<_anno._memberValue>> sel = new ArrayList<>();
             Walk.in(astNode,
                     MemberValuePair.class,
                     (MemberValuePair n)-> match(n),
                     (MemberValuePair n) -> sel.add( select(n) )
             );
-            return sel;
+            return  sel;
         }
 
         @Override
-        public <N extends Node> N forEachIn(N astNode, Predicate<MemberValuePair> nodeMatchFn, Consumer<MemberValuePair> nodeActionFn) {
+        public <N extends Node> N forEachIn(N astNode, Predicate<_anno._memberValue> nodeMatchFn, Consumer<_anno._memberValue> nodeActionFn) {
             return Walk.in(astNode,
                     MemberValuePair.class,
-                    (MemberValuePair n)-> match(n) && nodeMatchFn.test(n),
-                    (MemberValuePair n) -> nodeActionFn.accept(n)
+                    (MemberValuePair n)-> match(n) && nodeMatchFn.test(_anno._memberValue.of(n)),
+                    (MemberValuePair n) -> nodeActionFn.accept(_anno._memberValue.of(n))
                 );
         }
 
@@ -811,7 +895,7 @@ public class $anno
          * @return
          */
         public Tokens parse(Expression onlyValueExpression){
-            if( constraint.test( new MemberValuePair("_", onlyValueExpression) ) ) {
+            if( constraint.test( _anno._memberValue.of( onlyValueExpression.toString()) ) ) {
                 //because values can be arrays we dont want to test for direct equality of the
                 //expression, but rather whether we can select the expression from the Expression value
                 // for example,
@@ -819,11 +903,11 @@ public class $anno
                 // it SHOULD match against Ex.of( "{0,1,2,3}" );
                 //System.out.println( value );
                 //
-                $ex.Select<?,?>sel = value.selectFirstIn(onlyValueExpression);
+                $selector.Select sel = value.selectFirstIn(onlyValueExpression);
                 if( sel == null ){
                     return null;
                 }
-                return sel.tokens().asTokens();
+                return sel.tokens;
             }
             return null;
         }
@@ -832,22 +916,29 @@ public class $anno
          *
          * @param mvp
          * @return
-         */
+
         public Tokens parse(MemberValuePair mvp ){
+
             if (mvp == null) {
                 return null;
             }
             if (constraint.test(mvp)) {
-                Tokens ts = key.parse(mvp.getNameAsString());
-                $ex.Select sel = value.selectFirstIn(mvp.getValue());
-                if( sel == null || !ts.isConsistent(sel.tokens.asTokens())){
+                $selector.Select ts = key.select(mvp.getNameAsExpression()); //AsString());
+                if( ts == null ){
                     return null;
                 }
-                ts.putAll(sel.tokens.asTokens());
-                return ts;
+                $selector.Select sel = value.selectFirstIn(mvp.getValue());
+                if( sel == null || !ts.tokens.isConsistent(sel.tokens)){
+                    return null;
+                }
+                Tokens tt = new Tokens();
+                tt.putAll(ts.tokens);
+                tt.putAll(sel.tokens);
+                return tt;
             }
             return null;
         }
+        */
 
         /**
          * When we have an anno like
@@ -859,7 +950,7 @@ public class $anno
          */
         public Select select (Expression onlyValueExpression){
             MemberValuePair mvp = new MemberValuePair("", onlyValueExpression);
-            if( constraint.test( mvp ) ) {
+            if( constraint.test( _anno._memberValue.of(mvp) ) ) {
                 //because values can be arrays we dont want to test for direct equality of the
                 //expression, but rather whether we can select the expression from the Expression value
                 // for example,
@@ -868,11 +959,11 @@ public class $anno
                 //System.out.println( value );
                 //System.out.println( mvp.getValue() );
 
-                $ex.Select sel = value.selectFirstIn(mvp.getValue());
+                $selector.Select sel = value.selectFirstIn(mvp.getValue());
 
                 //$ex.Select sel = value.select(onlyValueExpression);
                 if( sel != null ){
-                    return new Select(mvp, sel.tokens.asTokens());
+                    return new Select(mvp, sel.tokens);
                 }
             }
             return null;
@@ -883,15 +974,34 @@ public class $anno
          * @param mvp
          * @return
          */
-        public Select select(MemberValuePair mvp) {
-            if (mvp == null) {
+        public Selected select(MemberValuePair mvp) {
+            return select(_anno._memberValue.of(mvp));
+        }
+
+        @Override
+        public Predicate<_anno._memberValue> getPredicate() {
+            return null;
+        }
+
+        @Override
+        public $memberValue setPredicate(Predicate<_anno._memberValue> predicate) {
+            return null;
+        }
+
+        public Selected select(_anno._memberValue _mvp){
+            if (_mvp == null) {
                 return null;
             }
-            if (constraint.test(mvp)) {
-                Tokens ts = key.parse(mvp.getNameAsString());
-                if( ts == null ){
+            if (constraint.test(_mvp)) {
+                $selector.Select ss = key.select(_mvp.getNameNode());
+                if( ss == null){
                     return null;
                 }
+                //$selector.Select ts = key.select(mvp.get)
+                //Tokens ts = key.parse(mvp.getNameAsString());
+                //if( ts == null ){
+                //    return null;
+               // }
                 //because values can be arrays we dont want to test for direct equality of the
                 //expression, but rather whether we can select the expression from the Expression value
                 // for example,
@@ -900,66 +1010,28 @@ public class $anno
                 //System.out.println( value );
                 //System.out.println( mvp.getValue() );
 
-                $ex.Select sel = value.selectFirstIn(mvp.getValue());
+                $selector.Select sel = value.selectFirstIn(_mvp.getValue());
                 //$ex.Select sel = value.select(mvp.getValue());
-                if( sel == null || !ts.isConsistent(sel.tokens.asTokens())){
+                if( sel == null || !ss.tokens.isConsistent(sel.tokens)){
                     return null;
                 }
-                ts.putAll(sel.tokens.asTokens());
-                return new Select(mvp, ts);
+                Tokens tts = new Tokens();
+                tts.putAll(ss.tokens);
+                tts.putAll(sel.tokens);
+                return new Selected(_mvp, tts);
             }
             return null;
         }
 
-        public static class Select
-            implements selected, selectAst<MemberValuePair> {
+        @Override
+        public boolean matches(String candidate) {
+            return false;
+        }
 
-            public final MemberValuePair astMvp;
-            public final $tokens tokens;
+        public static class Selected extends $selector.Select<_anno._memberValue> {
 
-            public Select(MemberValuePair astMvp, Tokens tokens) {
-                this.astMvp = astMvp;
-                this.tokens = $tokens.of(tokens);
-            }
-
-            @Override
-            public $tokens tokens() {
-                return tokens;
-            }
-
-            @Override
-            public String toString() {
-                return "$anno.$memberValue.Select {" + System.lineSeparator()
-                        + Text.indent(astMvp.toString()) + System.lineSeparator()
-                        + Text.indent("$tokens : " + tokens) + System.lineSeparator()
-                        + "}";
-            }
-
-            /**
-             * It's not a "true" member value pair, but rather a synthesized
-             * MemberValue Pair with no name... this is for cases where we have an
-             * annotation like
-             * @name("Eric")
-             * as apposed to cases where the key and value are spelled out
-             * @name(value="Eric")
-             *
-             * @return true if its a "value only" member value pair
-             */
-            public boolean isValueOnly(){
-                return astMvp.getNameAsString().equals("_");
-            }
-
-            @Override
-            public MemberValuePair ast() {
-                return astMvp;
-            }
-
-            public String getName() {
-                return astMvp.getNameAsString();
-            }
-
-            public Expression getValue() {
-                return astMvp.getValue();
+            public Selected(_anno._memberValue astMvp, Tokens tokens) {
+                super( astMvp, tokens);
             }
         }
     }
@@ -1012,10 +1084,12 @@ public class $anno
             throw new _jdraftException("Cannot draft "+getClass()+" pattern"+ this );
          }
 
+         /*
         public $anno hardcode$(Translator translator, Tokens kvs) {
             ors.forEach( $a -> $a.hardcode$(translator, kvs));
             return this;
         }
+          */
 
          @Override
          public String toString(){

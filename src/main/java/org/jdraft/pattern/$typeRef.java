@@ -222,7 +222,7 @@ public class $typeRef
     public $typeRef $hardcode(Translator translator, Tokens kvs ) {
         Stencil st = typePattern();
         //System.out.println("FIRST "+st +" "+kvs);
-        st = st.hardcode$(translator, kvs);
+        st = st.$hardcode(translator, kvs);
         //System.out.println( "NEXT"+st);
         this.type = Ast.typeRef(st.toString());
         return this;

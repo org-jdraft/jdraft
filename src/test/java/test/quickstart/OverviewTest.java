@@ -65,7 +65,7 @@ public class OverviewTest extends TestCase {
 
     public void testMacroAndRuntimeEval(){
         //the @_dto @macro creates
-        @_package("graph") @_dto class Point{
+        @_packageName("graph") @_dto class Point{
             @_final double x,y;
         }
         //_class _point = _class.of("graph.Point", new @_dto Object(){ @_final double x, y; });

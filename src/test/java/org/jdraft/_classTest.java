@@ -69,7 +69,7 @@ public class _classTest extends TestCase {
     //@_postDraft(String...methodNames)
     public void testMultiTypeUseMacroAutoAnonymousImport(){
 
-        @_package("aaaa.bbbb") @_equals @_hashCode @_get @_set @_autoConstructor class C{
+        @_packageName("aaaa.bbbb") @_equals @_hashCode @_get @_set @_autoConstructor class C{
             public int x,y;
             @_final URI u;
 
@@ -176,7 +176,7 @@ public class _classTest extends TestCase {
     }
     
     public void testIsImplements(){
-        _type _t = _class.of("C").addExtend("B").implement(Serializable.class);
+        _type _t = _class.of("C").addExtend("B").addImplement(Serializable.class);
         System.out.println( _t);
         assertTrue( _t.isImplements(Serializable.class));
         assertTrue( _t.isImplements(Serializable.class.getCanonicalName()));
@@ -262,7 +262,7 @@ public class _classTest extends TestCase {
      */
     public void testImplementMemberClass(){
         _class _c = _class.of("C")
-                .implement(MemberI.class).implement($Member.class).implement($Member.MemberMember.class);
+                .addImplement(MemberI.class).addImplement($Member.class).addImplement($Member.MemberMember.class);
         _c = _class.of("C").addExtend($Base.class);
         _c = _class.of("C").addExtend($Base.Mem.class);
         //System.out.println( _c );
@@ -327,7 +327,7 @@ public class _classTest extends TestCase {
     // When you extend and provide the implementation, we
     // the imports are inferred
     public void testBodyInferImports(){
-        _class _c = _class.of("B").body( new BBC(){
+        _class _c = _class.of("B").addBodyMembers(new BBC(){
                     
             AtomicBoolean ab;
                     
@@ -549,7 +549,7 @@ public class _classTest extends TestCase {
         assertNotSame( _a, _b);
 
     }
-    @_package("aaaa.bbbb") @_dto @_public class Local{
+    @_packageName("aaaa.bbbb") @_dto @_public class Local{
         public int a,b,c;
         @_final String name;
         @_static public void main(String[] args){
