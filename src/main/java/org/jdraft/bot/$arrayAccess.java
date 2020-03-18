@@ -53,6 +53,17 @@ public class $arrayAccess
     public $expression name = $expression.of();
     public $expression index = $expression.of();
 
+    /**
+     * Build and return a new mutable copy of this bot
+     * @return
+     */
+    public $arrayAccess copy(){
+        $arrayAccess $aa = of( this.predicate.and(t->true) );
+        $aa.name = ($expression)this.name.copy();
+        $aa.index = ($expression)this.index.copy();
+        return $aa;
+    }
+
     public $arrayAccess() { }
 
     public $arrayAccess(ArrayAccessExpr e) {

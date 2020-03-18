@@ -53,6 +53,16 @@ public class $int implements $bot.$node<IntegerLiteralExpr, _int, $int>,
         return new $int().$and(_matchFn);
     }
 
+    /**
+     * Build and return a new independent mutable copy of this bot
+     * @return
+     */
+    public $int copy(){
+        $int $i = of( this.predicate.and(t->true) );
+        $i.stencil = this.stencil.copy();
+        return $i;
+    }
+
     public Predicate<_int> getPredicate(){
         return this.predicate;
     }

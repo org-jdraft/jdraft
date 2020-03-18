@@ -58,6 +58,16 @@ public class $boolean implements $bot.$node<BooleanLiteralExpr, _boolean, $boole
         return this.predicate;
     }
 
+    /**
+     * Build and return a new mutable copy of this bot
+     * @return
+     */
+    public $boolean copy(){
+        $boolean $b = of( this.predicate.and(t->true) );
+        $b.stencil = this.stencil.copy();
+        return $b;
+    }
+
     public $boolean setPredicate( Predicate<_boolean> predicate){
         this.predicate = predicate;
         return this;

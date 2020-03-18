@@ -13,12 +13,12 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * bot to deal with Argument Lists used in:
+ * bot for argument Lists used in:
  * {@link _methodCall}
  * {@link _constant}
  * {@link _constructorCallStmt}
  * {@link _new}
- * order matters
+ * NOTE: order matters
  *
  * @param <N>
  */
@@ -55,6 +55,16 @@ public class $arguments<N extends Node & NodeWithArguments>
 
     public List<$expression> argumentList = new ArrayList<>();
     public Predicate<_arguments> predicate = p->true;
+
+    /**
+     * Build and return a new mutable copy of this bot
+     * @return
+     */
+    public $arguments copy(){
+        $arguments $args = of( this.predicate.and(t->true) );
+        this.argumentList.forEach( a -> $args.argumentList.add( a.copy()));
+        return $args;
+    }
 
     public $arguments(){ }
 

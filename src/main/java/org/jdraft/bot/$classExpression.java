@@ -48,6 +48,16 @@ public class $classExpression implements $bot.$node<ClassExpr, _classExpression,
         return this;
     }
 
+    /**
+     * Build and return a new independant mutable copy of this bot
+     * @return
+     */
+    public $classExpression copy(){
+        $classExpression $c = of( this.predicate.and(t->true) );
+        $c.type = this.type.copy();
+        return $c;
+    }
+
     public boolean isMatchAny() {
         if (this.type.isMatchAny()) {
             try {

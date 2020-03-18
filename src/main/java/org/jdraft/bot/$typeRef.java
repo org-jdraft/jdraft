@@ -178,6 +178,18 @@ public class $typeRef
         return Stencil.of(this.type.toString());
     }
 
+    /**
+     * Build and return a new independent mutable copy of this bot
+     * @return
+     */
+    public $typeRef copy(){
+        $typeRef $t = of( this.predicate.and(t->true) );
+        if( this.type != null ) {
+            $t.type = this.type.clone();
+        }
+        return $t;
+    }
+
     public Predicate<_typeRef> getPredicate(){
         return this.predicate;
     }

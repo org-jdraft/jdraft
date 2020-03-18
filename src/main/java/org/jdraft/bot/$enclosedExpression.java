@@ -96,6 +96,16 @@ public class $enclosedExpression implements $bot.$node<EnclosedExpr, _enclosedEx
         return null;
     }
 
+    /**
+     * Build and return a new independant mutable copy of this bot
+     * @return
+     */
+    public $enclosedExpression copy(){
+        $enclosedExpression $e = of( this.predicate.and(t->true) );
+        $e.expression = ($expression)this.expression.copy();
+        return $e;
+    }
+
     public $enclosedExpression $and(Predicate<_enclosedExpression> _matchFn) {
         this.predicate = this.predicate.and(_matchFn);
         return this;

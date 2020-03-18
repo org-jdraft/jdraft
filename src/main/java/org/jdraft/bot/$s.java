@@ -55,6 +55,14 @@ public class $s
 		return ee;
 	}
 
+	public $s copy(){
+		$s s = of( this.predicate );
+		if( this.stencil != null ) {
+			s.stencil = this.stencil.copy();
+		}
+		return s;
+	}
+
 	public $s $and(Class<? extends _statement>...sClasses) {
 		Set<Class<? extends _statement>> _stmtClasses = new HashSet<>();
 		Arrays.stream(sClasses).forEach(c -> _stmtClasses.add(c));

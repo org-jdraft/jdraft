@@ -112,6 +112,19 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
         }
     }
 
+    /**
+     * Build and return a new independent mutable copy of this bot
+     * @return
+     */
+    public $methodCall copy(){
+        $methodCall $mc = of( this.predicate.and(t->true) );
+        $mc.typeArguments = ($typeArguments)this.typeArguments.copy();
+        $mc.arguments = this.arguments.copy();
+        $mc.name = this.name.copy();
+        $mc.scope = ($expression)this.scope.copy();
+        return $mc;
+    }
+
     public Predicate<_methodCall> getPredicate(){
         return this.predicate;
     }

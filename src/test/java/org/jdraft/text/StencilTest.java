@@ -15,6 +15,7 @@ public class StencilTest
         extends TestCase {
 
 
+    /*
     public void testEm(){
         Stencil em = Stencil.of( "$$a:   some text  :a[,;]$$");
         List<Stencil.Embed> emb = em.listEmbeds();
@@ -34,6 +35,9 @@ public class StencilTest
          drafted = em.draft();
         assertEquals("", drafted);
     }
+
+     */
+    /*
     public void testEmbedded(){
         //change this to make leading and trailing whitespace matter (no trimming)
         //look for:
@@ -70,6 +74,7 @@ public class StencilTest
 
         System.out.println( em.draft("a", true, ",;", Translator.DEFAULT_TRANSLATOR) );
     }
+    */
 
     public void testHardcode$(){
         Stencil s = Stencil.of("$a$");

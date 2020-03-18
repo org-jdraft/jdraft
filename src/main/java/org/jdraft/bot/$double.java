@@ -57,6 +57,16 @@ public class $double implements $bot.$node<DoubleLiteralExpr, _double, $double>,
         return this.predicate;
     }
 
+    /**
+     * Build and return a new independent mutable copy of this bot
+     * @return
+     */
+    public $double copy(){
+        $double $d = of( this.predicate.and(t->true) );
+        $d.stencil = this.stencil.copy();
+        return $d;
+    }
+
     public $double setPredicate( Predicate<_double> predicate){
         this.predicate = predicate;
         return this;

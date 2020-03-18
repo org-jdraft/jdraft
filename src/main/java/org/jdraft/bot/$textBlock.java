@@ -57,6 +57,18 @@ public class $textBlock implements $bot.$node<TextBlockLiteralExpr, _textBlock, 
         return this.predicate;
     }
 
+    /**
+     * Build and return a new independent mutable copy of this bot
+     * @return
+     */
+    public $textBlock copy(){
+        $textBlock $t = of( this.predicate.and(t->true) );
+        if( this.stencil != null ) {
+            $t.stencil = this.stencil.copy();
+        }
+        return $t;
+    }
+
     public $textBlock setPredicate( Predicate<_textBlock> predicate){
         this.predicate = predicate;
         return this;

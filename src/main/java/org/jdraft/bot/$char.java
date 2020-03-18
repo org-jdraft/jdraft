@@ -57,6 +57,16 @@ public class $char implements $bot.$node<CharLiteralExpr, _char, $char>,
         return this.predicate;
     }
 
+    /**
+     * Build and return a new independant mutable copy of this bot
+     * @return
+     */
+    public $char copy(){
+        $char $c = of( this.predicate.and(t->true) );
+        $c.stencil = this.stencil.copy();
+        return $c;
+    }
+
     public $char setPredicate( Predicate<_char> predicate){
         this.predicate = predicate;
         return this;

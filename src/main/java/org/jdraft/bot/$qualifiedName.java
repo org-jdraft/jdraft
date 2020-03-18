@@ -18,8 +18,22 @@ import java.util.function.Predicate;
 public class $qualifiedName implements $bot<Node, _qualifiedName, $qualifiedName>,
         $selector<_qualifiedName, $qualifiedName>{
 
+    public static $qualifiedName of( _qualifiedName _qn){
+        return new $qualifiedName(_qn);
+    }
+
+    public static $qualifiedName of( Predicate<_qualifiedName> pqn ){
+        return new $qualifiedName().$and(pqn);
+    }
+
     Stencil stencil = null;
     Predicate<_qualifiedName> predicate = t-> true;
+
+    private $qualifiedName( ){ }
+
+    public $qualifiedName( _qualifiedName _qn){
+        stencil = Stencil.of(_qn.getNameString());
+    }
 
     @Override
     public Select<_qualifiedName> select(Node n) {
@@ -31,6 +45,14 @@ public class $qualifiedName implements $bot<Node, _qualifiedName, $qualifiedName
             }
         }
         return null;
+    }
+
+    public $qualifiedName copy(){
+        $qualifiedName $qn = of( this.predicate.and(t->true) );
+        if( this.stencil != null ){
+            $qn.stencil = this.stencil.copy();
+        }
+        return $qn;
     }
 
     @Override
@@ -52,9 +74,12 @@ public class $qualifiedName implements $bot<Node, _qualifiedName, $qualifiedName
     @Override
     public Select<_qualifiedName> select(_qualifiedName candidate) {
         if( this.predicate.test(candidate) ) {
+            if( this.stencil == null ){
+                return new Select<_qualifiedName>(candidate, new Tokens());
+            }
             Tokens ts = this.stencil.parse(candidate.getNameString());
             if( ts != null ){
-
+                return new Select<_qualifiedName>(candidate, ts);
             }
         }
         return null;

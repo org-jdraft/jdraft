@@ -134,6 +134,7 @@ public class $anno
                 .$name( this.name.copy() )
                 .$memberValues(this.$mvs.stream().map(mv-> mv.copy()).collect(Collectors.toList()) );
     }
+
     /**
      *
      * @param name

@@ -32,7 +32,7 @@ public interface $bot<B, _B, $B>
      * Build a new bot instance that is another mutable copy of this
      * @return
      */
-    //$B copy();
+    $B copy();
 
     Select<_B> select(Node n);
 

@@ -35,9 +35,9 @@ public class $null implements $bot.$node<NullLiteralExpr, _null, $null>,
         return new $null(_null.of(ile));
     }
 
-    public static $null of(Stencil stencil) {
-        return new $null(stencil);
-    }
+    //public static $null of(Stencil stencil) {
+    //    return new $null(stencil);
+    //}
 
     public static $null of(String... code) {
         return of(_null.of(code));
@@ -54,6 +54,21 @@ public class $null implements $bot.$node<NullLiteralExpr, _null, $null>,
     public $null setPredicate( Predicate<_null> predicate){
         this.predicate = predicate;
         return this;
+    }
+
+    /**
+     * Build and return a new independent mutable copy of this bot
+     * @return
+     */
+    public $null copy(){
+        $null $n = of( this.predicate.and(t->true) );
+
+        //if( stencil != null ) {
+        //    $n.stencil = this.stencil.copy();
+        //}else{
+        //    $n.stencil = null;
+        //}
+        return $n;
     }
 
     public $null $and(Predicate<_null> _matchFn) {
@@ -112,14 +127,14 @@ public class $null implements $bot.$node<NullLiteralExpr, _null, $null>,
 
     public Selected select(_null _i) {
         if (predicate.test(_i)) {
-            if (stencil == null) {
-                return new Selected(_i, new Tokens());
-            }
-            Tokens ts = stencil.parse(_i.toString());
-            if (ts != null) {
-                return new Selected(_i, ts);
-            }
-            return null;
+           // if (stencil == null) {
+           //     return new Selected(_i, new Tokens());
+            //}
+            //Tokens ts = stencil.parse(_i.toString());
+            //if (ts != null) {
+            return new Selected(_i, new Tokens());
+            //}
+            //return null;
         }
         return null;
     }
@@ -134,6 +149,8 @@ public class $null implements $bot.$node<NullLiteralExpr, _null, $null>,
 
     @Override
     public _null draft(Translator translator, Map<String, Object> keyValues) {
+        return _null.of();
+        /*
         if (this.stencil == null) {
             String overrideName = this.getClass().getSimpleName();
             Object override = keyValues.get(overrideName);
@@ -163,64 +180,67 @@ public class $null implements $bot.$node<NullLiteralExpr, _null, $null>,
             }
         }
         return null;
+         */
     }
 
     @Override
     public $null $(String target, String $Name) {
-        if (this.stencil != null) {
-            this.stencil = this.stencil.$(target, $Name);
-        }
+        //if (this.stencil != null) {
+        //    this.stencil = this.stencil.$(target, $Name);
+        //}
         return this;
     }
 
     @Override
     public List<String> $list() {
-        if (this.stencil != null) {
-            return this.stencil.$list();
-        }
+        //if (this.stencil != null) {
+        //    return this.stencil.$list();
+        //}
         return new ArrayList<>();
     }
 
     @Override
     public List<String> $listNormalized() {
-        if (this.stencil != null) {
-            return this.stencil.$listNormalized();
-        }
+        //if (this.stencil != null) {
+        //    return this.stencil.$listNormalized();
+        //}
         return new ArrayList<>();
     }
 
     public boolean isMatchAny() {
-        if (this.stencil == null || this.stencil.isMatchAny()) {
+        //if (this.stencil == null || this.stencil.isMatchAny()) {
             try {
                 return this.predicate.test(null);
             } catch (Exception e) {
                 return false;
             }
-        }
-        return false;
+        //}
+        //return false;
     }
 
     public String toString() {
-        if (this.stencil != null) {
-            return "$null{" + System.lineSeparator() + "    " + this.stencil.toString() + System.lineSeparator() + "}";
-        }
+       // if (this.stencil != null) {
+        //    return "$null{" + System.lineSeparator() + "    " + this.stencil.toString() + System.lineSeparator() + "}";
+        //}
         return "$null{" + this.predicate + "}";
     }
 
     public Predicate<_null> predicate = d -> true;
 
-    public Stencil stencil = null;
+    //public Stencil stencil = null;
 
     public $null() {
     }
 
     public $null(_null _i) {
-        this.stencil = Stencil.of(_i.toString());
+        //this.stencil = Stencil.of(_i.toString());
     }
 
+    /*
     private $null(Stencil stencil) {
         this.stencil = stencil;
     }
+     */
 
     /**
      * This makes it easier to NOT have to do silly things with generics on the outside

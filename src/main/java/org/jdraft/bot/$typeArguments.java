@@ -46,6 +46,18 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
     public List<$typeRef> list = new ArrayList<>();
     public Predicate<_typeArguments> predicate = p->true;
 
+    /**
+     * Build and return a new independent mutable copy of this bot
+     * @return
+     */
+    public $typeArguments copy(){
+        $typeArguments $s = of( this.predicate.and(t->true) );
+        List<$typeRef> l = new ArrayList<>();
+        this.list.forEach( e-> l.add(e.copy()));
+        $s.list = l;
+        return $s;
+    }
+
     public $typeArguments(){ }
 
     public $typeArguments(Predicate<_typeArguments> predicate){

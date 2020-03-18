@@ -62,6 +62,16 @@ public class $returnStmt implements $bot.$node<ReturnStmt, _returnStmt, $returnS
         }
     }
 
+    /**
+     * Build and return a new independent mutable copy of this bot
+     * @return
+     */
+    public $returnStmt copy(){
+        $returnStmt $r = of( this.predicate.and(t->true) );
+        $r.expression = ($expression)this.expression.copy();
+        return $r;
+    }
+
     public Predicate<_returnStmt> getPredicate(){
         return this.predicate;
     }

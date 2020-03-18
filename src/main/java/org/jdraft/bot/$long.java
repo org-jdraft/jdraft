@@ -57,6 +57,16 @@ public class $long implements $bot.$node<LongLiteralExpr, _long, $long>,
         return this.predicate;
     }
 
+    /**
+     * Build and return a new independent mutable copy of this bot
+     * @return
+     */
+    public $long copy(){
+        $long $l = of( this.predicate.and(t->true) );
+        $l.stencil = this.stencil.copy();
+        return $l;
+    }
+
     public $long setPredicate( Predicate<_long> predicate){
         this.predicate = predicate;
         return this;
