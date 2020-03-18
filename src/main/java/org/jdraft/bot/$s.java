@@ -63,6 +63,14 @@ public class $s
 		return s;
 	}
 
+	@Override
+	public $s $hardcode(Translator translator, Tokens kvs) {
+		if( this.stencil != null ) {
+			this.stencil = this.stencil.$hardcode(translator, kvs);
+		}
+		return this;
+	}
+
 	public $s $and(Class<? extends _statement>...sClasses) {
 		Set<Class<? extends _statement>> _stmtClasses = new HashSet<>();
 		Arrays.stream(sClasses).forEach(c -> _stmtClasses.add(c));

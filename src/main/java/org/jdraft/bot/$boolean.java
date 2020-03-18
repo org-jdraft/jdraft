@@ -68,6 +68,12 @@ public class $boolean implements $bot.$node<BooleanLiteralExpr, _boolean, $boole
         return $b;
     }
 
+    @Override
+    public $boolean $hardcode(Translator translator, Tokens kvs) {
+        this.stencil = this.stencil.$hardcode(translator, kvs);
+        return this;
+    }
+
     public $boolean setPredicate( Predicate<_boolean> predicate){
         this.predicate = predicate;
         return this;

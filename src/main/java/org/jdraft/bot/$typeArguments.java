@@ -58,6 +58,12 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
         return $s;
     }
 
+    @Override
+    public $typeArguments<N> $hardcode(Translator translator, Tokens kvs) {
+        this.list.forEach(t -> t.$hardcode(translator, kvs));
+        return this;
+    }
+
     public $typeArguments(){ }
 
     public $typeArguments(Predicate<_typeArguments> predicate){

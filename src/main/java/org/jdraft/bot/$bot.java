@@ -4,9 +4,11 @@ import com.github.javaparser.ast.Node;
 import org.jdraft.*;
 import org.jdraft.text.Template;
 import org.jdraft.text.Tokens;
+import org.jdraft.text.Translator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiFunction;
@@ -18,15 +20,23 @@ import java.util.stream.Stream;
 
 /**
  * B is the underlying syntactic representation
- * _B is the _java.domain wrapper of the syntatic thing
+ * _B is the _java.domain wrapper for the syntax entity
  * $B the bot type
  *
- * @param <B> the underlying syntax type
- * @param <_B> the _java.domain type
- * @param <$B> the $bot type
+ * @param <B> the underlying syntax type (most often a JavaParser {@link Node})
+ * @param <_B> the _java.domain type the _jdraft domain type
+ * @param <$B> the $bot type the bot type (used to return itself or a copy of the same type from default methods)
  */
 public interface $bot<B, _B, $B>
         extends $selector<_B, $B>, Template<_B> {
+
+    /**
+     * The quintessential bot function. look at an entity and verify that it matches
+     * and "extract"/return the underlying features as Tokens based on its expected structure
+     * @param n
+     * @return
+     */
+    Select<_B> select(Node n);
 
     /**
      * Build a new bot instance that is another mutable copy of this
@@ -34,7 +44,67 @@ public interface $bot<B, _B, $B>
      */
     $B copy();
 
-    Select<_B> select(Node n);
+    /*** update the underlying structure / template i.e. updating the parameterization ***/
+
+    /**
+     * hardcode the parameterized values and return
+     * @param map
+     * @return
+     */
+    default $B $hardcode(Map map ){
+        return $hardcode( Translator.DEFAULT_TRANSLATOR, Tokens.of(map) );
+    }
+
+    /**
+     * Hardcode parameterized values
+     * (i.e. what was once a parameter, now is static text)
+     *
+     * @param kvs the key parameter NAME and String VALUE to assign to the
+     * @return the modified Stencil
+     */
+    default $B $hardcode(Tokens kvs ) {
+        return $hardcode( Translator.DEFAULT_TRANSLATOR, kvs );
+    }
+
+    /**
+     * Hardcode parameterized values
+     * (i.e. what was once a parameter, now is static text)
+     *
+     * @param keyValues the key parameter NAME and String VALUE to assign to the
+     * @return the modified Stencil
+     */
+    default $B $hardcode(Object... keyValues ) {
+        return $hardcode( Translator.DEFAULT_TRANSLATOR, Tokens.of( keyValues ) );
+    }
+
+    /**
+     * Hardcode parameterized values
+     * (i.e. what was once a parameter, now is static text)
+     *
+     * @param translator translates values to be hardcoded into the Stencil
+     * @param keyValues the key parameter NAME and String VALUE to assign to the
+     * @return the modified Stencil
+     */
+    default $B $hardcode(Translator translator, Object... keyValues ) {
+        return $hardcode( translator, Tokens.of( keyValues ) );
+    }
+
+    /**
+     * Hardcode parameterized values
+     * (i.e. what was once a parameter, now is static text)
+     *
+     * @param translator
+     * @param kvs
+     * @return
+     */
+    $B $hardcode(Translator translator, Tokens kvs );
+
+
+
+
+
+
+
 
     /** */
     default _B firstIn(Class<?> clazz) {

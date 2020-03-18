@@ -6,8 +6,6 @@ import org.jdraft._expression;
 
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Template;
-import org.jdraft.text.Tokens;
-import org.jdraft.text.Translator;
 
 public interface $expression<E extends Expression, _E extends _expression, $E extends $bot.$node<E, _E, $E>>
     extends $bot.$node<E, _E, $E>, $selector.$node<_E, $E>, Template<_E> {

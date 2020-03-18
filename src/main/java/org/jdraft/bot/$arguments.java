@@ -66,6 +66,12 @@ public class $arguments<N extends Node & NodeWithArguments>
         return $args;
     }
 
+    @Override
+    public $arguments $hardcode(Translator translator, Tokens kvs) {
+        this.argumentList.forEach( a -> a.$hardcode(translator, kvs));
+        return this;
+    }
+
     public $arguments(){ }
 
     public $arguments(Predicate<_arguments> predicate){

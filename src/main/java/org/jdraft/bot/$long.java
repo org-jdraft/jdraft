@@ -67,6 +67,12 @@ public class $long implements $bot.$node<LongLiteralExpr, _long, $long>,
         return $l;
     }
 
+    @Override
+    public $long $hardcode(Translator translator, Tokens kvs) {
+        this.stencil = this.stencil.$hardcode(translator, kvs);
+        return this;
+    }
+
     public $long setPredicate( Predicate<_long> predicate){
         this.predicate = predicate;
         return this;

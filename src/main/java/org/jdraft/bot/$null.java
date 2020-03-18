@@ -35,10 +35,6 @@ public class $null implements $bot.$node<NullLiteralExpr, _null, $null>,
         return new $null(_null.of(ile));
     }
 
-    //public static $null of(Stencil stencil) {
-    //    return new $null(stencil);
-    //}
-
     public static $null of(String... code) {
         return of(_null.of(code));
     }
@@ -53,6 +49,11 @@ public class $null implements $bot.$node<NullLiteralExpr, _null, $null>,
 
     public $null setPredicate( Predicate<_null> predicate){
         this.predicate = predicate;
+        return this;
+    }
+
+    @Override
+    public $null $hardcode(Translator translator, Tokens kvs) {
         return this;
     }
 

@@ -92,6 +92,13 @@ public class $arrayAccess
         return parts;
     }
 
+    @Override
+    public $arrayAccess $hardcode(Translator translator, Tokens kvs) {
+        this.name.$hardcode(translator, kvs);
+        this.index.$hardcode(translator, kvs);
+        return this;
+    }
+
     public Predicate<_arrayAccess> getPredicate(){
         return this.predicate;
     }

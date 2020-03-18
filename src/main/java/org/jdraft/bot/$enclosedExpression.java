@@ -44,6 +44,12 @@ public class $enclosedExpression implements $bot.$node<EnclosedExpr, _enclosedEx
         return this;
     }
 
+    @Override
+    public $enclosedExpression $hardcode(Translator translator, Tokens kvs) {
+        this.expression.$hardcode(translator, kvs);
+        return this;
+    }
+
     public boolean isMatchAny() {
         if (this.expression.isMatchAny()) {
             try {

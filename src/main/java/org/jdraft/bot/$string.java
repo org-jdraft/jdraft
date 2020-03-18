@@ -65,6 +65,12 @@ public class $string implements $bot.$node<StringLiteralExpr, _string, $string>,
         return $s;
     }
 
+    @Override
+    public $string $hardcode(Translator translator, Tokens kvs) {
+        this.stencil = this.stencil.$hardcode(translator, kvs);
+        return this;
+    }
+
     public Predicate<_string> getPredicate(){
         return this.predicate;
     }

@@ -67,6 +67,12 @@ public class $double implements $bot.$node<DoubleLiteralExpr, _double, $double>,
         return $d;
     }
 
+    @Override
+    public $double $hardcode(Translator translator, Tokens kvs) {
+        this.stencil = this.stencil.$hardcode(translator, kvs);
+        return this;
+    }
+
     public $double setPredicate( Predicate<_double> predicate){
         this.predicate = predicate;
         return this;

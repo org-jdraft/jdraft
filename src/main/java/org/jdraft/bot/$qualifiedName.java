@@ -36,6 +36,12 @@ public class $qualifiedName implements $bot<Node, _qualifiedName, $qualifiedName
     }
 
     @Override
+    public $qualifiedName $hardcode(Translator translator, Tokens kvs) {
+        this.stencil = this.stencil.$hardcode(translator, kvs);
+        return this;
+    }
+
+    @Override
     public Select<_qualifiedName> select(Node n) {
         if( n instanceof NodeWithSimpleName || n instanceof NodeWithName){
             try{

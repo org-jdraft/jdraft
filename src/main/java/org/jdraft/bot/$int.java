@@ -53,6 +53,12 @@ public class $int implements $bot.$node<IntegerLiteralExpr, _int, $int>,
         return new $int().$and(_matchFn);
     }
 
+    @Override
+    public $int $hardcode(Translator translator, Tokens kvs) {
+        this.stencil = this.stencil.$hardcode(translator, kvs);
+        return this;
+    }
+
     /**
      * Build and return a new independent mutable copy of this bot
      * @return

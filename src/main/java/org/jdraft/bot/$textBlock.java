@@ -69,6 +69,12 @@ public class $textBlock implements $bot.$node<TextBlockLiteralExpr, _textBlock, 
         return $t;
     }
 
+    @Override
+    public $textBlock $hardcode(Translator translator, Tokens kvs) {
+        this.stencil = this.stencil.$hardcode(translator, kvs);
+        return this;
+    }
+
     public $textBlock setPredicate( Predicate<_textBlock> predicate){
         this.predicate = predicate;
         return this;

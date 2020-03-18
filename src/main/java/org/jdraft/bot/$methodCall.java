@@ -125,6 +125,15 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
         return $mc;
     }
 
+    @Override
+    public $methodCall $hardcode(Translator translator, Tokens kvs) {
+        typeArguments.$hardcode(translator, kvs);
+        arguments.$hardcode(translator, kvs);
+        scope.$hardcode(translator, kvs);
+        name.$hardcode(translator, kvs);
+        return this;
+    }
+
     public Predicate<_methodCall> getPredicate(){
         return this.predicate;
     }

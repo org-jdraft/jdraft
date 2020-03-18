@@ -58,13 +58,19 @@ public class $char implements $bot.$node<CharLiteralExpr, _char, $char>,
     }
 
     /**
-     * Build and return a new independant mutable copy of this bot
+     * Build and return a new independent mutable copy of this bot
      * @return
      */
     public $char copy(){
         $char $c = of( this.predicate.and(t->true) );
         $c.stencil = this.stencil.copy();
         return $c;
+    }
+
+    @Override
+    public $char $hardcode(Translator translator, Tokens kvs) {
+        this.stencil = this.stencil.$hardcode(translator, kvs);
+        return this;
     }
 
     public $char setPredicate( Predicate<_char> predicate){

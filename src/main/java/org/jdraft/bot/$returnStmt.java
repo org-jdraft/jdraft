@@ -56,6 +56,12 @@ public class $returnStmt implements $bot.$node<ReturnStmt, _returnStmt, $returnS
 
     public $returnStmt() { }
 
+    @Override
+    public $returnStmt $hardcode(Translator translator, Tokens kvs) {
+        this.expression.$hardcode(translator, kvs);
+        return this;
+    }
+
     public $returnStmt(_returnStmt _r){
         if( _r.hasExpression() ){
             this.expression = $expression.of(_r.getExpression());

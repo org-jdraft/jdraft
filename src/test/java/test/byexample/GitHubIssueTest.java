@@ -1,6 +1,8 @@
 package test.byexample;
 
+import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.stmt.*;
 import junit.framework.TestCase;
@@ -13,6 +15,38 @@ import org.jdraft.pattern.$stmt;
 import java.util.List;
 
 public class GitHubIssueTest extends TestCase {
+
+    public void testF(){
+        class SampleClass {
+            public String concat(String s1, String s2) {
+                return s1 + "_" + s2;
+            }
+
+            /*sample comment outside function*/
+
+            public int product(int n1, int n2) {
+                /*
+                sample comment inside function
+                */
+                return n1 * n2;
+            }
+
+
+            public void main(String[] args) {
+                System.out.println(product(3, 2));
+                System.out.println(concat("My", "Name"));
+            }
+        }
+
+        CompilationUnit cu = Ast.of(SampleClass.class);
+        List<TypeDeclaration<?>> ts = cu.getTypes();
+        for(int i=0;i<ts.size();i++){
+            System.out.println(">>> "+i +  ts.get(i) );
+        }
+        cu.getAllContainedComments().forEach(c -> System.out.println("CONTAINED"+c ));
+
+        //cu.getOrphanComments().forEach(c -> System.out.println("ORPHANED"+c ));
+    }
 
     public void testMethodsWithName(){
         MethodDeclaration md = Ast.method(

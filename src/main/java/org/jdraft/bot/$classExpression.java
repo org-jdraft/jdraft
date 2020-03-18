@@ -48,6 +48,12 @@ public class $classExpression implements $bot.$node<ClassExpr, _classExpression,
         return this;
     }
 
+    @Override
+    public $classExpression $hardcode(Translator translator, Tokens kvs) {
+        this.type.$hardcode(translator, kvs);
+        return this;
+    }
+
     /**
      * Build and return a new independant mutable copy of this bot
      * @return

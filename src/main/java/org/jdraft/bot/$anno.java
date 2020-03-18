@@ -257,15 +257,15 @@ public class $anno
         return this;
     }
 
-    /*
-    public $anno hardcode$(Translator translator, Tokens kvs) {
+    @Override
+    public $anno $hardcode(Translator translator, Tokens kvs) {
         this.name = this.name.$hardcode(translator,kvs);
 
         List<$memberValue> sts = new ArrayList<>();
         this.$mvs.forEach(st -> sts.add( st.$hardcode(translator, kvs)));
         return this;
     }
-     */
+
 
     /**
      *
@@ -759,7 +759,6 @@ public class $anno
             }
         }
 
-        /*
         public $memberValue $hardcode(Translator translator, Tokens tokens){
             if( this.key != null ) {
                 this.key = this.key.$hardcode(translator, tokens);
@@ -767,7 +766,6 @@ public class $anno
             this.value.$hardcode(translator, tokens);
             return this;
         }
-         */
 
         public $memberValue $and(Predicate<_anno._memberValue> mvpMatchFn){
             this.constraint = this.constraint.and(mvpMatchFn);
