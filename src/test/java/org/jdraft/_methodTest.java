@@ -94,7 +94,7 @@ public class _methodTest extends TestCase {
         });
         
         //verify that I 
-        assertEquals( Walk.first( _m.getBody(), Ex.STRING_LITERAL), Ex.stringLiteralEx("mr") );
+        assertEquals( Tree.first( _m.getBody(), Ex.STRING_LITERAL), Ex.stringLiteralEx("mr") );
         /*
         //for All exprs and statements
         _m.forExprs(e-> System.out.println( e + " | " + e.getClass() ) );
@@ -236,8 +236,8 @@ public class _methodTest extends TestCase {
         //_m.findFirst(Node.class, n-> n.getComment().isPresent()); //find first commented node
         //assertTrue(_m.hasParametersOfType());
 
-        assertNotNull( Walk.first(_m, StringLiteralExpr.class));
-        assertNotNull( Walk.first(_m, Ast.STRING_LITERAL_EXPR));
+        assertNotNull( Tree.first(_m, StringLiteralExpr.class));
+        assertNotNull( Tree.first(_m, Ast.STRING_LITERAL_EXPR));
         //assertNotNull( _m.firstExpr(StringLiteralExpr.class) );
         //assertNotNull( _m.firstExpr(Ex.STRING_LITERAL) );
         //assertNotNull( _m.findFirst(_anno.class) );
@@ -461,16 +461,16 @@ public class _methodTest extends TestCase {
     public void testMethodRemoveStatements(){
         _method _ih = _class.of( Inner.class).getMethod( "ih");
         final List<ExpressionStmt> sof = new ArrayList<>();
-        Walk.in( _ih.getBody().ast(), ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, e-> sof.add(e) );
+        Tree.in( _ih.getBody().ast(), ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, e-> sof.add(e) );
         //_ih.walkBody( ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, e-> sof.add(e) );
 
         assertEquals( 4, sof.size() );
 
-        Walk.in( _ih.getBody().ast(), ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, e-> e.remove() );
+        Tree.in( _ih.getBody().ast(), ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, e-> e.remove() );
         //_ih.walkBody( ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, e-> e.removeIn() );
         sof.clear();
 
-        Walk.in( _ih.getBody().ast(), ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, e-> sof.add(e) );
+        Tree.in( _ih.getBody().ast(), ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, e-> sof.add(e) );
         //_ih.walkBody( ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, e-> sof.add(e) );
         assertEquals( 0, sof.size() );
     }
@@ -561,7 +561,7 @@ public class _methodTest extends TestCase {
           
         
         //ideally we want
-        assertTrue( Walk.list(_class.of(_methodTest.class),_method.class ).size() >=5);
+        assertTrue( Tree.list(_class.of(_methodTest.class),_method.class ).size() >=5);
         
         //_1_build a method match that
         mm = m-> m.isPublic() && m.isVoid() && !m.isStatic() && m.getName().startsWith("test");
@@ -571,10 +571,10 @@ public class _methodTest extends TestCase {
         
         Predicate<_method> testMatchP = m-> m.isPublic() && m.isVoid() && m.getName().startsWith( "test");
             
-        assertTrue( Walk.list( _class.of(_methodTest.class),_method.class, mm ).size() >=5 );
+        assertTrue( Tree.list( _class.of(_methodTest.class),_method.class, mm ).size() >=5 );
         
-        assertTrue( Walk.list(_class.of(_methodTest.class),_method.class ).size() >=5 );
-        assertTrue( Walk.list(_class.of(_methodTest.class), _method.class,
+        assertTrue( Tree.list(_class.of(_methodTest.class),_method.class ).size() >=5 );
+        assertTrue( Tree.list(_class.of(_methodTest.class), _method.class,
                 m -> m.isPublic() && m.isVoid() && m.getName().startsWith("test") ).size() >=5);
             //_method.match(m-> m.isPublic() && m.isVoid())
             //    .NAME( n -> n.startsWith( "test")) ).size() >=5 );

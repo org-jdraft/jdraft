@@ -2377,7 +2377,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
     @Override
     public List<Select<E, _E>> listSelectedIn(_java._domain _j){
         List<Select<E, _E>>sts = new ArrayList<>();
-        Walk.in(_j, this.astExpressionClass, e -> {
+        Tree.in(_j, this.astExpressionClass, e -> {
             Select s = select( e );
             if( s != null ){
                 sts.add( s);
@@ -2389,7 +2389,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
     @Override
     public List<Select<E, _E>> listSelectedIn(Class clazz){
         List<Select<E, _E>>sts = new ArrayList<>();
-        Walk.in((_type)_java.type(clazz), this.astExpressionClass, e -> {
+        Tree.in((_type)_java.type(clazz), this.astExpressionClass, e -> {
             Select s = select( e );
             if( s != null ){
                 sts.add( s);
@@ -2433,7 +2433,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      */
     public List<Select<E, _E>> listSelectedIn(_java._domain _j, Predicate<Select<E, _E>> selectConstraint){
         List<Select<E, _E>>sts = new ArrayList<>();
-        Walk.in(_j, this.astExpressionClass, e -> {
+        Tree.in(_j, this.astExpressionClass, e -> {
             Select s = select( e );
             if( s != null  && selectConstraint.test(s)){
                 sts.add( s);
@@ -2476,7 +2476,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public <_J extends _java._domain> _J replaceIn(_J _j, Node astExprReplace ){
-        Walk.in(_j, this.astExpressionClass, e-> {
+        Tree.in(_j, this.astExpressionClass, e-> {
             Select sel = select( e );
             if( sel != null ){
                 sel.ast().replace(astExprReplace );
@@ -2514,7 +2514,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public <_J extends _java._domain> _J replaceIn(_J _j, $ex $replaceProto){
-        Walk.in(_j, this.astExpressionClass, e-> {
+        Tree.in(_j, this.astExpressionClass, e-> {
             Select sel = select( e );
             if( sel != null ){
                 Expression replaceNode = (Expression)( (  (_java._multiPart)$replaceProto.draft( sel.tokens.asTokens())).ast());
@@ -2542,7 +2542,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Consumer<Select<E, _E>> selectConsumer ){
-        Walk.in(_j, this.astExpressionClass, e-> {
+        Tree.in(_j, this.astExpressionClass, e-> {
             Select sel = select( e );
             if( sel != null ){
                 selectConsumer.accept( sel );
@@ -2588,7 +2588,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Predicate<Select<E,_E>> selectConstraint, Consumer<Select<E, _E>> selectConsumer ){
-        Walk.in(_j, this.astExpressionClass, e-> {
+        Tree.in(_j, this.astExpressionClass, e-> {
             Select sel = select( e );
             if( sel != null  && selectConstraint.test(sel)){
                 selectConsumer.accept( sel );

@@ -1,7 +1,7 @@
 package org.jdraft.pattern;
 
 import junit.framework.TestCase;
-import org.jdraft.Walk;
+import org.jdraft.Tree;
 import org.jdraft._char;
 import org.jdraft._int;
 
@@ -87,7 +87,7 @@ public class SPatternApiTest extends TestCase {
         //$char.of().stream().skip(3).
 
         //_field _c = _class.of(F.class).getField("c");
-        Walk.describe(_c);
+        Tree.describe(_c);
 
     }
 }

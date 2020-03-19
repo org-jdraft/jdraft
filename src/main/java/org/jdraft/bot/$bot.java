@@ -1,17 +1,14 @@
 package org.jdraft.bot;
 
+import com.github.javaparser.Range;
 import com.github.javaparser.ast.Node;
 import org.jdraft.*;
 import org.jdraft.text.Template;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -39,7 +36,7 @@ public interface $bot<B, _B, $B>
     Select<_B> select(Node n);
 
     /**
-     * Build a new bot instance that is another mutable copy of this
+     * Build a and return a new independent immutable copy this bot
      * @return
      */
     $B copy();
@@ -99,7 +96,198 @@ public interface $bot<B, _B, $B>
      */
     $B $hardcode(Translator translator, Tokens kvs );
 
+    /**
+     * Parameterizes (2) targets and parameters
+     *
+     * @param target1
+     * @param $paramName1
+     * @param target2
+     * @param $paramName2
+     * @return
+     */
+    default $B $(String target1, String $paramName1, String target2, String $paramName2){
+        return ($B)$(target1,$paramName1).$(target2, $paramName2);
+    }
 
+    /**
+     * Parameterizes (3) targets and parameters
+     *
+     * @param target1
+     * @param $paramName1
+     * @param target2
+     * @param $paramName2
+     * @return
+     */
+    default $B $(String target1, String $paramName1, String target2, String $paramName2, String target3, String $paramName3){
+        return ($B)$(target1,$paramName1).$(target2, $paramName2).$(target3, $paramName3);
+    }
+
+    /**
+     * Parameterizes (4) targets and parameters
+     *
+     * @param t1
+     * @param $p1
+     * @param t2
+     * @param $p2
+     * @param t3
+     * @param $p3
+     * @param t4
+     * @param $p4
+     * @return
+     */
+    default $B $(String t1, String $p1, String t2, String $p2, String t3, String $p3, String t4, String $p4){
+        return ($B)$(t1,$p1).$(t2, $p2).$(t3, $p3).$(t4, $p4);
+    }
+
+    /**
+     * Is the range of this Node
+     * @param _n
+     * @return
+     */
+    default $B $isInRange(_java._node _n ){
+        return $isInRange(_n.ast());
+    }
+
+    /**
+     * Is the range of this Node
+     * @param n
+     * @return
+     */
+    default $B $isInRange(Node n){ ;
+        if( n.getRange().isPresent() ){
+            return $isInRange(n.getRange().get());
+        }
+        throw new _jdraftException("Node "+n+" does not have a range");
+    }
+
+    /**
+     * Adds a constraint that the instance occurs will be within the Range
+     * @param range
+     * @return
+     */
+    default $B $isInRange(final Range range ){
+        Predicate<_B> pp = n -> {
+            if (n instanceof Node) {
+                return ((Node)n).getRange().isPresent() && range.strictlyContains( ((Node) n).getRange().get());
+            } else if (n instanceof _java._node) {
+                Node node = ((_java._node)n).ast();
+                return node.getRange().isPresent() && range.strictlyContains(node.getRange().get());
+            }else if (n instanceof _body) {
+                Node node = ((_body)n).ast();
+                return node.getRange().isPresent() && range.strictlyContains(node.getRange().get());
+            }
+            return false;
+        };
+        return $and( pp );
+    }
+
+    /**
+     * Adds a constraint that the instance occurs will be within the Range
+     * @param beginLine
+     * @param beginColumn
+     * @param endLine
+     * @param endColumn
+     * @return
+     */
+    default $B $isInRange(int beginLine, int beginColumn, int endLine, int endColumn){
+        return $isInRange(Range.range(beginLine,beginColumn,endLine, endColumn));
+    }
+
+    /**
+     * Adds a constraint that the instance occurs will be within the Range
+     * @param beginLine
+     * @param endLine
+     * @return
+     */
+    default $B $isInRange(int beginLine, int endLine){
+        return $isInRange(Range.range(beginLine,0,endLine, Integer.MAX_VALUE -10000));
+    }
+
+    /**
+     * Verifies that the ENTIRE matching pattern exists on this specific line in the code
+     * @param line the line expected
+     * @return the modified $pattern
+     */
+    default $B $atLine(int line ){
+        return $isInRange(Range.range(line,0,line, Integer.MAX_VALUE -10000));
+    }
+
+
+    default $B $isParent(Class... parentClassTypes ){
+        return $and(n -> {
+            if (n instanceof Node) {
+                return Tree.isParent( (Node)n, parentClassTypes);
+            } else if (n instanceof _java._node) {
+                return Tree.isParent( ((_java._node)n).ast(), parentClassTypes);
+            } else if (n instanceof _body) {
+                return Tree.isParent( ((_body)n).ast(), parentClassTypes);
+            } else if( n instanceof _variable){
+                // I NEED _java.isParent()
+                return Tree.isParent( ((_variable)n).ast(), parentClassTypes);
+            }
+                //NEED TO MANUALLY IMPLEMENT FOR:
+                // $parameters, $annos, $snip, $throws, $typeParameters
+                // if( n instanceof List ){
+                //    List l = (List)n;
+                //    l.forEach();
+                // }
+                throw new _jdraftException("Not implemented yet for type : " + n.getClass());
+
+        });
+    }
+
+    /**
+     * Adds a constraint to test that the PARENT does NOT MATCH ANY of the bots provided
+     * <PRE>
+     *     class
+     * </PRE>
+     *
+     * @param $bs
+     * @return
+     */
+    default $B $isParentNot($bot.$node ... $bs){
+        for(int i=0;i<$bs.length; i++) {
+            $bot $b = $bs[i];
+            Predicate<_B> pp = n -> {
+                if (n instanceof Node) {
+                    return Tree.isParent((Node) n, c -> $b.matches(c));
+                } else if (n instanceof _java._node) {
+                    return Tree.isParent(((_java._node) n).ast(), c -> $b.matches(c));
+                } else if (n instanceof _body) {
+                    return Tree.isParent(((_body) n).ast(), c -> $b.matches(c));
+                }
+                return false;
+            };
+            $not(pp);
+        }
+        return ($B)this;
+    }
+
+    /**
+     * Adds a constraint to test that the parent of the instance Is this node the child of a a proto?
+     * @param $bs the prototypes to match against
+     * @return
+     */
+    default $B $isParent($bot... $bs ){
+        return $and(n -> {
+            if (n instanceof Node) {
+                return Tree.isParent( (Node)n, c-> Arrays.stream($bs).anyMatch($b->$b.matches(c)) );
+            } else if (n instanceof _java._node) {
+                return Tree.isParent( ((_java._node)n).ast(), c->Arrays.stream($bs).anyMatch($b->$b.matches(c)) );
+            } else if (n instanceof _body) {
+                return Tree.isParent( ((_body)n).ast(), c->Arrays.stream($bs).anyMatch($b->$b.matches(c)) );
+            } else {
+                //NEED TO MANUALLY IMPLEMENT FOR:
+                // $parameters, $annos, $snip, $throws, $typeParameters
+                // if( n instanceof List ){
+                //    List l = (List)n;
+                //    l.forEach();
+                // }
+                throw new _jdraftException("Not implemented yet for type : " + n.getClass());
+            }
+        });
+        //return and( (n)-> Ast.isParent( (Node)n, e-> proto.match(e) ) );
+    }
 
 
 
@@ -593,11 +781,11 @@ public interface $bot<B, _B, $B>
         }
 
         default void describeIn(Node astNode) {
-            forEachIn(astNode, e-> Walk.describe(e));
+            forEachIn(astNode, e-> Tree.describe(e));
         }
 
         default void describeIn(Class<?> clazz) {
-            forEachIn(Ast.of(clazz), e-> Walk.describe(e));
+            forEachIn(Ast.of(clazz), e-> Tree.describe(e));
         }
 
         default <_J extends _java._node<?,?>> _J replaceSelectedIn(_J _j, Function<Select<_P>, Node> replaceDeriver) {

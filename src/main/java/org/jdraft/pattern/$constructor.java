@@ -1120,7 +1120,7 @@ public class $constructor
      */
     public List<Select> listSelectedIn(_java._domain _j, Predicate<Select> selectConstraint){
         List<Select>sts = new ArrayList<>();
-        Walk.in(_j, ConstructorDeclaration.class, m -> {
+        Tree.in(_j, ConstructorDeclaration.class, m -> {
             Select sel = select( m );
             if( sel != null && selectConstraint.test(sel)){
                 sts.add(sel);
@@ -1188,7 +1188,7 @@ public class $constructor
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Consumer<Select> selectedActionFn ){
-        Walk.in(_j, _constructor.class, c ->{
+        Tree.in(_j, _constructor.class, c ->{
             Select s = select(c );
             if( s != null ){
                 selectedActionFn.accept( s );
@@ -1226,7 +1226,7 @@ public class $constructor
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectedActionFn ){
-        Walk.in(_j, _constructor.class, c ->{
+        Tree.in(_j, _constructor.class, c ->{
             Select s = select(c );
             if( s != null && selectConstraint.test(s)){
                 selectedActionFn.accept( s );

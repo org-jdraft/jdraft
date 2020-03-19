@@ -1,12 +1,14 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.*;
+import com.github.javaparser.ast.nodeTypes.NodeWithExpression;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 
 import java.util.Objects;
-
+import java.util.function.Predicate;
 
 public class _returnStmt implements _statement._controlFlow._signal<ReturnStmt, _returnStmt>,
+        _java._withExpression<ReturnStmt, _returnStmt>,
         _java._uniPart<ReturnStmt, _returnStmt> {
 
     public static _returnStmt of(){
@@ -99,6 +101,74 @@ public class _returnStmt implements _statement._controlFlow._signal<ReturnStmt, 
         return this;
     }
 
+    public boolean isExpression(String...expression){
+        if( !this.hasExpression() ){
+            return false;
+        }
+        try{
+            return isExpression(Ex.of(expression));
+        }catch(Exception e){
+            return false;
+        }
+    }
+
+    public boolean isExpression(_expression _ex){
+        return Ex.equivalent( this.getExpression().ast(), _ex.ast());
+    }
+
+    public boolean isExpression(Expression ex){
+        return Ex.equivalent( this.getExpression().ast(), ex);
+    }
+
+    public boolean isExpression(Predicate<_expression> matchFn){
+        return matchFn.test(getExpression());
+    }
+
+    public boolean isExpression( int i){
+        return isExpression( Ex.of(i) );
+    }
+
+    public boolean isExpression( boolean b){
+        return isExpression( Ex.of(b) );
+    }
+
+    public boolean isExpression( float f){
+        return isExpression( Ex.of(f) );
+    }
+
+    public boolean isExpression( long l){
+        return isExpression( Ex.of(l) );
+    }
+
+    public boolean isExpression( double d){
+        return isExpression( Ex.of(d) );
+    }
+
+    public boolean isExpression( char c){
+        return isExpression( Ex.of(c) );
+    }
+
+    public _returnStmt setExpression(String...expression){
+        return setExpression(Ex.of(expression));
+    }
+
+    public _returnStmt setExpression(_expression e){
+        return setExpression(e.ast());
+    }
+
+    public _returnStmt setExpression(Expression e){
+        this.rs.setExpression(e);
+        return this;
+    }
+
+    public _expression getExpression(){
+        if( this.hasExpression() ){
+            return _expression.of(this.rs.getExpression().get());
+        }
+        return null;
+    }
+
+    /*
     public _returnStmt setExpression(_expression _e){
         return setExpression(_e.ast());
     }
@@ -107,16 +177,16 @@ public class _returnStmt implements _statement._controlFlow._signal<ReturnStmt, 
         this.rs.setExpression(e);
         return this;
     }
-
-    public boolean hasExpression(){
-        return this.rs.getExpression().isPresent();
-    }
-
     public Expression getExpression(){
         if(this.rs.getExpression().isPresent()){
             return rs.getExpression().get();
         }
         return null;
+    }
+    */
+
+    public boolean hasExpression(){
+        return this.rs.getExpression().isPresent();
     }
 
     public String toString(){

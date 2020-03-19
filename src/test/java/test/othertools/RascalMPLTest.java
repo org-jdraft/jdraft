@@ -29,7 +29,7 @@ public class RascalMPLTest extends TestCase {
             public int x;
             public int y;
         }
-        /* to run this on the entire source directory replace LE.class with: _batch.of("C:\\jdraft\\project\\jdraft")); */
+        /* to run this on the entire source directory replace LE.class with: _path.of("C:\\jdraft\\project\\jdraft")); */
         /* to run this on the .jar file with source replace LE.class with: _archive.of("C:\\temp\\MyProject-src.jar")); */
         assertEquals(2, $f.countIn( LE.class ));
         // instead of just counting we can print each field to System out as we encounter

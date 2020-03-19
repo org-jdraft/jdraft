@@ -342,7 +342,7 @@ public class $catch implements $pattern<_catch, $catch>, $body.$part, $method.$p
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Consumer<Select> nodeActionFn) {
-        Walk.in(_j, CatchClause.class, cc-> {
+        Tree.in(_j, CatchClause.class, cc-> {
                 Select sel = select(cc);
                 if( sel != null ){
                     nodeActionFn.accept(sel);
@@ -360,7 +360,7 @@ public class $catch implements $pattern<_catch, $catch>, $body.$part, $method.$p
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> nodeActionFn) {
-        Walk.in(_j, CatchClause.class, cc-> {
+        Tree.in(_j, CatchClause.class, cc-> {
                 Select sel = select(cc);
                 if( sel != null && selectConstraint.test(sel)){
                     nodeActionFn.accept(sel);

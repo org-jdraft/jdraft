@@ -181,7 +181,7 @@ public class _typeParameterTest extends TestCase {
         //System.out.println( _c );
         List<UnionType> uut = new ArrayList<UnionType>();
         //_c.getMethod( "f").walkBody( UnionType.class, ut-> uut.add(ut) );
-        Walk.in( _c.getMethod("f").getBody().ast(),
+        Tree.in( _c.getMethod("f").getBody().ast(),
                 UnionType.class,
                 ut-> uut.add( ut) );
         //_walk.in( _c.getMethod("f").getBody(),

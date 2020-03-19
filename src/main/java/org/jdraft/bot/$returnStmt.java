@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
  * Bot for inspecting and mutating {@link _methodCall}s / {@link MethodCallExpr}s
  */
 public class $returnStmt implements $bot.$node<ReturnStmt, _returnStmt, $returnStmt>,
-        //$bot.$uniBot<ReturnStmt, _returnStmt, $returnStmt>,
         $selector.$node<_returnStmt, $returnStmt>,
         $statement<ReturnStmt, _returnStmt, $returnStmt> {
 

@@ -227,7 +227,7 @@ public class AstTest extends TestCase {
         Range range = c.getRange().get();
 
         //$stmt.of().$isBefore()
-        List<Statement> sts = Walk.list(_m, Statement.class, st-> st.getRange().get().isAfter(c.getRange().get().end));
+        List<Statement> sts = Tree.list(_m, Statement.class, st-> st.getRange().get().isAfter(c.getRange().get().end));
         assertTrue( sts.isEmpty() );
         //if there are NO statements before
         if( sts.isEmpty() ){
@@ -294,7 +294,7 @@ public class AstTest extends TestCase {
         Comment c = cs.get(0);
         Range range = c.getRange().get();
 
-        List<Statement> sts = Walk.list(_m, Statement.class, st-> st.getRange().get().isAfter(c.getRange().get().end));
+        List<Statement> sts = Tree.list(_m, Statement.class, st-> st.getRange().get().isAfter(c.getRange().get().end));
         System.out.println( sts );
 
 
@@ -362,8 +362,8 @@ public class AstTest extends TestCase {
         Statement s5 = $stmt.of( ()->System.out.println(5)).firstIn(_c).ast();
         Statement s1 = $stmt.of( ()->System.out.println(1)).firstIn(_c).ast();
 
-        Node commonAncestor = Ast.commonAncestor(s5, s1);
-        assertTrue( Ast.isParent( commonAncestor, Ast.METHOD_DECLARATION));
+        Node commonAncestor = Tree.commonAncestor(s5, s1);
+        assertTrue( Tree.isParent( commonAncestor, Ast.METHOD_DECLARATION));
         //assertTrue( $.of().$hasParent($method.of()).match(commonAncestor) );
 
         assertTrue( commonAncestor instanceof BlockStmt );
@@ -376,7 +376,7 @@ public class AstTest extends TestCase {
             }
         });
         assertTrue(
-                Ast.isParent( _c.getField("x").getFieldDeclaration(),
+                Tree.isParent( _c.getField("x").getFieldDeclaration(),
                         ClassOrInterfaceDeclaration.class, c-> c.getNameAsString().equals("V")) );
     }
 
@@ -606,7 +606,7 @@ public class AstTest extends TestCase {
         }
         CompilationUnit cu = Ast.of(P.class);
 
-        LambdaExpr le = Walk.first(cu,
+        LambdaExpr le = Tree.first(cu,
                 LambdaExpr.class,
                 (n) -> n.getRange().isPresent() && n.getRange().get().begin.line == 47 );
 
@@ -679,7 +679,7 @@ public class AstTest extends TestCase {
     public void testAstWalkList(){
         System.out.println( Ast.listComments( Ast.typeDecl( Ex.class) ));
 
-        Walk.in(Ast.typeDecl( Ex.class ), Comment.class, c-> System.out.println(c.getClass()) );
+        Tree.in(Ast.typeDecl( Ex.class ), Comment.class, c-> System.out.println(c.getClass()) );
         //Ast.walk( Ast.type( Ex.class ), Comment.class, c-> System.out.println(c.getClass()) );
 
     }
@@ -989,21 +989,21 @@ public class AstTest extends TestCase {
         //                jdc -> System.out.println( ((JavadocComment)jdc).getContent() )));
 
         System.out.println(
-               Walk.list( _class.of(L.class),
+               Tree.list( _class.of(L.class),
                     _javadoc._withJavadoc.class,
                     jd -> jd.hasJavadoc() && jd.getJavadoc().getContent().startsWith("TODO")));
 
         //List all entities that have TODO tags within the Javadocs
         System.out.println(
-                Walk.list(_class.of(L.class),
+                Tree.list(_class.of(L.class),
                 _javadoc._withJavadoc.class,
                 jd -> jd.hasJavadoc() && jd.getJavadoc().getContent().startsWith("TODO") ) );
 
         //find any TODO tags within the code
-        Walk.in( _class.of(L.class),
+        Tree.in( _class.of(L.class),
         //_class.of(L.class).walk(
                 _body._hasBody.class,
-                m -> Walk.in(m.getBody().ast(),
+                m -> Tree.in(m.getBody().ast(),
                         Comment.class,
                         c-> c.getContent().trim().startsWith("TODO"),
                         jdc -> System.out.println( jdc.getContent() )) );

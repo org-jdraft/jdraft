@@ -1734,25 +1734,25 @@ public final class $ {
 
     /** Functionality */
     public static boolean hasAncestor( Node node, Predicate<Node> ancestorMatchFn){
-        return Ast.hasAncestor(node, ancestorMatchFn );
+        return Tree.hasAncestor(node, ancestorMatchFn );
     }
 
     /** True if the node has an ancestor */
     public static boolean hasAncestor( Node node, $pattern $p ){
-        return Ast.hasAncestor(node, a -> $p.match(a) );
+        return Tree.hasAncestor(node, a -> $p.match(a) );
     }
 
     public static boolean hasAncestor(_java._domain _j, $pattern $p ){
-        return Walk.hasAncestor( _j, Node.class, a-> $p.match(a) );
+        return Tree.hasAncestor( _j, Node.class, a-> $p.match(a) );
     }
 
     /** True if the node has an ancestor */
     public static boolean hasDescendant( Node node, $pattern $p ){
-        return Ast.hasDescendant(node, a -> $p.match(a) );
+        return Tree.hasDescendant(node, a -> $p.match(a) );
     }
 
     public static boolean hasDescendant(_java._domain _j, $pattern $p ){
-        return Walk.hasDescendant( _j, Node.class, a-> $p.match(a) );
+        return Tree.hasDescendant( _j, Node.class, a-> $p.match(a) );
     }
 
     /**

@@ -6,7 +6,7 @@ import org.jdraft.macro._imports;
 import org.jdraft.macro._packageName;
 import org.jdraft.macro._static;
 import org.jdraft.runtime._runtime;
-import org.jdraft.WalkTest;
+import org.jdraft.TreeTest;
 import org.junit.internal.TextListener;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
@@ -15,7 +15,7 @@ public class RuntimeDynamicTestSuite extends TestCase {
 
     public void testBuildAndRunDynamicTestRunner(){
         @_packageName("autotest")
-        @_imports({_annosTest.class, WalkTest.class, JUnitCore.class, TextListener.class, Result.class})
+        @_imports({_annosTest.class, TreeTest.class, JUnitCore.class, TextListener.class, Result.class})
         class ManualTestRunner {
             //need to import
 
@@ -24,7 +24,7 @@ public class RuntimeDynamicTestSuite extends TestCase {
                 junit.addListener(new TextListener(System.out));
                 Result result = junit.run(
                         _annosTest.class,
-                        WalkTest.class);
+                        TreeTest.class);
 
                 resultReport(result);
             }

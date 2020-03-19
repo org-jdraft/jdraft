@@ -1,11 +1,6 @@
 package org.jdraft;
 
 import junit.framework.TestCase;
-import org.jdraft.bot.$name;
-
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 public class _nameTest extends TestCase {
 
@@ -21,7 +16,7 @@ public class _nameTest extends TestCase {
 
     public void testImportName(){
         _import _i = _import.of("ffff.lang.dddd;");
-        _i.getNameNode().stream(Walk.PARENTS).forEach( e-> System.out.println( e.getClass()) );
+        _i.getNameNode().stream(Tree.PARENTS).forEach(e-> System.out.println( e.getClass()) );
 
         assertTrue(_name.of( _i.getNameNode()).isImportName());
         assertTrue(_name.of( _i.getNameNode().getQualifier().get()).isImportName());

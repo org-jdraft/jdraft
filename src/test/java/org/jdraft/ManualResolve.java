@@ -44,7 +44,7 @@ public class ManualResolve extends TestCase {
         
         _method _m = _c.getMethod("localInst");
         List<MethodCallExpr> mces = new ArrayList<>();
-        Walk.in( _m, Ast.METHOD_CALL_EXPR, mce ->{
+        Tree.in( _m, Ast.METHOD_CALL_EXPR, mce ->{
         //_m.forExprs(Ast.METHOD_CALL_EXPR, mce-> {
             Optional<Expression> scope = mce.getScope();
             if( scope.isPresent() ){

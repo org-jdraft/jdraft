@@ -359,7 +359,7 @@ public class SexTest extends TestCase {
 
     public void testGetS(){
         _class _c = _class.of(D.class);
-        Walk.describe(_c);
+        Tree.describe(_c);
     }
 
     public void testBodyNot(){

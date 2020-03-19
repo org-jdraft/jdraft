@@ -383,7 +383,7 @@ public class $modifiers
 
     @Override
     public <N extends Node> N forEachIn(N astNode, Predicate<_modifiers> _modifiersMatchFn, Consumer<_modifiers> _nodeActionFn) {
-        return Walk.in(astNode,
+        return Tree.in(astNode,
             Node.class, 
             n->{
                 if(n instanceof NodeWithModifiers ){
@@ -396,7 +396,7 @@ public class $modifiers
     }
 
     public <N extends Node> N forSelectedIn(N astRootNode, Consumer<Select> selectActionFn) {
-        return Walk.in( astRootNode,
+        return Tree.in( astRootNode,
             Node.class, 
             nwm->{
                 if( nwm instanceof NodeWithModifiers ){
@@ -409,7 +409,7 @@ public class $modifiers
     }
     
     public <N extends Node> N forSelectedIn(N astRootNode, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
-        return Walk.in( astRootNode,
+        return Tree.in( astRootNode,
             Node.class, 
             nwm->{
                 if( nwm instanceof NodeWithModifiers ){
@@ -426,7 +426,7 @@ public class $modifiers
     }
     
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
-        return Walk.in(_j,
+        return Tree.in(_j,
             NodeWithModifiers.class, 
             nwm->{
                 Select sel = select( nwm );
@@ -454,7 +454,7 @@ public class $modifiers
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Consumer<Select> selectActionFn) {
-        return Walk.in(_j,
+        return Tree.in(_j,
             NodeWithModifiers.class, 
             nwm->{
                 Select sel = select( nwm );

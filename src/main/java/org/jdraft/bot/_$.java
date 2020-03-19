@@ -54,8 +54,13 @@ public @interface _$ {
                     sourceString = Text.replace(sourceString, ls.toArray(new String[0]));
 
                 }
-                //System.out.println( sourceString );
-                return (C) _java.of(_java.node(_c.ast().getClass(), sourceString));
+
+                if( _c instanceof _field){
+                    _field _v = (_field)_c;
+                    return (C) _field.of(sourceString);
+                } else {
+                    return (C) _java.of(_java.node(_c.ast().getClass(), sourceString));
+                }
             }
             return _c;
         }

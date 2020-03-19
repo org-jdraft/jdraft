@@ -51,7 +51,7 @@ public class StypeUseTest extends TestCase {
 
         $node typeUse =
                 $node.of(Type.class)
-                        .$and(t-> !Ast.isParent(t, p-> p instanceof ClassOrInterfaceType) )
+                        .$and(t-> !Tree.isParent(t, p-> p instanceof ClassOrInterfaceType) )
                         .$and(t-> ! (t instanceof TypeParameter))
                         .$and(t-> $typeParameter.of().$name(t.toString()).countIn( Ast.root( t ) ) == 0);
 

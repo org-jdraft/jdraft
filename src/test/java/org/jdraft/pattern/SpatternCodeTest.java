@@ -57,13 +57,13 @@ public class SpatternCodeTest extends TestCase {
         $member[] members = new $member[]{$field.of()};
         _expression e = $.of(0).firstIn(_c);
 
-        assertTrue( Ast.isParentMember(e.ast(), pm -> {
+        assertTrue( Tree.isParentMember(e.ast(), pm -> {
             System.out.println(pm+" "+ pm.getClass());
             return $field.of().match(pm);
         }));
 
         //assertTrue( Ast.isParentMember(node, nn-> Arrays.stream(members).filter($m ->Ast$m.match(nn)).findFirst().isPresent()) );
-        assertTrue( Ast.isParentMember(e.ast(), nn-> Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent()) );
+        assertTrue( Tree.isParentMember(e.ast(), nn-> Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent()) );
 
         //there are (2) int literals (0, 2) which have parents associated with fields ("int i = 0", "int x = 2")
         assertEquals(2, $.intLiteral().$isParentMember($field.of()).countIn(_c)); //i,x
@@ -134,7 +134,7 @@ public class SpatternCodeTest extends TestCase {
 
         System.out.println( $typeParameter.of().firstIn(_c) );
         Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
-        Walk.describe( $typeParameter.of().firstIn(_c) );
+        Tree.describe( $typeParameter.of().firstIn(_c) );
         Log.setAdapter(new Log.SilentAdapter());
         assertEquals( 2, $typeRef.of(Map.class).countIn(_c) );
         assertEquals( 1, $typeRef.of(Map.class).$hasAncestor($typeParameter.of()).countIn(_c) ); //a map used in a TypeParameter

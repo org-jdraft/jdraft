@@ -1351,7 +1351,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @return 
      */
     default List<String> listTypeNames(){
-        List<_type> _ts = Walk.list(this, _type.class);
+        List<_type> _ts = Tree.list(this, _type.class);
         List<String>names = new ArrayList<>();
         _ts.forEach(t-> names.add(t.getFullName()));
         return names;

@@ -5,7 +5,7 @@
  */
 package org.jdraft.pattern;
 
-import org.jdraft.Walk;
+import org.jdraft.Tree;
 import org.jdraft._class;
 import java.io.IOException;
 import java.net.BindException;
@@ -25,7 +25,7 @@ public class throwsTest extends TestCase {
             }
         }
         _class _c = _class.of(C.class);
-        Walk.in(_c, n-> System.out.println(n.getClass()+ " "+ n ) );
+        Tree.in(_c, n-> System.out.println(n.getClass()+ " "+ n ) );
         
         $typeRef.of(IOException.class).removeIn(_c);
         System.out.println( _c );

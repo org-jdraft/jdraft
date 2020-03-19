@@ -140,7 +140,7 @@ public interface $pattern<P, $P extends $pattern>{
             if (n instanceof Node) {
                 Node node = (Node)n;
                 //System.out.println( "NODE "+ node );
-                return Ast.isParentMember(node, nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
+                return Tree.isParentMember(node, nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
                 //return Arrays.stream(members).filter( $m -> $m.match(node)).findFirst().isPresent();
             } else if (n instanceof _java._node) {
                 //for Fields (_field) I need to skip one (since I go from the varDeclarator to FieldDeclaration)
@@ -151,10 +151,10 @@ public interface $pattern<P, $P extends $pattern>{
                     node = ((_java._node) n).ast();
                 }
                 //System.out.println( "_NODE "+ node );
-                return Ast.isParentMember(node, nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
+                return Tree.isParentMember(node, nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
                 //return Arrays.stream(members).filter( $m -> $m.match(node)).findFirst().isPresent();
             } else if( n instanceof _body ){
-                return Ast.isParentMember( ((_body)n).ast(), nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
+                return Tree.isParentMember( ((_body)n).ast(), nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
             }
             return false;
         };
@@ -171,13 +171,13 @@ public interface $pattern<P, $P extends $pattern>{
         Predicate<P> pp = n -> {
             if (n instanceof Node) {
                 Node node = (Node)n;
-                return Ast.isParentMember(node, nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
+                return Tree.isParentMember(node, nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
             } else if (n instanceof _java._node) {
                 Node node = ((_java._node)n).ast();
-                return Ast.isParentMember(node, nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
+                return Tree.isParentMember(node, nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
             } else if (n instanceof _body) {
                 Node node = ((_body)n).ast();
-                return Ast.isParentMember(node, nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
+                return Tree.isParentMember(node, nn->Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent() );
             }
             return false;
         };
@@ -303,11 +303,11 @@ public interface $pattern<P, $P extends $pattern>{
             $pattern $p = $ps[i];
             Predicate<P> pp = n -> {
                 if (n instanceof Node) {
-                    return Ast.isParent((Node) n, c -> $p.match(c));
+                    return Tree.isParent((Node) n, c -> $p.match(c));
                 } else if (n instanceof _java._node) {
-                    return Ast.isParent(((_java._node) n).ast(), c -> $p.match(c));
+                    return Tree.isParent(((_java._node) n).ast(), c -> $p.match(c));
                 } else if (n instanceof _body) {
-                    return Ast.isParent(((_body) n).ast(), c -> $p.match(c));
+                    return Tree.isParent(((_body) n).ast(), c -> $p.match(c));
                 }
                 return false;
             };
@@ -324,11 +324,11 @@ public interface $pattern<P, $P extends $pattern>{
     default $P $isParent($pattern... $ps ){
         return $and(n -> {
             if (n instanceof Node) {
-                return Ast.isParent( (Node)n, c->Arrays.stream($ps).anyMatch( $p->$p.match(c)) );
+                return Tree.isParent( (Node)n, c->Arrays.stream($ps).anyMatch($p->$p.match(c)) );
             } else if (n instanceof _java._node) {
-                return Ast.isParent( ((_java._node)n).ast(), c->Arrays.stream($ps).anyMatch($p->$p.match(c)) );
+                return Tree.isParent( ((_java._node)n).ast(), c->Arrays.stream($ps).anyMatch($p->$p.match(c)) );
             } else if (n instanceof _body) {
-                return Ast.isParent( ((_body)n).ast(), c->Arrays.stream($ps).anyMatch( $p->$p.match(c)) );
+                return Tree.isParent( ((_body)n).ast(), c->Arrays.stream($ps).anyMatch($p->$p.match(c)) );
             } else {
                 //NEED TO MANUALLY IMPLEMENT FOR:
                 // $parameters, $annos, $snip, $throws, $typeParameters
@@ -343,34 +343,34 @@ public interface $pattern<P, $P extends $pattern>{
     }
 
     default <N extends Node> $P $isParentNot(Class<N> parentClass, Predicate<N> parentMatchFn){
-        return $not(n -> Ast.isParent( (Node)n, parentClass, parentMatchFn) );
+        return $not(n -> Tree.isParent( (Node)n, parentClass, parentMatchFn) );
     }
 
     default <N extends Node> $P $isParent(Class<N> parentClass, Predicate<N> parentMatchFn){
-        return $and(n -> Ast.isParent( (Node)n, parentClass, parentMatchFn) );
+        return $and(n -> Tree.isParent( (Node)n, parentClass, parentMatchFn) );
     }
 
     default $P $isParentNot(Predicate<Node> parentMatchFn ){
-        return $not(n -> Ast.isParent((Node)n, parentMatchFn) );
+        return $not(n -> Tree.isParent((Node)n, parentMatchFn) );
     }
 
     default $P $isParent(Predicate<Node> parentMatchFn ){
         return $and(n -> {
             if( n instanceof _java._domain){
-                return Ast.isParent( ((_java._node)n).ast(), parentMatchFn);
+                return Tree.isParent( ((_java._node)n).ast(), parentMatchFn);
             }
-            return Ast.isParent((Node) n, parentMatchFn);
+            return Tree.isParent((Node) n, parentMatchFn);
         });
     }
 
     default $P $isParentNot(Class... parentClassTypes ){
         return $not(n -> {
             if (n instanceof Node) {
-                return Ast.isParent( (Node)n, parentClassTypes);
+                return Tree.isParent( (Node)n, parentClassTypes);
             } else if (n instanceof _java._node) {
-                return Ast.isParent( ((_java._node)n).ast(), parentClassTypes);
+                return Tree.isParent( ((_java._node)n).ast(), parentClassTypes);
             }else if (n instanceof _body) {
-                return Ast.isParent( ((_body)n).ast(), parentClassTypes);
+                return Tree.isParent( ((_body)n).ast(), parentClassTypes);
             }
             return false;
         });
@@ -379,11 +379,11 @@ public interface $pattern<P, $P extends $pattern>{
     default $P $isParent(Class... parentClassTypes ){
         return $and(n -> {
                     if (n instanceof Node) {
-                        return Ast.isParent( (Node)n, parentClassTypes);
+                        return Tree.isParent( (Node)n, parentClassTypes);
                     } else if (n instanceof _java._node) {
-                        return Ast.isParent( ((_java._node)n).ast(), parentClassTypes);
+                        return Tree.isParent( ((_java._node)n).ast(), parentClassTypes);
                     } else if (n instanceof _body) {
-                        return Ast.isParent( ((_body)n).ast(), parentClassTypes);
+                        return Tree.isParent( ((_body)n).ast(), parentClassTypes);
                     }  else {
                         //NEED TO MANUALLY IMPLEMENT FOR:
                         // $parameters, $annos, $snip, $throws, $typeParameters
@@ -397,7 +397,7 @@ public interface $pattern<P, $P extends $pattern>{
     }
 
     default $P $hasAncestor(Class...classes){
-        return $hasAncestor(Integer.MAX_VALUE -100, n-> Ast.isNodeOfType(n, classes ));
+        return $hasAncestor(Integer.MAX_VALUE -100, n-> Tree.isNodeOfType(n, classes ));
     }
 
     /**
@@ -552,11 +552,11 @@ public interface $pattern<P, $P extends $pattern>{
     default $P $hasChild( Class... childClassTypes ){
         return $and(n-> {
             if( n instanceof Node ){
-                return ((Node)n).getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) );
+                return ((Node)n).getChildNodes().stream().anyMatch(c -> Tree.isNodeOfType(c, childClassTypes) );
             } else if( n instanceof _java._node){
-                return ((_java._node)n).ast().getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) );
+                return ((_java._node)n).ast().getChildNodes().stream().anyMatch(c -> Tree.isNodeOfType(c, childClassTypes) );
             } else if( n instanceof _body){
-                return ((_body)n).ast().getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) );
+                return ((_body)n).ast().getChildNodes().stream().anyMatch(c -> Tree.isNodeOfType(c, childClassTypes) );
             } else{
                 throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
@@ -566,11 +566,11 @@ public interface $pattern<P, $P extends $pattern>{
     default $P $hasNoChild( Class... childClassTypes ){
         return $not(n-> {
             if( n instanceof Node ){
-                return ((Node)n).getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) );
+                return ((Node)n).getChildNodes().stream().anyMatch(c -> Tree.isNodeOfType(c, childClassTypes) );
             } else if( n instanceof _java._node){
-                return ((_java._node)n).ast().getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) );
+                return ((_java._node)n).ast().getChildNodes().stream().anyMatch(c -> Tree.isNodeOfType(c, childClassTypes) );
             } else if( n instanceof _body){
-                return ((_body)n).ast().getChildNodes().stream().anyMatch(c -> Ast.isNodeOfType(c, childClassTypes) );
+                return ((_body)n).ast().getChildNodes().stream().anyMatch(c -> Tree.isNodeOfType(c, childClassTypes) );
             } else{
                 throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
@@ -630,7 +630,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @return
      */
     default $P $hasDescendant( int depth, Class... descendantClassTypes ){
-        return $hasDescendant(depth, c-> Ast.isNodeOfType(c, descendantClassTypes));
+        return $hasDescendant(depth, c-> Tree.isNodeOfType(c, descendantClassTypes));
     }
 
     /**
@@ -640,7 +640,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @return
      */
     default $P $hasNoDescendant( int depth, Class... descendantClassTypes ){
-        return $hasNoDescendant(depth, c-> Ast.isNodeOfType(c, descendantClassTypes));
+        return $hasNoDescendant(depth, c-> Tree.isNodeOfType(c, descendantClassTypes));
     }
 
     /**
@@ -670,11 +670,11 @@ public interface $pattern<P, $P extends $pattern>{
     default $P $hasDescendant( int depth, Predicate<Node> descendantMatchFn ){
         return $and(n-> {
             if( n instanceof Node ){
-                return Ast.matchDescendant( (Node)n, depth, descendantMatchFn);
+                return Tree.matchDescendant( (Node)n, depth, descendantMatchFn);
             } else if( n instanceof _java._node){
-                return Ast.matchDescendant( ((_java._node)n).ast(), depth, descendantMatchFn);
+                return Tree.matchDescendant( ((_java._node)n).ast(), depth, descendantMatchFn);
             } else if( n instanceof _body){
-                return Ast.matchDescendant( ((_body)n).ast(), depth, descendantMatchFn);
+                return Tree.matchDescendant( ((_body)n).ast(), depth, descendantMatchFn);
             } else{
                 throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
@@ -690,11 +690,11 @@ public interface $pattern<P, $P extends $pattern>{
     default $P $hasNoDescendant( int depth, Predicate<Node> descendantMatchFn ){
         return $not(n-> {
             if( n instanceof Node ){
-                return Ast.matchDescendant( (Node)n, depth, descendantMatchFn);
+                return Tree.matchDescendant( (Node)n, depth, descendantMatchFn);
             } else if( n instanceof _java._node){
-                return Ast.matchDescendant( ((_java._node)n).ast(), depth, descendantMatchFn);
+                return Tree.matchDescendant( ((_java._node)n).ast(), depth, descendantMatchFn);
             } else if( n instanceof _body){
-                return Ast.matchDescendant( ((_body)n).ast(), depth, descendantMatchFn);
+                return Tree.matchDescendant( ((_body)n).ast(), depth, descendantMatchFn);
             } else{
                 throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
@@ -738,11 +738,11 @@ public interface $pattern<P, $P extends $pattern>{
         }
         return $and(n->{
             if( n instanceof Node ){
-                return Ast.matchDescendant( (Node)n, depth, c->Arrays.stream($ps).anyMatch( $p-> $p.match(c) ));
+                return Tree.matchDescendant( (Node)n, depth, c->Arrays.stream($ps).anyMatch($p-> $p.match(c) ));
             }else if( n instanceof _java._node){
-                return Ast.matchDescendant( ((_java._node)n).ast(), depth, c->Arrays.stream($ps).anyMatch($p->$p.match(c)));
+                return Tree.matchDescendant( ((_java._node)n).ast(), depth, c->Arrays.stream($ps).anyMatch($p->$p.match(c)));
             } else if( n instanceof _body){
-                return Ast.matchDescendant( ((_body)n).ast(), depth, c->Arrays.stream($ps).anyMatch( $p->$p.match(c)));
+                return Tree.matchDescendant( ((_body)n).ast(), depth, c->Arrays.stream($ps).anyMatch($p->$p.match(c)));
             }else{
                 throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
@@ -755,9 +755,9 @@ public interface $pattern<P, $P extends $pattern>{
         }
         return $not(n->{
             if( n instanceof Node ){
-                return Ast.matchDescendant( (Node)n, depth, c->Arrays.stream($ps).anyMatch( $p-> $p.match(c) ));
+                return Tree.matchDescendant( (Node)n, depth, c->Arrays.stream($ps).anyMatch($p-> $p.match(c) ));
             }else if( n instanceof _java._node){
-                return Ast.matchDescendant( ((_java._node)n).ast(), depth, c->Arrays.stream($ps).anyMatch($p->$p.match(c)));
+                return Tree.matchDescendant( ((_java._node)n).ast(), depth, c->Arrays.stream($ps).anyMatch($p->$p.match(c)));
             } else{
                 throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
             }
@@ -1816,12 +1816,12 @@ public interface $pattern<P, $P extends $pattern>{
     }
 
     default void describeIn(Node astNode) {
-        forEachIn(astNode, e-> Walk.describe((_java._domain)e));
+        forEachIn(astNode, e-> Tree.describe((_java._domain)e));
     }
 
     default void describeIn(Class<?> clazz) {
         forEachIn(Ast.of(clazz), e-> {
-            Walk.describe( (_java._domain) e); System.out.println();});
+            Tree.describe( (_java._domain) e); System.out.println();});
     }
 
     /**
@@ -1994,7 +1994,7 @@ public interface $pattern<P, $P extends $pattern>{
         }
 
         default <_J extends _java._domain> _J replaceIn(_J _j , $P $protoReplace ){
-            Walk.in(_j, _modelType(), e-> {
+            Tree.in(_j, _modelType(), e-> {
                 $pattern.select_java<_J> sel = select(e);
                 if( sel != null ){
                     _java._node _n = (_java._node)sel._node();
@@ -2014,7 +2014,7 @@ public interface $pattern<P, $P extends $pattern>{
          * @return
          */
         default <N extends Node> N replaceIn(N astNode, $P $protoReplace ){
-            Walk.in( astNode, _modelType(), t->true, e-> {
+            Tree.in( astNode, _modelType(), t->true, e-> {
                 $pattern.selected sel = select( (_J)e );
                 //$proto.select_java<P> sel = select((P)e);
                 if( sel != null ){

@@ -838,7 +838,7 @@ public class $anno
 
         @Override
         public _anno._memberValue firstIn(Node astNode, Predicate<_anno._memberValue> nodeMatchFn) {
-            Node mvp = Walk.first(astNode, MemberValuePair.class, m -> select(_anno._memberValue.of(m) ) != null);
+            Node mvp = Tree.first(astNode, MemberValuePair.class, m -> select(_anno._memberValue.of(m) ) != null);
             if( mvp != null ){
                 return _anno._memberValue.of( (MemberValuePair)mvp);
             }
@@ -847,7 +847,7 @@ public class $anno
 
         @Override
         public Select selectFirstIn(Node astNode) {
-            MemberValuePair mvp = Walk.first(astNode, MemberValuePair.class, m -> matches(m) );
+            MemberValuePair mvp = Tree.first(astNode, MemberValuePair.class, m -> matches(m) );
             if( mvp != null ){
                 return select(mvp);
             }
@@ -862,7 +862,7 @@ public class $anno
         @Override
         public List<Select<_anno._memberValue>> listSelectedIn(Node astNode) {
             List<Select<_anno._memberValue>> sel = new ArrayList<>();
-            Walk.in(astNode,
+            Tree.in(astNode,
                     MemberValuePair.class,
                     (MemberValuePair n)-> match(n),
                     (MemberValuePair n) -> sel.add( select(n) )
@@ -872,7 +872,7 @@ public class $anno
 
         @Override
         public <N extends Node> N forEachIn(N astNode, Predicate<_anno._memberValue> nodeMatchFn, Consumer<_anno._memberValue> nodeActionFn) {
-            return Walk.in(astNode,
+            return Tree.in(astNode,
                     MemberValuePair.class,
                     (MemberValuePair n)-> match(n) && nodeMatchFn.test(_anno._memberValue.of(n)),
                     (MemberValuePair n) -> nodeActionFn.accept(_anno._memberValue.of(n))

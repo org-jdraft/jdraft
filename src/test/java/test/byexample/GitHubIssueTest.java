@@ -1,21 +1,39 @@
 package test.byexample;
 
+import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
-import com.github.javaparser.ast.expr.MethodCallExpr;
-import com.github.javaparser.ast.stmt.*;
+import com.github.javaparser.ast.comments.Comment;
 import junit.framework.TestCase;
 import org.jdraft.Ast;
-import org.jdraft.Walk;
 import org.jdraft.pattern.$;
-import org.jdraft.pattern.$ex;
 import org.jdraft.pattern.$stmt;
 
 import java.util.List;
+import java.util.Optional;
 
 public class GitHubIssueTest extends TestCase {
 
+    public void testCommentAttribution(){
+
+        CompilationUnit cu = StaticJavaParser.parse(
+                "public class C{\n" +
+                "/*\n" +
+                "this function is a sample OUTSIDE comment\n" +
+                "*/\n" +
+                "\n" +
+                "public static void sampleFunc(){\n" +
+                "/*\n" +
+                "this function is a sample INSIDE comment\n" +
+                "*/\n" +
+                "}\n"+
+                "}"
+        );
+        assertFalse(cu.getType(0).getMethods().get(0).getComment().isPresent());
+
+    }
     public void testF(){
         class SampleClass {
             public String concat(String s1, String s2) {
@@ -44,6 +62,9 @@ public class GitHubIssueTest extends TestCase {
             System.out.println(">>> "+i +  ts.get(i) );
         }
         cu.getAllContainedComments().forEach(c -> System.out.println("CONTAINED"+c ));
+        List<Comment> cs = cu.getAllContainedComments();
+        Optional<Node> oc = cs.get(0).getCommentedNode();
+
 
         //cu.getOrphanComments().forEach(c -> System.out.println("ORPHANED"+c ));
     }

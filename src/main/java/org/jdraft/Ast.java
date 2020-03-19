@@ -672,281 +672,6 @@ public enum Ast {
         return of(astCu.toString(ppv));
     }
 
-    /**
-     * Determine if the Node os one of the expected types
-     * @param astNode
-     * @param classTypes
-     * @return true if the node is one of the types
-     */
-    public static boolean isNodeOfType( Node astNode, Class...classTypes ){
-        return Arrays.stream(classTypes).anyMatch(
-                nt -> nt.isAssignableFrom(astNode.getClass()));
-    }
-
-    /**
-     * Shortcut for checking if the (direct) parent exists and matches the predicate
-     * @param node
-     * @param parentMatchFn
-     * @return
-     */
-    public static boolean isParent( Node node, Predicate<Node> parentMatchFn){
-        if( node.getParentNode().isPresent()){
-            return parentMatchFn.test( node.getParentNode().get() );
-        }
-        return false;
-    }
-
-    /**
-     * Shortcut for checking if the parent is one of the potential node types
-     * @param node the ast node to check
-     * @param parentNodeTypes array of node
-     * @return
-     */
-    public static <N extends Node> boolean isParent( Node node, Class<N>... parentNodeTypes){
-        if( node.getParentNode().isPresent()){
-            return Ast.isNodeOfType( node.getParentNode().get(), parentNodeTypes);
-        }
-        return false;
-    }
-
-    /**
-     * Shortcut for checking if an ast has a parent of a particular class that complies with a particular Predicate
-     * @param node the ast node starting point
-     * @param parentNodeClass the node class expected of the parent node
-     * @param parentMatchFn predicate for matching the parent
-     * @param <N> the expected parent node type
-     * @return true if the parent node exists, is of a particualr type and complies with the predicate
-     */
-    public static <N extends Node> boolean isParent( Node node, Class<N> parentNodeClass, Predicate<N> parentMatchFn){
-        if( node.getParentNode().isPresent()){
-            Node parent = node.getParentNode().get();
-            if( parentNodeClass.isAssignableFrom(parent.getClass()) ) {
-                return parentMatchFn.test( (N)node.getParentNode().get());
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Finds the Parent "member" {@link BodyDeclaration} (the member "containing" the $pattern match)
-     * and test that it matches the memberMatchFn
-     * <PRE>
-     * i.e.
-     * class FF{
-     *     @Deprecated
-     *     public int getF(){
-     *         int i = 0;
-     *         int j = 1;
-     *         return 2;
-     *     }
-     * }
-     * //...if we start at the int literal 0:
-     * Node oneLiteral = $.of(0).firstIn(FF.class);
-     * //we might want to know something about it's containing member, (the method getF())
-     *
-     * // here we test that the literal is not contained in a parent member/BodyDeclaration
-     * // that has the @Deprecated annotation
-     * assertTrue( Ast.isParentMember(oneLiteral, bd-> bd.getAnnotation(Deprecated.class) == null) )
-     *
-     * </PRE>
-     *
-     * @param node
-     * @param parentMemberMatchFn
-     * @return
-     */
-    public static boolean isParentMember( Node node, Predicate<BodyDeclaration> parentMemberMatchFn){
-        if( node.getParentNode().isPresent()){
-            Node parent = node.getParentNode().get();
-            if( parent instanceof BodyDeclaration ){
-                return parentMemberMatchFn.test( (BodyDeclaration)parent);
-            }
-            //recurse to next parent until we find a BodyDeclaration to test of no parent
-            return isParentMember(parent, parentMemberMatchFn);
-        }
-        return false;
-    }
-
-    /**
-     * List all ancestors of the node
-     * @param node
-     * @return
-     */
-    public static List<Node> listAncestors( Node node ){
-        List<Node>ancestors = new ArrayList<>();
-        node.walk(Node.TreeTraversal.PARENTS, a -> ancestors.add(a));
-        return ancestors;
-    }
-
-    /**
-     * find and return the First Common Ancestor of the left and right nodes or null if there is no common ancestor
-     * @param left
-     * @param right
-     * @return
-     */
-    public static Node commonAncestor( Node left, Node right ){
-        //1)collect all ancestors for right in a set
-        Set<Node> rightAncestors = new HashSet<>();
-        right.walk(Node.TreeTraversal.PARENTS, p -> rightAncestors.add(p));
-
-        //2) walk ancestors of left until I find an ancestor that exists in the rightAncestorSet
-        Node leftAncestor = left;
-        while (leftAncestor != null ) {
-            if (rightAncestors.contains(leftAncestor)) {
-                return leftAncestor;
-            }
-            if( leftAncestor.getParentNode().isPresent()){
-                leftAncestor = leftAncestor.getParentNode().get();
-            } else{
-                leftAncestor = null;
-            }
-        }
-        return null; //no common ancestor
-    }
-
-    /**
-     * Shortcut for checking if an ast has any ancestor of a particular class
-     * (walks up until the root)
-     *
-     * @param node the ast node starting point
-     * @param ancestorMatchFn the node class expected of the parent node
-     * @return true if the ancestor node exists, is of a particular type and complies with the predicate
-     */
-    public static boolean hasAncestor( Node node, Predicate<Node> ancestorMatchFn){
-        return hasAncestor( node, Node.class, ancestorMatchFn);
-    }
-
-    /**
-     * Shortcut for checking if an ast has any ancestor of a particular class
-     * (walks up until the root)
-     *
-     * @param node the ast node starting point
-     * @param ancestorNodeClass the node class expected of the parent node
-     * @param <N> the expected ancestor node type
-     * @return true if the ancestor node exists, is of a particualr type and complies with the predicate
-     */
-    public static <N extends Node> boolean hasAncestor( Node node, Class<N> ancestorNodeClass){
-        return hasAncestor( node, ancestorNodeClass, t->true);
-    }
-
-    /**
-     * Shortcut for checking if an ast has any ancestor of a particular class that complies with a particular Predicate
-     * (walks up until the root)
-     *
-     * @param node the ast node starting point
-     * @param ancestorNodeClass the node class expected of the parent node
-     * @param ancestorMatchFn predicate for matching the parent
-     * @param <N> the expected ancestor node type
-     * @return true if the ancestor node exists, is of a particualr type and complies with the predicate
-     */
-    public static <N extends Node> boolean hasAncestor( Node node, Class<N> ancestorNodeClass, Predicate<N> ancestorMatchFn){
-        return ancestor( node, ancestorNodeClass, ancestorMatchFn ) != null;
-    }
-
-    /**
-     * Find and return the first ancestor of the node that matches the class and ancestor matchFn (or return null)
-     * @param node the start node
-     * @param ancestorNodeClass
-     * @param ancestorMatchFn
-     * @param <N>
-     * @return
-     * 
-     * @see #hasAncestor(Node, Class, Predicate) 
-     */
-    public static  <N extends Node> N ancestor( Node node, Class<N> ancestorNodeClass, Predicate<N> ancestorMatchFn){
-        if( node.getParentNode().isPresent()){
-            Node parent = node.getParentNode().get();
-            if( ancestorNodeClass.isAssignableFrom(parent.getClass()) ) {
-                N nn = (N)node.getParentNode().get();
-                boolean match = ancestorMatchFn.test(nn);
-                if( match ){
-                    return nn;
-                }
-                return ancestor(parent, ancestorNodeClass, ancestorMatchFn);
-            }
-        }
-        return null;
-    }
-
-    public static boolean hasChild( Node n, Predicate<Node> nodeMatchFn){
-         return n.getChildNodes().stream().anyMatch(nodeMatchFn);
-    }
-
-
-    /**
-     * Shortcut for checking if an ast has any ancestor of a particular class
-     * (walks up until the root)
-     *
-     * @param node the ast node starting point
-     * @param DescendantMatchFn the node class expected of the parent node
-     * @return true if the ancestor node exists, is of a particualr type and complies with the predicate
-     */
-    public static boolean hasDescendant( Node node, Predicate<Node> DescendantMatchFn){
-        return hasDescendant( node, Node.class, DescendantMatchFn);
-    }
-
-    /**
-     * Shortcut for checking if an ast has any ancestor of a particular class
-     * (walks up until the root)
-     *
-     * @param node the ast node starting point
-     * @param DescendantNodeClass the node class expected of the parent node
-     * @param <N> the expected ancestor node type
-     * @return true if the ancestor node exists, is of a particualr type and complies with the predicate
-     */
-    public static <N extends Node> boolean hasDescendant( Node node, Class<N> DescendantNodeClass){
-        return hasDescendant( node, DescendantNodeClass, t->true);
-    }
-
-    /**
-     * Shortcut for checking if an ast has any ancestor of a particular class that complies with a particular Predicate
-     * (walks up until the root)
-     *
-     * @param node the ast node starting point
-     * @param descendantNodeClass the node class expected of the parent node
-     * @param descendantMatchFn predicate for matching the parent
-     * @param <N> the expected ancestor node type
-     * @return true if the ancestor node exists, is of a particular type and complies with the predicate
-     */
-    public static <N extends Node> boolean hasDescendant( Node node, Class<N> descendantNodeClass, Predicate<N> descendantMatchFn){
-        //return node.stream(Node.TreeTraversal.PREORDER).anyMatch(a -> descendantNodeClass.isAssignableFrom(a.getClass()) && descendantMatchFn.test( (N)a ));
-        //return hasDescendant(node, Class)
-        return matchDescendant(node, descendantNodeClass,Integer.MAX_VALUE -100, descendantMatchFn );
-    }
-
-    public static <N extends Node> boolean hasDescendant( Node node, int depth, Class<N> descendantNodeClass, Predicate<N> descendantMatchFn){
-        return matchDescendant(node, descendantNodeClass,depth, descendantMatchFn );
-    }
-
-    /**
-     * Recursive descent-level search that returns if the node or any of it's children
-     * up to (depth) levels deep
-     *
-     * @param node
-     * @param depth
-     * @param nodeMatchFn
-     * @return
-     */
-    public static boolean matchDescendant(Node node, int depth, Predicate<Node> nodeMatchFn ) {
-        return matchDescendant(node, Node.class, depth, nodeMatchFn);
-    }
-
-    public static <N extends Node> boolean  matchDescendant(Node node, Class<N>nodeClass, int depth, Predicate<N>nodeMatchFn){
-        if( depth < 0 ){
-            return false;
-        }
-        if( nodeClass.isAssignableFrom(node.getClass()) && nodeMatchFn.test((N)node) ){
-            //System.out.println( "FOUND "+node+" with "+ depth );
-            return true;
-        }
-        List<Node> children = node.getChildNodes();
-        //final int lvl = levels-1;
-        for(int i=0;i<children.size();i++){
-            if(matchDescendant(children.get(i),nodeClass, depth-1, nodeMatchFn)){
-                return true;
-            }
-        }
-        return false;
-    }
 
     /**
      * Find and return the ast root node for this node
@@ -1343,7 +1068,7 @@ public enum Ast {
         CompilationUnit cu = parse(_i.getInputStream());
         cu.setStorage(_i.getPath());
         List<TypeDeclaration> tds
-                = Walk.list(cu, TypeDeclaration.class, td -> td.getNameAsString().equals(clazz.getSimpleName())
+                = Tree.list(cu, TypeDeclaration.class, td -> td.getNameAsString().equals(clazz.getSimpleName())
                 && td.getParentNode().isPresent()
                 && !(td.getParentNode().get() instanceof LocalClassDeclarationStmt));//dont miz inner with Local classes
         if (tds.size() == 1) {
@@ -1662,7 +1387,7 @@ public enum Ast {
             return cu.getPrimaryType().get();
         }
         //List<TypeDeclaration> tds = listAll(cu, TypeDeclaration.class);
-        List<TypeDeclaration> tds = Walk.list(cu, TypeDeclaration.class);
+        List<TypeDeclaration> tds = Tree.list(cu, TypeDeclaration.class);
         if (tds.size() == 1) {
             return tds.get(0);
         } else if (tds.isEmpty()) {
@@ -2960,7 +2685,7 @@ public enum Ast {
 
     public static List<String> normalizeTypeParameter(TypeParameter tp) {
         List<String> tw = new ArrayList<>();
-        Walk.directChildren(tp, Node.class, t -> true, t -> {
+        Tree.directChildren(tp, Node.class, t -> true, t -> {
             if (t instanceof Type) {
                 List<String> toks = Ast.tokenizeType((Type) t);
                 toks.forEach(e -> {

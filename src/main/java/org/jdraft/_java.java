@@ -391,6 +391,11 @@ public interface _java {
         if (_receiverParameter.class == nodeClass) {
             return receiverParameter(Text.combine(code));
         }
+        /*
+        if (_variable.class == nodeClass) {
+            return field(code);
+        }
+         */
         if (_field.class == nodeClass) {
             return field(code);
         }
@@ -472,8 +477,16 @@ public interface _java {
             return _lambda.of((LambdaExpr) astNode);
         }
         if (astNode instanceof VariableDeclarator) {
+
             VariableDeclarator vd = (VariableDeclarator) astNode;
-            return _field.of(vd);
+            if( vd.getParentNode().isPresent()){
+                System.out.println("PARENT "+vd.getParentNode().get().getClass());
+                if( vd.getParentNode().get() instanceof FieldDeclaration){
+                    return _field.of(vd);
+                }
+            }
+            return _variable.of(vd);
+            //return _field.of(vd);
         }
         if (astNode instanceof FieldDeclaration) {
             FieldDeclaration fd = (FieldDeclaration) astNode;
@@ -505,6 +518,18 @@ public interface _java {
             MethodDeclaration md = (MethodDeclaration) astNode;
             return _method.of(md);
         }
+        if( astNode instanceof Name){
+            return _name.of( (Name)astNode);
+        }
+        if( astNode instanceof SimpleName){
+            return _name.of( (SimpleName)astNode);
+        }
+        if( astNode instanceof SwitchEntry){
+            return _switchEntry.of( (SwitchEntry)astNode);
+        }
+        if( astNode instanceof Modifier){
+            return _modifier.of( (Modifier)astNode);
+        }
         if (astNode instanceof Parameter) {
             return _parameter.of((Parameter) astNode);
         }
@@ -523,10 +548,12 @@ public interface _java {
         if (astNode instanceof Type) {
             return _typeRef.of((Type) astNode);
         }
+
         if (astNode instanceof CompilationUnit) {
             return codeUnit((CompilationUnit) astNode);
         }
-        throw new _jdraftException("Unable to create _java entity from " + astNode);
+
+        throw new _jdraftException("Unable to create _java entity from " + astNode+" "+astNode.getClass());
     }
 
     /**
@@ -1038,13 +1065,13 @@ public interface _java {
                 if( fd == null ){
                     return null;
                 }
-                BodyDeclaration bd = Walk.first(Walk.PARENTS, fd, BodyDeclaration.class);
+                BodyDeclaration bd = Tree.first(Tree.PARENTS, fd, BodyDeclaration.class);
                 if( bd != null ) {
                     return (_M) of(bd);
                 }
                 return null; //we didnt find a parent that was a BodyDeclaration
             } else{
-                BodyDeclaration bd = Walk.first(Walk.PARENTS, ast(), BodyDeclaration.class);
+                BodyDeclaration bd = Tree.first(Tree.PARENTS, ast(), BodyDeclaration.class);
                 if( bd != null ) {
                     return (_M) of(bd);
                 }

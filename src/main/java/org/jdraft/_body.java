@@ -591,7 +591,7 @@ public final class _body implements _java._domain {
          * NOTE: this lists the "top statements" 
          * (this DOES NOT WALK INTO statements, like compound statements, 
          * statements in for loops and nested blocks)
-         * @see Walk#list(com.github.javaparser.ast.Node, java.lang.Class)
+         * @see Tree#list(com.github.javaparser.ast.Node, java.lang.Class)
          * @param <S> the statement class
          * @param stmtClass the statement class
          * @param stmtPredicate 
@@ -1174,7 +1174,7 @@ public final class _body implements _java._domain {
             if( !isImplemented() ){
                 return (_HB)this;
             }           
-            Walk.in((BlockStmt)this.getBody().ast(), Statement.class, stmtActionFn );
+            Tree.in((BlockStmt)this.getBody().ast(), Statement.class, stmtActionFn );
             return (_HB)this;
         }
         
@@ -1191,7 +1191,7 @@ public final class _body implements _java._domain {
             if( !isImplemented() ){
                 return (_HB)this;
             }
-            Walk.in((BlockStmt)this.getBody().ast(), statementClass, stmtActionFn );
+            Tree.in((BlockStmt)this.getBody().ast(), statementClass, stmtActionFn );
             return (_HB)this;
         }
         
@@ -1209,7 +1209,7 @@ public final class _body implements _java._domain {
             if( !isImplemented() ){
                 return (_HB)this;
             }
-            Walk.in((BlockStmt)this.getBody().ast(), statementClass, stmtMatchFn, stmtActionFn );
+            Tree.in((BlockStmt)this.getBody().ast(), statementClass, stmtMatchFn, stmtActionFn );
             return (_HB)this;
         }
         

@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  * https://www.vogella.com/tutorials/EclipseJDT/article.html#example-accessing-your-java-projects-with-the-jdt-java-model
  */
 
-public class EclipseJDTTest{
+public class EclipseJDTTest{ //extends TestCase
 
     //read in/parse and cache some source code from a .jar file
     //public static _sources _cc = _sources.of("C:\\Users\\Eric\\Downloads\\spring-core-5.1.9.RELEASE-sources.jar");

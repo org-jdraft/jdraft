@@ -39,12 +39,12 @@ public class _modelEntityWalkTest extends TestCase {
 
 
         List<_type> ts = new ArrayList<>();
-        Walk.in( _c, _type.class, n->ts.add(n) );
+        Tree.in( _c, _type.class, n->ts.add(n) );
         //_c.walk(_type.class, n->ts.add(n) );
         assertEquals( 5, ts.size());
 
         List<Node> l = new ArrayList<>();
-        Walk.postOrder(_c, n-> l.add( n) );
+        Tree.postOrder(_c, n-> l.add( n) );
         //_c.walkPostOrder(n-> l.add( n) );
     }
 }
