@@ -19,7 +19,7 @@ public class _switchEntryTest extends TestCase {
                 case 1 : case 2: System.out.println(1);
             }
         });
-        Ast.describe(_sw.ast());
+        Print.describe(_sw.ast());
 
         _sw.getCase(1);
 
@@ -41,12 +41,12 @@ public class _switchEntryTest extends TestCase {
         _se.setStatements(()-> System.out.println(2));
         assertTrue( _se.listStatements().size() == 1);
         assertEquals(Stmt.of( ()->System.out.println(2)),  _se.getStatement(0));
-        Ast.describe(_se.ast());
+        Print.describe(_se.ast());
 
         _se.addStatements("System.out.println(2);", "System.out.println(3);");
         System.out.println( _se );
 
-        Ast.describe(_se.ast());
+        Print.describe(_se.ast());
     }
 
     public void testHasCase(){

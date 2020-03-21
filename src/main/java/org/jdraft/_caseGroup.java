@@ -4,6 +4,7 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.nodeTypes.SwitchNode;
 import com.github.javaparser.ast.stmt.*;
+import org.jdraft.text.Text;
 
 import java.util.*;
 import java.util.function.*;
@@ -32,10 +33,22 @@ import java.util.function.*;
  * ALSO this is only nONE way of interacting with the SwitchStmt, you might want to interact directly with
  * SwitchEntries on the SwitchStmt alternatively
  */
-public class _caseGroup{
+public class _caseGroup implements _java._domain{
 
     public static _caseGroup of(){
         return new _caseGroup(new SwitchStmt());
+    }
+
+    /**
+     * Build a caseGroup from scratch (it uses a SwitchStmt by default)
+     * @param code the code representing the cases and body
+     * @return
+     */
+    public static _caseGroup of(String...code){
+         _switchStmt _ss = _switchStmt.of("switch(unknown){" +System.lineSeparator()+
+                 Text.combine(code)+System.lineSeparator()
+                 +"}");
+         return _ss.listCaseGroups().get(0);
     }
 
     /**

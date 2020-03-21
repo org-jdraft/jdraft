@@ -3,6 +3,7 @@ package org.jdraft;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.NodeList;
+import org.jdraft.text.Text;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -21,6 +22,11 @@ import java.util.stream.Collectors;
  * @author Eric
  */
 public class _imports implements _java._set<ImportDeclaration, _import, _imports> {
+
+    public static _imports of(String... imports) {
+        String str = Text.combine(imports)+System.lineSeparator()+"class Unknown{}";
+        return of(Ast.of(str));
+    }
 
     public static _imports of(){
         return new _imports(new CompilationUnit());

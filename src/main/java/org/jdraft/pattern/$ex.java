@@ -40,7 +40,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
         // to Expression.class
         Expression expr = Ex.of(pattern);
         return ($ex<E, _E, $E>)new $ex<Expression, _expression, $ex>( Expression.class,
-                expr.toString(Ast.PRINT_NO_COMMENTS) );
+                expr.toString(Print.PRINT_NO_COMMENTS) );
     }
 
     public static <E extends Expression, _E extends _expression, $E extends $ex> $ex<E,_E,$E> of(Class expressionClass){
@@ -2122,7 +2122,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
                 //there is an issue here the lowercase and uppercase Expressions 1.23d =/= 1.23D (which they are equivalent
                 //need to handle postfixes 1.2f, 2.3d, 1000l
                 //need to handle postfixes 1.2F, 2.3D, 1000L
-                String st = _e.ast().toString(Ast.PRINT_NO_COMMENTS);
+                String st = _e.ast().toString(Print.PRINT_NO_COMMENTS);
                 try{
                     if( compareNumberLiterals(exprStencil.getTextForm().getFixedText(), st) ){
                         return new Select(_e, new Tokens());
@@ -2132,7 +2132,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
                 }
                 return null;
             }
-            Tokens ts = exprStencil.parse(_e.ast().toString(Ast.PRINT_NO_COMMENTS) );
+            Tokens ts = exprStencil.parse(_e.ast().toString(Print.PRINT_NO_COMMENTS) );
             if( ts != null ){
                 return new Select(_e.ast(), ts);
             }

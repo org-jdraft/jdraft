@@ -404,7 +404,7 @@ public class $typeRef
             }
             if( _tr.hasAnnos() && this.type.getAnnotations().isEmpty()){ //the candidate has annotation(s) the target does not
                 try {
-                    return select(_tr.toString(Ast.PRINT_NO_ANNOTATIONS_OR_COMMENTS));
+                    return select(_tr.toString(Print.PRINT_NO_ANNOTATIONS_OR_COMMENTS));
                 } catch(Exception e){
                     //System.out.println( "BEFORE "+ _tr +" "+_tr.ast().getClass());
                     //System.out.println( "AFTER "+ _tr.toString(Ast.PRINT_NO_ANNOTATIONS_OR_COMMENTS) );
@@ -420,8 +420,8 @@ public class $typeRef
                     //System.out.println( "Tokens not equal");
                     return null;
                 }
-                Select sel = $typeRef.of(this.type.toString(Ast.PRINT_NO_ANNOTATIONS_OR_COMMENTS))
-                        .select(_tr.toString(Ast.PRINT_NO_ANNOTATIONS_OR_COMMENTS));
+                Select sel = $typeRef.of(this.type.toString(Print.PRINT_NO_ANNOTATIONS_OR_COMMENTS))
+                        .select(_tr.toString(Print.PRINT_NO_ANNOTATIONS_OR_COMMENTS));
                 if( sel == null){
                     return null;
                 }

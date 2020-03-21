@@ -6,10 +6,7 @@
 package org.jdraft.bot;
 
 import com.github.javaparser.ast.expr.ArrayAccessExpr;
-import org.jdraft.Ast;
-import org.jdraft.Ex;
-import org.jdraft._arrayAccess;
-import org.jdraft._int;
+import org.jdraft.*;
 
 import junit.framework.TestCase;
 
@@ -52,7 +49,7 @@ public class SarrayAccessTest extends TestCase {
 
 	public void testRecursive(){
 		_arrayAccess _aa = _arrayAccess.of("i[1][3]");
-		Ast.describe(_aa.ast());
+		Print.describe(_aa.ast());
 		assertTrue(_aa.isNamed("i[1]"));
 		assertTrue(_aa.isIndex("3"));
 	}

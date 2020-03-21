@@ -9,6 +9,7 @@ import java.util.function.Predicate;
 
 import com.github.javaparser.ast.stmt.Statement;
 import org.jdraft.*;
+import org.jdraft.Comments;
 import org.jdraft.text.*;
 
 /**
@@ -17,7 +18,7 @@ import org.jdraft.text.*;
  * @author Eric
  * @param <C> the underlying comment type
  */
-public class $comment <C extends Comment>
+public class $comment <C extends com.github.javaparser.ast.comments.Comment>
     implements $pattern<C, $comment<C>>, Template<C>, $constructor.$part, $method.$part, $field.$part, $class.$part,
         $interface.$part, $enum.$part, $annotation.$part,$enumConstant.$part, $annotationEntry.$part, $body.$part, $type.$part {
 
@@ -60,31 +61,31 @@ public class $comment <C extends Comment>
     public static final $comment STATEMENT_COMMENT = $comment.as("<code>$statement$</code>");
     */
 
-    public static $comment<Comment> of(){
+    public static $comment<com.github.javaparser.ast.comments.Comment> of(){
         return new $comment();
     }
     
-    public static<C extends Comment> $comment<C> of( String pattern, Predicate<C> constraint ){
+    public static<C extends com.github.javaparser.ast.comments.Comment> $comment<C> of(String pattern, Predicate<C> constraint ){
         return (($comment<C>) new $comment(pattern)).$and(constraint);
     }
 
-    public static $comment<Comment> of( Predicate<Comment> constraint ){
+    public static $comment<com.github.javaparser.ast.comments.Comment> of(Predicate<com.github.javaparser.ast.comments.Comment> constraint ){
         return of().$and(constraint);
     }
 
-    public static <C extends Comment> $comment<C> of(C comment){
+    public static <C extends com.github.javaparser.ast.comments.Comment> $comment<C> of(C comment){
         return new $comment(comment);
     }
 
-    public static <C extends Comment> $comment<C> of( String comment ){
+    public static <C extends com.github.javaparser.ast.comments.Comment> $comment<C> of(String comment ){
         return new $comment( comment);
     }
 
-    public static <C extends Comment> $comment<C> of( String...comment ){
+    public static <C extends com.github.javaparser.ast.comments.Comment> $comment<C> of(String...comment ){
         return new $comment(comment);
     }
 
-    public static $comment.Or or( Comment... _protos ){
+    public static $comment.Or or(com.github.javaparser.ast.comments.Comment... _protos ){
         $comment[] arr = new $comment[_protos.length];
         for(int i=0;i<_protos.length;i++){
             arr[i] = $comment.of( _protos[i]);
@@ -97,16 +98,16 @@ public class $comment <C extends Comment>
     }
 
     /** Look for an exact match for the comment */
-    public static<C extends Comment> $comment<C> as( String pattern ) {
+    public static<C extends com.github.javaparser.ast.comments.Comment> $comment<C> as(String pattern ) {
         $comment<C> $c = of( pattern );
-        $c.$and(c->$c.contentsStencil.parse(Ast.getContent( c ).trim() ) != null);
+        $c.$and(c->$c.contentsStencil.parse(Comments.getContent( c ).trim() ) != null);
         return $c;
     }
 
     /** Look for an exact match for the comment */
-    public static<C extends Comment> $comment<C> as( C comment ) {
+    public static<C extends com.github.javaparser.ast.comments.Comment> $comment<C> as(C comment ) {
         $comment<C> $c = of( comment );
-        $c.$and(c->$c.contentsStencil.parse(Ast.getContent( c ).trim() ) != null);
+        $c.$and(c->$c.contentsStencil.parse(Comments.getContent( c ).trim() ) != null);
         return $c;
     }
 
@@ -124,7 +125,7 @@ public class $comment <C extends Comment>
         return new $comment(Ast.javadocComment(comment)).omitBlockComments().omitLineComments();
     }
         
-    public static $comment<JavadocComment> javadocComment(String pattern, Predicate<Comment> constraint){
+    public static $comment<JavadocComment> javadocComment(String pattern, Predicate<com.github.javaparser.ast.comments.Comment> constraint){
         return new $comment(Ast.javadocComment(pattern)).omitBlockComments().omitLineComments()
             .$and(constraint);
     }
@@ -147,7 +148,7 @@ public class $comment <C extends Comment>
             .$and(constraint);
     }
     
-    public static $comment<BlockComment> blockComment(Predicate<Comment> constraint){
+    public static $comment<BlockComment> blockComment(Predicate<com.github.javaparser.ast.comments.Comment> constraint){
         return new $comment<BlockComment>().omitJavadocComments().omitLineComments()
             .$and(constraint);
     }
@@ -171,7 +172,7 @@ public class $comment <C extends Comment>
             .$and(constraint);
     }
     
-    public static final Set<Class<? extends Comment>> ALL_COMMENT_CLASSES = new HashSet<>();
+    public static final Set<Class<? extends com.github.javaparser.ast.comments.Comment>> ALL_COMMENT_CLASSES = new HashSet<>();
     
     static {
         ALL_COMMENT_CLASSES.add(BlockComment.class);
@@ -180,7 +181,7 @@ public class $comment <C extends Comment>
     }    
     
     /** the classes of comment classes that are matched against */
-    public Set<Class<? extends Comment>> commentClasses = new HashSet<>();
+    public Set<Class<? extends com.github.javaparser.ast.comments.Comment>> commentClasses = new HashSet<>();
     
     /** The pattern for the contents of the Comment */
     public Stencil contentsStencil = Stencil.of("$comment$");
@@ -197,19 +198,19 @@ public class $comment <C extends Comment>
         String trimmed = Text.combine(comment);
         if (trimmed.startsWith("/**") ){
             commentClasses.add(JavadocComment.class);
-            contentsStencil = Stencil.of( Ast.getContent( Ast.comment(comment) ).trim() );
+            contentsStencil = Stencil.of( Comments.getContent( Ast.comment(comment) ).trim() );
         } else if( trimmed.startsWith("/*") ){
             commentClasses.add(BlockComment.class);
-            contentsStencil = Stencil.of( Ast.getContent( Ast.comment(comment) ).trim() );
+            contentsStencil = Stencil.of( Comments.getContent( Ast.comment(comment) ).trim() );
         } else if( trimmed.startsWith("//")){
             commentClasses.add(LineComment.class);
-            Comment com = Ast.comment(comment);
-            String content = Ast.getContent(com );
+            com.github.javaparser.ast.comments.Comment com = Ast.comment(comment);
+            String content = Comments.getContent(com );
             //System.out.println("CON" + content );
             contentsStencil = Stencil.of( content.trim() );
         } else{
             commentClasses.addAll(ALL_COMMENT_CLASSES);
-            contentsStencil = Stencil.of( Ast.getContent( Ast.comment(comment) ).trim() );
+            contentsStencil = Stencil.of( Comments.getContent( Ast.comment(comment) ).trim() );
         }
     }
 
@@ -218,10 +219,10 @@ public class $comment <C extends Comment>
      * @param <C>
      * @param astComment 
      */
-    public <C extends Comment> $comment( C astComment ){
+    public <C extends com.github.javaparser.ast.comments.Comment> $comment(C astComment ){
         if(astComment != null ) {
             this.commentClasses.add(astComment.getClass());
-            this.contentsStencil = Stencil.of(Ast.getContent(astComment).trim());
+            this.contentsStencil = Stencil.of(Comments.getContent(astComment).trim());
         }
     }
 
@@ -295,7 +296,7 @@ public class $comment <C extends Comment>
     }
 
     public boolean matches( String...comment ){
-        Comment com = Ast.comment(comment);
+        com.github.javaparser.ast.comments.Comment com = Ast.comment(comment);
         return matches( com );
     }
 
@@ -313,7 +314,7 @@ public class $comment <C extends Comment>
         return matches( nodeWithComment.getComment().get());
     }
 
-    public boolean matches( Comment astComment ){
+    public boolean matches(com.github.javaparser.ast.comments.Comment astComment ){
         return select(astComment) != null;
     }
 
@@ -408,7 +409,7 @@ public class $comment <C extends Comment>
      * @param target
      * @param replacement
      */
-    public static void findAndReplace( Comment comment, String target, String replacement ){
+    public static void findAndReplace(com.github.javaparser.ast.comments.Comment comment, String target, String replacement ){
          String content = comment.getContent();
          String replaced = content.replace(target, replacement);
          comment.setContent(replaced);
@@ -419,7 +420,7 @@ public class $comment <C extends Comment>
      * @param astComment
      * @return
      */
-    public Select select( Comment astComment ){
+    public Select select(com.github.javaparser.ast.comments.Comment astComment ){
         if(! this.commentClasses.contains(astComment.getClass())){
             //System.out.println( "Coment"+ astComment+ " "+astComment.isJavadocComment()+ " "+astComment.getClass());
             //System.out.println( "not correct comment class"+ this.commentClasses+" "+ astComment.getClass());
@@ -433,7 +434,7 @@ public class $comment <C extends Comment>
         /** NEW looks for the existence (i.e. match anywhere within the comment content */
         //Tokens ts = this.contentsStencil.parseFirst(Ast.getContent(astComment));
 
-        Tokens ts = this.contentsStencil.parseFirst(Ast.getContent(astComment));
+        Tokens ts = this.contentsStencil.parseFirst(Comments.getContent(astComment));
         if( ts == null ){
             return null;
         }
@@ -481,7 +482,7 @@ public class $comment <C extends Comment>
     }
 
     /** TODO i should reverse this (seelct should call parse */
-    public $tokens parse(Comment comment) {
+    public $tokens parse(com.github.javaparser.ast.comments.Comment comment) {
         if (comment == null) {
             if (isMatchAny()) {
                 return $tokens.of();
@@ -503,7 +504,7 @@ public class $comment <C extends Comment>
      * @param allTokens
      * @return
      */
-    public Tokens parseTo(Comment comment, Tokens allTokens ){
+    public Tokens parseTo(com.github.javaparser.ast.comments.Comment comment, Tokens allTokens ){
         if(allTokens == null){
             return allTokens;
         }
@@ -582,7 +583,7 @@ public class $comment <C extends Comment>
 
     @Override
     public <N extends Node> N forEachIn(N astNode, Predicate<C> commentMatchFn, Consumer<C> _nodeActionFn) {
-        Ast.forComments(astNode, c->{
+        Comments.forEachIn(astNode, c->{
             Select s = select(c);
             if( s != null && commentMatchFn.test( (C)s.comment) ) {
                 _nodeActionFn.accept( (C)c);
@@ -610,7 +611,7 @@ public class $comment <C extends Comment>
     
     public <N extends Node> N forSelectedIn(N astNode, Consumer<Select> selectActionFn) {
         //_walk will organize by order
-        Ast.forComments(astNode, c->{
+        Comments.forEachIn(astNode, c->{
             Select s = select(c);
             if( s != null ){
                 selectActionFn.accept(s);
@@ -630,7 +631,7 @@ public class $comment <C extends Comment>
     }
     
     public <N extends Node> N forSelectedIn(N astNode, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
-        Ast.forComments(astNode, c->{
+        Comments.forEachIn(astNode, c->{
             Select s = select(c);
             if( s != null && selectConstraint.test(s)){
                 selectActionFn.accept(s);
@@ -653,7 +654,7 @@ public class $comment <C extends Comment>
      * @return
      */
     public <_T extends _type> _T replaceIn(Class clazz, Statement...statements) {
-        return forEachIn( clazz, c-> Ast.replaceComment(c, statements));
+        return forEachIn( clazz, c-> Comments.replace(c, statements));
     }
 
     /**
@@ -664,7 +665,7 @@ public class $comment <C extends Comment>
      * @return
      */
     public <_J extends _java._domain> _J replaceIn(_J _j, Statement...statements) {
-        return forEachIn( _j, c-> Ast.replaceComment(c, statements));
+        return forEachIn( _j, c-> Comments.replace(c, statements));
     }
 
     /**
@@ -675,7 +676,7 @@ public class $comment <C extends Comment>
      * @return
      */
     public <N extends Node> N replaceIn(N astNode, Statement...statements) {
-         return forEachIn( astNode, c-> Ast.replaceComment(c, statements));
+         return forEachIn( astNode, c-> Comments.replace(c, statements));
     }
 
     @Override
@@ -758,8 +759,8 @@ public class $comment <C extends Comment>
     }
 
     public boolean match( Node n){
-        if( n instanceof Comment ){
-            return matches( (Comment) n);
+        if( n instanceof com.github.javaparser.ast.comments.Comment){
+            return matches( (com.github.javaparser.ast.comments.Comment) n);
         }
         return false;
     }
@@ -829,7 +830,7 @@ public class $comment <C extends Comment>
          * @param astNode
          * @return
          */
-        public $comment.Select select(Comment astNode){
+        public $comment.Select select(com.github.javaparser.ast.comments.Comment astNode){
             $comment $a = whichMatch(astNode);
             if( $a != null ){
                 return $a.select(astNode);
@@ -846,7 +847,7 @@ public class $comment <C extends Comment>
          * @param ae
          * @return
          */
-        public $comment whichMatch(Comment ae){
+        public $comment whichMatch(com.github.javaparser.ast.comments.Comment ae){
             if( !this.constraint.test( ae ) ){
                 return null;
             }
@@ -862,7 +863,7 @@ public class $comment <C extends Comment>
      * 
      * @param <C> 
      */
-    public static class Select<C extends Comment> 
+    public static class Select<C extends com.github.javaparser.ast.comments.Comment>
         implements $pattern.selected,
             selectAst<C> {
 
@@ -901,7 +902,7 @@ public class $comment <C extends Comment>
         }
         
         public String getContent(){
-            return Ast.getContent(comment);
+            return Comments.getContent(comment);
         }
 
         @Override

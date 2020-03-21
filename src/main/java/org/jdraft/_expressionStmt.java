@@ -17,6 +17,10 @@ public class _expressionStmt implements _statement<ExpressionStmt, _expressionSt
     public static _expressionStmt of(){
         return new _expressionStmt( new ExpressionStmt( ));
     }
+
+    public static _expressionStmt of( _expression _e){
+        return of( new ExpressionStmt(_e.ast()) );
+    }
     public static _expressionStmt of(ExpressionStmt es){
         return new _expressionStmt( es);
     }

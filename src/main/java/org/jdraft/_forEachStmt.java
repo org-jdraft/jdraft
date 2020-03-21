@@ -16,6 +16,9 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * for(Object o: objects) { ... }
+ */
 public class _forEachStmt implements _statement._controlFlow._branching<ForEachStmt, _forEachStmt>,
         _statement._controlFlow._loop<ForEachStmt, _forEachStmt>,
         _java._multiPart<ForEachStmt, _forEachStmt>,

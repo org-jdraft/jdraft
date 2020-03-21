@@ -2,6 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.ArrayCreationLevel;
 import com.github.javaparser.ast.expr.Expression;
+import org.jdraft.text.Text;
 
 import java.util.Objects;
 
@@ -25,6 +26,14 @@ public class _arrayDimension implements _java._uniPart<ArrayCreationLevel, _arra
 
     public static _arrayDimension of(int index){
         return new _arrayDimension(new ArrayCreationLevel().setDimension( Ex.of(index) ));
+    }
+
+    public static _arrayDimension of(String...str){
+        String s = Text.combine(str);
+        if( s.startsWith("[") ){
+            s = s.substring(1, s.length() - 1);
+        }
+        return of( Ex.of(s));
     }
 
     public static _arrayDimension of(Expression e){

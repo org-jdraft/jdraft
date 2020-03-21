@@ -116,7 +116,14 @@ public class $returnStmt implements $bot.$node<ReturnStmt, _returnStmt, $returnS
         }
     }
      */
-
+    /*
+    public boolean matches(Node n){
+        if( n instanceof ReturnStmt){
+            return matches( _returnStmt.of( (ReturnStmt)n));
+        }
+        return false;
+    }
+     */
     public Selected select(String... code) {
         try {
             return select(_returnStmt.of(code));

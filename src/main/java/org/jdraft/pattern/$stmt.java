@@ -2,7 +2,6 @@ package org.jdraft.pattern;
 
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.comments.BlockComment;
-import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
@@ -1125,7 +1124,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return the modified $stmt
      */
     public $stmt $(Statement stmt, String $name ){
-        String stmtString = stmt.toString( Ast.PRINT_NO_COMMENTS );
+        String stmtString = stmt.toString( Print.PRINT_NO_COMMENTS );
         
         List<String> stringsToReplace = new ArrayList<>();
         String fixedText  = this.stmtStencil.getTextForm().getFixedText();
@@ -1618,7 +1617,7 @@ public class $stmt<S extends Statement, _S extends _statement>
     }
 
     public static final Consumer<_statement> REPLACE_WITH_EMPTY_COMMENT_BLOCK = (st)->{
-        BlockStmt bs = Ast.blockStmt("{/*<code>"+st.toString(Ast.PRINT_NO_COMMENTS)+"</code>*" + "/}");
+        BlockStmt bs = Ast.blockStmt("{/*<code>"+st.toString(Print.PRINT_NO_COMMENTS)+"</code>*" + "/}");
         /**
          * Check if you are in this situation (replacing System.out.println()) which is already in an empty block
          * <PRE>
@@ -1635,7 +1634,7 @@ public class $stmt<S extends Statement, _S extends _statement>
                 && !(((BlockStmt)st.ast().getParentNode().get()).getParentNode().get() instanceof BodyDeclaration) ){
             BlockStmt par = ((BlockStmt)st.ast().getParentNode().get());
             if( par.getStatements().size() == 1 ){
-                bs = Ast.blockStmt("{/*<code>"+st.toString(Ast.PRINT_NO_COMMENTS)+"</code>" + "*/}");
+                bs = Ast.blockStmt("{/*<code>"+st.toString(Print.PRINT_NO_COMMENTS)+"</code>" + "*/}");
                 par.replace( bs );
             } else{
                 st.ast().replace(bs);
@@ -1645,7 +1644,7 @@ public class $stmt<S extends Statement, _S extends _statement>
 
     public static final Consumer<_statement> REPLACE_WITH_EMPTY_STMT_COMMENT = (st)->{
         Statement es = new EmptyStmt(); //create a new empty statement
-        es.setComment( new BlockComment("<code>"+st.toString(Ast.PRINT_NO_COMMENTS)+"</code>") );
+        es.setComment( new BlockComment("<code>"+st.toString(Print.PRINT_NO_COMMENTS)+"</code>") );
         st.ast().replace( es );
     };
 
@@ -1704,7 +1703,7 @@ public class $stmt<S extends Statement, _S extends _statement>
         return forEachIn(_j, s-> commenter.accept(s) );
     }
 
-    public static final $comment<Comment> $COMMENTED_STATEMENT = $comment.as("<code>$statement$</code>");
+    public static final $comment<com.github.javaparser.ast.comments.Comment> $COMMENTED_STATEMENT = $comment.as("<code>$statement$</code>");
 
     /**
      *
@@ -1732,7 +1731,7 @@ public class $stmt<S extends Statement, _S extends _statement>
                             oparent.get().is
                         }
                          */
-                        Ast.replaceComment(sel.comment, st);
+                        Comments.replace(sel.comment, st);
                     }
                 }
             } catch( Exception e ){
@@ -2077,7 +2076,7 @@ public class $stmt<S extends Statement, _S extends _statement>
         public void visit(LabeledStmt ls, Void arg){
             String name = labelToName.apply(ls.getLabel().asString());
             if( name != null ){
-                printer.print("$$"+name+":"+ls.getStatement().toString(Ast.PRINT_NO_COMMENTS)+":$$");
+                printer.print("$$"+name+":"+ls.getStatement().toString(Print.PRINT_NO_COMMENTS)+":$$");
             } else{
                 super.visit(ls, arg);
             }

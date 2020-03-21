@@ -1,6 +1,8 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.expr.SuperExpr;
+import org.jdraft.text.Text;
 
 /**
  * Usage of the super keyword
@@ -25,7 +27,15 @@ public class _super implements _expression<SuperExpr, _super>, _java._uniPart<Su
         return new _super(se);
     }
     public static _super of( String...code){
-        return new _super(Ex.superEx( code));
+        String st = Text.combine(code);
+        if(st.startsWith("super")) {
+            st = st.substring("super".length() -1).trim();
+        }
+        if( st.length() > 0) {
+            return new _super(new SuperExpr(new Name(st)));
+        }
+        return new _super( new SuperExpr());
+        //return new _super(Ex.superEx( code));
     }
 
     public SuperExpr se;

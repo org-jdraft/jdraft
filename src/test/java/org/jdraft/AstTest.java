@@ -46,7 +46,7 @@ public class AstTest extends TestCase {
         }
         _class _c = _class.of(FF.class);
         //replace the comment with multiple statements
-        Ast.replaceComment(_c.ast(), $comment.of().firstIn(_c),
+        Comments.replace(_c.ast(), $comment.of().firstIn(_c),
                 Stmt.of("System.out.println(1);"),
                 Stmt.of("System.out.println(2);"));
 
@@ -73,20 +73,20 @@ public class AstTest extends TestCase {
         }
         _class _c = _class.of(HH.class);
         MethodDeclaration md =  _c.getMethod("commentInNestedBlock").ast();
-        List<Comment> cs = md.getAllContainedComments();
-        Ast.replaceComment( md, cs.get(0), Stmt.of("System.out.println(3);") );
+        List<com.github.javaparser.ast.comments.Comment> cs = md.getAllContainedComments();
+        Comments.replace( md, cs.get(0), Stmt.of("System.out.println(3);") );
         System.out.println( md );
         assertEquals(Stmt.of("System.out.println(3);"), $stmt.ifStmt().firstIn(md).ast().getThenStmt().asBlockStmt().getStatement(1));
 
         md =  _c.getMethod("lastComment").ast();
         cs  =md.getAllContainedComments();
-        Ast.replaceComment( md, cs.get(0), Stmt.of("System.out.println(2);") );
+        Comments.replace( md, cs.get(0), Stmt.of("System.out.println(2);") );
         System.out.println( md );
         assertEquals(Stmt.of("System.out.println(2);"), _method.of(md).getStatement(1));
 
         md =  _c.getMethod("onlyComment").ast();
         cs  =md.getAllContainedComments();
-        Ast.replaceComment( md, cs.get(0), Stmt.of("System.out.println(1);") );
+        Comments.replace( md, cs.get(0), Stmt.of("System.out.println(1);") );
         assertEquals(Stmt.of("System.out.println(1);"), _method.of(md).getStatement(0));
     }
 
@@ -102,8 +102,8 @@ public class AstTest extends TestCase {
         }
         _class _c = _class.of(T.class);
         MethodDeclaration md = _c.getMethod("t").ast();
-        Comment c = md.getAllContainedComments().get(0);
-        Ast.replaceComment(c, Stmt.of( ()->System.out.println(1)));
+        com.github.javaparser.ast.comments.Comment c = md.getAllContainedComments().get(0);
+        Comments.replace(c, Stmt.of( ()->System.out.println(1)));
 
         assertEquals( Stmt.of( ()->System.out.println(1)), md.getBody().get().getStatement(0) );
         //insertStatement(_c.astCompilationUnit(), Stmt.of("System.out.println(1);"), c.getRange().get().begin);
@@ -111,7 +111,7 @@ public class AstTest extends TestCase {
         _c = _class.of(T.class);
         md = _c.getMethod("t").ast();
         c = md.getAllContainedComments().get(0);
-        Ast.replaceComment(c, Stmt.of( ()->System.out.println(1)),
+        Comments.replace(c, Stmt.of( ()->System.out.println(1)),
                 Stmt.of( ()->System.out.println(2)) );
 
         System.out.println( md );
@@ -148,7 +148,7 @@ public class AstTest extends TestCase {
         //Stmt.commentOut( _m.getStatement(0));
         Stmt.REPLACE_WITH_EMPTY_STMT_COMMENT_FN.apply( _m.getStatement(0) );
         System.out.println( _m  );
-        System.out.println( _m.toString(Ast.EMPTY_STATEMENT_COMMENT_PRINTER) );
+        System.out.println( _m.toString(Print.EMPTY_STATEMENT_COMMENT_PRINTER) );
     }
 
     public void testReplaceStatementWithComment(){
@@ -180,7 +180,7 @@ public class AstTest extends TestCase {
         _class _c = _class.of(C.class);
 
         System.out.println( _c );
-        System.out.println( _c.toString(Ast.EMPTY_STATEMENT_COMMENT_PRINTER));
+        System.out.println( _c.toString(Print.EMPTY_STATEMENT_COMMENT_PRINTER));
 
         _c = _class.of(C.class);
         MethodDeclaration b = _c.getMethod("b").ast();
@@ -221,9 +221,9 @@ public class AstTest extends TestCase {
         }
         _class _c = _class.of(C.class);
         _method _m = _c.getMethod("m");
-        List<Comment> cs = _m.ast().getAllContainedComments();
+        List<com.github.javaparser.ast.comments.Comment> cs = _m.ast().getAllContainedComments();
         //System.out.println( cs );
-        Comment c = cs.get(0);
+        com.github.javaparser.ast.comments.Comment c = cs.get(0);
         Range range = c.getRange().get();
 
         //$stmt.of().$isBefore()
@@ -289,9 +289,9 @@ public class AstTest extends TestCase {
         }
         _class _c = _class.of(C.class);
         _method _m = _c.getMethod("m");
-        List<Comment> cs = _m.ast().getAllContainedComments();
+        List<com.github.javaparser.ast.comments.Comment> cs = _m.ast().getAllContainedComments();
         //System.out.println( cs );
-        Comment c = cs.get(0);
+        com.github.javaparser.ast.comments.Comment c = cs.get(0);
         Range range = c.getRange().get();
 
         List<Statement> sts = Tree.list(_m, Statement.class, st-> st.getRange().get().isAfter(c.getRange().get().end));
@@ -677,9 +677,9 @@ public class AstTest extends TestCase {
         assertFalse(Ast.AST_CACHE_MAP.containsKey(L.class));
     }
     public void testAstWalkList(){
-        System.out.println( Ast.listComments( Ast.typeDecl( Ex.class) ));
+        System.out.println( Comments.list( Ast.typeDecl( Ex.class) ));
 
-        Tree.in(Ast.typeDecl( Ex.class ), Comment.class, c-> System.out.println(c.getClass()) );
+        Tree.in(Ast.typeDecl( Ex.class ), com.github.javaparser.ast.comments.Comment.class, c-> System.out.println(c.getClass()) );
         //Ast.walk( Ast.type( Ex.class ), Comment.class, c-> System.out.println(c.getClass()) );
 
     }
@@ -954,7 +954,7 @@ public class AstTest extends TestCase {
         t = Ast.typeRef("MyType<String,Integer>");
     }
     public void testComment() {
-        Comment c = Ast.comment("// hello");
+        com.github.javaparser.ast.comments.Comment c = Ast.comment("// hello");
         assertTrue(c instanceof LineComment);
         //System.out.println( c );
         c = Ast.comment("/* hi */");
@@ -1004,7 +1004,7 @@ public class AstTest extends TestCase {
         //_class.of(L.class).walk(
                 _body._hasBody.class,
                 m -> Tree.in(m.getBody().ast(),
-                        Comment.class,
+                        com.github.javaparser.ast.comments.Comment.class,
                         c-> c.getContent().trim().startsWith("TODO"),
                         jdc -> System.out.println( jdc.getContent() )) );
                 //m-> m.walkBody(

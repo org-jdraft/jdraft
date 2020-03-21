@@ -3,7 +3,6 @@ package org.jdraft;
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseResult;
 import com.github.javaparser.ParserConfiguration;
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.stmt.Statement;
 import junit.framework.TestCase;
 
@@ -14,7 +13,7 @@ public class _switchExpressionTest extends TestCase {
         ParseResult<Statement> ps = jp.parseStatement("int i = switch(a){ default -> 1; };");
         System.out.println( "PROBS " + ps.getProblems());
         assertTrue(ps.isSuccessful());
-        Ast.describe(ps.getResult().get());
+        Print.describe(ps.getResult().get());
 
         //StaticJavaParser.parseStatement("int i = switch(a){ default -> 1; };");
         //StaticJavaParser.parseExpression("switch(a){ default-> 1; }");

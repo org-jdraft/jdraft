@@ -5,6 +5,7 @@ import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.expr.LambdaExpr;
+import com.github.javaparser.ast.expr.SwitchExpr;
 import com.github.javaparser.ast.stmt.*;
 
 import java.util.List;
@@ -159,7 +160,7 @@ public enum Stmt {
      *     }
      * </PRE>
      *
-     * NOTE: if we print with the {@link Ast#EMPTY_STATEMENT_COMMENT_PRINTER} ONLY the comment
+     * NOTE: if we print with the {@link Print#EMPTY_STATEMENT_COMMENT_PRINTER} ONLY the comment
      * will be printed (and not the ";" empty statement) like this:
      *
      * System.out.println( md.toString(Stmt.REPLACE_WITH_EMPTY_STMT_COMMENT) );
@@ -169,14 +170,14 @@ public enum Stmt {
      * }
      * </PRE>
      * NOTE: we do not print the empty statement ";" ONLY the comment
-     * @see Ast#EMPTY_STATEMENT_COMMENT_PRINTER
+     * @see Print#EMPTY_STATEMENT_COMMENT_PRINTER
      */
     public static final Function<Statement,Statement> REPLACE_WITH_EMPTY_STMT_COMMENT_FN = (st)->{
         if( st.getParentNode().isPresent() && ! (st.getParentNode().get() instanceof Statement)){
             return null;
         }
         Statement es = new EmptyStmt(); //create a new empty statement
-        es.setComment( new BlockComment("<code>"+st.toString(Ast.PRINT_NO_COMMENTS)+"</code>") );
+        es.setComment( new BlockComment("<code>"+st.toString(Print.PRINT_NO_COMMENTS)+"</code>") );
         //System.out.println( st );
         st.replace( es );
         return es;
@@ -200,7 +201,7 @@ public enum Stmt {
      *     }
      * </PRE>
      *
-     * NOTE: if we print with the {@link Ast#EMPTY_STATEMENT_COMMENT_PRINTER} ONLY the comment
+     * NOTE: if we print with the {@link Print#EMPTY_STATEMENT_COMMENT_PRINTER} ONLY the comment
      * will be printed (and not the ";" empty statement) like this:
      *
      * System.out.println( md.toString(Ast.EMPTY_STATEMENT_COMMENT_PRINTER) );
@@ -210,10 +211,10 @@ public enum Stmt {
      * }
      * </PRE>
      * NOTE: we do not print the empty statement ";" ONLY the comment
-     * @see Ast#EMPTY_STATEMENT_COMMENT_PRINTER
+     * @see Print#EMPTY_STATEMENT_COMMENT_PRINTER
      */
     public static final Function<Statement, Statement> REPLACE_WITH_EMPTY_COMMENT_BLOCK_FN = (st)->{
-        BlockStmt bs = Ast.blockStmt("{/*<code>"+st.toString(Ast.PRINT_NO_COMMENTS)+"</code>*" + "/}");
+        BlockStmt bs = Ast.blockStmt("{/*<code>"+st.toString(Print.PRINT_NO_COMMENTS)+"</code>*" + "/}");
         if( bs != null ) {
             st.replace(bs);
         }
@@ -1501,7 +1502,13 @@ public enum Stmt {
      * @return
      */
     public static YieldStmt yieldStmt( String... code ) {
-        return of( code ).asYieldStmt();
+
+        String str = "switch(e){ case 1: "+Text.combine(code)+" }";
+        SwitchExpr se = Ex.switchEx(str);
+        YieldStmt ys = (YieldStmt)se.getEntry(0).getStatement(0);
+        ys.getParentNode().get().remove(ys);
+        return ys;
+        //return of( code ).asYieldStmt();
     }
 
     /**

@@ -3,7 +3,6 @@ package org.jdraft.bot;
 import com.github.javaparser.ast.expr.MethodReferenceExpr;
 import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.expr.SimpleName;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import junit.framework.TestCase;
 
 import org.jdraft.*;
@@ -96,7 +95,7 @@ public class $nameTest extends TestCase {
         class G{
             //java.lang.String s;
         }
-        Ast.describe(_class.of(G.class).astCompilationUnit());
+        Print.describe(_class.of(G.class).astCompilationUnit());
 
         _class _c = _class.of(G.class);
         assertTrue( _name.of(_c.getNameNode()).isTypeDeclarationName() );
@@ -122,7 +121,7 @@ public class $nameTest extends TestCase {
         _import _i = $name.of("bbbb").forEachIn(_import.of("import aaaa.bbbb.C"),
                 new $name.$nameConsumer().onName(n -> n.setId("HEY")));
         System.out.println( _i );
-        Ast.describe( _i.ast() );
+        Print.describe( _i.ast() );
         assertEquals(_import.of("aaaa.HEY.c"), _import.of("aaaa.HEY.c"));
 
         assertTrue( _i.equals(_import.of("aaaa.HEY.C")));
@@ -184,7 +183,7 @@ public class $nameTest extends TestCase {
         MethodReferenceExpr mre = Ex.methodReferenceEx("A::B");
 
         System.out.println( mre );
-        Ast.describe(mre);
+        Print.describe(mre);
         assertEquals( 1, $name.of("A").countIn( mre ));
         assertEquals( 1, $name.of("B").countIn( mre ));
     }
@@ -349,7 +348,7 @@ public class $nameTest extends TestCase {
             }
         }
 
-        Ast.describe(Ast.of(C.class));
+        Print.describe(Ast.of(C.class));
        //System.out.println( _c );
         assertEquals(1, $name.of("println").countIn(C.class));
         assertEquals(2, $name.of("a").countIn(C.class));

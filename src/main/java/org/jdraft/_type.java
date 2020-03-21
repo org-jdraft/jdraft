@@ -74,6 +74,33 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     extends _javadoc._withJavadoc<_T>, _annos._withAnnos<_T>, _modifiers._withModifiers<_T>,
         _field._withFields<_T>, _java._declaredBodyPart<AST, _T>, _codeUnit<_T>, _java._multiPart<AST, _T> {
 
+    static <_T extends _type> _T of( String...typeCode ){
+        return (_T)of(Ast.of(typeCode));
+    }
+    static <_T extends _type> _T  of(CompilationUnit cu){
+        if( cu.getPrimaryType().isPresent()){
+            return of( cu.getPrimaryType().get() );
+        }
+        if( cu.getTypes().size() == 1){
+            return of( cu.getType(0));
+        }
+        return of(cu.getType(0));
+    }
+
+    static <_T extends _type> _T of( TypeDeclaration td ){
+        if( td instanceof ClassOrInterfaceDeclaration){
+            ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration) td;
+            if( !coid.isInterface()) {
+                return (_T)_class.of(coid);
+            }
+            return (_T)_interface.of(coid);
+        }
+        if( td instanceof EnumDeclaration){
+            return (_T)_enum.of( (EnumDeclaration)td);
+        }
+        return (_T)_annotation.of( (AnnotationDeclaration) td);
+    }
+
     /**
      * If we are a top level _type add the types as companion types
      * (other top level types that are package private) to the CompilationUnit
@@ -1092,7 +1119,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
                 return impls.stream().anyMatch(i -> Ast.typesEqual(i, astType));
             } else{
                 //they didnt provide typeArgs so match against no type args
-                return impls.stream().anyMatch(i -> Ast.typesEqual( Ast.typeRef(i.toString(Ast.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS)), astType));
+                return impls.stream().anyMatch(i -> Ast.typesEqual( Ast.typeRef(i.toString(Print.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS)), astType));
             }
             /*
             NodeList<ClassOrInterfaceType> extnds = 
@@ -1148,7 +1175,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
         { /* 1) implement a fully qualified class name  */
             Optional<ClassOrInterfaceType> ot =
-                    coit.stream().filter(impl -> impl.toString(Ast.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS).equals(canonicalName)).findFirst();
+                    coit.stream().filter(impl -> impl.toString(Print.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS).equals(canonicalName)).findFirst();
             if (ot.isPresent()) {
                 return true; //it directly implements the fully qualified class name
             }
@@ -1161,7 +1188,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
             //we need to check that we Are implementing the SimpleName
             Optional<ClassOrInterfaceType> ot = //we need to Strip all implements of (potential) Annotations & Type params
-                    coit.stream().filter(impl -> impl.toString(Ast.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS).equals(simpleName)).findFirst();
+                    coit.stream().filter(impl -> impl.toString(Print.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS).equals(simpleName)).findFirst();
             if( ot.isPresent() ) {
                 //2) a)If this class is in the same package as the target class
                 if (cu.getPackageDeclaration().isPresent() &&
@@ -1227,7 +1254,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
             return impls.stream().filter(i -> Ast.typesEqual(i, astType)).findFirst().isPresent();
         } else{
             //they didnt provide typeArgs so match against no type args
-            return impls.stream().filter(i -> Ast.typesEqual( Ast.typeRef(i.toString(Ast.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS)), astType)).findFirst().isPresent();
+            return impls.stream().filter(i -> Ast.typesEqual( Ast.typeRef(i.toString(Print.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS)), astType)).findFirst().isPresent();
         }
         //TODO ONE possible issue is if I have Generic Type "Type<String>" and "Type<java.lang.String>"
     }
@@ -1284,7 +1311,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
         { /* 1) implement a fully qualified class name  */
             Optional<ClassOrInterfaceType> ot =
-                    coit.stream().filter(impl -> impl.toString(Ast.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS).equals(canonicalName)).findFirst();
+                    coit.stream().filter(impl -> impl.toString(Print.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS).equals(canonicalName)).findFirst();
             if (ot.isPresent()) {
                 return true; //it directly implements the fully qualified class name
             }
@@ -1297,7 +1324,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
             //we need to check that we Are implementing the SimpleName
             Optional<ClassOrInterfaceType> ot = //we need to Strip all implements of (potential) Annotations & Type params
-                    coit.stream().filter(impl -> impl.toString(Ast.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS).equals(simpleName)).findFirst();
+                    coit.stream().filter(impl -> impl.toString(Print.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS).equals(simpleName)).findFirst();
             if( ot.isPresent() ) {
                 //2) a)If this class is in the same package as the target class
                 if (cu.getPackageDeclaration().isPresent() &&

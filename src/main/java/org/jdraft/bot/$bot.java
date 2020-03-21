@@ -3,6 +3,8 @@ package org.jdraft.bot;
 import com.github.javaparser.Range;
 import com.github.javaparser.ast.Node;
 import org.jdraft.*;
+import org.jdraft.pattern.$;
+import org.jdraft.pattern.$pattern;
 import org.jdraft.text.Template;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
@@ -213,6 +215,17 @@ public interface $bot<B, _B, $B>
     }
 
 
+    /*
+    default $B $isParent(Predicate<Node> parentMatchFn ){
+        return $and(n -> {
+            //if( n instanceof _java._domain){
+            return Tree.isParent( ((_java._node)n).ast(), parentMatchFn);
+            //}
+            //return Tree.isParent((Node) n, parentMatchFn);
+        });
+    }
+     */
+
     default $B $isParent(Class... parentClassTypes ){
         return $and(n -> {
             if (n instanceof Node) {
@@ -264,7 +277,7 @@ public interface $bot<B, _B, $B>
     }
 
     /**
-     * Adds a constraint to test that the parent of the instance Is this node the child of a a proto?
+     * Adds a constraint to test that the parent of the instance Is this node the child of a ?
      * @param $bs the prototypes to match against
      * @return
      */
@@ -289,6 +302,23 @@ public interface $bot<B, _B, $B>
         //return and( (n)-> Ast.isParent( (Node)n, e-> proto.match(e) ) );
     }
 
+    default $B $hasAncestor( int levels, $bot... $bots ){
+        return $and(n-> {
+            if (n instanceof _java._node) {
+                return ((_java._node)n).ast().stream($.PARENTS).limit(levels).anyMatch(c-> Arrays.stream($bots).anyMatch($b ->$b.matches(c)));
+            } else if (n instanceof _body) {
+                return ((_body)n).ast().stream($.PARENTS).limit(levels).anyMatch( c-> Arrays.stream($bots).anyMatch($b ->$b.matches(c)));
+            } else{
+                //NEED TO MANUALLY IMPLEMENT FOR:
+                // $parameters, $annos, $throws, $typeParameters
+                // if( n instanceof List ){
+                //    List l = (List)n;
+                //    l.forEach();
+                // }
+                throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
+            }
+        } );
+    }
 
 
 

@@ -1,6 +1,7 @@
 package org.jdraft.bot;
 
 import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.stmt.ReturnStmt;
 import junit.framework.TestCase;
 import org.jdraft.*;
 
@@ -26,6 +27,27 @@ public class $returnStmtTest extends TestCase {
         assertEquals( 1, $returnStmt.of().$isInRange(_c.getMethod("t")).countIn(_c));
         assertEquals( 1, $returnStmt.of().$isInRange(_c.getMethod("r").ast()).countIn(_c));
     }
+
+    /*
+    public void testHasAncestor(){
+        //works
+        //$int int_return = $int.of().$isParent(_returnStmt.class);
+        //$int int_return = $int.of().$isParent(p-> p instanceof ReturnStmt);
+
+        $int int_return = $int.of().$isParent(p-> p instanceof _returnStmt);
+
+
+        //$int int_return = $int.of().$isParent(_returnStmt.class);
+        class C{
+            int i = 0; //doesnt match (not a return stmt)
+            int m(){
+                return 3; //(matches) int return stmt
+            }
+        }
+        assertEquals( 1, int_return.countIn(C.class));
+    }
+
+     */
 
     public void testParent(){
 

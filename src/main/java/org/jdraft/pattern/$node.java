@@ -85,7 +85,7 @@ public class $node implements $pattern<Node, $node>, $body.$part, $method.$part,
     }
 
     public static $node of( Node node ){
-        return of( node.toString(Ast.PRINT_NO_ANNOTATIONS_OR_COMMENTS), node.getClass() );
+        return of( node.toString(Print.PRINT_NO_ANNOTATIONS_OR_COMMENTS), node.getClass() );
     }
 
     /**
@@ -210,7 +210,7 @@ public class $node implements $pattern<Node, $node>, $body.$part, $method.$part,
      */
     public Select select(Node astNode){
         if( this.constraint.test(astNode)) {
-            Tokens ts = this.nodeStencil.parse( astNode.toString(Ast.PRINT_NO_COMMENTS) );
+            Tokens ts = this.nodeStencil.parse( astNode.toString(Print.PRINT_NO_COMMENTS) );
             if( ts != null ){
                 return new Select( astNode, ts);
             }
@@ -375,7 +375,7 @@ public class $node implements $pattern<Node, $node>, $body.$part, $method.$part,
     public <N extends Node> N replaceIn(N astNode, $node $replacement) {
         astNode.walk(n -> {
             if( this.constraint.test(n) ) {
-                Tokens ts = this.nodeStencil.parse( n.toString(Ast.PRINT_NO_COMMENTS) );
+                Tokens ts = this.nodeStencil.parse( n.toString(Print.PRINT_NO_COMMENTS) );
                 if( ts != null ){
                     String constructed = $replacement.nodeStencil.draft(ts);
                     if( ! replaceNode( n, constructed ) ){
@@ -422,7 +422,7 @@ public class $node implements $pattern<Node, $node>, $body.$part, $method.$part,
     public <N extends Node> N replaceIn(N astNode, String replacement) {
         astNode.walk(n -> {
             if( this.constraint.test(n)) {
-                String st = n.toString(Ast.PRINT_NO_COMMENTS);
+                String st = n.toString(Print.PRINT_NO_COMMENTS);
                 Tokens ts = this.nodeStencil.parse( st );
                 if( ts != null ){
                     //System.out.println( "replacing "+ n +" of "+n.getClass()+" with "+ replacement );
@@ -445,7 +445,7 @@ public class $node implements $pattern<Node, $node>, $body.$part, $method.$part,
     public <N extends Node> N replaceIn(N astNode, Node replacement) {
         astNode.walk(n -> {
             if( this.constraint.test(n)) {
-                Tokens ts = this.nodeStencil.parse( n.toString(Ast.PRINT_NO_COMMENTS) );
+                Tokens ts = this.nodeStencil.parse( n.toString(Print.PRINT_NO_COMMENTS) );
                 if( ts != null ){
                     replaceNode( n, replacement );                    
                 }                

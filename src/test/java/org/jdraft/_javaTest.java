@@ -39,7 +39,7 @@ public class _javaTest extends TestCase {
             byte b = 16;
             float f = 1.23F;
         }
-        Ast.describe( _class.of( F.class ).ast());
+        Print.describe( _class.of( F.class ).ast());
 
     }
     public void testBuildEnum(){

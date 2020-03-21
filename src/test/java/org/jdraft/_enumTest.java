@@ -128,7 +128,7 @@ public class _enumTest extends TestCase {
         Type t = Ast.typeRef("@ann aaaa.bbbb.I<T>");
         assertTrue( t.isClassOrInterfaceType() );
         System.out.println( t.toString() );
-        assertEquals( "aaaa.bbbb.I", t.toString(Ast.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS));
+        assertEquals( "aaaa.bbbb.I", t.toString(Print.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS));
 
         System.out.println( t.getElementType() );
     }

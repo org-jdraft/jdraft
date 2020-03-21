@@ -278,7 +278,7 @@ public final class _typeRef<T extends Type>
         //System.out.println("BEFORE \""+type.getClass()+"\"" );
         //System.out.println("BEFORE THE ERASED TYPE \""+type.toString(Ast.PRINT_NO_TYPE_PARAMETERS )+"\"" );
 
-        String st = type.toString(Ast.PRINT_NO_TYPE_PARAMETERS );
+        String st = type.toString(Print.PRINT_NO_TYPE_PARAMETERS );
         //System.out.println("THE ERASED TYPE "+st );
         try {
             return Ast.typeRef(st);
@@ -292,7 +292,7 @@ public final class _typeRef<T extends Type>
     public static Type getBaseType(Type type ){
         Type t = getErasedType(getElementType(type));
         //now remove annotations
-        return Ast.typeRef( t.toString(Ast.PRINT_NO_ANNOTATIONS_OR_COMMENTS));
+        return Ast.typeRef( t.toString(Print.PRINT_NO_ANNOTATIONS_OR_COMMENTS));
     }
 
     /**

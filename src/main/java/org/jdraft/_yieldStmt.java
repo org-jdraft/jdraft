@@ -20,12 +20,16 @@ public class _yieldStmt implements _statement._controlFlow._signal<YieldStmt, _y
     }
 
     public static _yieldStmt of(String...code){
-        String t = Text.combine(code);
-        if( t.startsWith("yield ") ){ //they could pass in the whole yield statement string
-            return new _yieldStmt(Stmt.yieldStmt( code));
-        }
+        String str = "switch(e){ case 1: "+Text.combine(code)+" }";
+        //System.out.println( str );
+        _switchExpression _se = _switchExpression.of(str);
+        return of( (YieldStmt)_se.getSwitchEntry(0).getStatement(0));
+        //String t = Text.combine(code);
+        //if( t.startsWith("yield ") ){ //they could pass in the whole yield statement string
+        //    return new _yieldStmt(Stmt.yieldStmt( code ));
+        //}
         //they could just pass in the expression
-        return of(Ex.of( code));
+        //return of(Ex.of( code));
     }
 
     public static _yieldStmt of(Expression e){

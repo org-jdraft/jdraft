@@ -3,7 +3,7 @@ package test.othertools;
 import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import junit.framework.TestCase;
-import org.jdraft.Ast;
+import org.jdraft.Print;
 import org.jdraft.Tree;
 import org.jdraft._ifStmt;
 import org.jdraft.pattern.$;
@@ -67,7 +67,7 @@ public class SpoonComingTest extends TestCase {
                 }
             }
         }
-        Ast.describe( $.ifStmt().firstIn(Ex.class).ast() );
+        Print.describe( $.ifStmt().firstIn(Ex.class).ast() );
 
         assertEquals(1, $ifReturn.countIn(Ex.class));
     }

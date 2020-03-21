@@ -8,7 +8,6 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt;
@@ -347,47 +346,47 @@ public final class _body implements _java._domain {
     
     public <A extends Object> boolean is( Ex.Command lambdaWithBody){
         Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
-        return bdy.toString(Ast.PRINT_NO_COMMENTS).equals(this.toString(Ast.PRINT_NO_COMMENTS));        
+        return bdy.toString(Print.PRINT_NO_COMMENTS).equals(this.toString(Print.PRINT_NO_COMMENTS));
     }
         
     public <A extends Object> boolean is( Consumer<A> lambdaWithBody){
         Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
-        return bdy.toString(Ast.PRINT_NO_COMMENTS).equals(this.toString(Ast.PRINT_NO_COMMENTS));        
+        return bdy.toString(Print.PRINT_NO_COMMENTS).equals(this.toString(Print.PRINT_NO_COMMENTS));
     }
         
     public <A extends Object, B extends Object> boolean is( Function<A,B> lambdaWithBody ){            
         Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
-        return bdy.toString(Ast.PRINT_NO_COMMENTS).equals(this.toString(Ast.PRINT_NO_COMMENTS));        
+        return bdy.toString(Print.PRINT_NO_COMMENTS).equals(this.toString(Print.PRINT_NO_COMMENTS));
     }
         
     public <A extends Object, B extends Object,C extends Object> boolean is( BiFunction<A,B,C> lambdaWithBody ){            
         Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
-        return bdy.toString(Ast.PRINT_NO_COMMENTS).equals(this.toString(Ast.PRINT_NO_COMMENTS));        
+        return bdy.toString(Print.PRINT_NO_COMMENTS).equals(this.toString(Print.PRINT_NO_COMMENTS));
     }
         
     public <A extends Object, B extends Object,C extends Object, D extends Object> boolean is( Ex.TriFunction<A,B,C,D> lambdaWithBody ){
         Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
-        return bdy.toString(Ast.PRINT_NO_COMMENTS).equals(this.toString(Ast.PRINT_NO_COMMENTS));        
+        return bdy.toString(Print.PRINT_NO_COMMENTS).equals(this.toString(Print.PRINT_NO_COMMENTS));
     }
         
     public <A extends Object, B extends Object,C extends Object, D extends Object, E extends Object> boolean is( Ex.QuadFunction<A,B,C,D,E> lambdaWithBody ){
         Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
-        return bdy.toString(Ast.PRINT_NO_COMMENTS).equals(this.toString(Ast.PRINT_NO_COMMENTS));        
+        return bdy.toString(Print.PRINT_NO_COMMENTS).equals(this.toString(Print.PRINT_NO_COMMENTS));
     }
         
     public <A extends Object, B extends Object> boolean is( BiConsumer<A,B> lambdaWithBody ){            
         Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
-        return bdy.toString(Ast.PRINT_NO_COMMENTS).equals(this.toString(Ast.PRINT_NO_COMMENTS));        
+        return bdy.toString(Print.PRINT_NO_COMMENTS).equals(this.toString(Print.PRINT_NO_COMMENTS));
     }
         
     public <A extends Object, B extends Object,C extends Object> boolean is(Ex.TriConsumer<A,B,C> lambdaWithBody ){
         Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
-        return bdy.toString(Ast.PRINT_NO_COMMENTS).equals(this.toString(Ast.PRINT_NO_COMMENTS));        
+        return bdy.toString(Print.PRINT_NO_COMMENTS).equals(this.toString(Print.PRINT_NO_COMMENTS));
     }
 
     public <A extends Object, B extends Object,C extends Object, D extends Object> boolean is(Ex.QuadConsumer<A,B,C,D> lambdaWithBody ){
         Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
-        return bdy.toString(Ast.PRINT_NO_COMMENTS).equals(this.toString(Ast.PRINT_NO_COMMENTS));        
+        return bdy.toString(Print.PRINT_NO_COMMENTS).equals(this.toString(Print.PRINT_NO_COMMENTS));
     }
     
     /**
@@ -415,8 +414,8 @@ public final class _body implements _java._domain {
             }
             for(int i=0;i<ts.size();i++){ //this might be improved
                 if( !Objects.equals( 
-                    ts.get(i).toString(Ast.PRINT_NO_COMMENTS), 
-                    os.get(i).toString(Ast.PRINT_NO_COMMENTS) ) ) {
+                    ts.get(i).toString(Print.PRINT_NO_COMMENTS),
+                    os.get(i).toString(Print.PRINT_NO_COMMENTS) ) ) {
                     return false;
                 }                
             }
@@ -457,8 +456,8 @@ public final class _body implements _java._domain {
             //if we can avoid printing, we should
             return false;
         }
-        String tnc = t.toString(Ast.PRINT_NO_COMMENTS);
-        String onc = o.toString(Ast.PRINT_NO_COMMENTS);
+        String tnc = t.toString(Print.PRINT_NO_COMMENTS);
+        String onc = o.toString(Print.PRINT_NO_COMMENTS);
         return tnc.equals(onc);
     }
 
@@ -468,7 +467,7 @@ public final class _body implements _java._domain {
         if (!isImplemented()) {
             return 0;
         }
-        hash = 53 * hash + Objects.hashCode(ast().toString(Ast.PRINT_NO_COMMENTS));
+        hash = 53 * hash + Objects.hashCode(ast().toString(Print.PRINT_NO_COMMENTS));
         return hash;
     }
 
@@ -476,7 +475,7 @@ public final class _body implements _java._domain {
      * Prints out the body using the pretty printer configuration provided
      *
      * For an EXAMPLE on how to create a PreetyPrinterConfiguration, see:
-     * {@link org.jdraft.Ast#PRINT_NO_COMMENTS}
+     * {@link Print#PRINT_NO_COMMENTS}
      *
      * @param ppc
      * @return
@@ -871,12 +870,12 @@ public final class _body implements _java._domain {
             }
 
             //organize orphan comments
-            List<Comment> coms = bs.getOrphanComments();
-            Comment c = null;
+            List<com.github.javaparser.ast.comments.Comment> coms = bs.getOrphanComments();
+            com.github.javaparser.ast.comments.Comment c = null;
             if (coms.size() > 0) {
                 c = coms.get(0);
             }
-            Collections.sort(coms, new Ast.CommentPositionComparator());
+            Collections.sort(coms, new Comments.CommentPositionComparator());
 
             for (int i = 0; i < bs.getStatements().size(); i++) {
                 Statement st = bs.getStatement(i);

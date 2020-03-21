@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
- * Graph Traversal Algorithms for traversing nodes of a Java AST / {@link _java._domain}
+ * Tree Node Traversal Algorithms for traversing nodes of a Java AST / {@link _java._domain}
  * domain objects for selecting / visiting the nodes, providing a simple API for operations
  * on Nodes within a Java source file (by manipulating the AST).
  *
@@ -1426,7 +1426,7 @@ public enum Tree {
      * {@link NodeWithAnnotations}, {@link NodeWithCondition}, ...)
      *
      * <LI>Comment types
-     * ({@link Comment}, {@link JavadocComment}, {@link LineComment}, {@link BlockComment}...)
+     * ({@link com.github.javaparser.ast.comments.Comment}, {@link JavadocComment}, {@link LineComment}, {@link BlockComment}...)
      *
      * <LI>Logical classes
      * ({@link _field}, {@link _method}, {@link _constant}...)
@@ -1453,19 +1453,19 @@ public enum Tree {
                 || targetClass.getPackage().getName().equals( NodeWithAnnotations.class.getPackage().getName() ) // (NodeWithAnnotations, NodeWithArguments, NodeWithBlockStmt, ...
                 || targetClass.getPackage().getName().equals( NodeWithAbstractModifier.class.getPackage().getName() )) { //NodeWithAbstractModifier, NodeWithStaticModifier, ...
 
-            if( Comment.class.isAssignableFrom( targetClass ) ) { //we have to _walk Comments Differently
+            if( com.github.javaparser.ast.comments.Comment.class.isAssignableFrom( targetClass ) ) { //we have to _walk Comments Differently
                 //because comments can be Orphaned and never touched when we use the normal Ast walk
-                if( targetClass == Comment.class ) {
-                    Ast.forComments( astRootNode, (Predicate<Comment>)matchFn, (Consumer<Comment>)action );
+                if( targetClass == com.github.javaparser.ast.comments.Comment.class ) {
+                    Comments.forEachIn( astRootNode, (Predicate<com.github.javaparser.ast.comments.Comment>)matchFn, (Consumer<com.github.javaparser.ast.comments.Comment>)action );
                 }
                 else if( targetClass == JavadocComment.class ) {
-                    Ast.forComments( astRootNode, JavadocComment.class, (Predicate<JavadocComment>)matchFn, (Consumer<JavadocComment>)action );
+                    Comments.forEachIn( astRootNode, JavadocComment.class, (Predicate<JavadocComment>)matchFn, (Consumer<JavadocComment>)action );
                 }
                 else if( targetClass == BlockComment.class ) {
-                    Ast.forComments( astRootNode, BlockComment.class, (Predicate<BlockComment>)matchFn, (Consumer<BlockComment>)action );
+                    Comments.forEachIn( astRootNode, BlockComment.class, (Predicate<BlockComment>)matchFn, (Consumer<BlockComment>)action );
                 }
                 else {
-                    Ast.forComments(astRootNode, LineComment.class, (Predicate<LineComment>) matchFn, (Consumer<LineComment>) action);
+                    Comments.forEachIn(astRootNode, LineComment.class, (Predicate<LineComment>) matchFn, (Consumer<LineComment>) action);
                 }
                 return astRootNode;
             }else {
@@ -2280,6 +2280,46 @@ public enum Tree {
     }
 
     /**
+     * Get the parent "member" (not JUST the parent) for some Node
+     * we need this because sometimes nodes are "deeply nested" inside code, i.e.:
+     * <PRE>
+     *     void m(){
+     *         if(true){
+     *             here: int i = 0;
+     *         }
+     *     }
+     * </PRE>
+     * ...the "parent" of the labeled statement "here: int i=0;" is the ifStatement;
+     * what we want to return is rather the method m()
+     *
+     * @param n the node to look for parent member
+     * @param <M> the (expected) member type
+     * @return the first Parent member of the node or null
+     */
+    public static <M extends BodyDeclaration> M parentMemberOf(Node n) {
+
+        Optional<Node> bd =
+                n.stream(Node.TreeTraversal.PARENTS).filter(p -> p instanceof BodyDeclaration ).findFirst();
+        if( bd.isPresent() ){
+            return (M)bd.get();
+        }
+        return null;
+    }
+
+    /**
+     * Gets the direct parent (in _node form)
+     * @param _j
+     * @return
+     */
+    public _java._node getParent( _java._node _j){
+        Optional<Node> on = _j.ast().getParentNode();
+        if( on.isPresent() ){
+            return (_java._node)_java.of(on.get());
+        }
+        return null;
+    }
+
+    /**
      * Shortcut for checking if an ast has a parent of a particular class that complies with a particular Predicate
      * @param _j the _java entity
      * @param parentNodeClass the node class expected of the parent node
@@ -2411,7 +2451,7 @@ public enum Tree {
      * @param parentNodeClass the node class expected of the parent node
      * @param parentMatchFn predicate for matching the parent
      * @param <N> the expected parent node type
-     * @return true if the parent node exists, is of a particualr type and complies with the predicate
+     * @return true if the parent node exists, is of a particular type and complies with the predicate
      */
     public static <N extends Node> boolean isParent( Node node, Class<N> parentNodeClass, Predicate<N> parentMatchFn){
         if( node.getParentNode().isPresent()){
@@ -2650,10 +2690,10 @@ public enum Tree {
      */
     public static void describe(_java._domain _j){
         if( _j instanceof _codeUnit && ((_codeUnit) _j).isTopLevel() ){
-            Ast.describe( ((_codeUnit) _j).astCompilationUnit());
+            Print.describe( ((_codeUnit) _j).astCompilationUnit());
         }
         else { //if( _j instanceof _java._astNode){
-            Ast.describe ( ((_java._node)_j).ast() );
+            Print.describe ( ((_java._node)_j).ast() );
         }
     }
 
@@ -2662,6 +2702,6 @@ public enum Tree {
      * @param astNode
      */
     public static void describe(Node astNode){
-        Ast.describe(astNode);
+        Print.describe(astNode);
     }
 }

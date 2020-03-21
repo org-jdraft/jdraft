@@ -38,8 +38,8 @@ public class _bodyDiff
         if (left == right) {
             return (_diff) ds;
         }
-        String leftSer = left.toString(Ast.PRINT_NO_COMMENTS);
-        String rightSer = right.toString(Ast.PRINT_NO_COMMENTS);
+        String leftSer = left.toString(Print.PRINT_NO_COMMENTS);
+        String rightSer = right.toString(Print.PRINT_NO_COMMENTS);
 
         if (!Objects.equals(leftSer, rightSer)) {
             //ok. we know at least one diff (other than comments) are in the text

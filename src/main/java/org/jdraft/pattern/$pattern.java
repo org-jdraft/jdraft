@@ -2186,7 +2186,7 @@ public interface $pattern<P, $P extends $pattern>{
          */
         public boolean is(String $name, Statement st) {
             Statement stmt = stmt($name);
-            return stmt.toString(Ast.PRINT_NO_COMMENTS).equals(st.toString(Ast.PRINT_NO_COMMENTS));
+            return stmt.toString(Print.PRINT_NO_COMMENTS).equals(st.toString(Print.PRINT_NO_COMMENTS));
         }
 
         public boolean is($tokens $nvs) {

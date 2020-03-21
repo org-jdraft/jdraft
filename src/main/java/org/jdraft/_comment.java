@@ -2,7 +2,6 @@ package org.jdraft;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.comments.BlockComment;
-import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.comments.LineComment;
 import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
@@ -25,21 +24,21 @@ public interface _comment {
      * @param astRootNode the root node to look through
      * @return a list of all comments on or underneath the node
      */
-    static List<Comment> listComments(Node astRootNode) {
-        return Ast.listComments(astRootNode);
+    static List<com.github.javaparser.ast.comments.Comment> listComments(Node astRootNode) {
+        return Comments.list(astRootNode);
     }
 
     /**
      * @param <C>                the comment class
      * @param astRootNode        the root node to start the search
-     * @param commentTargetClass the TYPE of comment ({@link Comment},
+     * @param commentTargetClass the TYPE of comment ({@link com.github.javaparser.ast.comments.Comment},
      *                           {@link LineComment}, {@link JavadocComment}, {@link BlockComment})
      * @param commentMatchFn     predicate for selecting comments
      * @return a list of matching comments
      */
-    static <C extends Comment> List<C> listComments(
+    static <C extends com.github.javaparser.ast.comments.Comment> List<C> listComments(
             Node astRootNode, Class<C> commentTargetClass, Predicate<C> commentMatchFn) {
-        return Ast.listComments(astRootNode, commentTargetClass, commentMatchFn);
+        return Comments.list(astRootNode, commentTargetClass, commentMatchFn);
     }
 
     /**
@@ -51,8 +50,8 @@ public interface _comment {
      * @param commentMatchFn matching function for comments
      * @return a list of all comments on or underneath the node
      */
-    static List<Comment> listComments(Node astRootNode, Predicate<Comment> commentMatchFn) {
-        return Ast.listComments(astRootNode, commentMatchFn);
+    static List<com.github.javaparser.ast.comments.Comment> listComments(Node astRootNode, Predicate<com.github.javaparser.ast.comments.Comment> commentMatchFn) {
+        return Comments.list(astRootNode, commentMatchFn);
     }
 
     /**
@@ -64,18 +63,18 @@ public interface _comment {
      * @param commentMatchFn
      * @return
      */
-    static <C extends Comment, _J extends _java._domain> List<C> listComments(
+    static <C extends com.github.javaparser.ast.comments.Comment, _J extends _java._domain> List<C> listComments(
             _J _j, Class<C> commentTargetClass, Predicate<C> commentMatchFn){
 
         if( _j instanceof _codeUnit){
             if( ((_codeUnit) _j).isTopLevel() ){
-                return Ast.listComments( ((_codeUnit) _j).astCompilationUnit(), commentTargetClass, commentMatchFn );
+                return Comments.list( ((_codeUnit) _j).astCompilationUnit(), commentTargetClass, commentMatchFn );
             }
             else{
-                return Ast.listComments( ((_type) _j).ast(), commentTargetClass, commentMatchFn );
+                return Comments.list( ((_type) _j).ast(), commentTargetClass, commentMatchFn );
             }
         } else{
-            return Ast.listComments(  ((_java._multiPart) _j).ast(), commentTargetClass, commentMatchFn);
+            return Comments.list(  ((_java._multiPart) _j).ast(), commentTargetClass, commentMatchFn);
         }
     }
 
@@ -86,16 +85,16 @@ public interface _comment {
      * @param commentMatchFn
      * @return
      */
-    static <_J extends _java._domain> List<Comment> listComments(_J _j, Predicate<Comment> commentMatchFn){
+    static <_J extends _java._domain> List<com.github.javaparser.ast.comments.Comment> listComments(_J _j, Predicate<com.github.javaparser.ast.comments.Comment> commentMatchFn){
         if( _j instanceof _codeUnit){
             if( ((_codeUnit) _j).isTopLevel() ){
-                return Ast.listComments( ((_codeUnit) _j).astCompilationUnit(), commentMatchFn );
+                return Comments.list( ((_codeUnit) _j).astCompilationUnit(), commentMatchFn );
             }
             else{
-                return Ast.listComments( ((_type) _j).ast(), commentMatchFn);
+                return Comments.list( ((_type) _j).ast(), commentMatchFn);
             }
         } else{
-            return Ast.listComments(  ((_java._multiPart) _j).ast(), commentMatchFn );
+            return Comments.list(  ((_java._multiPart) _j).ast(), commentMatchFn );
         }
     }
 
@@ -106,16 +105,16 @@ public interface _comment {
      * @param commentMatchFn
      * @param commentActionFn
      */
-    static <_J extends _java._domain> void forComments(_J _j, Predicate<Comment> commentMatchFn, Consumer<Comment> commentActionFn ){
+    static <_J extends _java._domain> void forComments(_J _j, Predicate<com.github.javaparser.ast.comments.Comment> commentMatchFn, Consumer<com.github.javaparser.ast.comments.Comment> commentActionFn ){
         if( _j instanceof _codeUnit){
             if( ((_codeUnit) _j).isTopLevel() ){
-                Ast.forComments( ((_codeUnit) _j).astCompilationUnit(), commentMatchFn, commentActionFn);
+                Comments.forEachIn( ((_codeUnit) _j).astCompilationUnit(), commentMatchFn, commentActionFn);
             }
             else{
-                Ast.forComments( ((_type) _j).ast(), commentMatchFn, commentActionFn);
+                Comments.forEachIn( ((_type) _j).ast(), commentMatchFn, commentActionFn);
             }
         } else{
-            Ast.forComments(  ((_java._multiPart) _j).ast(), commentMatchFn, commentActionFn );
+            Comments.forEachIn(  ((_java._multiPart) _j).ast(), commentMatchFn, commentActionFn );
         }
     }
 
@@ -128,16 +127,16 @@ public interface _comment {
      * @param commentMatchFn
      * @param commentActionFn
      */
-    static <C extends Comment, _J extends _java._domain> void forComments(_J _j, Class<C> commentClass, Predicate<C> commentMatchFn, Consumer<C> commentActionFn ){
+    static <C extends com.github.javaparser.ast.comments.Comment, _J extends _java._domain> void forComments(_J _j, Class<C> commentClass, Predicate<C> commentMatchFn, Consumer<C> commentActionFn ){
         if( _j instanceof _codeUnit){
             if( ((_codeUnit) _j).isTopLevel() ){
-                Ast.forComments( ((_codeUnit) _j).astCompilationUnit(), commentClass, commentMatchFn, commentActionFn);
+                Comments.forEachIn( ((_codeUnit) _j).astCompilationUnit(), commentClass, commentMatchFn, commentActionFn);
             }
             else{
-                Ast.forComments( ((_type) _j).ast(),  commentClass, commentMatchFn, commentActionFn);
+                Comments.forEachIn( ((_type) _j).ast(),  commentClass, commentMatchFn, commentActionFn);
             }
         } else{
-            Ast.forComments(  ((_java._multiPart) _j).ast(),  commentClass, commentMatchFn, commentActionFn );
+            Comments.forEachIn(  ((_java._multiPart) _j).ast(),  commentClass, commentMatchFn, commentActionFn );
         }
     }
 
@@ -147,16 +146,16 @@ public interface _comment {
      * @param _j
      * @return
      */
-    static <_J extends _java._domain> List<Comment> listComments(_J _j){
+    static <_J extends _java._domain> List<com.github.javaparser.ast.comments.Comment> listComments(_J _j){
         if( _j instanceof _codeUnit){
             if( ((_codeUnit) _j).isTopLevel() ){
-                return Ast.listComments( ((_codeUnit) _j).astCompilationUnit() );
+                return Comments.list( ((_codeUnit) _j).astCompilationUnit() );
             }
             else{
-                return Ast.listComments( ((_type) _j).ast() );
+                return Comments.list( ((_type) _j).ast() );
             }
         } else{
-            return Ast.listComments(  ((_java._multiPart) _j).ast() );
+            return Comments.list(  ((_java._multiPart) _j).ast() );
         }
     }
 
@@ -165,16 +164,16 @@ public interface _comment {
      * @param _j
      * @param commentActionFn
      */
-    static void forComments(_java._domain _j, Consumer<Comment> commentActionFn){
+    static void forComments(_java._domain _j, Consumer<com.github.javaparser.ast.comments.Comment> commentActionFn){
         if( _j instanceof _codeUnit){
             if( ((_codeUnit) _j).isTopLevel() ){
-                Ast.forComments( ((_codeUnit) _j).astCompilationUnit(), commentActionFn);
+                Comments.forEachIn( ((_codeUnit) _j).astCompilationUnit(), commentActionFn);
             }
             else{
-                Ast.forComments( ((_type) _j).ast(), commentActionFn);
+                Comments.forEachIn( ((_type) _j).ast(), commentActionFn);
             }
         } else{
-            Ast.forComments(  ((_java._multiPart)_j).ast(), commentActionFn );
+            Comments.forEachIn(  ((_java._multiPart)_j).ast(), commentActionFn );
         }
     }
 }

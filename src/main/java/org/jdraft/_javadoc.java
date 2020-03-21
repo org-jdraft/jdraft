@@ -3,7 +3,7 @@ package org.jdraft;
 import java.util.*;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.comments.Comment;
+import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
 import org.jdraft.text.Stencil;
@@ -18,6 +18,12 @@ import org.jdraft.text.Tokens;
  */
 public final class _javadoc
     implements _java._node<JavadocComment, _javadoc> {
+
+    public static _javadoc of( String...jd){
+        MethodDeclaration md = new MethodDeclaration();
+        md.setJavadocComment(Text.combine(jd));
+        return of( md );
+    }
 
     public static _javadoc of( NodeWithJavadoc jdnode ) {
         return new _javadoc( jdnode );
@@ -99,7 +105,7 @@ public final class _javadoc
 
     public String getContent() {
         if( astJavadocedNode.getJavadocComment().isPresent() ) {
-            return Ast.getContent((Comment)astJavadocedNode.getJavadocComment().get() );
+            return Comments.getContent((com.github.javaparser.ast.comments.Comment)astJavadocedNode.getJavadocComment().get() );
         }
         return null;
     }
@@ -158,7 +164,7 @@ public final class _javadoc
         }
 
         @Override
-        public Node setComment(Comment comment) {
+        public Node setComment(com.github.javaparser.ast.comments.Comment comment) {
             return n.setComment(comment);
         }        
     }

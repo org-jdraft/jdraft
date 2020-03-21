@@ -635,7 +635,7 @@ public interface _java {
 
         //MODIFIERS("modifiers", List.class, Modifier.class),
         //MODIFIER("modifier", Modifier.class),
-        HEADER_COMMENT("header", Comment.class),
+        HEADER_COMMENT("header", Comments.class),
         JAVADOC("javadoc", _javadoc.class),
         PARAMETERS("parameters", _parameters.class),
         //parameter
@@ -1133,10 +1133,10 @@ public interface _java {
          * is formatted and return the formatted String representing the code.
          *
          * @see com.github.javaparser.printer.PrettyPrintVisitor the original visitor for walking and printing nodes in AST
-         * @see PrintNoAnnotations a configurable subclass of PrettyPrintVisitor that will not print ANNOTATIONS
+         * @see Print.PrintNoAnnotations a configurable subclass of PrettyPrintVisitor that will not print ANNOTATIONS
          * @see PrettyPrinterConfiguration the configurations for spaces, Tabs, for printing
-         * @see Ast#PRINT_NO_ANNOTATIONS_OR_COMMENTS a premade implementation for
-         * @see Ast#PRINT_NO_COMMENTS
+         * @see Print#PRINT_NO_ANNOTATIONS_OR_COMMENTS a premade implementation for
+         * @see Print#PRINT_NO_COMMENTS
          *
          * @param codeFormat the details on how the code will be formatted (for this element and all sub ELEMENTS)
          * @return A String representing the .java code
