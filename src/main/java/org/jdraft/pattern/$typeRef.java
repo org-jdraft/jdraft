@@ -557,7 +557,7 @@ public class $typeRef
      * @return 
      */
     public <_CT extends _type> _CT forSelectedIn( Class clazz, Consumer<Select> selectConsumer ){
-        return (_CT)forSelectedIn( (_type)_java.type(clazz), selectConsumer);
+        return (_CT)forSelectedIn( (_type) _type.of(clazz), selectConsumer);
     }
     
     /**
@@ -585,7 +585,7 @@ public class $typeRef
      * @return 
      */
     public <_CT extends _type> _CT  forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
-        return (_CT)forSelectedIn( (_type)_java.type(clazz), selectConstraint, selectConsumer);
+        return (_CT)forSelectedIn( (_type) _type.of(clazz), selectConstraint, selectConsumer);
     }
     /**
      * 
@@ -647,7 +647,7 @@ public class $typeRef
      * @return 
      */
     public <_CT extends _type> _CT  replaceIn(Class clazz, Class replacementType){
-        return (_CT)replaceIn( (_type)_java.type(clazz), replacementType);
+        return (_CT)replaceIn( (_type) _type.of(clazz), replacementType);
     }
     
     /**
@@ -668,7 +668,7 @@ public class $typeRef
      * @return 
      */
     public <_CT extends _type> _CT  replaceIn( Class clazz, _typeRef replacementType ){
-        return (_CT)replaceIn( (_type)_java.type(clazz), replacementType);
+        return (_CT)replaceIn( (_type) _type.of(clazz), replacementType);
     }
     
     /**

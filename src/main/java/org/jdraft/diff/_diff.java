@@ -102,7 +102,7 @@ public interface _diff {
      * @return
      */
     static _diff of(Class clazz, Class clazz2) {
-        return of((_type)_java.type(clazz), _java.type(clazz2));
+        return of((_type) _type.of(clazz), _type.of(clazz2));
     }
 
     static _diff of(_type _left, _type _right) {

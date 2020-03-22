@@ -492,7 +492,7 @@ public class $annos
      * @return 
      */
     public Select selectFirstIn( Class clazz, Predicate<Select>selectConstraint ){
-        return selectFirstIn((_type)_java.type(clazz), selectConstraint);
+        return selectFirstIn((_type) _type.of(clazz), selectConstraint);
     }
     
     /**
@@ -578,7 +578,7 @@ public class $annos
      * @return 
      */
     public List<Select> listSelectedIn( Class clazz, Predicate<Select> selectConstraint) {
-        return listSelectedIn((_type)_java.type(clazz), selectConstraint);
+        return listSelectedIn((_type) _type.of(clazz), selectConstraint);
     }
     
     /**
@@ -673,7 +673,7 @@ public class $annos
      * @return 
      */
     public  <_CT extends _type> _CT  forSelectedIn(Class clazz, Consumer<Select> selectActionFn) {
-        return (_CT)forSelectedIn((_type)_java.type(clazz), selectActionFn);
+        return (_CT)forSelectedIn((_type) _type.of(clazz), selectActionFn);
     }
     
     /**
@@ -684,7 +684,7 @@ public class $annos
      * @return 
      */
     public  <_CT extends _type> _CT forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
-        return (_CT)forSelectedIn( (_type)_java.type(clazz), selectConstraint, selectActionFn);
+        return (_CT)forSelectedIn( (_type) _type.of(clazz), selectConstraint, selectActionFn);
     }
     
     /**

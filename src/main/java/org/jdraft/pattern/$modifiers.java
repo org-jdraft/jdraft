@@ -422,7 +422,7 @@ public class $modifiers
     }
     
     public <_CT extends _type> _CT forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
-        return (_CT)forSelectedIn((_type)_java.type(clazz), selectConstraint, selectActionFn);
+        return (_CT)forSelectedIn((_type) _type.of(clazz), selectConstraint, selectActionFn);
     }
     
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
@@ -443,7 +443,7 @@ public class $modifiers
      * @return 
      */
     public <_CT extends _type> _CT  forSelectedIn(Class clazz, Consumer<Select> selectActionFn) {
-        return (_CT)forSelectedIn((_type)_java.type(clazz), selectActionFn);
+        return (_CT)forSelectedIn((_type) _type.of(clazz), selectActionFn);
     }
     
     /**

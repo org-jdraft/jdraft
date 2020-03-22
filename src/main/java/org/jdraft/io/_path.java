@@ -200,7 +200,7 @@ public class _path implements _codeUnit._provider {
         this.list(JAVA_FILES_ONLY).forEach(
                 p-> {
                     try{
-                        _codeUnit _t = _java.codeUnit(p);
+                        _codeUnit _t = _codeUnit.of(p);
                         if( codeClass.isAssignableFrom(  _t.getClass() ) && _codeMatchFn.test( (_C)_t)){
                             _C _c = (_C)_t;
                             _codeActionFn.accept(_c);

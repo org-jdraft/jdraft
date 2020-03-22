@@ -96,7 +96,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * @return 
      */
     public static _class of( InputStream is ){
-        return (_class)_java.type(is);
+        return (_class) _type.of(is);
     }
 
     /**

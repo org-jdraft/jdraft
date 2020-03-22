@@ -631,7 +631,7 @@ public class $var
      */
     @Override
     public Select selectFirstIn( Class clazz){
-        return selectFirstIn( (_type)_java.type(clazz));
+        return selectFirstIn( (_type) _type.of(clazz));
     }
 
     /**
@@ -655,7 +655,7 @@ public class $var
      * @return 
      */
     public Select selectFirstIn( Class clazz, Predicate<Select> selectConstraint){
-       return selectFirstIn( (_type)_java.type(clazz), selectConstraint);
+       return selectFirstIn( (_type) _type.of(clazz), selectConstraint);
     }
     
     /**
@@ -693,7 +693,7 @@ public class $var
 
     @Override
     public List<Select> listSelectedIn(Class clazz){
-        return listSelectedIn( (_type)_java.type(clazz));
+        return listSelectedIn( (_type) _type.of(clazz));
     }
     
     @Override
@@ -728,7 +728,7 @@ public class $var
      * @return 
      */
     public List<Select> listSelectedIn(Class clazz, Predicate<Select> selectConstraint){
-        return listSelectedIn( (_type)_java.type(clazz), selectConstraint);
+        return listSelectedIn( (_type) _type.of(clazz), selectConstraint);
     }
     
     /**
@@ -772,7 +772,7 @@ public class $var
      * @return 
      */
     public <_CT extends _type> _CT replaceIn(Class clazz, $var $replaceProto ){
-        return (_CT)replaceIn( (_type)_java.type(clazz), $replaceProto);
+        return (_CT)replaceIn( (_type) _type.of(clazz), $replaceProto);
     }
     
     /**
@@ -816,7 +816,7 @@ public class $var
      * @return 
      */
     public < _CT extends _type> _CT forSelectedIn( Class clazz, Consumer<Select> selectConsumer){
-        return (_CT)forSelectedIn( (_type)_java.type(clazz), selectConsumer);
+        return (_CT)forSelectedIn( (_type) _type.of(clazz), selectConsumer);
     }
     
     /**
@@ -861,7 +861,7 @@ public class $var
      * @return 
      */
     public <_CT extends _type> _CT forSelectedIn( Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer){
-        return (_CT)forSelectedIn( (_type)_java.type(clazz), selectConstraint, selectConsumer);
+        return (_CT)forSelectedIn( (_type) _type.of(clazz), selectConstraint, selectConsumer);
     }
     
     /**

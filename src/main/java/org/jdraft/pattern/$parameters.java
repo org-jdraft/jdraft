@@ -436,7 +436,7 @@ public class $parameters implements Template<_parameters>,
      * @return 
      */
     public <_CT extends _type> _CT forSelectedIn(Class clazz, Consumer<Select> _parametersActionFn) {
-        return (_CT)forSelectedIn((_type)_java.type(clazz), _parametersActionFn);
+        return (_CT)forSelectedIn((_type) _type.of(clazz), _parametersActionFn);
     }
     
     /**
@@ -464,7 +464,7 @@ public class $parameters implements Template<_parameters>,
      * @return 
      */
     public <_CT extends _type> _CT forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> _parametersActionFn) {
-        return (_CT)forSelectedIn((_type)_java.type(clazz), selectConstraint, _parametersActionFn);
+        return (_CT)forSelectedIn((_type) _type.of(clazz), selectConstraint, _parametersActionFn);
     }
     
     /**

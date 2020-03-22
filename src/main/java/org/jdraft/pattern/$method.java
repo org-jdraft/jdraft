@@ -107,7 +107,7 @@ public class $method
      * @return 
      */
     public static $method of( Class clazz, String name ){
-        _method._withMethods _hm = (_method._withMethods)_java.type(clazz);
+        _method._withMethods _hm = (_method._withMethods) _type.of(clazz);
         return of( _hm.getMethod(name) );
     }       
     
@@ -1165,7 +1165,7 @@ public class $method
      */
     @Override
     public Select selectFirstIn( Class clazz){
-        return selectFirstIn( (_type)_java.type(clazz));
+        return selectFirstIn( (_type) _type.of(clazz));
     }
     
     /**
@@ -1175,7 +1175,7 @@ public class $method
      * @return  the first _method that matches (or null if none found)
      */
     public Select selectFirstIn( Class clazz, Predicate<Select> selectConstraint){
-        return selectFirstIn( (_type)_java.type(clazz), selectConstraint);
+        return selectFirstIn( (_type) _type.of(clazz), selectConstraint);
     }
     
     /**
@@ -1245,7 +1245,7 @@ public class $method
      * @return 
      */
     public List<Select> listSelectedIn(Class clazz, Predicate<Select> selectConstraint){
-        return listSelectedIn( (_type)_java.type(clazz), selectConstraint);
+        return listSelectedIn( (_type) _type.of(clazz), selectConstraint);
     }
     
     /**
@@ -1306,7 +1306,7 @@ public class $method
      * @return 
      */
     public <_CT extends _type> _CT  forSelectedIn(Class clazz, Consumer<Select> selectedActionFn ){
-        return (_CT)forSelectedIn( (_type)_java.type(clazz), selectedActionFn);
+        return (_CT)forSelectedIn( (_type) _type.of(clazz), selectedActionFn);
     }    
     
     /**
@@ -1352,7 +1352,7 @@ public class $method
      * @return 
      */
     public <_CT extends _type> _CT  forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectedActionFn ){
-        return (_CT)forSelectedIn((_type)_java.type(clazz), selectConstraint, selectedActionFn);
+        return (_CT)forSelectedIn((_type) _type.of(clazz), selectConstraint, selectedActionFn);
     }
     
     /**
@@ -1380,7 +1380,7 @@ public class $method
      * @return 
      */
     public <_CT extends _type> _CT replaceIn(Class clazz,  $method $replace ){
-        return (_CT) forSelectedIn( (_type)_java.type(clazz), s -> {
+        return (_CT) forSelectedIn( (_type) _type.of(clazz), s -> {
             _method repl = $replace.draft(Translator.DEFAULT_TRANSLATOR, s.tokens());
             s._m.ast().replace(repl.ast());
         });
@@ -1393,7 +1393,7 @@ public class $method
      * @return 
      */
     public <_CT extends _type> _CT  replaceIn(Class clazz,  String... replacementProto ){
-        return (_CT)replaceIn((_type)_java.type(clazz), $method.of(replacementProto));
+        return (_CT)replaceIn((_type) _type.of(clazz), $method.of(replacementProto));
     }
     
     /**
@@ -1403,7 +1403,7 @@ public class $method
      * @return 
      */
     public <_CT extends _type> _CT  replaceIn(Class clazz,  _method method ){
-        return (_CT)replaceIn( (_type)_java.type(clazz), $method.of(method));
+        return (_CT)replaceIn( (_type) _type.of(clazz), $method.of(method));
     }
     
     /**
@@ -1413,7 +1413,7 @@ public class $method
      * @return 
      */
     public <_CT extends _type> _CT  replaceIn(Class clazz, MethodDeclaration astMethod ){
-        return (_CT)replaceIn( (_type)_java.type(clazz), $method.of(astMethod));
+        return (_CT)replaceIn( (_type) _type.of(clazz), $method.of(astMethod));
     }
     
     /**

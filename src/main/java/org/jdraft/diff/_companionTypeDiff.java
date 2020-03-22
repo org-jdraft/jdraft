@@ -112,7 +112,7 @@ public class _companionTypeDiff implements _differ<List<_type>, _java._multiPart
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
-            this.right = _java.type(right.toString());
+            this.right = _type.of(right.toString());
         }
 
         @Override
@@ -167,7 +167,7 @@ public class _companionTypeDiff implements _differ<List<_type>, _java._multiPart
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
-            this.left = _java.type(left.toString());
+            this.left = _type.of(left.toString());
         }
 
         @Override

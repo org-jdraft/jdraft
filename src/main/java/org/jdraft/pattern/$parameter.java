@@ -572,7 +572,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      */
     @Override
     public List<$parameter.Select>listSelectedIn( Class clazz){
-        return listSelectedIn( (_type)_java.type(clazz));
+        return listSelectedIn( (_type) _type.of(clazz));
     }
     
     @Override
@@ -594,7 +594,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      * @return 
      */
     public List<Select> listSelectedIn(Class clazz, Predicate<Select> selectConstraint) {
-        return listSelectedIn( (_type)_java.type(clazz), selectConstraint);
+        return listSelectedIn( (_type) _type.of(clazz), selectConstraint);
     }
     
     /**
@@ -657,7 +657,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      * @return 
      */
     public <_CT extends _type> _CT forSelectedIn(Class clazz, Consumer<Select> selectActionFn) {
-        return (_CT)forSelectedIn( (_type)_java.type(clazz), selectActionFn);
+        return (_CT)forSelectedIn( (_type) _type.of(clazz), selectActionFn);
     }
 
     /**
@@ -701,7 +701,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      * @return 
      */
     public <_CT extends _type> _CT forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
-        return (_CT)forSelectedIn((_type)_java.type(clazz), selectConstraint, selectActionFn);
+        return (_CT)forSelectedIn((_type) _type.of(clazz), selectConstraint, selectActionFn);
     }
     
     /**
@@ -745,7 +745,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      * @return 
      */
     public _parameter firstIn( Class clazz ){
-        return firstIn( (_type)_java.type(clazz));
+        return firstIn( (_type) _type.of(clazz));
     }
     
     /**
@@ -803,7 +803,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      * @return  the first _field that matches (or null if none found)
      */
     public Select selectFirstIn( Class clazz, Predicate<Select>selectConstraint ){
-        return selectFirstIn((_type)_java.type(clazz), selectConstraint);
+        return selectFirstIn((_type) _type.of(clazz), selectConstraint);
     }
     
     /**

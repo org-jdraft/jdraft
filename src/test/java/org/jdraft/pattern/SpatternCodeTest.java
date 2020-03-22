@@ -191,9 +191,9 @@ public class SpatternCodeTest extends TestCase {
             "    requires bbbb;" + System.lineSeparator()+
             "    requires static cccc;" + System.lineSeparator()+
             "}"); 
-        _codeUnit _c = (_codeUnit)_java.codeUnit(classAst);
-        _codeUnit _pI = (_codeUnit)_java.codeUnit(packageInfoAst);
-        _codeUnit _mI = (_codeUnit)_java.codeUnit(modAst);
+        _codeUnit _c = (_codeUnit) _codeUnit.of(classAst);
+        _codeUnit _pI = (_codeUnit) _codeUnit.of(packageInfoAst);
+        _codeUnit _mI = (_codeUnit) _codeUnit.of(modAst);
         
         
         assertTrue( _c instanceof _type);

@@ -516,17 +516,17 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
     public _type firstIn(Node astStartNode, Predicate<_type> nodeMatchFn) {
         Optional<Node> ot = astStartNode.stream().filter(n -> match(n)).findFirst();
         if (ot.isPresent()) {
-            return _java.type((TypeDeclaration) ot.get());
+            return _type.of((TypeDeclaration) ot.get());
         }
         return null;
     }
 
     public Select select(TypeDeclaration astType) {
-        return select((_type) _java.type(astType));
+        return select((_type) _type.of(astType));
     }
 
     public Select select( CompilationUnit cu ){
-        return select( (_type)_java.type(cu));
+        return select( (_type) _type.of(cu));
     }
 
     @Override

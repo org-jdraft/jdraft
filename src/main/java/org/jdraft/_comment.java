@@ -15,7 +15,7 @@ import java.util.function.Predicate;
  * @see _javadoc for a javadoc attributed to a AST node (i.e. must start with / * * end with * / AND
  * be
  */
-public interface _comment {
+public interface _comment extends _java._domain {
 
     /**
      * list all comments within this astRootNode (including the comment applied
@@ -23,10 +23,11 @@ public interface _comment {
      *
      * @param astRootNode the root node to look through
      * @return a list of all comments on or underneath the node
-     */
+
     static List<com.github.javaparser.ast.comments.Comment> listComments(Node astRootNode) {
         return Comments.list(astRootNode);
     }
+    */
 
     /**
      * @param <C>                the comment class
@@ -35,11 +36,12 @@ public interface _comment {
      *                           {@link LineComment}, {@link JavadocComment}, {@link BlockComment})
      * @param commentMatchFn     predicate for selecting comments
      * @return a list of matching comments
-     */
+
     static <C extends com.github.javaparser.ast.comments.Comment> List<C> listComments(
             Node astRootNode, Class<C> commentTargetClass, Predicate<C> commentMatchFn) {
         return Comments.list(astRootNode, commentTargetClass, commentMatchFn);
     }
+    */
 
     /**
      * list all comments within this astRootNode that match the predicate
@@ -49,10 +51,11 @@ public interface _comment {
      * @param astRootNode    the root node to look through
      * @param commentMatchFn matching function for comments
      * @return a list of all comments on or underneath the node
-     */
+
     static List<com.github.javaparser.ast.comments.Comment> listComments(Node astRootNode, Predicate<com.github.javaparser.ast.comments.Comment> commentMatchFn) {
         return Comments.list(astRootNode, commentMatchFn);
     }
+    */
 
     /**
      *
@@ -62,7 +65,7 @@ public interface _comment {
      * @param commentTargetClass
      * @param commentMatchFn
      * @return
-     */
+
     static <C extends com.github.javaparser.ast.comments.Comment, _J extends _java._domain> List<C> listComments(
             _J _j, Class<C> commentTargetClass, Predicate<C> commentMatchFn){
 
@@ -77,6 +80,7 @@ public interface _comment {
             return Comments.list(  ((_java._multiPart) _j).ast(), commentTargetClass, commentMatchFn);
         }
     }
+    */
 
     /**
      *
@@ -84,7 +88,7 @@ public interface _comment {
      * @param _j
      * @param commentMatchFn
      * @return
-     */
+
     static <_J extends _java._domain> List<com.github.javaparser.ast.comments.Comment> listComments(_J _j, Predicate<com.github.javaparser.ast.comments.Comment> commentMatchFn){
         if( _j instanceof _codeUnit){
             if( ((_codeUnit) _j).isTopLevel() ){
@@ -97,6 +101,7 @@ public interface _comment {
             return Comments.list(  ((_java._multiPart) _j).ast(), commentMatchFn );
         }
     }
+    */
 
     /**
      *
@@ -104,7 +109,7 @@ public interface _comment {
      * @param _j
      * @param commentMatchFn
      * @param commentActionFn
-     */
+
     static <_J extends _java._domain> void forComments(_J _j, Predicate<com.github.javaparser.ast.comments.Comment> commentMatchFn, Consumer<com.github.javaparser.ast.comments.Comment> commentActionFn ){
         if( _j instanceof _codeUnit){
             if( ((_codeUnit) _j).isTopLevel() ){
@@ -117,6 +122,7 @@ public interface _comment {
             Comments.forEachIn(  ((_java._multiPart) _j).ast(), commentMatchFn, commentActionFn );
         }
     }
+    */
 
     /**
      *
@@ -126,7 +132,7 @@ public interface _comment {
      * @param commentClass
      * @param commentMatchFn
      * @param commentActionFn
-     */
+
     static <C extends com.github.javaparser.ast.comments.Comment, _J extends _java._domain> void forComments(_J _j, Class<C> commentClass, Predicate<C> commentMatchFn, Consumer<C> commentActionFn ){
         if( _j instanceof _codeUnit){
             if( ((_codeUnit) _j).isTopLevel() ){
@@ -139,13 +145,14 @@ public interface _comment {
             Comments.forEachIn(  ((_java._multiPart) _j).ast(),  commentClass, commentMatchFn, commentActionFn );
         }
     }
+    */
 
     /**
      *
      * @param <_J>
      * @param _j
      * @return
-     */
+
     static <_J extends _java._domain> List<com.github.javaparser.ast.comments.Comment> listComments(_J _j){
         if( _j instanceof _codeUnit){
             if( ((_codeUnit) _j).isTopLevel() ){
@@ -158,12 +165,13 @@ public interface _comment {
             return Comments.list(  ((_java._multiPart) _j).ast() );
         }
     }
+    */
 
     /**
      *
      * @param _j
      * @param commentActionFn
-     */
+
     static void forComments(_java._domain _j, Consumer<com.github.javaparser.ast.comments.Comment> commentActionFn){
         if( _j instanceof _codeUnit){
             if( ((_codeUnit) _j).isTopLevel() ){
@@ -176,4 +184,5 @@ public interface _comment {
             Comments.forEachIn(  ((_java._multiPart)_j).ast(), commentActionFn );
         }
     }
+    */
 }

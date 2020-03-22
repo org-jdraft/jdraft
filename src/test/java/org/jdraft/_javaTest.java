@@ -43,7 +43,7 @@ public class _javaTest extends TestCase {
 
     }
     public void testBuildEnum(){
-        _enum _e = _java.type("enum E{}");
+        _enum _e = _type.of("enum E{}");
     }
 
     class Base{

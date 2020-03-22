@@ -1434,7 +1434,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public <_CT extends _type> _CT forSelectedIn(Class clazz, Consumer<Select<S, _S>> selectedActionFn){
-        return (_CT)forSelectedIn((_type)_java.type(clazz), selectedActionFn);
+        return (_CT)forSelectedIn((_type) _type.of(clazz), selectedActionFn);
     }
     
     /**
@@ -1480,7 +1480,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public <CT extends _type> CT forSelectedIn(Class clazz, Predicate<Select<S, _S>> selectConstraint, Consumer<Select<S, _S>> selectedActionFn){
-        return forSelectedIn((CT)_java.type(clazz), selectConstraint, selectedActionFn);
+        return forSelectedIn((CT) _type.of(clazz), selectConstraint, selectedActionFn);
     }
     
     /**
@@ -1513,7 +1513,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      */
     @Override
     public List<Select<S, _S>> listSelectedIn(Class clazz){
-        return listSelectedIn((_type)_java.type(clazz));
+        return listSelectedIn((_type) _type.of(clazz));
     }
     
     @Override
@@ -1535,7 +1535,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public List<Select<S, _S>> listSelectedIn(Class clazz, Predicate<Select<S, _S>> selectConstraint ){
-        return listSelectedIn( (_type)_java.type(clazz), selectConstraint);
+        return listSelectedIn( (_type) _type.of(clazz), selectConstraint);
     }
     
     /**
@@ -1579,7 +1579,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public <_CT extends _type> _CT replaceIn(Class clazz, $stmt $repl){
-        return (_CT)replaceIn( (_type)_java.type(clazz), $repl);
+        return (_CT)replaceIn( (_type) _type.of(clazz), $repl);
     }
 
     /**
@@ -1589,7 +1589,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public <_CT extends _type> _CT  replaceIn( Class clazz, String...replacement){
-        return (_CT)replaceIn( (_type)_java.type(clazz), replacement);
+        return (_CT)replaceIn( (_type) _type.of(clazz), replacement);
     }
     
     /**

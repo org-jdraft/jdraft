@@ -76,7 +76,7 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
         //System.out.println( "CLAZZ "+ clazz+" to "+_t );
         //TypeDeclaration td = (TypeDeclaration)n;
         toType(td, clazz);
-        return _java.type(td);
+        return _type.of(td);
         //}
         //CompilationUnit cu = (CompilationUnit)n;
         //TypeDeclaration td =cu.getTypes().stream().filter(t-> t.getNameAsString().equals(_t.getName())).findFirst().get();
@@ -87,7 +87,7 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
     public static <_T extends _type> _T to(Class clazz, TypeDeclaration td){
         Log.info("  Macros to %s", () -> clazz);
         toType( td, clazz);
-        return _java.type( td );
+        return _type.of( td );
     }
 
     public static <_T extends _type> _T to(Class clazz ) {

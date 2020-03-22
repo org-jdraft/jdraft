@@ -329,7 +329,7 @@ public enum Ex {
         try {
             //System.out.println( ste.toString() );
             Class clazz = Class.forName(ste.getClassName());
-            _t = _java.type(clazz, resolver);
+            _t = _type.of(clazz, resolver);
         } catch (Exception e) {
             throw new _jdraftException("no .java source for Runtime Class \"" + ste.getClassName() + "\" " + System.lineSeparator() +
                     _io.describe(), e); //print out the input config to help
@@ -516,7 +516,7 @@ public enum Ex {
         _type _t = null;
         try {
             Class clazz = Class.forName(ste.getClassName());
-            _t = _java.type(clazz, resolver);
+            _t = _type.of(clazz, resolver);
         } catch (Exception e) {
             throw new _ioException("no .java source for Runtime Class \"" + ste.getClassName() + "\" " + System.lineSeparator() +
                 resolver.describe(), e); //print out the input config to help

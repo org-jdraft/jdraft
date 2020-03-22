@@ -65,7 +65,7 @@ public class _sources<_C extends _codeUnit> implements _codeUnit._provider {
             if( paths[i].toString().endsWith(".jar") ||  paths[i].toString().endsWith(".zip") ){
                 _ps[i] = _archive.of(paths[i]);
             } else if( paths[i].toString().endsWith(".java") ){
-                _ps[i] = _sources.of(_java.codeUnit( paths[i]  ) ); //add a cache with a single .java file
+                _ps[i] = _sources.of(_codeUnit.of( paths[i]  ) ); //add a cache with a single .java file
             } else{
                 _ps[i] = _path.of(paths[i]); //Paths.get(pathNames[i]);
             }
@@ -75,7 +75,7 @@ public class _sources<_C extends _codeUnit> implements _codeUnit._provider {
 
     public static <_C extends _codeUnit> _sources of(Class<?>... clazzes){
         List<_C> cus = new ArrayList<>();
-        Arrays.stream(clazzes).forEach(c -> cus.add(_java.type(c)));
+        Arrays.stream(clazzes).forEach(c -> cus.add(_type.of(c)));
         return new _sources( cus );
     }
 
@@ -84,7 +84,7 @@ public class _sources<_C extends _codeUnit> implements _codeUnit._provider {
     }
 
     public static _sources of(CompilationUnit... asts) {
-        return of(Arrays.stream(asts).map(ast->_java.codeUnit(ast)).collect(Collectors.toList()));
+        return of(Arrays.stream(asts).map(ast-> _codeUnit.of(ast)).collect(Collectors.toList()));
     }
 
     public static <_C extends _codeUnit> _sources of(List<_C> _codeToCache){
@@ -174,7 +174,7 @@ public class _sources<_C extends _codeUnit> implements _codeUnit._provider {
      * @return
      */
     public _sources add(Class...clazz ){
-        Arrays.stream(clazz).forEach( c-> codeList.add( _java.type(c) ) );
+        Arrays.stream(clazz).forEach( c-> codeList.add( _type.of(c) ) );
         return this;
     }
 
@@ -184,7 +184,7 @@ public class _sources<_C extends _codeUnit> implements _codeUnit._provider {
     }
 
     public _sources add(CompilationUnit... asts){
-        Arrays.stream(asts).forEach( cc-> { codeList.add( (_C)_java.type(cc )); } );
+        Arrays.stream(asts).forEach( cc-> { codeList.add( (_C) _type.of(cc )); } );
         return this;
     }
 

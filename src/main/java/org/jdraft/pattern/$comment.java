@@ -343,7 +343,7 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
     public <_T extends _type> _T findAndReplace(Class clazz, String target, String replacement){
         Map<String,String> targetToReplacement = new HashMap<>();
         targetToReplacement.put(target, replacement);
-        return findAndReplace( (_T)_java.type(clazz), targetToReplacement);
+        return findAndReplace( (_T) _type.of(clazz), targetToReplacement);
     }
 
     public <_CP extends _codeUnit._provider> _CP findAndReplace(_CP _cp, String target, String replacement){
@@ -354,7 +354,7 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
     }
 
     public <_T extends _type> _T findAndReplace(Class clazz, Map<String,String>targetToReplacement){
-        return findAndReplace( (_T)_java.type(clazz), targetToReplacement);
+        return findAndReplace( (_T) _type.of(clazz), targetToReplacement);
     }
 
     public <_CP extends _codeUnit._provider> _CP findAndReplace(_CP _cp, Map<String, String> targetToReplacement){
@@ -599,14 +599,8 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
      * @param <_J>
      * @return
      */
-    public <_J extends _java> _J forSelectedIn(_java._domain _j, Consumer<Select> selectActionFn) {
-        _comment.forComments(_j, c->{
-            Select s = select(c);
-            if( s != null ){
-                selectActionFn.accept(s);
-            }
-        });
-        return (_J)_j;
+    public <_J extends _java> _J forSelectedIn(_java._node _j, Consumer<Select> selectActionFn) {
+        return forSelectedIn( _j, t-> true, selectActionFn);
     }
     
     public <N extends Node> N forSelectedIn(N astNode, Consumer<Select> selectActionFn) {
@@ -620,8 +614,17 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
         return astNode;
     }
     
-    public <_J extends _java._domain> _J forSelectedIn(_java._domain _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
-        _comment.forComments(_j, c->{
+    public <_J extends _java._node> _J forSelectedIn(_java._node _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
+        if( _j instanceof _codeUnit && ((_codeUnit) _j).isTopLevel()){
+            Comments.forEachIn( ((_codeUnit) _j).astCompilationUnit(), c->{
+                Select s = select(c);
+                if( s != null && selectConstraint.test(s)){
+                    selectActionFn.accept(s);
+                }
+            });
+            return (_J)_j;
+        }
+        Comments.forEachIn(_j.ast(), c->{
             Select s = select(c);
             if( s != null && selectConstraint.test(s)){
                 selectActionFn.accept(s);

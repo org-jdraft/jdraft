@@ -418,7 +418,7 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
     
     @Override
     public Select selectFirstIn( Class clazz){
-        return selectFirstIn((_type)_java.type(clazz));
+        return selectFirstIn((_type) _type.of(clazz));
     }
     
     /**
@@ -464,7 +464,7 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
      */
     @Override
     public List<Select> listSelectedIn(Class clazz){
-        return listSelectedIn((_type)_java.type(clazz));
+        return listSelectedIn((_type) _type.of(clazz));
     }
     
     @Override
@@ -512,11 +512,11 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
      * @return 
      */
     public <_CT extends _type> _CT replaceIn( Class clazz, $stmt $repl ){
-        return (_CT)replaceIn((_type)_java.type(clazz), $repl);
+        return (_CT)replaceIn((_type) _type.of(clazz), $repl);
     }
     
     public <_CT extends _type> _CT replaceIn( Class clazz, String... repl ){
-        return (_CT)replaceIn((_type)_java.type(clazz), $stmts.of(repl));
+        return (_CT)replaceIn((_type) _type.of(clazz), $stmts.of(repl));
     }
     
     public <N extends Node> N replaceIn(N astNode, String...repl ){        
@@ -542,7 +542,7 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
      * @return 
      */
     public <_CT extends _type> _CT replaceIn( Class clazz, $stmts $repl ){
-        return (_CT)replaceIn((_type)_java.type(clazz), $repl);
+        return (_CT)replaceIn((_type) _type.of(clazz), $repl);
     }
     
     /**
@@ -660,7 +660,7 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
      * @return 
      */
     public <_CT extends _type> _CT forSelectedIn( Class clazz, Consumer<Select>selectedAction ){
-        return (_CT)forSelectedIn((_type)_java.type(clazz), selectedAction );
+        return (_CT)forSelectedIn((_type) _type.of(clazz), selectedAction );
     }
     
     /**

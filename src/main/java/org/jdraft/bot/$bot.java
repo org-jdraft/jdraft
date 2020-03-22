@@ -4,7 +4,6 @@ import com.github.javaparser.Range;
 import com.github.javaparser.ast.Node;
 import org.jdraft.*;
 import org.jdraft.pattern.$;
-import org.jdraft.pattern.$pattern;
 import org.jdraft.text.Template;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
@@ -392,12 +391,12 @@ public interface $bot<B, _B, $B>
 
 
     default int countIn(Class<?> clazz) {
-        _type _t = _java.type(clazz);
+        _type _t = _type.of(clazz);
         return countIn(_t);
     }
 
     default int countIn(Class<?> clazz, Predicate<_B> _matchFn) {
-        return countIn((_type)_java.type(clazz), _matchFn);
+        return countIn((_type) _type.of(clazz), _matchFn);
     }
 
     default int countIn(_java._node<?, ?> _j) {
@@ -435,7 +434,7 @@ public interface $bot<B, _B, $B>
     }
 
     default <_CT extends _type<?,?>> _CT forEachIn(Class<?> clazz, Predicate<_B> matchFn, Consumer<_B> actionFn){
-        _CT _t = _java.type(clazz);
+        _CT _t = _type.of(clazz);
         forEachIn( _t, matchFn, actionFn);
         return _t;
     }
@@ -477,7 +476,7 @@ public interface $bot<B, _B, $B>
     }
 
     default <_CT extends _type<?,?>> _CT forSelectedIn(Class<?> clazz, Predicate<Select<_B>> matchFn, Consumer<Select<_B>> selectActionFn){
-        _CT _t = _java.type(clazz);
+        _CT _t = _type.of(clazz);
         forSelectedIn( _t, matchFn, selectActionFn);
         return _t;
     }
@@ -684,7 +683,7 @@ public interface $bot<B, _B, $B>
          * ==============================================================================================
          */
         default <_CT extends _type<?,?>> _CT removeIn(Class<?> clazz) {
-            _CT _ct = _java.type(clazz);
+            _CT _ct = _type.of(clazz);
             removeIn(_ct );
             return _ct;
         }
@@ -701,7 +700,7 @@ public interface $bot<B, _B, $B>
         }
 
         default <_CT extends _type<?,?>> _CT removeIn(Class<?> clazz, Predicate<_P> _matchFn) {
-            _CT _ct = _java.type(clazz);
+            _CT _ct = _type.of(clazz);
             removeIn(_ct, _matchFn);
             return _ct;
         }
@@ -733,7 +732,7 @@ public interface $bot<B, _B, $B>
         }
 
         default <_CT extends _type<?,?>, _N extends _java._node<?, ?>> _CT replaceSelectedIn(Class<?> clazz, Template<_N> replaceNode) {
-            _CT _ct = _java.type(clazz);
+            _CT _ct = _type.of(clazz);
             replaceSelectedIn(_ct.astCompilationUnit(), t->true, replaceNode);
             return _ct;
         }
@@ -754,7 +753,7 @@ public interface $bot<B, _B, $B>
         }
 
         default <_CT extends _type<?,?>, _N extends _java._node<?, ?>> _CT replaceIn(Class<?> clazz, Template<_N> _t) {
-            _CT _ct = _java.type(clazz);
+            _CT _ct = _type.of(clazz);
             replaceSelectedIn(_ct.astCompilationUnit(), t->true, _t);
             return _ct;
         }
@@ -776,7 +775,7 @@ public interface $bot<B, _B, $B>
         }
 
         default <_CT extends _type<?,?>> _CT replaceSelectedIn(Class<?> clazz, Function<Select<_P>, Node> replaceDeriver) {
-            _CT _ct = _java.type(clazz);
+            _CT _ct = _type.of(clazz);
             return replaceSelectedIn(_ct, replaceDeriver);
         }
 

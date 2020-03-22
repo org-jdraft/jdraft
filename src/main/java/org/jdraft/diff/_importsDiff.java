@@ -33,7 +33,7 @@ public class _importsDiff
     public _diff diff( _imports left, _imports right ){
         
         return diff( _nodePath.of(), new _diffList(null, null),
-                _java.type(left.astCompilationUnit), _java.type(right.astCompilationUnit), left.astCompilationUnit.getImports(), right.astCompilationUnit.getImports());
+                _type.of(left.astCompilationUnit), _type.of(right.astCompilationUnit), left.astCompilationUnit.getImports(), right.astCompilationUnit.getImports());
     }
     
     public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN leftParent, _PN rightParent, _type left, _type right) {

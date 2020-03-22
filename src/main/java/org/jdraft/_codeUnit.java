@@ -1,8 +1,13 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.*;
+import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.*;
 
+import java.io.File;
+import java.io.InputStream;
+import java.io.Reader;
+import java.nio.file.Path;
 import java.util.function.*;
 import java.util.*;
 import java.util.stream.*;
@@ -23,6 +28,81 @@ import java.util.stream.*;
  * @param <_CU> the code implementation type
  */
 public interface _codeUnit<_CU> extends _java._domain {
+
+    /**
+     * Read and return a _code from the .java source code file at
+     * javaSourceFilePath
+     *
+     * @param javaSourceFilePath the path to the local Java source code
+     * @return the _code instance
+     */
+    static _codeUnit of(Path javaSourceFilePath) throws _jdraftException {
+        return of(Ast.of(javaSourceFilePath));
+    }
+
+    /**
+     * Read and return the appropriate _code model based on the .java source
+     * within the javaSourceInputStream
+     *
+     * @param javaSourceInputStream
+     * @return
+     */
+    static _codeUnit of(InputStream javaSourceInputStream) throws _jdraftException {
+        return of(Ast.of(javaSourceInputStream));
+    }
+
+    /**
+     * Read and return the appropriate _code model based on the .java source
+     * within the javaSourceFile
+     *
+     * @param javaSourceFile
+     * @return
+     * @throws _jdraftException
+     */
+    static _codeUnit of(File javaSourceFile) throws _jdraftException {
+        return of(Ast.of(javaSourceFile));
+    }
+
+    /**
+     * build and return the _code wrapper to encapsulate the AST representation
+     * of the .java source code stored in the javaSourceReader
+     *
+     * @param javaSourceReader reader containing .java source code
+     * @return the _code model instance representing the source
+     */
+    static _codeUnit of(Reader javaSourceReader) throws _jdraftException {
+        return of(Ast.of(javaSourceReader));
+    }
+
+    /**
+     * build the appropriate draft wrapper object to encapsulate the AST
+     * compilationUnit
+     *
+     * @param astRoot the AST
+     * @return a _code wrapper implementation that wraps the AST
+     */
+    static _codeUnit of(CompilationUnit astRoot) {
+        if (astRoot.getModule().isPresent()) {
+            return _moduleInfo.of(astRoot);
+        }
+        if (astRoot.getTypes().isEmpty()) {
+            return _packageInfo.of(astRoot);
+        }
+        if (astRoot.getTypes().size() == 1) { //only one type
+            return _type.of(astRoot, astRoot.getTypes().get(0));
+        }
+        //the first public type
+        Optional<TypeDeclaration<?>> otd
+                = astRoot.getTypes().stream().filter(t -> t.isPublic()).findFirst();
+        if (otd.isPresent()) {
+            return _type.of(astRoot, otd.get());
+        }
+        //the primary type
+        if (astRoot.getPrimaryType().isPresent()) {
+            return _type.of(astRoot, astRoot.getPrimaryType().get());
+        }
+        return _type.of(astRoot, astRoot.getType(0));
+    }
 
     /**
      * Return a copy of the _code

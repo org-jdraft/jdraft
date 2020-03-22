@@ -5,7 +5,7 @@ import org.jdraft.text.Text;
 
 import java.util.Objects;
 
-public class _blockComment implements _java._node<BlockComment, _blockComment> {
+public class _blockComment implements _comment, _java._node<BlockComment, _blockComment> {
 
     public static _blockComment of(String... commentContents){
         return new _blockComment( Ast.blockComment( commentContents) );

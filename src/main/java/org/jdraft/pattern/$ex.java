@@ -2241,7 +2241,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      */
     @Override
     public Select<E,_E> selectFirstIn(Class clazz ){
-        return selectFirstIn( (_type)_java.type(clazz));
+        return selectFirstIn( (_type) _type.of(clazz));
     }
     
     /**
@@ -2283,7 +2283,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public Select<E, _E> selectFirstIn(Class clazz, Predicate<Select<E,_E>> selectConstraint ){
-        return selectFirstIn((_type)_java.type(clazz), selectConstraint);
+        return selectFirstIn((_type) _type.of(clazz), selectConstraint);
     }
     
     /**
@@ -2389,7 +2389,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
     @Override
     public List<Select<E, _E>> listSelectedIn(Class clazz){
         List<Select<E, _E>>sts = new ArrayList<>();
-        Tree.in((_type)_java.type(clazz), this.astExpressionClass, e -> {
+        Tree.in((_type) _type.of(clazz), this.astExpressionClass, e -> {
             Select s = select( e );
             if( s != null ){
                 sts.add( s);
@@ -2405,7 +2405,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public List<Select<E, _E>> listSelectedIn(Class clazz, Predicate<Select<E, _E>> selectConstraint ){
-        return listSelectedIn((_type)_java.type(clazz), selectConstraint);
+        return listSelectedIn((_type) _type.of(clazz), selectConstraint);
     }
     
     /**
@@ -2465,7 +2465,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public <_CT extends _type> _CT replaceIn( Class clazz, Node astExprReplace ){
-        return (_CT)replaceIn((_type)_java.type(clazz), astExprReplace);
+        return (_CT)replaceIn((_type) _type.of(clazz), astExprReplace);
     }
     
     /**
@@ -2503,7 +2503,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public <_CT extends _type> _CT replaceIn(Class clazz, $ex $replaceProto){
-        return replaceIn((_CT)_java.type(clazz), $replaceProto);
+        return replaceIn((_CT) _type.of(clazz), $replaceProto);
     }
     
     /**
@@ -2531,7 +2531,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return the (potentially modified) _type of the clazz
      */
     public <_CT extends _type> _CT forSelectedIn(Class clazz, Consumer<Select<E, _E>> selectConsumer ){
-        return (_CT)forSelectedIn((_type)_java.type(clazz), selectConsumer);
+        return (_CT)forSelectedIn((_type) _type.of(clazz), selectConsumer);
     }
     
     /**
@@ -2576,7 +2576,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public <_CT extends _type> _CT forSelectedIn(Class clazz, Predicate<Select<E, _E>> selectConstraint, Consumer<Select<E, _E>> selectConsumer ){
-        return (_CT)forSelectedIn((_type)_java.type(clazz), selectConstraint, selectConsumer );
+        return (_CT)forSelectedIn((_type) _type.of(clazz), selectConstraint, selectConsumer );
     }
     
     /**

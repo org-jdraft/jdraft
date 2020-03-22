@@ -122,7 +122,7 @@ public class _typeTest extends TestCase {
         class PP{
 
         }
-        _type _t = _java.type(PP.class);
+        _type _t = _type.of(PP.class);
         List<_method> _ms = _t.listDeclared(_method.class);
         assertTrue( _ms.isEmpty() );
         _ms = _t.listDeclared(_method.class, _m-> ((_method)_m).isImplemented() );
@@ -145,7 +145,7 @@ public class _typeTest extends TestCase {
      * Here we play around with a CompilationUnit that has (2) package private classes
      */
     public void testGetPrimaryType(){
-        _type _t = _java.type( TwoPackagePrivateClasses.class );
+        _type _t = _type.of( TwoPackagePrivateClasses.class );
         assertEquals( 1, _t.listCompanionTypes().size());
         assertNotNull( _t.getCompanionType("AnotherPackagePrivateClass") );
         assertNotNull( _t.getCompanionType(_class.class, "AnotherPackagePrivateClass") );
@@ -165,7 +165,7 @@ public class _typeTest extends TestCase {
         List<TypeDeclaration<?>> astTypes = _t.astCompilationUnit().getTypes();        
         assertNotNull(_t.astCompilationUnit().getPrimaryType().get() );
         
-        _t = _java.type( PackagePrivateMultiClass.class );
+        _t = _type.of( PackagePrivateMultiClass.class );
         assertEquals( PackagePrivateMultiClass.class.getSimpleName(), _t.getName());
         assertEquals( PackagePrivateMultiClass.class.getCanonicalName(), _t.getFullName());
         
@@ -201,7 +201,7 @@ public class _typeTest extends TestCase {
      * Here is a single "PrimaryClass"
      */
     public void testPublicClassWithPackagePrivateTypes(){
-        _type _t = _java.type(test.PublicTypeWithPackagePrivateTypes.class);
+        _type _t = _type.of(test.PublicTypeWithPackagePrivateTypes.class);
         
         System.out.println( _t.getPrimaryType().getName() );
         

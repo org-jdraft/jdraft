@@ -491,7 +491,7 @@ public class $throws
      * @return 
      */
     public List<Select> listSelectedIn( Class clazz, Predicate<Select> selectConstraint ){
-        return listSelectedIn( (_type)_java.type(clazz), selectConstraint);
+        return listSelectedIn( (_type) _type.of(clazz), selectConstraint);
     }
     
     /**
@@ -536,7 +536,7 @@ public class $throws
      * @return 
      */
     public <_CT extends _type> _CT replaceIn(Class clazz, Class<? extends Throwable>... throwClasses){
-        return (_CT)replaceIn((_type)_java.type(clazz), _throws.of(throwClasses));
+        return (_CT)replaceIn((_type) _type.of(clazz), _throws.of(throwClasses));
     }
     
     /**
@@ -557,7 +557,7 @@ public class $throws
      * @return 
      */
     public <_CT extends _type> _CT replaceIn(Class clazz, String importDecl){
-        return (_CT)replaceIn( (_type)_java.type(clazz), importDecl);
+        return (_CT)replaceIn( (_type) _type.of(clazz), importDecl);
     }
     
     /**
@@ -578,7 +578,7 @@ public class $throws
      * @return 
      */
     public <_CT extends _type> _CT replaceIn(Class clazz, _throws _i){
-        return (_CT)replaceIn( (_type)_java.type(clazz), _i);
+        return (_CT)replaceIn( (_type) _type.of(clazz), _i);
     }
     
     /**
@@ -608,7 +608,7 @@ public class $throws
      * @return 
      */
     public <_CT extends _type> _CT replaceIn(Class clazz, $throws $i ){
-        return (_CT)replaceIn((_type)_java.type(clazz), $i);
+        return (_CT)replaceIn((_type) _type.of(clazz), $i);
     }
 
     /**
@@ -667,7 +667,7 @@ public class $throws
      * @return 
      */
     public <_CT extends _type> _CT forSelectedIn( Class clazz, Consumer<Select> selectConsumer){
-        return (_CT)forSelectedIn((_type)_java.type(clazz), selectConsumer);
+        return (_CT)forSelectedIn((_type) _type.of(clazz), selectConsumer);
     }
     
     /**
@@ -709,7 +709,7 @@ public class $throws
      * @return 
      */
     public <_CT extends _type> _CT forSelectedIn( Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer){
-        return (_CT)forSelectedIn((_type)_java.type(clazz), selectConstraint, selectConsumer);
+        return (_CT)forSelectedIn((_type) _type.of(clazz), selectConstraint, selectConsumer);
     }
     
     /**

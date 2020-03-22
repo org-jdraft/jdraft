@@ -147,7 +147,7 @@ public class _archive implements _codeUnit._provider{
         List<_C> found = new ArrayList<>();
 
         forEach(this.pathMatchFn.and(whichJavaFiles), p-> {
-            _codeUnit _c = _java.codeUnit(p);
+            _codeUnit _c = _codeUnit.of(p);
             if( codeClass.isAssignableFrom( _c.getClass()) && _codeMatchFn.test( (_C)_c)){
                 _codeActionFn.accept((_C)_c);
                 found.add((_C)_c);

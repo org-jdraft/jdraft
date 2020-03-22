@@ -65,7 +65,7 @@ public class _runtime {
      * @return
      */
     public static List<_classFile> compile(String... codeLines) {
-        return compile((_type)_java.type(codeLines));
+        return compile((_type) _type.of(codeLines));
     }
 
     /**
@@ -76,7 +76,7 @@ public class _runtime {
      * @see <A HREF="https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javac.html#options">javac options</A>
      */
     public static List<_classFile> compile(List<String> compilerOptions, String... codeLines) {
-        return compile(compilerOptions, (_type)_java.type(codeLines));
+        return compile(compilerOptions, (_type) _type.of(codeLines));
     }
 
     /**
@@ -88,7 +88,7 @@ public class _runtime {
      * @see <A HREF="https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javac.html#options">javac options</A>
      */
     public static List<_classFile> compile(List<String> compilerOptions, boolean ignoreWarnings, String... codeLines) {
-        return compile(compilerOptions, ignoreWarnings, (_type)_java.type(codeLines));
+        return compile(compilerOptions, ignoreWarnings, (_type) _type.of(codeLines));
     }
     
     /**
@@ -631,7 +631,7 @@ public class _runtime {
      * @return the _adhoc with the compiled Classes
      */
     public static _runtime of(String...javaSourceCode ){
-        return _runtime.of((_type)_java.type(javaSourceCode));
+        return _runtime.of((_type) _type.of(javaSourceCode));
     }
     
     /**
@@ -642,7 +642,7 @@ public class _runtime {
      */
     public static _runtime of(Class...macroAnnotatedClasses){
         List<JavaFileObject> sfs = new ArrayList<>();
-        Arrays.stream(macroAnnotatedClasses).forEach(c->sfs.add( _javaFile.of((_type)_java.type(c))));
+        Arrays.stream(macroAnnotatedClasses).forEach(c->sfs.add( _javaFile.of((_type) _type.of(c))));
         return of(Collections.EMPTY_LIST, true, sfs);
     }
     
@@ -654,7 +654,7 @@ public class _runtime {
      */
     public static _runtime of(List<String>compilerOptions, Class...macroAnnotatedClasses){
         List<JavaFileObject> sfs = new ArrayList<>();
-        Arrays.stream(macroAnnotatedClasses).forEach(c->sfs.add( _javaFile.of( (_type)_java.type(c))));
+        Arrays.stream(macroAnnotatedClasses).forEach(c->sfs.add( _javaFile.of( (_type) _type.of(c))));
         return of(compilerOptions, true, sfs);
     }
     
@@ -678,7 +678,7 @@ public class _runtime {
      */
     public static _runtime of(List<String>compilerOptions, boolean ignoreWarnings, Class...macroAnnotatedClasses){
         List<JavaFileObject> sfs = new ArrayList<>();
-        Arrays.stream(macroAnnotatedClasses).forEach(c->sfs.add( _javaFile.of( (_type)_java.type(c))));
+        Arrays.stream(macroAnnotatedClasses).forEach(c->sfs.add( _javaFile.of( (_type) _type.of(c))));
         return of(compilerOptions, ignoreWarnings, sfs);
     }
     

@@ -65,7 +65,7 @@ public @interface _equals {
 
         @Override
         public void expand(TypeDeclaration typeDeclaration) {
-            to( (_type)_java.type(typeDeclaration));
+            to( (_type) _type.of(typeDeclaration));
         }
 
         @Override
@@ -74,7 +74,7 @@ public @interface _equals {
         }
 
         public static <T extends TypeDeclaration> T to (T t){
-            to( (_type)_java.type(t));
+            to( (_type) _type.of(t));
             return t;
         }
 

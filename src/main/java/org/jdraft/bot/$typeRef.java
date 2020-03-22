@@ -708,7 +708,7 @@ public class $typeRef
      * @return
      */
     public <_CT extends _type> _CT  replaceIn(Class clazz, Class replacementType){
-        return (_CT)replaceIn( (_type)_java.type(clazz), replacementType);
+        return (_CT)replaceIn( (_type) _type.of(clazz), replacementType);
     }
 
     /**
@@ -729,7 +729,7 @@ public class $typeRef
      * @return
      */
     public <_CT extends _type> _CT  replaceIn( Class clazz, _typeRef replacementType ){
-        return (_CT)replaceIn( (_type)_java.type(clazz), replacementType);
+        return (_CT)replaceIn( (_type) _type.of(clazz), replacementType);
     }
 
     /**

@@ -805,7 +805,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @return
      */
     default boolean isIn(Class clazz){
-        return firstIn((_type)_java.type(clazz) ) != null;
+        return firstIn((_type) _type.of(clazz) ) != null;
     }
 
     /**
@@ -892,7 +892,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @return 
      */
     default P firstIn(Class clazz){
-        return firstIn((_type)_java.type(clazz) );
+        return firstIn((_type) _type.of(clazz) );
     }
 
     /**
@@ -902,7 +902,7 @@ public interface $pattern<P, $P extends $pattern>{
      */
     default P firstIn(Class... clazzes){
         for( int i=0; i< clazzes.length; i++){
-            P p = firstIn( (_type)_java.type(clazzes[i]) );
+            P p = firstIn( (_type) _type.of(clazzes[i]) );
             if( p != null ){
                 return p;
             }
@@ -964,7 +964,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @return 
      */
     default P firstIn( Class clazz, Predicate<P> nodeMatchFn){
-        return firstIn(_java.type(clazz).astCompilationUnit(), nodeMatchFn);
+        return firstIn(_type.of(clazz).astCompilationUnit(), nodeMatchFn);
     }
 
     /**
@@ -1062,7 +1062,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @return 
      */
     default <S extends selected> S selectFirstIn( Class clazz ){
-        return selectFirstIn( (_type)_java.type(clazz));
+        return selectFirstIn( (_type) _type.of(clazz));
     }
 
     /**
@@ -1073,7 +1073,7 @@ public interface $pattern<P, $P extends $pattern>{
      */
     default <S extends selected> S selectFirstIn( Class... classes ){
         for(int i=0;i<classes.length; i++){
-            S s = selectFirstIn( (_type)_java.type(classes[i]) );
+            S s = selectFirstIn( (_type) _type.of(classes[i]) );
             if( s != null ){
                 return s;
             }
@@ -1186,7 +1186,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @return a List of P that match the query
      */
     default List<P> listIn(Class clazz){
-        return listIn( (_type)_java.type(clazz));
+        return listIn( (_type) _type.of(clazz));
     }
 
     default Stream<P> streamIn(Class clazz){
@@ -1299,7 +1299,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @return 
      */
     default List<P> listIn(Class clazz, Predicate<P> nodeMatchFn){
-        return listIn( (_type)_java.type(clazz), nodeMatchFn);
+        return listIn( (_type) _type.of(clazz), nodeMatchFn);
     }
 
     default Stream<P> streamIn(Class clazz, Predicate<P> nodeMatchFn){
@@ -1448,7 +1448,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @return the selected
      */
     default <S extends selected> List<S> listSelectedIn(Class clazz){
-        return listSelectedIn( (_type)_java.type(clazz));
+        return listSelectedIn( (_type) _type.of(clazz));
     }
 
     /**
@@ -1532,7 +1532,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @return the (potentially modified) _type 
      */
     default <_CT extends _type> _CT forEachIn(Class clazz, Consumer<P>nodeActionFn ){
-        return forEachIn( (_CT)_java.type(clazz), nodeActionFn);
+        return forEachIn( (_CT) _type.of(clazz), nodeActionFn);
     }
 
     /**
@@ -1667,7 +1667,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @return
      */
     default int countIn(Class clazz ){
-        return countIn( (_type)_java.type(clazz));
+        return countIn( (_type) _type.of(clazz));
     }
 
     /**
@@ -1701,7 +1701,7 @@ public interface $pattern<P, $P extends $pattern>{
     default int countIn(Class... classes ){
         int count = 0;
         for(int i=0;i<classes.length;i++) {
-            count += countIn((_type) _java.type(classes[i]));
+            count += countIn((_type) _type.of(classes[i]));
         }
         return count;
     }
@@ -1750,7 +1750,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @return
      */
     default void printIn( Class clazz ){
-        printIn( (_type)_java.type(clazz));
+        printIn( (_type) _type.of(clazz));
     }
 
     /**
@@ -1779,7 +1779,7 @@ public interface $pattern<P, $P extends $pattern>{
      */
     default void printIn( Class... classes ){
         for(int i=0;i<classes.length;i++) {
-            printIn((_type) _java.type(classes[i]));
+            printIn((_type) _type.of(classes[i]));
         }
     }
 
@@ -1870,7 +1870,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @return the _type with all entities matching the prototype (& constraint) removed
      */
     default <_CT extends _type> _CT removeIn(Class clazz){
-        return (_CT)removeIn( (_type)_java.type(clazz));
+        return (_CT)removeIn( (_type) _type.of(clazz));
     } 
     
     /**
@@ -1880,7 +1880,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @return the _type with all entities matching the prototype (& constraint) removed
      */
     default <_CT extends _type> _CT removeIn(Class clazz, Predicate<P> nodeMatchFn){
-        return (_CT)removeIn( (_type)_java.type(clazz), nodeMatchFn);
+        return (_CT)removeIn( (_type) _type.of(clazz), nodeMatchFn);
     } 
     
     /**
@@ -1986,7 +1986,7 @@ public interface $pattern<P, $P extends $pattern>{
         Class<_J> _modelType();
 
         default <_CT extends _type> _CT replaceIn( Class clazz, $P $protoReplace ){
-            return (_CT)replaceIn((_type)_java.type(clazz), $protoReplace);
+            return (_CT)replaceIn((_type) _type.of(clazz), $protoReplace);
         }
 
         default List<_codeUnit> replaceIn(_codeUnit._provider _codeProvider, $P $protoReplace ){

@@ -1567,7 +1567,7 @@ public enum Tree {
                     n ->(n instanceof CompilationUnit || n instanceof TypeDeclaration),
                     a -> {
                         if( a instanceof CompilationUnit ){
-                            _codeUnit _c = _java.codeUnit( (CompilationUnit)a );
+                            _codeUnit _c = _codeUnit.of( (CompilationUnit)a );
                             if( _javaMatchFn.test((_J)_c) ){
                                 _javaAction.accept( (_J)_c );
                             }
@@ -1576,7 +1576,7 @@ public enum Tree {
                              * NOTE: WE SKIP TOP LEVEL TYPES B/C THEIR COMPILATIONUNITS 
                              * WILL ALREADY HAVE BEEN BE CALLED IN THE WALK
                              */
-                            _codeUnit _c = _java.type( (TypeDeclaration)a);
+                            _codeUnit _c = _type.of( (TypeDeclaration)a);
                             if( _javaMatchFn.test((_J)_c) ){
                                 _javaAction.accept( (_J)_c );
                             }
@@ -1590,7 +1590,7 @@ public enum Tree {
                     Node.class,
                     n ->n instanceof CompilationUnit,
                     a -> {
-                        _codeUnit _c = _java.codeUnit( (CompilationUnit)a );
+                        _codeUnit _c = _codeUnit.of( (CompilationUnit)a );
                             if( _c instanceof _packageInfo && _javaMatchFn.test((_J)_c) ){
                                 _javaAction.accept( (_J)_c );
                             }                                                
@@ -1603,7 +1603,7 @@ public enum Tree {
                     Node.class,
                     n ->n instanceof CompilationUnit,
                     a -> {
-                        _codeUnit _c = _java.codeUnit( (CompilationUnit)a );
+                        _codeUnit _c = _codeUnit.of( (CompilationUnit)a );
                             if( _c instanceof _moduleInfo && _javaMatchFn.test((_J)_c) ){
                                 _javaAction.accept( (_J)_c );
                             }                                                
@@ -2588,7 +2588,7 @@ public enum Tree {
      *
      * @see #hasAncestor(Node, Class, Predicate)
      */
-    public static  <N extends Node> N ancestor( Node node, Class<N> ancestorNodeClass, Predicate<N> ancestorMatchFn){
+    public static <N extends Node> N ancestor( Node node, Class<N> ancestorNodeClass, Predicate<N> ancestorMatchFn){
         if( node.getParentNode().isPresent()){
             Node parent = node.getParentNode().get();
             if( ancestorNodeClass.isAssignableFrom(parent.getClass()) ) {
@@ -2606,7 +2606,6 @@ public enum Tree {
     public static boolean hasChild( Node n, Predicate<Node> nodeMatchFn){
         return n.getChildNodes().stream().anyMatch(nodeMatchFn);
     }
-
 
     /**
      * Shortcut for checking if an ast has any ancestor of a particular class

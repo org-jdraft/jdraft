@@ -985,7 +985,7 @@ public class $constructor
      */ 
     @Override
     public Select selectFirstIn( Class clazz){
-        return selectFirstIn( (_type)_java.type(clazz));
+        return selectFirstIn( (_type) _type.of(clazz));
     }
      
     /**
@@ -995,7 +995,7 @@ public class $constructor
      * @return  the first _constructor that matches (or null if none found)
      */
     public Select selectFirstIn( Class clazz, Predicate<Select> selectConstraint){
-        return selectFirstIn( (_type)_java.type(clazz), selectConstraint);
+        return selectFirstIn( (_type) _type.of(clazz), selectConstraint);
     }
     
     /**
@@ -1080,7 +1080,7 @@ public class $constructor
      * @return 
      */
     public List<Select> listSelectedIn(Class clazz, Predicate<Select> selectConstraint){
-        return listSelectedIn( (_type)_java.type(clazz), selectConstraint);
+        return listSelectedIn( (_type) _type.of(clazz), selectConstraint);
     }
     
     /**
@@ -1149,7 +1149,7 @@ public class $constructor
      * @return 
      */
     public <_CT extends _type> _CT forSelectedIn(Class clazz, Consumer<Select> selectActionFn ){
-        return (_CT)forSelectedIn((_type)_java.type(clazz), selectActionFn );
+        return (_CT)forSelectedIn((_type) _type.of(clazz), selectActionFn );
     }
     
     /**
@@ -1160,7 +1160,7 @@ public class $constructor
      * @return 
      */
     public <_CT extends _type> _CT forSelectedIn(Class clazz, Predicate<Select>selectConstraint, Consumer<Select> selectActionFn ){
-        return (_CT)forSelectedIn((_type)_java.type(clazz), selectConstraint, selectActionFn );
+        return (_CT)forSelectedIn((_type) _type.of(clazz), selectConstraint, selectActionFn );
     }
     
     /**
@@ -1242,7 +1242,7 @@ public class $constructor
      * @return 
      */
     public <_CT extends _type> _CT replaceIn(Class clazz, $constructor $replace ){
-        return (_CT)forSelectedIn((_type)_java.type(clazz), s -> {
+        return (_CT)forSelectedIn((_type) _type.of(clazz), s -> {
             _constructor repl = $replace.draft(Translator.DEFAULT_TRANSLATOR, s.tokens);
             s._ct.ast().replace(repl.ast());
         });
@@ -1255,7 +1255,7 @@ public class $constructor
      * @return 
      */
     public <_CT extends _type> _CT  replaceIn(Class clazz,  String... replacementProto ){
-        return (_CT)replaceIn((_type)_java.type(clazz), $constructor.of(replacementProto));
+        return (_CT)replaceIn((_type) _type.of(clazz), $constructor.of(replacementProto));
     }
     
     /**
@@ -1265,7 +1265,7 @@ public class $constructor
      * @return 
      */
     public <_CT extends _type> _CT replaceIn(Class clazz,  _constructor _ct ){
-        return (_CT)replaceIn((_type)_java.type(clazz), $constructor.of(_ct));
+        return (_CT)replaceIn((_type) _type.of(clazz), $constructor.of(_ct));
     }
     
     /**
@@ -1275,7 +1275,7 @@ public class $constructor
      * @return 
      */
     public <_CT extends _type> _CT replaceIn(Class clazz, ConstructorDeclaration astCtor ){
-        return (_CT)replaceIn( (_type)_java.type(clazz), $constructor.of(astCtor));
+        return (_CT)replaceIn( (_type) _type.of(clazz), $constructor.of(astCtor));
     }
     
     /**

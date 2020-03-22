@@ -13,7 +13,7 @@ import java.util.Objects;
  * System.out.println( "name" +name);
  * </CODE>
  */
-public class _lineComment implements _java._node<LineComment, _lineComment> {
+public class _lineComment implements _comment, _java._node<LineComment, _lineComment> {
 
     public static _lineComment of( String commentContents){
         return new _lineComment( Ast.lineComment(commentContents) );

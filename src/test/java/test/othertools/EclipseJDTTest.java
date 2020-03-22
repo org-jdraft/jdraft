@@ -2,17 +2,13 @@ package test.othertools;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.comments.Comment;
+
 import static junit.framework.TestCase.*;
 import org.jdraft.*;
 import org.jdraft.io._archive;
-import org.jdraft.io._sources;
 import org.jdraft.io._io;
 import org.jdraft.macro._static;
 import org.jdraft.pattern.$;
-import org.jdraft.pattern.$comment;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -20,7 +16,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -70,7 +65,7 @@ public class EclipseJDTTest{ //extends TestCase
                         //
                         System.out.println( ">START "+ p.toString());
                         try {
-                            _type _t = _java.type(s);
+                            _type _t = _type.of(s);
                             System.out.println( "<DONE "+ p.toString());
                         }catch(Exception ee){
                             System.out.println( "EXCEPTION IN "+pp);
@@ -96,7 +91,7 @@ public class EclipseJDTTest{ //extends TestCase
                     if( !p.toString().endsWith("package-info.java") && !p.toString().endsWith(".kt")) {
                         System.out.println( "parsin "+ p.toString());
                         try {
-                            _type _t = _java.type(s);
+                            _type _t = _type.of(s);
                         }catch(Exception ee){
                             System.out.println( "EXCEPTION IN "+pp);
                         }

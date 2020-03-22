@@ -646,7 +646,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
      * @return 
      */
     public Select selectFirstIn( Class clazz, Predicate<Select>selectConstraint ){
-       return selectFirstIn( (_type)_java.type(clazz), selectConstraint);
+       return selectFirstIn( (_type) _type.of(clazz), selectConstraint);
     }
     
     /**
@@ -719,7 +719,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
      * @return 
      */
     public List<Select> listSelectedIn(Class clazz, Predicate<Select> selectConstraint){
-        return listSelectedIn((_type)_java.type(clazz), selectConstraint);
+        return listSelectedIn((_type) _type.of(clazz), selectConstraint);
     }
     
     /**
@@ -745,7 +745,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
      * @return 
      */
     public <_CT extends _type> _CT replaceIn(Class clazz, $field $replaceProto ){
-        return (_CT)replaceIn( (_type)_java.type(clazz), $replaceProto);
+        return (_CT)replaceIn( (_type) _type.of(clazz), $replaceProto);
     }
     
     /**
@@ -789,7 +789,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
      * @return 
      */
     public <_T extends _type> _T forSelectedIn(Class clazz, Consumer<Select> selectConsumer ){
-       return (_T)forSelectedIn( (_type)_java.type(clazz), selectConsumer );
+       return (_T)forSelectedIn( (_type) _type.of(clazz), selectConsumer );
     }
     
     /**
@@ -834,7 +834,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
      * @return 
      */
     public <_CT extends _type> _CT forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
-        return (_CT)forSelectedIn( (_type)_java.type(clazz), selectConstraint, selectConsumer);
+        return (_CT)forSelectedIn( (_type) _type.of(clazz), selectConstraint, selectConsumer);
     }
     
     /**
