@@ -72,12 +72,13 @@ import org.jdraft.macro.macro;
  * {@link AnnotationDeclaration}, {@link EnumDeclaration}) that stores the state
  * and maintains the Bi-Directional AST Tree implementation
  * @param <_T> the _type entity that provides logical access to manipulating the
- * AST
- *            & NodeWithAnnotations
+ * AST & NodeWithAnnotations
  */
 public interface _type<AST extends TypeDeclaration, _T extends _type>
     extends _javadoc._withJavadoc<_T>, _annos._withAnnos<_T>, _modifiers._withModifiers<_T>,
-        _field._withFields<_T>, _java._declaredBodyPart<AST, _T>, _codeUnit<_T>, _java._multiPart<AST, _T> {
+        _field._withFields<_T>, _java._declared<AST, _T>, _codeUnit<_T>, _java._multiPart<AST, _T> {
+
+
 
     /*
     static <_T extends _type> _T of( String...typeCode ){
@@ -535,6 +536,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
                 .forEach( t -> astCompilationUnit().remove( t.ast() ) );
         return (_T)this;
     }
+
     /**
      * Looks for all "companion types" that match the _typeMatchFn and removes them
      * "companion types" are top level types that are "package private" (i.e. they
@@ -582,7 +584,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @param members the members to be added
      * @return the modified _type
      */
-    default _T add(_java._memberBodyPart... members){
+    default _T add(_java._member... members){
         Arrays.stream(members).forEach(_m -> {
             if(_m instanceof _field){
                 this.ast().addMember( ((_field)_m).getFieldDeclaration() );
@@ -593,8 +595,8 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         return (_T)this;
     }
 
-    default List<_java._memberBodyPart> listMembers( Predicate<_java._memberBodyPart> _matchFn){
-        List<_java._memberBodyPart> _ms = new ArrayList<>();
+    default List<_java._member> listMembers(Predicate<_java._member> _matchFn){
+        List<_java._member> _ms = new ArrayList<>();
         NodeList<BodyDeclaration<?>> bds = ast().getMembers();
 
         bds.forEach(b -> {
@@ -607,7 +609,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
                     }
                 });
             } else {
-                _java._memberBodyPart _mbp = (_java._memberBodyPart) _java.of(b);
+                _java._member _mbp = (_java._member) _java.of(b);
                 if( _matchFn.test(_mbp)) {
                     _ms.add(_mbp);
                 }
@@ -617,13 +619,13 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     }
 
     /**
-     * List the {@link _java._memberBodyPart}s: ({@link _initBlock}s, {@link _field}s, {@link _method}s, {@link _constructor}s,
+     * List the {@link _java._member}s: ({@link _initBlock}s, {@link _field}s, {@link _method}s, {@link _constructor}s,
      * {@link _constant}s, {@link _annotation._entry}s) , and inner{@link _type}s, {@link _enum}s,
      * {@link _class}es, {@link _interface}s, {@link _annotation}s) on the _type
-     * @return a List of {@link _java._declaredBodyPart}s on the type
+     * @return a List of {@link _java._declared}s on the type
      */
-    default List<_java._memberBodyPart> listMembers(){
-        List<_java._memberBodyPart> _ms = new ArrayList<>();
+    default List<_java._member> listMembers(){
+        List<_java._member> _ms = new ArrayList<>();
         NodeList<BodyDeclaration<?>> bds = ast().getMembers();
 
         bds.forEach(b -> {
@@ -631,21 +633,21 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
                 FieldDeclaration fd = (FieldDeclaration)b;
                 fd.getVariables().forEach( v-> _ms.add(_field.of(v)));
             } else {
-                _ms.add((_java._memberBodyPart) _java.of(b));
+                _ms.add((_java._member) _java.of(b));
             }
         } );
         return _ms;
     }
 
     /**
-     * List the {@link _java._memberBodyPart}s of the memberClass: ({@link _initBlock}s, {@link _field}s, {@link _method}s,
+     * List the {@link _java._member}s of the memberClass: ({@link _initBlock}s, {@link _field}s, {@link _method}s,
      * {@link _constructor}s,{@link _constant}s, {@link _annotation._entry}s) , and inner {@link _type}s,
      * {@link _enum}s, {@link _class}es, {@link _interface}s, {@link _annotation}s) on the _type
      * @param memberClass
      * @param <_M>
      * @return
      */
-    default <_M extends _java._memberBodyPart> List<_M> listMembers(Class<_M> memberClass){
+    default <_M extends _java._member> List<_M> listMembers(Class<_M> memberClass){
         List<_M> _ms = new ArrayList<>();
         NodeList<BodyDeclaration<?>> bds = ast().getMembers();
         bds.forEach(b -> {
@@ -658,14 +660,14 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     }
 
     /**
-     * List the {@link _java._memberBodyPart}s of the memberClass: ({@link _initBlock}s, {@link _field}s, {@link _method}s,
+     * List the {@link _java._member}s of the memberClass: ({@link _initBlock}s, {@link _field}s, {@link _method}s,
      * {@link _constructor}s,{@link _constant}s, {@link _annotation._entry}s) , and inner {@link _type}s,
      * {@link _enum}s, {@link _class}es, {@link _interface}s, {@link _annotation}s) on the _type
      * @param memberClass
      * @param <_M>
      * @return
      */
-    default <_M extends _java._memberBodyPart> List<_M> listMembers(Class<_M> memberClass, Predicate<_M> _memberMatchFn){
+    default <_M extends _java._member> List<_M> listMembers(Class<_M> memberClass, Predicate<_M> _memberMatchFn){
         List<_M> _ms = new ArrayList<>();
         NodeList<BodyDeclaration<?>> bds = ast().getMembers();
         bds.forEach(b -> {
@@ -680,7 +682,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
                     });
                  }
             } else {
-                _java._memberBodyPart _mem = (_java._memberBodyPart) _java.of(b);
+                _java._member _mem = (_java._member) _java.of(b);
                 if (memberClass.isAssignableFrom(_mem.getClass()) && _memberMatchFn.test((_M) _mem)) {
                     _ms.add((_M) _mem);
                 }
@@ -690,12 +692,12 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     }
 
     /**
-     * Gets the first {@link _java._memberBodyPart} of the memberClass
+     * Gets the first {@link _java._member} of the memberClass
      * @param <_M> the _member type (i.e. _initBlock, _method.class, _field.class, _staticBlock.class)
      * @param memberClass the Class (i.e. _initBlock.class, _method.class, _field.class, _staticBlock.class)
      * @return the first member found (null if none found)
      */
-    default <_M extends _java._memberBodyPart> _M getMember(Class<_M> memberClass){
+    default <_M extends _java._member> _M getMember(Class<_M> memberClass){
         List<_M> _ms = listMembers(memberClass);
         if( _ms.isEmpty()){
             return null;
@@ -710,7 +712,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @param _memberMatchFn function for matching a specific _declaration type
      * @return a single _member (or null if none found)
      */
-    default <_M extends _java._memberBodyPart> _M getMember(Class<_M> memberClass, Predicate<_M> _memberMatchFn){
+    default <_M extends _java._member> _M getMember(Class<_M> memberClass, Predicate<_M> _memberMatchFn){
         List<_M> _ms = listMembers(memberClass, _memberMatchFn);
         if( _ms.isEmpty()){
             return null;
@@ -719,29 +721,29 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     }
 
     /**
-     * apply a _memberActionFn to all  {@link _java._memberBodyPart}s (i.e. _initBlock.class, _method.class, _field.class, _staticBlock.class)
+     * apply a _memberActionFn to all  {@link _java._member}s (i.e. _initBlock.class, _method.class, _field.class, _staticBlock.class)
      * @param _memberActionFn the action function to apply to _members
      * @return the modified T
      */
-    default _T forMembers(Consumer<_java._memberBodyPart> _memberActionFn){
+    default _T forMembers(Consumer<_java._member> _memberActionFn){
         listMembers().forEach(_memberActionFn);
         return (_T)this;
     }
 
 
-    default _T forMembers(Predicate<_java._memberBodyPart> mb, Consumer<_java._memberBodyPart> _memberAction){
+    default _T forMembers(Predicate<_java._member> mb, Consumer<_java._member> _memberAction){
         listMembers(mb).forEach(_memberAction);
         return (_T)this;
     }
 
     /**
-     * find {@link _java._memberBodyPart}s that are of the specific memberClass and perform the _memberAction on them
+     * find {@link _java._member}s that are of the specific memberClass and perform the _memberAction on them
      * @param <_M> the type (i.e. _initBlock.class, _method.class, _field.class, _staticBlock.class)
      * @param memberClass the Class (i.e. _initBlock.class, _method.class, _field.class, _staticBlock.class)
      * @param _memberAction the action function to apply to _members
      * @return the modified T
      */
-    default <_M extends _java._memberBodyPart> _T forMembers(Class<_M> memberClass, Consumer<_M> _memberAction){
+    default <_M extends _java._member> _T forMembers(Class<_M> memberClass, Consumer<_M> _memberAction){
         listMembers(memberClass).forEach(_memberAction);
         return (_T)this;
     }
@@ -754,18 +756,18 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @param _memberAction the Action function to apply to member
      * @return the modified T
      */
-    default <_M extends _java._memberBodyPart> _T forMembers(Class<_M> memberClass, Predicate<_M> _memberMatchFn, Consumer<_M> _memberAction){
+    default <_M extends _java._member> _T forMembers(Class<_M> memberClass, Predicate<_M> _memberMatchFn, Consumer<_M> _memberAction){
         listMembers(memberClass, _memberMatchFn).forEach(_memberAction);
         return (_T)this;
     }
 
-    default _T removeMembers( _java._memberBodyPart... _members){
+    default _T removeMembers( _java._member... _members){
         Arrays.stream(_members).forEach( _m -> this.ast().remove(_m.ast()));
         return (_T)this;
     }
 
-    default List<_java._memberBodyPart> removeMembers(Predicate<_java._memberBodyPart> _memberMatchFn){
-        List<_java._memberBodyPart> mbp = listMembers(_java._memberBodyPart.class, _memberMatchFn);
+    default List<_java._member> removeMembers(Predicate<_java._member> _memberMatchFn){
+        List<_java._member> mbp = listMembers(_java._member.class, _memberMatchFn);
         mbp.forEach(m -> removeMembers(m) );
         return mbp;
     }
@@ -777,16 +779,16 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @param <_M> the _member type (i.e. _initBlock.class, _method.class, _field.class, _constructor.class, _initBlock.class)
      * @param memberClass the Class (i.e. _initBlock.class, _method.class, _field.class, _constructor.class, _initBlock.class)
      * @param _memberMatchFn function for matching a specific member type to remove
-     * @return the removed {@link _java._memberBodyPart}s
+     * @return the removed {@link _java._member}s
      */
-    default <_M extends _java._memberBodyPart> List<_M> removeMembers(Class<_M> memberClass, Predicate<_M> _memberMatchFn){
+    default <_M extends _java._member> List<_M> removeMembers(Class<_M> memberClass, Predicate<_M> _memberMatchFn){
         List<_M> ms = listMembers( memberClass, _memberMatchFn);
         ms.forEach( m -> this.ast().remove(m.ast()) );
         return ms;
     }
 
-    default List<_java._declaredBodyPart> removeDeclared(Predicate<_java._declaredBodyPart> _declaredMatchFn){
-        List<_java._declaredBodyPart> ms = listDeclared( (Predicate<_java._declaredBodyPart>)_declaredMatchFn);
+    default List<_java._declared> removeDeclared(Predicate<_java._declared> _declaredMatchFn){
+        List<_java._declared> ms = listDeclared( (Predicate<_java._declared>)_declaredMatchFn);
         ms.forEach( m -> this.ast().remove(m.ast()) );
         return ms;
     }
@@ -796,7 +798,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @param _declarationAction the action to apply to ALL declarations
      * @return the (modified) _T _type
      */
-    default _T forDeclared(Consumer<_java._declaredBodyPart> _declarationAction ){
+    default _T forDeclared(Consumer<_java._declared> _declarationAction ){
         return forDeclared(t-> true, _declarationAction );
     }
 
@@ -807,7 +809,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @param _declarationAction the Action function to apply to _declarations
      * @return the modified T
      */
-    default <_D extends _java._declaredBodyPart> _T forDeclared(Class<_D> declarationClass, Consumer<_D> _declarationAction){
+    default <_D extends _java._declared> _T forDeclared(Class<_D> declarationClass, Consumer<_D> _declarationAction){
         listDeclared(declarationClass).forEach(_declarationAction);
         return (_T)this;
     }
@@ -820,13 +822,13 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @param _declarationAction the Action function to apply to _declaration
      * @return the modified T
      */
-    default <_D extends _java._declaredBodyPart> _T forDeclared(Class<_D> declarationClass, Predicate<_D> _declarationMatchFn, Consumer<_D> _declarationAction){
+    default <_D extends _java._declared> _T forDeclared(Class<_D> declarationClass, Predicate<_D> _declarationMatchFn, Consumer<_D> _declarationAction){
         listDeclared(declarationClass, _declarationMatchFn).forEach(_declarationAction);
         return (_T)this;
     }
 
     /**
-     * Iterate & apply the action function to all {@link _java._declaredBodyPart}s ({@link _field}s,
+     * Iterate & apply the action function to all {@link _java._declared}s ({@link _field}s,
      * {@link _method}s, {@link _constructor}s,{@link _constant}s, {@link _annotation._entry}s),
      * and inner {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s, {@link _annotation}s)
      * that satisfy the _declarationMatchFn
@@ -834,19 +836,19 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @param _declarationAction the action to apply to all selected _declarations that satisfy the _declarationMatchFn
      * @return the modified T type
      */
-    default _T forDeclared(Predicate<_java._declaredBodyPart> _declarationMatchFn, Consumer<_java._declaredBodyPart> _declarationAction ){
+    default _T forDeclared(Predicate<_java._declared> _declarationMatchFn, Consumer<_java._declared> _declarationAction ){
         listDeclared(_declarationMatchFn).forEach(_declarationAction);
         return (_T)this;
     }
 
     /**
-     * List the {@link _java._declaredBodyPart}s ({@link _field}s, {@link _method}s, {@link _constructor}s,{@link _constant}s,
+     * List the {@link _java._declared}s ({@link _field}s, {@link _method}s, {@link _constructor}s,{@link _constant}s,
      * {@link _annotation._entry}s), and inner {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
      * {@link _annotation}s) on the _type
-     * @return a List of {@link _java._declaredBodyPart}s on the _type
+     * @return a List of {@link _java._declared}s on the _type
      */
-    default List<_java._declaredBodyPart> listDeclared(){
-        return listDeclared(_java._declaredBodyPart.class, t->true);
+    default List<_java._declared> listDeclared(){
+        return listDeclared(_java._declared.class, t->true);
     }
 
     /**
@@ -856,8 +858,8 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @param _declarationMatchFn
      * @return a list of _declarations
      */
-    default List<_java._declaredBodyPart> listDeclared(Predicate<_java._declaredBodyPart> _declarationMatchFn){
-        return listDeclared(_java._declaredBodyPart.class, _declarationMatchFn);
+    default List<_java._declared> listDeclared(Predicate<_java._declared> _declarationMatchFn){
+        return listDeclared(_java._declared.class, _declarationMatchFn);
     }
     
     /**
@@ -868,7 +870,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @param declarationClass the Class (i.e. _method.class, _field.class, _staticBlock.class)
      * @return a List of the types (empty if none found)
      */
-    default <_D extends _java._declaredBodyPart> List<_D> listDeclared(Class<_D> declarationClass){
+    default <_D extends _java._declared> List<_D> listDeclared(Class<_D> declarationClass){
         return listDeclared(declarationClass, t->true);
     }
     
@@ -881,7 +883,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @param _declarationMatchFn function for matching a specific member type
      * @return a List of the types (empty if none found)
      */
-    default <_D extends _java._declaredBodyPart> List<_D> listDeclared(Class<_D> declarationClass, Predicate<_D> _declarationMatchFn){
+    default <_D extends _java._declared> List<_D> listDeclared(Class<_D> declarationClass, Predicate<_D> _declarationMatchFn){
         return listMembers(declarationClass, _declarationMatchFn);
     }
 
@@ -890,8 +892,8 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @param _declarationMatchFn
      * @return the first _declaration found (or null if none found)
      */
-    default _java._declaredBodyPart getDeclared(Predicate<_java._declaredBodyPart> _declarationMatchFn){
-        List<_java._declaredBodyPart> _ds = listDeclared(_declarationMatchFn);
+    default _java._declared getDeclared(Predicate<_java._declared> _declarationMatchFn){
+        List<_java._declared> _ds = listDeclared(_declarationMatchFn);
         if( _ds.isEmpty()){
             return null;
         }
@@ -904,7 +906,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @param declarationClass the Class (i.e. _method.class, _field.class, _staticBlock.class)
      * @return the first _declaration found (null if none found)
      */
-    default <_D extends _java._declaredBodyPart> _D getDeclared(Class<_D> declarationClass){
+    default <_D extends _java._declared> _D getDeclared(Class<_D> declarationClass){
         List<_D> _ds = listDeclared(declarationClass);
         if( _ds.isEmpty()){
             return null;
@@ -919,7 +921,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @param _declarationMatchFn function for matching a specific _declaration type
      * @return a List of the _declarations (empty if none found)
      */
-    default <_D extends _java._declaredBodyPart> _D getDeclared(Class<_D> declarationClass, Predicate<_D> _declarationMatchFn){
+    default <_D extends _java._declared> _D getDeclared(Class<_D> declarationClass, Predicate<_D> _declarationMatchFn){
         List<_D> _ds = listDeclared(declarationClass, _declarationMatchFn);
         if( _ds.isEmpty()){
             return null;
@@ -928,7 +930,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     }
 
     /**
-     * finds the first declaration {@link _java._declaredBodyPart}s of Class: ({@link _field}s,
+     * finds the first declaration {@link _java._declared}s of Class: ({@link _field}s,
      * {@link _method}s, {@link _constructor}s,{@link _constant}s, {@link _annotation._entry}s) ,
      * and inner {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s, {@link _annotation}s)
      *  with the name and returns it
@@ -936,9 +938,9 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @param name
      * @param <_D>
      */
-    default <_D extends _java._declaredBodyPart> _D getDeclared(String name ){
-        List<_java._declaredBodyPart> _ds = listDeclared();
-        Optional<_java._declaredBodyPart> od = _ds.stream().filter(d-> d.getName().equals(name)).findFirst();
+    default <_D extends _java._declared> _D getDeclared(String name ){
+        List<_java._declared> _ds = listDeclared();
+        Optional<_java._declared> od = _ds.stream().filter(d-> d.getName().equals(name)).findFirst();
         if( od.isPresent() ){
             return (_D)od.get();
         }
@@ -951,7 +953,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @param name the name of the declaration
      * @return a List of the _declarations (empty if none found)
      */
-    default <_D extends _java._declaredBodyPart> _D getDeclared(Class<_D> declarationClass, String name){
+    default <_D extends _java._declared> _D getDeclared(Class<_D> declarationClass, String name){
         List<_D> _ds = listDeclared(declarationClass);
         Optional<_D> od = _ds.stream().filter(d-> d.getName().equals(name)).findFirst();
         if( od.isPresent() ){

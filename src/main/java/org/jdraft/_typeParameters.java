@@ -164,7 +164,7 @@ public final class _typeParameters
         }
 
         default _typeParameters getTypeParameters(){
-            _java._declaredBodyPart _m = (_java._declaredBodyPart) this;
+            _java._declared _m = (_java._declared) this;
             return of( (NodeWithTypeParameters)_m.ast() );
         }
 
@@ -178,7 +178,7 @@ public final class _typeParameters
 
         /* return a list of AST typeParameters */
         default NodeList<TypeParameter> listAstTypeParameters() {
-            _java._declaredBodyPart _m = (_java._declaredBodyPart) this;
+            _java._declared _m = (_java._declared) this;
             return ((NodeWithTypeParameters)_m.ast()).getTypeParameters();
         }
 
@@ -202,19 +202,19 @@ public final class _typeParameters
         }
 
         default _WTP typeParameters(_typeParameters _tps){
-            _java._declaredBodyPart _m = (_java._declaredBodyPart) this;
+            _java._declared _m = (_java._declared) this;
             ((NodeWithTypeParameters)_m.ast()).setTypeParameters(_tps.ast());
             return (_WTP)this;
         }
 
         default _WTP typeParameters(NodeList<TypeParameter> astTypeParams){
-            _java._declaredBodyPart _m = (_java._declaredBodyPart) this;
+            _java._declared _m = (_java._declared) this;
             ((NodeWithTypeParameters)_m.ast()).setTypeParameters(astTypeParams);
             return (_WTP)this;
         }
 
         default _WTP removeTypeParameter(TypeParameter tp){
-            _java._declaredBodyPart _m = (_java._declaredBodyPart) this;
+            _java._declared _m = (_java._declared) this;
             ((NodeWithTypeParameters)_m.ast()).getTypeParameters().remove(tp);
             return (_WTP)this;
         }
@@ -224,14 +224,14 @@ public final class _typeParameters
          * @return
          */
         default _WTP removeTypeParameters(){
-            _java._declaredBodyPart _m = (_java._declaredBodyPart) this;
+            _java._declared _m = (_java._declared) this;
             ((NodeWithTypeParameters)_m.ast()).getTypeParameters().clear();
             return (_WTP)this;
         }
 
         /** does this have non empty type parameters */
         default boolean hasTypeParameters(){
-            _java._declaredBodyPart _m = (_java._declaredBodyPart) this;
+            _java._declared _m = (_java._declared) this;
             return ((NodeWithTypeParameters)_m.ast()).getTypeParameters().isNonEmpty();
         }
     }

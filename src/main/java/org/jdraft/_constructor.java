@@ -1,7 +1,6 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.Modifier;
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.JavadocComment;
@@ -32,7 +31,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
         _javadoc._withJavadoc<_constructor>, _throws._withThrows<_constructor>,
     _body._hasBody<_constructor>, _modifiers._withModifiers<_constructor>, //_modifiers._hasModifiers<_constructor>,
         _parameters._withParameters<_constructor>, _typeParameters._withTypeParameters<_constructor>,
-        _receiverParameter._withReceiverParameter<_constructor>, _java._declaredBodyPart<ConstructorDeclaration, _constructor> {
+        _receiverParameter._withReceiverParameter<_constructor>, _java._declared<ConstructorDeclaration, _constructor> {
 
     public static _constructor of( String signature ){
         return of( new String[]{signature});

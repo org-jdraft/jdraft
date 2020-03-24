@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-public interface _switch<_S extends _switch> {
+public interface _switch<_S extends _switch> extends _java._domain {
 
     SwitchNode ast();
 

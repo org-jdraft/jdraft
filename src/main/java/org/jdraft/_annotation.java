@@ -635,7 +635,7 @@ public final class _annotation
      */
     public static class _entry implements _javadoc._withJavadoc<_entry>,
             _annos._withAnnos<_entry>, _java._withNameTypeRef<AnnotationMemberDeclaration,_entry>,
-            _java._declaredBodyPart<AnnotationMemberDeclaration, _entry> {
+            _java._declared<AnnotationMemberDeclaration, _entry> {
 
         public static _entry of(AnnotationMemberDeclaration astEntry){
             return new _entry( astEntry );

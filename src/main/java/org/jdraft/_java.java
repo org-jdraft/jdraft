@@ -182,12 +182,21 @@ public interface _java {
         if( astNode instanceof Statement ){
             return _statement.of( (Statement)astNode);
         }
+        if( astNode instanceof Comment ){
+            return _comment.of( (Comment)astNode);
+        }
+        if( astNode instanceof ArrayCreationLevel){
+            return _arrayDimension.of( (ArrayCreationLevel)astNode);
+        }
         if (astNode instanceof ImportDeclaration ){
             return _import.of((ImportDeclaration) astNode);
         }
         if (astNode instanceof AnnotationExpr) {
             return _anno.of((AnnotationExpr) astNode);
-        }        
+        }
+        if( astNode instanceof PackageDeclaration ){
+            return _package.of( (PackageDeclaration)astNode);
+        }
         if (astNode instanceof AnnotationDeclaration) {
             return _annotation.of((AnnotationDeclaration) astNode);
         }
@@ -217,7 +226,7 @@ public interface _java {
 
             VariableDeclarator vd = (VariableDeclarator) astNode;
             if( vd.getParentNode().isPresent()){
-                System.out.println("PARENT "+vd.getParentNode().get().getClass());
+                //System.out.println("PARENT "+vd.getParentNode().get().getClass());
                 if( vd.getParentNode().get() instanceof FieldDeclaration){
                     return _field.of(vd);
                 }
@@ -285,65 +294,16 @@ public interface _java {
         if (astNode instanceof Type) {
             return _typeRef.of((Type) astNode);
         }
-
+        if( astNode instanceof CatchClause ){
+            return _catch.of( (CatchClause)astNode);
+        }
         if (astNode instanceof CompilationUnit) {
             return _codeUnit.of((CompilationUnit) astNode);
         }
-
-        throw new _jdraftException("Unable to create _java entity from " + astNode+" "+astNode.getClass());
-    }
-
-    /**
-     * Find all labeled statements that match the label "labelName"
-     * and flatten the label (inlining the code within the label)
-     * for example: <PRE>{@code
-     * class c{
-     *     void m(){
-     *         label: System.out.println(1);
-     *     }
-     * }
-     * _class _c = _class.of(c.class)
-     * _java.flattenLabel( _c, "label" );
-     * }</PRE>
-     * //will make c:
-     * <PRE>{@code
-     * class c{
-     *     void m(){
-     *         System.out.println(1);
-     *     }
-     * }
-     * }</PRE>
-     *
-     * <PRE>{@code
-     * class c{
-     *     void m(){
-     *         label: {
-     *             System.out.println(1);
-     *             System.out.println(2);
-     *             }
-     *     }
-     * }
-     * _class _c = _class.of(c.class)
-     * _java.flattenLabel( _c, "label" );
-     * }</PRE>
-     * //will make c:
-     * <PRE>{@code
-     * class c{
-     *     void m(){
-     *         System.out.println(1);
-     *         System.out.println(2);
-     *     }
-     * }
-     * }</PRE>
-     * @param _j
-     * @param labelName
-     */
-    static void flattenLabel(_domain _j, String labelName){
-        if( _j instanceof _multiPart){
-            Ast.flattenLabel( ((_multiPart)_j).ast(), labelName);
-            return;
+        if( astNode instanceof ModuleDeclaration ){
+            return _moduleInfo.of( (ModuleDeclaration)astNode);
         }
-        throw new _jdraftException("cannot flatten a label :"+labelName+" from "+ _j.getClass());
+        throw new _jdraftException("Unable to create _java entity from " + astNode+" "+astNode.getClass());
     }
 
     /**
@@ -370,12 +330,9 @@ public interface _java {
         MODIFIERS("modifiers", _modifiers.class), //List.class, Modifier.class),
         MODIFIER("modifier", _modifier.class),
 
-        //MODIFIERS("modifiers", List.class, Modifier.class),
-        //MODIFIER("modifier", Modifier.class),
         HEADER_COMMENT("header", Comments.class),
         JAVADOC("javadoc", _javadoc.class),
         PARAMETERS("parameters", _parameters.class),
-        //parameter
         PARAMETER("parameter", _parameter.class),
         RECEIVER_PARAMETER("receiverParameter", _receiverParameter.class),
         TYPE_PARAMETERS("typeParameters", _typeParameters.class),
@@ -389,8 +346,6 @@ public interface _java {
         IMPORTS("imports", _imports.class),
         IMPORT("import", _import.class), //todo change to _import
 
-        //IMPORTS("imports", List.class, _import.class),
-        //IMPORT("import", ImportDeclaration.class), //todo change to _import
         STATIC("static", Boolean.class),
         WILDCARD("wildcard", Boolean.class),
         ELEMENTS("elements", List.class, _entry.class), //_annotation
@@ -603,7 +558,7 @@ public interface _java {
          * The classes below are categorical interfaces that are applied to classes
          */
         Class<_multiPart> NODE = _multiPart.class;
-        Class<_declaredBodyPart> MEMBER = _declaredBodyPart.class;
+        Class<_declared> MEMBER = _declared.class;
         Class<_withName> NAMED = _withName.class;
         Class<_withNameTypeRef> NAMED_TYPE = _withNameTypeRef.class;
 
@@ -702,9 +657,9 @@ public interface _java {
     }
 
     /**
-     * A {@link _memberBodyPart} defined within a {@link _type} (that is callable/referenceable/reachable) from the outside
+     * A {@link _member} defined within a {@link _type} (that is callable/referenceable/reachable) from the outside
      * it can be associated with a larger entity or context)
-     * NOTE: each {@link _declaredBodyPart} maps directly to:
+     * NOTE: each {@link _declared} maps directly to:
      * <UL>
      *     <LI>an AST representation {@link Node}
      *     <LI></LI>a meta-representation {@link _multiPart}
@@ -724,7 +679,7 @@ public interface _java {
      *
      * NOTE:
      * <LI>{@link _initBlock} {@link InitializerDeclaration}
-     * is a {@link _memberBodyPart} but is NOT {@link _declaredBodyPart} (primarily because it is not
+     * is a {@link _member} but is NOT {@link _declared} (primarily because it is not
      * callable/referenceable/accessible outside of the Class where it is defined and does
      * not satisfy the {@link _withName} {@link _withAnnos} or {@link _withJavadoc} interfaces
      * (Not available via reflection at runtime)
@@ -732,8 +687,8 @@ public interface _java {
      * @param <N> the AST node type (i.e. {@link MethodDeclaration})
      * @param <_D> the meta-representation declaration type (i.e. {@link _method})
      */
-    interface _declaredBodyPart<N extends Node, _D extends _multiPart & _withName & _withAnnos & _withJavadoc>
-            extends _memberBodyPart<N, _D>, _withName<_D>, _withAnnos<_D>, _withJavadoc<_D> {
+    interface _declared<N extends Node, _D extends _multiPart & _withName & _withAnnos & _withJavadoc>
+            extends _member<N, _D>, _withName<_D>, _withAnnos<_D>, _withJavadoc<_D>, _withComments<N, _D>  {
 
         @Override
         default _javadoc getJavadoc() {
@@ -753,10 +708,10 @@ public interface _java {
 
     /**
      * A member within the body of a Class (something defined in the  { }) including {@link _initBlock}s.
-     * All _{@link _memberBodyPart}s are {@link _multiPart}s (they are represented by BOTH a meta-representation i.e. {@link _method},
+     * All _{@link _member}s are {@link _multiPart}s (they are represented by BOTH a meta-representation i.e. {@link _method},
      * and an AST representation {@link MethodDeclaration}.
      *
-     * {@link _initBlock} IS a {@link _memberBodyPart}, BUT IS NOT a {@link _declaredBodyPart}, because even though
+     * {@link _initBlock} IS a {@link _member}, BUT IS NOT a {@link _declared}, because even though
      * {@link _initBlock} is defined within the context of a Class, it is not named/reachable/callable or "declared"
      * and referenced outside of the class where it is defined.
      * <UL>
@@ -775,11 +730,11 @@ public interface _java {
      *
      * @param <N> the Ast Node instance type
      * @param <_N> the _draft instance type
-     * @see _declaredBodyPart (an EXTENSION of {@link _memberBodyPart}s that are also {@link _withName}...(all {@link _memberBodyPart}s are
-     * {@link _declaredBodyPart}s, ACCEPT {@link _initBlock} which is ONLY a {@link _memberBodyPart}
+     * @see _declared (an EXTENSION of {@link _member}s that are also {@link _withName}...(all {@link _member}s are
+     * {@link _declared}s, ACCEPT {@link _initBlock} which is ONLY a {@link _member}
      */
-    interface _memberBodyPart<N extends Node, _N extends _multiPart>
-            extends _multiPart<N, _N> {
+    interface _member<N extends Node, _N extends _multiPart>
+            extends _multiPart<N, _N>, _withComments<N, _N> {
 
         /**
          * Returns the parent _member for this _member (if it exists)
@@ -795,7 +750,7 @@ public interface _java {
          * @param <_M>
          * @return
          */
-        default <_M extends _memberBodyPart> _M getParentMember(){
+        default <_M extends _member> _M getParentMember(){
             if(this instanceof _field){
                 _field _f = (_field)this;
                 FieldDeclaration fd = _f.getFieldDeclaration();
@@ -814,6 +769,77 @@ public interface _java {
                 }
                 return null; //we didnt find a parent that was a BodyDeclaration
             }
+        }
+    }
+
+    interface _withComments <N extends Node, _N extends _node> extends _node<N, _N> {
+
+        /**
+         * Gets the comment on the node (or null if there is no node on the)
+         * @param <_C>
+         * @return
+         */
+        default <_C extends _comment> _C getComment(){
+            N n = ast();
+            if( n.getComment().isPresent() ){
+                return _comment.of( n.getComment().get() );
+            }
+            return null;
+        }
+
+        /**
+         * Lists all comments Attributed to or contained within the positional range (either attributed or orphaned)
+         * of this
+         * @return
+         */
+        default List<_comment> listComments(){
+            return listComments(t->true);
+        }
+
+        /**
+         * Lists the comments that abide by the matchFn predicate
+         * @param matchFn
+         * @return
+         */
+        default List<_comment> listComments(Predicate<_comment> matchFn){
+            Node basedNode = null;
+            if( this instanceof _codeUnit && ((_codeUnit)this).isTopLevel() ){
+                basedNode = ((_codeUnit)this).astCompilationUnit();
+            }
+            List<_comment> _cs = new ArrayList<>();
+            basedNode.getAllContainedComments().stream()
+                    .map( c-> _comment.of(c))
+                    .filter( c-> matchFn.test( (_comment)c))
+                    .forEach( c -> _cs.add((_comment)c));
+            return _cs;
+        }
+
+        default _N forComments( Consumer<_comment> actionFn){
+            return forComments( t-> true, actionFn);
+        }
+
+        default _N forComments( Predicate<_comment> matchFn, Consumer<_comment> actionFn){
+            Node basedNode = null;
+            if( this instanceof _codeUnit && ((_codeUnit)this).isTopLevel() ){
+                basedNode = ((_codeUnit)this).astCompilationUnit();
+            }
+            basedNode.getAllContainedComments().stream()
+                    .map( c-> _comment.of(c))
+                    .filter( c-> matchFn.test( (_comment)c) )
+                    .forEach( c-> actionFn.accept( (_comment)c) );
+            return (_N)this;
+        }
+
+        default List<_blockComment> listBlockComments(){
+            return listComments( c-> c instanceof _blockComment).stream().map(c -> (_blockComment)c).collect(Collectors.toList());
+        }
+
+        default List<_lineComment> listLineComments(){
+            return listComments( c-> c instanceof _lineComment).stream().map(c -> (_lineComment)c).collect(Collectors.toList());
+        }
+
+        default List<_javadocComment> listJavadocComments(){
+            return listComments( c-> c instanceof _javadocComment).stream().map(c -> (_javadocComment)c).collect(Collectors.toList());
         }
     }
 
@@ -948,7 +974,7 @@ public interface _java {
      * {@link _multiPart} entity (having more than one possible child) that maps directly to an AST {@link Node}
      * for example:
      * <UL>
-     * <LI>{@link _declaredBodyPart}s</LI>
+     * <LI>{@link _declared}s</LI>
      * <UL>
      *     <LI>{@link _type} {@link TypeDeclaration}</LI>
      *     <LI>{@link _annotation} {@link AnnotationDeclaration}
@@ -961,7 +987,7 @@ public interface _java {
      *     <LI>{@link _constructor} {@link ConstructorDeclaration}</LI>
      *     <LI>{@link _field} {@link FieldDeclaration}</LI>
      * </UL>
-     * <LI>{@link _memberBodyPart}s</LI>
+     * <LI>{@link _member}s</LI>
      * <UL>
      *         <LI>{@link _initBlock} {@link InitializerDeclaration}</LI>
      * </UL>

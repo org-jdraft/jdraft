@@ -3,6 +3,7 @@ package org.jdraft.bot;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
+import org.jdraft.Print;
 import org.jdraft._expression;
 import org.jdraft._int;
 import org.jdraft._java._domain;
@@ -137,7 +138,17 @@ public class $int implements $bot.$node<IntegerLiteralExpr, _int, $int>,
             if (stencil == null) {
                 return new Selected(_i, new Tokens());
             }
-            Tokens ts = stencil.parse(_i.toString());
+            Tokens ts = null;
+            if( _i.ast().getComment().isPresent() ){
+                //each bot should have a $comment, so if I require a comment I can check here
+                String str = _i.ast().getComment().get().getCommentedNode().get().toString(Print.PRINT_NO_COMMENTS);
+
+                //System.out.println( str );
+                //trick the node to get ONLY the uncommented node
+                ts = stencil.parse(_i.ast().getComment().get().getCommentedNode().get().toString(Print.PRINT_NO_COMMENTS));
+            } else {
+                ts = stencil.parse(_i.toString());
+            }
             if (ts != null) {
                 return new Selected(_i, ts);
             }

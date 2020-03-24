@@ -140,7 +140,7 @@ public enum Comments {
         if( bs != null ){
             int statementIndex = At.getStatementIndex(bs, comment.getRange().get().begin);
             for(int i=0;i<statements.length;i++) {
-                bs.addStatement(statementIndex+i, statements[i]);
+                bs.addStatement(statementIndex+i, statements[i].clone());
             }
             comment.remove();
             return bs;

@@ -2,7 +2,10 @@ package org.jdraft;
 
 import com.github.javaparser.ast.stmt.*;
 
-public interface _statement<S extends Statement, _S extends _statement> extends _java._node<S, _S> {
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+
+public interface _statement<S extends Statement, _S extends _statement> extends _java._node<S, _S>, _java._withComments<S, _S> {
 
     /**
      * Refine the ast() method to be more strict (only return Statements)
@@ -74,6 +77,115 @@ public interface _statement<S extends Statement, _S extends _statement> extends 
     Class<? extends _statement>[] ALL = new Class[]{
             ASSERT, BLOCK, BREAK, CONTINUE, DO, EMPTY, CONSTRUCTOR_CALL, EXPRESSION_STMT, FOR_EACH,
             FOR, IF, LABELED, LOCAL_CLASS, RETURN, SYNCHRONIZED, SWITCH, THROW, TRY, WHILE, YIELD};
+
+    /**
+     * Resolves and returns the AST Statement representing the body of the
+     * lambda expression.for example:<PRE>
+     * //call the method f with a lambdaExpression
+     * Statement st = Stmt.of( (String s) -> System.out.println(s) );
+     * assertEquals( Stmt.of("System.out.println(s);"), st );
+     * </PRE>
+     * NOTE: the source of the calling method must be resolveable via draft
+     * @see org.jdraft.io._io#addInFilePath(java.lang.String)
+     * @see org.jdraft.io._io#addInProjectPath(java.lang.String)
+     *
+     * NOTE: IMPORTANT CALLER NOTE : TO ONLY HAVE (1) caller site PER LINE
+     * I.E. DONT DO THIS:<PRE>
+     *     Stmt.of( ()->assert(1==1) ), Stmt.of( ()->assert(2==2))
+     * </PRE>
+     * @param c the lambda
+     * @return the AST LambdaExpr representation for the runtime Command
+     */
+    static _statement of( Ex.Command c ){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        return of(Stmt.from( ste ));
+    }
+
+    /**
+     * Resolves and returns the AST Statement representing the body of the
+     * lambda expression.for example:<PRE>
+     * //call the method f with a lambdaExpression
+     * Statement st = Stmt.of( (String s) -> System.out.println(s) );
+     * assertEquals( Stmt.of("System.out.println(s);"), st );
+     * </PRE>
+     * NOTE: the source of the calling method must be resolveable via draft
+     * @param <T>
+     * @see org.jdraft.io._io#addInFilePath(java.lang.String)
+     * @see org.jdraft.io._io#addInProjectPath(java.lang.String)
+     *
+     * @param c the lambda
+     * @return the AST LambdaExpr representation for the runtime Command
+     */
+    static <T extends Object> _statement of( Consumer<T> c ){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        return of(Stmt.from( ste ));
+    }
+
+    /**
+     * Resolves and returns the AST Statement representing the body of the
+     * lambda expression.for example:<PRE>
+     * //call the method f with a lambdaExpression
+     * Statement st = Stmt.of( (String s) -> System.out.println(s) );
+     * assertEquals( Stmt.of("System.out.println(s);"), st );
+     * </PRE>
+     * NOTE: the source of the calling method must be resolveable via draft
+     * @param <T>
+     * @param <U>
+     * @see org.jdraft.io._io#addInFilePath(java.lang.String)
+     * @see org.jdraft.io._io#addInProjectPath(java.lang.String)
+     *
+     * @param c the lambda
+     * @return the AST LambdaExpr representation for the runtime Command
+     */
+    static <T extends Object, U extends Object> _statement of( BiConsumer<T, U> c ){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        return of( Stmt.from( ste ));
+    }
+
+    /**
+     * Resolves and returns the AST Statement representing the body of the
+     * lambda expression.for example:<PRE>
+     * //call the method f with a lambdaExpression
+     * Statement st = Stmt.of( (String s) -> System.out.println(s) );
+     * assertEquals( Stmt.of("System.out.println(s);"), st );
+     * </PRE>
+     * NOTE: the source of the calling method must be resolveable via draft
+     * @param <T>
+     * @param <U>
+     * @param <V>
+     * @see org.jdraft.io._io#addInFilePath(java.lang.String)
+     * @see org.jdraft.io._io#addInProjectPath(java.lang.String)
+     *
+     * @param c the lambda
+     * @return the AST LambdaExpr representation for the runtime Command
+     */
+    static <T extends Object, U extends Object, V extends Object> _statement of( Ex.TriConsumer<T, U, V> c ){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        return of( Stmt.from( ste ));
+    }
+
+    /**
+     * Resolves and returns the AST Statement representing the body of the
+     * lambda expression.for example:<PRE>
+     * //call the method f with a lambdaExpression
+     * Statement st = Stmt.of( (String s) -> System.out.println(s) );
+     * assertEquals( Stmt.of("System.out.println(s);"), st );
+     * </PRE>
+     * NOTE: the source of the calling method must be resolveable via draft
+     * @param <T>
+     * @param <U>
+     * @param <V>
+     * @param <W>
+     * @see org.jdraft.io._io#addInFilePath(java.lang.String)
+     * @see org.jdraft.io._io#addInProjectPath(java.lang.String)
+     *
+     * @param c the lambda
+     * @return the AST LambdaExpr representation for the runtime Command
+     */
+    static <T extends Object, U extends Object, V extends Object, W extends Object> _statement of( Ex.QuadConsumer<T, U, V, W> c ){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        return of( Stmt.from(ste) );
+    }
 
     static _statement of( String...stmtCode ){
         return of(Stmt.of(stmtCode));

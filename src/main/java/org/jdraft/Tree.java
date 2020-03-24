@@ -1657,16 +1657,16 @@ public enum Tree {
                     } );
             return astRootNode;
         }
-        else if( _javaClass == _java._declaredBodyPart.class ) {
+        else if( _javaClass == _java._declared.class ) {
             in(tt, levels,
                     astRootNode,
                     BodyDeclaration.class,
                     t-> !t.isInitializerDeclaration(), //static Blocks are not members
                     n-> {
-                        _java._declaredBodyPart _n = (_java._declaredBodyPart)_java.of(n);
+                        _java._declared _n = (_java._declared)_java.of(n);
 
-                        if( ((Predicate<_java._declaredBodyPart>)_javaMatchFn).test( _n) ){
-                            ((Consumer<_java._declaredBodyPart>)_javaAction).accept( _n);
+                        if( ((Predicate<_java._declared>)_javaMatchFn).test( _n) ){
+                            ((Consumer<_java._declared>)_javaAction).accept( _n);
                         }
                     });
             return astRootNode;

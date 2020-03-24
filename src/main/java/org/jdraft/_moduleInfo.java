@@ -10,7 +10,9 @@ import java.util.*;
  * "module-info.java" file describing the module dependencies
  * 
  */
-public class _moduleInfo implements _codeUnit<_moduleInfo>, _java._multiPart<CompilationUnit, _moduleInfo> {
+public class _moduleInfo
+        implements _codeUnit<_moduleInfo>, _java._multiPart<CompilationUnit, _moduleInfo>,
+        _java._withComments<CompilationUnit, _moduleInfo> {
 
     public CompilationUnit astCompUnit;
     private final _javadoc.JavadocHolderAdapter javadocHolder;
@@ -120,6 +122,10 @@ public class _moduleInfo implements _codeUnit<_moduleInfo>, _java._multiPart<Com
 
     public static _moduleInfo of(CompilationUnit astCu) {
         return new _moduleInfo(astCu);
+    }
+
+    public static _moduleInfo of( ModuleDeclaration md ){
+        return new _moduleInfo( md.findCompilationUnit().get());
     }
 
     public _moduleInfo(CompilationUnit cu) {

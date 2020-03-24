@@ -4,7 +4,8 @@ import com.github.javaparser.ast.expr.*;
 
 import java.util.Objects;
 
-public interface _expression<E extends Expression, _E extends _expression> extends _java._node<E, _E> {
+public interface _expression<E extends Expression, _E extends _expression>
+        extends _java._node<E, _E>, _java._withComments<E, _E> {
 
     default boolean is(String... stringRep) {
         try{

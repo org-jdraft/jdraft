@@ -1,6 +1,5 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.JavadocComment;
@@ -23,7 +22,7 @@ import java.util.stream.Collectors;
  * }
  * </PRE>
  */
-public class _constant implements _java._declaredBodyPart<EnumConstantDeclaration, _constant>,
+public class _constant implements _java._declared<EnumConstantDeclaration, _constant>,
         _javadoc._withJavadoc<_constant>,
         _annos._withAnnos<_constant>,
         _method._withMethods<_constant>,
@@ -162,7 +161,7 @@ public class _constant implements _java._declaredBodyPart<EnumConstantDeclaratio
      * @param _ds any declared (_method, _field) to the constant classBody
      * @return the modified _constant
      */
-    public _constant add( _java._declaredBodyPart... _ds ){
+    public _constant add( _java._declared... _ds ){
         Arrays.stream(_ds).forEach(_d -> this.astConstant.getClassBody().add( (BodyDeclaration)_d.ast()) );
         return this;
     }

@@ -3,9 +3,14 @@ package org.jdraft;
 import com.github.javaparser.ast.comments.BlockComment;
 import org.jdraft.text.Text;
 
+import java.util.List;
 import java.util.Objects;
 
-public class _blockComment implements _comment, _java._node<BlockComment, _blockComment> {
+public class _blockComment implements _comment<BlockComment, _blockComment>, _java._node<BlockComment, _blockComment> {
+
+    public static _blockComment of(BlockComment bc ){
+        return new _blockComment( bc );
+    }
 
     public static _blockComment of(String... commentContents){
         return new _blockComment( Ast.blockComment( commentContents) );
@@ -15,23 +20,64 @@ public class _blockComment implements _comment, _java._node<BlockComment, _block
      * upon creation, or after modifying through this interface,
      * do we prefix the comment to
      * after this is modified
-     */
-    public boolean autoFormatPrefixStar = true;
 
-    public BlockComment astBlockComment;
+    public boolean autoFormatPrefixStar = true;
+    */
+
+    public BlockComment astComment;
 
     public _blockComment(BlockComment lc ){
-        this.astBlockComment = lc;
+        this.astComment = lc;
     }
+
+    public String getContents(){
+        return this.astComment.getContent();
+    }
+
+
+
+    @Override
+    public _blockComment setContents( String...contents ){
+        return this;
+        /*
+        String str = Text.combine(contents);
+        List<String> lines = Text.lines(str);
+        if( lines.size() == 1){
+            this.astComment.setContent(lines.get(0));
+        }
+        //multiple line block comment
+        StringBuilder sb = new StringBuilder();
+        for( int i=0;i<lines.size(); i++ ){
+            if( i == 0 ){
+                lines.get(i).trim().startsWith("/*")
+            }
+            if( i > 0 ) {
+                if (! (lines.get(i).trim().startsWith("*") )){
+                    sb.append( " * ").append(lines.get(i) );
+                }
+            }
+        }
+        this.astComment.setContent( )
+         */
+    }
+
+    public _java._domain getCommentedNode(){
+        if( astComment.getCommentedNode().isPresent()){
+            return _java.of( astComment.getCommentedNode().get());
+        }
+        return null;
+    }
+
+
 
     @Override
     public _blockComment copy() {
-        return new _blockComment( this.astBlockComment.clone());
+        return new _blockComment( this.astComment.clone());
     }
 
     @Override
     public BlockComment ast() {
-        return astBlockComment;
+        return astComment;
     }
 
     @Override
@@ -47,16 +93,16 @@ public class _blockComment implements _comment, _java._node<BlockComment, _block
     public boolean equals(Object o){
         if( o instanceof _blockComment){
             _blockComment _bc = (_blockComment)o;
-            return Objects.equals( _bc.astBlockComment, this.astBlockComment );
+            return Objects.equals( _bc.astComment, this.astComment);
         }
         return false;
     }
 
     public int hashCode(){
-        return this.astBlockComment.hashCode() * 31;
+        return this.astComment.hashCode() * 31;
     }
 
     public String toString(){
-        return this.astBlockComment.toString();
+        return this.astComment.toString();
     }
 }

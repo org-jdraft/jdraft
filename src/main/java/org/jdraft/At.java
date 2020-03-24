@@ -15,7 +15,7 @@ import java.util.Optional;
 
 /**
  * Ways of resolving individual {@link com.github.javaparser.ast.expr.Expression}s, {@link com.github.javaparser.ast.stmt.Statement},
- * {@link BlockStmt}s, {@link BodyDeclaration}s / {@link _java._memberBodyPart}s, etc. based on Position (line, column)
+ * {@link BlockStmt}s, {@link BodyDeclaration}s / {@link _java._member}s, etc. based on Position (line, column)
  * within a parsed {@link Node} / {@link _java._domain} object
  *
  * @author Eric
@@ -301,7 +301,7 @@ public interface At {
      * @param <_M>
      * @return
      */
-    static <_M extends _java._memberBodyPart> _M  _memberAt(Class clazz, int line, int column) {
+    static <_M extends _java._member> _M  _memberAt(Class clazz, int line, int column) {
         return _memberAt( Ast.of(clazz), Math.max( line, 1), column);
     }
 
@@ -315,7 +315,7 @@ public interface At {
      * @param <_M>
      * @return
      */
-    static <_M extends _java._memberBodyPart> _M  _memberAt(_java._memberBodyPart model, int line, int column) {
+    static <_M extends _java._member> _M  _memberAt(_java._member model, int line, int column) {
         return _memberAt(model.ast(), line, column);
     }
 
@@ -340,7 +340,7 @@ public interface At {
      * @param <_M> a _member implementation
      * @return
      */
-    static <_M extends _java._memberBodyPart> _M  _memberAt(Node top, int line, int column) {
+    static <_M extends _java._member> _M  _memberAt(Node top, int line, int column) {
         BodyDeclaration astM = At.memberAt(top, line, column);
         if( astM == null ){
             return null;
@@ -368,7 +368,7 @@ public interface At {
      * @param <_M> a _member implementation
      * @return
      */
-    static <_M extends _java._memberBodyPart> _M _memberAt(Class clazz, int line ) {
+    static <_M extends _java._member> _M _memberAt(Class clazz, int line ) {
         return _memberAt( Ast.of(clazz), line);
     }
 
@@ -392,7 +392,7 @@ public interface At {
      * @param <_M>
      * @return
      */
-    static <_M extends _java._memberBodyPart> _M  _memberAt(_java._memberBodyPart _mem, int line ) {
+    static <_M extends _java._member> _M  _memberAt(_java._member _mem, int line ) {
         return _memberAt(_mem.ast(), line );
     }
 
@@ -416,7 +416,7 @@ public interface At {
      * @param <_M> a _member implementation
      * @return an instance of a BodyDeclaration AST Node (or null if not found)
      */
-    static <_M extends _java._memberBodyPart> _M _memberAt(Node top, int line ) {
+    static <_M extends _java._member> _M _memberAt(Node top, int line ) {
         BodyDeclaration astM = At.memberAt(top, line);
         if( astM == null ){
             return null;

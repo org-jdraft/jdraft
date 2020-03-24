@@ -73,8 +73,8 @@ public class _javadocDiff implements _differ<_javadoc, _java._multiPart> {
                 //System.out.println("RIGHT JAVADOC"+right.getJavadoc() );
                 //System.out.println( "ARE THEY EQUAL " + left.getJavadoc().equals( right.getJavadoc() ));
             } else{
-                ((_java._declaredBodyPart)leftParent).removeJavadoc();
-                ((_java._declaredBodyPart)rightParent).removeJavadoc();
+                ((_java._declared)leftParent).removeJavadoc();
+                ((_java._declared)rightParent).removeJavadoc();
             }
         }
 

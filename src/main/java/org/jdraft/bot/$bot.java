@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * B is the underlying syntactic representation
+ * B is the underlying (JavaParser AST) syntactic representation
  * _B is the _java.domain wrapper for the syntax entity
  * $B the bot type
  *
@@ -319,10 +319,6 @@ public interface $bot<B, _B, $B>
         } );
     }
 
-
-
-
-
     /** */
     default _B firstIn(Class<?> clazz) {
         return firstIn(clazz, p->true);
@@ -387,6 +383,12 @@ public interface $bot<B, _B, $B>
         return selectFirstIn(astNode, t-> true);
     }
 
+    /**
+     *
+     * @param astNode
+     * @param predicate
+     * @return
+     */
     Select<_B> selectFirstIn(Node astNode, Predicate<Select<_B>>predicate);
 
 
@@ -721,7 +723,6 @@ public interface $bot<B, _B, $B>
 
         }
 
-
         default <N extends Node> N removeIn(N astNode) {
             return forEachIn(astNode, p->true, n-> n.ast().removeForced());
         }
@@ -731,11 +732,7 @@ public interface $bot<B, _B, $B>
             return astNode;
         }
 
-        default <_CT extends _type<?,?>, _N extends _java._node<?, ?>> _CT replaceSelectedIn(Class<?> clazz, Template<_N> replaceNode) {
-            _CT _ct = _type.of(clazz);
-            replaceSelectedIn(_ct.astCompilationUnit(), t->true, replaceNode);
-            return _ct;
-        }
+
 
         default <_CT extends _type<?,?>> _CT replaceIn(Class<?> clazz, Node replaceNode) {
             return forEachIn(clazz, p-> p.ast().replace(replaceNode.clone()));
@@ -772,6 +769,12 @@ public interface $bot<B, _B, $B>
 
         default <N extends Node, _CT extends _type<?,?>> N replaceIn(N node, _P _replace) {
             return forEachIn(node, p-> p.ast().replace(_replace.ast().clone()));
+        }
+
+        default <_CT extends _type<?,?>, _N extends _java._node<?, ?>> _CT replaceSelectedIn(Class<?> clazz, Template<_N> replaceNode) {
+            _CT _ct = _type.of(clazz);
+            replaceSelectedIn(_ct.astCompilationUnit(), t->true, replaceNode);
+            return _ct;
         }
 
         default <_CT extends _type<?,?>> _CT replaceSelectedIn(Class<?> clazz, Function<Select<_P>, Node> replaceDeriver) {
@@ -837,9 +840,6 @@ public interface $bot<B, _B, $B>
             }
             replaceSelectedIn(_j.ast(), selectMatchFn, replaceDeriver);
             return _j;
-
-            //replaceSelectedIn(_j.ast(), selectMatchFn, replaceDeriver);
-            //return _j;
         }
 
         default <N extends Node> N replaceSelectedIn(N astNode, Function<Select<_P>, Node> replaceDeriver) {

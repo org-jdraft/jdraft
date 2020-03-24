@@ -22,7 +22,7 @@ import java.util.function.Predicate;
  * @param <D>
  * @param <$D>
  */
-public interface $declared <D extends _java._declaredBodyPart, $D extends $pattern> extends $member<D,$D> {
+public interface $declared <D extends _java._declared, $D extends $pattern> extends $member<D,$D> {
 
     $name get$Name();
 

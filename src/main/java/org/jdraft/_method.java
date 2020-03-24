@@ -36,7 +36,7 @@ public final class _method
         _typeParameters._withTypeParameters<_method>, _receiverParameter._withReceiverParameter<_method>,
         _modifiers._withStatic<_method>, _modifiers._withNative<_method>, _modifiers._withFinal<_method>,
         _modifiers._withAbstract<_method>, _modifiers._withSynchronized<_method>,
-        _modifiers._withStrictFp<_method>, _java._declaredBodyPart<MethodDeclaration, _method> {
+        _modifiers._withStrictFp<_method>, _java._declared<MethodDeclaration, _method> {
 
     public static _method of(String methodDecl) {
         return of(new String[]{methodDecl});

@@ -70,7 +70,7 @@ public class _mergeInterfaceToClass extends TestCase {
             if( _m instanceof _modifiers._withStatic && ((_modifiers._withStatic) _m).isStatic()){
                 _modifiers._withModifiers _wm = ((_modifiers._withModifiers)_m.copy());
                 _wm.getModifiers().setPublic().setStatic();
-                _c.add( (_java._memberBodyPart)_wm );
+                _c.add( (_java._member)_wm );
             }
         });
 

@@ -32,7 +32,7 @@ import org.jdraft.text.Text;
  */
 public final class _initBlock
         implements _body._hasBody<_initBlock>, _javadoc._withJavadoc<_initBlock>,
-        _java._memberBodyPart<InitializerDeclaration, _initBlock> {
+        _java._member<InitializerDeclaration, _initBlock> {
 
     /**
      *

@@ -72,6 +72,7 @@ public class _labeledStmt implements _statement<LabeledStmt, _labeledStmt>,
         this.astStmt = rs;
     }
 
+
     @Override
     public _labeledStmt copy() {
         return new _labeledStmt( this.astStmt.clone());
@@ -164,4 +165,60 @@ public class _labeledStmt implements _statement<LabeledStmt, _labeledStmt>,
     public int hashCode(){
         return 31 * this.ast().hashCode();
     }
+
+
+
+    /**
+     * Find all labeled statements that match the label "labelName"
+     * and flatten the label (inlining the code within the label)
+     * for example: <PRE>{@code
+     * class c{
+     *     void m(){
+     *         label: System.out.println(1);
+     *     }
+     * }
+     * _class _c = _class.of(c.class)
+     * _java.flattenLabel( _c, "label" );
+     * }</PRE>
+     * //will make c:
+     * <PRE>{@code
+     * class c{
+     *     void m(){
+     *         System.out.println(1);
+     *     }
+     * }
+     * }</PRE>
+     *
+     * <PRE>{@code
+     * class c{
+     *     void m(){
+     *         label: {
+     *             System.out.println(1);
+     *             System.out.println(2);
+     *             }
+     *     }
+     * }
+     * _class _c = _class.of(c.class)
+     * _java.flattenLabel( _c, "label" );
+     * }</PRE>
+     * //will make c:
+     * <PRE>{@code
+     * class c{
+     *     void m(){
+     *         System.out.println(1);
+     *         System.out.println(2);
+     *     }
+     * }
+     * }</PRE>
+     * @param _j
+     * @param labelName
+     */
+    public static void flattenLabel(_java._domain _j, String labelName){
+        if( _j instanceof _java._multiPart){
+            Ast.flattenLabel( ((_java._multiPart)_j).ast(), labelName);
+            return;
+        }
+        throw new _jdraftException("cannot flatten a label :"+labelName+" from "+ _j.getClass());
+    }
+
 }

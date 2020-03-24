@@ -281,15 +281,15 @@ public class _new implements _expression<ObjectCreationExpr, _new>,
      * </PRE>
      * @return
      */
-    public List<_java._declaredBodyPart> listAnonymousDeclarations(){
-        List<_java._declaredBodyPart> ds =  new ArrayList<>();
+    public List<_java._declared> listAnonymousDeclarations(){
+        List<_java._declared> ds =  new ArrayList<>();
         if( this.oce.getAnonymousClassBody().isPresent()){
-            oce.getAnonymousClassBody().get().forEach(b -> ds.add((_java._declaredBodyPart)_java.of(b)));
+            oce.getAnonymousClassBody().get().forEach(b -> ds.add((_java._declared)_java.of(b)));
         }
         return ds;
     }
 
-    public List<_java._declaredBodyPart> listAnonymousDeclarations(Predicate<_java._declaredBodyPart> _matchFn){
+    public List<_java._declared> listAnonymousDeclarations(Predicate<_java._declared> _matchFn){
         return listAnonymousDeclarations().stream().filter(_matchFn).collect(Collectors.toList());
     }
 
@@ -299,7 +299,7 @@ public class _new implements _expression<ObjectCreationExpr, _new>,
      * @param _dec
      * @return
      */
-    public _new addAnonymousBodyDeclarations( _java._declaredBodyPart... _dec ){
+    public _new addAnonymousBodyDeclarations( _java._declared... _dec ){
         Arrays.stream(_dec).forEach( d -> this.oce.addAnonymousClassBody( (BodyDeclaration)d.ast() ) );
         return this;
     }
@@ -323,9 +323,9 @@ public class _new implements _expression<ObjectCreationExpr, _new>,
      * @param memberFn
      * @return
      */
-    public _new forAnonymousBodyDeclarations(Consumer<_java._declaredBodyPart> memberFn){
+    public _new forAnonymousBodyDeclarations(Consumer<_java._declared> memberFn){
         if( this.oce.getAnonymousClassBody().isPresent() ){
-            this.oce.getAnonymousClassBody().get().stream().map(m -> (_java._declaredBodyPart)_java.of(m)).forEach(m -> memberFn.accept(m));
+            this.oce.getAnonymousClassBody().get().stream().map(m -> (_java._declared)_java.of(m)).forEach(m -> memberFn.accept(m));
         }
         return this;
     }
@@ -341,9 +341,9 @@ public class _new implements _expression<ObjectCreationExpr, _new>,
      * @param memberFn
      * @return
      */
-    public _new forAnonymousBodyDeclarations(Predicate<_java._declaredBodyPart> memberMatchFn, Consumer<_java._declaredBodyPart> memberFn){
+    public _new forAnonymousBodyDeclarations(Predicate<_java._declared> memberMatchFn, Consumer<_java._declared> memberFn){
         if( this.oce.getAnonymousClassBody().isPresent() ){
-            this.oce.getAnonymousClassBody().get().stream().map(m -> (_java._declaredBodyPart)_java.of(m))
+            this.oce.getAnonymousClassBody().get().stream().map(m -> (_java._declared)_java.of(m))
                     .filter(memberMatchFn).forEach(m -> memberFn.accept(m));
         }
         return this;

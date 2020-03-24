@@ -26,7 +26,7 @@ public @interface _$ {
     class Parameterize {
 
 
-        public static <C extends _java._memberBodyPart & _annos._withAnnos> C update(C _c) {
+        public static <C extends _java._member & _annos._withAnnos> C update(C _c) {
             List<_anno> _ps = _c.listAnnos("_$");
             if (_ps != null) {
                 C _cl = (C) _c.copy(); //make a copy as to not modify the original
@@ -65,7 +65,7 @@ public @interface _$ {
             return _c;
         }
 
-        public static <C extends _java._memberBodyPart & _annos._withAnnos> String toString(C _c) {
+        public static <C extends _java._member & _annos._withAnnos> String toString(C _c) {
             List<_anno> _ps = _c.listAnnos("_$");
             if (_ps != null) {
                 C _cl = (C) _c.copy(); //make a copy as to not modify the original
