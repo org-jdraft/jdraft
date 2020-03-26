@@ -998,6 +998,7 @@ public enum Ast {
                 if (localCand.get(0).getComment().isPresent()) {
                     coid.setComment(localCand.get(0).getComment().get());
                 }
+                cu = Ast.reparse(cu); //reparse to ensure the line numbers and positions are re evaluated
                 if (coid.getAnnotationByClass(cache.class).isPresent()) {
                     coid.getAnnotations().remove(coid.getAnnotationByClass(cache.class).get());
                     AST_CACHE_MAP.put(clazz, coid);
@@ -1013,6 +1014,7 @@ public enum Ast {
                 if (localCand.get(0).getComment().isPresent()) {
                     coid.setComment(localCand.get(0).getComment().get());
                 }
+                cu = Ast.reparse(cu); //reparse to ensure the line numbers and positions are re evaluated
                 if (coid.getAnnotationByClass(cache.class).isPresent()) {
                     coid.getAnnotations().remove(coid.getAnnotationByClass(cache.class).get());
                     AST_CACHE_MAP.put(clazz, coid);

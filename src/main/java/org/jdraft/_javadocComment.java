@@ -3,7 +3,6 @@ package org.jdraft;
 import com.github.javaparser.ast.comments.JavadocComment;
 import org.jdraft.text.Text;
 
-import java.util.List;
 import java.util.Objects;
 
 public class _javadocComment implements _comment<JavadocComment, _javadocComment>, _java._node<JavadocComment, _javadocComment> {
@@ -22,10 +21,12 @@ public class _javadocComment implements _comment<JavadocComment, _javadocComment
         this.astComment = lc;
     }
 
+    /*
     @Override
     public String getContents(){
         return astComment.getContent();
     }
+     */
 
     public _java._domain getCommentedNode(){
         if( astComment.getCommentedNode().isPresent()){
@@ -34,6 +35,7 @@ public class _javadocComment implements _comment<JavadocComment, _javadocComment
         return null;
     }
 
+    /*
     @Override
     public _javadocComment setContents( String...contents ) {
         return this;
@@ -43,6 +45,7 @@ public class _javadocComment implements _comment<JavadocComment, _javadocComment
     public List<String> listContents(){
         return Text.lines( this.astComment.getContent() );
     }
+     */
 
     @Override
     public _javadocComment copy() {

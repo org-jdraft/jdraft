@@ -1,19 +1,14 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.comments.LineComment;
-import com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt;
 import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
-import com.github.javaparser.ast.nodeTypes.NodeWithOptionalBlockStmt;
 import org.jdraft.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  *
@@ -71,32 +66,7 @@ public interface _comment<C extends Comment, _C extends _comment> extends _java.
      * Gets the contents of the Javadoc as a single String
      * @return
      */
-    public String getContents();
-
-    /**
-     * Because _blockComments/ _javadocComments can span multiple lines
-     *  / *
-     *    * contents
-     *    * second line
-     *    * /
-     *  the "actual contents" within the block contents should "really" only be (2) lines :
-     *  [0] "contents"
-     *  [1] "second line"
-     *
-     *  (or a single String "contents\nsecond line", because the prefix spaces, tabs and *'s are
-     *   not really relevant contents of the comment)
-     *
-     *   alternatively, just "getContents()" returns:
-     *   [0] ""
-     *   [1] "   * contents"
-     *   [2] "   * second line"
-     *   [3] "  "
-     *
-     * ...this will return what is meant to be Content
-     * (and not extraneous spaces, tabs and *s to signify a comment line)
-     * @return
-     */
-    default String getNormalizedContents(){
+    default String getContents(){
         return Comments.getContent(ast());
     }
 
@@ -107,21 +77,6 @@ public interface _comment<C extends Comment, _C extends _comment> extends _java.
     default List<String> listContents(){
         return Text.lines( getContents() );
     }
-
-    /**
-     *
-     * @return
-     */
-    default List<String> listNormalizedContents(){
-        return Text.lines( getNormalizedContents() );
-    }
-
-    /**
-     * Sets the entire contents of the comment
-     * @param contents
-     * @return
-     */
-    public _C setContents( String...contents );
 
     default boolean isOrphaned(){
         return this.ast().isOrphan();
@@ -145,6 +100,231 @@ public interface _comment<C extends Comment, _C extends _comment> extends _java.
             Arrays.stream( nodeClasses ).anyMatch( c-> c.isAssignableFrom(this.getCommentedNode().getClass()));
         }
         return false;
+    }
+
+    /**
+     * Sets the entire contents of the comment
+     * @param contents
+     * @return
+     */
+    default _C setContents( String...contents ){
+        return setContents( Text.combine(contents) );
+    }
+
+    /**
+     * Sets the contents of the comment
+     * @param contents
+     * @return
+     */
+    default _C setContents(String contents){
+        return setContents( _blockComment.STANDARD_STYLE, contents);
+    }
+
+    /**
+     *
+     * @param style
+     * @param contents
+     * @return
+     */
+    default _C setContents(_style style, String...contents){
+        return setContents( style, Text.combine(contents) );
+    }
+
+    /**
+     * Because {@link _blockComment}s/ {@link _javadocComment}s can span multiple lines
+     *  / **
+     *    * contents
+     *    * second line
+     *    * /
+     *  the "actual contents" within the block contents should "really" only be (2) lines :
+     *  [0] "contents"
+     *  [1] "second line"
+     *
+     *  (or a single String "contents\nsecond line", because the prefix spaces, tabs and *'s are
+     *   not really relevant contents of the comment)
+     *
+     *   alternatively, just "getContents()" returns:
+     *   [0] ""
+     *   [1] "   * contents"
+     *   [2] "   * second line"
+     *   [3] "  "
+     *
+     * ...this will return what is meant to be Content
+     * (and not extraneous spaces, tabs and *s to signify a comment line)
+     * @return
+     */
+    default _C setContents(_style style, String contents){
+        if( this.ast().getRange().isPresent()){
+            //it's already attached, So I need to infer what indentation I need
+            int column = Math.max( (this.ast().getRange().get().begin.column) -1, 0);
+
+            String indent = "";
+            for(int i=0;i<column;i++){
+                indent += " "; //or tabs??
+            }
+            String cont = _comment.formatContents(contents, indent, style);
+            ast().setContent( cont );
+            return (_C)this;
+        }
+        ast().setContent( _comment.formatContents(contents, "", style) );
+        return (_C)this;
+    }
+
+    /*
+     * multi
+     * line
+     * content
+     */
+    _style STANDARD_STYLE = new _style();
+
+    /* multi
+     * line
+     * content
+     */
+    _style FIRST_LINE_STYLE =
+            new _style(false, 1, true, true);
+
+    /*
+      multi
+      line
+      comment
+     */
+    _style OPEN_STYLE =
+            new _style(true, 1, false, true);
+
+    /* multi
+       line
+       comment */
+    _style COMPACT_OPEN_STYLE =
+            new _style(false, 1, false, false);
+
+    /*multi
+      line
+      comment*/
+    _style ULTRA_COMPACT_STYLE =
+            new _style(false, 0, false, false);
+
+    /**
+     * A Style to apply to the raw string contents of comments
+     * (i.e. typically applied to multi-line {@link _blockComment} and {@link _javadocComment})
+     *
+     * this is never represented in the actual AST, but rather exists to add some Quality of Life
+     * improvements to updating comments within the AST
+     */
+    class _style {
+
+        /** IF the comment contents is more than one line, does the contensts start on the first line */
+        public boolean skipContentsOnFirstLine = true;
+
+        /** The number of spaces between the star and content / *_    _* / (the _'s here represent 1 space) */
+        public int starPadding = 1;
+
+        /** Prefix multiple line contents with the "*" ? */
+        public boolean starPrefixAllLines = true;
+
+        /**
+         * does the closing * / tag appear on separate line (aligned in the left gutter)?
+         */
+        public boolean alignCloseTagOnLeft = true; //
+
+        public _style(){}
+
+        public _style(boolean skipContentsOnFirstLine, int starPadding,
+                      boolean starPrefixAllLines, boolean alignCloseTagOnLeft){
+            this.skipContentsOnFirstLine = skipContentsOnFirstLine;
+            this.starPadding = starPadding;
+            this.starPrefixAllLines = starPrefixAllLines;
+            this.alignCloseTagOnLeft = alignCloseTagOnLeft;
+        }
+    }
+
+    /**
+     *
+     * @param contents
+     * @param style
+     * @return
+     */
+    static String formatContents( String contents, _style style){
+        return formatContents( contents, "", style);
+    }
+
+    /**
+     * remove the preceding / * and the ending * / and create the contents
+     * @param rawContents
+     * @param indent the indention of the tag (this indention is only applied
+     * @param style
+     * @return
+     */
+    static String formatContents( String rawContents, String indent, _style style ){
+        List<String> ls = Text.lines(rawContents);
+        if( ls.size() == 1 ){
+            String trim = rawContents.trim();
+            if( trim.startsWith("/*") ){
+                rawContents = trim.substring(2).trim();
+            }
+            if( rawContents.endsWith("*/")){
+                rawContents = rawContents.substring(0, rawContents.length() -2);
+            }
+            for(int i=0;i<style.starPadding; i++){
+                rawContents = " "+rawContents+" ";
+            }
+
+            return rawContents;
+        }
+        //there are more than 1 line, here we need to "play" with the indent
+        StringBuilder sb = new StringBuilder();
+        if( style.skipContentsOnFirstLine ){
+            ls.add(0, "");
+        }
+        for(int i=0;i<ls.size();i++){
+            if( i == 0 ){
+                for(int j = 0; j<style.starPadding; j++){
+                    sb.append(" ");
+                }
+                sb.append(ls.get(0)).append(System.lineSeparator());
+            }
+            else {
+                sb.append(indent);
+                if( style.starPrefixAllLines){
+                    sb.append(" *");
+                }
+                else{
+                    sb.append("  ");
+                }
+                for(int j = 0; j<style.starPadding; j++){
+                    sb.append(" ");
+                }
+
+            }
+            if( i == ls.size() - 1 ){ //last line
+                //check if the last line
+                if( style.alignCloseTagOnLeft ){
+                    if( ls.get(i).equals(System.lineSeparator()) ){
+                        //the last line is a blank line, so DONT add it
+                        sb.append(System.lineSeparator()); //keep the blank line
+                        sb.append(indent);//add an indent
+                    } else{
+                        sb.append(ls.get(i)).append(System.lineSeparator());
+                        sb.append(indent);
+                    }
+                } else{
+                    if( i > 0 ) {
+                        sb.append(ls.get(i)); //.append(System.lineSeparator());
+                        for(int j = 0; j<style.starPadding; j++){
+                            sb.append(" ");
+                        }
+                    }
+                }
+            } else{ //just
+                if( i > 0 ) {
+                    sb.append(ls.get(i)).append(System.lineSeparator());
+                }
+            }
+        }
+        if( style.alignCloseTagOnLeft ){
+            sb.append(" "); //because the start tag has a / * (the slash before the *) the close tag on the last line needs indent 1
+        }
+        return sb.toString();
     }
 
     /**

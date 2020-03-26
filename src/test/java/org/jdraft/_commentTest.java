@@ -8,10 +8,87 @@ import java.util.stream.Collectors;
 
 public class _commentTest extends TestCase {
 
+    public void testUpdateBlockComments(){
+        /* comment 1*/
+        class C{
+            /* comment 2*/
+            public int i;
+
+            void m(){
+                if(true){
+                    /* comment here */
+                }
+            }
+        }
+
+        _class _c = _class.of(C.class);
+        System.out.println( _c );
+        //we might need to do this if we remove a local or member class to be a _class
+        _c = _class.of(Ast.reparse( _c.astCompilationUnit() ));
+
+        System.out.println( _c.listAllBlockComments() );
+        _c.listAllBlockComments().get(0).setContents("one liner");
+        _c.listAllBlockComments().get(1).setContents("multi", "line");
+        _c.listAllBlockComments().get(2).setContents("multi", "line", "comment");
+        System.out.println( _c );
+
+        assertEquals("one liner", _c.listAllBlockComments().get(0).getContents()); //we normalize the content before we pass it back (trim etc.)
+        assertEquals("multi"+System.lineSeparator()+"line", _c.listAllBlockComments().get(1).getContents());
+
+        _c.listAllBlockComments().get(0).setContents(_blockComment.FIRST_LINE_STYLE,"one liner");
+        _c.listAllBlockComments().get(1).setContents(_blockComment.FIRST_LINE_STYLE, "multi", "line");
+        _c.listAllBlockComments().get(2).setContents(_blockComment.FIRST_LINE_STYLE,"multi", "line", "comment");
+        System.out.println( _c );
+
+        _c.listAllBlockComments().get(0).setContents(_blockComment.OPEN_STYLE,"one liner");
+        _c.listAllBlockComments().get(1).setContents(_blockComment.OPEN_STYLE, "multi", "line");
+        _c.listAllBlockComments().get(2).setContents(_blockComment.OPEN_STYLE,"multi", "line", "comment");
+        System.out.println( _c );
+
+
+        _c.listAllBlockComments().get(0).setContents(_blockComment.COMPACT_OPEN_STYLE,"one liner");
+        _c.listAllBlockComments().get(1).setContents(_blockComment.COMPACT_OPEN_STYLE, "multi", "line");
+        _c.listAllBlockComments().get(2).setContents(_blockComment.COMPACT_OPEN_STYLE,"multi", "line", "comment");
+        System.out.println( _c );
+
+        assertEquals(" one liner ", _c.listAllBlockComments().get(0).ast().getContent()); //the ast content
+        assertEquals("one liner", _c.listAllBlockComments().get(0).getContents()); //we normalize the content before we pass it back (trim etc.)
+
+        _c.listAllBlockComments().get(0).setContents(_blockComment.ULTRA_COMPACT_STYLE, "one liner");
+        _c.listAllBlockComments().get(1).setContents(_blockComment.ULTRA_COMPACT_STYLE, "multi", "line");
+        _c.listAllBlockComments().get(2).setContents(_blockComment.ULTRA_COMPACT_STYLE,"multi", "line", "comment");
+        System.out.println( _c );
+
+        //TODO add checks for padding
+        assertEquals("one liner", _c.listAllBlockComments().get(0).getContents());
+    }
+
+    public void testStandardStyleBlockComment(){
+        assertEquals( "single line", _comment.formatContents("single line", _blockComment.STANDARD_STYLE));
+        assertEquals( "single line", _comment.formatContents("/*single line*/", _blockComment.STANDARD_STYLE));
+
+
+        //we dont indent the first line
+        assertEquals( "single line", _comment.formatContents("single line", "    ", _blockComment.STANDARD_STYLE));
+        assertEquals( "single line", _comment.formatContents("/*single line*/", "    ", _blockComment.STANDARD_STYLE));
+
+        String comm = _comment.formatContents("first line"+System.lineSeparator()+"second line", _blockComment.STANDARD_STYLE);
+
+        //System.out.println( new BlockComment( comm) );
+        assertEquals(" "+ System.lineSeparator()+" * first line"+System.lineSeparator()+" * second line"+System.lineSeparator()+" ",
+                comm);
+
+        //the IDEA is that we want to be able to add a multi-line block comment that tries to abide by the format
+    }
 
     public void testGetSetContents(){
         class G{
+
         }
+
+        _class _c = _class.of(G.class);
+        _c.ast().setComment(_blockComment.of("blockus"+System.lineSeparator()+"multis"+System.lineSeparator()+"commentus").ast() );
+        System.out.println( _c );
     }
 
     public void testListComments(){
@@ -25,19 +102,19 @@ public class _commentTest extends TestCase {
         }
 
         _class _c = _class.of( G.class);
-        List<_comment> _cs = _c.listComments();
+        List<_comment> _cs = _c.listAllComments();
         assertEquals( 3, _cs.size());
 
-        assertEquals( 0, _c.listComments(c-> c instanceof _blockComment).size());
-        assertEquals( 0, _c.listBlockComments().size());
+        assertEquals( 0, _c.listAllComments(c-> c instanceof _blockComment).size());
+        assertEquals( 0, _c.listAllBlockComments().size());
 
-        assertEquals( 1, _c.listComments(c-> c instanceof _lineComment).size());
+        assertEquals( 1, _c.listAllComments(c-> c instanceof _lineComment).size());
 
-        _cs = _c.listComments(c-> c instanceof _javadocComment);
+        _cs = _c.listAllComments(c-> c instanceof _javadocComment);
         assertEquals( 2, _cs.size());
 
-        _c.forComments(c -> System.out.println( c ));
-        _c.forComments(c-> c.isAttributed(), c-> System.out.println("ATTRIBUTED"+c.getCommentedNode()));
+        _c.forAllComments(c -> System.out.println( c ));
+        _c.forAllComments(c-> c.isAttributed(), c-> System.out.println("ATTRIBUTED"+c.getCommentedNode()));
 
     }
 
@@ -69,7 +146,7 @@ public class _commentTest extends TestCase {
         //System.out.println( Ast.of(V.class) );
         _class _c = _class.of(V.class);
         List<String> ls =
-                _c.listJavadocComments().stream().map( jd-> jd.getNormalizedContents()).collect(Collectors.toList());
+                _c.listAllJavadocComments().stream().map(jd-> jd.getContents()).collect(Collectors.toList());
 
         assertEquals( "javadoc contents"+System.lineSeparator()+"with stuff" + System.lineSeparator()+"starting on first line", ls.get(0));
         assertEquals( "single javadoc with nothing on first line", ls.get(1));
@@ -78,10 +155,10 @@ public class _commentTest extends TestCase {
 
         //System.out.println( _c );
 
-        _blockComment _bc = _c.listBlockComments().get(0);
-        assertEquals( "BlockComment", _c.listBlockComments().get(0).getNormalizedContents() );
+        _blockComment _bc = _c.listAllBlockComments().get(0);
+        assertEquals( "BlockComment", _c.listAllBlockComments().get(0).getContents() );
         assertEquals( "block comment" +System.lineSeparator()+ "multi line" + System.lineSeparator() +"with content",
-                _c.listBlockComments().get(1).getNormalizedContents() );
+                _c.listAllBlockComments().get(1).getContents() );
         //String contents = _bc.getContents();
         //System.out.println( "CONTENTS >"+ _c.listBlockComments().get(1).getContents()+"<");
         //System.out.println( "NORMAL CONTENTS >"+ _c.listBlockComments().get(1).getNormalizedContents()+"<");

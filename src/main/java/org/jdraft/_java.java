@@ -772,12 +772,17 @@ public interface _java {
         }
     }
 
+    /**
+     * Node entities that may have comments attributed to them and contain nodes that may have comments
+     * @param <N> the Ast node type
+     * @param <_N> the _node type
+     */
     interface _withComments <N extends Node, _N extends _node> extends _node<N, _N> {
 
         /**
-         * Gets the comment on the node (or null if there is no node on the)
-         * @param <_C>
-         * @return
+         * Gets the "attributed" comment on the node (or null if there is no comment on this node)
+         * @param <_C> the comment type
+         * @return the attributed comment or null if there is no comment attributed to this node
          */
         default <_C extends _comment> _C getComment(){
             N n = ast();
@@ -788,20 +793,27 @@ public interface _java {
         }
 
         /**
-         * Lists all comments Attributed to or contained within the positional range (either attributed or orphaned)
-         * of this
-         * @return
+         * Lists all comments Attributed to OR contained within the positional range (either attributed or orphaned)
+         * of this node, i.e. the line comment AND block comment below:
+         * <CODE><PRE>
+         *  //line comment
+         *  void m(){
+         *      /* block comment * /
+         *      int i = 0;
+         *  }
+         * </PRE></CODE>
+         * @return a list of all comments attributed or contained within the node
          */
-        default List<_comment> listComments(){
-            return listComments(t->true);
+        default List<_comment> listAllComments(){
+            return listAllComments(t->true);
         }
 
         /**
          * Lists the comments that abide by the matchFn predicate
-         * @param matchFn
-         * @return
+         * @param matchFn match function to select nodes in the list
+         * @return a list of _comment
          */
-        default List<_comment> listComments(Predicate<_comment> matchFn){
+        default List<_comment> listAllComments(Predicate<_comment> matchFn){
             Node basedNode = null;
             if( this instanceof _codeUnit && ((_codeUnit)this).isTopLevel() ){
                 basedNode = ((_codeUnit)this).astCompilationUnit();
@@ -814,11 +826,16 @@ public interface _java {
             return _cs;
         }
 
-        default _N forComments( Consumer<_comment> actionFn){
-            return forComments( t-> true, actionFn);
+        /**
+         * Apply a function to all comments (any comment attributed to this node, and within the token range of the node)
+         * @param actionFn function to apply to the _comment
+         * @return the _N node
+         */
+        default _N forAllComments(Consumer<_comment> actionFn){
+            return forAllComments(t-> true, actionFn);
         }
 
-        default _N forComments( Predicate<_comment> matchFn, Consumer<_comment> actionFn){
+        default _N forAllComments(Predicate<_comment> matchFn, Consumer<_comment> actionFn){
             Node basedNode = null;
             if( this instanceof _codeUnit && ((_codeUnit)this).isTopLevel() ){
                 basedNode = ((_codeUnit)this).astCompilationUnit();
@@ -830,16 +847,20 @@ public interface _java {
             return (_N)this;
         }
 
-        default List<_blockComment> listBlockComments(){
-            return listComments( c-> c instanceof _blockComment).stream().map(c -> (_blockComment)c).collect(Collectors.toList());
+        /**
+         * lists all block comments that may be attributed to the node itself
+         * @return
+         */
+        default List<_blockComment> listAllBlockComments(){
+            return listAllComments(c-> c instanceof _blockComment).stream().map(c -> (_blockComment)c).collect(Collectors.toList());
         }
 
-        default List<_lineComment> listLineComments(){
-            return listComments( c-> c instanceof _lineComment).stream().map(c -> (_lineComment)c).collect(Collectors.toList());
+        default List<_lineComment> listAllLineComments(){
+            return listAllComments(c-> c instanceof _lineComment).stream().map(c -> (_lineComment)c).collect(Collectors.toList());
         }
 
-        default List<_javadocComment> listJavadocComments(){
-            return listComments( c-> c instanceof _javadocComment).stream().map(c -> (_javadocComment)c).collect(Collectors.toList());
+        default List<_javadocComment> listAllJavadocComments(){
+            return listAllComments(c-> c instanceof _javadocComment).stream().map(c -> (_javadocComment)c).collect(Collectors.toList());
         }
     }
 

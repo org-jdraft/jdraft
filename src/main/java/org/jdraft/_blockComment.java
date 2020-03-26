@@ -3,7 +3,6 @@ package org.jdraft;
 import com.github.javaparser.ast.comments.BlockComment;
 import org.jdraft.text.Text;
 
-import java.util.List;
 import java.util.Objects;
 
 public class _blockComment implements _comment<BlockComment, _blockComment>, _java._node<BlockComment, _blockComment> {
@@ -15,6 +14,10 @@ public class _blockComment implements _comment<BlockComment, _blockComment>, _ja
     public static _blockComment of(String... commentContents){
         return new _blockComment( Ast.blockComment( commentContents) );
     }
+
+
+
+
 
     /**
      * upon creation, or after modifying through this interface,
@@ -30,16 +33,19 @@ public class _blockComment implements _comment<BlockComment, _blockComment>, _ja
         this.astComment = lc;
     }
 
+    /*
     public String getContents(){
         return this.astComment.getContent();
     }
+     */
 
 
 
+    /*
     @Override
     public _blockComment setContents( String...contents ){
         return this;
-        /*
+
         String str = Text.combine(contents);
         List<String> lines = Text.lines(str);
         if( lines.size() == 1){
@@ -58,8 +64,9 @@ public class _blockComment implements _comment<BlockComment, _blockComment>, _ja
             }
         }
         this.astComment.setContent( )
-         */
+
     }
+     */
 
     public _java._domain getCommentedNode(){
         if( astComment.getCommentedNode().isPresent()){

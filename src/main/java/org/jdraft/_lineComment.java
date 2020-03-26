@@ -34,20 +34,26 @@ public class _lineComment implements _comment<LineComment, _lineComment>, _java.
         this.astComment = lc;
     }
 
+    /*
     @Override
     public _lineComment setContents( String...contents ) {
         return this;
     }
+    */
 
+    /*
     @Override
     public String getContents(){
         return astComment.getContent();
     }
+     */
 
+    /*
     @Override
     public List<String> listContents(){
         return Text.lines( this.astComment.getContent() );
     }
+     */
 
     public _java._domain getCommentedNode(){
         if( astComment.getCommentedNode().isPresent()){
