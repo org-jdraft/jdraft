@@ -123,7 +123,7 @@ public class $arrayAccess
 
     public Selected select(String... str){
         try{
-            return select(Ex.arrayAccessEx(Text.combine(str)));
+            return select(Expressions.arrayAccessEx(Text.combine(str)));
         } catch(Exception e){
             //System.out.println( "EX \""+ Text.combine(str)+"\"");
             return null;

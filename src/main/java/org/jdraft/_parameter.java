@@ -1,15 +1,9 @@
 package org.jdraft;
 
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.SimpleName;
-import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
 import com.github.javaparser.ast.type.Type;
 
 import org.jdraft.text.Text;
@@ -158,7 +152,7 @@ public final class _parameter
         int hash = 7;
         hash = 71 * hash +
                 Objects.hash( 
-                        Ex.hashAnnos(astParameter),
+                        Expressions.hashAnnos(astParameter),
                         this.getName(),
                         
                         Ast.typeHash(astParameter.getType()),
@@ -192,7 +186,7 @@ public final class _parameter
         if( left.isFinal() != right.isFinal()){
             return false;
         }
-        if( ! Ex.equivalentAnnos(left, right)){
+        if( ! Expressions.equivalentAnnos(left, right)){
             return false;
         }
         if( ! Ast.typesEqual(left.getType(), right.getType())){
@@ -225,7 +219,7 @@ public final class _parameter
         if( !Ast.typesEqual(astParameter.getType(), other.astParameter.getType())){
             return false;
         }
-        if( !Ex.equivalentAnnos(astParameter, other.astParameter)){
+        if( !Expressions.equivalentAnnos(astParameter, other.astParameter)){
             return false;
         }
         return true;

@@ -31,41 +31,41 @@ public class _forEachStmt implements _statement._controlFlow._branching<ForEachS
         return new _forEachStmt(fe);
     }
     public static _forEachStmt of(String...code){
-        return new _forEachStmt(Stmt.forEachStmt( code));
+        return new _forEachStmt(Statements.forEachStmt( code));
     }
 
-    public static <A extends Object> _forEachStmt of(Ex.Command c){
-        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _forEachStmt of(Expressions.Command c){
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _forEachStmt of(Consumer<A> c){
-        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _forEachStmt of(BiConsumer<A,B> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _forEachStmt of( Ex.TriConsumer<A,B,C> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _forEachStmt of( Expressions.TriConsumer<A,B,C> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _forEachStmt of( Ex.QuadConsumer<A,B,C,D> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _forEachStmt of( Expressions.QuadConsumer<A,B,C,D> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _forEachStmt of( Function<A,B> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _forEachStmt of( BiFunction<A,B,C> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _forEachStmt of( Ex.TriFunction<A,B,C,D> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _forEachStmt of( Expressions.TriFunction<A,B,C,D> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _forEachStmt from( LambdaExpr le){
@@ -90,14 +90,14 @@ public class _forEachStmt implements _statement._controlFlow._branching<ForEachS
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Stmt.forEachStmt(stringRep));
+            return is( Statements.forEachStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }
 
     public boolean isIterable(String...expression){
         try {
-            return Objects.equals(this.astStmt.getIterable(), Ex.of(expression));
+            return Objects.equals(this.astStmt.getIterable(), Expressions.of(expression));
         }
         catch(Exception e){
             return false;
@@ -149,7 +149,7 @@ public class _forEachStmt implements _statement._controlFlow._branching<ForEachS
     }
 
     public _forEachStmt setIterable(String...str){
-        this.astStmt.setIterable(Ex.of(str));
+        this.astStmt.setIterable(Expressions.of(str));
         return this;
     }
 

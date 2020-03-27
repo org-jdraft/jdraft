@@ -38,7 +38,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
     public static <E extends Expression, _E extends _expression, $E extends $ex> $ex<E, _E, $E> of(String...pattern ){
         //so.... if I JUST do a pattern, I want to se the expression class
         // to Expression.class
-        Expression expr = Ex.of(pattern);
+        Expression expr = Expressions.of(pattern);
         return ($ex<E, _E, $E>)new $ex<Expression, _expression, $ex>( Expression.class,
                 expr.toString(Print.PRINT_NO_COMMENTS) );
     }
@@ -67,7 +67,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static <E extends Expression, _E extends _expression, $E extends $ex> $ex<E, _E, $E> of(String pattern, Predicate<_E> constraint ){
-        return new $ex<>( (E) Ex.of(pattern)).$and( (Predicate<_expression>) constraint);
+        return new $ex<>( (E) Expressions.of(pattern)).$and( (Predicate<_expression>) constraint);
     }
 
     /**
@@ -119,7 +119,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return
      */
     public static $ex<ArrayAccessExpr, _arrayAccess, $ex> arrayAccessEx(String... pattern ) {
-        return new $ex<>( Ex.arrayAccessEx(pattern) );
+        return new $ex<>( Expressions.arrayAccessEx(pattern) );
     }
     
     /**
@@ -128,8 +128,8 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return
      */
     public static $ex<ArrayAccessExpr, _arrayAccess, $ex>  arrayAccessEx(Predicate<_arrayAccess> constraint) {
-        return new $ex<ArrayAccessExpr, _arrayAccess, $ex> ( Ex.arrayAccessEx("a[0]") )
-                .$(Ex.of("a[0]"), "any").$and(constraint);
+        return new $ex<ArrayAccessExpr, _arrayAccess, $ex> ( Expressions.arrayAccessEx("a[0]") )
+                .$(Expressions.of("a[0]"), "any").$and(constraint);
     }    
 
     /**
@@ -139,7 +139,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return
      */
     public static $ex<ArrayAccessExpr, _arrayAccess, $ex>  arrayAccessEx(String pattern, Predicate<_arrayAccess> constraint) {
-        return new $ex<ArrayAccessExpr, _arrayAccess, $ex>  ( Ex.arrayAccessEx(pattern) ).$and(constraint);
+        return new $ex<ArrayAccessExpr, _arrayAccess, $ex>  ( Expressions.arrayAccessEx(pattern) ).$and(constraint);
     }
     
     /**
@@ -157,7 +157,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<ArrayCreationExpr, _arrayCreate, $ex>  arrayCreationEx(String... pattern ) {
-        return new $ex<>( Ex.arrayCreationEx(pattern ) );
+        return new $ex<>( Expressions.arrayCreationEx(pattern ) );
     }
     
     /**
@@ -166,7 +166,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<ArrayCreationExpr, _arrayCreate, $ex>  arrayCreationEx(Predicate<_arrayCreate> constraint ) {
-        return new $ex<ArrayCreationExpr, _arrayCreate, $ex>  ( Ex.arrayCreationEx("new int[]")).$(Ex.of("new int[]"), "any").$and(constraint);
+        return new $ex<ArrayCreationExpr, _arrayCreate, $ex>  ( Expressions.arrayCreationEx("new int[]")).$(Expressions.of("new int[]"), "any").$and(constraint);
     }
     
     /**
@@ -176,7 +176,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<ArrayCreationExpr, _arrayCreate, $ex>  arrayCreationEx(String pattern, Predicate<_arrayCreate> constraint ) {
-        return new $ex<ArrayCreationExpr, _arrayCreate, $ex>  ( Ex.arrayCreationEx(pattern ) ).$and(constraint);
+        return new $ex<ArrayCreationExpr, _arrayCreate, $ex>  ( Expressions.arrayCreationEx(pattern ) ).$and(constraint);
     }
 
     /**
@@ -193,7 +193,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<ArrayInitializerExpr, _arrayInitialize, $ex>  arrayInitEx(String... pattern ) {
-        return new $ex<>( Ex.arrayInitializerEx(pattern ) );
+        return new $ex<>( Expressions.arrayInitializerEx(pattern ) );
     }
     
     /**
@@ -292,7 +292,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<ArrayInitializerExpr, _arrayInitialize, $ex>  arrayInitEx(Predicate<_arrayInitialize> constraint) {
-        return new $ex<ArrayInitializerExpr, _arrayInitialize, $ex>  ( Ex.arrayInitializerEx("{1}") ).$(Ex.of("{1}"), "any").$and(constraint);
+        return new $ex<ArrayInitializerExpr, _arrayInitialize, $ex>  ( Expressions.arrayInitializerEx("{1}") ).$(Expressions.of("{1}"), "any").$and(constraint);
     }
     
     /**
@@ -302,7 +302,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<ArrayInitializerExpr, _arrayInitialize, $ex>  arrayInitEx(String pattern, Predicate<_arrayInitialize> constraint) {
-        return new $ex<ArrayInitializerExpr, _arrayInitialize, $ex> ( Ex.arrayInitializerEx(pattern ) ).$and(constraint);
+        return new $ex<ArrayInitializerExpr, _arrayInitialize, $ex> ( Expressions.arrayInitializerEx(pattern ) ).$and(constraint);
     }
     
     /**
@@ -319,7 +319,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<AssignExpr, _assign, $ex>  assignEx(String... pattern ) {
-        return new $ex<>( Ex.assignEx(pattern ) );
+        return new $ex<>( Expressions.assignEx(pattern ) );
     }
     
     /** 
@@ -328,7 +328,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<AssignExpr, _assign, $ex>  assignEx(Predicate<_assign> constraint) {
-        return new $ex<AssignExpr, _assign, $ex> ( Ex.assignEx("a=1") ).$(Ex.of("a=1"), "any").$and(constraint);
+        return new $ex<AssignExpr, _assign, $ex> ( Expressions.assignEx("a=1") ).$(Expressions.of("a=1"), "any").$and(constraint);
     }
     
     /** 
@@ -338,7 +338,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<AssignExpr, _assign, $ex>  assignEx(String pattern, Predicate<_assign> constraint) {
-        return new $ex<AssignExpr, _assign, $ex>  ( Ex.assignEx(pattern ) ).$and(constraint);
+        return new $ex<AssignExpr, _assign, $ex>  ( Expressions.assignEx(pattern ) ).$and(constraint);
     }
     
     /** 
@@ -355,7 +355,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<BinaryExpr, _binaryExpression, $ex>  binaryEx(String... pattern ) {
-        return new $ex<>( Ex.binaryEx(pattern ) );
+        return new $ex<>( Expressions.binaryEx(pattern ) );
     }
     
     /**
@@ -365,7 +365,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<BinaryExpr, _binaryExpression, $ex>  binaryEx(String pattern, Predicate<_binaryExpression> constraint) {
-        return new $ex<BinaryExpr, _binaryExpression, $ex> ( Ex.binaryEx(pattern ) ).$and(constraint);
+        return new $ex<BinaryExpr, _binaryExpression, $ex> ( Expressions.binaryEx(pattern ) ).$and(constraint);
     }    
 
     /**
@@ -374,7 +374,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<BinaryExpr, _binaryExpression, $ex>  binaryEx(Predicate<_binaryExpression> constraint) {
-        return new $ex<BinaryExpr, _binaryExpression, $ex> ( Ex.binaryEx("a || b" ) ).$(Ex.binaryEx("a || b"), "any").$and(constraint);
+        return new $ex<BinaryExpr, _binaryExpression, $ex> ( Expressions.binaryEx("a || b" ) ).$(Expressions.binaryEx("a || b"), "any").$and(constraint);
     }  
     
     /**
@@ -409,7 +409,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<BooleanLiteralExpr, _boolean, $ex>  booleanLiteralEx(boolean b ) {
-        return new $ex( Ex.of( b ) );
+        return new $ex( Expressions.of( b ) );
     }
     
     /**
@@ -419,7 +419,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<BooleanLiteralExpr, _boolean, $ex>  booleanLiteralEx(boolean b, Predicate<_boolean> constraint) {
-        return new $ex( Ex.of( b ) ).$and(constraint);
+        return new $ex( Expressions.of( b ) ).$and(constraint);
     }
     
     /** 
@@ -429,7 +429,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<BooleanLiteralExpr, _boolean, $ex>  booleanLiteralEx(String... pattern ) {
-        return new $ex( Ex.booleanLiteralEx(pattern ) );
+        return new $ex( Expressions.booleanLiteralEx(pattern ) );
     }
 
     /** 
@@ -438,7 +438,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<BooleanLiteralExpr, _boolean, $ex>  booleanLiteralEx(Predicate<_boolean>constraint ) {
-        return new $ex( Ex.booleanLiteralEx("true") ).$("true", "any").$and(constraint);
+        return new $ex( Expressions.booleanLiteralEx("true") ).$("true", "any").$and(constraint);
     }
     
     /** 
@@ -448,7 +448,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<BooleanLiteralExpr, _boolean, $ex>  booleanLiteralEx(String pattern, Predicate<_boolean>constraint ) {
-        return new $ex( Ex.booleanLiteralEx(pattern ) ).$and(constraint);
+        return new $ex( Expressions.booleanLiteralEx(pattern ) ).$and(constraint);
     }
     
     /** 
@@ -465,7 +465,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<CastExpr, _cast, $ex>  castEx(String... pattern ) {
-        return new $ex( Ex.castEx(pattern ) );
+        return new $ex( Expressions.castEx(pattern ) );
     }
 
     /** 
@@ -484,7 +484,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<CastExpr, _cast, $ex>  castEx(String pattern, Predicate<_cast> constraint ) {
-        return new $ex( Ex.castEx(pattern ) ).$and(constraint);
+        return new $ex( Expressions.castEx(pattern ) ).$and(constraint);
     }
     
     /** 
@@ -501,7 +501,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<CharLiteralExpr, _char, $ex>  of(char c ){
-        return new $ex( Ex.charLiteralEx( c ) );
+        return new $ex( Expressions.charLiteralEx( c ) );
     }
 
     /** 
@@ -511,7 +511,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<CharLiteralExpr, _char, $ex>  of(char c, Predicate<_char> constraint){
-        return new $ex( Ex.charLiteralEx( c ) ).$and(constraint);
+        return new $ex( Expressions.charLiteralEx( c ) ).$and(constraint);
     }
     
     /** 
@@ -520,7 +520,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<CharLiteralExpr, _char, $ex>  charLiteralEx(char c ) {
-        return new $ex( Ex.charLiteralEx( c ) );
+        return new $ex( Expressions.charLiteralEx( c ) );
     }
 
     /**
@@ -543,7 +543,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<CharLiteralExpr, _char, $ex>  charLiteralEx(char c, Predicate<_char> constraint) {
-        return new $ex( Ex.charLiteralEx( c ) ).$and(constraint);
+        return new $ex( Expressions.charLiteralEx( c ) ).$and(constraint);
     }
     
     /** 
@@ -552,7 +552,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<CharLiteralExpr, _char, $ex>  charLiteralEx(String... pattern ) {
-        return new $ex( Ex.charLiteralEx(Text.combine(pattern) ) );
+        return new $ex( Expressions.charLiteralEx(Text.combine(pattern) ) );
     }
 
     /** 
@@ -561,7 +561,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<CharLiteralExpr, _char, $ex> charLiteralEx(Predicate<_char> constraint) {
-        return new $ex( Ex.charLiteralEx('a') ).$("'a'", "any").$and(constraint);
+        return new $ex( Expressions.charLiteralEx('a') ).$("'a'", "any").$and(constraint);
     }
     
     /** 
@@ -590,7 +590,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<ClassExpr, _classExpression, $ex> classEx(String... pattern ) {
-        return new $ex( Ex.classEx(pattern ) );
+        return new $ex( Expressions.classEx(pattern ) );
     }
 
     /**
@@ -599,7 +599,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<ClassExpr, _classExpression, $ex> classEx(Predicate<_classExpression> constraint) {
-        return new $ex( Ex.classEx("a.class") )
+        return new $ex( Expressions.classEx("a.class") )
             .$("a.class", "any").$and(constraint);
     }
     
@@ -610,7 +610,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<ClassExpr, _classExpression, $ex> classEx(String pattern, Predicate<_classExpression> constraint) {
-        return new $ex( Ex.classEx(pattern ) ).$and(constraint);
+        return new $ex( Expressions.classEx(pattern ) ).$and(constraint);
     }
 
     /**
@@ -627,7 +627,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<ConditionalExpr, _conditionalExpression, $ex> conditionalEx(String... pattern ) {
-        return new $ex( Ex.conditionalEx(pattern ) );
+        return new $ex( Expressions.conditionalEx(pattern ) );
     }
 
     /**
@@ -637,7 +637,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<ConditionalExpr, _conditionalExpression, $ex> conditionalEx(String pattern, Predicate<_conditionalExpression> constraint) {
-        return new $ex( Ex.conditionalEx(pattern ) ).$and(constraint);
+        return new $ex( Expressions.conditionalEx(pattern ) ).$and(constraint);
     }
     
     /**
@@ -646,8 +646,8 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<ConditionalExpr, _conditionalExpression, $ex> conditionalEx(Predicate<_conditionalExpression> constraint) {
-        return new $ex( Ex.conditionalEx("(a==1) ? 1 : 2" ) )
-                .$(Ex.conditionalEx("(a==1) ? 1 : 2"), "any")
+        return new $ex( Expressions.conditionalEx("(a==1) ? 1 : 2" ) )
+                .$(Expressions.conditionalEx("(a==1) ? 1 : 2"), "any")
                 .$and(constraint);
     }    
     
@@ -665,7 +665,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<DoubleLiteralExpr, _double, $ex> of(double d ){
-        return new $ex( Ex.of( d ) );
+        return new $ex( Expressions.of( d ) );
     }
 
     /** 
@@ -674,7 +674,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<DoubleLiteralExpr, _double, $ex> doubleLiteralEx(double d ) {
-        return new $ex( Ex.doubleLiteralEx( d ) );
+        return new $ex( Expressions.doubleLiteralEx( d ) );
     }
 
     /**
@@ -698,7 +698,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
         for(int i=0;i<fs.length; i++){
             sd.add( fs[i]);
         }
-        return new $ex( Ex.doubleLiteralEx( ) ).$and(d-> sd.contains(d));
+        return new $ex( Expressions.doubleLiteralEx( ) ).$and(d-> sd.contains(d));
     }
 
 
@@ -709,7 +709,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<DoubleLiteralExpr, _double, $ex> doubleLiteralEx(double d, Predicate<_double> constraint) {
-        return new $ex( Ex.doubleLiteralEx( d ) ).$and(constraint);
+        return new $ex( Expressions.doubleLiteralEx( d ) ).$and(constraint);
     }
     
     /**
@@ -718,7 +718,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<DoubleLiteralExpr, _double, $ex> doubleLiteralEx(String pattern ) {
-        return new $ex( Ex.doubleLiteralEx(pattern ) );
+        return new $ex( Expressions.doubleLiteralEx(pattern ) );
     }
 
     /**
@@ -728,7 +728,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<DoubleLiteralExpr, _double, $ex> doubleLiteralEx(String pattern, Predicate<_double> constraint) {
-        return new $ex( Ex.doubleLiteralEx(pattern ) ).$and(constraint);
+        return new $ex( Expressions.doubleLiteralEx(pattern ) ).$and(constraint);
     }
         
     /**
@@ -737,7 +737,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<DoubleLiteralExpr, _double, $ex> of(float d ){
-        return new $ex( Ex.doubleLiteralEx( d ) );
+        return new $ex( Expressions.doubleLiteralEx( d ) );
     }
 
     /**
@@ -746,7 +746,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<DoubleLiteralExpr, _double, $ex> doubleLiteralEx(float d ) {
-        return new $ex( Ex.of( d ) );
+        return new $ex( Expressions.of( d ) );
     }
 
     /**
@@ -756,7 +756,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<DoubleLiteralExpr, _double, $ex> doubleLiteralEx(float d, Predicate<_double> constraint) {
-        return new $ex( Ex.of( d ) ).$and(constraint);
+        return new $ex( Expressions.of( d ) ).$and(constraint);
     }
     
     /**
@@ -765,7 +765,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<DoubleLiteralExpr, _double, $ex> doubleLiteralEx(Predicate<_double> constraint) {
-        return new $ex( Ex.of( 1.0d ) ).$("1.0d", "any").$and(constraint);
+        return new $ex( Expressions.of( 1.0d ) ).$("1.0d", "any").$and(constraint);
     }
         
     /**
@@ -782,7 +782,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<DoubleLiteralExpr, _double, $ex> floatLiteralEx(String... pattern ) {
-        return new $ex( Ex.floatLiteralEx(pattern ) );
+        return new $ex( Expressions.floatLiteralEx(pattern ) );
     }
 
     /**
@@ -792,7 +792,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<DoubleLiteralExpr, _double, $ex> floatLiteralEx(String pattern, Predicate<_double> constraint ) {
-        return new $ex( Ex.floatLiteralEx(pattern ) ).$and(constraint);
+        return new $ex( Expressions.floatLiteralEx(pattern ) ).$and(constraint);
     }
     
     /**
@@ -801,7 +801,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<DoubleLiteralExpr, _double, $ex> floatLiteralEx(Predicate<_double> constraint ) {
-        return new $ex( Ex.of(1.0f) ).$(Ex.of(1.0f), "any").$and(constraint);
+        return new $ex( Expressions.of(1.0f) ).$(Expressions.of(1.0f), "any").$and(constraint);
     }
     
     /**
@@ -818,7 +818,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<EnclosedExpr, _enclosedExpression, $ex> enclosedEx(String... pattern ) {
-        return new $ex( Ex.enclosedEx(pattern ) );
+        return new $ex( Expressions.enclosedEx(pattern ) );
     }
 
     /**
@@ -827,7 +827,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<EnclosedExpr, _enclosedExpression, $ex> enclosedEx(Predicate<_enclosedExpression>constraint ) {
-        return new $ex( Ex.enclosedEx("(a)" ) ).$("(a)", "any").$and(constraint);
+        return new $ex( Expressions.enclosedEx("(a)" ) ).$("(a)", "any").$and(constraint);
     }
     
     /**
@@ -837,7 +837,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<EnclosedExpr, _enclosedExpression, $ex> enclosedEx(String pattern, Predicate<_enclosedExpression>constraint ) {
-        return new $ex( Ex.enclosedEx(pattern ) ).$and(constraint);
+        return new $ex( Expressions.enclosedEx(pattern ) ).$and(constraint);
     }
     
     /**
@@ -854,7 +854,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<FieldAccessExpr, _fieldAccess, $ex> fieldAccessEx(String... pattern ) {
-        return new $ex( Ex.fieldAccessEx(pattern ) );
+        return new $ex( Expressions.fieldAccessEx(pattern ) );
     }
 
     /**
@@ -863,8 +863,8 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<FieldAccessExpr, _fieldAccess, $ex> fieldAccessEx(Predicate<_fieldAccess> constraint ) {
-        return new $ex( Ex.fieldAccessEx("a.B") )
-                .$(Ex.fieldAccessEx("a.B"), "any").$and(constraint);
+        return new $ex( Expressions.fieldAccessEx("a.B") )
+                .$(Expressions.fieldAccessEx("a.B"), "any").$and(constraint);
     }
     
     /**
@@ -874,7 +874,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<FieldAccessExpr, _fieldAccess, $ex> fieldAccessEx(String pattern, Predicate<_fieldAccess> constraint ) {
-        return new $ex( Ex.fieldAccessEx(pattern ) ).$and(constraint);
+        return new $ex( Expressions.fieldAccessEx(pattern ) ).$and(constraint);
     }
     
     /**
@@ -892,7 +892,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<InstanceOfExpr, _instanceOf, $ex> instanceOfEx(String... pattern ) {
-        return new $ex( Ex.instanceOfEx(pattern ) );
+        return new $ex( Expressions.instanceOfEx(pattern ) );
     }
     
     /**
@@ -901,7 +901,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<InstanceOfExpr, _instanceOf, $ex> instanceOfEx(Predicate<_instanceOf> constraint ) {
-        return new $ex( Ex.instanceOfEx( "a instanceof b" ) ).$("a instanceof b", "any")
+        return new $ex( Expressions.instanceOfEx( "a instanceof b" ) ).$("a instanceof b", "any")
                 .$and(constraint);
     }
     
@@ -912,7 +912,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<InstanceOfExpr, _instanceOf, $ex> instanceOfEx(String pattern, Predicate<_instanceOf> constraint ) {
-        return new $ex( Ex.instanceOfEx(pattern ) ).$and(constraint);
+        return new $ex( Expressions.instanceOfEx(pattern ) ).$and(constraint);
     }
 
     public static $ex<InstanceOfExpr, _instanceOf, $ex> instanceOfEx($typeRef type ){
@@ -937,7 +937,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<IntegerLiteralExpr, _int, $ex> of(int i) {
-        return new $ex( Ex.intLiteralEx(i ) );
+        return new $ex( Expressions.intLiteralEx(i ) );
     }
 
     /**
@@ -947,7 +947,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<IntegerLiteralExpr, _int, $ex> of(int i, Predicate<_int> constraint) {
-        return new $ex( Ex.intLiteralEx( i ) ).$and(constraint);
+        return new $ex( Expressions.intLiteralEx( i ) ).$and(constraint);
     }
     
     /**
@@ -956,7 +956,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<IntegerLiteralExpr, _int, $ex> intLiteralEx(Predicate<_int> constraint) {
-        return new $ex( Ex.intLiteralEx( 1 ) ).$("1", "any").$and(constraint);
+        return new $ex( Expressions.intLiteralEx( 1 ) ).$("1", "any").$and(constraint);
     }
     
     /**
@@ -973,7 +973,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<IntegerLiteralExpr,_int, $ex> intLiteralEx(int i) {
-        return new $ex( Ex.intLiteralEx( i ) );
+        return new $ex( Expressions.intLiteralEx( i ) );
     }
 
     public static $ex<IntegerLiteralExpr,_int, $ex> intLiteralEx(int... is) {
@@ -989,7 +989,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<IntegerLiteralExpr,_int, $ex> intLiteralEx(int i, Predicate<_int> constraint) {
-        return new $ex( Ex.intLiteralEx( i ) ).$and(constraint);
+        return new $ex( Expressions.intLiteralEx( i ) ).$and(constraint);
     }
     
     /**
@@ -1008,7 +1008,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<IntegerLiteralExpr,_int, $ex> intLiteralEx(String pattern, Predicate<_int> constraint ) {
-        return new $ex( Ex.intLiteralEx(pattern ) ).$and(constraint);
+        return new $ex( Expressions.intLiteralEx(pattern ) ).$and(constraint);
     }
     
     /** 
@@ -1017,7 +1017,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<LambdaExpr, _lambda, $ex> lambdaEx(String... pattern ) {
-        return new $ex( Ex.lambdaEx(pattern ) );
+        return new $ex( Expressions.lambdaEx(pattern ) );
     }
 
     /** 
@@ -1026,7 +1026,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<LambdaExpr, _lambda, $ex> lambdaEx(Predicate<_lambda> constraint) {
-        return new $ex( Ex.lambdaEx("a-> true" ) ).$(Ex.lambdaEx("a->true"), "any").$and(constraint);
+        return new $ex( Expressions.lambdaEx("a-> true" ) ).$(Expressions.lambdaEx("a->true"), "any").$and(constraint);
     }
 
     /**
@@ -1036,7 +1036,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<LambdaExpr, _lambda, $ex> lambdaEx(String pattern , Predicate<_lambda> constraint) {
-        return new $ex( Ex.lambdaEx(pattern ) ).$and(constraint);
+        return new $ex( Expressions.lambdaEx(pattern ) ).$and(constraint);
     }
     
     /** 
@@ -1053,7 +1053,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<LongLiteralExpr, _long, $ex> of(long l) {
-        return new $ex( Ex.longLiteralEx( l ) );
+        return new $ex( Expressions.longLiteralEx( l ) );
     }
 
     /**
@@ -1063,7 +1063,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<LongLiteralExpr, _long, $ex> of(long l, Predicate<_long> constraint ) {
-        return new $ex( Ex.longLiteralEx( l ) ).$and(constraint);
+        return new $ex( Expressions.longLiteralEx( l ) ).$and(constraint);
     }
     
     /**
@@ -1072,7 +1072,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<LongLiteralExpr, _long, $ex> longLiteralEx(long l ) {
-        return new $ex( Ex.longLiteralEx( l ) );
+        return new $ex( Expressions.longLiteralEx( l ) );
     }
 
     /**
@@ -1085,7 +1085,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
         for(int i=0;i<ls.length; i++){
             sd.add( ls[i]);
         }
-        return new $ex( Ex.longLiteralEx( ) ).$and(d-> sd.contains(d));
+        return new $ex( Expressions.longLiteralEx( ) ).$and(d-> sd.contains(d));
     }
 
     /**
@@ -1094,7 +1094,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<LongLiteralExpr, _long, $ex> longLiteralEx(Predicate<_long> constraint ) {
-        return new $ex( Ex.longLiteralEx(1L)).$(Ex.longLiteralEx(1L), "any")
+        return new $ex( Expressions.longLiteralEx(1L)).$(Expressions.longLiteralEx(1L), "any")
                 .$and(constraint) ;
     }
     
@@ -1105,7 +1105,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<LongLiteralExpr, _long, $ex> longLiteralEx(long l, Predicate<_long> constraint ) {
-        return new $ex( Ex.longLiteralEx( l ) ).$and(constraint);
+        return new $ex( Expressions.longLiteralEx( l ) ).$and(constraint);
     }
    
     /**
@@ -1114,7 +1114,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<LongLiteralExpr, _long, $ex> longLiteralEx(String... pattern ) {
-        return new $ex( Ex.longLiteralEx(pattern ) );
+        return new $ex( Expressions.longLiteralEx(pattern ) );
     }
     
     /**
@@ -1124,7 +1124,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<LongLiteralExpr, _long, $ex> longLiteralEx(String pattern, Predicate<_long> constraint ) {
-        return new $ex( Ex.longLiteralEx(pattern ) ).$and(constraint);
+        return new $ex( Expressions.longLiteralEx(pattern ) ).$and(constraint);
     }
 
     /**
@@ -1141,7 +1141,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return  
      */
     public static $ex<MethodCallExpr, _methodCall, $ex> methodCallEx(String... pattern ) {
-        return new $ex( Ex.methodCallEx(pattern ) );
+        return new $ex( Expressions.methodCallEx(pattern ) );
     }
 
     /**
@@ -1151,7 +1151,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<MethodCallExpr, _methodCall, $ex> methodCallEx(String pattern, Predicate<_methodCall> constraint ) {
-        return new $ex( Ex.methodCallEx(pattern ) ).$and(constraint);
+        return new $ex( Expressions.methodCallEx(pattern ) ).$and(constraint);
     }
     
     /**
@@ -1160,7 +1160,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<MethodCallExpr, _methodCall, $ex> methodCallEx(Predicate<_methodCall> constraint ) {
-        return new $ex( Ex.methodCallEx("a()" )).$(Ex.of("a()"), "any").$and(constraint);
+        return new $ex( Expressions.methodCallEx("a()" )).$(Expressions.of("a()"), "any").$and(constraint);
     }
     
     /**
@@ -1175,9 +1175,9 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return the MethodCallExpr Ast Node representing the first method call
      * in the lambda body
      */
-    public static MethodCallExpr methodCallEx(Ex.Command lambdaWithMethodCallInSource ){
+    public static MethodCallExpr methodCallEx(Expressions.Command lambdaWithMethodCallInSource ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr astLambda = Ex.lambdaEx(ste);
+        LambdaExpr astLambda = Expressions.lambdaEx(ste);
         return astLambda.getBody().findFirst(MethodCallExpr.class).get();
     }
 
@@ -1195,7 +1195,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      */
     public static $ex<MethodCallExpr, _methodCall, $ex> methodCallEx(Consumer<? extends Object> lambdaWithMethodCallInSource ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr astLambda = Ex.lambdaEx(ste);
+        LambdaExpr astLambda = Expressions.lambdaEx(ste);
         return $ex.of(astLambda.getBody().findFirst(MethodCallExpr.class).get());
     }    
     
@@ -1213,7 +1213,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      */
     public static $ex<MethodCallExpr, _methodCall, $ex> methodCallEx(BiConsumer<? extends Object,? extends Object> lambdaWithMethodCallInSource ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr astLambda = Ex.lambdaEx(ste);
+        LambdaExpr astLambda = Expressions.lambdaEx(ste);
         return $ex.of(astLambda.getBody().findFirst(MethodCallExpr.class).get());
     }  
     
@@ -1229,9 +1229,9 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return the MethodCallExpr Ast Node representing the first method call
      * in the lambda body
      */
-    public static $ex<MethodCallExpr, _methodCall, $ex> methodCallEx(Ex.TriConsumer<? extends Object,? extends Object, ? extends Object> lambdaWithMethodCallInSource ){
+    public static $ex<MethodCallExpr, _methodCall, $ex> methodCallEx(Expressions.TriConsumer<? extends Object,? extends Object, ? extends Object> lambdaWithMethodCallInSource ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr astLambda = Ex.lambdaEx(ste);
+        LambdaExpr astLambda = Expressions.lambdaEx(ste);
         return $ex.of(astLambda.getBody().findFirst(MethodCallExpr.class).get());
     }
     
@@ -1247,9 +1247,9 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return the MethodCallExpr Ast Node representing the first method call
      * in the lambda body
      */
-    public static $ex<MethodCallExpr, _methodCall, $ex> methodCallEx(Ex.QuadConsumer<? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCallInSource ){
+    public static $ex<MethodCallExpr, _methodCall, $ex> methodCallEx(Expressions.QuadConsumer<? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCallInSource ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr astLambda = Ex.lambdaEx(ste);
+        LambdaExpr astLambda = Expressions.lambdaEx(ste);
         return $ex.of(astLambda.getBody().findFirst(MethodCallExpr.class).get());
     }
     
@@ -1267,7 +1267,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<MethodReferenceExpr, _methodReference, $ex> methodReferenceEx(String... pattern ) {
-        return new $ex( Ex.methodReferenceEx(pattern ) );
+        return new $ex( Expressions.methodReferenceEx(pattern ) );
     }
     
     /**
@@ -1276,7 +1276,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<MethodReferenceExpr, _methodReference, $ex> methodReferenceEx(Predicate<_methodReference> constraint) {
-        return new $ex( Ex.methodReferenceEx("A:b")).$("A:b", "any").$and(constraint);
+        return new $ex( Expressions.methodReferenceEx("A:b")).$("A:b", "any").$and(constraint);
     }
     
     /** 
@@ -1286,7 +1286,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<MethodReferenceExpr,_methodReference, $ex> methodReferenceEx(String pattern, Predicate<_methodReference>constraint ) {
-        return new $ex( Ex.methodReferenceEx(pattern ) ).$and(constraint);
+        return new $ex( Expressions.methodReferenceEx(pattern ) ).$and(constraint);
     }
     
     /**
@@ -1320,7 +1320,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<NameExpr, _nameExpression, $ex> nameEx(String... pattern ) {
-        return new $ex( Ex.nameEx(pattern ) );
+        return new $ex( Expressions.nameEx(pattern ) );
     }
     
     /**
@@ -1329,7 +1329,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<NameExpr, _nameExpression, $ex> nameEx(Predicate<_nameExpression>constraint) {
-        return new $ex( Ex.nameEx("name" ) ).$("name", "any").$and(constraint);
+        return new $ex( Expressions.nameEx("name" ) ).$("name", "any").$and(constraint);
     }
     
     /**
@@ -1339,7 +1339,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<NameExpr, _nameExpression, $ex> nameEx(String pattern, Predicate<_nameExpression>constraint) {
-        return new $ex( Ex.nameEx(pattern ) ).$and(constraint);
+        return new $ex( Expressions.nameEx(pattern ) ).$and(constraint);
     }
 
     /**
@@ -1356,7 +1356,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<ObjectCreationExpr, _new, $ex> newEx(String... pattern ) {
-        return new $ex( Ex.newEx(pattern ) );
+        return new $ex( Expressions.newEx(pattern ) );
     }
     
     /** 
@@ -1365,7 +1365,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<ObjectCreationExpr, _new, $ex> newEx(Predicate<_new>constraint ) {
-        return new $ex( Ex.newEx( "new a()" ) ).$("new a()", "any").$and(constraint);
+        return new $ex( Expressions.newEx( "new a()" ) ).$("new a()", "any").$and(constraint);
     }
     
     /** 
@@ -1375,7 +1375,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<ObjectCreationExpr, _new, $ex> newEx(String pattern, Predicate<_new>constraint ) {
-        return new $ex( Ex.newEx(pattern ) ).$and(constraint);
+        return new $ex( Expressions.newEx(pattern ) ).$and(constraint);
     }
 
     /** 
@@ -1392,7 +1392,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return
      */
     public static $ex<StringLiteralExpr, _string, $ex> stringLiteralEx(String literal ) {
-        return new $ex( Ex.stringLiteralEx(literal) );
+        return new $ex( Expressions.stringLiteralEx(literal) );
     }
     
     /** 
@@ -1414,7 +1414,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<StringLiteralExpr, _string, $ex> stringLiteralEx(Predicate<_string> constraint) {
-        return new $ex( Ex.stringLiteralEx( "\"a\"" ) ).$("\"a\"", "any").$and(constraint);
+        return new $ex( Expressions.stringLiteralEx( "\"a\"" ) ).$("\"a\"", "any").$and(constraint);
     }
     
     /**
@@ -1424,7 +1424,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<StringLiteralExpr, _string, $ex> stringLiteralEx(String pattern, Predicate<_string> constraint) {
-        return new $ex( Ex.stringLiteralEx(pattern ) ).$and(constraint);
+        return new $ex( Expressions.stringLiteralEx(pattern ) ).$and(constraint);
     }
     
     /**
@@ -1450,7 +1450,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<SuperExpr, _super, $ex> superEx(String...pattern ){
-        return new $ex(Ex.superEx(pattern));
+        return new $ex(Expressions.superEx(pattern));
     }
     
     /**
@@ -1469,7 +1469,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<SuperExpr, _super, $ex> superEx(String pattern, Predicate<_super> constraint ){
-        return new $ex(Ex.superEx(pattern)).$and(constraint);
+        return new $ex(Expressions.superEx(pattern)).$and(constraint);
     }
     
     /**
@@ -1497,7 +1497,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return
      */
     public static $ex<SwitchExpr, _switchExpression, $ex> switchEx(String... pattern ) {
-        return new $ex( Ex.switchEx(pattern ) );
+        return new $ex( Expressions.switchEx(pattern ) );
     }
 
     /**
@@ -1532,7 +1532,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return
      */
     public static $ex<SwitchExpr, _switchExpression, $ex> switchEx(Predicate<_switchExpression> constraint ) {
-        return new $ex( Ex.switchEx()).$and(constraint);
+        return new $ex( Expressions.switchEx()).$and(constraint);
     }
 
     /**
@@ -1547,9 +1547,9 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return the MethodCallExpr Ast Node representing the first method call
      * in the lambda body
      */
-    public static SwitchExpr switchExpression(Ex.Command lambdaWithMethodCallInSource ){
+    public static SwitchExpr switchExpression(Expressions.Command lambdaWithMethodCallInSource ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr astLambda = Ex.lambdaEx(ste);
+        LambdaExpr astLambda = Expressions.lambdaEx(ste);
         return astLambda.getBody().findFirst(SwitchExpr.class).get();
     }
 
@@ -1567,7 +1567,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      */
     public static $ex<SwitchExpr, _switchExpression, $ex> switchEx(Consumer<? extends Object> lambdaWithMethodCallInSource ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr astLambda = Ex.lambdaEx(ste);
+        LambdaExpr astLambda = Expressions.lambdaEx(ste);
         return $ex.of(astLambda.getBody().findFirst(SwitchExpr.class).get());
     }
 
@@ -1585,7 +1585,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      */
     public static $ex<SwitchExpr, _switchExpression, $ex> switchEx(BiConsumer<? extends Object,? extends Object> lambdaWithMethodCallInSource ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr astLambda = Ex.lambdaEx(ste);
+        LambdaExpr astLambda = Expressions.lambdaEx(ste);
         return $ex.of(astLambda.getBody().findFirst(SwitchExpr.class).get());
     }
 
@@ -1601,9 +1601,9 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return the MethodCallExpr Ast Node representing the first method call
      * in the lambda body
      */
-    public static $ex<SwitchExpr, _switchExpression, $ex> switchEx(Ex.TriConsumer<? extends Object,? extends Object, ? extends Object> lambdaWithMethodCallInSource ){
+    public static $ex<SwitchExpr, _switchExpression, $ex> switchEx(Expressions.TriConsumer<? extends Object,? extends Object, ? extends Object> lambdaWithMethodCallInSource ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr astLambda = Ex.lambdaEx(ste);
+        LambdaExpr astLambda = Expressions.lambdaEx(ste);
         return $ex.of(astLambda.getBody().findFirst(SwitchExpr.class).get());
     }
 
@@ -1619,9 +1619,9 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return the MethodCallExpr Ast Node representing the first method call
      * in the lambda body
      */
-    public static $ex<SwitchExpr, _switchExpression, $ex> switchEx(Ex.QuadConsumer<? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCallInSource ){
+    public static $ex<SwitchExpr, _switchExpression, $ex> switchEx(Expressions.QuadConsumer<? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCallInSource ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr astLambda = Ex.lambdaEx(ste);
+        LambdaExpr astLambda = Expressions.lambdaEx(ste);
         return $ex.of(astLambda.getBody().findFirst(SwitchExpr.class).get());
     }
 
@@ -1662,7 +1662,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<ThisExpr, _this, $ex> thisEx(String... pattern){
-        return new $ex(Ex.thisEx(pattern) );
+        return new $ex(Expressions.thisEx(pattern) );
     }
     
     /**
@@ -1672,7 +1672,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<ThisExpr, _this, $ex> thisEx(String pattern, Predicate<_this> constraint){
-        return new $ex(Ex.thisEx(pattern) ).$and(constraint);
+        return new $ex(Expressions.thisEx(pattern) ).$and(constraint);
     }
     
     /**
@@ -1681,7 +1681,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<ThisExpr, _this, $ex> thisEx(Predicate<_this> constraint){
-        return new $ex(Ex.thisEx() ).$and(constraint);
+        return new $ex(Expressions.thisEx() ).$and(constraint);
     }
         
     /**
@@ -1709,7 +1709,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<TypeExpr, _typeExpression, $ex> typeEx(String... pattern ) {
-        return new $ex( Ex.typeEx(pattern ) );
+        return new $ex( Expressions.typeEx(pattern ) );
     }
     
     /** 
@@ -1718,7 +1718,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<TypeExpr, _typeExpression, $ex> typeEx(Predicate<_typeExpression> constraint ) {
-        return new $ex( Ex.typeEx( "a" ) ).$("a", "any").$and(constraint);
+        return new $ex( Expressions.typeEx( "a" ) ).$("a", "any").$and(constraint);
     }
     
     /** 
@@ -1728,7 +1728,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<TypeExpr, _typeExpression, $ex> typeEx(String pattern, Predicate<_typeExpression> constraint ) {
-        return new $ex( Ex.typeEx(pattern ) ).$and(constraint);
+        return new $ex( Expressions.typeEx(pattern ) ).$and(constraint);
     }
 
     /** 
@@ -1745,7 +1745,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static $ex<UnaryExpr, _unary, $ex> unaryEx(String... pattern ) {
-        return new $ex( Ex.unaryEx(pattern ) );
+        return new $ex( Expressions.unaryEx(pattern ) );
     }
    
     /** 
@@ -1754,7 +1754,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return  
      */
     public static $ex<UnaryExpr, _unary, $ex> unaryEx(Predicate<_unary>constraint) {
-        return new $ex( Ex.unaryEx( "!true" ) ).$("!true", "any").$and(constraint);
+        return new $ex( Expressions.unaryEx( "!true" ) ).$("!true", "any").$and(constraint);
     }
     
     /** 
@@ -1764,7 +1764,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return  
      */
     public static $ex<UnaryExpr, _unary, $ex> unaryEx(String pattern, Predicate<_unary>constraint) {
-        return new $ex( Ex.unaryEx(pattern ) ).$and(constraint);
+        return new $ex( Expressions.unaryEx(pattern ) ).$and(constraint);
     }
     
     /** 
@@ -1781,7 +1781,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return  
      */
     public static $ex<VariableDeclarationExpr, _localVariables, $ex> varLocalEx(String... pattern ) {
-        return new $ex( Ex.varLocalEx(pattern ) );
+        return new $ex( Expressions.varLocalEx(pattern ) );
     }
 
     /** 
@@ -1790,7 +1790,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return  
      */
     public static $ex<VariableDeclarationExpr, _localVariables, $ex> varLocalEx(Predicate<_localVariables> constraint) {
-        return new $ex( Ex.varLocalEx( "int i=1") ).$(Ex.of("int i=1"), "any").$and(constraint);
+        return new $ex( Expressions.varLocalEx( "int i=1") ).$(Expressions.of("int i=1"), "any").$and(constraint);
     }
     
     /** 
@@ -1800,7 +1800,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return  
      */
     public static $ex<VariableDeclarationExpr, _localVariables, $ex> varLocalEx(String pattern, Predicate<_localVariables> constraint) {
-        return new $ex( Ex.varLocalEx(pattern ) ).$and(constraint);
+        return new $ex( Expressions.varLocalEx(pattern ) ).$and(constraint);
     }
     
     /** 
@@ -1950,7 +1950,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
     @Override
     public _E fill(Object...values){
         String str = exprStencil.fill(Translator.DEFAULT_TRANSLATOR, values);
-        return (_E)_expression.of((E) Ex.of( str));
+        return (_E)_expression.of((E) Expressions.of( str));
     }
 
     @Override
@@ -2000,12 +2000,12 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
                 throw new _jdraftException("no stencil or override provided for drafting "+ this);
             }
             if( val instanceof Stencil ){
-                return (_E)_expression.of( Ex.of(((Stencil) val).draft( t, tokens )));
+                return (_E)_expression.of( Expressions.of(((Stencil) val).draft( t, tokens )));
             }
             Stencil st = Stencil.of( val.toString() );
-            return (_E)_expression.of( Ex.of(st.draft( t, tokens )));
+            return (_E)_expression.of( Expressions.of(st.draft( t, tokens )));
         }
-        return (_E)_expression.of( Ex.of(exprStencil.draft( t, tokens )));
+        return (_E)_expression.of( Expressions.of(exprStencil.draft( t, tokens )));
     }
 
     public boolean match( Node node ){
@@ -2078,8 +2078,8 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @return 
      */
     public static boolean compareNumberLiterals( String expected, String actual ){
-        Number ex = Ex.parseNumber(expected);
-        Number act = Ex.parseNumber(actual);
+        Number ex = Expressions.parseNumber(expected);
+        Number act = Expressions.parseNumber(actual);
         if( ex.equals( act ) ){
             return true;
         }
@@ -2192,7 +2192,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
 
     public Select<E,_E> select(String...expr){
         try{
-            return select(Ex.of(expr));
+            return select(Expressions.of(expr));
         }catch(Exception e){
             return null;
         }

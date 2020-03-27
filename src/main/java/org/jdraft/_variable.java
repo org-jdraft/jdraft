@@ -89,7 +89,7 @@ public class _variable implements _java._node<VariableDeclarator, _variable>,
 
 
     public _variable setInit(String...e){
-        this.vd.setInitializer(Ex.of(e));
+        this.vd.setInitializer(Expressions.of(e));
         return this;
     }
 
@@ -109,27 +109,27 @@ public class _variable implements _java._node<VariableDeclarator, _variable>,
     }
 
     public _variable setInit(boolean b){
-        return setInit(Ex.of(b));
+        return setInit(Expressions.of(b));
     }
 
     public _variable setInit(int i){
-        return setInit(Ex.of(i));
+        return setInit(Expressions.of(i));
     }
 
     public _variable setInit(char c){
-        return setInit(Ex.of(c));
+        return setInit(Expressions.of(c));
     }
 
     public _variable setInit(float f){
-        return setInit(Ex.of(f));
+        return setInit(Expressions.of(f));
     }
 
     public _variable setInit(long l){
-        return setInit(Ex.of(l));
+        return setInit(Expressions.of(l));
     }
 
     public _variable setInit(double d){
-        return setInit(Ex.of(d));
+        return setInit(Expressions.of(d));
     }
 
 
@@ -138,32 +138,32 @@ public class _variable implements _java._node<VariableDeclarator, _variable>,
     }
 
     public boolean isInit(boolean b){
-        return isInit(Ex.of(b));
+        return isInit(Expressions.of(b));
     }
 
     public boolean isInit(int i){
-        return isInit(Ex.of(i));
+        return isInit(Expressions.of(i));
     }
 
     public boolean isInit(char c){
-        return isInit(Ex.of(c));
+        return isInit(Expressions.of(c));
     }
 
     public boolean isInit(float f){
-        return isInit(Ex.of(f));
+        return isInit(Expressions.of(f));
     }
 
     public boolean isInit(long l){
-        return isInit(Ex.of(l));
+        return isInit(Expressions.of(l));
     }
 
     public boolean isInit(double d){
-        return isInit(Ex.of(d));
+        return isInit(Expressions.of(d));
     }
 
     public boolean isInit(String...ex){
         try{
-            return isInit(Ex.of(ex));
+            return isInit(Expressions.of(ex));
         }catch(Exception e){
             return false;
         }
@@ -174,7 +174,7 @@ public class _variable implements _java._node<VariableDeclarator, _variable>,
 
     public boolean isInit(Expression e){
         return this.vd.getInitializer().isPresent() &&
-                Ex.equivalent( this.vd.getInitializer().get(), e);
+                Expressions.equivalent( this.vd.getInitializer().get(), e);
     }
 
     public int hashCode( ){

@@ -61,19 +61,19 @@ public class $doStmt extends $stmt<DoStmt, _doStmt> {
      */
 
     public static <A extends Object, B extends Object> $doStmt of( Function<A,B> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> $doStmt of( BiFunction<A,B,C> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $doStmt of( Ex.TriFunction<A,B,C,D> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $doStmt of( Expressions.TriFunction<A,B,C,D> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> $doStmt of( Ex.QuadFunction<A,B,C,D,E> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> $doStmt of( Expressions.QuadFunction<A,B,C,D,E> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
 

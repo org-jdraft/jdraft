@@ -1,7 +1,6 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.*;
-import com.github.javaparser.ast.nodeTypes.NodeWithExpression;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 
 import java.util.Objects;
@@ -63,7 +62,7 @@ public class _returnStmt implements _statement._controlFlow._signal<ReturnStmt, 
     }
 
     public static _returnStmt of( String...code){
-        return new _returnStmt(Stmt.returnStmt( code));
+        return new _returnStmt(Statements.returnStmt( code));
     }
 
     private ReturnStmt rs;
@@ -80,7 +79,7 @@ public class _returnStmt implements _statement._controlFlow._signal<ReturnStmt, 
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Stmt.returnStmt(stringRep));
+            return is( Statements.returnStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }
@@ -106,18 +105,18 @@ public class _returnStmt implements _statement._controlFlow._signal<ReturnStmt, 
             return false;
         }
         try{
-            return isExpression(Ex.of(expression));
+            return isExpression(Expressions.of(expression));
         }catch(Exception e){
             return false;
         }
     }
 
     public boolean isExpression(_expression _ex){
-        return Ex.equivalent( this.getExpression().ast(), _ex.ast());
+        return Expressions.equivalent( this.getExpression().ast(), _ex.ast());
     }
 
     public boolean isExpression(Expression ex){
-        return Ex.equivalent( this.getExpression().ast(), ex);
+        return Expressions.equivalent( this.getExpression().ast(), ex);
     }
 
     public boolean isExpression(Predicate<_expression> matchFn){
@@ -125,31 +124,31 @@ public class _returnStmt implements _statement._controlFlow._signal<ReturnStmt, 
     }
 
     public boolean isExpression( int i){
-        return isExpression( Ex.of(i) );
+        return isExpression( Expressions.of(i) );
     }
 
     public boolean isExpression( boolean b){
-        return isExpression( Ex.of(b) );
+        return isExpression( Expressions.of(b) );
     }
 
     public boolean isExpression( float f){
-        return isExpression( Ex.of(f) );
+        return isExpression( Expressions.of(f) );
     }
 
     public boolean isExpression( long l){
-        return isExpression( Ex.of(l) );
+        return isExpression( Expressions.of(l) );
     }
 
     public boolean isExpression( double d){
-        return isExpression( Ex.of(d) );
+        return isExpression( Expressions.of(d) );
     }
 
     public boolean isExpression( char c){
-        return isExpression( Ex.of(c) );
+        return isExpression( Expressions.of(c) );
     }
 
     public _returnStmt setExpression(String...expression){
-        return setExpression(Ex.of(expression));
+        return setExpression(Expressions.of(expression));
     }
 
     public _returnStmt setExpression(_expression e){

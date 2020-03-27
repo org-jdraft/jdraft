@@ -14,7 +14,7 @@ public class _boolean implements _expression._literal<BooleanLiteralExpr, _boole
         return new _boolean(bl);
     }
     public static _boolean of( String...code){
-        return new _boolean(Ex.booleanLiteralEx( code));
+        return new _boolean(Expressions.booleanLiteralEx( code));
     }
 
     public BooleanLiteralExpr be;
@@ -31,7 +31,7 @@ public class _boolean implements _expression._literal<BooleanLiteralExpr, _boole
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Ex.booleanLiteralEx(stringRep));
+            return is( Expressions.booleanLiteralEx(stringRep));
         } catch(Exception e){ }
         return false;
     }
@@ -65,7 +65,7 @@ public class _boolean implements _expression._literal<BooleanLiteralExpr, _boole
     }
 
     public _boolean set(String...value){
-        this.set(Ex.booleanLiteralEx(value));
+        this.set(Expressions.booleanLiteralEx(value));
         return this;
     }
 

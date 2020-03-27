@@ -42,7 +42,7 @@ public class _hashCodeTest extends TestCase {
         System.out.println( _m );
         assertEquals( 3, _hashCode.$HASHCODE.draft("seed",1,"prime",2).getBody().getStatements().size() );
         assertEquals( 4, _hashCode.$HASHCODE.draft("seed", 1,"prime", 2, "callSuperHashCode", true, "body", false).getBody().getStatements().size() );
-        assertEquals( 5, _hashCode.$HASHCODE.draft("seed", 1,"prime", 2, "callSuperHashCode", true, "body", Stmt.of("System.out.println(1);")).getBody().getStatements().size() );
+        assertEquals( 5, _hashCode.$HASHCODE.draft("seed", 1,"prime", 2, "callSuperHashCode", true, "body", Statements.of("System.out.println(1);")).getBody().getStatements().size() );
     }
 
     public void testR(){
@@ -78,7 +78,7 @@ public class _hashCodeTest extends TestCase {
 
         //verify that
         List<$stmt.Select> ss = $st.listSelectedIn(_m);
-        assertTrue( ss.stream().filter(s-> s.tokens.is("fieldHash", Ex.of("( b ? 1 : 0 )").toString())).findAny().isPresent());
+        assertTrue( ss.stream().filter(s-> s.tokens.is("fieldHash", Expressions.of("( b ? 1 : 0 )").toString())).findAny().isPresent());
         assertTrue( ss.stream().filter(s-> s.tokens.is("fieldHash", "i") ).findAny().isPresent()); //int
         assertTrue( ss.stream().filter(s-> s.tokens.is("fieldHash", "by") ).findAny().isPresent()); //ibyte
         assertTrue( ss.stream().filter(s-> s.tokens.is("fieldHash", "ss") ).findAny().isPresent()); //short

@@ -19,7 +19,7 @@ public class _methodReference implements _expression<MethodReferenceExpr, _metho
     }
 
     public static _methodReference of( String...code){
-        return new _methodReference(Ex.methodReferenceEx( code));
+        return new _methodReference(Expressions.methodReferenceEx( code));
     }
 
     public MethodReferenceExpr mre;

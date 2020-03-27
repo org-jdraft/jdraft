@@ -18,7 +18,7 @@ public class _nameExpression
         return new _nameExpression( ne);
     }
     public static _nameExpression of( String...code){
-        return new _nameExpression(Ex.nameEx( code));
+        return new _nameExpression(Expressions.nameEx( code));
     }
 
     public NameExpr ne;

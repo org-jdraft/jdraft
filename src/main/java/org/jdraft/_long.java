@@ -20,7 +20,7 @@ public class _long implements _expression._literal<LongLiteralExpr, _long> {
         return new _long(ll);
     }
     public static _long of( String...code){
-        return new _long(Ex.longLiteralEx( code));
+        return new _long(Expressions.longLiteralEx( code));
     }
 
     public LongLiteralExpr ile;
@@ -37,7 +37,7 @@ public class _long implements _expression._literal<LongLiteralExpr, _long> {
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Ex.longLiteralEx(stringRep));
+            return is( Expressions.longLiteralEx(stringRep));
         } catch(Exception e){}
         return false;
     }

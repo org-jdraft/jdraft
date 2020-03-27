@@ -1,7 +1,7 @@
 package org.jdraft.bot;
 
 import com.github.javaparser.ast.expr.*;
-import org.jdraft.Ex;
+import org.jdraft.Expressions;
 import org.jdraft._expression;
 
 import org.jdraft.text.Stencil;
@@ -26,11 +26,11 @@ public interface $expression<E extends Expression, _E extends _expression, $E ex
     }
 
     static $expression of(String code) {
-        return of( Ex.of(code));
+        return of( Expressions.of(code));
     }
 
     static $expression of(String... code) {
-        return of( Ex.of(code));
+        return of( Expressions.of(code));
     }
 
     static $expression of(_expression<?,?> _e) {

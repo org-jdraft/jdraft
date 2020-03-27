@@ -224,7 +224,7 @@ public class $constructor
     }
 
     private static _constructor from( StackTraceElement ste, Object anonymousObjectContainingMethod ){
-        ObjectCreationExpr oce = Ex.newEx( ste );
+        ObjectCreationExpr oce = Expressions.newEx( ste );
 
         _class _c = _class.of("C");
         if( oce.getAnonymousClassBody().isPresent() ){
@@ -844,7 +844,7 @@ public class $constructor
         return draft(_n.tokenize() );
     }
 
-    public static final BlockStmt EMPTY = Stmt.blockStmt("{}");
+    public static final BlockStmt EMPTY = Statements.blockStmt("{}");
 
     /**
      * 

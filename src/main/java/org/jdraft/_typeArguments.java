@@ -26,7 +26,7 @@ public class _typeArguments
         implements _java._set<Type, _typeRef, _typeArguments> {
 
     public static _typeArguments of(){
-        return of( Ex.newEx("new empty()"));
+        return of( Expressions.newEx("new empty()"));
     }
 
     public static _typeArguments of( _typeRef...rt){
@@ -43,16 +43,16 @@ public class _typeArguments
             if( a.startsWith("<") && a.endsWith(">")){
                 a = a.substring(1, a.length()-1).trim();
                 if( a.length() == 0 ) {
-                    ObjectCreationExpr oce = Ex.newEx("new <> empty()");
+                    ObjectCreationExpr oce = Expressions.newEx("new <> empty()");
                     return of(oce);
                 }
-                ObjectCreationExpr oce = Ex.newEx("new <"+ a + "> empty()");
+                ObjectCreationExpr oce = Expressions.newEx("new <"+ a + "> empty()");
                 return of( oce);
             }
             if( a.startsWith("<") ){
                 a = a.substring(1, a.length()-1);
             }
-            ObjectCreationExpr oce = Ex.newEx("new <"+ a + "> empty()");
+            ObjectCreationExpr oce = Expressions.newEx("new <"+ a + "> empty()");
             return of( oce);
         }
         StringBuilder sb = new StringBuilder();
@@ -63,7 +63,7 @@ public class _typeArguments
             String a = args[i].trim();
             sb.append(a);
         }
-        return of( Ex.newEx("new<"+ sb.toString() + "> empty()"));
+        return of( Expressions.newEx("new<"+ sb.toString() + "> empty()"));
     }
 
     public static _typeArguments of(NodeWithTypeArguments nwta){

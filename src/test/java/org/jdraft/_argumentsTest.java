@@ -8,8 +8,8 @@ public class _argumentsTest extends TestCase {
         _arguments _as = _arguments.of(); //no args
         assertEquals(0, _as.size());
         assertTrue(_as.isEmpty());
-        assertTrue(_as.allMatch( e-> e.is(Ex.of(1))));
-        assertFalse(_as.anyMatch( e-> e.is(Ex.of(1))));
+        assertTrue(_as.allMatch( e-> e.is(Expressions.of(1))));
+        assertFalse(_as.anyMatch( e-> e.is(Expressions.of(1))));
         assertEquals( -1, _as.indexOf(_int.of(1)));
         assertNull( _as.get(_e -> _e instanceof _expression._literal ));
         _as.forEach(e-> fail() ); //there are none so we shouldnt fail
@@ -28,7 +28,7 @@ public class _argumentsTest extends TestCase {
 
         assertTrue(_as.isAt(0, _int.of(1)));
         assertTrue(_as.isAt(0, "1"));
-        assertTrue(_as.isAt(0, Ex.of("1")));
+        assertTrue(_as.isAt(0, Expressions.of("1")));
 
         assertEquals(_int.of(1), _as.getAt(0));
         assertEquals(-1, _as.indexOf( _int.of(2)));

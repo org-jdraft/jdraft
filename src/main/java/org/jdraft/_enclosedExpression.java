@@ -25,42 +25,42 @@ public class _enclosedExpression implements _expression<EnclosedExpr, _enclosedE
         return new _enclosedExpression(ee);
     }
     public static _enclosedExpression of( String...code){
-        return new _enclosedExpression(Ex.enclosedEx( code));
+        return new _enclosedExpression(Expressions.enclosedEx( code));
     }
 
 
-    public static <A extends Object> _enclosedExpression of(Ex.Command c){
-        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _enclosedExpression of(Expressions.Command c){
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _enclosedExpression of(Consumer<A> c){
-        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _enclosedExpression of(BiConsumer<A,B> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _enclosedExpression of( Ex.TriConsumer<A,B,C> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _enclosedExpression of( Expressions.TriConsumer<A,B,C> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _enclosedExpression of( Ex.QuadConsumer<A,B,C,D> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _enclosedExpression of( Expressions.QuadConsumer<A,B,C,D> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _enclosedExpression of( Function<A,B> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _enclosedExpression of( BiFunction<A,B,C> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _enclosedExpression of( Ex.TriFunction<A,B,C,D> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _enclosedExpression of( Expressions.TriFunction<A,B,C,D> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _enclosedExpression from( LambdaExpr le){
@@ -85,7 +85,7 @@ public class _enclosedExpression implements _expression<EnclosedExpr, _enclosedE
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Ex.enclosedEx(stringRep));
+            return is( Expressions.enclosedEx(stringRep));
         } catch(Exception e){ }
         return false;
     }
@@ -97,7 +97,7 @@ public class _enclosedExpression implements _expression<EnclosedExpr, _enclosedE
 
     //I had to override these because its called "inner" not expression
     public _enclosedExpression setExpression(String...ex){
-        this.ee.setInner(Ex.of(ex));
+        this.ee.setInner(Expressions.of(ex));
         return this;
     }
 

@@ -59,7 +59,7 @@ public class _annos
      */
     public static _annos of( Object anonymousObject ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Ex.newEx(ste);
+        ObjectCreationExpr oce = Expressions.newEx(ste);
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
         BodyDeclaration bd = bds.stream().filter(b -> b.getAnnotations().isNonEmpty() ).findFirst().get();
         return of( bd );
@@ -274,7 +274,7 @@ public class _annos
             AnnotationExpr e = (AnnotationExpr)this.astAnnNode.getAnnotations().get( i );
             //find a matching annotation in other, if one isnt found, then not equal
             if( !other.astAnnNode.getAnnotations().stream().filter(
-                    a -> Ex.equivalent(e, (AnnotationExpr)a ) ).findFirst().isPresent() ) {
+                    a -> Expressions.equivalent(e, (AnnotationExpr)a ) ).findFirst().isPresent() ) {
 
                 return false;
             }

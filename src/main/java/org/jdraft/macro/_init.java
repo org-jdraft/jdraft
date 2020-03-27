@@ -4,12 +4,10 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import org.jdraft._field;
-import org.jdraft._anno;
-import org.jdraft.Ex;
+import org.jdraft.Expressions;
 import com.github.javaparser.ast.expr.Expression;
 
 import java.lang.annotation.*;
-import java.util.function.Consumer;
 
 /**
  * Annotation/Macro to set the initializer for a {@link _field}
@@ -51,12 +49,12 @@ public @interface _init {
 
         public Act( _init _i ){
             super(_i);
-            this.initEx = Ex.of(_i.value());
+            this.initEx = Expressions.of(_i.value());
         }
 
         public Act( String initEx){
             super(_init.class);
-            this.initEx = Ex.of(initEx);
+            this.initEx = Expressions.of(initEx);
         }
 
         public Act( Expression e ){

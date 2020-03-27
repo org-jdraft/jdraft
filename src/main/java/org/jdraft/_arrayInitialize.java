@@ -21,7 +21,7 @@ public class _arrayInitialize implements _expression<ArrayInitializerExpr, _arra
         return new _arrayInitialize(ai);
     }
     public static _arrayInitialize of( String...code){
-        return new _arrayInitialize(Ex.arrayInitializerEx( code));
+        return new _arrayInitialize(Expressions.arrayInitializerEx( code));
     }
 
     public static _arrayInitialize ofStrings( String[] arr){

@@ -78,6 +78,10 @@ public interface _comment<C extends Comment, _C extends _comment> extends _java.
         return Text.lines( getContents() );
     }
 
+    /**
+     * Is this comment NOT attributed to a given Ast Node?
+     * @return whether this comment is orphaned( Not attributed to an AST node)
+     */
     default boolean isOrphaned(){
         return this.ast().isOrphan();
     }
@@ -85,10 +89,11 @@ public interface _comment<C extends Comment, _C extends _comment> extends _java.
     /**
      * Is this comment attributed to a Member
      * _method, _field, _class, _constructor?
-     */
+
     default boolean isOnMember(){
         return !this.isOrphaned() && this.getCommentedNode() instanceof _java._member;
     }
+     */
 
     /**
      * Is the comment attributed to any of these _node classes
@@ -162,11 +167,11 @@ public interface _comment<C extends Comment, _C extends _comment> extends _java.
             for(int i=0;i<column;i++){
                 indent += " "; //or tabs??
             }
-            String cont = _comment.formatContents(contents, indent, style);
+            String cont = _comment.formatContents(style, indent, contents);
             ast().setContent( cont );
             return (_C)this;
         }
-        ast().setContent( _comment.formatContents(contents, "", style) );
+        ast().setContent( _comment.formatContents(style, "", contents) );
         return (_C)this;
     }
 
@@ -240,22 +245,22 @@ public interface _comment<C extends Comment, _C extends _comment> extends _java.
 
     /**
      *
-     * @param contents
      * @param style
+     * @param contents
      * @return
      */
-    static String formatContents( String contents, _style style){
-        return formatContents( contents, "", style);
+    static String formatContents(_style style, String contents){
+        return formatContents(style, "", contents);
     }
 
     /**
      * remove the preceding / * and the ending * / and create the contents
-     * @param rawContents
-     * @param indent the indention of the tag (this indention is only applied
      * @param style
+     * @param indent the indention of the tag (this indention is only applied
+     * @param rawContents
      * @return
      */
-    static String formatContents( String rawContents, String indent, _style style ){
+    static String formatContents(_style style, String indent, String rawContents){
         List<String> ls = Text.lines(rawContents);
         if( ls.size() == 1 ){
             String trim = rawContents.trim();

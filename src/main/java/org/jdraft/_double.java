@@ -11,11 +11,11 @@ public class _double implements _expression._literal<DoubleLiteralExpr, _double>
         return new _double(dl);
     }
     public static _double of( String...code){
-        return new _double(Ex.doubleLiteralEx( code));
+        return new _double(Expressions.doubleLiteralEx( code));
     }
 
     public static _double of( double d){
-        return new _double(Ex.doubleLiteralEx( d));
+        return new _double(Expressions.doubleLiteralEx( d));
     }
 
     public DoubleLiteralExpr de;
@@ -32,7 +32,7 @@ public class _double implements _expression._literal<DoubleLiteralExpr, _double>
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Ex.doubleLiteralEx(stringRep));
+            return is( Expressions.doubleLiteralEx(stringRep));
         } catch(Exception e){
 
         }
@@ -45,7 +45,7 @@ public class _double implements _expression._literal<DoubleLiteralExpr, _double>
     }
 
     public boolean is(double d){
-        return Ex.equivalent(de, d);
+        return Expressions.equivalent(de, d);
     }
 
     public Double getValue(){

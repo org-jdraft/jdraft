@@ -13,7 +13,7 @@ import org.jdraft._jdraftException;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
-import org.jdraft.Ex;
+import org.jdraft.Expressions;
 import org.jdraft._expression;
 
 import com.github.javaparser.ast.Node;
@@ -175,7 +175,7 @@ public class $e
 	@Override
 	public Selected select(String code) {
 		try {
-			Expression e = Ex.of(code);
+			Expression e = Expressions.of(code);
 			return select(e);
 		}catch(Exception e) {
 			return null;
@@ -185,7 +185,7 @@ public class $e
 	@Override
 	public Selected select(String... code) {
 		try {
-			Expression e = Ex.of(code);
+			Expression e = Expressions.of(code);
 			return select(e);
 		}catch(Exception e) {
 			return null;

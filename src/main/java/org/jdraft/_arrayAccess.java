@@ -29,16 +29,16 @@ public class _arrayAccess
     }
 
     public static _arrayAccess of( String code){
-        return new _arrayAccess(Ex.arrayAccessEx( code));
+        return new _arrayAccess(Expressions.arrayAccessEx( code));
     }
 
     public static _arrayAccess of( String...code){
-        return new _arrayAccess(Ex.arrayAccessEx( code));
+        return new _arrayAccess(Expressions.arrayAccessEx( code));
     }
 
     //a simple literal name[3]
     public static _arrayAccess of( String name, int index){
-        return of( Ex.nameEx(name), index);
+        return of( Expressions.nameEx(name), index);
     }
 
     /**
@@ -48,7 +48,7 @@ public class _arrayAccess
      * @return
      */
     public static _arrayAccess of( String name, int... indexes){
-        return of( Ex.nameEx(name), indexes);
+        return of( Expressions.nameEx(name), indexes);
     }
 
     /**
@@ -142,7 +142,7 @@ public class _arrayAccess
     }
 
     public _arrayAccess setIndex(String index){
-        return setIndex( Ex.of(index));
+        return setIndex( Expressions.of(index));
     }
 
     public _arrayAccess setIndex(Expression e){
@@ -156,7 +156,7 @@ public class _arrayAccess
     }
 
     public _arrayAccess setName(String name){
-        return setName( Ex.of(name));
+        return setName( Expressions.of(name));
     }
 
     public _arrayAccess setName(Expression e){

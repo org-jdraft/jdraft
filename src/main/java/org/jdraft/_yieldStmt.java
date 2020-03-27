@@ -5,7 +5,6 @@ import com.github.javaparser.ast.stmt.YieldStmt;
 import org.jdraft.text.Text;
 
 import java.util.Objects;
-import java.util.function.Predicate;
 
 
 public class _yieldStmt implements _statement._controlFlow._signal<YieldStmt, _yieldStmt>,
@@ -50,7 +49,7 @@ public class _yieldStmt implements _statement._controlFlow._signal<YieldStmt, _y
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Stmt.yieldStmt(stringRep));
+            return is( Statements.yieldStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }

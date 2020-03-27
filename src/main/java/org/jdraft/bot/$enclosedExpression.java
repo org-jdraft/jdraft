@@ -78,7 +78,7 @@ public class $enclosedExpression implements $bot.$node<EnclosedExpr, _enclosedEx
 
     public Selected select(String str) {
         try {
-            return select(Ex.classEx(str));
+            return select(Expressions.classEx(str));
         } catch (Exception e) {
             return null;
         }

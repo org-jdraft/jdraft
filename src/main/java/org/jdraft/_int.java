@@ -2,10 +2,6 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Predicate;
-
 public class _int implements _expression._literal<IntegerLiteralExpr, _int> {
 
     public static _int of(){
@@ -18,7 +14,7 @@ public class _int implements _expression._literal<IntegerLiteralExpr, _int> {
         return new _int(il);
     }
     public static _int of( String...code){
-        return new _int(Ex.intLiteralEx( code));
+        return new _int(Expressions.intLiteralEx( code));
     }
 
     public IntegerLiteralExpr ile;
@@ -35,7 +31,7 @@ public class _int implements _expression._literal<IntegerLiteralExpr, _int> {
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Ex.intLiteralEx(stringRep));
+            return is( Expressions.intLiteralEx(stringRep));
         } catch(Exception e){
 
         }

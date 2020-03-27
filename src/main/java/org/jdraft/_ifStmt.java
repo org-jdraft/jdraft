@@ -24,42 +24,42 @@ public class _ifStmt implements _statement._controlFlow._branching<IfStmt, _ifSt
     }
 
     public static _ifStmt of(String...code){
-        return new _ifStmt(Stmt.ifStmt( code));
+        return new _ifStmt(Statements.ifStmt( code));
     }
 
 
-    public static <A extends Object> _ifStmt of(Ex.Command c){
-        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _ifStmt of(Expressions.Command c){
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _ifStmt of(Consumer<A> c){
-        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _ifStmt of(BiConsumer<A,B> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _ifStmt of( Ex.TriConsumer<A,B,C> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _ifStmt of( Expressions.TriConsumer<A,B,C> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _ifStmt of( Ex.QuadConsumer<A,B,C,D> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _ifStmt of( Expressions.QuadConsumer<A,B,C,D> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _ifStmt of( Function<A,B> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _ifStmt of( BiFunction<A,B,C> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _ifStmt of( Ex.TriFunction<A,B,C,D> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _ifStmt of( Expressions.TriFunction<A,B,C,D> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _ifStmt from( LambdaExpr le){
@@ -84,7 +84,7 @@ public class _ifStmt implements _statement._controlFlow._branching<IfStmt, _ifSt
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Stmt.ifStmt(stringRep));
+            return is( Statements.ifStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }
@@ -101,7 +101,7 @@ public class _ifStmt implements _statement._controlFlow._branching<IfStmt, _ifSt
     }
 
     public _ifStmt setThen(String...sts){
-        this.astStmt.setThenStmt(Stmt.of(sts));
+        this.astStmt.setThenStmt(Statements.of(sts));
         return this;
     }
 
@@ -121,7 +121,7 @@ public class _ifStmt implements _statement._controlFlow._branching<IfStmt, _ifSt
     }
 
     public _ifStmt setElse(String...stmt){
-        this.astStmt.setElseStmt(Stmt.of(stmt));
+        this.astStmt.setElseStmt(Statements.of(stmt));
         return this;
     }
 

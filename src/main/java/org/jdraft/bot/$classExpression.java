@@ -2,7 +2,7 @@ package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.ClassExpr;
-import org.jdraft.Ex;
+import org.jdraft.Expressions;
 import org.jdraft._classExpression;
 import org.jdraft._java._domain;
 import org.jdraft._typeRef;
@@ -92,7 +92,7 @@ public class $classExpression implements $bot.$node<ClassExpr, _classExpression,
 
     public Selected select(String str) {
         try {
-            return select(Ex.classEx(str));
+            return select(Expressions.classEx(str));
         } catch (Exception e) {
             return null;
         }

@@ -23,7 +23,7 @@ public class SeTest extends TestCase {
 		assertTrue( $expression.of(_expression.of("1")).matches("1"));
 		
 		//with Expression
-		assertTrue( $expression.of(Ex.of("1")).matches("1"));
+		assertTrue( $expression.of(Expressions.of("1")).matches("1"));
 		
 		//with Lambda
 		assertTrue( $e.of(e-> e instanceof _int).matches("1"));
@@ -65,7 +65,7 @@ public class SeTest extends TestCase {
 	
 	public void testAnyMatch() {
 		//make sure it matches all different types of expressions
-		Expression e = Ex.of("@Ann('c')");
+		Expression e = Expressions.of("@Ann('c')");
 		System.out.println( e );
 		assertTrue( $expression.of().matches("@Ann('c')") );
 		assertTrue( $expression.of().matches("100"));

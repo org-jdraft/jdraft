@@ -29,41 +29,41 @@ public class _cast implements _expression<CastExpr, _cast>, _java._multiPart<Cas
         return new _cast(ce);
     }
     public static _cast of( String...code){
-        return new _cast(Ex.castEx( code));
+        return new _cast(Expressions.castEx( code));
     }
 
-    public static <A extends Object> _cast of(Ex.Command c){
-        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _cast of(Expressions.Command c){
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _cast of(Consumer<A> c){
-        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _cast of(BiConsumer<A,B> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _cast of( Ex.TriConsumer<A,B,C> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _cast of( Expressions.TriConsumer<A,B,C> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _cast of( Ex.QuadConsumer<A,B,C,D> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _cast of( Expressions.QuadConsumer<A,B,C,D> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _cast of( Function<A,B> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _cast of( BiFunction<A,B,C> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _cast of( Ex.TriFunction<A,B,C,D> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _cast of( Expressions.TriFunction<A,B,C,D> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _cast from( LambdaExpr le){
@@ -88,7 +88,7 @@ public class _cast implements _expression<CastExpr, _cast>, _java._multiPart<Cas
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Ex.castEx(stringRep));
+            return is( Expressions.castEx(stringRep));
         } catch(Exception e){ }
         return false;
     }

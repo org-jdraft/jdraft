@@ -1,6 +1,6 @@
 package org.jdraft;
 
-import org.jdraft.Ex.Command;
+import org.jdraft.Expressions.Command;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -93,11 +93,11 @@ public class _lambdaTest extends TestCase {
 
     }
     public void testOf(){
-        Ex.of(()-> System.out.println() );
-        Ex.of((Object o)->System.out.println(o) );
-        Ex.of(o-> "e" );
-        Ex.of((o)-> "e" );
-        Ex.of((o)-> {return "e";} );
+        Expressions.of(()-> System.out.println() );
+        Expressions.of((Object o)->System.out.println(o) );
+        Expressions.of(o-> "e" );
+        Expressions.of((o)-> "e" );
+        Expressions.of((o)-> {return "e";} );
         
         _lambda.of(()-> System.out.println() );        
         _lambda.of((String o)->System.out.println(o) );

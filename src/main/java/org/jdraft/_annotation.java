@@ -77,7 +77,7 @@ public final class _annotation
      */
     public static _annotation of( String signature, Object anonymousClassBody, StackTraceElement ste) {
         _annotation _a = of( signature );
-        ObjectCreationExpr oce = Ex.newEx(ste);
+        ObjectCreationExpr oce = Expressions.newEx(ste);
 
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
 
@@ -405,13 +405,13 @@ public final class _annotation
         if( !Objects.equals( this.getPackage(), other.getPackage())){
             return false;
         }
-        if( !Ast.modifiersEqual(astAnnotation, astAnnotation) ){
+        if( !Modifiers.modifiersEqual(astAnnotation, astAnnotation) ){
             return false;
         }
         if( !Objects.equals( this.getJavadoc(), other.getJavadoc()) ){
             return false;
         }
-        if( !Ex.equivalentAnnos(astAnnotation, astAnnotation)){
+        if( !Expressions.equivalentAnnos(astAnnotation, astAnnotation)){
             return false;
         }
         if( !Objects.equals( this.getName(), other.getName()) ){
@@ -549,7 +549,7 @@ public final class _annotation
         hash = 13 * hash + Objects.hashCode( this.getEffectiveModifiers() );
 
         hash = 13 * hash + Objects.hashCode( this.getJavadoc() );
-        hash = 13 * hash + Ex.hashAnnos(astAnnotation);
+        hash = 13 * hash + Expressions.hashAnnos(astAnnotation);
 
         hash = 13 * hash + Objects.hashCode( this.getName() );
 
@@ -732,37 +732,37 @@ public final class _annotation
         }
         
         public _entry setDefaultValue(int intValue ){
-            this.astAnnMember.setDefaultValue( Ex.of( intValue ) );
+            this.astAnnMember.setDefaultValue( Expressions.of( intValue ) );
             return this;
         }
         
         public _entry setDefaultValue(long longValue ){
-            this.astAnnMember.setDefaultValue( Ex.of( longValue ) );
+            this.astAnnMember.setDefaultValue( Expressions.of( longValue ) );
             return this;
         }
         
         public _entry setDefaultValue(char charValue ){
-            this.astAnnMember.setDefaultValue( Ex.of( charValue ) );
+            this.astAnnMember.setDefaultValue( Expressions.of( charValue ) );
             return this;
         }
         
         public _entry setDefaultValue(boolean booleanValue ){
-            this.astAnnMember.setDefaultValue( Ex.of( booleanValue ) );
+            this.astAnnMember.setDefaultValue( Expressions.of( booleanValue ) );
             return this;
         }
         
         public _entry setDefaultValueNull(){
-            this.astAnnMember.setDefaultValue( Ex.nullEx() );
+            this.astAnnMember.setDefaultValue( Expressions.nullEx() );
             return this;
         }
         
         public _entry setDefaultValue(float floatValue ){
-            this.astAnnMember.setDefaultValue( Ex.of( floatValue ) );
+            this.astAnnMember.setDefaultValue( Expressions.of( floatValue ) );
             return this;
         }
         
         public _entry setDefaultValue(double doubleValue ){
-            this.astAnnMember.setDefaultValue( Ex.of( doubleValue ) );
+            this.astAnnMember.setDefaultValue( Expressions.of( doubleValue ) );
             return this;
         }
         
@@ -803,7 +803,7 @@ public final class _annotation
             if( this.astAnnMember == other.astAnnMember){
                 return true; //two _element instances pointing to same AstMemberDeclaration
             }
-            if( ! Ex.equivalentAnnos(this.astAnnMember, other.astAnnMember)){
+            if( ! Expressions.equivalentAnnos(this.astAnnMember, other.astAnnMember)){
                 return false;
             }
             if( !Objects.equals( this.getJavadoc(), other.getJavadoc() ) ) {
@@ -840,7 +840,7 @@ public final class _annotation
         public int hashCode() {
             int hash = 7;
             hash = 97 * hash + Objects.hash(
-                    Ex.hashAnnos(this.astAnnMember),
+                    Expressions.hashAnnos(this.astAnnMember),
                     this.getJavadoc(),
                     this.getName(),
                     Ast.typeHash(this.astAnnMember.getType()),

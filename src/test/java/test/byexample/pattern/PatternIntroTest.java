@@ -3,7 +3,7 @@ package test.byexample.pattern;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import junit.framework.TestCase;
-import org.jdraft.Stmt;
+import org.jdraft.Statements;
 import org.jdraft._blockStmt;
 import org.jdraft._statement;
 import org.jdraft.text.Tokens;
@@ -59,7 +59,7 @@ public class PatternIntroTest extends TestCase {
     public void testProtoConstant(){
 
         //Statements are the backbone of code, here we build a statement from a String
-        Statement st = Stmt.of("System.out.println(1);");
+        Statement st = Statements.of("System.out.println(1);");
 
         // a $stmt is a prototype representing the criteria for some set of statement(s).
         // this $stmt $print represents a specific/ constant statement

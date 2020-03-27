@@ -26,7 +26,7 @@ public class _arguments
         implements _java._list<Expression, _expression, _arguments> {
 
     public static _arguments of(){
-        return of( Ex.methodCallEx("empty()"));
+        return of( Expressions.methodCallEx("empty()"));
     }
 
     public static _arguments of(Expression... exs){
@@ -45,7 +45,7 @@ public class _arguments
                 if( code.length() ==0 ){
                     return of();
                 }
-                return of( Ex.methodCallEx("empty("+ code+")"));
+                return of( Expressions.methodCallEx("empty("+ code+")"));
             }
         }
         StringBuilder sb = new StringBuilder();
@@ -59,7 +59,7 @@ public class _arguments
             sb.append(args[i]);
         }
         sb.append(")");
-        return of( Ex.methodCallEx("empty"+ sb.toString()));
+        return of( Expressions.methodCallEx("empty"+ sb.toString()));
     }
 
     public static _arguments of(NodeWithArguments nwa){
@@ -146,14 +146,14 @@ public class _arguments
         if( index >= this.size()){
             return false;
         }
-        return isAt(index, Ex.of(expression));
+        return isAt(index, Expressions.of(expression));
     }
 
     public boolean isAt(int index, Expression e){
         if( index >= this.size()){
             return false;
         }
-        return Ex.equivalent( getAt(index).ast(), e);
+        return Expressions.equivalent( getAt(index).ast(), e);
     }
 
     public _arguments setAt(int index, int i){
@@ -206,7 +206,7 @@ public class _arguments
             if( this.nwa.getArguments().size() == _as.size()){
                 for(int i=0;i<this.nwa.getArguments().size(); i++){
                     Expression e = this.nwa.getArgument(i);
-                    if( !Ex.equivalent(e, _as.nwa.getArgument(i))){
+                    if( !Expressions.equivalent(e, _as.nwa.getArgument(i))){
                         return false;
                     }
                 }
@@ -279,27 +279,27 @@ public class _arguments
         }
 
         default _WA setArgument(int index, boolean b){
-            return setArgument(index, Ex.of(b));
+            return setArgument(index, Expressions.of(b));
         }
 
         default _WA setArgument(int index, int i){
-            return setArgument(index, Ex.of(i));
+            return setArgument(index, Expressions.of(i));
         }
 
         default _WA setArgument(int index, char c){
-            return setArgument(index, Ex.of(c));
+            return setArgument(index, Expressions.of(c));
         }
 
         default _WA setArgument(int index, float f){
-            return setArgument(index, Ex.of(f));
+            return setArgument(index, Expressions.of(f));
         }
 
         default _WA setArgument(int index, long l){
-            return setArgument(index, Ex.of(l));
+            return setArgument(index, Expressions.of(l));
         }
 
         default _WA setArgument(int index, double d){
-            return setArgument(index, Ex.of(d));
+            return setArgument(index, Expressions.of(d));
         }
 
         default _WA setArguments(_arguments _as){
@@ -363,7 +363,7 @@ public class _arguments
             List<_expression> _tes = listArguments();
             if(_es.length == _tes.size()){
                 for(int i=0;i<_es.length;i++){
-                    if( ! Ex.equivalent(  _es[i].ast(), _tes.get(i).ast() ) ){
+                    if( ! Expressions.equivalent(  _es[i].ast(), _tes.get(i).ast() ) ){
                         return false;
                     }
                 }
@@ -377,32 +377,32 @@ public class _arguments
         }
 
         default boolean isArgument(int index, boolean b){
-            return isArgument(index, Ex.of(b));
+            return isArgument(index, Expressions.of(b));
         }
 
         default boolean isArgument(int index, int i){
-            return isArgument(index, Ex.of(i));
+            return isArgument(index, Expressions.of(i));
         }
 
         default boolean isArgument(int index, char c){
-            return isArgument(index, Ex.of(c));
+            return isArgument(index, Expressions.of(c));
         }
 
         default boolean isArgument(int index, float f){
-            return isArgument(index, Ex.of(f));
+            return isArgument(index, Expressions.of(f));
         }
 
         default boolean isArgument(int index, long l){
-            return isArgument(index, Ex.of(l));
+            return isArgument(index, Expressions.of(l));
         }
 
         default boolean isArgument(int index, double d){
-            return isArgument(index, Ex.of(d));
+            return isArgument(index, Expressions.of(d));
         }
 
         default boolean isArgument(int index, String exprString){
             try {
-                return Ex.equivalent( getArgument(index).ast(), Ex.of(exprString));
+                return Expressions.equivalent( getArgument(index).ast(), Expressions.of(exprString));
             }catch(Exception e){
                 return false;
             }
@@ -410,7 +410,7 @@ public class _arguments
 
         default boolean isArgument(int index, Expression e){
             try {
-                return Ex.equivalent( getArgument(index).ast(), e);
+                return Expressions.equivalent( getArgument(index).ast(), e);
             }catch(Exception ex){
                 return false;
             }
@@ -418,7 +418,7 @@ public class _arguments
 
         default boolean isArgument(int index, _expression _e){
             try {
-                return Ex.equivalent( getArgument(index).ast(), _e.ast());
+                return Expressions.equivalent( getArgument(index).ast(), _e.ast());
             }catch(Exception e){
                 return false;
             }
@@ -426,27 +426,27 @@ public class _arguments
 
 
         default _WA addArgument(int i){
-            return addArgument( Ex.of(i) );
+            return addArgument( Expressions.of(i) );
         }
 
         default _WA addArgument(boolean b){
-            return addArgument( Ex.of(b) );
+            return addArgument( Expressions.of(b) );
         }
 
         default _WA addArgument(float f){
-            return addArgument( Ex.of(f) );
+            return addArgument( Expressions.of(f) );
         }
 
         default _WA addArgument(long l){
-            return addArgument( Ex.of(l) );
+            return addArgument( Expressions.of(l) );
         }
 
         default _WA addArgument(double d){
-            return addArgument( Ex.of(d) );
+            return addArgument( Expressions.of(d) );
         }
 
         default _WA addArgument(char c){
-            return addArgument( Ex.of(c) );
+            return addArgument( Expressions.of(c) );
         }
 
         default _WA addArgument(Expression e){

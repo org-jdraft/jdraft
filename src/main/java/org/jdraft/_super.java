@@ -52,7 +52,7 @@ public class _super implements _expression<SuperExpr, _super>, _java._uniPart<Su
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Ex.superEx(stringRep));
+            return is( Expressions.superEx(stringRep));
         } catch(Exception e){ }
         return false;
     }

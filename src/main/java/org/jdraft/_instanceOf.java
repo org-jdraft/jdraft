@@ -25,42 +25,42 @@ public class _instanceOf implements _expression<InstanceOfExpr, _instanceOf>,
         return new _instanceOf(ie);
     }
     public static _instanceOf of( String...code){
-        return new _instanceOf(Ex.instanceOfEx( code));
+        return new _instanceOf(Expressions.instanceOfEx( code));
     }
 
 
-    public static <A extends Object> _instanceOf of(Ex.Command c){
-        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _instanceOf of(Expressions.Command c){
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _instanceOf of(Consumer<A> c){
-        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _instanceOf of(BiConsumer<A,B> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _instanceOf of( Ex.TriConsumer<A,B,C> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _instanceOf of( Expressions.TriConsumer<A,B,C> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _instanceOf of( Ex.QuadConsumer<A,B,C,D> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _instanceOf of( Expressions.QuadConsumer<A,B,C,D> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _instanceOf of( Function<A,B> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _instanceOf of( BiFunction<A,B,C> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _instanceOf of( Ex.TriFunction<A,B,C,D> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _instanceOf of( Expressions.TriFunction<A,B,C,D> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _instanceOf from( LambdaExpr le){
@@ -85,7 +85,7 @@ public class _instanceOf implements _expression<InstanceOfExpr, _instanceOf>,
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Ex.instanceOfEx(stringRep));
+            return is( Expressions.instanceOfEx(stringRep));
         } catch(Exception e){ }
         return false;
     }
@@ -146,7 +146,7 @@ public class _instanceOf implements _expression<InstanceOfExpr, _instanceOf>,
     }
 
     public _instanceOf setExpression( String...expr){
-        this.ioe.setExpression(Ex.of(expr) );
+        this.ioe.setExpression(Expressions.of(expr) );
         return this;
     }
 

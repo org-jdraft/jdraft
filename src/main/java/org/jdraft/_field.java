@@ -44,7 +44,7 @@ public final class _field
 
     public static _field of(Object anonymousObjectWithField) {
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Ex.newEx(ste);
+        ObjectCreationExpr oce = Expressions.newEx(ste);
         FieldDeclaration fd = (FieldDeclaration) oce.getAnonymousClassBody().get().stream().filter(bd -> bd instanceof FieldDeclaration
                 && !bd.getAnnotationByClass(_remove.class).isPresent()).findFirst().get();
 
@@ -121,12 +121,12 @@ public final class _field
             return new NodeList<>();
         }
 
-        NodeList<Modifier> implied = Ast.getImpliedModifiers(getFieldDeclaration());
+        NodeList<Modifier> implied = Modifiers.getImpliedModifiers(getFieldDeclaration());
         if (implied == null) {
             return getFieldDeclaration().getModifiers();
         }
         //implied.addAll(getFieldDeclaration().getModifiers());
-        implied = Ast.merge(implied, getFieldDeclaration().getModifiers());
+        implied = Modifiers.merge(implied, getFieldDeclaration().getModifiers());
         return implied;
     }
 
@@ -163,7 +163,7 @@ public final class _field
     public boolean isInit(String... initExpression) {
         if( this.hasInit() ) {
             try {
-                Expression e = Ex.of(initExpression);
+                Expression e = Expressions.of(initExpression);
                 return this.getInit().equals(e);
             }catch (Exception e){
                 return false;
@@ -177,39 +177,39 @@ public final class _field
     }
 
     public boolean isInit(boolean b) {
-        return Objects.equals(this.getInit(), Ex.of(b));
+        return Objects.equals(this.getInit(), Expressions.of(b));
     }
 
     public boolean isInit(byte b) {
-        return Objects.equals(this.getInit(), Ex.of(b));
+        return Objects.equals(this.getInit(), Expressions.of(b));
     }
 
     public boolean isInit(short s) {
-        return Objects.equals(this.getInit(), Ex.of(s));
+        return Objects.equals(this.getInit(), Expressions.of(s));
     }
 
     public boolean isInit(int i) {
-        return Objects.equals(this.getInit(), Ex.of(i));
+        return Objects.equals(this.getInit(), Expressions.of(i));
     }
 
     public boolean isInit(char c) {
-        return Objects.equals(this.getInit(), Ex.of(c));
+        return Objects.equals(this.getInit(), Expressions.of(c));
     }
 
     public boolean isInit(float f) {
-        return Objects.equals(this.getInit(), Ex.of(f));
+        return Objects.equals(this.getInit(), Expressions.of(f));
     }
 
     public boolean isInit(double d) {
-        return Objects.equals(this.getInit(), Ex.of(d));
+        return Objects.equals(this.getInit(), Expressions.of(d));
     }
 
     public boolean isInit(long l) {
-        return Objects.equals(this.getInit(), Ex.of(l));
+        return Objects.equals(this.getInit(), Expressions.of(l));
     }
 
     public boolean isInit(String init) {
-        return Objects.equals(this.getInit(), Ex.stringLiteralEx(init));
+        return Objects.equals(this.getInit(), Expressions.stringLiteralEx(init));
     }
     
     public boolean hasInit() {
@@ -378,7 +378,7 @@ public final class _field
         if (!Ast.typesEqual(this.astVar.getType(), other.astVar.getType())) {
             return false;
         }
-        if( !Ex.equivalent(getInit(), other.getInit())) {
+        if( !Expressions.equivalent(getInit(), other.getInit())) {
             return false;
         }        
         if (!Objects.equals(getJavadoc(), other.getJavadoc())) {
@@ -386,10 +386,10 @@ public final class _field
         }
         if(this.getFieldDeclaration() != null) {
             if( other.getFieldDeclaration() != null ){
-                if (!Ast.modifiersEqual(getFieldDeclaration(), other.getFieldDeclaration())) {
+                if (!Modifiers.modifiersEqual(getFieldDeclaration(), other.getFieldDeclaration())) {
                     return false;
                 }
-                if(! Ex.equivalentAnnos(getFieldDeclaration(), other.getFieldDeclaration()) ){
+                if(! Expressions.equivalentAnnos(getFieldDeclaration(), other.getFieldDeclaration()) ){
                     return false;
                 }                
             }
@@ -419,9 +419,9 @@ public final class _field
         ms.addAll(getEffectiveModifiers());
         return Objects.hash(getName(), Ast.typeHash(astVar.getType()),
                 ms, //getModifiers(),
-                Ex.hashAnnos(getFieldDeclaration()),
+                Expressions.hashAnnos(getFieldDeclaration()),
                 getJavadoc(), 
-                Ex.hash(getInit()));
+                Expressions.hash(getInit()));
     }
 
     @Override
@@ -564,42 +564,42 @@ public final class _field
     }
 
     public _field setInit(boolean b) {
-        this.astVar.setInitializer(Ex.of(b));
+        this.astVar.setInitializer(Expressions.of(b));
         return this;
     }
 
     public _field setInit(byte b) {
-        this.astVar.setInitializer(Ex.of(b));
+        this.astVar.setInitializer(Expressions.of(b));
         return this;
     }
 
     public _field setInit(short s) {
-        this.astVar.setInitializer(Ex.of(s));
+        this.astVar.setInitializer(Expressions.of(s));
         return this;
     }
 
     public _field setInit(int i) {
-        this.astVar.setInitializer(Ex.of(i));
+        this.astVar.setInitializer(Expressions.of(i));
         return this;
     }
 
     public _field setInit(char c) {
-        this.astVar.setInitializer(Ex.of(c));
+        this.astVar.setInitializer(Expressions.of(c));
         return this;
     }
 
     public _field setInit(float f) {
-        this.astVar.setInitializer(Ex.of(f));
+        this.astVar.setInitializer(Expressions.of(f));
         return this;
     }
 
     public _field setInit(double d) {
-        this.astVar.setInitializer(Ex.of(d));
+        this.astVar.setInitializer(Expressions.of(d));
         return this;
     }
 
     public _field setInit(long l) {
-        this.astVar.setInitializer(Ex.of(l));
+        this.astVar.setInitializer(Expressions.of(l));
         return this;
     }
 
@@ -610,7 +610,7 @@ public final class _field
 
     public _field setInit(Supplier supplier) {
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr sup = Ex.lambdaEx(ste);
+        LambdaExpr sup = Expressions.lambdaEx(ste);
         return setInit(sup.getExpressionBody().get());
     }
 

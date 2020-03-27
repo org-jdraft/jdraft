@@ -15,7 +15,7 @@ public class _string implements _expression._literal<StringLiteralExpr, _string>
         return new _string(sle);
     }
     public static _string of( String...code){
-        return new _string(Ex.stringLiteralEx( code));
+        return new _string(Expressions.stringLiteralEx( code));
     }
 
     public StringLiteralExpr se;
@@ -36,7 +36,7 @@ public class _string implements _expression._literal<StringLiteralExpr, _string>
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Ex.stringLiteralEx(stringRep));
+            return is( Expressions.stringLiteralEx(stringRep));
         } catch(Exception e){ }
         return false;
     }

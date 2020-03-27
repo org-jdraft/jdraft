@@ -24,7 +24,7 @@ public class _synchronizedStmt implements _statement<SynchronizedStmt, _synchron
         return new _synchronizedStmt( ss);
     }
     public static _synchronizedStmt of(String...code){
-        return new _synchronizedStmt(Stmt.synchronizedStmt(code));
+        return new _synchronizedStmt(Statements.synchronizedStmt(code));
     }
 
     private SynchronizedStmt astStmt;
@@ -47,7 +47,7 @@ public class _synchronizedStmt implements _statement<SynchronizedStmt, _synchron
             }
         };
         try{
-            return is( Stmt.synchronizedStmt(stringRep));
+            return is( Statements.synchronizedStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }

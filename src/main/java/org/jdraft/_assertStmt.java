@@ -27,7 +27,7 @@ public class _assertStmt implements _statement<AssertStmt, _assertStmt>, _java._
         return new _assertStmt(as);
     }
     public static _assertStmt of(String...code){
-        return new _assertStmt(Stmt.assertStmt( code));
+        return new _assertStmt(Statements.assertStmt( code));
     }
 
     public static _assertStmt of(Expression check){
@@ -38,49 +38,49 @@ public class _assertStmt implements _statement<AssertStmt, _assertStmt>, _java._
     }
 
     public static _assertStmt of(Expression check, String message){
-        return of( new AssertStmt().setCheck(check).setMessage(Ex.stringLiteralEx(message)));
+        return of( new AssertStmt().setCheck(check).setMessage(Expressions.stringLiteralEx(message)));
     }
 
     public static _assertStmt of(_expression check, String message){
-        return of( new AssertStmt().setCheck(check.ast()).setMessage(Ex.stringLiteralEx(message)));
+        return of( new AssertStmt().setCheck(check.ast()).setMessage(Expressions.stringLiteralEx(message)));
     }
 
     public static _assertStmt of(Expression check, Expression message){
         return of( new AssertStmt().setCheck(check).setMessage(message));
     }
 
-    public static <A extends Object> _assertStmt of(Ex.Command c){
-        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _assertStmt of(Expressions.Command c){
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _assertStmt of(Consumer<A> c){
-        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _assertStmt of(BiConsumer<A,B> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _assertStmt of( Ex.TriConsumer<A,B,C> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _assertStmt of( Expressions.TriConsumer<A,B,C> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assertStmt of( Ex.QuadConsumer<A,B,C,D> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assertStmt of( Expressions.QuadConsumer<A,B,C,D> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _assertStmt of( Function<A,B> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _assertStmt of( BiFunction<A,B,C> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assertStmt of( Ex.TriFunction<A,B,C,D> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assertStmt of( Expressions.TriFunction<A,B,C,D> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _assertStmt from( LambdaExpr le){
@@ -105,14 +105,14 @@ public class _assertStmt implements _statement<AssertStmt, _assertStmt>, _java._
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Stmt.assertStmt(stringRep));
+            return is( Statements.assertStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }
 
     public boolean isCheck(String...checkCode){
         try{
-            return isCheck(Ex.of(checkCode));
+            return isCheck(Expressions.of(checkCode));
         }catch(Exception e){
             return false;
         }
@@ -132,7 +132,7 @@ public class _assertStmt implements _statement<AssertStmt, _assertStmt>, _java._
 
     public boolean isMessage(String message){
         try {
-            return isMessage(Ex.of(message));
+            return isMessage(Expressions.of(message));
         }catch(Exception e){
             return false;
         }
@@ -162,7 +162,7 @@ public class _assertStmt implements _statement<AssertStmt, _assertStmt>, _java._
     }
 
     public _assertStmt setMessage(String message){
-        this.astStmt.setMessage(Ex.stringLiteralEx(message));
+        this.astStmt.setMessage(Expressions.stringLiteralEx(message));
         return this;
     }
 
@@ -194,7 +194,7 @@ public class _assertStmt implements _statement<AssertStmt, _assertStmt>, _java._
     }
 
     public _assertStmt setCheck(String... str){
-        this.astStmt.setCheck( Ex.of(str));
+        this.astStmt.setCheck( Expressions.of(str));
         return this;
     }
 

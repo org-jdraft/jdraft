@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.Range;
+import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
@@ -8,21 +9,151 @@ import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.*;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.*;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.TypeParameter;
+import com.github.javaparser.printer.PrettyPrintVisitor;
+import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import com.github.javaparser.utils.Log;
 import junit.framework.TestCase;
 import org.jdraft.pattern.$comment;
 import org.jdraft.pattern.$stmt;
 
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
+
+import static com.github.javaparser.utils.Utils.isNullOrEmpty;
+import static com.github.javaparser.utils.Utils.normalizeEolInTextBlock;
 
 /**
  * Verify that we can parse these Strings to create Ast Node entities
  * @author Eric
  */
 public class AstTest extends TestCase {
+
+    public static final PrettyPrinterConfiguration PRINT_COMMENTS = new PrettyPrinterConfiguration()
+            .setVisitorFactory(PrintComments::new);
+
+    public static class PrintComments extends PrettyPrintVisitor {
+
+        public PrintComments(PrettyPrinterConfiguration prettyPrinterConfiguration) {
+            super(prettyPrinterConfiguration);
+        }
+
+        @Override
+        public void visit(final ClassOrInterfaceDeclaration n, final Void arg) {
+            System.out.println( "HELLO ");
+            //System.out.println( n.getAllContainedComments() );
+            System.out.println( "ORPHANS" + n.getOrphanComments() );
+            super.visit(n, arg);
+
+        }
+
+        @Override
+        public void visit(final LineComment n, final Void arg) {
+            System.out.println( "Visiting Line "+n);
+            if (configuration.isIgnoreComments()) {
+                return;
+            }
+            printer.print("//");
+            printer.println(normalizeEolInTextBlock(n.getContent(), "").trim());
+        }
+
+        @Override
+        public void visit(final BlockComment n, final Void arg) {
+            System.out.println( "Visiting Block "+n);
+            if (configuration.isIgnoreComments()) {
+                return;
+            }
+            String[] lines = n.getContent().split("\\r?\\n");
+            StringBuilder sb = new StringBuilder();
+            Arrays.stream(lines).forEach(con -> {
+                String tr = con.trim();
+                if (tr.startsWith("* ")) {
+                    tr = tr.substring(2).trim();
+                    sb.append(tr).append(System.lineSeparator());
+                } else {
+                    sb.append(con.trim()).append(System.lineSeparator());
+                }
+            });
+            String con = sb.toString().trim();
+            printer.print(con);
+        }
+
+        @Override
+        public void visit(final JavadocComment n, final Void arg) {
+            System.out.println( "Visiting Javadoc "+n);
+            if (configuration.isPrintComments() && configuration.isPrintJavadoc()) {
+                String[] lines = n.getContent().split("\\r?\\n");
+
+                StringBuilder sb = new StringBuilder();
+                Arrays.stream(lines).forEach(con -> {
+                    String tr = con.trim();
+                    if (tr.startsWith("* ")) {
+                        tr = tr.substring(2).trim();
+                        sb.append(tr).append(System.lineSeparator());
+                    } else {
+                        sb.append(tr).append(System.lineSeparator());
+                    }
+                });
+                String con = sb.toString().trim(); //n.getContent();
+                printer.print(con);
+            }
+        }
+    }
+
+    public void testNodes(){
+        TypeDeclaration td = StaticJavaParser.parseTypeDeclaration(
+                "class C{\n"+
+                        "    //not orphan\n"+
+                        "    int i;\n"+
+                        "    /*orphan*/\n"+
+                        "}");
+        System.out.println( td );
+        assertEquals( 2, td.getAllContainedComments().size());
+        td.setPublic(true); //orphan and /*orphan*/ are gone
+
+
+        System.out.println( td.toString(PRINT_COMMENTS) );
+        //td.toString(new PrettyPrinterConfiguration())
+        assertEquals(2, td.getAllContainedComments().size());
+    }
+
+    public void testChangeModifiersRemovesOrphanedMethods(){
+        TypeDeclaration td = StaticJavaParser.parseTypeDeclaration(
+                "class C{\n"+
+                "    //orphan\n"+
+                "    /*orphan*/\n"+
+                "}");
+        System.out.println( td );
+        assertEquals( 2, td.getAllContainedComments().size());
+        td.setPublic(true); //orphan and /*orphan*/ are gone
+
+
+        System.out.println( td.toString(PRINT_COMMENTS) );
+        //td.toString(new PrettyPrinterConfiguration())
+        assertEquals(2, td.getAllContainedComments().size());
+    }
+
+    public void testParseAndExtractOrphanComments(){
+        CompilationUnit cu = StaticJavaParser.parse("class C{\n" +
+                "   //comment\n"+
+                "   /*comment*/\n"+
+                "}");
+        System.out.println( cu );
+
+        TypeDeclaration td  = cu.getType(0);
+
+        System.out.println( td );
+
+        CompilationUnit cu2 = new CompilationUnit();
+        cu2.addType( td );
+
+        System.out.println( cu2 );
+
+    }
 
     public void testParseNewCode(){
         SwitchExpr se = Ast.switchEx("switch(s) { default : yield 1; }");
@@ -47,8 +178,8 @@ public class AstTest extends TestCase {
         _class _c = _class.of(FF.class);
         //replace the comment with multiple statements
         Comments.replace(_c.ast(), $comment.of().firstIn(_c),
-                Stmt.of("System.out.println(1);"),
-                Stmt.of("System.out.println(2);"));
+                Statements.of("System.out.println(1);"),
+                Statements.of("System.out.println(2);"));
 
         System.out.println( _c);
     }
@@ -74,20 +205,20 @@ public class AstTest extends TestCase {
         _class _c = _class.of(HH.class);
         MethodDeclaration md =  _c.getMethod("commentInNestedBlock").ast();
         List<com.github.javaparser.ast.comments.Comment> cs = md.getAllContainedComments();
-        Comments.replace( md, cs.get(0), Stmt.of("System.out.println(3);") );
+        Comments.replace( md, cs.get(0), Statements.of("System.out.println(3);") );
         System.out.println( md );
-        assertEquals(Stmt.of("System.out.println(3);"), $stmt.ifStmt().firstIn(md).ast().getThenStmt().asBlockStmt().getStatement(1));
+        assertEquals(Statements.of("System.out.println(3);"), $stmt.ifStmt().firstIn(md).ast().getThenStmt().asBlockStmt().getStatement(1));
 
         md =  _c.getMethod("lastComment").ast();
         cs  =md.getAllContainedComments();
-        Comments.replace( md, cs.get(0), Stmt.of("System.out.println(2);") );
+        Comments.replace( md, cs.get(0), Statements.of("System.out.println(2);") );
         System.out.println( md );
-        assertEquals(Stmt.of("System.out.println(2);"), _method.of(md).getStatement(1));
+        assertEquals(Statements.of("System.out.println(2);"), _method.of(md).getStatement(1));
 
         md =  _c.getMethod("onlyComment").ast();
         cs  =md.getAllContainedComments();
-        Comments.replace( md, cs.get(0), Stmt.of("System.out.println(1);") );
-        assertEquals(Stmt.of("System.out.println(1);"), _method.of(md).getStatement(0));
+        Comments.replace( md, cs.get(0), Statements.of("System.out.println(1);") );
+        assertEquals(Statements.of("System.out.println(1);"), _method.of(md).getStatement(0));
     }
 
     /**
@@ -103,21 +234,21 @@ public class AstTest extends TestCase {
         _class _c = _class.of(T.class);
         MethodDeclaration md = _c.getMethod("t").ast();
         com.github.javaparser.ast.comments.Comment c = md.getAllContainedComments().get(0);
-        Comments.replace(c, Stmt.of( ()->System.out.println(1)));
+        Comments.replace(c, Statements.of( ()->System.out.println(1)));
 
-        assertEquals( Stmt.of( ()->System.out.println(1)), md.getBody().get().getStatement(0) );
+        assertEquals( Statements.of( ()->System.out.println(1)), md.getBody().get().getStatement(0) );
         //insertStatement(_c.astCompilationUnit(), Stmt.of("System.out.println(1);"), c.getRange().get().begin);
 
         _c = _class.of(T.class);
         md = _c.getMethod("t").ast();
         c = md.getAllContainedComments().get(0);
-        Comments.replace(c, Stmt.of( ()->System.out.println(1)),
-                Stmt.of( ()->System.out.println(2)) );
+        Comments.replace(c, Statements.of( ()->System.out.println(1)),
+                Statements.of( ()->System.out.println(2)) );
 
         System.out.println( md );
 
-        assertEquals( Stmt.of( ()->System.out.println(1)), md.getBody().get().getStatement(0) );
-        assertEquals( Stmt.of( ()->System.out.println(2)), md.getBody().get().getStatement(1) );
+        assertEquals( Statements.of( ()->System.out.println(1)), md.getBody().get().getStatement(0) );
+        assertEquals( Statements.of( ()->System.out.println(2)), md.getBody().get().getStatement(1) );
 
         //System.out.println( _c );
     }
@@ -141,12 +272,12 @@ public class AstTest extends TestCase {
         _class _c =_class.of(C.class);
         System.out.println(_c );
         _method _m = _c.getMethod("m2");
-        _m.getStatement(0).replace(Stmt.of("assert(1==1)"));
+        _m.getStatement(0).replace(Statements.of("assert(1==1)"));
         System.out.println(_c);
 
         //TODO does this make sense
         //Stmt.commentOut( _m.getStatement(0));
-        Stmt.REPLACE_WITH_EMPTY_STMT_COMMENT_FN.apply( _m.getStatement(0) );
+        Statements.REPLACE_WITH_EMPTY_STMT_COMMENT_FN.apply( _m.getStatement(0) );
         System.out.println( _m  );
         System.out.println( _m.toString(Print.EMPTY_STATEMENT_COMMENT_PRINTER) );
     }
@@ -510,26 +641,26 @@ public class AstTest extends TestCase {
      */
     public void testSwitchEntry(){
         SwitchEntry se = Ast.switchEntry("case 1: System.out.println(1);");
-        assertTrue( se.getLabels().get(0).equals(org.jdraft.Ex.of(1)) );
-        assertEquals( se.getStatement(0), Stmt.of("System.out.println(1);"));
+        assertTrue( se.getLabels().get(0).equals(Expressions.of(1)) );
+        assertEquals( se.getStatement(0), Statements.of("System.out.println(1);"));
         
         //the default case is always empty
         se = Ast.switchEntry("default: System.out.println(1);");
         assertTrue( se.getLabels().isEmpty() );
-        assertEquals( se.getStatement(0), Stmt.of("System.out.println(1);"));
+        assertEquals( se.getStatement(0), Statements.of("System.out.println(1);"));
         int a = 1;
         switch (a){
             case 1:
             case 2: break;
         }
         se = Ast.switchEntry("case 0:");
-        assertTrue( se.getLabels().get(0).equals( org.jdraft.Ex.of(0)) );
+        assertTrue( se.getLabels().get(0).equals( Expressions.of(0)) );
         System.out.println( se.getType() );
         assertTrue( se.getStatements().isEmpty() );
         
         se = Ast.switchEntry("case 2: System.out.println(12);");
-        assertTrue( se.getLabels().get(0).equals(org.jdraft.Ex.of(2)) );
-        assertEquals( se.getStatement(0), Stmt.of("System.out.println(12);"));
+        assertTrue( se.getLabels().get(0).equals(Expressions.of(2)) );
+        assertEquals( se.getStatement(0), Statements.of("System.out.println(12);"));
        // assertTrue( se.getLabels().get(1).equals(Expr.of(2)) );
         
         
@@ -545,9 +676,9 @@ public class AstTest extends TestCase {
         assertNotSame(_a.ast(), _b.ast() );
         
         //make sure I can equate them to be equal
-        assertTrue( org.jdraft.Ex.equivalent(_a.ast(), _b.ast()) );
+        assertTrue( Expressions.equivalent(_a.ast(), _b.ast()) );
         //assertTrue( Ast.annotationEqual(_a.ast(), _b.ast()) );
-        assertEquals( org.jdraft.Ex.hash(_a.ast() ), org.jdraft.Ex.hash( _b.ast() ) );
+        assertEquals( Expressions.hash(_a.ast() ), Expressions.hash( _b.ast() ) );
         //assertEquals( Ast.annotationHash(_a.ast() ), Ast.annotationHash( _b.ast() ) );
         
     }
@@ -712,15 +843,15 @@ public class AstTest extends TestCase {
         ae = Ast.anno( "@a(1)");
         assertTrue( ae instanceof SingleMemberAnnotationExpr );
         SingleMemberAnnotationExpr sa = (SingleMemberAnnotationExpr)ae;
-        assertEquals(org.jdraft.Ex.of( 1 ), sa.getMemberValue());
+        assertEquals(Expressions.of( 1 ), sa.getMemberValue());
 
         ae = Ast.anno( "@a(k=1,v=2)");
         NormalAnnotationExpr na = (NormalAnnotationExpr)ae;
 
         assertEquals("k", na.getPairs().get( 0 ).getNameAsString());
-        assertEquals(org.jdraft.Ex.of(1), na.getPairs().get( 0 ).getValue());
+        assertEquals(Expressions.of(1), na.getPairs().get( 0 ).getValue());
         assertEquals("v", na.getPairs().get( 1 ).getNameAsString());
-        assertEquals(org.jdraft.Ex.of(2), na.getPairs().get( 1 ).getValue());
+        assertEquals(Expressions.of(2), na.getPairs().get( 1 ).getValue());
     }
 
     public void testParseAnnos(){
@@ -917,34 +1048,34 @@ public class AstTest extends TestCase {
 
 
     public void testStatements(){
-        Stmt.assertStmt( "assert(1==1);" );
-        Stmt.blockStmt( "{ int i=1; System.out.println(i);}");
-        Stmt.breakStmt( "break;" );
-        Stmt.breakStmt( "break out;" );
-        Stmt.constructorCallStmt( "this();" );
-        Stmt.continueStmt( "continue;");
-        Stmt.continueStmt( "continue out;");
-        ExpressionStmt es = new ExpressionStmt( org.jdraft.Ex.of("3+4"));
-        Stmt.expressionStmt( "c=a+b;");
-        Stmt.forEachStmt( "for( int x : expressions){}");
-        Stmt.doStmt( "do{ System.out.println(1); }while(n<100);");
-        Stmt.forStmt( "for(int i=0;i<100;i++){System.out.printlnt(1);}");
-        Stmt.ifStmt( "if(true){ System.out.println(1);}");
-        Stmt.labeledStmt( "label: System.out.println(1);");
-        Stmt.localClassStmt( "class F{ int x; }");
-        Stmt.returnStmt( "return 1;");
+        Statements.assertStmt( "assert(1==1);" );
+        Statements.blockStmt( "{ int i=1; System.out.println(i);}");
+        Statements.breakStmt( "break;" );
+        Statements.breakStmt( "break out;" );
+        Statements.constructorCallStmt( "this();" );
+        Statements.continueStmt( "continue;");
+        Statements.continueStmt( "continue out;");
+        ExpressionStmt es = new ExpressionStmt( Expressions.of("3+4"));
+        Statements.expressionStmt( "c=a+b;");
+        Statements.forEachStmt( "for( int x : expressions){}");
+        Statements.doStmt( "do{ System.out.println(1); }while(n<100);");
+        Statements.forStmt( "for(int i=0;i<100;i++){System.out.printlnt(1);}");
+        Statements.ifStmt( "if(true){ System.out.println(1);}");
+        Statements.labeledStmt( "label: System.out.println(1);");
+        Statements.localClassStmt( "class F{ int x; }");
+        Statements.returnStmt( "return 1;");
         //AST.switchEntryStmt("case 1: System.out.println(1);");
         // AST.switchEntryStmt( "(5+4): ");
-        Stmt.switchStmt("switch(i){}");
-        Stmt.switchStmt("switch(i){"
+        Statements.switchStmt("switch(i){}");
+        Statements.switchStmt("switch(i){"
                 + "case 1: System.out.println(12);"
                 + "}");
-        Stmt.synchronizedStmt( "synchronized(var){}");
-        Stmt.throwStmt( "throw e;");
-        Stmt.throwStmt( "throw new Ception();");
-        Stmt.tryStmt( "try{ System.out.println(1); }finally{}");
+        Statements.synchronizedStmt( "synchronized(var){}");
+        Statements.throwStmt( "throw e;");
+        Statements.throwStmt( "throw new Ception();");
+        Statements.tryStmt( "try{ System.out.println(1); }finally{}");
 
-        Stmt.whileStmt( "while(true) { System.out.println(1); }");
+        Statements.whileStmt( "while(true) { System.out.println(1); }");
 
 
     }

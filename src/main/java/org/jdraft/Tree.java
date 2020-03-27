@@ -41,13 +41,13 @@ import java.util.function.Predicate;
  * //... we can traverse the node graph looking for entities that are Node implementations
  *
  * // to find all Integer literals within the code:
- * Walk.in(_c, {@link Ex#INT_LITERAL}, i-> System.out.println(i));
+ * Walk.in(_c, {@link Expressions#INT_LITERAL}, i-> System.out.println(i));
  * // prints:
  * //    1
  * //    2
  *
  * // to find all types within the code:
- * Walk.in(_c, {@link Ex#TYPE}, i-> System.out.println(i));
+ * Walk.in(_c, {@link Expressions#TYPE}, i-> System.out.println(i));
  *  // prints:
  *  //    "int"
  *  //    "int"

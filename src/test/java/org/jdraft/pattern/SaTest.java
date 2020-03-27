@@ -6,7 +6,7 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.ast.expr.MemberValuePair;
-import org.jdraft.Ex;
+import org.jdraft.Expressions;
 import org.jdraft._anno;
 import org.jdraft._annos;
 import org.jdraft._class;
@@ -51,7 +51,7 @@ public class SaTest extends TestCase {
         $.anno("A").matches("@A(1)");
         
         
-        $anno $a = $anno.of( $id.of("A"), $anno.$memberValue.of(Ex.of(1)));
+        $anno $a = $anno.of( $id.of("A"), $anno.$memberValue.of(Expressions.of(1)));
         assertTrue( $a.matches("@A(1)") );        
     }
     
@@ -174,24 +174,24 @@ public class SaTest extends TestCase {
     
     public void testS(){
         $anno.$memberValue.of().matches(new MemberValuePair());
-        $anno.$memberValue.of().matches(new MemberValuePair("a", Ex.of(1)));
+        $anno.$memberValue.of().matches(new MemberValuePair("a", Expressions.of(1)));
         
         //static  membervalues
-        $anno.$memberValue.of("a", "100").matches(new MemberValuePair("a", Ex.stringLiteralEx("100")));
-        $anno.$memberValue.of("a", "100").matches(new MemberValuePair("a", Ex.of("100")));
+        $anno.$memberValue.of("a", "100").matches(new MemberValuePair("a", Expressions.stringLiteralEx("100")));
+        $anno.$memberValue.of("a", "100").matches(new MemberValuePair("a", Expressions.of("100")));
         
         //dynamic value
-        $anno.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Ex.of("100")));
-        $anno.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Ex.of("1")));
-        $anno.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Ex.stringLiteralEx("Blah")));
-        $anno.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Ex.of(new int[]{1,2,3,4})));
+        $anno.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expressions.of("100")));
+        $anno.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expressions.of("1")));
+        $anno.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expressions.stringLiteralEx("Blah")));
+        $anno.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expressions.of(new int[]{1,2,3,4})));
         
         
     }
     
     public void testSingleValueAnno(){
-       MemberValuePair mvp = new MemberValuePair().setValue(Ex.of(1));
-       assertTrue($anno.$memberValue.of(Ex.of(1)).matches(mvp));
+       MemberValuePair mvp = new MemberValuePair().setValue(Expressions.of(1));
+       assertTrue($anno.$memberValue.of(Expressions.of(1)).matches(mvp));
     }
  
     
@@ -350,7 +350,7 @@ public class SaTest extends TestCase {
         assertNotNull( a.select( _anno.of("@name(prefix=\"1\")") ));
 
         System.out.println( "GOTTEN " + a.select(_anno.of("@name(prefix=\"1\")") ).tokens);
-        assertTrue( a.select(_anno.of("@name(prefix=\"1\")") ).is("any", Ex.stringLiteralEx("1")) );
+        assertTrue( a.select(_anno.of("@name(prefix=\"1\")") ).is("any", Expressions.stringLiteralEx("1")) );
 
         assertTrue( a.select(_anno.of("@name(prefix=\"ABCD\")")).is("any", "ABCD"));
         assertTrue( a.$list().contains("any"));

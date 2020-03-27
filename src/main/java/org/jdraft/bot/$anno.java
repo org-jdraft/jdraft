@@ -83,7 +83,7 @@ public class $anno
      */
     public static $anno of(Object anonymousObjectWithAnnotation ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Ex.newEx( ste );
+        ObjectCreationExpr oce = Expressions.newEx( ste );
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
         BodyDeclaration bd = bds.stream().filter(b -> b.getAnnotations().isNonEmpty() ).findFirst().get();
         return of( _anno.of(bd.getAnnotation(0) ) );
@@ -746,7 +746,7 @@ public class $anno
         }
 
         public $memberValue(String name, String value) {
-            this(name, Ex.of(value));
+            this(name, Expressions.of(value));
         }
 
         public $memberValue(String name, Expression value) {

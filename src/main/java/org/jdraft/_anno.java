@@ -71,7 +71,7 @@ public final class _anno
      */
     public static _anno of( Object anonymousObject ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Ex.newEx(ste);
+        ObjectCreationExpr oce = Expressions.newEx(ste);
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
         BodyDeclaration<?> bd = bds.stream().filter(b -> b.getAnnotations().isNonEmpty() ).findFirst().get();
         return of( bd.getAnnotation(0) );
@@ -257,35 +257,35 @@ public final class _anno
     }
 
     public boolean isValue(char[] value){
-        return isValue( "value", Ex.of(value));
+        return isValue( "value", Expressions.of(value));
     }
     public boolean isValue(boolean[] value){
-        return isValue( "value", Ex.of(value));
+        return isValue( "value", Expressions.of(value));
     }
 
     public boolean isValue(double[] value){
-        return isValue( "value", Ex.of(value));
+        return isValue( "value", Expressions.of(value));
     }
     public boolean isValue( float[] value){
-        return isValue( "value", Ex.of(value));
+        return isValue( "value", Expressions.of(value));
     }
 
     public boolean isValue(int[] value){
-        return isValue( "value", Ex.of(value));
+        return isValue( "value", Expressions.of(value));
     }
 
     public boolean isValue(char value){
-        return isValue( "value", Ex.of(value));
+        return isValue( "value", Expressions.of(value));
     }
     public boolean isValue(boolean value){
-        return isValue( "value", Ex.of(value));
+        return isValue( "value", Expressions.of(value));
     }
 
     public boolean isValue(double value){
-        return isValue( "value", Ex.of(value));
+        return isValue( "value", Expressions.of(value));
     }
     public boolean isValue(float value){
-        return isValue( "value", Ex.of(value));
+        return isValue( "value", Expressions.of(value));
     }
 
     public boolean isValue( String value){
@@ -293,47 +293,47 @@ public final class _anno
     }
 
     public boolean isValue(int value){
-        return isValue( "value", Ex.of(value));
+        return isValue( "value", Expressions.of(value));
     }
 
     public boolean isValue(String name, char[] value){
-        return isValue( name, Ex.of(value));
+        return isValue( name, Expressions.of(value));
     }
     public boolean isValue(String name, boolean[] value){
-        return isValue( name, Ex.of(value));
+        return isValue( name, Expressions.of(value));
     }
 
     public boolean isValue(String name, double[] value){
-        return isValue( name, Ex.of(value));
+        return isValue( name, Expressions.of(value));
     }
     public boolean isValue(String name, float[] value){
-        return isValue( name, Ex.of(value));
+        return isValue( name, Expressions.of(value));
     }
 
     public boolean isValue(String name, int[] value){
-        return isValue( name, Ex.of(value));
+        return isValue( name, Expressions.of(value));
     }
 
     public boolean isValue(String name, char value){
-        return isValue( name, Ex.of(value));
+        return isValue( name, Expressions.of(value));
     }
     public boolean isValue(String name, boolean value){
-        return isValue( name, Ex.of(value));
+        return isValue( name, Expressions.of(value));
     }
 
     public boolean isValue(String name, double value){
-        return isValue( name, Ex.of(value));
+        return isValue( name, Expressions.of(value));
     }
     public boolean isValue(String name, float value){
-        return isValue( name, Ex.of(value));
+        return isValue( name, Expressions.of(value));
     }
 
     public boolean isValue( String name, String value){
-        return isValue(name, Ex.stringLiteralEx(value));
+        return isValue(name, Expressions.stringLiteralEx(value));
     }
 
     public boolean isValue(String name, int value){
-        return isValue( name, Ex.of(value));
+        return isValue( name, Expressions.of(value));
     }
 
     public boolean isValue(String name, Expression value){
@@ -386,7 +386,7 @@ public final class _anno
      * @return 
      */
     public boolean hasValue( int i){
-        return hasValue( Ex.of(i));
+        return hasValue( Expressions.of(i));
     }
 
     /**
@@ -395,7 +395,7 @@ public final class _anno
      * @return 
      */
     public boolean hasValue( char c){
-        return hasValue( Ex.of(c));
+        return hasValue( Expressions.of(c));
     }    
     
     /**
@@ -404,7 +404,7 @@ public final class _anno
      * @return 
      */
     public boolean hasValue( float f){
-        return hasValue( Ex.of(f));
+        return hasValue( Expressions.of(f));
     }
 
     /**
@@ -413,7 +413,7 @@ public final class _anno
      * @return 
      */
     public boolean hasValue( String s){
-        return hasValue( Ex.stringLiteralEx(s));
+        return hasValue( Expressions.stringLiteralEx(s));
     }
     
     /**
@@ -422,7 +422,7 @@ public final class _anno
      * @return 
      */
     public boolean hasValue( long l){
-        return hasValue( Ex.of(l));
+        return hasValue( Expressions.of(l));
     }
     
     /**
@@ -431,7 +431,7 @@ public final class _anno
      * @return 
      */
     public boolean hasValue( boolean b){
-        return hasValue( Ex.of(b));
+        return hasValue( Expressions.of(b));
     }    
     
     /**
@@ -457,7 +457,7 @@ public final class _anno
      */
     public boolean hasMemberValue(String attrKeyValue ){
         try{
-            AssignExpr ae = Ex.assignEx(attrKeyValue);
+            AssignExpr ae = Expressions.assignEx(attrKeyValue);
             String name = ae.getTarget().toString();
             return hasMemberValue( name, ae.getValue());
         } catch (Exception e){
@@ -474,28 +474,28 @@ public final class _anno
     }
 
     public boolean hasMemberValue( String name, int value){
-        return hasMemberValue( name, Ex.of(value));
+        return hasMemberValue( name, Expressions.of(value));
     }
 
     public boolean hasMemberValue( String name, long value){
-        return hasMemberValue( name, Ex.of(value));
+        return hasMemberValue( name, Expressions.of(value));
     }
 
 
     public boolean hasMemberValue( String name, char value){
-        return hasMemberValue( name, Ex.of(value));
+        return hasMemberValue( name, Expressions.of(value));
     }
 
     public boolean hasMemberValue( String name, boolean value){
-        return hasMemberValue( name, Ex.of(value));
+        return hasMemberValue( name, Expressions.of(value));
     }
 
     public boolean hasMemberValue( String name, float value){
-        return hasMemberValue( name, Ex.of(value));
+        return hasMemberValue( name, Expressions.of(value));
     }
 
     public boolean hasMemberValue( String name, double value){
-        return hasMemberValue( name, Ex.of(value));
+        return hasMemberValue( name, Expressions.of(value));
     }
 
     /**
@@ -733,27 +733,27 @@ public final class _anno
      */
     
     public _anno addMemberValue(String key, char c ) {
-        return addMemberValue( key, Ex.of( c ) );
+        return addMemberValue( key, Expressions.of( c ) );
     }
 
     public _anno addMemberValue(String key, boolean b ) {
-        return addMemberValue( key, Ex.of( b ) );
+        return addMemberValue( key, Expressions.of( b ) );
     }
 
     public _anno addMemberValue(String key, int value ) {
-        return addMemberValue( key, Ex.of( value ) );
+        return addMemberValue( key, Expressions.of( value ) );
     }
 
     public _anno addMemberValue(String key, long value ) {
-        return addMemberValue( key, Ex.of( value ) );
+        return addMemberValue( key, Expressions.of( value ) );
     }
 
     public _anno addMemberValue(String key, float f ) {
-        return addMemberValue( key, Ex.of( f ) );
+        return addMemberValue( key, Expressions.of( f ) );
     }
 
     public _anno addMemberValue(String key, double d ) {
-        return addMemberValue( key, Ex.of( d ) );
+        return addMemberValue( key, Expressions.of( d ) );
     }
 
     public _anno addMemberValue(String key, Expression astExpr ) {
@@ -773,35 +773,35 @@ public final class _anno
     }
 
     public _anno addMemberValue(String key, String value ) {
-        return addMemberValue(key, Ex.stringLiteralEx(value));
+        return addMemberValue(key, Expressions.stringLiteralEx(value));
     }
 
     public _anno setValue( String key, char c ) {
-        return setValue( key, Ex.of( c ) );
+        return setValue( key, Expressions.of( c ) );
     }
 
     public _anno setValue( String key, boolean b ) {
-        return setValue( key, Ex.of( b ) );
+        return setValue( key, Expressions.of( b ) );
     }
 
     public _anno setValue( String key, int value ) {
-        return setValue( key, Ex.of( value ) );
+        return setValue( key, Expressions.of( value ) );
     }
 
     public _anno setValue( String key, long value ) {
-        return setValue( key, Ex.of( value ) );
+        return setValue( key, Expressions.of( value ) );
     }
 
     public _anno setValue( String key, float f ) {
-        return setValue( key, Ex.of( f ) );
+        return setValue( key, Expressions.of( f ) );
     }
 
     public _anno setValue( String key, double d ) {
-        return setValue( key, Ex.of( d ) );
+        return setValue( key, Expressions.of( d ) );
     }
 
     public _anno setValue( String name, String expression ) {
-        return setValue( name, Ex.stringLiteralEx( expression ) );
+        return setValue( name, Expressions.stringLiteralEx( expression ) );
     }
 
     public _anno removeAttr( String name ) {
@@ -859,27 +859,27 @@ public final class _anno
     }
 
     public _anno setValue( int index, String stringLiteral ) {
-        return setValue( index, Ex.stringLiteralEx( stringLiteral ) );
+        return setValue( index, Expressions.stringLiteralEx( stringLiteral ) );
     }
     
     public _anno setValue( int index, int intLiteral) {
-        return setValue( index, Ex.of( intLiteral ) );
+        return setValue( index, Expressions.of( intLiteral ) );
     }
 
     public _anno setValue( int index, boolean boolLiteral) {
-        return setValue( index, Ex.of( boolLiteral ) );
+        return setValue( index, Expressions.of( boolLiteral ) );
     }
     
     public _anno setValue( int index, char charLiteral) {
-        return setValue( index, Ex.of( charLiteral ) );
+        return setValue( index, Expressions.of( charLiteral ) );
     }
     
     public _anno setValue( int index, float floatLiteral) {
-        return setValue( index, Ex.of( floatLiteral ) );
+        return setValue( index, Expressions.of( floatLiteral ) );
     }
     
     public _anno setValue( int index, double doubleLiteral) {
-        return setValue( index, Ex.of( doubleLiteral ) );
+        return setValue( index, Expressions.of( doubleLiteral ) );
     }
     
     public _anno setValue( int index, Expression value ) {
@@ -951,11 +951,11 @@ public final class _anno
         }
         if( this.astAnno instanceof SingleMemberAnnotationExpr){            
             Map<String,Integer> hm = new HashMap<>();
-            hm.put( "value", Ex.hash(this.astAnno.asSingleMemberAnnotationExpr().getMemberValue()));
+            hm.put( "value", Expressions.hash(this.astAnno.asSingleMemberAnnotationExpr().getMemberValue()));
             return hm.hashCode();
         }        
         Map<String,Integer> hm = new HashMap<>();
-        this.astAnno.asNormalAnnotationExpr().getPairs().forEach(p -> hm.put(p.getNameAsString(), Ex.hash( p.getValue()) ) );
+        this.astAnno.asNormalAnnotationExpr().getPairs().forEach(p -> hm.put(p.getNameAsString(), Expressions.hash( p.getValue()) ) );
         return hm.hashCode();
     }
 
@@ -972,7 +972,7 @@ public final class _anno
         }
         final _anno other = (_anno)obj;
 
-        return Ex.equivalent(astAnno, other.astAnno);
+        return Expressions.equivalent(astAnno, other.astAnno);
     }
 
     @Override
@@ -1049,7 +1049,7 @@ public final class _anno
         }
 
         public _memberValue setValue( String... ex){
-            this.mvp.setValue(Ex.of(ex));
+            this.mvp.setValue(Expressions.of(ex));
             return this;
         }
 
@@ -1066,43 +1066,43 @@ public final class _anno
 
         public boolean isValue( String... ex){
             try {
-                return Ex.equivalent(this.mvp.getValue(), Ex.of(ex));
+                return Expressions.equivalent(this.mvp.getValue(), Expressions.of(ex));
             }catch(Exception e){
                 return false;
             }
         }
 
         public boolean isValue( _expression _e){
-            return Ex.equivalent(this.mvp.getValue(), _e.ast());
+            return Expressions.equivalent(this.mvp.getValue(), _e.ast());
         }
 
         public boolean isValue( Expression e){
-            return Ex.equivalent(this.mvp.getValue(), e);
+            return Expressions.equivalent(this.mvp.getValue(), e);
         }
 
 
         public boolean isValue( boolean b){
-            return isValue(Ex.of(b));
+            return isValue(Expressions.of(b));
         }
 
         public boolean isValue( int i){
-            return isValue(Ex.of(i));
+            return isValue(Expressions.of(i));
         }
 
         public boolean isValue( char c){
-            return isValue(Ex.of(c));
+            return isValue(Expressions.of(c));
         }
 
         public boolean isValue( float f){
-            return isValue(Ex.of(f));
+            return isValue(Expressions.of(f));
         }
 
         public boolean isValue( long l){
-            return isValue(Ex.of(l));
+            return isValue(Expressions.of(l));
         }
 
         public boolean isValue( double d){
-            return isValue(Ex.of(d));
+            return isValue(Expressions.of(d));
         }
 
         @Override

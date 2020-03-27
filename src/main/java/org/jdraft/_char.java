@@ -17,7 +17,7 @@ public class _char implements _expression._literal<CharLiteralExpr, _char> {
         return new _char(new CharLiteralExpr(c));
     }
     public static _char of( String...code){
-        return new _char(Ex.charLiteralEx(Text.combine(code)));
+        return new _char(Expressions.charLiteralEx(Text.combine(code)));
     }
 
     public CharLiteralExpr cle;
@@ -34,7 +34,7 @@ public class _char implements _expression._literal<CharLiteralExpr, _char> {
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Ex.charLiteralEx(Text.combine(stringRep)));
+            return is( Expressions.charLiteralEx(Text.combine(stringRep)));
         } catch(Exception e){ }
         return false;
     }

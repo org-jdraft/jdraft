@@ -64,7 +64,7 @@ public class _switchStmtTest extends TestCase {
     }
 
     public void testEE(){
-        Expression ee = Ex.of("com.github.javaparser.ast.expr.LongLiteralExpr");
+        Expression ee = Expressions.of("com.github.javaparser.ast.expr.LongLiteralExpr");
         System.out.println( ee.getClass() );
         System.out.println( ee );
     }
@@ -233,7 +233,7 @@ public class _switchStmtTest extends TestCase {
            throw new RuntimeException("Bad key "+a);
         });
 
-        assertEquals( _ss.getDefault().getStatement(0), Stmt.of( (String a)->{ throw new RuntimeException("Bad key "+ a);}) );
+        assertEquals( _ss.getDefault().getStatement(0), Statements.of( (String a)->{ throw new RuntimeException("Bad key "+ a);}) );
         System.out.println( _ss );
     }
 
@@ -269,11 +269,11 @@ public class _switchStmtTest extends TestCase {
 
         //System.out.println( _s);
 
-        assertEquals( Stmt.of( ()-> System.out.println(4)), _cg.getStatement(0));
-        assertEquals( Stmt.of( ()-> System.out.println(5)), _cg.getStatement(1));
-        assertEquals( Stmt.of( ()-> System.out.println(6)), _cg.getStatement(2));
-        assertEquals( Stmt.of( ()-> System.out.println(7)), _cg.getStatement(3));
-        assertEquals( Stmt.of( ()-> System.out.println(8)), _cg.getStatement(4));
+        assertEquals( Statements.of( ()-> System.out.println(4)), _cg.getStatement(0));
+        assertEquals( Statements.of( ()-> System.out.println(5)), _cg.getStatement(1));
+        assertEquals( Statements.of( ()-> System.out.println(6)), _cg.getStatement(2));
+        assertEquals( Statements.of( ()-> System.out.println(7)), _cg.getStatement(3));
+        assertEquals( Statements.of( ()-> System.out.println(8)), _cg.getStatement(4));
 
         assertTrue( _cg.hasCaseConstant(1));
         assertFalse( _cg.hasCaseConstant(2));

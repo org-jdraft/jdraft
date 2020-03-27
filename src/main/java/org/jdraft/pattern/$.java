@@ -148,48 +148,48 @@ public final class $ {
         return $body.of(_body.of(astNodeWithBlock));
     }
 
-    public static $body body(Ex.Command commandLambda ){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static $body body(Expressions.Command commandLambda ){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return new $body( le );
     }
 
     public static $body body(Consumer commandLambda ){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return new $body( le );
     }
 
     public static $body body(BiConsumer commandLambda ){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return new $body( le );
     }
 
-    public static $body body(Ex.TriConsumer commandLambda ){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static $body body(Expressions.TriConsumer commandLambda ){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return new $body( le );
     }
 
-    public static $body body(Ex.QuadConsumer commandLambda ){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static $body body(Expressions.QuadConsumer commandLambda ){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return new $body( le );
     }
 
     public static <A extends Object, B extends Object> $body body(Function<A,B> commandLambda ){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return new $body( le );
     }
 
     public static <A extends Object, B extends Object, C extends Object> $body body(BiFunction<A,B,C> commandLambda ){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return new $body( le );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $body body(Ex.TriFunction<A,B,C,D> commandLambda ){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $body body(Expressions.TriFunction<A,B,C,D> commandLambda ){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return new $body( le );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object>  $body body(Ex.QuadFunction<A,B,C,D,E> commandLambda ){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object>  $body body(Expressions.QuadFunction<A,B,C,D,E> commandLambda ){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return new $body ( le );
     }
 
@@ -827,7 +827,7 @@ public final class $ {
         for(int i=0;i<ss.length; i++){
             sd.add( ss[i]);
         }
-        return new $ex( Ex.stringLiteralEx( ) ).$and(d-> sd.contains(d));
+        return new $ex( Expressions.stringLiteralEx( ) ).$and(d-> sd.contains(d));
     }
 
     public static $ex<StringLiteralExpr, _string, $ex> stringLiteral(StringLiteralExpr sl){
@@ -1004,28 +1004,28 @@ public final class $ {
      * @param ec
      * @return
      */
-    public static $stmt<AssertStmt, _assertStmt> assertStmt(Ex.Command ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static $stmt<AssertStmt, _assertStmt> assertStmt(Expressions.Command ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(AssertStmt.class).get() );
     }
 
     public static <A extends Object> $stmt<AssertStmt, _assertStmt> assertStmt(Consumer<A> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(AssertStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object>$stmt<AssertStmt, _assertStmt> assertStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(AssertStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<AssertStmt, _assertStmt> assertStmt(Ex.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<AssertStmt, _assertStmt> assertStmt(Expressions.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(AssertStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<AssertStmt, _assertStmt> assertStmt(Ex.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<AssertStmt, _assertStmt> assertStmt(Expressions.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(AssertStmt.class).get() );
     }
 
@@ -1043,28 +1043,28 @@ public final class $ {
      * @param ec
      * @return
      */
-    public static $stmt<BlockStmt, _blockStmt> blockStmt(Ex.Command ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static $stmt<BlockStmt, _blockStmt> blockStmt(Expressions.Command ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(BlockStmt.class).get() );
     }
 
     public static <A extends Object> $stmt<BlockStmt, _blockStmt> blockStmt(Consumer<A> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(BlockStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object>$stmt<BlockStmt, _blockStmt> blockStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(BlockStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<BlockStmt, _blockStmt> blockStmt(Ex.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<BlockStmt, _blockStmt> blockStmt(Expressions.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(BlockStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<BlockStmt, _blockStmt> blockStmt(Ex.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<BlockStmt, _blockStmt> blockStmt(Expressions.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(BlockStmt.class).get() );
     }
 
@@ -1183,28 +1183,28 @@ public final class $ {
      * @param ec
      * @return
      */
-    public static $doStmt doStmt(Ex.Command ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static $doStmt doStmt(Expressions.Command ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $doStmt.of( le.findFirst(DoStmt.class).get() );
     }
 
     public static <A extends Object> $doStmt doStmt(Consumer<A> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $doStmt.of( le.findFirst(DoStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object> $doStmt doStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $doStmt.of( le.findFirst(DoStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $doStmt doStmt(Ex.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $doStmt doStmt(Expressions.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $doStmt.of( le.findFirst(DoStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $doStmt doStmt(Ex.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $doStmt doStmt(Expressions.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $doStmt.of( le.findFirst(DoStmt.class).get() );
     }
 
@@ -1234,28 +1234,28 @@ public final class $ {
      * @param ec
      * @return
      */
-    public static $stmt<ExpressionStmt, _expressionStmt> expressionStmt(Ex.Command ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static $stmt<ExpressionStmt, _expressionStmt> expressionStmt(Expressions.Command ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ExpressionStmt.class).get() );
     }
 
     public static <A extends Object> $stmt<ExpressionStmt, _expressionStmt> expressionStmt(Consumer<A> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ExpressionStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object>$stmt<ExpressionStmt, _expressionStmt> expressionStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ExpressionStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ExpressionStmt, _expressionStmt> expressionStmt(Ex.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ExpressionStmt, _expressionStmt> expressionStmt(Expressions.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ExpressionStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ExpressionStmt, _expressionStmt> expressionStmt(Ex.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ExpressionStmt, _expressionStmt> expressionStmt(Expressions.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ExpressionStmt.class).get() );
     }
 
@@ -1276,28 +1276,28 @@ public final class $ {
      * @param ec
      * @return
      */
-    public static $stmt<ForStmt, _forStmt> forStmt(Ex.Command ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static $stmt<ForStmt, _forStmt> forStmt(Expressions.Command ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ForStmt.class).get() );
     }
 
     public static <A extends Object> $stmt<ForStmt, _forStmt> forStmt(Consumer<A> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ForStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object>$stmt<ForStmt, _forStmt> forStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ForStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ForStmt, _forStmt> forStmt(Ex.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ForStmt, _forStmt> forStmt(Expressions.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ForStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ForStmt, _forStmt> forStmt(Ex.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ForStmt, _forStmt> forStmt(Expressions.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ForStmt.class).get() );
     }
 
@@ -1319,28 +1319,28 @@ public final class $ {
      * @param ec
      * @return
      */
-    public static $stmt<ForEachStmt, _forEachStmt> forEachStmt(Ex.Command ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static $stmt<ForEachStmt, _forEachStmt> forEachStmt(Expressions.Command ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ForEachStmt.class).get() );
     }
 
     public static <A extends Object> $stmt<ForEachStmt, _forEachStmt> forEachStmt(Consumer<A> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ForEachStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object>$stmt<ForEachStmt, _forEachStmt> forEachStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ForEachStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ForEachStmt, _forEachStmt> forEachStmt(Ex.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ForEachStmt, _forEachStmt> forEachStmt(Expressions.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ForEachStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ForEachStmt, _forEachStmt> forEachStmt(Ex.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ForEachStmt, _forEachStmt> forEachStmt(Expressions.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ForEachStmt.class).get() );
     }
 
@@ -1362,43 +1362,43 @@ public final class $ {
      * @param ec
      * @return
      */
-    public static $stmt<IfStmt, _ifStmt> ifStmt(Ex.Command ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static $stmt<IfStmt, _ifStmt> ifStmt(Expressions.Command ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(IfStmt.class).get() );
     }
 
     public static <A extends Object> $stmt<IfStmt, _ifStmt> ifStmt(Consumer<A> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(IfStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object>$stmt<IfStmt, _ifStmt> ifStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(IfStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<IfStmt, _ifStmt> ifStmt(Ex.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<IfStmt, _ifStmt> ifStmt(Expressions.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(IfStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object> $stmt<IfStmt, _ifStmt> ifStmt(Function<A,B> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(IfStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object> $stmt<IfStmt, _ifStmt> ifStmt(BiFunction<A,B,C> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(IfStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<IfStmt, _ifStmt> ifStmt(Ex.TriFunction<A,B,C,D> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<IfStmt, _ifStmt> ifStmt(Expressions.TriFunction<A,B,C,D> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(IfStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<IfStmt, _ifStmt> ifStmt(Ex.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<IfStmt, _ifStmt> ifStmt(Expressions.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(IfStmt.class).get() );
     }
 
@@ -1420,28 +1420,28 @@ public final class $ {
      * @param ec
      * @return
      */
-    public static $stmt<LabeledStmt, _labeledStmt> labeledStmt(Ex.Command ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static $stmt<LabeledStmt, _labeledStmt> labeledStmt(Expressions.Command ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(LabeledStmt.class).get() );
     }
 
     public static <A extends Object> $stmt<LabeledStmt, _labeledStmt> labeledStmt(Consumer<A> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(LabeledStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object>$stmt<LabeledStmt, _labeledStmt> labeledStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(LabeledStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<LabeledStmt, _labeledStmt> labeledStmt(Ex.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<LabeledStmt, _labeledStmt> labeledStmt(Expressions.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(LabeledStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<LabeledStmt, _labeledStmt> labeledStmt(Ex.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<LabeledStmt, _labeledStmt> labeledStmt(Expressions.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(LabeledStmt.class).get() );
     }
 
@@ -1475,7 +1475,7 @@ public final class $ {
      * @return
      */
     public static $stmt<ReturnStmt, _returnStmt> returnStmt( Supplier<? extends Object> s){
-        return $stmt.returnStmt( Stmt.returnStmt(Thread.currentThread().getStackTrace()[2]) );
+        return $stmt.returnStmt( Statements.returnStmt(Thread.currentThread().getStackTrace()[2]) );
     }
 
     /**
@@ -1484,7 +1484,7 @@ public final class $ {
      * @return
      */
     public static $stmt<ReturnStmt, _returnStmt> returnStmt( Function<? extends Object, ? extends Object> s){
-        return $stmt.returnStmt( Stmt.returnStmt(Thread.currentThread().getStackTrace()[2]) );
+        return $stmt.returnStmt( Statements.returnStmt(Thread.currentThread().getStackTrace()[2]) );
     }
 
     /**
@@ -1524,28 +1524,28 @@ public final class $ {
      * @param ec
      * @return
      */
-    public static $stmt<SwitchStmt, _switchStmt> switchStmt(Ex.Command ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static $stmt<SwitchStmt, _switchStmt> switchStmt(Expressions.Command ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(SwitchStmt.class).get() );
     }
 
     public static <A extends Object> $stmt<SwitchStmt, _switchStmt> switchStmt(Consumer<A> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(SwitchStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object>$stmt<SwitchStmt, _switchStmt> switchStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(SwitchStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<SwitchStmt, _switchStmt> switchStmt(Ex.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<SwitchStmt, _switchStmt> switchStmt(Expressions.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(SwitchStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<SwitchStmt, _switchStmt> switchStmt(Ex.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<SwitchStmt, _switchStmt> switchStmt(Expressions.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(SwitchStmt.class).get() );
     }
 
@@ -1565,28 +1565,28 @@ public final class $ {
      * @param ec
      * @return
      */
-    public static $stmt<SynchronizedStmt, _synchronizedStmt> synchronizedStmt(Ex.Command ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static $stmt<SynchronizedStmt, _synchronizedStmt> synchronizedStmt(Expressions.Command ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(SynchronizedStmt.class).get() );
     }
 
     public static <A extends Object> $stmt<SynchronizedStmt, _synchronizedStmt> synchronizedStmt(Consumer<A> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(SynchronizedStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object>$stmt<SynchronizedStmt, _synchronizedStmt> synchronizedStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(SynchronizedStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<SynchronizedStmt, _synchronizedStmt> synchronizedStmt(Ex.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<SynchronizedStmt, _synchronizedStmt> synchronizedStmt(Expressions.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(SynchronizedStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<SynchronizedStmt, _synchronizedStmt> synchronizedStmt(Ex.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<SynchronizedStmt, _synchronizedStmt> synchronizedStmt(Expressions.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(SynchronizedStmt.class).get() );
     }
 
@@ -1612,28 +1612,28 @@ public final class $ {
      * @param ec
      * @return
      */
-    public static $stmt<ThrowStmt, _throwStmt> throwStmt(Ex.Command ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static $stmt<ThrowStmt, _throwStmt> throwStmt(Expressions.Command ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ThrowStmt.class).get() );
     }
 
     public static <A extends Object> $stmt<ThrowStmt, _throwStmt> throwStmt(Consumer<A> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ThrowStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object>$stmt<ThrowStmt, _throwStmt> throwStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ThrowStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ThrowStmt, _throwStmt> throwStmt(Ex.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ThrowStmt, _throwStmt> throwStmt(Expressions.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ThrowStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ThrowStmt, _throwStmt> throwStmt(Ex.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<ThrowStmt, _throwStmt> throwStmt(Expressions.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(ThrowStmt.class).get() );
     }
 
@@ -1660,28 +1660,28 @@ public final class $ {
      * @param ec
      * @return
      */
-    public static $stmt<TryStmt, _tryStmt> tryStmt(Ex.Command ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static $stmt<TryStmt, _tryStmt> tryStmt(Expressions.Command ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(TryStmt.class).get() );
     }
 
     public static <A extends Object> $stmt<TryStmt, _tryStmt> tryStmt(Consumer<A> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(TryStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object>$stmt<TryStmt, _tryStmt> tryStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(TryStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<TryStmt, _tryStmt> tryStmt(Ex.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<TryStmt, _tryStmt> tryStmt(Expressions.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(TryStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<TryStmt, _tryStmt> tryStmt(Ex.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<TryStmt, _tryStmt> tryStmt(Expressions.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(TryStmt.class).get() );
     }
 
@@ -1704,28 +1704,28 @@ public final class $ {
      * @param ec
      * @return
      */
-    public static $stmt<WhileStmt, _whileStmt> whileStmt(Ex.Command ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static $stmt<WhileStmt, _whileStmt> whileStmt(Expressions.Command ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(WhileStmt.class).get() );
     }
 
     public static <A extends Object> $stmt<WhileStmt, _whileStmt> whileStmt(Consumer<A> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(WhileStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object>$stmt<WhileStmt, _whileStmt> whileStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(WhileStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<WhileStmt, _whileStmt> whileStmt(Ex.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<WhileStmt, _whileStmt> whileStmt(Expressions.TriConsumer<A,B,C> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(WhileStmt.class).get() );
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<WhileStmt, _whileStmt> whileStmt(Ex.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $stmt<WhileStmt, _whileStmt> whileStmt(Expressions.QuadConsumer<A,B,C,D> ec){
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return $stmt.of( le.findFirst(WhileStmt.class).get() );
     }
 
@@ -2044,7 +2044,7 @@ public final class $ {
      */
     public static $method method(Object anonymousObjectContainingMethod){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Ex.newEx(ste);
+        ObjectCreationExpr oce = Expressions.newEx(ste);
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
         //removeIn all things that aren't METHODS or METHODS WITH @_remove
         bds.removeIf(b -> b.isAnnotationPresent(_remove.class) || (!(b instanceof MethodDeclaration)));

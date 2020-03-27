@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.jdraft.text.Stencil;
-import org.jdraft.Ex;
+import org.jdraft.Expressions;
 import org.jdraft._class;
 import org.jdraft._int;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
@@ -31,8 +31,8 @@ public class SintTest extends TestCase {
 		assertFalse($int.of(_int.of("1")).matches(2));
 		
 		//IntLiteralExpr
-		assertTrue($int.of(Ex.of(1)).matches(1));
-		assertFalse($int.of(Ex.of(1)).matches(2));
+		assertTrue($int.of(Expressions.of(1)).matches(1));
+		assertFalse($int.of(Expressions.of(1)).matches(2));
 		
 		//Predicate
 		assertTrue( $int.of(i-> i.isBinaryFormat()).matches("0b101001") );
@@ -175,7 +175,7 @@ public class SintTest extends TestCase {
 		
 		//here I want to change the int literal oo value (3) 
 		//to be a DIFFERENT node type (StringLiteral) with value "Hello"
-		_c = $int.of("3").replaceIn(C.class, Ex.stringLiteralEx("Hello") );
+		_c = $int.of("3").replaceIn(C.class, Expressions.stringLiteralEx("Hello") );
 		
 		assertTrue( _c.getField("oo").isInit("Hello"));		
 	}

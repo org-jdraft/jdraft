@@ -17,7 +17,7 @@ public class _classExpression implements _expression<ClassExpr, _classExpression
         return new _classExpression(ce);
     }
     public static _classExpression of( String...code){
-        return new _classExpression(Ex.classEx( code));
+        return new _classExpression(Expressions.classEx( code));
     }
 
     public ClassExpr ce;
@@ -34,7 +34,7 @@ public class _classExpression implements _expression<ClassExpr, _classExpression
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Ex.classEx(stringRep));
+            return is( Expressions.classEx(stringRep));
         } catch(Exception e){ }
         return false;
     }

@@ -25,7 +25,7 @@ public class _arrayDimension implements _java._uniPart<ArrayCreationLevel, _arra
     }
 
     public static _arrayDimension of(int index){
-        return new _arrayDimension(new ArrayCreationLevel().setDimension( Ex.of(index) ));
+        return new _arrayDimension(new ArrayCreationLevel().setDimension( Expressions.of(index) ));
     }
 
     public static _arrayDimension of(String...str){
@@ -33,7 +33,7 @@ public class _arrayDimension implements _java._uniPart<ArrayCreationLevel, _arra
         if( s.startsWith("[") ){
             s = s.substring(1, s.length() - 1);
         }
-        return of( Ex.of(s));
+        return of( Expressions.of(s));
     }
 
     public static _arrayDimension of(Expression e){
@@ -58,7 +58,7 @@ public class _arrayDimension implements _java._uniPart<ArrayCreationLevel, _arra
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Ex.arrayCreationLevel(stringRep));
+            return is( Expressions.arrayCreationLevel(stringRep));
         } catch(Exception e){
             return false;
         }
@@ -71,7 +71,7 @@ public class _arrayDimension implements _java._uniPart<ArrayCreationLevel, _arra
         return null;
     }
     public _arrayDimension setExpression(String... dimension){
-        this.astNode.setDimension(Ex.of(dimension));
+        this.astNode.setDimension(Expressions.of(dimension));
         return this;
     }
 

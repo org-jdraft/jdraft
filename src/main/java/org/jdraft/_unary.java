@@ -23,7 +23,7 @@ public class _unary implements _expression<UnaryExpr, _unary>, _java._multiPart<
         return new _unary(ue);
     }
     public static _unary of( String...code){
-        return new _unary(Ex.unaryEx( code));
+        return new _unary(Expressions.unaryEx( code));
     }
 
     public UnaryExpr unaryEx;
@@ -40,7 +40,7 @@ public class _unary implements _expression<UnaryExpr, _unary>, _java._multiPart<
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Ex.unaryEx(stringRep));
+            return is( Expressions.unaryEx(stringRep));
         } catch(Exception e){ }
         return false;
     }

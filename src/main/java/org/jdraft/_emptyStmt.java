@@ -16,7 +16,7 @@ public class _emptyStmt implements _statement<EmptyStmt, _emptyStmt>, _java._uni
         return new _emptyStmt( es);
     }
     public static _emptyStmt of(String...code){
-        return new _emptyStmt(Stmt.emptyStmt( code));
+        return new _emptyStmt(Statements.emptyStmt( code));
     }
 
     private EmptyStmt astStmt;
@@ -33,7 +33,7 @@ public class _emptyStmt implements _statement<EmptyStmt, _emptyStmt>, _java._uni
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Stmt.emptyStmt(stringRep));
+            return is( Statements.emptyStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }

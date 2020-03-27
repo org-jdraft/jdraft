@@ -51,7 +51,7 @@ public class _evalTest extends TestCase {
 
         long[] larr = (long[])_runtime.staticEval("new long[]{System.currentTimeMillis()}");
         assertTrue( System.currentTimeMillis() >= larr[0]);
-        Expression e = Ex.of("3+4");
+        Expression e = Expressions.of("3+4");
         assertEquals(7, _runtime.staticEval(e));
     }
 
@@ -61,7 +61,7 @@ public class _evalTest extends TestCase {
                 .addField("public static int ID= 10234;")
         );
 
-        assertEquals(10234, _r.eval(Ex.of("aaa.bb.C.ID"))); //get the value of the field
+        assertEquals(10234, _r.eval(Expressions.of("aaa.bb.C.ID"))); //get the value of the field
         assertEquals(10234, _r.eval("aaa.bb.C.ID")); //get the value of the field
         assertEquals(10234, _r.eval("ID")); //get the value of the field (be smart enough to look for classes that have a public static field)
 
@@ -110,7 +110,7 @@ public class _evalTest extends TestCase {
 
         long[] larr = (long[])_r.eval("new long[]{System.currentTimeMillis()}");
         assertTrue( System.currentTimeMillis() >= larr[0]);
-        Expression e = Ex.of("3+4");
+        Expression e = Expressions.of("3+4");
         assertEquals(7, _r.eval(e));
     }
 

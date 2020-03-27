@@ -24,42 +24,42 @@ public class _assign implements _expression<AssignExpr, _assign>, _java._multiPa
     }
 
     public static _assign of(String... code) {
-        return new _assign(Ex.assignEx(code));
+        return new _assign(Expressions.assignEx(code));
     }
 
 
-    public static <A extends Object> _assign of(Ex.Command c) {
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _assign of(Expressions.Command c) {
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _assign of(Consumer<A> c) {
-        LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _assign of(BiConsumer<A, B> command) {
-        return from(Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _assign of(Ex.TriConsumer<A, B, C> command) {
-        return from(Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _assign of(Expressions.TriConsumer<A, B, C> command) {
+        return from(Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assign of(Ex.QuadConsumer<A, B, C, D> command) {
-        return from(Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assign of(Expressions.QuadConsumer<A, B, C, D> command) {
+        return from(Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _assign of(Function<A, B> command) {
-        return from(Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _assign of(BiFunction<A, B, C> command) {
-        return from(Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assign of(Ex.TriFunction<A, B, C, D> command) {
-        return from(Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assign of(Expressions.TriFunction<A, B, C, D> command) {
+        return from(Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _assign from(LambdaExpr le) {
@@ -84,7 +84,7 @@ public class _assign implements _expression<AssignExpr, _assign>, _java._multiPa
     @Override
     public boolean is(String... stringRep) {
         try {
-            return is(Ex.assignEx(stringRep));
+            return is(Expressions.assignEx(stringRep));
         } catch (Exception e) {
         }
         return false;
@@ -316,7 +316,7 @@ public class _assign implements _expression<AssignExpr, _assign>, _java._multiPa
     }
 
     public boolean isValue(String str){
-        return Objects.equals( this.ae.getValue(), Ex.of(str));
+        return Objects.equals( this.ae.getValue(), Expressions.of(str));
     }
     public boolean isValue(Expression e){
         return Objects.equals( this.ae.getValue(), e);
@@ -326,7 +326,7 @@ public class _assign implements _expression<AssignExpr, _assign>, _java._multiPa
     }
 
     public boolean isTarget(String str){
-        return Objects.equals( this.ae.getTarget(), Ex.of(str));
+        return Objects.equals( this.ae.getTarget(), Expressions.of(str));
     }
     public boolean isTarget(Expression e){
         return Objects.equals( this.ae.getTarget(), e);
@@ -336,7 +336,7 @@ public class _assign implements _expression<AssignExpr, _assign>, _java._multiPa
     }
 
     public _assign setTarget(String...target){
-        this.ae.setTarget(Ex.of(target));
+        this.ae.setTarget(Expressions.of(target));
         return this;
     }
 
@@ -351,7 +351,7 @@ public class _assign implements _expression<AssignExpr, _assign>, _java._multiPa
     }
 
     public _assign setValue(String...value){
-        this.ae.setValue(Ex.of(value));
+        this.ae.setValue(Expressions.of(value));
         return this;
     }
 

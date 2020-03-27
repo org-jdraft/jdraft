@@ -312,7 +312,7 @@ public class _runtime {
      */
     public static <I extends Object> I impl(String fullyQualifiedClassName, I anonymousImplementation, Object...ctorArgs){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Ex.newEx(ste);
+        ObjectCreationExpr oce = Expressions.newEx(ste);
         //generate an ENTIRELY NEW class
         _class _c = _class.of(fullyQualifiedClassName, anonymousImplementation, ste);
         return (I)instanceOf(_c, ctorArgs);
@@ -332,7 +332,7 @@ public class _runtime {
      */
     public static <I extends Object> I impl(I anonymousImplementation, Object...ctorArgs) {
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Ex.newEx(ste);
+        ObjectCreationExpr oce = Expressions.newEx(ste);
         _class _c = _class.of(oce.getType().getNameAsString() + "Impl", anonymousImplementation, ste);
         return (I) instanceOf(_c, ctorArgs);
     }
@@ -390,7 +390,7 @@ public class _runtime {
     }
 
     public static Object staticEval( String... expression ){
-        return staticEval( Ex.of(expression));
+        return staticEval( Expressions.of(expression));
     }
 
     public static $method $evalExpr = $method.of(
@@ -421,16 +421,16 @@ public class _runtime {
                 return ((CharLiteralExpr)le).asChar();
             }
             if( le instanceof DoubleLiteralExpr ){
-                return Ex.parseFloatOrDouble( le.asDoubleLiteralExpr() );
+                return Expressions.parseFloatOrDouble( le.asDoubleLiteralExpr() );
             }
             if( le instanceof IntegerLiteralExpr){
-                return Ex.parseInt(le.asIntegerLiteralExpr());
+                return Expressions.parseInt(le.asIntegerLiteralExpr());
             }
             if( le instanceof BooleanLiteralExpr){
                 return ((BooleanLiteralExpr) le).getValue();
             }
             if( le instanceof LongLiteralExpr){
-                return Ex.parseLong(le.asLongLiteralExpr());
+                return Expressions.parseLong(le.asLongLiteralExpr());
             }
         }
         if( expr instanceof ThisExpr ){
@@ -484,7 +484,7 @@ public class _runtime {
      * @return
      */
     public Object eval( String expression ){
-         return eval( Ex.of(expression) );
+         return eval( Expressions.of(expression) );
     }
 
     /**

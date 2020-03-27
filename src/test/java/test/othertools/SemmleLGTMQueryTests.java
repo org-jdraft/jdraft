@@ -1,7 +1,7 @@
 package test.othertools;
 
 import junit.framework.TestCase;
-import org.jdraft.Stmt;
+import org.jdraft.Statements;
 import org.jdraft.pattern.*;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class SemmleLGTMQueryTests extends TestCase {
     public void testQueryArrayAccessIntoUnaryExpression(){
         $ex $e = $ex.arrayAccessEx().$hasChild( $ex.unaryEx() );
         //now use it
-        assertNotNull($e.firstIn( Stmt.of("$buffer[position++] = (byte)(value >>> 8);") ));
+        assertNotNull($e.firstIn( Statements.of("$buffer[position++] = (byte)(value >>> 8);") ));
     }
 
     /**

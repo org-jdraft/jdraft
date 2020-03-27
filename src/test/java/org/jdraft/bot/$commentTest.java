@@ -1,13 +1,11 @@
 package org.jdraft.bot;
 
 import junit.framework.TestCase;
-import org.jdraft._blockComment;
-import org.jdraft._class;
-import org.jdraft._lineComment;
-import org.jdraft._statement;
+import org.jdraft.*;
 
 public class $commentTest extends TestCase {
-    public void testC(){
+
+    public void testRR(){
         /** class javadoc */
         class C{
             //orphaned line comment 1
@@ -15,12 +13,30 @@ public class $commentTest extends TestCase {
             /** orphaned javadoc */
         }
 
-        _class.of(C.class);
+        System.out.println( Ast.of(C.class) );
+
+    }
+    public void testC(){
+        /** class javadoc */
+        class C{
+            //orphaned line comment 1
+            int i;
+            /* orphaned block comment 1*/
+            int j;
+            /** orphaned javadoc */
+            int k;
+        }
+
+        System.out.println( Ast.of(C.class) );
+
+        //System.out.println( _class.of(C.class) );
 
         $comment $c = $comment.of();
         assertTrue( $c.isMatchAny() );
 
-        assertEquals(4, $c.countIn(C.class));
+        $comment.of().printIn(C.class);
+
+        assertEquals(4, $comment.of().countIn(C.class));
         assertEquals(4, $c.listSelectedIn(C.class).size());
 
         _class _c = $c.removeIn(C.class);

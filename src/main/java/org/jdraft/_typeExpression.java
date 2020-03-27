@@ -14,7 +14,7 @@ public class _typeExpression
         return new _typeExpression(te);
     }
     public static _typeExpression of( String...code){
-        return new _typeExpression(Ex.typeEx( code));
+        return new _typeExpression(Expressions.typeEx( code));
     }
 
     public TypeExpr te;

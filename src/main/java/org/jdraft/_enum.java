@@ -120,7 +120,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
      */
     public static _enum of( String signature, Object anonymousBody, StackTraceElement ste){
         _enum _e = _enum.of(signature);
-        ObjectCreationExpr oce = Ex.newEx( ste );
+        ObjectCreationExpr oce = Expressions.newEx( ste );
         if( oce.getAnonymousClassBody().isPresent()) {
             NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
             for(int i=0; i<bds.size(); i++) {
@@ -412,7 +412,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
      */
     public _enum addConstant(String signature, Object anonymousBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Ex.newEx(ste);
+        ObjectCreationExpr oce = Expressions.newEx(ste);
         _constant _ct = _constant.of( Ast.constantDecl(signature));
         if( oce.getAnonymousClassBody().isPresent()){
             // here, I'm putting the BODY into a temp _class, so that I can apply
@@ -462,13 +462,13 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         if( !Objects.equals( this.getPackage(), other.getPackage() ) ) {
             return false;
         }
-        if( ! Ex.equivalentAnnos(this.astEnum, other.astEnum)){
+        if( ! Expressions.equivalentAnnos(this.astEnum, other.astEnum)){
             return false;
         }     
         if( !Objects.equals( this.getJavadoc(), other.getJavadoc() ) ) {
             return false;
         }
-        if( !Ast.modifiersEqual(astEnum, other.astEnum)){
+        if( !Modifiers.modifiersEqual(astEnum, other.astEnum)){
             return false;
         }
         if( !Objects.equals( this.getName(), other.getName() ) ) {
@@ -631,7 +631,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         sbs.addAll( this.listInitBlocks() );
 
         hash = 53 * hash + Objects.hash( this.getPackage(),
-                Ex.hashAnnos(astEnum),
+                Expressions.hashAnnos(astEnum),
                 this.getJavadoc(), 
                 this.getEffectiveModifiers(),
                 this.getName(), 

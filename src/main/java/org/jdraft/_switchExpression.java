@@ -66,7 +66,7 @@ public class _switchExpression implements _expression<SwitchExpr, _switchExpress
         throw new _jdraftException("No switch expression in lambdaExpr"+System.lineSeparator()+ le);
     }
 
-    public static _switchExpression of(Ex.Command lambdaContainer){
+    public static _switchExpression of(Expressions.Command lambdaContainer){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
         return of( _l.astLambda);
     }
@@ -86,12 +86,12 @@ public class _switchExpression implements _expression<SwitchExpr, _switchExpress
         return of( _l.astLambda);
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _switchExpression of (Ex.TriFunction<A,B,C, D> lambdaContainer){
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _switchExpression of (Expressions.TriFunction<A,B,C, D> lambdaContainer){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
         return of( _l.astLambda);
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchExpression of (Ex.QuadFunction<A,B,C, D,E> lambdaContainer){
+    public static <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchExpression of (Expressions.QuadFunction<A,B,C, D,E> lambdaContainer){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
         return of( _l.astLambda);
     }
@@ -101,12 +101,12 @@ public class _switchExpression implements _expression<SwitchExpr, _switchExpress
         return of( _l.astLambda);
     }
 
-    public static <A extends Object, B extends Object,C extends Object> _switchExpression of(Ex.TriConsumer<A,B,C> lambdaContainer ){
+    public static <A extends Object, B extends Object,C extends Object> _switchExpression of(Expressions.TriConsumer<A,B,C> lambdaContainer ){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
         return of( _l.astLambda);
     }
 
-    public static <A extends Object, B extends Object,C extends Object, D extends Object> _switchExpression of(Ex.QuadConsumer<A,B,C,D> lambdaContainer ){
+    public static <A extends Object, B extends Object,C extends Object, D extends Object> _switchExpression of(Expressions.QuadConsumer<A,B,C,D> lambdaContainer ){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
         return of( _l.astLambda);
     }
@@ -125,7 +125,7 @@ public class _switchExpression implements _expression<SwitchExpr, _switchExpress
     @Override
     public boolean is(String... stringRep) {
         try {
-            return is(Ex.switchEx(stringRep));
+            return is(Expressions.switchEx(stringRep));
         }catch(Exception e){ //string could be invalid
             return false;
         }
@@ -194,7 +194,7 @@ public class _switchExpression implements _expression<SwitchExpr, _switchExpress
     }
 
     public boolean isSwitchSelector(String... selector){
-        return Objects.equals( this.switchExpr.getSelector(), Ex.of(selector));
+        return Objects.equals( this.switchExpr.getSelector(), Expressions.of(selector));
     }
 
     public boolean isSwitchSelector(_expression e){
@@ -237,7 +237,7 @@ public class _switchExpression implements _expression<SwitchExpr, _switchExpress
      * @return
      */
     public _switchExpression setSwitchSelector(String... switchSelector){
-        this.switchExpr.setSelector(Ex.of(switchSelector));
+        this.switchExpr.setSelector(Expressions.of(switchSelector));
         return this;
     }
 
@@ -316,7 +316,7 @@ public class _switchExpression implements _expression<SwitchExpr, _switchExpress
     public _switchExpression setDefault(String...code){
         //the code COULD be an expression or a statement or a group of statements
         try {
-            Expression e = Ex.of(code);
+            Expression e = Expressions.of(code);
             setDefault(e);
             return this;
         }catch(Exception ex){

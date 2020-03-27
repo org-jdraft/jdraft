@@ -188,7 +188,7 @@ public class _annoTest extends TestCase {
     }
     
     public void testTypeAnn(){
-        Statement st = Stmt.of("@Test List<@Test String> emails = new @Test ArrayList();");
+        Statement st = Statements.of("@Test List<@Test String> emails = new @Test ArrayList();");
         AtomicInteger ai = new AtomicInteger(0);
         st.walk(Ast.ANNOTATION_EXPR, a-> ai.incrementAndGet() );
         System.out.println( st );
@@ -204,24 +204,24 @@ public class _annoTest extends TestCase {
     /** Fix not merged yet */
     public void testObjectConstructionAnno(){
         //Statement st = Stmt.of( () -> {Integer i = new @Test Integer(100);} );
-        Statement st = Stmt.of( "Integer i = new @Test Integer(100);");
+        Statement st = Statements.of( "Integer i = new @Test Integer(100);");
         System.out.println( st );
         assertEquals(1, $anno.of(Test.class).countIn(st));//verify we can find the anno
     }
     
     public void testCastAnno(){
-        Statement st = Stmt.of( () -> {Integer i = (@Test Integer)100;} );
+        Statement st = Statements.of( () -> {Integer i = (@Test Integer)100;} );
         assertEquals(1, $anno.of(Test.class).countIn(st));//verify we can find the anno
     }
     
     public void testInstanceOfAnno(){        
         Integer i = 0;        
-        Statement st = Stmt.of( () ->{boolean b = i instanceof @Test Number;});
+        Statement st = Statements.of( () ->{boolean b = i instanceof @Test Number;});
         assertEquals(1, $anno.of(Test.class).countIn(st));//verify we can find the anno
     }
     
     public void testVar(){
-        Statement st = Stmt.of( () ->{ @Test boolean b = false;});
+        Statement st = Statements.of( () ->{ @Test boolean b = false;});
         assertEquals(1, $anno.of(Test.class).countIn(st));//verify we can find the anno
     }
     
@@ -238,7 +238,7 @@ public class _annoTest extends TestCase {
     
     public void testNestedClassAnno(){
         NestedClass nc = new _annoTest. @Test NestedClass();
-        Statement st = Stmt.of("NestedClass nc = new _annoTest. @Test NestedClass();");
+        Statement st = Statements.of("NestedClass nc = new _annoTest. @Test NestedClass();");
         System.out.println( st );
         assertEquals(1, $anno.of(Test.class).countIn( st ));
     }
@@ -271,7 +271,7 @@ public class _annoTest extends TestCase {
     
     
     public void testT(){
-        Statement st = Stmt.of("new  @Test  MyObject();");
+        Statement st = Statements.of("new  @Test  MyObject();");
         assertEquals( 1, $anno.of(Test.class).countIn( st ));
         System.out.println( st );
     }
@@ -361,9 +361,9 @@ public class _annoTest extends TestCase {
     public void testAnnoHasAttr(){
         _anno _a = _anno.of("a(1)");
         _anno _b = _anno.of("a(x=1)");
-        assertTrue( _a.hasValue(Ex.of(1)) );
+        assertTrue( _a.hasValue(Expressions.of(1)) );
         assertTrue( _a.hasValue(1) );
-        assertTrue( _b.hasValue(Ex.of(1)) );
+        assertTrue( _b.hasValue(Expressions.of(1)) );
         assertTrue( _b.hasValue(1) );
         
         assertTrue( _b.hasMemberValue("x=1") );
@@ -396,11 +396,11 @@ public class _annoTest extends TestCase {
         assertTrue( _a.isValue(1) );
         assertTrue( _a.isValue("value", 1));
 
-        Ex.arrayInitializerEx(new int[]{1,2,3});
+        Expressions.arrayInitializerEx(new int[]{1,2,3});
         _anno _b = _anno.of("B(k=1,v={'a','b'})");
         assertTrue( _b.isValue("k", 1) );
         assertTrue( _b.isValue("v", new char[]{'a', 'b'}) );
-        assertTrue( _b.isValue("v", Ex.charArray('a', 'b')) );
+        assertTrue( _b.isValue("v", Expressions.charArray('a', 'b')) );
     }
 
     public void test23Draft(){
@@ -473,16 +473,16 @@ public class _annoTest extends TestCase {
 
         //to a Single Value Annotation
         _a.setValue( 0, 100 );
-        assertEquals( _a.getValue( 0 ), Ex.of(100) );
+        assertEquals( _a.getValue( 0 ), Expressions.of(100) );
 
         //to a Normal Annotation
         _a.addMemberValue( "k", 200 );
-        assertEquals( _a.getValue( 0 ), Ex.of(200) );
-        assertEquals( _a.getValue( "k" ), Ex.of(200) );
+        assertEquals( _a.getValue( 0 ), Expressions.of(200) );
+        assertEquals( _a.getValue( "k" ), Expressions.of(200) );
 
         _a.addMemberValue( "v", 300 );
-        assertEquals( _a.getValue( 1 ), Ex.of(300) );
-        assertEquals( _a.getValue( "v" ), Ex.of(300) );
+        assertEquals( _a.getValue( 1 ), Expressions.of(300) );
+        assertEquals( _a.getValue( "v" ), Expressions.of(300) );
 
         assertEquals( 2, _a.listKeys().size());
 

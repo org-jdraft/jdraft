@@ -27,41 +27,41 @@ public class _conditionalExpression implements _expression<ConditionalExpr,
         return new _conditionalExpression(ce);
     }
     public static _conditionalExpression of(String...code){
-        return new _conditionalExpression(Ex.conditionalEx( code));
+        return new _conditionalExpression(Expressions.conditionalEx( code));
     }
 
-    public static <A extends Object> _conditionalExpression of(Ex.Command c){
-        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _conditionalExpression of(Expressions.Command c){
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _conditionalExpression of(Consumer<A> c){
-        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _conditionalExpression of(BiConsumer<A,B> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _conditionalExpression of(Ex.TriConsumer<A,B,C> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _conditionalExpression of(Expressions.TriConsumer<A,B,C> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _conditionalExpression of(Ex.QuadConsumer<A,B,C,D> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _conditionalExpression of(Expressions.QuadConsumer<A,B,C,D> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _conditionalExpression of(Function<A,B> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _conditionalExpression of(BiFunction<A,B,C> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _conditionalExpression of(Ex.TriFunction<A,B,C,D> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _conditionalExpression of(Expressions.TriFunction<A,B,C,D> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _conditionalExpression from(LambdaExpr le){
@@ -86,7 +86,7 @@ public class _conditionalExpression implements _expression<ConditionalExpr,
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Ex.conditionalEx(stringRep));
+            return is( Expressions.conditionalEx(stringRep));
         } catch(Exception e){ }
         return false;
     }
@@ -111,7 +111,7 @@ public class _conditionalExpression implements _expression<ConditionalExpr,
     }
 
     public boolean isCondition( String...expr){
-        return isCondition( Ex.of(expr));
+        return isCondition( Expressions.of(expr));
     }
 
     public boolean isCondition( _expression _e){
@@ -123,7 +123,7 @@ public class _conditionalExpression implements _expression<ConditionalExpr,
     }
 
     public _conditionalExpression setCondition( String...expr){
-        this.ce.setCondition(Ex.of(expr));
+        this.ce.setCondition(Expressions.of(expr));
         return this;
     }
 
@@ -138,7 +138,7 @@ public class _conditionalExpression implements _expression<ConditionalExpr,
     }
 
     public boolean isThen( String...expr){
-        return isThen( Ex.of(expr));
+        return isThen( Expressions.of(expr));
     }
 
     public boolean isThen( _expression _e){
@@ -150,7 +150,7 @@ public class _conditionalExpression implements _expression<ConditionalExpr,
     }
 
     public _conditionalExpression setThen( String...expr){
-        this.ce.setThenExpr(Ex.of(expr));
+        this.ce.setThenExpr(Expressions.of(expr));
         return this;
     }
 
@@ -170,7 +170,7 @@ public class _conditionalExpression implements _expression<ConditionalExpr,
     }
 
     public boolean isElse( String...expr){
-        return isElse( Ex.of(expr));
+        return isElse( Expressions.of(expr));
     }
 
     public boolean isElse( _expression _e){
@@ -187,7 +187,7 @@ public class _conditionalExpression implements _expression<ConditionalExpr,
     }
 
     public _conditionalExpression setElse( String...expr){
-        this.ce.setElseExpr(Ex.of(expr));
+        this.ce.setElseExpr(Expressions.of(expr));
         return this;
     }
 

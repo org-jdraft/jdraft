@@ -2,7 +2,7 @@ package org.jdraft.macro;
 
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
-import org.jdraft.Ex;
+import org.jdraft.Expressions;
 import org.jdraft._class;
 import org.jdraft._type;
 
@@ -50,7 +50,7 @@ public @interface _dto {
          */
         public static _class of(String signature, Object body) {
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-            ObjectCreationExpr oce = Ex.newEx(ste);
+            ObjectCreationExpr oce = Expressions.newEx(ste);
             _class _c = _class.of(signature);
             oce.getAnonymousClassBody().get().forEach(b -> _c.ast().addMember(b));
             Arrays.stream(body.getClass().getInterfaces()).forEach(e -> {

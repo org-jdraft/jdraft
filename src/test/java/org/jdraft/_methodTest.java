@@ -94,7 +94,7 @@ public class _methodTest extends TestCase {
         });
         
         //verify that I 
-        assertEquals( Tree.first( _m.getBody(), Ex.STRING_LITERAL), Ex.stringLiteralEx("mr") );
+        assertEquals( Tree.first( _m.getBody(), Expressions.STRING_LITERAL), Expressions.stringLiteralEx("mr") );
         /*
         //for All exprs and statements
         _m.forExprs(e-> System.out.println( e + " | " + e.getClass() ) );
@@ -105,10 +105,10 @@ public class _methodTest extends TestCase {
         assertNotNull( _m.firstExpr(BinaryExpr.class, b-> b.getRight().isNameExpr()));
         assertNull( _m.firstExpr(CastExpr.class) );
         */
-        assertNotNull( _m.firstStmt(Stmt.ASSERT));
-        assertNotNull( _m.firstStmt(Stmt.ASSERT, a-> a.getCheck().isBinaryExpr()));
+        assertNotNull( _m.firstStmt(Statements.ASSERT));
+        assertNotNull( _m.firstStmt(Statements.ASSERT, a-> a.getCheck().isBinaryExpr()));
         
-        assertNull( _m.firstStmt(Stmt.RETURN));
+        assertNull( _m.firstStmt(Statements.RETURN));
 
     }
     
@@ -248,7 +248,7 @@ public class _methodTest extends TestCase {
         _m.ast().isDefault();
         assertTrue(_m.isPublic());
         assertTrue(_m.isVoid());
-        assertEquals(_m.getBody().getStatement(0), Stmt.of( ()-> System.out.println("Hello World!")));
+        assertEquals(_m.getBody().getStatement(0), Statements.of( ()-> System.out.println("Hello World!")));
         System.out.println(_m);
 
         _m = _method.of( new Object(){ 

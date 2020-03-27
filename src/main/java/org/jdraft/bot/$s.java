@@ -1,7 +1,6 @@
 package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.Statement;
 import org.jdraft.*;
 import org.jdraft.text.Stencil;
@@ -173,7 +172,7 @@ public class $s
 	@Override
 	public Selected select(String code) {
 		try {
-			Statement e = Stmt.of(code);
+			Statement e = Statements.of(code);
 			return select(e);
 		}catch(Exception e) {
 			return null;
@@ -183,7 +182,7 @@ public class $s
 	@Override
 	public Selected select(String... code) {
 		try {
-			Statement e = Stmt.of(code);
+			Statement e = Statements.of(code);
 			return select(e);
 		}catch(Exception e) {
 			return null;

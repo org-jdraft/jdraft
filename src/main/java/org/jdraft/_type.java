@@ -1253,8 +1253,8 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     @Override
     default NodeList<Modifier> getEffectiveModifiers() {
-        NodeList<Modifier> implied = Ast.getImpliedModifiers( this.ast() );
-        return Ast.merge( implied, this.ast().getModifiers());
+        NodeList<Modifier> implied = Modifiers.getImpliedModifiers( this.ast() );
+        return Modifiers.merge( implied, this.ast().getModifiers());
     }
 
     @Override

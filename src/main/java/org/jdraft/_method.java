@@ -143,7 +143,7 @@ public final class _method
      */
     public static _method of(Object anonymousObjectContainingMethod) {
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Ex.newEx(ste);
+        ObjectCreationExpr oce = Expressions.newEx(ste);
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
         //removeIn all things that aren't METHODS or METHODS WITH @_remove
         bds.removeIf(b -> b.isAnnotationPresent(_remove.class) || (!(b instanceof MethodDeclaration)));
@@ -211,7 +211,7 @@ public final class _method
 
             //because we DONT know the context of the method (on interface, etc.)
             // lets add all of the implied modifiers to the _mm temp model
-            NodeList<Modifier> mms = Ast.getImpliedModifiers(this.astMethod);
+            NodeList<Modifier> mms = Modifiers.getImpliedModifiers(this.astMethod);
             mms.forEach(mmm -> {
                 _mm.ast().addModifier(mmm.getKeyword());
             });
@@ -251,7 +251,7 @@ public final class _method
         if (this.astMethod == other.astMethod) {
             return true; //two _method s pointing to the same MethodDeclaration
         }
-        if( ! Ex.equivalentAnnos(astMethod, other.astMethod)){
+        if( ! Expressions.equivalentAnnos(astMethod, other.astMethod)){
             return false;
         }
         if (!Objects.equals(this.getBody(), other.getBody())) {
@@ -263,7 +263,7 @@ public final class _method
         if (this.hasJavadoc() && !Objects.equals(this.getJavadoc().getContent().trim(), other.getJavadoc().getContent().trim())) {
             return false;
         }
-        if (!Ast.modifiersEqual(this.astMethod, other.astMethod)) {
+        if (!Modifiers.modifiersEqual(this.astMethod, other.astMethod)) {
             return false;
         }
         if (!Objects.equals(this.getName(), other.getName())) {
@@ -343,7 +343,7 @@ public final class _method
         modsSet.addAll(this.getEffectiveModifiers());
 
         hash = 23 * hash + Objects.hash(
-                Ex.hashAnnos(astMethod),
+                Expressions.hashAnnos(astMethod),
                 this.getBody(),
                 this.getJavadoc(),
                 modsSet, //this.getEffectiveModifiers(), //this.getModifiers(),
@@ -440,7 +440,7 @@ public final class _method
 
     @Override
     public NodeList<Modifier> getEffectiveModifiers() {
-        NodeList<Modifier> ims = Ast.getImpliedModifiers(this.astMethod);
+        NodeList<Modifier> ims = Modifiers.getImpliedModifiers(this.astMethod);
 
         if (ims == null) {
             return this.astMethod.getModifiers();
@@ -725,8 +725,8 @@ public final class _method
          * @param body
          * @return
          */
-        default _WM main(Ex.Command body) {
-            LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        default _WM main(Expressions.Command body) {
+            LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
             _method _m = _method.of("public static void main(String[] args){ }");
             if (le.getBody().isBlockStmt()) {
                 _m.setBody(le.getBody().asBlockStmt());
@@ -745,7 +745,7 @@ public final class _method
          * @return
          */
         default _WM main(Consumer<String[]> body) {
-            LambdaExpr le = Ex.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+            LambdaExpr le = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]);
             _method _m = _method.of("public static void main(String[] args){ }");
             if (le.getBody().isBlockStmt()) {
                 _m.setBody(le.getBody().asBlockStmt());
@@ -775,7 +775,7 @@ public final class _method
          */
         default _WM addMethod(Object anonymousObjectContainingMethod) {
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-            ObjectCreationExpr oce = Ex.newEx(ste);
+            ObjectCreationExpr oce = Expressions.newEx(ste);
             if (oce == null || !oce.getAnonymousClassBody().isPresent()) {
                 throw new _jdraftException("No anonymous Object containing a method provided ");
             }

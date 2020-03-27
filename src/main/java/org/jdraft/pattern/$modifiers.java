@@ -122,7 +122,7 @@ public class $modifiers
         return $mods;
     }
 
-    private static final List<Modifier> ALL_MODIFIERS = Ast.MODS_KEYWORD_TO_ENUM_MAP.values().stream().collect(Collectors.toList());
+    private static final List<Modifier> ALL_MODIFIERS = Modifiers.MODS_KEYWORD_TO_ENUM_MAP.values().stream().collect(Collectors.toList());
 
     /**
      * Matches "Exactly these" modifiers...
@@ -143,7 +143,7 @@ public class $modifiers
         //make all the other modifiers MUST exclude
         List<Modifier> leftModifiers = ALL_MODIFIERS.stream().collect(Collectors.toList());
         leftModifiers.removeAll($ms.mustInclude);
-        for(int i=0;i<Ast.MODS_KEYWORD_TO_ENUM_MAP.values().size(); i++){
+        for(int i=0;i<Modifiers.MODS_KEYWORD_TO_ENUM_MAP.values().size(); i++){
             $ms.mustExclude.addAll(leftModifiers);
         }
         return $ms;
@@ -162,7 +162,7 @@ public class $modifiers
         //make all the other modifiers MUST exclude
         List<Modifier> leftModifiers = ALL_MODIFIERS.stream().collect(Collectors.toList());
         leftModifiers.removeAll($ms.mustInclude);
-        for(int i=0;i<Ast.MODS_KEYWORD_TO_ENUM_MAP.values().size(); i++){
+        for(int i=0;i<Modifiers.MODS_KEYWORD_TO_ENUM_MAP.values().size(); i++){
             $ms.mustExclude.addAll(leftModifiers);
         }
         return $ms;
@@ -181,7 +181,7 @@ public class $modifiers
         $modifiers $ms = $modifiers.of();
         _modifiers _ms = _modifiers.of(keywords);
 
-        Arrays.stream( _ms.asKeywords() ).forEach(m -> $ms.mustExclude.add( Ast.MODS_KEYWORD_TO_ENUM_MAP.get(m) ) );
+        Arrays.stream( _ms.asKeywords() ).forEach(m -> $ms.mustExclude.add( Modifiers.MODS_KEYWORD_TO_ENUM_MAP.get(m) ) );
         return $ms;
     }
 
@@ -533,9 +533,9 @@ public class $modifiers
         if( nwm != null ){
             //System.out.println( "testing " + nwm );
             //System.out.println( "before " +_modifiers.of(nwm));
-            NodeList<Modifier> all = Ast.getImpliedModifiers(nwm);
+            NodeList<Modifier> all = Modifiers.getImpliedModifiers(nwm);
             //try {
-                all = Ast.merge(all, nwm.getModifiers());
+                all = Modifiers.merge(all, nwm.getModifiers());
             //}catch(Exception e){
                 //System.out.println(" FFFF "+ e );
             //}

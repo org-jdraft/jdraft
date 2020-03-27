@@ -58,7 +58,7 @@ public class SarrayAccessTest extends TestCase {
 	public void testBaseAPI() {
 		$arrayAccess $aa = $arrayAccess.of();
 		_arrayAccess _aa = _arrayAccess.of("X[i]");
-		_aa = $aa.instance( Ex.arrayAccessEx("Y[m()]"));
+		_aa = $aa.instance( Expressions.arrayAccessEx("Y[m()]"));
 		
 		//$and
 		$aa.$and(a-> a.getName().is("x"));		
@@ -114,7 +114,7 @@ public class SarrayAccessTest extends TestCase {
 		assertTrue($aa.name.matches("x"));
 		assertTrue($aa.index.matches("1"));
 
-		ArrayAccessExpr aae = Ex.arrayAccessEx("x[1]");
+		ArrayAccessExpr aae = Expressions.arrayAccessEx("x[1]");
 		assertTrue( $aa.matches(aae));
 		assertTrue( $aa.matches("x[1]"));
 		assertFalse( $aa.matches("y[1]"));

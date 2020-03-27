@@ -33,7 +33,7 @@ public class _localVariables implements _expression<VariableDeclarationExpr, _lo
     }
 
     public static _localVariables of(String...code){
-        return new _localVariables(Ex.varLocalEx(code));
+        return new _localVariables(Expressions.varLocalEx(code));
     }
 
     public VariableDeclarationExpr varDeclEx;
@@ -60,7 +60,7 @@ public class _localVariables implements _expression<VariableDeclarationExpr, _lo
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Ex.varLocalEx(stringRep));
+            return is( Expressions.varLocalEx(stringRep));
         } catch(Exception e){ }
         return false;
     }

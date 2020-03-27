@@ -99,7 +99,7 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
     }
 
     public _modifiers set(String keyword ) {
-        Modifier m = Ast.MODS_KEYWORD_TO_ENUM_MAP.get( keyword );
+        Modifier m = Modifiers.MODS_KEYWORD_TO_ENUM_MAP.get( keyword );
         if( m == null ) {
             throw new IllegalArgumentException( "invalid modifier keyword \"" + keyword + "\"" );
         }
@@ -108,7 +108,7 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
     }
 
     public _modifiers unset(String keyword ) {
-        Modifier m = Ast.MODS_KEYWORD_TO_ENUM_MAP.get( keyword );
+        Modifier m = Modifiers.MODS_KEYWORD_TO_ENUM_MAP.get( keyword );
         if( m == null ) {
             throw new IllegalArgumentException( "invalid modifier keyword \"" + keyword + "\"" );
         }
@@ -408,7 +408,7 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
             NodeList<Modifier> ms = this.node.getModifiers();
             for(int i=0;i<ms.size();i++){
 
-                modBits = modBits | Ast.MODS_KEYWORD_TO_BIT_MAP.get( ms.get(i).getKeyword().asString() );
+                modBits = modBits | Modifiers.MODS_KEYWORD_TO_BIT_MAP.get( ms.get(i).getKeyword().asString() );
             }
         }
         return modBits;
@@ -434,7 +434,7 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
         for( int i = 0; i < count; i++ ) {
             //bithacks: isolate the rightmost bit
             int nextBit = theMods & -theMods;
-            keywords[ i ] = (Ast.MODS_BIT_TO_KEYWORD_MAP.get( nextBit ));
+            keywords[ i ] = (Modifiers.MODS_BIT_TO_KEYWORD_MAP.get( nextBit ));
 
             //bithacks: turn off the rightmost bit
             theMods = theMods & (theMods - 1);
@@ -453,7 +453,7 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
             if( !first ) {
                 sb.append( " " );
             }
-            sb.append( Ast.MODS_BIT_TO_KEYWORD_MAP.get( nextBit ) );
+            sb.append( Modifiers.MODS_BIT_TO_KEYWORD_MAP.get( nextBit ) );
 
             //bithacks: turn off the rightmost bit
             theMods = theMods & (theMods - 1);
@@ -540,7 +540,7 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
             NodeList<Modifier> effective = getEffectiveModifiers();
             int bitMask = 0;
             for(int i=0;i<effective.size();i++){
-                bitMask |= Ast.MODS_KEYWORD_TO_BIT_MAP.get( effective.get(i).getKeyword().asString() );
+                bitMask |= Modifiers.MODS_KEYWORD_TO_BIT_MAP.get( effective.get(i).getKeyword().asString() );
             }
             return bitMask;
         }

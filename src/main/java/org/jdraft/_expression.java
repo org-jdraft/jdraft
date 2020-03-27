@@ -9,7 +9,7 @@ public interface _expression<E extends Expression, _E extends _expression>
 
     default boolean is(String... stringRep) {
         try{
-            Expression e = Ex.of(stringRep);
+            Expression e = Expressions.of(stringRep);
             return Objects.equals( e, ast());
         } catch(Exception e){ }
         return false;
@@ -67,7 +67,7 @@ public interface _expression<E extends Expression, _E extends _expression>
         SWITCH_EXPRESSION, TYPE_EXPRESSION, UNARY, VARIABLE};
 
     static _expression of(String...code){
-        return of( Ex.of(code));
+        return of( Expressions.of(code));
     }
 
     /**

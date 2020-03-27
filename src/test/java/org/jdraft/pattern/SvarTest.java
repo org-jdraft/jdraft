@@ -3,7 +3,7 @@ package org.jdraft.pattern;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.stmt.ForEachStmt;
 import org.jdraft.Ast;
-import org.jdraft.Stmt;
+import org.jdraft.Statements;
 import org.jdraft._class;
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +93,7 @@ public class SvarTest extends TestCase {
         }
         _class _c = _class.of(C.class);
         $stmt<ForEachStmt, _forEachStmt> $s = $stmt.forEachStmt("for(int $it$: array){ any(); }")
-            .$(Stmt.of("any();"), "body");
+            .$(Statements.of("any();"), "body");
         
         //ok this will verify, we can find (2) separate forEach statements
         assertEquals(2, $s.countIn(_c)); //we dont need it, we're just verifying we can find it

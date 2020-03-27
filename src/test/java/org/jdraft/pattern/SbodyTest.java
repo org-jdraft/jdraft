@@ -1,7 +1,7 @@
 package org.jdraft.pattern;
 
 import org.jdraft.Ast;
-import org.jdraft.Stmt;
+import org.jdraft.Statements;
 import org.jdraft._body;
 import org.jdraft._method;
 import junit.framework.TestCase;
@@ -90,7 +90,7 @@ public class SbodyTest extends TestCase {
         System.out.println( "HIDE" + $s.draft("A", false) );
         System.out.println( "SHOW" + $s.draft("A", true) );
         System.out.println( "OVERRIDE WITH ASSERT" + $s.draft("A", "assert(true);") );
-        System.out.println( "OVERRIDE WITH MULTIPLE STMTS" + $s.draft("A", Stmt.blockStmt( "assert(true);", "assert(1==1);") ));
+        System.out.println( "OVERRIDE WITH MULTIPLE STMTS" + $s.draft("A", Statements.blockStmt( "assert(true);", "assert(1==1);") ));
     }
 
     public void testFlatten$Body(){
@@ -175,7 +175,7 @@ public class SbodyTest extends TestCase {
         assertTrue( _bd.isEmpty());
         
         //OVERRIDE
-        _bd = $b.draft( "label", Stmt.of("assert true;") );
+        _bd = $b.draft( "label", Statements.of("assert true;") );
         assertTrue( $stmt.of("assert true;").matches( _bd.getStatement(0)) );                
     }
     
@@ -193,11 +193,11 @@ public class SbodyTest extends TestCase {
         assertTrue( _bd.isEmpty());
         
         //OVERRIDE (with single statement)
-        _bd = $b.draft( "block", Stmt.of("assert true;") );
+        _bd = $b.draft( "block", Statements.of("assert true;") );
         assertTrue( $stmt.of("assert true;").matches( _bd.getStatement(0)) );                
         
         //OVERRIDE (with block statement)
-        _bd = $b.draft( "block", Stmt.of("{ a(); b(); }") );
+        _bd = $b.draft( "block", Statements.of("{ a(); b(); }") );
 
         assertTrue( $stmt.of("{ a(); b();}").matches( _bd.getStatement(0)) );
         //assertTrue( $stmt.of("b();").matches( _bd.getStatement(1)) );
@@ -278,7 +278,7 @@ public class SbodyTest extends TestCase {
             System.out.println(1);
             assert true;
             System.out.println(2);        
-        } ).$(Stmt.of("assert true;"), "meat");
+        } ).$(Statements.of("assert true;"), "meat");
         
         System.out.println( $b.bodyStmts.stmtStencil);
         

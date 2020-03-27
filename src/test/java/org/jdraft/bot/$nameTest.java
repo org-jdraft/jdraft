@@ -180,7 +180,7 @@ public class $nameTest extends TestCase {
     }
 
     public void testSelectMethodReference(){
-        MethodReferenceExpr mre = Ex.methodReferenceEx("A::B");
+        MethodReferenceExpr mre = Expressions.methodReferenceEx("A::B");
 
         System.out.println( mre );
         Print.describe(mre);

@@ -102,7 +102,7 @@ public class _qualifiedName implements _java._uniPart<Node, _qualifiedName> {
         String str = Text.combine(name);
 
         if( str.contains("::")){
-            return of( Ex.methodReferenceEx(str));
+            return of( Expressions.methodReferenceEx(str));
         }
         return of( new Name(str) );
 

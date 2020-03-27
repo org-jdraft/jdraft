@@ -45,7 +45,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
      */
     public static _constructor of(Object anonymousObjectBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Ex.newEx( ste );
+        ObjectCreationExpr oce = Expressions.newEx( ste );
         
         _class _c = _class.of("C");
         if( oce.getAnonymousClassBody().isPresent() ){
@@ -124,11 +124,11 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
 
     @Override
     public NodeList<Modifier> getEffectiveModifiers() {
-        NodeList<Modifier> em = Ast.getImpliedModifiers( this.astCtor );
+        NodeList<Modifier> em = Modifiers.getImpliedModifiers( this.astCtor );
         if( em == null ){
             return this.astCtor.getModifiers();
         }
-        return Ast.merge( em, this.astCtor.getModifiers());
+        return Modifiers.merge( em, this.astCtor.getModifiers());
     }
 
     @Override
@@ -151,7 +151,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
         if( this.astCtor == other.astCtor ) {
             return true; //two _constructor instances pointing to same ConstructorDeclaration instance
         }        
-        if( ! Ex.equivalentAnnos(this.astCtor, other.astCtor)){
+        if( ! Expressions.equivalentAnnos(this.astCtor, other.astCtor)){
             return false;
         }
         if( !Objects.equals( this.getBody(), other.getBody() ) ) {
@@ -163,7 +163,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
         if( this.hasJavadoc() && !Objects.equals( this.getJavadoc().getContent().trim(), other.getJavadoc().getContent().trim() ) ) {
             return false;
         }
-        if( !Ast.modifiersEqual(this.astCtor, other.astCtor) ){
+        if( !Modifiers.modifiersEqual(this.astCtor, other.astCtor) ){
             return false;
         }       
         if( !Objects.equals( this.getName(), other.getName() ) ) {
@@ -203,7 +203,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
     public int hashCode() {
         int hash = 7;
         hash = 79 * hash + Objects.hash(
-            Ex.hashAnnos(astCtor),
+            Expressions.hashAnnos(astCtor),
             this.getBody(), 
             this.getJavadoc(),
             this.getEffectiveModifiers(),
@@ -294,7 +294,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
     public boolean is( String...constructorDeclaration ){
         try {
             _constructor _ct = of(constructorDeclaration);
-            _ct.astCtor.setModifiers( Ast.merge(_ct.ast().getModifiers(), Ast.getImpliedModifiers( this.astCtor ) ) );
+            _ct.astCtor.setModifiers( Modifiers.merge(_ct.ast().getModifiers(), Modifiers.getImpliedModifiers( this.astCtor ) ) );
             return equals(_ct);
         }
         catch(Exception e){
@@ -549,7 +549,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
          */
         default _WC addConstructor(Object anonymousObjectContainingConstructor ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-            ObjectCreationExpr oce = Ex.newEx(ste);
+            ObjectCreationExpr oce = Expressions.newEx(ste);
             MethodDeclaration theMethod = (MethodDeclaration)
                     oce.getAnonymousClassBody().get().stream().filter(m -> m instanceof MethodDeclaration &&
                             !m.isAnnotationPresent(_remove.class) ).findFirst().get();

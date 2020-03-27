@@ -1,9 +1,6 @@
 package org.jdraft.bot;
 
 import com.github.javaparser.ast.comments.BlockComment;
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.IntegerLiteralExpr;
-import com.github.javaparser.ast.expr.LongLiteralExpr;
 import com.github.javaparser.ast.stmt.WhileStmt;
 import junit.framework.TestCase;
 import org.jdraft.*;
@@ -22,7 +19,7 @@ public class SsTest extends TestCase {
 		assertTrue( $statement.of(_statement.of("return;")).matches("return;"));
 		
 		//with Statement
-		assertTrue( $statement.of(Stmt.of("return;")).matches("return;"));
+		assertTrue( $statement.of(Statements.of("return;")).matches("return;"));
 		
 		//with Lambda
 		assertTrue( $s.of(e-> e instanceof _returnStmt).matches("return null;"));
@@ -39,7 +36,7 @@ public class SsTest extends TestCase {
 		
 		//with interface
 		assertTrue( $s.of( _statement._controlFlow.class).matches("while(true){}") );
-		assertTrue( $s.of( _statement._controlFlow._loop.class).matches(Stmt.of("for(int i=0;i<100;i++){}")) );
+		assertTrue( $s.of( _statement._controlFlow._loop.class).matches(Statements.of("for(int i=0;i<100;i++){}")) );
 		assertTrue( $s.of( _statement._controlFlow._branching.class).matches(_statement.of("if(true){}")) );
 	}
 	
@@ -50,7 +47,7 @@ public class SsTest extends TestCase {
 		//assertTrue( $e.of().$and( e -> !e.ast().getComment().isPresent()).matches("100"));
 		//IntegerLiteralExpr ile = new IntegerLiteralExpr(100);
 		//ile.setComment(new BlockComment("Hello"));
-		WhileStmt ws = Stmt.whileStmt("while(true){}");
+		WhileStmt ws = Statements.whileStmt("while(true){}");
 		ws.setComment(new BlockComment("Hello"));
 		assertFalse( $s.of(e -> !e.ast().getComment().isPresent()).matches(ws));
 		//assertFalse( $e.of().$and( e -> !e.ast().getComment().isPresent()).matches(ile));
@@ -61,7 +58,7 @@ public class SsTest extends TestCase {
 		//assertFalse( $e.of().$not( e -> !e.ast().getComment().isPresent()).matches("100"));
 		//IntegerLiteralExpr ile = new IntegerLiteralExpr(100);
 		//ile.setComment(new BlockComment("Hello"));
-		WhileStmt ws = Stmt.whileStmt("while(true){}");
+		WhileStmt ws = Statements.whileStmt("while(true){}");
 		ws.setComment(new BlockComment("Hello"));
 		assertTrue( $s.not( e -> ! ((_java._node)e).ast().getComment().isPresent()).matches(ws));
 		//assertTrue( $e.of().$not( e -> ! ((_java._node)e).ast().getComment().isPresent()).matches(ile));

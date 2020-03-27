@@ -177,7 +177,7 @@ public class $method
 
 
     public static _method from (StackTraceElement ste, Object anonymousObjectContainingMethod ){
-        ObjectCreationExpr oce = Ex.newEx( ste );
+        ObjectCreationExpr oce = Expressions.newEx( ste );
         if( anonymousObjectContainingMethod instanceof $pattern){
             throw new UnsupportedOperationException("We cant create an instance of $method from unsupported $pattern");
         }
@@ -902,7 +902,7 @@ public class $method
      */
     public $method $body( Object anonymousClassWithMethodContainingBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Ex.newEx(ste);
+        ObjectCreationExpr oce = Expressions.newEx(ste);
         Optional<BodyDeclaration<?>> on = oce.getAnonymousClassBody().get().stream().filter(m -> 
             m instanceof MethodDeclaration 
             && !((MethodDeclaration)m)
@@ -1007,7 +1007,7 @@ public class $method
         return draft(_n.tokenize() );
     }
 
-    public static final BlockStmt EMPTY = Stmt.blockStmt("{}");
+    public static final BlockStmt EMPTY = Statements.blockStmt("{}");
 
     /**
      * 

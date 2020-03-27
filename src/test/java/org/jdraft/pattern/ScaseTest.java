@@ -3,7 +3,7 @@ package org.jdraft.pattern;
 import com.github.javaparser.ast.stmt.SwitchEntry;
 import com.github.javaparser.ast.stmt.SwitchStmt;
 import org.jdraft.Ast;
-import org.jdraft.Ex;
+import org.jdraft.Expressions;
 import java.util.ArrayList;
 import junit.framework.TestCase;
 import org.jdraft._switchEntry;
@@ -59,7 +59,7 @@ public class ScaseTest extends TestCase {
     
     public void testConstructAny(){
         _switchEntry se =
-            $switchEntry.of().draft("$label", Ex.of(1),
+            $switchEntry.of().draft("$label", Expressions.of(1),
                 "$statements", "System.out.println(1);");
         System.out.println( se );
     }

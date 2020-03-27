@@ -253,21 +253,21 @@ public class AnonymousShortcutsTest extends TestCase {
         });
         
         assertEquals( 2, _b.getStatements().size() );
-        assertEquals( _b.getStatement(0), Stmt.of("System.out.println(1);") );
-        assertEquals( _b.getStatement(1), Stmt.of("assert(1==1);") );
+        assertEquals( _b.getStatement(0), Statements.of("System.out.println(1);") );
+        assertEquals( _b.getStatement(1), Statements.of("assert(1==1);") );
     }
     
     public void testStmt(){
-        Statement st = Stmt.of( ()->System.out.println("Hello") );
+        Statement st = Statements.of( ()->System.out.println("Hello") );
     }
     
     public void testLambda(){
-        LambdaExpr l = Ex.of(()-> System.out.println("hey") );
+        LambdaExpr l = Expressions.of(()-> System.out.println("hey") );
     }
     
     public void testExpressions(){
-        IntegerLiteralExpr ile = Ex.of(1);
-        DoubleLiteralExpr dle = Ex.of(3.14f);
+        IntegerLiteralExpr ile = Expressions.of(1);
+        DoubleLiteralExpr dle = Expressions.of(3.14f);
     }
     
     

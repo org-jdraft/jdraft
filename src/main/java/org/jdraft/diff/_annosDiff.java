@@ -36,7 +36,7 @@ public class _annosDiff
             AnnotationExpr e = (AnnotationExpr) laes.get(i);
             //find a matching annotation in other, if one isnt found, then not equal
             
-            if (!raes.stream().filter(a -> Ex.equivalent(e, (AnnotationExpr) a)).findFirst().isPresent()) {
+            if (!raes.stream().filter(a -> Expressions.equivalent(e, (AnnotationExpr) a)).findFirst().isPresent()) {
             //if (!raes.stream().filter(a -> Ast.annotationEqual(e, (AnnotationExpr) a)).findFirst().isPresent()) {
                 
                 ds.addDiff(new _leftOnly_anno( //in LEFT not in RIGHT means REMOVE
@@ -47,7 +47,7 @@ public class _annosDiff
             AnnotationExpr e = (AnnotationExpr) raes.get(i);
             //find a matching annotation in other, if one isnt found, then not equal
             
-            if (!laes.stream().filter(a -> Ex.equivalent(e, (AnnotationExpr) a)).findFirst().isPresent()) {
+            if (!laes.stream().filter(a -> Expressions.equivalent(e, (AnnotationExpr) a)).findFirst().isPresent()) {
             //if (!laes.stream().filter(a -> Ast.annotationEqual(e, (AnnotationExpr) a)).findFirst().isPresent()) {
                 ds.addDiff(new _rightOnly_anno( //in LEFT not in RIGHT means REMOVE
                         path.in(Component.ANNO, e.getNameAsString()), (_withAnnos) _leftParent, (_withAnnos) _rightParent, _anno.of(e)));

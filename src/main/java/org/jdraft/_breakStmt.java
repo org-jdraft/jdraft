@@ -15,7 +15,7 @@ public class _breakStmt implements _statement._controlFlow._signal<BreakStmt, _b
         return new _breakStmt(bs);
     }
     public static _breakStmt of(String...code){
-        return new _breakStmt(Stmt.breakStmt( code));
+        return new _breakStmt(Statements.breakStmt( code));
     }
 
     private BreakStmt astStmt;
@@ -32,7 +32,7 @@ public class _breakStmt implements _statement._controlFlow._signal<BreakStmt, _b
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Stmt.breakStmt(stringRep));
+            return is( Statements.breakStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }

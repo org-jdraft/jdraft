@@ -139,8 +139,8 @@ public class _caseGroup implements _java._domain{
      * @param c a lambdaExpression containing the
      * @return
      */
-    public _caseGroup setStatements(Ex.Command c){
-        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2] );
+    public _caseGroup setStatements(Expressions.Command c){
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2] );
         return setStatements(le);
     }
 
@@ -159,12 +159,12 @@ public class _caseGroup implements _java._domain{
         return setStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object, C extends Object, D extends Object> _caseGroup setStatements (Ex.TriFunction<A,B,C, D> lambdaContainer){
+    public <A extends Object, B extends Object, C extends Object, D extends Object> _caseGroup setStatements (Expressions.TriFunction<A,B,C, D> lambdaContainer){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _caseGroup setStatements (Ex.QuadFunction<A,B,C, D,E> lambdaContainer){
+    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _caseGroup setStatements (Expressions.QuadFunction<A,B,C, D,E> lambdaContainer){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
@@ -174,12 +174,12 @@ public class _caseGroup implements _java._domain{
         return setStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object,C extends Object> _caseGroup setStatements(Ex.TriConsumer<A,B,C> lambdaContainer ){
+    public <A extends Object, B extends Object,C extends Object> _caseGroup setStatements(Expressions.TriConsumer<A,B,C> lambdaContainer ){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object,C extends Object, D extends Object> _caseGroup setStatements(Ex.QuadConsumer<A,B,C,D> lambdaContainer ){
+    public <A extends Object, B extends Object,C extends Object, D extends Object> _caseGroup setStatements(Expressions.QuadConsumer<A,B,C,D> lambdaContainer ){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
@@ -222,8 +222,8 @@ public class _caseGroup implements _java._domain{
      * @param c a lambdaExpression containing the
      * @return
      */
-    public _caseGroup addStatements(Ex.Command c){
-        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2] );
+    public _caseGroup addStatements(Expressions.Command c){
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2] );
         return addStatements(le);
     }
 
@@ -242,12 +242,12 @@ public class _caseGroup implements _java._domain{
         return addStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object, C extends Object, D extends Object> _caseGroup addStatements (Ex.TriFunction<A,B,C, D> lambdaContainer){
+    public <A extends Object, B extends Object, C extends Object, D extends Object> _caseGroup addStatements (Expressions.TriFunction<A,B,C, D> lambdaContainer){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _caseGroup addStatements (Ex.QuadFunction<A,B,C, D,E> lambdaContainer){
+    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _caseGroup addStatements (Expressions.QuadFunction<A,B,C, D,E> lambdaContainer){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
@@ -257,12 +257,12 @@ public class _caseGroup implements _java._domain{
         return addStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object,C extends Object> _caseGroup addStatements(Ex.TriConsumer<A,B,C> lambdaContainer ){
+    public <A extends Object, B extends Object,C extends Object> _caseGroup addStatements(Expressions.TriConsumer<A,B,C> lambdaContainer ){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object,C extends Object, D extends Object> _caseGroup addStatements(Ex.QuadConsumer<A,B,C,D> lambdaContainer ){
+    public <A extends Object, B extends Object,C extends Object, D extends Object> _caseGroup addStatements(Expressions.QuadConsumer<A,B,C,D> lambdaContainer ){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }

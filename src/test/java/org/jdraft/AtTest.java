@@ -29,7 +29,7 @@ public class AtTest extends TestCase {
 /*<--*/ int i = 100;
         assertEquals( Ast.typeRef(int.class),At.at(AtTest.class, 29,9));
         assertEquals( "i",At.at(AtTest.class, 29,13).toString());
-        assertEquals( Ex.of(100),At.at(AtTest.class, 29,18) );
+        assertEquals( Expressions.of(100),At.at(AtTest.class, 29,18) );
     }
     //NOTE: this is sensititve to lines in file method should start at
     //IF YOU REFACTOR THIS CODE YOU NEED TO UPDATE THE VALUE OF THIS_LINE_NUMBER
@@ -110,7 +110,7 @@ public class AtTest extends TestCase {
         assertEquals(3, At.getStatementIndex(bs, c.getRange().get().begin));
 
 
-        bs.addStatement(3, Stmt.blockStmt("{/*<code></code>*/}"));
+        bs.addStatement(3, Statements.blockStmt("{/*<code></code>*/}"));
         System.out.println( bs );
         assertNotNull( bs );
     }
@@ -134,7 +134,7 @@ public class AtTest extends TestCase {
         assertEquals(2, At.getStatementIndex(bs, c.getRange().get().begin));
 
 
-        bs.addStatement(2, Stmt.labeledStmt("HERE:{}"));
+        bs.addStatement(2, Statements.labeledStmt("HERE:{}"));
         System.out.println( bs );
         assertNotNull( bs );
     }

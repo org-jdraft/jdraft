@@ -30,42 +30,42 @@ public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate
         return new _arrayCreate(ac);
     }
     public static _arrayCreate of( String...code){
-        return new _arrayCreate(Ex.arrayCreationEx( code));
+        return new _arrayCreate(Expressions.arrayCreationEx( code));
     }
 
 
-    public static <A extends Object> _arrayCreate of(Ex.Command c){
-        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _arrayCreate of(Expressions.Command c){
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _arrayCreate of(Consumer<A> c){
-        LambdaExpr le = Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _arrayCreate of(BiConsumer<A,B> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _arrayCreate of( Ex.TriConsumer<A,B,C> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _arrayCreate of( Expressions.TriConsumer<A,B,C> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _arrayCreate of( Ex.QuadConsumer<A,B,C,D> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _arrayCreate of( Expressions.QuadConsumer<A,B,C,D> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _arrayCreate of( Function<A,B> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _arrayCreate of( BiFunction<A,B,C> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _arrayCreate of( Ex.TriFunction<A,B,C,D> command ){
-        return from(Ex.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _arrayCreate of( Expressions.TriFunction<A,B,C,D> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _arrayCreate from( LambdaExpr le){
@@ -102,7 +102,7 @@ public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Ex.arrayCreationEx(stringRep));
+            return is( Expressions.arrayCreationEx(stringRep));
         } catch(Exception e){ }
         return false;
     }
@@ -124,7 +124,7 @@ public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate
     }
 
     public _arrayCreate setInit(String...init){
-        this.astNode.setInitializer(Ex.arrayInitializerEx(init));
+        this.astNode.setInitializer(Expressions.arrayInitializerEx(init));
         return this;
     }
 
@@ -157,7 +157,7 @@ public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate
 
     public boolean isInit(String... initCode){
         try{
-            return isInit(Ex.arrayInitializerEx(initCode));
+            return isInit(Expressions.arrayInitializerEx(initCode));
         }catch(Exception e){
             return false;
         }
@@ -209,7 +209,7 @@ public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate
     }
 
     public _arrayCreate setArrayDimensions(String...code){
-        this.astNode.setLevels( Ex.arrayCreationLevels(code) );
+        this.astNode.setLevels( Expressions.arrayCreationLevels(code) );
         return this;
     }
 
@@ -220,7 +220,7 @@ public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate
 
     public boolean isArrayDimensions(String... dimensions){
         try {
-            return isArrayDimensions( Ex.arrayCreationLevels(dimensions));
+            return isArrayDimensions( Expressions.arrayCreationLevels(dimensions));
         } catch(Exception e){
             return false;
         }

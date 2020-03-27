@@ -372,7 +372,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         if( this.astConstant == other.astConstant){
             return true; //two _constant pointing to the same AstEnumDeclaration
         }
-        if( !Ex.equivalentAnnos(this.astConstant, other.astConstant ) ){
+        if( !Expressions.equivalentAnnos(this.astConstant, other.astConstant ) ){
             return false;
         }
         if( !Objects.equals( this.getJavadoc(), other.getJavadoc() ) ) {
@@ -429,7 +429,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         tfs.addAll( this.listFields());
 
         hash = 13 * hash + Objects.hash( tms, tfs,
-                Ex.hashAnnos(astConstant),
+                Expressions.hashAnnos(astConstant),
                 getJavadoc(),
                 getName(), listArguments() );
         return hash;

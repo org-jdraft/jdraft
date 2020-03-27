@@ -2,7 +2,7 @@ package org.jdraft.bot;
 
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.Statement;
-import org.jdraft.Stmt;
+import org.jdraft.Statements;
 import org.jdraft._expression;
 import org.jdraft._statement;
 import org.jdraft.text.Stencil;
@@ -28,11 +28,11 @@ public interface $statement<S extends Statement, _S extends _statement, $S exten
     }
 
     static $statement of(String code) {
-        return of( Stmt.of(code));
+        return of( Statements.of(code));
     }
 
     static $statement of(String... code) {
-        return of( Stmt.of(code));
+        return of( Statements.of(code));
     }
 
     static $statement of(_statement<?, ?> _e) {

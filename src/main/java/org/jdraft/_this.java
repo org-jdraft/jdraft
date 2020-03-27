@@ -18,7 +18,7 @@ public class _this implements _expression<ThisExpr, _this>, _java._uniPart<ThisE
         return new _this(te);
     }
     public static _this of( String...code){
-        return new _this(Ex.thisEx( code));
+        return new _this(Expressions.thisEx( code));
     }
 
     public ThisExpr ile;
@@ -35,7 +35,7 @@ public class _this implements _expression<ThisExpr, _this>, _java._uniPart<ThisE
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Ex.thisEx(stringRep));
+            return is( Expressions.thisEx(stringRep));
         } catch(Exception e){ }
         return false;
     }
