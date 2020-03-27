@@ -128,7 +128,7 @@ public final class _receiverParameter
         if( !Objects.equals( this.getName(), other.getName() ) ) {
             return false;
         }
-        if( ! Ast.typesEqual( astReceiverParam.getType(), other.astReceiverParam.getType())){
+        if( ! Types.equal( astReceiverParam.getType(), other.astReceiverParam.getType())){
             return false;
         }
         return true;
@@ -149,7 +149,7 @@ public final class _receiverParameter
         //hash = 97 * hash + Ast.annotationsHash( astReceiverParam ); //Objects.hashCode( this.getAnnos() );
         hash = 97 * hash + Expressions.hashAnnos(astReceiverParam);
         hash = 97 * hash + Objects.hashCode( this.getName() );
-        hash = 97 * hash + Ast.typeHash( astReceiverParam.getType()); //Objects.hashCode( this.getType() );
+        hash = 97 * hash + Types.hash( astReceiverParam.getType()); //Objects.hashCode( this.getType() );
         return hash;
     }
 

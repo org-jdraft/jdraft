@@ -68,7 +68,7 @@ public class StypeRefTest extends TestCase {
         assertEquals(_typeRef.of("A"), _t.getErasedType() );
         NodeList<Type> tas = _t.getTypeArguments();
         assertTrue( tas.isNonEmpty() );
-        assertTrue(Ast.typesEqual( tas.get(0), Ast.typeRef("B")));
+        assertTrue(Types.equal( tas.get(0), Types.typeRef("B")));
 
         _t = _typeRef.of("@NotNull A<? extends C, D>[][]");
         assertTrue( _t.isGenericType());
@@ -110,7 +110,7 @@ public class StypeRefTest extends TestCase {
 
     public void testTypeOfAnno(){
         $typeRef $t = $typeRef.of("A");
-        Type t = Ast.typeRef("@NotNull A");
+        Type t = Types.typeRef("@NotNull A");
         assertTrue( $t.matches("@NotNull A"));
         assertTrue( $t.matches("@NotNull aaaa.bbbb.A<B,C>[]")); //annotated generic and array
     }
@@ -133,11 +133,11 @@ public class StypeRefTest extends TestCase {
     public void testHardcode$(){
         $typeRef $tr = $typeRef.of( "Map<$A$, $B$>" );
 
-        assertTrue($tr.match(Ast.typeRef("Map<Integer, Integer>") ));
+        assertTrue($tr.match(Types.typeRef("Map<Integer, Integer>") ));
         $tr.$hardcode("A", "String");
-        assertTrue($tr.match(Ast.typeRef("Map<String, Integer>") ));
-        assertTrue($tr.match(Ast.typeRef("Map<java.lang.String, Integer>") ));
-        assertFalse($tr.match(Ast.typeRef("Map<Integer, Integer>") ));
+        assertTrue($tr.match(Types.typeRef("Map<String, Integer>") ));
+        assertTrue($tr.match(Types.typeRef("Map<java.lang.String, Integer>") ));
+        assertFalse($tr.match(Types.typeRef("Map<Integer, Integer>") ));
 
     }
 
@@ -279,8 +279,8 @@ public class StypeRefTest extends TestCase {
         $typeRef $t = $typeRef.of(int.class);
         assertEquals(_typeRef.of(int.class), $t.draft());
 
-        assertNotNull( $t.select(Ast.INT_TYPE));
-        assertNull( $t.select(Ast.FLOAT_TYPE));
+        assertNotNull( $t.select(Types.INT_TYPE));
+        assertNull( $t.select(Types.FLOAT_TYPE));
         class F{
             int a;
             public F( int b ){

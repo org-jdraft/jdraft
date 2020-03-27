@@ -14,7 +14,6 @@ import com.github.javaparser.printer.PrettyPrinterConfiguration;
 
 import java.io.*;
 import java.lang.annotation.*;
-import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
@@ -633,7 +632,6 @@ public enum Ast {
         return of(astCu.toString(ppv));
     }
 
-
     /**
      * Find and return the ast root node for this node
      * (NOTE: the "root" is NOT always the {@link CompilationUnit} because
@@ -796,7 +794,7 @@ public enum Ast {
             return new Name( Text.combine(code));
         }
         if( Type.class.isAssignableFrom(nodeClass )){
-            return typeRef( Text.combine(code));
+            return Types.typeRef( Text.combine(code));
         }
         if( Modifier.class == nodeClass ){
             return Modifiers.MODS_KEYWORD_TO_ENUM_MAP.get(Text.combine(code) );
@@ -1335,53 +1333,6 @@ public enum Ast {
     }
 
     /**
-     *
-     * @param param the string representation of the typeParameter
-     * @return
-     */
-    public static TypeParameter typeParameter(String param) {
-        param = param.trim();
-        if (param.length() == 0) {
-            return null;
-        }
-        if (!param.startsWith("<")) {
-            param = "<" + param;
-        }
-        if (!param.endsWith(">")) {
-            param = param + ">";
-        }
-        MethodDeclaration md = method(param + " void a(){}");
-
-        TypeParameter tp = md.getTypeParameters().get(0);
-        tp.removeForced(); //DISCONNECT
-        return tp;
-    }
-
-    /**
-     *
-     * @param code the string representation of the typeParameter
-     * @return
-     */
-    public static NodeList<TypeParameter> typeParameters(String code) {
-        code = code.trim();
-        if (code.length() == 0) {
-            return new NodeList<>();
-        }
-        if (!code.startsWith("<")) {
-            code = "<" + code;
-        }
-        if (!code.endsWith(">")) {
-            code = code + ">";
-        }
-        MethodDeclaration md = method(code + " void a(){}");
-
-        NodeList<TypeParameter> ntp = md.getTypeParameters();
-        NodeList<TypeParameter> cpy = new NodeList<>(); //Disconnected copy
-        ntp.forEach(tp -> cpy.add(tp));
-        return cpy;
-    }
-
-    /**
      * Builds a {@link MethodDeclaration} from the code and returns it
      *
      * @param code the code making up the methods (may have Javadoc comments &
@@ -1655,81 +1606,6 @@ public enum Ast {
         return StaticJavaParser.parseSimpleName(code);
     }
 
-    public static Type typeRef(AnnotatedType at) {
-        return typeRef(at.getType().toString());
-    }
-
-    /**
-     * When we create an anonymous Local Class and ask for it's name, it will 
-     * have this weird "$#$" qualifier, where # is some number... Here is an 
-     * example:
-     * <PRE>
-     * draft.java._classTest$1$Hoverboard
-     * </PRE> ...well we want to identify these patterns and convert them into
-     * dots draft.java._classTest.Hoverboard
-     */
-    public static final String LOCAL_CLASS_NAME_PACKAGE_PATTERN = "\\$?\\d+\\$";
-
-    public static final Pattern PATTERN_LOCAL_CLASS = Pattern.compile(LOCAL_CLASS_NAME_PACKAGE_PATTERN);
-
-    public static Type typeRef(java.lang.reflect.Type t) {
-        String str = t.getTypeName();
-        if (PATTERN_LOCAL_CLASS.matcher(str).find()) {
-            //lets remove all the local stuff... return a type without package
-            str = str.replaceAll(LOCAL_CLASS_NAME_PACKAGE_PATTERN, ".");
-            return typeRef(str.substring(str.lastIndexOf('.') + 1));
-        }
-        return typeRef(str);
-    }
-
-    public static Type typeRef(Class clazz) {
-        if (clazz.isArray()) {
-            Class<?> cl = clazz;
-            int dimensions = 0;
-            StringBuilder sb = new StringBuilder();
-            while (cl.isArray()) {
-                dimensions++;
-                sb.append("[]");
-                cl = cl.getComponentType();
-            }
-            String tr = cl.getCanonicalName() + sb.toString();
-            return typeRef(tr);
-        }
-        return typeRef(clazz.getCanonicalName());
-    }
-
-    //public static Class<PrimitiveType> PRIMITIVE_TYPE = PrimitiveType.class;
-
-    public static PrimitiveType BOOLEAN_TYPE = PrimitiveType.booleanType();
-    public static PrimitiveType BYTE_TYPE = PrimitiveType.byteType();
-    public static PrimitiveType SHORT_TYPE = PrimitiveType.shortType();
-    public static PrimitiveType CHAR_TYPE = PrimitiveType.charType();
-    public static PrimitiveType INT_TYPE = PrimitiveType.intType();
-    public static PrimitiveType FLOAT_TYPE = PrimitiveType.floatType();
-    public static PrimitiveType DOUBLE_TYPE = PrimitiveType.doubleType();
-    public static PrimitiveType LONG_TYPE = PrimitiveType.longType();
-
-    public static Type typeRef(String code) {
-
-        if (code.contains("|")) { //Could only be a Union Type i.e. from a catch clause
-            code = "catch(" + code + " e ) {}";
-            CatchClause cc = catchClause(code);
-            List<UnionType> ut = new ArrayList<>();
-            cc.getParameter().walk(UnionType.class, u -> ut.add(u));
-            return ut.get(0);
-        }
-        if (PATTERN_LOCAL_CLASS.matcher(code).find()) {
-            //lets remove all the local stuff... return a type without package
-            code = code.replaceAll(LOCAL_CLASS_NAME_PACKAGE_PATTERN, ".");
-            return typeRef(code.substring(code.lastIndexOf('.') + 1));
-        }
-        try {
-            return StaticJavaParser.parseType(code);
-        }catch(Exception e){
-            throw new _jdraftException("Unable to parse type :\""+code+"\"", e);
-        }
-    }
-
     public static NodeList<Parameter> parameters(String... code) {
         //we need a holder for the Nodes
         StringBuilder params = new StringBuilder();
@@ -1932,41 +1808,41 @@ public enum Ast {
         return (AnnotationDeclaration) typeDecl(code);
     }
 
+    public static NullLiteralExpr nullEx() {
+        return Expressions.nullEx();
+    }
+
     /**
      * convert the String code into a single AST Expression nod
      *
      * @param code
      * @return
      */
-    public static Expression ex(String... code) {
+    public static Expression expression(String... code) {
         return Expressions.of(code);
     }
 
-    public static NullLiteralExpr nullEx() {
-        return Expressions.nullEx();
-    }
-
-    public static IntegerLiteralExpr ex(int intValue) {
+    public static IntegerLiteralExpr expression(int intValue) {
         return Expressions.of(intValue);
     }
 
-    public static BooleanLiteralExpr ex(boolean booleanValue) {
+    public static BooleanLiteralExpr expression(boolean booleanValue) {
         return Expressions.of(booleanValue);
     }
 
-    public static CharLiteralExpr ex(char charValue) {
+    public static CharLiteralExpr expression(char charValue) {
         return Expressions.of(charValue);
     }
 
-    public static LongLiteralExpr ex(long longValue) {
+    public static LongLiteralExpr expression(long longValue) {
         return Expressions.of(longValue);
     }
 
-    public static DoubleLiteralExpr ex(float floatValue) {
+    public static DoubleLiteralExpr expression(float floatValue) {
         return Expressions.of(floatValue);
     }
 
-    public static DoubleLiteralExpr ex(double doubleValue) {
+    public static DoubleLiteralExpr expression(double doubleValue) {
         return Expressions.of(doubleValue);
     }
 
@@ -2182,448 +2058,5 @@ public enum Ast {
         InitializerDeclaration id = initBlock(code);
         id.setStatic(true);
         return id;
-        /*
-        //_1_build me a class to "wrap the static block, then parse it out
-        String st = Text.combine(code);
-
-        int openIndex = st.indexOf('{');
-        if (openIndex < 0) {
-            st = "{" + st;
-            openIndex = 0;
-        }
-        if (!st.endsWith("}")) {
-            st = st + "}";
-        }
-        int stIndex = st.indexOf("static");
-        if (stIndex < 0 || stIndex > openIndex) {
-            st = "static " + st;
-        }
-        String str = "class C{" + System.lineSeparator() + st + System.lineSeparator() + "}";
-        InitializerDeclaration id = (InitializerDeclaration) classDeclaration(str).getMembers().get(0);
-        id.removeForced(); //disconnect
-        return id;
-         */
-    }
-
-    /**
-     * Looks for LabeledStmts within code and removes the labels while retaining the code within the labels
-     * fore example take the code with (2) labeledStmts with the label "lablel":
-     * <PRE>
-     *      class C {
-     *             public void m() {
-     *                 label: System.out.println( 1 );
-     *                 if(System.getProperty("A") != null){
-     *                     label: {
-     *                     System.out.println(2);
-     *                     System.out.println(3);
-     *                     }
-     *                 }
-     *             }
-     *         }
-     * </PRE>
-     *     If we use the code above and call flatten the label, "label":
-     *     <PRE>
-     *      _class _c = _class.of( C.class);
-     *      Ast.flattenLabel(_c.astCompilationUnit(), "label");
-     *      System.out.println( _c );
-     *     </PRE>
-     * ...produces:
-     * <PRE>
-     *     public class C {
-     *         public void m() {
-     *             System.out.println(1);
-     *             if (System.getProperty("A") != null) {
-     *                 System.out.println(2);
-     *                 System.out.println(3);
-     *             }
-     *         }
-     *     }
-     * </PRE>
-     * @param node
-     * @param labelName
-     * @param <N>
-     * @return
-     */
-    public static <N extends Node> N flattenLabel(N node, String labelName) {
-        //if( !isImplemented() ){
-        //    throw new _jDraftException("No label : "+labelName+" in non-implemented body");
-        //}
-        Optional<LabeledStmt> ols
-                = node.findFirst(LabeledStmt.class, ls -> ls.getLabel().toString().equals(labelName));
-        while (ols.isPresent()) {
-            LabeledStmt ls = ols.get();
-            if (ls.getStatement().isBlockStmt()) {
-                BlockStmt bs = ls.getStatement().asBlockStmt();
-                NodeList<Statement> stmts = bs.getStatements();
-                if (stmts.isEmpty()) {
-                    ls.remove(); //we have label:{}... just remove it entirely
-                    //(ls.getParentNode().get()).remove(); //replace(ls, new EmptyStmt());
-                    //(ls.getParentNode().get()).replace(ls, new EmptyStmt());
-                } else if (stmts.size() == 1) {
-                    if( stmts.get(0).isEmptyStmt()){ //we have label:{;}, remove it entirely
-                        ls.remove();
-                    } else {
-                        ls.getParentNode().get().replace(ls, stmts.get(0));
-                    }
-                } else {
-                    Node parent = ls.getParentNode().get();
-                    NodeWithStatements parentNode = (NodeWithStatements) parent;
-                    int stmtIndex = parentNode.getStatements().indexOf(ls);
-                    for (int i = 0; i < stmts.size(); i++) {
-                        parentNode.addStatement(stmtIndex + i, stmts.get(i));
-                    }
-                    parent.remove(ls);
-                }
-            } else {
-                ls.getParentNode().get().replace(ls, ls.getStatement().clone());
-            }
-            //check if there is another to be flattened (NOTE: can't be at the same scope
-            //but in a smaller scope or another scope (i.e. in a different constructr/method)
-            //if we pass in a TypeDeclaration/CompilationUnit
-            ols = node.findFirst(LabeledStmt.class, lbs -> lbs.getLabel().toString().equals(labelName));
-        }
-        return node;
-    }
-
-
-    public static List<String> normalizeTypeParameter(TypeParameter tp) {
-        List<String> tw = new ArrayList<>();
-        Tree.directChildren(tp, Node.class, t -> true, t -> {
-            if (t instanceof Type) {
-                List<String> toks = Ast.tokenizeType((Type) t);
-                toks.forEach(e -> {
-                    if (e.contains(".")) {
-                        tw.add(e.substring(e.lastIndexOf(".") + 1));
-                    } else {
-                        tw.add(e);
-                    }
-                });
-            } else {
-                tw.add(t.toString());
-            }
-        });
-        return tw;
-    }
-
-    public static List<String> tokenizeType(Type type) {
-        return tokenizeType(type.toString());
-    }
-
-    public static List<String> tokenizeType(String type) {
-        type = type.trim();
-        List<String> toks = new ArrayList<>();
-        String build = new String();
-        for (int i = 0; i < type.length(); i++) {
-            switch (type.charAt(i)) {
-                case '<':
-                    if (build.length() > 0) {
-                        toks.add(build);
-                        build = "";
-                    }
-                    toks.add("<");
-                    break;
-                case '>':
-                    if (build.length() > 0) {
-                        toks.add(build);
-                        build = "";
-                    }
-                    toks.add(">");
-                    break;
-                case '|':
-                    if (build.length() > 0) {
-                        toks.add(build);
-                        build = "";
-                    }
-                    toks.add("|");
-                    break;
-                case '&':
-                    if (build.length() > 0) {
-                        toks.add(build);
-                        build = "";
-                    }
-                    toks.add("&");
-                    break;
-                case ',':
-                    if (build.length() > 0) {
-                        toks.add(build);
-                        build = "";
-                    }
-                    break;
-                case ' ':
-                    if (build.length() > 0) {
-                        toks.add(build);
-                        build = "";
-                    }
-                    break;
-                default:
-                    build += type.charAt(i);
-            }
-        }
-        if (build.length() > 0) {
-            toks.add(build);
-        }
-        return toks;
-    }
-
-    /**
-     * Builds a hashcode for a set of types (i.e. no order)
-     * @param ts
-     * @return
-     */
-    public static int typesHashCode(List<? extends Type> ts) {
-        Set<Integer> thc = new HashSet<>();
-        for (int i = 0; i < ts.size(); i++) {
-            thc.add(typeHash(ts.get(i)));
-        }
-        return thc.hashCode();
-    }
-
-    /**
-     * Check if the contents of the lists (NOT THE ORDER) is equal This is
-     * useful for checking a list of types where one list may contain some fully
-     * qualified types (java.util.Map) and the other may not(Map) (and for
-     * generics, etc.)
-     * <PRE>
-     * this is good for checking if two classes implement the same interfaces in this scenario:
-     * _class _a = _class.of("A").implement("fully.qualified.B", "fully.qualified.C");
-     * _class _b = _class.of("B").implement("C", "B");
-     * //thiw will work / return true... even though order, and types fully qualified or not
-     * assertTrue( Ast.typesEqual ( _a.listImplements(), _b.listImplements() ) );
-     * </PRE>
-     *
-     * @param <T> the Ast Type
-     * @param lt1
-     * @param lt2
-     * @return
-     */
-    public static <T extends Type> boolean typesEqual(List<T> lt1, List<T> lt2) {
-        if (lt1.size() != lt2.size()) {
-            return false;
-        }
-        for (int i = 0; i < lt1.size(); i++) {
-            Type cit = lt1.get(i);
-            if (!lt2.stream().filter(c -> typesEqual(c, cit)).findFirst().isPresent()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static boolean importsEqual(TypeDeclaration left, TypeDeclaration right) {
-        if (left.isTopLevelType()) {
-            if (right.isTopLevelType()) {
-                //both left and right are compilationUnits
-                return importsEqual(left.findCompilationUnit().get(), right.findCompilationUnit().get());
-            }
-            return left.findCompilationUnit().get().getImports().isEmpty();
-        }
-        if (!right.isTopLevelType()) {
-            return true;
-        }
-        return right.findCompilationUnit().isPresent()
-                && right.findCompilationUnit().get().getImports().isEmpty();
-    }
-
-    public static boolean importsEqual(CompilationUnit left, CompilationUnit right) {
-        if (left == null) {
-            return right == null;
-        }
-        if (right == null) {
-            return false;
-        }
-        if (left == right) {
-            return true;
-        }
-        return importsEqual(left.getImports(), right.getImports());
-    }
-
-    public static boolean importsEqual(List<ImportDeclaration> li1, List<ImportDeclaration> li2) {
-        Set<ImportDeclaration> ti = new HashSet<>();
-        Set<ImportDeclaration> to = new HashSet<>();
-        ti.addAll(li1);
-        to.addAll(li2);
-        if (!Objects.equals(ti, to)) {
-            return false;
-        }
-        return true;
-    }
-
-    public static int importsHash(TypeDeclaration td) {
-        if (!td.isTopLevelType()) {
-            return 0;
-        }
-        if (!td.findCompilationUnit().isPresent()) {
-            return 0;
-        }
-        return importsHash(td.findCompilationUnit().get());
-    }
-
-    public static int importsHash(CompilationUnit cu) {
-        Set<Integer> is = new HashSet<>();
-        cu.getImports().forEach(i -> is.add(i.hashCode()));
-        return is.hashCode();
-    }
-    
-    /**
-     *
-     * @param t
-     * @return
-     */
-    public static int typeHash(Type t) {
-        if (t == null) {
-            return 0;
-        }
-        List<String> toks = tokenizeType(t.asString());
-        List<Integer> hashes = new ArrayList<>();
-        for (int i = 0; i < toks.size(); i++) {
-            int idx = toks.get(i).lastIndexOf(".");
-            if (idx > 0) {
-                hashes.add(Objects.hashCode(toks.get(i).substring(idx + 1)));
-            } else {
-                hashes.add(Objects.hashCode(toks.get(i)));
-            }
-        }
-        return hashes.hashCode();
-    }
-
-    /**
-     * Verify that the referenceTypes are equal irregardless of package
-     *
-     * in situations where I am testing equality i.e. assertTrue(
-     * Ast.typesEqual( Ast.typeRef("java.lang.String"), Ast.typeRef("String")));
-     *
-     * TODO: this doesnt work for matching crazy fully qualified Annotations and TypeBounds
-     * FIXME: I need to probably walk/extract the Annotations separately (because they could be out of order
-     * and partially/fully qualified, also I SHOULD match TypeParameter typeBounds with a more
-     * robust matching (to ensure fully qualified names "java.util.Map" always match "Map")
-     *
-     * This (however) should work for the vast majority of cases
-     * @param r1 the first reference TYPE
-     * @param r2 the second reference TYPE
-     * @return io
-     */
-    public static boolean typesEqual(Type r1, Type r2) {
-        if (Objects.equals(r1, r2)) {
-            return true; //if they are ALREADY equal, return true
-        }
-        if (r1 == null || r2 == null) {
-            //System.out.println( "ONE NULL" );
-            return false;
-        }
-        if( r1.getClass() != r2.getClass() ){
-            return false;
-        }
-        //if ONE or the OTHER is fully
-        boolean r1FullyQualified = r1.asString().contains(".");
-        boolean r2FullyQualified = r2.asString().contains(".");
-
-        //OK, what I have to do is tokenize based on < > , space
-        //ok, really... what I have to do is "build" tokens
-        //XOR, if ONE or the OTHER (NOT BOTH or NEITHER) are fully qualified
-        if ((r1FullyQualified || r2FullyQualified) && !(r1FullyQualified && r2FullyQualified)) {
-            List<String> r1Toks = tokenizeType(r1.asString());
-            List<String> r2Toks = tokenizeType(r2.asString());
-            if (r1Toks.size() != r2Toks.size()) {
-                return false;
-            }
-            for (int i = 0; i < r1Toks.size(); i++) {
-                if (!r1Toks.get(i).equals(r2Toks.get(i))) {
-                    r1FullyQualified = r1Toks.get(i).contains(".");
-                    r2FullyQualified = r2Toks.get(i).contains(".");
-
-                    if ((r1FullyQualified || r2FullyQualified) && !(r1FullyQualified && r2FullyQualified)) {
-                        String s1 = r1Toks.get(i);
-                        if (s1.contains(".")) {
-                            s1 = s1.substring(s1.lastIndexOf(".") + 1);
-                        }
-                        String s2 = r2Toks.get(i);
-                        if (s2.contains(".")) {
-                            s2 = s2.substring(s2.lastIndexOf(".") + 1);
-                        }
-                        //
-                        if (!s1.equals(s2)) {
-                            return false;
-                        }
-                    }
-                }
-            }
-            return true;
-        }
-        //here we could have both types that have '.'s but one is from an inner class
-        // i.e.
-        // _typeRef _t1 = _typeRef.of("_enum._constant");
-        // _typeRef _t2 = _typeRef.of("org.jdraft._enum._constant");
-        //ok... lets parse out the first
-
-        List<String> t1s = tokenizeType(r1);
-        List<String> t2s = tokenizeType(r2);
-        if (t1s.size() != t2s.size()) {
-            return false;
-        }
-        String s1n  = t1s.get(0); //get the first (type) token
-        String s2n  = t2s.get(0); //get the second (type) token
-        int dotIndex1 = s1n.lastIndexOf('.');
-        int dotIndex2 = s2n.lastIndexOf('.');
-        if( dotIndex1 > 0 ){ //this means BOTH must be qualified (partially or otherwise)
-            //Log.info( "BOTH PARTIALLY QUALIFIED");
-            if( s1n.contains(s2n) || s2n.contains(s1n) ){ //compare that either one contains the other JUST THE NAME NOT GENERICS
-                //String normalizedName = s1n.substring(dotIndex);
-                String t1 = r1.asString().substring(dotIndex1+1);
-                String t2 = r2.asString().substring(dotIndex2+1);
-                //call types equal on the SIMPLE type name and (potentially) any generics after it
-                return typesEqual( Ast.typeRef(t1), Ast.typeRef(t2));
-            }
-        }
-        return false;
-    }
-    
-    /**
-     * Singleton instance for comparing AST nodes by
-     */
-    public static final NodeStartPositionComparator COMPARE_NODE_BY_POSITION =
-        new NodeStartPositionComparator();
-    
-    /**
-     * Sorts a list of nodes by the position:
-     * HUGE CAVEAT: Asts that have been modified often will have nodes out of 
-     * order, in this case it is best to serialize the AST to a String then read it
-     * back in to ensure the node positions are parsed and maintained.
-     * 
-     * @param <N>
-     * @param unsorted
-     * @return 
-     */
-    public static <N extends Node> List<N> sortNodesByPosition( List<N> unsorted){        
-        Collections.sort(unsorted, COMPARE_NODE_BY_POSITION);
-        return unsorted;
-    }
-    
-    /**
-     * Comparator for Nodes within an AST node that organizes based on the
-     * start position.
-     */
-    public static class NodeStartPositionComparator implements Comparator<Node> {
-
-        @Override
-        public int compare(Node o1, Node o2) {
-            if (o1.getBegin().isPresent() && o2.getBegin().isPresent()) {
-                int comp = o1.getBegin().get().compareTo(o2.getBegin().get());
-                if( comp != 0 ){
-                    return comp;
-                }
-                int comp2 = o1.getEnd().get().compareTo(o2.getEnd().get());
-                return comp2;                
-            }
-            //if one or the other doesnt have a begin
-            // put the one WITHOUT a being BEFORE the other
-            // if neither have a being, return
-            if (!o1.getBegin().isPresent() && !o2.getBegin().isPresent()) {
-                return 0;
-            }
-            if (o1.getBegin().isPresent()) {
-                return -1;
-            }
-            return 1;
-        }
     }
 }

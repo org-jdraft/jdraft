@@ -29,7 +29,7 @@ public class $typeRef
      * @return 
      */
     public static $typeRef of(String pattern ){
-        return new $typeRef(Ast.typeRef(pattern));
+        return new $typeRef(Types.typeRef(pattern));
     }
  
     /**
@@ -39,7 +39,7 @@ public class $typeRef
      * @return 
      */
     public static $typeRef of(String pattern, Predicate<_typeRef> constraint){
-        return new $typeRef(Ast.typeRef(pattern)).$and(constraint);
+        return new $typeRef(Types.typeRef(pattern)).$and(constraint);
     }
     
     /**
@@ -48,7 +48,7 @@ public class $typeRef
      * @return 
      */
     public static $typeRef of( Class typeClass ){
-        return $typeRef.of( Ast.typeRef(typeClass) );
+        return $typeRef.of( Types.typeRef(typeClass) );
     }
 
     /**
@@ -127,8 +127,8 @@ public class $typeRef
         $t.$and(_t->
             _annos.of(_t.ast()).equals(_annos.of(_exact.ast())) && /* Type Annotations */
             _t.getArrayDimensions() == _exact.getArrayDimensions() && /* Array Dimensions */
-            Ast.typesEqual( _t.getTypeArguments(), _exact.getTypeArguments() ) && /* Type Arguments */
-            Ast.typesEqual(_t.getBaseType().ast(), _exact.getBaseType().ast() )
+            Types.equal( _t.getTypeArguments(), _exact.getTypeArguments() ) && /* Type Arguments */
+            Types.equal(_t.getBaseType().ast(), _exact.getBaseType().ast() )
             /* Base Type */
           );
 
@@ -162,7 +162,7 @@ public class $typeRef
      * @param pattern 
      */
     private $typeRef(String pattern){
-        this.type = Ast.typeRef(pattern);
+        this.type = Types.typeRef(pattern);
     } 
 
     private Stencil typePattern(){
@@ -199,7 +199,7 @@ public class $typeRef
     public $typeRef $(String target, String $paramName) {
         Stencil st = typePattern();
         st = st.$(target, $paramName);
-        this.type = Ast.typeRef(st.toString());
+        this.type = Types.typeRef(st.toString());
         return this;
     }
 
@@ -224,7 +224,7 @@ public class $typeRef
         //System.out.println("FIRST "+st +" "+kvs);
         st = st.$hardcode(translator, kvs);
         //System.out.println( "NEXT"+st);
-        this.type = Ast.typeRef(st.toString());
+        this.type = Types.typeRef(st.toString());
         return this;
     }
 
@@ -314,7 +314,7 @@ public class $typeRef
      * @return 
      */
     public boolean matches( String type ){
-        return select( Ast.typeRef(type)) != null;
+        return select( Types.typeRef(type)) != null;
     }
 
     /**
@@ -429,7 +429,7 @@ public class $typeRef
                 sel.tokens.putAll(ats);
                 return sel;
             }
-            if( Ast.typesEqual(_tr.ast(), this.type)){
+            if( Types.equal(_tr.ast(), this.type)){
                 return new Select( _tr, Tokens.of());
             }
 

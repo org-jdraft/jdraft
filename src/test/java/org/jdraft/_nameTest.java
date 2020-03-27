@@ -59,7 +59,7 @@ public class _nameTest extends TestCase {
         assertTrue( _name.of( _methodReference.of("A::B").ast() ).isMethodReference());
         assertTrue( _name.of( Ast.packageDeclaration("package aaaa.bbbb").getName() ).isPackageName() );
         assertTrue( _name.of( Ast.typeDecl("class C{}").asClassOrInterfaceDeclaration().getName() ).isTypeDeclarationName() );
-        assertTrue( _name.of( Ast.typeRef("C").asClassOrInterfaceType().getName() ).isTypeRefName() );
+        assertTrue( _name.of( Types.typeRef("C").asClassOrInterfaceType().getName() ).isTypeRefName() );
 
         assertTrue( _name.of( Ast.varDecl("int i").getName() ).isVariableName() );
         assertTrue( _name.of( Ast.parameter("int i").getName() ).isParameterName() );

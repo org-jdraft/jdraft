@@ -1,13 +1,10 @@
 package org.jdraft;
 
 import java.util.*;
-import java.util.function.Predicate;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.expr.SimpleName;
-import com.github.javaparser.ast.nodeTypes.NodeWithTypeParameters;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.TypeParameter;
 import org.jdraft.text.Text;
@@ -26,7 +23,7 @@ public final class _typeParameter
     }
 
     public static _typeParameter of( String typeParam ) {
-        return of( Ast.typeParameter( typeParam ) );
+        return of( Types.typeParameter( typeParam ) );
     }
 
     public static _typeParameter of( TypeParameter typeParameter ) {
@@ -187,8 +184,8 @@ public final class _typeParameter
         if( Objects.equals(this.typeParameter, other.typeParameter)){
             return true;
         }
-        List<String>ttp = Ast.normalizeTypeParameter( this.typeParameter);
-        List<String>otp = Ast.normalizeTypeParameter( other.typeParameter);
+        List<String>ttp = Types.normalizeTypeParameter( this.typeParameter);
+        List<String>otp = Types.normalizeTypeParameter( other.typeParameter);
         return Objects.equals( ttp, otp );
     }
 
@@ -201,7 +198,7 @@ public final class _typeParameter
 
     @Override
     public int hashCode() {
-        return Objects.hashCode( Ast.normalizeTypeParameter(this.typeParameter) );
+        return Objects.hashCode( Types.normalizeTypeParameter(this.typeParameter) );
     }
 
     @Override

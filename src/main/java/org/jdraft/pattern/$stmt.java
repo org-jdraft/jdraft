@@ -1794,7 +1794,7 @@ public class $stmt<S extends Statement, _S extends _statement>
                 //System.out.println("PAR AFTER Remove "+ par );
             }
         });
-        Ast.flattenLabel(node, "$replacement$");
+        Tree.flattenLabel(node, "$replacement$");
         return node;
     }
     /**
@@ -1834,7 +1834,7 @@ public class $stmt<S extends Statement, _S extends _statement>
             }
         });
         if( _j instanceof _java._multiPart){
-            Ast.flattenLabel( ((_java._multiPart) _j).ast(), "$replacement$");
+            Tree.flattenLabel( ((_java._multiPart) _j).ast(), "$replacement$");
         }
         return (_J) _j;
     }
@@ -1951,7 +1951,7 @@ public class $stmt<S extends Statement, _S extends _statement>
                 LabeledStmt $TO_REPLACE = Statements.labeledStmt("$TO_REPLACE: {}");
                 $TO_REPLACE.setStatement(st);
                 ls.replace( $TO_REPLACE );
-                Ast.flattenLabel(node, "$TO_REPLACE");
+                Tree.flattenLabel(node, "$TO_REPLACE");
             }
         });
         return node;

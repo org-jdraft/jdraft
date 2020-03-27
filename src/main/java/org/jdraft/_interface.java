@@ -256,13 +256,13 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     }
 
     public _interface addExtend(Class...toExtends ){
-        Arrays.stream(toExtends).forEach( e -> addExtend( (ClassOrInterfaceType)Ast.typeRef(e) ) );
+        Arrays.stream(toExtends).forEach( e -> addExtend( (ClassOrInterfaceType) Types.typeRef(e) ) );
         return this;
     }
     
     @Override
     public _interface addExtend(Class toExtend ){
-        this.astInterface.addExtendedType( (ClassOrInterfaceType)Ast.typeRef(toExtend) );
+        this.astInterface.addExtendedType( (ClassOrInterfaceType) Types.typeRef(toExtend) );
         this.astInterface.tryAddImportToParentCompilationUnit(toExtend);
         return this;
     }
@@ -379,11 +379,11 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
             return false;
         }
 
-        if( !Ast.typesEqual( astInterface.getExtendedTypes(), other.astInterface.getExtendedTypes() )){
+        if( !Types.equal( astInterface.getExtendedTypes(), other.astInterface.getExtendedTypes() )){
             return false;
         }
 
-        if( !Ast.importsEqual( astInterface, other.astInterface)){
+        if( !_imports.Compare.importsEqual( astInterface, other.astInterface)){
             return false;
         }
         Set<_type> tn = new HashSet<>();
@@ -418,7 +418,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         tf.addAll( this.listFields());
 
         Set<Integer> te = new HashSet<>();
-        this.listExtends().forEach(e-> te.add( Ast.typeHash(e)));
+        this.listExtends().forEach(e-> te.add( Types.hash(e)));
 
         Set<_type> inners = new HashSet<>();
         inners.addAll(  this.listInnerTypes() );
@@ -430,8 +430,8 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
             Expressions.hashAnnos(astInterface),
             this.getJavadoc(),this.getModifiers(), this.getTypeParameters(),
             tm, tf,
-            Ast.importsHash(astInterface),
-            Ast.typesHashCode(astInterface.getExtendedTypes()),
+            _imports.Compare.importsHash(astInterface),
+            Types.hash(astInterface.getExtendedTypes()),
             inners,
             companionTypes);
 

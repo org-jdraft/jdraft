@@ -9,9 +9,7 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.utils.Log;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Ways of resolving individual {@link com.github.javaparser.ast.expr.Expression}s, {@link com.github.javaparser.ast.stmt.Statement},
@@ -21,6 +19,11 @@ import java.util.Optional;
  * @author Eric
  */
 public interface At {
+    /**
+     * Singleton instance for comparing AST nodes by
+     */
+    NodeStartPositionComparator COMPARE_NODE_BY_POSITION =
+        new NodeStartPositionComparator();
 
     /*--------------------- LOCATION-BASED RESOLVING IN AST ---------------------------*/
     /**
@@ -31,8 +34,8 @@ public interface At {
      * @param line the line of the source code
      * @return an AST node or null if the position is not within the Clazzes source code
      */
-    static <N extends Node> N at(Class clazz, int line) {
-        return at( Ast.of(clazz), line);
+    static <N extends Node> N nodeAt(Class clazz, int line) {
+        return nodeAt( Ast.of(clazz), line);
     }
 
     /**
@@ -42,7 +45,7 @@ public interface At {
      * @param line the line of the source code
      * @return an AST node or null if the position is not within the Node
      */
-    static <N extends Node> N at(Node top, int line){
+    static <N extends Node> N nodeAt(Node top, int line){
         final int l = Math.max( Math.abs(line), 1);
         Range r = new Range(new Position(l, 0), new Position(l, Integer.MAX_VALUE -1000));
 
@@ -83,9 +86,9 @@ public interface At {
      * @param column the column cursor position within the source code
      * @return an AST node or null if the position is not within the Clazzes source code
      */
-    static <N extends Node> N at(Class clazz, int line, int column) {
+    static <N extends Node> N nodeAt(Class clazz, int line, int column) {
         line = Math.max( Math.abs(line), 1);
-        return at( Ast.of(clazz), line, column);
+        return nodeAt( Ast.of(clazz), line, column);
     }
 
     /**
@@ -96,7 +99,7 @@ public interface At {
      * @param column the column cursor position
      * @return an AST node or null if the position is not within the top node
      */
-    static <N extends Node> N at(Node top, int line, int column){
+    static <N extends Node> N nodeAt(Node top, int line, int column){
         Position p = new Position(Math.max( Math.abs(line), 1), column);
         List<Node> found = new ArrayList<>();
         top.walk( n-> {
@@ -207,7 +210,7 @@ public interface At {
      */
     static <M extends BodyDeclaration> M memberAt(Node top, int line, int column) {
         line = Math.max( Math.abs(line), 1);
-        Node n = at( top, line, column);
+        Node n = nodeAt( top, line, column);
         if( n == null ){
             return null;
         }
@@ -262,7 +265,7 @@ public interface At {
     static <M extends BodyDeclaration> M memberAt(Node top, int line ) {
         //we cant have negative or 0 line numbers
         final int l = Math.max( Math.abs(line), 1);//if it's 0, we "really mean" 1
-        Node n = at( top, line);
+        Node n = nodeAt( top, line);
         if( n == null ){
             Log.info("Line number : %s is outside of member %s ", ()->l, ()->top.getClass() );
             return null;
@@ -459,7 +462,7 @@ public interface At {
             //System.out.println("Not contained");
             return null;
         }
-        Node found = At.at(container, startPosition.line, startPosition.column);
+        Node found = At.nodeAt(container, startPosition.line, startPosition.column);
         if( found instanceof BlockStmt ){
             return ((BlockStmt) found).asBlockStmt();
         }
@@ -468,5 +471,49 @@ public interface At {
             return (BlockStmt)on.get();
         }
         return null;
+    }
+
+    /**
+     * Sorts a list of nodes by the position:
+     * HUGE CAVEAT: Asts that have been modified often will have nodes out of
+     * order, in this case it is best to serialize the AST to a String then read it
+     * back in to ensure the node positions are parsed and maintained.
+     *
+     * @param <N>
+     * @param unsorted
+     * @return
+     */
+    static <N extends Node> List<N> sortNodesByPosition(List<N> unsorted){
+        Collections.sort(unsorted, COMPARE_NODE_BY_POSITION);
+        return unsorted;
+    }
+
+    /**
+     * Comparator for Nodes within an AST node that organizes based on the
+     * start position.
+     */
+    class NodeStartPositionComparator implements Comparator<Node> {
+
+        @Override
+        public int compare(Node o1, Node o2) {
+            if (o1.getBegin().isPresent() && o2.getBegin().isPresent()) {
+                int comp = o1.getBegin().get().compareTo(o2.getBegin().get());
+                if( comp != 0 ){
+                    return comp;
+                }
+                int comp2 = o1.getEnd().get().compareTo(o2.getEnd().get());
+                return comp2;
+            }
+            //if one or the other doesnt have a begin
+            // put the one WITHOUT a being BEFORE the other
+            // if neither have a being, return
+            if (!o1.getBegin().isPresent() && !o2.getBegin().isPresent()) {
+                return 0;
+            }
+            if (o1.getBegin().isPresent()) {
+                return -1;
+            }
+            return 1;
+        }
     }
 }

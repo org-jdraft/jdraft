@@ -4,7 +4,6 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithTypeArguments;
-import com.github.javaparser.ast.type.ReferenceType;
 import com.github.javaparser.ast.type.Type;
 
 import java.util.Arrays;
@@ -188,7 +187,7 @@ public class _typeArguments
             if( tt.size() == ot.size()){
                 for(int i=0;i<tt.size(); i++){
                     Type t = tt.get(i);
-                    if( !Ast.typesEqual(t, ot.get(i))){
+                    if( !Types.equal(t, ot.get(i))){
                         return false;
                     }
                 }
@@ -287,7 +286,7 @@ public class _typeArguments
             List<_typeRef> _tes = listTypeArguments();
             if(_es.length == _tes.size()){
                 for(int i=0;i<_es.length;i++){
-                    if( ! Ast.typesEqual( _es[i].ast(), _tes.get(i).ast() ) ){
+                    if( ! Types.equal( _es[i].ast(), _tes.get(i).ast() ) ){
                         return false;
                     }
                 }

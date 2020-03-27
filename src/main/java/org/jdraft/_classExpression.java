@@ -44,7 +44,7 @@ public class _classExpression implements _expression<ClassExpr, _classExpression
     }
 
     public boolean isType(String type){
-        return isType(Ast.typeRef(type));
+        return isType(Types.typeRef(type));
     }
 
     public boolean isType( _typeRef _t){
@@ -52,7 +52,7 @@ public class _classExpression implements _expression<ClassExpr, _classExpression
     }
 
     public boolean isType( Type t){
-        return Ast.typesEqual(this.ce.getType(), t);
+        return Types.equal(this.ce.getType(), t);
     }
 
     public _typeRef getType(){

@@ -1309,10 +1309,10 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
             NodeList<ClassOrInterfaceType> impls =
                     ((NodeWithExtends)((_type)this).ast()).getExtendedTypes();
             if( astType.getTypeArguments().isPresent() ){ //if I DO have type args
-                return impls.stream().anyMatch(i -> Ast.typesEqual(i, astType));
+                return impls.stream().anyMatch(i -> Types.equal(i, astType));
             } else{
                 //they didnt provide typeArgs so match against no type args
-                return impls.stream().anyMatch(i -> Ast.typesEqual( Ast.typeRef(i.toString(Print.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS)), astType));
+                return impls.stream().anyMatch(i -> Types.equal( Types.typeRef(i.toString(Print.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS)), astType));
             }
             /*
             NodeList<ClassOrInterfaceType> extnds = 
@@ -1336,7 +1336,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      */
     default boolean isExtends( String baseType ){
         try{
-            ClassOrInterfaceType coit = (ClassOrInterfaceType)Ast.typeRef( baseType );
+            ClassOrInterfaceType coit = (ClassOrInterfaceType) Types.typeRef( baseType );
             return isExtends(coit);
         } catch( Exception e){
             return false;
@@ -1424,7 +1424,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      */
     default boolean isImplements( String str ){
         try{
-            ClassOrInterfaceType coit = (ClassOrInterfaceType)Ast.typeRef( str );
+            ClassOrInterfaceType coit = (ClassOrInterfaceType) Types.typeRef( str );
             return isImplements( coit );
         } catch( Exception e){}
         
@@ -1444,10 +1444,10 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         NodeList<ClassOrInterfaceType> impls =
                 ((NodeWithImplements)((_type)this).ast()).getImplementedTypes();
         if( astType.getTypeArguments().isPresent() ){ //if I DO have type args
-            return impls.stream().filter(i -> Ast.typesEqual(i, astType)).findFirst().isPresent();
+            return impls.stream().filter(i -> Types.equal(i, astType)).findFirst().isPresent();
         } else{
             //they didnt provide typeArgs so match against no type args
-            return impls.stream().filter(i -> Ast.typesEqual( Ast.typeRef(i.toString(Print.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS)), astType)).findFirst().isPresent();
+            return impls.stream().filter(i -> Types.equal( Types.typeRef(i.toString(Print.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS)), astType)).findFirst().isPresent();
         }
         //TODO ONE possible issue is if I have Generic Type "Type<String>" and "Type<java.lang.String>"
     }
@@ -1655,11 +1655,12 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * Flatten all instances of the label included in this TYPE
      * @param labelName the NAME of the label to flatten
      * @return
-     */
+
     default _T flattenLabel(String labelName ){
         Ast.flattenLabel( this.ast(), labelName);
         return (_T) this;
     }
+    */
 
     /**
      * apply a function to matching inner types of this TYPE
@@ -1799,7 +1800,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
             
             Arrays.stream( toImplement )
                 .forEach(i -> {
-                        ClassOrInterfaceType coit = (ClassOrInterfaceType)Ast.typeRef(i);                    
+                        ClassOrInterfaceType coit = (ClassOrInterfaceType) Types.typeRef(i);
                         nwi.addImplementedType( coit );   
                         ((_type)this).addImports(i);
                     });

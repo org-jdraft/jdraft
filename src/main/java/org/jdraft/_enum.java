@@ -139,7 +139,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
                     });
                      */
                     FieldDeclaration fd = (FieldDeclaration)bds.get(i);
-                    if( Ast.typesEqual( fd.getVariable(0).getType(), Ast.typeRef(_constant.class) ) ){
+                    if( Types.equal( fd.getVariable(0).getType(), Types.typeRef(_constant.class) ) ){
 
                         for(int f=0;f<fd.getVariables().size();f++){
 
@@ -482,11 +482,11 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
             return false;
         }
 
-        if( !Ast.typesEqual( this.listImplements(), other.listImplements())){
+        if( !Types.equal( this.listImplements(), other.listImplements())){
             return false;
         }
 
-        if( ! Ast.importsEqual( astEnum, other.astEnum )){
+        if( ! _imports.Compare.importsEqual( astEnum, other.astEnum )){
             return false;
         }
         Set<_constant> tc = new HashSet<>();
@@ -636,8 +636,8 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
                 this.getEffectiveModifiers(),
                 this.getName(), 
                 sbs,
-                Ast.importsHash( astEnum ),
-                Ast.typesHashCode( astEnum.getImplementedTypes()),
+                _imports.Compare.importsHash( astEnum ),
+                Types.hash( astEnum.getImplementedTypes()),
                 tc, tct, tf, tm, tn, ct);
 
         return hash;

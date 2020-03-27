@@ -417,7 +417,7 @@ public final class _annotation
         if( !Objects.equals( this.getName(), other.getName()) ){
             return false;
         }
-        if( ! Ast.importsEqual( this.astAnnotation,other.astAnnotation ) ){
+        if( ! _imports.Compare.importsEqual( this.astAnnotation,other.astAnnotation ) ){
             return false;
         }
         Set<_field> tf = new HashSet<>();
@@ -544,7 +544,7 @@ public final class _annotation
         int hash = 5;
         
         hash = 13 * hash + Objects.hashCode( this.getPackage() );
-        hash = 13 * hash + Ast.importsHash( astAnnotation  );
+        hash = 13 * hash + _imports.Compare.importsHash( astAnnotation  );
 
         hash = 13 * hash + Objects.hashCode( this.getEffectiveModifiers() );
 
@@ -767,7 +767,7 @@ public final class _annotation
         }
         
         public _entry setDefaultValue(String defaultValueExpression){
-            this.astAnnMember.setDefaultValue( Ast.ex( defaultValueExpression) );
+            this.astAnnMember.setDefaultValue( Ast.expression( defaultValueExpression) );
             return this;
         }
 
@@ -814,7 +814,7 @@ public final class _annotation
                 Log.trace("expected name %s got %s", this::getName, other::getName);
                 return false;
             }
-            if( !Ast.typesEqual( astAnnMember.getType(), other.astAnnMember.getType())){
+            if( !Types.equal( astAnnMember.getType(), other.astAnnMember.getType())){
                 Log.trace("expected type %s got %s", astAnnMember::getType, other.astAnnMember::getType);
                 return false;
             }
@@ -843,7 +843,7 @@ public final class _annotation
                     Expressions.hashAnnos(this.astAnnMember),
                     this.getJavadoc(),
                     this.getName(),
-                    Ast.typeHash(this.astAnnMember.getType()),
+                    Types.hash(this.astAnnMember.getType()),
                     this.getDefaultValue() );
             return hash;
         }

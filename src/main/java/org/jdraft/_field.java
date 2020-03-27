@@ -375,7 +375,7 @@ public final class _field
         if (!Objects.equals(getName(), other.getName())) {
             return false;
         }
-        if (!Ast.typesEqual(this.astVar.getType(), other.astVar.getType())) {
+        if (!Types.equal(this.astVar.getType(), other.astVar.getType())) {
             return false;
         }
         if( !Expressions.equivalent(getInit(), other.getInit())) {
@@ -417,7 +417,7 @@ public final class _field
     public int hashCode() {
         Set<Modifier> ms = new HashSet<>();
         ms.addAll(getEffectiveModifiers());
-        return Objects.hash(getName(), Ast.typeHash(astVar.getType()),
+        return Objects.hash(getName(), Types.hash(astVar.getType()),
                 ms, //getModifiers(),
                 Expressions.hashAnnos(getFieldDeclaration()),
                 getJavadoc(), 

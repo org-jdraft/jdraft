@@ -1,7 +1,7 @@
 package org.jdraft.bot;
 
 import junit.framework.TestCase;
-import org.jdraft.Ast;
+import org.jdraft.Types;
 import org.jdraft._typeRef;
 import org.jdraft.pattern.$typeParameter;
 
@@ -25,7 +25,7 @@ public class StypeRefTest extends TestCase {
         assertTrue(_t.ast().isClassOrInterfaceType());
         assertTrue(_t.ast().asClassOrInterfaceType().isUsingDiamondOperator());
 
-        _t = _typeRef.of( Ast.typeRef("Map<>"));
+        _t = _typeRef.of( Types.typeRef("Map<>"));
         assertTrue(_t.ast().isClassOrInterfaceType());
         assertTrue(_t.ast().asClassOrInterfaceType().isUsingDiamondOperator());
         assertTrue( $typeRef.of(t-> t.isUsingDiamondOperator()).matches("Map<>") );

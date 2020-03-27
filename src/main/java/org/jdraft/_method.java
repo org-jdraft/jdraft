@@ -272,13 +272,13 @@ public final class _method
         if (!Objects.equals(this.getParameters(), other.getParameters())) {
             return false;
         }
-        if (!Ast.typesEqual(astMethod.getThrownExceptions(), other.astMethod.getThrownExceptions())) {
+        if (!Types.equal(astMethod.getThrownExceptions(), other.astMethod.getThrownExceptions())) {
             return false;
         }        
         if (!Objects.equals(this.getTypeParameters(), other.getTypeParameters())) {
             return false;
         }
-        if (!Ast.typesEqual(astMethod.getType(), other.astMethod.getType())) {
+        if (!Types.equal(astMethod.getType(), other.astMethod.getType())) {
             return false;
         }
         if (!Objects.equals(this.getReceiverParameter(), other.getReceiverParameter())) {
@@ -349,10 +349,10 @@ public final class _method
                 modsSet, //this.getEffectiveModifiers(), //this.getModifiers(),
                 this.getName(),
                 this.getParameters(),
-                Ast.typesHashCode(astMethod.getThrownExceptions()),
+                Types.hash(astMethod.getThrownExceptions()),
                 this.getTypeParameters(),
                 this.getReceiverParameter(),
-                Ast.typeHash(astMethod.getType()));
+                Types.hash(astMethod.getType()));
         return hash;
     }
     
@@ -398,7 +398,7 @@ public final class _method
             if (!pl.get(i).isTypeRef(_t)) {
                 if (m.isVarArgs()
                     && //if last parameter and varargs
-                    Ast.typesEqual(pl.get(i).getTypeRef().getElementType(),
+                    Types.equal(pl.get(i).getTypeRef().getElementType(),
                         _t.getElementType())) {
                 } else {
                     return false;

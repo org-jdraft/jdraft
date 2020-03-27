@@ -172,7 +172,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
         if( !Objects.equals( this.getParameters(), other.getParameters() ) ) {
             return false;
         }
-        if( !Ast.typesEqual( this.astCtor.getThrownExceptions(), other.astCtor.getThrownExceptions()) ){
+        if( !Types.equal( this.astCtor.getThrownExceptions(), other.astCtor.getThrownExceptions()) ){
             return false;
         }        
         if( !Objects.equals( this.getTypeParameters(), other.getTypeParameters() ) ) {
@@ -209,7 +209,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
             this.getEffectiveModifiers(),
             this.getName(), 
             this.getParameters(),            
-            Ast.typesHashCode( astCtor.getThrownExceptions()), 
+            Types.hash( astCtor.getThrownExceptions()),
             this.getTypeParameters(), 
             this.getReceiverParameter() );
         return hash;
@@ -244,7 +244,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
     }
 
     public _constructor setTypeParameters( String typeParameters ) {
-        this.astCtor.setTypeParameters( Ast.typeParameters( typeParameters ) );
+        this.astCtor.setTypeParameters( Types.typeParameters( typeParameters ) );
         return this;
     }
 
@@ -280,7 +280,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
             _typeRef _t = _typeRef.of(genericParameterTypes[i+delta]);
             if( !pl.get(i).isTypeRef( _t ) ){
                 if( ctor.isVarArgs() &&  //if last parameter and varargs
-                    Ast.typesEqual( pl.get(i).getTypeRef().getElementType(),
+                    Types.equal( pl.get(i).getTypeRef().getElementType(),
                         _t.getElementType())  ){                    
                 } else{             
                     return false;

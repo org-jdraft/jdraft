@@ -24,7 +24,7 @@ public final class _parameter
      * @return
      */
     public static _parameter of( Class type, String name ) {
-        return of( new Parameter( Ast.typeRef( type ), name ) );
+        return of( new Parameter( Types.typeRef( type ), name ) );
     }
 
     /**
@@ -114,12 +114,12 @@ public final class _parameter
 
     @Override
     public boolean isTypeRef(String type ) {
-        return Ast.typesEqual(this.astParameter.getType(), Ast.typeRef( type ));
+        return Types.equal(this.astParameter.getType(), Types.typeRef( type ));
     }
 
     @Override
     public boolean isTypeRef(Type type ) {
-        return Ast.typesEqual(this.astParameter.getType(), type);
+        return Types.equal(this.astParameter.getType(), type);
     }
 
     @Override
@@ -155,7 +155,7 @@ public final class _parameter
                         Expressions.hashAnnos(astParameter),
                         this.getName(),
                         
-                        Ast.typeHash(astParameter.getType()),
+                        Types.hash(astParameter.getType()),
                         this.isVarArg(),
                         this.isFinal() );
         return hash;
@@ -189,7 +189,7 @@ public final class _parameter
         if( ! Expressions.equivalentAnnos(left, right)){
             return false;
         }
-        if( ! Ast.typesEqual(left.getType(), right.getType())){
+        if( ! Types.equal(left.getType(), right.getType())){
             return false;
         }
         return true;
@@ -216,7 +216,7 @@ public final class _parameter
         if( !Objects.equals( this.astParameter.isVarArgs(), other.astParameter.isVarArgs() )){
             return false;
         }
-        if( !Ast.typesEqual(astParameter.getType(), other.astParameter.getType())){
+        if( !Types.equal(astParameter.getType(), other.astParameter.getType())){
             return false;
         }
         if( !Expressions.equivalentAnnos(astParameter, other.astParameter)){

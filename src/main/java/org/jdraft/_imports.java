@@ -3,6 +3,7 @@ package org.jdraft;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.TypeDeclaration;
 import org.jdraft.text.Text;
 
 import java.lang.reflect.Method;
@@ -240,5 +241,69 @@ public class _imports implements _java._set<ImportDeclaration, _import, _imports
         StringBuilder sb = new StringBuilder();
         this.astCompilationUnit.getImports().forEach(i -> sb.append( i.toString() ) );
         return sb.toString();
+    }
+
+    /**
+     * Tools for comparing sets of Imports
+     * normally this code is used internally, because it uses the JavaParser API
+     * and added to this inner class because it would be confusing putting it on the public
+     * API of the top level _imports
+     */
+    public static class Compare{
+
+        public static boolean importsEqual(TypeDeclaration left, TypeDeclaration right) {
+            if (left.isTopLevelType()) {
+                if (right.isTopLevelType()) {
+                    //both left and right are compilationUnits
+                    return importsEqual(left.findCompilationUnit().get(), right.findCompilationUnit().get());
+                }
+                return left.findCompilationUnit().get().getImports().isEmpty();
+            }
+            if (!right.isTopLevelType()) {
+                return true;
+            }
+            return right.findCompilationUnit().isPresent()
+                    && right.findCompilationUnit().get().getImports().isEmpty();
+        }
+
+        public static boolean importsEqual(CompilationUnit left, CompilationUnit right) {
+            if (left == null) {
+                return right == null;
+            }
+            if (right == null) {
+                return false;
+            }
+            if (left == right) {
+                return true;
+            }
+            return importsEqual(left.getImports(), right.getImports());
+        }
+
+        public static boolean importsEqual(List<ImportDeclaration> li1, List<ImportDeclaration> li2) {
+            Set<ImportDeclaration> ti = new HashSet<>();
+            Set<ImportDeclaration> to = new HashSet<>();
+            ti.addAll(li1);
+            to.addAll(li2);
+            if (!Objects.equals(ti, to)) {
+                return false;
+            }
+            return true;
+        }
+
+        public static int importsHash(TypeDeclaration td) {
+            if (!td.isTopLevelType()) {
+                return 0;
+            }
+            if (!td.findCompilationUnit().isPresent()) {
+                return 0;
+            }
+            return importsHash(td.findCompilationUnit().get());
+        }
+
+        public static int importsHash(CompilationUnit cu) {
+            Set<Integer> is = new HashSet<>();
+            cu.getImports().forEach(i -> is.add(i.hashCode()));
+            return is.hashCode();
+        }
     }
 }

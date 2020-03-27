@@ -2,11 +2,14 @@ package org.jdraft;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.*;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.nodeTypes.*;
 import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithAbstractModifier;
+import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.LabeledStmt;
 import com.github.javaparser.ast.stmt.Statement;
 
 import java.util.*;
@@ -2304,6 +2307,86 @@ public enum Tree {
             return (M)bd.get();
         }
         return null;
+    }
+
+    /**
+     * Looks for LabeledStmts within code and removes the labels while retaining the code within the labels
+     * fore example take the code with (2) labeledStmts with the label "lablel":
+     * <PRE>
+     *      class C {
+     *             public void m() {
+     *                 label: System.out.println( 1 );
+     *                 if(System.getProperty("A") != null){
+     *                     label: {
+     *                     System.out.println(2);
+     *                     System.out.println(3);
+     *                     }
+     *                 }
+     *             }
+     *         }
+     * </PRE>
+     *     If we use the code above and call flatten the label, "label":
+     *     <PRE>
+     *      _class _c = _class.of( C.class);
+     *      Ast.flattenLabel(_c.astCompilationUnit(), "label");
+     *      System.out.println( _c );
+     *     </PRE>
+     * ...produces:
+     * <PRE>
+     *     public class C {
+     *         public void m() {
+     *             System.out.println(1);
+     *             if (System.getProperty("A") != null) {
+     *                 System.out.println(2);
+     *                 System.out.println(3);
+     *             }
+     *         }
+     *     }
+     * </PRE>
+     * @param node
+     * @param labelName
+     * @param <N>
+     * @return
+     */
+    public static <N extends Node> N flattenLabel(N node, String labelName) {
+        //if( !isImplemented() ){
+        //    throw new _jDraftException("No label : "+labelName+" in non-implemented body");
+        //}
+        Optional<LabeledStmt> ols
+                = node.findFirst(LabeledStmt.class, ls -> ls.getLabel().toString().equals(labelName));
+        while (ols.isPresent()) {
+            LabeledStmt ls = ols.get();
+            if (ls.getStatement().isBlockStmt()) {
+                BlockStmt bs = ls.getStatement().asBlockStmt();
+                NodeList<Statement> stmts = bs.getStatements();
+                if (stmts.isEmpty()) {
+                    ls.remove(); //we have label:{}... just remove it entirely
+                    //(ls.getParentNode().get()).remove(); //replace(ls, new EmptyStmt());
+                    //(ls.getParentNode().get()).replace(ls, new EmptyStmt());
+                } else if (stmts.size() == 1) {
+                    if( stmts.get(0).isEmptyStmt()){ //we have label:{;}, remove it entirely
+                        ls.remove();
+                    } else {
+                        ls.getParentNode().get().replace(ls, stmts.get(0));
+                    }
+                } else {
+                    Node parent = ls.getParentNode().get();
+                    NodeWithStatements parentNode = (NodeWithStatements) parent;
+                    int stmtIndex = parentNode.getStatements().indexOf(ls);
+                    for (int i = 0; i < stmts.size(); i++) {
+                        parentNode.addStatement(stmtIndex + i, stmts.get(i));
+                    }
+                    parent.remove(ls);
+                }
+            } else {
+                ls.getParentNode().get().replace(ls, ls.getStatement().clone());
+            }
+            //check if there is another to be flattened (NOTE: can't be at the same scope
+            //but in a smaller scope or another scope (i.e. in a different constructr/method)
+            //if we pass in a TypeDeclaration/CompilationUnit
+            ols = node.findFirst(LabeledStmt.class, lbs -> lbs.getLabel().toString().equals(labelName));
+        }
+        return node;
     }
 
     /**

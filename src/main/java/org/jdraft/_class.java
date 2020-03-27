@@ -571,7 +571,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     @Override
     public _class addExtend(Class toExtend ){
         addImports(toExtend);
-        return addExtend( (ClassOrInterfaceType) Ast.typeRef(toExtend.getCanonicalName() ) );
+        return addExtend( (ClassOrInterfaceType) Types.typeRef(toExtend.getCanonicalName() ) );
     }
 
     @Override
@@ -737,15 +737,15 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             Log.trace("Expected name %s got: %s", this::getName, other::getName);
             return false;
         }
-        if( !Ast.typesEqual(this.getExtends(), other.getExtends()) ){
+        if( !Types.equal(this.getExtends(), other.getExtends()) ){
             Log.trace("Expected extends %s got: %s", this::getExtends, other::getExtends);
             return false;
         }
-        if( !Ast.importsEqual(this.astClass, other.astClass)){
+        if( !_imports.Compare.importsEqual(this.astClass, other.astClass)){
             Log.trace("Expected imports %s got: %s", this::listImports, other::listImports);
             return false;
         }
-        if( !Ast.typesEqual( this.listImplements(), other.listImplements())){
+        if( !Types.equal( this.listImplements(), other.listImplements())){
             Log.trace("Expected implements %s got: %s", this::listImplements, other::listImplements);
             return false;
         }
@@ -865,8 +865,8 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
 
         hash = 47 * hash + Objects.hash( this.getPackage(), this.getName(),
                 this.getJavadoc(), this.getAnnos(), this.getModifiers(),
-                this.getTypeParameters(), Ast.typeHash(this.getExtends()),
-                sbs, Ast.typesHashCode( ast().getImplementedTypes() ),
+                this.getTypeParameters(), Types.hash(this.getExtends()),
+                sbs, Types.hash( ast().getImplementedTypes() ),
                 Expressions.hashAnnos(astClass),
                 tf, tm, tc, tn, cths);
 

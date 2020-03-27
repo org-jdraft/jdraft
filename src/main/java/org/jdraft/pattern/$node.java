@@ -316,7 +316,7 @@ public class $node implements $pattern<Node, $node>, $body.$part, $method.$part,
         
         if( target.getClass() != replacement.getClass() ){            
             if( target instanceof ClassOrInterfaceType ){
-                isRep = target.replace( Ast.typeRef( replacement.toString() ) );                
+                isRep = target.replace( Types.typeRef( replacement.toString() ) );
             } else if( target instanceof Name) {
                 isRep = target.replace( new Name( replacement.toString()) );                
             } else if( target instanceof SimpleName) {
@@ -613,7 +613,7 @@ public class $node implements $pattern<Node, $node>, $body.$part, $method.$part,
     public static class SelectStartPositionComparator implements Comparator<selectAst>{
         @Override
         public int compare(selectAst o1, selectAst o2) {
-            return Ast.COMPARE_NODE_BY_POSITION.compare(o1.ast(), o2.ast());
+            return At.COMPARE_NODE_BY_POSITION.compare(o1.ast(), o2.ast());
         }        
     }
 

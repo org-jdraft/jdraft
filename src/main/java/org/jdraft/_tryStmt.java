@@ -333,7 +333,7 @@ public class _tryStmt implements _statement._controlFlow._branching<TryStmt, _tr
     }
 
     public _catch getCatch( String exceptionClassName ){
-        Type t = Ast.typeRef(exceptionClassName);
+        Type t = Types.typeRef(exceptionClassName);
         return getCatch(t);
     }
 
@@ -345,7 +345,7 @@ public class _tryStmt implements _statement._controlFlow._branching<TryStmt, _tr
         Optional<_catch> _oc = listCatches().stream().filter( _c->
             _c.getParameter().isTypeRef(astType)
             ||  _c.getParameter().getTypeRef().isUnionType() &&
-                    _c.getParameter().getTypeRef().ast().asUnionType().getElements().stream().anyMatch(rt-> Ast.typesEqual(rt, astType))
+                    _c.getParameter().getTypeRef().ast().asUnionType().getElements().stream().anyMatch(rt-> Types.equal(rt, astType))
         ).findFirst();
         if( _oc.isPresent() ){
             return _oc.get();
@@ -360,9 +360,9 @@ public class _tryStmt implements _statement._controlFlow._branching<TryStmt, _tr
      */
     public _catch getCatch( Class<? extends Throwable> type ){
         //fully qualified name
-        com.github.javaparser.ast.type.ReferenceType astType = Ast.typeRef(type).asReferenceType();
+        com.github.javaparser.ast.type.ReferenceType astType = Types.typeRef(type).asReferenceType();
         //simple name
-        com.github.javaparser.ast.type.ReferenceType astType2 = Ast.typeRef(type.getSimpleName()).asReferenceType();
+        com.github.javaparser.ast.type.ReferenceType astType2 = Types.typeRef(type.getSimpleName()).asReferenceType();
 
         //_c-> _c.getParameter().isType(IOException.class)).findFirst().get()
         Optional<_catch> _oc = listCatches().stream().filter( _c-> _c.getParameter().isTypeRef(type)

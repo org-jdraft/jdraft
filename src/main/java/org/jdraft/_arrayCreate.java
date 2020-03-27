@@ -139,16 +139,16 @@ public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate
     }
 
     public boolean isElementType(String typeRef){
-        return Ast.typesEqual( this.astNode.getElementType(), _typeRef.of(typeRef).ast());
+        return Types.equal( this.astNode.getElementType(), _typeRef.of(typeRef).ast());
     }
 
 
     public boolean isElementType( _typeRef _t ){
-        return Ast.typesEqual( this.astNode.getElementType(), _t.ast());
+        return Types.equal( this.astNode.getElementType(), _t.ast());
     }
 
     public boolean isElementType(Type t){
-        return Ast.typesEqual( this.astNode.getElementType(),t);
+        return Types.equal( this.astNode.getElementType(),t);
     }
 
     public boolean hasInit(){

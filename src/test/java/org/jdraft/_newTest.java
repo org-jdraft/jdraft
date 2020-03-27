@@ -30,9 +30,9 @@ public class _newTest extends TestCase {
         _n.setArguments(_int.of(1) );
         System.out.println( _n );
 
-        _n.addTypeArguments(Ast.typeRef("A"));
+        _n.addTypeArguments(Types.typeRef("A"));
         System.out.println( _n );
-        _n.removeTypeArguments(Ast.typeRef("A"));
+        _n.removeTypeArguments(Types.typeRef("A"));
         System.out.println( _n );
 
         _n.addArguments(_int.of(3));
@@ -68,14 +68,14 @@ public class _newTest extends TestCase {
 
         assertTrue( _n.isTypeRef(Serializable.class) );
         assertEquals(1, _n.listAnonymousDeclarations().size());
-        _n.addTypeArguments(Ast.typeRef("T") );
+        _n.addTypeArguments(Types.typeRef("T") );
         _n.getTypeArgument(0);
     }
 
     public void testTypeArgs(){
         ObjectCreationExpr oce = new ObjectCreationExpr();
         oce.setType("A<String>");
-        oce.setTypeArguments( Ast.typeRef("TP1"), Ast.typeRef("TP2"));
+        oce.setTypeArguments( Types.typeRef("TP1"), Types.typeRef("TP2"));
         oce.setArguments(new NodeList<Expression>());
         oce.addArgument(_int.of(2).ast());
         System.out.println( oce);

@@ -4,7 +4,7 @@ import java.util.*;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
 import org.jdraft.*;
-import static org.jdraft.Ast.typesEqual;
+import static org.jdraft.Types.equal;
 import org.jdraft._java.Component;
 import org.jdraft._type._withImplements;
 
@@ -44,14 +44,14 @@ public class _implementsDiff implements
         //List<ClassOrInterfaceType>addLeft = new ArrayList<>();
         for (int i = 0; i < left.size(); i++) {
             ClassOrInterfaceType cit = left.get(i);
-            if (!right.stream().filter(c -> typesEqual(c, cit)).findFirst().isPresent()) {
+            if (!right.stream().filter(c -> Types.equal(c, cit)).findFirst().isPresent()) {
                 //addRight.add(cit);
                 dt.addDiff(new _leftOnly_implements(path.in(Component.IMPLEMENTS), (_type) _leftParent, (_type) _rightParent, cit));
             }
         }
         for (int i = 0; i < right.size(); i++) {
             ClassOrInterfaceType cit = right.get(i);
-            if (!left.stream().filter(c -> typesEqual(c, cit)).findFirst().isPresent()) {
+            if (!left.stream().filter(c -> Types.equal(c, cit)).findFirst().isPresent()) {
                 //addLeft.add(cit);
                 dt.addDiff(new _rightOnly_implements(path.in(Component.IMPLEMENTS), (_type) _leftParent, (_type) _rightParent, cit));
             }

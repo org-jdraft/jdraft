@@ -201,7 +201,7 @@ public class _typeTreeTest extends TestCase {
     }
     //test type parameters
     public void testClassNameNormal(){
-        Type tt = Ast.typeRef("AA<String>");
+        Type tt = Types.typeRef("AA<String>");
         assertEquals("AA", tt.asClassOrInterfaceType().getName().toString());
 
         _typeTree _tt = _typeTree.of( _class.of("AA<String>"), _class.of("BB<F>").addExtend("AA"));

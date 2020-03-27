@@ -43,7 +43,7 @@ public class _typeExpression
     public boolean equals(Object other){
         if( other instanceof _typeExpression){
             _typeExpression _te = ((_typeExpression)other);
-            return Ast.typesEqual( _te.ast().getType(), this.te.getType());
+            return Types.equal( _te.ast().getType(), this.te.getType());
         }
         return false;
     }

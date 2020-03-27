@@ -467,7 +467,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
      * @return
      */
     public $field $type( String pattern ){
-        this.type.type = Ast.typeRef(pattern);
+        this.type.type = Types.typeRef(pattern);
         //this.type.typePattern = Stencil.of(_typeRef.of(pattern).toString());
         return this;
     }

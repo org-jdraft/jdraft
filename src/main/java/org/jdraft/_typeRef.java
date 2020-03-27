@@ -11,7 +11,7 @@ import com.github.javaparser.ast.type.*;
 
 import org.jdraft.text.Text;
 
-import static org.jdraft.Ast.typeRef;
+import static org.jdraft.Types.typeRef;
 
 /**
  * Model of a Java TYPE Declaration (i.e. String, int, List<Boolean>)
@@ -43,7 +43,7 @@ public final class _typeRef<T extends Type>
      * @return
      */
     public static _typeRef of( java.lang.reflect.AnnotatedType t){
-        return new _typeRef( Ast.typeRef( t ) );
+        return new _typeRef( Types.typeRef( t ) );
     }
 
     /**
@@ -52,7 +52,7 @@ public final class _typeRef<T extends Type>
      * @return
      */
     public static _typeRef of( java.lang.reflect.Type t){
-        return new _typeRef( Ast.typeRef( t ) );
+        return new _typeRef( Types.typeRef( t ) );
     }
 
     /**
@@ -61,7 +61,7 @@ public final class _typeRef<T extends Type>
      * @return
      */
     public static _typeRef of( Class clazz ) {
-        return new _typeRef( Ast.typeRef( clazz ) );
+        return new _typeRef( Types.typeRef( clazz ) );
     }
 
     /**
@@ -70,7 +70,7 @@ public final class _typeRef<T extends Type>
      * @return
      */
     public static _typeRef of( String string ) {
-        return new _typeRef( Ast.typeRef( string ) );
+        return new _typeRef( Types.typeRef( string ) );
     }
 
     public _annos getAnnos(){
@@ -139,7 +139,7 @@ public final class _typeRef<T extends Type>
         if( a==null || b == null ){
             return false;
         }
-        return Ast.typesEqual( a.ast(), b.ast());
+        return Types.equal( a.ast(), b.ast());
     }
 
     /** The underlying AST type */
@@ -281,7 +281,7 @@ public final class _typeRef<T extends Type>
         String st = type.toString(Print.PRINT_NO_TYPE_PARAMETERS );
         //System.out.println("THE ERASED TYPE "+st );
         try {
-            return Ast.typeRef(st);
+            return Types.typeRef(st);
         }catch(Exception e){
             System.out.println(type.getClass()+" "+type);
             throw new _jdraftException("GOT HERE", e);
@@ -292,7 +292,7 @@ public final class _typeRef<T extends Type>
     public static Type getBaseType(Type type ){
         Type t = getErasedType(getElementType(type));
         //now remove annotations
-        return Ast.typeRef( t.toString(Print.PRINT_NO_ANNOTATIONS_OR_COMMENTS));
+        return Types.typeRef( t.toString(Print.PRINT_NO_ANNOTATIONS_OR_COMMENTS));
     }
 
     /**
@@ -502,7 +502,7 @@ public final class _typeRef<T extends Type>
          * @return true if the TYPE is the same
          */
         default boolean isTypeRef(Type type) {
-            return Ast.typesEqual( getTypeRef().ast(), type);
+            return Types.equal( getTypeRef().ast(), type);
         }
 
         /**

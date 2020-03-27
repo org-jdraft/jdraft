@@ -18,7 +18,7 @@ public class _typeParametersDiff
     public static final _typeParametersDiff INSTANCE = new _typeParametersDiff();
     
     public boolean equivalent(NodeList<TypeParameter> left, NodeList<TypeParameter> right) {
-        return Ast.typesEqual(left, right);
+        return Types.equal(left, right);
     }
 
     public _diff diff(_withTypeParameters leftParent, _withTypeParameters rightParent){
@@ -33,7 +33,7 @@ public class _typeParametersDiff
     @Override
     public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _typeParameters left, _typeParameters right) {
         
-        if (!Ast.typesEqual( ((NodeWithTypeParameters)left.astHolder()).getTypeParameters(), 
+        if (!Types.equal( ((NodeWithTypeParameters)left.astHolder()).getTypeParameters(),
                 ((NodeWithTypeParameters)right.astHolder()).getTypeParameters())) {
             dt.addDiff(new _change_typeParameters(path.in(_java.Component.TYPE_PARAMETERS), 
                     (_withTypeParameters) _leftParent, (_withTypeParameters) _rightParent));

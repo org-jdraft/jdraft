@@ -586,7 +586,7 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
             }
         });
 
-        Ast.flattenLabel(astNode, "$replacement$");
+        Tree.flattenLabel(astNode, "$replacement$");
         return astNode;
     }
 
@@ -648,7 +648,7 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
             }
         });
         if( _j instanceof _java._multiPart){
-            Ast.flattenLabel( ((_java._multiPart) _j).ast(), "$replacement$");
+            Tree.flattenLabel( ((_java._multiPart) _j).ast(), "$replacement$");
         }
         return _j;
     }

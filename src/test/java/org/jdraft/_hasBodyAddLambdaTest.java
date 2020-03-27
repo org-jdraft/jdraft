@@ -133,8 +133,8 @@ public class _hasBodyAddLambdaTest extends TestCase {
         //_m.flattenLabel("$label");
         //_m.flattenLabel("$label2");
 
-        Ast.flattenLabel( _m.ast() , "$label");
-        Ast.flattenLabel( _m.ast(), "$label2");
+        Tree.flattenLabel( _m.ast() , "$label");
+        Tree.flattenLabel( _m.ast(), "$label2");
         assertEquals(3, _m.statementCount() );
         
         assertEquals( Statements.of(()->System.out.println("A")), _m.getStatement(0));

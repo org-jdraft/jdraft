@@ -19,7 +19,7 @@ public class FlattenTest extends TestCase {
         }
 
         _class _c = _class.of(f.class);
-        Ast.flattenLabel(_c.astCompilationUnit(), "$body");
+        Tree.flattenLabel(_c.astCompilationUnit(), "$body");
 
 
         System.out.println( _c );

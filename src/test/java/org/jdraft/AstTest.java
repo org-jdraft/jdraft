@@ -9,7 +9,6 @@ import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.*;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.*;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.TypeParameter;
 import com.github.javaparser.printer.PrettyPrintVisitor;
@@ -20,11 +19,9 @@ import org.jdraft.pattern.$comment;
 import org.jdraft.pattern.$stmt;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static com.github.javaparser.utils.Utils.isNullOrEmpty;
 import static com.github.javaparser.utils.Utils.normalizeEolInTextBlock;
 
 /**
@@ -601,7 +598,7 @@ public class AstTest extends TestCase {
             }
         }
         _class _c = _class.of( C.class);
-        Ast.flattenLabel(_c.astCompilationUnit(), "label");
+        Tree.flattenLabel(_c.astCompilationUnit(), "label");
         System.out.println( _c );
     }
    /*
@@ -708,19 +705,19 @@ public class AstTest extends TestCase {
     }
     
     public void testTypeEquals(){
-        Ast.typesEqual( Ast.typeRef("java.util.List<java.lang.String>"),
-                Ast.typeRef("List<String>") );
+        Types.equal( Types.typeRef("java.util.List<java.lang.String>"),
+                Types.typeRef("List<String>") );
 
-        Ast.typesEqual( Ast.typeRef(int.class), Ast.typeRef("int"));
+        Types.equal( Types.typeRef(int.class), Types.typeRef("int"));
     }
 
     public void testTypeParameterAst(){
-        TypeParameter tp = Ast.typeParameter("<T extends Map>");
+        TypeParameter tp = Types.typeParameter("<T extends Map>");
         assertFalse( tp.getParentNode().isPresent() );
     }
 
     public void testTypeParametersAst(){
-        NodeList<TypeParameter> tps = Ast.typeParameters("<T extends Map, A, R, F>");
+        NodeList<TypeParameter> tps = Types.typeParameters("<T extends Map, A, R, F>");
         assertFalse( tps.getParentNode().isPresent() );
     }
 
@@ -748,25 +745,25 @@ public class AstTest extends TestCase {
     //walk first in Ast
 
     public void testTokenizeType(){
-        List<String> toks = Ast.tokenizeType( "String" );
+        List<String> toks = Types.tokenize( "String" );
         assertEquals(1, toks.size());
         assertEquals( "String", toks.get(0) );
 
-        toks = Ast.tokenizeType( "List<String>" );
+        toks = Types.tokenize( "List<String>" );
         assertEquals(4, toks.size());
         assertEquals( "List", toks.get(0) );
         assertEquals( "<", toks.get(1) );
         assertEquals( "String", toks.get(2) );
         assertEquals( ">", toks.get(3) );
 
-        toks = Ast.tokenizeType( "List < String > " );
+        toks = Types.tokenize( "List < String > " );
         assertEquals(4, toks.size());
         assertEquals( "List", toks.get(0) );
         assertEquals( "<", toks.get(1) );
         assertEquals( "String", toks.get(2) );
         assertEquals( ">", toks.get(3) );
 
-        toks = Ast.tokenizeType("java.util.List<java.lang.String>");
+        toks = Types.tokenize("java.util.List<java.lang.String>");
         assertEquals(4, toks.size());
         assertEquals( "java.util.List", toks.get(0) );
         assertEquals( "<", toks.get(1) );
@@ -774,7 +771,7 @@ public class AstTest extends TestCase {
         assertEquals( ">", toks.get(3) );
 
 
-        toks = Ast.tokenizeType("aaa.bbb.MyClass<java.lang.String>");
+        toks = Types.tokenize("aaa.bbb.MyClass<java.lang.String>");
 
     }
 
@@ -1021,28 +1018,28 @@ public class AstTest extends TestCase {
 
     public void testTypeParameter(){
         //with
-        assertNull( Ast.typeParameter( "") );
-        Ast.typeParameter( "A");
-        Ast.typeParameter( "<A>");
-        Ast.typeParameter( "<A extends B>");
-        Ast.typeParameter( "<J extends A & B>");
-        Ast.typeParameter( "<T extends B1 & B2 & B3>" );
+        assertNull( Types.typeParameter( "") );
+        Types.typeParameter( "A");
+        Types.typeParameter( "<A>");
+        Types.typeParameter( "<A extends B>");
+        Types.typeParameter( "<J extends A & B>");
+        Types.typeParameter( "<T extends B1 & B2 & B3>" );
     }
 
     public void testTypeParameters(){
-        assertTrue( Ast.typeParameters( "" ).isEmpty());
-        assertTrue( Ast.typeParameters( "A").size() == 1);
-        assertTrue( Ast.typeParameters( "<A>").size() == 1);
-        assertTrue( Ast.typeParameters( "A extends R").size() == 1);
-        assertTrue( Ast.typeParameters( "<A extends R>").size() == 1);
-        assertTrue( Ast.typeParameters( "A, B").size() == 2);
-        assertTrue( Ast.typeParameters( "A, B extends C").size() == 2);
-        assertTrue( Ast.typeParameters( "A extends T, B").size() == 2);
+        assertTrue( Types.typeParameters( "" ).isEmpty());
+        assertTrue( Types.typeParameters( "A").size() == 1);
+        assertTrue( Types.typeParameters( "<A>").size() == 1);
+        assertTrue( Types.typeParameters( "A extends R").size() == 1);
+        assertTrue( Types.typeParameters( "<A extends R>").size() == 1);
+        assertTrue( Types.typeParameters( "A, B").size() == 2);
+        assertTrue( Types.typeParameters( "A, B extends C").size() == 2);
+        assertTrue( Types.typeParameters( "A extends T, B").size() == 2);
 
-        assertTrue( Ast.typeParameters( "<A extends T, B>").size() == 2);
+        assertTrue( Types.typeParameters( "<A extends T, B>").size() == 2);
 
-        assertTrue( Ast.typeParameters(  "<T extends B1 & B2 & B3>" ).size() == 1);
-        assertTrue( Ast.typeParameters(  "T extends B1 & B2 & B3, R extends A" ).size() == 2);
+        assertTrue( Types.typeParameters(  "<T extends B1 & B2 & B3>" ).size() == 1);
+        assertTrue( Types.typeParameters(  "T extends B1 & B2 & B3, R extends A" ).size() == 2);
 
     }
 
@@ -1081,8 +1078,8 @@ public class AstTest extends TestCase {
     }
 
     public void testType(){
-        Type t = Ast.typeRef("MyType");
-        t = Ast.typeRef("MyType<String,Integer>");
+        Type t = Types.typeRef("MyType");
+        t = Types.typeRef("MyType<String,Integer>");
     }
     public void testComment() {
         com.github.javaparser.ast.comments.Comment c = Ast.comment("// hello");
@@ -1206,9 +1203,9 @@ public class AstTest extends TestCase {
     // the AST API
     public void testAST(){
         //AST is a simple API for converting from a String toDir and AST Node
-        Expression astExpr = Ast.ex("a - b");
+        Expression astExpr = Ast.expression("a - b");
 
-        astExpr = Ast.ex("Math.sqrt((a * a) + (b * b))");
+        astExpr = Ast.expression("Math.sqrt((a * a) + (b * b))");
 
         //AST accepts String var args, where there is an inferred line break
         //between each element in the String array
@@ -1225,7 +1222,7 @@ public class AstTest extends TestCase {
     /** Convert text into AST nodes toDir compare the "real meat" content of the data
      * rather than worrying about internal spacing and code formatting */
     public void testParseAssertEqualityRegardlessOfSpaces(){
-        assertEquals( Ast.ex("3 + 4"), Ast.ex("3+4") );
+        assertEquals( Ast.expression("3 + 4"), Ast.expression("3+4") );
         //verify that the statements with the same contents are the same object (regardless of spaces)
         //we should test Statements verses other statements, not do String comparisons (because of spaces and indentation
         assertEquals( Ast.stmt("System.out.println(3);"), Ast.stmt("System.out.println( "," 3 "," );" ));
@@ -1242,9 +1239,9 @@ public class AstTest extends TestCase {
         assertEquals( Ast.of( "package h;", "import java.util.*;", "public class V{", "}"),
                 Ast.of("package h;", "import java.util.*;", "", "public class V", "{}" ) );
 
-        Ast.typeRef("String" );
-        Ast.typeRef("List<String>" );
-        assertEquals( Ast.typeRef("Map< Integer,List< String >>"), Ast.typeRef("Map<Integer, List<String>>" ));
+        Types.typeRef("String" );
+        Types.typeRef("List<String>" );
+        assertEquals( Types.typeRef("Map< Integer,List< String >>"), Types.typeRef("Map<Integer, List<String>>" ));
         assertEquals( Ast.of("public class MyClass<T> extends BaseClass implements IClass{} "),
                 Ast.of("public class MyClass<T>","    extends BaseClass","     implements IClass","{", "}"));
 

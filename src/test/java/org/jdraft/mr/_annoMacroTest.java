@@ -87,7 +87,7 @@ public class _annoMacroTest extends TestCase {
 
             @Override
             public void accept(Type node) {
-                node.replace( Ast.typeRef(String.class));
+                node.replace( Types.typeRef(String.class));
                 _annoMacro.removeAnnotation(node, _str.class);
             }
         }

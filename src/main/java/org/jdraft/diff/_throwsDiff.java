@@ -19,7 +19,7 @@ public class _throwsDiff implements _differ<_throws, _java._multiPart> {
     public static final _throwsDiff INSTANCE = new _throwsDiff();
     
     public boolean equivalent(NodeList<ReferenceType> left, NodeList<ReferenceType> right) {
-        return Ast.typesEqual(left, right);
+        return Types.equal(left, right);
     }
 
     public _diff diff(_withThrows leftParent, _withThrows rightParent){

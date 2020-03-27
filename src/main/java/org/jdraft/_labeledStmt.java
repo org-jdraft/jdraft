@@ -215,7 +215,7 @@ public class _labeledStmt implements _statement<LabeledStmt, _labeledStmt>,
      */
     public static void flattenLabel(_java._domain _j, String labelName){
         if( _j instanceof _java._multiPart){
-            Ast.flattenLabel( ((_java._multiPart)_j).ast(), labelName);
+            Tree.flattenLabel( ((_java._multiPart)_j).ast(), labelName);
             return;
         }
         throw new _jdraftException("cannot flatten a label :"+labelName+" from "+ _j.getClass());

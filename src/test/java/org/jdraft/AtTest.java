@@ -14,30 +14,30 @@ import junit.framework.TestCase;
 import java.util.List;
 
 /**
- * Test calling {@link At#at(Node, int)}  and {@link At#memberAt(Node, int)} variants
+ * Test calling {@link At#nodeAt(Node, int)}  and {@link At#memberAt(Node, int)} variants
  *
  */
 public class AtTest extends TestCase {
 
     public void testGetAt(){
-/*<--*/ Statement st = At.at(AtTest.class, 23); //I want to get this line of code
+/*<--*/ Statement st = At.nodeAt(AtTest.class, 23); //I want to get this line of code
         assertNotNull(st);
         String s =
 /*<--*/                 "A String on a line by itself";
-        StringLiteralExpr sle = At.at(AtTest.class, 26);
+        StringLiteralExpr sle = At.nodeAt(AtTest.class, 26);
 
 /*<--*/ int i = 100;
-        assertEquals( Ast.typeRef(int.class),At.at(AtTest.class, 29,9));
-        assertEquals( "i",At.at(AtTest.class, 29,13).toString());
-        assertEquals( Expressions.of(100),At.at(AtTest.class, 29,18) );
+        assertEquals( Types.typeRef(int.class),At.nodeAt(AtTest.class, 29,9));
+        assertEquals( "i",At.nodeAt(AtTest.class, 29,13).toString());
+        assertEquals( Expressions.of(100),At.nodeAt(AtTest.class, 29,18) );
     }
     //NOTE: this is sensititve to lines in file method should start at
     //IF YOU REFACTOR THIS CODE YOU NEED TO UPDATE THE VALUE OF THIS_LINE_NUMBER
     public void testAt(){
         /*<--*/ int THIS_LINE_NUMBER = 37; //<-- THIS VALUE IS SENSITIVE TO THE LINE NUMBER
-        Node n = At.at(AtTest.class, THIS_LINE_NUMBER, 9);
+        Node n = At.nodeAt(AtTest.class, THIS_LINE_NUMBER, 9);
         assertNotNull(n);
-        assertNotNull( At.at(AtTest.class, THIS_LINE_NUMBER, 9) );
+        assertNotNull( At.nodeAt(AtTest.class, THIS_LINE_NUMBER, 9) );
         MethodDeclaration m = At.memberAt(AtTest.class, THIS_LINE_NUMBER, 9);
         assertTrue( m.getNameAsString().equals("testAt"));
         MethodDeclaration md = At.memberAt(n, 40);
@@ -55,7 +55,7 @@ public class AtTest extends TestCase {
         assertEquals( 1, cu.getType(0).getMethodsByName("testAtLineOnly").size());
         MethodDeclaration md = At.memberAt(cu, THIS_LINE_NUMBER);
         assertEquals("testAtLineOnly",md.getNameAsString());
-        Statement st = At.at(cu, 53);
+        Statement st = At.nodeAt(cu, 53);
         assertNotNull( st );
         System.out.println( st );
     }

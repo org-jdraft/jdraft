@@ -57,9 +57,9 @@ public class ExTest extends TestCase {
         StaticJavaParser.parseExpression("0xDEADBEEF");
         StaticJavaParser.parseExpression("0b110100111");
         
-        Ast.ex("1_000");
-        Ast.ex("0xDEADBEEF");
-        Ast.ex("0b110100111");
+        Ast.expression("1_000");
+        Ast.expression("0xDEADBEEF");
+        Ast.expression("0b110100111");
         
         Expressions.intLiteralEx("1_000");
         Expressions.intLiteralEx("0xDEADBEEF");

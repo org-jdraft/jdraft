@@ -114,7 +114,7 @@ public interface _java {
             return constructor(code);
         }
         if (_typeRef.class == nodeClass) {
-            return typeRef(Text.combine(code).trim());
+            return Types.typeRef(Text.combine(code).trim());
         }
         if (_initBlock.class == nodeClass) {
             return staticBlock(code);

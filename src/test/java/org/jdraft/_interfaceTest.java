@@ -118,7 +118,7 @@ public class _interfaceTest extends TestCase {
 
         Tree.directChildren( tp, Node.class, ni -> {
             if( ni instanceof Type){
-                System.out.println(ni + " " + Ast.tokenizeType( ni.toString() ) );
+                System.out.println(ni + " " + Types.tokenize( ni.toString() ) );
             } else {
                 System.out.println(ni + " " + ni.getClass());
             }

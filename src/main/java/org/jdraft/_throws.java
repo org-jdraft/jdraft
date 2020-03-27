@@ -171,7 +171,7 @@ public final class _throws
      * @return
      */
     public _throws add( String... elements ) {
-        Arrays.stream( elements ).forEach( t -> this.astNodeWithThrows.getThrownExceptions().add( Ast.typeRef( t)  ) );
+        Arrays.stream( elements ).forEach( t -> this.astNodeWithThrows.getThrownExceptions().add( Types.typeRef( t)  ) );
         return this;
     }
 
@@ -216,7 +216,7 @@ public final class _throws
         if( this.astNodeWithThrows == other.astNodeWithThrows ) {
             return true; //two _throws pointing to the same NodeWithThrownException
         }
-        if( !Ast.typesEqual( astNodeWithThrows.getThrownExceptions(), other.astNodeWithThrows.getThrownExceptions())){
+        if( !Types.equal( astNodeWithThrows.getThrownExceptions(), other.astNodeWithThrows.getThrownExceptions())){
             return false;
         }
         return true;
@@ -224,7 +224,7 @@ public final class _throws
 
     @Override
     public int hashCode() {
-        return Ast.typesHashCode( this.astNodeWithThrows.getThrownExceptions() );
+        return Types.hash( this.astNodeWithThrows.getThrownExceptions() );
     }
 
     @Override
@@ -302,7 +302,7 @@ public final class _throws
         }
         
         default _WT addThrows(String throwException) {
-            getThrows().astNodeWithThrows.addThrownException((ReferenceType) Ast.typeRef(throwException));
+            getThrows().astNodeWithThrows.addThrownException((ReferenceType) Types.typeRef(throwException));
             return (_WT)this;
         }    
 
@@ -312,7 +312,7 @@ public final class _throws
         }
     
         default _WT addThrows(Class<? extends Throwable> throwException) {
-            getThrows().astNodeWithThrows.addThrownException((ReferenceType) Ast.typeRef(throwException));
+            getThrows().astNodeWithThrows.addThrownException((ReferenceType) Types.typeRef(throwException));
             return (_WT)this;
         }
 

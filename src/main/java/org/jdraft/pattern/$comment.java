@@ -530,7 +530,7 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
         
         //this is extra work, but it "acts" like we want it to
         List<C> found = listIn(astNode, commentMatchFn);
-        Ast.sortNodesByPosition(found);
+        At.sortNodesByPosition(found);
         if( found.isEmpty() ){
             return null;
         }
@@ -540,7 +540,7 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
     @Override
     public Select selectFirstIn(Node astNode) {
         List<C> found = listIn(astNode );
-        Ast.sortNodesByPosition(found);
+        At.sortNodesByPosition(found);
         if( found.isEmpty() ){
             return null;
         }
@@ -555,7 +555,7 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
      */
     public Select selectFirstIn(Node astNode, Predicate<Select> selectConstraint) {
         List<Select> found = listSelectedIn(astNode, selectConstraint);
-        Collections.sort( found, (s1, s2)-> Ast.COMPARE_NODE_BY_POSITION.compare(s1.comment, s2.comment));
+        Collections.sort( found, (s1, s2)-> At.COMPARE_NODE_BY_POSITION.compare(s1.comment, s2.comment));
         if( found.isEmpty() ){
             return null;
         }
