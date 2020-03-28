@@ -1209,14 +1209,14 @@ public class AstTest extends TestCase {
 
         //AST accepts String var args, where there is an inferred line break
         //between each element in the String array
-        Statement astStmt = Ast.stmt("System.out.println(",
+        Statement astStmt = Ast.statement("System.out.println(",
                 "\"this is the first line\" +",
                 "somevar +",
                 "\"this is the third line\");" );
 
         //when the AST node is parsed, the empty spaces are removed, so the result of these two are equal
         // this way you can compare the "content" of the Statements rather than trying toDir accept up spaces in Strings
-        assertEquals(astStmt, Ast.stmt("System.out.println(\"this is the first line\"   +   somevar   +   \"this is the third line\");"));
+        assertEquals(astStmt, Ast.statement("System.out.println(\"this is the first line\"   +   somevar   +   \"this is the third line\");"));
     }
 
     /** Convert text into AST nodes toDir compare the "real meat" content of the data
@@ -1225,7 +1225,7 @@ public class AstTest extends TestCase {
         assertEquals( Ast.expression("3 + 4"), Ast.expression("3+4") );
         //verify that the statements with the same contents are the same object (regardless of spaces)
         //we should test Statements verses other statements, not do String comparisons (because of spaces and indentation
-        assertEquals( Ast.stmt("System.out.println(3);"), Ast.stmt("System.out.println( "," 3 "," );" ));
+        assertEquals( Ast.statement("System.out.println(3);"), Ast.statement("System.out.println( "," 3 "," );" ));
 
         assertEquals( Ast.anno("@ann(key=1,key2=\"Er\")"), Ast.anno("@ann( key = 1 , key2 = \"Er\" )"));
 

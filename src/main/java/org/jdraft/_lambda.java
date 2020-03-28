@@ -247,7 +247,7 @@ public class _lambda
     }
 
     public _lambda setBody(String...body){
-        return setBody(Ast.stmt(body));
+        return setBody(Ast.statement(body));
     }
 
     public _lambda addStatements( String... statements){

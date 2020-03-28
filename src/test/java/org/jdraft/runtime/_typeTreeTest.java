@@ -3,7 +3,7 @@ package org.jdraft.runtime;
 import com.github.javaparser.ast.type.Type;
 import junit.framework.TestCase;
 import org.jdraft.*;
-import org.jdraft.macro._imports;
+import org.jdraft.macro._addImports;
 import org.jdraft.macro._packageName;
 
 import java.io.Serializable;
@@ -86,7 +86,7 @@ public class _typeTreeTest extends TestCase {
     */
 
     @_packageName("aaaa.bbbb")
-    @_imports(Serializable.class)
+    @_addImports(Serializable.class)
     interface I1 extends Serializable{}
 
     @_packageName("bbbb.aaaa")
@@ -143,7 +143,7 @@ public class _typeTreeTest extends TestCase {
     }
 
     public void testNestedAndLocalClasses(){
-        @_imports(Serializable.class)
+        @_addImports(Serializable.class)
         class L{
             class F extends L { //F is nested in L
                 public void f(){

@@ -100,7 +100,7 @@ public class OverviewTest extends TestCase {
         @_remove Class $testClasses$;
     });
     public void testAutoTestSuite(){
-        _class _autoTestSuite = _class.of("gen.jdraft.AutoTestSuite", new @org.jdraft.macro._imports({Test.class, TestCase.class}) TestSuite(){
+        _class _autoTestSuite = _class.of("gen.jdraft.AutoTestSuite", new @_addImports({Test.class, TestCase.class}) TestSuite(){
 
         });
     }

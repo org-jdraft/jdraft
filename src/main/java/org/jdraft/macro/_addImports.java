@@ -30,21 +30,21 @@ import java.util.Arrays;
  */
 @Retention( RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.TYPE_USE, ElementType.FIELD})
-public @interface _imports {
+public @interface _addImports {
     /** @return the classes to be imported */
     Class[] value() default {};
 
-    class Act extends macro<_imports, TypeDeclaration> {
+    class Act extends macro<_addImports, TypeDeclaration> {
 
         Class[] classes;
 
-        public Act( _imports _ic ){
+        public Act( _addImports _ic ){
             super(_ic);
             this.classes = _ic.value();
         }
 
         public Act( Class...classes ){
-            super(_imports.class);
+            super(_addImports.class);
             this.classes = classes;
         }
 

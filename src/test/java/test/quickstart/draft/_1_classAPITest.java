@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 import org.jdraft._class;
 import org.jdraft._interface;
 import org.jdraft.diff._diff;
-import org.jdraft.macro._imports;
+import org.jdraft.macro._addImports;
 import org.jdraft.macro._non_static;
 import org.jdraft.macro._packageName;
 
@@ -63,7 +63,7 @@ public class _1_classAPITest extends TestCase {
      */
     @Deprecated
     @_packageName("math.entity")
-    @_imports({Serializable.class, Encoder.class, UUID.class})
+    @_addImports({Serializable.class, Encoder.class, UUID.class})
     public @_non_static static final class C<T extends Serializable> extends Encoder implements Serializable{
         static{ System.out.println("static block " + UUID.randomUUID().toString()); }
         public int i;

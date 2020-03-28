@@ -194,9 +194,65 @@ public class _switchStmt implements _statement._controlFlow._branching<SwitchStm
         return switchStmt;
     }
 
+    public _caseGroup getCaseGroup(String s){
+        return getCaseGroup( new StringLiteralExpr(s));
+    }
+
+    public _caseGroup getCaseGroup( char c){
+        return getCaseGroup( new CharLiteralExpr(c));
+    }
+
+    public _caseGroup getCaseGroup( int i){
+        return getCaseGroup( new IntegerLiteralExpr(i));
+    }
+
+    public _caseGroup getCaseGroup( Enum e ){
+        return getCaseGroup( new NameExpr(e.name()));
+    }
+
+    public _caseGroup getCaseGroup(_expression _e){
+        return getCaseGroup( _e.ast() );
+    }
+
+    public _caseGroup getCaseGroup(Expression e){
+        List<_caseGroup> lc = listCaseGroups(cg -> cg.hasCase(e));
+        if( lc.isEmpty() ){
+            return null;
+        }
+        return lc.get(0);
+    }
+
+
+    /**
+     * gets the _switchEntry by the caseConstant
+     * @param e
+     * @return
+     */
+    public _switchEntry getCase(Enum e){
+        return getSwitchEntry(se-> se.isCaseConstant( new NameExpr(e.name()) ) );
+    }
+
+    /**
+     * Find and return the case based on the case expression
+     * @param _e
+     * @return
+     */
+    public _switchEntry getCase( _expression _e ){
+        return getSwitchEntry(se-> se.isCaseConstant( _e.ast() ) );
+    }
+
+    public _switchEntry getCase( String caseString){
+        return getSwitchEntry(se-> se.isCaseConstant( new StringLiteralExpr(caseString) ) );
+    }
+
+    public _switchEntry getCase(char c){
+        return getSwitchEntry(se-> se.isCaseConstant(c) );
+    }
+
     public _switchEntry getCase(int i){
         return getSwitchEntry(se-> se.isCaseConstant(i) );
     }
+
 
     /**
      * List the _caseGroups that exist in this _switch

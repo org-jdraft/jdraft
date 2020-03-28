@@ -197,7 +197,7 @@ public class _annoMacroTest extends TestCase {
         Consumer<TypeDeclaration> $ = (t) -> t.walk(MethodDeclaration.class, m -> {
             if (m.getBody().isPresent()) {
                 m.getBody().get().addStatement(0,
-                        Ast.stmt("System.out.println( \"called " + m.getNameAsString() + "\")"));
+                        Ast.statement("System.out.println( \"called " + m.getNameAsString() + "\")"));
             }
             _annoMacro.removeAnnotation(t, _printMethodNames.class);
         });

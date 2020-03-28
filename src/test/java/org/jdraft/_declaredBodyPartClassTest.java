@@ -6,7 +6,7 @@ import com.github.javaparser.utils.Log;
 import org.jdraft.diff._diff;
 import org.jdraft.macro._static;
 import org.jdraft.macro._volatile;
-import org.jdraft.macro._imports;
+import org.jdraft.macro._addImports;
 import org.jdraft.macro._non_static;
 import org.jdraft.macro._protected;
 import org.jdraft.macro._final;
@@ -28,7 +28,7 @@ public class _declaredBodyPartClassTest extends TestCase {
     }
 
     @_packageName("som.pkg")
-    @_imports({Map.class, List.class, Set.class, HashSet.class})
+    @_addImports({Map.class, List.class, Set.class, HashSet.class})
     @_non_static @_public @_final
     private static class Baseline{
 
@@ -49,7 +49,7 @@ public class _declaredBodyPartClassTest extends TestCase {
 
         _class _c = _class.of(Baseline.class);
 
-        @_public @_packageName("som.pkg") @_final @_imports({Map.class, List.class, Set.class, HashSet.class})
+        @_public @_packageName("som.pkg") @_final @_addImports({Map.class, List.class, Set.class, HashSet.class})
         class Baseline{
             volatile public int a;
             protected @_static final int g() { return 102; }

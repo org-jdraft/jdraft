@@ -21,7 +21,6 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import java.nio.file.Paths;
-import java.util.regex.Pattern;
 
 import org.jdraft.io._io;
 import org.jdraft.io._ioException;
@@ -1944,7 +1943,7 @@ public enum Ast {
             res = res + "}";
         }
         try {
-            Statement st = stmt(TRY_HARDCODED + res);
+            Statement st = statement(TRY_HARDCODED + res);
             CatchClause cc = (CatchClause) st.getChildNodes().get(1); //getType ONLY the Catch
             cc.removeForced(); //Disconnect
             return cc;
@@ -1959,7 +1958,7 @@ public enum Ast {
      * @param code
      * @return a Stmt
      */
-    public static Statement stmt(String... code) {
+    public static Statement statement(String... code) {
         return Statements.of(code);
     }
 

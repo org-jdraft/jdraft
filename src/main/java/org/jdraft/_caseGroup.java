@@ -8,6 +8,7 @@ import org.jdraft.text.Text;
 
 import java.util.*;
 import java.util.function.*;
+import java.util.stream.Collectors;
 
 /**
  * <P>A "virtual" object to simplify logically interacting (mutating) <CODE>SwitchEntry</CODE> s in a
@@ -67,13 +68,13 @@ public class _caseGroup implements _java._domain{
     }
 
     //note this
-    public NodeList<Statement> getStatements(){
+    public List<_statement> getStatements(){
         Optional<SwitchEntry> ose =
                 switchEntries.stream().filter( se -> !se.getStatements().isEmpty()).findFirst();
         if( !ose.isPresent()){
             throw new RuntimeException("Invalid _caseGroup in switch... no active entry (witch statement(s)/expression) ");
         }
-        return ose.get().getStatements();
+        return ose.get().getStatements().stream().map(s -> _statement.of(s)).collect(Collectors.toList());
     }
 
     /**
@@ -216,6 +217,12 @@ public class _caseGroup implements _java._domain{
         return this;
     }
 
+    public _caseGroup setStatements(_statement...st){
+        NodeList<Statement>stmts = new NodeList<>();
+        Arrays.stream(st).forEach(s -> stmts.add(s.ast()));
+        this.getOrCreateActiveEntry().setStatements(stmts);
+        return this;
+    }
 
     /**
      * Lambda way of setting the statements
@@ -320,6 +327,12 @@ public class _caseGroup implements _java._domain{
         return this;
     }
 
+    public _caseGroup addStatements(_statement...st){
+        for(int i=0; i<st.length;i++) {
+            this.getOrCreateActiveEntry().addStatement(st[i].ast());
+        }
+        return this;
+    }
 
     /**
      * Adds statements to this SwitchEntry
@@ -330,6 +343,19 @@ public class _caseGroup implements _java._domain{
     public _caseGroup addStatements(int index, Statement...st){
         for(int i=0;i<st.length;i++){
             this.getOrCreateActiveEntry().addStatement(index + i, st[i] );
+        }
+        return this;
+    }
+
+    /**
+     * Adds statements to this SwitchEntry
+     * @param index
+     * @param st
+     * @return
+     */
+    public _caseGroup addStatements(int index, _statement...st){
+        for(int i=0;i<st.length;i++){
+            this.getOrCreateActiveEntry().addStatement(index + i, st[i].ast() );
         }
         return this;
     }
@@ -390,30 +416,25 @@ public class _caseGroup implements _java._domain{
 
     //}
 
-    public _caseGroup addCaseConstant(String str){
-        return addCaseConstant( new StringLiteralExpr(str) );
+    public _caseGroup addCase(String str){
+        return addCase( new StringLiteralExpr(str) );
     }
 
-    public _caseGroup addCaseConstant(int i){
-        return addCaseConstant( new IntegerLiteralExpr(i) );
+    public _caseGroup addCase(int i){
+        return addCase( new IntegerLiteralExpr(i) );
     }
 
-    public _caseGroup addCaseConstant(long l){
-        return addCaseConstant( new LongLiteralExpr(l) );
+    public _caseGroup addCase(char c){
+        return addCase( new CharLiteralExpr(c) );
     }
 
-    public _caseGroup addCaseConstant(char c){
-        return addCaseConstant( new CharLiteralExpr(c) );
+    public _caseGroup addCase( Enum e){
+        return addCase( new NameExpr(e.name()));
     }
 
-    public _caseGroup addCaseConstant(float f){
-        return addCaseConstant(new DoubleLiteralExpr(f));
+    public _caseGroup addCase(_expression _e){
+        return addCase(_e.ast());
     }
-
-    public _caseGroup addCaseConstant(double d){
-        return addCaseConstant(new DoubleLiteralExpr(d));
-    }
-
 
     /**
      * TODO: what I SHOULD do is to remove the Statement(s) from the ActiveEntry
@@ -423,7 +444,7 @@ public class _caseGroup implements _java._domain{
      * @param e
      * @return
      */
-    public _caseGroup addCaseConstant(Expression e){
+    public _caseGroup addCase(Expression e){
 
         if(!this.switchEntries.stream().anyMatch(se -> se.getLabels().stream().anyMatch(ex -> ex.equals(e)))){
             NodeList<Expression>nle = new NodeList<>();
@@ -446,36 +467,34 @@ public class _caseGroup implements _java._domain{
         return this;
     }
 
+    public boolean hasCase(Enum e){
+        return hasCase( new NameExpr( e.name() ) );
+    }
 
-    public boolean hasCaseConstant(Expression expr){
+    public boolean hasCase(_expression _e){
+        return hasCase(_e.ast());
+    }
+
+    public boolean hasCase(Expression expr){
         return this.switchEntries.stream().anyMatch(se -> se.getLabels().stream().anyMatch(ex -> ex.equals(expr)));
-
     }
 
-    public boolean hasCaseConstant(int i){
-        return hasCaseConstant( new IntegerLiteralExpr(i) );
+    public boolean hasCase(int i){
+        return hasCase( new IntegerLiteralExpr(i) );
     }
 
-    public boolean hasCaseConstant(long l){
-        return hasCaseConstant( new LongLiteralExpr(l) );
+    public boolean hasCase(char c){
+        return hasCase( new CharLiteralExpr(c) );
     }
 
-    public boolean hasCaseConstant(char c){
-        return hasCaseConstant( new CharLiteralExpr(c) );
+    public boolean hasCase(String str){
+        return hasCase( new StringLiteralExpr(str) );
     }
 
-    public boolean hasCaseConstant(float f){
-        return hasCaseConstant(new DoubleLiteralExpr(f));
-    }
-
-    public boolean hasCaseConstant(double d){
-        return hasCaseConstant(new DoubleLiteralExpr(d));
-    }
-
-    public boolean hasCaseConstant(String str){
-        return hasCaseConstant( new StringLiteralExpr(str) );
-    }
-
+    /**
+     * Does this caseGroup contain a default?
+     * @return
+     */
     public boolean isDefault(){
         return this.switchEntries.stream().anyMatch(se -> se.getLabels().isEmpty());
     }
@@ -484,26 +503,33 @@ public class _caseGroup implements _java._domain{
      *
      * @return
      */
-    public List<Expression> listCaseConstants(){
-        List<Expression> les = new ArrayList<>();
-        this.switchEntries.forEach(se -> les.addAll( se.getLabels()));
-        return les;
+    public List<_expression> listCases(){
+        //return this.switchEntries.stream().flatMap(se -> se.getLabels().stream()).map(e -> _expression.of(e)).collect(Collectors.toList());
+        return listCases( t->true);
     }
 
-    public List<Statement> listStatements(){
+    public List<_expression> listCases( Predicate<_expression> matchFn){
+        return this.switchEntries.stream().flatMap(se -> se.getLabels().stream()).map(e -> _expression.of(e)).filter(matchFn).collect(Collectors.toList());
+    }
+
+    public List<_statement> listStatements(){
+        return listStatements(t->true);
+    }
+
+    public List<_statement> listStatements(Predicate<_statement> _matchFn){
         SwitchEntry se = this.getActiveEntry();
         if( se == null ){
             return new ArrayList<>();
         }
-        return se.getStatements();
+        return se.getStatements().stream().map(s -> _statement.of(s)).filter(_matchFn).collect(Collectors.toList());
     }
 
-    public Statement getStatement(int index){
+    public _statement getStatement(int index){
         SwitchEntry se = this.getActiveEntry();
         if( se == null ){
             return null;
         }
-        return se.getStatement(index);
+        return _statement.of(se.getStatement(index));
     }
 
     public boolean equals(Object o){
@@ -511,10 +537,10 @@ public class _caseGroup implements _java._domain{
             return false;
         }
         _caseGroup cg = (_caseGroup)o;
-        Set<Expression> cct = new HashSet<>();
-        Set<Expression> cco = new HashSet<>();
-        cct.addAll(this.listCaseConstants());
-        cco.addAll(cg.listCaseConstants());
+        Set<_expression> cct = new HashSet<>();
+        Set<_expression> cco = new HashSet<>();
+        cct.addAll(this.listCases());
+        cco.addAll(cg.listCases());
 
         return Objects.equals( cct, cco) &&
                 Objects.equals(this.listStatements(), cg.listStatements());
@@ -525,8 +551,8 @@ public class _caseGroup implements _java._domain{
         //i.e. these are the same logically
         // case 1: case 2: case 3:
         // case 3: case 2: case 1:
-        Set<Expression> caseConstants = new HashSet<>();
-        caseConstants.addAll(listCaseConstants());
+        Set<_expression> caseConstants = new HashSet<>();
+        caseConstants.addAll(listCases());
         return Objects.hash( caseConstants, listStatements());
     }
 
@@ -535,5 +561,4 @@ public class _caseGroup implements _java._domain{
         this.switchEntries.forEach( se-> sb.append(se) );
         return sb.toString();
     }
-
 }

@@ -11,7 +11,7 @@ public class _toStringTest extends TestCase {
     public void testAutoToString(){
         @_promote("fffff")
         @_toString
-        @_imports(UUID.class)
+        @_addImports(UUID.class)
         class V{
             public int a= 1,b=2,c=3;
             public int[] x= {1,2,3};

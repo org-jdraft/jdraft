@@ -2,7 +2,7 @@ package test.byexample.runtime;
 
 import junit.framework.TestCase;
 import org.jdraft._annosTest;
-import org.jdraft.macro._imports;
+import org.jdraft.macro._addImports;
 import org.jdraft.macro._packageName;
 import org.jdraft.macro._static;
 import org.jdraft.runtime._runtime;
@@ -15,7 +15,7 @@ public class RuntimeDynamicTestSuite extends TestCase {
 
     public void testBuildAndRunDynamicTestRunner(){
         @_packageName("autotest")
-        @_imports({_annosTest.class, TreeTest.class, JUnitCore.class, TextListener.class, Result.class})
+        @_addImports({_annosTest.class, TreeTest.class, JUnitCore.class, TextListener.class, Result.class})
         class ManualTestRunner {
             //need to import
 

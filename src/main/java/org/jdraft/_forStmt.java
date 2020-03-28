@@ -6,10 +6,7 @@ import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.*;
 
 import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.function.*;
 
 public class _forStmt implements _statement._controlFlow._loop<ForStmt, _forStmt>,
         _java._multiPart<ForStmt, _forStmt>,
@@ -102,6 +99,25 @@ public class _forStmt implements _statement._controlFlow._loop<ForStmt, _forStmt
         return init;
     }
 
+    public <_E extends _expression> List<_E> listInitializations(Class<_E> expressionClass){
+        return listInitializations( expressionClass, t->true);
+    }
+
+    public List<_expression> listInitializations(Predicate<_expression> matchFn){
+        return listInitializations(_expression.class, matchFn);
+    }
+
+    public <_E extends _expression> List<_E> listInitializations(Class<_E> expressionClass, Predicate<_E> matchFn){
+        List<_E> inits = new ArrayList<>();
+        this.astStmt.getInitialization().forEach(i -> {
+            _expression _e = _expression.of(i);
+            if( expressionClass.isAssignableFrom(_e.getClass()) && matchFn.test( (_E)_e)){
+                inits.add((_E)_e);
+            }
+        });
+        return inits;
+    }
+
     public _forStmt addInitializations( _expression... _es){
         Arrays.stream(_es).forEach(_e -> this.astStmt.getInitialization().add(_e.ast()));
         return this;
@@ -118,11 +134,64 @@ public class _forStmt implements _statement._controlFlow._loop<ForStmt, _forStmt
         return update;
     }
 
+    public List<_expression> listUpdates(Predicate<_expression> matchFn){
+        return listUpdates(_expression.class, matchFn);
+    }
+
+    public <_E extends _expression> List<_E> listUpdates(Class<_E> expressionClass){
+        return listUpdates( expressionClass, t->true);
+    }
+
+    public <_E extends _expression> List<_E> listUpdates(Class<_E> expressionClass, Predicate<_E> matchFn){
+        List<_E> updates = new ArrayList<>();
+        this.astStmt.getUpdate().forEach(i -> {
+            _expression _e = _expression.of(i);
+            if( expressionClass.isAssignableFrom(_e.getClass()) && matchFn.test( (_E)_e)){
+                updates.add((_E)_e);
+            }
+        });
+        return updates;
+    }
+
     public _expression getCompare(){
         if( this.astStmt.getCompare().isPresent()) {
             return _expression.of(this.astStmt.getCompare().get());
         }
         return null;
+    }
+
+    /**
+     * checks if the compare part of the forStmt equals the expression
+     * @param expressionCode
+     * @return
+     */
+    public boolean isCompare(String...expressionCode){
+        try{
+            return Objects.equals( _expression.of(expressionCode), getCompare() );
+        } catch(Exception e){
+            return false;
+        }
+    }
+
+    public boolean isCompare(Class<? extends _expression>...expressionClass ){
+        _expression _ec = getCompare();
+        try{
+            return Arrays.stream(expressionClass).anyMatch(ec -> ec.isAssignableFrom( _ec.getClass() ) );
+        } catch(Exception e){
+            return false;
+        }
+    }
+
+    public boolean isCompare( Predicate<_expression> matchFn){
+        _expression _e = getCompare();
+        if( _e == null ){
+            try{
+                return matchFn.test(null);
+            } catch(Exception e){
+                return false;
+            }
+        }
+        return matchFn.test(_e);
     }
 
     public _body getBody(){

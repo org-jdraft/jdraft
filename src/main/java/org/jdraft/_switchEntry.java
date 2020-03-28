@@ -42,6 +42,11 @@ public class _switchEntry implements _java._multiPart<SwitchEntry, _switchEntry>
         this.switchEntry = se;
     }
 
+
+    public boolean isCaseConstant(_expression _e){
+        return isCaseConstant(_e.ast());
+    }
+
     public boolean isCaseConstant(Expression caseLabel){
         return this.switchEntry.getLabels().stream().anyMatch( c-> c.equals(caseLabel) );
     }

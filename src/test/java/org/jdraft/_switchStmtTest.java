@@ -248,7 +248,7 @@ public class _switchStmtTest extends TestCase {
         _s.addCaseGroups( _cg);
         assertTrue( _s.listCaseGroups().isEmpty() ); //adding empty caseGroup to empty switch
 
-        _cg.addCaseConstant(1);
+        _cg.addCase(1);
         _s.addCaseGroups( _cg);
         //System.out.println( _s);
         _cg.setStatements("System.out.println(1);");
@@ -275,22 +275,22 @@ public class _switchStmtTest extends TestCase {
         assertEquals( Statements.of( ()-> System.out.println(7)), _cg.getStatement(3));
         assertEquals( Statements.of( ()-> System.out.println(8)), _cg.getStatement(4));
 
-        assertTrue( _cg.hasCaseConstant(1));
-        assertFalse( _cg.hasCaseConstant(2));
+        assertTrue( _cg.hasCase(1));
+        assertFalse( _cg.hasCase(2));
 
         //ok, lets add some case constants
-        _cg.addCaseConstant(2);
-        _cg.addCaseConstant(3);
-        _cg.addCaseConstant(4);
-        _cg.addCaseConstant(5);
-        _cg.addCaseConstant(6);
+        _cg.addCase(2);
+        _cg.addCase(3);
+        _cg.addCase(4);
+        _cg.addCase(5);
+        _cg.addCase(6);
 
         //verify they have 'em
-        assertTrue( _cg.hasCaseConstant(2));
-        assertTrue( _cg.hasCaseConstant(3));
-        assertTrue( _cg.hasCaseConstant(4));
-        assertTrue( _cg.hasCaseConstant(5));
-        assertTrue( _cg.hasCaseConstant(6));
+        assertTrue( _cg.hasCase(2));
+        assertTrue( _cg.hasCase(3));
+        assertTrue( _cg.hasCase(4));
+        assertTrue( _cg.hasCase(5));
+        assertTrue( _cg.hasCase(6));
 
     }
 
@@ -313,24 +313,24 @@ public class _switchStmtTest extends TestCase {
         List<_caseGroup> _cgs = cg.listCaseGroups();
         assertEquals( 3, _cgs.size());
 
-        _cgs.get(0).addCaseConstant(5);
+        _cgs.get(0).addCase(5);
 
-        assertTrue( _cgs.get(0).listCaseConstants().size()== 5);
+        assertTrue( _cgs.get(0).listCases().size()== 5);
 
-        assertTrue( _cgs.get(0).hasCaseConstant(1));
-        assertTrue( _cgs.get(0).hasCaseConstant(2));
-        assertTrue( _cgs.get(0).hasCaseConstant(3));
-        assertTrue( _cgs.get(0).hasCaseConstant(4));
-        assertTrue( _cgs.get(0).hasCaseConstant(5)); //had an issue with comments
+        assertTrue( _cgs.get(0).hasCase(1));
+        assertTrue( _cgs.get(0).hasCase(2));
+        assertTrue( _cgs.get(0).hasCase(3));
+        assertTrue( _cgs.get(0).hasCase(4));
+        assertTrue( _cgs.get(0).hasCase(5)); //had an issue with comments
         //assertTrue(  _cgs.get(0).isPassthru() );
 
-        assertTrue( _cgs.get(1).hasCaseConstant(6));
-        assertTrue( _cgs.get(1).hasCaseConstant(7));
+        assertTrue( _cgs.get(1).hasCase(6));
+        assertTrue( _cgs.get(1).hasCase(7));
 
         //assertTrue( _cgs.get(2).hasCaseConstant(new IntegerLiteralExpr(9)));
 
         assertTrue( _cgs.get(2).isDefault());
-        assertTrue( _cgs.get(2).listCaseConstants().size() == 0);
+        assertTrue( _cgs.get(2).listCases().size() == 0);
 
         System.out.println( _cgs.get(0) );
     }

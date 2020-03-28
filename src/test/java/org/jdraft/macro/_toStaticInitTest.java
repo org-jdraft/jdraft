@@ -9,7 +9,7 @@ import java.util.UUID;
 public class _toStaticInitTest extends TestCase {
 
     public void testStaticInitSetStaticField(){
-        @_imports(UUID.class) class A{
+        @_addImports(UUID.class) class A{
             @_public @_static @_final String ID;
             @_toStaticInit void si(){
                 System.out.println( "static init block");

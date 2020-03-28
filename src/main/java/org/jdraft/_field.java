@@ -38,8 +38,8 @@ public final class _field
 
     private final VariableDeclarator astVar;
 
-    public static _field of(String singleString) {
-        return of(new String[]{singleString});
+    public static _field of(String fieldDeclaration) {
+        return of(new String[]{fieldDeclaration});
     }
 
     public static _field of(Object anonymousObjectWithField) {
@@ -76,21 +76,25 @@ public final class _field
      *
      * we need to return a list
      *
-     * @param f
+     * @param astField
      * @return
      */
-    public static List<_field> of(FieldDeclaration f) {
+    public static List<_field> of(FieldDeclaration astField) {
         List<_field> fs = new ArrayList<>();
-        for (int i = 0; i < f.getVariables().size(); i++) {
-            fs.add(_field.of(f.getVariable(i)));
+        for (int i = 0; i < astField.getVariables().size(); i++) {
+            fs.add(_field.of(astField.getVariable(i)));
         }
         return fs;
     }
 
-    public static _field of(VariableDeclarator v) {
-        return new _field(v);
+    public static _field of(VariableDeclarator astVariable) {
+        return new _field(astVariable);
     }
 
+    /**
+     * Builds an empty/incomplete field to be modified
+     * @return an empty/incomplete field
+     */
     public static _field of(){
         //we HAVE to create a Field parent because a variable's modifiers are on the parent
         FieldDeclaration fd = new FieldDeclaration();
@@ -99,8 +103,8 @@ public final class _field
         return of( vd );
     }
 
-    public static _field of(String... fieldDecl) {
-        String str = Text.combine(fieldDecl);
+    public static _field of(String... fieldDeclaration) {
+        String str = Text.combine(fieldDeclaration);
         FieldDeclaration fd = Ast.field(str);
         if (fd.getVariables().size() != 1) {
             throw new _jdraftException("unable to create a singular field from " + str);
