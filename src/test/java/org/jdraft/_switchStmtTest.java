@@ -269,11 +269,11 @@ public class _switchStmtTest extends TestCase {
 
         //System.out.println( _s);
 
-        assertEquals( Statements.of( ()-> System.out.println(4)), _cg.getStatement(0));
-        assertEquals( Statements.of( ()-> System.out.println(5)), _cg.getStatement(1));
-        assertEquals( Statements.of( ()-> System.out.println(6)), _cg.getStatement(2));
-        assertEquals( Statements.of( ()-> System.out.println(7)), _cg.getStatement(3));
-        assertEquals( Statements.of( ()-> System.out.println(8)), _cg.getStatement(4));
+        assertEquals( _statement.of( ()-> System.out.println(4)), _cg.getStatement(0));
+        assertEquals( _statement.of( ()-> System.out.println(5)), _cg.getStatement(1));
+        assertEquals( _statement.of( ()-> System.out.println(6)), _cg.getStatement(2));
+        assertEquals( _statement.of( ()-> System.out.println(7)), _cg.getStatement(3));
+        assertEquals( _statement.of( ()-> System.out.println(8)), _cg.getStatement(4));
 
         assertTrue( _cg.hasCase(1));
         assertFalse( _cg.hasCase(2));

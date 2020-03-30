@@ -28,7 +28,7 @@ public class AutoCompleteTest extends TestCase {
 
         //target
         // (Integer a)-> System.out.println(a);
-        LambdaExpr l = new LambdaExpr(new Parameter(StaticJavaParser.parseType("Integer"), "a"), (BlockStmt)StaticJavaParser.parseStatement("System.out.println(a);") );
+        LambdaExpr l = new LambdaExpr(new Parameter(StaticJavaParser.parseType("Integer"), "a"), new BlockStmt().addStatement(StaticJavaParser.parseStatement("System.out.println(a);") ) ).setEnclosingParameters(true);
 
 
         //LambdaExpr le = new LambdaExpr();
@@ -40,7 +40,7 @@ public class AutoCompleteTest extends TestCase {
 
         //target
         // (Integer a)-> System.out.println(a);
-        _lambda _l = _lambda.of( (Integer a)-> System.out.println(a));
+        _lambda _l = _lambda.of( (Integer a)-> { System.out.println(a); });
 
 
         assertEquals( l, _l.ast() );

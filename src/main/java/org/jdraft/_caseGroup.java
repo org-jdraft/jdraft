@@ -1,9 +1,13 @@
 package org.jdraft;
 
+import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.nodeTypes.SwitchNode;
 import com.github.javaparser.ast.stmt.*;
+import com.github.javaparser.ast.type.ReferenceType;
+import com.github.javaparser.ast.type.UnionType;
 import org.jdraft.text.Text;
 
 import java.util.*;
@@ -50,6 +54,56 @@ public class _caseGroup implements _java._domain{
                  Text.combine(code)+System.lineSeparator()
                  +"}");
          return _ss.listCaseGroups().get(0);
+    }
+
+    public static <A extends Object> _caseGroup of(Expressions.Command c){
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from(le);
+    }
+
+    public static <A extends Object> _caseGroup of(Consumer<A> c){
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from(le);
+    }
+
+    public static <A extends Object, B extends Object> _caseGroup of(BiConsumer<A,B> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> _caseGroup of( Expressions.TriConsumer<A,B,C> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _caseGroup of( Expressions.QuadConsumer<A,B,C,D> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object> _caseGroup of( Function<A,B> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> _caseGroup of( BiFunction<A,B,C> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _caseGroup of( Expressions.TriFunction<A,B,C,D> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    private static _caseGroup from( LambdaExpr le){
+        Optional<SwitchStmt> ows = le.getBody().findFirst(SwitchStmt.class);
+        if( ows.isPresent() ){
+            SwitchStmt ss = ows.get();
+            _switchStmt _ss = _switchStmt.of(ss);
+            return _ss.listCaseGroups().get(0);
+        }
+        Optional<SwitchExpr> ses = le.getBody().findFirst(SwitchExpr.class);
+        if( ses.isPresent() ){
+            SwitchExpr se = ses.get();
+            _switchExpression _se = _switchExpression.of(se);
+            return _se.listCaseGroups().get(0);
+        }
+        throw new _jdraftException("No switch/case found in lambda");
     }
 
     /**

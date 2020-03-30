@@ -1,6 +1,8 @@
 package org.jdraft;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.*;
@@ -16,6 +18,7 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.utils.Log;
 import org.jdraft.io._in;
 import org.jdraft.io._io;
+import org.jdraft.io._ioException;
 import org.jdraft.macro.macro;
 
 /**
@@ -109,6 +112,21 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         return (_T)_annotation.of( (AnnotationDeclaration) td);
     }
     */
+
+    /**
+     * Read the java source code from a url and return the appropriate model
+     * @param url
+     * @param <_T>
+     * @return
+     */
+    static <_T extends _type> _T of(URL url){
+        try {
+            InputStream inStream = url.openStream();
+            return of(inStream);
+        }catch(IOException ioe){
+            throw new _ioException("invalid input url \""+url.toString()+"\"", ioe);
+        }
+    }
 
     /**
      * Read in a .java file from the InputStream and return the _type(_class, _enum, _interface, _annotation)

@@ -10,10 +10,13 @@ import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.jdraft.io._in;
 import org.jdraft.io._io;
+import org.jdraft.io._ioException;
 import org.jdraft.macro.macro;
 import org.jdraft.text.Text;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.*;
@@ -42,6 +45,15 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
 
     public static _enum of( Path p){
         return of(_io.inFile(p));
+    }
+
+    public static _enum of(URL url){
+        try {
+            InputStream inStream = url.openStream();
+            return of(inStream);
+        }catch(IOException ioe){
+            throw new _ioException("invalid input url \""+url.toString()+"\"", ioe);
+        }
     }
 
     public static _enum of( Class<? extends Enum> clazz ){

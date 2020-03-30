@@ -9,10 +9,13 @@ import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
 import com.github.javaparser.ast.type.*;
 import org.jdraft.io._in;
 import org.jdraft.io._io;
+import org.jdraft.io._ioException;
 import org.jdraft.macro.macro;
 import org.jdraft.text.Text;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Predicate;
@@ -30,6 +33,15 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
 
     public static _interface of(){
         return of( new ClassOrInterfaceDeclaration() );
+    }
+
+    public static _interface of(URL url){
+        try {
+            InputStream inStream = url.openStream();
+            return of(inStream);
+        }catch(IOException ioe){
+            throw new _ioException("invalid input url \""+url.toString()+"\"", ioe);
+        }
     }
 
     public static _interface of( Path p){

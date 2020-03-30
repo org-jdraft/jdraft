@@ -3,10 +3,13 @@ package org.jdraft;
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.*;
+import org.jdraft.io._ioException;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.function.*;
 import java.util.*;
@@ -38,6 +41,15 @@ public interface _codeUnit<_CU> extends _java._domain {
      */
     static _codeUnit of(Path javaSourceFilePath) throws _jdraftException {
         return of(Ast.of(javaSourceFilePath));
+    }
+
+    static _codeUnit of(URL url){
+        try {
+            InputStream inStream = url.openStream();
+            return of(inStream);
+        }catch(IOException ioe){
+            throw new _ioException("invalid input url \""+url.toString()+"\"", ioe);
+        }
     }
 
     /**

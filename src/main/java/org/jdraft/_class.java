@@ -1,6 +1,8 @@
 package org.jdraft;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.*;
@@ -16,6 +18,7 @@ import org.jdraft._java.*;
 import com.github.javaparser.utils.Log;
 import org.jdraft.io._in;
 import org.jdraft.io._io;
+import org.jdraft.io._ioException;
 import org.jdraft.macro._toCtor;
 import org.jdraft.macro.macro;
 import org.jdraft.text.Text;
@@ -101,6 +104,15 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      */
     public static _class of( InputStream is ){
         return (_class) _type.of(is);
+    }
+
+    public static _class of(URL url){
+        try {
+            InputStream inStream = url.openStream();
+            return of(inStream);
+        }catch(IOException ioe){
+            throw new _ioException("invalid input url \""+url.toString()+"\"", ioe);
+        }
     }
 
     /**
