@@ -28,6 +28,14 @@ public class _arrayDimension implements _java._uniPart<ArrayCreationLevel, _arra
         return new _arrayDimension(new ArrayCreationLevel().setDimension( Expressions.of(index) ));
     }
 
+    public static _arrayDimension of(){
+        return of( new ArrayCreationLevel());
+    }
+
+    public static _arrayDimension of(String str){
+        return of(new String[]{str});
+    }
+
     public static _arrayDimension of(String...str){
         String s = Text.combine(str);
         if( s.startsWith("[") ){

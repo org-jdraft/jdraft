@@ -69,6 +69,29 @@ public interface _expression<E extends Expression, _E extends _expression>
     static _expression of(String...code){
         return of( Expressions.of(code));
     }
+    static _int of( int i){
+        return _int.of(i);
+    }
+
+    static _double of( float f){
+        return _double.of(f);
+    }
+
+    static _long of( long l){
+        return _long.of(l);
+    }
+
+    static _char of( char c){
+        return _char.of(c);
+    }
+
+    static _double of( double d){
+        return _double.of(d);
+    }
+
+    static _boolean of( boolean b){
+        return _boolean.of(b);
+    }
 
     /**
      * Given an AST expression, return the _expression equivalent

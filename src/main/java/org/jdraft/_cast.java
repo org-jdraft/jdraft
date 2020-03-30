@@ -6,10 +6,7 @@ import com.github.javaparser.ast.expr.LambdaExpr;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.function.*;
 
 /**
  *
@@ -33,6 +30,11 @@ public class _cast implements _expression<CastExpr, _cast>, _java._multiPart<Cas
     }
 
     public static <A extends Object> _cast of(Expressions.Command c){
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from(le);
+    }
+
+    public static <A extends Object> _cast of(Supplier<A> c){
         LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }

@@ -402,13 +402,13 @@ public class _tryStmt implements _statement._controlFlow._branching<TryStmt, _tr
         return addCatch(cc);
     }
 
-    public _tryStmt addCatch(CatchClause cc){
-        this.tryStmt.getCatchClauses().add(cc);
+    public _tryStmt addCatch(CatchClause... cc){
+        Arrays.stream(cc).forEach( c -> this.tryStmt.getCatchClauses().add(c));
         return this;
     }
 
-    public _tryStmt addCatch(_catch _c){
-        this.tryStmt.getCatchClauses().add(_c.ast());
+    public _tryStmt addCatch(_catch... _c){
+        Arrays.stream(_c).forEach( cc -> this.tryStmt.getCatchClauses().add(cc.ast()));
         return this;
     }
 

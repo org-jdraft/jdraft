@@ -1,10 +1,17 @@
 package org.jdraft;
 
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.CatchClause;
 import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
+import com.github.javaparser.ast.type.ReferenceType;
+import com.github.javaparser.ast.type.Type;
+import com.github.javaparser.ast.type.UnionType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -58,6 +65,26 @@ public class _catch implements _java._multiPart<CatchClause, _catch>,_body._hasB
         return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
+    public static _catch of( Class<? extends Throwable>...classes ){
+        CatchClause cc = new CatchClause();
+        if( classes.length == 0 ){
+            return of( cc );
+        }
+        if( classes.length == 1 ){
+            cc.setParameter( new Parameter(StaticJavaParser.parseClassOrInterfaceType(classes[0].getCanonicalName()), "e"));
+        }
+        else {
+            UnionType ut = new UnionType();
+            NodeList<ReferenceType> types = new NodeList<>();
+            for(int i=0;i<classes.length;i++){
+                types.add(StaticJavaParser.parseClassOrInterfaceType(classes[i].getCanonicalName() ));
+            }
+            ut.setElements(types);
+            cc.setParameter( new Parameter(ut, "e"));
+        }
+        return of(cc);
+    }
+
     private static _catch from( LambdaExpr le){
         Optional<CatchClause> ows = le.getBody().findFirst(CatchClause.class);
         if( ows.isPresent() ){
@@ -75,6 +102,49 @@ public class _catch implements _java._multiPart<CatchClause, _catch>,_body._hasB
 
     public _catch(CatchClause cc){
         this.cc = cc;
+    }
+
+    /**
+     * Does the single parameter have this type in it (either directly:
+     * (i.e. for IOException):
+     * <PRE>
+     * catch(IOException ioe){
+     * }
+     * </PRE>
+     * or using a UnionType:
+     * <PRE>
+     * catch(IOException | URISyntaxException e){
+     * }
+     * </PRE>
+     * i.e.
+     * then return true
+     * @param caughtExceptionType
+     * @return
+     */
+    public boolean hasType( Class<? extends Throwable> caughtExceptionType ){
+        return hasType(  StaticJavaParser.parseType(caughtExceptionType.getCanonicalName()) );
+        /*
+        Type t = this.cc.getParameter().getType();
+        Type targetType = StaticJavaParser.parseType(caughtExceptionType.getCanonicalName());
+        if( t instanceof UnionType ){
+            UnionType ut = t.asUnionType();
+            return ut.getElements().stream().anyMatch(tt -> Types.equal(tt, targetType));
+        }
+        return Types.equal(t, targetType);
+         */
+    }
+
+    public boolean hasType( _typeRef _t ){
+        return hasType(_t.ast());
+    }
+
+    public boolean hasType( Type caughtExceptionType ){
+        Type t = this.cc.getParameter().getType();
+        if( t instanceof UnionType ){
+            UnionType ut = t.asUnionType();
+            return ut.getElements().stream().anyMatch(tt -> Types.equal(tt, caughtExceptionType));
+        }
+        return Types.equal(t, caughtExceptionType);
     }
 
     public _parameter getParameter(){

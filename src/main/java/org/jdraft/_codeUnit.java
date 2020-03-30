@@ -52,6 +52,25 @@ public interface _codeUnit<_CU> extends _java._domain {
     }
 
     /**
+     * Build the _codeUnit from the string and return it
+     * could be:
+     * {@link _packageInfo}
+     * {@link _moduleInfo}
+     * {@link _type}
+     *     {@link _annotation}
+     *     {@link _enum}
+     *     {@link _class}
+     *     {@link _interface}
+     *
+     * @param contents the String contents of the _codeUnit
+     * @return the codeUnit
+     * @throws _jdraftException if we cannot parse the String representing the contents
+     */
+    static _codeUnit of(String...contents) throws _jdraftException {
+        return of( Ast.of(contents));
+    }
+
+    /**
      * Read and return the appropriate _code model based on the .java source
      * within the javaSourceFile
      *

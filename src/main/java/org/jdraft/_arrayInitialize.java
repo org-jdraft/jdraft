@@ -4,6 +4,10 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.*;
 
 import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * The initialization of an array. In the following sample, the outer { } is an ArrayInitializerExpr.
@@ -20,6 +24,49 @@ public class _arrayInitialize implements _expression<ArrayInitializerExpr, _arra
     public static _arrayInitialize of(ArrayInitializerExpr ai){
         return new _arrayInitialize(ai);
     }
+
+    public static <A extends Object> _arrayInitialize of(Expressions.Command c){
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from(le);
+    }
+
+    public static <A extends Object> _arrayInitialize of(Consumer<A> c){
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from(le);
+    }
+
+    public static <A extends Object, B extends Object> _arrayInitialize of(BiConsumer<A,B> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> _arrayInitialize of( Expressions.TriConsumer<A,B,C> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _arrayInitialize of( Expressions.QuadConsumer<A,B,C,D> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object> _arrayInitialize of( Function<A,B> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> _arrayInitialize of( BiFunction<A,B,C> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _arrayInitialize of( Expressions.TriFunction<A,B,C,D> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    private static _arrayInitialize from( LambdaExpr le){
+        Optional<ArrayInitializerExpr> ows = le.getBody().findFirst(ArrayInitializerExpr.class);
+        if( ows.isPresent() ){
+            return of(ows.get());
+        }
+        throw new _jdraftException("No ArrayCreationExpr found in lambda");
+    }
+
     public static _arrayInitialize of( String...code){
         return new _arrayInitialize(Expressions.arrayInitializerEx( code));
     }

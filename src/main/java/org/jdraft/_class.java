@@ -37,6 +37,10 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         _modifiers._withStatic<_class>, _type._withImplements<_class>,
         _type._withExtends<_class> {
 
+    public static _class of(){
+        return of( new ClassOrInterfaceDeclaration());
+    }
+
     /**
      * Build a _class from the source of the Class, while applying any
      * runtime _macro ANNOTATIONS (i.e. @_static, @_final...) to the components on the
@@ -113,6 +117,8 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         return of( new String[]{classDef1, classDef2});
     }
 
+
+
     /**
      * if you pass a single line, with a single token (NO SPACES) into this, we create a shortcut class
      * you can specify the PACKAGE_NAME.className
@@ -129,6 +135,9 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      */ 
     public static _class of( String...classDef ){
 
+        if( classDef.length == 0){
+            return of();
+        }
         if( classDef.length == 1){
             String[] strs = classDef[0].split(" ");
 

@@ -11,7 +11,14 @@ import java.util.Objects;
 public class _variable implements _java._node<VariableDeclarator, _variable>,
         _java._withNameTypeRef<VariableDeclarator, _variable> {
 
+    public static _variable of(){
+        return of( new VariableDeclarator());
+    }
+
     public static _variable of( String...var){
+        if( var.length == 0){
+            return of( );
+        }
         return new _variable( Ast.varDecl(var) );
     }
 

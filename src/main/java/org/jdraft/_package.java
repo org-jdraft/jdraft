@@ -7,6 +7,10 @@ import java.util.Objects;
 
 public class _package implements _java._node<PackageDeclaration, _package> {
 
+    public static _package of(){
+        return of( new PackageDeclaration());
+    }
+
     public static _package of( String packageName ){
         return of( Ast.packageDeclaration(packageName));
     }

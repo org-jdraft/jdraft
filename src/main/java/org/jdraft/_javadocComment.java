@@ -7,11 +7,18 @@ import java.util.Objects;
 
 public class _javadocComment implements _comment<JavadocComment, _javadocComment>, _java._node<JavadocComment, _javadocComment> {
 
+    public static _javadocComment of(){
+        return of(new JavadocComment());
+    }
+
     public static _javadocComment of(JavadocComment jdc ){
         return new _javadocComment( jdc );
     }
 
     public static _javadocComment of(String... commentContents){
+        if( commentContents.length == 0 ){
+            return of();
+        }
         return new _javadocComment( Ast.javadocComment( commentContents) );
     }
 

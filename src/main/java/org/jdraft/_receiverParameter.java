@@ -32,6 +32,10 @@ public final class _receiverParameter
         implements _java._multiPart<ReceiverParameter, _receiverParameter>,
         _java._withNameTypeRef<ReceiverParameter, _receiverParameter>, _annos._withAnnos<_receiverParameter> {
 
+    public static _receiverParameter of(){
+        return of( new ReceiverParameter());
+    }
+
     public static _receiverParameter of( String rp ) {
         return of( Ast.receiverParameter( rp ) );
     }

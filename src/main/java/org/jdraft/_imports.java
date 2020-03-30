@@ -24,9 +24,25 @@ import java.util.stream.Collectors;
  */
 public class _imports implements _java._set<ImportDeclaration, _import, _imports> {
 
+    public static _imports of(Class...clazzes){
+        CompilationUnit cu = new CompilationUnit();
+        Arrays.stream(clazzes).forEach(i -> cu.addImport(i));
+        return of( cu );
+    }
+
     public static _imports of(String... imports) {
-        String str = Text.combine(imports)+System.lineSeparator()+"class Unknown{}";
-        return of(Ast.of(str));
+        CompilationUnit cu = new CompilationUnit();
+        Arrays.stream(imports).forEach(i -> {
+            if( i.endsWith(";") ){
+                i = i.substring(0,i.length()-1);
+            }
+            if(i.startsWith("import ")){
+                cu.addImport(i.substring("import ".length()));
+            } else {
+                cu.addImport(i);
+            }
+        });
+        return of( cu );
     }
 
     public static _imports of(){

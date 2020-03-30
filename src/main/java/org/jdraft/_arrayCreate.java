@@ -73,7 +73,7 @@ public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate
         if( ows.isPresent() ){
             return of(ows.get());
         }
-        throw new _jdraftException("No binary expression found in lambda");
+        throw new _jdraftException("No ArrayCreationExpr found in lambda");
     }
 
     public ArrayCreationExpr astNode;

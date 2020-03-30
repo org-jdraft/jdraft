@@ -23,6 +23,10 @@ import org.jdraft.text.Text;
  */
 public class _name implements _java._uniPart<Node, _name> {
 
+    public static _name of(){
+        return of( new Name() );
+    }
+
     public static _name of( Node n){
         if( n instanceof Name ){
             return of( (Name)n);
@@ -56,6 +60,9 @@ public class _name implements _java._uniPart<Node, _name> {
     }
 
     public static _name of(String...name){
+        if( name.length == 0 ){
+            return of();
+        }
         String str = Text.combine(name);
         if( !str.contains(".") && !str.contains("::") ){
             //MUST be a name

@@ -26,6 +26,10 @@ public class _import implements _java._multiPart<ImportDeclaration, _import>,
         return of( this.astId.toString());
     }
 
+    public static _import of(){
+        return of(new ImportDeclaration(new Name(), false, false));
+    }
+
     /**
      * create a new _import over the ImportDeclaration
      * @param astId the ast ImportDeclaration

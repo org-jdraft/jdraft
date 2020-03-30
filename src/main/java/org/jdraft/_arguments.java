@@ -2,14 +2,16 @@ package org.jdraft;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.expr.ArrayCreationExpr;
 import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithArguments;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
+import java.util.Optional;
+import java.util.function.*;
 import java.util.stream.Collectors;
 
 /**
@@ -37,6 +39,54 @@ public class _arguments
         return of().add(_exs);
     }
 
+    /*
+    public static <A extends Object> _arguments of(Expressions.Command c){
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from(le);
+    }
+
+    public static <A extends Object> _arguments of(Consumer<A> c){
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from(le);
+    }
+
+    public static <A extends Object, B extends Object> _arguments of(BiConsumer<A,B> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> _arguments of( Expressions.TriConsumer<A,B,C> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _arguments of( Expressions.QuadConsumer<A,B,C,D> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+     */
+    public static <A extends Object> _arguments of( Supplier<A> supplier ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object> _arguments of( Function<A,B> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> _arguments of( BiFunction<A,B,C> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _arguments of( Expressions.TriFunction<A,B,C,D> command ){
+        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    private static _arguments from( LambdaExpr le){
+        Optional<ArrayCreationExpr> ows = le.getBody().findFirst(ArrayCreationExpr.class);
+        if( ows.isPresent() ){
+            return of(ows.get().getInitializer().get().getValues().toArray(new Expression[0]));
+        }
+        throw new _jdraftException("No binary expression found in lambda");
+    }
+
     public static _arguments of(String...args){
         if( args.length == 1){ //they might have already added the ()'s
             String code = args[0].trim();
@@ -61,6 +111,8 @@ public class _arguments
         sb.append(")");
         return of( Expressions.methodCallEx("empty"+ sb.toString()));
     }
+
+
 
     public static _arguments of(NodeWithArguments nwa){
          return new _arguments(nwa);

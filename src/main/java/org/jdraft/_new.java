@@ -21,6 +21,7 @@ public class _new implements _expression<ObjectCreationExpr, _new>,
     public static _new of(){
         return new _new( new ObjectCreationExpr() );
     }
+
     public static _new of( Class clazz){
         if( clazz.isPrimitive() ){
             throw new _jdraftException("cannot create a new primitive type of "+ clazz);

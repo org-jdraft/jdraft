@@ -64,6 +64,7 @@ public final class _typeRef<T extends Type>
         return new _typeRef( Types.typeRef( clazz ) );
     }
 
+
     /**
      *
      * @param string

@@ -3,16 +3,49 @@ package test.byexample;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.*;
+import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ForStmt;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.PrimitiveType;
+import com.github.javaparser.ast.type.Type;
 import junit.framework.TestCase;
 import org.jdraft.*;
 
 import java.io.IOException;
+import java.util.function.Predicate;
 
 public class AutoCompleteTest extends TestCase {
+
+    public void testBuildField(){
+        FieldDeclaration fd = new FieldDeclaration().setPublic(true).addVariable(new VariableDeclarator().setName("i").setType(PrimitiveType.intType()).setInitializer(new IntegerLiteralExpr("0")));
+        _field _f = _field.of("public int i=0");
+    }
+
+    public void testBuildLambda(){
+
+        //target
+        // (Integer a)-> System.out.println(a);
+        LambdaExpr l = new LambdaExpr(new Parameter(StaticJavaParser.parseType("Integer"), "a"), (BlockStmt)StaticJavaParser.parseStatement("System.out.println(a);") );
+
+
+        //LambdaExpr le = new LambdaExpr();
+        //le.setEnclosingParameters(true); //todo
+        //le.addParameter(new Parameter(StaticJavaParser.parseType("Integer"), "a"));
+        //le.setBody( StaticJavaParser.parseStatement("System.out.println(a);"));
+
+        System.out.println( l );
+
+        //target
+        // (Integer a)-> System.out.println(a);
+        _lambda _l = _lambda.of( (Integer a)-> System.out.println(a));
+
+
+        assertEquals( l, _l.ast() );
+
+    }
 
     public void testKeyPressesAndSaccades(){
         //keypresses & saccades
@@ -44,7 +77,7 @@ public class AutoCompleteTest extends TestCase {
     // Defining "Better" along these dimensions:
     // Familiarity - Its just Java code, and Objects runs like Java code, "feels" like Java (names should map 1 to 1)
     // Approachability - "Time for a complete novice to build a non-trivial & useful program with it"
-    // Verbosity - "Brevity is the soul of wit" (Polonius in Hamlet)
+    // Brevity- "... is the soul of wit" (Polonius in Hamlet)
     // Consistency - Learn how one model entity behaves & you understand how like model entities behave
     // Readability - "Eliminate the unnecessary so that the necessary may speak" (Hans Hofmann)
     // Maintainability - "How easy would it be for a complete novice to maintain a program you wrote (years ago)?"

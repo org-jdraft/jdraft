@@ -28,6 +28,10 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         _method._withMethods<_interface>, _typeParameters._withTypeParameters<_interface>,
         _type._withExtends<_interface> {
 
+    public static _interface of(){
+        return of( new ClassOrInterfaceDeclaration() );
+    }
+
     public static _interface of( Path p){
         return of(_io.inFile(p));
     }
@@ -59,6 +63,9 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
      * @return the _interface declaration
      */
     public static _interface of( String...interfaceDef ){
+        if( interfaceDef.length == 0 ){
+            return of();
+        }
         //Handle shortcut interfaces (i.e. _interface.of("I"), _interface.of("aaaa.bbbb.I")
         if( interfaceDef.length == 1){
             String[] strs = interfaceDef[0].split(" ");

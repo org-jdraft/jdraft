@@ -36,6 +36,10 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         _constructor._withConstructors<_enum, EnumDeclaration>, _initBlock._withInitBlocks<_enum>,
         _type._withImplements<_enum> {
 
+    public static _enum of(){
+        return of( new EnumDeclaration());
+    }
+
     public static _enum of( Path p){
         return of(_io.inFile(p));
     }
@@ -52,6 +56,9 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
     }
 
     public static _enum of( String...classDef ){
+        if( classDef.length == 0 ){
+            return of();
+        }
         if( classDef.length == 1){
             String[] strs = classDef[0].split(" ");
             if( strs.length == 1 ){

@@ -24,6 +24,7 @@ import java.util.Objects;
  */
 public class _qualifiedName implements _java._uniPart<Node, _qualifiedName> {
 
+
     public String getNameString(){
         String firstPart = "";
         if( this.name instanceof NodeWithOptionalScope ){
@@ -99,6 +100,7 @@ public class _qualifiedName implements _java._uniPart<Node, _qualifiedName> {
     }
 
     public static _qualifiedName of(String...name){
+
         String str = Text.combine(name);
 
         if( str.contains("::")){

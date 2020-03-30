@@ -11,6 +11,14 @@ public class _blockComment implements _comment<BlockComment, _blockComment>, _ja
         return new _blockComment( bc );
     }
 
+    public static _blockComment of(){
+        return of( new BlockComment());
+    }
+
+    public static _blockComment of(String commentContents){
+        return new _blockComment( Ast.blockComment( commentContents) );
+    }
+
     public static _blockComment of(String... commentContents){
         return new _blockComment( Ast.blockComment( commentContents) );
     }

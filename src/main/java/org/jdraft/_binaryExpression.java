@@ -25,6 +25,11 @@ public class _binaryExpression implements _expression<BinaryExpr, _binaryExpress
         return new _binaryExpression(Expressions.binaryEx( code));
     }
 
+    public static <A extends Object> _binaryExpression of(Supplier s){
+        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        return from(le);
+    }
+
     public static <A extends Object> _binaryExpression of(Expressions.Command c){
         LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
