@@ -263,8 +263,7 @@ public class BuildAllTest extends TestCase {
         //_expression.of()
 
         _java._domain[] ol = {
-                //generic statements
-                _statement.of( (a) -> System.out.println(a)),
+
                 //expressions
                 _assign.of( (Object a, Object b) -> a = b ),
                 _arrayCreate.of( ()-> { String[][] s = new String[1][3];} ),
@@ -280,10 +279,10 @@ public class BuildAllTest extends TestCase {
                     }
                 }),
 
-                // _statement
+                //generic statements
+                _statement.of( (a) -> System.out.println(a)),
+
                 _assertStmt.of( ()-> {assert (1==1);} ),
-
-
                 _parameters.of( (final Integer a, String... s)->{} ),
                 _arguments.of( ()-> new Object[]{1, "Value", System.currentTimeMillis()} )
         };
@@ -312,29 +311,7 @@ public class BuildAllTest extends TestCase {
             String[] values;
             int num;
         });
-
-
         System.out.println( _c );
     }
-
-    public void testCatch(){
-
-        _tryStmt _ts = _tryStmt.of();
-
-        _ts.addCatch( _catch.of(IOException.class, URISyntaxException.class));
-
-        _catch _c = _catch.of( IOException.class, URISyntaxException.class);
-        assertTrue( _c.hasType(IOException.class) );
-        assertTrue( _c.hasType(URISyntaxException.class) );
-
-        _c = _catch.of( IOException.class);
-        assertTrue( _c.hasType(IOException.class) );
-        assertFalse( _c.hasType(URISyntaxException.class) );
-
-        System.out.println( _c );
-    }
-
-
-
 
 }
