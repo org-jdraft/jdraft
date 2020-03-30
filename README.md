@@ -34,21 +34,8 @@ srcCode = _class.of(srcCode).forFields(f-> f.type(float.class)).toString();
 ```
   
 ### Why?
-developers should feel empowered
-with a small tool do big things quickly and automatically on large scale codebases  
-should be easy to learn and use 
-**_"more improv, less batch job"_** 
-Comparison tests for Tools
-[Eclipse JDT]()
-[Google Auto Value]()
-[Google Error Prone]()
-[IntelliJ PSI]()
-[JavaParser]()
-[JavaPoet]()
-[RascalMPL]()
-[RoslynSyntax]()
-[Semmle]()
-[Spoon]()
+developers should feel empowered with a small tool do big things quickly and automatically on large scale codebases  
+should be easy to learn and use for tasks like 
 <OL>
 <LI>Metaprogramming</LI>
 <LI>Code Generation</LI> 
@@ -56,6 +43,21 @@ Comparison tests for Tools
 <LI>Code Querying</LI>
 <LI>Code Evolution</LI>
 </OL>
+**_"more improv, less batch job"_** 
+
+### Comparison tests for related tools:
+ - [Eclipse JDT](https://github.com/org-jdraft/jdraft/blob/master/src/test/java/test/othertools/EclipseJDTTest.java)
+ - [Google Auto Value](https://github.com/org-jdraft/jdraft/blob/master/src/test/java/test/othertools/GoogleAutoValueTest.java)
+ - [Google Error Prone](https://github.com/org-jdraft/jdraft/blob/master/src/test/java/test/othertools/GoogleErrorProneTest.java)
+ - [IntelliJ PSI](https://github.com/org-jdraft/jdraft/blob/master/src/test/java/test/othertools/IntelliJPSIExample.java)
+ - [JavaParser](https://github.com/org-jdraft/jdraft/blob/master/src/test/java/test/othertools/JavaParserWebsiteTest.java)
+ - [JavaPoet](https://github.com/org-jdraft/jdraft/blob/master/src/test/java/test/othertools/JavaPoetTest.java)
+ - [Manifold](https://github.com/org-jdraft/jdraft/blob/master/src/test/java/test/othertools/ManifoldTest.java)
+ - [RascalMPL](https://github.com/org-jdraft/jdraft/blob/master/src/test/java/test/othertools/RascalMPLTest.java)
+ - [RoslynSyntax](https://github.com/org-jdraft/jdraft/blob/master/src/test/java/test/othertools/RoslynSyntaxTest.java)
+ - [Semmle](https://github.com/org-jdraft/jdraft/blob/master/src/test/java/test/othertools/SemmleLGTMQueryTests.java)
+ - [Spoon](https://github.com/org-jdraft/jdraft/blob/master/src/test/java/test/othertools/SpoolAnalysisTest.java)
+
 
 ### *How* to setup and use jdraft
 jdraft requires (2) things to compile/build/run:
@@ -65,7 +67,7 @@ jdraft requires (2) things to compile/build/run:
 <dependency>
   <groupId>com.github.javaparser</groupId>
   <artifactId>javaparser-core</artifactId>
-  <version>3.15.3</version>
+  <version>3.15.15</version>
 </dependency>
 ```   
  
