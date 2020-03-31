@@ -18,39 +18,39 @@ import java.util.function.Predicate;
 public class $comment implements $bot.$node<Comment, _comment, $comment> {
 
     /* Static Build Methods */
-    public static $comment lineComment(){
+    public static $comment line(){
         return of().$and(c-> c instanceof _lineComment);
     }
 
-    public static $comment lineComment(String...comment ){
+    public static $comment line(String...comment ){
         return of(_lineComment.of(comment)).$and(c-> c instanceof _lineComment);
     }
 
-    public static $comment lineComment(Predicate<_lineComment> predicate){
+    public static $comment line(Predicate<_lineComment> predicate){
         return of().$and(c-> c instanceof _lineComment && predicate.test((_lineComment)c ));
     }
 
-    public static $comment blockComment(){
+    public static $comment block(){
         return of().$and(c-> c instanceof _blockComment);
     }
 
-    public static $comment blockComment(String...comment ){
+    public static $comment block(String...comment ){
         return of(comment).$and(c-> c instanceof _blockComment);
     }
 
-    public static $comment blockComment(Predicate<_blockComment> predicate){
+    public static $comment block(Predicate<_blockComment> predicate){
         return of().$and(c-> c instanceof _blockComment && predicate.test((_blockComment)c ));
     }
 
-    public static $comment javadocComment(){
+    public static $comment javadoc(){
         return of().$and(c-> c instanceof _javadocComment);
     }
 
-    public static $comment javadocComment(String...comment ){
+    public static $comment javadoc(String...comment ){
         return of(_javadocComment.of(comment)).$and(c-> c instanceof _javadocComment);
     }
 
-    public static $comment javadocComment(Predicate<_javadocComment> predicate){
+    public static $comment javadoc(Predicate<_javadocComment> predicate){
         return of().$and(c-> c instanceof _javadocComment && predicate.test((_javadocComment)c ));
     }
 

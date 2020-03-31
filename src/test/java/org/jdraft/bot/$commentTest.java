@@ -8,37 +8,51 @@ public class $commentTest extends TestCase {
     public void testRR(){
         /** class javadoc */
         class C{
-            //orphaned line comment 1
-            /* orphaned block comment 1*/
-            /** orphaned javadoc */
+            //comment 1
+            int i;
+            /* block comment 1*/
+            int j;
+            /** javadoc */
+            int k;
         }
+        //System.out.println( Ast.of(C.class) );
+        _class _c = _class.of(C.class);
+        assertEquals(4, _c.listAllComments().size() );
 
-        System.out.println( Ast.of(C.class) );
-
+        assertEquals( 1, _c.listAllBlockComments().size());
+        assertEquals( 1, _c.listAllLineComments().size());
+        assertEquals( 2, _c.listAllJavadocComments().size());
     }
+
     public void testC(){
         /** class javadoc */
         class C{
-            //orphaned line comment 1
+            //line comment 1
             int i;
-            /* orphaned block comment 1*/
+            /* block comment 1*/
             int j;
-            /** orphaned javadoc */
+            /** javadoc */
             int k;
         }
-
-        System.out.println( Ast.of(C.class) );
-
+        //System.out.println( Ast.of(C.class) );
         //System.out.println( _class.of(C.class) );
+
+        assertEquals(1, $comment.line().countIn(C.class));
+        assertEquals(1, $comment.block().countIn(C.class));
+        assertEquals(2, $comment.javadoc().countIn(C.class));
 
         $comment $c = $comment.of();
         assertTrue( $c.isMatchAny() );
+        assertEquals( 4, $c.countIn(C.class));
+
+
 
         $comment.of().printIn(C.class);
 
         assertEquals(4, $comment.of().countIn(C.class));
         assertEquals(4, $c.listSelectedIn(C.class).size());
 
+        //test remove
         _class _c = $c.removeIn(C.class);
         assertEquals( 0, $c.countIn(_c) );
         //System.out.println( _c );
@@ -47,6 +61,27 @@ public class $commentTest extends TestCase {
         assertTrue($c.matches("/**JDC*/"));
         assertTrue($c.matches("/*BC*/"));
         assertTrue($c.matches("// line comment"));
+
+        $c = $comment.of(c-> c.isAttributed());
+        assertEquals( 4, $c.countIn(C.class));
+
+        //test lambdas
+        assertEquals( 1, $comment.line(c-> c.isAttributed()).countIn(C.class));
+        assertEquals( 1, $comment.block(c-> c.isAttributed()).countIn(C.class));
+        assertEquals( 2, $comment.javadoc(c-> c.isAttributed()).countIn(C.class));
+
+        assertTrue( $comment.of("line comment 1").stencil.matches("line comment 1"));
+        _lineComment _lc = _lineComment.of("line comment 1");
+        assertEquals( "line comment 1", _lc.getContents());
+        assertEquals(1, $comment.of("line comment 1").countIn(C.class));
+        assertEquals(1, $comment.of("block comment 1").countIn(C.class));
+        assertEquals(1, $comment.of("class javadoc").countIn(C.class));
+        assertEquals(1, $comment.of("javadoc").countIn(C.class));
+
+        assertEquals(1, $comment.line("line comment 1").countIn(C.class));
+        assertEquals(1, $comment.block("block comment 1").countIn(C.class));
+        assertEquals(1, $comment.javadoc("class javadoc").countIn(C.class));
+        assertEquals(1, $comment.javadoc("javadoc").countIn(C.class));
     }
 
     public void testF(){
@@ -57,7 +92,7 @@ public class $commentTest extends TestCase {
             int i=0;
         }
         assertEquals( 1, $comment.of(c-> c instanceof _blockComment).countIn(GG.class));
-        assertEquals( 1, $comment.blockComment().countIn(GG.class));
+        assertEquals( 1, $comment.block().countIn(GG.class));
 
         assertEquals( 2, $comment.of().$isAttributed().countIn(GG.class)); //lineComment
         assertEquals( 1, $comment.of().$isAttributed(false).countIn(GG.class)); /*blockComment*/

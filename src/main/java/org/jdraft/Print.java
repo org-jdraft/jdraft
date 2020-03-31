@@ -268,7 +268,7 @@ public interface Print {
             if (configuration.isIgnoreComments()) {
                 return;
             }
-            printer.println(normalizeEolInTextBlock(n.getContent(), "").trim());
+            printer.print(normalizeEolInTextBlock(n.getContent(), "").trim());
         }
 
         @Override
