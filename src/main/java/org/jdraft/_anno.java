@@ -972,7 +972,7 @@ public final class _anno
         }
         final _anno other = (_anno)obj;
 
-        return Expressions.equivalent(astAnno, other.astAnno);
+        return Expressions.equal(astAnno, other.astAnno);
     }
 
     @Override
@@ -1066,18 +1066,18 @@ public final class _anno
 
         public boolean isValue( String... ex){
             try {
-                return Expressions.equivalent(this.mvp.getValue(), Expressions.of(ex));
+                return Expressions.equal(this.mvp.getValue(), Expressions.of(ex));
             }catch(Exception e){
                 return false;
             }
         }
 
         public boolean isValue( _expression _e){
-            return Expressions.equivalent(this.mvp.getValue(), _e.ast());
+            return Expressions.equal(this.mvp.getValue(), _e.ast());
         }
 
         public boolean isValue( Expression e){
-            return Expressions.equivalent(this.mvp.getValue(), e);
+            return Expressions.equal(this.mvp.getValue(), e);
         }
 
 

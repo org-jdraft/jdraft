@@ -58,7 +58,7 @@ public class _switchStmtTest extends TestCase {
     public void testEnumToEnum(){
         Suit s = Suit.CLUBS;
         _switchStmt _ss = _switchStmt.of("rtos");
-        _ss.map(Rank.ACE, Suit.SPADES);
+        _ss.mapReturn(Rank.ACE, Suit.SPADES);
 
         System.out.println( _ss );
     }
@@ -101,10 +101,10 @@ public class _switchStmtTest extends TestCase {
     */
     public void testEnumValues(){
         _switchStmt _s = _switchStmt.of("a");
-        _s.map(1, Suit.SPADES);
-        _s.map(2, Suit.HEARTS);
-        _s.map(3, Suit.DIAMONDS);
-        _s.map(4, Suit.CLUBS);
+        _s.mapReturn(1, Suit.SPADES);
+        _s.mapReturn(2, Suit.HEARTS);
+        _s.mapReturn(3, Suit.DIAMONDS);
+        _s.mapReturn(4, Suit.CLUBS);
         _s.setDefault((Object r)-> Suit.CLUBS);
 
         System.out.println( _s);
@@ -113,10 +113,10 @@ public class _switchStmtTest extends TestCase {
     }
     public void testEnumCases(){
         _switchStmt _s = _switchStmt.of("a");
-        _s.map(Suit.SPADES, 1);
-        _s.map(Suit.HEARTS, 2);
-        _s.map(Suit.DIAMONDS, 3);
-        _s.map(Suit.CLUBS, 4);
+        _s.mapReturn(Suit.SPADES, 1);
+        _s.mapReturn(Suit.HEARTS, 2);
+        _s.mapReturn(Suit.DIAMONDS, 3);
+        _s.mapReturn(Suit.CLUBS, 4);
         _s.setDefault((Object r)-> -1);
         assertEquals( 5, _s.listCaseGroups().size());
         assertEquals( 5, _s.listSwitchEntries().size());
@@ -126,10 +126,10 @@ public class _switchStmtTest extends TestCase {
 
     public void testEnumCasesMulti(){
         _switchStmt _s = _switchStmt.of("a");
-        _s.map(Suit.SPADES, 1);
-        _s.map(Suit.HEARTS, 2);
-        _s.map(Suit.DIAMONDS, 2);
-        _s.map(Suit.CLUBS, 1);
+        _s.mapReturn(Suit.SPADES, 1);
+        _s.mapReturn(Suit.HEARTS, 2);
+        _s.mapReturn(Suit.DIAMONDS, 2);
+        _s.mapReturn(Suit.CLUBS, 1);
         _s.setDefault("return -1;");
 
         assertEquals( 3, _s.listCaseGroups().size());
@@ -170,40 +170,40 @@ public class _switchStmtTest extends TestCase {
     public void testMapTypesKeysValues(){
         _switchStmt _ss = _switchStmt.of("a");
         //String
-        _ss.map("A",1);
-        _ss.map("B", 'c');
-        _ss.map("C", Long.MAX_VALUE);
-        _ss.map("D", 12.03d);
-        _ss.map("E", 12.03f);
-        _ss.map(  "F", "G");
+        _ss.mapReturn("A",1);
+        _ss.mapReturn("B", 'c');
+        _ss.mapReturn("C", Long.MAX_VALUE);
+        _ss.mapReturn("D", 12.03d);
+        _ss.mapReturn("E", 12.03f);
+        _ss.mapReturn(  "F", "G");
 
         //int
-        _ss.map(1,1);
-        _ss.map(1, 'c');
-        _ss.map(1, Long.MAX_VALUE);
-        _ss.map(1, 12.03d);
-        _ss.map(1, 12.03f);
-        _ss.map(1, "G");
+        _ss.mapReturn(1,1);
+        _ss.mapReturn(1, 'c');
+        _ss.mapReturn(1, Long.MAX_VALUE);
+        _ss.mapReturn(1, 12.03d);
+        _ss.mapReturn(1, 12.03f);
+        _ss.mapReturn(1, "G");
 
         //char
-        _ss.map('a',1);
-        _ss.map('b', 'c');
-        _ss.map('c', Long.MAX_VALUE);
-        _ss.map('d', 12.03d);
-        _ss.map('e', 12.03f);
-        _ss.map('f', "G");
+        _ss.mapReturn('a',1);
+        _ss.mapReturn('b', 'c');
+        _ss.mapReturn('c', Long.MAX_VALUE);
+        _ss.mapReturn('d', 12.03d);
+        _ss.mapReturn('e', 12.03f);
+        _ss.mapReturn('f', "G");
 
-        _ss.map( _int.of("0xDEAD").ast(), 1 );
-        _ss.map( _int.of("0xBEEF").ast(), 2 );
+        _ss.mapReturn( _int.of("0xDEAD").ast(), 1 );
+        _ss.mapReturn( _int.of("0xBEEF").ast(), 2 );
         System.out.println( _ss);
     }
 
 
     public void testMapVars(){
         _switchStmt _ss = _switchStmt.of("a");
-        _ss.map(1, "A");
-        _ss.map(2, "A");
-        _ss.map(3, "B");
+        _ss.mapReturn(1, "A");
+        _ss.mapReturn(2, "A");
+        _ss.mapReturn(3, "B");
 
         _switchStmt _ss2 = _switchStmt.of("a");
         _ss2.mapCode(1, _returnStmt.ofString("A"));
@@ -225,7 +225,7 @@ public class _switchStmtTest extends TestCase {
 
         _switchStmt _ss = _switchStmt.of("a");
         keyToValue.forEach( (k,v)->{
-                _ss.map(k, v);
+                _ss.mapReturn(k, v);
         } );
 
         //verify I can set the default

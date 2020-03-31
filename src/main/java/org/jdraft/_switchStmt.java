@@ -222,7 +222,6 @@ public class _switchStmt implements _statement._controlFlow._branching<SwitchStm
         return lc.get(0);
     }
 
-
     /**
      * gets the _switchEntry by the caseConstant
      * @param e
@@ -363,12 +362,12 @@ public class _switchStmt implements _statement._controlFlow._branching<SwitchStm
         return mapCode(s, _l.astLambda);
     }
 
-    public <A extends Object, B extends Object> _switchStmt  mapCode (String s,Function<A,B> lambdaContainer){
+    public <A extends Object, B extends Object> _switchStmt mapCode (String s,Function<A,B> lambdaContainer){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
         return mapCode(s, _l.astLambda);
     }
 
-    public <A extends Object, B extends Object, C extends Object> _switchStmt  mapCode (String s,BiFunction<A,B,C> lambdaContainer){
+    public <A extends Object, B extends Object, C extends Object> _switchStmt mapCode (String s,BiFunction<A,B,C> lambdaContainer){
         _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
         return mapCode(s, _l.astLambda);
     }
@@ -521,7 +520,11 @@ public class _switchStmt implements _statement._controlFlow._branching<SwitchStm
     }
 
     public _switchStmt mapCode(String s, _statement... _st){
-        return mapCode(_string.of(s), _st);
+        //try{
+        //    return mapCode( Expressions.of(s), _st);
+        //}catch(Exception e){
+            return mapCode(_string.of(s), _st);
+        //}
     }
 
     public _switchStmt mapCode(int i, _statement... _st){
@@ -540,6 +543,12 @@ public class _switchStmt implements _statement._controlFlow._branching<SwitchStm
         List<Statement>sts = new ArrayList<>();
         Arrays.stream(_st).forEach(_s -> sts.add( _s.ast()));
         return mapCode(_e.ast(), sts.toArray(new Statement[0]));
+    }
+
+    public _switchStmt mapCode(Expression e, _statement... _st){
+        List<Statement>sts = new ArrayList<>();
+        Arrays.stream(_st).forEach(_s -> sts.add( _s.ast()));
+        return mapCode(e, sts.toArray(new Statement[0]));
     }
 
     public _switchStmt mapCode(Expression e, Statement... sts) {
@@ -587,178 +596,226 @@ public class _switchStmt implements _statement._controlFlow._branching<SwitchStm
     }
 
     public _switchStmt mapCode(String s, Statement... st){
+        //try{
+            //they might have passed a String as the expression
+        //    Expression ex = Expressions.of(s);
+        //    return mapCode(ex, st);
+        //} catch(Exception e) {
         return mapCode(new StringLiteralExpr(s), st);
+        //}
     }
 
     public _switchStmt mapCode(int i, Statement... st){
         return mapCode(new IntegerLiteralExpr(i), st);
     }
 
-    public _switchStmt map(char c, long l){
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(char c, long l){
         return mapCode(new CharLiteralExpr( c), _returnStmt.of(l).ast());
     }
 
-    public _switchStmt map(String s, long l){
-        return mapCode(new StringLiteralExpr(s), _returnStmt.of(l).ast());
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(String s, long l){
+        return mapCode(s, _returnStmt.of(l).ast());
     }
 
-    public _switchStmt map(int i, long l){
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(int i, long l){
         return mapCode(new IntegerLiteralExpr(i), _returnStmt.of(l).ast());
     }
 
-    public _switchStmt map(_expression _e, long ll){
-        return map(_e.ast(), ll);
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(_expression _e, long ll){
+        return mapReturn(_e.ast(), ll);
     }
 
-    public _switchStmt map(Expression e, long ll){
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(Expression e, long ll){
         return mapCode(e, _returnStmt.of(ll).ast());
     }
 
-    public <E extends Enum> _switchStmt map(E e, long ll){
+    /** map the case constant to the following return value */
+    public <E extends Enum> _switchStmt mapReturn(E e, long ll){
         return mapCode(_nameExpression.of(e.name()).ast(), _returnStmt.of(ll).ast());
     }
 
-    public _switchStmt map(char c, char c2){
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(char c, char c2){
         return mapCode(new CharLiteralExpr( c), _returnStmt.of(c2).ast());
     }
 
-    public _switchStmt map(String s, char c){
-        return mapCode(new StringLiteralExpr(s), _returnStmt.of(c).ast());
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(String s, char c){
+        return mapCode( s, _returnStmt.of(c).ast());
     }
 
-    public _switchStmt map(int i, char c){
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(int i, char c){
         return mapCode(new IntegerLiteralExpr(i), _returnStmt.of(c).ast());
     }
 
-    public _switchStmt map(_expression _e, char c){
-        return map(_e.ast(), c);
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(_expression _e, char c){
+        return mapReturn(_e.ast(), c);
     }
 
-    public _switchStmt map(Expression e, char c){
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(Expression e, char c){
         return mapCode(e, _returnStmt.of(c).ast());
     }
 
-    public <E extends Enum> _switchStmt map(E e, char c){
+    /** map the case constant to the following return value */
+    public <E extends Enum> _switchStmt mapReturn(E e, char c){
         return mapCode(_nameExpression.of(e.name()).ast(), _returnStmt.of(c).ast());
     }
 
-    public _switchStmt map(char c, int ii){
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(char c, int ii){
         return mapCode(new CharLiteralExpr( c), _returnStmt.of(ii).ast());
     }
 
-    public _switchStmt map(String s, int ii){
-        return mapCode(new StringLiteralExpr(s), _returnStmt.of(ii).ast());
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(String s, int ii){
+        return mapCode( s, _returnStmt.of(ii).ast());
     }
 
-    public _switchStmt map(int i, int ii){
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(int i, int ii){
         return mapCode(new IntegerLiteralExpr(i), _returnStmt.of(ii).ast());
     }
 
-    public _switchStmt map(_expression _e, int ii){
-        return map(_e.ast(), ii);
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(_expression _e, int ii){
+        return mapReturn(_e.ast(), ii);
     }
 
-    public _switchStmt map(Expression e, int ii){
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(Expression e, int ii){
         return mapCode(e, _returnStmt.of(ii).ast());
     }
 
-    public <E extends Enum> _switchStmt map(E e, int ii){
+    /** map the case constant to the following return value */
+    public <E extends Enum> _switchStmt mapReturn(E e, int ii){
         return mapCode(_nameExpression.of(e.name()).ast(), _returnStmt.of(ii).ast());
     }
 
-    public _switchStmt map(char c, String s){
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(char c, String s){
         return mapCode(new CharLiteralExpr( c), _returnStmt.ofString(s).ast());
     }
 
-    public _switchStmt map(String s, String s2){
-        return mapCode(new StringLiteralExpr(s), _returnStmt.ofString(s2).ast());
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(String s, String s2){
+        return mapCode( s, _returnStmt.ofString(s2).ast());
     }
 
-    public _switchStmt map(int i, String s){
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(int i, String s){
         return mapCode(new IntegerLiteralExpr(i), _returnStmt.ofString(s).ast());
     }
 
-    public _switchStmt map(_expression _e, String s){
-        return map(_e.ast(), s);
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(_expression _e, String s){
+        return mapReturn(_e.ast(), s);
     }
 
-    public _switchStmt map(Expression e, String s){
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(Expression e, String s){
         return mapCode(e, _returnStmt.ofString(s).ast());
     }
 
-    public <E extends Enum> _switchStmt map(E e, String str){
+    /** map the case constant to the following return value */
+    public <E extends Enum> _switchStmt mapReturn(E e, String str){
         return mapCode(_nameExpression.of(e.name()).ast(), _returnStmt.ofString(str).ast());
     }
 
-    public _switchStmt map(char c, double dd){
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(char c, double dd){
         return mapCode(new CharLiteralExpr( c), _returnStmt.of(dd).ast());
     }
 
-    public _switchStmt map(String s, double dd){
-        return mapCode(new StringLiteralExpr(s), _returnStmt.of(dd).ast());
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(String s, double dd){
+        return mapCode( s, _returnStmt.of(dd).ast());
     }
 
-    public _switchStmt map(int i, double dd){
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(int i, double dd){
         return mapCode(new IntegerLiteralExpr(i), _returnStmt.of(dd).ast());
     }
 
-    public _switchStmt map(_expression _e, double dd){
-        return map(_e.ast(), dd);
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(_expression _e, double dd){
+        return mapReturn(_e.ast(), dd);
     }
 
-    public _switchStmt map(Expression e, double dd){
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(Expression e, double dd){
         return mapCode(e, _returnStmt.of(dd).ast());
     }
 
-    public <E extends Enum> _switchStmt map(E e, double dd){
+    /** map the case constant to the following return value */
+    public <E extends Enum> _switchStmt mapReturn(E e, double dd){
         return mapCode(_nameExpression.of(e.name()).ast(), _returnStmt.of(dd).ast());
     }
 
-    public _switchStmt map(char c, float ff){
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(char c, float ff){
         return mapCode(new CharLiteralExpr( c), _returnStmt.of(ff).ast());
     }
 
-    public _switchStmt map(String s, float ff){
-        return mapCode(new StringLiteralExpr(s), _returnStmt.of(ff).ast());
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(String s, float ff){
+        return mapCode( s, _returnStmt.of(ff).ast());
     }
 
-    public _switchStmt map(int i, float ff){
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(int i, float ff){
         return mapCode(new IntegerLiteralExpr(i), _returnStmt.of(ff).ast());
     }
 
-    public _switchStmt map(_expression _e, float ff){
-        return map(_e.ast(), ff);
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(_expression _e, float ff){
+        return mapReturn(_e.ast(), ff);
     }
 
-    public _switchStmt map(Expression e, float ff){
+    /** map the case constant to the following return value */
+    public _switchStmt mapReturn(Expression e, float ff){
         return mapCode(e, _returnStmt.of(ff).ast());
     }
 
-    public <E extends Enum> _switchStmt map(E e, float ff){
+    /** map the case constant to the following return value */
+    public <E extends Enum> _switchStmt mapReturn(E e, float ff){
         return mapCode(_nameExpression.of(e.name()).ast(), _returnStmt.of(ff).ast());
     }
 
-    public <E extends Enum>_switchStmt map(char c, E e){
+    /** map the case constant to the following return value */
+    public <E extends Enum>_switchStmt mapReturn(char c, E e){
         return mapCode(new CharLiteralExpr( c), _returnStmt.of(e).ast());
     }
 
-    public <E extends Enum>_switchStmt map(String s, E e){
-        return mapCode(new StringLiteralExpr(s), _returnStmt.of(e).ast());
+    /** map the case constant to the following return value */
+    public <E extends Enum>_switchStmt mapReturn(String s, E e){
+        return mapCode( s, _returnStmt.of(e).ast());
     }
 
-    public <E extends Enum>_switchStmt map(int i, E e){
+    /** map the case constant to the following return value */
+    public <E extends Enum>_switchStmt mapReturn(int i, E e){
         return mapCode(new IntegerLiteralExpr(i), _returnStmt.of(e).ast());
     }
 
-    public <E extends Enum>_switchStmt map(_expression _e, E e){
+    /** map the case constant to the following return value */
+    public <E extends Enum>_switchStmt mapReturn(_expression _e, E e){
         return mapCode(_e.ast(), _returnStmt.of(e).ast());
     }
 
-    public <E extends Enum>_switchStmt map(Expression e, E en){
+    /** map the case constant to the following return value */
+    public <E extends Enum>_switchStmt mapReturn(Expression e, E en){
         return mapCode(e, _returnStmt.of(en).ast());
     }
 
-    public <E extends Enum, EE extends Enum> _switchStmt map(E e, EE ee){
+    /** map the case constant to the following return value */
+    public <E extends Enum, EE extends Enum> _switchStmt mapReturn(E e, EE ee){
         return mapCode(_nameExpression.of(e.name()).ast(), _returnStmt.of(ee).ast());
     }
 
@@ -911,13 +968,6 @@ public class _switchStmt implements _statement._controlFlow._branching<SwitchStm
         }
         return null;
     }
-    public _switchStmt setDefault(_statement... _sts){
-        Statement[] sts = new Statement[_sts.length];
-        for(int i=0;i<_sts.length; i++){
-            sts[i] = _sts[i].ast();
-        }
-        return setDefault(handleBrake(sts));
-    }
 
     private Statement[] handleBrake(Statement... stmts){
         if( autoBreakStatements ){
@@ -931,6 +981,15 @@ public class _switchStmt implements _statement._controlFlow._branching<SwitchStm
         }
         return stmts;
     }
+
+    public _switchStmt setDefault(_statement... _sts){
+        Statement[] sts = new Statement[_sts.length];
+        for(int i=0;i<_sts.length; i++){
+            sts[i] = _sts[i].ast();
+        }
+        return setDefault(handleBrake(sts));
+    }
+
     public _switchStmt setDefault(Statement... statements){
         _switchEntry se = getDefault();
         if( se != null ){
@@ -988,7 +1047,6 @@ public class _switchStmt implements _statement._controlFlow._branching<SwitchStm
         return _ses;
     }
 
-
     /**
      *
      * @return
@@ -1003,7 +1061,6 @@ public class _switchStmt implements _statement._controlFlow._branching<SwitchStm
         });
         return _ses;
     }
-
 
     /**
      * Sets the switch entries based on the SwitchEntries

@@ -1371,21 +1371,21 @@ public interface _java {
 
         default boolean isScope(String...expr){
             if( ((NodeWithOptionalScope)ast()).getScope().isPresent()){
-                return Expressions.equivalent( (Expression)((NodeWithOptionalScope)ast()).getScope().get(), Expressions.of(expr));
+                return Expressions.equal( (Expression)((NodeWithOptionalScope)ast()).getScope().get(), Expressions.of(expr));
             }
             return false;
         }
 
         default boolean isScope(Expression e){
             if( ((NodeWithOptionalScope)ast()).getScope().isPresent()){
-                return Expressions.equivalent( (Expression) ((NodeWithOptionalScope)ast()).getScope().get(), e);
+                return Expressions.equal( (Expression) ((NodeWithOptionalScope)ast()).getScope().get(), e);
             }
             return e == null;
         }
 
         default boolean isScope(_expression _e){
             if( ((NodeWithOptionalScope)ast()).getScope().isPresent()){
-                return Expressions.equivalent( (Expression) ((NodeWithOptionalScope)ast()).getScope().get(), _e.ast());
+                return Expressions.equal( (Expression) ((NodeWithOptionalScope)ast()).getScope().get(), _e.ast());
             }
             return _e == null;
         }
@@ -1435,11 +1435,11 @@ public interface _java {
         }
 
         default boolean isCondition(_expression _ex){
-            return Expressions.equivalent(  this.getCondition().ast(), _ex.ast());
+            return Expressions.equal(  this.getCondition().ast(), _ex.ast());
         }
 
         default boolean isCondition(Expression ex){
-            return Expressions.equivalent( this.getCondition().ast(), ex);
+            return Expressions.equal( this.getCondition().ast(), ex);
         }
 
         default boolean isCondition(Predicate<_expression> matchFn){
@@ -1475,11 +1475,11 @@ public interface _java {
         }
 
         default boolean isExpression(_expression _ex){
-            return Expressions.equivalent( this.getExpression().ast(), _ex.ast());
+            return Expressions.equal( this.getExpression().ast(), _ex.ast());
         }
 
         default boolean isExpression(Expression ex){
-            return Expressions.equivalent( this.getExpression().ast(), ex);
+            return Expressions.equal( this.getExpression().ast(), ex);
         }
 
         default boolean isExpression(Predicate<_expression> matchFn){

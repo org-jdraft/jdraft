@@ -251,7 +251,7 @@ public final class _method
         if (this.astMethod == other.astMethod) {
             return true; //two _method s pointing to the same MethodDeclaration
         }
-        if( ! Expressions.equivalentAnnos(astMethod, other.astMethod)){
+        if( ! Expressions.equalAnnos(astMethod, other.astMethod)){
             return false;
         }
         if (!Objects.equals(this.getBody(), other.getBody())) {

@@ -2235,10 +2235,10 @@ public interface $pattern<P, $P extends $pattern>{
                 return s.equals(v);
             }
             if (expectedValue instanceof Expression) {
-                return Expressions.equivalent((Expression) expectedValue, get($name));
+                return Expressions.equal((Expression) expectedValue, get($name));
             } else if (expectedValue instanceof String) {
                 try {
-                    return Expressions.equivalent(Expressions.of((String) expectedValue), o);
+                    return Expressions.equal(Expressions.of((String) expectedValue), o);
                 } catch (Exception e) {
 
                 }

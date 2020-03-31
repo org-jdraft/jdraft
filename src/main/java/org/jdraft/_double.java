@@ -45,7 +45,7 @@ public class _double implements _expression._literal<DoubleLiteralExpr, _double>
     }
 
     public boolean is(double d){
-        return Expressions.equivalent(de, d);
+        return Expressions.equal(de, d);
     }
 
     public Double getValue(){

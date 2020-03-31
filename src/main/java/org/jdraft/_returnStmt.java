@@ -112,11 +112,11 @@ public class _returnStmt implements _statement._controlFlow._signal<ReturnStmt, 
     }
 
     public boolean isExpression(_expression _ex){
-        return Expressions.equivalent( this.getExpression().ast(), _ex.ast());
+        return Expressions.equal( this.getExpression().ast(), _ex.ast());
     }
 
     public boolean isExpression(Expression ex){
-        return Expressions.equivalent( this.getExpression().ast(), ex);
+        return Expressions.equal( this.getExpression().ast(), ex);
     }
 
     public boolean isExpression(Predicate<_expression> matchFn){

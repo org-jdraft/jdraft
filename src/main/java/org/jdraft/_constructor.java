@@ -151,7 +151,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
         if( this.astCtor == other.astCtor ) {
             return true; //two _constructor instances pointing to same ConstructorDeclaration instance
         }        
-        if( ! Expressions.equivalentAnnos(this.astCtor, other.astCtor)){
+        if( ! Expressions.equalAnnos(this.astCtor, other.astCtor)){
             return false;
         }
         if( !Objects.equals( this.getBody(), other.getBody() ) ) {

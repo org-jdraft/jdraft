@@ -372,7 +372,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         if( this.astConstant == other.astConstant){
             return true; //two _constant pointing to the same AstEnumDeclaration
         }
-        if( !Expressions.equivalentAnnos(this.astConstant, other.astConstant ) ){
+        if( !Expressions.equalAnnos(this.astConstant, other.astConstant ) ){
             return false;
         }
         if( !Objects.equals( this.getJavadoc(), other.getJavadoc() ) ) {

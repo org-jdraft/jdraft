@@ -742,7 +742,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             Log.trace("Expected javadoc %s got: %s", this::getJavadoc, other::getJavadoc);
             return false;
         }
-        if( ! Expressions.equivalentAnnos(this.astClass, other.astClass)){
+        if( ! Expressions.equalAnnos(this.astClass, other.astClass)){
             Log.trace("Expected annos %s got: %s", this.astClass::getAnnotations, other.astClass::getAnnotations);
             return false;
         }

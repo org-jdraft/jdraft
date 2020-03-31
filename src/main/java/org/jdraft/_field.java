@@ -382,7 +382,7 @@ public final class _field
         if (!Types.equal(this.astVar.getType(), other.astVar.getType())) {
             return false;
         }
-        if( !Expressions.equivalent(getInit(), other.getInit())) {
+        if( !Expressions.equal(getInit(), other.getInit())) {
             return false;
         }        
         if (!Objects.equals(getJavadoc(), other.getJavadoc())) {
@@ -393,7 +393,7 @@ public final class _field
                 if (!Modifiers.modifiersEqual(getFieldDeclaration(), other.getFieldDeclaration())) {
                     return false;
                 }
-                if(! Expressions.equivalentAnnos(getFieldDeclaration(), other.getFieldDeclaration()) ){
+                if(! Expressions.equalAnnos(getFieldDeclaration(), other.getFieldDeclaration()) ){
                     return false;
                 }                
             }

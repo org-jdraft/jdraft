@@ -1,13 +1,10 @@
 package org.jdraft;
 
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.nodeTypes.SwitchNode;
 import com.github.javaparser.ast.stmt.*;
-import com.github.javaparser.ast.type.ReferenceType;
-import com.github.javaparser.ast.type.UnionType;
+import com.github.javaparser.ast.type.Type;
 import org.jdraft.text.Text;
 
 import java.util.*;
@@ -424,6 +421,128 @@ public class _caseGroup implements _java._domain{
         return this.getOrCreateActiveEntry().getType().equals(SwitchEntry.Type.THROWS_STATEMENT);
     }
 
+    /**
+     * is the LAST statement in the case body-logic a Return statement
+     * @return
+     */
+    public boolean isReturn(){
+        SwitchEntry se = this.getOrCreateActiveEntry();
+        if( se.getStatements().size() > 0 ) {
+            if( se.getStatement(se.getStatements().size() - 1) instanceof ReturnStmt){
+                return true;
+            }
+            if( se.getStatement(se.getStatements().size() - 1) instanceof BlockStmt){
+                BlockStmt bs = (BlockStmt)se.getStatement(se.getStatements().size() - 1);
+                if( (bs.getStatements().size() > 0) && (bs.getStatement(bs.getStatements().size()) instanceof ReturnStmt ) ){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean isReturn(double d){
+        return isReturn( Expressions.of(d));
+    }
+
+    public boolean isReturn(float f){
+        return isReturn( Expressions.of(f));
+    }
+
+    public boolean isReturn(boolean b){
+        return isReturn( Expressions.of(b));
+    }
+
+    public boolean isReturn(char c){
+        return isReturn( Expressions.of(c));
+    }
+
+    public boolean isReturn(long l){
+        return isReturn( Expressions.of(l));
+    }
+
+    public boolean isReturn(int i){
+        return isReturn( Expressions.of(i));
+    }
+
+    public boolean isReturn(String str){
+        try{
+            return isReturn( Expressions.of(str));
+        } catch(Exception e){
+            return false;
+        }
+    }
+
+    public boolean isReturn(_expression e){
+        return isReturn( e.ast());
+    }
+
+    public boolean isReturn(Expression e){
+        SwitchEntry se = this.getOrCreateActiveEntry();
+        if( se.getStatements().size() > 0 ) {
+            if( se.getStatement(se.getStatements().size() - 1) instanceof ReturnStmt){
+                ReturnStmt rs = (ReturnStmt)se.getStatement(se.getStatements().size() - 1);
+                if( rs.getExpression().isPresent() ){
+                    return Expressions.equal(rs.getExpression().get(), e);
+                }
+                return e == null;
+            }
+            if( se.getStatement(se.getStatements().size() - 1) instanceof BlockStmt){
+                BlockStmt bs = (BlockStmt)se.getStatement(se.getStatements().size() - 1);
+                if( (bs.getStatements().size() > 0) && (bs.getStatement(bs.getStatements().size()) instanceof ReturnStmt ) ){
+                    ReturnStmt rs = (ReturnStmt)bs.getStatement(se.getStatements().size() - 1);
+                    if( rs.getExpression().isPresent() ){
+                        return Expressions.equal(rs.getExpression().get(), e);
+                    }
+                    return e == null;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean isThrow(Class<? extends Throwable> clazz){
+        return isThrow( Types.typeRef(clazz));
+    }
+
+    public boolean isThrow(_typeRef _tr ){
+        return isThrow(_tr.ast());
+    }
+
+    public boolean isThrow(Type thrownType){
+        SwitchEntry se = this.getOrCreateActiveEntry();
+        if( se.getStatements().size() > 0 ) {
+            if( se.getStatement(se.getStatements().size() - 1) instanceof ThrowStmt ){
+                ThrowStmt ts = (ThrowStmt)se.getStatement(se.getStatements().size() - 1);
+                if( ts.getExpression() instanceof ObjectCreationExpr ){
+                    ObjectCreationExpr oce = (ObjectCreationExpr)ts.getExpression();
+                    return Types.equal(oce.getType(), thrownType);
+                }
+                return false;
+            }
+            if( se.getStatement(se.getStatements().size() - 1) instanceof BlockStmt){
+                BlockStmt bs = (BlockStmt)se.getStatement(se.getStatements().size() - 1);
+                if( (bs.getStatements().size() > 0) && (bs.getStatement(bs.getStatements().size()) instanceof ThrowStmt ) ){
+                    ThrowStmt ts = (ThrowStmt)se.getStatement(se.getStatements().size() - 1);
+                    if( ts.getExpression() instanceof ObjectCreationExpr ){
+                        ObjectCreationExpr oce = (ObjectCreationExpr)ts.getExpression();
+                        return Types.equal(oce.getType(), thrownType);
+                    }
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    /*
+    public boolean isThrows(Class<? extends Throwable> thrownExceptionType){
+
+        try{
+            Types.equal( this.getStatement(0).ast().asThrowStmt().getExpression().asObjectCreationExpr().getType(),
+        }
+    }
+     */
     /**
      * i.e.
      * case 1:

@@ -72,7 +72,7 @@ public class ExTest extends TestCase {
         assertFalse( l.equals(11));
         
         //this is a "semantic" equality comparison
-        assertTrue( Expressions.equivalent(l, ll) );
+        assertTrue( Expressions.equal(l, ll) );
         
         //this is interesting, because syntactically they ARE equal
         // but semantically they are not

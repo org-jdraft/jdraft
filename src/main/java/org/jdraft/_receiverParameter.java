@@ -126,7 +126,7 @@ public final class _receiverParameter
         if( this.astReceiverParam == other.astReceiverParam ) {
             return true; //two _receiverParameter s pointing to the same ReceiverParameter
         }
-        if( ! Expressions.equivalentAnnos(this.astReceiverParam, other.astReceiverParam)){
+        if( ! Expressions.equalAnnos(this.astReceiverParam, other.astReceiverParam)){
             return false;
         }
         if( !Objects.equals( this.getName(), other.getName() ) ) {

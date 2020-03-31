@@ -1567,7 +1567,7 @@ public enum Expressions {
      * @return 
      */
     
-    public static boolean equivalent( LiteralStringValueExpr left, LiteralStringValueExpr right ){
+    public static boolean equal(LiteralStringValueExpr left, LiteralStringValueExpr right ){
         //System.out.println( " checking eq "+left+ " "+right); 
         if( left instanceof CharLiteralExpr ){
             return (right instanceof CharLiteralExpr) && Objects.equals(left, right);
@@ -1575,7 +1575,7 @@ public enum Expressions {
         if( left instanceof StringLiteralExpr){
             return (right instanceof StringLiteralExpr) && Objects.equals(left, right);
         }
-        return equivalent( parseNumber(left.getValue()), parseNumber( right.getValue() ) );        
+        return equal( parseNumber(left.getValue()), parseNumber( right.getValue() ) );
     }
     
     /**
@@ -1584,7 +1584,7 @@ public enum Expressions {
      * @param right
      * @return 
      */
-    public static boolean equivalent( Number left, Number right ){
+    public static boolean equal(Number left, Number right ){
         if( left.getClass() == right.getClass() ){
             return left.equals(right);
         }
@@ -1601,7 +1601,7 @@ public enum Expressions {
      * @param right
      * @return 
      */
-    public static boolean equivalent( Expression left, Expression right ){
+    public static boolean equal(Expression left, Expression right ){
         if( left == null ){
             return right == null;
         }
@@ -1612,7 +1612,7 @@ public enum Expressions {
             return false;
         }
         if( left instanceof LiteralStringValueExpr ){
-            return equivalent( (LiteralStringValueExpr)left , (LiteralStringValueExpr)right);
+            return equal( (LiteralStringValueExpr)left , (LiteralStringValueExpr)right);
         }
         if( left instanceof ArrayInitializerExpr ){
             ArrayInitializerExpr ll = (ArrayInitializerExpr)left;
@@ -1623,7 +1623,7 @@ public enum Expressions {
                 return false;
             }
             for(int i=0;i<lvs.size();i++){
-                if( ! equivalent( lvs.get(i), rvs.get(i))){
+                if( ! equal( lvs.get(i), rvs.get(i))){
                     return false;
                 }
             }
@@ -1639,7 +1639,7 @@ public enum Expressions {
      * @param right
      * @return 
      */
-    public static boolean equivalentAnnos( NodeWithAnnotations left, NodeWithAnnotations right ){
+    public static boolean equalAnnos(NodeWithAnnotations left, NodeWithAnnotations right ){
        NodeList<AnnotationExpr> las = left.getAnnotations();
        NodeList<AnnotationExpr> ras = right.getAnnotations();
        
@@ -1648,7 +1648,7 @@ public enum Expressions {
        }
        for(int i=0;i<las.size(); i++){
            AnnotationExpr la = las.get(i);
-           if( !ras.stream().filter(a -> equivalent(a, la) ).findFirst().isPresent() ){
+           if( !ras.stream().filter(a -> equal(a, la) ).findFirst().isPresent() ){
                return false;
            }
        }
@@ -1661,7 +1661,7 @@ public enum Expressions {
      * @param right
      * @return 
      */
-    public static boolean equivalent( AnnotationExpr left, AnnotationExpr right){
+    public static boolean equal(AnnotationExpr left, AnnotationExpr right){
         if( left == null ){
             return right == null;
         }
@@ -1685,12 +1685,12 @@ public enum Expressions {
                 return false;
             }
             if( right instanceof SingleMemberAnnotationExpr ){
-                return equivalent( ((SingleMemberAnnotationExpr) left).getMemberValue(), 
+                return equal( ((SingleMemberAnnotationExpr) left).getMemberValue(),
                     ((SingleMemberAnnotationExpr) right).getMemberValue());
             }
             NormalAnnotationExpr ra = ((NormalAnnotationExpr)right);            
             if( ra.getPairs().size() == 1 && ra.getPairs().get(0).getNameAsString().equals("value")){
-                return equivalent( ((SingleMemberAnnotationExpr) left).getMemberValue(),
+                return equal( ((SingleMemberAnnotationExpr) left).getMemberValue(),
                     ra.getPairs().get(0).getValue() );
             }
             return false;
@@ -1702,7 +1702,7 @@ public enum Expressions {
         }
         if( right instanceof SingleMemberAnnotationExpr){
             if( la.getPairs().size() == 1 && la.getPairs().get(0).getNameAsString().equals("value") ){
-                return equivalent( ((SingleMemberAnnotationExpr) right).getMemberValue(),
+                return equal( ((SingleMemberAnnotationExpr) right).getMemberValue(),
                     la.getPairs().get(0).getValue() );
             }
             return false;
@@ -1715,7 +1715,7 @@ public enum Expressions {
         for(int i=0;i<la.getPairs().size(); i++){
             String name = la.getPairs().get(i).getNameAsString();
             Expression ex = la.getPairs().get(i).getValue();
-            if( !ra.getPairs().stream().filter( p -> p.getNameAsString().equals(name) && equivalent( p.getValue(), ex) ).findFirst().isPresent()){
+            if( !ra.getPairs().stream().filter( p -> p.getNameAsString().equals(name) && equal( p.getValue(), ex) ).findFirst().isPresent()){
                 return false;
             }
         }
@@ -1728,32 +1728,32 @@ public enum Expressions {
      * @param o could be another expression, a String, or a value (integer, Float, array, etc.)
      * @return 
      */
-    public static boolean equivalent (Expression exp, Object o) {
+    public static boolean equal(Expression exp, Object o) {
         if( exp == null){
             return o == null;
         }
         if( o instanceof Expression ){
-            return equivalent( exp, (Expression)exp );
+            return equal( exp, (Expression)exp );
         }
         if( o == null || o instanceof NullLiteralExpr || o.equals("null") ) {
             return exp.equals( new NullLiteralExpr() );
         }
         if( exp instanceof LiteralStringValueExpr && o instanceof LiteralStringValueExpr ){
-            return equivalent( (LiteralStringValueExpr) exp, (LiteralStringValueExpr)o);
+            return equal( (LiteralStringValueExpr) exp, (LiteralStringValueExpr)o);
         }
         else if( o instanceof String ){
             try{
                 Expression e = Expressions.of( (String)o);
-                return equivalent(exp , e );
+                return equal(exp , e );
             }catch(Exception e){
                 if( exp instanceof StringLiteralExpr ){
-                    return equivalent( exp, Expressions.stringLiteralEx(o.toString()) );
+                    return equal( exp, Expressions.stringLiteralEx(o.toString()) );
                 }
             }
         }
         //handle All Wrapper types
         else if( o instanceof Number ||  o instanceof Boolean ){ //Int Float, etc.
-            return equivalent( Expressions.of(o.toString()), exp );
+            return equal( Expressions.of(o.toString()), exp );
         }
         else if(o instanceof Character ){
             return Objects.equals( Expressions.charLiteralEx( (Character)o), exp );
@@ -1763,19 +1763,19 @@ public enum Expressions {
             if( o.getClass().getComponentType().isPrimitive() ){
                 Class ct = o.getClass().getComponentType();
                 if( ct == int.class ){
-                    return equivalent(exp, Expressions.of( (int[])o) );
+                    return equal(exp, Expressions.of( (int[])o) );
                 }
                 if( ct == float.class ){
-                    return equivalent(exp, Expressions.of( (float[])o) );
+                    return equal(exp, Expressions.of( (float[])o) );
                 }
                 if( ct == double.class ){
-                    return equivalent(exp, Expressions.of( (double[])o) );
+                    return equal(exp, Expressions.of( (double[])o) );
                 }
                 if( ct == boolean.class ){
-                    return equivalent(exp, Expressions.of( (boolean[])o) );
+                    return equal(exp, Expressions.of( (boolean[])o) );
                 }
                 if( ct == char.class ){
-                    return equivalent(exp, Expressions.of( (char[])o) );
+                    return equal(exp, Expressions.of( (char[])o) );
                 }
                 throw new _jdraftException("Only simple primitive types supported");
             } 
@@ -1916,7 +1916,7 @@ public enum Expressions {
      */
     private static final NumberFormat NF = NumberFormat.getInstance();
     
-    public static boolean equivalent(LiteralStringValueExpr ie, Expression e){
+    public static boolean equal(LiteralStringValueExpr ie, Expression e){
         if( e instanceof LiteralStringValueExpr ){
             return parseLong(ie).equals( parseLong( e.asLiteralStringValueExpr().getValue() ) );
         }

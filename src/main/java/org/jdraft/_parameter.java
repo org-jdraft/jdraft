@@ -186,7 +186,7 @@ public final class _parameter
         if( left.isFinal() != right.isFinal()){
             return false;
         }
-        if( ! Expressions.equivalentAnnos(left, right)){
+        if( ! Expressions.equalAnnos(left, right)){
             return false;
         }
         if( ! Types.equal(left.getType(), right.getType())){
@@ -219,7 +219,7 @@ public final class _parameter
         if( !Types.equal(astParameter.getType(), other.astParameter.getType())){
             return false;
         }
-        if( !Expressions.equivalentAnnos(astParameter, other.astParameter)){
+        if( !Expressions.equalAnnos(astParameter, other.astParameter)){
             return false;
         }
         return true;

@@ -314,6 +314,11 @@ public enum Statements {
         return from( ste );
     }
 
+    public static <T extends Object> Statement of( Supplier<T> c ){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        return from( ste );
+    }
+
     /**
      * Resolves and returns the AST Statement representing the body of the 
      * lambda expression.for example:<PRE>

@@ -481,7 +481,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         if( !Objects.equals( this.getPackage(), other.getPackage() ) ) {
             return false;
         }
-        if( ! Expressions.equivalentAnnos(this.astEnum, other.astEnum)){
+        if( ! Expressions.equalAnnos(this.astEnum, other.astEnum)){
             return false;
         }     
         if( !Objects.equals( this.getJavadoc(), other.getJavadoc() ) ) {

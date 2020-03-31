@@ -5,7 +5,7 @@ import org.jdraft.*;
 
 public class OfTest extends TestCase {
     /**
-     * By convention entities can be built using the of() static method
+     * By convention entities are built using the of() static method
      * (rather than using constructors)
      */
     public void testBuildOfNoArg(){

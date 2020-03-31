@@ -673,7 +673,7 @@ public class AstTest extends TestCase {
         assertNotSame(_a.ast(), _b.ast() );
         
         //make sure I can equate them to be equal
-        assertTrue( Expressions.equivalent(_a.ast(), _b.ast()) );
+        assertTrue( Expressions.equal(_a.ast(), _b.ast()) );
         //assertTrue( Ast.annotationEqual(_a.ast(), _b.ast()) );
         assertEquals( Expressions.hash(_a.ast() ), Expressions.hash( _b.ast() ) );
         //assertEquals( Ast.annotationHash(_a.ast() ), Ast.annotationHash( _b.ast() ) );

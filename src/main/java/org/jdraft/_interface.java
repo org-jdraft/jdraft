@@ -366,7 +366,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         if( !Objects.equals( this.getPackage(), other.getPackage())){
             return false;
         }
-        if( ! Expressions.equivalentAnnos(this.astInterface, other.astInterface)){
+        if( ! Expressions.equalAnnos(this.astInterface, other.astInterface)){
             return false;
         }
         if( this.hasJavadoc() != other.hasJavadoc() ){

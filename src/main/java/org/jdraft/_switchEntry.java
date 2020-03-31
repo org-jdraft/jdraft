@@ -3,6 +3,7 @@ package org.jdraft;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.*;
+import com.github.javaparser.ast.type.Type;
 import org.jdraft.text.Text;
 
 import java.util.*;
@@ -115,10 +116,64 @@ public class _switchEntry implements _java._multiPart<SwitchEntry, _switchEntry>
      * i.e.
      * case 1 : throw new RuntimeException();
      *
+     * default : IOException ioe = new IOException();
+     *     throw ioe;
+     *
      * @return
      */
-    public boolean isThrows(){
-        return this.switchEntry.getType().equals(SwitchEntry.Type.THROWS_STATEMENT);
+    public boolean isThrow(){
+        SwitchEntry se = ast();
+        if( se.getStatements().size() > 0 ) {
+            if( se.getStatement(se.getStatements().size() - 1) instanceof ThrowStmt ){
+                return true;
+            }
+            if( se.getStatement(se.getStatements().size() - 1) instanceof BlockStmt){
+                BlockStmt bs = (BlockStmt)se.getStatement(se.getStatements().size() - 1);
+                if( (bs.getStatements().size() > 0) && (bs.getStatement(bs.getStatements().size()) instanceof ThrowStmt ) ){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    public boolean isThrow(Class<? extends Throwable> clazz){
+        return isThrow( Types.typeRef(clazz));
+    }
+
+    public boolean isThrow(_typeRef _tr ){
+        return isThrow(_tr.ast());
+    }
+
+    public boolean isThrow(Type thrownType){
+        SwitchEntry se = ast();
+        if( se.getStatements().size() > 0 ) {
+            if( se.getStatement(se.getStatements().size() - 1) instanceof ThrowStmt ){
+                ThrowStmt ts = (ThrowStmt)se.getStatement(se.getStatements().size() - 1);
+                if( ts.getExpression() instanceof ObjectCreationExpr ){
+                    ObjectCreationExpr oce = (ObjectCreationExpr)ts.getExpression();
+                    return Types.equal(oce.getType(), thrownType);
+                }
+                return false;
+            }
+            if( se.getStatement(se.getStatements().size() - 1) instanceof BlockStmt){
+                BlockStmt bs = (BlockStmt)se.getStatement(se.getStatements().size() - 1);
+                if( (bs.getStatements().size() > 0) && (bs.getStatement(bs.getStatements().size()) instanceof ThrowStmt ) ){
+                    ThrowStmt ts = (ThrowStmt)se.getStatement(se.getStatements().size() - 1);
+                    if( ts.getExpression() instanceof ObjectCreationExpr ){
+                        ObjectCreationExpr oce = (ObjectCreationExpr)ts.getExpression();
+                        return Types.equal(oce.getType(), thrownType);
+                    }
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean hasStatements(){
+        return this.ast().getStatements().isNonEmpty();
     }
 
     /**

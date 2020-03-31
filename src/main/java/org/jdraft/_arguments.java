@@ -205,7 +205,7 @@ public class _arguments
         if( index >= this.size()){
             return false;
         }
-        return Expressions.equivalent( getAt(index).ast(), e);
+        return Expressions.equal( getAt(index).ast(), e);
     }
 
     public _arguments setAt(int index, int i){
@@ -258,7 +258,7 @@ public class _arguments
             if( this.nwa.getArguments().size() == _as.size()){
                 for(int i=0;i<this.nwa.getArguments().size(); i++){
                     Expression e = this.nwa.getArgument(i);
-                    if( !Expressions.equivalent(e, _as.nwa.getArgument(i))){
+                    if( !Expressions.equal(e, _as.nwa.getArgument(i))){
                         return false;
                     }
                 }
@@ -415,7 +415,7 @@ public class _arguments
             List<_expression> _tes = listArguments();
             if(_es.length == _tes.size()){
                 for(int i=0;i<_es.length;i++){
-                    if( ! Expressions.equivalent(  _es[i].ast(), _tes.get(i).ast() ) ){
+                    if( ! Expressions.equal(  _es[i].ast(), _tes.get(i).ast() ) ){
                         return false;
                     }
                 }
@@ -454,7 +454,7 @@ public class _arguments
 
         default boolean isArgument(int index, String exprString){
             try {
-                return Expressions.equivalent( getArgument(index).ast(), Expressions.of(exprString));
+                return Expressions.equal( getArgument(index).ast(), Expressions.of(exprString));
             }catch(Exception e){
                 return false;
             }
@@ -462,7 +462,7 @@ public class _arguments
 
         default boolean isArgument(int index, Expression e){
             try {
-                return Expressions.equivalent( getArgument(index).ast(), e);
+                return Expressions.equal( getArgument(index).ast(), e);
             }catch(Exception ex){
                 return false;
             }
@@ -470,7 +470,7 @@ public class _arguments
 
         default boolean isArgument(int index, _expression _e){
             try {
-                return Expressions.equivalent( getArgument(index).ast(), _e.ast());
+                return Expressions.equal( getArgument(index).ast(), _e.ast());
             }catch(Exception e){
                 return false;
             }

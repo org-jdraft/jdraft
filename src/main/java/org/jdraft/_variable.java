@@ -2,7 +2,6 @@ package org.jdraft;
 
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 
@@ -181,7 +180,7 @@ public class _variable implements _java._node<VariableDeclarator, _variable>,
 
     public boolean isInit(Expression e){
         return this.vd.getInitializer().isPresent() &&
-                Expressions.equivalent( this.vd.getInitializer().get(), e);
+                Expressions.equal( this.vd.getInitializer().get(), e);
     }
 
     public int hashCode( ){

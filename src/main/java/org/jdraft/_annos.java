@@ -274,7 +274,7 @@ public class _annos
             AnnotationExpr e = (AnnotationExpr)this.astAnnNode.getAnnotations().get( i );
             //find a matching annotation in other, if one isnt found, then not equal
             if( !other.astAnnNode.getAnnotations().stream().filter(
-                    a -> Expressions.equivalent(e, (AnnotationExpr)a ) ).findFirst().isPresent() ) {
+                    a -> Expressions.equal(e, (AnnotationExpr)a ) ).findFirst().isPresent() ) {
 
                 return false;
             }

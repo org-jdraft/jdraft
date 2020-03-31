@@ -423,7 +423,7 @@ public final class _annotation
         if( !Objects.equals( this.getJavadoc(), other.getJavadoc()) ){
             return false;
         }
-        if( !Expressions.equivalentAnnos(astAnnotation, astAnnotation)){
+        if( !Expressions.equalAnnos(astAnnotation, astAnnotation)){
             return false;
         }
         if( !Objects.equals( this.getName(), other.getName()) ){
@@ -815,7 +815,7 @@ public final class _annotation
             if( this.astAnnMember == other.astAnnMember){
                 return true; //two _element instances pointing to same AstMemberDeclaration
             }
-            if( ! Expressions.equivalentAnnos(this.astAnnMember, other.astAnnMember)){
+            if( ! Expressions.equalAnnos(this.astAnnMember, other.astAnnMember)){
                 return false;
             }
             if( !Objects.equals( this.getJavadoc(), other.getJavadoc() ) ) {
