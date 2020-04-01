@@ -10,7 +10,7 @@ import org.jdraft.text.Text;
  * Representation of the Java source code of a package-info.java file
  *
  */
-public class _packageInfo
+public final class _packageInfo
         implements _codeUnit<_packageInfo>, _annos._withAnnos<_packageInfo>, _java._multiPart<CompilationUnit, _packageInfo> {
 
     public static _packageInfo of(String... pkgInfo) {
@@ -22,12 +22,12 @@ public class _packageInfo
     }
 
     public CompilationUnit astCompUnit;
-    private final _javadoc.JavadocHolderAdapter javadocHolder;
+    //private final _javadoc.JavadocHolderAdapter javadocHolder;
 
     
     public _packageInfo(CompilationUnit astCu) {
         this.astCompUnit = astCu;
-        this.javadocHolder = new _javadoc.JavadocHolderAdapter(astCu);
+        //this.javadocHolder = new _javadoc.JavadocHolderAdapter(astCu);
     }
 
     @Override
@@ -183,7 +183,7 @@ public class _packageInfo
     public Map<_java.Component, Object> components() {
         Map m = new HashMap();
         m.put(_java.Component.HEADER_COMMENT, this.getHeaderComment());
-        m.put(_java.Component.JAVADOC, this.javadocHolder.getJavadoc());
+        //m.put(_java.Component.JAVADOC, this.javadocHolder.getJavadoc());
         m.put(_java.Component.PACKAGE, getPackage());
         m.put(_java.Component.ANNOS, getAnnos());
         m.put(_java.Component.IMPORTS, _imports.of(astCompUnit));

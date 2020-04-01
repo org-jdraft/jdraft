@@ -10,7 +10,7 @@ import org.jdraft.diff._diff.*;
 /**
  * Differ for a {@link _java._withName}
  */
-public class _namedDiff implements _differ<String, _java._multiPart> {
+public final class _namedDiff implements _differ<String, _java._multiPart> {
 
     public static final _namedDiff INSTANCE = new _namedDiff();
     

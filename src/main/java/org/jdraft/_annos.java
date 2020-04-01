@@ -26,7 +26,7 @@ import static org.jdraft.Ast.field;
  * @see _annotation the _type representation of the source declaration of an _anno instance (@interface Ann{})
  * @author Eric
  */
-public class _annos
+public final class _annos
         implements _java._set<AnnotationExpr, _anno, _annos> {
 
     /** A reference to the container entity that is being annotated*/

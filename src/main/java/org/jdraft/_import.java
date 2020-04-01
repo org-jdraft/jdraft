@@ -17,7 +17,7 @@ import org.jdraft.text.Text;
  * @see _imports representation of a set of _import s
  * @author Eric
  */
-public class _import implements _java._multiPart<ImportDeclaration, _import>,
+public final class _import implements _java._multiPart<ImportDeclaration, _import>,
         _java._withName<_import> {
 
     /** return a copy of this import */

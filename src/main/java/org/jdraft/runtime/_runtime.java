@@ -46,7 +46,7 @@ import org.jdraft.pattern.*;
  * 
  * @author Eric
  */
-public class _runtime {
+public final class _runtime {
     
     /**
      * Javac compiler for compiling java source to bytecode classes

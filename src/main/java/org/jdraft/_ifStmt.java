@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.function.*;
 
 
-public class _ifStmt implements _statement._controlFlow._branching<IfStmt, _ifStmt>, _body._hasBody<_ifStmt>,
+public final class _ifStmt implements _statement._controlFlow._branching<IfStmt, _ifStmt>, _body._hasBody<_ifStmt>,
         _java._withCondition<IfStmt, _ifStmt>,
         _java._multiPart<IfStmt, _ifStmt> {
 

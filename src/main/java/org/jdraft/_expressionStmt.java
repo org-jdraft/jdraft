@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 
-public class _expressionStmt implements _statement<ExpressionStmt, _expressionStmt>,
+public final class _expressionStmt implements _statement<ExpressionStmt, _expressionStmt>,
         _java._uniPart<ExpressionStmt, _expressionStmt>, _java._withExpression<ExpressionStmt, _expressionStmt> {
 
     public static _expressionStmt of(){

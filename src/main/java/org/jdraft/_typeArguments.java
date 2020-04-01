@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * {@link _methodReference}
  * order doesnt matter
  */
-public class _typeArguments
+public final class _typeArguments
         implements _java._set<Type, _typeRef, _typeArguments> {
 
     public static _typeArguments of(){

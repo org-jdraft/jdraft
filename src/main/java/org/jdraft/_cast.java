@@ -16,7 +16,7 @@ import java.util.function.*;
  * </CODE></PRE>
  *
  */
-public class _cast implements _expression<CastExpr, _cast>, _java._multiPart<CastExpr, _cast>,
+public final class _cast implements _expression<CastExpr, _cast>, _java._multiPart<CastExpr, _cast>,
         _typeRef._withTypeRef<CastExpr, _cast>, _java._withExpression<CastExpr, _cast> {
 
     public static _cast of(){

@@ -324,7 +324,7 @@ public class _methodTest extends TestCase {
          * Block comment
          *
          */
-        public _javadoc add(String... content){
+        public _javadocComment add(String... content){
             return null;
         }
     }

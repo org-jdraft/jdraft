@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * projects, the _io api and classes are intended to demystify this.
  *
  */
-public class _io{
+public final class _io{
 
     private _io(){
     }

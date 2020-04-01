@@ -8,7 +8,7 @@ import org.jdraft.text.Text;
  * 
  * <PRE><CODE>String.class</CODE></PRE>
  */
-public class _classExpression implements _expression<ClassExpr, _classExpression>, _java._uniPart<ClassExpr, _classExpression> {
+public final class _classExpression implements _expression<ClassExpr, _classExpression>, _java._uniPart<ClassExpr, _classExpression> {
 
     public static _classExpression of(){
         return new _classExpression(new ClassExpr());

@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * just ";" (i.e. "for(int i=0;;;)")
  */
-public class _emptyStmt implements _statement<EmptyStmt, _emptyStmt>, _java._uniPart<EmptyStmt, _emptyStmt> {
+public final class _emptyStmt implements _statement<EmptyStmt, _emptyStmt>, _java._uniPart<EmptyStmt, _emptyStmt> {
 
     public static _emptyStmt of(){
         return new _emptyStmt( new EmptyStmt( ));

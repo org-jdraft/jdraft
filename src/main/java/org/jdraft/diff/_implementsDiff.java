@@ -10,7 +10,7 @@ import org.jdraft._type._withImplements;
 
 import org.jdraft.diff._diff.*;
 
-public class _implementsDiff implements
+public final class _implementsDiff implements
         _differ<List<ClassOrInterfaceType>, _java._multiPart> {
 
     public static final _implementsDiff INSTANCE = new _implementsDiff();

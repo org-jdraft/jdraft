@@ -16,7 +16,7 @@ import org.jdraft._parameters._withParameters;
  * 
  * @author Eric
  */
-public class _lambda 
+public final class _lambda
     implements _expression<LambdaExpr, _lambda>,
         _java._multiPart<LambdaExpr, _lambda>,
         _withParameters<_lambda> {

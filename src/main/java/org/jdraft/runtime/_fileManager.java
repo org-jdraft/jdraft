@@ -12,7 +12,7 @@ import javax.tools.*;
  * @see _javaFile
  * @see _classFile
  */
-public class _fileManager
+public final class _fileManager
     extends ForwardingJavaFileManager<JavaFileManager> {
 
     public _classLoader classLoader;

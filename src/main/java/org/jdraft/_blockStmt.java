@@ -11,7 +11,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class _blockStmt implements _statement<BlockStmt, _blockStmt>,
+public final class _blockStmt implements _statement<BlockStmt, _blockStmt>,
         _java._list<Statement, _statement, _blockStmt> {
 
     public static _blockStmt of(){

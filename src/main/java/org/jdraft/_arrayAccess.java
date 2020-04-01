@@ -16,7 +16,7 @@ import java.util.function.Predicate;
  *
  * @see _arrayDimension
  */
-public class _arrayAccess
+public final class _arrayAccess
         implements _expression<ArrayAccessExpr, _arrayAccess>,
         _java._multiPart<ArrayAccessExpr, _arrayAccess> {
 

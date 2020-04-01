@@ -6,7 +6,7 @@ import org.jdraft.text.Text;
 
 import java.util.Objects;
 
-public class _nameExpression
+public final class _nameExpression
         implements _expression<NameExpr, _nameExpression>,
         _java._uniPart<NameExpr, _nameExpression>,
         _java._withName<_nameExpression> {

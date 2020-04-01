@@ -15,7 +15,7 @@ import java.util.function.Function;
  * These have two expressions each, one has 1 and 1, the other two and two.
  * <br/><code>new int[][]{{1, 1}, {2, 2}};</code>
  */
-public class _arrayInitialize implements _expression<ArrayInitializerExpr, _arrayInitialize>,
+public final class _arrayInitialize implements _expression<ArrayInitializerExpr, _arrayInitialize>,
         _java._list<Expression, _expression, _arrayInitialize> {
 
     public static _arrayInitialize of( ){

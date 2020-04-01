@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
  * @see _caseGroup a grouping of multiple case statements
  *
  */
-public class _switchExpression implements _expression<SwitchExpr, _switchExpression>,
+public final class _switchExpression implements _expression<SwitchExpr, _switchExpression>,
         _java._multiPart<SwitchExpr, _switchExpression>, _switch<_switchExpression> {
 
     public static _switchExpression of(){

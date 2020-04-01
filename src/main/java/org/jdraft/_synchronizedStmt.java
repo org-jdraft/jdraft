@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 
-public class _synchronizedStmt implements _statement<SynchronizedStmt, _synchronizedStmt>,
+public final class _synchronizedStmt implements _statement<SynchronizedStmt, _synchronizedStmt>,
         _body._hasBody<_synchronizedStmt>,
         _java._multiPart<SynchronizedStmt, _synchronizedStmt>,
         _java._withExpression<SynchronizedStmt, _synchronizedStmt> {

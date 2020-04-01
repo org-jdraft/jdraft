@@ -9,7 +9,7 @@ import org.jdraft.diff._diff.*;
  *
  * @author Eric
  */
-public class _innerTypesDiff implements _differ<List<_type>, _java._multiPart> {
+public final class _innerTypesDiff implements _differ<List<_type>, _java._multiPart> {
 
     public static _innerTypesDiff INSTANCE = new _innerTypesDiff();
     

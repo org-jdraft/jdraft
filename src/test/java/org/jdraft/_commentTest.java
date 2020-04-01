@@ -32,8 +32,6 @@ public class _commentTest extends TestCase {
 
         assertEquals( "comment 3", _c.listAllComments().get(2).parseFirst("block $a$").get("a"));
         assertEquals( "comment", _c.listAllComments().get(2).parseFirst("block $a$ 3").get("a"));
-
-
     }
 
     public void testUpdateJavadocComments(){

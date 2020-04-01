@@ -7,7 +7,7 @@ import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 
 import java.util.Objects;
 
-public class _variable implements _java._node<VariableDeclarator, _variable>,
+public final class _variable implements _java._node<VariableDeclarator, _variable>,
         _java._withNameTypeRef<VariableDeclarator, _variable> {
 
     public static _variable of(){

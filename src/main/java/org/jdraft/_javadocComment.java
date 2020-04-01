@@ -7,7 +7,7 @@ import org.jdraft.text.Tokens;
 
 import java.util.Objects;
 
-public class _javadocComment implements _comment<JavadocComment, _javadocComment>, _java._node<JavadocComment, _javadocComment> {
+public final class _javadocComment implements _comment<JavadocComment, _javadocComment>, _java._node<JavadocComment, _javadocComment> {
 
     public static _javadocComment of(){
         return of(new JavadocComment());
@@ -68,5 +68,38 @@ public class _javadocComment implements _comment<JavadocComment, _javadocComment
 
     public String toString(){
         return this.astComment.toString();
+    }
+
+    /**
+     * Model entity that optionally has a Javadoc Comment attributed to it
+     *
+     * @author Eric
+     * @param <_WJ>
+     */
+    public interface _withJavadoc<_WJ extends _withJavadoc>
+            extends _java._domain {
+
+        /** @return the JAVADOC for this element (or returns null) */
+        _javadocComment getJavadoc();
+
+        /**
+         * Add a javadoc to the entity and return the modified entity
+         * @param content the javadoc content
+         * @return
+         */
+        _WJ setJavadoc(String... content);
+
+        /**
+         * set the javadoc comment with this JavadocComment
+         * @param astJavadocComment the
+         * @return the modified T
+         */
+        _WJ setJavadoc(JavadocComment astJavadocComment);
+
+        /**
+         * Does this component have a Javadoc entry?
+         * @return true if there is a javadoc, false otherwise
+         */
+        boolean hasJavadoc();
     }
 }

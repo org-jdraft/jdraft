@@ -131,7 +131,7 @@ import static java.nio.file.FileVisitResult.CONTINUE;
  *
  * @author Eric
  */
-public class _path implements _codeUnit._provider {
+public final class _path implements _codeUnit._provider {
 
     public static final Predicate<Path> EXCLUDE_PACKAGE_INFO =
         path-> !path.endsWith("package-info.java");

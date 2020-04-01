@@ -63,7 +63,7 @@ public class OfStringTest extends TestCase {
                 _instanceOf.of("A instanceof Map"),
                 _int.of("37"),
                 _interface.of("interface I{}"),
-                _javadoc.of("/** a javadoc */"),
+                _javadocComment.of("/** a javadoc */"),
                 _labeledStmt.of("outer: print(state);"),
                 _lambda.of("o-> System.out.println(1)"),
                 _lineComment.of("// TODO remove this"),

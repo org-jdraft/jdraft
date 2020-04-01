@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
  * @author Eric
  */
 public final class _field
-        implements _javadoc._withJavadoc<_field>, _annos._withAnnos<_field>, _modifiers._withModifiers<_field>, //_modifiers._hasModifiers<_field>,
+        implements _javadocComment._withJavadoc<_field>, _annos._withAnnos<_field>, _modifiers._withModifiers<_field>, //_modifiers._hasModifiers<_field>,
         _modifiers._withFinal<_field>, _modifiers._withStatic<_field>, _modifiers._withTransient<_field>, _modifiers._withVolatile<_field>,
         _java._withNameTypeRef<VariableDeclarator, _field>, _java._declared<VariableDeclarator, _field> {
 

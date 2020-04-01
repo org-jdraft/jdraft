@@ -8,7 +8,7 @@ import org.jdraft._jdraftException;
  * 
  * @author Eric
  */
-public class _runtimeException extends _jdraftException {
+public final class _runtimeException extends _jdraftException {
     
     public _runtimeException(String msg) {
 	    super(msg);

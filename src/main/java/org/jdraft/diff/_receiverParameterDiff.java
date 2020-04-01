@@ -8,7 +8,7 @@ import org.jdraft._receiverParameter._withReceiverParameter;
 
 import org.jdraft.diff._diff.*;
 
-public class _receiverParameterDiff
+public final class _receiverParameterDiff
         implements  _differ<_receiverParameter, _java._multiPart> {
 
     public static final _receiverParameterDiff INSTANCE = new _receiverParameterDiff();

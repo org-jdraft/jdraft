@@ -8,7 +8,7 @@ import com.github.javaparser.ast.stmt.WhileStmt;
 import java.util.*;
 import java.util.function.*;
 
-public class _whileStmt implements _statement._controlFlow._branching<WhileStmt, _whileStmt>,
+public final class _whileStmt implements _statement._controlFlow._branching<WhileStmt, _whileStmt>,
         _java._multiPart<WhileStmt, _whileStmt>,
         _statement._controlFlow._loop<WhileStmt, _whileStmt>,
         _java._withCondition<WhileStmt, _whileStmt>,

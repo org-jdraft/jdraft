@@ -645,7 +645,7 @@ public final class _annotation
      * to mean (specifically) a property of an _annotation
      * (it is also a _member) and maps to an AnnotationMemberDeclaration
      */
-    public static class _entry implements _javadoc._withJavadoc<_entry>,
+    public static class _entry implements _javadocComment._withJavadoc<_entry>,
             _annos._withAnnos<_entry>, _java._withNameTypeRef<AnnotationMemberDeclaration,_entry>,
             _java._declared<AnnotationMemberDeclaration, _entry> {
 

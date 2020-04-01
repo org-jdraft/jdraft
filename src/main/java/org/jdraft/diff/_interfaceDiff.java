@@ -6,7 +6,7 @@ import org.jdraft.diff._diff.*;
 /**
  * 
  */
-public class _interfaceDiff
+public final class _interfaceDiff
         implements _differ<_interface, _java._multiPart> {
 
     public static final _interfaceDiff INSTANCE = new _interfaceDiff();
@@ -18,7 +18,7 @@ public class _interfaceDiff
         
         _annosDiff.INSTANCE.diff(path, dt, left, right, left.getAnnos(), right.getAnnos());
         _extendsDiff.INSTANCE.diff(path, dt, left, right, left.listExtends(), right.listExtends());
-        _javadocDiff.INSTANCE.diff(path, dt, left, right, left.getJavadoc(), right.getJavadoc());
+        _javadocCommentDiff.INSTANCE.diff(path, dt, left, right, left.getJavadoc(), right.getJavadoc());
         _typeParametersDiff.INSTANCE.diff(path, dt, left, right, left.getTypeParameters(), right.getTypeParameters());
         _namedDiff.INSTANCE.diff(path, dt, left, right, left.getName(), right.getName());
         _modifiersDiff.INSTANCE.diff(path, dt, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());

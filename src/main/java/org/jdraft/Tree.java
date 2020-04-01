@@ -1435,7 +1435,7 @@ public enum Tree {
      * ({@link _field}, {@link _method}, {@link _constant}...)
      *
      * <LI>Logical interfaces
-     * ({@link _javadoc._withJavadoc}, {@link _method._withMethods}, {@link _annos._withAnnos}, ...)
+     * ({@link _javadocComment._withJavadoc}, {@link _method._withMethods}, {@link _annos._withAnnos}, ...)
      * </UL>
      *
      * @param <T> the target Class TYPE ..we need this BECAUSE Node classes/interfaces dont have a common ancestor
@@ -1764,16 +1764,16 @@ public enum Tree {
                     });
             return astRootNode;
         }
-        else if( _javaClass == _javadoc._withJavadoc.class ) {
+        else if( _javaClass == _javadocComment._withJavadoc.class ) {
             in( tt, levels,
                     astRootNode,
                     Node.class,
                     n-> n instanceof NodeWithJavadoc,
                     n-> {
-                        _javadoc._withJavadoc hf = (_javadoc._withJavadoc)_java.of( n );
+                        _javadocComment._withJavadoc hf = (_javadocComment._withJavadoc)_java.of( n );
 
-                        if( ((Predicate<_javadoc._withJavadoc>)_javaMatchFn).test( hf) ){
-                            ((Consumer<_javadoc._withJavadoc>)_javaAction).accept( hf );
+                        if( ((Predicate<_javadocComment._withJavadoc>)_javaMatchFn).test( hf) ){
+                            ((Consumer<_javadocComment._withJavadoc>)_javaAction).accept( hf );
                         }
                     });
             return astRootNode;

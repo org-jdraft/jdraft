@@ -8,7 +8,7 @@ import org.jdraft._java.Component;
 
 import org.jdraft.diff._diff.*;
 
-public class _constructorsDiff implements
+public final class _constructorsDiff implements
         _differ<List<_constructor>, _java._multiPart> {
 
     public static final _constructorsDiff INSTANCE = new _constructorsDiff();

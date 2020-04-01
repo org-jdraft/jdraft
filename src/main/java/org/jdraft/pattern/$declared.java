@@ -2,7 +2,6 @@ package org.jdraft.pattern;
 
 import com.github.javaparser.ast.comments.JavadocComment;
 import org.jdraft._java;
-import org.jdraft._javadoc;
 import org.jdraft._javadocComment;
 
 import java.util.function.Predicate;

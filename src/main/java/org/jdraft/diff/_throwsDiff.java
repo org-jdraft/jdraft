@@ -14,7 +14,7 @@ import org.jdraft.diff._diff.*;
  *
  * @author Eric
  */
-public class _throwsDiff implements _differ<_throws, _java._multiPart> {
+public final class _throwsDiff implements _differ<_throws, _java._multiPart> {
 
     public static final _throwsDiff INSTANCE = new _throwsDiff();
     

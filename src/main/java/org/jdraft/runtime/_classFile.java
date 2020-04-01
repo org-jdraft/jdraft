@@ -14,7 +14,7 @@ import javax.tools.SimpleJavaFileObject;
  * 
  * @author Eric
  */
-public class _classFile extends SimpleJavaFileObject {
+public final class _classFile extends SimpleJavaFileObject {
     
      /**
      * <PRE>

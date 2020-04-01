@@ -28,7 +28,7 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _constructor implements _annos._withAnnos<_constructor>,
-        _javadoc._withJavadoc<_constructor>, _throws._withThrows<_constructor>,
+        _javadocComment._withJavadoc<_constructor>, _throws._withThrows<_constructor>,
     _body._hasBody<_constructor>, _modifiers._withModifiers<_constructor>, //_modifiers._hasModifiers<_constructor>,
         _parameters._withParameters<_constructor>, _typeParameters._withTypeParameters<_constructor>,
         _receiverParameter._withReceiverParameter<_constructor>, _java._declared<ConstructorDeclaration, _constructor> {

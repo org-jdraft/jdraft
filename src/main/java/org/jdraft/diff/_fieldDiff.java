@@ -12,7 +12,7 @@ import org.jdraft.diff._diff.*;
  *
  * @author Eric
  */
-public class _fieldDiff implements _differ<_field, _java._multiPart> {
+public final class _fieldDiff implements _differ<_field, _java._multiPart> {
 
     public static final _fieldDiff INSTANCE = new _fieldDiff();
     
@@ -28,7 +28,7 @@ public class _fieldDiff implements _differ<_field, _java._multiPart> {
         _namedDiff.INSTANCE.diff(p, dt, left, right, left.getName(), right.getName());
         _typeRefDiff.INSTANCE.diff(p, dt, left, right, left.getTypeRef(), right.getTypeRef());
         _modifiersDiff.INSTANCE.diff(p, dt, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());
-        _javadocDiff.INSTANCE.diff(p, dt, left, right, left.getJavadoc(), right.getJavadoc());
+        _javadocCommentDiff.INSTANCE.diff(p, dt, left, right, left.getJavadoc(), right.getJavadoc());
         _annosDiff.INSTANCE.diff(p, dt, left, right, left.getAnnos(), right.getAnnos());
 
         if (!Objects.equals(left.getInit(), right.getInit())) {

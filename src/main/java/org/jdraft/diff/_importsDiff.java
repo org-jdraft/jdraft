@@ -7,7 +7,7 @@ import org.jdraft.*;
 import org.jdraft._imports;
 import org.jdraft.diff._diff.*;
 
-public class _importsDiff
+public final class _importsDiff
         implements _differ<List<ImportDeclaration>, _java._multiPart> {
 
     public static final _importsDiff INSTANCE = new _importsDiff();

@@ -7,7 +7,7 @@ import org.jdraft.text.Text;
 import java.util.Objects;
 
 
-public class _yieldStmt implements _statement._controlFlow._signal<YieldStmt, _yieldStmt>,
+public final class _yieldStmt implements _statement._controlFlow._signal<YieldStmt, _yieldStmt>,
         _java._uniPart<YieldStmt, _yieldStmt>,
         _java._withExpression<YieldStmt, _yieldStmt>{
 

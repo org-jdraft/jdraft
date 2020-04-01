@@ -19,7 +19,7 @@ import java.util.function.Function;
  *  <br/>"int" is the element type.
  *  <br/>All the brackets are stored in the levels field, from left to right.
  */
-public class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate>,
+public final class _arrayCreate implements _expression<ArrayCreationExpr, _arrayCreate>,
         _java._multiPart<ArrayCreationExpr, _arrayCreate>,
         _java._list<ArrayCreationLevel, _arrayDimension, _arrayCreate> {
 

@@ -1,6 +1,5 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.SimpleName;
@@ -11,7 +10,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class _fieldAccess implements _expression<FieldAccessExpr, _fieldAccess>,
+public final class _fieldAccess implements _expression<FieldAccessExpr, _fieldAccess>,
         _java._multiPart<FieldAccessExpr, _fieldAccess>,
         _java._withName<_fieldAccess>,
         _typeArguments._withTypeArguments<FieldAccessExpr, _fieldAccess>,

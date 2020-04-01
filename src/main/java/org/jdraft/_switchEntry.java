@@ -12,7 +12,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class _switchEntry implements _java._multiPart<SwitchEntry, _switchEntry> {
+public final class _switchEntry implements _java._multiPart<SwitchEntry, _switchEntry> {
 
     public static _switchEntry of(){
         return new _switchEntry(new SwitchEntry());

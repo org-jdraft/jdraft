@@ -13,7 +13,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class _assign implements _expression<AssignExpr, _assign>, _java._multiPart<AssignExpr, _assign> {
+public final class _assign implements _expression<AssignExpr, _assign>, _java._multiPart<AssignExpr, _assign> {
 
     public static _assign of() {
         return new _assign(new AssignExpr());

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
-public class _string implements _expression._literal<StringLiteralExpr, _string> {
+public final class _string implements _expression._literal<StringLiteralExpr, _string> {
 
     public static _string of(){
         return new _string( new StringLiteralExpr());

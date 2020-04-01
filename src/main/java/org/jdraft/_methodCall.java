@@ -1,6 +1,5 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.SimpleName;
@@ -8,7 +7,7 @@ import com.github.javaparser.ast.expr.SimpleName;
 import java.util.*;
 import java.util.function.*;
 
-public class _methodCall implements _expression<MethodCallExpr, _methodCall>,
+public final class _methodCall implements _expression<MethodCallExpr, _methodCall>,
         _java._multiPart<MethodCallExpr, _methodCall>,
         _java._withName<_methodCall>,
         _java._withScope<MethodCallExpr, _methodCall>,

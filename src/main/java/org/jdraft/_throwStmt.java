@@ -10,7 +10,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class _throwStmt implements _statement._controlFlow._signal<ThrowStmt, _throwStmt>,
+public final class _throwStmt implements _statement._controlFlow._signal<ThrowStmt, _throwStmt>,
         _java._uniPart<ThrowStmt, _throwStmt>, _java._withExpression<ThrowStmt, _throwStmt> {
 
     public static _throwStmt of(){

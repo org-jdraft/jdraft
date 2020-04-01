@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.*;
 
-public class _binaryExpression implements _expression<BinaryExpr, _binaryExpression>,
+public final class _binaryExpression implements _expression<BinaryExpr, _binaryExpression>,
         _java._multiPart<BinaryExpr, _binaryExpression> {
 
     public static _binaryExpression of(){

@@ -7,7 +7,7 @@ import org.jdraft._initBlock._withInitBlocks;
 
 import org.jdraft.diff._diff.*;
 
-public class _initBlocksDiff
+public final class _initBlocksDiff
         implements _differ<List<_initBlock>, _java._multiPart> {
 
     public static final _initBlocksDiff INSTANCE = new _initBlocksDiff();

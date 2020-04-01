@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.*;
 
-public class _labeledStmt implements _statement<LabeledStmt, _labeledStmt>,
+public final class _labeledStmt implements _statement<LabeledStmt, _labeledStmt>,
         _java._multiPart<LabeledStmt, _labeledStmt> {
 
     public static _labeledStmt of(){

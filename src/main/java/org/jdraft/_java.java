@@ -26,7 +26,7 @@ import org.jdraft._body._hasBody;
 
 import org.jdraft._modifiers.*;
 import org.jdraft._constructor._withConstructors;
-import org.jdraft._javadoc._withJavadoc;
+import org.jdraft._javadocComment._withJavadoc;
 import org.jdraft._method._withMethods;
 import org.jdraft._receiverParameter._withReceiverParameter;
 import org.jdraft._initBlock._withInitBlocks;
@@ -163,7 +163,7 @@ public interface _java {
      * {@link _constructor}
      * {@link _constant}
      * {@link _field}
-     * {@link _javadoc}
+     * {@link _javadocComment}
      * {@link _method}
      * {@link _parameter}
      * {@link _receiverParameter}
@@ -253,12 +253,24 @@ public interface _java {
             }
             throw new _jdraftException("Unable to return draft _java node for BlockStmt without NodeWithBlockStmt parent");
         }
-        if (astNode instanceof JavadocComment) {
-            JavadocComment jdc = (JavadocComment) astNode;
+        if( astNode instanceof Comment){
+            if (astNode instanceof JavadocComment) {
+                JavadocComment jdc = (JavadocComment) astNode;
+                return _javadocComment.of(jdc);
+            }
+            if (astNode instanceof LineComment) {
+                LineComment c = (LineComment) astNode;
+                return _lineComment.of(c);
+            }
+            BlockComment c = (BlockComment) astNode;
+            return _blockComment.of(c);
+            /*
             if (jdc.getParentNode().isPresent()) {
-                return _javadoc.of((NodeWithJavadoc) jdc.getParentNode().get());
+                Node parent =
+                return _javadocComment.of((NodeWithJavadoc) jdc.getParentNode().get());
             }
             throw new _jdraftException("No Parent provided for JavadocComment");
+             */
         }
         if (astNode instanceof MethodDeclaration) {
             MethodDeclaration md = (MethodDeclaration) astNode;
@@ -331,7 +343,11 @@ public interface _java {
         MODIFIER("modifier", _modifier.class),
 
         HEADER_COMMENT("header", Comments.class),
-        JAVADOC("javadoc", _javadoc.class),
+        JAVADOC("javadoc", _javadocComment.class),
+
+        LINE_COMMENT("lineComment", _lineComment.class),
+        BLOCK_COMMENT("blockComment", _blockComment.class),
+
         PARAMETERS("parameters", _parameters.class),
         PARAMETER("parameter", _parameter.class),
         RECEIVER_PARAMETER("receiverParameter", _receiverParameter.class),
@@ -542,7 +558,10 @@ public interface _java {
         Class<_annos> ANNOS = _annos.class;
         Class<_import> IMPORT = _import.class;
         Class<_imports> IMPORTS = _imports.class;
-        Class<_javadoc> JAVADOC = _javadoc.class;
+
+        Class<_javadocComment> JAVADOC_COMMENT = _javadocComment.class;
+        Class<_lineComment> LINE_COMMENT = _lineComment.class;
+        Class<_blockComment> BLOCK_COMMENT = _blockComment.class;
 
         Class<_modifiers> MODIFIERS = _modifiers.class;
         Class<_parameter> PARAMETER = _parameter.class;

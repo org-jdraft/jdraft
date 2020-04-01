@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.*;
 
-public class _textBlock implements _expression._literal<TextBlockLiteralExpr, _textBlock> {
+public final class _textBlock implements _expression._literal<TextBlockLiteralExpr, _textBlock> {
 
     public static _textBlock of(){
         return new _textBlock( new TextBlockLiteralExpr());

@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
  * ALSO this is only nONE way of interacting with the SwitchStmt, you might want to interact directly with
  * SwitchEntries on the SwitchStmt alternatively
  */
-public class _caseGroup implements _java._domain{
+public final class _caseGroup implements _java._domain{
 
     public static _caseGroup of(){
         return new _caseGroup(new SwitchStmt());

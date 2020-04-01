@@ -10,7 +10,7 @@ import org.jdraft.diff._diff.*;
 /**
  * _differ for the package name
  */
-public class _packageNameDiff
+public final class _packageNameDiff
         implements _differ<String, _java._multiPart> {
 
     public static final _packageNameDiff INSTANCE = new _packageNameDiff();

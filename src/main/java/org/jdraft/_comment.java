@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  *
- * @see _javadoc for a javadoc attributed to a AST node (i.e. must start with / * * end with * / AND
+ * @see _javadocComment for a javadoc attributed to a AST node (i.e. must start with / * * end with * / AND
  * be
  */
 public interface _comment<C extends Comment, _C extends _comment> extends _java._node<C, _C> {

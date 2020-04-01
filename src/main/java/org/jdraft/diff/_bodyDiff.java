@@ -13,7 +13,7 @@ import name.fraser.neil.plaintext.diff_match_patch;
  *
  * @author Eric
  */
-public class _bodyDiff
+public final class _bodyDiff
         implements _differ<_body, _java._multiPart> {
 
     public static final _bodyDiff INSTANCE = new _bodyDiff();

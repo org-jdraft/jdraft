@@ -14,7 +14,7 @@ import java.util.function.Predicate;
 /**
  * Wraps looking at an archive (.zip or .jar file)
  */
-public class _archive implements _codeUnit._provider{
+public final class _archive implements _codeUnit._provider{
 
     public static _archive of( String path ){
         return new _archive(Paths.get(path));

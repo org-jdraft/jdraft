@@ -2,7 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 
-public class _boolean implements _expression._literal<BooleanLiteralExpr, _boolean> {
+public final class _boolean implements _expression._literal<BooleanLiteralExpr, _boolean> {
 
     public static _boolean of( ){
         return new _boolean(new BooleanLiteralExpr());

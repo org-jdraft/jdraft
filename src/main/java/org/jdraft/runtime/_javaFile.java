@@ -38,7 +38,7 @@ import org.jdraft.*;
  * 
  * @author Eric
  */
-public class _javaFile<C extends _codeUnit>
+public final class _javaFile<C extends _codeUnit>
     implements JavaFileObject  {
 
     /**

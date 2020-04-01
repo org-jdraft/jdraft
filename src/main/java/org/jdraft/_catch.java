@@ -1,6 +1,5 @@
 package org.jdraft;
 
-import com.github.javaparser.JavaParser;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.Parameter;
@@ -8,7 +7,6 @@ import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.CatchClause;
 import com.github.javaparser.ast.stmt.Statement;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.ReferenceType;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.UnionType;
@@ -19,7 +17,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.*;
 
-public class _catch implements _java._multiPart<CatchClause, _catch>,_body._hasBody<_catch> {
+public final class _catch implements _java._multiPart<CatchClause, _catch>,_body._hasBody<_catch> {
 
     public static _catch of(){
         return new _catch( new CatchClause() );

@@ -16,7 +16,7 @@ import java.util.*;
  * }</PRE>
  * @author Eric
  */
-public class Tokens implements Map<String,Object>{
+public final class Tokens implements Map<String,Object>{
 
     private final Map<String,Object> kvMap;
 

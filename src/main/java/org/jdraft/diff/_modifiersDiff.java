@@ -14,7 +14,7 @@ import org.jdraft.diff._diff.*;
  *
  * @author Eric
  */
-public class _modifiersDiff implements
+public final class _modifiersDiff implements
         _differ<NodeList<Modifier>, _java._multiPart> {
 
     public static final _modifiersDiff INSTANCE = new _modifiersDiff();

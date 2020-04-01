@@ -7,7 +7,7 @@ import static org.jdraft._method.describeMethodSignature;
 
 import org.jdraft.diff._diff.*;
 
-public class _methodsDiff
+public final class _methodsDiff
         implements _differ<List<_method>, _java._multiPart> {
 
     public static final _methodsDiff INSTANCE = new _methodsDiff();

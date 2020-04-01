@@ -12,7 +12,7 @@ import org.jdraft.diff._diff.*;
  *
  * @author Eric
  */
-public class _fieldsDiff implements _differ<List<_field>, _java._multiPart> {
+public final class _fieldsDiff implements _differ<List<_field>, _java._multiPart> {
 
     public static final _fieldsDiff INSTANCE = new _fieldsDiff();
     

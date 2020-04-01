@@ -2,7 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 
-public class _int implements _expression._literal<IntegerLiteralExpr, _int> {
+public final class _int implements _expression._literal<IntegerLiteralExpr, _int> {
 
     public static _int of(){
         return new _int(new IntegerLiteralExpr( ));

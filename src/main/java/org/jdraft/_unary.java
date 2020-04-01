@@ -13,7 +13,7 @@ import java.util.function.Predicate;
  * ("x++") with postfix operator
  *
  */
-public class _unary implements _expression<UnaryExpr, _unary>, _java._multiPart<UnaryExpr, _unary>,
+public final class _unary implements _expression<UnaryExpr, _unary>, _java._multiPart<UnaryExpr, _unary>,
         _java._withExpression<UnaryExpr, _unary> {
 
     public static _unary of(){

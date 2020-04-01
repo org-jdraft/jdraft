@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  * note: this is a "virtual" thing
  *
  */
-public class _switchStmt implements _statement._controlFlow._branching<SwitchStmt, _switchStmt>,
+public final class _switchStmt implements _statement._controlFlow._branching<SwitchStmt, _switchStmt>,
         _java._multiPart<SwitchStmt, _switchStmt>, _switch<_switchStmt> {
 
     public static _switchStmt ofSelector(String selectorExpression){

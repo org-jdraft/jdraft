@@ -6,7 +6,7 @@ import org.jdraft.*;
 
 import org.jdraft.diff._diff.*;
 
-public class _typeRefDiff
+public final class _typeRefDiff
     implements _differ<_typeRef, _java._multiPart> {
     
     public static final _typeRefDiff INSTANCE = new _typeRefDiff();

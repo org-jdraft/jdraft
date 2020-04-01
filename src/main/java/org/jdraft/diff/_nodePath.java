@@ -21,7 +21,7 @@ import org.jdraft.*;
  * enum[E].nest.class[inner].method[m()].body   : (the method body on a nested class within an enum)
  * </PRE>
  */
-public class _nodePath {
+public final class _nodePath {
 
     public static _nodePath of(Object... pathAsTokens) {
         _nodePath _p = new _nodePath();

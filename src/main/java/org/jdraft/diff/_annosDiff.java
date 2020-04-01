@@ -13,7 +13,7 @@ import org.jdraft.diff._diff.*;
  *
  * @author Eric
  */
-public class _annosDiff
+public final class _annosDiff
     implements _differ<_annos, _java._multiPart> {
 
     public static final _annosDiff INSTANCE = new _annosDiff();

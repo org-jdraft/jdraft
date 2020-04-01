@@ -18,7 +18,7 @@ import java.util.function.Function;
  * assert( true ); //check only
  * assert i==3 : "unexpected Expected this"; //check with optional message
  */
-public class _assertStmt implements _statement<AssertStmt, _assertStmt>, _java._multiPart<AssertStmt,_assertStmt> {
+public final class _assertStmt implements _statement<AssertStmt, _assertStmt>, _java._multiPart<AssertStmt,_assertStmt> {
 
     public static _assertStmt of(){
         return new _assertStmt( new AssertStmt( ));

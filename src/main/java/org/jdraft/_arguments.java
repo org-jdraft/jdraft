@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  *
  * @see org.jdraft.bot.$arguments for a prototype version
  */
-public class _arguments
+public final class _arguments
         implements _java._list<Expression, _expression, _arguments> {
 
     public static _arguments of(){

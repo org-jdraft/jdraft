@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class _null implements _expression._literal<NullLiteralExpr, _null> {
+public final class _null implements _expression._literal<NullLiteralExpr, _null> {
 
     public static _null of(){
         return new _null(new NullLiteralExpr());

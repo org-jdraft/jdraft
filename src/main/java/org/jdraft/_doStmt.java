@@ -14,7 +14,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class _doStmt implements _statement._controlFlow._loop<DoStmt, _doStmt>,
+public final class _doStmt implements _statement._controlFlow._loop<DoStmt, _doStmt>,
         _statement._controlFlow._branching<DoStmt, _doStmt>,
         _java._multiPart<DoStmt, _doStmt>,
         _java._withCondition<DoStmt,_doStmt>,

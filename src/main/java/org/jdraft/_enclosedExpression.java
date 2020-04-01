@@ -14,7 +14,7 @@ import java.util.function.Function;
  *  An expression between ( ).
  *  <br/><code>(1+1)</code>
  */
-public class _enclosedExpression implements _expression<EnclosedExpr, _enclosedExpression>,
+public final class _enclosedExpression implements _expression<EnclosedExpr, _enclosedExpression>,
         _java._uniPart<EnclosedExpr, _enclosedExpression>,
         _java._withExpression<EnclosedExpr, _enclosedExpression>{
 

@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * @see _archive to read the .java sources from a jar or zip file (i.e. "spring-2.1.1-sources.jar")
  * @see _path to read the .java sources from a directory (i.e. "Myproject/src/main/java")
  */
-public class _sources<_C extends _codeUnit> implements _codeUnit._provider {
+public final class _sources<_C extends _codeUnit> implements _codeUnit._provider {
 
     public static _sources of(){
         return new _sources(new ArrayList<_codeUnit>());

@@ -13,7 +13,7 @@ import static org.jdraft._java.Component.*;
  *
  * @author Eric
  */
-public class _companionTypeDiff implements _differ<List<_type>, _java._multiPart> {
+public final class _companionTypeDiff implements _differ<List<_type>, _java._multiPart> {
 
     public static _companionTypeDiff INSTANCE = new _companionTypeDiff();
 

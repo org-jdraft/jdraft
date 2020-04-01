@@ -5,7 +5,7 @@ import com.github.javaparser.ast.expr.MethodReferenceExpr;
 import java.util.*;
 import java.util.function.Predicate;
 
-public class _methodReference implements _expression<MethodReferenceExpr, _methodReference>,
+public final class _methodReference implements _expression<MethodReferenceExpr, _methodReference>,
         _java._multiPart<MethodReferenceExpr, _methodReference>,
         _java._withScope<MethodReferenceExpr, _methodReference>,
         _typeArguments._withTypeArguments<MethodReferenceExpr, _methodReference> {

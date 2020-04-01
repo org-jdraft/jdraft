@@ -31,7 +31,7 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _initBlock
-        implements _body._hasBody<_initBlock>, _javadoc._withJavadoc<_initBlock>,
+        implements _body._hasBody<_initBlock>, _javadocComment._withJavadoc<_initBlock>,
         _java._member<InitializerDeclaration, _initBlock> {
 
     /**

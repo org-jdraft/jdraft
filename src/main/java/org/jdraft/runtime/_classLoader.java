@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * 
  * @author Eric
  */
-public class _classLoader
+public final class _classLoader
     extends ClassLoader {
 
     /**

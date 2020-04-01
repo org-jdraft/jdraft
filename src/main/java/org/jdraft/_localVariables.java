@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * int i=0, j=1;
  * int i, j[], k;
  */
-public class _localVariables implements _expression<VariableDeclarationExpr, _localVariables>,
+public final class _localVariables implements _expression<VariableDeclarationExpr, _localVariables>,
         _java._multiPart<VariableDeclarationExpr, _localVariables>,
         _java._set<VariableDeclarator, _variable, _localVariables>,
         _annos._withAnnos<_localVariables>,

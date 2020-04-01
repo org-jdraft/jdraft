@@ -6,7 +6,7 @@ import com.github.javaparser.ast.stmt.ReturnStmt;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-public class _returnStmt implements _statement._controlFlow._signal<ReturnStmt, _returnStmt>,
+public final class _returnStmt implements _statement._controlFlow._signal<ReturnStmt, _returnStmt>,
         _java._withExpression<ReturnStmt, _returnStmt>,
         _java._uniPart<ReturnStmt, _returnStmt> {
 

@@ -10,12 +10,12 @@ import java.util.*;
  * "module-info.java" file describing the module dependencies
  * 
  */
-public class _moduleInfo
+public final class _moduleInfo
         implements _codeUnit<_moduleInfo>, _java._multiPart<CompilationUnit, _moduleInfo>,
         _java._withComments<CompilationUnit, _moduleInfo> {
 
     public CompilationUnit astCompUnit;
-    private final _javadoc.JavadocHolderAdapter javadocHolder;
+    //private final _javadoc.JavadocHolderAdapter javadocHolder;
 
     @Override
     public CompilationUnit astCompilationUnit() {
@@ -101,7 +101,7 @@ public class _moduleInfo
         m.put(_java.Component.MODULE_DECLARATION, getModuleAst());
         m.put(_java.Component.ANNOS, _annos.of(getModuleAst()));
         m.put(_java.Component.IMPORTS, _imports.of(astCompUnit));
-        m.put(_java.Component.JAVADOC, this.javadocHolder.getJavadoc());
+        //m.put(_java.Component.JAVADOC, this.javadocHolder.getJavadoc());
 
         return m;
     }
@@ -130,7 +130,7 @@ public class _moduleInfo
 
     public _moduleInfo(CompilationUnit cu) {
         this.astCompUnit = cu;
-        this.javadocHolder = new _javadoc.JavadocHolderAdapter(cu);
+        //this.javadocHolder = new _javadoc.JavadocHolderAdapter(cu);
     }
 
     @Override

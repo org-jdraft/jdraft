@@ -3,7 +3,7 @@ package org.jdraft.diff;
 import org.jdraft.*;
 import org.jdraft.diff._diff.*;
 
-public class _classDiff implements _differ<_class, _java._multiPart> {
+public final class _classDiff implements _differ<_class, _java._multiPart> {
 
     public static _classDiff INSTANCE = new _classDiff();
     
@@ -14,7 +14,7 @@ public class _classDiff implements _differ<_class, _java._multiPart> {
         }
         //_importsDiff.INSTANCE.diff(path, ds, left, right, left.listAstImports(), right.listAstImports());
         _importsDiff.INSTANCE.diff(path, ds, left, right, left, right);
-        _javadocDiff.INSTANCE.diff(path, ds, left, right, left.getJavadoc(), right.getJavadoc());
+        _javadocCommentDiff.INSTANCE.diff(path, ds, left, right, left.getJavadoc(), right.getJavadoc());
         _annosDiff.INSTANCE.diff(path, ds, left, right, left.getAnnos(), right.getAnnos());
         _modifiersDiff.INSTANCE.diff(path, ds, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());
         _namedDiff.INSTANCE.diff(path, ds, left, right, left.getName(), right.getName());

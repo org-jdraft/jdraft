@@ -5,16 +5,16 @@ import java.util.Objects;
 import com.github.javaparser.ast.comments.JavadocComment;
 
 import org.jdraft.*;
-import org.jdraft._javadoc._withJavadoc;
+import org.jdraft._javadocComment._withJavadoc;
 
 import org.jdraft.diff._diff.*;
 
 /**
- * Differ for {@link _javadoc}
+ * Differ for {@link _javadocComment}
  */
-public class _javadocDiff implements _differ<_javadocComment, _java._multiPart> {
+public final class _javadocCommentDiff implements _differ<_javadocComment, _java._multiPart> {
 
-    public static final _javadocDiff INSTANCE = new _javadocDiff();
+    public static final _javadocCommentDiff INSTANCE = new _javadocCommentDiff();
 
     public boolean equivalent(_javadocComment left, _javadocComment right) {
         return Objects.equals(left, right);

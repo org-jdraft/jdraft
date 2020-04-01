@@ -11,7 +11,7 @@ import org.jdraft._body._hasBody;
 import org.jdraft._constructor._withConstructors;
 import org.jdraft._field._withFields;
 import org.jdraft._java.Component;
-import org.jdraft._javadoc._withJavadoc;
+import org.jdraft._javadocComment._withJavadoc;
 import org.jdraft._method._withMethods;
 import org.jdraft._modifiers._withModifiers;
 import org.jdraft._receiverParameter._withReceiverParameter;
@@ -188,7 +188,7 @@ public interface _diff {
     }
 
     static _diff javadocOf(_withJavadoc left, _withJavadoc right) {
-        return _javadocDiff.INSTANCE.diff(left, right);
+        return _javadocCommentDiff.INSTANCE.diff(left, right);
     }
 
     static _diff bodyOf(_hasBody left, _hasBody right) {

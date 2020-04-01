@@ -14,7 +14,7 @@ import org.jdraft.diff._diff.*;
  *
  * @author Eric
  */
-public class _enumDiff implements _differ<_enum, _java._multiPart> {
+public final class _enumDiff implements _differ<_enum, _java._multiPart> {
 
     public static final _enumDiff INSTANCE = new _enumDiff();
     
@@ -29,7 +29,7 @@ public class _enumDiff implements _differ<_enum, _java._multiPart> {
         _annosDiff.INSTANCE.diff(path, dt, left, right, left.getAnnos(), right.getAnnos());
 
         _implementsDiff.INSTANCE.diff(path, dt, left, right, left.listImplements(), right.listImplements());
-        _javadocDiff.INSTANCE.diff(path, dt, left, right, left.getJavadoc(), right.getJavadoc());
+        _javadocCommentDiff.INSTANCE.diff(path, dt, left, right, left.getJavadoc(), right.getJavadoc());
         _initBlocksDiff.INSTANCE.diff(path, dt, left, right, left.listInitBlocks(), right.listInitBlocks());
         _namedDiff.INSTANCE.diff(path, dt, left, right, left.getName(), right.getName());
         _modifiersDiff.INSTANCE.diff(path, dt, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());
@@ -65,7 +65,7 @@ public class _enumDiff implements _differ<_enum, _java._multiPart> {
             _nodePath _p = path.in(CONSTANT, left.getName());
 
             _annosDiff.INSTANCE.diff(_p, dt, left, right, left.getAnnos(), right.getAnnos());
-            _javadocDiff.INSTANCE.diff(_p, dt, left, right, left.getJavadoc(), right.getJavadoc());
+            _javadocCommentDiff.INSTANCE.diff(_p, dt, left, right, left.getJavadoc(), right.getJavadoc());
             _namedDiff.INSTANCE.diff(_p, dt, left, right, left.getName(), right.getName());            
             ARGUMENTS_DIFF.diff(_p, dt, left, right, left.listArguments(), right.listArguments());
             _methodsDiff.INSTANCE.diff(_p, dt, left, right, left.listMethods(), right.listMethods());

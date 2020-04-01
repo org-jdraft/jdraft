@@ -2,7 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.TypeExpr;
 
-public class _typeExpression
+public final class _typeExpression
         implements _expression<TypeExpr, _typeExpression>,
         _java._uniPart<TypeExpr, _typeExpression>,
         _typeRef._withTypeRef<TypeExpr, _typeExpression> {

@@ -14,7 +14,7 @@ import org.jdraft.diff._diff._build;
 
 import org.jdraft.diff._diff._differ;
 
-public class _extendsDiff implements
+public final class _extendsDiff implements
         _differ<List<ClassOrInterfaceType>, _java._multiPart> {
 
     public static final _extendsDiff INSTANCE = new _extendsDiff();

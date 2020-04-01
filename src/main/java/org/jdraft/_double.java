@@ -2,7 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.DoubleLiteralExpr;
 
-public class _double implements _expression._literal<DoubleLiteralExpr, _double> {
+public final class _double implements _expression._literal<DoubleLiteralExpr, _double> {
 
     public static _double of(){
         return new _double( new DoubleLiteralExpr());

@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
  * Assumption: the other classes
  * Note: there are some examples where we have two
  */
-public class _typeTree {
+public final class _typeTree {
 
     /**
      * Builds a _typeTree from one or more _code._provider (s)

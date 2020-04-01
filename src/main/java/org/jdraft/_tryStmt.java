@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
-public class _tryStmt implements _statement._controlFlow._branching<TryStmt, _tryStmt>,
+public final class _tryStmt implements _statement._controlFlow._branching<TryStmt, _tryStmt>,
         _java._multiPart<TryStmt, _tryStmt>{
 
     public static _tryStmt of(){

@@ -11,7 +11,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class _localClassStmt implements _statement<LocalClassDeclarationStmt, _localClassStmt>,
+public final class _localClassStmt implements _statement<LocalClassDeclarationStmt, _localClassStmt>,
         _java._uniPart<LocalClassDeclarationStmt, _localClassStmt> {
 
     public static _localClassStmt of(){

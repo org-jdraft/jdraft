@@ -10,7 +10,7 @@ import org.jdraft.diff._diff.*;
  *
  * @author Eric
  */
-public class _parametersDiff
+public final class _parametersDiff
         implements _differ<_parameters, _java._multiPart> {
 
     public static final _parametersDiff INSTANCE = new _parametersDiff();

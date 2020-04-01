@@ -30,7 +30,7 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _method
-        implements _javadoc._withJavadoc<_method>, _annos._withAnnos<_method>,
+        implements _javadocComment._withJavadoc<_method>, _annos._withAnnos<_method>,
         _java._withNameTypeRef<MethodDeclaration, _method>, _body._hasBody<_method>, _throws._withThrows<_method>,
         _modifiers._withModifiers<_method>, _parameters._withParameters<_method>,
         _typeParameters._withTypeParameters<_method>, _receiverParameter._withReceiverParameter<_method>,

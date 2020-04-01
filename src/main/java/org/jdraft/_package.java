@@ -5,7 +5,7 @@ import org.jdraft.text.Text;
 
 import java.util.Objects;
 
-public class _package implements _java._node<PackageDeclaration, _package> {
+public final class _package implements _java._node<PackageDeclaration, _package> {
 
     public static _package of(){
         return of( new PackageDeclaration());

@@ -14,7 +14,7 @@ import java.util.Objects;
  * System.out.println( "name" +name);
  * </CODE>
  */
-public class _lineComment implements _comment<LineComment, _lineComment>, _java._node<LineComment, _lineComment> {
+public final class _lineComment implements _comment<LineComment, _lineComment>, _java._node<LineComment, _lineComment> {
 
     public static _lineComment of(LineComment lc ){
         return new _lineComment( lc );

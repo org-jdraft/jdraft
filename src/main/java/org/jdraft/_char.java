@@ -5,7 +5,7 @@ import org.jdraft.text.Text;
 
 import java.util.function.Predicate;
 
-public class _char implements _expression._literal<CharLiteralExpr, _char> {
+public final class _char implements _expression._literal<CharLiteralExpr, _char> {
 
     public static _char of(){
         return new _char(new CharLiteralExpr());

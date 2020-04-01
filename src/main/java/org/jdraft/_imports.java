@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * @see _import representation of a single import declaration
  * @author Eric
  */
-public class _imports implements _java._set<ImportDeclaration, _import, _imports> {
+public final class _imports implements _java._set<ImportDeclaration, _import, _imports> {
 
     public static _imports of(Class...clazzes){
         CompilationUnit cu = new CompilationUnit();

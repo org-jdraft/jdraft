@@ -300,7 +300,7 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
         return matches( com );
     }
 
-    public boolean matches( _javadoc._withJavadoc _j){
+    public boolean matches( _javadocComment._withJavadoc _j){
         if( !_j.hasJavadoc() ){
              return this.isMatchAny();
         }
@@ -464,7 +464,7 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
         }
     }
 
-    public $tokens parse(_javadoc._withJavadoc hj){
+    public $tokens parse(_javadocComment._withJavadoc hj){
         //System.out.println( "1>>>>>>>>>>>>> parsin "+hj);
         //System.out.println( "1>>>>>>>>>>>>> parsin "+this.commentClasses);
         _javadocComment _jd = hj.getJavadoc();

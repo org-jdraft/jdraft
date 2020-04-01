@@ -18,7 +18,7 @@ import org.jdraft.text.Text;
  *
  * @see _constructorCallStmt
  */
-public class _super implements _expression<SuperExpr, _super>, _java._uniPart<SuperExpr,_super> {
+public final class _super implements _expression<SuperExpr, _super>, _java._uniPart<SuperExpr,_super> {
 
     public static _super of(){
         return new _super( new SuperExpr());
