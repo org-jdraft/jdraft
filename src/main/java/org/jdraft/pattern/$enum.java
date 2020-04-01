@@ -565,7 +565,7 @@ public class $enum
     }
     //TODO other static blocks?
 
-    public $enum $javadoc(_javadoc _jd ){
+    public $enum $javadoc(_javadocComment _jd ){
         if( _jd != null ) {
             this.javadoc = $comment.javadocComment(_jd);
         }else{

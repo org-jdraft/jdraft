@@ -266,9 +266,16 @@ public final class _initBlock
         return hash;
     }
 
+    //@Override
+    //public _javadoc getJavadoc() {
+    //    return _javadoc.of( this.astInit);
+    //}
     @Override
-    public _javadoc getJavadoc() {
-        return _javadoc.of( this.astInit);
+    public _javadocComment getJavadoc() {
+        if( this.astInit.getJavadocComment().isPresent() ){
+            return _javadocComment.of( this.astInit.getJavadocComment().get());
+        }
+        return null;
     }
 
     @Override

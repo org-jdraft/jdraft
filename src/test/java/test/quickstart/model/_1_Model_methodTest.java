@@ -46,7 +46,7 @@ public class _1_Model_methodTest extends TestCase {
             _typeParameters _tps = _m.getTypeParameters();
             _throws _ts = _m.getThrows();
             _annos _as = _m.getAnnos();
-            _javadoc _jd = _m.getJavadoc();
+            _javadocComment _jd = _m.getJavadoc();
             _receiverParameter _rp = _m.getReceiverParameter();
 
         // what IS the _method?

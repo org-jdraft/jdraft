@@ -5,6 +5,7 @@ import com.github.javaparser.ast.body.FieldDeclaration;
 import java.io.Serializable;
 
 import com.github.javaparser.ast.type.Type;
+import org.jdraft.diff._diff;
 import org.jdraft.macro._abstract;
 import org.jdraft.macro._default;
 import org.jdraft.macro._remove;
@@ -192,12 +193,17 @@ public class _interfaceTest extends TestCase {
         //System.out.println( _interface.of( ComplexInterface.class ).getMethod( "doIt" ).hashCode());
         //System.out.println( _interface.of( ComplexInterface.class ).getMethod( "doIt" ).hashCode() );
         assertEquals(_i.getMethod("doIt"), _interface.of(ComplexInterface.class).getMethod("doIt"));
+        assertEquals(_i.getMethod("doIt").hashCode(), _interface.of(ComplexInterface.class).getMethod("doIt").hashCode());
         
         //System.out.println( _i.getMethod( "getValue" ).hashCode());
         //System.out.println( _interface.of( ComplexInterface.class ).getMethod( "getValue" ).hashCode());
         assertEquals(_i.getMethod("getValue"),_interface.of(ComplexInterface.class).getMethod("getValue"));
+        assertEquals(_i.getMethod("getValue").hashCode(), _interface.of(ComplexInterface.class).getMethod("getValue").hashCode());
 
+        assertEquals(_i.getMethod("genMethod"),_interface.of(ComplexInterface.class).getMethod("genMethod"));
+        assertEquals(_i.getMethod("genMethod").hashCode(), _interface.of(ComplexInterface.class).getMethod("genMethod").hashCode());
 
+        //System.out.println( _diff.of( _i, _interface.of(ComplexInterface.class)) );
 
 
         assertEquals( _i, _interface.of( ComplexInterface.class ) );        
@@ -212,7 +218,7 @@ public class _interfaceTest extends TestCase {
         assertTrue( _i.hasImport( WithDefaultMethods.class));
         assertTrue( _i.hasImport( ann2.class));
         
-        assertTrue( _i.getJavadoc().getContent().contains("javadocs"));
+        assertTrue( _i.getJavadoc().getContents().contains("javadocs"));
         assertTrue( _i.getAnnos().is("@ann", "@ann2(k='d')"));
         assertTrue( _i.getModifiers().is( "public"));
         assertTrue( _i.getTypeParameters().is( "<Y, Z extends Base>"));

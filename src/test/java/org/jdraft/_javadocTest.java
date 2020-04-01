@@ -50,7 +50,7 @@ public class _javadocTest extends TestCase {
             }
         }
         _class _c = _class.of(C.class);
-        System.out.println( _c.getJavadoc().getContent() );
+        System.out.println( _c.getJavadoc().getContents() );
         //System.out.println( _c.getJavadoc().parseFirst("@author $name$") );
         //assertEquals( "Eric", _c.getJavadoc().parseFirst("@author $name$").get("name"));
         JavadocComment jdc = _c.getJavadoc().ast();

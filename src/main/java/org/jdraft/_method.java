@@ -260,7 +260,11 @@ public final class _method
         if (this.hasJavadoc() != other.hasJavadoc()) {
             return false;
         }
-        if (this.hasJavadoc() && !Objects.equals(this.getJavadoc().getContent().trim(), other.getJavadoc().getContent().trim())) {
+        //if (this.hasJavadoc() && !Objects.equals(this.getJavadoc().getContent().trim(), other.getJavadoc().getContent().trim())) {
+        //    return false;
+        //}
+        if (this.hasJavadoc() && !Objects.equals(this.getJavadoc().getContents().trim(), other.getJavadoc().getContents().trim())) {
+            System.out.println("NOT EQUAL"+ System.lineSeparator()+this.getJavadoc().getContents().trim()+" "+System.lineSeparator()+ " "+ other.getJavadoc().getContents().trim());
             return false;
         }
         if (!Modifiers.modifiersEqual(this.astMethod, other.astMethod)) {
@@ -345,7 +349,7 @@ public final class _method
         hash = 23 * hash + Objects.hash(
                 Expressions.hashAnnos(astMethod),
                 this.getBody(),
-                this.getJavadoc(),
+                //this.getJavadoc(),
                 modsSet, //this.getEffectiveModifiers(), //this.getModifiers(),
                 this.getName(),
                 this.getParameters(),
@@ -353,6 +357,10 @@ public final class _method
                 this.getTypeParameters(),
                 this.getReceiverParameter(),
                 Types.hash(astMethod.getType()));
+        if( this.ast().hasJavaDocComment() ){
+
+            hash = hash * getJavadoc().hashCode();
+        }
         return hash;
     }
     

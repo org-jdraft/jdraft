@@ -3,6 +3,7 @@ package org.jdraft.pattern;
 import com.github.javaparser.ast.comments.JavadocComment;
 import org.jdraft._java;
 import org.jdraft._javadoc;
+import org.jdraft._javadocComment;
 
 import java.util.function.Predicate;
 
@@ -47,7 +48,7 @@ public interface $declared <D extends _java._declared, $D extends $pattern> exte
     $D $javadoc(  $comment<JavadocComment> javadocComment );
 
     /* Make these default? */
-    $D $javadoc( _javadoc _jd);
+    $D $javadoc( _javadocComment _jd);
 
     /* Make these default? */
     $D $javadoc( Predicate<JavadocComment> javadocMatchFn );

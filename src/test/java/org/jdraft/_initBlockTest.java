@@ -151,7 +151,7 @@ public class _initBlockTest extends TestCase {
 
         assertTrue( sb.is( "/**",
                            " * Javadoc",
-                           " */", 
+                           " */",
                            "static {", 
                               "System.out.println(1);",
                             "}") );

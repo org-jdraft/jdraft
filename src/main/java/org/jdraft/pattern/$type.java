@@ -443,7 +443,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
     }
 
     @Override
-    public $type $javadoc(_javadoc _jd) {
+    public $type $javadoc(_javadocComment _jd) {
         this.javadoc = $comment.javadocComment(_jd);
         return this;
     }

@@ -360,6 +360,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
             return false;
         }
         final _interface other = (_interface)obj;
+
         if( this.astInterface == other.astInterface ){
             return true; //two _interfaces pointing to the same InterfaceDeclaration
         }
@@ -369,18 +370,21 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         if( ! Expressions.equalAnnos(this.astInterface, other.astInterface)){
             return false;
         }
+
         if( this.hasJavadoc() != other.hasJavadoc() ){
             return false;
         }
-        if( this.hasJavadoc() && !Objects.equals( this.getJavadoc().getContent(), other.getJavadoc().getContent())){
+        if( this.hasJavadoc() && !Objects.equals( this.getJavadoc().getContents().trim(), other.getJavadoc().getContents().trim())){
             return false;
         }
+
         if( !Objects.equals( this.getModifiers(), other.getModifiers())){
             return false;
         }
         if( !Objects.equals( this.getTypeParameters(), other.getTypeParameters())){
             return false;
         }
+
         Set<_method> tm = new HashSet<>();
         Set<_method> om = new HashSet<>();
         tm.addAll(  this.listMethods());
@@ -389,6 +393,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         if( !Objects.equals( tm, om)){
             return false;
         }
+
         Set<_field> tf = new HashSet<>();
         Set<_field> of = new HashSet<>();
         tf.addAll(  this.listFields());
@@ -397,7 +402,6 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         if( !Objects.equals( tf, of)){
             return false;
         }
-
         if( !Types.equal( astInterface.getExtendedTypes(), other.astInterface.getExtendedTypes() )){
             return false;
         }

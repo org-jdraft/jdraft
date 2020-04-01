@@ -864,7 +864,7 @@ public class $method
         return this;
     }
 
-    public $method $javadoc(_javadoc javadocComment ){
+    public $method $javadoc(_javadocComment javadocComment ){
         this.javadoc = $comment.javadocComment(javadocComment);
         return this;
     }

@@ -383,7 +383,7 @@ public class $enumConstant
         return this;
     }
 
-    public $enumConstant $javadoc(_javadoc javadocComment ){
+    public $enumConstant $javadoc(_javadocComment javadocComment ){
         this.javadoc = $comment.javadocComment(javadocComment);
         return this;
     }

@@ -288,7 +288,7 @@ public class $annotationEntry
         return this;
     }
 
-    public $annotationEntry $javadoc(_javadoc javadocComment ){
+    public $annotationEntry $javadoc(_javadocComment javadocComment ){
         this.javadoc = $comment.javadocComment(javadocComment);
         return this;
     }

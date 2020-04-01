@@ -25,6 +25,7 @@ import static com.github.javaparser.utils.Utils.normalizeEolInTextBlock;
  * Helpful things for printing the contents of the AST
  */
 public interface Print {
+    //;
 
     /**
      * a slight variant of the PrettyPrinter

@@ -481,7 +481,7 @@ public class $annotation
         return this;
     }
 
-    public $annotation $javadoc(_javadoc _jd){
+    public $annotation $javadoc(_javadocComment _jd){
         if( _jd != null ){
             this.javadoc = $comment.javadocComment(_jd);
         } else{

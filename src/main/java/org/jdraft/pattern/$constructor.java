@@ -566,7 +566,7 @@ public class $constructor
         return this;
     }
     
-    public $constructor $javadoc(_javadoc _jd){
+    public $constructor $javadoc(_javadocComment _jd){
         this.javadoc = $comment.javadocComment(_jd);
         return this;
     }

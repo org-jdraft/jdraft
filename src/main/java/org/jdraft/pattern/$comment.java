@@ -117,7 +117,7 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
         return $c;
     }
 
-    public static $comment<JavadocComment> javadocComment( _javadoc _jc){
+    public static $comment<JavadocComment> javadocComment( _javadocComment _jc){
         return new $comment( _jc.ast()).omitBlockComments().omitLineComments();
     }
     
@@ -288,7 +288,7 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
         return this;
     }
 
-    public boolean matches( _javadoc _j ){
+    public boolean matches( _javadocComment _j ){
         if( _j == null ){
             return this.isMatchAny();
         }
@@ -467,7 +467,7 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
     public $tokens parse(_javadoc._withJavadoc hj){
         //System.out.println( "1>>>>>>>>>>>>> parsin "+hj);
         //System.out.println( "1>>>>>>>>>>>>> parsin "+this.commentClasses);
-        _javadoc _jd = hj.getJavadoc();
+        _javadocComment _jd = hj.getJavadoc();
         if( _jd == null){
             //System.out.println( "Javadoc is null");
             if (isMatchAny()) {
@@ -688,14 +688,18 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
     }
 
     public JavadocComment draftJavadocComment(Translator translator, Map<String, Object> keyValues) {
-        String contents = this.contentsStencil.draft(translator, keyValues);
-        if( contents.trim().length() == 0 ){
+        try {
+            String contents = this.contentsStencil.draft(translator, keyValues);
+            if (contents.trim().length() == 0) {
+                return null;
+            }
+            if (contents.trim().equals("null")) {
+                return null;
+            }
+            return new JavadocComment(contents);
+        }catch(Exception e){
             return null;
         }
-        if( contents.trim().equals( "null" ) ){
-            return null;
-        }
-        return new JavadocComment( contents );
     }
     
     public BlockComment draftBlockComment(Translator translator, Map<String, Object> keyValues) {

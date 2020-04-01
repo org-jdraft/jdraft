@@ -362,7 +362,7 @@ public class _classTest extends TestCase {
     
     public void testJavadoc(){
         _class _c = _class.of("C").setJavadoc("Oh, Hello");
-        assertEquals( "Oh, Hello", _c.getJavadoc().getContent());
+        assertEquals( "Oh, Hello", _c.getJavadoc().getContents());
     }
 
     public void testCopyright(){
@@ -823,7 +823,7 @@ public class _classTest extends TestCase {
         assertEquals(1, _c.listMethods().size());
         _method _m = _c.getMethod("doIt");
         assertTrue( _m.hasJavadoc());
-        assertTrue( _m.getJavadoc().getContent().contains( "method JAVADOC" ));
+        assertTrue( _m.getJavadoc().getContents().contains( "method JAVADOC" ));
         assertTrue( _m.hasAnnos());
         assertTrue( _m.getAnnos().is("@ann","@ann2(k=3,v='i')"));
         assertTrue( _m.getModifiers().is("public static"));
@@ -842,7 +842,7 @@ public class _classTest extends TestCase {
         assertEquals(1, _c.listConstructors().size());
         _constructor _ct = _c.getConstructor(0);
         assertTrue(_ct.hasJavadoc());
-        assertTrue(_ct.getJavadoc().getContent().contains("ctor JAVADOC"));
+        assertTrue(_ct.getJavadoc().getContents().contains("ctor JAVADOC"));
         assertTrue(_ct.hasAnnos());
         assertTrue( _ct.getAnnos().is("@ann","@ann2(k=3,v='i')"));
         assertTrue( _ct.getModifiers().is("protected"));
@@ -880,7 +880,7 @@ public class _classTest extends TestCase {
         assertEquals(1, _c.listFields().size());
         _field _f = _c.getField("l");
         assertTrue( _f.hasJavadoc());
-        assertTrue( _f.getJavadoc().getContent().contains("field JAVADOC"));
+        assertTrue( _f.getJavadoc().getContents().contains("field JAVADOC"));
         assertTrue( _f.hasAnnos() );
         assertTrue( _f.getAnnos().is("@ann","@ann2(k=2,v='g')") );
         assertTrue( _f.getModifiers().is( "public static final"));
@@ -890,7 +890,7 @@ public class _classTest extends TestCase {
         //System.out.println( _c.listFields());
         
         assertTrue(_c.hasJavadoc());
-        assertTrue(_c.getJavadoc().getContent().contains( "class JAVADOC") );
+        assertTrue(_c.getJavadoc().getContents().contains( "class JAVADOC") );
         assertTrue(_c.hasAnnos());
         assertEquals(2, _c.listAnnos().size() );
         

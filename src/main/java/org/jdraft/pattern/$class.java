@@ -638,7 +638,7 @@ public class $class
         return this;
     }
 
-    public $class $javadoc( _javadoc _jd){
+    public $class $javadoc( _javadocComment _jd){
         if( _jd != null ) {
             this.javadoc = $comment.javadocComment(_jd);
         } else{

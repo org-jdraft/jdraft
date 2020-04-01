@@ -24,6 +24,11 @@ public class $commentTest extends TestCase {
         assertEquals( 2, _c.listAllJavadocComments().size());
     }
 
+    public void testAttributed(){
+        _class _c = _class.of("/** class */ public class A{}");
+        assertNotNull(_c.getJavadoc());
+    }
+
     public void testC(){
         /** class javadoc */
         class C{

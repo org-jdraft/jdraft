@@ -507,7 +507,7 @@ public class $interface
         return this;
     }
 
-    public $interface $javadoc(_javadoc _jd){
+    public $interface $javadoc(_javadocComment _jd){
         if( _jd != null ){
             this.javadoc = $comment.javadocComment(_jd);
         } else{

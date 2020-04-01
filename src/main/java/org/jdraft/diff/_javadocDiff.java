@@ -12,11 +12,11 @@ import org.jdraft.diff._diff.*;
 /**
  * Differ for {@link _javadoc}
  */
-public class _javadocDiff implements _differ<_javadoc, _java._multiPart> {
+public class _javadocDiff implements _differ<_javadocComment, _java._multiPart> {
 
     public static final _javadocDiff INSTANCE = new _javadocDiff();
 
-    public boolean equivalent(_javadoc left, _javadoc right) {
+    public boolean equivalent(_javadocComment left, _javadocComment right) {
         return Objects.equals(left, right);
     }
 
@@ -30,7 +30,7 @@ public class _javadocDiff implements _differ<_javadoc, _java._multiPart> {
     }
 
     @Override
-    public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _javadoc left, _javadoc right) {
+    public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _javadocComment left, _javadocComment right) {
         if (!equivalent(left, right)) {
             dt.addDiff(new _changeJavadoc(path.in(_java.Component.JAVADOC), (_withJavadoc) _leftParent, (_withJavadoc) _rightParent));
         }

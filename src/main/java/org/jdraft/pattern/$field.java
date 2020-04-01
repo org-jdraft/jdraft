@@ -344,8 +344,8 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
      * @param _jd
      * @return
      */
-     public $field $javadoc( _javadoc _jd ){
-        this.javadoc.contentsStencil = Stencil.of(_jd.getContent() );
+     public $field $javadoc( _javadocComment _jd ){
+        this.javadoc.contentsStencil = Stencil.of(_jd.getContents() );
         return this;
      }
 
@@ -942,11 +942,18 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
     public Select select(_field _f){
         if( this.constraint.test(_f) && modifiers.select(_f) != null ){            
             Tokens all = new Tokens();
+            /*
             if (_f.getJavadoc() == null ){
                 all = javadoc.parseTo(_f.getJavadoc().ast(), all);
             } else{
                 all = javadoc.parseTo(null, all);
-            }            
+            }
+             */
+            if (_f.getJavadoc() != null ){
+                all = javadoc.parseTo(_f.getJavadoc().ast(), all);
+            } else{
+                all = javadoc.parseTo(null, all);
+            }
             all = annos.parseTo(_f.getAnnos(), all);
             all = type.parseTo(_f.getTypeRef(), all);
             all = name.parseTo(_f.getName(), all);

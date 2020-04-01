@@ -120,7 +120,9 @@ public @interface _toCtor {
             cd.setBody(_ct.getBody().ast());
             cd.setParameters( _ct.getParameters().ast());
             cd.setThrownExceptions( _ct.getThrows().ast());
-            cd.setJavadocComment( _ct.getJavadoc().ast());
+            if( _ct.hasJavadoc() ) {
+                cd.setJavadocComment(_ct.getJavadoc().ast());
+            }
             cd.setAnnotations( _ct.getAnnos().ast());
             cd.getAnnotations().removeIf( a -> a.getNameAsString().equals(_toCtor.class.getName() ) || a.getNameAsString().equals(_toCtor.class.getCanonicalName()) );
 

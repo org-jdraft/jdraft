@@ -179,12 +179,12 @@ public final class _javadoc
             extends _java._domain {
 
         /** @return the JAVADOC for this element (or returns null) */
-        _javadoc getJavadoc();
+        _javadocComment getJavadoc();
 
-        /** 
+        /**
          * Add a javadoc to the entity and return the modified entity
          * @param content the javadoc content
-         * @return 
+         * @return
          */
         _WJ setJavadoc(String... content );
 
@@ -194,12 +194,35 @@ public final class _javadoc
          * @return the modified T
          */
         _WJ setJavadoc(JavadocComment astJavadocComment );
-        
+
         /**
          * Does this component have a Javadoc entry?
          * @return true if there is a javadoc, false otherwise
          */
         boolean hasJavadoc();
+
+        /** @return the JAVADOC for this element (or returns null) */
+        //_javadoc getJavadoc();
+
+        /** 
+         * Add a javadoc to the entity and return the modified entity
+         * @param content the javadoc content
+         * @return 
+         */
+        //_WJ setJavadoc(String... content );
+
+        /**
+         * set the javadoc comment with this JavadocComment
+         * @param astJavadocComment the
+         * @return the modified T
+         */
+        //_WJ setJavadoc(JavadocComment astJavadocComment );
+        
+        /**
+         * Does this component have a Javadoc entry?
+         * @return true if there is a javadoc, false otherwise
+         */
+        //boolean hasJavadoc();
 
         /**
          * Remove the javadoc entry from the entity and return the modified entity

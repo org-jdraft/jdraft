@@ -294,12 +294,22 @@ public final class _field
     }
 
     @Override
+    public _javadocComment getJavadoc() {
+        if( this.getFieldDeclaration() != null && this.getFieldDeclaration().getJavadocComment().isPresent() ){
+            return _javadocComment.of( this.getFieldDeclaration().getJavadocComment().get());
+        }
+        return null;
+    }
+    /*
+    @Override
     public _javadoc getJavadoc() {
         if( this.getFieldDeclaration() != null){
             return _javadoc.of(getFieldDeclaration());
         }
         return null;
     }
+
+     */
 
 
     @Override

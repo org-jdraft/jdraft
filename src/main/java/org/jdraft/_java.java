@@ -691,9 +691,21 @@ public interface _java {
             extends _member<N, _D>, _withName<_D>, _withAnnos<_D>, _withJavadoc<_D>, _withComments<N, _D>  {
 
         @Override
+        default _javadocComment getJavadoc() {
+            NodeWithJavadoc t = (NodeWithJavadoc) this.ast();
+            if( t.getJavadocComment().isPresent()){
+                return _javadocComment.of( (JavadocComment)t.getJavadocComment().get() );
+            }
+            return null;
+        }
+
+        /*
+        @Override
         default _javadoc getJavadoc() {
             return _javadoc.of((NodeWithJavadoc) this.ast());
         }
+
+         */
 
         default _D removeJavadoc() {
             ((NodeWithJavadoc) this.ast()).removeJavaDocComment();

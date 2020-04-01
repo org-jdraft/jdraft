@@ -19,10 +19,12 @@ import java.util.*;
  * @author Eric
  */
 public interface At {
+    //;
+
     /**
      * Singleton instance for comparing AST nodes by
      */
-    NodeStartPositionComparator COMPARE_NODE_BY_POSITION =
+    public static NodeStartPositionComparator COMPARE_NODE_BY_POSITION =
         new NodeStartPositionComparator();
 
     /*--------------------- LOCATION-BASED RESOLVING IN AST ---------------------------*/
@@ -34,7 +36,7 @@ public interface At {
      * @param line the line of the source code
      * @return an AST node or null if the position is not within the Clazzes source code
      */
-    static <N extends Node> N nodeAt(Class clazz, int line) {
+    public static <N extends Node> N nodeAt(Class clazz, int line) {
         return nodeAt( Ast.of(clazz), line);
     }
 
@@ -45,7 +47,7 @@ public interface At {
      * @param line the line of the source code
      * @return an AST node or null if the position is not within the Node
      */
-    static <N extends Node> N nodeAt(Node top, int line){
+    public static <N extends Node> N nodeAt(Node top, int line){
         final int l = Math.max( Math.abs(line), 1);
         Range r = new Range(new Position(l, 0), new Position(l, Integer.MAX_VALUE -1000));
 
@@ -86,7 +88,7 @@ public interface At {
      * @param column the column cursor position within the source code
      * @return an AST node or null if the position is not within the Clazzes source code
      */
-    static <N extends Node> N nodeAt(Class clazz, int line, int column) {
+    public static <N extends Node> N nodeAt(Class clazz, int line, int column) {
         line = Math.max( Math.abs(line), 1);
         return nodeAt( Ast.of(clazz), line, column);
     }
@@ -99,7 +101,7 @@ public interface At {
      * @param column the column cursor position
      * @return an AST node or null if the position is not within the top node
      */
-    static <N extends Node> N nodeAt(Node top, int line, int column){
+    public static <N extends Node> N nodeAt(Node top, int line, int column){
         Position p = new Position(Math.max( Math.abs(line), 1), column);
         List<Node> found = new ArrayList<>();
         top.walk( n-> {
@@ -138,7 +140,7 @@ public interface At {
      * @param <M> the type of BodyDeclaration
      * @return the bodyDeclaration encompassing this position or null if out of range
      */
-    static <M extends BodyDeclaration> M memberAt(Class clazz, Position pos) {
+    public static <M extends BodyDeclaration> M memberAt(Class clazz, Position pos) {
         return memberAt(clazz, pos.line, pos.column);
     }
 
@@ -161,7 +163,7 @@ public interface At {
      * @param <M>
      * @return
      */
-    static <M extends BodyDeclaration> M memberAt(Class clazz, int line, int column) {
+    public static <M extends BodyDeclaration> M memberAt(Class clazz, int line, int column) {
         line = Math.max( Math.abs(line), 1); //make sure non negative line number (also non zero)
         return memberAt( Ast.of(clazz), Math.max( line, 1), column);
     }
@@ -184,7 +186,7 @@ public interface At {
      * @param <M> the type of BodyDeclaration
      * @return the bodyDeclaration encompassing this position or null if out of range
      */
-    static <M extends BodyDeclaration> M memberAt(Node top, Position pos) {
+    public static <M extends BodyDeclaration> M memberAt(Node top, Position pos) {
         return memberAt(top, pos.line, pos.column);
     }
 
@@ -208,7 +210,7 @@ public interface At {
      * @param <M>
      * @return
      */
-    static <M extends BodyDeclaration> M memberAt(Node top, int line, int column) {
+    public static <M extends BodyDeclaration> M memberAt(Node top, int line, int column) {
         line = Math.max( Math.abs(line), 1);
         Node n = nodeAt( top, line, column);
         if( n == null ){
@@ -239,7 +241,7 @@ public interface At {
      * @param <M>
      * @return
      */
-    static <M extends BodyDeclaration> M memberAt(Class clazz, int line ) {
+    public static <M extends BodyDeclaration> M memberAt(Class clazz, int line ) {
         return memberAt( Ast.of(clazz), line);
     }
 
@@ -262,7 +264,7 @@ public interface At {
      * @param <M> a BodyDeclaration (Member)
      * @return an instance of a BodyDeclaration AST Node (or null if not found)
      */
-    static <M extends BodyDeclaration> M memberAt(Node top, int line ) {
+    public static <M extends BodyDeclaration> M memberAt(Node top, int line ) {
         //we cant have negative or 0 line numbers
         final int l = Math.max( Math.abs(line), 1);//if it's 0, we "really mean" 1
         Node n = nodeAt( top, line);
@@ -304,7 +306,7 @@ public interface At {
      * @param <_M>
      * @return
      */
-    static <_M extends _java._member> _M  _memberAt(Class clazz, int line, int column) {
+    public static <_M extends _java._member> _M  _memberAt(Class clazz, int line, int column) {
         return _memberAt( Ast.of(clazz), Math.max( line, 1), column);
     }
 
@@ -318,7 +320,7 @@ public interface At {
      * @param <_M>
      * @return
      */
-    static <_M extends _java._member> _M  _memberAt(_java._member model, int line, int column) {
+    public static <_M extends _java._member> _M  _memberAt(_java._member model, int line, int column) {
         return _memberAt(model.ast(), line, column);
     }
 
@@ -343,7 +345,7 @@ public interface At {
      * @param <_M> a _member implementation
      * @return
      */
-    static <_M extends _java._member> _M  _memberAt(Node top, int line, int column) {
+    public static <_M extends _java._member> _M  _memberAt(Node top, int line, int column) {
         BodyDeclaration astM = At.memberAt(top, line, column);
         if( astM == null ){
             return null;
@@ -371,7 +373,7 @@ public interface At {
      * @param <_M> a _member implementation
      * @return
      */
-    static <_M extends _java._member> _M _memberAt(Class clazz, int line ) {
+    public static <_M extends _java._member> _M _memberAt(Class clazz, int line ) {
         return _memberAt( Ast.of(clazz), line);
     }
 
@@ -395,7 +397,7 @@ public interface At {
      * @param <_M>
      * @return
      */
-    static <_M extends _java._member> _M  _memberAt(_java._member _mem, int line ) {
+    public static <_M extends _java._member> _M  _memberAt(_java._member _mem, int line ) {
         return _memberAt(_mem.ast(), line );
     }
 
@@ -419,7 +421,7 @@ public interface At {
      * @param <_M> a _member implementation
      * @return an instance of a BodyDeclaration AST Node (or null if not found)
      */
-    static <_M extends _java._member> _M _memberAt(Node top, int line ) {
+    public static <_M extends _java._member> _M _memberAt(Node top, int line ) {
         BodyDeclaration astM = At.memberAt(top, line);
         if( astM == null ){
             return null;
@@ -436,7 +438,7 @@ public interface At {
      * @param pos
      * @return
      */
-    static int getStatementIndex(BlockStmt bs, Position pos){
+    public static int getStatementIndex(BlockStmt bs, Position pos){
         List<Statement> st = bs.getStatements();
         if(st.isEmpty() ){
             return 0;
@@ -457,7 +459,7 @@ public interface At {
      * @param startPosition
      * @return the BlockStmt or null
      */
-    static BlockStmt blockAt(Node container, Position startPosition ){
+    public static BlockStmt blockAt(Node container, Position startPosition ){
         if( !container.getRange().get().contains( startPosition ) ){
             //System.out.println("Not contained");
             return null;
@@ -483,7 +485,7 @@ public interface At {
      * @param unsorted
      * @return
      */
-    static <N extends Node> List<N> sortNodesByPosition(List<N> unsorted){
+    public static <N extends Node> List<N> sortNodesByPosition(List<N> unsorted){
         Collections.sort(unsorted, COMPARE_NODE_BY_POSITION);
         return unsorted;
     }
@@ -492,7 +494,7 @@ public interface At {
      * Comparator for Nodes within an AST node that organizes based on the
      * start position.
      */
-    class NodeStartPositionComparator implements Comparator<Node> {
+    public static class NodeStartPositionComparator implements Comparator<Node> {
 
         @Override
         public int compare(Node o1, Node o2) {
