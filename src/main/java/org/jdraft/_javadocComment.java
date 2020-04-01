@@ -52,39 +52,6 @@ public class _javadocComment implements _comment<JavadocComment, _javadocComment
         return Objects.equals( of( Text.combine(stringRep) ), this);
     }
 
-    public boolean contains( CharSequence content ){
-        return getContents().contains(content);
-    }
-
-    /**
-     * Can we find an instanceof the the stencil pattern anywhere in the code?
-     * @param stencil the stencil to match within the javadoc contents
-     * @return true if this Stencil pattern is found, false otherwise
-     */
-    public boolean contains( Stencil stencil ){
-        return parseFirst(stencil) != null;
-    }
-
-    /**
-     * create a Stencil from the stencilText, then look for the Stencil inside the text matching
-     * and extracting the first instance found into tokens and returning them.
-     * Return null if no instance of the text is found
-     *
-     * @param stencilText text to build a Stencil to match against
-     * @return Tokens of the first Stencil match, or null if no match
-     */
-    private Tokens parseFirst(String stencilText ){
-        return parseFirst(Stencil.of(stencilText));
-    }
-
-    /**
-     *
-     * @param stencil
-     * @return
-     */
-    private Tokens parseFirst(Stencil stencil ){
-        return stencil.parseFirst(getContents());
-    }
 
     public boolean equals(Object o){
         if( o instanceof _javadocComment){

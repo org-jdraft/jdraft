@@ -8,6 +8,34 @@ import java.util.stream.Collectors;
 
 public class _commentTest extends TestCase {
 
+    public void testStencil(){
+        /** Attributed Javadoc 1 */
+        class C{
+            // line comment 2
+            int i;
+
+            /* block comment 3*/
+            int j;
+        }
+
+        _class _c = _class.of(C.class);
+        assertTrue(_c.listAllComments().get(0).contains("Attributed"));
+        assertTrue(_c.listAllComments().get(1).contains("line"));
+        assertTrue(_c.listAllComments().get(2).contains("block"));
+
+
+        assertEquals( "Javadoc 1", _c.listAllComments().get(0).parseFirst("Attributed $a$").get("a"));
+        assertEquals( "Javadoc", _c.listAllComments().get(0).parseFirst("Attributed $a$ 1").get("a"));
+
+        assertEquals( "comment 2", _c.listAllComments().get(1).parseFirst("line $a$").get("a"));
+        assertEquals( "comment", _c.listAllComments().get(1).parseFirst("line $a$ 2").get("a"));
+
+        assertEquals( "comment 3", _c.listAllComments().get(2).parseFirst("block $a$").get("a"));
+        assertEquals( "comment", _c.listAllComments().get(2).parseFirst("block $a$ 3").get("a"));
+
+
+    }
+
     public void testUpdateJavadocComments(){
         /** comment 1*/
         class C{
