@@ -592,7 +592,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     @Override
     public _class addExtend(Class toExtend ){
         addImports(toExtend);
-        return addExtend( (ClassOrInterfaceType) Types.typeRef(toExtend.getCanonicalName() ) );
+        return addExtend( (ClassOrInterfaceType) Types.of(toExtend.getCanonicalName() ) );
     }
 
     @Override

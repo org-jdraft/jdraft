@@ -65,7 +65,7 @@ public class SintTest extends TestCase {
 	
 	public void testSelect(){
 		//this is a select any int
-		$int.Selected is = new $int().select("1");
+		Select<_int> is = new $int().select("1");
 		assertNotNull( is );
 		
 		assertTrue(is.get().is("1"));

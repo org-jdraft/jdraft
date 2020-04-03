@@ -24,7 +24,7 @@ public final class _parameter
      * @return
      */
     public static _parameter of( Class type, String name ) {
-        return of( new Parameter( Types.typeRef( type ), name ) );
+        return of( new Parameter( Types.of( type ), name ) );
     }
 
     /**
@@ -114,7 +114,7 @@ public final class _parameter
 
     @Override
     public boolean isTypeRef(String type ) {
-        return Types.equal(this.astParameter.getType(), Types.typeRef( type ));
+        return Types.equal(this.astParameter.getType(), Types.of( type ));
     }
 
     @Override

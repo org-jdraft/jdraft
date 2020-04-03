@@ -2,8 +2,6 @@ package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
 import org.jdraft._java;
-import org.jdraft.text.Text;
-import org.jdraft.text.Tokens;
 
 import java.util.function.Predicate;
 
@@ -17,8 +15,6 @@ public interface $selector<_S, $S> {
     Predicate<_S> getPredicate();
 
     $S setPredicate( Predicate<_S> predicate);
-
-    //Select<_S> select(_java._node _jn);
 
     /**
      * Return a Select if the candidate matches
@@ -103,32 +99,4 @@ public interface $selector<_S, $S> {
         }
     }
 
-    /**
-     * A Matched Selection result returned from matching
-     * (including relevant "Tokens" extracted when selecting"
-     * @param <S> the selected instance type
-     */
-    public class Select<S> {
-
-        public S selection;
-        public Tokens tokens;
-
-        public Select(S selection, Tokens tokens) {
-            this.selection = selection;
-            this.tokens = tokens;
-        }
-
-        @Override
-        public String toString() {
-            return this.getClass().getCanonicalName().replace("org.jdraft.protptype", "")+"{" + System.lineSeparator()
-                    + Text.indent(selection.toString()) + System.lineSeparator() +
-                    Text.indent("Tokens : " + tokens) + System.lineSeparator()
-                    + "}";
-        }
-
-        public S get() {
-            return this.selection;
-        }
-
-    }
 }

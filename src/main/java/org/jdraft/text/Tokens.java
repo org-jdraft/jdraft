@@ -5,8 +5,9 @@ import org.jdraft._jdraftException;
 import java.util.*;
 
 /**
+ * KeyValue data structure for "Pairs" of extracted tokens from within Ast syntax nodes
+ *
  * A simple mapping of (String) keys to (Object) values
- * (API used for simple initialization and sequential _bulk loading)
  * <PRE>{@code
  * Tokens tokens = Tokens.of("A", 100, "NAME", "Barbara");
  * //it's equivalent to:
@@ -205,7 +206,6 @@ public final class Tokens implements Map<String,Object>{
         }
         return true;        
     }
-
 
     /**
      *

@@ -72,11 +72,11 @@ public class $enclosedExpression implements $bot.$node<EnclosedExpr, _enclosedEx
         return _j instanceof _enclosedExpression && matches((_enclosedExpression) _j);
     }
 
-    public Selected select(String... str) {
+    public Select<_enclosedExpression> select(String... str) {
         return select(Text.combine(str));
     }
 
-    public Selected select(String str) {
+    public Select<_enclosedExpression> select(String str) {
         try {
             return select(Expressions.classEx(str));
         } catch (Exception e) {
@@ -84,20 +84,20 @@ public class $enclosedExpression implements $bot.$node<EnclosedExpr, _enclosedEx
         }
     }
 
-    public Selected select(Node n) {
+    public Select<_enclosedExpression> select(Node n) {
         if (n instanceof EnclosedExpr) {
             return select(_enclosedExpression.of((EnclosedExpr) n));
         }
         return null;
     }
 
-    public Selected select(_enclosedExpression _aa) {
+    public Select<_enclosedExpression> select(_enclosedExpression _aa) {
         if (this.predicate.test(_aa)) {
             Select s = this.expression.select(_aa.getExpression());
             if (s == null) {
                 return null;
             }
-            return new Selected(_aa, s.tokens);
+            return new Select<_enclosedExpression>(_aa, s.tokens);
         }
         return null;
     }
@@ -183,12 +183,5 @@ public class $enclosedExpression implements $bot.$node<EnclosedExpr, _enclosedEx
     public $enclosedExpression(Predicate<_enclosedExpression> predicate) {
         super();
         $and(predicate);
-    }
-
-    public static class Selected extends Select<_enclosedExpression> {
-
-        public Selected(_enclosedExpression _node, Tokens tokens) {
-            super(_node, tokens);
-        }
     }
 }

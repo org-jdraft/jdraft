@@ -86,11 +86,11 @@ public class $classExpression implements $bot.$node<ClassExpr, _classExpression,
         return _j instanceof _classExpression && matches((_classExpression) _j);
     }
 
-    public Selected select(String... str) {
+    public Select<_classExpression> select(String... str) {
         return select(Text.combine(str));
     }
 
-    public Selected select(String str) {
+    public Select<_classExpression> select(String str) {
         try {
             return select(Expressions.classEx(str));
         } catch (Exception e) {
@@ -98,20 +98,20 @@ public class $classExpression implements $bot.$node<ClassExpr, _classExpression,
         }
     }
 
-    public Selected select(Node n) {
+    public Select<_classExpression> select(Node n) {
         if (n instanceof ClassExpr) {
             return select(_classExpression.of((ClassExpr) n));
         }
         return null;
     }
 
-    public Selected select(_classExpression _aa) {
+    public Select<_classExpression> select(_classExpression _aa) {
         if (this.predicate.test(_aa)) {
-            $typeRef.Selected s = this.type.select(_aa.getType());
+            Select s = this.type.select(_aa.getType());
             if (s == null) {
                 return null;
             }
-            return new Selected(_aa, s.tokens);
+            return new Select<>(_aa, s.tokens);
         }
         return null;
     }
@@ -187,12 +187,5 @@ public class $classExpression implements $bot.$node<ClassExpr, _classExpression,
     public $classExpression(Predicate<_classExpression> predicate) {
         super();
         $and(predicate);
-    }
-
-    public static class Selected extends Select<_classExpression> {
-
-        public Selected(_classExpression _node, Tokens tokens) {
-            super(_node, tokens);
-        }
     }
 }

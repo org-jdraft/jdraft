@@ -171,7 +171,7 @@ public final class _throws
      * @return
      */
     public _throws add( String... elements ) {
-        Arrays.stream( elements ).forEach( t -> this.astNodeWithThrows.getThrownExceptions().add( Types.typeRef( t)  ) );
+        Arrays.stream( elements ).forEach( t -> this.astNodeWithThrows.getThrownExceptions().add( Types.of( t)  ) );
         return this;
     }
 
@@ -302,7 +302,7 @@ public final class _throws
         }
         
         default _WT addThrows(String throwException) {
-            getThrows().astNodeWithThrows.addThrownException((ReferenceType) Types.typeRef(throwException));
+            getThrows().astNodeWithThrows.addThrownException((ReferenceType) Types.of(throwException));
             return (_WT)this;
         }    
 
@@ -312,7 +312,7 @@ public final class _throws
         }
     
         default _WT addThrows(Class<? extends Throwable> throwException) {
-            getThrows().astNodeWithThrows.addThrownException((ReferenceType) Types.typeRef(throwException));
+            getThrows().astNodeWithThrows.addThrownException((ReferenceType) Types.of(throwException));
             return (_WT)this;
         }
 

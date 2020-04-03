@@ -5,7 +5,6 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.NullLiteralExpr;
 import org.jdraft.*;
 import org.jdraft._java._domain;
-import org.jdraft.text.Stencil;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
@@ -82,7 +81,7 @@ public class $null implements $bot.$node<NullLiteralExpr, _null, $null>,
         return this;
     }
 
-    public Selected select(String code) {
+    public Select<_null> select(String code) {
         try {
             return select(_null.of(code));
         } catch (Exception e) {
@@ -90,7 +89,7 @@ public class $null implements $bot.$node<NullLiteralExpr, _null, $null>,
         }
     }
 
-    public Selected select(String... code) {
+    public Select<_null> select(String... code) {
         try {
             return select(_null.of(code));
         } catch (Exception e) {
@@ -98,42 +97,42 @@ public class $null implements $bot.$node<NullLiteralExpr, _null, $null>,
         }
     }
 
-    public Selected select(Node n) {
+    public Select<_null> select(Node n) {
         if (n instanceof NullLiteralExpr) {
             return select(_null.of((NullLiteralExpr) n));
         }
         return null;
     }
 
-    public Selected select(Expression e) {
+    public Select<_null> select(Expression e) {
         if (e instanceof NullLiteralExpr) {
             return select(_null.of((NullLiteralExpr) e));
         }
         return null;
     }
 
-    public Selected select(_domain _n) {
+    public Select<_null> select(_domain _n) {
         if (_n instanceof _null) {
             return select((_null) _n);
         }
         return null;
     }
 
-    public Selected select(_expression<?, ?> _e) {
+    public Select<_null> select(_expression<?, ?> _e) {
         if (_e instanceof _null) {
             return select((_null) _e);
         }
         return null;
     }
 
-    public Selected select(_null _i) {
+    public Select<_null> select(_null _i) {
         if (predicate.test(_i)) {
            // if (stencil == null) {
            //     return new Selected(_i, new Tokens());
             //}
             //Tokens ts = stencil.parse(_i.toString());
             //if (ts != null) {
-            return new Selected(_i, new Tokens());
+            return new Select<>(_i, new Tokens());
             //}
             //return null;
         }
@@ -245,11 +244,12 @@ public class $null implements $bot.$node<NullLiteralExpr, _null, $null>,
 
     /**
      * This makes it easier to NOT have to do silly things with generics on the outside
-     */
+
     public static class Selected extends Select<_null> {
 
         public Selected(_null _node, Tokens tokens) {
             super(_node, tokens);
         }
     }
+    */
 }

@@ -705,10 +705,10 @@ public class AstTest extends TestCase {
     }
     
     public void testTypeEquals(){
-        Types.equal( Types.typeRef("java.util.List<java.lang.String>"),
-                Types.typeRef("List<String>") );
+        Types.equal( Types.of("java.util.List<java.lang.String>"),
+                Types.of("List<String>") );
 
-        Types.equal( Types.typeRef(int.class), Types.typeRef("int"));
+        Types.equal( Types.of(int.class), Types.of("int"));
     }
 
     public void testTypeParameterAst(){
@@ -1078,8 +1078,8 @@ public class AstTest extends TestCase {
     }
 
     public void testType(){
-        Type t = Types.typeRef("MyType");
-        t = Types.typeRef("MyType<String,Integer>");
+        Type t = Types.of("MyType");
+        t = Types.of("MyType<String,Integer>");
     }
     public void testComment() {
         com.github.javaparser.ast.comments.Comment c = Ast.comment("// hello");
@@ -1239,9 +1239,9 @@ public class AstTest extends TestCase {
         assertEquals( Ast.of( "package h;", "import java.util.*;", "public class V{", "}"),
                 Ast.of("package h;", "import java.util.*;", "", "public class V", "{}" ) );
 
-        Types.typeRef("String" );
-        Types.typeRef("List<String>" );
-        assertEquals( Types.typeRef("Map< Integer,List< String >>"), Types.typeRef("Map<Integer, List<String>>" ));
+        Types.of("String" );
+        Types.of("List<String>" );
+        assertEquals( Types.of("Map< Integer,List< String >>"), Types.of("Map<Integer, List<String>>" ));
         assertEquals( Ast.of("public class MyClass<T> extends BaseClass implements IClass{} "),
                 Ast.of("public class MyClass<T>","    extends BaseClass","     implements IClass","{", "}"));
 

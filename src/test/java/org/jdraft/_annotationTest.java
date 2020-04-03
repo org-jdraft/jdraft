@@ -132,7 +132,7 @@ public class _annotationTest extends TestCase  {
         assertFalse( _p.hasJavadoc() );
         assertFalse( _p.hasAnnos() );
         assertTrue( _p.hasDefaultValue());
-        assertEquals( _p.getTypeRef(), _typeRef.of(Types.typeRef("Class[]")));
+        assertEquals( _p.getTypeRef(), _typeRef.of(Types.of("Class[]")));
 
         assertTrue( _p.isTypeRef(Class[].class) );
         assertEquals( Expressions.arrayInitializerEx( "{}"),_p.getDefaultValue());

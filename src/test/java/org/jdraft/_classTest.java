@@ -520,8 +520,8 @@ public class _classTest extends TestCase {
 
     public void testTypeHashCode(){
         assertEquals(
-            Types.hash( Types.typeRef("String")),
-            Types.hash( Types.typeRef("java.lang.String" )) );
+            Types.hash( Types.of("String")),
+            Types.hash( Types.of("java.lang.String" )) );
     }
 
     /**

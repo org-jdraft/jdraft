@@ -89,7 +89,7 @@ public class $int implements $bot.$node<IntegerLiteralExpr, _int, $int>,
         return this;
     }
 
-    public Selected select(String code) {
+    public Select<_int> select(String code) {
         try {
             return select(_int.of(code));
         } catch (Exception e) {
@@ -97,7 +97,7 @@ public class $int implements $bot.$node<IntegerLiteralExpr, _int, $int>,
         }
     }
 
-    public Selected select(String... code) {
+    public Select<_int> select(String... code) {
         try {
             return select(_int.of(code));
         } catch (Exception e) {
@@ -105,38 +105,38 @@ public class $int implements $bot.$node<IntegerLiteralExpr, _int, $int>,
         }
     }
 
-    public Selected select(Node n) {
+    public Select<_int> select(Node n) {
         if (n instanceof IntegerLiteralExpr) {
             return select(_int.of((IntegerLiteralExpr) n));
         }
         return null;
     }
 
-    public Selected select(Expression e) {
+    public Select<_int> select(Expression e) {
         if (e instanceof IntegerLiteralExpr) {
             return select(_int.of((IntegerLiteralExpr) e));
         }
         return null;
     }
 
-    public Selected select(_domain _n) {
+    public Select<_int> select(_domain _n) {
         if (_n instanceof _int) {
             return select((_int) _n);
         }
         return null;
     }
 
-    public Selected select(_expression<?, ?> _e) {
+    public Select<_int> select(_expression<?, ?> _e) {
         if (_e instanceof _int) {
             return select((_int) _e);
         }
         return null;
     }
 
-    public Selected select(_int _i) {
+    public Select<_int> select(_int _i) {
         if (predicate.test(_i)) {
             if (stencil == null) {
-                return new Selected(_i, new Tokens());
+                return new Select<>(_i, new Tokens());
             }
             Tokens ts = null;
             if( _i.ast().getComment().isPresent() ){
@@ -150,7 +150,7 @@ public class $int implements $bot.$node<IntegerLiteralExpr, _int, $int>,
                 ts = stencil.parse(_i.toString());
             }
             if (ts != null) {
-                return new Selected(_i, ts);
+                return new Select<>(_i, ts);
             }
             return null;
         }
@@ -255,13 +255,4 @@ public class $int implements $bot.$node<IntegerLiteralExpr, _int, $int>,
         this.stencil = stencil;
     }
 
-    /**
-     * This makes it easier to NOT have to do silly things with generics on the outside
-     */
-    public static class Selected extends Select<_int> {
-
-        public Selected(_int _node, Tokens tokens) {
-            super(_node, tokens);
-        }
-    }
 }

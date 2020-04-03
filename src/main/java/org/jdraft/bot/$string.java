@@ -6,6 +6,7 @@ import com.github.javaparser.ast.expr.StringLiteralExpr;
 import org.jdraft._expression;
 import org.jdraft._java._domain;
 import org.jdraft._jdraftException;
+import org.jdraft._statement;
 import org.jdraft._string;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Tokens;
@@ -90,7 +91,7 @@ public class $string implements $bot.$node<StringLiteralExpr, _string, $string>,
         return this;
     }
 
-    public Selected select(String code) {
+    public Select<_string> select(String code) {
         try {
             return select(_string.of(code));
         } catch (Exception e) {
@@ -98,7 +99,7 @@ public class $string implements $bot.$node<StringLiteralExpr, _string, $string>,
         }
     }
 
-    public Selected select(String... code) {
+    public Select<_string> select(String... code) {
         try {
             return select(_string.of(code));
         } catch (Exception e) {
@@ -106,42 +107,42 @@ public class $string implements $bot.$node<StringLiteralExpr, _string, $string>,
         }
     }
 
-    public Selected select(Node n) {
+    public Select<_string> select(Node n) {
         if (n instanceof StringLiteralExpr) {
             return select(_string.of((StringLiteralExpr) n));
         }
         return null;
     }
 
-    public Selected select(Expression e) {
+    public Select<_string> select(Expression e) {
         if (e instanceof StringLiteralExpr) {
             return select(_string.of((StringLiteralExpr) e));
         }
         return null;
     }
 
-    public Selected select(_domain _n) {
+    public Select<_string> select(_domain _n) {
         if (_n instanceof _string) {
             return select((_string) _n);
         }
         return null;
     }
 
-    public Selected select(_expression<?, ?> _e) {
+    public Select<_string> select(_expression<?, ?> _e) {
         if (_e instanceof _string) {
             return select((_string) _e);
         }
         return null;
     }
 
-    public Selected select(_string _i) {
+    public Select<_string> select(_string _i) {
         if (predicate.test(_i)) {
             if (stencil == null) {
-                return new Selected(_i, new Tokens());
+                return new Select<>(_i, new Tokens());
             }
             Tokens ts = stencil.parse(_i.toString());
             if (ts != null) {
-                return new Selected(_i, ts);
+                return new Select<>(_i, ts);
             }
             return null;
         }
@@ -246,13 +247,4 @@ public class $string implements $bot.$node<StringLiteralExpr, _string, $string>,
         this.stencil = stencil;
     }
 
-    /**
-     * This makes it easier to NOT have to do silly things with generics on the outside
-     */
-    public static class Selected extends Select<_string> {
-
-        public Selected(_string _node, Tokens tokens) {
-            super(_node, tokens);
-        }
-    }
 }

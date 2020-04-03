@@ -330,7 +330,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
     }
     
     public $parameter $type( String type ){
-        this.type.type = Types.typeRef( type );
+        this.type.type = Types.of( type );
         return this;
     }
     

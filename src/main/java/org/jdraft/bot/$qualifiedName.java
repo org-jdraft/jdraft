@@ -4,7 +4,6 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.nodeTypes.NodeWithName;
 import com.github.javaparser.ast.nodeTypes.NodeWithSimpleName;
 import org.jdraft._jdraftException;
-import org.jdraft._name;
 import org.jdraft._qualifiedName;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Tokens;

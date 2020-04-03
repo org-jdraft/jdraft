@@ -502,7 +502,7 @@ public final class _caseGroup implements _java._domain{
     }
 
     public boolean isThrow(Class<? extends Throwable> clazz){
-        return isThrow( Types.typeRef(clazz));
+        return isThrow( Types.of(clazz));
     }
 
     public boolean isThrow(_typeRef _tr ){

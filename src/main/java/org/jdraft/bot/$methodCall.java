@@ -143,18 +143,6 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
         return this;
     }
 
-    /*
-    public $methodCall $and(Predicate<_methodCall> _matchFn) {
-        this.predicate = this.predicate.and(_matchFn);
-        return this;
-    }
-
-    public $methodCall $not(Predicate<_methodCall> _matchFn) {
-        this.predicate = this.predicate.and(_matchFn.negate());
-        return this;
-    }
-     */
-
     public boolean isMatchAny(){
         if( this.name.isMatchAny() && this.scope.isMatchAny() && arguments.isMatchAny() && typeArguments.isMatchAny()){
             try {
@@ -164,17 +152,7 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
         return false;
     }
 
-    /*
-    public Selected select(String code) {
-        try {
-            return select(_methodCall.of(code));
-        } catch (Exception e) {
-            return null;
-        }
-    }
-     */
-
-    public Selected select(String... code) {
+    public Select<_methodCall> select(String... code) {
         try {
             return select(_methodCall.of(code));
         } catch (Exception e) {
@@ -182,35 +160,35 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
         }
     }
 
-    public Selected select(Node n) {
+    public Select<_methodCall> select(Node n) {
         if (n instanceof MethodCallExpr) {
             return select(_methodCall.of((MethodCallExpr) n));
         }
         return null;
     }
 
-    public Selected select(Expression e) {
+    public Select<_methodCall> select(Expression e) {
         if (e instanceof MethodCallExpr) {
             return select(_methodCall.of((MethodCallExpr) e));
         }
         return null;
     }
 
-    public Selected select(_java._domain _n) {
+    public Select<_methodCall> select(_java._domain _n) {
         if (_n instanceof _methodCall) {
             return select((_methodCall) _n);
         }
         return null;
     }
 
-    public Selected select(_expression<?, ?> _e) {
+    public Select<_methodCall> select(_expression<?, ?> _e) {
         if (_e instanceof _methodCall) {
             return select((_methodCall) _e);
         }
         return null;
     }
 
-    public Selected select(_methodCall _mc){
+    public Select<_methodCall> select(_methodCall _mc){
         if( !_mc.hasScope() && !this.scope.isMatchAny()){
             return null;
         }
@@ -240,7 +218,7 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
             return null;
         }
         ts.putAll(s.tokens);
-        return new Selected(_mc, ts);
+        return new Select<>(_mc, ts);
     }
 
     public _methodCall draft(Translator tr, Map<String,Object> keyValues){
@@ -437,13 +415,4 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
         return this;
     }
 
-    /**
-     * This makes it easier to NOT have to do silly things with generics on the outside
-     */
-    public static class Selected extends Select<_methodCall> {
-
-        public Selected(_methodCall _node, Tokens tokens) {
-            super(_node, tokens);
-        }
-    }
 }

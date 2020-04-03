@@ -19,7 +19,7 @@ import java.util.Map;
 public class _typeRefTest extends TestCase {
 
     public void testTypesEquals(){
-        Type astT = Types.typeRef("void");
+        Type astT = Types.of("void");
         assertTrue(astT.isVoidType());
         assertTrue(_typeRef.of("void").isVoid());
 
@@ -75,7 +75,7 @@ public class _typeRefTest extends TestCase {
 
     public void testSimplify(){
         _typeRef _tr = _typeRef.of("java.util.List<java.util.Map>");
-        assertTrue( _tr.is(Types.typeRef("List<Map>")));
+        assertTrue( _tr.is(Types.of("List<Map>")));
         assertEquals( "List<Map>", _tr.normalized());
     }
     

@@ -121,7 +121,7 @@ public class $arrayAccess
         return _j instanceof _arrayAccess && matches((_arrayAccess) _j);
     }
 
-    public Selected select(String... str){
+    public Select<_arrayAccess> select(String... str){
         try{
             return select(Expressions.arrayAccessEx(Text.combine(str)));
         } catch(Exception e){
@@ -130,14 +130,14 @@ public class $arrayAccess
         }
     }
 
-    public Selected select(Node n) {
+    public Select<_arrayAccess> select(Node n) {
         if (n instanceof ArrayAccessExpr) {
             return select(_arrayAccess.of( (ArrayAccessExpr)n) );
         }
         return null;
     }
 
-    public Selected select(_arrayAccess _aa) {
+    public Select<_arrayAccess> select(_arrayAccess _aa) {
         //System.out.println( "IN ARRA CCC "+ getPredicate() );
         if (getPredicate() == null || getPredicate().test(_aa)) {
 
@@ -167,7 +167,7 @@ public class $arrayAccess
             }
             ts.putAll(s.tokens);
 
-            return new Selected( _aa, ts);
+            return new Select( _aa, ts);
 
         }
         return null;
@@ -270,11 +270,12 @@ public class $arrayAccess
 
     /**
      * This makes it easier to NOT have to do silly things with generics on the outside
-     */
+
     public static class Selected extends Select<_arrayAccess>{
         public Selected(_arrayAccess _node, Tokens tokens) {
             super(_node, tokens);
         }
     }
+    */
 }
 

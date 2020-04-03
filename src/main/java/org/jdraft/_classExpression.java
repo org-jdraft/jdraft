@@ -44,7 +44,7 @@ public final class _classExpression implements _expression<ClassExpr, _classExpr
     }
 
     public boolean isType(String type){
-        return isType(Types.typeRef(type));
+        return isType(Types.of(type));
     }
 
     public boolean isType( _typeRef _t){

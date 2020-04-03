@@ -333,7 +333,7 @@ public final class _tryStmt implements _statement._controlFlow._branching<TryStm
     }
 
     public _catch getCatch( String exceptionClassName ){
-        Type t = Types.typeRef(exceptionClassName);
+        Type t = Types.of(exceptionClassName);
         return getCatch(t);
     }
 
@@ -360,9 +360,9 @@ public final class _tryStmt implements _statement._controlFlow._branching<TryStm
      */
     public _catch getCatch( Class<? extends Throwable> type ){
         //fully qualified name
-        com.github.javaparser.ast.type.ReferenceType astType = Types.typeRef(type).asReferenceType();
+        com.github.javaparser.ast.type.ReferenceType astType = Types.of(type).asReferenceType();
         //simple name
-        com.github.javaparser.ast.type.ReferenceType astType2 = Types.typeRef(type.getSimpleName()).asReferenceType();
+        com.github.javaparser.ast.type.ReferenceType astType2 = Types.of(type.getSimpleName()).asReferenceType();
 
         //_c-> _c.getParameter().isType(IOException.class)).findFirst().get()
         Optional<_catch> _oc = listCatches().stream().filter( _c-> _c.getParameter().isTypeRef(type)

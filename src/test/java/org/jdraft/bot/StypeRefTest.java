@@ -25,7 +25,7 @@ public class StypeRefTest extends TestCase {
         assertTrue(_t.ast().isClassOrInterfaceType());
         assertTrue(_t.ast().asClassOrInterfaceType().isUsingDiamondOperator());
 
-        _t = _typeRef.of( Types.typeRef("Map<>"));
+        _t = _typeRef.of( Types.of("Map<>"));
         assertTrue(_t.ast().isClassOrInterfaceType());
         assertTrue(_t.ast().asClassOrInterfaceType().isUsingDiamondOperator());
         assertTrue( $typeRef.of(t-> t.isUsingDiamondOperator()).matches("Map<>") );

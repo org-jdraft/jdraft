@@ -68,7 +68,7 @@ public class StypeRefTest extends TestCase {
         assertEquals(_typeRef.of("A"), _t.getErasedType() );
         NodeList<Type> tas = _t.getTypeArguments();
         assertTrue( tas.isNonEmpty() );
-        assertTrue(Types.equal( tas.get(0), Types.typeRef("B")));
+        assertTrue(Types.equal( tas.get(0), Types.of("B")));
 
         _t = _typeRef.of("@NotNull A<? extends C, D>[][]");
         assertTrue( _t.isGenericType());
@@ -110,7 +110,7 @@ public class StypeRefTest extends TestCase {
 
     public void testTypeOfAnno(){
         $typeRef $t = $typeRef.of("A");
-        Type t = Types.typeRef("@NotNull A");
+        Type t = Types.of("@NotNull A");
         assertTrue( $t.matches("@NotNull A"));
         assertTrue( $t.matches("@NotNull aaaa.bbbb.A<B,C>[]")); //annotated generic and array
     }
@@ -133,11 +133,11 @@ public class StypeRefTest extends TestCase {
     public void testHardcode$(){
         $typeRef $tr = $typeRef.of( "Map<$A$, $B$>" );
 
-        assertTrue($tr.match(Types.typeRef("Map<Integer, Integer>") ));
+        assertTrue($tr.match(Types.of("Map<Integer, Integer>") ));
         $tr.$hardcode("A", "String");
-        assertTrue($tr.match(Types.typeRef("Map<String, Integer>") ));
-        assertTrue($tr.match(Types.typeRef("Map<java.lang.String, Integer>") ));
-        assertFalse($tr.match(Types.typeRef("Map<Integer, Integer>") ));
+        assertTrue($tr.match(Types.of("Map<String, Integer>") ));
+        assertTrue($tr.match(Types.of("Map<java.lang.String, Integer>") ));
+        assertFalse($tr.match(Types.of("Map<Integer, Integer>") ));
 
     }
 

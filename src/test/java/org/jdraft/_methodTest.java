@@ -183,24 +183,24 @@ public class _methodTest extends TestCase {
         //_method _m2 = _method.of("java.util.Map<aaaa.B, bbbbb.C> getI( fffff.G g);");
 
         assertEquals(
-                Types.hash(Types.typeRef("Map")),
-                Types.hash(Types.typeRef("java.util.Map")));
+                Types.hash(Types.of("Map")),
+                Types.hash(Types.of("java.util.Map")));
 
         assertTrue( Types.equal(
-                Types.typeRef("Map<B,C>"),
-                Types.typeRef("java.util.Map<B,C>")));
+                Types.of("Map<B,C>"),
+                Types.of("java.util.Map<B,C>")));
 
         assertEquals(
-                Types.hash(Types.typeRef("Map<B,C>")),
-                Types.hash(Types.typeRef("java.util.Map<B,C>")));
+                Types.hash(Types.of("Map<B,C>")),
+                Types.hash(Types.of("java.util.Map<B,C>")));
 
         assertEquals(
-                Types.hash(Types.typeRef("Map<B,C>")),
-                Types.hash(Types.typeRef("java.util.Map<aaaa.B,C>")));
+                Types.hash(Types.of("Map<B,C>")),
+                Types.hash(Types.of("java.util.Map<aaaa.B,C>")));
 
         assertEquals(
-                Types.hash(Types.typeRef("Map<B,C>")),
-                Types.hash(Types.typeRef("java.util.Map<aaaa.B,bbbb.C>")));
+                Types.hash(Types.of("Map<B,C>")),
+                Types.hash(Types.of("java.util.Map<aaaa.B,bbbb.C>")));
 
         assertEquals( _m1, _m2);
         assertEquals( _m1.hashCode(), _m2.hashCode());
@@ -599,7 +599,7 @@ public class _methodTest extends TestCase {
         assertEquals( _modifiers.of(), _m.getModifiers());
         assertEquals("m", _m.getName());
         assertTrue( _m.isTypeRef("void") );
-        assertTrue( _m.isTypeRef( Types.typeRef( "void")) );
+        assertTrue( _m.isTypeRef( Types.of( "void")) );
         assertEquals("void", _m.getTypeRef().toString());
         assertNull( _m.getBody().ast() );        
     }
@@ -643,7 +643,7 @@ public class _methodTest extends TestCase {
         assertEquals(1, _m.getTypeParameters().size());
         
         assertTrue( _m.isTypeRef( "List<String>"));
-        assertTrue( _m.isTypeRef( Types.typeRef( "List<String>")) );
+        assertTrue( _m.isTypeRef( Types.of( "List<String>")) );
         
         assertEquals("aMethod", _m.getName());
         assertTrue( _m.hasParameters() );

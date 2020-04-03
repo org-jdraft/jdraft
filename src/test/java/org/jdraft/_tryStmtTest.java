@@ -30,7 +30,7 @@ public class _tryStmtTest extends TestCase {
         //we can check if it catches a Class, a Type, or a String
         assertTrue( _ts.catches(IOException.class));
         assertTrue( _ts.catches(URISyntaxException.class));
-        assertTrue( _ts.catches( Types.typeRef(IOException.class)) );
+        assertTrue( _ts.catches( Types.of(IOException.class)) );
         assertTrue( _ts.catches( _typeRef.of(IOException.class)) );
 
         assertTrue( _ts.catches(IOException.class.getSimpleName()));

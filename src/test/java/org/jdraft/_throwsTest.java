@@ -59,14 +59,14 @@ public class _throwsTest
     public void testThrowsEquality(){
         _throws _t1 = _throws.of( RuntimeException.class );
         _throws _t2 = _throws.of( "java.lang.RuntimeException" );
-        assertTrue( Types.equal( (ReferenceType) Types.typeRef(RuntimeException.class),
-            (ReferenceType) Types.typeRef("java.lang.RuntimeException" ) ));
+        assertTrue( Types.equal( (ReferenceType) Types.of(RuntimeException.class),
+            (ReferenceType) Types.of("java.lang.RuntimeException" ) ));
 
-        assertTrue( Types.equal( (ReferenceType) Types.typeRef("RuntimeException"),
-            (ReferenceType) Types.typeRef("java.lang.RuntimeException" ) ));
+        assertTrue( Types.equal( (ReferenceType) Types.of("RuntimeException"),
+            (ReferenceType) Types.of("java.lang.RuntimeException" ) ));
 
         //assertTrue( _t1.has((ReferenceType)Ast.typeRef("java.lang.RuntimeException" )));
-        assertTrue( _t1.has((ReferenceType) Types.typeRef("RuntimeException" )));
+        assertTrue( _t1.has((ReferenceType) Types.of("RuntimeException" )));
         assertEquals( _t1, _t2 );
 
         assertEquals( _t1.hashCode(), _t2.hashCode());

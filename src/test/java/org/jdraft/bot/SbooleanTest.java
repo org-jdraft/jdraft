@@ -34,7 +34,7 @@ public class SbooleanTest extends TestCase {
         assertTrue( $ANY.matches(true) );
         assertTrue( $ANY.matches(false) );
         assertFalse( $ANY.matches("blah"));
-        $boolean.Select<_boolean> s = $ANY.select("true");
+        Select<_boolean> s = $ANY.select("true");
         assertEquals(_boolean.of(true), s.selection);
     }
 
@@ -89,13 +89,13 @@ public class SbooleanTest extends TestCase {
     }
 
     public void testAst(){
-        $boolean.Selected s = $ANY.select(Expressions.booleanLiteralEx("true"));
+        Select<_boolean> s = $ANY.select(Expressions.booleanLiteralEx("true"));
         assertEquals(_boolean.of(true), s.selection);
     }
 
     public void testPInstance(){
         //assertNotNull(_BP.select(_boolean.of(true)));
-        $boolean.Selected bs = $ANY.select(_boolean.of(true));
+        Select<_boolean> bs = $ANY.select(_boolean.of(true));
         assertEquals( _boolean.of(true), bs.selection);
         assertTrue( bs.tokens.isEmpty());
     }

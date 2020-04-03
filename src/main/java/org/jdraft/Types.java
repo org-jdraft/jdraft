@@ -18,8 +18,9 @@ import java.util.regex.Pattern;
  * Functionality related to Ast {@link Type} entities
  * (for building hashcodes, testing equality, parsing, etc.)
  */
-public enum Types {
-    ;
+public class Types {
+    private Types(){}
+
 
     public static Class<PrimitiveType> PRIMITIVE_TYPE = PrimitiveType.class;
 
@@ -92,37 +93,37 @@ public enum Types {
         return cpy;
     }
 
-    public static Type typeRef(AnnotatedType at) {
-        return typeRef(at.getType().toString());
+    public static Type of(AnnotatedType at) {
+        return of(at.getType().toString());
     }
 
-    public static Type typeRef(java.lang.reflect.Type t) {
+    public static Type of(java.lang.reflect.Type t) {
         String str = t.getTypeName();
         if (PATTERN_LOCAL_CLASS.matcher(str).find()) {
             //lets remove all the local stuff... return a type without package
             str = str.replaceAll(LOCAL_CLASS_NAME_PACKAGE_PATTERN, ".");
-            return typeRef(str.substring(str.lastIndexOf('.') + 1));
+            return of(str.substring(str.lastIndexOf('.') + 1));
         }
-        return typeRef(str);
+        return of(str);
     }
 
-    public static Type typeRef(Class clazz) {
+    public static Type of(Class clazz) {
         if (clazz.isArray()) {
             Class<?> cl = clazz;
-            int dimensions = 0;
+            //int dimensions = 0;
             StringBuilder sb = new StringBuilder();
             while (cl.isArray()) {
-                dimensions++;
+                //dimensions++;
                 sb.append("[]");
                 cl = cl.getComponentType();
             }
             String tr = cl.getCanonicalName() + sb.toString();
-            return typeRef(tr);
+            return of(tr);
         }
-        return typeRef(clazz.getCanonicalName());
+        return of(clazz.getCanonicalName());
     }
 
-    public static Type typeRef(String code) {
+    public static Type of(String code) {
 
         if (code.contains("|")) { //Could only be a Union Type i.e. from a catch clause
             code = "catch(" + code + " e ) {}";
@@ -134,7 +135,7 @@ public enum Types {
         if (PATTERN_LOCAL_CLASS.matcher(code).find()) {
             //lets remove all the local stuff... return a type without package
             code = code.replaceAll(LOCAL_CLASS_NAME_PACKAGE_PATTERN, ".");
-            return typeRef(code.substring(code.lastIndexOf('.') + 1));
+            return of(code.substring(code.lastIndexOf('.') + 1));
         }
         try {
             return StaticJavaParser.parseType(code);
@@ -373,7 +374,7 @@ public enum Types {
                 String t1 = r1.asString().substring(dotIndex1+1);
                 String t2 = r2.asString().substring(dotIndex2+1);
                 //call types equal on the SIMPLE type name and (potentially) any generics after it
-                return equal( typeRef(t1), typeRef(t2));
+                return equal( of(t1), of(t2));
             }
         }
         return false;

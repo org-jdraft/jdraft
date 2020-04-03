@@ -533,7 +533,7 @@ public final class $ {
     }
 
     public static $ex<CastExpr, _cast, $ex> cast(Class castClazz){
-        return $ex.castEx("($type$)$expr$").$and(c-> Types.equal(c.ast().getType(), Types.typeRef(castClazz) ) );
+        return $ex.castEx("($type$)$expr$").$and(c-> Types.equal(c.ast().getType(), Types.of(castClazz) ) );
     }
 
     public static $ex<CastExpr, _cast, $ex> cast(){

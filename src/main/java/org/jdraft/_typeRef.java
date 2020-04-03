@@ -11,7 +11,7 @@ import com.github.javaparser.ast.type.*;
 
 import org.jdraft.text.Text;
 
-import static org.jdraft.Types.typeRef;
+import static org.jdraft.Types.of;
 
 /**
  * Model of a Java TYPE Declaration (i.e. String, int, List<Boolean>)
@@ -43,7 +43,7 @@ public final class _typeRef<T extends Type>
      * @return
      */
     public static _typeRef of( java.lang.reflect.AnnotatedType t){
-        return new _typeRef( Types.typeRef( t ) );
+        return new _typeRef( Types.of( t ) );
     }
 
     /**
@@ -52,7 +52,7 @@ public final class _typeRef<T extends Type>
      * @return
      */
     public static _typeRef of( java.lang.reflect.Type t){
-        return new _typeRef( Types.typeRef( t ) );
+        return new _typeRef( Types.of( t ) );
     }
 
     /**
@@ -61,7 +61,7 @@ public final class _typeRef<T extends Type>
      * @return
      */
     public static _typeRef of( Class clazz ) {
-        return new _typeRef( Types.typeRef( clazz ) );
+        return new _typeRef( Types.of( clazz ) );
     }
 
 
@@ -71,7 +71,7 @@ public final class _typeRef<T extends Type>
      * @return
      */
     public static _typeRef of( String string ) {
-        return new _typeRef( Types.typeRef( string ) );
+        return new _typeRef( Types.of( string ) );
     }
 
     public _annos getAnnos(){
@@ -282,7 +282,7 @@ public final class _typeRef<T extends Type>
         String st = type.toString(Print.PRINT_NO_TYPE_PARAMETERS );
         //System.out.println("THE ERASED TYPE "+st );
         try {
-            return Types.typeRef(st);
+            return Types.of(st);
         }catch(Exception e){
             System.out.println(type.getClass()+" "+type);
             throw new _jdraftException("GOT HERE", e);
@@ -293,7 +293,7 @@ public final class _typeRef<T extends Type>
     public static Type getBaseType(Type type ){
         Type t = getErasedType(getElementType(type));
         //now remove annotations
-        return Types.typeRef( t.toString(Print.PRINT_NO_ANNOTATIONS_OR_COMMENTS));
+        return Types.of( t.toString(Print.PRINT_NO_ANNOTATIONS_OR_COMMENTS));
     }
 
     /**
@@ -477,7 +477,7 @@ public final class _typeRef<T extends Type>
          * @return the modified entity after setting the TYPE
          */
         default _WT setTypeRef(String typeRef) {
-            return setTypeRef(typeRef(typeRef));
+            return setTypeRef(Types.of(typeRef));
         }
 
         /**
@@ -486,7 +486,7 @@ public final class _typeRef<T extends Type>
          * @return the modified entity after setting the TYPE
          */
         default _WT setTypeRef(Class clazz) {
-            return setTypeRef(typeRef(clazz.getCanonicalName()));
+            return setTypeRef(Types.of(clazz.getCanonicalName()));
         }
 
         /**
@@ -544,7 +544,7 @@ public final class _typeRef<T extends Type>
          */
         default boolean isTypeRef(String type) {
             try {
-                return isTypeRef(typeRef(type));
+                return isTypeRef(Types.of(type));
             } catch (Exception e) {
             }
             return false;

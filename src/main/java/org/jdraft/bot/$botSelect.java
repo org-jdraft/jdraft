@@ -54,7 +54,7 @@ public class $botSelect<_JP extends _java._domain, _JC> implements BiFunction<_J
             return null; //if tokens was null, it means the bot before in the series failed, so dont waste time testing
         }
         _JC _jc = extract.apply(j); //extract the _JC child entity from the _JP parent
-        $selector.Select<_JC> sel = bot.select(_jc); //
+        Select<_JC> sel = bot.select(_jc); //
         if( sel == null ){
             return null;
         }

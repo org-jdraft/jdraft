@@ -89,7 +89,7 @@ public class $boolean implements $bot.$node<BooleanLiteralExpr, _boolean, $boole
         return this;
     }
 
-    public Selected select(String code) {
+    public Select<_boolean> select(String code) {
         try {
             return select(_boolean.of(code));
         } catch (Exception e) {
@@ -97,7 +97,7 @@ public class $boolean implements $bot.$node<BooleanLiteralExpr, _boolean, $boole
         }
     }
 
-    public Selected select(String... code) {
+    public Select<_boolean> select(String... code) {
         try {
             return select(_boolean.of(code));
         } catch (Exception e) {
@@ -105,42 +105,42 @@ public class $boolean implements $bot.$node<BooleanLiteralExpr, _boolean, $boole
         }
     }
 
-    public Selected select(Node n) {
+    public Select<_boolean> select(Node n) {
         if (n instanceof BooleanLiteralExpr) {
             return select(_boolean.of((BooleanLiteralExpr) n));
         }
         return null;
     }
 
-    public Selected select(Expression e) {
+    public Select<_boolean> select(Expression e) {
         if (e instanceof BooleanLiteralExpr) {
             return select(_boolean.of((BooleanLiteralExpr) e));
         }
         return null;
     }
 
-    public Selected select(_domain _n) {
+    public Select<_boolean> select(_domain _n) {
         if (_n instanceof _boolean) {
             return select((_boolean) _n);
         }
         return null;
     }
 
-    public Selected select(_expression<?, ?> _e) {
+    public Select<_boolean> select(_expression<?, ?> _e) {
         if (_e instanceof _boolean) {
             return select((_boolean) _e);
         }
         return null;
     }
 
-    public Selected select(_boolean _i) {
+    public Select<_boolean> select(_boolean _i) {
         if (predicate.test(_i)) {
             if (stencil == null) {
-                return new Selected(_i, new Tokens());
+                return new Select<>(_i, new Tokens());
             }
             Tokens ts = stencil.parse(_i.toString());
             if (ts != null) {
-                return new Selected(_i, ts);
+                return new Select<>(_i, ts);
             }
             return null;
         }
@@ -246,16 +246,6 @@ public class $boolean implements $bot.$node<BooleanLiteralExpr, _boolean, $boole
     }
 
     /**
-     * This makes it easier to NOT have to do silly things with generics on the outside
-     */
-    public static class Selected extends Select<_boolean> {
-
-        public Selected(_boolean _node, Tokens tokens) {
-            super(_node, tokens);
-        }
-    }
-
-    /**
      * An Or entity that can match against any of some number of instances
      * NOTE: this can be used as a selector but NOT as a Template
      */
@@ -296,7 +286,7 @@ public class $boolean implements $bot.$node<BooleanLiteralExpr, _boolean, $boole
             return select(exprs) != null;
         }
 
-        public $boolean.Selected select(String args){
+        public Select<_boolean> select(String args){
             try {
                 return select(_boolean.of(args));
             }catch(Exception e){
@@ -304,7 +294,7 @@ public class $boolean implements $bot.$node<BooleanLiteralExpr, _boolean, $boole
             }
         }
 
-        public  $boolean.Selected select(String...args){
+        public Select<_boolean> select(String...args){
             try {
                 return select(_boolean.of(args));
             }catch(Exception e){
@@ -312,14 +302,14 @@ public class $boolean implements $bot.$node<BooleanLiteralExpr, _boolean, $boole
             }
         }
 
-        public  $boolean.Selected select(_expression _expr){
+        public Select<_boolean> select(_expression _expr){
             if( _expr instanceof _boolean ) {
                 return select( (_boolean) _expr);
             }
             return null;
         }
 
-        public  $boolean.Selected select(Expression expr){
+        public Select<_boolean> select(Expression expr){
             if( expr instanceof BooleanLiteralExpr) {
                 return select(_boolean.of( (BooleanLiteralExpr)expr));
             }
@@ -331,7 +321,7 @@ public class $boolean implements $bot.$node<BooleanLiteralExpr, _boolean, $boole
         }
 
         @Override
-        public $boolean.Selected select(_boolean candidate) {
+        public Select<_boolean> select(_boolean candidate) {
             if( predicate.test(candidate) ) {
                 Optional<$boolean> on = $boolean.stream().filter(n -> n.matches(candidate)).findFirst();
                 if (on.isPresent()) {

@@ -36,7 +36,7 @@ public class $typeRef
      * @return 
      */
     public static $typeRef of(String pattern ){
-        return new $typeRef(Types.typeRef(pattern));
+        return new $typeRef(Types.of(pattern));
     }
  
     /**
@@ -46,7 +46,7 @@ public class $typeRef
      * @return 
      */
     public static $typeRef of(String pattern, Predicate<_typeRef> constraint){
-        return new $typeRef(Types.typeRef(pattern)).$and(constraint);
+        return new $typeRef(Types.of(pattern)).$and(constraint);
     }
     
     /**
@@ -55,7 +55,7 @@ public class $typeRef
      * @return 
      */
     public static $typeRef of(Class typeClass ){
-        return $typeRef.of( Types.typeRef(typeClass) );
+        return $typeRef.of( Types.of(typeClass) );
     }
 
     /**
@@ -171,7 +171,7 @@ public class $typeRef
      * @param pattern
      */
     private $typeRef(String pattern){
-        this.type = Types.typeRef(pattern);
+        this.type = Types.of(pattern);
     }
 
     private Stencil typePattern(){
@@ -234,7 +234,7 @@ public class $typeRef
     public $typeRef $(String target, String $paramName) {
         Stencil st = typePattern();
         st = st.$(target, $paramName);
-        this.type = Types.typeRef(st.toString());
+        this.type = Types.of(st.toString());
         return this;
     }
 
@@ -257,7 +257,7 @@ public class $typeRef
     public $typeRef $hardcode(Translator translator, Tokens kvs ) {
         Stencil st = typePattern();
         st = st.$hardcode(translator, kvs);
-        this.type = Types.typeRef(st.toString());
+        this.type = Types.of(st.toString());
         return this;
     }
 
@@ -347,7 +347,7 @@ public class $typeRef
      * @return
      */
     public boolean matches( String type ){
-        return select( Types.typeRef(type)) != null;
+        return select( Types.of(type)) != null;
     }
 
     /**
@@ -385,7 +385,7 @@ public class $typeRef
         return this.typePattern().$listNormalized();
     }
 
-    public Selected select( Node n){
+    public Select<_typeRef> select( Node n){
         if( n instanceof Type){
             return select( (Type)n);
         }
@@ -396,12 +396,12 @@ public class $typeRef
      * @param _tr
      * @return
      */
-    public Selected select( _typeRef _tr){
+    public Select<_typeRef> select( _typeRef _tr){
 
         if( type == null ){
             try{
                 if( predicate.test(_tr) ){
-                    return new Selected(_tr, new Tokens());
+                    return new Select<_typeRef>(_tr, new Tokens());
                 }
             }catch(Exception e){}
             return null;
@@ -435,16 +435,16 @@ public class $typeRef
                 //check whether the type matches EITHER the super or extendsed type
                 Optional<ReferenceType> et = _tr.ast().asWildcardType().getExtendedType();
                 if( et.isPresent() ){
-                    Selected sel = select( et.get() );
+                    Select<_typeRef> sel = select( et.get() );
                     if( sel != null ){
-                        return new Selected( _tr, sel.tokens);
+                        return new Select<_typeRef>( _tr, sel.tokens);
                     }
                 }
                 Optional<ReferenceType> st = _tr.ast().asWildcardType().getSuperType();
                 if( st.isPresent() ){
-                    Selected sel = select( st.get() );
+                    Select<_typeRef> sel = select( st.get() );
                     if( sel != null ){
-                        return new Selected( _tr, sel.tokens);
+                        return new Select<_typeRef>( _tr, sel.tokens);
                     }
                 }
                 return null; //couldnt match either the super OR extended Type
@@ -467,7 +467,7 @@ public class $typeRef
                     //System.out.println( "Tokens not equal");
                     return null;
                 }
-                Selected sel = $typeRef.of(this.type.toString(Print.PRINT_NO_ANNOTATIONS_OR_COMMENTS))
+                Select<_typeRef> sel = $typeRef.of(this.type.toString(Print.PRINT_NO_ANNOTATIONS_OR_COMMENTS))
                         .select(_tr.toString(Print.PRINT_NO_ANNOTATIONS_OR_COMMENTS));
                 if( sel == null){
                     return null;
@@ -477,13 +477,13 @@ public class $typeRef
                 return sel;
             }
             if( Types.equal(_tr.ast(), this.type)){
-                return new Selected( _tr, Tokens.of());
+                return new Select<_typeRef>( _tr, Tokens.of());
             }
 
             Tokens ts = typePattern().parse(_tr.toString() );
             if( ts != null ){
                 ts.putAll(ats);
-                return new Selected( _tr, ts );
+                return new Select<_typeRef>( _tr, ts );
             }
         }
         return null;
@@ -494,11 +494,11 @@ public class $typeRef
      * @param astType
      * @return
      */
-    public Selected select( Type astType){
+    public Select<_typeRef> select( Type astType){
         return select(_typeRef.of(astType));
     }
 
-    public Selected select( String... type ){
+    public Select<_typeRef> select( String... type ){
         return select(_typeRef.of(Text.combine(type)));
     }
 
@@ -507,7 +507,7 @@ public class $typeRef
      * @param type
      * @return
      */
-    public Selected select( String type ){
+    public Select<_typeRef> select( String type ){
         return select(_typeRef.of(type));
     }
 
@@ -520,7 +520,7 @@ public class $typeRef
     @Override
     public _typeRef firstIn(Node astStartNode, Predicate<_typeRef> _typeRefActionFn){
         Optional<Type> f = astStartNode.findFirst(Type.class, s ->{
-            Selected sel = select(s);
+            Select<_typeRef> sel = select(s);
             return sel != null && _typeRefActionFn.test(sel.selection);
             });
         if( f.isPresent()){
@@ -624,9 +624,9 @@ public class $typeRef
      * @param selectConsumer
      * @return
      */
-    public <_J extends _java._domain> _J forSelectedIn(_J _j, Consumer<Selected> selectConsumer ){
+    public <_J extends _java._domain> _J forSelectedIn(_J _j, Consumer<Select<_typeRef>> selectConsumer ){
         Tree.in(_j, Type.class, e-> {
-            Selected sel = select( e );
+            Select<_typeRef> sel = select( e );
             if( sel != null ){
                 selectConsumer.accept( sel );
             }
@@ -654,9 +654,9 @@ public class $typeRef
      * @param selectConsumer
      * @return
      */
-    public <_J extends _java._domain> _J forSelectedIn(_J _j, Predicate<Selected> selectConstraint, Consumer<Selected> selectConsumer ){
+    public <_J extends _java._domain> _J forSelectedIn(_J _j, Predicate<Select<_typeRef>> selectConstraint, Consumer<Select<_typeRef>> selectConsumer ){
         Tree.in(_j, Type.class, e-> {
-            Selected sel = select( e );
+            Select<_typeRef> sel = select( e );
             if( sel != null && selectConstraint.test(sel) ){
                 selectConsumer.accept( sel );
             }
@@ -838,7 +838,7 @@ public class $typeRef
         }
 
         @Override
-        public Selected select(Node n) {
+        public Select<_typeRef> select(Node n) {
             if( n instanceof Type){
                 return select( (Type)n);
             }
@@ -846,8 +846,8 @@ public class $typeRef
         }
 
         @Override
-        public Selected select(String... code) {
-            return select(Types.typeRef(Text.combine(code)));
+        public Select<_typeRef> select(String... code) {
+            return select(Types.of(Text.combine(code)));
         }
 
         /**
@@ -855,7 +855,7 @@ public class $typeRef
          * @param n
          * @return
          */
-        public Selected select(_typeRef n){
+        public Select<_typeRef> select(_typeRef n){
             $typeRef $a = whichMatch(n);
             if( $a != null ){
                 return $a.select(n);
@@ -914,6 +914,7 @@ public class $typeRef
         }
     }
 
+    /*
     public static class Selected extends Select<_typeRef> {
 
         public Selected(_typeRef _tr, Tokens tokens ){
@@ -924,4 +925,5 @@ public class $typeRef
             super( _typeRef.of(type), tokens.asTokens());
         }
     }
+     */
 }

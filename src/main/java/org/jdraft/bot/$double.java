@@ -88,7 +88,7 @@ public class $double implements $bot.$node<DoubleLiteralExpr, _double, $double>,
         return this;
     }
 
-    public Selected select(String code) {
+    public Select<_double> select(String code) {
         try {
             return select(_double.of(code));
         } catch (Exception e) {
@@ -96,7 +96,7 @@ public class $double implements $bot.$node<DoubleLiteralExpr, _double, $double>,
         }
     }
 
-    public Selected select(String... code) {
+    public Select<_double> select(String... code) {
         try {
             return select(_double.of(code));
         } catch (Exception e) {
@@ -104,42 +104,42 @@ public class $double implements $bot.$node<DoubleLiteralExpr, _double, $double>,
         }
     }
 
-    public Selected select(Node n) {
+    public Select<_double> select(Node n) {
         if (n instanceof DoubleLiteralExpr) {
             return select(_double.of((DoubleLiteralExpr) n));
         }
         return null;
     }
 
-    public Selected select(Expression e) {
+    public Select<_double> select(Expression e) {
         if (e instanceof DoubleLiteralExpr) {
             return select(_double.of((DoubleLiteralExpr) e));
         }
         return null;
     }
 
-    public Selected select(_domain _n) {
+    public Select<_double> select(_domain _n) {
         if (_n instanceof _double) {
             return select((_double) _n);
         }
         return null;
     }
 
-    public Selected select(_expression<?, ?> _e) {
+    public Select<_double> select(_expression<?, ?> _e) {
         if (_e instanceof _double) {
             return select((_double) _e);
         }
         return null;
     }
 
-    public Selected select(_double _i) {
+    public Select<_double> select(_double _i) {
         if (predicate.test(_i)) {
             if (stencil == null) {
-                return new Selected(_i, new Tokens());
+                return new Select<>(_i, new Tokens());
             }
             Tokens ts = stencil.parse(_i.toString());
             if (ts != null) {
-                return new Selected(_i, ts);
+                return new Select<>(_i, ts);
             }
             return null;
         }
@@ -242,15 +242,5 @@ public class $double implements $bot.$node<DoubleLiteralExpr, _double, $double>,
 
     private $double(Stencil stencil) {
         this.stencil = stencil;
-    }
-
-    /**
-     * This makes it easier to NOT have to do silly things with generics on the outside
-     */
-    public static class Selected extends Select<_double> {
-
-        public Selected(_double _node, Tokens tokens) {
-            super(_node, tokens);
-        }
     }
 }

@@ -88,7 +88,7 @@ public class $long implements $bot.$node<LongLiteralExpr, _long, $long>,
         return this;
     }
 
-    public Selected select(String code) {
+    public Select<_long> select(String code) {
         try {
             return select(_long.of(code));
         } catch (Exception e) {
@@ -96,7 +96,7 @@ public class $long implements $bot.$node<LongLiteralExpr, _long, $long>,
         }
     }
 
-    public Selected select(String... code) {
+    public Select<_long> select(String... code) {
         try {
             return select(_long.of(code));
         } catch (Exception e) {
@@ -104,42 +104,42 @@ public class $long implements $bot.$node<LongLiteralExpr, _long, $long>,
         }
     }
 
-    public Selected select(Node n) {
+    public Select<_long> select(Node n) {
         if (n instanceof LongLiteralExpr) {
             return select(_long.of((LongLiteralExpr) n));
         }
         return null;
     }
 
-    public Selected select(Expression e) {
+    public Select<_long> select(Expression e) {
         if (e instanceof LongLiteralExpr) {
             return select(_long.of((LongLiteralExpr) e));
         }
         return null;
     }
 
-    public Selected select(_domain _n) {
+    public Select<_long> select(_domain _n) {
         if (_n instanceof _long) {
             return select((_long) _n);
         }
         return null;
     }
 
-    public Selected select(_expression<?, ?> _e) {
+    public Select<_long> select(_expression<?, ?> _e) {
         if (_e instanceof _long) {
             return select((_long) _e);
         }
         return null;
     }
 
-    public Selected select(_long _i) {
+    public Select<_long> select(_long _i) {
         if (predicate.test(_i)) {
             if (stencil == null) {
-                return new Selected(_i, new Tokens());
+                return new Select<>(_i, new Tokens());
             }
             Tokens ts = stencil.parse(_i.toString());
             if (ts != null) {
-                return new Selected(_i, ts);
+                return new Select<>(_i, ts);
             }
             return null;
         }
@@ -242,15 +242,5 @@ public class $long implements $bot.$node<LongLiteralExpr, _long, $long>,
 
     private $long(Stencil stencil) {
         this.stencil = stencil;
-    }
-
-    /**
-     * This makes it easier to NOT have to do silly things with generics on the outside
-     */
-    public static class Selected extends Select<_long> {
-
-        public Selected(_long _node, Tokens tokens) {
-            super(_node, tokens);
-        }
     }
 }

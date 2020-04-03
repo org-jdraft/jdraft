@@ -225,7 +225,7 @@ public final class _typeTree {
      * @return
      */
     public List<_typeNode> listDirectChildren(String typeName){
-        typeName = Types.typeRef(typeName).asClassOrInterfaceType().getName().toString();
+        typeName = Types.of(typeName).asClassOrInterfaceType().getName().toString();
         _typeNode _tn = node(typeName);
         if( _tn == null ){
             throw new _runtimeException("Could not find typeNode for "+typeName);

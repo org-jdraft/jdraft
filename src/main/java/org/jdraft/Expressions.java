@@ -717,7 +717,7 @@ public enum Expressions {
     }
 
     public static CastExpr castEx(Class castType, Expression expr ){
-        return castEx( Types.typeRef(castType), expr);
+        return castEx( Types.of(castType), expr);
     }
 
     /**

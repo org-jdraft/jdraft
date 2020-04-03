@@ -275,13 +275,13 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     }
 
     public _interface addExtend(Class...toExtends ){
-        Arrays.stream(toExtends).forEach( e -> addExtend( (ClassOrInterfaceType) Types.typeRef(e) ) );
+        Arrays.stream(toExtends).forEach( e -> addExtend( (ClassOrInterfaceType) Types.of(e) ) );
         return this;
     }
     
     @Override
     public _interface addExtend(Class toExtend ){
-        this.astInterface.addExtendedType( (ClassOrInterfaceType) Types.typeRef(toExtend) );
+        this.astInterface.addExtendedType( (ClassOrInterfaceType) Types.of(toExtend) );
         this.astInterface.tryAddImportToParentCompilationUnit(toExtend);
         return this;
     }

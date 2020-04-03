@@ -114,7 +114,7 @@ public interface _java {
             return constructor(code);
         }
         if (_typeRef.class == nodeClass) {
-            return Types.typeRef(Text.combine(code).trim());
+            return Types.of(Text.combine(code).trim());
         }
         if (_initBlock.class == nodeClass) {
             return staticBlock(code);
@@ -809,6 +809,10 @@ public interface _java {
      * @param <_N> the _node type
      */
     interface _withComments <N extends Node, _N extends _node> extends _node<N, _N> {
+
+        default boolean hasComment(){
+             return getComment() != null;
+        }
 
         /**
          * Gets the "attributed" comment on the node (or null if there is no comment on this node)

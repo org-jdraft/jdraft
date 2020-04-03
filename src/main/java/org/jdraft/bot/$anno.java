@@ -295,7 +295,7 @@ public class $anno
             return null;
         }
 
-        $selector.Select ss = name.select(_a.getNameNode());
+        Select ss = name.select(_a.getNameNode());
         if( ss == null ){
             //System.out.println( "Parse null for name "+name+" for \""+_a.getName()+"\"");
             return null;
@@ -358,7 +358,7 @@ public class $anno
                 List<_anno._memberValue> mvpsC = new ArrayList<>();
                 astNa.getPairs().forEach(m -> mvpsC.add(_anno._memberValue.of(m)));
                 for (int i = 0; i < $mvs.size(); i++) {
-                    $memberValue.Select sel = $mvs.get(i).selectFirst(mvpsC);
+                    Select sel = $mvs.get(i).selectFirst(mvpsC);
                     if (sel == null) {
                         return null;
                     } else {
@@ -902,7 +902,7 @@ public class $anno
                 // it SHOULD match against Ex.of( "{0,1,2,3}" );
                 //System.out.println( value );
                 //
-                $selector.Select sel = value.selectFirstIn(onlyValueExpression);
+                Select sel = value.selectFirstIn(onlyValueExpression);
                 if( sel == null ){
                     return null;
                 }
@@ -958,7 +958,7 @@ public class $anno
                 //System.out.println( value );
                 //System.out.println( mvp.getValue() );
 
-                $selector.Select sel = value.selectFirstIn(mvp.getValue());
+                Select sel = value.selectFirstIn(mvp.getValue());
 
                 //$ex.Select sel = value.select(onlyValueExpression);
                 if( sel != null ){
@@ -992,7 +992,7 @@ public class $anno
                 return null;
             }
             if (constraint.test(_mvp)) {
-                $selector.Select ss = key.select(_mvp.getNameNode());
+                Select ss = key.select(_mvp.getNameNode());
                 if( ss == null){
                     return null;
                 }
@@ -1009,7 +1009,7 @@ public class $anno
                 //System.out.println( value );
                 //System.out.println( mvp.getValue() );
 
-                $selector.Select sel = value.selectFirstIn(_mvp.getValue());
+                Select sel = value.selectFirstIn(_mvp.getValue());
                 //$ex.Select sel = value.select(mvp.getValue());
                 if( sel == null || !ss.tokens.isConsistent(sel.tokens)){
                     return null;
@@ -1027,7 +1027,7 @@ public class $anno
             return false;
         }
 
-        public static class Selected extends $selector.Select<_anno._memberValue> {
+        public static class Selected extends Select<_anno._memberValue> {
 
             public Selected(_anno._memberValue astMvp, Tokens tokens) {
                 super( astMvp, tokens);

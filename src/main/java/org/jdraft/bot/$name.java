@@ -110,15 +110,15 @@ public class $name implements $bot<Node, _name, $name>,
         return select(_name.of(str)) != null;
     }
 
-    public Selected select(String s){
+    public Select<_name> select(String s){
         return select( _name.of(s));
     }
 
-    public Selected select( String...str){
+    public Select<_name> select( String...str){
         return select( _name.of(str));
     }
 
-    public Selected select( Node n ){
+    public Select<_name> select( Node n ){
         if( n instanceof Name || n instanceof SimpleName || n instanceof MethodReferenceExpr){
             return select( _name.of(n) );
         }
@@ -126,7 +126,7 @@ public class $name implements $bot<Node, _name, $name>,
     }
 
     @Override
-    public Selected selectFirstIn(Node astNode, Predicate<Select<_name>> predicate) {
+    public Select<_name> selectFirstIn(Node astNode, Predicate<Select<_name>> predicate) {
         Optional<Node> on = astNode.stream().filter( n ->{
             Select sel = select( n);
             if( sel != null ){
@@ -263,13 +263,13 @@ public class $name implements $bot<Node, _name, $name>,
         return true;
     }
 
-    public Selected select(_name candidate){
+    public Select<_name> select(_name candidate){
         if( isMatchAny()){
-            return new Selected(candidate, new Tokens());
+            return new Select<>(candidate, new Tokens());
         }
         if( this.stencil == null ){
             if( useCheck(candidate) && this.predicate.test(candidate) ){
-                return new Selected(candidate, new Tokens());
+                return new Select<>(candidate, new Tokens());
             }
             return null;
         }
@@ -282,7 +282,7 @@ public class $name implements $bot<Node, _name, $name>,
             //System.out.println( "HERE>> "+candidate+ " "+ ts);
 
             if( ts != null ) {
-                return new Selected(candidate, ts);
+                return new Select<>(candidate, ts);
             }
             if( candidate.name instanceof com.github.javaparser.ast.expr.Name){
                 System.out.println( " "+ candidate.name);
@@ -311,7 +311,7 @@ public class $name implements $bot<Node, _name, $name>,
                 ts = this.stencil.parse( mre.getIdentifier());
             }
             if( ts != null ){
-                return new Selected(candidate, ts);
+                return new Select<>(candidate, ts);
             }
         }
         return null;
@@ -441,7 +441,7 @@ public class $name implements $bot<Node, _name, $name>,
         }
 
         @Override
-        public Selected select(_name candidate) {
+        public Select<_name> select(_name candidate) {
             if( predicate.test(candidate) ) {
                 Optional<$name> on = $names.stream().filter(n -> n.matches(candidate)).findFirst();
                 if (on.isPresent()) {
@@ -455,12 +455,6 @@ public class $name implements $bot<Node, _name, $name>,
         public $name $and(Predicate<_name> matchFn) {
             this.predicate = this.predicate.and(matchFn);
             return null;
-        }
-    }
-
-    public static class Selected extends Select<_name> {
-        public Selected(_name name, Tokens tokens) {
-            super(name, tokens);
         }
     }
 

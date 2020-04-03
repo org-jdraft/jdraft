@@ -316,7 +316,7 @@ public class $node implements $pattern<Node, $node>, $body.$part, $method.$part,
         
         if( target.getClass() != replacement.getClass() ){            
             if( target instanceof ClassOrInterfaceType ){
-                isRep = target.replace( Types.typeRef( replacement.toString() ) );
+                isRep = target.replace( Types.of( replacement.toString() ) );
             } else if( target instanceof Name) {
                 isRep = target.replace( new Name( replacement.toString()) );                
             } else if( target instanceof SimpleName) {

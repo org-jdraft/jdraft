@@ -262,9 +262,4 @@ public class $comment implements $bot.$node<Comment, _comment, $comment> {
         }
         return Collections.emptyList();
     }
-
-
-    //I need a "parser" abstraction that can read
-    //linePatternSelector -> looks line by line at the contents of the
-    //contentPatternSelector ->
 }

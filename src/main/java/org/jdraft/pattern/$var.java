@@ -63,7 +63,7 @@ public class $var
             return ofType(typeClass[0]);
         }
 
-        return of().$and(v-> Arrays.stream(typeClass).anyMatch(tc-> Types.equal(v.getType(), Types.typeRef(tc))));
+        return of().$and(v-> Arrays.stream(typeClass).anyMatch(tc-> Types.equal(v.getType(), Types.of(tc))));
     }
 
     /**
@@ -187,7 +187,7 @@ public class $var
         if( typeClass.length == 1){
             return ofType(typeClass[0]).$local();
         }
-        return of( v-> Arrays.stream(typeClass).anyMatch( tc-> Types.equal(v.getType(), Types.typeRef(tc)))).$local();
+        return of( v-> Arrays.stream(typeClass).anyMatch( tc-> Types.equal(v.getType(), Types.of(tc)))).$local();
     }
 
     /**
@@ -243,7 +243,7 @@ public class $var
         if( typeClass.length == 1){
             return ofType(typeClass[0]).$member();
         }
-        return of( v-> Arrays.stream(typeClass).anyMatch( tc-> Types.equal(v.getType(), Types.typeRef(tc)))).$member();
+        return of( v-> Arrays.stream(typeClass).anyMatch( tc-> Types.equal(v.getType(), Types.of(tc)))).$member();
     }
 
     /**
@@ -379,7 +379,7 @@ public class $var
     }
      
     public $var $type( String type ){
-        this.type.type = Types.typeRef(type);
+        this.type.type = Types.of(type);
         return this;
     }
     

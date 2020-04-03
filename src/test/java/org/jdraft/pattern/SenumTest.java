@@ -16,9 +16,9 @@ public class SenumTest extends TestCase {
     public void testTypesEquality(){
         //TYPE _enum._constant
         //TYPE org.jdraft._enum._constant
-        assertTrue( Types.equal( Types.typeRef("_constant"), Types.typeRef(_constant.class)) );
-        assertTrue( Types.equal( Types.typeRef("_constant"), Types.typeRef(_constant.class)) );
-        assertTrue( Types.equal( Types.typeRef("_constant"), Types.typeRef(_constant.class.getCanonicalName())) );
+        assertTrue( Types.equal( Types.of("_constant"), Types.of(_constant.class)) );
+        assertTrue( Types.equal( Types.of("_constant"), Types.of(_constant.class)) );
+        assertTrue( Types.equal( Types.of("_constant"), Types.of(_constant.class.getCanonicalName())) );
 
     }
 

@@ -90,7 +90,7 @@ public class $textBlock implements $bot.$node<TextBlockLiteralExpr, _textBlock, 
         return this;
     }
 
-    public Selected select(String code) {
+    public Select<_textBlock> select(String code) {
         try {
             return select(_textBlock.of(code));
         } catch (Exception e) {
@@ -98,7 +98,7 @@ public class $textBlock implements $bot.$node<TextBlockLiteralExpr, _textBlock, 
         }
     }
 
-    public Selected select(String... code) {
+    public Select<_textBlock> select(String... code) {
         try {
             return select(_textBlock.of(code));
         } catch (Exception e) {
@@ -106,42 +106,42 @@ public class $textBlock implements $bot.$node<TextBlockLiteralExpr, _textBlock, 
         }
     }
 
-    public Selected select(Node n) {
+    public Select<_textBlock> select(Node n) {
         if (n instanceof TextBlockLiteralExpr) {
             return select(_textBlock.of((TextBlockLiteralExpr) n));
         }
         return null;
     }
 
-    public Selected select(Expression e) {
+    public Select<_textBlock> select(Expression e) {
         if (e instanceof TextBlockLiteralExpr) {
             return select(_textBlock.of((TextBlockLiteralExpr) e));
         }
         return null;
     }
 
-    public Selected select(_domain _n) {
+    public Select<_textBlock> select(_domain _n) {
         if (_n instanceof _textBlock) {
             return select((_textBlock) _n);
         }
         return null;
     }
 
-    public Selected select(_expression<?, ?> _e) {
+    public Select<_textBlock> select(_expression<?, ?> _e) {
         if (_e instanceof _textBlock) {
             return select((_textBlock) _e);
         }
         return null;
     }
 
-    public Selected select(_textBlock _i) {
+    public Select<_textBlock> select(_textBlock _i) {
         if (predicate.test(_i)) {
             if (stencil == null) {
-                return new Selected(_i, new Tokens());
+                return new Select<>(_i, new Tokens());
             }
             Tokens ts = stencil.parse(_i.toString());
             if (ts != null) {
-                return new Selected(_i, ts);
+                return new Select<>(_i, ts);
             }
             return null;
         }
@@ -246,13 +246,4 @@ public class $textBlock implements $bot.$node<TextBlockLiteralExpr, _textBlock, 
         this.stencil = stencil;
     }
 
-    /**
-     * This makes it easier to NOT have to do silly things with generics on the outside
-     */
-    public static class Selected extends Select<_textBlock> {
-
-        public Selected(_textBlock _node, Tokens tokens) {
-            super(_node, tokens);
-        }
-    }
 }

@@ -29,6 +29,23 @@ public class $arguments<N extends Node & NodeWithArguments>
         return new $arguments();
     }
 
+
+    /**
+     * Build and return a $arguments bot matching empty arguments lists
+     * @return $arguments bot that matches empty arguments lists
+     */
+    public static $arguments empty(){
+        return of( a-> a.isEmpty() );
+    }
+
+    /**
+     * Build and return a $arguments bot matching arguments lists that are not empty
+     * @return $arguments bot that matches non-empty arguments lists
+     */
+    public static $arguments notEmpty(){
+        return of( a-> !a.isEmpty() );
+    }
+
     public static $arguments of (_arguments args){
         return new $arguments(args);
     }
@@ -99,6 +116,27 @@ public class $arguments<N extends Node & NodeWithArguments>
     public $arguments setPredicate( Predicate<_arguments> predicate){
         this.predicate = predicate;
         return this;
+    }
+
+
+    public $arguments $any(Class<? extends _expression>...expressionClasses ){
+        //Set<Class<? extends _expression>> exSet = new HashSet<>();
+        //Arrays.stream
+        Predicate<_arguments> ps =
+                (args) -> Arrays.stream(expressionClasses).anyMatch( ec-> args.get(a -> ec.isAssignableFrom(a.getClass())) != null );
+        return $and( ps );
+                //a-> a.anyMatch( ee ->
+                //Arrays.stream(expressionClasses).anyMatch(e -> e.isAssignableFrom(a.getClass()) ) ) );
+    }
+
+
+    /**
+     * Do ANY of the arguments match this expression predicate
+     * @param _exMatchFn
+     * @return
+     */
+    public $arguments $any( Predicate<_expression> _exMatchFn){
+        return $and( a-> a.anyMatch(_exMatchFn));
     }
 
     /**

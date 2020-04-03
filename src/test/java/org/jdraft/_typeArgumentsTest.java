@@ -12,7 +12,7 @@ public class _typeArgumentsTest extends TestCase {
             _tas.getAt(0);
             fail("Expected exception n");
         }catch(Exception e){ }
-        assertEquals(-1, _tas.indexOf(Types.typeRef(String.class)));
+        assertEquals(-1, _tas.indexOf(Types.of(String.class)));
         assertEquals(-1, _tas.indexOf(_typeRef.of(String.class)));
 
         _tas.setUseDiamondOperator();

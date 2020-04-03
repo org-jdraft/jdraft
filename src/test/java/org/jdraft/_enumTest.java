@@ -125,7 +125,7 @@ public class _enumTest extends TestCase {
 
     public void testType(){
         //todo, ned to
-        Type t = Types.typeRef("@ann aaaa.bbbb.I<T>");
+        Type t = Types.of("@ann aaaa.bbbb.I<T>");
         assertTrue( t.isClassOrInterfaceType() );
         System.out.println( t.toString() );
         assertEquals( "aaaa.bbbb.I", t.toString(Print.PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS));

@@ -29,7 +29,7 @@ public class $typeRef
      * @return 
      */
     public static $typeRef of(String pattern ){
-        return new $typeRef(Types.typeRef(pattern));
+        return new $typeRef(Types.of(pattern));
     }
  
     /**
@@ -39,7 +39,7 @@ public class $typeRef
      * @return 
      */
     public static $typeRef of(String pattern, Predicate<_typeRef> constraint){
-        return new $typeRef(Types.typeRef(pattern)).$and(constraint);
+        return new $typeRef(Types.of(pattern)).$and(constraint);
     }
     
     /**
@@ -48,7 +48,7 @@ public class $typeRef
      * @return 
      */
     public static $typeRef of( Class typeClass ){
-        return $typeRef.of( Types.typeRef(typeClass) );
+        return $typeRef.of( Types.of(typeClass) );
     }
 
     /**
@@ -162,7 +162,7 @@ public class $typeRef
      * @param pattern 
      */
     private $typeRef(String pattern){
-        this.type = Types.typeRef(pattern);
+        this.type = Types.of(pattern);
     } 
 
     private Stencil typePattern(){
@@ -199,7 +199,7 @@ public class $typeRef
     public $typeRef $(String target, String $paramName) {
         Stencil st = typePattern();
         st = st.$(target, $paramName);
-        this.type = Types.typeRef(st.toString());
+        this.type = Types.of(st.toString());
         return this;
     }
 
@@ -224,7 +224,7 @@ public class $typeRef
         //System.out.println("FIRST "+st +" "+kvs);
         st = st.$hardcode(translator, kvs);
         //System.out.println( "NEXT"+st);
-        this.type = Types.typeRef(st.toString());
+        this.type = Types.of(st.toString());
         return this;
     }
 
@@ -314,7 +314,7 @@ public class $typeRef
      * @return 
      */
     public boolean matches( String type ){
-        return select( Types.typeRef(type)) != null;
+        return select( Types.of(type)) != null;
     }
 
     /**

@@ -27,7 +27,7 @@ public class AtTest extends TestCase {
         StringLiteralExpr sle = At.nodeAt(AtTest.class, 26);
 
 /*<--*/ int i = 100;
-        assertEquals( Types.typeRef(int.class),At.nodeAt(AtTest.class, 29,9));
+        assertEquals( Types.of(int.class),At.nodeAt(AtTest.class, 29,9));
         assertEquals( "i",At.nodeAt(AtTest.class, 29,13).toString());
         assertEquals( Expressions.of(100),At.nodeAt(AtTest.class, 29,18) );
     }

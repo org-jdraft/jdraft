@@ -86,18 +86,6 @@ public class $returnStmt implements $bot.$node<ReturnStmt, _returnStmt, $returnS
         return this;
     }
 
-    /*
-    public $methodCall $and(Predicate<_methodCall> _matchFn) {
-        this.predicate = this.predicate.and(_matchFn);
-        return this;
-    }
-
-    public $methodCall $not(Predicate<_methodCall> _matchFn) {
-        this.predicate = this.predicate.and(_matchFn.negate());
-        return this;
-    }
-     */
-
     public boolean isMatchAny(){
         if( this.expression.isMatchAny() ){
             try {
@@ -107,24 +95,7 @@ public class $returnStmt implements $bot.$node<ReturnStmt, _returnStmt, $returnS
         return false;
     }
 
-    /*
-    public Selected select(String code) {
-        try {
-            return select(_methodCall.of(code));
-        } catch (Exception e) {
-            return null;
-        }
-    }
-     */
-    /*
-    public boolean matches(Node n){
-        if( n instanceof ReturnStmt){
-            return matches( _returnStmt.of( (ReturnStmt)n));
-        }
-        return false;
-    }
-     */
-    public Selected select(String... code) {
+    public Select<_returnStmt> select(String... code) {
         try {
             return select(_returnStmt.of(code));
         } catch (Exception e) {
@@ -132,35 +103,35 @@ public class $returnStmt implements $bot.$node<ReturnStmt, _returnStmt, $returnS
         }
     }
 
-    public Selected select(Node n) {
+    public Select<_returnStmt> select(Node n) {
         if (n instanceof ReturnStmt) {
             return select(_returnStmt.of((ReturnStmt) n));
         }
         return null;
     }
 
-    public Selected select(Statement e) {
+    public Select<_returnStmt> select(Statement e) {
         if (e instanceof ReturnStmt) {
             return select(_returnStmt.of((ReturnStmt) e));
         }
         return null;
     }
 
-    public Selected select(_java._domain _n) {
+    public Select<_returnStmt> select(_java._domain _n) {
         if (_n instanceof _returnStmt) {
             return select((_returnStmt) _n);
         }
         return null;
     }
 
-    public Selected select(_statement<?, ?> _e) {
+    public Select<_returnStmt> select(_statement<?, ?> _e) {
         if (_e instanceof _returnStmt) {
             return select((_returnStmt) _e);
         }
         return null;
     }
 
-    public Selected select(_returnStmt _r){
+    public Select<_returnStmt> select(_returnStmt _r){
         if( !_r.hasExpression() && !this.expression.isMatchAny()){
             return null;
         }
@@ -171,7 +142,7 @@ public class $returnStmt implements $bot.$node<ReturnStmt, _returnStmt, $returnS
         if( s == null ){
             return null;
         }
-        return new Selected(_r, s.tokens);
+        return new Select<>(_r, s.tokens);
     }
 
     public _returnStmt draft(Translator tr, Map<String,Object> keyValues){
@@ -243,15 +214,5 @@ public class $returnStmt implements $bot.$node<ReturnStmt, _returnStmt, $returnS
     public $returnStmt $expression(_expression _e) {
         this.expression = $expression.of(_e);
         return this;
-    }
-
-    /**
-     * This makes it easier to NOT have to do silly things with generics on the outside
-     */
-    public static class Selected extends Select<_returnStmt> {
-
-        public Selected(_returnStmt _node, Tokens tokens) {
-            super(_node, tokens);
-        }
     }
 }

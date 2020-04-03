@@ -137,10 +137,10 @@ public class $s
 	}
 
 	@Override
-	public Selected select(Node n) {
+	public Select<_statement> select(Node n) {
 		if( n == null ) {
 			if( isMatchAny()) {
-				return new Selected(null, new Tokens());
+				return new Select<>(null, new Tokens());
 			}
 			return null;
 		}
@@ -149,12 +149,12 @@ public class $s
 			if( this.predicate.test(_e )) {
 				//if( this.expressionClassSet.con)
 				if(this.stencil == null ) {
-					return new Selected( _e, new Tokens());
+					return new Select<>( _e, new Tokens());
 				}
 				else { //check if it passes the stencil too
 					Tokens ts = this.stencil.parse(_e.toString());
 					if( ts != null ) {
-						return new Selected(_e, ts);
+						return new Select<>(_e, ts);
 					}
 				}
 			}				
@@ -170,7 +170,7 @@ public class $s
 	}
 
 	@Override
-	public Selected select(String code) {
+	public Select<_statement> select(String code) {
 		try {
 			Statement e = Statements.of(code);
 			return select(e);
@@ -180,7 +180,7 @@ public class $s
 	}
 
 	@Override
-	public Selected select(String... code) {
+	public Select<_statement> select(String... code) {
 		try {
 			Statement e = Statements.of(code);
 			return select(e);
@@ -191,10 +191,10 @@ public class $s
 	}
 
 	@Override
-	public Selected select(_statement candidate) {
+	public Select<_statement> select(_statement candidate) {
 		if( candidate == null) {
 			if( isMatchAny() ) {
-				return new Selected( null, new Tokens());
+				return new Select<>( null, new Tokens());
 			}
 			return null;
 		}
@@ -284,13 +284,4 @@ public class $s
 		}
 		return Collections.EMPTY_LIST;
 	}
-	
-	/**
-	 * This makes it easier to NOT have to do silly things with generics on the outside
-	 */
-	public static class Selected <_S extends _statement> extends Select<_S> {
-		public Selected(_S _node, Tokens tokens) {
-			super(_node, tokens);
-		}		
-	}	
 }

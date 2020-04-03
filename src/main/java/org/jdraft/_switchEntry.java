@@ -139,7 +139,7 @@ public final class _switchEntry implements _java._multiPart<SwitchEntry, _switch
 
 
     public boolean isThrow(Class<? extends Throwable> clazz){
-        return isThrow( Types.typeRef(clazz));
+        return isThrow( Types.of(clazz));
     }
 
     public boolean isThrow(_typeRef _tr ){

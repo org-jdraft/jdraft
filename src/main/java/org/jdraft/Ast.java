@@ -793,7 +793,7 @@ public enum Ast {
             return new Name( Text.combine(code));
         }
         if( Type.class.isAssignableFrom(nodeClass )){
-            return Types.typeRef( Text.combine(code));
+            return Types.of( Text.combine(code));
         }
         if( Modifier.class == nodeClass ){
             return Modifiers.MODS_KEYWORD_TO_ENUM_MAP.get(Text.combine(code) );

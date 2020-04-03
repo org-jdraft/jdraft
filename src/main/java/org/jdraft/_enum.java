@@ -158,7 +158,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
                     });
                      */
                     FieldDeclaration fd = (FieldDeclaration)bds.get(i);
-                    if( Types.equal( fd.getVariable(0).getType(), Types.typeRef(_constant.class) ) ){
+                    if( Types.equal( fd.getVariable(0).getType(), Types.of(_constant.class) ) ){
 
                         for(int f=0;f<fd.getVariables().size();f++){
 

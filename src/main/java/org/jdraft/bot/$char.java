@@ -88,7 +88,7 @@ public class $char implements $bot.$node<CharLiteralExpr, _char, $char>,
         return this;
     }
 
-    public Selected select(String code) {
+    public Select<_char> select(String code) {
         try {
             return select(_char.of(code));
         } catch (Exception e) {
@@ -96,7 +96,7 @@ public class $char implements $bot.$node<CharLiteralExpr, _char, $char>,
         }
     }
 
-    public Selected select(String... code) {
+    public Select<_char> select(String... code) {
         try {
             return select(_char.of(code));
         } catch (Exception e) {
@@ -104,42 +104,42 @@ public class $char implements $bot.$node<CharLiteralExpr, _char, $char>,
         }
     }
 
-    public Selected select(Node n) {
+    public Select<_char> select(Node n) {
         if (n instanceof CharLiteralExpr) {
             return select(_char.of((CharLiteralExpr) n));
         }
         return null;
     }
 
-    public Selected select(Expression e) {
+    public Select<_char> select(Expression e) {
         if (e instanceof CharLiteralExpr) {
             return select(_char.of((CharLiteralExpr) e));
         }
         return null;
     }
 
-    public Selected select(_domain _n) {
+    public Select<_char> select(_domain _n) {
         if (_n instanceof _char) {
             return select((_char) _n);
         }
         return null;
     }
 
-    public Selected select(_expression<?, ?> _e) {
+    public Select<_char> select(_expression<?, ?> _e) {
         if (_e instanceof _char) {
             return select((_char) _e);
         }
         return null;
     }
 
-    public Selected select(_char _i) {
+    public Select<_char> select(_char _i) {
         if (predicate.test(_i)) {
             if (stencil == null) {
-                return new Selected(_i, new Tokens());
+                return new Select<_char>(_i, new Tokens());
             }
             Tokens ts = stencil.parse(_i.toString());
             if (ts != null) {
-                return new Selected(_i, ts);
+                return new Select<_char>(_i, ts);
             }
             return null;
         }
@@ -244,13 +244,4 @@ public class $char implements $bot.$node<CharLiteralExpr, _char, $char>,
         this.stencil = stencil;
     }
 
-    /**
-     * This makes it easier to NOT have to do silly things with generics on the outside
-     */
-    public static class Selected extends Select<_char> {
-
-        public Selected(_char _node, Tokens tokens) {
-            super(_node, tokens);
-        }
-    }
 }
