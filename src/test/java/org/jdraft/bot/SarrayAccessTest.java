@@ -38,7 +38,7 @@ public class SarrayAccessTest extends TestCase {
 
 	public void testPredicateAPI() {
 		//only accept int literal predicates
-		$arrayAccess $aa = $arrayAccess.of(a -> a.isIndex(i -> i instanceof _int));
+		$arrayAccess $aa = $arrayAccess.of(). $and(a -> a.isIndex(i -> i instanceof _int));
 		assertTrue( $aa.matches("x[1]") );
 		assertTrue( $aa.matches("y[1123]") );
 		assertFalse( $aa.matches("x[m()]") );

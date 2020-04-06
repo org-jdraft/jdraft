@@ -1,12 +1,14 @@
 package org.jdraft.bot;
 
 import com.github.javaparser.ast.expr.*;
+import com.github.javaparser.ast.stmt.AssertStmt;
 import com.github.javaparser.ast.stmt.Statement;
-import org.jdraft.Statements;
-import org.jdraft._expression;
-import org.jdraft._statement;
+import org.jdraft.*;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Template;
+
+import java.util.Optional;
+import java.util.function.*;
 
 /**
  * interface for all $statement bots (bots that can inspect or manipulate {@link Statement} or {@link _statement}
@@ -44,6 +46,59 @@ public interface $statement<S extends Statement, _S extends _statement, $S exten
      */
     static $statement of(Class<? extends _statement>... expressionClasses) {
         return new $s().$and(expressionClasses);
+    }
+
+    static $statement of(Supplier<? extends Object> lambdaWithStatement){
+        Statement st = Statements.from(Thread.currentThread().getStackTrace()[2]);
+        return of(st);
+    }
+
+    static $statement of(Consumer<? extends Object> lambdaWithStatement){
+        Statement st = Statements.from(Thread.currentThread().getStackTrace()[2]);
+        return of(st);
+    }
+
+    static $statement of(BiConsumer<? extends Object, ? extends Object> lambdaWithStatement){
+        Statement st = Statements.from(Thread.currentThread().getStackTrace()[2]);
+        return of(st);
+    }
+
+    static $statement of(Expressions.TriConsumer<? extends Object, ? extends Object,? extends Object> lambdaWithStatement){
+        Statement st = Statements.from(Thread.currentThread().getStackTrace()[2]);
+        return of(st);
+    }
+
+    static $statement of(Expressions.QuadConsumer<? extends Object, ? extends Object, ? extends Object, ? extends Object> lambdaWithStatement){
+        Statement st = Statements.from(Thread.currentThread().getStackTrace()[2]);
+        return of(st);
+    }
+
+    static $statement of(Function<? extends Object, ? extends Object> lambdaWithStatement){
+        Statement st = Statements.from(Thread.currentThread().getStackTrace()[2]);
+        return of(st);
+    }
+
+    static $statement of(BiFunction<? extends Object, ? extends Object, ? extends Object> lambdaWithStatement){
+        Statement st = Statements.from(Thread.currentThread().getStackTrace()[2]);
+        return of(st);
+    }
+
+    static $statement of(Expressions.TriFunction<? extends Object, ? extends Object,? extends Object, ? extends Object> lambdaWithStatement){
+        Statement st = Statements.from(Thread.currentThread().getStackTrace()[2]);
+        return of(st);
+    }
+
+    static $statement of(Expressions.QuadFunction<? extends Object, ? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithStatement){
+        Statement st = Statements.from(Thread.currentThread().getStackTrace()[2]);
+        return of(st);
+    }
+
+    static $statement from( LambdaExpr le ){
+        Optional<AssertStmt> ows = le.getBody().findFirst(AssertStmt.class);
+        if( ows.isPresent() ){
+            return of(ows.get());
+        }
+        throw new _jdraftException("No binary expression found in lambda");
     }
 
     static<$S extends $statement> $S of(Statement ile) {

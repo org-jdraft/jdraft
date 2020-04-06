@@ -49,9 +49,11 @@ public class $textBlock implements $bot.$node<TextBlockLiteralExpr, _textBlock, 
         return new $textBlock(_textBlock.of(i)).$and(_i -> _i.getValue() == i);
     }
 
+    /*
     public static $textBlock of(Predicate<_textBlock> _matchFn) {
         return new $textBlock().$and(_matchFn);
     }
+     */
 
     public Predicate<_textBlock> getPredicate(){
         return this.predicate;
@@ -62,7 +64,7 @@ public class $textBlock implements $bot.$node<TextBlockLiteralExpr, _textBlock, 
      * @return
      */
     public $textBlock copy(){
-        $textBlock $t = of( this.predicate.and(t->true) );
+        $textBlock $t = of( ).$and(this.predicate.and(t->true) );
         if( this.stencil != null ) {
             $t.stencil = this.stencil.copy();
         }

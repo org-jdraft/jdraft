@@ -5,7 +5,11 @@ import org.jdraft._jdraftException;
 import java.util.*;
 
 /**
- * KeyValue data structure for "Pairs" of extracted tokens from within Ast syntax nodes
+ * KeyValue data structure for "Pairs" of
+ * <UL>
+ *     <LI>input tokens (for drafting)
+ *     <LI>extracted tokens (for selecting) from within the Ast
+ * </UL>
  *
  * A simple mapping of (String) keys to (Object) values
  * <PRE>{@code
@@ -96,34 +100,6 @@ public final class Tokens implements Map<String,Object>{
         return this.kvMap.containsKey(key);
     }
 
-    /** 
-     * check that it has this this exact key VALUE combination
-     * @param key     
-     * @param value     
-     * @return true if 
-     */
-    public boolean has( String key, String value){
-        Object val = this.get(key);
-        if( val != null ){
-            return val.equals(value);
-        }
-        return false;
-    }
-
-    /**
-     * returns true is all keys are within the Tokens
-     * @param keys all the keys to find
-     * @return true if all keys are found in the Tokens
-     */
-    public boolean containsKeys( String...keys ){
-        for( String key : keys ) {
-            if( !containsKey( key ) ) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     @Override
     public boolean containsValue(Object value) {
         return this.kvMap.containsValue(value);
@@ -149,17 +125,31 @@ public final class Tokens implements Map<String,Object>{
         return this.kvMap.put(key, value );
     }
 
+    @Override
+    public Set<String> keySet(){
+        return new HashSet<>(kvMap.keySet());
+    }
+
+    /**
+     * returns true is all keys are within the Tokens
+     * @param keys all the keys to find
+     * @return true if all keys are found in the Tokens
+     */
+    public boolean containsKeys( String...keys ){
+        for( String key : keys ) {
+            if( !containsKey( key ) ) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * Returns the underlying map of the Tokens
      * @return the underlying key/value map
      */
     public Map<String,Object> map(){
         return kvMap;
-    }
-
-    @Override
-    public Set<String> keySet(){
-        return new HashSet<>(kvMap.keySet());
     }
 
     /**
@@ -190,21 +180,32 @@ public final class Tokens implements Map<String,Object>{
      *
      * CAN WE MERGE THIS TOKENS t INTO this Tokens without overriding any Key-VALUE bindings that exist?
      *
-     * @param t a prospective Tokens
+     * @param m a prospective Tokens
      * @return true if we can merge the tokens without conflict, false if there is a conflict
      */
-    public <M extends Map<String,Object>> boolean isConsistent( M t ){
-        if( t == null ){
+    public <M extends Map<String,Object>> boolean isConsistent( M m ){
+        if( m == null ){
             return false;
         }
         Optional<String> unmatchedKey =
-                t.keySet().stream().filter( k-> containsKey(k) && (!Objects.equals( t.get(k), get(k)) )).findFirst();
+                m.keySet().stream().filter( k-> containsKey(k) && (!Objects.equals( m.get(k), get(k)) )).findFirst();
             //t.kvMap.keySet().stream().filter( k-> containsKey(k) && (!Objects.equals( t.get(k), get(k)) )).findFirst();
         if( unmatchedKey.isPresent() ){
-            System.out.println( "Unmatched key \""+ unmatchedKey.get()+"\" values : \""+ t.get(unmatchedKey.get())+ "\"  \""+ get(unmatchedKey.get())+"\""  );
+            //System.out.println( "Unmatched key \""+ unmatchedKey.get()+"\" values : \""+ m.get(unmatchedKey.get())+ "\"  \""+ get(unmatchedKey.get())+"\""  );
             return false;
         }
         return true;        
+    }
+
+    /**
+     * check that it has this this exact key VALUE combination
+     * @param key
+     * @param value
+     * @return true if
+     */
+    public boolean is(String key, Object value){
+        Object val = this.get(key);
+        return Objects.equals( val, value);
     }
 
     /**

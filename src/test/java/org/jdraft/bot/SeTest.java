@@ -26,7 +26,7 @@ public class SeTest extends TestCase {
 		assertTrue( $expression.of(Expressions.of("1")).matches("1"));
 		
 		//with Lambda
-		assertTrue( $e.of(e-> e instanceof _int).matches("1"));
+		assertTrue( $e.of().$and(e-> e instanceof _int).matches("1"));
 		
 		//with Stencil
 		assertTrue( $e.of(Stencil.of("1")).matches("1"));		
@@ -45,12 +45,12 @@ public class SeTest extends TestCase {
 	}
 	
 	public void test$and() {
-		assertTrue($e.of( e -> !e.ast().getComment().isPresent()).matches("100") );
+		assertTrue($e.of().$and( e -> !e.ast().getComment().isPresent()).matches("100") );
 
 		//assertTrue( $e.of().$and( e -> !e.ast().getComment().isPresent()).matches("100"));
 		IntegerLiteralExpr ile = new IntegerLiteralExpr(100);
 		ile.setComment(new BlockComment("Hello"));
-		assertFalse( $e.of(e -> !e.ast().getComment().isPresent()).matches(ile));
+		assertFalse( $e.of(). $and(e -> !e.ast().getComment().isPresent()).matches(ile));
 		//assertFalse( $e.of().$and( e -> !e.ast().getComment().isPresent()).matches(ile));
 	}
 
@@ -87,7 +87,7 @@ public class SeTest extends TestCase {
 		assertFalse($expression.of("100").matches("200"));
 		assertFalse($expression.of("100").matches("null"));
 		assertTrue($expression.of(_int.of(1)).matches("1"));
-		assertTrue($e.of(e-> e instanceof _int).matches("123"));
+		assertTrue($e.of().$and(e-> e instanceof _int).matches("123"));
 		assertFalse($expression.of(_int.of(1)).matches("null"));
 		
 		

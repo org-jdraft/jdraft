@@ -16,7 +16,8 @@ import java.util.stream.Collectors;
 
 /**
  * pattern for an annotation expression
- * i.e. @Deprecated
+ * i.e. @Deprecated, @Generated("12/14/2019")
+ *
  *
  * @author Eric
  */

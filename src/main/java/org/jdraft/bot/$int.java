@@ -50,9 +50,11 @@ public class $int implements $bot.$node<IntegerLiteralExpr, _int, $int>,
         return new $int(_int.of(i)).$and(_i -> _i.getValue() == i);
     }
 
+    /*
     public static $int of(Predicate<_int> _matchFn) {
         return new $int().$and(_matchFn);
     }
+     */
 
     @Override
     public $int $hardcode(Translator translator, Tokens kvs) {
@@ -65,7 +67,7 @@ public class $int implements $bot.$node<IntegerLiteralExpr, _int, $int>,
      * @return
      */
     public $int copy(){
-        $int $i = of( this.predicate.and(t->true) );
+        $int $i = of().$and(this.predicate.and(t->true) );
         $i.stencil = this.stencil.copy();
         return $i;
     }

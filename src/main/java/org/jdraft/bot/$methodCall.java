@@ -59,9 +59,11 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
         return of(_methodCall.of(code));
     }
 
+    /* removed to make way for Lambda constructors (this is a "nice to have" anyways)
     public static $methodCall of(Predicate<_methodCall> _matchFn) {
         return new $methodCall().$and(_matchFn);
     }
+     */
 
     private static $methodCall addParts( $methodCall $mc, $part...parts ){
         for(int i=0;i<parts.length;i++){
@@ -117,8 +119,8 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
      * @return
      */
     public $methodCall copy(){
-        $methodCall $mc = of( this.predicate.and(t->true) );
-        $mc.typeArguments = ($typeArguments)this.typeArguments.copy();
+        $methodCall $mc = of().$and( this.predicate.and(t->true) );
+        $mc.typeArguments = this.typeArguments.copy();
         $mc.arguments = this.arguments.copy();
         $mc.name = this.name.copy();
         $mc.scope = ($expression)this.scope.copy();

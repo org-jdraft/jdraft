@@ -183,7 +183,7 @@ public class $typeRef
      * @return
      */
     public $typeRef copy(){
-        $typeRef $t = of( this.predicate.and(t->true) );
+        $typeRef $t = of().$and(this.predicate.and(t->true) );
         if( this.type != null ) {
             $t.type = this.type.clone();
         }
@@ -315,10 +315,11 @@ public class $typeRef
      * A TypeRef
      * @param constraint
      * @return
-     */
+
     public static $typeRef of(Predicate<_typeRef> constraint ){
         return of().$and(constraint);
     }
+    */
 
     /**
      *

@@ -90,7 +90,7 @@ public class $returnStmtTest extends TestCase {
     }
 
     public void testExpressionRequiredViaLambda(){
-        $returnStmt $rs = $returnStmt.of( r-> r.hasExpression() );
+        $returnStmt $rs = $returnStmt.of().$and(r-> r.hasExpression() );
 
         assertFalse( $rs.matches( "return;"));
         assertTrue( $returnStmt.of().matches( "return 1;"));

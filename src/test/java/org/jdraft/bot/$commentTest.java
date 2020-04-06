@@ -67,7 +67,7 @@ public class $commentTest extends TestCase {
         assertTrue($c.matches("/*BC*/"));
         assertTrue($c.matches("// line comment"));
 
-        $c = $comment.of(c-> c.isAttributed());
+        $c = $comment.of().$and(c-> c.isAttributed());
         assertEquals( 4, $c.countIn(C.class));
 
         //test lambdas
@@ -96,14 +96,14 @@ public class $commentTest extends TestCase {
             /** javadoc comment */
             int i=0;
         }
-        assertEquals( 1, $comment.of(c-> c instanceof _blockComment).countIn(GG.class));
+        assertEquals( 1, $comment.of().$and(c-> c instanceof _blockComment).countIn(GG.class));
         assertEquals( 1, $comment.block().countIn(GG.class));
 
         assertEquals( 2, $comment.of().$isAttributed().countIn(GG.class)); //lineComment
         assertEquals( 1, $comment.of().$isAttributed(false).countIn(GG.class)); /*blockComment*/
 
-        assertEquals( 2, $comment.of(c-> c.isAttributed()).countIn(GG.class)); //lineComment
-        assertEquals( 1, $comment.of(c-> !c.isAttributed()).countIn(GG.class)); /*block comment*/
+        assertEquals( 2, $comment.of().$and(c-> c.isAttributed()).countIn(GG.class)); //lineComment
+        assertEquals( 1, $comment.of().$and(c-> !c.isAttributed()).countIn(GG.class)); /*block comment*/
     }
 
     public void testStencil(){
@@ -120,7 +120,7 @@ public class $commentTest extends TestCase {
         }
 
         //verify we can match the
-        assertEquals(6, $comment.of(c-> c.getContents().startsWith("TODO")).countIn(C.class));
+        assertEquals(6, $comment.of().$and(c-> c.getContents().startsWith("TODO")).countIn(C.class));
 
         System.out.println( _statement.of( () -> System.out.println(1)) );
 

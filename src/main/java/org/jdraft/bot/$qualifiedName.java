@@ -21,9 +21,11 @@ public class $qualifiedName implements $bot<Node, _qualifiedName, $qualifiedName
         return new $qualifiedName(_qn);
     }
 
+    /*
     public static $qualifiedName of( Predicate<_qualifiedName> pqn ){
         return new $qualifiedName().$and(pqn);
     }
+     */
 
     Stencil stencil = null;
     Predicate<_qualifiedName> predicate = t-> true;
@@ -53,7 +55,7 @@ public class $qualifiedName implements $bot<Node, _qualifiedName, $qualifiedName
     }
 
     public $qualifiedName copy(){
-        $qualifiedName $qn = of( this.predicate.and(t->true) );
+        $qualifiedName $qn = new $qualifiedName().$and(this.predicate.and(t->true) );
         if( this.stencil != null ){
             $qn.stencil = this.stencil.copy();
         }

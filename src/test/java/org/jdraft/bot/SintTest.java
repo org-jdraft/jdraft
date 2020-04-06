@@ -35,10 +35,10 @@ public class SintTest extends TestCase {
 		assertFalse($int.of(Expressions.of(1)).matches(2));
 		
 		//Predicate
-		assertTrue( $int.of(i-> i.isBinaryFormat()).matches("0b101001") );
-		assertTrue( $int.of(i-> i.isBinaryFormat()).matches("0b11101") );		
+		assertTrue( $int.of().$and(i-> i.isBinaryFormat()).matches("0b101001") );
+		assertTrue( $int.of().$and(i-> i.isBinaryFormat()).matches("0b11101") );
 		
-		assertFalse( $int.of(i-> i.isBinaryFormat()).matches("0xdead") );		
+		assertFalse( $int.of().$and(i-> i.isBinaryFormat()).matches("0xdead") );
 	}
 	
 	public void test$And() {
@@ -76,10 +76,10 @@ public class SintTest extends TestCase {
 		class C{	
 			int[] x = {12345, 0xDEAD, 0b10110, 1_000};			
 		}				
-		assertTrue($int.of(i->i.isBinaryFormat()).firstIn(C.class).is("0b10110"));
+		assertTrue($int.of().$and(i->i.isBinaryFormat()).firstIn(C.class).is("0b10110"));
 		assertTrue($int.of(12345).firstIn(C.class).is(12345));
-		assertTrue($int.of(i->i.has_Separators()).firstIn(C.class).is("1_000"));
-		assertTrue($int.of(i->i.isHexFormat()).firstIn(C.class).is("0xDEAD"));
+		assertTrue($int.of().$and(i->i.has_Separators()).firstIn(C.class).is("1_000"));
+		assertTrue($int.of().$and(i->i.isHexFormat()).firstIn(C.class).is("0xDEAD"));
 		
 		//now apply the matchFn on the firstIn instead
 		//i.e. refine the query withgout modifying the prototype
@@ -103,10 +103,10 @@ public class SintTest extends TestCase {
 		class C{	
 			int[] x = {12345, 0xDEAD, 0b10110, 1_000};			
 		}				
-		assertTrue($int.of(i->i.isBinaryFormat()).selectFirstIn(C.class).selection.is("0b10110"));
+		assertTrue($int.of().$and(i->i.isBinaryFormat()).selectFirstIn(C.class).selection.is("0b10110"));
 		assertTrue($int.of(12345).selectFirstIn(C.class).selection.is(12345));
-		assertTrue($int.of(i->i.has_Separators()).selectFirstIn(C.class).selection.is("1_000"));
-		assertTrue($int.of(i->i.isHexFormat()).selectFirstIn(C.class).selection.is("0xDEAD"));
+		assertTrue($int.of().$and(i->i.has_Separators()).selectFirstIn(C.class).selection.is("1_000"));
+		assertTrue($int.of().$and(i->i.isHexFormat()).selectFirstIn(C.class).selection.is("0xDEAD"));
 		
 		//now apply the matchFn on the firstIn instead
 		//i.e. refine the query withgout modifying the prototype

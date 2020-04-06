@@ -22,7 +22,7 @@ public class SsTest extends TestCase {
 		assertTrue( $statement.of(Statements.of("return;")).matches("return;"));
 		
 		//with Lambda
-		assertTrue( $s.of(e-> e instanceof _returnStmt).matches("return null;"));
+		assertTrue( $s.of(). $and(e-> e instanceof _returnStmt).matches("return null;"));
 		
 		//with Stencil
 		assertTrue( $s.of(Stencil.of("return $any$;")).matches("return null;"));
@@ -41,7 +41,7 @@ public class SsTest extends TestCase {
 	}
 	
 	public void test$and() {
-		assertTrue($s.of( e -> !e.ast().getComment().isPresent()).matches("return 3;") );
+		assertTrue($s.of().$and(e -> !e.ast().getComment().isPresent()).matches("return 3;") );
 
 
 		//assertTrue( $e.of().$and( e -> !e.ast().getComment().isPresent()).matches("100"));
@@ -49,7 +49,7 @@ public class SsTest extends TestCase {
 		//ile.setComment(new BlockComment("Hello"));
 		WhileStmt ws = Statements.whileStmt("while(true){}");
 		ws.setComment(new BlockComment("Hello"));
-		assertFalse( $s.of(e -> !e.ast().getComment().isPresent()).matches(ws));
+		assertFalse( $s.of().$and(e -> !e.ast().getComment().isPresent()).matches(ws));
 		//assertFalse( $e.of().$and( e -> !e.ast().getComment().isPresent()).matches(ile));
 	}
 
@@ -85,7 +85,7 @@ public class SsTest extends TestCase {
 		assertFalse($statement.of("100").matches("200"));
 		assertFalse($statement.of("100").matches("null"));
 		assertTrue($statement.of(_returnStmt.of("return;")).matches("return;"));
-		assertTrue($s.of(e-> e instanceof _returnStmt).matches("return;"));
+		assertTrue($s.of().$and(e-> e instanceof _returnStmt).matches("return;"));
 		assertFalse($statement.of(_returnStmt.of(1)).matches("return null;"));
 		
 		

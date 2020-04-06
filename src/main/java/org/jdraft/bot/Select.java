@@ -25,7 +25,7 @@ public class Select<S> {
 
     @Override
     public String toString() {
-        return this.getClass().getCanonicalName().replace("org.jdraft.protptype", "")+"{" + System.lineSeparator()
+        return this.getClass().getSimpleName() + "{" + System.lineSeparator()
                 + Text.indent(selection.toString()) + System.lineSeparator() +
                 Text.indent("Tokens : " + tokens) + System.lineSeparator()
                 + "}";
@@ -35,4 +35,31 @@ public class Select<S> {
         return this.selection;
     }
 
+    public String get(String key){
+        Object obj = tokens.get(key);
+        if( obj != null ){
+            return obj.toString();
+        }
+        return null;
+    }
+
+    /**
+     * Verify that the value associated with this key is equal to
+     * (Just saves a getTokens() step for the caller)
+     * @param key
+     * @param expectedValue
+     * @return
+     */
+    public boolean is(String key, String expectedValue){
+        return tokens.is( key, expectedValue);
+    }
+
+    /**
+     * Verify all of the keyValues internally are equal to the expectedKeyValues
+     * @param expectedKeyValues
+     * @return
+     */
+    public boolean is(Object...expectedKeyValues){
+        return tokens.is(expectedKeyValues);
+    }
 }

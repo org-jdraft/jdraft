@@ -47,9 +47,9 @@ public class $boolean implements $bot.$node<BooleanLiteralExpr, _boolean, $boole
         return new $boolean(_boolean.of(i)).$and(_i -> _i.getValue() == i);
     }
 
-    public static $boolean of(Predicate<_boolean> _matchFn) {
-        return new $boolean().$and(_matchFn);
-    }
+    //public static $boolean of(Predicate<_boolean> _matchFn) {
+    //    return new $boolean().$and(_matchFn);
+    //}
 
     public static $boolean or($boolean...$bs){
         return new $boolean.Or($bs);
@@ -63,7 +63,7 @@ public class $boolean implements $bot.$node<BooleanLiteralExpr, _boolean, $boole
      * @return
      */
     public $boolean copy(){
-        $boolean $b = of( this.predicate.and(t->true) );
+        $boolean $b = of( ).$and(this.predicate.and(t->true) );
         $b.stencil = this.stencil.copy();
         return $b;
     }

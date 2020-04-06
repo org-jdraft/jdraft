@@ -49,9 +49,11 @@ public class $char implements $bot.$node<CharLiteralExpr, _char, $char>,
         return new $char(_char.of(i)).$and(_i -> _i.getValue() == i);
     }
 
+    /*
     public static $char of(Predicate<_char> _matchFn) {
         return new $char().$and(_matchFn);
     }
+     */
 
     public Predicate<_char> getPredicate(){
         return this.predicate;
@@ -62,7 +64,7 @@ public class $char implements $bot.$node<CharLiteralExpr, _char, $char>,
      * @return
      */
     public $char copy(){
-        $char $c = of( this.predicate.and(t->true) );
+        $char $c = of().$and(this.predicate.and(t->true) );
         $c.stencil = this.stencil.copy();
         return $c;
     }

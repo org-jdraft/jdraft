@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 import org.jdraft._binaryExpression;
 import org.jdraft._expression;
 import org.jdraft._method;
-
+import org.jdraft._arguments;
 import java.util.HashMap;
 import java.util.function.Predicate;
 
@@ -32,8 +32,8 @@ public class botCopyTest extends TestCase {
         //arguments were all of the arguments are literals
 
         assertEquals( 2, $arguments.empty().countIn(C.class));
-        assertEquals( 1, $arguments.of(a-> a.size() > 0).$all(e-> ((_expression)e).isLiteral()).countIn(C.class));
-        assertEquals( 1, $arguments.of(a-> a.size() > 0).$all(_expression._literal.class).countIn(C.class));
+        assertEquals( 1, $arguments.of().$and(a-> ((_arguments)a).size() > 0).$all(e-> ((_expression)e).isLiteral()).countIn(C.class));
+        assertEquals( 1, $arguments.of().$and(a-> ((_arguments)a).size() > 0).$all(_expression._literal.class).countIn(C.class));
 
         assertEquals( 1, $arguments.notEmpty().$all(e-> ((_expression)e).isLiteral()) .countIn(C.class));
         assertEquals( 1, $arguments.notEmpty().$all(_expression._literal.class) .countIn(C.class));
@@ -43,9 +43,9 @@ public class botCopyTest extends TestCase {
 
 
         assertEquals( 5, $args.countIn(C.class));
-        assertEquals( 1, $arguments.of(a-> a.size() ==3).countIn(C.class));
+        assertEquals( 1, $arguments.of().$and(a-> ((_arguments)a).size() ==3).countIn(C.class));
         assertEquals( 2, $arguments.of().$any(_binaryExpression.class).countIn(C.class));
-        assertEquals( 1, $arguments.of(a-> a.size() ==3).$any(_binaryExpression.class).countIn(C.class));
+        assertEquals( 1, $arguments.of().$and(a-> ((_arguments)a).size() ==3).$any(_binaryExpression.class).countIn(C.class));
 
     }
 

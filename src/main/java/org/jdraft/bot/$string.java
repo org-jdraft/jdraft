@@ -50,16 +50,18 @@ public class $string implements $bot.$node<StringLiteralExpr, _string, $string>,
         return new $string(_string.of(i)).$and(_i -> _i.getValue() == i);
     }
 
+    /*
     public static $string of(Predicate<_string> _matchFn) {
         return new $string().$and(_matchFn);
     }
+     */
 
     /**
      * Build and return a new independent mutable copy of this bot
      * @return
      */
     public $string copy(){
-        $string $s = of( this.predicate.and(t->true) );
+        $string $s = of( ).$and(this.predicate.and(t->true) );
         if( this.stencil != null ) {
             $s.stencil = this.stencil.copy();
         }

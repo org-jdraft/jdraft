@@ -32,9 +32,11 @@ public class $s
 		return new $s( code);
 	}
 
+	/*
 	public static $s of(Predicate<_statement> _matchFn) {
 		return new $s(  ).$and(_matchFn);
 	}
+	 */
 
 	public static $s of(String stencil, Class<? extends _statement> sClasses) {
 		return of(stencil, new Class[]{ sClasses} );
@@ -54,8 +56,12 @@ public class $s
 		return ee;
 	}
 
+	public static $s of(){
+		return new $s();
+	}
+
 	public $s copy(){
-		$s s = of( this.predicate );
+		$s s = of( ).$and(this.predicate );
 		if( this.stencil != null ) {
 			s.stencil = this.stencil.copy();
 		}

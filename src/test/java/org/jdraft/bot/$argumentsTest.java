@@ -60,7 +60,7 @@ public class $argumentsTest extends TestCase {
         assertEquals(1, $arguments.of( $e.of(_int.class) ).countIn(E.class));
         assertEquals(1, $arguments.of( $e.of(_binaryExpression.class) ).countIn(E.class));
 
-        $arguments $oneExpr = $arguments.of( a->a.size() ==1 );
+        $arguments $oneExpr = $arguments.of().$and( a->((_arguments)a).size() ==1 );
         assertEquals(1, $oneExpr.countIn(C.class));
         $arguments $twoExprs = $arguments.of( $expression.of(), $expression.of() );
         assertEquals(1, $twoExprs.countIn(C.class));
@@ -81,9 +81,9 @@ public class $argumentsTest extends TestCase {
     }
 
     public void testPredicate(){
-        assertEquals( 1, $arguments.of( a-> a.isEmpty()).countIn(E.class) );
-        assertEquals( 1, $arguments.of( a-> a.isAt(0, e-> e instanceof _binaryExpression)).countIn(E.class) );
-        assertEquals( 1, $arguments.of( a-> a.isAt(0, _binaryExpression.class)).countIn(E.class) );
+        assertEquals( 1, $arguments.of().$and( a-> ((_arguments)a).isEmpty()).countIn(E.class) );
+        assertEquals( 1, $arguments.of().$and( a-> ((_arguments)a).isAt(0, e-> e instanceof _binaryExpression)).countIn(E.class) );
+        assertEquals( 1, $arguments.of().$and( a-> ((_arguments)a).isAt(0, _binaryExpression.class)).countIn(E.class) );
     }
 
     public void testToString(){
@@ -112,11 +112,11 @@ public class $argumentsTest extends TestCase {
         assertFalse( aor.matches(_arguments.of("i,1")));
 
         $arguments $allLiterals =
-                $arguments.of(a-> !a.isEmpty()).$all( _expression._literal.class); //of( a-> a.allMatch(e->e instanceof _expression._literal));
+                $arguments.of().$and( a-> !((_arguments)a).isEmpty()).$all( _expression._literal.class); //of( a-> a.allMatch(e->e instanceof _expression._literal));
         assertTrue( $allLiterals.matches("(1, 'c', \"String\", true, 1.23f, 3.45d, null)"));
 
         $arguments $allMethodCalls =
-                $arguments.of(a-> !a.isEmpty()).$all( _methodCall.class );
+                $arguments.of().$and( a-> !((_arguments)a).isEmpty()).$all( _methodCall.class );
 
         //matches all one or more argument argument lists that are either ALL literals or ALL methodCalls
         $arguments $or = $arguments.or($allLiterals, $allMethodCalls);

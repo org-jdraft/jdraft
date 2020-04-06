@@ -49,9 +49,11 @@ public class $double implements $bot.$node<DoubleLiteralExpr, _double, $double>,
         return new $double(_double.of(i)).$and(_i -> _i.getValue() == i);
     }
 
+    /*
     public static $double of(Predicate<_double> _matchFn) {
         return new $double().$and(_matchFn);
     }
+     */
 
     public Predicate<_double> getPredicate(){
         return this.predicate;
@@ -62,7 +64,7 @@ public class $double implements $bot.$node<DoubleLiteralExpr, _double, $double>,
      * @return
      */
     public $double copy(){
-        $double $d = of( this.predicate.and(t->true) );
+        $double $d = of().$and(this.predicate.and(t->true) );
         $d.stencil = this.stencil.copy();
         return $d;
     }

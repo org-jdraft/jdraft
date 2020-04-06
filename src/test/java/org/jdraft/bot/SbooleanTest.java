@@ -50,7 +50,7 @@ public class SbooleanTest extends TestCase {
         assertFalse($TRUE.matches("neither"));
     }
 
-    public static $boolean $CHILDOFWHILE = $boolean.of(b-> b.ast().getParentNode().isPresent() &&
+    public static $boolean $CHILDOFWHILE = $boolean.of(). $and(b-> b.ast().getParentNode().isPresent() &&
             b.ast().getParentNode().isPresent() && b.ast().getParentNode().get().getClass() == WhileStmt.class);
 
     public void testChildOfWhile(){

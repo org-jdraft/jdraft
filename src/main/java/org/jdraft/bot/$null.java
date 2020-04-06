@@ -38,9 +38,11 @@ public class $null implements $bot.$node<NullLiteralExpr, _null, $null>,
         return of(_null.of(code));
     }
 
+    /*
     public static $null of(Predicate<_null> _matchFn) {
         return new $null().$and(_matchFn);
     }
+     */
 
     public Predicate<_null> getPredicate(){
         return this.predicate;
@@ -61,7 +63,7 @@ public class $null implements $bot.$node<NullLiteralExpr, _null, $null>,
      * @return
      */
     public $null copy(){
-        $null $n = of( this.predicate.and(t->true) );
+        $null $n = of().$and( this.predicate.and(t->true) );
 
         //if( stencil != null ) {
         //    $n.stencil = this.stencil.copy();

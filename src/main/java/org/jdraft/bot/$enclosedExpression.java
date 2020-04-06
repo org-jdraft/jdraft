@@ -31,9 +31,11 @@ public class $enclosedExpression implements $bot.$node<EnclosedExpr, _enclosedEx
         return new $enclosedExpression(_enclosedExpression.of(code));
     }
 
+    /*
     public static $enclosedExpression of(Predicate<_enclosedExpression> matchFn) {
         return new $enclosedExpression(matchFn);
     }
+     */
 
     public Predicate<_enclosedExpression> getPredicate(){
         return this.predicate;
@@ -103,11 +105,11 @@ public class $enclosedExpression implements $bot.$node<EnclosedExpr, _enclosedEx
     }
 
     /**
-     * Build and return a new independant mutable copy of this bot
+     * Build and return a new independent mutable copy of this bot
      * @return
      */
     public $enclosedExpression copy(){
-        $enclosedExpression $e = of( this.predicate.and(t->true) );
+        $enclosedExpression $e = of().$and(this.predicate.and(t->true) );
         $e.expression = ($expression)this.expression.copy();
         return $e;
     }
@@ -180,8 +182,10 @@ public class $enclosedExpression implements $bot.$node<EnclosedExpr, _enclosedEx
         this.expression = $expression.of(_e.getExpression());
     }
 
+    /*
     public $enclosedExpression(Predicate<_enclosedExpression> predicate) {
         super();
         $and(predicate);
     }
+     */
 }

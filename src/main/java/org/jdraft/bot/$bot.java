@@ -4,9 +4,7 @@ import com.github.javaparser.Range;
 import com.github.javaparser.ast.Node;
 import org.jdraft.*;
 import org.jdraft.pattern.$;
-import org.jdraft.text.Template;
-import org.jdraft.text.Tokens;
-import org.jdraft.text.Translator;
+import org.jdraft.text.*;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -732,10 +730,49 @@ public interface $bot<B, _B, $B>
             return astNode;
         }
 
-
-
         default <_CT extends _type<?,?>> _CT replaceIn(Class<?> clazz, Node replaceNode) {
             return forEachIn(clazz, p-> p.ast().replace(replaceNode.clone()));
+        }
+
+        default <_J extends _java._node> _J replaceIn(_J _j, String...replacement) {
+            if( _j instanceof _codeUnit){
+                if( ((_codeUnit) _j).isTopLevel() ) {
+                    forSelectedIn(((_codeUnit) _j).astCompilationUnit(), t->true, s->{
+                        String drafted = Stencil.of(replacement).draft( s.tokens );
+                        //assume drafted is a node of the same type
+                        boolean replaced = false;
+                        Node n = null;
+                        try {
+                            //assume the replacement will be of the same type
+                            n = _java.node(s.selection.ast().getClass(), drafted);
+                            replaced = s.selection.ast().replace( n );
+                        }catch(Exception e){
+                            throw new _jdraftException("Could not parse String :"+System.lineSeparator()+ Text.combine(replacement)+" as "+s.selection.ast().getClass());
+                        }
+                        if( ! replaced ){
+                            throw new _jdraftException("could not replace "+s.selection+" with "+ n);
+                        }
+                    });
+                    return _j;
+                }
+            }
+            forSelectedIn(((_codeUnit) _j).astCompilationUnit(), t->true, s->{
+                String drafted = Stencil.of(replacement).draft( s.tokens );
+                //assume drafted is a node of the same type
+                boolean replaced = false;
+                Node n = null;
+                try {
+                    //assume the replacement will be of the same type
+                    n = _java.node(s.selection.ast().getClass(), drafted);
+                    replaced = s.selection.ast().replace( n );
+                }catch(Exception e){
+                    throw new _jdraftException("Could not parse String :"+System.lineSeparator()+ Text.combine(replacement)+" as "+s.selection.ast().getClass());
+                }
+                if( ! replaced ){
+                    throw new _jdraftException("could not replace "+s.selection+" with "+ n);
+                }
+            });
+            return _j;
         }
 
         default <_J extends _java._node,  _N extends _java._node<?, ?>> _J replaceIn(_J _j, Template<_N> _t) {

@@ -35,9 +35,11 @@ public class $name implements $bot<Node, _name, $name>,
         return new $name(stencil);
     }
 
+    /*
     public static $name of( Predicate<_name> matchFn){
         return new $name().$and(matchFn);
     }
+     */
 
     /** the pattern of the name*/
     public Stencil stencil = null;
@@ -66,7 +68,7 @@ public class $name implements $bot<Node, _name, $name>,
 
     /** build another mutable copy of this bot */
     public $name copy(){
-        $name copy = of( this.predicate.and(t->true));
+        $name copy = of().$and(this.predicate.and(t->true));
         if(this.stencil != null ){
             copy.stencil = Stencil.of( this.stencil );
         }

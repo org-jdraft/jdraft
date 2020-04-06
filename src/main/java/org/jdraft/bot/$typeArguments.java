@@ -35,9 +35,11 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
         return new $typeArguments($es);
     }
 
+    /*
     public static $typeArguments of (Predicate<_typeArguments> predicate){
         return new $typeArguments(predicate);
     }
+     */
 
     public static $typeArguments.Or or($typeArguments...$as){
         return new $typeArguments.Or($as);
@@ -51,7 +53,7 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
      * @return
      */
     public $typeArguments copy(){
-        $typeArguments $s = of( this.predicate.and(t->true) );
+        $typeArguments $s = of().$and( this.predicate.and(t->true) );
         List<$typeRef> l = new ArrayList<>();
         this.list.forEach( e-> l.add(e.copy()));
         $s.list = l;
@@ -66,9 +68,11 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
 
     public $typeArguments(){ }
 
+    /*
     public $typeArguments(Predicate<_typeArguments> predicate){
         this.predicate = predicate;
     }
+     */
 
     public $typeArguments(_typeArguments args){
         for(int i=0;i<args.size(); i++){

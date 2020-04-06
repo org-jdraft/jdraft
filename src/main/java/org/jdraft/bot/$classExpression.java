@@ -35,9 +35,11 @@ public class $classExpression implements $bot.$node<ClassExpr, _classExpression,
         return new $classExpression(_classExpression.of(code));
     }
 
+    /*
     public static $classExpression of(Predicate<_classExpression> matchFn) {
         return new $classExpression(matchFn);
     }
+     */
 
     public Predicate<_classExpression> getPredicate(){
         return this.predicate;
@@ -55,11 +57,11 @@ public class $classExpression implements $bot.$node<ClassExpr, _classExpression,
     }
 
     /**
-     * Build and return a new independant mutable copy of this bot
+     * Build and return a new independent mutable copy of this bot
      * @return
      */
     public $classExpression copy(){
-        $classExpression $c = of( this.predicate.and(t->true) );
+        $classExpression $c = of( ).$and(this.predicate.and(t->true) );
         $c.type = this.type.copy();
         return $c;
     }
@@ -184,8 +186,10 @@ public class $classExpression implements $bot.$node<ClassExpr, _classExpression,
         this.type = $typeRef.of(_e.getType());
     }
 
+    /*
     public $classExpression(Predicate<_classExpression> predicate) {
         super();
         $and(predicate);
     }
+     */
 }

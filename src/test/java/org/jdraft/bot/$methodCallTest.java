@@ -16,11 +16,11 @@ public class $methodCallTest extends TestCase {
     }
 
     public void testPredicate(){
-        assertTrue( $methodCall.of(m-> !m.hasArguments()).matches("m()") );
-        assertFalse( $methodCall.of(m-> !m.hasArguments()).matches("m(1)") );
+        assertTrue( $methodCall.of().$and(m-> !m.hasArguments()).matches("m()") );
+        assertFalse( $methodCall.of().$and(m-> !m.hasArguments()).matches("m(1)") );
 
-        assertTrue( $methodCall.of(m-> !m.hasTypeArguments()).matches("m()") );
-        assertFalse( $methodCall.of(m-> !m.hasTypeArguments()).matches("<T> m(1)") );
+        assertTrue( $methodCall.of().$and(m-> !m.hasTypeArguments()).matches("m()") );
+        assertFalse( $methodCall.of().$and(m-> !m.hasTypeArguments()).matches("<T> m(1)") );
     }
 
     public void testStencilAny(){
@@ -41,13 +41,13 @@ public class $methodCallTest extends TestCase {
     }
 
     public void testArguments(){
-        $methodCall $mc = $methodCall.of($arguments.of(a->a.isEmpty()));
+        $methodCall $mc = $methodCall.of( $arguments.of().$and(a->((_arguments)a).isEmpty()));
         assertTrue($mc.matches("System.out.println();"));
         assertFalse($mc.matches("System.out.println(1);"));
     }
 
     public void testTypeArguments(){
-        $methodCall $mc = $methodCall.of($typeArguments.of(a->!a.isEmpty()));
+        $methodCall $mc = $methodCall.of( $typeArguments.of().$and(a->!((_typeArguments)a).isEmpty()));
         assertTrue( $mc.matches(" Collection.<T>call()") );
         assertFalse( $mc.matches("Collection.call()") );
         assertFalse( $mc.matches("call()") );

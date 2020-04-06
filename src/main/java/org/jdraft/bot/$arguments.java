@@ -35,7 +35,7 @@ public class $arguments<N extends Node & NodeWithArguments>
      * @return $arguments bot that matches empty arguments lists
      */
     public static $arguments empty(){
-        return of( a-> a.isEmpty() );
+        return of().$and( a -> ((_arguments)a).isEmpty() );
     }
 
     /**
@@ -43,7 +43,7 @@ public class $arguments<N extends Node & NodeWithArguments>
      * @return $arguments bot that matches non-empty arguments lists
      */
     public static $arguments notEmpty(){
-        return of( a-> !a.isEmpty() );
+        return of().$and( a-> ! ((_arguments)a).isEmpty() );
     }
 
     public static $arguments of (_arguments args){
@@ -62,9 +62,11 @@ public class $arguments<N extends Node & NodeWithArguments>
         return new $arguments($es);
     }
 
+    /*
     public static $arguments of (Predicate<_arguments> predicate){
-        return new $arguments(predicate);
+        return new $arguments().$and(predicate);
     }
+     */
 
     public static $arguments.Or or($arguments...$as){
         return new $arguments.Or($as);
@@ -78,7 +80,7 @@ public class $arguments<N extends Node & NodeWithArguments>
      * @return
      */
     public $arguments copy(){
-        $arguments $args = of( this.predicate.and(t->true) );
+        $arguments $args = of( ).$and(this.predicate.and(t->true) );
         this.argumentList.forEach( a -> $args.argumentList.add( a.copy()));
         return $args;
     }
@@ -91,9 +93,11 @@ public class $arguments<N extends Node & NodeWithArguments>
 
     public $arguments(){ }
 
+    /*
     public $arguments(Predicate<_arguments> predicate){
         this.predicate = predicate;
     }
+     */
 
     public $arguments(_arguments args){
         for(int i=0;i<args.size(); i++){
@@ -117,7 +121,6 @@ public class $arguments<N extends Node & NodeWithArguments>
         this.predicate = predicate;
         return this;
     }
-
 
     public $arguments $any(Class<? extends _expression>...expressionClasses ){
         //Set<Class<? extends _expression>> exSet = new HashSet<>();

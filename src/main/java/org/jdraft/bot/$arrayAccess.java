@@ -38,9 +38,9 @@ public class $arrayAccess
         return new $arrayAccess(_arrayAccess.of(code));
     }
 
-    public static $arrayAccess of(Predicate<_arrayAccess> matchFn) {
-        return new $arrayAccess(matchFn);
-    }
+    //public static $arrayAccess of(Predicate<_arrayAccess> matchFn) {
+    //    return new $arrayAccess().$and(matchFn);
+    //}
 
     public Predicate<_arrayAccess> predicate = (a)->true;
 
@@ -58,7 +58,7 @@ public class $arrayAccess
      * @return
      */
     public $arrayAccess copy(){
-        $arrayAccess $aa = of( this.predicate.and(t->true) );
+        $arrayAccess $aa = of( ).$and(this.predicate.and(t->true) );
         $aa.name = ($expression)this.name.copy();
         $aa.index = ($expression)this.index.copy();
         return $aa;
@@ -108,10 +108,12 @@ public class $arrayAccess
         return this;
     }
 
+    /*
     public $arrayAccess(Predicate<_arrayAccess> predicate) {
         super();
         $and(predicate);
     }
+     */
 
     public boolean matches(String str){
         return select(str) != null;
