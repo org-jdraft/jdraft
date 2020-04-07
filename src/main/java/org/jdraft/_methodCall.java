@@ -58,7 +58,11 @@ public final class _methodCall implements _expression<MethodCallExpr, _methodCal
         return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    private static _methodCall from( LambdaExpr le){
+    public static _methodCall from (StackTraceElement ste ){
+        return from(Expressions.lambdaEx( ste ));
+    }
+
+    public static _methodCall from( LambdaExpr le){
         Optional<MethodCallExpr> ows = le.getBody().findFirst(MethodCallExpr.class);
         if( ows.isPresent() ){
             return of(ows.get());

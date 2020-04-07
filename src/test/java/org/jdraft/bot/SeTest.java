@@ -89,8 +89,6 @@ public class SeTest extends TestCase {
 		assertTrue($expression.of(_int.of(1)).matches("1"));
 		assertTrue($e.of().$and(e-> e instanceof _int).matches("123"));
 		assertFalse($expression.of(_int.of(1)).matches("null"));
-		
-		
 	}
 
 }

@@ -14,6 +14,7 @@ public final class _string implements _expression._literal<StringLiteralExpr, _s
     public static _string of(StringLiteralExpr sle){
         return new _string(sle);
     }
+
     public static _string of( String...code){
         return new _string(Expressions.stringLiteralEx( code));
     }

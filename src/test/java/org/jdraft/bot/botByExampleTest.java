@@ -3,6 +3,7 @@ package org.jdraft.bot;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import com.github.javaparser.ast.type.Type;
+import com.github.javaparser.utils.Log;
 import junit.framework.TestCase;
 import org.jdraft.*;
 import org.jdraft.pattern.$body;
@@ -148,12 +149,12 @@ public class botByExampleTest extends TestCase {
         //there are (4) no-arg method calls
         assertEquals(4, $mc.countIn(C.class));
 
-        //here we access the nested $bot ($emptyArgs) and test
+        //here we access the embedded $bot ($emptyArgs) and test
         assertTrue($mc.get$arguments().matches("()"));
 
-        //the $mc $bot can be thought of as a parent $bot which uses nested $bots
-        //you can get the underlying $bots with get$XXX()
-        //by default, the nested $bots are "matchAny()" meaning they will match any candidate (or null)
+        //the $mc $bot can be thought of as a parent $bot which uses embedded $bots
+        //you can get each embedded $bot with get$XXX()
+        //by default, the embedded $bots are "matchAny()" meaning they will match any candidate (or null)
         assertTrue( $mc.get$name().isMatchAny() );
         assertTrue( $mc.get$scope().isMatchAny() );
         assertTrue( $mc.get$typeArguments().isMatchAny() );
@@ -167,7 +168,7 @@ public class botByExampleTest extends TestCase {
         //verify we can find the "m" name for the method "void m()" methodCall "m()"
         assertEquals(2, $n.countIn(C.class));
 
-        //update the nested $name $bot on the $mc $bot
+        //update the embedded $name $bot on the $mc $bot
         $mc.$name($n);
 
         //now the $mc $bot only matches 1 (method call with name "m" & no arguments)
@@ -182,7 +183,7 @@ public class botByExampleTest extends TestCase {
      * $bot.draft() is like calling a "Factory method" to build a new jdraft instance of an entity
      *
      */
-    public void testDraftBot(){
+    public void testBotDraft(){
         //$bot representing a very specific method call
         $methodCall $println = $methodCall.of("System.out.println(1)");
 
@@ -190,15 +191,60 @@ public class botByExampleTest extends TestCase {
         _methodCall _mc = $println.draft();
         assertEquals( _methodCall.of( ()->System.out.println(1) ), _mc);
 
-        //$println = $methodCall.of( (Object $any$)-> System.out.println($any$) );
+        //if the bot is parameterized (i.e. with parameters like "any")
+        //these parameters are REQUIRED
+        $println = $methodCall.of( (Object $any$)-> System.out.println($any$) );
 
+        //draft a new println _methodCall to print 1
+        assertEquals( _methodCall.of( ()->System.out.println(1) ),
+                $println.draft("any", 1));
+
+        //draft a new println _methodCall to print "some static text"
+        assertEquals( _methodCall.of( ()->System.out.println("some static text") ),
+                $println.draft("any", "\"some static text\""));
     }
 
+    /**
+     * "More precise" bots
+     * use .as() instead of .of()
+     */
     public void testAsBot(){
         //exact matching
     }
-    public void testOrBot(){
 
+    public void testOrBot(){
+        $methodCall $print = $methodCall.of((Object $any$)-> System.out.print($any$));
+        $methodCall $println = $methodCall.of((Object $any$)-> System.out.println($any$));
+
+        class C{
+            void m(){
+                System.out.print("Hey");
+                System.out.println( 1 );
+            }
+        }
+
+        assertTrue($arguments.of("($any$)").select("(1)").is("any", "1"));
+
+        assertTrue( $print.get$arguments().select("(1)").is("any", "1"));
+        assertTrue( $print.select("System.out.print(1);").is("any", "1") );
+
+        System.out.println( "SFI "+ $print.selectFirstIn(C.class) );
+        assertTrue($print.selectFirstIn(C.class).is("any", "\"Hey\""));
+
+        $methodCall $printOrPrintln = $methodCall.or($print, $println);
+
+
+
+        assertEquals(2, $printOrPrintln.countIn(C.class));
+
+        Select<_methodCall> _mc = $printOrPrintln.selectFirstIn(C.class);
+        System.out.println( _mc );
+
+        //? TODO accept naked lambda for last parameter?
+        _class _c = $printOrPrintln.replaceIn(C.class, _methodCall.of( ()->System.out.println("replaced")));
+        System.out.println(_c );
+        //_c = $printOrPrintln.replaceIn(C.class, $methodCall.of( (Log L)->Log.trace("$any$")));
+        //System.out.println(_c );
     }
 
     public void testBotCopy(){

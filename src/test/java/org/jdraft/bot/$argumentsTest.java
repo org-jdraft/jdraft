@@ -27,7 +27,19 @@ public class $argumentsTest extends TestCase {
         }
     }
 
-    public void testMatchingAny(){
+    public void testMatchAny(){
+        assertTrue($arguments.of().matches("()"));
+        assertTrue($arguments.of().matches("(i)"));
+        assertTrue($arguments.of().matches("(i)"));
+        assertTrue($arguments.of().matches("(i, 'c')"));
+        assertTrue($arguments.of().matches("(i, 'c', (short)22)"));
+        assertTrue($arguments.of().matches("(i, 'c', (byte)3)"));
+    }
+
+    public void testMatchSingleParam(){
+
+        //assertNotNull($e.of("$args$").select("(i, 'c')"));
+
         assertTrue($arguments.of("$args$").matches("()"));
         assertTrue($arguments.of("$args$").matches("(i)"));
         assertTrue($arguments.of("$args$").matches("(i)"));

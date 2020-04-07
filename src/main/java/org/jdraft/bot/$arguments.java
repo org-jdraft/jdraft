@@ -246,18 +246,62 @@ public class $arguments<N extends Node & NodeWithArguments>
                     }
                     return new Select(candidate, ts);
                 }
-                return null;
+                //if the only argument is a match any $e expression argument,(this means a MATCH ANY EXPRESSION),
+                // (not just a matchAny SPECIFIC EXPRESSION like "$int $matchAnyInt = $int.of();" )
+                // that means we can match the entire argument list as this token
+                else if( this.argumentList.size() == 1 && this.argumentList.get(0).isMatchAny() && this.argumentList.get(0) instanceof $e ){
+                    if( this.argumentList.get(0).$list().size() == 0 ){
+                        return new Select<>(candidate, new Tokens());
+                    }
+                    //we are doing this because we want to be able to match
+                    // a single $any$ $arguments list, i.e.
+                    // $arguments $any = $arguments.of("$any$");
+
+                    // with either a single argument (i.e. one of {(1),(call()),("String")}
+                    // or with multiple arguments (args list) ( {(1,2,3), ('c',1), ("str", new Date())}
+
+                    // because the cardinality intent is unclear when we specify "$any$"
+                    // (does that mean ANY arguments list, or ANY one-parameter argument?)
+                    // we interpret it as the former
+
+                    //to specify ANY one-parameter argument list:
+                    // $arguments $oneParam = $arguments.of("$any$").$and(a-> a.size() == 1)
+
+                    //System.out.println( "Match Any Test");
+                    //we need to make the entire parameter list
+                    this.argumentList.get(0).$list().get(0);
+                    Tokens ts = new Tokens();
+                    ts.put(this.argumentList.get(0).$list().get(0).toString(), candidate.toString());
+                    return new Select<>(candidate, ts);
+                    //a single argument that is a match any argument can match the entire list
+                    //Tokens ts = new Tokens();
+                    //System.out.println( candidate.toString() );
+                    //System.out.println( this.argumentList.get(0) );
+                    //System.out.println( this.argumentList.get(0) );
+                    //Select sel = this.argumentList.get(0).select( candidate.toString() );
+                    //System.out.println( sel );
+                    //if( sel == null){
+
+                    //    return null;
+                    //}
+                    //return new Select<>(candidate, sel.tokens);
+                    //ts.putAll(sel.tokens);
+                } else {
+                    return null;
+                }
             }
+            //if the argument list is empty, means anything passing predicate will do
             return new Select(candidate, new Tokens());
         }
-        return null;
+        return null; //didnt match predicate
     }
 
     @Override
     public boolean isMatchAny() {
-        if( this.argumentList.isEmpty() || (this.argumentList.size() == 1
-                && this.argumentList.get(0) instanceof $e
-                && this.argumentList.get(0).isMatchAny())){
+        if( this.argumentList.isEmpty() ){
+                //|| (this.argumentList.size() == 1
+                //&& this.argumentList.get(0) instanceof $e
+                //&& this.argumentList.get(0).isMatchAny())){
             try{
                 return this.predicate.test(null);
             } catch(Exception e){ }
