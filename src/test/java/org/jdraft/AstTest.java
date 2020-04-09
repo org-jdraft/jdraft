@@ -33,6 +33,38 @@ public class AstTest extends TestCase {
     public static final PrettyPrinterConfiguration PRINT_COMMENTS = new PrettyPrinterConfiguration()
             .setVisitorFactory(PrintComments::new);
 
+    /* tried recalcPositions(), but it doesnt work
+    public void testAstRecalc(){
+        class D{
+            //
+            int i=0;
+        }
+
+        _class _c = _class.of(D.class);
+
+        _c.addField("int j=123;");
+        _c.addMethod(new Object(){
+            public int getI(){
+                return i;
+            }
+        int i;
+        });
+
+        System.out.println(_c );
+        System.out.println(_c.astCompilationUnit().getRange().get() );
+        System.out.println( _c.getMethod("getI").ast().getRange().get());
+        Node n = null;
+        //System.out.println( "METHOD I" + _c.getMethod("getI").ast().getRange().get());
+        //System.out.println( "CU "+ _c.astCompilationUnit().getRange().get() );
+        //assertTrue(_c.getMethod("getI").ast().getRange().isPresent());
+        _c = _class.of(Ast.reparse( _c.astCompilationUnit() ));
+        //_c.astCompilationUnit().recalculatePositions();
+
+        System.out.println( "METHOD I" + _c.getMethod("getI").ast().getRange().get());
+        System.out.println( "CU "+ _c.astCompilationUnit().getRange().get() );
+    }
+     */
+
     public static class PrintComments extends PrettyPrintVisitor {
 
         public PrintComments(PrettyPrinterConfiguration prettyPrinterConfiguration) {
@@ -41,9 +73,9 @@ public class AstTest extends TestCase {
 
         @Override
         public void visit(final ClassOrInterfaceDeclaration n, final Void arg) {
-            System.out.println( "HELLO ");
+            //System.out.println( "HELLO ");
             //System.out.println( n.getAllContainedComments() );
-            System.out.println( "ORPHANS" + n.getOrphanComments() );
+            //System.out.println( "ORPHANS" + n.getOrphanComments() );
             super.visit(n, arg);
 
         }

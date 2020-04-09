@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
-import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
@@ -101,64 +100,12 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
         return new Or($methodCalls);
     }
 
-    interface OrBase<_O,$O extends $selector<_O, $O>> extends $selector<_O, $O>{
-
-        default boolean isMatchAny(){
-            return false;
-        }
-
-        List<$O> listEach();
-
-        /**
-         * Return the underlying $arguments that matches the _arguments
-         * (or null if none of the $arguments match the candidate _arguments)
-         * @param ae
-         * @return
-         */
-        default $O whichMatch(_O ae){
-            if( !getPredicate().test(ae ) ){
-                return null;
-            }
-            Optional<$O> orsel  = listEach().stream().filter($p-> (($O)$p).matches( (_O)ae ) ).findFirst();
-            if( orsel.isPresent() ){
-                return orsel.get();
-            }
-            return null;
-        }
-
-        default Select<_O> select(Node node){
-            try{
-                return select( (_O)_java.of(node) );
-            } catch(Exception e){
-                return null;
-            }
-        }
-
-        @Override
-        default Select<_O> select(_O candidate) {
-            $O $matched = whichMatch(candidate);
-            if( $matched == null ){
-                return null;
-            }
-            return $matched.select(candidate);
-        }
-
-        default String describe(){
-            StringBuilder sb = new StringBuilder();
-            sb.append( this.getClass().getDeclaringClass().getSimpleName()+".Or{").append(System.lineSeparator());
-            for(int i=0;i<listEach().size();i++){
-                sb.append( Text.indent( this.listEach().get(i).toString()) );
-            }
-            sb.append("}");
-            return sb.toString();
-        }
-    }
-
-    public static class Or extends $methodCall implements OrBase<_methodCall, $methodCall> {
+    /**
+     * Extends the $methodCall
+     */
+    public static class Or extends $methodCall implements $orBot<MethodCallExpr, _methodCall, $methodCall> {
 
          public List<$methodCall> mcs = new ArrayList<>();
-
-         public Predicate<_methodCall> predicate = p-> true;
 
          public Or($methodCall...$mcs){
              Arrays.stream($mcs).forEach(m -> mcs.add(m));
@@ -176,43 +123,27 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
              return describe();
          }
 
-        public Select<_methodCall> select(_methodCall _mc){
-             System.out.println(" HERE ");
-             $methodCall $matched = whichMatch(_mc);
-             if( $matched == null ){
-                 return null;
+         public $methodCall.Or copy(){
+             Or or = new Or(listEach().toArray(new $methodCall[0]));
+             or.$and( this.predicate.and(t->true) );
+             return or;
+         }
+
+         public Select<_methodCall> select(_methodCall _mc){
+             if( getPredicate().test(_mc ) ) {
+                 $methodCall $matched = whichMatch(_mc);
+                 if ($matched == null) {
+                     return null;
+                 }
+                 Select<_methodCall> smc = $matched.select(_mc);
+                 return smc;
              }
-             Select<_methodCall> smc = $matched.select(_mc);
-             System.out.println(" SELECTED " + smc);
-             return smc;
-        }
-
-        /**
-         *
-         * @param astNode
-         * @param predicate
-         * @return
-         */
-        public Select<_methodCall> selectFirstIn(Node astNode, Predicate<Select<_methodCall>>predicate){
-            //super.selectFirstIn(astNode, predicate);
-            System.out.println( "HERE WE GO AGAIN");
-            Optional<Node> node = astNode.stream().filter(s -> {
-                Select<_methodCall> sel = select(s);
-                return sel != null && predicate.test(sel);
-            }).findFirst();
-
-            if (node.isPresent()) { //double checking (i.e. perf hit could I remove this?)
-                return select(node.get());
-            }
-            return null;
-        }
+             return null;
+         }
     }
 
-    /* removed to make way for Lambda constructors (this is a "nice to have" anyways)
-    public static $methodCall of(Predicate<_methodCall> _matchFn) {
-        return new $methodCall().$and(_matchFn);
-    }
-     */
+
+
 
     private static $methodCall addParts( $methodCall $mc, $part...parts ){
         for(int i=0;i<parts.length;i++){

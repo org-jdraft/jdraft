@@ -428,9 +428,12 @@ public final class _arguments
             return matchFn.test( listArguments() );
         }
 
+
         default boolean isArgument(int index, boolean b){
             return isArgument(index, Expressions.of(b));
         }
+
+
 
         default boolean isArgument(int index, int i){
             return isArgument(index, Expressions.of(i));
@@ -476,6 +479,9 @@ public final class _arguments
             }
         }
 
+        default boolean isArgument(int index, Predicate<_expression> pe){
+            return pe.test( getArgument(index) );
+        }
 
         default _WA addArgument(int i){
             return addArgument( Expressions.of(i) );

@@ -211,7 +211,6 @@ public interface $bot<B, _B, $B>
         return $isInRange(Range.range(line,0,line, Integer.MAX_VALUE -10000));
     }
 
-
     /*
     default $B $isParent(Predicate<Node> parentMatchFn ){
         return $and(n -> {
@@ -389,7 +388,11 @@ public interface $bot<B, _B, $B>
      */
     Select<_B> selectFirstIn(Node astNode, Predicate<Select<_B>>predicate);
 
-
+    /**
+     *
+     * @param clazz
+     * @return
+     */
     default int countIn(Class<?> clazz) {
         _type _t = _type.of(clazz);
         return countIn(_t);
@@ -718,7 +721,6 @@ public interface $bot<B, _B, $B>
             }
             forEachIn(((_java._node) _j).ast(), _matchFn,  n-> n.ast().removeForced());
             return _j;
-
         }
 
         default <N extends Node> N removeIn(N astNode) {

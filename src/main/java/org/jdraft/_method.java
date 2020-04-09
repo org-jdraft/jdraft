@@ -5,6 +5,9 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
+import com.github.javaparser.Position;
+import com.github.javaparser.Range;
+import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.JavadocComment;
@@ -794,7 +797,8 @@ public final class _method
                 throw new _jdraftException("Could not find Method in anonymous object body");
             }
             MethodDeclaration md = (MethodDeclaration) obd.get();
-            
+            //md.removeForced();
+
             Optional<CompilationUnit> oc = ((_java._multiPart)this).ast().findCompilationUnit();
             if( oc.isPresent() ){
                 CompilationUnit cu = oc.get();
@@ -807,8 +811,19 @@ public final class _method
                         cu.addImport(c.getComponentType());
                     }
                 });
-            }            
-            return addMethod(md);
+            }
+            /*
+            //reset the range to start
+            if( md.getRange().isPresent() ) {
+                Range r = md.getRange().get();
+                int lineCount = r.getLineCount();
+                System.out.println( "LINE COUNT "+ lineCount + md);
+                md.setRange(md.getRange().get().withBeginLine(1).withEndLine(lineCount));
+            }
+             */
+            //md.setRange( new Range(Position.HOME) );
+
+            return addMethod( md ); //(MethodDeclaration) StaticJavaParser.parseBodyDeclaration( md.toString()) );
         }
     }
 

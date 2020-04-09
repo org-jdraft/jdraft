@@ -246,9 +246,9 @@ public class $arguments<N extends Node & NodeWithArguments>
                     }
                     return new Select(candidate, ts);
                 }
-                //if the only argument is a match any $e expression argument,(this means a MATCH ANY EXPRESSION),
+                //if the only argument is a "matchAny $e" argument,(this means a MATCH ANY EXPRESSION),
                 // (not just a matchAny SPECIFIC EXPRESSION like "$int $matchAnyInt = $int.of();" )
-                // that means we can match the entire argument list as this token
+                // that means we can match the entire argument list as a token
                 else if( this.argumentList.size() == 1 && this.argumentList.get(0).isMatchAny() && this.argumentList.get(0) instanceof $e ){
                     if( this.argumentList.get(0).$list().size() == 0 ){
                         return new Select<>(candidate, new Tokens());
@@ -267,25 +267,11 @@ public class $arguments<N extends Node & NodeWithArguments>
                     //to specify ANY one-parameter argument list:
                     // $arguments $oneParam = $arguments.of("$any$").$and(a-> a.size() == 1)
 
-                    //System.out.println( "Match Any Test");
                     //we need to make the entire parameter list
                     this.argumentList.get(0).$list().get(0);
                     Tokens ts = new Tokens();
                     ts.put(this.argumentList.get(0).$list().get(0).toString(), candidate.toString());
                     return new Select<>(candidate, ts);
-                    //a single argument that is a match any argument can match the entire list
-                    //Tokens ts = new Tokens();
-                    //System.out.println( candidate.toString() );
-                    //System.out.println( this.argumentList.get(0) );
-                    //System.out.println( this.argumentList.get(0) );
-                    //Select sel = this.argumentList.get(0).select( candidate.toString() );
-                    //System.out.println( sel );
-                    //if( sel == null){
-
-                    //    return null;
-                    //}
-                    //return new Select<>(candidate, sel.tokens);
-                    //ts.putAll(sel.tokens);
                 } else {
                     return null;
                 }
