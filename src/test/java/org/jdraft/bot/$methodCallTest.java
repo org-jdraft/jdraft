@@ -4,12 +4,44 @@ import junit.framework.TestCase;
 import org.jdraft.*;
 import static java.lang.System.out;
 import org.jdraft._arguments;
+import org.jdraft.macro._addImports;
+import org.jdraft.macro._packageName;
+import org.jdraft.pattern.$method;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.function.Predicate;
 
 public class $methodCallTest extends TestCase {
 
+    public void testIsPackage(){
+        @_packageName("blah")
+        @_addImports({UUID.class, Map.class, HashMap.class})
+        class XDE{
+            void m(){
+                m();
+            }
+        }
+        _class _c = _class.of(XDE.class);
+        assertTrue(_c.isInPackage("blah"));
+        assertEquals("blah", _c.getPackageName());
+        //System.out.println( _class.of(XDE.class));
+
+        assertEquals(1, $methodCall.of().$isInPackage(p-> p.is("blah")).countIn(XDE.class));
+        assertEquals(1, $methodCall.of().$isImports(_is-> _is.hasImport(Map.class)).countIn(XDE.class));
+
+        @_packageName("aaaa.bbbb.cccc")
+        class GG{
+            void m(){
+                m();
+            }
+        }
+        assertEquals(1, $methodCall.of().$isInPackage("aaaa.bbbb.cccc").countIn(GG.class));
+        assertEquals(1, $methodCall.of().$isInPackage("$any$.cccc").countIn(GG.class));
+        assertEquals(1, $methodCall.of().$isInPackage("aaaa.$any$").countIn(GG.class));
+    }
     public void testMatchAny(){
         assertTrue($methodCall.of().isMatchAny());
         assertNotNull($methodCall.of().get$name());
@@ -18,9 +50,7 @@ public class $methodCallTest extends TestCase {
         assertNotNull($methodCall.of().get$typeArguments());
     }
 
-    //$isInPackage(Predicate<_package> )
-    //$isImports(Predicate<_imports> )
-    //$isInType(Predicate<_type> )
+
     public void testOrOv(){
 
         $methodCall $or = $methodCall.or($methodCall.of("println"), $methodCall.of("print"))

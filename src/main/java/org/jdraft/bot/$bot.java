@@ -1,6 +1,7 @@
 package org.jdraft.bot;
 
 import com.github.javaparser.Range;
+import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import org.jdraft.*;
 import org.jdraft.pattern.$;
@@ -211,16 +212,61 @@ public interface $bot<B, _B, $B>
         return $isInRange(Range.range(line,0,line, Integer.MAX_VALUE -10000));
     }
 
-    /*
-    default $B $isParent(Predicate<Node> parentMatchFn ){
+    /**
+     * does the candidate
+     * @param packageNameStencil a specific name (i.e. "java.util" or a parameterizedName "$any$.daos")
+     * @return
+     */
+    default $B $isInPackage(String packageNameStencil){
+        _package _pk = _package.of(packageNameStencil);
+        String pkgname = _pk.toString().trim();
+
+        //lets make this a Stencil so we can match via a stencil (if the stencil has no parameters it'll match as well)
+        Stencil st = Stencil.of(pkgname);
+        return $isInPackage( p-> {
+            return st.matches( p.toString().trim());
+        } );
+    }
+
+    /**
+     *
+     * @param packageMatchFn
+     * @return
+     */
+    default $B $isInPackage(Predicate<_package> packageMatchFn){
         return $and(n -> {
-            //if( n instanceof _java._domain){
-            return Tree.isParent( ((_java._node)n).ast(), parentMatchFn);
-            //}
-            //return Tree.isParent((Node) n, parentMatchFn);
+            //System.out.println( "N CLASS "+ n.getClass() );
+            Optional<CompilationUnit> ocu = ((_java._node)n).ast().findCompilationUnit();
+            if( ocu.isPresent() && ocu.get().getPackageDeclaration().isPresent() ){
+                _package _p = _package.of(ocu.get().getPackageDeclaration().get());
+                 return packageMatchFn.test(_p);
+            }
+            return false;
         });
     }
+
+    /**
+     * Adds a constraint for matching candidates who are defined in compilationUnits
+     * that have matching _imports
+     *
+     * in simple terms: Does this Node/thing exist in a Class file that matches these imports
+     *
+     * @param _importsMatchFn function to match imports
+     * @return the modified $bot instance with the constraint added
      */
+    default $B $isImports(Predicate<_imports> _importsMatchFn){
+        return $and(n -> {
+            Optional<CompilationUnit> ocu = ((_java._node)n).ast().findCompilationUnit();
+            if( ocu.isPresent() ){
+                _imports _is = _imports.of(ocu.get());
+                return _importsMatchFn.test(_is);
+            }
+            return false;
+        });
+    }
+
+    //$isImports(Predicate<_imports> )
+    //$isInType(Predicate<_type> )
 
     default $B $isParent(Class... parentClassTypes ){
         return $and(n -> {

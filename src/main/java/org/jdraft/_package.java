@@ -51,4 +51,8 @@ public final class _package implements _java._node<PackageDeclaration, _package>
         }
         return false;
     }
+
+    public String toString(){
+        return this.astPackage.toString();
+    }
 }
