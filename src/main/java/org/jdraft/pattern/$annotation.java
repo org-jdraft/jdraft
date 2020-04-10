@@ -76,7 +76,7 @@ public class $annotation
     public static $annotation of( _annotation _a ){
         $annotation $c = of();
         if( _a.isTopLevel() ){
-            $c.$package( _a.getPackage() );
+            $c.$package( _a.getPackageName() );
             $c.$imports( _a.getImports() );
         }
 
@@ -225,7 +225,7 @@ public class $annotation
             }
             else if( parts[i] instanceof $package ) {
                 final $package $fa = (($package) parts[i]);
-                Predicate<_annotation> pf = f -> $fa.matches(f.getPackage());
+                Predicate<_annotation> pf = f -> $fa.matches(f.getPackageName());
                 $and(pf.negate());
             }
             else if( parts[i] instanceof $name){

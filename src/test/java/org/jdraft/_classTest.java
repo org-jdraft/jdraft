@@ -613,7 +613,9 @@ public class _classTest extends TestCase {
         //when we create the model, we make it a top level model (not a Local Class)
         assertTrue( _c.isPublic() );
         assertTrue( _c.isTopLevel() );
-        assertTrue( _c.getPackage().equals("aaaa.bbbb") );
+        assertTrue( _c.getPackageName().equals("aaaa.bbbb") );
+        assertTrue( _c.getPackage().equals(_package.of("aaaa.bbbb")) );
+        assertTrue( _c.isInPackage("aaaa.bbbb"));
         assertTrue( _c.getField("a").isPublic() );
         assertTrue( _c.getField("a").isTypeRef(int.class) );
         assertTrue( _c.getField("b").isPublic() );
@@ -666,14 +668,16 @@ public class _classTest extends TestCase {
         _c = _class.of("aaaa.bbbb.C");
         assertTrue( _c.isPublic());
         assertEquals("C", _c.getName());
-        assertEquals( "aaaa.bbbb", _c.getPackage());
+        assertEquals( "aaaa.bbbb", _c.getPackageName());
+        assertEquals( _package.of("aaaa.bbbb"), _c.getPackage());
         assertEquals( "aaaa.bbbb.C", _c.getFullName());
 
         _c = _class.of("aaaa.bbbb.C<val>");
         assertTrue( _c.isPublic());
         assertEquals( _typeParameters.of("<val>"), _c.getTypeParameters());
         assertEquals("C", _c.getName());
-        assertEquals( "aaaa.bbbb", _c.getPackage());
+        assertEquals( "aaaa.bbbb", _c.getPackageName());
+        assertEquals( _package.of("aaaa.bbbb"), _c.getPackage());
         assertEquals( "aaaa.bbbb.C", _c.getFullName());
     }
 
@@ -813,7 +817,8 @@ public class _classTest extends TestCase {
             "    }",
             "}");
         
-        assertTrue( _c.getPackage().equals( "blah.fromscratch"));
+        assertTrue( _c.getPackageName().equals( "blah.fromscratch"));
+        assertTrue( _c.getPackage().equals( _package.of("blah.fromscratch")));
         
         assertTrue( _c.hasImport(Map.class) );
         assertTrue( _c.hasImport(HashMap.class) );

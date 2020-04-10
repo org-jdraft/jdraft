@@ -97,7 +97,7 @@ public class $interface
         $interface $c = of();
 
         if( _c.isTopLevel() ){
-            $c.$package( _c.getPackage() );
+            $c.$package( _c.getPackageName() );
             $c.$imports( _c.getImports() );
         }
         List<Node> nots = new ArrayList<>();
@@ -472,7 +472,7 @@ public class $interface
             }
             else if( parts[i] instanceof $package ) {
                 final $package $fa = (($package) parts[i]);
-                Predicate<_interface> pf = f -> $fa.matches(f.getPackage());
+                Predicate<_interface> pf = f -> $fa.matches(f.getPackageName());
                 $and(pf.negate());
             }
             else if( parts[i] instanceof $name){

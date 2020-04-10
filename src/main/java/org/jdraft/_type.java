@@ -1100,20 +1100,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         return (_T)this;
     }
 
-    /**
-     * Determines the package this class is in
-     * @return
-     */
-    default String getPackage(){
-        CompilationUnit cu = astCompilationUnit();
-        if( cu == null ){
-            return null;
-        }
-        if( cu.getPackageDeclaration().isPresent() ){
-            return cu.getPackageDeclaration( ).get().getNameAsString();
-        }
-        return null;
-    }
+
 
     default _T setPackage( PackageDeclaration pd){
         if( !this.isTopLevel() ){ //this "means" that the class is an inner class
@@ -1151,7 +1138,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @return 
      */
     default boolean isInPackage( String packageName){
-        String pn  = getPackage();
+        String pn  = getPackageName();
         if( pn == null){
             return packageName == null || packageName.length() == 0;
         }

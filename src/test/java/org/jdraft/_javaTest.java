@@ -164,7 +164,8 @@ public class _javaTest extends TestCase {
         assertTrue( _c.getModifiers().is("public", "final"));
         _c.isImplements(Serializable.class);
         _c.isExtends(BaseClass.class);
-        assertEquals( "aaaa.bbbb", _c.getPackage());
+        assertEquals( _package.of("aaaa.bbbb"), _c.getPackage());
+        assertEquals( "aaaa.bbbb", _c.getPackageName());
 
         _c.getField("Message").getModifiers().is("public", "static", "final");
         assertEquals( "Hello", _c.getField("Message").getInit().asStringLiteralExpr().asString()) ;
@@ -253,7 +254,8 @@ public class _javaTest extends TestCase {
         assertTrue( _c.getModifiers().is("public",  "final"));
         _c.isImplements(Serializable.class);
         _c.isExtends(BaseClass.class);
-        assertEquals( "aaaa.bbbb", _c.getPackage());
+        assertEquals( "aaaa.bbbb", _c.getPackageName());
+        assertEquals( _package.of("aaaa.bbbb"), _c.getPackage());
 
         _c.getField("Message").getModifiers().is("public", "static", "final");
 

@@ -212,7 +212,8 @@ public class _interfaceTest extends TestCase {
     public void testImport(){
         _interface _i = _interface.of( ComplexInterface.class );
         assertTrue(_i.hasPackage() );
-        assertEquals( "test", _i.getPackage() );    
+        assertEquals( "test", _i.getPackageName() );
+        assertEquals( _package.of("test"), _i.getPackage() );
         assertTrue( _i.hasImport( Serializable.class));
         assertTrue( _i.hasImport( MarkerInterface.class));
         assertTrue( _i.hasImport( WithDefaultMethods.class));

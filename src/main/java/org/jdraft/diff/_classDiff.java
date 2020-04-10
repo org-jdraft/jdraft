@@ -10,7 +10,7 @@ public final class _classDiff implements _differ<_class, _java._multiPart> {
     @Override
     public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, _class left, _class right) {
         if( left.hasPackage() || right.hasPackage() ){
-            _packageNameDiff.INSTANCE.diff(path, ds, left, right, left.getPackage(), right.getPackage());
+            _packageNameDiff.INSTANCE.diff(path, ds, left, right, left.getPackageName(), right.getPackageName());
         }
         //_importsDiff.INSTANCE.diff(path, ds, left, right, left.listAstImports(), right.listAstImports());
         _importsDiff.INSTANCE.diff(path, ds, left, right, left, right);

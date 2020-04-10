@@ -113,7 +113,7 @@ public class $class
     public static $class of( _class _c ){
         $class $c = of();
         if( _c.isTopLevel() && (_c.getPackage() != null) ){
-            $c.$package( _c.getPackage() );
+            $c.$package( _c.getPackageName() );
             $c.$imports( _c.getImports() );
         }
 
@@ -313,7 +313,7 @@ public class $class
             }
             else if( parts[i] instanceof $package ) {
                 final $package $fa = (($package) parts[i]);
-                Predicate<_class> pf = f -> $fa.matches(f.getPackage());
+                Predicate<_class> pf = f -> $fa.matches(f.getPackageName());
                 $and(pf.negate());
             }
             else if( parts[i] instanceof $name){

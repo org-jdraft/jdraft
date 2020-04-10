@@ -180,7 +180,22 @@ public interface _codeUnit<_CU> extends _java._domain {
      * @return the full name
      */
     String getFullName();
-    
+
+    /**
+     * Determines the package this class is in
+     * @return
+     */
+    default _package getPackage(){
+        CompilationUnit cu = astCompilationUnit();
+        if( cu == null ){
+            return null;
+        }
+        if( cu.getPackageDeclaration().isPresent() ){
+            return _package.of(cu.getPackageDeclaration( ).get());
+        }
+        return null;
+    }
+
     /**
      * Default for getting the package name for all types
      * (should also work for module-info)
@@ -188,6 +203,15 @@ public interface _codeUnit<_CU> extends _java._domain {
      * @return 
      */
     default String getPackageName(){
+        CompilationUnit cu = astCompilationUnit();
+        if( cu == null ){
+            return null;
+        }
+        if( cu.getPackageDeclaration().isPresent() ){
+            return cu.getPackageDeclaration( ).get().getNameAsString();
+        }
+        return null;
+        /*
         String simpleName = getSimpleName();
         String fullName = getFullName();
         if( simpleName.equals(fullName)){
@@ -196,6 +220,7 @@ public interface _codeUnit<_CU> extends _java._domain {
         else{
             return fullName.substring(0, fullName.indexOf(simpleName) -1 );
         }
+         */
     }
 
     /**

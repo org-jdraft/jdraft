@@ -1,11 +1,7 @@
 package org.jdraft.macro;
 
 import com.github.javaparser.ast.body.TypeDeclaration;
-import org.jdraft._type;
-import org.jdraft._annotation;
-import org.jdraft._class;
-import org.jdraft._enum;
-import org.jdraft._interface;
+import org.jdraft.*;
 import junit.framework.TestCase;
 import org.jdraft.runtime._proxy;
 
@@ -262,7 +258,8 @@ public class macroUseTest extends TestCase {
         class C{
 
         }
-        assertEquals( "aaaa.bbbb.cccc", _class.of(C.class).getPackage());
+        assertEquals( "aaaa.bbbb.cccc", _class.of(C.class).getPackageName());
+        assertEquals( _package.of("aaaa.bbbb.cccc"), _class.of(C.class).getPackage());
     }
 
     public void testPrivate(){
@@ -295,10 +292,10 @@ public class macroUseTest extends TestCase {
     @interface GF{ }
 
     public void testPromote(){
-        assertEquals( "aaaa.ffff", _interface.of(IF.class).getPackage());
-        assertEquals( "aaaa.ffff", _class.of(FF.class).getPackage());
-        assertEquals( "aaaa.ffff", _enum.of(R.class).getPackage());
-        assertEquals( "aaaa.ffff", _annotation.of(GF.class).getPackage());
+        assertEquals( "aaaa.ffff", _interface.of(IF.class).getPackageName());
+        assertEquals( "aaaa.ffff", _class.of(FF.class).getPackageName());
+        assertEquals( "aaaa.ffff", _enum.of(R.class).getPackageName());
+        assertEquals( "aaaa.ffff", _annotation.of(GF.class).getPackageName());
     }
 
     public void testProtected(){

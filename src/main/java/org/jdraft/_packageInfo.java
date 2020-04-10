@@ -52,7 +52,7 @@ public final class _packageInfo
     
     @Override
     public String getFullName(){
-        String pkg = this.getPackage();
+        String pkg = this.getPackageName();
         if( pkg != null ){
             return pkg+"."+"package-info";
         }
@@ -90,13 +90,14 @@ public final class _packageInfo
     /**
      *
      * @return
-     */
+
     public String getPackage() {
         if (astCompilationUnit().getPackageDeclaration().isPresent()) {
             return astCompilationUnit().getPackageDeclaration().get().getNameAsString();
         }
         return "";
     }
+    */
 
     /**
      * Sets the package this TYPE is in
@@ -119,7 +120,7 @@ public final class _packageInfo
      * @return
      */
     public boolean isInPackage(String packageName) {
-        String pn = getPackage();
+        String pn = getPackageName();
         if (pn == null) {
             return packageName == null || packageName.length() == 0;
         }

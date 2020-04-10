@@ -85,7 +85,7 @@ public class $enum
     public static $enum of( _enum _e ){
         $enum $e = of();
         if( _e.isTopLevel() ){
-            $e.$package( _e.getPackage() );
+            $e.$package( _e.getPackageName() );
             $e.$imports( _e.getImports() );
         }
 
@@ -275,7 +275,7 @@ public class $enum
             }
             else if( parts[i] instanceof $package ) {
                 final $package $fa = (($package) parts[i]);
-                Predicate<_enum> pf = f -> $fa.matches(f.getPackage());
+                Predicate<_enum> pf = f -> $fa.matches(f.getPackageName());
                 $and(pf.negate());
             }
             else if( parts[i] instanceof $name){

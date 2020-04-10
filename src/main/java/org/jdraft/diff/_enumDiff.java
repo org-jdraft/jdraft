@@ -24,7 +24,7 @@ public final class _enumDiff implements _differ<_enum, _java._multiPart> {
 
     @Override
     public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _enum left, _enum right) {
-        _packageNameDiff.INSTANCE.diff(path, dt, left, right, left.getPackage(), right.getPackage());
+        _packageNameDiff.INSTANCE.diff(path, dt, left, right, left.getPackageName(), right.getPackageName());
         _importsDiff.INSTANCE.diff(path, dt, left, right, left, right);
         _annosDiff.INSTANCE.diff(path, dt, left, right, left.getAnnos(), right.getAnnos());
 

@@ -20,8 +20,8 @@ public final class _packageNameDiff
                 new _diffList(left, right),
                 left, 
                 right, 
-                left.getPackage(), 
-                right.getPackage());
+                left.getPackageName(),
+                right.getPackageName());
     }
 
     @Override
@@ -45,11 +45,11 @@ public final class _packageNameDiff
             this.path = _p;
             this.leftParent = leftParent;
             if (leftParent != null) {
-                this.leftPackageName = leftParent.getPackage();
+                this.leftPackageName = leftParent.getPackageName();
             }
             this.rightParent = rightParent;
             if (rightParent != null) {
-                this.rightPackageName = rightParent.getPackage();
+                this.rightPackageName = rightParent.getPackageName();
             }
         }
 

@@ -145,7 +145,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
             }
             else if( parts[i] instanceof $package ) {
                 final $package $fa = (($package) parts[i]);
-                Predicate<_type> pf = f -> $fa.matches(f.getPackage());
+                Predicate<_type> pf = f -> $fa.matches(f.getPackageName());
                 $and(pf );
             }
             else if( parts[i] instanceof $name){
@@ -241,7 +241,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
             }
             else if( parts[i] instanceof $package ) {
                 final $package $fa = (($package) parts[i]);
-                Predicate<_type> pf = f -> $fa.matches(f.getPackage());
+                Predicate<_type> pf = f -> $fa.matches(f.getPackageName());
                 $and(pf.negate());
             }
             else if( parts[i] instanceof $name){

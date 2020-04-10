@@ -13,7 +13,7 @@ public final class _interfaceDiff
     
     @Override
     public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _interface left, _interface right) {
-        _packageNameDiff.INSTANCE.diff(path, dt, left, right, left.getPackage(), right.getPackage());
+        _packageNameDiff.INSTANCE.diff(path, dt, left, right, left.getPackageName(), right.getPackageName());
         _importsDiff.INSTANCE.diff(path, dt, left, right, left, right);
         
         _annosDiff.INSTANCE.diff(path, dt, left, right, left.getAnnos(), right.getAnnos());

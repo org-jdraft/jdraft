@@ -12,7 +12,7 @@ public final class _annotationDiff implements _differ<_annotation, _java._multiP
 
     @Override
     public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, _annotation left, _annotation right) {
-        _packageNameDiff.INSTANCE.diff(path, ds, left, right, left.getPackage(), right.getPackage());
+        _packageNameDiff.INSTANCE.diff(path, ds, left, right, left.getPackageName(), right.getPackageName());
         _importsDiff.INSTANCE.diff(path, ds, left, right, left, right);
         _annosDiff.INSTANCE.diff(path, ds, left, right, left.getAnnos(), right.getAnnos());
         _javadocCommentDiff.INSTANCE.diff(path, ds, left, right, left.getJavadoc(), right.getJavadoc());
