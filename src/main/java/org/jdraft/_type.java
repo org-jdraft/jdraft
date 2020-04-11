@@ -1558,7 +1558,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     default boolean isImplements( _interface _i){
         return isImplements(_i.getFullName() );        
     }
-    
+
     @Override
     default List<_field> listFields() {
         List<_field> _fs = new ArrayList<>();

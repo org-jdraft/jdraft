@@ -246,6 +246,24 @@ public interface $bot<B, _B, $B>
     }
 
     /**
+     * candidates must have imported the given classes
+     * @param classNames
+     * @return
+     */
+    default $B $isImports( String...classNames){
+        return $isImports( is-> is.hasImports(classNames));
+    }
+
+    /**
+     * candidates must have imported the given classes
+     * @param clazzes
+     * @return
+     */
+    default $B $isImports( Class...clazzes){
+        return $isImports( is-> is.hasImports(clazzes));
+    }
+
+    /**
      * Adds a constraint for matching candidates who are defined in compilationUnits
      * that have matching _imports
      *

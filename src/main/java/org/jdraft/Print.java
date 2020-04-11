@@ -14,10 +14,12 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.EmptyStmt;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.TypeParameter;
+import com.github.javaparser.printer.ASCIITreePrinter;
 import com.github.javaparser.printer.PrettyPrintVisitor;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 
-import java.util.Arrays;
+import java.util.*;
+import java.util.function.Function;
 
 import static com.github.javaparser.utils.Utils.normalizeEolInTextBlock;
 
@@ -76,6 +78,7 @@ public interface Print {
             .setPrintComments(false).setPrintJavadoc(false);
     public static final PrettyPrinterConfiguration PRINT_RAW_COMMENTS = new PrettyPrinterConfiguration()
             .setVisitorFactory(PrintRawComments::new);
+
     /**
      * a PrettyPrinterConfiguration designed to
      * <PRE>
@@ -88,12 +91,12 @@ public interface Print {
             = new PrettyPrinterConfiguration()
                     .setPrintComments(false).setPrintJavadoc(false).setVisitorFactory(PrintNoAnnotations::new);
 
-    /**
-     * Describe the node and it's contents by walking
-     * @param astNode the node to describe
-     */
-    public static void describe( Node astNode ){
-        astNode.walk(n-> System.out.println( n.getClass().getCanonicalName()+" \""+n+"\"") );
+    public static void describe(Node n){
+        ASCIITreePrinter.print(n);
+    }
+
+    public static void describe(Node n, Function<Node,String>nodeFormat){
+        ASCIITreePrinter.print(n, nodeFormat);
     }
 
     public static class EmptyStatementCommentPrinter extends PrettyPrintVisitor {

@@ -4,6 +4,8 @@ import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.Comment;
+import com.github.javaparser.ast.expr.ObjectCreationExpr;
+import com.github.javaparser.printer.ASCIITreePrinter;
 import org.jdraft.macro._static;
 import org.jdraft.macro._toCtor;
 import org.jdraft.macro._toInit;
@@ -11,9 +13,13 @@ import org.jdraft.macro._toStaticInit;
 import org.jdraft.pattern.$var;
 import java.io.Serializable;
 import java.util.List;
+import java.util.function.Predicate;
+
 import junit.framework.TestCase;
 
 public class _typeTest extends TestCase {
+
+
 
     static class SC{
 
