@@ -755,7 +755,7 @@ public class _classTest extends TestCase {
         _c.typeParameters("<T extends Impl>");
         _c.addExtend( "Base");
         _c.addImplements( "A", "B");
-        _c.initBlock("System.out.println(34);");
+        _c.addInitBlock("System.out.println(34);");
         _c.addField( "/** field JAVADOC */",
             "@ann2(k=2,v='g')",
             "public static final List<String> l = new ArrayList<>();");

@@ -110,8 +110,8 @@ public class SclassTest extends TestCase {
         assertTrue($class.of($field.of(f->f.isStatic())).matches(_class.of("C").addField("static int i=100;")));
         assertFalse($class.of($field.of(f->f.isStatic())).matches(_class.of("C").addField("int i=100;")));
 
-        assertTrue( $class.of( $initBlock.of( (_initBlock i)-> i.isStatic())).matches( _class.of("C").staticBlock("System.out.println(1);") ) );
-        assertFalse($class.of( $initBlock.of( (_initBlock i)-> i.isStatic())).matches( _class.of("C").initBlock("System.out.println(1);") ) );
+        assertTrue( $class.of( $initBlock.of( (_initBlock i)-> i.isStatic())).matches( _class.of("C").addStaticBlock("System.out.println(1);") ) );
+        assertFalse($class.of( $initBlock.of( (_initBlock i)-> i.isStatic())).matches( _class.of("C").addInitBlock("System.out.println(1);") ) );
 
         assertTrue( $class.of().$extends(Map.class).matches(_class.of("AnyClass").addExtend(Map.class)));
         assertFalse( $class.of().$extends(Map.class).matches(_class.of("AnyClass")));

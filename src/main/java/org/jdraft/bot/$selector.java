@@ -6,14 +6,25 @@ import org.jdraft._java;
 import java.util.function.Predicate;
 
 /**
- * Entity capable of
+ * Entity capable of selection which entails both
+ * <UL>
+ *     <LI>determining if a "node" meets a criteria</LI>
+ *     <LI>extracting parameters within the text of the {@link _java._node}</LI>
+ * </UL>
  * @param <_S>
  * @param <$S>
  */
 public interface $selector<_S, $S> {
 
+    /** matching function to match against a candidate (usually defaults to (t)->true to match all) */
     Predicate<_S> getPredicate();
 
+    /**
+     * REPLACES the existing predicate/matching function, note although this is available
+     * most of the time you'll want to mutate the existing predicate with $and() or $not()
+     * @see #$and(Predicate)
+     * @see #$not(Predicate)
+     */
     $S setPredicate( Predicate<_S> predicate);
 
     /**
@@ -25,8 +36,18 @@ public interface $selector<_S, $S> {
      */
     Select<_S> select(_S candidate);
 
+    /**
+     * Does this textual representation match the normalized AST version?
+     * @param candidate
+     * @return
+     */
     boolean matches(String candidate);
 
+    /**
+     *
+     * @param candidate
+     * @return
+     */
     default boolean matches(_S candidate){
         return select(candidate) != null;
     }
@@ -40,11 +61,11 @@ public interface $selector<_S, $S> {
     boolean isMatchAny();
 
     /**
-     * --Constraint updater -- (i.e. updates constraints on the prototype and returns the modified prototype)
+     * --Predicate Updater -- (i.e. updates/adds a new Predicate constraint to the existing predicate constraints)
      *
      * Update the matchFn with a new MatchFn that will be "ANDED" to the existing matchFn
      * @param matchFn a new functional matching constraint to the prototype
-     * @return the modified prototype
+     * @return the modified $selector
      */
     default $S $and(Predicate<_S> matchFn){
         setPredicate( getPredicate().and(matchFn));
@@ -56,7 +77,7 @@ public interface $selector<_S, $S> {
      *
      * Add a (NOT) matching constraint to add to the $prototype
      * @param matchFn a constraint to be negated and added (via and) to the constraint
-     * @return the modified prototype
+     * @return the modified $selector
      */
     default $S $not(Predicate<_S> matchFn) {
         return $and( matchFn.negate() );

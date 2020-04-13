@@ -55,7 +55,7 @@ public class _declaredBodyPartClassTest extends TestCase {
             protected @_static final int g() { return 102; }
 
         }
-        _class _d = _class.of(Baseline.class).staticBlock( ()->System.out.println("replaced"));
+        _class _d = _class.of(Baseline.class).addStaticBlock( ()->System.out.println("replaced"));
         /*
         _class _d = _class.of("som.pkg.Baseline",
                 new @_public @_final @_imports({Map.class, List.class, Set.class, HashSet.class}) Object(){

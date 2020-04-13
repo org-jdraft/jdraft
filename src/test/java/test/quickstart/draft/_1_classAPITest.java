@@ -24,7 +24,7 @@ public class _1_classAPITest extends TestCase {
             .addExtend("java.beans.Encoder")
             .addImplement("java.io.Serializable")
             .typeParameters("<T extends Serializable>")
-            .staticBlock("System.out.println(\"static block \" + UUID.randomUUID().toString());")
+            .addStaticBlock("System.out.println(\"static block \" + UUID.randomUUID().toString());")
             .addFields("public int i;", "public UUID uuid;")
             .addConstructor("public C(int i){ this.i = i;}")
             .addMethod("public UUID getUUID(){ return this.uuid; }")
@@ -45,7 +45,7 @@ public class _1_classAPITest extends TestCase {
             .typeParameters("<T extends Serializable>")
             .addExtend(java.beans.Encoder.class)
             .addImplement(Serializable.class)
-            .staticBlock(()->System.out.println("static block " + UUID.randomUUID().toString()))
+            .addStaticBlock(()->System.out.println("static block " + UUID.randomUUID().toString()))
             .addBodyMembers(new Object(){
                 public int i;
                 public UUID uuid;

@@ -82,10 +82,10 @@ public final class _initBlocksDiff
         @Override
         public void patchRightToLeft() {
             this.leftParent.removeInitBlock(right);
-            this.leftParent.initBlock(right);
+            this.leftParent.addInitBlock(right);
 
             this.rightParent.removeInitBlock(right);
-            this.rightParent.initBlock(right);
+            this.rightParent.addInitBlock(right);
         }
 
         @Override
@@ -131,10 +131,10 @@ public final class _initBlocksDiff
         @Override
         public void patchLeftToRight() {
             this.leftParent.removeInitBlock(left);
-            this.leftParent.initBlock(left);
+            this.leftParent.addInitBlock(left);
 
             this.rightParent.removeInitBlock(left);
-            this.rightParent.initBlock(left);
+            this.rightParent.addInitBlock(left);
         }
 
         @Override

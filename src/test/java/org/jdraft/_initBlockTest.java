@@ -26,7 +26,7 @@ public class _initBlockTest extends TestCase {
 
 
     public void testAddStaticBlock(){
-        _class _c = _class.of("aaaa.b.C").staticBlock(new Object(){
+        _class _c = _class.of("aaaa.b.C").addStaticBlock(new Object(){
             {System.out.println(1);}
         });
         assertEquals(1, _c.listInitBlocks().size());
@@ -34,7 +34,7 @@ public class _initBlockTest extends TestCase {
     }
 
     public void testAddInitBlock(){
-        _class _c = _class.of("aaaa.b.C").staticBlock(new Object(){
+        _class _c = _class.of("aaaa.b.C").addStaticBlock(new Object(){
             {System.out.println(1);}
         });
         assertEquals(1, _c.listInitBlocks().size());

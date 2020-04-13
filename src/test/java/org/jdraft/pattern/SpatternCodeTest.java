@@ -96,9 +96,9 @@ public class SpatternCodeTest extends TestCase {
         //verify (2) fields on lines 2 and 3 (2, 3)
         assertEquals(2, $field.of().countIn(_c) );
         //1 field on line 2
-        assertEquals(1, $field.of().$atLine(2).countIn(_c) );
+        assertEquals(1, $field.of().$isAtLine(2).countIn(_c) );
         //1 field on line 3
-        assertEquals(1, $field.of().$atLine(3).countIn(_c) );
+        assertEquals(1, $field.of().$isAtLine(3).countIn(_c) );
         //field on line 2
         $field $f = $.field().$isInRange(2,0, 2,100);
         assertEquals(1, $f.countIn(_c));

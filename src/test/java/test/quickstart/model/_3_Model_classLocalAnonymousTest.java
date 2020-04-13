@@ -91,7 +91,7 @@ public class _3_Model_classLocalAnonymousTest extends TestCase {
 
         // the _class has methods to add elements (like _field/_method/_constructor/_initBlock) using Strings
         _c.addConstructor("public C(final int val){ this.val = val; }");
-        _c.staticBlock("System.out.println(\"A Static Block\");"); //this is the body of the static block
+        _c.addStaticBlock("System.out.println(\"A Static Block\");"); //this is the body of the static block
 
         // to verify _class (_c) represents a valid Java Class, we call the javac compiler
         _runtime.compile(_c); // if not this line will fail and give you a stacktrace from javac

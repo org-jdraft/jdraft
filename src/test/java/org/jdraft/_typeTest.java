@@ -19,8 +19,6 @@ import junit.framework.TestCase;
 
 public class _typeTest extends TestCase {
 
-
-
     static class SC{
 
         //blocks
@@ -85,7 +83,7 @@ public class _typeTest extends TestCase {
         _type _t = _c;
 
 
-        //ctor, methodf, field, instance init block, static init block
+        //ctor, method, field, instance init block, static init block
         assertEquals(5, _t.listMembers().size());
 
         //this is what the API provides (on the type)

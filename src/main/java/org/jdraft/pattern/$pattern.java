@@ -232,7 +232,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param line the line expected
      * @return the modified $pattern
      */
-    default $P $atLine(int line ){
+    default $P $isAtLine(int line ){
         return $isInRange(Range.range(line,0,line, Integer.MAX_VALUE -10000));
     }
 

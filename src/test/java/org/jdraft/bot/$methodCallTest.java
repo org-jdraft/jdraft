@@ -6,15 +6,66 @@ import static java.lang.System.out;
 import org.jdraft._arguments;
 import org.jdraft.macro._addImports;
 import org.jdraft.macro._packageName;
-import org.jdraft.pattern.$method;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Predicate;
 
 public class $methodCallTest extends TestCase {
+
+    public void test$hasAncestor(){
+        class GHJ{
+            void m(){
+                System.out.println( 1 );
+            }
+            GHJ(){
+                System.out.println(3);
+            }
+        }
+        assertEquals(1, $methodCall.of().$hasAncestor(m-> m instanceof _method).countIn(GHJ.class));
+        assertEquals(1, $methodCall.of().$hasAncestor(_method.class).countIn(GHJ.class));
+        assertEquals(1, $methodCall.of().$hasAncestor(_constructor.class).countIn(GHJ.class));
+        assertEquals(2, $methodCall.of().$hasAncestor(_class.class).countIn(GHJ.class));
+    }
+
+    public void test$isInMember(){
+        class HH{
+            void m(){
+                System.out.println(2);
+            }
+            HH(){
+                System.out.println(3);
+            }
+        }
+        assertEquals(1, $methodCall.of().$isInMember(m-> m instanceof _method).countIn(HH.class));
+        assertEquals(1, $methodCall.of().$isInMember(_method.class).countIn(HH.class));
+        assertEquals(1, $methodCall.of().$isInMember(_constructor.class).countIn(HH.class));
+        assertEquals(0, $methodCall.of().$isInMember(_field.class).countIn(HH.class));
+
+        _class _am = _class.of(HH.class);
+        _am.addInitBlock( ()-> {System.out.println(1);}); //add an init block member
+        assertEquals(1, $methodCall.of().$isInMember(_initBlock.class).countIn(_am));
+    }
+
+    public void test$IsInType(){
+        class G{
+            void m(){
+                System.out.println(1);
+            }
+        }
+
+        assertEquals(0, $methodCall.of().$isInType(t-> t instanceof _class).countIn(_methodCall.of("print(1);")));
+
+        assertEquals(1, $methodCall.of().$isInType(t-> t instanceof _class).countIn(G.class));
+        assertEquals(1, $methodCall.of().$isInType(_class.class).countIn(G.class));
+        assertEquals(0, $methodCall.of().$isInType(t-> t instanceof _interface).countIn(G.class));
+        assertEquals(0, $methodCall.of().$isInType(_interface.class).countIn(G.class));
+
+        assertEquals(1, $methodCall.of().$isInType(_class.class, _enum.class).countIn(G.class));
+    }
+
+
 
     public void testIsPackage(){
         @_packageName("blah")

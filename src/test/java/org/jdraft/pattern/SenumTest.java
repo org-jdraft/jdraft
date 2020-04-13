@@ -121,8 +121,8 @@ public class SenumTest extends TestCase {
         assertTrue($enum.of($field.of(f->f.isStatic())).matches(_enum.of("C").addField("static int i=100;")));
         assertFalse($enum.of($field.of(f->f.isStatic())).matches(_enum.of("C").addField("int i=100;")));
 
-        assertTrue( $enum.of( $initBlock.of( (_initBlock i)-> i.isStatic())).matches( _enum.of("C").staticBlock("System.out.println(1);") ) );
-        assertFalse($enum.of( $initBlock.of( (_initBlock i)-> i.isStatic())).matches( _enum.of("C").initBlock("System.out.println(1);") ) );
+        assertTrue( $enum.of( $initBlock.of( (_initBlock i)-> i.isStatic())).matches( _enum.of("C").addStaticBlock("System.out.println(1);") ) );
+        assertFalse($enum.of( $initBlock.of( (_initBlock i)-> i.isStatic())).matches( _enum.of("C").addInitBlock("System.out.println(1);") ) );
 
         assertTrue( $enum.of().$implement(Serializable.class).matches(_enum.of("AnyClass").addImplements(Serializable.class)));
         assertFalse( $enum.of().$implement(Serializable.class).matches(_enum.of("AnyClass")));

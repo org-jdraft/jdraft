@@ -1,7 +1,6 @@
 package org.jdraft.bot;
 
 import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.stmt.ReturnStmt;
 import junit.framework.TestCase;
 import org.jdraft.*;
 
@@ -17,8 +16,8 @@ public class $returnStmtTest extends TestCase {
                 "    }",
                 "}");
         assertEquals( 2, $returnStmt.of().countIn(_c));
-        assertEquals( 1, $returnStmt.of().$atLine(2).countIn(_c));
-        assertEquals(1,  $returnStmt.of().$atLine(5).countIn(_c));
+        assertEquals( 1, $returnStmt.of().$isAtLine(2).countIn(_c));
+        assertEquals(1,  $returnStmt.of().$isAtLine(5).countIn(_c));
 
         //testing in a range
         assertEquals( 2, $returnStmt.of().$isInRange(0, 100).countIn(_c));

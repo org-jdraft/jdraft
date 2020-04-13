@@ -3,6 +3,9 @@ package org.jdraft.bot;
 import com.github.javaparser.Range;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.BodyDeclaration;
+import com.github.javaparser.ast.body.TypeDeclaration;
+import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import org.jdraft.*;
 import org.jdraft.pattern.$;
 import org.jdraft.text.*;
@@ -208,24 +211,24 @@ public interface $bot<B, _B, $B>
      * @param line the line expected
      * @return the modified $pattern
      */
-    default $B $atLine(int line ){
+    default $B $isAtLine( int line ){
         return $isInRange(Range.range(line,0,line, Integer.MAX_VALUE -10000));
     }
 
     /**
-     * does the candidate
+     * does the candidate match the name of the package?
+     * NOTE: supports $variables$ i.e. .$isInPackage("org.jdraft.$any$")
      * @param packageNameStencil a specific name (i.e. "java.util" or a parameterizedName "$any$.daos")
      * @return
      */
     default $B $isInPackage(String packageNameStencil){
-        _package _pk = _package.of(packageNameStencil);
-        String pkgname = _pk.toString().trim();
+        //this will "normalize" the stencil
+        _package _pkg = _package.of(packageNameStencil);
+        String normalizedPackageName = _pkg.toString().trim();
 
-        //lets make this a Stencil so we can match via a stencil (if the stencil has no parameters it'll match as well)
-        Stencil st = Stencil.of(pkgname);
-        return $isInPackage( p-> {
-            return st.matches( p.toString().trim());
-        } );
+        //lets make this a Stencil so we can match via a stencil (if the stencil has no parameters (is fixed text) it'll match as well)
+        Stencil st = Stencil.of(normalizedPackageName);
+        return $isInPackage( p-> st.matches( p.toString().trim()));
     }
 
     /**
@@ -235,7 +238,6 @@ public interface $bot<B, _B, $B>
      */
     default $B $isInPackage(Predicate<_package> packageMatchFn){
         return $and(n -> {
-            //System.out.println( "N CLASS "+ n.getClass() );
             Optional<CompilationUnit> ocu = ((_java._node)n).ast().findCompilationUnit();
             if( ocu.isPresent() && ocu.get().getPackageDeclaration().isPresent() ){
                 _package _p = _package.of(ocu.get().getPackageDeclaration().get());
@@ -243,6 +245,65 @@ public interface $bot<B, _B, $B>
             }
             return false;
         });
+    }
+
+    /**
+     * Verifies that
+     * @param _typeClasses
+     * @return
+     */
+    default $B $isInType(Class<? extends _type>..._typeClasses ){
+        return $isInType( _tp -> Arrays.stream(_typeClasses).anyMatch( _tc -> _tc.isAssignableFrom(_tp.getClass())));
+    }
+
+    /**
+     * Does the candidate's most immediate "container" or {@link _java._member} match the
+     *
+     * $isInLambda()
+     * $isInAnonymousClass()
+     *
+     * @param _memberMatchFn
+     * @return
+     */
+    default $B $isInMember(Predicate<_java._member> _memberMatchFn){
+        return $and(n -> {
+            Node node = ((_java._node)n).ast();
+            Optional<Node> containingMember = node.stream(Tree.PARENTS).filter( p-> p instanceof BodyDeclaration
+                    && p.getParentNode().isPresent()
+                    && !(p.getParentNode().get() instanceof ObjectCreationExpr)).findFirst();
+
+            if( !containingMember.isPresent()){
+                return false;
+            }
+            _java._member _m = (_java._member)_java.of((BodyDeclaration)containingMember.get());
+            return _memberMatchFn.test(_m);
+        });
+    }
+
+    default $B $isInMember(Class<? extends _java._member>..._memberClasses){
+        return $isInMember( _tp -> Arrays.stream(_memberClasses).anyMatch( _tc -> _tc.isAssignableFrom(_tp.getClass())));
+    }
+
+    /**
+     * Gets the containing {@link _type} ({@link _class}, {@link _interface}, {@link _enum}, {@link _annotation})
+     * of the candidate and checks if it matches the _typeMatchFn
+     * NOTE: for anonymous classes, i.e. tests the parent of the anonymous Class
+     * @param _typeMatchFn matches against the _type the candidate is contained within
+     * @return the modified $bot
+     */
+    default $B $isInType(Predicate<_type> _typeMatchFn){
+        return $and(n -> {
+            Node node = ((_java._node)n).ast();
+            Optional<Node> containingType = node.stream(Tree.PARENTS).filter( p-> p instanceof TypeDeclaration
+                        && p.getParentNode().isPresent()
+                        && !(p.getParentNode().get() instanceof ObjectCreationExpr)).findFirst();
+
+            if( !containingType.isPresent()){
+                return false;
+            }
+            _type _t = _type.of((TypeDeclaration)containingType.get());
+            return _typeMatchFn.test(_t);
+            });
     }
 
     /**
@@ -282,9 +343,6 @@ public interface $bot<B, _B, $B>
             return false;
         });
     }
-
-    //$isImports(Predicate<_imports> )
-    //$isInType(Predicate<_type> )
 
     default $B $isParent(Class... parentClassTypes ){
         return $and(n -> {
@@ -362,6 +420,68 @@ public interface $bot<B, _B, $B>
         //return and( (n)-> Ast.isParent( (Node)n, e-> proto.match(e) ) );
     }
 
+    /**
+     * Does this class have an ancestor that is any one of these _classes (includes _interfaces, like
+     * {@link _statement._controlFlow})
+     *
+     * @param _nodeClasses
+     * @return
+     */
+    default $B $hasAncestor( int levels, Class<? extends _java._domain>... _nodeClasses){
+        return $hasAncestor( levels, _tp -> Arrays.stream(_nodeClasses).anyMatch( _tc -> _tc.isAssignableFrom(_tp.getClass())));
+    }
+
+
+    /**
+     * Does this class have an ancestor that is any one of these _classes (includes _interfaces, like
+     * {@link _statement._controlFlow})
+     *
+     * @param _nodeClasses
+     * @return
+     */
+    default $B $hasAncestor( Class<? extends _java._domain>... _nodeClasses){
+        return $hasAncestor( _tp -> Arrays.stream(_nodeClasses).anyMatch( _tc -> _tc.isAssignableFrom(_tp.getClass())));
+    }
+
+    /**
+     *
+     * @param ancestorMatchFn
+     * @return
+     */
+    default $B $hasAncestor( Predicate<_java._node> ancestorMatchFn ){
+        return $hasAncestor(Integer.MAX_VALUE -100, ancestorMatchFn);
+    }
+
+    /**
+     *
+     * @param levels
+     * @param _ancestorMatchFn
+     * @return
+     */
+    default $B $hasAncestor( int levels, Predicate<_java._node> _ancestorMatchFn){
+        return $and(n-> {
+            if (n instanceof _java._node) {
+                return ((_java._node)n).ast().stream($.PARENTS).limit(levels).anyMatch(c-> _ancestorMatchFn.test( (_java._node)_java.of(c) ) );
+            } else{
+                //NEED TO MANUALLY IMPLEMENT FOR:
+                // $parameters, $annos, $throws, $typeParameters
+                // if( n instanceof List ){
+                //    List l = (List)n;
+                //    l.forEach();
+                // }
+                throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
+            }
+        } );
+    }
+
+    /**
+     * If I walk "UP" the AST of the candidate can I find an ancestor that matches one of the
+     * $bots provided.
+     *
+     * @param levels how many parent node levels to walk before stopping
+     * @param $bots bots that may match against ancestors
+     * @return the modified bot
+     */
     default $B $hasAncestor( int levels, $bot... $bots ){
         return $and(n-> {
             if (n instanceof _java._node) {
