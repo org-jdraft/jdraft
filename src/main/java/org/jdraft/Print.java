@@ -91,6 +91,19 @@ public interface Print {
             = new PrettyPrinterConfiguration()
                     .setPrintComments(false).setPrintJavadoc(false).setVisitorFactory(PrintNoAnnotations::new);
 
+    /**
+     * Describe the class contents as an ASCII tree
+     * @param clazz
+     */
+    public static void describe(Class clazz){
+        _type _t = _type.of(clazz);
+        if( _t.isTopLevel() ){
+            describe( _t.astCompilationUnit() );
+        } else {
+            describe(_t.ast());
+        }
+    }
+
     public static void describe(Node n){
         ASCIITreePrinter.print(n);
     }

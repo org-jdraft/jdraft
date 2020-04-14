@@ -142,78 +142,6 @@ public interface $bot<B, _B, $B>
         return ($B)$(t1,$p1).$(t2, $p2).$(t3, $p3).$(t4, $p4);
     }
 
-    /**
-     * Is the range of this Node
-     * @param _n
-     * @return
-     */
-    default $B $isInRange(_java._node _n ){
-        return $isInRange(_n.ast());
-    }
-
-    /**
-     * Is the range of this Node
-     * @param n
-     * @return
-     */
-    default $B $isInRange(Node n){ ;
-        if( n.getRange().isPresent() ){
-            return $isInRange(n.getRange().get());
-        }
-        throw new _jdraftException("Node "+n+" does not have a range");
-    }
-
-    /**
-     * Adds a constraint that the instance occurs will be within the Range
-     * @param range
-     * @return
-     */
-    default $B $isInRange(final Range range ){
-        Predicate<_B> pp = n -> {
-            if (n instanceof Node) {
-                return ((Node)n).getRange().isPresent() && range.strictlyContains( ((Node) n).getRange().get());
-            } else if (n instanceof _java._node) {
-                Node node = ((_java._node)n).ast();
-                return node.getRange().isPresent() && range.strictlyContains(node.getRange().get());
-            }else if (n instanceof _body) {
-                Node node = ((_body)n).ast();
-                return node.getRange().isPresent() && range.strictlyContains(node.getRange().get());
-            }
-            return false;
-        };
-        return $and( pp );
-    }
-
-    /**
-     * Adds a constraint that the instance occurs will be within the Range
-     * @param beginLine
-     * @param beginColumn
-     * @param endLine
-     * @param endColumn
-     * @return
-     */
-    default $B $isInRange(int beginLine, int beginColumn, int endLine, int endColumn){
-        return $isInRange(Range.range(beginLine,beginColumn,endLine, endColumn));
-    }
-
-    /**
-     * Adds a constraint that the instance occurs will be within the Range
-     * @param beginLine
-     * @param endLine
-     * @return
-     */
-    default $B $isInRange(int beginLine, int endLine){
-        return $isInRange(Range.range(beginLine,0,endLine, Integer.MAX_VALUE -10000));
-    }
-
-    /**
-     * Verifies that the ENTIRE matching pattern exists on this specific line in the code
-     * @param line the line expected
-     * @return the modified $pattern
-     */
-    default $B $isAtLine( int line ){
-        return $isInRange(Range.range(line,0,line, Integer.MAX_VALUE -10000));
-    }
 
     /**
      * does the candidate match the name of the package?
@@ -392,6 +320,33 @@ public interface $bot<B, _B, $B>
             $not(pp);
         }
         return ($B)this;
+    }
+
+    /**
+     * Check if the parent of the candidate matches the _parentMatchFn
+     * @param _parentMatchFn
+     * @return
+     */
+    default $B $isParent(Predicate<_java._node> _parentMatchFn){
+        return $and(n -> {
+            if (n instanceof _java._node) {
+                if( ((_java._node)n).ast().getParentNode().isPresent()){
+                    return _parentMatchFn.test( (_java._node)_java.of(((_java._node)n).ast().getParentNode().get()) );
+                }
+                return false;
+            } else if (n instanceof _body) {
+                _body _b = (_body)n;
+                return _parentMatchFn.test( (_java._node)_java.of(_b.ast().getParentNode().get()) );
+            } else {
+                //NEED TO MANUALLY IMPLEMENT FOR:
+                // $parameters, $annos, $snip, $throws, $typeParameters
+                // if( n instanceof List ){
+                //    List l = (List)n;
+                //    l.forEach();
+                // }
+                throw new _jdraftException("Not implemented yet for type : " + n.getClass());
+            }
+        });
     }
 
     /**

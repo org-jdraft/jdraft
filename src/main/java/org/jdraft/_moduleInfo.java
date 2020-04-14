@@ -130,8 +130,16 @@ public final class _moduleInfo
 
     public _moduleInfo(CompilationUnit cu) {
         this.astCompUnit = cu;
-        //this.javadocHolder = new _javadoc.JavadocHolderAdapter(cu);
     }
+    /*
+    public _moduleInfo(ModuleDeclaration md ){
+        if( md.findCompilationUnit().isPresent() ){
+            this.astCompUnit = md.findCompilationUnit().get();
+        } else{
+
+        }
+    }
+     */
 
     @Override
     public boolean isTopLevel() {

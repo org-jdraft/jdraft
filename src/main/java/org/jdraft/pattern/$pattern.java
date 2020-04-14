@@ -396,18 +396,7 @@ public interface $pattern<P, $P extends $pattern>{
                 });
     }
 
-    default $P $hasAncestor(Class...classes){
-        return $hasAncestor(Integer.MAX_VALUE -100, n-> Tree.isNodeOfType(n, classes ));
-    }
 
-    /**
-     *
-     * @param ancestorMatchFn
-     * @return
-     */
-    default $P $hasAncestor( Predicate<Node> ancestorMatchFn ){
-        return $hasAncestor(Integer.MAX_VALUE -100, ancestorMatchFn);
-    }
 
     default $P $hasNoAncestor( int levels, Predicate<Node>ancestorMatchFn){
         return $not(n-> {

@@ -1629,7 +1629,8 @@ public enum Tree {
                     });
             return astRootNode;
         }
-        else if( _java.Model._JAVA_TO_AST_NODE_CLASSES.containsKey( _javaClass ) ) {
+        else if( NodeClassMap.is_node(_javaClass) ){
+        //else if( _java.Model._JAVA_TO_AST_NODE_CLASSES.containsKey( _javaClass ) ) {
             //System.out.println("Node Classes ");
             // _anno.class, AnnotationExpr.class
             // _annotation._element.class, AnnotationMemberDeclaration.class
@@ -1650,7 +1651,8 @@ public enum Tree {
             //class switch would be nice here
             in(tt, levels,
                 astRootNode,
-                    _java.Model._JAVA_TO_AST_NODE_CLASSES.get( _javaClass ),
+                    NodeClassMap.node(_javaClass),
+                    //_java.Model._JAVA_TO_AST_NODE_CLASSES.get( _javaClass ),
                     t ->true,
                     a -> {
                         _J logical = (_J)_java.of( a );
@@ -2258,9 +2260,15 @@ public enum Tree {
         if( _java._domain.class.isAssignableFrom(nodeTargetClass) ){
             //here I'm looking for a _field, _method, etc.
             Optional<Node> on = astStartNode.stream(tt).filter(n -> {
+                    if( Objects.equals( NodeClassMap._node(n.getClass()), nodeTargetClass ) ){
+                        return nodeMatchFn.test((T) _java.of(n) );
+                    }
+                    /*
                     if( Objects.equals( _java.Model.AST_NODE_TO_JAVA_CLASSES.get(n.getClass()), nodeTargetClass ) ){
                         return nodeMatchFn.test((T) _java.of(n) );
-                    }                    
+                    }
+
+                     */
                     return false;
                 }).findFirst();
             

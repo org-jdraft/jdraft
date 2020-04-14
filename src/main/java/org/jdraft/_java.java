@@ -11,10 +11,7 @@ import com.github.javaparser.ast.comments.*;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.modules.ModuleDeclaration;
 import com.github.javaparser.ast.nodeTypes.*;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.CatchClause;
-import com.github.javaparser.ast.stmt.Statement;
-import com.github.javaparser.ast.stmt.SwitchEntry;
+import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.*;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 
@@ -34,7 +31,6 @@ import org.jdraft._throws._withThrows;
 import org.jdraft._type._withExtends;
 import org.jdraft._type._withImplements;
 import org.jdraft.text.Text;
-
 /**
  * <P>A "Meta-Model" implementation/view of entities for representing java source code
  * in a concrete way that sits "above" that AST implementation
@@ -520,14 +516,14 @@ public interface _java {
             entities... his allows convenient autocomplete when you do a _walk.in
             of _walk.list, etc.
             <PRE>
-            _walk.list( _c, _java.THROWS );
-            _walk.list( _c, _java.THROWS );
+            Tree.list( _c, _java.THROWS );
+            Tree.list( _c, _java.THROWS );
             </PRE>
 
             to make it similar (in feel) to Ast.* :
-            _walk.in( _c, Ast.INITIALIZER_DECLARATION,
+            Tree.in( _c, Ast.INITIALIZER_DECLARATION,
                 id-> id.getBody().add(Stmt.of("System.out.println(1);"));
-            _walk.list( _m, Ast.RETURN_STMT );
+            Tree.list( _m, Ast.RETURN_STMT );
           */
         Class<_codeUnit> CODE = _codeUnit.class;
 
@@ -602,77 +598,6 @@ public interface _java {
         Class<_withSynchronized> HAS_SYNCHRONIZED = _withSynchronized.class;
         Class<_withTransient> HAS_TRANSIENT = _withTransient.class;
         Class<_withVolatile> HAS_VOLATILE = _withVolatile.class;
-
-        /**
-         * Map from the _java classes to the Ast Node equivalent
-         */
-        public static final Map<Class<? extends _multiPart>, Class<? extends Node>> _JAVA_TO_AST_NODE_CLASSES = new HashMap<>();
-
-        static {
-            _JAVA_TO_AST_NODE_CLASSES.put(_import.class, ImportDeclaration.class);
-            
-            _JAVA_TO_AST_NODE_CLASSES.put(_anno.class, AnnotationExpr.class);
-            _JAVA_TO_AST_NODE_CLASSES.put(_entry.class, AnnotationMemberDeclaration.class);
-            _JAVA_TO_AST_NODE_CLASSES.put(_constant.class, EnumConstantDeclaration.class);
-            _JAVA_TO_AST_NODE_CLASSES.put(_constructor.class, ConstructorDeclaration.class);
-            _JAVA_TO_AST_NODE_CLASSES.put(_field.class, VariableDeclarator.class);
-            _JAVA_TO_AST_NODE_CLASSES.put(_method.class, MethodDeclaration.class);
-            _JAVA_TO_AST_NODE_CLASSES.put(_parameter.class, Parameter.class);
-            _JAVA_TO_AST_NODE_CLASSES.put(_receiverParameter.class, ReceiverParameter.class);
-            _JAVA_TO_AST_NODE_CLASSES.put(_initBlock.class, InitializerDeclaration.class);
-            _JAVA_TO_AST_NODE_CLASSES.put(_typeParameter.class, TypeParameter.class);
-            _JAVA_TO_AST_NODE_CLASSES.put(_typeRef.class, Type.class);
-
-            _JAVA_TO_AST_NODE_CLASSES.put(_type.class, TypeDeclaration.class);
-            _JAVA_TO_AST_NODE_CLASSES.put(_annotation.class, AnnotationDeclaration.class);
-            _JAVA_TO_AST_NODE_CLASSES.put(_class.class, ClassOrInterfaceDeclaration.class);
-            _JAVA_TO_AST_NODE_CLASSES.put(_interface.class, ClassOrInterfaceDeclaration.class);
-            _JAVA_TO_AST_NODE_CLASSES.put(_enum.class, EnumDeclaration.class);
-        }
-
-        /**
-         * Map from the {@link _multiPart} classes to the Ast
-         * {@link com.github.javaparser.ast.Node} equivalent
-         */
-        public static final Map<Class<? extends Node>, Class<? extends _multiPart>> AST_NODE_TO_JAVA_CLASSES = new HashMap<>();
-
-        static {
-            AST_NODE_TO_JAVA_CLASSES.put(ImportDeclaration.class, _import.class); //base
-            
-            AST_NODE_TO_JAVA_CLASSES.put(AnnotationExpr.class, _anno.class); //base
-            AST_NODE_TO_JAVA_CLASSES.put(NormalAnnotationExpr.class, _anno.class); //impl
-            AST_NODE_TO_JAVA_CLASSES.put(MarkerAnnotationExpr.class, _anno.class);
-            AST_NODE_TO_JAVA_CLASSES.put(SingleMemberAnnotationExpr.class, _anno.class);
-
-            AST_NODE_TO_JAVA_CLASSES.put(AnnotationMemberDeclaration.class, _entry.class);
-            AST_NODE_TO_JAVA_CLASSES.put(EnumConstantDeclaration.class, _constant.class);
-            AST_NODE_TO_JAVA_CLASSES.put(ConstructorDeclaration.class, _constructor.class);
-
-            AST_NODE_TO_JAVA_CLASSES.put(VariableDeclarator.class, _field.class);
-            AST_NODE_TO_JAVA_CLASSES.put(FieldDeclaration.class, _field.class);
-
-            AST_NODE_TO_JAVA_CLASSES.put(MethodDeclaration.class, _method.class);
-            AST_NODE_TO_JAVA_CLASSES.put(Parameter.class, _parameter.class);
-            AST_NODE_TO_JAVA_CLASSES.put(ReceiverParameter.class, _receiverParameter.class);
-            AST_NODE_TO_JAVA_CLASSES.put(InitializerDeclaration.class, _initBlock.class);
-            AST_NODE_TO_JAVA_CLASSES.put(TypeParameter.class, _typeParameter.class);
-
-            AST_NODE_TO_JAVA_CLASSES.put(Type.class, _typeRef.class);
-            AST_NODE_TO_JAVA_CLASSES.put(ArrayType.class, _typeRef.class);
-            AST_NODE_TO_JAVA_CLASSES.put(ClassOrInterfaceType.class, _typeRef.class);
-            AST_NODE_TO_JAVA_CLASSES.put(IntersectionType.class, _typeRef.class);
-            AST_NODE_TO_JAVA_CLASSES.put(PrimitiveType.class, _typeRef.class);
-            AST_NODE_TO_JAVA_CLASSES.put(ReferenceType.class, _typeRef.class);
-            AST_NODE_TO_JAVA_CLASSES.put(UnionType.class, _typeRef.class);
-            AST_NODE_TO_JAVA_CLASSES.put(VarType.class, _typeRef.class);
-            AST_NODE_TO_JAVA_CLASSES.put(VoidType.class, _typeRef.class);
-            AST_NODE_TO_JAVA_CLASSES.put(WildcardType.class, _typeRef.class);
-
-            AST_NODE_TO_JAVA_CLASSES.put(TypeDeclaration.class, _type.class);
-            AST_NODE_TO_JAVA_CLASSES.put(ClassOrInterfaceDeclaration.class, _type.class);
-            AST_NODE_TO_JAVA_CLASSES.put(EnumDeclaration.class, _enum.class);
-            AST_NODE_TO_JAVA_CLASSES.put(AnnotationDeclaration.class, _annotation.class);
-        }        
     }
 
     /**

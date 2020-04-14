@@ -1,7 +1,10 @@
 package org.jdraft.bot;
 
+import com.github.javaparser.Range;
 import com.github.javaparser.ast.Node;
+import org.jdraft._body;
 import org.jdraft._java;
+import org.jdraft._jdraftException;
 
 import java.util.function.Predicate;
 
@@ -82,6 +85,82 @@ public interface $selector<_S, $S> {
     default $S $not(Predicate<_S> matchFn) {
         return $and( matchFn.negate() );
     }
+
+
+
+    /**
+     * Is the range of this Node
+     * @param _n
+     * @return
+     */
+    default $S $isInRange(_java._node _n ){
+        return $isInRange(_n.ast());
+    }
+
+    /**
+     * Is the range of this Node
+     * @param n
+     * @return
+     */
+    default $S $isInRange(Node n){ ;
+        if( n.getRange().isPresent() ){
+            return $isInRange(n.getRange().get());
+        }
+        throw new _jdraftException("Node "+n+" does not have a range");
+    }
+
+    /**
+     * Adds a constraint that the instance occurs will be within the Range
+     * @param range
+     * @return
+     */
+    default $S $isInRange(final Range range ){
+        Predicate<_S> pp = n -> {
+            if (n instanceof Node) {
+                return ((Node)n).getRange().isPresent() && range.strictlyContains( ((Node) n).getRange().get());
+            } else if (n instanceof _java._node) {
+                Node node = ((_java._node)n).ast();
+                return node.getRange().isPresent() && range.strictlyContains(node.getRange().get());
+            }else if (n instanceof _body) {
+                Node node = ((_body)n).ast();
+                return node.getRange().isPresent() && range.strictlyContains(node.getRange().get());
+            }
+            return false;
+        };
+        return $and( pp );
+    }
+
+    /**
+     * Adds a constraint that the instance occurs will be within the Range
+     * @param beginLine
+     * @param beginColumn
+     * @param endLine
+     * @param endColumn
+     * @return
+     */
+    default $S $isInRange(int beginLine, int beginColumn, int endLine, int endColumn){
+        return $isInRange(Range.range(beginLine,beginColumn,endLine, endColumn));
+    }
+
+    /**
+     * Adds a constraint that the instance occurs will be within the Range
+     * @param beginLine
+     * @param endLine
+     * @return
+     */
+    default $S $isInRange(int beginLine, int endLine){
+        return $isInRange(Range.range(beginLine,0,endLine, Integer.MAX_VALUE -10000));
+    }
+
+    /**
+     * Verifies that the ENTIRE matching pattern exists on this specific line in the code
+     * @param line the line expected
+     * @return the modified $pattern
+     */
+    default $S $isAtLine( int line ){
+        return $isInRange(Range.range(line,0,line, Integer.MAX_VALUE -10000));
+    }
+
 
     /**
      * A Selector that selects a single AST _node type of thing

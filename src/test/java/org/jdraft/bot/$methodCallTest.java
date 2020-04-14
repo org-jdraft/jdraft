@@ -1,5 +1,6 @@
 package org.jdraft.bot;
 
+import com.github.javaparser.printer.ASCIITreePrinter;
 import junit.framework.TestCase;
 import org.jdraft.*;
 import static java.lang.System.out;
@@ -13,6 +14,24 @@ import java.util.UUID;
 import java.util.function.Predicate;
 
 public class $methodCallTest extends TestCase {
+
+
+    public void test$isParent(){
+        class GHJ{
+            void m(){
+                System.out.println( 1 );
+            }
+            GHJ(){
+                System.out.println(3);
+            }
+        }
+        Print.describe(GHJ.class);
+        assertEquals(2, $methodCall.of().$isParent(m-> m instanceof _expressionStmt).countIn(GHJ.class));
+        assertEquals(2, $methodCall.of().$isParent(_expressionStmt.class).countIn(GHJ.class));
+
+        assertEquals(0, $methodCall.of().$isParent(_constructor.class).countIn(GHJ.class));
+        assertEquals(0, $methodCall.of().$isParent(_class.class).countIn(GHJ.class));
+    }
 
     public void test$hasAncestor(){
         class GHJ{
