@@ -191,7 +191,7 @@ public class _tryStmtTest extends TestCase {
 
         System.out.println( _m );
 
-        Tree.describe(_m);
+        Print.tree(_m);
     }
 
     public static void writeToFileZipFileContents(String zipFileName,

@@ -68,7 +68,7 @@ public class ASCIITreePrinterTest extends TestCase {
         ObjectCreationExpr oce = StaticJavaParser.parseExpression( "new Object(){"+System.lineSeparator()+"int i;"+System.lineSeparator()+"}");
 
         //here we pass in a Function to tell how each node is printed (here uses the ClassSimpleName and Range)
-        ASCIITreePrinter.print(oce, n-> "["+ ASCIITreePrinter.printNodeSummary(n)+"] "+n.getClass().getSimpleName()+" : " +n.getRange().get() );
+        ASCIITreePrinter.print(oce, n-> "["+ ASCIITreePrinter.nodeSummary(n)+"] "+n.getClass().getSimpleName()+" : " +n.getRange().get() );
 
         @Deprecated
         class C{
@@ -85,6 +85,6 @@ public class ASCIITreePrinterTest extends TestCase {
         _class _c = _class.of(C.class);
         ASCIITreePrinter.print(_c.astCompilationUnit() );
 
-        ASCIITreePrinter.print(_c.astCompilationUnit(), n-> "\""+ ASCIITreePrinter.printNodeSummary(n)+"\" ["+n.getClass().getSimpleName()+"]");
+        ASCIITreePrinter.print(_c.astCompilationUnit(), n-> "\""+ ASCIITreePrinter.nodeSummary(n)+"\" ["+n.getClass().getSimpleName()+"]");
     }
 }

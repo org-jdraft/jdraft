@@ -49,7 +49,7 @@ public class SarrayAccessTest extends TestCase {
 
 	public void testRecursive(){
 		_arrayAccess _aa = _arrayAccess.of("i[1][3]");
-		Print.describe(_aa.ast());
+		Print.tree(_aa.ast());
 		assertTrue(_aa.isNamed("i[1]"));
 		assertTrue(_aa.isIndex("3"));
 	}

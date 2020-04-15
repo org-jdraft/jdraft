@@ -674,12 +674,16 @@ public interface $bot<B, _B, $B>
             return astNode;
         }
 
-        default void describeIn(Node astNode) {
-            forEachIn(astNode, e-> Tree.describe(e));
+        default void printEachTreeIn(_java._node _n) {
+            forEachIn(_n, e-> Print.tree(e));
         }
 
-        default void describeIn(Class<?> clazz) {
-            forEachIn(Ast.of(clazz), e-> Tree.describe(e));
+        default void printEachTreeIn(Node astNode) {
+            forEachIn(astNode, e-> Print.tree(e));
+        }
+
+        default void printEachTreeIn(Class<?> clazz) {
+            forEachIn(Ast.of(clazz), e-> Print.tree(e));
         }
 
         default <_J extends _java._node<?,?>> _J replaceSelectedIn(_J _j, Function<Select<_P>, Node> replaceDeriver) {

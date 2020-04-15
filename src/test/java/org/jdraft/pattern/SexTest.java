@@ -359,7 +359,7 @@ public class SexTest extends TestCase {
 
     public void testGetS(){
         _class _c = _class.of(D.class);
-        Tree.describe(_c);
+        Print.tree(_c);
     }
 
     public void testBodyNot(){

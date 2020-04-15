@@ -267,6 +267,6 @@ public class SintTest extends TestCase {
 			int h = 0X1;			
 		}
 		
-		$int.of().describeIn(C.class);
+		$int.of().printEachTreeIn(C.class);
 	}
 }

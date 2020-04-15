@@ -67,7 +67,7 @@ public class SpoonComingTest extends TestCase {
                 }
             }
         }
-        Print.describe( $.ifStmt().firstIn(Ex.class).ast() );
+        Print.tree( $.ifStmt().firstIn(Ex.class).ast() );
 
         assertEquals(1, $ifReturn.countIn(Ex.class));
     }

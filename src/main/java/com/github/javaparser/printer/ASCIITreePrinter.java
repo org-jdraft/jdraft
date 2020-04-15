@@ -1,7 +1,10 @@
 package com.github.javaparser.printer;
 
 import com.github.javaparser.Position;
+import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
+import org.jdraft._codeUnit;
+import org.jdraft._java;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -47,6 +50,18 @@ public class ASCIITreePrinter {
 
     /**
      * Print a Tree to System.out defining the contents with the AST node
+     * @param _rootNode any AST node to describe the contents of in tree form
+     */
+    public static void print(_java._node _rootNode) {
+        if( _rootNode instanceof _codeUnit && ((_codeUnit)_rootNode).isTopLevel() ){
+            System.out.println(TNode.of(new TNode( ((_codeUnit)_rootNode).astCompilationUnit())).output(_NODE_SUMMARY_CLASS_RANGE_FORMAT));
+        } else {
+            System.out.println(TNode.of(new TNode(_rootNode.ast())).output(_NODE_SUMMARY_CLASS_RANGE_FORMAT));
+        }
+    }
+
+    /**
+     * Print a Tree to System.out defining the contents with the AST node
      * @param rootNode any AST node to describe the contents of in tree form
      */
     public static void print(Node rootNode) {
@@ -69,11 +84,24 @@ public class ASCIITreePrinter {
      *  \_______________/ \____________/   \__________/
      *    node summary      node class      node range
      *  </PRE>
-     * @see #printNodeSummary(Node)
-     * @see #printRange(Node)
+     * @see #nodeSummary(Node)
+     * @see #range(Node)
      */
     public static Function<Node,String> SUMMARY_CLASS_RANGE_FORMAT = n->
-            "\""+ printNodeSummary(n)+"\" "+n.getClass().getSimpleName()+" : " + printRangeCoordinates(n);
+            "\""+ nodeSummary(n)+"\" "+n.getClass().getSimpleName()+" : " + rangeCoordinates(n);
+
+    /**
+     * Print format each {@link Node} in the tree (prints to a single line) for example:
+     *  <PRE>
+     *  "@Deprecated...}" _codedUnit: (1,1)-(15,3)
+     *  \______________/  \_______/   \__________/
+     *    node summary    _node class  node range
+     *  </PRE>
+     * @see #nodeSummary(Node)
+     * @see #range(Node)
+     */
+    public static Function<Node,String> _NODE_SUMMARY_CLASS_RANGE_FORMAT = n->
+            "\""+ nodeSummary(n)+"\" "+ _nodeName(n)+" : " + rangeCoordinates(n);
 
     /**
      * Print format each {@link Node} in the tree (prints to a single line) for example:
@@ -82,10 +110,22 @@ public class ASCIITreePrinter {
      *  \_______________/ \_______________/
      *    node summary      node class
      *  </PRE>
-     * @see #printNodeSummary(Node)
+     * @see #nodeSummary(Node)
      */
     public static Function<Node,String> SUMMARY_CLASS_FORMAT = n->
-            "\""+ printNodeSummary(n)+"\" ["+n.getClass().getSimpleName()+"]";
+            "\""+ nodeSummary(n)+"\" ["+n.getClass().getSimpleName()+"]";
+
+    /**
+     * Print format each {@link Node} in the tree (prints to a single line) for example:
+     *  <PRE>
+     *  "@Deprecated...}" [CompilationUnit]
+     *  \_______________/ \_______________/
+     *    node summary      node class
+     *  </PRE>
+     * @see #nodeSummary(Node)
+     */
+    public static Function<Node,String> _NODE_SUMMARY_CLASS_FORMAT = n->
+            "\""+ nodeSummary(n)+"\" ["+ _java.of(n).getClass().getSimpleName()+"]";
 
     /** Create an ASCIITreePrinter with the default format */
     public ASCIITreePrinter(){
@@ -121,6 +161,8 @@ public class ASCIITreePrinter {
     public String output(Node rootNode){
         return TNode.of( new TNode(rootNode)).output(this.nodeFormat);
     }
+
+    public String output(_java._node _rootNode) { return TNode.of( new TNode(_rootNode.ast())).output(this.nodeFormat);}
 
     /**
      *
@@ -229,7 +271,7 @@ public class ASCIITreePrinter {
      * Tries to print the Range of the Node n, if the Range is not present
      * (which happens in UnknownType of Lambda for instance) prints (-)
      */
-    public static String printRange(Node n){
+    public static String range(Node n){
         if( n.getRange().isPresent() ){
             return n.getRange().get().toString();
         }
@@ -237,6 +279,12 @@ public class ASCIITreePrinter {
         return "(-)";
     }
 
+    public static String _nodeName(Node n){
+        if( n instanceof CompilationUnit){
+            return "_codeUnit";
+        }
+        return _java.of(n).getClass().getSimpleName();
+    }
     /**
      * Prints range coordinates with (line,column)-(line,column) i.e.
      * (1,1)-(5,1) = line 1, column 1, to line 5 column 1
@@ -244,15 +292,15 @@ public class ASCIITreePrinter {
      * @param n the node to print
      * @return String representing the line,column range coordinates
      */
-    public static String printRangeCoordinates(Node n){
+    public static String rangeCoordinates(Node n){
         if( n.getRange().isPresent() ){
-            return printPosition(n.getRange().get().begin)+"-"+printPosition(n.getRange().get().end);
+            return position(n.getRange().get().begin)+"-"+ position(n.getRange().get().end);
         }
         //this sometimes happens (i.e. a Unknown type AST node has no text and no range)
         return "(-)";
     }
 
-    public static String printPosition(Position p){
+    public static String position(Position p){
         return "("+p.line+","+p.column+")";
     }
 
@@ -271,7 +319,7 @@ public class ASCIITreePrinter {
      * @param n
      * @return
      */
-    public static String printNodeSummary(Node n){
+    public static String nodeSummary(Node n){
         String s = n.toString(PRINT_NO_COMMENTS).trim();
         if( s.isEmpty() ){
             return ""; //this happens, sometimes we have UnknownType (for Lambda) with NO text
@@ -287,6 +335,7 @@ public class ASCIITreePrinter {
         //returns the first line, then "..." then the last character on the last line; usually ( '}', ';' or ')' )
         return lines.get(0)+"..."+lastLine.charAt(lastLine.length()-1);
     }
+
 
     /**
      * The ASCIITreePrinter doesn't do comments by design

@@ -16,11 +16,11 @@ import java.util.function.Predicate;
 /**
  * Entity capable of selection which entails both
  * <UL>
- *     <LI>determining if a "node" meets a criteria</LI>
- *     <LI>extracting parameters within the text of the {@link _java._node}</LI>
+ *     <LI>determining if a "node" meets a criteria (usually via a {@link Predicate})</LI>
+ *     <LI>extracting parameters within the text of the {@link _java._node} via a {@link Stencil}</LI>
  * </UL>
- * @param <_S>
- * @param <$S>
+ * @param <_S> the candidate type being selected (i.e. a {@link $methodCall} -> {@link _methodCall}
+ * @param <$S> the underlying selector type  to "return itself modified" (i.e. {@link $methodCall} returns {@link $methodCall}
  */
 public interface $selector<_S, $S> {
 
@@ -81,7 +81,7 @@ public interface $selector<_S, $S> {
     }
 
     /**
-     * --Constraint updater -- (i.e. updates constraints on the prototype and returns the modified prototype)
+     * --Predicate updater -- (i.e. updates constraints on the prototype and returns the modified prototype)
      *
      * Add a (NOT) matching constraint to add to the $prototype
      * @param matchFn a constraint to be negated and added (via and) to the constraint
@@ -90,7 +90,8 @@ public interface $selector<_S, $S> {
     default $S $not(Predicate<_S> matchFn) {
         return $and( matchFn.negate() );
     }
-    /*--------------------------- Position/Range Aware (Row, Column) Criteria-----------------------------------------*/
+
+    /*--------------------------- Position/Range(Row, Column) Aware Criteria-----------------------------------------*/
 
     /**
      * Is the textual range of this _node
@@ -152,7 +153,7 @@ public interface $selector<_S, $S> {
      * @param endLine
      * @return
      */
-    default $S $isInRange(int beginLine, int endLine){
+    default $S $isInLineRange(int beginLine, int endLine){
         return $isInRange(Range.range(beginLine,0,endLine, Integer.MAX_VALUE -10000));
     }
 
@@ -251,44 +252,7 @@ public interface $selector<_S, $S> {
         });
     }
 
-    /**
-     * Provide a $selectors ($method, $constructor, $field, ...) to test against the containing member of the candidate
-     *
-     * @param $selectors the selectors to match against the containing member
-     * @return
-     * @see _java._member
-     */
-    default $S $isInMember($selector.$node... $selectors){
-        return $isInMember(m-> Arrays.stream($selectors).anyMatch($es-> $es.matches(m)));
-    }
 
-    /**
-     * Does the candidate's most immediate "container" or {@link _java._member} match the
-     *
-     * $isInLambda()
-     * $isInAnonymousClass()
-     *
-     * @param _memberMatchFn
-     * @return
-     */
-    default $S $isInMember(Predicate<_java._member> _memberMatchFn){
-        return $and(n -> {
-            Node node = ((_java._node)n).ast();
-            Optional<Node> containingMember = node.stream(Tree.PARENTS).filter(p-> p instanceof BodyDeclaration
-                    && p.getParentNode().isPresent()
-                    && !(p.getParentNode().get() instanceof ObjectCreationExpr)).findFirst();
-
-            if( !containingMember.isPresent()){
-                return false;
-            }
-            _java._member _m = (_java._member)_java.of((BodyDeclaration)containingMember.get());
-            return _memberMatchFn.test(_m);
-        });
-    }
-
-    default $S $isInMember(Class<? extends _java._member>..._memberClasses){
-        return $isInMember( _tp -> Arrays.stream(_memberClasses).anyMatch(_tc -> _tc.isAssignableFrom(_tp.getClass())));
-    }
 
     /**
      * Verifies that the candidates' containing type matches one of the provided $typeSelectors
@@ -327,6 +291,50 @@ public interface $selector<_S, $S> {
             }
             _type _t = _type.of((TypeDeclaration)containingType.get());
             return _typeMatchFn.test(_t);
+        });
+    }
+
+    /**
+     *
+     * @param _memberClasses
+     * @return
+     */
+    default $S $isInMember(Class<? extends _java._member>..._memberClasses){
+        return $isInMember( _tp -> Arrays.stream(_memberClasses).anyMatch(_tc -> _tc.isAssignableFrom(_tp.getClass())));
+    }
+
+    /**
+     * Provide a $selectors ($method, $constructor, $field, ...) to test against the containing member of the candidate
+     *
+     * @param $selectors the selectors to match against the containing member
+     * @return
+     * @see _java._member
+     */
+    default $S $isInMember($selector.$node... $selectors){
+        return $isInMember(m-> Arrays.stream($selectors).anyMatch($es-> $es.matches(m)));
+    }
+
+    /**
+     * Does the candidate's most immediate "container" or {@link _java._member} match the
+     *
+     * $isInLambda()
+     * $isInAnonymousClass()
+     *
+     * @param _memberMatchFn
+     * @return
+     */
+    default $S $isInMember(Predicate<_java._member> _memberMatchFn){
+        return $and(n -> {
+            Node node = ((_java._node)n).ast();
+            Optional<Node> containingMember = node.stream(Tree.PARENTS).filter(p-> p instanceof BodyDeclaration
+                    && p.getParentNode().isPresent()
+                    && !(p.getParentNode().get() instanceof ObjectCreationExpr)).findFirst();
+
+            if( !containingMember.isPresent()){
+                return false;
+            }
+            _java._member _m = (_java._member)_java.of((BodyDeclaration)containingMember.get());
+            return _memberMatchFn.test(_m);
         });
     }
 

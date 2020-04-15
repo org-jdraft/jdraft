@@ -44,12 +44,6 @@ public class $returnStmt implements $bot.$node<ReturnStmt, _returnStmt, $returnS
         return of(_returnStmt.of(code));
     }
 
-    /*
-    public static $returnStmt of(Predicate<_returnStmt> _matchFn) {
-        return new $returnStmt().$and(_matchFn);
-    }
-     */
-
     public Predicate<_returnStmt> predicate = d -> true;
 
     /** optional expression to return */

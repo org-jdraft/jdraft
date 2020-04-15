@@ -63,6 +63,10 @@ public final class _expressionStmt implements _statement<ExpressionStmt, _expres
         return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
+    public  static _expressionStmt from( StackTraceElement ste ){
+        return from( _lambda.from(ste).ast());
+    }
+
     private static _expressionStmt from( LambdaExpr le){
         Optional<ExpressionStmt> ows = le.getBody().findFirst(ExpressionStmt.class);
         if( ows.isPresent() ){

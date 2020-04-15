@@ -11,10 +11,12 @@ import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithAbstractModifier;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.LabeledStmt;
 import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.printer.ASCIITreePrinter;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
@@ -2774,24 +2776,23 @@ public enum Tree {
         return false;
     }
 
-    /**
-     *
-     * @param _j
-     */
-    public static void describe(_java._domain _j){
-        if( _j instanceof _codeUnit && ((_codeUnit) _j).isTopLevel() ){
-            Print.describe( ((_codeUnit) _j).astCompilationUnit());
-        }
-        else { //if( _j instanceof _java._astNode){
-            Print.describe ( ((_java._node)_j).ast() );
-        }
+    public static String describe( Node n){
+        ASCIITreePrinter atp = new ASCIITreePrinter();
+        return atp.output(n);
     }
 
-    /**
-     * Describes the Ast node (i.e. the class and content)
-     * @param astNode
-     */
-    public static void describe(Node astNode){
-        Print.describe(astNode);
+    public static String describe( Node n, Function<Node, String> nodeFormat){
+        ASCIITreePrinter atp = new ASCIITreePrinter();
+        return atp.output(n, nodeFormat);
+    }
+
+    public static String describe( _java._node n){
+        ASCIITreePrinter atp = new ASCIITreePrinter(ASCIITreePrinter._NODE_SUMMARY_CLASS_RANGE_FORMAT);
+        return atp.output(n);
+    }
+
+    public static String describe( _java._node _n, Function<_java._node, String> _nodeFormat){
+        ASCIITreePrinter atp = new ASCIITreePrinter( n-> _nodeFormat.apply( (_java._node)_java.of(n) ) );
+        return atp.output(_n);
     }
 }

@@ -20,7 +20,7 @@ public class $returnStmtTest extends TestCase {
         assertEquals(1,  $returnStmt.of().$isAtLine(5).countIn(_c));
 
         //testing in a range
-        assertEquals( 2, $returnStmt.of().$isInRange(0, 100).countIn(_c));
+        assertEquals( 2, $returnStmt.of().$isInLineRange(0, 100).countIn(_c));
         assertEquals( 2, $returnStmt.of().$isInRange(_c).countIn(_c));
         assertEquals( 2, $returnStmt.of().$isInRange(_c.ast()).countIn(_c));
         assertEquals( 1, $returnStmt.of().$isInRange(_c.getMethod("t")).countIn(_c));

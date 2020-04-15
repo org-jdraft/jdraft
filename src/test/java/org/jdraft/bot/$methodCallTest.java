@@ -7,7 +7,6 @@ import static java.lang.System.out;
 import org.jdraft._arguments;
 import org.jdraft.macro._addImports;
 import org.jdraft.macro._packageName;
-import org.jdraft.pattern.$method;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +15,26 @@ import java.util.function.Predicate;
 
 public class $methodCallTest extends TestCase {
 
+
+    public void testOf(){
+        class GG{
+            GG(){
+                System.out.println( "In the constructor");
+            }
+            void m(){
+                System.out.println( 123);
+            }
+        }
+        assertEquals(2, $methodCall.of( (Object $any$)-> System.out.println($any$) ).countIn(GG.class));
+
+        _class _c = _class.of(GG.class);
+        ASCIITreePrinter.print(_c);
+
+        $methodCall.of().printEachTreeIn(_c);
+
+        $methodCall.of().printEachTreeIn(GG.class);
+
+    }
 
     public void test$hasDescendant(){
         class GHJ{
@@ -52,7 +71,7 @@ public class $methodCallTest extends TestCase {
                 System.out.println(3);
             }
         }
-        Print.describe(GHJ.class);
+        Print.tree(GHJ.class);
         assertEquals(2, $methodCall.of().$isParent(m-> m instanceof _expressionStmt).countIn(GHJ.class));
         assertEquals(2, $methodCall.of().$isParent(_expressionStmt.class).countIn(GHJ.class));
 

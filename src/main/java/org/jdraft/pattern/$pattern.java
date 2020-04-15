@@ -1805,12 +1805,12 @@ public interface $pattern<P, $P extends $pattern>{
     }
 
     default void describeIn(Node astNode) {
-        forEachIn(astNode, e-> Tree.describe((_java._domain)e));
+        forEachIn(astNode, e-> Print.tree((_java._node)e));
     }
 
     default void describeIn(Class<?> clazz) {
         forEachIn(Ast.of(clazz), e-> {
-            Tree.describe( (_java._domain) e); System.out.println();});
+            Print.tree( (_java._node) e); System.out.println();});
     }
 
     /**

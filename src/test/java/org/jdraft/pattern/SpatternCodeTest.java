@@ -134,7 +134,7 @@ public class SpatternCodeTest extends TestCase {
 
         System.out.println( $typeParameter.of().firstIn(_c) );
         Log.setAdapter(new Log.StandardOutStandardErrorAdapter());
-        Tree.describe( $typeParameter.of().firstIn(_c) );
+        Print.tree( $typeParameter.of().firstIn(_c) );
         Log.setAdapter(new Log.SilentAdapter());
         assertEquals( 2, $typeRef.of(Map.class).countIn(_c) );
         assertEquals( 1, $typeRef.of(Map.class).$hasAncestor($typeParameter.of()).countIn(_c) ); //a map used in a TypeParameter

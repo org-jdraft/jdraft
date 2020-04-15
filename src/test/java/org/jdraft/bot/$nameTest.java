@@ -95,7 +95,7 @@ public class $nameTest extends TestCase {
         class G{
             //java.lang.String s;
         }
-        Print.describe(_class.of(G.class).astCompilationUnit());
+        Print.tree(_class.of(G.class).astCompilationUnit());
 
         _class _c = _class.of(G.class);
         assertTrue( _name.of(_c.getNameNode()).isTypeDeclarationName() );
@@ -121,7 +121,7 @@ public class $nameTest extends TestCase {
         _import _i = $name.of("bbbb").forEachIn(_import.of("import aaaa.bbbb.C"),
                 new $name.$nameConsumer().onName(n -> n.setId("HEY")));
         System.out.println( _i );
-        Print.describe( _i.ast() );
+        Print.tree( _i.ast() );
         assertEquals(_import.of("aaaa.HEY.c"), _import.of("aaaa.HEY.c"));
 
         assertTrue( _i.equals(_import.of("aaaa.HEY.C")));
@@ -183,7 +183,7 @@ public class $nameTest extends TestCase {
         MethodReferenceExpr mre = Expressions.methodReferenceEx("A::B");
 
         System.out.println( mre );
-        Print.describe(mre);
+        Print.tree(mre);
         assertEquals( 1, $name.of("A").countIn( mre ));
         assertEquals( 1, $name.of("B").countIn( mre ));
     }
@@ -348,7 +348,7 @@ public class $nameTest extends TestCase {
             }
         }
 
-        Print.describe(Ast.of(C.class));
+        Print.tree(Ast.of(C.class));
        //System.out.println( _c );
         assertEquals(1, $name.of("println").countIn(C.class));
         assertEquals(2, $name.of("a").countIn(C.class));

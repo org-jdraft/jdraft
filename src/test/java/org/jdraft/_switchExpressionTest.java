@@ -13,7 +13,7 @@ public class _switchExpressionTest extends TestCase {
         ParseResult<Statement> ps = jp.parseStatement("int i = switch(a){ default -> 1; };");
         System.out.println( "PROBS " + ps.getProblems());
         assertTrue(ps.isSuccessful());
-        Print.describe(ps.getResult().get());
+        Print.tree(ps.getResult().get());
 
         //StaticJavaParser.parseStatement("int i = switch(a){ default -> 1; };");
         //StaticJavaParser.parseExpression("switch(a){ default-> 1; }");

@@ -2,6 +2,8 @@ package org.jdraft.bot;
 
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.AssertStmt;
+import com.github.javaparser.ast.stmt.ExpressionStmt;
+import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import org.jdraft.*;
 import org.jdraft.text.Stencil;
@@ -46,6 +48,11 @@ public interface $statement<S extends Statement, _S extends _statement, $S exten
      */
     static $statement of(Class<? extends _statement>... expressionClasses) {
         return new $s().$and(expressionClasses);
+    }
+
+    static $statement of(Expressions.Command lambdaWithStatement){
+        Statement st = Statements.from(Thread.currentThread().getStackTrace()[2]);
+        return of(st);
     }
 
     static $statement of(Supplier<? extends Object> lambdaWithStatement){
@@ -137,6 +144,12 @@ public interface $statement<S extends Statement, _S extends _statement, $S exten
             return ($E)$enclosedExpression.of( (EnclosedExpr)ile);
         }
          */
+        if( ile.isReturnStmt()){
+            return ($S)$returnStmt.of( (ReturnStmt)ile);
+        }
+        if( ile.isExpressionStmt()){
+            return ($S)$expressionStmt.of( (ExpressionStmt)ile);
+        }
         return ($S)$s.of( ile.toString() );
     }
 

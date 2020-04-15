@@ -22,11 +22,15 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
 
     public interface $part{}
 
-    public static $methodCall of( Supplier<? extends Object> lambdaWithMethodCall ){
+    public static $methodCall of( Expressions.Command lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
     public static $methodCall of( Consumer<? extends Object> lambdaWithMethodCall ){
+        return from( Thread.currentThread().getStackTrace()[2]);
+    }
+
+    public static $methodCall of( Supplier<? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 

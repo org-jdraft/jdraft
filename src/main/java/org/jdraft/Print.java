@@ -93,22 +93,72 @@ public interface Print {
 
     /**
      * Describe the class contents as an ASCII tree
+     * <PRE>
+     * Print.tree(StaticJavaParser.parseExpression( "new Object(){\n    int i;\n}") );
+     * </PRE>
+     * prints:
+     * <PRE>
+     * "new Object() {...}" ObjectCreationExpr : (1,1)-(3,1)
+     * ├─"Object" ClassOrInterfaceType : (1,5)-(1,10)
+     * │ └─"Object" SimpleName : (1,5)-(1,10)
+     * └─"int i;" FieldDeclaration : (2,5)-(2,10)
+     *   └─"i" VariableDeclarator : (2,9)-(2,9)
+     *     ├─"int" PrimitiveType : (2,5)-(2,7)
+     *     └─"i" SimpleName : (2,9)-(2,9)
+     * </PRE>
      * @param clazz
      */
-    public static void describe(Class clazz){
+    public static void tree(Class clazz){
         _type _t = _type.of(clazz);
         if( _t.isTopLevel() ){
-            describe( _t.astCompilationUnit() );
+            ASCIITreePrinter.print( _t.astCompilationUnit() );
         } else {
-            describe(_t.ast());
+            ASCIITreePrinter.print(_t.ast());
         }
     }
 
-    public static void describe(Node n){
+    /**
+     * <PRE>
+     * Print.tree(StaticJavaParser.parseExpression( "new Object(){\n    int i;\n}") );
+     * </PRE>
+     * prints:
+     * <PRE>
+     * "new Object() {...}" ObjectCreationExpr : (1,1)-(3,1)
+     * ├─"Object" ClassOrInterfaceType : (1,5)-(1,10)
+     * │ └─"Object" SimpleName : (1,5)-(1,10)
+     * └─"int i;" FieldDeclaration : (2,5)-(2,10)
+     *   └─"i" VariableDeclarator : (2,9)-(2,9)
+     *     ├─"int" PrimitiveType : (2,5)-(2,7)
+     *     └─"i" SimpleName : (2,9)-(2,9)
+     * </PRE>
+     * @param n
+     */
+    public static void tree(Node n){
         ASCIITreePrinter.print(n);
     }
 
-    public static void describe(Node n, Function<Node,String>nodeFormat){
+    public static void tree(_java._node _n ){
+        ASCIITreePrinter.print(_n);
+    }
+
+    /**
+     * <PRE>
+     * Print.tree(StaticJavaParser.parseExpression( "new Object(){\n    int i;\n}") );
+     * </PRE>
+     * prints:
+     * <PRE>
+     * "new Object() {...}" ObjectCreationExpr : (1,1)-(3,1)
+     * ├─"Object" ClassOrInterfaceType : (1,5)-(1,10)
+     * │ └─"Object" SimpleName : (1,5)-(1,10)
+     * └─"int i;" FieldDeclaration : (2,5)-(2,10)
+     *   └─"i" VariableDeclarator : (2,9)-(2,9)
+     *     ├─"int" PrimitiveType : (2,5)-(2,7)
+     *     └─"i" SimpleName : (2,9)-(2,9)
+     * </PRE>
+     * @param n
+     * @param nodeFormat
+     */
+    public static void tree(Node n, Function<Node,String>nodeFormat){
         ASCIITreePrinter.print(n, nodeFormat);
     }
 

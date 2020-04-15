@@ -6,8 +6,8 @@ public class _arrayAccessTest extends TestCase {
 
     public void testArr(){
         _arrayAccess _aa = _arrayAccess.of("v[1][3]");
-        Print.describe(_aa.ast());
-        Print.describe( _aa.getIndex().ast() );
+        Print.tree(_aa.ast());
+        Print.tree( _aa.getIndex().ast() );
     }
 
     public void testArrAcc(){
