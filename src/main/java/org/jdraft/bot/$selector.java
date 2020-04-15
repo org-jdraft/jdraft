@@ -7,7 +7,6 @@ import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import org.jdraft.*;
-import org.jdraft.pattern.$;
 import org.jdraft.text.Stencil;
 
 import java.util.Arrays;
@@ -91,10 +90,10 @@ public interface $selector<_S, $S> {
     default $S $not(Predicate<_S> matchFn) {
         return $and( matchFn.negate() );
     }
-
+    /*--------------------------- Position/Range Aware (Row, Column) Criteria-----------------------------------------*/
 
     /**
-     * Is the range of this Node
+     * Is the textual range of this _node
      * @param _n
      * @return
      */
@@ -103,11 +102,11 @@ public interface $selector<_S, $S> {
     }
 
     /**
-     * Is the range of this Node
+     * Is the range of this Ast Node
      * @param n
      * @return
      */
-    default $S $isInRange(Node n){ ;
+    default $S $isInRange(Node n){
         if( n.getRange().isPresent() ){
             return $isInRange(n.getRange().get());
         }
@@ -166,8 +165,21 @@ public interface $selector<_S, $S> {
         return $isInRange(Range.range(line,0,line, Integer.MAX_VALUE -10000));
     }
 
-
-
+    /*------------------------------------- AST Tree Aware Criteria-----------------------------------------*/
+    /**
+     *
+     * @param _codeUnitMatchFn
+     * @return
+     */
+    default $S $isInCodeUnit( Predicate<_codeUnit> _codeUnitMatchFn){
+        return $and( _n -> {
+            Optional<CompilationUnit> oc = ((_java._node)_n).ast().findCompilationUnit();
+            if( !oc.isPresent() ){
+                return false;
+            }
+            return _codeUnitMatchFn.test( _codeUnit.of(oc.get()) );
+        } );
+    }
 
     /**
      * does the candidate match the name of the package?
@@ -240,6 +252,17 @@ public interface $selector<_S, $S> {
     }
 
     /**
+     * Provide a $selectors ($method, $constructor, $field, ...) to test against the containing member of the candidate
+     *
+     * @param $selectors the selectors to match against the containing member
+     * @return
+     * @see _java._member
+     */
+    default $S $isInMember($selector.$node... $selectors){
+        return $isInMember(m-> Arrays.stream($selectors).anyMatch($es-> $es.matches(m)));
+    }
+
+    /**
      * Does the candidate's most immediate "container" or {@link _java._member} match the
      *
      * $isInLambda()
@@ -265,6 +288,15 @@ public interface $selector<_S, $S> {
 
     default $S $isInMember(Class<? extends _java._member>..._memberClasses){
         return $isInMember( _tp -> Arrays.stream(_memberClasses).anyMatch(_tc -> _tc.isAssignableFrom(_tp.getClass())));
+    }
+
+    /**
+     * Verifies that the candidates' containing type matches one of the provided $typeSelectors
+     * @param $typeSelectors selector for the type
+     * @return the modified $selector
+     */
+    default $S $isInType($selector.$node...$typeSelectors ){
+        return $isInType( _tp -> Arrays.stream($typeSelectors).anyMatch( $ts -> $ts.matches(_tp)));
     }
 
     /**
@@ -298,8 +330,6 @@ public interface $selector<_S, $S> {
         });
     }
 
-
-
     default $S $isParent(Class... parentClassTypes ){
         return $and(n -> {
             if (n instanceof Node) {
@@ -329,12 +359,12 @@ public interface $selector<_S, $S> {
      *     class
      * </PRE>
      *
-     * @param $bs
+     * @param $selectors
      * @return
      */
-    default $S $isParentNot($bot.$node ... $bs){
-        for(int i=0;i<$bs.length; i++) {
-            $bot $b = $bs[i];
+    default $S $isParentNot($selector.$node ... $selectors){
+        for(int i=0;i<$selectors.length; i++) {
+            $selector $b = $selectors[i];
             Predicate<_S> pp = n -> {
                 if (n instanceof Node) {
                     return Tree.isParent((Node) n, c -> $b.matches(c));
@@ -378,18 +408,18 @@ public interface $selector<_S, $S> {
     }
 
     /**
-     * Adds a constraint to test that the parent of the instance Is this node the child of a ?
-     * @param $bs the prototypes to match against
+     * Adds a constraint to test that the parent of the candidate matches any one of the $selectors
+     * @param $selectors the $seelctors to match against the candidates parent node
      * @return
      */
-    default $S $isParent($selector... $bs ){
+    default $S $isParent($selector.$node... $selectors ){
         return $and(n -> {
             if (n instanceof Node) {
-                return Tree.isParent( (Node)n, c-> Arrays.stream($bs).anyMatch($b->$b.matches(c)) );
+                return Tree.isParent( (Node)n, c-> Arrays.stream($selectors).anyMatch($b->$b.matches(c)) );
             } else if (n instanceof _java._node) {
-                return Tree.isParent( ((_java._node)n).ast(), c->Arrays.stream($bs).anyMatch($b->$b.matches(c)) );
+                return Tree.isParent( ((_java._node)n).ast(), c->Arrays.stream($selectors).anyMatch($b->$b.matches(c)) );
             } else if (n instanceof _body) {
-                return Tree.isParent( ((_body)n).ast(), c->Arrays.stream($bs).anyMatch($b->$b.matches(c)) );
+                return Tree.isParent( ((_body)n).ast(), c->Arrays.stream($selectors).anyMatch($b->$b.matches(c)) );
             } else {
                 //NEED TO MANUALLY IMPLEMENT FOR:
                 // $parameters, $annos, $snip, $throws, $typeParameters
@@ -404,16 +434,15 @@ public interface $selector<_S, $S> {
     }
 
     /**
-     * Does this class have an ancestor that is any one of these _classes (includes _interfaces, like
-     * {@link _statement._controlFlow})
+     * Does the candidate have an ancestor (UP the AST tree) that is any one of these _classes
+     * (includes interfaces, like {@link _statement._controlFlow})
      *
      * @param _nodeClasses
      * @return
      */
-    default $S $hasAncestor( int levels, Class<? extends _java._domain>... _nodeClasses){
+    default $S  $hasAncestor( int levels, Class<? extends _java._domain>... _nodeClasses){
         return $hasAncestor( levels, _tp -> Arrays.stream(_nodeClasses).anyMatch( _tc -> _tc.isAssignableFrom(_tp.getClass())));
     }
-
 
     /**
      * Does this class have an ancestor that is any one of these _classes (includes _interfaces, like
@@ -428,11 +457,11 @@ public interface $selector<_S, $S> {
 
     /**
      *
-     * @param ancestorMatchFn
+     * @param _ancestorMatchFn
      * @return
      */
-    default $S $hasAncestor( Predicate<_java._node> ancestorMatchFn ){
-        return $hasAncestor(Integer.MAX_VALUE -100, ancestorMatchFn);
+    default $S $hasAncestor( Predicate<_java._node> _ancestorMatchFn ){
+        return $hasAncestor(Integer.MAX_VALUE -100, _ancestorMatchFn);
     }
 
     /**
@@ -444,7 +473,7 @@ public interface $selector<_S, $S> {
     default $S $hasAncestor( int levels, Predicate<_java._node> _ancestorMatchFn){
         return $and(n-> {
             if (n instanceof _java._node) {
-                return ((_java._node)n).ast().stream($.PARENTS).limit(levels).anyMatch(c-> _ancestorMatchFn.test( (_java._node)_java.of(c) ) );
+                return ((_java._node)n).ast().stream(Tree.PARENTS).limit(levels).anyMatch(c-> _ancestorMatchFn.test( (_java._node)_java.of(c) ) );
             } else{
                 //NEED TO MANUALLY IMPLEMENT FOR:
                 // $parameters, $annos, $throws, $typeParameters
@@ -465,12 +494,12 @@ public interface $selector<_S, $S> {
      * @param $selectors bots that may match against ancestors
      * @return the modified bot
      */
-    default $S $hasAncestor( int levels, $selector... $selectors ){
+    default $S $hasAncestor( int levels, $selector.$node... $selectors ){
         return $and(n-> {
             if (n instanceof _java._node) {
-                return ((_java._node)n).ast().stream($.PARENTS).limit(levels).anyMatch(c-> Arrays.stream($selectors).anyMatch($b ->$b.matches(c)));
+                return ((_java._node)n).ast().stream(Tree.PARENTS).limit(levels).anyMatch(c-> Arrays.stream($selectors).anyMatch($b ->$b.matches(c)));
             } else if (n instanceof _body) {
-                return ((_body)n).ast().stream($.PARENTS).limit(levels).anyMatch( c-> Arrays.stream($selectors).anyMatch($b ->$b.matches(c)));
+                return ((_body)n).ast().stream(Tree.PARENTS).limit(levels).anyMatch( c-> Arrays.stream($selectors).anyMatch($b ->$b.matches(c)));
             } else{
                 //NEED TO MANUALLY IMPLEMENT FOR:
                 // $parameters, $annos, $throws, $typeParameters
@@ -483,33 +512,85 @@ public interface $selector<_S, $S> {
         } );
     }
 
+    default $S $hasDescendant( Class<? extends _java._domain>...domainClasses ){
+        return $hasDescendant( n-> Arrays.stream(domainClasses).anyMatch(c-> c.isAssignableFrom(n.getClass())));
+    }
+
+    /**
+     *
+     * @param _descendantMatchFn
+     * @return
+     */
+    default $S $hasDescendant( Predicate<_java._node> _descendantMatchFn){
+        return $and(n-> {
+            if (n instanceof _java._node) {
+                return ((_java._node)n).ast().stream(Tree.PRE_ORDER).skip(1).anyMatch(d-> _descendantMatchFn.test( (_java._node)_java.of(d)) );
+            } else if (n instanceof _body) {
+                return ((_body)n).ast().stream(Tree.PRE_ORDER).skip(1).anyMatch(d-> _descendantMatchFn.test( (_java._node)_java.of(d)) );
+            } else{
+                //NEED TO MANUALLY IMPLEMENT FOR:
+                // $parameters, $annos, $throws, $typeParameters
+                // if( n instanceof List ){
+                //    List l = (List)n;
+                //    l.forEach();
+                // }
+                throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
+            }
+        } );
+    }
+
+    /**
+     * If I walk "DOWN" the AST of the candidate can I find a descendant (child, grandchild,...)
+     * that matches ANY one of the $selectors provided.
+     *
+     * @param $selectors bots that may match against ancestors
+     * @return the modified bot
+     */
+    default $S $hasDescendant( $selector.$node... $selectors ){
+        return $and(n-> {
+            if (n instanceof _java._node) {                        //skip yourself (only children)
+                return ((_java._node)n).ast().stream(Tree.PRE_ORDER).skip(1).anyMatch(c-> Arrays.stream($selectors).anyMatch($b ->$b.matches( c)) );
+            } else if (n instanceof _body) {                   //skip yourself (only children)
+                return ((_body)n).ast().stream(Tree.PRE_ORDER).skip(1).anyMatch( c-> Arrays.stream($selectors).anyMatch($b ->$b.matches(c)));
+            } else{
+                //NEED TO MANUALLY IMPLEMENT FOR:
+                // $parameters, $annos, $throws, $typeParameters
+                // if( n instanceof List ){
+                //    List l = (List)n;
+                //    l.forEach();
+                // }
+                throw new _jdraftException("Not implemented yet for type : "+ n.getClass());
+            }
+        } );
+    }
 
     /**
      * A Selector that selects a single AST _node type of thing
      *
-     * @param <_N>
-     * @param <$N>
+     * @param <_S>
+     * @param <$S>
      */
-    interface $node<_N, $N> extends $selector<_N, $N> {
+    interface $node<_S, $S> extends $selector<_S, $S> {
 
-        Select<_N> select(String... code);
+        //Moved from select.node
+        Select<_S> select(String... code);
 
-        default Select<_N> select(String code){
+        default Select<_S> select(String code){
             return select( new String[]{code});
         }
 
-        Select<_N> select(Node n);
+        Select<_S> select(Node n);
 
-        default Select<_N> select(_java._node _jn ){
+        default Select<_S> select(_java._node _jn ){
             try{
-                return select( (_N) _jn );
+                return select( (_S) _jn );
             }catch(Exception e){
                 return null;
             }
         }
 
         default boolean matches(String...code){
-           return select(code) != null;
+            return select(code) != null;
         }
 
         default boolean matches(String code){

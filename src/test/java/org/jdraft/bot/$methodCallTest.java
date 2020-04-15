@@ -7,6 +7,7 @@ import static java.lang.System.out;
 import org.jdraft._arguments;
 import org.jdraft.macro._addImports;
 import org.jdraft.macro._packageName;
+import org.jdraft.pattern.$method;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +16,32 @@ import java.util.function.Predicate;
 
 public class $methodCallTest extends TestCase {
 
+
+    public void test$hasDescendant(){
+        class GHJ{
+            void m(){
+                System.out.println( 1 );
+            }
+            GHJ(){
+                System.out.println(3);
+            }
+        }
+
+        //predicate
+        assertEquals(2, $methodCall.of().$hasDescendant(n-> n instanceof _expression._literal).countIn(GHJ.class));
+        assertEquals(0, $methodCall.of().$hasDescendant(n-> n instanceof _double).countIn(GHJ.class));
+
+        //selector
+        assertEquals(2, $methodCall.of().$hasDescendant($int.of()).countIn(GHJ.class));
+        assertEquals(0, $methodCall.of().$hasDescendant($double.of()).countIn(GHJ.class));
+        assertEquals(2, $methodCall.of().$hasDescendant($double.of(), $int.of()).countIn(GHJ.class));
+
+        //class
+        assertEquals(2, $methodCall.of().$hasDescendant(_expression._literal.class).countIn(GHJ.class));
+        assertEquals(2, $methodCall.of().$hasDescendant(_int.class).countIn(GHJ.class));
+        assertEquals(2, $methodCall.of().$hasDescendant(_double.class, _int.class).countIn(GHJ.class));
+        assertEquals(0, $methodCall.of().$hasDescendant(_double.class).countIn(GHJ.class));
+    }
 
     public void test$isParent(){
         class GHJ{
