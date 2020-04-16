@@ -214,7 +214,7 @@ public class _typeParameterTest extends TestCase {
         System.out.println( tps );
 
         ClassOrInterfaceDeclaration coid =
-                Ast.classDecl( "class D <T extends A & B & C, X> { }" );
+                (ClassOrInterfaceDeclaration)Ast.typeDecl( "class D <T extends A & B & C, X> { }" );
         tps = coid.getTypeParameters();
 
         System.out.println( tps );

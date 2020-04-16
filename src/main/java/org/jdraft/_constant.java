@@ -144,14 +144,14 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         if( args.startsWith("(") && args.endsWith(")") ){
             args = args.substring(1, args.length() -1);
         }
-        EnumDeclaration ed = Ast.enumDecl("enum E{ A("+args+"); }");
+        EnumDeclaration ed = (EnumDeclaration)Ast.typeDecl("enum E{ A("+args+"); }");
         NodeList<Expression> argsList = ed.getEntry(0).getArguments();
         argsList.forEach(a-> addArgument(a));
         return this;
     }
 
     public _constant setBody(String...bodyCode){
-        EnumDeclaration ed = Ast.enumDecl("enum E{ A{"+Text.combine(bodyCode)+" }; }");
+        EnumDeclaration ed = (EnumDeclaration)Ast.typeDecl("enum E{ A{"+Text.combine(bodyCode)+" }; }");
         ed.getEntry(0).getClassBody().forEach(bd -> this.add(bd));
         return this;
     }

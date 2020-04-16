@@ -1,5 +1,7 @@
 package org.jdraft;
 
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ParserConfiguration;
 import com.github.javaparser.Range;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
@@ -11,6 +13,7 @@ import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.TypeParameter;
+import com.github.javaparser.printer.ASCIITreePrinter;
 import com.github.javaparser.printer.PrettyPrintVisitor;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import com.github.javaparser.utils.Log;
@@ -30,8 +33,24 @@ import static com.github.javaparser.utils.Utils.normalizeEolInTextBlock;
  */
 public class AstTest extends TestCase {
 
+
     public static final PrettyPrinterConfiguration PRINT_COMMENTS = new PrettyPrinterConfiguration()
             .setVisitorFactory(PrintComments::new);
+
+    public void testAstWithCustomJP(){
+        ParserConfiguration pc = new ParserConfiguration();
+        pc.setAttributeComments(false);
+        JavaParser jp = new JavaParser(pc);
+
+
+
+        class Source{
+            //comment
+            int i=0;
+        }
+        CompilationUnit cu = Ast.of(jp, Source.class);
+        cu.getType(0).getMembers().forEach(m -> System.out.println(m) );
+    }
 
     /* tried recalcPositions(), but it doesnt work
     public void testAstRecalc(){
@@ -899,9 +918,9 @@ public class AstTest extends TestCase {
     }
 
     public void testParseAnnotation(){
-        AnnotationDeclaration ad = Ast.annotationDecl( "@interface A{}");
+        AnnotationDeclaration ad = (AnnotationDeclaration)Ast.typeDecl( "@interface A{}");
 
-        ad = Ast.annotationDecl( "/** JAVADOC*/ @ann @interface A{ }");
+        ad = (AnnotationDeclaration)Ast.typeDecl( "/** JAVADOC*/ @ann @interface A{ }");
         assertTrue( ad.getAnnotations().isNonEmpty() );
         assertTrue( ad.getJavadocComment().isPresent());
     }
@@ -921,7 +940,7 @@ public class AstTest extends TestCase {
     }
     public void testParseClass(){
         //ClassOrInterfaceDeclaration cd = Ast.classDecl( "class C{}");
-        ClassOrInterfaceDeclaration cd  = Ast.classDecl( "/** Javadoc */ @ann class C{}");
+        ClassOrInterfaceDeclaration cd  = (ClassOrInterfaceDeclaration)Ast.typeDecl( "/** Javadoc */ @ann class C{}");
         assertTrue( cd.getAnnotations().isNonEmpty());
         assertTrue( cd.getJavadocComment().isPresent());
     }
@@ -934,8 +953,8 @@ public class AstTest extends TestCase {
     }
 
     public void testParseEnum(){
-        EnumDeclaration ed = Ast.enumDecl( "enum E { ; }");
-        ed = Ast.enumDecl( "/** JAVADOC */ @ann enum E { ; }");
+        EnumDeclaration ed = (EnumDeclaration)Ast.typeDecl( "enum E { ; }");
+        ed = (EnumDeclaration)Ast.typeDecl( "/** JAVADOC */ @ann enum E { ; }");
         assertTrue( ed.getAnnotations().isNonEmpty());
         assertTrue( ed.getJavadocComment().isPresent());
     }
@@ -948,8 +967,8 @@ public class AstTest extends TestCase {
     }
 
     public void testInterface(){
-        ClassOrInterfaceDeclaration coid = Ast.interfaceDecl( "interface I{}" );
-        coid = Ast.interfaceDecl( "/** JAVADOC*/ @ann interface I {}");
+        ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)Ast.typeDecl( "interface I{}" );
+        coid = (ClassOrInterfaceDeclaration)Ast.typeDecl( "/** JAVADOC*/ @ann interface I {}");
         assertTrue( coid.isInterface());
         assertTrue( coid.getAnnotations().isNonEmpty());
         assertTrue( coid.getJavadocComment().isPresent());
@@ -1263,10 +1282,10 @@ public class AstTest extends TestCase {
 
         assertEquals( Ast.blockStmt("{", "assert(true); assert(false);", "}"), Ast.blockStmt("{assert(true); assert(false);}"));
 
-        assertEquals( Ast.typeDecl("interface i{}"), Ast.interfaceDecl("interface i", "{", "}"));
-        assertEquals( Ast.typeDecl("enum e{}"), Ast.enumDecl("enum e", "{", "}"));
-        assertEquals( Ast.typeDecl("class c{}"), Ast.classDecl("class c", "{", "}"));
-        assertEquals( Ast.typeDecl("@interface at{}"), Ast.annotationDecl("@interface at", "{", "}"));
+        assertEquals( Ast.typeDecl("interface i{}"), Ast.typeDecl("interface i", "{", "}"));
+        assertEquals( Ast.typeDecl("enum e{}"), Ast.typeDecl("enum e", "{", "}"));
+        assertEquals( Ast.typeDecl("class c{}"), Ast.typeDecl("class c", "{", "}"));
+        assertEquals( Ast.typeDecl("@interface at{}"), Ast.typeDecl("@interface at", "{", "}"));
 
         assertEquals( Ast.of( "package h;", "import java.util.*;", "public class V{", "}"),
                 Ast.of("package h;", "import java.util.*;", "", "public class V", "{}" ) );

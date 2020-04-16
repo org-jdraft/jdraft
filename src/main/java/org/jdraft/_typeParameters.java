@@ -18,7 +18,7 @@ public final class _typeParameters
         implements _java._set<TypeParameter, _typeParameter, _typeParameters> {
 
     public static _typeParameters of(){
-        return of( Ast.classDecl("class Dummy{}" ));
+        return of( (ClassOrInterfaceDeclaration)Ast.typeDecl("class Dummy{}" ));
     }
 
     public static _typeParameters of( String...tps){
@@ -29,7 +29,7 @@ public final class _typeParameters
         if( !typeParams.startsWith("<") ){
             typeParams = "<"+ typeParams +">";
         }
-        ClassOrInterfaceDeclaration coid = Ast.classDecl("class Dummy"+ typeParams +"{}");
+        ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)Ast.typeDecl("class Dummy"+ typeParams +"{}");
         return of( coid );
     }
 

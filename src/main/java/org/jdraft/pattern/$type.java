@@ -2,6 +2,7 @@ package org.jdraft.pattern;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
@@ -486,7 +487,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
 
     public boolean matches(Class clazz) {
         try {
-            return matches(Ast.classDecl(clazz));
+            return matches(Ast.typeDecl(clazz));
         } catch (Exception e) {
             return false;
         }

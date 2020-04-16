@@ -1,6 +1,7 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.ast.body.CallableDeclaration;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import junit.framework.TestCase;
 import org.jdraft.*;
 
@@ -75,7 +76,7 @@ public class SenumTest extends TestCase {
         assertTrue( $e.isMatchAny());
 
         //its matches ANY Class
-        assertTrue($e.match(Ast.enumDecl("public enum A{}") ));
+        assertTrue($e.match(Ast.typeDecl("public enum A{}") ));
         assertTrue($e.match(Ast.of("public enum A{}") ));
         assertTrue($e.match(_enum.of("A") ));
 

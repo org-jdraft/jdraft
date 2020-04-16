@@ -605,7 +605,7 @@ public final class _annotation
     @Override
     public boolean is( String...annotationDeclaration){
         try {
-            return is(Ast.annotationDecl(annotationDeclaration));
+            return is( (AnnotationDeclaration)Ast.typeDecl(annotationDeclaration));
         }catch(Exception e){
             return false;
         }

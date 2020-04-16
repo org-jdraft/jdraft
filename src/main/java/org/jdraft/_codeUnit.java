@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.*;
@@ -40,13 +41,21 @@ public interface _codeUnit<_CU> extends _java._domain {
      * @return the _code instance
      */
     static _codeUnit of(Path javaSourceFilePath) throws _jdraftException {
-        return of(Ast.of(javaSourceFilePath));
+        return of( Ast.JAVAPARSER, javaSourceFilePath);
     }
 
-    static _codeUnit of(URL url){
+    static _codeUnit of(JavaParser javaParser, Path javaSourceFilePath) throws _jdraftException {
+        return of(Ast.of(javaParser, javaSourceFilePath));
+    }
+
+    static _codeUnit of(URL url) {
+        return of( Ast.JAVAPARSER, url);
+    }
+
+    static _codeUnit of(JavaParser javaParser, URL url) {
         try {
             InputStream inStream = url.openStream();
-            return of(inStream);
+            return of(javaParser, inStream);
         }catch(IOException ioe){
             throw new _ioException("invalid input url \""+url.toString()+"\"", ioe);
         }
@@ -60,7 +69,11 @@ public interface _codeUnit<_CU> extends _java._domain {
      * @return
      */
     static _codeUnit of(InputStream javaSourceInputStream) throws _jdraftException {
-        return of(Ast.of(javaSourceInputStream));
+        return of(Ast.JAVAPARSER, javaSourceInputStream);
+    }
+
+    static _codeUnit of(JavaParser javaParser, InputStream javaSourceInputStream) throws _jdraftException {
+        return of(Ast.of(javaParser, javaSourceInputStream));
     }
 
     /**
@@ -79,7 +92,11 @@ public interface _codeUnit<_CU> extends _java._domain {
      * @throws _jdraftException if we cannot parse the String representing the contents
      */
     static _codeUnit of(String...contents) throws _jdraftException {
-        return of( Ast.of(contents));
+        return of(Ast.JAVAPARSER, contents);
+    }
+
+    static _codeUnit of(JavaParser javaParser, String...contents) throws _jdraftException {
+        return of( Ast.of(javaParser, contents));
     }
 
     /**

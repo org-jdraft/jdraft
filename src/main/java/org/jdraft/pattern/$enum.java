@@ -429,7 +429,7 @@ public class $enum
 
     public boolean matches( Class clazz){
         try {
-            return matches(Ast.enumDecl(clazz));
+            return matches(Ast.typeDecl(clazz));
         }catch(Exception e){
             return false;
         }

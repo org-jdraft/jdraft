@@ -106,6 +106,11 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         return (_class) _type.of(is);
     }
 
+    /**
+     *
+     * @param url
+     * @return
+     */
     public static _class of(URL url){
         try {
             InputStream inStream = url.openStream();
@@ -116,25 +121,30 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     }
 
     /**
-     * Return the _class represented by this single line ClassDef
-     * @param classDef
-     * @return 
+     * Return the _class represented by this single line class definition
+     * @param classDef the definition of the class as a String
+     * @return the _class model
      */
     public static _class of( String classDef){
         return of( new String[]{classDef});
     }
 
-
+    /**
+     *
+     * @param classDef1
+     * @param classDef2
+     * @return
+     */
     public static _class of(String classDef1, String classDef2){
         return of( new String[]{classDef1, classDef2});
     }
 
 
-
     /**
      * if you pass a single line, with a single token (NO SPACES) into this, we create a shortcut class
      * you can specify the PACKAGE_NAME.className
-     * 
+     *
+     * Shortcut classes infer you want to get
      * <UL>
      * <LI>shortcut classes, i.e._class.of("C") -> creates "public class C{}"
      * <LI>shortcut classes, i.e._class.of("C<T>") -> creates "public class C<T>{}"

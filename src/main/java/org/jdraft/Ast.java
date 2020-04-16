@@ -517,38 +517,6 @@ public enum Ast {
     public @interface cache {
     }
 
-    /**
-     * parse and return a CompilationUnit based on the .java source contents
-     * that were read from the javaSourceReader
-     * @param javaSourceReader the reader for the source
-     * @return an AST CompilationUnit
-     */
-    protected static CompilationUnit parse(Reader javaSourceReader){
-        ParseResult<CompilationUnit> pr = JAVAPARSER.parse(javaSourceReader);
-        if( !pr.isSuccessful() ){
-            throw new _jdraftException("Unable to parse reader "+pr.getProblems());
-        }
-        return pr.getResult().get();
-    }
-    
-    /**
-     * 
-     * @param javaSourceFile
-     * @return 
-     */
-    protected static CompilationUnit parse( File javaSourceFile){
-        try{
-            ParseResult<CompilationUnit> pr = JAVAPARSER.parse(javaSourceFile);
-            if( !pr.isSuccessful() ){
-                throw new _jdraftException("Unable to parse reader "+pr.getProblems());
-            }            
-            CompilationUnit cu = pr.getResult().get();
-            cu.setStorage(Paths.get( javaSourceFile.getAbsolutePath()));
-            return cu;
-        } catch(FileNotFoundException fnfe){
-            throw new _jdraftException("Unable to find file "+ javaSourceFile.toString() );
-        }
-    }
     
     /**
      * Organize imports alphabetically
@@ -597,7 +565,17 @@ public enum Ast {
      * @param astCu the original CompilationUnit
      * @return a new CompilationUnit with correct Positions of AST tokens
      */
-    public static CompilationUnit reparse( CompilationUnit astCu){
+    public static CompilationUnit reparse( CompilationUnit astCu) {
+        return reparse(JAVAPARSER, astCu);
+    }
+
+    /**
+     *
+     * @param javaParser
+     * @param astCu
+     * @return
+     */
+    public static CompilationUnit reparse( JavaParser javaParser, CompilationUnit astCu) {
         return reparse( astCu, new PrettyPrinterConfiguration());
     }
     
@@ -627,10 +605,20 @@ public enum Ast {
      * @param ppv the configuration for how the AST will be written
      * @return the NEW CompilationUnit with correct Postions and AST tokens
      */
-    public static CompilationUnit reparse( CompilationUnit astCu, PrettyPrinterConfiguration ppv ){
-        return of(astCu.toString(ppv));
+    public static CompilationUnit reparse( CompilationUnit astCu, PrettyPrinterConfiguration ppv ) {
+        return reparse(JAVAPARSER, astCu, ppv);
     }
 
+    /**
+     *
+     * @param javaParser
+     * @param astCu
+     * @param ppv
+     * @return
+     */
+    public static CompilationUnit reparse( JavaParser javaParser, CompilationUnit astCu, PrettyPrinterConfiguration ppv ) {
+        return of(javaParser, astCu.toString(ppv));
+    }
 
     /**
      * Find and return the ast root node for this node
@@ -649,78 +637,6 @@ public enum Ast {
         return root;
     }
 
-    /**
-     * Given an array of lines representing some .java source code, parse it and
-     * return the AST CompilationUnit based on the source
-     * @param linesOfJavaSourceCode source code lines
-     * @return an AST CompilationUnit
-     */
-    protected static CompilationUnit parse(String... linesOfJavaSourceCode){
-        String str = Text.combine(linesOfJavaSourceCode);
-        ParseResult<CompilationUnit> pr = JAVAPARSER.parse(str);        
-        if( !pr.isSuccessful() ){
-            if( pr.getProblem(0).getMessage().contains("'static'") ){
-                Problem prb = pr.getProblem(0);
-                
-                //we have a disagreement over whether we can 
-                if( prb.getLocation().isPresent() ){
-                    TokenRange tr = prb.getLocation().get();
-                    String withStatic = tr.toString();
-                    //int stindex = withStatic.indexOf(" static ");
-                    String withoutStatic = tr.toString().replaceFirst(" static ", " ");
-
-                    str = str.replace(withStatic, withoutStatic);
-                    pr = JAVAPARSER.parse(str);      
-                    if( pr.isSuccessful() ){
-                        CompilationUnit cu = pr.getResult().get();
-                        //now I have to 
-                        cu.getType(0).setStatic(true);
-                        return cu;
-                    }
-                }
-                if( prb.getCause().isPresent() ){
-                    System.err.println("Cause"+ prb.getCause().get());
-                }
-            }
-            throw new _jdraftException("ErrorParsing :"+pr.getProblems());
-        }
-        return pr.getResult().get();
-    }
-    
-    /**
-     * 
-     * @param pathToJavaSourceCode
-     * @return 
-     */
-    protected static CompilationUnit parse(Path pathToJavaSourceCode ){
-        ParseResult<CompilationUnit> pr;
-        try {
-            pr = JAVAPARSER.parse(pathToJavaSourceCode);
-        } catch (IOException ex) {
-            throw new _ioException("Unable to read file at \""+pathToJavaSourceCode+"\"", ex);
-        }
-        if( !pr.isSuccessful() ){
-            throw new _jdraftException("Unable to parse file at \""+pathToJavaSourceCode+"\""+pr.getProblems());
-        }
-        CompilationUnit cu = pr.getResult().get();
-        cu.setStorage(pathToJavaSourceCode);
-        return cu;
-    }
-    
-    /**
-     * read and parse the inputStream containing .java source code and return 
-     * the AST {@link CompilationUnit} representation of the .java source
-     * @param javaSourceInputStream input Stream containing .java source
-     * @return an AST CompilationUnit representation of the source
-     */
-    protected static CompilationUnit parse(InputStream javaSourceInputStream){
-        ParseResult<CompilationUnit> pr = JAVAPARSER.parse(javaSourceInputStream);
-        if( !pr.isSuccessful() ){
-            throw new _jdraftException("Unable to parse text in inputStream :"+pr.getProblems());
-        }
-        return pr.getResult().get();
-    }    
-    
     /**
      * Parse and return the appropriate {@link Node} implementation based on the 
      * nodeClass and code
@@ -816,6 +732,19 @@ public enum Ast {
     }
 
     /**
+     * Build and return a JavaParser Ast from the runtime clazz and return the
+     * top level typeDeclaration.
+     *
+     * @see Ast#of(Class) to do the same and return the top
+     * {@link CompilationUnit}
+     * @param clazz the runtime class to acquire the
+     * @return
+     */
+    public static TypeDeclaration typeDecl(JavaParser javaParser, Class clazz) {
+        return Ast.typeDecl(javaParser, clazz, _io.IN_DEFAULT);
+    }
+
+    /**
      * Returns a TypeDeclaration, or a LocalClassDeclaration given the class and
      * resolver
      *
@@ -825,6 +754,19 @@ public enum Ast {
      * @return the typeDeclaration or an exception
      */
     public static TypeDeclaration typeDecl(Class clazz, _in._resolver resolver) {
+        return typeDecl(JAVAPARSER, clazz, resolver);
+    }
+
+    /**
+     * Returns a TypeDeclaration, or a LocalClassDeclaration given the class and
+     * resolver
+     * @param javaParser the javaParser for the job
+     * @param clazz the runtime class to lookup the source code and return AST
+     * for
+     * @param resolver how to look up the source code
+     * @return the typeDeclaration or an exception
+     */
+    public static TypeDeclaration typeDecl(JavaParser javaParser, Class clazz, _in._resolver resolver) {
         TypeDeclaration cached = AST_CACHE_MAP.get(clazz);
         if (cached != null) {
             return cached.clone();
@@ -836,7 +778,7 @@ public enum Ast {
             }
             
             /** */
-            CompilationUnit cu = parse(_i.getInputStream());
+            CompilationUnit cu = parse(javaParser, _i.getInputStream());
             cu.setStorage(_i.getPath());
             Optional<TypeDeclaration<?>> ot = 
                 cu.getTypes().stream().filter(t -> t.getNameAsString().equals(clazz.getSimpleName()) ).findFirst();            
@@ -918,13 +860,13 @@ public enum Ast {
                 //CompilationUnit cu = new CompilationUnit( ); //coid.toString() );
                 String str = coid.toString();
                 //System.out.println("COID STRING"+ str );
-                CompilationUnit cu = parse( str );
+                CompilationUnit cu = parse( javaParser, str );
                 cu.setStorage(_i.getPath());
                 //cu.addType(coid);
 
                 //System.out.println( "COMP UNIT "+ cu);
                 //this seems to be getting rid of
-                cu = Ast.reparse(cu); //reparse to ensure the line numbers and positions are re evaluated
+                cu = Ast.reparse(javaParser, cu); //reparse to ensure the line numbers and positions are re evaluated
                 coid = (ClassOrInterfaceDeclaration)cu.getType(0);
                 if (coid.getAnnotationByClass(cache.class).isPresent()) {
                     coid.getAnnotations().remove(coid.getAnnotationByClass(cache.class).get());
@@ -959,7 +901,7 @@ public enum Ast {
                 + System.lineSeparator() + resolver.describe());
         }
 
-        CompilationUnit cu = parse(_i.getInputStream());
+        CompilationUnit cu = parse(javaParser, _i.getInputStream());
         cu.setStorage(_i.getPath());
         List<TypeDeclaration> tds
                 = Tree.list(cu, TypeDeclaration.class, td -> td.getNameAsString().equals(clazz.getSimpleName())
@@ -1183,8 +1125,21 @@ public enum Ast {
      * @return an AST CompilationUnit from
      */
     public static CompilationUnit of(String... javaSourceCode) throws _jdraftException {
+        return of(JAVAPARSER, javaSourceCode);
+    }
+
+    /**
+     * Creates an AST {@link CompilationUnit} from the code (CompilationUnit is
+     * the top level entity for AST (representing a Java file), or throws a
+     * _jDraftException if there is a problem readingor parsing the file
+     *
+     * @param javaParser the parser for the task
+     * @param javaSourceCode
+     * @return an AST CompilationUnit from
+     */
+    public static CompilationUnit of(JavaParser javaParser, String... javaSourceCode) throws _jdraftException {
         String str = Text.combine(javaSourceCode);
-        return parse(str);
+        return parse(javaParser, str);
     }
     
     /**
@@ -1196,7 +1151,20 @@ public enum Ast {
      * @return the Ast CompilationUnit
      */
     public static CompilationUnit of(File javaSourceFile) throws _jdraftException {
-        return parse(javaSourceFile);
+        return of( JAVAPARSER, javaSourceFile);
+    }
+
+    /**
+     * Creates an AST {@link CompilationUnit} from the data in the javaSourceFile
+     * and returns it, or throws a _jDraftException if there is a problem reading
+     * or parsing the file
+     * @param javaParser the parser for the task
+     * @param javaSourceFile a File containing the .java source contents to
+     * build a _code model for (including Classes, and package-info.java & module-info.java)
+     * @return the Ast CompilationUnit
+     */
+    public static CompilationUnit of(JavaParser javaParser, File javaSourceFile) throws _jdraftException {
+        return parse(javaParser, javaSourceFile);
     }
     
     /**
@@ -1206,7 +1174,18 @@ public enum Ast {
      * @return the CompilationUnit
      */
     public static CompilationUnit of(InputStream javaSourceInputStream) throws _jdraftException {
-        return parse(javaSourceInputStream);
+        return of(JAVAPARSER, javaSourceInputStream);
+    }
+
+    /**
+     * Creates an AST {@link CompilationUnit} from the data in the inputStream
+     * the top level
+     * @param javaParser the parser for the task
+     * @param javaSourceInputStream the input stream containing .java source code
+     * @return the CompilationUnit
+     */
+    public static CompilationUnit of(JavaParser javaParser, InputStream javaSourceInputStream) throws _jdraftException {
+        return parse(javaParser, javaSourceInputStream);
     }
 
     /**
@@ -1219,7 +1198,20 @@ public enum Ast {
      * @return the compilationUnit
      */
     public static CompilationUnit of(Class clazz) throws _jdraftException {
-        Node n = typeDecl(clazz);
+        return of(JAVAPARSER, clazz);
+    }
+
+    /**
+     * Creates an AST {@link CompilationUnit} from the source code of the
+     * runtime clazz (CompilationUnit is the top level entity for AST
+     * (representing a Java file)
+     *
+     * @param clazz the runtime class to find .java source and create the
+     * CompilationUnit
+     * @return the compilationUnit
+     */
+    public static CompilationUnit of(JavaParser javaParser, Class clazz) throws _jdraftException {
+        Node n = typeDecl(javaParser, clazz);
         if (n instanceof CompilationUnit) {
             return (CompilationUnit) n;
         }
@@ -1248,7 +1240,20 @@ public enum Ast {
      * @throws _jdraftException if there is an error reading or parsing the input
      */
     public static CompilationUnit of(Reader javaSourceCodeReader) throws _jdraftException {
-        CompilationUnit cu = parse(javaSourceCodeReader);        
+        return of(JAVAPARSER, javaSourceCodeReader);
+    }
+
+    /**
+     * parses the contents contained in the javaSourceCodeReader and returns an
+     * AST CompilationUnit (or throws a _jDraftException if the .java source code
+     * is invalid)
+     *
+     * @param javaSourceCodeReader a reader containing .java source code
+     * @return an Ast CompilationUnit
+     * @throws _jdraftException if there is an error reading or parsing the input
+     */
+    public static CompilationUnit of(JavaParser javaParser, Reader javaSourceCodeReader) throws _jdraftException {
+        CompilationUnit cu = parse(javaParser, javaSourceCodeReader);
         return cu;        
     }
     
@@ -1261,9 +1266,172 @@ public enum Ast {
      * @throws _jdraftException if there is an issue reading or parsing the source code
      */
     public static CompilationUnit of(Path pathToJavaSourceCode) throws _jdraftException {
-        CompilationUnit cu = parse(pathToJavaSourceCode);
+        return of(JAVAPARSER, pathToJavaSourceCode);
+    }
+
+    /**
+     * parses the contents contained in the file at the path and returns an
+     * AST CompilationUnit (or throws a _jDraftException if the .java source code
+     * is invalid)
+     * @param pathToJavaSourceCode the local path to a .java source file
+     * @return an AST compilationUnit representing the source code
+     * @throws _jdraftException if there is an issue reading or parsing the source code
+     */
+    public static CompilationUnit of(JavaParser javaParser, Path pathToJavaSourceCode) throws _jdraftException {
+        CompilationUnit cu = parse(javaParser, pathToJavaSourceCode);
         cu.setStorage(pathToJavaSourceCode);
         return cu;        
+    }
+
+    /**
+     * parse and return a CompilationUnit based on the .java source contents
+     * that were read from the javaSourceReader
+     * @param javaSourceReader the reader for the source
+     * @return an AST CompilationUnit
+     */
+    protected static CompilationUnit parse(Reader javaSourceReader) {
+        return parse(JAVAPARSER, javaSourceReader);
+    }
+
+    /**
+     *
+     * @param javaParser
+     * @param javaSourceReader
+     * @return
+     */
+    protected static CompilationUnit parse(JavaParser javaParser, Reader javaSourceReader) {
+        ParseResult<CompilationUnit> pr = javaParser.parse(javaSourceReader);
+        if( !pr.isSuccessful() ){
+            throw new _jdraftException("Unable to parse reader "+pr.getProblems());
+        }
+        return pr.getResult().get();
+    }
+
+    /**
+     *
+     * @param javaSourceFile
+     * @return
+     */
+    protected static CompilationUnit parse( File javaSourceFile) {
+        return parse(JAVAPARSER, javaSourceFile);
+    }
+
+    protected static CompilationUnit parse( JavaParser javaParser, File javaSourceFile) {
+        try{
+            ParseResult<CompilationUnit> pr = JAVAPARSER.parse(javaSourceFile);
+            if( !pr.isSuccessful() ){
+                throw new _jdraftException("Unable to parse reader "+pr.getProblems());
+            }
+            CompilationUnit cu = pr.getResult().get();
+            cu.setStorage(Paths.get( javaSourceFile.getAbsolutePath()));
+            return cu;
+        } catch(FileNotFoundException fnfe){
+            throw new _jdraftException("Unable to find file "+ javaSourceFile.toString() );
+        }
+    }
+
+    /**
+     * Given an array of lines representing some .java source code, parse it and
+     * return the AST CompilationUnit based on the source
+     * @param linesOfJavaSourceCode source code lines
+     * @return an AST CompilationUnit
+     */
+    protected static CompilationUnit parse(String... linesOfJavaSourceCode) {
+        return parse(JAVAPARSER, linesOfJavaSourceCode);
+    }
+
+    /**
+     * Given an array of lines representing some .java source code, parse it and
+     * return the AST CompilationUnit based on the source
+     * @param javaParser the configured JavaParser instance
+     * @param linesOfJavaSourceCode source code lines
+     * @return an AST CompilationUnit
+     */
+    protected static CompilationUnit parse(JavaParser javaParser, String... linesOfJavaSourceCode) {
+        String str = Text.combine(linesOfJavaSourceCode);
+        ParseResult<CompilationUnit> pr = javaParser.parse(str);
+        if( !pr.isSuccessful() ){
+            if( pr.getProblem(0).getMessage().contains("'static'") ){
+                Problem prb = pr.getProblem(0);
+
+                //we have a disagreement over whether we can
+                if( prb.getLocation().isPresent() ){
+                    TokenRange tr = prb.getLocation().get();
+                    String withStatic = tr.toString();
+                    //int stindex = withStatic.indexOf(" static ");
+                    String withoutStatic = tr.toString().replaceFirst(" static ", " ");
+
+                    str = str.replace(withStatic, withoutStatic);
+                    pr = javaParser.parse(str);
+                    if( pr.isSuccessful() ){
+                        CompilationUnit cu = pr.getResult().get();
+                        //now I have to
+                        cu.getType(0).setStatic(true);
+                        return cu;
+                    }
+                }
+                if( prb.getCause().isPresent() ){
+                    System.err.println("Cause"+ prb.getCause().get());
+                }
+            }
+            throw new _jdraftException("ErrorParsing :"+pr.getProblems());
+        }
+        return pr.getResult().get();
+    }
+
+    /**
+     *
+     * @param pathToJavaSourceCode
+     * @return
+     */
+    protected static CompilationUnit parse(Path pathToJavaSourceCode ) {
+        return parse(JAVAPARSER, pathToJavaSourceCode);
+    }
+
+    /**
+     *
+     * @param javaParser the configured JavaParser instance
+     * @param pathToJavaSourceCode
+     * @return
+     */
+    protected static CompilationUnit parse(JavaParser javaParser, Path pathToJavaSourceCode ) {
+        ParseResult<CompilationUnit> pr;
+        try {
+            pr = javaParser.parse(pathToJavaSourceCode);
+        } catch (IOException ex) {
+            throw new _ioException("Unable to read file at \""+pathToJavaSourceCode+"\"", ex);
+        }
+        if( !pr.isSuccessful() ){
+            throw new _jdraftException("Unable to parse file at \""+pathToJavaSourceCode+"\""+pr.getProblems());
+        }
+        CompilationUnit cu = pr.getResult().get();
+        cu.setStorage(pathToJavaSourceCode);
+        return cu;
+    }
+
+    /**
+     * read and parse the inputStream containing .java source code and return
+     * the AST {@link CompilationUnit} representation of the .java source
+     * @param javaSourceInputStream input Stream containing .java source
+     * @return an AST CompilationUnit representation of the source
+     */
+    protected static CompilationUnit parse(InputStream javaSourceInputStream) {
+        return parse(JAVAPARSER, javaSourceInputStream);
+    }
+
+    /**
+     * read and parse the inputStream containing .java source code and return
+     * the AST {@link CompilationUnit} representation of the .java source
+     * @param javaParser the configured JavaParser instance
+     * @param javaSourceInputStream input Stream containing .java source
+     * @return an AST CompilationUnit representation of the source
+     */
+    protected static CompilationUnit parse(JavaParser javaParser, InputStream javaSourceInputStream) {
+        ParseResult<CompilationUnit> pr = javaParser.parse(javaSourceInputStream);
+        if( !pr.isSuccessful() ){
+            throw new _jdraftException("Unable to parse text in inputStream :"+pr.getProblems());
+        }
+        return pr.getResult().get();
     }
 
     public static TypeDeclaration typeDecl(_in in ){
@@ -1723,7 +1891,7 @@ public enum Ast {
     public static AnnotationMemberDeclaration annotationMemberDecl(String... code) {
         String str = Text.combine(code);
         str = "@interface $$$$$${" + System.lineSeparator() + str + System.lineSeparator() + "}";
-        AnnotationDeclaration ad = annotationDecl(str);
+        AnnotationDeclaration ad = (AnnotationDeclaration)Ast.typeDecl(str);
         AnnotationMemberDeclaration amd = (AnnotationMemberDeclaration) ad.getMember(0);
         ad.remove(amd); //disconnect
         return amd;
@@ -1737,7 +1905,17 @@ public enum Ast {
      * @return
      */
     public static TypeDeclaration typeDecl(String... code) {
-        CompilationUnit cu = Ast.of(code);
+        return typeDecl( Ast.JAVAPARSER, code);
+    }
+
+    /**
+     *
+     * @param javaParser
+     * @param code
+     * @return
+     */
+    public static TypeDeclaration typeDecl(JavaParser javaParser, String... code) {
+        CompilationUnit cu = Ast.of(javaParser, code);
         
         List<Comment> jdc = new ArrayList<>();
 
@@ -1776,6 +1954,7 @@ public enum Ast {
         });
     }
 
+    /*
     public static EnumDeclaration enumDecl(Class clazz) {
         return (EnumDeclaration) Ast.typeDecl(clazz);
     }
@@ -1807,6 +1986,7 @@ public enum Ast {
     public static AnnotationDeclaration annotationDecl(String... code) {
         return (AnnotationDeclaration) typeDecl(code);
     }
+    */
 
     public static NullLiteralExpr nullEx() {
         return Expressions.nullEx();
@@ -2001,18 +2181,18 @@ public enum Ast {
     public static EnumConstantDeclaration constantDecl(String... code) {
         String comb = Text.combine(code).trim();
         if (comb.endsWith(";")) {
-            EnumDeclaration ed = enumDecl("enum E{ " + System.lineSeparator() + comb + System.lineSeparator() + " }");
+            EnumDeclaration ed = (EnumDeclaration)Ast.typeDecl("enum E{ " + System.lineSeparator() + comb + System.lineSeparator() + " }");
             EnumConstantDeclaration ecd = ed.getEntry(0);
             ecd.removeForced(); //disconnect
             return ecd;
         }
         if (comb.endsWith(",")) {
-            EnumDeclaration ed = enumDecl("enum E{ " + System.lineSeparator() + comb.substring(0, comb.length() - 1) + ";" + System.lineSeparator() + " }");
+            EnumDeclaration ed = (EnumDeclaration)Ast.typeDecl("enum E{ " + System.lineSeparator() + comb.substring(0, comb.length() - 1) + ";" + System.lineSeparator() + " }");
             EnumConstantDeclaration ecd = ed.getEntry(0);
             ecd.removeForced(); //disconnet
             return ecd;
         }
-        EnumDeclaration ed = enumDecl("enum E{ " + System.lineSeparator() + comb + ";" + System.lineSeparator() + " }");
+        EnumDeclaration ed = (EnumDeclaration)Ast.typeDecl("enum E{ " + System.lineSeparator() + comb + ";" + System.lineSeparator() + " }");
         EnumConstantDeclaration ecd = ed.getEntry(0);
         ecd.removeForced(); //disconnet
         return ecd;
@@ -2040,7 +2220,7 @@ public enum Ast {
                     + st
                     + System.lineSeparator() + "} }";
         }
-        InitializerDeclaration id = (InitializerDeclaration) classDecl(str).getMembers().get(0);
+        InitializerDeclaration id = (InitializerDeclaration) Ast.typeDecl(str).getMembers().get(0);
         id.removeForced(); //disconnect
         return id;
     }

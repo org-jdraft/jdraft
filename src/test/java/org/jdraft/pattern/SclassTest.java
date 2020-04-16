@@ -1,6 +1,7 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.ast.body.CallableDeclaration;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import junit.framework.TestCase;
 import org.jdraft.*;
 import org.jdraft.macro._toInit;
@@ -59,7 +60,7 @@ public class SclassTest extends TestCase {
         assertTrue( $c.isMatchAny());
 
         //its matches ANY Class
-        assertTrue($c.match(Ast.classDecl("public class A{}") ));
+        assertTrue($c.match(Ast.typeDecl("public class A{}") ));
         assertTrue($c.match(Ast.of("public class A{}").getType(0) ));
         assertTrue($c.match(_class.of("A") ));
         assertTrue($c.match(_class.of(SclassTest.class) ));

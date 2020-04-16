@@ -162,7 +162,29 @@ public class ASCIITreePrinter {
         return TNode.of( new TNode(rootNode)).output(this.nodeFormat);
     }
 
-    public String output(_java._node _rootNode) { return TNode.of( new TNode(_rootNode.ast())).output(this.nodeFormat);}
+    /**
+     * accepting the _rootNode, building the model and returning the
+     * @param _rootNode
+     * @return
+     */
+    public String output(_java._node _rootNode) {
+        if( _rootNode instanceof _codeUnit && ((_codeUnit)_rootNode).isTopLevel() ){
+            return TNode.of( new TNode(((_codeUnit)_rootNode).astCompilationUnit())).output(this.nodeFormat);
+        }
+        return TNode.of( new TNode(_rootNode.ast())).output(this.nodeFormat);
+    }
+
+    /**
+     * Accept the _rootNode, building the model and returning the formatted output as a String
+     * @param _rootNode the root node to be
+     * @return
+     */
+    public String output(_java._node _rootNode, Function<_java._node, String> _nodeFormat){
+        if( _rootNode instanceof _codeUnit && ((_codeUnit)_rootNode).isTopLevel() ){
+            return TNode.of( new TNode(((_codeUnit)_rootNode).astCompilationUnit())).output((n) -> _nodeFormat.apply( (_java._node)_java.of(n)));
+        }
+        return TNode.of( new TNode(_rootNode.ast())).output((n) -> _nodeFormat.apply( (_java._node)_java.of(n)));
+    }
 
     /**
      *

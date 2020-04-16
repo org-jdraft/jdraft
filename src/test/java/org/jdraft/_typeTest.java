@@ -2,6 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
@@ -186,7 +187,7 @@ public class _typeTest extends TestCase {
                 "public class C{"+System.lineSeparator()+
                 "}");
         //assertTrue( cu.getPrimaryType().isPresent() );
-        cu = cu.addType( Ast.enumDecl("enum E{}") );
+        cu = cu.addType( Ast.typeDecl("enum E{}") );
         
         System.out.println( cu );
         

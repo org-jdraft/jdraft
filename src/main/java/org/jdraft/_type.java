@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
+import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
@@ -119,10 +120,21 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @param <_T>
      * @return
      */
-    static <_T extends _type> _T of(URL url){
+    static <_T extends _type> _T of(URL url) {
+        return of(Ast.JAVAPARSER, url);
+    }
+
+    /**
+     *
+     * @param javaParser
+     * @param url
+     * @param <_T>
+     * @return
+     */
+    static <_T extends _type> _T of(JavaParser javaParser, URL url) {
         try {
             InputStream inStream = url.openStream();
-            return of(inStream);
+            return of(javaParser, inStream);
         }catch(IOException ioe){
             throw new _ioException("invalid input url \""+url.toString()+"\"", ioe);
         }
@@ -134,7 +146,18 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @return
      */
     static <_T extends _type> _T of(InputStream is) {
-        _codeUnit _c = _codeUnit.of(is);
+        return of( Ast.JAVAPARSER, is);
+    }
+
+    /**
+     *
+     * @param javaParser
+     * @param is
+     * @param <_T>
+     * @return
+     */
+    static <_T extends _type> _T of(JavaParser javaParser, InputStream is) {
+        _codeUnit _c = _codeUnit.of(javaParser, is);
         if (_c instanceof _type) {
             return (_T) _c;
         }
@@ -147,7 +170,11 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @return
      */
     static <_T extends _type> _T of(Path path) {
-        _codeUnit _c = _codeUnit.of(path);
+        return of( Ast.JAVAPARSER, path);
+    }
+
+    static <_T extends _type> _T of(JavaParser javaParser, Path path) {
+        _codeUnit _c = _codeUnit.of(javaParser, path);
         if (_c instanceof _type) {
             return (_T) _c;
         }
@@ -162,7 +189,11 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * {@link _class} {@link _enum} {@link _interface}, {@link _annotation}
      */
     static <_T extends _type> _T of(String... code) {
-        return of(Ast.typeDecl(code));
+        return of( Ast.JAVAPARSER, code);
+    }
+
+    static <_T extends _type> _T of(JavaParser javaParser, String... code) {
+        return of(Ast.typeDecl(javaParser, code));
     }
 
     /**
@@ -275,8 +306,12 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @param resolver
      * @return
      */
-    static <_T extends _type> _T of(Class clazz, _in._resolver resolver){
-        Node n = Ast.typeDecl( clazz, resolver );
+    static <_T extends _type> _T of(Class clazz, _in._resolver resolver) {
+        return of( Ast.JAVAPARSER, clazz, resolver);
+    }
+
+    static <_T extends _type> _T of(JavaParser jp, Class clazz, _in._resolver resolver) {
+        Node n = Ast.typeDecl( jp, clazz, resolver );
         TypeDeclaration td = null;
         if( n instanceof CompilationUnit) { //top level TYPE
             CompilationUnit cu = (CompilationUnit) n;
@@ -308,6 +343,10 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @return
      */
     static <_T extends _type> _T of(Class clazz) {
+        return of(Ast.JAVAPARSER, clazz);
+    }
+
+    static <_T extends _type> _T of(JavaParser jp, Class clazz) {
         return of(clazz, _io.IN_DEFAULT);
     }
 

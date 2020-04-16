@@ -1,14 +1,29 @@
 package test;
 
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ParserConfiguration;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.*;
+import com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinter;
 import junit.framework.TestCase;
 import org.jdraft.Ast;
+import org.jdraft.io._io;
+import test.byexample.SuppressForbidden;
+import test.byexample.Terminal;
+import test.byexample.TerminalProgressInputStream;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 public class JavaParserInternalsTest extends TestCase {
 

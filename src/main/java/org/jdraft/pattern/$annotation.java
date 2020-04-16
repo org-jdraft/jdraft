@@ -2,10 +2,7 @@ package org.jdraft.pattern;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.AnnotationDeclaration;
-import com.github.javaparser.ast.body.BodyDeclaration;
-import com.github.javaparser.ast.body.TypeDeclaration;
-import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.JavadocComment;
 
 import java.util.*;
@@ -314,7 +311,7 @@ public class $annotation
 
     public boolean matches( Class clazz){
         try {
-            return matches(Ast.annotationDecl(clazz));
+            return matches(Ast.typeDecl(clazz));
         }catch(Exception e){
             return false;
         }

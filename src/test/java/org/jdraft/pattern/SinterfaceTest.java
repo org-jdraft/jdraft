@@ -1,5 +1,6 @@
 package org.jdraft.pattern;
 
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import junit.framework.TestCase;
 import org.jdraft.*;
 import org.jdraft.macro._static;
@@ -56,7 +57,7 @@ public class SinterfaceTest extends TestCase {
         assertTrue( $i.isMatchAny());
 
         //its matches ANY Class
-        assertTrue($i.match(Ast.interfaceDecl("public interface A{}") ));
+        assertTrue($i.match(Ast.typeDecl("public interface A{}") ));
         assertTrue($i.match(Ast.of("public interface A{}") ));
         assertTrue($i.match(_interface.of("A") ));
 

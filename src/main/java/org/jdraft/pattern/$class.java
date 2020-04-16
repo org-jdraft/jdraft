@@ -480,7 +480,7 @@ public class $class
 
     public boolean matches( Class clazz){
         try {
-            return matches(Ast.classDecl(clazz));
+            return matches((ClassOrInterfaceDeclaration)Ast.typeDecl(clazz));
         }catch(Exception e){
             return false;
         }
