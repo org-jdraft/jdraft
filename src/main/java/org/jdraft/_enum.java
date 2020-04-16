@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.JavaParser;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
@@ -43,21 +44,31 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         return of( new EnumDeclaration());
     }
 
-    public static _enum of( Path p){
-        return of(_io.inFile(p));
+    public static _enum of( Path p) {
+        return of(Ast.JAVAPARSER, p);
+    }
+    public static _enum of(JavaParser javaParser, Path p){
+        return of(javaParser, _io.inFile(p));
     }
 
-    public static _enum of(URL url){
+    public static _enum of(URL url) {
+        return of(Ast.JAVAPARSER, url);
+    }
+
+    public static _enum of(JavaParser javaParser, URL url){
         try {
             InputStream inStream = url.openStream();
-            return of(inStream);
+            return of(javaParser, inStream);
         }catch(IOException ioe){
             throw new _ioException("invalid input url \""+url.toString()+"\"", ioe);
         }
     }
 
-    public static _enum of( Class<? extends Enum> clazz ){
-        Node n = Ast.typeDecl( clazz );
+    public static _enum of( Class<? extends Enum> clazz ) {
+        return of(Ast.JAVAPARSER, clazz);
+    }
+    public static _enum of( JavaParser javaParser, Class<? extends Enum> clazz ){
+        Node n = Ast.typeDecl(javaParser, clazz );
         if( n instanceof CompilationUnit ){
             return macro.to(clazz, of( (CompilationUnit)n));
         }
@@ -67,7 +78,31 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         return macro.to(clazz, _e);
     }
 
-    public static _enum of( String...classDef ){
+    public static _enum of(InputStream is) {
+        return of(Ast.JAVAPARSER, is);
+    }
+
+    public static _enum of(JavaParser javaParser, InputStream is) {
+        return of( Ast.of(javaParser, is) );
+    }
+
+    public static _enum of( _in in ) {
+        return of(Ast.JAVAPARSER, in);
+    }
+
+    public static _enum of( JavaParser javaParser, _in in ) {
+        return of( javaParser, in.getInputStream());
+    }
+
+    public static _enum of( String enumCode1, String enumCode2 ) {
+        return of(Ast.JAVAPARSER, new String[]{enumCode1, enumCode2});
+    }
+
+    public static _enum of( String...enumCode ) {
+        return of( Ast.JAVAPARSER, enumCode);
+    }
+
+    public static _enum of( JavaParser javaParser, String...classDef ){
         if( classDef.length == 0 ){
             return of();
         }
@@ -84,13 +119,13 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
                     if(!shortcutClass.endsWith("}")){
                         shortcutClass = shortcutClass + "{}";
                     }
-                    return of( Ast.of( "package "+packageName+";"+System.lineSeparator()+
+                    return of( Ast.of( javaParser,"package "+packageName+";"+System.lineSeparator()+
                             "public enum "+shortcutClass));
                 }
                 if(!shortcutClass.endsWith("}")){
                     shortcutClass = shortcutClass + "{}";
                 }
-                return of( Ast.of("public enum "+shortcutClass));
+                return of( Ast.of(javaParser,"public enum "+shortcutClass));
             }
         }
         String cc = Text.combine(classDef);
@@ -102,7 +137,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
             _i.setPrivate();
             return _i;
         }
-        return of( Ast.of( classDef ));
+        return of( Ast.of( javaParser, classDef ));
     }
 
     public static _enum of( CompilationUnit cu ){
@@ -120,13 +155,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         return new _enum( astClass );
     }
 
-    public static _enum of(InputStream is){
-        return of( StaticJavaParser.parse(is) );
-    }
 
-    public static _enum of( _in in ){
-        return of( in.getInputStream());
-    }
 
     /**
      * ---Mostly called internally & from $enum $pattern --
@@ -197,6 +226,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         _e = macro.to(anonymousBody.getClass(), _e);
         return _e;
     }
+
 
     /**
      * Allows the definition of the Enum AND _constants

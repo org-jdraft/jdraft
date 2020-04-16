@@ -82,40 +82,8 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     extends _javadocComment._withJavadoc<_T>, _annos._withAnnos<_T>, _modifiers._withModifiers<_T>,
         _field._withFields<_T>, _java._declared<AST, _T>, _codeUnit<_T>, _java._multiPart<AST, _T> {
 
-
-
-    /*
-    static <_T extends _type> _T of( String...typeCode ){
-        return (_T)of(Ast.of(typeCode));
-    }
-    static <_T extends _type> _T  of(CompilationUnit cu){
-        if( cu.getPrimaryType().isPresent()){
-            return of( (TypeDeclaration)cu.getPrimaryType().get() );
-        }
-        if( cu.getTypes().size() == 1){
-            return of( cu.getType(0));
-        }
-        return of(cu.getType(0));
-    }
-    */
-    /*
-    static <_T extends _type> _T of( TypeDeclaration td ){
-        if( td instanceof ClassOrInterfaceDeclaration){
-            ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration) td;
-            if( !coid.isInterface()) {
-                return (_T)_class.of(coid);
-            }
-            return (_T)_interface.of(coid);
-        }
-        if( td instanceof EnumDeclaration){
-            return (_T)_enum.of( (EnumDeclaration)td);
-        }
-        return (_T)_annotation.of( (AnnotationDeclaration) td);
-    }
-    */
-
     /**
-     * Read the java source code from a url and return the appropriate model
+     * Read the java source code from a url and return the _type(_class, _enum, _interface, _annotation)
      * @param url
      * @param <_T>
      * @return
@@ -125,7 +93,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     }
 
     /**
-     *
+     * Read in a .java file from the url and return the _type(_class, _enum, _interface, _annotation)
      * @param javaParser
      * @param url
      * @param <_T>
@@ -150,7 +118,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     }
 
     /**
-     *
+     * Read in a .java file from the InputStream and return the _type(_class, _enum, _interface, _annotation)
      * @param javaParser
      * @param is
      * @param <_T>
@@ -173,6 +141,12 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         return of( Ast.JAVAPARSER, path);
     }
 
+    /**
+     * Read in a .java file from the Path and return the _type(_class, _enum, _interface, _annotation)
+     * @param javaParser the parser
+     * @param path path to the file
+     * @return the _type
+     */
     static <_T extends _type> _T of(JavaParser javaParser, Path path) {
         _codeUnit _c = _codeUnit.of(javaParser, path);
         if (_c instanceof _type) {
@@ -192,6 +166,14 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         return of( Ast.JAVAPARSER, code);
     }
 
+    /**
+     * build and return a new _type based on the code provided
+     *
+     * @param javaParser the parser for the code
+     * @param code the code for the _type
+     * @return the _type
+     * {@link _class} {@link _enum} {@link _interface}, {@link _annotation}
+     */
     static <_T extends _type> _T of(JavaParser javaParser, String... code) {
         return of(Ast.typeDecl(javaParser, code));
     }
@@ -310,6 +292,12 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         return of( Ast.JAVAPARSER, clazz, resolver);
     }
 
+    /**
+     * given a Class, return the draft model of the source
+     * @param clazz
+     * @param resolver
+     * @return
+     */
     static <_T extends _type> _T of(JavaParser jp, Class clazz, _in._resolver resolver) {
         Node n = Ast.typeDecl( jp, clazz, resolver );
         TypeDeclaration td = null;
@@ -346,8 +334,16 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         return of(Ast.JAVAPARSER, clazz);
     }
 
-    static <_T extends _type> _T of(JavaParser jp, Class clazz) {
-        return of(clazz, _io.IN_DEFAULT);
+    /**
+     * Locate the source code for the runtime class (clazz)
+     *
+     * @see _io#IN_DEFAULT the configuration for where to look for the source code of the class
+     * @param clazz the class
+     * @param clazz the class
+     * @return
+     */
+    static <_T extends _type> _T of(JavaParser javaParser, Class clazz) {
+        return of(javaParser, clazz, _io.IN_DEFAULT);
     }
 
     /**

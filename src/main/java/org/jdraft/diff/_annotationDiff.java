@@ -115,8 +115,8 @@ public final class _annotationDiff implements _differ<_annotation, _java._multiP
             public void patchRightToLeft() {
                 leftParent.removeEntry(right);
                 rightParent.removeEntry(right);
-                leftParent.entry(right);
-                rightParent.entry(right);
+                leftParent.addEntry(right);
+                rightParent.addEntry(right);
             }
 
             @Override
@@ -169,8 +169,8 @@ public final class _annotationDiff implements _differ<_annotation, _java._multiP
             public void patchRightToLeft() {
                 leftParent.removeEntry(left);
                 rightParent.removeEntry(left);
-                leftParent.entry(left);
-                rightParent.entry(left);
+                leftParent.addEntry(left);
+                rightParent.addEntry(left);
             }
 
             @Override

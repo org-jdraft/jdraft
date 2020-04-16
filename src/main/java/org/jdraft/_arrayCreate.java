@@ -142,7 +142,6 @@ public final class _arrayCreate implements _expression<ArrayCreationExpr, _array
         return Types.equal( this.astNode.getElementType(), _typeRef.of(typeRef).ast());
     }
 
-
     public boolean isElementType( _typeRef _t ){
         return Types.equal( this.astNode.getElementType(), _t.ast());
     }

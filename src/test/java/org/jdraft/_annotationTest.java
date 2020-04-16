@@ -18,11 +18,11 @@ public class _annotationTest extends TestCase  {
 
     public void testParts(){
         _annotation _a = _annotation.of("A");
-        System.out.println( _a.partsMap());
+        //System.out.println( _a.partsMap());
 
-        _a.setPrivate().setPackage("aaaa.bbbb").targetTypeUse();
+        _a.setPrivate().setPackage("aaaa.bbbb").setTargetTypeUse();
 
-        System.out.println( _a.partsMap());
+        //System.out.println( _a.partsMap());
     }
 
     public void testFromScratch(){
@@ -82,9 +82,9 @@ public class _annotationTest extends TestCase  {
     }
     
     public void testTargets(){
-        _annotation _a = _annotation.of("aaaa.bbbb.A").targets(ElementType.CONSTRUCTOR );
+        _annotation _a = _annotation.of("aaaa.bbbb.A").setTargets(ElementType.CONSTRUCTOR );
         System.out.println( _a);
-        _a = _annotation.of("aaaa.bbbb.A").targets(ElementType.CONSTRUCTOR, ElementType.FIELD);
+        _a = _annotation.of("aaaa.bbbb.A").setTargets(ElementType.CONSTRUCTOR, ElementType.FIELD);
         System.out.println( _a);
     }
     public void testAnnotatAnonymousBody(){

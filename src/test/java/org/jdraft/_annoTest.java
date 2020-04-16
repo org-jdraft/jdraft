@@ -71,6 +71,7 @@ public class _annoTest extends TestCase {
         assertTrue( _a.hasValue(2));
     }
 
+    /*
     public void testParts(){
         _anno _a = _anno.of("A");
         System.out.println( _a.partsMap() );
@@ -82,6 +83,7 @@ public class _annoTest extends TestCase {
         System.out.println( _a.partsMap() );
 
     }
+     */
 
     public void testAnn(){
         _anno _a = _anno.of()

@@ -1,6 +1,5 @@
 package test.othertools;
 
-import static junit.framework.TestCase.*;
 import org.jdraft.*;
 import org.jdraft.io._path;
 import org.jdraft.io._sources;
@@ -386,7 +385,7 @@ public class IntelliJStructuralSearchTest{
         _( $class.of( c-> c.allFields( f-> f.isFinal()) ) );
         _( $class.of( c-> c.allInitBlocks( i-> i.isStatic() ) ) );
         _( $class.of( c-> c.allTypeParameters( tp-> !tp.hasTypeBound() ) ) );
-        _( $class.of( c-> c.allAnnos( a-> !a.isNamed("todo") ) ) );
+        _( $class.of( c-> c.isAllAnnos(a-> !a.isNamed("todo") ) ) );
 
         //Singletons
         // OR classes that HAVE defined constructors that are ALL private

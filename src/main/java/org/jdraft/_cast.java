@@ -2,6 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.CastExpr;
 import com.github.javaparser.ast.expr.LambdaExpr;
+import com.github.javaparser.ast.type.Type;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -113,60 +114,6 @@ public final class _cast implements _expression<CastExpr, _cast>, _java._multiPa
         return comps;
     }
 
-    /*
-    public boolean isType( Class clazz){
-        return isType( _typeRef.of(clazz) );
-    }
-    public boolean isType(String type){
-        return isType(Ast.typeRef(type));
-    }
-
-    public boolean isType( _typeRef _t){
-        return isType(_t.ast());
-    }
-
-    public boolean isType( Type t){
-        return Ast.typesEqual(this.ce.getType(), t);
-    }
-
-    public _typeRef getType(){
-        return _typeRef.of(this.ce.getType());
-    }
-
-    public boolean isExpression(String exp){
-        return isExpression(Ex.of(exp));
-    }
-
-    public boolean isExpression( _expression _e){
-        return isExpression(_e.ast());
-    }
-
-    public boolean isExpression( Expression e){
-        return Objects.equals( this.ce.getExpression(), e);
-    }
-
-    public _expression getExpression(){
-        return _expression.of(this.ce.getExpression());
-    }
-
-    public _cast setType(String type){
-        this.ce.setType(type);
-        return this;
-    }
-    public _cast setType(_typeRef type){
-        this.ce.setType(type.ast());
-        return this;
-    }
-    public _cast setType(Type type){
-        this.ce.setType(type);
-        return this;
-    }
-
-    public _cast setType(Class clazz){
-        this.ce.setType(clazz);
-        return this;
-    }
-    */
     public boolean equals(Object other){
         if( other instanceof _cast){
             return ((_cast)other).ce.equals( this.ce);

@@ -131,8 +131,8 @@ public class _diffTest extends TestCase {
         _annotationDiff.INSTANCE.diff(path, dt, null, null, _a1, _a2);
         assertTrue( dt.isEmpty());
         
-        _a1.targetType();
-        _a1.entry("int a() default 1;");
+        _a1.setTargetType();
+        _a1.addEntry("int a() default 1;");
         _a1.addImports(IOException.class);
         _a1.addField("public static final int ID = 1;");
         _a1.setJavadoc("javadoc");

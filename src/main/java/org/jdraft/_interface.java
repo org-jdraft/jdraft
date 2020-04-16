@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.JavaParser;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
@@ -35,21 +36,49 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         return of( new ClassOrInterfaceDeclaration() );
     }
 
-    public static _interface of(URL url){
+    public static _interface of(URL url) {
+        return of(Ast.JAVAPARSER, url);
+    }
+
+    public static _interface of(JavaParser javaParser, URL url){
         try {
             InputStream inStream = url.openStream();
-            return of(inStream);
+            return of(javaParser, inStream);
         }catch(IOException ioe){
             throw new _ioException("invalid input url \""+url.toString()+"\"", ioe);
         }
     }
 
-    public static _interface of( Path p){
-        return of(_io.inFile(p));
+    public static _interface of( Path p) {
+        return of(Ast.JAVAPARSER, p);
     }
 
-    public static _interface of( Class clazz ){
-        Node n = Ast.typeDecl( clazz );
+    public static _interface of(JavaParser javaParser,  Path p){
+        return of(javaParser, _io.inFile(p));
+    }
+
+    public static _interface of(InputStream is) {
+        return of( Ast.JAVAPARSER, is);
+    }
+
+    public static _interface of(JavaParser javaParser, InputStream is) {
+        return of( Ast.of(javaParser, is) );
+    }
+
+    public static _interface of( _in in ) {
+        return of( Ast.JAVAPARSER, in);
+    }
+
+    public static _interface of( JavaParser javaParser, _in in ){
+        return of( javaParser, in.getInputStream());
+    }
+
+    public static _interface of( Class clazz ) {
+        return of(Ast.JAVAPARSER, clazz);
+    }
+
+    public static _interface of( JavaParser javaParser, Class clazz ){
+        Node n = Ast.typeDecl( javaParser, clazz );
         if( n instanceof CompilationUnit ){
             return macro.to(clazz, of( (CompilationUnit)n));
         } 
@@ -74,7 +103,11 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
      * @param interfaceDef String definition of the interface, (each element represents a line)
      * @return the _interface declaration
      */
-    public static _interface of( String...interfaceDef ){
+    public static _interface of( String...interfaceDef ) {
+        return of(Ast.JAVAPARSER, interfaceDef);
+    }
+
+    public static _interface of( JavaParser javaParser, String...interfaceDef ){
         if( interfaceDef.length == 0 ){
             return of();
         }
@@ -92,13 +125,13 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
                     if(!shortcutClass.endsWith("}")){
                         shortcutClass = shortcutClass + "{}";
                     }
-                    return of( Ast.of( "package "+packageName+";"+System.lineSeparator()+
+                    return of( Ast.of( javaParser,"package "+packageName+";"+System.lineSeparator()+
                             "public interface "+shortcutClass));
                 }
                 if(!shortcutClass.endsWith("}")){
                     shortcutClass = shortcutClass + "{}";
                 }
-                return of( Ast.of("public interface "+shortcutClass));
+                return of( Ast.of(javaParser,"public interface "+shortcutClass));
             }
         }
         //check if the interfaceDef has a "private " before " class ", if so, remove it
@@ -112,7 +145,11 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
             _i.setPrivate();
             return _i;
         }
-        return of( Ast.of( interfaceDef ));
+        return of( Ast.of( javaParser, interfaceDef ));
+    }
+
+    public static _interface of( String interfaceCode1, String interfaceCode2) {
+        return of( Ast.JAVAPARSER, new String[]{interfaceCode1, interfaceCode2});
     }
 
     /**
@@ -188,13 +225,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         return new _interface( astClass );
     }
 
-    public static _interface of(InputStream is){
-        return of( StaticJavaParser.parse(is) );
-    }
 
-    public static _interface of( _in in ){
-        return of( in.getInputStream());
-    }
 
     public _interface( ClassOrInterfaceDeclaration astClass ){
         this.astInterface = astClass;

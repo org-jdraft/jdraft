@@ -7,10 +7,10 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import com.github.javaparser.JavaParser;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
@@ -38,21 +38,31 @@ import org.jdraft.text.Text;
 public final class _annotation
         implements _type<AnnotationDeclaration, _annotation> {
 
-    public static _annotation of( Path p){
-        return of(_io.inFile(p));
+    public static _annotation of( Path p) {
+        return of( Ast.JAVAPARSER, p);
+    }
+    public static _annotation of(JavaParser javaParser, Path p) {
+        return of(javaParser, _io.inFile(p));
     }
 
     public static _annotation of(URL url){
+        return of(Ast.JAVAPARSER, url);
+    }
+    public static _annotation of(JavaParser javaParser, URL url){
         try {
             InputStream inStream = url.openStream();
-            return of(inStream);
+            return of(javaParser, inStream);
         }catch(IOException ioe){
             throw new _ioException("invalid input url \""+url.toString()+"\"", ioe);
         }
     }
 
     public static _annotation of( Class<? extends Annotation> clazz ){
-        TypeDeclaration n = Ast.typeDecl( clazz );
+        return of(Ast.JAVAPARSER, clazz);
+    }
+
+    public static _annotation of( JavaParser javaParser, Class<? extends Annotation> clazz ){
+        TypeDeclaration n = Ast.typeDecl( javaParser, clazz );
         //not a compilation
         Set<Class> imps = _import.inferImportsFrom(clazz);
         _annotation _a = of( (AnnotationDeclaration)n);
@@ -108,7 +118,7 @@ public final class _annotation
             if( !f.getAnnotations().isEmpty()){
                 _ae.addAnnos( f.getAnnotations());
             }
-            _a.entry(_ae);
+            _a.addEntry(_ae);
         });
 
         //static fields are static fields on the annotation
@@ -131,127 +141,23 @@ public final class _annotation
         return of(signature, anonymousObjectBody, Thread.currentThread().getStackTrace()[2]);
     }
 
-    public _annotation retentionPolicyRuntime(){
-        this.addImports(Retention.class, RetentionPolicy.class);
-        this.removeAnnos(Retention.class); //remove if one already exists
-        addAnnos( "Retention(RetentionPolicy.RUNTIME)");
-        return this;
-    }
-
-    public _annotation retentionPolicyClass(){
-        this.addImports(Retention.class, RetentionPolicy.class);
-        this.removeAnnos(Retention.class);
-        addAnnos( "Retention(RetentionPolicy.CLASS)");
-        return this;
-    }
-
-    public _annotation retentionPolicySource(){
-        this.addImports(Retention.class, RetentionPolicy.class);
-        this.removeAnnos(Retention.class);
-        addAnnos( "Retention(RetentionPolicy.SOURCE)");
-        return this;
-    }
-
-    /**
-     * Set the target element types for this annotation
-     * (with an annotation)
-     * @param elementTypes the element types this annotation should target
-     * @return the modified annotation
-     */
-    public _annotation targets( ElementType...elementTypes ){        
-        if( elementTypes.length == 0 ){
-            this.removeAnnos( Target.class);
-        }
-        this.addImports(Target.class, ElementType.class);
-        if( elementTypes.length == 1 ){
-            this.removeAnnos( Target.class);
-            return addAnnos("Target(ElementType."+elementTypes[0].name()+")" );
-        }                
-        StringBuilder sb = new StringBuilder();
-        for(int i=0;i<elementTypes.length; i++){
-            if( i > 0 ){
-                sb.append(",");
-            }
-            sb.append("ElementType.").append(elementTypes[i].name() );
-        }
-        return addAnnos("Target({"+sb.toString()+"})");
-    }
-    
-    public _annotation targetMethod(){
-        this.addImports( Target.class, ElementType.class );
-        removeAnnos(Target.class);
-        addAnnos("Target(ElementType.METHOD)");
-        return this;
-    }
-
-    public _annotation targetParameter(){
-        this.addImports( Target.class, ElementType.class );
-        removeAnnos(Target.class);
-        addAnnos("Target(ElementType.PARAMETER)");
-        return this;
-    }
-
-    public _annotation targetTypeUse(){
-        this.addImports( Target.class, ElementType.class );
-        removeAnnos(Target.class);
-        addAnnos("Target(ElementType.TYPE_USE)");
-        return this;
-    }
-
-    public _annotation targetType(){
-        this.addImports( Target.class, ElementType.class );
-        removeAnnos(Target.class);
-        addAnnos("Target(ElementType.TYPE)");
-        return this;
-    }
-
-    public _annotation targetTypeParameter(){
-        this.addImports( Target.class, ElementType.class );
-        removeAnnos(Target.class);
-        addAnnos("Target(ElementType.TYPE_PARAMETER)");
-        return this;
-    }
-
-    public _annotation targetLocalVariable(){
-        this.addImports( Target.class, ElementType.class );
-        removeAnnos(Target.class);
-        addAnnos("Target(ElementType.LOCAL_VARIABLE)");
-        return this;
-    }
-
-    public _annotation targetAnnotationType(){
-        this.addImports( Target.class, ElementType.class );
-        removeAnnos(Target.class);
-        addAnnos("Target(ElementType.ANNOTATION_TYPE)");
-        return this;
-    }
-    
-    public _annotation targetPackage(){
-        this.addImports( Target.class, ElementType.class );
-        removeAnnos(Target.class);
-        addAnnos("Target(ElementType.PACKAGE)");
-        return this;
-    }
-
-    public _annotation targetConstructor(){
-        this.addImports( Target.class, ElementType.class );
-        removeAnnos(Target.class);
-        addAnnos("Target(ElementType.CONSTRUCTOR)");
-        return this;
-    }
-
-    public _annotation targetField(){
-        this.addImports( Target.class, ElementType.class );
-        removeAnnos(Target.class);
-        addAnnos("Target(ElementType.FIELD)");
-        return this;
-    }
-
     public static _annotation of(){
         return of( new AnnotationDeclaration() );
     }
 
     public static _annotation of( String...classDef ) {
+        return of(Ast.JAVAPARSER, classDef);
+    }
+
+    public static _annotation of( String annotationDef) {
+        return of(Ast.JAVAPARSER, new String[]{annotationDef});
+    }
+
+    public static _annotation of( String annotationDef1, String annotationDef2) {
+        return of(Ast.JAVAPARSER, new String[]{annotationDef1, annotationDef2});
+    }
+
+    public static _annotation of( JavaParser javaParser, String...classDef ) {
         if (classDef.length == 1) {
             String[] strs = classDef[0].split(" ");
             if (strs.length == 1) {
@@ -265,13 +171,13 @@ public final class _annotation
                     if (!shortcutClass.endsWith("}")) {
                         shortcutClass = shortcutClass + "{}";
                     }
-                    return of(Ast.of("package " + packageName + ";" + System.lineSeparator() +
+                    return of(Ast.of(javaParser,"package " + packageName + ";" + System.lineSeparator() +
                             "public @interface " + shortcutClass));
                 }
                 if (!shortcutClass.endsWith("}")) {
                     shortcutClass = shortcutClass + "{}";
                 }
-                return of(Ast.of("public @interface " + shortcutClass));
+                return of(Ast.of(javaParser,"public @interface " + shortcutClass));
             }
         }
         String cc = Text.combine(classDef);
@@ -283,21 +189,29 @@ public final class _annotation
             _i.setPrivate();
             return _i;
         }
-        return of(Ast.of(classDef));
+        return of(Ast.of(javaParser, classDef));
+    }
+
+    public static _annotation of(InputStream is) {
+        return of(Ast.JAVAPARSER, is);
+    }
+
+    public static _annotation of(JavaParser javaParser, InputStream is) {
+        return of( Ast.of(javaParser, is) );
+    }
+
+    public static _annotation of( _in in ) {
+        return of(Ast.JAVAPARSER, in);
+    }
+
+    public static _annotation of(JavaParser javaParser, _in in ) {
+        return of( javaParser, in.getInputStream());
     }
 
     public static _annotation of( AnnotationDeclaration astClass ){
         return new _annotation( astClass );
     }
 
-    public static _annotation of(InputStream is){
-        return of( StaticJavaParser.parse(is) );
-    }
-
-    public static _annotation of( _in in ){
-        return of( in.getInputStream());
-    }
-    
     public _annotation( AnnotationDeclaration astClass ){
         this.astAnnotation = astClass;
     }
@@ -316,7 +230,123 @@ public final class _annotation
     public boolean isTopLevel(){
         return ast().isTopLevelType();
     }
-    
+
+    public _annotation setRetentionPolicyRuntime(){
+        this.addImports(Retention.class, RetentionPolicy.class);
+        this.removeAnnos(Retention.class); //remove if one already exists
+        addAnnos( "Retention(RetentionPolicy.RUNTIME)");
+        return this;
+    }
+
+    public _annotation setRetentionPolicyClass(){
+        this.addImports(Retention.class, RetentionPolicy.class);
+        this.removeAnnos(Retention.class);
+        addAnnos( "Retention(RetentionPolicy.CLASS)");
+        return this;
+    }
+
+    public _annotation setRetentionPolicySource(){
+        this.addImports(Retention.class, RetentionPolicy.class);
+        this.removeAnnos(Retention.class);
+        addAnnos( "Retention(RetentionPolicy.SOURCE)");
+        return this;
+    }
+
+    /**
+     * Set the target element types for this annotation
+     * (with an annotation)
+     * @param elementTypes the element types this annotation should target
+     * @return the modified annotation
+     */
+    public _annotation setTargets(ElementType...elementTypes ){
+        if( elementTypes.length == 0 ){
+            this.removeAnnos( Target.class);
+        }
+        this.addImports(Target.class, ElementType.class);
+        if( elementTypes.length == 1 ){
+            this.removeAnnos( Target.class);
+            return addAnnos("Target(ElementType."+elementTypes[0].name()+")" );
+        }
+        StringBuilder sb = new StringBuilder();
+        for(int i=0;i<elementTypes.length; i++){
+            if( i > 0 ){
+                sb.append(",");
+            }
+            sb.append("ElementType.").append(elementTypes[i].name() );
+        }
+        return addAnnos("Target({"+sb.toString()+"})");
+    }
+
+    public _annotation setTargetMethod(){
+        this.addImports( Target.class, ElementType.class );
+        removeAnnos(Target.class);
+        addAnnos("Target(ElementType.METHOD)");
+        return this;
+    }
+
+    public _annotation setTargetParameter(){
+        this.addImports( Target.class, ElementType.class );
+        removeAnnos(Target.class);
+        addAnnos("Target(ElementType.PARAMETER)");
+        return this;
+    }
+
+    public _annotation setTargetTypeUse(){
+        this.addImports( Target.class, ElementType.class );
+        removeAnnos(Target.class);
+        addAnnos("Target(ElementType.TYPE_USE)");
+        return this;
+    }
+
+    public _annotation setTargetType(){
+        this.addImports( Target.class, ElementType.class );
+        removeAnnos(Target.class);
+        addAnnos("Target(ElementType.TYPE)");
+        return this;
+    }
+
+    public _annotation setTargetTypeParameter(){
+        this.addImports( Target.class, ElementType.class );
+        removeAnnos(Target.class);
+        addAnnos("Target(ElementType.TYPE_PARAMETER)");
+        return this;
+    }
+
+    public _annotation setTargetLocalVariable(){
+        this.addImports( Target.class, ElementType.class );
+        removeAnnos(Target.class);
+        addAnnos("Target(ElementType.LOCAL_VARIABLE)");
+        return this;
+    }
+
+    public _annotation setTargetAnnotationType(){
+        this.addImports( Target.class, ElementType.class );
+        removeAnnos(Target.class);
+        addAnnos("Target(ElementType.ANNOTATION_TYPE)");
+        return this;
+    }
+
+    public _annotation setTargetPackage(){
+        this.addImports( Target.class, ElementType.class );
+        removeAnnos(Target.class);
+        addAnnos("Target(ElementType.PACKAGE)");
+        return this;
+    }
+
+    public _annotation setTargetConstructor(){
+        this.addImports( Target.class, ElementType.class );
+        removeAnnos(Target.class);
+        addAnnos("Target(ElementType.CONSTRUCTOR)");
+        return this;
+    }
+
+    public _annotation setTargetField(){
+        this.addImports( Target.class, ElementType.class );
+        removeAnnos(Target.class);
+        addAnnos("Target(ElementType.FIELD)");
+        return this;
+    }
+
     @Override
     public CompilationUnit astCompilationUnit(){
         if( this.ast().findCompilationUnit().isPresent() ){
@@ -354,19 +384,19 @@ public final class _annotation
         return !listElements().isEmpty();
     }
 
-    public _annotation entry(){
-        return entry( new AnnotationMemberDeclaration( ));
+    public _annotation addEntry(){
+        return addEntry( new AnnotationMemberDeclaration( ));
     }
-    public _annotation entry(String... entryDeclaration ){
-        return entry( Ast.annotationMemberDecl( entryDeclaration ));
+    public _annotation addEntry(String... entryDeclaration ){
+        return addEntry( Ast.annotationMemberDecl( entryDeclaration ));
     }
 
-    public _annotation entry(_entry _ae){
+    public _annotation addEntry(_entry _ae){
         this.astAnnotation.addMember( _ae.astAnnMember );
         return this;
     }
 
-    public _annotation entry(AnnotationMemberDeclaration annotationEntry){
+    public _annotation addEntry(AnnotationMemberDeclaration annotationEntry){
         this.astAnnotation.addMember( annotationEntry );
         return this;
     }
@@ -496,42 +526,6 @@ public final class _annotation
     public _annotation removeEntries(Predicate<_entry> _pe ){
         listElements(_pe).forEach( e -> removeEntry(e));
         return this;
-    }
-
-    public enum Part {
-        HEADER_COMMENT(1, "headerComment", (a)->a.getHeaderComment() ),
-        PACKAGE(2, "package", (a)->a.getPackage() ),
-        IMPORTS(3, "imports", (a)->a.listImports() ),
-        JAVADOC(4, "javadoc", (a)->a.getJavadoc() ),
-        ANNOS(5, "annos", (a)->a.listAnnos() ),
-        MODIFIERS(6, "modifiers", (a)->a.getModifiers() ),
-        NAME(7, "name", (a)->a.getName() ),
-        ELEMENTS(8, "elements", (a)->a.listElements() ),
-        FIELDS(9, "fields", (a)->a.listFields() ),
-        NESTS(10, "inner", (a)->a.listInnerTypes() ),
-        COMPANION_TYPES(11, "companionTypes", (a)->a.listCompanionTypes() );
-
-        private final String name;
-        private final int index;
-        private final Function<_annotation, Object> resolver;
-
-        Part(int index, String name, Function<_annotation, Object> resolver ){
-            this.index = index;
-            this.name = name;
-            this.resolver = resolver;
-        }
-
-        public String getName(){
-            return name;
-        }
-    }
-
-    public static final Part[] PARTS = Part.values();
-
-    public Map<Part, Object> partsMap() {
-        Map<Part, Object> m = new HashMap<>();
-        Arrays.stream(PARTS).forEach(t -> m.put(t, t.resolver.apply(this)));
-        return m;
     }
 
     @Override

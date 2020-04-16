@@ -325,7 +325,7 @@ public final class _annos
          * @param matchFn
          * @return
          */
-        default boolean allAnnos( Predicate<_anno> matchFn){
+        default boolean isAllAnnos(Predicate<_anno> matchFn){
             return listAnnos().stream().allMatch(matchFn);
         }
 

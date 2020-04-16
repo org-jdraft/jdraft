@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.function.*;
 
+import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.JavadocComment;
@@ -63,7 +64,30 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * @return
      */
     public static _class of( Class clazz) {
-        TypeDeclaration n = Ast.typeDecl( clazz );
+        return of(Ast.JAVAPARSER, clazz);
+    }
+
+    /**
+     * Build a _class from the source of the Class, while applying any
+     * runtime _macro ANNOTATIONS (i.e. @_static, @_final...) to the components on the
+     * class; and finally calling the optional typeFns in order to mutate the {@link _class}<BR/>
+     * Example:
+     * <PRE>
+     *     @_package("aaaa") class C { int a,b; @_static String NAME = "A";}
+     *     _class _c = _class.of( C.class, _autoDto.$);
+     *
+     *     // the above will build the class _c from the source of C,
+     *     // apply the @_package, and @_static macros to update _c
+     *     // then apply the {@link org.jdraft.macro._dto} _macro to _c
+     * </PRE>
+     *
+     * @param javaParser the javaParser instance
+     * @param clazz
+     * //@param typeFns
+     * @return
+     */
+    public static _class of( JavaParser javaParser, Class clazz) {
+        TypeDeclaration n = Ast.typeDecl( javaParser, clazz );
         if( n instanceof ClassOrInterfaceDeclaration){
             _class _c = of(n);
             
@@ -84,8 +108,23 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         throw new _jdraftException("Abstract or synthetic classes are not supported"+ clazz);
     }
 
-    public static _class of( Path p){
-        return of(_io.inFile(p));
+    /**
+     *
+     * @param p
+     * @return
+     */
+    public static _class of( Path p) {
+        return of(Ast.JAVAPARSER, p);
+    }
+
+    /**
+     *
+     * @param javaParser
+     * @param p
+     * @return
+     */
+    public static _class of(JavaParser javaParser, Path p){
+        return of(javaParser, _io.inFile(p));
     }
 
     /**
@@ -93,8 +132,18 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * @param in
      * @return 
      */
-    public static _class of( _in in ){
-        return of( in.getInputStream() );
+    public static _class of( _in in ) {
+        return of( Ast.JAVAPARSER, in);
+    }
+
+    /**
+     *
+     * @param javaParser
+     * @param in
+     * @return
+     */
+    public static _class of( JavaParser javaParser, _in in ){
+        return of( javaParser, in.getInputStream() );
     }
 
     /**
@@ -102,8 +151,18 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * @param is
      * @return 
      */
-    public static _class of( InputStream is ){
-        return (_class) _type.of(is);
+    public static _class of( InputStream is ) {
+        return of( Ast.JAVAPARSER, is);
+    }
+
+    /**
+     *
+     * @param javaParser
+     * @param is
+     * @return
+     */
+    public static _class of( JavaParser javaParser, InputStream is ) {
+        return (_class) _type.of(javaParser, is);
     }
 
     /**
@@ -111,10 +170,21 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * @param url
      * @return
      */
-    public static _class of(URL url){
+    public static _class of(URL url) {
+        return of(Ast.JAVAPARSER, url);
+    }
+
+    /**
+     *
+     * @param javaParser
+     * @param url
+     * @return
+     */
+    public static _class of(JavaParser javaParser, URL url) {
+
         try {
             InputStream inStream = url.openStream();
-            return of(inStream);
+            return of(javaParser, inStream);
         }catch(IOException ioe){
             throw new _ioException("invalid input url \""+url.toString()+"\"", ioe);
         }
@@ -126,19 +196,30 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * @return the _class model
      */
     public static _class of( String classDef){
-        return of( new String[]{classDef});
+        return of( Ast.JAVAPARSER, new String[]{classDef});
     }
 
     /**
      *
+     * @param javaParser
+     * @param classDef
+     * @return
+     */
+    public static _class of(JavaParser javaParser, String classDef){
+        return of( javaParser, new String[]{classDef});
+    }
+
+    /**
+     * we need this as to not confuse the caller API with
+     * (2) Strings with a String, and Object () for anonymousClassBody
      * @param classDef1
      * @param classDef2
      * @return
+     * @see #of(String, Object)
      */
     public static _class of(String classDef1, String classDef2){
         return of( new String[]{classDef1, classDef2});
     }
-
 
     /**
      * if you pass a single line, with a single token (NO SPACES) into this, we create a shortcut class
@@ -155,8 +236,17 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * @param classDef
      * @return 
      */ 
-    public static _class of( String...classDef ){
+    public static _class of( String...classDef ) {
+        return of(Ast.JAVAPARSER, classDef);
+    }
 
+    /**
+     *
+     * @param javaParser
+     * @param classDef
+     * @return
+     */
+    public static _class of( JavaParser javaParser, String...classDef ) {
         if( classDef.length == 0){
             return of();
         }
@@ -176,13 +266,13 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
                         shortcutClass = shortcutClass + "{}";
                     }
 
-                    return of( Ast.of( "package "+packageName+";"+System.lineSeparator()+
+                    return of( Ast.of( javaParser,"package "+packageName+";"+System.lineSeparator()+
                         "public class "+shortcutClass));
                 }
                 if(!shortcutClass.endsWith("}")){
                     shortcutClass = shortcutClass + "{}";
                 }
-                _class _c = of( Ast.of("public class "+shortcutClass));
+                _class _c = of( Ast.of(javaParser,"public class "+shortcutClass));
                 return _c;
             }
             else{
@@ -198,11 +288,11 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         int privateIndex = cc.indexOf( "private ");
         if( privateIndex >= 0 && privateIndex < classIndex ){
             cc = cc.substring(0, privateIndex)+ cc.substring(privateIndex + "private ".length());
-            _class _c = of( Ast.of( cc ));
+            _class _c = of( Ast.of(javaParser, cc ));
             _c.setPrivate();
             return _c;
         }
-        return of( Ast.of( classDef ));
+        return of( Ast.of( javaParser, classDef ));
     }
 
     /**
@@ -274,7 +364,6 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * @return
      */
     public static _class of( String signature, Object anonymousClassBody) {
-        //System.err.println("Got here");
         return of(signature, anonymousClassBody, Thread.currentThread().getStackTrace()[2]);
     }
 
