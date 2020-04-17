@@ -23,7 +23,7 @@ public class IntelliJStructuralSearchTest{
 
     public void testJavadocPatterns(){
         //Comments
-        _( $comment.of() );
+        __( $comment.of() );
 
         /*
         //_field _f = _field.of("/** @deprecatedint i;"); */
@@ -62,69 +62,69 @@ public class IntelliJStructuralSearchTest{
      */
     public void testExistingTemplates(){
         //all fields
-        _( $field.of() );
+        __( $field.of() );
 
         //All fields within ANY class (i.e. not enums, interfaces, annotations)
-        _( $.field().$isParent($class.of()) );
+        __( $.field().$isParent($class.of()) );
 
         //All inner classes (only _class es)
-        _( $class.of(c-> !c.isTopLevel()) );
+        __( $class.of(c-> !c.isTopLevel()) );
 
         //All inner types (all class, interface, annotation, enums)
-        _( $type.of(t-> !t.isTopLevel()) );
+        __( $type.of(t-> !t.isTopLevel()) );
 
         //All methods
-        _( $method.of() );
+        __( $method.of() );
 
         //all AnonymousClasses
-        _( $ex.newEx(n-> n.isAnonymous()) );
+        __( $ex.newEx(n-> n.isAnonymous()) );
 
         //$new.of(n-> n.hasBody());
 
         //Any initializer
-        _( $.initBlock() );
+        __( $.initBlock() );
 
         //Class constructors
-        _( $.constructor().$isParent($class.of() ) );
+        __( $.constructor().$isParent($class.of() ) );
 
         //ALL constructors
-        _( $.constructor() );
+        __( $.constructor() );
 
         //Class implementing (exactly 2) interfaces
-        _( $class.of(c-> c.listImplements().size() ==2) );
+        __( $class.of(c-> c.listImplements().size() ==2) );
 
         //All Classes
-        _ ( $class.of() );
+        __( $class.of() );
 
         //ALL types (Classes interfaces enums, annotations)
-        _( $type.of() );
+        __( $type.of() );
 
         //Classes with type parameterized constructors
-        _( $class.of(c-> c.hasTypeParameters()) );
+        __( $class.of(c-> c.hasTypeParameters()) );
 
         //Methods and constructors
-        _( $.or($method.of(), $constructor.of() ) );
+        __( $.or($method.of(), $constructor.of() ) );
 
         //Deprecated methods
-        _( $method.of( $anno.of(Deprecated.class)) );
+        __( $method.of( $anno.of(Deprecated.class)) );
 
         //Direct Subclasses
-        _( $class.of( c -> c.hasExtends()) );
+        __( $class.of(c -> c.hasExtends()) );
 
         //Subclass of a specific type
-        _( $class.of( c -> c.isExtends("baseClassName")) );
+        __( $class.of(c -> c.isExtends("baseClassName")) );
 
         //Enums
-        _( $enum.of() );
+        __( $enum.of() );
 
         //Fields of a class
-        _( $field.of().$isParent( $class.of("className") ) );
+        __( $field.of().$isParent( $class.of("className") ) );
 
         //All classes that implement interfaces
-        _( $class.of(c-> c.hasImplements()) );
+        __( $class.of(c-> c.hasImplements()) );
 
         //All classes that implement a specific interface
-        _( $class.of(c-> c.isImplements(Serializable.class)) );
+        __( $class.of(c-> c.isImplements(Serializable.class)) );
 
         //Instance fields of a class
         //$.instanceField().of($.CLASS);
@@ -132,73 +132,73 @@ public class IntelliJStructuralSearchTest{
         //$.instanceInit()
 
         //non static fields on classes
-        _( $field.of().$not($.STATIC).$isParent($class.of()) );
+        __( $field.of().$not($.STATIC).$isParent($class.of()) );
 
         //instance fields of a specific class
-        _( $field.of().$not($.STATIC).$isParent($class.of("specificClass")) );
+        __( $field.of().$not($.STATIC).$isParent($class.of("specificClass")) );
 
         //Instance initializers
-        _( $.initBlock(i-> !i.isStatic()) );
+        __( $.initBlock(i-> !i.isStatic()) );
 
         //Interface not implemented or extended
         //$interface.of( i-> !i.hasExtends() && !i.hasImplements() )
 
         //Interfaces
-        _( $interface.of() );
+        __( $interface.of() );
 
         //Package-private fields
-        _( $field.of(f-> f.isPackagePrivate() ) ); //isPackagePrivate())
+        __( $field.of(f-> f.isPackagePrivate() ) ); //isPackagePrivate())
 
         //Static fields that are not final
-        _( $field.of($.STATIC).$not($.FINAL) );
+        __( $field.of($.STATIC).$not($.FINAL) );
 
         //StaticInitializer
         //$.staticInit()
-        _( $.initBlock(i-> i.isStatic()) );
+        __( $.initBlock(i-> i.isStatic()) );
 
         //Annotated Classes
-        _( $class.of( c-> c.hasAnnos() ) );
+        __( $class.of(c-> c.hasAnnos() ) );
 
         //Annotated Fields
-        _( $field.of( f->f.hasAnnos() ) );
+        __( $field.of(f->f.hasAnnos() ) );
 
         //Annotated Methods
-        _( $method.of( m->m.hasAnnos() ) );
+        __( $method.of(m->m.hasAnnos() ) );
 
         //Annotation Type Declarations
-        _( $annotation.of() );
+        __( $annotation.of() );
 
         //Annotation
-        _( $anno.of() );
+        __( $anno.of() );
 
         //Expressions
 
         //all expressions of some type
-        _( $ex.of(_lambda.class) );
+        __( $ex.of(_lambda.class) );
 
         //all lambdas
-        _( $.lambda() );
+        __( $.lambda() );
 
 
         //Array access
-        _( $.arrayAccess() );
+        __( $.arrayAccess() );
 
         //Assignments
-        _( $.assign() );
+        __( $.assign() );
 
         //Casts
-        _( $.cast() );
+        __( $.cast() );
 
         //Field Selections / Field Access
-        _( $.fieldAccessExpr() );
+        __( $.fieldAccessExpr() );
 
         //$.fieldAccessExpr().name("url$Name$")
 
          //instanceof
-        _( $.instanceOf() );
+        __( $.instanceOf() );
 
         // method Calls
-        _( $.methodCall() );
+        __( $.methodCall() );
 
         //method calls to deprecated methods
         //you got me here
@@ -209,22 +209,22 @@ public class IntelliJStructuralSearchTest{
 //$.methodCall(mc->getName
 
         //method references
-        _( $.methodReference() );
+        __( $.methodReference() );
 
         //new expressions
-        _( $.newExpr() );
+        __( $.newExpr() );
 
 //simple method invocation with constant
         //method calls that use a single parameter literal
-        _( $.methodCall( m -> m.countArguments()  == 1
+        __( $.methodCall(m -> m.countArguments()  == 1
                         && m.getArguments().isAt(0, a -> a.isLiteral() ) ) );
 
         //String concatenation with many operands
-        _( $.binaryExpr( b-> b.isPlus() &&
+        __( $.binaryExpr(b-> b.isPlus() &&
                 b.isLeft( _string.class ) || b.isRight( _string.class )) );
 
         //String literals
-        _( $.stringLiteral() );
+        __( $.stringLiteral() );
 
         //DiamondOperators
         //$.methodCall(m-> m.isUsingDiamondOperator());
@@ -232,7 +232,7 @@ public class IntelliJStructuralSearchTest{
         //$.newExpr(n-> n.isUsingDiamondOperator());
 
         //Diamond Operators
-        _( $.or( $.methodCall(m-> m.isUsingDiamondOperator()),
+        __( $.or( $.methodCall(m-> m.isUsingDiamondOperator()),
                 $.constructorCallStmt( c -> c.isUsingDiamondOperator() ),
                 $.newExpr(n-> n.isUsingDiamondOperator()) ) );
         //$.thisCallStmt( t-> t.isUsingDi)
@@ -240,10 +240,10 @@ public class IntelliJStructuralSearchTest{
         //$.typeParameters(t.isDiamondOperator());
 
         //Generic Cast
-        _( $.cast( c-> c.getTypeRef().isGenericType() ) );
+        __( $.cast(c-> c.getTypeRef().isGenericType() ) );
 
         //Generic Classes
-        _( $class.of(c-> c.hasTypeParameters()) );
+        __( $class.of(c-> c.hasTypeParameters()) );
         //$class.of(c->c.isGeneric())
         //$class.of().$isGeneric()
 
@@ -282,18 +282,18 @@ public class IntelliJStructuralSearchTest{
 
         //all literals
         //
-        _( $.literal() );
+        __( $.literal() );
 
         //all primitives
-        _( $typeRef.of( t-> t.isPrimitive() ) );
+        __( $typeRef.of(t-> t.isPrimitive() ) );
         //$typeRef $primitive = $typeRef.or(int.class, boolean.class, long.class, double.class, float.class, char.class, short.class, byte.class);
 
         // boxed (primitive) types
-        _( $typeRef.or(Integer.class, Boolean.class, Long.class, Double.class,  Float.class, Character.class, Short.class, Byte.class) );
+        __( $typeRef.or(Integer.class, Boolean.class, Long.class, Double.class,  Float.class, Character.class, Short.class, Byte.class) );
 
 
         //literals (accept null, string)
-        _( $.literal().$not(_string.class, _null.class) );
+        __( $.literal().$not(_string.class, _null.class) );
 
 
         //$.variable( v-> v. ).$typeRef($primitive).$init($LITERALS)
@@ -303,19 +303,19 @@ public class IntelliJStructuralSearchTest{
 
         //fields variables with a given name
 //i.e. a name that starts with url
-        _( $var.of().$name("url$Any$") );
+        __( $var.of().$name("url$Any$") );
 
         //break to label
-        _( $.breakStmt(b-> b.hasLabel()) );
+        __( $.breakStmt(b-> b.hasLabel()) );
 
         //final methods and constructors
-        _( $.or( $method.of($.FINAL), $constructor.of($.FINAL)) );
+        __( $.or( $method.of($.FINAL), $constructor.of($.FINAL)) );
 
         //switch statements with few branches
-        _( $.switchStmt(s -> s.countSwitchEntries() <= 4) );
+        __( $.switchStmt(s -> s.countSwitchEntries() <= 4) );
 
         //try statements with resources and 1 or more catch blocks
-        _( $.tryStmt(t-> t.hasWithResources() && t.hasCatch() ) );
+        __( $.tryStmt(t-> t.hasWithResources() && t.hasCatch() ) );
 
         //unboxed expressions
         //_( $varEx.of( $.PRIMITIVE_TYPE ).$init( $.WRAPPER_TYPE ) )
@@ -328,29 +328,29 @@ public class IntelliJStructuralSearchTest{
 ???     */
 
         //Ejb interface
-        _( $interface.of(i-> i.hasMethods()).$extend("EJBObject") );
+        __( $interface.of(i-> i.hasMethods()).$extend("EJBObject") );
 
         //EJB class
-        _( $class.of().$implements("EntityBean") );
+        __( $class.of().$implements("EntityBean") );
 
         //Servlet
-        _( $class.of().$extends( "HttpServlet") );
+        __( $class.of().$extends( "HttpServlet") );
 
         //SessionEjb
-        _( $class.of().$extends("SessionBean") );
+        __( $class.of().$extends("SessionBean") );
 
         //Struts Action
-        _( $class.of().$extends("Action") );
+        __( $class.of().$extends("Action") );
 
         //BeanInfo Class
-        _( $class.of().$implements("BeanInfo") );
+        __( $class.of().$implements("BeanInfo") );
 
         //Cloneable class
         //find all cloneable classes
-        _( $class.of().$implements(Cloneable.class ) );
+        __( $class.of().$implements(Cloneable.class ) );
 
         //all direct testcases
-        _( $class.of().$extends( junit.framework.TestCase.class ) );
+        __( $class.of().$extends( junit.framework.TestCase.class ) );
 
         //I could search for n levels deep
         //this is another tool (outside of pattern)
@@ -380,39 +380,39 @@ public class IntelliJStructuralSearchTest{
         //allMatch
         //_class _c = _class.of("C");
         //$class.of(  _c.listConstructors().stream().allMatch(c-> c.isFinal() ) );
-        _( $class.of( c-> c.allConstructors( ct-> ct.isFinal()) ) );
-        _( $class.of( c-> c.allMethods( m-> m.isFinal()) ) );
-        _( $class.of( c-> c.allFields( f-> f.isFinal()) ) );
-        _( $class.of( c-> c.allInitBlocks( i-> i.isStatic() ) ) );
-        _( $class.of( c-> c.allTypeParameters( tp-> !tp.hasTypeBound() ) ) );
-        _( $class.of( c-> c.isAllAnnos(a-> !a.isNamed("todo") ) ) );
+        __( $class.of(c-> c.allConstructors(ct-> ct.isFinal()) ) );
+        __( $class.of(c-> c.allMethods(m-> m.isFinal()) ) );
+        __( $class.of(c-> c.allFields(f-> f.isFinal()) ) );
+        __( $class.of(c-> c.allInitBlocks(i-> i.isStatic() ) ) );
+        __( $class.of(c-> c.allTypeParameters(tp-> !tp.hasTypeBound() ) ) );
+        __( $class.of(c-> c.isAllAnnos(a-> !a.isNamed("todo") ) ) );
 
         //Singletons
         // OR classes that HAVE defined constructors that are ALL private
-        _( $class.of(c-> c.hasConstructors()
+        __( $class.of(c-> c.hasConstructors()
                 && c.allConstructors(ct-> ct.isPrivate())) );
 
         //assertStatement without descriptions/messages
-        _( $.assertStmt(a-> !a.hasMessage()) );
+        __( $.assertStmt(a-> !a.hasMessage()) );
 
         //forEachLoops
-        _( $.forEachStmt() );
+        __( $.forEachStmt() );
 
         //ifs
-        _( $.ifStmt() );
+        __( $.ifStmt() );
 
         //logging without if
         //$.methodCall("$LOG$.debug($args$)").$isParentNot($.ifStmt("if( $LOG$.isDebugEnabled())")) ??
 
         //switch statement
-        _($.switchStmt());
-        _($.switchExpr());
+        __($.switchStmt());
+        __($.switchExpr());
 
         //try
-        _( $.tryStmt() );
+        __( $.tryStmt() );
     }
 
-    public void _($pattern $p){
+    public void __($pattern $p){
         $p.countIn(_SOURCE);
     }
 
