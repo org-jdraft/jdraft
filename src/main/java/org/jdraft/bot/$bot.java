@@ -137,7 +137,29 @@ public interface $bot<B, _B, $B>
         return ($B)$(t1,$p1).$(t2, $p2).$(t3, $p3).$(t4, $p4);
     }
 
+    /**
+     * retrieves the first within the codeUnit provider
+     * @param _cup
+     * @return
+     */
+    default _B firstIn(_codeUnit._provider _cup) {
+        return firstIn(_cup, t->true);
+    }
 
+    /**
+     *
+     * @param _cup
+     * @param matchFn
+     * @return
+     */
+    default _B firstIn(_codeUnit._provider _cup, Predicate<_B> matchFn) {
+        Optional<_codeUnit> ocu =
+                _cup.list_code().stream().filter(_cu -> firstIn(_cu.astCompilationUnit(), matchFn) != null).findFirst();
+        if( ocu.isPresent() ){ //I foudn the matching CompilationUnit, now return the underlying first
+            return (_B) firstIn( ocu.get().astCompilationUnit() );
+        }
+        return null;
+    }
 
     /** */
     default _B firstIn(Class<?> clazz) {
@@ -172,6 +194,19 @@ public interface $bot<B, _B, $B>
         return null;
     }
 
+    default Select<_B> selectFirstIn(_codeUnit._provider _cup){
+        return selectFirstIn(_cup, t->true);
+    }
+
+    default Select<_B> selectFirstIn(_codeUnit._provider _cup, Predicate<Select<_B>> matchFn) {
+        //this should probably (eventually) be first() methods
+        Optional<_codeUnit> ocu = _cup.list_code().stream().filter(_cu -> selectFirstIn(_cu, matchFn)!= null ).findFirst();
+        if( ocu.isPresent() ){
+            return selectFirstIn( ocu.get().astCompilationUnit(), matchFn);
+        }
+        return null;
+    }
+
     default Select<_B> selectFirstIn(_java._domain _j) {
         return selectFirstIn(_j, t->true);
     }
@@ -179,10 +214,10 @@ public interface $bot<B, _B, $B>
     default Select<_B> selectFirstIn(_java._domain _j, Predicate<Select<_B>> matchFn) {
         if( _j instanceof _codeUnit){
             if( ((_codeUnit) _j).isTopLevel()){
-                selectFirstIn(_j, matchFn);
+                selectFirstIn( ((_codeUnit) _j).astCompilationUnit(), matchFn);
             }
         }
-        return selectFirstIn(_j, matchFn);
+        return selectFirstIn( ((_java._node)_j).ast(), matchFn);
     }
 
     /** */
@@ -210,6 +245,27 @@ public interface $bot<B, _B, $B>
      * @return
      */
     Select<_B> selectFirstIn(Node astNode, Predicate<Select<_B>>predicate);
+
+    /**
+     *
+     * @param _cup
+     * @return
+     */
+    default int countIn(_codeUnit._provider _cup) {
+        return countIn( _cup, t->true);
+    }
+
+    /**
+     *
+     * @param _cup
+     * @param _matchFn
+     * @return
+     */
+    default int countIn(_codeUnit._provider _cup, Predicate<_B> _matchFn) {
+        AtomicInteger ai = new AtomicInteger();
+        _cup.for_code(_cu -> ai.addAndGet( countIn(_cu.astCompilationUnit(), _matchFn) ) );
+        return ai.get();
+    }
 
     /**
      *
@@ -255,6 +311,15 @@ public interface $bot<B, _B, $B>
         return ai.get();
     }
 
+    default <_CUP extends _codeUnit._provider> _CUP forEachIn(_CUP _cup, Consumer<_B> actionFn){
+        return forEachIn( _cup, t->true, actionFn);
+    }
+
+    default <_CUP extends _codeUnit._provider> _CUP forEachIn(_CUP _cup, Predicate<_B> matchFn, Consumer<_B> actionFn){
+        _cup.for_code( (_codeUnit _cu) -> forEachIn( _cu.astCompilationUnit(), matchFn, actionFn) );
+        return _cup;
+    }
+
     default <_CT extends _type<?,?>> _CT forEachIn(Class<?> clazz, Consumer<_B> actionFn){
         return forEachIn(clazz, p->true, actionFn);
     }
@@ -295,6 +360,15 @@ public interface $bot<B, _B, $B>
             }
         });
         return astNode;
+    }
+
+    default <_CUP extends _codeUnit._provider> _CUP forSelectedIn(_CUP _cup, Consumer<Select<_B>> selectActionFn){
+        return forSelectedIn(_cup, t->true, selectActionFn);
+    }
+
+    default <_CUP extends _codeUnit._provider> _CUP forSelectedIn(_CUP _cup, Predicate<Select<_B>> matchFn, Consumer<Select<_B>> selectActionFn){
+        _cup.for_code( _c-> forSelectedIn(_c.astCompilationUnit(), matchFn, selectActionFn) );
+        return _cup;
     }
 
     default <_CT extends _type<?,?>> _CT forSelectedIn(Class<?> clazz, Consumer<Select<_B>> selectActionFn){
@@ -347,6 +421,16 @@ public interface $bot<B, _B, $B>
         return astNode;
     }
 
+    default List<_B> listIn(_codeUnit._provider _cup){
+        return listIn(_cup, t->true);
+    }
+
+    default List<_B> listIn(_codeUnit._provider _cup, Predicate<_B> _matchFn){
+        List<_B> fullList = new ArrayList<>();
+        _cup.for_code( _cu -> fullList.addAll( listIn(_cu.astCompilationUnit(), _matchFn) ));
+        return fullList;
+    }
+
     default List<_B> listIn(Class<?> clazz){
         return listIn(Ast.of( clazz ));
     }
@@ -381,6 +465,16 @@ public interface $bot<B, _B, $B>
         return list;
     }
 
+    default List<Select<_B>> listSelectedIn(_codeUnit._provider _cup) {
+        return listSelectedIn(_cup, t->true);
+    }
+
+    default List<Select<_B>> listSelectedIn(_codeUnit._provider _cup, Predicate<Select<_B>> _selectMatchFn) {
+        List<Select<_B>> lc = new ArrayList<>();
+        _cup.for_code( _cu-> lc.addAll( listSelectedIn(_cu.astCompilationUnit(), _selectMatchFn) ) );
+        return lc;
+    }
+
     default List<Select<_B>> listSelectedIn(Class<?> clazz) {
         return listSelectedIn(Ast.of(clazz));
     }
@@ -404,12 +498,32 @@ public interface $bot<B, _B, $B>
         return list;
     }
 
+    default void printIn(_codeUnit._provider _cup ){
+        _cup.for_code( _cu -> printIn(_cu.astCompilationUnit()) );
+    }
+
+    default void printIn(_java._node _jn) {
+        if( ( _jn instanceof _codeUnit) && ( ((_codeUnit)_jn).isTopLevel()) ){
+            printIn( ((_codeUnit)_jn).astCompilationUnit());
+        } else{
+            printIn(_jn.ast());
+        }
+    }
+
     default void printIn(Class<?> clazz) {
         forEachIn(Ast.of(clazz), e-> System.out.println(e));
     }
 
     default void printIn(Node astNode) {
         forEachIn(astNode, e-> System.out.println(e));
+    }
+
+    default Stream<_B> streamIn(_codeUnit._provider _cup){
+        return streamIn(_cup, t->true);
+    }
+
+    default Stream<_B> streamIn(_codeUnit._provider _cup, Predicate<_B> matchFn){
+        return listIn(_cup, matchFn).stream();
     }
 
     default Stream<_B> streamIn(_java._node<?, ?> _j){
@@ -525,6 +639,15 @@ public interface $bot<B, _B, $B>
             return _j;
         }
 
+        default <_CUP extends _codeUnit._provider> _CUP removeIn(_CUP _cup){
+            return removeIn(_cup, t->true);
+        }
+
+        default <_CUP extends _codeUnit._provider> _CUP removeIn(_CUP _cup, Predicate<_P> _matchFn) {
+            _cup.for_code( _cu -> removeIn(_cu.astCompilationUnit(), _matchFn) );
+            return _cup;
+        }
+
         default <_CT extends _type<?,?>> _CT removeIn(Class<?> clazz, Predicate<_P> _matchFn) {
             _CT _ct = _type.of(clazz);
             removeIn(_ct, _matchFn);
@@ -553,6 +676,16 @@ public interface $bot<B, _B, $B>
         default <N extends Node> N removeIn(N astNode, Predicate<_P> matchFn) {
             forEachIn(astNode, matchFn, n-> n.ast().removeForced());
             return astNode;
+        }
+
+        default <_CUP extends _codeUnit._provider> _CUP replaceIn(_CUP _cup, P replaceNode) {
+            _cup.for_code( _cu-> replaceIn(_cu.astCompilationUnit(), replaceNode) );
+            return _cup;
+        }
+
+        default <_CUP extends _codeUnit._provider, _N extends _java._node> _CUP replaceIn(_CUP _cup, Template<_N> _t) {
+            _cup.for_code(_cu -> replaceIn(_cu.astCompilationUnit(), _t) );
+            return _cup;
         }
 
         default <_CT extends _type<?,?>> _CT replaceIn(Class<?> clazz, Node replaceNode) {
@@ -633,15 +766,36 @@ public interface $bot<B, _B, $B>
             return forEachIn(node, p-> p.ast().replace(_replace.ast().clone()));
         }
 
-        default <_CT extends _type<?,?>, _N extends _java._node<?, ?>> _CT replaceSelectedIn(Class<?> clazz, Template<_N> replaceNode) {
-            _CT _ct = _type.of(clazz);
-            replaceSelectedIn(_ct.astCompilationUnit(), t->true, replaceNode);
-            return _ct;
+        /**
+         *
+         * @param _cup
+         * @return
+         */
+        default Select<_P> selectFirstIn(_codeUnit._provider _cup) {
+            return selectFirstIn(_cup, t->true);
         }
 
-        default <_CT extends _type<?,?>> _CT replaceSelectedIn(Class<?> clazz, Function<Select<_P>, Node> replaceDeriver) {
-            _CT _ct = _type.of(clazz);
-            return replaceSelectedIn(_ct, replaceDeriver);
+        /**
+         * @param _cup
+         * @param matchFn
+         * @return
+         */
+        default Select<_P> selectFirstIn(_codeUnit._provider _cup, Predicate<Select<_P>> matchFn) {
+            Optional<_codeUnit> ocu =
+                    _cup.list_code().stream().filter(_cu -> selectFirstIn(_cu.astCompilationUnit(), matchFn) != null).findFirst();
+            if( ocu.isPresent() ){ //I found the matching CompilationUnit, now return the underlying first
+                return selectFirstIn( ocu.get().astCompilationUnit() );
+            }
+            return null;
+        }
+
+        /**
+         *
+         * @param astNode the node to look through
+         * @return
+         */
+        default Select<_P> selectFirstIn(Node astNode) {
+            return selectFirstIn(astNode, t->true);
         }
 
         /**
@@ -660,6 +814,32 @@ public interface $bot<B, _B, $B>
             return null;
         }
 
+        default <_CUP extends _codeUnit._provider, _N extends _java._node<?, ?>> _CUP replaceSelectedIn(_CUP _cup, Template<_N> replaceNode) {
+            _cup.for_code(_cu-> replaceSelectedIn(_cu.astCompilationUnit(), replaceNode));
+            return _cup;
+        }
+
+        default <_CUP extends _codeUnit._provider> _CUP replaceSelectedIn(_CUP _cup, Function<Select<_P>, Node> replaceDeriver) {
+            _cup.for_code(_cu-> replaceSelectedIn(_cu.astCompilationUnit(), replaceDeriver));
+            return _cup;
+        }
+
+        default <_CUP extends _codeUnit._provider, N extends Node> _CUP replaceSelectedIn(_CUP _cup, Predicate<Select<_P>> selectMatchFn, Function<Select<_P>, Node> replaceDeriver) {
+            _cup.for_code(_cu-> replaceSelectedIn(_cu.astCompilationUnit(), selectMatchFn, replaceDeriver));
+            return _cup;
+        }
+
+        default <_CT extends _type<?,?>, _N extends _java._node<?, ?>> _CT replaceSelectedIn(Class<?> clazz, Template<_N> replaceNode) {
+            _CT _ct = _type.of(clazz);
+            replaceSelectedIn(_ct.astCompilationUnit(), t->true, replaceNode);
+            return _ct;
+        }
+
+        default <_CT extends _type<?,?>> _CT replaceSelectedIn(Class<?> clazz, Function<Select<_P>, Node> replaceDeriver) {
+            _CT _ct = _type.of(clazz);
+            return replaceSelectedIn(_ct, replaceDeriver);
+        }
+
         default <N extends Node, _N extends _java._node<?, ?>> N replaceSelectedIn(N astNode, Predicate<Select<_P>> selectMatchFn, Template<_N> nodeTemplate) {
             forSelectedIn(astNode, selectMatchFn, s->{
                 s.selection.ast().replace( nodeTemplate.draft(s.tokens).ast() );
@@ -673,19 +853,6 @@ public interface $bot<B, _B, $B>
             });
             return astNode;
         }
-
-        default void printEachTreeIn(_java._node _n) {
-            forEachIn(_n, e-> Print.tree(e));
-        }
-
-        default void printEachTreeIn(Node astNode) {
-            forEachIn(astNode, e-> Print.tree(e));
-        }
-
-        default void printEachTreeIn(Class<?> clazz) {
-            forEachIn(Ast.of(clazz), e-> Print.tree(e));
-        }
-
         default <_J extends _java._node<?,?>> _J replaceSelectedIn(_J _j, Function<Select<_P>, Node> replaceDeriver) {
             if(_j instanceof _codeUnit){
                 if( ((_codeUnit)_j).isTopLevel() ){
@@ -714,6 +881,22 @@ public interface $bot<B, _B, $B>
 
         default <N extends Node, _N extends _java._node<?, ?>> N replaceSelectedIn(N astNode, Template<_N> nodeTemplate) {
             return replaceSelectedIn(astNode, t->true, nodeTemplate);
+        }
+
+        default void printEachTreeIn(_codeUnit._provider _cp){
+            _cp.for_code( _c -> printEachTreeIn( (_java._node)_c) );
+        }
+
+        default void printEachTreeIn(_java._node _n) {
+            forEachIn(_n, e-> Print.tree(e));
+        }
+
+        default void printEachTreeIn(Node astNode) {
+            forEachIn(astNode, e-> Print.tree(e));
+        }
+
+        default void printEachTreeIn(Class<?> clazz) {
+            forEachIn(Ast.of(clazz), e-> Print.tree(e));
         }
     }
 }

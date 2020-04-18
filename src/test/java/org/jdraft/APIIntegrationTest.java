@@ -18,7 +18,55 @@ import org.jdraft.pattern.$typeRef;
  * @author Eric
  */
 public class APIIntegrationTest extends TestCase {
-    
+
+    public void testBuildtheModel(){
+        //githubresolver
+    }
+
+    //can I do something on (the tool side of things) to make it easier to use?
+    public void testApi(){
+        //I don't need to know the exact name/type of expression, just build it and return it to me
+        _expression _e = _expression.of("3 + 4"); //its really a _binaryExpression in case youre wondering
+
+        //you can create an exact type if you wish
+        _binaryExpression _be = _binaryExpression.of("3 + 4");
+
+        assertEquals( _e, _be);
+
+        //ditto with statements, just create me one that "does" this
+        _statement _st = _statement.of("System.out.println(1);");
+
+        //...or you can build one for its explicit type
+        _expressionStmt _es = _expressionStmt.of( "System.out.println(1);");
+        assertEquals(_st, _es);
+
+        //Statements can also be built from the Java source within a lambda body:
+        _st = _statement.of( ()-> System.out.println(1));
+        _es = _expressionStmt.of( ()-> System.out.println(1));
+        assertEquals( _st, _es);
+
+        //methods work like this:
+        _method.of("public int m(){ return 23; }");
+
+        //here the _method is created based on the source
+        // of the "m" method in the anonymous class... so we don't have to sacrifice
+        // readability by putting everything in a String (we get all the fun of autocomplete)
+        _method.of( new Object(){
+            public int m(){
+                return 23;
+            }
+        });
+
+        //heres how we do a stateful method,
+        // NOTE: we created the variable name within the anonymous class, but it's just temporary
+        _method.of( new Object(){
+            public String getName(){
+                return this.name;
+            }
+            String name;//NOTE: this is just to avoid compiler errors
+        });
+    }
+
     public void testResolveLocalClassSource(){        
         class G{}
         //make sure I can resolve local classes in the IDE path

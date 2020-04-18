@@ -776,6 +776,12 @@ public interface _codeUnit<_CU> extends _java._domain {
             return found;
         }
 
+        /**
+         * Looks through the sources for the fully qualified name, and if not found tries to find
+         * the top level class simple name
+         * @param name
+         * @return
+         */
         default _class get_class(String name){
             List<_class> _cs = list_types(_class.class, c-> c.getFullName().equals(name));
             if(!_cs.isEmpty()){

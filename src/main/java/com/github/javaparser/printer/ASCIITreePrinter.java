@@ -3,8 +3,13 @@ package com.github.javaparser.printer;
 import com.github.javaparser.Position;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.comments.BlockComment;
+import com.github.javaparser.ast.comments.Comment;
+import com.github.javaparser.ast.comments.JavadocComment;
+import org.jdraft._blockComment;
 import org.jdraft._codeUnit;
 import org.jdraft._java;
+import org.jdraft._javadocComment;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -342,7 +347,30 @@ public class ASCIITreePrinter {
      * @return
      */
     public static String nodeSummary(Node n){
-        String s = n.toString(PRINT_NO_COMMENTS).trim();
+        String s = "";
+        if( n instanceof Comment){ //for orphaned comments
+            if( n instanceof JavadocComment ){
+                List<String> lines = lines(_javadocComment.of((JavadocComment) n).getContents().trim());
+                //List<String> lines = lines(((JavadocComment) n).getContent().trim());
+                if( lines.size() > 1 ) {
+                    s = "/** " +lines.get(0) + "... */";
+                } else{
+                    s = "/** " +lines.get(0) + " */";
+                }
+            } else if( n instanceof BlockComment){
+                List<String> lines = lines(_blockComment.of((BlockComment) n).getContents().trim());
+                //List<String> lines = lines(((JavadocComment) n).getContent().trim());
+                if( lines.size() > 1 ) {
+                    s = "/* " +lines.get(0) + "... */";
+                } else{
+                    s = "/* " +lines.get(0) + " */";
+                }
+            } else {
+                s = n.toString();
+            }
+        } else { //for NON-Comments (most nodes)
+            s = n.toString(PRINT_NO_COMMENTS).trim();
+        }
         if( s.isEmpty() ){
             return ""; //this happens, sometimes we have UnknownType (for Lambda) with NO text
         }
