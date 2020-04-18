@@ -83,6 +83,10 @@ public final class _assertStmt implements _statement<AssertStmt, _assertStmt>, _
         return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
+    public static _assertStmt from(StackTraceElement ste ){
+        return from(_lambda.from(ste).astLambda);
+    }
+
     private static _assertStmt from( LambdaExpr le){
         Optional<AssertStmt> ows = le.getBody().findFirst(AssertStmt.class);
         if( ows.isPresent() ){
@@ -163,6 +167,11 @@ public final class _assertStmt implements _statement<AssertStmt, _assertStmt>, _
 
     public _assertStmt setMessage(String message){
         this.astStmt.setMessage(Expressions.stringLiteralEx(message));
+        return this;
+    }
+
+    public _assertStmt setMessage(_expression _e){
+        this.astStmt.setMessage(_e.ast());
         return this;
     }
 

@@ -88,10 +88,10 @@ public class WhatKindaStuff2 extends TestCase {
         _archive _a = _archive.of("C:\\guava-src.jar");
 
 
-        $comment.of("TODO").printIn( _a );
+        $comment.of("TODO").printIn( _a.load() );
 
         //print the number of main methods in the archive
-        System.out.println( $method.of("public static void main(String[] $name$){}").countIn(_a));
+        System.out.println( $method.of("public static void main(String[] $name$){}").countIn(_a.load()));
 
     }
 

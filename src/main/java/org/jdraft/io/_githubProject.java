@@ -120,30 +120,6 @@ public class _githubProject implements _batch {
         return _cus;
     }
 
-    /*
-    @Override
-    public <_C extends _codeUnit> List<_C> for_code(JavaParser javaParser, Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn) {
-        URL downloadUrl = downloadProjectZipURL();
-        List<_C>_codeUnits = new ArrayList<>();
-        _downloadArchiveConsumer.of( downloadUrl, (ZipEntry ze, InputStream is)-> {
-            if (ze.getName().endsWith(".java")) {
-                try {
-                    _codeUnit _cu = _codeUnit.of(javaParser, is);
-                    if( codeClass.isAssignableFrom(_cu.getClass())){
-                        if( _codeMatchFn.test( (_C) _cu)){
-                            _codeActionFn.accept( (_C)_cu);
-                        }
-                    }
-                    _codeUnits.add((_C)_cu);
-                }catch(Exception e){
-                    System.err.println( "Couldn't parse \""+ ze.getName()+"\"");
-                }
-            }
-        });
-        return _codeUnits;
-    }
-    */
-
     public URL downloadProjectZipURL( ) {
         return downloadProjectZipURL(this.projectDetail.branch);
     }
@@ -239,11 +215,10 @@ public class _githubProject implements _batch {
         Tokens ts = Tokens.of("owner", projectDetail.owner,
                 "project", projectDetail.name,
                 "branch", branch,
-                "pathToJavaFile", sourceRoot+pathToJavaFile);
+                "pathToJavaFile", sourceRoot + pathToJavaFile);
         String url = stencil.draft(ts);
         try {
             return new URL( url );
-            //return new URL(url);
         }catch(MalformedURLException mue){
             throw new _ioException("Unable to build url \""+url+"\"");
         }

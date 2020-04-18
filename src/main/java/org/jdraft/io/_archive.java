@@ -15,7 +15,7 @@ import java.util.function.Predicate;
 /**
  * Wraps looking at an archive (.zip or .jar file)
  */
-public final class _archive implements _codeUnit._provider, _batch{
+public final class _archive implements _batch{
 
     public static _archive of( String path ){
         return new _archive(Paths.get(path));
@@ -145,6 +145,7 @@ public final class _archive implements _codeUnit._provider, _batch{
         return _cus;
     }
 
+    /*
     @Override
     public <_C extends _codeUnit> List<_C> for_code(JavaParser javaParser, Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn) {
         Predicate<Path> whichJavaFiles = ALL_JAVA_TYPE_FILES;
@@ -168,6 +169,7 @@ public final class _archive implements _codeUnit._provider, _batch{
         });
         return found;
     }
+     */
 
     public static boolean isJarOrZipPath( Path path){
         String s = path.toString();

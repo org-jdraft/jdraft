@@ -116,14 +116,14 @@ public class EclipseJDTTest{ //extends TestCase
     public void testReadAllPackagesAndMethods(){
 
         //print the distinct package names occurring in the code
-        $.packageDecl().streamIn(_cc).map(p->p.getName()).distinct().forEach(e-> System.out.println( e ));
+        $.packageDecl().streamIn(_cc.load()).map(p->p.getName()).distinct().forEach(e-> System.out.println( e ));
 
         //get the names of all the types along with the line count
-        _cc.for_code(c-> System.out.println( c.getFullName() + ":" + c.astCompilationUnit().getRange().get().getLineCount() ));
+        _cc.load().for_code(c-> System.out.println( c.getFullName() + ":" + c.astCompilationUnit().getRange().get().getLineCount() ));
 
 
         //print the name, signature and return type for all methods
-        $.method().forEachIn(_cc, m->System.out.println(
+        $.method().forEachIn(_cc.load(), m->System.out.println(
                 "Name:      " + m.getName()+System.lineSeparator()+
                 "Signature: " + m.ast().getSignature().toString()+System.lineSeparator()+
                 "ReturnType: "+ m.getTypeRef()+System.lineSeparator() ));
@@ -189,7 +189,7 @@ public class EclipseJDTTest{ //extends TestCase
      * https://www.vogella.com/tutorials/EclipseJDT/article.html#finding-all-elements-of-type-methoddeclaration
      */
     public void testFindAllMethods(){
-        List<_method> _ms = $.method().listIn(_cc);
+        List<_method> _ms = $.method().listIn(_cc.load());
     }
 
     /**
@@ -200,7 +200,7 @@ public class EclipseJDTTest{ //extends TestCase
      * illustration
      */
     public void testFindFirst20DistinctMethodNames() {
-        List<String> names = $.method().streamIn(_cc).map(_method::getName).distinct().limit(20).collect(Collectors.toList());
+        List<String> names = $.method().streamIn(_cc.load()).map(_method::getName).distinct().limit(20).collect(Collectors.toList());
     }
 
     /**

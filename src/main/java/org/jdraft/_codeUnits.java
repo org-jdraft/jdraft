@@ -5,6 +5,7 @@ import org.jdraft.io._batch;
 
 import java.util.*;
 import java.util.function.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -45,6 +46,16 @@ public class _codeUnits {
 
     public List<_codeUnit> list(){
         return cache;
+    }
+
+    /**
+     *
+     * @param _cuClass
+     * @param <_CU>
+     * @return
+     */
+    public <_CU extends _codeUnit> List<_CU> list(Class<_CU> _cuClass ){
+        return (List<_CU>)this.cache.stream().filter( c-> _cuClass.isAssignableFrom(c.getClass()) ).collect(Collectors.toList());
     }
 
     /**

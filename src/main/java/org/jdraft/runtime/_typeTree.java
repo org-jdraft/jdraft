@@ -33,13 +33,13 @@ public final class _typeTree {
 
     /**
      * Builds a _typeTree from one or more _code._provider (s)
-     * @param _codeProviders where the code comes from
+     * @param _cus where the code comes from
      * @return the _typeTree
      */
-    public static _typeTree of(_codeUnit._provider..._codeProviders){
+    public static _typeTree of(_codeUnits..._cus){
         List<_type>codeList = new ArrayList<>();
-        Arrays.stream(_codeProviders).forEach(_cp -> codeList.addAll(_cp.list_types()));
-        System.out.println( codeList.size() );
+        Arrays.stream(_cus).forEach(_cp -> codeList.addAll(_cp.list(_type.class)));
+        //System.out.println( codeList.size() );
         return of( codeList );
     }
 

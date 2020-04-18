@@ -8,11 +8,7 @@ import org.jdraft.text.Stencil;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.zip.ZipEntry;
 
 /**
@@ -67,30 +63,6 @@ public class _mavenCentral implements _batch{
             throw new _ioException("unable to build URL from \""+ url+"\"");
         }
     }
-
-    /*
-    @Override
-    public <_C extends _codeUnit> List<_C> for_code(JavaParser javaParser, Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn) {
-        URL downloadUrl = downloadSourceJarURL();
-        List<_C>_codeUnits = new ArrayList<>();
-        _downloadArchiveConsumer.of( downloadUrl, (ZipEntry ze, InputStream is)-> {
-            if (ze.getName().endsWith(".java")) {
-                try {
-                    _codeUnit _cu = _codeUnit.of(javaParser, is);
-                    if( codeClass.isAssignableFrom(_cu.getClass())){
-                        if( _codeMatchFn.test( (_C) _cu)){
-                            _codeActionFn.accept( (_C)_cu);
-                        }
-                    }
-                    _codeUnits.add((_C)_cu);
-                }catch(Exception e){
-                    System.err.println( "Couldn't parse \""+ ze.getName()+"\"");
-                }
-            }
-        });
-        return _codeUnits;
-    }
-     */
 
     @Override
     public _codeUnits load(JavaParser javaParser) {

@@ -108,49 +108,17 @@ public interface $statement<S extends Statement, _S extends _statement, $S exten
         throw new _jdraftException("No binary expression found in lambda");
     }
 
-    static<$S extends $statement> $S of(Statement ile) {
-
-        /*
-        if( ile instanceof LiteralExpr){
-            if( ile instanceof IntegerLiteralExpr){
-                return ($E) $int.of( (IntegerLiteralExpr) ile);
-            }
-            if( ile instanceof LongLiteralExpr){
-                return ($E) $long.of( (LongLiteralExpr) ile);
-            }
-            if( ile instanceof StringLiteralExpr){
-                return ($E) $string.of( (StringLiteralExpr) ile);
-            }
-            if( ile instanceof DoubleLiteralExpr){
-                return ($E) $double.of( (DoubleLiteralExpr) ile);
-            }
-            if( ile instanceof CharLiteralExpr){
-                return ($E) $char.of( (CharLiteralExpr) ile);
-            }
-            if( ile instanceof TextBlockLiteralExpr){
-                return ($E) $textBlock.of( (TextBlockLiteralExpr) ile);
-            }
-            if( ile instanceof BooleanLiteralExpr){
-                return ($E) $boolean.of( (BooleanLiteralExpr) ile);
-            }
-            if( ile instanceof NullLiteralExpr){
-                return ($E) $null.of( (NullLiteralExpr) ile);
-            }
+    static<$S extends $statement> $S of(Statement st) {
+        if( st.isAssertStmt() ){
+            return ($S)$assertStmt.of( (AssertStmt)st);
         }
-        if( ile instanceof ArrayAccessExpr ){
-            return ($E)$arrayAccess.of( (ArrayAccessExpr)ile);
+        if( st.isReturnStmt()){
+            return ($S)$returnStmt.of( (ReturnStmt)st);
         }
-        if( ile instanceof EnclosedExpr ){
-            return ($E)$enclosedExpression.of( (EnclosedExpr)ile);
+        if( st.isExpressionStmt()){
+            return ($S)$expressionStmt.of( (ExpressionStmt)st);
         }
-         */
-        if( ile.isReturnStmt()){
-            return ($S)$returnStmt.of( (ReturnStmt)ile);
-        }
-        if( ile.isExpressionStmt()){
-            return ($S)$expressionStmt.of( (ExpressionStmt)ile);
-        }
-        return ($S)$s.of( ile.toString() );
+        return ($S)$s.of( st.toString() );
     }
 
     default boolean matches(Expression e) {
