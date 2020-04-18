@@ -673,6 +673,8 @@ public interface _codeUnit<_CU> extends _java._domain {
      */
     interface _provider extends _java._domain {
 
+        <_C extends _codeUnit> List<_C> for_code(JavaParser javaParser, Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn);
+
         /**
          *
          * @param codeClass
@@ -681,7 +683,21 @@ public interface _codeUnit<_CU> extends _java._domain {
          * @param <_C>
          * @return
          */
-        <_C extends _codeUnit> List<_C> for_code(Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn);
+        default <_C extends _codeUnit> List<_C> for_code(Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn){
+            return for_code(Ast.JAVAPARSER, codeClass, _codeMatchFn, _codeActionFn);
+        }
+
+        /**
+         *
+         * @param javaParser the javaParser to parse the source files
+         * @param codeClass
+         * @param _codeActionFn
+         * @param <_C>
+         * @return
+         */
+        default <_C extends _codeUnit> List<_C> for_code(JavaParser javaParser, Class<_C> codeClass, Consumer<_C> _codeActionFn) {
+            return for_code( javaParser, codeClass, t->true, _codeActionFn);
+        }
 
         /**
          *
@@ -690,8 +706,12 @@ public interface _codeUnit<_CU> extends _java._domain {
          * @param <_C>
          * @return
          */
-        default <_C extends _codeUnit> List<_C> for_code(Class<_C> codeClass, Consumer<_C> _codeActionFn){
+        default <_C extends _codeUnit> List<_C> for_code(Class<_C> codeClass, Consumer<_C> _codeActionFn) {
             return for_code( codeClass, c->true, _codeActionFn);
+        }
+
+        default List<_codeUnit> for_code(JavaParser javaParser, Predicate<_codeUnit> _codeMatchFn, Consumer<_codeUnit> _codeActionFn){
+            return for_code(javaParser, _codeUnit.class, _codeMatchFn, _codeActionFn);
         }
 
         /**

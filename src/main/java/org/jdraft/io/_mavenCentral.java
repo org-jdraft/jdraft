@@ -1,8 +1,8 @@
 package org.jdraft.io;
 
-import org.jdraft._class;
+import com.github.javaparser.JavaParser;
 import org.jdraft._codeUnit;
-import org.jdraft._moduleInfo;
+import org.jdraft._codeUnits;
 import org.jdraft.text.Stencil;
 
 import java.io.InputStream;
@@ -27,10 +27,10 @@ import java.util.zip.ZipEntry;
  * "https://search.maven.org/remotecontent?filepath=$groupId$/$artifactId$/$version$/$artifactId$-$version$-sources.jar"
  *
  */
-public class _mavenCentral implements _codeUnit._provider{
+public class _mavenCentral implements _batch{
 
     /**
-     * The url pattern used for triggering a download of the sources.jar
+     * The url stencil used for creating the download of the sources.jar
      */
     public static final Stencil DOWNLOAD_SOURCES_JAR_URL =
             Stencil.of("https://search.maven.org/remotecontent?filepath=$groupId$/$artifactId$/$version$/$artifactId$-$version$-sources.jar");
@@ -57,7 +57,8 @@ public class _mavenCentral implements _codeUnit._provider{
      */
     public URL downloadSourceJarURL(){
         //build the String url then create the URL from it
-        String url = DOWNLOAD_SOURCES_JAR_URL.draft("groupId", DOTS_TO_SLASHES.apply(groupId),
+        String url = DOWNLOAD_SOURCES_JAR_URL.draft(
+                "groupId", DOTS_TO_SLASHES.apply(groupId),
                 "artifactId", artifactId,
                 "version", version);
         try{
@@ -67,24 +68,15 @@ public class _mavenCentral implements _codeUnit._provider{
         }
     }
 
-    /**
-     * Retrieve the project files as a .zip file from github, then read all .java files
-     * and build _jdraft _codeUnits as _sources
-     * @return _sources (container for all {@link _codeUnit}s ({@link _class}, {@link _moduleInfo}, etc.)
-
-    public _sources sources(){
-        _sources _src = _sources.of( for_code(_codeUnit.class, c->true, c-> { } ) );
-        return _src;
-    }*/
-
+    /*
     @Override
-    public <_C extends _codeUnit> List<_C> for_code(Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn) {
+    public <_C extends _codeUnit> List<_C> for_code(JavaParser javaParser, Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn) {
         URL downloadUrl = downloadSourceJarURL();
         List<_C>_codeUnits = new ArrayList<>();
         _downloadArchiveConsumer.of( downloadUrl, (ZipEntry ze, InputStream is)-> {
             if (ze.getName().endsWith(".java")) {
                 try {
-                    _codeUnit _cu = _codeUnit.of(is);
+                    _codeUnit _cu = _codeUnit.of(javaParser, is);
                     if( codeClass.isAssignableFrom(_cu.getClass())){
                         if( _codeMatchFn.test( (_C) _cu)){
                             _codeActionFn.accept( (_C)_cu);
@@ -97,5 +89,22 @@ public class _mavenCentral implements _codeUnit._provider{
             }
         });
         return _codeUnits;
+    }
+     */
+
+    @Override
+    public _codeUnits load(JavaParser javaParser) {
+        URL downloadUrl = downloadSourceJarURL();
+        _codeUnits _us = new _codeUnits();
+        _downloadArchiveConsumer.of( downloadUrl, (ZipEntry ze, InputStream is)-> {
+            if (ze.getName().endsWith(".java")) {
+                try {
+                    _us.add(_codeUnit.of(javaParser, is));
+                }catch(Exception e){
+                    System.err.println( "Couldn't parse \""+ ze.getName()+"\"");
+                }
+            }
+        });
+        return _us;
     }
 }

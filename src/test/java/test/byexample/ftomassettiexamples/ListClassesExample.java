@@ -14,8 +14,8 @@ public class ListClassesExample {
                 .for_types(t-> System.out.println( t.getFullName()));
 
         //if we wanted to do the same for a source directory/path :
-        _path.of("C:\\jdraft\\project\\jdraft\\src\\main\\java")
-                .for_types(t-> System.out.println( t.getFullName()));
+        _path.of("C:\\jdraft\\project\\jdraft\\src\\main\\java").load()
+                .for_code(t-> System.out.println( t.getFullName()));
 
     }
 }

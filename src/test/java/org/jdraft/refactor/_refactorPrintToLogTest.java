@@ -4,6 +4,7 @@ import com.github.javaparser.ast.ImportDeclaration;
 import junit.framework.TestCase;
 import org.jdraft.Ast;
 import org.jdraft._class;
+import org.jdraft._codeUnits;
 import org.jdraft._field;
 import org.jdraft.macro._static;
 import org.jdraft.runtime._runtime;
@@ -27,9 +28,9 @@ public class _refactorPrintToLogTest extends TestCase {
 
     public static void main(String[] args){
         //here's where all the test cases are
-        _path _b = _path.of(Paths.get("C:\\jdraft\\project\\jdraft\\src\\test"));
+        _codeUnits _b = _path.of(Paths.get("C:\\jdraft\\project\\jdraft\\src\\test")).load();
         List<_class> testClasses = new ArrayList<>();
-        _b.for_types(_class.class, c-> c.isExtends(TestCase.class), c-> testClasses.add(c));
+        _b.for_code(_class.class, c-> c.isExtends(TestCase.class), c-> testClasses.add(c));
 
         //convert System outs to LOG WARN
         testClasses.stream().forEach( t-> {

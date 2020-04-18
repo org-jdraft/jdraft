@@ -2,7 +2,6 @@ package test.othertools;
 
 import org.jdraft.*;
 import org.jdraft.io._path;
-import org.jdraft.io._sources;
 import org.jdraft.pattern.*;
 
 import java.io.Serializable;
@@ -19,7 +18,7 @@ import java.io.Serializable;
  */
 public class IntelliJStructuralSearchTest{
 
-    static _sources _SOURCE = _sources.of( _path.of("C:\\jdraft\\project\\jdraft\\src\\main\\java\\org\\jdraft\\diff") );
+    static _codeUnits _SOURCE = _path.of("C:\\jdraft\\project\\jdraft\\src\\main\\java\\org\\jdraft\\diff").load();
 
     public void testJavadocPatterns(){
         //Comments

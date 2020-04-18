@@ -15,7 +15,6 @@ import java.util.function.*;
 import org.jdraft.*;
 import org.jdraft.Expressions.QuadConsumer;
 import org.jdraft.Expressions.TriConsumer;
-import org.jdraft.io._sources;
 import org.jdraft.text.*;
 
 /**
@@ -1673,14 +1672,13 @@ public class $stmt<S extends Statement, _S extends _statement>
         return (_CT)commentOut( _class.of(clazz), REPLACE_WITH_EMPTY_STMT_COMMENT);
     }
 
-    public _sources commentOut(_codeUnit._provider _codeProvider){
+    public _codeUnits commentOut(_codeUnits _codeProvider){
         return commentOut(_codeProvider, REPLACE_WITH_EMPTY_STMT_COMMENT);
     }
 
-    public _sources commentOut(_codeUnit._provider _codeProvider, Consumer<_statement> commenter){
-        _sources cc = _sources.of(_codeProvider);
-        forEachIn(cc, n-> commenter.accept(n));
-        return cc;
+    public _codeUnits commentOut(_codeUnits _codeProvider, Consumer<_statement> commenter){
+        forEachIn(_codeProvider, n-> commenter.accept(n));
+        return _codeProvider;
     }
 
     //comments out the matching code

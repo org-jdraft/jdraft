@@ -54,7 +54,7 @@ public class OverviewTest extends TestCase {
             }
         }
 
-        _path _p = _path.of("C:\\jdraft\\project\\jdraft\\src\\main\\java");
+        _codeUnits _p = _path.of("C:\\jdraft\\project\\jdraft\\src\\main\\java").load();
 
         $method.of().streamIn( _p ) // find all methods in the _path (recursively)
                 .map(m -> new _methodComplexity(m)) //map to a new _methodComplexity

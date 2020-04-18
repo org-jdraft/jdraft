@@ -1,5 +1,6 @@
 package org.jdraft.io;
 
+import org.jdraft._codeUnits;
 import org.jdraft.text.Text;
 import org.jdraft._codeUnit;
 import org.jdraft._type;
@@ -120,7 +121,7 @@ public final class _io{
      * @param _cp the provided code to be written
      * @return the List
      */
-    public static List<Path> out(_codeUnit._provider _cp){
+    public static List<Path> out(_codeUnits _cp){
         return out( _io.getOutJavaDir(), _cp);
     }
 
@@ -130,7 +131,7 @@ public final class _io{
      * @param _cp
      * @return
      */
-    public static List<Path> out( String rootPath, _codeUnit._provider _cp ){
+    public static List<Path> out( String rootPath, _codeUnits _cp ){
         return out(Paths.get(rootPath), _cp);
     }
 
@@ -140,7 +141,7 @@ public final class _io{
      * @param _cp
      * @return
      */
-    public static List<Path> out( Path rootPath, _codeUnit._provider _cp){
+    public static List<Path> out( Path rootPath, _codeUnits _cp){
         List<Path> writtenFiles = new ArrayList<>();
         _cp.for_code( c -> {
             String fileName = c.getFullName().replace(".", "/")+".java";

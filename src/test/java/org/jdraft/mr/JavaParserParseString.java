@@ -18,7 +18,7 @@ public class JavaParserParseString extends TestCase {
     public void printClassNames(){
         $class.of( $.packageDecl("org.jdraft" ) )
                 .forEachIn(
-                        _path.of("C:\\jdraft\\project\\jdraft\\src\\main\\java"), e-> System.out.println( e.getFullName() ));
+                        _path.of("C:\\jdraft\\project\\jdraft\\src\\main\\java").load(), e-> System.out.println( e.getFullName() ));
     }
     public void testSs(){
         //_class _c = _class.of("public class C{ int i= 0;}");

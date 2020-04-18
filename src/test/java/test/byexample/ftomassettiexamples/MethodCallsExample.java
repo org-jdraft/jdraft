@@ -2,6 +2,7 @@ package test.byexample.ftomassettiexamples;
 
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import org.jdraft._methodCall;
+import org.jdraft._type;
 import org.jdraft.io._archive;
 import org.jdraft.io._path;
 import org.jdraft.pattern.$ex;
@@ -18,8 +19,8 @@ public class MethodCallsExample {
                 });
 
         //if we wanted to do the same for a source directory/path :
-        _path.of("C:\\jdraft\\project\\jdraft\\src\\main\\java")
-                .for_types(t-> {
+        _path.of("C:\\jdraft\\project\\jdraft\\src\\main\\java").load()
+                .for_code(_type.class, t-> {
                     System.out.println( t.getFullName() );
                     $mc.forEachIn(t, mc -> System.out.println("    " + mc.getName() + "[L"+mc.ast().getRange().get().begin.line+"]") );
                 });

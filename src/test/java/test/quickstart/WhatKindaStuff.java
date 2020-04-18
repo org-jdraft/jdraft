@@ -4,7 +4,7 @@ import com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt;
 import junit.framework.TestCase;
 import org.jdraft.Statements;
 import org.jdraft._class;
-import org.jdraft.io._sources;
+import org.jdraft._codeUnits;
 import org.jdraft.io._path;
 import org.jdraft.macro._dto;
 import org.jdraft.macro._packageName;
@@ -67,7 +67,7 @@ public class WhatKindaStuff extends TestCase {
         //but imagine you have a large codebase with 1000s of classes in the C:\\temp\\mycodebase,
         // here's where jdraft is a better option:
         _path _p = _path.of("C:\\temp");
-        _sources _cc = _sources.of(_p);
+        _codeUnits _cc = _p.load();
 
         // set all constructor parameters to be final (for ALL constructors)
         $constructor.of().forEachIn(_cc, c-> c.forParameters(p-> p.setFinal()));

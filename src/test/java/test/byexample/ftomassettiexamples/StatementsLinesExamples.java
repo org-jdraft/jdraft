@@ -1,5 +1,6 @@
 package test.byexample.ftomassettiexamples;
 
+import org.jdraft._type;
 import org.jdraft.io._archive;
 import org.jdraft.io._path;
 import org.jdraft.pattern.$stmt;
@@ -11,13 +12,13 @@ public class StatementsLinesExamples {
 
     public static void  main(String[] args){
         //for a file path
-        _path.of("C:\\jdraft\\project\\jdraft\\src\\main\\java").for_types(
+        _path.of("C:\\jdraft\\project\\jdraft\\src\\main\\java").load().for_code(_type.class,
                 t-> $stmt.of().forEachIn(t,
                         s-> System.out.println( " [Lines " + s.ast().getBegin().get().line + " - "
                                 + s.ast().getEnd().get().line + " ] " + s) ) );
 
         //for a sources-archive
-        _archive.of("C:\\users\\Eric\\downloads\\commons-lang3-3.9-sources.jar").for_types(
+        _archive.of("C:\\users\\Eric\\downloads\\commons-lang3-3.9-sources.jar").load().for_code(_type.class,
                 t-> $stmt.of().forEachIn(t,
                         s-> System.out.println( " [Lines " + s.ast().getBegin().get().line + " - "
                                 + s.ast().getEnd().get().line + " ] " + s) ) );

@@ -2,7 +2,7 @@ package test.othertools;
 
 import junit.framework.TestCase;
 import org.jdraft._class;
-import org.jdraft.io._sources;
+import org.jdraft._codeUnits;
 import org.jdraft.macro._static;
 import org.jdraft.pattern.$;
 import org.jdraft.pattern.$class;
@@ -50,7 +50,7 @@ public class JavaParserWebsiteTest extends TestCase {
         abstract class AbstractI{ }
 
         //here read and cache ASTs for the source code for these classes
-        _sources _s = _sources.of(E.class, G.class, H.class, AbstractI.class, I.class);
+        _codeUnits _s = _codeUnits.of(E.class, G.class, H.class, AbstractI.class, I.class);
 
         //ensure all abstract classes names to start with "Abstract"
         $class.of( $.ABSTRACT ).$not( c-> c.getSimpleName().startsWith("Abstract") )

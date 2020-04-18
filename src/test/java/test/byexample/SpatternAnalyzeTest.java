@@ -4,6 +4,7 @@ import com.github.javaparser.utils.Log;
 import junit.framework.TestCase;
 import org.jdraft._class;
 import org.jdraft._codeUnit;
+import org.jdraft._codeUnits;
 import org.jdraft._method;
 import org.jdraft.io._archive;
 import org.jdraft.io._io;
@@ -279,7 +280,7 @@ public class SpatternAnalyzeTest extends TestCase {
 
     public void anaylzeArchive(){
         //read all the source code in this .jar file
-        _archive _a2 = _archive.of("C:\\temp\\gen-source.jar");
+        _codeUnits _a2 = _archive.of("C:\\temp\\gen-source.jar").load();
 
         //what I might want to do is to
 

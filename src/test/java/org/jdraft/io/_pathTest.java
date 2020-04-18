@@ -23,15 +23,19 @@ public class _pathTest extends TestCase {
 
     public void testB(){
         _path _b = _path.of(BASE_DIR);
-        assertEquals(6, _b.list().size()); //includes "textFile.txt" and (5) .java files
-        assertEquals(5, _b.list(_path.JAVA_FILES_ONLY).size()); //excludes "textFile.txt
-        assertEquals(3, _b.list(_path.JAVA_TYPES_ONLY).size()); //excludes "package-info.java" "module-info.java"
 
-        List<_codeUnit> _cs = _b.for_code(_c -> _c.addImports(Map.class)); //add an import to all
+        assertEquals(6, _b.listPaths().size()); //includes "textFile.txt" and (5) .java files
+        assertEquals(5, _b.listPaths(_path.JAVA_FILES_ONLY).size()); //excludes "textFile.txt
+        assertEquals(3, _b.listPaths(_path.JAVA_TYPES_ONLY).size()); //excludes "package-info.java" "module-info.java"
+
+        _codeUnits _p = _path.of(BASE_DIR).load();
+        List<_codeUnit> _cs = _p.for_code(_c -> _c.addImports(Map.class)); //add an import to all
         _cs.forEach( c-> assertTrue(c.hasImport(Map.class)));
         assertEquals( 5, _cs.size());
 
-        List<_type> _ts = _b.for_types(t-> t.addField("public static final int ID=1;"));
+        /*
+        _p.for_code()
+        List<_type> _ts = (List<_type>)_p.for_code(c-> c instanceof _type,  t-> ((_type)t).addField("public static final int ID=1;"));
         _ts.forEach( t-> assertTrue(t.getField("ID")!= null));
         assertEquals( 3, _ts.size());
 
@@ -39,6 +43,7 @@ public class _pathTest extends TestCase {
         List<_class>_c2 = _b.for_code(_class.class, c-> c.isInPackage("aaaa"), c-> c.addMethod("public int ff(){ return 123; }"));
         assertEquals(1, _c2.size());
         assertTrue( _c2.get(0).getMethod("ff").isTypeRef(int.class));
+         */
     }
 
 

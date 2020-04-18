@@ -1,6 +1,7 @@
 package org.jdraft.io;
 
 import junit.framework.TestCase;
+import org.jdraft._codeUnits;
 import org.jdraft.bot.$int;
 import org.jdraft.bot.$methodCall;
 
@@ -10,19 +11,17 @@ public class _githubProjectTest extends TestCase {
 
     //_url.of("...some github gist")
     public static void main(String[] args) {
-        //I'd like to make this happen, where it'll point it to a github project
-        // download the code
-        // extract all the .java source files
-        // create _jdraft models for each and store them in memory
+        // point it to a github project (via URL)
+        // download the zip project archive
+        // extract all the .java source files from the Zip
+        // create _jdraft models for each .java file and store them in _sources
         // return a _sources containing all the _jdraft models
+        _codeUnits _cus = _githubProject.of("https://github.com/edefazio/bincat").load();
 
-        // then I can query by simple name, etc.
-
-        _sources _sc = _sources.of(_githubProject.of("https://github.com/edefazio/bincat"));
         //Print.tree(_sc.get_class("SourcePathEx"));
-        System.out.println( $int.of(65).firstIn(_sc) ); //here
+        //System.out.println( $int.of(65).firstIn(_cus) ); //here
 
-        System.out.println( _sc.size() );
+        System.out.println( _cus.size() );
 
         //_type _t = _type.of(_gitHubProject.of("https://github.com/org-jdraft/jdraft").downloadJavaFileURL(Ast.class));
         //Print.tree(_t);

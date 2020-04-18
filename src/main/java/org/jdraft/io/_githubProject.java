@@ -1,16 +1,14 @@
 package org.jdraft.io;
 
+import com.github.javaparser.JavaParser;
 import org.jdraft._codeUnit;
+import org.jdraft._codeUnits;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Tokens;
 
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 import java.util.zip.ZipEntry;
 
 /**
@@ -18,7 +16,7 @@ import java.util.zip.ZipEntry;
  * "https://raw.githubusercontent.com/org-jdraft/jdraft/master/src/main/java/org/jdraft/Ast.java"
  *
  */
-public class _githubProject implements _codeUnit._provider {
+public class _githubProject implements _batch {
 
     public static final Stencil PROJECT_HOME_URL = Stencil.of( "https://github.com/$owner$/$project$/" );
     public static final Stencil VIEW_JAVA_FILE_URL = Stencil.of( "https://github.com/$owner$/$project$/blob/$branch$/$pathToJavaFile$.java");
@@ -107,13 +105,30 @@ public class _githubProject implements _codeUnit._provider {
     }
 
     @Override
-    public <_C extends _codeUnit> List<_C> for_code(Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn) {
+    public _codeUnits load(JavaParser javaParser) {
+        URL downloadUrl = downloadProjectZipURL();
+        _codeUnits _cus = new _codeUnits();
+        _downloadArchiveConsumer.of( downloadUrl, (ZipEntry ze, InputStream is)-> {
+            if (ze.getName().endsWith(".java")) {
+                try {
+                    _cus.add( _codeUnit.of(javaParser, is) );
+                }catch(Exception e){
+                    System.err.println( "Couldn't parse zip entry \""+ ze.getName()+"\"");
+                }
+            }
+        });
+        return _cus;
+    }
+
+    /*
+    @Override
+    public <_C extends _codeUnit> List<_C> for_code(JavaParser javaParser, Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn) {
         URL downloadUrl = downloadProjectZipURL();
         List<_C>_codeUnits = new ArrayList<>();
         _downloadArchiveConsumer.of( downloadUrl, (ZipEntry ze, InputStream is)-> {
             if (ze.getName().endsWith(".java")) {
                 try {
-                    _codeUnit _cu = _codeUnit.of(is);
+                    _codeUnit _cu = _codeUnit.of(javaParser, is);
                     if( codeClass.isAssignableFrom(_cu.getClass())){
                         if( _codeMatchFn.test( (_C) _cu)){
                             _codeActionFn.accept( (_C)_cu);
@@ -127,6 +142,7 @@ public class _githubProject implements _codeUnit._provider {
         });
         return _codeUnits;
     }
+    */
 
     public URL downloadProjectZipURL( ) {
         return downloadProjectZipURL(this.projectDetail.branch);
@@ -232,5 +248,4 @@ public class _githubProject implements _codeUnit._provider {
             throw new _ioException("Unable to build url \""+url+"\"");
         }
     }
-
 }

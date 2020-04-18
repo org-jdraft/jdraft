@@ -1,5 +1,6 @@
 package org.jdraft.io;
 
+import com.github.javaparser.JavaParser;
 import org.jdraft.*;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ import java.util.function.Predicate;
 /**
  * Wraps looking at an archive (.zip or .jar file)
  */
-public final class _archive implements _codeUnit._provider{
+public final class _archive implements _codeUnit._provider, _batch{
 
     public static _archive of( String path ){
         return new _archive(Paths.get(path));
@@ -46,29 +47,29 @@ public final class _archive implements _codeUnit._provider{
         this.pathMatchFn = this.pathMatchFn.and(pathMatchFn);
     }
 
-    public List<Path> list(){
+    public List<Path> listPaths(){
         List<Path> paths = new ArrayList<>();
-        forEach(this.pathToArchiveFile, this.pathMatchFn, p-> paths.add(p));
+        forEachPath(this.pathToArchiveFile, this.pathMatchFn, p-> paths.add(p));
         return paths;
     }
 
-    public List<Path> list(Predicate<Path> pathMatchFn){
+    public List<Path> listPaths(Predicate<Path> pathMatchFn){
         List<Path> paths = new ArrayList<>();
-        forEach(this.pathToArchiveFile, this.pathMatchFn.and(pathMatchFn), p-> paths.add(p));
+        forEachPath(this.pathToArchiveFile, this.pathMatchFn.and(pathMatchFn), p-> paths.add(p));
         return paths;
     }
 
-    public List<IOException> forEach( Consumer<Path> pathActionFn){
-        List<IOException> ioes = forEach( this.pathToArchiveFile, this.pathMatchFn, pathActionFn);
+    public List<IOException> forEachPath(Consumer<Path> pathActionFn){
+        List<IOException> ioes = forEachPath( this.pathToArchiveFile, this.pathMatchFn, pathActionFn);
         return ioes;
     }
 
-    public List<IOException> forEach( Predicate<Path> pathMatchFn, Consumer<Path> pathActionFn){
-        List<IOException> ioes = forEach( this.pathToArchiveFile, this.pathMatchFn.and(pathMatchFn), pathActionFn);
+    public List<IOException> forEachPath(Predicate<Path> pathMatchFn, Consumer<Path> pathActionFn){
+        List<IOException> ioes = forEachPath( this.pathToArchiveFile, this.pathMatchFn.and(pathMatchFn), pathActionFn);
         return ioes;
     }
 
-    public static List<IOException> forEach(Path archivePath, Predicate<Path> pathMatchFn, Consumer<Path> pathActionFn ){
+    public static List<IOException> forEachPath(Path archivePath, Predicate<Path> pathMatchFn, Consumer<Path> pathActionFn ){
         FileSystem fs = null;
         AtomicInteger count = new AtomicInteger(0);
         List<IOException> ioes = new ArrayList<>();
@@ -88,7 +89,6 @@ public final class _archive implements _codeUnit._provider{
                                 count.incrementAndGet();
                             });
                         } catch (IOException e) {
-                            System.out.println( "Here " + e );
                             e.printStackTrace();
                             ioes.add(e);
                         }
@@ -122,7 +122,7 @@ public final class _archive implements _codeUnit._provider{
             p.endsWith("module-info.java");
 
     public void forEachFileAsBytes( BiConsumer<Path, byte[]> fileByteArrayConsumer){
-        forEach(this.pathMatchFn, p-> {
+        forEachPath(this.pathMatchFn, p-> {
             try {
                 byte[] fileBytes = Files.readAllBytes(p);
                 fileByteArrayConsumer.accept(p, fileBytes);
@@ -133,7 +133,20 @@ public final class _archive implements _codeUnit._provider{
     }
 
     @Override
-    public <_C extends _codeUnit> List<_C> for_code(Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn) {
+    public _codeUnits load(JavaParser javaParser) {
+        _codeUnits _cus = new _codeUnits();
+        forEachPath(this.pathMatchFn.and(ALL_JAVA_TYPE_FILES), p-> {
+            try {
+                _cus.add( _codeUnit.of(javaParser, p) );
+            }catch(Exception e){
+                System.err.println("unable to parse from path "+p);
+            }
+        });
+        return _cus;
+    }
+
+    @Override
+    public <_C extends _codeUnit> List<_C> for_code(JavaParser javaParser, Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn) {
         Predicate<Path> whichJavaFiles = ALL_JAVA_TYPE_FILES;
 
         if( codeClass == _codeUnit.class){
@@ -146,8 +159,8 @@ public final class _archive implements _codeUnit._provider{
         }
         List<_C> found = new ArrayList<>();
 
-        forEach(this.pathMatchFn.and(whichJavaFiles), p-> {
-            _codeUnit _c = _codeUnit.of(p);
+        forEachPath(this.pathMatchFn.and(whichJavaFiles), p-> {
+            _codeUnit _c = _codeUnit.of(javaParser, p);
             if( codeClass.isAssignableFrom( _c.getClass()) && _codeMatchFn.test( (_C)_c)){
                 _codeActionFn.accept((_C)_c);
                 found.add((_C)_c);
@@ -195,7 +208,7 @@ public final class _archive implements _codeUnit._provider{
             Files.createDirectories( targetJarPath.getParent() );
 
             FileSystem zipFs = FileSystems.newFileSystem(uri, env);
-            forEach(rootPath, pathMatchFn, p-> {
+            forEachPath(rootPath, pathMatchFn, p-> {
                 try{// Create output directory
                     Path rp = p;
                     /*

@@ -1,5 +1,6 @@
 package org.jdraft.io;
 
+import com.github.javaparser.JavaParser;
 import org.jdraft._jdraftException;
 import org.jdraft.*;
 
@@ -131,7 +132,7 @@ import static java.nio.file.FileVisitResult.CONTINUE;
  *
  * @author Eric
  */
-public final class _path implements _codeUnit._provider {
+public final class _path implements _batch {
 
     public static final Predicate<Path> EXCLUDE_PACKAGE_INFO =
         path-> !path.endsWith("package-info.java");
@@ -174,17 +175,38 @@ public final class _path implements _codeUnit._provider {
         this.filePathPredicate = filePathPredicate;
     }
 
-    public List<Path> list(){
+    public List<Path> listPaths(){
         return listPaths(  this.rootPath, filePathPredicate);
     }
 
-    public List<Path> list(Predicate<Path> pathPredicate){
+    public List<Path> listPaths(Predicate<Path> pathPredicate){
         return listPaths( this.rootPath, filePathPredicate.and( pathPredicate));
     }
 
     public static boolean isJarOrZipPath( Path path){
         String s = path.toString();
         return s.endsWith(".jar")|| s.endsWith(".zip");
+    }
+
+    @Override
+    public _codeUnits load(JavaParser javaParser) {
+        _codeUnits _cus = new _codeUnits();
+        this.listPaths(JAVA_FILES_ONLY).forEach(
+                p-> {
+                    try{
+                        _cus.add(_codeUnit.of(javaParser, p) );
+                    }catch(_jdraftException e){
+                        try{
+                            byte[] bs = Files.readAllBytes(p);
+                            if( bs.length == 0){
+                                throw new _ioException("blank file at "+ p );
+                            }
+                        }catch(IOException ioe){
+                            throw new _ioException("Error reading file at "+ p,ioe);
+                        }
+                    }
+                });
+        return _cus;
     }
 
     /**
@@ -195,12 +217,12 @@ public final class _path implements _codeUnit._provider {
      * @param <_C>
      * @return
      */
-    public <_C extends _codeUnit> List<_C> for_code(Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn){
+    public <_C extends _codeUnit> List<_C> for_code(JavaParser javaParser, Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn){
         List<_C> theCode = new ArrayList<>();
-        this.list(JAVA_FILES_ONLY).forEach(
+        this.listPaths(JAVA_FILES_ONLY).forEach(
                 p-> {
                     try{
-                        _codeUnit _t = _codeUnit.of(p);
+                        _codeUnit _t = _codeUnit.of(javaParser, p);
                         if( codeClass.isAssignableFrom(  _t.getClass() ) && _codeMatchFn.test( (_C)_t)){
                             _C _c = (_C)_t;
                             _codeActionFn.accept(_c);
@@ -227,7 +249,7 @@ public final class _path implements _codeUnit._provider {
      */
     public List<Path> forFilePaths( Consumer<Path>pathAction ){
         List<Path> paths = new ArrayList<>();
-        this.list().forEach(p-> {
+        this.listPaths().forEach(p-> {
             pathAction.accept(p);
             paths.add( p );
         });
@@ -242,7 +264,7 @@ public final class _path implements _codeUnit._provider {
      */
     public List<Path> forFilePaths( Predicate<Path>pathMatchFn, Consumer<Path>pathAction ){
         List<Path> paths = new ArrayList<>();
-        this.list().stream().filter(pathMatchFn).forEach(p-> {
+        this.listPaths().stream().filter(pathMatchFn).forEach(p-> {
             pathAction.accept(p);
             paths.add( p );
         });
@@ -330,7 +352,7 @@ public final class _path implements _codeUnit._provider {
             return copyToJar( pathMatchFn, targetRootPath);
         }
         List<Path> paths = new ArrayList<>();
-        this.list(pathMatchFn).forEach(p-> {
+        this.listPaths(pathMatchFn).forEach(p-> {
             Path filePath;
             if( isJarOrZipPath( this.rootPath ) ){
                 filePath = Paths.get(p.toString());
@@ -366,7 +388,7 @@ public final class _path implements _codeUnit._provider {
             Files.createDirectories(targetJarPath.getParent() );
 
             FileSystem zipFs = FileSystems.newFileSystem(uri, env);
-            this.list(pathMatchFn).forEach(p-> {
+            this.listPaths(pathMatchFn).forEach(p-> {
                 try{// Create output directory
                     Path rp = p;
                     if( !isJarOrZipPath(this.rootPath) ){
@@ -395,11 +417,12 @@ public final class _path implements _codeUnit._provider {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        List<Path> paths = list();
+        List<Path> paths = listPaths();
         sb.append("_path : \"").append(this.rootPath.toString())
                 .append("\" (").append(paths.size()).append(")files")
                 .append(System.lineSeparator());
         return sb.toString();
     }
+
 }
 

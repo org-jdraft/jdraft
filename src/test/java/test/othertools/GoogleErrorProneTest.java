@@ -9,8 +9,8 @@ import com.github.javaparser.ast.stmt.ReturnStmt;
 import junit.framework.TestCase;
 import org.jdraft.Ast;
 import org.jdraft._class;
+import org.jdraft._codeUnits;
 import org.jdraft._returnStmt;
-import org.jdraft.io._sources;
 import org.jdraft.pattern.*;
 
 /**
@@ -95,7 +95,7 @@ public class GoogleErrorProneTest extends TestCase {
         _c.addExtend("android.app.Service");
         assertEquals(_c, $ANDROID_CLASS.select(_c).selected);
 
-        _sources _cc = _sources.of(
+        _codeUnits _cc = _codeUnits.of(
                 _class.of("A").addExtend("Activity").addImports("android.app.Activity"),
                 _class.of("F").addExtend("Fragment").addImports("android.app.Fragment"),
                 _class.of("F2").addExtend("Fragment").addImports("android.support.v4.app.Fragment"),
@@ -162,8 +162,8 @@ public class GoogleErrorProneTest extends TestCase {
         $class $act = $class.of().$extends("android.app.Activity");
         $class $fra = $class.of().$extends("android.app.Fragment");
         $class $v4fra = $class.of().$extends("android.support.v4.app.Fragment");
-        _sources _cc =
-                _sources.of(_FAIL_InFragment, _FAIL_InjBeforeSuperInBetween, _FAIL_InjectBeforeSuperActivity);
+        _codeUnits _cc =
+                _codeUnits.of(_FAIL_InFragment, _FAIL_InjBeforeSuperInBetween, _FAIL_InjectBeforeSuperActivity);
         //verify that $extends checks fully qualified and imports (for not) and package
 
         //OR

@@ -784,7 +784,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _codeProvider
      * @return
      */
-    default boolean isIn( _codeUnit._provider _codeProvider ){
+    default boolean isIn( _codeUnits _codeProvider ){
         return firstIn(_codeProvider, t->true) != null;
     }
 
@@ -823,7 +823,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param matchFn
      * @return
      */
-    default boolean isIn(_codeUnit._provider _codeProvider, Predicate<P> matchFn){
+    default boolean isIn(_codeUnits _codeProvider, Predicate<P> matchFn){
         return firstIn(_codeProvider, matchFn) != null;
     }
 
@@ -871,7 +871,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _codeProvider
      * @return
      */
-    default P firstIn( _codeUnit._provider _codeProvider ){
+    default P firstIn( _codeUnits _codeProvider ){
        return firstIn(_codeProvider, t->true);
     }
 
@@ -962,9 +962,9 @@ public interface $pattern<P, $P extends $pattern>{
      * @param matchFn
      * @return
      */
-    default P firstIn(_codeUnit._provider _codeProvider, Predicate<P> matchFn){
+    default P firstIn(_codeUnits _codeProvider, Predicate<P> matchFn){
         P found = null;
-        List<_codeUnit> _lc = _codeProvider.list_code();
+        List<_codeUnit> _lc = _codeProvider.list();
         for(int i=0;i<_lc.size();i++){
             found = firstIn(_lc.get(i));
             if( found != null && matchFn.test(found)){
@@ -1076,8 +1076,8 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _codeProvider
      * @return
      */
-    default <S extends selected> S selectFirstIn(_codeUnit._provider _codeProvider ){
-        List<_codeUnit> _cs = _codeProvider.list_code();
+    default <S extends selected> S selectFirstIn(_codeUnits _codeProvider ){
+        List<_codeUnit> _cs = _codeProvider.list();
         for(int i=0;i<_cs.size(); i++){
             S s = selectFirstIn( _cs.get(i) );
             if( s != null ){
@@ -1204,13 +1204,13 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _codeProvider the provider of _code instances
      * @return a List of P that match the query
      */
-    default List<P> listIn( _codeUnit._provider _codeProvider ){
+    default List<P> listIn( _codeUnits _codeProvider ){
         List<P> found = new ArrayList<>();
         _codeProvider.for_code(c -> found.addAll( listIn(c)));
         return found;
     }
 
-    default Stream<P> streamIn( _codeUnit._provider _codeProvider ){
+    default Stream<P> streamIn( _codeUnits _codeProvider ){
         return listIn(_codeProvider).stream();
     }
 
@@ -1264,7 +1264,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param <_J> the underlying _code type (_code, _type, _packageInfo, etc.)
      * @return list of matching P for the query
      */
-    default <_J extends _java._domain> List<P> listIn(_codeUnit._provider _codeProvider, Predicate<P> nodeMatchFn){
+    default <_J extends _java._domain> List<P> listIn(_codeUnits _codeProvider, Predicate<P> nodeMatchFn){
         List<P> found = new ArrayList<>();
         _codeProvider.for_code(c -> found.addAll( listIn(c, nodeMatchFn) ));
         return found;
@@ -1277,7 +1277,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param <_J>
      * @return
      */
-    default <_J extends _java._domain> Stream<P> streamIn(_codeUnit._provider _codeProvider, Predicate<P> nodeMatchFn){
+    default <_J extends _java._domain> Stream<P> streamIn(_codeUnits _codeProvider, Predicate<P> nodeMatchFn){
         return listIn(_codeProvider, nodeMatchFn).stream();
     }
 
@@ -1458,7 +1458,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param <S>
      * @return
      */
-    default <S extends selected> List<S> listSelectedIn(_codeUnit._provider _codeProvider){
+    default <S extends selected> List<S> listSelectedIn(_codeUnits _codeProvider){
         List<S> sel = new ArrayList<>();
         _codeProvider.for_code(_j -> sel.addAll( listSelectedIn( _j )) );
         return sel;
@@ -1540,13 +1540,13 @@ public interface $pattern<P, $P extends $pattern>{
 
     /**
      *
-     * @param _codeProvider
+     * @param _cus
      * @param nodeActionFn
      * @return
      */
-    default List<_codeUnit> forEachIn(_codeUnit._provider _codeProvider, Consumer<P> nodeActionFn ){
+    default List<_codeUnit> forEachIn(_codeUnits _cus, Consumer<P> nodeActionFn ){
         List<_codeUnit> ts = new ArrayList<>();
-        _codeProvider.for_code( j-> ts.add( forEachIn( j, nodeActionFn) ) );
+        _cus.for_code( j-> ts.add( forEachIn( j, nodeActionFn) ) );
         return ts;
     }
 
@@ -1664,7 +1664,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _codeProvider the collection to search through
      * @return
      */
-    default int countIn(_codeUnit._provider _codeProvider){
+    default int countIn(_codeUnits _codeProvider){
         AtomicInteger ai = new AtomicInteger();
         _codeProvider.for_code(c-> ai.addAndGet(countIn(c)));
         return ai.get();
@@ -1744,11 +1744,11 @@ public interface $pattern<P, $P extends $pattern>{
 
     /**
      * print each occurrence of the proto found within the code providers code
-     * @param _codeProvider the collection to search through
+     * @param _cus the collection to search through
      * @return
      */
-    default void printIn( _codeUnit._provider _codeProvider){
-        _codeProvider.for_code(c-> printIn(c));
+    default void printIn( _codeUnits _cus){
+        _cus.for_code(c-> printIn(c));
     }
 
     /**
@@ -1818,7 +1818,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _cp
      * @return
      */
-    default List<_codeUnit> removeIn(_codeUnit._provider _cp ){
+    default List<_codeUnit> removeIn(_codeUnits _cp ){
         return _cp.for_code(c-> removeIn(c) );
     }
 
@@ -1849,7 +1849,7 @@ public interface $pattern<P, $P extends $pattern>{
      * @param _cp
      * @return
      */
-    default List<_codeUnit> removeIn(_codeUnit._provider _cp, Predicate<P>nodeMatchFn){
+    default List<_codeUnit> removeIn(_codeUnits _cp, Predicate<P>nodeMatchFn){
         return _cp.for_code(c-> removeIn(c, nodeMatchFn) );
     }
 
@@ -1978,7 +1978,7 @@ public interface $pattern<P, $P extends $pattern>{
             return (_CT)replaceIn((_type) _type.of(clazz), $protoReplace);
         }
 
-        default List<_codeUnit> replaceIn(_codeUnit._provider _codeProvider, $P $protoReplace ){
+        default List<_codeUnit> replaceIn(_codeUnits _codeProvider, $P $protoReplace ){
             return _codeProvider.for_code( c -> replaceIn(c, $protoReplace));
         }
 
