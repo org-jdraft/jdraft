@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.jdraft.*;
+import org.jdraft.io._batch;
 import org.jdraft.text.Template;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
@@ -1201,17 +1202,27 @@ public interface $pattern<P, $P extends $pattern>{
     /**
      * Find and return a list of all matching prototypes within the clazz
      *
-     * @param _codeProvider the provider of _code instances
+     * @param _cus the provider of _code instances
      * @return a List of P that match the query
      */
-    default List<P> listIn( _codeUnits _codeProvider ){
+    default List<P> listIn( _codeUnits _cus ){
         List<P> found = new ArrayList<>();
-        _codeProvider.forEach(c -> found.addAll( listIn(c)));
+        _cus.forEach(c -> found.addAll( listIn(c)));
         return found;
     }
 
-    default Stream<P> streamIn( _codeUnits _codeProvider ){
-        return listIn(_codeProvider).stream();
+    default List<P> listIn( _batch..._batches){
+        List<P> l = new ArrayList<>();
+        Arrays.stream(_batches).forEach(b -> l.addAll( listIn(b.load())));
+        return l;
+    }
+
+    default Stream<P> streamIn( _batch... _batches ){
+        return listIn(_batches).stream();
+    }
+
+    default Stream<P> streamIn( _codeUnits _cus ){
+        return listIn(_cus).stream();
     }
 
     /**

@@ -314,7 +314,7 @@ public final class _initBlock
             extends _java._domain {
 
         /** 
-         * returns the static Blocks on the _type (ordered by when they are declared) 
+         * returns the initializer blocks (static or instance) on the _type (ordered by where they are declared)
          * @return 
          */
         default List<_initBlock> listInitBlocks(){
@@ -327,6 +327,57 @@ public final class _initBlock
                 }
             }
             return sbs;
+        }
+
+
+        /**
+         * returns the static Blocks on the _type (ordered by when they are declared)
+         * @return
+         */
+        default List<_initBlock> listStaticBlocks(){
+            NodeWithMembers nwm = (NodeWithMembers)((_java._multiPart)this).ast();
+            List<_initBlock> sbs = new ArrayList<>();
+            NodeList<BodyDeclaration<?>> mems = nwm.getMembers();
+            for( BodyDeclaration mem : mems ){
+                if( mem instanceof InitializerDeclaration && mem.asInitializerDeclaration().isStatic()){
+                    sbs.add(new _initBlock( (InitializerDeclaration)mem));
+                }
+            }
+            return sbs;
+        }
+
+        /**
+         * return a list of matching _initBlock(s) that are static
+         * @param _matchFn
+         * @return
+         */
+        default List<_initBlock> listStaticBlocks(Predicate<_initBlock> _matchFn){
+            NodeWithMembers nwm = (NodeWithMembers)((_java._multiPart)this).ast();
+            List<_initBlock> sbs = new ArrayList<>();
+            NodeList<BodyDeclaration<?>> mems = nwm.getMembers();
+            for( BodyDeclaration mem : mems ){
+                if( mem instanceof InitializerDeclaration && mem.asInitializerDeclaration().isStatic()){
+                    _initBlock _ib = _initBlock.of((InitializerDeclaration)mem );
+                    if( _matchFn.test(_ib)) {
+                        sbs.add(_ib);
+                    }
+                }
+            }
+            return sbs;
+        }
+
+        default _initBlock getStaticBlock(int index){
+            NodeWithMembers nwm = (NodeWithMembers)((_java._multiPart)this).ast();
+            NodeList<BodyDeclaration<?>> mems = nwm.getMembers();
+            for( BodyDeclaration mem : mems ){
+                if( mem instanceof InitializerDeclaration && mem.asInitializerDeclaration().isStatic()){
+                    if( index == 0 ){
+                        return new _initBlock( (InitializerDeclaration)mem);
+                    }
+                    index --;
+                }
+            }
+            return null;
         }
 
         /**
@@ -646,6 +697,14 @@ public final class _initBlock
          */
         default boolean hasInitBlocks(){
             return ((TypeDeclaration)((_type)this).ast()).stream().anyMatch( m -> m instanceof InitializerDeclaration );
+        }
+
+        /**
+         * Returns true if the entity has one (or more) static initializer blocks
+         * @return true if the entity has one (or more) static initializer blocks
+         */
+        default boolean hasStaticBlocks(){
+            return ((TypeDeclaration)((_type)this).ast()).stream().anyMatch( m -> m instanceof InitializerDeclaration && ((InitializerDeclaration) m).asInitializerDeclaration().isStatic());
         }
 
         /** 

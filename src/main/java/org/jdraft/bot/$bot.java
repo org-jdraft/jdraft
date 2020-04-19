@@ -2,6 +2,7 @@ package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
 import org.jdraft.*;
+import org.jdraft.io._batch;
 import org.jdraft.text.*;
 
 import java.util.*;
@@ -136,6 +137,30 @@ public interface $bot<B, _B, $B>
         return ($B)$(t1,$p1).$(t2, $p2).$(t3, $p3).$(t4, $p4);
     }
 
+    /* ---------------------------------------------Queries ---------------------------------------------- */
+
+    default _B firstIn(_batch... _bs) {
+        return firstIn(t->true, _bs);
+    }
+
+    /**
+     *
+     * TODO I COULD do some kinda fork join stuff, but for now, just sequential
+     * @param _matchFn match function to apply (in addition to the $bot)
+     * @param _batches the batches to load code from
+     * @return the first instance of the predicate
+     */
+    default _B firstIn(Predicate<_B> _matchFn, _batch... _batches) {
+        for(int i=0;i<_batches.length; i++){
+            _codeUnits _cus = _batches[i].load();
+            _B _f = firstIn(_cus, _matchFn);
+            if( _f != null ){
+                return _f;
+            }
+        }
+        return null;
+    }
+
     /**
      * retrieves the first within the codeUnit provider
      * @param _cus
@@ -193,6 +218,38 @@ public interface $bot<B, _B, $B>
         return null;
     }
 
+    /**
+     * loads each of the defined batches in order and returns the first instance of the found bot
+     * (or null if not found)
+     * NOTE: only loads batches that are necessary (i.e. if found in the first batch, then doesn't load other batches
+     * (2, 3, 4...)
+     * @param _batches the batches to load code from
+     * @return the first instance of the predicate
+     */
+    default Select<_B> selectFirstIn(_batch... _batches) {
+        return selectFirstIn(t->true, _batches);
+    }
+
+    /**
+     * loads each of the defined batches in order and returns the first instance of the found bot
+     * (or null if not found)
+     * NOTE: only loads batches that are necessary (i.e. if found in the first batch, then doesn't load other batches
+     * (2, 3, 4...)
+     * @param _matchFn match function to apply (in addition to the $bot)
+     * @param _batches the batches to load code from
+     * @return the first instance of the predicate
+     */
+    default Select<_B> selectFirstIn(Predicate<Select<_B>> _matchFn, _batch... _batches) {
+        for(int i=0;i<_batches.length; i++){
+            _codeUnits _cus = _batches[i].load();
+            Select<_B>  _f = selectFirstIn(_cus, _matchFn);
+            if( _f != null ){
+                return _f;
+            }
+        }
+        return null;
+    }
+
     default Select<_B> selectFirstIn(_codeUnits _cus){
         return selectFirstIn(_cus, t->true);
     }
@@ -244,6 +301,18 @@ public interface $bot<B, _B, $B>
      * @return
      */
     Select<_B> selectFirstIn(Node astNode, Predicate<Select<_B>>predicate);
+
+    /**
+     *
+     * @param _matchFn
+     * @param _batches
+     * @return
+     */
+    default int countIn(Predicate<_B> _matchFn, _batch..._batches) {
+        AtomicInteger ai = new AtomicInteger();
+        Arrays.stream(_batches).forEach(b-> ai.getAndAdd( countIn(b.load(), _matchFn) ) );
+        return ai.get();
+    }
 
     /**
      *
@@ -310,6 +379,17 @@ public interface $bot<B, _B, $B>
         return ai.get();
     }
 
+    default _codeUnits forEachIn(Consumer<_B> actionFn, _batch..._batches){
+        return forEachIn(t->true, actionFn, _batches);
+    }
+
+    default _codeUnits forEachIn(Predicate<_B> matchFn, Consumer<_B> actionFn, _batch..._batches){
+        _codeUnits _cus = new _codeUnits();
+        Arrays.stream(_batches).forEach( (b) -> _cus.add( forEachIn( b.load(), matchFn, actionFn) ) );
+        return _cus;
+    }
+
+
     default _codeUnits forEachIn(_codeUnits _cus, Consumer<_B> actionFn){
         return forEachIn( _cus, t->true, actionFn);
     }
@@ -361,13 +441,37 @@ public interface $bot<B, _B, $B>
         return astNode;
     }
 
+    /**
+     *
+     * @param selectActionFn
+     * @param _batches
+     * @return
+     */
+    default _codeUnits forSelectedIn(Consumer<Select<_B>> selectActionFn, _batch..._batches){
+        return forSelectedIn(t->true, selectActionFn, _batches);
+    }
+
+    /**
+     *
+     * @param matchFn
+     * @param selectActionFn
+     * @param _batches
+     * @return
+     */
+    default _codeUnits forSelectedIn(Predicate<Select<_B>> matchFn, Consumer<Select<_B>> selectActionFn, _batch..._batches){
+        _codeUnits _cus = new _codeUnits();
+        Arrays.stream(_batches).forEach( b-> _cus.add(forSelectedIn(matchFn, selectActionFn)));
+        return _cus;
+    }
+
     default _codeUnits forSelectedIn(_codeUnits _cus, Consumer<Select<_B>> selectActionFn){
         return forSelectedIn(_cus, t->true, selectActionFn);
     }
 
     default _codeUnits forSelectedIn(_codeUnits _cus, Predicate<Select<_B>> matchFn, Consumer<Select<_B>> selectActionFn){
-        _cus.forEach(_c-> forSelectedIn(_c.astCompilationUnit(), matchFn, selectActionFn) );
-        return _cus;
+        _codeUnits _ncu = new _codeUnits();
+        _cus.forEach(_c-> _ncu.add(forSelectedIn(_c.astCompilationUnit(), matchFn, selectActionFn) ));
+        return _ncu;
     }
 
     default <_CT extends _type<?,?>> _CT forSelectedIn(Class<?> clazz, Consumer<Select<_B>> selectActionFn){
@@ -410,6 +514,14 @@ public interface $bot<B, _B, $B>
         return forSelectedIn(astNode, t->true, selectActionFn);
     }
 
+    /**
+     *
+     * @param astNode
+     * @param matchFn
+     * @param selectActionFn
+     * @param <N>
+     * @return
+     */
     default <N extends Node> N forSelectedIn(N astNode, Predicate<Select<_B>> matchFn, Consumer<Select<_B>> selectActionFn){
         astNode.stream().forEach(n ->{
             Select<_B> sel = select(n);
@@ -418,6 +530,16 @@ public interface $bot<B, _B, $B>
             }
         });
         return astNode;
+    }
+
+    default List<_B> listIn(_batch..._batches){
+        return listIn(t->true, _batches);
+    }
+
+    default List<_B> listIn(Predicate<_B> _matchFn, _batch..._batches){
+        List<_B> list = new ArrayList<>();
+        Arrays.stream(_batches).forEach(b -> list.addAll( listIn(b.load() ,_matchFn)));
+        return list;
     }
 
     default List<_B> listIn(_codeUnits _cus){
@@ -464,6 +586,16 @@ public interface $bot<B, _B, $B>
         return list;
     }
 
+    default List<Select<_B>> listSelectedIn(_batch..._batches) {
+        return listSelectedIn(t->true, _batches);
+    }
+
+    default List<Select<_B>> listSelectedIn(Predicate<Select<_B>> _selectMatchFn, _batch..._batches) {
+        List<Select<_B>> selected = new ArrayList<>();
+        Arrays.stream(_batches).forEach(_b -> selected.addAll(listSelectedIn(_b.load(), _selectMatchFn)));
+        return selected;
+    }
+
     default List<Select<_B>> listSelectedIn(_codeUnits _cus) {
         return listSelectedIn(_cus, t->true);
     }
@@ -497,6 +629,10 @@ public interface $bot<B, _B, $B>
         return list;
     }
 
+    default void printIn(_batch... _batches ){
+        Arrays.stream(_batches).forEach(_b -> printIn(_b.load()) );
+    }
+
     default void printIn(_codeUnits _cus ){
         _cus.forEach(_cu -> printIn(_cu.astCompilationUnit()) );
     }
@@ -515,6 +651,14 @@ public interface $bot<B, _B, $B>
 
     default void printIn(Node astNode) {
         forEachIn(astNode, e-> System.out.println(e));
+    }
+
+    default Stream<_B> streamIn(_batch..._batches){
+        return listIn(_batches).stream();
+    }
+
+    default Stream<_B> streamIn( Predicate<_B> matchFn, _batch..._batches){
+        return listIn(matchFn,_batches).stream();
     }
 
     default Stream<_B> streamIn(_codeUnits _cus){
@@ -638,12 +782,27 @@ public interface $bot<B, _B, $B>
             return _j;
         }
 
+        default _codeUnits removeIn(_batch..._batches) {
+            return removeIn(t->true, _batches);
+        }
+
+        default _codeUnits removeIn(Predicate<_P> _matchFn, _batch..._batches) {
+            _codeUnits _cus = _codeUnits.of(_batches);
+            removeIn(_cus, _matchFn);
+            return _cus;
+        }
+
         default _codeUnits removeIn(_codeUnits _cup){
             return removeIn(_cup, t->true);
         }
 
-        default _codeUnits  removeIn(_codeUnits _cup, Predicate<_P> _matchFn) {
+        /** TODO remove from _codeUnits ?? cleanup */
+        default _codeUnits removeIn(_codeUnits _cup, Predicate<_P> _matchFn) {
             _cup.forEach(_cu -> removeIn(_cu.astCompilationUnit(), _matchFn) );
+
+            //TODO If I encounter a _compilationUnit that is not a package_info or a Module_info
+            //and it has not internal _type, I should remove it from _cup before returning
+
             return _cup;
         }
 
@@ -675,6 +834,18 @@ public interface $bot<B, _B, $B>
         default <N extends Node> N removeIn(N astNode, Predicate<_P> matchFn) {
             forEachIn(astNode, matchFn, n-> n.ast().removeForced());
             return astNode;
+        }
+
+        default _codeUnits replaceIn(P replaceNode, _batch..._batches) {
+            _codeUnits _cus = _codeUnits.of(_batches);
+            replaceIn(_cus, replaceNode);
+            return _cus;
+        }
+
+        default <_N extends _java._node> _codeUnits replaceIn(Template<_N> _t, _batch..._batches) {
+            _codeUnits _cus = _codeUnits.of(_batches);
+            replaceIn(_cus, _t);
+            return _cus;
         }
 
         default _codeUnits replaceIn(_codeUnits _cus, P replaceNode) {
@@ -765,6 +936,20 @@ public interface $bot<B, _B, $B>
             return forEachIn(node, p-> p.ast().replace(_replace.ast().clone()));
         }
 
+        default Select<_P> selectFirstIn(_batch..._batches) {
+            return selectFirstIn(t->true, _batches);
+        }
+
+        default Select<_P> selectFirstIn(Predicate<Select<_P>> matchFn, _batch..._batches) {
+            for(int i=0;i<_batches.length;i++){
+                Select<_P> sel = selectFirstIn(_batches[i].load(), matchFn);
+                if( sel != null ){
+                    return sel;
+                }
+            }
+            return null;
+        }
+
         /**
          *
          * @param _cus
@@ -813,6 +998,24 @@ public interface $bot<B, _B, $B>
             return null;
         }
 
+        default <_N extends _java._node<?, ?>> _codeUnits replaceSelectedIn(Template<_N> replaceNode, _batch..._batches) {
+            _codeUnits _cus = _codeUnits.of(_batches);
+            replaceSelectedIn(_cus, replaceNode);
+            return _cus;
+        }
+
+        default _codeUnits replaceSelectedIn(Function<Select<_P>, Node> replaceDeriver, _batch..._batches) {
+            _codeUnits _cus = _codeUnits.of(_batches);
+            replaceSelectedIn(_cus, replaceDeriver);
+            return _cus;
+        }
+
+        default _codeUnits replaceSelectedIn(Predicate<Select<_P>> selectMatchFn, Function<Select<_P>, Node> replaceDeriver, _batch..._batches) {
+            _codeUnits _cus = _codeUnits.of(_batches);
+            replaceSelectedIn(_cus, selectMatchFn, replaceDeriver);
+            return _cus;
+        }
+
         default <_N extends _java._node<?, ?>> _codeUnits replaceSelectedIn(_codeUnits _cus, Template<_N> replaceNode) {
             _cus.forEach(_cu-> replaceSelectedIn(_cu.astCompilationUnit(), replaceNode));
             return _cus;
@@ -852,6 +1055,7 @@ public interface $bot<B, _B, $B>
             });
             return astNode;
         }
+
         default <_J extends _java._node<?,?>> _J replaceSelectedIn(_J _j, Function<Select<_P>, Node> replaceDeriver) {
             if(_j instanceof _codeUnit){
                 if( ((_codeUnit)_j).isTopLevel() ){
@@ -880,6 +1084,10 @@ public interface $bot<B, _B, $B>
 
         default <N extends Node, _N extends _java._node<?, ?>> N replaceSelectedIn(N astNode, Template<_N> nodeTemplate) {
             return replaceSelectedIn(astNode, t->true, nodeTemplate);
+        }
+
+        default void printEachTreeIn(_batch..._batches){
+            Arrays.stream(_batches).forEach(_b -> printEachTreeIn(_b.load()));
         }
 
         default void printEachTreeIn(_codeUnits _cus){

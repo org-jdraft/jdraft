@@ -4,6 +4,7 @@ import com.github.javaparser.ast.body.CallableDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import junit.framework.TestCase;
 import org.jdraft.*;
+import org.jdraft.io._archive;
 import org.jdraft.macro._toInit;
 import org.jdraft.macro._toStaticInit;
 
@@ -12,6 +13,15 @@ import java.util.Map;
 
 public class SclassTest extends TestCase {
 
+    public void testBatch(){
+        class FF{
+            @_toStaticInit void m(){
+                System.out.println("Hey");
+            }
+        }
+        $class.of($.staticBlock()).streamIn(FF.class)
+                .limit(20).map( c-> c.getStaticBlock(0) ).forEach( sb -> Print.tree(sb));
+    }
     public void testAnonNot(){
         $class $c = $class.of(new Object(){
            @_$not int i;

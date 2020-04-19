@@ -5,16 +5,16 @@ import com.github.javaparser.ast.expr.ArrayAccessExpr;
 import com.github.javaparser.ast.expr.Expression;
 
 import org.jdraft.*;
-import org.jdraft.text.Template;
-import org.jdraft.text.Text;
-import org.jdraft.text.Tokens;
-import org.jdraft.text.Translator;
+import org.jdraft.text.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
+/**
+ * Bot for interfacing with {@link ArrayAccessExpr} or {@link _arrayAccess} {@link _expression}s
+ */
 public class $arrayAccess
         implements $bot.$node<ArrayAccessExpr, _arrayAccess, $arrayAccess>,
         $bot.$multiBot<ArrayAccessExpr, _arrayAccess, $arrayAccess>,
@@ -38,17 +38,7 @@ public class $arrayAccess
         return new $arrayAccess(_arrayAccess.of(code));
     }
 
-    //public static $arrayAccess of(Predicate<_arrayAccess> matchFn) {
-    //    return new $arrayAccess().$and(matchFn);
-    //}
-
     public Predicate<_arrayAccess> predicate = (a)->true;
-
-    //public $botSelect nameBot =
-    //        new $botSelect( _aa -> ((_arrayAccess)_aa).getName(), $e.of());
-
-    //public $botSelect indexBot =
-    //        new $botSelect( _aa -> ((_arrayAccess)_aa).getIndex(), $e.of());
 
     public $expression name = $expression.of();
     public $expression index = $expression.of();
@@ -69,26 +59,17 @@ public class $arrayAccess
     public $arrayAccess(ArrayAccessExpr e) {
         this.name = $expression.of(e.getName());
         this.index = $expression.of(e.getIndex());
-
-        //if( e.getName())
-        //this.nameBot.bot = $e.of(e.getName()); //$e.of(e.getName());
-        //this.indexBot.bot = $e.of(e.getIndex());
     }
 
     public $arrayAccess(_arrayAccess _aa) {
         this.name = $expression.of(_aa.getName());
         this.index = $expression.of(_aa.getIndex());
-
-        //this.nameBot.bot = $e.of(_aa.getName());
-        //this.indexBot.bot = $e.of(_aa.getIndex());
     }
 
     public List<$bot> $listBots(){
         List<$bot> parts = new ArrayList<>();
         parts.add(name);
         parts.add(index);
-        //parts.add( this.nameBot.bot);
-        //parts.add( this.indexBot.bot);
         return parts;
     }
 
@@ -108,13 +89,6 @@ public class $arrayAccess
         return this;
     }
 
-    /*
-    public $arrayAccess(Predicate<_arrayAccess> predicate) {
-        super();
-        $and(predicate);
-    }
-     */
-
     public boolean matches(String str){
         return select(str) != null;
     }
@@ -127,7 +101,6 @@ public class $arrayAccess
         try{
             return select(Expressions.arrayAccessEx(Text.combine(str)));
         } catch(Exception e){
-            //System.out.println( "EX \""+ Text.combine(str)+"\"");
             return null;
         }
     }
@@ -140,22 +113,8 @@ public class $arrayAccess
     }
 
     public Select<_arrayAccess> select(_arrayAccess _aa) {
-        //System.out.println( "IN ARRA CCC "+ getPredicate() );
         if (getPredicate() == null || getPredicate().test(_aa)) {
 
-            /*
-            Tokens ts = new Tokens();
-            ts = this.nameBot.apply(_aa, ts);
-            //System.out.println( "tested name, tokens "+ ts);
-
-            ts = this.indexBot.apply(_aa, ts);
-            //System.out.println( "tested index, tokens "+ ts);
-            if( ts == null ){
-                return null;
-            }
-            //System.out.println( "SELECTED"+ ts);
-            return new Selected(_aa, ts);
-            */
             Tokens ts = new Tokens();
             Select s = this.name.select(_aa.getName());
             if( s == null) {
@@ -181,25 +140,21 @@ public class $arrayAccess
     }
 
     public $arrayAccess $name( $expression $e){
-        //this.nameBot.bot = $e;
         this.name = $e;
         return this;
     }
 
     public $arrayAccess $name( _expression _e){
-        //this.nameBot.bot = $e.of(_e);
         this.name = $expression.of(_e);
         return this;
     }
 
     public $arrayAccess $name( Expression astE){
-        //this.nameBot.bot = $e.of(astE);
         this.name = $expression.of(astE);
         return this;
     }
 
     public $arrayAccess $name( String... astE){
-        //this.nameBot.bot = $e.of(Text.combine(astE)); //$e.of(astE);
         this.name = $e.of(astE);
         return this;
     }
@@ -210,25 +165,21 @@ public class $arrayAccess
     }
 
     public $arrayAccess $index( $expression $i ){
-        //this.indexBot.bot = $i;
         this.index = $i;
         return this;
     }
 
     public $arrayAccess $index( _expression _e){
-        //this.indexBot.bot = $e.of(_e);
         this.index = $expression.of(_e);
         return this;
     }
 
     public $arrayAccess $index( int index ) {
-        //this.indexBot.bot = $e.of(_int.of(index));
         this.index = $expression.of(_int.of(index));
         return this;
     }
 
     public $arrayAccess $index( Expression astE){
-        //this.indexBot.bot = $e.of(astE);
         this.index = $expression.of(astE);
         return this;
     }
@@ -239,8 +190,6 @@ public class $arrayAccess
     }
 
     public $arrayAccess $index( String... astE){
-        //this.indexBot.bot = $e.of(astE);
-
         this.index = $e.of(astE);
         return this;
     }
@@ -248,10 +197,6 @@ public class $arrayAccess
     @Override
     public _arrayAccess draft(Translator translator, Map<String, Object> keyValues) {
         _arrayAccess _aa = _arrayAccess.of();
-
-        //_aa.setName( (_expression) this.nameBot.bot.draft(translator, keyValues));
-        //_aa.setIndex( (_expression) this.indexBot.bot.draft(translator, keyValues));
-
         _aa.setName( (_expression) this.name.draft(translator, keyValues));
         _aa.setIndex( (_expression) this.index.draft(translator, keyValues));
         return _aa;
@@ -265,19 +210,8 @@ public class $arrayAccess
         return "$arrayAccess{"+ System.lineSeparator()+
                 "    "+this.name.toString()+System.lineSeparator()+
                 "    "+this.index.toString()+System.lineSeparator()+
-                //"    "+this.nameBot.bot.toString()+System.lineSeparator()+
-                //"    "+this.indexBot.bot.toString()+System.lineSeparator()+
                 "}";
     }
 
-    /**
-     * This makes it easier to NOT have to do silly things with generics on the outside
-
-    public static class Selected extends Select<_arrayAccess>{
-        public Selected(_arrayAccess _node, Tokens tokens) {
-            super(_node, tokens);
-        }
-    }
-    */
 }
 
