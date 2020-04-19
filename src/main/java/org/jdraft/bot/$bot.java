@@ -262,7 +262,7 @@ public interface $bot<B, _B, $B>
      */
     default int countIn(_codeUnits _cus, Predicate<_B> _matchFn) {
         AtomicInteger ai = new AtomicInteger();
-        _cus.for_code(_cu -> ai.addAndGet( countIn(_cu.astCompilationUnit(), _matchFn) ) );
+        _cus.forEach(_cu -> ai.addAndGet( countIn(_cu.astCompilationUnit(), _matchFn) ) );
         return ai.get();
     }
 
@@ -315,7 +315,7 @@ public interface $bot<B, _B, $B>
     }
 
     default _codeUnits forEachIn(_codeUnits _cus, Predicate<_B> matchFn, Consumer<_B> actionFn){
-        _cus.for_code( (_codeUnit _cu) -> forEachIn( _cu.astCompilationUnit(), matchFn, actionFn) );
+        _cus.forEach( (_codeUnit _cu) -> forEachIn( _cu.astCompilationUnit(), matchFn, actionFn) );
         return _cus;
     }
 
@@ -366,7 +366,7 @@ public interface $bot<B, _B, $B>
     }
 
     default _codeUnits forSelectedIn(_codeUnits _cus, Predicate<Select<_B>> matchFn, Consumer<Select<_B>> selectActionFn){
-        _cus.for_code( _c-> forSelectedIn(_c.astCompilationUnit(), matchFn, selectActionFn) );
+        _cus.forEach(_c-> forSelectedIn(_c.astCompilationUnit(), matchFn, selectActionFn) );
         return _cus;
     }
 
@@ -426,7 +426,7 @@ public interface $bot<B, _B, $B>
 
     default List<_B> listIn(_codeUnits _cus, Predicate<_B> _matchFn){
         List<_B> fullList = new ArrayList<>();
-        _cus.for_code( _cu -> fullList.addAll( listIn(_cu.astCompilationUnit(), _matchFn) ));
+        _cus.forEach(_cu -> fullList.addAll( listIn(_cu.astCompilationUnit(), _matchFn) ));
         return fullList;
     }
 
@@ -470,7 +470,7 @@ public interface $bot<B, _B, $B>
 
     default List<Select<_B>> listSelectedIn(_codeUnits _cus, Predicate<Select<_B>> _selectMatchFn) {
         List<Select<_B>> lc = new ArrayList<>();
-        _cus.for_code( _cu-> lc.addAll( listSelectedIn(_cu.astCompilationUnit(), _selectMatchFn) ) );
+        _cus.forEach(_cu-> lc.addAll( listSelectedIn(_cu.astCompilationUnit(), _selectMatchFn) ) );
         return lc;
     }
 
@@ -498,7 +498,7 @@ public interface $bot<B, _B, $B>
     }
 
     default void printIn(_codeUnits _cus ){
-        _cus.for_code( _cu -> printIn(_cu.astCompilationUnit()) );
+        _cus.forEach(_cu -> printIn(_cu.astCompilationUnit()) );
     }
 
     default void printIn(_java._node _jn) {
@@ -643,7 +643,7 @@ public interface $bot<B, _B, $B>
         }
 
         default _codeUnits  removeIn(_codeUnits _cup, Predicate<_P> _matchFn) {
-            _cup.for_code( _cu -> removeIn(_cu.astCompilationUnit(), _matchFn) );
+            _cup.forEach(_cu -> removeIn(_cu.astCompilationUnit(), _matchFn) );
             return _cup;
         }
 
@@ -678,12 +678,12 @@ public interface $bot<B, _B, $B>
         }
 
         default _codeUnits replaceIn(_codeUnits _cus, P replaceNode) {
-            _cus.for_code( _cu-> replaceIn(_cu.astCompilationUnit(), replaceNode) );
+            _cus.forEach(_cu-> replaceIn(_cu.astCompilationUnit(), replaceNode) );
             return _cus;
         }
 
         default <_N extends _java._node> _codeUnits replaceIn(_codeUnits _cus, Template<_N> _t) {
-            _cus.for_code(_cu -> replaceIn(_cu.astCompilationUnit(), _t) );
+            _cus.forEach(_cu -> replaceIn(_cu.astCompilationUnit(), _t) );
             return _cus;
         }
 
@@ -814,17 +814,17 @@ public interface $bot<B, _B, $B>
         }
 
         default <_N extends _java._node<?, ?>> _codeUnits replaceSelectedIn(_codeUnits _cus, Template<_N> replaceNode) {
-            _cus.for_code(_cu-> replaceSelectedIn(_cu.astCompilationUnit(), replaceNode));
+            _cus.forEach(_cu-> replaceSelectedIn(_cu.astCompilationUnit(), replaceNode));
             return _cus;
         }
 
         default _codeUnits replaceSelectedIn(_codeUnits _cus, Function<Select<_P>, Node> replaceDeriver) {
-            _cus.for_code(_cu-> replaceSelectedIn(_cu.astCompilationUnit(), replaceDeriver));
+            _cus.forEach(_cu-> replaceSelectedIn(_cu.astCompilationUnit(), replaceDeriver));
             return _cus;
         }
 
         default _codeUnits replaceSelectedIn(_codeUnits _cus, Predicate<Select<_P>> selectMatchFn, Function<Select<_P>, Node> replaceDeriver) {
-            _cus.for_code(_cu-> replaceSelectedIn(_cu.astCompilationUnit(), selectMatchFn, replaceDeriver));
+            _cus.forEach(_cu-> replaceSelectedIn(_cu.astCompilationUnit(), selectMatchFn, replaceDeriver));
             return _cus;
         }
 
@@ -883,7 +883,7 @@ public interface $bot<B, _B, $B>
         }
 
         default void printEachTreeIn(_codeUnits _cus){
-            _cus.for_code( _c -> printEachTreeIn( (_java._node)_c) );
+            _cus.forEach(_c -> printEachTreeIn( (_java._node)_c) );
         }
 
         default void printEachTreeIn(_java._node _n) {

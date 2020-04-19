@@ -35,27 +35,99 @@ public class _codeUnits {
         return _c;
     }
 
+    public _codeUnits(){
+        this.cache = new ArrayList<>();
+    }
+
     /**
      * A cache of _codeUnits
      */
-    public List<_codeUnit> cache = new ArrayList<>();
+    public List<_codeUnit> cache;
 
-    public Stream<_codeUnit> stream(){
-        return cache.stream();
+    /**
+     * The number of _codeUnits
+     * @return
+     */
+    public int size(){
+        return this.cache.size();
     }
 
+    /**
+     *
+     * @return
+     */
     public List<_codeUnit> list(){
         return cache;
     }
 
     /**
      *
+     * <PRE>
+     * List<_type> _ts = _cus.list(_type.class);
+     * </PRE>
      * @param _cuClass
      * @param <_CU>
      * @return
      */
     public <_CU extends _codeUnit> List<_CU> list(Class<_CU> _cuClass ){
         return (List<_CU>)this.cache.stream().filter( c-> _cuClass.isAssignableFrom(c.getClass()) ).collect(Collectors.toList());
+    }
+
+    /**
+     *
+     * <PRE>
+     * //all types that import FileNotFoundException
+     * List<_type> _ts = _cus.list(_type.class, _t.isImports(FileNotFoundException.class));
+     * </PRE>
+     * @param _cuClass
+     * @param <_CU>
+     * @return
+     */
+    public <_CU extends _codeUnit> List<_CU> list(Class<_CU> _cuClass, Predicate<_CU>_matchFn){
+        return (List<_CU>)this.cache.stream().filter( c-> {
+            if(_cuClass.isAssignableFrom(c.getClass()) ){
+                return _matchFn.test( (_CU) c);
+            }
+            return false;
+        } ).collect(Collectors.toList());
+    }
+
+    /**
+     * Returns a stream of {@link _codeUnit}s
+     * @return
+     */
+    public Stream<_codeUnit> stream(){
+        return cache.stream();
+    }
+
+    /**
+     * Returns a stream of {@link _codeUnit}s of the given _cuClass
+     * i.e.
+     * <PRE>
+     * Stream<_type> _ts = _cus.stream(_type.class);
+     * Stream<_class>_cs = _cus.stream(_class.class);
+     * </PRE>
+     * @return
+     */
+    public  <_CU extends _codeUnit> Stream<_CU> stream(Class<_CU> _cuClass){
+        return list(_cuClass).stream();
+    }
+
+    /**
+     * Returns a stream of {@link _codeUnit}s of the given _cuClass
+     * i.e.
+     * <PRE>
+     *
+     * //return a stream of {@link _type}s that import IOException.class
+     * Stream<_type> _ts = _cus.stream(_type.class, _t-> _t.hasImport(IOException.class));
+     *
+     * //return a stream of {@link _class}es that are final
+     * Stream<_class>_cs = _cus.stream(_class.class, _c-> _c.isFinal() );
+     * </PRE>
+     * @return
+     */
+    public  <_CU extends _codeUnit> Stream<_CU> stream(Class<_CU> _cuClass, Predicate<_CU>_matchFn){
+        return list(_cuClass, _matchFn).stream();
     }
 
     /**
@@ -78,14 +150,6 @@ public class _codeUnits {
      */
     public <_CU extends _codeUnit> _CU first(Class<_CU> codeClass, Predicate<_CU> _codeMatchFn) {
         return first(codeClass, _codeMatchFn, c -> Function.identity() );
-    }
-
-    /**
-     * The number of _codeUnits
-     * @return
-     */
-    public int size(){
-        return this.cache.size();
     }
 
     /**
@@ -123,31 +187,43 @@ public class _codeUnits {
         return first(_class.class, _classMatchFn);
     }
 
+    public _interface get_interface(String interfaceName){
+        return first(_interface.class, c-> c.getFullName().equals(interfaceName) || c.getSimpleName().equals(interfaceName));
+    }
+
     public _interface get_interface(Predicate<_interface>_interfaceMatchFn){
         return first(_interface.class, _interfaceMatchFn);
+    }
+
+    public _enum get_enum(String enumName){
+        return first(_enum.class, c-> c.getFullName().equals(enumName) || c.getSimpleName().equals(enumName));
     }
 
     public _enum get_enum(Predicate<_enum>_enumMatchFn){
         return first(_enum.class, _enumMatchFn);
     }
 
+    public _annotation get_annotation(String annotationName){
+        return first(_annotation.class, c-> c.getFullName().equals(annotationName) || c.getSimpleName().equals(annotationName));
+    }
+
     public _annotation get_annotation(Predicate<_annotation>_annotationMatchFn){
         return first(_annotation.class, _annotationMatchFn);
     }
 
-    public List<_codeUnit> for_code(Consumer<_codeUnit> _codeActionFn) {
-        return for_code(c->true, _codeActionFn);
+    public List<_codeUnit> forEach(Consumer<_codeUnit> _codeActionFn) {
+        return forEach(c->true, _codeActionFn);
     }
 
-    public <_CU extends _codeUnit> List<_CU> for_code(Class<_CU> _cuClass, Consumer<_CU> _codeActionFn) {
-        return for_code(_cuClass, c->true, _codeActionFn);
+    public <_CU extends _codeUnit> List<_CU> forEach(Class<_CU> _cuClass, Consumer<_CU> _codeActionFn) {
+        return forEach(_cuClass, c->true, _codeActionFn);
     }
 
-    public List<_codeUnit> for_code(Predicate<_codeUnit> _codeMatchFn, Consumer<_codeUnit> _codeActionFn) {
-        return for_code(_codeUnit.class, _codeMatchFn, _codeActionFn);
+    public List<_codeUnit> forEach(Predicate<_codeUnit> _codeMatchFn, Consumer<_codeUnit> _codeActionFn) {
+        return forEach(_codeUnit.class, _codeMatchFn, _codeActionFn);
     }
 
-    public <_CU extends _codeUnit> List<_CU> for_code(Class<_CU> codeClass, Predicate<_CU> _codeMatchFn, Consumer<_CU> _codeActionFn) {
+    public <_CU extends _codeUnit> List<_CU> forEach(Class<_CU> codeClass, Predicate<_CU> _codeMatchFn, Consumer<_CU> _codeActionFn) {
         List<_CU> acted = new ArrayList<>();
         cache.forEach(c -> {
             if(codeClass.isAssignableFrom( c.getClass() ) && _codeMatchFn.test( (_CU)c) ){
@@ -193,11 +269,6 @@ public class _codeUnits {
         return this;
     }
 
-    public _codeUnits add(_codeUnit._provider..._providers){
-        Arrays.stream(_providers).forEach(_p -> this.cache.addAll( _p.list_code()));
-        return this;
-    }
-
     /**
      * Removes
      * @param fullyQualifiedClassNames
@@ -233,7 +304,7 @@ public class _codeUnits {
 
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("sources{").append(System.lineSeparator());
+        sb.append("_codeUnits{").append(System.lineSeparator());
         this.cache.forEach(c -> sb.append("    ").append(c.getFullName() ).append(System.lineSeparator()) );
         sb.append("}");
         return sb.toString();

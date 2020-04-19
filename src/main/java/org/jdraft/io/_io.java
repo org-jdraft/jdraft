@@ -143,7 +143,7 @@ public final class _io{
      */
     public static List<Path> out( Path rootPath, _codeUnits _cp){
         List<Path> writtenFiles = new ArrayList<>();
-        _cp.for_code( c -> {
+        _cp.forEach(c -> {
             String fileName = c.getFullName().replace(".", "/")+".java";
             Path filePath = Paths.get(rootPath.toString(), fileName);
             filePath.getParent().toFile().mkdirs();

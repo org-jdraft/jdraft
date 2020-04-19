@@ -29,7 +29,7 @@ public class _pathTest extends TestCase {
         assertEquals(3, _b.listPaths(_path.JAVA_TYPES_ONLY).size()); //excludes "package-info.java" "module-info.java"
 
         _codeUnits _p = _path.of(BASE_DIR).load();
-        List<_codeUnit> _cs = _p.for_code(_c -> _c.addImports(Map.class)); //add an import to all
+        List<_codeUnit> _cs = _p.forEach(_c -> _c.addImports(Map.class)); //add an import to all
         _cs.forEach( c-> assertTrue(c.hasImport(Map.class)));
         assertEquals( 5, _cs.size());
 

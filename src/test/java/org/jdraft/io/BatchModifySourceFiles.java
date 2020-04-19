@@ -27,7 +27,7 @@ public class BatchModifySourceFiles extends TestCase {
         _codeUnits batch = _path.of(pp, p-> !p.endsWith("TestFileIso88591.java")).load();
         
         //for all java files 
-        batch.for_code(
+        batch.forEach(
             _c-> {
                 try{
                     //_code _c = _java.of(p);

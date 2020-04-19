@@ -349,7 +349,7 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
     public _codeUnits findAndReplace(_codeUnits _cp, String target, String replacement){
         Map<String,String> targetToReplacement = new HashMap<>();
         targetToReplacement.put(target, replacement);
-        _cp.for_code( _c -> findAndReplace(_c, targetToReplacement));
+        _cp.forEach(_c -> findAndReplace(_c, targetToReplacement));
         return _cp;
     }
 
@@ -358,7 +358,7 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
     }
 
     public _codeUnits findAndReplace(_codeUnits _cp, Map<String, String> targetToReplacement){
-        _cp.for_code( _c -> findAndReplace(_c, targetToReplacement));
+        _cp.forEach(_c -> findAndReplace(_c, targetToReplacement));
         return _cp;
     }
 

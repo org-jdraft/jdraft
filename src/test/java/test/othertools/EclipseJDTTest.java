@@ -119,7 +119,7 @@ public class EclipseJDTTest{ //extends TestCase
         $.packageDecl().streamIn(_cc.load()).map(p->p.getName()).distinct().forEach(e-> System.out.println( e ));
 
         //get the names of all the types along with the line count
-        _cc.load().for_code(c-> System.out.println( c.getFullName() + ":" + c.astCompilationUnit().getRange().get().getLineCount() ));
+        _cc.load().forEach(c-> System.out.println( c.getFullName() + ":" + c.astCompilationUnit().getRange().get().getLineCount() ));
 
 
         //print the name, signature and return type for all methods

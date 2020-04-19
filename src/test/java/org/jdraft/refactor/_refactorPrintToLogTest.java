@@ -30,7 +30,7 @@ public class _refactorPrintToLogTest extends TestCase {
         //here's where all the test cases are
         _codeUnits _b = _path.of(Paths.get("C:\\jdraft\\project\\jdraft\\src\\test")).load();
         List<_class> testClasses = new ArrayList<>();
-        _b.for_code(_class.class, c-> c.isExtends(TestCase.class), c-> testClasses.add(c));
+        _b.forEach(_class.class, c-> c.isExtends(TestCase.class), c-> testClasses.add(c));
 
         //convert System outs to LOG WARN
         testClasses.stream().forEach( t-> {

@@ -182,7 +182,7 @@ public class GoogleErrorProneAndroidInjectBeforeSuper_PartsTest extends TestCase
         // lets copy of the .java source, adding the @Suppress... annotations to each method
         // then retesting and verifying there are no matches
         _codeUnits SUPPRESS_ANNO = FAILURES.copy();
-        SUPPRESS_ANNO.for_code( _type.class, _t -> _t.forMembers(_method.class, _m -> ((_method)_m).addAnnos($SUPPRESS_WARNING_ANNO.draft())) );
+        SUPPRESS_ANNO.forEach( _type.class, _t -> _t.forMembers(_method.class, _m -> ((_method)_m).addAnnos($SUPPRESS_WARNING_ANNO.draft())) );
         //assertEquals(4, $SUPPRESS_WARNING_ANNO.count(SUPPRESS_ANNO));
         assertEquals(4, $method.of($SUPPRESS_WARNING_ANNO).countIn(SUPPRESS_ANNO)); //all (4) methods have the suppress anno
         System.out.println( SUPPRESS_ANNO.list() );

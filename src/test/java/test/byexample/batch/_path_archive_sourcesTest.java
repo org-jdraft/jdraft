@@ -44,7 +44,7 @@ public class _path_archive_sourcesTest extends TestCase {
     public void path_type_code(){
         _codeUnits _testsPath = _path.of("C:\\jdraft\\project\\jdraft\\src\\test\\java").load();
         // print the name of all top level interfaces
-        _testsPath.for_code(_interface.class, _i-> System.out.println( _i.getFullName() ) );
+        _testsPath.forEach(_interface.class, _i-> System.out.println( _i.getFullName() ) );
 
         //IF
         // find all types (this includes nested types & local classes)
