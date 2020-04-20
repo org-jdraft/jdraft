@@ -29,7 +29,7 @@ import org.jdraft.pattern.*;
  * Simple API to adapt all of the functionality in the
  * statically, so you don't have to always use:
  * 
- * Compiles and Loads BOTH draft based {@link _codeUnit} entities:
+ * Compiles and Loads BOTH draft based {@link _codeUnit} or {@link _codeUnits} entities:
  * <UL>
  *    <LI>{@link org.jdraft._type}
  *    <UL>
@@ -52,11 +52,17 @@ public final class _runtime {
      * Javac compiler for compiling java source to bytecode classes
      */
     public static final JavaCompiler JAVAC = ToolProvider.getSystemJavaCompiler();
-    
+
+    /**
+     * Build a
+     * @param code
+     * @return
+
     public static _javaFile file(_codeUnit code) {
         return new _javaFile(code);
     }    
-        
+     */
+
     /**
      * compile a simple class defined by the fullyQualifiedClassName and code
      * content
@@ -132,6 +138,37 @@ public final class _runtime {
          List<JavaFileObject> fs = new ArrayList<>();
         Arrays.stream(codeArray).forEach( f -> fs.add( _javaFile.of(f)));
         return compile(compilerOptions, true, fs);
+    }
+
+    /**
+     * Compile all the {@link _codeUnit} files in all the {@link _codeUnits}
+     * @param _cuss array of _codeUnits
+     * @return list of _classFiles (in memory bytecode files that HAVE NOT been loaded by a ClassLoader)
+     */
+    public static List<_classFile> compile(_codeUnits... _cuss){
+        return compile(Collections.EMPTY_LIST, true, _cuss);
+    }
+
+    /**
+     *
+     * @param compilerOptions
+     * @param _cuss
+     * @return
+     */
+    public static List<_classFile> compile(List<String>compilerOptions, _codeUnits... _cuss){
+        return compile(compilerOptions, true, _cuss);
+    }
+
+    /**
+     * compiles draft code, passes compiler options to the compiler
+     * @param compilerOptions
+     * @param _cuss the array of codeUnits
+     * @return
+     */
+    public static List<_classFile> compile(List<String>compilerOptions, boolean ignoreWarnings, _codeUnits... _cuss){
+        List<JavaFileObject> fs = new ArrayList<>();
+        Arrays.stream(_cuss).forEach( _cus -> _cus.forEach(_cu-> fs.add( _javaFile.of(_cu)) ) );
+        return compile(compilerOptions, ignoreWarnings, fs);
     }
     
     /**
@@ -252,17 +289,30 @@ public final class _runtime {
      * 
      * @param _c the model of the class
      * @param ctorArgs the constructor args
-     * @return 
+     * @return a _proxy instance referring to a new Object instance
      */
     public static _proxy proxyOf(_class _c, Object...ctorArgs){
         return _runtime.of(_c).proxy(_c, ctorArgs);
     }
 
 
+    /**
+     * compile and return a (no-arg) _proxy instance wraopping a new Object instance of a new class defined by
+     * the classSourceCode at runtime.
+     *
+     * @param classSourceCode the source code of a Class
+     * @return a _proxy instance to an instance of the class loaded
+     */
     public static _proxy proxyOf(String classSourceCode){
         return proxyOf(_class.of(classSourceCode), new Object[0]);
     }
 
+    /**
+     *
+     * @param classSourceCode
+     * @param ctorArgs
+     * @return
+     */
     public static _proxy proxyOf(String classSourceCode, Object...ctorArgs){
         return proxyOf(_class.of(classSourceCode), ctorArgs);
     }
@@ -312,7 +362,7 @@ public final class _runtime {
      */
     public static <I extends Object> I impl(String fullyQualifiedClassName, I anonymousImplementation, Object...ctorArgs){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Expressions.newEx(ste);
+        //ObjectCreationExpr oce = Expressions.newEx(ste);
         //generate an ENTIRELY NEW class
         _class _c = _class.of(fullyQualifiedClassName, anonymousImplementation, ste);
         return (I)instanceOf(_c, ctorArgs);
@@ -389,11 +439,16 @@ public final class _runtime {
         return _runtime.of(_c).instance(_c, ctorArgs);
     }
 
-    public static Object staticEval( String... expression ){
-        return staticEval( Expressions.of(expression));
+    /**
+     * Statically evaluate the code defined by the expression
+     * @param expressionCode the c
+     * @return
+     */
+    public static Object staticEval( String... expressionCode ){
+        return staticEval( Expressions.of(expressionCode));
     }
 
-    public static $method $evalExpr = $method.of(
+    private static $method $evalExpr = $method.of(
             "public static Object eval(){",
             "    return $expr$;",
             "}");
@@ -408,6 +463,11 @@ public final class _runtime {
         } );
     */
 
+    /**
+     * Statically evaluates the expr
+     * @param expr
+     * @return
+     */
     public static Object staticEval( Expression expr ){
         if( expr.isLiteralExpr() ){ //we can shortcut these kinds of expressions and just return the value
             LiteralExpr le = (LiteralExpr)expr;
@@ -480,11 +540,11 @@ public final class _runtime {
 
     /**
      * A simple way of evaluating an expression using the loaded classes
-     * @param expression
+     * @param expressionCode
      * @return
      */
-    public Object eval( String expression ){
-         return eval( Expressions.of(expression) );
+    public Object eval( String expressionCode ){
+         return eval( Expressions.of(expressionCode) );
     }
 
     /**
@@ -700,7 +760,7 @@ public final class _runtime {
     /**
      *
      * @param codeList
-     * @param <C>
+     * @param <_C>
      * @return
      */
     public static <_C extends _codeUnit> _runtime of(List<_C> codeList ){

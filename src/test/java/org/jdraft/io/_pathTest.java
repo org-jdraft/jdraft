@@ -79,7 +79,7 @@ public class _pathTest extends TestCase {
 
         //Path classesRoot = Paths.get(tmpDir, "draft_batchTest", "src", "main", "java", "classes");
         Path simpleJavaFileInPath =
-                Paths.get(tmpDir, "draft_batchTest", "src", "main", "java", "com", "github", "javaparser", "ast", "A.java");
+                Paths.get(tmpDir, "draft_batchTest", "src", "main", "java", "com", "github", "javaparser", "ast", "JRGraphics2DExporter.java");
         simpleJavaFileInPath.getParent().toFile().mkdirs();
 
         Path packageInfoFileInPath =

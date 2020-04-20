@@ -167,12 +167,23 @@ public final class _path implements _batch {
     /** a predicate to screen for which files are included in the batch (by default, all files)*/
     public Predicate<Path> filePathPredicate;
 
+    public JavaParser javaParser = Ast.JAVAPARSER;
+
     /** the root path where the files were read from */
     public Path rootPath;
 
     public _path(Path rootPath, Predicate<Path> filePathPredicate){
         this.rootPath = rootPath;
         this.filePathPredicate = filePathPredicate;
+    }
+
+    public JavaParser getJavaParser(){
+        return this.javaParser;
+    }
+
+    public _path setJavaParser(JavaParser javaParser){
+        this.javaParser = javaParser;
+        return this;
     }
 
     public List<Path> listPaths(){

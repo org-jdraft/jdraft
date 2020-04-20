@@ -20,7 +20,22 @@ import java.nio.file.Path;
 public interface _batch {
 
     /**
-     * Using the JavaParser provided, retrieve the .java sources, parse
+     * the (optional) JavaParser associated with this batch
+     * @return
+     */
+    JavaParser getJavaParser();
+
+    /**
+     * sets the particular JavaParser to be assigned to this batch
+     * (NOTE: by default the JavaParser will be {@link Ast#JAVAPARSER}
+     * @param javaParser the particular JavaParser associated with this batch
+     * @return the modified _batch
+     */
+    _batch setJavaParser(JavaParser javaParser);
+
+    /**
+     * use a SPECIFIC javaParser (not the one assigned tot he _batch)
+     * retrieve the .java sources, parse
      * @param javaParser
      * @return the sources object containing the
      */
@@ -31,6 +46,6 @@ public interface _batch {
      * @return
      */
     default _codeUnits load(){
-        return load(Ast.JAVAPARSER);
+        return load(getJavaParser());
     }
 }

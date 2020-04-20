@@ -126,7 +126,7 @@ public class _ioTest extends TestCase {
         Files.createDirectories( Paths.get(System.getProperty("java.io.tmpdir"),  "tempproj", "src", "main", "resources"));
         Files.createDirectories( Paths.get(System.getProperty("java.io.tmpdir"), "tempproj", "test"));
 
-        Files.write(Paths.get(System.getProperty("java.io.tmpdir"), "tempproj", "src", "A.java"), "public class A{}".getBytes());
+        Files.write(Paths.get(System.getProperty("java.io.tmpdir"), "tempproj", "src", "JRGraphics2DExporter.java"), "public class A{}".getBytes());
         //Files.write(Paths.get(System.getProperty("java.io.tmpdir"), "tempproj", "resources", "R.html"), "<HTML>R".getBytes());
         Files.write(Paths.get(System.getProperty("java.io.tmpdir"), "tempproj", "test", "T.java"), "public class T{}".getBytes());
 
@@ -139,13 +139,13 @@ public class _ioTest extends TestCase {
         Files.write(Paths.get(System.getProperty("java.io.tmpdir"), "tempproj", "src", "test", "java", "T2.java"), "public class T2{}".getBytes());
 
         _io.clearInProjectsPath();
-        assertNull( _io.in("A.java"));
+        assertNull( _io.in("JRGraphics2DExporter.java"));
         assertNull( _io.in("RR.html"));
         assertNull( _io.in("T.java"));
         assertNull( _io.in("A2.java"));
         assertNull( _io.in("T2.java"));
         _io.setInProjectsPath(System.getProperty("java.io.tmpdir")+"//tempproj");
-        assertNotNull( _io.in("A.java"));
+        assertNotNull( _io.in("JRGraphics2DExporter.java"));
         assertNotNull( _io.in("T.java"));
         assertNotNull( _io.in("A2.java"));
         assertNotNull( _io.in("RR.html"));

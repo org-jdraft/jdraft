@@ -33,6 +33,8 @@ public final class _archive implements _batch{
         return new _archive(path, pathMatchFn);
     }
 
+    public JavaParser javaParser = Ast.JAVAPARSER;
+
     /** path to .zip or .jar file */
     public Path pathToArchiveFile;
 
@@ -130,6 +132,15 @@ public final class _archive implements _batch{
                 throw new _jdraftException("failure reading "+ p );
             }
         });
+    }
+
+    public JavaParser getJavaParser(){
+        return this.javaParser;
+    }
+
+    public _archive setJavaParser(JavaParser javaParser){
+        this.javaParser = javaParser;
+        return this;
     }
 
     @Override

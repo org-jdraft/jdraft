@@ -1,6 +1,7 @@
 package org.jdraft.io;
 
 import com.github.javaparser.JavaParser;
+import org.jdraft.Ast;
 import org.jdraft._codeUnit;
 import org.jdraft._codeUnits;
 import org.jdraft.text.Stencil;
@@ -64,6 +65,10 @@ public class _githubProject implements _batch {
 
     public _projectDetails projectDetail;
 
+    /** the optionally configured JavaParser
+     */
+    public JavaParser javaParser = Ast.JAVAPARSER;
+
     public _githubProject(String owner, String name ){
         projectDetail = new _projectDetails();
         projectDetail.owner = owner;
@@ -80,6 +85,15 @@ public class _githubProject implements _batch {
 
         /** by default "src/main/java" source root */
         public String sourceRoot = "src/main/java/";
+    }
+
+    public JavaParser getJavaParser(){
+        return this.javaParser;
+    }
+
+    public _githubProject setJavaParser(JavaParser javaParser){
+        this.javaParser = javaParser;
+        return this;
     }
 
     /**

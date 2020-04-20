@@ -38,11 +38,21 @@ public class _mavenCentral implements _batch{
     public String groupId; //i.e. "com.github.javaparser"
     public String artifactId; //i.e. "javaparser-core"
     public String version; //i.e. "3.15.18"
+    public JavaParser javaParser;
 
     public _mavenCentral(String groupId, String artifactId, String version){
         this.groupId = groupId;
         this.artifactId = artifactId;
         this.version = version;
+    }
+
+    public JavaParser getJavaParser(){
+        return this.javaParser;
+    }
+
+    public _mavenCentral setJavaParser(JavaParser javaParser){
+        this.javaParser = javaParser;
+        return this;
     }
 
     public static final Function<String,String> DOTS_TO_SLASHES = (st)-> st.replace('.', '/');
