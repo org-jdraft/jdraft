@@ -1,6 +1,7 @@
 package org.jdraft.io;
 
 import com.github.javaparser.JavaParser;
+import org.jdraft.Ast;
 import org.jdraft._codeUnit;
 import org.jdraft._codeUnits;
 import org.jdraft.text.Stencil;
@@ -38,7 +39,7 @@ public class _mavenCentral implements _batch{
     public String groupId; //i.e. "com.github.javaparser"
     public String artifactId; //i.e. "javaparser-core"
     public String version; //i.e. "3.15.18"
-    public JavaParser javaParser;
+    public JavaParser javaParser = Ast.JAVAPARSER;
 
     public _mavenCentral(String groupId, String artifactId, String version){
         this.groupId = groupId;

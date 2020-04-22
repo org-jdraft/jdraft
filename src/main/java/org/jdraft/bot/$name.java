@@ -5,6 +5,7 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MethodReferenceExpr;
 import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.expr.SimpleName;
+import org.jdraft.Print;
 import org.jdraft._jdraftException;
 import org.jdraft._name;
 import org.jdraft.text.Stencil;
@@ -229,6 +230,16 @@ public class $name implements $bot<Node, _name, $name>,
      * @return
      */
     private boolean useCheck( _name candidate ){
+        //we only match "top level" parents names
+        if( candidate.ast().getParentNode().isPresent() ){
+            Node parent = candidate.ast().getParentNode().get();
+
+            System.out.println( "PARENT " + parent+" "+ parent.getClass()+" "+parent.getClass().getCanonicalName());
+            //Print.tree( candidate.ast().getParentNode().get() );
+            if( parent.getClass() == Name.class ){
+                return false;
+            }
+        }
         if( ! matchAnnoMemberValueNames && candidate.isAnnoMemberValueName() ){
             return false;
         }
@@ -287,7 +298,7 @@ public class $name implements $bot<Node, _name, $name>,
                 return new Select<>(candidate, ts);
             }
             if( candidate.name instanceof com.github.javaparser.ast.expr.Name){
-                System.out.println( " "+ candidate.name);
+                //System.out.println( " "+ candidate.name);
                 Name nm = (Name) candidate.name;
                 ts = this.stencil.parse(nm.getIdentifier());
                 if( ts != null ){ //DONT match is the parent matches

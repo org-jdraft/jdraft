@@ -350,8 +350,8 @@ public interface $bot<B, _B, $B>
     }
 
     default int countIn(_java._node<?, ?> _j) {
-        if( _j instanceof _type){
-            _type _t = (_type)_j;
+        if( _j instanceof _codeUnit){
+            _codeUnit _t = (_codeUnit)_j;
             if( _t.isTopLevel() ){
                 return countIn(_t.astCompilationUnit());
             }
@@ -653,6 +653,22 @@ public interface $bot<B, _B, $B>
         forEachIn(astNode, e-> System.out.println(e));
     }
 
+    default void printEachTreeIn(_codeUnits _cus){
+        _cus.forEach(_c -> printEachTreeIn( (_java._node)_c) );
+    }
+
+    default void printEachTreeIn(_java._node _n) {
+        forEachIn(_n, e-> Print.tree( (_java._node)e));
+    }
+
+    default void printEachTreeIn(Node astNode) {
+        forEachIn(astNode, e-> Print.tree( (_java._node)e));
+    }
+
+    default void printEachTreeIn(Class<?> clazz) {
+        forEachIn(Ast.of(clazz), e-> Print.tree( (_java._node)e));
+    }
+
     default Stream<_B> streamIn(_batch..._batches){
         return listIn(_batches).stream();
     }
@@ -741,7 +757,15 @@ public interface $bot<B, _B, $B>
             $listBots().forEach(b -> strs.addAll( b.$list() ));
             return strs.stream().distinct().collect(Collectors.toList());
         }
+
+
+        default void printEachTreeIn(_batch..._batches){
+            Arrays.stream(_batches).forEach(_b -> printEachTreeIn(_b.load()));
+        }
+
+
     }
+
 
     /**
      * a bot that operates on a {@link Node} implementation within the AST
@@ -1086,24 +1110,5 @@ public interface $bot<B, _B, $B>
             return replaceSelectedIn(astNode, t->true, nodeTemplate);
         }
 
-        default void printEachTreeIn(_batch..._batches){
-            Arrays.stream(_batches).forEach(_b -> printEachTreeIn(_b.load()));
-        }
-
-        default void printEachTreeIn(_codeUnits _cus){
-            _cus.forEach(_c -> printEachTreeIn( (_java._node)_c) );
-        }
-
-        default void printEachTreeIn(_java._node _n) {
-            forEachIn(_n, e-> Print.tree(e));
-        }
-
-        default void printEachTreeIn(Node astNode) {
-            forEachIn(astNode, e-> Print.tree(e));
-        }
-
-        default void printEachTreeIn(Class<?> clazz) {
-            forEachIn(Ast.of(clazz), e-> Print.tree(e));
-        }
     }
 }

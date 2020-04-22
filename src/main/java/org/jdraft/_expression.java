@@ -50,7 +50,7 @@ public interface _expression<E extends Expression, _E extends _expression>
     Class<_long> LONG = _long.class;
     Class<_lambda> LAMBDA = _lambda.class;
     Class<_methodCall> METHOD_CALL = _methodCall.class;
-    Class<_methodReference> METHOD_REFERENCE = _methodReference.class;
+    Class<_methodRef> METHOD_REFERENCE = _methodRef.class;
     Class<_nameExpression> NAME_EXPRESSION = _nameExpression.class;
     Class<_new> NEW = _new.class;
     Class<_null> NULL = _null.class;
@@ -163,7 +163,7 @@ public interface _expression<E extends Expression, _E extends _expression>
             return new _methodCall((MethodCallExpr)e);
         }
         if( e instanceof MethodReferenceExpr){
-            return new _methodReference((MethodReferenceExpr)e);
+            return new _methodRef((MethodReferenceExpr)e);
         }
         if( e instanceof ObjectCreationExpr){
             return new _new((ObjectCreationExpr)e);

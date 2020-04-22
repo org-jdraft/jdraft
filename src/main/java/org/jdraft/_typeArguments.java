@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * {@link _constructorCallStmt}
  * {@link _new}
  * {@link _fieldAccess}
- * {@link _methodReference}
+ * {@link _methodRef}
  * order doesnt matter
  */
 public final class _typeArguments

@@ -72,7 +72,7 @@ public class OfStringTest extends TestCase {
                 _long.of("-1L"),
                 _method.of("int m(){ return 56; }"),
                 _methodCall.of("call(120)"),
-                _methodReference.of("Context::getState"),
+                _methodRef.of("Context::getState"),
                 _modifier.of("public"),
                 _modifiers.of("public static final"),
                 _moduleInfo.of("module org.jdraft.mod { exports org.jdraft.mod; }"),

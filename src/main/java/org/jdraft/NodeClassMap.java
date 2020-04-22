@@ -83,7 +83,7 @@ public enum NodeClassMap {
     //_JAVA_TO_AST_NODE_CLASSES.put(_method.class
         METHOD(_method.class, MethodDeclaration.class),
         METHOD_CALL(_methodCall.class, MethodCallExpr.class),
-        METHOD_REFERENCE(_methodReference.class, MethodReferenceExpr.class),
+        METHOD_REFERENCE(_methodRef.class, MethodReferenceExpr.class),
         MODIFIER(_modifier.class, Modifier .class),
     //_JAVA_TO_AST_NODE_CLASSES.put(_modifiers.class
         MODULE_INFO(_moduleInfo.class, ModuleDeclaration.class),

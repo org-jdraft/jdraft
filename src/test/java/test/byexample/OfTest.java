@@ -63,7 +63,7 @@ public class OfTest extends TestCase {
                 _long.of(),
                 _method.of(),
                 _methodCall.of(),
-                _methodReference.of(),
+                _methodRef.of(),
                 //_modifier.of(),
                 _modifiers.of(),
                 _moduleInfo.of(),

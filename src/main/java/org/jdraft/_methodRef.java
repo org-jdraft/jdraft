@@ -5,32 +5,32 @@ import com.github.javaparser.ast.expr.MethodReferenceExpr;
 import java.util.*;
 import java.util.function.Predicate;
 
-public final class _methodReference implements _expression<MethodReferenceExpr, _methodReference>,
-        _java._multiPart<MethodReferenceExpr, _methodReference>,
-        _java._withScope<MethodReferenceExpr, _methodReference>,
-        _typeArguments._withTypeArguments<MethodReferenceExpr, _methodReference> {
+public final class _methodRef implements _expression<MethodReferenceExpr, _methodRef>,
+        _java._multiPart<MethodReferenceExpr, _methodRef>,
+        _java._withScope<MethodReferenceExpr, _methodRef>,
+        _typeArguments._withTypeArguments<MethodReferenceExpr, _methodRef> {
 
-    public static _methodReference of(){
-        return new _methodReference( new MethodReferenceExpr());
+    public static _methodRef of(){
+        return new _methodRef( new MethodReferenceExpr());
     }
 
-    public static _methodReference of(MethodReferenceExpr mre){
-        return new _methodReference(mre);
+    public static _methodRef of(MethodReferenceExpr mre){
+        return new _methodRef(mre);
     }
 
-    public static _methodReference of( String...code){
-        return new _methodReference(Expressions.methodReferenceEx( code));
+    public static _methodRef of(String...code){
+        return new _methodRef(Expressions.methodReferenceEx( code));
     }
 
     public MethodReferenceExpr mre;
 
-    public _methodReference(MethodReferenceExpr mre){
+    public _methodRef(MethodReferenceExpr mre){
         this.mre = mre;
     }
 
     @Override
-    public _methodReference copy() {
-        return new _methodReference(this.mre.clone());
+    public _methodRef copy() {
+        return new _methodRef(this.mre.clone());
     }
 
     public MethodReferenceExpr ast(){
@@ -57,7 +57,7 @@ public final class _methodReference implements _expression<MethodReferenceExpr, 
         return matchFn.test( this.mre.getIdentifier() );
     }
 
-    public _methodReference setIdentifier( String id){
+    public _methodRef setIdentifier(String id){
         this.mre.setIdentifier(id);
         return this;
     }
@@ -67,8 +67,8 @@ public final class _methodReference implements _expression<MethodReferenceExpr, 
     }
 
     public boolean equals(Object other){
-        if( other instanceof _methodReference){
-            return ((_methodReference)other).mre.equals( this.mre);
+        if( other instanceof _methodRef){
+            return ((_methodRef)other).mre.equals( this.mre);
         }
         return false;
     }

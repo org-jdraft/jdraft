@@ -23,6 +23,7 @@ import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 
 import org.jdraft.*;
+import org.jdraft.io._batch;
 import org.jdraft.pattern.*;
 
 /**
@@ -52,16 +53,6 @@ public final class _runtime {
      * Javac compiler for compiling java source to bytecode classes
      */
     public static final JavaCompiler JAVAC = ToolProvider.getSystemJavaCompiler();
-
-    /**
-     * Build a
-     * @param code
-     * @return
-
-    public static _javaFile file(_codeUnit code) {
-        return new _javaFile(code);
-    }    
-     */
 
     /**
      * compile a simple class defined by the fullyQualifiedClassName and code
@@ -247,10 +238,11 @@ public final class _runtime {
     }
 
     /**
-     * Compile and load the _type and return it's Class file
+     * Compile and load the {@link _type} {@link _class} {@link _enum}, {@link _annotation} {@link _interface}
+     * and return it's Class file
      * (NOTE: will only return the top level class file, but will compile it's
      * nested or companion types)
-     * @param _t the _type to compile
+     * @param _t the _type to compile {@link _class} {@link _enum}, {@link _annotation} {@link _interface}
      * @return the Compiled and Loaded Class
      */
     public static <_T extends _type> Class<?> Class(_T _t ){
@@ -262,8 +254,8 @@ public final class _runtime {
      * (NOTE: will only return the top level class file, but will compile it's
      * nested or companion types)
      * @param compilerOptions
-     * @param _t
-     * @return
+     * @param _t the {@link _class} {@link _enum}, {@link _annotation} or {@link _interface}
+     * @return a loaded Class
      */
     public static <_T extends _type> Class<?> Class(List<String>compilerOptions, _T _t ){
         return Class( compilerOptions, true, _t);
@@ -275,7 +267,7 @@ public final class _runtime {
      * nested or companion types)
      *
      * @param compilerOptions
-     * @param ignoreWarnings
+     * @param ignoreWarnings dont stop on compiler warnings
      * @param _t
      * @return a runtime class compiled and loaded into a new classloader
      * @see <A HREF="https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javac.html#options">javac options</A>
@@ -288,13 +280,12 @@ public final class _runtime {
     /**
      * 
      * @param _c the model of the class
-     * @param ctorArgs the constructor args
+     * @param ctorArgs the constructor arguments
      * @return a _proxy instance referring to a new Object instance
      */
     public static _proxy proxyOf(_class _c, Object...ctorArgs){
         return _runtime.of(_c).proxy(_c, ctorArgs);
     }
-
 
     /**
      * compile and return a (no-arg) _proxy instance wraopping a new Object instance of a new class defined by
@@ -734,14 +725,61 @@ public final class _runtime {
      * @param compilerOptions options to pass to the Javac compiler
      * @param ignoreWarnings if compiler warnings should be ignored
      * @param macroAnnotatedClasses classes marked up with macro annotations (i.e. @_autoDto)
-     * @return the adhoc (containing the compiled classes and _code source models)
+     * @return the _runtime (containing the compiled classes and _code source models)
      */
     public static _runtime of(List<String>compilerOptions, boolean ignoreWarnings, Class...macroAnnotatedClasses){
         List<JavaFileObject> sfs = new ArrayList<>();
         Arrays.stream(macroAnnotatedClasses).forEach(c->sfs.add( _javaFile.of( (_type) _type.of(c))));
         return of(compilerOptions, ignoreWarnings, sfs);
     }
-    
+
+    public static _runtime of(_batch..._batches ){
+        return of( Collections.EMPTY_LIST, true, _batches);
+    }
+
+    public static _runtime of(boolean ignoreWarnings, _batch..._batches ){
+        return of( Collections.EMPTY_LIST, ignoreWarnings, _batches);
+    }
+
+    public static _runtime of(List<String>compilerOptions, boolean ignoreWarnings, _batch..._batches ){
+         _codeUnits _cus = new _codeUnits();
+         Arrays.stream(_batches).forEach(_b-> _cus.add(_b.load()) );
+         return of( compilerOptions, ignoreWarnings, _cus);
+    }
+
+    /**
+     *
+     * @param _cuss
+     * @return
+     */
+    public static _runtime of(_codeUnits..._cuss ){
+        return of(Collections.EMPTY_LIST, true, _cuss);
+    }
+
+    /**
+     *
+     * @param compilerOptions
+     * @param _cuss
+     * @return
+     */
+    public static _runtime of(List<String>compilerOptions, _codeUnits..._cuss ){
+        return of(compilerOptions, true, _cuss);
+    }
+
+    /**
+     * Given multiple _codeUnits containing code build a runtime by compiling all the code to classes and
+     * creating a new _classLoader and loading all of the compiled classes
+     * @param compilerOptions javac compiler options
+     * @param ignoreWarnings (dont stop the compiler if warnings are encountered)
+     * @param _cuss an array of _codeUnits containing one or more _codeUnit (s)
+     * @return a runtime with the classes loaded
+     */
+    public static _runtime of(List<String>compilerOptions, boolean ignoreWarnings, _codeUnits..._cuss ){
+        List<JavaFileObject> sfs = new ArrayList<>();
+        Arrays.stream(_cuss).forEach(_cus-> _cus.forEach(_cu -> sfs.add( _javaFile.of( _cu) ) ) );
+        return of(compilerOptions, ignoreWarnings, sfs);
+    }
+
     /**
      * 
      * @param codeArray

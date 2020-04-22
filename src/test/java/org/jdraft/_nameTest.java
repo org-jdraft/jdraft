@@ -56,7 +56,7 @@ public class _nameTest extends TestCase {
 
         assertTrue( _name.of( _import.of("aaaa.bbbb.C").ast().getName().getQualifier().get() ).isImportName());
 
-        assertTrue( _name.of( _methodReference.of("A::B").ast() ).isMethodReference());
+        assertTrue( _name.of( _methodRef.of("A::B").ast() ).isMethodReference());
         assertTrue( _name.of( Ast.packageDeclaration("package aaaa.bbbb").getName() ).isPackageName() );
         assertTrue( _name.of( Ast.typeDecl("class C{}").asClassOrInterfaceDeclaration().getName() ).isTypeDeclarationName() );
         assertTrue( _name.of( Types.of("C").asClassOrInterfaceType().getName() ).isTypeRefName() );

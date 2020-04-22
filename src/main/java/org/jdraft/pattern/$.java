@@ -742,19 +742,19 @@ public final class $ {
         return $ex.methodCallEx(mce);
     }
 
-    public static $ex<MethodReferenceExpr, _methodReference, $ex> methodReference(){
+    public static $ex<MethodReferenceExpr, _methodRef, $ex> methodReference(){
         return $ex.methodReferenceEx();
     }
 
-    public static $ex<MethodReferenceExpr, _methodReference, $ex> methodReference(String mr){
+    public static $ex<MethodReferenceExpr, _methodRef, $ex> methodReference(String mr){
         return $ex.methodReferenceEx(mr);
     }
 
-    public static $ex<MethodReferenceExpr, _methodReference, $ex> methodReference(MethodReferenceExpr mre){
+    public static $ex<MethodReferenceExpr, _methodRef, $ex> methodReference(MethodReferenceExpr mre){
         return $ex.of(mre);
     }
 
-    public static $ex<MethodReferenceExpr, _methodReference, $ex> methodReference(Predicate<_methodReference> mre){
+    public static $ex<MethodReferenceExpr, _methodRef, $ex> methodReference(Predicate<_methodRef> mre){
         return $ex.methodReferenceEx(mre);
     }
 

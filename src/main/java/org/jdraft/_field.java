@@ -38,6 +38,11 @@ public final class _field
 
     private final VariableDeclarator astVar;
 
+    public static _field of( Class clazz, String name){
+        VariableDeclarator vd = new VariableDeclarator(Types.of(clazz), name);
+        return new _field(vd);
+    }
+
     public static _field of(String fieldDeclaration) {
         return of(new String[]{fieldDeclaration});
     }

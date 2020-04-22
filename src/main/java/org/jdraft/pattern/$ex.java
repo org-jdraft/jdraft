@@ -1266,7 +1266,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @param pattern
      * @return 
      */
-    public static $ex<MethodReferenceExpr, _methodReference, $ex> methodReferenceEx(String... pattern ) {
+    public static $ex<MethodReferenceExpr, _methodRef, $ex> methodReferenceEx(String... pattern ) {
         return new $ex( Expressions.methodReferenceEx(pattern ) );
     }
     
@@ -1275,7 +1275,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @param constraint
      * @return 
      */
-    public static $ex<MethodReferenceExpr, _methodReference, $ex> methodReferenceEx(Predicate<_methodReference> constraint) {
+    public static $ex<MethodReferenceExpr, _methodRef, $ex> methodReferenceEx(Predicate<_methodRef> constraint) {
         return new $ex( Expressions.methodReferenceEx("A:b")).$("A:b", "any").$and(constraint);
     }
     
@@ -1285,7 +1285,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * @param constraint
      * @return 
      */
-    public static $ex<MethodReferenceExpr,_methodReference, $ex> methodReferenceEx(String pattern, Predicate<_methodReference>constraint ) {
+    public static $ex<MethodReferenceExpr, _methodRef, $ex> methodReferenceEx(String pattern, Predicate<_methodRef>constraint ) {
         return new $ex( Expressions.methodReferenceEx(pattern ) ).$and(constraint);
     }
     
@@ -1293,7 +1293,7 @@ public class $ex<E extends Expression, _E extends _expression, $E extends $ex>
      * 
      * @return 
      */
-    public static $ex<MethodReferenceExpr, _methodReference, $ex> methodReferenceEx() {
+    public static $ex<MethodReferenceExpr, _methodRef, $ex> methodReferenceEx() {
         return new $ex( MethodReferenceExpr.class, "$methodReference$");
     }
     

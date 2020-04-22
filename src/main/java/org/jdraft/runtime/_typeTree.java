@@ -32,14 +32,13 @@ import java.util.stream.Collectors;
 public final class _typeTree {
 
     /**
-     * Builds a _typeTree from one or more _code._provider (s)
+     * Builds a _typeTree from one or more _codeUnits (s)
      * @param _cus where the code comes from
      * @return the _typeTree
      */
     public static _typeTree of(_codeUnits..._cus){
         List<_type>codeList = new ArrayList<>();
         Arrays.stream(_cus).forEach(_cp -> codeList.addAll(_cp.list(_type.class)));
-        //System.out.println( codeList.size() );
         return of( codeList );
     }
 
