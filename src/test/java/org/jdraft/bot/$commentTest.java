@@ -2,8 +2,41 @@ package org.jdraft.bot;
 
 import junit.framework.TestCase;
 import org.jdraft.*;
+import org.jdraft.text.Stencil;
+import org.jdraft.text.Tokens;
 
 public class $commentTest extends TestCase {
+
+    //convert <code>$contents$</code> to {@code $contents}
+    public void testCodeConvert(){
+        Stencil codeTags = Stencil.of("<code>$contents$</code>");
+        Stencil codeTagRep = Stencil.of("{@code $contents$ }");
+
+        $comment $ct = $comment.of().$and(c-> c.contains(codeTags));
+        assertTrue($ct.matches("// content <code>1</code> content "));
+        assertTrue($ct.matches("/* some content <code>1</code> content*/"));
+        assertTrue($ct.matches("/** some content <code>1</code> content **/"));
+
+        //todo caps
+        class CC {
+            // <code>1</code>
+            int i;
+
+            /* <code>2</code> */
+            int j;
+
+            /** <code>3</code>*/
+            int k;
+        }
+        /*
+        $ct.replaceSelectedIn(CC.class, (Select<_comment>s)-> {
+                    Tokens ts = s.selection.parseFirst(codeTags);
+                    String replacement = codeTagRep.draft(s.selection);;
+                }
+        );
+
+         */
+    }
 
     public void testRR(){
         /** class javadoc */
