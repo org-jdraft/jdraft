@@ -1,6 +1,5 @@
 package org.jdraft.text;
 
-import org.jdraft.text.TextForm;
 import org.jdraft.text.TextForm.Builder;
 import junit.framework.TestCase;
 
@@ -27,22 +26,22 @@ public class TextFormTest extends TestCase{
     public void testStartsWithBlank() {
         //only text
         TextForm fitb = TextForm.of( "t");
-        assertFalse( fitb.startsWithBlank() );
-        assertFalse( fitb.endsWithBlank() );
+        assertFalse( fitb.isStartsWithBlank() );
+        assertFalse( fitb.isEndsWithBlank() );
         assertEquals(0, fitb.getBlanksCount());
 
         //only blank
         fitb = TextForm.of( null );
-        assertTrue( fitb.startsWithBlank());
-        assertTrue( fitb.endsWithBlank());
+        assertTrue( fitb.isStartsWithBlank());
+        assertTrue( fitb.isEndsWithBlank());
         assertEquals( 1, fitb.getBlanksCount());
         assertEquals( "toDir Extract", fitb.parse("toDir Extract").get(0));
     }
 
     public void testExtractOnlyBlank() {
         TextForm fitb = TextForm.of("");
-        assertFalse(fitb.startsWithBlank());
-        assertFalse(fitb.endsWithBlank());
+        assertFalse(fitb.isStartsWithBlank());
+        assertFalse(fitb.isEndsWithBlank());
         assertEquals(0, fitb.getBlanksCount());
         assertEquals(0, fitb.parse("").size());
 
@@ -98,13 +97,13 @@ public class TextFormTest extends TestCase{
 
     public void testEndsWithBlank(){
         TextForm fitb = TextForm.of( "This is some data" );
-        assertFalse(fitb.endsWithBlank());
+        assertFalse(fitb.isEndsWithBlank());
 
         fitb = TextForm.of( "This is some data", null );
-        assertTrue(fitb.endsWithBlank());
+        assertTrue(fitb.isEndsWithBlank());
 
         fitb = TextForm.of( "This is some data", null, "text" );
-        assertFalse(fitb.endsWithBlank());
+        assertFalse(fitb.isEndsWithBlank());
     }
 
     public void testNoBlanksGetTextAfterBlank(){

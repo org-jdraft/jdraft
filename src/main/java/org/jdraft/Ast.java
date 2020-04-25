@@ -16,6 +16,7 @@ import java.io.*;
 import java.lang.annotation.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -1427,7 +1428,7 @@ public enum Ast {
      * @return an AST CompilationUnit representation of the source
      */
     protected static CompilationUnit parse(JavaParser javaParser, InputStream javaSourceInputStream) {
-        ParseResult<CompilationUnit> pr = javaParser.parse(javaSourceInputStream);
+        ParseResult<CompilationUnit> pr = javaParser.parse(javaSourceInputStream, StandardCharsets.UTF_8);
         if( !pr.isSuccessful() ){
             throw new _jdraftException("Unable to parse text in inputStream :"+pr.getProblems());
         }

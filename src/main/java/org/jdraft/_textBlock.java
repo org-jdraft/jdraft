@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.*;
 
-public final class _textBlock implements _expression._literal<TextBlockLiteralExpr, _textBlock> {
+public final class _textBlock implements _expression._literal<TextBlockLiteralExpr, _textBlock>, _java._withText<_textBlock> {
 
     public static _textBlock of(){
         return new _textBlock( new TextBlockLiteralExpr());
@@ -107,8 +107,9 @@ public final class _textBlock implements _expression._literal<TextBlockLiteralEx
         return 31 * this.ast().hashCode();
     }
 
-    public String getValue(){
-        return this.tble.getValue();
+    public _textBlock setText(String textContent){
+        this.tble.setValue(textContent);
+        return this;
     }
 
     @Override

@@ -3,6 +3,7 @@ package org.jdraft;
 import com.github.javaparser.ast.comments.BlockComment;
 import org.jdraft.text.Text;
 
+import java.util.List;
 import java.util.Objects;
 
 public final class _blockComment implements _comment<BlockComment, _blockComment>, _java._node<BlockComment, _blockComment> {
@@ -49,12 +50,16 @@ public final class _blockComment implements _comment<BlockComment, _blockComment
 
 
 
-    /*
-    @Override
-    public _blockComment setContents( String...contents ){
-        return this;
 
-        String str = Text.combine(contents);
+/*
+    public _blockComment setText( String...contents ) {
+        return setText( Text.combine(contents) );
+    }
+
+
+    public _blockComment setText(String contents){
+
+        String str = contents ; //Text.combine(contents);
         List<String> lines = Text.lines(str);
         if( lines.size() == 1){
             this.astComment.setContent(lines.get(0));
@@ -63,7 +68,7 @@ public final class _blockComment implements _comment<BlockComment, _blockComment
         StringBuilder sb = new StringBuilder();
         for( int i=0;i<lines.size(); i++ ){
             if( i == 0 ){
-                lines.get(i).trim().startsWith("/*")
+                lines.get(i).trim().startsWith("/*");
             }
             if( i > 0 ) {
                 if (! (lines.get(i).trim().startsWith("*") )){
@@ -71,14 +76,14 @@ public final class _blockComment implements _comment<BlockComment, _blockComment
                 }
             }
         }
-        this.astComment.setContent( )
-
+        this.astComment.setContent( sb.toString() );
+        return this;
     }
-     */
+*/
 
-    public _java._domain getCommentedNode(){
+    public _java._node getAttributedNode(){
         if( astComment.getCommentedNode().isPresent()){
-            return _java.of( astComment.getCommentedNode().get());
+            return (_java._node)_java.of( astComment.getCommentedNode().get());
         }
         return null;
     }

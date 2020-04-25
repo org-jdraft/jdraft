@@ -115,9 +115,9 @@ public class _fieldTest extends TestCase {
         _field _f = _field.of("int a;");        
         _f.setJavadoc( "Some", "Multiline", "Content");
         System.out.println( _f );
-        System.out.println( _f.getJavadoc().getContents() );
-        assertTrue( _f.getJavadoc().getContents().contains( "Multiline"));
-        assertEquals( Text.combine( "Some", "Multiline", "Content"), _f.getJavadoc().getContents() );
+        System.out.println( _f.getJavadoc().getText() );
+        assertTrue( _f.getJavadoc().getText().contains( "Multiline"));
+        assertEquals( Text.combine( "Some", "Multiline", "Content"), _f.getJavadoc().getText() );
     }
     
     public void testSimple(){
@@ -157,7 +157,7 @@ public class _fieldTest extends TestCase {
     public void testOf(){
         _field _f = _field.of("/** JAVADOC */", "@ann(1)", "@ann2(3)", "public static final int W = 103 + 45;");
         assertNotNull( _f.getJavadoc() );
-        assertTrue( _f.getJavadoc().getContents().contains( "JAVADOC"));
+        assertTrue( _f.getJavadoc().getText().contains( "JAVADOC"));
         _annos _as = _f.getAnnos();
         assertEquals( 2, _as.size() );
         assertTrue( _as.is("@ann(1)", "@ann2(3)") );

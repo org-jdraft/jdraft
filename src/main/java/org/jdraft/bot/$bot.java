@@ -490,15 +490,19 @@ public interface $bot<B, _B, $B>
 
     default <_J extends _java._node<?,?>> _J forSelectedIn(_J _j, Predicate<Select<_B>> matchFn, Consumer<Select<_B>> selectActionFn){
         if( _j instanceof _codeUnit){
+            //System.out.println( "A CODEUNIT");
             _codeUnit _c = (_codeUnit) _j;
             if( _c.isTopLevel() ){
+                //System.out.println( "A CODEUNIT TOP LVL");
                 forSelectedIn(_c.astCompilationUnit(), matchFn, selectActionFn);
                 return _j;
             }
+            //System.out.println( "A CODEUNIT NOT TOP LVL");
             _type _t = (_type) _j; //only possible
             forSelectedIn(_t.ast(), matchFn, selectActionFn); //return the TypeDeclaration, not the CompilationUnit
             return _j;
         }
+        //System.out.println("Not a codeUnit");
         forSelectedIn(((_java._node) _j).ast(), matchFn, selectActionFn);
         return _j;
     }

@@ -350,7 +350,7 @@ public class ASCIITreePrinter {
         String s = "";
         if( n instanceof Comment){ //for orphaned comments
             if( n instanceof JavadocComment ){
-                List<String> lines = lines(_javadocComment.of((JavadocComment) n).getContents().trim());
+                List<String> lines = lines(_javadocComment.of((JavadocComment) n).getText().trim());
                 //List<String> lines = lines(((JavadocComment) n).getContent().trim());
                 if( lines.size() > 1 ) {
                     s = "/** " +lines.get(0) + "... */";
@@ -358,7 +358,7 @@ public class ASCIITreePrinter {
                     s = "/** " +lines.get(0) + " */";
                 }
             } else if( n instanceof BlockComment){
-                List<String> lines = lines(_blockComment.of((BlockComment) n).getContents().trim());
+                List<String> lines = lines(_blockComment.of((BlockComment) n).getText().trim());
                 //List<String> lines = lines(((JavadocComment) n).getContent().trim());
                 if( lines.size() > 1 ) {
                     s = "/* " +lines.get(0) + "... */";

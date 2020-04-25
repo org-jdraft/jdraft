@@ -119,7 +119,7 @@ public class _annotationTest extends TestCase  {
 
         _entry _p = _an.getEntry("value");
         assertTrue(_p.getAnnos().is( "@ann", "@ann2(k='3',v=2)"));
-        assertTrue(_p.getJavadoc().getContents().contains( "javadoc"));
+        assertTrue(_p.getJavadoc().getText().contains( "javadoc"));
         assertFalse( _p.hasDefaultValue());
         assertTrue( _p.isTypeRef( int.class));
 

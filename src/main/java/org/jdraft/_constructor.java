@@ -163,7 +163,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
         //if( this.hasJavadoc() && !Objects.equals( this.getJavadoc().getContent().trim(), other.getJavadoc().getContent().trim() ) ) {
         //    return false;
         //}
-        if( this.hasJavadoc() && !Objects.equals( this.getJavadoc().getContents(), other.getJavadoc().getContents() ) ) {
+        if( this.hasJavadoc() && !Objects.equals( this.getJavadoc().getText(), other.getJavadoc().getText() ) ) {
             return false;
         }
         if( !Modifiers.modifiersEqual(this.astCtor, other.astCtor) ){

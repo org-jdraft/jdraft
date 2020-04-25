@@ -120,9 +120,9 @@ public class TextFormByExampleTest extends TestCase {
 
         TextForm tbs = TextForm.of(null, "2", "4", "6", null);
 
-        tbs.startsWithBlank();
-        tbs.startsWithText();
-        tbs.endsWithBlank();
+        tbs.isStartsWithBlank();
+        tbs.isStartsWithFixedText();
+        tbs.isEndsWithBlank();
     }
 
 }

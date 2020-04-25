@@ -73,56 +73,56 @@ public class _commentTest extends TestCase {
         //_c = _class.of(Ast.reparse( _c.astCompilationUnit() ));
 
         System.out.println( _c.listAllBlockComments() );
-        _c.listAllBlockComments().get(0).setContents("one liner");
-        _c.listAllBlockComments().get(1).setContents("multi", "line");
-        _c.listAllBlockComments().get(2).setContents("multi", "line", "comment");
+        _c.listAllBlockComments().get(0).setText("one liner");
+        _c.listAllBlockComments().get(1).setText("multi", "line");
+        _c.listAllBlockComments().get(2).setText("multi", "line", "comment");
         //System.out.println( _c );
 
-        assertEquals("one liner", _c.listAllBlockComments().get(0).getContents()); //we normalize the content before we pass it back (trim etc.)
-        assertEquals("multi"+System.lineSeparator()+"line", _c.listAllBlockComments().get(1).getContents());
-        assertEquals("multi"+System.lineSeparator()+"line"+System.lineSeparator()+"comment", _c.listAllBlockComments().get(2).getContents());
+        assertEquals("one liner", _c.listAllBlockComments().get(0).getText()); //we normalize the content before we pass it back (trim etc.)
+        assertEquals("multi"+System.lineSeparator()+"line", _c.listAllBlockComments().get(1).getText());
+        assertEquals("multi"+System.lineSeparator()+"line"+System.lineSeparator()+"comment", _c.listAllBlockComments().get(2).getText());
 
-        _c.listAllBlockComments().get(0).setContents(_blockComment.FIRST_LINE_STYLE,"one liner");
-        _c.listAllBlockComments().get(1).setContents(_blockComment.FIRST_LINE_STYLE, "multi", "line");
-        _c.listAllBlockComments().get(2).setContents(_blockComment.FIRST_LINE_STYLE,"multi", "line", "comment");
+        _c.listAllBlockComments().get(0).setText(_blockComment.FIRST_LINE_STYLE,"one liner");
+        _c.listAllBlockComments().get(1).setText(_blockComment.FIRST_LINE_STYLE, "multi", "line");
+        _c.listAllBlockComments().get(2).setText(_blockComment.FIRST_LINE_STYLE,"multi", "line", "comment");
         //System.out.println( _c );
 
-        assertEquals("one liner", _c.listAllBlockComments().get(0).getContents()); //we normalize the content before we pass it back (trim etc.)
-        assertEquals("multi"+System.lineSeparator()+"line", _c.listAllBlockComments().get(1).getContents());
-        assertEquals("multi"+System.lineSeparator()+"line"+System.lineSeparator()+"comment", _c.listAllBlockComments().get(2).getContents());
+        assertEquals("one liner", _c.listAllBlockComments().get(0).getText()); //we normalize the content before we pass it back (trim etc.)
+        assertEquals("multi"+System.lineSeparator()+"line", _c.listAllBlockComments().get(1).getText());
+        assertEquals("multi"+System.lineSeparator()+"line"+System.lineSeparator()+"comment", _c.listAllBlockComments().get(2).getText());
 
-        _c.listAllBlockComments().get(0).setContents(_blockComment.OPEN_STYLE,"one liner");
-        _c.listAllBlockComments().get(1).setContents(_blockComment.OPEN_STYLE, "multi", "line");
-        _c.listAllBlockComments().get(2).setContents(_blockComment.OPEN_STYLE,"multi", "line", "comment");
+        _c.listAllBlockComments().get(0).setText(_blockComment.OPEN_STYLE,"one liner");
+        _c.listAllBlockComments().get(1).setText(_blockComment.OPEN_STYLE, "multi", "line");
+        _c.listAllBlockComments().get(2).setText(_blockComment.OPEN_STYLE,"multi", "line", "comment");
         //System.out.println( _c );
 
-        assertEquals("one liner", _c.listAllBlockComments().get(0).getContents()); //we normalize the content before we pass it back (trim etc.)
-        assertEquals("multi"+System.lineSeparator()+"line", _c.listAllBlockComments().get(1).getContents());
-        assertEquals("multi"+System.lineSeparator()+"line"+System.lineSeparator()+"comment", _c.listAllBlockComments().get(2).getContents());
+        assertEquals("one liner", _c.listAllBlockComments().get(0).getText()); //we normalize the content before we pass it back (trim etc.)
+        assertEquals("multi"+System.lineSeparator()+"line", _c.listAllBlockComments().get(1).getText());
+        assertEquals("multi"+System.lineSeparator()+"line"+System.lineSeparator()+"comment", _c.listAllBlockComments().get(2).getText());
 
-        _c.listAllBlockComments().get(0).setContents(_blockComment.COMPACT_OPEN_STYLE,"one liner");
-        _c.listAllBlockComments().get(1).setContents(_blockComment.COMPACT_OPEN_STYLE, "multi", "line");
-        _c.listAllBlockComments().get(2).setContents(_blockComment.COMPACT_OPEN_STYLE,"multi", "line", "comment");
+        _c.listAllBlockComments().get(0).setText(_blockComment.COMPACT_OPEN_STYLE,"one liner");
+        _c.listAllBlockComments().get(1).setText(_blockComment.COMPACT_OPEN_STYLE, "multi", "line");
+        _c.listAllBlockComments().get(2).setText(_blockComment.COMPACT_OPEN_STYLE,"multi", "line", "comment");
         System.out.println( _c );
 
-        assertEquals("one liner", _c.listAllBlockComments().get(0).getContents()); //we normalize the content before we pass it back (trim etc.)
-        assertEquals("multi"+System.lineSeparator()+"line", _c.listAllBlockComments().get(1).getContents());
-        assertEquals("multi"+System.lineSeparator()+"line"+System.lineSeparator()+"comment", _c.listAllBlockComments().get(2).getContents());
+        assertEquals("one liner", _c.listAllBlockComments().get(0).getText()); //we normalize the content before we pass it back (trim etc.)
+        assertEquals("multi"+System.lineSeparator()+"line", _c.listAllBlockComments().get(1).getText());
+        assertEquals("multi"+System.lineSeparator()+"line"+System.lineSeparator()+"comment", _c.listAllBlockComments().get(2).getText());
 
         //assertEquals(" one liner ", _c.listAllBlockComments().get(0).ast().getContent()); //the ast content
         //assertEquals("one liner", _c.listAllBlockComments().get(0).getContents()); //we normalize the content before we pass it back (trim etc.)
 
-        _c.listAllBlockComments().get(0).setContents(_blockComment.ULTRA_COMPACT_STYLE, "one liner");
-        _c.listAllBlockComments().get(1).setContents(_blockComment.ULTRA_COMPACT_STYLE, "multi", "line");
-        _c.listAllBlockComments().get(2).setContents(_blockComment.ULTRA_COMPACT_STYLE,"multi", "line", "comment");
+        _c.listAllBlockComments().get(0).setText(_blockComment.ULTRA_COMPACT_STYLE, "one liner");
+        _c.listAllBlockComments().get(1).setText(_blockComment.ULTRA_COMPACT_STYLE, "multi", "line");
+        _c.listAllBlockComments().get(2).setText(_blockComment.ULTRA_COMPACT_STYLE,"multi", "line", "comment");
 
-        assertEquals("one liner", _c.listAllBlockComments().get(0).getContents()); //we normalize the content before we pass it back (trim etc.)
-        assertEquals("multi"+System.lineSeparator()+"line", _c.listAllBlockComments().get(1).getContents());
-        assertEquals("multi"+System.lineSeparator()+"line"+System.lineSeparator()+"comment", _c.listAllBlockComments().get(2).getContents());
+        assertEquals("one liner", _c.listAllBlockComments().get(0).getText()); //we normalize the content before we pass it back (trim etc.)
+        assertEquals("multi"+System.lineSeparator()+"line", _c.listAllBlockComments().get(1).getText());
+        assertEquals("multi"+System.lineSeparator()+"line"+System.lineSeparator()+"comment", _c.listAllBlockComments().get(2).getText());
         //System.out.println( _c );
 
         //TODO add checks for padding
-        assertEquals("one liner", _c.listAllBlockComments().get(0).getContents());
+        assertEquals("one liner", _c.listAllBlockComments().get(0).getText());
     }
 
     public void testStandardStyleBlockComment(){
@@ -176,7 +176,7 @@ public class _commentTest extends TestCase {
         assertEquals( 2, _cs.size());
 
         _c.forAllComments(c -> System.out.println( c ));
-        _c.forAllComments(c-> c.isAttributed(), c-> System.out.println("ATTRIBUTED"+c.getCommentedNode()));
+        _c.forAllComments(c-> c.isAttributed(), c-> System.out.println("ATTRIBUTED"+c.getAttributedNode()));
 
     }
 
@@ -208,7 +208,7 @@ public class _commentTest extends TestCase {
         //System.out.println( Ast.of(V.class) );
         _class _c = _class.of(V.class);
         List<String> ls =
-                _c.listAllJavadocComments().stream().map(jd-> jd.getContents()).collect(Collectors.toList());
+                _c.listAllJavadocComments().stream().map(jd-> jd.getText()).collect(Collectors.toList());
 
         assertEquals( "javadoc contents"+System.lineSeparator()+"with stuff" + System.lineSeparator()+"starting on first line", ls.get(0));
         assertEquals( "single javadoc with nothing on first line", ls.get(1));
@@ -218,9 +218,9 @@ public class _commentTest extends TestCase {
         //System.out.println( _c );
 
         _blockComment _bc = _c.listAllBlockComments().get(0);
-        assertEquals( "BlockComment", _c.listAllBlockComments().get(0).getContents() );
+        assertEquals( "BlockComment", _c.listAllBlockComments().get(0).getText() );
         assertEquals( "block comment" +System.lineSeparator()+ "multi line" + System.lineSeparator() +"with content",
-                _c.listAllBlockComments().get(1).getContents() );
+                _c.listAllBlockComments().get(1).getText() );
         //String contents = _bc.getContents();
         //System.out.println( "CONTENTS >"+ _c.listBlockComments().get(1).getContents()+"<");
         //System.out.println( "NORMAL CONTENTS >"+ _c.listBlockComments().get(1).getNormalizedContents()+"<");

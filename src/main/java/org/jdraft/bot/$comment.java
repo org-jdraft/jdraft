@@ -4,14 +4,12 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.stmt.Statement;
 import org.jdraft.*;
+import org.jdraft.io._batch;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -68,12 +66,12 @@ public class $comment implements $bot.$node<Comment, _comment, $comment> {
 
     public static $comment of( _comment _com){
         if( _com instanceof _blockComment ){
-            return new $comment( Stencil.of(_com.getContents()), c-> c instanceof _blockComment);
+            return new $comment( Stencil.of(_com.getText()), c-> c instanceof _blockComment);
         }
         if( _com instanceof _lineComment){
-            return new $comment( Stencil.of(_com.getContents()), c-> c instanceof _lineComment);
+            return new $comment( Stencil.of(_com.getText()), c-> c instanceof _lineComment);
         }
-        return new $comment( Stencil.of(_com.getContents()), c-> c instanceof _javadocComment);
+        return new $comment( Stencil.of(_com.getText()), c-> c instanceof _javadocComment);
     }
 
     /*
@@ -144,6 +142,154 @@ public class $comment implements $bot.$node<Comment, _comment, $comment> {
         return list;
     }
 
+    /**
+     *
+     * @param matchStencil
+     * @param replaceStencil
+     * @param _batches
+     * @return
+     */
+    public _codeUnits matchReplaceIn( Stencil matchStencil, Stencil replaceStencil, _batch..._batches){
+        _codeUnits _cus = _codeUnits.of(_batches);
+        matchReplaceIn(matchStencil,replaceStencil, _cus);
+        return _cus;
+    }
+
+    /**
+     *
+     * @param matchStencil
+     * @param replaceStencil
+     * @param _batches
+     * @return
+     */
+    public _codeUnits matchReplaceIn( String matchStencil, String replaceStencil, _batch..._batches){
+        _codeUnits _cus = _codeUnits.of(_batches);
+        matchReplaceIn(matchStencil,replaceStencil, _cus);
+        return _cus;
+    }
+
+    /**
+     *
+     * @param matchStencil
+     * @param replaceStencil
+     * @param _cuss
+     * @return
+     */
+    public List<_comment> matchReplaceIn( Stencil matchStencil, Stencil replaceStencil, _codeUnits..._cuss){
+        List<_comment> replaced = new ArrayList<>();
+        Arrays.stream( _cuss).forEach( _cus -> _cus.forEach( _cu -> replaced.addAll( matchReplaceIn( (_java._node)_cu, matchStencil, replaceStencil) ) ));
+        return replaced;
+    }
+
+    /**
+     *
+     * @param matchStencil
+     * @param replaceStencil
+     * @param _cuss
+     * @return
+     */
+    public List<_comment> matchReplaceIn( String matchStencil, String replaceStencil, _codeUnits..._cuss){
+        List<_comment> replaced = new ArrayList<>();
+        Arrays.stream( _cuss).forEach( _cus -> _cus.forEach( _cu -> replaced.addAll( matchReplaceIn( (_java._node)_cu, matchStencil, replaceStencil) ) ));
+        return replaced;
+    }
+
+    /**
+     *
+     * @param clazz
+     * @param matchStencil
+     * @param replaceStencil
+     * @return
+     */
+    public List<_comment> matchReplaceIn( Class clazz, Stencil matchStencil, Stencil replaceStencil ){
+        return matchReplaceIn( Ast.of(clazz), matchStencil, replaceStencil);
+    }
+
+    /**
+     *
+     * @param clazz
+     * @param matchStencil
+     * @param replaceStencil
+     * @return
+     */
+    public List<_comment> matchReplaceIn( Class clazz, String matchStencil, String replaceStencil ){
+        return matchReplaceIn( Ast.of(clazz), matchStencil, replaceStencil);
+    }
+
+    /**
+     *
+     * @param _node
+     * @param matchStencil
+     * @param replaceStencil
+     * @return
+     */
+    public List<_comment> matchReplaceIn( _java._node _node, Stencil matchStencil, Stencil replaceStencil ){
+        if( _node instanceof _codeUnit && ((_codeUnit) _node).isTopLevel()){
+            return matchReplaceIn(((_codeUnit) _node).astCompilationUnit(), matchStencil, replaceStencil);
+        }
+        return matchReplaceIn(_node.ast(), matchStencil, replaceStencil);
+    }
+
+    /**
+     *
+     * @param _node
+     * @param matchStencil
+     * @param replaceStencil
+     * @return
+     */
+    public List<_comment> matchReplaceIn( _java._node _node, String matchStencil, String replaceStencil ){
+        if( _node instanceof _codeUnit && ((_codeUnit) _node).isTopLevel()){
+            return matchReplaceIn(((_codeUnit) _node).astCompilationUnit(), matchStencil, replaceStencil);
+        }
+        return matchReplaceIn(_node.ast(), matchStencil, replaceStencil);
+    }
+
+    /**
+     * Looks through the contents
+     * @param astNode
+     * @param matchStencil
+     * @param replaceStencil
+     * @return
+     */
+    public List<_comment> matchReplaceIn( Node astNode, String matchStencil, String replaceStencil ){
+        return matchReplaceIn(astNode, Stencil.of(matchStencil), Stencil.of(replaceStencil));
+    }
+
+    /**
+     * Looks through the contents
+     * @param astNode
+     * @param matchStencil
+     * @param replaceStencil
+     * @return
+     */
+    public List<_comment> matchReplaceIn( Node astNode, Stencil matchStencil, Stencil replaceStencil ){
+        List<_comment> comments = new ArrayList<>();
+
+        forSelectedIn(astNode, sel-> {
+            comments.add(sel.selection.matchReplace(matchStencil, replaceStencil));
+        });
+        return comments;
+    }
+
+
+    /**
+     *
+     * @param astNode
+     * @param matchFn
+     * @param selectActionFn
+     * @param <N>
+     * @return
+     */
+    public <N extends Node> N forSelectedIn(N astNode, Predicate<Select<_comment>> matchFn, Consumer<Select<_comment>> selectActionFn){
+        astNode.getAllContainedComments().forEach(n ->{
+            Select<_comment> sel = select(n);
+            if( sel != null && matchFn.test(sel)) {
+                selectActionFn.accept(sel);
+            }
+        });
+        return astNode;
+    }
+
     @Override
     public $comment copy() {
         return new $comment ( stencil.copy(), predicate.and(t->true));
@@ -182,7 +328,7 @@ public class $comment implements $bot.$node<Comment, _comment, $comment> {
             if( this.stencil == null ){
                 return new Select<>( candidate, new Tokens());
             }
-            Tokens ts = this.stencil.parse(candidate.getContents());
+            Tokens ts = this.stencil.parse(candidate.getText());
             if( ts != null){
                 return new Select<>(candidate, ts);
             }
@@ -266,4 +412,5 @@ public class $comment implements $bot.$node<Comment, _comment, $comment> {
         }
         return Collections.emptyList();
     }
+
 }

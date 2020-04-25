@@ -22,101 +22,8 @@ import org.jdraft.diff._diffNode._leftOnly;
  * @author Eric
  */
 public class _inspectTest extends TestCase {
-    /*
-    public void testNewApiSingleChanges(){
-        _class _v1 = _class.of("C");
-        _class _v2 = _v1.copy();
-        assertTrue(_v1.diff(_v2).isEmpty()); //they the same
-        
-        _v2.field("int a;");       //add a change to _v2 only
-        _diff _d = _v1.diff(_v2);  //diff _v1 with _v2
-        
-        assertTrue(_d.isAt(FIELD));      //there is a DIFF AT at least one FIELD
-        assertTrue(_d.isAt(FIELD, "a")); //there is a DIFF AT at a field named "a"
-        
-        //find the first Diff AT a FIELD and verify it is an Add         
-        assertTrue(_d.firstAt(FIELD).isAdd()); //Add means added between _v1 and _v2
-        
-        //find the first Diff AT a FIELD named "a" and verify it is an Add
-        assertTrue(_d.firstAt(FIELD, "a").isAdd());
-        
-        //OK, lets change to v2.diff(_v1); 
-        _d = _v2.diff(_v1); // _v2 -> _v1
-        
-        // (v2->v1) find the same diffs, however they are REMOVE, not ADD 
-        assertTrue(_d.firstAt(FIELD).isRemove()); //Removed between _v2 and _v1
-        
-        // (v2->v1) find the same diffs, however they are REMOVE, not ADD 
-        assertTrue(_d.firstAt(FIELD, "a").isRemove());
-        
-        _d = _v1.field("int a;").diff(_v2);
-        assertTrue( _d.isEmpty() );        
-        
-        // alright, we realize if we change the order (_v1->_v2) to (_v2->_v1) 
-        // from now on well ALWAYS make changes to _v2 to show how they show up
-        // in the diff
-        _method _m = _method.of("void m(){}");
-        _v2.method(_m);
-        _d = _v1.diff(_v2);
-        assertTrue(_d.isAt(METHOD) ); //there is a METHOD diff
-        assertTrue(_d.isAt(METHOD,"m()") ); //there is a diff on METHOD with signature "m()"
-        assertTrue(_d.firstAt(METHOD,"m()").isAdd() ); //the first method diff is an Add
-        assertEquals( _m, _d.firstAt(METHOD,"m()").asAdd().add); //verify it is the same method       
-        _v1.method(_m.copy());
-        assertTrue( _v1.diff(_v2).isEmpty() );
-        
-        //now lets change the v2 method modifiers
-        _v2.getMethod("m").setStatic();        
-        _d = _v1.diff(_v2);
-        
-        //System.out.println( _d );
-        assertTrue( _d.has(METHOD, MODIFIERS));
-        //System.out.println( _d );
-        //System.out.println( _path.of(METHOD, "m()", MODIFIERS) );
-        assertEquals( _path.of(METHOD, "m()", MODIFIERS), _path.of(METHOD, "m()", MODIFIERS));
-        assertTrue( _d.atPath(METHOD, "m()", MODIFIERS).isChange() );
-        
-        //update v1 to make them equal now
-        _v1.getMethod("m").setStatic();
-        
-        
-        //now change the body in v2
-        _v2.getMethod("m").setBody(() -> {System.out.println(1);} );
-        _d = _v1.diff(_v2);
-        
-        //System.out.println( _d );
-        assertTrue( _d.has(METHOD, BODY));
-        assertTrue( _d.firstAt(BODY).isEdit() );
-        assertTrue( _d.atPath(METHOD,"m()", BODY).isEdit() );
-        
-        //verify that I can get the edit node and check it against the method
-        assertEquals( _m.getBody(), _d.atPath(METHOD,"m()",BODY).asEdit().right );
-        assertEquals( _v1.getMethod("m").getBody(), _d.atPath(METHOD,"m()",BODY).asEdit().left );
-        
-        _body _v2bd = (_body)_d.atPath(METHOD,"m()",BODY).asEdit().right();
-        
-        
-        //Can I MERGE a Change from V2 back to V1
-        // YEAH LETS DO THIS AT THE AST LEVEL
-        
-        //if its an ADD
-        // I just ADD the thing (i.e. ADDMEMBER)
-        //if its a REMOVE
-        // just remove Member
-        
-        //get the line count of the body
-        System.out.println( _v2bd.ast().getRange().get().getLineCount() );
-        
-        //_d.atPath(METHOD,"m()", BODY).asEdit()
-        
-        _constructor ct = _constructor.of("C(){}");        
-        _v2.constructor(ct);                
-        
-        _d = _v1.diff(_v2);
-        
-        assertTrue(_d.atPath(CONSTRUCTOR, "C()").isAdd());
-    }
-    */
+
+
 
     public void setUp(){
         Log.setAdapter( new Log.StandardOutStandardErrorAdapter());
@@ -144,8 +51,104 @@ public class _inspectTest extends TestCase {
         _v1.add(_v2.listDeclared().toArray(new _java._declared[0]));
         assertEquals( _v1, _v2);        
     }
-    
-    
+
+
+    /*
+    public void testNewApiSingleChanges(){
+        _class _v1 = _class.of("C");
+        _class _v2 = _v1.copy();
+        assertTrue(_v1.diff(_v2).isEmpty()); //they the same
+
+        _v2.field("int a;");       //add a change to _v2 only
+        _diff _d = _v1.diff(_v2);  //diff _v1 with _v2
+
+        assertTrue(_d.isAt(FIELD));      //there is a DIFF AT at least one FIELD
+        assertTrue(_d.isAt(FIELD, "a")); //there is a DIFF AT at a field named "a"
+
+        //find the first Diff AT a FIELD and verify it is an Add
+        assertTrue(_d.firstAt(FIELD).isAdd()); //Add means added between _v1 and _v2
+
+        //find the first Diff AT a FIELD named "a" and verify it is an Add
+        assertTrue(_d.firstAt(FIELD, "a").isAdd());
+
+        //OK, lets change to v2.diff(_v1);
+        _d = _v2.diff(_v1); // _v2 -> _v1
+
+        // (v2->v1) find the same diffs, however they are REMOVE, not ADD
+        assertTrue(_d.firstAt(FIELD).isRemove()); //Removed between _v2 and _v1
+
+        // (v2->v1) find the same diffs, however they are REMOVE, not ADD
+        assertTrue(_d.firstAt(FIELD, "a").isRemove());
+
+        _d = _v1.field("int a;").diff(_v2);
+        assertTrue( _d.isEmpty() );
+
+        // alright, we realize if we change the order (_v1->_v2) to (_v2->_v1)
+        // from now on well ALWAYS make changes to _v2 to show how they show up
+        // in the diff
+        _method _m = _method.of("void m(){}");
+        _v2.method(_m);
+        _d = _v1.diff(_v2);
+        assertTrue(_d.isAt(METHOD) ); //there is a METHOD diff
+        assertTrue(_d.isAt(METHOD,"m()") ); //there is a diff on METHOD with signature "m()"
+        assertTrue(_d.firstAt(METHOD,"m()").isAdd() ); //the first method diff is an Add
+        assertEquals( _m, _d.firstAt(METHOD,"m()").asAdd().add); //verify it is the same method
+        _v1.method(_m.copy());
+        assertTrue( _v1.diff(_v2).isEmpty() );
+
+        //now lets change the v2 method modifiers
+        _v2.getMethod("m").setStatic();
+        _d = _v1.diff(_v2);
+
+        //System.out.println( _d );
+        assertTrue( _d.has(METHOD, MODIFIERS));
+        //System.out.println( _d );
+        //System.out.println( _path.of(METHOD, "m()", MODIFIERS) );
+        assertEquals( _path.of(METHOD, "m()", MODIFIERS), _path.of(METHOD, "m()", MODIFIERS));
+        assertTrue( _d.atPath(METHOD, "m()", MODIFIERS).isChange() );
+
+        //update v1 to make them equal now
+        _v1.getMethod("m").setStatic();
+
+
+        //now change the body in v2
+        _v2.getMethod("m").setBody(() -> {System.out.println(1);} );
+        _d = _v1.diff(_v2);
+
+        //System.out.println( _d );
+        assertTrue( _d.has(METHOD, BODY));
+        assertTrue( _d.firstAt(BODY).isEdit() );
+        assertTrue( _d.atPath(METHOD,"m()", BODY).isEdit() );
+
+        //verify that I can get the edit node and check it against the method
+        assertEquals( _m.getBody(), _d.atPath(METHOD,"m()",BODY).asEdit().right );
+        assertEquals( _v1.getMethod("m").getBody(), _d.atPath(METHOD,"m()",BODY).asEdit().left );
+
+        _body _v2bd = (_body)_d.atPath(METHOD,"m()",BODY).asEdit().right();
+
+
+        //Can I MERGE a Change from V2 back to V1
+        // YEAH LETS DO THIS AT THE AST LEVEL
+
+        //if its an ADD
+        // I just ADD the thing (i.e. ADDMEMBER)
+        //if its a REMOVE
+        // just remove Member
+
+        //get the line count of the body
+        System.out.println( _v2bd.ast().getRange().get().getLineCount() );
+
+        //_d.atPath(METHOD,"m()", BODY).asEdit()
+
+        _constructor ct = _constructor.of("C(){}");
+        _v2.constructor(ct);
+
+        _d = _v1.diff(_v2);
+
+        assertTrue(_d.atPath(CONSTRUCTOR, "C()").isAdd());
+    }
+    */
+
     public void testField(){
         _field _f1 =_field.of("int a;");
         _field _f2 =_field.of("int a;");

@@ -866,12 +866,6 @@ public final class Stencil implements Template<String>{
      * @return the tokens for the stencil or null if it is not found
      */
     public Tokens parseFirst(String text ){
-
-        // text = text.trim();
-        Tokens ts = parse(text);
-        if( ts != null ){
-            return ts;
-        }
         MatchResult mr = matchFirst(this, text);
         if( mr != null ) {
             return parse(mr.group(0));
@@ -901,6 +895,51 @@ public final class Stencil implements Template<String>{
             return matcher.toMatchResult();
         }
         return null;
+    }
+
+    /**
+     * with string content, and a matchStencil (to match some pattern) and replaceStencil
+     * (to provide a replacement) return the modified content (with the replacements)
+     * <PRE>
+     * String result = matchReplace( "the price is 120 dollars, less the 12 dollars credit", "dollars", "euros");
+     *
+     * assertEquals( "the price is 120 euros, less the 12 euros credit", result);
+     * </PRE>
+     *
+     * @param content the String content that should be updated with replacements for matches
+     * @param matchStencil matches a pattern
+     * @param replaceStencil (optionally) takes the tokens returned from the matchStencil and
+     * @return the modified content with stencils matched and replaced
+     */
+    public static String matchReplace(String content, Stencil matchStencil, Stencil replaceStencil){
+        String unparsed = content; //parts of the content that havent been parsed yet
+        StringBuilder sb = new StringBuilder(); // where the replaced code is written
+
+        Tokens ts = matchStencil.parseFirst(unparsed);
+        while(ts != null){
+            //build the exact match
+            String match = matchStencil.draft(ts);
+
+            //find the location of the match within the
+            int matchIndex = unparsed.indexOf(match);
+
+            //retrieve the static content BEFORE the match
+            String beforeMatch = unparsed.substring(0, matchIndex);
+
+            //draft/build the replacement for the match encountered
+            String replacement = replaceStencil.draft(ts);
+
+            //append the static content before the match, then the replacement
+            sb.append(beforeMatch).append(replacement);
+
+            //bump the cursor position
+            unparsed = unparsed.substring(Math.min( matchIndex+match.length()+1, unparsed.length()));
+            //sb.append(replaceSelection);
+            ts = matchStencil.parseFirst(unparsed);
+        }
+        //append any trailing characters that are found after the last match
+        sb.append(unparsed);
+        return sb.toString();
     }
 
     /**

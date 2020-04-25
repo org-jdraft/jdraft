@@ -1,12 +1,11 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.StringLiteralExpr;
+import org.jdraft.text.Stencil;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Predicate;
 
-public final class _string implements _expression._literal<StringLiteralExpr, _string> {
+public final class _string implements _expression._literal<StringLiteralExpr, _string>, _java._withText<_string> {
 
     public static _string of(){
         return new _string( new StringLiteralExpr());
@@ -47,13 +46,56 @@ public final class _string implements _expression._literal<StringLiteralExpr, _s
         return this.ast( ).equals(astNode);
     }
 
-
-    public boolean isValue( Predicate<String> stringMatchFn ){
-        return stringMatchFn.test(this.se.asString());
+    public boolean isText(Predicate<String> textMatchFn ){
+        return textMatchFn.test(this.se.asString());
     }
 
-    public String getValue(){
+    public String getText(){
         return this.se.getValue();
+    }
+
+    public _string setText(String text ){
+        this.se.setValue(text);
+        return this;
+    }
+
+    /**
+     * Look for matches to matchStencil in the contents of the comment and replace with the replaceStencil
+     * for example:
+     * <PRE>
+     * _comment _c = _comment.of("//<code>System.out.println(getValue());</code>");
+     * _c.matchReplace("<code>$content$</code>", "{@code $content$}");
+     *
+     * //verify we matched the old <code></code> tags to {@code}
+     * assertEquals( "{@code System.out.println}", _c.getContents());
+     * </PRE>
+     * @param matchStencil stencil for matching input pattern
+     * @param replaceStencil stencil for drafting the replacement
+     * @return
+     */
+    public _string matchReplace(String matchStencil, String replaceStencil){
+        return matchReplace(Stencil.of(matchStencil), Stencil.of(replaceStencil));
+    }
+
+    /**
+     * Look for matches to matchStencil in the contents of the comment and replace with the replaceStencil
+     * for example:
+     * <PRE>
+     * Stencil matchStencil = Stencil.of("<code>$content$</code>");
+     * Stencil replaceStencil = Stencil.of("{@code $content$}");
+     * _comment _c = _comment.of("//<code>System.out.println(getValue());</code>");
+     * _c.matchReplace(matchStencil, replaceStencil);
+     *
+     * //verify we matched the old <code></code> tags to {@code}
+     * assertEquals( "{@code System.out.println}", _c.getContents());
+     * </PRE>
+     * @param matchStencil stencil for matching input pattern
+     * @param replaceStencil stencil for drafting the replacement
+     * @return
+     */
+    public _string matchReplace(Stencil matchStencil, Stencil replaceStencil){
+        setText(Stencil.matchReplace( getText(), matchStencil, replaceStencil));
+        return this;
     }
 
     public String valueAsString(){

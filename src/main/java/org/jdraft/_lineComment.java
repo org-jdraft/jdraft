@@ -55,9 +55,9 @@ public final class _lineComment implements _comment<LineComment, _lineComment>, 
     }
      */
 
-    public _java._domain getCommentedNode(){
+    public _java._node getAttributedNode(){
         if( astComment.getCommentedNode().isPresent()){
-            return _java.of( astComment.getCommentedNode().get());
+            return (_java._node)_java.of( astComment.getCommentedNode().get());
         }
         return null;
     }

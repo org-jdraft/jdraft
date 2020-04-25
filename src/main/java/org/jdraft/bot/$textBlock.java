@@ -3,15 +3,15 @@ package org.jdraft.bot;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.TextBlockLiteralExpr;
-import org.jdraft._expression;
+import org.jdraft.*;
 import org.jdraft._java._domain;
-import org.jdraft._jdraftException;
-import org.jdraft._textBlock;
+import org.jdraft.io._batch;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -46,7 +46,7 @@ public class $textBlock implements $bot.$node<TextBlockLiteralExpr, _textBlock, 
     }
 
     public static $textBlock of(String i) {
-        return new $textBlock(_textBlock.of(i)).$and(_i -> _i.getValue() == i);
+        return new $textBlock(_textBlock.of(i)).$and(_i -> _i.getText() == i);
     }
 
     /*
@@ -148,6 +148,136 @@ public class $textBlock implements $bot.$node<TextBlockLiteralExpr, _textBlock, 
             return null;
         }
         return null;
+    }
+
+
+    /**
+     *
+     * @param matchStencil
+     * @param replaceStencil
+     * @param _batches
+     * @return
+     */
+    public _codeUnits matchReplaceIn(Stencil matchStencil, Stencil replaceStencil, _batch..._batches){
+        _codeUnits _cus = _codeUnits.of(_batches);
+        matchReplaceIn(matchStencil,replaceStencil, _cus);
+        return _cus;
+    }
+
+    /**
+     *
+     * @param matchStencil
+     * @param replaceStencil
+     * @param _batches
+     * @return
+     */
+    public _codeUnits matchReplaceIn( String matchStencil, String replaceStencil, _batch..._batches){
+        _codeUnits _cus = _codeUnits.of(_batches);
+        matchReplaceIn(matchStencil,replaceStencil, _cus);
+        return _cus;
+    }
+
+    /**
+     *
+     * @param matchStencil
+     * @param replaceStencil
+     * @param _cuss
+     * @return
+     */
+    public List<_textBlock> matchReplaceIn(Stencil matchStencil, Stencil replaceStencil, _codeUnits..._cuss){
+        List<_textBlock> replaced = new ArrayList<>();
+        Arrays.stream( _cuss).forEach(_cus -> _cus.forEach(_cu -> replaced.addAll( matchReplaceIn( (_java._node)_cu, matchStencil, replaceStencil) ) ));
+        return replaced;
+    }
+
+    /**
+     *
+     * @param matchStencil
+     * @param replaceStencil
+     * @param _cuss
+     * @return
+     */
+    public List<_textBlock> matchReplaceIn( String matchStencil, String replaceStencil, _codeUnits..._cuss){
+        List<_textBlock> replaced = new ArrayList<>();
+        Arrays.stream( _cuss).forEach( _cus -> _cus.forEach( _cu -> replaced.addAll( matchReplaceIn( (_java._node)_cu, matchStencil, replaceStencil) ) ));
+        return replaced;
+    }
+
+    /**
+     *
+     * @param clazz
+     * @param matchStencil
+     * @param replaceStencil
+     * @return
+     */
+    public List<_textBlock> matchReplaceIn( Class clazz, Stencil matchStencil, Stencil replaceStencil ){
+        return matchReplaceIn( Ast.of(clazz), matchStencil, replaceStencil);
+    }
+
+    /**
+     *
+     * @param clazz
+     * @param matchStencil
+     * @param replaceStencil
+     * @return
+     */
+    public List<_textBlock> matchReplaceIn( Class clazz, String matchStencil, String replaceStencil ){
+        return matchReplaceIn( Ast.of(clazz), matchStencil, replaceStencil);
+    }
+
+    /**
+     *
+     * @param _node
+     * @param matchStencil
+     * @param replaceStencil
+     * @return
+     */
+    public List<_textBlock> matchReplaceIn( _java._node _node, Stencil matchStencil, Stencil replaceStencil ){
+        if( _node instanceof _codeUnit && ((_codeUnit) _node).isTopLevel()){
+            return matchReplaceIn(((_codeUnit) _node).astCompilationUnit(), matchStencil, replaceStencil);
+        }
+        return matchReplaceIn(_node.ast(), matchStencil, replaceStencil);
+    }
+
+    /**
+     *
+     * @param _node
+     * @param matchStencil
+     * @param replaceStencil
+     * @return
+     */
+    public List<_textBlock> matchReplaceIn( _java._node _node, String matchStencil, String replaceStencil ){
+        if( _node instanceof _codeUnit && ((_codeUnit) _node).isTopLevel()){
+            return matchReplaceIn(((_codeUnit) _node).astCompilationUnit(), matchStencil, replaceStencil);
+        }
+        return matchReplaceIn(_node.ast(), matchStencil, replaceStencil);
+    }
+
+    /**
+     * Looks through the contents
+     * @param astNode
+     * @param matchStencil
+     * @param replaceStencil
+     * @return
+     */
+    public List<_textBlock> matchReplaceIn( Node astNode, String matchStencil, String replaceStencil ){
+        return matchReplaceIn(astNode, Stencil.of(matchStencil), Stencil.of(replaceStencil));
+    }
+
+    /**
+     * Looks through the contents
+     * @param astNode
+     * @param matchStencil
+     * @param replaceStencil
+     * @return
+     */
+    public List<_textBlock> matchReplaceIn( Node astNode, Stencil matchStencil, Stencil replaceStencil ){
+        List<_textBlock> textBlocks = new ArrayList<>();
+
+        forSelectedIn(astNode, sel-> {
+            textBlocks.add(sel.selection.matchReplace(matchStencil, replaceStencil));
+        });
+        return textBlocks;
     }
 
     public boolean matches(String i) {

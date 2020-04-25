@@ -13,7 +13,6 @@ import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.TypeParameter;
-import com.github.javaparser.printer.ASCIITreePrinter;
 import com.github.javaparser.printer.PrettyPrintVisitor;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import com.github.javaparser.utils.Log;
@@ -1170,13 +1169,13 @@ public class AstTest extends TestCase {
         System.out.println(
                Tree.list( _class.of(L.class),
                     _javadocComment._withJavadoc.class,
-                    jd -> jd.hasJavadoc() && jd.getJavadoc().getContents().startsWith("TODO")));
+                    jd -> jd.hasJavadoc() && jd.getJavadoc().getText().startsWith("TODO")));
 
         //List all entities that have TODO tags within the Javadocs
         System.out.println(
                 Tree.list(_class.of(L.class),
                 _javadocComment._withJavadoc.class,
-                jd -> jd.hasJavadoc() && jd.getJavadoc().getContents().startsWith("TODO") ) );
+                jd -> jd.hasJavadoc() && jd.getJavadoc().getText().startsWith("TODO") ) );
 
         //find any TODO tags within the code
         Tree.in( _class.of(L.class),

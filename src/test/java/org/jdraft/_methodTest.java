@@ -541,7 +541,7 @@ public class _methodTest extends TestCase {
                 _method.of("/** blah*/ @p public int getM(int a){ return 120;}");
 
         assertTrue( _m.hasJavadoc() );
-        assertEquals( "blah", _m.getJavadoc().getContents() );
+        assertEquals( "blah", _m.getJavadoc().getText() );
 
         assertEquals( 1, _m.getAnnos().list( "p" ).size());
         assertEquals( "int", _m.getTypeRef().toString() );
@@ -624,7 +624,7 @@ public class _methodTest extends TestCase {
             "   return null;",
             "}" );       
         assertTrue(_m.hasJavadoc() );
-        assertTrue( _m.getJavadoc().getContents().contains("JAVADOC"));
+        assertTrue( _m.getJavadoc().getText().contains("JAVADOC"));
         assertTrue(_m.hasAnnos());        
         assertTrue(_m.hasAnno( "ann"));
         assertTrue(_m.hasAnno( ann.class));

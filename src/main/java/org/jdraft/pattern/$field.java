@@ -345,7 +345,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
      * @return
      */
      public $field $javadoc( _javadocComment _jd ){
-        this.javadoc.contentsStencil = Stencil.of(_jd.getContents() );
+        this.javadoc.contentsStencil = Stencil.of(_jd.getText() );
         return this;
      }
 

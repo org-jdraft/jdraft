@@ -119,7 +119,7 @@ public class _constructorTest extends TestCase {
                 });
         _constructor _ct = _c.getConstructor(0);
         assertTrue( _ct.hasAnno(Deprecated.class));
-        assertTrue( _ct.getJavadoc().getContents().contains("This is a constructor"));
+        assertTrue( _ct.getJavadoc().getText().contains("This is a constructor"));
         assertTrue( _ct.getParameter(0).is("int x"));
         assertTrue( _ct.getParameter(1).is("int y"));
         //System.out.println(_c);
@@ -153,7 +153,7 @@ public class _constructorTest extends TestCase {
             "    this.m = m;",
             "}"); 
         assertTrue( _ct.hasJavadoc() );
-        assertTrue( _ct.getJavadoc().getContents().contains( "ctor JAVADOC"));
+        assertTrue( _ct.getJavadoc().getText().contains( "ctor JAVADOC"));
         assertTrue( _ct.hasAnnos() );
         assertTrue( _ct.getAnno( 0 ).is( "@ann") );
         assertTrue( _ct.getAnno( 1 ).is( "@ann2(k=1,v='t')") );

@@ -1,9 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.comments.JavadocComment;
-import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
-import org.jdraft.text.Tokens;
 
 import java.util.Objects;
 
@@ -30,9 +28,9 @@ public final class _javadocComment implements _comment<JavadocComment, _javadocC
         this.astComment = lc;
     }
 
-    public _java._domain getCommentedNode(){
+    public _java._node getAttributedNode(){
         if( astComment.getCommentedNode().isPresent()){
-            return _java.of( astComment.getCommentedNode().get());
+            return (_java._node)_java.of( astComment.getCommentedNode().get());
         }
         return null;
     }
@@ -56,13 +54,13 @@ public final class _javadocComment implements _comment<JavadocComment, _javadocC
     public boolean equals(Object o){
         if( o instanceof _javadocComment){
             _javadocComment _bc = (_javadocComment)o;
-            return Objects.equals( _bc.getContents(), getContents() );
+            return Objects.equals( _bc.getText(), getText() );
         }
         return false;
     }
 
     public int hashCode(){
-        return this.getContents().hashCode() * 31;
+        return this.getText().hashCode() * 31;
         //return this.astComment.hashCode() * 31;
     }
 

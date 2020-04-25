@@ -5,7 +5,6 @@ import com.github.javaparser.javadoc.Javadoc;
 import com.github.javaparser.javadoc.JavadocBlockTag;
 import junit.framework.TestCase;
 
-import javax.print.URIException;
 import java.io.IOException;
 import java.util.List;
 
@@ -50,7 +49,7 @@ public class _javadocTest extends TestCase {
             }
         }
         _class _c = _class.of(C.class);
-        System.out.println( _c.getJavadoc().getContents() );
+        System.out.println( _c.getJavadoc().getText() );
         //System.out.println( _c.getJavadoc().parseFirst("@author $name$") );
         //assertEquals( "Eric", _c.getJavadoc().parseFirst("@author $name$").get("name"));
         JavadocComment jdc = _c.getJavadoc().ast();

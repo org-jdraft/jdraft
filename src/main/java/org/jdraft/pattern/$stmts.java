@@ -267,7 +267,7 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
         List<Statement>sts = new ArrayList<>();
         $sts.forEach(stmt -> {
             if( stmt.statementClass == LabeledStmt.class &&
-                    stmt.stmtStencil.getTextForm().startsWithText()) {
+                    stmt.stmtStencil.getTextForm().isStartsWithFixedText()) {
                     //&&
                     //stmt.stencil.getTextBlanks().getFixedText().startsWith("$") ){
                 /* Dynamic labeled Statements are Labeled Statements like this:

@@ -30,6 +30,7 @@ import org.jdraft._initBlock._withInitBlocks;
 import org.jdraft._throws._withThrows;
 import org.jdraft._type._withExtends;
 import org.jdraft._type._withImplements;
+import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
 /**
  * <P>A "Meta-Model" implementation/view of entities for representing java source code
@@ -1247,6 +1248,86 @@ public interface _java {
                 return false;
             }
             return matchFn.test( getAt(index));
+        }
+    }
+
+    /**
+     * a Node entity that "holds"/or contains textual data,
+     *
+     * this interface provides a common way to inspect, and manipulate the textual contents
+     * of these nodes
+     *
+     * @see _string
+     * @see _textBlock
+     * @see _comment
+     * @see _lineComment
+     * @see _blockComment
+     * @see _javadocComment
+     *
+     * @param <_WT>
+     */
+    interface _withText<_WT extends _withText> extends _java._domain {
+
+        /**
+         * Gets the textual contents of the Node
+         * @return
+         */
+        String getText();
+
+        /**
+         * Sets the text content
+         * @param text the text to be set on the entity
+         * @return
+         */
+        _WT setText(String text );
+
+
+        /**
+         * does the textual content of this node match the Predicate?
+         * @param textMatchFn
+         * @return
+         */
+        default boolean isText(Predicate<String> textMatchFn ) {
+            return textMatchFn.test(getText());
+        }
+
+        /**
+         * Look for matches to matchStencil in the contents of the comment and replace with the replaceStencil
+         * for example:
+         * <PRE>
+         * _comment _c = _comment.of("//<code>System.out.println(getValue());</code>");
+         * _c.matchReplace("<code>$content$</code>", "{@code $content$}");
+         *
+         * //verify we matched the old <code></code> tags to {@code}
+         * assertEquals( "{@code System.out.println}", _c.getContents());
+         * </PRE>
+         * @param matchStencil stencil for matching input pattern
+         * @param replaceStencil stencil for drafting the replacement
+         * @return
+         */
+        default _WT matchReplace(String matchStencil, String replaceStencil){
+            return matchReplace(Stencil.of(matchStencil), Stencil.of(replaceStencil));
+        }
+
+        /**
+         * Look for matches to matchStencil in the contents of the comment and replace with the replaceStencil
+         * for example:
+         * <PRE>
+         * Stencil matchStencil = Stencil.of("<code>$content$</code>");
+         * Stencil replaceStencil = Stencil.of("{@code $content$}");
+         * _comment _c = _comment.of("//<code>System.out.println(getValue());</code>");
+         * _c.matchReplace(matchStencil, replaceStencil);
+         *
+         * //verify we matched the old <code></code> tags to {@code}
+         * assertEquals( "{@code System.out.println}", _c.getContents());
+         * </PRE>
+         * @param matchStencil stencil for matching input pattern
+         * @param replaceStencil stencil for drafting the replacement
+         * @return
+         */
+        default _WT matchReplace(Stencil matchStencil, Stencil replaceStencil){
+            setText(Stencil.matchReplace( getText(), matchStencil, replaceStencil));
+            return (_WT)this;
         }
     }
 

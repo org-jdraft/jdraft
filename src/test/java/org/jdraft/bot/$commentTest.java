@@ -3,16 +3,19 @@ package org.jdraft.bot;
 import junit.framework.TestCase;
 import org.jdraft.*;
 import org.jdraft.text.Stencil;
+import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
+
+import java.util.List;
 
 public class $commentTest extends TestCase {
 
     //convert <code>$contents$</code> to {@code $contents}
-    public void testCodeConvert(){
+    public void testCodeConvert() {
         Stencil codeTags = Stencil.of("<code>$contents$</code>");
-        Stencil codeTagRep = Stencil.of("{@code $contents$ }");
+        Stencil codeTagRep = Stencil.of("{@code $contents$}");
 
-        $comment $ct = $comment.of().$and(c-> c.contains(codeTags));
+        $comment $ct = $comment.of().$and(c -> c.contains(codeTags));
         assertTrue($ct.matches("// content <code>1</code> content "));
         assertTrue($ct.matches("/* some content <code>1</code> content*/"));
         assertTrue($ct.matches("/** some content <code>1</code> content **/"));
@@ -25,18 +28,64 @@ public class $commentTest extends TestCase {
             /* <code>2</code> */
             int j;
 
-            /** <code>3</code>*/
+            /**
+             * <code>3</code>
+             */
             int k;
         }
-        /*
-        $ct.replaceSelectedIn(CC.class, (Select<_comment>s)-> {
-                    Tokens ts = s.selection.parseFirst(codeTags);
-                    String replacement = codeTagRep.draft(s.selection);;
-                }
-        );
+        $ct.printIn(CC.class);
 
-         */
+        assertEquals(3, $ct.countIn(CC.class));
+
+        _class _c = $ct.forSelectedIn(CC.class, s -> {
+            String content = s.selection.getText();
+            Tokens ts = codeTags.parseFirst(content);
+            while (ts != null) {
+                //realize the old version
+                String match = codeTags.draft(ts);
+                String replacement = codeTagRep.draft(ts);
+                content = Text.replace(content, match, replacement);
+                ts = codeTags.parseFirst(content);
+            }
+            s.selection.setText(content);
+        });
+
+        System.out.println(_c);
+
+        //now verify we can find exactly (3) changed {@code } comments
+        assertEquals(3, $comment.of().$and(c -> c.contains(codeTagRep)).countIn(_c));
     }
+
+    public void testMulti(){
+        Stencil codeTags = Stencil.of("<code>$contents$</code>");
+        Stencil codeTagRep = Stencil.of("{@code $contents$}");
+        $comment $ct = $comment.of().$and(c -> c.contains(codeTags));
+        class Multi{
+            //<code>1</code>
+            int i;
+            /* <code>
+               some contents
+               on multiple lines
+               </code>
+             */
+            int j;
+            /**
+             * <code>a comment with multiple code tags</code>
+             * <code>
+             *     Here, we use a
+             *     multiple line tag
+             * </code>
+             * another string
+             */
+            int k;
+        }
+        //look through all matching comments and
+        List<_comment> _cs =
+                $ct.matchReplaceIn(Ast.of(Multi.class), "<code>$contents$</code>", "{@code $contents$}");
+        System.out.println( _cs);
+    }
+
+
 
     public void testRR(){
         /** class javadoc */
@@ -110,7 +159,7 @@ public class $commentTest extends TestCase {
 
         assertTrue( $comment.of("line comment 1").stencil.matches("line comment 1"));
         _lineComment _lc = _lineComment.of("line comment 1");
-        assertEquals( "line comment 1", _lc.getContents());
+        assertEquals( "line comment 1", _lc.getText());
         assertEquals(1, $comment.of("line comment 1").countIn(C.class));
         assertEquals(1, $comment.of("block comment 1").countIn(C.class));
         assertEquals(1, $comment.of("class javadoc").countIn(C.class));
@@ -153,7 +202,7 @@ public class $commentTest extends TestCase {
         }
 
         //verify we can match the
-        assertEquals(6, $comment.of().$and(c-> c.getContents().startsWith("TODO")).countIn(C.class));
+        assertEquals(6, $comment.of().$and(c-> c.getText().startsWith("TODO")).countIn(C.class));
 
         System.out.println( _statement.of( () -> System.out.println(1)) );
 

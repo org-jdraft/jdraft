@@ -403,8 +403,8 @@ public class StencilTest
         //params           "----      ----    ----    "
         //params           "$a$       $b$     $c$
         TextForm tb = st.getTextForm();
-        assertFalse(tb.startsWithText());
-        assertTrue(tb.startsWithBlank());
+        assertFalse(tb.isStartsWithFixedText());
+        assertTrue(tb.isStartsWithBlank());
 
         List<String> segs = tb.getTextSegments();
         System.out.println( segs );

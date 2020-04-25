@@ -5,7 +5,6 @@ import com.github.javaparser.ast.body.FieldDeclaration;
 import java.io.Serializable;
 
 import com.github.javaparser.ast.type.Type;
-import org.jdraft.diff._diff;
 import org.jdraft.macro._abstract;
 import org.jdraft.macro._default;
 import org.jdraft.macro._remove;
@@ -219,7 +218,7 @@ public class _interfaceTest extends TestCase {
         assertTrue( _i.hasImport( WithDefaultMethods.class));
         assertTrue( _i.hasImport( ann2.class));
         
-        assertTrue( _i.getJavadoc().getContents().contains("javadocs"));
+        assertTrue( _i.getJavadoc().getText().contains("javadocs"));
         assertTrue( _i.getAnnos().is("@ann", "@ann2(k='d')"));
         assertTrue( _i.getModifiers().is( "public"));
         assertTrue( _i.getTypeParameters().is( "<Y, Z extends Base>"));

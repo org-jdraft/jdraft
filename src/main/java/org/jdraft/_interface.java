@@ -1,7 +1,6 @@
 package org.jdraft;
 
 import com.github.javaparser.JavaParser;
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.JavadocComment;
@@ -405,7 +404,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         if( this.hasJavadoc() != other.hasJavadoc() ){
             return false;
         }
-        if( this.hasJavadoc() && !Objects.equals( this.getJavadoc().getContents().trim(), other.getJavadoc().getContents().trim())){
+        if( this.hasJavadoc() && !Objects.equals( this.getJavadoc().getText().trim(), other.getJavadoc().getText().trim())){
             return false;
         }
 

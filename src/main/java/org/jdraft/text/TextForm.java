@@ -274,7 +274,7 @@ public final class TextForm {
      * Is the first thing in the TextForm a character?
      * @return true if the first thing in the text is a character (NOT a blank)
      */
-    public boolean startsWithText(){
+    public boolean isStartsWithFixedText(){
         return !this.blankIndexes.get(0);
     }
 
@@ -283,7 +283,7 @@ public final class TextForm {
      * (if the TextForm starts with a blank it is said to be "open" on the left)
      * @return true if the first thing in the text is a blank (not a textual char)
      */
-    public boolean startsWithBlank(){
+    public boolean isStartsWithBlank(){
         return this.blankIndexes.get(0);
     }
 
@@ -598,7 +598,7 @@ public final class TextForm {
             return ext;
         }
         int startIndex = 1;
-        if( !this.startsWithBlank() ){
+        if( !this.isStartsWithBlank() ){
             startIndex = 2;
         }
 
@@ -609,10 +609,18 @@ public final class TextForm {
     }
 
     /**
+     * Does this TextForm end with fixed text (i.e. there is text, NOT a blank at the end)
+     * @return true if the TextForm ends with text (NOT a blank)
+     */
+    public boolean isEndsWithFixedText(){
+        return !isEndsWithBlank();
+    }
+
+    /**
      * Is there any fixed text after the last blank?
      * (If not the TextForm is "open" on the right)
      */
-    public boolean endsWithBlank() {
+    public boolean isEndsWithBlank() {
         if( this.getBlanksCount() > 0 ) {
             return getTextSegmentAfterBlank(this.getBlanksCount() - 1).length() == 0;
         }

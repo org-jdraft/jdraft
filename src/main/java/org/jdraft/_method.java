@@ -5,9 +5,6 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
-import com.github.javaparser.Position;
-import com.github.javaparser.Range;
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.JavadocComment;
@@ -266,8 +263,8 @@ public final class _method
         //if (this.hasJavadoc() && !Objects.equals(this.getJavadoc().getContent().trim(), other.getJavadoc().getContent().trim())) {
         //    return false;
         //}
-        if (this.hasJavadoc() && !Objects.equals(this.getJavadoc().getContents().trim(), other.getJavadoc().getContents().trim())) {
-            System.out.println("NOT EQUAL"+ System.lineSeparator()+this.getJavadoc().getContents().trim()+" "+System.lineSeparator()+ " "+ other.getJavadoc().getContents().trim());
+        if (this.hasJavadoc() && !Objects.equals(this.getJavadoc().getText().trim(), other.getJavadoc().getText().trim())) {
+            System.out.println("NOT EQUAL"+ System.lineSeparator()+this.getJavadoc().getText().trim()+" "+System.lineSeparator()+ " "+ other.getJavadoc().getText().trim());
             return false;
         }
         if (!Modifiers.modifiersEqual(this.astMethod, other.astMethod)) {
