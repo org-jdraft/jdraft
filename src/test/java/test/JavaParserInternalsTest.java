@@ -9,10 +9,6 @@ import com.github.javaparser.ast.body.*;
 import com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinter;
 import junit.framework.TestCase;
 import org.jdraft.Ast;
-import org.jdraft.io._io;
-import test.byexample.SuppressForbidden;
-import test.byexample.Terminal;
-import test.byexample.TerminalProgressInputStream;
 
 import java.io.IOException;
 import java.io.InputStream;

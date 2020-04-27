@@ -146,11 +146,16 @@ public interface _java {
     }
 
     /**
-     * Builds the appropriate _model entities based on AST Nodes provided (Note:
-     * since there are no logical entities for
-     * {@link com.github.javaparser.ast.expr.Expression}, or
-     * {@link com.github.javaparser.ast.stmt.Statement} Node implementations,
-     * this will fail if these are passed in the input
+     * return the _jdraft _node for the
+     * @param node
+     * @return
+     */
+    static _node node(Node node){
+        return (_java._node)of( node);
+    }
+
+    /**
+     * Builds the appropriate _node entities based on AST Nodes provided
      * <PRE>
      * handles:
      * all {@link _type}s:
@@ -172,7 +177,7 @@ public interface _java {
      * @param astNode the ast node
      * @return the _model entity
      */
-    static _domain of(Node astNode) {
+    static _java._domain of(Node astNode) {
         if( astNode instanceof Expression ){
             return _expression.of( (Expression)astNode);
         }
@@ -239,6 +244,7 @@ public interface _java {
             }
             return _field.of(fd.getVariable(0));
         }
+        /*
         if (astNode instanceof BlockStmt) {
             if (astNode.getParentNode().isPresent()) {
                 if (astNode.getParentNode().get() instanceof NodeWithBlockStmt) {
@@ -250,6 +256,7 @@ public interface _java {
             }
             throw new _jdraftException("Unable to return draft _java node for BlockStmt without NodeWithBlockStmt parent");
         }
+        */
         if( astNode instanceof Comment){
             if (astNode instanceof JavadocComment) {
                 JavadocComment jdc = (JavadocComment) astNode;
@@ -1284,8 +1291,8 @@ public interface _java {
 
         /**
          * does the textual content of this node match the Predicate?
-         * @param textMatchFn
-         * @return
+         * @param textMatchFn predicate function
+         * @return true if the text contents of this node matches
          */
         default boolean isText(Predicate<String> textMatchFn ) {
             return textMatchFn.test(getText());
@@ -1303,7 +1310,8 @@ public interface _java {
          * </PRE>
          * @param matchStencil stencil for matching input pattern
          * @param replaceStencil stencil for drafting the replacement
-         * @return
+         * @return the modified _withText node
+         * @see Stencil
          */
         default _WT matchReplace(String matchStencil, String replaceStencil){
             return matchReplace(Stencil.of(matchStencil), Stencil.of(replaceStencil));
@@ -1323,7 +1331,7 @@ public interface _java {
          * </PRE>
          * @param matchStencil stencil for matching input pattern
          * @param replaceStencil stencil for drafting the replacement
-         * @return
+         * @return the modified _withText node
          */
         default _WT matchReplace(Stencil matchStencil, Stencil replaceStencil){
             setText(Stencil.matchReplace( getText(), matchStencil, replaceStencil));

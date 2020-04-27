@@ -272,9 +272,7 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
      * An Or entity that can match against any of some number of instances
      * NOTE: this can be used as a selector but NOT as a Template
      */
-    public static class Or extends $typeArguments { //implements $selector<_arguments, Or>, $methodCall.$part{
-
-        public Predicate<_typeArguments> predicate = p-> true;
+    public static class Or extends $typeArguments {
 
         public List<$typeArguments> $arguments = new ArrayList<>();
 

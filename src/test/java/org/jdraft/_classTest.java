@@ -29,6 +29,60 @@ import test.NativeMethod;
  */
 public class _classTest extends TestCase {
 
+    public void testAddBefore(){
+        class C{
+            int i;
+            int j;
+            void m(){}
+            void n(){}
+            C(){}
+            C(int i){}
+        }
+        _class _c = _class.of(C.class);
+        _c.addBeforeFirst(m-> m instanceof _field, _field.of("public static final int BEFORE_FIRST_FIELD=1;"));
+        _c.addBeforeFirst(m-> m instanceof _method, _field.of("public static final int BEFORE_FIRST_METHOD=1;"));
+        _c.addBeforeFirst(m-> m instanceof _constructor, _field.of("public static final int BEFORE_FIRST_CONSTURCTOR=1;"));
+
+        _c.addBeforeFirst(m -> m instanceof _initBlock, _field.of("public static final int BEFORE_INIT = 1;"));
+
+
+        System.out.println( _c );
+
+        _c = _class.of(C.class);
+        //add multiple before
+        _c.addBeforeFirst(m-> m instanceof _field, _field.of("int one;"), _field.of("int two;") );
+
+        System.out.println( _c );
+    }
+
+    public void testAddAfter(){
+        class C{
+            int i;
+            int j;
+            void m(){}
+            void n(){}
+            C(){}
+            C(int i){}
+        }
+        _class _c = _class.of(C.class);
+        _c.addAfterLast(m-> m instanceof _field, _field.of("public static final int AFTER_LAST_FIELD=1;"));
+        _c.addAfterLast(m-> m instanceof _method, _field.of("public static final int AFTER_LAST_METHOD=1;"));
+        _c.addAfterLast(m-> m instanceof _constructor, _field.of("public static final int AFTER_LAST_CONSTRUCTOR=1;"));
+
+        _c.addAfterLast(m -> m instanceof _initBlock, _field.of("public static final int AFTER_LAST_INIT = 1;"));
+        System.out.println( _c );
+
+        //refresh
+        _c = _class.of(C.class);
+
+        //add multiple after
+        _c.addAfterLast(m-> m instanceof _field, _field.of("int num1;"), _field.of("int num2;"));
+        System.out.println( _c );
+
+
+    }
+
+
     /**
      * Found this bug... (specifying a private class to parse)
      * it's barf on parsing

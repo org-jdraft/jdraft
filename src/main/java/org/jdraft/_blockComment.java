@@ -6,6 +6,13 @@ import org.jdraft.text.Text;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Representation of a block comment within code
+ * <CODE>
+ * /* prints the name * /
+ * System.out.println( "name" +name);
+ * </CODE>
+ */
 public final class _blockComment implements _comment<BlockComment, _blockComment>, _java._node<BlockComment, _blockComment> {
 
     public static _blockComment of(BlockComment bc ){
@@ -24,62 +31,11 @@ public final class _blockComment implements _comment<BlockComment, _blockComment
         return new _blockComment( Ast.blockComment( commentContents) );
     }
 
-
-
-
-
-    /**
-     * upon creation, or after modifying through this interface,
-     * do we prefix the comment to
-     * after this is modified
-
-    public boolean autoFormatPrefixStar = true;
-    */
-
     public BlockComment astComment;
 
     public _blockComment(BlockComment lc ){
         this.astComment = lc;
     }
-
-    /*
-    public String getContents(){
-        return this.astComment.getContent();
-    }
-     */
-
-
-
-
-/*
-    public _blockComment setText( String...contents ) {
-        return setText( Text.combine(contents) );
-    }
-
-
-    public _blockComment setText(String contents){
-
-        String str = contents ; //Text.combine(contents);
-        List<String> lines = Text.lines(str);
-        if( lines.size() == 1){
-            this.astComment.setContent(lines.get(0));
-        }
-        //multiple line block comment
-        StringBuilder sb = new StringBuilder();
-        for( int i=0;i<lines.size(); i++ ){
-            if( i == 0 ){
-                lines.get(i).trim().startsWith("/*");
-            }
-            if( i > 0 ) {
-                if (! (lines.get(i).trim().startsWith("*") )){
-                    sb.append( " * ").append(lines.get(i) );
-                }
-            }
-        }
-        this.astComment.setContent( sb.toString() );
-        return this;
-    }
-*/
 
     public _java._node getAttributedNode(){
         if( astComment.getCommentedNode().isPresent()){
@@ -87,8 +43,6 @@ public final class _blockComment implements _comment<BlockComment, _blockComment
         }
         return null;
     }
-
-
 
     @Override
     public _blockComment copy() {

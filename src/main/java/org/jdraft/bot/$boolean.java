@@ -54,6 +54,7 @@ public class $boolean implements $bot.$node<BooleanLiteralExpr, _boolean, $boole
     public static $boolean or($boolean...$bs){
         return new $boolean.Or($bs);
     }
+
     public Predicate<_boolean> getPredicate(){
         return this.predicate;
     }
@@ -250,8 +251,6 @@ public class $boolean implements $bot.$node<BooleanLiteralExpr, _boolean, $boole
      * NOTE: this can be used as a selector but NOT as a Template
      */
     public static class Or extends $boolean {
-
-        public Predicate<_boolean> predicate = p-> true;
 
         public List<$boolean> $boolean = new ArrayList<>();
 

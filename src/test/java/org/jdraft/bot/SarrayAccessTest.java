@@ -16,6 +16,29 @@ import junit.framework.TestCase;
  */
 public class SarrayAccessTest extends TestCase {
 
+	public void testOr(){
+		$arrayAccess $aaor = $arrayAccess.or(
+				$arrayAccess.of().$index(_int.class),
+				$arrayAccess.of().$index(_methodCall.class)
+		);
+
+		class FF{
+			int i[] = {1,2,3,4,5};
+
+			void m(){
+				i[0] = 2;
+				i[getInt()] = 5;
+			}
+
+			int getInt(){
+				return 3;
+			}
+		}
+		assertEquals( 2, $aaor.countIn(FF.class));
+		//test predicate applied to or
+		assertEquals( 1, $aaor.$and(a->a.getIndex() instanceof _int).countIn(FF.class) );
+	}
+
 	public void testAny(){
 		$arrayAccess $aa = $arrayAccess.of();
 		assertTrue( $aa.isMatchAny());

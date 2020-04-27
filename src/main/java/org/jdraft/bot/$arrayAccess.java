@@ -7,13 +7,12 @@ import com.github.javaparser.ast.expr.Expression;
 import org.jdraft.*;
 import org.jdraft.text.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 
 /**
- * Bot for interfacing with {@link ArrayAccessExpr} or {@link _arrayAccess} {@link _expression}s
+ * $bot for inspecting or mutating an {@link ArrayAccessExpr} or {@link _arrayAccess}
+ * which are {@link _expression}s
  */
 public class $arrayAccess
         implements $bot.$node<ArrayAccessExpr, _arrayAccess, $arrayAccess>,
@@ -38,6 +37,79 @@ public class $arrayAccess
         return new $arrayAccess(_arrayAccess.of(code));
     }
 
+    public static $arrayAccess.Or or($arrayAccess...$aas){
+        return new Or($aas);
+    }
+
+    /**
+     * An Or entity that can match against any of some number of $arrayAccess instances
+     * NOTE: this can be used as a selector but NOT as a Template
+     */
+    public static class Or extends $arrayAccess {
+
+        public List<$arrayAccess> $arrayAccessBots = new ArrayList<>();
+
+        private Or($arrayAccess...bots){
+            Arrays.stream(bots).forEach(b-> $arrayAccessBots.add(b));
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        public boolean matches(ArrayAccessExpr candidate){
+            return select(candidate) != null;
+        }
+
+        /**
+         * Return the underlying $arrayAccess that matches the _arrayAccess
+         * (or null if none of the $arrayAccess match the candidate _arrayAccess)
+         * @param candidate
+         * @return
+         */
+        public $arrayAccess whichMatch(_arrayAccess candidate){
+            if( !this.predicate.test(candidate ) ){
+                return null;
+            }
+            Optional<$arrayAccess> orsel  = this.$arrayAccessBots.stream().filter($p-> $p.matches(candidate) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
+
+        public Tokens parse(_arrayAccess candidate){
+            $arrayAccess $a = whichMatch(candidate);
+            if( $a != null) {
+                Select s = $a.select(candidate);
+                if( s != null ){
+                    return s.tokens;
+                }
+            }
+            return null;
+        }
+
+        @Override
+        public Select<_arrayAccess> select(_arrayAccess candidate) {
+            /** TODO, do I want to check all resident bots?) */
+            $arrayAccess $as = whichMatch(candidate);
+            if( $as == null ){
+                return null;
+            }
+            return $as.select(candidate);
+        }
+
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append( "$arrayAccess.Or{").append(System.lineSeparator());
+            for(int i = 0; i<this.$arrayAccessBots.size(); i++){
+                sb.append( Text.indent( this.$arrayAccessBots.get(i).toString()) );
+            }
+            sb.append("}");
+            return sb.toString();
+        }
+    }/* Or */
+
     public Predicate<_arrayAccess> predicate = (a)->true;
 
     public $expression name = $expression.of();
@@ -56,9 +128,9 @@ public class $arrayAccess
 
     public $arrayAccess() { }
 
-    public $arrayAccess(ArrayAccessExpr e) {
-        this.name = $expression.of(e.getName());
-        this.index = $expression.of(e.getIndex());
+    public $arrayAccess(ArrayAccessExpr aae) {
+        this.name = $expression.of(aae.getName());
+        this.index = $expression.of(aae.getIndex());
     }
 
     public $arrayAccess(_arrayAccess _aa) {
@@ -212,6 +284,7 @@ public class $arrayAccess
                 "    "+this.index.toString()+System.lineSeparator()+
                 "}";
     }
+
 
 }
 

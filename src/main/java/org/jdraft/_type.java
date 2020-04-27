@@ -648,6 +648,96 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         return (_T)this;
     }
 
+    default _T addBeforeFirst(Class<? extends _java._member> _memberClass){
+        return addBeforeFirst( m-> _memberClass.isAssignableFrom(m.getClass()) );
+    }
+
+    /**
+     * Adds all of the members to the AST
+     * @param _matchFn
+     * @param members
+     * @return
+     */
+    default _T addBeforeFirst(Predicate<_java._member> _matchFn, _java._member...members){
+        List<_java._member> _m = listMembers(_matchFn);
+        if( _m.isEmpty() ){
+            for(int i=0;i<members.length; i++){
+                if( members[i] instanceof _field ){
+                    ast().getMembers().add( ((_field)members[i]).getFieldDeclaration());
+                } else {
+                    ast().getMembers().add(members[i].ast());
+                }
+            }
+        }
+        else{
+            _java._member _found = _m.get(0);
+
+            BodyDeclaration before = null;
+            if( _found instanceof _field ){
+                before = ((_field) _found).getFieldDeclaration();
+            } else{
+                before = (BodyDeclaration)_found.ast();
+            }
+
+            for(int i=0;i<members.length; i++) {
+
+                if( members[i] instanceof _field){
+                    ast().getMembers().addBefore( ((_field)members[i]).getFieldDeclaration(), before);
+                } else{
+                    ast().getMembers().addBefore( (BodyDeclaration)members[i].ast(), before);
+                }
+            }
+        }
+        return (_T)this;
+    }
+
+
+    default _T addAfterLast(Class<? extends _java._member> _memberClass){
+        return addAfterLast( m-> _memberClass.isAssignableFrom(m.getClass()) );
+    }
+
+    default _T addAfterLast(Predicate<_java._member> _matchFn, _java._member...members){
+        List<_java._member> _m = listMembers(_matchFn);
+        if( _m.isEmpty() ){
+            for(int i=0;i<members.length; i++){
+                if( members[i] instanceof _field ){
+                    ast().getMembers().add( ((_field)members[i]).getFieldDeclaration());
+                } else {
+                    ast().getMembers().add(members[i].ast());
+                }
+            }
+        }
+        else{
+            _java._member _found = _m.get(_m.size() -1);
+
+            BodyDeclaration after = null;
+            if( _found instanceof _field ){
+                after = ((_field) _found).getFieldDeclaration();
+            } else{
+                after = (BodyDeclaration)_found.ast();
+            }
+
+            Node nextNode = null;
+            for(int i=0;i<members.length; i++) {
+
+                if( members[i] instanceof _field){
+                    nextNode = ((_field)members[i]).getFieldDeclaration();
+                    ast().getMembers().addAfter( nextNode, after);
+                } else{
+                    nextNode = (BodyDeclaration)members[i].ast();
+                    ast().getMembers().addAfter( nextNode, after);
+                }
+                after = (BodyDeclaration)nextNode;
+            }
+        }
+        return (_T)this;
+    }
+
+    //hmm addBefore( Predicate<_member> )
+
+    //adds AFTER the LAST matching member
+    //hmm addAfter( Predicate<_member> )
+
     default List<_java._member> listMembers(Predicate<_java._member> _matchFn){
         List<_java._member> _ms = new ArrayList<>();
         NodeList<BodyDeclaration<?>> bds = ast().getMembers();

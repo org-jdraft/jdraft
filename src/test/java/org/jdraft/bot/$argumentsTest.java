@@ -5,6 +5,7 @@ import org.jdraft.*;
 
 public class $argumentsTest extends TestCase {
 
+
     enum E{
         A,B(2), C(3+4);
         E(){}
@@ -142,7 +143,26 @@ public class $argumentsTest extends TestCase {
 
         assertFalse($or.matches( "(1,2,3,4,5,6,'a','b',null, call())" )); //NOT all literal or all methodCall
 
+        assertTrue( $or.matches("(call(1))"));
+        assertTrue( $or.matches("(c(1),c(2),c(3),c(4),c(5))"));
+
+        //apply a predicate to the $or
+        $arguments $orAnd = $or.$and( _as-> ((_arguments)_as).size() == 5);
+
+
+        assertTrue( $orAnd.matches("(1,2,3,4,5)"));
+        assertFalse( $orAnd.matches("(1,2,3,4,5,6)"));
+        assertFalse( $orAnd.matches("(1,2,3,4)"));
+
+        _arguments _as = _arguments.of("( c(1), c(2), c(3), c(4), c(5))");
+
+        assertEquals(5, _as.size());
+        assertTrue( $orAnd.matches(_as));
+        assertFalse( $orAnd.matches("(1,2,3,c(4),5,6)"));
+        assertFalse( $orAnd.matches("(1,2,3,c(4))"));
+
         System.out.println( $or );
+
 
         class GG{
             void a(){} //no match

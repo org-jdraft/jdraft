@@ -62,12 +62,6 @@ public class $arguments<N extends Node & NodeWithArguments>
         return new $arguments($es);
     }
 
-    /*
-    public static $arguments of (Predicate<_arguments> predicate){
-        return new $arguments().$and(predicate);
-    }
-     */
-
     public static $arguments.Or or($arguments...$as){
         return new $arguments.Or($as);
     }
@@ -298,7 +292,7 @@ public class $arguments<N extends Node & NodeWithArguments>
     @Override
     public $arguments $and(Predicate<_arguments> matchFn) {
         setPredicate( getPredicate().and(matchFn));
-        this.predicate = this.predicate.and(matchFn);
+        //this.predicate = this.predicate.and(matchFn);
         return this;
     }
 
@@ -359,7 +353,7 @@ public class $arguments<N extends Node & NodeWithArguments>
      */
     public static class Or extends $arguments { //implements $selector<_arguments, Or>, $methodCall.$part{
 
-        public Predicate<_arguments> predicate = p-> true;
+        //public Predicate<_arguments> predicate = p-> true;
 
         public List<$arguments> $arguments = new ArrayList<>();
 
@@ -474,13 +468,5 @@ public class $arguments<N extends Node & NodeWithArguments>
             sb.append("}");
             return sb.toString();
         }
-
-        /*
-        @Override
-        public $arguments $and(Predicate<_arguments> matchFn) {
-            this.predicate = this.predicate.and(matchFn);
-            return ($arguments)this;
-        }
-         */
-    }
+    }/* Or */
 }

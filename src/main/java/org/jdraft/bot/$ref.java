@@ -530,8 +530,6 @@ public class $ref implements $bot<Node, _java._node, $ref>,
      */
     public static class Or extends $ref {
 
-        public Predicate<_java._node> predicate = p-> true;
-
         public List<$ref> $names = new ArrayList<>();
 
         private Or($ref...nms){

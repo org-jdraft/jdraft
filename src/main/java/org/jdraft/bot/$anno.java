@@ -447,33 +447,33 @@ public class $anno
         return false;
     }
 
-    public Selected select(String str){
+    public Select<_anno> select(String str){
         try{
             return select( Ast.anno(str));
         }catch(Exception e) {
             return null;
         }
     }
-    public Selected select(Node n){
+    public Select<_anno> select(Node n){
         if( n instanceof AnnotationExpr){
             return select( (AnnotationExpr)n);
         }
         return null;
     }
 
-    public Selected select( AnnotationExpr astAnn){
+    public Select<_anno> select( AnnotationExpr astAnn){
         return select(_anno.of(astAnn));
     }
 
-    public Selected select(String... anno){
+    public Select<_anno> select(String... anno){
         return select(_anno.of(anno));
     }
 
-    public Selected select(_anno _a){
+    public Select<_anno> select(_anno _a){
         if(this.predicate.test(_a)){
             Tokens ts = parse(_a);
             if( ts != null ){
-                return new Selected(_a, ts);
+                return new Select(_a, ts);
             }
         }
         return null;
@@ -532,115 +532,6 @@ public class $anno
     public <N extends Node> N replaceIn(N astNode, Class<? extends Annotation> annoType ){
         return replaceIn(astNode, $anno.of(annoType));
     }
-
-    /*
-    @Override
-    public _anno firstIn(Node astNode, Predicate<_anno> _annoMatchFn) {
-        Optional<Node>on =
-            astNode.stream().filter(
-                n -> {
-                    if( n instanceof AnnotationExpr){
-                        Selected sel = select((AnnotationExpr)n);
-                        return ( sel != null && _annoMatchFn.test(sel._sel));
-                    }
-                    return false;
-                }).findFirst();
-        if( on.isPresent() ){
-            return _anno.of( (AnnotationExpr)on.get());
-        }
-        return null;
-    }
-     */
-
-    /**
-     *
-     * @param astNode
-     * @return
-
-    @Override
-    public Selected selectFirstIn(Node astNode) {
-        Optional<Node>on =
-            astNode.stream().filter(
-                n -> n instanceof AnnotationExpr
-                    && select((AnnotationExpr)n) != null )
-                .findFirst();
-        if( on.isPresent() ){
-            return select( (AnnotationExpr)on.get());
-        }
-        return null;
-    }
-    */
-
-
-    /**
-     *
-     * @param <_J>
-     * @param _j
-     * @param selectActionFn
-     * @return
-
-    public <_J extends _java._domain> _J forSelectedIn(_J _j, Consumer<Select> selectActionFn) {
-         if( _j instanceof _codeUnit){
-            _codeUnit _c = (_codeUnit) _j;
-            if( _c.isTopLevel() ){
-                forSelectedIn(_c.astCompilationUnit(), selectActionFn);
-                return _j;
-            }
-            _type _t = (_type) _j; //only possible
-            forSelectedIn(_t.ast(), selectActionFn); //return the TypeDeclaration, not the CompilationUnit
-            return _j;
-        }
-        forSelectedIn(((_java._multiPart) _j).ast(), selectActionFn);
-        return _j;
-    }
-    */
-
-    /**
-     *
-     * @param <_J>
-     * @param _j
-     * @param selectConstraint
-     * @param selectActionFn
-     * @return
-
-    public <_J extends _java._domain> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
-         if( _j instanceof _codeUnit){
-            _codeUnit _c = (_codeUnit) _j;
-            if( _c.isTopLevel() ){
-                forSelectedIn(_c.astCompilationUnit(), selectConstraint, selectActionFn);
-                return _j;
-            }
-            _type _t = (_type) _j; //only possible
-            forSelectedIn(_t.ast(), selectConstraint, selectActionFn); //return the TypeDeclaration, not the CompilationUnit
-            return _j;
-        }
-        forSelectedIn(((_java._multiPart) _j).ast(), selectActionFn);
-        return _j;
-    }
-    */
-
-    /**
-     *
-     * @param clazz
-     * @param selectActionFn
-     * @return
-
-    public <_CT extends _type> _CT forSelectedIn(Class clazz, Consumer<Select> selectActionFn) {
-        return (_CT)forSelectedIn((_type)_java.type(clazz), selectActionFn);
-    }
-    */
-
-    /**
-     *
-     * @param clazz
-     * @param selectConstraint
-     * @param selectActionFn
-     * @return
-
-    public <_CT extends _type> _CT forSelectedIn(Class clazz, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
-        return (_CT)forSelectedIn((_type)_java.type (clazz), selectConstraint, selectActionFn);
-    }
-    */
 
     /**
      * builds and returns a toString representation of the $anno
@@ -738,13 +629,7 @@ public class $anno
             return   k && v;
         }
 
-
-        //public static $memberValue any() {
-        //    return new $memberValue("$key$", "$value$");
-       // }
-
-        private $memberValue(){
-        }
+        private $memberValue(){ }
 
         public $memberValue(String name, String value) {
             this(name, Expressions.of(value));
@@ -814,21 +699,6 @@ public class $anno
             }
             return null;
         }
-
-        /**
-         *
-         * @return
-
-        public Select selectFirst( List<MemberValuePair> pairs ){
-            for(int i=0;i<pairs.size();i++){
-                Select sel = select(pairs.get(i) );
-                if( sel != null ){
-                    return sel;
-                }
-            }
-            return null;
-        }
-        */
 
         public boolean match( Node node ){
             if( node instanceof MemberValuePair ){
@@ -913,34 +783,6 @@ public class $anno
         }
 
         /**
-         *
-         * @param mvp
-         * @return
-
-        public Tokens parse(MemberValuePair mvp ){
-
-            if (mvp == null) {
-                return null;
-            }
-            if (constraint.test(mvp)) {
-                $selector.Select ts = key.select(mvp.getNameAsExpression()); //AsString());
-                if( ts == null ){
-                    return null;
-                }
-                $selector.Select sel = value.selectFirstIn(mvp.getValue());
-                if( sel == null || !ts.tokens.isConsistent(sel.tokens)){
-                    return null;
-                }
-                Tokens tt = new Tokens();
-                tt.putAll(ts.tokens);
-                tt.putAll(sel.tokens);
-                return tt;
-            }
-            return null;
-        }
-        */
-
-        /**
          * When we have an anno like
          * @param onlyValueExpression
          * @return
@@ -974,7 +816,7 @@ public class $anno
          * @param mvp
          * @return
          */
-        public Selected select(MemberValuePair mvp) {
+        public Select<_anno._memberValue> select(MemberValuePair mvp) {
             return select(_anno._memberValue.of(mvp));
         }
 
@@ -988,7 +830,7 @@ public class $anno
             return null;
         }
 
-        public Selected select(_anno._memberValue _mvp){
+        public Select<_anno._memberValue> select(_anno._memberValue _mvp){
             if (_mvp == null) {
                 return null;
             }
@@ -1018,7 +860,7 @@ public class $anno
                 Tokens tts = new Tokens();
                 tts.putAll(ss.tokens);
                 tts.putAll(sel.tokens);
-                return new Selected(_mvp, tts);
+                return new Select(_mvp, tts);
             }
             return null;
         }
@@ -1028,12 +870,14 @@ public class $anno
             return false;
         }
 
+        /*
         public static class Selected extends Select<_anno._memberValue> {
 
             public Selected(_anno._memberValue astMvp, Tokens tokens) {
                 super( astMvp, tokens);
             }
         }
+         */
     }
 
     /**
@@ -1084,13 +928,6 @@ public class $anno
             throw new _jdraftException("Cannot draft "+getClass()+" pattern"+ this );
          }
 
-         /*
-        public $anno hardcode$(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.hardcode$(translator, kvs));
-            return this;
-        }
-          */
-
          @Override
          public String toString(){
              StringBuilder sb = new StringBuilder();
@@ -1106,7 +943,7 @@ public class $anno
           * @param astNode
           * @return
           */
-          public Selected select(AnnotationExpr astNode){
+          public Select<_anno> select(AnnotationExpr astNode){
               $anno $a = whichMatch(astNode);
               if( $a != null ){
                   return $a.select(astNode);
@@ -1145,14 +982,5 @@ public class $anno
              }
              return null;
          }
-    }
-
-    /**
-     * This makes it easier to NOT have to do silly things with generics on the outside
-     */
-    public static class Selected extends Select<_anno>{
-        public Selected(_anno _a, Tokens tokens) {
-            super(_a, tokens);
-        }
     }
 }

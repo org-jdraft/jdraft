@@ -61,7 +61,6 @@ public final class _javadocComment implements _comment<JavadocComment, _javadocC
 
     public int hashCode(){
         return this.getText().hashCode() * 31;
-        //return this.astComment.hashCode() * 31;
     }
 
     public String toString(){

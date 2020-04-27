@@ -432,8 +432,6 @@ public class $name implements $bot<Node, _name, $name>,
      */
     public static class Or extends $name { //implements $selector<String, $name>, $methodCall.$part{
 
-        public Predicate<_name> predicate = p-> true;
-
         public List<$name> $names = new ArrayList<>();
 
         private Or($name...nms){

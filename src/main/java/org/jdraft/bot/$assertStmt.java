@@ -5,12 +5,11 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.AssertStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import org.jdraft.*;
+import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
@@ -86,6 +85,99 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
     private static $assertStmt from(StackTraceElement ste ){
         return of( _assertStmt.from( ste) );
     }
+
+    public static $assertStmt.Or or($assertStmt...$aas){
+        return new $assertStmt.Or($aas);
+    }
+
+    /**
+     * An Or entity that can match against any of some number of instances
+     * NOTE: this can be used as a selector but NOT as a Template
+     */
+    public static class Or extends $assertStmt{
+
+        public List<$assertStmt> $assertStmt = new ArrayList<>();
+
+        private Or($assertStmt...nms){
+            Arrays.stream(nms).forEach(n-> $assertStmt.add(n));
+        }
+
+        public boolean isMatchAny(){
+            return false;
+        }
+
+        public Predicate<_assertStmt> getPredicate(){
+            return this.predicate;
+        }
+
+        public boolean matches(String args){
+            return select(args) != null;
+        }
+
+        public boolean matches(String... args){
+            return select(args) != null;
+        }
+
+
+        public Select<_assertStmt> select(String args){
+            return select( _assertStmt.of(args) );
+        }
+
+        public Select<_assertStmt> select(String...args){
+            return select( _assertStmt.of(args) );
+        }
+
+        public boolean matches(_assertStmt candidate){
+            return select(candidate) != null;
+        }
+
+        /**
+         * Return the underlying $arrayAccess that matches the _arrayAccess
+         * (or null if none of the $arrayAccess match the candidate _arrayAccess)
+         * @param ae
+         * @return
+         */
+        public $assertStmt whichMatch(_assertStmt ae){
+            if( !this.predicate.test(ae ) ){
+                return null;
+            }
+            Optional<$assertStmt> orsel  = this.$assertStmt.stream().filter($p-> $p.matches(ae) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
+
+        public Tokens parse(_assertStmt _a){
+            $assertStmt $a = whichMatch(_a);
+            if( $a != null) {
+                Select s = $a.select(_a);
+                if( s != null ){
+                    return s.tokens;
+                }
+            }
+            return null;
+        }
+
+        @Override
+        public Select<_assertStmt> select(_assertStmt candidate) {
+            $assertStmt $as = whichMatch(candidate);
+            if( $as == null ){
+                return null;
+            }
+            return $as.select(candidate);
+        }
+
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append( "$assertStmt.Or{").append(System.lineSeparator());
+            for(int i = 0; i<this.$assertStmt.size(); i++){
+                sb.append( Text.indent( this.$assertStmt.get(i).toString()) );
+            }
+            sb.append("}");
+            return sb.toString();
+        }
+    }/* Or */
 
     public Predicate<_assertStmt> predicate = d -> true;
 

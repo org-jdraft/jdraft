@@ -268,19 +268,6 @@ public class $typeRef
      */
     public Tokens parseTo(Type t, Tokens allTokens ){
         return parseTo( _typeRef.of(t), allTokens);
-        /*
-        if(allTokens == null){
-            return null;
-        }
-        Select sel = select(_t);
-        if( sel != null ){
-            if( allTokens.isConsistent(sel.tokens.asTokens()) ){
-                allTokens.putAll(sel.tokens.asTokens());
-                return allTokens;
-            }
-        }
-        return null;
-        */
     }
 
     /**
@@ -310,16 +297,6 @@ public class $typeRef
     public static $typeRef of() {
         return new $typeRef();
     }
-
-    /**
-     * A TypeRef
-     * @param constraint
-     * @return
-
-    public static $typeRef of(Predicate<_typeRef> constraint ){
-        return of().$and(constraint);
-    }
-    */
 
     /**
      *
@@ -544,80 +521,6 @@ public class $typeRef
         return null;
     }
 
-    /*
-    @Override
-    public List<Selected> listSelectedIn(Node astNode ){
-        List<Selected>sts = new ArrayList<>();
-        astNode.walk( Type.class, e-> {
-            Selected s = select( e );
-            if( s != null ){
-                sts.add( s);
-            }
-        });
-        return sts;
-    }
-
-     */
-
-    /**
-     *
-     * @return
-
-    public List<Selected> listSelectedIn(Node astNode, Predicate<Selected>selectConstraint){
-        List<Select>sts = new ArrayList<>();
-        astNode.walk( Type.class, e-> {
-            Select s = select( e );
-            if( s != null && selectConstraint.test(s)){
-                sts.add( s);
-            }
-        });
-        return sts;
-    }
-   */
-
-    /*
-    public List<Select> listSelectedIn(_java._domain _j){
-        if( _j instanceof _compilationUnit){
-            _compilationUnit _c = (_compilationUnit) _j;
-            if( _c.isTopLevel() ){
-                return listSelectedIn(_c.astCompilationUnit());
-            }
-            _type _t = (_type) _j; //only possible
-            return listSelectedIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
-        }
-        return listSelectedIn( ((_java._compoundNode) _j).ast());
-    }
-
-     */
-
-    /**
-     *
-     * @param _j
-     * @param selectConstraint
-     * @return
-
-    public List<Select> listSelectedIn(_java._domain _j, Predicate<Select> selectConstraint){
-        if( _j instanceof _compilationUnit){
-            if( ((_compilationUnit) _j).isTopLevel()){
-                return listSelectedIn( ((_compilationUnit) _j).astCompilationUnit(), selectConstraint);
-            }
-            return listSelectedIn( ((_type)_j).ast(), selectConstraint);
-        }
-        return listSelectedIn( ((_java._compoundNode)_j).ast(), selectConstraint);
-    }
-    */
-
-    /**
-     *
-     * @param clazz
-     * @param selectConsumer
-     * @return
-
-    public <_CT extends _type> _CT forSelectedIn( Class clazz, Consumer<Selected> selectConsumer ){
-        return (_CT)forSelectedIn( (_type)_java.type(clazz), selectConsumer);
-    }
-    */
-
     /**
      *
      * @param <_J>
@@ -637,18 +540,6 @@ public class $typeRef
 
     /**
      *
-     * @param clazz
-     * @param selectConstraint
-     * @param selectConsumer
-     * @return
-
-    public <_CT extends _type> _CT  forSelectedIn(Class clazz, Predicate<Selected> selectConstraint, Consumer<Selected> selectConsumer ){
-        return (_CT)forSelectedIn( (_type)_java.type(clazz), selectConstraint, selectConsumer);
-    }
-    */
-
-    /**
-     *
      * @param <_J>
      * @param _j
      * @param selectConstraint
@@ -664,43 +555,6 @@ public class $typeRef
         });
         return _j;
     }
-
-    /**
-     *
-     * @param <N>
-     * @param astNode
-     * @param selectConsumer
-     * @return
-
-    public <N extends Node> N forSelectedIn(N astNode, Consumer<Selected> selectConsumer ){
-        astNode.walk(Type.class, e-> {
-            Selected sel = select( e );
-            if( sel != null ){
-                selectConsumer.accept( sel );
-            }
-        });
-        return astNode;
-    }
-    */
-
-    /**
-     *
-     * @param <N>
-     * @param astNode
-     * @param selectConstraint
-     * @param selectConsumer
-     * @return
-
-    public <N extends Node> N forSelectedIn(N astNode, Predicate<Selected> selectConstraint, Consumer<Selected> selectConsumer ){
-        astNode.walk(Type.class, e-> {
-            Selected sel = select( e );
-            if( sel != null && selectConstraint.test(sel)){
-                selectConsumer.accept( sel );
-            }
-        });
-        return astNode;
-    }
-    */
 
     /**
      *
@@ -914,17 +768,4 @@ public class $typeRef
             return null;
         }
     }
-
-    /*
-    public static class Selected extends Select<_typeRef> {
-
-        public Selected(_typeRef _tr, Tokens tokens ){
-            super( _tr, tokens);
-        }
-        
-        public Selected( Type type, $pattern.$tokens tokens){
-            super( _typeRef.of(type), tokens.asTokens());
-        }
-    }
-     */
 }
