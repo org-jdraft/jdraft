@@ -44,12 +44,6 @@ public class $e
 		return new $e( code);
 	}
 
-	/*
-	public static $e of(Predicate<_expression> _matchFn) {
-		return new $e(  ).$and(_matchFn);
-	}
-	 */
-
 	public static $e of(String stencil, Class<? extends _expression> expressionClasses) {
 		return of(stencil, new Class[]{ expressionClasses} );
 	}
@@ -105,21 +99,11 @@ public class $e
 
 	public $e copy(){
 		$e copy = of().$and(this.predicate.and(t->true));
-		copy.stencil = this.stencil.copy();
+		if( this.stencil != null ) {
+			copy.stencil = this.stencil.copy();
+		}
 		return copy;
 	}
-
-	/*
-	public $e(Expression e) {
-		this.stencil = Stencil.of(e.toString());
-		this.predicate.and(n -> e.getClass().isAssignableFrom(n.getClass()));
-	}
-
-	public $e(_expression _e) {
-		this.stencil = Stencil.of(_e.toString());
-		this.predicate.and(n -> _e.ast().getClass().isAssignableFrom(n.getClass()));
-	}
-	 */
 
 	public $e(Stencil st) {
 		this.stencil = st;			

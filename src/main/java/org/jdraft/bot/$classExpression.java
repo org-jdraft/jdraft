@@ -35,12 +35,6 @@ public class $classExpression implements $bot.$node<ClassExpr, _classExpression,
         return new $classExpression(_classExpression.of(code));
     }
 
-    /*
-    public static $classExpression of(Predicate<_classExpression> matchFn) {
-        return new $classExpression(matchFn);
-    }
-     */
-
     public Predicate<_classExpression> getPredicate(){
         return this.predicate;
     }
@@ -185,11 +179,4 @@ public class $classExpression implements $bot.$node<ClassExpr, _classExpression,
     public $classExpression(_classExpression _e) {
         this.type = $typeRef.of(_e.getType());
     }
-
-    /*
-    public $classExpression(Predicate<_classExpression> predicate) {
-        super();
-        $and(predicate);
-    }
-     */
 }

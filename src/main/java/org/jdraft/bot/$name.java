@@ -5,8 +5,8 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MethodReferenceExpr;
 import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.expr.SimpleName;
-import org.jdraft.Print;
 import org.jdraft._jdraftException;
+import org.jdraft._methodCall;
 import org.jdraft._name;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Template;
@@ -428,43 +428,73 @@ public class $name implements $bot<Node, _name, $name>,
     }
 
     /**
-     * An Or entity that can match against any of the $name instances
+     * Or bot to inspect/match/select based on a few independent $name $bot instances
      */
-    public static class Or extends $name { //implements $selector<String, $name>, $methodCall.$part{
+    public static class Or extends $name {
 
-        public List<$name> $names = new ArrayList<>();
+        public List<$name> $nameBots = new ArrayList<>();
 
         private Or($name...nms){
-            Arrays.stream(nms).forEach(n-> $names.add(n));
+            Arrays.stream(nms).forEach(n-> $nameBots.add(n));
         }
 
         public boolean isMatchAny(){
             return false;
         }
 
-        public Predicate<_name> getPredicate(){
-            return this.predicate;
-        }
+        public $name.Or copy(){
 
-        public $name setPredicate( Predicate<_name> predicate){
-            this.predicate = predicate;
-            return this;
-        }
-
-        @Override
-        public Select<_name> select(_name candidate) {
-            if( predicate.test(candidate) ) {
-                Optional<$name> on = $names.stream().filter(n -> n.matches(candidate)).findFirst();
-                if (on.isPresent()) {
-                    return on.get().select(candidate);
-                }
+            $name.Or or = new $name.Or();
+            $nameBots.forEach($nb -> or.$nameBots.add($nb.copy()));
+            or.$and( this.predicate.and(t->true) );
+            if( this.stencil != null ) {
+                or.stencil = this.stencil.copy();
             }
-            return null;
+            //port over the common preferences
+            or.matchImports = this.matchImports;
+            or.matchMethodNames = this.matchMethodNames;
+            or.matchMethodReferences = this.matchMethodReferences;
+            or.matchPackageNames = this.matchPackageNames;
+            or.matchParameterNames = this.matchParameterNames;
+            or.matchTypeDeclarationNames = this.matchTypeDeclarationNames;
+            or.matchTypeRefNames = this.matchTypeRefNames;
+            or.matchVariableNames = this.matchVariableNames;
+            or.matchConstructorNames = this.matchConstructorNames;
+            or.matchAnnoNames = this.matchAnnoNames;
+            or.matchAnnoMemberValueNames = this.matchAnnoMemberValueNames;
+
+            return or;
         }
 
         @Override
-        public $name $and(Predicate<_name> matchFn) {
-            this.predicate = this.predicate.and(matchFn);
+        public Select<_name> select(_name _candidate) {
+            Select commonSelect = super.select(_candidate);
+            if(  commonSelect == null){
+                return null;
+            }
+            $name $whichBot = whichMatch(_candidate);
+            if( $whichBot == null ){
+                return null;
+            }
+            Select whichSelect = $whichBot.select(_candidate);
+            if( !commonSelect.tokens.isConsistent(whichSelect.tokens)){
+                return null;
+            }
+            whichSelect.tokens.putAll(commonSelect.tokens);
+            return whichSelect;
+        }
+
+        /**
+         * Return the underlying $arguments that matches the _arguments
+         * (or null if none of the $arguments match the candidate _arguments)
+         * @param candidate
+         * @return
+         */
+        public $name whichMatch(_name candidate){
+            Optional<$name> orsel  = $nameBots.stream().filter($p-> $p.matches( candidate ) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
             return null;
         }
     }

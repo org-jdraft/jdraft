@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
  */
 public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertStmt>,
         $selector.$node<_assertStmt, $assertStmt>,
+        $bot.$withComment<$assertStmt>,
         $statement<AssertStmt, _assertStmt, $assertStmt> {
 
     public interface $part{}
@@ -93,42 +94,43 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
     /**
      * An Or entity that can match against any of some number of instances
      * NOTE: this can be used as a selector but NOT as a Template
+     *
+     * NOTE: COMMUTATIVE UPDATE
+     * the or is (itself) an $assertStmt AND it contains multiple individual $assertStmts
+     * which allows us to define common matching/selecting in the "base" Or,
+     * and individual matching and selecting in each one of the entities in the $assertStmtList
+     *
+     * //build a or with the $commOr
+     * $assertStmt $baseOr = $assertStmt.or($assertStmt.of().$check("true"), $assertStmt.of().$check("false") );
+     * //HERE I CAN UPDATE THE COMMUTATIVE PREDICATE on the $baseOr, which adds constraints to ALL of the or ($bots)
+     * $baseOr.$and(a -> a.hasComment());
+     *
+     * //it is easier to write this ( $and() is applied to the $baseOr & "shared" by all of the individual (or) $bots):
+     * $assertStmt $baseOr = $assertStmt.or(
+     *      $assertStmt.of().$check("true"),
+     *      $assertStmt.of().$check("false")).$and(a->a.hasComment());
+     *
+     * //but logically equivalent to applying the same $and() condition to each :
+     * $assertStmt $baseOr = $assertStmt.or(
+     *     $assertStmt.of().$check("true").$and(a->a.hasComment()),
+     *     $assertStmt.of().$check("false").$and(a->a.hasComment()) );
+     *
+     *
      */
     public static class Or extends $assertStmt{
 
-        public List<$assertStmt> $assertStmt = new ArrayList<>();
+        /**
+         * A list of individual bots that are used to match or select against
+         * NOTE: one of these MUST match or select for the matching or selecting to pass
+         */
+        public List<$assertStmt> $assertStmtBots = new ArrayList<>();
 
         private Or($assertStmt...nms){
-            Arrays.stream(nms).forEach(n-> $assertStmt.add(n));
+            Arrays.stream(nms).forEach(n-> $assertStmtBots.add(n));
         }
 
         public boolean isMatchAny(){
             return false;
-        }
-
-        public Predicate<_assertStmt> getPredicate(){
-            return this.predicate;
-        }
-
-        public boolean matches(String args){
-            return select(args) != null;
-        }
-
-        public boolean matches(String... args){
-            return select(args) != null;
-        }
-
-
-        public Select<_assertStmt> select(String args){
-            return select( _assertStmt.of(args) );
-        }
-
-        public Select<_assertStmt> select(String...args){
-            return select( _assertStmt.of(args) );
-        }
-
-        public boolean matches(_assertStmt candidate){
-            return select(candidate) != null;
         }
 
         /**
@@ -141,38 +143,38 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
             if( !this.predicate.test(ae ) ){
                 return null;
             }
-            Optional<$assertStmt> orsel  = this.$assertStmt.stream().filter($p-> $p.matches(ae) ).findFirst();
+            Optional<$assertStmt> orsel  = this.$assertStmtBots.stream().filter($p-> $p.matches(ae) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();
             }
             return null;
         }
 
-        public Tokens parse(_assertStmt _a){
-            $assertStmt $a = whichMatch(_a);
-            if( $a != null) {
-                Select s = $a.select(_a);
-                if( s != null ){
-                    return s.tokens;
-                }
-            }
-            return null;
-        }
-
         @Override
         public Select<_assertStmt> select(_assertStmt candidate) {
-            $assertStmt $as = whichMatch(candidate);
-            if( $as == null ){
+            //check the common selection based on the base properties
+            Select commonSelect = super.select(candidate);
+            if( commonSelect == null ){
+                return null; // the base common Select for the Or did not match
+            }
+            //find the first matching individual (or) $bot that matches
+            $assertStmt $whichBot = whichMatch(candidate);
+            if( $whichBot == null ){ // no matching individual (or) $bot, so NONE of the or $bots
                 return null;
             }
-            return $as.select(candidate);
+            Select iSel = $whichBot.select(candidate); //iSel should always be NON-NULL (we just found it via whichMatch())
+            if(! iSel.tokens.isConsistent(commonSelect.tokens) ){ //no inconsistency between the bot tokens & base or tokens
+                return null;
+            }
+            iSel.tokens.putAll(commonSelect.tokens);
+            return iSel;
         }
 
         public String toString(){
             StringBuilder sb = new StringBuilder();
             sb.append( "$assertStmt.Or{").append(System.lineSeparator());
-            for(int i = 0; i<this.$assertStmt.size(); i++){
-                sb.append( Text.indent( this.$assertStmt.get(i).toString()) );
+            for(int i = 0; i<this.$assertStmtBots.size(); i++){
+                sb.append( Text.indent( this.$assertStmtBots.get(i).toString()) );
             }
             sb.append("}");
             return sb.toString();
@@ -183,7 +185,7 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
 
     public $expression check = $expression.of();
     public $expression message = $expression.of();
-
+    public $comment comment = null;
 
     public $assertStmt() { }
 
@@ -216,13 +218,23 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
         return this.predicate;
     }
 
+    public $comment get$Comment(){
+        return this.comment;
+    }
+
+    public $assertStmt $hasComment($comment $com){
+        this.comment = $com;
+        return this;
+    }
+
     public $assertStmt setPredicate(Predicate<_assertStmt> predicate){
         this.predicate = predicate;
         return this;
     }
 
     public boolean isMatchAny(){
-        if( this.check.isMatchAny() && this.check instanceof $e && this.message.isMatchAny() && this.message instanceof $e){
+        if( (this.comment == null || this.comment.isMatchAny())
+                && this.check.isMatchAny() &&  this.check instanceof $e && this.message.isMatchAny() && this.message instanceof $e){
             try {
                 return this.predicate.test(null);
             } catch(Exception e){ }
@@ -272,13 +284,27 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
             return null;
         }
         Tokens ts = Tokens.of( );
+        if( this.comment != null ){
+            try{
+                Select s = this.comment.select( (_comment)_r.getComment() );
+                if( s == null ){
+                    return null;
+                }
+                else {
+                    ts.putAll( s.tokens );
+                }
+            } catch(Exception e){
+                //comments match failed, dont throw just return null
+                return null;
+            }
+        }
         Select scs  = this.check.select( _r.getCheck() );
-        if( scs == null ){
+        if( scs == null || !ts.isConsistent(scs.tokens) ){
             return null;
         }
         ts.putAll(scs.tokens);
         scs  = this.message.select( _r.getMessage() );
-        if( scs == null ){
+        if( scs == null || !ts.isConsistent(scs.tokens) ){
             return null;
         }
         ts.putAll(scs.tokens);

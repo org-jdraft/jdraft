@@ -31,12 +31,6 @@ public class $enclosedExpression implements $bot.$node<EnclosedExpr, _enclosedEx
         return new $enclosedExpression(_enclosedExpression.of(code));
     }
 
-    /*
-    public static $enclosedExpression of(Predicate<_enclosedExpression> matchFn) {
-        return new $enclosedExpression(matchFn);
-    }
-     */
-
     public Predicate<_enclosedExpression> getPredicate(){
         return this.predicate;
     }
@@ -99,7 +93,7 @@ public class $enclosedExpression implements $bot.$node<EnclosedExpr, _enclosedEx
             if (s == null) {
                 return null;
             }
-            return new Select<_enclosedExpression>(_aa, s.tokens);
+            return new Select<>(_aa, s.tokens);
         }
         return null;
     }
@@ -137,17 +131,17 @@ public class $enclosedExpression implements $bot.$node<EnclosedExpr, _enclosedEx
         return this.expression.$listNormalized();
     }
 
-    public $enclosedExpression $type($expression $t) {
+    public $enclosedExpression $expression($expression $t) {
         this.expression = $t;
         return this;
     }
 
-    public $enclosedExpression $type(_expression _e) {
+    public $enclosedExpression $expression(_expression _e) {
         this.expression = $expression.of(_e);
         return this;
     }
 
-    public $enclosedExpression $type(String... astE) {
+    public $enclosedExpression $expression(String... astE) {
         this.expression = $expression.of(Text.combine(astE));
         return this;
     }
@@ -182,10 +176,4 @@ public class $enclosedExpression implements $bot.$node<EnclosedExpr, _enclosedEx
         this.expression = $expression.of(_e.getExpression());
     }
 
-    /*
-    public $enclosedExpression(Predicate<_enclosedExpression> predicate) {
-        super();
-        $and(predicate);
-    }
-     */
 }

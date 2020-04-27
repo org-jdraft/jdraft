@@ -32,12 +32,6 @@ public class $s
 		return new $s( code);
 	}
 
-	/*
-	public static $s of(Predicate<_statement> _matchFn) {
-		return new $s(  ).$and(_matchFn);
-	}
-	 */
-
 	public static $s of(String stencil, Class<? extends _statement> sClasses) {
 		return of(stencil, new Class[]{ sClasses} );
 	}
@@ -110,17 +104,6 @@ public class $s
 
 	public $s() {
 	}
-	/*
-	public $e(Expression e) {
-		this.stencil = Stencil.of(e.toString());
-		this.predicate.and(n -> e.getClass().isAssignableFrom(n.getClass()));
-	}
-
-	public $e(_expression _e) {
-		this.stencil = Stencil.of(_e.toString());
-		this.predicate.and(n -> _e.ast().getClass().isAssignableFrom(n.getClass()));
-	}
-	 */
 
 	public $s(Stencil st) {
 		this.stencil = st;
@@ -153,7 +136,6 @@ public class $s
 		if( n instanceof Statement ) {
 			_statement _e = _statement.of( (Statement)n);
 			if( this.predicate.test(_e )) {
-				//if( this.expressionClassSet.con)
 				if(this.stencil == null ) {
 					return new Select<>( _e, new Tokens());
 				}

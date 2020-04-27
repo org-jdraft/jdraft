@@ -9,11 +9,12 @@ import java.util.stream.Collectors;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
+import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
 /**
- * Bot for inspecting and mutating {@link _methodCall}s / {@link MethodCallExpr}s
+ * $bot for inspecting, drafting and mutating {@link _methodCall}s / {@link MethodCallExpr}s
  */
 public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $methodCall>,
         $bot.$multiBot<MethodCallExpr, _methodCall, $methodCall>,
@@ -107,47 +108,70 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
     /**
      * Extends the $methodCall
      */
-    public static class Or extends $methodCall implements $orBot<MethodCallExpr, _methodCall, $methodCall> {
+    public static class Or extends $methodCall { //implements $orBot<MethodCallExpr, _methodCall, $methodCall> {
 
-         public List<$methodCall> mcs = new ArrayList<>();
+         public List<$methodCall> $methodCallBots = new ArrayList<>();
 
          public Or($methodCall...$mcs){
-             Arrays.stream($mcs).forEach(m -> mcs.add(m));
+             Arrays.stream($mcs).forEach(m -> $methodCallBots.add(m));
          }
 
-         public Predicate<_methodCall> getPredicate(){
-            return this.predicate;
-        }
-
          public List<$methodCall> listEach(){
-              return mcs;
+              return $methodCallBots;
          }
 
          public String toString(){
-             return describe();
-         }
+            StringBuilder sb = new StringBuilder();
+            sb.append( "$methodCall.Or{").append(System.lineSeparator());
+            for(int i = 0; i< listEach().size(); i++){
+                sb.append( Text.indent( this.listEach().get(i).toString()) );
+            }
+            sb.append("}");
+            return sb.toString();
+        }
 
          public $methodCall.Or copy(){
              Or or = new Or(listEach().toArray(new $methodCall[0]));
              or.$and( this.predicate.and(t->true) );
+             //I need to port over all of the common things
+             or.scope = ($expression)this.scope.copy();
+             or.typeArguments = this.typeArguments.copy();
+             or.name = this.name.copy();
+             or.arguments = this.arguments.copy();
              return or;
          }
 
-         public Select<_methodCall> select(_methodCall _mc){
-             if( getPredicate().test(_mc ) ) {
-                 $methodCall $matched = whichMatch(_mc);
-                 if ($matched == null) {
-                     return null;
-                 }
-                 Select<_methodCall> smc = $matched.select(_mc);
-                 return smc;
+        /**
+         * Return the underlying $arguments that matches the _arguments
+         * (or null if none of the $arguments match the candidate _arguments)
+         * @param candidate
+         * @return
+         */
+        public $methodCall whichMatch(_methodCall candidate){
+            Optional<$methodCall> orsel  = listEach().stream().filter($p-> $p.matches( candidate ) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
+
+         public Select<_methodCall> select(_methodCall _candidate){
+             Select commonSelect = super.select(_candidate);
+             if(  commonSelect == null){
+                 return null;
              }
-             return null;
+             $methodCall $whichBot = whichMatch(_candidate);
+             if( $whichBot == null ){
+                 return null;
+             }
+             Select whichSelect = $whichBot.select(_candidate);
+             if( !commonSelect.tokens.isConsistent(whichSelect.tokens)){
+                 return null;
+             }
+             whichSelect.tokens.putAll(commonSelect.tokens);
+             return whichSelect;
          }
     }
-
-
-
 
     private static $methodCall addParts( $methodCall $mc, $part...parts ){
         for(int i=0;i<parts.length;i++){

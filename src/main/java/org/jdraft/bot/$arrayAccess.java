@@ -41,6 +41,7 @@ public class $arrayAccess
         return new Or($aas);
     }
 
+
     /**
      * An Or entity that can match against any of some number of $arrayAccess instances
      * NOTE: this can be used as a selector but NOT as a Template
@@ -89,14 +90,26 @@ public class $arrayAccess
             return null;
         }
 
-        @Override
-        public Select<_arrayAccess> select(_arrayAccess candidate) {
-            /** TODO, do I want to check all resident bots?) */
-            $arrayAccess $as = whichMatch(candidate);
-            if( $as == null ){
+        /**
+         *
+         * @param _a
+         * @return
+         */
+        public Select<_arrayAccess> select(_arrayAccess _a){
+            Select commonSelect = super.select(_a);
+            if(  commonSelect == null){
                 return null;
             }
-            return $as.select(candidate);
+            $arrayAccess $whichBot = whichMatch(_a);
+            if( $whichBot == null ){
+                return null;
+            }
+            Select whichSelect = $whichBot.select(_a);
+            if(!commonSelect.tokens.isConsistent(whichSelect.tokens)){
+                return null;
+            }
+            whichSelect.tokens.putAll(commonSelect.tokens);
+            return whichSelect;
         }
 
         public String toString(){

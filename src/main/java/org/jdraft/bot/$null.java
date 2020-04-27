@@ -38,12 +38,6 @@ public class $null implements $bot.$node<NullLiteralExpr, _null, $null>,
         return of(_null.of(code));
     }
 
-    /*
-    public static $null of(Predicate<_null> _matchFn) {
-        return new $null().$and(_matchFn);
-    }
-     */
-
     public Predicate<_null> getPredicate(){
         return this.predicate;
     }
@@ -64,12 +58,6 @@ public class $null implements $bot.$node<NullLiteralExpr, _null, $null>,
      */
     public $null copy(){
         $null $n = of().$and( this.predicate.and(t->true) );
-
-        //if( stencil != null ) {
-        //    $n.stencil = this.stencil.copy();
-        //}else{
-        //    $n.stencil = null;
-        //}
         return $n;
     }
 
@@ -152,37 +140,6 @@ public class $null implements $bot.$node<NullLiteralExpr, _null, $null>,
     @Override
     public _null draft(Translator translator, Map<String, Object> keyValues) {
         return _null.of();
-        /*
-        if (this.stencil == null) {
-            String overrideName = this.getClass().getSimpleName();
-            Object override = keyValues.get(overrideName);
-            if (override == null) {
-                throw new _jdraftException("no stencil specified for " + this + " ...and no override Stencil/String \"" + overrideName + "\" provided");
-            }
-            Stencil stencil = null;
-            if (override instanceof String) {
-                stencil = Stencil.of((String) override);
-            } else if (override instanceof Stencil) {
-                stencil = (Stencil) override;
-            } else {
-                stencil = Stencil.of(override.toString());
-            }
-            String drafted = stencil.draft(translator, keyValues);
-            _null _i = instance(drafted);
-            if (this.predicate.test(_i)) {
-                return _i;
-            }
-            return null;
-        }
-        String draftedCode = stencil.draft(translator, keyValues);
-        if (draftedCode != null) {
-            _null instance = instance(draftedCode);
-            if (predicate.test(instance)) {
-                return instance;
-            }
-        }
-        return null;
-         */
     }
 
     @Override
@@ -221,15 +178,10 @@ public class $null implements $bot.$node<NullLiteralExpr, _null, $null>,
     }
 
     public String toString() {
-       // if (this.stencil != null) {
-        //    return "$null{" + System.lineSeparator() + "    " + this.stencil.toString() + System.lineSeparator() + "}";
-        //}
         return "$null{" + this.predicate + "}";
     }
 
     public Predicate<_null> predicate = d -> true;
-
-    //public Stencil stencil = null;
 
     public $null() {
     }
@@ -237,21 +189,4 @@ public class $null implements $bot.$node<NullLiteralExpr, _null, $null>,
     public $null(_null _i) {
         //this.stencil = Stencil.of(_i.toString());
     }
-
-    /*
-    private $null(Stencil stencil) {
-        this.stencil = stencil;
-    }
-     */
-
-    /**
-     * This makes it easier to NOT have to do silly things with generics on the outside
-
-    public static class Selected extends Select<_null> {
-
-        public Selected(_null _node, Tokens tokens) {
-            super(_node, tokens);
-        }
-    }
-    */
 }

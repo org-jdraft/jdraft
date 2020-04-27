@@ -49,12 +49,6 @@ public class $long implements $bot.$node<LongLiteralExpr, _long, $long>,
         return new $long(_long.of(i)).$and(_i -> _i.getValue() == i);
     }
 
-    /*
-    public static $long of(Predicate<_long> _matchFn) {
-        return new $long().$and(_matchFn);
-    }
-     */
-
     public Predicate<_long> getPredicate(){
         return this.predicate;
     }

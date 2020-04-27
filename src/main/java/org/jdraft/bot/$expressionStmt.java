@@ -212,7 +212,6 @@ public class $expressionStmt implements $bot.$node<ExpressionStmt, _expressionSt
         return ps.stream().distinct().collect(Collectors.toList());
     }
 
-    //$withExpression interface
     public $expression get$expression(){
         return this.expression;
     }

@@ -53,14 +53,15 @@ public interface _comment<C extends Comment, _C extends _comment> extends _java.
      *     }
      * }
      *
-     * $comment.of("// print just in case").
+     * $comment.of("// print just in case")
+     * is attributed to the _expressionStmt System.out.println("id "+ id);
      *
      * @return the commented node (or null if the comment is an orphaned node)
      */
     _java._node getAttributedNode();
 
     /**
-     * Is there attribution for this node
+     * Is there attribution to an AST node for this
      * @return
      */
     default boolean isAttributed(){
@@ -72,7 +73,7 @@ public interface _comment<C extends Comment, _C extends _comment> extends _java.
      * @param contents the full contents of the String
      * @return
      */
-    default boolean isContents( String contents ){
+    default boolean isText(String contents ){
         return Objects.equals( this.getText(), contents);
     }
 
@@ -84,8 +85,13 @@ public interface _comment<C extends Comment, _C extends _comment> extends _java.
         return Comments.getContent(ast());
     }
 
-    default boolean contains( CharSequence content ){
-        return getText().contains(content);
+    /**
+     *
+     * @param textStencil
+     * @return
+     */
+    default boolean contains( CharSequence textStencil ){
+        return contains(Stencil.of(textStencil) );
     }
 
     /**

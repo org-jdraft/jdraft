@@ -2,6 +2,7 @@ package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.StringLiteralExpr;
 import com.github.javaparser.ast.expr.TextBlockLiteralExpr;
 import org.jdraft.*;
 import org.jdraft._java._domain;
@@ -17,9 +18,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 /**
- * syntax prototype for the model of the String types
- *
- * @author Eric
+ * {@link $expression} $bot for selecting, inspecting, drafting & mutating {@link _textBlock}s / {@link TextBlockLiteralExpr}s
  */
 public class $textBlock implements $bot.$node<TextBlockLiteralExpr, _textBlock, $textBlock>,
         $selector.$node<_textBlock, $textBlock>,
@@ -48,12 +47,6 @@ public class $textBlock implements $bot.$node<TextBlockLiteralExpr, _textBlock, 
     public static $textBlock of(String i) {
         return new $textBlock(_textBlock.of(i)).$and(_i -> _i.getText() == i);
     }
-
-    /*
-    public static $textBlock of(Predicate<_textBlock> _matchFn) {
-        return new $textBlock().$and(_matchFn);
-    }
-     */
 
     public Predicate<_textBlock> getPredicate(){
         return this.predicate;
@@ -149,7 +142,6 @@ public class $textBlock implements $bot.$node<TextBlockLiteralExpr, _textBlock, 
         }
         return null;
     }
-
 
     /**
      *
@@ -358,9 +350,9 @@ public class $textBlock implements $bot.$node<TextBlockLiteralExpr, _textBlock, 
 
     public String toString() {
         if (this.stencil != null) {
-            return "$String{" + System.lineSeparator() + "    " + this.stencil.toString() + System.lineSeparator() + "}";
+            return "$textBlock{" + System.lineSeparator() + "    " + this.stencil.toString() + System.lineSeparator() + "}";
         }
-        return "$String{" + this.predicate + "}";
+        return "$textBlock{" + this.predicate + "}";
     }
 
     public Predicate<_textBlock> predicate = d -> true;

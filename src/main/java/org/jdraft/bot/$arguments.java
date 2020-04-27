@@ -351,62 +351,20 @@ public class $arguments<N extends Node & NodeWithArguments>
      * An Or entity that can match against any of some number of instances
      * NOTE: this can be used as a selector but NOT as a Template
      */
-    public static class Or extends $arguments { //implements $selector<_arguments, Or>, $methodCall.$part{
+    public static class Or extends $arguments {
 
-        //public Predicate<_arguments> predicate = p-> true;
-
-        public List<$arguments> $arguments = new ArrayList<>();
+        public List<$arguments> $argumentsBots = new ArrayList<>();
 
         private Or($arguments...nms){
-            Arrays.stream(nms).forEach(n-> $arguments.add(n));
+            Arrays.stream(nms).forEach(n-> $argumentsBots.add(n));
         }
 
         public boolean isMatchAny(){
             return false;
         }
 
-        public Predicate<_arguments> getPredicate(){
-            return this.predicate;
-        }
-
-        public boolean matches(String args){
-            return select(args) != null;
-        }
-
-        public boolean matches(String... args){
-            return select(args) != null;
-        }
-
-        public boolean matches(NodeWithArguments nwa){
-            return select(nwa) != null;
-        }
-
-        public boolean matches(_expression..._exprs){
-            return select(_exprs) != null;
-        }
-
-        public boolean matches(Expression...exprs){
-            return select(exprs) != null;
-        }
-
-        public Select<_arguments> select(String args){
-            return select( _arguments.of(args) );
-        }
-
-        public Select<_arguments> select(String...args){
-            return select( _arguments.of(args) );
-        }
-
         public Select<_arguments> select(NodeWithArguments nwas){
             return select( _arguments.of(nwas) );
-        }
-
-        public Select<_arguments> select(_expression..._exprs){
-            return select( _arguments.of(_exprs) );
-        }
-
-        public Select<_arguments> select(Expression...exprs){
-            return select( _arguments.of(exprs) );
         }
 
         public boolean matches(_arguments candidate){
@@ -432,38 +390,40 @@ public class $arguments<N extends Node & NodeWithArguments>
             if( !this.predicate.test(ae ) ){
                 return null;
             }
-            Optional<$arguments> orsel  = this.$arguments.stream().filter($p-> $p.matches(ae) ).findFirst();
+            Optional<$arguments> orsel  = this.$argumentsBots.stream().filter($p-> $p.matches(ae) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();
             }
             return null;
         }
 
-        public Tokens parse(_arguments _a){
-            $arguments $a = whichMatch(_a);
-            if( $a != null) {
-                Select s = $a.select(_a);
-                if( s != null ){
-                    return s.tokens;
-                }
-            }
-            return null;
-        }
-
-        @Override
-        public Select<_arguments> select(_arguments candidate) {
-            $arguments $as = whichMatch(candidate);
-            if( $as == null ){
+        /**
+         *
+         * @param _a
+         * @return
+         */
+        public Select<_arguments> select(_arguments _a){
+            Select commonSelect = super.select(_a);
+            if(  commonSelect == null){
                 return null;
             }
-            return $as.select(candidate);
+            $arguments $whichBot = whichMatch(_a);
+            if( $whichBot == null ){
+                return null;
+            }
+            Select whichSelect = $whichBot.select(_a);
+            if( !commonSelect.tokens.isConsistent(whichSelect.tokens)){
+                return null;
+            }
+            whichSelect.tokens.putAll(commonSelect.tokens);
+            return whichSelect;
         }
 
         public String toString(){
             StringBuilder sb = new StringBuilder();
             sb.append( "$arguments.Or{").append(System.lineSeparator());
-            for(int i=0;i<this.$arguments.size();i++){
-                sb.append( Text.indent( this.$arguments.get(i).toString()) );
+            for(int i = 0; i<this.$argumentsBots.size(); i++){
+                sb.append( Text.indent( this.$argumentsBots.get(i).toString()) );
             }
             sb.append("}");
             return sb.toString();

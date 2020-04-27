@@ -3,6 +3,7 @@ package org.jdraft.bot;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.StringLiteralExpr;
+import com.github.javaparser.ast.stmt.ReturnStmt;
 import org.jdraft.*;
 import org.jdraft._java._domain;
 import org.jdraft.io._batch;
@@ -17,9 +18,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 /**
- * syntax prototype for the model of the String types
- *
- * @author Eric
+ * {@link $expression} $bot for selecting, inspecting, drafting & mutating {@link _string}s / {@link StringLiteralExpr}s
  */
 public class $string implements $bot.$node<StringLiteralExpr, _string, $string>,
         $selector.$node<_string, $string>,
@@ -351,9 +350,9 @@ public class $string implements $bot.$node<StringLiteralExpr, _string, $string>,
 
     public String toString() {
         if (this.stencil != null) {
-            return "$String{" + System.lineSeparator() + "    " + this.stencil.toString() + System.lineSeparator() + "}";
+            return "$string{" + System.lineSeparator() + "    " + this.stencil.toString() + System.lineSeparator() + "}";
         }
-        return "$String{" + this.predicate + "}";
+        return "$string{" + this.predicate + "}";
     }
 
     public Predicate<_string> predicate = d -> true;

@@ -35,12 +35,6 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
         return new $typeArguments($es);
     }
 
-    /*
-    public static $typeArguments of (Predicate<_typeArguments> predicate){
-        return new $typeArguments(predicate);
-    }
-     */
-
     public static $typeArguments.Or or($typeArguments...$as){
         return new $typeArguments.Or($as);
     }
@@ -67,12 +61,6 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
     }
 
     public $typeArguments(){ }
-
-    /*
-    public $typeArguments(Predicate<_typeArguments> predicate){
-        this.predicate = predicate;
-    }
-     */
 
     public $typeArguments(_typeArguments args){
         for(int i=0;i<args.size(); i++){
@@ -274,62 +262,39 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
      */
     public static class Or extends $typeArguments {
 
-        public List<$typeArguments> $arguments = new ArrayList<>();
+        public List<$typeArguments> $typeArgumentsList = new ArrayList<>();
 
         private Or($typeArguments...nms){
-            Arrays.stream(nms).forEach(n-> $arguments.add(n));
+            Arrays.stream(nms).forEach(n-> $typeArgumentsList.add(n));
         }
 
         public boolean isMatchAny(){
             return false;
         }
 
-        public Predicate<_typeArguments> getPredicate(){
-            return this.predicate;
-        }
-
-        public boolean matches(String args){
-            return select(args) != null;
-        }
-
-        public boolean matches(String... args){
-            return select(args) != null;
-        }
-
         public boolean matches(NodeWithTypeArguments nwa){
             return select(nwa) != null;
         }
 
-        public boolean matches(_typeRef..._exprs){
-            return select(_exprs) != null;
-        }
-
-        public boolean matches(Type...exprs){
-            return select(exprs) != null;
-        }
-
-        public boolean matches(_typeArguments candidate){
-            return select(candidate) != null;
-        }
-
-        public Select<_arguments> select(String args){
-            return select( _typeArguments.of(args) );
-        }
-
-        public Select<_arguments> select(String...args){
-            return select( _typeArguments.of(args) );
-        }
-
-        public Select<_arguments> select(NodeWithTypeArguments nwas){
+        public Select<_typeArguments> select(NodeWithTypeArguments nwas){
             return select( _typeArguments.of(nwas) );
         }
 
-        public Select<_arguments> select(_typeRef..._exprs){
-            return select( _typeArguments.of(_exprs) );
-        }
-
-        public Select<_arguments> select(Type...exprs){
-            return select( _typeArguments.of(exprs) );
+        public Select<_typeArguments> select(_typeArguments _candidate){
+            Select commonSelect = super.select(_candidate);
+            if(  commonSelect == null){
+                return null;
+            }
+            $typeArguments $whichBot = whichMatch(_candidate);
+            if( $whichBot == null ){
+                return null;
+            }
+            Select whichSelect = $whichBot.select(_candidate);
+            if( !commonSelect.tokens.isConsistent(whichSelect.tokens)){
+                return null;
+            }
+            whichSelect.tokens.putAll(commonSelect.tokens);
+            return whichSelect;
         }
 
         /**
@@ -351,7 +316,7 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
             if( !this.predicate.test(ae ) ){
                 return null;
             }
-            Optional<$typeArguments> orsel  = this.$arguments.stream().filter($p-> $p.matches(ae) ).findFirst();
+            Optional<$typeArguments> orsel  = this.$typeArgumentsList.stream().filter($p-> $p.matches(ae) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();
             }
@@ -369,31 +334,14 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
             return null;
         }
 
-        @Override
-        public Select<_arguments> select(_typeArguments candidate) {
-            $typeArguments $as = whichMatch(candidate);
-            if( $as == null ){
-                return null;
-            }
-            return $as.select(candidate);
-        }
-
         public String toString(){
             StringBuilder sb = new StringBuilder();
             sb.append( "$typeArguments.Or{").append(System.lineSeparator());
-            for(int i=0;i<this.$arguments.size();i++){
-                sb.append( Text.indent( this.$arguments.get(i).toString()) );
+            for(int i = 0; i<this.$typeArgumentsList.size(); i++){
+                sb.append( Text.indent( this.$typeArgumentsList.get(i).toString()) );
             }
             sb.append("}");
             return sb.toString();
         }
-
-        /*
-        @Override
-        public $arguments $and(Predicate<_arguments> matchFn) {
-            this.predicate = this.predicate.and(matchFn);
-            return ($arguments)this;
-        }
-         */
     }
 }

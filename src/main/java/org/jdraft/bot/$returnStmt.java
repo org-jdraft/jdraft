@@ -16,7 +16,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * Bot for inspecting and mutating {@link _methodCall}s / {@link MethodCallExpr}s
+ * $bot for selecting, inspecting, drafting & mutating {@link _returnStmt}s / {@link ReturnStmt}s
  */
 public class $returnStmt implements $bot.$node<ReturnStmt, _returnStmt, $returnStmt>,
         $selector.$node<_returnStmt, $returnStmt>,
@@ -46,7 +46,7 @@ public class $returnStmt implements $bot.$node<ReturnStmt, _returnStmt, $returnS
 
     public Predicate<_returnStmt> predicate = d -> true;
 
-    /** optional expression to return */
+    /** optional expression to return (NOTE could be null)*/
     public $expression expression = $expression.of();
 
     public $returnStmt() { }
@@ -147,7 +147,7 @@ public class $returnStmt implements $bot.$node<ReturnStmt, _returnStmt, $returnS
             _rs.setExpression( (_expression)this.expression.draft(tr, keyValues) );
         }
         if( !this.predicate.test(_rs) ){
-            throw new _jdraftException("Drafted _methodCall failed bot predicate");
+            throw new _jdraftException("Drafted _returnStmt failed bot predicate");
         }
         return _rs;
     }

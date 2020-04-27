@@ -91,7 +91,4 @@ public interface $expression<E extends Expression, _E extends _expression, $E ex
         }
         return select(e.ast()) != null;
     }
-
-    //$E $hardcode(Translator t, Tokens ts);
-
 }

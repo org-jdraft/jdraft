@@ -14,6 +14,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
+ * Program to search for, match, inspect, modify & draft a specific piece of Java syntax.
+ *
+ * <P>Each $bot instance deals with a specific {@link Node} type or {@link _java._domain} type
+ * and $bots can compose (
+ *
  * B is the underlying (JavaParser AST) syntactic representation
  * _B is the _java.domain wrapper for the syntax entity
  * $B the bot type
@@ -770,7 +775,6 @@ public interface $bot<B, _B, $B>
 
     }
 
-
     /**
      * a bot that operates on a {@link Node} implementation within the AST
      * can remove and replace nodes in the (overall) AST in addition to selecting nodes within the AST
@@ -1113,6 +1117,64 @@ public interface $bot<B, _B, $B>
         default <N extends Node, _N extends _java._node<?, ?>> N replaceSelectedIn(N astNode, Template<_N> nodeTemplate) {
             return replaceSelectedIn(astNode, t->true, nodeTemplate);
         }
+    }
+
+    /**
+     * Adorn a $bot with an optional $comment $bot
+     *
+     *
+     * @param <$WC>
+     */
+    interface $withComment<$WC extends $withComment> {
+
+        /**
+         * Returns the $comment bot (NULLABLE)
+         * @return
+         */
+        $comment get$Comment();
+
+        /**
+         * Sets the $comment bot and returns the commentable bot
+         * @param $c the comment bot
+         * @return
+         */
+        $WC $hasComment($comment $c);
+
+        default $WC $hasComment(boolean hasComment){
+            return ($WC) (($bot)this).$and(n -> ((_java._withComments)n).hasComment(hasComment) );
+        }
+
+        default $WC $hasComment( Predicate<_comment> commentMatchFn){
+            return $hasComment( $comment.of().$and(commentMatchFn) );
+        }
+
+        /**
+         * nullify the $comment bot
+         * @return
+
+        default $WC has$Comment(){
+            return has$Comment(null);
+        }
+        */
+
+        /*
+        default $WC $hasComment(){
+            return ($WC)$hasComment(true);
+        }
+         */
+
+
+
+        /*
+        default $WC $hasCommentContains(Stencil stencil){
+
+        }
+         */
+
+        /*
+
+         */
 
     }
+
 }

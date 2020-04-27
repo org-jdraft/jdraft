@@ -3,10 +3,8 @@ package org.jdraft.bot;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
-import org.jdraft._boolean;
-import org.jdraft._expression;
+import org.jdraft.*;
 import org.jdraft._java._domain;
-import org.jdraft._jdraftException;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
@@ -252,80 +250,44 @@ public class $boolean implements $bot.$node<BooleanLiteralExpr, _boolean, $boole
      */
     public static class Or extends $boolean {
 
-        public List<$boolean> $boolean = new ArrayList<>();
+        public List<$boolean> $booleanBots = new ArrayList<>();
 
-        private Or($boolean...nms){
-            Arrays.stream(nms).forEach(n-> $boolean.add(n));
+        private Or($boolean...bots){
+            Arrays.stream(bots).forEach(n-> $booleanBots.add(n));
         }
 
         public boolean isMatchAny(){
             return false;
         }
 
-        public Predicate<_boolean> getPredicate(){
-            return this.predicate;
-        }
-
-        public boolean matches(String args){
-            return select(args) != null;
-        }
-
-        public boolean matches(String... args){
-            return select(args) != null;
-        }
-
-        public boolean matches(_expression _exprs){
-            if( _exprs instanceof _boolean ) {
-                return select( (_boolean)_exprs) != null;
-            }
-            return false;
-        }
-
-        public boolean matches(Expression exprs){
-            return select(exprs) != null;
-        }
-
-        public Select<_boolean> select(String args){
-            try {
-                return select(_boolean.of(args));
-            }catch(Exception e){
-                return null;
-            }
-        }
-
-        public Select<_boolean> select(String...args){
-            try {
-                return select(_boolean.of(args));
-            }catch(Exception e){
-                return null;
-            }
-        }
-
-        public Select<_boolean> select(_expression _expr){
-            if( _expr instanceof _boolean ) {
-                return select( (_boolean) _expr);
-            }
-            return null;
-        }
-
-        public Select<_boolean> select(Expression expr){
-            if( expr instanceof BooleanLiteralExpr) {
-                return select(_boolean.of( (BooleanLiteralExpr)expr));
-            }
-            return null;
-        }
-
-        public boolean matches(_boolean candidate){
-            return select(candidate) != null;
-        }
-
         @Override
-        public Select<_boolean> select(_boolean candidate) {
-            if( predicate.test(candidate) ) {
-                Optional<$boolean> on = $boolean.stream().filter(n -> n.matches(candidate)).findFirst();
-                if (on.isPresent()) {
-                    return on.get().select(candidate);
-                }
+        public Select<_boolean> select(_boolean _candidate) {
+            Select commonSelect = super.select(_candidate);
+            if(  commonSelect == null){
+                return null;
+            }
+            $boolean $whichBot = whichMatch(_candidate);
+            if( $whichBot == null ){
+                    return null;
+            }
+            Select whichSelect = $whichBot.select(_candidate);
+            if( !commonSelect.tokens.isConsistent(whichSelect.tokens)){
+                return null;
+            }
+            whichSelect.tokens.putAll(commonSelect.tokens);
+            return whichSelect;
+        }
+
+        /**
+         * Return the underlying $arrayAccess that matches the _arrayAccess
+         * (or null if none of the $arrayAccess match the candidate _arrayAccess)
+         * @param _candidate
+         * @return
+         */
+        public $boolean whichMatch(_boolean _candidate){
+            Optional<$boolean> orsel  = this.$booleanBots.stream().filter($p-> $p.matches(_candidate) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
             }
             return null;
         }

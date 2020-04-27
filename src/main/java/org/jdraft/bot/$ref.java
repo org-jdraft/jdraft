@@ -526,43 +526,49 @@ public class $ref implements $bot<Node, _java._node, $ref>,
     }
 
     /**
-     * An Or entity that can match against any of the $name instances
+     * An Or entity that can match against any of the $ref instances
      */
     public static class Or extends $ref {
 
-        public List<$ref> $names = new ArrayList<>();
+        public List<$ref> $refBots = new ArrayList<>();
 
         private Or($ref...nms){
-            Arrays.stream(nms).forEach(n-> $names.add(n));
+            Arrays.stream(nms).forEach(n-> $refBots.add(n));
         }
 
         public boolean isMatchAny(){
             return false;
         }
 
-        public Predicate<_java._node> getPredicate(){
-            return this.predicate;
-        }
-
-        public $ref setPredicate(Predicate<_java._node> predicate){
-            this.predicate = predicate;
-            return this;
-        }
-
         @Override
-        public Select<_java._node> select(_java._node candidate) {
-            if( predicate.test(candidate) && useCheck(candidate)) {
-                Optional<$ref> on = $names.stream().filter(n -> n.matches(candidate)).findFirst();
-                if (on.isPresent()) {
-                    return on.get().select(candidate);
-                }
+        public Select<_java._node> select(_java._node _candidate) {
+            Select commonSelect = super.select(_candidate);
+            if(  commonSelect == null){
+                return null;
             }
-            return null;
+            $ref $whichBot = whichMatch(_candidate);
+            if( $whichBot == null ){
+                return null;
+            }
+            Select whichSelect = $whichBot.select(_candidate);
+            if( !commonSelect.tokens.isConsistent(whichSelect.tokens)){
+                return null;
+            }
+            whichSelect.tokens.putAll(commonSelect.tokens);
+            return whichSelect;
         }
 
-        @Override
-        public $ref $and(Predicate<_java._node> matchFn) {
-            this.predicate = this.predicate.and(matchFn);
+        /**
+         * Return the underlying $arguments that matches the _arguments
+         * (or null if none of the $arguments match the candidate _arguments)
+         * @param candidate
+         * @return
+         */
+        public $ref whichMatch(_java._node candidate){
+            Optional<$ref> orsel  = $refBots.stream().filter($p-> $p.matches( candidate ) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
             return null;
         }
     }

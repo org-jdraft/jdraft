@@ -267,7 +267,6 @@ public class $anno
         return this;
     }
 
-
     /**
      *
      * @return
@@ -870,37 +869,45 @@ public class $anno
             return false;
         }
 
-        /*
-        public static class Selected extends Select<_anno._memberValue> {
-
-            public Selected(_anno._memberValue astMvp, Tokens tokens) {
-                super( astMvp, tokens);
-            }
-        }
-         */
     }
 
     /**
-     * An Or entity that can match against any of the $pattern instances provided
+     * An Or entity that can match against any of the $bot instances provided
      * NOTE: template features (draft/fill) are supressed.
      */
     public static class Or extends $anno {
 
-         final List<$anno>ors = new ArrayList<>();
+         final List<$anno> $annoBots = new ArrayList<>();
 
          public Or($anno...$as){
              super();
-             Arrays.stream($as).forEach($a -> ors.add($a) );
+             Arrays.stream($as).forEach($a -> $annoBots.add($a) );
+         }
+
+        /**
+         * Build and return a copy of this or bot
+         * @return
+         */
+        public Or copy(){
+             List<$anno> copyBots = new ArrayList<>();
+             this.$annoBots.forEach(a-> copyBots.add(a.copy()));
+             Or theCopy = new Or( copyBots.toArray(new $anno[0]) );
+
+             //now copy the predicate and all underlying bots on the baseBot
+             theCopy.predicate = this.predicate.and(t->true);
+             theCopy.name = this.name.copy();
+             theCopy.$mvs.forEach(mv -> theCopy.$mvs.add( mv.copy()));
+             return theCopy;
          }
 
          @Override
          public List<String> $list(){
-             return ors.stream().map( $a ->$a.$list() ).flatMap(Collection::stream).collect(Collectors.toList());
+             return $annoBots.stream().map($a ->$a.$list() ).flatMap(Collection::stream).collect(Collectors.toList());
          }
 
          @Override
          public List<String> $listNormalized(){
-             return ors.stream().map( $a ->$a.$listNormalized() ).flatMap(Collection::stream).distinct().collect(Collectors.toList());
+             return $annoBots.stream().map($a ->$a.$listNormalized() ).flatMap(Collection::stream).distinct().collect(Collectors.toList());
          }
 
          @Override
@@ -933,23 +940,32 @@ public class $anno
              StringBuilder sb = new StringBuilder();
              sb.append("$anno.Or{");
              sb.append(System.lineSeparator());
-             ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+             $annoBots.forEach($a -> sb.append( Text.indent($a.toString()) ) );
              sb.append("}");
              return sb.toString();
          }
 
-         /**
-          *
-          * @param astNode
-          * @return
-          */
-          public Select<_anno> select(AnnotationExpr astNode){
-              $anno $a = whichMatch(astNode);
-              if( $a != null ){
-                  return $a.select(astNode);
-              }
-              return null;
-          }
+        /**
+         *
+         * @param _a
+         * @return
+         */
+        public Select<_anno> select(_anno _a){
+            Select commonSelect = super.select(_a);
+            if(  commonSelect == null){
+                return null;
+            }
+            $anno $whichBot = whichMatch(_a);
+            if( $whichBot == null ){
+                return null;
+            }
+            Select whichSelect = $whichBot.select(_a);
+            if( !commonSelect.tokens.isConsistent(whichSelect.tokens)){
+                 return null;
+            }
+            whichSelect.tokens.putAll(commonSelect.tokens);
+            return whichSelect;
+        }
 
           public boolean isMatchAny(){
               return false;
@@ -968,7 +984,7 @@ public class $anno
              if( !this.predicate.test(_anno.of(ae) ) ){
                  return null;
              }
-             Optional<$anno> orsel  = this.ors.stream().filter($p-> $p.match(ae) ).findFirst();
+             Optional<$anno> orsel  = this.$annoBots.stream().filter($p-> $p.match(ae) ).findFirst();
              if( orsel.isPresent() ){
                  return orsel.get();
              }

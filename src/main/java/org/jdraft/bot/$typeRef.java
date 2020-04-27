@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
- * Template for a Java Type {@link Type} Reference
+ * $bot for searching for, inspecting, drafting, and modifying a {@link _typeRef} or {@link Type} Reference
  */
 public class $typeRef
     implements Template<_typeRef>,
@@ -669,16 +669,16 @@ public class $typeRef
      */
     public static class Or extends $typeRef {
 
-        final List<$typeRef>ors = new ArrayList<>();
+        final List<$typeRef> $typeRefBots = new ArrayList<>();
 
         public Or($typeRef...$as){
             super("$typeRef$");
-            Arrays.stream($as).forEach($a -> ors.add($a) );
+            Arrays.stream($as).forEach($a -> $typeRefBots.add($a) );
         }
 
         @Override
         public $typeRef $hardcode(Translator translator, Tokens kvs) {
-            ors.forEach( $a -> $a.$hardcode(translator, kvs));
+            $typeRefBots.forEach($a -> $a.$hardcode(translator, kvs));
             return this;
         }
 
@@ -687,41 +687,38 @@ public class $typeRef
             StringBuilder sb = new StringBuilder();
             sb.append("$typeRef.Or{");
             sb.append(System.lineSeparator());
-            ors.forEach($a -> sb.append( Text.indent($a.toString()) ) );
+            $typeRefBots.forEach($a -> sb.append( Text.indent($a.toString()) ) );
             sb.append("}");
             return sb.toString();
         }
 
-        @Override
-        public Select<_typeRef> select(Node n) {
-            if( n instanceof Type){
-                return select( (Type)n);
-            }
-            return null;
-        }
-
-        @Override
-        public Select<_typeRef> select(String... code) {
-            return select(Types.of(Text.combine(code)));
-        }
-
         /**
          *
-         * @param n
+         * @param _candidate
          * @return
          */
-        public Select<_typeRef> select(_typeRef n){
-            $typeRef $a = whichMatch(n);
-            if( $a != null ){
-                return $a.select(n);
+        public Select<_typeRef> select(_typeRef _candidate){
+            Select commonSelect = super.select(_candidate);
+            if(  commonSelect == null){
+                return null;
             }
-            return null;
+            $typeRef $whichBot = whichMatch(_candidate);
+            if( $whichBot == null ){
+                return null;
+            }
+            Select whichSelect = $whichBot.select(_candidate);
+            if( !commonSelect.tokens.isConsistent(whichSelect.tokens)){
+                return null;
+            }
+            whichSelect.tokens.putAll(commonSelect.tokens);
+            return whichSelect;
         }
 
         public boolean isMatchAny(){
             return false;
         }
 
+        /*
         @Override
         public boolean matches(Node n) {
             return select(n ) != null;
@@ -736,7 +733,9 @@ public class $typeRef
         public $typeRef $not(Predicate<_typeRef> matchFn) {
             return null;
         }
+         */
 
+        /*
         @Override
         public _typeRef firstIn(Class<?> clazz) {
             return firstIn( clazz, t->true );
@@ -751,6 +750,7 @@ public class $typeRef
         public _typeRef firstIn(Node astNode) {
             return null;
         }
+         */
 
         /**
          * Return the underlying $typeRef that matches the Method or null if none of the match
@@ -761,7 +761,7 @@ public class $typeRef
             if( !this.predicate.test(tps ) ){
                 return null;
             }
-            Optional<$typeRef> orsel  = this.ors.stream().filter($p-> $p.matches(tps) ).findFirst();
+            Optional<$typeRef> orsel  = this.$typeRefBots.stream().filter($p-> $p.matches(tps) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();
             }

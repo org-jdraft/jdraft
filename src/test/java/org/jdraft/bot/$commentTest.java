@@ -10,6 +10,13 @@ import java.util.List;
 
 public class $commentTest extends TestCase {
 
+    public void testWithText(){
+        assertTrue($comment.of("with text").matches("// with text"));
+        //assertTrue($comment.of("with text").matches("// before with text and extra"));
+        _blockComment _bc = _blockComment.of(" with some text and other ");
+        assertTrue(_bc.contains("some text"));
+
+    }
     //convert <code>$contents$</code> to {@code $contents}
     public void testCodeConvert() {
         Stencil codeTags = Stencil.of("<code>$contents$</code>");

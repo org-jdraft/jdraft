@@ -747,6 +747,14 @@ public interface _java {
              return getComment() != null;
         }
 
+        default boolean hasComment(boolean hasComment){
+            if( hasComment ){
+                return hasComment();
+            }
+            return !hasComment();
+        }
+
+
         /**
          * Gets the "attributed" comment on the node (or null if there is no comment on this node)
          * @param <_C> the comment type
