@@ -133,6 +133,15 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
             return false;
         }
 
+        public $assertStmt.Or copy(){
+            $assertStmt.Or $copy = $assertStmt.or();
+            $copy.$and(this.predicate);
+            $copy.check = ($expression)this.check.copy();
+            $copy.message = ($expression)this.message.copy();
+            this.$assertStmtBots.forEach( ($a) -> $copy.$assertStmtBots.add($a.copy()));
+            return $copy;
+        }
+
         /**
          * Return the underlying $arrayAccess that matches the _arrayAccess
          * (or null if none of the $arrayAccess match the candidate _arrayAccess)

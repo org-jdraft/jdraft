@@ -49,7 +49,7 @@ public class $boolean implements $bot.$node<BooleanLiteralExpr, _boolean, $boole
     //    return new $boolean().$and(_matchFn);
     //}
 
-    public static $boolean or($boolean...$bs){
+    public static $boolean.Or or($boolean...$bs){
         return new $boolean.Or($bs);
     }
 
@@ -258,6 +258,16 @@ public class $boolean implements $bot.$node<BooleanLiteralExpr, _boolean, $boole
 
         public boolean isMatchAny(){
             return false;
+        }
+
+        public $boolean.Or copy(){
+            $boolean.Or $copy = $boolean.or();
+            $copy.$and(this.predicate);
+            if( stencil != null ) {
+                $copy.stencil = this.stencil.copy();
+            }
+            this.$booleanBots.forEach( ($b) -> $copy.$booleanBots.add($b.copy()));
+            return $copy;
         }
 
         @Override

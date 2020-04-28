@@ -8,6 +8,7 @@ import org.jdraft._arguments;
 import org.jdraft.macro._addImports;
 import org.jdraft.macro._packageName;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -167,11 +168,48 @@ public class $methodCallTest extends TestCase {
     }
 
 
-    public void testOrOv(){
+    public void testMethodCallOr() {
+        //define (2) instances of $methodCall bots
+        $methodCall $a = $methodCall.of().$isInCodeUnit(c -> c instanceof _class);
+        $methodCall $b = $methodCall.of().$isInCodeUnit(c -> c instanceof _interface);
 
+        // build an $methodCall.Or instance with the (2) $methodCall bots {$a,$b}
+        $methodCall.Or $or = $methodCall.or($a, $b);
+
+        //NOTE: the $or instance IS A $methodCall itself, this is done because there may be
+        // some instance that expects a $methodCall, and this will satisfy the requirement
+        $methodCall $mc = $or;
+
+        //here we modify the "base instance", of the $or, we add a constraint that applies physically to
+        //the underlying $or instance (which again IS a $methodCall), so we update it's
+        //predicate, but it can be "thought of" LOGICALLY as applying this constraint to BOTH
+        //individual bots {$a, $b}
+        $or.$isInCodeUnit(c -> c.hasImport(IOException.class));
+        //When we try to select, we ALWAYS FIRST check the base "$or" instances select/match function
+        //here the match/select returns FALSE, because the base constraint (import IOException)
+        //is NOT met, even though one of the individual bots ($a) DOES match all of its constraints
+        assertFalse($or.isIn(_class.of("class C{ long t = System.getTimeMillis(); }")));
+
+        //here the match/select DOES work, because the base constrains (imports IOException) are met,
+        // AND one of the OR constraints match
+        //(here specifically $a, which looks for ANY methodCall that is defined within a _class)
+
+        assertTrue($or.isIn(_class.of("import java.io.IOException;","class C{ long t = System.getTimeMillis(); }")));
+
+        //(here specifically $b, which looks for ANY methodCall that is defined within an _interface)
+        assertTrue($or.isIn(_interface.of("import java.io.IOException;","interface I{ long t = System.getTimeMillis(); }")));
+
+        //this WILL NOT match because neither $a, or $b are true,
+        //even though the common "$or" criteria are met (imports IOException)
+        assertFalse($or.isIn(_enum.of("import java.io.IOException;","enum E{ A; long t = System.getTimeMillis(); }")));
+    }
+
+    public void testOrCommonPredicates(){
+
+        //NOTE:
         $methodCall $or = $methodCall.or($methodCall.of("println"), $methodCall.of("print"))
                 .$and( _mc-> _mc.isScope("System.out") || _mc.isScope("out") )
-                .$and( _mc -> _mc.isArgument(0, e-> e instanceof _int));
+                .$and( _mc -> _mc.isArgument(0, e-> e instanceof _int) );
         class c{
             void m(){
                 System.out.print(1);

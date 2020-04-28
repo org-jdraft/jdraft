@@ -62,6 +62,15 @@ public class $arrayAccess
             return select(candidate) != null;
         }
 
+        public $arrayAccess.Or copy(){
+            $arrayAccess.Or $copy = $arrayAccess.or();
+            $copy.$and(this.predicate);
+            $copy.name = ($expression)this.name.copy();
+            $copy.index = ($expression)this.index.copy();
+            this.$arrayAccessBots.forEach( ($a) -> $copy.$arrayAccessBots.add($a.copy()));
+            return $copy;
+        }
+
         /**
          * Return the underlying $arrayAccess that matches the _arrayAccess
          * (or null if none of the $arrayAccess match the candidate _arrayAccess)
@@ -69,9 +78,6 @@ public class $arrayAccess
          * @return
          */
         public $arrayAccess whichMatch(_arrayAccess candidate){
-            if( !this.predicate.test(candidate ) ){
-                return null;
-            }
             Optional<$arrayAccess> orsel  = this.$arrayAccessBots.stream().filter($p-> $p.matches(candidate) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

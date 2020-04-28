@@ -93,6 +93,7 @@ public class $arguments<N extends Node & NodeWithArguments>
     }
      */
 
+
     public $arguments(_arguments args){
         for(int i=0;i<args.size(); i++){
             argumentList.add( $expression.of(args.getAt(i)));
@@ -359,6 +360,33 @@ public class $arguments<N extends Node & NodeWithArguments>
             Arrays.stream(nms).forEach(n-> $argumentsBots.add(n));
         }
 
+        /*
+        @Override
+        public Select selectFirstIn(Node astNode, Predicate predicate) {
+            return null;
+        }
+
+        @Override
+        public Select select(Object candidate) {
+            return null;
+        }
+         */
+
+        /*
+        @Override
+        public $arguments.Or setPredicate(Predicate<_arguments> predicate) {
+            super.setPredicate(predicate);
+            return this;
+        }
+         */
+
+        /*
+        @Override
+        public Select select(Object candidate) {
+            return null;
+        }
+         */
+
         public boolean isMatchAny(){
             return false;
         }
@@ -380,10 +408,14 @@ public class $arguments<N extends Node & NodeWithArguments>
             return whichMatch(_arguments.of(nwa));
         }
 
+        public List<$arguments> $listOrSelectors() {
+            return this.$argumentsBots;
+        }
+
         /**
          * Return the underlying $arguments that matches the _arguments
          * (or null if none of the $arguments match the candidate _arguments)
-         * @param ae
+         * @param
          * @return
          */
         public $arguments whichMatch(_arguments ae){
@@ -396,6 +428,21 @@ public class $arguments<N extends Node & NodeWithArguments>
             }
             return null;
         }
+
+        public $arguments.Or copy(){
+            $arguments.Or $copy = $arguments.or();
+            $copy.$and(this.predicate);
+            this.argumentList.forEach( ($a)-> $copy.argumentList.add( (($expression)$a).copy()));
+            this.$argumentsBots.forEach( ($a) -> $copy.$argumentsBots.add($a.copy()));
+            return $copy;
+        }
+
+        /*
+        @Override
+        public Select<_arguments> selectFirstIn(Node astNode, Predicate<Select<_arguments>> predicate) {
+            return super.selectFirstIn(astNode, predicate);
+        }
+        */
 
         /**
          *

@@ -875,7 +875,7 @@ public class $anno
      * An Or entity that can match against any of the $bot instances provided
      * NOTE: template features (draft/fill) are supressed.
      */
-    public static class Or extends $anno {
+    public static class Or extends $anno { //implements $selector.$orSelect<_anno, $anno, Or> {
 
          final List<$anno> $annoBots = new ArrayList<>();
 
@@ -896,7 +896,7 @@ public class $anno
              //now copy the predicate and all underlying bots on the baseBot
              theCopy.predicate = this.predicate.and(t->true);
              theCopy.name = this.name.copy();
-             theCopy.$mvs.forEach(mv -> theCopy.$mvs.add( mv.copy()));
+             this.$mvs.forEach(mv -> theCopy.$mvs.add( mv.copy()));
              return theCopy;
          }
 
@@ -967,19 +967,23 @@ public class $anno
             return whichSelect;
         }
 
-          public boolean isMatchAny(){
+         public boolean isMatchAny(){
               return false;
           }
 
-          public $anno whichMatch(_anno _a){
+         public List<$anno> $listOrSelectors() {
+            return this.$annoBots;
+         }
+
+        public $anno whichMatch(_anno _a){
               return whichMatch(_a.ast());
           }
 
-        /**
-         * Return the underlying $anno that matches the AnnotationExpr or null if none of the match
-         * @param ae
-         * @return
-         */
+         /**
+          * Return the underlying $anno that matches the AnnotationExpr or null if none of the match
+          * @param ae
+          * @return
+          */
          public $anno whichMatch(AnnotationExpr ae){
              if( !this.predicate.test(_anno.of(ae) ) ){
                  return null;

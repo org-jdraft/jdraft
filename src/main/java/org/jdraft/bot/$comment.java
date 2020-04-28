@@ -74,12 +74,6 @@ public class $comment implements $bot.$node<Comment, _comment, $comment> {
         return new $comment( Stencil.of(_com.getText()), c-> c instanceof _javadocComment);
     }
 
-    /*
-    public static $comment of( Predicate<_comment> pc){
-        return new $comment(pc);
-    }
-     */
-
     public Predicate<_comment> predicate = t->true;
 
     /** Defines the entire CONTENTS of the comment (i.e. excluding // or other comment designator characters */
@@ -89,13 +83,6 @@ public class $comment implements $bot.$node<Comment, _comment, $comment> {
         this.stencil = null;
         this.predicate = t->true;
     }
-
-    /*
-    public $comment(Predicate<_comment> predicate){
-        this.stencil = null;
-        this.predicate = predicate;
-    }
-     */
 
     public $comment(Stencil stencil){
         this.stencil = stencil;

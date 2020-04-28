@@ -101,14 +101,43 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
         return of(_methodCall.of(code));
     }
 
-    public static $methodCall or( $methodCall...$methodCalls ){
+    public static $methodCall.Or or( $methodCall...$methodCalls ){
         return new Or($methodCalls);
     }
 
     /**
-     * Extends the $methodCall
+     * the internals of what an instance of $methodCall.Or is (by example):
+     *
+     * <PRE>
+     * //define (2) instances of $methodCall bots
+     * $methodCall $a = $methodCall.of().$isInCodeUnit(c-> c instanceof _class);
+     * $methodCall $b = $methodCall.of().$isInCodeUnit(c-> c instanceof _interface);
+     *
+     * // build an $methodCall.Or instance with the (2) $methodCall bots {$a,$b}
+     * $methodCall.Or $or = $methodCall.or($a, $b);
+     *
+     * //NOTE: the $or instance IS A $methodCall itself, this is done because there may be
+     * // some instance that expects a $methodCall, and this will satisfy the requirement
+     * $methodCall $mc = ($methodCall) $mcor;
+     *
+     * //here we modify the "base instance", of the $or, we add a constraint that applies physically to
+     * //the underlying $or instance (which again IS a $methodCall), so we update it's
+     * //predicate, but it can be "thought of" LOGICALLY as applying this constraint to BOTH
+     * //individual bots {$a, $b}
+     * $or.$isInCodeUnit(c-> c.importsClass(IOException.class));
+     *
+     * //When we try to select, we ALWAYS FIRST check the base "$or" instances select/match function
+     * //here the match/select returns FALSE, because the base constraint (import IOException)
+     * //is NOT met, even though one of the individual bots ($a) DOES match all of its constraints
+     * assertFalse($or.isIn("class C{ long t = System.getTimeMillis(); }"));
+     *
+     * //here the match/select DOES work, because the base constrains (imports IOException) are met,
+     * // AND one of the OR constraints match
+     * (here specifically $a, which looks for ANY methodCall that is defined within a _class)
+     * assertTrue($or.IsIn("import java.io.IOException;","class C{ long t = System.getTimeMillis(); }");
+     * </PRE>
      */
-    public static class Or extends $methodCall { //implements $orBot<MethodCallExpr, _methodCall, $methodCall> {
+    public static class Or extends $methodCall implements $selector.$orSelect<_methodCall, $methodCall, Or> {
 
          public List<$methodCall> $methodCallBots = new ArrayList<>();
 
@@ -116,22 +145,13 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
              Arrays.stream($mcs).forEach(m -> $methodCallBots.add(m));
          }
 
-         public List<$methodCall> listEach(){
-              return $methodCallBots;
-         }
-
-         public String toString(){
-            StringBuilder sb = new StringBuilder();
-            sb.append( "$methodCall.Or{").append(System.lineSeparator());
-            for(int i = 0; i< listEach().size(); i++){
-                sb.append( Text.indent( this.listEach().get(i).toString()) );
-            }
-            sb.append("}");
-            return sb.toString();
+        @Override
+        public List<$methodCall> $listOrSelectors() {
+            return $methodCallBots;
         }
 
          public $methodCall.Or copy(){
-             Or or = new Or(listEach().toArray(new $methodCall[0]));
+             Or or = new Or($listOrSelectors().toArray(new $methodCall[0]));
              or.$and( this.predicate.and(t->true) );
              //I need to port over all of the common things
              or.scope = ($expression)this.scope.copy();
@@ -140,20 +160,6 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
              or.arguments = this.arguments.copy();
              return or;
          }
-
-        /**
-         * Return the underlying $arguments that matches the _arguments
-         * (or null if none of the $arguments match the candidate _arguments)
-         * @param candidate
-         * @return
-         */
-        public $methodCall whichMatch(_methodCall candidate){
-            Optional<$methodCall> orsel  = listEach().stream().filter($p-> $p.matches( candidate ) ).findFirst();
-            if( orsel.isPresent() ){
-                return orsel.get();
-            }
-            return null;
-        }
 
          public Select<_methodCall> select(_methodCall _candidate){
              Select commonSelect = super.select(_candidate);
@@ -171,6 +177,16 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
              whichSelect.tokens.putAll(commonSelect.tokens);
              return whichSelect;
          }
+
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append( "$methodCall.Or{").append(System.lineSeparator());
+            for(int i = 0; i< $listOrSelectors().size(); i++){
+                sb.append( Text.indent( this.$listOrSelectors().get(i).toString()) );
+            }
+            sb.append("}");
+            return sb.toString();
+        }
     }
 
     private static $methodCall addParts( $methodCall $mc, $part...parts ){

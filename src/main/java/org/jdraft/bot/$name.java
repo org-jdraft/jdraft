@@ -8,10 +8,7 @@ import com.github.javaparser.ast.expr.SimpleName;
 import org.jdraft._jdraftException;
 import org.jdraft._methodCall;
 import org.jdraft._name;
-import org.jdraft.text.Stencil;
-import org.jdraft.text.Template;
-import org.jdraft.text.Tokens;
-import org.jdraft.text.Translator;
+import org.jdraft.text.*;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -496,6 +493,20 @@ public class $name implements $bot<Node, _name, $name>,
                 return orsel.get();
             }
             return null;
+        }
+
+        public List<$name> listBots(){
+            return this.$nameBots;
+        }
+
+        public String toString(){
+            StringBuilder sb = new StringBuilder();
+            sb.append( "$name.Or{").append(System.lineSeparator());
+            for(int i = 0; i< listBots().size(); i++){
+                sb.append( Text.indent( this.listBots().get(i).toString()) );
+            }
+            sb.append("}");
+            return sb.toString();
         }
     }
 

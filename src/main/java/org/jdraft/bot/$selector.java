@@ -10,7 +10,9 @@ import org.jdraft.*;
 import org.jdraft.text.Stencil;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
@@ -251,8 +253,6 @@ public interface $selector<_S, $S> {
             return false;
         });
     }
-
-
 
     /**
      * Verifies that the candidates' containing type matches one of the provided $typeSelectors
@@ -608,6 +608,64 @@ public interface $selector<_S, $S> {
         default boolean matches(Node n) {
             return select(n) != null;
         }
+    }
+
+
+    /**
+     *
+     */
+    interface $orSelect<$S extends $selector, $O extends $orSelect> {
+
+        /**
+         * lists the individual Or {@link $bot}s that make up the $orBot
+         * @return
+         */
+        List<$S> $listOrSelectors();
+
+        default $O forOrSelectors(Consumer<$S> $botActionFn ){
+            $listOrSelectors().forEach($botActionFn);
+            return ($O) this;
+        }
+
+        /**
+         * Return the underlying $arrayAccess that matches the _arrayAccess
+         * (or null if none of the $arrayAccess match the candidate _arrayAccess)
+         * @param candidate
+         * @return
+
+        default $S whichMatch(_C candidate){
+            Optional<$S> orsel  = $listOrSelectors().stream().filter($p-> $p.matches(candidate) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
+        */
+
+        /**
+         *
+         * @param _candidate
+         * @return
+
+        default Select<_C> select(_C _candidate){
+            //this calls super.select()... to verify the baseOr (shared predicate/properties) are met
+            Select commonSelect = baseSelect(_candidate);
+            if(  commonSelect == null){
+                return null;
+            }
+            $S $whichBot = whichMatch(_candidate);
+            if( $whichBot == null ){
+                return null;
+            }
+            Select whichSelect = $whichBot.select(_candidate);
+            if(!commonSelect.tokens.isConsistent(whichSelect.tokens)){
+                return null;
+            }
+            whichSelect.tokens.putAll(commonSelect.tokens);
+            return whichSelect;
+        }
+        */
+
     }
 
 }

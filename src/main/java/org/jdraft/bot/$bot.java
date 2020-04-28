@@ -144,12 +144,134 @@ public interface $bot<B, _B, $B>
 
     /* ---------------------------------------------Queries ---------------------------------------------- */
 
+    /**
+     * @param _bs the array of batches to search through
+     * @return the first instance found or null if not found
+     */
+    default boolean isIn(_batch... _bs) {
+        return isIn(t->true, _bs);
+    }
+
+    /**
+     * find and return the first matching instance (or null if not found)
+     * TODO I COULD do some kinda fork join stuff, but for now, just sequential
+     * @param _matchFn match function to apply (in addition to the $bot)
+     * @param _batches the batches to load code from
+     * @return the first instance of the predicate
+     */
+    default boolean isIn(Predicate<_B> _matchFn, _batch... _batches) {
+        for(int i=0;i<_batches.length; i++){
+            _codeUnits _cus = _batches[i].load();
+            _B _f = firstIn(_cus, _matchFn);
+            if( _f != null ){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * find and return the first matching instance (or null if not found)
+     * @param _cus
+     * @return
+     */
+    default boolean isIn(_codeUnits _cus) {
+        return firstIn(_cus, t->true) != null;
+    }
+
+    /**
+     * find and return the first matching instance (or null if not found)
+     * @param _cus
+     * @param matchFn
+     * @return
+     */
+    default boolean isIn(_codeUnits _cus, Predicate<_B> matchFn) {
+        Optional<_codeUnit> ocu =
+                _cus.stream().filter(_cu -> firstIn(_cu.astCompilationUnit(), matchFn) != null).findFirst();
+        if( ocu.isPresent() ){ //I foudn the matching CompilationUnit, now return the underlying first
+            if(firstIn( ocu.get().astCompilationUnit() ) != null){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * find and return the first matching instance (or null if not found)
+     * @param clazz
+     * @return
+     */
+    default boolean isIn(Class<?> clazz) {
+        return isIn(clazz, p->true);
+    }
+
+    /**
+     * find and return the first matching instance (or null if not found)
+     * @param clazz
+     * @param matchFn
+     * @return
+     */
+    default boolean isIn(Class<?> clazz, Predicate<_B> matchFn) {
+        return isIn( Ast.of(clazz), matchFn);
+    }
+
+    /**
+     * find and return the first matching instance (or null if not found)
+     * @param astNode
+     * @return
+     */
+    default boolean isIn(Node astNode) {
+        return isIn(astNode, p->true);
+    }
+
+    /**
+     * Returns the first Expression that matches the pattern and constraint
+     * @param astNode the node to look through
+     * @param matchFn
+     * @return  the first Expression that matches (or null if none found)
+     */
+    default boolean isIn(Node astNode, Predicate<_B> matchFn) {
+        Select<_B> sel = selectFirstIn(astNode, (s)-> matchFn.test(s.get()));
+        if( sel != null ) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * find and return the first matching instance (or null if not found)
+     * @param _n the _jdraft node instance
+     * @return
+     */
+    default boolean isIn(_java._node _n) {
+        return isIn(_n, p->true);
+    }
+
+    /**
+     * Returns the first Expression that matches the pattern and constraint
+     * @param _n the _jdraft node instance
+     * @param matchFn
+     * @return  the first Expression that matches (or null if none found)
+     */
+    default boolean isIn(_java._node _n, Predicate<_B> matchFn) {
+        Select<_B> sel = selectFirstIn(_n, (s)-> matchFn.test(s.get()));
+        if( sel != null ) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+
+     * @param _bs the array of batches to search through
+     * @return the first instance found or null if not found
+     */
     default _B firstIn(_batch... _bs) {
         return firstIn(t->true, _bs);
     }
 
     /**
-     *
+     * find and return the first matching instance (or null if not found)
      * TODO I COULD do some kinda fork join stuff, but for now, just sequential
      * @param _matchFn match function to apply (in addition to the $bot)
      * @param _batches the batches to load code from
@@ -167,7 +289,7 @@ public interface $bot<B, _B, $B>
     }
 
     /**
-     * retrieves the first within the codeUnit provider
+     * find and return the first matching instance (or null if not found)
      * @param _cus
      * @return
      */
@@ -176,7 +298,7 @@ public interface $bot<B, _B, $B>
     }
 
     /**
-     *
+     * find and return the first matching instance (or null if not found)
      * @param _cus
      * @param matchFn
      * @return
@@ -190,18 +312,27 @@ public interface $bot<B, _B, $B>
         return null;
     }
 
-    /** */
+    /**
+     * find and return the first matching instance (or null if not found)
+     * @param clazz
+     * @return
+     */
     default _B firstIn(Class<?> clazz) {
         return firstIn(clazz, p->true);
     }
 
-    /** */
+    /**
+     * find and return the first matching instance (or null if not found)
+     * @param clazz
+     * @param matchFn
+     * @return
+     */
     default _B firstIn(Class<?> clazz, Predicate<_B> matchFn) {
         return firstIn( Ast.of(clazz), matchFn);
     }
 
     /**
-     *
+     * find and return the first matching instance (or null if not found)
      * @param astNode
      * @return
      */
@@ -217,6 +348,29 @@ public interface $bot<B, _B, $B>
      */
     default _B firstIn(Node astNode, Predicate<_B> matchFn) {
         Select<_B> sel = selectFirstIn(astNode, (s)-> matchFn.test(s.get()));
+        if( sel != null ) {
+            return sel.selection;
+        }
+        return null;
+    }
+
+    /**
+     * find and return the first matching instance (or null if not found)
+     * @param _n the node to look through
+     * @return
+     */
+    default _B firstIn(_java._node _n) {
+        return firstIn(_n, p->true);
+    }
+
+    /**
+     * Returns the first Expression that matches the pattern and constraint
+     * @param _n the node to look through
+     * @param matchFn
+     * @return  the first Expression that matches (or null if none found)
+     */
+    default _B firstIn(_java._node _n, Predicate<_B> matchFn) {
+        Select<_B> sel = selectFirstIn(_n, (s)-> matchFn.test(s.get()));
         if( sel != null ) {
             return sel.selection;
         }
@@ -717,6 +871,7 @@ public interface $bot<B, _B, $B>
     default Stream<_B> streamIn(Node astNode, Predicate<_B> matchFn){
         return listIn(astNode, matchFn).stream();
     }
+
 
     /**
      * a bot that can interact with a composite syntax with other (nested) bots for it's individual parts
