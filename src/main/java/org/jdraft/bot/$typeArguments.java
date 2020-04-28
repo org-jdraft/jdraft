@@ -276,6 +276,14 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
             return select(nwa) != null;
         }
 
+        public $typeArguments.Or copy(){
+            Or or = new Or();
+            or.predicate = this.predicate.and(t->true);
+            this.$typeArgumentsList.forEach( e-> or.$typeArgumentsList.add(e.copy()));
+            this.list.forEach( e-> or.list.add( (($expression)e).copy()));
+            return or;
+        }
+
         public Select<_typeArguments> select(NodeWithTypeArguments nwas){
             return select( _typeArguments.of(nwas) );
         }

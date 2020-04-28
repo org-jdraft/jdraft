@@ -137,7 +137,7 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
      * assertTrue($or.IsIn("import java.io.IOException;","class C{ long t = System.getTimeMillis(); }");
      * </PRE>
      */
-    public static class Or extends $methodCall implements $selector.$orSelect<_methodCall, $methodCall, Or> {
+    public static class Or extends $methodCall {
 
          public List<$methodCall> $methodCallBots = new ArrayList<>();
 
@@ -145,7 +145,6 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
              Arrays.stream($mcs).forEach(m -> $methodCallBots.add(m));
          }
 
-        @Override
         public List<$methodCall> $listOrSelectors() {
             return $methodCallBots;
         }
@@ -177,6 +176,20 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
              whichSelect.tokens.putAll(commonSelect.tokens);
              return whichSelect;
          }
+
+        /**
+         * Return the underlying $arguments that matches the _arguments
+         * (or null if none of the $arguments match the candidate _arguments)
+         * @param candidate
+         * @return
+         */
+        public $methodCall whichMatch(_methodCall candidate){
+            Optional<$methodCall> orsel  = this.$methodCallBots.stream().filter($p-> $p.matches( candidate ) ).findFirst();
+            if( orsel.isPresent() ){
+                return orsel.get();
+            }
+            return null;
+        }
 
         public String toString(){
             StringBuilder sb = new StringBuilder();

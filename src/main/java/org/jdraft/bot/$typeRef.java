@@ -676,6 +676,13 @@ public class $typeRef
             Arrays.stream($as).forEach($a -> $typeRefBots.add($a) );
         }
 
+        public Or copy(){
+            Or or = new Or();
+            or.type = this.type.clone();
+            this.$typeRefBots.forEach( b-> or.$typeRefBots.add(b.copy()));
+            return or;
+        }
+
         @Override
         public $typeRef $hardcode(Translator translator, Tokens kvs) {
             $typeRefBots.forEach($a -> $a.$hardcode(translator, kvs));
@@ -717,40 +724,6 @@ public class $typeRef
         public boolean isMatchAny(){
             return false;
         }
-
-        /*
-        @Override
-        public boolean matches(Node n) {
-            return select(n ) != null;
-        }
-
-        @Override
-        public boolean matches(String... code) {
-            return select(code) != null;
-        }
-
-        @Override
-        public $typeRef $not(Predicate<_typeRef> matchFn) {
-            return null;
-        }
-         */
-
-        /*
-        @Override
-        public _typeRef firstIn(Class<?> clazz) {
-            return firstIn( clazz, t->true );
-        }
-
-        @Override
-        public _typeRef firstIn(Class<?> clazz, Predicate<_typeRef> matchFn) {
-            return firstIn( Ast.of(clazz), matchFn);
-        }
-
-        @Override
-        public _typeRef firstIn(Node astNode) {
-            return null;
-        }
-         */
 
         /**
          * Return the underlying $typeRef that matches the Method or null if none of the match

@@ -540,6 +540,29 @@ public class $ref implements $bot<Node, _java._node, $ref>,
             return false;
         }
 
+        public $ref.Or copy(){
+            $ref.Or or = new $ref.Or();
+            or.$and( this.predicate );
+
+            this.$refBots.forEach( e-> or.$refBots.add( e.copy() ) );
+            if( this.stencil != null ) {
+                or.stencil = this.stencil.copy();
+            }
+            or.matchAnnoMemberValueNames = this.matchAnnoMemberValueNames;
+            or.matchAnnoNames = this.matchAnnoNames;
+            or.matchConstructorNames = this.matchConstructorNames;
+            or.matchImports = this.matchImports;
+            or.matchMethodNames = this.matchMethodNames;
+            or.matchMethodReferences = this.matchMethodReferences;
+            or.matchPackageNames = this.matchPackageNames;
+            or.matchParameterNames = this.matchParameterNames;
+            or.matchTypeDeclarationNames = this.matchTypeDeclarationNames;
+            or.matchTypeRefNames = this.matchTypeRefNames;
+            or.matchVariableNames = this.matchVariableNames;
+
+            return or;
+        }
+
         @Override
         public Select<_java._node> select(_java._node _candidate) {
             Select commonSelect = super.select(_candidate);
