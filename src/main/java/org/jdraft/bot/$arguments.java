@@ -360,33 +360,6 @@ public class $arguments<N extends Node & NodeWithArguments>
             Arrays.stream(nms).forEach(n-> $argumentsBots.add(n));
         }
 
-        /*
-        @Override
-        public Select selectFirstIn(Node astNode, Predicate predicate) {
-            return null;
-        }
-
-        @Override
-        public Select select(Object candidate) {
-            return null;
-        }
-         */
-
-        /*
-        @Override
-        public $arguments.Or setPredicate(Predicate<_arguments> predicate) {
-            super.setPredicate(predicate);
-            return this;
-        }
-         */
-
-        /*
-        @Override
-        public Select select(Object candidate) {
-            return null;
-        }
-         */
-
         public boolean isMatchAny(){
             return false;
         }
@@ -436,13 +409,6 @@ public class $arguments<N extends Node & NodeWithArguments>
             this.$argumentsBots.forEach( ($a) -> $copy.$argumentsBots.add($a.copy()));
             return $copy;
         }
-
-        /*
-        @Override
-        public Select<_arguments> selectFirstIn(Node astNode, Predicate<Select<_arguments>> predicate) {
-            return super.selectFirstIn(astNode, predicate);
-        }
-        */
 
         /**
          *
