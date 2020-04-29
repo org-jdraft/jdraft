@@ -2,6 +2,8 @@ package org.jdraft;
 
 import junit.framework.TestCase;
 
+import java.util.Set;
+
 public class _nameTest extends TestCase {
 
     public void testTypeRef(){
@@ -23,10 +25,10 @@ public class _nameTest extends TestCase {
     }
 
     public void testIsTypeName(){
-        assertTrue( _name.of( _class.of("F").getNameNode()).isTypeDeclarationName() );
-        assertTrue( _name.of( _interface.of("F").getNameNode()).isTypeDeclarationName() );
-        assertTrue( _name.of( _enum.of("F").getNameNode()).isTypeDeclarationName() );
-        assertTrue( _name.of( _annotation.of("F").getNameNode()).isTypeDeclarationName() );
+        assertTrue( _name.of( _class.of("F").getNameNode()).isTypeName() );
+        assertTrue( _name.of( _interface.of("F").getNameNode()).isTypeName() );
+        assertTrue( _name.of( _enum.of("F").getNameNode()).isTypeName() );
+        assertTrue( _name.of( _annotation.of("F").getNameNode()).isTypeName() );
     }
 
     public void testMethodName(){
@@ -35,15 +37,30 @@ public class _nameTest extends TestCase {
 
         _methodCall _mc = _methodCall.of("m()");
         assertTrue( _name.of(_mc.getNameNode()).isMethodName() );
-
     }
+
     public void testNameIs(){
 
         _name _n = _name.of( _import.of("aaaa.bbbb.C").astId.getName() );
+        Set<_name.Use> use = _n.getUse();
+        assertTrue(use.contains(_name.Use.IMPORT));
+        assertTrue(use.size() == 1);
         assertTrue(_n.isImportName());       //name of an import "aaaa" or "B" in "import aaaa.B;"
+        assertFalse(_n.isLabelName());
+        assertFalse(_n.isBreakLabelName());
+        assertFalse(_n.isContinueLabelName());
+        assertFalse(_n.isLabelStatementLabelName());
+        assertFalse(_n.isClassName());
+        assertFalse(_n.isEnumName());
+        assertFalse(_n.isInterfaceName());
+        assertFalse(_n.isAnnotationName());
+
+        assertFalse(_n.isAnnotationElementName());
+        assertFalse(_n.isEnumConstantName());
+
         assertFalse(_n.isMethodReference()); //name of a MethodReference "A" and "B" in "A::B"
         assertFalse(_n.isPackageName());     //name of a package "aaaa", "bbbb" in "package aaaa.bbbb;"
-        assertFalse(_n.isTypeDeclarationName());        //name of a TypeDeclaration "c" in "class C{}"
+        assertFalse(_n.isTypeName());        //name of a TypeDeclaration "c" in "class C{}"
         assertFalse(_n.isTypeRefName());     //name of a Type reference "Integer" in "Integer i;"
 
         assertFalse(_n.isVariableName());    //name of a variable "x" in "int x"
@@ -58,7 +75,7 @@ public class _nameTest extends TestCase {
 
         assertTrue( _name.of( _methodRef.of("A::B").ast() ).isMethodReference());
         assertTrue( _name.of( Ast.packageDeclaration("package aaaa.bbbb").getName() ).isPackageName() );
-        assertTrue( _name.of( Ast.typeDecl("class C{}").asClassOrInterfaceDeclaration().getName() ).isTypeDeclarationName() );
+        assertTrue( _name.of( Ast.typeDecl("class C{}").asClassOrInterfaceDeclaration().getName() ).isTypeName() );
         assertTrue( _name.of( Types.of("C").asClassOrInterfaceType().getName() ).isTypeRefName() );
 
         assertTrue( _name.of( Ast.varDecl("int i").getName() ).isVariableName() );

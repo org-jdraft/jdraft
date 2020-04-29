@@ -754,6 +754,25 @@ public interface _java {
             return !hasComment();
         }
 
+        /**
+         * removes the attributed comment
+         * @return the modified _node
+         */
+        default _N removeComment(){
+            ast().removeComment();
+            return (_N)this;
+        }
+
+        /**
+         * sets the attributed comment to this _node and returns the modified node
+         * @param _c the
+         * @return
+         */
+        default <_C extends _comment> _N setComment(_C _c){
+            N n = ast();
+            n.setComment((Comment)_c.ast());
+            return (_N)this;
+        }
 
         /**
          * Gets the "attributed" comment on the node (or null if there is no comment on this node)

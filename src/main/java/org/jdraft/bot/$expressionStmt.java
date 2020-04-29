@@ -21,7 +21,9 @@ import java.util.stream.Collectors;
  */
 public class $expressionStmt implements $bot.$node<ExpressionStmt, _expressionStmt, $expressionStmt>,
         $selector.$node<_expressionStmt, $expressionStmt>,
-        $statement<ExpressionStmt, _expressionStmt, $expressionStmt> {
+        $statement<ExpressionStmt, _expressionStmt, $expressionStmt>, $bot.$withComment<$expressionStmt> {
+
+
 
     public interface $part{}
 
@@ -93,11 +95,27 @@ public class $expressionStmt implements $bot.$node<ExpressionStmt, _expressionSt
 
     public $expression expression = $expression.of();
 
+    public $comment comment = null;
+
     public $expressionStmt() { }
+
+    @Override
+    public $comment get$Comment() {
+        return comment;
+    }
+
+    @Override
+    public $expressionStmt $hasComment($comment $c) {
+        this.comment = $c;
+        return this;
+    }
 
     @Override
     public $expressionStmt $hardcode(Translator translator, Tokens kvs) {
         this.expression.$hardcode(translator, kvs);
+        if( this.comment != null ){
+            this.comment.$hardcode(translator, kvs);
+        }
         return this;
     }
 
@@ -174,15 +192,32 @@ public class $expressionStmt implements $bot.$node<ExpressionStmt, _expressionSt
         if( ! this.predicate.test(_r)){
             return null;
         }
+
         Select s = this.expression.select( _r.getExpression() );
         if( s == null ){
             return null;
+        }
+        if( this.comment != null ){
+            Select c = null;
+            try {
+                c = this.comment.select((_comment) _r.getComment());
+            }catch(Exception e){
+                return null;
+            }
+            if( c == null || !c.tokens.isConsistent(s.tokens)){
+                return null;
+            }
+            s.tokens.putAll(c.tokens);
         }
         return new Select<>(_r, s.tokens);
     }
 
     public _expressionStmt draft(Translator tr, Map<String,Object> keyValues){
+
         _expressionStmt _es = _expressionStmt.of();
+        if( this.comment != null ){
+            _es.setComment(this.comment.draft(tr, keyValues));
+        }
         if( !this.expression.isMatchAny() ){
             _es.setExpression( (_expression)this.expression.draft(tr, keyValues) );
         }
@@ -195,19 +230,29 @@ public class $expressionStmt implements $bot.$node<ExpressionStmt, _expressionSt
     @Override
     public $expressionStmt $(String target, String $Name) {
         this.expression.$(target, $Name);
+        if( this.comment != null ){
+            this.comment.$(target, $Name);
+        }
         return this;
     }
 
     @Override
     public List<String> $list() {
         List<String> ps = new ArrayList<>();
+        if( this.comment != null ){
+            ps.addAll( this.comment.$list() );
+        }
         ps.addAll( this.expression.$list());
+
         return ps;
     }
 
     @Override
     public List<String> $listNormalized() {
         List<String> ps = new ArrayList<>();
+        if( this.comment != null ){
+            ps.addAll( this.comment.$listNormalized() );
+        }
         ps.addAll( this.expression.$listNormalized());
         return ps.stream().distinct().collect(Collectors.toList());
     }

@@ -18,6 +18,40 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class $nameTest extends TestCase {
 
+    public void test() {
+        assertEquals(0, $name.startsWith("pre").$exclude(_name.Use.IMPORT).countIn(_import.of("pre")));
+    }
+    public void testStartsWith(){
+        assertFalse($name.startsWith( "pre").matches("pr"));
+
+        assertTrue($name.startsWith( "pre").matches("pre"));
+        assertFalse($name.startsWith( "pre").matches("Pre")); //case sensistive
+        assertTrue($name.startsWith( "pre").matches("preOrder"));
+        assertFalse($name.startsWith( "pre").matches("PreOrder"));
+    }
+
+    public void testEndsWith(){
+        assertFalse($name.endsWith( "Post").matches("pos"));
+        assertFalse($name.endsWith( "Post").matches("ost"));
+
+        assertTrue($name.endsWith( "Post").matches("Post")); //exact
+
+        assertFalse($name.endsWith( "Post").matches("post")); //case sensistive
+        assertTrue($name.endsWith( "Post").matches("isPost"));
+        assertFalse($name.endsWith( "Post").matches("Poster"));
+    }
+
+    public void testContains(){
+        assertTrue( $name.contains("contain").matches("contain"));
+        assertTrue( $name.contains("contain").matches("b4contain"));
+        assertTrue( $name.contains("contain").matches("containAfter"));
+        assertTrue( $name.contains("contain").matches("b4containAfter"));
+
+        assertFalse( $name.contains("contain").matches("Contain"));
+        assertFalse( $name.contains("contain").matches("CONTAIN"));
+        assertFalse( $name.contains("contain").matches("contMIDDLEain"));
+
+    }
     /* move this use case to _qualifiedName for the time being
     public void testFullyQualified(){
         class C{
@@ -42,7 +76,11 @@ public class $nameTest extends TestCase {
     public void testGenerics(){
 
         class B<I extends Serializable>{ }
+        //Print.tree(B.class);
+        assertEquals(0, $name.of("B").$exclude(_name.Use.CLASS_NAME).countIn(B.class));
         assertEquals(1, $name.of("B").countIn(B.class));
+
+
         assertEquals(1, $name.of("I").countIn(B.class));
         assertEquals(1, $name.of("Serializable").countIn(B.class));
 
@@ -98,7 +136,7 @@ public class $nameTest extends TestCase {
         Print.tree(_class.of(G.class).astCompilationUnit());
 
         _class _c = _class.of(G.class);
-        assertTrue( _name.of(_c.getNameNode()).isTypeDeclarationName() );
+        assertTrue( _name.of(_c.getNameNode()).isTypeName() );
 
         assertEquals(0, $name.of("lang").$matchPackageNames(false).countIn(G.class));
 
@@ -129,10 +167,16 @@ public class $nameTest extends TestCase {
         assertTrue( _i.is("aaaa.HEY.C;"));
         assertTrue( _i.is("import aaaa.HEY.C;"));
         */
+
+
         @_packageName("base.sub.end")
         class V{
             java.lang.String s = new java.lang.String();
         }
+
+        Print.tree(V.class);
+        assertEquals(1, $name.of("base$any$")//.$matchInnerPackages()
+                .countIn(V.class));
 
         _class _c = _class.of(V.class);
         System.out.println( _c );
@@ -146,8 +190,7 @@ public class $nameTest extends TestCase {
                 .countIn(_c));
 
         //"parts" of an import
-        assertEquals(1, $name.of("base$any$")//.$matchInnerPackages()
-                .countIn(V.class));
+
         assertEquals(1, $name.of("$before$sub$after$")//.$matchInnerPackages()
                 .countIn(_c));
         assertEquals(1, $name.of("$before$end")//.$matchInnerPackages()

@@ -215,6 +215,11 @@ public class $ref implements $bot<Node, _java._node, $ref>,
         return select( on.get());
     }
 
+    //these need to go into $ref
+    //matchTypeArguments
+    //matchTypeParameters
+    //matchThrows
+    
     public Boolean matchConstructorNames = true;
 
     public $ref $matchConstructorNames(Boolean b){

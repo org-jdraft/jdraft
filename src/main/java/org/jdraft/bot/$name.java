@@ -5,8 +5,9 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MethodReferenceExpr;
 import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.expr.SimpleName;
+import com.github.javaparser.printer.ASCIITreePrinter;
+import org.jdraft.Print;
 import org.jdraft._jdraftException;
-import org.jdraft._methodCall;
 import org.jdraft._name;
 import org.jdraft.text.*;
 
@@ -29,18 +30,30 @@ public class $name implements $bot<Node, _name, $name>,
         return new $name(stencil);
     }
 
+    public static $name startsWith(String text ){
+        return of( text+"$after$");
+    }
+
+    public static $name endsWith(String text){
+        return of( "$before$"+text);
+    }
+
+    public static $name contains( String text ){
+        return of("$before$"+text+"$after$");
+    }
+
     public static $name of( Stencil stencil ){
         return new $name(stencil);
     }
 
-    /*
-    public static $name of( Predicate<_name> matchFn){
-        return new $name().$and(matchFn);
-    }
-     */
-
     /** the pattern of the name*/
     public Stencil stencil = null;
+
+    /**
+     * Rather than tracking When the can be matched, we track only when we want to exclude matching based on use,
+     * by default we ALWAYS MATCH regardless of use, here we can define when we DONT MATCH by explicitly saying.
+     */
+    public Set<_name.Use> excludedUses = new HashSet<>();
 
     /**  */
     public Predicate<_name> predicate = t -> true;
@@ -64,14 +77,70 @@ public class $name implements $bot<Node, _name, $name>,
                 stencil.getTextForm().getFixedText().indexOf('.') >= 0;
     }
 
+    public $name $exclude(_name.Use... usages ){
+        Arrays.stream(usages).forEach(e -> this.excludedUses.add( e ) );
+        return this;
+    }
+
+    public $name $include(_name.Use... usages ){
+        Arrays.stream(usages).forEach(e -> this.excludedUses.remove( e ) );
+        return this;
+    }
+
     /** build another mutable copy of this bot */
     public $name copy(){
         $name copy = of().$and(this.predicate.and(t->true));
         if(this.stencil != null ){
             copy.stencil = Stencil.of( this.stencil );
         }
+        this.excludedUses.forEach(e -> copy.excludedUses.add(e));
+        /*
+        copy.matchAnnoNames =this.matchAnnoNames;
+        copy.matchAnnotationElementNames = this.matchAnnotationElementNames;
+        copy.matchAnnotationNames = this.matchAnnotationNames;
+        copy.matchAnnoMemberValueNames = this.matchAnnoMemberValueNames;
+
+        copy.matchClassNames = this.matchClassNames;
+        copy.matchConstructorNames = this.matchConstructorNames;
+
+        copy.matchEnumConstantNames = this.matchEnumConstantNames;
+        copy.matchEnumNames = this.matchEnumNames;
+
+
+        copy.matchImports = this.matchImports;
+        copy.matchLabels = this.matchLabels;
+        copy.matchMethodNames = this.matchMethodNames;
+        copy.matchMethodReferences = this.matchMethodReferences;
+        copy.matchPackageNames = this.matchPackageNames;
+        copy.matchParameterNames = this.matchParameterNames;
+        copy.matchTypeDeclarationNames = this.matchTypeDeclarationNames;
+        copy.matchTypeRefNames = this.matchTypeRefNames;
+        copy.matchVariableNames = this.matchVariableNames;
+        */
         return copy;
     }
+
+    /**
+     * Verify that the matching name is NOT used in the provided ways
+     * @param nameUses
+     * @return
+
+    public $name $not(_name.Use...nameUses ){
+        Arrays.stream(nameUses).forEach(e-> this.excludedUses.add(e));
+        return this;
+    }
+    */
+
+    /**
+     * Verify that the matching name is NOT used in the provided ways
+     * @param nameUses
+     * @return
+
+    public $name $and(_name.Use...nameUses ){
+        Arrays.stream(nameUses).forEach(e-> this.excludedUses.remove(e));
+        return this;
+    }
+    */
 
     public Predicate<_name> getPredicate(){
         return this.predicate;
@@ -87,11 +156,15 @@ public class $name implements $bot<Node, _name, $name>,
     public boolean isMatchAny() {
         if( stencil == null ){
             try{
-                return predicate.test(null) && this.matchAnnoNames && this.matchAnnoMemberValueNames
-                        && this.matchImports && this.matchMethodNames && this.matchMethodReferences
-                        && this.matchPackageNames && this.matchParameterNames && this.matchTypeDeclarationNames
-                        && this.matchTypeRefNames && this.matchVariableNames;
-            } catch(Exception e){ }
+                return this.excludedUses.isEmpty() && predicate.test(null);
+                //this.matchAnnoNames && this.matchAnnoMemberValueNames
+                //        && this.matchImports && this.matchMethodNames && this.matchMethodReferences
+                //        && this.matchPackageNames && this.matchParameterNames && this.matchTypeDeclarationNames
+                //        && this.matchTypeRefNames && this.matchVariableNames && matchEnumConstantNames;
+            } catch(Exception e){
+                System.out.println( "Failed predicate test ");
+                return false;
+            }
         }
         return false;
     }
@@ -140,85 +213,280 @@ public class $name implements $bot<Node, _name, $name>,
         return select( on.get());
     }
 
-    //matchTypeArguments
-    //matchTypeParameters
-    //matchThrows
-    //matchAnnos
-    
-    public boolean matchConstructorNames = true;
+    //public Set<_name.Use> excludedUses = new HashSet<>();
 
-    public $name $matchConstructorNames( boolean b){
-        this.matchConstructorNames = b;
+    /** Is this name being used as "part" or a whole _annotation/AnnotationDeclaration name i.e. "A" within "@interface A{}" */
+    //public boolean matchAnnotationNames = true;
+
+    public $name $matchAnnotationNames(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.ANNOTATION_NAME);
+        } else{
+            excludedUses.add(_name.Use.ANNOTATION_NAME);
+        }
         return this;
     }
 
-    public boolean matchMethodNames = true;
+    /** Is this name being used as "part" or a whole _annotation._element/AnnotationMemberDeclaration name */
+    //public boolean matchAnnotationElementNames = true;
 
-    public $name $matchMethodNames( boolean b){
-        this.matchMethodNames = b;
+    public $name $matchAnnotationElementNames(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.ANNOTATION_ELEMENT_NAME);
+        } else{
+            excludedUses.add(_name.Use.ANNOTATION_ELEMENT_NAME);
+        }
         return this;
-    }
-    public boolean matchImports = true;
-
-    public $name $matchImports(boolean b){
-        this.matchImports = b;
-        return this;
-    }
-
-    public boolean matchMethodReferences = true;
-
-    public $name $matchMethodReferences( boolean b){
-        this.matchMethodReferences = b;
-        return this;
+        //this.matchAnnotationElementNames = b;
+        //return this;
     }
 
-    public boolean matchAnnoMemberValueNames = true;
+    //public boolean matchAnnoMemberValueNames = true;
 
     public $name $matchAnnoMemberValueNames(boolean b){
-        this.matchAnnoMemberValueNames = b;
+        if( b ){
+            excludedUses.remove(_name.Use.ANNO_MEMBER_VALUE_NAME);
+        } else{
+            excludedUses.add(_name.Use.ANNO_MEMBER_VALUE_NAME);
+        }
         return this;
+        //this.matchAnnoMemberValueNames = b;
+        //return this;
     }
 
-    public boolean matchAnnoNames = true;
+    //public boolean matchAnnoNames = true;
 
     public $name $matchAnnoNames(boolean b){
-        this.matchAnnoNames = b;
+        if( b ){
+            excludedUses.remove(_name.Use.ANNO_NAME);
+        } else{
+            excludedUses.add(_name.Use.ANNO_NAME);
+        }
+        return this;
+        //this.matchAnnoNames = b;
+        //return this;
+    }
+
+    /** Is this name being used as "part" or a whole _class/ClassOrInterfaceDeclaration name i.e. "C" within "class C{}" */
+    //public boolean matchClassNames = true;
+
+    public $name $matchClassNames(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.CLASS_NAME);
+        } else{
+            excludedUses.add(_name.Use.CLASS_NAME);
+        }
+        return this;
+
+        //this.matchClassNames = b;
+        //return this;
+    }
+
+    //public boolean matchConstructorNames = true;
+
+    public $name $matchConstructorNames( boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.CONSTRUCTOR_NAME);
+        } else{
+            excludedUses.add(_name.Use.CONSTRUCTOR_NAME);
+        }
         return this;
     }
 
-    public boolean matchParameterNames = true;
+    /** Is this name being used as "part" or a whole _enum/EnumDeclaration name i.e. "E" within "enum E{ ; }" */
+    //public boolean matchEnumNames = true;
+
+    public $name $matchEnumNames(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.ENUM_NAME);
+        } else{
+            excludedUses.add(_name.Use.ENUM_NAME);
+        }
+        return this;
+        //this.matchEnumNames = b;
+        //return this;
+    }
+
+    //public boolean matchMethodNames = true;
+
+    public $name $matchMethodNames( boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.METHOD_NAME);
+        } else{
+            excludedUses.add(_name.Use.METHOD_NAME);
+        }
+        return this;
+        //this.matchMethodNames = b;
+        //return this;
+    }
+
+    //public boolean matchLabels = true;
+
+    public $name $matchLabels(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.LABEL);
+        } else{
+            excludedUses.add(_name.Use.LABEL);
+        }
+        return this;
+        //this.matchLabels = b;
+        //return this;
+    }
+
+    //public boolean matchContinueLabels = true;
+
+    public $name $matchContinueLabels(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.CONTINUE_LABEL);
+        } else{
+            excludedUses.add(_name.Use.CONTINUE_LABEL);
+        }
+        return this;
+        //this.matchContinueLabels = b;
+        //return this;
+    }
+
+    //public boolean matchBreakLabels = true;
+
+    public $name $matchBreakLabels(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.BREAK_LABEL);
+        } else{
+            excludedUses.add(_name.Use.BREAK_LABEL);
+        }
+        return this;
+
+        //this.matchBreakLabels = b;
+        //return this;
+    }
+
+    //public boolean matchLabeledStatementLabels = true;
+
+    public $name $matchLabeledStatementLabels(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.LABELED_STATEMENT_LABEL);
+        } else{
+            excludedUses.add(_name.Use.LABELED_STATEMENT_LABEL);
+        }
+        return this;
+
+        //this.matchLabeledStatementLabels = b;
+        //return this;
+    }
+
+    //public boolean matchImports = true;
+
+    public $name $matchImports(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.IMPORT);
+        } else{
+            excludedUses.add(_name.Use.IMPORT);
+        }
+        return this;
+        //this.matchImports = b;
+        //return this;
+    }
+
+    //public boolean matchMethodReferences = true;
+
+    public $name $matchMethodReferences( boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.METHOD_REFERENCE);
+        } else{
+            excludedUses.add(_name.Use.METHOD_REFERENCE);
+        }
+        return this;
+
+        //this.matchMethodReferences = b;
+        //return this;
+    }
+
+    /** Is this name being used as "part" or a whole _interface/ClassOrInterfaceDeclaration name i.e. "I" within "interface I{}" */
+    //public boolean matchInterfaceNames = true;
+
+    public $name $matchInterfaceNames(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.INTERFACE_NAME);
+        } else{
+            excludedUses.add(_name.Use.INTERFACE_NAME);
+        }
+        return this;
+        //this.matchInterfaceNames = b;
+        //return this;
+    }
+
+    /** Is the name being used as an Enum Constant (i.e. "CLUBS" in "enum Suit{ CLUBS, HEARTS, DIAMONDS, SPADES; }" */
+    //public boolean matchEnumConstantNames = true;
+    //public boolean matchParameterNames = true;
+    //public boolean matchPackageNames = true;
+    //public boolean matchVariableNames = true;
+    //public boolean matchTypeDeclarationNames = true;
+    //public boolean matchTypeRefNames = true;
+
+    public $name $matchEnumConstantNames(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.ENUM_CONSTANT_NAME);
+        } else{
+            excludedUses.add(_name.Use.ENUM_CONSTANT_NAME);
+        }
+        return this;
+        //this.matchEnumConstantNames = b;
+        //return this;
+    }
 
     public $name $matchParameterNames(boolean b){
-        this.matchParameterNames = b;
+        if( b ){
+            excludedUses.remove(_name.Use.PARAMETER_NAME);
+        } else{
+            excludedUses.add(_name.Use.PARAMETER_NAME);
+        }
         return this;
+        //this.matchParameterNames = b;
+        //return this;
     }
-
-    public boolean matchPackageNames = true;
 
     public $name $matchPackageNames(boolean b){
-        this.matchPackageNames = b;
+        if( b ){
+            excludedUses.remove(_name.Use.PACKAGE_NAME);
+        } else{
+            excludedUses.add(_name.Use.PACKAGE_NAME);
+        }
         return this;
+        //this.matchPackageNames = b;
+        //return this;
     }
-
-    boolean matchVariableNames = true;
 
     public $name $matchVariableNames(boolean b){
-        this.matchVariableNames = b;
+        if( b ){
+            excludedUses.remove(_name.Use.VARIABLE_NAME);
+        } else{
+            excludedUses.add(_name.Use.VARIABLE_NAME);
+        }
         return this;
+        //this.matchVariableNames = b;
+        //return this;
     }
-
-    boolean matchTypeDeclarationNames = true;
 
     public $name $matchTypeDeclarationNames(boolean b){
-        this.matchTypeDeclarationNames = b;
+        if( b ){
+            excludedUses.remove(_name.Use.TYPE_NAME);
+        } else{
+            excludedUses.add(_name.Use.TYPE_NAME);
+        }
         return this;
+        //this.matchTypeDeclarationNames = b;
+        //return this;
     }
 
-    boolean matchTypeRefNames = true;
-
     public $name $matchTypeRefNames(boolean b){
-        this.matchTypeRefNames = b;
+        if( b ){
+            excludedUses.remove(_name.Use.TYPE_REF_NAME);
+        } else{
+            excludedUses.add(_name.Use.TYPE_REF_NAME);
+        }
         return this;
+        //this.matchTypeRefNames = b;
+        //return this;
     }
 
     /**
@@ -227,16 +495,30 @@ public class $name implements $bot<Node, _name, $name>,
      * @return
      */
     private boolean useCheck( _name candidate ){
-        //we only match "top level" parents names
+        //BECAUSE we dont want overlap matches for "nested names" like:
+        //"package base.sub.end;" PackageDeclaration : (-)
+        //  └─"base.sub.end" Name : (1,1)-(1,12)
+        //    └─"base.sub" Name : (1,1)-(1,8)
+        //      └─"base" Name : (1,1)-(1,4)
+        //...when we might have a $name like $name.of("base$any$") we only want to match the TOP level MATCH
+        // (i.e. the "base.sub.end" name)
+
+
         if( candidate.ast().getParentNode().isPresent() ){
             Node parent = candidate.ast().getParentNode().get();
-
-            System.out.println( "PARENT " + parent+" "+ parent.getClass()+" "+parent.getClass().getCanonicalName());
-            //Print.tree( candidate.ast().getParentNode().get() );
             if( parent.getClass() == Name.class ){
                 return false;
             }
         }
+        return !this.excludedUses.stream().anyMatch(e-> {
+            //System.out.println("Checking "+ e+" with "+candidate.ast()+System.lineSeparator()+ new ASCIITreePrinter().output(candidate.ast().getParentNode().get()) );
+            boolean match = e.is(candidate.ast());
+            //System.out.println( "MATCHED "+ match);
+            return match;
+        });
+        /*
+        //we only match "top level" parents names
+
         if( ! matchAnnoMemberValueNames && candidate.isAnnoMemberValueName() ){
             return false;
         }
@@ -264,13 +546,14 @@ public class $name implements $bot<Node, _name, $name>,
         if( ! matchMethodReferences && candidate.isMethodReference() ){
             return false;
         }
-        if( !matchTypeDeclarationNames && candidate.isTypeDeclarationName()){
+        if( !matchTypeDeclarationNames && candidate.isTypeName()){
             return false;
         }
         if( ! matchTypeRefNames && candidate.isTypeRefName() ){
             return false;
         }
         return true;
+         */
     }
 
     public Select<_name> select(_name candidate){
@@ -278,11 +561,13 @@ public class $name implements $bot<Node, _name, $name>,
             return new Select<>(candidate, new Tokens());
         }
         if( this.stencil == null ){
+            //System.out.println( "STENCIL IS NULL" );
             if( useCheck(candidate) && this.predicate.test(candidate) ){
                 return new Select<>(candidate, new Tokens());
             }
             return null;
         }
+        //System.out.println( "STENCIL IS \""+ this.stencil +"\"");
         if( useCheck(candidate) && this.predicate.test(candidate) ){
 
             String str = candidate.toString();
@@ -447,6 +732,8 @@ public class $name implements $bot<Node, _name, $name>,
             if( this.stencil != null ) {
                 or.stencil = this.stencil.copy();
             }
+            this.excludedUses.forEach( e-> or.excludedUses.add(e));
+            /*
             //port over the common preferences
             or.matchImports = this.matchImports;
             or.matchMethodNames = this.matchMethodNames;
@@ -459,7 +746,7 @@ public class $name implements $bot<Node, _name, $name>,
             or.matchConstructorNames = this.matchConstructorNames;
             or.matchAnnoNames = this.matchAnnoNames;
             or.matchAnnoMemberValueNames = this.matchAnnoMemberValueNames;
-
+            */
             return or;
         }
 
