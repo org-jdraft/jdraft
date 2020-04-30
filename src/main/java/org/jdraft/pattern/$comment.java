@@ -112,63 +112,63 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
     }
 
     public static $comment<JavadocComment> javadocComment(){
-        $comment $c = new $comment().omitBlockComments().omitLineComments();
+        $comment $c = new $comment().excludeBlockComments().excludeLineComments();
         $c.contentsStencil = Stencil.of("$javadoc$");
         return $c;
     }
 
     public static $comment<JavadocComment> javadocComment( _javadocComment _jc){
-        return new $comment( _jc.ast()).omitBlockComments().omitLineComments();
+        return new $comment( _jc.ast()).excludeBlockComments().excludeLineComments();
     }
     
     public static $comment<JavadocComment> javadocComment(String...comment){
-        return new $comment(Ast.javadocComment(comment)).omitBlockComments().omitLineComments();
+        return new $comment(Ast.javadocComment(comment)).excludeBlockComments().excludeLineComments();
     }
         
     public static $comment<JavadocComment> javadocComment(String pattern, Predicate<com.github.javaparser.ast.comments.Comment> constraint){
-        return new $comment(Ast.javadocComment(pattern)).omitBlockComments().omitLineComments()
+        return new $comment(Ast.javadocComment(pattern)).excludeBlockComments().excludeLineComments()
             .$and(constraint);
     }
     
     public static $comment<JavadocComment> javadocComment(Predicate<JavadocComment> constraint){
-        return new $comment().omitBlockComments().omitLineComments()
+        return new $comment().excludeBlockComments().excludeLineComments()
             .$and(constraint);
     }
         
     public static $comment<BlockComment> blockComment(){
-        return new $comment().omitJavadocComments().omitLineComments();
+        return new $comment().excludeJavadocComments().excludeLineComments();
     }
 
     public static $comment<BlockComment> blockComment(String...blockComment){
-        return new $comment(Ast.blockComment(blockComment)).omitJavadocComments().omitLineComments();
+        return new $comment(Ast.blockComment(blockComment)).excludeJavadocComments().excludeLineComments();
     }
     
     public static $comment<BlockComment> blockComment(String pattern, Predicate<BlockComment> constraint){
-        return new $comment(Ast.blockComment(pattern)).omitJavadocComments().omitLineComments()
+        return new $comment(Ast.blockComment(pattern)).excludeJavadocComments().excludeLineComments()
             .$and(constraint);
     }
     
     public static $comment<BlockComment> blockComment(Predicate<com.github.javaparser.ast.comments.Comment> constraint){
-        return new $comment<BlockComment>().omitJavadocComments().omitLineComments()
+        return new $comment<BlockComment>().excludeJavadocComments().excludeLineComments()
             .$and(constraint);
     }
     
     public static $comment<LineComment> lineComment(){
-        return new $comment().omitBlockComments().omitJavadocComments();
+        return new $comment().excludeBlockComments().excludeJavadocComments();
     }
 
     public static $comment<LineComment> lineComment(String lineComment){
-        return new $comment(Ast.lineComment(lineComment)).omitBlockComments().omitJavadocComments();
+        return new $comment(Ast.lineComment(lineComment)).excludeBlockComments().excludeJavadocComments();
     }
     
     public static $comment<LineComment> lineComment(String pattern, Predicate<LineComment> constraint){
         return new $comment(Ast.lineComment( pattern))
-                .omitBlockComments().omitJavadocComments()
+                .excludeBlockComments().excludeJavadocComments()
                 .$and(constraint);
     }
     
     public static $comment<LineComment> lineComment(Predicate<LineComment> constraint){
-        return new $comment().omitBlockComments().omitJavadocComments()
+        return new $comment().excludeBlockComments().excludeJavadocComments()
             .$and(constraint);
     }
     
@@ -273,17 +273,17 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
         return this;
     }
     
-    public $comment omitBlockComments(){
+    public $comment excludeBlockComments(){
         this.commentClasses.remove(BlockComment.class);
         return this;
     }
     
-    public $comment omitLineComments(){
+    public $comment excludeLineComments(){
         this.commentClasses.remove(LineComment.class);
         return this;
     }
     
-    public $comment omitJavadocComments(){
+    public $comment excludeJavadocComments(){
         this.commentClasses.remove(JavadocComment.class );
         return this;
     }

@@ -9,6 +9,7 @@ import com.github.javaparser.ast.stmt.BreakStmt;
 import com.github.javaparser.ast.stmt.ContinueStmt;
 import com.github.javaparser.ast.stmt.LabeledStmt;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
+import com.github.javaparser.ast.type.Type;
 import org.jdraft.text.Text;
 
 import java.util.Arrays;
@@ -111,164 +112,103 @@ public final class _name implements _java._uniPart<Node, _name> {
     }
 
     public boolean isLabelName(){
-        return Use.LABEL.is(this.name);
-        //return isBreakLabel() || isContinueLabel() || isLabelStatementLabel();
+        return Use.BREAK_LABEL_NAME.is(this.name) || Use.LABELED_STATEMENT_LABEL_NAME.is(this.name) || Use.CONTINUE_LABEL_NAME.is(this.name);
     }
 
     public boolean isBreakLabelName(){
-        return Use.BREAK_LABEL.is(this.name);
-        //return name.getParentNode().isPresent() && name.getParentNode().get() instanceof BreakStmt;
+        return Use.BREAK_LABEL_NAME.is(this.name);
     }
 
     public boolean isContinueLabelName(){
-        return Use.CONTINUE_LABEL.is(this.name);
-        //return name.getParentNode().isPresent() && name.getParentNode().get() instanceof ContinueStmt;
+        return Use.CONTINUE_LABEL_NAME.is(this.name);
     }
 
     public boolean isLabelStatementLabelName(){
-        return Use.LABELED_STATEMENT_LABEL.is(this.name);
-        //return name.getParentNode().isPresent() && name.getParentNode().get() instanceof LabeledStmt;
+        return Use.LABELED_STATEMENT_LABEL_NAME.is(this.name);
     }
 
     public boolean isAnnoName(){
         return Use.ANNO_NAME.is(this.name);
-        //return name.getParentNode().isPresent() && name.getParentNode().get() instanceof AnnotationExpr;
     }
 
     public boolean isAnnoMemberValueName(){
         return Use.ANNO_MEMBER_VALUE_NAME.is(this.name);
-        //return name.getParentNode().isPresent() && name.getParentNode().get() instanceof MemberValuePair;
     }
 
     /** Is this "name" type one that is being used in the context of a package name? */
     public boolean isPackageName(){
         return Use.PACKAGE_NAME.is(this.name);
-        //return name.getParentNode().isPresent() && name.stream(Node.TreeTraversal.PARENTS).anyMatch(n -> n instanceof PackageDeclaration);
     }
 
     /** */
     public boolean isMethodName(){
         return Use.METHOD_NAME.is(this.name);
-        /*
-        return name.getParentNode().isPresent()
-                &&
-                (name.getParentNode().get() instanceof MethodDeclaration
-                || name.getParentNode().get() instanceof MethodCallExpr);
-
-         */
     }
 
     /** */
     public boolean isConstructorName(){
         return Use.CONSTRUCTOR_NAME.is(this.name);
-        /*
-        return name.getParentNode().isPresent()
-                &&
-                (name.getParentNode().get() instanceof ConstructorDeclaration
-                  || name.getParentNode().get() instanceof ObjectCreationExpr); //new
-         */
     }
 
     /** Is this "name" type one that is being used in the context of a variable name? i.e. "i" within "int i" */
     public boolean isVariableName(){
         return Use.VARIABLE_NAME.is(this.name);
-        //return name.getParentNode().isPresent() && name.getParentNode().get() instanceof VariableDeclarator;
     }
 
     /** Is this "name" type one that is being used in a parameter i.e. "p" within "(int p)" */
     public boolean isParameterName(){
         return Use.PARAMETER_NAME.is(this.name);
-        //return name.getParentNode().isPresent() && name.getParentNode().get() instanceof Parameter;
     }
 
     /** is this name used as a Reference to a Type i.e. "int" within "int i;" */
     public boolean isTypeRefName(){
         return Use.TYPE_REF_NAME.is(this.name);
-        /*
-        return name instanceof ClassOrInterfaceType || name.getParentNode().isPresent()
-                && name.stream(Node.TreeTraversal.PARENTS).anyMatch(n -> n instanceof ClassOrInterfaceType);
-         */
     }
 
     /** Is this name being used as "part" or a whole _type/TypeDeclaration name i.e. "C" within "class C{}" */
     public boolean isTypeName(){
-        return Use.TYPE_NAME.is(this.name);
-
-        //return name.getParentNode().isPresent() && name.getParentNode().get() instanceof TypeDeclaration;
+        return Use.CLASS_NAME.is(this.name) || Use.INTERFACE_NAME.is(this.name) || Use.ENUM_NAME.is(this.name) || Use.ANNOTATION_NAME.is(this.name);
     }
 
     /** Is this name being used as "part" or a whole _class/ClassOrInterfaceDeclaration name i.e. "C" within "class C{}" */
     public boolean isClassName(){
         return Use.CLASS_NAME.is(this.name);
-        /*
-        return name.getParentNode().isPresent() &&
-                name.getParentNode().get() instanceof ClassOrInterfaceDeclaration &&
-                !((ClassOrInterfaceDeclaration) name.getParentNode().get()).asClassOrInterfaceDeclaration().isInterface();
-         */
     }
 
     /** Is this name being used as "part" or a whole _interface/ClassOrInterfaceDeclaration name i.e. "I" within "interface I{}" */
     public boolean isInterfaceName(){
         return Use.INTERFACE_NAME.is(this.name);
-        /*
-        return name.getParentNode().isPresent() &&
-                name.getParentNode().get() instanceof ClassOrInterfaceDeclaration &&
-                ((ClassOrInterfaceDeclaration) name.getParentNode().get()).asClassOrInterfaceDeclaration().isInterface();
-
-         */
     }
 
     /** Is this name being used as "part" or a whole _enum/EnumDeclaration name i.e. "E" within "enum E{ ; }" */
     public boolean isEnumName(){
         return Use.ENUM_NAME.is(this.name);
-        /*
-        return name.getParentNode().isPresent() &&
-                name.getParentNode().get() instanceof EnumDeclaration;
-
-         */
     }
 
     /** Is this name being used as "part" or a whole _annotation/AnnotationDeclaration name i.e. "A" within "@interface A{}" */
     public boolean isAnnotationName(){
         return Use.ANNOTATION_NAME.is(this.name);
-        /*
-        return name.getParentNode().isPresent() &&
-                name.getParentNode().get() instanceof AnnotationDeclaration;
-
-         */
     }
 
     /** Is this name being used as "part" or a whole _annotation._element/AnnotationMemberDeclaration name */
     public boolean isAnnotationElementName(){
         return Use.ANNOTATION_ELEMENT_NAME.is(this.name);
-        /*
-        return name.getParentNode().isPresent() &&
-                name.getParentNode().get() instanceof AnnotationMemberDeclaration;
-
-         */
     }
 
     /** Is the name being used as an Enum Constant (i.e. "CLUBS" in "enum Suit{ CLUBS, HEARTS, DIAMONDS, SPADES; }" */
     public boolean isEnumConstantName(){
         return Use.ENUM_CONSTANT_NAME.is(this.name);
-        /*
-        return name.getParentNode().isPresent() &&
-                name.getParentNode().get() instanceof EnumConstantDeclaration;
-
-         */
     }
 
 
     /** Is this name a "part" of a MethodReference? */
     public boolean isMethodReference(){
-        return Use.METHOD_REFERENCE.is(this.name);
-        //return name instanceof MethodReferenceExpr; //name.getParentNode().isPresent() && name.getParentNode().get() instanceof MethodReferenceExpr;
+        return Use.METHOD_REFERENCE_NAME.is(this.name);
     }
 
     /** Is this name being used as "part" or a whole import name? */
     public boolean isImportName(){
-        return Use.IMPORT.is(this.name);
-        //return name.getParentNode().isPresent() && name.stream(Node.TreeTraversal.PARENTS).anyMatch(n -> n instanceof ImportDeclaration);
+        return Use.IMPORT_NAME.is(this.name);
     }
 
     /**
@@ -282,7 +222,7 @@ public final class _name implements _java._uniPart<Node, _name> {
         CLASS_NAME(name -> name.getParentNode().isPresent() &&
                 name.getParentNode().get() instanceof ClassOrInterfaceDeclaration &&
                 !((ClassOrInterfaceDeclaration) name.getParentNode().get()).asClassOrInterfaceDeclaration().isInterface()),
-        CONSTRUCTOR_NAME( name -> name.getParentNode().isPresent()
+        CONSTRUCTOR_NAME( name -> name instanceof SimpleName && name.getParentNode().isPresent()
                 && (name.getParentNode().get() instanceof ConstructorDeclaration
                         || name.getParentNode().get() instanceof ObjectCreationExpr)),
         ENUM_NAME( name -> name.getParentNode().isPresent()
@@ -292,23 +232,18 @@ public final class _name implements _java._uniPart<Node, _name> {
         INTERFACE_NAME(name -> name.getParentNode().isPresent() &&
                 name.getParentNode().get() instanceof ClassOrInterfaceDeclaration &&
                 ((ClassOrInterfaceDeclaration) name.getParentNode().get()).asClassOrInterfaceDeclaration().isInterface()),
-        IMPORT(name -> name.getParentNode().isPresent() && name.stream(Node.TreeTraversal.PARENTS).anyMatch(n -> n instanceof ImportDeclaration)),
-        LABEL(name->name.getParentNode().isPresent() &&
-                (name.getParentNode().get() instanceof BreakStmt ||
-                 name.getParentNode().get() instanceof ContinueStmt ||
-                 name.getParentNode().get() instanceof LabeledStmt)),
-        BREAK_LABEL(name->name.getParentNode().isPresent() && name.getParentNode().get() instanceof BreakStmt),
-        CONTINUE_LABEL(name-> name.getParentNode().isPresent() && name.getParentNode().get() instanceof ContinueStmt),
-        LABELED_STATEMENT_LABEL(name-> name.getParentNode().isPresent() && name.getParentNode().get() instanceof LabeledStmt),
+        IMPORT_NAME(name -> name instanceof ImportDeclaration || name.getParentNode().isPresent() && name.stream(Node.TreeTraversal.PARENTS).anyMatch(n -> n instanceof ImportDeclaration)),
+        BREAK_LABEL_NAME(name->name.getParentNode().isPresent() && name.getParentNode().get() instanceof BreakStmt),
+        CONTINUE_LABEL_NAME(name-> name.getParentNode().isPresent() && name.getParentNode().get() instanceof ContinueStmt),
+        LABELED_STATEMENT_LABEL_NAME(name-> name.getParentNode().isPresent() && name.getParentNode().get() instanceof LabeledStmt),
         METHOD_NAME(name-> name.getParentNode().isPresent() && (name.getParentNode().get() instanceof MethodCallExpr || name.getParentNode().get() instanceof MethodDeclaration)),
-        METHOD_REFERENCE(name ->  name instanceof MethodReferenceExpr),
+        METHOD_REFERENCE_NAME(name -> name instanceof MethodReferenceExpr || name.getParentNode().isPresent() && name.stream(Node.TreeTraversal.PARENTS).anyMatch(n -> n instanceof MethodReferenceExpr)),
 
         PACKAGE_NAME(name-> name.getParentNode().isPresent() && name.getParentNode().get() instanceof PackageDeclaration),
-        PARAMETER_NAME(name-> name.getParentNode().isPresent() && name.getParentNode().get() instanceof Parameter), //instanceof SimpleName?
-        TYPE_NAME(name-> name.getParentNode().isPresent() && name.getParentNode().get() instanceof TypeDeclaration),
-        TYPE_REF_NAME(name->name instanceof ClassOrInterfaceType || name.getParentNode().isPresent()
-                && name.stream(Node.TreeTraversal.PARENTS).anyMatch(n -> n instanceof ClassOrInterfaceType)),
-        VARIABLE_NAME(name-> name.getParentNode().isPresent() && name.getParentNode().get() instanceof VariableDeclarator);
+        PARAMETER_NAME(name-> name instanceof SimpleName && name.getParentNode().isPresent() && name.getParentNode().get() instanceof Parameter), //instanceof SimpleName?
+        TYPE_REF_NAME(name->name instanceof Type || (name.getParentNode().isPresent()
+                && name.stream(Node.TreeTraversal.PARENTS).anyMatch(n -> n instanceof Type))),
+        VARIABLE_NAME(name-> name instanceof SimpleName && name.getParentNode().isPresent() && name.getParentNode().get() instanceof VariableDeclarator);
 
         final Predicate<Node> useFn;
 
@@ -346,6 +281,10 @@ public final class _name implements _java._uniPart<Node, _name> {
             Set<Use> useSet = new HashSet<>();
             Arrays.stream(use).forEach( e -> useSet.add(e));
             return useSet;
+        }
+
+        public String toString(){
+            return this.name();
         }
     }
 

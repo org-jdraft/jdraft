@@ -1,12 +1,8 @@
 package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.MethodReferenceExpr;
-import com.github.javaparser.ast.expr.Name;
-import com.github.javaparser.ast.expr.SimpleName;
-import com.github.javaparser.printer.ASCIITreePrinter;
-import org.jdraft.Print;
+import com.github.javaparser.ast.expr.*;
+import com.github.javaparser.ast.type.Type;
 import org.jdraft._jdraftException;
 import org.jdraft._name;
 import org.jdraft.text.*;
@@ -14,20 +10,37 @@ import org.jdraft.text.*;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class $name implements $bot<Node, _name, $name>,
         $selector<_name, $name>, Template<_name>, $methodCall.$part {
 
-    public static $name of(){
+    public static $name of() {
         return new $name();
     }
 
-    public static $name of( Expression e){
+    public static $name of(Expression e) {
         return new $name(e.toString());
     }
 
-    public static $name of( String stencil){
+    public static $name of(String stencil) {
         return new $name(stencil);
+    }
+
+    /*
+    public static $name of(Class clazz) {
+        return new Or($name.of(clazz.getCanonicalName()),
+                        //I need to match Simple Name references of entities that import the class
+                $name.of(clazz.getSimpleName()).$isInCodeUnit(cu -> cu.hasImport(clazz)));
+    }
+     */
+
+
+    public static $name of( _name.Use...nameUses ){
+        $name $n = of();
+        $n.excludedUses.addAll(_name.Use.all());
+        $n.excludedUses.removeAll( Arrays.stream(nameUses).collect(Collectors.toList()) );
+        return $n;
     }
 
     public static $name startsWith(String text ){
@@ -77,11 +90,23 @@ public class $name implements $bot<Node, _name, $name>,
                 stencil.getTextForm().getFixedText().indexOf('.') >= 0;
     }
 
+    /**
+     * Exclude matching names that are used in these contexts
+     * (NOTE: by default no uses are excluded)
+     * @param usages uses that are forbidden to be matched
+     * @return the modified $name bot
+     */
     public $name $exclude(_name.Use... usages ){
         Arrays.stream(usages).forEach(e -> this.excludedUses.add( e ) );
         return this;
     }
 
+    /**
+     * Include matching names that are used in these contexts
+     * (NOTE: by default ALL uses are included, this will only change )
+     * @param usages uses that are forbidden to be matched
+     * @return the modified $name bot
+     */
     public $name $include(_name.Use... usages ){
         Arrays.stream(usages).forEach(e -> this.excludedUses.remove( e ) );
         return this;
@@ -94,54 +119,10 @@ public class $name implements $bot<Node, _name, $name>,
             copy.stencil = Stencil.of( this.stencil );
         }
         this.excludedUses.forEach(e -> copy.excludedUses.add(e));
-        /*
-        copy.matchAnnoNames =this.matchAnnoNames;
-        copy.matchAnnotationElementNames = this.matchAnnotationElementNames;
-        copy.matchAnnotationNames = this.matchAnnotationNames;
-        copy.matchAnnoMemberValueNames = this.matchAnnoMemberValueNames;
-
-        copy.matchClassNames = this.matchClassNames;
-        copy.matchConstructorNames = this.matchConstructorNames;
-
-        copy.matchEnumConstantNames = this.matchEnumConstantNames;
-        copy.matchEnumNames = this.matchEnumNames;
-
-
-        copy.matchImports = this.matchImports;
-        copy.matchLabels = this.matchLabels;
-        copy.matchMethodNames = this.matchMethodNames;
-        copy.matchMethodReferences = this.matchMethodReferences;
-        copy.matchPackageNames = this.matchPackageNames;
-        copy.matchParameterNames = this.matchParameterNames;
-        copy.matchTypeDeclarationNames = this.matchTypeDeclarationNames;
-        copy.matchTypeRefNames = this.matchTypeRefNames;
-        copy.matchVariableNames = this.matchVariableNames;
-        */
         return copy;
     }
 
-    /**
-     * Verify that the matching name is NOT used in the provided ways
-     * @param nameUses
-     * @return
-
-    public $name $not(_name.Use...nameUses ){
-        Arrays.stream(nameUses).forEach(e-> this.excludedUses.add(e));
-        return this;
-    }
-    */
-
-    /**
-     * Verify that the matching name is NOT used in the provided ways
-     * @param nameUses
-     * @return
-
-    public $name $and(_name.Use...nameUses ){
-        Arrays.stream(nameUses).forEach(e-> this.excludedUses.remove(e));
-        return this;
-    }
-    */
-
+    @Override
     public Predicate<_name> getPredicate(){
         return this.predicate;
     }
@@ -324,9 +305,13 @@ public class $name implements $bot<Node, _name, $name>,
 
     public $name $matchLabels(boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.LABEL);
+            excludedUses.remove(_name.Use.BREAK_LABEL_NAME);
+            excludedUses.remove(_name.Use.CONTINUE_LABEL_NAME);
+            excludedUses.remove(_name.Use.LABELED_STATEMENT_LABEL_NAME);
         } else{
-            excludedUses.add(_name.Use.LABEL);
+            excludedUses.add(_name.Use.BREAK_LABEL_NAME);
+            excludedUses.add(_name.Use.CONTINUE_LABEL_NAME);
+            excludedUses.add(_name.Use.LABELED_STATEMENT_LABEL_NAME);
         }
         return this;
         //this.matchLabels = b;
@@ -337,9 +322,9 @@ public class $name implements $bot<Node, _name, $name>,
 
     public $name $matchContinueLabels(boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.CONTINUE_LABEL);
+            excludedUses.remove(_name.Use.CONTINUE_LABEL_NAME);
         } else{
-            excludedUses.add(_name.Use.CONTINUE_LABEL);
+            excludedUses.add(_name.Use.CONTINUE_LABEL_NAME);
         }
         return this;
         //this.matchContinueLabels = b;
@@ -350,9 +335,9 @@ public class $name implements $bot<Node, _name, $name>,
 
     public $name $matchBreakLabels(boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.BREAK_LABEL);
+            excludedUses.remove(_name.Use.BREAK_LABEL_NAME);
         } else{
-            excludedUses.add(_name.Use.BREAK_LABEL);
+            excludedUses.add(_name.Use.BREAK_LABEL_NAME);
         }
         return this;
 
@@ -364,9 +349,9 @@ public class $name implements $bot<Node, _name, $name>,
 
     public $name $matchLabeledStatementLabels(boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.LABELED_STATEMENT_LABEL);
+            excludedUses.remove(_name.Use.LABELED_STATEMENT_LABEL_NAME);
         } else{
-            excludedUses.add(_name.Use.LABELED_STATEMENT_LABEL);
+            excludedUses.add(_name.Use.LABELED_STATEMENT_LABEL_NAME);
         }
         return this;
 
@@ -378,9 +363,9 @@ public class $name implements $bot<Node, _name, $name>,
 
     public $name $matchImports(boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.IMPORT);
+            excludedUses.remove(_name.Use.IMPORT_NAME);
         } else{
-            excludedUses.add(_name.Use.IMPORT);
+            excludedUses.add(_name.Use.IMPORT_NAME);
         }
         return this;
         //this.matchImports = b;
@@ -391,9 +376,9 @@ public class $name implements $bot<Node, _name, $name>,
 
     public $name $matchMethodReferences( boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.METHOD_REFERENCE);
+            excludedUses.remove(_name.Use.METHOD_REFERENCE_NAME);
         } else{
-            excludedUses.add(_name.Use.METHOD_REFERENCE);
+            excludedUses.add(_name.Use.METHOD_REFERENCE_NAME);
         }
         return this;
 
@@ -469,15 +454,22 @@ public class $name implements $bot<Node, _name, $name>,
 
     public $name $matchTypeDeclarationNames(boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.TYPE_NAME);
+            excludedUses.remove(_name.Use.CLASS_NAME);
+            excludedUses.remove(_name.Use.INTERFACE_NAME);
+            excludedUses.remove(_name.Use.ENUM_NAME);
+            excludedUses.remove(_name.Use.ANNOTATION_NAME);
         } else{
-            excludedUses.add(_name.Use.TYPE_NAME);
+            excludedUses.add(_name.Use.CLASS_NAME);
+            excludedUses.add(_name.Use.INTERFACE_NAME);
+            excludedUses.add(_name.Use.ENUM_NAME);
+            excludedUses.add(_name.Use.ANNOTATION_NAME);
         }
         return this;
         //this.matchTypeDeclarationNames = b;
         //return this;
     }
 
+    /*
     public $name $matchTypeRefNames(boolean b){
         if( b ){
             excludedUses.remove(_name.Use.TYPE_REF_NAME);
@@ -488,6 +480,7 @@ public class $name implements $bot<Node, _name, $name>,
         //this.matchTypeRefNames = b;
         //return this;
     }
+     */
 
     /**
      *
@@ -509,7 +502,31 @@ public class $name implements $bot<Node, _name, $name>,
             if( parent.getClass() == Name.class ){
                 return false;
             }
+            if( parent instanceof Type){
+                return false;
+            }
         }
+
+        /*
+        if( candidate.ast().getParentNode().isPresent() ){
+
+        }
+
+         */
+        /*
+        if( !(candidate.ast() instanceof MethodReferenceExpr) ){
+            boolean hasTypeExpressionParent = candidate.ast().getParentNode().get().stream(Node.TreeTraversal.PARENTS).anyMatch(n-> n instanceof TypeExpr);
+            return !hasTypeExpressionParent;
+
+            if( !hasTypeExpressionParent ) {
+                System.out.println("NOT HAS TYPE EXPRESSION"+candidate.ast().getClass() );
+                boolean hasTypeParents = candidate.ast().getParentNode().get().stream(Node.TreeTraversal.PARENTS).anyMatch(n -> n instanceof Type);
+                System.out.println("HAS TYPE PARENTS"+candidate.ast().getClass() );
+                return !hasTypeParents;
+            }
+
+        }
+         */
         return !this.excludedUses.stream().anyMatch(e-> {
             //System.out.println("Checking "+ e+" with "+candidate.ast()+System.lineSeparator()+ new ASCIITreePrinter().output(candidate.ast().getParentNode().get()) );
             boolean match = e.is(candidate.ast());

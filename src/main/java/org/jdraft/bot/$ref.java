@@ -2,7 +2,6 @@ package org.jdraft.bot;
 
 import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
@@ -73,6 +72,26 @@ import java.util.function.Predicate;
 public class $ref implements $bot<Node, _java._node, $ref>,
         $selector<_java._node, $ref>, Template<_java._node>{
 
+    public static final _name.Use ANNO_MEMBER_VALUE_NAME = _name.Use.ANNO_MEMBER_VALUE_NAME;
+    public static final _name.Use ANNO_NAME = _name.Use.ANNO_NAME;
+    public static final _name.Use ANNOTATION_ELEMENT_NAME = _name.Use.ANNOTATION_ELEMENT_NAME;
+    public static final _name.Use ANNOTATION_NAME = _name.Use.ANNOTATION_NAME;
+    public static final _name.Use BREAK_LABEL_NAME = _name.Use.BREAK_LABEL_NAME;
+    public static final _name.Use CLASS_NAME = _name.Use.CLASS_NAME;
+    public static final _name.Use CONSTRUCTOR_NAME = _name.Use.CONSTRUCTOR_NAME;
+    public static final _name.Use CONTINUE_LABEL_NAME = _name.Use.CONTINUE_LABEL_NAME;
+    public static final _name.Use ENUM_NAME = _name.Use.ENUM_NAME;
+    public static final _name.Use ENUM_CONSTANT_NAME = _name.Use.ENUM_CONSTANT_NAME;
+    public static final _name.Use IMPORT_NAME = _name.Use.IMPORT_NAME;
+    public static final _name.Use INTERFACE_NAME = _name.Use.INTERFACE_NAME;
+    public static final _name.Use LABELED_STATEMENT_LABEL_NAME = _name.Use.LABELED_STATEMENT_LABEL_NAME;
+    public static final _name.Use METHOD_NAME = _name.Use.METHOD_NAME;
+    public static final _name.Use METHOD_REFERENCE_NAME = _name.Use.METHOD_REFERENCE_NAME;
+    public static final _name.Use PACKAGE_NAME = _name.Use.PACKAGE_NAME;
+    public static final _name.Use PARAMETER_NAME = _name.Use.PARAMETER_NAME;
+    public static final _name.Use TYPE_REF_NAME = _name.Use.TYPE_REF_NAME;
+    public static final _name.Use VARIABLE_NAME = _name.Use.VARIABLE_NAME;
+
     public static $ref of(){
         return new $ref();
     }
@@ -84,9 +103,33 @@ public class $ref implements $bot<Node, _java._node, $ref>,
      */
     public static $ref of(Class clazz){
         //I need to find fully qualified references to a given class
-        return new Or( $ref.of(clazz.getCanonicalName()),
+        return new Or( $ref.of(clazz.getCanonicalName()), //ANNOTATION_NAME, ENUM_NAME, INTERFACE_NAME, CLASS_NAME, TYPE_REF_NAME, METHOD_REFERENCE_NAME, IMPORT_NAME, ANNO_NAME, CONSTRUCTOR_NAME),
                 //I need to match Simple Name references of entities that import the class
                 $ref.of(clazz.getSimpleName()).$isInCodeUnit(cu-> cu.hasImport(clazz)));
+    }
+
+    public static $ref startsWith(String namePrefix){
+        return of(namePrefix+"$after$");
+    }
+
+    public static $ref startsWith(String namePrefix, _name.Use...nameUses){
+        return startsWith(namePrefix).$and(nameUses);
+    }
+
+    public static $ref endsWith(String namePostfix){
+        return of("$before$"+namePostfix);
+    }
+
+    public static $ref endsWith(String namePostfix, _name.Use...nameUses){
+        return endsWith(namePostfix).$and(nameUses);
+    }
+
+    public static $ref contains(String nameContains){
+        return of("$before$"+nameContains+"$after$");
+    }
+
+    public static $ref contains(String nameContains, _name.Use...nameUses){
+        return of("$before$"+nameContains+"$after$").$and(nameUses);
     }
 
     public static $ref of(Node n){
@@ -110,12 +153,23 @@ public class $ref implements $bot<Node, _java._node, $ref>,
         return new $ref(stencil);
     }
 
+    public static $ref of(_name.Use...nameUses){
+        return of().$and(nameUses);
+    }
+
+    public static $ref of(String stencil, _name.Use...nameUses){
+        return of(stencil).$and(nameUses);
+    }
+
     public static $ref of(Stencil stencil ){
         return new $ref(stencil);
     }
 
     /** the pattern of the name*/
     public Stencil stencil = null;
+
+    /** situations where the name is used in an excluded context */
+    public Set<_name.Use> excludedUses = new HashSet<>();
 
     /**  */
     public Predicate<_java._node> predicate = t -> true;
@@ -162,10 +216,11 @@ public class $ref implements $bot<Node, _java._node, $ref>,
     public boolean isMatchAny() {
         if( stencil == null ){
             try{
-                return predicate.test(null) && this.matchAnnoNames && this.matchAnnoMemberValueNames
-                        && this.matchImports && this.matchMethodNames && this.matchMethodReferences
-                        && this.matchPackageNames && this.matchParameterNames && this.matchTypeDeclarationNames
-                        && this.matchTypeRefNames && this.matchVariableNames;
+                return this.excludedUses.isEmpty() && predicate.test(null);
+                //this.matchAnnoNames && this.matchAnnoMemberValueNames
+                //        && this.matchImports && this.matchMethodNames && this.matchMethodReferences
+                //        && this.matchPackageNames && this.matchParameterNames && this.matchTypeDeclarationNames
+                //        && this.matchTypeRefNames && this.matchVariableNames;
             } catch(Exception e){ }
         }
         return false;
@@ -174,6 +229,11 @@ public class $ref implements $bot<Node, _java._node, $ref>,
     @Override
     public $ref $and(Predicate<_java._node> matchFn) {
         this.predicate = predicate.and(matchFn);
+        return this;
+    }
+
+    public $ref $and( _name.Use...nameUses){
+        this.excludedUses = _name.Use.allExcept(nameUses);
         return this;
     }
 
@@ -215,85 +275,209 @@ public class $ref implements $bot<Node, _java._node, $ref>,
         return select( on.get());
     }
 
-    //these need to go into $ref
-    //matchTypeArguments
-    //matchTypeParameters
-    //matchThrows
-    
-    public Boolean matchConstructorNames = true;
-
-    public $ref $matchConstructorNames(Boolean b){
-        this.matchConstructorNames = b;
+    /** Is this name being used as "part" or a whole _annotation/AnnotationDeclaration name i.e. "A" within "@interface A{}" */
+    public $ref $matchAnnotationNames(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.ANNOTATION_NAME);
+        } else{
+            excludedUses.add(_name.Use.ANNOTATION_NAME);
+        }
         return this;
     }
 
-    public Boolean matchMethodNames = true;
-
-    public $ref $matchMethodNames(Boolean b){
-        this.matchMethodNames = b;
+    /** Is this name being used as "part" or a whole _annotation._element/AnnotationMemberDeclaration name */
+    public $ref $matchAnnotationElementNames(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.ANNOTATION_ELEMENT_NAME);
+        } else{
+            excludedUses.add(_name.Use.ANNOTATION_ELEMENT_NAME);
+        }
         return this;
     }
 
-    public Boolean matchImports = true;
-
-    public $ref $matchImports(Boolean b){
-        this.matchImports = b;
+    public $ref $matchAnnoMemberValueNames(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.ANNO_MEMBER_VALUE_NAME);
+        } else{
+            excludedUses.add(_name.Use.ANNO_MEMBER_VALUE_NAME);
+        }
         return this;
     }
 
-    public Boolean matchMethodReferences = true;
-
-    public $ref $matchMethodReferences(Boolean b){
-        this.matchMethodReferences = b;
+    public $ref $matchAnnoNames(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.ANNO_NAME);
+        } else{
+            excludedUses.add(_name.Use.ANNO_NAME);
+        }
         return this;
     }
 
-    public Boolean matchAnnoMemberValueNames = true;
-
-    public $ref $matchAnnoMemberValueNames(Boolean b){
-        this.matchAnnoMemberValueNames = b;
+    /** Is this name being used as "part" or a whole _class/ClassOrInterfaceDeclaration name i.e. "C" within "class C{}" */
+    public $ref $matchClassNames(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.CLASS_NAME);
+        } else{
+            excludedUses.add(_name.Use.CLASS_NAME);
+        }
         return this;
     }
 
-    public Boolean matchAnnoNames = true;
-
-    public $ref $matchAnnoNames(Boolean b){
-        this.matchAnnoNames = b;
+    public $ref $matchConstructorNames( boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.CONSTRUCTOR_NAME);
+        } else{
+            excludedUses.add(_name.Use.CONSTRUCTOR_NAME);
+        }
         return this;
     }
 
-    public Boolean matchParameterNames = true;
-
-    public $ref $matchParameterNames(Boolean b){
-        this.matchParameterNames = b;
+    /** Is this name being used as "part" or a whole _enum/EnumDeclaration name i.e. "E" within "enum E{ ; }" */
+    public $ref $matchEnumNames(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.ENUM_NAME);
+        } else{
+            excludedUses.add(_name.Use.ENUM_NAME);
+        }
         return this;
     }
 
-    public Boolean matchPackageNames = true;
-
-    public $ref $matchPackageNames(Boolean b){
-        this.matchPackageNames = b;
+    public $ref $matchMethodNames( boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.METHOD_NAME);
+        } else{
+            excludedUses.add(_name.Use.METHOD_NAME);
+        }
         return this;
     }
 
-    public Boolean matchVariableNames = true;
-
-    public $ref $matchVariableNames(Boolean b){
-        this.matchVariableNames = b;
+    public $ref $matchLabels(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.BREAK_LABEL_NAME);
+            excludedUses.remove(_name.Use.CONTINUE_LABEL_NAME);
+            excludedUses.remove(_name.Use.LABELED_STATEMENT_LABEL_NAME);
+        } else{
+            excludedUses.add(_name.Use.BREAK_LABEL_NAME);
+            excludedUses.add(_name.Use.CONTINUE_LABEL_NAME);
+            excludedUses.add(_name.Use.LABELED_STATEMENT_LABEL_NAME);
+        }
         return this;
     }
 
-    public Boolean matchTypeDeclarationNames = true;
-
-    public $ref $matchTypeDeclarationNames(Boolean b){
-        this.matchTypeDeclarationNames = b;
+    public $ref $matchContinueLabels(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.CONTINUE_LABEL_NAME);
+        } else{
+            excludedUses.add(_name.Use.CONTINUE_LABEL_NAME);
+        }
         return this;
     }
 
-    public Boolean matchTypeRefNames = true;
+    public $ref $matchBreakLabels(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.BREAK_LABEL_NAME);
+        } else{
+            excludedUses.add(_name.Use.BREAK_LABEL_NAME);
+        }
+        return this;
+    }
 
-    public $ref $matchTypeRefNames(Boolean b){
-        this.matchTypeRefNames = b;
+    public $ref $matchLabeledStatementLabels(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.LABELED_STATEMENT_LABEL_NAME);
+        } else{
+            excludedUses.add(_name.Use.LABELED_STATEMENT_LABEL_NAME);
+        }
+        return this;
+    }
+
+    public $ref $matchImports(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.IMPORT_NAME);
+        } else{
+            excludedUses.add(_name.Use.IMPORT_NAME);
+        }
+        return this;
+    }
+
+    public $ref $matchMethodReferences( boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.METHOD_REFERENCE_NAME);
+        } else{
+            excludedUses.add(_name.Use.METHOD_REFERENCE_NAME);
+        }
+        return this;
+    }
+
+    /** Is this name being used as "part" or a whole _interface/ClassOrInterfaceDeclaration name i.e. "I" within "interface I{}" */
+    public $ref $matchInterfaceNames(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.INTERFACE_NAME);
+        } else{
+            excludedUses.add(_name.Use.INTERFACE_NAME);
+        }
+        return this;
+    }
+
+    /** Is the name being used as an Enum Constant (i.e. "CLUBS" in "enum Suit{ CLUBS, HEARTS, DIAMONDS, SPADES; }" */
+
+    public $ref $matchEnumConstantNames(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.ENUM_CONSTANT_NAME);
+        } else{
+            excludedUses.add(_name.Use.ENUM_CONSTANT_NAME);
+        }
+        return this;
+    }
+
+    public $ref $matchParameterNames(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.PARAMETER_NAME);
+        } else{
+            excludedUses.add(_name.Use.PARAMETER_NAME);
+        }
+        return this;
+    }
+
+    public $ref $matchPackageNames(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.PACKAGE_NAME);
+        } else{
+            excludedUses.add(_name.Use.PACKAGE_NAME);
+        }
+        return this;
+    }
+
+    public $ref $matchVariableNames(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.VARIABLE_NAME);
+        } else{
+            excludedUses.add(_name.Use.VARIABLE_NAME);
+        }
+        return this;
+    }
+
+    public $ref $matchTypeDeclarationNames(boolean b){
+        if( b ){
+            excludedUses.remove(_name.Use.CLASS_NAME);
+            excludedUses.remove(_name.Use.ENUM_NAME);
+            excludedUses.remove(_name.Use.INTERFACE_NAME);
+            excludedUses.remove(_name.Use.ANNOTATION_NAME);
+        } else{
+            excludedUses.add(_name.Use.CLASS_NAME);
+            excludedUses.add(_name.Use.ENUM_NAME);
+            excludedUses.add(_name.Use.INTERFACE_NAME);
+            excludedUses.add(_name.Use.ANNOTATION_NAME);
+        }
+        return this;
+    }
+
+    public $ref $matchTypeRefNames(boolean b){
+        if( b ){
+            excludedUses.remove( _name.Use.TYPE_REF_NAME );
+        } else{
+            excludedUses.add( _name.Use.TYPE_REF_NAME );
+        }
         return this;
     }
 
@@ -306,65 +490,41 @@ public class $ref implements $bot<Node, _java._node, $ref>,
         //we only match "top level" parents names *NOT* name nodes nested within name nodes
         if( candidate.ast().getParentNode().isPresent() ){
             Node parent = candidate.ast().getParentNode().get();
-
-            //System.out.println( "PARENT " + parent+" "+ parent.getClass()+" "+parent.getClass().getCanonicalName());
-            //Print.tree( candidate.ast().getParentNode().get() );
             if( parent.getClass() == Name.class){
+                //System.out.println( "EXCLUDED BY PARENT IS NAME");
                 return false;
             }
+
             if( parent instanceof ClassOrInterfaceType){
                 ClassOrInterfaceType coit = (ClassOrInterfaceType)parent;
                 if( !coit.getTypeArguments().isPresent()){
+                    //System.out.println( "NO TYPE ARGUMENTS");
                     return false;
+                } else{
+                    //System.out.println( "TYPE ARGUMENTS" + candidate+" "+ parent);
                 }
-                //System.out.println( "Its a Type Argument");
             }
             if( parent instanceof ImportDeclaration){
                 return false;
             }
+        } else{
+            //System.out.println("NO PARENT "+ candidate);
         }
-        if( ! matchAnnoMemberValueNames && isAnnoMemberValueName(candidate.ast()) ){
-            return false;
-        }
-        if( ! matchAnnoNames && isAnnoName(candidate.ast())){
-            return false;
-        }
-        if( !matchConstructorNames && isConstructorName(candidate.ast()) ){
-            return false;
-        }
-        if( isImportName(candidate.ast()) ){
-
-            if( !(this.matchImports) ){
-                return false;
-            }
-        }
-        if( ! matchMethodNames && isMethodName(candidate.ast())){
-            return false;
-        }
-        if( !matchPackageNames && isPackageName(candidate.ast())){
-            return false;
-        }
-        if( !matchParameterNames && isParameterName(candidate.ast()) ){
-            return false;
-        }
-        if( !matchVariableNames && isVariableName(candidate.ast())){
-            return false;
-        }
-        if( ! matchMethodReferences && isMethodReference(candidate.ast()) ){
-            return false;
-        }
-        if( !matchTypeDeclarationNames && isTypeDeclarationName(candidate.ast())){
-            return false;
-        }
-        if( ! matchTypeRefNames && isTypeRefName(candidate.ast()) ){
-            return false;
-        }
-        return true;
+        //System.out.println( "NOT EXCLUDED BY DEFAULT");
+        return !this.excludedUses.stream().anyMatch(e-> {
+            //System.out.println("Checking "+ e+" with "+candidate.ast()+System.lineSeparator()+ new ASCIITreePrinter().output(candidate.ast().getParentNode().get()) );
+            boolean match = e.is(candidate.ast());
+            //System.out.println( "MATCHED "+ match);
+            return match;
+        });
     }
 
     public Select<_java._node > select(_java._node candidate){
         if( isMatchAny()){
-            return new Select<>(candidate, new Tokens());
+            if(useCheck(candidate)) {
+                return new Select<>(candidate, new Tokens());
+            }
+            return null;
         }
         if( this.stencil == null ){
             if( useCheck(candidate) && this.predicate.test(candidate) ){
@@ -423,72 +583,34 @@ public class $ref implements $bot<Node, _java._node, $ref>,
         return null;
     }
 
-    public static boolean isAnnoName(Node name){
-        return name.getParentNode().isPresent() && name.getParentNode().get() instanceof AnnotationExpr;
+    /**
+     * Exclude matching names that are used in these contexts
+     * (NOTE: by default no uses are excluded)
+     * @param usages uses that are forbidden to be matched
+     * @return the modified $name bot
+     */
+    public $ref $exclude(_name.Use... usages ){
+        Arrays.stream(usages).forEach(e -> this.excludedUses.add( e ) );
+        return this;
     }
 
-    public static boolean isAnnoMemberValueName(Node name){
-        return name.getParentNode().isPresent() && name.getParentNode().get() instanceof MemberValuePair;
-    }
-
-    /** Is this "name" type one that is being used in the context of a package name? */
-    public static boolean isPackageName(Node name){
-        return name.getParentNode().isPresent() && name.stream(Node.TreeTraversal.PARENTS).anyMatch(n -> n instanceof PackageDeclaration);
-    }
-
-    public static boolean isMethodName(Node name){
-        return name.getParentNode().isPresent()
-                &&
-                (name.getParentNode().get() instanceof MethodDeclaration
-                        || name.getParentNode().get() instanceof MethodCallExpr);
-    }
-
-    public static boolean isConstructorName(Node name){
-        return name.getParentNode().isPresent()
-                &&
-                (name.getParentNode().get() instanceof ConstructorDeclaration
-                        || name.getParentNode().get() instanceof ObjectCreationExpr); //new
-    }
-
-    /** Is this "name" type one that is being used in the context of a variable name? */
-    public static boolean isVariableName(Node name){
-        return name instanceof SimpleName && name.getParentNode().isPresent() && name.getParentNode().get() instanceof VariableDeclarator;
-    }
-
-    /** Is this "name" type one that is being used in a parameter */
-    public static boolean isParameterName(Node name){
-        return name instanceof SimpleName && name.getParentNode().isPresent() && name.getParentNode().get() instanceof Parameter;
-    }
-
-    public static boolean isTypeRefName(Node name){
-        return name instanceof Type || name.getParentNode().isPresent()
-                && name.stream(Node.TreeTraversal.PARENTS).anyMatch(n -> n instanceof Type);
-    }
-
-    /** Is this name being used as "part" or a whole type name*/
-    public static boolean isTypeDeclarationName(Node name){
-        return name.getParentNode().isPresent() && name.getParentNode().get() instanceof TypeDeclaration;
-    }
-
-    /** Is this name a "part" of a MethodReference? */
-    public boolean isMethodReference(Node name){
-        return name instanceof MethodReferenceExpr || name.getParentNode().isPresent() &&
-                name.stream(Node.TreeTraversal.PARENTS).anyMatch(n -> n instanceof MethodReferenceExpr);
-    }
-
-    /** Is this name being used as "part" or a whole import name? */
-    public static boolean isImportName(Node name){
-        boolean is = name instanceof ImportDeclaration ||
-                (name.getParentNode().isPresent() && name.stream(Node.TreeTraversal.PARENTS).anyMatch(n -> n instanceof ImportDeclaration) );
-        return is;
+    /**
+     * Include matching names that are used in these contexts
+     * (NOTE: by default ALL uses are included, this will only change )
+     * @param usages uses that are forbidden to be matched
+     * @return the modified $name bot
+     */
+    public $ref $include(_name.Use... usages ){
+        Arrays.stream(usages).forEach(e -> this.excludedUses.remove( e ) );
+        return this;
     }
 
     @Override
     public _name draft(Translator translator, Map<String, Object> keyValues) {
         if( this.stencil == null){
-            Object nm = keyValues.get("$name");
+            Object nm = keyValues.get("$ref");
             if( nm == null ){
-                throw new _jdraftException( "cannot draft $name with no Template/Stencil ");
+                throw new _jdraftException( "cannot draft $ref with no Template/Stencil ");
             }
             if( nm instanceof Stencil ){
                 return _name.of(((Stencil)nm).draft(translator, keyValues));
@@ -553,18 +675,7 @@ public class $ref implements $bot<Node, _java._node, $ref>,
             if( this.stencil != null ) {
                 or.stencil = this.stencil.copy();
             }
-            or.matchAnnoMemberValueNames = this.matchAnnoMemberValueNames;
-            or.matchAnnoNames = this.matchAnnoNames;
-            or.matchConstructorNames = this.matchConstructorNames;
-            or.matchImports = this.matchImports;
-            or.matchMethodNames = this.matchMethodNames;
-            or.matchMethodReferences = this.matchMethodReferences;
-            or.matchPackageNames = this.matchPackageNames;
-            or.matchParameterNames = this.matchParameterNames;
-            or.matchTypeDeclarationNames = this.matchTypeDeclarationNames;
-            or.matchTypeRefNames = this.matchTypeRefNames;
-            or.matchVariableNames = this.matchVariableNames;
-
+            this.excludedUses.forEach(e-> or.excludedUses.add(e));
             return or;
         }
 
