@@ -74,6 +74,26 @@ public class ASCIITreePrinter {
     }
 
     /**
+     * Return a String representation of the ASCII Tree defining the contents with the AST node
+     * @param rootNode any AST node to describe the contents of in tree form
+     */
+    public static String form(Node rootNode) {
+        return TNode.of( new TNode(rootNode)).output(SUMMARY_CLASS_RANGE_FORMAT);
+    }
+
+    /**
+     * Return a String representation of the ASCII Tree defining the contents with the AST node
+     * @param _rootNode any _jdraft AST node to describe the contents of in tree form
+     */
+    public static String form(_java._node _rootNode) {
+        if( _rootNode instanceof _codeUnit && ((_codeUnit)_rootNode).isTopLevel() ){
+            return TNode.of(new TNode( ((_codeUnit)_rootNode).astCompilationUnit())).output(_NODE_SUMMARY_CLASS_RANGE_FORMAT);
+        } else {
+            return TNode.of(new TNode(_rootNode.ast())).output(_NODE_SUMMARY_CLASS_RANGE_FORMAT);
+        }
+    }
+
+    /**
      * Print a Tree to System.out defining the contents with the AST node
      * @param rootNode the root
      * @param nodeFormat
