@@ -16,10 +16,10 @@ import java.util.*;
 
 public class SrefTest extends TestCase {
 
-    public void testPrePostConstains() {
+    public void test$exclude() {
         assertEquals(1, $ref.startsWith("pre").countIn(_import.of("pre")));
-        assertEquals(0, $ref.startsWith("pre").$exclude(_name.Use.IMPORT_NAME, _name.Use.ENUM_NAME).countIn(_import.of("pre")));
-        assertEquals(0, $ref.startsWith("pre").$exclude(_name.Use.IMPORT_NAME).countIn(_import.of("pre")));
+        assertEquals(0, $ref.startsWith("pre").$exclude($ref.IMPORT_NAME, $ref.ENUM_NAME).countIn(_import.of("pre")));
+        assertEquals(0, $ref.startsWith("pre").$exclude($ref.IMPORT_NAME).countIn(_import.of("pre")));
     }
 
     public void testStartsWith(){
@@ -63,6 +63,29 @@ public class SrefTest extends TestCase {
 
 
     }
+
+    public void testTypeParams(){
+        assertEquals(2, $ref.of().countIn(_class.of("class C<T>{}").ast()));
+
+        $ref.of().printEachTreeIn(_class.of("class C<T>{}").ast());
+
+        _java._node _n = $ref.of().listIn(_class.of("class C<T>{}")).get(1);
+        Print.tree(_n.ast());
+
+        assertTrue($ref.TYPE_PARAMETER_NAME.is(_n));
+        assertEquals(1, $ref.of($ref.TYPE_PARAMETER_NAME).countIn(_class.of("class C<T>{}").ast()));
+
+        class TP1 <X extends Serializable,Y>{
+
+        }
+        Print.tree(TP1.class);
+        $ref.of().printIn(TP1.class);
+
+        assertEquals( 2, $ref.of($ref.TYPE_PARAMETER_NAME).countIn(TP1.class));
+
+
+    }
+
     public void testByUse(){
 
         //     1

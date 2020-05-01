@@ -10,6 +10,7 @@ import com.github.javaparser.ast.stmt.ContinueStmt;
 import com.github.javaparser.ast.stmt.LabeledStmt;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
+import com.github.javaparser.ast.type.TypeParameter;
 import org.jdraft.text.Text;
 
 import java.util.Arrays;
@@ -161,6 +162,11 @@ public final class _name implements _java._uniPart<Node, _name> {
     }
 
     /** is this name used as a Reference to a Type i.e. "int" within "int i;" */
+    public boolean isTypeParameterName(){
+        return Use.TYPE_PARAMETER_NAME.is(this.name);
+    }
+
+    /** is this name used as a Reference to a Type i.e. "int" within "int i;" */
     public boolean isTypeRefName(){
         return Use.TYPE_REF_NAME.is(this.name);
     }
@@ -219,7 +225,7 @@ public final class _name implements _java._uniPart<Node, _name> {
         ANNO_MEMBER_VALUE_NAME(name -> name.getParentNode().isPresent() && name.getParentNode().get() instanceof MemberValuePair),
         ANNOTATION_NAME( name ->  name.getParentNode().isPresent() && name.getParentNode().get() instanceof AnnotationDeclaration),
         ANNOTATION_ELEMENT_NAME( name -> name.getParentNode().isPresent() && name.getParentNode().get() instanceof AnnotationMemberDeclaration),
-        CLASS_NAME(name -> name.getParentNode().isPresent() &&
+        CLASS_NAME(name -> name instanceof SimpleName && name.getParentNode().isPresent() &&
                 name.getParentNode().get() instanceof ClassOrInterfaceDeclaration &&
                 !((ClassOrInterfaceDeclaration) name.getParentNode().get()).asClassOrInterfaceDeclaration().isInterface()),
         CONSTRUCTOR_NAME( name -> name instanceof SimpleName && name.getParentNode().isPresent()
@@ -241,7 +247,8 @@ public final class _name implements _java._uniPart<Node, _name> {
 
         PACKAGE_NAME(name-> name.getParentNode().isPresent() && name.getParentNode().get() instanceof PackageDeclaration),
         PARAMETER_NAME(name-> name instanceof SimpleName && name.getParentNode().isPresent() && name.getParentNode().get() instanceof Parameter), //instanceof SimpleName?
-        TYPE_REF_NAME(name->name instanceof Type || (name.getParentNode().isPresent()
+        TYPE_PARAMETER_NAME(name->name instanceof TypeParameter),
+        TYPE_REF_NAME(name->name instanceof Type && (!( name instanceof TypeParameter)) || (name.getParentNode().isPresent()
                 && name.stream(Node.TreeTraversal.PARENTS).anyMatch(n -> n instanceof Type))),
         VARIABLE_NAME(name-> name instanceof SimpleName && name.getParentNode().isPresent() && name.getParentNode().get() instanceof VariableDeclarator);
 
@@ -249,6 +256,10 @@ public final class _name implements _java._uniPart<Node, _name> {
 
         Use(Predicate<Node> useFn){
             this.useFn = useFn;
+        }
+
+        public boolean is(_java._node _node){
+            return is(_node.ast());
         }
 
         public boolean is(Node name){

@@ -6,6 +6,8 @@ import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
+import com.github.javaparser.ast.type.TypeParameter;
+import com.github.javaparser.printer.ASCIITreePrinter;
 import org.jdraft.*;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Template;
@@ -89,7 +91,9 @@ public class $ref implements $bot<Node, _java._node, $ref>,
     public static final _name.Use METHOD_REFERENCE_NAME = _name.Use.METHOD_REFERENCE_NAME;
     public static final _name.Use PACKAGE_NAME = _name.Use.PACKAGE_NAME;
     public static final _name.Use PARAMETER_NAME = _name.Use.PARAMETER_NAME;
+    public static final _name.Use TYPE_PARAMETER_NAME = _name.Use.TYPE_PARAMETER_NAME;
     public static final _name.Use TYPE_REF_NAME = _name.Use.TYPE_REF_NAME;
+
     public static final _name.Use VARIABLE_NAME = _name.Use.VARIABLE_NAME;
 
     public static $ref of(){
@@ -502,6 +506,21 @@ public class $ref implements $bot<Node, _java._node, $ref>,
                     return false;
                 } else{
                     //System.out.println( "TYPE ARGUMENTS" + candidate+" "+ parent);
+                }
+            }
+
+            //If we have
+            // "class C<Y>{}"
+            // it has a TypeParameter Y which has a Nested SimpleName Y
+            // "class C<Y>{}" ClassOrInterfaceDeclaration
+            //  ├─"C" SimpleName
+            //  └─"Y" TypeParameter
+            //    └─"Y" SimpleName
+            // here we only want to "count" the "Y" as a single $ref,
+            // therefore we only use the TypeParameter (top-level) and exclude the nested "Y" SimpleName
+            if( parent instanceof TypeParameter && candidate.ast() instanceof SimpleName){
+                if( parent.toString().equals( candidate.toString() ) ){
+                    return false;
                 }
             }
             if( parent instanceof ImportDeclaration){
