@@ -213,14 +213,14 @@ public class _enumTest extends TestCase {
         
         _constant _c = _e.getConstant("B");
         
-        assertTrue(_c.hasAnnos());
+        assertTrue(_c.hasAnnoRefs());
         assertTrue(_c.hasJavadoc());
         assertTrue(_c.hasFields());
         assertTrue(_c.hasArguments());
         assertEquals( 2, _c.listArguments().size());
         assertEquals( _int.of(1), _c.getArgument(0));
         assertEquals( _string.of("String"), _c.getArgument(1));
-        assertTrue( _c.getAnnos().is("@ann", "@ann2(k='o')"));
+        assertTrue( _c.getAnnoRefs().is("@ann", "@ann2(k='o')"));
         _field _f = _c.getField( "num");
         assertNotNull( _f);
         assertTrue( _f.getModifiers().is( "public static final"));
@@ -252,9 +252,9 @@ public class _enumTest extends TestCase {
         assertTrue(_ct.getBody().isEmpty() );
         
         _ct = _e.getConstructor( 1 );
-        assertTrue( _ct.hasAnnos() );
-        System.out.println( _ct.getAnnos() );
-        assertTrue( _ct.getAnnos().is("@ann","@ann2(k='y')"));
+        assertTrue( _ct.hasAnnoRefs() );
+        System.out.println( _ct.getAnnoRefs() );
+        assertTrue( _ct.getAnnoRefs().is("@ann","@ann2(k='y')"));
         assertTrue( _ct.isPrivate());
         assertTrue( _ct.getParameter( 0 ).is( "@ann @ann2(k='l',v=6) int i"));
         assertTrue( _ct.getParameter( 1 ).is( "String...s"));

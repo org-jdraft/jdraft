@@ -1437,7 +1437,7 @@ public enum Tree {
      * ({@link _field}, {@link _method}, {@link _constant}...)
      *
      * <LI>Logical interfaces
-     * ({@link _javadocComment._withJavadoc}, {@link _method._withMethods}, {@link _annos._withAnnos}, ...)
+     * ({@link _javadocComment._withJavadoc}, {@link _method._withMethods}, {@link _annoRefs._withAnnoRefs}, ...)
      * </UL>
      *
      * @param <T> the target Class TYPE ..we need this BECAUSE Node classes/interfaces dont have a common ancestor
@@ -1550,7 +1550,7 @@ public enum Tree {
                     });
             return astRootNode;
         }
-        if( _expression.class.isAssignableFrom(_javaClass) && !(_javaClass == _anno.class) ){
+        if( _expression.class.isAssignableFrom(_javaClass) && !(_javaClass == _annoRef.class) ){
             in( tt, levels,
                     astRootNode,
                     Expression.class,
@@ -1724,7 +1724,7 @@ public enum Tree {
                     });
             return astRootNode;
         }
-        else if( _javaClass == _annos._withAnnos.class ) {
+        else if( _javaClass == _annoRefs._withAnnoRefs.class ) {
             in(tt, levels,
                     astRootNode,
                     Node.class,
@@ -1733,9 +1733,9 @@ public enum Tree {
                     // do so with the AST BODY
                     n -> n instanceof BodyDeclaration || n instanceof Parameter || n instanceof ReceiverParameter,
                     n ->{
-                        _annos._withAnnos ha = (_annos._withAnnos)_java.of( n );
-                        if( ((Predicate<_annos._withAnnos>)_javaMatchFn).test( ha ) ){
-                            ((Consumer<_annos._withAnnos>)_javaAction).accept(ha);
+                        _annoRefs._withAnnoRefs ha = (_annoRefs._withAnnoRefs)_java.of( n );
+                        if( ((Predicate<_annoRefs._withAnnoRefs>)_javaMatchFn).test( ha ) ){
+                            ((Consumer<_annoRefs._withAnnoRefs>)_javaAction).accept(ha);
                         }
                     });
             return astRootNode;

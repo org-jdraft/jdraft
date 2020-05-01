@@ -125,7 +125,7 @@ public class $typeRef
         $typeRef $t = of(_exact);
 
         $t.$and(_t->
-            _annos.of(_t.ast()).equals(_annos.of(_exact.ast())) && /* Type Annotations */
+            _annoRefs.of(_t.ast()).equals(_annoRefs.of(_exact.ast())) && /* Type Annotations */
             _t.getArrayDimensions() == _exact.getArrayDimensions() && /* Array Dimensions */
             Types.equal( _t.getTypeArguments(), _exact.getTypeArguments() ) && /* Type Arguments */
             Types.equal(_t.getBaseType().ast(), _exact.getBaseType().ast() )
@@ -402,7 +402,7 @@ public class $typeRef
                 }
                 return null; //couldnt match either the super OR extended Type
             }
-            if( _tr.hasAnnos() && this.type.getAnnotations().isEmpty()){ //the candidate has annotation(s) the target does not
+            if( _tr.hasAnnoRefs() && this.type.getAnnotations().isEmpty()){ //the candidate has annotation(s) the target does not
                 try {
                     return select(_tr.toString(Print.PRINT_NO_ANNOTATIONS_OR_COMMENTS));
                 } catch(Exception e){
@@ -412,10 +412,10 @@ public class $typeRef
                 }
             }
             Tokens ats = new Tokens();
-            _annos _as = _typeRef.of(this.type).getAnnos();
-            if( _tr.hasAnnos() && !_as.isEmpty() ){
+            _annoRefs _as = _typeRef.of(this.type).getAnnoRefs();
+            if( _tr.hasAnnoRefs() && !_as.isEmpty() ){
                 //System.out.println ("BOTH HAVE ANNOS");
-                ats = $annos.of(_as).parse(_tr.getAnnos());
+                ats = $annoRefs.of(_as).parse(_tr.getAnnoRefs());
                 if( ats == null ){
                     //System.out.println( "Tokens not equal");
                     return null;

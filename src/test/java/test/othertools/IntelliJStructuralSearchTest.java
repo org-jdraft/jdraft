@@ -105,7 +105,7 @@ public class IntelliJStructuralSearchTest{
         __( $.or($method.of(), $constructor.of() ) );
 
         //Deprecated methods
-        __( $method.of( $anno.of(Deprecated.class)) );
+        __( $method.of( $annoRef.of(Deprecated.class)) );
 
         //Direct Subclasses
         __( $class.of(c -> c.hasExtends()) );
@@ -156,19 +156,19 @@ public class IntelliJStructuralSearchTest{
         __( $.initBlock(i-> i.isStatic()) );
 
         //Annotated Classes
-        __( $class.of(c-> c.hasAnnos() ) );
+        __( $class.of(c-> c.hasAnnoRefs() ) );
 
         //Annotated Fields
-        __( $field.of(f->f.hasAnnos() ) );
+        __( $field.of(f->f.hasAnnoRefs() ) );
 
         //Annotated Methods
-        __( $method.of(m->m.hasAnnos() ) );
+        __( $method.of(m->m.hasAnnoRefs() ) );
 
         //Annotation Type Declarations
         __( $annotation.of() );
 
         //Annotation
-        __( $anno.of() );
+        __( $annoRef.of() );
 
         //Expressions
 
@@ -384,7 +384,7 @@ public class IntelliJStructuralSearchTest{
         __( $class.of(c-> c.allFields(f-> f.isFinal()) ) );
         __( $class.of(c-> c.allInitBlocks(i-> i.isStatic() ) ) );
         __( $class.of(c-> c.allTypeParameters(tp-> !tp.hasTypeBound() ) ) );
-        __( $class.of(c-> c.isAllAnnos(a-> !a.isNamed("todo") ) ) );
+        __( $class.of(c-> c.isAllAnnoRefs(a-> !a.isNamed("todo") ) ) );
 
         //Singletons
         // OR classes that HAVE defined constructors that are ALL private

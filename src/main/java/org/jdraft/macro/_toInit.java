@@ -83,7 +83,7 @@ public @interface _toInit {
          */
         public static _initBlock fromMethod( _method _m ){
             _initBlock _ib = _initBlock.of();
-            if( _m.hasAnno(_static.class)){
+            if( _m.hasAnnoRef(_static.class)){
                 _ib.setStatic(); //no need to remove the _static anno
             }
             _ib.setBody( _m.getBody() );

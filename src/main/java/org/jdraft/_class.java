@@ -767,8 +767,8 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     }
 
     @Override
-    public _annos getAnnos() {
-        return _annos.of(this.astClass );
+    public _annoRefs getAnnoRefs() {
+        return _annoRefs.of(this.astClass );
     }
 
     @Override
@@ -934,7 +934,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         parts.put(_java.Component.HEADER_COMMENT, this.getHeaderComment() );
         parts.put( _java.Component.PACKAGE, this.getPackage() );
         parts.put( _java.Component.IMPORTS, this.getImports().list() );
-        parts.put( _java.Component.ANNOS, this.listAnnos() );
+        parts.put( _java.Component.ANNOS, this.listAnnoRefs() );
         parts.put( Component.EXTENDS, this.astClass.getExtendedTypes() );
         parts.put( Component.IMPLEMENTS, this.listImplements() );
         parts.put( Component.JAVADOC, this.getJavadoc() );
@@ -984,7 +984,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         sbs.addAll( this.listInitBlocks());
 
         hash = 47 * hash + Objects.hash( this.getPackage(), this.getName(),
-                this.getJavadoc(), this.getAnnos(), this.getModifiers(),
+                this.getJavadoc(), this.getAnnoRefs(), this.getModifiers(),
                 this.getTypeParameters(), Types.hash(this.getExtends()),
                 sbs, Types.hash( ast().getImplementedTypes() ),
                 Expressions.hashAnnos(astClass),

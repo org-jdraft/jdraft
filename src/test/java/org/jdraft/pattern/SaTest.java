@@ -7,8 +7,8 @@ package org.jdraft.pattern;
 
 import com.github.javaparser.ast.expr.MemberValuePair;
 import org.jdraft.Expressions;
-import org.jdraft._anno;
-import org.jdraft._annos;
+import org.jdraft._annoRef;
+import org.jdraft._annoRefs;
 import org.jdraft._class;
 import java.util.regex.Pattern;
 import junit.framework.TestCase;
@@ -25,13 +25,13 @@ public class SaTest extends TestCase {
 
     public void test$annosAs(){
         //
-        $annos $as = $annos.as();
+        $annoRefs $as = $annoRefs.as();
 
-        assertTrue($as.matches(_annos.of()));
+        assertTrue($as.matches(_annoRefs.of()));
         assertTrue($as.matches(""));
         assertFalse($as.matches("@A"));
 
-        $as = $annos.as("@A");
+        $as = $annoRefs.as("@A");
 
         assertTrue($as.matches("@A"));
         assertFalse($as.matches(""));
@@ -51,28 +51,28 @@ public class SaTest extends TestCase {
         $.anno("A").matches("@A(1)");
         
         
-        $anno $a = $anno.of( $id.of("A"), $anno.$memberValue.of(Expressions.of(1)));
+        $annoRef $a = $annoRef.of( $id.of("A"), $annoRef.$memberValue.of(Expressions.of(1)));
         assertTrue( $a.matches("@A(1)") );        
     }
     
     public void testOverrideParameter(){
         
-        System.out.println( $anno.of("B").draftToString() + "" );
+        System.out.println( $annoRef.of("B").draftToString() + "" );
         
-        assertEquals(_anno.of("B"), $anno.of().draft("$anno", "@B"));
-        assertEquals(_anno.of("B").toString(), $anno.of()
+        assertEquals(_annoRef.of("B"), $annoRef.of().draft("$anno", "@B"));
+        assertEquals(_annoRef.of("B").toString(), $annoRef.of()
                 .draftToString("$anno", "@B"));
     }
     
     public void testAnyCompose(){
         try{
-            $anno.of().draft();
+            $annoRef.of().draft();
             fail("expected exception for no name");
         }catch(Exception e){
             
         }        
         //override parameter
-        assertEquals(_anno.of("E"), $anno.of().draft("$anno", "@E"));
+        assertEquals(_annoRef.of("E"), $annoRef.of().draft("$anno", "@E"));
         
     }
     
@@ -84,24 +84,24 @@ public class SaTest extends TestCase {
             void m(){}
         }
         
-        assertEquals( 2, $anno.of().countIn(T.class));
+        assertEquals( 2, $annoRef.of().countIn(T.class));
     }
     
     public void testOutOfOrderKeyValues(){
-        $anno a = $anno.of("@A(a=1,b=2)");
-        assertTrue( a.matches(_anno.of("@A(b=2,a=1)")) );
+        $annoRef a = $annoRef.of("@A(a=1,b=2)");
+        assertTrue( a.matches(_annoRef.of("@A(b=2,a=1)")) );
     }
     
     public void testParensOrNoParens(){
-        $anno a = $anno.of("@E");
+        $annoRef a = $annoRef.of("@E");
         
-        assertTrue(a.matches(_anno.of("@E")));
+        assertTrue(a.matches(_annoRef.of("@E")));
         //this doesnt work
-        assertTrue(a.matches(_anno.of("@E()")));
+        assertTrue(a.matches(_annoRef.of("@E()")));
     }
     
     public void testFullyQualified(){
-        $anno a = $anno.of("@A");
+        $annoRef a = $annoRef.of("@A");
         assertTrue( a.matches("@A") );
         assertTrue( a.matches("@A()") );
         assertTrue( a.matches("@fully.qualified.A") );
@@ -111,7 +111,7 @@ public class SaTest extends TestCase {
         assertFalse( a.matches("@fully.qualified.A.B") );
         
         
-        a = $anno.of("@fully.qualified.A");
+        a = $annoRef.of("@fully.qualified.A");
         assertTrue( a.matches("@fully.qualified.A") );
         assertTrue( a.matches("@fully.qualified.A(1)") );
         assertTrue( a.matches("@fully.qualified.A(a=1)") );
@@ -124,13 +124,13 @@ public class SaTest extends TestCase {
     }
     
     public void testSsa(){
-        $anno a = $anno.of("@A(count=1)");
+        $annoRef a = $annoRef.of("@A(count=1)");
         assertTrue( a.matches("@A(count=1)") );
     }
     
     public void testG(){
         //a marker annotation match
-        $anno a = $anno.of("@A");
+        $annoRef a = $annoRef.of("@A");
         assertTrue( a.matches("@A") ); //matches a marker
         assertTrue( a.matches("@A()") ); //matches a marker with parens
         assertTrue( a.matches("@A(1)") ); //matches a "value" annotation
@@ -140,14 +140,14 @@ public class SaTest extends TestCase {
         
         
         //an annotation with single value
-        a = $anno.of("@A(\"value\")");
+        a = $annoRef.of("@A(\"value\")");
         assertFalse( a.matches("@A") ); //X missing a value
         assertTrue( a.matches("@A(\"value\")") ); //exact match w/ value
         assertTrue( a.matches("@A(key=\"value\")") );// with a key=(value)
         assertFalse( a.matches("@A(key=\"val\")") ); // X not the correct value
         
         //an annotation with key value
-        a = $anno.of("@A(count=1)");
+        a = $annoRef.of("@A(count=1)");
         assertFalse( a.matches("@A") );
         assertTrue( a.matches("@A(1)") ); //simple value matches
         assertTrue( a.matches("@A(count=1)") ); //exact match
@@ -156,7 +156,7 @@ public class SaTest extends TestCase {
         assertTrue( a.matches("@A(str=\"eric\", count=1)") ); //in whatever order
         
         //an annotation with multiple keyvalues
-        a = $anno.of("@A(count=1,str=\"e\")");
+        a = $annoRef.of("@A(count=1,str=\"e\")");
         assertFalse( a.matches("@A(1)") ); //simple value matches
         assertFalse( a.matches("@A(count=1)") ); //exact match
         assertFalse( a.matches("@A(count=2)") ); //X wrong value
@@ -168,45 +168,45 @@ public class SaTest extends TestCase {
         
     }
     public void testA(){
-        $anno a = $anno.of("@A");
+        $annoRef a = $annoRef.of("@A");
         assertTrue( a.matches("@A"));
     }
     
     public void testS(){
-        $anno.$memberValue.of().matches(new MemberValuePair());
-        $anno.$memberValue.of().matches(new MemberValuePair("a", Expressions.of(1)));
+        $annoRef.$memberValue.of().matches(new MemberValuePair());
+        $annoRef.$memberValue.of().matches(new MemberValuePair("a", Expressions.of(1)));
         
         //static  membervalues
-        $anno.$memberValue.of("a", "100").matches(new MemberValuePair("a", Expressions.stringLiteralEx("100")));
-        $anno.$memberValue.of("a", "100").matches(new MemberValuePair("a", Expressions.of("100")));
+        $annoRef.$memberValue.of("a", "100").matches(new MemberValuePair("a", Expressions.stringLiteralEx("100")));
+        $annoRef.$memberValue.of("a", "100").matches(new MemberValuePair("a", Expressions.of("100")));
         
         //dynamic value
-        $anno.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expressions.of("100")));
-        $anno.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expressions.of("1")));
-        $anno.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expressions.stringLiteralEx("Blah")));
-        $anno.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expressions.of(new int[]{1,2,3,4})));
+        $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expressions.of("100")));
+        $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expressions.of("1")));
+        $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expressions.stringLiteralEx("Blah")));
+        $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expressions.of(new int[]{1,2,3,4})));
         
         
     }
     
     public void testSingleValueAnno(){
        MemberValuePair mvp = new MemberValuePair().setValue(Expressions.of(1));
-       assertTrue($anno.$memberValue.of(Expressions.of(1)).matches(mvp));
+       assertTrue($annoRef.$memberValue.of(Expressions.of(1)).matches(mvp));
     }
  
     
     
     public void testAny(){
         _class _c = _class.of("C");
-        assertEquals( 0, $anno.of().listIn(_c).size());
+        assertEquals( 0, $annoRef.of().listIn(_c).size());
         
         //add a top level annotation
-        _c.addAnnos(Deprecated.class);
-        assertEquals( 1, $anno.of().listIn(_c).size());
+        _c.addAnnoRefs(Deprecated.class);
+        assertEquals( 1, $annoRef.of().listIn(_c).size());
 
 
-        $anno.of().forEachIn(_c, a-> System.out.println(a.getName()));
-        $anno.of().forEachIn(_c, a-> !a.hasValues(), a-> System.out.println( a) );
+        $annoRef.of().forEachIn(_c, a-> System.out.println(a.getName()));
+        $annoRef.of().forEachIn(_c, a-> !a.hasValues(), a-> System.out.println( a) );
 
 
     }
@@ -216,21 +216,21 @@ public class SaTest extends TestCase {
    
     public void testMatchClass(){
         
-        assertTrue($anno.of(R.class).matches("R"));
-        assertTrue($anno.of(R.class).matches("@draft.java.proto.SaTest.R"));
+        assertTrue($annoRef.of(R.class).matches("R"));
+        assertTrue($annoRef.of(R.class).matches("@draft.java.proto.SaTest.R"));
         
-        assertTrue($anno.of(R.class).matches("R()"));
-        assertTrue($anno.of(R.class).matches("@draft.java.proto.SaTest.R()"));
+        assertTrue($annoRef.of(R.class).matches("R()"));
+        assertTrue($annoRef.of(R.class).matches("@draft.java.proto.SaTest.R()"));
         
-        assertTrue($anno.of(R.class).matches("R(1)"));
-        assertTrue($anno.of(R.class).matches("@draft.java.proto.SaTest.R(2)"));        
+        assertTrue($annoRef.of(R.class).matches("R(1)"));
+        assertTrue($annoRef.of(R.class).matches("@draft.java.proto.SaTest.R(2)"));
         
-        assertTrue($anno.of(R.class).matches("R(value=1)"));
-        assertTrue($anno.of(R.class).matches("@draft.java.proto.SaTest.R(value=2)"));   
-        assertTrue($anno.of(R.class).matches("@draft.java.proto.SaTest.R()"));   
+        assertTrue($annoRef.of(R.class).matches("R(value=1)"));
+        assertTrue($annoRef.of(R.class).matches("@draft.java.proto.SaTest.R(value=2)"));
+        assertTrue($annoRef.of(R.class).matches("@draft.java.proto.SaTest.R()"));
         
-        assertTrue($anno.of(R.class).matches("R()"));   
-        assertTrue($anno.of(R.class).matches("@draft.java.proto.SaTest.R()"));   
+        assertTrue($annoRef.of(R.class).matches("R()"));
+        assertTrue($annoRef.of(R.class).matches("@draft.java.proto.SaTest.R()"));
         
         /*
         assertTrue($anno.of("R($any$)").matches("@draft.java.proto.SaTest.R()"));  
@@ -250,13 +250,13 @@ public class SaTest extends TestCase {
         
         
         
-        assertTrue($anno.of(R.class).matches("R(2)"));
+        assertTrue($annoRef.of(R.class).matches("R(2)"));
         
-        assertTrue($anno.of(S.class).matches("S()"));
-        assertTrue($anno.of(S.class).matches("S(Float.class)"));
-        assertTrue($anno.of(S.class).$and(a-> a.hasValue(v -> v.isClassExpr())).matches("@S(Float.class)"));
-        assertFalse($anno.of(S.class).$and(a-> a.hasValue(v -> v.isClassExpr())).matches("@S"));
-        assertFalse($anno.of(S.class).$and(a-> a.hasValue(v -> v.isClassExpr())).matches("@S({Float.class, String.class})"));
+        assertTrue($annoRef.of(S.class).matches("S()"));
+        assertTrue($annoRef.of(S.class).matches("S(Float.class)"));
+        assertTrue($annoRef.of(S.class).$and(a-> a.hasValue(v -> v.isClassExpr())).matches("@S(Float.class)"));
+        assertFalse($annoRef.of(S.class).$and(a-> a.hasValue(v -> v.isClassExpr())).matches("@S"));
+        assertFalse($annoRef.of(S.class).$and(a-> a.hasValue(v -> v.isClassExpr())).matches("@S({Float.class, String.class})"));
         
     }
     
@@ -267,9 +267,9 @@ public class SaTest extends TestCase {
     public void testFullyQual(){        
         // when I do this, I need to change the regex as EITHER
         // 
-        $anno a = $anno.of(R.class);
+        $annoRef a = $annoRef.of(R.class);
         
-        @org.jdraft.pattern.SannoTest.R
+        @SannoRefTest.R
         class C{}        
         _class _c = _class.of(C.class);        
         assertNotNull( a.firstIn(_c) );
@@ -312,22 +312,22 @@ public class SaTest extends TestCase {
         }
         
         _class _c = _class.of(C.class);
-        assertNotNull( $anno.of("name").firstIn(_c) );
+        assertNotNull( $annoRef.of("name").firstIn(_c) );
         
         //verify that we can find 
-        assertNotNull( $anno.of("name").firstIn(_c, 
+        assertNotNull( $annoRef.of("name").firstIn(_c,
                 //there is an Integer attribute value that is odd
                 (a)-> a.hasValue(e -> e.isIntegerLiteralExpr() && e.asIntegerLiteralExpr().asInt() % 2 == 1)) );
         
-        assertNotNull( $anno.of("name").firstIn(_c, (a) -> a.hasValue(3)) );
-        assertNotNull( $anno.of("name(3)").firstIn(_c ));        
-        assertNotNull( $anno.of("name(3)").firstIn(_c, _a-> _a.hasValue(3)) );
+        assertNotNull( $annoRef.of("name").firstIn(_c, (a) -> a.hasValue(3)) );
+        assertNotNull( $annoRef.of("name(3)").firstIn(_c ));
+        assertNotNull( $annoRef.of("name(3)").firstIn(_c, _a-> _a.hasValue(3)) );
     }
      
     public void testStatic$a(){
-        $anno a = $anno.of("@name");
-        assertEquals( _anno.of("@name"), a.draft());
-        assertTrue( a.matches(_anno.of("@name")));
+        $annoRef a = $annoRef.of("@name");
+        assertEquals( _annoRef.of("@name"), a.draft());
+        assertTrue( a.matches(_annoRef.of("@name")));
 
         @name
         class C{
@@ -336,23 +336,23 @@ public class SaTest extends TestCase {
         }
         _class _c = _class.of(C.class);
         assertEquals( 3, a.listSelectedIn(_c).size() );
-        _c = a.replaceIn(_c, $anno.of("@name2"));
+        _c = a.replaceIn(_c, $annoRef.of("@name2"));
         assertEquals( 0, a.listSelectedIn(_c).size() ); //verify they are all changed
         assertEquals( 3, a.of("@name2").listSelectedIn(_c).size() ); //verify they are all changed
     }
 
     public void testDynamicAnno(){
         //any @NAME annotation with a prefix
-        $anno a = $anno.of("@name(prefix=$any$)");
+        $annoRef a = $annoRef.of("@name(prefix=$any$)");
 
-        assertTrue( a.matches( _anno.of("@name(prefix=\"1\")") ));
+        assertTrue( a.matches( _annoRef.of("@name(prefix=\"1\")") ));
         
-        assertNotNull( a.select( _anno.of("@name(prefix=\"1\")") ));
+        assertNotNull( a.select( _annoRef.of("@name(prefix=\"1\")") ));
 
-        System.out.println( "GOTTEN " + a.select(_anno.of("@name(prefix=\"1\")") ).tokens);
-        assertTrue( a.select(_anno.of("@name(prefix=\"1\")") ).is("any", Expressions.stringLiteralEx("1")) );
+        System.out.println( "GOTTEN " + a.select(_annoRef.of("@name(prefix=\"1\")") ).tokens);
+        assertTrue( a.select(_annoRef.of("@name(prefix=\"1\")") ).is("any", Expressions.stringLiteralEx("1")) );
 
-        assertTrue( a.select(_anno.of("@name(prefix=\"ABCD\")")).is("any", "ABCD"));
+        assertTrue( a.select(_annoRef.of("@name(prefix=\"ABCD\")")).is("any", "ABCD"));
         assertTrue( a.$list().contains("any"));
 
 
@@ -366,11 +366,11 @@ public class SaTest extends TestCase {
 
         // In this case, it'd be better to just use _walk
         // Here we Transpose the property information from @NAME to the @name2 annotation
-        a.replaceIn(_c, $anno.of("@name2(string=$any$)") );
+        a.replaceIn(_c, $annoRef.of("@name2(string=$any$)") );
         System.out.println(_c );
 
-        _anno _a = a.draft("any", "\"Some String\"");
-        assertEquals( _anno.of("@name(prefix=\"Some String\")"), _a );
+        _annoRef _a = a.draft("any", "\"Some String\"");
+        assertEquals( _annoRef.of("@name(prefix=\"Some String\")"), _a );
     }
 
 

@@ -63,8 +63,8 @@ public class _1_Annotation_With_Consumer_Field_Test extends TestCase {
         assertEquals("2",System.getProperty(_annWithField.class.getSimpleName()));
 
         // verify the model doesn't still have the macro
-        assertFalse(_c.hasAnnos()); //verify we cleaned up the annotation on the class
-        assertFalse(_c.hasAnno(_annWithField.class));
+        assertFalse(_c.hasAnnoRefs()); //verify we cleaned up the annotation on the class
+        assertFalse(_c.hasAnnoRef(_annWithField.class));
         System.out.println(_c );
     }
 

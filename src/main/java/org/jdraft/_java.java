@@ -17,7 +17,7 @@ import com.github.javaparser.printer.PrettyPrinterConfiguration;
 
 import static org.jdraft.Ast.*;
 
-import org.jdraft._annos._withAnnos;
+import org.jdraft._annoRefs._withAnnoRefs;
 import org.jdraft._annotation._entry;
 import org.jdraft._body._hasBody;
 
@@ -101,7 +101,7 @@ public interface _java {
         if (_import.class == nodeClass) {
             return importDeclaration(Text.combine(code) );
         }
-        if (_anno.class == nodeClass) {
+        if (_annoRef.class == nodeClass) {
             return anno(code);
         }
         if (_method.class == nodeClass) {
@@ -160,7 +160,7 @@ public interface _java {
      * handles:
      * all {@link _type}s:
      * {@link _annotation}, {@link _class}, {@link _enum}, {@link _interface}
-     * {@link _anno}
+     * {@link _annoRef}
      * {@link _entry}
      * {@link _constructor}
      * {@link _constant}
@@ -194,7 +194,7 @@ public interface _java {
             return _import.of((ImportDeclaration) astNode);
         }
         if (astNode instanceof AnnotationExpr) {
-            return _anno.of((AnnotationExpr) astNode);
+            return _annoRef.of((AnnotationExpr) astNode);
         }
         if( astNode instanceof PackageDeclaration ){
             return _package.of( (PackageDeclaration)astNode);
@@ -334,9 +334,9 @@ public interface _java {
         MODULE_DECLARATION("moduleDeclaration", ModuleDeclaration.class),
         PACKAGE("package", PackageDeclaration.class),
         /** i.e. @Deprecated @NotNull */
-        ANNOS("annos", _annos.class),
+        ANNOS("annos", _annoRefs.class),
         /** i.e. @Deprecated */
-        ANNO("anno", _anno.class),
+        ANNO("anno", _annoRef.class),
         CLASS("class", _class.class),
         ENUM("enum", _enum.class),
         INTERFACE("interface", _interface.class),
@@ -515,7 +515,7 @@ public interface _java {
 
     /**
      * Mappings from JavaParser AST models (i.e. {@link AnnotationExpr}) 
-     * ...to jdraft _java models (i.e. {@link _anno})
+     * ...to jdraft _java models (i.e. {@link _annoRef})
      */
     class Model {
 
@@ -557,9 +557,9 @@ public interface _java {
 
         Class<_body> BODY = _body.class;
         /** an annotation use i.e. @Deprecated */
-        Class<_anno> ANNO = _anno.class;
+        Class<_annoRef> ANNO = _annoRef.class;
         /** group of annotation usages  on a single entity */
-        Class<_annos> ANNOS = _annos.class;
+        Class<_annoRefs> ANNOS = _annoRefs.class;
         Class<_import> IMPORT = _import.class;
         Class<_imports> IMPORTS = _imports.class;
 
@@ -587,7 +587,7 @@ public interface _java {
 
         Class<_withThrows> HAS_THROWS = _withThrows.class;
         Class<_hasBody> HAS_BODY = _hasBody.class;
-        Class<_withAnnos> HAS_ANNOS = _withAnnos.class;
+        Class<_withAnnoRefs> HAS_ANNOS = _withAnnoRefs.class;
         Class<_withConstructors> HAS_CONSTRUCTORS = _withConstructors.class;
         Class<_withJavadoc> HAS_JAVADOC = _withJavadoc.class;
         Class<_withMethods> HAS_METHODS = _withMethods.class;
@@ -633,14 +633,14 @@ public interface _java {
      * <LI>{@link _initBlock} {@link InitializerDeclaration}
      * is a {@link _member} but is NOT {@link _declared} (primarily because it is not
      * callable/referenceable/accessible outside of the Class where it is defined and does
-     * not satisfy the {@link _withName} {@link _withAnnos} or {@link _withJavadoc} interfaces
+     * not satisfy the {@link _withName} {@link _withAnnoRefs} or {@link _withJavadoc} interfaces
      * (Not available via reflection at runtime)
      *
      * @param <N> the AST node type (i.e. {@link MethodDeclaration})
      * @param <_D> the meta-representation declaration type (i.e. {@link _method})
      */
-    interface _declared<N extends Node, _D extends _multiPart & _withName & _withAnnos & _withJavadoc>
-            extends _member<N, _D>, _withName<_D>, _withAnnos<_D>, _withJavadoc<_D>, _withComments<N, _D>  {
+    interface _declared<N extends Node, _D extends _multiPart & _withName & _withAnnoRefs & _withJavadoc>
+            extends _member<N, _D>, _withName<_D>, _withAnnoRefs<_D>, _withJavadoc<_D>, _withComments<N, _D>  {
 
         @Override
         default _javadocComment getJavadoc() {
@@ -1008,7 +1008,7 @@ public interface _java {
      *         <LI>{@link _initBlock} {@link InitializerDeclaration}</LI>
      * </UL>
      * //adornment, property
-     * <LI>{@link _anno} {@link AnnotationExpr}
+     * <LI>{@link _annoRef} {@link AnnotationExpr}
      * <LI>{@link _parameter} {@link Parameter}</LI>
      * <LI>{@link _receiverParameter} {@link ReceiverParameter}</LI>
      * <LI>{@link _typeParameter} {@link TypeParameter}</LI>
@@ -1054,7 +1054,7 @@ public interface _java {
      *  void m() throws B, A
      * </CODE>
      *
-     * @see _annos< AnnotationExpr,_anno>
+     * @see _annoRefs < AnnotationExpr, _annoRef >
      * @see _imports< ImportDeclaration,_import>
      * @see _modifiers <com.github.javaparser.ast.Modifier,_modifier>
      * @see _typeParameters< TypeParameter,_typeParameter>
@@ -1372,7 +1372,7 @@ public interface _java {
      * {@link _method}
      * {@link _field}
      * {@link _parameter}
-     * {@link _anno}
+     * {@link _annoRef}
      * {@link _constant}
      * {@link _entry}
      * {@link _typeRef}

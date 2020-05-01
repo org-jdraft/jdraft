@@ -78,10 +78,10 @@ public @interface _toCtor {
             if( _m.hasTypeParameters()){
                 _ct.setTypeParameters( _m.getTypeParameters() );
             }
-            if( _m.hasAnnos() ) {
-                _ct.addAnnos(_m.ast().getAnnotations() );
+            if( _m.hasAnnoRefs() ) {
+                _ct.addAnnoRefs(_m.ast().getAnnotations() );
             }
-            _ct.removeAnnos(_toCtor.class);
+            _ct.removeAnnoRefs(_toCtor.class);
             _ct.setBody( _m.getBody() );
             _ct.setThrows(_m.ast().getThrownExceptions());
             _ct.setTypeParameters(_m.getTypeParameters());
@@ -123,7 +123,7 @@ public @interface _toCtor {
             if( _ct.hasJavadoc() ) {
                 cd.setJavadocComment(_ct.getJavadoc().ast());
             }
-            cd.setAnnotations( _ct.getAnnos().ast());
+            cd.setAnnotations( _ct.getAnnoRefs().ast());
             cd.getAnnotations().removeIf( a -> a.getNameAsString().equals(_toCtor.class.getName() ) || a.getNameAsString().equals(_toCtor.class.getCanonicalName()) );
 
             //remove the old method

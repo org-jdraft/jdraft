@@ -48,8 +48,8 @@ public class macroTest extends TestCase {
         assertEquals("true",System.getProperty(_annConsumerField.class.getSimpleName()));
 
         //verify the model doesn't still have the macro
-        assertFalse(_c.hasAnnos()); //verify we cleaned up the annotation on the class
-        assertFalse(_c.hasAnno(_annConsumerField.class));
+        assertFalse(_c.hasAnnoRefs()); //verify we cleaned up the annotation on the class
+        assertFalse(_c.hasAnnoRef(_annConsumerField.class));
         //System.out.println(_c );
     }
 
@@ -83,7 +83,7 @@ public class macroTest extends TestCase {
         //apply the macro
         _class _c = macro.to(D.class);
         assertEquals( "true", System.getProperty(_annInstanceNoArg.class.getSimpleName()));
-        assertFalse( _c.hasAnno(_annInstanceNoArg.class));
+        assertFalse( _c.hasAnnoRef(_annInstanceNoArg.class));
         //List<Consumer<Node>> macros = macro.from(D.class);
         //assertEquals( 1, macros.size());
     }
@@ -124,7 +124,7 @@ public class macroTest extends TestCase {
         assertEquals( "true", System.getProperty(_annInstanceArgs.class.getSimpleName()));
 
         //verify we cleaned up at the end
-        assertFalse( _c.hasAnno(_annInstanceArgs.class));
+        assertFalse( _c.hasAnnoRef(_annInstanceArgs.class));
     }
 
     public void setUp(){

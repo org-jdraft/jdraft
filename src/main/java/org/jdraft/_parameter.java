@@ -14,7 +14,7 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _parameter
-    implements _java._withNameTypeRef<Parameter, _parameter>, _annos._withAnnos<_parameter>,
+    implements _java._withNameTypeRef<Parameter, _parameter>, _annoRefs._withAnnoRefs<_parameter>,
         _modifiers._withFinal<_parameter>, _java._multiPart<Parameter, _parameter> {
 
     /**
@@ -99,8 +99,8 @@ public final class _parameter
     }
 
     @Override
-    public _annos getAnnos() {
-        return _annos.of( this.astParameter );
+    public _annoRefs getAnnoRefs() {
+        return _annoRefs.of( this.astParameter );
     }
 
     public boolean isVarArg() {
@@ -240,7 +240,7 @@ public final class _parameter
     public Map<_java.Component, Object> components( ) {
         Map<_java.Component, Object> parts = new HashMap<>();
         parts.put( _java.Component.FINAL, isFinal() );
-        parts.put( _java.Component.ANNOS, getAnnos() );
+        parts.put( _java.Component.ANNOS, getAnnoRefs() );
         parts.put( _java.Component.TYPE, getTypeRef() );
         parts.put( _java.Component.NAME, getName() );
         parts.put( _java.Component.VAR_ARG, isVarArg() );

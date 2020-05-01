@@ -27,8 +27,8 @@ public class _allNodeUseTest extends TestCase {
     public void testNodesAlphabetical(){
         //_java._domain is the top-level interface for all instance AND interface abstractions
         _java._domain[] _instances = {
-                _anno.of("@A"),
-                _annos.of("@A @B"),
+                _annoRef.of("@A"),
+                _annoRefs.of("@A @B"),
                 _annotation.of("@interface AI{}"),
                 _arguments.of("(1, 'c')"),
                 _arrayAccess.of("a[1][call()]"),
@@ -166,7 +166,7 @@ public class _allNodeUseTest extends TestCase {
     public void testSetBasedInstances(){
         //semantically, order doesnt matter
         _java._set[] setBased = {
-                _annos.of("@A @B"),
+                _annoRefs.of("@A @B"),
                 _imports.of( "import java.util.*;", "import java.net.*;"),
                 _localVariables.of("int i, j = 100"),
                 _modifiers.of("public static final"),
@@ -210,7 +210,7 @@ public class _allNodeUseTest extends TestCase {
 
         //each precise _expression type, has an "of()..." static method for building the _expression
         _expression[] _es = {
-                _anno.of("@A"),
+                _annoRef.of("@A"),
                 _arrayAccess.of("a[1][call()]"),
                 _arrayCreate.of("new a[1][2]"),
                 _arrayInitialize.of("{1,2,3}"),

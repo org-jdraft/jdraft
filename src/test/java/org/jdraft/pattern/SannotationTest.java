@@ -1,6 +1,5 @@
 package org.jdraft.pattern;
 
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import junit.framework.TestCase;
 import org.jdraft.Ast;
@@ -92,7 +91,7 @@ public class SannotationTest extends TestCase {
         assertFalse($c.matches(_annotation.of("C").setJavadoc("not compilant")));
 
         $c = $annotation.of($.anno(Deprecated.class));
-        assertTrue( $c.matches(_annotation.of("F").addAnnos(Deprecated.class)));
+        assertTrue( $c.matches(_annotation.of("F").addAnnoRefs(Deprecated.class)));
         assertFalse( $c.matches(_annotation.of("F")));
 
         $c = $annotation.of($.name("AC$afterPrefix$"));

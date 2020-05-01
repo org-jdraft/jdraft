@@ -4,7 +4,6 @@ import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -19,7 +18,7 @@ import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import org.jdraft.text.Text;
 
 /**
- * Instance of a single @ annotation
+ * Instance of a single @ annotation (i.e. a "Reference" to an {@link _annotation} (
  * i.e. (as applied to a field "int a;")
  * <UL>
  * <LI> @base int a; : "naked" annotation</LI>
@@ -45,22 +44,22 @@ import org.jdraft.text.Text;
  * @name(key1="value1", key2="value2")
  * }</PRE>
  *
- * @see _annos which represents ALL annotations applied to an AnnotatedEntity
+ * @see _annoRefs which represents ALL annotations applied to an AnnotatedEntity
  * @author Eric
  */
-public final class _anno
-        implements _expression <AnnotationExpr, _anno>, _java._withName<_anno>, _java._multiPart<AnnotationExpr, _anno> {
+public final class _annoRef
+        implements _expression <AnnotationExpr, _annoRef>, _java._withName<_annoRef>, _java._multiPart<AnnotationExpr, _annoRef> {
 
-    public static _anno of( String anno ){        
+    public static _annoRef of(String anno ){
         return of( new String[]{anno} );
     }
 
-    public static _anno of(){
-        return new _anno( new MarkerAnnotationExpr() );
+    public static _annoRef of(){
+        return new _annoRef( new MarkerAnnotationExpr() );
     }
 
-    public static _anno of( String... annotation ) {
-        return new _anno( Ast.anno( annotation ) );
+    public static _annoRef of(String... annotation ) {
+        return new _annoRef( Ast.anno( annotation ) );
     }
 
     /**
@@ -69,7 +68,7 @@ public final class _anno
      * @param anonymousObject an anonymous Object containing an annotated entity
      * @return the _anno _draft object
      */
-    public static _anno of( Object anonymousObject ){
+    public static _annoRef of(Object anonymousObject ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         ObjectCreationExpr oce = Expressions.newEx(ste);
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
@@ -77,22 +76,22 @@ public final class _anno
         return of( bd.getAnnotation(0) );
     }
 
-    public static _anno of( Class<? extends Annotation> annotationClass){
+    public static _annoRef of(Class<? extends Annotation> annotationClass){
         return of( new MarkerAnnotationExpr(annotationClass.getSimpleName()));
     }
-    public static _anno of( AnnotationExpr astAnno ) {
-        return new _anno( astAnno );
+    public static _annoRef of(AnnotationExpr astAnno ) {
+        return new _annoRef( astAnno );
     }
     
     private AnnotationExpr astAnno;
 
-    public _anno( AnnotationExpr astAnno ) {
+    public _annoRef(AnnotationExpr astAnno ) {
         this.astAnno = astAnno;
     }
 
     @Override
-    public _anno copy() {
-        return new _anno( this.astAnno.clone() );
+    public _annoRef copy() {
+        return new _annoRef( this.astAnno.clone() );
     }
 
     @Override
@@ -103,7 +102,7 @@ public final class _anno
     public Name getNameNode(){ return this.astAnno.getName(); }
 
     @Override
-    public _anno setName(String name ){
+    public _annoRef setName(String name ){
         this.astAnno.setName(name);
         return this;
     }
@@ -580,7 +579,7 @@ public final class _anno
     }
 
     public boolean isMemberValues( String... memberValuesString){
-        _anno _a = _anno.of("@"+this.getName()+"("+Text.combine(memberValuesString)+")");
+        _annoRef _a = _annoRef.of("@"+this.getName()+"("+Text.combine(memberValuesString)+")");
 
         List<_memberValue> mvs = _a.listMemberValues();
 
@@ -637,7 +636,7 @@ public final class _anno
     @Override
     public boolean is( AnnotationExpr astExpr ){
         try {
-            return _anno.of(astExpr).equals( this );
+            return _annoRef.of(astExpr).equals( this );
         }
         catch( Exception e ) {
             return false;
@@ -674,7 +673,7 @@ public final class _anno
         return m;
     }
 
-    public _anno removeMemberValues() {
+    public _annoRef removeMemberValues() {
         if( this.astAnno instanceof MarkerAnnotationExpr ) {
             return this;
         }
@@ -698,31 +697,31 @@ public final class _anno
     }
      */
     
-    public _anno addMemberValue(String key, char c ) {
+    public _annoRef addMemberValue(String key, char c ) {
         return addMemberValue( key, Expressions.of( c ) );
     }
 
-    public _anno addMemberValue(String key, boolean b ) {
+    public _annoRef addMemberValue(String key, boolean b ) {
         return addMemberValue( key, Expressions.of( b ) );
     }
 
-    public _anno addMemberValue(String key, int value ) {
+    public _annoRef addMemberValue(String key, int value ) {
         return addMemberValue( key, Expressions.of( value ) );
     }
 
-    public _anno addMemberValue(String key, long value ) {
+    public _annoRef addMemberValue(String key, long value ) {
         return addMemberValue( key, Expressions.of( value ) );
     }
 
-    public _anno addMemberValue(String key, float f ) {
+    public _annoRef addMemberValue(String key, float f ) {
         return addMemberValue( key, Expressions.of( f ) );
     }
 
-    public _anno addMemberValue(String key, double d ) {
+    public _annoRef addMemberValue(String key, double d ) {
         return addMemberValue( key, Expressions.of( d ) );
     }
 
-    public _anno addMemberValue(String key, Expression astExpr ) {
+    public _annoRef addMemberValue(String key, Expression astExpr ) {
         if( this.astAnno instanceof NormalAnnotationExpr ) {
             NormalAnnotationExpr n = (NormalAnnotationExpr)this.astAnno;
             n.addPair(key, astExpr );
@@ -738,39 +737,39 @@ public final class _anno
         return this;
     }
 
-    public _anno addMemberValue(String key, String value ) {
+    public _annoRef addMemberValue(String key, String value ) {
         return addMemberValue(key, Expressions.stringLiteralEx(value));
     }
 
-    public _anno setValue( String key, char c ) {
+    public _annoRef setValue(String key, char c ) {
         return setValue( key, Expressions.of( c ) );
     }
 
-    public _anno setValue( String key, boolean b ) {
+    public _annoRef setValue(String key, boolean b ) {
         return setValue( key, Expressions.of( b ) );
     }
 
-    public _anno setValue( String key, int value ) {
+    public _annoRef setValue(String key, int value ) {
         return setValue( key, Expressions.of( value ) );
     }
 
-    public _anno setValue( String key, long value ) {
+    public _annoRef setValue(String key, long value ) {
         return setValue( key, Expressions.of( value ) );
     }
 
-    public _anno setValue( String key, float f ) {
+    public _annoRef setValue(String key, float f ) {
         return setValue( key, Expressions.of( f ) );
     }
 
-    public _anno setValue( String key, double d ) {
+    public _annoRef setValue(String key, double d ) {
         return setValue( key, Expressions.of( d ) );
     }
 
-    public _anno setValue( String name, String expression ) {
+    public _annoRef setValue(String name, String expression ) {
         return setValue( name, Expressions.stringLiteralEx( expression ) );
     }
 
-    public _anno removeAttr( String name ) {
+    public _annoRef removeAttr(String name ) {
         if( this.astAnno instanceof NormalAnnotationExpr ) {
             NormalAnnotationExpr nae = (NormalAnnotationExpr)this.astAnno;
             nae.getPairs().removeIf( mvp -> mvp.getNameAsString().equals( name ) );
@@ -780,7 +779,7 @@ public final class _anno
         return this;
     }
 
-    public _anno removeAttr( int index ) {
+    public _annoRef removeAttr(int index ) {
         if( this.astAnno instanceof NormalAnnotationExpr ) {
             NormalAnnotationExpr nae = (NormalAnnotationExpr)this.astAnno;
             nae.getPairs().remove( index );
@@ -800,7 +799,7 @@ public final class _anno
         return this;
     }
 
-    public _anno setValue( String name, Expression e ) {
+    public _annoRef setValue(String name, Expression e ) {
         this.listKeys().contains( name );
         if( this.astAnno instanceof NormalAnnotationExpr ) {
             NormalAnnotationExpr nae = (NormalAnnotationExpr)this.astAnno;
@@ -824,31 +823,31 @@ public final class _anno
         return this;
     }
 
-    public _anno setValue( int index, String stringLiteral ) {
+    public _annoRef setValue(int index, String stringLiteral ) {
         return setValue( index, Expressions.stringLiteralEx( stringLiteral ) );
     }
     
-    public _anno setValue( int index, int intLiteral) {
+    public _annoRef setValue(int index, int intLiteral) {
         return setValue( index, Expressions.of( intLiteral ) );
     }
 
-    public _anno setValue( int index, boolean boolLiteral) {
+    public _annoRef setValue(int index, boolean boolLiteral) {
         return setValue( index, Expressions.of( boolLiteral ) );
     }
     
-    public _anno setValue( int index, char charLiteral) {
+    public _annoRef setValue(int index, char charLiteral) {
         return setValue( index, Expressions.of( charLiteral ) );
     }
     
-    public _anno setValue( int index, float floatLiteral) {
+    public _annoRef setValue(int index, float floatLiteral) {
         return setValue( index, Expressions.of( floatLiteral ) );
     }
     
-    public _anno setValue( int index, double doubleLiteral) {
+    public _annoRef setValue(int index, double doubleLiteral) {
         return setValue( index, Expressions.of( doubleLiteral ) );
     }
     
-    public _anno setValue( int index, Expression value ) {
+    public _annoRef setValue(int index, Expression value ) {
         if( index == 0 && this.astAnno instanceof MarkerAnnotationExpr ) {
             MarkerAnnotationExpr ma = (MarkerAnnotationExpr)this.astAnno;
             SingleMemberAnnotationExpr sv = new SingleMemberAnnotationExpr( ma.getName(), value );
@@ -936,7 +935,7 @@ public final class _anno
         if( getClass() != obj.getClass() ) {
             return false;
         }
-        final _anno other = (_anno)obj;
+        final _annoRef other = (_annoRef)obj;
 
         return Expressions.equal(astAnno, other.astAnno);
     }

@@ -86,8 +86,8 @@ public class SemmleLGTMQueryTests extends TestCase {
         $field $f = $field.of( $containerType ) //all fields that are "containers" (i.e. collections, list, map, HashSet, LinkedList)
                 .$not(
                         $.PRIVATE,
-                        $anno.of("@SuppressWarnings(\"unused\")"),
-                        $anno.of("@lombok.Getter") //could make this "better" by passing in Lombok class
+                        $annoRef.of("@SuppressWarnings(\"unused\")"),
+                        $annoRef.of("@lombok.Getter") //could make this "better" by passing in Lombok class
                 );
                 //and the parent isnt a private
                 //.$not(v-> Ast.isParent(v, FieldDeclaration.class) ); //a local var (not a field or parameter)
@@ -111,7 +111,7 @@ public class SemmleLGTMQueryTests extends TestCase {
 
         //$field.of($typeRef.of(List.class)).$not($.PRIVATE).printIn(SomeClass.class);
         //$field.of($typeRef.of(List.class)).$not($.PRIVATE, $anno.of("Getter")).printIn(SomeClass.class);
-        $field.of($typeRef.of(List.class)).$not($.PRIVATE, $anno.of("@SuppressWarnings(\"unused\")")).printIn(SomeClass.class);
+        $field.of($typeRef.of(List.class)).$not($.PRIVATE, $annoRef.of("@SuppressWarnings(\"unused\")")).printIn(SomeClass.class);
         //$field.of( $containerType )
     }
 }

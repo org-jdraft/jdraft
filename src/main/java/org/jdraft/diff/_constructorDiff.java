@@ -35,7 +35,7 @@ public final class _constructorDiff implements _differ<_constructor, _java._mult
     @Override
     public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _constructor left, _constructor right) {
         _javadocCommentDiff.INSTANCE.diff(path, dt, left, right, left.getJavadoc(), right.getJavadoc());
-        _annosDiff.INSTANCE.diff(path, dt, left, right, left.getAnnos(), right.getAnnos());
+        _annoRefsDiff.INSTANCE.diff(path, dt, left, right, left.getAnnoRefs(), right.getAnnoRefs());
         _modifiersDiff.INSTANCE.diff(path, dt, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());
         _namedDiff.INSTANCE.diff(path, dt, left, right, left.getName(), right.getName());
         _receiverParameterDiff.INSTANCE.diff(path, dt, left, right, left.getReceiverParameter(), right.getReceiverParameter());

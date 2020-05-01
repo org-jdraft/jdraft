@@ -21,7 +21,7 @@ public class _4_Model_AnnotationMacroTest extends TestCase {
         //when we load the _class from the runtimeClass, the annotations are processed
         _class _c = _class.of( UsesMacro.class );
         // the corresponding _class (_c) will remove the @_get annotation after processing
-        assertFalse( _c.hasAnnos() );
+        assertFalse( _c.hasAnnoRefs() );
 
         assertNotNull(_c.getMethod("getX")); //verify getX() is created
         assertNotNull(_c.getMethod("getY")); //verify getY() is created

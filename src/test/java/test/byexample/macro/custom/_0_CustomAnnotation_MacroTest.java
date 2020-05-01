@@ -86,10 +86,10 @@ public class _0_CustomAnnotation_MacroTest extends TestCase {
             @_count void m(){}
         }
         _class _c = _class.of(D.class); /* NOTE: _class.of(Class) calls macro.to(Class) internally */
-        assertFalse( _c.hasAnno(_count.class)); // macro (_count.Impl) removed the @_count annotation
-        assertFalse( _c.getField("i").hasAnno(_count.class)); // macro (_count.Impl) removed the @_count annotation
-        assertFalse( _c.getConstructor(0).hasAnno(_count.class)); // macro (_count.Impl) removed the @_count annotation
-        assertFalse( _c.getMethod("m").hasAnno(_count.class)); // macro (_count.Impl) removed the @_count annotation
+        assertFalse( _c.hasAnnoRef(_count.class)); // macro (_count.Impl) removed the @_count annotation
+        assertFalse( _c.getField("i").hasAnnoRef(_count.class)); // macro (_count.Impl) removed the @_count annotation
+        assertFalse( _c.getConstructor(0).hasAnnoRef(_count.class)); // macro (_count.Impl) removed the @_count annotation
+        assertFalse( _c.getMethod("m").hasAnnoRef(_count.class)); // macro (_count.Impl) removed the @_count annotation
         assertEquals( "4", System.getProperty("count")); //make sure the macro was called (4) times
     }
 

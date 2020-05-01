@@ -623,7 +623,7 @@ public class AstTest extends TestCase {
 
         assertTrue( Ast.root(_f.ast()) instanceof FieldDeclaration );
 
-        _anno _a = _anno.of("@R");
+        _annoRef _a = _annoRef.of("@R");
 
         assertTrue( Ast.root(_a.ast()) instanceof AnnotationExpr );
 
@@ -714,8 +714,8 @@ public class AstTest extends TestCase {
     }
     
     public void testAnnoExprEqualsAndHash(){
-        _anno _a = _anno.of("a(1)");
-        _anno _b = _anno.of("a(value=1)");
+        _annoRef _a = _annoRef.of("a(1)");
+        _annoRef _b = _annoRef.of("a(value=1)");
         
         assertEquals( _a, _b);
         assertEquals(_a.hashCode(), _b.hashCode());

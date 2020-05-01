@@ -39,7 +39,7 @@ public class _2_Annotation_With_Macro_Instance_Test extends TestCase {
         //apply the macro to the model
         _class _c = macro.to(D.class);
         assertEquals( "true", System.getProperty(_annInstanceNoArg.class.getSimpleName()));
-        assertFalse( _c.hasAnno(_annInstanceNoArg.class));
+        assertFalse( _c.hasAnnoRef(_annInstanceNoArg.class));
     }
 
 

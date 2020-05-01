@@ -177,7 +177,7 @@ public class SmethodTest extends TestCase {
     }
     
     public void testMethodCtor(){
-        $method $m = $method.of( $anno.of(Deprecated.class) );
+        $method $m = $method.of( $annoRef.of(Deprecated.class) );
         $m.$annos(t -> t.size() == 1);
     }
     
@@ -351,7 +351,7 @@ public class SmethodTest extends TestCase {
         System.out.println( _m );
         
         assertTrue($m.matches(_m));
-        _m.removeAnnos(Deprecated.class);
+        _m.removeAnnoRefs(Deprecated.class);
         
         /** SHOULD WORK, NEED TO REFACTOR $anno first 
         _m.annotate("@java.lang.Deprecated");

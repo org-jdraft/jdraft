@@ -23,7 +23,7 @@ import java.util.Set;
 import java.util.function.*;
 
 import org.jdraft.*;
-import org.jdraft._annos;
+import org.jdraft._annoRefs;
 import org.jdraft._parameters;
 import org.jdraft._typeParameters;
 import org.jdraft.macro._remove;
@@ -1830,52 +1830,52 @@ public final class $ {
         return $node.of( $ps );
     }
 
-    public static $anno anno(){
-        return $anno.of();
+    public static $annoRef anno(){
+        return $annoRef.of();
     }
     
-    public static $anno anno( $id name, $anno.$memberValue...memberValues ){
-        return $anno.of(name, memberValues);
+    public static $annoRef anno($id name, $annoRef.$memberValue...memberValues ){
+        return $annoRef.of(name, memberValues);
     }
     
-    public static $anno anno( Predicate<_anno> constraint){
-        return $anno.of().$and(constraint);
+    public static $annoRef anno(Predicate<_annoRef> constraint){
+        return $annoRef.of().$and(constraint);
     }
     
-    public static $anno anno( String pattern){
-        return $anno.of(pattern);
+    public static $annoRef anno(String pattern){
+        return $annoRef.of(pattern);
     }
     
-    public static $anno anno(String pattern, Predicate<_anno> constraint){
-        return $anno.of(pattern).$and(constraint);
+    public static $annoRef anno(String pattern, Predicate<_annoRef> constraint){
+        return $annoRef.of(pattern).$and(constraint);
     }
     
-    public static $anno anno( Class<? extends Annotation> clazz ){
-        return $anno.of(clazz);
+    public static $annoRef anno(Class<? extends Annotation> clazz ){
+        return $annoRef.of(clazz);
     }
     
-    public static $anno anno( Class<? extends Annotation> clazz, Predicate<_anno> constraint){
-        return $anno.of(clazz).$and(constraint);
+    public static $annoRef anno(Class<? extends Annotation> clazz, Predicate<_annoRef> constraint){
+        return $annoRef.of(clazz).$and(constraint);
     }
     
-    public static $annos annos(){
-        return $annos.of();
+    public static $annoRefs annos(){
+        return $annoRefs.of();
     }
     
-    public static $annos annos( Predicate<_annos> constraint ){
-        return $annos.of().$and(constraint);
+    public static $annoRefs annos(Predicate<_annoRefs> constraint ){
+        return $annoRefs.of().$and(constraint);
     }
     
-    public static $annos annos( _annos _anns ){
-        return $annos.of(_anns);
+    public static $annoRefs annos(_annoRefs _anns ){
+        return $annoRefs.of(_anns);
     }
     
-    public static $annos annos( _annos _anns, Predicate<_annos> constraint){
-        return $annos.of(_anns).$and(constraint);
+    public static $annoRefs annos(_annoRefs _anns, Predicate<_annoRefs> constraint){
+        return $annoRefs.of(_anns).$and(constraint);
     }
     
-    public static $annos annos($anno... annos){
-        return $annos.of(annos);
+    public static $annoRefs annos($annoRef... annos){
+        return $annoRefs.of(annos);
     }
 
     /**

@@ -1,7 +1,6 @@
 package org.jdraft;
 
 import com.github.javaparser.JavaParser;
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.JavadocComment;
@@ -313,8 +312,8 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
     }
 
     @Override
-    public _annos getAnnos() {
-        return _annos.of(this.astEnum );
+    public _annoRefs getAnnoRefs() {
+        return _annoRefs.of(this.astEnum );
     }
    
     @Override
@@ -640,7 +639,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         parts.put( _java.Component.HEADER_COMMENT, this.getHeaderComment() );
         parts.put( _java.Component.PACKAGE, this.getPackage() );
         parts.put( _java.Component.IMPORTS, this.getImports().list() );
-        parts.put( _java.Component.ANNOS, this.listAnnos() );
+        parts.put( _java.Component.ANNOS, this.listAnnoRefs() );
         parts.put( _java.Component.IMPLEMENTS, this.listImplements() );
         parts.put( _java.Component.JAVADOC, this.getJavadoc() );
         parts.put( _java.Component.CONSTANTS, this.listConstants());

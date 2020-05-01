@@ -20,14 +20,14 @@ import org.jdraft.text.Translator;
 public class $annotation
         implements //$pattern<_annotation, $annotation>,
         $pattern.$java<_annotation, $annotation>, $member.$named<$annotation>,
-        $declared<_annotation,$annotation>, has$Annos {
+        $declared<_annotation,$annotation>, has$AnnoRefs {
 
     public Predicate<_annotation> constraint = t->true;
 
     public $package packageDecl = $package.of();
     public List<$import> imports = new ArrayList<>();
     public $comment<JavadocComment>javadoc = $comment.javadocComment();
-    public $annos annos = $annos.of();
+    public $annoRefs annos = $annoRefs.of();
     public $modifiers modifiers = $modifiers.of();
     public $name name = $name.of("$annotationName$"); //name required
 
@@ -81,7 +81,7 @@ public class $annotation
         List<Node>nots = new ArrayList<>();
 
         //remove _$not things
-        _a.forDeclared( d -> d.hasAnno(_$not.class), d-> {
+        _a.forDeclared( d -> d.hasAnnoRef(_$not.class), d-> {
             //System.out.println("NODE" +  d + d.getClass());
             if( d instanceof _field ){
                 ((_field) d).getFieldDeclaration().remove();
@@ -94,7 +94,7 @@ public class $annotation
         } );
 
         $c.$javadoc(_a.getJavadoc());
-        _a.forAnnos(a-> $c.annos.add($anno.of(a)));
+        _a.forAnnoRefs(a-> $c.annos.add($annoRef.of(a)));
         $c.modifiers = $modifiers.of(_a.getModifiers());
         $c.$name(_a.getSimpleName());
         _a.forEntries(e -> $c.$elements($annotationEntry.of(e)));
@@ -157,11 +157,11 @@ public class $annotation
 
     public $annotation($part...parts){
         for(int i=0;i<parts.length;i++){
-            if( parts[i] instanceof $annos ){
-                this.annos = ($annos)parts[i];
+            if( parts[i] instanceof $annoRefs){
+                this.annos = ($annoRefs)parts[i];
             }
-            if( parts[i] instanceof $anno ){
-                this.annos.add(($anno)parts[i]);
+            if( parts[i] instanceof $annoRef){
+                this.annos.add(($annoRef)parts[i]);
             }
             if( parts[i] instanceof $comment){
                 this.javadoc = ($comment<JavadocComment>)parts[i];
@@ -195,14 +195,14 @@ public class $annotation
 
     public $annotation $not(final $annotation.$part...parts ){
         for(int i=0;i<parts.length;i++){
-            if( parts[i] instanceof $anno ){
-                final $anno $fa = (($anno)parts[i]);
-                Predicate<_annotation> pf = an-> an.getAnno( a ->$fa.match(a) ) != null;
+            if( parts[i] instanceof $annoRef){
+                final $annoRef $fa = (($annoRef)parts[i]);
+                Predicate<_annotation> pf = an-> an.getAnnoRef(a ->$fa.match(a) ) != null;
                 $and( pf.negate() );
             }
-            else if( parts[i] instanceof $annos ){
-                final $annos $fa = (($annos)parts[i]);
-                Predicate<_annotation> pf = an-> $fa.matches(an.getAnnos());
+            else if( parts[i] instanceof $annoRefs){
+                final $annoRefs $fa = (($annoRefs)parts[i]);
+                Predicate<_annotation> pf = an-> $fa.matches(an.getAnnoRefs());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $modifiers ) {
@@ -541,21 +541,21 @@ public class $annotation
         return this;
     }
 
-    public $annos get$Annos(){
+    public $annoRefs get$Annos(){
         return this.annos;
     }
 
-    public $annotation $annos(Predicate<_annos> annosMatchFn){
+    public $annotation $annos(Predicate<_annoRefs> annosMatchFn){
         this.annos.$and(annosMatchFn);
         return this;
     }
 
-    public $annotation $annos($annos $as ){
+    public $annotation $annos($annoRefs $as ){
         this.annos = $as;
         return this;
     }
 
-    public $annotation $annos($anno... $a){
+    public $annotation $annos($annoRef... $a){
         this.annos.add($a);
         return this;
     }

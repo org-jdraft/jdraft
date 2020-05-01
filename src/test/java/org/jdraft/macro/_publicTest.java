@@ -21,14 +21,14 @@ public class _publicTest extends TestCase {
         }
         _class _c = _class.of(F.class);
         assertTrue( _c.isPublic() );
-        assertFalse( _c.hasAnno(_public.class));
+        assertFalse( _c.hasAnnoRef(_public.class));
         assertTrue( _c.getConstructor(0).isPublic());
-        assertFalse( _c.getConstructor(0).hasAnno(_public.class));
+        assertFalse( _c.getConstructor(0).hasAnnoRef(_public.class));
 
         assertTrue( _c.getField("g").isPublic());
-        assertFalse( _c.getField("g").hasAnno(_public.class));
+        assertFalse( _c.getField("g").hasAnnoRef(_public.class));
 
         assertTrue( _c.getMethod("b").isPublic());
-        assertFalse( _c.getMethod("b").hasAnno(_public.class));
+        assertFalse( _c.getMethod("b").hasAnnoRef(_public.class));
     }
 }

@@ -9,19 +9,19 @@ public class _localVariablesTest extends TestCase {
         assertEquals(3, _vs.size());
         assertEquals(3, _vs.list().size());
         assertEquals(2, _vs.list(v-> v.hasInit()).size());
-        assertTrue( _vs.hasAnno("A"));
-        assertTrue( _vs.hasAnno("B"));
-        assertTrue( _vs.hasAnno("C"));
+        assertTrue( _vs.hasAnnoRef("A"));
+        assertTrue( _vs.hasAnnoRef("B"));
+        assertTrue( _vs.hasAnnoRef("C"));
 
 
-        assertNotNull(_vs.getAnno("A"));
-        assertNotNull(_vs.getAnno("B"));
-        assertNotNull(_vs.getAnno("C"));
+        assertNotNull(_vs.getAnnoRef("A"));
+        assertNotNull(_vs.getAnnoRef("B"));
+        assertNotNull(_vs.getAnnoRef("C"));
 
-        assertNotNull(_vs.getAnno(a-> a.hasMemberValue("value", 1)));
-        assertNotNull(_vs.getAnno(a-> a.hasMemberValue("k", 2)));
+        assertNotNull(_vs.getAnnoRef(a-> a.hasMemberValue("value", 1)));
+        assertNotNull(_vs.getAnnoRef(a-> a.hasMemberValue("k", 2)));
 
-        assertEquals(3, _vs.listAnnos().size());
+        assertEquals(3, _vs.listAnnoRefs().size());
 
         assertEquals(1, _vs.list(_v-> _v.isInit(100)).size());
     }
@@ -60,11 +60,11 @@ public class _localVariablesTest extends TestCase {
 
     public void testAnno(){
         _localVariables _vs = _localVariables.of( "@A final int i");
-        assertTrue( _vs.hasAnnos() );
-        assertTrue( _vs.hasAnno("A"));
-        assertTrue( _vs.hasAnno(a->a.isNamed("A")));
-        assertEquals( _anno.of("@A"), _vs.getAnno(0) );
-        _vs.addAnnos(_anno.of("@B(1)"), _anno.of("@C(k=2)"));
+        assertTrue( _vs.hasAnnoRefs() );
+        assertTrue( _vs.hasAnnoRef("A"));
+        assertTrue( _vs.hasAnnoRef(a->a.isNamed("A")));
+        assertEquals( _annoRef.of("@A"), _vs.getAnnoRef(0) );
+        _vs.addAnnoRefs(_annoRef.of("@B(1)"), _annoRef.of("@C(k=2)"));
 
         _vs.remove(_variable.of("int i"));
 

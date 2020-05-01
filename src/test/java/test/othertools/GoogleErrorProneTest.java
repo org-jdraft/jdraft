@@ -198,7 +198,7 @@ public class GoogleErrorProneTest extends TestCase {
         $ex $onAttachEx = $.ex("super.onAttach($any$)");
         $ex $injectEx = $ex.of("AndroidInjection.inject(this)");
 
-        $anno $suppress = $anno.of("@SuppressWarnings(\"AndroidInjectionBeforeSuper\")");
+        $annoRef $suppress = $annoRef.of("@SuppressWarnings(\"AndroidInjectionBeforeSuper\")");
 
 
         _class _c = _class.of(

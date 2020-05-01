@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
  * @author Eric
  */
 public final class _field
-        implements _javadocComment._withJavadoc<_field>, _annos._withAnnos<_field>, _modifiers._withModifiers<_field>, //_modifiers._hasModifiers<_field>,
+        implements _javadocComment._withJavadoc<_field>, _annoRefs._withAnnoRefs<_field>, _modifiers._withModifiers<_field>, //_modifiers._hasModifiers<_field>,
         _modifiers._withFinal<_field>, _modifiers._withStatic<_field>, _modifiers._withTransient<_field>, _modifiers._withVolatile<_field>,
         _java._withNameTypeRef<VariableDeclarator, _field>, _java._declared<VariableDeclarator, _field> {
 
@@ -254,17 +254,17 @@ public final class _field
     }
 
     @Override
-    public _annos getAnnos() {
+    public _annoRefs getAnnoRefs() {
 
         if( this.getFieldDeclaration() != null && this.astVar != null && this.astVar.getParentNode().isPresent()) {
 
-            return _annos.of(getFieldDeclaration());
+            return _annoRefs.of(getFieldDeclaration());
         }
         //FIELDS are a pain this avoids issues if the FieldDeclaration if removed and the errant VarDeclarator
         //exists (not knowing it has been effectively deleted /removed from the model)
         // you SHOULDNT EVER HAVE a VarDeclarator w/o a FieldDeclaration, but (in practice) this
         // saves trying to double removeIn when the parent was removed
-        return _annos.of();
+        return _annoRefs.of();
     }
 
     public SimpleName getNameNode() { return this.astVar.getName(); }
@@ -331,8 +331,8 @@ public final class _field
         if (this.hasJavadoc()) {
             sb.append(this.getJavadoc());
         }
-        if (this.hasAnnos()) {
-            sb.append(this.getAnnos());
+        if (this.hasAnnoRefs()) {
+            sb.append(this.getAnnoRefs());
         }
         String mods = this.getModifiers().toString();
         if (mods.trim().length() > 0) {
@@ -415,7 +415,7 @@ public final class _field
         } else{
             //if this is ONLY a var
             return other.getFieldDeclaration() == null || 
-                    other.getAnnos().isEmpty() && other.getModifiers().ast().isEmpty();
+                    other.getAnnoRefs().isEmpty() && other.getModifiers().ast().isEmpty();
         }       
         return true;
     }
@@ -427,7 +427,7 @@ public final class _field
         parts.put(_java.Component.TYPE, getTypeRef());
         parts.put(_java.Component.MODIFIERS, getModifiers());
         parts.put(_java.Component.JAVADOC, getJavadoc());
-        parts.put(_java.Component.ANNOS, getAnnos());
+        parts.put(_java.Component.ANNOS, getAnnoRefs());
         parts.put(_java.Component.INIT, getInit());
         return parts;
     }

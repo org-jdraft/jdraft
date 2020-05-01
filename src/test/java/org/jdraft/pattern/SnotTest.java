@@ -9,8 +9,8 @@ public class SnotTest extends TestCase {
         assertTrue( $annotationEntry.not($name.of("B")).matches("int value();"));
         assertTrue( $class.not($.PRIVATE).matches( "public class C{}") );
         assertTrue( $constructor.not($.PRIVATE).matches("public A(){}") );
-        assertTrue( $enum.not($anno.of(Deprecated.class)).matches( "public enum E{}") );
-        assertTrue( $enumConstant.not($anno.of(Deprecated.class)).matches( "E()") );
+        assertTrue( $enum.not($annoRef.of(Deprecated.class)).matches( "public enum E{}") );
+        assertTrue( $enumConstant.not($annoRef.of(Deprecated.class)).matches( "E()") );
         assertTrue( $field.not($.TRANSIENT).matches("public int i;"));
         assertTrue( $interface.not($typeParameters.of(t-> t.isEmpty())).matches("interface I<T>{}") );
         assertTrue( $method.not( $.FINAL).matches("public void v(){}") );

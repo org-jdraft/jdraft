@@ -80,7 +80,7 @@ public class JavaParserParseString extends TestCase {
 
     public void testSil(){
         //$.name().(Sil.class);
-        $node.of("EXTENSION").$hasAncestor($anno.of()).forEachIn(Sil.class, e-> System.out.println(e+" "+e.getClass()));
+        $node.of("EXTENSION").$hasAncestor($annoRef.of()).forEachIn(Sil.class, e-> System.out.println(e+" "+e.getClass()));
     }
     public void testParse(){
         String ctorBlock = "{\n" +

@@ -75,9 +75,9 @@ public class StypeRefTest extends TestCase {
         assertTrue( _t.isArrayType());
         //System.out.println( _t);
         //Ast.describe(_t.ast());
-        assertTrue( _t.hasAnnos());
+        assertTrue( _t.hasAnnoRefs());
         //System.out.println( _t.getAnnos() );
-        assertEquals( _annos.of("@NotNull"), _t.getAnnos() );
+        assertEquals( _annoRefs.of("@NotNull"), _t.getAnnoRefs() );
         //System.out.println( _t.getBaseType() );
 
         _t = _typeRef.of("@NotNull aaaaa.bbbb.A<? extends C, D>[][]");

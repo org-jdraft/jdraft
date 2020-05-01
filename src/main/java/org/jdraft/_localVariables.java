@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public final class _localVariables implements _expression<VariableDeclarationExpr, _localVariables>,
         _java._multiPart<VariableDeclarationExpr, _localVariables>,
         _java._set<VariableDeclarator, _variable, _localVariables>,
-        _annos._withAnnos<_localVariables>,
+        _annoRefs._withAnnoRefs<_localVariables>,
         _modifiers._withFinal<_localVariables>{
 
     public static _localVariables of(){
@@ -92,7 +92,7 @@ public final class _localVariables implements _expression<VariableDeclarationExp
         Map<_java.Component, Object> comps = new HashMap<>();
 
         comps.put( _java.Component.FINAL, varDeclEx.isFinal() );
-        comps.put( _java.Component.ANNOS, _annos.of(varDeclEx));
+        comps.put( _java.Component.ANNOS, _annoRefs.of(varDeclEx));
         comps.put( _java.Component.VARIABLES, list() );
         return comps;
     }
@@ -121,8 +121,8 @@ public final class _localVariables implements _expression<VariableDeclarationExp
     }
 
     @Override
-    public _annos getAnnos() {
-        return _annos.of(this.varDeclEx);
+    public _annoRefs getAnnoRefs() {
+        return _annoRefs.of(this.varDeclEx);
     }
 
     public boolean equals(Object other){

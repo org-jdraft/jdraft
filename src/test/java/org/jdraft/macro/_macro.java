@@ -54,7 +54,7 @@ import java.util.stream.Collectors;
  *
  * @param <M> the TYPE to apply the
  */
-public interface _macro<M extends _annos._withAnnos>
+public interface _macro<M extends _annoRefs._withAnnoRefs>
         extends Function<M,M> {
 
     /**
@@ -107,7 +107,7 @@ public interface _macro<M extends _annos._withAnnos>
      * @param <T> the underlying TYPE of the model (some _anno._hasAnnos)
      * @return the modified _model (with all {@link _macro}s applied)
      */
-    static <T extends _annos._withAnnos> T applyAllAnnotationMacros(T _model, AnnotatedElement ae ) {
+    static <T extends _annoRefs._withAnnoRefs> T applyAllAnnotationMacros(T _model, AnnotatedElement ae ) {
         //Arrays.stream(ae.getAnnotations()).forEach( a-> System.out.println( a ) );
         //System.out.println( "Applying macros to "+ae.getAnnotations());
         Annotation[] anns = ae.getAnnotations();
@@ -121,7 +121,7 @@ public interface _macro<M extends _annos._withAnnos>
                     //the _macro expansion MAY have actually removed the
                     // entity entirely, so double check... if not, make sure the
                     // annotation is removed after the _macro processes
-                    _model = (T)_model.removeAnnos(anns[i].annotationType());
+                    _model = (T)_model.removeAnnoRefs(anns[i].annotationType());
                 }
                 //System.out.println( "After "+_ma+" "+_model);
             }
@@ -148,7 +148,7 @@ public interface _macro<M extends _annos._withAnnos>
 
     static _method to( Class clazz, _method _mm ){
         
-        if( !_mm.hasAnnos()){
+        if( !_mm.hasAnnoRefs()){
             return _mm;
         }
         Method mm = null;
@@ -283,7 +283,7 @@ public interface _macro<M extends _annos._withAnnos>
      * @return 
      */
     static _constructor to(Class clazz, _constructor _c ) {
-        if( !_c.hasAnnos() ){
+        if( !_c.hasAnnoRefs() ){
             return _c;
         }
         List<Constructor> cs = Arrays.stream(clazz.getDeclaredConstructors()).collect(Collectors.toList());

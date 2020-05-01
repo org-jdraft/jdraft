@@ -15,8 +15,8 @@ public class OfStringTest extends TestCase {
                 _type.of("class C{", "int i;", "}"), //infers a line separator between each string
                 _codeUnit.of("module org.astro{", "exports org.astro;","}"),
 
-                _anno.of("@A"),
-                _annos.of("@A @B"),
+                _annoRef.of("@A"),
+                _annoRefs.of("@A @B"),
                 _annotation.of("@interface AI{}"),
                 _arguments.of("(1, 'c')"),
                 _arrayAccess.of("a[1][call()]"),

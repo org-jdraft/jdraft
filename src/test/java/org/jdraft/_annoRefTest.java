@@ -8,7 +8,7 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.type.Type;
-import org.jdraft.pattern.$anno;
+import org.jdraft.pattern.$annoRef;
 import org.jdraft.pattern.$ex;
 import org.jdraft.pattern.$stmt;
 import java.io.IOException;
@@ -25,14 +25,14 @@ import junit.framework.TestCase;
  *
  * @author Eric
  */
-public class _annoTest extends TestCase {
+public class _annoRefTest extends TestCase {
 
     public void testMemberValuePair(){
         MemberValuePair mvp = new MemberValuePair();
         //System.out.println( mvp.getNameAsString() );
         //System.out.println( mvp.getValue() );
 
-        _anno._memberValue _mv = _anno._memberValue.of("value");
+        _annoRef._memberValue _mv = _annoRef._memberValue.of("value");
         assertTrue( _mv.isValueOnly() );
         assertEquals("value", _mv.getName());
         assertEquals("value", _mv.getValue().toString());
@@ -42,19 +42,19 @@ public class _annoTest extends TestCase {
         assertTrue( _mv.isValue("value") );
 
         //key & value
-        _mv = _anno._memberValue.of("value=3");
+        _mv = _annoRef._memberValue.of("value=3");
         assertTrue( _mv.isNamed("value") );
         assertTrue( _mv.isValue("3") );
         assertTrue( _mv.isValue(3) );
 
-        _mv = _anno._memberValue.of("value='c'");
+        _mv = _annoRef._memberValue.of("value='c'");
         assertTrue( _mv.isValue("'c'") );
         assertTrue( _mv.isValue('c') );
     }
 
     public void testHasMemberValuePair(){
 
-        _anno _a = _anno.of("@A(k=1,v=2)");
+        _annoRef _a = _annoRef.of("@A(k=1,v=2)");
 
         assertTrue( _a.hasMemberValue("k",1));
         assertTrue( _a.hasMemberValue("v",2));
@@ -86,7 +86,7 @@ public class _annoTest extends TestCase {
      */
 
     public void testAnn(){
-        _anno _a = _anno.of()
+        _annoRef _a = _annoRef.of()
                 .setName("n")
                 .addMemberValue("i", 100);
 
@@ -168,8 +168,8 @@ public class _annoTest extends TestCase {
         //the runtime values of these annotations is equal
         assertEquals( ii, i2);
         
-        _anno _a = _anno.of("a(1)");     
-        _anno _b = _anno.of("a(value=1)");
+        _annoRef _a = _annoRef.of("a(1)");
+        _annoRef _b = _annoRef.of("a(value=1)");
         
         assertEquals(_a, _b);        
         assertEquals(_a.hashCode(), _b.hashCode());
@@ -208,23 +208,23 @@ public class _annoTest extends TestCase {
         //Statement st = Stmt.of( () -> {Integer i = new @Test Integer(100);} );
         Statement st = Statements.of( "Integer i = new @Test Integer(100);");
         System.out.println( st );
-        assertEquals(1, $anno.of(Test.class).countIn(st));//verify we can find the anno
+        assertEquals(1, $annoRef.of(Test.class).countIn(st));//verify we can find the anno
     }
     
     public void testCastAnno(){
         Statement st = Statements.of( () -> {Integer i = (@Test Integer)100;} );
-        assertEquals(1, $anno.of(Test.class).countIn(st));//verify we can find the anno
+        assertEquals(1, $annoRef.of(Test.class).countIn(st));//verify we can find the anno
     }
     
     public void testInstanceOfAnno(){        
         Integer i = 0;        
         Statement st = Statements.of( () ->{boolean b = i instanceof @Test Number;});
-        assertEquals(1, $anno.of(Test.class).countIn(st));//verify we can find the anno
+        assertEquals(1, $annoRef.of(Test.class).countIn(st));//verify we can find the anno
     }
     
     public void testVar(){
         Statement st = Statements.of( () ->{ @Test boolean b = false;});
-        assertEquals(1, $anno.of(Test.class).countIn(st));//verify we can find the anno
+        assertEquals(1, $annoRef.of(Test.class).countIn(st));//verify we can find the anno
     }
     
     public void testThrowAnno(){
@@ -233,23 +233,23 @@ public class _annoTest extends TestCase {
         }
         _class _c = _class.of( TTTT.class );
         
-        assertEquals(1, $anno.of(Test.class).countIn( _c.getMethod("m").getThrows().getAt(0) ));
+        assertEquals(1, $annoRef.of(Test.class).countIn( _c.getMethod("m").getThrows().getAt(0) ));
     }
     
     public class NestedClass{}
     
     public void testNestedClassAnno(){
-        NestedClass nc = new _annoTest. @Test NestedClass();
+        NestedClass nc = new _annoRefTest. @Test NestedClass();
         Statement st = Statements.of("NestedClass nc = new _annoTest. @Test NestedClass();");
         System.out.println( st );
-        assertEquals(1, $anno.of(Test.class).countIn( st ));
+        assertEquals(1, $annoRef.of(Test.class).countIn( st ));
     }
     
     public void testExtendsAnno(){        
         class B{}        
         class C extends @Test B{ }
         
-        assertEquals(1, $anno.of(Test.class).countIn( C.class));
+        assertEquals(1, $annoRef.of(Test.class).countIn( C.class));
         
     }
     
@@ -257,7 +257,7 @@ public class _annoTest extends TestCase {
     public void testImplementsAnno(){
         class P implements @Test III{}
         
-        assertEquals(1, $anno.of(Test.class).countIn( P.class));
+        assertEquals(1, $annoRef.of(Test.class).countIn( P.class));
     }
     
     public void testIntersectionType(){
@@ -265,7 +265,7 @@ public class _annoTest extends TestCase {
             public <E extends @Test Serializable & @Test III> void foo() {  }        
         }
         _class _c = _class.of(DDDDL.class);
-        assertEquals( 2, $anno.of(Test.class).countIn( _c.getMethod("foo") ));
+        assertEquals( 2, $annoRef.of(Test.class).countIn( _c.getMethod("foo") ));
         System.out.println( _c );
     }
     
@@ -274,7 +274,7 @@ public class _annoTest extends TestCase {
     
     public void testT(){
         Statement st = Statements.of("new  @Test  MyObject();");
-        assertEquals( 1, $anno.of(Test.class).countIn( st ));
+        assertEquals( 1, $annoRef.of(Test.class).countIn( st ));
         System.out.println( st );
     }
     
@@ -307,9 +307,9 @@ public class _annoTest extends TestCase {
         System.out.println( _c );
        
         //this SHOULD be 8 if we can fix the issue in JavaParser with ObjectCreationExpr
-        assertEquals( 8, $anno.of("@Test").countIn(C.class));
+        assertEquals( 8, $annoRef.of("@Test").countIn(C.class));
         
-        $anno $aa = $anno.of(Test.class);
+        $annoRef $aa = $annoRef.of(Test.class);
             //.constraint( a->a.ast().getParentNode().isPresent() 
             //    && a.ast().getParentNode().get().findFirst(Statement.class).isPresent());
         
@@ -361,8 +361,8 @@ public class _annoTest extends TestCase {
     }
     
     public void testAnnoHasAttr(){
-        _anno _a = _anno.of("a(1)");
-        _anno _b = _anno.of("a(x=1)");
+        _annoRef _a = _annoRef.of("a(1)");
+        _annoRef _b = _annoRef.of("a(x=1)");
         assertTrue( _a.hasValue(Expressions.of(1)) );
         assertTrue( _a.hasValue(1) );
         assertTrue( _b.hasValue(Expressions.of(1)) );
@@ -393,20 +393,20 @@ public class _annoTest extends TestCase {
 
 
     public void testIsValue(){
-        _anno _a = _anno.of("A(1)");
+        _annoRef _a = _annoRef.of("A(1)");
 
         assertTrue( _a.isValue(1) );
         assertTrue( _a.isValue("value", 1));
 
         Expressions.arrayInitializerEx(new int[]{1,2,3});
-        _anno _b = _anno.of("B(k=1,v={'a','b'})");
+        _annoRef _b = _annoRef.of("B(k=1,v={'a','b'})");
         assertTrue( _b.isValue("k", 1) );
         assertTrue( _b.isValue("v", new char[]{'a', 'b'}) );
         assertTrue( _b.isValue("v", Expressions.charArray('a', 'b')) );
     }
 
     public void test23Draft(){
-        _anno _a = _anno.of(new Object(){
+        _annoRef _a = _annoRef.of(new Object(){
             @HeaderList({
                     @Header(name="Accept", value="application/json; charset=utf-8"),
                     @Header(name="User-Agent", value="Square Cash"),
@@ -415,8 +415,8 @@ public class _annoTest extends TestCase {
         });
 
         _method _m = _method.of("public abstract LogReceipt recordEvent(LogRecord logRecord);")
-                .addAnnos(_a);
-        _a = _m.getAnno(0);
+                .addAnnoRefs(_a);
+        _a = _m.getAnnoRef(0);
         _a.isValue("Accept", "application/json; charset=utf-8");
         _a.isValue("User-Agent", "Square Cash");
 
@@ -445,8 +445,8 @@ public class _annoTest extends TestCase {
         //assertTrue(ae1.hashCode() != ae2.hashCode());
 
         //IF we wrap the AnnotationExprs as _anno s
-        _anno _a1 = _anno.of( ae1 );
-        _anno _a2 = _anno.of( ae2 );
+        _annoRef _a1 = _annoRef.of( ae1 );
+        _annoRef _a2 = _annoRef.of( ae2 );
 
         //they ARE equal
         assertEquals( _a1, _a2);
@@ -457,8 +457,8 @@ public class _annoTest extends TestCase {
 
     public void test_annEqualsHashCode(){
         //here we compensate by
-        _anno a1 = _anno.of( "@ann(k1=1,k2=2)");
-        _anno a2 = _anno.of( "@ann(k2=2,k1=1)");
+        _annoRef a1 = _annoRef.of( "@ann(k1=1,k2=2)");
+        _annoRef a2 = _annoRef.of( "@ann(k2=2,k1=1)");
 
         //THIS SHOULD PRODUCE THE SAME HASHCODE (it does)
         assertEquals( a1.hashCode(), a2.hashCode() );
@@ -471,7 +471,7 @@ public class _annoTest extends TestCase {
     public void testExcalateImplementation(){
         FieldDeclaration fd = Ast.field( "@ann int f;");
         //go from a MarkerAnnotation
-        _anno _a = new _anno(fd.getAnnotation( 0 ));
+        _annoRef _a = new _annoRef(fd.getAnnotation( 0 ));
 
         //to a Single Value Annotation
         _a.setValue( 0, 100 );
@@ -503,7 +503,7 @@ public class _annoTest extends TestCase {
     public void testChildParent(){
         //the underlying field has to change the implementation from
         FieldDeclaration fd = Ast.field( "@a(1) public int i=100;");
-        _anno _a = new _anno(fd.getAnnotation( 0 ));
+        _annoRef _a = new _annoRef(fd.getAnnotation( 0 ));
         _a.addMemberValue( "Key", 1000 );
 
         assertTrue( _a.is("@a(Key=1000)"));
@@ -513,7 +513,7 @@ public class _annoTest extends TestCase {
 
         AnnotationExpr ae = fd.getAnnotation(0).clone();
         System.out.println( ae.getParentNode().isPresent() );
-        _anno _aNoParent = new _anno(ae);
+        _annoRef _aNoParent = new _annoRef(ae);
         _aNoParent.addMemberValue( "Key", 9999 );
         assertTrue( _aNoParent.is("@a(Key=9999)") );
         //System.out.println( _aNoParent );

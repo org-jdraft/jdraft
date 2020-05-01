@@ -19,7 +19,7 @@ public class _1_classAPITest extends TestCase {
             .setPackage("math.entity")
             .addImports("java.util.UUID", "java.io.Serializable;", "java.beans.Encoder")
             .setJavadoc("This is the class", "javadoc")
-            .addAnnos("@Deprecated")
+            .addAnnoRefs("@Deprecated")
             .setFinal()
             .addExtend("java.beans.Encoder")
             .addImplement("java.io.Serializable")
@@ -40,7 +40,7 @@ public class _1_classAPITest extends TestCase {
             .setHeaderComment("Some License Here")
             .addImports(UUID.class, Serializable.class, Encoder.class)
             .setJavadoc("This is the class", "javadoc")
-            .addAnnos(Deprecated.class)
+            .addAnnoRefs(Deprecated.class)
             .setFinal()
             .typeParameters("<T extends Serializable>")
             .addExtend(java.beans.Encoder.class)
@@ -120,7 +120,7 @@ public class _1_classAPITest extends TestCase {
         assertTrue(_FROM_STRING_PARTS.isInPackage("math.entity"));
         assertTrue(_FROM_STRING_PARTS.hasImport(UUID.class));
         assertTrue(_FROM_STRING_PARTS.getJavadoc().contains("This is the class"));
-        assertTrue(_FROM_STRING_PARTS.hasAnno("@Deprecated"));
+        assertTrue(_FROM_STRING_PARTS.hasAnnoRef("@Deprecated"));
         assertTrue(_FROM_STRING_PARTS.isFinal());
         assertTrue(_FROM_STRING_PARTS.isExtends("Encoder"));
         assertTrue(_FROM_STRING_PARTS.isImplements(Serializable.class));
@@ -138,7 +138,7 @@ public class _1_classAPITest extends TestCase {
         //iterate over members/properties
         //properties
         _FROM_STRING_PARTS.forImports(i-> System.out.println(i));
-        _FROM_STRING_PARTS.forAnnos(a-> System.out.println(a));
+        _FROM_STRING_PARTS.forAnnoRefs(a-> System.out.println(a));
         //members
         _FROM_STRING_PARTS.forInitBlocks(i-> System.out.println(i));
         //members/declared
@@ -154,7 +154,7 @@ public class _1_classAPITest extends TestCase {
 
         //selectively iterate over members/properties
         _FROM_STRING_PARTS.forImports(i-> i.isWildcard(), i-> System.out.println(i));
-        _FROM_STRING_PARTS.forAnnos(a-> a.isInstance(Deprecated.class), a->System.out.println(a) );
+        _FROM_STRING_PARTS.forAnnoRefs(a-> a.isInstance(Deprecated.class), a->System.out.println(a) );
         //members
         _FROM_STRING_PARTS.forInitBlocks(i-> i.isStatic(), i-> System.out.println(i));
         //members/declared

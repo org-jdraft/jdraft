@@ -25,7 +25,7 @@ public class $enumConstant
     public Predicate<_constant> constraint = t->true;
 
     public $comment<JavadocComment>javadoc = $comment.javadocComment();
-    public $annos annos = $annos.of();
+    public $annoRefs annos = $annoRefs.of();
     public $name name = $name.of("$enumConstantName$"); //name required
     //args?
     public List<$ex> args = new ArrayList<>();
@@ -50,8 +50,8 @@ public class $enumConstant
 
     public static $enumConstant of( _constant _ec ){
         $enumConstant ec = new $enumConstant();
-        if( _ec.hasAnnos() ) {
-            ec.annos = $annos.of(_ec.getAnnos());
+        if( _ec.hasAnnoRefs() ) {
+            ec.annos = $annoRefs.of(_ec.getAnnoRefs());
         }
         if( _ec.hasJavadoc()) {
             ec.javadoc = $comment.javadocComment(_ec.getJavadoc());
@@ -107,10 +107,10 @@ public class $enumConstant
 
     public static $enumConstant as( _constant _ec ){
         $enumConstant ec = new $enumConstant();
-        if( _ec.hasAnnos() ) {
-            ec.annos = $annos.as(_ec.getAnnos());
+        if( _ec.hasAnnoRefs() ) {
+            ec.annos = $annoRefs.as(_ec.getAnnoRefs());
         } else{
-            ec.annos = $annos.none();
+            ec.annos = $annoRefs.none();
         }
         if( _ec.hasJavadoc()) {
             ec.javadoc = $comment.javadocComment(_ec.getJavadoc());
@@ -156,11 +156,11 @@ public class $enumConstant
 
     public $enumConstant($part...parts){
         for(int i=0;i<parts.length;i++){
-            if( parts[i] instanceof $annos ){
-                this.annos = ($annos)parts[i];
+            if( parts[i] instanceof $annoRefs){
+                this.annos = ($annoRefs)parts[i];
             }
-            if( parts[i] instanceof $anno ){
-                this.annos.add(($anno)parts[i]);
+            if( parts[i] instanceof $annoRef){
+                this.annos.add(($annoRef)parts[i]);
             }
             if( parts[i] instanceof $comment){
                 this.javadoc = ($comment<JavadocComment>)parts[i];
@@ -311,8 +311,8 @@ public class $enumConstant
      */
     public $enumConstant $not(final $part...parts ){
         for(int i=0;i<parts.length;i++){
-            if( parts[i] instanceof $anno ){
-                final $anno $fa = (($anno)parts[i]);
+            if( parts[i] instanceof $annoRef){
+                final $annoRef $fa = (($annoRef)parts[i]);
                 Predicate<_constant> pf = f-> $fa.countIn(f) > 0;
                 $and( pf.negate() );
             }
@@ -413,17 +413,17 @@ public class $enumConstant
         return this;
     }
 
-    public $enumConstant $annos(Predicate<_annos> annosMatchFn){
+    public $enumConstant $annos(Predicate<_annoRefs> annosMatchFn){
         this.annos.$and(annosMatchFn);
         return this;
     }
 
-    public $enumConstant $annos($annos $as ){
+    public $enumConstant $annos($annoRefs $as ){
         this.annos = $as;
         return this;
     }
 
-    public $enumConstant $annos($anno... $a){
+    public $enumConstant $annos($annoRef... $a){
         this.annos.add($a);
         return this;
     }

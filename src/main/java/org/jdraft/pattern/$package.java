@@ -22,37 +22,37 @@ public class $package implements $pattern<PackageDeclaration, $package>, Templat
 
     public Stencil name = Stencil.of("$packageName$");
 
-    public $annos annos = $annos.of();
+    public $annoRefs annos = $annoRefs.of();
 
     public Predicate<PackageDeclaration> constraint = t->true;
 
     public static $package of(){
-        return new $package("$packageName$", $annos.of(), t->true);
+        return new $package("$packageName$", $annoRefs.of(), t->true);
     }
 
     public static $package of(PackageDeclaration pd ){
         if( pd.getAnnotations().isEmpty()) {
-            return new $package(pd.getNameAsString(), $annos.of(), t -> true);
+            return new $package(pd.getNameAsString(), $annoRefs.of(), t -> true);
         }
-        return new $package(pd.getNameAsString(), $annos.of(pd.getAnnotations()), t->true);
+        return new $package(pd.getNameAsString(), $annoRefs.of(pd.getAnnotations()), t->true);
     }
 
     public static $package of( String namePattern ){
         if( namePattern != null ) {
-            return new $package(namePattern, $annos.of(), t -> true);
+            return new $package(namePattern, $annoRefs.of(), t -> true);
         }
         return of();
     }
 
     public static $package of( Predicate<PackageDeclaration> matchFn ){
-        return new $package( "$packageName$", $annos.of(), matchFn );
+        return new $package( "$packageName$", $annoRefs.of(), matchFn );
     }
 
     public static $package of( String namePattern, Predicate<PackageDeclaration> matchFn ){
-        return new $package( namePattern, $annos.of(), matchFn );
+        return new $package( namePattern, $annoRefs.of(), matchFn );
     }
 
-    public static $package of( String namePattern, $annos annos, Predicate<PackageDeclaration> matchFn ){
+    public static $package of(String namePattern, $annoRefs annos, Predicate<PackageDeclaration> matchFn ){
         return new $package( namePattern, annos, matchFn );
     }
 
@@ -70,11 +70,11 @@ public class $package implements $pattern<PackageDeclaration, $package>, Templat
 
     private $package(){
         this.name = Stencil.of("$packageName$");
-        this.annos= $annos.of();
+        this.annos= $annoRefs.of();
         this.constraint = t -> true;
     }
 
-    public $package( String namePattern, $annos annos, Predicate<PackageDeclaration> constraint){
+    public $package(String namePattern, $annoRefs annos, Predicate<PackageDeclaration> constraint){
         //the pattern must be a valid package name
         PackageDeclaration pd = Ast.packageDeclaration(namePattern);
         this.name = Stencil.of(pd.getName().asString());
@@ -265,7 +265,7 @@ public class $package implements $pattern<PackageDeclaration, $package>, Templat
         } else{
             name = this.name.draft(translator, keyValues);
         }
-        _annos _as = this.annos.draft(translator, keyValues);
+        _annoRefs _as = this.annos.draft(translator, keyValues);
 
         PackageDeclaration pd = new PackageDeclaration();
         pd.setName(name);

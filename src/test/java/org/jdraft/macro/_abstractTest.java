@@ -12,9 +12,9 @@ public class _abstractTest extends TestCase {
 
          _class _c = _class.of(C.class);
         assertTrue( _c.isAbstract());
-        assertFalse( _c.hasAnno(_abstract.class));
+        assertFalse( _c.hasAnnoRef(_abstract.class));
         assertTrue( _c.getMethod("getR").isAbstract());
-        assertFalse( _c.getMethod("getR").hasAnno(_abstract.class));
+        assertFalse( _c.getMethod("getR").hasAnnoRef(_abstract.class));
 
          System.out.println( _c );
     }

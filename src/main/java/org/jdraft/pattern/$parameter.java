@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
-import org.jdraft._annos;
+import org.jdraft._annoRefs;
 import org.jdraft.text.*;
 
 /**
@@ -51,7 +51,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
     public $typeRef type = $typeRef.of();
     
     /** annos prototype */
-    public $annos annos = new $annos();
+    public $annoRefs annos = new $annoRefs();
     
     /**
      * <PRE>
@@ -152,9 +152,9 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
     }
 
     public static $parameter as( _parameter _p){
-        $annos $as = $annos.none();
-        if( _p.hasAnnos() ){
-            $as = $annos.as(_p); //set the EXACT annos
+        $annoRefs $as = $annoRefs.none();
+        if( _p.hasAnnoRefs() ){
+            $as = $annoRefs.as(_p); //set the EXACT annos
         }
         $name $nm = $name.of( _p.getName() );
         $typeRef $tr = $typeRef.as(_p.getTypeRef());
@@ -196,11 +196,11 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
             else if( parts[i] instanceof $typeRef){
                 type = ($typeRef)parts[i];
             }
-            else if( parts[i] instanceof $annos ){
-                annos = ($annos)parts[i];
+            else if( parts[i] instanceof $annoRefs){
+                annos = ($annoRefs)parts[i];
             }
-            else if( parts[i] instanceof $anno){
-                annos.$annosList.add( ($anno)parts[i]);
+            else if( parts[i] instanceof $annoRef){
+                annos.$annosList.add( ($annoRef)parts[i]);
             } 
             else if(parts[i] instanceof FINAL_PARAMETER){
                 this.isFinal = true;
@@ -221,8 +221,8 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      */
     public $parameter $not(final $part...parts ){
         for(int i=0;i<parts.length;i++){
-            if( parts[i] instanceof $anno ){
-                final $anno $fa = (($anno)parts[i]);
+            if( parts[i] instanceof $annoRef){
+                final $annoRef $fa = (($annoRef)parts[i]);
                 Predicate<_parameter> pf = f-> $fa.countIn(f) > 0;
                 $and( pf.negate() );
             }
@@ -247,7 +247,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      * @param name 
      */
     public $parameter( $typeRef type, $name name ){
-        this( $annos.of(), type, name );
+        this( $annoRefs.of(), type, name );
     }
     
     /**
@@ -256,7 +256,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      * @param type
      * @param name 
      */
-    public $parameter( $annos annos, $typeRef type, $name name ){
+    public $parameter($annoRefs annos, $typeRef type, $name name ){
         this.annos = annos;
         this.type = type;
         this.name = name;        
@@ -276,25 +276,25 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
         }
         this.name.nameStencil = Stencil.of(_p.getName() );
         this.type = $typeRef.of(_p.getTypeRef());
-        this.annos = $annos.of( _p.getAnnos() );        
+        this.annos = $annoRefs.of( _p.getAnnoRefs() );
     }
     
     public $parameter $anno(){
-        this.annos = $annos.of();
+        this.annos = $annoRefs.of();
         return this;
     }
     
-    public $parameter $anno( $anno $ann ){
+    public $parameter $anno( $annoRef $ann ){
         this.annos.$annosList.add($ann);
         return this;
     }
     
-    public $parameter $annos( $annos $anns){
+    public $parameter $annos( $annoRefs $anns){
         this.annos = $anns;
         return this;
     }
     
-    public $parameter $annos( Predicate<_annos> annosPredicate){
+    public $parameter $annos( Predicate<_annoRefs> annosPredicate){
         this.annos.$and(annosPredicate);
         return this;
     }
@@ -508,7 +508,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
             return null;
         }
         */
-        $annos.Select ans = annos.select(_p.ast() );
+        $annoRefs.Select ans = annos.select(_p.ast() );
         if( ans == null ){
             return null;
         }
@@ -929,7 +929,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
         }
         
         public boolean hasAnno( Class<? extends Annotation> annotationClass){            
-            return _param.hasAnno(annotationClass);
+            return _param.hasAnnoRef(annotationClass);
         }
         
         public boolean is(String...expectedParameter ){            

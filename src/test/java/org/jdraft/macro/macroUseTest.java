@@ -68,7 +68,7 @@ public class macroUseTest extends TestCase {
         }
         _class _c = _class.of(F.class);
         assertTrue( _c.hasImport(UUID.class));
-        assertFalse(_c.hasAnno(U.class));
+        assertFalse(_c.hasAnnoRef(U.class));
     }
 
     public void testT() {

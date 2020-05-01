@@ -17,7 +17,7 @@ import org.jdraft.text.Translator;
  * Note... at the moment this is NOT a template... should it be??
  */
 public class $annotationEntry
-        implements //$pattern<_annotation._entry, $annotationEntry>,
+        implements
         $pattern.$java<_annotation._entry, $annotationEntry>,
         $annotation.$part, $member.$named<$annotationEntry>, $declared<_annotation._entry, $annotationEntry>, $type.$part  {
 

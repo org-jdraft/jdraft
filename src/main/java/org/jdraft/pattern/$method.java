@@ -14,7 +14,7 @@ import java.util.function.*;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
-import org.jdraft._annos;
+import org.jdraft._annoRefs;
 import org.jdraft._parameters;
 import org.jdraft._typeParameters;
 import org.jdraft.macro._remove;
@@ -28,7 +28,7 @@ import org.jdraft.text.*;
 public class $method
     implements Template<_method>, //$pattern<_method, $method>,
         $pattern.$java<_method,$method>, $class.$part,
-        $interface.$part, $enum.$part,$enumConstant.$part, $member.$named<$method>, $declared<_method,$method>, has$Annos,
+        $interface.$part, $enum.$part,$enumConstant.$part, $member.$named<$method>, $declared<_method,$method>, has$AnnoRefs,
         $type.$part {
 
     /**
@@ -205,10 +205,10 @@ public class $method
         if( _m.hasJavadoc() ){
             $m.javadoc = $comment.javadocComment(_m.getJavadoc());
         }
-        if( _m.hasAnnos() ){
-            $m.annos = $annos.as(_m.getAnnos() );
+        if( _m.hasAnnoRefs() ){
+            $m.annos = $annoRefs.as(_m.getAnnoRefs() );
         } else{
-            $m.annos = $annos.none();
+            $m.annos = $annoRefs.none();
         }
         $m.modifiers = $modifiers.as(_m );
         $m.type = $typeRef.as(_m.getTypeRef());
@@ -243,7 +243,7 @@ public class $method
     public Predicate<_method> constraint = t -> true;
 
     public $comment<JavadocComment> javadoc = $comment.javadocComment("$javadoc$");
-    public $annos annos = new $annos();
+    public $annoRefs annos = new $annoRefs();
     public $modifiers modifiers = $modifiers.of();
     public $typeRef type = $typeRef.of();
 
@@ -300,11 +300,11 @@ public class $method
      */
     private $method($part ...parts ){
         for(int i=0;i<parts.length;i++){
-            if( parts[i] instanceof $annos ){
-                this.annos = ($annos)parts[i];
+            if( parts[i] instanceof $annoRefs){
+                this.annos = ($annoRefs)parts[i];
             }
-            else if(parts[i] instanceof $anno){
-                this.annos.$annosList.add( ($anno)parts[i]);
+            else if(parts[i] instanceof $annoRef){
+                this.annos.$annosList.add( ($annoRef)parts[i]);
             }
             else if(parts[i] instanceof $modifiers){
                 this.modifiers = $modifiers.of( this.modifiers, ($modifiers)parts[i]);
@@ -369,8 +369,8 @@ public class $method
         if( _m.hasJavadoc() ){
             javadoc = $comment.javadocComment(_m.getJavadoc() );
         }        
-        if( _m.hasAnnos() ){
-            annos = $annos.of(_m.getAnnos() );
+        if( _m.hasAnnoRefs() ){
+            annos = $annoRefs.of(_m.getAnnoRefs() );
         }
         modifiers = $modifiers.of(_m);
         type = $typeRef.of(_m.getTypeRef() );
@@ -436,7 +436,7 @@ public class $method
      */
     public $method $and(Class<? extends Annotation>...annotationClass){
         for(int i=0;i<annotationClass.length;i++){
-            $and( $anno.of(annotationClass[i]) );
+            $and( $annoRef.of(annotationClass[i]) );
         }
         return this;
     }
@@ -448,8 +448,8 @@ public class $method
      */
     public $method $and(final $part...parts ){
         for(int i=0;i<parts.length;i++){
-            if( parts[i] instanceof $anno ){
-                final $anno $fa = (($anno)parts[i]);
+            if( parts[i] instanceof $annoRef){
+                final $annoRef $fa = (($annoRef)parts[i]);
                 Predicate<_method> pf = f-> $fa.countIn(f) > 0;
                 $and( pf  );
             }
@@ -532,7 +532,7 @@ public class $method
      */
     public $method $not(Class<? extends Annotation>...annotationClass){
         for(int i=0;i<annotationClass.length;i++){
-            $not( $anno.of(annotationClass[i]) );
+            $not( $annoRef.of(annotationClass[i]) );
         }
         return this;
     }
@@ -544,9 +544,9 @@ public class $method
      */
     public $method $not(final $part...parts ){
         for(int i=0;i<parts.length;i++){
-            if( parts[i] instanceof $anno ){
-                final $anno $fa = (($anno)parts[i]);
-                Predicate<_method> pf = f-> f.getAnnos().get(a -> $fa.matches(a) ) != null;
+            if( parts[i] instanceof $annoRef){
+                final $annoRef $fa = (($annoRef)parts[i]);
+                Predicate<_method> pf = f-> f.getAnnoRefs().get(a -> $fa.matches(a) ) != null;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $modifiers ){
@@ -717,16 +717,16 @@ public class $method
     }
 
     @Override
-    public $annos get$Annos() {
+    public $annoRefs get$Annos() {
         return this.annos;
     }
 
     public $method $annos(){
-        this.annos = $annos.of();
+        this.annos = $annoRefs.of();
         return this;
     }
     
-    public $method $annos( Predicate<_annos> as ){
+    public $method $annos( Predicate<_annoRefs> as ){
         this.annos.$and(as);
         return this;
     }
@@ -736,18 +736,18 @@ public class $method
         return this;
     }
     
-    public $method $annos($annos $as ){
+    public $method $annos($annoRefs $as ){
         this.annos = $as;
         return this;
     }
     
     public $method $anno( Class clazz){
-        this.annos.$annosList.add($anno.of(clazz) );
+        this.annos.$annosList.add($annoRef.of(clazz) );
         return this;
     }
     
-    public $method $anno( _anno _an){
-        this.annos.$annosList.add($anno.of(_an) );
+    public $method $anno( _annoRef _an){
+        this.annos.$annosList.add($annoRef.of(_an) );
         return this;
     }
 
@@ -1038,7 +1038,7 @@ public class $method
                 return null;
             }
         }
-        all = annos.parseTo(_m.getAnnos(), all);
+        all = annos.parseTo(_m.getAnnoRefs(), all);
         all = typeParameters.parseTo(_m.getTypeParameters(), all);
         all = type.parseTo(_m.getTypeRef(), all);
         all = name.parseTo(_m.getName(), all);

@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
-import org.jdraft._annos;
+import org.jdraft._annoRefs;
 import org.jdraft.text.*;
 
 /**
@@ -101,9 +101,9 @@ public class $typeParameter
     }
 
     public static $typeParameter as( _typeParameter _tp ){
-        $annos $as = $annos.none();
-        if( _tp.hasAnnos() ){
-            $as = $annos.as(_tp);
+        $annoRefs $as = $annoRefs.none();
+        if( _tp.hasAnnoRefs() ){
+            $as = $annoRefs.as(_tp);
         }
         $name $nm = $name.as( _tp.getName() );
 
@@ -124,7 +124,7 @@ public class $typeParameter
 
     public Predicate<_typeParameter> constraint = t-> true;
     
-    public $annos anns = $annos.of();
+    public $annoRefs anns = $annoRefs.of();
     
     public $name name = $name.of("$typeParameter$");
     
@@ -142,7 +142,7 @@ public class $typeParameter
      * @param name
      * @param typeBounds 
      */
-    private $typeParameter($annos anns, $name name, $typeRef...typeBounds){
+    private $typeParameter($annoRefs anns, $name name, $typeRef...typeBounds){
         this.anns = anns;
         this.name = name;
         Arrays.stream(typeBounds).forEach( t -> this.$typeBound.add(t));
@@ -153,11 +153,11 @@ public class $typeParameter
             if( parts[i] instanceof $name ){
                 this.name = ($name)parts[i];
             }
-            else if( parts[i] instanceof $annos ){
-                this.anns = ($annos)parts[i];
+            else if( parts[i] instanceof $annoRefs){
+                this.anns = ($annoRefs)parts[i];
             }
-            else if( parts[i] instanceof $anno ){
-                this.anns.$annosList.add( ($anno)parts[i] );
+            else if( parts[i] instanceof $annoRef){
+                this.anns.$annosList.add( ($annoRef)parts[i] );
             }
             else if( parts[i] instanceof $typeRef ){
                 this.$typeBound.add(($typeRef)parts[i]);
@@ -172,8 +172,8 @@ public class $typeParameter
      */
     public $typeParameter $not(final $part...parts ){
         for(int i=0;i<parts.length;i++){
-            if( parts[i] instanceof $anno ){
-                final $anno $fa = (($anno)parts[i]);
+            if( parts[i] instanceof $annoRef){
+                final $annoRef $fa = (($annoRef)parts[i]);
                 Predicate<_typeParameter> pf = f-> $fa.countIn(f) > 0;
                 $and( pf.negate() );
             }
@@ -191,27 +191,27 @@ public class $typeParameter
     }
     
     public $typeParameter(_typeParameter _tp){
-        anns = $annos.of(_tp);
+        anns = $annoRefs.of(_tp);
         name = name.of(_tp.getName() );
         _tp.getTypeBound().forEach(tb -> this.$typeBound.add($typeRef.of(tb)));                   
     }
     
     public $typeParameter $anno(){
-        this.anns = $annos.of();
+        this.anns = $annoRefs.of();
         return this;
     }
     
-    public $typeParameter $anno( $anno $ann ){
+    public $typeParameter $anno( $annoRef $ann ){
         this.anns.$annosList.add($ann);
         return this;
     }
     
-    public $typeParameter $annos( $annos $anns ){
+    public $typeParameter $annos( $annoRefs $anns ){
         this.anns = $anns;
         return this;
     }
     
-    public $typeParameter $annos( Predicate<_annos> constraint ){
+    public $typeParameter $annos( Predicate<_annoRefs> constraint ){
         this.anns.$and(constraint);
         return this;
     }
@@ -483,7 +483,7 @@ public class $typeParameter
             return null;
         }
 
-        $annos.Select asel = this.anns.select(_tp);
+        $annoRefs.Select asel = this.anns.select(_tp);
         if( asel == null ){
             System.out.println("Failed Annotations Select");
         }
@@ -634,8 +634,8 @@ public class $typeParameter
             return _tp.getName();
         }
         
-        public _annos annos(){
-            return _tp.getAnnos();
+        public _annoRefs annos(){
+            return _tp.getAnnoRefs();
         }
 
         @Override

@@ -73,7 +73,7 @@ public class WhatKindaStuff extends TestCase {
         $constructor.of().forEachIn(_cc, c-> c.forParameters(p-> p.setFinal()));
 
         //remove all Deprecated annotations
-        $anno.of(Deprecated.class).removeIn(_cc);
+        $annoRef.of(Deprecated.class).removeIn(_cc);
 
         //remove all System.out.println() methods
         $stmt.of("System.out.println($any$);").removeIn(_cc);

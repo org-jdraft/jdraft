@@ -84,20 +84,20 @@ public class StypeParameterTest extends TestCase {
     }
 
     public void test$ann(){
-        $anno $a = $anno.of("A");
+        $annoRef $a = $annoRef.of("A");
         assertTrue( $a.matches("fully.qualified.A"));
         assertTrue( $a.matches("@fully.qualified.A"));
 
-        $a = $anno.as("A");
+        $a = $annoRef.as("A");
         assertTrue( $a.matches("fully.qualified.A"));
         assertTrue( $a.matches("@fully.qualified.A"));
     }
 
     public void test$typeRefAnn(){
-        $anno $a = $anno.of("@Ann");
+        $annoRef $a = $annoRef.of("@Ann");
         assertTrue( $a.matches("@fully.qualified.Ann"));
 
-        $annos $as = $annos.of("@Ann");
+        $annoRefs $as = $annoRefs.of("@Ann");
         assertTrue( $as.matches("@fully.qualified.Ann"));
 
 

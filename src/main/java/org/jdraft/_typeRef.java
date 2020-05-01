@@ -20,7 +20,7 @@ import static org.jdraft.Types.of;
  * @param <T> the Type implementation (i.e. ReferenceType)
  */
 public final class _typeRef<T extends Type>
-        implements _java._multiPart<Type, _typeRef>, _annos._withAnnos<_typeRef> {
+        implements _java._multiPart<Type, _typeRef>, _annoRefs._withAnnoRefs<_typeRef> {
 
     /** Void type used in */
     public static _typeRef VOID = of( new VoidType() );
@@ -74,7 +74,7 @@ public final class _typeRef<T extends Type>
         return new _typeRef( Types.of( string ) );
     }
 
-    public _annos getAnnos(){
+    public _annoRefs getAnnoRefs(){
         /** this is a hack... because right now accessing the annotations from the Type AST is a mess frought with danger
          * often when there ARE annotations that are applied at the wrong level... it
          * s not JavaParsers fault, but rather the sheer ambiguity of how Annotaitons can be applied to BOTH
@@ -98,7 +98,7 @@ public final class _typeRef<T extends Type>
         Type t = getErasedType(this.astType);
         List<AnnotationExpr> aes = new ArrayList<>();
         t.walk(AnnotationExpr.class, a->aes.add(a));
-        return _annos.of(aes);
+        return _annoRefs.of(aes);
     }
 
     /**
@@ -114,7 +114,7 @@ public final class _typeRef<T extends Type>
      * this is why we need to strip off the Generics before looking
      * @return
      */
-    public boolean hasAnnos(){
+    public boolean hasAnnoRefs(){
         return getErasedType(this.astType).findFirst(AnnotationExpr.class).isPresent();
     }
 

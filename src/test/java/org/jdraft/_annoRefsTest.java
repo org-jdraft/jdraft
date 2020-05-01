@@ -10,15 +10,15 @@ import java.util.ArrayList;
  *
  * @author Eric
  */
-public class _annosTest extends TestCase {
+public class _annoRefsTest extends TestCase {
 
     public void testNewApiEmpty(){
-        _annos _ts = _annos.of();
+        _annoRefs _ts = _annoRefs.of();
         assertEquals(_ts, _ts.copy());
         assertEquals(_ts.hashCode(), _ts.copy().hashCode());
 
         assertTrue(_ts.is(""));
-        assertFalse(_ts.has(_anno.of("@_private")));
+        assertFalse(_ts.has(_annoRef.of("@_private")));
         assertTrue(_ts.is( new ArrayList<>()));
         assertTrue(_ts.isEmpty());
         assertEquals(0, _ts.size());
@@ -29,7 +29,7 @@ public class _annosTest extends TestCase {
     }
 
     public void testBuildFromScratch(){
-        _annos _as = _annos.of();
+        _annoRefs _as = _annoRefs.of();
         assertEquals("", _as.toString());
     }
 
@@ -38,9 +38,9 @@ public class _annosTest extends TestCase {
         //the FieldDeclaration is the "parent"
         FieldDeclaration fd = Ast.field( "@a(1) public int i=100;");
 
-        _annos _as = _annos.of( fd  );
+        _annoRefs _as = _annoRefs.of( fd  );
 
-        _annos _cp = _as.copy();
+        _annoRefs _cp = _as.copy();
         //make sure this DOESNT effect the Fields ANNOTATIONS
         _cp.clear();
 
@@ -58,7 +58,7 @@ public class _annosTest extends TestCase {
         FieldDeclaration fd = Ast.field( "@a(1) public int i=100;");
 
         //we _2_template the ANNOTATIONS through the _annos and _anno interface
-        _annos _as = _annos.of(fd );
+        _annoRefs _as = _annoRefs.of(fd );
         _as.add( "@b(1)", "@c(2)" );
 
         assertEquals( 3, fd.getAnnotations().size());
@@ -75,8 +75,8 @@ public class _annosTest extends TestCase {
     //verify that
     public void testEqualsHashCodeIs(){
         String[] is = {"@ann(a=1,b=2)", "@dann(c=3,d=4)"};
-        _annos _as1 = _annos.of( "@ann(a=1,b=2)", "@dann(c=3,d=4)" );
-        _annos _as2 = _annos.of( "@ann(b=2,a=1)", "@dann(d=4,c=3)" );
+        _annoRefs _as1 = _annoRefs.of( "@ann(a=1,b=2)", "@dann(c=3,d=4)" );
+        _annoRefs _as2 = _annoRefs.of( "@ann(b=2,a=1)", "@dann(d=4,c=3)" );
 
         assertTrue( _as1.hashCode() == _as2.hashCode() );
         assertTrue( _as1.equals(_as2));
@@ -86,7 +86,7 @@ public class _annosTest extends TestCase {
 
     public void testChildParent(){
         FieldDeclaration fd = Ast.field( "@a(1) public int i=100;");
-        _annos _as = new _annos( fd );
+        _annoRefs _as = new _annoRefs( fd );
         _as.getAt( 0 ).addMemberValue( "Key", 1000 );
 
         assertTrue( _as.getAt(0).is("@a(Key=1000)"));
@@ -96,7 +96,7 @@ public class _annosTest extends TestCase {
 
         AnnotationExpr ae = fd.getAnnotation(0).clone();
         //System.out.println( ae.getParentNode().isPresent() );
-        _anno _aNoParent = new _anno(ae);
+        _annoRef _aNoParent = new _annoRef(ae);
         _aNoParent.addMemberValue( "Key", 9999 );
         assertTrue( _aNoParent.is("@a(Key=9999)") );
         //System.out.println( _aNoParent );

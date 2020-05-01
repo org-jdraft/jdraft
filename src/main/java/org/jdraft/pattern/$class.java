@@ -24,14 +24,14 @@ import org.jdraft.text.Translator;
  * Note... at the moment this is NOT a template... should it be??
  */
 public class $class
-        implements $pattern.$java<_class,$class>, $member.$named<$class>, $declared<_class,$class>, has$Annos, Template<_class> {
+        implements $pattern.$java<_class,$class>, $member.$named<$class>, $declared<_class,$class>, has$AnnoRefs, Template<_class> {
 
     public Predicate<_class> constraint = t->true;
 
     public $package packageDecl = $package.of();
     public List<$import> imports = new ArrayList<>();
     public $comment<JavadocComment>javadoc = $comment.javadocComment();
-    public $annos annos = $annos.of();
+    public $annoRefs annos = $annoRefs.of();
     public $modifiers modifiers = $modifiers.of();
     public $typeParameters typeParameters = $typeParameters.of();
     public $name name = $name.of("$className$"); //name required
@@ -60,7 +60,7 @@ public class $class
         List<BodyDeclaration> nots = new ArrayList<>();
 
         //only _declared members can have annotations (i.e. @_$not )
-        _c.forDeclared(d -> d.hasAnno(_$not.class), d -> {
+        _c.forDeclared(d -> d.hasAnnoRef(_$not.class), d -> {
             if( d instanceof _field ){
                 nots.add(((_field) d).getFieldDeclaration());
                 ((_field)d).getFieldDeclaration().remove(); //remove it from the AST so we dont treat it as an $and
@@ -127,7 +127,7 @@ public class $class
         /** end of parameterizing @_$ class level annotations in the source code */
 
         $c.$javadoc(_c.getJavadoc());
-        _c.forAnnos(a-> $c.annos.add($anno.of(a)));
+        _c.forAnnoRefs(a-> $c.annos.add($annoRef.of(a)));
         $c.modifiers = $modifiers.of(_c.getModifiers());
         $c.$name(_c.getSimpleName());
         _c.getTypeParameters().forEach(tp-> $c.typeParameters.$add($typeParameter.of(tp)));
@@ -221,11 +221,11 @@ public class $class
 
     public $class($part...parts){
         for(int i=0;i<parts.length;i++){
-            if( parts[i] instanceof $annos ){
-                this.annos = ($annos)parts[i];
+            if( parts[i] instanceof $annoRefs){
+                this.annos = ($annoRefs)parts[i];
             }
-            if( parts[i] instanceof $anno ){
-                this.annos.add(($anno)parts[i]);
+            if( parts[i] instanceof $annoRef){
+                this.annos.add(($annoRef)parts[i]);
             }
             if( parts[i] instanceof $comment){
                 this.javadoc = ($comment<JavadocComment>)parts[i];
@@ -271,14 +271,14 @@ public class $class
 
     public $class $not( $part...parts ){
         for(int i=0;i<parts.length;i++){
-            if( parts[i] instanceof $anno ){
-                final $anno $fa = (($anno)parts[i]);
-                Predicate<_class> pf = an-> an.getAnno( a ->$fa.match(a) ) != null;
+            if( parts[i] instanceof $annoRef){
+                final $annoRef $fa = (($annoRef)parts[i]);
+                Predicate<_class> pf = an-> an.getAnnoRef(a ->$fa.match(a) ) != null;
                 $and( pf.negate() );
             }
-            else if( parts[i] instanceof $annos ){
-                final $annos $fa = (($annos)parts[i]);
-                Predicate<_class> pf = an-> $fa.matches(an.getAnnos());
+            else if( parts[i] instanceof $annoRefs){
+                final $annoRefs $fa = (($annoRefs)parts[i]);
+                Predicate<_class> pf = an-> $fa.matches(an.getAnnoRefs());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $modifiers ) {
@@ -368,7 +368,7 @@ public class $class
         }
         this.implement.forEach(i -> _c.addImplement( i.draft(translator, base).toString() ) );
 
-        _c.addAnnos( this.annos.draft(translator, base).ast() );
+        _c.addAnnoRefs( this.annos.draft(translator, base).ast() );
         this.initBlocks.forEach(ib -> _c.addInitBlock( ib.draft(translator, base)));
         this.methods.forEach(m -> _c.addMethod( m.draft(translator, base)) );
         this.fields.forEach(f-> _c.addField(f.draft(translator, base)));
@@ -741,21 +741,21 @@ public class $class
         return this;
     }
 
-    public $annos get$Annos(){
+    public $annoRefs get$Annos(){
         return this.annos;
     }
 
-    public $class $annos(Predicate<_annos> annosMatchFn){
+    public $class $annos(Predicate<_annoRefs> annosMatchFn){
         this.annos.$and(annosMatchFn);
         return this;
     }
 
-    public $class $annos( $annos $as ){
+    public $class $annos( $annoRefs $as ){
         this.annos = $as;
         return this;
     }
 
-    public $class $annos( $anno... $a){
+    public $class $annos( $annoRef... $a){
         this.annos.add($a);
         return this;
     }

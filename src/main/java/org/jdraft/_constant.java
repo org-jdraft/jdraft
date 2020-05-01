@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  */
 public class _constant implements _java._declared<EnumConstantDeclaration, _constant>,
         _javadocComment._withJavadoc<_constant>,
-        _annos._withAnnos<_constant>,
+        _annoRefs._withAnnoRefs<_constant>,
         _method._withMethods<_constant>,
         _field._withFields<_constant>,
         _arguments._withArguments<EnumConstantDeclaration, _constant> {
@@ -276,8 +276,8 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
     */
 
     @Override
-    public _annos getAnnos() {
-        return _annos.of(this.astConstant );
+    public _annoRefs getAnnoRefs() {
+        return _annoRefs.of(this.astConstant );
     }
 
 
@@ -405,7 +405,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
     @Override
     public Map<_java.Component, Object> components( ) {
         Map<_java.Component, Object> parts = new HashMap<>();
-        parts.put( _java.Component.ANNOS, this.listAnnos() );
+        parts.put( _java.Component.ANNOS, this.listAnnoRefs() );
         parts.put( _java.Component.JAVADOC, this.getJavadoc() );
         parts.put( _java.Component.NAME, this.getName());
         parts.put( _java.Component.ARGUMENTS, this.listArguments());

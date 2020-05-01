@@ -12,27 +12,27 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
-import org.jdraft._annos;
-import org.jdraft._annos._withAnnos;
+import org.jdraft._annoRefs;
+import org.jdraft._annoRefs._withAnnoRefs;
 import org.jdraft.text.Template;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
 /**
- * Prototype of (group of) {@link _annos} for composing and query
+ * Prototype of (group of) {@link _annoRefs} for composing and query
  * @author Eric
  */
-public class $annos
-    implements Template<_annos>,
+public class $annoRefs
+    implements Template<_annoRefs>,
         //$pattern<_annos, $annos>,
-        $pattern.$java<_annos, $annos>, $constructor.$part, $method.$part,
+        $pattern.$java<_annoRefs, $annoRefs>, $constructor.$part, $method.$part,
         $field.$part, $parameter.$part, $typeParameter.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part,
         $enumConstant.$part, $type.$part {
 
     /**
      * Entities that have NO annotations applied to them */
-    public static $annos none(){
+    public static $annoRefs none(){
         return of().$and(as -> as.isEmpty());
     }
     
@@ -40,8 +40,8 @@ public class $annos
      * prototype that matches any grouping of annos
      * @return 
      */
-    public static $annos of(){
-        return new $annos();
+    public static $annoRefs of(){
+        return new $annoRefs();
     }
     
     /**
@@ -49,7 +49,7 @@ public class $annos
      * @param constraint
      * @return 
      */
-    public static $annos of( Predicate<_annos> constraint ){
+    public static $annoRefs of(Predicate<_annoRefs> constraint ){
        return of().$and(constraint);
     }
     
@@ -58,8 +58,8 @@ public class $annos
      * @param _ha
      * @return 
      */
-    public static $annos of( _withAnnos _ha){
-        return new $annos( _ha.getAnnos() ); 
+    public static $annoRefs of(_withAnnoRefs _ha){
+        return new $annoRefs( _ha.getAnnoRefs() );
     }
     
     /**
@@ -67,14 +67,14 @@ public class $annos
      * @param $anns
      * @return 
      */
-    public static $annos of( $anno...$anns ){
-        $annos $as = new $annos();
+    public static $annoRefs of($annoRef...$anns ){
+        $annoRefs $as = new $annoRefs();
         Arrays.stream($anns).forEach(a -> $as.$annosList.add(a));
         return $as;
     }
 
-    public static $annos of(List<AnnotationExpr> annos){
-        return of( _annos.of(annos));
+    public static $annoRefs of(List<AnnotationExpr> annos){
+        return of( _annoRefs.of(annos));
     }
 
     /**
@@ -82,8 +82,8 @@ public class $annos
      * @param annoPatterns
      * @return
      */
-    public static $annos of(String...annoPatterns){
-        return new $annos(annoPatterns);
+    public static $annoRefs of(String...annoPatterns){
+        return new $annoRefs(annoPatterns);
     }
 
     /**
@@ -91,15 +91,15 @@ public class $annos
      * @param annos
      * @return
      */
-    public static $annos of(_annos annos){
-        return new $annos(annos);
+    public static $annoRefs of(_annoRefs annos){
+        return new $annoRefs(annos);
     }
 
 
-    public static $annos.Or or( _withAnnos... _protos ){
-        $annos[] arr = new $annos[_protos.length];
+    public static $annoRefs.Or or(_withAnnoRefs... _protos ){
+        $annoRefs[] arr = new $annoRefs[_protos.length];
         for(int i=0;i<_protos.length;i++){
-            arr[i] = $annos.of( _protos[i]);
+            arr[i] = $annoRefs.of( _protos[i]);
         }
         return or(arr);
     }
@@ -109,7 +109,7 @@ public class $annos
      * @param $as
      * @return
      */
-    public static $annos.Or or( $annos...$as ){
+    public static $annoRefs.Or or($annoRefs...$as ){
         return new Or($as);
     }
 
@@ -118,8 +118,8 @@ public class $annos
      * @param _ha
      * @return
      */
-    public static $annos as( _withAnnos _ha){
-        return as( _ha.getAnnos() );
+    public static $annoRefs as(_withAnnoRefs _ha){
+        return as( _ha.getAnnoRefs() );
     }
 
 
@@ -128,18 +128,18 @@ public class $annos
      * @param annoPatterns
      * @return
      */
-    public static $annos as(String...annoPatterns){
-        return as(_annos.of(annoPatterns));
+    public static $annoRefs as(String...annoPatterns){
+        return as(_annoRefs.of(annoPatterns));
     }
 
-    public static $annos as(_annos _anns){
+    public static $annoRefs as(_annoRefs _anns){
         if( _anns.size() == 0 ){
             return none();
         }
-        $annos $as = new $annos();
+        $annoRefs $as = new $annoRefs();
         if( _anns != null ){
             for(int i=0;i<_anns.size();i++){
-                $anno a = $anno.as(_anns.getAt(i) );
+                $annoRef a = $annoRef.as(_anns.getAt(i) );
                 $as.$annosList.add(a);
             }
         }
@@ -152,18 +152,18 @@ public class $annos
      *
      * @param annoPatterns
      */
-    public $annos( String...annoPatterns ){
-        this(_annos.of(annoPatterns));
+    public $annoRefs(String...annoPatterns ){
+        this(_annoRefs.of(annoPatterns));
     }
 
     /**
      *
      * @param _anns
      */
-    public $annos( _annos _anns){
+    public $annoRefs(_annoRefs _anns){
         if( _anns != null ){
             for(int i=0;i<_anns.size();i++){
-                $anno a = $anno.of(_anns.getAt(i) );
+                $annoRef a = $annoRef.of(_anns.getAt(i) );
                 $annosList.add(a);
             }    
         }        
@@ -173,15 +173,15 @@ public class $annos
      * List of anno prototypes, note: an empty list means it matches ANY list 
      * of _annos
      */
-    public List<$anno> $annosList = new ArrayList<>();
+    public List<$annoRef> $annosList = new ArrayList<>();
     
     /**
      * A Matching predicate for _annos
      */
-    public Predicate<_annos> constraint = t-> true;
+    public Predicate<_annoRefs> constraint = t-> true;
 
-    public Class<_annos> _modelType(){
-        return _annos.class;
+    public Class<_annoRefs> _modelType(){
+        return _annoRefs.class;
     }
 
     /**
@@ -197,7 +197,7 @@ public class $annos
      * @param constraint
      * @return 
      */
-    public $annos $and(Predicate<_annos> constraint ){
+    public $annoRefs $and(Predicate<_annoRefs> constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }
@@ -252,21 +252,21 @@ public class $annos
             sb.append( separator );
         }
         if( keyValues.get("$annos") != null){ //they can supply the annos            
-            $annos $as = $annos.of( keyValues.get("$annos").toString() );
+            $annoRefs $as = $annoRefs.of( keyValues.get("$annos").toString() );
             sb.append($as.draft(translator, keyValues, separator));
         }
         return sb.toString();
     }
     
     @Override
-    public _annos draft(Translator translator, Map<String, Object> keyValues) {
-        _annos _as = _annos.of();
+    public _annoRefs draft(Translator translator, Map<String, Object> keyValues) {
+        _annoRefs _as = _annoRefs.of();
         for(int i=0;i<$annosList.size();i++){            
             _as.add( $annosList.get(i).draft(translator, keyValues) );
         }
         //handle $name OVERLOAD i.e. if they pass in a $annos
         if( keyValues.get("$annos") != null){ //they can supply the annos            
-            $annos $as = $annos.of( keyValues.get("$annos").toString() );
+            $annoRefs $as = $annoRefs.of( keyValues.get("$annos").toString() );
             //must extract the $annos to avoid a stack overflow
             Map<String,Object> kvs = new HashMap<>();
             kvs.putAll(keyValues);
@@ -277,7 +277,7 @@ public class $annos
     }
 
     @Override
-    public $annos $(String target, String $paramName) {
+    public $annoRefs $(String target, String $paramName) {
         $annosList.forEach(a -> a.$(target, $paramName));
         return this;
     }
@@ -288,7 +288,7 @@ public class $annos
      *
      * @return
      */
-    public $annos $hardcode(Translator tr, Tokens ts ) {
+    public $annoRefs $hardcode(Translator tr, Tokens ts ) {
         $annosList.forEach(a -> a.$hardcode(tr, ts));
         return this;
     }
@@ -307,7 +307,7 @@ public class $annos
         return found.stream().distinct().collect(Collectors.toList());
     }
 
-    public $annos add( $annos $as ){
+    public $annoRefs add($annoRefs $as ){
         $as.$annosList.forEach($a-> add($a));
         return this;
     }
@@ -317,7 +317,7 @@ public class $annos
      * @param $as
      * @return
      */
-    public $annos add($anno...$as){
+    public $annoRefs add($annoRef...$as){
         Arrays.stream($as).forEach( a -> this.$annosList.add( a) );
         return this;
     }
@@ -327,8 +327,8 @@ public class $annos
      * @param annoPatterns
      * @return
      */
-    public $annos add(String...annoPatterns){
-        Arrays.stream(annoPatterns).forEach( a -> this.$annosList.add( $anno.of(a) ) );
+    public $annoRefs add(String...annoPatterns){
+        Arrays.stream(annoPatterns).forEach( a -> this.$annosList.add( $annoRef.of(a) ) );
         return this;
     }
     
@@ -338,26 +338,26 @@ public class $annos
 
     public boolean matches(String...anns){
         try{
-            return matches( _annos.of(anns));
+            return matches( _annoRefs.of(anns));
         }catch(Exception e){
             return false;
         }
     }
 
-    public boolean matches( _annos _as) {
+    public boolean matches( _annoRefs _as) {
         return select(_as)!= null;
     }
     
-    public boolean matches( _withAnnos _ha) {
+    public boolean matches( _withAnnoRefs _ha) {
         return select(_ha)!= null;
     }
     
     public Select select( NodeWithAnnotations astAnnoNode ){
-        return select(_annos.of(astAnnoNode) );
+        return select(_annoRefs.of(astAnnoNode) );
     }
 
-    public Tokens parse( _withAnnos _ha ){
-        return parse(_ha.getAnnos());
+    public Tokens parse( _withAnnoRefs _ha ){
+        return parse(_ha.getAnnoRefs());
     }
 
     /**
@@ -365,24 +365,24 @@ public class $annos
      * @param _anns
      * @return
      */
-    public Tokens parse( _annos _anns ){
+    public Tokens parse( _annoRefs _anns ){
         if( ! this.constraint.test(_anns)){
             return null;
         }
-        List<_anno> annosLeft = new ArrayList<>();
+        List<_annoRef> annosLeft = new ArrayList<>();
         annosLeft.addAll(_anns.list());
         Tokens tokens = new Tokens();
         for(int i=0;i<this.$annosList.size();i++){
 
-            $anno $a = $annosList.get(i);
-            Optional<_anno> oa = annosLeft.stream().filter(a-> $a.matches(a)).findFirst();
+            $annoRef $a = $annosList.get(i);
+            Optional<_annoRef> oa = annosLeft.stream().filter(a-> $a.matches(a)).findFirst();
             if( !oa.isPresent() ){
                 //System.out.println("NO MATCHING "+ $a);
                 return null; //didnf find a matching anno
             }
-            _anno got = oa.get();
+            _annoRef got = oa.get();
             annosLeft.remove(got);
-            $anno.Select $as = $a.select(oa.get());
+            $annoRef.Select $as = $a.select(oa.get());
             if( tokens.isConsistent($as.tokens.asTokens())){ //args are consistent
                 tokens.putAll($as.tokens.asTokens());
             } else{
@@ -397,7 +397,7 @@ public class $annos
      * @param _anns
      * @return
      */
-    public Select select( _annos _anns ){
+    public Select select( _annoRefs _anns ){
 
         Tokens tokens = parse(_anns );
         if( tokens == null ){
@@ -411,8 +411,8 @@ public class $annos
      * @param _annotated
      * @return
      */
-    public Select select( _withAnnos _annotated ){
-        return select( _annotated.getAnnos() );        
+    public Select select( _withAnnoRefs _annotated ){
+        return select( _annotated.getAnnoRefs() );
     }
 
     public boolean match( Node astNode){
@@ -423,8 +423,8 @@ public class $annos
     }
 
     public boolean match( _java _j){
-        if( _j instanceof _withAnnos){
-            return matches( (_withAnnos)_j);
+        if( _j instanceof _withAnnoRefs){
+            return matches( (_withAnnoRefs)_j);
         }
         return false;
     }
@@ -436,7 +436,7 @@ public class $annos
      * @return
      */
     public Tokens parseTo(NodeWithAnnotations nwa, Tokens allTokens){
-        return parseTo( _annos.of(nwa), allTokens);
+        return parseTo( _annoRefs.of(nwa), allTokens);
     }
 
     /**
@@ -445,7 +445,7 @@ public class $annos
      * @param allTokens
      * @return
      */
-    public Tokens parseTo(_annos _as, Tokens allTokens ){
+    public Tokens parseTo(_annoRefs _as, Tokens allTokens ){
         if(allTokens == null){
             return allTokens;
         }
@@ -466,7 +466,7 @@ public class $annos
      * @return 
      */
     @Override
-    public _annos firstIn(Node astNode, Predicate<_annos> _annosMatchFn){
+    public _annoRefs firstIn(Node astNode, Predicate<_annoRefs> _annosMatchFn){
         Optional<Node> f =                 
             astNode.findFirst( Node.class,
                 n -> {
@@ -480,7 +480,7 @@ public class $annos
             );         
         
         if( f.isPresent()){
-            return _annos.of( (NodeWithAnnotations)f.get());
+            return _annoRefs.of( (NodeWithAnnotations)f.get());
         }
         return null;
     }    
@@ -614,7 +614,7 @@ public class $annos
     }
 
     @Override
-    public <N extends Node> N forEachIn(N astNode, Predicate<_annos> _annosMatchFn, Consumer<_annos> _annosActionFn) {
+    public <N extends Node> N forEachIn(N astNode, Predicate<_annoRefs> _annosMatchFn, Consumer<_annoRefs> _annosActionFn) {
         return Tree.in(astNode, Node.class, n-> {
             if( n instanceof NodeWithAnnotations ){
                 Select sel = select( (NodeWithAnnotations)n );
@@ -749,11 +749,11 @@ public class $annos
      * An Or entity that can match against any of the $pattern instances provided
      * NOTE: template features (draft/fill) are supressed.
      */
-    public static class Or extends $annos{
+    public static class Or extends $annoRefs {
 
-        final List<$annos>ors = new ArrayList<>();
+        final List<$annoRefs>ors = new ArrayList<>();
 
-        public Or($annos...$as){
+        public Or($annoRefs...$as){
             super();
             Arrays.stream($as).forEach($a -> ors.add($a) );
         }
@@ -769,17 +769,17 @@ public class $annos
         }
 
         @Override
-        public _annos fill(Object...vals){
+        public _annoRefs fill(Object...vals){
             throw new _jdraftException("Cannot draft/fill "+getClass()+" pattern"+ this );
         }
 
         @Override
-        public _annos fill(Translator tr, Object...vals){
+        public _annoRefs fill(Translator tr, Object...vals){
             throw new _jdraftException("Cannot draft/fill "+getClass()+" pattern"+ this );
         }
 
         @Override
-        public _annos draft(Translator tr, Map<String,Object> map){
+        public _annoRefs draft(Translator tr, Map<String,Object> map){
             throw new _jdraftException("Cannot draft "+getClass()+" pattern"+ this );
         }
 
@@ -789,7 +789,7 @@ public class $annos
         }
 
         @Override
-        public $annos $hardcode(Translator translator, Tokens kvs) {
+        public $annoRefs $hardcode(Translator translator, Tokens kvs) {
             ors.forEach( $a -> $a.$hardcode(translator, kvs));
             return this;
         }
@@ -809,8 +809,8 @@ public class $annos
          * @param astNode
          * @return
          */
-        public $annos.Select select(_annos astNode){
-            $annos $a = whichMatch(astNode);
+        public $annoRefs.Select select(_annoRefs astNode){
+            $annoRefs $a = whichMatch(astNode);
             if( $a != null ){
                 return $a.select(astNode);
             }
@@ -827,19 +827,19 @@ public class $annos
          * @param ae
          * @return
          */
-        public $annos whichMatch(_annos ae){
+        public $annoRefs whichMatch(_annoRefs ae){
             if( !this.constraint.test( ae ) ){
                 return null;
             }
-            Optional<$annos> orsel  = this.ors.stream().filter( $p-> $p.match(ae) ).findFirst();
+            Optional<$annoRefs> orsel  = this.ors.stream().filter($p-> $p.match(ae) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();
             }
             return null;
         }
 
-        public Tokens parse(_annos _a){
-            $annos $a = whichMatch(_a);
+        public Tokens parse(_annoRefs _a){
+            $annoRefs $a = whichMatch(_a);
             if( $a != null) {
                 return $a.parse(_a);
             }
@@ -856,16 +856,16 @@ public class $annos
      * inside of some Node or _node
      */
     public static class Select
-        implements $pattern.selected, select_java<_annos> {
+        implements $pattern.selected, select_java<_annoRefs> {
 
-        public final _annos _anns;
+        public final _annoRefs _anns;
         public final $tokens tokens;
 
-        public Select(_annos _a, Tokens tokens) {
+        public Select(_annoRefs _a, Tokens tokens) {
             this(_a, $tokens.of(tokens));
         }
 
-        public Select(_annos _as, $tokens tokens) {
+        public Select(_annoRefs _as, $tokens tokens) {
             this._anns = _as;
             this.tokens = tokens;
         }
@@ -884,7 +884,7 @@ public class $annos
         }
 
         @Override
-        public _annos _node() {
+        public _annoRefs _node() {
             return _anns;
         }
     }
@@ -898,12 +898,12 @@ public class $annos
  * ...which are processed separately for $pattern types of things that _model types
  * //@see has$annos#at_$Process(AnnotatedElement, has$annos)
  */
-interface has$Annos {
+interface has$AnnoRefs {
 
-    $annos get$Annos();
+    $annoRefs get$Annos();
 
     default void removeAnnos(Class<? extends Annotation> annoClass){
-        List<$anno> toRemove = new ArrayList<>();
+        List<$annoRef> toRemove = new ArrayList<>();
         this.get$Annos().$annosList.stream().forEach($a -> {
             if($a.name.matches(annoClass.getSimpleName()) || $a.name.matches(annoClass.getCanonicalName()) ){
                 toRemove.add($a);
@@ -917,7 +917,7 @@ interface has$Annos {
      *
      * Given a runtime {@link java.lang.reflect.AnnotatedElement}
      * (A reflective {@link java.lang.reflect.Method}, {@link java.lang.reflect.Constructor}, ...)
-     * and its corresponding $pattern that is an implementation of {@link has$Annos}
+     * and its corresponding $pattern that is an implementation of {@link has$AnnoRefs}
      * (may contain annotation(s) look for the @_$ annotation and "post-parameterize")
      * call {@link $pattern#$(String, String)} for the values in the Annotation.
      *

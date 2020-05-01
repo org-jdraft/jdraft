@@ -98,7 +98,7 @@ public class SconstructorTest extends TestCase {
     //if the class is an annotation add it to annotations
     //if the class is a throwable, add it to ...
     public void testConstructOf(){
-        $constructor $ct = $constructor.of($anno.of( Deprecated.class ), 
+        $constructor $ct = $constructor.of($annoRef.of( Deprecated.class ),
             $modifiers.of( _modifiers.PRIVATE ),
             $name.of("TT"),
             $throws.of( IOException.class ), 
@@ -176,7 +176,7 @@ public class SconstructorTest extends TestCase {
         assertEquals(2, $ct.countIn(c.class));
         
         
-        $ct = $constructor.of( $anno.of(Deprecated.class) );
+        $ct = $constructor.of( $annoRef.of(Deprecated.class) );
         class d{
             @Deprecated
             d(){}
@@ -191,7 +191,7 @@ public class SconstructorTest extends TestCase {
         }
         assertEquals(2, $ct.countIn(d.class));
         
-        $ct = $constructor.of( $anno.of(Deprecated.class), $body.of("{}") );
+        $ct = $constructor.of( $annoRef.of(Deprecated.class), $body.of("{}") );
         class e{
             @Deprecated
             e(){}
@@ -218,7 +218,7 @@ public class SconstructorTest extends TestCase {
     
     public void testCT(){
         $constructor $c = $constructor.of( 
-            $anno.of(Deprecated.class), 
+            $annoRef.of(Deprecated.class),
             $body.of("{}"), 
             $name.of(s -> s.startsWith("a")) );
         
@@ -364,7 +364,7 @@ public class SconstructorTest extends TestCase {
         });
         _constructor _ct = $ct.draft();
         //verify that the ANNOTATIONS and JAVADOC are transposed
-        assertTrue( _ct.hasAnno(Deprecated.class));
+        assertTrue( _ct.hasAnnoRef(Deprecated.class));
         assertTrue( _ct.getJavadoc().getText().contains("Some Javadoc"));
     }
 

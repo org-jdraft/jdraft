@@ -34,7 +34,7 @@ public interface _expression<E extends Expression, _E extends _expression>
     // reference
     //   anno, arrayAccess, classExpression, fieldAccess, methodReference, nameExpression, super, typeExpression, cast
     //
-    Class<_anno> ANNO = _anno.class;
+    Class<_annoRef> ANNO = _annoRef.class;
     Class<_arrayAccess> ARRAY_ACCESS = _arrayAccess.class;
     Class<_assign> ASSIGN = _assign.class;
     Class<_arrayInitialize> ARRAY_INITIALIZE = _arrayInitialize.class;
@@ -124,7 +124,7 @@ public interface _expression<E extends Expression, _E extends _expression>
             }
         }
         if( e instanceof AnnotationExpr ){
-            return _anno.of( (AnnotationExpr)e);
+            return _annoRef.of( (AnnotationExpr)e);
         }
         if( e instanceof ArrayCreationExpr){
             return new _arrayCreate( (ArrayCreationExpr)e);

@@ -1,7 +1,6 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.ast.body.CallableDeclaration;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import junit.framework.TestCase;
 import org.jdraft.*;
 
@@ -138,7 +137,7 @@ public class SenumTest extends TestCase {
         assertFalse($c.matches(_enum.of("C").setJavadoc("not compilant")));
 
         $c = $enum.of($.anno(Deprecated.class));
-        assertTrue( $c.matches(_enum.of("F").addAnnos(Deprecated.class)));
+        assertTrue( $c.matches(_enum.of("F").addAnnoRefs(Deprecated.class)));
         assertFalse( $c.matches(_enum.of("F")));
 
         $c = $enum.of($.name("AC$afterPrefix$"));

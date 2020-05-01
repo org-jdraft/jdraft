@@ -30,7 +30,7 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _method
-        implements _javadocComment._withJavadoc<_method>, _annos._withAnnos<_method>,
+        implements _javadocComment._withJavadoc<_method>, _annoRefs._withAnnoRefs<_method>,
         _java._withNameTypeRef<MethodDeclaration, _method>, _body._hasBody<_method>, _throws._withThrows<_method>,
         _modifiers._withModifiers<_method>, _parameters._withParameters<_method>,
         _typeParameters._withTypeParameters<_method>, _receiverParameter._withReceiverParameter<_method>,
@@ -293,7 +293,7 @@ public final class _method
 
     enum Token {
         JAVADOC(1, "javadoc", (_method a)-> a.getJavadoc()),
-        ANNOS(2,"annos", (_method a)-> a.getAnnos() ),
+        ANNOS(2,"annos", (_method a)-> a.getAnnoRefs() ),
         MODIFIERS(3,"modifiers", (_method a)-> a.getEffectiveModifiers()),
         TYPE_PARAMETERS(4,"typeParameters", (_method a)-> a.getTypeParameters()),
         TYPE(5,"type", (_method a)-> a.getTypeRef()),
@@ -325,7 +325,7 @@ public final class _method
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> parts = new HashMap<>();
-        parts.put(_java.Component.ANNOS, getAnnos());
+        parts.put(_java.Component.ANNOS, getAnnoRefs());
         parts.put(_java.Component.BODY, getBody());
         parts.put(_java.Component.TYPE, getTypeRef());
         parts.put(_java.Component.PARAMETERS, getParameters());
@@ -463,8 +463,8 @@ public final class _method
     }
 
     @Override
-    public _annos getAnnos() {
-        return _annos.of(astMethod);
+    public _annoRefs getAnnoRefs() {
+        return _annoRefs.of(astMethod);
     }
 
     public SimpleName getNameNode() { return this.astMethod.getName(); }

@@ -285,7 +285,7 @@ public class SpatternAnalyzeTest extends TestCase {
         //what I might want to do is to
 
         //replace All @annotations with @Deprecated and return all of the _code files
-        List<_codeUnit> _ts = $.anno().replaceIn(_a2, $anno.of("@Deprecated") );
+        List<_codeUnit> _ts = $.anno().replaceIn(_a2, $annoRef.of("@Deprecated") );
 
         System.out.println( _io.out("C:\\temp\\refactored", _ts));
         //_ts.forEach( t -> System.out.println( t ) );

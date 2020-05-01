@@ -1,6 +1,5 @@
 package org.jdraft.pattern;
 
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import junit.framework.TestCase;
 import org.jdraft.*;
 import org.jdraft.macro._static;
@@ -116,7 +115,7 @@ public class SinterfaceTest extends TestCase {
         assertFalse($i.matches(_interface.of("C").setJavadoc("not compilant")));
 
         $i = $interface.of($.anno(Deprecated.class));
-        assertTrue( $i.matches(_interface.of("F").addAnnos(Deprecated.class)));
+        assertTrue( $i.matches(_interface.of("F").addAnnoRefs(Deprecated.class)));
         assertFalse( $i.matches(_interface.of("F")));
 
         $i = $interface.of($.name("AC$afterPrefix$"));

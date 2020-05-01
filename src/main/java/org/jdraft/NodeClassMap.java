@@ -24,10 +24,10 @@ import java.util.Optional;
 public enum NodeClassMap {
 
       //_anno implementations are a single class in _jdraft, multiple implementation classes in JavaParser
-      ANNO(_anno.class, AnnotationExpr.class),
-         ANNO_MARKER(_anno.class, MarkerAnnotationExpr.class),
-         ANNO_SINGLE(_anno.class, SingleMemberAnnotationExpr.class),
-         ANNO_KEYVALUE(_anno.class, NormalAnnotationExpr.class),
+      ANNO(_annoRef.class, AnnotationExpr.class),
+         ANNO_MARKER(_annoRef.class, MarkerAnnotationExpr.class),
+         ANNO_SINGLE(_annoRef.class, SingleMemberAnnotationExpr.class),
+         ANNO_KEYVALUE(_annoRef.class, NormalAnnotationExpr.class),
       ANNO_ENTRY(_annotation._entry.class, AnnotationMemberDeclaration.class),
       ANNOTATION(_annotation.class, AnnotationDeclaration.class),
       ARRAY_ACCESS(_arrayAccess.class, ArrayAccessExpr.class),

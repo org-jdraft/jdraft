@@ -2,7 +2,6 @@ package org.jdraft.pattern;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
@@ -33,7 +32,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
     public $typeParameters typeParameters = $typeParameters.of();
     public $package packageDecl = $package.of();
     public $comment<JavadocComment> javadoc = $comment.javadocComment();
-    public $annos annos = $annos.of();
+    public $annoRefs annos = $annoRefs.of();
     public $modifiers modifiers = $modifiers.of();
     public $name name = $name.of("$typeName$"); //name required
 
@@ -81,10 +80,10 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
                 this.modifiers = $modifiers.of(this.modifiers, ($modifiers) parts[i]);
             } else if (parts[i] instanceof $import) {
                 this.imports.add(($import) parts[i]);
-            } else if (parts[i] instanceof $annos) {
-                this.annos.add(($annos) parts[i]);
-            } else if (parts[i] instanceof $anno) {
-                this.annos.add(($anno) parts[i]);
+            } else if (parts[i] instanceof $annoRefs) {
+                this.annos.add(($annoRefs) parts[i]);
+            } else if (parts[i] instanceof $annoRef) {
+                this.annos.add(($annoRef) parts[i]);
             } else if (parts[i] instanceof $comment) {
                 this.javadoc = ($comment<JavadocComment>) parts[i];
             }
@@ -119,14 +118,14 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
 
     public $type $and($type.$part...parts){
         for (int i = 0; i < parts.length; i++) {
-            if( parts[i] instanceof $anno ){
-                final $anno $fa = (($anno)parts[i]);
-                Predicate<_type> pf = an-> an.getAnno( a -> $fa.match( (_anno)a) ) != null;
+            if( parts[i] instanceof $annoRef){
+                final $annoRef $fa = (($annoRef)parts[i]);
+                Predicate<_type> pf = an-> an.getAnnoRef(a -> $fa.match( (_annoRef)a) ) != null;
                 $and( pf  );
             }
-            else if( parts[i] instanceof $annos ){
-                final $annos $fa = (($annos)parts[i]);
-                Predicate<_type> pf = an-> $fa.matches(an.getAnnos());
+            else if( parts[i] instanceof $annoRefs){
+                final $annoRefs $fa = (($annoRefs)parts[i]);
+                Predicate<_type> pf = an-> $fa.matches(an.getAnnoRefs());
                 $and( pf );
             }
             else if( parts[i] instanceof $modifiers ) {
@@ -215,14 +214,14 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
 
     public $type $not($type.$part...parts){
         for (int i = 0; i < parts.length; i++) {
-            if( parts[i] instanceof $anno ){
-                final $anno $fa = (($anno)parts[i]);
-                Predicate<_type> pf = an-> an.getAnno( a -> $fa.match( (_anno)a) ) != null;
+            if( parts[i] instanceof $annoRef){
+                final $annoRef $fa = (($annoRef)parts[i]);
+                Predicate<_type> pf = an-> an.getAnnoRef(a -> $fa.match( (_annoRef)a) ) != null;
                 $and( pf.negate() );
             }
-            else if( parts[i] instanceof $annos ){
-                final $annos $fa = (($annos)parts[i]);
-                Predicate<_type> pf = an-> $fa.matches(an.getAnnos());
+            else if( parts[i] instanceof $annoRefs){
+                final $annoRefs $fa = (($annoRefs)parts[i]);
+                Predicate<_type> pf = an-> $fa.matches(an.getAnnoRefs());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $modifiers ) {
@@ -374,21 +373,21 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         return this;
     }
 
-    public $annos get$Annos(){
+    public $annoRefs get$Annos(){
         return this.annos;
     }
 
-    public $type $annos(Predicate<_annos> annosMatchFn){
+    public $type $annos(Predicate<_annoRefs> annosMatchFn){
         this.annos.$and(annosMatchFn);
         return this;
     }
 
-    public $type $annos( $annos $as ){
+    public $type $annos( $annoRefs $as ){
         this.annos = $as;
         return this;
     }
 
-    public $type $annos( $anno... $a){
+    public $type $annos( $annoRef... $a){
         this.annos.add($a);
         return this;
     }

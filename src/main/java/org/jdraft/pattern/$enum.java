@@ -24,14 +24,14 @@ import org.jdraft.text.Translator;
 public class $enum
         implements //$pattern<_enum, $enum>,
         $pattern.$java<_enum, $enum>, $member.$named<$enum>, $declared<_enum,$enum>,
-        has$Annos {
+        has$AnnoRefs {
 
     public Predicate<_enum> constraint = t->true;
 
     public $package packageDecl = $package.of();
     public List<$import> imports = new ArrayList<>();
     public $comment<JavadocComment>javadoc = $comment.javadocComment();
-    public $annos annos = $annos.of();
+    public $annoRefs annos = $annoRefs.of();
     public $modifiers modifiers = $modifiers.of();
     public $name name = $name.of("$enumName$"); //name required
 
@@ -92,7 +92,7 @@ public class $enum
         List<Node>nots = new ArrayList<>();
 
         //remove _$not things
-        _e.forDeclared( d -> d.hasAnno(_$not.class), d-> {
+        _e.forDeclared( d -> d.hasAnnoRef(_$not.class), d-> {
             //System.out.println("NODE" +  d + d.getClass());
             if( d instanceof _field ){
                 ((_field) d).getFieldDeclaration().remove();
@@ -106,7 +106,7 @@ public class $enum
 
 
         $e.$javadoc(_e.getJavadoc());
-        _e.forAnnos(a-> $e.annos.add($anno.of(a)));
+        _e.forAnnoRefs(a-> $e.annos.add($annoRef.of(a)));
         $e.modifiers = $modifiers.of(_e.getModifiers());
         $e.$name(_e.getSimpleName());
         _e.listImplements().forEach(i -> $e.$implement(i));
@@ -181,11 +181,11 @@ public class $enum
 
     public $enum($part...parts){
         for(int i=0;i<parts.length;i++){
-            if( parts[i] instanceof $annos ){
-                this.annos = ($annos)parts[i];
+            if( parts[i] instanceof $annoRefs){
+                this.annos = ($annoRefs)parts[i];
             }
-            if( parts[i] instanceof $anno ){
-                this.annos.add(($anno)parts[i]);
+            if( parts[i] instanceof $annoRef){
+                this.annos.add(($annoRef)parts[i]);
             }
             if( parts[i] instanceof $comment){
                 this.javadoc = ($comment<JavadocComment>)parts[i];
@@ -228,14 +228,14 @@ public class $enum
 
     public $enum $not( $part...parts ){
         for(int i=0;i<parts.length;i++){
-            if( parts[i] instanceof $anno ){
-                final $anno $fa = (($anno)parts[i]);
-                Predicate<_enum> pf = an-> an.getAnno( a ->$fa.match(a) ) != null;
+            if( parts[i] instanceof $annoRef){
+                final $annoRef $fa = (($annoRef)parts[i]);
+                Predicate<_enum> pf = an-> an.getAnnoRef(a ->$fa.match(a) ) != null;
                 $and( pf.negate() );
             }
-            else if( parts[i] instanceof $annos ){
-                final $annos $fa = (($annos)parts[i]);
-                Predicate<_enum> pf = an-> $fa.matches(an.getAnnos());
+            else if( parts[i] instanceof $annoRefs){
+                final $annoRefs $fa = (($annoRefs)parts[i]);
+                Predicate<_enum> pf = an-> $fa.matches(an.getAnnoRefs());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $modifiers ) {
@@ -650,21 +650,21 @@ public class $enum
     }
 
     @Override
-    public $annos get$Annos(){
+    public $annoRefs get$Annos(){
         return this.annos;
     }
 
-    public $enum $annos(Predicate<_annos> annosMatchFn){
+    public $enum $annos(Predicate<_annoRefs> annosMatchFn){
         this.annos.$and(annosMatchFn);
         return this;
     }
 
-    public $enum $annos($annos $as ){
+    public $enum $annos($annoRefs $as ){
         this.annos = $as;
         return this;
     }
 
-    public $enum $annos($anno... $a){
+    public $enum $annos($annoRef... $a){
         this.annos.add($a);
         return this;
     }

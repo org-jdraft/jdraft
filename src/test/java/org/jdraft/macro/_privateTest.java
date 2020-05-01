@@ -1,6 +1,5 @@
 package org.jdraft.macro;
 
-import org.jdraft.macro._private;
 import org.jdraft._class;
 import org.jdraft._constructor;
 import org.jdraft._field;
@@ -25,13 +24,13 @@ public class _privateTest extends TestCase {
         }
         _class _c = _class.of(F.class);
         assertTrue( _c.isPrivate() );
-        assertFalse( _c.hasAnno(_private.class));
+        assertFalse( _c.hasAnnoRef(_private.class));
         assertTrue( _c.getConstructor(0).isPrivate());
-        assertFalse( _c.getConstructor(0).hasAnno(_private.class));
+        assertFalse( _c.getConstructor(0).hasAnnoRef(_private.class));
 
         assertTrue( _c.getField("g").isPrivate());
-        assertFalse( _c.getField("g").hasAnno(_private.class));
+        assertFalse( _c.getField("g").hasAnnoRef(_private.class));
         assertTrue( _c.getMethod("b").isPrivate());
-        assertFalse( _c.getMethod("b").hasAnno(_private.class));
+        assertFalse( _c.getMethod("b").hasAnnoRef(_private.class));
     }
 }

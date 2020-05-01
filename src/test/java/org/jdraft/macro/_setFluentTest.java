@@ -12,7 +12,7 @@ public class _setFluentTest extends TestCase {
 
         }
         _class _c = _class.of(C.class);
-        assertTrue( _c.listAnnos(_setFluent.class).isEmpty());
+        assertTrue( _c.listAnnoRefs(_setFluent.class).isEmpty());
         assertTrue(_c.listMethods().isEmpty());
 
         @_setFluent
@@ -20,7 +20,7 @@ public class _setFluentTest extends TestCase {
             final int f = 100;
         }
         _c = _class.of(D.class);
-        assertTrue( _c.listAnnos(_setFluent.class).isEmpty());
+        assertTrue( _c.listAnnoRefs(_setFluent.class).isEmpty());
         assertTrue(_c.listMethods().isEmpty());
     }
 
@@ -32,7 +32,7 @@ public class _setFluentTest extends TestCase {
         }
         _class _c = _class.of(G.class);
         System.out.println( _c );
-        assertTrue( _c.listAnnos(_setFluent.class).isEmpty());
+        assertTrue( _c.listAnnoRefs(_setFluent.class).isEmpty());
         assertTrue( _c.getMethod("setA").isTypeRef(G.class));
         assertTrue( _c.getMethod("setA").getParameter(0).isTypeRef(int.class));
     }
@@ -46,7 +46,7 @@ public class _setFluentTest extends TestCase {
         }
 
         _class _c = _class.of(G.class);
-        assertTrue( _c.listAnnos(_setFluent.class).isEmpty());
+        assertTrue( _c.listAnnoRefs(_setFluent.class).isEmpty());
         assertTrue( _c.getMethod("setA").isTypeRef(G.class));
         assertTrue( _c.getMethod("setA").getParameter(0).isTypeRef(int.class));
         assertTrue( _c.getMethod("setB").isTypeRef(G.class));

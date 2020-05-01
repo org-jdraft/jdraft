@@ -144,17 +144,17 @@ public class _javaTest extends TestCase {
         //creating a class this way DOES NOT process the ANNOTATIONS
         _class _c = _class.of(OldName.class);
         
-        assertFalse( _c.getAnnos().has(_promote.class));
-        assertFalse( _c.getAnnos().has(_final.class));
+        assertFalse( _c.getAnnoRefs().has(_promote.class));
+        assertFalse( _c.getAnnoRefs().has(_final.class));
         
         _class _c2 = _class.of( Ast.typeDecl( OldName.class) );
 
-        assertTrue( _c2.getAnnos().has(_promote.class));
-        assertTrue( _c2.getAnnos().has(_final.class));
+        assertTrue( _c2.getAnnoRefs().has(_promote.class));
+        assertTrue( _c2.getAnnoRefs().has(_final.class));
         
         //assertTrue( _c.getAnnos().contains(_static.class));
 
-        _c.getField("Message").getAnnos().has(_final.class);
+        _c.getField("Message").getAnnoRefs().has(_final.class);
 
         //calling this way WILL PROCESS the ANNOTATIONS
         _c = _class.of(OldName.class);
@@ -237,16 +237,16 @@ public class _javaTest extends TestCase {
         _class _c2 = _class.of( Ast.typeDecl(C.class) );
 
         System.out.println( _c2);
-        assertTrue( _c2.hasAnno(_packageName.class));
-        assertTrue( _c2.hasAnno(_final.class));
+        assertTrue( _c2.hasAnnoRef(_packageName.class));
+        assertTrue( _c2.hasAnnoRef(_final.class));
         
         System.out.println( _c );
         //I Process the annotations
-        assertFalse( _c.hasAnno(_packageName.class));
-        assertFalse( _c.hasAnno(_final.class));
+        assertFalse( _c.hasAnnoRef(_packageName.class));
+        assertFalse( _c.hasAnnoRef(_final.class));
         //assertTrue( _c.getAnnos().contains(_static.class));
 
-        _c.getField("Message").getAnnos().has(_final.class);
+        _c.getField("Message").getAnnoRefs().has(_final.class);
 
         //calling this way WILL PROCESS the ANNOTATIONS
         _c = _class.of(C.class);

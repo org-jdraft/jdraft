@@ -124,7 +124,7 @@ public class _macroTest extends TestCase {
         }
 
         _class _c = _class.of( C.class);
-        _c.addAnnos(removePrintlns.class);
+        _c.addAnnoRefs(removePrintlns.class);
 
         //verify that AFTER I run the _macro, there are no matching $printlns left
         //assertEquals(0, removePrintlns.$println.selectAllIn(_c).size());

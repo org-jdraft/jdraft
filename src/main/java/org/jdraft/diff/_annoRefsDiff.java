@@ -4,32 +4,32 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 
 import org.jdraft.*;
-import org.jdraft._annos._withAnnos;
+import org.jdraft._annoRefs._withAnnoRefs;
 import org.jdraft._java.Component;
 import org.jdraft.diff._diff.*;
 
 /**
- * Diff for: {@link org.jdraft._anno} {@link org.jdraft._annos} and {@link _withAnnos}
+ * Diff for: {@link _annoRef} {@link _annoRefs} and {@link _withAnnoRefs}
  *
  * @author Eric
  */
-public final class _annosDiff
-    implements _differ<_annos, _java._multiPart> {
+public final class _annoRefsDiff
+    implements _differ<_annoRefs, _java._multiPart> {
 
-    public static final _annosDiff INSTANCE = new _annosDiff();
+    public static final _annoRefsDiff INSTANCE = new _annoRefsDiff();
     
-     public _diff diff(_withAnnos left, _withAnnos right){
+     public _diff diff(_withAnnoRefs left, _withAnnoRefs right){
         return diff( 
                 _nodePath.of(),
                 new _diffList( (_java._multiPart)left, (_java._multiPart)right),
                 (_java._multiPart)left,
                 (_java._multiPart)right,
-                left.getAnnos(), 
-                right.getAnnos());
+                left.getAnnoRefs(),
+                right.getAnnoRefs());
     }
      
     @Override
-    public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, _annos left, _annos right) {
+    public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, _annoRefs left, _annoRefs right) {
         NodeList<AnnotationExpr> laes = left.astAnnNode.getAnnotations();
         NodeList<AnnotationExpr> raes = right.astAnnNode.getAnnotations();
         for (int i = 0; i < laes.size(); i++) {
@@ -40,7 +40,7 @@ public final class _annosDiff
             //if (!raes.stream().filter(a -> Ast.annotationEqual(e, (AnnotationExpr) a)).findFirst().isPresent()) {
                 
                 ds.addDiff(new _leftOnly_anno( //in LEFT not in RIGHT means REMOVE
-                        path.in(Component.ANNO, e.getNameAsString()), (_withAnnos) _leftParent, (_withAnnos) _rightParent, _anno.of(e)));
+                        path.in(Component.ANNO, e.getNameAsString()), (_withAnnoRefs) _leftParent, (_withAnnoRefs) _rightParent, _annoRef.of(e)));
             }
         }
         for (int i = 0; i < raes.size(); i++) {
@@ -50,21 +50,21 @@ public final class _annosDiff
             if (!laes.stream().filter(a -> Expressions.equal(e, (AnnotationExpr) a)).findFirst().isPresent()) {
             //if (!laes.stream().filter(a -> Ast.annotationEqual(e, (AnnotationExpr) a)).findFirst().isPresent()) {
                 ds.addDiff(new _rightOnly_anno( //in LEFT not in RIGHT means REMOVE
-                        path.in(Component.ANNO, e.getNameAsString()), (_withAnnos) _leftParent, (_withAnnos) _rightParent, _anno.of(e)));
+                        path.in(Component.ANNO, e.getNameAsString()), (_withAnnoRefs) _leftParent, (_withAnnoRefs) _rightParent, _annoRef.of(e)));
             }
         }
         return ds;
     }
 
     public static class _leftOnly_anno
-            implements _diffNode<_withAnnos>, _diffNode._leftOnly<_anno> {
+            implements _diffNode<_withAnnoRefs>, _diffNode._leftOnly<_annoRef> {
 
         public _nodePath path;
-        public _withAnnos leftParent;
-        public _withAnnos rightParent;
-        public _anno left;
+        public _withAnnoRefs leftParent;
+        public _withAnnoRefs rightParent;
+        public _annoRef left;
 
-        public _leftOnly_anno(_nodePath p, _withAnnos left, _withAnnos right, _anno toRemove) {
+        public _leftOnly_anno(_nodePath p, _withAnnoRefs left, _withAnnoRefs right, _annoRef toRemove) {
             this.path = p;
             this.leftParent = left;
             this.rightParent = right;
@@ -72,12 +72,12 @@ public final class _annosDiff
         }
 
         @Override
-        public _withAnnos leftParent() {
+        public _withAnnoRefs leftParent() {
             return leftParent;
         }
 
         @Override
-        public _withAnnos rightParent() {
+        public _withAnnoRefs rightParent() {
             return rightParent;
         }
 
@@ -87,23 +87,23 @@ public final class _annosDiff
         }
 
         @Override
-        public _anno left() {
+        public _annoRef left() {
             return left;
         }
 
         @Override
         public void patchRightToLeft() {
-            leftParent.removeAnno(left.ast());
-            rightParent.removeAnno(left.ast());
+            leftParent.removeAnnoRef(left.ast());
+            rightParent.removeAnnoRef(left.ast());
         }
 
         @Override
         public void patchLeftToRight() {
             
-            leftParent.removeAnno(left.ast());
-            leftParent.addAnnos(left);
-            rightParent.removeAnno(left.ast());
-            rightParent.addAnnos(left);
+            leftParent.removeAnnoRef(left.ast());
+            leftParent.addAnnoRefs(left);
+            rightParent.removeAnnoRef(left.ast());
+            rightParent.addAnnoRefs(left);
         }
 
         @Override
@@ -112,14 +112,14 @@ public final class _annosDiff
         }
     }
 
-    public static class _rightOnly_anno implements _diffNode<_withAnnos>, _diffNode._rightOnly<_anno> {
+    public static class _rightOnly_anno implements _diffNode<_withAnnoRefs>, _diffNode._rightOnly<_annoRef> {
 
         public _nodePath path;
-        public _withAnnos leftParent;
-        public _withAnnos rightParent;
-        public _anno right;
+        public _withAnnoRefs leftParent;
+        public _withAnnoRefs rightParent;
+        public _annoRef right;
 
-        public _rightOnly_anno(_nodePath p, _withAnnos leftParent, _withAnnos rightParent, _anno right) {
+        public _rightOnly_anno(_nodePath p, _withAnnoRefs leftParent, _withAnnoRefs rightParent, _annoRef right) {
             this.path = p;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -127,12 +127,12 @@ public final class _annosDiff
         }
 
         @Override
-        public _withAnnos leftParent() {
+        public _withAnnoRefs leftParent() {
             return leftParent;
         }
 
         @Override
-        public _withAnnos rightParent() {
+        public _withAnnoRefs rightParent() {
             return rightParent;
         }
 
@@ -142,24 +142,24 @@ public final class _annosDiff
         }
 
         @Override
-        public _anno right() {
+        public _annoRef right() {
             return right;
         }
 
         @Override
         public void patchRightToLeft() {
             //remove it before just so we dont mistakenly add it twice
-            leftParent.removeAnno(right.ast());
-            leftParent.addAnnos(right);
-            rightParent.removeAnno(right.ast());
-            rightParent.addAnnos(right);
+            leftParent.removeAnnoRef(right.ast());
+            leftParent.addAnnoRefs(right);
+            rightParent.removeAnnoRef(right.ast());
+            rightParent.addAnnoRefs(right);
         }
 
         @Override
         public void patchLeftToRight() {
             //remove it before just so we dont mistakenly add it twice
-            leftParent.removeAnno(right.ast());
-            rightParent.removeAnno(right.ast());
+            leftParent.removeAnnoRef(right.ast());
+            rightParent.removeAnnoRef(right.ast());
         }
 
         @Override

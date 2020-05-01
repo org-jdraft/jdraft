@@ -2,11 +2,8 @@ package org.jdraft;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.Comment;
-import com.github.javaparser.ast.expr.ObjectCreationExpr;
-import com.github.javaparser.printer.ASCIITreePrinter;
 import org.jdraft.macro._static;
 import org.jdraft.macro._toCtor;
 import org.jdraft.macro._toInit;
@@ -14,7 +11,6 @@ import org.jdraft.macro._toStaticInit;
 import org.jdraft.pattern.$var;
 import java.io.Serializable;
 import java.util.List;
-import java.util.function.Predicate;
 
 import junit.framework.TestCase;
 
@@ -137,7 +133,7 @@ public class _typeTest extends TestCase {
 
         List<_field> _fs = _t.listFields();
         assertTrue( _fs.isEmpty() );
-        _fs = _t.listFields( (_f)-> ((_field)_f).hasAnnos());
+        _fs = _t.listFields( (_f)-> ((_field)_f).hasAnnoRefs());
         assertTrue( _fs.isEmpty() );
 
         _t.setHeaderComment("This is a header comment", "on multiple lines");

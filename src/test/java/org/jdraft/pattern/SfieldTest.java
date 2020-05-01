@@ -60,7 +60,7 @@ public class SfieldTest extends TestCase {
     }
 
     public void testF(){
-        $field $f = $field.of($anno.of(Deprecated.class));
+        $field $f = $field.of($annoRef.of(Deprecated.class));
     }
     
     public void testSimple(){

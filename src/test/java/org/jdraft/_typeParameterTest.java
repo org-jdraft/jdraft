@@ -85,7 +85,7 @@ public class _typeParameterTest extends TestCase {
         System.out.println( _tp );
         System.out.println( astTp );
         
-        assertEquals( 1, _tp.listAnnos().size());
+        assertEquals( 1, _tp.listAnnoRefs().size());
         assertTrue( _tp.is(s) );
         
         

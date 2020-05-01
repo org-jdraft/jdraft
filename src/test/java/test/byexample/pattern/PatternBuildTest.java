@@ -73,7 +73,7 @@ public class PatternBuildTest extends TestCase {
         $.ex();
         $stmt $s = $stmt.of(); //specific $stmt
         $.stmt();
-        $anno $a = $anno.of();
+        $annoRef $a = $annoRef.of();
         $.anno();
         $switchEntry $c = $switchEntry.of();
         $.switchCase();

@@ -132,13 +132,13 @@ public class _parametersTest extends TestCase {
         //assertEquals( "java.lang.String", _param.getType() );
         //assertEquals( "NAME", _param.getName() );
         _pa = _parameter.of( "@ann String NAME" );
-        assertEquals( "@ann", _pa.getAnnos().toString().trim() );
+        assertEquals( "@ann", _pa.getAnnoRefs().toString().trim() );
         assertEquals( "String", _pa.getTypeRef().toString() );
         assertEquals( "NAME", _pa.getName().toString() );
 
         _pa = _parameter.of( "@ann1 @ann2 String NAME" );
-        assertEquals( "@ann1", _pa.getAnnos().getAt( 0 ).toString() );
-        assertEquals( "@ann2", _pa.getAnnos().getAt( 1 ).toString() );
+        assertEquals( "@ann1", _pa.getAnnoRefs().getAt( 0 ).toString() );
+        assertEquals( "@ann2", _pa.getAnnoRefs().getAt( 1 ).toString() );
         assertEquals( "String", _pa.getTypeRef().toString() );
         assertEquals( "NAME", _pa.getName().toString() );
 
@@ -155,21 +155,21 @@ public class _parametersTest extends TestCase {
         assertEquals( "NAME", _param.getName() );
          */
         _pa = _parameter.of( "final String NAME" );
-        assertEquals( "", _pa.getAnnos().toString() );
+        assertEquals( "", _pa.getAnnoRefs().toString() );
         assertEquals( true, _pa.isFinal() );
         assertEquals( "String", _pa.getTypeRef().toString() );
         assertEquals( "NAME", _pa.getName().toString() );
 
         _pa = _parameter.of( "final String... NAME" );
-        assertEquals( "", _pa.getAnnos().toString() );
+        assertEquals( "", _pa.getAnnoRefs().toString() );
         assertEquals( true, _pa.isFinal() );
         assertEquals( true, _pa.isVarArg() );
         assertEquals( "String", _pa.getTypeRef().toString() );
         assertEquals( "NAME", _pa.getName().toString() );
 
         _pa = _parameter.of( "@ann1 @ann2 final Map<Integer,String>... countToName" );
-        assertEquals( "@ann1", _pa.getAnnos().getAt( 0 ).toString() );
-        assertEquals( "@ann2", _pa.getAnnos().getAt( 1 ).toString() );
+        assertEquals( "@ann1", _pa.getAnnoRefs().getAt( 0 ).toString() );
+        assertEquals( "@ann2", _pa.getAnnoRefs().getAt( 1 ).toString() );
         assertEquals( true, _pa.isFinal() );
         assertEquals( true, _pa.isVarArg() );
         assertEquals( "Map<Integer, String>", _pa.getTypeRef().toString() );
@@ -185,7 +185,7 @@ public class _parametersTest extends TestCase {
         _parameters _ps =
                 _parameters.of( "@ann final Map<? extends Integer, String>compose, String... names" );
         assertEquals( _ps.size(), 2);
-        assertNotNull( _ps.getAt( 0 ).getAnnos().get("ann"));
+        assertNotNull( _ps.getAt( 0 ).getAnnoRefs().get("ann"));
         assertTrue( _ps.getAt( 0 ).isFinal() );
         assertEquals(
                 _ps.getAt(0).getTypeRef(),

@@ -366,8 +366,8 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     }
 
     @Override
-    public _annos getAnnos() {
-        return _annos.of(this.astInterface);
+    public _annoRefs getAnnoRefs() {
+        return _annoRefs.of(this.astInterface);
     }
     
     @Override
@@ -497,7 +497,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         parts.put( _java.Component.HEADER_COMMENT, this.getHeaderComment() );
         parts.put( _java.Component.PACKAGE, this.getPackage() );
         parts.put( _java.Component.IMPORTS, this.getImports().list() );
-        parts.put( _java.Component.ANNOS, this.listAnnos() );
+        parts.put( _java.Component.ANNOS, this.listAnnoRefs() );
         parts.put( _java.Component.JAVADOC, this.getJavadoc() );
         parts.put( _java.Component.EXTENDS, this.listExtends() );
         parts.put( _java.Component.NAME, this.getName() );

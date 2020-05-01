@@ -10,8 +10,8 @@ public class OfTest extends TestCase {
      */
     public void testBuildOfNoArg(){
         _java._domain[] _instances = {
-                _anno.of(),
-                _annos.of(),
+                _annoRef.of(),
+                _annoRefs.of(),
                 _annotation.of(),
                 _arguments.of(),
                 _arrayAccess.of(),

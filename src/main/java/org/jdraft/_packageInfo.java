@@ -11,7 +11,7 @@ import org.jdraft.text.Text;
  *
  */
 public final class _packageInfo
-        implements _codeUnit<_packageInfo>, _annos._withAnnos<_packageInfo>, _java._multiPart<CompilationUnit, _packageInfo> {
+        implements _codeUnit<_packageInfo>, _annoRefs._withAnnoRefs<_packageInfo>, _java._multiPart<CompilationUnit, _packageInfo> {
 
     public static _packageInfo of(String... pkgInfo) {
         return new _packageInfo(StaticJavaParser.parse(Text.combine(pkgInfo)));
@@ -134,12 +134,12 @@ public final class _packageInfo
     }
 
     @Override
-    public _annos getAnnos() {
+    public _annoRefs getAnnoRefs() {
         if (astCompilationUnit().getPackageDeclaration().isPresent()) {
             //annos are on the packageDeclaration
-            return _annos.of(astCompilationUnit().getPackageDeclaration().get());
+            return _annoRefs.of(astCompilationUnit().getPackageDeclaration().get());
         }
-        return _annos.of(); //dont like this... but
+        return _annoRefs.of(); //dont like this... but
     }
 
     /**
@@ -186,7 +186,7 @@ public final class _packageInfo
         m.put(_java.Component.HEADER_COMMENT, this.getHeaderComment());
         //m.put(_java.Component.JAVADOC, this.javadocHolder.getJavadoc());
         m.put(_java.Component.PACKAGE, getPackage());
-        m.put(_java.Component.ANNOS, getAnnos());
+        m.put(_java.Component.ANNOS, getAnnoRefs());
         m.put(_java.Component.IMPORTS, _imports.of(astCompUnit));
         return m;
     }

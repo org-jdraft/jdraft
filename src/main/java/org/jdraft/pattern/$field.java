@@ -28,7 +28,7 @@ import org.jdraft.text.*;
 public class $field implements Template<_field>, //$pattern<_field, $field>,
         $pattern.$java<_field, $field>,
         $class.$part, $interface.$part, $enum.$part, $annotation.$part, $enumConstant.$part, $member.$named<$field>,
-        $declared<_field,$field>, has$Annos, $type.$part  {
+        $declared<_field,$field>, has$AnnoRefs, $type.$part  {
 
     public Class<_field> _modelType(){
         return _field.class;
@@ -75,10 +75,10 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
         if( _f.hasJavadoc() ){
             $inst.javadoc = $comment.javadocComment(_f.getJavadoc());
         }
-        if( _f.hasAnnos() ){
-            $inst.annos = $annos.as(_f.getAnnos());
+        if( _f.hasAnnoRefs() ){
+            $inst.annos = $annoRefs.as(_f.getAnnoRefs());
         } else{
-            $inst.annos = $annos.none();
+            $inst.annos = $annoRefs.none();
         }
         $inst.modifiers = $modifiers.as(_f);
         $inst.type = $typeRef.as(_f.getTypeRef());
@@ -167,8 +167,8 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
         if( _f.hasJavadoc() ){
             $inst.javadoc = $comment.javadocComment(_f.getJavadoc());
         }
-        if( _f.hasAnnos() ){
-            $inst.annos = $annos.of(_f.getAnnos());
+        if( _f.hasAnnoRefs() ){
+            $inst.annos = $annoRefs.of(_f.getAnnoRefs());
         }
         if( _f.getModifiers().size() > 0 ){
             $inst.modifiers = $modifiers.of(_f);
@@ -231,7 +231,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
 
     public Predicate<_field> constraint = t->true;
     public $comment<JavadocComment> javadoc = $comment.javadocComment("$javadoc$");
-    public $annos annos = new $annos(); 
+    public $annoRefs annos = new $annoRefs();
     public $modifiers modifiers = $modifiers.of();
     public $typeRef type = $typeRef.of();
     public $name name = $name.of("$name$");
@@ -239,11 +239,11 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
     
     private $field( $part...parts ){
         for(int i=0;i<parts.length;i++){
-            if(parts[i] instanceof $annos){
-                this.annos = ($annos)parts[i];
+            if(parts[i] instanceof $annoRefs){
+                this.annos = ($annoRefs)parts[i];
             }
-            else if( parts[i] instanceof $anno ){
-                this.annos.$annosList.add( ($anno)parts[i]);
+            else if( parts[i] instanceof $annoRef){
+                this.annos.$annosList.add( ($annoRef)parts[i]);
             }
             else if( parts[i] instanceof $modifiers ){
                 this.modifiers = $modifiers.of( this.modifiers, ($modifiers)parts[i]);
@@ -270,9 +270,9 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
      */
     public $field $not(final $part...parts ){
         for(int i=0;i<parts.length;i++){
-            if( parts[i] instanceof $anno ){
-                final $anno $fa = (($anno)parts[i]);
-                Predicate<_field> pf = f-> !f.listAnnos(a -> $fa.matches(a)).isEmpty();
+            if( parts[i] instanceof $annoRef){
+                final $annoRef $fa = (($annoRef)parts[i]);
+                Predicate<_field> pf = f-> !f.listAnnoRefs(a -> $fa.matches(a)).isEmpty();
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $modifiers ){
@@ -349,7 +349,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
         return this;
      }
 
-     public $annos get$Annos(){
+     public $annoRefs get$Annos(){
          return this.annos;
      }
 
@@ -358,7 +358,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
      * @return
      */
     public $field $annos(){
-        this.annos = $annos.of();
+        this.annos = $annoRefs.of();
         return this;
     }
 
@@ -367,7 +367,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
      * @param as
      * @return
      */
-    public $field $annos( Predicate<_annos> as ){
+    public $field $annos( Predicate<_annoRefs> as ){
         this.annos.$and(as);
         return this;
     }
@@ -387,7 +387,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
      * @param $as
      * @return
      */
-    public $field $annos($annos $as ){
+    public $field $annos($annoRefs $as ){
         this.annos = $as;
         return this;
     }
@@ -398,7 +398,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
      * @return
      */
     public $field $anno( Class clazz){
-        this.annos.$annosList.add($anno.of(clazz) );
+        this.annos.$annosList.add($annoRef.of(clazz) );
         return this;
     }
 
@@ -407,8 +407,8 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
      * @param _an
      * @return
      */
-    public $field $anno( _anno _an){
-        this.annos.$annosList.add($anno.of(_an) );
+    public $field $anno( _annoRef _an){
+        this.annos.$annosList.add($annoRef.of(_an) );
         return this;
     }
 
@@ -954,7 +954,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
             } else{
                 all = javadoc.parseTo(null, all);
             }
-            all = annos.parseTo(_f.getAnnos(), all);
+            all = annos.parseTo(_f.getAnnoRefs(), all);
             all = type.parseTo(_f.getTypeRef(), all);
             all = name.parseTo(_f.getName(), all);
             if( init == null ){
@@ -1284,11 +1284,11 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
         }
         
         public boolean hasAnnos(){
-            return _f.hasAnnos();
+            return _f.hasAnnoRefs();
         }
         
         public boolean hasAnno(Class<? extends Annotation> annoClass){            
-            return _f.hasAnno(annoClass);
+            return _f.hasAnnoRef(annoClass);
         }
         
         public boolean isInit( Predicate<Expression> initMatchFn){            

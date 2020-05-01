@@ -25,14 +25,14 @@ public class $interface
         implements
         //$pattern<_interface, $interface>,
         $pattern.$java<_interface, $interface>, $member.$named<$interface>,
-        $declared<_interface,$interface>, has$Annos {
+        $declared<_interface,$interface>, has$AnnoRefs {
 
     public Predicate<_interface> constraint = t->true;
 
     public $package packageDecl = $package.of();
     public List<$import> imports = new ArrayList<>();
     public $comment<JavadocComment>javadoc = $comment.javadocComment();
-    public $annos annos = $annos.of();
+    public $annoRefs annos = $annoRefs.of();
     public $modifiers modifiers = $modifiers.of();
     public $typeParameters typeParameters = $typeParameters.of();
     public $name name = $name.of("$interfaceName$"); //name required
@@ -103,7 +103,7 @@ public class $interface
         List<Node> nots = new ArrayList<>();
 
         //remove _$not things
-        _c.forDeclared( d -> d.hasAnno(_$not.class), d-> {
+        _c.forDeclared( d -> d.hasAnnoRef(_$not.class), d-> {
             System.out.println("NODE" +  d + d.getClass());
             if( d instanceof _field ){
                 ((_field) d).getFieldDeclaration().remove();
@@ -116,7 +116,7 @@ public class $interface
         } );
 
         $c.$javadoc(_c.getJavadoc());
-        _c.forAnnos(a-> $c.annos.add($anno.of(a)));
+        _c.forAnnoRefs(a-> $c.annos.add($annoRef.of(a)));
         $c.modifiers = $modifiers.of(_c.getModifiers());
         $c.$name(_c.getSimpleName());
         _c.getTypeParameters().forEach(tp-> $c.typeParameters.$add($typeParameter.of(tp)));
@@ -187,11 +187,11 @@ public class $interface
 
     public $interface($part...parts){
         for(int i=0;i<parts.length;i++){
-            if( parts[i] instanceof $annos ){
-                this.annos = ($annos)parts[i];
+            if( parts[i] instanceof $annoRefs){
+                this.annos = ($annoRefs)parts[i];
             }
-            if( parts[i] instanceof $anno ){
-                this.annos.add(($anno)parts[i]);
+            if( parts[i] instanceof $annoRef){
+                this.annos.add(($annoRef)parts[i]);
             }
             if( parts[i] instanceof $comment){
                 this.javadoc = ($comment<JavadocComment>)parts[i];
@@ -430,14 +430,14 @@ public class $interface
      */
     public $interface $not( $part...parts ){
         for(int i=0;i<parts.length;i++){
-            if( parts[i] instanceof $anno ){
-                final $anno $fa = (($anno)parts[i]);
-                Predicate<_interface> pf = an-> an.getAnno( a ->$fa.matches(a) ) != null;
+            if( parts[i] instanceof $annoRef){
+                final $annoRef $fa = (($annoRef)parts[i]);
+                Predicate<_interface> pf = an-> an.getAnnoRef(a ->$fa.matches(a) ) != null;
                 $and( pf.negate() );
             }
-            else if( parts[i] instanceof $annos ){
-                final $annos $fa = (($annos)parts[i]);
-                Predicate<_interface> pf = an-> $fa.matches(an.getAnnos());
+            else if( parts[i] instanceof $annoRefs){
+                final $annoRefs $fa = (($annoRefs)parts[i]);
+                Predicate<_interface> pf = an-> $fa.matches(an.getAnnoRefs());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $typeParameters){
@@ -604,21 +604,21 @@ public class $interface
     }
 
     @Override
-    public $annos get$Annos(){
+    public $annoRefs get$Annos(){
         return this.annos;
     }
 
-    public $interface $annos(Predicate<_annos> annosMatchFn){
+    public $interface $annos(Predicate<_annoRefs> annosMatchFn){
         this.annos.$and(annosMatchFn);
         return this;
     }
 
-    public $interface $annos($annos $as ){
+    public $interface $annos($annoRefs $as ){
         this.annos = $as;
         return this;
     }
 
-    public $interface $annos($anno... $a){
+    public $interface $annos($annoRef... $a){
         this.annos.add($a);
         return this;
     }

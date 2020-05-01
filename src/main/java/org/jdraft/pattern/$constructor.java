@@ -18,7 +18,7 @@ import java.util.function.*;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
-import org.jdraft._annos;
+import org.jdraft._annoRefs;
 import org.jdraft._parameters;
 import org.jdraft._typeParameters;
 import org.jdraft.macro._remove;
@@ -33,7 +33,7 @@ public class $constructor
     implements Template<_constructor>,
         //$pattern<_constructor, $constructor>,
         $pattern.$java<_constructor, $constructor>, $class.$part, $enum.$part, $member.$named<$constructor>,
-        $declared<_constructor,$constructor>, has$Annos, $type.$part {
+        $declared<_constructor,$constructor>, has$AnnoRefs, $type.$part {
 
     public Class<_constructor> _modelType(){
         return _constructor.class;
@@ -199,10 +199,10 @@ public class $constructor
         if( _ct.hasJavadoc() ){
             $ct.javadoc = $comment.javadocComment(_ct.getJavadoc());
         }
-        if( _ct.hasAnnos() ){
-            $ct.annos = $annos.as(_ct.getAnnos() );
+        if( _ct.hasAnnoRefs() ){
+            $ct.annos = $annoRefs.as(_ct.getAnnoRefs() );
         } else{
-            $ct.annos = $annos.none();
+            $ct.annos = $annoRefs.none();
         }
         $ct.modifiers = $modifiers.as(_ct );
         if( !_ct.hasTypeParameters() ){
@@ -261,8 +261,8 @@ public class $constructor
             _ct.setJavadoc(theMethod.getJavadocComment().get());
         }
         _ct.setThrows( theMethod.getThrownExceptions() );
-        _ct.addAnnos( theMethod.getAnnotations()); //add annos
-        _ct.removeAnnos(_toCtor.class); //remove the _ctor anno if it exists
+        _ct.addAnnoRefs( theMethod.getAnnotations()); //add annos
+        _ct.removeAnnoRefs(_toCtor.class); //remove the _ctor anno if it exists
         _ct.setBody( theMethod.getBody().get() ); //BODY
         return _ct;
     }
@@ -281,7 +281,7 @@ public class $constructor
     public Predicate<_constructor> constraint = t -> true;
     
     public $comment<JavadocComment> javadoc = $comment.javadocComment();
-    public $annos annos = new $annos();
+    public $annoRefs annos = new $annoRefs();
     public $modifiers modifiers = $modifiers.of();
     
     public $typeParameters typeParameters = $typeParameters.of();
@@ -308,11 +308,11 @@ public class $constructor
      */
     private $constructor( $part...parts ){
         for(int i=0;i<parts.length; i++){
-            if( parts[i] instanceof $annos ){
-                this.annos = ($annos)parts[i];
+            if( parts[i] instanceof $annoRefs){
+                this.annos = ($annoRefs)parts[i];
             }
-            else if( parts[i] instanceof $anno ){
-                this.annos.$annosList.add( ($anno)parts[i] );
+            else if( parts[i] instanceof $annoRef){
+                this.annos.$annosList.add( ($annoRef)parts[i] );
             }
             else if( parts[i] instanceof $modifiers ){
                 this.modifiers = $modifiers.of( this.modifiers, ($modifiers)parts[i]);
@@ -414,8 +414,8 @@ public class $constructor
         if( _ct.hasJavadoc() ){
             javadoc = $comment.javadocComment(_ct.getJavadoc());
         }        
-        if( _ct.hasAnnos() ){
-            annos = $annos.of(_ct.getAnnos() );
+        if( _ct.hasAnnoRefs() ){
+            annos = $annoRefs.of(_ct.getAnnoRefs() );
         }
         modifiers = $modifiers.of(_ct );        
         if( !_ct.hasTypeParameters() ){
@@ -450,8 +450,8 @@ public class $constructor
      */
     public $constructor $not(final $part...parts ){
         for(int i=0;i<parts.length;i++){
-            if( parts[i] instanceof $anno ){
-                final $anno $fa = (($anno)parts[i]);
+            if( parts[i] instanceof $annoRef){
+                final $annoRef $fa = (($annoRef)parts[i]);
                 Predicate<_constructor> pf = f-> $fa.countIn(f) > 0;
                 $and( pf.negate() );
             }
@@ -607,21 +607,21 @@ public class $constructor
     }
 
     @Override
-    public $annos get$Annos(){
+    public $annoRefs get$Annos(){
         return this.annos;
     }
 
     public $constructor $annos(){
-        this.annos = $annos.of();
+        this.annos = $annoRefs.of();
         return this;
     }
     
-    public $constructor $annos( Predicate<_annos> constraint ){
+    public $constructor $annos( Predicate<_annoRefs> constraint ){
         this.annos.$and(constraint);
         return this;
     }
     
-    public $constructor $annos( $annos $as){
+    public $constructor $annos( $annoRefs $as){
         this.annos = $as;
         return this;
     }
@@ -632,10 +632,10 @@ public class $constructor
     }
     
     public $constructor $anno( Class<? extends Annotation> aClass ){
-        this.annos.$annosList.add($anno.of(aClass));
+        this.annos.$annosList.add($annoRef.of(aClass));
         return this;
     }
-    public $constructor $anno( $anno $a){
+    public $constructor $anno( $annoRef $a){
         this.annos.$annosList.add($a);
         return this;
     }
@@ -795,7 +795,7 @@ public class $constructor
         _ct.setJavadoc(this.javadoc.draft(translator, keyValues));
         _ct.setTypeParameters(this.typeParameters.draft(translator, keyValues));
         _ct.setBody(this.body.draft(translator, keyValues));
-        _ct.setAnnos(this.annos.draft(translator, keyValues));
+        _ct.setAnnoRefs(this.annos.draft(translator, keyValues));
 
         return _ct;
         /*
@@ -865,7 +865,7 @@ public class $constructor
         } else{
             all = javadoc.parseTo(null, all);
         }
-        all = annos.parseTo(_ct.getAnnos(), all);
+        all = annos.parseTo(_ct.getAnnoRefs(), all);
         all = typeParameters.parseTo(_ct.getTypeParameters(), all);
         all = name.parseTo(_ct.getName(), all);
         all = parameters.parseTo(_ct.getParameters(), all);

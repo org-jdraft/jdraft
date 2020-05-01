@@ -123,7 +123,7 @@ public class _methodTest extends TestCase {
         
         assertTrue( _m.isAbstract() ); //modifier is set
         assertTrue( !_m.ast().getBody().isPresent()); //body is removed
-        assertTrue( !_m.hasAnno(_abstract.class)); //no annotation left
+        assertTrue( !_m.hasAnnoRef(_abstract.class)); //no annotation left
     }
     
     interface I{
@@ -286,7 +286,7 @@ public class _methodTest extends TestCase {
             }
         });
         assertTrue( _m.isStatic() );
-        assertTrue( _m.hasAnno(annot.class));
+        assertTrue( _m.hasAnnoRef(annot.class));
         assertTrue( _m.hasJavadoc( ));
         
         //_m = _method.of("/** Javadoc */ @annot public static void main",
@@ -312,7 +312,7 @@ public class _methodTest extends TestCase {
 
     public void testM2(){
         _method _m = _method.of("void a(){}");
-        assertTrue( _m.getAnnos().isEmpty() );
+        assertTrue( _m.getAnnoRefs().isEmpty() );
         assertEquals( _m.getName(), "a" );
 
         assertTrue( _m.getParameters().isEmpty() );
@@ -543,7 +543,7 @@ public class _methodTest extends TestCase {
         assertTrue( _m.hasJavadoc() );
         assertEquals( "blah", _m.getJavadoc().getText() );
 
-        assertEquals( 1, _m.getAnnos().list( "p" ).size());
+        assertEquals( 1, _m.getAnnoRefs().list( "p" ).size());
         assertEquals( "int", _m.getTypeRef().toString() );
 
         assertTrue( _m.getModifiers().isPublic() );
@@ -556,7 +556,7 @@ public class _methodTest extends TestCase {
 
     public void testMatch(){
         //Predicate<_method> mm = m-> !m.isAbstract() && m.isStatic() && m.hasAnno(ann.class);
-        Predicate<_method> mm = (_method m) -> !m.isAbstract() && m.isStatic() && m.hasAnno(ann.class);
+        Predicate<_method> mm = (_method m) -> !m.isAbstract() && m.isStatic() && m.hasAnnoRef(ann.class);
         assertTrue( mm.test( _method.of("@ann", "public static void doIt(){}")));
           
         
@@ -589,7 +589,7 @@ public class _methodTest extends TestCase {
         assertFalse( _m.hasJavadoc());
         assertFalse( _m.hasParameters());
         assertFalse( _m.hasTypeParameters());
-        assertFalse( _m.hasAnnos());
+        assertFalse( _m.hasAnnoRefs());
         
         _m.getThrows().add( IOException.class );
         System.out.println( _m );
@@ -625,12 +625,12 @@ public class _methodTest extends TestCase {
             "}" );       
         assertTrue(_m.hasJavadoc() );
         assertTrue( _m.getJavadoc().getText().contains("JAVADOC"));
-        assertTrue(_m.hasAnnos());        
-        assertTrue(_m.hasAnno( "ann"));
-        assertTrue(_m.hasAnno( ann.class));
-        assertTrue(_m.hasAnno( ann2.class));
-        assertTrue(_m.getAnnos().getAt( 0 ).is( "@ann") );
-        assertTrue(_m.getAnnos().getAt( 1 ).is( "@ann2(key=7,VALUE='r')") );
+        assertTrue(_m.hasAnnoRefs());
+        assertTrue(_m.hasAnnoRef( "ann"));
+        assertTrue(_m.hasAnnoRef( ann.class));
+        assertTrue(_m.hasAnnoRef( ann2.class));
+        assertTrue(_m.getAnnoRefs().getAt( 0 ).is( "@ann") );
+        assertTrue(_m.getAnnoRefs().getAt( 1 ).is( "@ann2(key=7,VALUE='r')") );
         
         assertTrue( _m.getModifiers().is("public static final"));
         assertTrue( _m.getModifiers().isPublic());
@@ -685,8 +685,8 @@ public class _methodTest extends TestCase {
      public void testFromScratch(){
         _method _m = _method.of( "void a();");
         _m.setJavadoc(" JAVADOC");
-        _m.addAnnos( ann.class );
-        _m.addAnnos( "@ann2(key=7,VALUE='r')");
+        _m.addAnnoRefs( ann.class );
+        _m.addAnnoRefs( "@ann2(key=7,VALUE='r')");
         _m.setPublic().setStatic().setFinal();
         _m.setTypeRef("List<String>");
         _m.setName("aMethod");

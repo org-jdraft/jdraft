@@ -154,7 +154,7 @@ public class PatternExamplesTest extends TestCase {
         }
 
         // find all @Deprecated methods
-        assertEquals( 1, $.method($anno.of(Deprecated.class)).countIn(AMM.class) );
+        assertEquals( 1, $.method($annoRef.of(Deprecated.class)).countIn(AMM.class) );
         // find all methods with a TODO javadoc comment
         assertNotNull( $.method($.javadoc(j-> j.getContent().contains("TODO") ) ).firstIn(AMM.class) );
 
@@ -168,7 +168,7 @@ public class PatternExamplesTest extends TestCase {
 
         //$protos compose... here we create a $method proto
         $m = $.method(
-                $anno.of(Deprecated.class),
+                $annoRef.of(Deprecated.class),
                 $modifiers.of("private"),
                 $typeRef.of(int.class),
                 $name.of(i-> i.toString().endsWith("Method")),

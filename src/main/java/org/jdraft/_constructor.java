@@ -27,7 +27,7 @@ import org.jdraft.text.Text;
  *
  * @author Eric
  */
-public final class _constructor implements _annos._withAnnos<_constructor>,
+public final class _constructor implements _annoRefs._withAnnoRefs<_constructor>,
         _javadocComment._withJavadoc<_constructor>, _throws._withThrows<_constructor>,
     _body._hasBody<_constructor>, _modifiers._withModifiers<_constructor>, //_modifiers._hasModifiers<_constructor>,
         _parameters._withParameters<_constructor>, _typeParameters._withTypeParameters<_constructor>,
@@ -78,8 +78,8 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
         }
         //System.out.println( "Setting throws");
         _ct.setThrows( theMethod.getThrownExceptions() );
-        _ct.addAnnos( theMethod.getAnnotations()); //add annos
-        _ct.removeAnnos(_toCtor.class); //remove the _ctor anno if it exists
+        _ct.addAnnoRefs( theMethod.getAnnotations()); //add annos
+        _ct.removeAnnoRefs(_toCtor.class); //remove the _ctor anno if it exists
         _ct.setBody( theMethod.getBody().get() ); //BODY
         
         return _ct;
@@ -190,7 +190,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> parts = new HashMap<>();
-        parts.put( _java.Component.ANNOS, getAnnos() );
+        parts.put( _java.Component.ANNOS, getAnnoRefs() );
         parts.put( _java.Component.BODY, getBody() );
         parts.put( _java.Component.MODIFIERS, getModifiers() );
         parts.put( _java.Component.JAVADOC, getJavadoc() );
@@ -327,8 +327,8 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
     }
 
     @Override
-    public _annos getAnnos() {
-        return _annos.of( astCtor );
+    public _annoRefs getAnnoRefs() {
+        return _annoRefs.of( astCtor );
     }
 
     public SimpleName getNameNode() { return this.astCtor.getName(); }
@@ -573,7 +573,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
             }
             _ct.setThrows( theMethod.getThrownExceptions() ); 
             _ct.setBody( theMethod.getBody().get() ); //BODY
-            _ct.addAnnos( theMethod.getAnnotations() ); //ANNOTATIONS
+            _ct.addAnnoRefs( theMethod.getAnnotations() ); //ANNOTATIONS
             if( theMethod.hasJavaDocComment() ){
                 _ct.ast().setJavadocComment( theMethod.getJavadocComment().get());
             }

@@ -371,10 +371,10 @@ public class JavaPoet_Tutorial_Test extends TestCase {
                return "Hoverboard";
             }
         });
-        assertTrue( _m.hasAnno(Override.class));
+        assertTrue( _m.hasAnnoRef(Override.class));
 
         //we can create annotations individually:
-        _anno _a = _anno.of(Override.class);
+        _annoRef _a = _annoRef.of(Override.class);
 
         //we can add annotations to existing _draft entities (_field, _class, _method, etc.)
         _m = _method.of( new Object(){
@@ -382,9 +382,9 @@ public class JavaPoet_Tutorial_Test extends TestCase {
                 return "Hoverboard";
             }
         });
-        assertFalse( _m.hasAnno(Override.class));
-        _m.addAnnos(_a);
-        assertTrue( _m.hasAnno(Override.class));
+        assertFalse( _m.hasAnnoRef(Override.class));
+        _m.addAnnoRefs(_a);
+        assertTrue( _m.hasAnnoRef(Override.class));
     }
 
 
@@ -401,7 +401,7 @@ public class JavaPoet_Tutorial_Test extends TestCase {
     public void testAnnotations2(){
         //for "complicated" annotations, pass in an anonymous Object
         // with the correct instance annotated (here a Class)
-        _anno _a = _anno.of(new Object(){
+        _annoRef _a = _annoRef.of(new Object(){
                 @HeaderList({
                         @Header(name="Accept", value="application/json; charset=utf-8"),
                         @Header(name="User-Agent", value="Square Cash"),
@@ -410,7 +410,7 @@ public class JavaPoet_Tutorial_Test extends TestCase {
         });
 
         _method _m = _method.of("public abstract LogReceipt recordEvent(LogRecord logRecord);")
-                .addAnnos(_a);
+                .addAnnoRefs(_a);
 
         System.out.println( _m);
     }
