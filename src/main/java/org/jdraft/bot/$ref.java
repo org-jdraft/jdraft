@@ -7,7 +7,6 @@ import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.TypeParameter;
-import com.github.javaparser.printer.ASCIITreePrinter;
 import org.jdraft.*;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Template;
@@ -77,15 +76,15 @@ public class $ref implements $bot<Node, _java._node, $ref>,
     public static final _name.Use ANNO_MEMBER_VALUE_NAME = _name.Use.ANNO_MEMBER_VALUE_NAME;
     public static final _name.Use ANNO_NAME = _name.Use.ANNO_NAME;
     public static final _name.Use ANNOTATION_ELEMENT_NAME = _name.Use.ANNOTATION_ELEMENT_NAME;
-    public static final _name.Use ANNOTATION_NAME = _name.Use.ANNOTATION_NAME;
+    public static final _name.Use ANNOTATION_NAME = _name.Use.ANNOTATION_DECLARATION_NAME;
     public static final _name.Use BREAK_LABEL_NAME = _name.Use.BREAK_LABEL_NAME;
-    public static final _name.Use CLASS_NAME = _name.Use.CLASS_NAME;
+    public static final _name.Use CLASS_NAME = _name.Use.CLASS_DECLARATION_NAME;
     public static final _name.Use CONSTRUCTOR_NAME = _name.Use.CONSTRUCTOR_NAME;
     public static final _name.Use CONTINUE_LABEL_NAME = _name.Use.CONTINUE_LABEL_NAME;
-    public static final _name.Use ENUM_NAME = _name.Use.ENUM_NAME;
+    public static final _name.Use ENUM_NAME = _name.Use.ENUM_DECLARATION_NAME;
     public static final _name.Use ENUM_CONSTANT_NAME = _name.Use.ENUM_CONSTANT_NAME;
     public static final _name.Use IMPORT_NAME = _name.Use.IMPORT_NAME;
-    public static final _name.Use INTERFACE_NAME = _name.Use.INTERFACE_NAME;
+    public static final _name.Use INTERFACE_NAME = _name.Use.INTERFACE_DECLARATION_NAME;
     public static final _name.Use LABELED_STATEMENT_LABEL_NAME = _name.Use.LABELED_STATEMENT_LABEL_NAME;
     public static final _name.Use METHOD_NAME = _name.Use.METHOD_NAME;
     public static final _name.Use METHOD_REFERENCE_NAME = _name.Use.METHOD_REFERENCE_NAME;
@@ -282,9 +281,9 @@ public class $ref implements $bot<Node, _java._node, $ref>,
     /** Is this name being used as "part" or a whole _annotation/AnnotationDeclaration name i.e. "A" within "@interface A{}" */
     public $ref $matchAnnotationNames(boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.ANNOTATION_NAME);
+            excludedUses.remove(_name.Use.ANNOTATION_DECLARATION_NAME);
         } else{
-            excludedUses.add(_name.Use.ANNOTATION_NAME);
+            excludedUses.add(_name.Use.ANNOTATION_DECLARATION_NAME);
         }
         return this;
     }
@@ -320,9 +319,9 @@ public class $ref implements $bot<Node, _java._node, $ref>,
     /** Is this name being used as "part" or a whole _class/ClassOrInterfaceDeclaration name i.e. "C" within "class C{}" */
     public $ref $matchClassNames(boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.CLASS_NAME);
+            excludedUses.remove(_name.Use.CLASS_DECLARATION_NAME);
         } else{
-            excludedUses.add(_name.Use.CLASS_NAME);
+            excludedUses.add(_name.Use.CLASS_DECLARATION_NAME);
         }
         return this;
     }
@@ -339,9 +338,9 @@ public class $ref implements $bot<Node, _java._node, $ref>,
     /** Is this name being used as "part" or a whole _enum/EnumDeclaration name i.e. "E" within "enum E{ ; }" */
     public $ref $matchEnumNames(boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.ENUM_NAME);
+            excludedUses.remove(_name.Use.ENUM_DECLARATION_NAME);
         } else{
-            excludedUses.add(_name.Use.ENUM_NAME);
+            excludedUses.add(_name.Use.ENUM_DECLARATION_NAME);
         }
         return this;
     }
@@ -362,53 +361,62 @@ public class $ref implements $bot<Node, _java._node, $ref>,
             excludedUses.remove(_name.Use.LABELED_STATEMENT_LABEL_NAME);
         } else{
             excludedUses.add(_name.Use.BREAK_LABEL_NAME);
-            excludedUses.add(_name.Use.CONTINUE_LABEL_NAME);
-            excludedUses.add(_name.Use.LABELED_STATEMENT_LABEL_NAME);
+            excludedUses.add(CONTINUE_LABEL_NAME);
+            excludedUses.add(LABELED_STATEMENT_LABEL_NAME);
         }
         return this;
     }
 
     public $ref $matchContinueLabels(boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.CONTINUE_LABEL_NAME);
+            excludedUses.remove(CONTINUE_LABEL_NAME);
         } else{
-            excludedUses.add(_name.Use.CONTINUE_LABEL_NAME);
+            excludedUses.add(CONTINUE_LABEL_NAME);
         }
         return this;
     }
 
     public $ref $matchBreakLabels(boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.BREAK_LABEL_NAME);
+            excludedUses.remove(BREAK_LABEL_NAME);
         } else{
-            excludedUses.add(_name.Use.BREAK_LABEL_NAME);
+            excludedUses.add(BREAK_LABEL_NAME);
         }
         return this;
     }
 
     public $ref $matchLabeledStatementLabels(boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.LABELED_STATEMENT_LABEL_NAME);
+            excludedUses.remove(LABELED_STATEMENT_LABEL_NAME);
         } else{
-            excludedUses.add(_name.Use.LABELED_STATEMENT_LABEL_NAME);
+            excludedUses.add(LABELED_STATEMENT_LABEL_NAME);
         }
         return this;
     }
 
     public $ref $matchImports(boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.IMPORT_NAME);
+            excludedUses.remove(IMPORT_NAME);
         } else{
-            excludedUses.add(_name.Use.IMPORT_NAME);
+            excludedUses.add(IMPORT_NAME);
         }
         return this;
     }
 
     public $ref $matchMethodReferences( boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.METHOD_REFERENCE_NAME);
+            excludedUses.remove(METHOD_REFERENCE_NAME);
         } else{
-            excludedUses.add(_name.Use.METHOD_REFERENCE_NAME);
+            excludedUses.add(METHOD_REFERENCE_NAME);
+        }
+        return this;
+    }
+
+    public $ref $matchTypeParameters( boolean b){
+        if( b ){
+            excludedUses.remove(TYPE_PARAMETER_NAME);
+        } else{
+            excludedUses.add(TYPE_PARAMETER_NAME);
         }
         return this;
     }
@@ -416,9 +424,9 @@ public class $ref implements $bot<Node, _java._node, $ref>,
     /** Is this name being used as "part" or a whole _interface/ClassOrInterfaceDeclaration name i.e. "I" within "interface I{}" */
     public $ref $matchInterfaceNames(boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.INTERFACE_NAME);
+            excludedUses.remove(INTERFACE_NAME);
         } else{
-            excludedUses.add(_name.Use.INTERFACE_NAME);
+            excludedUses.add(INTERFACE_NAME);
         }
         return this;
     }
@@ -463,15 +471,15 @@ public class $ref implements $bot<Node, _java._node, $ref>,
 
     public $ref $matchTypeDeclarationNames(boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.CLASS_NAME);
-            excludedUses.remove(_name.Use.ENUM_NAME);
-            excludedUses.remove(_name.Use.INTERFACE_NAME);
-            excludedUses.remove(_name.Use.ANNOTATION_NAME);
+            excludedUses.remove(_name.Use.CLASS_DECLARATION_NAME);
+            excludedUses.remove(_name.Use.ENUM_DECLARATION_NAME);
+            excludedUses.remove(_name.Use.INTERFACE_DECLARATION_NAME);
+            excludedUses.remove(_name.Use.ANNOTATION_DECLARATION_NAME);
         } else{
-            excludedUses.add(_name.Use.CLASS_NAME);
-            excludedUses.add(_name.Use.ENUM_NAME);
-            excludedUses.add(_name.Use.INTERFACE_NAME);
-            excludedUses.add(_name.Use.ANNOTATION_NAME);
+            excludedUses.add(_name.Use.CLASS_DECLARATION_NAME);
+            excludedUses.add(_name.Use.ENUM_DECLARATION_NAME);
+            excludedUses.add(_name.Use.INTERFACE_DECLARATION_NAME);
+            excludedUses.add(_name.Use.ANNOTATION_DECLARATION_NAME);
         }
         return this;
     }

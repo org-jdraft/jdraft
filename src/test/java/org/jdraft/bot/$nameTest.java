@@ -1,7 +1,6 @@
 package org.jdraft.bot;
 
 import com.github.javaparser.JavaParser;
-import com.github.javaparser.ast.expr.MethodReferenceExpr;
 import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.expr.SimpleName;
 import junit.framework.TestCase;
@@ -9,12 +8,6 @@ import junit.framework.TestCase;
 import org.jdraft.*;
 import org.jdraft.macro._packageName;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class $nameTest extends TestCase {
@@ -143,7 +136,7 @@ public class $nameTest extends TestCase {
 
     public void testPrePostConstains() {
         assertEquals(1, $name.startsWith("pre").countIn(_import.of("pre")));
-        assertEquals(0, $name.startsWith("pre").$exclude(_name.Use.IMPORT_NAME, _name.Use.ENUM_NAME).countIn(_import.of("pre")));
+        assertEquals(0, $name.startsWith("pre").$exclude(_name.Use.IMPORT_NAME, _name.Use.ENUM_DECLARATION_NAME).countIn(_import.of("pre")));
         assertEquals(0, $name.startsWith("pre").$exclude(_name.Use.IMPORT_NAME).countIn(_import.of("pre")));
     }
 

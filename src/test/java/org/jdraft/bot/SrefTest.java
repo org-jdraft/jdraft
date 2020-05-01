@@ -129,8 +129,8 @@ public class SrefTest extends TestCase {
 
         //{Map, String, Serializable, HashMap}
         //$ref.of().$and(_name.Use.CLASS_NAME, _name.Use.TYPE_REF_NAME).printIn(C1.class);
-        $ref.of().$and(_name.Use.CLASS_NAME, _name.Use.TYPE_REF_NAME).printIn(C1.class);
-        assertEquals( 8, $ref.of().$and(_name.Use.CLASS_NAME, _name.Use.TYPE_REF_NAME).countIn(C1.class));
+        $ref.of().$and(_name.Use.CLASS_DECLARATION_NAME, _name.Use.TYPE_REF_NAME).printIn(C1.class);
+        assertEquals( 8, $ref.of().$and(_name.Use.CLASS_DECLARATION_NAME, _name.Use.TYPE_REF_NAME).countIn(C1.class));
         assertEquals( 8, $ref.of($ref.CLASS_NAME, $ref.TYPE_REF_NAME).countIn(C1.class));
         assertEquals( 7, $ref.of($ref.TYPE_REF_NAME).countIn(C1.class));
         assertEquals( 1, $ref.of($ref.CLASS_NAME).countIn(C1.class));
@@ -196,7 +196,7 @@ public class SrefTest extends TestCase {
 
         class B<I extends Serializable>{ }
         //Print.tree(B.class);
-        assertEquals(0, $ref.of("B").$exclude(_name.Use.CLASS_NAME).countIn(B.class));
+        assertEquals(0, $ref.of("B").$exclude(_name.Use.CLASS_DECLARATION_NAME).countIn(B.class));
         assertEquals(1, $ref.of("B").countIn(B.class));
 
 

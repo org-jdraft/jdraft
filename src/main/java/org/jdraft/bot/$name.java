@@ -201,9 +201,9 @@ public class $name implements $bot<Node, _name, $name>,
 
     public $name $matchAnnotationNames(boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.ANNOTATION_NAME);
+            excludedUses.remove(_name.Use.ANNOTATION_DECLARATION_NAME);
         } else{
-            excludedUses.add(_name.Use.ANNOTATION_NAME);
+            excludedUses.add(_name.Use.ANNOTATION_DECLARATION_NAME);
         }
         return this;
     }
@@ -253,9 +253,9 @@ public class $name implements $bot<Node, _name, $name>,
 
     public $name $matchClassNames(boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.CLASS_NAME);
+            excludedUses.remove(_name.Use.CLASS_DECLARATION_NAME);
         } else{
-            excludedUses.add(_name.Use.CLASS_NAME);
+            excludedUses.add(_name.Use.CLASS_DECLARATION_NAME);
         }
         return this;
 
@@ -279,9 +279,9 @@ public class $name implements $bot<Node, _name, $name>,
 
     public $name $matchEnumNames(boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.ENUM_NAME);
+            excludedUses.remove(_name.Use.ENUM_DECLARATION_NAME);
         } else{
-            excludedUses.add(_name.Use.ENUM_NAME);
+            excludedUses.add(_name.Use.ENUM_DECLARATION_NAME);
         }
         return this;
         //this.matchEnumNames = b;
@@ -391,9 +391,9 @@ public class $name implements $bot<Node, _name, $name>,
 
     public $name $matchInterfaceNames(boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.INTERFACE_NAME);
+            excludedUses.remove(_name.Use.INTERFACE_DECLARATION_NAME);
         } else{
-            excludedUses.add(_name.Use.INTERFACE_NAME);
+            excludedUses.add(_name.Use.INTERFACE_DECLARATION_NAME);
         }
         return this;
         //this.matchInterfaceNames = b;
@@ -454,15 +454,15 @@ public class $name implements $bot<Node, _name, $name>,
 
     public $name $matchTypeDeclarationNames(boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.CLASS_NAME);
-            excludedUses.remove(_name.Use.INTERFACE_NAME);
-            excludedUses.remove(_name.Use.ENUM_NAME);
-            excludedUses.remove(_name.Use.ANNOTATION_NAME);
+            excludedUses.remove(_name.Use.CLASS_DECLARATION_NAME);
+            excludedUses.remove(_name.Use.INTERFACE_DECLARATION_NAME);
+            excludedUses.remove(_name.Use.ENUM_DECLARATION_NAME);
+            excludedUses.remove(_name.Use.ANNOTATION_DECLARATION_NAME);
         } else{
-            excludedUses.add(_name.Use.CLASS_NAME);
-            excludedUses.add(_name.Use.INTERFACE_NAME);
-            excludedUses.add(_name.Use.ENUM_NAME);
-            excludedUses.add(_name.Use.ANNOTATION_NAME);
+            excludedUses.add(_name.Use.CLASS_DECLARATION_NAME);
+            excludedUses.add(_name.Use.INTERFACE_DECLARATION_NAME);
+            excludedUses.add(_name.Use.ENUM_DECLARATION_NAME);
+            excludedUses.add(_name.Use.ANNOTATION_DECLARATION_NAME);
         }
         return this;
         //this.matchTypeDeclarationNames = b;

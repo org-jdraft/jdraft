@@ -173,27 +173,27 @@ public final class _name implements _java._uniPart<Node, _name> {
 
     /** Is this name being used as "part" or a whole _type/TypeDeclaration name i.e. "C" within "class C{}" */
     public boolean isTypeName(){
-        return Use.CLASS_NAME.is(this.name) || Use.INTERFACE_NAME.is(this.name) || Use.ENUM_NAME.is(this.name) || Use.ANNOTATION_NAME.is(this.name);
+        return Use.CLASS_DECLARATION_NAME.is(this.name) || Use.INTERFACE_DECLARATION_NAME.is(this.name) || Use.ENUM_DECLARATION_NAME.is(this.name) || Use.ANNOTATION_DECLARATION_NAME.is(this.name);
     }
 
     /** Is this name being used as "part" or a whole _class/ClassOrInterfaceDeclaration name i.e. "C" within "class C{}" */
     public boolean isClassName(){
-        return Use.CLASS_NAME.is(this.name);
+        return Use.CLASS_DECLARATION_NAME.is(this.name);
     }
 
     /** Is this name being used as "part" or a whole _interface/ClassOrInterfaceDeclaration name i.e. "I" within "interface I{}" */
     public boolean isInterfaceName(){
-        return Use.INTERFACE_NAME.is(this.name);
+        return Use.INTERFACE_DECLARATION_NAME.is(this.name);
     }
 
     /** Is this name being used as "part" or a whole _enum/EnumDeclaration name i.e. "E" within "enum E{ ; }" */
     public boolean isEnumName(){
-        return Use.ENUM_NAME.is(this.name);
+        return Use.ENUM_DECLARATION_NAME.is(this.name);
     }
 
     /** Is this name being used as "part" or a whole _annotation/AnnotationDeclaration name i.e. "A" within "@interface A{}" */
     public boolean isAnnotationName(){
-        return Use.ANNOTATION_NAME.is(this.name);
+        return Use.ANNOTATION_DECLARATION_NAME.is(this.name);
     }
 
     /** Is this name being used as "part" or a whole _annotation._element/AnnotationMemberDeclaration name */
@@ -218,24 +218,24 @@ public final class _name implements _java._uniPart<Node, _name> {
     }
 
     /**
-     * the context around which the given NAME has been used as
+     * the context around which the given NAME has been used
      */
     public enum Use {
         ANNO_NAME( name -> name.getParentNode().isPresent() && name.getParentNode().get() instanceof AnnotationExpr),
         ANNO_MEMBER_VALUE_NAME(name -> name.getParentNode().isPresent() && name.getParentNode().get() instanceof MemberValuePair),
-        ANNOTATION_NAME( name ->  name.getParentNode().isPresent() && name.getParentNode().get() instanceof AnnotationDeclaration),
+        ANNOTATION_DECLARATION_NAME(name ->  name.getParentNode().isPresent() && name.getParentNode().get() instanceof AnnotationDeclaration),
         ANNOTATION_ELEMENT_NAME( name -> name.getParentNode().isPresent() && name.getParentNode().get() instanceof AnnotationMemberDeclaration),
-        CLASS_NAME(name -> name instanceof SimpleName && name.getParentNode().isPresent() &&
+        CLASS_DECLARATION_NAME(name -> name instanceof SimpleName && name.getParentNode().isPresent() &&
                 name.getParentNode().get() instanceof ClassOrInterfaceDeclaration &&
                 !((ClassOrInterfaceDeclaration) name.getParentNode().get()).asClassOrInterfaceDeclaration().isInterface()),
         CONSTRUCTOR_NAME( name -> name instanceof SimpleName && name.getParentNode().isPresent()
                 && (name.getParentNode().get() instanceof ConstructorDeclaration
                         || name.getParentNode().get() instanceof ObjectCreationExpr)),
-        ENUM_NAME( name -> name.getParentNode().isPresent()
+        ENUM_DECLARATION_NAME(name -> name.getParentNode().isPresent()
                 && (name.getParentNode().get() instanceof EnumDeclaration)),
         ENUM_CONSTANT_NAME(name -> name.getParentNode().isPresent()
                 && (name.getParentNode().get() instanceof EnumConstantDeclaration)),
-        INTERFACE_NAME(name -> name.getParentNode().isPresent() &&
+        INTERFACE_DECLARATION_NAME(name -> name.getParentNode().isPresent() &&
                 name.getParentNode().get() instanceof ClassOrInterfaceDeclaration &&
                 ((ClassOrInterfaceDeclaration) name.getParentNode().get()).asClassOrInterfaceDeclaration().isInterface()),
         IMPORT_NAME(name -> name instanceof ImportDeclaration || name.getParentNode().isPresent() && name.stream(Node.TreeTraversal.PARENTS).anyMatch(n -> n instanceof ImportDeclaration)),
