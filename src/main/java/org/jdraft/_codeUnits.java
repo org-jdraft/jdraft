@@ -29,6 +29,12 @@ public class _codeUnits {
         return _c;
     }
 
+    public static _codeUnits of(_codeUnits..._cuss){
+        _codeUnits _c = new _codeUnits();
+        _c.add(_cuss);
+        return _c;
+    }
+
     public static _codeUnits of(_codeUnit..._cus){
         _codeUnits _c = new _codeUnits();
         _c.add(_cus);

@@ -1,6 +1,11 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.*;
+import org.jdraft.bot.$expression;
+import org.jdraft.bot.$statement;
+import org.jdraft.bot.Select;
+import org.jdraft.io._batch;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -253,5 +258,88 @@ public interface _statement<S extends Statement, _S extends _statement> extends 
             return new _yieldStmt( (YieldStmt)astStatement);
         }
         throw new _jdraftException("Unsupported Statement "+ astStatement.getClass() + System.lineSeparator() + astStatement);
+    }
+
+    /**
+     * build and return a $expression.$refactor for converting
+     * @param targetPattern
+     * @param refactoringPattern
+     * @return
+     */
+    static $expression.$refactor refactor(String targetPattern, String refactoringPattern){
+        return $expression.$refactor.of(targetPattern, refactoringPattern);
+    }
+
+    /**
+     *
+     * @param $target
+     * @param $refactoring
+     * @return
+     */
+    static $expression.$refactor refactor($expression $target, $expression $refactoring){
+        return $expression.$refactor.of($target, $refactoring);
+    }
+
+    /**
+     *
+     * @param <_T>
+     */
+    class $refactor<_T extends _java._domain>{
+
+        /** Selects the instances to refactor from the target */
+        $statement target$Bot;
+
+        /** with each selection do the "Refactor" */
+        Consumer<Select<_T>> refactorAction;
+
+        //TODO I might want to add more than one line
+        public static $refactor of(String $target, String $change){
+            return of($statement.of($target), $statement.of($change));
+        }
+
+        public static $refactor of(_statement _target, _statement _change){
+            return of($statement.of(_target), $statement.of(_change));
+        }
+
+        public static $refactor of($statement $target, $statement $change){
+            $refactor $refact = new $refactor();
+            $refact.target$Bot = $target;
+            $refact.refactorAction = (s)->{
+                _statement _drafted = (_statement)$change.draft( ((Select)s).tokens);
+                _expression _target = (_expression) ((Select)s).selection;
+                _target.replace(_drafted);
+            };
+            return $refact;
+        }
+
+        public _type in(Class  clazz){
+            return this.target$Bot.forSelectedIn(clazz, refactorAction);
+        }
+
+        public _codeUnits in(Class... clazz){
+            _codeUnits _cus = _codeUnits.of(clazz);
+            this.target$Bot.forSelectedIn(_cus, refactorAction);
+            return _cus;
+        }
+
+        public <N extends Node> N in(N astNode){
+            return (N) this.target$Bot.forSelectedIn(astNode, refactorAction);
+        }
+
+        public <_N extends _java._node> _N in(_N _n){
+            return (_N) this.target$Bot.forSelectedIn(_n, refactorAction);
+        }
+
+        public _codeUnits in(_batch... _batches){
+            _codeUnits _cus = _codeUnits.of(_batches);
+            this.target$Bot.forSelectedIn(_cus, refactorAction);
+            return _cus;
+        }
+
+        public _codeUnits in(_codeUnits... _cus){
+            _codeUnits _cuss = _codeUnits.of(_cus);
+            this.target$Bot.forSelectedIn(_cuss, refactorAction);
+            return _cuss;
+        }
     }
 }

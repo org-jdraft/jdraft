@@ -1,11 +1,13 @@
 package org.jdraft.bot;
 
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.AssertStmt;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import org.jdraft.*;
+import org.jdraft.io._batch;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Template;
 
@@ -121,14 +123,151 @@ public interface $statement<S extends Statement, _S extends _statement, $S exten
         return ($S)$s.of( st.toString() );
     }
 
-    default boolean matches(Expression e) {
-        return select(e) != null;
+    /**
+     *
+     * @param s
+     * @return
+     */
+    default boolean matches(Statement s) {
+        return select(s) != null;
     }
 
-    default boolean matches(_expression e) {
-        if( e == null ){
+    /**
+     *
+     * @param _s
+     * @return
+     */
+    default boolean matches(_statement _s) {
+        if( _s == null ){
             return isMatchAny();
         }
-        return select(e.ast()) != null;
+        return select(_s.ast()) != null;
+    }
+
+    /**
+     * Build and return a $refactor that can be used/reused against any combination of Asts/Code/_codeUnits/etc.
+     * @param refactoringPattern the _statement pattern used to replace the target statement
+     * @return a new $refactor
+     */
+    default $refactor refactorTo(String refactoringPattern){
+        return $refactor.of(this, $statement.of(refactoringPattern));
+    }
+
+    /**
+     * Build and return a $refactor that can be used/reused against any combination of Asts/Code/_codeUnits/etc.
+     * @param refactoringPattern the _statement pattern used to replace the target statement
+     * @return a new $refactor
+     */
+    default $refactor refactorTo($statement refactoringPattern){
+        return $refactor.of(this, refactoringPattern);
+    }
+
+    /**
+     * Build and return a $refactor that can be used/reused against any combination of Asts/Code/_codeUnits/etc.
+     * @param refactorAction the _statement pattern used to replace the target statement
+     * @return a new $refactor
+     */
+    default $refactor refactorTo(Consumer<Select<? extends _statement>> refactorAction){
+        return $refactor.of(this, refactorAction);
+    }
+
+    /**
+     * build and return a $statement.$refactor for converting one statement to another
+     * @param targetPattern
+     * @param refactoringPattern
+     * @return
+     */
+    static $refactor refactor(String targetPattern, String refactoringPattern){
+        return $refactor.of(targetPattern, refactoringPattern);
+    }
+
+    /**
+     * build and return a $statement.$refactor for converting one statement to another
+     * @param $target
+     * @param $refactoring
+     * @return
+     */
+    static $refactor refactor($statement $target, $statement $refactoring){
+        return $refactor.of($target, $refactoring);
+    }
+
+
+    /**
+     * build and return a $statement.$refactor for converting one statement to another
+     * @param $target
+     * @param refactorAction
+     * @return
+     */
+    static $refactor refactor($statement $target, Consumer<Select<? extends _statement>> refactorAction){
+        return $refactor.of($target, refactorAction);
+    }
+
+    /**
+     * Refactoring from one {@link _statement} to another {@link _statement}
+     * @param <_T> the "target" {@link _statement} type
+     */
+    class $refactor<_T extends _statement> implements $refactoring{
+
+        /** Selects the instances to refactor from the target */
+        $statement target$Bot;
+
+        /** with each selection do the "Refactor" */
+        Consumer<Select<_T>> refactorAction;
+
+        public static $refactor of(String $target, String $change){
+            return of($statement.of($target), $statement.of($change));
+        }
+
+        public static $refactor of(_statement _target, _statement _change){
+            return of( $statement.of(_target), $statement.of(_change));
+        }
+
+        public static $refactor of($statement $target, $statement $change){
+            return of($target, (s)->{
+                _statement _drafted = (_statement)$change.draft( ((Select)s).tokens);
+                _statement _target = (_statement) ((Select)s).selection;
+                _target.replace(_drafted);
+            });
+        }
+
+        public static $refactor of($statement $target, Consumer<Select<? extends _statement>> refactorAction){
+            $refactor $refact = new $refactor();
+            $refact.target$Bot = $target;
+            $refact.refactorAction = refactorAction;
+            return $refact;
+        }
+
+        //private constructor, use of() builders
+        private $refactor(){ }
+
+        public _type in(Class  clazz){
+            return this.target$Bot.forSelectedIn(clazz, refactorAction);
+        }
+
+        public _codeUnits in(Class... clazz){
+            _codeUnits _cus = _codeUnits.of(clazz);
+            this.target$Bot.forSelectedIn(_cus, refactorAction);
+            return _cus;
+        }
+
+        public <N extends Node> N in(N astNode){
+            return (N) this.target$Bot.forSelectedIn(astNode, refactorAction);
+        }
+
+        public <_N extends _java._node> _N in(_N _n){
+            return (_N) this.target$Bot.forSelectedIn(_n, refactorAction);
+        }
+
+        public _codeUnits in(_batch... _batches){
+            _codeUnits _cus = _codeUnits.of(_batches);
+            this.target$Bot.forSelectedIn(_cus, refactorAction);
+            return _cus;
+        }
+
+        public _codeUnits in(_codeUnits... _cus){
+            _codeUnits _cuss = _codeUnits.of(_cus);
+            this.target$Bot.forSelectedIn(_cuss, refactorAction);
+            return _cuss;
+        }
     }
 }

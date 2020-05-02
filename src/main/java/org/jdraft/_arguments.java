@@ -471,6 +471,20 @@ public final class _arguments
             }
         }
 
+        /**
+         * Verify the argument at this position is an instanceof one of the provided expressionClasses
+         * @param index
+         * @param expressionClasses
+         * @return
+         */
+        default boolean isArgument(int index, Class<? extends _expression>...expressionClasses ){
+            try{
+                return Arrays.stream(expressionClasses).anyMatch(ec-> ec.isAssignableFrom(getArgument(index).getClass()));
+            }catch(Exception e){
+                return false;
+            }
+        }
+
         default boolean isArgument(int index, _expression _e){
             try {
                 return Expressions.equal( getArgument(index).ast(), _e.ast());

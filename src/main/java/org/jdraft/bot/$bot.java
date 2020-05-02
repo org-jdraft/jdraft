@@ -262,7 +262,6 @@ public interface $bot<B, _B, $B>
     }
 
     /**
-
      * @param _bs the array of batches to search through
      * @return the first instance found or null if not found
      */
@@ -409,10 +408,21 @@ public interface $bot<B, _B, $B>
         return null;
     }
 
+    /**
+     *
+     * @param _cus
+     * @return
+     */
     default Select<_B> selectFirstIn(_codeUnits _cus){
         return selectFirstIn(_cus, t->true);
     }
 
+    /**
+     *
+     * @param _cus
+     * @param matchFn
+     * @return
+     */
     default Select<_B> selectFirstIn(_codeUnits _cus, Predicate<Select<_B>> matchFn) {
         //this should probably (eventually) be first() methods
         Optional<_codeUnit> ocu = _cus.stream().filter(_cu -> selectFirstIn(_cu, matchFn)!= null ).findFirst();
@@ -422,10 +432,21 @@ public interface $bot<B, _B, $B>
         return null;
     }
 
+    /**
+     *
+     * @param _j
+     * @return
+     */
     default Select<_B> selectFirstIn(_java._domain _j) {
         return selectFirstIn(_j, t->true);
     }
 
+    /**
+     *
+     * @param _j
+     * @param matchFn
+     * @return
+     */
     default Select<_B> selectFirstIn(_java._domain _j, Predicate<Select<_B>> matchFn) {
         if( _j instanceof _codeUnit){
             if( ((_codeUnit) _j).isTopLevel()){
@@ -435,11 +456,21 @@ public interface $bot<B, _B, $B>
         return selectFirstIn( ((_java._node)_j).ast(), matchFn);
     }
 
-    /** */
+    /**
+     *
+     * @param clazz
+     * @return
+     */
     default Select<_B> selectFirstIn(Class<?> clazz) {
         return selectFirstIn(clazz, p->true);
     }
 
+    /**
+     *
+     * @param clazz
+     * @param matchFn
+     * @return
+     */
     default Select<_B> selectFirstIn(Class<?> clazz, Predicate<Select<_B>> matchFn) {
         return selectFirstIn( Ast.of(clazz), matchFn);
     }
@@ -504,10 +535,21 @@ public interface $bot<B, _B, $B>
         return countIn(_t);
     }
 
+    /**
+     *
+     * @param clazz
+     * @param _matchFn
+     * @return
+     */
     default int countIn(Class<?> clazz, Predicate<_B> _matchFn) {
         return countIn((_type) _type.of(clazz), _matchFn);
     }
 
+    /**
+     *
+     * @param _j
+     * @return
+     */
     default int countIn(_java._node<?, ?> _j) {
         if( _j instanceof _codeUnit){
             _codeUnit _t = (_codeUnit)_j;
@@ -518,6 +560,12 @@ public interface $bot<B, _B, $B>
         return countIn(_j.ast());
     }
 
+    /**
+     *
+     * @param _j
+     * @param _matchFn
+     * @return
+     */
     default int countIn(_java._node<?, ?> _j, Predicate<_B> _matchFn) {
         if( _j instanceof _type){
             _type _t = (_type)_j;
@@ -528,46 +576,104 @@ public interface $bot<B, _B, $B>
         return countIn(_j.ast(), _matchFn);
     }
 
+    /**
+     *
+     * @param n
+     * @return
+     */
     default int countIn(Node n) {
         return countIn(n, p->true);
     }
 
+    /**
+     *
+     * @param n
+     * @param _matchFn
+     * @return
+     */
     default int countIn(Node n, Predicate<_B> _matchFn) {
         AtomicInteger ai = new AtomicInteger();
         forEachIn(n, _matchFn, e-> ai.incrementAndGet() );
         return ai.get();
     }
 
+    /**
+     *
+     * @param actionFn
+     * @param _batches
+     * @return
+     */
     default _codeUnits forEachIn(Consumer<_B> actionFn, _batch..._batches){
         return forEachIn(t->true, actionFn, _batches);
     }
 
+    /**
+     *
+     * @param matchFn
+     * @param actionFn
+     * @param _batches
+     * @return
+     */
     default _codeUnits forEachIn(Predicate<_B> matchFn, Consumer<_B> actionFn, _batch..._batches){
         _codeUnits _cus = new _codeUnits();
         Arrays.stream(_batches).forEach( (b) -> _cus.add( forEachIn( b.load(), matchFn, actionFn) ) );
         return _cus;
     }
 
-
+    /**
+     *
+     * @param _cus
+     * @param actionFn
+     * @return
+     */
     default _codeUnits forEachIn(_codeUnits _cus, Consumer<_B> actionFn){
         return forEachIn( _cus, t->true, actionFn);
     }
 
+    /**
+     *
+     * @param _cus
+     * @param matchFn
+     * @param actionFn
+     * @return
+     */
     default _codeUnits forEachIn(_codeUnits _cus, Predicate<_B> matchFn, Consumer<_B> actionFn){
         _cus.forEach( (_codeUnit _cu) -> forEachIn( _cu.astCompilationUnit(), matchFn, actionFn) );
         return _cus;
     }
 
+    /**
+     *
+     * @param clazz
+     * @param actionFn
+     * @param <_CT>
+     * @return
+     */
     default <_CT extends _type<?,?>> _CT forEachIn(Class<?> clazz, Consumer<_B> actionFn){
         return forEachIn(clazz, p->true, actionFn);
     }
 
+    /**
+     *
+     * @param clazz
+     * @param matchFn
+     * @param actionFn
+     * @param <_CT>
+     * @return
+     */
     default <_CT extends _type<?,?>> _CT forEachIn(Class<?> clazz, Predicate<_B> matchFn, Consumer<_B> actionFn){
         _CT _t = _type.of(clazz);
         forEachIn( _t, matchFn, actionFn);
         return _t;
     }
 
+    /**
+     *
+     * @param _j
+     * @param actionFn
+     * @param <_J>
+     * @return
+     */
     default <_J extends _java._node<?,?>> _J forEachIn(_J _j, Consumer<_B> actionFn){
         if( _j instanceof _type && ((_type)_j).isTopLevel()){
             forEachIn(((_type) _j).astCompilationUnit(), t->true, actionFn);
@@ -577,6 +683,14 @@ public interface $bot<B, _B, $B>
         return _j;
     }
 
+    /**
+     *
+     * @param _j
+     * @param matchFn
+     * @param actionFn
+     * @param <_J>
+     * @return
+     */
     default <_J extends _java._node<?,?>> _J forEachIn(_J _j, Predicate<_B> matchFn, Consumer<_B> actionFn){
         if( _j instanceof _type && ((_type)_j).isTopLevel()){
             forEachIn(((_type) _j).astCompilationUnit(), matchFn, actionFn);
@@ -586,10 +700,25 @@ public interface $bot<B, _B, $B>
         return _j;
     }
 
+    /**
+     *
+     * @param astNode
+     * @param actionFn
+     * @param <N>
+     * @return
+     */
     default <N extends Node> N forEachIn(N astNode, Consumer<_B> actionFn){
         return forEachIn(astNode, t->true, actionFn);
     }
 
+    /**
+     *
+     * @param astNode
+     * @param matchFn
+     * @param actionFn
+     * @param <N>
+     * @return
+     */
     default <N extends Node> N forEachIn(N astNode, Predicate<_B> matchFn, Consumer<_B> actionFn){
         astNode.stream().forEach(n ->{
             Select<_B> sel = select(n);
@@ -623,30 +752,73 @@ public interface $bot<B, _B, $B>
         return _cus;
     }
 
+    /**
+     *
+     * @param _cus
+     * @param selectActionFn
+     * @return
+     */
     default _codeUnits forSelectedIn(_codeUnits _cus, Consumer<Select<_B>> selectActionFn){
         return forSelectedIn(_cus, t->true, selectActionFn);
     }
 
+    /**
+     *
+     * @param _cus
+     * @param matchFn
+     * @param selectActionFn
+     * @return
+     */
     default _codeUnits forSelectedIn(_codeUnits _cus, Predicate<Select<_B>> matchFn, Consumer<Select<_B>> selectActionFn){
         _codeUnits _ncu = new _codeUnits();
         _cus.forEach(_c-> _ncu.add(forSelectedIn(_c.astCompilationUnit(), matchFn, selectActionFn) ));
         return _ncu;
     }
 
+    /**
+     *
+     * @param clazz
+     * @param selectActionFn
+     * @param <_CT>
+     * @return
+     */
     default <_CT extends _type<?,?>> _CT forSelectedIn(Class<?> clazz, Consumer<Select<_B>> selectActionFn){
         return forSelectedIn(clazz, p->true, selectActionFn);
     }
 
+    /**
+     *
+     * @param clazz
+     * @param matchFn
+     * @param selectActionFn
+     * @param <_CT>
+     * @return
+     */
     default <_CT extends _type<?,?>> _CT forSelectedIn(Class<?> clazz, Predicate<Select<_B>> matchFn, Consumer<Select<_B>> selectActionFn){
         _CT _t = _type.of(clazz);
         forSelectedIn( _t, matchFn, selectActionFn);
         return _t;
     }
 
+    /**
+     *
+     * @param _j
+     * @param selectActionFn
+     * @param <_J>
+     * @return
+     */
     default <_J extends _java._node<?,?>> _J forSelectedIn(_J _j, Consumer<Select<_B>> selectActionFn){
         return forSelectedIn(_j, t->true, selectActionFn);
     }
 
+    /**
+     *
+     * @param _j
+     * @param matchFn
+     * @param selectActionFn
+     * @param <_J>
+     * @return
+     */
     default <_J extends _java._node<?,?>> _J forSelectedIn(_J _j, Predicate<Select<_B>> matchFn, Consumer<Select<_B>> selectActionFn){
         if( _j instanceof _codeUnit){
             //System.out.println( "A CODEUNIT");
@@ -695,38 +867,82 @@ public interface $bot<B, _B, $B>
         return astNode;
     }
 
+    /**
+     *
+     * @param _batches
+     * @return
+     */
     default List<_B> listIn(_batch..._batches){
         return listIn(t->true, _batches);
     }
 
+    /**
+     *
+     * @param _matchFn
+     * @param _batches
+     * @return
+     */
     default List<_B> listIn(Predicate<_B> _matchFn, _batch..._batches){
         List<_B> list = new ArrayList<>();
         Arrays.stream(_batches).forEach(b -> list.addAll( listIn(b.load() ,_matchFn)));
         return list;
     }
 
+    /**
+     *
+     * @param _cus
+     * @return
+     */
     default List<_B> listIn(_codeUnits _cus){
         return listIn(_cus, t->true);
     }
 
+    /**
+     *
+     * @param _cus
+     * @param _matchFn
+     * @return
+     */
     default List<_B> listIn(_codeUnits _cus, Predicate<_B> _matchFn){
         List<_B> fullList = new ArrayList<>();
         _cus.forEach(_cu -> fullList.addAll( listIn(_cu.astCompilationUnit(), _matchFn) ));
         return fullList;
     }
 
+    /**
+     *
+     * @param clazz
+     * @return
+     */
     default List<_B> listIn(Class<?> clazz){
         return listIn(Ast.of( clazz ));
     }
 
+    /**
+     *
+     * @param clazz
+     * @param _matchFn
+     * @return
+     */
     default List<_B> listIn(Class<?> clazz, Predicate<_B> _matchFn){
         return listIn(Ast.of( clazz ), _matchFn);
     }
 
+    /**
+     *
+     * @param _j
+     * @return
+     */
     default List<_B> listIn(_java._node<?, ?> _j){
         return listIn(_j, t->true);
     }
 
+    /**
+     *
+     * @param _j
+     * @param _matchFn
+     * @return
+     */
     default List<_B> listIn(_java._node<?, ?> _j, Predicate<_B> _matchFn){
         if( _j instanceof _codeUnit){
             _codeUnit _c = (_codeUnit) _j;
@@ -739,48 +955,103 @@ public interface $bot<B, _B, $B>
         return listIn(_j.ast(), _matchFn);
     }
 
+    /**
+     *
+     * @param astNode
+     * @return
+     */
     default List<_B> listIn(Node astNode){
         return listIn(astNode, p->true);
     }
 
+    /**
+     *
+     * @param astNode
+     * @param _matchFn
+     * @return
+     */
     default List<_B> listIn(Node astNode, Predicate<_B> _matchFn) {
         List<_B> list = new ArrayList<>();
         forEachIn(astNode, _matchFn, c-> list.add(c));
         return list;
     }
 
+    /**
+     *
+     * @param _batches
+     * @return
+     */
     default List<Select<_B>> listSelectedIn(_batch..._batches) {
         return listSelectedIn(t->true, _batches);
     }
 
+    /**
+     *
+     * @param _selectMatchFn
+     * @param _batches
+     * @return
+     */
     default List<Select<_B>> listSelectedIn(Predicate<Select<_B>> _selectMatchFn, _batch..._batches) {
         List<Select<_B>> selected = new ArrayList<>();
         Arrays.stream(_batches).forEach(_b -> selected.addAll(listSelectedIn(_b.load(), _selectMatchFn)));
         return selected;
     }
 
+    /**
+     *
+     * @param _cus
+     * @return
+     */
     default List<Select<_B>> listSelectedIn(_codeUnits _cus) {
         return listSelectedIn(_cus, t->true);
     }
 
+    /**
+     *
+     * @param _cus
+     * @param _selectMatchFn
+     * @return
+     */
     default List<Select<_B>> listSelectedIn(_codeUnits _cus, Predicate<Select<_B>> _selectMatchFn) {
         List<Select<_B>> lc = new ArrayList<>();
         _cus.forEach(_cu-> lc.addAll( listSelectedIn(_cu.astCompilationUnit(), _selectMatchFn) ) );
         return lc;
     }
 
+    /**
+     *
+     * @param clazz
+     * @return
+     */
     default List<Select<_B>> listSelectedIn(Class<?> clazz) {
         return listSelectedIn(Ast.of(clazz));
     }
 
+    /**
+     *
+     * @param clazz
+     * @param _selectMatchFn
+     * @return
+     */
     default List<Select<_B>> listSelectedIn(Class<?> clazz, Predicate<Select<_B>> _selectMatchFn) {
         return listSelectedIn(Ast.of(clazz), _selectMatchFn);
     }
 
+    /**
+     *
+     * @param astNode
+     * @return
+     */
     default List<Select<_B>> listSelectedIn(Node astNode) {
         return listSelectedIn(astNode, p->true);
     }
 
+    /**
+     *
+     * @param astNode
+     * @param _selectMatchFn
+     * @return
+     */
     default List<Select<_B>> listSelectedIn(Node astNode, Predicate<Select<_B>> _selectMatchFn) {
         List<Select<_B>> list = new ArrayList<>();
         astNode.walk(Node.class, e -> {
@@ -792,14 +1063,29 @@ public interface $bot<B, _B, $B>
         return list;
     }
 
-    default void printIn(_batch... _batches ){
-        Arrays.stream(_batches).forEach(_b -> printIn(_b.load()) );
+    /**
+     *
+     * @param _batches
+     * @return the _codeUnits that had to be created from within the _batches
+     */
+    default _codeUnits printIn(_batch... _batches ){
+        _codeUnits _cus = _codeUnits.of(_batches);
+        printIn(_cus);
+        return _cus;
     }
 
+    /**
+     *
+     * @param _cus
+     */
     default void printIn(_codeUnits _cus ){
         _cus.forEach(_cu -> printIn(_cu.astCompilationUnit()) );
     }
 
+    /**
+     *
+     * @param _jn
+     */
     default void printIn(_java._node _jn) {
         if( ( _jn instanceof _codeUnit) && ( ((_codeUnit)_jn).isTopLevel()) ){
             printIn( ((_codeUnit)_jn).astCompilationUnit());
@@ -808,22 +1094,42 @@ public interface $bot<B, _B, $B>
         }
     }
 
+    /**
+     *
+     * @param clazz
+     */
     default void printIn(Class<?> clazz) {
         forEachIn(Ast.of(clazz), e-> System.out.println(e));
     }
 
+    /**
+     *
+     * @param astNode
+     */
     default void printIn(Node astNode) {
         forEachIn(astNode, e-> System.out.println(e));
     }
 
+    /**
+     *
+     * @param _cus
+     */
     default void printEachTreeIn(_codeUnits _cus){
         _cus.forEach(_c -> printEachTreeIn( (_java._node)_c) );
     }
 
+    /**
+     *
+     * @param _n
+     */
     default void printEachTreeIn(_java._node _n) {
         forEachIn(_n, e-> Print.tree( (_java._node)e));
     }
 
+    /**
+     *
+     * @param astNode
+     */
     default void printEachTreeIn(Node astNode) {
         forEachIn(astNode, e-> Print.tree( (_java._node)e));
     }
@@ -1302,34 +1608,6 @@ public interface $bot<B, _B, $B>
         default $WC $hasComment( Predicate<_comment> commentMatchFn){
             return $hasComment( $comment.of().$and(commentMatchFn) );
         }
-
-        /**
-         * nullify the $comment bot
-         * @return
-
-        default $WC has$Comment(){
-            return has$Comment(null);
-        }
-        */
-
-        /*
-        default $WC $hasComment(){
-            return ($WC)$hasComment(true);
-        }
-         */
-
-
-
-        /*
-        default $WC $hasCommentContains(Stencil stencil){
-
-        }
-         */
-
-        /*
-
-         */
-
     }
 
 }

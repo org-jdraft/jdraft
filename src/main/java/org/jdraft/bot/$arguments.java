@@ -29,7 +29,6 @@ public class $arguments<N extends Node & NodeWithArguments>
         return new $arguments();
     }
 
-
     /**
      * Build and return a $arguments bot matching empty arguments lists
      * @return $arguments bot that matches empty arguments lists
@@ -87,13 +86,6 @@ public class $arguments<N extends Node & NodeWithArguments>
 
     public $arguments(){ }
 
-    /*
-    public $arguments(Predicate<_arguments> predicate){
-        this.predicate = predicate;
-    }
-     */
-
-
     public $arguments(_arguments args){
         for(int i=0;i<args.size(); i++){
             argumentList.add( $expression.of(args.getAt(i)));
@@ -118,13 +110,9 @@ public class $arguments<N extends Node & NodeWithArguments>
     }
 
     public $arguments $any(Class<? extends _expression>...expressionClasses ){
-        //Set<Class<? extends _expression>> exSet = new HashSet<>();
-        //Arrays.stream
         Predicate<_arguments> ps =
                 (args) -> Arrays.stream(expressionClasses).anyMatch( ec-> args.get(a -> ec.isAssignableFrom(a.getClass())) != null );
         return $and( ps );
-                //a-> a.anyMatch( ee ->
-                //Arrays.stream(expressionClasses).anyMatch(e -> e.isAssignableFrom(a.getClass()) ) ) );
     }
 
 
@@ -293,7 +281,6 @@ public class $arguments<N extends Node & NodeWithArguments>
     @Override
     public $arguments $and(Predicate<_arguments> matchFn) {
         setPredicate( getPredicate().and(matchFn));
-        //this.predicate = this.predicate.and(matchFn);
         return this;
     }
 

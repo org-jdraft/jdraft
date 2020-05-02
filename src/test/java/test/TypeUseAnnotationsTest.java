@@ -102,7 +102,7 @@ public class TypeUseAnnotationsTest
              
             /* in MethodReferences/ClassReferences */
             boolean i = o instanceof @TypeAnno @TA2 String;
-            Sayable z = @TypeAnno @TA2 Nested::saySomething;              
+            //Sayable z = @TypeAnno @TA2 Nested::saySomething;
             Sayable y = GT::<@TypeAnno @TA2 String>size;       
             
             /* FAILS HERE : In generic constructor */

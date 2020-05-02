@@ -3,6 +3,8 @@ package com.github.javaparser.printer;
 import com.github.javaparser.Position;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.comments.JavadocComment;
@@ -330,8 +332,14 @@ public class ASCIITreePrinter {
         if( n instanceof CompilationUnit){
             return "_codeUnit";
         }
-        return _java.of(n).getClass().getSimpleName();
+        if(n instanceof FieldDeclaration){
+            FieldDeclaration fd = (FieldDeclaration)n;
+            return "_field";
+        } else {
+            return _java.of(n).getClass().getSimpleName();
+        }
     }
+
     /**
      * Prints range coordinates with (line,column)-(line,column) i.e.
      * (1,1)-(5,1) = line 1, column 1, to line 5 column 1

@@ -3,7 +3,8 @@ package test.othertools;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import junit.framework.TestCase;
-import org.jdraft._class;
+import org.jdraft.*;
+import org.jdraft.bot.$expression;
 import org.jdraft.pattern.$;
 import org.jdraft.pattern.$ex;
 
@@ -20,6 +21,53 @@ import java.util.function.Function;
 
  */
 public class IntelliJPSIExample extends TestCase {
+
+
+
+    public void testConvertEqualBinaryExprToEqualsMethodCallViaRefactor(){
+        //refactor "x == y" (for any X and Y)
+        //...to "x.equals(y) (for any X and Y)
+
+        //$refactor $r = $refactor.expressions("$x$ == $y$", "$x$.equals($y$);");
+
+        class someEx{
+            Integer a,b,c,d;
+
+            public Integer a(){return 1;}
+            public Integer b(){return 1;}
+
+            public void v(){
+                if( a==b ){ }
+                if( c==d ){}
+                //note: this should work ($x$, and $y$ represent a method call expression as well)
+                if( a() == b() ){}
+            }
+        }
+
+        //this does the refactoring
+        _type _t = $expression.refactor("$x$ == $y$", "$x$.equals($y$)")
+                .in(someEx.class);
+
+        //Print.tree( $expression.refactor("$x$ == $y$", "$x$.equals($y$)").in(someEx.class) );
+        //_type result = $r.to(someEx.class);
+        //System.out.println( result );
+
+        /*
+        _class _c = _class.of(someEx.class);
+
+        //verify that there are (3) occurrences of X == Y in someEx
+        assertEquals( 3, $binEqEq.countIn(_c));
+
+        //refactor to convert (all (3)) "x == y" instances to "x.equals(y)"
+        $binEqEq.replaceIn(_c, $methodEq);
+
+        //verify there are (0) occurrences of x == y in someEx
+        assertEquals( 0, $binEqEq.countIn(_c));
+
+        //verify there are (3) occurrences of x.equals(y) in _c
+        assertEquals( 3, $methodEq.countIn(_c));
+         */
+    }
 
     /**
      * https://www.jetbrains.org/intellij/sdk/docs/basics/architectural_overview/modifying_psi.html#creating-the-new-psi
