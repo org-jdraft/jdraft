@@ -11,7 +11,7 @@ import org.jdraft.text.Template;
 import java.util.function.Consumer;
 
 /**
- * base for all expression based bots
+ * base for all expression {@link $bot}s
  *
  * @param <E>
  * @param <_E>
@@ -19,7 +19,6 @@ import java.util.function.Consumer;
  */
 public interface $expression<E extends Expression, _E extends _expression, $E extends $bot.$node<E, _E, $E>>
     extends $bot.$node<E, _E, $E>, $selector.$node<_E, $E>, Template<_E> {
-
 
     static $expression of() {
         return new $e();

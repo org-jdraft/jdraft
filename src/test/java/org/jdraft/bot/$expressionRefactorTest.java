@@ -5,8 +5,18 @@ import org.jdraft.Print;
 import org.jdraft._binaryExpression;
 import org.jdraft._string;
 import org.jdraft._type;
+import org.jdraft.pattern.$;
 
 public class $expressionRefactorTest extends TestCase {
+
+    public void test$Refactor(){
+        class MyClass{
+            int x,y,z;
+            boolean b = (x==y);
+            boolean c = y==z;
+        }
+        Print.tree( $.refactor("$x$==$y$", "$x$.equals($y$)").in(MyClass.class) );
+    }
 
     public void testIndRef(){
         $methodCall $print = $methodCall.of( (Object $any$)-> System.out.println($any$) );
