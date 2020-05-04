@@ -124,7 +124,7 @@ public class $token implements $pattern<Node, $token> {
         return this.$n.replaceIn(astNode,$replacement);
     }
 
-    public <_CP extends _codeUnits> _CP replaceIn(_CP codeProvider, String replacement ){
+    public <_CP extends _project> _CP replaceIn(_CP codeProvider, String replacement ){
         return this.$n.replaceIn(codeProvider,replacement);
     }
 

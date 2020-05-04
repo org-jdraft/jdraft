@@ -1,7 +1,7 @@
 package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
-import org.jdraft._codeUnits;
+import org.jdraft._project;
 import org.jdraft._java;
 import org.jdraft._type;
 import org.jdraft.io._batch;
@@ -37,7 +37,7 @@ public interface $refactoring {
      * @param clazzes the class for the source (NOTE: the .java source file must be on the classpath)
      * @return the modified source after the refactoring
      */
-    _codeUnits in(Class... clazzes);
+    _project in(Class... clazzes);
 
     /**
      * perform the refactoring on the source code of this clazz and return the modified astNode
@@ -60,12 +60,12 @@ public interface $refactoring {
      * @param _batches the batches of source code
      * @return the _codeUnits for all of the java source from the batches
      */
-    _codeUnits in(_batch... _batches);
+    _project in(_batch... _batches);
 
     /**
      * perform the refactoring on the source code within the given _batches and return all of the _codeUnits of the _batches
      * @param _cus the array of _codeUnits to refactor
      * @return all of the codeUnits (including the refactored code)
      */
-    _codeUnits in(_codeUnits... _cus);
+    _project in(_project... _cus);
 }

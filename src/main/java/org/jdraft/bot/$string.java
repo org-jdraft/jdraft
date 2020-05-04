@@ -3,7 +3,6 @@ package org.jdraft.bot;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.StringLiteralExpr;
-import com.github.javaparser.ast.stmt.ReturnStmt;
 import org.jdraft.*;
 import org.jdraft._java._domain;
 import org.jdraft.io._batch;
@@ -226,8 +225,8 @@ public class $string implements $bot.$node<StringLiteralExpr, _string, $string>,
      * @param _batches
      * @return
      */
-    public _codeUnits matchReplaceIn(Stencil matchStencil, Stencil replaceStencil, _batch..._batches){
-        _codeUnits _cus = _codeUnits.of(_batches);
+    public _project matchReplaceIn(Stencil matchStencil, Stencil replaceStencil, _batch..._batches){
+        _project _cus = _project.of(_batches);
         matchReplaceIn(matchStencil,replaceStencil, _cus);
         return _cus;
     }
@@ -239,8 +238,8 @@ public class $string implements $bot.$node<StringLiteralExpr, _string, $string>,
      * @param _batches
      * @return
      */
-    public _codeUnits matchReplaceIn( String matchStencil, String replaceStencil, _batch..._batches){
-        _codeUnits _cus = _codeUnits.of(_batches);
+    public _project matchReplaceIn(String matchStencil, String replaceStencil, _batch..._batches){
+        _project _cus = _project.of(_batches);
         matchReplaceIn(matchStencil,replaceStencil, _cus);
         return _cus;
     }
@@ -252,7 +251,7 @@ public class $string implements $bot.$node<StringLiteralExpr, _string, $string>,
      * @param _cuss
      * @return
      */
-    public List<_string> matchReplaceIn( Stencil matchStencil, Stencil replaceStencil, _codeUnits..._cuss){
+    public List<_string> matchReplaceIn( Stencil matchStencil, Stencil replaceStencil, _project..._cuss){
         List<_string> replaced = new ArrayList<>();
         Arrays.stream( _cuss).forEach(_cus -> _cus.forEach(_cu -> replaced.addAll( matchReplaceIn( (_java._node)_cu, matchStencil, replaceStencil) ) ));
         return replaced;
@@ -265,7 +264,7 @@ public class $string implements $bot.$node<StringLiteralExpr, _string, $string>,
      * @param _cuss
      * @return
      */
-    public List<_string> matchReplaceIn( String matchStencil, String replaceStencil, _codeUnits..._cuss){
+    public List<_string> matchReplaceIn( String matchStencil, String replaceStencil, _project..._cuss){
         List<_string> replaced = new ArrayList<>();
         Arrays.stream( _cuss).forEach( _cus -> _cus.forEach( _cu -> replaced.addAll( matchReplaceIn( (_java._node)_cu, matchStencil, replaceStencil) ) ));
         return replaced;

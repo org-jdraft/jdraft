@@ -3,6 +3,7 @@ package org.jdraft.text;
 import org.jdraft._jdraftException;
 
 import java.util.*;
+import java.util.function.Function;
 
 /**
  * KeyValue data structure for "Pairs" of
@@ -238,5 +239,32 @@ public final class Tokens implements Map<String,Object>{
     @Override
     public String toString(){
         return this.kvMap.toString();
+    }
+
+    /**
+     *
+     * @param _t
+     * @param selectorFunctions
+     * @param <_T>
+     * @return
+     */
+    public static<_T> Tokens selectTokens(_T _t, Function<_T,Tokens>... selectorFunctions ){
+        Tokens existingTokens = new Tokens();
+        for( int i=0; i< selectorFunctions.length; i++){
+            try {
+                Tokens thisTokens = selectorFunctions[i].apply(_t);
+                //System.out.println(" MEMBER SELECTOR RETURNED "+ thisTokens);
+                if( thisTokens == null || !existingTokens.isConsistent(thisTokens)){
+                    //when the first token select returns null or succeeds & isn't consistent with existingTokens
+                    return null;
+                }
+                existingTokens.putAll(thisTokens);
+                //System.out.println(" ExistingTokens "+ existingTokens);
+            }catch(Exception e){
+                //throw?
+                throw new _jdraftException("Exception with memberSelector ["+ i+" ] "+ selectorFunctions[i]+System.lineSeparator()+"...with input "+_t, e);
+            }
+        }
+        return existingTokens;
     }
 }

@@ -8,11 +8,13 @@ import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import org.jdraft.*;
 import org.jdraft.text.Stencil;
+import org.jdraft.text.Tokens;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
@@ -578,7 +580,7 @@ public interface $selector<_S, $S> {
      * @param <_S>
      * @param <$S>
      */
-    interface $node<_S, $S> extends $selector<_S, $S> {
+    interface $node<_S, $S> extends $selector<_S, $S>, Function<_S, Tokens> {
 
         //Moved from select.node
         Select<_S> select(String... code);
@@ -595,6 +597,14 @@ public interface $selector<_S, $S> {
             }catch(Exception e){
                 return null;
             }
+        }
+
+        default Tokens apply(_S _toSelect){
+            Select<_S> s = select(_toSelect);
+            if( s == null ){
+                return null;
+            }
+            return s.tokens;
         }
 
         default boolean matches(String...code){

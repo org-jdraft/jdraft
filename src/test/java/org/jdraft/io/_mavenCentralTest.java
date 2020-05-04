@@ -1,7 +1,7 @@
 package org.jdraft.io;
 
 import junit.framework.TestCase;
-import org.jdraft._codeUnits;
+import org.jdraft._project;
 
 import java.net.URL;
 
@@ -20,7 +20,7 @@ public class _mavenCentralTest extends TestCase {
 
         System.out.println( downloadJarUrl );
 
-        _codeUnits _cus =
+        _project _cus =
                 _mavenCentral.of(
                 "com.github.javaparser",
                 "javaparser-core",

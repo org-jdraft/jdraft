@@ -3,9 +3,7 @@ package org.jdraft.io;
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParserConfiguration;
 import junit.framework.TestCase;
-import org.jdraft._codeUnits;
-import org.jdraft.bot.$int;
-import org.jdraft.bot.$methodCall;
+import org.jdraft._project;
 
 public class _githubProjectTest extends TestCase {
 
@@ -21,7 +19,7 @@ public class _githubProjectTest extends TestCase {
         JavaParser jp = new JavaParser();
         jp.getParserConfiguration().setLanguageLevel(ParserConfiguration.LanguageLevel.JAVA_7);
         _githubProject _bc  = _githubProject.of("https://github.com/edefazio/bincat").setJavaParser( jp );
-        _codeUnits _cus = _bc.load();
+        _project _cus = _bc.load();
         //_codeUnits _cus = _githubProject.of("https://github.com/edefazio/bincat").load(jp);
         //_codeUnits _cus = _githubProject.of("https://github.com/TIBCOSoftware/jasperreports").load();
         //_codeUnits _cus = _githubProject.of("https://github.com/wmdietl/javaparser-module-bug").load();

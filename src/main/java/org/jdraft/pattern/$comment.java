@@ -346,7 +346,7 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
         return findAndReplace( (_T) _type.of(clazz), targetToReplacement);
     }
 
-    public _codeUnits findAndReplace(_codeUnits _cp, String target, String replacement){
+    public _project findAndReplace(_project _cp, String target, String replacement){
         Map<String,String> targetToReplacement = new HashMap<>();
         targetToReplacement.put(target, replacement);
         _cp.forEach(_c -> findAndReplace(_c, targetToReplacement));
@@ -357,7 +357,7 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
         return findAndReplace( (_T) _type.of(clazz), targetToReplacement);
     }
 
-    public _codeUnits findAndReplace(_codeUnits _cp, Map<String, String> targetToReplacement){
+    public _project findAndReplace(_project _cp, Map<String, String> targetToReplacement){
         _cp.forEach(_c -> findAndReplace(_c, targetToReplacement));
         return _cp;
     }

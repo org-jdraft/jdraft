@@ -30,7 +30,7 @@ import org.jdraft.pattern.*;
  * Simple API to adapt all of the functionality in the
  * statically, so you don't have to always use:
  * 
- * Compiles and Loads BOTH draft based {@link _codeUnit} or {@link _codeUnits} entities:
+ * Compiles and Loads BOTH draft based {@link _codeUnit} or {@link _project} entities:
  * <UL>
  *    <LI>{@link org.jdraft._type}
  *    <UL>
@@ -132,11 +132,11 @@ public final class _runtime {
     }
 
     /**
-     * Compile all the {@link _codeUnit} files in all the {@link _codeUnits}
+     * Compile all the {@link _codeUnit} files in all the {@link _project}
      * @param _cuss array of _codeUnits
      * @return list of _classFiles (in memory bytecode files that HAVE NOT been loaded by a ClassLoader)
      */
-    public static List<_classFile> compile(_codeUnits... _cuss){
+    public static List<_classFile> compile(_project... _cuss){
         return compile(Collections.EMPTY_LIST, true, _cuss);
     }
 
@@ -146,7 +146,7 @@ public final class _runtime {
      * @param _cuss
      * @return
      */
-    public static List<_classFile> compile(List<String>compilerOptions, _codeUnits... _cuss){
+    public static List<_classFile> compile(List<String>compilerOptions, _project... _cuss){
         return compile(compilerOptions, true, _cuss);
     }
 
@@ -156,7 +156,7 @@ public final class _runtime {
      * @param _cuss the array of codeUnits
      * @return
      */
-    public static List<_classFile> compile(List<String>compilerOptions, boolean ignoreWarnings, _codeUnits... _cuss){
+    public static List<_classFile> compile(List<String>compilerOptions, boolean ignoreWarnings, _project... _cuss){
         List<JavaFileObject> fs = new ArrayList<>();
         Arrays.stream(_cuss).forEach( _cus -> _cus.forEach(_cu-> fs.add( _javaFile.of(_cu)) ) );
         return compile(compilerOptions, ignoreWarnings, fs);
@@ -742,7 +742,7 @@ public final class _runtime {
     }
 
     public static _runtime of(List<String>compilerOptions, boolean ignoreWarnings, _batch..._batches ){
-         _codeUnits _cus = new _codeUnits();
+         _project _cus = new _project();
          Arrays.stream(_batches).forEach(_b-> _cus.add(_b.load()) );
          return of( compilerOptions, ignoreWarnings, _cus);
     }
@@ -752,7 +752,7 @@ public final class _runtime {
      * @param _cuss
      * @return
      */
-    public static _runtime of(_codeUnits..._cuss ){
+    public static _runtime of(_project..._cuss ){
         return of(Collections.EMPTY_LIST, true, _cuss);
     }
 
@@ -762,7 +762,7 @@ public final class _runtime {
      * @param _cuss
      * @return
      */
-    public static _runtime of(List<String>compilerOptions, _codeUnits..._cuss ){
+    public static _runtime of(List<String>compilerOptions, _project..._cuss ){
         return of(compilerOptions, true, _cuss);
     }
 
@@ -774,7 +774,7 @@ public final class _runtime {
      * @param _cuss an array of _codeUnits containing one or more _codeUnit (s)
      * @return a runtime with the classes loaded
      */
-    public static _runtime of(List<String>compilerOptions, boolean ignoreWarnings, _codeUnits..._cuss ){
+    public static _runtime of(List<String>compilerOptions, boolean ignoreWarnings, _project..._cuss ){
         List<JavaFileObject> sfs = new ArrayList<>();
         Arrays.stream(_cuss).forEach(_cus-> _cus.forEach(_cu -> sfs.add( _javaFile.of( _cu) ) ) );
         return of(compilerOptions, ignoreWarnings, sfs);

@@ -14,6 +14,28 @@ import java.util.function.*;
 public final class _binaryExpression implements _expression<BinaryExpr, _binaryExpression>,
         _java._multiPart<BinaryExpr, _binaryExpression> {
 
+    /** ALL OPERATORS */
+
+    public static final BinaryExpr.Operator AND = BinaryExpr.Operator.AND;
+    public static final BinaryExpr.Operator BINARY_AND = BinaryExpr.Operator.BINARY_AND;
+    public static final BinaryExpr.Operator BINARY_OR = BinaryExpr.Operator.BINARY_OR;
+    public static final BinaryExpr.Operator DIVIDE = BinaryExpr.Operator.DIVIDE;
+    public static final BinaryExpr.Operator EQUALS = BinaryExpr.Operator.EQUALS;
+    public static final BinaryExpr.Operator GREATER = BinaryExpr.Operator.GREATER;
+    public static final BinaryExpr.Operator GREATER_EQUALS = BinaryExpr.Operator.GREATER_EQUALS;
+    public static final BinaryExpr.Operator LEFT_SHIFT = BinaryExpr.Operator.LEFT_SHIFT;
+    public static final BinaryExpr.Operator LESS = BinaryExpr.Operator.LESS;
+    public static final BinaryExpr.Operator LESS_EQUALS = BinaryExpr.Operator.LESS_EQUALS;
+    public static final BinaryExpr.Operator MINUS = BinaryExpr.Operator.MINUS;
+    public static final BinaryExpr.Operator MULTIPLY = BinaryExpr.Operator.MULTIPLY;
+    public static final BinaryExpr.Operator NOT_EQUALS = BinaryExpr.Operator.NOT_EQUALS;
+    public static final BinaryExpr.Operator OR = BinaryExpr.Operator.OR;
+    public static final BinaryExpr.Operator PLUS = BinaryExpr.Operator.PLUS;
+    public static final BinaryExpr.Operator REMAINDER = BinaryExpr.Operator.REMAINDER;
+    public static final BinaryExpr.Operator SIGNED_RIGHT_SHIFT = BinaryExpr.Operator.SIGNED_RIGHT_SHIFT;
+    public static final BinaryExpr.Operator UNSIGNED_RIGHT_SHIFT = BinaryExpr.Operator.UNSIGNED_RIGHT_SHIFT;
+    public static final BinaryExpr.Operator XOR = BinaryExpr.Operator.XOR;
+
     public static _binaryExpression of(){
         return new _binaryExpression( new BinaryExpr());
     }
@@ -23,6 +45,14 @@ public final class _binaryExpression implements _expression<BinaryExpr, _binaryE
 
     public static _binaryExpression of( String...code){
         return new _binaryExpression(Expressions.binaryEx( code));
+    }
+
+    public static _binaryExpression of(Expression left, BinaryExpr.Operator operator, Expression right ){
+        return new _binaryExpression( new BinaryExpr( left, right, operator) );
+    }
+
+    public static _binaryExpression of(_expression _left, BinaryExpr.Operator operator, _expression _right ){
+        return new _binaryExpression( new BinaryExpr( _left.ast(), _right.ast(), operator) );
     }
 
     public static <A extends Object> _binaryExpression of(Supplier s){

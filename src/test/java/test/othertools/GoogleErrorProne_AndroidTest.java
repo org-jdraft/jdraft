@@ -2,7 +2,7 @@ package test.othertools;
 
 import junit.framework.TestCase;
 import org.jdraft._class;
-import org.jdraft._codeUnits;
+import org.jdraft._project;
 import org.jdraft.pattern.*;
 
 /** This emulates the "heart" of a Google Error Prone matcher using jdraft $patterns */
@@ -31,7 +31,7 @@ public class GoogleErrorProne_AndroidTest extends TestCase {
         assertEquals(4, $AndroidInjectAfterSuper.countIn(FAILURES));
 
         //verify that, if I add the SUPPRESS WARNINGS ANNOTATION to Failure matches they are no longer matches
-        _codeUnits _suppressed = FAILURES.copy();
+        _project _suppressed = FAILURES.copy();
         //add the annotation that suppresses the warning
         $method.of().forEachIn( _suppressed, m -> m.addAnnoRefs( $SUPPRESS_WARNING_ANNO.draft()));
 
@@ -99,6 +99,6 @@ public class GoogleErrorProne_AndroidTest extends TestCase {
     );
 
     /** Heres all the examples we EXPECT to fail pre-parsed and cached*/
-    static _codeUnits FAILURES = _codeUnits.of(
+    static _project FAILURES = _project.of(
             _FAIL_InjectAfterSuperActivity, _FAIL_InFragment, _FAIL_InjAfterSuperInBetween, _FAIL_InjectAfterSuperOnAttach);
 }

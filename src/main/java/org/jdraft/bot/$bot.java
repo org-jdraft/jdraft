@@ -161,7 +161,7 @@ public interface $bot<B, _B, $B>
      */
     default boolean isIn(Predicate<_B> _matchFn, _batch... _batches) {
         for(int i=0;i<_batches.length; i++){
-            _codeUnits _cus = _batches[i].load();
+            _project _cus = _batches[i].load();
             _B _f = firstIn(_cus, _matchFn);
             if( _f != null ){
                 return true;
@@ -175,7 +175,7 @@ public interface $bot<B, _B, $B>
      * @param _cus
      * @return
      */
-    default boolean isIn(_codeUnits _cus) {
+    default boolean isIn(_project _cus) {
         return firstIn(_cus, t->true) != null;
     }
 
@@ -185,7 +185,7 @@ public interface $bot<B, _B, $B>
      * @param matchFn
      * @return
      */
-    default boolean isIn(_codeUnits _cus, Predicate<_B> matchFn) {
+    default boolean isIn(_project _cus, Predicate<_B> matchFn) {
         Optional<_codeUnit> ocu =
                 _cus.stream().filter(_cu -> firstIn(_cu.astCompilationUnit(), matchFn) != null).findFirst();
         if( ocu.isPresent() ){ //I foudn the matching CompilationUnit, now return the underlying first
@@ -278,7 +278,7 @@ public interface $bot<B, _B, $B>
      */
     default _B firstIn(Predicate<_B> _matchFn, _batch... _batches) {
         for(int i=0;i<_batches.length; i++){
-            _codeUnits _cus = _batches[i].load();
+            _project _cus = _batches[i].load();
             _B _f = firstIn(_cus, _matchFn);
             if( _f != null ){
                 return _f;
@@ -292,7 +292,7 @@ public interface $bot<B, _B, $B>
      * @param _cus
      * @return
      */
-    default _B firstIn(_codeUnits _cus) {
+    default _B firstIn(_project _cus) {
         return firstIn(_cus, t->true);
     }
 
@@ -302,7 +302,7 @@ public interface $bot<B, _B, $B>
      * @param matchFn
      * @return
      */
-    default _B firstIn(_codeUnits _cus, Predicate<_B> matchFn) {
+    default _B firstIn(_project _cus, Predicate<_B> matchFn) {
         Optional<_codeUnit> ocu =
                 _cus.stream().filter(_cu -> firstIn(_cu.astCompilationUnit(), matchFn) != null).findFirst();
         if( ocu.isPresent() ){ //I foudn the matching CompilationUnit, now return the underlying first
@@ -399,7 +399,7 @@ public interface $bot<B, _B, $B>
      */
     default Select<_B> selectFirstIn(Predicate<Select<_B>> _matchFn, _batch... _batches) {
         for(int i=0;i<_batches.length; i++){
-            _codeUnits _cus = _batches[i].load();
+            _project _cus = _batches[i].load();
             Select<_B>  _f = selectFirstIn(_cus, _matchFn);
             if( _f != null ){
                 return _f;
@@ -413,7 +413,7 @@ public interface $bot<B, _B, $B>
      * @param _cus
      * @return
      */
-    default Select<_B> selectFirstIn(_codeUnits _cus){
+    default Select<_B> selectFirstIn(_project _cus){
         return selectFirstIn(_cus, t->true);
     }
 
@@ -423,7 +423,7 @@ public interface $bot<B, _B, $B>
      * @param matchFn
      * @return
      */
-    default Select<_B> selectFirstIn(_codeUnits _cus, Predicate<Select<_B>> matchFn) {
+    default Select<_B> selectFirstIn(_project _cus, Predicate<Select<_B>> matchFn) {
         //this should probably (eventually) be first() methods
         Optional<_codeUnit> ocu = _cus.stream().filter(_cu -> selectFirstIn(_cu, matchFn)!= null ).findFirst();
         if( ocu.isPresent() ){
@@ -509,7 +509,7 @@ public interface $bot<B, _B, $B>
      * @param _cus
      * @return
      */
-    default int countIn(_codeUnits _cus) {
+    default int countIn(_project _cus) {
         return countIn( _cus, t->true);
     }
 
@@ -519,7 +519,7 @@ public interface $bot<B, _B, $B>
      * @param _matchFn
      * @return
      */
-    default int countIn(_codeUnits _cus, Predicate<_B> _matchFn) {
+    default int countIn(_project _cus, Predicate<_B> _matchFn) {
         AtomicInteger ai = new AtomicInteger();
         _cus.forEach(_cu -> ai.addAndGet( countIn(_cu.astCompilationUnit(), _matchFn) ) );
         return ai.get();
@@ -603,7 +603,7 @@ public interface $bot<B, _B, $B>
      * @param _batches
      * @return
      */
-    default _codeUnits forEachIn(Consumer<_B> actionFn, _batch..._batches){
+    default _project forEachIn(Consumer<_B> actionFn, _batch..._batches){
         return forEachIn(t->true, actionFn, _batches);
     }
 
@@ -614,8 +614,8 @@ public interface $bot<B, _B, $B>
      * @param _batches
      * @return
      */
-    default _codeUnits forEachIn(Predicate<_B> matchFn, Consumer<_B> actionFn, _batch..._batches){
-        _codeUnits _cus = new _codeUnits();
+    default _project forEachIn(Predicate<_B> matchFn, Consumer<_B> actionFn, _batch..._batches){
+        _project _cus = new _project();
         Arrays.stream(_batches).forEach( (b) -> _cus.add( forEachIn( b.load(), matchFn, actionFn) ) );
         return _cus;
     }
@@ -626,7 +626,7 @@ public interface $bot<B, _B, $B>
      * @param actionFn
      * @return
      */
-    default _codeUnits forEachIn(_codeUnits _cus, Consumer<_B> actionFn){
+    default _project forEachIn(_project _cus, Consumer<_B> actionFn){
         return forEachIn( _cus, t->true, actionFn);
     }
 
@@ -637,7 +637,7 @@ public interface $bot<B, _B, $B>
      * @param actionFn
      * @return
      */
-    default _codeUnits forEachIn(_codeUnits _cus, Predicate<_B> matchFn, Consumer<_B> actionFn){
+    default _project forEachIn(_project _cus, Predicate<_B> matchFn, Consumer<_B> actionFn){
         _cus.forEach( (_codeUnit _cu) -> forEachIn( _cu.astCompilationUnit(), matchFn, actionFn) );
         return _cus;
     }
@@ -735,7 +735,7 @@ public interface $bot<B, _B, $B>
      * @param _batches
      * @return
      */
-    default _codeUnits forSelectedIn(Consumer<Select<_B>> selectActionFn, _batch..._batches){
+    default _project forSelectedIn(Consumer<Select<_B>> selectActionFn, _batch..._batches){
         return forSelectedIn(t->true, selectActionFn, _batches);
     }
 
@@ -746,8 +746,8 @@ public interface $bot<B, _B, $B>
      * @param _batches
      * @return
      */
-    default _codeUnits forSelectedIn(Predicate<Select<_B>> matchFn, Consumer<Select<_B>> selectActionFn, _batch..._batches){
-        _codeUnits _cus = new _codeUnits();
+    default _project forSelectedIn(Predicate<Select<_B>> matchFn, Consumer<Select<_B>> selectActionFn, _batch..._batches){
+        _project _cus = new _project();
         Arrays.stream(_batches).forEach( b-> _cus.add(forSelectedIn(matchFn, selectActionFn)));
         return _cus;
     }
@@ -758,7 +758,7 @@ public interface $bot<B, _B, $B>
      * @param selectActionFn
      * @return
      */
-    default _codeUnits forSelectedIn(_codeUnits _cus, Consumer<Select<_B>> selectActionFn){
+    default _project forSelectedIn(_project _cus, Consumer<Select<_B>> selectActionFn){
         return forSelectedIn(_cus, t->true, selectActionFn);
     }
 
@@ -769,8 +769,8 @@ public interface $bot<B, _B, $B>
      * @param selectActionFn
      * @return
      */
-    default _codeUnits forSelectedIn(_codeUnits _cus, Predicate<Select<_B>> matchFn, Consumer<Select<_B>> selectActionFn){
-        _codeUnits _ncu = new _codeUnits();
+    default _project forSelectedIn(_project _cus, Predicate<Select<_B>> matchFn, Consumer<Select<_B>> selectActionFn){
+        _project _ncu = new _project();
         _cus.forEach(_c-> _ncu.add(forSelectedIn(_c.astCompilationUnit(), matchFn, selectActionFn) ));
         return _ncu;
     }
@@ -893,7 +893,7 @@ public interface $bot<B, _B, $B>
      * @param _cus
      * @return
      */
-    default List<_B> listIn(_codeUnits _cus){
+    default List<_B> listIn(_project _cus){
         return listIn(_cus, t->true);
     }
 
@@ -903,7 +903,7 @@ public interface $bot<B, _B, $B>
      * @param _matchFn
      * @return
      */
-    default List<_B> listIn(_codeUnits _cus, Predicate<_B> _matchFn){
+    default List<_B> listIn(_project _cus, Predicate<_B> _matchFn){
         List<_B> fullList = new ArrayList<>();
         _cus.forEach(_cu -> fullList.addAll( listIn(_cu.astCompilationUnit(), _matchFn) ));
         return fullList;
@@ -1002,7 +1002,7 @@ public interface $bot<B, _B, $B>
      * @param _cus
      * @return
      */
-    default List<Select<_B>> listSelectedIn(_codeUnits _cus) {
+    default List<Select<_B>> listSelectedIn(_project _cus) {
         return listSelectedIn(_cus, t->true);
     }
 
@@ -1012,7 +1012,7 @@ public interface $bot<B, _B, $B>
      * @param _selectMatchFn
      * @return
      */
-    default List<Select<_B>> listSelectedIn(_codeUnits _cus, Predicate<Select<_B>> _selectMatchFn) {
+    default List<Select<_B>> listSelectedIn(_project _cus, Predicate<Select<_B>> _selectMatchFn) {
         List<Select<_B>> lc = new ArrayList<>();
         _cus.forEach(_cu-> lc.addAll( listSelectedIn(_cu.astCompilationUnit(), _selectMatchFn) ) );
         return lc;
@@ -1068,8 +1068,8 @@ public interface $bot<B, _B, $B>
      * @param _batches
      * @return the _codeUnits that had to be created from within the _batches
      */
-    default _codeUnits printIn(_batch... _batches ){
-        _codeUnits _cus = _codeUnits.of(_batches);
+    default _project printIn(_batch... _batches ){
+        _project _cus = _project.of(_batches);
         printIn(_cus);
         return _cus;
     }
@@ -1078,7 +1078,7 @@ public interface $bot<B, _B, $B>
      *
      * @param _cus
      */
-    default void printIn(_codeUnits _cus ){
+    default void printIn(_project _cus ){
         _cus.forEach(_cu -> printIn(_cu.astCompilationUnit()) );
     }
 
@@ -1114,7 +1114,7 @@ public interface $bot<B, _B, $B>
      *
      * @param _cus
      */
-    default void printEachTreeIn(_codeUnits _cus){
+    default void printEachTreeIn(_project _cus){
         _cus.forEach(_c -> printEachTreeIn( (_java._node)_c) );
     }
 
@@ -1146,11 +1146,11 @@ public interface $bot<B, _B, $B>
         return listIn(matchFn,_batches).stream();
     }
 
-    default Stream<_B> streamIn(_codeUnits _cus){
+    default Stream<_B> streamIn(_project _cus){
         return streamIn(_cus, t->true);
     }
 
-    default Stream<_B> streamIn(_codeUnits _cus, Predicate<_B> matchFn){
+    default Stream<_B> streamIn(_project _cus, Predicate<_B> matchFn){
         return listIn(_cus, matchFn).stream();
     }
 
@@ -1275,22 +1275,22 @@ public interface $bot<B, _B, $B>
             return _j;
         }
 
-        default _codeUnits removeIn(_batch..._batches) {
+        default _project removeIn(_batch..._batches) {
             return removeIn(t->true, _batches);
         }
 
-        default _codeUnits removeIn(Predicate<_P> _matchFn, _batch..._batches) {
-            _codeUnits _cus = _codeUnits.of(_batches);
+        default _project removeIn(Predicate<_P> _matchFn, _batch..._batches) {
+            _project _cus = _project.of(_batches);
             removeIn(_cus, _matchFn);
             return _cus;
         }
 
-        default _codeUnits removeIn(_codeUnits _cup){
+        default _project removeIn(_project _cup){
             return removeIn(_cup, t->true);
         }
 
         /** TODO remove from _codeUnits ?? cleanup */
-        default _codeUnits removeIn(_codeUnits _cup, Predicate<_P> _matchFn) {
+        default _project removeIn(_project _cup, Predicate<_P> _matchFn) {
             _cup.forEach(_cu -> removeIn(_cu.astCompilationUnit(), _matchFn) );
 
             //TODO If I encounter a _compilationUnit that is not a package_info or a Module_info
@@ -1329,24 +1329,24 @@ public interface $bot<B, _B, $B>
             return astNode;
         }
 
-        default _codeUnits replaceIn(P replaceNode, _batch..._batches) {
-            _codeUnits _cus = _codeUnits.of(_batches);
+        default _project replaceIn(P replaceNode, _batch..._batches) {
+            _project _cus = _project.of(_batches);
             replaceIn(_cus, replaceNode);
             return _cus;
         }
 
-        default <_N extends _java._node> _codeUnits replaceIn(Template<_N> _t, _batch..._batches) {
-            _codeUnits _cus = _codeUnits.of(_batches);
+        default <_N extends _java._node> _project replaceIn(Template<_N> _t, _batch..._batches) {
+            _project _cus = _project.of(_batches);
             replaceIn(_cus, _t);
             return _cus;
         }
 
-        default _codeUnits replaceIn(_codeUnits _cus, P replaceNode) {
+        default _project replaceIn(_project _cus, P replaceNode) {
             _cus.forEach(_cu-> replaceIn(_cu.astCompilationUnit(), replaceNode) );
             return _cus;
         }
 
-        default <_N extends _java._node> _codeUnits replaceIn(_codeUnits _cus, Template<_N> _t) {
+        default <_N extends _java._node> _project replaceIn(_project _cus, Template<_N> _t) {
             _cus.forEach(_cu -> replaceIn(_cu.astCompilationUnit(), _t) );
             return _cus;
         }
@@ -1448,7 +1448,7 @@ public interface $bot<B, _B, $B>
          * @param _cus
          * @return
          */
-        default Select<_P> selectFirstIn(_codeUnits _cus) {
+        default Select<_P> selectFirstIn(_project _cus) {
             return selectFirstIn(_cus, t->true);
         }
 
@@ -1457,7 +1457,7 @@ public interface $bot<B, _B, $B>
          * @param matchFn
          * @return
          */
-        default Select<_P> selectFirstIn(_codeUnits _cus, Predicate<Select<_P>> matchFn) {
+        default Select<_P> selectFirstIn(_project _cus, Predicate<Select<_P>> matchFn) {
             Optional<_codeUnit> ocu =
                     _cus.stream().filter(_cu -> selectFirstIn(_cu.astCompilationUnit(), matchFn) != null).findFirst();
             if( ocu.isPresent() ){ //I found the matching CompilationUnit, now return the underlying first
@@ -1491,35 +1491,35 @@ public interface $bot<B, _B, $B>
             return null;
         }
 
-        default <_N extends _java._node<?, ?>> _codeUnits replaceSelectedIn(Template<_N> replaceNode, _batch..._batches) {
-            _codeUnits _cus = _codeUnits.of(_batches);
+        default <_N extends _java._node<?, ?>> _project replaceSelectedIn(Template<_N> replaceNode, _batch..._batches) {
+            _project _cus = _project.of(_batches);
             replaceSelectedIn(_cus, replaceNode);
             return _cus;
         }
 
-        default _codeUnits replaceSelectedIn(Function<Select<_P>, Node> replaceDeriver, _batch..._batches) {
-            _codeUnits _cus = _codeUnits.of(_batches);
+        default _project replaceSelectedIn(Function<Select<_P>, Node> replaceDeriver, _batch..._batches) {
+            _project _cus = _project.of(_batches);
             replaceSelectedIn(_cus, replaceDeriver);
             return _cus;
         }
 
-        default _codeUnits replaceSelectedIn(Predicate<Select<_P>> selectMatchFn, Function<Select<_P>, Node> replaceDeriver, _batch..._batches) {
-            _codeUnits _cus = _codeUnits.of(_batches);
+        default _project replaceSelectedIn(Predicate<Select<_P>> selectMatchFn, Function<Select<_P>, Node> replaceDeriver, _batch..._batches) {
+            _project _cus = _project.of(_batches);
             replaceSelectedIn(_cus, selectMatchFn, replaceDeriver);
             return _cus;
         }
 
-        default <_N extends _java._node<?, ?>> _codeUnits replaceSelectedIn(_codeUnits _cus, Template<_N> replaceNode) {
+        default <_N extends _java._node<?, ?>> _project replaceSelectedIn(_project _cus, Template<_N> replaceNode) {
             _cus.forEach(_cu-> replaceSelectedIn(_cu.astCompilationUnit(), replaceNode));
             return _cus;
         }
 
-        default _codeUnits replaceSelectedIn(_codeUnits _cus, Function<Select<_P>, Node> replaceDeriver) {
+        default _project replaceSelectedIn(_project _cus, Function<Select<_P>, Node> replaceDeriver) {
             _cus.forEach(_cu-> replaceSelectedIn(_cu.astCompilationUnit(), replaceDeriver));
             return _cus;
         }
 
-        default _codeUnits replaceSelectedIn(_codeUnits _cus, Predicate<Select<_P>> selectMatchFn, Function<Select<_P>, Node> replaceDeriver) {
+        default _project replaceSelectedIn(_project _cus, Predicate<Select<_P>> selectMatchFn, Function<Select<_P>, Node> replaceDeriver) {
             _cus.forEach(_cu-> replaceSelectedIn(_cu.astCompilationUnit(), selectMatchFn, replaceDeriver));
             return _cus;
         }

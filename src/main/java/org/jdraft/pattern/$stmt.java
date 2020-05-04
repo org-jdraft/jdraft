@@ -1672,11 +1672,11 @@ public class $stmt<S extends Statement, _S extends _statement>
         return (_CT)commentOut( _class.of(clazz), REPLACE_WITH_EMPTY_STMT_COMMENT);
     }
 
-    public _codeUnits commentOut(_codeUnits _codeProvider){
+    public _project commentOut(_project _codeProvider){
         return commentOut(_codeProvider, REPLACE_WITH_EMPTY_STMT_COMMENT);
     }
 
-    public _codeUnits commentOut(_codeUnits _codeProvider, Consumer<_statement> commenter){
+    public _project commentOut(_project _codeProvider, Consumer<_statement> commenter){
         forEachIn(_codeProvider, n-> commenter.accept(n));
         return _codeProvider;
     }

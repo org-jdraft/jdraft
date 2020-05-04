@@ -1,6 +1,6 @@
 package org.jdraft.io;
 
-import org.jdraft._codeUnits;
+import org.jdraft._project;
 import org.jdraft.pattern.$parameter;
 
 import java.nio.file.Path;
@@ -24,7 +24,7 @@ public class BatchModifySourceFiles extends TestCase {
         //_path batch = _path.of(pp, p-> !p.endsWith("TestFileIso88591.java"));
         $parameter $anyParameter = $parameter.of();
         
-        _codeUnits batch = _path.of(pp, p-> !p.endsWith("TestFileIso88591.java")).load();
+        _project batch = _path.of(pp, p-> !p.endsWith("TestFileIso88591.java")).load();
         
         //for all java files 
         batch.forEach(

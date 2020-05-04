@@ -2,7 +2,6 @@ package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.StringLiteralExpr;
 import com.github.javaparser.ast.expr.TextBlockLiteralExpr;
 import org.jdraft.*;
 import org.jdraft._java._domain;
@@ -150,8 +149,8 @@ public class $textBlock implements $bot.$node<TextBlockLiteralExpr, _textBlock, 
      * @param _batches
      * @return
      */
-    public _codeUnits matchReplaceIn(Stencil matchStencil, Stencil replaceStencil, _batch..._batches){
-        _codeUnits _cus = _codeUnits.of(_batches);
+    public _project matchReplaceIn(Stencil matchStencil, Stencil replaceStencil, _batch..._batches){
+        _project _cus = _project.of(_batches);
         matchReplaceIn(matchStencil,replaceStencil, _cus);
         return _cus;
     }
@@ -163,8 +162,8 @@ public class $textBlock implements $bot.$node<TextBlockLiteralExpr, _textBlock, 
      * @param _batches
      * @return
      */
-    public _codeUnits matchReplaceIn( String matchStencil, String replaceStencil, _batch..._batches){
-        _codeUnits _cus = _codeUnits.of(_batches);
+    public _project matchReplaceIn(String matchStencil, String replaceStencil, _batch..._batches){
+        _project _cus = _project.of(_batches);
         matchReplaceIn(matchStencil,replaceStencil, _cus);
         return _cus;
     }
@@ -176,7 +175,7 @@ public class $textBlock implements $bot.$node<TextBlockLiteralExpr, _textBlock, 
      * @param _cuss
      * @return
      */
-    public List<_textBlock> matchReplaceIn(Stencil matchStencil, Stencil replaceStencil, _codeUnits..._cuss){
+    public List<_textBlock> matchReplaceIn(Stencil matchStencil, Stencil replaceStencil, _project..._cuss){
         List<_textBlock> replaced = new ArrayList<>();
         Arrays.stream( _cuss).forEach(_cus -> _cus.forEach(_cu -> replaced.addAll( matchReplaceIn( (_java._node)_cu, matchStencil, replaceStencil) ) ));
         return replaced;
@@ -189,7 +188,7 @@ public class $textBlock implements $bot.$node<TextBlockLiteralExpr, _textBlock, 
      * @param _cuss
      * @return
      */
-    public List<_textBlock> matchReplaceIn( String matchStencil, String replaceStencil, _codeUnits..._cuss){
+    public List<_textBlock> matchReplaceIn( String matchStencil, String replaceStencil, _project..._cuss){
         List<_textBlock> replaced = new ArrayList<>();
         Arrays.stream( _cuss).forEach( _cus -> _cus.forEach( _cu -> replaced.addAll( matchReplaceIn( (_java._node)_cu, matchStencil, replaceStencil) ) ));
         return replaced;

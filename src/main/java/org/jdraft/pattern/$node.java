@@ -407,7 +407,7 @@ public class $node implements $pattern<Node, $node>, $body.$part, $method.$part,
         return _j;
     }
 
-    public <_CP extends _codeUnits> _CP replaceIn(_CP codeProvider, String replacement ){
+    public <_CP extends _project> _CP replaceIn(_CP codeProvider, String replacement ){
         codeProvider.forEach(c-> replaceIn(c, replacement) );
         return codeProvider;
     }

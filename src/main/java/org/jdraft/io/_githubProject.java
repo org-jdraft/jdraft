@@ -3,7 +3,7 @@ package org.jdraft.io;
 import com.github.javaparser.JavaParser;
 import org.jdraft.Ast;
 import org.jdraft._codeUnit;
-import org.jdraft._codeUnits;
+import org.jdraft._project;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Tokens;
 
@@ -119,9 +119,9 @@ public class _githubProject implements _batch {
     }
 
     @Override
-    public _codeUnits load(JavaParser javaParser) {
+    public _project load(JavaParser javaParser) {
         URL downloadUrl = downloadProjectZipURL();
-        _codeUnits _cus = new _codeUnits();
+        _project _cus = new _project();
         _downloadArchiveConsumer.of( downloadUrl, (ZipEntry ze, InputStream is)-> {
             if (ze.getName().endsWith(".java")) {
                 try {

@@ -9,39 +9,39 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * multiple {@link _codeUnit}s that can optionally be ordered or queried
+ * multiple {@link _codeUnit}s that can optionally be sorted or queried
  */
-public class _codeUnits {
+public class _project {
 
-    public static _codeUnits of(){
-        return new _codeUnits();
+    public static _project of(){
+        return new _project();
     }
 
-    public static _codeUnits of( _batch..._batches){
-        _codeUnits _c = new _codeUnits();
+    public static _project of(_batch..._batches){
+        _project _c = new _project();
         _c.add(_batches);
         return _c;
     }
 
-    public static _codeUnits of(Class...classes){
-        _codeUnits _c = new _codeUnits();
+    public static _project of(Class...classes){
+        _project _c = new _project();
         _c.add(classes);
         return _c;
     }
 
-    public static _codeUnits of(_codeUnits..._cuss){
-        _codeUnits _c = new _codeUnits();
+    public static _project of(_project..._cuss){
+        _project _c = new _project();
         _c.add(_cuss);
         return _c;
     }
 
-    public static _codeUnits of(_codeUnit..._cus){
-        _codeUnits _c = new _codeUnits();
+    public static _project of(_codeUnit..._cus){
+        _project _c = new _project();
         _c.add(_cus);
         return _c;
     }
 
-    public _codeUnits(){
+    public _project(){
         this.cache = new ArrayList<>();
     }
 
@@ -141,7 +141,7 @@ public class _codeUnits {
      * @param cuComparator
      * @return
      */
-    public _codeUnits sort(Comparator<_codeUnit> cuComparator ){
+    public _project sort(Comparator<_codeUnit> cuComparator ){
         Collections.sort( cache, cuComparator );
         return this;
     }
@@ -245,32 +245,32 @@ public class _codeUnits {
      * @param clazzes
      * @return
      */
-    public _codeUnits add(Class...clazzes ){
+    public _project add(Class...clazzes ){
         Arrays.stream(clazzes).forEach(c-> cache.add( _type.of(c) ) );
         return this;
     }
 
-    public _codeUnits add(_codeUnit ..._cus ){
+    public _project add(_codeUnit ..._cus ){
         Arrays.stream(_cus).forEach( cc-> { cache.add( cc ); } );
         return this;
     }
 
-    public _codeUnits add(CompilationUnit... asts){
+    public _project add(CompilationUnit... asts){
         Arrays.stream(asts).forEach( cc-> { cache.add( _codeUnit.of(cc )); } );
         return this;
     }
 
-    public _codeUnits add(_batch..._batches){
+    public _project add(_batch..._batches){
         Arrays.stream( _batches).forEach(b-> add(b.load()) );
         return this;
     }
 
-    public _codeUnits add(_codeUnits...cuss){
+    public _project add(_project...cuss){
         Arrays.stream( cuss).forEach( cus -> add(cus.list()) );
         return this;
     }
 
-    public _codeUnits add( List<_codeUnit> cus){
+    public _project add(List<_codeUnit> cus){
         this.cache.addAll(cus);
         return this;
     }
@@ -280,7 +280,7 @@ public class _codeUnits {
      * @param fullyQualifiedClassNames
      * @return
      */
-    public _codeUnits remove(String...fullyQualifiedClassNames){
+    public _project remove(String...fullyQualifiedClassNames){
         Arrays.stream(fullyQualifiedClassNames).forEach( cn ->
                 this.cache.removeIf(t-> t.getFullName().equals(cn)) );
         return this;
@@ -291,7 +291,7 @@ public class _codeUnits {
      * @param _matchFn
      * @return
      */
-    public _codeUnits remove(Predicate<_codeUnit> _matchFn){
+    public _project remove(Predicate<_codeUnit> _matchFn){
         this.cache.removeIf(_matchFn);
         return this;
     }
@@ -300,10 +300,10 @@ public class _codeUnits {
      * Build & return a copy of the sources
      * @return
      */
-    public _codeUnits copy(){
+    public _project copy(){
         List<_codeUnit>copyList = new ArrayList<>();
         this.cache.forEach(c -> copyList.add( c.copy() ) );
-        _codeUnits srcs = new _codeUnits();
+        _project srcs = new _project();
         srcs.cache = copyList;
         return srcs;
     }

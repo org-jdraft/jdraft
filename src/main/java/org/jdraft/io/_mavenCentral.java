@@ -3,7 +3,7 @@ package org.jdraft.io;
 import com.github.javaparser.JavaParser;
 import org.jdraft.Ast;
 import org.jdraft._codeUnit;
-import org.jdraft._codeUnits;
+import org.jdraft._project;
 import org.jdraft.text.Stencil;
 
 import java.io.InputStream;
@@ -76,9 +76,9 @@ public class _mavenCentral implements _batch{
     }
 
     @Override
-    public _codeUnits load(JavaParser javaParser) {
+    public _project load(JavaParser javaParser) {
         URL downloadUrl = downloadSourceJarURL();
-        _codeUnits _us = new _codeUnits();
+        _project _us = new _project();
         _downloadArchiveConsumer.of( downloadUrl, (ZipEntry ze, InputStream is)-> {
             if (ze.getName().endsWith(".java")) {
                 try {

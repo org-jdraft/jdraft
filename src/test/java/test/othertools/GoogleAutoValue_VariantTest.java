@@ -3,6 +3,7 @@ package test.othertools;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import junit.framework.TestCase;
 import org.jdraft._class;
+import org.jdraft._field;
 import org.jdraft._type;
 import org.jdraft.macro._final;
 import org.jdraft.pattern.$;
@@ -56,12 +57,12 @@ public class GoogleAutoValue_VariantTest extends TestCase {
             public static final $field $setterFields = $field.of($.NOT_STATIC, $.NOT_FINAL);
 
             public Act( ){
-                System.out.println( "In ctor");
+                //System.out.println( "In ctor");
             }
 
             public Act(_dto_NoSetPrefix d){
                 //
-                System.out.println( "In ctor");
+                //System.out.println( "In ctor");
             }
 
             @Override
@@ -73,6 +74,8 @@ public class GoogleAutoValue_VariantTest extends TestCase {
 
             public static void act( _type _t ){
                 //if( _t instanceof ){
+                //_t.forFields( (_field f)-> f.isStatic(), (_field f)-> System.out.println(f));
+                //_t.forFields( (f)-> !f.isStatic() && !f.isFinal(), f-> _t.add( $setNoPrefix.fill(f.getName(), f.getTypeRef())));
                 $.field($.NOT_STATIC, $.NOT_FINAL).forEachIn(_t, f-> _t.add( $setNoPrefix.fill(f.getName(), f.getTypeRef())));
 
                 //_t.listFields( (f) -> !((_field)f).isFinal() && !((_field)f).isStatic());

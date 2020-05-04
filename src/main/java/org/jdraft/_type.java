@@ -873,6 +873,10 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         return (_T)this;
     }
 
+    default _T forFields(Predicate<_field>_fieldMatchFn, Consumer<_field> _fieldActionFn){
+        listFields(_fieldMatchFn).forEach(_fieldActionFn);
+        return (_T)this;
+    }
 
     default _T forMembers(Predicate<_java._member> mb, Consumer<_java._member> _memberAction){
         listMembers(mb).forEach(_memberAction);

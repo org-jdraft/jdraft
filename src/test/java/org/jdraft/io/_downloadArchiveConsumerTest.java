@@ -2,11 +2,10 @@ package org.jdraft.io;
 
 import junit.framework.TestCase;
 import org.jdraft._codeUnit;
-import org.jdraft._codeUnits;
+import org.jdraft._project;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.zip.ZipEntry;
 
 public class _downloadArchiveConsumerTest extends TestCase {
@@ -17,7 +16,7 @@ public class _downloadArchiveConsumerTest extends TestCase {
     public static void main(String[] args) throws IOException {
         //URL url = new URL("https://github.com/edefazio/bincat/archive/master.zip");
 
-        _codeUnits _sc = _codeUnits.of();
+        _project _sc = _project.of();
         //reads from a maven-central jar file
         _downloadArchiveConsumer.of("https://search.maven.org/remotecontent?filepath=com/github/javaparser/javaparser-core/3.15.18/javaparser-core-3.15.18-sources.jar",
                 (ZipEntry ze, InputStream is)-> {
@@ -27,7 +26,7 @@ public class _downloadArchiveConsumerTest extends TestCase {
             });
          System.out.println( _sc.size() );
 
-        _codeUnits _src = _githubProject.of("https://github.com/edefazio/bincat").load();
+        _project _src = _githubProject.of("https://github.com/edefazio/bincat").load();
         //_sources _src = _sources.of();
         //_downloadArchive _da = _downloadArchive.of(url, (ZipEntry ze,InputStream is)-> {
         //    if( ze.getName().endsWith(".java")){

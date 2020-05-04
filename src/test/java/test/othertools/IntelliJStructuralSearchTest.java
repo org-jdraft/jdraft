@@ -18,7 +18,7 @@ import java.io.Serializable;
  */
 public class IntelliJStructuralSearchTest{
 
-    static _codeUnits _SOURCE = _path.of("C:\\jdraft\\project\\jdraft\\src\\main\\java\\org\\jdraft\\diff").load();
+    static _project _SOURCE = _path.of("C:\\jdraft\\project\\jdraft\\src\\main\\java\\org\\jdraft\\diff").load();
 
     public void testJavadocPatterns(){
         //Comments

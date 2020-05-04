@@ -639,7 +639,7 @@ public interface _java {
      * @param <N> the AST node type (i.e. {@link MethodDeclaration})
      * @param <_D> the meta-representation declaration type (i.e. {@link _method})
      */
-    interface _declared<N extends Node, _D extends _multiPart & _withName & _withAnnoRefs & _withJavadoc>
+    interface _declared<N extends Node, _D extends _multiPart & _withName & _withAnnoRefs & _withJavadoc & _withComments>
             extends _member<N, _D>, _withName<_D>, _withAnnoRefs<_D>, _withJavadoc<_D>, _withComments<N, _D>  {
 
         @Override
@@ -697,7 +697,7 @@ public interface _java {
      * @see _declared (an EXTENSION of {@link _member}s that are also {@link _withName}...(all {@link _member}s are
      * {@link _declared}s, ACCEPT {@link _initBlock} which is ONLY a {@link _member}
      */
-    interface _member<N extends Node, _N extends _multiPart>
+    interface _member<N extends Node, _N extends _multiPart & _withComments>
             extends _multiPart<N, _N>, _withComments<N, _N> {
 
         /**
@@ -741,7 +741,7 @@ public interface _java {
      * @param <N> the Ast node type
      * @param <_N> the _node type
      */
-    interface _withComments <N extends Node, _N extends _node> extends _node<N, _N> {
+    interface _withComments <N extends Node, _N extends _node & _withComments> extends _node<N, _N> {
 
         default boolean hasComment(){
              return getComment() != null;
@@ -760,6 +760,17 @@ public interface _java {
          */
         default _N removeComment(){
             ast().removeComment();
+            return (_N)this;
+        }
+
+        /**
+         * sets the attributed comment to this _node and returns the modified node
+         * @param comment the text of the comment
+         * @return
+         */
+        default _N setComment(String...comment){
+            N n = ast();
+            n.setComment(_comment.of(comment));
             return (_N)this;
         }
 

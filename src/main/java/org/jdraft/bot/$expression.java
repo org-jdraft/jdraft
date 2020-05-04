@@ -184,8 +184,8 @@ public interface $expression<E extends Expression, _E extends _expression, $E ex
             return this.target$Bot.forSelectedIn(clazz, refactorAction);
         }
 
-        public _codeUnits in(Class... clazz){
-            _codeUnits _cus = _codeUnits.of(clazz);
+        public _project in(Class... clazz){
+            _project _cus = _project.of(clazz);
             this.target$Bot.forSelectedIn(_cus, refactorAction);
             return _cus;
         }
@@ -198,14 +198,14 @@ public interface $expression<E extends Expression, _E extends _expression, $E ex
             return (_N) this.target$Bot.forSelectedIn(_n, refactorAction);
         }
 
-        public _codeUnits in(_batch... _batches){
-            _codeUnits _cus = _codeUnits.of(_batches);
+        public _project in(_batch... _batches){
+            _project _cus = _project.of(_batches);
             this.target$Bot.forSelectedIn(_cus, refactorAction);
             return _cus;
         }
 
-        public _codeUnits in(_codeUnits... _cus){
-            _codeUnits _cuss = _codeUnits.of(_cus);
+        public _project in(_project... _cus){
+            _project _cuss = _project.of(_cus);
             this.target$Bot.forSelectedIn(_cuss, refactorAction);
             return _cuss;
         }

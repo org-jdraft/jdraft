@@ -136,8 +136,8 @@ public class $comment implements $bot.$node<Comment, _comment, $comment> {
      * @param _batches
      * @return
      */
-    public _codeUnits matchReplaceIn( Stencil matchStencil, Stencil replaceStencil, _batch..._batches){
-        _codeUnits _cus = _codeUnits.of(_batches);
+    public _project matchReplaceIn(Stencil matchStencil, Stencil replaceStencil, _batch..._batches){
+        _project _cus = _project.of(_batches);
         matchReplaceIn(matchStencil,replaceStencil, _cus);
         return _cus;
     }
@@ -149,8 +149,8 @@ public class $comment implements $bot.$node<Comment, _comment, $comment> {
      * @param _batches
      * @return
      */
-    public _codeUnits matchReplaceIn( String matchStencil, String replaceStencil, _batch..._batches){
-        _codeUnits _cus = _codeUnits.of(_batches);
+    public _project matchReplaceIn(String matchStencil, String replaceStencil, _batch..._batches){
+        _project _cus = _project.of(_batches);
         matchReplaceIn(matchStencil,replaceStencil, _cus);
         return _cus;
     }
@@ -162,7 +162,7 @@ public class $comment implements $bot.$node<Comment, _comment, $comment> {
      * @param _cuss
      * @return
      */
-    public List<_comment> matchReplaceIn( Stencil matchStencil, Stencil replaceStencil, _codeUnits..._cuss){
+    public List<_comment> matchReplaceIn( Stencil matchStencil, Stencil replaceStencil, _project..._cuss){
         List<_comment> replaced = new ArrayList<>();
         Arrays.stream( _cuss).forEach( _cus -> _cus.forEach( _cu -> replaced.addAll( matchReplaceIn( (_java._node)_cu, matchStencil, replaceStencil) ) ));
         return replaced;
@@ -175,7 +175,7 @@ public class $comment implements $bot.$node<Comment, _comment, $comment> {
      * @param _cuss
      * @return
      */
-    public List<_comment> matchReplaceIn( String matchStencil, String replaceStencil, _codeUnits..._cuss){
+    public List<_comment> matchReplaceIn( String matchStencil, String replaceStencil, _project..._cuss){
         List<_comment> replaced = new ArrayList<>();
         Arrays.stream( _cuss).forEach( _cus -> _cus.forEach( _cu -> replaced.addAll( matchReplaceIn( (_java._node)_cu, matchStencil, replaceStencil) ) ));
         return replaced;

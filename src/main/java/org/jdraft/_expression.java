@@ -34,38 +34,40 @@ public interface _expression<E extends Expression, _E extends _expression>
     // reference
     //   anno, arrayAccess, classExpression, fieldAccess, methodReference, nameExpression, super, typeExpression, cast
     //
-    Class<_annoRef> ANNO = _annoRef.class;
-    Class<_arrayAccess> ARRAY_ACCESS = _arrayAccess.class;
-    Class<_assign> ASSIGN = _assign.class;
-    Class<_arrayInitialize> ARRAY_INITIALIZE = _arrayInitialize.class;
-    Class<_binaryExpression> BINARY_EXPRESSION = _binaryExpression.class;
-    Class<_boolean> BOOLEAN = _boolean.class;
-    Class<_cast> CAST = _cast.class;
-    Class<_char> CHAR = _char.class;
-    Class<_classExpression> CLASS_EXPRESSION = _classExpression.class;
-    Class<_conditionalExpression> CONDITIONAL_EXPRESSION = _conditionalExpression.class;
-    Class<_enclosedExpression> ENCLOSED_EXPRESSION = _enclosedExpression.class;
-    Class<_fieldAccess> FIELD_ACCESS = _fieldAccess.class;
-    Class<_int> INT = _int.class;
-    Class<_long> LONG = _long.class;
-    Class<_lambda> LAMBDA = _lambda.class;
-    Class<_methodCall> METHOD_CALL = _methodCall.class;
-    Class<_methodRef> METHOD_REFERENCE = _methodRef.class;
-    Class<_nameExpression> NAME_EXPRESSION = _nameExpression.class;
-    Class<_new> NEW = _new.class;
-    Class<_null> NULL = _null.class;
-    Class<_super> SUPER = _super.class;
-    Class<_string> STRING = _string.class;
-    Class<_switchExpression> SWITCH_EXPRESSION = _switchExpression.class;
-    Class<_typeExpression> TYPE_EXPRESSION = _typeExpression.class;
-    Class<_unary> UNARY = _unary.class;
-    Class<_localVariables> VARIABLE = _localVariables.class;
+    public static class Types {
+        Class<_annoRef> ANNO = _annoRef.class;
+        Class<_arrayAccess> ARRAY_ACCESS = _arrayAccess.class;
+        Class<_assign> ASSIGN = _assign.class;
+        Class<_arrayInitialize> ARRAY_INITIALIZE = _arrayInitialize.class;
+        Class<_binaryExpression> BINARY_EXPRESSION = _binaryExpression.class;
+        Class<_boolean> BOOLEAN = _boolean.class;
+        Class<_cast> CAST = _cast.class;
+        Class<_char> CHAR = _char.class;
+        Class<_classExpression> CLASS_EXPRESSION = _classExpression.class;
+        Class<_conditionalExpression> CONDITIONAL_EXPRESSION = _conditionalExpression.class;
+        Class<_enclosedExpression> ENCLOSED_EXPRESSION = _enclosedExpression.class;
+        Class<_fieldAccess> FIELD_ACCESS = _fieldAccess.class;
+        Class<_int> INT = _int.class;
+        Class<_long> LONG = _long.class;
+        Class<_lambda> LAMBDA = _lambda.class;
+        Class<_methodCall> METHOD_CALL = _methodCall.class;
+        Class<_methodRef> METHOD_REFERENCE = _methodRef.class;
+        Class<_nameExpression> NAME_EXPRESSION = _nameExpression.class;
+        Class<_new> NEW = _new.class;
+        Class<_null> NULL = _null.class;
+        Class<_super> SUPER = _super.class;
+        Class<_string> STRING = _string.class;
+        Class<_switchExpression> SWITCH_EXPRESSION = _switchExpression.class;
+        Class<_typeExpression> TYPE_EXPRESSION = _typeExpression.class;
+        Class<_unary> UNARY = _unary.class;
+        Class<_localVariables> VARIABLE = _localVariables.class;
 
-    Class<? super _expression>[] ALL = new Class[]{ ANNO, ARRAY_ACCESS, ASSIGN, ARRAY_INITIALIZE,
-        BINARY_EXPRESSION, BOOLEAN, CAST, CHAR, CLASS_EXPRESSION, CONDITIONAL_EXPRESSION, ENCLOSED_EXPRESSION,
-        FIELD_ACCESS, INT, LONG, LAMBDA, METHOD_CALL, METHOD_REFERENCE, NAME_EXPRESSION, NEW, NULL, SUPER, STRING,
-        SWITCH_EXPRESSION, TYPE_EXPRESSION, UNARY, VARIABLE};
+        Class<? super _expression>[] ALL = new Class[]{ANNO, ARRAY_ACCESS, ASSIGN, ARRAY_INITIALIZE,
+                BINARY_EXPRESSION, BOOLEAN, CAST, CHAR, CLASS_EXPRESSION, CONDITIONAL_EXPRESSION, ENCLOSED_EXPRESSION,
+                FIELD_ACCESS, INT, LONG, LAMBDA, METHOD_CALL, METHOD_REFERENCE, NAME_EXPRESSION, NEW, NULL, SUPER, STRING,
+                SWITCH_EXPRESSION, TYPE_EXPRESSION, UNARY, VARIABLE};
 
+    }
     static _expression of(String...code){
         return of( Expressions.of(code));
     }

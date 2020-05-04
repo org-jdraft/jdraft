@@ -838,7 +838,21 @@ public final class _body implements _java._domain {
             }
             return add(index, bdy );            
         }
-        
+
+        /**
+         * Add one or more statements to the body starting at the startStatementIndex
+         * @param startStatementIndex
+         * @param statements
+         * @return
+         */
+        default _HB add(int startStatementIndex, _statement...statements){
+            Statement[] sts = new Statement[statements.length];
+            for(int i=0;i<statements.length;i++){
+                sts[i] = statements[i].ast();
+            }
+            return add(startStatementIndex, sts);
+        }
+
         /**
          * Add Statements to the BODY starting at startStatementIndex (0-based)
          *

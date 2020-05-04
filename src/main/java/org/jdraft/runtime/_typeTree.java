@@ -36,7 +36,7 @@ public final class _typeTree {
      * @param _cus where the code comes from
      * @return the _typeTree
      */
-    public static _typeTree of(_codeUnits..._cus){
+    public static _typeTree of(_project..._cus){
         List<_type>codeList = new ArrayList<>();
         Arrays.stream(_cus).forEach(_cp -> codeList.addAll(_cp.list(_type.class)));
         return of( codeList );

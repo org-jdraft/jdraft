@@ -1,6 +1,5 @@
 package test.othertools;
 
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 
 import static junit.framework.TestCase.*;
@@ -10,8 +9,6 @@ import org.jdraft.io._io;
 import org.jdraft.macro._static;
 import org.jdraft.pattern.$;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -29,12 +26,18 @@ public class EclipseJDTTest{ //extends TestCase
     //public static _sources _cc = _sources.of("C:\\Users\\Eric\\Downloads\\spring-core-5.1.9.RELEASE-sources.jar");
             //_archive.of("C:\\Users\\Eric\\Downloads\\spring-core-5.1.9.RELEASE-sources.jar"));
 
-    public static _archive _cc = //_sources.of("C:\\Users\\Eric\\Downloads\\spring-core-5.1.9.RELEASE-sources.jar");
-        _archive.of("C:\\Users\\Eric\\Downloads\\spring-core-5.1.9.RELEASE-sources.jar");
 
+    //public static _archive _cc = //_sources.of("C:\\Users\\Eric\\Downloads\\spring-core-5.1.9.RELEASE-sources.jar");
+    //    _archive.of("C:\\Users\\Eric\\Downloads\\spring-core-5.1.9.RELEASE-sources.jar");
+
+    public static _project _cc =
+            _project.of( _archive.of("C:\\Users\\Eric\\Downloads\\spring-core-5.1.9.RELEASE-sources.jar"));
+
+    /*
     public void testFile() throws FileNotFoundException {
         StaticJavaParser.parse( new FileInputStream("C:\\temp\\AnnotationUtils.java") );
     }
+     */
 
     public void testAnn(){
         /**
@@ -55,6 +58,7 @@ public class EclipseJDTTest{ //extends TestCase
          System.out.println( _c );
     }
     public void testR(){
+        _archive _cc = _archive.of("C:\\Users\\Eric\\Downloads\\spring-core-5.1.9.RELEASE-sources.jar");
         _cc.forEachFileAsBytes( (p, bs)-> {
             try{
                 String s = new String(bs);
@@ -63,12 +67,12 @@ public class EclipseJDTTest{ //extends TestCase
                 if( !p.toString().endsWith(".html") ) {
                     if( !p.toString().endsWith("package-info.java") && !p.toString().endsWith(".kt")) {
                         //
-                        System.out.println( ">START "+ p.toString());
+                        //System.out.println( ">START "+ p.toString());
                         try {
                             _type _t = _type.of(s);
-                            System.out.println( "<DONE "+ p.toString());
+                            //System.out.println( "<DONE "+ p.toString());
                         }catch(Exception ee){
-                            System.out.println( "EXCEPTION IN "+pp);
+                            //System.out.println( "EXCEPTION IN "+pp);
                         }
                     }
                 }
@@ -81,6 +85,7 @@ public class EclipseJDTTest{ //extends TestCase
 
     public void testReadJavadocWithString(){
 
+        _archive _cc = _archive.of("C:\\Users\\Eric\\Downloads\\spring-core-5.1.9.RELEASE-sources.jar");
         _cc.forEachFileAsBytes( (p, bs)-> {
             try{
                 String s = new String(bs);
@@ -116,14 +121,14 @@ public class EclipseJDTTest{ //extends TestCase
     public void testReadAllPackagesAndMethods(){
 
         //print the distinct package names occurring in the code
-        $.packageDecl().streamIn(_cc.load()).map(p->p.getName()).distinct().forEach(e-> System.out.println( e ));
+        $.packageDecl().streamIn(_cc).map(p->p.getName()).distinct().forEach(e-> System.out.println( e ));
 
         //get the names of all the types along with the line count
-        _cc.load().forEach(c-> System.out.println( c.getFullName() + ":" + c.astCompilationUnit().getRange().get().getLineCount() ));
+        _cc.forEach(c-> System.out.println( c.getFullName() + ":" + c.astCompilationUnit().getRange().get().getLineCount() ));
 
 
         //print the name, signature and return type for all methods
-        $.method().forEachIn(_cc.load(), m->System.out.println(
+        $.method().forEachIn(_cc, m->System.out.println(
                 "Name:      " + m.getName()+System.lineSeparator()+
                 "Signature: " + m.ast().getSignature().toString()+System.lineSeparator()+
                 "ReturnType: "+ m.getTypeRef()+System.lineSeparator() ));
@@ -189,7 +194,7 @@ public class EclipseJDTTest{ //extends TestCase
      * https://www.vogella.com/tutorials/EclipseJDT/article.html#finding-all-elements-of-type-methoddeclaration
      */
     public void testFindAllMethods(){
-        List<_method> _ms = $.method().listIn(_cc.load());
+        List<_method> _ms = $.method().listIn(_cc);
     }
 
     /**
@@ -200,7 +205,7 @@ public class EclipseJDTTest{ //extends TestCase
      * illustration
      */
     public void testFindFirst20DistinctMethodNames() {
-        List<String> names = $.method().streamIn(_cc.load()).map(_method::getName).distinct().limit(20).collect(Collectors.toList());
+        List<String> names = $.method().streamIn(_cc).map(_method::getName).distinct().limit(20).collect(Collectors.toList());
     }
 
     /**

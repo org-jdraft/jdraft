@@ -1,7 +1,7 @@
 package test;
 
 import org.jdraft._class;
-import org.jdraft._codeUnits;
+import org.jdraft._project;
 import org.jdraft.io._path;
 import org.jdraft.io._io;
 import org.jdraft.macro._packageName;
@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class MrCode {
 
-    public static void refactorPackageReferences(_codeUnits _cc){
+    public static void refactorPackageReferences(_project _cc){
         $token.of("org.jdraft.text").replaceIn(_cc, "org.mrcode");
 
         $token.of("org.jdraft.diff").replaceIn(_cc, "org.mrcode.java.diff");
@@ -29,7 +29,7 @@ public class MrCode {
         $token.of("org.jdraft").replaceIn(_cc, "org.mrcode.java");
     }
 
-    public static void refactorCommentReferences(_codeUnits _cc){
+    public static void refactorCommentReferences(_project _cc){
         //update javadoc references
         Map<String,String> targetToReplacement = new HashMap<>();
         targetToReplacement.put("org.jdraft.text", "org.mrcode");
@@ -57,7 +57,7 @@ public class MrCode {
      *
      * @param _cc
      */
-    public static void refactorExceptionHierarchy(_codeUnits _cc){
+    public static void refactorExceptionHierarchy(_project _cc){
         //here we build the base-exception for
 
         /**
@@ -100,7 +100,7 @@ public class MrCode {
         $.token("org.mrcode.java._jdraftException").replaceIn(_cc, "org.mrcode.java._javaException");
     }
 
-    public static void refactor_draft_to_mrjava(_codeUnits _sf){
+    public static void refactor_draft_to_mrjava(_project _sf){
         $.token("_draft").replaceIn(_sf,"_mrjava");
         $.comment().findAndReplace(_sf, "_draft", "_mrjava"); //update all comments
     }
@@ -117,7 +117,7 @@ public class MrCode {
         }
         long start = System.currentTimeMillis();
         //_sources _baseCode = _sources.of(inSourcePath);
-        _codeUnits _baseCode = _path.of(inSourcePath).load();
+        _project _baseCode = _path.of(inSourcePath).load();
         long parsed = System.currentTimeMillis();
         refactorPackageReferences(_baseCode);
         refactorExceptionHierarchy(_baseCode);

@@ -7,7 +7,7 @@ import java.io.File;
 import java.nio.file.Path;
 
 /**
- * retrieves and converts a "batch" of .java source files to _jdraft _codeUnits & returns a {@link _codeUnits}
+ * retrieves and converts a "batch" of .java source files to _jdraft _codeUnits & returns a {@link _project}
  * @see _path for resolving .java source code from a directory {@link Path}
  * (i.e. _path.of("C:\\temp") retrieves all files in subdirectories under "C:\\temp")
  * @see _archive for resolving .java source code from a (non-remote) .zip or .jar {@link File}
@@ -39,13 +39,13 @@ public interface _batch {
      * @param javaParser
      * @return the sources object containing the
      */
-    _codeUnits load(JavaParser javaParser);
+    _project load(JavaParser javaParser);
 
     /**
      *
      * @return
      */
-    default _codeUnits load(){
+    default _project load(){
         return load(getJavaParser());
     }
 }
