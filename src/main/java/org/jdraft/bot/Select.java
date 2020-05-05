@@ -46,9 +46,9 @@ public class Select<S> {
     /**
      * Verify that the value associated with this key is equal to
      * (Just saves a getTokens() step for the caller)
-     * @param key
-     * @param expectedValue
-     * @return
+     * @param key the key for the token
+     * @param expectedValue the expected value for the token
+     * @return true if the expected value for the token matches expectedValue, false otherwise
      */
     public boolean is(String key, String expectedValue){
         return tokens.is( key, expectedValue);
@@ -56,8 +56,8 @@ public class Select<S> {
 
     /**
      * Verify all of the keyValues internally are equal to the expectedKeyValues
-     * @param expectedKeyValues
-     * @return
+     * @param expectedKeyValues a list of alternating key/value pairs for expected values
+     * @return true if the keyValue pairs passed in match within the selection
      */
     public boolean is(Object...expectedKeyValues){
         return tokens.is(expectedKeyValues);

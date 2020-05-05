@@ -47,8 +47,67 @@ public class $binaryExpression implements $bot.$node<BinaryExpr, _binaryExpressi
         return of().$operators(operator);
     }
 
+    public static $binaryExpression and(){
+        return of( _binaryExpression.AND );
+    }
 
+    public static $binaryExpression binaryAnd(){
+        return of( _binaryExpression.BINARY_AND );
+    }
 
+    public static $binaryExpression binaryOr(){
+        return of( _binaryExpression.BINARY_OR );
+    }
+
+    public static $binaryExpression divide(){
+        return of( _binaryExpression.DIVIDE );
+    }
+
+    public static $binaryExpression equals(){
+        return of( _binaryExpression.EQUALS);
+    }
+    public static $binaryExpression greater(){
+        return of( _binaryExpression.GREATER );
+    }
+    public static $binaryExpression greaterEquals(){
+        return of( _binaryExpression.GREATER_EQUALS );
+    }
+    public static $binaryExpression leftShift(){
+        return of( _binaryExpression.LEFT_SHIFT );
+    }
+    public static $binaryExpression less(){
+        return of( _binaryExpression.LESS );
+    }
+    public static $binaryExpression lessEquals(){
+        return of( _binaryExpression.LESS_EQUALS );
+    }
+    public static $binaryExpression minus(){
+        return of( _binaryExpression.MINUS );
+    }
+    public static $binaryExpression multiply(){
+        return of( _binaryExpression.MULTIPLY );
+    }
+    public static $binaryExpression notEquals(){
+        return of( _binaryExpression.NOT_EQUALS );
+    }
+    public static $binaryExpression or(){
+        return of( _binaryExpression.OR );
+    }
+    public static $binaryExpression plus(){
+        return of( _binaryExpression.PLUS);
+    }
+    public static $binaryExpression rem(){
+        return of( _binaryExpression.REMAINDER);
+    }
+    public static $binaryExpression signedRightShift(){
+        return of( _binaryExpression.SIGNED_RIGHT_SHIFT);
+    }
+    public static $binaryExpression unsignedRightShift(){
+        return of( _binaryExpression.UNSIGNED_RIGHT_SHIFT);
+    }
+    public static $binaryExpression xor(){
+        return of( _binaryExpression.XOR);
+    }
 
     /**
      * Matches all binaryExpressions using ANY ONE of the provided operators
@@ -109,8 +168,58 @@ public class $binaryExpression implements $bot.$node<BinaryExpr, _binaryExpressi
         return this;
     }
 
+    public $binaryExpression $and(BinaryExpr.Operator...operators) {
+        Arrays.stream(operators).forEach( op -> this.excludedOperators.remove(op));
+        return this;
+    }
+
+    public $binaryExpression $not(BinaryExpr.Operator...operators) {
+        Arrays.stream(operators).forEach( op -> this.excludedOperators.add(op));
+        return this;
+    }
+
     public $binaryExpression $not(Predicate<_binaryExpression> _matchFn) {
         this.predicate = this.predicate.and(_matchFn.negate());
+        return this;
+    }
+
+    public $binaryExpression $left( String... expression ){
+        this.left.setSelector( $expression.of(expression) );
+        return this;
+    }
+
+    public $binaryExpression $left( _expression _e){
+        this.left.setSelector( $expression.of(_e) );
+        return this;
+    }
+
+    public $binaryExpression $left( $expression $e){
+        this.left.setSelector( $e );
+        return this;
+    }
+
+    public $binaryExpression $left( Class<? extends _expression>... implementationClasses ){
+        this.left.setSelector( $expression.of(implementationClasses) );
+        return this;
+    }
+
+    public $binaryExpression $right( Class<? extends _expression>... implementationClasses ){
+        this.right.setSelector( $expression.of(implementationClasses) );
+        return this;
+    }
+
+    public $binaryExpression $right( String... expression ){
+        this.right.setSelector( $expression.of(expression) );
+        return this;
+    }
+
+    public $binaryExpression $right( _expression _e){
+        this.right.setSelector( $expression.of(_e) );
+        return this;
+    }
+
+    public $binaryExpression $right( $expression $e){
+        this.right.setSelector( $e );
         return this;
     }
 
@@ -286,7 +395,7 @@ public class $binaryExpression implements $bot.$node<BinaryExpr, _binaryExpressi
         }
 
         public Or copy(){
-            Or $copy = $binaryExpression.or();
+            Or $copy = $binaryExpression.or(new $binaryExpression[0]);
             $copy.$and(this.predicate);
             this.$binaryExpressions.forEach( ($b) -> $copy.$binaryExpressions.add($b.copy()));
             $copy.excludedOperators.addAll( this.excludedOperators );

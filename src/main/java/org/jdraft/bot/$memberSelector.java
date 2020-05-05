@@ -1,6 +1,5 @@
 package org.jdraft.bot;
 
-import org.jdraft._jdraftException;
 import org.jdraft.text.Template;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
@@ -55,13 +54,14 @@ public class $memberSelector<_T, _R> implements Function<_T, Tokens> {
             resolved = memberResolver.apply(t);
         }
         catch(Exception e) {
-            System.err.println("Error resolving ");
+            //System.err.println("Error resolving ");
             return null;
         }
         try{
             return memberSelector.apply(resolved);
         } catch(Exception e){
-            System.err.println("Error selecting; returning null Selection");
+            //e.printStackTrace();
+            //System.err.println("Error selecting; returning null Selection");
             return null;
         }
     }
