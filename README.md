@@ -3,34 +3,42 @@
 [![Apache License 2](https://img.shields.io/badge/license-APL2-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
 ### *What* is it?
-jdraft represents Java source code as `_draft` objects & has tools for 
-analyzing, modifying, querying, diffing, running and testing `_draft` objects.
+jdraft represents Java code as model objects & has tools for 
+*analyzing*, *modifying*, *querying*, *diffing*, *running* and *testing* these models.
 
-### *Who* is it for?
-Java developers who manage lots of Java source code
-(to analyze code, debug code, maintain code & evolve code over time.)
+```java
+//the smallest literal to an entire application-worth of sources has an object/model
+_null.of();              // a null literal
+_int.of(1);              // a literal int 1
+_expression.of("1 + 2"); // binary expression "1 + 2"
+_statement.of("System.out.println(\"x=\"+x);");
+_method.of("public void getX(){ return this.x; }");
+_class.of("public class Point{ int x, y; }");
 
-### *What* is it (technically)?
-The core of jdraft is an API of stateless facade instances (`_class`, `_method`, `_field`,...) that delegate 
-operations to stateful JavaParser Ast instances (`ClassOrInterfaceDeclaration`, `MethodDeclaration`, `FieldDeclaration`, ...) 
+//model all of the java sources within a jar file
+_archive.of("C:\\Users\\Eric\\Downloads\\guava-28.1-jre-sources.jar");
 
-These `_draft` facades provides a "uniform interface" for tools to walk, analyze and manipulate 
-the Ast naturally from a Java program. 
-(Developers can use jdrafts' built-in tools, or write custom tools to do things with Java source code)
-   
+//model all of the java sources from a github project (head) & maven central sources
+_project.of(
+    _githubProject.of("https://github.com/org-jdraft/jdraft"),
+    _mavenCentral.of("com.github.javaparser", "javaparser-core", "3.15.21")
+);
+```
+
 ### *What* is the point? (Representation & using the "right tool for the job")   
-Normally, developers are familiar with the String representation of Java code:
+Normally Java code is created and modified via changing it's String representation:
 ```java
 String srcCode = "public class Point{ double x; double y = 1.0; }"   
 ``` 
-...but code (as Strings is files) is hard to "use" in a programmatic sense (i.e. <I>the complexity of the program 
-required to change the fields `x` &  `y` from `double` to `float` is non-trivial as the String has to be parsed FIRST 
-(into an AST/or tree), then Nodes in the tree have to be crawled, and data changed etc. etc.</I>)
+...but code (as Strings within one or more files) is hard to *"use"* in a programmatic sense 
+(i.e. <I>it is HARD to write a program to *modify* the fields `x` &  `y` from `double` to `float` 
+as the String has to be parsed FIRST (into an AST/or tree), then "nodes" in the tree have to be 
+crawled, and data changed etc. etc.</I>)
 
-Using the jdraft Representation makes the tasks of writing this program (to modify Java code) easy:
+Using the jdraft models as an intermediatry makes this programming task (to modify Java code) easy to write _AND_ read:
 ```java
 // convert the String to _class, modify both fields to be float, write back to a String 
-srcCode = _class.of(srcCode).forFields(f-> f.type(float.class)).toString();
+srcCode = _class.of(srcCode).forFields(f-> f.setType(float.class)).toString();
 ```
   
 ### Why?
