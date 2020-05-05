@@ -84,7 +84,7 @@ public class _githubProject implements _batch {
         public String branch = "master";
 
         /** by default "src/main/java" source root */
-        public String sourceRoot = "src/main/java/";
+        public String sourceRoot = null; //"src/main/java/";
     }
 
     public JavaParser getJavaParser(){
@@ -123,11 +123,16 @@ public class _githubProject implements _batch {
         URL downloadUrl = downloadProjectZipURL();
         _project _cus = new _project();
         _downloadArchiveConsumer.of( downloadUrl, (ZipEntry ze, InputStream is)-> {
-            if (ze.getName().endsWith(".java")) {
+            //System.out.println( ze.getName() );
+            if( this.projectDetail.sourceRoot != null && !ze.getName().contains(this.projectDetail.sourceRoot)){
+                //System.out.println("Skipped : "+ ze.getName());
+            }
+            else if (ze.getName().endsWith(".java")) {
                 try {
                     _cus.add( _codeUnit.of(javaParser, is) );
+                    //System.out.println("Added : "+ ze.getName());
                 }catch(Exception e){
-                    System.err.println( "Couldn't parse zip entry \""+ ze.getName()+"\"");
+                    //System.err.println( "Couldn't parse zip entry \""+ ze.getName()+"\"");
                 }
             }
         });

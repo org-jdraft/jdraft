@@ -123,7 +123,6 @@ public class $binaryExpression implements $bot.$node<BinaryExpr, _binaryExpressi
         return of(_binaryExpression.of(code));
     }
 
-    //public static $binaryExpression
     public static $binaryExpression.Or or($binaryExpression...$bs){
         return new $binaryExpression.Or($bs);
     }
@@ -145,6 +144,11 @@ public class $binaryExpression implements $bot.$node<BinaryExpr, _binaryExpressi
         return $copy;
     }
 
+    /**
+     * ONLY match _binaryExpressions that use one of the provided operators
+     * @param ops the provided operators to match against
+     * @return the modified $binaryExpression
+     */
     public $binaryExpression $operators( BinaryExpr.Operator... ops){
         this.excludedOperators.addAll(ALL_OPERATORS);
         Arrays.stream(ops).forEach( op -> this.excludedOperators.remove(op));
@@ -268,8 +272,8 @@ public class $binaryExpression implements $bot.$node<BinaryExpr, _binaryExpressi
     }
 
     public Select<_binaryExpression> select(_binaryExpression _i) {
-        if (predicate.test(_i) && !excludedOperators.contains(_i.getOperator())) {
-            Tokens ts = Tokens.selectTokens(_i, this.left, this.right);
+        if (predicate.test(_i) ) {// && !excludedOperators.contains(_i.getOperator())) {
+            Tokens ts = Tokens.selectTokens(_i, this.left, this.right, this.operator);
             if (ts != null) {
                 return new Select<>(_i, ts);
             }
@@ -342,7 +346,6 @@ public class $binaryExpression implements $bot.$node<BinaryExpr, _binaryExpressi
         return false;
     }
 
-
     public static final Set<BinaryExpr.Operator> ALL_OPERATORS = Arrays.stream(BinaryExpr.Operator.values()).collect(Collectors.toSet());
 
     public String toString() {
@@ -365,8 +368,16 @@ public class $binaryExpression implements $bot.$node<BinaryExpr, _binaryExpressi
     public $memberSelector<_binaryExpression, _expression> right =
             $memberSelector.of( _binaryExpression.class, _expression.class, "right", b-> b.getRight());
 
-
     public Set<BinaryExpr.Operator> excludedOperators = new HashSet<>();
+
+    public $memberSelector<_binaryExpression, BinaryExpr.Operator> operator =
+            $memberSelector.of( _binaryExpression.class, BinaryExpr.Operator.class, "operator", b-> b.getOperator())
+                    .setSelector( o -> {
+                        if( excludedOperators.contains(o)){
+                            return null;
+                        }
+                        return new Tokens();
+                    });
 
     public $binaryExpression() {
     }

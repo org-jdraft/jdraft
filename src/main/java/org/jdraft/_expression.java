@@ -34,7 +34,7 @@ public interface _expression<E extends Expression, _E extends _expression>
     // reference
     //   anno, arrayAccess, classExpression, fieldAccess, methodReference, nameExpression, super, typeExpression, cast
     //
-    public static class Types {
+    public static class Classes {
         Class<_annoRef> ANNO = _annoRef.class;
         Class<_arrayAccess> ARRAY_ACCESS = _arrayAccess.class;
         Class<_assign> ASSIGN = _assign.class;
@@ -68,6 +68,7 @@ public interface _expression<E extends Expression, _E extends _expression>
                 SWITCH_EXPRESSION, TYPE_EXPRESSION, UNARY, VARIABLE};
 
     }
+
     static _expression of(String...code){
         return of( Expressions.of(code));
     }

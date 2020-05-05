@@ -7,7 +7,6 @@ jdraft represents Java code as model objects & has tools for
 *analyzing*, *modifying*, *querying*, *diffing*, *running* and *testing* these models.
 
 ```java
-//the smallest literal to an entire application-worth of sources has an object/model
 _null.of();              // a null literal
 _int.of(1);              // a literal int 1
 _expression.of("1 + 2"); // binary expression "1 + 2"
@@ -25,12 +24,12 @@ _project.of(
 );
 ```
 
-### *What* is the point? (Representation & using the "right tool for the job")   
-Normally Java code is created and modified via changing it's String representation:
+### *Why?*   
+Java code is represented as a String:
 ```java
 String srcCode = "public class Point{ double x; double y = 1.0; }"   
 ``` 
-...but code (as Strings within one or more files) is hard to *"use"* in a programmatic sense 
+...but code (as a String within one or more files) is hard to *"use"* in a programmatic sense: 
 (i.e. <I>it is HARD to write a program to *modify* the fields `x` &  `y` from `double` to `float` 
 as the String has to be parsed FIRST (into an AST/or tree), then "nodes" in the tree have to be 
 crawled, and data changed etc. etc.</I>)
@@ -47,7 +46,7 @@ should be easy to learn and use for tasks like
 <OL>
 <LI>Metaprogramming</LI>
 <LI>Code Generation</LI> 
-<LI>Lint Checking / Code Metrics</LI>
+<LI>Code Inspection</LI>
 <LI>Code Querying</LI>
 <LI>Code Evolution</LI>
 </OL>
@@ -75,7 +74,7 @@ jdraft requires (2) things to compile/build/run:
 <dependency>
   <groupId>com.github.javaparser</groupId>
   <artifactId>javaparser-core</artifactId>
-  <version>3.15.15</version>
+  <version>3.15.21</version>
 </dependency>
 ```   
  
