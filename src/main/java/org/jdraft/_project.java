@@ -1,6 +1,8 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.*;
 import org.jdraft.io._batch;
 
 import java.util.*;
@@ -9,7 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * multiple {@link _codeUnit}s that can optionally be sorted or queried
+ * multiple {@link _codeUnit}s that can be sorted or queried or modified in place
  */
 public class _project {
 
@@ -185,36 +187,376 @@ public class _project {
         return first(_codeClass, _codeMatchFn);
     }
 
-    public _class get_class(String className){
+    public _class getClass(String className){
         return first(_class.class, c-> c.getFullName().equals(className) || c.getSimpleName().equals(className));
     }
 
-    public _class get_class(Predicate<_class>_classMatchFn){
+    public _class getClass(Predicate<_class>_classMatchFn){
         return first(_class.class, _classMatchFn);
     }
 
-    public _interface get_interface(String interfaceName){
+    public _interface getInterface(String interfaceName){
         return first(_interface.class, c-> c.getFullName().equals(interfaceName) || c.getSimpleName().equals(interfaceName));
     }
 
-    public _interface get_interface(Predicate<_interface>_interfaceMatchFn){
+    public _interface getInterface(Predicate<_interface>_interfaceMatchFn){
         return first(_interface.class, _interfaceMatchFn);
     }
 
-    public _enum get_enum(String enumName){
+    public _enum getEnum(String enumName){
         return first(_enum.class, c-> c.getFullName().equals(enumName) || c.getSimpleName().equals(enumName));
     }
 
-    public _enum get_enum(Predicate<_enum>_enumMatchFn){
+    public _enum getEnum(Predicate<_enum>_enumMatchFn){
         return first(_enum.class, _enumMatchFn);
     }
 
-    public _annotation get_annotation(String annotationName){
+    public _annotation getAnnotation(String annotationName){
         return first(_annotation.class, c-> c.getFullName().equals(annotationName) || c.getSimpleName().equals(annotationName));
     }
 
-    public _annotation get_annotation(Predicate<_annotation>_annotationMatchFn){
+    public _annotation getAnnotation(Predicate<_annotation>_annotationMatchFn){
         return first(_annotation.class, _annotationMatchFn);
+    }
+
+    /**
+     * Apply this consumer to all methods and return the modified _project
+     * @param _annotationActionFn
+     * @return the modified project
+     */
+    public _project toAnnotations(Consumer<_annotation>_annotationActionFn){
+        forAnnotations(_annotationActionFn);
+        return this;
+    }
+
+    /**
+     * Apply this consumer to all methods and return the modified project
+     * @param _annotationMatchFn
+     * @param _annotationActionFn
+     * @return
+     */
+    public _project toAnnotations(Predicate<_annotation> _annotationMatchFn, Consumer<_annotation>_annotationActionFn){
+        forAnnotations(_annotationMatchFn, _annotationActionFn);
+        return this;
+    }
+
+    public List<_annotation> forAnnotations(Consumer<_annotation>_annotationActionFn){
+        return forAnnotations(m->true, _annotationActionFn);
+    }
+
+    public List<_annotation> forAnnotations(Predicate<_annotation> _annotationMatchFn, Consumer<_annotation>_annotationActionFn){
+        List<_annotation> _ms = new ArrayList<>();
+        this.cache.forEach(_cu -> {
+            CompilationUnit cu = _cu.astCompilationUnit();
+            cu.stream(Node.TreeTraversal.POSTORDER).filter(n -> n instanceof AnnotationDeclaration)
+                    .forEach(md-> {
+                        _annotation _e = _annotation.of( (AnnotationDeclaration)md );
+                        if( _annotationMatchFn.test(_e) ){
+                            _annotationActionFn.accept(_e);
+                            _ms.add(_e);
+                        }
+                    } );
+        });
+        return _ms;
+    }
+
+
+    /**
+     * Apply this consumer to all methods and return the modified _project
+     * @param _enumActionFn
+     * @return the modified project
+     */
+    public _project toEnums(Consumer<_enum>_enumActionFn){
+        forEnums(_enumActionFn);
+        return this;
+    }
+
+    /**
+     * Apply this consumer to all methods and return the modified project
+     * @param _enumMatchFn
+     * @param _enumActionFn
+     * @return
+     */
+    public _project toEnums(Predicate<_enum> _enumMatchFn, Consumer<_enum>_enumActionFn){
+        forEnums(_enumMatchFn, _enumActionFn);
+        return this;
+    }
+
+    public List<_enum> forEnums(Consumer<_enum>_enumActionFn){
+        return forEnums(m->true, _enumActionFn);
+    }
+
+    public List<_enum> forEnums(Predicate<_enum> _enumMatchFn, Consumer<_enum>_enumActionFn){
+        List<_enum> _ms = new ArrayList<>();
+        this.cache.forEach(_cu -> {
+            CompilationUnit cu = _cu.astCompilationUnit();
+            cu.stream(Node.TreeTraversal.POSTORDER).filter(n -> n instanceof EnumDeclaration)
+                    .forEach(md-> {
+                        _enum _e = _enum.of( (EnumDeclaration)md );
+                        if( _enumMatchFn.test(_e) ){
+                            _enumActionFn.accept(_e);
+                            _ms.add(_e);
+                        }
+                    } );
+        });
+        return _ms;
+    }
+
+    /**
+     * Apply this consumer to all methods and return the modified _project
+     * @param _interfaceActionFn
+     * @return the modified project
+     */
+    public _project toInterfaces(Consumer<_interface>_interfaceActionFn){
+        forInterfaces(_interfaceActionFn);
+        return this;
+    }
+
+    /**
+     * Apply this consumer to all methods and return the modified project
+     * @param _interfaceMatchFn
+     * @param _interfaceActionFn
+     * @return
+     */
+    public _project toInterfaces(Predicate<_interface> _interfaceMatchFn, Consumer<_interface>_interfaceActionFn){
+        forInterfaces(_interfaceMatchFn, _interfaceActionFn);
+        return this;
+    }
+
+    public List<_interface> forInterfaces(Consumer<_interface>_interfaceActionFn){
+        return forInterfaces(m->true, _interfaceActionFn);
+    }
+
+    public List<_interface> forInterfaces(Predicate<_interface> _interfaceMatchFn, Consumer<_interface>_interfaceActionFn){
+        List<_interface> _ms = new ArrayList<>();
+        this.cache.forEach(_cu -> {
+            CompilationUnit cu = _cu.astCompilationUnit();
+            cu.stream(Node.TreeTraversal.POSTORDER).filter(n -> n instanceof ClassOrInterfaceDeclaration && ((ClassOrInterfaceDeclaration) n).asClassOrInterfaceDeclaration().isInterface())
+                    .forEach(md-> {
+                        _interface _i = _interface.of( (ClassOrInterfaceDeclaration)md );
+                        if( _interfaceMatchFn.test(_i) ){
+                            _interfaceActionFn.accept(_i);
+                            _ms.add(_i);
+                        }
+                    } );
+        });
+        return _ms;
+    }
+
+    /**
+     * Apply this consumer to all methods and return the modified _project
+     * @param _classActionFn
+     * @return the modified project
+     */
+    public _project toClasses(Consumer<_class>_classActionFn){
+        forClasses(_classActionFn);
+        return this;
+    }
+
+    /**
+     * Apply this consumer to all methods and return the modified project
+     * @param _classMatchFn
+     * @param _classActionFn
+     * @return
+     */
+    public _project toClasses(Predicate<_class> _classMatchFn, Consumer<_class>_classActionFn){
+        forClasses(_classMatchFn, _classActionFn);
+        return this;
+    }
+
+    public List<_class> forClasses(Consumer<_class>_classActionFn){
+        return forClasses(m->true, _classActionFn);
+    }
+
+    public List<_class> forClasses(Predicate<_class> _classMatchFn, Consumer<_class>_classActionFn){
+        List<_class> _ms = new ArrayList<>();
+        this.cache.forEach(_cu -> {
+            CompilationUnit cu = _cu.astCompilationUnit();
+            cu.stream(Node.TreeTraversal.POSTORDER).filter(n -> n instanceof ClassOrInterfaceDeclaration && !((ClassOrInterfaceDeclaration) n).asClassOrInterfaceDeclaration().isInterface())
+                    .forEach(md-> {
+                        _class _c = _class.of( (ClassOrInterfaceDeclaration)md );
+                        if( _classMatchFn.test(_c) ){
+                            _classActionFn.accept(_c);
+                            _ms.add(_c);
+                        }
+                    } );
+        });
+        return _ms;
+    }
+
+    /**
+     * Apply this consumer to all methods and return the modified _project
+     * @param _methodActionFn
+     * @return the modified project
+     */
+    public _project toMethods(Consumer<_method>_methodActionFn){
+        forMethods(_methodActionFn);
+        return this;
+    }
+
+    /**
+     * Apply this consumer to all methods and return the modified project
+     * @param _methodMatchFn
+     * @param _methodActionFn
+     * @return
+     */
+    public _project toMethods(Predicate<_method> _methodMatchFn, Consumer<_method>_methodActionFn){
+        forMethods(_methodMatchFn, _methodActionFn);
+        return this;
+    }
+
+    public List<_method> forMethods(Consumer<_method>_methodActionFn){
+        return forMethods(m->true, _methodActionFn);
+    }
+
+    public List<_method> forMethods(Predicate<_method> _methodMatchFn, Consumer<_method>_methodActionFn){
+        List<_method> _ms = new ArrayList<>();
+        this.cache.forEach(_cu -> {
+            CompilationUnit cu = _cu.astCompilationUnit();
+            cu.stream(Node.TreeTraversal.POSTORDER).filter(n -> n instanceof MethodDeclaration)
+                    .forEach(md-> {
+                        _method _m = _method.of( (MethodDeclaration)md );
+                        if( _methodMatchFn.test(_m) ){
+                            _methodActionFn.accept(_m);
+                            _ms.add(_m);
+                        }
+                    } );
+        });
+        return _ms;
+    }
+
+    /**
+     * Apply this consumer to all methods and return the modified _project
+     * @param _initBlockActionFn
+     * @return the modified project
+     */
+    public _project toInitBlocks(Consumer<_initBlock>_initBlockActionFn){
+        forInitBlocks(_initBlockActionFn);
+        return this;
+    }
+
+    /**
+     * Apply this consumer to all methods and return the modified project
+     * @param _initBlockMatchFn
+     * @param _initBlockActionFn
+     * @return
+     */
+    public _project toInitBlocks(Predicate<_initBlock> _initBlockMatchFn, Consumer<_initBlock>_initBlockActionFn){
+        forInitBlocks(_initBlockMatchFn, _initBlockActionFn);
+        return this;
+    }
+
+    public List<_initBlock> forInitBlocks(Consumer<_initBlock>_initBlockActionFn){
+        return forInitBlocks(m->true, _initBlockActionFn);
+    }
+
+    public List<_initBlock> forInitBlocks(Predicate<_initBlock> _initBlockMatchFn, Consumer<_initBlock>_initBlockActionFn){
+        List<_initBlock> _cs = new ArrayList<>();
+        this.cache.forEach(_cu -> {
+            CompilationUnit cu = _cu.astCompilationUnit();
+            cu.stream(Node.TreeTraversal.POSTORDER).filter(n -> n instanceof InitializerDeclaration)
+                    .forEach(cd-> {
+                        _initBlock _c = _initBlock.of( (InitializerDeclaration)cd );
+                        if( _initBlockMatchFn.test(_c) ){
+                            _initBlockActionFn.accept(_c);
+                            _cs.add(_c);
+                        }
+                    } );
+        });
+        return _cs;
+    }
+
+    /**
+     * Apply this consumer to all methods and return the modified _project
+     * @param _constructorActionFn
+     * @return the modified project
+     */
+    public _project toConstructors(Consumer<_constructor>_constructorActionFn){
+        forConstructors(_constructorActionFn);
+        return this;
+    }
+
+    /**
+     * Apply this consumer to all methods and return the modified project
+     * @param _constructorMatchFn
+     * @param _constructorActionFn
+     * @return
+     */
+    public _project toConstructors(Predicate<_constructor> _constructorMatchFn, Consumer<_constructor>_constructorActionFn){
+        forConstructors(_constructorMatchFn, _constructorActionFn);
+        return this;
+    }
+
+    public List<_constructor> forConstructors(Consumer<_constructor>_constructorActionFn){
+        return forConstructors(m->true, _constructorActionFn);
+    }
+
+    public List<_constructor> forConstructors(Predicate<_constructor> _constructorMatchFn, Consumer<_constructor>_constructorActionFn){
+        List<_constructor> _cs = new ArrayList<>();
+        this.cache.forEach(_cu -> {
+            CompilationUnit cu = _cu.astCompilationUnit();
+            cu.stream(Node.TreeTraversal.POSTORDER).filter(n -> n instanceof ConstructorDeclaration)
+                    .forEach(cd-> {
+                        _constructor _c = _constructor.of( (ConstructorDeclaration)cd );
+                        if( _constructorMatchFn.test(_c) ){
+                            _constructorActionFn.accept(_c);
+                            _cs.add(_c);
+                        }
+                    } );
+        });
+        return _cs;
+    }
+
+
+    /**
+     * Apply this consumer to all methods and return the modified _project
+     * @param _fieldActionFn
+     * @return the modified project
+     */
+    public _project toFields(Consumer<_field>_fieldActionFn){
+        forFields(_fieldActionFn);
+        return this;
+    }
+
+    /**
+     * Apply this consumer to all methods and return the modified project
+     * @param _fieldMatchFn
+     * @param _fieldActionFn
+     * @return
+     */
+    public _project toFields(Predicate<_field> _fieldMatchFn, Consumer<_field>_fieldActionFn){
+        forFields(_fieldMatchFn, _fieldActionFn);
+        return this;
+    }
+
+    public List<_field> forFields(Consumer<_field>_fieldActionFn){
+        return forFields(m->true, _fieldActionFn);
+    }
+
+    public List<_field> forFields(Predicate<_field> _fieldMatchFn, Consumer<_field>_fieldActionFn){
+        List<_field> _fs = new ArrayList<>();
+        this.cache.forEach(_cu -> {
+            CompilationUnit cu = _cu.astCompilationUnit();
+            cu.stream(Node.TreeTraversal.POSTORDER).filter(n -> n instanceof FieldDeclaration)
+                    .forEach(fd-> {
+                        ((FieldDeclaration) fd).getVariables().forEach(v -> {
+                            _field _f = _field.of((VariableDeclarator) v);
+                            if (_fieldMatchFn.test(_f)) {
+                                _fieldActionFn.accept(_f);
+                                _fs.add(_f);
+                            }
+                        });
+                    });
+                    });
+        return _fs;
+    }
+
+    public List<_type> forTypes(Predicate<_type> _typeMatchFn, Consumer<_type> _codeActionFn) {
+        return forEach(_type.class, _typeMatchFn, _codeActionFn);
+    }
+
+    public List<_type> forTypes(Consumer<_type> _codeActionFn) {
+        return forEach(_type.class, c->true, _codeActionFn);
     }
 
     public List<_codeUnit> forEach(Consumer<_codeUnit> _codeActionFn) {

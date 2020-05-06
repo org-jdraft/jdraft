@@ -4,7 +4,7 @@
 
 ### *What* is it?
 jdraft represents Java code as model objects & has tools for 
-*analyzing*, *modifying*, *querying*, *diffing*, *running* and *testing* these models.
+*inspecting*, *modifying*, *querying*, *diffing*, *running* and *testing* Java source code.
 
 ```java
 _null.of();              // a null literal
@@ -25,24 +25,46 @@ _project.of(
 ```
 
 ### *Why?*   
-Java code is represented as a String:
+Normally, Java source code is a String:
 ```java
 String srcCode = "public class Point{ double x; double y = 1.0; }"   
 ``` 
-...but code (as a String within one or more files) is hard to *"use"* in a programmatic sense: 
-(i.e. <I>it is HARD to write a program to *modify* the fields `x` &  `y` from `double` to `float` 
-as the String has to be parsed FIRST (into an AST/or tree), then "nodes" in the tree have to be 
-crawled, and data changed etc. etc.</I>)
+...but passing around Java source code as a String (to be manipulated by a program) is cumbersome.   
 
-Using the jdraft models as an intermediatry makes this programming task (to modify Java code) easy to write _AND_ read:
+Simple example: Normally, to write a program that accepts `srcCode` above as input 
+to *modify* the types of fields (`x` &  `y`)  from `double` to `float`; this program has to: 
+<UL> 
+<LI>parse the `srcCode` String to build a syntax tree (AST)
+<LI>manipulate AST field `type` nodes in the tree to change to `float`
+<LI>convert the tree back to a String 
+</UL>
+
+jdraft makes this type of metaprogramming task **easy to write _AND_ read**:
 ```java
-// convert the String to _class, modify both fields to be float, write back to a String 
+// convert srcCode to _class, set all fields as float & return the code as a String 
 srcCode = _class.of(srcCode).forFields(f-> f.setType(float.class)).toString();
 ```
   
-### Why?
-developers should feel empowered with a small tool do big things quickly and automatically on large scale codebases  
-should be easy to learn and use for tasks like 
+jdraft is a simple to learn, read & use, and it allows you to build powerful tools 
+when operating on codebases large or small; simple metaprograms can modify 
+code you own & are familiar with or even code or don't "own":
+
+```java
+// read in & model the jdraft github project sources 
+// update the parameters on all methods for all types to be final
+_project modified = _project.of(_githubProject.of("https://github.com/org-jdraft/jdraft"))
+                            .forMethods(m-> m.forParameters(p-> p.setFinal()));
+ 
+// compile the resulting source code and return the _classFiles (bytecode)
+List<_classFile> _cfs = _runtime.compile( modified);
+
+//write out the modified .java source code to 
+_io.out( "C:\\modified\\src\\", _project );
+
+//write out the compiled .class files
+_io.out( "C:\\modified\\classes\\", _cfs);
+```
+ 
 <OL>
 <LI>Metaprogramming</LI>
 <LI>Code Generation</LI> 
@@ -79,7 +101,7 @@ jdraft requires (2) things to compile/build/run:
 ```   
  
 ### *How* to build jdraft models 
-1. build individual `_draft` models `_class(_c), _field(_x, _y), _method(_getX, _getY, _setX, _setY)` 
+1. build individual jdraft models `_class(_c), _field(_x, _y), _method(_getX, _getY, _setX, _setY)` 
 from Strings & compose them together: 
 ```java 
 _class _c = _class.of("package graph;","public class Point{}");
@@ -107,7 +129,7 @@ System.out.println(_c);
 >    public double getY() { return y; }
 >    public void setY(double y) {this.y = y; }
 >}</PRE>   
-2. build a `_draft` model from source of an existing class (`_class.of(Point.class)`)<BR/> 
+2. build a jdraft model from source of an existing class (`_class.of(Point.class)`)<BR/> 
 <I>(NOTE: this more preferred mechanism to using Strings above, and it works for Top level Classes,
 Nested Classes, and Local Classes)</I> :
 ```java
@@ -160,7 +182,7 @@ _point.method(new Object(){
     @_remove double x, y;
 });
 
-//runtime
+//compile, load and use classes at runtime:
 _runtime _r = _runtime.of(_c);
 ``` 
 #### **_Query_** Java source code 

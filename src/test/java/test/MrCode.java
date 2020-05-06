@@ -90,7 +90,7 @@ public class MrCode {
 
         //2) rename _jdraftException to _javaException
         //TODO this will ALSO rename the constructors within the _class
-        _class _je = _cc.get_class("_jdraftException")
+        _class _je = _cc.getClass("_jdraftException")
             //.name( "_javaException" )
             .addExtend(_mre ) //3) extends _mrCodeException
             .addImports( _mre ); //3a) add import of _mrCodeException
