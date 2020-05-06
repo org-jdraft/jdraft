@@ -57,12 +57,30 @@ public enum Ast {
     ;
 
     /**
+     * Build a JavaParser configuration that includes "Post processing" negative numbers usually stored as:
+     *  <PRE>
+     *       ...
+     *        └─"-10000" UnaryExpr : (1,18)-(1,25)
+     *          └─"10000" IntegerLiteralExpr : (1,21)-(1,25)
+     *  </PRE>
+     *  will be converted to:
+     *  <PRE>
+     *       └─"-10000" IntegerLiteralExpr : (1,28)-(1,25)
+     *  </PRE>
+     *  (we replace the UnaryExpr parent with an IntegerLiteralExpr containing a negative number literal)
+     */
+    public static final ParserConfiguration JAVAPARSER_CONFIG = new ParserConfiguration().setLanguageLevel( LanguageLevel.BLEEDING_EDGE);
+    static{
+        JAVAPARSER_CONFIG.getPostProcessors().add(new NegativeLiteralNumberPostProcessor());
+    }
+
+    /**
      * A static reference to a JavaParser (used to replace StaticJavaParser, in
      * order to properly handle module-info.java files and other "bleeding edge")
      * features
      */    
     public static final JavaParser JAVAPARSER = 
-        new JavaParser( new ParserConfiguration().setLanguageLevel(LanguageLevel.BLEEDING_EDGE) );
+        new JavaParser(JAVAPARSER_CONFIG);
     
     /*---------------------------------------------------------
        the point of having all of these JavaParser Classes in a
