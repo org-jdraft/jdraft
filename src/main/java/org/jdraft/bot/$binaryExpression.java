@@ -118,6 +118,9 @@ public class $binaryExpression implements $bot.$node<BinaryExpr, _binaryExpressi
         return of().$operators(operators);
     }
 
+    public static $binaryExpression not( BinaryExpr.Operator... operators){
+        return of().$not(operators);
+    }
 
     public static $binaryExpression of(String... code) {
         return of(_binaryExpression.of(code));

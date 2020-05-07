@@ -47,41 +47,53 @@ public interface $expression<E extends Expression, _E extends _expression, $E ex
         return new $e().$and(expressionClasses);
     }
 
-    static<$E extends $expression> $E of(Expression ile) {
+    static<$E extends $expression> $E of(Expression e) {
 
-        if( ile instanceof LiteralExpr){
-            if( ile instanceof IntegerLiteralExpr){
-                return ($E) $int.of( (IntegerLiteralExpr) ile);
+        if( e instanceof LiteralExpr){
+            if( e instanceof IntegerLiteralExpr){
+                return ($E) $int.of( (IntegerLiteralExpr) e);
             }
-            if( ile instanceof LongLiteralExpr){
-                return ($E) $long.of( (LongLiteralExpr) ile);
+            if( e instanceof LongLiteralExpr){
+                return ($E) $long.of( (LongLiteralExpr) e);
             }
-            if( ile instanceof StringLiteralExpr){
-                return ($E) $string.of( (StringLiteralExpr) ile);
+            if( e instanceof StringLiteralExpr){
+                return ($E) $string.of( (StringLiteralExpr) e);
             }
-            if( ile instanceof DoubleLiteralExpr){
-                return ($E) $double.of( (DoubleLiteralExpr) ile);
+            if( e instanceof DoubleLiteralExpr){
+                return ($E) $double.of( (DoubleLiteralExpr) e);
             }
-            if( ile instanceof CharLiteralExpr){
-                return ($E) $char.of( (CharLiteralExpr) ile);
+            if( e instanceof CharLiteralExpr){
+                return ($E) $char.of( (CharLiteralExpr) e);
             }
-            if( ile instanceof TextBlockLiteralExpr){
-                return ($E) $textBlock.of( (TextBlockLiteralExpr) ile);
+            if( e instanceof TextBlockLiteralExpr){
+                return ($E) $textBlock.of( (TextBlockLiteralExpr) e);
             }
-            if( ile instanceof BooleanLiteralExpr){
-                return ($E) $boolean.of( (BooleanLiteralExpr) ile);
+            if( e instanceof BooleanLiteralExpr){
+                return ($E) $boolean.of( (BooleanLiteralExpr) e);
             }
-            if( ile instanceof NullLiteralExpr){
-                return ($E) $null.of( (NullLiteralExpr) ile);
+            if( e instanceof NullLiteralExpr){
+                return ($E) $null.of( (NullLiteralExpr) e);
             }
         }
-        if( ile instanceof ArrayAccessExpr ){
-            return ($E)$arrayAccess.of( (ArrayAccessExpr)ile);
+        if( e instanceof ArrayAccessExpr ){
+            return ($E)$arrayAccess.of( (ArrayAccessExpr)e);
         }
-        if( ile instanceof EnclosedExpr ){
-            return ($E)$enclosedExpression.of( (EnclosedExpr)ile);
+        if( e instanceof BinaryExpr){
+            return ($E)$binaryExpression.of( (BinaryExpr)e);
         }
-        return ($E)$e.of( ile.toString() );
+        if( e instanceof ClassExpr ){
+            return ($E)$classExpression.of( (ClassExpr)e);
+        }
+        if( e instanceof EnclosedExpr ){
+            return ($E)$enclosedExpression.of( (EnclosedExpr)e);
+        }
+        if( e instanceof MethodCallExpr){
+            return ($E)$methodCall.of( (MethodCallExpr) e);
+        }
+        if( e instanceof UnaryExpr){
+            return ($E)$unary.of( (UnaryExpr) e);
+        }
+        return ($E)$e.of( e.toString() );
     }
 
     default boolean matches(Expression e) {

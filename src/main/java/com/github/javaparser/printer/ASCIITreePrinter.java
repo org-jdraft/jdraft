@@ -336,7 +336,6 @@ public class ASCIITreePrinter {
             FieldDeclaration fd = (FieldDeclaration)n;
             return "_field";
         } else {
-            //System.out.println( n+" "+n.getClass() );
             return _java.of(n).getClass().getSimpleName();
         }
     }

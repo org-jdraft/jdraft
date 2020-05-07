@@ -16,12 +16,36 @@ import java.util.function.Predicate;
 public final class _unary implements _expression<UnaryExpr, _unary>, _java._multiPart<UnaryExpr, _unary>,
         _java._withExpression<UnaryExpr, _unary> {
 
+    public static final UnaryExpr.Operator BITWISE_COMPLEMENT = UnaryExpr.Operator.BITWISE_COMPLEMENT;
+    public static final UnaryExpr.Operator LOGICAL_COMPLEMENT = UnaryExpr.Operator.LOGICAL_COMPLEMENT;
+    public static final UnaryExpr.Operator MINUS = UnaryExpr.Operator.MINUS;
+    public static final UnaryExpr.Operator PLUS = UnaryExpr.Operator.PLUS;
+    public static final UnaryExpr.Operator POST_DECREMENT = UnaryExpr.Operator.POSTFIX_DECREMENT;
+    public static final UnaryExpr.Operator POST_INCREMENT = UnaryExpr.Operator.POSTFIX_INCREMENT;
+    public static final UnaryExpr.Operator PRE_DECREMENT = UnaryExpr.Operator.PREFIX_DECREMENT;
+    public static final UnaryExpr.Operator PRE_INCREMENT = UnaryExpr.Operator.PREFIX_INCREMENT;
+
     public static _unary of(){
         return new _unary(new UnaryExpr());
     }
     public static _unary of(UnaryExpr ue){
         return new _unary(ue);
     }
+
+    public static _unary of( UnaryExpr.Operator op, _expression _e){
+        UnaryExpr ue = new UnaryExpr();
+        ue.setOperator(op);
+        ue.setExpression(_e.ast());
+        return of(ue);
+    }
+
+    public static _unary of( _expression _e, UnaryExpr.Operator op ){
+        UnaryExpr ue = new UnaryExpr();
+        ue.setOperator(op);
+        ue.setExpression(_e.ast());
+        return of(ue);
+    }
+
     public static _unary of( String...code){
         return new _unary(Expressions.unaryEx( code));
     }

@@ -89,6 +89,7 @@ public class _allNodeUseTest extends TestCase {
                 _methodRef.of("Context::getState"),
                 _modifier.of("public"),
                 _modifiers.of("public static final"),
+
                 _moduleInfo.of("module org.jdraft.mod { exports org.jdraft.mod; }"),
                 _moduleDirective.of("opens shiny;"),
                 _moduleExports.of("exports underdog;"),
@@ -96,6 +97,7 @@ public class _allNodeUseTest extends TestCase {
                 _moduleOpens.of("opens another.module;"),
                 _moduleRequires.of("requires static alpha.beta;"),
                 _moduleProvides.of("provides monitor.AClass with monitor.AFactoryClass"),
+
                 _name.of("x"),
                 _nameExpression.of("x"),
                 _new.of("new RuntimeException()"),
