@@ -65,7 +65,7 @@ public enum Ast {
      *  </PRE>
      *  will be converted to:
      *  <PRE>
-     *       └─"-10000" IntegerLiteralExpr : (1,28)-(1,25)
+     *       └─"-10000" IntegerLiteralExpr : (1,18)-(1,25)
      *  </PRE>
      *  (we replace the UnaryExpr parent with an IntegerLiteralExpr containing a negative number literal)
      */

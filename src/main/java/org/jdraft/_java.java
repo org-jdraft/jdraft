@@ -9,7 +9,7 @@ import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.*;
 import com.github.javaparser.ast.expr.*;
-import com.github.javaparser.ast.modules.ModuleDeclaration;
+import com.github.javaparser.ast.modules.*;
 import com.github.javaparser.ast.nodeTypes.*;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.*;
@@ -318,6 +318,12 @@ public interface _java {
         }
         if( astNode instanceof ModuleDeclaration ){
             return _moduleInfo.of( (ModuleDeclaration)astNode);
+        }
+        if( astNode instanceof ModuleDirective ){
+            return (_java._node)_moduleDirective.of( (ModuleDirective)astNode);
+        }
+        if( astNode instanceof ModuleRequiresDirective ){
+            return _moduleRequires.of( (ModuleRequiresDirective)astNode);
         }
         throw new _jdraftException("Unable to create _java entity from " + astNode+" "+astNode.getClass());
     }

@@ -4,10 +4,11 @@ import junit.framework.TestCase;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.Map;
 
 /**
- * You probably dont need to know about all nodes and how they work,
+ * You probably don't need to know about all nodes and how they work,
  * but you likely have a job to do with some of the nodes, so this
  * should familiarize yourself with the names and parts of code they
  * refer to.
@@ -22,8 +23,6 @@ import java.util.Map;
  */
 public class _allNodeUseTest extends TestCase {
 
-
-    //all
     public void testNodesAlphabetical(){
         //_java._domain is the top-level interface for all instance AND interface abstractions
         _java._domain[] _instances = {
@@ -59,6 +58,7 @@ public class _allNodeUseTest extends TestCase {
                 _double.of(1.2d), //this is for double precision doubles
                 _double.of(1.2f), //this is for double precision floats too
                 _emptyStmt.of(), // empty statement placeholders i.e. for(;;){}
+                _expression.of( "1+2" ), //_expression will create any expression type
                 _enclosedExpression.of("(1 + 2)"),
                 _enum.of("enum E{}"),
                 _expressionStmt.of("System.out.println(1);"),
@@ -90,10 +90,16 @@ public class _allNodeUseTest extends TestCase {
                 _modifier.of("public"),
                 _modifiers.of("public static final"),
                 _moduleInfo.of("module org.jdraft.mod { exports org.jdraft.mod; }"),
+                _moduleDirective.of("opens shiny;"),
+                _moduleExports.of("exports underdog;"),
+                _moduleUses.of("uses underdog;"),
+                _moduleOpens.of("opens another.module;"),
+                _moduleRequires.of("requires static alpha.beta;"),
+                _moduleProvides.of("provides monitor.AClass with monitor.AFactoryClass"),
                 _name.of("x"),
                 _nameExpression.of("x"),
                 _new.of("new RuntimeException()"),
-                _null.of("null"),
+                _null.of(), //the null literal
                 _package.of("package org.jdraft;"),
                 _packageInfo.of("/** information about jdraft */package org.jdraft;"),
                 _parameter.of("final int i"),
@@ -101,6 +107,7 @@ public class _allNodeUseTest extends TestCase {
                 _qualifiedName.of("org.jdraft._class"),
                 _receiverParameter.of("@AnnotatedUsage Currency this"),
                 _returnStmt.of("return 12;"),
+                _statement.of("System.out.println(1);"), //_statement creates any statement type
                 _string.of("A String literal"),
                 _super.of("super"),
                 _switchEntry.of("case 1: return 3;"),
@@ -133,6 +140,15 @@ public class _allNodeUseTest extends TestCase {
                 (_codeUnit) _moduleInfo.of(),
                 (_expression._literal) _int.of(1)
         };
+        Arrays.stream(_instances).forEach(i-> {
+            if( i instanceof _java._node) {
+                Print.tree((_java._node) i);
+            }
+        } );
+    }
+
+    public void testPrintTree(){
+
     }
 
     public void testStatementInstances(){
