@@ -57,6 +57,14 @@ public class _moduleUses implements _java._node<ModuleUsesDirective, _moduleUses
         return Objects.equals( of(stringRep ).mod, this.mod);
     }
 
+    public int hashCode(){
+        return 31 * this.mod.hashCode();
+    }
+
+    public boolean equals(Object o ){
+        return o instanceof _moduleUses && Objects.equals( ((_moduleUses)o).mod, this.mod);
+    }
+
     public String toString(){
         return this.mod.toString();
     }

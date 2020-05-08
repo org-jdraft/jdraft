@@ -120,7 +120,7 @@ public class ASCIITreePrinter {
     /**
      * Print format each {@link Node} in the tree (prints to a single line) for example:
      *  <PRE>
-     *  "@Deprecated...}" _codedUnit: (1,1)-(15,3)
+     *  "@Deprecated...}" _codeUnit: (1,1)-(15,3)
      *  \______________/  \_______/   \__________/
      *    node summary    _node class  node range
      *  </PRE>
@@ -379,7 +379,6 @@ public class ASCIITreePrinter {
         if( n instanceof Comment){ //for orphaned comments
             if( n instanceof JavadocComment ){
                 List<String> lines = lines(_javadocComment.of((JavadocComment) n).getText().trim());
-                //List<String> lines = lines(((JavadocComment) n).getContent().trim());
                 if( lines.size() > 1 ) {
                     s = "/** " +lines.get(0) + "... */";
                 } else{
@@ -387,7 +386,6 @@ public class ASCIITreePrinter {
                 }
             } else if( n instanceof BlockComment){
                 List<String> lines = lines(_blockComment.of((BlockComment) n).getText().trim());
-                //List<String> lines = lines(((JavadocComment) n).getContent().trim());
                 if( lines.size() > 1 ) {
                     s = "/* " +lines.get(0) + "... */";
                 } else{
@@ -413,7 +411,6 @@ public class ASCIITreePrinter {
         //returns the first line, then "..." then the last character on the last line; usually ( '}', ';' or ')' )
         return lines.get(0)+"..."+lastLine.charAt(lastLine.length()-1);
     }
-
 
     /**
      * The ASCIITreePrinter doesn't do comments by design

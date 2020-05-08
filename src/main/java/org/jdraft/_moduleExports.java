@@ -97,6 +97,14 @@ public class _moduleExports implements _java._node<ModuleExportsDirective, _modu
         return Objects.equals( of(stringRep ).me, this.me);
     }
 
+    public int hashCode(){
+        return 31 * this.me.hashCode();
+    }
+
+    public boolean equals(Object o ){
+        return o instanceof _moduleExports && Objects.equals( ((_moduleExports)o).me, this.me);
+    }
+
     public String toString(){
         return this.me.toString();
     }

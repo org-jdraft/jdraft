@@ -241,6 +241,10 @@ public final class Tokens implements Map<String,Object>{
         return this.kvMap.toString();
     }
 
+    public static<_T> Tokens selectTokens(_T _t, List<Function<_T,Tokens>>  selectorFunctions ){
+        return selectTokens(_t, selectorFunctions.toArray( new Function[0] ));
+    }
+
     /**
      *
      * @param _t

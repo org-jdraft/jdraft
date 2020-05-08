@@ -26,7 +26,7 @@ import java.util.function.Predicate;
  * @param <_S> the candidate type being selected (i.e. a {@link $methodCall} -> {@link _methodCall}
  * @param <$S> the underlying selector type  to "return itself modified" (i.e. {@link $methodCall} returns {@link $methodCall}
  */
-public interface $selector<_S, $S> {
+public interface $selector<_S, $S> extends Function<_S, Tokens> {
 
     /** matching function to match against a candidate (usually defaults to (t)->true to match all) */
     Predicate<_S> getPredicate();
@@ -54,6 +54,15 @@ public interface $selector<_S, $S> {
      * @return
      */
     boolean matches(String candidate);
+
+    @Override
+    default Tokens apply(_S sel) {
+        Select s = select(sel);
+        if( s != null ){
+            return s.tokens;
+        }
+        return null;
+    }
 
     /**
      *
@@ -582,7 +591,6 @@ public interface $selector<_S, $S> {
      */
     interface $node<_S, $S> extends $selector<_S, $S>, Function<_S, Tokens> {
 
-        //Moved from select.node
         Select<_S> select(String... code);
 
         default Select<_S> select(String code){

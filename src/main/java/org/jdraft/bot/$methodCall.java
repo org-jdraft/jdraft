@@ -17,11 +17,22 @@ import org.jdraft.text.Translator;
  * $bot for inspecting, drafting and mutating {@link _methodCall}s / {@link MethodCallExpr}s
  */
 public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $methodCall>,
-        $bot.$multiBot<MethodCallExpr, _methodCall, $methodCall>,
+        //$bot.$multiBot<MethodCallExpr, _methodCall, $methodCall>,
         $selector.$node<_methodCall, $methodCall>,
         $expression<MethodCallExpr, _methodCall, $methodCall> {
 
     public interface $part{}
+
+
+    public static $methodCall of( String name, $part...parts){
+        $methodCall $mc = of( ($part)$name.of(name));
+        return addParts($mc, parts);
+    }
+
+    public static $methodCall of( $part...parts){
+        $methodCall $mc = of();
+        return addParts($mc, parts);
+    }
 
     public static $methodCall of( Expressions.Command lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
@@ -48,7 +59,11 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
     }
 
     public static $methodCall of( Function<? extends Object, ? extends Object> lambdaWithMethodCall ){
-        return from( Thread.currentThread().getStackTrace()[2]);
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        if( lambdaWithMethodCall instanceof $part ){
+            return of( ($part)lambdaWithMethodCall );
+        }
+        return from( ste );
     }
 
     public static $methodCall of( BiFunction<? extends Object, ? extends Object,? extends Object> lambdaWithMethodCall ){
@@ -62,6 +77,7 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
     public static $methodCall of( Expressions.QuadFunction<? extends Object, ? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
+
     private static $methodCall from( StackTraceElement ste ){
         return of( _methodCall.from( ste) );
     }
@@ -70,15 +86,6 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
         return of( new String[]{name} );
     }
 
-    public static $methodCall of( String name, $part...parts){
-        $methodCall $mc = of($name.of(name));
-        return addParts($mc, parts);
-    }
-
-    public static $methodCall of( $part...parts){
-        $methodCall $mc = of();
-        return addParts($mc, parts);
-    }
 
     public static $methodCall of() {
         return new $methodCall();

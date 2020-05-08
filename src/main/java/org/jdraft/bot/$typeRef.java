@@ -440,7 +440,7 @@ public class $typeRef
             _annoRefs _as = _typeRef.of(this.type).getAnnoRefs();
             if( _tr.hasAnnoRefs() && !_as.isEmpty() ){
                 //System.out.println ("BOTH HAVE ANNOS");
-                ats = $annoRefs.of(_as).parse(_tr.getAnnoRefs());
+                ats = $annoRefs.of(_as).apply(_tr.getAnnoRefs());
                 if( ats == null ){
                     //System.out.println( "Tokens not equal");
                     return null;

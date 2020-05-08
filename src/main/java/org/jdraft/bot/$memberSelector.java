@@ -38,6 +38,10 @@ public class $memberSelector<_T, _R> implements Function<_T, Tokens> {
         return this.memberResolver == null || this.memberSelector == null;
     }
 
+    public Function<_R, Tokens> getMemberSelector(){
+        return this.memberSelector;
+    }
+
     public $memberSelector setSelector(Function<_R, Tokens> memberSelector){
         this.memberSelector = memberSelector;
         return this;
@@ -46,19 +50,24 @@ public class $memberSelector<_T, _R> implements Function<_T, Tokens> {
     @Override
     public Tokens apply(_T t) {
         if( this.memberResolver == null || this.memberSelector == null){
+            //System.out.println("NOTHING WRONG WITH "+ this.toString());
             //there is NOTHING to select (i.e. is match any)
             return new Tokens();
         }
         _R resolved = null;
         try {
             resolved = memberResolver.apply(t);
+            //System.out.println("RESOLVED" + resolved +" for "+ toString());
         }
         catch(Exception e) {
-            //System.err.println("Error resolving ");
+            //System.err.println("Error resolving "+toString());
+            e.printStackTrace();
             return null;
         }
         try{
-            return memberSelector.apply(resolved);
+            Tokens ts = memberSelector.apply(resolved);
+            //System.out.println("TOKS"+ts );
+            return ts;
         } catch(Exception e){
             //e.printStackTrace();
             //System.err.println("Error selecting; returning null Selection");

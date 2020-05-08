@@ -17,6 +17,11 @@ public final class _parameter
     implements _java._withNameTypeRef<Parameter, _parameter>, _annoRefs._withAnnoRefs<_parameter>,
         _modifiers._withFinal<_parameter>, _java._multiPart<Parameter, _parameter> {
 
+    public static _parameter from (StackTraceElement ste ){
+        _parameter _p = _lambda.from(ste).getParameter(0);
+        _p.ast().remove();
+        return of( _p.ast() );
+    }
     /**
      *
      * @param type
@@ -103,6 +108,11 @@ public final class _parameter
         return _annoRefs.of( this.astParameter );
     }
 
+    public _parameter setVarArg(boolean b ){
+        this.astParameter.setVarArgs(b);
+        return this;
+    }
+
     public boolean isVarArg() {
         return this.astParameter.isVarArgs();
     }
@@ -154,7 +164,6 @@ public final class _parameter
                 Objects.hash( 
                         Expressions.hashAnnos(astParameter),
                         this.getName(),
-                        
                         Types.hash(astParameter.getType()),
                         this.isVarArg(),
                         this.isFinal() );

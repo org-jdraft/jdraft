@@ -875,7 +875,7 @@ public class $annoRef
      * An Or entity that can match against any of the $bot instances provided
      * NOTE: template features (draft/fill) are supressed.
      */
-    public static class Or extends $annoRef { //implements $selector.$orSelect<_anno, $anno, Or> {
+    public static class Or extends $annoRef {
 
          final List<$annoRef> $annoRefBots = new ArrayList<>();
 

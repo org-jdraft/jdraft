@@ -97,6 +97,14 @@ public class _moduleProvides implements _java._node<ModuleProvidesDirective, _mo
         return Objects.equals( of(stringRep ).me, this.me);
     }
 
+    public int hashCode(){
+        return 31 * this.me.hashCode();
+    }
+
+    public boolean equals(Object o ){
+        return o instanceof _moduleProvides && Objects.equals( ((_moduleProvides)o).me, this.me);
+    }
+
     public String toString(){
         return this.me.toString();
     }

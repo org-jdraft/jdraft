@@ -88,6 +88,14 @@ public class _moduleOpens implements _java._node<ModuleOpensDirective, _moduleOp
         return Objects.equals( of(stringRep ).mod, this.mod);
     }
 
+    public int hashCode(){
+        return 31 * this.mod.hashCode();
+    }
+
+    public boolean equals(Object o ){
+        return o instanceof _moduleOpens && Objects.equals( ((_moduleOpens)o).mod, this.mod);
+    }
+
     public String toString(){
         return this.mod.toString();
     }

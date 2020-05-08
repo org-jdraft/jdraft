@@ -5,7 +5,6 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.UnaryExpr;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import com.github.javaparser.ast.expr.DoubleLiteralExpr;
-import com.github.javaparser.ast.modules.ModuleDeclaration;
 
 /**
  * A Post processor attached to the JavaParser to condense negative UnaryExpr + Number literals
@@ -28,9 +27,11 @@ import com.github.javaparser.ast.modules.ModuleDeclaration;
  *       └─"-10000" IntegerLiteralExpr : (1,28)-(1,25)
  *  </PRE>
  * //double negative?
- *              - -2
+ *              - -2 (will leave as is)
+ *
  * //multi line -
- *               number
+ *               100
+ *               number (will take the start position of the - and the end position of the number (100)
  */
 public class NegativeLiteralNumberPostProcessor implements ParseResult.PostProcessor{
 
@@ -39,7 +40,10 @@ public class NegativeLiteralNumberPostProcessor implements ParseResult.PostProce
         doProcess(result, configuration);
     }
 
-
+    /**
+     * Since this method is stateless, made it a static method to enhance testability
+     * @param result the result of the parse
+     */
     public static void doProcess(ParseResult<? extends Node> result){
         doProcess(result, null);
     }
@@ -96,7 +100,6 @@ public class NegativeLiteralNumberPostProcessor implements ParseResult.PostProce
                         ue.replace(replacementInt);
                     }
                 } else{ ////double negative??
-                    //?? not sure what to do here
                     //in this case, leave it as a double unaryExpr
                 }
             }
@@ -116,7 +119,7 @@ public class NegativeLiteralNumberPostProcessor implements ParseResult.PostProce
                         ue.replace(replacementDouble);
                     }
                 } else{ ////double negative??
-                    //?? not sure what to do here
+                    //leave it as a double negate
                 }
             }
         }
