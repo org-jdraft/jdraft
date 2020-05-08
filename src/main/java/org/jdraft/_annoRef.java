@@ -1002,7 +1002,10 @@ public final class _annoRef
             return this.mvp.getNameAsString();
         }
 
-        public Node getNameNode() { return this.mvp.getName(); }
+        public Node getNameNode() {
+            //System.out.println( "NAME" + this.mvp.getName() );
+            return this.mvp.getName();
+        }
 
         public _memberValue setName(String name){
             this.mvp.setName(name);

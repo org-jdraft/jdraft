@@ -9,6 +9,7 @@ import org.jdraft.text.*;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * $bot for inspecting or mutating an {@link ArrayAccessExpr} or {@link _arrayAccess}
@@ -16,7 +17,7 @@ import java.util.function.Predicate;
  */
 public class $arrayAccess
         implements $bot.$node<ArrayAccessExpr, _arrayAccess, $arrayAccess>,
-        $bot.$multiBot<ArrayAccessExpr, _arrayAccess, $arrayAccess>,
+        //$bot.$multiBot<ArrayAccessExpr, _arrayAccess, $arrayAccess>,
         $selector.$node<_arrayAccess, $arrayAccess>,
         $expression<ArrayAccessExpr, _arrayAccess, $arrayAccess>,
         Template<_arrayAccess> {
@@ -155,6 +156,33 @@ public class $arrayAccess
     public $arrayAccess(_arrayAccess _aa) {
         this.name = $expression.of(_aa.getName());
         this.index = $expression.of(_aa.getIndex());
+    }
+
+    public boolean isMatchAny(){
+        if(this.name.isMatchAny() && this.index.isMatchAny()){
+            try{
+                return this.predicate.test(null);
+            }catch(Exception e){
+            }
+        }
+        return false;
+    }
+
+    public  $arrayAccess $(String target, String $name){
+        $listBots().forEach(b -> b.$(target, $name));
+        return this;
+    }
+
+    public List<String> $list(){
+        List<String> strs = new ArrayList<>();
+        $listBots().forEach(b -> strs.addAll( b.$list() ));
+        return strs;
+    }
+
+    public List<String> $listNormalized(){
+        List<String> strs = new ArrayList<>();
+        $listBots().forEach(b -> strs.addAll( b.$list() ));
+        return strs.stream().distinct().collect(Collectors.toList());
     }
 
     public List<$bot> $listBots(){

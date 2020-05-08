@@ -1178,7 +1178,6 @@ public interface $bot<B, _B, $B>
         return listIn(astNode, matchFn).stream();
     }
 
-
     /**
      * a bot that can interact with a composite syntax with other (nested) bots for it's individual parts
      * for instance, a $methodCall is a bot that represents a method call, it has (4) internal part-bots
@@ -1191,15 +1190,14 @@ public interface $bot<B, _B, $B>
      *  when we test to see if any given {@link _methodCall} is a match, we ask each part-Bot to inspect each part
      *  and see if they match, if they DO, then we know the {@link _methodCall} matches
      * (NanoMachines Son) sorry had to
-     */
+
     interface $multiBot<MB, _MB, $MB extends Template<_MB>> extends $bot<MB, _MB, $MB>, $selector<_MB, $MB>, Template<_MB>{
 
-        /**
          * lists all the embedded bots that can help inspect or mutate the direct parts
          * of the main (parent) bot
          * the $ prefix is because we are not commanding the bot to do anything
          * but rather operating on the bot itslef
-         */
+
         List<$bot> $listBots();
 
         default boolean isMatchAny(){
@@ -1232,9 +1230,7 @@ public interface $bot<B, _B, $B>
         default void printEachTreeIn(_batch..._batches){
             Arrays.stream(_batches).forEach(_b -> printEachTreeIn(_b.load()));
         }
-
-
-    }
+    }*/
 
     /**
      * a bot that operates on a {@link Node} implementation within the AST

@@ -17,7 +17,6 @@ import org.jdraft.text.Translator;
  * $bot for inspecting, drafting and mutating {@link _methodCall}s / {@link MethodCallExpr}s
  */
 public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $methodCall>,
-        //$bot.$multiBot<MethodCallExpr, _methodCall, $methodCall>,
         $selector.$node<_methodCall, $methodCall>,
         $expression<MethodCallExpr, _methodCall, $methodCall> {
 

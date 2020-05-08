@@ -117,18 +117,18 @@ public class $annoRef
     public static $annoRef as(_annoRef _an){
         $annoRef $a = of( _an);
         //add a constraint to verify there are EXACTLY only the same
-        $a.$and( _a-> _an.listKeys().size() == _a.listKeys().size() && _an.listValues().size() == _an.listValues().size());
+        $a.$and( _a-> _an.listKeys().size() == _a.listKeys().size() && _an.listValues().size() == _a.listValues().size());
         return $a;
     }
 
     /** Default Matching constraint (by default ALWAYS Match)*/
-    Predicate<_annoRef> predicate = a -> true;
+    public Predicate<_annoRef> predicate = a -> true;
 
     /** the id / name of the annotation */
-    $name name;
+    public $name name;
 
     /** the member values of the annotation */
-    List<$memberValue> $mvs = new ArrayList<>();
+    public List<$memberValue> $mvs = new ArrayList<>();
 
     public $annoRef copy(){
         return of( this.predicate.and(t->true) )
@@ -291,7 +291,9 @@ public class $annoRef
     }
 
     public Tokens parse(_annoRef _a) {
+        //System.out.println("PARSE");
         if( ! this.predicate.test(_a)){
+            //System.out.println("PREDICATE FAILED" );
             return null;
         }
 
@@ -300,11 +302,19 @@ public class $annoRef
             //System.out.println( "Parse null for name "+name+" for \""+_a.getName()+"\"");
             return null;
         }
+        //System.out.println("NAME PASSED" );
         Tokens ts = ss.tokens; //name.parse(_a.getName());
 
         if ($mvs.isEmpty() ) {
             //System.out.println( "Returning "+ts+" for name \""+_a.getName()+"\"");
             return ts;
+        }
+
+        if( $mvs.size() == 1 ){
+            if($mvs.get(0).isMatchAny() || $mvs.get(0).key.matches("value") && $mvs.get(0).value.isMatchAny()){
+                ts.add( $mvs.get(0).value.$list().get(0), _a.getKeyValuesMap() );
+                return ts;
+            }
         }
         AnnotationExpr astAnn = _a.ast();
         if (astAnn instanceof MarkerAnnotationExpr) {
@@ -318,7 +328,12 @@ public class $annoRef
             return null;
         }
         if (astAnn instanceof SingleMemberAnnotationExpr) {
+            //System.out.println( "SINGLE MEMBER");
             if ($mvs.size() == 1) {
+                if( !$mvs.get(0).key.matches("value") ){
+                    //System.out.println(">>>>>>>>>>>>SHOULDNT MATCH");
+                    return null;
+                }
                 SingleMemberAnnotationExpr sme = (SingleMemberAnnotationExpr) astAnn;
                 Tokens props = $mvs.get(0).parse(sme.getMemberValue());
                 if( props == null ){
@@ -351,6 +366,7 @@ public class $annoRef
             }
 
             if( $mvs.size() == 1 && astNa.getPairs().isEmpty() && $mvs.get(0).isMatchAny() ){
+                //System.out.println( "Is match Any Pairs");
                 return ts;
             }
             if ($mvs.size() <= astNa.getPairs().size()) {
@@ -469,6 +485,7 @@ public class $annoRef
     }
 
     public Select<_annoRef> select(_annoRef _a){
+        //System.out.println( "IN SELECT "+ _a);
         if(this.predicate.test(_a)){
             Tokens ts = parse(_a);
             if( ts != null ){
@@ -580,7 +597,8 @@ public class $annoRef
         }
 
         public static $memberValue of(Expression value) {
-            return new $memberValue("$_$", value);
+            //return new $memberValue("$_$", value);
+            return new $memberValue("value", value);
         }
 
         public static $memberValue of(String key, String value) {
@@ -625,7 +643,7 @@ public class $annoRef
         public boolean isMatchAny() {
             boolean k = key.isMatchAny();
             boolean v = value.isMatchAny();
-            return   k && v;
+            return  k && v;
         }
 
         private $memberValue(){ }
@@ -790,6 +808,7 @@ public class $annoRef
          *
          */
         public Select select (Expression onlyValueExpression){
+            //System.out.println( "Selecting Only Value");
             MemberValuePair mvp = new MemberValuePair("", onlyValueExpression);
             if( constraint.test( _annoRef._memberValue.of(mvp) ) ) {
                 //because values can be arrays we dont want to test for direct equality of the
@@ -821,22 +840,41 @@ public class $annoRef
 
         @Override
         public Predicate<_annoRef._memberValue> getPredicate() {
-            return null;
+            return this.constraint;
         }
 
         @Override
         public $memberValue setPredicate(Predicate<_annoRef._memberValue> predicate) {
-            return null;
+            this.constraint = predicate;
+            return this;
         }
 
         public Select<_annoRef._memberValue> select(_annoRef._memberValue _mvp){
             if (_mvp == null) {
+                //System.out.println("MVP NULL");
                 return null;
             }
+            //System.out.println("Checking constraint");
             if (constraint.test(_mvp)) {
+
+                if( _mvp.isValueOnly() ){
+                    //System.out.println("valueOnly");
+                    if( !this.key.isMatchAny() ){
+                        //System.out.println("NOT Match any key ");
+                        Select s = this.key.select("value");
+                        if( s == null ) {
+                            //System.out.println("Not seelcted value  ");
+                            return null;
+                        }
+                    } else{
+                        //System.out.println("Match any key ");
+                    }
+                }
                 Select ss = key.select(_mvp.getNameNode());
                 if( ss == null){
                     return null;
+                } else{
+                    //System.out.println( key.stencil+" selected "+ _mvp.getNameNode() );
                 }
                 //$selector.Select ts = key.select(mvp.get)
                 //Tokens ts = key.parse(mvp.getNameAsString());
@@ -866,7 +904,7 @@ public class $annoRef
 
         @Override
         public boolean matches(String candidate) {
-            return false;
+            return matches(_annoRef._memberValue.of(candidate));
         }
 
     }
