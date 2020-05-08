@@ -4,6 +4,26 @@ import junit.framework.TestCase;
 
 public class $annoRefTest extends TestCase {
 
+
+    public void testHardCode(){
+        $annoRef $ar = $annoRef.of("@A($value$)");
+        assertTrue( $ar.matches( "@A(1)"));
+        assertTrue( $ar.matches( "@A(2)"));
+        $ar.$hardcode("value", 1);
+
+        assertTrue( $ar.matches( "@A(1)"));
+        assertFalse( $ar.matches( "@A(2)"));
+    }
+
+    public void testHardCodeOr(){
+        $annoRef $aror = $annoRef.or( $annoRef.of("@A($value$)"), $annoRef.of("@my$name$($key$=2)") );
+        assertTrue( $aror.matches("@A(1)"));
+        assertTrue( $aror.matches("@A(2)"));
+        $aror = $aror.$hardcode("value", "1"); //verify only @A(1) matches
+        assertTrue( $aror.matches("@A(1)"));
+        assertFalse( $aror.matches("@A(2)"));
+    }
+
     public void testMatchAny() {
         $annoRef $ar = $annoRef.of();
         assertTrue( $ar.matches("@A") );

@@ -260,10 +260,18 @@ public class $annoRef
 
     @Override
     public $annoRef $hardcode(Translator translator, Tokens kvs) {
-        this.name = this.name.$hardcode(translator,kvs);
+        //System.out.println( "IN HARDCODE "+ name);
+        this.name = this.name.$hardcode(translator, kvs);
+        //System.out.println( "IN HARDCODE "+ name);
 
         List<$memberValue> sts = new ArrayList<>();
-        this.$mvs.forEach(st -> sts.add( st.$hardcode(translator, kvs)));
+        this.$mvs.forEach(mv -> {
+            //System.out.println("B4 "+ mv );
+
+            sts.add( mv.$hardcode(translator, kvs));
+            //System.out.println("B4 "+ mv );
+        });
+        this.$mvs = sts;
         return this;
     }
 
@@ -666,7 +674,9 @@ public class $annoRef
             if( this.key != null ) {
                 this.key = this.key.$hardcode(translator, tokens);
             }
+            //m.out.println("VALUE B4"+this.value+ tokens);
             this.value.$hardcode(translator, tokens);
+            //System.out.println("VALUE After"+this.value+tokens);
             return this;
         }
 
@@ -677,7 +687,9 @@ public class $annoRef
 
         @Override
         public _annoRef._memberValue draft(Translator translator, Map<String, Object> keyValues) {
-            return null;
+            _expression _ex = (_expression)this.value.draft(translator, keyValues);
+            String key = this.key.draft(translator, keyValues).toString();
+            return _annoRef._memberValue.of( new MemberValuePair(key, _ex.ast()));
         }
 
         /**
@@ -694,12 +706,18 @@ public class $annoRef
 
         @Override
         public List<String> $list() {
-            return null;
+            List<String> strs = new ArrayList<>();
+            strs.addAll(this.key.$list());
+            strs.addAll(this.value.$list());
+            return strs;
         }
 
         @Override
         public List<String> $listNormalized() {
-            return null;
+            List<String> strs = new ArrayList<>();
+            strs.addAll(this.key.$listNormalized());
+            strs.addAll(this.value.$listNormalized());
+            return strs.stream().distinct().collect(Collectors.toList());
         }
 
         /**
@@ -744,6 +762,19 @@ public class $annoRef
 
         @Override
         public Select<_annoRef._memberValue> selectFirstIn(Node astNode, Predicate<Select<_annoRef._memberValue>> predicate) {
+            Optional<Node> on = astNode.stream().filter( n-> {
+                if( n instanceof MemberValuePair){
+                    _annoRef._memberValue _mv = _annoRef._memberValue.of( (MemberValuePair)n);
+                    Select<_annoRef._memberValue> smv = select(_mv);
+                    if( smv != null && predicate.test(smv)){
+                        return true;
+                    }
+                }
+                return false;
+            }).findFirst();
+            if( on.isPresent() ){
+                return select( (MemberValuePair)on.get() );
+            }
             return null;
         }
 
@@ -775,7 +806,6 @@ public class $annoRef
         public boolean matches(MemberValuePair mvp) {
             return select(mvp) != null;
         }
-
         /**
          *
          * @param onlyValueExpression
@@ -919,6 +949,8 @@ public class $annoRef
 
          public Or($annoRef...$as){
              super();
+             this.name = $name.of();
+             this.$mvs = new ArrayList<>();
              Arrays.stream($as).forEach($a -> $annoRefBots.add($a) );
          }
 
@@ -938,15 +970,19 @@ public class $annoRef
              return theCopy;
          }
 
-         @Override
-         public List<String> $list(){
-             return $annoRefBots.stream().map($a ->$a.$list() ).flatMap(Collection::stream).collect(Collectors.toList());
-         }
+        public List<String> $list(){
+            List<String> list = new ArrayList<>();
+            list.addAll( super.$list());
+            this.$annoRefBots.forEach( $ar -> list.addAll( $ar.$list()));
+            return list;
+        }
 
-         @Override
-         public List<String> $listNormalized(){
-             return $annoRefBots.stream().map($a ->$a.$listNormalized() ).flatMap(Collection::stream).distinct().collect(Collectors.toList());
-         }
+        public List<String> $listNormalized(){
+            List<String> list = new ArrayList<>();
+            list.addAll( super.$listNormalized());
+            this.$annoRefBots.forEach( $ar -> list.addAll( $ar.$listNormalized()));
+            return list.stream().distinct().collect(Collectors.toList());
+        }
 
          @Override
          public _annoRef fill(Object...vals){
@@ -976,7 +1012,7 @@ public class $annoRef
          @Override
          public String toString(){
              StringBuilder sb = new StringBuilder();
-             sb.append("$anno.Or{");
+             sb.append("$annoRef.Or{");
              sb.append(System.lineSeparator());
              $annoRefBots.forEach($a -> sb.append( Text.indent($a.toString()) ) );
              sb.append("}");
@@ -1012,6 +1048,13 @@ public class $annoRef
          public List<$annoRef> $listOrSelectors() {
             return this.$annoRefBots;
          }
+
+         public $annoRef.Or $hardcode(Translator tr, Tokens ts){
+            super.$hardcode(tr, ts);
+            this.$annoRefBots.forEach( $ar -> $ar.$hardcode(tr, ts));
+            return this;
+         }
+
 
         public $annoRef whichMatch(_annoRef _a){
               return whichMatch(_a.ast());

@@ -43,6 +43,29 @@ public final class _annoRefs
         return _as;
     }
 
+    public static _annoRefs of(Class<? extends Annotation> annotationClass){
+        return of( _annoRef.of(annotationClass));
+    }
+
+    public static _annoRefs of(_annoRef _ar){
+        _annoRefs _ars = of();
+        _ars.add(_ar);
+        return _ars;
+    }
+
+    public static _annoRefs of(_annoRef... _arr){
+        _annoRefs _ars = of();
+        _ars.add(_arr);
+        return _ars;
+    }
+
+    public static _annoRefs of(Class<? extends Annotation>... annotationClasses){
+        _annoRefs _ars = of();
+        _ars.add(annotationClasses);
+        return _ars;
+
+    }
+
     public static _annoRefs of(){
         return new _annoRefs(field( "NOT_A_REAL_FIELD AST_ANNO_HOLDER;") );
     }

@@ -13,6 +13,7 @@ import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
+import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -28,8 +29,41 @@ public class $annoRefs
         return new $annoRefs();
     }
 
+    public static $annoRefs of($annoRef $ar){
+        return new $annoRefs($ar);
+    }
+
     public static $annoRefs of($annoRef...$ars){
         return new $annoRefs($ars);
+    }
+
+    public static $annoRefs of(Class<? extends Annotation> annoClass){
+        return of( _annoRef.of(annoClass));
+    }
+
+    public static $annoRefs of(Class<? extends Annotation>... annoClasses){
+        _annoRefs _ars = _annoRefs.of();
+        //_annoRef[] _ars = new _annoRef[annoClasses.length];
+        for(int i=0;i<annoClasses.length;i++){
+            _ars.add(_annoRef.of( annoClasses[i]));
+        }
+        return of(_ars);
+    }
+
+    public static $annoRefs of( String annos){
+        return of(_annoRefs.of(annos) );
+    }
+
+    public static $annoRefs of( String... annos){
+        return of(_annoRefs.of(annos) );
+    }
+
+    public static $annoRefs of( _annoRef _ar){
+        return of( _annoRefs.of(_ar));
+    }
+
+    public static $annoRefs of( _annoRef... _ars){
+        return of( _annoRefs.of(_ars));
     }
 
     public static $annoRefs of( _annoRefs _annoRefs){
@@ -42,18 +76,6 @@ public class $annoRefs
 
     public static $annoRefs of( NodeWithAnnotations nwa){
         return of( _annoRefs.of(nwa));
-    }
-
-    public static $annoRefs as( NodeWithAnnotations nwa){
-        return as( _annoRefs.of(nwa));
-    }
-
-    public static $annoRefs as( _annoRefs _annoRefs){
-        $annoRef[] $ars = new $annoRef[_annoRefs.size()];
-        for(int i=0;i<_annoRefs.size(); i++){
-            $ars[i]= $annoRef.as(_annoRefs.getAt(i));
-        }
-        return as($ars);
     }
 
     /**
@@ -69,6 +91,25 @@ public class $annoRefs
         return of( _annoRefs.of(bd) );
     }
 
+    public static $annoRefs as( NodeWithAnnotations nwa){
+        return as( _annoRefs.of(nwa));
+    }
+
+    public static $annoRefs as( _annoRefs _annoRefs){
+        $annoRef[] $ars = new $annoRef[_annoRefs.size()];
+        for(int i=0;i<_annoRefs.size(); i++){
+            $ars[i]= $annoRef.as(_annoRefs.getAt(i));
+        }
+        return as($ars);
+    }
+
+    public static $annoRefs as( String annos){
+        return as(_annoRefs.of(annos) );
+    }
+
+    public static $annoRefs as( String... annos){
+        return as(_annoRefs.of(annos) );
+    }
     /**
      *
      * @param anonymousObjectWitAnnotations
@@ -82,10 +123,6 @@ public class $annoRefs
         return as( bd );
     }
 
-    public static $annoRefs.Or or($annoRefs...$as ){
-        return new $annoRefs.Or($as);
-    }
-
     /**
      * I want EXACTLY these annotations (no more, no less)
      * @param $ars
@@ -93,6 +130,10 @@ public class $annoRefs
      */
     public static $annoRefs as($annoRef...$ars){
         return of($ars).$and(as-> as.size() == $ars.length);
+    }
+
+    public static $annoRefs.Or or($annoRefs...$as ){
+        return new $annoRefs.Or($as);
     }
 
     public Predicate<_annoRefs> predicate = t-> true;
@@ -187,41 +228,6 @@ public class $annoRefs
             }
         }
         return new Select(_anns, tokens);
-        /*
-        List<_annoRef> _as = candidate.list();
-        Tokens ts = Tokens.of();
-
-        top: for(int i=0; i< $as.size();i++){
-            $annoRef $a = $as.get(i);
-            for(int j=0; j< _as.size(); j++ ){
-                _annoRef _ar = _as.get(j);
-                Select s = $a.select(_ar);
-                if( s != null ){
-                    _as.remove(_ar);
-                    if( ts.isConsistent(s.tokens) ){
-                        ts.putAll( s.tokens);
-                    } else{
-                        return null;
-                    }
-                    break top;
-                }
-            }
-            Optional<_annoRef> f = _as.stream().filter(_a -> $a.matches( _a)).findFirst();
-            if( !f.isPresent() ){
-                return null;
-            }
-            Tokens each = $a.select(f.get()).tokens;
-
-            if( !ts.isConsistent(each)){
-                return null;
-            }
-            _as.remove(f);
-            ts.putAll(each);
-        }
-        this.$annos.forEach($a -> );
-        Map<$annoRef, _annoRef> annoMap = new HashMap<>();
-        */
-
     }
 
     public Select<_annoRefs> select(String...candidate){
@@ -314,6 +320,13 @@ public class $annoRefs
         @Override
         public List<String> $listNormalized(){
             return $annoRefsBots.stream().map($a ->$a.$listNormalized() ).flatMap(Collection::stream).distinct().collect(Collectors.toList());
+        }
+
+        @Override
+        public $annoRefs.Or $hardcode(Translator translator, Tokens tokens){
+            //System.out.println(" calling hardcode " + tokens);
+            $annoRefsBots.stream().forEach($a ->$a.$hardcode(translator, tokens));
+            return this;
         }
 
         @Override

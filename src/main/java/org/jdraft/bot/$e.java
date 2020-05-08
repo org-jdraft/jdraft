@@ -206,7 +206,7 @@ public class $e
 
 	public $e $hardcode(Translator tr, Tokens ts){
 		if( this.stencil != null ){
-			this.stencil.$hardcode(tr, ts);
+			this.stencil =  this.stencil.$hardcode(tr, ts);
 		}
 		return this;
 	}
