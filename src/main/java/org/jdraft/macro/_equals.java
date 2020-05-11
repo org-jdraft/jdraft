@@ -3,8 +3,7 @@ package org.jdraft.macro;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import org.jdraft.*;
 import com.github.javaparser.ast.stmt.BlockStmt;
-import org.jdraft.pattern.$method;
-import org.jdraft.pattern.$stmt;
+import org.jdraft.text.Stencil;
 import org.jdraft.text.Tokens;
 
 import java.lang.annotation.* ;
@@ -27,15 +26,16 @@ public @interface _equals {
     Predicate<_field> FIELDS_FOR_EQUALS = f -> !f.isStatic();
 
     /** template statements for typesEqual based on the field TYPE */
-    $stmt $float = $stmt.of("eq = eq && Float.compare(this.$name$,test.$name$) == 0;");
-    $stmt $double = $stmt.of("eq = eq && Double.compare(this.$name$,test.$name$) == 0;");
-    $stmt $primitive = $stmt.of("eq = eq && this.$name$ == test.$name$;");
-    $stmt $arrayOfPrimitives = $stmt.of("eq = eq && java.util.Arrays.equals(this.$name$,test.$name$);");
-    $stmt $arrayOfObject = $stmt.of("eq = eq && java.util.Arrays.deepEquals(this.$name$,test.$name$);");
-    $stmt $default = $stmt.of("eq = eq && java.util.Objects.equals(this.$name$,test.$name$);");
+    //$stmt $float = $stmt.of("eq = eq && Float.compare(this.$name$,test.$name$) == 0;");
+    Stencil $float = Stencil.of("eq = eq && Float.compare(this.$name$,test.$name$) == 0;\n");
+    Stencil $double = Stencil.of("eq = eq && Double.compare(this.$name$,test.$name$) == 0;\n");
+    Stencil $primitive = Stencil.of("eq = eq && this.$name$ == test.$name$;\n");
+    Stencil $arrayOfPrimitives = Stencil.of("eq = eq && java.util.Arrays.equals(this.$name$,test.$name$);\n");
+    Stencil $arrayOfObject = Stencil.of("eq = eq && java.util.Arrays.deepEquals(this.$name$,test.$name$);\n");
+    Stencil $default = Stencil.of("eq = eq && java.util.Objects.equals(this.$name$,test.$name$);\n");
 
     /** NOTE: we made this a String (not a lambda, etc.) to improve startup perf */
-    $method $equals = $method.of(
+    Stencil $equals = Stencil.of(
             "public boolean equals(Object o){",
             "if(o == null) {",
             "   return false;",
@@ -48,8 +48,8 @@ public @interface _equals {
             "}",
             "$className$ test = ($className$)o;",
             "boolean eq = true;",
-            "$callSuperEquals: {eq = super.equals( test );}",
-            "$BODY:{}",
+            "$callSuperEquals$", //"$callSuperEquals: {eq = super.equals( test );}",
+            "$BODY$", //$BODY:{}
             "return eq;",
             "}");
 
@@ -86,7 +86,9 @@ public @interface _equals {
                 ts.put("className", _c.getName());
                 if( _c.hasExtends() ){
                     //ts.put("$callSuperEquals", true);
-                    ts.put("callSuperEquals", true);
+                    ts.put("callSuperEquals", "eq = super.equals( test );"); //true);
+                } else{
+                    ts.put("callSuperEquals", "");
                 }
                 //_1_build the BODY of statements for checking the FIELDS
                 // then update the $typesEqual method template with the code
@@ -97,25 +99,27 @@ public @interface _equals {
 
                 _fs.forEach(f-> {
                     if( f.isTypeRef(float.class) ){
-                        body.addStatement( $float.fill(f.getName()).ast());
+                        body.addStatement( $float.fill(f.getName()));
                     }else if( f.isTypeRef(double.class)){
-                        body.addStatement($double.fill(f.getName()).ast());
+                        body.addStatement($double.fill(f.getName()));
                     }else if( f.isPrimitive() ){
-                        body.addStatement($primitive.fill(f.getName()).ast());
+                        body.addStatement($primitive.fill(f.getName()));
                     }else{
                         if( f.isArray()){
                             if( f.getTypeRef().getElementType().isPrimitiveType() ){
-                                body.addStatement($arrayOfPrimitives.fill(f.getName()).ast());
+                                body.addStatement($arrayOfPrimitives.fill(f.getName()));
                             } else {
-                                body.addStatement($arrayOfObject.fill(f.getName()).ast());
+                                body.addStatement($arrayOfObject.fill(f.getName()));
                             }
                         }else {
-                            body.addStatement($default.fill(f.getName()).ast());
+                            body.addStatement($default.fill(f.getName()));
                         }
                     }
                 });
                 ts.put("BODY", body);
-                _c.addMethod( $equals.draft(ts) );
+                String drafted = $equals.draft(ts);
+                //System.out.println( drafted );
+                _c.addMethod( drafted );
             }
             return _t;
         }
