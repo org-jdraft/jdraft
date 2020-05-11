@@ -1014,14 +1014,39 @@ public enum Expressions {
     public static final Class<IntegerLiteralExpr> INT_LITERAL = IntegerLiteralExpr.class;
 
     public static IntegerLiteralExpr of(int i) {
-        return new IntegerLiteralExpr(i);
+        return intLiteralEx( ""+i);
+        //IntegerLiteralExpr ile = new IntegerLiteralExpr(i);
+        //return ile;
     }
 
     public static IntegerLiteralExpr intLiteralEx(int i) {
-        return new IntegerLiteralExpr(i);
+        return intLiteralEx(""+i);
+        //IntegerLiteralExpr ile = new IntegerLiteralExpr(i);
+        //return ile;
     }
 
     public static IntegerLiteralExpr intLiteralEx(String... code ) {
+        Expression e = of(code);
+        if( e instanceof IntegerLiteralExpr ){
+            return (IntegerLiteralExpr)e;
+        }
+        if( e instanceof UnaryExpr && ((UnaryExpr) e).getExpression().isIntegerLiteralExpr()){
+            UnaryExpr par = (UnaryExpr) e;
+            //condense the UnaryExpr down to a IntLiteralExpr
+            if( par.getOperator() == UnaryExpr.Operator.PLUS){
+                return par.getExpression().asIntegerLiteralExpr();
+            }
+            if( par.getOperator() == UnaryExpr.Operator.MINUS){
+                IntegerLiteralExpr ile = par.getExpression().asIntegerLiteralExpr();
+                //
+                String val = ile.getValue();
+                ile.setValue("-"+ile.getValue());
+                if( ile.getRange().isPresent()){
+                    ile.setRange(par.getRange().get());
+                }
+                return ile;
+            }
+        }
         return of( code ).asIntegerLiteralExpr();
     }
 
