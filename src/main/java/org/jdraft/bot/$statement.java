@@ -206,7 +206,7 @@ public interface $statement<S extends Statement, _S extends _statement, $S exten
      * Refactoring from one {@link _statement} to another {@link _statement}
      * @param <_T> the "target" {@link _statement} type
      */
-    class $refactor<_T extends _statement> implements $refactoring{
+    class $refactor<_T extends _statement> implements $refactorBot {
 
         /** Selects the instances to refactor from the target */
         $statement target$Bot;
@@ -264,8 +264,8 @@ public interface $statement<S extends Statement, _S extends _statement, $S exten
             return _cus;
         }
 
-        public _project in(_project... _cus){
-            _project _cuss = _project.of(_cus);
+        public _project in(_project... _p){
+            _project _cuss = _project.of(_p);
             this.target$Bot.forSelectedIn(_cuss, refactorAction);
             return _cuss;
         }

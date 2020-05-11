@@ -158,7 +158,7 @@ public interface $expression<E extends Expression, _E extends _expression, $E ex
      * Refactoring from one {@link _expression} to another {@link _expression}
      * @param <_T> the target {@link _expression} type to be refactored
      */
-    class $refactor<_T extends _expression> implements $refactoring{
+    class $refactor<_T extends _expression> implements $refactorBot {
 
         /** Selects the instances to refactor from the target */
         $expression target$Bot;
@@ -216,8 +216,8 @@ public interface $expression<E extends Expression, _E extends _expression, $E ex
             return _cus;
         }
 
-        public _project in(_project... _cus){
-            _project _cuss = _project.of(_cus);
+        public _project in(_project... _p){
+            _project _cuss = _project.of(_p);
             this.target$Bot.forSelectedIn(_cuss, refactorAction);
             return _cuss;
         }

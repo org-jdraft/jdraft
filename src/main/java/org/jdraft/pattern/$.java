@@ -27,7 +27,7 @@ import org.jdraft._annoRefs;
 import org.jdraft._parameters;
 import org.jdraft._typeParameters;
 import org.jdraft.bot.$expression;
-import org.jdraft.bot.$refactoring;
+import org.jdraft.bot.$refactorBot;
 import org.jdraft.bot.$statement;
 import org.jdraft.macro._remove;
 import org.jdraft.macro.macro;
@@ -125,7 +125,7 @@ public final class $ {
      * @param refactorPattern
      * @return
      */
-    public static $refactoring refactor(String targetPattern, String refactorPattern){
+    public static $refactorBot refactor(String targetPattern, String refactorPattern){
         targetPattern = targetPattern.trim();
         if( targetPattern.endsWith(";") ){
             return $statement.refactor(targetPattern, refactorPattern);
@@ -135,19 +135,19 @@ public final class $ {
         }
     }
 
-    public static $refactoring refactor($expression $targetPattern, $expression $refactorPattern){
+    public static $refactorBot refactor($expression $targetPattern, $expression $refactorPattern){
         return $expression.refactor($targetPattern, $refactorPattern);
     }
 
-    public static $refactoring refactor($expression $targetPattern, String refactorPattern){
+    public static $refactorBot refactor($expression $targetPattern, String refactorPattern){
         return $expression.refactor($targetPattern, $expression.of(refactorPattern));
     }
 
-    public static $refactoring refactor($statement $targetPattern, $statement $refactorPattern){
+    public static $refactorBot refactor($statement $targetPattern, $statement $refactorPattern){
         return $statement.refactor($targetPattern, $refactorPattern);
     }
 
-    public static $refactoring refactor($statement $targetPattern, String refactorPattern){
+    public static $refactorBot refactor($statement $targetPattern, String refactorPattern){
         return $statement.refactor($targetPattern, $statement.of(refactorPattern));
     }
 

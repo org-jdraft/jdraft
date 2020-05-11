@@ -2,20 +2,18 @@ package com.github.javaparser;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.UnaryExpr;
-import com.github.javaparser.ast.expr.IntegerLiteralExpr;
-import com.github.javaparser.ast.expr.DoubleLiteralExpr;
+import com.github.javaparser.ast.expr.*;
 
 /**
  * A Post processor attached to the JavaParser to condense negative UnaryExpr + Number literals
- * to a single {@link IntegerLiteralExpr} or {@link DoubleLiteralExpr}
+ * to a single {@link IntegerLiteralExpr} or {@link LongLiteralExpr} or {@link DoubleLiteralExpr}
  *
  * Find all cases of a {@link UnaryExpr} with a {@link UnaryExpr.Operator#MINUS} as
- * parent of {@link IntegerLiteralExpr} or {@link DoubleLiteralExpr}
+ * parent of {@link IntegerLiteralExpr} or {@link DoubleLiteralExpr} or {@link LongLiteralExpr}
  * and replace with:
  * a single {@link IntegerLiteralExpr} with a negative number
  * a single {@link DoubleLiteralExpr} with a negative number
+ * a single {@link LongLiteralExpr} with a negative number
  *
  *  For example:
  *  <PRE>
@@ -64,7 +62,7 @@ public class NegativeLiteralNumberPostProcessor implements ParseResult.PostProce
                     return; //we cant process empty Modules (there are no nodes)
                 }
             }
-            top.stream(Node.TreeTraversal.POSTORDER)
+            top.stream(Node.TreeTraversal.POSTORDER) //process post order (or "bottom up")
                     .filter(n -> n instanceof UnaryExpr)
                     .forEach(e -> replaceUnaryWithNegativeLiteral((UnaryExpr) e));
         }
@@ -128,15 +126,59 @@ public class NegativeLiteralNumberPostProcessor implements ParseResult.PostProce
                     return ue;
                 }
             }
+            else if(ue.getExpression() instanceof LongLiteralExpr){
+                LongLiteralExpr lle = ue.getExpression().asLongLiteralExpr();
+                String longValue = lle.getValue();
+                if( !longValue.startsWith("-")){
+                    longValue = "-"+longValue;
+                    LongLiteralExpr replacementLong = new LongLiteralExpr(longValue);
+                    if( lle.getRange().isPresent() && ue.getRange().isPresent() ) {
+                        Range oldUnaryRange = ue.getRange().get();
+                        Range oldNumRange = lle.getRange().get();
+                        //we "combine" the ranges from the start of the parent UnaryExpression to the End of the
+                        // child (int number) end range (because the - may be on the previous line)
+                        Range newRange = Range.range(oldUnaryRange.begin.line, oldUnaryRange.begin.column, oldNumRange.end.line, oldNumRange.end.column);
+                        replacementLong.setRange(newRange);
+                    }
+                    ue.replace(replacementLong);
+                    return replacementLong;
+                } else{ ////double negative?? the LongLiteralExpr is negative and it's parent is a negative
+                    //in this case, convert to a double unaryExpr
+                    /*
+                     *  └─"--1L" UnaryExpr : (1,20)-(1,23)
+                     *    └─"-1L" LongLiteralExpr : (1,21)-(1,23)
+                     *
+                     * we convert this to a double nested UnaryExpr with a nested (positive) IntegerLiteralExpr
+                     *
+                     * └─"--1L" UnaryExpr : (1,20)-(1,23)
+                     *   └─"-1L" UnaryExpr : (1,21)-(1,23)
+                     *     └─"1L" LongLiteralExpr : (1,22)-(1,23)
+                     */
+                    LongLiteralExpr positive = new LongLiteralExpr(longValue.substring(1));
+                    UnaryExpr newNeg = new UnaryExpr(positive, UnaryExpr.Operator.MINUS);
+                    if( lle.getRange().isPresent() && ue.getRange().isPresent() ) {
+                        //Range oldUnaryRange = ue.getRange().get();
+                        Range oldNumRange = lle.getRange().get();
+                        //we "combine" the ranges from the start of the parent UnaryExpression to the End of the
+                        // child (int number) end range (because the - may be on the previous line)
+                        Range newRange = Range.range(oldNumRange.begin.line, oldNumRange.begin.column+1,
+                                oldNumRange.end.line, oldNumRange.end.column);
+                        positive.setRange(newRange);
+                        newNeg.setRange(lle.getRange().get());
+                    }
+                    ue.setExpression(newNeg); //
+                    return ue;
+                }
+            }
             else if(ue.getExpression() instanceof DoubleLiteralExpr) {
-                DoubleLiteralExpr ile = ue.getExpression().asDoubleLiteralExpr();
-                String doubleValue = ile.getValue();
+                DoubleLiteralExpr dle = ue.getExpression().asDoubleLiteralExpr();
+                String doubleValue = dle.getValue();
                 if( !doubleValue.startsWith("-")){
                     doubleValue = "-"+doubleValue;
                     DoubleLiteralExpr replacementDouble = new DoubleLiteralExpr(doubleValue);
-                    if( ile.getRange().isPresent() && ue.getRange().isPresent() ) {
+                    if( dle.getRange().isPresent() && ue.getRange().isPresent() ) {
                         Range oldUnaryRange = ue.getRange().get();
-                        Range oldRange = ile.getRange().get();
+                        Range oldRange = dle.getRange().get();
                         //we "combine" the ranges from the start of the parent UnaryExpression to the End of the
                         // child (int number) end range (because the - may be on the previous line)
                         Range newRange = Range.range(oldUnaryRange.begin.line, oldUnaryRange.begin.column, oldRange.end.line, oldRange.end.column);
@@ -158,15 +200,15 @@ public class NegativeLiteralNumberPostProcessor implements ParseResult.PostProce
                      */
                     DoubleLiteralExpr positive = new DoubleLiteralExpr(doubleValue.substring(1));
                     UnaryExpr newNeg = new UnaryExpr(positive, UnaryExpr.Operator.MINUS);
-                    if( ile.getRange().isPresent() && ue.getRange().isPresent() ) {
+                    if( dle.getRange().isPresent() && ue.getRange().isPresent() ) {
                         //Range oldUnaryRange = ue.getRange().get();
-                        Range oldNumRange = ile.getRange().get();
+                        Range oldNumRange = dle.getRange().get();
                         //we "combine" the ranges from the start of the parent UnaryExpression to the End of the
                         // child (int number) end range (because the - may be on the previous line)
                         Range newRange = Range.range(oldNumRange.begin.line, oldNumRange.begin.column+1,
                                 oldNumRange.end.line, oldNumRange.end.column);
                         positive.setRange(newRange);
-                        newNeg.setRange(ile.getRange().get());
+                        newNeg.setRange(dle.getRange().get());
                     }
                     ue.setExpression(newNeg); //
                     return ue;

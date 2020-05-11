@@ -13,7 +13,9 @@ import java.util.function.Consumer;
  * "action" {@link Consumer <Select<>>} so it can be predefined and reused against different sources
  *
  * (i.e. to convert all System.out.printlns to Log.debugs:
- * $refactoring $printToLog = $statement.refactor("System.out.println($any$);", "Log.debug($any$);");
+ * $refactorBot $printToLog = $statement.refactor("System.out.println($any$);", "Log.debug($any$);");
+ * //shortcut
+ * $refactorBot $printToLog = $.refactor("System.out.println($any$);", "Log.debug($any$);");
  *
  * //given the code of MyClass.class convert all
  * //System.out.println(...) statements to
@@ -23,7 +25,7 @@ import java.util.function.Consumer;
  *
  * @author Eric
  */
-public interface $refactoring {
+public interface $refactorBot {
 
     /**
      * perform the refactoring on the source code of this clazz abnd return the modified _type
@@ -56,16 +58,17 @@ public interface $refactoring {
     <_N extends _java._node> _N in(_N _n);
 
     /**
-     * perform the refactoring on the source code within the given _batches and return all of the _codeUnits of the _batches
+     * perform the refactoring on the source code within the given _batches and return all of the {@link org.jdraft._codeUnit}s of the _batches
      * @param _batches the batches of source code
      * @return the _codeUnits for all of the java source from the batches
      */
     _project in(_batch... _batches);
 
     /**
-     * perform the refactoring on the source code within the given _batches and return all of the _codeUnits of the _batches
-     * @param _cus the array of _codeUnits to refactor
-     * @return all of the codeUnits (including the refactored code)
+     * Perform the refactoring on the source code within the given _project
+     * and return all of the {@link org.jdraft._codeUnit}s of the _batches
+     * @param _p multiple {@link org.jdraft._codeUnit}s to refactor
+     * @return all of the {@link org.jdraft._codeUnit}s (refactored code)
      */
-    _project in(_project... _cus);
+    _project in(_project... _p);
 }
