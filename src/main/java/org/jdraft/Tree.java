@@ -1544,8 +1544,10 @@ public enum Tree {
                     n -> {
                         _statement _s = _statement.of( (Statement)n);
 
-                        if( ((Predicate<_statement>)_javaMatchFn).test( _s) ){
-                            ((Consumer<_statement>)_javaAction).accept( _s );
+                        if( _javaClass.isAssignableFrom(_s.getClass())) {
+                            if (((Predicate<_statement>) _javaMatchFn).test(_s)) {
+                                ((Consumer<_statement>) _javaAction).accept(_s);
+                            }
                         }
                     });
             return astRootNode;
@@ -1558,8 +1560,10 @@ public enum Tree {
                     n -> {
                         _expression _e = _expression.of( (Expression)n);
 
-                        if( ((Predicate<_expression>)_javaMatchFn).test( _e) ){
-                            ((Consumer<_expression>)_javaAction).accept( _e );
+                        if(_javaClass.isAssignableFrom(_e.getClass())) {
+                            if (((Predicate<_expression>) _javaMatchFn).test(_e)) {
+                                ((Consumer<_expression>) _javaAction).accept(_e);
+                            }
                         }
                     });
             return astRootNode;
