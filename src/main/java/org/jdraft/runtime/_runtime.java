@@ -24,7 +24,8 @@ import javax.tools.ToolProvider;
 
 import org.jdraft.*;
 import org.jdraft.io._batch;
-import org.jdraft.pattern.*;
+import org.jdraft.text.Stencil;
+//import org.jdraft.pattern.*;
 
 /**
  * Simple API to adapt all of the functionality in the
@@ -439,10 +440,16 @@ public final class _runtime {
         return staticEval( Expressions.of(expressionCode));
     }
 
+    private static Stencil $evalExpr = Stencil.of(
+            "public static Object eval(){",
+            "    return $expr$;",
+            "}");
+    /*
     private static $method $evalExpr = $method.of(
             "public static Object eval(){",
             "    return $expr$;",
             "}");
+     */
 
     /* This requires the source of this class be on the classpath... not good
     public static $method $evalExpr = $method.of(
@@ -603,10 +610,16 @@ public final class _runtime {
                  return call(mce.getScope().get().toString(), mce.getNameAsString(), params);
             }
 
+            /* MED REMOVED
             //System.out.println( "NAME "+ mce.getNameAsString() );
-            $type $publicTypeNamedWithConstructor = $type.of( $.PUBLIC, $method.of($.PUBLIC, $.STATIC, $name.as(mce.getNameAsString()) ));
+            //$type $publicTypeNamedWithConstructor = $type.of( $.PUBLIC, $method.of($.PUBLIC, $.STATIC, $name.as(mce.getNameAsString()) ));
 
-            List<_type> _ts = $publicTypeNamedWithConstructor.listIn(this.fileManager.classLoader.list_types());
+            //List<_type> _ts = $publicTypeNamedWithConstructor.listIn(this.fileManager.classLoader.list_types());
+            */
+
+            List<_type> _ts = this.fileManager.classLoader.list_types(_t-> _t.isPublic() &&
+                    _t.getMember(_method.class, (_m)-> ((_method) _m).isPublic() && ((_method) _m).isStatic() && ((_method) _m).isNamed(mce.getNameAsString())) != null);
+
             if( _ts.size() == 0 ){
                 throw new _runtimeException("could not find static method to evaluate \n"+ mce);
             }
@@ -637,14 +650,23 @@ public final class _runtime {
                 //return call(mce.getScope().get().toString(), mce.getNameAsString(), params);
             }
             String typeString = oce.getTypeAsString();
-            $class $publicClassWithName = $class.of($name.as(typeString), $.PUBLIC);
+            //$class $publicClassWithName = $class.of($name.as(typeString), $.PUBLIC);
+            //if( typeString.contains(".")){
+            //    String packageName = typeString.substring(0, typeString.lastIndexOf('.'));
+            //    String className = typeString.substring(typeString.lastIndexOf('.')+1);
+            //    $publicClassWithName = $class.of($.PUBLIC, $name.as(className), $package.of(packageName) );
+            //}
+            //System.out.println( $publicClassWithName );
+            //List<_class> _ts = $publicClassWithName.listIn(this.fileManager.classLoader.list_types());
+            List<_class> _ts = null;
             if( typeString.contains(".")){
                 String packageName = typeString.substring(0, typeString.lastIndexOf('.'));
                 String className = typeString.substring(typeString.lastIndexOf('.')+1);
-                $publicClassWithName = $class.of($.PUBLIC, $name.as(className), $package.of(packageName) );
+                //$publicClassWithName = $class.of($.PUBLIC, $name.as(className), $package.of(packageName) );
+                _ts = this.fileManager.classLoader.list_types(_class.class, _c-> _c.isPublic() && _c.isNamed(className) && _c.isInPackage(packageName));
+            } else {
+                _ts = this.fileManager.classLoader.list_types(_class.class, _c -> _c.isPublic() && _c.isNamed(typeString));
             }
-            //System.out.println( $publicClassWithName );
-            List<_class> _ts = $publicClassWithName.listIn(this.fileManager.classLoader.list_types());
             if( _ts.size() == 0 ){
                 //they could be calling System.currentTimeMillis() or some other Class thats not in the _runtime Classes
                 return staticEval(expr);
