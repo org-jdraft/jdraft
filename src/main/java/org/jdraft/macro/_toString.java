@@ -1,12 +1,14 @@
 package org.jdraft.macro;
 
 import com.github.javaparser.ast.body.TypeDeclaration;
+import org.jdraft.Statements;
 import org.jdraft._method;
 import org.jdraft._field;
 import org.jdraft._type;
 import com.github.javaparser.ast.stmt.BlockStmt;
-import org.jdraft.pattern.$method;
-import org.jdraft.pattern.$stmt;
+import org.jdraft.text.Stencil;
+//import org.jdraft.pattern.$method;
+//import org.jdraft.pattern.$stmt;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -32,21 +34,21 @@ public @interface _toString {
      */
     Predicate<_field> TO_STRING_FIELDS = f-> !f.isStatic() && !f.isTransient();
 
-    $stmt $simple = $stmt.of(
+    Stencil $simple = Stencil.of(
             "sb.append(\" $name$: \").append($name$).append(System.lineSeparator());" );
 
-    $stmt $arrayOfPrimitives = $stmt.of(
+    Stencil $arrayOfPrimitives = Stencil.of(
             "sb.append(\" $name$: \").append(java.util.Arrays.toString($name$)).append(System.lineSeparator());" );
 
-    $stmt $arrayOfObjects = $stmt.of(
+    Stencil $arrayOfObjects = Stencil.of(
             "sb.append(\" $name$: \").append(java.util.Arrays.deepToString($name$)).append(System.lineSeparator());");
 
-    $method $TO_STRING = $method.of(
+    Stencil $TO_STRING = Stencil.of(
             "public String toString(){",
             "    StringBuilder sb = new StringBuilder();",
             "    sb.append( \"$className$\" ).append(\"{\" );",
             "    sb.append( System.lineSeparator() );",
-            "    $body: {}",
+            "    $body$",
             "    sb.append( \"}\" );",
             "    return sb.toString();",
             "}");
@@ -79,15 +81,15 @@ public @interface _toString {
             _fs.stream().filter(TO_STRING_FIELDS).forEach( _f  -> {
                 if( _f.isArray() ){
                     if( _f.getElementType().isPrimitive() ){
-                        body.addStatement( $arrayOfPrimitives.fill(_f.getName()).ast() );
+                        body.addStatement( Statements.of($arrayOfPrimitives.fill(_f.getName()) ) );
                     }else{
-                        body.addStatement( $arrayOfObjects.fill(_f.getName()).ast() );
+                        body.addStatement( Statements.of($arrayOfObjects.fill(_f.getName())) );
                     }
                 } else{
-                    body.addStatement( $simple.fill(_f.getName()).ast() );
+                    body.addStatement( Statements.of($simple.fill(_f.getName())) );
                 }
             });
-            _method _m = $TO_STRING.draft("className", typeDeclaration.getName(), "body", body );
+            _method _m = _method.of($TO_STRING.draft("className", typeDeclaration.getName(), "body", body ));
             typeDeclaration.addMember(_m.ast());
             return typeDeclaration;
         }

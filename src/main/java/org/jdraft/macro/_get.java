@@ -2,7 +2,8 @@ package org.jdraft.macro;
 
 import com.github.javaparser.ast.body.TypeDeclaration;
 import org.jdraft.*;
-import org.jdraft.pattern.$method;
+import org.jdraft.text.Stencil;
+//import org.jdraft.pattern.$method;
 
 import java.lang.annotation.*;
 import java.util.List;
@@ -26,14 +27,17 @@ public @interface _get {
             super(_g);
         }
 
-        public static final $method $GET = $method.of(
+        public static final Stencil $GET = Stencil.of(
                 "public $type$ get$Name$(){ return $name$; }");
+
+        //public static final $method $GET = $method.of(
+        //        "public $type$ get$Name$(){ return $name$; }");
 
         public static <T extends TypeDeclaration> T to( T typeDeclaration ){
             List<_field> _fs = _field.of(typeDeclaration.getFields());
             _fs.stream().filter(_f -> !((_field)_f).isStatic())
                     .forEach( _f-> typeDeclaration.addMember(
-                            $GET.draft("type", _f.getTypeRef(), "name", _f.getName()).ast() ) );
+                            _method.of($GET.draft("type", _f.getTypeRef(), "name", _f.getName()) ).ast()) );
             return typeDeclaration;
         }
 

@@ -57,7 +57,7 @@ public final class _switchStmt implements _statement._controlFlow._branching<Swi
         // name to set as the SwitchSelector, if it's a single token, then just try treating it as a name
         String comb = Text.combine(code);
         String [] split = comb.split(" " );
-        if( split.length == 1){
+        if( split.length == 1 && !split[0].contains("switch") ){
             try {
                 return of().setSwitchSelector(comb);
             }catch(Exception e){
@@ -607,6 +607,127 @@ public final class _switchStmt implements _statement._controlFlow._branching<Swi
 
     public _switchStmt mapCode(int i, Statement... st){
         return mapCode(new IntegerLiteralExpr(i), st);
+    }
+
+
+    public _switchStmt mapReturn(int[] vals, int i){
+        return mapReturn(vals, _int.of(i));
+    }
+
+    public _switchStmt mapReturn(char[] cs, int i){
+        return mapReturn(cs, _int.of(i));
+    }
+
+    public _switchStmt mapReturn(String[] s, int i){
+        return mapReturn(s, _int.of(i));
+    }
+
+    public _switchStmt mapReturn(Enum[] e, int i){
+        return mapReturn(e, _int.of(i));
+    }
+
+    public _switchStmt mapReturn(Enum[] e, char c){
+        return mapReturn(e, _char.of(c));
+    }
+
+    public _switchStmt mapReturn(int[] vals, char c){
+        return mapReturn(vals, _char.of(c));
+    }
+
+    public _switchStmt mapReturn(char[] cs, char c){
+        return mapReturn(cs, _char.of(c));
+    }
+
+    public _switchStmt mapReturn(String[] s, char c){
+        return mapReturn(s, _char.of(c));
+    }
+
+
+    public _switchStmt mapReturn(Enum[] e, String s){
+        return mapReturn(e, _string.of(s));
+    }
+
+    public _switchStmt mapReturn(int[] vals, String s){
+        return mapReturn(vals, _string.of(s));
+    }
+
+    public _switchStmt mapReturn(char[] cs, String s){
+        return mapReturn(cs, _string.of(s));
+    }
+
+    public _switchStmt mapReturn(String[] s, String st){
+        return mapReturn(s, _string.of(st));
+    }
+
+
+
+    public _switchStmt mapReturn(Enum[] e, Enum ev){
+        return mapReturn(e, _nameExpression.of(ev.name()));
+    }
+
+    public _switchStmt mapReturn(int[] vals, Enum ev){
+        return mapReturn(vals, _nameExpression.of(ev.name()));
+    }
+
+    public _switchStmt mapReturn(char[] cs,Enum ev){
+        return mapReturn(cs, _nameExpression.of(ev.name()));
+    }
+
+    public _switchStmt mapReturn(String[] s, Enum ev){
+        return mapReturn(s, _nameExpression.of(ev.name()));
+    }
+
+    public _switchStmt mapReturn(Enum[] vals, _expression returnValue){
+        _caseGroup _cg = _caseGroup.of();
+
+        _cg.setStatements(_returnStmt.of(returnValue));
+
+        for(int i=0;i<vals.length;i++){
+            _cg.addCase(vals[i]);
+        }
+        _cg.removeDefault();
+        addCaseGroups(_cg);
+        return this;
+    }
+
+    public _switchStmt mapReturn(String[] vals, _expression returnValue){
+        _caseGroup _cg = _caseGroup.of();
+
+        _cg.setStatements(_returnStmt.of(returnValue));
+
+        for(int i=0;i<vals.length;i++){
+            _cg.addCase(vals[i]);
+        }
+        _cg.removeDefault();
+        addCaseGroups(_cg);
+        return this;
+    }
+
+    public _switchStmt mapReturn(int[] vals, _expression returnValue){
+        _caseGroup _cg = _caseGroup.of();
+
+        _cg.setStatements(_returnStmt.of(returnValue));
+
+        for(int i=0;i<vals.length;i++){
+            _cg.addCase(vals[i]);
+        }
+        _cg.removeDefault();
+        addCaseGroups(_cg);
+        return this;
+    }
+
+
+    public _switchStmt mapReturn(char[] cs, _expression returnValue){
+        _caseGroup _cg = _caseGroup.of();
+
+        _cg.setStatements(_returnStmt.of(returnValue));
+
+        for(int i=0;i<cs.length;i++){
+            _cg.addCase(cs[i]);
+        }
+        _cg.removeDefault();
+        addCaseGroups(_cg);
+        return this;
     }
 
     /** map the case constant to the following return value */

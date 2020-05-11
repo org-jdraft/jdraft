@@ -173,6 +173,96 @@ public final class _method
         return _mm;
     }
 
+    public static _method of(MethodDeclaration methodDecl) {
+        return new _method(methodDecl);
+    }
+
+    /**
+     * Build an return a main() method from the code within the lambda body
+     * @param lambdaWithMainBody
+     * @return
+     */
+    public static _method main(Consumer<String[]> lambdaWithMainBody){
+        Statement st = Expressions.lambdaEx(Thread.currentThread().getStackTrace()[2]).getBody();
+        _method _m = _method.of("public static void main(String[] args){}");
+        if( st.isBlockStmt() ){
+            _m.setBody( (BlockStmt)st);
+        } else{
+            _m.add(st);
+        }
+        return _m;
+    }
+
+    public static _method get( String fieldDef){
+        return get(_field.of(fieldDef));
+    }
+
+    /**
+     * build and return a new getX(){} method
+     * @param typeClass the type of the class
+     * @param name the name of the property
+     * @return a get method
+     */
+    public static _method get( Class typeClass, String name){
+        return get(_typeRef.of(typeClass), name);
+    }
+
+    /**
+     * build and return a new getX(){} method
+     * @param _namedType instance of a _namedType with name and type
+     * @return a get method
+     */
+    public static _method get( _java._withNameTypeRef _namedType ){
+        return get(_namedType.getTypeRef(), _namedType.getName());
+    }
+
+    /**
+     * build and return a new getX(){} method
+     * @param _type the type of the class
+     * @param name the name of the property
+     * @return a get method
+     */
+    public static _method get( _typeRef _type, String name){
+         if( _type.is("boolean")|| _type.is("Boolean")){
+             return of("public "+_type.toString()+" is"+Character.toUpperCase( name.charAt(0))+name.substring(1)+"(){"+ System.lineSeparator()+
+                     "    return this."+name+";"+
+                     "}");
+         }
+         return of("public "+_type.toString()+" get"+Character.toUpperCase( name.charAt(0))+name.substring(1)+"(){"+ System.lineSeparator()+
+                 "    return this."+name+";"+
+                 "}");
+    }
+
+
+    public static _method set( String fieldDef){
+        return set(_field.of(fieldDef));
+    }
+
+    /**
+     * build and return a new getX(){} method
+     * @param typeClass the type of the class
+     * @param name the name of the property
+     * @return a get method
+     */
+    public static _method set( Class typeClass, String name){
+        return set(_typeRef.of(typeClass), name);
+    }
+
+    /**
+     * build and return a new getX(){} method
+     * @param _namedType instance of a _namedType with name and type
+     * @return a get method
+     */
+    public static _method set( _java._withNameTypeRef _namedType ){
+        return set(_namedType.getTypeRef(), _namedType.getName());
+    }
+
+    public static _method set( _typeRef _type, String name){
+        return of("public void set"+Character.toUpperCase( name.charAt(0)) + name.substring(1)+"("+_type.toString()+" "+ name+"){"+ System.lineSeparator()+
+                    "    this."+name+";"+
+                    "}");
+    }
+
     @Override
     public _method setJavadoc(String... content) {
         ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
@@ -183,10 +273,6 @@ public final class _method
     public _method setJavadoc(JavadocComment astJavadocComment) {
         ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
         return this;
-    }
-
-    public static _method of(MethodDeclaration methodDecl) {
-        return new _method(methodDecl);
     }
 
     private final MethodDeclaration astMethod;

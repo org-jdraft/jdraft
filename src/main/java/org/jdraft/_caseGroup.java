@@ -8,6 +8,7 @@ import com.github.javaparser.ast.type.Type;
 import org.jdraft.text.Text;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
  *              System.out.println("Week End !");
  *          break;
  *          default:                              //_caseGroup(3)
- *              throw new RuntimeException("bad day");
+ *                  throw new RuntimeException("bad day");
  *     }
  * </CODE>
  * Above, we have (3) _caseGroups
@@ -40,6 +41,17 @@ public final class _caseGroup implements _java._domain{
     public static _caseGroup of(){
         return new _caseGroup(new SwitchStmt());
     }
+
+    /*
+    public static _caseGroup of(_expression..._expressions){
+        for(int i=0;i<_expressions.length;i++) {
+            NodeList<Expression> label = new NodeList<>();
+            label.add(_expressions[i].ast());
+            SwitchEntry se = new SwitchEntry(label, SwitchEntry.Type.STATEMENT_GROUP, new NodeList<>());
+        }
+        new _caseGroup
+    }
+     */
 
     /**
      * Build a caseGroup from scratch (it uses a SwitchStmt by default)
@@ -609,6 +621,23 @@ public final class _caseGroup implements _java._domain{
         return addCase(_e.ast());
     }
 
+    public _caseGroup removeDefault(){
+        Optional<SwitchEntry> defaultSwitchEntry =
+                this.switchEntries.stream().filter( se -> se.getLabels().isEmpty() ).findFirst();
+        if( defaultSwitchEntry.isPresent() ) {
+            NodeList<Statement> sts = defaultSwitchEntry.get().getStatements();
+            int defaultIndex = this.switchEntries.indexOf(defaultSwitchEntry.get());
+            if( defaultIndex < 1 ){
+                throw new _jdraftException("Cant remove default as only element in casegroup");
+            }
+            else{
+                this.switchEntries.get(defaultIndex - 1).setStatements(sts);
+            }
+            this.switchEntries.remove(defaultSwitchEntry.get());
+        }
+        return this;
+    }
+
     /**
      * TODO: what I SHOULD do is to remove the Statement(s) from the ActiveEntry
      * and create a new switchEntry with the new expression and the statement(s)
@@ -703,6 +732,31 @@ public final class _caseGroup implements _java._domain{
             return null;
         }
         return _statement.of(se.getStatement(index));
+    }
+
+    public _caseGroup sort(Comparator<? super SwitchEntry> cse){
+
+        //AtomicInteger firstIndex = new AtomicInteger( -1);
+        NodeList<SwitchEntry> ses = parentSwitch.getEntries();
+        int firstIndex = this.switchEntries.stream().map(se -> ses.indexOf(se) ).min(Integer::compareTo).get();
+
+        List<_statement> sts = getStatements();
+        //System.out.println("THE FIRST INDEX IS "+firstIndex);
+
+        this.switchEntries.sort(cse);
+        //first remove all of
+        for(int i=0;i<switchEntries.size();i++){
+            ses.remove(switchEntries.get(i));
+        }
+        //now add them in, in order
+        for(int i=0;i<switchEntries.size();i++){
+            SwitchEntry stripped =  switchEntries.get(i).setStatements(new NodeList<>());
+            ses.add(firstIndex+i,stripped);
+            if( i == switchEntries.size() -1 ){
+                _switchEntry.of(stripped).setStatements(sts.toArray(new _statement[0]));
+            }
+        }
+        return this;
     }
 
     public boolean equals(Object o){

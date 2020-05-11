@@ -1,8 +1,10 @@
 package org.jdraft.macro;
 
 import com.github.javaparser.ast.body.TypeDeclaration;
+import org.jdraft.Ast;
 import org.jdraft._field;
-import org.jdraft.pattern.$method;
+import org.jdraft.text.Stencil;
+//import org.jdraft.pattern.$method;
 
 import java.lang.annotation.*;
 import java.util.List;
@@ -27,7 +29,7 @@ public @interface _setFluent {
     Predicate<_field> SET_REQUIRED = _f -> !_f.isStatic() && !_f.isFinal();
 
     /** template method for a fluent set method */
-    $method $SET_FLUENT = $method.of(
+    Stencil $SET_FLUENT = Stencil.of(
             "public $className$ set$Name$($type$ $name$){",
             "    this.$name$ = $name$;",
             "    return this;",
@@ -53,7 +55,8 @@ public @interface _setFluent {
             _fs = _fs.stream().filter(SET_REQUIRED ).collect(Collectors.toList());
             _fs.forEach(f ->
                     typeDeclaration.addMember(
-                            $SET_FLUENT.draft("className", typeDeclaration.getNameAsString(), "name", f.getName(), "type", f.getTypeRef()).ast()));
+                            Ast.method($SET_FLUENT.draft("className", typeDeclaration.getNameAsString(),
+                                    "name", f.getName(), "type", f.getTypeRef()))));
             return typeDeclaration;
         }
 

@@ -685,13 +685,22 @@ public final class _body implements _java._domain {
         _HB clearBody();
 
         /**
+         * Adds statements
+         * @param _stmts
+         * @return
+         */
+        default _HB add(_statement... _stmts){
+            return add(statementCount(), _stmts);
+        }
+
+        /**
          * Add Statements to the end of the BODY
          *
          * @param statements the statements to add to the tail of the BODY
          * @return the modified T (_method, _constructor, _staticBlock)
          */
         default _HB add(Statement... statements){
-            return add(0, statements);
+            return add(statementCount(), statements);
         }
         
         default <A extends Object> _HB add(int index, Expressions.Command lambdaWithBody ){

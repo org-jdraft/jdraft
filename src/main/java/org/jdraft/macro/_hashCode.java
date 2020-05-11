@@ -3,9 +3,10 @@ package org.jdraft.macro;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import org.jdraft.*;
-import org.jdraft.pattern.$stmt;
-import org.jdraft.pattern.$method;
+//import org.jdraft.pattern.$stmt;
+//import org.jdraft.pattern.$method;
 import com.github.javaparser.ast.stmt.*;
+import org.jdraft.text.Stencil;
 import org.jdraft.text.Tokens;
 
 import java.lang.annotation.*;
@@ -46,12 +47,12 @@ public @interface _hashCode {
       * <LI>BODY:{} is a BlockStmt of one or more {@link Statement}s for processing each field for the hashcode
       * </UL>
       */
-     $method $HASHCODE = $method.of(
+     Stencil $HASHCODE = Stencil.of(
          "public int hashCode( ){",
          "    int hash = $seed$;",
          "    int prime = $prime$;",
-         "    $callSuperHashCode: hash = hash * prime + super.hashCode();",
-         "    $body:{}",
+         "    $callSuperHashCode$",  //"    $callSuperHashCode: hash = hash * prime + super.hashCode();",
+         "    $body$",               //"    $body:{}",
          "    return hash;",
          "}");
 
@@ -71,40 +72,40 @@ public @interface _hashCode {
       */
      class _fieldToStatement {
 
-         public static $stmt $default = $stmt.of( "hash = hash * prime + java.util.Objects.hashCode($name$);");
-         public static $stmt $arrayOfPrimitives = $stmt.of( "hash = hash * prime + java.util.Arrays.hashCode($name$);");
-         public static $stmt $arrayOfObject = $stmt.of( "hash = hash * prime + java.util.Arrays.deepHashCode($name$);");
+         public static Stencil $default = Stencil.of( "hash = hash * prime + java.util.Objects.hashCode($name$);\n");
+         public static Stencil $arrayOfPrimitives = Stencil.of( "hash = hash * prime + java.util.Arrays.hashCode($name$);\n");
+         public static Stencil $arrayOfObject = Stencil.of( "hash = hash * prime + java.util.Arrays.deepHashCode($name$);\n");
 
-         public static $stmt $boolean = $stmt.of( "hash = hash * prime + ($name$ ? 1 : 0 );" );
-         public static $stmt $float = $stmt.of( "hash = hash * prime + Float.floatToIntBits($name$);" );
-         public static $stmt $double = $stmt.of(
-                 "hash = hash * prime + (int)(Double.doubleToLongBits($name$)^(Double.doubleToLongBits($name$) >>> 32));");
-         public static $stmt $long = $stmt.of("hash = hash * prime + (int)($name$ ^ ($name$ >>> 32));");
-         public static $stmt $simplePrimitive = $stmt.of("hash = hash * prime + $name$;");
+         public static Stencil $boolean = Stencil.of( "hash = hash * prime + ($name$ ? 1 : 0 );\n" );
+         public static Stencil $float = Stencil.of( "hash = hash * prime + Float.floatToIntBits($name$);\n" );
+         public static Stencil $double = Stencil.of(
+                 "hash = hash * prime + (int)(Double.doubleToLongBits($name$)^(Double.doubleToLongBits($name$) >>> 32));\n");
+         public static Stencil $long = Stencil.of("hash = hash * prime + (int)($name$ ^ ($name$ >>> 32));\n");
+         public static Stencil $simplePrimitive = Stencil.of("hash = hash * prime + $name$;\n");
 
          public static Statement constructStmt(_field _f){
              if( _f.getTypeRef().isArrayType() ){
                  if( _f.getTypeRef().getElementType().isPrimitiveType()){
-                     return $arrayOfPrimitives.draft(_f).ast();
+                     return Statements.of($arrayOfPrimitives.draft("name", _f.getName(), "type", _f.getTypeRef()));
                  }
-                 return $arrayOfObject.draft(_f).ast();
+                 return Statements.of($arrayOfObject.draft("name", _f.getName(), "type", _f.getTypeRef()));
              }
              if( _f.getTypeRef().isPrimitive()){
                  if( _f.isTypeRef(boolean.class)){
-                     return $boolean.draft(_f).ast();
+                     return Statements.of($boolean.draft("name", _f.getName(), "type", _f.getTypeRef()));
                  }
                  if( _f.isTypeRef(double.class)){
-                     return $double.draft(_f).ast();
+                     return Statements.of($double.draft("name", _f.getName(), "type", _f.getTypeRef()));
                  }
                  if( _f.isTypeRef(float.class)){
-                     return $float.draft(_f).ast();
+                     return Statements.of($float.draft("name", _f.getName(), "type", _f.getTypeRef()));
                  }
                  if( _f.isTypeRef(long.class)){
-                     return $long.draft(_f).ast();
+                     return Statements.of($long.draft("name", _f.getName(), "type", _f.getTypeRef()));
                  }
-                 return $simplePrimitive.draft(_f).ast();
+                 return Statements.of($simplePrimitive.draft("name", _f.getName(), "type", _f.getTypeRef()));
              }
-             return $default.draft(_f).ast();
+             return Statements.of($default.draft("name", _f.getName(), "type", _f.getTypeRef()));
          }
      }
 
@@ -139,7 +140,9 @@ public @interface _hashCode {
                 tokens.put("seed",PRIMES[Math.abs(prime - _c.listFields(HASH_CODE_FIELD_MATCH_FN).size()) % PRIMES.length]);
 
                 if( _c.hasExtends() && !_c.isExtends(Object.class)){ //if _class extends something other than Object
-                    tokens.put("callSuperHashCode", true); /** print the code at "callSuperEquals" in {@link #$HASHCODE} */
+                    tokens.put("callSuperHashCode",  "hash = hash * prime + super.hashCode();"); /** print the code at "callSuperEquals" in {@link #$HASHCODE} */
+                } else{
+                    tokens.put("callSuperHashCode", "");
                 }
                 BlockStmt body = new BlockStmt();
                 //construct Statements for all FIELDS into the BODY BlockStmt

@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
  */
 public class $arrayAccess
         implements $bot.$node<ArrayAccessExpr, _arrayAccess, $arrayAccess>,
-        //$bot.$multiBot<ArrayAccessExpr, _arrayAccess, $arrayAccess>,
         $selector.$node<_arrayAccess, $arrayAccess>,
         $expression<ArrayAccessExpr, _arrayAccess, $arrayAccess>,
         Template<_arrayAccess> {

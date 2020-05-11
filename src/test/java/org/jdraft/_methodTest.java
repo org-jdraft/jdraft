@@ -21,6 +21,43 @@ import org.jdraft.runtime._runtime;
  */
 public class _methodTest extends TestCase {
 
+
+    public void testCannedMethods(){
+        _method _m = _method.main((String[] args)->{
+            System.out.println( 1 );
+        });
+
+        _method _g = _method.get("int num");
+        System.out.println( _g );
+
+        _g = _method.get(int.class, "num");
+        System.out.println( _g );
+
+        _g = _method.get(boolean.class, "married");
+        System.out.println( _g );
+
+        _g = _method.get(Boolean.class, "married");
+        System.out.println( _g );
+
+        _g = _method.get(_field.of("boolean divorced"));
+        System.out.println( _g );
+
+        _method _s = _method.set("int num");
+        System.out.println( _s );
+
+        _s = _method.set(int.class, "num");
+        System.out.println( _s );
+
+        _s = _method.set(boolean.class, "married");
+        System.out.println( _s );
+
+        _s = _method.set(Boolean.class, "married");
+        System.out.println( _s );
+
+        _s = _method.set(_field.of("boolean divorced"));
+        System.out.println( _s );
+    }
+
     public void testBuildFromScratch(){
         _method _m = _method.of();
         System.out.println(_m);

@@ -7,13 +7,11 @@ import org.jdraft._binaryExpression;
 import org.jdraft._expression;
 import org.jdraft._java._domain;
 import org.jdraft._jdraftException;
-import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -365,16 +363,16 @@ public class $binaryExpression implements $bot.$node<BinaryExpr, _binaryExpressi
 
     public Predicate<_binaryExpression> predicate = d -> true;
 
-    public $memberSelector<_binaryExpression, _expression> left =
-            $memberSelector.of( _binaryExpression.class, _expression.class, "left", b-> b.getLeft());
+    public $featureSelector<_binaryExpression, _expression> left =
+            $featureSelector.of( _binaryExpression.class, _expression.class, "left", b-> b.getLeft());
 
-    public $memberSelector<_binaryExpression, _expression> right =
-            $memberSelector.of( _binaryExpression.class, _expression.class, "right", b-> b.getRight());
+    public $featureSelector<_binaryExpression, _expression> right =
+            $featureSelector.of( _binaryExpression.class, _expression.class, "right", b-> b.getRight());
 
     public Set<BinaryExpr.Operator> excludedOperators = new HashSet<>();
 
-    public $memberSelector<_binaryExpression, BinaryExpr.Operator> operator =
-            $memberSelector.of( _binaryExpression.class, BinaryExpr.Operator.class, "operator", b-> b.getOperator())
+    public $featureSelector<_binaryExpression, BinaryExpr.Operator> operator =
+            $featureSelector.of( _binaryExpression.class, BinaryExpr.Operator.class, "operator", b-> b.getOperator())
                     .setSelector( o -> {
                         if( excludedOperators.contains(o)){
                             return null;

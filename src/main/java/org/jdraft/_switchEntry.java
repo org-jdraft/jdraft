@@ -305,6 +305,13 @@ public final class _switchEntry implements _java._multiPart<SwitchEntry, _switch
         return this;
     }
 
+    public _switchEntry setStatements(_statement...st){
+        NodeList<Statement>stmts = new NodeList<>();
+        Arrays.stream(st).forEach(s -> stmts.add(s.ast()));
+        this.switchEntry.setStatements(stmts);
+        return this;
+    }
+
     /**
      * Sets ALL of the statements inside this SwitchEntry
      * @param st

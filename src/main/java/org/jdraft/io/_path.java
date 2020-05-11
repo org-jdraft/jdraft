@@ -160,6 +160,10 @@ public final class _path implements _batch {
         return new _path( rootPath, p->true);
     }
 
+    public static _path of(String path, Predicate<Path> pathMatchFn){
+        return new _path( Paths.get(path), pathMatchFn );
+    }
+
     public static _path of(Path rootPath, Predicate<Path> pathMatchFn){
         return new _path( rootPath, pathMatchFn );
     }

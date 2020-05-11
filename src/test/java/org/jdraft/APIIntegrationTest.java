@@ -130,6 +130,8 @@ public class APIIntegrationTest extends TestCase {
         class EE{
             int x,y;
         }
+        System.out.println( _class.of(FF.class) );
+        System.out.println( _class.of(EE.class) );
         //diff the two classes above (after the macro annotations of course)
         assertTrue(_diff.of(FF.class, EE.class).isEmpty());
         

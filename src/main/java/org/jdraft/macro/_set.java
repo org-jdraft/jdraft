@@ -1,8 +1,11 @@
 package org.jdraft.macro;
 
 import com.github.javaparser.ast.body.TypeDeclaration;
+import org.jdraft.Ast;
+import org.jdraft.Statements;
 import org.jdraft._field;
-import org.jdraft.pattern.$method;
+import org.jdraft.text.Stencil;
+//import org.jdraft.pattern.$method;
 
 import java.lang.annotation.*;
 import java.util.List;
@@ -21,8 +24,10 @@ import java.util.stream.Collectors;
 public @interface _set {
 
     /** template method for a setXXX() method */
-    $method $SET = $method.of(
-            "public void set$Name$($type$ $name$){ this.$name$ = $name$; }" );
+    Stencil $SET = Stencil.of(
+            "public void set$Name$($type$ $name$){",
+            "    this.$name$ = $name$;",
+            "}" );
 
     class Act extends macro<_set, TypeDeclaration> {
 
@@ -40,13 +45,12 @@ public @interface _set {
         }
 
         public static <T extends TypeDeclaration> T to(T typeDeclaration){
-            //System.out.println( typeDeclaration );
             List<_field> _fs = _field.of(typeDeclaration.getFields());
             _fs = _fs.stream().filter(f-> !f.isStatic() && !f.isFinal() ).collect(Collectors.toList());
 
             _fs.forEach(f ->
                     typeDeclaration.addMember(
-                            $SET.draft("name", f.getName(), "type", f.getTypeRef()).ast()));
+                            Ast.method($SET.draft("name", f.getName(), "type", f.getTypeRef()))));
             return typeDeclaration;
         }
 
