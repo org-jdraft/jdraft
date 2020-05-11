@@ -2,6 +2,7 @@ package com.github.javaparser;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.UnaryExpr;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import com.github.javaparser.ast.expr.DoubleLiteralExpr;
@@ -24,7 +25,7 @@ import com.github.javaparser.ast.expr.DoubleLiteralExpr;
  *  </PRE>
  *  will be converted to:
  *  <PRE>
- *       └─"-10000" IntegerLiteralExpr : (1,28)-(1,25)
+ *       └─"-10000" IntegerLiteralExpr : (1,18)-(1,25)
  *  </PRE>
  * //double negative?
  *              - -2 (will leave as is)
@@ -70,11 +71,10 @@ public class NegativeLiteralNumberPostProcessor implements ParseResult.PostProce
     }
 
     /**
-     * find
-     * @param ue
-     * @return
+     * update {@link UnaryExpr}s and return
+     * @param ue a unaryExpr within an AST
      */
-    public static void replaceUnaryWithNegativeLiteral( UnaryExpr ue ){
+    public static Expression replaceUnaryWithNegativeLiteral(UnaryExpr ue ){
         if(ue.getOperator() == UnaryExpr.Operator.MINUS ){
             //if we have nested minuses (for some reason which isnt clear), then disregard this & just use
             // nested UnaryExpressions
@@ -82,7 +82,7 @@ public class NegativeLiteralNumberPostProcessor implements ParseResult.PostProce
             if( ue.getParentNode().isPresent()
                     && ue.getParentNode().get() instanceof UnaryExpr
                     && ((UnaryExpr) ue.getParentNode().get()).getOperator() == UnaryExpr.Operator.MINUS ){
-                return;
+                return ue;
             }
             if(ue.getExpression() instanceof IntegerLiteralExpr){
                 IntegerLiteralExpr ile = ue.getExpression().asIntegerLiteralExpr();
@@ -97,10 +97,35 @@ public class NegativeLiteralNumberPostProcessor implements ParseResult.PostProce
                         // child (int number) end range (because the - may be on the previous line)
                         Range newRange = Range.range(oldUnaryRange.begin.line, oldUnaryRange.begin.column, oldNumRange.end.line, oldNumRange.end.column);
                         replacementInt.setRange(newRange);
-                        ue.replace(replacementInt);
                     }
-                } else{ ////double negative??
-                    //in this case, leave it as a double unaryExpr
+                    ue.replace(replacementInt);
+                    return replacementInt;
+                } else{ ////double negative?? the intLiteralExpr is negative and it's parent is a negative
+                    //in this case, convert to a double unaryExpr
+                    /*
+                     *  └─"--1" UnaryExpr : (1,20)-(1,22)
+                     *    └─"-1" IntegerLiteralExpr : (1,21)-(1,22)
+                     *
+                     * we convert this to a double nested UnaryExpr with a nested (positive) IntegerLiteralExpr
+                     *
+                     * └─"--1" UnaryExpr : (1,20)-(1,22)
+                     *   └─"-1" UnaryExpr : (1,21)-(1,22)
+                     *     └─"1" IntegerLiteralExpr : (1,22)-(1,22)
+                     */
+                    IntegerLiteralExpr positive = new IntegerLiteralExpr(intValue.substring(1));
+                    UnaryExpr newNeg = new UnaryExpr(positive, UnaryExpr.Operator.MINUS);
+                    if( ile.getRange().isPresent() && ue.getRange().isPresent() ) {
+                        //Range oldUnaryRange = ue.getRange().get();
+                        Range oldNumRange = ile.getRange().get();
+                        //we "combine" the ranges from the start of the parent UnaryExpression to the End of the
+                        // child (int number) end range (because the - may be on the previous line)
+                        Range newRange = Range.range(oldNumRange.begin.line, oldNumRange.begin.column+1,
+                                oldNumRange.end.line, oldNumRange.end.column);
+                        positive.setRange(newRange);
+                        newNeg.setRange(ile.getRange().get());
+                    }
+                    ue.setExpression(newNeg); //
+                    return ue;
                 }
             }
             else if(ue.getExpression() instanceof DoubleLiteralExpr) {
@@ -117,11 +142,37 @@ public class NegativeLiteralNumberPostProcessor implements ParseResult.PostProce
                         Range newRange = Range.range(oldUnaryRange.begin.line, oldUnaryRange.begin.column, oldRange.end.line, oldRange.end.column);
                         replacementDouble.setRange(newRange);
                         ue.replace(replacementDouble);
+                        return replacementDouble;
                     }
                 } else{ ////double negative??
-                    //leave it as a double negate
+                    //in this case, convert to a double unaryExpr
+                    /*
+                     *  └─"--1.0" UnaryExpr : (1,20)-(1,24)
+                     *    └─"-1" DoubleLiteralExpr : (1,21)-(1,24)
+                     *
+                     * we convert this to a double nested UnaryExpr with a nested (positive) IntegerLiteralExpr
+                     *
+                     * └─"--1.0" UnaryExpr : (1,20)-(1,24)
+                     *   └─"-1.0" UnaryExpr : (1,21)-(1,24)
+                     *     └─"1.0" DoubleLiteralExpr : (1,22)-(1,24)
+                     */
+                    DoubleLiteralExpr positive = new DoubleLiteralExpr(doubleValue.substring(1));
+                    UnaryExpr newNeg = new UnaryExpr(positive, UnaryExpr.Operator.MINUS);
+                    if( ile.getRange().isPresent() && ue.getRange().isPresent() ) {
+                        //Range oldUnaryRange = ue.getRange().get();
+                        Range oldNumRange = ile.getRange().get();
+                        //we "combine" the ranges from the start of the parent UnaryExpression to the End of the
+                        // child (int number) end range (because the - may be on the previous line)
+                        Range newRange = Range.range(oldNumRange.begin.line, oldNumRange.begin.column+1,
+                                oldNumRange.end.line, oldNumRange.end.column);
+                        positive.setRange(newRange);
+                        newNeg.setRange(ile.getRange().get());
+                    }
+                    ue.setExpression(newNeg); //
+                    return ue;
                 }
             }
         }
+        return ue;
     }
 }
