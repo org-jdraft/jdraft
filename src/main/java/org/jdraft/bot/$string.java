@@ -47,6 +47,18 @@ public class $string implements $bot.$node<StringLiteralExpr, _string, $string>,
         return new $string(_string.of(i)).$and(_i -> _i.getText() == i);
     }
 
+    public static $string startsWith(String prefix){
+        return of( ).$and( s-> s.startsWith(prefix));
+    }
+
+    public static $string endsWith(String postfix){
+        return of( ).$and( s-> s.endsWith(postfix));
+    }
+
+    public static $string contains(String contains){
+        return of( ).$and( s-> s.contains(contains));
+    }
+
     /**
      * Build and return a new independent mutable copy of this bot
      * @return

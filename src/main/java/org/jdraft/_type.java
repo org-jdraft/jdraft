@@ -648,8 +648,14 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         return (_T)this;
     }
 
-    default _T addBeforeFirst(Class<? extends _java._member> _memberClass){
-        return addBeforeFirst( m-> _memberClass.isAssignableFrom(m.getClass()) );
+    /**
+     *
+     * @param _memberClass
+     * @param members
+     * @return
+     */
+    default _T addBeforeFirst(Class<? extends _java._member> _memberClass, _java._member...members){
+        return addBeforeFirst( m-> _memberClass.isAssignableFrom(m.getClass()), members );
     }
 
     /**
@@ -691,11 +697,22 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         return (_T)this;
     }
 
-
-    default _T addAfterLast(Class<? extends _java._member> _memberClass){
-        return addAfterLast( m-> _memberClass.isAssignableFrom(m.getClass()) );
+    /**
+     *
+     * @param _memberClass
+     * @param _ms
+     * @return
+     */
+    default _T addAfterLast(Class<? extends _java._member> _memberClass, _java._member... _ms){
+        return addAfterLast( m-> _memberClass.isAssignableFrom(m.getClass()), _ms );
     }
 
+    /**
+     *
+     * @param _matchFn
+     * @param members
+     * @return
+     */
     default _T addAfterLast(Predicate<_java._member> _matchFn, _java._member...members){
         List<_java._member> _m = listMembers(_matchFn);
         if( _m.isEmpty() ){
@@ -733,11 +750,11 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         return (_T)this;
     }
 
-    //hmm addBefore( Predicate<_member> )
-
-    //adds AFTER the LAST matching member
-    //hmm addAfter( Predicate<_member> )
-
+    /**
+     *
+     * @param _matchFn
+     * @return
+     */
     default List<_java._member> listMembers(Predicate<_java._member> _matchFn){
         List<_java._member> _ms = new ArrayList<>();
         NodeList<BodyDeclaration<?>> bds = ast().getMembers();
@@ -873,13 +890,25 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         return (_T)this;
     }
 
+    /**
+     *
+     * @param _fieldMatchFn
+     * @param _fieldActionFn
+     * @return
+     */
     default _T forFields(Predicate<_field>_fieldMatchFn, Consumer<_field> _fieldActionFn){
         listFields(_fieldMatchFn).forEach(_fieldActionFn);
         return (_T)this;
     }
 
-    default _T forMembers(Predicate<_java._member> mb, Consumer<_java._member> _memberAction){
-        listMembers(mb).forEach(_memberAction);
+    /**
+     *
+     * @param _memberMatchFn
+     * @param _memberAction
+     * @return
+     */
+    default _T forMembers(Predicate<_java._member> _memberMatchFn, Consumer<_java._member> _memberAction){
+        listMembers(_memberMatchFn).forEach(_memberAction);
         return (_T)this;
     }
 
@@ -908,11 +937,21 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         return (_T)this;
     }
 
+    /**
+     *
+     * @param _members
+     * @return
+     */
     default _T removeMembers( _java._member... _members){
         Arrays.stream(_members).forEach( _m -> this.ast().remove(_m.ast()));
         return (_T)this;
     }
 
+    /**
+     *
+     * @param _memberMatchFn
+     * @return
+     */
     default List<_java._member> removeMembers(Predicate<_java._member> _memberMatchFn){
         List<_java._member> mbp = listMembers(_java._member.class, _memberMatchFn);
         mbp.forEach(m -> removeMembers(m) );
@@ -934,6 +973,11 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         return ms;
     }
 
+    /**
+     *
+     * @param _declaredMatchFn
+     * @return
+     */
     default List<_java._declared> removeDeclared(Predicate<_java._declared> _declaredMatchFn){
         List<_java._declared> ms = listDeclared( (Predicate<_java._declared>)_declaredMatchFn);
         ms.forEach( m -> this.ast().remove(m.ast()) );
@@ -1229,8 +1273,11 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         return (_T)this;
     }
 
-
-
+    /**
+     *
+     * @param pd
+     * @return
+     */
     default _T setPackage( PackageDeclaration pd){
         if( !this.isTopLevel() ){ //this "means" that the class is an inner class
             // and we should move it OUT into it's own class at this package
@@ -1243,6 +1290,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         cu.setPackageDeclaration( pd );
         return (_T)this;
     }
+
     /**
      * Sets the package this TYPE is in
      * @param packageName

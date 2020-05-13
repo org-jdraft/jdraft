@@ -74,6 +74,10 @@ public class $comment implements $bot.$node<Comment, _comment, $comment> {
         return new $comment( Stencil.of(_com.getText()), c-> c instanceof _javadocComment);
     }
 
+    public static $comment contains( String contains ){
+        return of().$and(c-> c.contains(contains));
+    }
+
     public Predicate<_comment> predicate = t->true;
 
     /** Defines the entire CONTENTS of the comment (i.e. excluding // or other comment designator characters */

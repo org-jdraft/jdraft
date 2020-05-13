@@ -47,6 +47,10 @@ public class $textBlock implements $bot.$node<TextBlockLiteralExpr, _textBlock, 
         return new $textBlock(_textBlock.of(i)).$and(_i -> _i.getText() == i);
     }
 
+    public static $textBlock contains( String contains ){
+        return of().$and(tb-> tb.contains(contains));
+    }
+
     public Predicate<_textBlock> getPredicate(){
         return this.predicate;
     }

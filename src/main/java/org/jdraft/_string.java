@@ -46,14 +46,26 @@ public final class _string implements _expression._literal<StringLiteralExpr, _s
         return this.ast( ).equals(astNode);
     }
 
+    @Override
     public boolean isText(Predicate<String> textMatchFn ){
         return textMatchFn.test(this.se.asString());
     }
 
+
+
+    /**
+     * Gets the text of the String
+     * @return the text of the String
+     */
     public String getText(){
         return this.se.getValue();
     }
 
+    /**
+     *
+     * @param text the text to be set on the entity
+     * @return
+     */
     public _string setText(String text ){
         this.se.setValue(text);
         return this;

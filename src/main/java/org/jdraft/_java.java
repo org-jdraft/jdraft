@@ -495,6 +495,12 @@ public interface _java {
             return null;
         }
 
+        /**
+         *
+         * @param nodeClass
+         * @param <_N>
+         * @return
+         */
         public static <_N extends _multiPart> Component of(Class<_N> nodeClass) {
             Optional<Component> op = Arrays.stream(Component.values()).filter(p -> p.implementationClass.equals(nodeClass)).findFirst();
             if (op.isPresent()) {
@@ -661,14 +667,10 @@ public interface _java {
             return null;
         }
 
-        /*
-        @Override
-        default _javadoc getJavadoc() {
-            return _javadoc.of((NodeWithJavadoc) this.ast());
-        }
-
+        /**
+         *
+         * @return
          */
-
         default _D removeJavadoc() {
             ((NodeWithJavadoc) this.ast()).removeJavaDocComment();
             return (_D) this;
@@ -851,6 +853,12 @@ public interface _java {
             return forAllComments(t-> true, actionFn);
         }
 
+        /**
+         *
+         * @param matchFn
+         * @param actionFn
+         * @return
+         */
         default _N forAllComments(Predicate<_comment> matchFn, Consumer<_comment> actionFn){
             Node basedNode = null;
             if( this instanceof _codeUnit && ((_codeUnit)this).isTopLevel() ){
@@ -871,10 +879,18 @@ public interface _java {
             return listAllComments(c-> c instanceof _blockComment).stream().map(c -> (_blockComment)c).collect(Collectors.toList());
         }
 
+        /**
+         *
+         * @return
+         */
         default List<_lineComment> listAllLineComments(){
             return listAllComments(c-> c instanceof _lineComment).stream().map(c -> (_lineComment)c).collect(Collectors.toList());
         }
 
+        /**
+         *
+         * @return
+         */
         default List<_javadocComment> listAllJavadocComments(){
             return listAllComments(c-> c instanceof _javadocComment).stream().map(c -> (_javadocComment)c).collect(Collectors.toList());
         }
@@ -1338,12 +1354,22 @@ public interface _java {
      */
     interface _list<EL extends Node, _EL extends _node, _L extends _list> extends _set<EL, _EL, _L>, _domain {
 
+        /**
+         *
+         * @param _els
+         * @return
+         */
         default boolean is(_EL... _els){
             List<_EL> _arr = new ArrayList<>();
             Arrays.stream(_els).forEach(n -> _arr.add(n));
             return is(_arr);
         }
 
+        /**
+         *
+         * @param _els
+         * @return
+         */
         default boolean is(List<_EL> _els){
             if( this.size() != _els.size() ){
                 return false;
@@ -1363,16 +1389,34 @@ public interface _java {
             return (_L)this;
         }
 
+        /**
+         *
+         * @param index
+         * @param element
+         * @return
+         */
         default _L setAt( int index, EL element){
             this.listAstElements().set(index, element);
             return (_L)this;
         }
 
+        /**
+         *
+         * @param index
+         * @param _element
+         * @return
+         */
         default _L setAt( int index, _EL _element){
             this.listAstElements().set(index, (EL)_element.ast());
             return (_L)this;
         }
 
+        /**
+         *
+         * @param index
+         * @param _element
+         * @return
+         */
         default boolean isAt( int index, _EL _element){
             if( index >= this.size()){
                 return false;
@@ -1393,6 +1437,12 @@ public interface _java {
             return Arrays.stream(classes).anyMatch( c-> c.isAssignableFrom( getAt(index).getClass() ));
         }
 
+        /**
+         *
+         * @param index
+         * @param matchFn
+         * @return
+         */
         default boolean isAt( int index, Predicate<_EL> matchFn) {
             if( index >= this.size()){
                 return false;
@@ -1431,7 +1481,6 @@ public interface _java {
          */
         _WT setText(String text );
 
-
         /**
          * does the textual content of this node match the Predicate?
          * @param textMatchFn predicate function
@@ -1439,6 +1488,52 @@ public interface _java {
          */
         default boolean isText(Predicate<String> textMatchFn ) {
             return textMatchFn.test(getText());
+        }
+
+        /**
+         * Does this entity with text contain this charSequence
+         * @param containsString
+         * @return
+         */
+        default boolean contains(CharSequence containsString){
+            return getText().contains(containsString);
+        }
+
+        /**
+         *
+         * @param startsWith
+         * @return
+         */
+        default boolean startsWith(String startsWith){
+            return this.getText().startsWith(startsWith);
+        }
+
+        /**
+         *
+         * @param endsWith
+         * @return
+         */
+        default boolean endsWith(String endsWith){
+            return this.getText().endsWith(endsWith);
+        }
+
+        /**
+         *
+         */
+        default _WT replace(char target, char replacement){
+            this.setText( this.getText().replace(target, replacement) );
+            return (_WT)this;
+        }
+
+        /**
+         *
+         * @param target
+         * @param replacement
+         * @return
+         */
+        default _WT replace(String target, String replacement){
+            this.setText( this.getText().replace(target, replacement) );
+            return (_WT)this;
         }
 
         /**
@@ -1835,6 +1930,45 @@ public interface _java {
             _l.forEach(actionFn);
             return _l;
         }
+    }
 
+    /**
+     * Sort the list of nodes by position and return the sorted list
+     * NOTE: positions can lie, especially if the AST is modified after
+     *
+     * @param nodes
+     */
+    static List<_node> sort(List<_node> nodes){
+        Collections.sort(nodes, new _nodeStartPositionComparator());
+        return nodes;
+    }
+
+    /**
+     * Comparator for Nodes within an AST node that organizes based on the
+     * start position.
+     */
+    class _nodeStartPositionComparator implements Comparator<_node> {
+
+        @Override
+        public int compare(_node o1, _node o2) {
+            if (o1.ast().getBegin().isPresent() && o2.ast().getBegin().isPresent()) {
+                int comp = o1.ast().getBegin().get().compareTo(o2.ast().getBegin().get());
+                if( comp != 0 ){
+                    return comp;
+                }
+                int comp2 = o1.ast().getEnd().get().compareTo(o2.ast().getEnd().get());
+                return comp2;
+            }
+            //if one or the other doesnt have a begin
+            // put the one WITHOUT a being BEFORE the other
+            // if neither have a being, return
+            if (!o1.ast().getBegin().isPresent() && !o2.ast().getBegin().isPresent()) {
+                return 0;
+            }
+            if (o1.ast().getBegin().isPresent()) {
+                return -1;
+            }
+            return 1;
+        }
     }
 }
