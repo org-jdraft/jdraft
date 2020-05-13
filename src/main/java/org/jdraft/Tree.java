@@ -18,6 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * Tree Node Traversal Algorithms for traversing nodes of a Java AST / {@link _java._domain}
@@ -128,6 +129,36 @@ public enum Tree {
      * </PRE>
      */
     public static final Node.TreeTraversal DIRECT_CHILDREN = Node.TreeTraversal.DIRECT_CHILDREN;
+
+    /**
+     *
+     * @param tt
+     * @param node
+     * @param targetClass
+     * @param matchFn
+     * @param <T>
+     * @param <N>
+     * @return
+     */
+    public static <T, N extends Node> Stream<T> stream(
+            Node.TreeTraversal tt, N node, Class<T> targetClass, Predicate<T> matchFn ) {
+        return list(tt, node, targetClass, matchFn).stream();
+    }
+
+    /**
+     *
+     * @param tt
+     * @param _node
+     * @param targetClass
+     * @param matchFn
+     * @param <T>
+     * @param <_N>
+     * @return
+     */
+    public static <T, _N extends _java._node> Stream<T> stream(
+            Node.TreeTraversal tt, _N _node, Class<T> targetClass, Predicate<T> matchFn ) {
+        return list(tt, _node, targetClass, matchFn).stream();
+    }
 
     /**
      * _walk the nodes within & collect all nodes that match all the predicate and return them in order
@@ -317,6 +348,16 @@ public enum Tree {
         List<T> found = new ArrayList<>();
         of( tt, astRootNode, targetClass, matchFn, f -> found.add(f) );
         return found;
+    }
+
+
+
+    public static <T, _N extends _java._node> List<T> list(
+            Node.TreeTraversal tt, _N _node, Class<T> targetClass, Predicate<T> matchFn ) {
+        if( _node instanceof _codeUnit && ((_codeUnit) _node).isTopLevel()){
+            return list( tt, ((_codeUnit) _node).astCompilationUnit(), targetClass, matchFn);
+        }
+        return list( tt, _node.ast(), targetClass, matchFn);
     }
 
     /**
@@ -1512,7 +1553,6 @@ public enum Tree {
         return in_java(tt, Integer.MAX_VALUE, astRootNode, _javaClass, _javaMatchFn, _javaAction);
     }
 
-
     /**
      * A _walk that resolves {@link  _java._domain} classes (as apposed to AST {@link Node}
      * implementation
@@ -1536,6 +1576,76 @@ public enum Tree {
     public static <_J extends _java._domain, N extends Node> N in_java(
             Node.TreeTraversal tt, int levels, N astRootNode, Class<_J> _javaClass, Predicate<_J> _javaMatchFn, Consumer<_J> _javaAction ) {
 
+        //System.out.println( "+IN JAVA");
+        //if( true ) {
+
+            Set<_codeUnit> encounteredTypes = new HashSet<>();
+
+            if( _javaClass == _field.class ){
+                //_fields are tricky
+                in( tt, levels,
+                        astRootNode,
+                        VariableDeclarator.class,
+                        v-> v.getParentNode().isPresent() && (v.getParentNode().get() instanceof FieldDeclaration),
+                        v-> {
+                            _field _f = _field.of(v);
+                            if( _javaMatchFn.test((_J)_f) ){
+                                _javaAction.accept( (_J) _f);
+                            }
+                        });
+                return astRootNode;
+            }
+            in(tt, levels, astRootNode, Node.class, n->true, n->{
+                if(n instanceof FieldDeclaration){
+                    if( _javaClass.isAssignableFrom(_field.class)) {
+                        FieldDeclaration fd = ((FieldDeclaration) n).asFieldDeclaration();
+                        fd.getVariables().forEach(v -> {
+                            _field _f = _field.of(v);
+                            if (_javaMatchFn.test((_J) _f)) {
+                                _javaAction.accept((_J) _f);
+                            }
+                        });
+                    }
+                } else if( n instanceof VariableDeclarator && n.getParentNode().isPresent()
+                        && n.getParentNode().get() instanceof FieldDeclaration) {
+                    //System.out.println( "Skipping Field Vars");
+                } else{
+                    //System.out.println(" >>>> testing of " + _javaClass + "  " + n.getClass());
+                    //_java._node _n = (_java._node) _java.of(n);
+                    _java._domain _n = (_java._domain) _java.of(n);
+                    if( n instanceof CompilationUnit){
+                        if( _javaClass.isAssignableFrom(_codeUnit.class) && !encounteredTypes.contains(_n)) {
+                            _codeUnit _c = _codeUnit.of((CompilationUnit) n);
+                            if (_javaMatchFn.test((_J) _c)) {
+                                _javaAction.accept((_J) _c);
+                                encounteredTypes.add(_c);
+                            }
+                        }
+                    } else if( n instanceof TypeDeclaration && ((TypeDeclaration)n).isTopLevelType()){
+                        /**
+                         * NOTE: WE SKIP TOP LEVEL TYPES B/C THEIR COMPILATIONUNITS
+                         * WILL ALREADY HAVE BEEN BE CALLED IN THE WALK
+                         */
+                        _codeUnit _c = _type.of( (TypeDeclaration)n);
+                        if( _javaClass.isAssignableFrom(_c.getClass()) && ! encounteredTypes.contains(_c) &&_javaMatchFn.test((_J)_c) ){
+                            _javaAction.accept( (_J)_c );
+                            encounteredTypes.add(_c);
+                        }
+                    } else {
+                        //System.out.println("testing " + _n.getClass() + " of " + _javaClass);
+                        if (_javaClass.isAssignableFrom(_n.getClass())) {
+
+                            if ((_javaMatchFn).test((_J) _n)) {
+                                (_javaAction).accept((_J) _n);
+                            }
+                        }
+                    }
+                }
+            });
+            return astRootNode;
+        //}
+
+        /** *OLD STUFF  THIS
         if( _statement.class.isAssignableFrom(_javaClass)){
             in( tt, levels,
                     astRootNode,
@@ -1559,8 +1669,9 @@ public enum Tree {
                     n -> true,
                     n -> {
                         _expression _e = _expression.of( (Expression)n);
-
+                        //System.out.println( "Got Expression "+ _e+" "+_e.getClass()+ " " +_javaClass);
                         if(_javaClass.isAssignableFrom(_e.getClass())) {
+                            //System.out.println( ">>> Testing "+ _e+" "+_e.getClass()+" to "+_javaClass);
                             if (((Predicate<_expression>) _javaMatchFn).test(_e)) {
                                 ((Consumer<_expression>) _javaAction).accept(_e);
                             }
@@ -1581,10 +1692,10 @@ public enum Tree {
                                 _javaAction.accept( (_J)_c );
                             }
                         } else if( a instanceof TypeDeclaration && !((TypeDeclaration)a).isTopLevelType()){
-                            /** 
-                             * NOTE: WE SKIP TOP LEVEL TYPES B/C THEIR COMPILATIONUNITS 
-                             * WILL ALREADY HAVE BEEN BE CALLED IN THE WALK
-                             */
+
+                             //NOTE: WE SKIP TOP LEVEL TYPES B/C THEIR COMPILATIONUNITS
+                             //WILL ALREADY HAVE BEEN BE CALLED IN THE WALK
+
                             _codeUnit _c = _type.of( (TypeDeclaration)a);
                             if( _javaMatchFn.test((_J)_c) ){
                                 _javaAction.accept( (_J)_c );
@@ -1935,6 +2046,7 @@ public enum Tree {
             return astRootNode;
         }
         throw new _jdraftException( "Could not convert Node of Class " + _javaClass + " to _java type" );
+        */
     }
 
     /**
@@ -2264,11 +2376,43 @@ public enum Tree {
         //  1) find the matching AST class for the _node class
         //  2) search through those, creating a new instance for each node & testing 
         if( _java._domain.class.isAssignableFrom(nodeTargetClass) ){
+
             //here I'm looking for a _field, _method, etc.
             Optional<Node> on = astStartNode.stream(tt).filter(n -> {
+                    //System.out.println( "looking at "+ n.getClass()+" "+ _java.of(n).getClass()+" to "+nodeTargetClass );
+                if(n instanceof FieldDeclaration){
+                    if( nodeTargetClass.isAssignableFrom(_field.class) ){
+                        FieldDeclaration fd = ((FieldDeclaration) n).asFieldDeclaration();
+                        for(int i=0;i<fd.getVariables().size(); i++) {
+                            _field _f = _field.of(fd.getVariable(i));
+                            return nodeMatchFn.test( (T)_f);
+                        }
+                    }
+                    //no need if its not matching _field
+                } else {
+                    _java._node _n = (_java._node) _java.of(n);
+                    if (nodeTargetClass.isAssignableFrom(_n.getClass())) {
+                        //System.out.println("testing " + _n.getClass() + " of " + _javaClass);
+                        return nodeMatchFn.test((T)_n);
+                        //if ((_javaMatchFn).test((_J) _n)) {
+                        //    (_javaAction).accept((_J) _n);
+                        //}
+                    }
+                }
+                /*
+                    _java._node _n = (_java._node)_java.of(n);
+                    if( nodeTargetClass.isAssignableFrom(_n.getClass())){
+                       //System.out.println( "testing "+ n.getClass()+" "+ _java.of(n).getClass() );
+                        return nodeMatchFn.test((T)_n );
+                    }
+
+                 */
+                    /*
                     if( Objects.equals( NodeClassMap._node(n.getClass()), nodeTargetClass ) ){
+                        System.out.println( "testing "+ n.getClass()+" "+ _java.of(n).getClass() );
                         return nodeMatchFn.test((T) _java.of(n) );
                     }
+                    */
                     /*
                     if( Objects.equals( _java.Model.AST_NODE_TO_JAVA_CLASSES.get(n.getClass()), nodeTargetClass ) ){
                         return nodeMatchFn.test((T) _java.of(n) );

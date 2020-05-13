@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
@@ -289,7 +290,7 @@ public interface _java {
         if( astNode instanceof SwitchEntry){
             return _switchEntry.of( (SwitchEntry)astNode);
         }
-        if( astNode instanceof Modifier){
+        if( astNode instanceof com.github.javaparser.ast.Modifier){
             return _modifier.of( (Modifier)astNode);
         }
         if (astNode instanceof Parameter) {
@@ -320,10 +321,13 @@ public interface _java {
             return _moduleInfo.of( (ModuleDeclaration)astNode);
         }
         if( astNode instanceof ModuleDirective ){
-            return (_java._node)_moduleDirective.of( (ModuleDirective)astNode);
+            return _moduleDirective.of( (ModuleDirective)astNode);
         }
         if( astNode instanceof ModuleRequiresDirective ){
             return _moduleRequires.of( (ModuleRequiresDirective)astNode);
+        }
+        if( astNode instanceof MemberValuePair){
+            return _annoRef._memberValue.of( (MemberValuePair)astNode);
         }
         throw new _jdraftException("Unable to create _java entity from " + astNode+" "+astNode.getClass());
     }
@@ -883,6 +887,101 @@ public interface _java {
      * @param <_N> the _domain type
      */
     interface _node<N extends Node, _N extends _node> extends _domain {
+
+        /**
+         * Build and return a _walk object that will prepare walking the AST (in default PRE_ORDER fashion)
+         *
+         * <PRE>
+         *            (A)
+         *           /  \
+         *          B    C
+         *         / \
+         *        D   E
+         * Preorder (Parent, then children) from (A) : A,B,D,E,C
+         * </PRE>
+         *
+         * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
+         */
+        default _walk walk(){
+            return new _walk(Tree.PRE_ORDER, this);
+        }
+
+        /**
+         * Build and return a _walk object that will prepare walking the AST (in default POST_ORDER fashion)
+         *
+         * <PRE>
+         *            (A)
+         *           /  \
+         *          B    C
+         *         / \
+         *        D   E
+         * PostOrder ("leaves first", "bottom-up") from (A) : D,E,B,C,A
+         * </PRE>
+         * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
+         */
+        default _walk walkPostOrder(){
+            return new _walk(Tree.POST_ORDER, this);
+        }
+
+        /**
+         * Build and return a _walk object that will prepare walking the AST (in default POST_ORDER fashion)
+         *
+         * <PRE>
+         *            (A)
+         *           /  \
+         *          B    C
+         *         / \
+         *        D   E
+         * Breadth-First (or Level Order) from (A): A,B,C,D,E
+         * </PRE>
+         * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
+         */
+        default _walk walkBreadthFirst(){
+            return new _walk(Tree.BREADTH_FIRST, this);
+        }
+
+        /**
+         * Build and return a _walk object that will prepare walking the AST (in default PARENTS fashion)
+         *
+         * <PRE>
+         *             A
+         *           /  \
+         *          B    C
+         *         / \
+         *        D   E
+         *
+         * "Parents" (or "up to root"):
+         *    from D: B, A
+         *    from E: B, A
+         *    from B: A
+         *    from C: A
+         * </PRE>
+         *
+         * @return
+         */
+        default _walk walkParents(){
+            return new _walk(Tree.PARENTS, this);
+        }
+
+        /**
+         * Build and return a _walk object that will prepare walking the AST (in DIRECT_CHILDREN fashion)
+         *
+         * <PRE>
+         *            (A)
+         *           /  \
+         *         (B)   C
+         *         / \
+         *        D   E
+         * Direct Children
+         *     From (A): B, C
+         *     From (B): D, E
+         * </PRE>
+         *
+         * @return
+         */
+        default _walk walkDirectChildren(){
+            return new _walk(Tree.DIRECT_CHILDREN, this);
+        }
 
         /**
          * Build and return an (independent) copy of this _node entity
@@ -1619,5 +1718,123 @@ public interface _java {
         default _expression getExpression(){
             return _expression.of(((NodeWithExpression)ast()).getExpression());
         }
+    }
+
+    /**
+     * Fluent intermediate object used to set up a walk through AST-nodes
+     *
+     * //print all of the int literals within the source of MyClass.class
+     * _class.of(MyClass.class).walk().print(_int.class);
+     *
+     * //list all lambda expressions with parameters within AClass.class
+     * List<_lambda> _ls = _class.of(AClass.class).walk().list(_lambda.class, _l->_l.hasParameters());
+     *
+     *
+     */
+    class _walk {
+
+        /** How to walk the AST */
+        public Node.TreeTraversal treeTraversal = Node.TreeTraversal.PREORDER;
+
+        /** The start node for where to begin the walk */
+        public _node _n;
+
+        public _walk(_node _n){
+            this._n = _n;
+        }
+
+        public _walk(Node.TreeTraversal tt, _node _n){
+            this._n = _n;
+            this.treeTraversal = tt;
+        }
+
+        public  boolean has(Predicate<_node> _matchFn){
+            return first(_node.class, _matchFn) != null;
+        }
+
+        public <_D extends _domain> boolean has(Class<_D> _nodeClass){
+            return first(_nodeClass, t->true) != null;
+        }
+
+        public <_D extends _domain> boolean has(Class<_D> _nodeClass, Predicate<_D> _matchFn){
+            return Tree.first(this.treeTraversal, this._n, _nodeClass, _matchFn) != null;
+        }
+
+        public void print(Predicate<_node> _matchFn){
+            print(_node.class, _matchFn);
+        }
+
+        public <_D extends _domain> void print(Class<_D> _nodeClass){
+            forEach(_nodeClass, e-> System.out.println(e));
+        }
+
+        public <_D extends _domain> void print(Class<_D> _nodeClass, Predicate<_D> _matchFn){
+            forEach(_nodeClass, _matchFn, e-> System.out.println(e));
+        }
+
+        public void printTree(Predicate<_node> _matchFn){
+            printTree(_node.class, _matchFn);
+        }
+
+        public <_N extends _java._node> void printTree(Class<_N> _nodeClass){
+            forEach(_nodeClass, e-> System.out.println(e));
+        }
+
+        public <_N extends _java._node> void printTree(Class<_N> _nodeClass, Predicate<_N> _matchFn){
+            forEach(_nodeClass, _matchFn, e-> Print.tree(e));
+        }
+
+        public _node first(Predicate<_node> _matchFn){
+            return first(_node.class, _matchFn);
+        }
+
+        public <_D extends _domain> _D first(Class<_D> _nodeClass){
+            return first(_nodeClass, t->true);
+        }
+
+        public <_D extends _domain> _D first(Class<_D> _nodeClass, Predicate<_D> _matchFn){
+            return Tree.first(this.treeTraversal, this._n, _nodeClass, _matchFn);
+        }
+
+        public List<_node> list(Predicate<_node> _matchFn){
+            return list(_node.class, _matchFn);
+        }
+
+        public <_D extends _domain> List<_D> list(Class<_D> _nodeClass){
+            return list(_nodeClass, t->true);
+        }
+
+        public <_D extends _domain> List<_D> list(Class<_D> _nodeClass, Predicate<_D> _matchFn){
+            return Tree.list(this.treeTraversal, this._n, _nodeClass, _matchFn);
+        }
+
+        public Stream<_node> stream(Predicate<_node> _matchFn){
+            return stream(_node.class, _matchFn);
+        }
+
+        public <_D extends _domain> Stream<_D> stream(Class<_D> _nodeClass){
+            return stream(_nodeClass, t->true);
+        }
+
+        public <_D extends _domain> Stream<_D> stream(Class<_D> _nodeClass, Predicate<_D> _matchFn){
+            return Tree.stream(this.treeTraversal, this._n, _nodeClass, _matchFn);
+        }
+
+        public List<_node> forEach(Predicate<_node> _matchFn, Consumer<_node> actionFn){
+            return forEach(_node.class, _matchFn, actionFn);
+        }
+
+        public <_D extends _domain> List<_D> forEach(Class<_D> _nodeClass, Consumer<_D> actionFn){
+            List<_D> _l = list(_nodeClass, t->true);
+            _l.forEach(actionFn);
+            return _l;
+        }
+
+        public <_D extends _domain> List<_D> forEach(Class<_D> _nodeClass, Predicate<_D> _matchFn, Consumer<_D> actionFn){
+            List<_D> _l = Tree.list(this.treeTraversal, this._n, _nodeClass, _matchFn);
+            _l.forEach(actionFn);
+            return _l;
+        }
+
     }
 }

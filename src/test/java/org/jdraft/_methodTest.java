@@ -595,8 +595,10 @@ public class _methodTest extends TestCase {
         //Predicate<_method> mm = m-> !m.isAbstract() && m.isStatic() && m.hasAnno(ann.class);
         Predicate<_method> mm = (_method m) -> !m.isAbstract() && m.isStatic() && m.hasAnnoRef(ann.class);
         assertTrue( mm.test( _method.of("@ann", "public static void doIt(){}")));
-          
-        
+
+
+        System.out.println( Tree.list(_class.of(_methodTest.class),_method.class ));
+
         //ideally we want
         assertTrue( Tree.list(_class.of(_methodTest.class),_method.class ).size() >=5);
         

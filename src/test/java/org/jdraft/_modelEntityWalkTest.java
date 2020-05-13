@@ -38,8 +38,13 @@ public class _modelEntityWalkTest extends TestCase {
         _class _c = _class.of(_modelEntityWalkTest.class);
 
 
-        List<_type> ts = new ArrayList<>();
+        List<_type> ts = Tree.list(_c, _type.class);
+
+        assertEquals( 5, ts.size());
+        ts.clear();
+
         Tree.in( _c, _type.class, n->ts.add(n) );
+
         //_c.walk(_type.class, n->ts.add(n) );
         assertEquals( 5, ts.size());
 

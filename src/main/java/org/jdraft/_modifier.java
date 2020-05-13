@@ -18,6 +18,7 @@ public enum _modifier implements _java._multiPart<Modifier, _modifier> {
     STRICT( com.github.javaparser.ast.Modifier.strictfpModifier(), java.lang.reflect.Modifier.STRICT ),
     VOLATILE(com.github.javaparser.ast.Modifier.volatileModifier(), java.lang.reflect.Modifier.VOLATILE ),
     TRANSIENT(com.github.javaparser.ast.Modifier.transientModifier(), java.lang.reflect.Modifier.TRANSIENT ),
+    DEFAULT(new com.github.javaparser.ast.Modifier(Modifier.Keyword.DEFAULT), 0 ),
     NATIVE( com.github.javaparser.ast.Modifier.nativeModifier(), java.lang.reflect.Modifier.NATIVE );
 
     public final com.github.javaparser.ast.Modifier mod;
@@ -45,6 +46,8 @@ public enum _modifier implements _java._multiPart<Modifier, _modifier> {
         if( om.isPresent() ){
             return om.get();
         }
+        //return new _modifier(astMod, 0);
+        //System.out.println("NO MODIFIER FOR "+ astMod);
         return null;
     }
 
