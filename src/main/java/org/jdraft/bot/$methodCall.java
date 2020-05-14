@@ -22,7 +22,6 @@ public class $methodCall implements $bot.$node<MethodCallExpr, _methodCall, $met
 
     public interface $part{}
 
-
     public static $methodCall of( String name, $part...parts){
         $methodCall $mc = of( ($part)$name.of(name));
         return addParts($mc, parts);

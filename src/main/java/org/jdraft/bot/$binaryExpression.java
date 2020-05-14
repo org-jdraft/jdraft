@@ -363,16 +363,16 @@ public class $binaryExpression implements $bot.$node<BinaryExpr, _binaryExpressi
 
     public Predicate<_binaryExpression> predicate = d -> true;
 
-    public $featureSelector<_binaryExpression, _expression> left =
-            $featureSelector.of( _binaryExpression.class, _expression.class, "left", b-> b.getLeft());
+    public Select.$feature<_binaryExpression, _expression> left =
+            Select.$feature.of( _binaryExpression.class, _expression.class, "left", b-> b.getLeft());
 
-    public $featureSelector<_binaryExpression, _expression> right =
-            $featureSelector.of( _binaryExpression.class, _expression.class, "right", b-> b.getRight());
+    public Select.$feature<_binaryExpression, _expression> right =
+            Select.$feature.of( _binaryExpression.class, _expression.class, "right", b-> b.getRight());
 
     public Set<BinaryExpr.Operator> excludedOperators = new HashSet<>();
 
-    public $featureSelector<_binaryExpression, BinaryExpr.Operator> operator =
-            $featureSelector.of( _binaryExpression.class, BinaryExpr.Operator.class, "operator", b-> b.getOperator())
+    public Select.$feature<_binaryExpression, BinaryExpr.Operator> operator =
+            Select.$feature.of( _binaryExpression.class, BinaryExpr.Operator.class, "operator", b-> b.getOperator())
                     .setSelector( o -> {
                         if( excludedOperators.contains(o)){
                             return null;

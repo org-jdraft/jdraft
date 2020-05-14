@@ -301,13 +301,13 @@ public class $unary implements $bot.$node<UnaryExpr, _unary, $unary>,
 
     public Predicate<_unary> predicate = d -> true;
 
-    public $featureSelector<_unary, _expression> expression =
-            $featureSelector.of( _unary.class, _expression.class, "expression", u-> u.getExpression());
+    public Select.$feature<_unary, _expression> expression =
+            Select.$feature.of( _unary.class, _expression.class, "expression", u-> u.getExpression());
 
     public Set<UnaryExpr.Operator> excludedOperators = new HashSet<>();
 
-    public $featureSelector<_unary, UnaryExpr.Operator> operator =
-            $featureSelector.of( _unary.class, UnaryExpr.Operator.class, "operator", b-> b.getOperator())
+    public Select.$feature<_unary, UnaryExpr.Operator> operator =
+            Select.$feature.of( _unary.class, UnaryExpr.Operator.class, "operator", b-> b.getOperator())
                     .setSelector( o -> {
                         if( excludedOperators.contains(o)){
                             return null;

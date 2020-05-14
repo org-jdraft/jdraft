@@ -115,16 +115,7 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
      * @return the $parameter bot
      */
     public $parameter $isVarArg(Boolean b){
-        this.varArg = b;
-        this.isVarArg.setSelector( new $featureSelector.$BooleanFeatureSelector(this.varArg));
-        /*
-        this.isVarArg.setSelector(bool-> {
-            if(Objects.equals(bool, this.varArg)){
-                return new Tokens();
-            }
-            return null;
-        });
-         */
+        this.isVarArg.setExpected(b);
         return this;
     }
 
@@ -134,8 +125,7 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
      * @return the $parameter bot
      */
     public $parameter $isFinal(Boolean b){
-        this.finalMod = b;
-        this.isFinal.setSelector(new $featureSelector.$BooleanFeatureSelector(finalMod) );
+        this.isFinal.setExpected(b);
         return this;
     }
 
@@ -183,33 +173,20 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
              Arrays.stream($mcs).forEach(m -> $parameterBots.add(m));
          }
 
-        public List<$parameter> $listOrSelectors() {
+         public List<$parameter> $listOrBots() {
             return $parameterBots;
         }
 
          public Or copy(){
-             Or or = new Or($listOrSelectors().toArray(new $parameter[0]));
+             List<$parameter> cp = $parameterBots.stream().map(p-> p.copy()).collect(Collectors.toList());
+             Or or = new Or(cp.toArray(new $parameter[0]));
              or.$and( this.predicate.and(t->true) );
              //I need to port over all of the common things
              or.annoRefs = this.annoRefs.copy();
              or.name = this.name.copy();
              or.type = this.type.copy();
-             or.finalMod = this.finalMod;
-             or.isFinal =  $featureSelector.of( _parameter.class, Boolean.class, "isFinal", p->p.isFinal()); //this.isFinal;
-             or.isFinal.setSelector(b->{
-                 if(finalMod == null || Objects.equals(b, or.finalMod)){
-                     return new Tokens();
-                 }
-                 return null;
-             });
-             or.varArg = this.varArg;
-             or.isVarArg =  $featureSelector.of( _parameter.class, Boolean.class, "isVarArg", p->p.isVarArg()); //this.isFinal;
-             or.isVarArg.setSelector(b->{
-                 if(varArg == null || Objects.equals(b, or.varArg)){
-                     return new Tokens();
-                 }
-                 return null;
-             });
+             or.isFinal = this.isFinal.copy();
+             or.isVarArg = this.isVarArg.copy();
              return or;
          }
 
@@ -247,8 +224,8 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
         public String toString(){
             StringBuilder sb = new StringBuilder();
             sb.append( "$parameter.Or{").append(System.lineSeparator());
-            for(int i = 0; i< $listOrSelectors().size(); i++){
-                sb.append( Text.indent( this.$listOrSelectors().get(i).toString()) );
+            for(int i = 0; i< $listOrBots().size(); i++){
+                sb.append( Text.indent( this.$listOrBots().get(i).toString()) );
             }
             sb.append("}");
             return sb.toString();
@@ -257,23 +234,23 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
 
     public Predicate<_parameter> predicate = d -> true;
 
-    public $featureSelector<_parameter, _name> name =
-            $featureSelector.of( _parameter.class, _name.class, "name", p-> _name.of(p.getNameNode()));
+    public Select.$feature<_parameter, _name> name =
+            Select.$feature.of( _parameter.class, _name.class, "name", p-> _name.of(p.getNameNode()));
 
-    public $featureSelector<_parameter, _typeRef> type =
-            $featureSelector.of( _parameter.class, _typeRef.class, "type", p->p.getTypeRef());
+    public Select.$feature<_parameter, _typeRef> type =
+            Select.$feature.of( _parameter.class, _typeRef.class, "type", p->p.getTypeRef());
 
-    public $featureSelector<_parameter, _annoRefs> annoRefs =
-            $featureSelector.of( _parameter.class, _annoRefs.class, "annoRefs", p->p.getAnnoRefs());
+    public Select.$feature<_parameter, _annoRefs> annoRefs =
+            Select.$feature.of( _parameter.class, _annoRefs.class, "annoRefs", p->p.getAnnoRefs());
 
-    public $featureSelector<_parameter, Boolean> isVarArg =
-            $featureSelector.of( _parameter.class, Boolean.class, "isVarArg", p->p.isVarArg());
+    public Select.$BooleanFeature<_parameter> isFinal =
+            new Select.$BooleanFeature( _parameter.class,"isFinal", p-> ((_parameter)p).isFinal());
 
-    public $featureSelector<_parameter, Boolean> isFinal =
-            $featureSelector.of( _parameter.class, Boolean.class, "isFinal", p->p.isFinal());
+    public Select.$BooleanFeature<_parameter> isVarArg =
+            new Select.$BooleanFeature( _parameter.class,"isVarArg", p->((_parameter)p).isVarArg());
 
-    public Boolean varArg;
-    public Boolean finalMod;
+    //public Boolean varArg;
+    //public Boolean finalMod;
 
     public $parameter() { }
 
@@ -285,12 +262,14 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
         type.setSelector( $typeRef.of(_p.getTypeRef()));
 
         if( _p.isVarArg() ){
-            this.varArg = _p.isVarArg();
-            this.isVarArg.setSelector( new $featureSelector.$BooleanFeatureSelector(this.varArg));
+            isVarArg.setExpected( true);
+            //this.varArg = _p.isVarArg();
+            //this.isVarArg.setSelector( new $featureSelector.$BooleanFeatureSelector(this.varArg));
         }
         if( _p.isFinal()){
-            this.finalMod = _p.isFinal();
-            this.isFinal.setSelector( new $featureSelector.$BooleanFeatureSelector(this.finalMod));
+            isVarArg.setExpected( true);
+            //this.finalMod = _p.isFinal();
+            //this.isFinal.setSelector( new $featureSelector.$BooleanFeatureSelector(this.finalMod));
         }
     }
 
@@ -304,6 +283,10 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
         $p.name = this.name.copy();
         $p.type = this.type.copy();
 
+        $p.isVarArg = this.isVarArg.copy();
+        $p.isFinal = this.isFinal.copy();
+
+        /*
         if( this.finalMod != null ) {
             $p.finalMod = this.finalMod.booleanValue();
         }
@@ -313,6 +296,7 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
             $p.varArg = this.varArg.booleanValue();
         }
         $p.isVarArg = this.isVarArg.copy().setSelector( new $featureSelector.$BooleanFeatureSelector($p.varArg));
+        */
 
         return $p;
     }
@@ -337,13 +321,13 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
         return this;
     }
 
-    public $parameter $forMemberSelectors( Consumer<$featureSelector<_parameter, ?>> memberSelectorAction){
+    public $parameter $forMemberSelectors( Consumer<Select.$feature<_parameter, ?>> memberSelectorAction){
         $memberSelectors().stream().forEach($ms -> memberSelectorAction.accept($ms));
         return this;
     }
 
-    public List<$featureSelector<_parameter, ?>> $memberSelectors(){
-        List<$featureSelector<_parameter, ?>> mss = new ArrayList<>();
+    public List<Select.$feature<_parameter, ?>> $memberSelectors(){
+        List<Select.$feature<_parameter, ?>> mss = new ArrayList<>();
         mss.add(this.annoRefs);
         mss.add(this.isFinal);
         mss.add(this.type);
@@ -422,12 +406,20 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
         _p.setAnnoRefs( this.annoRefs.draft(tr, keyValues) );
         _p.setName(this.name.draft(tr, keyValues).name.toString());
         _p.setTypeRef(this.type.draft(tr, keyValues));
+        if( this.isFinal.getExpected() ){
+            _p.setFinal(true);
+        }
+        if( this.isVarArg.getExpected()){
+            _p.setVarArg(true);
+        }
+        /*
         if( this.finalMod != null){
             _p.setFinal(finalMod);
         }
         if( this.varArg != null ){
             _p.setVarArg( this.varArg);
         }
+         */
         return _p;
     }
 

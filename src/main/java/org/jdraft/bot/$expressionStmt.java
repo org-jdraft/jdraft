@@ -23,8 +23,6 @@ public class $expressionStmt implements $bot.$node<ExpressionStmt, _expressionSt
         $selector.$node<_expressionStmt, $expressionStmt>,
         $statement<ExpressionStmt, _expressionStmt, $expressionStmt>, $bot.$withComment<$expressionStmt> {
 
-
-
     public interface $part{}
 
     public static $expressionStmt of(String name ){

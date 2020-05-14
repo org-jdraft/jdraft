@@ -1274,7 +1274,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     }
 
     /**
-     *
+     * 
      * @param pd
      * @return
      */
@@ -1359,6 +1359,10 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         return _modifiers.of(this.ast() );
     }
 
+    /**
+     *
+     * @return
+     */
     default boolean isPublic(){
         return this.ast().isPublic();
     }
@@ -1380,22 +1384,42 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
                 !this.ast().isPublic();
     }
 
+    /**
+     *
+     * @return
+     */
     default boolean isProtected(){
         return this.ast().isProtected();
     }
 
+    /**
+     *
+     * @return
+     */
     default boolean isPrivate(){
         return this.ast().isPrivate();
     }
 
+    /**
+     *
+     * @return
+     */
     default boolean isStatic(){
         return this.ast().isStatic();
     }
 
+    /**
+     *
+     * @return
+     */
     default boolean isStrictFp(){
         return this.ast().isStrictfp();
     }
 
+    /**
+     *
+     * @return
+     */
     default _T setPublic(){
         this.ast().setPrivate(false);
         this.ast().setProtected(false);
@@ -1403,13 +1427,21 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         return (_T)this;
     }
 
+    /**
+     *
+     * @return
+     */
     default _T setProtected(){
         this.ast().setPublic(false);
         this.ast().setPrivate(false);
         this.ast().setProtected(true);
         return (_T)this;
     }
-    
+
+    /**
+     *
+     * @return
+     */
     default _T setPrivate(){
         this.ast().setPublic(false);
         this.ast().setPrivate(true);
