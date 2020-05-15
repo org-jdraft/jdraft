@@ -5,6 +5,9 @@ import junit.framework.TestCase;
 import org.jdraft._binaryExpression;
 import org.jdraft._expression;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class $binaryExpressionTest extends TestCase {
 
     public void testAny(){
@@ -21,8 +24,11 @@ public class $binaryExpressionTest extends TestCase {
         assertTrue( $binaryExpression.of().$not(_binaryExpression.REMAINDER).matches("a + b"));
         assertFalse( $binaryExpression.of().$not(_binaryExpression.REMAINDER).matches("a % b"));
 
+        $binaryExpression $be = $binaryExpression.of(_binaryExpression.PLUS);
+        System.out.println( $be.operator.excludedValues );
         assertTrue( $binaryExpression.of(_binaryExpression.PLUS).matches("a + b"));
         assertFalse( $binaryExpression.of(_binaryExpression.PLUS).matches("a / b"));
+
         assertTrue( $binaryExpression.of(_binaryExpression.PLUS, _binaryExpression.DIVIDE).matches("a / b"));
         assertFalse( $binaryExpression.of(_binaryExpression.PLUS, _binaryExpression.DIVIDE).matches("a % b"));
         assertTrue( $binaryExpression.plus().matches("a + b"));
@@ -36,6 +42,12 @@ public class $binaryExpressionTest extends TestCase {
 
     public void testSpecific(){
         $binaryExpression $be = $binaryExpression.of("1==2");
+        //System.out.println("ALL"+$be.operator.allPossibleValues);
+        //System.out.println("EX"+ $be.operator.excludedValues);
+        //Set s = new HashSet<>();
+        //s.addAll($be.operator.allPossibleValues);
+        //s.removeAll($be.operator.excludedValues);
+        //System.out.println( "REM "+ s);
         assertTrue( $be.matches("1 == 2"));
         assertFalse( $be.matches("1 == a"));
         assertFalse( $be.matches("1 > 2"));
@@ -54,7 +66,9 @@ public class $binaryExpressionTest extends TestCase {
 
         assertTrue( $be.select("1==2").is("a", "1", "b", "2"));
 
+
         //draft/via fill
+        assertTrue( $be.draft("a", 1,"b", 2).is("1==2"));
         assertTrue( $be.fill(1, 2).is("1==2"));
     }
 

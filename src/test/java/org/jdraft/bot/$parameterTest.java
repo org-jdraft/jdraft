@@ -22,6 +22,8 @@ public class $parameterTest extends TestCase {
     }
 
     public void testParameterized(){
+        assertNotNull( $parameter.of("$type$ $name$").select("t n") );
+
         assertTrue( $parameter.of("$type$ $name$").select("t n")
                 .is("type", "t", "name", "n"));
     }

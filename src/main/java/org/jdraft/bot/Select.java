@@ -3,10 +3,7 @@ package org.jdraft.bot;
 import com.github.javaparser.ast.Node;
 import org.jdraft.text.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 
 /**
@@ -66,6 +63,111 @@ public class Select<S> {
      */
     public boolean is(Object...expectedKeyValues){
         return tokens.is(expectedKeyValues);
+    }
+
+    /**
+     * $bot that is assigned to test from a feature that is resolved (& extract Tokens)
+     * @param <$B> the $bot type
+     * @param <_T> the top level class type (where the resolve starts)
+     * @param <_F> the resolved feature type (the thing the $bot tests)
+     */
+    public static class $botFeature<$B extends $bot, _T, _F> extends $feature<_T, _F>{
+        public static<_T, _R> $botFeature of(Class<_T>targetClass, Class<_R>memberClass, String memberName, Function<_T, _R> memberResolver){
+            return new $botFeature(targetClass, memberClass, memberName, memberResolver);
+        }
+
+        public static<$B extends $bot, _T, _R> $botFeature of(Class<_T>targetClass, Class<_R>memberClass, String memberName, Function<_T, _R> memberResolver, $B bot){
+            return new $botFeature(targetClass, memberClass, memberName, memberResolver).setBot(bot);
+        }
+
+        public $botFeature(Class<_T>targetClass, Class<_F> featureClass, String featureName, Function<_T,_F> featureResolver){
+            super( targetClass = targetClass, featureClass = featureClass, featureName, featureResolver);
+        }
+
+        public $B bot;
+
+        public $botFeature setBot($B bot){
+            this.bot = bot;
+            return this;
+        }
+
+        public $B getBot(){
+            return bot;
+        }
+
+        public boolean isMatchAny(){
+            return this.bot == null || this.bot.isMatchAny();
+        }
+
+        public $feature $(String target, String name){
+            this.bot.$(target, name);
+            return this;
+        }
+
+        public $feature $hardcode(Translator translator, Map<String,Object> keyValues){
+            this.bot.$hardcode(translator,keyValues);
+            return this;
+        }
+
+        public List<String> $list(){
+            if( this.bot != null ) {
+                return this.bot.$list();
+            }
+            return new ArrayList<>();
+        }
+
+        public List<String> $listNormalized(){
+            if( this.bot != null ) {
+                return this.bot.$listNormalized();
+            }
+            return new ArrayList<>();
+        }
+
+        public _F draft(Translator translator, Map<String,Object> memberValues){
+            if( this.bot != null ) {
+                return (_F) this.bot.draft(translator, memberValues);
+            }
+            return null;
+        }
+
+        public $botFeature<$B, _T, _F> copy(){
+            $botFeature  $copy = new $botFeature( this.targetClass, this.featureClass, this.featureName+"", this.featureResolver.andThen(Function.identity()));
+            if( this.bot != null ){
+                $copy.setBot( ($B)this.bot.copy() );
+            }
+            return $copy;
+        }
+
+        @Override
+        public Tokens apply(_T t) {
+            if( this.featureResolver == null || this.bot == null){
+                //System.out.println("NOTHING WRONG WITH "+ this.toString());
+                //there is NOTHING to select (i.e. is match any)
+                return new Tokens();
+            }
+            _F resolved = null;
+            try {
+                resolved = featureResolver.apply(t);
+                //System.out.println("RESOLVED" + resolved +" for "+ toString());
+            }
+            catch(Exception e) {
+                //System.err.println("Error resolving "+toString());
+                e.printStackTrace();
+                return null;
+            }
+            try{
+                Select s = this.bot.select(resolved); //featureSelector.apply(resolved);
+                //System.out.println("TOKS"+s );
+                if( s != null ){
+                    return s.tokens;
+                }
+                return null;
+            } catch(Exception e){
+                //e.printStackTrace();
+                //System.err.println("Error selecting; returning null Selection");
+                return null;
+            }
+        }
     }
 
     /**
@@ -193,6 +295,117 @@ public class Select<S> {
                 return this.targetClass.getSimpleName()+" -> "+ this.featureClass.getSimpleName()+" "+this.featureName +" : MATCH ANY";
             }
             return this.targetClass.getSimpleName()+" -> "+ this.featureClass.getSimpleName()+" "+this.featureName +" : "+System.lineSeparator()+ Text.indent( this.featureSelector.toString());
+        }
+    }
+
+    /**
+     * Selector for a Feature that cannot have one of the provided values (within a finite set of values)
+     * (we keep track of ALL possible values and exclusions)
+     *
+     * @see $binaryExpression#operator
+     * @see $unary#operator TODO
+     */
+    public static class $OneOfFeature<_T> extends $feature<_T, Object> {
+
+        public Set allPossibleValues = new HashSet<>();
+        public Set excludedValues = new HashSet<>();
+
+        public $OneOfFeature(Class<_T>targetClass, String memberName, Function<_T, Object> memberResolver, Set allPossibleValues, Set excludedValues){
+            super( targetClass, Object.class, memberName, memberResolver );
+            this.allPossibleValues = allPossibleValues;
+            setExcluded(excludedValues);
+        }
+
+        public $OneOfFeature includeOnly(Object...values){
+            this.excludedValues.addAll(this.allPossibleValues);
+            Arrays.stream(values).forEach(i-> this.excludedValues.remove(i));
+            //System.out.println( "Exclusions "+ this.excludedValues);
+            setSelector(b-> {
+                if(excludedValues == null){
+                    return new Tokens();
+                }
+                if( this.excludedValues.contains(b) ){
+                    return null;//it was excluded
+                }
+                return new Tokens();
+            });
+            return this;
+        }
+
+        public $OneOfFeature setExcluded(Set s){
+            this.excludedValues = s;
+            setSelector(b-> {
+                if(this.excludedValues == null){
+                    return new Tokens();
+                }
+                if( this.excludedValues.contains(b) ){
+                    return null;//it was excluded
+                }
+                return new Tokens();
+            });
+            return this;
+        }
+
+        public $OneOfFeature exclude(Object...toExclude){
+            if( this.excludedValues == null) {
+                this.excludedValues = new HashSet<>();
+            }
+            Arrays.stream(toExclude).forEach( e -> this.excludedValues.add(e));
+            setSelector(b-> {
+                if(this.excludedValues == null){
+                    return new Tokens();
+                }
+                if( this.excludedValues.contains(b) ){
+                    return null;//it was excluded
+                }
+                return new Tokens();
+            });
+            return this;
+        }
+
+        public $OneOfFeature include(Object...toInclude){
+            if( this.excludedValues == null) {
+                this.excludedValues = new HashSet<>();
+            }
+            Arrays.stream(toInclude).forEach( e -> this.excludedValues.remove(e));
+            setSelector(b-> {
+                if(this.excludedValues == null){
+                    return new Tokens();
+                }
+                if( this.excludedValues.contains(b) ){
+                    return null;//it was excluded
+                }
+                return new Tokens();
+            });
+            return this;
+        }
+
+        public Set getExcluded(){
+            return this.excludedValues;
+        }
+
+        public Object draft(Translator translator, Map<String,Object> memberValues){
+            Set remainSet = new HashSet<>();
+            remainSet.addAll(this.allPossibleValues);
+            remainSet.removeAll(this.excludedValues);
+            //System.out.println( remainSet );
+            if( remainSet.size() == 1 ){
+                return remainSet.toArray()[0];
+            }
+            Object n = memberValues.get(this.featureName);
+            return n;
+        }
+
+        public $OneOfFeature<_T> copy(){
+             Set all = new HashSet<>();
+             all.addAll( this.allPossibleValues);
+             Set ex = new HashSet<>();
+             ex.addAll(this.excludedValues);
+             return new $OneOfFeature<_T>( this.targetClass, this.featureName, this.featureResolver, all, ex);
+        }
+
+        public boolean isMatchAny(){
+            return this.excludedValues == null || excludedValues.isEmpty();
         }
     }
 

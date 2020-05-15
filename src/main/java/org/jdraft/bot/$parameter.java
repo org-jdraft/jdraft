@@ -234,6 +234,7 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
 
     public Predicate<_parameter> predicate = d -> true;
 
+    /*
     public Select.$feature<_parameter, _name> name =
             Select.$feature.of( _parameter.class, _name.class, "name", p-> _name.of(p.getNameNode()));
 
@@ -243,33 +244,37 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
     public Select.$feature<_parameter, _annoRefs> annoRefs =
             Select.$feature.of( _parameter.class, _annoRefs.class, "annoRefs", p->p.getAnnoRefs());
 
+     */
+    public Select.$botFeature<$annoRefs, _parameter, _annoRefs> annoRefs =
+            Select.$botFeature.of(_parameter.class, _annoRefs.class, "annoRefs", p-> p.getAnnoRefs() );
+
+    public Select.$botFeature<$typeRef, _parameter, _typeRef> type =
+            Select.$botFeature.of(_parameter.class, _typeRef.class, "type", p-> p.getTypeRef() );
+
+    public Select.$botFeature<$name, _parameter, _name> name =
+            Select.$botFeature.of(_parameter.class, _name.class, "name", p-> _name.of(p.getName()));
+
     public Select.$BooleanFeature<_parameter> isFinal =
             new Select.$BooleanFeature( _parameter.class,"isFinal", p-> ((_parameter)p).isFinal());
 
     public Select.$BooleanFeature<_parameter> isVarArg =
             new Select.$BooleanFeature( _parameter.class,"isVarArg", p->((_parameter)p).isVarArg());
 
-    //public Boolean varArg;
-    //public Boolean finalMod;
-
     public $parameter() { }
 
     public $parameter(_parameter _p){
         if( _p.hasAnnoRefs() ) {
-            annoRefs.setSelector($annoRefs.of(_p.ast()));
+            annoRefs.setBot( $annoRefs.of(_p.ast()) );
+            //annoRefs.setSelector($annoRefs.of(_p.ast()));
         }
-        name.setSelector( $name.of(_p.getName()) );
-        type.setSelector( $typeRef.of(_p.getTypeRef()));
+        name.setBot( $name.of(_p.getName()) );
+        type.setBot( $typeRef.of(_p.getTypeRef()));
 
         if( _p.isVarArg() ){
-            isVarArg.setExpected( true);
-            //this.varArg = _p.isVarArg();
-            //this.isVarArg.setSelector( new $featureSelector.$BooleanFeatureSelector(this.varArg));
+            isVarArg.setExpected( true );
         }
         if( _p.isFinal()){
             isVarArg.setExpected( true);
-            //this.finalMod = _p.isFinal();
-            //this.isFinal.setSelector( new $featureSelector.$BooleanFeatureSelector(this.finalMod));
         }
     }
 
@@ -444,28 +449,28 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
     }
 
     public $parameter $annoRefs(){
-        this.annoRefs.setSelector(null);
+        this.annoRefs.setBot(null);
         return this;
     }
 
     public $parameter $annoRefs($annoRefs $arfs){
-        this.annoRefs.setSelector($arfs);
+        this.annoRefs.setBot($arfs);
         return this;
     }
 
     public $parameter $annoRefs( $annoRef...$ars){
-        this.annoRefs.setSelector( $annoRefs.of($ars));
+        this.annoRefs.setBot( $annoRefs.of($ars));
         return this;
     }
 
     public $parameter $typeRef(){
-        this.type.setSelector( $typeRef.of());
+        this.type.setBot( $typeRef.of());
         return this;
     }
 
     public $parameter $typeRef(Predicate<_typeRef> predicate){
         if( this.type.featureSelector == null ){
-            this.type.setSelector( $typeRef.of().$and(predicate));
+            this.type.setBot( $typeRef.of().$and(predicate));
         } else{
             $typeRef $tr = ($typeRef)this.type.getFeatureSelector();
             $tr.$and(predicate);
@@ -478,7 +483,7 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
     }
 
     public $parameter $typeRef($typeRef $as){
-        this.type.setSelector( $as );
+        this.type.setBot( $as );
         return this;
     }
 
@@ -495,7 +500,7 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
     }
 
     public $parameter $name(){
-        this.name.setSelector($name.of());
+        this.name.setBot($name.of());
         return this;
     }
 
@@ -503,19 +508,19 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
         $name $n = ($name)this.name.getFeatureSelector();
         if( $n == null ){
             $n = $name.of();
-            this.name.setSelector($n);
+            this.name.setBot($n);
         }
         $n.$and(n -> matchFn.test( n.toString()));
         return this;
     }
 
     public $parameter $name(String name){
-        this.name.setSelector( $name.of(name) );
+        this.name.setBot( $name.of(name) );
         return this;
     }
 
     public $parameter $name($name $n){
-        this.name.setSelector( $n );
+        this.name.setBot( $n );
         return this;
     }
 }

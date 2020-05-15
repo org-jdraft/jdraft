@@ -6,7 +6,6 @@ import com.github.javaparser.ast.expr.Expression;
 import org.jdraft._binaryExpression;
 import org.jdraft._expression;
 import org.jdraft._java._domain;
-import org.jdraft._jdraftException;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
@@ -139,7 +138,8 @@ public class $binaryExpression implements $bot.$node<BinaryExpr, _binaryExpressi
     public $binaryExpression copy(){
         $binaryExpression $copy = of( ).$and(this.predicate.and(t->true) );
         $copy.$and(this.predicate);
-        $copy.excludedOperators.addAll( this.excludedOperators );
+        $copy.operator = this.operator.copy();
+        //$copy.excludedOperators.addAll( this.excludedOperators );
         $copy.left = this.left.copy();
         $copy.right = this.right.copy();
         return $copy;
@@ -151,8 +151,9 @@ public class $binaryExpression implements $bot.$node<BinaryExpr, _binaryExpressi
      * @return the modified $binaryExpression
      */
     public $binaryExpression $operators( BinaryExpr.Operator... ops){
-        this.excludedOperators.addAll(ALL_OPERATORS);
-        Arrays.stream(ops).forEach( op -> this.excludedOperators.remove(op));
+        this.operator.excludedValues.addAll( ALL_OPERATORS);
+        this.operator.include(ops);
+        //Arrays.stream(ops).forEach( op -> this.excludedOperators.remove(op));
         return this;
     }
 
@@ -174,12 +175,14 @@ public class $binaryExpression implements $bot.$node<BinaryExpr, _binaryExpressi
     }
 
     public $binaryExpression $and(BinaryExpr.Operator...operators) {
-        Arrays.stream(operators).forEach( op -> this.excludedOperators.remove(op));
+        this.operator.include(operators);
+        //Arrays.stream(operators).forEach( op -> this.excludedOperators.remove(op));
         return this;
     }
 
     public $binaryExpression $not(BinaryExpr.Operator...operators) {
-        Arrays.stream(operators).forEach( op -> this.excludedOperators.add(op));
+        this.operator.exclude(operators);
+        //Arrays.stream(operators).forEach( op -> this.excludedOperators.add(op));
         return this;
     }
 
@@ -189,42 +192,42 @@ public class $binaryExpression implements $bot.$node<BinaryExpr, _binaryExpressi
     }
 
     public $binaryExpression $left( String... expression ){
-        this.left.setSelector( $expression.of(expression) );
+        this.left.setBot( $expression.of(expression) );
         return this;
     }
 
     public $binaryExpression $left( _expression _e){
-        this.left.setSelector( $expression.of(_e) );
+        this.left.setBot( $expression.of(_e) );
         return this;
     }
 
     public $binaryExpression $left( $expression $e){
-        this.left.setSelector( $e );
+        this.left.setBot( $e );
         return this;
     }
 
     public $binaryExpression $left( Class<? extends _expression>... implementationClasses ){
-        this.left.setSelector( $expression.of(implementationClasses) );
+        this.left.setBot( $expression.of(implementationClasses) );
         return this;
     }
 
     public $binaryExpression $right( Class<? extends _expression>... implementationClasses ){
-        this.right.setSelector( $expression.of(implementationClasses) );
+        this.right.setBot( $expression.of(implementationClasses) );
         return this;
     }
 
     public $binaryExpression $right( String... expression ){
-        this.right.setSelector( $expression.of(expression) );
+        this.right.setBot( $expression.of(expression) );
         return this;
     }
 
     public $binaryExpression $right( _expression _e){
-        this.right.setSelector( $expression.of(_e) );
+        this.right.setBot( $expression.of(_e) );
         return this;
     }
 
     public $binaryExpression $right( $expression $e){
-        this.right.setSelector( $e );
+        this.right.setBot( $e );
         return this;
     }
 
@@ -291,9 +294,11 @@ public class $binaryExpression implements $bot.$node<BinaryExpr, _binaryExpressi
     public _binaryExpression draft(Translator translator, Map<String, Object> keyValues) {
         _expression _l = this.left.draft(translator, keyValues);
         _expression _r = this.right.draft(translator, keyValues);
-        if( this.excludedOperators.size() == ALL_OPERATORS.size() - 1){
+        BinaryExpr.Operator op = (BinaryExpr.Operator)this.operator.draft(translator, keyValues);
+        /*
+        if( this.operator.excludedValues.size() == ALL_OPERATORS.size() - 1){
             //only (1) available operator
-            Optional<BinaryExpr.Operator> oo = ALL_OPERATORS.stream().filter(o -> !this.excludedOperators.contains(o)).findFirst();
+            Optional<BinaryExpr.Operator> oo = ALL_OPERATORS.stream().filter(o -> !this.operator.excludedValues.contains(o)).findFirst();
             return _binaryExpression.of(_l, oo.get(), _r);
         }
         Object o = keyValues.get("$operator");
@@ -302,8 +307,11 @@ public class $binaryExpression implements $bot.$node<BinaryExpr, _binaryExpressi
             throw new _jdraftException("no \"$operator\" (BinaryExpr Operator) specified in $binaryExpression or in "+ keyValues);
         }
         if( o instanceof BinaryExpr.Operator){
-            return _binaryExpression.of(_l, (BinaryExpr.Operator)o, _r);
+
         }
+        */
+        return _binaryExpression.of(_l, op, _r);
+        /*
         else{
             BinaryExpr.Operator bo = BinaryExpr.Operator.valueOf( o.toString() );
             if( bo == null ){
@@ -311,6 +319,7 @@ public class $binaryExpression implements $bot.$node<BinaryExpr, _binaryExpressi
             }
             return _binaryExpression.of(_l, bo, _r);
         }
+         */
     }
 
     @Override
@@ -337,7 +346,7 @@ public class $binaryExpression implements $bot.$node<BinaryExpr, _binaryExpressi
     }
 
     public boolean isMatchAny() {
-        if (this.excludedOperators.isEmpty() && this.left.isMatchAny() && this.right.isMatchAny()) {
+        if (this.operator.isMatchAny() && this.left.isMatchAny() && this.right.isMatchAny()) {
             try {
                 return this.predicate.test(null);
             } catch (Exception e) {
@@ -353,7 +362,9 @@ public class $binaryExpression implements $bot.$node<BinaryExpr, _binaryExpressi
 
         Set<BinaryExpr.Operator> ops = new HashSet<>();
         ops.addAll(ALL_OPERATORS);
-        ops.removeAll(this.excludedOperators);
+        //ops.removeAll(this.excludedOperators);
+
+        ops.removeAll(operator.excludedValues);
         return "$binaryExpression{" + System.lineSeparator() +
                 Text.indent( this.left.toString()) + System.lineSeparator() +
                 Text.indent( ops.toString() )+ System.lineSeparator()+
@@ -363,12 +374,16 @@ public class $binaryExpression implements $bot.$node<BinaryExpr, _binaryExpressi
 
     public Predicate<_binaryExpression> predicate = d -> true;
 
-    public Select.$feature<_binaryExpression, _expression> left =
-            Select.$feature.of( _binaryExpression.class, _expression.class, "left", b-> b.getLeft());
+    public Select.$botFeature<$expression, _binaryExpression, _expression> left =
+            Select.$botFeature.of( _binaryExpression.class, _expression.class, "left", b-> b.getLeft());
 
-    public Select.$feature<_binaryExpression, _expression> right =
-            Select.$feature.of( _binaryExpression.class, _expression.class, "right", b-> b.getRight());
+    public Select.$botFeature<$expression, _binaryExpression, _expression> right =
+            Select.$botFeature.of( _binaryExpression.class, _expression.class, "right", b-> b.getRight());
 
+    public Select.$OneOfFeature<_binaryExpression> operator =
+            new Select.$OneOfFeature(_binaryExpression.class, "operator", b-> ((_binaryExpression)b).getOperator(), ALL_OPERATORS, new HashSet<>());
+
+    /*
     public Set<BinaryExpr.Operator> excludedOperators = new HashSet<>();
 
     public Select.$feature<_binaryExpression, BinaryExpr.Operator> operator =
@@ -379,15 +394,15 @@ public class $binaryExpression implements $bot.$node<BinaryExpr, _binaryExpressi
                         }
                         return new Tokens();
                     });
-
+    */
     public $binaryExpression() {
     }
 
     public $binaryExpression(_binaryExpression _i) {
-        this.left.setSelector( $expression.of(_i.getLeft()) );
-        this.right.setSelector( $expression.of(_i.getRight()) );
-        Arrays.stream (BinaryExpr.Operator.values()).forEach(o-> excludedOperators.add(o) );
-        excludedOperators.remove( _i.getOperator());
+        this.left.setBot( $expression.of(_i.getLeft()) );
+        this.right.setBot( $expression.of(_i.getRight()) );
+        this.operator.includeOnly( _i.getOperator() );
+
     }
 
     /**
@@ -410,7 +425,8 @@ public class $binaryExpression implements $bot.$node<BinaryExpr, _binaryExpressi
             Or $copy = $binaryExpression.or(new $binaryExpression[0]);
             $copy.$and(this.predicate);
             this.$binaryExpressions.forEach( ($b) -> $copy.$binaryExpressions.add($b.copy()));
-            $copy.excludedOperators.addAll( this.excludedOperators );
+            //$copy.excludedOperators.addAll( this.excludedOperators );
+            $copy.operator = this.operator.copy();
             $copy.left = this.left.copy();
             $copy.right = this.right.copy();
 
